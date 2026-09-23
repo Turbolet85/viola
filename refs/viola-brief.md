@@ -219,6 +219,36 @@ founder's global settings and hooks were not loaded into it.
   (`…\@anthropic-ai\claude-code\bin\claude.exe`), so the wrapper must resolve it. ConPTY did not close
   the output stream when the child exited, so exit is detected on the process, never on EOF.
 
+### 4.2 Driving `/andromeda-arch` through the prototype — 2026-09-23, CLI 2.1.280, Opus 5.5
+
+The overseer drove this project's own `/andromeda-arch` run from start to promote under `viola run
+viola-builder` (about three hours, pass-through in Windows Terminal, no PTY defect). A long real session
+surfaced what the fake agent and the short demos could not. All of these facts are already carried in
+`architecture.md` (the capability ledger, Wheel and Delivery Confirmation). They are recorded here for the
+specialists that read `refs/`.
+
+- **M1 CLI-native modals bypass every hook.** After a Stop the CLI opened *"Teach auto mode about your
+  environment?"*. No hook reported it and the status read idle, so the next paste + Enter answered the modal
+  (it picked Yes and opened `/auto-mode-setup`) instead of reaching the model. A human Esc closed it. A turn
+  boundary per the hooks therefore does not prove the input box is ready.
+- **M2 Harness-injected turns fire UserPromptSubmit.** A subagent's hand-back arrives as a prompt starting
+  `<agent-message from=`, and a background-task notice as one starting `<task-notification>`. The prototype
+  took both for a human take and paused automation twice until a classifier filed them as harness turns.
+- **M3 The CLI wraps a long paste.** A 981-byte paste arrived in UserPromptSubmit wrapped in
+  `<pasted_content id="…">…</pasted_content id="…">`, while a 749-byte one arrived bare. The model still
+  treated the wrapped text as the user's own and acted on it.
+- **M4 The CLI escapes tag-like text the user typed.** A literal `<pasted_content` arrived as
+  `<\pasted_content`. The builder also reported the harness rewriting the prefixes `<agent-message from=` and
+  `<task-notification>` inside a subagent's returned text. Prompt matching must normalise both.
+- **M5 Local commands fire no UserPromptSubmit.** `/remote-control` took effect with no prompt event, so
+  delivery confirmation by prompt text cannot cover built-in commands. The `/clear` post-condition
+  (SessionStart with source `clear`) is the first to measure.
+- **M6 Hooks found through PATH run a different binary from the wrapper after a rebuild.** A running
+  `viola.exe` cannot be overwritten on Windows, so it was renamed aside and rebuilt three times under the
+  running session. The wrapper kept the old code, while every new hook process ran the new one.
+- **M7 Skills behave like prompts.** `/andromeda-arch …` typed as a paste fired UserPromptSubmit carrying the
+  whole text.
+
 ## 5. Open
 
 - **O1 Pass-through to a real terminal — LARGELY PASSED 2026-09-23** (the founder, Windows PowerShell,
