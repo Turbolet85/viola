@@ -223,9 +223,9 @@ A refused `send` line's body prints the full `unable · <reason> · <detail>` th
 
 ### Component — Primary content block 1: racks of `<viola-session-row>` strips
 
-- **Rack layout:** a block in document flow made of the separator label, then the caption row, then one strip per session in a single column. Strips are `space-xs` apart, with the same `space-xs` rhythm around transfer markers: strip, gap, marker, gap, strip. The rack reserves end padding equal to `--cock-offset`, so a cocked strip never causes horizontal scroll. Racks use `radius-lg`, with no fill and no border beyond the separator rule.
+- **Rack layout:** a block in document flow made of the separator label, then the caption row, then one strip per session in a single column. `space-md` separates the label from the caption row. The caption row is followed by the rack's row gap, `space-xs`, before the first strip. Strips are `space-xs` apart, with the same `space-xs` rhythm around transfer markers: caption row, gap, strip, gap, marker, gap, strip. There is no separate caption-gap token. The rack reserves end padding equal to `--cock-offset`, so a cocked strip never causes horizontal scroll. Racks use `radius-lg`, with no fill and no border beyond the separator rule.
 - **Ordering (the stable-slot rule):** the WRAPPED rack is ordered by `ViolaName` ascending, and the UNWRAPPED · READ-ONLY rack by reported name ascending, both matching `viola list`. State never reorders anything. Only a session starting or ending changes slots. This is not a card grid: every row has the same fixed fields in the same tracks.
-- **Caption row:** on `color-surface-base`, never inside a strip, because lamp-off text on the holder fails contrast. Label type, uppercase, `color-text-secondary`. It uses the same grid as the strips below it (`--strip-cols`, empty band track), and each caption carries the cells' `space-xs` inline padding, so it starts exactly where its value starts. The six captions are always drawn, even for an empty rack.
+- **Caption row:** on `color-surface-base`, never inside a strip, because lamp-off text on the holder fails contrast. Label type, uppercase, `color-text-secondary`. It uses the same grid as the strips below it (`--strip-cols`, empty band track), and each caption carries the cells' `space-xs` inline padding, so it starts exactly where its value starts. The six captions are always drawn, even for an empty rack. The gap below the caption row is the rack row gap `space-xs`, the same as between strips.
 - **Strip anatomy:** a grid on `--strip-cols` with `--strip-h` block size, on `color-surface-raised-1`, with a `--rule` outer edge in `color-border-subtle`, cell dividers in `color-border-standard` and `radius-md`.
   - The band track (`--band-w`) is `color-border-subtle`, or `color-accent` when cocked.
   - NAME is Callsign role in `color-text-primary`, printed exactly as typed. It is never text-transformed and never clipped when wrapped.
@@ -488,6 +488,7 @@ $ viola run builder -- claude
 
 $ viola run builder -- claude
 unable: builder is already live                           <- stderr, exit 1; no paths, no pids
+hint: viola list                                          <- stderr, the last line
 ```
 
 ### Component — Header / banner (the BAY context line)
@@ -529,7 +530,7 @@ unable: builder is already live                           <- stderr, exit 1; no 
 ### Component — Primary content block 2: refusal lines and the `unable` column
 
 - **Line form (stderr):** `unable  <name>  <reason>  <detail>`, fields separated by two spaces. `viola send` pads `unable` into the mirror's word column after `[/ ]`. The one fixed-message exception is the exit-1 start refusal `unable: <name> is already live`.
-- **Hint line:** directly under each refusal, `hint: <one plain instruction>`, keyed by reason (or by reason · detail). There is no hint for the opaque `unknown` refusal, for `wrapper fault` or for `internal error`. A hint never quotes the sent text or any upstream text.
+- **Hint line:** directly under each refusal, `hint: <one plain instruction>`, keyed by reason (or by reason · detail). The exit-1 start refusal `unable: <name> is already live` takes `hint: viola list`. There is no hint for the opaque `unknown` refusal, for `wrapper fault` or for `internal error`. A hint never quotes the sent text or any upstream text.
 - **Exit codes as the typed tail:** 10 `human-typing`, 11 `budget-paused`, 12 `unverified-cli`, 13 `not-delivered`, 14 `unknown`, 20 wrapper fault (`error: wrapper fault  <code>`), 21 `unable  instance-unreachable`. Under `--json` the same outcome is one document on stdout, with no stderr line and no hint.
 - **Streams:** results go to stdout. `waiting:`, the issue line, refusals, hints, errors and the `viola ui` launch line go to stderr. The two are never mixed.
 

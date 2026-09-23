@@ -261,9 +261,9 @@ Deviation note: the Color World names strip buff for "the ruled field grid". Thi
 | Token | Value | Usage |
 |-------|-------|-------|
 | space-micro | 4px | Gap between the readback box and its word cell, and between `→` and a name. Never cell padding: field-cell inline padding is `space-xs` (8px), which `--strip-cols` is sized for |
-| space-xs | 8px | Field-cell inline padding in strips, rack gap between strips, the transfer-marker indent step |
+| space-xs | 8px | Field-cell inline padding in strips, the rack row gap (between strips, around transfer markers, and between the caption row and the first strip), the transfer-marker indent step |
 | space-sm | 12px | Gap between ATIS header cells (the cells have no inline padding, so neighbours sit exactly 12px apart). Equals `--cock-offset`: the rack reserves this much end padding so a cocked strip never causes horizontal scroll. |
-| space-md | 16px | Page inline margin, gap between rack separator label and first strip |
+| space-md | 16px | Page inline margin, gap between rack separator label and the caption row |
 | space-lg | 24px | Separation between racks, and between the bay and the tape |
 | space-xl | 32px | Top page margin under the sticky ATIS header, and the strip height (`--strip-h`) |
 
@@ -537,7 +537,7 @@ State lives only in `data-*` attributes set by Lit. The following are never used
   - DIALOG: `none` | `DIALOG question` / `DIALOG permission` / `DIALOG plan`
   - CLI: `<version> verified` | `<version> unverified-cli` | `unknown`
 - **Never blank.** An absent reading prints `unknown`. Absent-by-contract fields on unwrapped rows print `n/a`.
-- **Column captions** appear once per rack, in a header row on anthracite: Bahnschrift 11px uppercase, lamp-off, `role="columnheader"`. They are never repeated inside strips, because lamp-off on holder fails AA. The header row uses the same grid as the strips under it: `--strip-cols` at ≥1024px, and at 760–1023px `--strip-cols-wrapped` with `--strip-areas-wrapped` on two Label lines (11px / 16px): NAME · LIVE · STATUS · DIALOG, then WHEEL under NAME + LIVE and CLI under STATUS + DIALOG. The band track stays empty, and captions take the field cells' `space-xs` inline padding, so every caption starts where its value starts.
+- **Column captions** appear once per rack, in a header row on anthracite: Bahnschrift 11px uppercase, lamp-off, `role="columnheader"`. They are never repeated inside strips, because lamp-off on holder fails AA. The header row uses the same grid as the strips under it: `--strip-cols` at ≥1024px, and at 760–1023px `--strip-cols-wrapped` with `--strip-areas-wrapped` on two Label lines (11px / 16px): NAME · LIVE · STATUS · DIALOG, then WHEEL under NAME + LIVE and CLI under STATUS + DIALOG. The band track stays empty, and captions take the field cells' `space-xs` inline padding, so every caption starts where its value starts. The gap between the caption row and the first strip is the rack's row gap, `space-xs`, the same gap strips and transfer markers already use; there is no separate token for it.
 - **States:**
   - Default (live, lit).
   - `stale`: an instant lamp-off swap (see the `states` layer).
@@ -746,6 +746,7 @@ hint: builder did not submit the prompt; check it, then send again
   - `not-delivered · no-prompt-submitted`: `<name> did not submit the prompt; check it, then send again` (the sample above)
   - `not-delivered · unknown-dialog`: `that dialog is not pending; viola list shows the current DIALOG`
   - `instance-unreachable` (exit 21): `<name> is not running; viola list shows the live instances`
+  - The exit-1 start refusal `unable: <name> is already live` (`viola run`): `viola list` (no paths, no pids)
   - No hint line for `unknown` (exit 14), because its detail is opaque and a hint would have to guess. No hint line for `error: wrapper fault` (exit 20) or `error: internal error` (exit 1), because they are faults, not refusals, and their detail goes only to `diagnostics/`.
 - A hint never quotes the sent text or any upstream text.
 
@@ -773,14 +774,14 @@ hint: builder did not submit the prompt; check it, then send again
   http://127.0.0.1:47319/?t=<64 hex characters>
   ```
   No other line, from any verb, ever prints the token, the URL or the `.url` path.
-- **`run`:** prints nothing once the child starts. A start refusal (exit 1) prints `unable: builder is already live` (no paths, no pids).
+- **`run`:** prints nothing once the child starts. A start refusal (exit 1) prints `unable: builder is already live`, then `hint: viola list` (no paths, no pids).
 
 **Exit-code phraseology** (typed codes from architecture.md):
 
 | Exit | Human stderr first word | `--json` |
 |---|---|---|
 | 0 | none (TTY context lines only); the result line goes to stdout (`[RB] read back`, `answered`, `wheel human` …) | `{"v":1,"ok":{…}}` |
-| 1 | `error: internal error` (fixed message; no chain with serde sources, no paths), or `unable: <name> is already live` | — |
+| 1 | `error: internal error` (fixed message; no chain with serde sources, no paths, no hint), or `unable: <name> is already live` followed by `hint: viola list` | — |
 | 2 | clap usage text (never produced by `viola hook`) | — |
 | 10 | `unable  human-typing` (+ `manual-pause`) | `{"v":1,"refusal":"human-typing","detail":…}` |
 | 11 | `unable  budget-paused  five-hour` / `seven-day` | refusal object |
@@ -907,7 +908,7 @@ _Orchestrator records key decisions here. Manual additions welcome._
 
 2026-09-24: Phase 4.5 review round 2 — restored the two fallbacks the round-1 exact list dropped: Consolas right after "Cascadia Mono" in `--font-field` (on every Windows, so Windows 10 without Windows Terminal stays in a named face), and "Avenir Next Condensed" right after "DIN Alternate" in `--font-label` (macOS). Draft approved; proceed to Phase 5.
 
-2026-09-24: Phase 5 review iteration 1. This entry records decisions the body already applied but the log did not carry. No founder-approved colour, expression level, signature drawing or font stack changed.
+2026-09-24: Phase 6 iteration 1. This entry records decisions the body already applied but the log did not carry. No founder-approved colour, expression level, signature drawing or font stack changed.
 - **Library shortlist direction:** Precision & Density (primary) with Utility & Function (secondary). The style preset is Minimalism & Swiss Style (#1), with E-Ink / Paper (#56) as the surface reference, inverted to buff on anthracite. Rejected presets: Dark Mode (OLED) (#7), Real-Time Monitoring (#31: pulsing dots, blink, toasts) and HUD / Sci-Fi FUI (#51: glow, telemetry animation). The Swiss preset's 200–250ms hover is dropped.
 - **Shortlist deviations:**
   - Palette #81's run-green accent is dropped and its slate warmed to neutral laminate.
@@ -920,11 +921,15 @@ _Orchestrator records key decisions here. Manual additions welcome._
 - **Brake scope:** "never on this page" and "view-only" are v1 statements. Web-spa component 7 (`I HAVE CONTROL`, `UNLINK`), Raised-3, the `radius-sm` brake usage and `Problem::cross-origin-forbidden` stay reserved for v1.x and do not contradict the v1 bans.
 - **Geometry:** `--strip-cols` changes LIVE from 6ch to 8ch, STATUS from 8ch to 10ch, and the WHEEL and CLI maxima from 24ch to 25ch, so `stale`, `unknown` and the 22ch WHEEL / CLI words fit with `space-xs` padding in DejaVu Sans Mono. Field-cell inline padding is `space-xs` (8px) only.
 
-2026-09-24: Phase 5 review iteration 8.
+2026-09-24: Phase 6 iteration 8.
 - **UX guideline 5, Content Jumping (#19):** met for order, not for pixel position. When a transfer marker appears or is removed, the content below moves instantly by the 20px marker line plus its `space-xs` gap. When the sticky ATIS header gains a line (`expired`, `TAPE stopped`, a nonzero `skipped`), it moves by one `--line-h`. No strip ever changes order or slot, and nothing animates the shift. Only the cock stays out of flow (`transform`), because it is the one state change the eye must not lose.
 - **Unwrapped names:** an over-long unwrapped name ends in an ellipsis on the web, as it does in the CLI. It is not a target, so its tail is not needed to act on.
 
-2026-09-24: Phase 5 review iteration 9.
+2026-09-24: Phase 6 iteration 9.
 - **Holder colour vs state (deviation from the exploration's Strip holder concept):** the exploration says a holder's colour marks the kind of traffic, never its state, and that a cocked strip is not recoloured. Two state changes touch the holder anyway, both forced by the contrast table. `stale` drops the fill to anthracite, because lamp-off ink fails AA on holder. A cocked strip insets its DIALOG cell, because amber text fails AA on holder. Kind stays readable without the fill: a `stale` wrapped strip keeps its solid rail edge and 4px band slot, and an unwrapped strip has a dashed rail outline and no band slot.
 - **`DIALOG` weight:** the cocked strip's amber `DIALOG` word is 600 (Typography, Body row) and the `states` layer sets it. `human` is therefore one of two heavier words after the callsign, not the only one.
+
+2026-09-24: Overseer decisions (founder-delegated), closing two choices Phase 7 left open.
+- **Caption-row spacing:** the gap between a rack's caption row and its first strip is the rack's existing row gap, `space-xs`, the same gap strips and transfer markers use. No new token. `space-md` now reads as the gap between the rack separator label and the caption row.
+- **Exit-1 start refusal hint:** `unable: <name> is already live` is followed by `hint: viola list` (no paths, no pids), like every other refusal. `error: internal error`, the other exit-1 outcome, keeps no hint.
 
