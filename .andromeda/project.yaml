@@ -4,3 +4,5 @@ description: "A standalone, cross-platform (Windows first) bridge that lets one 
 architecture: architecture.md
 input: input.md
 security_plan: security-plan.md
+design_system: design-system.md
+layout_templates: layout-templates.md
