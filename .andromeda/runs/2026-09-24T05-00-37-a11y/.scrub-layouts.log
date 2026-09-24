@@ -1,0 +1,2 @@
+line:4 pattern:breakpoint_value(role-not-value) original:"bay-steady-state (≥1024), bay-narrow (760–1023)" rewritten:"bay-steady-state (primary-width band), bay-narrow (mid-width band)"
+line:4 pattern:breakpoint_value(role-not-value) original:"<760 is reserved for a later phone view" rewritten:"The below-mid-width band is reserved for a later phone view"

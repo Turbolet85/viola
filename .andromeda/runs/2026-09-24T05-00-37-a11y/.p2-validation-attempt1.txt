@@ -1,0 +1,11 @@
+P2 attempt 1 — validation (orchestrator), 2026-09-24
+Categories: 10 (Standard min 10) — PASS [HAS_CATEGORIES_MIN]; tool blocks present — PASS [HAS_TOOL_BLOCKS]
+Triggers visual-discrimination/keyboard-only/screen-reader-priority addressed — PASS [TRIGGERS_ADDRESSED]; surfaces web-spa/cli/tui covered — PASS [SURFACES_COVERED]
+[STACK_FAITHFUL] npm tools accepted: tests plan declares Playwright under e2e-web (npx) and design uses Lit — in-stack via upstream-context Section 5/3.
+FAIL [LAST_RELEASE_RECENT]: portable-pty "0.8.1 on 2023-03-13"; Service Identity "n/a"
+FAIL [STATUS_ACTIVE]: portable-pty "maintained"; Service Identity "binding (obs plan…)"
+FAIL [SOURCES_VALID]: Service Identity Source is not a URL
+FAIL [VERSIONS_CONCRETE]: Service Identity / Focus Management "n/a (…)" not in the sanctioned "N/A (convention pattern, not a versioned package)" form
+FAIL [AGENT_RUNNABLE]: Lighthouse "technically yes", pa11y "technically yes", @lion/ui "n/a for adoption" — must start with "yes"
+FAIL [FITS_REFERENCES_SCOPE]: Lighthouse / pa11y / @lion/ui fits-because lack a verbatim named anchor (surface/trigger/path)
+Note: attempt-1 raw text was delivered inline via hand-back; the task transcript file was empty (0 bytes), so the verbatim attempt-1 raw could not be persisted. Retry output is saved as .raw-a11y-research.md.

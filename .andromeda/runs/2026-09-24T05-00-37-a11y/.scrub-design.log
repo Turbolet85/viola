@@ -1,0 +1,6 @@
+# attempt 2 (retry after [SIZE_BOUNDED]); attempt-1 log superseded, attempt-1 files kept as .raw-extract-design.attempt1.md / .extract-design.attempt1.scrubbed.md
+line:81 pattern:em_rem_unit original:"SC 1.4.12 letter-spacing 0.12em user override must not break layout" rewritten:"relevant to SC 1.4.12 text-spacing user override"
+DEVIATION line:8 check:[NO_RECOMMENDATIONS] original:"; set `aria-busy` on racks until the first reading (not specified in design)." rewritten:"; design specifies no `aria-busy`."
+DEVIATION line:20 check:[NO_RECOMMENDATIONS] original:"ARIA role not specified (candidate alert);" rewritten:"ARIA role not specified;"
+DEVIATION line:81 check:[NO_RECOMMENDATIONS] original:"must not break layout" rewritten:"(folded into the value rewrite above)"
+DEVIATION line:83 check:[NO_RECOMMENDATIONS] original:"verify SC 1.4.12 line-height 1.5 override without clipping" rewritten:"relevant to SC 1.4.12 text-spacing user override"
