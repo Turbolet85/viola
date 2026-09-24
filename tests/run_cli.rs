@@ -5,7 +5,7 @@ mod support;
 
 use std::io::Write as _;
 use std::path::{Path, PathBuf};
-use std::process::{Command, ExitStatus, Stdio};
+use std::process::{Command, ExitStatus, Output, Stdio};
 
 use rstest::rstest;
 use serde_json::Value;
@@ -300,6 +300,123 @@ fn run_is_silent_on_stdout_and_stderr(
     assert_eq!(out.status.code(), Some(1));
     assert!(out.stdout.is_empty(), "stdout: {} bytes", out.stdout.len());
     assert!(out.stderr.is_empty(), "stderr: {} bytes", out.stderr.len());
+}
+
+/// A directory where the role file goes makes the role-file open fail inside `run`, after the
+/// instance name and the home have resolved.
+fn force_internal_error(home: &Path) {
+    std::fs::create_dir_all(home.join("diagnostics").join("run-builder.ndjson"))
+        .expect("a directory where the role file goes");
+}
+
+fn files_under(dir: &Path) -> Vec<PathBuf> {
+    let mut files = Vec::new();
+    for entry in std::fs::read_dir(dir).expect("read dir").flatten() {
+        let path = entry.path();
+        if path.is_dir() {
+            files.extend(files_under(&path));
+        } else {
+            files.push(path);
+        }
+    }
+    files
+}
+
+#[rstest]
+fn run_internal_error_routes_the_chain_to_the_detail_file(#[from(home)] tmp: TestHome) {
+    let home = tmp.path();
+    force_internal_error(home);
+    let out = run_captured(home, FAKE, &[]);
+    assert_eq!(out.status.code(), Some(1));
+    assert!(out.stdout.is_empty(), "stdout: {} bytes", out.stdout.len());
+    assert!(out.stderr.is_empty(), "stderr: {} bytes", out.stderr.len());
+
+    let detail = home
+        .join("instances")
+        .join("builder")
+        .join("diagnostics")
+        .join("detail-run.ndjson");
+    let text = std::fs::read_to_string(detail).expect("detail file");
+    assert_eq!(text.lines().count(), 1);
+    let d: Value = serde_json::from_str(text.trim_end()).expect("json");
+    let schema: Value = serde_json::from_str(
+        &std::fs::read_to_string(support::home::workspace_path("schemas/diag-detail.v1.json"))
+            .expect("schema"),
+    )
+    .expect("schema JSON");
+    let validator = jsonschema::validator_for(&schema).expect("valid schema");
+    assert!(validator.is_valid(&d));
+    assert_eq!(d["event"], "process-exit");
+    assert_eq!(d["process"], "run");
+    assert_eq!(d["instance"], "builder");
+    assert!(d["chain"].as_array().is_some_and(|chain| {
+        !chain.is_empty()
+            && chain
+                .iter()
+                .all(|c| c.as_str().is_some_and(|s| !s.is_empty()))
+    }));
+    for file in files_under(&home.join("diagnostics")) {
+        let text = std::fs::read_to_string(&file).expect("diagnostics file");
+        assert!(!text.contains("\"chain\""), "chain in {}", file.display());
+    }
+}
+
+const CLAUDE_CANARIES: [(&str, &str); 3] = [
+    ("CLAUDE_CODE_MESSAGING_TOKEN", "canary-token-value-7f3a"),
+    ("CLAUDE_CODE_MESSAGING_SOCKET", "canary-socket-value-2b9d"),
+    ("CLAUDE_CODE_ENTRYPOINT", "canary-entrypoint-value-8e41"),
+];
+
+fn holds(haystack: &[u8], needle: &str) -> bool {
+    haystack
+        .windows(needle.len())
+        .any(|window| window == needle.as_bytes())
+}
+
+/// Every canary hit as `<where> <variable>`, never the matched bytes.
+fn canary_hits(home: &Path, out: &Output) -> Vec<String> {
+    let mut hits = Vec::new();
+    for (variable, value) in CLAUDE_CANARIES {
+        for file in files_under(home) {
+            if holds(&std::fs::read(&file).unwrap_or_default(), value) {
+                let shown = file.strip_prefix(home).unwrap_or(&file).display();
+                hits.push(format!("{shown} {variable}"));
+            }
+        }
+        if holds(&out.stdout, value) {
+            hits.push(format!("stdout {variable}"));
+        }
+        if holds(&out.stderr, value) {
+            hits.push(format!("stderr {variable}"));
+        }
+    }
+    hits
+}
+
+#[rstest]
+fn run_never_writes_a_claude_canary_anywhere(
+    #[from(home)] clean: TestHome,
+    #[from(home)] failing: TestHome,
+    #[from(home)] debug: TestHome,
+) {
+    force_internal_error(failing.path());
+    write_config(debug.path(), r#"{"v":1,"diagnostics_level":"debug"}"#);
+    for (tmp, exit) in [(&clean, 0), (&failing, 1), (&debug, 0)] {
+        let out = run_captured(tmp.path(), FAKE, &CLAUDE_CANARIES);
+        assert_eq!(out.status.code(), Some(exit));
+        assert!(!files_under(tmp.path()).is_empty());
+        let hits = canary_hits(tmp.path(), &out);
+        assert!(hits.is_empty(), "canary found: {hits:?}");
+    }
+    assert!(
+        failing
+            .path()
+            .join("instances")
+            .join("builder")
+            .join("diagnostics")
+            .join("detail-run.ndjson")
+            .is_file()
+    );
 }
 
 #[test]

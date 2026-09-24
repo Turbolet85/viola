@@ -20,7 +20,7 @@ _Extracted from `.andromeda/architecture.md` §Stack and Technologies by `/andro
 | Logging | tracing 0.1.44 (default features off, `std`); tracing-subscriber 0.3.23 (default features off, `fmt,json,registry,std`; root bin only) | One-line JSON process logs into the viola home's `diagnostics/`; the line format and levels are owned by the obs plan |
 | Domain newtypes | nutype 0.8.0 | `ViolaName` (charset + length cap), `Percent` (0–100) |
 | Timestamps | chrono 0.4.45 | RFC 3339 UTC, millisecond precision. Already in the tree through rmcp |
-| Error types | thiserror 2.0.20 (per crate); anyhow 1.0.104 (bin edge only) | Typed errors that callers can branch on; context chains only at dispatch |
+| Error types | thiserror 2.0.20 (per crate); anyhow 1.0.104 (bin edge only) | Typed errors that callers can branch on; context chains built at dispatch and recorded only in the owner-only instance detail file |
 | Message broker | None. Per-wrapper local sockets (JSON-RPC 2.0 over ndjson) for request/response; notify 8.2.0 tailing the ndjson logs for fan-out to `ui` | Local IPC and event fan-out without a broker or daemon |
 | Push / real-time | SSE through axum 0.8.9 `Sse::keep_alive`, fed by notify 8.2.0 | Live GUI feed `/api/events` |
 | Process liveness | sysinfo 0.39.6 (pid + process start time) + `claude agents --json` | Enriches the primary signal, the heartbeat file |

@@ -1,0 +1,563 @@
+[
+{
+"tool": "gate",
+"v": "1.1",
+"sha8": "851b9a6f",
+"ts": "2026-09-24T11:48:13Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-09-24-log-redaction-and-never-log-floor/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-24T11-37-52-wrap",
+"--marker",
+"2026-09-24-log-redaction-and-never-log-floor"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\viola · marker 2026-09-24-log-redaction-and-never-log-floor · entries 21",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-log-redaction-and-never-log-floor\\wrap-2026-09-24T11-37-52 · bound: GNU timeout",
+"delta docs 54 · rust 5 · unmapped 1",
+"prose L69-69: The gates below run on this Windows host during /implement. There is no live leg. The harn… (155 chars)",
+"prose L71-71: Step 1's test is `#[cfg(unix)]`, so a local filtered gate would select zero tests. It is w… (311 chars)",
+"prose L73-73: The `detail-run.ndjson` a criterion names is produced INSIDE the step-7 test's own temp ho… (217 chars)",
+"prose L75-75: The local mutation gate runs over this chunk's own diff. It cannot regenerate the `:193` m… (231 chars)",
+"  1 build       green · exit 0 · 0.63s · 193 B → 1.log · cargo build --workspace --features fake-agent",
+"  2 lint        green · exit 0 · 0.24s · 0 B → 2.log · cargo fmt --all --check",
+"  3 lint        green · exit 0 · 0.33s · 72 B → 3.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  4 unit        green · exit 0 · 6.61s · 15878 B → 4.log · bash scripts/agent-run.sh run --unit",
+"  5 integration green · exit 0 · 22.26s · 10218 B → 5.log · bash scripts/agent-run.sh run --integration",
+"  6 unit        green · exit 0 · 0.86s · 1124 B → 6.log · bash scripts/agent-run.sh run --unit --filter 'test(/inter… (101 chars)",
+"  7 integration green · exit 0 · 0.92s · 1222 B → 7.log · bash scripts/agent-run.sh run --integration --filter 'test… (160 chars)",
+"  8 integration green · exit 0 · 0.88s · 1215 B → 8.log · bash scripts/agent-run.sh run --integration --filter 'test… (153 chars)",
+"  9 probe       green · exit 0 · 1.05s · 3308 B → 9.log · cargo deny check",
+" 10 probe       green · exit 0 · 0.44s · 8 B → 10.log · test -s scripts/sync-crates.txt && while read -r c; do car… (181 chars)",
+" 11 probe       green · exit 1 · 0.07s · 0 B → 11.log · grep -rnE \"(std::)?env::set_var\" tests crates/viola-e2e sr… (59 chars)",
+" 12 e2e         green · exit 0 · 0.23s · 47 B → 12.log · bash scripts/agent-run.sh cleanup --session gate-smoke",
+" 13 smoke       green · exit 0 · 0.89s · 398 B → 13.log · bash scripts/agent-run.sh boot --session gate-smoke --inst… (70 chars)",
+" 14 e2e         green · exit 0 · 0.23s · 214 B → 14.log · bash scripts/agent-run.sh status --session gate-smoke",
+" 15 e2e         green · exit 0 · 0.22s · 562 B → 15.log · bash scripts/agent-run.sh logs --session gate-smoke --proc… (65 chars)",
+" 16 e2e         green · exit 0 · 0.48s · 175 B → 16.log · bash scripts/agent-run.sh cleanup --session gate-smoke",
+" 17 integration green · exit 0 · 48.35s · 470 B → 17.log · AGENT_RUN_CHUNK_BASE=809456e329cf10bcf9fc783dc7885b50de9ca… (101 chars)",
+" 18 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (82 chars)",
+" 19 probe       not run — leg operator (the letter drives it) · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (129 chars)",
+" 20 probe       not run — leg operator (the letter drives it) · ID=$(gh api repos/Turbolet85/viola/commits/$(git rev-parse… (276 chars)",
+" 21 probe       not run — leg operator (the letter drives it) · ID=$(gh api repos/Turbolet85/viola/commits/$(git rev-parse… (275 chars)",
+"entries 21 · green 17 · red 0 · recorded 0 · timeout 0 · not-run 4"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-24-log-redaction-and-never-log-floor",
+"plan": "D:\\dev\\projects\\viola\\viola-0.1.0\\chunks\\2026-09-24-log-redaction-and-never-log-floor\\plan.md",
+"root": "D:\\dev\\projects\\viola",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-log-redaction-and-never-log-floor\\wrap-2026-09-24T11-37-52",
+"delta": {
+"docs": [
+".andromeda/architecture-amendments.md",
+".andromeda/architecture.md",
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/obs-plan-amendments.md",
+".andromeda/obs-plan.md",
+".andromeda/state.yaml",
+".claude/docs/conventions.md",
+".claude/docs/services/viola.md",
+".claude/docs/stack.md",
+".claude/rules/testing.md",
+".claude/rules/verification-harness.md",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-09-24T10-40-06-wrap/push.log",
+".andromeda/runs/2026-09-24T11-12-51-phase/a11y.md",
+".andromeda/runs/2026-09-24T11-12-51-phase/arch.md",
+".andromeda/runs/2026-09-24T11-12-51-phase/b17.log",
+".andromeda/runs/2026-09-24T11-12-51-phase/b6.log",
+".andromeda/runs/2026-09-24T11-12-51-phase/b7.log",
+".andromeda/runs/2026-09-24T11-12-51-phase/b8.log",
+".andromeda/runs/2026-09-24T11-12-51-phase/design.md",
+".andromeda/runs/2026-09-24T11-12-51-phase/dryrun2.log",
+".andromeda/runs/2026-09-24T11-12-51-phase/layouts.md",
+".andromeda/runs/2026-09-24T11-12-51-phase/master-record.txt",
+".andromeda/runs/2026-09-24T11-12-51-phase/matrix-2026-09-24-log-redaction-and-never-log-floor.json",
+".andromeda/runs/2026-09-24T11-12-51-phase/note-v1-47.md",
+".andromeda/runs/2026-09-24T11-12-51-phase/obs.md",
+".andromeda/runs/2026-09-24T11-12-51-phase/route-2026-09-24-log-redaction-and-never-log-floor.json",
+".andromeda/runs/2026-09-24T11-12-51-phase/route-no-marker.json",
+".andromeda/runs/2026-09-24T11-12-51-phase/security.md",
+".andromeda/runs/2026-09-24T11-12-51-phase/tests.md",
+".andromeda/runs/2026-09-24T11-12-51-phase/tree-query-2026-09-24-log-redaction-and-never-log-floor.json",
+".andromeda/runs/2026-09-24T11-31-53-implement/gate-2026-09-24-log-redaction-and-never-log-floor.json",
+".andromeda/runs/2026-09-24T11-31-53-implement/gate-run-1.txt",
+".andromeda/runs/2026-09-24T11-31-53-implement/p1-clippy.log",
+".andromeda/runs/2026-09-24T11-31-53-implement/p3-boot.err",
+".andromeda/runs/2026-09-24T11-31-53-implement/p3-boot.json",
+".andromeda/runs/2026-09-24T11-31-53-implement/p3-cleanup.json",
+".andromeda/runs/2026-09-24T11-31-53-implement/p3-logs.ndjson",
+".andromeda/runs/2026-09-24T11-31-53-implement/p3-status.json",
+".andromeda/runs/2026-09-24T11-37-52-wrap/.raw-fanout-arch.md",
+".andromeda/runs/2026-09-24T11-37-52-wrap/architecture-entry.md",
+".andromeda/runs/2026-09-24T11-37-52-wrap/code-graph-refresh.log",
+".andromeda/runs/2026-09-24T11-37-52-wrap/curation.md",
+".andromeda/runs/2026-09-24T11-37-52-wrap/fanout-results.md",
+".andromeda/runs/2026-09-24T11-37-52-wrap/light-gate.txt",
+".andromeda/runs/2026-09-24T11-37-52-wrap/obs-plan-entry.md",
+".andromeda/runs/2026-09-24T11-37-52-wrap/route-no-marker.json",
+".andromeda/runs/2026-09-24T11-37-52-wrap/splice-2026-09-24-log-redaction-and-never-log-floor.json",
+"viola-0.1.0/chunks/2026-09-24-log-redaction-and-never-log-floor/plan.md",
+"viola-0.1.0/chunks/2026-09-24-log-redaction-and-never-log-floor/report.md",
+"viola-0.1.0/chunks/2026-09-24-log-redaction-and-never-log-floor/research.md",
+"viola-0.1.0/chunks/2026-09-24-log-redaction-and-never-log-floor/scope.md"
+],
+"rust": [
+"src/cmd/mod.rs",
+"src/cmd/run.rs",
+"src/main.rs",
+"src/obs.rs",
+"tests/run_cli.rs"
+]
+},
+"unmapped": [
+"viola-0.1.0/verification-matrix.json"
+],
+"prose": [
+{
+"from": 69,
+"to": 69,
+"text": "The gates below run on this Windows host during /implement. There is no live leg. The harness smoke (boot → status → logs → cleanup) is the standing smoke."
+},
+{
+"from": 71,
+"to": 71,
+"text": "Step 1's test is `#[cfg(unix)]`, so a local filtered gate would select zero tests. It is witnessed on the pushed sha by the two CI log reads at the end of the fence: the operator's P4 decision (overseer, founder-delegated) reads the ubuntu and macOS `test` job logs for the test id, not only the job conclusion."
+},
+{
+"from": 73,
+"to": 73,
+"text": "The `detail-run.ndjson` a criterion names is produced INSIDE the step-7 test's own temp home by the integration filter entry, so it carries no `artifact` key: the test asserts it and the home is removed with the test."
+},
+{
+"from": 75,
+"to": 75,
+"text": "The local mutation gate runs over this chunk's own diff. It cannot regenerate the `:193` mutant, because the diff is `--in-diff`-scoped (research.md §Measured facts), so it proves only that the chunk's new code leaves no survivors."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "build",
+"run": "cargo build --workspace --features fake-agent",
+"run_sha8": "31e29c2b",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-log-redaction-and-never-log-floor\\wrap-2026-09-24T11-37-52\\1.log",
+"bytes": 193,
+"log_sha8": "ec0b68a8",
+"exit": 0,
+"seconds": 0.63,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-log-redaction-and-never-log-floor\\wrap-2026-09-24T11-37-52\\2.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.24,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-log-redaction-and-never-log-floor\\wrap-2026-09-24T11-37-52\\3.log",
+"bytes": 72,
+"log_sha8": "2b346967",
+"exit": 0,
+"seconds": 0.33,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-log-redaction-and-never-log-floor\\wrap-2026-09-24T11-37-52\\4.log",
+"bytes": 15878,
+"log_sha8": "3cf2c179",
+"exit": 0,
+"seconds": 6.61,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"run\",\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration",
+"run_sha8": "03525807",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-log-redaction-and-never-log-floor\\wrap-2026-09-24T11-37-52\\5.log",
+"bytes": 10218,
+"log_sha8": "9366bb11",
+"exit": 0,
+"seconds": 22.26,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"run\",\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/internal_error_detail_line_carries_the_chain/)' ",
+"run_sha8": "9f77a790",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-log-redaction-and-never-log-floor\\wrap-2026-09-24T11-37-52\\6.log",
+"bytes": 1124,
+"log_sha8": "7ed38c0e",
+"exit": 0,
+"seconds": 0.86,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"run\",\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'test(/run_internal_error_routes_the_chain_to_the_detail_file|run_never_writes_a_claude_canary_anywhere/)' ",
+"run_sha8": "60d37503",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-log-redaction-and-never-log-floor\\wrap-2026-09-24T11-37-52\\7.log",
+"bytes": 1222,
+"log_sha8": "05fc601e",
+"exit": 0,
+"seconds": 0.92,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"run\",\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'test(/run_is_silent_on_stdout_and_stderr|run_with_a_missing_program_exits_1_with_internal_error/)' ",
+"run_sha8": "bbe226d0",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-log-redaction-and-never-log-floor\\wrap-2026-09-24T11-37-52\\8.log",
+"bytes": 1215,
+"log_sha8": "c1de12c2",
+"exit": 0,
+"seconds": 0.88,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"run\",\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-log-redaction-and-never-log-floor\\wrap-2026-09-24T11-37-52\\9.log",
+"bytes": 3308,
+"log_sha8": "bd9f9133",
+"exit": 0,
+"seconds": 1.05,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "test -s scripts/sync-crates.txt && while read -r c; do cargo deny --config deny-sync.toml --manifest-path \"crates/$c/Cargo.toml\" check bans || exit 1; done < scripts/sync-crates.txt",
+"run_sha8": "59b56b20",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-log-redaction-and-never-log-floor\\wrap-2026-09-24T11-37-52\\10.log",
+"bytes": 8,
+"log_sha8": "eba7f300",
+"exit": 0,
+"seconds": 0.44,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "grep -rnE \"(std::)?env::set_var\" tests crates/viola-e2e src",
+"run_sha8": "768a9ab7",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-log-redaction-and-never-log-floor\\wrap-2026-09-24T11-37-52\\11.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.07,
+"readings": [
+"exit 1 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh cleanup --session gate-smoke",
+"run_sha8": "3dd6cdce",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-log-redaction-and-never-log-floor\\wrap-2026-09-24T11-37-52\\12.log",
+"bytes": 47,
+"log_sha8": "91854d6e",
+"exit": 0,
+"seconds": 0.23,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session gate-smoke --instance builder",
+"run_sha8": "71a26ce4",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"boot\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-log-redaction-and-never-log-floor\\wrap-2026-09-24T11-37-52\\13.log",
+"bytes": 398,
+"log_sha8": "44bd3a4e",
+"exit": 0,
+"seconds": 0.89,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"boot\",\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh status --session gate-smoke",
+"run_sha8": "8b99315f",
+"expect": [
+"exit 0",
+"contains \"state\":\"ready\""
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-log-redaction-and-never-log-floor\\wrap-2026-09-24T11-37-52\\14.log",
+"bytes": 214,
+"log_sha8": "2dfc7d26",
+"exit": 0,
+"seconds": 0.23,
+"readings": [
+"exit 0 ✓",
+"contains '\"state\":\"ready\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh logs --session gate-smoke --process run",
+"run_sha8": "cbd47847",
+"expect": [
+"exit 0",
+"contains \"src\":\"diag\"",
+"lacks \"chain\""
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-log-redaction-and-never-log-floor\\wrap-2026-09-24T11-37-52\\15.log",
+"bytes": 562,
+"log_sha8": "5be0c03b",
+"exit": 0,
+"seconds": 0.22,
+"readings": [
+"exit 0 ✓",
+"contains '\"src\":\"diag\"' ✓",
+"lacks '\"chain\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh cleanup --session gate-smoke",
+"run_sha8": "3dd6cdce",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-log-redaction-and-never-log-floor\\wrap-2026-09-24T11-37-52\\16.log",
+"bytes": 175,
+"log_sha8": "308cb3b1",
+"exit": 0,
+"seconds": 0.48,
+"readings": [
+"exit 0 ✓",
+"contains '\"processes_gone\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "integration",
+"run": "AGENT_RUN_CHUNK_BASE=809456e329cf10bcf9fc783dc7885b50de9cada0 bash scripts/agent-run.sh run --mutants",
+"run_sha8": "99074d69",
+"expect": [
+"exit 0",
+"contains \"suite\":\"mutants\"",
+"contains \"survived\":0",
+"contains \"verdict\":\"counted\""
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-log-redaction-and-never-log-floor\\wrap-2026-09-24T11-37-52\\17.log",
+"bytes": 470,
+"log_sha8": "fad516ba",
+"exit": 0,
+"seconds": 48.35,
+"readings": [
+"exit 0 ✓",
+"contains '\"suite\":\"mutants\"' ✓",
+"contains '\"survived\":0' ✓",
+"contains '\"verdict\":\"counted\"' ✓",
+"artifact fresh (mutants.out/)"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin build/viola-0.1.0",
+"run_sha8": "32523c62",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD)/check-runs --jq '[.check_runs[] | .conclusion] | unique | join(\",\")' ",
+"run_sha8": "4d78cf7d",
+"expect": [
+"exit 0",
+"last line success"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "ID=$(gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD)/check-runs --jq '.check_runs[] | select(.name==\"test (ubuntu-latest)\") | .id') && gh run view --job \"$ID\" --log | grep -cE 'PASS .*viola::bin/viola obs::tests::read_diagnostics_level_file_as_home_is_unreadable' ",
+"run_sha8": "85f3c42c",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "ID=$(gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD)/check-runs --jq '.check_runs[] | select(.name==\"test (macos-latest)\") | .id') && gh run view --job \"$ID\" --log | grep -cE 'PASS .*viola::bin/viola obs::tests::read_diagnostics_level_file_as_home_is_unreadable' ",
+"run_sha8": "8b88678a",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+}
+]

@@ -39,3 +39,10 @@ Sweep over all seven masters and the leaves:
 - **Leaf re-derived:** `.claude/rules/observability.md:24`.
 - **Result:** 0 retired-claim hits remain in the masters.
 - **Control:** `unevaluatedProperties` fired.
+
+## 2026-09-24-log-redaction-and-never-log-floor — anyhow scope follows the catch-site reporter
+**Section:** §7 Error Capture & Reporting, Platform pick (:1117)
+**Change:** :1117 now says anyhow 1.0.104 is used "at the root-bin dispatch edge and its catch-site reporter (`viola::obs::report_internal_error`) only".
+**Why:** cascade step 2 of the arch amendment in this pass (architecture-amendments, same marker). :1117 restated the dispatch-only scope while the chunk's reporter in `src/obs.rs` now renders the chain (report Changes → Symbols / APIs). §7 scrubbing layer 3 (`chain:[...]` only in `detail-<process>.ndjson`, only when an instance resolves) already matched the shipped behaviour and is unchanged.
+**Sweep:** the arch entry's patterns and dispositions; in obs: amended :1117. No change at :54: it sits in §1, the verbatim copy of obs-scope.md that keeps its pending wording by rule (obs :485), the same disposition an earlier arch entry gave §1 hits; its quote of arch's retired "context chains only at dispatch" stays, and §7 carries current truth.
+**Leaves re-derived:** none needed — `.claude/docs/obs-summary.md` and `.claude/rules/observability.md` carry neither sentence (grep `anyhow|dispatch edge|platform pick|local error capture` → 0 hits in obs-summary; observability.md :19 already states the chain goes only to detail files).

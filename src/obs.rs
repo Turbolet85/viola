@@ -235,8 +235,9 @@ pub(crate) fn log_config_rejection(rejection: ConfigRejection) {
     );
 }
 
-/// The catch site's line after a caught main-thread panic: only `run` owns one (obs-plan §7).
-pub(crate) fn panic_exit_line() {
+/// The catch site's role line after a caught panic or a dispatch error: only `run` owns one
+/// (obs-plan §7).
+pub(crate) fn internal_error_exit_line() {
     if viola_core::obs::ctx().is_some_and(|c| c.process == ObsProcess::Run) {
         obs_event!(
             ERROR,
@@ -247,6 +248,47 @@ pub(crate) fn panic_exit_line() {
             duration_ms = duration_ms(),
         );
     }
+}
+
+/// Where a dispatch error's chain may be recorded, known once the home and the instance resolved.
+pub(crate) struct DetailSink {
+    pub(crate) home: PathBuf,
+    pub(crate) instance: ViolaName,
+    pub(crate) process: ObsProcess,
+}
+
+/// The catch site's records for a dispatch error: the codes-only role line, and the chain only in
+/// the instance detail file (obs-plan §7); nothing reaches stdout or stderr.
+pub(crate) fn report_internal_error(error: &anyhow::Error, sink: Option<&DetailSink>) {
+    internal_error_exit_line();
+    if let Some(sink) = sink {
+        let line = chain_detail_line(&timestamp(Utc::now()), sink.process, &sink.instance, error);
+        write_detail(&sink.home, &sink.instance, sink.process, &line);
+    }
+}
+
+/// `chain` holds every cause's text, outermost first.
+fn chain_detail_line(
+    timestamp: &str,
+    process: ObsProcess,
+    instance: &ViolaName,
+    error: &anyhow::Error,
+) -> String {
+    let chain: Vec<Value> = error
+        .chain()
+        .map(|cause| Value::from(cause.to_string()))
+        .collect();
+    let mut fields = Map::new();
+    fields.insert("chain".to_owned(), Value::Array(chain));
+    detail_line(
+        timestamp,
+        "ERROR",
+        "viola::obs",
+        ObsEvent::ProcessExit,
+        process,
+        instance,
+        fields,
+    )
 }
 
 pub(crate) fn detail_path(home: &Path, instance: &ViolaName, process: ObsProcess) -> PathBuf {
@@ -432,6 +474,21 @@ mod tests {
         );
     }
 
+    /// Opening `<file>/config.json` fails at open with ENOTDIR (`NotADirectory`, not `NotFound`),
+    /// so only the open-error arm yields `Unreadable`; the directory case above opens fine on Unix
+    /// and fails at read instead.
+    #[cfg(unix)]
+    #[test]
+    fn read_diagnostics_level_file_as_home_is_unreadable() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = tmp.path().join("home");
+        fs::write(&home, "not a dir").expect("a file where the home should be");
+        assert_eq!(
+            read_diagnostics_level(&home),
+            (Level::INFO, Some(ConfigRejection::Unreadable))
+        );
+    }
+
     #[rstest]
     #[case::unreadable(ConfigRejection::Unreadable, "unreadable", 1)]
     #[case::malformed(ConfigRejection::Malformed, "malformed", 1)]
@@ -543,14 +600,20 @@ mod tests {
         buffer.lines()
     }
 
+    fn canary_error() -> anyhow::Error {
+        anyhow::anyhow!("parse failed near canary-chain-value-5c1e").context("dispatch failed")
+    }
+
+    /// The one test in this binary that sets `ProcessCtx` (nextest runs each test in its own
+    /// process).
     #[test]
-    fn panic_exit_line_writes_run_internal_error() {
-        assert!(captured(Level::INFO, panic_exit_line).is_empty());
+    fn internal_error_exit_line_writes_run_internal_error() {
+        assert!(captured(Level::INFO, internal_error_exit_line).is_empty());
         viola_core::obs::set_ctx(ProcessCtx {
             process: ObsProcess::Run,
             instance: Some(name("builder")),
         });
-        let lines = captured(Level::INFO, panic_exit_line);
+        let lines = captured(Level::INFO, internal_error_exit_line);
         assert_eq!(lines.len(), 1);
         let line = &lines[0];
         assert_eq!(line["event"], "process-exit");
@@ -563,6 +626,64 @@ mod tests {
         assert_eq!(line["detail"], "internal-error");
         assert!(line["duration_ms"].as_u64().is_some());
         assert!(line.get("corr").is_none());
+
+        let error = canary_error();
+        let reported = captured(Level::INFO, || report_internal_error(&error, None));
+        assert_eq!(reported.len(), 1);
+        assert_eq!(reported[0]["detail"], "internal-error");
+        assert!(reported[0].get("chain").is_none());
+        assert!(!reported[0].to_string().contains("canary-chain-value-5c1e"));
+    }
+
+    #[test]
+    fn internal_error_detail_line_carries_the_chain() {
+        let error = canary_error();
+        let line = chain_detail_line(
+            "2026-09-24T06:00:00.000Z",
+            ObsProcess::Run,
+            &name("builder"),
+            &error,
+        );
+        assert!(line.ends_with('\n'));
+        assert_eq!(line.matches('\n').count(), 1);
+        let v: Value = serde_json::from_str(&line).expect("json");
+        assert_eq!(v["event"], "process-exit");
+        assert_eq!(v["level"], "ERROR");
+        assert_eq!(v["process"], "run");
+        assert_eq!(v["instance"], "builder");
+        assert_eq!(
+            v["chain"],
+            serde_json::json!([
+                "dispatch failed",
+                "parse failed near canary-chain-value-5c1e"
+            ])
+        );
+        let schema: Value = serde_json::from_str(
+            &fs::read_to_string(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/schemas/diag-detail.v1.json"
+            ))
+            .expect("schema"),
+        )
+        .expect("schema JSON");
+        let validator = jsonschema::validator_for(&schema).expect("valid schema");
+        assert!(validator.is_valid(&v));
+
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = tmp.path().join("home");
+        fs::create_dir(&home).expect("home");
+        let sink = DetailSink {
+            home: home.clone(),
+            instance: name("builder"),
+            process: ObsProcess::Run,
+        };
+        report_internal_error(&error, Some(&sink));
+        let detail = fs::read_to_string(detail_path(&home, &sink.instance, ObsProcess::Run))
+            .expect("detail file");
+        assert_eq!(detail.lines().count(), 1);
+        let d: Value = serde_json::from_str(detail.trim_end()).expect("json");
+        assert_eq!(d["chain"], v["chain"]);
+        assert!(!home.join("diagnostics").exists());
     }
 
     #[test]

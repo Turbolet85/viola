@@ -1,0 +1,3 @@
+
+## 2026-09-24-log-redaction-and-never-log-floor — archived at the 2026-09-24 wrap
+[2026-09-24-log-redaction-and-never-log-floor] Log redaction and never-log floor — skip-all span fields, redacted payload types, fixed error displays, content-bearing records only in instance detail files  CARRY: chunk 2026-09-24-diagnostics-plane shipped the detail sink. `viola::obs::write_detail` / `detail_line` write owner-only `instances/<name>/diagnostics/detail-<process>.ndjson`, and `schemas/diag-detail.v1.json` already admits `chain` and `drift_report`. Anyhow chains and serde drift reports route through that sink; today only the panic hook uses it.

@@ -43,10 +43,13 @@ fn main() -> ExitCode {
     std::panic::set_hook(Box::new(viola_panic_hook));
     std::panic::catch_unwind(|| match cmd::dispatch(cmd::Cli::parse()) {
         Ok(code) => code,
-        Err(_) => ExitCode::from(1),
+        Err(failure) => {
+            obs::report_internal_error(&failure.error, failure.sink.as_ref());
+            ExitCode::from(1)
+        }
     })
     .unwrap_or_else(|_| {
-        obs::panic_exit_line();
+        obs::internal_error_exit_line();
         ExitCode::from(1)
     })
 }

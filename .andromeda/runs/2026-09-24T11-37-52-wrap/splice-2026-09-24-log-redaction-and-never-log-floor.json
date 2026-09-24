@@ -1,0 +1,119 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1b01be01",
+"ts": "2026-09-24T11:43:10Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-24T11-37-52-wrap/architecture-entry.md",
+"--lines",
+"11",
+"--run-dir",
+".andromeda/runs/2026-09-24T11-37-52-wrap",
+"--marker",
+"2026-09-24-log-redaction-and-never-log-floor"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+11 at line 93 · lines 92→103 · bytes 12256→14463 · term lf",
+"last line now: - **Result:** 0 retired-claim hits remain (post-sweep grep over the same set). *"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 92,
+"bytes": 12256,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 103,
+"bytes": 14463
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1b01be01",
+"ts": "2026-09-24T11:43:10Z",
+"argv": [
+"append",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-24T11-37-52-wrap/obs-plan-entry.md",
+"--lines",
+"7",
+"--run-dir",
+".andromeda/runs/2026-09-24T11-37-52-wrap",
+"--marker",
+"2026-09-24-log-redaction-and-never-log-floor"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append obs-plan-amendments.md:+7 at line 42 · lines 41→48 · bytes 3755→5153 · term lf",
+"last line now: **Leaves re-derived:** none needed — `.claude/docs/obs-summary.md` and `.claud"
+],
+"stderr": null,
+"wrote": [
+".andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 41,
+"bytes": 3755,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 48,
+"bytes": 5153
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1b01be01",
+"ts": "2026-09-24T11:49:01Z",
+"argv": [
+"append",
+"--file",
+"viola-0.1.0/route-archive.md",
+"--payload-file",
+".andromeda/runs/2026-09-24T11-37-52-wrap/archive-entry.md",
+"--lines",
+"3",
+"--run-dir",
+".andromeda/runs/2026-09-24T11-37-52-wrap",
+"--marker",
+"2026-09-24-log-redaction-and-never-log-floor"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append route-archive.md:+3 at line 11 · lines 10→13 · bytes 1396→2047 · term lf",
+"last line now: [2026-09-24-log-redaction-and-never-log-floor] Log redaction and never-log floor"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/route-archive.md"
+],
+"before": {
+"lines": 10,
+"bytes": 1396,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 13,
+"bytes": 2047
+}
+}
+]

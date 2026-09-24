@@ -1,0 +1,31 @@
+gate v1.1 · 851b9a6f
+shell C:\Program Files\Git\bin\bash.exe (from $SHELL; -c, non-login)
+root D:\dev\projects\viola · marker 2026-09-24-log-redaction-and-never-log-floor · entries 21
+logs C:\Users\turbo\AppData\Local\Temp\andromeda-gate\2026-09-24-log-redaction-and-never-log-floor\run-20260924T113010Z · bound: GNU timeout
+delta docs 24
+prose L69-69: The gates below run on this Windows host during /implement. There is no live leg. The harn… (155 chars)
+prose L71-71: Step 1's test is `#[cfg(unix)]`, so a local filtered gate would select zero tests. It is w… (311 chars)
+prose L73-73: The `detail-run.ndjson` a criterion names is produced INSIDE the step-7 test's own temp ho… (217 chars)
+prose L75-75: The local mutation gate runs over this chunk's own diff. It cannot regenerate the `:193` m… (231 chars)
+  1 build       not run — dry-run · cargo build --workspace --features fake-agent
+  2 lint        not run — dry-run · cargo fmt --all --check
+  3 lint        not run — dry-run · cargo clippy --workspace --all-targets --features fake-age… (75 chars)
+  4 unit        not run — dry-run · bash scripts/agent-run.sh run --unit
+  5 integration not run — dry-run · bash scripts/agent-run.sh run --integration
+  6 unit        not run — dry-run · bash scripts/agent-run.sh run --unit --filter 'test(/inter… (101 chars)
+  7 integration not run — dry-run · bash scripts/agent-run.sh run --integration --filter 'test… (160 chars)
+  8 integration not run — dry-run · bash scripts/agent-run.sh run --integration --filter 'test… (153 chars)
+  9 probe       not run — dry-run · cargo deny check
+ 10 probe       not run — dry-run · test -s scripts/sync-crates.txt && while read -r c; do car… (181 chars)
+ 11 probe       not run — dry-run · grep -rnE "(std::)?env::set_var" tests crates/viola-e2e sr… (59 chars)
+ 12 e2e         not run — dry-run · bash scripts/agent-run.sh cleanup --session gate-smoke
+ 13 smoke       not run — dry-run · bash scripts/agent-run.sh boot --session gate-smoke --inst… (70 chars)
+ 14 e2e         not run — dry-run · bash scripts/agent-run.sh status --session gate-smoke
+ 15 e2e         not run — dry-run · bash scripts/agent-run.sh logs --session gate-smoke --proc… (65 chars)
+ 16 e2e         not run — dry-run · bash scripts/agent-run.sh cleanup --session gate-smoke
+ 17 integration not run — dry-run · AGENT_RUN_CHUNK_BASE=809456e329cf10bcf9fc783dc7885b50de9ca… (101 chars)
+ 18 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (82 chars)
+ 19 probe       not run — leg operator (the letter drives it) · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (129 chars)
+ 20 probe       not run — leg operator (the letter drives it) · ID=$(gh api repos/Turbolet85/viola/commits/$(git rev-parse… (276 chars)
+ 21 probe       not run — leg operator (the letter drives it) · ID=$(gh api repos/Turbolet85/viola/commits/$(git rev-parse… (275 chars)
+entries 21 · green 0 · red 0 · recorded 0 · timeout 0 · not-run 21

@@ -1,0 +1,107 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "ac6c73e5",
+"ts": "2026-09-24T11:30:52Z",
+"argv": [
+"coverage",
+"--dir",
+"viola-0.1.0",
+"--run-dir",
+".andromeda/runs/2026-09-24T11-12-51-phase",
+"--marker",
+"2026-09-24-log-redaction-and-never-log-floor"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"verified 1/53 · deferred 0 · planned 52 · implemented 0 · unclaimed 52",
+"unclaimed: v1-01 v1-02 v1-03 v1-04 v1-05 v1-07 v1-08 v1-09 v1-10 v1-11 v1-12 v1-13 v1-14 v1-15 v1-16 v1-17",
+"          v1-18 v1-19 v1-20 v1-21 v1-22 v1-23 v1-24 v1-25 v1-26 v1-27 v1-28 v1-29 v1-30 v1-31 v1-32 v1-33",
+"          v1-34 v1-35 v1-36 v1-37 v1-38 v1-39 v1-40 v1-41 v1-42 v1-43 v1-44 v1-45 v1-46 v1-47 v1-48 v1-49",
+"          v1-50 v1-51 v1-52 v1-53",
+"claimed-unfinished: none",
+"done-test: NO — 52 not verified|deferred · unclaimed 52",
+"chunks referenced: 1 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "ac6c73e5",
+"ts": "2026-09-24T11:31:01Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-47",
+"--text-file",
+".andromeda/runs/2026-09-24T11-12-51-phase/note-v1-47.md",
+"--run-dir",
+".andromeda/runs/2026-09-24T11-12-51-phase",
+"--marker",
+"2026-09-24-log-redaction-and-never-log-floor"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"note v1-47: +714 chars (total 714) · status planned · ref/acceptance untouched",
+"wrote viola-0.1.0\\verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0\\verification-matrix.json"
+],
+"before": {
+"id": "v1-47",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "CLI machine-readable errors, MCP errors, problem responses and channel errors carry only codes and fixed messages; no lo… (387 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-47",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "CLI machine-readable errors, MCP errors, problem responses and channel errors carry only codes and fixed messages; no lo… (387 chars)",
+"notes_chars": 714
+}
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "ac6c73e5",
+"ts": "2026-09-24T11:31:08Z",
+"argv": [
+"audit",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-09-24-log-redaction-and-never-log-floor",
+"--plan",
+"viola-0.1.0/chunks/2026-09-24-log-redaction-and-never-log-floor/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-24T11-12-51-phase"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-24-log-redaction-and-never-log-floor: 0 · ## Acceptance Criteria: line 187, 8 lines",
+"pool: unclaimed 52 [v1-01 v1-02 v1-03 v1-04 v1-05 v1-07 v1-08 v1-09 v1-10 v1-11 v1-12 v1-13 v1-14 v1-15 v1-16 v1-17 v1-18 v1-19 v1-20 v1-21 v1-22 v1-23 v1-24 v1-25 v1-26 v1-27 v1-28 v1-29 v1-30 v1-31 v1-32 v1-33 v1-34 v1-35 v1-36 v1-37 v1-38 v1-39 v1-40 v1-41 v1-42 v1-43 v1-44 v1-45 v1-46 v1-47 v1-48 v1-49 v1-50 v1-51 v1-52 v1-53]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

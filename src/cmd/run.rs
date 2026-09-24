@@ -11,7 +11,7 @@ use crate::{obs, run};
 pub(crate) struct RunArgs {
     /// Instance name: [a-z0-9-], 1-32 characters, starting with a letter
     #[arg(value_parser = parse_name)]
-    name: ViolaName,
+    pub(super) name: ViolaName,
     /// The program to wrap and its arguments, after `--`
     #[arg(last = true, required = true)]
     program: Vec<OsString>,

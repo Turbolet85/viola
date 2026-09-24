@@ -1,0 +1,118 @@
+[
+{
+"sql": "SELECT callee_name, caller, file, line FROM calls WHERE callee_name IN ('read_diagnostics_level','write_detail','detail_line','dispatch','set_panic_sink','viola_obs_init','panic_exit_line','log_self_exit') AND callee_kind = 'fn' ORDER BY callee_name, file, line",
+"rows": 18,
+"result": [
+{
+"callee_name": "detail_line",
+"caller": "rust-analyzer cargo viola 0.1.0 panic_detail_line().",
+"file": "src/main.rs",
+"line": 110
+},
+{
+"callee_name": "detail_line",
+"caller": "rust-analyzer cargo viola 0.1.0 obs/tests/detail_line_carries_the_home_level_keys_then_the_fields().",
+"file": "src/obs.rs",
+"line": 451
+},
+{
+"callee_name": "dispatch",
+"caller": "rust-analyzer cargo viola 0.1.0 main().",
+"file": "src/main.rs",
+"line": 43
+},
+{
+"callee_name": "log_self_exit",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/run().",
+"file": "src/cmd/run.rs",
+"line": 40
+},
+{
+"callee_name": "log_self_exit",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/run().",
+"file": "src/cmd/run.rs",
+"line": 44
+},
+{
+"callee_name": "panic_exit_line",
+"caller": "rust-analyzer cargo viola 0.1.0 main().",
+"file": "src/main.rs",
+"line": 48
+},
+{
+"callee_name": "panic_exit_line",
+"caller": "rust-analyzer cargo viola 0.1.0 obs/tests/panic_exit_line_writes_run_internal_error().",
+"file": "src/obs.rs",
+"line": 547
+},
+{
+"callee_name": "panic_exit_line",
+"caller": "rust-analyzer cargo viola 0.1.0 obs/tests/panic_exit_line_writes_run_internal_error().",
+"file": "src/obs.rs",
+"line": 552
+},
+{
+"callee_name": "read_diagnostics_level",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/run().",
+"file": "src/cmd/run.rs",
+"line": 24
+},
+{
+"callee_name": "read_diagnostics_level",
+"caller": "rust-analyzer cargo viola 0.1.0 obs/tests/level_of().",
+"file": "src/obs.rs",
+"line": 385
+},
+{
+"callee_name": "read_diagnostics_level",
+"caller": "rust-analyzer cargo viola 0.1.0 obs/tests/read_diagnostics_level_unreadable_config_is_reported().",
+"file": "src/obs.rs",
+"line": 429
+},
+{
+"callee_name": "set_panic_sink",
+"caller": "rust-analyzer cargo viola 0.1.0 tests/panic_hook_writes_detail_line_with_payload_and_backtrace().",
+"file": "src/main.rs",
+"line": 248
+},
+{
+"callee_name": "set_panic_sink",
+"caller": "rust-analyzer cargo viola 0.1.0 obs/viola_obs_init().",
+"file": "src/obs.rs",
+"line": 150
+},
+{
+"callee_name": "viola_obs_init",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/run().",
+"file": "src/cmd/run.rs",
+"line": 25
+},
+{
+"callee_name": "write_detail",
+"caller": "rust-analyzer cargo viola 0.1.0 viola_panic_hook().",
+"file": "src/main.rs",
+"line": 86
+},
+{
+"callee_name": "write_detail",
+"caller": "rust-analyzer cargo viola 0.1.0 obs/tests/write_detail_creates_owner_only_dirs_and_one_line().",
+"file": "src/obs.rs",
+"line": 479
+},
+{
+"callee_name": "write_detail",
+"caller": "rust-analyzer cargo viola 0.1.0 obs/tests/write_detail_creates_owner_only_dirs_and_one_line().",
+"file": "src/obs.rs",
+"line": 480
+},
+{
+"callee_name": "write_detail",
+"caller": "rust-analyzer cargo viola 0.1.0 obs/tests/write_detail_under_a_file_drops_the_line().",
+"file": "src/obs.rs",
+"line": 510
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

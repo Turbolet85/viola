@@ -1,0 +1,31 @@
+gate v1.1 · 851b9a6f
+shell C:\Program Files\Git\bin\bash.exe (from $SHELL; -c, non-login)
+root D:\dev\projects\viola · marker 2026-09-24-log-redaction-and-never-log-floor · entries 21
+logs C:\Users\turbo\AppData\Local\Temp\andromeda-gate\2026-09-24-log-redaction-and-never-log-floor\implement-2026-09-24T11-31-53 · bound: GNU timeout
+delta docs 28 · rust 5 · unmapped 1
+prose L69-69: The gates below run on this Windows host during /implement. There is no live leg. The harn… (155 chars)
+prose L71-71: Step 1's test is `#[cfg(unix)]`, so a local filtered gate would select zero tests. It is w… (311 chars)
+prose L73-73: The `detail-run.ndjson` a criterion names is produced INSIDE the step-7 test's own temp ho… (217 chars)
+prose L75-75: The local mutation gate runs over this chunk's own diff. It cannot regenerate the `:193` m… (231 chars)
+  1 build       green · exit 0 · 0.82s · 193 B → 1.log · cargo build --workspace --features fake-agent
+  2 lint        green · exit 0 · 0.26s · 0 B → 2.log · cargo fmt --all --check
+  3 lint        green · exit 0 · 0.33s · 72 B → 3.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)
+  4 unit        green · exit 0 · 7.22s · 15807 B → 4.log · bash scripts/agent-run.sh run --unit
+  5 integration green · exit 0 · 22.19s · 10218 B → 5.log · bash scripts/agent-run.sh run --integration
+  6 unit        green · exit 0 · 0.96s · 1124 B → 6.log · bash scripts/agent-run.sh run --unit --filter 'test(/inter… (101 chars)
+  7 integration green · exit 0 · 0.89s · 1222 B → 7.log · bash scripts/agent-run.sh run --integration --filter 'test… (160 chars)
+  8 integration green · exit 0 · 0.88s · 1215 B → 8.log · bash scripts/agent-run.sh run --integration --filter 'test… (153 chars)
+  9 probe       green · exit 0 · 1.04s · 3308 B → 9.log · cargo deny check
+ 10 probe       green · exit 0 · 0.43s · 8 B → 10.log · test -s scripts/sync-crates.txt && while read -r c; do car… (181 chars)
+ 11 probe       green · exit 1 · 0.06s · 0 B → 11.log · grep -rnE "(std::)?env::set_var" tests crates/viola-e2e sr… (59 chars)
+ 12 e2e         green · exit 0 · 0.22s · 47 B → 12.log · bash scripts/agent-run.sh cleanup --session gate-smoke
+ 13 smoke       green · exit 0 · 1.05s · 398 B → 13.log · bash scripts/agent-run.sh boot --session gate-smoke --inst… (70 chars)
+ 14 e2e         green · exit 0 · 0.25s · 214 B → 14.log · bash scripts/agent-run.sh status --session gate-smoke
+ 15 e2e         green · exit 0 · 0.21s · 562 B → 15.log · bash scripts/agent-run.sh logs --session gate-smoke --proc… (65 chars)
+ 16 e2e         green · exit 0 · 0.49s · 175 B → 16.log · bash scripts/agent-run.sh cleanup --session gate-smoke
+ 17 integration green · exit 0 · 49.34s · 470 B → 17.log · AGENT_RUN_CHUNK_BASE=809456e329cf10bcf9fc783dc7885b50de9ca… (101 chars)
+ 18 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (82 chars)
+ 19 probe       not run — leg operator (the letter drives it) · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (129 chars)
+ 20 probe       not run — leg operator (the letter drives it) · ID=$(gh api repos/Turbolet85/viola/commits/$(git rev-parse… (276 chars)
+ 21 probe       not run — leg operator (the letter drives it) · ID=$(gh api repos/Turbolet85/viola/commits/$(git rev-parse… (275 chars)
+entries 21 · green 17 · red 0 · recorded 0 · timeout 0 · not-run 4

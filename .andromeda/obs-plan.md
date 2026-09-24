@@ -1114,7 +1114,7 @@ Template fields deliberately **not** emitted (D-12):
 
 _[Standard: included]_
 
-**Platform pick:** **local error capture only, with no external platform.** The mechanism is thiserror 2.0.20 typed errors with fixed-message `Display` impls on `PtyError`, `ChannelError`, `StateError`, `AgentError`, `McpError`, `UiError` and `CoreError`. anyhow 1.0.104 is used at the root-bin dispatch edge only, plus a hand-written `std::panic::set_hook` and `std::panic::catch_unwind` (obs-research, Error Reporting Platform).
+**Platform pick:** **local error capture only, with no external platform.** The mechanism is thiserror 2.0.20 typed errors with fixed-message `Display` impls on `PtyError`, `ChannelError`, `StateError`, `AgentError`, `McpError`, `UiError` and `CoreError`. anyhow 1.0.104 is used at the root-bin dispatch edge and its catch-site reporter (`viola::obs::report_internal_error`) only, plus a hand-written `std::panic::set_hook` and `std::panic::catch_unwind` (obs-research, Error Reporting Platform).
 - sentry 0.49.3 / sentry-tracing 0.49.3 are **not admissible**. They break the egress ban ("viola makes no outbound network calls"), and their default `reqwest` + `native-tls` + `tokio` transport breaks the cargo-deny C-crate (`openssl-sys`) and Tokio-in-sync-crates bans.
 - tracing-panic 0.1.2 (stale) and human-panic 2.0.8 (writes a human report to stderr) were rejected.
 

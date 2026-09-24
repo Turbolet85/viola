@@ -31,7 +31,7 @@ _Extracted from `.andromeda/architecture.md` §Conventions by `/andromeda-setup-
 ## Error handling
 - Channel: refusal is a normal `result.refusal` + `detail`; `error` only for protocol faults (`-32700/-32600/-32601/-32602/-32603`).
 - CLI exit codes: 0 · 1 · 2 · 10 human-typing · 11 budget-paused · 12 unverified-cli · 13 not-delivered · 14 unknown · 20 wrapper fault · 21 instance unreachable; `viola hook` always 0.
-- `anyhow` only in the root bin's `main` and dispatch; typed thiserror errors elsewhere, with fixed `Display` messages (no paths/payloads).
+- `anyhow` only in the root bin: `main`, dispatch and the catch-site reporter `viola::obs::report_internal_error`, which records the chain only in the instance detail file; typed thiserror errors elsewhere, with fixed `Display` messages (no paths/payloads).
 - GUI: RFC 9457 Problem Details with `urn:viola:problem:*` types (`host-not-allowed` 403, `method-not-allowed` 405, `not-found` 404, `state-unreadable` 503, `unauthorized` 401, `cross-origin-forbidden` 403 v1.x).
 - Full detail only to `instances/<name>/diagnostics/detail-<process>.ndjson`.
 
