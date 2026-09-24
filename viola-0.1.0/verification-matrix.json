@@ -1,0 +1,697 @@
+{
+  "schema_version": 1,
+  "version": "viola-0.1.0",
+  "source": "intent",
+  "id_scheme": "{vN}-NN",
+  "capabilities": [
+    {
+      "id": "v1-01",
+      "title": "Three-OS CI pipeline from the first commit",
+      "requirement": "every push and PR runs build, format, lint (warnings fatal), the tokio-free check of the sync crates, the dependency policy (licences, C-crate, tokio and banned-crate rules, advisories, sources), workflow linting and tests, natively on Windows, macOS and Linux; all actions are SHA-pinned under least-privilege permissions; a weekly scheduled advisory check runs without code changes; the perf gates run in their own job; tools the gates need are checked present first and fail loudly if missing; test homes survive until every gate has read them; and nothing from a test home is uploaded unless the secret scan passed.",
+      "observed_gap": "no workspace, no `Cargo.toml`, no `.github/workflows/`; nothing builds or runs in CI (H:91-94). Two masters disagree on CI mechanics: the perf gates' job (tests: own job; obs: inside E2E), `jq`/`rg` availability, where test homes live and whether they survive until the gates, and which artifacts upload after the secret scan (XF F1, F2, B1, B4, B7, Z8).",
+      "verification": {
+        "method": "integration",
+        "acceptance": "Every push and pull request produces a pipeline run on Windows, macOS and Linux covering build, formatting, fatal lint, the tokio-free check of the sync crates, the dependency policy, workflow linting and tests; a weekly scheduled advisory run executes without code changes; the perf gates run in a job of their own; a missing gate tool fails the run loudly; test homes survive until every gate has read them; and nothing from a test home is uploaded from a run whose secret scan failed.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-02",
+      "title": "The headless harness: five agent-run commands",
+      "requirement": "an agent can `boot`, `run`, `status`, `cleanup` and `logs` a product session on any of the three OSes through identical shell shims, each command printing exactly one JSON document and a typed exit code; `boot` reaches readiness or names the unmet check, `cleanup` is idempotent and proves endpoints, ports and token files are gone, and `status` shows the CLI board and the GUI sessions agree.",
+      "observed_gap": "no harness exists; the prototype's three tests were run by hand and not mutation-checked (H:59).",
+      "verification": {
+        "method": "e2e",
+        "acceptance": "On each of the three OSes an agent drives a product session through boot, run, status, cleanup and logs via identical shell shims, each command emitting exactly one JSON document and a typed exit status; boot reaches readiness or names the unmet check; cleanup run twice succeeds and proves endpoints, ports and token files gone; status shows the CLI board and the GUI sessions agreeing.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-03",
+      "title": "The fake agent and recorded fixtures as the test contract",
+      "requirement": "a fake agent behaves like the CLI at every boundary viola uses (version answer, bracketed paste as one prompt, hook calls through the plugin files `run` wrote, scripted dialogs and modes, receipts of what it received), replays per-CLI-version hook fixtures recorded by `viola verify`, and a contract suite fails when the fake agent drifts from the recorded fixtures (including forwarded `annotations`); fixtures carry no real prompts, home paths or usernames.",
+      "observed_gap": "CI cannot run the real `claude`; the only record of real hook payloads is the prototype's ad-hoc logs.",
+      "verification": {
+        "method": "integration",
+        "acceptance": "The fake agent reproduces every CLI boundary viola relies on and replays the fixtures recorded per CLI version; a deliberately introduced drift between the fake agent and the recorded fixtures, forwarded annotations included, turns the contract suite red; no committed fixture contains a real prompt, home path or username.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-04",
+      "title": "Structured JSON logs from every process, and a `logs` view",
+      "requirement": "`run`, `hook`, `mcp`, `ui` and client-side `cli` each write one-line JSON records with the grepped fields (timestamp, level, target, message, event, process, instance, corr) under the closed event vocabulary (including `release-from-driver`, `liveness-changed`, `state-recovered`, `sse-opened`/`sse-closed`, `parse-rejected`); a null correlation is a missing key; `hook` never writes stderr and a failed log write never changes its exit; `logs` merges events, process logs and detail files, filterable by instance, kind and process, emitting torn lines as marked records rather than dropping them.",
+      "observed_gap": "no logging exists. The contract is now fixed across two masters: tests own the harness-grepped fields; obs adds the `cli` role, six events, absent-key-means-null, the codes-only home-level files and the per-instance detail files (OB D-21; TP §12 fix-pass entry).",
+      "verification": {
+        "method": "integration",
+        "acceptance": "Every process role writes one-line JSON records carrying the grepped fields under the closed event vocabulary; a null correlation appears as a missing key; the hook process never writes to stderr and a failed log write never changes its exit status; the logs view merges events, process logs and detail files, filters by instance, kind and process, and surfaces a torn line as a marked record rather than dropping it.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-05",
+      "title": "Observability gates: no unlogged panic, schema-true lines, no leaked secret",
+      "requirement": "every panic after log init leaves exactly one error line and `hook` still exits 0; every home-level and detail line in CI validates against the committed schemas; a canary fed through synthetic inputs never reaches home-level logs, and no token, cookie or stripped `CLAUDE*` value appears in any artifact; product crates cannot print to stdout/stderr or log outside the one sanctioned macro, while test-only binaries may print; redaction cannot be switched off by any setting.",
+      "observed_gap": "obs defines gates with no implementation: a panic hook installed before anything else, schema conformance of every real log line, a secret scan with a canary, and lint bans on raw logging, printing and unskipped span fields; the printing ban as written also hits the harness and fake agent, which must print (XF B5).",
+      "verification": {
+        "method": "integration",
+        "acceptance": "A panic after log initialisation leaves exactly one error line and the hook still ends successfully; every home-level and detail line produced in CI validates against the committed schemas; a canary fed through synthetic inputs never reaches home-level logs and no secret appears in any artifact; a print or unsanctioned log call in a product crate fails the build while test-only binaries may print; no setting disables redaction.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-06",
+      "title": "Mutation gate per chunk from chunk 1",
+      "requirement": "every chunk's diff is mutation-tested as part of the harness `run` and in CI; any missed or timed-out mutant makes the run red, a missing diff base fails rather than passes vacuously, and each guard test in a chunk plan is paired with its own remove-the-guard mutation; obs code is mutated like product code.",
+      "observed_gap": "`cargo-mutants` is installed on the host; no project runs it (H:55-59).",
+      "verification": {
+        "method": "integration",
+        "acceptance": "Every chunk's diff is mutation-tested in the harness run and in CI; a missed or timed-out mutant, or a missing diff base, turns the run red; each guard test in a chunk plan has a paired remove-the-guard mutation that it kills; observability code is mutated like product code.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-07",
+      "title": "Quality gates: coverage, performance budgets, property/fuzz replay, zero flakes",
+      "requirement": "per-OS coverage meets lines 85 / functions 95 / regions 80; hook deadlines hold on the worst sample; every parser surface named by security has property tests with committed seeds and a corpus replay that fails on an empty corpus; no retries anywhere, and a flaky test keeps its chunk red until fixed; one `gate` verdict per CI job reads all artifacts and treats a missing artifact as a breach.",
+      "observed_gap": "no gates exist.",
+      "verification": {
+        "method": "integration",
+        "acceptance": "Per-OS coverage meets lines 85, functions 95 and regions 80; hook deadlines hold on the worst sample; every security-named parser surface has seeded property tests and a corpus replay that fails on an empty corpus; no test is retried and a flaky test keeps its chunk red; each CI job ends in one gate verdict that treats a missing artifact as a breach.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-08",
+      "title": "Code-graph seeded at setup and built on the first real code",
+      "requirement": "all five code-graph files land in `scripts/` at setup with its health check green; after the first chunk's wrap the Rust plane reports ok and its database exists; whether a TypeScript plane is active for `e2e-web/` is stated explicitly, not left to chance.",
+      "observed_gap": "no master section covers the code-graph (a pipeline-level direction). The viola tree has no root `Cargo.toml`, so setup's refresh would skip the Rust plane; the page is Lit as plain vendored ESM with no JS build (DS web-spa Toolkit), while the Playwright and a11y specs are TypeScript (TP §2 directory conventions; AY §3 Bootstrap phases).",
+      "verification": {
+        "method": "manual",
+        "acceptance": "After setup the code-graph health check is green; after the first chunk's wrap the Rust plane reports ok with its database present; the project states explicitly whether a TypeScript plane is active for the browser tests.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-09",
+      "title": "Security's eight amendments folded into the architecture",
+      "requirement": "the architecture carries all eight — (1) per-launch cookie on `/api/*` and SSE in v1, (2) the Unix endpoint in a per-user 0700 directory, (3) `not-delivered`/`control-character` checked before the refusal order plus the `unauthorized` and `cross-origin-forbidden` problem URNs, (4) `release` with `from` refused as `release-from-driver`, (5) the `ui/<port>.url` file, (6) `MAX_FRAME` 16 MiB, (7) a \"largest hook payload seen\" ledger row, (8) `<hash>` = truncated SHA-256 — each landing no later than the chunk ordering security names.",
+      "observed_gap": "`architecture.md` still says no GUI token, a Unix socket at `$TMPDIR/viola-<h12>.sock`, no `control-character` detail, `release`-from-driver undecided, no `ui/<port>.url`, no frame cap, no largest-payload ledger row, and an unspecified `<hash>` (A:91, A:332, A:126-133, A:51, A:357-364, A:70-86, A:96); tests now follow the security side (TP §12 fix pass T6).",
+      "verification": {
+        "method": "by-construction",
+        "acceptance": "The architecture states all eight security amendments: the per-launch GUI cookie, the owner-only per-user Unix endpoint directory, the control-character detail with the two new problem types, release from a driver refused, the launch file, the frame cap, the largest-hook-payload ledger row and the truncated SHA-256 hash, each present no later than the chunk that implements it.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-10",
+      "title": "CL-1: send issue and outcome are events in the log",
+      "requirement": "every send accepted by a wrapper leaves an issue record in the instance's event log, and every outcome (read back, refused with reason, unconfirmable) is recoverable from that log alone; these records never wake `wait`; a refusal decided client-side is visible in the `cli` process log; the page and the tests read the same records.",
+      "observed_gap": "design's readback box and the tests' critical path need `send-issued` (with `cursor`, `from`), `send-refused` (`refusal` + `detail`) and a logged outcome for `ok`/`confirmed:false`; none is in arch's closed event-kind list (A:158), client-side refusals never reach a wrapper, and `from` is optional so a plain-shell send has no instance to show (XF X1, T2). Obs already logs `send-*` process-log lines with `conn`/`rpc_id` (OB D-27, D-30).",
+      "verification": {
+        "method": "e2e",
+        "acceptance": "For every send a wrapper accepts, the instance's event log alone lets a reader recover both the issue and its outcome (read back, refused with its reason, or unconfirmable); these records never wake a waiting driver; a refusal decided client-side is visible in the CLI process log; the page and the tests read the same records.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-11",
+      "title": "The live page sees a dialog clear and state refresh",
+      "requirement": "the view learns, without polling, when a pending dialog clears and when liveness, status or the budget reading change, so the strip bay reflects current state through the same feed that carries events.",
+      "observed_gap": "no event marks a dialog answered, expired or answered `null`, and polling is banned, so a cocked strip never returns into line and LIVE/STATUS/budget never refresh on the page (XF X2). Obs's `liveness-changed` is a `ui` process-log line, not a feed event (OB §3 Heartbeat ticks).",
+      "verification": {
+        "method": "e2e",
+        "acceptance": "Without polling, an open page learns when a pending dialog clears and when liveness, status or the budget reading change, through the same feed that carries events, and the strip bay reflects the current state.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-12",
+      "title": "At most one send in flight per instance",
+      "requirement": "two concurrent sends to the same instance can never both be typed; the second is refused or ordered, and every read-back pairs with exactly the send that caused it.",
+      "observed_gap": "design pairs a send with \"the next driver `prompt-submitted`\" assuming at most one send in flight, but arch never serialises concurrent sends to one instance (XF X3).",
+      "verification": {
+        "method": "integration",
+        "acceptance": "Two concurrent sends to one instance never both get typed; the second is refused or ordered, and every read-back pairs with exactly the send that caused it.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-13",
+      "title": "Result payloads carry what the CLI prints",
+      "requirement": "every human output line of `release --budget` and `link` is derivable from its machine result, and the `--json`/MCP result carries the same facts.",
+      "observed_gap": "after the fix pass, `release --budget` still prints `until …Z` and `link` prints `since` / `already linked`, but their `ok` payloads are `{wheel, budget_paused}` and `{}` (XF X4, X5, F3).",
+      "verification": {
+        "method": "integration",
+        "acceptance": "Every human output line of the budget release and of link is derivable from its machine result, and the machine-readable and MCP results carry the same facts.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-14",
+      "title": "`viola verify` against the fake agent runs in CI",
+      "requirement": "CI test homes are stamped only by `viola verify` run against the fake agent; the real `claude` never runs in CI; a local-live mode refuses to start under CI.",
+      "observed_gap": "arch says `viola verify` runs \"only locally, never in CI\" (A:441); stamps may be written only by `viola verify` (S:554); tests ratified running verify against the fake agent in CI (TP §12 User review 1; XF T8).",
+      "verification": {
+        "method": "integration",
+        "acceptance": "CI test homes are stamped only by viola verify run against the fake agent; the real claude CLI never runs in CI; the local-live mode refuses to start under CI.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-15",
+      "title": "Plan revise is answered as a plan, not a permission",
+      "requirement": "a plan dialog raised by either hook is presented and answered as a `plan` (approve / revise with a message); approve never relies on the ignored PermissionRequest path, and the mapping is one ledger-backed rule.",
+      "observed_gap": "plan revise arrives through PermissionRequest, which arch maps to kind `permission` with `allow`/`deny`; tests and the prototype answer `revise` (XF T9).",
+      "verification": {
+        "method": "e2e",
+        "acceptance": "A plan dialog raised by either hook is presented and answered as a plan (approve, or revise with a message); approval never depends on the ignored permission-request path; the mapping is a single ledger-backed rule.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-16",
+      "title": "Permission suggestions have a place in the answer",
+      "requirement": "the architecture decides whether a driver can pick one of the offered permission suggestions; if yes, the answer shape carries it and the chosen suggestion takes effect in the driven session; if no, the omission is recorded as a deliberate v1 limit rather than lost.",
+      "observed_gap": "the brief measured a permission dialog's options as allow · allow plus suggestion n · deny, and R7 says a permission answer includes a suggestion (B:203-205, B:109-114); arch's permission answer is `{behavior, message?}` with no suggestion slot (A:267) (XF I1).",
+      "verification": {
+        "method": "e2e",
+        "acceptance": "The architecture records whether a driver can pick an offered permission suggestion; if it can, the answer carries the choice and the chosen suggestion takes effect in the driven session; if not, the omission is recorded as a deliberate v1 limit.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-17",
+      "title": "Diagnostics roots, sinks and initialisation order",
+      "requirement": "the architecture names both diagnostics roots and every process's sink; the home is created and passes the strict-modes check before any diagnostics file is created or opened; existing diagnostics files get the same owner, mode and symlink checks as other state files; content-bearing detail exists only per instance.",
+      "observed_gap": "arch names only `instances/<name>/diagnostics/` and says `mcp` logs to stderr unless `VIOLA_DIR` is set (A:362, A:458); obs decided codes-only files at `<home>/diagnostics/` plus per-instance detail files, with `mcp` always writing `mcp.ndjson` (OB D-08, D-09, D-22; XF O4, O6, B10); obs originally created the diagnostics directory before the strict-modes check, which on Windows makes a fresh home fail it, with no ownership/mode/symlink check on existing diagnostics files (XF B2); obs fix pass 2 moves the strict-modes check first, but arch states no initialisation order.",
+      "verification": {
+        "method": "integration",
+        "acceptance": "The architecture names both diagnostics roots and every process's sink; on every OS the home is created and passes its strict-modes check before any diagnostics file is created or opened; existing diagnostics files receive the same owner, mode and symlink checks as other state files; content-bearing detail exists only per instance.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-18",
+      "title": "Every exit-21 and exit-1 cause has a machine-readable code",
+      "requirement": "every cause of exit 21 (not running, unwrapped name, strict-modes, server verification, endpoint lost mid-call) and of exit 1 (already live, stale heartbeat, squatted name, pinned-hash mismatch, script child, strict-modes or socket-directory refusal, internal error) reaches `--json`, MCP and the process log as a distinct code with no path or pid, matching the human hint for the same cause.",
+      "observed_gap": "exit 21 and exit 1 each have several causes; design now gives one hint per cause in human mode, but arch fixes `{\"error\":\"instance-unreachable\",\"detail\":null}` for exit 21 and gives exit 1 no `--json` document (A:292-294; DS cli pattern 2 \"pending an arch amendment\"); obs's codes lack stale heartbeat and unwrapped name (OB §6 detail code catalog, D-20), and strict-modes or socket-directory refusals at `run`/`ui`/`mcp` start have no code (XF X7, T4, F4, B6).",
+      "verification": {
+        "method": "integration",
+        "acceptance": "Each cause of the unreachable-instance exit (not running, unwrapped name, strict modes, server verification, endpoint lost mid-call) and of the internal-error exit (already live, stale heartbeat, squatted name, pinned-hash mismatch, script child, strict-modes or socket-directory refusal, internal error) reaches the machine-readable output, MCP and the process log as its own code, carrying no path or pid and matching the human hint for that cause.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-19",
+      "title": "Toolchain floor 1.96",
+      "requirement": "one declared floor (1.96) is what the workspace states, what the MSRV CI job checks and what the pinned toolchain provides; the primary toolchain is one pinned current stable; external CLI tools are stated as minimum floors, not exact pins.",
+      "observed_gap": "arch declares `rust-version = \"1.89\"` (A:13, A:374, A:490); sysinfo 0.39.6 needs 1.95; security moves the host to ≥1.96 (S:320); tests and obs now use 1.96 (TP §9 MSRV row; OB D-22); the host still has 1.95 (XF T14, O5, I2, I3).",
+      "verification": {
+        "method": "integration",
+        "acceptance": "The workspace, the MSRV CI job and the pinned toolchain agree on one declared floor of 1.96; the primary toolchain is a single pinned current stable; external CLI tools are stated as minimum floors.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-20",
+      "title": "Obs additions to the channel and config contracts",
+      "requirement": "the channel contract names the optional connection discriminator, older peers without it still work, and it is never treated as identity; `config.json` names the diagnostics level, which changes volume only and can never disable redaction.",
+      "observed_gap": "obs adds a `conn` field (`<process>-<pid>-<t0>-<n>`) to every channel request so calls can be joined across processes, and a `diagnostics_level` key (`info`|`debug`) to `config.json`; arch lists neither (XF O6).",
+      "verification": {
+        "method": "integration",
+        "acceptance": "Channel requests may carry an optional connection discriminator that joins calls across processes; a peer that omits it still works and it is never treated as identity; the config file names a diagnostics level that changes volume only and can never disable redaction.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-21",
+      "title": "Timing constants named and located",
+      "requirement": "each of these values has one named home (a built-in value or a per-CLI-version ledger row measured by `viola verify`), tests drive them through an injected clock, the perf gate reads the named value, and every MCP call completes below the client's tool-call timeout.",
+      "observed_gap": "the send-confirmation window, the spine-hook deadline, the dialog deadline, the readiness gate's quiet period and maximum wait, and the MCP `wait` default timeout are open items (A:45-46, A:58, A:61, A:66); the perf gate runs on a provisional 1.0 s (TP §10 Performance budgets; OB §10).",
+      "verification": {
+        "method": "unit",
+        "acceptance": "The send-confirmation window, spine-hook deadline, dialog deadline, readiness quiet period and maximum wait, and the MCP wait default each have exactly one named home; tests drive them through an injected clock; the perf gate reads the named value; every MCP call completes below the client's tool-call timeout.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-22",
+      "title": "`viola ui` on an OS-assigned port",
+      "requirement": "`viola ui` can start on an OS-assigned port and report the bound port through its launch file, so a headless boot never races for a port.",
+      "observed_gap": "harness `boot` must pick a free port and release it, a race it reports as `ui-port-taken`.",
+      "verification": {
+        "method": "integration",
+        "acceptance": "viola ui started on an OS-assigned port reports the bound port through its launch file, and a headless boot never races another process for its port.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-23",
+      "title": "The architecture's tree includes the test and obs artifacts",
+      "requirement": "the architecture's workspace, directory tree and dependency policy include every one of these, the tokio ban still holds for every sync crate, and the release build contains no test-only binary.",
+      "observed_gap": "tests add `crates/viola-e2e` (tokio-based clients, `viola-harness`), a feature-gated `viola-fake-agent`, `e2e-web/`, `scripts/agent-run.*` and `fuzz/`; obs adds `schemas/`, a workspace `clippy.toml` and a `target/secret-scan/` report dir; a11y adds `e2e-web/*`, `a11y/sr-pass/` and `viola-ui/assets/index.html`; arch lists none of them and says no test crate is declared (XF T16, B12, Z15).",
+      "verification": {
+        "method": "by-construction",
+        "acceptance": "The architecture's workspace, directory tree and dependency policy list every test, observability and accessibility artifact; the tokio ban still holds for every sync crate; the release build contains no test-only binary.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-24",
+      "title": "The statusline source `run` records",
+      "requirement": "the source of the user's statusline command is named, is read-only to viola, and can be redirected per test home; the wrapped statusline prints the user's output unchanged.",
+      "observed_gap": "arch says `run` resolves the user's statusline command \"from the user's effective Claude Code settings\" without naming the source; tests cannot redirect it per home, so the budget pass-through path is blocked (TP §3 `boot --statusline-echo`; TP §12 open questions).",
+      "verification": {
+        "method": "e2e",
+        "acceptance": "The source of the user's statusline command is named, is never written by viola, and can be redirected per test home; a wrapped session's statusline prints the user's own output unchanged.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-25",
+      "title": "The PTY dependency pin is decided on current evidence",
+      "requirement": "the chunk that writes the PTY seam records which portable-pty line it uses and why (the Windows defect re-checked), keeping the seam's contract, exit-on-handle detection and non-inheritable handles either way.",
+      "observed_gap": "arch pins portable-pty `=0.8.1` (2023) and excludes 0.9.0 for a Windows garbage-read bug (A:44); a11y notes 0.9.0 is the maintained line and inherits the risk (AY D-A11Y-13; XF Y6).",
+      "verification": {
+        "method": "manual",
+        "acceptance": "The project records which portable-pty line the PTY seam uses and why, with the Windows defect re-checked on current evidence, and the seam's contract, exit detection on the process handle and non-inheritable handles hold either way.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-26",
+      "title": "Cross-plan fix-pass items honoured by the implementing chunks",
+      "requirement": "each chunk that implements one of these surfaces follows the ratified side, and its acceptance includes the corresponding test, so no shipped behaviour contradicts a master.",
+      "observed_gap": "three overseer fix passes (`693e083`, `85d6354`, `90c705d`) aligned the tests, design, layouts, obs and a11y masters with each other (XF T*, B*, Y*, Z1–Z14); each change is logged in its master's Decisions Log. Left to the implementing chunk: X8 budget-override gate display, X10 refusal class of `instance-unreachable`, X11 `release-from-driver` display, X13 401/launch copy.",
+      "verification": {
+        "method": "manual",
+        "acceptance": "Every shipped surface touched by the three overseer fix passes, including the budget-override gate display, the refusal class of an unreachable instance, the release-from-driver display and the launch copy, follows the ratified side and carries a passing test for it, and no shipped behaviour contradicts a master.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-27",
+      "title": "`viola run` wraps the unmodified CLI on Windows",
+      "requirement": "`viola run <name> -- claude …` shows the child's screen and passes the human's keys exactly as without the wrapper, writing no bytes of its own to the terminal; it resolves the npm shim to the real executable and refuses a `.cmd`/`.bat` child, strips the parent session's identity from the child, pins a copy of itself plus a freshly written plugin that hooks call by absolute path, starts in the documented order (collision check … events … child spawn), refuses a name that is already live or stale, and detects child exit on the process, never on end of output.",
+      "observed_gap": "only the prototype hosts `claude` in a ConPTY; the product has no wrapper.",
+      "verification": {
+        "method": "e2e",
+        "acceptance": "Wrapping the unmodified CLI on Windows shows its screen and passes the human's keys exactly as without the wrapper, with no bytes of viola's own; the npm shim resolves to the real executable and a script child is refused; the parent session's identity is absent from the wrapped session; hooks call a pinned copy through a freshly written plugin by absolute path; start follows the documented order; a live or stale name is refused; child exit is detected on the process, never on end of output.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-28",
+      "title": "Hooks report normalised events and fail open",
+      "requirement": "every registered hook event becomes one normalised event line in the instance's log (never a raw Claude payload); harness-injected prompts are classified as harness, long-paste wrappers and tag escaping are normalised away; a hook outside a wrapped session is a silent no-op that writes nothing anywhere; any hook failure exits 0 with no output so the human sees the dialog; spine hooks never delay a turn past their deadline.",
+      "observed_gap": "the prototype's hooks fire with the wrapper's identity (B §4.1 S2); the product has none.",
+      "verification": {
+        "method": "e2e",
+        "acceptance": "Every registered hook event becomes exactly one normalised event line and never a raw Claude payload; harness prompts are classified as harness, and paste wrappers and tag escaping are normalised away; a hook outside a wrapped session writes nothing anywhere; any hook failure ends successfully with no output so the human sees the dialog; spine hooks never hold a turn past their deadline.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-29",
+      "title": "`send` types at a turn boundary and is confirmed after the fact",
+      "requirement": "a driver's text (from stdin or a file, never a leading-slash argument, with a warning on a rewritten path) is typed as one paste plus Enter only when the input box is ready; it returns read back only when the matching prompt is seen, `not-delivered` with a typed detail otherwise (`input-not-ready`, `no-prompt-submitted`, `turn-running`, `control-character`), and `unconfirmable` only for a ledger-listed local command without a measured post-condition; `/clear` is confirmed by its new-session post-condition; text with a disallowed control character is refused, never stripped.",
+      "observed_gap": "the prototype sends without a readiness gate; a CLI-native modal swallowed a paste (M1), local commands fire no prompt event (M5), and Git Bash rewrote a leading-slash argument (B §6).",
+      "verification": {
+        "method": "e2e",
+        "acceptance": "A driver's text from stdin or a file is typed as one paste plus Enter only when the input box is ready and returns read back only when the matching prompt is observed; otherwise it returns not-delivered with a typed detail (input not ready, no prompt submitted, turn running, control character); unconfirmable appears only for a ledger-listed local command without a measured post-condition; the clear command is confirmed by its new-session post-condition; text with a disallowed control character is refused, never stripped; a leading-slash argument is never the text source and a rewritten path draws a warning.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-30",
+      "title": "`wait` and `last` wake on turn boundaries without polling",
+      "requirement": "`wait` returns the first driver-relevant event (turn ended, question, permission, plan, session end) at or after a cursor — at once if it is already logged, never woken by activity, wheel, budget or send-record lines — times out with a typed result, reports an unreachable instance when the wrapper vanishes, and `last` returns the newest turn's final text; every send and wait result carries the cursor for the next call.",
+      "observed_gap": "the prototype's `wait` exits on the next Stop (B §4.1 S5); there is no cursor-based contract.",
+      "verification": {
+        "method": "e2e",
+        "acceptance": "wait returns the first driver-relevant event at or after the given cursor, at once if already logged, and is never woken by activity, wheel, budget or send-record lines; it times out with a typed result and reports an unreachable instance when the wrapper vanishes; last returns the newest turn's final text; every send and wait result carries the cursor for the next call.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-31",
+      "title": "Dialogs answered through hooks by `dialog_id`",
+      "requirement": "exactly one dialog is pending per instance and appears once in the log with its id; a driver answers a question (option or free text, with notes), a permission (allow, or deny with a message, plus a suggestion if F-16 admits one) or a plan (approve, or revise with a message) and the dialog never renders; a second concurrent dialog, a human wheel, an unverified CLI or an expired deadline all leave the dialog to the human; an unknown id is refused `unknown-dialog`.",
+      "observed_gap": "the prototype answers questions (including free text and annotations), permissions and plans through hooks (B §4.1 S3, S7, S8).",
+      "verification": {
+        "method": "e2e",
+        "acceptance": "At most one dialog is pending per instance and it appears once in the log with its id; a driver answers a question (option or free text, with notes), a permission (allow, or deny with a message, plus a suggestion if one is admitted) or a plan (approve, or revise with a message) and the dialog never renders; a second concurrent dialog, a human-held wheel, an unverified CLI or an expired deadline each leave the dialog to the human; an unknown id is refused as an unknown dialog.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-32",
+      "title": "The wheel: the human always wins, automation is refused with a reason",
+      "requirement": "any human editing key since the last turn boundary moves the wheel to the human (focus, mouse and resize do not), human keys are never blocked beyond the current paste, a pending dialog is handed back at once, harness turns never flip the wheel, `pause` takes it without a keystroke, and only a human `release` returns it; driver sends and answers are refused `human-typing` (with `manual-pause` after `pause`) and no driver-facing hint suggests `release`.",
+      "observed_gap": "the prototype took harness turns for human takes twice before a classifier was added (B §4.2 M2); the Pulse live test showed take / refuse / release working (B §6).",
+      "verification": {
+        "method": "e2e",
+        "acceptance": "Any human editing key since the last turn boundary moves the wheel to the human while focus, mouse and resize do not; human keys are never blocked beyond the current paste; a pending dialog is handed back at once; harness turns never flip the wheel; pause takes it without a keystroke and only a human release returns it; driver sends and answers are refused as human typing (manual pause after pause) and no driver-facing hint suggests release.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-33",
+      "title": "The slice passes the first live test on Windows, then viola drives its own build",
+      "requirement": "with the product binary, an overseer session sends a pipeline skill to a builder session, waits for the turn, reads the final text, answers a review, clears between skills, and the founder's typing takes the wheel; after that the overseer switches its own driving from the prototype to viola.",
+      "observed_gap": "the first live test passed only on the prototype (B §6); the overseer still drives the builder through the prototype binary (H:23-26).",
+      "verification": {
+        "method": "manual",
+        "acceptance": "With the product binary on the founder's Windows host, an overseer session sends a pipeline skill to a builder session, waits for the turn, reads the final text, answers a review and clears between skills, and the founder's typing takes the wheel; afterwards the overseer drives through viola instead of the prototype.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-34",
+      "title": "Capability ledger, `viola verify`, and transport-only degrade",
+      "requirement": "each relied-on CLI behaviour is a versioned ledger row with a live probe and a post-condition; `viola verify` probes the local CLI, stamps the version, records scrubbed fixtures and prints a step counter ending in a pass/fail summary; on an unstamped version viola still types, holds the wheel and logs events but withholds every dialog answer and refuses drivers `unverified-cli`.",
+      "observed_gap": "every load-bearing CLI behaviour was measured once on 2.1.280 and the docs lag the build (B §4); the product has no ledger.",
+      "verification": {
+        "method": "e2e",
+        "acceptance": "Each relied-on CLI behaviour is a versioned ledger row with a live probe and a post-condition; viola verify probes the local CLI, stamps the version, records scrubbed fixtures and prints a step counter ending in a pass or fail summary; on an unstamped version viola still types, holds the wheel and logs events but withholds every dialog answer and refuses drivers as an unverified CLI.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-35",
+      "title": "Budget governor from the statusline",
+      "requirement": "wrapped sessions record usage readings without touching the user's own statusline configuration or output; crossing a threshold (defaults five-hour 90 %, seven-day 85 %) refuses automated sends `budget-paused` while running turns and human keys continue; the pause lifts at the crossed window's reset or by a per-instance override; missing readings show as `unknown` with their age and never block.",
+      "observed_gap": "the plan-limit source was found (statusline `rate_limits`, B §5 O8); the policy page makes a governor a first-version item (B §7).",
+      "verification": {
+        "method": "e2e",
+        "acceptance": "Wrapped sessions record usage readings without touching the user's statusline configuration or output; crossing a threshold (defaults five-hour 90 %, seven-day 85 %) refuses automated sends as budget-paused while running turns and human keys continue; the pause lifts at the crossed window's reset or by a per-instance override; missing readings show as unknown with their age and never block.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-36",
+      "title": "Links between sessions",
+      "requirement": "a send or answer from inside a wrapped session to another instance records a `driver → driven` link once, `link`/`unlink` add or remove one explicitly, and the link set (with its first-linked time) is derived from the log and shown by the board and the page.",
+      "observed_gap": "D5 asks to see which sessions are linked; nothing records links.",
+      "verification": {
+        "method": "e2e",
+        "acceptance": "A send or answer from inside a wrapped session to another instance records the driver-to-driven link once; link and unlink add or remove one explicitly; the link set with its first-linked time is derived from the log and shown identically by the board and the page.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-37",
+      "title": "The board: `viola list` and session liveness",
+      "requirement": "`list` works with no live wrapper, shows each wrapped session's liveness (live / stale; gone omitted), idle/busy status, wheel holder with any budget pause, pending dialog kind and CLI version verdict, plus unwrapped sessions as read-only rows that are never valid targets; human output is the fixed six-column board with the BAY line, every row single-line with controls (including newline and tab) escaped, and `--json` equals the GUI sessions envelope.",
+      "observed_gap": "`claude agents --json` lists every session but knows nothing of wheels, dialogs or links (B §4).",
+      "verification": {
+        "method": "e2e",
+        "acceptance": "list works with no live wrapper and shows each wrapped session's liveness (live or stale, gone omitted), idle or busy status, wheel holder with any budget pause, pending dialog kind and CLI verdict, plus unwrapped sessions as read-only rows that are never valid targets; human output is the fixed six-column board with its BAY line, every row single-line with controls escaped; the machine-readable output equals the GUI sessions envelope.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-38",
+      "title": "The MCP server for drivers",
+      "requirement": "a wrapped driver session gets `send`, `wait`, `last`, `answer` and `list` as MCP tools with the same results and refusals as the CLI (refusals as error results carrying codes only), no wheel or link controls on the tool list, inputs re-validated server-side regardless of advertised schemas, and every call returning below the client's tool-call timeout.",
+      "observed_gap": "the prototype driver uses the CLI through Bash; there is no MCP surface.",
+      "verification": {
+        "method": "integration",
+        "acceptance": "A wrapped driver session gets send, wait, last, answer and list as MCP tools with the same results and refusals as the CLI, refusals as error results carrying codes only; no wheel or link control appears on the tool list; inputs are re-validated server-side regardless of advertised schemas; every call returns below the client's tool-call timeout.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-39",
+      "title": "CLI contract: machine output, typed exits, cause-named hints",
+      "requirement": "every verb has a `--json` form mirroring the channel result and a typed exit code (0, 1, 2, 10–14, 20, 21); human output follows the design phraseology (readback mirror for `send`, one `hint:` naming the next step per cause, results on stdout and context on stderr); a global `--home` isolates all state; `config.json` sets thresholds, port and diagnostics level, and no setting can switch off a security control.",
+      "observed_gap": "the prototype prints free text; drivers need parseable refusals (A:98).",
+      "verification": {
+        "method": "integration",
+        "acceptance": "Every verb has a machine-readable form mirroring the channel result and a typed exit status from the documented set; human output follows the design phraseology (the readback mirror for send, one hint naming the next step per cause, results on stdout and context on stderr); a global home option isolates all state; the config file sets thresholds, port and diagnostics level, and no setting switches off a security control.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-40",
+      "title": "CLI and terminal output discipline",
+      "requirement": "on all three OSes, CLI output is linear and static (one `waiting:` line on a TTY only, no carriage-return redraw or cursor movement), no colour or glyphs under non-TTY, `NO_COLOR`, `TERM=dumb` or `--json`, every colour span sits beside its word (amber only on `DIALOG`, dim only on stale rows), injected control characters in `wait`/`last`/`list` output appear only escaped, `verify` prints appended step lines, `ui` prints its launch line once; under `viola run` viola adds zero bytes to the terminal, human keys are delivered unblocked during a driver send, and focus, mouse and resize sequences never move the wheel.",
+      "observed_gap": "a11y makes no conformance claim for terminal surfaces but binds output discipline for them: no spinner or redraw, colour only beside its word, controls escaped, and the wrapped TUI untouched (AY P4, P6).",
+      "verification": {
+        "method": "integration",
+        "acceptance": "On all three OSes CLI output is linear and static (one waiting line on a TTY only, no redraw or cursor movement) and carries no colour or glyphs under non-TTY, no-colour, dumb-terminal or machine-readable output; every colour span sits beside its word; injected control characters in wait, last and list output appear only escaped; verify appends step lines and ui prints its launch line once; under run viola adds zero bytes to the terminal, human keys pass unblocked during a driver send, and focus, mouse and resize never move the wheel.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-41",
+      "title": "Crash-safe, self-healing, version-tolerant state",
+      "requirement": "logs are append-only one-line records never truncated, snapshots are replaced atomically, a torn last line or an unreadable/newer snapshot is healed by replay (recovering only log-derived fields), unknown kinds and fields are counted and shown rather than failing, and a newer peer's request is refused with the supported version.",
+      "observed_gap": "prior-art tools broke on shared state files (B prior-art §4); viola's state must survive a crash on either side (B R4).",
+      "verification": {
+        "method": "e2e",
+        "acceptance": "Logs are append-only one-line records that are never truncated; snapshots are replaced atomically; a torn last line or an unreadable or newer snapshot is healed by replay that recovers only log-derived fields; unknown kinds and fields are counted and shown rather than failing; a newer peer's request is refused with the supported version.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-42",
+      "title": "Optional plugin install for unwrapped drivers",
+      "requirement": "an unwrapped driver can install viola's MCP tools without hooks, calling viola by absolute path; a session that has both never runs two hook processes for one event, and which MCP server wins is measured.",
+      "observed_gap": "arch defines `viola plugin install` for the MCP verbs in an unwrapped driver; its interplay with the `--plugin-dir` plugin is an unmeasured ledger row (A:97).",
+      "verification": {
+        "method": "integration",
+        "acceptance": "An unwrapped driver installs viola's MCP tools without hooks, calling viola by absolute path; a session holding both the installed and the wrapper plugin never runs two hook processes for one event; which MCP server wins is measured and recorded.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-43",
+      "title": "Chunk-blocking security prerequisites",
+      "requirement": "the SQOS spike is resolved (or its replacement recorded) before the chunk that writes the channel client, and the SHA-256 choice is recorded before the chunk that writes `bin/`; a failed spike never falls back to an unprotected connect.",
+      "observed_gap": "two open questions have no answer: whether a SQOS-opened Windows pipe handle can be adopted by the IPC library, and which pure-Rust SHA-256 implementation passes the C-build ban (S:589-592; H:36-37, H:130-131).",
+      "verification": {
+        "method": "manual",
+        "acceptance": "The SQOS spike outcome, or its recorded replacement, exists before the chunk that writes the channel client, and the chosen pure-Rust SHA-256 implementation is recorded before the chunk that writes the pinned-binary folder; no connect falls back to an unprotected connect after a failed spike.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-44",
+      "title": "The IPC endpoint admits only the same OS user and verifies its server",
+      "requirement": "on each OS only the owning user (and SYSTEM on Windows) can connect; remote pipe clients and other users' peers are rejected; every client verifies it is talking to the recorded wrapper process before writing any frame, and on mismatch CLI/MCP report unreachable while hooks fail open; a squatted name blocks start rather than being taken over; macOS's missing pid check is recorded as a known gap.",
+      "observed_gap": "the endpoint is a code-execution interface with predictable names in shared namespaces (S:21, S:55-71).",
+      "verification": {
+        "method": "integration",
+        "acceptance": "On each OS only the owning user (and SYSTEM on Windows) can connect to an instance endpoint; remote pipe clients and other users' peers are rejected; every client verifies it is talking to the recorded wrapper process before writing any frame, and on mismatch the CLI and MCP report unreachable while hooks fail open; a squatted name blocks start rather than being taken over; the missing macOS pid check is recorded as a known gap.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-45",
+      "title": "The viola home and its code-bearing files keep their integrity",
+      "requirement": "the home is created owner-only, every process that trusts a state file first refuses a home or file writable (or readable, where content lives) by others, the pinned binary is re-hashed before reuse, plugin and settings files are rewritten at every start, only `viola verify` writes stamps and only the owning wrapper writes a snapshot, and the statusline command never runs from a home that fails these checks.",
+      "observed_gap": "snapshot, stamps, plugin files, settings and the pinned binary decide what code runs (S:21, S:30-40).",
+      "verification": {
+        "method": "integration",
+        "acceptance": "The home is created owner-only; every process that trusts a state file first refuses a home or file writable by others (or readable, where content lives); the pinned binary is re-hashed before reuse; plugin and settings files are rewritten at every start; only viola verify writes stamps and only the owning wrapper writes a snapshot; the statusline command never runs from a home that fails these checks.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-46",
+      "title": "Bounded, validated inputs at every boundary",
+      "requirement": "every external reader is size-capped, depth-limited and closed-typed; names are validated before any path join; a bad `Last-Event-ID` pair drops the whole header; the paste rule is enforced client-side and authoritatively in the wrapper; a terminal-parser panic degrades to `input-not-ready` without harming passthrough.",
+      "observed_gap": "arch validation stops at JSON-RPC parsing, the version check and the name newtype (S:70).",
+      "verification": {
+        "method": "unit",
+        "acceptance": "Every external reader is size-capped, depth-limited and closed-typed; names are validated before any path join; a malformed resume-cursor pair drops the whole resume header; the paste rule holds client-side and authoritatively in the wrapper; a terminal-parser panic degrades to input-not-ready without harming passthrough.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-47",
+      "title": "Sanitised errors and the never-log floor",
+      "requirement": "CLI `--json`, MCP errors, Problem Details and channel errors carry only codes and fixed messages; no log, diagnostic, fixture, event or a11y artifact ever holds the GUI token, cookie, launch URL or stripped `CLAUDE*` values; content and drift reports go only to per-instance detail files readable by the owner; a secret scan after every E2E test proves it.",
+      "observed_gap": "nothing prevents paths, upstream text or secrets reaching error output.",
+      "verification": {
+        "method": "integration",
+        "acceptance": "CLI machine-readable errors, MCP errors, problem responses and channel errors carry only codes and fixed messages; no log, diagnostic, fixture, event or accessibility artifact ever holds the GUI token, cookie, launch URL or stripped parent-session values; content and drift reports reach only owner-readable per-instance detail files; a secret scan after every end-to-end test proves it.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-48",
+      "title": "`viola ui` serves a loopback, view-only, authenticated feed",
+      "requirement": "`viola ui` binds loopback only, rejects any Host but its own, serves only GETs (others 405), answers health/readiness/info, the sessions and links envelopes and a resumable SSE feed of verbatim event lines, gates all content behind a per-launch token exchanged once for a strict same-site cookie, sets the security headers and CSP on every response, never compresses the feed, serves embedded assets only, logs request paths without query strings, and prints its launch line once.",
+      "observed_gap": "no GUI exists; the brief wants sessions, links and recent events (B §3.2.4).",
+      "verification": {
+        "method": "e2e",
+        "acceptance": "viola ui binds loopback only, rejects any Host but its own and serves only GETs (anything else 405); it answers health, readiness and info, the sessions and links envelopes and a resumable feed of verbatim event lines; all content sits behind a per-launch token exchanged once for a strict same-site cookie; security headers and the content security policy are on every response; the feed is never compressed; only embedded assets are served; request paths are logged without query strings; the launch line prints once.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-49",
+      "title": "The strip-bay page",
+      "requirement": "one page shows the ATIS header (budget figures with age, gate, tape and skipped state), a WRAPPED rack and an UNWRAPPED · READ-ONLY rack of fixed-field strips in stable name order as native tables, a cocked strip for a pending dialog, transfer markers for links, and the tape (a log that never announces arrivals) with a readback box on every send that opens, fills or strikes only on the logged outcome; all upstream text renders as text; no horizontal scroll at the supported widths on the Linux font fallback; no spinner or loading text; out-of-view attention through the title and polite announcements; focus never moves or is lost on live updates or trimming; the CLI board and the page agree cell for cell.",
+      "observed_gap": "design and layouts fully specify the page; a11y replaces design's ARIA-on-custom-element rows with native tables, adds `<h1>`/`<h2>` headings and banner/main landmarks, and silences the tape's implicit live region (AY D-A11Y-02, D-A11Y-03; XF Y1, Y2); nothing is built.",
+      "verification": {
+        "method": "e2e",
+        "acceptance": "One page shows the budget header with age, gate, tape and skipped state, a wrapped rack and an unwrapped read-only rack of fixed-field strips in stable name order as native tables, a cocked strip for a pending dialog, transfer markers for links, and a tape that never announces arrivals with a readback box on every send that changes only on the logged outcome; upstream text renders as text; no horizontal scroll at the supported widths on the Linux font fallback; no spinner or loading text; out-of-view attention comes through the title and polite announcements; focus never moves or is lost on live updates or trimming; the CLI board and the page agree cell for cell.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-50",
+      "title": "Automated accessibility verdict on every page state",
+      "requirement": "every web-spa state (steady, narrow, empty, expanded line, scrolled up, trimmed, cocked, refused, unconfirmable, human wheel, degraded, access) passes the a11y configuration with zero violations and zero contrast-incomplete items; the keyboard sequence equals the oracle with no trap and focus never obscured by the sticky header; only the defined messages are announced, each once; every applicable success criterion has at least one passing tagged test; lint errors in the page templates fail the build; violation rows land only in test artifacts, scrubbed, with no CSP or Trusted Types violation during any check.",
+      "observed_gap": "a11y binds axe inside the tests' Playwright driver with a fixed rule configuration, plus keyboard, aria-tree, screen-reader-proxy, html-validation and lint checks, all reduced to violation rows (AY §3); none exists.",
+      "verification": {
+        "method": "a11y",
+        "acceptance": "Every web page state (steady, narrow, empty, expanded line, scrolled up, trimmed, cocked, refused, unconfirmable, human wheel, degraded, access) passes the accessibility configuration with zero violations and zero contrast-incomplete items; the keyboard sequence equals the oracle with no trap and focus is never obscured by the sticky header; only the defined messages are announced, each once; every applicable success criterion has at least one passing tagged test; lint errors in the page templates fail the build; violation rows land only in scrubbed test artifacts, with no content-security or trusted-types violation during any check.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-51",
+      "title": "Token-pair contrast, forced colours and reduced motion hold",
+      "requirement": "every design token pair used for text meets 4.5:1 and every non-text state pair (rules, strike, cock band, focus ring) meets 3:1 on the rendered Linux fallback; no failing ink is ever placed on the holder surface; under forced colours every state border, strike and band stays distinguishable, and under reduced motion both motions drop to zero while the cocked position and band remain.",
+      "observed_gap": "design fixes eight colours and computed contrast by hand, with three inks failing AA on the holder surface (DS Color Palette contrast rules); a11y binds a token-pair checker and forced-colours/reduced-motion checks (AY §6).",
+      "verification": {
+        "method": "a11y",
+        "acceptance": "Every design token pair used for text meets 4.5:1 and every non-text state pair meets 3:1 on the rendered Linux fallback; no failing ink is ever placed on the holder surface; under forced colours every state border, strike and band stays distinguishable; under reduced motion both motions drop to zero while the cocked position and band remain.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-52",
+      "title": "The 401 access strip after a UI restart",
+      "requirement": "a page whose cookie no longer matches the running `viola ui` shows the access strip in place of the stopped tape, announces it once, tells the user in plain words how to recover (the launch line, the launch file, or a restart), and never shows or echoes the token, URL, `?t=` or file path.",
+      "observed_gap": "after `viola ui` restarts, the open page's SSE gets 401 but design shows `TAPE stopped · not answering` instead of the access strip (XF X9); a11y requires the access strip, announced, with a plain recovery line (AY P5; a11y overseer direction 4).",
+      "verification": {
+        "method": "e2e",
+        "acceptance": "After viola ui restarts, a page whose cookie no longer matches shows the access strip in place of the stopped tape, announces it once, tells the user in plain words how to recover, and never shows or echoes the token, URL, token query or file path.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v1-53",
+      "title": "Linux and macOS reach parity with Windows",
+      "requirement": "on Linux and macOS the same end-to-end suite passes against the fake agent (openpty, per-user socket directory, file modes, peer and server checks, macOS gap recorded), Windows remains the live-supported target, and one live `viola run` on Linux confirms the fake agent's Unix behaviour before the Unix-specific chunk lands.",
+      "observed_gap": "every live measurement is Windows-only (B §5 O5); the Unix endpoint location, modes and peer checks differ per OS; a Linux live run is suggested before the first Unix chunk (H:180-181).",
+      "verification": {
+        "method": "e2e",
+        "acceptance": "On Linux and macOS the same end-to-end suite passes against the fake agent, covering the PTY, the per-user socket directory, file modes, and peer and server checks, with the macOS gap recorded; Windows remains the live-supported target; one live viola run on Linux confirms the fake agent's Unix behaviour.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    }
+  ]
+}

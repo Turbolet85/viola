@@ -1,1 +1,35 @@
 .andromeda/cache/
+
+# Claude Code (setup-project base)
+.claude/backup/
+.claude/settings.local.json
+scripts/__pycache__/
+
+# Rust build output (covers target/e2e-home/, target/agent-run/, fuzz/target/ and any nested target/)
+target/
+
+# rustfmt backups
+**/*.rs.bk
+
+# Cargo.lock is COMMITTED: viola is a binary workspace (reproducible builds; security-plan pins resolve through it)
+
+# IDE
+*.iml
+
+# Environment files
+.env
+.env.*
+
+# Test and gate outputs (test-plan §3, §9; a11y-plan §9) - regenerated every run, uploaded by CI, never committed
+mutants.out/
+mutants.out.old/
+fuzz/artifacts/
+fuzz/coverage/
+
+# e2e-web (Node, test-side only) - the lockfile IS committed
+node_modules/
+*.tsbuildinfo
+e2e-web/test-results/
+e2e-web/playwright-report/
+e2e-web/pw.json
+e2e-web/pw-junit.xml
