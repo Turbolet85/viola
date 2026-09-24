@@ -1,0 +1,188 @@
+[
+{
+"sql": "SELECT callee_name, caller, file, line FROM calls WHERE callee_name IN ('mutants','mutants_suite','chunk_diff','resolve_base','scratch','run_viola','cli_version') AND callee_kind = 'fn' ORDER BY callee_name, file, line",
+"rows": 27,
+"result": [
+{
+"callee_name": "chunk_diff",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants().",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 367
+},
+{
+"callee_name": "chunk_diff",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/tests/chunk_diff_holds_tracked_edits_and_untracked_files().",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 609
+},
+{
+"callee_name": "chunk_diff",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/tests/chunk_diff_holds_tracked_edits_and_untracked_files().",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 613
+},
+{
+"callee_name": "cli_version",
+"caller": "rust-analyzer cargo viola 0.1.0 main().",
+"file": "src/bin/viola-fake-agent.rs",
+"line": 18
+},
+{
+"callee_name": "mutants",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/run().",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 81
+},
+{
+"callee_name": "mutants_suite",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants().",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 406
+},
+{
+"callee_name": "mutants_suite",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants().",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 408
+},
+{
+"callee_name": "mutants_suite",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/tests/mutants_suite_counts_missed_and_timeout_as_survivors().",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 536
+},
+{
+"callee_name": "mutants_suite",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/tests/mutants_suite_counts_missed_and_timeout_as_survivors().",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 539
+},
+{
+"callee_name": "resolve_base",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants().",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 366
+},
+{
+"callee_name": "resolve_base",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/tests/resolve_base_needs_a_real_commit().",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 594
+},
+{
+"callee_name": "resolve_base",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/tests/resolve_base_needs_a_real_commit().",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 598
+},
+{
+"callee_name": "resolve_base",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/tests/resolve_base_needs_a_real_commit().",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 599
+},
+{
+"callee_name": "resolve_base",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/tests/resolve_base_needs_a_real_commit().",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 600
+},
+{
+"callee_name": "run_viola",
+"caller": "rust-analyzer cargo viola 0.1.0 run_with_fake_agent_writes_start_and_exit_lines().",
+"file": "tests/run_cli.rs",
+"line": 65
+},
+{
+"callee_name": "run_viola",
+"caller": "rust-analyzer cargo viola 0.1.0 run_child_exit_status_is_recorded().",
+"file": "tests/run_cli.rs",
+"line": 123
+},
+{
+"callee_name": "run_viola",
+"caller": "rust-analyzer cargo viola 0.1.0 run_with_a_bad_name_is_usage_and_creates_nothing().",
+"file": "tests/run_cli.rs",
+"line": 135
+},
+{
+"callee_name": "run_viola",
+"caller": "rust-analyzer cargo viola 0.1.0 run_with_a_missing_program_exits_1_with_internal_error().",
+"file": "tests/run_cli.rs",
+"line": 146
+},
+{
+"callee_name": "run_viola",
+"caller": "rust-analyzer cargo viola 0.1.0 run_appends_to_an_existing_role_file().",
+"file": "tests/run_cli.rs",
+"line": 162
+},
+{
+"callee_name": "run_viola",
+"caller": "rust-analyzer cargo viola 0.1.0 run_appends_to_an_existing_role_file().",
+"file": "tests/run_cli.rs",
+"line": 163
+},
+{
+"callee_name": "run_viola",
+"caller": "rust-analyzer cargo viola 0.1.0 crate/",
+"file": "tests/run_cli.rs",
+"line": 238
+},
+{
+"callee_name": "scratch",
+"caller": "rust-analyzer cargo viola 0.1.0 run_with_fake_agent_writes_start_and_exit_lines().",
+"file": "tests/run_cli.rs",
+"line": 63
+},
+{
+"callee_name": "scratch",
+"caller": "rust-analyzer cargo viola 0.1.0 run_child_exit_status_is_recorded().",
+"file": "tests/run_cli.rs",
+"line": 121
+},
+{
+"callee_name": "scratch",
+"caller": "rust-analyzer cargo viola 0.1.0 run_with_a_bad_name_is_usage_and_creates_nothing().",
+"file": "tests/run_cli.rs",
+"line": 132
+},
+{
+"callee_name": "scratch",
+"caller": "rust-analyzer cargo viola 0.1.0 run_with_a_missing_program_exits_1_with_internal_error().",
+"file": "tests/run_cli.rs",
+"line": 143
+},
+{
+"callee_name": "scratch",
+"caller": "rust-analyzer cargo viola 0.1.0 run_appends_to_an_existing_role_file().",
+"file": "tests/run_cli.rs",
+"line": 160
+},
+{
+"callee_name": "scratch",
+"caller": "rust-analyzer cargo viola 0.1.0 crate/",
+"file": "tests/run_cli.rs",
+"line": 236
+}
+],
+"db_state": "regenerated",
+"plane": "rust"
+},
+{
+"sql": "SELECT from_crate, to_crate FROM crate_edges WHERE to_crate = 'viola-e2e' OR from_crate = 'viola-e2e' OR to_crate='viola-core'",
+"rows": 2,
+"result": [
+{
+"from_crate": "viola",
+"to_crate": "viola-core"
+},
+{
+"from_crate": "viola-e2e",
+"to_crate": "viola-core"
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

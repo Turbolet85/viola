@@ -1,0 +1,30 @@
+[
+{
+"tool": "route",
+"v": "1.3",
+"sha8": "14c47f47",
+"ts": "2026-09-24T08:07:51Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-09-24T08-07-51-phase"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 49 of 50 entries · freight blocks 5 · rows are an INDEX, not the text",
+"17 · CARRY: · 481 chars · CARRY: chunk 2026-09-24-three-os-ci-headless-harness-skeleton shipped the first role lines wi…",
+"21 · CARRY: · 399 chars · CARRY: the fake agent is a `[[bin]]` of the root package (lints are per package) — when the p…",
+"30 · CARRY: · 520 chars · CARRY: chunk 2026-09-24-three-os-ci-headless-harness-skeleton's `viola run` is the first slic…",
+"69 · CARRY: · 274 chars · CARRY: chunk 2026-09-24-three-os-ci-headless-harness-skeleton resolves `--home` as given, els…",
+"82 · CARRY: · 363 chars · CARRY: chunk 2026-09-24-three-os-ci-headless-harness-skeleton's `viola run` creates the home …"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

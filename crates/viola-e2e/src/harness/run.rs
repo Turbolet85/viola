@@ -77,12 +77,12 @@ pub fn run(
         suites.push(doctest(ws));
     }
     let mut reason = None;
-    let mut tested = None;
+    let mut mutants_doc = None;
     if sel.mutants {
         match mutants(ws, chunk_base) {
-            Ok((suite, n)) => {
+            Ok((suite, doc)) => {
                 suites.push(suite);
-                tested = Some(n);
+                mutants_doc = Some(doc);
             }
             Err(r) => reason = Some(r),
         }
@@ -94,8 +94,8 @@ pub fn run(
         doc["reason"] = json!(reason);
     }
     doc["suites"] = json!(suites);
-    if let Some(tested) = tested {
-        doc["mutants"] = json!({"tested": tested});
+    if let Some(mutants_doc) = mutants_doc {
+        doc["mutants"] = mutants_doc;
     }
     Outcome::new(doc, ok)
 }
@@ -360,7 +360,44 @@ fn listed(path: &Path) -> Vec<String> {
         .collect()
 }
 
-fn mutants(ws: &Workspace, chunk_base: Option<String>) -> Result<(Suite, u64), String> {
+/// Every path a `diff --git a/<old> b/<new>` header names, both sides (a rename away from `.rs`
+/// still removes Rust source).
+pub fn diff_paths(diff: &str) -> Vec<&str> {
+    diff.lines()
+        .filter_map(|l| l.strip_prefix("diff --git a/"))
+        .filter_map(|rest| rest.rsplit_once(" b/"))
+        .flat_map(|(old, new)| [old, new])
+        .collect()
+}
+
+/// The number of files the diff changes (one `diff --git` header each).
+pub fn diff_files(diff: &str) -> usize {
+    diff.lines()
+        .filter(|l| l.starts_with("diff --git "))
+        .count()
+}
+
+pub fn rust_delta(diff: &str) -> bool {
+    diff_paths(diff).iter().any(|p| p.ends_with(".rs"))
+}
+
+/// A diff with no Rust source never reaches cargo-mutants: its silent exit 0 writes no
+/// `outcomes.json`, and an earlier run's file would otherwise be read as this one's.
+fn no_rust_delta(diff: &str) -> (Suite, Value) {
+    let suite = Suite {
+        artifact: Some("target/agent-run/chunk.diff".to_owned()),
+        ..Suite::named("mutants")
+    };
+    let doc = json!({
+        "tested": 0,
+        "verdict": "no-rust-delta",
+        "diff": "target/agent-run/chunk.diff",
+        "files": diff_files(diff),
+    });
+    (suite, doc)
+}
+
+fn mutants(ws: &Workspace, chunk_base: Option<String>) -> Result<(Suite, Value), String> {
     let diff_path = ws.agent_run().join("chunk.diff");
     let _ = fs::remove_file(&diff_path);
     let missing = || "base-missing".to_owned();
@@ -368,6 +405,11 @@ fn mutants(ws: &Workspace, chunk_base: Option<String>) -> Result<(Suite, u64), S
     let diff = chunk_diff(&ws.root, &base).ok_or_else(missing)?;
     fs::create_dir_all(ws.agent_run()).map_err(|_| missing())?;
     fs::write(&diff_path, &diff).map_err(|_| missing())?;
+    if !rust_delta(&diff) {
+        return Ok(no_rust_delta(&diff));
+    }
+    let out_dir = ws.root.join("mutants.out");
+    let _ = fs::remove_file(out_dir.join("outcomes.json"));
 
     // cargo-mutants builds only the packages a diff touches, but the harness tests spawn the root
     // package's `viola` and `viola-fake-agent`: build them (root package only, so the running
@@ -399,23 +441,22 @@ fn mutants(ws: &Workspace, chunk_base: Option<String>) -> Result<(Suite, u64), S
     if let Some(reason) = mutants_exit_reason(code) {
         return Err(reason);
     }
-    let out_dir = ws.root.join("mutants.out");
-    match read_json::<Value>(&out_dir.join("outcomes.json")) {
+    let (suite, tested) = match read_json::<Value>(&out_dir.join("outcomes.json")) {
         Ok(outcomes) => {
             let mut failures = listed(&out_dir.join("missed.txt"));
             failures.extend(listed(&out_dir.join("timeout.txt")));
-            Ok(mutants_suite(&outcomes, failures))
+            mutants_suite(&outcomes, failures)
         }
-        Err(_) if diff.trim().is_empty() => Ok(mutants_suite(&json!({}), Vec::new())),
-        Err(_) => Ok((
+        Err(_) => (
             Suite {
                 failed: 1,
                 failures: vec!["outcomes-missing".to_owned()],
                 ..Suite::named("mutants")
             },
             0,
-        )),
-    }
+        ),
+    };
+    Ok((suite, json!({"tested": tested, "verdict": "counted"})))
 }
 
 #[cfg(test)]
@@ -834,6 +875,92 @@ test result: FAILED. 3 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out\n
         let m = suite(&out.doc, "mutants");
         assert_eq!(m["survived"], 0);
         assert!(m["passed"].as_u64().is_some_and(|n| n >= 1));
+        assert_eq!(out.doc["mutants"]["verdict"], "counted");
+    }
+
+    const RUST_DIFF: &str =
+        "diff --git a/src/lib.rs b/src/lib.rs\n--- a/src/lib.rs\n+++ b/src/lib.rs\n";
+    const DOCS_DIFF: &str = "diff --git a/README.md b/README.md\n--- a/README.md\n+++ b/README.md\n\
+        diff --git a/docs/x y.md b/docs/x y.md\n";
+    const RENAME_DIFF: &str =
+        "diff --git a/src/old.rs b/notes/old.md\nsimilarity index 100%\nrename from src/old.rs\n";
+
+    #[test]
+    fn rust_delta_classifies_diff_headers() {
+        assert!(rust_delta(RUST_DIFF));
+        assert!(!rust_delta(DOCS_DIFF));
+        assert!(!rust_delta(""));
+        assert!(rust_delta(RENAME_DIFF));
+        assert!(!rust_delta("+++ b/src/lib.rs\n--- a/src/lib.rs\n"));
+        assert_eq!(
+            diff_paths(DOCS_DIFF),
+            vec!["README.md", "README.md", "docs/x y.md", "docs/x y.md"]
+        );
+        assert_eq!(diff_paths(RENAME_DIFF), vec!["src/old.rs", "notes/old.md"]);
+        assert_eq!(diff_files(DOCS_DIFF), 2);
+        assert_eq!(diff_files(RUST_DIFF), 1);
+        assert_eq!(diff_files(""), 0);
+    }
+
+    fn plant_stale_outcomes(ws: &Workspace) {
+        let out = ws.root.join("mutants.out");
+        fs::create_dir_all(&out).expect("mkdir");
+        fs::write(
+            out.join("outcomes.json"),
+            r#"{"caught": 777, "missed": 5, "timeout": 0, "unviable": 0}"#,
+        )
+        .expect("write");
+    }
+
+    #[test]
+    fn run_mutants_no_rust_delta_passes_by_name_and_never_reads_stale_outcomes() {
+        let (_tmp, ws) = mini(GOOD_LIB);
+        let base = head(&ws);
+        plant_stale_outcomes(&ws);
+        fs::write(ws.root.join("README.md"), "docs only\n").expect("write");
+        let out = run(
+            &ws,
+            Selection::from_flags(false, false, true, false),
+            None,
+            Some(base),
+        );
+        assert_eq!(out.code, 0, "{}", out.doc);
+        assert_eq!(
+            out.doc["mutants"],
+            json!({"tested": 0, "verdict": "no-rust-delta", "diff": "target/agent-run/chunk.diff", "files": 1})
+        );
+        let m = suite(&out.doc, "mutants");
+        assert_eq!(
+            (m["passed"].as_u64(), m["survived"].as_u64()),
+            (Some(0), Some(0))
+        );
+        assert_eq!(m["artifact"], "target/agent-run/chunk.diff");
+        assert!(!out.doc.to_string().contains("777"));
+        assert!(ws.agent_run().join("chunk.diff").is_file());
+    }
+
+    #[test]
+    fn run_mutants_rust_delta_without_fresh_outcomes_is_outcomes_missing() {
+        let (_tmp, ws) = mini(GOOD_LIB);
+        let base = head(&ws);
+        plant_stale_outcomes(&ws);
+        // A Rust file no package builds: a Rust delta by path, yet cargo-mutants finds no source.
+        fs::create_dir_all(ws.root.join("scripts")).expect("mkdir");
+        fs::write(ws.root.join("scripts").join("tool.rs"), "fn main() {}\n").expect("write");
+        let out = run(
+            &ws,
+            Selection::from_flags(false, false, true, false),
+            None,
+            Some(base),
+        );
+        assert_eq!(out.code, 1, "{}", out.doc);
+        let m = suite(&out.doc, "mutants");
+        assert_eq!(m["failures"][0], "outcomes-missing");
+        assert_eq!(
+            out.doc["mutants"],
+            json!({"tested": 0, "verdict": "counted"})
+        );
+        assert!(!out.doc.to_string().contains("777"));
     }
 
     #[test]

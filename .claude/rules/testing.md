@@ -22,7 +22,7 @@ Path-scoped rules for test authoring (what tests assert, fixtures, coverage). Lo
 
 ## Naming
 - `<subject>_<condition>_<expected>`; critical paths `path<N>_<slug>`; rstest case labels readable (`#[case::esc_refused]`); Playwright `test('<layout type>: <expected state>')` with the scenario id in the title.
-- Fixtures `fixtures/claude/<cli-version>/<hook-event>.<variant>.json`; fake scripts `fixtures/fake-scripts/<scenario>.json`.
+- Fixtures `fixtures/claude/<cli-version>/<Event>.<variant>.json` (the CLI's PascalCase hook event name, e.g. `PreToolUse.ask.json`; no mapping table); fake scripts `fixtures/fake-scripts/<scenario>.json` (schema `schemas/fake-script.v1.json`).
 
 ## Determinism (zero-flake budget)
 - NEVER `sleep` for synchronization — wait on an `events.ndjson` byte offset, `viola wait --after`, an SSE `id:`, a status field or an auto-waiting locator. nextest `retries = 0`, Playwright `retries: 0`; no `#[ignore]` / `test.skip` / `test.fixme` as a parking place.
@@ -45,8 +45,10 @@ Path-scoped rules for test authoring (what tests assert, fixtures, coverage). Lo
 ## Running tests
 - **Everything:** `scripts/agent-run.sh run --all` · **one Rust test:** `scripts/agent-run.sh run --e2e --filter 'test(/path2_send_confirms/)'`
 - **Unit / integration:** `run --unit` / `run --integration` · **browser (ubuntu):** `run --browser` · **one spec:** `npx --prefix e2e-web playwright test --grep "<title>"`
-- **Coverage:** `run --coverage` (lines 85 / functions 95 / regions 80 per OS) · **mutants:** `run --mutants` (zero missed, zero timeout; verdict from `mutants.out/outcomes.json`, never the exit code alone)
+- **Coverage:** `run --coverage` (lines 85 / functions 95 / regions 80 per OS) · **mutants:** `run --mutants` (zero missed, zero timeout; verdict from a fresh `mutants.out/outcomes.json`, never the exit code alone; a diff with no `.rs` path passes as `verdict:"no-rust-delta"`)
 
 ## Session Additions
 _This section is owned by `/wrap-session`. setup-project preserves content added here on re-run._
 - 2026-09-24: Under the zero-missed mutation gate every function needs an effect a test can observe — an unobservable body (a flag nothing reads, an env var no process consumes) is an unkillable mutant, so leave it out until its consumer exists; test code that drives cargo (nextest, doctest, cargo-mutants, a build) against a throwaway temp Cargo project (package named `viola` so `viola/<feature>` resolves), never a nested build of this workspace.
+- 2026-09-24: Wait on the exact line a test asserts (receipt, role-file or event line), never on an earlier sibling — a line written just after the awaited one races the assertion.
+- 2026-09-24: Inside a `proptest!` body build strings outside the format macro — inline format captures (`format!("{a}{b}")`) fail to compile there (macro hygiene: "there is no argument named …").

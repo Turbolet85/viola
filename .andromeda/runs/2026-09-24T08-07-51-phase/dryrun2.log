@@ -1,0 +1,27 @@
+gate v1.1 · 4c16668f
+shell C:\Program Files\Git\bin\bash.exe (from $SHELL; -c, non-login)
+root D:\dev\projects\viola · marker 2026-09-24-fake-agent-and-test-data-fixtures · entries 20
+logs C:\Users\turbo\AppData\Local\Temp\andromeda-gate\2026-09-24-fake-agent-and-test-data-fixtures\run-20260924T082548Z · bound: GNU timeout
+delta docs 33 · rust 1
+prose L167-172: These are the local gates /implement runs. No external process is driven and there is no l… (645 chars)
+  1 build       not run — dry-run · cargo build --workspace --features fake-agent
+  2 lint        not run — dry-run · cargo fmt --all --check
+  3 lint        not run — dry-run · cargo clippy --workspace --all-targets --features fake-age… (75 chars)
+  4 unit        not run — dry-run · bash scripts/agent-run.sh run --unit
+  5 integration not run — dry-run · bash scripts/agent-run.sh run --integration
+  6 unit        not run — dry-run · bash scripts/agent-run.sh run --unit --filter 'test(/no_ru… (98 chars)
+  7 unit        not run — dry-run · bash scripts/agent-run.sh run --unit --filter 'test(/viola… (72 chars)
+  8 integration not run — dry-run · bash scripts/agent-run.sh run --integration --filter 'bina… (78 chars)
+  9 integration not run — dry-run · bash scripts/agent-run.sh run --integration --filter 'bina… (88 chars)
+ 10 e2e         not run — dry-run · bash scripts/agent-run.sh cleanup --session gate-smoke
+ 11 smoke       not run — dry-run · bash scripts/agent-run.sh boot --session gate-smoke --inst… (70 chars)
+ 12 e2e         not run — dry-run · bash scripts/agent-run.sh status --session gate-smoke
+ 13 e2e         not run — dry-run · bash scripts/agent-run.sh cleanup --session gate-smoke
+ 14 probe       not run — dry-run · cargo tree --workspace -e all --features viola/fake-agent … (130 chars)
+ 15 probe       not run — dry-run · grep -rnE "(std::)?env::set_var" tests crates/viola-e2e sr… (59 chars)
+ 16 probe       not run — dry-run · git check-ignore -q target/e2e-home/viola-test-probe/home
+ 17 probe       not run — dry-run · test -s crates/viola-core/proptest-regressions/lib.txt
+ 18 integration not run — dry-run · AGENT_RUN_CHUNK_BASE=dc01bd9cd426ab3659ad41a5656dff619dee0… (101 chars)
+ 19 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (82 chars)
+ 20 probe       not run — leg operator (the letter drives it) · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (129 chars)
+entries 20 · green 0 · red 0 · recorded 0 · timeout 0 · not-run 20

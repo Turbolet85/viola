@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "viola-fake-agent turn script v1",
+  "description": "Tolerant: unknown fields are allowed; the event list is closed (architecture §Occupied Resources, registered hook events).",
+  "type": "object",
+  "required": ["v", "steps"],
+  "properties": {
+    "v": { "const": 1 },
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["event"],
+        "properties": {
+          "event": {
+            "enum": [
+              "SessionStart",
+              "UserPromptSubmit",
+              "PreToolUse",
+              "PermissionRequest",
+              "Stop",
+              "SessionEnd",
+              "Notification",
+              "PostToolUse",
+              "PostToolUseFailure"
+            ]
+          },
+          "variant": { "type": "string" },
+          "gate": { "type": "boolean" }
+        }
+      }
+    }
+  }
+}

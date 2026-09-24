@@ -35,8 +35,12 @@ A change on one side keeps the other in sync; a log-format break is a harness br
 - `logs`: merge `events.ndjson` (`src:"events"`, byte `offset`), home `diagnostics/*.ndjson` and `instances/*/diagnostics/detail-*.ndjson` (with `instance`); torn lines emitted as `{"torn":true}`, never dropped; filters `--instance --kind --process --after`.
 
 ## Fake agent (`viola-fake-agent`, feature `fake-agent`)
-- Answers `--version` like the real CLI; reads hook commands from the `plugin/` and `settings.json` files `run` wrote (never PATH) and runs the real pinned `viola hook`.
-- Scripted turns gated on the `--control` file by byte offset; receipts record prompts (text, hex, `bare_esc`), keystrokes, env names, Unix fds and hook invocations. Modes: `--suppress-prompt-submit`, `--local-command-mode`, `--inject-harness-turn`, `--exit-no-eof`, `--vt100-panic-bytes`, `--report-version`, `statusline-echo`, `agents --json`. Exits on `\x03`.
+- Answers `--version` like the real CLI. It reads hook commands from `<plugin-dir>/hooks/hooks.json` (the `--plugin-dir` `run` passes). Only an absolute exec-form `command` is spawned: no shell, no PATH, matchers not yet evaluated. A non-absolute command is receipted `command_absolute:false, ran:false` and never run. The payload is `<fixtures>/<cli-version>/<Event>.<variant>.json`, with only `prompt` set for UserPromptSubmit.
+- Scripted turns (`{"v":1,"steps":[…]}`, `schemas/fake-script.v1.json`) gated on the `--control` file by byte offset.
+- Receipt ndjson `"v":1` + kebab `kind`: `start`, `env` (names only), `fds` (Unix), `key`, `prompt` (`text`, `hex`, `bare_esc`, `origin`, `submit`), `hook`, `step`.
+- Modes built: `--suppress-prompt-submit`, `--local-command-mode`, `--inject-harness-turn`, `--exit-no-eof`, `--report-version`. `--vt100-panic-bytes`, `statusline-echo` and `agents --json` land with their consumers. Exits on `\x03`.
+- Root fixture chain: `tests/support/` (`home` → `fake_agent_path` → `stamped_home` interim, no stamps → `booted_wrapper`). Homes live under `target/e2e-home/viola-test-*`, kept per `AGENT_RUN_KEEP_HOMES` / `AGENT_RUN_KEEP_FAILED`. The `viola_e2e::fixtures` copy lands with its first E2E consumer.
+- `run --mutants` classifies `chunk.diff` first. A diff with no `.rs` path gives `verdict:"no-rust-delta"` and never runs cargo-mutants. A Rust delta deletes a stale `outcomes.json`, then gives `verdict:"counted"`.
 - It must not drift from recorded `viola verify` fixtures (contract suite).
 
 ## Exemptions

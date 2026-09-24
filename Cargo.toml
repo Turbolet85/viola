@@ -22,6 +22,16 @@ name = "run_cli"
 path = "tests/run_cli.rs"
 required-features = ["fake-agent"]
 
+[[test]]
+name = "cli_fake_agent"
+path = "tests/cli_fake_agent.rs"
+required-features = ["fake-agent"]
+
+[[test]]
+name = "contract_fixture_hygiene"
+path = "tests/contract_fixture_hygiene.rs"
+required-features = ["fake-agent"]
+
 [dependencies]
 viola-core = { path = "crates/viola-core" }
 anyhow.workspace = true
@@ -32,6 +42,8 @@ tracing.workspace = true
 tracing-subscriber.workspace = true
 
 [dev-dependencies]
+jsonschema.workspace = true
+rstest.workspace = true
 serde_json.workspace = true
 tempfile.workspace = true
 
@@ -52,7 +64,11 @@ publish = false
 anyhow = "=1.0.104"
 chrono = { version = "=0.4.45", default-features = false, features = ["clock", "std"] }
 clap = { version = "=4.6.7", features = ["derive"] }
+# Default features pull reqwest and the C-building aws-lc-rs; schemas are local files only.
+jsonschema = { version = "=0.57.0", default-features = false }
 nutype = "=0.8.0"
+proptest = { version = "=1.11.0", default-features = false, features = ["std"] }
+rstest = { version = "=0.27.0", default-features = false }
 serde = { version = "=1.0.229", features = ["derive"] }
 serde_json = { version = "=1.0.151", features = ["preserve_order"] }
 sysinfo = { version = "=0.39.6", default-features = false, features = ["system"] }

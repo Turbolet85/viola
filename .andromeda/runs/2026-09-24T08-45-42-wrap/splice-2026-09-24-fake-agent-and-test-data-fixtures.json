@@ -1,0 +1,80 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "83ae5b52",
+"ts": "2026-09-24T08:57:29Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-24T08-45-42-wrap/test-plan-entry.md",
+"--lines",
+"38",
+"--run-dir",
+".andromeda/runs/2026-09-24T08-45-42-wrap",
+"--marker",
+"2026-09-24-fake-agent-and-test-data-fixtures"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+38 at line 63 · lines 62→100 · bytes 5883→9824 · term lf",
+"last line now: - :828, :930, :954, :1296 no change (directory references to a version dir, not "
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 62,
+"bytes": 5883,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 100,
+"bytes": 9824
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "83ae5b52",
+"ts": "2026-09-24T08:57:29Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-24T08-45-42-wrap/architecture-entry.md",
+"--lines",
+"13",
+"--run-dir",
+".andromeda/runs/2026-09-24T08-45-42-wrap",
+"--marker",
+"2026-09-24-fake-agent-and-test-data-fixtures"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+13 at line 40 · lines 39→52 · bytes 4471→6364 · term lf",
+"last line now: - Sweep `every harness and test home`, `read by \\`viola-harness\\` and never`, `e"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 39,
+"bytes": 4471,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 52,
+"bytes": 6364
+}
+}
+]

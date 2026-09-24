@@ -1,0 +1,22 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.06s
+────────────
+ Nextest run ID 22640f95-ffd5-4639-9137-5898848585c3 with nextest profile: ci
+    Starting 0 tests across 5 binaries (83 tests and 3 binaries skipped)
+────────────
+     Summary [   0.000s] 0 tests run: 0 passed, 83 skipped
+error: no tests to run
+(hint: use `--no-tests` to customize)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.05s
+   Doc-tests viola_core
+   Doc-tests viola_e2e
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+{"v":1,"cmd":"run","ok":false,"suites":[{"suite":"nextest-unit","passed":0,"failed":1,"skipped":0,"survived":0,"artifact":"D:\\dev\\projects\\viola\\target\\agent-run\\artifacts\\junit-nextest-unit.xml","failures":["nextest-exit-4"]},{"suite":"doctest","passed":0,"failed":0,"skipped":0,"survived":0,"artifact":null,"failures":[]}]}

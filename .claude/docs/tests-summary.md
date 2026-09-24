@@ -17,8 +17,8 @@ The harness is the agent-driven verification surface. `scripts/agent-run.{sh,ps1
 - **Status:** `agent-run status` aggregates `viola list --json`, `GET /ready` and cookie-gated `/api/sessions` (`state: ready|degraded|down`, `api_sessions_equal_list`)
 - **PID file:** none as a product file — pids live in `instances/<name>/snapshot.json`; the harness record is `target/agent-run/<session>/session.json`
 - **Log format:** JSON-per-line — `events.ndjson` (arch event line) + process logs in `<home>/diagnostics/*.ndjson`; required fields `timestamp level target message event process instance corr` (bound to obs-plan §3)
-- **Tempdir convention:** a not-yet-existing home under `target/e2e-home/viola-session-*/home` (viola creates it); kept in CI (`AGENT_RUN_KEEP_HOMES=1`) until obs gates and the secret scan have read it
-- **Fake agent:** `viola-fake-agent` (root `[[bin]]`, feature `fake-agent`) replays `fixtures/claude/<cli-version>/` recorded by `viola verify`; CI stamps homes only by running `viola verify` against it; the real `claude` never runs in CI
+- **Tempdir convention:** a not-yet-existing home under `target/e2e-home/viola-session-*/home` (harness) or `target/e2e-home/viola-test-*/home` (root rstest chain, `tests/support/home.rs`) — viola creates it; kept in CI (`AGENT_RUN_KEEP_HOMES=1`) until obs gates and the secret scan have read it, and on a failing test under `AGENT_RUN_KEEP_FAILED=1`
+- **Fake agent:** `viola-fake-agent` (root `[[bin]]`, feature `fake-agent`) replays `fixtures/claude/<cli-version>/<Event>.<variant>.json` recorded by `viola verify`, runs absolute exec-form hooks from `<plugin-dir>/hooks/hooks.json`, gates script steps on `--control`, and writes an ndjson `--receipt`; CI stamps homes only by running `viola verify` against it (the root `stamped_home` is an interim no-stamp seam until then); the real `claude` never runs in CI
 
 ## E2E coverage (§6)
 
@@ -39,7 +39,7 @@ The harness is the agent-driven verification surface. `scripts/agent-run.{sh,ps1
 | Coverage (line) | ≥ 85 % per OS | cargo-llvm-cov 0.9.1 `--fail-under-lines` |
 | Coverage (branch → region) | ≥ 80 % | `--fail-under-regions` |
 | Coverage (function) | ≥ 95 % | `--fail-under-functions` |
-| Mutation | 0 missed, 0 timeout in the chunk diff | cargo-mutants 27.1.0 `--in-diff`, verdict from `outcomes.json` |
+| Mutation | 0 missed, 0 timeout in the chunk diff | cargo-mutants 27.1.0 `--in-diff`; a Rust delta reads a fresh `outcomes.json` (`verdict:"counted"`), a diff with no `.rs` path passes as `verdict:"no-rust-delta"` |
 | Flakiness budget | zero — no retries, a flake keeps the chunk red | nextest `retries = 0`, Playwright `retries: 0` |
 | Performance budget | hook `max` < 1.0 s (SessionEnd; spine provisional until arch names the constant) | hyperfine 1.20.0 `--warmup 3 --runs 30`, gated on `max` |
 | Per-job verdict | every required suite present, 0 failed, 0 skipped, artifacts present | `viola-harness gate --require …` |

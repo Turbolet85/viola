@@ -8,7 +8,12 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
-_No entries yet. Run `/wrap-session` after implementation sessions to capture learnings automatically._
+## 2026-09-24 — Reproduce a folded CI red on the host before planning its fix
+A CI red folded into a chunk is closed against its recorded run. Still, reproduce its mechanism locally before the plan is written: the host can carry a second face of the same defect that the runner cannot show. The mutation gate's Rust-free-diff failure read as `outcomes-missing` on the clean CI runner. On the dev host, the same tool exit left an earlier run's `mutants.out/` in place, and the harness would have reported the stale counts as a pass.
+
+The fix therefore had to cover residue, not only absence. Applies to any gate that reads an artifact a tool may silently not write: check the artifact is this run's, or remove it before the run.
+
+---
 
 ---
 

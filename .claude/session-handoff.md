@@ -1,41 +1,46 @@
 # Session Handoff
 
-**Last Updated:** 2026-09-24T07:23:46Z
+**Last Updated:** 2026-09-24T09:00:42Z
 **Branch:** build/viola-0.1.0 · 0 ahead of origin/build/viola-0.1.0 as read at this wrap's Setup
-**Status:** clean. CI was red on wrap commit `b0236ca` (run 35971295434). Fix `966b7aa` is green on all 3 OS + mutants (run 35972580463); v1-06's CI witness is noted in the matrix.
-**Last Commit:** 2026-09-24-three-os-ci-headless-harness-skeleton — fix: CI test tools, Unix zombie kill, mutation prebuild
+**Status:** clean
+**Last Commit:** 2026-09-24-fake-agent-and-test-data-fixtures — feat: consumer-first fake agent, root fixture chain, hygiene walk, mutation no-rust-delta verdict
 
 ## Position
-- Done: 2026-09-24-three-os-ci-headless-harness-skeleton. Workspace (rust 1.98.1 pin, floor 1.96), `viola run` first slice, `viola-harness` with five commands, minimal fake agent, mutation gate, 3-OS `ci.yml`.
-- Next: /andromeda-phase to promote + plan "Fake agent and test-data fixtures".
-- CI witness done: run 35972580463 on `966b7aa` is `success` on all jobs. Every future push runs the `mutants` job against `github.event.before`.
+- Done: 2026-09-24-fake-agent-and-test-data-fixtures.
+  - Fake agent: script/control/receipt contract, bracketed paste, hooks from `<plugin-dir>/hooks/hooks.json`, five modes.
+  - Sync root fixture chain in `tests/support/`, the fixture hygiene walk, `ViolaName` property tests.
+  - The mutation gate's `no-rust-delta` verdict, plus removal of stale `outcomes.json`.
+- Next: /andromeda-phase to promote and plan "Supply-chain and workflow gates".
+- CI witness owed: plan gates 19-20. Push (this wrap pushes the branch), then read `check-runs` for the pushed sha. Expect `success` on all 3 test legs + `mutants` (the chunk folds CI run 35973118026's mutants red).
 
 ## Work done
-Built the chunk (25 new files). Local gates are green, including the mutation gate (286 mutants: 244 caught, 42 unviable, 0 missed, 0 timeout). The default two-instance boot was smoked through the pwsh shim.
+- 10 new files, 7 modified.
+- Local gates green: mutation gate 81 mutants, 33 caught, 48 unviable, 0 missed; boot smoke with two instances ready and clean.
 
 ## Drift resolved
-- 46 detector proposals.
-- 44 applied across architecture, security-plan, test-plan and obs-plan (4 sidecars created):
-  - toolchain pin, 1.96 floor;
-  - CI actions and jobs;
-  - test-only crate, bins, env vars, paths;
-  - `target/harness` build dir;
-  - the working-tree mutation diff and the push trigger;
-  - interim readiness/status/cleanup fields;
-  - the fake agent's lint exemption.
-- 2 rejected as sequencing deferrals (`--home` hardening, R8 strip); they are now CARRY pins on their route owners.
-- 0 escalations.
-- Leaves re-derived: CLAUDE.md overview, docs/stack, docs/commands, docs/conventions, docs/workflow, rules/verification-harness.
+- 20 proposals (arch 6, test-plan 14).
+  - 16 applied: architecture §Occupied Resources + tree; test-plan §2, §3, §7, §10, §12.
+  - 2 escalations resolved by the operator: fixtures are named `<Event>.<variant>.json` (PascalCase); `boot` passes the parent `--fixtures`. "Code wins where the doc invented a shape."
+  - Rejected: an arch §Stack test-lib row ([Deferred]), `tests/support/` as a Repository entry (over-reach).
+  - T8-T10 are sequencing (the owners are CARRY pins).
+- Leaves re-derived: CLAUDE.md overview, rules/testing, rules/verification-harness, docs/conventions, docs/tests-summary, docs/commands.
 
 ## Notes
-- Operator decisions (phase P4):
-  - walking skeleton, where `viola run` is the first slice of the real verb;
-  - mutation CI on push + PR;
-  - the harness grammar grows per chunk.
-- 5 CARRY pins: Diagnostics plane, Observability gates, PTY wrapper on Windows, CLI machine contract, Home and code-bearing file integrity.
-- Deferred learnings (curation cap, for review):
-  - `rg` is not on the gate shell's PATH, so use `grep -rE`;
-  - `grep … | grep -c` under pipefail reads green on a missing file, so count with one process that errors on a missing input.
-- Host: the rust-analyzer component was added to the 1.98.1 toolchain (the code-graph rust plane needs it).
-- `.andromeda/runs/2026-09-24T05-49-06-phase/control/` holds the neutralised P5 probe controls; deleting it was permission-denied.
+- Operator decisions:
+  - P1: fold the CI mutants red, with a no-vacuous-pass constraint.
+  - P4: consumer-first, no invented shapes.
+  - Wrap P2: code wins over an invented doc shape; no mapping tables.
+- 6 new CARRY pins:
+  - PTY wrapper: the `viola_e2e::fixtures` copy, and the root chain's stdin pipe → PTY.
+  - viola verify: the `fixtures/claude` walk + schema, and `stamped_home` stamping.
+  - Drift contract: hook matchers.
+  - Readiness gate: `--vt100-panic-bytes`.
+  - Statusline: `statusline-echo` + the `settings.json` read.
+  - viola list: `agents --json` stub.
+- `cargo deny check` has no `deny.toml` yet. "Supply-chain and workflow gates" (the next entry) owns it. The C-crate probe reads 0.
+- Deferred learnings from the prior session (still for review):
+  - `rg` is not on the gate shell's PATH;
+  - `grep … | grep -c` under pipefail.
+- `.andromeda/runs/2026-09-24T05-49-06-phase/control/` still holds the neutralised P5 probe controls (deleting it was permission-denied).
+- The operator's viola-lab prototype (`viola` 12172 `run viola-builder`, 10348 `wait viola-builder`) was running on the host throughout; it is not this project's.
 - Last failed command: none open.

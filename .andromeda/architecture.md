@@ -356,7 +356,10 @@ The wrapper appends `wheel` and `budget-gate` (`source: wrapper`) once at start 
 - `PATH`: prefixed by `viola run` with the pinned copy's folder for the child.
 - Removed from the child's environment (R8 strip list, a ledger row): `CLAUDECODE`, `CLAUDE_CODE_SESSION_ID`, `CLAUDE_CODE_BRIDGE_SESSION_ID`, `CLAUDE_CODE_MESSAGING_SOCKET`, `CLAUDE_CODE_MESSAGING_TOKEN` and the remaining `CLAUDE*` parent-identity variables on the measured list.
 - Read-only, provided by Claude Code to plugin processes: `CLAUDE_PLUGIN_ROOT`, `CLAUDE_PLUGIN_DATA`. viola never uses them to locate its binary.
-- Test-harness only, read by `viola-harness` and never by `viola`: `AGENT_RUN_CHUNK_BASE` (the mutation gate's diff base) and `AGENT_RUN_KEEP_HOMES` (`1` keeps `target/e2e-home/` homes for the CI gates).
+- Test-harness only, never read by `viola`:
+  - `AGENT_RUN_CHUNK_BASE`: the mutation gate's diff base, read by `viola-harness`.
+  - `AGENT_RUN_KEEP_HOMES`: `1` keeps `target/e2e-home/` homes for the CI gates. Read by `viola-harness` and by the root test chain (`tests/support/home.rs`).
+  - `AGENT_RUN_KEEP_FAILED`: `1` keeps a failing test's home for post-mortem. Read only by the root test chain.
 
 **Filesystem (viola home = `<user home>/.viola/`)**
 - `config.json`: user settings (budget thresholds, GUI port).
@@ -367,11 +370,15 @@ The wrapper appends `wheel` and `budget-gate` (`source: wrapper`) once at start 
 - `instances/<ViolaName>/events.ndjson`, `events.ndjson.lock`, `snapshot.json`, `snapshot.json.lock`, `heartbeat`, `settings.json` (the per-session settings override that wraps the statusline), `diagnostics/` (reserved for `hook`, wrapper and in-session `mcp` diagnostics; file format owned by obs). v1 never rotates or truncates `events.ndjson`, because `wait`'s `after`, `send`'s `cursor` and SSE ids are byte offsets into it. Bounding its size is an open item, and any scheme must keep existing offsets valid.
 - `budget.json` + `budget.json.lock`: the newest `rate_limits` reading across wrapped sessions, timestamped, last-writer-wins. Written only by `hook statusline`. Read by each wrapper's budget gate ([Budget Governor]), and by `list` and `ui` for the envelope's top-level `budget`.
 - `ledger/stamps.json` + `ledger/stamps.json.lock`: `viola verify` stamps (CLI version → verified behaviours, plus the values measured for that version, such as the confirmation window). The rows themselves (probes and expected post-conditions) are compiled into `viola-agent-claude`. Read by `run`'s version gate and by `ui` (`verified_cli_versions`).
+- Test homes only: `fake/<name>.control` (append-only; each `\n`-terminated line releases one gated fake-agent step) and `fake/<name>.receipt.ndjson` (the fake agent's receipt, `"v":1` + kebab `kind`, one write per line). The test chain passes them as `--control` / `--receipt`. `viola` never reads or writes them.
 
 **Repository**
 - `fixtures/claude/<cli-version>/`: hook-payload fixtures recorded by `viola verify` and replayed by the fake agent in CI.
+- `fixtures/fake-scripts/<scenario>.json`: committed fake-agent turn scripts (synthetic text only), validated against `schemas/fake-script.v1.json`.
+- `schemas/fake-script.v1.json`: the tolerant JSON schema for fake-agent scripts (test-side).
+- `crates/viola-core/proptest-regressions/`: committed proptest failure seeds.
 - `target/agent-run/<session>/` (harness session record, supervisor handshake files, the session's `bin/claude[.exe]` copy), `target/agent-run/chunk.diff` and `target/agent-run/artifacts/` (per-suite JUnit, `run-summary.json`): written by `viola-harness`, gitignored.
-- `target/e2e-home/viola-session-*/home`: every harness and test home, kept in CI for the obs gates.
+- `target/e2e-home/viola-session-*/home` (harness sessions) and `target/e2e-home/viola-test-*/home` (root rstest homes, `tests/support/home.rs`): every harness and test home, gitignored and kept in CI for the obs gates.
 - `target/harness/`: the harness's own cargo target dir (`CARGO_TARGET_DIR` for its builds and test runs), because a running `target/debug/viola-harness.exe` cannot be relinked on Windows.
 
 **Docker volumes, containers, service names:** none.
@@ -421,8 +428,11 @@ viola/
 │   ├── run/                    # PTY pump, wheel, budget governor, readiness gate wiring
 │   └── bin/viola-fake-agent.rs # test-only stand-in `claude` (feature `fake-agent`)
 ├── tests/                      # root integration tests (sync)
+│   └── support/                # the sync root fixture chain + fixture-hygiene checker
+├── schemas/                    # test-side JSON schemas (fake-script.v1.json)
 ├── crates/
 │   ├── viola-core/             # normalised events, RefusalReason, ViolaName, Percent, `v` constants
+│   │                           #   (+ proptest-regressions/, committed seeds)
 │   ├── viola-pty/              # pty seam over portable-pty =0.8.1 (+ windows-sys kill fallback)
 │   ├── viola-channel/          # JSON-RPC 2.0 ndjson over interprocess local sockets
 │   ├── viola-state/            # ndjson logs, atomic snapshots, File::lock, torn-line healing, tailing
@@ -434,7 +444,8 @@ viola/
 ├── scripts/agent-run.{sh,ps1}  # identical shims over viola-harness
 ├── .config/nextest.toml        # nextest profiles `ci` and `mutants`, `fixed-port` group
 ├── fixtures/
-│   └── claude/<cli-version>/   # hook-payload fixtures recorded by `viola verify`
+│   ├── claude/<cli-version>/   # hook-payload fixtures recorded by `viola verify`
+│   └── fake-scripts/           # committed fake-agent turn scripts (synthetic)
 ├── .github/
 │   └── workflows/ci.yml        # 3-OS matrix
 ├── refs/                       # brief and prior-art survey (arch input)

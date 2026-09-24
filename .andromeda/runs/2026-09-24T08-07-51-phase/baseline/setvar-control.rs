@@ -1,0 +1,1 @@
+fn f(){ unsafe { std::env::set_var("A","1") } }

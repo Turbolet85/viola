@@ -1,13 +1,16 @@
 //! `viola run` as a process: the role file's lines, the name gate, a missing program, file modes.
 
+#[allow(dead_code)]
+mod support;
+
 use std::io::Write as _;
 use std::path::{Path, PathBuf};
 use std::process::{Command, ExitStatus, Stdio};
 
+use rstest::rstest;
 use serde_json::Value;
-
-const VIOLA: &str = env!("CARGO_BIN_EXE_viola");
-const FAKE: &str = env!("CARGO_BIN_EXE_viola-fake-agent");
+use support::fake::FAKE;
+use support::home::{TestHome, VIOLA, home};
 
 fn run_viola(home: &Path, name: &str, program: &str, extra: &[&str]) -> ExitStatus {
     let mut child = Command::new(VIOLA)
@@ -25,18 +28,6 @@ fn run_viola(home: &Path, name: &str, program: &str, extra: &[&str]) -> ExitStat
         let _ = stdin.write_all(b"\x03");
     }
     child.wait().expect("viola exits")
-}
-
-/// A per-test scratch dir under `<workspace>/target/e2e-home`, where every test home lives.
-fn scratch() -> tempfile::TempDir {
-    let base = Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("target")
-        .join("e2e-home");
-    std::fs::create_dir_all(&base).expect("e2e-home");
-    tempfile::Builder::new()
-        .prefix("viola-test-")
-        .tempdir_in(base)
-        .expect("tempdir")
 }
 
 fn role_lines(home: &Path, name: &str) -> (String, Vec<Value>) {
@@ -59,10 +50,9 @@ fn is_millis_utc(ts: &str) -> bool {
         && b[20..23].iter().all(u8::is_ascii_digit)
 }
 
-#[test]
-fn run_with_fake_agent_writes_start_and_exit_lines() {
-    let tmp = scratch();
-    let home = tmp.path().join("home");
+#[rstest]
+fn run_with_fake_agent_writes_start_and_exit_lines(#[from(home)] tmp: TestHome) {
+    let home = tmp.path().to_path_buf();
     let status = run_viola(
         &home,
         "builder",
@@ -117,10 +107,9 @@ fn run_with_fake_agent_writes_start_and_exit_lines() {
     assert!(!text.contains("9.9.9"));
 }
 
-#[test]
-fn run_child_exit_status_is_recorded() {
-    let tmp = scratch();
-    let home = tmp.path().join("home");
+#[rstest]
+fn run_child_exit_status_is_recorded(#[from(home)] tmp: TestHome) {
+    let home = tmp.path().to_path_buf();
     let status = run_viola(&home, "builder", FAKE, &["--version"]);
     assert_eq!(status.code(), Some(0));
     let (_, lines) = role_lines(&home, "builder");
@@ -128,10 +117,9 @@ fn run_child_exit_status_is_recorded() {
     assert_eq!(lines.len(), 4);
 }
 
-#[test]
-fn run_with_a_bad_name_is_usage_and_creates_nothing() {
-    let tmp = scratch();
-    let home = tmp.path().join("home");
+#[rstest]
+fn run_with_a_bad_name_is_usage_and_creates_nothing(#[from(home)] tmp: TestHome) {
+    let home = tmp.path().to_path_buf();
     for bad in ["Builder", "../x", "1abc"] {
         let status = run_viola(&home, bad, FAKE, &[]);
         assert_eq!(status.code(), Some(2), "{bad}");
@@ -139,11 +127,10 @@ fn run_with_a_bad_name_is_usage_and_creates_nothing() {
     assert!(!home.exists());
 }
 
-#[test]
-fn run_with_a_missing_program_exits_1_with_internal_error() {
-    let tmp = scratch();
-    let home = tmp.path().join("home");
-    let missing = tmp.path().join("no-such-program");
+#[rstest]
+fn run_with_a_missing_program_exits_1_with_internal_error(#[from(home)] tmp: TestHome) {
+    let home = tmp.path().to_path_buf();
+    let missing = tmp.scratch().join("no-such-program");
     let status = run_viola(&home, "builder", missing.to_str().expect("utf-8"), &[]);
     assert_eq!(status.code(), Some(1));
     let (text, lines) = role_lines(&home, "builder");
@@ -156,10 +143,9 @@ fn run_with_a_missing_program_exits_1_with_internal_error() {
     assert!(!text.contains("no-such-program"));
 }
 
-#[test]
-fn run_appends_to_an_existing_role_file() {
-    let tmp = scratch();
-    let home = tmp.path().join("home");
+#[rstest]
+fn run_appends_to_an_existing_role_file(#[from(home)] tmp: TestHome) {
+    let home = tmp.path().to_path_buf();
     run_viola(&home, "builder", FAKE, &[]);
     run_viola(&home, "builder", FAKE, &[]);
     let (_, lines) = role_lines(&home, "builder");
@@ -231,11 +217,10 @@ fn fake_agent_stops_at_ctrl_c_and_reads_no_further() {
 }
 
 #[cfg(unix)]
-#[test]
-fn run_creates_home_0700_and_role_file_0600() {
+#[rstest]
+fn run_creates_home_0700_and_role_file_0600(#[from(home)] tmp: TestHome) {
     use std::os::unix::fs::PermissionsExt as _;
-    let tmp = scratch();
-    let home = tmp.path().join("home");
+    let home = tmp.path().to_path_buf();
     run_viola(&home, "builder", FAKE, &[]);
     let mode = |p: &Path| std::fs::metadata(p).expect("meta").permissions().mode() & 0o777;
     assert_eq!(mode(&home), 0o700);

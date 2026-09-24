@@ -27,9 +27,63 @@ fn is_valid_name(name: &str) -> bool {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use proptest::prelude::*;
+    use proptest::test_runner::FileFailurePersistence;
 
     fn valid(name: &str) -> bool {
         ViolaName::try_new(name.to_owned()).is_ok()
+    }
+
+    /// The literal oracle `^[a-z][a-z0-9-]{0,31}$`, written out independently of the product check.
+    fn oracle(name: &str) -> bool {
+        let mut chars = name.chars();
+        let Some(first) = chars.next() else {
+            return false;
+        };
+        name.chars().count() <= 32
+            && first.is_ascii_lowercase()
+            && chars.all(|c| matches!(c, 'a'..='z' | '0'..='9' | '-'))
+    }
+
+    fn config() -> ProptestConfig {
+        ProptestConfig {
+            cases: 512,
+            failure_persistence: Some(Box::new(FileFailurePersistence::SourceParallel(
+                "proptest-regressions",
+            ))),
+            ..ProptestConfig::default()
+        }
+    }
+
+    proptest! {
+        #![proptest_config(config())]
+
+        #[test]
+        fn viola_name_prop_agrees_with_the_oracle(
+            name in prop_oneof!["(?s).{0,40}", "[a-zA-Z0-9_./ -]{0,40}"],
+        ) {
+            prop_assert_eq!(valid(&name), oracle(&name));
+        }
+
+        #[test]
+        fn viola_name_prop_accepts_every_valid_shape(name in "[a-z][a-z0-9-]{0,31}") {
+            prop_assert!(valid(&name));
+        }
+
+        #[test]
+        fn viola_name_prop_rejects_hostile_neighbours(
+            stem in "[a-z][a-z0-9-]{0,20}",
+            bad in prop::sample::select(vec!["..", "/", "\\", "A", "_", ".", " ", "\u{0}", "\u{1b}", "\u{85}", "é"]),
+        ) {
+            let (before, after) = (stem.clone() + bad, bad.to_owned() + &stem);
+            prop_assert!(!valid(&before));
+            prop_assert!(!valid(&after));
+        }
+
+        #[test]
+        fn viola_name_prop_rejects_over_32_chars(name in "[a-z][a-z0-9-]{32,40}") {
+            prop_assert!(!valid(&name));
+        }
     }
 
     #[test]

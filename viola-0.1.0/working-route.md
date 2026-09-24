@@ -10,7 +10,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
 ### Epoch 1 — Foundation
 [2026-09-24-three-os-ci-headless-harness-skeleton] Three-OS CI and headless harness skeleton — SHA-pinned actions, pinned 1.96-floor toolchain, nextest, five agent-run commands, minimal fake agent, per-role JSON line, mutation gate
    ↓
-Fake agent and test-data fixtures — scripted modes and control file, receipts, temp-home fixture chain under target/e2e-home, fixture scrub-and-schema walk, committed property seeds
+[2026-09-24-fake-agent-and-test-data-fixtures] Fake agent and test-data fixtures — scripted modes and control file, receipts, temp-home fixture chain under target/e2e-home, fixture scrub-and-schema walk, committed property seeds
    ↓
 Supply-chain and workflow gates — cargo-deny families with telemetry-crate and redaction-toggle bans, weekly advisory run, zizmor, tokio-free sync-crate check, least-privilege permissions
    ↓
@@ -27,7 +27,7 @@ Workspace tree and code-graph planes — arch tree lists test/obs/a11y artifacts
 ### Epoch 2 — Windows slice I: wrapper, events, ledger
 Security prerequisites — SQOS pipe-handle spike and pure-Rust SHA-256 pick, both recorded ahead of the channel client and bin/ writes; no unprotected-connect fallback
    ↓
-PTY wrapper on Windows — viola run passthrough with zero own bytes, npm-shim resolution, .cmd refusal, CLAUDE* strip, process-handle exit, portable-pty line recorded  CARRY: chunk 2026-09-24-three-os-ci-headless-harness-skeleton's `viola run` is the first slice — `src/run/mod.rs::spawn_child` is the one spawn function whose body becomes the `viola-pty` seam (it spawns with the full inherited env today: the R8 strip is this entry's); it sets no `VIOLA_NAME`/`VIOLA_DIR`/`VIOLA_BIN` yet and emits no `run.start` span; the harness supervisor stops wrappers through a stdin pipe (`\x03` then close) until outer PTYs exist — switch `supervise` and the `run_cli` tests to the PTY form here
+PTY wrapper on Windows — viola run passthrough with zero own bytes, npm-shim resolution, .cmd refusal, CLAUDE* strip, process-handle exit, portable-pty line recorded  CARRY: chunk 2026-09-24-three-os-ci-headless-harness-skeleton's `viola run` is the first slice — `src/run/mod.rs::spawn_child` is the one spawn function whose body becomes the `viola-pty` seam (it spawns with the full inherited env today: the R8 strip is this entry's); it sets no `VIOLA_NAME`/`VIOLA_DIR`/`VIOLA_BIN` yet and emits no `run.start` span; the harness supervisor stops wrappers through a stdin pipe (`\x03` then close) until outer PTYs exist — switch `supervise` and the `run_cli` tests to the PTY form here  CARRY: chunk 2026-09-24-fake-agent-and-test-data-fixtures deferred the `viola_e2e::fixtures` copy of the fixture chain to its first E2E consumer (test-plan §3 `run` step 2: Paths 1/5/E1/E2/E5; E2, the CLAUDE* strip, is this entry's) — build it here if this entry lands the E2 scenario, else re-pin to the next entry that lands one; the root chain's `tests/support/home.rs` `Wrapper` also drives `viola run` through a stdin pipe — switch it to the PTY form with `supervise`
    ↓
 Instance state and start order — append-only event log, atomic snapshot, heartbeat, pinned bin/ copy, plugin folder, documented start order, live/stale name refusal
    ↓
@@ -37,12 +37,12 @@ Hooks to normalised events — exec-form plugin hooks by absolute path, hook-to-
    ↓
 CLI output tokens — SGR attention/stale/callsign tokens with depth fallback, colour decision order, stdout/stderr split, plain under non-TTY/NO_COLOR/TERM=dumb/--json, escaped controls
    ↓
-Capability ledger and viola verify — versioned rows with probes and post-conditions, stamps, scrubbed fixture recording, largest-payload row, transport-only degrade, fake-agent verify in CI
+Capability ledger and viola verify — versioned rows with probes and post-conditions, stamps, scrubbed fixture recording, largest-payload row, transport-only degrade, fake-agent verify in CI  CARRY: chunk 2026-09-24-fake-agent-and-test-data-fixtures deferred the `fixtures/claude/*/*.json` `#[files]` hygiene walk and the claude-fixture schema to the first recorded fixture (test-plan §7 Fixture hygiene; checker `tests/support/hygiene.rs`); record fixtures as `fixtures/claude/<cli-version>/<Event>.<variant>.json` (PascalCase hook event name, test-plan §2); the root `stamped_home` is an interim no-stamp seam — make it stamp through `viola verify` here
    ↓
-Fake-agent drift contract — fake agent's hook sequences and payloads equal the recorded verify fixtures per CLI version, annotations forwarded, fixture schema check
+Fake-agent drift contract — fake agent's hook sequences and payloads equal the recorded verify fixtures per CLI version, annotations forwarded, fixture schema check  CARRY: chunk 2026-09-24-fake-agent-and-test-data-fixtures's fake agent runs every `type:"command"` hook registered for an event — hook `matcher` evaluation is deferred to this entry, where recorded `tool_name`s exist
 
 ### Epoch 3 — Windows slice II: driving verbs and live proof
-Readiness gate and timing constants — screen-model quiet period, input-box and modal signatures as ledger rows, named confirmation window and deadlines, injected clock, parser-panic degrade
+Readiness gate and timing constants — screen-model quiet period, input-box and modal signatures as ledger rows, named confirmation window and deadlines, injected clock, parser-panic degrade  CARRY: chunk 2026-09-24-fake-agent-and-test-data-fixtures deferred the fake agent's `--vt100-panic-bytes` mode to this entry (consumer-first: its byte sequence is set by the vt100 parser-panic degrade built here)
    ↓
 Confirmed send with CL-1 records — RB readback mirror with per-reason hints, typed not-delivered details, unconfirmable local commands, /clear post-condition, control-character refusal, one in flight
    ↓
@@ -57,13 +57,13 @@ First live test and self-drive — real-CLI verify, overseer drives a builder th
 ### Epoch 4 — Session state & governance
 Self-healing state — torn-line healing, snapshot rebuild by log replay, unknown kinds and fields counted and surfaced, newer-snapshot and newer-peer tolerance
    ↓
-Statusline pass-through — named read-only source, per-home redirect for tests, settings.json rewritten each start with absolute pinned path, user output unchanged, readings to budget.json
+Statusline pass-through — named read-only source, per-home redirect for tests, settings.json rewritten each start with absolute pinned path, user output unchanged, readings to budget.json  CARRY: chunk 2026-09-24-fake-agent-and-test-data-fixtures deferred the fake agent's `statusline-echo` mode and its `settings.json` read to this entry (test-plan §7; no shape before a recorded fixture)
    ↓
 Budget governor — five-hour/seven-day thresholds, budget-paused on automated send only, lift at reset or per-instance override, unknown with age, release --budget payload
    ↓
 Session links — driver-to-driven link on first cross-instance send or answer, explicit link/unlink, log-derived link set with since, link result payload
    ↓
-The board: viola list — BAY header over six-column board, liveness, status, wheel/budget pause, amber DIALOG, dim stale rows, CLI verdict, read-only unwrapped rows
+The board: viola list — BAY header over six-column board, liveness, status, wheel/budget pause, amber DIALOG, dim stale rows, CLI verdict, read-only unwrapped rows  CARRY: chunk 2026-09-24-fake-agent-and-test-data-fixtures deferred the fake agent's `agents --json` stub (`FAKE_CLAUDE_AGENTS_MODE=recorded|oversize|malformed`, test-plan §7 seed table) to this entry — pin its shape against a recorded `claude agents --json` output
 
 ### Epoch 5 — Driver surface
 CLI machine contract — --json per verb mirroring channel results, typed exits 0/1/2/10–14/20/21, cause-named hints, global --home, config.json thresholds and port  CARRY: chunk 2026-09-24-three-os-ci-headless-harness-skeleton resolves `--home` as given, else `<user home>/.viola`, without `std::fs::canonicalize` and without the `VIOLA_DIR`-grandparent step (security-plan §Input Validation CLI row; arch §Cross-cutting Config management)

@@ -1,0 +1,7 @@
+{
+  "v": 1,
+  "steps": [
+    { "event": "PreToolUse", "variant": "ask", "gate": true },
+    { "event": "Stop", "variant": "default", "gate": true }
+  ]
+}

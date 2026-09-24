@@ -36,7 +36,7 @@ _The workspace, `rust-toolchain.toml`, `.config/nextest.toml`, `viola-harness` a
 - `cargo test --workspace --doc` — doctests (nextest cannot run them)
 - `npx --prefix e2e-web playwright test [--grep "<title>"]` — browser suite (ubuntu)
 - `cargo llvm-cov nextest --workspace --features fake-agent --profile ci --lcov --output-path target/lcov.info --ignore-filename-regex '(viola-fake-agent|crates/viola-e2e|tests/support|fuzz/)' --fail-under-lines 85 --fail-under-functions 95 --fail-under-regions 80` — coverage gate
-- `cargo build --package viola --features fake-agent` then `NEXTEST_PROFILE=mutants cargo mutants --workspace --features fake-agent --in-diff target/agent-run/chunk.diff --test-tool=nextest --copy-target=true` — mutation gate (the prebuild + copied `target/` give the scratch tree the root bins the harness tests spawn) (diff = working tree + untracked files from `merge-base(<base>, HEAD)`; base from `AGENT_RUN_CHUNK_BASE`)
+- `cargo build --package viola --features fake-agent` then `NEXTEST_PROFILE=mutants cargo mutants --workspace --features fake-agent --in-diff target/agent-run/chunk.diff --test-tool=nextest --copy-target=true` — mutation gate (the prebuild + copied `target/` give the scratch tree the root bins the harness tests spawn) (diff = working tree + untracked files from `merge-base(<base>, HEAD)`; base from `AGENT_RUN_CHUNK_BASE`). A diff with no `.rs` path skips cargo-mutants and reports `"verdict":"no-rust-delta"`; a Rust delta deletes a stale `mutants.out/outcomes.json` first and reports `"verdict":"counted"`
 - `cargo mutants --file <path> --test-tool=nextest` — one file's mutants
 - `cargo +nightly fuzz run <target> -- -runs=0` — corpus replay (ubuntu)
 
