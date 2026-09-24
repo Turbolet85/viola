@@ -1,0 +1,2 @@
+{"v":1,"cmd":null,"ok":false,"reason":"usage"}
+Usage: scripts/agent-run.sh {boot|run|status|cleanup|logs} [flags]

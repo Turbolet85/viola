@@ -612,6 +612,20 @@ fn booted_wrapper_fixture_is_ready_and_receipting(
     assert_eq!(wrapper.stop().code(), Some(0));
 }
 
+/// A wrapper that exits before `claude-child` starts is reported as exited at once, not as a
+/// readiness timeout: under a mutant that makes `viola` exit silently, the fixture must fail fast.
+#[rstest]
+#[should_panic(expected = "exited before ready")]
+fn wrapper_boot_exiting_before_ready_fails_as_exited(home: TestHome) {
+    let missing = home.scratch().join("no-such-program");
+    let stamped = StampedHome {
+        home,
+        fake: missing,
+        stamped: false,
+    };
+    Wrapper::boot(stamped, "builder", None, &[]);
+}
+
 #[rstest]
 #[case::nothing_set(false, false, false, false)]
 #[case::failed_flag_but_passing(false, true, false, false)]

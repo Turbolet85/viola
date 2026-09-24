@@ -1,0 +1,1 @@
+{"v":1,"cmd":"run","ok":true,"suites":[{"suite":"mutants","passed":0,"failed":0,"skipped":0,"survived":0,"artifact":"target/agent-run/chunk.diff","failures":[]}],"mutants":{"tested":0,"verdict":"no-rust-delta","diff":"target/agent-run/chunk.diff","files":37}}

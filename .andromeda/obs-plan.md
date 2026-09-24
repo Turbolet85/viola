@@ -780,10 +780,12 @@ setup-project reads this to materialize phase scaffolding.]_
   - viola-core (`viola_core::obs`): `obs_event!` and the `ObsEvent` / `ObsProcess` enums. The macro expands to `::tracing::event!` at the caller, so viola-core itself gains no `tracing` dependency.
   - Root bin (`viola::obs`), the only crate that depends on tracing-subscriber: `MillisUtc`, `viola_obs_init` and `viola_panic_hook`.
     - Add a direct `chrono = { version = "0.4.45", default-features = false, features = ["clock", "std"] }` (already in the tree). `MillisUtc` calls `chrono::Utc::now()` itself, and tracing-subscriber's `chrono` feature does not re-export chrono.
-  - `disallowed-macros` exemption:
-    - `obs_event!` expands to a block whose inner `::tracing::event!` statement carries `#[allow(clippy::disallowed_macros)]`, so caller crates pass `-D warnings`.
-    - The ban lives in one workspace `clippy.toml`.
-    - The gate must be proven both ways: an `obs_event!` call in a caller crate lints clean, and a raw `tracing::info!` in the same crate fails.
+  - Raw-tracing ban. The mechanism is split, because no allow inside `obs_event!` can exempt its inner `::tracing::event!`. As measured on clippy 1.98.1 at chunk 2026-09-24-observability-gates (`.andromeda/runs/2026-09-24T12-21-11-implement/clippy-disallowed-macros-measurement.md`), clippy reports a disallowed macro expanded inside an exported macro at the caller crate's level. Only a crate-level `#![allow]` in the caller silences it.
+    - One workspace `clippy.toml` `disallowed-macros` bans the level macros `tracing::{info,warn,error,debug,trace}` by path. `tracing::event` is not listed there, because `obs_event!` expands to it.
+    - Raw `event!` is caught by a fail-closed grep in `scripts/lint-probes.sh`: `\bevent!\s*[({[]` in any `*.rs` outside `crates/viola-core/src/obs.rs`. `\b` does not match inside `obs_event!`. The inner `#[allow(clippy::disallowed_macros)]` in `obs_event!` stays in place but has no effect.
+    - The gate is proven both ways by `scripts/lint-probes.sh`, in throwaway crates carrying the repo's `clippy.toml` and lint table:
+      - a raw `tracing::info!` fails and a real `obs_event!` call lints clean;
+      - the grep finds a planted raw `tracing::event!`, passes `obs_event!`, and is clean over the tree.
   - Verify with `cargo check` of the sync crates without Tokio, plus `cargo deny check` on all three targets.
 - **service-identity-wire:** `viola_core::{SERVICE_NAME, VERSION}` as the single source for `process-start.version`, `sender`, `writer` and `/health.version`. Workspace `version.workspace = true`.
 - **log-format-schema-emit:** commit `schemas/diag-line.v1.json`, a hand-maintained JSON Schema of the Section 3 / Section 6 line. Its `event` enum must equal the `ObsEvent` variants, and a tests-owned check asserts that equality. The harness greps the same fields.
@@ -796,7 +798,7 @@ setup-project reads this to materialize phase scaffolding.]_
   - fixed thiserror `Display`s;
   - the instance-scoped `detail-<process>.ndjson` routing.
 - **obs-ci-gate-wire:** CI steps per Section 9:
-  - `clippy.toml` `disallowed-macros` (raw `tracing::{event,info,warn,error,debug,trace}` outside `viola_core::obs`);
+  - `clippy.toml` `disallowed-macros` (raw `tracing::{info,warn,error,debug,trace}` outside `viola_core::obs`), plus the fail-closed raw-`event!` grep in `scripts/lint-probes.sh`, which runs in the `ci.yml` `lint` job on the Linux leg (source text is OS-independent). The split is explained under logger-stack-install;
   - `[workspace.lints.clippy]` `print_stdout` / `print_stderr` / `dbg_macro` = `deny` (§11 Logs), plus `[lints] workspace = true` in **every product** member's `Cargo.toml` (the root bin `viola` and the product `crates/viola-*` crates). A product member without it inherits no workspace lints, so the ban silently does not apply there. **Exempt (overseer fix pass 2, B5):** `viola-harness` (`crates/viola-e2e`) and the fake agent (`viola-fake-agent`) must print: the harness prints exactly one JSON document per command on stdout, and the fake agent emulates the claude CLI on stdout/stderr (tests §3, §4). Cargo cannot override single lints under `workspace = true`, so `viola-e2e` omits it and carries its own `[lints.clippy]` table without `print_stdout` / `print_stderr`. The fake agent is a `[[bin]]` of the root `viola` package (feature `fake-agent`), and lints are set per package, so it inherits the root's `[lints]` and is exempted by a crate-level `#![allow(clippy::print_stdout, clippy::print_stderr)]` in `src/bin/viola-fake-agent.rs`. A CI assertion lists members: every product member has `workspace = true`, and only `viola-e2e` lacks it. Prove it both ways: a `println!` in a `hook` path fails clippy, and the output modules' local `#[allow]` passes;
   - the SHA-pinned PCRE2 ripgrep install step, then G1 (bare `#[instrument]`) and G3 (`panic = "abort"`);
   - G2 (zero `event:"panic"`), G4 (`id: schema-conformance`), the secret scan (`id: secret-scan`, `if: always()`) and the scan-gated uploads, in the §9 step order;
@@ -1190,7 +1192,7 @@ _[Standard: included. The Compliance Trace Fields subsection is omitted: securit
 - redact 0.1.11 is the researched lighter alternative. It is not adopted.
 
 **Integration points** (no OTel `SpanProcessor`, no Sentry `before_send`; both are absent in v1):
-1. **Source allow-list (primary):** `#[instrument(skip_all, fields(...))]` plus `obs_event!` with explicit typed fields only. Enforced by clippy `disallowed-macros` and a grep gate on bare `#[instrument]`.
+1. **Source allow-list (primary):** `#[instrument(skip_all, fields(...))]` plus `obs_event!` with explicit typed fields only. Enforced by three gates: clippy `disallowed-macros` on the tracing level macros, the fail-closed raw-`event!` grep in `scripts/lint-probes.sh` (§3 logger-stack-install), and a grep gate on bare `#[instrument]`.
 2. **Type-level redaction:** veil `Redact` on every channel / hook / MCP payload type, so `Debug` never reveals content.
 3. **HTTP layer:** the tower-http custom `make_span_with` / `on_response` (path only, no headers).
 4. **Error layer:** fixed thiserror `Display`, and serde-sourced chains mapped to fixed messages at dispatch.
@@ -1240,7 +1242,7 @@ _[ALL tiers]_
 
 | Stage | Telemetry produced | Consumer |
 |-------|---------------------|----------|
-| Lint / typecheck | clippy `-D warnings` incl. `disallowed-macros` (raw `tracing::*!` outside `viola_core::obs`; exemption mechanism in §3 logger-stack-install); bare-`#[instrument]` gate G1 (below); `cargo check` of sync crates without Tokio; `cargo deny check` (ubuntu) incl. veil `toggle` ban and bans on `opentelemetry-otlp` / `opentelemetry-stdout` / `sentry` / `tracing-appender` / tracing-subscriber `env-filter` feature | CI annotations + job exit code |
+| Lint / typecheck | clippy `-D warnings` incl. `disallowed-macros` (raw `tracing::{info,warn,error,debug,trace}!` outside `viola_core::obs`) and the `print_stdout` / `print_stderr` / `dbg_macro` bans; the fail-closed raw-`event!` grep and both-ways ban probes in `scripts/lint-probes.sh`, Linux leg (mechanism in §3 logger-stack-install); bare-`#[instrument]` gate G1 (below); `cargo check` of sync crates without Tokio; `cargo deny check` (ubuntu) incl. veil `toggle` ban and bans on `opentelemetry-otlp` / `opentelemetry-stdout` / `sentry` / `tracing-appender` / tracing-subscriber `env-filter` feature | CI annotations + job exit code |
 | Unit tests | In-memory `Vec<u8>` writer tests parse emitted lines with serde_json against `schemas/diag-line.v1.json` (tests-owned bodies) | nextest JUnit |
 | Integration tests | `diagnostics/*.ndjson` from fake-agent runs. Their viola homes must live under `target/e2e-home/` (the directory layout is tests-owned), so G2, G4, the secret scan and the `diag-<os>` upload cover them. A `hook` panic exits 0, so a home outside that root would hide it. perf: hyperfine JSON with `max` assertions | uploaded artifacts + G2 / G4 + budget assertion exit codes |
 | E2E tests | `agent-run logs` / `status`; Playwright DOM-attribute reads; zero-`event:"panic"` gate G2 and schema gate G4 (below) | uploaded artifacts + gate exit codes |
@@ -1333,7 +1335,7 @@ p99 is not computed in v1. hyperfine `max` is the gated tail, and the §5 snippe
 - A hyperfine `max` regression beyond the budgets above.
 - A secret-scan hit, or a `diagnostics/` file that is not 0600 (or not DACL-protected on Windows).
 - A schema-conformance failure: unknown `event` value, missing required field, or a field outside the catalog.
-- A clippy `disallowed-macros` / `print_stdout` / `print_stderr` / `dbg_macro` failure; a G1 bare-`#[instrument]` or G3 `panic = "abort"` hit, or either gate exiting with anything other than rg exit 1 (including exit 2 regex/I-O error and 127 missing `rg`); or a `cargo deny` (Tokio, C-crate, veil `toggle`, banned obs crates) failure.
+- A clippy `disallowed-macros` / `print_stdout` / `print_stderr` / `dbg_macro` failure; a `scripts/lint-probes.sh` failure (a ban that did not fire, a control that did not pass, or a raw `event!` outside `crates/viola-core/src/obs.rs`); a G1 bare-`#[instrument]` or G3 `panic = "abort"` hit, or either gate exiting with anything other than rg exit 1 (including exit 2 regex/I-O error and 127 missing `rg`); or a `cargo deny` (Tokio, C-crate, veil `toggle`, banned obs crates) failure.
 - A surviving cargo-mutants mutant in obs code.
 
 (See `## 11. Obs Anti-Patterns` § SLO for SLO-budget bans.)
@@ -1373,7 +1375,7 @@ _[ALL tiers — single source of truth for all obs bans]_
 
 - NEVER write telemetry to stdout on any role. stdout carries `--json` results (cli), the decision body (hook) and MCP frames (mcp), and `run`'s terminal carries the child's screen. The default tracing-subscriber writer is stdout, so `with_writer` is always explicit.
 - NEVER leave `log_internal_errors` at its default `true`. Writer failures would `eprintln` to stderr and break the Hook contract and the `run` terminal.
-- NEVER call `tracing::{event,info,warn,error,debug,trace}!` directly outside `viola_core::obs`. Only `obs_event!` guarantees `event`, `process` and `instance`; the caller sets `corr` explicitly as a typed field on the events that carry one (clippy `disallowed-macros`).
+- NEVER call `tracing::{event,info,warn,error,debug,trace}!` directly outside `viola_core::obs`. Only `obs_event!` guarantees `event`, `process` and `instance`; the caller sets `corr` explicitly as a typed field on the events that carry one. Enforcement: clippy `disallowed-macros` for the level macros, and the fail-closed raw-`event!` grep in `scripts/lint-probes.sh` for `event!` (§3 logger-stack-install).
 - NEVER record `corr` with `?corr` / `%corr`. That stringifies numbers, and `corr` must be copied unchanged as a JSON number or string.
 - NEVER read the level from `RUST_LOG`, enable the `env-filter` feature, or call `EnvFilter::from_default_env`. Env vars are not a configuration channel.
 - NEVER write multi-line stack traces. Panics are one line; backtraces are one-line JSON arrays in the instance detail file only.
@@ -1771,6 +1773,16 @@ between phase loops._
 - **Rationale:** a product-enum value would force an `ObsEvent` variant, and the D-26 schema coverage, for a row no product code writes (finding Z7).
 - **Impact:** §3 (Log format copy, Obs extensions), §6 (Log format pointer), §8 (Default-deny posture). The a11y plan's §3 wording and D-A11Y-09 still say "closed-enum value … tests + obs amendment"; they are left for the overseer to reconcile.
 - **By:** manual edit, overseer fix pass 3, 2026-09-24 (founder-delegated).
+
+`2026-09-24` — D-33 Raw-tracing ban: path ban plus raw-`event!` grep (supersedes D-25's `disallowed-macros` exemption clause)
+- **Decision:**
+  - D-25's clause "The `disallowed-macros` exemption is an allow attribute inside the macro expansion" is superseded.
+  - `clippy.toml` bans `tracing::{info,warn,error,debug,trace}` by path.
+  - Raw `event!` is caught by the fail-closed grep in `scripts/lint-probes.sh`, which proves itself both ways.
+  - `obs_event!`'s inner allow stays but has no effect.
+- **Rationale:** as measured on clippy 1.98.1 at chunk 2026-09-24-observability-gates (`.andromeda/runs/2026-09-24T12-21-11-implement/clippy-disallowed-macros-measurement.md`), every allow placement inside the macro, at the call site and on the calling fn still reported the ban. Only a crate-level `#![allow]` in the caller silences it, which would disable the ban for that crate. With `tracing::event` listed, all 16 `obs_event!` call sites failed.
+- **Impact:** §3 logger-stack-install and obs-ci-gate-wire, §8 PII Scrubbing item 1, §9 Lint row, §10 failure conditions, §11 Logs.
+- **By:** operator decision at /implement P1 (overseer, founder-delegated), applied by wrap-session 2026-09-24.
 
 (Append new entries at the bottom; do not modify historical
 entries.)

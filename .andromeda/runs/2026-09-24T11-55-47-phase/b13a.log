@@ -1,0 +1,2 @@
+tests/run_cli.rs:202:    let deadline = std::time::Instant::now() + std::time::Duration::from_secs(20);
+tests/support/home.rs:16:const READY_WITHIN: Duration = Duration::from_secs(20);

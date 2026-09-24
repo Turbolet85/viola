@@ -1,0 +1,10 @@
+# The level macros are banned by definition path. `tracing::event` is not listed: clippy reports a
+# disallowed macro expanded inside `obs_event!` at the caller crate's level, so no allow inside the
+# macro can exempt it. Raw `event!` is caught by the fail-closed grep in scripts/lint-probes.sh.
+disallowed-macros = [
+    { path = "tracing::info", reason = "log through viola_core::obs_event! (obs-plan §3)" },
+    { path = "tracing::warn", reason = "log through viola_core::obs_event! (obs-plan §3)" },
+    { path = "tracing::error", reason = "log through viola_core::obs_event! (obs-plan §3)" },
+    { path = "tracing::debug", reason = "log through viola_core::obs_event! (obs-plan §3)" },
+    { path = "tracing::trace", reason = "log through viola_core::obs_event! (obs-plan §3)" },
+]

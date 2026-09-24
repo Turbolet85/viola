@@ -71,12 +71,65 @@ jobs:
           bash scripts/agent-run.sh cleanup --session ci-smoke
           bash scripts/agent-run.sh cleanup --session ci-smoke
 
-      - name: Upload harness artifacts
+      # obs-plan §9 step order: G2 and G4 over the kept homes, the failure capture, the secret scan,
+      # then uploads only behind a clean scan (a bare always()/failure() would upload after a hit).
+      - name: Gate tools present
+        shell: bash
+        run: jq --version
+      - name: G2 zero panics
         if: always()
+        shell: bash
+        run: |
+          test -n "$(find target/e2e-home -path '*/diagnostics/*.ndjson' ! -name 'detail-*' -print -quit)"
+          find target/e2e-home -path '*/diagnostics/*.ndjson' ! -name 'detail-*' -exec awk 1 {} + | jq -R -n -e '[inputs|fromjson?|select(.event=="panic")]|length==0'
+      - name: G4 schema conformance
+        id: schema-conformance
+        if: always()
+        shell: bash
+        run: bash scripts/agent-run.sh schema-check
+      - name: Harness capture
+        if: failure()
+        shell: bash
+        run: |
+          mkdir -p target/agent-run
+          bash scripts/agent-run.sh logs --session ci-smoke > target/agent-run/logs.ndjson || true
+          bash scripts/agent-run.sh status --session ci-smoke > target/agent-run/status.json || true
+      - name: Secret scan
+        id: secret-scan
+        if: always()
+        shell: bash
+        run: bash scripts/agent-run.sh secret-scan
+
+      - name: Upload diagnostics
+        if: always() && steps.secret-scan.outcome == 'success'
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: agent-run-${{ matrix.os }}
-          path: target/agent-run/artifacts/
+          name: diag-${{ matrix.os }}
+          path: target/e2e-home/**/diagnostics/*.ndjson
+          retention-days: 7
+          if-no-files-found: warn
+      - name: Upload harness capture
+        if: failure() && steps.secret-scan.outcome == 'success'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: harness-${{ matrix.os }}
+          path: target/agent-run/
+          retention-days: 7
+          if-no-files-found: warn
+      - name: Upload JUnit
+        if: always() && steps.secret-scan.outcome == 'success'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: junit-${{ matrix.os }}
+          path: target/nextest/ci/junit.xml
+          retention-days: 7
+          if-no-files-found: warn
+      - name: Upload secret-scan hit report
+        if: always() && steps.secret-scan.outcome == 'failure'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: secret-scan-${{ matrix.os }}
+          path: target/secret-scan/
           retention-days: 7
           if-no-files-found: warn
 
@@ -132,6 +185,33 @@ jobs:
         run: |
           test -s scripts/sync-crates.txt
           cargo check $(sed 's/^/-p /' scripts/sync-crates.txt)
+      - name: Format
+        shell: bash
+        run: cargo fmt --all --check
+      - name: Clippy (warnings fatal; print and raw-log bans)
+        shell: bash
+        run: cargo clippy --workspace --all-targets --features fake-agent -- -D warnings
+      - name: Install ripgrep (PCRE2, checksum-pinned)
+        shell: bash
+        run: |
+          bash scripts/install-ripgrep.sh
+          (cd target/tools/ripgrep/bin && { pwd -W 2>/dev/null || pwd; }) >> "$GITHUB_PATH"
+      - name: ripgrep has PCRE2
+        shell: bash
+        run: rg --pcre2-version
+      # G1 and G3 are copied verbatim from obs-plan §9; only rg exit 1 (no match) passes.
+      - name: G1 bare instrument
+        shell: bash
+        run: |
+          set +e; rg -n -U --pcre2 --type rust '#\[(tracing::)?instrument\b(?!\(\s*skip_all\b)' .; test $? -eq 1
+      - name: G3 no abort panic strategy
+        shell: bash
+        run: |
+          set +e; rg -n --hidden -g 'Cargo.toml' -g 'config.toml' -g '*.yml' -g '*.yaml' "(panic|_PANIC)\s*[:=]\s*[\"']?abort" .; test $? -eq 1
+      - name: Lint probes (bans fire both ways, raw event! grep)
+        if: runner.os == 'Linux'
+        shell: bash
+        run: bash scripts/lint-probes.sh
 
   supply-chain:
     name: supply-chain

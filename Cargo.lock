@@ -1287,6 +1287,7 @@ name = "viola-e2e"
 version = "0.1.0"
 dependencies = [
  "clap",
+ "jsonschema",
  "serde",
  "serde_json",
  "sysinfo",

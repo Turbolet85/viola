@@ -7,7 +7,8 @@
 # its exit code and stdout unchanged. All logic lives once, in Rust (crates/viola-e2e).
 #
 # 5-command discipline (mirrors agent-run.sh): boot, run, status, cleanup, logs.
-# Internal subcommands forwarded unchanged (not agent-facing): supervise, ui-restart, gate.
+# Internal subcommands forwarded unchanged (not agent-facing): supervise, ui-restart, gate, and the
+# CI gate bodies schema-check (G4) and secret-scan.
 # Every command prints exactly one JSON document on stdout; exit 0 ok, 1 failure, 2 usage error.
 #
 # Run with: .\scripts\agent-run.ps1 boot
@@ -67,6 +68,12 @@ switch ($Cmd) {
         Invoke-Harness
     }
     'gate' {
+        Invoke-Harness
+    }
+    'schema-check' {
+        Invoke-Harness
+    }
+    'secret-scan' {
         Invoke-Harness
     }
     default {

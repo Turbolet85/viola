@@ -1,37 +1,46 @@
 # Session Handoff
 
-**Last Updated:** 2026-09-24T11:46:30Z
+**Last Updated:** 2026-09-24T13:24:00Z
 **Branch:** build/viola-0.1.0 · 0 ahead of origin/build/viola-0.1.0 as read at this wrap's Setup
 **Status:** clean
-**Last Commit:** 2026-09-24-log-redaction-and-never-log-floor — feat: catch-site chain to the instance detail file, CLAUDE* canary floor, Unix mutant kill for read_diagnostics_level
+**Last Commit:** 2026-09-24-observability-gates — feat: obs CI gates (lint bans + probes, G1–G4, canary secret scan before scan-gated uploads) and the 2834e4d mutants-timeout cause fix
 
 ## Position
-- Done: 2026-09-24-log-redaction-and-never-log-floor.
-  - A dispatch error now leaves `process-exit{internal-error}` in the role file and its `chain` only in `instances/<name>/diagnostics/detail-run.ndjson`. `run` stays silent on the terminal. The carrier is `cmd::Failure` + `obs::DetailSink`, written by `obs::report_internal_error`.
-  - The NEVER-log floor at HEAD sinks is proven: three planted `CLAUDE_*` canaries appear in no home file and on neither stream (clean run, error path, debug level).
-  - The CI red on `809456e` is folded in: the `#[cfg(unix)]` `read_diagnostics_level_file_as_home_is_unreadable` kills `src/obs.rs:193:19`.
-  - Deferred for zero sites at HEAD, pinned as CARRYs: veil / skip-all / `ChannelError` → "Wrapper channel"; `drift_report` + hook exit 0 → "Hooks to normalised events"; the `cli` `error: internal error` line → "CLI output tokens".
-- Next: /andromeda-phase to promote and plan "Observability gates".
-- **CI witness owed (plan operator entries):** on this wrap's pushed sha:
-  - read `check-runs` and expect `success` on every check, mutants included;
-  - read the `test (ubuntu-latest)` and `test (macos-latest)` job logs, each carrying one `PASS … viola::bin/viola obs::tests::read_diagnostics_level_file_as_home_is_unreadable` line. This is the Linux proof of the mutant kill, per the operator's P4 decision.
-- **Recorded:** CI for `809456e` (the previous chunk). Run `35990393334` concluded with 7 checks `success` and `mutants` `failure` (1 missed at `src/obs.rs:193:19`). That red is owned and fixed by this chunk.
+- Done: 2026-09-24-observability-gates.
+  - Lint bans: clippy denies `print_stdout`, `print_stderr` and `dbg_macro`, and `clippy.toml` bans the tracing level macros. Raw `event!` is caught by a fail-closed grep in `scripts/lint-probes.sh`. Clippy 1.98.1 cannot exempt `obs_event!`'s inner `event!`; that was measured, and obs D-33 records it.
+  - CI `lint` job (3 OSes): fmt, clippy, ripgrep 15.2.0, G1 and G3.
+  - CI `test` job: G2, G4 (`viola-harness schema-check`) and the canary secret scan (`viola-harness secret-scan`), with every upload gated on the scan.
+  - The `2834e4d` mutants red is fixed at its cause: exit-aware readiness bounded at 10 s, and a nextest mutants kill of 10 s (30 s for `viola-e2e`).
+- Next: /andromeda-phase to promote and plan "Quality gates". Its PREREQ fires first; see below.
+- **CI witness owed right after this push** (overseer):
+  - `check-runs` all `success` on the pushed sha;
+  - the `test (ubuntu-latest)` log carries one `PASS … viola::cli_fake_agent wrapper_boot_exiting_before_ready_fails_as_exited` line;
+  - the ubuntu `mutants` job kills the 3 `#[cfg(unix)]` `file_mode` mutants. Any survivor folds into "Quality gates" (its PREREQ).
+- **Recorded:** local light-gate reds, ratified at the P2 escalation and skipped with reasons:
+  - the `Cargo.lock`-unchanged probe, a plan-probe defect (one lock edge line; no new package; deny green);
+  - `run --mutants` with 3 survivors, which the Windows host cannot kill (see the witness above).
 
 ## Work done
-- 5 source/test files changed (+273 / −12), no new files, no dependency change.
-- 17 local gates green on the first run: local mutants counted 5/5 caught; unit 136, integration 84. Smoke ✓ (p3-smoke booted ready, cleanup exact).
+- 20 source files (7 new, 13 modified).
+- Implement: 28 of 33 gates green, the 2 reds above, 3 operator legs owed. Smoke ✓ (impl-smoke ready, processes gone).
+- Real homes: `schema-check` 26 files / 95 lines, 0 failures; `secret-scan` 34 files, 0 hits; G2 `true`.
 
 ## Drift resolved
-- 3 amendments, 0 escalations:
-  - arch §Stack Error types row + [Error Handling]: anyhow stays in the bin, now named as `main`, dispatch and the catch-site reporter; chains are recorded only in the instance detail file.
-  - obs §7 Platform pick restated the same scope.
-- obs :54 (§1, the verbatim obs-scope copy) is kept by rule (obs :485).
-- Leaves re-derived: `docs/stack.md`, `docs/conventions.md`, `docs/services/viola.md`.
+- 23 amendments, 1 escalation (the two reds; resolved by ratified skip plus a witness PREREQ):
+  - arch ×7: Stack Code quality row, 3 `target/` paths, tree, Lint, CI jobs and setup;
+  - security ×2: the obs canary scan in CI, and still no repo scanner;
+  - test-plan ×7: internal `schema-check` / `secret-scan`, 10 s exit-aware readiness, mutants profile and override, runner jq, pinned ripgrep, scan-gated uploads;
+  - obs ×7: the raw-tracing ban split, D-33 superseding D-25's exemption clause.
+- Leaves re-derived: `rules/observability.md`, `rules/verification-harness.md`, `docs/stack.md`, `docs/commands.md`.
 
 ## Notes
 - Operator decisions this chunk:
-  - Fold the CI mutants red into this chunk, through the loop.
-  - Witness the Linux kill by the ubuntu/macOS test job logs: no Docker run, no edit made only to steer the diff.
-- Curation: T2 ×2 (`testing.md`: an I/O-error test must fail at the same call on every OS; `verification-harness.md`: `--in-diff` never regenerates an earlier chunk's missed mutant).
-- The operator's viola-lab prototype (`viola.exe` 5188, 12172) was running; it is not this project's.
+  - check bodies as internal harness subcommands;
+  - G2 on runner `jq` (F2 covers jq only), with a pinned, checksum-verified rg install;
+  - deadlines fixed by cause and by value;
+  - raw-tracing ban = level-macro path ban plus a fail-closed `event!` grep;
+  - the `mutants.out/` upload is a CARRY on "Quality gates".
+- Curation: T2 ×3 (`testing.md`: mutant-reachable waits must detect exit and stay below the 20 s floor; `testing.md`: keep `#[cfg(unix)]` bodies to a minimal reader; `host-win32.md`: `pwd -W` for native-tool paths).
+- Deferred learnings (max-3 cap): adding an already-locked crate to a new workspace member still adds a `Cargo.lock` edge line, so a "lock unchanged" probe is red by construction; assert "no new package" instead (confidence 0.8).
+- The operator's viola-lab prototype (`viola.exe` 12172, 14064) was running; it is not this project's.
 - Last failed command: none open.

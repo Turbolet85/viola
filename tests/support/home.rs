@@ -13,7 +13,9 @@ use serde_json::Value;
 use super::fake;
 
 pub const VIOLA: &str = env!("CARGO_BIN_EXE_viola");
-const READY_WITHIN: Duration = Duration::from_secs(20);
+/// Below cargo-mutants' 20 s auto-timeout floor, so a mutant that never gets ready is caught, not
+/// graded Timeout; readiness itself takes milliseconds.
+const READY_WITHIN: Duration = Duration::from_secs(10);
 
 /// Keep a test's home for the CI gates (`AGENT_RUN_KEEP_HOMES=1`) or for a failing test's
 /// post-mortem (`AGENT_RUN_KEEP_FAILED=1`); remove it otherwise.
@@ -136,7 +138,7 @@ impl Wrapper {
             .spawn()
             .expect("viola run");
         let stdin = child.stdin.take();
-        let wrapper = Self {
+        let mut wrapper = Self {
             stamped,
             name: name.to_owned(),
             child,
@@ -147,7 +149,8 @@ impl Wrapper {
     }
 
     /// Interim readiness (verification-harness rules): `process-start` for `self` and `claude-child`.
-    fn wait_ready(&self) {
+    /// A wrapper that exits first fails at once (test-plan §3 Readiness: `run-exited`).
+    fn wait_ready(&mut self) {
         let role = self
             .home()
             .join("diagnostics")
@@ -166,6 +169,9 @@ impl Wrapper {
             };
             if started("self") && started("claude-child") {
                 return;
+            }
+            if let Some(status) = self.child.try_wait().expect("try_wait") {
+                panic!("wrapper {} exited before ready: {status}", self.name);
             }
             assert!(Instant::now() < deadline, "wrapper {} not ready", self.name);
             std::thread::yield_now();

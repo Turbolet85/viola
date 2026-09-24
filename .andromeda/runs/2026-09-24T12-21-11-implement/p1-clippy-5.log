@@ -1,0 +1,27 @@
+    Checking viola-e2e v0.1.0 (D:\dev\projects\viola\crates\viola-e2e)
+error: this `if` statement can be collapsed
+  --> crates\viola-e2e\tests\scan_patterns.rs:31:9
+   |
+31 | /         if kind > 0 {
+32 | |             if let Some(hex) = tail[kind..].strip_prefix("-value-") {
+33 | |                 let digits = hex.bytes().take_while(u8::is_ascii_hexdigit).count();
+34 | |                 if digits == 4 {
+...  |
+38 | |         }
+   | |_________^
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#collapsible_if
+   = note: `-D clippy::collapsible-if` implied by `-D warnings`
+   = help: to override `-D warnings` add `#[allow(clippy::collapsible_if)]`
+help: collapse nested if block
+   |
+31 ~         if kind > 0
+32 ~             && let Some(hex) = tail[kind..].strip_prefix("-value-") {
+33 |                 let digits = hex.bytes().take_while(u8::is_ascii_hexdigit).count();
+...
+36 |                 }
+37 ~             }
+   |
+
+error: could not compile `viola-e2e` (test "scan_patterns") due to 1 previous error
+warning: build failed, waiting for other jobs to finish...

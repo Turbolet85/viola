@@ -15,7 +15,8 @@
         "ref": null,
         "status": "planned"
       },
-      "chunk": null
+      "chunk": null,
+      "notes": "2026-09-24 (2026-09-24-observability-gates, phase P5): not claimed. This chunk adds to `ci.yml`:\n- fatal lint (`cargo fmt --all --check` and clippy `-D warnings`) on all three OSes;\n- a missing-tool check that fails loudly (`jq --version`, the checksum-verified ripgrep install);\n- homes kept until G2, G4 and the scan have read them;\n- test-home uploads gated on a passing secret scan.\n\nThe acceptance still needs \"the perf gates run in a job of their own\". No perf gate exists at HEAD, and obs-plan §9 and test-plan disagree on the perf job (XF F1). So the claim waits for the chunk that lands hyperfine."
     },
     {
       "id": "v1-02",
@@ -70,7 +71,7 @@
         "status": "planned"
       },
       "chunk": null,
-      "notes": "2026-09-24 (2026-09-24-diagnostics-plane, phase P5): not claimed. This chunk commits both line schemas and routes the panic payload to the detail file, leaving one payload-free error line (proven in-process). The acceptance still needs the hook exit-0 path, CI schema conformance of every line (G4), the canary secret scan, and the print and raw-log lint bans. Those belong to Observability gates and the hook chunk."
+      "notes": "2026-09-24 (2026-09-24-diagnostics-plane, phase P5): not claimed. This chunk commits both line schemas and routes the panic payload to the detail file, leaving one payload-free error line (proven in-process). The acceptance still needs the hook exit-0 path, CI schema conformance of every line (G4), the canary secret scan, and the print and raw-log lint bans. Those belong to Observability gates and the hook chunk.\n\n2026-09-24 (2026-09-24-observability-gates, phase P5): not claimed. This chunk lands:\n- the print/dbg and raw-tracing lint bans with both-ways probes, and the member-list assertion;\n- the panic-hook-first witness;\n- G2 zero-panic, G4 schema conformance (`viola-harness schema-check`) and the canary secret scan (`viola-harness secret-scan`) over every CI test home, each before any upload.\n\nThe acceptance still needs a subject that does not exist at HEAD:\n- \"the hook still ends successfully\": `viola hook` does not exist yet. It belongs to the Hooks to normalised events chunk, which also owns the panic-in-hook exit-0 case.\n- \"no setting disables redaction\": there is no config key that touches redaction yet. It belongs to the chunk that adds the first redaction-bearing setting."
     },
     {
       "id": "v1-06",

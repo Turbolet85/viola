@@ -199,11 +199,14 @@ fn run_self_exit_carries_duration_ms(#[from(home)] tmp: TestHome, #[from(home)] 
         .spawn()
         .expect("viola runs");
     let role = home.join("diagnostics").join("run-builder.ndjson");
-    let deadline = std::time::Instant::now() + std::time::Duration::from_secs(20);
+    let deadline = std::time::Instant::now() + std::time::Duration::from_secs(10);
     while !std::fs::read_to_string(&role)
         .unwrap_or_default()
         .contains("\"subject\":\"claude-child\"")
     {
+        if let Some(status) = child.try_wait().expect("try_wait") {
+            panic!("wrapper exited before the child started: {status}");
+        }
         assert!(std::time::Instant::now() < deadline, "child never started");
         std::thread::yield_now();
     }

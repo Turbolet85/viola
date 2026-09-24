@@ -33,7 +33,7 @@
 | Mobile framework | N/A | The phone view is a later version: the same web page behind authentication |
 | Container runtime / deployment | None. `cargo install --path .`; Claude Code plugin compiled into the binary (`include_str!`) and written out by `viola run` | Local-only v1, no hosting |
 | CI/CD | GitHub Actions matrix `windows-2025`, `macos-latest` (macOS 26), `ubuntu-latest`; toolchain installed by `rustup toolchain install` from `rust-toolchain.toml` (no toolchain action); SHA-pinned actions/checkout 7.0.1, Swatinem/rust-cache 2.9.2, taiki-e/install-action 2.87.19, actions/upload-artifact 7.0.1 | Build, lint and test on all three OSes against the fake agent, on native runners |
-| Code quality | rustfmt, clippy (`-D warnings`), `cargo check`; cargo-deny 0.20.2 (advisories, licences, sources, bans: C crates, telemetry crates, feature bans; the tokio ban via `deny-sync.toml` per sync crate); zizmor 1.30.1 (GitHub workflow linter); cargo-modules 0.27.0 (module graph review) | Lint, typecheck, dependency policy, workflow lint, boundary review |
+| Code quality | rustfmt, clippy (`-D warnings`, with the workspace `print_stdout` / `print_stderr` / `dbg_macro` bans and `clippy.toml` `disallowed-macros` on the tracing level macros), `cargo check`; ripgrep 15.2.0 (PCRE2; the obs G1/G3 gate tool, installed by `scripts/install-ripgrep.sh`); `jq` (runner-provided, G2); jsonschema 0.57.0 (test harness `schema-check`, G4); cargo-deny 0.20.2 (advisories, licences, sources, bans: C crates, telemetry crates, feature bans; the tokio ban via `deny-sync.toml` per sync crate); zizmor 1.30.1 (GitHub workflow linter); cargo-modules 0.27.0 (module graph review) | Lint, typecheck, dependency policy, workflow lint, boundary review |
 | Release (v1.x, not v1) | dist (cargo-dist) 0.33.0 + cargo-auditable 0.7.6; later self_update 1.3.0 | Public signed releases and installers once distribution is in scope |
 
 ## Established Decisions
@@ -383,6 +383,9 @@ The wrapper appends `wheel` and `budget-gate` (`source: wrapper`) once at start 
 - `target/harness/`: the harness's own cargo target dir (`CARGO_TARGET_DIR` for its builds and test runs), because a running `target/debug/viola-harness.exe` cannot be relinked on Windows.
 - `target/deny-probes/run-<utc>-<pid>/`: the throwaway Cargo projects `scripts/deny-probes.sh` writes per run, gitignored.
 - `target/supply-chain/`: `deny.json` and `zizmor.json` from the CI `supply-chain` job, uploaded as artifact `supply-chain` (7 days), gitignored.
+- `target/secret-scan/hits.json`: the `viola-harness secret-scan` hit report. It is written only when there are hits and removed on every clean run. CI uploads it as artifact `secret-scan-<os>` (7 days) only when the scan fails. Gitignored.
+- `target/tools/ripgrep/bin/`: ripgrep 15.2.0, installed by `scripts/install-ripgrep.sh`, gitignored.
+- `target/lint-probes/run-<utc>-<pid>/` and `target/lint-probes/target/`: the throwaway crates `scripts/lint-probes.sh` writes per run, and their shared cargo target dir, gitignored.
 
 **Docker volumes, containers, service names:** none.
 
@@ -390,7 +393,10 @@ The wrapper appends `wheel` and `budget-gate` (`source: wrapper`) once at start 
 
 **Build system**
 - Cargo workspace with `resolver = "3"` (the edition 2024 default, which prefers dependency versions compatible with `rust-version = "1.96"`). Shared `version.workspace = true` and `[workspace.dependencies]` pin every third-party version in one place (portable-pty as `=0.8.1`; rmcp minor pinned as `~3.4`).
-- Lint: `cargo fmt --all --check` and `cargo clippy --workspace --all-targets -- -D warnings`.
+- Lint: `cargo fmt --all --check` and `cargo clippy --workspace --all-targets --features fake-agent -- -D warnings`.
+  - `[workspace.lints.clippy]` denies `print_stdout`, `print_stderr` and `dbg_macro`, and every product member inherits it (`[lints] workspace = true`, asserted by `tests/contract_lints.rs`). `viola-e2e` opts out and denies only `dbg_macro`, because the harness prints its JSON document. The fake agent carries a crate-level print allow.
+  - `clippy.toml` `disallowed-macros` bans `tracing::{info,warn,error,debug,trace}`, so `obs_event!` is the only sanctioned emitter. Raw `event!` is caught by a fail-closed grep in `scripts/lint-probes.sh`, because clippy 1.98.1 cannot exempt a macro's inner expansion (obs-plan §3 logger-stack-install).
+  - `scripts/lint-probes.sh` proves every ban fires and every control passes, as `deny-probes.sh` does for cargo-deny.
 - Typecheck: `cargo check --workspace --all-targets`.
 - Dependency policy: `cargo deny check` over `deny.toml` — advisories, licences, sources (crates.io only) and bans: C-building crates (`cc`, `libsqlite3-sys`, `openssl-sys`), telemetry crates (`opentelemetry-otlp`, `opentelemetry-stdout`, `sentry`, `tracing-appender`) and feature bans (`veil/toggle`, `rmcp` `auth` / `transport-streamable-http-server`, `axum/http2`, `tracing-subscriber/env-filter`), evaluated for the Windows, macOS and Linux target triples so `cfg`-gated dependencies are covered. The ban on `tokio` anywhere in the normal dependency graph, direct or transitive, of `viola-core`, `viola-pty`, `viola-channel` without its feature, `viola-state` and `viola-agent-claude` lives in `deny-sync.toml` (the same three triples, `exclude-dev = true`) and runs once per crate listed in `scripts/sync-crates.txt`, that crate as the sole root: `cargo deny --config deny-sync.toml --manifest-path crates/<crate>/Cargo.toml check bans`. Never a direct-parent allowlist (`wrappers`), because Tokio could otherwise arrive unnoticed through a third-party feature such as interprocess's or notify's; never `--exclude` over the workspace, which false-fails under feature unification — a shared crate's optional `tokio` feature stays on after the crate enabling it is excluded (as measured at chunk 2026-09-24-supply-chain-and-workflow-gates, research.md §Measured facts, cargo-deny 0.19.4 and 0.20.2). Limit, same measurement: the crate owning the optional `tokio` feature (`viola-channel`) false-fails as its own root once `viola-mcp` enables that feature (`cargo metadata` reports the unified set), so it is covered through the sync roots that depend on it. Every ban is proven live by `scripts/deny-probes.sh`: a throwaway project per ban must fail with that ban's own diagnostic, and a clean control must pass both configs.
 - Boundary review: `cargo modules` graph on demand.
@@ -420,6 +426,7 @@ viola/
 ├── rust-toolchain.toml         # channel = "1.98.1" (exact pin), components = ["rustfmt", "clippy"]
 ├── deny.toml                   # cargo-deny: advisories, licences, sources, bans (C, telemetry, features)
 ├── deny-sync.toml              # the tokio ban, run per scripts/sync-crates.txt crate as sole root
+├── clippy.toml                 # disallowed-macros: tracing::{info,warn,error,debug,trace}
 ├── .gitignore
 ├── plugin/                     # embedded via include_str!, written out by `viola run`
 │   ├── .claude-plugin/plugin.json
@@ -448,7 +455,9 @@ viola/
 ├── scripts/
 │   ├── agent-run.{sh,ps1}      # identical shims over viola-harness
 │   ├── sync-crates.txt         # the single sync-crate list (CI job 3 + the sole-root tokio ban)
-│   └── deny-probes.sh          # negative probe per cargo-deny ban + a clean control
+│   ├── deny-probes.sh          # negative probe per cargo-deny ban + a clean control
+│   ├── lint-probes.sh          # each clippy ban fires, controls pass, fail-closed raw-event! grep
+│   └── install-ripgrep.sh      # pinned, sha256-verified ripgrep 15.2.0 → target/tools/ripgrep
 ├── .config/nextest.toml        # nextest profiles `ci` and `mutants`, `fixed-port` group
 ├── fixtures/
 │   ├── claude/<cli-version>/   # hook-payload fixtures recorded by `viola verify`
@@ -464,11 +473,11 @@ viola/
 **CI/CD approach**
 - GitHub Actions, two workflows. `ci.yml`, triggered on push and pull request, with matrix `os: [windows-2025, macos-latest, ubuntu-latest]` on native runners, is the only push/PR pipeline. `nightly.yml`, triggered by a weekly `schedule` and `workflow_dispatch` (both fire from the repository's default branch), runs `cargo deny check advisories` on ubuntu with no cache, because the advisory DB moves without code changes.
 - Least privilege, in every workflow: `permissions: {}` at the workflow top and `contents: read` per job; every `uses:` pinned by full commit SHA with a version comment; event-payload values reach a step only through `env:`. zizmor asserts it.
-- Setup steps: `actions/checkout` v7.0.1 (`persist-credentials: false`), `rustup toolchain install` (reads `rust-toolchain.toml`: the exact pin plus rustfmt and clippy; no toolchain action), `Swatinem/rust-cache` v2.9.2 (`ci.yml` only), and `taiki-e/install-action` v2.87.19 for the version-pinned cargo tools (cargo-deny 0.20.2 included); zizmor 1.30.1 is installed by `cargo install --locked zizmor@1.30.1` in the job that runs it.
-- Jobs wired today in `ci.yml`: `test` (per OS: harness `run --unit` / `--integration` through the OS's shim, then the boot → status → logs → cleanup lifecycle; `AGENT_RUN_KEEP_HOMES=1`; `target/agent-run/artifacts/` uploaded as `agent-run-<os>` with actions/upload-artifact v7.0.1), `mutants` (ubuntu, on push and pull_request: `agent-run run --mutants` over the chunk diff, base = the PR base sha or `github.event.before`, passed through `env:`), `lint` (per OS: target job 3) and `supply-chain` (ubuntu: target job 4 as `cargo deny --format json check`, then the sole-root `deny-sync.toml` tokio ban per listed sync crate, `scripts/deny-probes.sh` and `zizmor --format=json .github/workflows/`; the JSON reports uploaded from `target/supply-chain/` as artifact `supply-chain` with `if: always()`). Every gate step is fail-closed `shell: bash`.
+- Setup steps: `actions/checkout` v7.0.1 (`persist-credentials: false`), `rustup toolchain install` (reads `rust-toolchain.toml`: the exact pin plus rustfmt and clippy; no toolchain action), `Swatinem/rust-cache` v2.9.2 (`ci.yml` only), and `taiki-e/install-action` v2.87.19 for the version-pinned cargo tools (cargo-deny 0.20.2 included); zizmor 1.30.1 is installed by `cargo install --locked zizmor@1.30.1` in the job that runs it. ripgrep 15.2.0 (G1/G3) comes from `scripts/install-ripgrep.sh` in the `lint` job, because taiki-e/install-action has no ripgrep manifest: the official release asset, checked against its published sha256 and exported on `PATH`. `jq` (G2) is runner-provided, presence-checked in the `test` job and never installed.
+- Jobs wired today in `ci.yml`: `test` (per OS: harness `run --unit` / `--integration` through the OS's shim, then the boot → status → logs → cleanup lifecycle; `AGENT_RUN_KEEP_HOMES=1`; then, in obs-plan §9 order: `jq --version`, G2, G4 `schema-check` (`id: schema-conformance`), the `if: failure()` harness capture, and `secret-scan` (`id: secret-scan`, `if: always()`). The uploads are gated on that scan: `diag-<os>` and `junit-<os>` on `always() && steps.secret-scan.outcome == 'success'`, `harness-<os>` on `failure() && … == 'success'`, and `secret-scan-<os>` on `always() && … == 'failure'`, all with actions/upload-artifact v7.0.1 and 7 days), `mutants` (ubuntu, on push and pull_request: `agent-run run --mutants` over the chunk diff, base = the PR base sha or `github.event.before`, passed through `env:`), `lint` (per OS: target job 3, then target jobs 1 and 2, the ripgrep install, `rg --pcre2-version`, G1 and G3 verbatim from obs-plan §9, and `scripts/lint-probes.sh` on Linux) and `supply-chain` (ubuntu: target job 4 as `cargo deny --format json check`, then the sole-root `deny-sync.toml` tokio ban per listed sync crate, `scripts/deny-probes.sh` and `zizmor --format=json .github/workflows/`; the JSON reports uploaded from `target/supply-chain/` as artifact `supply-chain` with `if: always()`). Every gate step is fail-closed `shell: bash`.
 - Target jobs per OS, each wired by the chunk that owns it (Supply-chain gates, Quality gates, Workspace tree):
   1. `cargo fmt --all --check`
-  2. `cargo clippy --workspace --all-targets -- -D warnings`
+  2. `cargo clippy --workspace --all-targets --features fake-agent -- -D warnings` (workspace lint bans and `clippy.toml` in force)
   3. `cargo check` with one `-p` per crate listed in `scripts/sync-crates.txt` (target set `viola-core`, `viola-pty`, `viola-channel`, `viola-state`, `viola-agent-claude`; each joins the list with its crate; an empty list or an absent package fails) — proves the sync crates, including the `hook` path, compile on each OS without `viola-channel`'s `tokio` feature; the ban itself is the sole-root `deny-sync.toml` step of job 4
   4. `cargo deny check` (once, on ubuntu)
   5. the workspace test suite against the fake agent, replaying `fixtures/claude/*`

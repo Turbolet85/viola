@@ -2,6 +2,8 @@ pub mod boot;
 pub mod cleanup;
 pub mod logs;
 pub mod run;
+pub mod schema_check;
+pub mod secret_scan;
 pub mod status;
 pub mod supervise;
 

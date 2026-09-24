@@ -1,0 +1,3 @@
+error: can't find integration-test `contract_lints` at path `D:\dev\projects\viola\tests\contract_lints.rs`
+ --> D:\dev\projects\viola\Cargo.toml
+error: could not compile due to 1 previous target resolution error

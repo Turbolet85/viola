@@ -2,6 +2,9 @@
 //! Behaviour contract: test-plan §7 "Fake agent". Everything it observes goes to the `--receipt`
 //! file; stdout carries only the `--version` answer, so wrapped and unwrapped runs stay comparable.
 
+// It emulates the claude CLI on stdout/stderr; the workspace print bans are for product code.
+#![allow(clippy::print_stdout, clippy::print_stderr)]
+
 use std::fs::{self, File, OpenOptions};
 use std::io::{Read as _, Write as _};
 use std::path::{Path, PathBuf};

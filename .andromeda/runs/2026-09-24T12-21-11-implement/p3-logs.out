@@ -1,0 +1,2 @@
+{"src":"diag","file":"run-builder.ndjson","record":{"timestamp":"2026-09-24T13:06:12.665Z","level":"INFO","message":"process-start","event":"process-start","process":"run","instance":"builder","subject":"self","service_name":"viola","version":"0.1.0","os":"windows","pid":55400,"target":"viola::run"}}
+{"src":"diag","file":"run-builder.ndjson","record":{"timestamp":"2026-09-24T13:06:12.671Z","level":"INFO","message":"process-start","event":"process-start","process":"run","instance":"builder","subject":"claude-child","child_pid":47452,"target":"viola::run"}}

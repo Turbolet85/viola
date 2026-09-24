@@ -1,0 +1,104 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.09s
+────────────
+ Nextest run ID 5774963a-6ae5-42a7-9d4a-2fe055fe6917 with nextest profile: ci
+    Starting 84 tests across 6 binaries (5 binaries skipped)
+        PASS [   0.039s] ( 1/84) viola::cli_fake_agent fake_agent_bracketed_paste_and_cr_is_one_prompt
+        PASS [   0.040s] ( 2/84) viola::cli_fake_agent keep_decision_keeps_for_ci_or_failed_tests::case_8_both_flags_panicking
+        PASS [   0.055s] ( 3/84) viola::cli_fake_agent booted_wrapper_fixture_is_ready_and_receipting
+        PASS [   0.061s] ( 4/84) viola::cli_fake_agent fake_agent_hook_stdout_and_exit_are_receipted
+        PASS [   0.069s] ( 5/84) viola::cli_fake_agent fake_agent_fires_the_plugin_hook_with_the_prompt_in_the_payload
+        PASS [   0.070s] ( 6/84) viola::cli_fake_agent fake_agent_cr_with_nothing_typed_submits_nothing
+        PASS [   0.070s] ( 7/84) viola::cli_fake_agent keep_decision_keeps_for_ci_or_failed_tests::case_5_keep_homes
+        PASS [   0.072s] ( 8/84) viola::contract_diag_schema diag_detail_schema_allows_content_fields_only_there
+        PASS [   0.073s] ( 9/84) viola::cli_fake_agent fake_agent_rejects_an_unreadable_script::case_1_wrong_version
+        PASS [   0.075s] (10/84) viola::cli_fake_agent fake_agent_slash_prompt_fires_without_local_command_mode
+        PASS [   0.102s] (11/84) viola::cli_fake_agent fake_agent_suppress_prompt_submit_fires_nothing
+        PASS [   0.108s] (12/84) viola::cli_fake_agent fake_agent_rejects_an_unreadable_script::case_3_not_json
+        PASS [   0.116s] (13/84) viola::cli_fake_agent test_home_drop_follows_the_keep_decision
+        PASS [   0.118s] (14/84) viola::cli_fake_agent fake_agent_ungated_steps_run_at_start
+        PASS [   0.122s] (15/84) viola::cli_fake_agent fake_agent_without_exit_no_eof_releases_stdout_at_exit
+        PASS [   0.124s] (16/84) viola::cli_fake_agent keep_decision_keeps_for_ci_or_failed_tests::case_4_failed_and_panicking
+        PASS [   0.131s] (17/84) viola::cli_fake_agent fake_agent_without_a_fixture_or_plugin_spawns_nothing
+        PASS [   0.132s] (18/84) viola::cli_fake_agent keep_decision_keeps_for_ci_or_failed_tests::case_6_keep_homes_panicking
+        PASS [   0.136s] (19/84) viola::cli_fake_agent keep_decision_keeps_for_ci_or_failed_tests::case_3_panicking_without_flag
+        PASS [   0.138s] (20/84) viola::cli_fake_agent fake_agent_receipt_env_holds_names_never_values
+        PASS [   0.150s] (21/84) viola::cli_fake_agent chain_boots_the_fake_agent_under_viola_with_a_gated_script
+        PASS [   0.175s] (22/84) viola::cli_fake_agent keep_decision_keeps_for_ci_or_failed_tests::case_2_failed_flag_but_passing
+        PASS [   0.175s] (23/84) viola::cli_fake_agent fake_agent_rejects_an_unreadable_script::case_2_unknown_event
+        PASS [   0.179s] (24/84) viola::cli_fake_agent keep_decision_keeps_for_ci_or_failed_tests::case_1_nothing_set
+        PASS [   0.193s] (25/84) viola::cli_fake_agent keep_decision_keeps_for_ci_or_failed_tests::case_7_both_flags_passing
+        PASS [   0.194s] (26/84) viola::cli_fake_agent fake_agent_typed_bytes_are_keys_byte_exact
+        PASS [   0.202s] (27/84) viola::cli_fake_agent fake_agent_never_runs_a_non_absolute_hook_command
+        PASS [   0.241s] (28/84) viola::cli_fake_agent fake_agent_local_command_mode_skips_only_slash_prompts
+        PASS [   0.203s] (29/84) viola::contract_diag_schema diag_line_schema_event_enum_equals_the_log_format_literals
+        PASS [   0.216s] (30/84) viola::contract_diag_schema diag_line_schema_confines_corr_to_its_events
+        PASS [   0.256s] (31/84) viola::cli_fake_agent fake_agent_report_version_changes_only_the_version_answer
+        PASS [   0.208s] (32/84) viola::contract_diag_schema diag_line_schema_rejects_literal_null_corr_and_instance::case_1_null_corr
+        PASS [   0.205s] (33/84) viola::contract_diag_schema diag_line_schema_rejects_literal_null_corr_and_instance::case_2_null_instance
+        PASS [   0.202s] (34/84) viola::contract_diag_schema diag_line_schema_rejects_literal_null_corr_and_instance::case_3_message_not_the_event
+        PASS [   0.198s] (35/84) viola::contract_fixture_hygiene absolute_path_and_username_predicates_hold_their_edges
+        PASS [   0.205s] (36/84) viola::contract_diag_schema diag_line_schema_rejects_literal_null_corr_and_instance::case_4_uncatalogued_key
+        PASS [   0.209s] (37/84) viola::contract_diag_schema diag_line_schema_rejects_literal_null_corr_and_instance::case_5_bad_timestamp
+        PASS [   0.200s] (38/84) viola::contract_fixture_hygiene planted_absolute_path_in_a_key_is_rejected
+        PASS [   0.235s] (39/84) viola::contract_fixture_hygiene fake_script_passes_hygiene::path_1_fixtures_fake_scripts_gated_turn_json
+        PASS [   0.196s] (40/84) viola::contract_fixture_hygiene planted_absolute_path_is_rejected::case_1_windows_drive
+        PASS [   0.211s] (41/84) viola::contract_fixture_hygiene non_json_is_a_schema_violation_and_unknown_fields_are_tolerated
+        PASS [   0.198s] (42/84) viola::contract_fixture_hygiene planted_absolute_path_is_rejected::case_2_windows_drive_slash
+        PASS [   0.198s] (43/84) viola::contract_fixture_hygiene planted_absolute_path_is_rejected::case_3_linux_home
+        PASS [   0.200s] (44/84) viola::contract_fixture_hygiene planted_absolute_path_is_rejected::case_4_macos_users
+        PASS [   0.197s] (45/84) viola::contract_fixture_hygiene planted_absolute_path_is_rejected::case_5_windows_users
+        PASS [   0.209s] (46/84) viola::contract_fixture_hygiene planted_schema_violation_is_rejected::case_1_wrong_version
+        PASS [   0.293s] (47/84) viola::contract_diag_schema diag_lines_from_real_runs_validate
+        PASS [   0.233s] (48/84) viola::contract_fixture_hygiene planted_schema_violation_is_rejected::case_2_no_steps
+        PASS [   0.235s] (49/84) viola::contract_fixture_hygiene planted_schema_violation_is_rejected::case_3_unknown_event
+        PASS [   0.201s] (50/84) viola::contract_fixture_hygiene violation_classes_have_kebab_names
+        PASS [   0.228s] (51/84) viola::contract_fixture_hygiene planted_schema_violation_is_rejected::case_4_gate_not_bool
+        PASS [   0.207s] (52/84) viola::contract_fixture_hygiene planted_username_is_rejected_placeholder_is_not
+        PASS [   0.200s] (53/84) viola::run_cli fake_agent_exits_on_stdin_eof
+        PASS [   0.216s] (54/84) viola::run_cli fake_agent_answers_version_in_the_cli_format
+        LEAK [   0.400s] (55/84) viola::cli_fake_agent fake_agent_exit_no_eof_exits_while_stdout_is_held
+        PASS [   0.195s] (56/84) viola::run_cli run_child_exit_status_is_recorded
+        PASS [   0.240s] (57/84) viola::run_cli run_appends_to_an_existing_role_file
+        PASS [   0.216s] (58/84) viola::run_cli run_config_malformed_emits_parse_rejected
+        PASS [   0.220s] (59/84) viola::run_cli run_internal_error_routes_the_chain_to_the_detail_file
+        PASS [   0.248s] (60/84) viola::run_cli run_config_unknown_keys_are_counted
+        PASS [   0.517s] (61/84) viola::cli_fake_agent fake_agent_injected_harness_turn_is_a_gated_harness_prompt
+        PASS [   0.290s] (62/84) viola::run_cli run_config_debug_level_keeps_the_key_set
+        PASS [   0.301s] (63/84) viola::run_cli run_is_silent_on_stdout_and_stderr
+        PASS [   0.268s] (64/84) viola::run_cli run_with_a_missing_program_exits_1_with_internal_error
+        PASS [   0.318s] (65/84) viola::run_cli run_with_a_bad_name_is_usage_and_creates_nothing
+        PASS [   0.293s] (66/84) viola::run_cli viola_without_a_verb_is_usage
+        PASS [   0.296s] (67/84) viola::run_cli run_with_fake_agent_writes_start_and_exit_lines
+        PASS [   0.336s] (68/84) viola::run_cli run_never_writes_a_claude_canary_anywhere
+        PASS [   0.372s] (69/84) viola::run_cli run_rust_log_changes_nothing
+        PASS [   0.370s] (70/84) viola::run_cli run_self_exit_carries_duration_ms
+        PASS [   0.337s] (71/84) viola-e2e::cli boot_with_an_invalid_instance_name_is_usage_before_any_build
+        PASS [   0.365s] (72/84) viola-e2e::cli cleanup_of_an_unknown_session_is_ok_and_empty
+        PASS [   0.375s] (73/84) viola-e2e::cli status_and_logs_of_an_unknown_session_are_exit_2
+        PASS [   0.357s] (74/84) viola-e2e::cli supervise_without_a_spec_exits_2_and_prints_nothing
+        PASS [   0.327s] (75/84) viola-e2e::harness_lifecycle boot_without_the_fake_agent_binary_is_build_failed
+        PASS [   0.815s] (76/84) viola::cli_fake_agent fake_agent_gated_steps_wait_for_control_lines
+        PASS [   0.464s] (77/84) viola-e2e::cli unbuilt_selectors_and_unknown_commands_are_usage
+        PASS [   0.701s] (78/84) viola::run_cli fake_agent_stops_at_ctrl_c_and_reads_no_further
+        PASS [   0.770s] (79/84) viola-e2e::cli cleanup_keeps_the_home_under_agent_run_keep_homes
+        PASS [   0.826s] (80/84) viola-e2e::cli status_logs_and_cleanup_drive_a_booted_session
+        PASS [   0.899s] (81/84) viola-e2e::harness_lifecycle harness_session_with_a_dead_wrapper_reads_degraded
+        PASS [   0.920s] (82/84) viola-e2e::harness_lifecycle harness_session_boots_reports_logs_and_tears_down
+        PASS [   0.962s] (83/84) viola-e2e::harness_lifecycle cleanup_force_kills_a_recorded_process_that_outlives_the_stop
+        PASS [  21.197s] (84/84) viola-e2e::harness_lifecycle boot_that_never_gets_ready_times_out_and_stops_its_supervisor
+────────────
+     Summary [  21.568s] 84 tests run: 84 passed (1 leaky), 0 skipped
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.08s
+   Doc-tests viola_core
+   Doc-tests viola_e2e
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+{"v":1,"cmd":"run","ok":true,"suites":[{"suite":"nextest-integration","passed":84,"failed":0,"skipped":0,"survived":0,"artifact":"D:\\dev\\projects\\viola\\target\\agent-run\\artifacts\\junit-nextest-integration.xml","failures":[]},{"suite":"doctest","passed":0,"failed":0,"skipped":0,"survived":0,"artifact":null,"failures":[]}]}

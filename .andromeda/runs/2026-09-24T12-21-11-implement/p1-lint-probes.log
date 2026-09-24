@@ -1,0 +1,8 @@
+fired   println (print_stdout)
+fired   eprintln (print_stderr)
+fired   dbg (dbg_macro)
+fired   tracing-info (disallowed_macros)
+clean   allowed-print
+clean   obs-event
+clean   raw-event grep (planted hit found, obs_event! passed, tree clean)
+lint-probes: 4 bans fired, 2 controls clean

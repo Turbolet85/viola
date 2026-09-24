@@ -17,6 +17,7 @@ path = "src/bin/viola-harness.rs"
 [dependencies]
 viola-core = { path = "../viola-core" }
 clap.workspace = true
+jsonschema.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 sysinfo.workspace = true
@@ -26,3 +27,6 @@ thiserror.workspace = true
 # viola-harness prints its JSON document by design: no workspace print bans here (obs-plan B5).
 [lints.rust]
 unused_must_use = "deny"
+
+[lints.clippy]
+dbg_macro = "deny"

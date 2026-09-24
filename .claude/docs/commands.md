@@ -7,7 +7,9 @@ _The workspace, `rust-toolchain.toml`, `.config/nextest.toml`, `viola-harness` a
 ## Installation
 - `rustup toolchain install` — installs the toolchain pinned in `rust-toolchain.toml` (1.98.1, components rustfmt + clippy)
 - `cargo install --locked cargo-nextest@0.9.146 cargo-llvm-cov@0.9.1 cargo-mutants@27.1.0 cargo-deny@0.20.2` — test / coverage / mutation / policy tools (CI uses taiki-e/install-action, SHA-pinned)
-- `cargo install --locked hyperfine@1.20.0 cargo-modules@0.27.0 zizmor@1.30.1 jaq@3.1.1` — perf gate, boundary review, workflow lint, log assertions
+- `cargo install --locked hyperfine@1.20.0 cargo-modules@0.27.0 zizmor@1.30.1` — perf gate, boundary review, workflow lint
+- `bash scripts/install-ripgrep.sh`: ripgrep 15.2.0 (PCRE2, sha256-verified) into `target/tools/ripgrep/bin` for G1/G3.
+- `jq` for G2: runner-provided in CI and presence-checked, never installed there. jaq 3.1.1 takes the same filters locally.
 - `npm ci --prefix e2e-web` then `npx --prefix e2e-web playwright install --with-deps chromium` — browser suite (ubuntu CI; local optional)
 - `cargo install --path .` — install `viola` from the repo root
 - `pip install -r scripts/requirements.txt` — code-graph Python deps (duckdb + protobuf)
@@ -42,7 +44,8 @@ _The workspace, `rust-toolchain.toml`, `.config/nextest.toml`, `viola-harness` a
 
 ## Linting & Formatting
 - `cargo fmt --all` / `cargo fmt --all --check` — format / format gate (edition from `rustfmt.toml`)
-- `cargo clippy --workspace --all-targets --features fake-agent -- -D warnings` — lint gate (`disallowed-macros`, `print_stdout`, `print_stderr`, `dbg_macro` denied workspace-wide)
+- `cargo clippy --workspace --all-targets --features fake-agent -- -D warnings`: the lint gate. `print_stdout`, `print_stderr` and `dbg_macro` are denied workspace-wide, and `clippy.toml` `disallowed-macros` bans the tracing level macros.
+- `bash scripts/lint-probes.sh`: proves every clippy ban fires and both controls pass, plus the fail-closed raw-`event!` grep (last line `lint-probes: 4 bans fired, 2 controls clean`; CI runs it on the Linux lint leg).
 - `cargo check --workspace --all-targets` — type check
 - `cargo check $(sed 's/^/-p /' scripts/sync-crates.txt)` — the listed sync crates compile without tokio (CI job `lint`; each sync crate joins `scripts/sync-crates.txt` with its crate)
 - `cargo tree -e features -p viola --edges normal` — assert rmcp shows only `server`, `transport-io`
@@ -57,7 +60,10 @@ _The workspace, `rust-toolchain.toml`, `.config/nextest.toml`, `viola-harness` a
 - G1 bare `#[instrument]`: `rg -n -U --pcre2 --type rust '#\[(tracing::)?instrument\b(?!\(\s*skip_all\b)' .` must exit 1
 - G2 zero panics over `target/e2e-home/**/diagnostics/*.ndjson` (role files only) via `jq -R -n -e`
 - G3 no abort panic strategy: `rg -n --hidden -g 'Cargo.toml' -g 'config.toml' -g '*.yml' -g '*.yaml' "(panic|_PANIC)\s*[:=]\s*[\"']?abort" .` must exit 1
-- G4 schema conformance against `schemas/diag-line.v1.json` / `schemas/diag-detail.v1.json`; secret scan (`id: secret-scan`) before any upload
+- G1 and G3 need `rg` on `PATH`: `PATH="$PWD/target/tools/ripgrep/bin:$PATH"` after `scripts/install-ripgrep.sh`.
+- G4 schema conformance against `schemas/diag-line.v1.json` / `schemas/diag-detail.v1.json`: `bash scripts/agent-run.sh schema-check`.
+- Secret scan before any upload: `bash scripts/agent-run.sh secret-scan` (`id: secret-scan`). The hit report goes to `target/secret-scan/hits.json`.
+- Locally, G2, G4 and the scan need kept homes. Clear `target/e2e-home` and `target/agent-run` first (a local `run --mutants` leaves a `chunk.diff` there that holds canary literals), then run `AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --integration`.
 
 ## Build & Deploy
 - `cargo build --release --bin viola` — release build (fake agent excluded: feature off)

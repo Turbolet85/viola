@@ -1,0 +1,254 @@
+    Checking viola-core v0.1.0 (D:\dev\projects\viola\crates\viola-core)
+    Checking viola-e2e v0.1.0 (D:\dev\projects\viola\crates\viola-e2e)
+    Checking viola v0.1.0 (D:\dev\projects\viola)
+error: use of a disallowed macro `tracing::event`
+   --> src\obs.rs:229:5
+    |
+229 | /     obs_event!(
+230 | |         WARN,
+231 | |         ObsEvent::ParseRejected,
+232 | |         parser = "config-json",
+233 | |         detail = rejection.detail(),
+234 | |         count = rejection.count(),
+235 | |     );
+    | |_____^
+    |
+    = note: log through viola_core::obs_event! (obs-plan §3)
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#disallowed_macros
+    = note: `-D clippy::disallowed-macros` implied by `-D warnings`
+    = help: to override `-D warnings` add `#[allow(clippy::disallowed_macros)]`
+    = note: this error originates in the macro `::tracing::event` which comes from the expansion of the macro `obs_event` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error: use of a disallowed macro `tracing::event`
+   --> src\obs.rs:229:5
+    |
+229 | /     obs_event!(
+230 | |         WARN,
+231 | |         ObsEvent::ParseRejected,
+232 | |         parser = "config-json",
+233 | |         detail = rejection.detail(),
+234 | |         count = rejection.count(),
+235 | |     );
+    | |_____^
+    |
+    = note: log through viola_core::obs_event! (obs-plan §3)
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#disallowed_macros
+    = note: this error originates in the macro `obs_event` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error: use of a disallowed macro `tracing::event`
+   --> src\obs.rs:242:9
+    |
+242 | /         obs_event!(
+243 | |             ERROR,
+244 | |             ObsEvent::ProcessExit,
+245 | |             subject = "self",
+...   |
+248 | |             duration_ms = duration_ms(),
+249 | |         );
+    | |_________^
+    |
+    = note: log through viola_core::obs_event! (obs-plan §3)
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#disallowed_macros
+    = note: this error originates in the macro `::tracing::event` which comes from the expansion of the macro `obs_event` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error: use of a disallowed macro `tracing::event`
+   --> src\obs.rs:242:9
+    |
+242 | /         obs_event!(
+243 | |             ERROR,
+244 | |             ObsEvent::ProcessExit,
+245 | |             subject = "self",
+...   |
+248 | |             duration_ms = duration_ms(),
+249 | |         );
+    | |_________^
+    |
+    = note: log through viola_core::obs_event! (obs-plan §3)
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#disallowed_macros
+    = note: this error originates in the macro `obs_event` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error: use of a disallowed macro `tracing::event`
+  --> src\run\mod.rs:12:5
+   |
+12 | /     obs_event!(
+13 | |         INFO,
+14 | |         ObsEvent::ProcessStart,
+15 | |         subject = "self",
+...  |
+19 | |         pid = std::process::id(),
+20 | |     );
+   | |_____^
+   |
+   = note: log through viola_core::obs_event! (obs-plan §3)
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#disallowed_macros
+   = note: this error originates in the macro `::tracing::event` which comes from the expansion of the macro `obs_event` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error: use of a disallowed macro `tracing::event`
+  --> src\run\mod.rs:12:5
+   |
+12 | /     obs_event!(
+13 | |         INFO,
+14 | |         ObsEvent::ProcessStart,
+15 | |         subject = "self",
+...  |
+19 | |         pid = std::process::id(),
+20 | |     );
+   | |_____^
+   |
+   = note: log through viola_core::obs_event! (obs-plan §3)
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#disallowed_macros
+   = note: this error originates in the macro `obs_event` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error: use of a disallowed macro `tracing::event`
+  --> src\run\mod.rs:24:5
+   |
+24 | /     obs_event!(
+25 | |         INFO,
+26 | |         ObsEvent::ProcessStart,
+27 | |         subject = "claude-child",
+28 | |         child_pid = child_pid,
+29 | |     );
+   | |_____^
+   |
+   = note: log through viola_core::obs_event! (obs-plan §3)
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#disallowed_macros
+   = note: this error originates in the macro `::tracing::event` which comes from the expansion of the macro `obs_event` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error: use of a disallowed macro `tracing::event`
+  --> src\run\mod.rs:24:5
+   |
+24 | /     obs_event!(
+25 | |         INFO,
+26 | |         ObsEvent::ProcessStart,
+27 | |         subject = "claude-child",
+28 | |         child_pid = child_pid,
+29 | |     );
+   | |_____^
+   |
+   = note: log through viola_core::obs_event! (obs-plan §3)
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#disallowed_macros
+   = note: this error originates in the macro `obs_event` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error: use of a disallowed macro `tracing::event`
+  --> src\run\mod.rs:33:5
+   |
+33 | /     obs_event!(
+34 | |         INFO,
+35 | |         ObsEvent::ProcessExit,
+36 | |         subject = "claude-child",
+37 | |         child_exit_status = status,
+38 | |         exit_source = "handle-wait",
+39 | |     );
+   | |_____^
+   |
+   = note: log through viola_core::obs_event! (obs-plan §3)
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#disallowed_macros
+   = note: this error originates in the macro `::tracing::event` which comes from the expansion of the macro `obs_event` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error: use of a disallowed macro `tracing::event`
+  --> src\run\mod.rs:33:5
+   |
+33 | /     obs_event!(
+34 | |         INFO,
+35 | |         ObsEvent::ProcessExit,
+36 | |         subject = "claude-child",
+37 | |         child_exit_status = status,
+38 | |         exit_source = "handle-wait",
+39 | |     );
+   | |_____^
+   |
+   = note: log through viola_core::obs_event! (obs-plan §3)
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#disallowed_macros
+   = note: this error originates in the macro `obs_event` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error: use of a disallowed macro `tracing::event`
+  --> src\run\mod.rs:45:25
+   |
+45 |           Some(detail) => obs_event!(
+   |  _________________________^
+46 | |             ERROR,
+47 | |             ObsEvent::ProcessExit,
+48 | |             subject = "self",
+...  |
+51 | |             duration_ms = duration_ms,
+52 | |         ),
+   | |_________^
+   |
+   = note: log through viola_core::obs_event! (obs-plan §3)
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#disallowed_macros
+   = note: this error originates in the macro `::tracing::event` which comes from the expansion of the macro `obs_event` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error: use of a disallowed macro `tracing::event`
+  --> src\run\mod.rs:45:25
+   |
+45 |           Some(detail) => obs_event!(
+   |  _________________________^
+46 | |             ERROR,
+47 | |             ObsEvent::ProcessExit,
+48 | |             subject = "self",
+...  |
+51 | |             duration_ms = duration_ms,
+52 | |         ),
+   | |_________^
+   |
+   = note: log through viola_core::obs_event! (obs-plan §3)
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#disallowed_macros
+   = note: this error originates in the macro `obs_event` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error: use of a disallowed macro `tracing::event`
+  --> src\run\mod.rs:53:17
+   |
+53 |           None => obs_event!(
+   |  _________________^
+54 | |             INFO,
+55 | |             ObsEvent::ProcessExit,
+56 | |             subject = "self",
+57 | |             exit_code = exit_code,
+58 | |             duration_ms = duration_ms,
+59 | |         ),
+   | |_________^
+   |
+   = note: log through viola_core::obs_event! (obs-plan §3)
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#disallowed_macros
+   = note: this error originates in the macro `::tracing::event` which comes from the expansion of the macro `obs_event` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error: use of a disallowed macro `tracing::event`
+  --> src\run\mod.rs:53:17
+   |
+53 |           None => obs_event!(
+   |  _________________^
+54 | |             INFO,
+55 | |             ObsEvent::ProcessExit,
+56 | |             subject = "self",
+57 | |             exit_code = exit_code,
+58 | |             duration_ms = duration_ms,
+59 | |         ),
+   | |_________^
+   |
+   = note: log through viola_core::obs_event! (obs-plan §3)
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#disallowed_macros
+   = note: this error originates in the macro `obs_event` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error: could not compile `viola` (bin "viola") due to 14 previous errors
+warning: build failed, waiting for other jobs to finish...
+error: use of a disallowed macro `tracing::event`
+   --> src\obs.rs:705:23
+    |
+705 |         let emit = || obs_event!(DEBUG, ObsEvent::StateRecovered, detail = "torn-line-healed");
+    |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: log through viola_core::obs_event! (obs-plan §3)
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#disallowed_macros
+    = note: this error originates in the macro `::tracing::event` which comes from the expansion of the macro `obs_event` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error: use of a disallowed macro `tracing::event`
+   --> src\obs.rs:705:23
+    |
+705 |         let emit = || obs_event!(DEBUG, ObsEvent::StateRecovered, detail = "torn-line-healed");
+    |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: log through viola_core::obs_event! (obs-plan §3)
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#disallowed_macros
+    = note: this error originates in the macro `obs_event` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error: could not compile `viola` (bin "viola" test) due to 16 previous errors

@@ -1,0 +1,21 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.09s
+────────────
+ Nextest run ID d99e7b3b-6bb9-4936-b8b8-ecaae8a1993d with nextest profile: ci
+    Starting 1 test across 6 binaries (83 tests and 5 binaries skipped)
+        PASS [   0.123s] (1/1) viola::run_cli run_self_exit_carries_duration_ms
+────────────
+     Summary [   0.123s] 1 test run: 1 passed, 83 skipped
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.07s
+   Doc-tests viola_core
+   Doc-tests viola_e2e
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+{"v":1,"cmd":"run","ok":true,"suites":[{"suite":"nextest-integration","passed":1,"failed":0,"skipped":0,"survived":0,"artifact":"D:\\dev\\projects\\viola\\target\\agent-run\\artifacts\\junit-nextest-integration.xml","failures":[]},{"suite":"doctest","passed":0,"failed":0,"skipped":0,"survived":0,"artifact":null,"failures":[]}]}

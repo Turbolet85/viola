@@ -37,6 +37,11 @@ name = "contract_diag_schema"
 path = "tests/contract_diag_schema.rs"
 required-features = ["fake-agent"]
 
+[[test]]
+name = "contract_lints"
+path = "tests/contract_lints.rs"
+required-features = ["fake-agent"]
+
 [dependencies]
 viola-core = { path = "crates/viola-core" }
 anyhow.workspace = true
@@ -84,6 +89,13 @@ tracing-subscriber = { version = "=0.3.23", default-features = false, features =
 
 [workspace.lints.rust]
 unused_must_use = "deny"
+
+# stdout carries only `--json`, the hook decision body, MCP frames and the child's screen: a stray
+# print breaks those contracts (obs-plan §11 Logs). Output modules take a local `#[allow]`.
+[workspace.lints.clippy]
+print_stdout = "deny"
+print_stderr = "deny"
+dbg_macro = "deny"
 
 [profile.dev]
 panic = "unwind"

@@ -20,7 +20,7 @@ A change on one side keeps the other in sync; a log-format break is a harness br
 
 ## Shims
 - `scripts/agent-run.sh` and `scripts/agent-run.ps1` are identical thin shims: `cargo run -q -p viola-e2e --bin viola-harness -- <command> [flags]`, forwarding exit code and stdout unchanged. All logic lives once, in Rust.
-- Agent surface: exactly `boot · run · status · cleanup · logs`. `supervise`, `ui-restart` and `gate` are internal subcommands, forwarded unchanged. A 6th agent command needs a test-plan amendment.
+- Agent surface: exactly `boot · run · status · cleanup · logs`. `supervise`, `ui-restart`, `gate`, and the CI gate bodies `schema-check` (G4) and `secret-scan` are internal subcommands, forwarded unchanged by both shims (test-plan §3 Internal harness subcommands). A 6th agent command needs a test-plan amendment.
 - Every command prints exactly one JSON document on stdout starting `{"v":1,"cmd":"<command>","ok":<bool>,…}`; exit 0 ok · 1 failure · 2 usage. A human-only message without the JSON document is forbidden.
 
 ## boot
@@ -44,7 +44,7 @@ A change on one side keeps the other in sync; a log-format break is a harness br
 - It must not drift from recorded `viola verify` fixtures (contract suite).
 
 ## Exemptions
-- `viola-harness` and the fake agent print by design. `viola-e2e` omits `[lints] workspace = true` and carries its own `[lints.clippy]` without `print_stdout` / `print_stderr`; the fake agent is a `[[bin]]` of the root package (lints are per package), so it takes a crate-level `#![allow(clippy::print_stdout, clippy::print_stderr)]` once the print bans land.
+- `viola-harness` and the fake agent print by design. `viola-e2e` omits `[lints] workspace = true` and carries its own `[lints.clippy]` without `print_stdout` / `print_stderr`; the fake agent is a `[[bin]]` of the root package (lints are per package), so it takes a crate-level `#![allow(clippy::print_stdout, clippy::print_stderr)]`. `tests/contract_lints.rs` asserts that every product member inherits the workspace lints and only `viola-e2e` opts out.
 
 ## Session Additions
 _This section is owned by `/wrap-session`. setup-project preserves content added here on re-run._

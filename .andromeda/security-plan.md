@@ -378,7 +378,7 @@ combine, setup-project may add stack-specific intermediate steps.
   - Add the `MAX_FRAME` const and the `Read::take` wrappers on every external reader.
 - **dep-audit-tooling-install:** cargo-deny `>=0.20.2` with the `deny.toml` `[advisories]`, `[sources]` and `[[bans.features]]` additions; zizmor `>=1.30.1`. cargo-audit `>=0.22.2` is deferred to v1.x binary scans.
 - **secret-management-init:** N/A for stored secrets (none in v1). Only the GUI per-launch token file `<viola home>/ui/<port>.url` (0600) and its cleanup on shutdown.
-- **secret-scanning-ci-gate:** Not wired in v1. There are no secrets in the repo or CI, and no scanner was researched (see the Decisions Log). `.gitignore` excludes any local `--home` test directories so recorded state never lands in git.
+- **secret-scanning-ci-gate:** No repo secret scanner in v1. There are no secrets in the repo or CI, and no scanner was researched (see the Decisions Log). The CI `test` job does run obs-plan §9's artifact canary scan: `viola-harness secret-scan` over test-home diagnostics, the harness capture and the nextest JUnit report, checked against this plan's NEVER-log floor. It never prints or writes the matched bytes, and every scan-gated upload (`diag-`, `junit-`, `harness-<os>`) waits for it to pass. The `mutants` job's `mutants.out/` upload is not scanned yet (a CARRY on "Quality gates"). `.gitignore` excludes any local `--home` test directories so recorded state never lands in git.
 - **error-sanitization-wire:**
   - `thiserror` `Display` impls on the `<Crate>Error` enums must not interpolate upstream text or absolute paths.
   - `UiError` maps to fixed Problem Details `detail` strings.
@@ -418,7 +418,17 @@ _[ALL tiers]_
 
 **Never in code:** No token, key or credential literal in source or in the embedded plugin files (`hooks.json`, `.mcp.json`, `plugin.json` carry only exec paths).
 
-**Secret scanning in CI:** Not in v1. The repo and CI hold no secrets, and security-research.md catalogues no secret scanner (see the Decisions Log). Revisit when the v1.x release workflow adds signing credentials.
+**Secret scanning in CI:** No repo secret scanner in v1. The repo and CI hold no secrets, and security-research.md catalogues no secret scanner (see the Decisions Log). Revisit when the v1.x release workflow adds signing credentials.
+
+What CI does run is the obs-owned artifact canary scan (`viola-harness secret-scan`, `id: secret-scan`, `if: always()`, obs-plan §9 step 3). Its classes:
+- the stripped `CLAUDE*` canaries;
+- `?t=`;
+- `cookie:` and `viola_<port>=`;
+- the GUI token read from each home's `ui/*.url`;
+- the content canary, which fails only in home-level role files;
+- a non-`0600` diagnostics file, Unix only.
+
+It never prints or writes the matched bytes, and the test-home uploads run only when it succeeds.
 
 **Rotation cadence:**
 - **API keys / DB passwords:** N/A.

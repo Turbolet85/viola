@@ -14,8 +14,15 @@ slow-timeout = { period = "30s", terminate-after = 4 }
 [profile.ci.junit]
 path = "junit.xml"
 
-# A mutant that hangs a test must end as a failed (caught) test, not a cargo-mutants timeout:
-# the first failure terminates every running test at once, and a hung test is killed at 30 s.
+# A mutant that hangs a test must end as a failed (caught) test, not a cargo-mutants timeout: the
+# first failure terminates every running test at once. cargo-mutants' auto timeout floors at 20 s,
+# so every in-test wait and this kill (10 s) stay below it — at or above it, a hang grades Timeout.
 [profile.mutants]
 fail-fast = { max-fail = 1, terminate = "immediate" }
+slow-timeout = { period = "5s", terminate-after = 2 }
+
+# The harness's own tests wait out its 20 s boot deadline by design. When a diff touches the harness,
+# its baseline runs past 20 s, so cargo-mutants' auto timeout scales well above this 30 s kill.
+[[profile.mutants.overrides]]
+filter = 'package(viola-e2e)'
 slow-timeout = { period = "15s", terminate-after = 2 }

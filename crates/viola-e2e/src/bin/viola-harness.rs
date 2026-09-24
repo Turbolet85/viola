@@ -1,5 +1,6 @@
 //! `viola-harness`: parse, call `viola_e2e::harness`, print one JSON document, exit 0 · 1 · 2.
 //! (`logs` streams ndjson instead; `supervise` prints nothing — its document is its file.)
+//! `schema-check` and `secret-scan` are internal CI gate bodies, not agent commands.
 
 use std::process::ExitCode;
 
@@ -8,6 +9,8 @@ use viola_e2e::harness::boot::{BootOptions, DEFAULT_CLI_VERSION, InstanceSpec, b
 use viola_e2e::harness::cleanup::{Target, cleanup};
 use viola_e2e::harness::logs::{Filter, logs};
 use viola_e2e::harness::run::{Selection, run};
+use viola_e2e::harness::schema_check::schema_check;
+use viola_e2e::harness::secret_scan::secret_scan;
 use viola_e2e::harness::status::status;
 use viola_e2e::harness::supervise::supervise;
 use viola_e2e::harness::{Outcome, Workspace};
@@ -63,9 +66,20 @@ enum Cmd {
         #[arg(long)]
         session: String,
     },
+    SchemaCheck,
+    SecretScan,
 }
 
-const COMMANDS: [&str; 6] = ["boot", "run", "status", "cleanup", "logs", "supervise"];
+const COMMANDS: [&str; 8] = [
+    "boot",
+    "run",
+    "status",
+    "cleanup",
+    "logs",
+    "supervise",
+    "schema-check",
+    "secret-scan",
+];
 
 fn emit(outcome: Outcome) -> ExitCode {
     println!("{}", outcome.doc);
@@ -151,5 +165,7 @@ fn main() -> ExitCode {
             }
         }
         Cmd::Supervise { session } => ExitCode::from(supervise(&ws, &session).code),
+        Cmd::SchemaCheck => emit(schema_check(&ws)),
+        Cmd::SecretScan => emit(secret_scan(&ws)),
     }
 }

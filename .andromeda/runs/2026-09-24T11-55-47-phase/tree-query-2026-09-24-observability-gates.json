@@ -1,0 +1,53 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'wait_ready' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 5,
+"result": [
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/boot/start().",
+"file": "crates/viola-e2e/src/harness/boot.rs",
+"line": 144
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/boot/tests/readiness_reports_a_wrapper_that_already_exited().",
+"file": "crates/viola-e2e/src/harness/boot.rs",
+"line": 393
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/boot/tests/wait_ready_times_out_with_the_missing_checks().",
+"file": "crates/viola-e2e/src/harness/boot.rs",
+"line": 403
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/boot/tests/wait_ready_returns_a_ready_instance().",
+"file": "crates/viola-e2e/src/harness/boot.rs",
+"line": 422
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 support/home/impl#[Wrapper]boot().",
+"file": "tests/support/home.rs",
+"line": 144
+}
+],
+"db_state": "regenerated",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'boot' AND callee_kind = 'fn' AND callee_file LIKE '%home.rs' ORDER BY file, line",
+"rows": 2,
+"result": [
+{
+"caller": "rust-analyzer cargo viola 0.1.0 chain_boots_the_fake_agent_under_viola_with_a_gated_script().",
+"file": "tests/cli_fake_agent.rs",
+"line": 590
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 support/home/booted_wrapper#",
+"file": "tests/support/home.rs",
+"line": 212
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

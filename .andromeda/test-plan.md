@@ -539,7 +539,7 @@ the concrete contract.
      - Root `tests/` suites use the rstest chain `home → fake_agent_path → stamped_home → booted_wrapper`.
      - `crates/viola-e2e` scenarios use one of two fixtures, chosen by the scenario's §6 Cleanup line:
        - Cleanup "harness `cleanup`" (Paths 2, 3, 4, 6, 7, E3, E4): the rstest `harness_session` fixture. It calls the same library code as the `boot` / `cleanup` commands (`viola_e2e::harness::{boot, cleanup}`), and runs the supervisor as a fixture-owned thread instead of a spawned `supervise` process (until that fixture exists, the library `boot` spawns the `supervise` process from the given binary dir). `harness_session` always skips boot step 1, so no `cargo build` runs inside nextest. It passes `viola_e2e::harness::boot` the binary dir found from the test executable's own target dir (the assert_cmd `cargo_bin` lookup), never a literal `target/<profile>`, and boot step 3 copies the fake agent from that same dir. This is the same binary-dir parameter `--perf` uses (§10). As a result, the scenarios spawn the instrumented `viola` / `viola-fake-agent` under `--coverage`, and the plain debug binaries otherwise.
-       - Cleanup "TempDir drop" or a test-owned outer PTY (Paths 1, 5, E1, E2, E5): the chain `home → fake_agent_path → stamped_home → booted_wrapper` from `viola_e2e::fixtures`. Root `tests/support/` cannot be imported by another package, and the root package must not dev-depend on the tokio-based `viola-e2e`, so the chain exists twice (the sync root copy and the `viola-e2e` copy) against one contract. In both copies `stamped_home` runs `viola verify` against the fake agent. Today only the sync root copy exists (`tests/support/home.rs`; homes under `target/e2e-home/viola-test-*`). The `viola_e2e::fixtures` copy lands with its first consumer among these scenarios. Until `viola verify` exists, the root `stamped_home` is an interim seam (`stamped:false`, it writes no `ledger/stamps.json`), and `booted_wrapper` waits for the interim readiness lines (`process-start` for `self` and `claude-child`, bounded at 20 s).
+       - Cleanup "TempDir drop" or a test-owned outer PTY (Paths 1, 5, E1, E2, E5): the chain `home → fake_agent_path → stamped_home → booted_wrapper` from `viola_e2e::fixtures`. Root `tests/support/` cannot be imported by another package, and the root package must not dev-depend on the tokio-based `viola-e2e`, so the chain exists twice (the sync root copy and the `viola-e2e` copy) against one contract. In both copies `stamped_home` runs `viola verify` against the fake agent. Today only the sync root copy exists (`tests/support/home.rs`; homes under `target/e2e-home/viola-test-*`). The `viola_e2e::fixtures` copy lands with its first consumer among these scenarios. Until `viola verify` exists, the root `stamped_home` is an interim seam (`stamped:false`, it writes no `ledger/stamps.json`), and `booted_wrapper` waits for the interim readiness lines (`process-start` for `self` and `claude-child`), bounded at 10 s. The wait is exit-aware: when `child.try_wait()` reports that the wrapper exited first, it fails at once (`wrapper <name> exited before ready`) instead of waiting out the bound. The bound stays below cargo-mutants' 20 s auto-timeout floor, so a mutant that stops the wrapper from getting ready grades as caught, not Timeout. Harness `boot` keeps its 20 s per-instance bound.
      - In §6, a step written `agent-run boot --session <id> <flags>` means `harness_session` with those flags. A Cleanup written `agent-run cleanup --session <id>` means harness `cleanup` as defined below. The `<id>` there (`p2`, `p7`) is only a readable label. The real session id always follows the `<test name>-<label>-<pid>` rule below, so neither parallel tests nor two sessions opened by one test (Path 7) share a session.
      - "Harness `cleanup`" means the test calls `session.cleanup()` at the end and asserts the report: no field `false` (an interim `null` field is allowed), same shape as the `cleanup` command. `Drop` is only a best-effort fallback for panicking tests.
      - The session id is `<test name>-<label>-<pid>`, where `<label>` is the §6 `--session` label (`p2`, `p7`, `p7-stamped`) or `main` when the step gives none. Each session gets its own temp home and its own `target/agent-run/<session>/` dir, because a session record holds exactly one `home`. The endpoint hash includes the absolute home, so the default `overseer` / `builder` names never collide across parallel tests.
@@ -618,6 +618,25 @@ the concrete contract.
   - It asks the session's supervisor to stop its `viola ui` gracefully, then starts a new `viola ui` on the same home and port. The new process has a new token. `session.json` is updated with the new `ui.pid` and launch URL.
   - A page opened before the restart keeps its old cookie. Its next `/api/*` request and its SSE reconnect get the real 401 from the new process, which drives the 401 access-strip state (a11y-plan P5).
   - It prints one JSON document, `{"v":1,"cmd":"ui-restart","ok":<bool>,"pid":<new pid>}`. Exit 0, 1, or 2 on usage error.
+- **`schema-check`** (the §6 Schema conformance check body behind obs-plan gate G4; CI step `id: schema-conformance`):
+  - Walks `target/e2e-home/**`. A `*.ndjson` directly inside a `diagnostics/` dir is validated with jsonschema 0.57.0: home-level role files against `schemas/diag-line.v1.json`, `detail-*` files against `schemas/diag-detail.v1.json`.
+  - A non-JSON line is counted as `torn`. A directory at such a path, which some tests create to force an I/O error, is counted as `skipped_non_file` and never read.
+  - It prints `{"v":1,"cmd":"schema-check","ok":<bool>,"files":N,"lines":N,"torn":N,"skipped_non_file":N,"failures":[{"file","line","keyword"}]}`. `file` is relative to `target/e2e-home`, and no line content is ever printed.
+  - Reasons: `empty-scope` (no diagnostics file) and `schema-unreadable`. Exit 0, 1, or 2 on usage error.
+- **`secret-scan`** (the §6 Error sanitization and secret scan body run in CI before any upload; CI step `id: secret-scan`, obs-plan §9 step 3):
+  - Scope: `target/e2e-home/**/diagnostics/*.ndjson` (detail files included), every file under `target/agent-run/`, and `target/nextest/ci/junit.xml`.
+  - Classes:
+    - `claude-stripped`: the fixed `CLAUDE*` canaries the root tests plant;
+    - `token-query`: `?t=`;
+    - `cookie`: `cookie:`, case-insensitive, and `viola_<digits>=`;
+    - `gui-token`: the `t` value of each home's `ui/*.url`;
+    - `content-canary`: fails only in a home-level role file;
+    - `mode`: Unix only, a diagnostics file that is not `0600`;
+    - `unreadable`.
+  - A contract test (`crates/viola-e2e/tests/scan_patterns.rs`) keeps the canary list single-sourced: every `canary-<kind>-value-<hex4>` literal in the root `tests/` and `src/` must be in the scan's table.
+  - It prints `{"v":1,"cmd":"secret-scan","ok":<bool>,"files":N,"skipped_non_file":N,"mode_check":"unix"|"skipped-windows","hits":[{"file","line","offset","class"}]}`, plus `"report":"unwritten"` when the hit file cannot be written. It never prints the matched bytes.
+  - It writes the same document to `target/secret-scan/hits.json` only when there are hits, and deletes a stale one on every run.
+  - Reason: `empty-scope`. Exit 0, 1 on any hit, or 2 on usage error.
 - **Browser-side controls** (the `e2e-web` Playwright fixtures; the same no-fake rule applies: the real `viola ui` answers every request, and no response is fabricated):
   - **Hold the tape:** the fixture holds the page's first `GET /api/events` with `page.route` and releases it with `route.continue()`. The request reaches the real `viola ui` unmodified, only later, so `TAPE connecting` is observable without a timeout. `route.fulfill` and `route.abort` stay banned.
   - **Unknown routes after render:** the fixture makes real requests from the page context through the page's own API client: `GET` on an unknown `/api/` route (404) and a non-GET method on `/api/sessions` (405). The real Problem responses drive the rack strips that appear after first render.
@@ -635,11 +654,12 @@ the concrete contract.
     - a required perf JSON that is missing or over its §10 gate. A missing artifact is a breach, never a pass.
   - Output: `{"v":1,"cmd":"gate","ok":<bool>,"breaches":[{"gate":"suite-missing"|"suite-failed"|"suite-skipped"|"coverage"|"mutants"|"perf"|"artifact-missing","suite":<name|null>,"detail":<string>}]}`.
   - Exit 0 with no breaches, 1 on any breach, 2 on usage error.
-  - CI runs `gate` as the last step of every job, with `--require` set to exactly the suites that job ran (`playwright` in the ubuntu E2E job). The per-job lists live in `ci.yml`. CI uploads `target/agent-run/artifacts/` as `agent-run-${{ matrix.os }}`.
+  - CI runs `gate` as the last step of every job, with `--require` set to exactly the suites that job ran (`playwright` in the ubuntu E2E job). The per-job lists live in `ci.yml`. In the per-OS `test` job, `target/agent-run/` (including `artifacts/`) leaves CI only in obs-plan §9's scan-gated `harness-${{ matrix.os }}` artifact (`if: failure() && steps.secret-scan.outcome == 'success'`). There is no unscanned `agent-run-<os>` upload.
 - **Closed enums:**
   - `run` / `gate` `suite`: the nine values in `run` Output format.
   - `status.last_error`: `null`, `ready-503`, `list-exit-<code>`, `sessions-<http status>`, `sessions-mismatch`, `ui-unreachable`.
   - `run --mutants` `mutants.verdict`: `counted`, `no-rust-delta`.
+  - `schema-check` `reason`: `empty-scope`, `schema-unreadable`. `secret-scan` `reason`: `empty-scope`. `secret-scan` hit `class`: `claude-stripped`, `token-query`, `cookie`, `gui-token`, `content-canary`, `mode`, `unreadable`.
   - A new value needs a Decisions Log entry.
 
 ### Status endpoint shape
@@ -726,7 +746,11 @@ combine them, and setup-project may add stack-specific intermediate steps.
   - Install cargo-nextest 0.9.146 via taiki-e/install-action (SHA-pinned) in CI, or `cargo install --locked` locally.
   - Add `.config/nextest.toml` with:
     - `[profile.ci]`: `junit.path = "junit.xml"`, `retries = 0`, `slow-timeout = { period = "30s", terminate-after = 4 }`, `fail-fast = false`
-    - `[profile.mutants]`: `fail-fast = { max-fail = 1, terminate = "immediate" }`, `slow-timeout = { period = "15s", terminate-after = 2 }`. A plain `fail-fast = true` waits for the running tests, so a caught mutant that hangs sibling tests outlives cargo-mutants' own timeout and is graded Timeout (measured 2026-09-24, auto timeout 108 s).
+    - `[profile.mutants]`: `fail-fast = { max-fail = 1, terminate = "immediate" }`, `slow-timeout = { period = "5s", terminate-after = 2 }`, plus `[[profile.mutants.overrides]] filter = 'package(viola-e2e)'` with `slow-timeout = { period = "15s", terminate-after = 2 }`.
+      - A plain `fail-fast = true` waits for the running tests, so a caught mutant that hangs sibling tests outlives cargo-mutants' own timeout and is graded Timeout (measured 2026-09-24, auto timeout 108 s).
+      - cargo-mutants 27.1.0 auto-sets its timeout to about `max(20 s, 5 × baseline test time)`. As measured at chunk 2026-09-24-observability-gates, that was 20 s on a 1 s root-package baseline and 110 s on a 21 s baseline with `viola-e2e` in the diff.
+      - So every in-test wait a root-package mutant can reach, and the 10 s kill, stay below 20 s. At or above it, a hang grades Timeout instead of caught, as run `35995290314` showed.
+      - The `viola-e2e` override keeps a 30 s kill because the harness's own tests wait out its 20 s boot deadline by design.
     - `[test-groups] fixed-port = { max-threads = 1 }` plus `[[profile.default.overrides]] filter = 'test(/default_port/)'`, `test-group = 'fixed-port'` (catalog configuration). Overrides on the default profile are inherited by `ci` and `mutants`. Every test that touches port 47319 has `default_port` in its name. Without the override the group is empty and those tests race.
   - Dev-deps:
     - rstest 0.27, tempfile 3.27, assert_cmd 2.2.2, predicates 3.1.4, trycmd 1.2.1, insta 1.48.0, jsonschema 0.57.0, proptest 1.11.0, mockall 0.15.0, mock_instant 0.6.1
@@ -755,7 +779,9 @@ combine them, and setup-project may add stack-specific intermediate steps.
 - **coverage-tooling-install:** install cargo-llvm-cov 0.9.1 via taiki-e/install-action. It emits `target/lcov.info` and `cargo llvm-cov report --json --summary-only`. Any test that uses `env_clear()` must re-add `LLVM_PROFILE_FILE`.
 - **ci-tool-install:** every other CI-invoked binary, version-pinned:
   - cargo-mutants 27.1.0 and cargo-deny 0.20.2 via taiki-e/install-action v2.87.19 (SHA-pinned), alongside cargo-nextest and cargo-llvm-cov
-  - `cargo install --locked` for hyperfine 1.20.0, cargo-modules 0.27.0, zizmor 1.30.1 and jaq 3.1.1 (CI log assertions use `jaq`, which takes the same filters as the `jq -e` examples)
+  - `cargo install --locked` for hyperfine 1.20.0, cargo-modules 0.27.0 and zizmor 1.30.1
+  - CI's log assertion G2 uses the runner-provided `jq`. It is presence-checked (`jq --version`) in the `test` job and never installed. jaq 3.1.1 remains a valid local assertion form (§3 `logs`).
+  - ripgrep 15.2.0 (PCRE2), the G1/G3 gate tool, comes from `scripts/install-ripgrep.sh` in the `lint` job. The script downloads the official release asset, checks it against the sha256 its release publishes, installs it idempotently into `target/tools/ripgrep/bin`, and prints `tool-missing: <tool>` when a tool it needs is absent. taiki-e/install-action `7623a79…` has no ripgrep manifest.
   - cargo-fuzz 0.13.2 plus a nightly toolchain from dtolnay/rust-toolchain, in the ubuntu fuzz job only
   - `npx --prefix e2e-web playwright install --with-deps chromium` in the ubuntu E2E job
 
@@ -1409,7 +1435,7 @@ Skipped as "untestable" per test-scope Sec 1:
 | Release build | `cargo build --release --bin viola` per OS (fake agent excluded: feature off) | per OS | rust-cache (ci.yml only; never in a release workflow) |
 | Quality gates | `viola-harness gate`, which reads `junit-*.xml`, `outcomes.json`, the llvm-cov JSON summary and the hyperfine JSON, and exits non-zero on any §10 breach | n/a | n/a |
 
-Every workflow (`ci.yml`, `nightly.yml`) has `permissions: {}` at the top and `contents: read` per job. Every `uses:` is SHA-pinned; zizmor `unpinned-uses` is the assertion. Tools are installed with taiki-e/install-action v2.87.19 (SHA-pinned) as `tool: cargo-nextest@0.9.146,cargo-llvm-cov@0.9.1,cargo-mutants@27.1.0,cargo-deny@0.20.2`. hyperfine 1.20.0, cargo-modules 0.27.0, zizmor 1.30.1 and jaq 3.1.1 are installed with `cargo install --locked <crate>@<version>` in the jobs that invoke them. cargo-fuzz 0.13.2 is installed the same way, only in the fuzz job and with the nightly toolchain. See §3 Bootstrap `ci-tool-install`. rustfmt and clippy come from `rust-toolchain.toml` `components`, installed by the `rustup toolchain install` step (no toolchain action; the MSRV and fuzz jobs, which need a different toolchain, name theirs). cargo-deny and zizmor run as the pinned CLIs above; cargo-deny-action and zizmor-action are not used, so each tool has exactly one version source. cargo-deny 0.20 takes `--config <path>` as a global option before the subcommand; `check -c` is rejected (as measured on cargo-deny 0.20.2, dev host, 2026-09-24).
+Every workflow (`ci.yml`, `nightly.yml`) has `permissions: {}` at the top and `contents: read` per job. Every `uses:` is SHA-pinned; zizmor `unpinned-uses` is the assertion. Tools are installed with taiki-e/install-action v2.87.19 (SHA-pinned) as `tool: cargo-nextest@0.9.146,cargo-llvm-cov@0.9.1,cargo-mutants@27.1.0,cargo-deny@0.20.2`. hyperfine 1.20.0, cargo-modules 0.27.0 and zizmor 1.30.1 are installed with `cargo install --locked <crate>@<version>` in the jobs that invoke them. G2 uses the runner-provided `jq`, presence-checked (`jq --version`) and never installed. ripgrep 15.2.0, the G1/G3 tool, comes from `scripts/install-ripgrep.sh` (pinned, checksum-verified official release) in the `lint` job. cargo-fuzz 0.13.2 is installed the same way, only in the fuzz job and with the nightly toolchain. See §3 Bootstrap `ci-tool-install`. rustfmt and clippy come from `rust-toolchain.toml` `components`, installed by the `rustup toolchain install` step (no toolchain action; the MSRV and fuzz jobs, which need a different toolchain, name theirs). cargo-deny and zizmor run as the pinned CLIs above; cargo-deny-action and zizmor-action are not used, so each tool has exactly one version source. cargo-deny 0.20 takes `--config <path>` as a global option before the subcommand; `check -c` is rejected (as measured on cargo-deny 0.20.2, dev host, 2026-09-24).
 
 **Matrix builds** (from the multi-os-compat trigger):
 
@@ -1417,7 +1443,13 @@ Every workflow (`ci.yml`, `nightly.yml`) has `permissions: {}` at the top and `c
 - Language version: Rust 1.98.1 (current stable at 2026-09-24, ≥ the 1.96 floor), pinned exactly in `rust-toolchain.toml` and installed by `rustup toolchain install` on every OS, host included. Plus MSRV 1.96 (ubuntu check + unit).
 
 **Test report format:** machine-parseable. Artifacts are uploaded with actions/upload-artifact v7.0.1:
-- `target/agent-run/artifacts/` as `agent-run-${{ matrix.os }}`: the per-suite `junit-<suite>.xml`, `run-summary.json`, `llvm-cov-summary.json` and `perf-<hook>.json`, per §3 `gate`. The raw `target/nextest/ci/junit.xml` is never uploaded, because each nextest invocation overwrites it.
+- In the per-OS `test` job, every test artifact leaves CI only behind obs-plan §9's secret scan (`id: secret-scan`):
+  - `target/agent-run/`, including `artifacts/` with the per-suite `junit-<suite>.xml`, `run-summary.json`, `llvm-cov-summary.json` and `perf-<hook>.json` (§3 `gate`) and the failure-only `logs.ndjson` / `status.json` capture: `harness-${{ matrix.os }}`, on failure with a passed scan;
+  - `target/e2e-home/**/diagnostics/*.ndjson`: `diag-${{ matrix.os }}`;
+  - `target/nextest/ci/junit.xml`, the last nextest invocation's report (the integration pass): `junit-${{ matrix.os }}`;
+  - the hit report `target/secret-scan/`: `secret-scan-${{ matrix.os }}`, only when the scan failed.
+
+  All use `retention-days: 7`. The per-suite JUnit copies stay in `artifacts/` because each nextest invocation overwrites the raw file.
 - `e2e-web/pw.json` and `pw-junit.xml`
 - `mutants.out/`
 - `target/lcov.info` and the llvm-cov JSON summary

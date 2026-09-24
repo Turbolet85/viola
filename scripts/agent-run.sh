@@ -16,7 +16,8 @@
 #   status   - `viola list --json` + /ready + cookie-gated /api/sessions, api_sessions_equal_list
 #   cleanup  - graceful stop, endpoint / port / url-file checks, home removal (idempotent)
 #   logs     - merged ndjson of events.ndjson + diagnostics role files + instance detail files
-# Internal subcommands forwarded unchanged (not agent-facing): supervise, ui-restart, gate.
+# Internal subcommands forwarded unchanged (not agent-facing): supervise, ui-restart, gate, and the
+# CI gate bodies schema-check (G4) and secret-scan.
 #
 # Every command prints exactly one JSON document on stdout: {"v":1,"cmd":"<command>","ok":<bool>,...}
 # Exit codes: 0 ok, 1 failure, 2 usage error.
@@ -70,7 +71,7 @@ case "${1:-}" in
   logs)
     harness "$@"
     ;;
-  supervise|ui-restart|gate)
+  supervise|ui-restart|gate|schema-check|secret-scan)
     harness "$@"
     ;;
   *)

@@ -1,0 +1,44 @@
+   Compiling viola v0.1.0 (D:\dev\projects\viola)
+   Compiling viola-e2e v0.1.0 (D:\dev\projects\viola\crates\viola-e2e)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.63s
+────────────
+ Nextest run ID a48819f4-cbae-411e-b7e1-0177f84a6ea3 with nextest profile: ci
+    Starting 22 tests across 5 binaries (136 tests and 8 binaries skipped)
+        PASS [   0.028s] ( 1/22) viola-e2e harness::secret_scan::tests::secret_scan_scans_the_junit_report
+        PASS [   0.030s] ( 2/22) viola-e2e harness::secret_scan::tests::secret_scan_marks_a_report_it_could_not_write
+        PASS [   0.040s] ( 3/22) viola-e2e harness::secret_scan::tests::secret_scan_hit_locates_without_the_matched_bytes
+        PASS [   0.042s] ( 4/22) viola-e2e harness::secret_scan::tests::secret_scan_clears_a_stale_report_on_a_clean_run
+        PASS [   0.044s] ( 5/22) viola-e2e harness::secret_scan::tests::secret_scan_passes_a_clean_tree
+        PASS [   0.053s] ( 6/22) viola-e2e harness::schema_check::tests::schema_check_with_unreadable_schemas_is_schema_unreadable
+        PASS [   0.054s] ( 7/22) viola-e2e harness::schema_check::tests::schema_check_passes_a_conforming_role_line
+        PASS [   0.060s] ( 8/22) viola-e2e harness::secret_scan::tests::mode_hit_flags_only_a_mode_that_is_not_owner_only
+        PASS [   0.061s] ( 9/22) viola-e2e harness::schema_check::tests::relative_uses_forward_slashes
+        PASS [   0.066s] (10/22) viola-e2e harness::schema_check::tests::schema_check_names_file_line_and_keyword_never_the_content
+        PASS [   0.069s] (11/22) viola-e2e harness::schema_check::tests::schema_check_on_an_empty_scope_is_empty_scope
+        PASS [   0.075s] (12/22) viola-e2e harness::secret_scan::tests::cookie_pairs_need_digits_then_equals
+        PASS [   0.079s] (13/22) viola-e2e harness::secret_scan::tests::secret_scan_on_an_empty_scope_is_empty_scope
+        PASS [   0.092s] (14/22) viola-e2e harness::schema_check::tests::schema_check_counts_a_torn_line_and_skips_a_directory
+        PASS [   0.094s] (15/22) viola-e2e harness::secret_scan::tests::find_all_handles_short_and_empty_inputs
+        PASS [   0.096s] (16/22) viola-e2e harness::secret_scan::tests::secret_scan_flags_every_critical_class_even_in_a_detail_file
+        PASS [   0.098s] (17/22) viola-e2e harness::schema_check::tests::diag_kind_classifies_role_and_detail_files_only_inside_diagnostics
+        PASS [   0.101s] (18/22) viola-e2e harness::secret_scan::tests::secret_scan_reads_the_gui_token_from_the_url_file
+        PASS [   0.102s] (19/22) viola-e2e harness::secret_scan::tests::secret_scan_content_canary_fails_a_role_file_only
+        PASS [   0.102s] (20/22) viola-e2e harness::secret_scan::tests::url_token_takes_the_t_parameter
+        PASS [   0.119s] (21/22) viola-e2e harness::secret_scan::tests::secret_scan_descends_into_the_capture_tree
+        PASS [   0.128s] (22/22) viola-e2e harness::schema_check::tests::schema_check_validates_detail_files_against_the_detail_schema
+────────────
+     Summary [   0.130s] 22 tests run: 22 passed, 136 skipped
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.09s
+   Doc-tests viola_core
+   Doc-tests viola_e2e
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+{"v":1,"cmd":"run","ok":true,"suites":[{"suite":"nextest-unit","passed":22,"failed":0,"skipped":0,"survived":0,"artifact":"D:\\dev\\projects\\viola\\target\\agent-run\\artifacts\\junit-nextest-unit.xml","failures":[]},{"suite":"doctest","passed":0,"failed":0,"skipped":0,"survived":0,"artifact":null,"failures":[]}]}

@@ -1,0 +1,197 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1b01be01",
+"ts": "2026-09-24T13:20:20Z",
+"argv": [
+"append",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-24T13-07-17-wrap/obs-plan-entry.md",
+"--lines",
+"20",
+"--run-dir",
+".andromeda/runs/2026-09-24T13-07-17-wrap",
+"--marker",
+"2026-09-24-observability-gates"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append obs-plan-amendments.md:+20 at line 49 · lines 48→68 · bytes 5121→7253 · term lf",
+"last line now: - Curation homes, playbook and drift-base: 0 hits."
+],
+"stderr": null,
+"wrote": [
+".andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 48,
+"bytes": 5121,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 68,
+"bytes": 7253
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1b01be01",
+"ts": "2026-09-24T13:20:20Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-24T13-07-17-wrap/test-plan-entry.md",
+"--lines",
+"20",
+"--run-dir",
+".andromeda/runs/2026-09-24T13-07-17-wrap",
+"--marker",
+"2026-09-24-observability-gates"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+20 at line 113 · lines 112→132 · bytes 11544→13993 · term lf",
+"last line now: - Leaves: `.claude/rules/verification-harness.md` (internal-subcommand list; pri"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 112,
+"bytes": 11544,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 132,
+"bytes": 13993
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1b01be01",
+"ts": "2026-09-24T13:20:20Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-24T13-07-17-wrap/architecture-entry.md",
+"--lines",
+"22",
+"--run-dir",
+".andromeda/runs/2026-09-24T13-07-17-wrap",
+"--marker",
+"2026-09-24-observability-gates"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+22 at line 104 · lines 103→125 · bytes 14569→16647 · term lf",
+"last line now: - Leaves: `.claude/docs/stack.md` Code quality row (verbatim mirror) re-derived;"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 103,
+"bytes": 14569,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 125,
+"bytes": 16647
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1b01be01",
+"ts": "2026-09-24T13:20:20Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-24T13-07-17-wrap/security-plan-entry.md",
+"--lines",
+"14",
+"--run-dir",
+".andromeda/runs/2026-09-24T13-07-17-wrap",
+"--marker",
+"2026-09-24-observability-gates"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+14 at line 47 · lines 46→60 · bytes 4164→5507 · term lf",
+"last line now: - Leaves: `security-summary.md` and `.claude/rules/security.md` state no scanner"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 46,
+"bytes": 4164,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 60,
+"bytes": 5507
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1b01be01",
+"ts": "2026-09-24T13:25:18Z",
+"argv": [
+"append",
+"--file",
+"viola-0.1.0/route-archive.md",
+"--payload-file",
+".andromeda/runs/2026-09-24T13-07-17-wrap/archive-entry.md",
+"--lines",
+"3",
+"--run-dir",
+".andromeda/runs/2026-09-24T13-07-17-wrap",
+"--marker",
+"2026-09-24-observability-gates"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append route-archive.md:+3 at line 14 · lines 13→16 · bytes 2047→2722 · term lf",
+"last line now: [2026-09-24-observability-gates] Observability gates — panic hook first, zero-"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/route-archive.md"
+],
+"before": {
+"lines": 13,
+"bytes": 2047,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 16,
+"bytes": 2722
+}
+}
+]

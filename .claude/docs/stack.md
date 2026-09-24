@@ -29,7 +29,7 @@ _Extracted from `.andromeda/architecture.md` §Stack and Technologies by `/andro
 | Mobile framework | N/A | The phone view is a later version: the same web page behind authentication |
 | Container runtime / deployment | None. `cargo install --path .`; Claude Code plugin compiled into the binary (`include_str!`) and written out by `viola run` | Local-only v1, no hosting |
 | CI/CD | GitHub Actions matrix `windows-2025`, `macos-latest` (macOS 26), `ubuntu-latest`; toolchain installed by `rustup toolchain install` from `rust-toolchain.toml` (no toolchain action); SHA-pinned actions/checkout 7.0.1, Swatinem/rust-cache 2.9.2, taiki-e/install-action 2.87.19, actions/upload-artifact 7.0.1 | Build, lint and test on all three OSes against the fake agent, on native runners |
-| Code quality | rustfmt, clippy (`-D warnings`), `cargo check`; cargo-deny 0.20.2 (advisories, licences, sources, bans: C crates, telemetry crates, feature bans; the tokio ban via `deny-sync.toml` per sync crate); zizmor 1.30.1 (GitHub workflow linter); cargo-modules 0.27.0 (module graph review) | Lint, typecheck, dependency policy, workflow lint, boundary review |
+| Code quality | rustfmt, clippy (`-D warnings`, with the workspace `print_stdout` / `print_stderr` / `dbg_macro` bans and `clippy.toml` `disallowed-macros` on the tracing level macros), `cargo check`; ripgrep 15.2.0 (PCRE2; the obs G1/G3 gate tool, installed by `scripts/install-ripgrep.sh`); `jq` (runner-provided, G2); jsonschema 0.57.0 (test harness `schema-check`, G4); cargo-deny 0.20.2 (advisories, licences, sources, bans: C crates, telemetry crates, feature bans; the tokio ban via `deny-sync.toml` per sync crate); zizmor 1.30.1 (GitHub workflow linter); cargo-modules 0.27.0 (module graph review) | Lint, typecheck, dependency policy, workflow lint, boundary review |
 | Release (v1.x, not v1) | dist (cargo-dist) 0.33.0 + cargo-auditable 0.7.6; later self_update 1.3.0 | Public signed releases and installers once distribution is in scope |
 
 The workspace `rust-version` 1.96 floor, the exact `rust-toolchain.toml` pin and the test-only crate `crates/viola-e2e` are folded into architecture.md (chunk `2026-09-24-three-os-ci-headless-harness-skeleton`).
@@ -43,7 +43,7 @@ The workspace `rust-version` 1.96 floor, the exact `rust-toolchain.toml` pin and
 - No OTel SDK, no OTLP exporter, no error reporter (sentry banned), no `tracing-appender`, no in-process metrics.
 
 ## Testing (test-plan §2, §3, §9)
-- cargo-nextest 0.9.146 · cargo-llvm-cov 0.9.1 · cargo-mutants 27.1.0 · hyperfine 1.20.0 · cargo-fuzz 0.13.2 (nightly, ubuntu) · jaq 3.1.1.
+- cargo-nextest 0.9.146 · cargo-llvm-cov 0.9.1 · cargo-mutants 27.1.0 · hyperfine 1.20.0 · cargo-fuzz 0.13.2 (nightly, ubuntu) · ripgrep 15.2.0 (G1/G3, `scripts/install-ripgrep.sh`) · `jq` (runner-provided, G2; jaq 3.1.1 an equivalent local form).
 - Dev-deps: rstest 0.27 · tempfile 3.27 · assert_cmd 2.2.2 · predicates 3.1.4 · trycmd 1.2.1 · insta 1.48.0 · jsonschema 0.57.0 · proptest 1.11.0 (+ proptest-derive 0.8.0, arbitrary 1.4.2) · mockall 0.15.0 · mock_instant 0.6.1 · axum-test 21.1.0 · tower 0.5.3; in `viola-e2e`: rmcp `=3.4.1` (`client`, `transport-child-process`), reqwest 0.13.5, eventsource-client 0.18.0, tokio 1.53.1 `test-util`.
 - Node (test-side only, `e2e-web/`): @playwright/test 1.63.0 · @axe-core/playwright 4.13.0.
 
