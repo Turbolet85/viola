@@ -501,16 +501,18 @@ All motion decisions flow from the expression level set in Brand Identity.
 
   viola-session-row[data-liveness="stale"] { --surface-strip: var(--c-anthracite);   /* data-live is reserved for SSE arrivals (@layer motion) */
       --ink: var(--c-lampoff); --rule-field: var(--c-rail); }
-  viola-session-row[data-dialog="pending"] { transform: translateX(var(--cock-offset)); }
+  /* the host is display: contents (component 1 Semantics), so layout, transform and transition sit on its <tr>;
+     the custom properties above still inherit through the host */
+  viola-session-row[data-dialog="pending"] > tr { transform: translateX(var(--cock-offset)); }
   viola-session-row[data-dialog="pending"] .band { background: var(--attention); }
   viola-session-row[data-dialog="pending"] .f-dialog { background: var(--surface-inset); }
   viola-session-row[data-dialog="pending"] .f-dialog .word { color: var(--attention); font-weight: var(--fw-strong); }
 }
 
 @layer motion {
-  viola-session-row[data-dialog="pending"] {             /* into pending only; return is instant */
+  viola-session-row[data-dialog="pending"] > tr {        /* into pending only; return is instant */
     transition: transform var(--cock-dur) var(--cock-ease); }
-  .tape-line[data-live], viola-transfer[data-live] {
+  .tape-line[data-live], viola-transfer[data-live] > tr {
     transition: opacity var(--fade-dur) var(--fade-ease);
     @starting-style { opacity: 0; } }
 }
@@ -526,7 +528,7 @@ State lives only in `data-*` attributes set by Lit. The following are never used
 ### Component Patterns
 
 **1. `<viola-session-row>`: the flight-progress strip** (primitive; bootstrap first)
-- **Anatomy:** `display: grid; grid-template-columns: var(--strip-cols); block-size: var(--strip-h);` on the holder surface (`--surface-strip`), with a 1px `--rule-deco` outer edge and 1px `--rule-field` dividers between cells. At 760–1023px (Navigation → Width) the strip instead uses `grid-template-columns: var(--strip-cols-wrapped); grid-template-rows: var(--strip-rows-wrapped); grid-template-areas: var(--strip-areas-wrapped);` (52px block, band spanning both rows), and the `--rule-field` divider also runs between the two rows.
+- **Anatomy:** set on the `<tr>` the host renders, because the host itself is `display: contents` and cannot carry layout, transform or transition (Semantics below): `display: grid; grid-template-columns: var(--strip-cols); block-size: var(--strip-h);` on the holder surface (`--surface-strip`), with a 1px `--rule-deco` outer edge and 1px `--rule-field` dividers between cells. At 760–1023px (Navigation → Width) the strip instead uses `grid-template-columns: var(--strip-cols-wrapped); grid-template-rows: var(--strip-rows-wrapped); grid-template-areas: var(--strip-areas-wrapped);` (52px block, band spanning both rows), and the `--rule-field` divider also runs between the two rows.
   - Cell 1 is the 4px `.band` slot, which is rail normally and amber when cocked.
   - NAME is callsign type (Bahnschrift 600 15px, buff, as typed).
   - The other cells are Cascadia 13px buff values with 8px inline padding.
@@ -572,7 +574,7 @@ State lives only in `data-*` attributes set by Lit. The following are never used
 - **Until CL-1 lands:** the page can show only `read` boxes. It prints `unknown` in the marker's last-send word cell rather than inventing an `open`.
 
 **3. `<viola-transfer>`: the transfer marker** (handoff)
-- **Anatomy:** a 20px (`--line-h`) line in the rack gap on anthracite, directly under the driver's strip. It is its own item in the rack's flow, so the rack's `space-xs` gap applies above and below it (strip · 8px · marker · 8px · next marker or strip). The inbound twin follows the same rule. When a marker appears or is removed, the strips below shift instantly by that amount and their order never changes. It is indented by `--band-w + --space-xs` and has a 2px departure-blue left tick. There is one marker per link, ordered by driven name.
+- **Anatomy:** a 20px (`--line-h`) line in the rack gap on anthracite, directly under the driver's strip. The host is `display: contents` and renders one `<tr>` with a single spanning `<td>`, so the line box, the tick and the `data-live` fade sit on that `<tr>`. It is its own item in the rack's flow, so the rack's `space-xs` gap applies above and below it (strip · 8px · marker · 8px · next marker or strip). The inbound twin follows the same rule. When a marker appears or is removed, the strips below shift instantly by that amount and their order never changes. It is indented by `--band-w + --space-xs` and has a 2px departure-blue left tick. There is one marker per link, ordered by driven name.
 - **Content:**
   - `→ builder`, with the arrow and name in `--handoff` (departure blue).
   - `since 19:43:58Z` in lamp-off tabular-nums.
@@ -605,6 +607,10 @@ State lives only in `data-*` attributes set by Lit. The following are never used
   - `gate open` or a boxed `budget-paused`
   - `TAPE live since 19:40:02Z` (as the `TapeConnection::open` row prints it; the time is Data) / `TAPE connecting` (lamp-off) / `TAPE stopped · viola ui not answering`. `TAPE stopped` is boxed with a 1px buff rule like `budget-paused` (the `TapeConnection::closed` border), because the stopped tape is a declared state.
   - `skipped 0 · 0 · 0`, boxed in buff when nonzero
+- **Semantics** (a11y-plan D-A11Y-02): `VIOLA` is the page's `<h1>`, and the cells after it form one native `<dl>` of `<dt>` / `<dd>` pairs in the order above.
+  - The printed labels are the `<dt>`s: `BAY`, `5H`, `7D`, `TAPE`, and the word `skipped`, whose counts are its `<dd>`.
+  - The two cells with no printed label get a visually hidden `<dt>`: `budget read` before `read 4m ago`, and `budget gate` before `gate open` / `budget-paused`.
+  - Visible text, order, type roles and boxes are unchanged.
 - **Not shown:** `viola_home` from `/api/info`. It carries the OS username, which is the only PII in scope, and the page has no need for it.
 
 **6. Access and error strips** (security UX)
@@ -638,7 +644,14 @@ State lives only in `data-*` attributes set by Lit. The following are never used
   - There are no command palette and no shortcuts. In v1, taking the wheel is spoken in the CLI (`viola pause`) or by a human keystroke in the terminal, never on this page. The reserved v1.x brake (web-spa component 7, `I HAVE CONTROL`) is the only planned page control for it (see the Design Decisions Log).
 - **Attention outside the tab:**
   - `document.title` becomes `DIALOG builder · viola` (the first cocked strip by slot, plus `+N` when there are more). It returns to `viola` when none are cocked.
-  - A visually hidden `role="status" aria-live="polite"` region announces only strips turning cocked ("builder: dialog pending, permission"), readback refusals ("send to builder unable, not-delivered, no-prompt-submitted") and `TAPE stopped`. The whole tape is never a live region.
+  - A visually hidden `role="status" aria-live="polite"` region announces only these (a11y-plan D-A11Y-06):
+    - strips turning cocked ("builder: dialog pending, permission");
+    - readback refusals ("send to builder unable, not-delivered, no-prompt-submitted");
+    - `TAPE stopped`;
+    - the 401 access strip, which after a `viola ui` restart is announced instead of `TAPE stopped`;
+    - 503 / 404 / 405 rack strips that appear after first render.
+
+    The whole tape is never a live region.
 - **Width:**
   - ≥1024px: primary.
   - 760–1023px: a strip wraps to two lines (band · NAME · LIVE · STATUS · DIALOG / WHEEL · CLI).
@@ -850,7 +863,7 @@ hint: builder did not submit the prompt; check it, then send again
 - **NEVER use `innerHTML`, `unsafeHTML`, `unsafeSVG`, `styleMap`, `style="…"`, inline `<script>`, inline handlers, `eval`, `@font-face`, CDN assets or Markdown rendering.** The CSP (`style-src 'self'`, `font-src 'none'`, `require-trusted-types-for 'script'`) and the GUI output-encoding elevation forbid them, and event text is untrusted upstream content.
 - **NEVER display, echo or log the GUI token, the launch URL, the `?t=` query, the `.url` path, or a cookie value on the page, including in the 401 strip.** The security plan treats all of them as secrets, and recovery is only the launch line or a restart. No credential input field exists in v1.
 - **NEVER render `viola_home` from `/api/info`.** It contains the OS username, the only PII in scope, and the bay has no use for it.
-- **NEVER put the whole tape in an `aria-live` region.** Announce only cocks, refusals and `TAPE stopped`. Anything else floods a screen reader for hours.
+- **NEVER put the whole tape in an `aria-live` region.** Announce only cocks, refusals, `TAPE stopped`, the 401 access strip and the 503 / 404 / 405 rack strips that appear after first render (a11y-plan D-A11Y-06). Anything else floods a screen reader for hours.
 - **NEVER text-transform session names.** A `ViolaName` is the case-sensitive `target` the founder types.
 
 **cli**
@@ -963,4 +976,10 @@ _Orchestrator records key decisions here. Manual additions welcome._
   - Visual anatomy, grid tracks and tokens are unchanged. Web-spa component 1 Semantics, the column captions and the Typography Display / Heading rows are updated.
 - **Y2 (a11y-plan D-A11Y-03):** the tape keeps `role="log"` with an explicit `aria-live="off"`, which removes the implicit polite live region. This enforces the existing rule that the whole tape is never announced. Web-spa component 4 Anatomy is updated.
 - **By:** manual edit, overseer fix pass 2, 2026-09-24 (founder-delegated).
+
+2026-09-24: overseer fix pass 3, 2026-09-24 (cross-plan findings "a11y vs upstreams", founder-delegated). Each item was checked against the cited line first.
+- **Z2:** the strip and marker hosts are `display: contents` (Y1), which cannot carry transform, transition or grid layout. The cock `transform` and its `transition`, the marker's `data-live` fade and the strip grid anatomy now target the `<tr>` the host renders (`viola-session-row[data-dialog="pending"] > tr`, `viola-transfer[data-live] > tr`). Tokens, durations and the visual result are unchanged. The `stale` custom-property swap stays on the host, because custom properties inherit through `display: contents`. A grid `<tr>` must still expose `row`; the a11y plan's aria snapshot asserts `table` / `row` / `cell` in every state.
+- **Z9:** the ATIS is a native `<dl>` after the `<h1>`. The printed labels are the `<dt>`s (`BAY`, `5H`, `7D`, `TAPE`, `skipped`). `read … ago` and `gate open` / `budget-paused` get visually hidden `<dt>`s (`budget read`, `budget gate`). Visible text is unchanged. Web-spa component 5 gains a Semantics bullet.
+- **Z10:** the announcer scope matches a11y-plan D-A11Y-06: cocks, refusals and `TAPE stopped`, plus the 401 access strip (announced instead of `TAPE stopped` after a `viola ui` restart) and the 503 / 404 / 405 rack strips that appear after first render. Updated in "Attention outside the tab" and the tape `aria-live` ban.
+- **By:** manual edit, overseer fix pass 3, 2026-09-24 (founder-delegated).
 

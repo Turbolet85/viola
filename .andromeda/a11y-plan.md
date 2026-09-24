@@ -178,7 +178,7 @@ _Justification: web-spa carries about 11 assertable entities (inside Standard's 
       - colour is only a second cue (amber `DIALOG`, dim `stale`, always beside the word);
       - there is no SGR, glyph or cursor control under `--json`, non-TTY, `NO_COLOR`, `TERM=dumb` or `viola run`;
       - output is static and linear, with no spinner or redraw;
-      - C0/C1 control characters are escaped except `\n` and `\t`.
+      - C0/C1 control characters are escaped except `\n` and `\t` [resolved: in `list` table rows `\n` / `\t` are escaped too (ratified T5, design cli); `wait` / `last` keep them; Section 4 P6].
     - This must hold on `[windows-2025, macos-latest, ubuntu-latest]` (tests excerpt, Coverage Triggers → multi-platform).
 
 - **Surface:** tui (`viola run` passthrough; boundary-only)
@@ -259,14 +259,14 @@ _Justification: web-spa carries about 11 assertable entities (inside Standard's 
 - **Screen reader test pattern:**
   - **Automated proxy (web-spa):**
     - assert the text of the `role="status"` region after each SSE-driven trigger: cocked ("builder: dialog pending, permission"), readback refusal ("send to builder unable, not-delivered, …"), `TAPE stopped`, and the 401 access strip (Overseer Direction 4);
-    - assert the accessible name of each readback word cell while `<viola-readback>` stays `aria-hidden`;
+    - assert the accessible name of each readback word cell while `<viola-readback>` stays `aria-hidden` [resolved: only the `.rb` square is `aria-hidden`; the host and its word stay exposed (design web-spa component 2; Section 4 catalog, Readback box row)];
     - assert `document.title` (`DIALOG <name> · viola`, `+N`).
   - **Manual pass (supplemental):** NVDA (Windows, Edge/Chrome and Windows Terminal), VoiceOver (macOS) and Orca (Linux) on every Section 4 path. It is founder-owned per the creator brief excerpt, Appendix A.
 
 - **Contrast verification harness:**
   - **axe `color-contrast` rule** runs on the rendered DOM under the ubuntu CI DejaVu font fallback (Overseer Direction 2; tests excerpt, Coverage Triggers → multi-platform).
   - **Token-pair assertions by token name only** (Overseer Direction 2): read `getComputedStyle` custom properties and compute the ratio. Pairs from the design excerpt, Color tokens:
-    - text at SC 1.4.3 4.5:1: `--ink`/`--surface-bay`, `--ink`/`--surface-strip`, `--ink-dim`/`--surface-bay`, `--ink-dim`/`--surface-inset`, `--ink-on-paper`/`--rb-fill`, `--attention`/`--surface-inset`, `--handoff`/`--surface-bay`;
+    - text at SC 1.4.3 4.5:1: `--ink`/`--surface-bay`, `--ink`/`--surface-strip`, `--ink-dim`/`--surface-bay`, `--ink-dim`/`--surface-inset`, `--ink-on-paper`/`--rb-fill` [resolved: the checker reads `--rb-ink`, the token design's `RB` rule uses; Section 6 pair table], `--attention`/`--surface-inset`, `--handoff`/`--surface-bay`;
     - non-text at SC 1.4.11 3:1: `--rule-info`/`--surface-bay`, `--rb-rule`/`--surface-inset`, `--rb-strike`, `--rule-field`/`--surface-strip`, `--focus-ring`/`--surface-bay`, `--focus-ring`/`--surface-strip`, and the `--attention` band on `--surface-strip`.
   - **Negative assertions** for banned placements: `--ink-dim`, `--attention` (as text) and `--handoff` (as text) must never render on `--surface-strip`. `--rule-deco` must never be the only carrier of information.
   - **Themes:** dark only, so there is one palette and no light theme (Overseer Direction 6). Forced-colors emulation must pass: borders survive, the strike becomes a dashed outline plus `unable`, and the cock band maps to the system highlight colour.
@@ -346,7 +346,7 @@ _Justification: web-spa carries about 11 assertable entities (inside Standard's 
 **6. CLI board, wait/last, verify and launch-line output**
 - **Surfaces involved:** cli.
 - **Required ARIA roles:** N/A (terminal). The structural equivalents are the caption line, the `-- UNWRAPPED - READ-ONLY --` separator and the `--help` group labels.
-- **Required focus order:** N/A. Output is linear and static: `waiting: <name>` once on stderr (TTY only), `verify` step lines `[NN/NN] … pass|fail`, and `viola ui` prints one launch line to stderr.
+- **Required focus order:** N/A. Output is linear and static: `waiting: <name>` once on stderr (TTY only), `verify` step lines `[NN/NN] … pass|fail`, and `viola ui` prints one launch line to stderr [resolved: design's launch block is two lines, printed once; Section 4 P6].
 - **Required WCAG SC coverage per tier:** WCAG does not apply directly to terminal output, so there is no conformance claim. Output-discipline assertions stand in for SC 1.3.2, 1.4.1 and 3.3.1: meaningful linear order, colour never the sole cue, and the refusal reason and detail given in text.
 - **Source:**
   - Arch excerpt, Critical paths hint 7, and A11y-Relevant Conventions.
@@ -450,12 +450,17 @@ from route / setup-project) should apply.
   `deployment.environment` is N/A.
 - **Test tags:** every a11y Playwright test has the tag `@a11y`, one
   `@sc-<id>` tag per SC it verifies (for example `@sc-2.4.11`), and
-  its path id in the title (`a11y-path1` … `a11y-path5`). This follows
-  the tests plan's "title contains scenario id" rule. The two non-path
-  specs (`a11y-tokens`, `surface-absence`) use their spec name as the
-  title id. `@sc-*` tags live only in a11y-owned specs, and the tests
+  its path id in the title (`a11y-p1` … `a11y-p5`). This follows
+  the tests plan's "title contains scenario id" rule. The ids never
+  contain `path`, so the tests plan's `--grep path5` never selects an
+  a11y test. a11y tests follow the tests plan's file and title naming:
+  they live in the `<bay-layout-type>.spec.ts` spec of the state they
+  exercise, titled `'<layout type>: <a11y id> <expected state>'` (for
+  example `bay-degraded: a11y-p5 401 access strip announced`). The two
+  non-path checks, `a11y-tokens` and `surface-absence`, are test ids
+  inside `bay-steady-state.spec.ts`. `@sc-*` tags live only in a11y-owned tests, and the tests
   plan's specs are never retagged. Where the Section 3 per-SC map cites
-  a tests-owned check, `a11y-path1` re-asserts it under its own tags:
+  a tests-owned check, `a11y-p1` re-asserts it under its own tags:
   the reflow check `scrollWidth <= clientWidth` at 1024 and 760–1023
   (`@sc-1.4.4 @sc-1.4.10`), and the route check that only `/` serves
   HTML (`@sc-2.4.5 @sc-3.2.3`, beside the region-order test). Without
@@ -465,8 +470,8 @@ from route / setup-project) should apply.
   map row whose path names an axe rule, because one `analyze()`
   verdict verifies all of them (for example `@sc-1.3.4` through
   `css-orientation-lock`). Map rows whose non-axe check has no path
-  owner are asserted and tagged in `a11y-path1`: 1.3.3 (empty-rack
-  instruction copy; `a11y-path5` also tags it for the 401 / 503
+  owner are asserted and tagged in `a11y-p1`: 1.3.3 (empty-rack
+  instruction copy; `a11y-p5` also tags it for the 401 / 503
   instruction copy), 2.1.4 (character keys), 2.2.1 (session-cookie
   expiry), 2.4.4 and 2.5.3 (accessible names), 3.1.2 (tape `lang`),
   3.2.1 (keyboard-walk context checks), 4.1.1 (rendered-DOM
@@ -515,19 +520,19 @@ run from CI / dev / and emit machine-parseable violation JSON.
 
 | SC | Applies in v1 | Agent-runnable verification path (JSON) |
 |----|---------------|------------------------------------------|
-| 1.1.1 Non-text Content | yes | axe `image-alt`/`svg-img-alt`/`role-img-alt`; `toHaveAccessibleName` on readback word cells while `<viola-readback>` is `aria-hidden` |
+| 1.1.1 Non-text Content | yes | axe `image-alt`/`svg-img-alt`/`role-img-alt`; `toHaveAccessibleName` on readback word cells while only the `.rb` square is `aria-hidden` |
 | 1.2.1–1.2.5 Time-based media | no media | absence |
 | 1.3.1 Info and Relationships | yes | axe `aria-required-children`/`aria-required-parent`/`td-has-header`/`th-has-data-cells`/`list`/`listitem` + best-practice landmark/heading rules; html-validate `no-missing-references` (the log's `aria-labelledby` → `TAPE` `<h2>`), `wcag/h63`, `heading-level`, `unique-landmark`, `no-multiple-main` (`prefer-native-element` is SC 4.1.2 evidence per a11y-research); `toMatchAriaSnapshot` of banner/main/table/log tree |
 | 1.3.2 Meaningful Sequence | yes | `ariaSnapshotJSON` order equals the design's four-region order; virtual-screen-reader reading order |
 | 1.3.3 Sensory Characteristics | yes | Playwright copy assertions: every instruction string (empty rack, 401 strip, 503 strip) names the action in text; `N new lines below` is itself the actuator |
 | 1.3.4 Orientation | yes | axe `css-orientation-lock` |
 | 1.3.5 Identify Input Purpose | no inputs | absence |
-| 1.4.1 Use of Color | yes | state-word assertions per state (`read back`, `unable · <reason> · <detail>`, `stale`, `DIALOG <kind>`, `expired`, `unconfirmable`, `human`, `unverified-cli`, `budget-paused`, and the ATIS words `TAPE connecting` (the pre-`sse-opened` state, held by the harness and never reached by a timeout), `TAPE live`, `TAPE stopped` and `skipped N · N · N`, each asserted in its ATIS `<dd>` by `a11y-path1` / `a11y-path5`) + `forcedColors: 'active'` checks; axe `link-in-text-block` |
+| 1.4.1 Use of Color | yes | state-word assertions per state (`read back`, `unable · <reason> · <detail>`, `stale`, `DIALOG <kind>`, `expired`, `unconfirmable`, `human`, `unverified-cli`, `budget-paused`, and the ATIS words `TAPE connecting` (the pre-`sse-opened` state, held by the harness and never reached by a timeout), `TAPE live`, `TAPE stopped` and `skipped N · N · N`, each asserted in its ATIS `<dd>` by `a11y-p1` / `a11y-p5`) + `forcedColors: 'active'` checks; axe `link-in-text-block` |
 | 1.4.2 Audio Control | no audio | absence |
 | 1.4.3 Contrast (Minimum) | yes | axe `color-contrast` (+ `incomplete` gate); colorjs.io token pairs (Section 6) |
-| 1.4.4 Resize text | yes | axe `meta-viewport`; `scrollWidth <= clientWidth` at 760–1023 (a 1536 CSS px desktop at 200 %), the tests' check re-asserted in `a11y-path1` under `@sc-1.4.4` (Section 2 → Test tags) |
+| 1.4.4 Resize text | yes | axe `meta-viewport`; `scrollWidth <= clientWidth` at 760–1023 (a 1536 CSS px desktop at 200 %), the tests' check re-asserted in `a11y-p1` under `@sc-1.4.4` (Section 2 → Test tags) |
 | 1.4.5 Images of Text | no images | absence |
-| 1.4.10 Reflow | yes (≥ 760 CSS px) | the tests' reflow checks at 1024 and 760–1023, re-asserted in `a11y-path1` under `@sc-1.4.10`; < 760 is a documented exception |
+| 1.4.10 Reflow | yes (≥ 760 CSS px) | the tests' reflow checks at 1024 and 760–1023, re-asserted in `a11y-p1` under `@sc-1.4.10`; < 760 is a documented exception |
 | 1.4.11 Non-text Contrast | yes | colorjs.io non-text token pairs + `forcedColors` border/strike/band checks |
 | 1.4.12 Text Spacing | yes | text-spacing override stylesheet via same-origin `page.route` + `addStyleTag({url})`, then no-clip assertions; axe `avoid-inline-spacing` |
 | 1.4.13 Content on Hover or Focus | yes | hover each strip/summary/link and assert `ariaSnapshotJSON` is unchanged; DOM walk asserts no `title` attribute |
@@ -541,7 +546,7 @@ run from CI / dev / and emit machine-parseable violation JSON.
 | 2.4.2 Page Titled | yes | axe `document-title`; `expect(page).toHaveTitle('viola')` / `DIALOG <name> · viola` / `+N`; html-validate `empty-title` |
 | 2.4.3 Focus Order | yes | keyboard walk sequence equals the tabbable oracle equals the design set |
 | 2.4.4 Link Purpose | yes | axe `link-name`; `toHaveAccessibleName('skip to tape')`, `N new lines below` |
-| 2.4.5 Multiple Ways | single-page exception | the tests' route check, re-asserted in `a11y-path1` under `@sc-2.4.5`: only `/` serves HTML (404 elsewhere) |
+| 2.4.5 Multiple Ways | single-page exception | the tests' route check, re-asserted in `a11y-p1` under `@sc-2.4.5`: only `/` serves HTML (404 elsewhere) |
 | 2.4.6 Headings and Labels | yes | html-validate `heading-level`/`empty-heading`; `toMatchAriaSnapshot` headings `VIOLA`, `WRAPPED`, `UNWRAPPED · READ-ONLY`, `TAPE` |
 | 2.4.7 Focus Visible | yes | computed `outlineColor/Width/Offset` equal the resolved `--focus-ring`/`--focus-w`/`--focus-offset` after each Tab |
 | 2.4.11 Focus Not Obscured (Min) | yes | after each Tab, after each header-growth trigger (`budget-paused`, `expired`, `TAPE stopped`, nonzero `skipped`: every boxed ATIS state that can wrap a header cell), singly and combined (Section 5 Sticky header), and after skip-link activation, the focused element's rect is not fully covered by the `<viola-atis>` rect. The zero-height `#tape-end` counts as obscured if its rect lies within the header rect |
@@ -586,7 +591,7 @@ The binding contract is the obs Log Format JSON Schema (upstream-context Section
   - `surface` is `web-spa`.
   - `check_source` is one of `axe | html-validate | eslint-lit-a11y | token-contrast | keyboard-walk | aria-snapshot | media-emulation | virtual-sr | dom-assert`.
   - `wcag_criterion` is the bare SC ID. For axe it comes from the `wcagNNN` tag. The five best-practice rules map to `"1.3.1"`. The three check-integrity ids `csp-console`, `scrub-leak` and `axe-rule-not-run` have no SC: their rows omit `wcag_criterion` (absent = null, never a literal `null`). The Section 9 SC coverage ignores rows without it, and they are counted only in `violation_type_counts`.
-  - `violation_type` holds the axe or html-validate rule id as-is. Non-axe checks use a11y-owned kebab-case ids from a closed list: `token-pair-contrast`, `token-placement`, `focus-order`, `focus-visible`, `focus-not-obscured`, `focus-lost`, `keyboard-trap`, `unexpected-tab-stop`, `status-announcement`, `log-announced`, `accessible-name`, `aria-tree`, `text-spacing-clip`, `forced-colors-state`, `reduced-motion-override`, `target-size-bbox`, `hover-content`, `character-key-shortcut`, `state-word-missing`, `surface-absence`, `motion-policy`, `auto-follow-scroll`, `keyboard-activation`, `context-change`, `copy-mismatch`, `identification-mismatch`, `lang-guessed`, `timed-expiry`, `reflow-overflow`, `route-not-single`, `csp-console`, `scrub-leak`, `axe-rule-not-run`. The ids from `motion-policy` to `route-not-single` cover gating checks that would otherwise have no id: `motion-policy` = an `infinite` or looped animation, or one running longer than the SC 2.2.2 five-second threshold (SC 2.2.2, 2.3.1); `auto-follow-scroll` = auto-follow scrolls the focused `<summary>` out of the tape viewport (SC 2.2.2, 2.4.11; Section 5 → Auto-follow); `keyboard-activation` = an Enter / Space contract fails (skip link not landing on `#tape-end`, anchor jump not instant, `<summary>` not toggling; SC 2.1.1, 2.4.1); `context-change` = URL, title, scroll outside the tape, or focus changes on focus, on `<details>` toggle or on SSE arrival (SC 3.2.1, 3.2.2); `copy-mismatch` = pinned page text other than a state word is wrong: a fixed-copy string, the document title, an error strip or the 401 instruction line differs from its pinned value, or page text shows a token, `?t=`, URL, `.url` path or Problem URN (SC 1.3.3, 2.4.2, 3.3.1, 3.3.3); `identification-mismatch` = the readback word differs between the tape line and `<viola-transfer>`, or the web `columnheader` order differs from the CLI captions (SC 3.2.4); `lang-guessed` = a tape descendant carries a `lang` attribute (SC 3.1.2); `timed-expiry` = the session cookie has a timed expiry or a notice auto-dismisses (SC 2.2.1); `reflow-overflow` = `scrollWidth > clientWidth` at the 1024 or 760–1023 test viewport in the `a11y-path1` re-assertion of the tests' reflow check (SC 1.4.4, 1.4.10); `route-not-single` = a path other than `/` serves HTML instead of the 404 in the `a11y-path1` re-assertion of the tests' route check (SC 2.4.5, 3.2.3). Region-order differences across states (SC 1.3.2, 3.2.3) are `aria-tree`. Each id has exactly one meaning: `csp-console` is only a `securitypolicyviolation` / Trusted Types console error; `scrub-leak` is only a scrubber match (below); `axe-rule-not-run` is only the rule-execution check (§ A11y testing tool pick → Configuration).
+  - `violation_type` holds the axe or html-validate rule id as-is. Non-axe checks use a11y-owned kebab-case ids from a closed list: `token-pair-contrast`, `token-placement`, `focus-order`, `focus-visible`, `focus-not-obscured`, `focus-lost`, `keyboard-trap`, `unexpected-tab-stop`, `status-announcement`, `log-announced`, `accessible-name`, `aria-tree`, `text-spacing-clip`, `forced-colors-state`, `reduced-motion-override`, `target-size-bbox`, `hover-content`, `character-key-shortcut`, `state-word-missing`, `surface-absence`, `motion-policy`, `auto-follow-scroll`, `keyboard-activation`, `context-change`, `copy-mismatch`, `identification-mismatch`, `lang-guessed`, `timed-expiry`, `reflow-overflow`, `route-not-single`, `csp-console`, `scrub-leak`, `axe-rule-not-run`. The ids from `motion-policy` to `route-not-single` cover gating checks that would otherwise have no id: `motion-policy` = an `infinite` or looped animation, or one running longer than the SC 2.2.2 five-second threshold (SC 2.2.2, 2.3.1); `auto-follow-scroll` = auto-follow scrolls the focused `<summary>` out of the tape viewport (SC 2.2.2, 2.4.11; Section 5 → Auto-follow); `keyboard-activation` = an Enter / Space contract fails (skip link not landing on `#tape-end`, anchor jump not instant, `<summary>` not toggling; SC 2.1.1, 2.4.1); `context-change` = URL, title, scroll outside the tape, or focus changes on focus, on `<details>` toggle or on SSE arrival (SC 3.2.1, 3.2.2); `copy-mismatch` = pinned page text other than a state word is wrong: a fixed-copy string, the document title, an error strip or the 401 instruction line differs from its pinned value, or page text shows a token, `?t=`, URL, `.url` path or Problem URN (SC 1.3.3, 2.4.2, 3.3.1, 3.3.3); `identification-mismatch` = the readback word differs between the tape line and `<viola-transfer>`, or the web `columnheader` order differs from the CLI captions (SC 3.2.4); `lang-guessed` = a tape descendant carries a `lang` attribute (SC 3.1.2); `timed-expiry` = the session cookie has a timed expiry or a notice auto-dismisses (SC 2.2.1); `reflow-overflow` = `scrollWidth > clientWidth` at the 1024 or 760–1023 test viewport in the `a11y-p1` re-assertion of the tests' reflow check (SC 1.4.4, 1.4.10); `route-not-single` = a path other than `/` serves HTML instead of the 404 in the `a11y-p1` re-assertion of the tests' route check (SC 2.4.5, 3.2.3). Region-order differences across states (SC 1.3.2, 3.2.3) are `aria-tree`. Each id has exactly one meaning: `csp-console` is only a `securitypolicyviolation` / Trusted Types console error; `scrub-leak` is only a scrubber match (below); `axe-rule-not-run` is only the rule-execution check (§ A11y testing tool pick → Configuration).
   - `severity` uses the axe impact vocabulary (`minor|moderate|serious|critical`). Non-axe checks, including `scrub-leak` and `axe-rule-not-run`, emit `serious`.
   - `selector` is the axe `target`, which 4.13.0 escapes for control characters, or a Playwright role locator description.
   - `remediation` is the axe `helpUrl`, or the Section-number anchor in this plan.
@@ -646,7 +651,7 @@ The binding contract is the obs Log Format JSON Schema (upstream-context Section
   - Dark only: one palette (Overseer Direction 6).
 - **Verification tool:**
   - axe 4.13.0 `color-contrast` (SC 1.4.3 on rendered text, DejaVu fallback on ubuntu), gated on both `violations` and `incomplete`.
-  - A colorjs.io 0.7.1 token checker spec (`e2e-web/tests/a11y-tokens.spec.ts`):
+  - A colorjs.io 0.7.1 token checker test (`a11y-tokens` in `e2e-web/tests/bay-steady-state.spec.ts`):
     - reads each token with `getComputedStyle(document.documentElement).getPropertyValue('<name>')`;
     - composites alpha over its declared surface;
     - computes `Color.contrast(fg, bg, 'WCAG21')`;
@@ -682,7 +687,7 @@ combine, setup-project may add stack-specific intermediate steps.
   - Create the html-validate config declaring the `viola-*` elements.
 - **focus-management-library-install:** none at runtime (native `:focus-visible`, `<details>`/`<summary>`, fragment links). The only install is the test-side oracle `tabbable@6.5.0`. The v1.x Raised-3 confirmation, if built, uses native `<dialog>.showModal()` with no library.
 - **aria-component-library-install:** none. Native HTML plus WAI-ARIA APG patterns, rendered by Lit 3.3.3 into light DOM (`createRenderRoot(){ return this; }`).
-- **contrast-verification-harness-setup:** `e2e-web/tests/a11y-tokens.spec.ts`, using colorjs.io over the Section 6 token-pair list, with the forced-colors and negative-placement DOM walk.
+- **contrast-verification-harness-setup:** the `a11y-tokens` test in `e2e-web/tests/bay-steady-state.spec.ts`, using colorjs.io over the Section 6 token-pair list, with the forced-colors and negative-placement DOM walk.
 - **screen-reader-test-spec-setup:**
   - VSR route plus import helper in `e2e-web/fixtures/a11y.ts`, with the MutationObserver fallback helper.
   - `a11y/sr-pass/TEMPLATE.json` with one row per Section 4 path step for NVDA 2026.2 / VoiceOver / Orca.
@@ -726,7 +731,7 @@ verification command.
 | Rack (WRAPPED, UNWRAPPED · READ-ONLY) | native `<table>` named by native `<caption>` holding the rack `<h2>`; `<thead><tr>` with six `<th scope="col">` (`NAME LIVE STATUS WHEEL DIALOG CLI`) → `columnheader`; `<tbody>` | state in `data-*` on the row host + printed words | none (rows not focusable) | 1.3.1, 1.4.1, 4.1.2 |
 | Session strip `<viola-session-row>` | host has **no `role`** and `display: contents`; its light-DOM template renders native `<tr>` → `row` and six `<td>` → `cell`; `data-dialog` / `data-liveness` / `data-rb` stay on the host for tests | words `live`/`stale`, idle/busy, `human`, `DIALOG <kind>`, CLI column `unverified-cli` (the `cli_verified:false` state; design warning word) | none | 1.3.1, 1.4.1, 4.1.2 |
 | Transfer marker `<viola-transfer>` | host has no role, `display: contents`; renders native `<tr>` + one `<td colspan="6">` in the WRAPPED rack flow | readback word (`open` / `read back` / `unable · …` / `unconfirmable`) | none | 1.3.1, 1.4.1, 3.2.4 |
-| Readback box `<viola-readback>` | host has `aria-hidden="true"` and no focusable descendant (axe `aria-hidden-focus`); the name comes from the adjacent word text | word carries state; `data-rb` for tests | none | 1.1.1, 1.4.1, 4.1.2 |
+| Readback box `<viola-readback>` | host has no role and is **not** hidden. Only its `.rb` square carries `aria-hidden="true"` (design web-spa component 2), and nothing inside is focusable (axe `aria-hidden-focus`). The word cell stays in the accessibility tree, so the line's name ends in the word ("send to builder, read back") | word carries state; `data-rb` for tests | none | 1.1.1, 1.4.1, 4.1.2 |
 | Tower tape `<viola-event-feed>` | host has no role; its template renders `<div role="log" aria-live="off" aria-labelledby="<TAPE h2 id>">` (no native equivalent for `log`; explicit `aria-live="off"` overrides the implicit polite, so the whole tape is never announced). Inside: trim notice `<p>`, `<ol>` of `<li>` each holding one native `<details>`/`<summary>` (APG Disclosure), then the anchor and `#tape-end` | native `open` state (no `aria-expanded` added) | Tab between summaries; Enter/Space toggles | 1.3.1, 1.3.2, 2.1.1, 4.1.2 |
 | `N new lines below` anchor | native `<a href="#tape-end">`, last line of the tape region, present only while scrolled up | count as text swap (not announced) | Enter → instant jump | 2.4.4, 2.1.1, 2.5.8 |
 | Status announcer | native `<div role="status" aria-live="polite">` (design-specified), visually hidden via clip (never `display:none`), inside `<main>`, present and empty at page load | text replaced per message; identical repeat is cleared then set | n/a | 4.1.3 |
@@ -747,24 +752,24 @@ verification command.
 - **P1 — Founder reads the bay and navigates the tape** (web-spa + cli).
   - **Roles:** banner → `h1` `VIOLA` → main → `table` "WRAPPED" (`row`/`columnheader`/`cell`) → `table` "UNWRAPPED · READ-ONLY" → `h2` `TAPE` → `log` (`list` → `listitem` → disclosure) → `link` `N new lines below`.
   - **Focus order:** see Section 5.
-  - **Tests:** `a11y-path1` specs assert:
+  - **Tests:** `a11y-p1` specs assert:
     - `toMatchAriaSnapshot` of this tree in steady state, bay-narrow (760–1023) and first-reading/empty;
-    - axe verdict in each of those states, and in the other `a11y-path1`-owned Section 10 states: tape-line-expanded, scrolled-up with the `N new lines below` anchor present, skip link focused, after skip-link activation, tape trimmed past the DOM cap, `TAPE connecting` (held by the harness before `sse-opened`, never reached by a timeout), and the boxed ATIS states (`budget-paused`, `expired`, nonzero `skipped`; each analyzed after its word renders);
+    - axe verdict in each of those states, and in the other `a11y-p1`-owned Section 10 states: tape-line-expanded, scrolled-up with the `N new lines below` anchor present, skip link focused, after skip-link activation, tape trimmed past the DOM cap, `TAPE connecting` (held by the harness before `sse-opened`, never reached by a timeout), and the boxed ATIS states (`budget-paused`, `expired`, nonzero `skipped`; each analyzed after its word renders);
     - the tests' reflow check (`scrollWidth <= clientWidth` at 1024 and 760–1023) and route check (only `/` serves HTML), re-asserted under a11y tags (Section 2 → Test tags);
     - E3 transfer rows as `row` with one `cell`;
     - E4 `Last-Event-ID` resume keeping the tree and focus;
-    - the ATIS `<dd>` words `budget-paused`, `expired`, `TAPE connecting`, `TAPE live` and `skipped N · N · N` (SC 1.4.1 map row; `TAPE stopped` is asserted by `a11y-path5`);
+    - the ATIS `<dd>` words `budget-paused`, `expired`, `TAPE connecting`, `TAPE live` and `skipped N · N · N` (SC 1.4.1 map row; `TAPE stopped` is asserted by `a11y-p5`);
     - the CLI column word for `cli_verified:false`.
   - **cli mirror:** trycmd pins the same caption order (NAME · LIVE · STATUS · WHEEL · DIALOG · CLI).
   - **SCs:** 1.3.1, 1.3.2, 1.4.1, 1.4.3, 1.4.10 (≥ 760), 1.4.11, 1.4.12, 1.4.13, 2.1.1, 2.1.2, 2.4.1, 2.4.3, 2.4.6, 2.4.7, 2.4.11, 2.5.8, 3.1.1, 4.1.2.
 - **P2 — Confirmed send and readback, or refusal** (web-spa + cli).
   - **Roles:** `log` → `listitem` → disclosure whose `<summary>` accessible name is "send to builder, read back" (box `aria-hidden`); `status`.
   - **Focus order:** see Section 5. Focus stays where it is; the full refusal text is reached by Tab to its `<summary>` and Enter/Space.
-  - **Tests:** `a11y-path2` asserts:
+  - **Tests:** `a11y-p2` asserts:
     - `data-rb` `open` → `read` with `toHaveAccessibleName` containing `read back`;
     - on refusal (`data-rb="refused"`), the status text is `send to builder unable, <reason>, <detail>`;
     - VSR hears the refusal once;
-    - axe verdict in the readback-refused and readback-`unconfirmable` states (the Section 10 states `a11y-path2` owns), with `unconfirmable` asserted in the word cell's accessible name;
+    - axe verdict in the readback-refused and readback-`unconfirmable` states (the Section 10 states `a11y-p2` owns), with `unconfirmable` asserted in the word cell's accessible name;
     - the expanded `<details>` body holds the full refusal text;
     - the transfer marker shows the identical word (SC 3.2.4);
     - focus is unchanged.
@@ -773,7 +778,7 @@ verification command.
 - **P3 — Dialog pending, then `answer`** (web-spa + cli).
   - **Roles:** the DIALOG `cell` holds `DIALOG <kind>`; `status` says "builder: dialog pending, permission"; the title is `DIALOG <name> · viola` (`+N`). There is no `dialog` role.
   - **Focus order:** see Section 5. No focus move when a strip cocks or reverts; the out-of-view cue is `document.title` plus the announcement.
-  - **Tests:** `a11y-path3` asserts:
+  - **Tests:** `a11y-p3` asserts:
     - no focus move on cock or revert;
     - title set then reverted;
     - axe verdict in the cocked state;
@@ -783,14 +788,14 @@ verification command.
     - `viola answer` refusal `unverified-cli` text on the CLI.
   - **SCs:** 1.4.1, 1.4.3, 1.4.11, 2.2.2, 2.3.1, 2.4.2, 4.1.3.
 - **P4 — Human takes the wheel** (tui boundary + cli + web-spa).
-  - **web:** `a11y-path4` asserts the WHEEL `cell` word `human` (`--fw-strong`), no focus change, and the axe verdict in the WHEEL `human` state (the Section 10 state `a11y-path4` owns).
+  - **web:** `a11y-p4` asserts the WHEEL `cell` word `human` (`--fw-strong`), no focus change, and the axe verdict in the WHEEL `human` state (the Section 10 state `a11y-p4` owns).
   - **cli:** `send` refused with `human-typing` on stderr, with a typed exit code (assert_cmd).
   - **tui:** three portable-pty outer-PTY nextest cases on all three OS legs, one per Section 1 boundary clause (Section 3 → Keyboard test harness → Tooling): (1) zero viola-originated bytes on the outer-PTY stream (byte for byte against an unwrapped fake-agent run on Linux/macOS; viola's own literals absent on Windows ConPTY); (2) human keystrokes delivered unblocked past the current atomic paste; (3) `\x1b[I`/`\x1b[O`, mouse and resize sequences do not move the wheel.
   - **SCs:** 1.3.1, 1.4.1, 2.1.1 (boundary stand-in on tui).
 - **P5 — Degraded and access states** (web-spa).
   - **Roles:** state strips are `<p>` text in `main`; `status` announces `TAPE stopped`, the 401 access strip, and 503/404/405 strips that appear after first render. There is no `alert`.
   - **Focus order:** see Section 5 (bay-degraded). No focus move on any degraded transition or recovery; the recovery instruction is readable text with no in-page control.
-  - **Tests:** `a11y-path5` asserts, per state (503, and the defensive 404 and 405 rack strips appearing after first render, `TAPE stopped`, stale, 401 after a `viola ui` restart under the same harness session):
+  - **Tests:** `a11y-p5` asserts, per state (503, and the defensive 404 and 405 rack strips appearing after first render, `TAPE stopped`, stale, 401 after a `viola ui` restart under the same harness session):
     - axe verdict;
     - status text (for stale: the `role="status"` text is unchanged, because stale is never announced, per Section 7);
     - VSR phrase (for stale: zero new phrases);
@@ -802,13 +807,13 @@ verification command.
 - **P6 — CLI board, wait/last, verify, launch line** (cli). No ARIA. trycmd / assert_cmd assert the non-TTY modes, and the portable-pty outer PTY asserts the TTY-only behaviours, on all three OS legs:
   - linear static output: under the outer PTY, `waiting: <name>` appears exactly once on stderr and the stream contains no `\r` redraw, cursor-movement or erase sequence (no spinner); under non-TTY the `waiting:` line is absent;
   - `[NN/NN] … pass|fail`;
-  - one `viola ui` launch line on stderr;
+  - the `viola ui` launch block on stderr exactly once: the design's two lines (`viola ui  127.0.0.1:<port>`, then the URL alone on its own line), unstyled even on a TTY;
   - no SGR under non-TTY / `NO_COLOR` / `TERM=dumb` / `--json`;
-  - under the outer PTY, every SGR span sits beside its word (amber only on `DIALOG`, dim only on stale rows), and `unable` / `fail` carry no SGR;
-  - C0/C1 escaped except `\n` / `\t` (security excerpt, C0/C1 escaping), checked with assert_cmd on all three OS legs:
-    - Setup: human-mode `viola wait` / `viola last` run against a `viola-fake-agent` event whose text carries C0 and C1 control bytes (including ESC / CSI), and `viola list` runs against a `claude agents --json` fixture row carrying the same bytes.
-    - Pass condition: each injected control appears only in escaped form, and `\n` / `\t` stay raw.
-    - Under non-TTY, stdout contains no raw C0 / C1 byte other than `\n` / `\t`. Under the outer PTY, the injected controls are escaped, and viola's own SGR stays beside its word only.
+  - under the outer PTY, every SGR span sits beside its word (amber only on `DIALOG`, dim only on stale rows, bold only on NAME column values), and `unable` / `fail` carry no SGR;
+  - C0/C1 escaped (security excerpt, C0/C1 escaping; ratified T5 for `list` rows), checked with assert_cmd on all three OS legs:
+    - Setup: human-mode `viola wait` / `viola last` run against a `viola-fake-agent` event whose text carries C0 and C1 control bytes (including ESC / CSI), and `viola list` runs against a `claude agents --json` fixture row carrying the same bytes plus `\n` / `\t`.
+    - Pass condition: each injected control appears only in escaped form. In `wait` / `last` text `\n` / `\t` stay raw. In `list` table rows `\n` / `\t` are escaped too (`\x0A`, `\x09`), so every row stays one fixed-width line.
+    - Under non-TTY, `wait` / `last` stdout contains no raw C0 / C1 byte other than `\n` / `\t`, and `list` stdout contains none inside a row. Under the outer PTY, the injected controls are escaped, and viola's own SGR stays beside its word only.
   - These stand in for SC 1.3.2, 1.4.1 and 3.3.1, with no conformance claim.
 
 **Naming convention:** ARIA role names per WAI-ARIA Authoring
@@ -881,7 +886,7 @@ dark palette only (Overseer Direction 6).
 | `--ink` | `--surface-strip` | field values and callsign on a lit wrapped strip | SC 1.4.3 (AA) | 4.5:1 |
 | `--ink-dim` | `--surface-bay` | captions, timestamps, reading ages, `n/a`, activity/harness lines, stale strip ink | SC 1.4.3 (AA) | 4.5:1 |
 | `--ink-dim` | `--surface-inset` | DIALOG kind word on a cocked + stale strip | SC 1.4.3 (AA) | 4.5:1 |
-| `--ink-on-paper` | `--rb-fill` | `RB` text in a filled readback box | SC 1.4.3 (AA) | 4.5:1 |
+| `--rb-ink` | `--rb-fill` | `RB` text in a filled readback box (design `data-rb="read"` rule sets `color: var(--rb-ink)`; `--ink-on-paper` is the same role alias) | SC 1.4.3 (AA) | 4.5:1 |
 | `--attention` | `--surface-inset` | `DIALOG` word of a cocked strip | SC 1.4.3 (AA) | 4.5:1 |
 | `--handoff` | `--surface-bay` | transfer-marker arrows/names, left tick, names in `link`/`unlink` lines | SC 1.4.3 (AA) | 4.5:1 |
 | `--rule-info` | `--surface-bay` | state borders: `budget-paused`, nonzero `skipped`, `TAPE stopped`, error strips | SC 1.4.11 (AA) | 3:1 |
@@ -929,7 +934,7 @@ dark palette only (Overseer Direction 6).
 ### State color tokens (not-color-alone)
 
 - **Tokens:**
-  - `--rb-fill` / `--ink-on-paper` (success: `RB` + `read back`);
+  - `--rb-fill` / `--rb-ink` (success: `RB` + `read back`);
   - `--rb-strike` / `--rule-info` (error: strike + `unable · <reason> · <detail>`);
   - `--rule-field` (box) / `--ink` (warning: `expired`, `unverified-cli`, `unconfirmable`);
   - `--ink-dim` (info: activity, harness, zero `skipped`, `TAPE connecting`);
@@ -939,7 +944,7 @@ dark palette only (Overseer Direction 6).
 - **Verification:**
   - For each state, driven through the fake agent, assert the printed word is in the row's or line's accessible text (`state-word-missing`).
   - Under `forcedColors: 'active'`: `--rule-info` borders keep a non-`none` `border-style`, the refused strike renders as a dashed outline plus `unable`, and the cock band resolves to the system `Highlight` colour (`forced-colors-state`).
-- **CLI equivalent (no conformance claim):** amber SGR only on the `DIALOG` word and dim SGR on stale rows, always beside the word. There is zero SGR under non-TTY / `NO_COLOR` / `TERM=dumb` / `--json` / `viola run`. `unable` / `fail` are never coloured. Checked with assert_cmd + portable-pty on `[windows-2025, macos-latest, ubuntu-latest]`.
+- **CLI equivalent (no conformance claim):** amber SGR only on the `DIALOG` word, dim SGR on stale rows and bold SGR only on NAME column values (the callsign; design cli), always beside the word. There is zero SGR under non-TTY / `NO_COLOR` / `TERM=dumb` / `--json` / `viola run`. `unable` / `fail` are never coloured. Checked with assert_cmd + portable-pty on `[windows-2025, macos-latest, ubuntu-latest]`.
 
 ### Typography tokens (readability)
 
@@ -956,7 +961,7 @@ dark palette only (Overseer Direction 6).
   - Then assert that every element sized by `--line-h`, `--strip-h`, `--lh-display` or `--lh-label` has `scrollHeight <= clientHeight`. Computed style returns resolved values, not token references, so the spec finds these elements through one shared selector list derived from the design token contexts: `--line-h` → tape `<summary>` and `<viola-transfer>` rows; `--strip-h` → the strip callsign line (clip check only; its v1.x brake target-size role is not asserted in v1); `--lh-display` → the Display-role `<h1>`; `--lh-label` → Label-role text (column captions, ATIS labels). A selector that matches zero elements, in a state where design renders that element, fails as `text-spacing-clip`.
   - Cells truncated by design (`--tape-cols` INSTANCE/TEXT, unwrapped NAME) must keep their full text in the DOM, and the `<details>` body must hold the full tape text.
   - axe `avoid-inline-spacing` also runs.
-  - Reflow: the tests' `scrollWidth <= clientWidth` at 1024 and 760–1023, re-asserted in `a11y-path1` under `@sc-1.4.4` / `@sc-1.4.10` (Section 2 → Test tags). A reflow failure is `reflow-overflow`, never `text-spacing-clip`.
+  - Reflow: the tests' `scrollWidth <= clientWidth` at 1024 and 760–1023, re-asserted in `a11y-p1` under `@sc-1.4.4` / `@sc-1.4.10` (Section 2 → Test tags). A reflow failure is `reflow-overflow`, never `text-spacing-clip`.
 
 (See `## 11. A11y Anti-Patterns` § Visual for visual-level bans.)
 
@@ -1050,11 +1055,11 @@ _Scope: no `cognitive-accessibility` trigger fired (a11y-scope Sec 5), so there 
   - **503 strip:** `unable · state-unreadable  viola home could not be read`.
   - **404 / 405 strips:** `unable · not-found` / `unable · method-not-allowed`.
   - **`TAPE stopped · viola ui not answering`.**
-  - **CLI:** `unable  <reason>  <detail>` on stderr, then `hint:` as the last stderr line, with a typed exit code. `--json` gives one document with no hint.
+  - **CLI:** `unable  <reason>  <detail>` on stderr, then `hint:` as the last stderr line, with a typed exit code. The one refusal with no hint is `unknown` (exit 14): its detail is opaque, so design prints no hint rather than a guess. Faults (`error: wrapper fault`, `error: internal error`) are not refusals and carry no hint. `--json` gives one document with no hint.
 - **Per-field error:** N/A, because there are no inputs (`surface-absence`). `aria-describedby` / `role="alert"` on invalid fields has no surface in v1.
 - **WCAG SC:** SC 3.3.1 Error Identification (A) + SC 3.3.3 Error Suggestion (AA; the 401 instruction line).
 - **Verification:**
-  - **web:** `a11y-path2` / `a11y-path5` check `toHaveText` on each strip and the refusal word cell, `toHaveAccessibleName` on the refusal `<summary>`, and that VSR `spokenPhraseLog()` contains the refusal / 401 message once. The 401 strip must match its instruction line and must not match the token, `?t=`, `http` or the `.url` path.
+  - **web:** `a11y-p2` / `a11y-p5` check `toHaveText` on each strip and the refusal word cell, `toHaveAccessibleName` on the refusal `<summary>`, and that VSR `spokenPhraseLog()` contains the refusal / 401 message once. The 401 strip must match its instruction line and must not match the token, `?t=`, `http` or the `.url` path.
   - **cli:** trycmd cases pin the `unable <reason> <detail>` + final `hint:` layout per refusal, and assert_cmd checks the typed exit codes (`10`–`14`, `20`, `21`) and that `--json` carries no hint text. These run on all three OS legs.
 
 ### Plain language
@@ -1072,7 +1077,7 @@ _Scope: no `cognitive-accessibility` trigger fired (a11y-scope Sec 5), so there 
 
 - **Consistent identification (SC 3.2.4, AA):**
   - The web `columnheader`s, read with `getByRole('columnheader')` in DOM order, equal `NAME · LIVE · STATUS · WHEEL · DIALOG · CLI`, and the trycmd case for `viola list` pins the same caption order.
-  - The readback word for one `corr` is identical in the tape line and in the `<viola-transfer>` marker (`a11y-path2`).
+  - The readback word for one `corr` is identical in the tape line and in the `<viola-transfer>` marker (`a11y-p2`).
   - `[RB]` on the CLI corresponds to `data-rb="read"` on the web (tests cross-surface trigger).
 - **Consistent navigation (SC 3.2.3, AA):** this is a single page, so the SC is satisfied through the single-page exception. The region order (banner → WRAPPED → UNWRAPPED · READ-ONLY → TAPE) is the same in every state, checked by comparing `ariaSnapshotJSON` region order across steady, bay-narrow, first-reading/empty and degraded.
 - **Consistent help (SC 3.2.6, WCAG 2.2):** there is no help mechanism in v1, so it is recorded as absent.
@@ -1137,7 +1142,7 @@ _Scope: no `cognitive-accessibility` trigger fired (a11y-scope Sec 5), so there 
 
 **Always-required SLO invariant (every tier):**
 - **Zero WCAG AA violations against the web-spa label** (WCAG 2.1 AA + SC 2.4.11 + SC 2.5.8, with the SC 1.4.10 < 760 CSS px exception; D-A11Y-04; the rows of the Section 3 per-SC map) on must-be-accessible paths (Section 4 P1–P5 web-spa scenarios + Section 5 keyboard sequences):
-  - axe `violations: []` after every state render (steady, bay-narrow, first-reading/empty, tape-line-expanded, scrolled-up with the `N new lines below` anchor present, skip link focused, after skip-link activation, tape trimmed past the DOM cap, `TAPE connecting` (harness-held before `sse-opened`), ATIS boxed `budget-paused` / `expired` / nonzero `skipped`, cocked, readback-refused, readback-`unconfirmable`, WHEEL `human`, stale, 503, 404 / 405 rack strips after first render, `TAPE stopped`, 401 access strip). This list is the union of the per-state axe verdicts in Section 4 P1–P5 and the Section 5 layouts; a state added to either is added here. Each state's `analyze()` belongs to exactly one owning spec: `a11y-path1` (steady, bay-narrow, first-reading/empty, tape-line-expanded, scrolled-up, skip link focused, after skip-link activation, tape trimmed, `TAPE connecting`, ATIS boxed states), `a11y-path2` (readback-refused, readback-`unconfirmable`), `a11y-path3` (cocked), `a11y-path4` (WHEEL `human`), `a11y-path5` (stale, 503, 404 / 405 rack strips, `TAPE stopped`, 401 access strip);
+  - axe `violations: []` after every state render (steady, bay-narrow, first-reading/empty, tape-line-expanded, scrolled-up with the `N new lines below` anchor present, skip link focused, after skip-link activation, tape trimmed past the DOM cap, `TAPE connecting` (harness-held before `sse-opened`), ATIS boxed `budget-paused` / `expired` / nonzero `skipped`, cocked, readback-refused, readback-`unconfirmable`, WHEEL `human`, stale, 503, 404 / 405 rack strips after first render, `TAPE stopped`, 401 access strip). This list is the union of the per-state axe verdicts in Section 4 P1–P5 and the Section 5 layouts; a state added to either is added here. Each state's `analyze()` belongs to exactly one owning spec: `a11y-p1` (steady, bay-narrow, first-reading/empty, tape-line-expanded, scrolled-up, skip link focused, after skip-link activation, tape trimmed, `TAPE connecting`, ATIS boxed states), `a11y-p2` (readback-refused, readback-`unconfirmable`), `a11y-p3` (cocked), `a11y-p4` (WHEEL `human`), `a11y-p5` (stale, 503, 404 / 405 rack strips, `TAPE stopped`, 401 access strip);
   - axe `incomplete` for `color-contrast` `[]`;
   - every non-axe check (Section 3 `violation_type` list) passing.
   - Playwright `retries: 0`. There are NO retry-once policies for a11y violations, because retries mask real failures.
@@ -1189,7 +1194,7 @@ _Scope: no `cognitive-accessibility` trigger fired (a11y-scope Sec 5), so there 
 - NEVER put `role="row"` / `role="table"` / `role="cell"` on a `viola-*` custom-element host. `<viola-session-row>` and `<viola-transfer>` render native `<tr>`/`<td>` in light DOM (html-validate `prefer-native-element`).
 - NEVER set a role on a Lit host in `connectedCallback` / `setAttribute`. eslint-plugin-lit-a11y cannot see it; roles belong in the `html` template.
 - NEVER add `aria-expanded` to `<summary>` or replace `<details>` with a scripted disclosure. The native open state is the contract.
-- NEVER render `<viola-readback>` without `aria-hidden="true"`, or place a focusable element inside it (axe `aria-hidden-focus`).
+- NEVER render the `.rb` square without `aria-hidden="true"`, NEVER hide the whole `<viola-readback>` host (its word carries the accessible name), and NEVER place a focusable element inside it (axe `aria-hidden-focus`).
 - NEVER use Shadow DOM for `viola-*` components. Split ID scopes break `aria-labelledby`, and adopted stylesheets fight `style-src 'self'`.
 
 ### Keyboard
@@ -1231,7 +1236,7 @@ _Scope: no `cognitive-accessibility` trigger fired (a11y-scope Sec 5), so there 
 ### Cognitive
 
 - NEVER set harsh timeouts without warning (no warn-extend pattern per SC 2.2.1). v1 has none: the GUI cookie stays session-scoped with no timed expiry, and no notice auto-dismisses.
-- NEVER show error without recovery suggestion (per SC 3.3.3). The 401 access strip always carries its plain instruction line, and every human-mode CLI refusal ends with a `hint:` line.
+- NEVER show error without recovery suggestion (per SC 3.3.3). The 401 access strip always carries its plain instruction line, and every human-mode CLI refusal except `unknown` (exit 14, opaque detail, design cli) ends with a `hint:` line.
 - NEVER use jargon without a plain alternative. SC 3.1.5 AAA is not claimed, but a kebab-case reason/detail code (`not-delivered`, `human-typing`, `unverified-cli`) never appears without the plain word `unable` and its full text in the `<details>` body.
 - NEVER render a Problem URN (`urn:viola:problem:*`), stack trace or bare HTTP status as the only error text in the page or the CLI.
 - NEVER let the caption set or order drift between CLI `viola list` and the web `columnheader`s (NAME · LIVE · STATUS · WHEEL · DIALOG · CLI), or let the readback word differ between the tape line and the transfer marker (SC 3.2.4).
@@ -1370,3 +1375,16 @@ between phase loops._
 - **By:** `/andromeda-a11y` orchestrator, on overseer direction
 
 `2026-09-24` — P3.5 review 1 (overseer, founder-delegated): tier, harness, paths and budgets accepted. D-A11Y-02/03/04/06/14 accepted, with D-A11Y-02 logged as a design amendment. D-A11Y-09 accepted by the D-21 route. D-A11Y-19 binds `--focus-ring`, and layouts are renamed in the fix pass. Open questions resolved (≤760 SC 1.4.10 exception kept; 401 copy bound to design-system.md; CSS-only ellipsis with no `title`; ESLint lockfile pin), and v1.x brakes and the phone view deferred.
+
+`2026-09-24` — overseer fix pass 3, 2026-09-24 (cross-plan findings "a11y vs upstreams", founder-delegated; each item checked against the cited line first)
+- **Decision:**
+  - Z1 (design wins): only the `.rb` square is `aria-hidden`. The `<viola-readback>` host and its word stay exposed, so "read back" keeps its accessible name. Updated in the §4 catalog row, the §3 SC 1.1.1 map row, the §11 ARIA ban and a §1 `[resolved: …]` pointer.
+  - Z3: `list` table rows also escape `\n` / `\t` (ratified T5); `wait` / `last` keep them. Updated in §4 P6 and a §1 pointer.
+  - Z5: path ids become `a11y-p1` … `a11y-p5`, so `--grep path5` selects only the tests' scenario. a11y tests live in the tests' `<bay-layout-type>.spec.ts` specs with the tests' title form, and `a11y-tokens` / `surface-absence` are test ids in `bay-steady-state.spec.ts`. §2 Test tags, §3, and the ids everywhere they appear.
+  - Z11: `unknown` (exit 14) is the one refusal without a hint (design cli). §8 Error recovery and §11 Cognitive.
+  - Z12: bold on NAME is the third CLI SGR, beside amber `DIALOG` and dim stale rows. §4 P6 and §6 State colour.
+  - Z13: `viola ui` prints design's two-line launch block exactly once. §4 P6 and a §1 pointer.
+  - Z14: the `RB` pair reads `--rb-ink` / `--rb-fill` (design `data-rb="read"` rule), with `--ink-on-paper` noted as the same alias. §6 pair table and state colours, and a §1 pointer.
+- **Rationale:** the overseer's audit "a11y vs upstreams" (2026-09-24 07:05); design and tests are upstream.
+- **Impact:** §1 (pointers only, per D-A11Y-15), §2, §3, §4, §6, §8, §11. Not changed here: Z7 (the `a11y-violation` event moves out of the product enum into its own harness-side schema, applied in tests and obs by this pass). The §3 wording "new closed-enum value, accepted as a tests + obs enum amendment" and D-A11Y-09 are left for the overseer to reconcile, because Z7 was not routed to a11y.
+- **By:** manual edit, overseer fix pass 3, 2026-09-24 (founder-delegated).

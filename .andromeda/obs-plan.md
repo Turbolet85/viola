@@ -638,7 +638,7 @@ The architecture commits to the harness pattern (quoted verbatim from the upstre
 
 ### Log format JSON schema
 
-**Binding. Reproduced verbatim from test-plan.md §3 Test Harness Contract → Log format (re-synced in overseer fix pass 2, 2026-09-24, after test-plan amendments D-21 / 693e083 and fix pass 2). Obs aligns to tests, not vice versa.**
+**Binding. Reproduced verbatim from test-plan.md §3 Test Harness Contract → Log format (re-synced in overseer fix pass 2, 2026-09-24, after test-plan amendments D-21 / 693e083 and fix pass 2, and again in fix pass 3 for Z7). Obs aligns to tests, not vice versa.**
 
 ```markdown
 - **Format:** JSON-per-line. There are two streams:
@@ -654,12 +654,16 @@ The architecture commits to the harness pattern (quoted verbatim from the upstre
     - `release-from-driver`: `corr` = the JSON-RPC request `id` (obs-plan D-01; the wrapper's `-32602` refusal of a `release` that carries `from`)
     - `process-start`, `process-exit`, `http-request`, `panic`: `corr` = null
     - `liveness-changed`, `state-recovered`, `sse-opened`, `sse-closed`, `parse-rejected`: `corr` = null (obs-plan D-02 … D-05)
-    - `a11y-violation`: `corr` = null. Written only by the a11y Playwright fixture, one row per failing check, into `e2e-web/test-results/a11y/*.ndjson` (harness artifacts, `process:"ui"`), never into any `diagnostics/` file, so G2, G4 and the schema check never see it (a11y-plan D-A11Y-09)
   - `process` (`run|hook|mcp|ui|cli`; `cli` is a short-lived verb with a resolved instance, writing `cli-<name>.ndjson`, obs-plan D-06) and `instance` (a `ViolaName` or null).
   - `corr` is copied unchanged as a JSON number or string. It is never renamed (for example to `correlation_id`).
   - **Null encoding:** a null `corr` or `instance` is written as key **absence** (tracing has no null field value; obs-plan D-12). The harness and every `jq` / jaq assertion treat an absent key and `null` as the same value (`.corr == null` holds for both), and obs-plan's `schemas/diag-line.v1.json` rejects a literal `null`.
 
   obs-plan may add fields but must not rename or remove these. The harness greps on them.
+- **Harness-side a11y rows (not part of this `event` enum):** `event:"a11y-violation"` is not a value of the product `event` enum above, has no `ObsEvent` variant, and is never emitted by a product process.
+  - The a11y Playwright fixture writes one row per failing check into `e2e-web/test-results/a11y/*.ndjson`.
+  - Rows follow a tests-owned schema of their own, `e2e-web/schemas/a11y-row.v1.json`. It reuses the diag-line field names without renaming any: `event` is const `"a11y-violation"`, `process` is const `"ui"`, `corr` and `instance` are absent, and the a11y plan's additive fields (a11y-plan §3 Structured violation JSON schema) are declared there.
+  - The same schema-conformance check body that backs obs-plan G4 validates these files against that schema. G2, G4 and `schemas/diag-line.v1.json` never read them.
+  - This revises the fix-pass-2 Y3 entry (overseer fix pass 3, Z7).
 - **Constraints:**
   - The hook trace is the `hook-<name>.ndjson` file. A failed write there is swallowed, so the hook still exits 0 and never writes to stderr.
   - No line may contain the GUI token, a `Cookie` header, `?t=`, or any stripped `CLAUDE*` value. This is enforced by the secret-scan test in §6.
@@ -673,7 +677,11 @@ The architecture commits to the harness pattern (quoted verbatim from the upstre
   - `state-recovered`: `corr` = null (D-03)
   - `sse-opened`, `sse-closed`: `corr` = null (D-04)
   - `parse-rejected`: `corr` = null (D-05)
-- **Accepted `event` value (a11y-plan D-A11Y-09, by the D-21 route; overseer fix pass 2):** `a11y-violation`, `corr` = null. The a11y Playwright fixture writes it only into `e2e-web/test-results/a11y/*.ndjson`, using the diag-line field names without renaming any. It never appears in a `diagnostics/` file, so G2, G4 and `schemas/diag-line.v1.json` never see it, and no product code emits it.
+- **Not a product `event` value: `a11y-violation`** (overseer fix pass 3, Z7, revising fix pass 2).
+  - It is **not** in the product `event` enum and has **no** `ObsEvent` variant in `viola_core::obs`. No product process emits it.
+  - It is a harness-only row that the a11y Playwright fixture writes into `e2e-web/test-results/a11y/*.ndjson`.
+  - The row has its own tests-owned schema, `e2e-web/schemas/a11y-row.v1.json`, which reuses the diag-line field names without renaming any (tests Log format → Harness-side a11y rows).
+  - `schemas/diag-line.v1.json`, G2 and G4 never contain or read it.
 - **Accepted `process` value:** `cli`, for short-lived verbs with a resolved instance (D-06; tests amendment D-21 adds it to the `process` enum and to the harness `--process` filter).
 - **Additive fields:** catalogued per event in Section 6.
 - **Null encoding:** tracing 0.1.44 has no null field value; an `Option::None` field records nothing. A null `corr` / `instance` is therefore represented by **key absence**, and `jq '.corr'` yields `null` either way. The panic hook's hand-written line follows the same rule. It never writes `corr`, and it omits `instance` when none resolved (always for `ui`). Both emitters are therefore schema-identical: `schemas/diag-line.v1.json` declares `corr` (number | string) and `instance` (string) as optional keys and rejects a literal `null` for either, which catches an emitter that drifts (D-26). Key absence is ACCEPTED (D-12, review 2026-09-24); the tests amendment D-21 states "absent = null" for `corr` / `instance`, so harness readers treat a missing key and a literal `null` identically.
@@ -1013,7 +1021,7 @@ awk 1 diagnostics/hook-*.ndjson | jq -R -n '[inputs|fromjson?|select(.event=="ho
 
 _[ALL tiers]_
 
-**Log format JSON schema:** aligned with the tests' Section 3 log format. The binding text is reproduced verbatim in Section 3 → Log format JSON schema, from test-plan.md §3 Log format (re-synced in overseer fix pass 2). This section only **adds** fields, the D-01…D-06 enum values and the a11y-owned `a11y-violation` harness-artifact value; it renames and removes nothing.
+**Log format JSON schema:** aligned with the tests' Section 3 log format. The binding text is reproduced verbatim in Section 3 → Log format JSON schema, from test-plan.md §3 Log format (re-synced in overseer fix passes 2 and 3). This section only **adds** fields and the D-01…D-06 enum values; it renames and removes nothing. The harness-only `a11y-violation` row is outside the product enum and has its own tests-owned schema (Section 3 → Obs extensions).
 
 **Required fields (every log line)** (tests):
 - `timestamp`: RFC 3339 UTC with milliseconds and `Z` (`MillisUtc` timer)
@@ -1190,7 +1198,7 @@ _[Standard: included. The Compliance Trace Fields subsection is omitted: securit
      - Instead, the scan step writes a hit report to `target/secret-scan/` (`file`, line, byte offset and pattern class, never the matched bytes), and the separate §9 step 5 uploads that directory as `secret-scan-${{ matrix.os }}`.
      - So the failing job still leaves agent-readable evidence (§11 CI).
 
-**Default-deny posture:** a field is logged only if it is named in this plan's Section 6 catalog. Unknown fields are a build failure (§10), caught by gate G4 (§9) against `schemas/diag-line.v1.json` (`additionalProperties: false` per event). No config key, flag or env var can widen the allow-list or disable redaction (security Anti-Patterns).
+**Default-deny posture:** a field is logged only if it is named in this plan's Section 6 catalog. Unknown fields are a build failure (§10), caught by gate G4 (§9) against `schemas/diag-line.v1.json` (`additionalProperties: false` per event). That schema has no `a11y-violation` event: harness a11y rows are validated separately against the tests-owned `e2e-web/schemas/a11y-row.v1.json` (Z7). No config key, flag or env var can widen the allow-list or disable redaction (security Anti-Patterns).
 - **Detail-file scope:** `schemas/diag-line.v1.json` validates home-level lines only. `detail-<process>.ndjson` lines are validated by a sibling `schemas/diag-detail.v1.json`, with `additionalProperties: false`. It allows:
   - the same required fields as home-level lines: `timestamp`, `level`, `target`, `message`, `event`, `process` and `instance`, plus `corr` / `conn` when the home-level counterpart carries them;
   - on `event:"panic"` lines only, the home-level line's `panic_location` and `thread` (the `...` in the §7 detail line), so both lines join without the payload;
@@ -1745,6 +1753,14 @@ between phase loops._
 - **Rationale:** the overseer's audit "obs vs upstreams" (2026-09-24 05:10) and the a11y P3.5 items (05:52). Obs aligns to tests, and tests is upstream.
 - **Impact:** §1, §3 (Init order, Log format, obs-ci-gate-wire, Snapshot / paste-to-AI), §4, §5, §9, §11. The arch amendment for B2 is routed with D-22. Architecture, security and a11y plans are unchanged.
 - **By:** manual edit, overseer fix pass 2, 2026-09-24 (founder-delegated).
+
+`2026-09-24` — overseer fix pass 3, 2026-09-24 (cross-plan findings "a11y vs upstreams", founder-delegated; checked against the cited lines first)
+- **Decision:**
+  - Z7: `a11y-violation` leaves the product `event` enum. It has no `ObsEvent` variant, no product process emits it, and `schemas/diag-line.v1.json` does not contain it. It is a harness-only row with its own tests-owned schema, `e2e-web/schemas/a11y-row.v1.json`, which reuses the diag-line field names without renaming any.
+  - This revises fix pass 2 Y3, whose "accepted `event` value" bullet is replaced. The verbatim tests log-format copy is re-synced again so it carries the tests bullet "Harness-side a11y rows".
+- **Rationale:** a product-enum value would force an `ObsEvent` variant, and the D-26 schema coverage, for a row no product code writes (finding Z7).
+- **Impact:** §3 (Log format copy, Obs extensions), §6 (Log format pointer), §8 (Default-deny posture). The a11y plan's §3 wording and D-A11Y-09 still say "closed-enum value … tests + obs amendment"; they are left for the overseer to reconcile.
+- **By:** manual edit, overseer fix pass 3, 2026-09-24 (founder-delegated).
 
 (Append new entries at the bottom; do not modify historical
 entries.)

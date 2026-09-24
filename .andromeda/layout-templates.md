@@ -297,7 +297,7 @@ A refused `send` line's body prints the full `unable · <reason> · <detail>` th
 - **Deep links:** only the in-page fragment `#tape-end` (and the skip-link target). Individual strips and tape lines have no permalinks in v1. The stable reference for an event is its `cursor` in `events.ndjson`, which is a CLI concept.
 - **Breadcrumbs:** none. The IA is one level deep.
 - **Search:** none (UX guideline set; #81's command palette is rejected).
-- **Out-of-view attention:** `document.title` (`DIALOG overseer · viola`, `+N` when more strips are cocked) plus polite announcements limited to a strip turning cocked, a readback refusal and `TAPE stopped`. a11y owns the mechanics. The whole tape is never announced.
+- **Out-of-view attention:** `document.title` (`DIALOG overseer · viola`, `+N` when more strips are cocked) plus polite announcements limited to a strip turning cocked, a readback refusal, `TAPE stopped`, the 401 access strip (announced instead of `TAPE stopped` after a `viola ui` restart) and a 503 / 404 / 405 rack strip that appears after first render (a11y-plan D-A11Y-06). a11y owns the mechanics. The whole tape is never announced.
 - **Library shortlist top-10 UX guidelines, as layout decisions:**
   1. Colour only (#37): amber always sits beside `DIALOG`, dimming beside the printed `stale`, and blue beside a name and an arrow.
   2. Contrast (#36): lamp-off, amber and blue text live only on `color-surface-base`. That is why captions sit in the rack header, markers sit in the rack gap and the DIALOG cell is inset.
@@ -614,3 +614,7 @@ hint: viola list                                          <- stderr, the last li
 `2026-09-24`: overseer fix pass 2, 2026-09-24 (cross-plan findings "a11y P3.5", founder-delegated). Checked against the cited lines first.
 - **Y4 (a11y-plan D-A11Y-19):** the focus ring is named `--focus-ring`, the design-system token, in the Focus rule and in Quality check 10. The `color-border-focus` alias row in the token map becomes a pointer to `--focus-ring`. It already resolved there, so this is a naming change only, with no visual change. The other `color-*` aliases in the map are unchanged, because they were not part of the finding.
 - **By:** manual edit, overseer fix pass 2, 2026-09-24 (founder-delegated).
+
+`2026-09-24`: overseer fix pass 3, 2026-09-24 (cross-plan findings "a11y vs upstreams", founder-delegated). Checked against the cited line first.
+- **Z10 (a11y-plan D-A11Y-06):** the out-of-view announcement scope now matches the a11y plan and design-system: a strip turning cocked, a readback refusal and `TAPE stopped`, plus the 401 access strip (announced instead of `TAPE stopped` after a `viola ui` restart) and a 503 / 404 / 405 rack strip that appears after first render. Quality check 7 points to this list, so it follows unchanged.
+- **By:** manual edit, overseer fix pass 3, 2026-09-24 (founder-delegated).
