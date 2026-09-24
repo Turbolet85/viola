@@ -504,7 +504,7 @@ hint: viola list                                          <- stderr, the last li
 - **Argument order mirrors the channel `params`:** `viola <verb> <target>` for one strip, `viola link|unlink <driver> <driven>` for a handoff, `viola answer <target> <dialog_id>`. `<target>` is always a `ViolaName`. Unwrapped names are never valid targets, just as they are text-only on the web.
 - **Board vs. strip:** `viola list` (and `viola ui`) show the whole bay. Every other verb acts on one strip.
 - **Global flag `--home`:** the same on every verb. `--json` is the machine view of every data verb.
-- **Discoverability:** `--help` groups verbs as board / traffic / wheel / handoff / setup. `hint:` lines point to the next verb by name (`viola wait builder`, `viola list`, `viola release builder --budget`). They are the CLI's breadcrumbs.
+- **Discoverability:** `--help` groups verbs as board / traffic / wheel / handoff / setup. `hint:` lines point to the next verb by name (`viola wait builder`, `viola list`, `viola verify`). They are the CLI's breadcrumbs. No hint names `viola release`: the refusals that carry hints reach drivers, and a driver's `release` is refused (`-32602`, exit 20). `release` is a human verb reached through `--help`.
 
 ### Component — Hero / signature output line (the `viola send` readback mirror)
 
@@ -524,14 +524,14 @@ hint: viola list                                          <- stderr, the last li
   - Nothing else is styled.
 - **Rack separator:** `-- UNWRAPPED - READ-ONLY --` on its own line before the unwrapped rows. The WRAPPED rack has no separator, because it is always first and the caption row heads it.
 - **Truncation:** only unwrapped NAMEs, with `...`, and only where the terminal width is known. Wrapped names are never clipped. No line ever wraps.
-- **Escaping:** every field that comes from `claude agents --json` has C0/C1 controls escaped as hex text.
+- **Escaping:** every field that comes from `claude agents --json` has C0/C1 controls escaped as hex text, **including** `\n` and `\t` inside a row, so a row never splits and the columns stay fixed-width (T5 ratified; stricter than the security floor, which keeps `\n` / `\t` for `wait` / `last` text).
 - **No link column:** the six shared columns stay fixed. Links are visible only as `link` / `unlink` verb output (`overseer -> builder`).
 
 ### Component — Primary content block 2: refusal lines and the `unable` column
 
-- **Line form (stderr):** `unable  <name>  <reason>  <detail>`, fields separated by two spaces. `viola send` pads `unable` into the mirror's word column after `[/ ]`. The one fixed-message exception is the exit-1 start refusal `unable: <name> is already live`.
-- **Hint line:** directly under each refusal, `hint: <one plain instruction>`, keyed by reason (or by reason · detail). The exit-1 start refusal `unable: <name> is already live` takes `hint: viola list`. There is no hint for the opaque `unknown` refusal, for `wrapper fault` or for `internal error`. A hint never quotes the sent text or any upstream text.
-- **Exit codes as the typed tail:** 10 `human-typing`, 11 `budget-paused`, 12 `unverified-cli`, 13 `not-delivered`, 14 `unknown`, 20 wrapper fault (`error: wrapper fault  <code>`), 21 `unable  instance-unreachable`. Under `--json` the same outcome is one document on stdout, with no stderr line and no hint.
+- **Line form (stderr):** `unable  <name>  <reason>  <detail>`, fields separated by two spaces. `viola send` pads `unable` into the mirror's word column after `[/ ]`. The fixed-message exceptions are the exit-1 start refusals of `viola run` (`unable: <name> is already live` and its sibling causes, listed in design-system cli pattern 2).
+- **Hint line:** directly under each refusal, `hint: <one plain instruction>`, keyed by reason (or by reason · detail). Exit 21 and exit 1 each have several causes, and every cause gets its own hint, so an agent can tell the causes apart from the last stderr line (design-system cli pattern 2). The exit-1 start refusal `unable: <name> is already live` takes `hint: viola list`. There is no hint for the opaque `unknown` refusal, for `wrapper fault` or for `internal error`. A hint never quotes the sent text or any upstream text, and never names a path or a pid.
+- **Exit codes as the typed tail:** 10 `human-typing`, 11 `budget-paused`, 12 `unverified-cli`, 13 `not-delivered`, 14 `unknown`, 20 wrapper fault (`error: wrapper fault  <code>`), 21 `unable  instance-unreachable`. Under `--json` the same outcome is one document on stdout, with no stderr line and no hint text. The machine view carries the cause as a detail code once arch names those codes; until then it keeps arch's shape (`"detail":null` for exit 21).
 - **Streams:** results go to stdout. `waiting:`, the issue line, refusals, hints, errors and the `viola ui` launch line go to stderr. The two are never mixed.
 
 ### Component — Footer / terminator
@@ -602,3 +602,11 @@ hint: viola list                                          <- stderr, the last li
 **Notes:**
 - Four copy lines are layout decisions that were not spelled out in the design system: `no unwrapped sessions` (empty unwrapped rack), the tape INSTANCE cell of a send line printing the sending instance (it depends on CL-1 carrying `from`), the `space-micro` inline padding of boxed ATIS words, and `color-text-primary` for rack separator labels.
 - The design system's Component Patterns 1–6 (web) and 1–5 (cli) were the starting point. This document adds the region order, the tape's bounded scroll region, per-screen instances (`builder` / `overseer` / `scratch` / `c1f9e2a4…`) and the concrete trigger points. It changes no token, colour, font stack, expression level or signature drawing.
+
+`2026-09-24`: Overseer fix pass 2026-09-24 (cross-plan findings, founder-delegated). Each item was checked against the cited upstream line first.
+- **T3:** the Discoverability breadcrumb no longer suggests `viola release builder --budget`. Drivers receive these hints, and a driver's `release` is refused (security: driver-originated `release`, `-32602`, exit 20).
+- **T4:**
+  - The refusal-line component now carries one hint per exit-21 and exit-1 cause, pointing to design-system cli pattern 2. Tests' exit-cause matrix requires a cause-specific hint.
+  - `--json` carries no hint text. A per-cause detail code there is pending an arch amendment, because arch fixes `"detail":null` for exit 21.
+- **T5 (ratified):** `list` row escaping also escapes `\n` / `\t`. This is stricter than the security floor.
+- **By:** manual edit, overseer fix pass 2026-09-24.

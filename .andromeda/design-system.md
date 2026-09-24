@@ -725,7 +725,7 @@ c1f9e2a4      live   idle     n/a                      n/a                n/a
 - NAME is bold, `DIALOG` is amber, and the `scratch` row is dim.
 - Rows are ordered by name, the same as the web racks.
 - The BAY line is the web ATIS without `VIOLA` and the `127.0.0.1:47319` address (the board is not the `viola ui` page), without `resets` times (those are printed by `viola release <name> --budget`) and without a TAPE cell (the CLI has no tape). A window whose `resets_at` has passed still prints `expired` after its figure (`5H 62 % expired`), exactly as on the web, because old information is shown as old.
-- Every field of `claude agents --json` origin (unwrapped names) has C0/C1 controls escaped as `\x1B`-style hex text, keeping `\n` and `\t` (security plan).
+- Every field of `claude agents --json` origin (unwrapped names) has C0/C1 controls escaped as `\x1B`-style hex text (security plan). In `list` table rows, `\n` and `\t` are escaped too (`\x0A`, `\x09`), so every row stays one fixed-width line. The security plan's "keeping `\n` and `\t`" is a floor, and this is stricter (T5, ratified). `wait` / `last` message text keeps `\n` and `\t`.
 - Empty: `no wrapped sessions  start one: viola run <name> -- claude`.
 
 **2. `viola send`: the readback mirror**
@@ -737,16 +737,28 @@ hint: builder did not submit the prompt; check it, then send again
 [  ] unconfirmable  builder  local command, no measured post-condition   (stdout, exit 0)
 ```
 - A refusal prints `unable` plus `reason  detail`, then one `hint:` line, keyed by the reason (or by reason · detail where listed):
-  - `human-typing`: `the human has the wheel; viola release <name> returns it`
-  - `budget-paused`: `budget gate is closed; it lifts at the window reset or with viola release <name> --budget`
+  - `human-typing`: `the human has the wheel; send again after the human hands it back`
+  - `budget-paused`: `budget gate is closed; it lifts at the window reset, or when the human lifts it`
+  - These two refusals reach drivers, and a driver's `release` is refused (`-32602`, `release-from-driver`, exit 20). So no hint ever names `viola release` (T3). `release` stays a human verb, documented under Wheel, link and gate verbs.
   - `unverified-cli`: `run viola verify for this CLI version`
   - `not-delivered · turn-running`: `a turn is running; viola wait <name> first`
   - `not-delivered · control-character`: `the text contains a control character (only LF, CR, TAB are allowed)`
   - `not-delivered · input-not-ready`: `<name> was not ready for input; viola wait <name>, then send again`
   - `not-delivered · no-prompt-submitted`: `<name> did not submit the prompt; check it, then send again` (the sample above)
   - `not-delivered · unknown-dialog`: `that dialog is not pending; viola list shows the current DIALOG`
-  - `instance-unreachable` (exit 21): `<name> is not running; viola list shows the live instances`
-  - The exit-1 start refusal `unable: <name> is already live` (`viola run`): `viola list` (no paths, no pids)
+  - `instance-unreachable` (exit 21) has one hint per cause, because the code is shared (T4):
+    - no wrapper is running for the name: `<name> is not running; viola list shows the live instances`
+    - the name is an unwrapped session: `<name> is not a wrapped session; only sessions started with viola run take commands`
+    - the viola home fails strict-modes: `the viola home is not private to you; <name> is not contacted until that is fixed`
+    - server verification fails: `the process on <name>'s endpoint is not its recorded wrapper; it was not contacted`
+  - The exit-1 start refusals of `viola run` have one fixed-message line and one hint per cause (T4). None of them shows a path or a pid:
+    - `unable: <name> is already live` → `hint: viola list`
+    - `unable: <name> is still running but not answering` (stale heartbeat, live pid) → `hint: viola list shows it as stale; stop that process before starting <name> again`
+    - `unable: the endpoint for <name> is held by another process` (squatted name) → `hint: another process holds this name's endpoint; stop it or pick another name`
+    - `unable: the pinned viola copy failed its integrity check` (SHA-256 mismatch) → `hint: the pinned copy was changed after it was written, so viola will not run it`
+    - `unable: <name>'s command is a .cmd or .bat script` (Windows) → `hint: pass the real executable, not a .cmd or .bat shim`
+    - `unable: the viola home is not private to you` (strict-modes at start) → `hint: the viola home must be readable only by you; viola does not change its permissions`
+  - Hints are human-mode only. Under `--json`, no hint text is printed; the machine view carries the cause as a detail code, never as prose. **Pending an arch amendment:** arch currently fixes `{"v":1,"error":"instance-unreachable","detail":null}` for exit 21 and has no `--json` document for exit 1. Until arch names the `detail` codes, `--json` keeps arch's shape. obs-plan D-20 already names the log detail codes: `instance-dead`, `strict-modes-failed`, `server-verify-failed`, `already-live`, `squatted-name`, `pinned-hash-mismatch`, `batch-script-child`. The stale-heartbeat and unwrapped-name causes have no code yet.
   - No hint line for `unknown` (exit 14), because its detail is opaque and a hint would have to guess. No hint line for `error: wrapper fault` (exit 20) or `error: internal error` (exit 1), because they are faults, not refusals, and their detail goes only to `diagnostics/`.
 - A hint never quotes the sent text or any upstream text.
 
@@ -774,14 +786,14 @@ hint: builder did not submit the prompt; check it, then send again
   http://127.0.0.1:47319/?t=<64 hex characters>
   ```
   No other line, from any verb, ever prints the token, the URL or the `.url` path.
-- **`run`:** prints nothing once the child starts. A start refusal (exit 1) prints `unable: builder is already live`, then `hint: viola list` (no paths, no pids).
+- **`run`:** prints nothing once the child starts. A start refusal (exit 1) prints its cause's fixed-message line, for example `unable: builder is already live`, then that cause's hint (`hint: viola list`). The per-cause lines are listed under the send hints above. None of them shows a path or a pid.
 
 **Exit-code phraseology** (typed codes from architecture.md):
 
 | Exit | Human stderr first word | `--json` |
 |---|---|---|
 | 0 | none (TTY context lines only); the result line goes to stdout (`[RB] read back`, `answered`, `wheel human` …) | `{"v":1,"ok":{…}}` |
-| 1 | `error: internal error` (fixed message; no chain with serde sources, no paths, no hint), or `unable: <name> is already live` followed by `hint: viola list` | — |
+| 1 | `error: internal error` (fixed message; no chain with serde sources, no paths, no hint), or a `viola run` start refusal `unable: <name> is already live` / `… is still running but not answering` / `the endpoint for <name> is held by another process` / `the pinned viola copy failed its integrity check` / `<name>'s command is a .cmd or .bat script` / `the viola home is not private to you`, each followed by its own hint | — (no `--json` document until arch amends it) |
 | 2 | clap usage text (never produced by `viola hook`) | — |
 | 10 | `unable  human-typing` (+ `manual-pause`) | `{"v":1,"refusal":"human-typing","detail":…}` |
 | 11 | `unable  budget-paused  five-hour` / `seven-day` | refusal object |
@@ -789,7 +801,7 @@ hint: builder did not submit the prompt; check it, then send again
 | 13 | `unable  not-delivered  input-not-ready` / `no-prompt-submitted` / `turn-running` / `unknown-dialog` / `control-character` | refusal object |
 | 14 | `unable  unknown  <detail as opaque text>` | refusal object |
 | 20 | `error: wrapper fault  <code>` | `{"v":1,"error":"wrapper-fault","detail":{…}}` |
-| 21 | `unable  instance-unreachable` (no detail; the name is the omitted `<name>` field, as in every row) | `{"v":1,"error":"instance-unreachable","detail":null}` |
+| 21 | `unable  instance-unreachable` (no detail; the name is the omitted `<name>` field, as in every row), then the cause's hint (not running / unwrapped / strict-modes / server verification) | `{"v":1,"error":"instance-unreachable","detail":null}` (a per-cause `detail` code awaits an arch amendment) |
 
 ### Navigation Pattern
 - Flat verbs, one lower-case word each: `run · send · wait · last · list · answer · verify · pause · release · link · unlink · ui · plugin install`.
@@ -932,4 +944,15 @@ _Orchestrator records key decisions here. Manual additions welcome._
 2026-09-24: Overseer decisions (founder-delegated), closing two choices Phase 7 left open.
 - **Caption-row spacing:** the gap between a rack's caption row and its first strip is the rack's existing row gap, `space-xs`, the same gap strips and transfer markers use. No new token. `space-md` now reads as the gap between the rack separator label and the caption row.
 - **Exit-1 start refusal hint:** `unable: <name> is already live` is followed by `hint: viola list` (no paths, no pids), like every other refusal. `error: internal error`, the other exit-1 outcome, keeps no hint.
+
+2026-09-24: Overseer fix pass 2026-09-24 (cross-plan findings, founder-delegated). Each item was checked against the cited upstream line first.
+- **T3:** the `human-typing` and `budget-paused` hints no longer name `viola release`. These refusals reach drivers, and the wrapper refuses a `release` that carries `from` (security: driver-originated `release`, `-32602`, `release-from-driver`, exit 20). Tests assert that no driver-facing hint contains `release`. `release` remains a human verb (cli pattern 4).
+- **T4:** cli pattern 2 now gives one hint per cause for exit 21 and exit 1.
+  - Exit 21 causes: not running, unwrapped name, strict-modes, server verification.
+  - Exit 1 causes (`run` start refusals): already live, stale heartbeat, squatted endpoint, pinned SHA-256 mismatch, `.cmd` / `.bat` child, strict-modes home.
+  - Every cause has its own fixed-message line. The exit-code table follows.
+  - Not changed: `error: internal error` keeps no hint. It is a fault, and tests' exit-cause matrix does not list it among the exit-1 causes.
+  - Under `--json` no hint text is printed. A per-cause detail code there is **pending an arch amendment**: arch fixes `{"v":1,"error":"instance-unreachable","detail":null}` for exit 21 and gives exit 1 no `--json` document. Design does not change that payload. It points at obs-plan D-20's codes and notes that the stale-heartbeat and unwrapped-name causes have no code yet.
+- **T5 (ratified):** `list` table rows also escape `\n` and `\t`, so each row stays a single fixed-width line. The security plan's "keeping `\n` and `\t`" is a floor. `wait` / `last` text keeps them.
+- **By:** manual edit, overseer fix pass 2026-09-24.
 
