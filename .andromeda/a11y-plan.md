@@ -581,7 +581,7 @@ The binding contract is the obs Log Format JSON Schema (upstream-context Section
   ```
 - **Binding fields:**
   - `timestamp`, `level`, `target`, `message`, `event` and `process` are the binding fields.
-  - `event:"a11y-violation"` is a new closed-enum value, accepted as a tests + obs enum amendment (Decisions Log D-A11Y-09). It is scoped to harness artifacts only.
+  - `event:"a11y-violation"` marks a harness-only row. It is **not** a value of the product `event` enum, has no `ObsEvent` variant, and is never emitted by a product process. Each row is validated against the tests-owned `e2e-web/schemas/a11y-row.v1.json` (tests Log format → Harness-side a11y rows), never against obs `schemas/diag-line.v1.json` (Decisions Log D-A11Y-09).
   - `message` equals the event name (obs constraint).
   - `process:"ui"` names the process whose served page is under test.
   - `instance` and `corr` are omitted (absent = null). A literal `null` is never written.
@@ -1326,7 +1326,7 @@ between phase loops._
   - **D-A11Y-06** Announcer scope is the design's three messages, plus the 401 access strip (Overseer Direction 4), plus 503/404/405 rack strips that appear after first render. The last group is added under SC 4.1.3, because layout assigns announcement mechanics to a11y. There is no `alert`.
   - **D-A11Y-07** Initial focus stays on `<body>` with no autofocus. The skip link targets `#tape-end`, which is `tabindex="-1"` with visually hidden text `end of tape` (a11y-owned copy; design's zero-height geometry is unchanged).
   - **D-A11Y-08** SC 3.1.2: event and passthrough text has indeterminate language, so no `lang` is guessed on it.
-  - **D-A11Y-09** Violation rows use `event:"a11y-violation"` and `process:"ui"`. It is accepted (overseer, 2026-09-24) as a tests + obs closed-enum amendment, by the same route as D-21, scoped to harness artifacts under `e2e-web/test-results/a11y/`, never `diagnostics/`. The additive fields are `service_name`, `version`, `os`, `surface`, `check_source`, `wcag_criterion`, `violation_type`, `severity`, `selector`, `remediation`, `ci_run_id`, `git_sha`.
+  - **D-A11Y-09** Violation rows use `event:"a11y-violation"` and `process:"ui"`. They are harness-only rows under `e2e-web/test-results/a11y/`, never in `diagnostics/`, and are validated by the tests-owned `e2e-web/schemas/a11y-row.v1.json`. `a11y-violation` is not a product `event` enum value and has no `ObsEvent` variant (overseer fix pass 3, Z7). The additive fields are `service_name`, `version`, `os`, `surface`, `check_source`, `wcag_criterion`, `violation_type`, `severity`, `selector`, `remediation`, `ci_run_id`, `git_sha`.
   - **D-A11Y-10** colorjs.io 0.7.1 is chosen over `culori` 4.0.2 as the single token-pair checker, because it parses every CSS Color 4 computed value.
   - **D-A11Y-11** @guidepup/virtual-screen-reader 0.33.0 is the gating announcement proxy. Its Trusted Types safety is unverified at runtime, so the first spec asserts a clean CSP/TT console. If it fails, the fallback is a `page.addInitScript` MutationObserver recorder on `[role=status],[role=log],[aria-live]`.
   - **D-A11Y-12** `@guidepup/guidepup` 0.34.0 / `@guidepup/playwright` 0.19.1 (real NVDA/VoiceOver) are founder-local only. Adding them to CI needs a tests-harness change, because `--browser` is ubuntu-only and Guidepup has no Orca support.
@@ -1387,4 +1387,10 @@ between phase loops._
   - Z14: the `RB` pair reads `--rb-ink` / `--rb-fill` (design `data-rb="read"` rule), with `--ink-on-paper` noted as the same alias. §6 pair table and state colours, and a §1 pointer.
 - **Rationale:** the overseer's audit "a11y vs upstreams" (2026-09-24 07:05); design and tests are upstream.
 - **Impact:** §1 (pointers only, per D-A11Y-15), §2, §3, §4, §6, §8, §11. Not changed here: Z7 (the `a11y-violation` event moves out of the product enum into its own harness-side schema, applied in tests and obs by this pass). The §3 wording "new closed-enum value, accepted as a tests + obs enum amendment" and D-A11Y-09 are left for the overseer to reconcile, because Z7 was not routed to a11y.
+- **By:** manual edit, overseer fix pass 3, 2026-09-24 (founder-delegated).
+
+`2026-09-24` — overseer fix pass 3, 2026-09-24: `a11y-violation` is a harness-only row (Z7 leftover, founder-delegated)
+- **Decision:** §3 Binding fields and D-A11Y-09 now describe `a11y-violation` as a harness-only row, validated by the tests-owned `e2e-web/schemas/a11y-row.v1.json`. It is not a product `event` enum value and has no `ObsEvent` variant.
+- **Rationale:** this matches the test-plan and obs-plan Z7 changes from the same pass.
+- **Impact:** §3 Binding fields and D-A11Y-09 only. Nothing else is amended.
 - **By:** manual edit, overseer fix pass 3, 2026-09-24 (founder-delegated).
