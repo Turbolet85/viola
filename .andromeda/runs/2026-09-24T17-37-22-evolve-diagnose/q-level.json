@@ -1,0 +1,36 @@
+{
+  "epoch": "Epoch 1 — Foundation",
+  "problem_facts_total": 50,
+  "fact_ref": "L{ledger line}.{problem index}",
+  "passA_note_themes": [
+    {"theme": "permission layer / PreToolUse hook blocks deletes, compound launches and target/-segment writes", "nature": "environment", "solution": "workaround", "facts": ["L8.0", "L53.0", "L125.0", "L125.1", "L129.2"], "chunks": 4, "correlates": ["L128 untyped (2 retries)"], "at_threshold": true},
+    {"theme": "Windows/MSYS host semantics (relink of running exe, pipe exit masking, bash not visible to native python, tail -F handle leak)", "nature": "environment", "solution": "workaround x3 + removed-cause x1", "facts": ["L12.0", "L53.1", "L49.0", "L12.1"], "chunks": 3, "correlates": ["L22 recall.corpus-recurrence (host-win32 pipe-exit rule already existed)", "L14 spec-reality-gap (relink)"], "at_threshold": true},
+    {"theme": "implement may not edit plan.md / research.md, so a defective gate entry or measurement is run or parked by hand", "nature": "process", "solution": "workaround", "facts": ["L61.0", "L84.0", "L129.1"], "chunks": 3, "correlates": ["L62", "L63", "L85", "ok-degraded L61/L132"], "at_threshold": true},
+    {"theme": "the cargo-mutants gate shapes the implementation and its config per chunk (testability seams, timeouts, package-scoped baselines)", "nature": "process/environment", "solution": "workaround", "facts": ["L10.1", "L24.0", "L132.0", "L156.0"], "chunks": 4, "product_logic_siblings": ["L10.0", "L10.2"], "correlates": ["untyped U1 cluster L28 L32 L134 L138 L160", "structural-blind-spot L151", "spec-reality-gap L63"], "at_threshold": true},
+    {"theme": "host lacks the CI-pinned tool or version", "nature": "environment", "solution": "removed-cause x3 (+ workaround x2, deferred x1)", "facts": ["L150.0", "L156.1", "L173.0", "L8.1", "L102.0", "L53.2"], "chunks": 5, "correlates": ["L62 cargo-deny 0.19.4 vs 0.20.2"], "at_threshold": true, "form": "removed-cause observation"},
+    {"theme": "working-route flip-compaction has no route.py verb", "nature": "process", "solution": "workaround", "facts": ["L97.0", "L116.0"], "chunks": 2, "at_threshold": false},
+    {"theme": "raw fan-out / distiller twins written condensed rather than byte-complete", "nature": "process", "solution": "workaround", "facts": ["L29.0", "L163.0"], "chunks": 2, "at_threshold": false},
+    {"theme": "locating the CI run for the shipped sha (gh --commit empty; git log -1 names a later docs commit)", "nature": "environment/process", "solution": "workaround", "facts": ["L98.0", "L119.0"], "chunks": 2, "correlates": ["L120 structural-blind-spot"], "at_threshold": false},
+    {"theme": "a process-global test sink/context admits one setting test, so plan-named tests are merged", "nature": "process", "solution": "workaround", "facts": ["L82.2", "L107.0"], "chunks": 2, "at_threshold": false},
+    {"theme": "plan step literal vs repo convention (token false match; shell: bash claim)", "nature": "process", "solution": "workaround", "facts": ["L178.0", "L178.1"], "chunks": 1, "at_threshold": false},
+    {"theme": "singletons", "facts": ["L7.0", "L7.1", "L10.0", "L10.2", "L42.0 removed-cause", "L45.0 removed-cause", "L50.0", "L82.0", "L82.1", "L86.0"], "at_threshold": false}
+  ],
+  "passB_signatures": {
+    "band_aid": ["permission-guard theme", "windows-host theme", "read-only-plan theme", "mutation-gate theme"],
+    "removed_cause_observation": ["host-tools-behind-CI-pins theme"],
+    "chronic_degrade": {"within_epoch": "implement ok-degraded 3 of 24 implement step records (L61, L129, L132), each consuming a plan rated wrong/thin", "tooling_types": "tooling.result-not-run-stable n=1, tooling.host-shell n=1 (no recurrence)", "cross_epoch": "none (first epoch in ledger)"},
+    "deferred_forever": {"hits": 0, "routed": [
+      {"fact": "L53.2 zizmor unmeasured at research", "closure": "L59 names zizmor probes; L182 measures the zizmor.json upload"},
+      {"fact": "L4 tokio in viola-e2e contradiction", "closure": "note routes to P4 synthesis"},
+      {"fact": "L6 mutation merge-base presumes main", "closure": "L7.0 plan workaround + Expected amendment"},
+      {"fact": "L147 file_mode mutants", "closure": "folded into quality-gates (its own note)"},
+      {"fact": "L61/L179 deferral-open (zero .rs delta unit suite; v1-23 flip)", "closure": "route PREREQ on Security prerequisites; operator witness condition"},
+      {"fact": "L167 git check-ignore learning deferred", "closure": "note names the curation cap; still open at end of epoch (not reproduced)"}
+    ]},
+    "override": [
+      {"rule": "phase/take-up scope and red-disposition", "facts": ["L27.0", "L73.0", "L146.0"], "chunks": 3, "correlates": ["L28 untyped (halted, 1 dialogue round)"]},
+      {"rule": "wrap light-gate ASSERT arms / flip precondition vs CI-only or host-unreachable evidence", "facts": ["L137.0", "L143.0", "L189.0"], "chunks": 2, "correlates": ["L138 untyped", "L25 structural-blind-spot", "halted-resolved L24, L189"]},
+      {"rule": "wrap reconcile escalation", "facts": ["L89.0"], "chunks": 1, "note": "a designed escalation resolution; single"}
+    ]
+  }
+}

@@ -1,0 +1,52 @@
+{
+ "population": "source-files.txt (tracked *.rs of the root workspace: src/, tests/, crates/*/{src,tests}; fuzz/ excluded)",
+ "files": 33,
+ "loc": 8602,
+ "file_p50": 177,
+ "file_p90": 578,
+ "file_max": 1562,
+ "over_800": 1,
+ "top": [
+  [
+   "crates/viola-e2e/src/harness/run.rs",
+   1562
+  ],
+  [
+   "src/obs.rs",
+   632
+  ],
+  [
+   "tests/cli_fake_agent.rs",
+   610
+  ],
+  [
+   "src/bin/viola-fake-agent.rs",
+   578
+  ],
+  [
+   "crates/viola-e2e/src/harness/gate.rs",
+   462
+  ],
+  [
+   "tests/run_cli.rs",
+   459
+  ],
+  [
+   "crates/viola-e2e/src/harness/boot.rs",
+   448
+  ],
+  [
+   "crates/viola-e2e/src/harness/secret_scan.rs",
+   435
+  ],
+  [
+   "crates/viola-e2e/src/harness/mod.rs",
+   303
+  ],
+  [
+   "src/main.rs",
+   274
+  ]
+ ],
+ "missing_from_tokei": []
+}

@@ -1,0 +1,27 @@
+{
+ "unused_deps": [
+  [
+   "viola-fuzz (fuzz/Cargo.toml, own workspace)",
+   "arbitrary"
+  ]
+ ],
+ "zero_ref_all": 272,
+ "test_excluded": 266,
+ "fp_classes": {
+  "entry-point": [
+   "main().",
+   "main().",
+   "main()."
+  ],
+  "trait-impl-dispatch": [
+   "obs/impl#[ObsEvent][Display]fmt().",
+   "obs/impl#[ObsProcess][Display]fmt()."
+  ],
+  "derive-attr-invoked": [
+   "harness/HarnessError#Json#  (#[from] serde_json::Error variant, harness/mod.rs:27)"
+  ]
+ },
+ "zero_ref_candidates": 0,
+ "top": [],
+ "note": "candidates, never dead; test exclusion = tests/ segment in symbol path (SCIP prefix stripped) OR file path"
+}

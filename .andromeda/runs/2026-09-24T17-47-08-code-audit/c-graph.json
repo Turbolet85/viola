@@ -1,0 +1,97 @@
+{
+ "cycles": 0,
+ "cycle_paths": [],
+ "fan_in_top": [
+  [
+   "rust-analyzer cargo viola-e2e 0.1.0 harness/Outcome#doc.",
+   63
+  ],
+  [
+   "rust-analyzer cargo viola-e2e 0.1.0 harness/Workspace#",
+   63
+  ],
+  [
+   "rust-analyzer cargo viola-e2e 0.1.0 harness/Outcome#code.",
+   62
+  ],
+  [
+   "rust-analyzer cargo viola 0.1.0 support/home/TestHome#",
+   43
+  ],
+  [
+   "rust-analyzer cargo viola-e2e 0.1.0 harness/Workspace#root.",
+   36
+  ],
+  [
+   "rust-analyzer cargo viola-e2e 0.1.0 harness/Outcome#",
+   36
+  ],
+  [
+   "rust-analyzer cargo viola 0.1.0 crate/",
+   34
+  ],
+  [
+   "rust-analyzer cargo viola-core 0.1.0 obs/ObsProcess#",
+   30
+  ],
+  [
+   "rust-analyzer cargo viola-core 0.1.0 __nutype_ViolaName__/ViolaName#",
+   29
+  ],
+  [
+   "rust-analyzer cargo viola 0.1.0 support/fake/FAKE.",
+   25
+  ],
+  [
+   "rust-analyzer cargo viola-e2e 0.1.0 harness/read_json().",
+   25
+  ],
+  [
+   "rust-analyzer cargo viola-e2e 0.1.0 harness/run/Suite#",
+   20
+  ],
+  [
+   "rust-analyzer cargo viola 0.1.0 support/fake/",
+   19
+  ],
+  [
+   "rust-analyzer cargo viola 0.1.0 support/home/impl#[TestHome]path().",
+   19
+  ],
+  [
+   "rust-analyzer cargo viola 0.1.0 support/home/impl#[TestHome]new().",
+   19
+  ],
+  [
+   "rust-analyzer cargo viola-e2e 0.1.0 harness/write_json().",
+   19
+  ],
+  [
+   "rust-analyzer cargo viola-e2e 0.1.0 harness/run/Suite#failed.",
+   17
+  ],
+  [
+   "rust-analyzer cargo viola-core 0.1.0 obs/ObsEvent#",
+   16
+  ],
+  [
+   "rust-analyzer cargo viola 0.1.0 support/fake/of_kind().",
+   16
+  ],
+  [
+   "rust-analyzer cargo viola 0.1.0 Direct#",
+   16
+  ]
+ ],
+ "fan_out": [
+  [
+   "viola",
+   1
+  ],
+  [
+   "viola-e2e",
+   1
+  ]
+ ],
+ "cross_unit_edges": 2
+}

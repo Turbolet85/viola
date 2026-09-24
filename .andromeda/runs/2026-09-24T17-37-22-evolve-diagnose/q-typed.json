@@ -1,0 +1,2021 @@
+{
+ "per_step": [
+  {
+   "key": "phase/validate/contract.mechanical-check",
+   "n": 10,
+   "impact": {
+    "extra_reads": 14,
+    "iterations": 4
+   },
+   "weight": 14,
+   "rate": "10/8",
+   "chunks": [
+    "2026-09-24-diagnostics-plane",
+    "2026-09-24-fake-agent-and-test-data-fixtures",
+    "2026-09-24-log-redaction-and-never-log-floor",
+    "2026-09-24-observability-gates",
+    "2026-09-24-quality-gates",
+    "2026-09-24-supply-chain-and-workflow-gates",
+    "2026-09-24-three-os-ci-headless-harness-skeleton",
+    "2026-09-24-workspace-tree-and-code-graph-planes"
+   ],
+   "above": true,
+   "cases": [
+    {
+     "line": 9,
+     "id": "2026-09-24T06:06:54Z-b",
+     "skill": "phase",
+     "step": "validate",
+     "chunk": "2026-09-24-three-os-ci-headless-harness-skeleton",
+     "what": "check 7 WARN by construction: no tree-query trace on a cold-start chunk (no tree.db exists); research recorded derived-without-graph",
+     "impact": {},
+     "evidence": null,
+     "artifacts": [
+      "viola-0.1.0/chunks/2026-09-24-three-os-ci-headless-harness-skeleton/research.md"
+     ]
+    },
+    {
+     "line": 35,
+     "id": "2026-09-24T08:26:53Z-b",
+     "skill": "phase",
+     "step": "validate",
+     "chunk": "2026-09-24-fake-agent-and-test-data-fixtures",
+     "what": "check 9 fired: research Platform-issues slot read none (item 7 reproduced locally) while the fence carries a CI-reading operator entry; resolved by a web search + fetch of the cargo-mutants releases page and a slot rewrite",
+     "impact": {
+      "extra_reads": 2
+     },
+     "evidence": null,
+     "artifacts": [
+      "viola-0.1.0/chunks/2026-09-24-fake-agent-and-test-data-fixtures/research.md"
+     ]
+    },
+    {
+     "line": 36,
+     "id": "2026-09-24T08:26:53Z-c",
+     "skill": "phase",
+     "step": "validate",
+     "chunk": "2026-09-24-fake-agent-and-test-data-fixtures",
+     "what": "check 8 mechanism read found the --exit-no-eof criterion vacuous under the existing run_viola helper (Stdio::null stdout holds nothing); plan implementation notes amended to require a piped stdout",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      "src/run/mod.rs:152-153",
+      "tests/run_cli.rs:13-28"
+     ]
+    },
+    {
+     "line": 59,
+     "id": "2026-09-24T09:33:29Z-b",
+     "skill": "phase",
+     "step": "validate",
+     "chunk": "2026-09-24-supply-chain-and-workflow-gates",
+     "what": "check 4 fired four REQUIRED-RESOLUTIONs on the P4 fence: (5) operator-leg last-line atoms named no source (fixed by recording both CI-read forms on 61f9676 into baseline/); (9) two tool-version probes unmarked new (prior plans named deny/zizmor only in prose); (4) CI-only JSON artifacts had no stated producer; check 3 target/ output dirs absent from Occupied Resources",
+     "impact": {
+      "iterations": 1,
+      "extra_reads": 3
+     },
+     "evidence": ".andromeda/runs/2026-09-24T09-16-31-phase/baseline/",
+     "artifacts": [
+      "plan.md"
+     ]
+    },
+    {
+     "line": 81,
+     "id": "2026-09-24T10:21:51Z-b",
+     "skill": "phase",
+     "step": "validate",
+     "chunk": "2026-09-24-diagnostics-plane",
+     "what": "check 9 (Platform issues consulted) fired REQUIRED-RESOLUTION: research.md's slot read none with the reason 'no CI-reading entry' while the plan lists the operator check-runs read; slot rewritten with the green-predecessor basis",
+     "impact": {
+      "iterations": 0
+     },
+     "evidence": "research.md §Scope Platform issues consulted",
+     "artifacts": [
+      "viola-0.1.0/chunks/2026-09-24-diagnostics-plane/research.md"
+     ]
+    },
+    {
+     "line": 106,
+     "id": "2026-09-24T11:31:08Z-b",
+     "skill": "phase",
+     "step": "validate",
+     "chunk": "2026-09-24-log-redaction-and-never-log-floor",
+     "what": "3 checks required resolution at P5: 4(5) an operator-leg check-runs entry had a last-line atom with no 'atom from' source; 4(9) a regression-guard filter entry with a never-before-named scope lacked new=true; 9 research's Platform-issues slot read 'none' beside a runner-only scope bullet - resolved by a note, a new flag + green baseline, and a fetched Rust ErrorKind doc",
+     "impact": {
+      "extra_reads": 2,
+      "iterations": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      "viola-0.1.0/chunks/2026-09-24-log-redaction-and-never-log-floor/plan.md",
+      "viola-0.1.0/chunks/2026-09-24-log-redaction-and-never-log-floor/research.md"
+     ]
+    },
+    {
+     "line": 126,
+     "id": "2026-09-24T12:20:24Z-b",
+     "skill": "phase",
+     "step": "validate",
+     "chunk": "2026-09-24-observability-gates",
+     "what": "Check 4 (9) baselines showed both agent-run shims reject unknown verbs (reason usage, exit 2), so the P4 plan's internal harness subcommands were unreachable through the shims its own gates call; scripts/agent-run.{sh,ps1} were added to the modify-set.",
+     "impact": {
+      "extra_reads": 2
+     },
+     "evidence": ".andromeda/runs/2026-09-24T11-55-47-phase/b17.log",
+     "artifacts": [
+      "scripts/agent-run.sh",
+      "scripts/agent-run.ps1"
+     ]
+    },
+    {
+     "line": 127,
+     "id": "2026-09-24T12:20:24Z-c",
+     "skill": "phase",
+     "step": "validate",
+     "chunk": "2026-09-24-observability-gates",
+     "what": "Check 8 found step 8's claim that Wrapper::boot owns the wrapper mutably false (home.rs:139 binds it immutably), and check 4 (6) found a deadline criterion with no gate entry; 2 probe entries added, step reworded.",
+     "impact": {
+      "extra_reads": 2
+     },
+     "evidence": null,
+     "artifacts": [
+      "viola-0.1.0/chunks/2026-09-24-observability-gates/plan.md"
+     ]
+    },
+    {
+     "line": 155,
+     "id": "2026-09-24T14:08:38Z-b",
+     "skill": "phase",
+     "step": "validate",
+     "chunk": "2026-09-24-quality-gates",
+     "what": "check 4(6) found 4 acceptance criteria naming properties no entry proved (pin, nightly a11y, mutants.out removal, run-body expressions); check 4(9) baseline found entry 13's authored atom unpassable twice ('contains 0 failed' never printed on green; bare 'lacks failed' hit two test names) and it was corrected to the summary token 'failed,'",
+     "impact": {
+      "iterations": 2,
+      "extra_reads": 2
+     },
+     "evidence": "P5 baseline logs in session scratchpad baseline/, baseline3/, baseline4/",
+     "artifacts": [
+      "viola-0.1.0/chunks/2026-09-24-quality-gates/plan.md"
+     ]
+    },
+    {
+     "line": 177,
+     "id": "2026-09-24T16:16:49Z-b",
+     "skill": "phase",
+     "step": "validate",
+     "chunk": "2026-09-24-workspace-tree-and-code-graph-planes",
+     "what": "checks 3 (a minted local target dir target/release-check absent from arch Occupied Resources), 4(6) (the design/layouts no-tsconfig criterion named no gate) and 9 (CI-reading entries with an empty Platform-issues slot) fired REQUIRED-RESOLUTION on the P4 draft; all three resolved before the review",
+     "impact": {
+      "iterations": 0
+     },
+     "evidence": null,
+     "artifacts": [
+      "viola-0.1.0/chunks/2026-09-24-workspace-tree-and-code-graph-planes/plan.md",
+      "viola-0.1.0/chunks/2026-09-24-workspace-tree-and-code-graph-planes/research.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "implement/fix-loop/contract.spec-reality-gap",
+   "n": 4,
+   "impact": {
+    "iterations": 5
+   },
+   "weight": 9,
+   "rate": "4/8",
+   "chunks": [
+    "2026-09-24-supply-chain-and-workflow-gates",
+    "2026-09-24-three-os-ci-headless-harness-skeleton"
+   ],
+   "above": true,
+   "cases": [
+    {
+     "line": 13,
+     "id": "2026-09-24T07:04:20Z-b",
+     "skill": "implement",
+     "step": "fix-loop",
+     "chunk": "2026-09-24-three-os-ci-headless-harness-skeleton",
+     "what": "test-plan §3 run step 1 integration filterset `kind(test) & !binary(/^(path|…)_/)` is rejected by nextest 0.9.133 when no binary matches (`operator didn't match any binary names`); harness uses `kind(test)` until the first E2E binary",
+     "impact": {
+      "iterations": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      ".andromeda/test-plan.md:536"
+     ]
+    },
+    {
+     "line": 14,
+     "id": "2026-09-24T07:04:20Z-c",
+     "skill": "implement",
+     "step": "fix-loop",
+     "chunk": "2026-09-24-three-os-ci-headless-harness-skeleton",
+     "what": "test-plan §3 shims `cargo run -p viola-e2e` then boot step 1 / run step 1 build the workspace into the same target: on Windows the running viola-harness.exe cannot be relinked (os error 5); harness builds into target/harness and boot's bins come from there",
+     "impact": {
+      "iterations": 3
+     },
+     "evidence": null,
+     "artifacts": [
+      ".andromeda/test-plan.md:506",
+      ".andromeda/test-plan.md:515"
+     ]
+    },
+    {
+     "line": 62,
+     "id": "2026-09-24T09:39:16Z-b",
+     "skill": "implement",
+     "step": "fix-loop",
+     "chunk": "2026-09-24-supply-chain-and-workflow-gates",
+     "what": "cargo-deny 0.20.2 moved --config to a global option and dropped check -c; the plan's gate 4 (and the first-written ci.yml / deny-probes.sh) used the 0.19.4 form the P3 probes and P5 baseline ran under",
+     "impact": {
+      "iterations": 1
+     },
+     "evidence": ".andromeda/runs/2026-09-24T09-34-05-implement/gate4-corrected.log",
+     "artifacts": [
+      "plan.md",
+      "scripts/deny-probes.sh",
+      ".github/workflows/ci.yml"
+     ]
+    },
+    {
+     "line": 63,
+     "id": "2026-09-24T09:39:16Z-c",
+     "skill": "implement",
+     "step": "fix-loop",
+     "chunk": "2026-09-24-supply-chain-and-workflow-gates",
+     "what": "plan gate 10 declares artifact mutants.out/ on a run whose asserted verdict is no-rust-delta, which by the harness contract never runs cargo-mutants: all atoms hold, the freshness check reads STALE by construction (the P5 manual baseline did not exercise the artifact key)",
+     "impact": {
+      "iterations": 0
+     },
+     "evidence": null,
+     "artifacts": [
+      "plan.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "wrap-session/reconcile/input.report-insufficient",
+   "n": 3,
+   "impact": {
+    "dialogue_rounds": 1,
+    "halted": 1,
+    "extra_reads": 2
+   },
+   "weight": 8,
+   "rate": "3/8",
+   "chunks": [
+    "2026-09-24-fake-agent-and-test-data-fixtures",
+    "2026-09-24-quality-gates",
+    "2026-09-24-workspace-tree-and-code-graph-planes"
+   ],
+   "above": true,
+   "cases": [
+    {
+     "line": 43,
+     "id": "2026-09-24T08:57:37Z-b",
+     "skill": "wrap-session",
+     "step": "reconcile",
+     "chunk": "2026-09-24-fake-agent-and-test-data-fixtures",
+     "what": "the report listed the fake agent's <fixtures>/<cli-version>/<Event>.<variant>.json lookup but did not flag it against test-plan §2 kebab naming and §3 boot step 5 --fixtures <ver> dir; the tests detector surfaced both as escalations",
+     "impact": {
+      "dialogue_rounds": 1,
+      "halted": 1
+     },
+     "evidence": ".andromeda/runs/2026-09-24T08-45-42-wrap/fanout-results.md",
+     "artifacts": [
+      "viola-0.1.0/chunks/2026-09-24-fake-agent-and-test-data-fixtures/report.md",
+      ".andromeda/test-plan.md"
+     ]
+    },
+    {
+     "line": 164,
+     "id": "2026-09-24T15:05:18Z-b",
+     "skill": "wrap-session",
+     "step": "reconcile",
+     "chunk": "2026-09-24-quality-gates",
+     "what": "the report's obs expected-amendment line placed the mutants.out fact at obs §8 integration point 6, but grep shows the sole mutants.out hit in obs-plan is §9:1249 (Mutation row); the obs detector corrected the site and proposed both",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": ".andromeda/runs/2026-09-24T14-48-15-wrap/.raw-fanout-obs-plan.md",
+     "artifacts": [
+      "viola-0.1.0/chunks/2026-09-24-quality-gates/report.md",
+      ".andromeda/obs-plan.md:1249"
+     ]
+    },
+    {
+     "line": 184,
+     "id": "2026-09-24T16:37:59Z-b",
+     "skill": "wrap-session",
+     "step": "reconcile",
+     "chunk": "2026-09-24-workspace-tree-and-code-graph-planes",
+     "what": "arch proposal 7 (code-graph planes bullet) rested on the rust-plane coverage fact, which only research.md carried; the proposal also mis-named cargo-modules as the rust plane. The fact was added to report Changes and the body re-derived from it (rust-analyzer SCIP)",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      "viola-0.1.0/chunks/2026-09-24-workspace-tree-and-code-graph-planes/report.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "implement/code/contract.premise-falsified",
+   "n": 2,
+   "impact": {
+    "iterations": 2,
+    "dialogue_rounds": 1,
+    "extra_reads": 3
+   },
+   "weight": 6,
+   "rate": "2/8",
+   "chunks": [
+    "2026-09-24-observability-gates"
+   ],
+   "above": false,
+   "cases": [
+    {
+     "line": 130,
+     "id": "2026-09-24T12:31:54Z-b",
+     "skill": "implement",
+     "step": "code",
+     "chunk": "2026-09-24-observability-gates",
+     "what": "obs-plan §3 and plan step 2 hold that obs_event!'s inner #[allow(clippy::disallowed_macros)] lets callers lint clean; on clippy 1.98.1 all 16 obs_event! call sites failed, and a throwaway probe found only a caller-crate #![allow] silences it.",
+     "impact": {
+      "iterations": 2,
+      "dialogue_rounds": 1,
+      "extra_reads": 2
+     },
+     "evidence": ".andromeda/runs/2026-09-24T12-21-11-implement/clippy-disallowed-macros-measurement.md",
+     "artifacts": [
+      "clippy.toml",
+      "crates/viola-core/src/obs.rs:155",
+      ".andromeda/obs-plan.md §3 logger-stack-install"
+     ]
+    },
+    {
+     "line": 131,
+     "id": "2026-09-24T12:31:54Z-c",
+     "skill": "implement",
+     "step": "code",
+     "chunk": "2026-09-24-observability-gates",
+     "what": "The plan's Cargo.lock-unchanged probe assumed adding an already-locked crate to viola-e2e leaves the lock byte-identical; the lock gains one dependency-edge line (\"jsonschema\" under viola-e2e), so git diff --quiet HEAD -- Cargo.lock is red by construction.",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      "Cargo.lock",
+      "viola-0.1.0/chunks/2026-09-24-observability-gates/plan.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "implement/fix-loop/contract.vacuous-check-found",
+   "n": 2,
+   "impact": {
+    "iterations": 2
+   },
+   "weight": 4,
+   "rate": "2/8",
+   "chunks": [
+    "2026-09-24-quality-gates",
+    "2026-09-24-three-os-ci-headless-harness-skeleton"
+   ],
+   "above": false,
+   "cases": [
+    {
+     "line": 15,
+     "id": "2026-09-24T07:04:20Z-d",
+     "skill": "implement",
+     "step": "fix-loop",
+     "chunk": "2026-09-24-three-os-ci-headless-harness-skeleton",
+     "what": "mutation run: fake agent `== 0x03` -> `!=` survived; the test sent `ab\\x03` so both worlds exited 0; strengthened to require the agent alive across a bounded window after `ab`",
+     "impact": {
+      "iterations": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      "tests/run_cli.rs",
+      "src/bin/viola-fake-agent.rs:25"
+     ]
+    },
+    {
+     "line": 159,
+     "id": "2026-09-24T14:46:27Z-b",
+     "skill": "implement",
+     "step": "fix-loop",
+     "chunk": "2026-09-24-quality-gates",
+     "what": "local mutation leg missed run.rs:139:36 '|| -> &&': cargo-mutants swaps the token textually so a || b || c re-parses as a || (b && c), true whenever unit is set, and every doctest-asserting test set unit; also run.rs:449 (fuzz_replay artifact field) had no assertion. Fixed by testing the CLI's real coverage-only selection and asserting the artifact",
+     "impact": {
+      "iterations": 1
+     },
+     "evidence": "mutants.out/log/crates__viola-e2e__src__harness__run.rs_line_139_col_36.log",
+     "artifacts": [
+      "crates/viola-e2e/src/harness/run.rs"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "implement/fix-loop/tooling.result-not-run-stable",
+   "n": 1,
+   "impact": {
+    "iterations": 1,
+    "retries": 2
+   },
+   "weight": 4,
+   "rate": "1/8",
+   "chunks": [
+    "2026-09-24-three-os-ci-headless-harness-skeleton"
+   ],
+   "above": false,
+   "cases": [
+    {
+     "line": 16,
+     "id": "2026-09-24T07:04:20Z-e",
+     "skill": "implement",
+     "step": "fix-loop",
+     "chunk": "2026-09-24-three-os-ci-headless-harness-skeleton",
+     "what": "mutation run: a caught mutant (expired -> false) was graded Timeout because nextest fail-fast waited on tests the mutant hung past cargo-mutants' 108 s timeout; [profile.mutants] now terminates immediately on first failure with a 30 s slow-timeout",
+     "impact": {
+      "iterations": 1,
+      "retries": 2
+     },
+     "evidence": null,
+     "artifacts": [
+      ".config/nextest.toml"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "wrap-session/curation/ambiguity.filter-borderline",
+   "n": 4,
+   "impact": {
+    "iterations": 0,
+    "dialogue_rounds": 0,
+    "deferred": 1
+   },
+   "weight": 4,
+   "rate": "4/8",
+   "chunks": [
+    "2026-09-24-diagnostics-plane",
+    "2026-09-24-log-redaction-and-never-log-floor",
+    "2026-09-24-observability-gates",
+    "2026-09-24-quality-gates"
+   ],
+   "above": true,
+   "cases": [
+    {
+     "line": 93,
+     "id": "2026-09-24T10:50:47Z-b",
+     "skill": "wrap-session",
+     "step": "curation",
+     "chunk": "2026-09-24-diagnostics-plane",
+     "what": "all three new Tier-2 entries scored exactly 0.6 on signals (+0.4 measured, +0.2 detail) and passed only through the conditional no-other-home +0.2; the two schema-mechanism candidates at the same 0.6 were rejected because P2 homed them in obs §8",
+     "impact": {
+      "iterations": 0
+     },
+     "evidence": null,
+     "artifacts": null
+    },
+    {
+     "line": 114,
+     "id": "2026-09-24T11:45:10Z-b",
+     "skill": "wrap-session",
+     "step": "curation",
+     "chunk": "2026-09-24-log-redaction-and-never-log-floor",
+     "what": "both applied learnings scored exactly 0.6 on their own signals (measurement +0.4, technical detail +0.2) and passed only through the no-other-home +0.2 conditional; the third candidate sat at 0.6 and was rejected because obs :485 already states it",
+     "impact": {
+      "iterations": 0
+     },
+     "evidence": null,
+     "artifacts": null
+    },
+    {
+     "line": 141,
+     "id": "2026-09-24T13:21:49Z-b",
+     "skill": "wrap-session",
+     "step": "curation",
+     "chunk": "2026-09-24-observability-gates",
+     "what": "Four candidates scored 0.8, two of them only through a conditional +0.2 (load-bearing / no-other-home) on a 0.6 base, so the Filter-5 cap chose among equals with no rule to order them; the deferred one was picked by judgment.",
+     "impact": {
+      "dialogue_rounds": 0
+     },
+     "evidence": null,
+     "artifacts": null
+    },
+    {
+     "line": 167,
+     "id": "2026-09-24T15:06:23Z-b",
+     "skill": "wrap-session",
+     "step": "curation",
+     "chunk": "2026-09-24-quality-gates",
+     "what": "three candidates scored exactly 0.6 before the no-other-home +0.2 (token-swap hazard, gate-atom vs test names, git check-ignore on an unborn path); all took the +0.2 and tied at 0.8, so the Filter 5 cap left the pick among them underdetermined (git check-ignore deferred)",
+     "impact": {
+      "deferred": 1
+     },
+     "evidence": ".andromeda/runs/2026-09-24T14-48-15-wrap/curation.md",
+     "artifacts": [
+      ".claude/rules/testing.md",
+      ".claude/docs/session-learnings.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "implement/fix-loop/retry.fix-iterations",
+   "n": 1,
+   "impact": {
+    "iterations": 3
+   },
+   "weight": 4,
+   "rate": "1/8",
+   "chunks": [
+    "2026-09-24-observability-gates"
+   ],
+   "above": false,
+   "cases": [
+    {
+     "line": 133,
+     "id": "2026-09-24T13:05:42Z-b",
+     "skill": "implement",
+     "step": "fix-loop",
+     "chunk": "2026-09-24-observability-gates",
+     "what": "The local mutants gate went baseline-red (nextest mutants kill vs a 20 s-by-design harness test), then 13 missed, then 1 missed, then 3 missed that are uncompiled on the host (#[cfg(unix)]), across 3 full-block runs of about 7-11 minutes each.",
+     "impact": {
+      "iterations": 3
+     },
+     "evidence": "andromeda-gate/2026-09-24-observability-gates/implement-2026-09-24T12-21-11/30.log",
+     "artifacts": [
+      ".config/nextest.toml",
+      "crates/viola-e2e/src/harness/secret_scan.rs"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "phase/distill/contract.binding-contradiction",
+   "n": 3,
+   "impact": {
+    "deferred": 1,
+    "retries": 0
+   },
+   "weight": 3,
+   "rate": "3/8",
+   "chunks": [
+    "2026-09-24-quality-gates",
+    "2026-09-24-supply-chain-and-workflow-gates",
+    "2026-09-24-three-os-ci-headless-harness-skeleton"
+   ],
+   "above": true,
+   "cases": [
+    {
+     "line": 4,
+     "id": "2026-09-24T05:54:53Z-b",
+     "skill": "phase",
+     "step": "distill",
+     "chunk": "2026-09-24-three-os-ci-headless-harness-skeleton",
+     "what": "arch extract requires no tokio/anyhow in viola-e2e (Tokio containment, anyhow root-only) while test-plan §3 bootstrap gives viola-e2e tokio test-util + Tokio-based clients; carried to P4 synthesis, not retried",
+     "impact": {
+      "deferred": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      ".andromeda/runs/2026-09-24T05-49-06-phase/arch.md",
+      ".andromeda/runs/2026-09-24T05-49-06-phase/tests.md"
+     ]
+    },
+    {
+     "line": 52,
+     "id": "2026-09-24T09:21:16Z-b",
+     "skill": "phase",
+     "step": "distill",
+     "chunk": "2026-09-24-supply-chain-and-workflow-gates",
+     "what": "check C: the weekly advisory run's home disagrees across specs — arch §CI/CD and obs §9 say one ci.yml (push+PR), test-plan §9 names a scheduled nightly.yml, security §Dependency Security says a separate schedule trigger; carried to P4 as a fork, no retry",
+     "impact": {
+      "retries": 0
+     },
+     "evidence": ".andromeda/runs/2026-09-24T09-16-31-phase/{arch,tests,security,obs}.md",
+     "artifacts": [
+      "architecture.md",
+      "test-plan.md",
+      "security-plan.md",
+      "obs-plan.md"
+     ]
+    },
+    {
+     "line": 149,
+     "id": "2026-09-24T13:47:54Z-b",
+     "skill": "phase",
+     "step": "distill",
+     "chunk": "2026-09-24-quality-gates",
+     "what": "check C: arch + security extracts require rustup toolchain install / no toolchain action for every CI toolchain; tests extract says dtolnay/rust-toolchain remains correct for the MSRV 1.96 and nightly fuzz jobs (the harness-skeleton sweep left those test-plan lines unchanged); a spec-level contradiction faithfully reported by both, not retried — routed to P4 as a fork",
+     "impact": {
+      "retries": 0
+     },
+     "evidence": ".andromeda/runs/2026-09-24T13-41-49-phase/{arch,security,tests}.md",
+     "artifacts": [
+      ".andromeda/architecture.md",
+      ".andromeda/security-plan.md",
+      ".andromeda/test-plan.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "phase/research/contract.premise-falsified",
+   "n": 3,
+   "impact": {
+    "deferred": 1,
+    "extra_reads": 2
+   },
+   "weight": 3,
+   "rate": "3/8",
+   "chunks": [
+    "2026-09-24-quality-gates",
+    "2026-09-24-supply-chain-and-workflow-gates",
+    "2026-09-24-three-os-ci-headless-harness-skeleton"
+   ],
+   "above": true,
+   "cases": [
+    {
+     "line": 6,
+     "id": "2026-09-24T05:57:13Z-b",
+     "skill": "phase",
+     "step": "research",
+     "chunk": "2026-09-24-three-os-ci-headless-harness-skeleton",
+     "what": "test-plan §3/§9 mutation base (git merge-base HEAD origin/main) and PR-only CI mutation job presume a main branch and PRs; git ls-remote shows only build/viola-0.1.0, so the gate would never fire per chunk",
+     "impact": {
+      "deferred": 1
+     },
+     "evidence": "viola-0.1.0/chunks/2026-09-24-three-os-ci-headless-harness-skeleton/research.md",
+     "artifacts": [
+      ".andromeda/test-plan.md:553",
+      ".andromeda/test-plan.md:1390"
+     ]
+    },
+    {
+     "line": 54,
+     "id": "2026-09-24T09:26:43Z-b",
+     "skill": "phase",
+     "step": "research",
+     "chunk": "2026-09-24-supply-chain-and-workflow-gates",
+     "what": "spec mechanism premise falsified by a control: arch §Build system's 'graph with viola/viola-mcp/viola-ui excluded' read as cargo-deny --exclude false-fails under workspace feature unification; the sole-root --manifest-path form decides the case, except for the crate owning the optional tokio feature",
+     "impact": {
+      "extra_reads": 0
+     },
+     "evidence": "viola-0.1.0/chunks/2026-09-24-supply-chain-and-workflow-gates/research.md §Measured facts",
+     "artifacts": [
+      "architecture.md",
+      "test-plan.md"
+     ]
+    },
+    {
+     "line": 152,
+     "id": "2026-09-24T13:56:57Z-c",
+     "skill": "phase",
+     "step": "research",
+     "chunk": "2026-09-24-quality-gates",
+     "what": "test-plan §3 states two facts measurement falsified: the coverage JUnit lives at target/llvm-cov-target/nextest/ci/junit.xml (it stays at target/nextest/ci/junit.xml), and the ignore regex crates/viola-e2e|tests/support excludes those trees (it cannot match llvm-cov's backslash paths on Windows)",
+     "impact": {
+      "extra_reads": 2
+     },
+     "evidence": "viola-0.1.0/chunks/2026-09-24-quality-gates/research.md M5, M6",
+     "artifacts": [
+      ".andromeda/test-plan.md:559",
+      ".andromeda/test-plan.md:645"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "wrap-session/reconcile/contract.false-positive-proposal",
+   "n": 3,
+   "impact": {
+    "iterations": 0
+   },
+   "weight": 3,
+   "rate": "3/8",
+   "chunks": [
+    "2026-09-24-fake-agent-and-test-data-fixtures",
+    "2026-09-24-supply-chain-and-workflow-gates",
+    "2026-09-24-three-os-ci-headless-harness-skeleton"
+   ],
+   "above": true,
+   "cases": [
+    {
+     "line": 20,
+     "id": "2026-09-24T07:20:46Z-b",
+     "skill": "wrap-session",
+     "step": "reconcile",
+     "chunk": "2026-09-24-three-os-ci-headless-harness-skeleton",
+     "what": "D-security-input (escalate) and D-security-auth proposed Decisions-Log deferral prose for gaps the markerless route already owns (home-integrity, PTY wrapper CLAUDE* strip); rejected as sequencing deferrals routed to CARRY pins; D-security-auth also cited src/run/mod.rs, a location the report does not carry",
+     "impact": {},
+     "evidence": null,
+     "artifacts": [
+      ".andromeda/runs/2026-09-24T07-05-59-wrap/.raw-fanout-security-plan.md"
+     ]
+    },
+    {
+     "line": 44,
+     "id": "2026-09-24T08:57:37Z-c",
+     "skill": "wrap-session",
+     "step": "reconcile",
+     "chunk": "2026-09-24-fake-agent-and-test-data-fixtures",
+     "what": "D-arch-decisions proposed a Stack Testing row for dev-only test libraries although architecture [Deferred] delegates the test framework to test-plan (which pins them); rejected",
+     "impact": {},
+     "evidence": null,
+     "artifacts": [
+      ".andromeda/architecture.md:106"
+     ]
+    },
+    {
+     "line": 68,
+     "id": "2026-09-24T09:49:52Z-b",
+     "skill": "wrap-session",
+     "step": "reconcile",
+     "chunk": "2026-09-24-supply-chain-and-workflow-gates",
+     "what": "D-arch-resources proposed registering individual config files (deny.toml, deny-sync.toml, scripts, nightly.yml) in Occupied Resources → Repository; applied only its two target/ output dirs, the files routed to the directory tree (playbook Registry over-reach)",
+     "impact": {
+      "iterations": 0
+     },
+     "evidence": ".andromeda/runs/2026-09-24T09-41-13-wrap/.raw-fanout-architecture.md",
+     "artifacts": [
+      "architecture.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "wrap-session/curation/recall.corpus-recurrence",
+   "n": 2,
+   "impact": {
+    "iterations": 1,
+    "extra_reads": 0
+   },
+   "weight": 3,
+   "rate": "2/8",
+   "chunks": [
+    "2026-09-24-diagnostics-plane",
+    "2026-09-24-three-os-ci-headless-harness-skeleton"
+   ],
+   "above": false,
+   "cases": [
+    {
+     "line": 22,
+     "id": "2026-09-24T07:21:44Z-b",
+     "skill": "wrap-session",
+     "step": "curation",
+     "chunk": "2026-09-24-three-os-ci-headless-harness-skeleton",
+     "what": "host-win32.md already rules that a pipe's exit is its last stage's and a zero-is-healthy count probe exits non-zero; the plan still authored `grep … | grep -Evc …` whose pipefail exit read green on a missing ci.yml, caught only by P5's baseline run",
+     "impact": {
+      "iterations": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      ".claude/rules/host-win32.md",
+      "viola-0.1.0/chunks/2026-09-24-three-os-ci-headless-harness-skeleton/plan.md"
+     ]
+    },
+    {
+     "line": 94,
+     "id": "2026-09-24T10:50:47Z-c",
+     "skill": "wrap-session",
+     "step": "curation",
+     "chunk": "2026-09-24-diagnostics-plane",
+     "what": "the gate-entry rule 'a run that sets its own shell variable declares env = []' is stated in the pipeline's plan-template §Test Commands, and the prior chunk's plan carried it; phase P4 still dropped it when copying the deny-sync loop entry",
+     "impact": {
+      "extra_reads": 0
+     },
+     "evidence": null,
+     "artifacts": [
+      "andromeda-phase/references/plan-template.md §Test Commands env key",
+      "viola-0.1.0/chunks/2026-09-24-supply-chain-and-workflow-gates/plan.md:152"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "phase/plan/retry.synthesis-rework",
+   "n": 1,
+   "impact": {
+    "iterations": 2
+   },
+   "weight": 3,
+   "rate": "1/8",
+   "chunks": [
+    "2026-09-24-supply-chain-and-workflow-gates"
+   ],
+   "above": false,
+   "cases": [
+    {
+     "line": 57,
+     "id": "2026-09-24T09:30:57Z-c",
+     "skill": "phase",
+     "step": "plan",
+     "chunk": "2026-09-24-supply-chain-and-workflow-gates",
+     "what": "the event-payload grep probe was reworked twice: first form saw only single-line run: (missed run: | blocks); widened form lost the filename prefix on a one-file glob so the env-line exemption never matched (control-checked; fixed with grep -H)",
+     "impact": {
+      "iterations": 2
+     },
+     "evidence": null,
+     "artifacts": [
+      "plan.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "wrap-session/report/input.implement-outcome-unsettled",
+   "n": 1,
+   "impact": {
+    "dialogue_rounds": 1
+   },
+   "weight": 3,
+   "rate": "1/8",
+   "chunks": [
+    "2026-09-24-supply-chain-and-workflow-gates"
+   ],
+   "above": false,
+   "cases": [
+    {
+     "line": 66,
+     "id": "2026-09-24T09:42:37Z-b",
+     "skill": "wrap-session",
+     "step": "report",
+     "chunk": "2026-09-24-supply-chain-and-workflow-gates",
+     "what": "implement ended 'surfaced' on two plan gate texts; an operator directive then edited plan.md and re-ran gates 4 and 10 green, so the outcome basis is implement's report plus that directive",
+     "impact": {
+      "dialogue_rounds": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      "plan.md",
+      "report.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "phase/plan/contract.premise-falsified",
+   "n": 1,
+   "impact": {
+    "dialogue_rounds": 1
+   },
+   "weight": 3,
+   "rate": "1/8",
+   "chunks": [
+    "2026-09-24-diagnostics-plane"
+   ],
+   "above": false,
+   "cases": [
+    {
+     "line": 79,
+     "id": "2026-09-24T10:18:39Z-b",
+     "skill": "phase",
+     "step": "plan",
+     "chunk": "2026-09-24-diagnostics-plane",
+     "what": "the operator-relayed acceptance named an external probe (guard_probe.py) that asserts the SHIPPED guard substring before running, so it cannot witness the fixed guard; resolved by a repo-local rendered-guard probe the operator chose",
+     "impact": {
+      "dialogue_rounds": 1
+     },
+     "evidence": "viola-0.1.0/chunks/2026-09-24-diagnostics-plane/plan.md step 13",
+     "artifacts": [
+      "viola-0.1.0/chunks/2026-09-24-diagnostics-plane/scope.md item 8",
+      "D:\\dev\\projects\\additional\\viola-overseer\\guard_probe.py:8"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "wrap-session/reconcile/ambiguity.playbook-no-match",
+   "n": 1,
+   "impact": {
+    "dialogue_rounds": 1
+   },
+   "weight": 3,
+   "rate": "1/8",
+   "chunks": [
+    "2026-09-24-diagnostics-plane"
+   ],
+   "above": false,
+   "cases": [
+    {
+     "line": 90,
+     "id": "2026-09-24T10:49:31Z-b",
+     "skill": "wrap-session",
+     "step": "reconcile",
+     "chunk": "2026-09-24-diagnostics-plane",
+     "what": "obs §3/§11 'macro always attaches corr' vs shipped caller-supplied corr: the Accurate-this-chunk-addition rule matched the form but the change moves a guarantee from the macro to callers, so it escalated by unease",
+     "impact": {
+      "dialogue_rounds": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      ".andromeda/obs-plan.md:605",
+      ".andromeda/obs-plan.md:1366"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "wrap-session/reconcile/ambiguity.escalation-rounds",
+   "n": 1,
+   "impact": {
+    "dialogue_rounds": 1
+   },
+   "weight": 3,
+   "rate": "1/8",
+   "chunks": [
+    "2026-09-24-quality-gates"
+   ],
+   "above": false,
+   "cases": [
+    {
+     "line": 165,
+     "id": "2026-09-24T15:05:18Z-c",
+     "skill": "wrap-session",
+     "step": "reconcile",
+     "chunk": "2026-09-24-quality-gates",
+     "what": "2 boundary-widening escalations (fuzz lockfile outside cargo deny; two unscanned CI uploads) resolved in 1 AskUserQuestion round; operator added the precision 'repo-relative source locations only, never absolute paths', verified 118/118 on the local leg file",
+     "impact": {
+      "dialogue_rounds": 1
+     },
+     "evidence": "security-plan Decisions Log 2026-09-24 entry",
+     "artifacts": [
+      ".andromeda/security-plan.md",
+      ".andromeda/obs-plan.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "wrap-session/gates/contract.jointly-contradictory-instructions",
+   "n": 1,
+   "impact": {
+    "dialogue_rounds": 1
+   },
+   "weight": 3,
+   "rate": "1/8",
+   "chunks": [
+    "2026-09-24-workspace-tree-and-code-graph-planes"
+   ],
+   "above": false,
+   "cases": [
+    {
+     "line": 190,
+     "id": "2026-09-24T17:06:48Z-b",
+     "skill": "wrap-session",
+     "step": "gates",
+     "chunk": "2026-09-24-workspace-tree-and-code-graph-planes",
+     "what": "the plan-template operator-entry note (the operator commits the chunk at wrap, then pushes) and wrap P7.1 (an operator entry with no result in evidence/ HALTs before the flip) cannot both hold inside one wrap: the push the entries read only exists after the wrap's own commit. The prior chunk proceeded by treating the reads as owed after the push; this one needed the operator pre-CI pass because a claimed cap's witness was the pushed sha. No mechanical check attempted the pair; they were authored separately",
+     "impact": {
+      "dialogue_rounds": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      "andromeda-phase/references/plan-template.md (leg key)",
+      "andromeda-wrap-session/SKILL.md P7.1"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "wrap-session/gates/contract.structural-blind-spot",
+   "n": 1,
+   "impact": {
+    "iterations": 1
+   },
+   "weight": 2,
+   "rate": "1/8",
+   "chunks": [
+    "2026-09-24-three-os-ci-headless-harness-skeleton"
+   ],
+   "above": false,
+   "cases": [
+    {
+     "line": 25,
+     "id": "2026-09-24T08:15:00Z-b",
+     "skill": "wrap-session",
+     "step": "gates",
+     "chunk": "2026-09-24-three-os-ci-headless-harness-skeleton",
+     "what": "three red causes were runner-only (Unix zombie in ProcessId::kill; test job missing cargo-mutants; package-scoped mutants baseline) and the only gate that could see them is the post-push CI read, which by construction fires after the wrap commit and the v1-06 flip",
+     "impact": {
+      "iterations": 1
+     },
+     "evidence": ".andromeda/runs/2026-09-24T07-05-59-wrap/ci-failed.log",
+     "artifacts": null
+    }
+   ]
+  },
+  {
+   "key": "implement/fix-loop/contract.test-expectation",
+   "n": 1,
+   "impact": {
+    "iterations": 1
+   },
+   "weight": 2,
+   "rate": "1/8",
+   "chunks": [
+    "2026-09-24-fake-agent-and-test-data-fixtures"
+   ],
+   "above": false,
+   "cases": [
+    {
+     "line": 39,
+     "id": "2026-09-24T08:44:02Z-b",
+     "skill": "implement",
+     "step": "fix-loop",
+     "chunk": "2026-09-24-fake-agent-and-test-data-fixtures",
+     "what": "booted_wrapper fixture test waited for the start receipt line but asserted the env line written just after it (a race in the test, not the product); fixed by waiting on the asserted line",
+     "impact": {
+      "iterations": 1
+     },
+     "evidence": "gate show --n 8, implement-2026-09-24T08-27-34",
+     "artifacts": [
+      "tests/cli_fake_agent.rs"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "new-session/orientation/contract.premise-falsified",
+   "n": 2,
+   "impact": {
+    "extra_reads": 8
+   },
+   "weight": 2,
+   "rate": "2/7",
+   "chunks": [
+    "None"
+   ],
+   "above": false,
+   "cases": [
+    {
+     "line": 99,
+     "id": "2026-09-24T11:11:36Z-b",
+     "skill": "new-session",
+     "step": "orientation",
+     "chunk": null,
+     "what": "handoff's owed CI witness expected success on every check for 809456e; CI mutants job failed (93 tested, 1 missed: obs.rs:193 NotFound guard -> true) though the wrap recorded local mutants 0 survived on the Windows host",
+     "impact": {
+      "extra_reads": 5
+     },
+     "evidence": "actions run 35990393334 job 107602836363",
+     "artifacts": [
+      ".claude/session-handoff.md",
+      "src/obs.rs:193"
+     ]
+    },
+    {
+     "line": 118,
+     "id": "2026-09-24T11:54:54Z-b",
+     "skill": "new-session",
+     "step": "orientation",
+     "chunk": null,
+     "what": "The handoff expected success on every check (mutants included) for the wrap sha 2834e4d. CI mutants failed: 5 tested, 3 caught, 2 TIMEOUT on Linux (main -> Default, dispatch -> Ok(Default)). The local Windows run had counted 5/5 caught.",
+     "impact": {
+      "extra_reads": 3
+     },
+     "evidence": "gh run view 35995290314 --log-failed",
+     "artifacts": [
+      ".claude/session-handoff.md",
+      "ci run 35995290314"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "wrap-session/reconcile/recall.corpus-recurrence",
+   "n": 1,
+   "impact": {
+    "retries": 1,
+    "extra_reads": 2
+   },
+   "weight": 2,
+   "rate": "1/8",
+   "chunks": [
+    "2026-09-24-log-redaction-and-never-log-floor"
+   ],
+   "above": false,
+   "cases": [
+    {
+     "line": 112,
+     "id": "2026-09-24T11:44:12Z-b",
+     "skill": "wrap-session",
+     "step": "reconcile",
+     "chunk": "2026-09-24-log-redaction-and-never-log-floor",
+     "what": "cascade step 2 amended obs-plan :54 (a verbatim quote of arch's retired wording) although :54 sits in obs section 1, the obs-scope copy kept verbatim by rule (obs :485) - a rule the previous arch sidecar entry, read in this pass before the apply, already applied to section-1 hits; caught by a header lookup while writing the sidecar, then the body reverted and both just-appended sidecar entries corrected before commit",
+     "impact": {
+      "retries": 1,
+      "extra_reads": 2
+     },
+     "evidence": null,
+     "artifacts": [
+      ".andromeda/obs-plan.md:54",
+      ".andromeda/obs-plan.md:485",
+      ".andromeda/architecture-amendments.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "phase/research/tooling.host-shell",
+   "n": 1,
+   "impact": {
+    "retries": 1
+   },
+   "weight": 2,
+   "rate": "1/8",
+   "chunks": [
+    "2026-09-24-observability-gates"
+   ],
+   "above": false,
+   "cases": [
+    {
+     "line": 123,
+     "id": "2026-09-24T12:08:52Z-b",
+     "skill": "phase",
+     "step": "research",
+     "chunk": "2026-09-24-observability-gates",
+     "what": "A grep pattern holding a markdown code-fence opener inside double quotes was read by bash as an unterminated command substitution (unexpected EOF looking for a matching backtick); recovered with a Read-tool read of the cookbook.",
+     "impact": {
+      "retries": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      "scripts/code-graph-cookbook.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "phase/take-up/input.working-entry-thin",
+   "n": 1,
+   "impact": {
+    "deferred": 1
+   },
+   "weight": 1,
+   "rate": "1/8",
+   "chunks": [
+    "2026-09-24-three-os-ci-headless-harness-skeleton"
+   ],
+   "above": false,
+   "cases": [
+    {
+     "line": 2,
+     "id": "2026-09-24T05:50:44Z-b",
+     "skill": "phase",
+     "step": "take-up",
+     "chunk": "2026-09-24-three-os-ci-headless-harness-skeleton",
+     "what": "entry names 'skeleton' but test-plan §3 boot readiness presumes viola run/verify/ui; which harness steps are real in chunk 1 had to be inferred and deferred to P4",
+     "impact": {
+      "deferred": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      "viola-0.1.0/working-route.md:11",
+      ".andromeda/test-plan.md:513-530"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "implement/code/input.plan-step-ambiguous",
+   "n": 1,
+   "impact": {
+    "deferred": 1
+   },
+   "weight": 1,
+   "rate": "1/8",
+   "chunks": [
+    "2026-09-24-three-os-ci-headless-harness-skeleton"
+   ],
+   "above": false,
+   "cases": [
+    {
+     "line": 11,
+     "id": "2026-09-24T06:25:54Z-b",
+     "skill": "implement",
+     "step": "code",
+     "chunk": "2026-09-24-three-os-ci-headless-harness-skeleton",
+     "what": "plan step 6 gives viola-fake-agent its own [lints.clippy] table, but test-plan places it as a [[bin]] of the root package, and lints are per package; surfaced for the report, no print-ban lints exist yet so nothing diverges today",
+     "impact": {
+      "deferred": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      "viola-0.1.0/chunks/2026-09-24-three-os-ci-headless-harness-skeleton/plan.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "phase/distill/contract.extract-format",
+   "n": 1,
+   "impact": {
+    "extra_reads": 0,
+    "retries": 0
+   },
+   "weight": 1,
+   "rate": "1/8",
+   "chunks": [
+    "2026-09-24-fake-agent-and-test-data-fixtures"
+   ],
+   "above": false,
+   "cases": [
+    {
+     "line": 30,
+     "id": "2026-09-24T08:13:24Z-b",
+     "skill": "phase",
+     "step": "distill",
+     "chunk": "2026-09-24-fake-agent-and-test-data-fixtures",
+     "what": "return transport prepended a harness-envelope-tag note and rewrote < as <\\ inside two architecture-quoted harness-turn prefixes (<agent-message from=, <task-notification>) in the arch extract; outside the entity-decode the letter defines",
+     "impact": {
+      "extra_reads": 0,
+      "retries": 0
+     },
+     "evidence": null,
+     "artifacts": [
+      ".andromeda/runs/2026-09-24T08-07-51-phase/arch.md",
+      ".andromeda/runs/2026-09-24T08-07-51-phase/.raw-arch.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "wrap-session/route-resolve/contract.carry-no-owner",
+   "n": 1,
+   "impact": {
+    "extra_reads": 1
+   },
+   "weight": 1,
+   "rate": "1/8",
+   "chunks": [
+    "2026-09-24-fake-agent-and-test-data-fixtures"
+   ],
+   "above": false,
+   "cases": [
+    {
+     "line": 47,
+     "id": "2026-09-24T09:00:24Z-b",
+     "skill": "wrap-session",
+     "step": "route-resolve",
+     "chunk": "2026-09-24-fake-agent-and-test-data-fixtures",
+     "what": "the viola_e2e::fixtures copy has no single owner entry: its consumers are five E2E scenarios spread over four entries; pinned conditionally to the first plausible one (PTY wrapper on Windows, which owns E2) with a re-pin clause",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      "viola-0.1.0/working-route.md:30"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "phase/plan/input.research-thin",
+   "n": 1,
+   "impact": {
+    "extra_reads": 2
+   },
+   "weight": 1,
+   "rate": "1/8",
+   "chunks": [
+    "2026-09-24-supply-chain-and-workflow-gates"
+   ],
+   "above": false,
+   "cases": [
+    {
+     "line": 56,
+     "id": "2026-09-24T09:30:57Z-b",
+     "skill": "phase",
+     "step": "plan",
+     "chunk": "2026-09-24-supply-chain-and-workflow-gates",
+     "what": "P3 did not establish where scheduled/dispatched workflows run; P4 fetched GitHub docs and read the repo default branch (build/viola-0.1.0) to make the nightly.yml witness plannable",
+     "impact": {
+      "extra_reads": 2
+     },
+     "evidence": "viola-0.1.0/chunks/2026-09-24-supply-chain-and-workflow-gates/research.md §Scope Platform issues consulted",
+     "artifacts": [
+      "research.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "phase/take-up/input.out-of-pipeline-source",
+   "n": 1,
+   "impact": {
+    "extra_reads": 2
+   },
+   "weight": 1,
+   "rate": "1/8",
+   "chunks": [
+    "2026-09-24-diagnostics-plane"
+   ],
+   "above": false,
+   "cases": [
+    {
+     "line": 74,
+     "id": "2026-09-24T10:06:26Z-b",
+     "skill": "phase",
+     "step": "take-up",
+     "chunk": "2026-09-24-diagnostics-plane",
+     "what": "the write-guard defect claim and its acceptance probe live outside every artifact the take-up contract reads: an overseer relay (W154) and a probe script in a sibling repo",
+     "impact": {
+      "extra_reads": 2
+     },
+     "evidence": "viola-0.1.0/chunks/2026-09-24-diagnostics-plane/scope.md item 8",
+     "artifacts": [
+      ".claude/settings.json",
+      "D:\\dev\\projects\\additional\\viola-overseer\\guard_probe.py"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "implement/smoke/contract.skill-reference-drift",
+   "n": 1,
+   "impact": {
+    "extra_reads": 0
+   },
+   "weight": 1,
+   "rate": "1/8",
+   "chunks": [
+    "2026-09-24-diagnostics-plane"
+   ],
+   "above": false,
+   "cases": [
+    {
+     "line": 87,
+     "id": "2026-09-24T10:38:49Z-b",
+     "skill": "implement",
+     "step": "smoke",
+     "chunk": "2026-09-24-diagnostics-plane",
+     "what": "implement P3 names 'bash scripts/agent-run.sh run then status' as the agent-driven smoke, while the project's 5-command contract makes run the suite runner and boot the lifecycle verb that status reads",
+     "impact": {
+      "extra_reads": 0
+     },
+     "evidence": null,
+     "artifacts": [
+      "andromeda-implement/SKILL.md Phase 3",
+      ".claude/rules/verification-harness.md boot"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "phase/take-up/contract.structural-blind-spot",
+   "n": 1,
+   "impact": {
+    "extra_reads": 1
+   },
+   "weight": 1,
+   "rate": "1/8",
+   "chunks": [
+    "2026-09-24-observability-gates"
+   ],
+   "above": false,
+   "cases": [
+    {
+     "line": 120,
+     "id": "2026-09-24T11:57:04Z-b",
+     "skill": "phase",
+     "step": "take-up",
+     "chunk": "2026-09-24-observability-gates",
+     "what": "Setup 5a reads CI for git log -1, but an out-of-pipeline commit after the wrap (2969198, a docs report) made HEAD differ from the sha the wrap shipped. HEAD's green mutants run on a docs-only diff would have hidden the wrap sha's mutants red by construction.",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": "check-runs 2969198 all success; 2834e4d mutants failure (run 35995290314)",
+     "artifacts": [
+      "andromeda-phase SKILL.md Setup 5a"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "phase/take-up/contract.premise-falsified",
+   "n": 1,
+   "impact": {
+    "deferred": 1
+   },
+   "weight": 1,
+   "rate": "1/8",
+   "chunks": [
+    "2026-09-24-quality-gates"
+   ],
+   "above": false,
+   "cases": [
+    {
+     "line": 147,
+     "id": "2026-09-24T13:43:24Z-b",
+     "skill": "phase",
+     "step": "take-up",
+     "chunk": "2026-09-24-quality-gates",
+     "what": "prior chunk's premise that the ubuntu CI mutants job kills the 3 cfg(unix) file_mode mutants was falsified by CI run 36005608858 (2 MISSED at secret_scan.rs:230:5); the kill is folded into this chunk",
+     "impact": {
+      "deferred": 1
+     },
+     "evidence": "CI run 36005608858 on 39c3d2b, job mutants",
+     "artifacts": [
+      "crates/viola-e2e/src/harness/secret_scan.rs:230",
+      "viola-0.1.0/chunks/2026-09-24-quality-gates/scope.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "phase/research/contract.structural-blind-spot",
+   "n": 1,
+   "impact": {
+    "reformulations": 0
+   },
+   "weight": 1,
+   "rate": "1/8",
+   "chunks": [
+    "2026-09-24-quality-gates"
+   ],
+   "above": false,
+   "cases": [
+    {
+     "line": 151,
+     "id": "2026-09-24T13:56:57Z-b",
+     "skill": "phase",
+     "step": "research",
+     "chunk": "2026-09-24-quality-gates",
+     "what": "the ubuntu-only mutants gate cannot kill mutants in cfg-gated bodies of another OS (cargo-mutants documented limitation); the CI-missed secret_scan.rs:230:5 pair is the cfg(not(unix)) stub, so the directive's fix (a unix test observing the mode) could never have caught it; the prior chunk's local Windows survivors were the mirror case (224:5)",
+     "impact": {
+      "reformulations": 0
+     },
+     "evidence": "viola-0.1.0/chunks/2026-09-24-quality-gates/research.md M1, M2",
+     "artifacts": [
+      "crates/viola-e2e/src/harness/secret_scan.rs:222-231",
+      ".github/workflows/ci.yml:136-165"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "implement/code/input.research-files-wrong",
+   "n": 1,
+   "impact": {
+    "extra_reads": 1
+   },
+   "weight": 1,
+   "rate": "1/8",
+   "chunks": [
+    "2026-09-24-quality-gates"
+   ],
+   "above": false,
+   "cases": [
+    {
+     "line": 157,
+     "id": "2026-09-24T14:18:32Z-b",
+     "skill": "implement",
+     "step": "code",
+     "chunk": "2026-09-24-quality-gates",
+     "what": ".gitignore was listed as a file to modify for fuzz/target/, fuzz/artifacts/, fuzz/coverage/ but already ignores all three (target/ matches nested dirs; P5's git check-ignore on the not-yet-existing fuzz/target read 1 because a trailing-slash pattern cannot match an absent directory)",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": "viola-0.1.0/chunks/2026-09-24-quality-gates/research.md Files to modify",
+     "artifacts": [
+      ".gitignore"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "phase/research/input.cookbook-gap",
+   "n": 1,
+   "impact": {
+    "reformulations": 0
+   },
+   "weight": 1,
+   "rate": "1/8",
+   "chunks": [
+    "2026-09-24-workspace-tree-and-code-graph-planes"
+   ],
+   "above": false,
+   "cases": [
+    {
+     "line": 174,
+     "id": "2026-09-24T16:08:03Z-b",
+     "skill": "phase",
+     "step": "research",
+     "chunk": "2026-09-24-workspace-tree-and-code-graph-planes",
+     "what": "'Rust plane ok' needed a per-crate symbol/file coverage query and a files-under-path count; the cookbook's five canonical shapes cover impact/edges/blast/existence/surface, not plane coverage, so 2 queries were composed from the schema",
+     "impact": {
+      "reformulations": 0
+     },
+     "evidence": ".andromeda/runs/2026-09-24T15-54-06-phase/tree-query-2026-09-24-workspace-tree-and-code-graph-planes.json",
+     "artifacts": [
+      "scripts/code-graph-cookbook.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "wrap-session/report/contract.narrow-basis-claim",
+   "n": 1,
+   "impact": {
+    "extra_reads": 2
+   },
+   "weight": 1,
+   "rate": "1/8",
+   "chunks": [
+    "2026-09-24-workspace-tree-and-code-graph-planes"
+   ],
+   "above": false,
+   "cases": [
+    {
+     "line": 182,
+     "id": "2026-09-24T16:25:50Z-b",
+     "skill": "wrap-session",
+     "step": "report",
+     "chunk": "2026-09-24-workspace-tree-and-code-graph-planes",
+     "what": "the plan's obs amendment said deny-fuzz.json is admissible by content (0 absolute paths, research), but research measured only deny.json and the fuzz JSON while the supply-chain upload also carries zizmor.json, and obs §8 item 6 lists no supply-chain entry at all; re-derived over all three files at P1 (0 real hits; 1 https:// false positive)",
+     "impact": {
+      "extra_reads": 2
+     },
+     "evidence": null,
+     "artifacts": [
+      ".andromeda/obs-plan.md:1208",
+      "viola-0.1.0/chunks/2026-09-24-workspace-tree-and-code-graph-planes/plan.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "wrap-session/reconcile/contract.cascade-miss",
+   "n": 1,
+   "impact": {
+    "extra_reads": 4
+   },
+   "weight": 1,
+   "rate": "1/8",
+   "chunks": [
+    "2026-09-24-workspace-tree-and-code-graph-planes"
+   ],
+   "above": false,
+   "cases": [
+    {
+     "line": 185,
+     "id": "2026-09-24T16:37:59Z-c",
+     "skill": "wrap-session",
+     "step": "reconcile",
+     "chunk": "2026-09-24-workspace-tree-and-code-graph-planes",
+     "what": "this pass's sweep found 3 stale sites that prior wraps' cascades left: docs/stack.md Code quality row lagged the arch row (no cargo-llvm-cov/cargo-fuzz since quality-gates); test-plan :164/:1655 quoted the retired arch sentence 'No separate test crate is declared'; docs/commands.md + obs-summary said 'secret scan before any upload', over-broad since the quality-gates unscanned-upload ratification. All re-derived here",
+     "impact": {
+      "extra_reads": 4
+     },
+     "evidence": null,
+     "artifacts": [
+      ".claude/docs/stack.md",
+      ".andromeda/test-plan.md:164",
+      ".andromeda/test-plan.md:1655",
+      ".claude/docs/obs-summary.md:29",
+      ".claude/docs/commands.md"
+     ]
+    }
+   ]
+  }
+ ],
+ "cross_step": [
+  {
+   "key": "contract.premise-falsified",
+   "n": 9,
+   "impact": {
+    "deferred": 2,
+    "extra_reads": 13,
+    "dialogue_rounds": 2,
+    "iterations": 2
+   },
+   "weight": 15,
+   "rate": null,
+   "chunks": [
+    "2026-09-24-diagnostics-plane",
+    "2026-09-24-observability-gates",
+    "2026-09-24-quality-gates",
+    "2026-09-24-supply-chain-and-workflow-gates",
+    "2026-09-24-three-os-ci-headless-harness-skeleton",
+    "None"
+   ],
+   "above": true,
+   "cases": [
+    {
+     "line": 6,
+     "id": "2026-09-24T05:57:13Z-b",
+     "skill": "phase",
+     "step": "research",
+     "chunk": "2026-09-24-three-os-ci-headless-harness-skeleton",
+     "what": "test-plan §3/§9 mutation base (git merge-base HEAD origin/main) and PR-only CI mutation job presume a main branch and PRs; git ls-remote shows only build/viola-0.1.0, so the gate would never fire per chunk",
+     "impact": {
+      "deferred": 1
+     },
+     "evidence": "viola-0.1.0/chunks/2026-09-24-three-os-ci-headless-harness-skeleton/research.md",
+     "artifacts": [
+      ".andromeda/test-plan.md:553",
+      ".andromeda/test-plan.md:1390"
+     ]
+    },
+    {
+     "line": 54,
+     "id": "2026-09-24T09:26:43Z-b",
+     "skill": "phase",
+     "step": "research",
+     "chunk": "2026-09-24-supply-chain-and-workflow-gates",
+     "what": "spec mechanism premise falsified by a control: arch §Build system's 'graph with viola/viola-mcp/viola-ui excluded' read as cargo-deny --exclude false-fails under workspace feature unification; the sole-root --manifest-path form decides the case, except for the crate owning the optional tokio feature",
+     "impact": {
+      "extra_reads": 0
+     },
+     "evidence": "viola-0.1.0/chunks/2026-09-24-supply-chain-and-workflow-gates/research.md §Measured facts",
+     "artifacts": [
+      "architecture.md",
+      "test-plan.md"
+     ]
+    },
+    {
+     "line": 79,
+     "id": "2026-09-24T10:18:39Z-b",
+     "skill": "phase",
+     "step": "plan",
+     "chunk": "2026-09-24-diagnostics-plane",
+     "what": "the operator-relayed acceptance named an external probe (guard_probe.py) that asserts the SHIPPED guard substring before running, so it cannot witness the fixed guard; resolved by a repo-local rendered-guard probe the operator chose",
+     "impact": {
+      "dialogue_rounds": 1
+     },
+     "evidence": "viola-0.1.0/chunks/2026-09-24-diagnostics-plane/plan.md step 13",
+     "artifacts": [
+      "viola-0.1.0/chunks/2026-09-24-diagnostics-plane/scope.md item 8",
+      "D:\\dev\\projects\\additional\\viola-overseer\\guard_probe.py:8"
+     ]
+    },
+    {
+     "line": 99,
+     "id": "2026-09-24T11:11:36Z-b",
+     "skill": "new-session",
+     "step": "orientation",
+     "chunk": null,
+     "what": "handoff's owed CI witness expected success on every check for 809456e; CI mutants job failed (93 tested, 1 missed: obs.rs:193 NotFound guard -> true) though the wrap recorded local mutants 0 survived on the Windows host",
+     "impact": {
+      "extra_reads": 5
+     },
+     "evidence": "actions run 35990393334 job 107602836363",
+     "artifacts": [
+      ".claude/session-handoff.md",
+      "src/obs.rs:193"
+     ]
+    },
+    {
+     "line": 118,
+     "id": "2026-09-24T11:54:54Z-b",
+     "skill": "new-session",
+     "step": "orientation",
+     "chunk": null,
+     "what": "The handoff expected success on every check (mutants included) for the wrap sha 2834e4d. CI mutants failed: 5 tested, 3 caught, 2 TIMEOUT on Linux (main -> Default, dispatch -> Ok(Default)). The local Windows run had counted 5/5 caught.",
+     "impact": {
+      "extra_reads": 3
+     },
+     "evidence": "gh run view 35995290314 --log-failed",
+     "artifacts": [
+      ".claude/session-handoff.md",
+      "ci run 35995290314"
+     ]
+    },
+    {
+     "line": 130,
+     "id": "2026-09-24T12:31:54Z-b",
+     "skill": "implement",
+     "step": "code",
+     "chunk": "2026-09-24-observability-gates",
+     "what": "obs-plan §3 and plan step 2 hold that obs_event!'s inner #[allow(clippy::disallowed_macros)] lets callers lint clean; on clippy 1.98.1 all 16 obs_event! call sites failed, and a throwaway probe found only a caller-crate #![allow] silences it.",
+     "impact": {
+      "iterations": 2,
+      "dialogue_rounds": 1,
+      "extra_reads": 2
+     },
+     "evidence": ".andromeda/runs/2026-09-24T12-21-11-implement/clippy-disallowed-macros-measurement.md",
+     "artifacts": [
+      "clippy.toml",
+      "crates/viola-core/src/obs.rs:155",
+      ".andromeda/obs-plan.md §3 logger-stack-install"
+     ]
+    },
+    {
+     "line": 131,
+     "id": "2026-09-24T12:31:54Z-c",
+     "skill": "implement",
+     "step": "code",
+     "chunk": "2026-09-24-observability-gates",
+     "what": "The plan's Cargo.lock-unchanged probe assumed adding an already-locked crate to viola-e2e leaves the lock byte-identical; the lock gains one dependency-edge line (\"jsonschema\" under viola-e2e), so git diff --quiet HEAD -- Cargo.lock is red by construction.",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      "Cargo.lock",
+      "viola-0.1.0/chunks/2026-09-24-observability-gates/plan.md"
+     ]
+    },
+    {
+     "line": 147,
+     "id": "2026-09-24T13:43:24Z-b",
+     "skill": "phase",
+     "step": "take-up",
+     "chunk": "2026-09-24-quality-gates",
+     "what": "prior chunk's premise that the ubuntu CI mutants job kills the 3 cfg(unix) file_mode mutants was falsified by CI run 36005608858 (2 MISSED at secret_scan.rs:230:5); the kill is folded into this chunk",
+     "impact": {
+      "deferred": 1
+     },
+     "evidence": "CI run 36005608858 on 39c3d2b, job mutants",
+     "artifacts": [
+      "crates/viola-e2e/src/harness/secret_scan.rs:230",
+      "viola-0.1.0/chunks/2026-09-24-quality-gates/scope.md"
+     ]
+    },
+    {
+     "line": 152,
+     "id": "2026-09-24T13:56:57Z-c",
+     "skill": "phase",
+     "step": "research",
+     "chunk": "2026-09-24-quality-gates",
+     "what": "test-plan §3 states two facts measurement falsified: the coverage JUnit lives at target/llvm-cov-target/nextest/ci/junit.xml (it stays at target/nextest/ci/junit.xml), and the ignore regex crates/viola-e2e|tests/support excludes those trees (it cannot match llvm-cov's backslash paths on Windows)",
+     "impact": {
+      "extra_reads": 2
+     },
+     "evidence": "viola-0.1.0/chunks/2026-09-24-quality-gates/research.md M5, M6",
+     "artifacts": [
+      ".andromeda/test-plan.md:559",
+      ".andromeda/test-plan.md:645"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "recall.corpus-recurrence",
+   "n": 3,
+   "impact": {
+    "iterations": 1,
+    "extra_reads": 2,
+    "retries": 1
+   },
+   "weight": 5,
+   "rate": null,
+   "chunks": [
+    "2026-09-24-diagnostics-plane",
+    "2026-09-24-log-redaction-and-never-log-floor",
+    "2026-09-24-three-os-ci-headless-harness-skeleton"
+   ],
+   "above": true,
+   "cases": [
+    {
+     "line": 22,
+     "id": "2026-09-24T07:21:44Z-b",
+     "skill": "wrap-session",
+     "step": "curation",
+     "chunk": "2026-09-24-three-os-ci-headless-harness-skeleton",
+     "what": "host-win32.md already rules that a pipe's exit is its last stage's and a zero-is-healthy count probe exits non-zero; the plan still authored `grep … | grep -Evc …` whose pipefail exit read green on a missing ci.yml, caught only by P5's baseline run",
+     "impact": {
+      "iterations": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      ".claude/rules/host-win32.md",
+      "viola-0.1.0/chunks/2026-09-24-three-os-ci-headless-harness-skeleton/plan.md"
+     ]
+    },
+    {
+     "line": 94,
+     "id": "2026-09-24T10:50:47Z-c",
+     "skill": "wrap-session",
+     "step": "curation",
+     "chunk": "2026-09-24-diagnostics-plane",
+     "what": "the gate-entry rule 'a run that sets its own shell variable declares env = []' is stated in the pipeline's plan-template §Test Commands, and the prior chunk's plan carried it; phase P4 still dropped it when copying the deny-sync loop entry",
+     "impact": {
+      "extra_reads": 0
+     },
+     "evidence": null,
+     "artifacts": [
+      "andromeda-phase/references/plan-template.md §Test Commands env key",
+      "viola-0.1.0/chunks/2026-09-24-supply-chain-and-workflow-gates/plan.md:152"
+     ]
+    },
+    {
+     "line": 112,
+     "id": "2026-09-24T11:44:12Z-b",
+     "skill": "wrap-session",
+     "step": "reconcile",
+     "chunk": "2026-09-24-log-redaction-and-never-log-floor",
+     "what": "cascade step 2 amended obs-plan :54 (a verbatim quote of arch's retired wording) although :54 sits in obs section 1, the obs-scope copy kept verbatim by rule (obs :485) - a rule the previous arch sidecar entry, read in this pass before the apply, already applied to section-1 hits; caught by a header lookup while writing the sidecar, then the body reverted and both just-appended sidecar entries corrected before commit",
+     "impact": {
+      "retries": 1,
+      "extra_reads": 2
+     },
+     "evidence": null,
+     "artifacts": [
+      ".andromeda/obs-plan.md:54",
+      ".andromeda/obs-plan.md:485",
+      ".andromeda/architecture-amendments.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "contract.structural-blind-spot",
+   "n": 3,
+   "impact": {
+    "iterations": 1,
+    "extra_reads": 1,
+    "reformulations": 0
+   },
+   "weight": 4,
+   "rate": null,
+   "chunks": [
+    "2026-09-24-observability-gates",
+    "2026-09-24-quality-gates",
+    "2026-09-24-three-os-ci-headless-harness-skeleton"
+   ],
+   "above": true,
+   "cases": [
+    {
+     "line": 25,
+     "id": "2026-09-24T08:15:00Z-b",
+     "skill": "wrap-session",
+     "step": "gates",
+     "chunk": "2026-09-24-three-os-ci-headless-harness-skeleton",
+     "what": "three red causes were runner-only (Unix zombie in ProcessId::kill; test job missing cargo-mutants; package-scoped mutants baseline) and the only gate that could see them is the post-push CI read, which by construction fires after the wrap commit and the v1-06 flip",
+     "impact": {
+      "iterations": 1
+     },
+     "evidence": ".andromeda/runs/2026-09-24T07-05-59-wrap/ci-failed.log",
+     "artifacts": null
+    },
+    {
+     "line": 120,
+     "id": "2026-09-24T11:57:04Z-b",
+     "skill": "phase",
+     "step": "take-up",
+     "chunk": "2026-09-24-observability-gates",
+     "what": "Setup 5a reads CI for git log -1, but an out-of-pipeline commit after the wrap (2969198, a docs report) made HEAD differ from the sha the wrap shipped. HEAD's green mutants run on a docs-only diff would have hidden the wrap sha's mutants red by construction.",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": "check-runs 2969198 all success; 2834e4d mutants failure (run 35995290314)",
+     "artifacts": [
+      "andromeda-phase SKILL.md Setup 5a"
+     ]
+    },
+    {
+     "line": 151,
+     "id": "2026-09-24T13:56:57Z-b",
+     "skill": "phase",
+     "step": "research",
+     "chunk": "2026-09-24-quality-gates",
+     "what": "the ubuntu-only mutants gate cannot kill mutants in cfg-gated bodies of another OS (cargo-mutants documented limitation); the CI-missed secret_scan.rs:230:5 pair is the cfg(not(unix)) stub, so the directive's fix (a unix test observing the mode) could never have caught it; the prior chunk's local Windows survivors were the mirror case (224:5)",
+     "impact": {
+      "reformulations": 0
+     },
+     "evidence": "viola-0.1.0/chunks/2026-09-24-quality-gates/research.md M1, M2",
+     "artifacts": [
+      "crates/viola-e2e/src/harness/secret_scan.rs:222-231",
+      ".github/workflows/ci.yml:136-165"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "contract.jointly-contradictory-instructions",
+   "n": 1,
+   "impact": {
+    "dialogue_rounds": 1
+   },
+   "weight": 3,
+   "rate": null,
+   "chunks": [
+    "2026-09-24-workspace-tree-and-code-graph-planes"
+   ],
+   "above": false,
+   "cases": [
+    {
+     "line": 190,
+     "id": "2026-09-24T17:06:48Z-b",
+     "skill": "wrap-session",
+     "step": "gates",
+     "chunk": "2026-09-24-workspace-tree-and-code-graph-planes",
+     "what": "the plan-template operator-entry note (the operator commits the chunk at wrap, then pushes) and wrap P7.1 (an operator entry with no result in evidence/ HALTs before the flip) cannot both hold inside one wrap: the push the entries read only exists after the wrap's own commit. The prior chunk proceeded by treating the reads as owed after the push; this one needed the operator pre-CI pass because a claimed cap's witness was the pushed sha. No mechanical check attempted the pair; they were authored separately",
+     "impact": {
+      "dialogue_rounds": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      "andromeda-phase/references/plan-template.md (leg key)",
+      "andromeda-wrap-session/SKILL.md P7.1"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "tooling.host-shell",
+   "n": 1,
+   "impact": {
+    "retries": 1
+   },
+   "weight": 2,
+   "rate": null,
+   "chunks": [
+    "2026-09-24-observability-gates"
+   ],
+   "above": false,
+   "cases": [
+    {
+     "line": 123,
+     "id": "2026-09-24T12:08:52Z-b",
+     "skill": "phase",
+     "step": "research",
+     "chunk": "2026-09-24-observability-gates",
+     "what": "A grep pattern holding a markdown code-fence opener inside double quotes was read by bash as an unterminated command substitution (unexpected EOF looking for a matching backtick); recovered with a Read-tool read of the cookbook.",
+     "impact": {
+      "retries": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      "scripts/code-graph-cookbook.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "contract.skill-reference-drift",
+   "n": 1,
+   "impact": {
+    "extra_reads": 0
+   },
+   "weight": 1,
+   "rate": null,
+   "chunks": [
+    "2026-09-24-diagnostics-plane"
+   ],
+   "above": false,
+   "cases": [
+    {
+     "line": 87,
+     "id": "2026-09-24T10:38:49Z-b",
+     "skill": "implement",
+     "step": "smoke",
+     "chunk": "2026-09-24-diagnostics-plane",
+     "what": "implement P3 names 'bash scripts/agent-run.sh run then status' as the agent-driven smoke, while the project's 5-command contract makes run the suite runner and boot the lifecycle verb that status reads",
+     "impact": {
+      "extra_reads": 0
+     },
+     "evidence": null,
+     "artifacts": [
+      "andromeda-implement/SKILL.md Phase 3",
+      ".claude/rules/verification-harness.md boot"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "contract.narrow-basis-claim",
+   "n": 1,
+   "impact": {
+    "extra_reads": 2
+   },
+   "weight": 1,
+   "rate": null,
+   "chunks": [
+    "2026-09-24-workspace-tree-and-code-graph-planes"
+   ],
+   "above": false,
+   "cases": [
+    {
+     "line": 182,
+     "id": "2026-09-24T16:25:50Z-b",
+     "skill": "wrap-session",
+     "step": "report",
+     "chunk": "2026-09-24-workspace-tree-and-code-graph-planes",
+     "what": "the plan's obs amendment said deny-fuzz.json is admissible by content (0 absolute paths, research), but research measured only deny.json and the fuzz JSON while the supply-chain upload also carries zizmor.json, and obs §8 item 6 lists no supply-chain entry at all; re-derived over all three files at P1 (0 real hits; 1 https:// false positive)",
+     "impact": {
+      "extra_reads": 2
+     },
+     "evidence": null,
+     "artifacts": [
+      ".andromeda/obs-plan.md:1208",
+      "viola-0.1.0/chunks/2026-09-24-workspace-tree-and-code-graph-planes/plan.md"
+     ]
+    }
+   ]
+  }
+ ]
+}

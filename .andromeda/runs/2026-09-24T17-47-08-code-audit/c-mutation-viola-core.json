@@ -1,0 +1,35 @@
+{
+ "unit": "viola-core",
+ "unit_state": "complete 30/30",
+ "counts": {
+  "mutants": 30,
+  "caught": 25,
+  "missed": 4,
+  "timeout": 0,
+  "unviable": 1
+ },
+ "score": 86.21,
+ "score_formula": "caught/(caught+missed)",
+ "survivors": [
+  [
+   "crates/viola-core/src/lib.rs:9:38",
+   "replace * with +"
+  ],
+  [
+   "crates/viola-core/src/lib.rs:9:38",
+   "replace * with /"
+  ],
+  [
+   "crates/viola-core/src/lib.rs:9:31",
+   "replace * with +"
+  ],
+  [
+   "crates/viola-core/src/lib.rs:9:31",
+   "replace * with /"
+  ]
+ ],
+ "baseline_outcome": "Success",
+ "note": "survivor site carries line:column; the appended ledger record (ts 2026-09-24T17:51:10Z) carries line only - see proposals.md Corrections",
+ "end_time": "2026-09-24T17:50:58.2276897Z",
+ "command_exit": 2
+}

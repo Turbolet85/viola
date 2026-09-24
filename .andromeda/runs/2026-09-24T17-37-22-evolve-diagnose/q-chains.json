@@ -1,0 +1,32 @@
+{
+  "epoch": "Epoch 1 — Foundation",
+  "method": "anchor = consumed quality thin|wrong|missing or input.* friction; join upstream within chunk on produced.artifact == consumed.artifact; ledger line order = direction",
+  "anchors": [
+    {"line": 1, "chunk": "2026-09-24-three-os-ci-headless-harness-skeleton", "consumer": "phase/take-up", "artifact": "working-entry", "quality": "thin", "producer": null, "note": "producer is the route (no in-chunk step record)"},
+    {"line": 24, "chunk": "2026-09-24-three-os-ci-headless-harness-skeleton", "consumer": "wrap-session/gates", "artifact": "plan", "quality": "thin", "producer_line": 8, "producer": "phase/validate", "producer_outcome": "ok", "producer_signals": ["baseline-caught-vacuous-probe", "known-positive-controls-run"]},
+    {"line": 42, "chunk": "2026-09-24-fake-agent-and-test-data-fixtures", "consumer": "wrap-session/reconcile", "artifact": "report", "quality": "thin", "producer_line": 41, "producer": "wrap-session/report", "producer_outcome": "ok", "producer_signals": [], "downstream_friction": [43]},
+    {"line": 51, "chunk": "2026-09-24-supply-chain-and-workflow-gates", "consumer": "phase/distill", "artifact": "scope", "quality": "thin", "producer": "phase/take-up", "note": "single chunk"},
+    {"line": 55, "chunk": "2026-09-24-supply-chain-and-workflow-gates", "consumer": "phase/plan", "artifact": "research", "quality": "thin", "producer_line": 53, "producer": "phase/research", "note": "single chunk"},
+    {"line": 61, "chunk": "2026-09-24-supply-chain-and-workflow-gates", "consumer": "implement/fix-loop", "artifact": "plan", "quality": "wrong", "producer_line": 58, "producer": "phase/validate", "producer_outcome": "ok", "producer_signals": [], "producer_friction": [59], "downstream_friction": [62, 63]},
+    {"line": 65, "chunk": "2026-09-24-supply-chain-and-workflow-gates", "consumer": "wrap-session/report", "artifact": "implement-outcome", "quality": "thin", "producer_line": 61, "producer": "implement/fix-loop", "producer_outcome": "ok-degraded"},
+    {"line": 84, "chunk": "2026-09-24-diagnostics-plane", "consumer": "implement/fix-loop", "artifact": "plan", "quality": "thin", "producer_line": 80, "producer": "phase/validate", "producer_outcome": "ok", "producer_signals": ["review-note-folded"], "producer_friction": [81], "downstream_friction": [85]},
+    {"line": 98, "chunk": null, "consumer": "new-session/orientation", "artifact": "handoff", "quality": "thin", "producer": "wrap-session (prior chunk)", "note": "cross-chunk; outside the same-chunk join"},
+    {"line": 102, "chunk": "2026-09-24-log-redaction-and-never-log-floor", "consumer": "phase/research", "artifact": "extracts", "quality": "thin", "producer": "phase/distill", "note": "single chunk"},
+    {"line": 104, "chunk": "2026-09-24-log-redaction-and-never-log-floor", "consumer": "phase/plan", "artifact": "extracts", "quality": "thin", "producer": "phase/distill", "note": "single chunk"},
+    {"line": 119, "chunk": "2026-09-24-observability-gates", "consumer": "phase/take-up", "artifact": "ci-verdict", "quality": "thin", "producer": null, "downstream_friction": [120]},
+    {"line": 125, "chunk": "2026-09-24-observability-gates", "consumer": "phase/validate", "artifact": "plan", "quality": "thin", "producer": "phase/plan", "note": "validate's own consumption of P4"},
+    {"line": 129, "chunk": "2026-09-24-observability-gates", "consumer": "implement/code", "artifact": "plan", "quality": "wrong", "producer_line": 125, "producer": "phase/validate", "producer_outcome": "ok", "producer_signals": ["baseline-caught-defect", "g2-control-fired"], "producer_friction": [126, 127], "downstream_friction": [130, 131]},
+    {"line": 132, "chunk": "2026-09-24-observability-gates", "consumer": "implement/fix-loop", "artifact": "plan", "quality": "thin", "producer_line": 125, "producer": "phase/validate", "producer_outcome": "ok"},
+    {"line": 143, "chunk": "2026-09-24-observability-gates", "consumer": "wrap-session/gates", "artifact": "plan", "quality": "thin", "producer_line": 125, "producer": "phase/validate", "producer_outcome": "ok", "downstream_friction": [144]},
+    {"line": 163, "chunk": "2026-09-24-quality-gates", "consumer": "wrap-session/reconcile", "artifact": "drift-base", "quality": "thin", "producer": null},
+    {"line": 171, "chunk": "2026-09-24-workspace-tree-and-code-graph-planes", "consumer": "phase/take-up", "artifact": "working-entry", "quality": "thin", "producer": null, "note": "producer is the route"},
+    {"line": 173, "chunk": "2026-09-24-workspace-tree-and-code-graph-planes", "consumer": "phase/research", "artifact": "cookbook", "quality": "thin", "producer": null},
+    {"line": 183, "chunk": "2026-09-24-workspace-tree-and-code-graph-planes", "consumer": "wrap-session/reconcile", "artifact": "report", "quality": "thin", "producer_line": 181, "producer": "wrap-session/report", "producer_outcome": "ok", "producer_signals": [], "downstream_friction": [184]}
+  ],
+  "cross_step_candidates": [
+    {"shape": "phase/validate -plan-> implement (code|fix-loop)", "chunks": ["2026-09-24-supply-chain-and-workflow-gates", "2026-09-24-diagnostics-plane", "2026-09-24-observability-gates"], "lines": [58, 59, 61, 62, 63, 80, 81, 84, 85, 125, 126, 127, 129, 130, 131, 132]},
+    {"shape": "phase/validate -plan-> wrap-session/gates", "chunks": ["2026-09-24-three-os-ci-headless-harness-skeleton", "2026-09-24-observability-gates"], "lines": [8, 24, 25, 125, 143, 144]},
+    {"shape": "wrap-session/report -report-> wrap-session/reconcile", "chunks": ["2026-09-24-fake-agent-and-test-data-fixtures", "2026-09-24-workspace-tree-and-code-graph-planes"], "lines": [41, 42, 43, 181, 183, 184], "note": "the producer carried no signals in either chunk; quality-gates L164 is the same friction type without a thin verdict"},
+    {"shape": "route -working-entry-> phase/take-up", "chunks": ["2026-09-24-three-os-ci-headless-harness-skeleton", "2026-09-24-workspace-tree-and-code-graph-planes"], "lines": [1, 171], "note": "producer outside the step stream (route authoring), so no producer record to examine"}
+  ]
+}

@@ -1,45 +1,34 @@
 # Session Handoff
 
-**Last Updated:** 2026-09-24T16:41:30Z
+**Last Updated:** 2026-09-24T18:00:38Z
 **Branch:** build/viola-0.1.0 · 0 ahead of origin/build/viola-0.1.0 as read at this wrap's Setup
 **Status:** clean
-**Last Commit:** 2026-09-24-workspace-tree-and-code-graph-planes — feat: release-check and orphans gates, fuzz lockfile audit, arch tree lists every test/obs/a11y artifact, code-graph planes decided
+**Last Commit:** 0-pending wrap — chore(route): operator-requested adaptation — the Epoch 1 cleanup chunk goes in at the Epoch 2 head
 
 ## Position
-- Done: 2026-09-24-workspace-tree-and-code-graph-planes. This closes Epoch 1 — Foundation.
-  - New `scripts/release-check.sh`: a per-OS `release` job (target job 6) that allows only `viola` in the release build.
-  - New `scripts/orphans-check.sh`: `cargo modules orphans --deny` per lib/bin target in `lint`.
-  - The `fuzz/Cargo.lock` audit (advisories + sources) runs in `supply-chain`, and weekly in nightly.
-  - The architecture tree lists all 45 test/obs/a11y artifacts (inventory gate 45 rows / 0 missing).
-- Next: `/andromeda-phase` to promote and plan "Security prerequisites", the Epoch 2 head. Its PREREQ closes the Rust gate deferral from this chunk.
-- **v1-23 verified flip is gated on this push** (overseer condition): the three `release (…)` legs must read `success` on the pushed sha. The inventory half read 0 at this wrap.
-- **CI witness for 3f385dd (quality-gates):** run 36019646063 is 12/12 green, all 3 `file_mode` mutants are caught on ubuntu, the union is green, and the msrv log shows `rustc 1.96.1`.
+- Done: the Epoch 1 boundary work. There was no chunk to wrap: 0 pending, Epoch 1 is 8/8 complete.
+  - `/andromeda-evolve-diagnose` ran for Epoch 1: `runs/2026-09-24T17-37-22-evolve-diagnose/proposals.md` (10 proposals, 8 level candidates, 2 extension candidates).
+  - `/andromeda-code-audit` wrote the first ledger record (baseline) to `.andromeda/code-metrics.ndjson`; the report is `runs/2026-09-24T17-47-08-code-audit/proposals.md`.
+  - Operator route adaptation: a new first Epoch 2 entry, "Epoch 1 cleanup", sits ahead of "Security prerequisites". The record is `runs/2026-09-24T18-00-38-wrap/adaptation-record.md`.
+- Next: `/andromeda-phase` to promote and plan "Epoch 1 cleanup". It carries the Rust gate-deferral PREREQ, which moved here from Security prerequisites: this is the first chunk with a Rust delta.
+  - A CARRY holds the measured coordinates.
+  - A second CARRY asks that chunk's wrap P2 to propose a playbook rule keeping obs-plan §1 out of the cascade sweep.
 
 ## Work done
-- Source: 2 workflows modified; 2 scripts and the inventory TSV are new. No `.rs` file changed (mutants `no-rust-delta`).
-- Gates: 20 green, 1 recorded, 3 deferred (fmt, clippy, unit: zero Rust delta), 3 operator legs.
-
-## Drift resolved
-- 36 amendments: architecture 13, test-plan 15, security-plan 7, obs-plan 1.
-  - 27 came from the fan-out, 6 I raised under check 5 (security's stale "owed" sites), and 3 from the cascade sweep (security `:161`; test-plan `:164`/`:1655` quoting the retired "No separate test crate").
-- Leaves re-derived: CLAUDE.md overview, `docs/stack.md` (its Code quality row had lagged), `docs/commands.md`, `docs/obs-summary.md`, `rules/security.md`.
-- 1 escalation, ratified by the overseer: the `supply-chain` artifact (`deny.json`, `deny-fuzz.json`, `zizmor.json`) is admissible by content (0 absolute paths measured). The guard stays binding.
-- Disproved and amended:
-  - cargo-modules 0.27.0 `--acyclic` fails by construction, so it is now an on-demand review only;
-  - the rmcp `cargo tree` assertion is vacuous until viola-mcp;
-  - a bare `cargo build --release` already yields `viola` only, and `--workspace` adds `viola-harness`.
+- No source changed. Route: 1 entry inserted, 1 PREREQ moved (the diff is 3 added / 1 removed; no frozen line touched).
+- The v1-23 condition is met: all three `release` legs read `success` on a28f696 (CI run 36032014621). The matrix reads 3/53 verified.
 
 ## Notes
-- **Operator decisions this chunk:**
-  - wire orphans, and amend `--acyclic` and the rmcp check;
-  - the ts code-graph plane is `e2e-web/` only, via a tracked `e2e-web/tsconfig.json`, and never over viola-ui;
-  - the fuzz lock joins the weekly advisories;
-  - the v1-23 witness condition above.
-- **Route:**
-  - "Security prerequisites" gets the Rust gate-deferral PREREQ;
-  - "PTY wrapper on Windows" gets the cfg-gated-module orphans CARRY (hypothesis);
-  - "MCP server for drivers" gets the rmcp `cargo tree` CARRY.
-- **Host changes:** cargo-modules 0.26.0 → 0.27.0 (the CI pin). Created `target/release-probe`, `target/release-check`, `target/tool-build`, `target/modules-probe-research` and `target/orphans-probes`.
-- **Deferred learnings:** `git check-ignore -q` on a not-yet-existing path under a trailing-slash dir pattern reads "not ignored" (confidence 0.8, from the prior wrap). It was not reproduced this session: `target/release-check` read ignored before it existed.
-- The operator's viola-lab prototype (`viola.exe` 12172, 57904) was running; it is not this project's.
+- **Operator decisions:**
+  - the cleanup chunk as printed, including the run.rs split (the overseer's reason: it gives viola-e2e its first mutation witness);
+  - items 4–5 are out of the chunk.
+- **The run.rs split puts 154 of viola-e2e's 431 mutants in the in-diff scope, per CI leg.** The estimate is 50+ min per leg, from the slowest viola-e2e test at 20.6 s.
+- **Host, operator-owned:** cargo-nextest 0.9.133 → the CI pin 0.9.146 (`cargo install --locked cargo-nextest@0.9.146`). The overseer installs it.
+- **Code-metrics ledger correction owed:** record `ts 2026-09-24T17:51:10Z` (sha a28f696) lists `mutation.survivors` sites without their column (`lib.rs:9`), so its 4 rows read as 2 duplicated pairs. The true sites are `:9:31`/`:9:38` × {+, /}. The next ledger-mode record carries this in its `corrections[]`.
+- **Unmeasured hypothesis:** the claim that fuzz's `arbitrary` reaches `fuzz_target!` through libfuzzer-sys's re-export. libfuzzer-sys is not in the host registry. The item-4 disposition stands on the measured spec pin.
+- **Deferred learnings (filtered at this wrap's curation):**
+  - The epoch-boundary cleanup-chunk convention scored 0.5. It is kept in the operator's auto-memory, not the repo.
+  - The fuzz `arbitrary` machete false positive scored 0.2, because its mechanism is unmeasured.
+  - The prior `git check-ignore` learning stays unreproduced.
+- The operator's viola-lab prototype was running earlier this session; it is not this project's.
 - Last failed command: none open.

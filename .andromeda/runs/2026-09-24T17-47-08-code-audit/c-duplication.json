@@ -1,0 +1,72 @@
+{
+ "pct": 1.42,
+ "duplicated_lines": 137,
+ "total_lines": 9679,
+ "clones": 16,
+ "top": [
+  [
+   "crates/viola-core/src/obs.rs:175",
+   "tests/contract_diag_schema.rs:18",
+   21
+  ],
+  [
+   "tests/cli_fake_agent.rs:379",
+   "tests/cli_fake_agent.rs:406",
+   16
+  ],
+  [
+   "tests/cli_fake_agent.rs:245",
+   "tests/cli_fake_agent.rs:281",
+   13
+  ],
+  [
+   "tests/cli_fake_agent.rs:280",
+   "tests/cli_fake_agent.rs:333",
+   12
+  ],
+  [
+   "tests/cli_fake_agent.rs:243",
+   "tests/cli_fake_agent.rs:356",
+   11
+  ],
+  [
+   "tests/contract_diag_schema.rs:171",
+   "tests/run_cli.rs:21",
+   10
+  ],
+  [
+   "src/main.rs:293",
+   "src/obs.rs:662",
+   9
+  ],
+  [
+   "tests/cli_fake_agent.rs:245",
+   "tests/cli_fake_agent.rs:381",
+   9
+  ],
+  [
+   "src/main.rs:218",
+   "src/obs.rs:521",
+   8
+  ],
+  [
+   "crates/viola-e2e/src/harness/boot.rs:350",
+   "crates/viola-e2e/src/harness/boot.rs:417",
+   7
+  ]
+ ],
+ "split": {
+  "src": {
+   "pairs": 6,
+   "lines": 42
+  },
+  "test": {
+   "pairs": 8,
+   "lines": 84
+  },
+  "mixed": {
+   "pairs": 2,
+   "lines": 27
+  }
+ }
+}

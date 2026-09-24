@@ -1,0 +1,257 @@
+{
+ "epoch_records": 190,
+ "steps": 111,
+ "friction": 79,
+ "coverage": {
+  "2026-09-24-three-os-ci-headless-harness-skeleton": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "None": {
+   "new-session": [
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation"
+   ]
+  },
+  "2026-09-24-fake-agent-and-test-data-fixtures": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-09-24-supply-chain-and-workflow-gates": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-09-24-diagnostics-plane": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-09-24-log-redaction-and-never-log-floor": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-09-24-observability-gates": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-09-24-quality-gates": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-09-24-workspace-tree-and-code-graph-planes": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  }
+ },
+ "untyped_rate": {
+  "phase/take-up": {
+   "untyped": 1,
+   "friction": 5
+  },
+  "phase/distill": {
+   "untyped": 1,
+   "friction": 5
+  },
+  "phase/research": {
+   "untyped": 2,
+   "friction": 8
+  },
+  "phase/validate": {
+   "untyped": 1,
+   "friction": 11
+  },
+  "implement/code": {
+   "untyped": 1,
+   "friction": 5
+  },
+  "implement/fix-loop": {
+   "untyped": 3,
+   "friction": 12
+  },
+  "wrap-session/reconcile": {
+   "untyped": 4,
+   "friction": 14
+  },
+  "wrap-session/curation": {
+   "untyped": 0,
+   "friction": 6
+  },
+  "wrap-session/gates": {
+   "untyped": 1,
+   "friction": 3
+  },
+  "wrap-session/route-resolve": {
+   "untyped": 1,
+   "friction": 2
+  },
+  "phase/plan": {
+   "untyped": 0,
+   "friction": 3
+  },
+  "wrap-session/report": {
+   "untyped": 0,
+   "friction": 2
+  },
+  "implement/smoke": {
+   "untyped": 0,
+   "friction": 1
+  },
+  "new-session/orientation": {
+   "untyped": 0,
+   "friction": 2
+  }
+ },
+ "problem_fill": 36,
+ "id_fill": 190,
+ "outcomes": {
+  "ok": 105,
+  "halted-resolved": 3,
+  "ok-degraded": 3
+ },
+ "skills": {
+  "phase": 40,
+  "implement": 24,
+  "wrap-session": 40,
+  "new-session": 7
+ }
+}

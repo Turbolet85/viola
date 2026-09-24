@@ -1,0 +1,67 @@
+{
+ "functions": 831,
+ "cyclomatic_p50": 1.0,
+ "cyclomatic_p90": 4.0,
+ "cyclomatic_max": 26.0,
+ "cognitive_p50": 0.0,
+ "cognitive_p90": 2.0,
+ "over_ceiling": 3,
+ "max": {
+  "fn": "run_with",
+  "file": "crates/viola-e2e/src/harness/run.rs:110",
+  "val": 24.0
+ },
+ "top": [
+  {
+   "fn": "run_with",
+   "file": "crates/viola-e2e/src/harness/run.rs:110",
+   "value": 24.0
+  },
+  {
+   "fn": "main",
+   "file": "crates/viola-e2e/src/bin/viola-harness.rs:107",
+   "value": 19.0
+  },
+  {
+   "fn": "main",
+   "file": "src/bin/viola-fake-agent.rs:419",
+   "value": 16.0
+  },
+  {
+   "fn": "scan_file",
+   "file": "crates/viola-e2e/src/harness/secret_scan.rs:103",
+   "value": 15.0
+  },
+  {
+   "fn": "check_tree",
+   "file": "crates/viola-e2e/src/harness/schema_check.rs:85",
+   "value": 13.0
+  },
+  {
+   "fn": "feed",
+   "file": "src/bin/viola-fake-agent.rs:363",
+   "value": 11.0
+  },
+  {
+   "fn": "gate",
+   "file": "crates/viola-e2e/src/harness/gate.rs:57",
+   "value": 10.0
+  },
+  {
+   "fn": "run_coverage",
+   "file": "crates/viola-e2e/src/harness/run.rs:1268",
+   "value": 10.0
+  },
+  {
+   "fn": "<anonymous>",
+   "file": "crates/viola-e2e/src/harness/run.rs:1279",
+   "value": 10.0
+  },
+  {
+   "fn": "walk",
+   "file": "crates/viola-e2e/src/harness/schema_check.rs:35",
+   "value": 10.0
+  }
+ ],
+ "note": "per rust-code-analysis function space (closures included where rca emits them as function spaces); ceiling = cognitive > 15"
+}

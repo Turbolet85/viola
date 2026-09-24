@@ -1,0 +1,11 @@
+{
+ "line": 98.21,
+ "branch": null,
+ "functions": 96.55,
+ "regions": 98.34,
+ "lines_count": [
+  879,
+  895
+ ],
+ "note": "branch null: branch instrumentation not enabled (llvm-cov branches count 0); population = viola + viola-core (the project ignore regex excludes viola-e2e, fake agent, tests/support, fuzz)"
+}
