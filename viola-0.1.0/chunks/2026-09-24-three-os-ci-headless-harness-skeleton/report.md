@@ -214,4 +214,4 @@
   - all 15 local non-leg gates green; the full-chunk mutation entry was skipped with a reason, covered below;
   - a fix-diff mutation run based on `b0236ca`: 8 mutants, 8 caught;
   - a new test, `run_mutants_with_an_unbuildable_root_package_is_build_failed`.
-- **Owed:** CI must be green on all three OSes plus mutants on the fix commit before the chunk counts as closed (operator directive). v1-06 stays `verified` only with that witness; a still-red run takes a PREMISE-CORRECTION note.
+- **CI on fix commit `966b7aa` (run 35972580463):** the check-runs read `success`. `test (windows-2025)`, `test (macos-latest)`, `test (ubuntu-latest)` and `mutants` all passed, so the chunk is closed (operator directive met). v1-06's CI clause is witnessed and recorded as a matrix note.

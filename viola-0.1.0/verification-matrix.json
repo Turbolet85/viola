@@ -80,7 +80,8 @@
         "ref": "crates/viola-e2e/src/harness/run.rs::tests::{run_mutants_with_an_unreachable_base_is_base_missing_and_writes_no_diff, run_mutants_reports_survivors_of_an_untested_change, run_mutants_passes_when_the_change_is_tested, mutants_exit_codes_map_to_reasons, mutants_suite_counts_missed_and_timeout_as_survivors, resolve_base_needs_a_real_commit, chunk_diff_holds_tracked_edits_and_untracked_files} + plan gate `AGENT_RUN_CHUNK_BASE=13b7ee3… bash scripts/agent-run.sh run --mutants` (286 mutants: 244 caught, 42 unviable, 0 missed, 0 timeout; diff includes src/main.rs panic hook + src/run/mod.rs role logger) + .github/workflows/ci.yml job `mutants` (push + pull_request; CI witness = plan operator entries 17-18 at wrap)",
         "status": "verified"
       },
-      "chunk": "2026-09-24-three-os-ci-headless-harness-skeleton"
+      "chunk": "2026-09-24-three-os-ci-headless-harness-skeleton",
+      "notes": "2026-09-24 (2026-09-24-three-os-ci-headless-harness-skeleton, wrap P7): CI witness. The first push (b0236ca, run 35971295434) was red on all jobs: the test job lacked cargo-mutants, `ProcessId::kill` counted a Unix zombie as killed, and a viola-e2e-only diff failed the cargo-mutants baseline. The fix commit 966b7aa (run 35972580463) concluded success on test (windows-2025, macos-latest, ubuntu-latest) and mutants (base = github.event.before = b0236ca)."
     },
     {
       "id": "v1-07",

@@ -95,5 +95,52 @@
 "notes_chars": 0
 }
 ]
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "685af9e8",
+"ts": "2026-09-24T08:03:58Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-06",
+"--text-file",
+".andromeda/runs/2026-09-24T07-05-59-wrap/note-v1-06.md",
+"--run-dir",
+".andromeda/runs/2026-09-24T07-05-59-wrap",
+"--marker",
+"2026-09-24-three-os-ci-headless-harness-skeleton"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"note v1-06: +456 chars (total 456) · status verified · ref/acceptance untouched",
+"wrote viola-0.1.0\\verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0\\verification-matrix.json"
+],
+"before": {
+"id": "v1-06",
+"chunk": "2026-09-24-three-os-ci-headless-harness-skeleton",
+"status": "verified",
+"method": "integration",
+"ref": "crates/viola-e2e/src/harness/run.rs::tests::{run_mutants_with_an_unreachable_base_is_base_missing_and_writes_no_diff, ru… (715 chars)",
+"acceptance": "`agent-run run --mutants` mutation-tests the chunk diff: the working tree plus untracked files from the merge-base of th… (1101 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-06",
+"chunk": "2026-09-24-three-os-ci-headless-harness-skeleton",
+"status": "verified",
+"method": "integration",
+"ref": "crates/viola-e2e/src/harness/run.rs::tests::{run_mutants_with_an_unreachable_base_is_base_missing_and_writes_no_diff, ru… (715 chars)",
+"acceptance": "`agent-run run --mutants` mutation-tests the chunk diff: the working tree plus untracked files from the merge-base of th… (1101 chars)",
+"notes_chars": 456
+}
 }
 ]

@@ -2,13 +2,13 @@
 
 **Last Updated:** 2026-09-24T07:23:46Z
 **Branch:** build/viola-0.1.0 · 0 ahead of origin/build/viola-0.1.0 as read at this wrap's Setup
-**Status:** escalation-open. CI was red on wrap commit `b0236ca` (run 35971295434); a fix commit was pushed, and its CI is being watched. The chunk counts as closed only when all 3 OS + mutants are green (operator directive).
+**Status:** clean. CI was red on wrap commit `b0236ca` (run 35971295434). Fix `966b7aa` is green on all 3 OS + mutants (run 35972580463); v1-06's CI witness is noted in the matrix.
 **Last Commit:** 2026-09-24-three-os-ci-headless-harness-skeleton — fix: CI test tools, Unix zombie kill, mutation prebuild
 
 ## Position
 - Done: 2026-09-24-three-os-ci-headless-harness-skeleton. Workspace (rust 1.98.1 pin, floor 1.96), `viola run` first slice, `viola-harness` with five commands, minimal fake agent, mutation gate, 3-OS `ci.yml`.
 - Next: /andromeda-phase to promote + plan "Fake agent and test-data fixtures".
-- Owed at the next session start: read CI for the wrap commit's sha. The plan gate `gh api repos/Turbolet85/viola/commits/<sha>/check-runs` must read `success` for the `test` (3 OS) + `mutants` jobs. That is the CI half of matrix v1-06. If it is red, disposition it before promoting.
+- CI witness done: run 35972580463 on `966b7aa` is `success` on all jobs. Every future push runs the `mutants` job against `github.event.before`.
 
 ## Work done
 Built the chunk (25 new files). Local gates are green, including the mutation gate (286 mutants: 244 caught, 42 unviable, 0 missed, 0 timeout). The default two-instance boot was smoked through the pwsh shim.

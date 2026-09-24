@@ -1,0 +1,318 @@
+run=35972580463
+Refreshing run status every 60 seconds. Press Ctrl+C to quit.
+
+* build/viola-0.1.0 ci · 35972580463
+Triggered via push less than a minute ago
+
+JOBS
+* test (windows-2025) (ID 107545486551)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Toolchain (rust-toolchain.toml)
+  ✓ Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  ✓ Run taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5
+  * Unit and integration (pwsh shim)
+  * Unit and integration (sh shim)
+  * Harness lifecycle (pwsh shim)
+  * Harness lifecycle (sh shim)
+  * Upload harness artifacts
+  * Post Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+* test (ubuntu-latest) (ID 107545486678)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Toolchain (rust-toolchain.toml)
+  ✓ Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  ✓ Run taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5
+  - Unit and integration (pwsh shim)
+  * Unit and integration (sh shim)
+  * Harness lifecycle (pwsh shim)
+  * Harness lifecycle (sh shim)
+  * Upload harness artifacts
+  * Post Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+* mutants (ID 107545486699)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Toolchain (rust-toolchain.toml)
+  ✓ Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  ✓ Run taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5
+  * Mutation gate (chunk diff)
+  * Upload mutants report
+  * Post Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+* test (macos-latest) (ID 107545486771)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Toolchain (rust-toolchain.toml)
+  ✓ Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  ✓ Run taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5
+  - Unit and integration (pwsh shim)
+  * Unit and integration (sh shim)
+  * Harness lifecycle (pwsh shim)
+  * Harness lifecycle (sh shim)
+  * Upload harness artifacts
+  * Post Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+Refreshing run status every 60 seconds. Press Ctrl+C to quit.
+
+* build/viola-0.1.0 ci · 35972580463
+Triggered via push about 1 minute ago
+
+JOBS
+* test (windows-2025) (ID 107545486551)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Toolchain (rust-toolchain.toml)
+  ✓ Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  ✓ Run taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5
+  * Unit and integration (pwsh shim)
+  * Unit and integration (sh shim)
+  * Harness lifecycle (pwsh shim)
+  * Harness lifecycle (sh shim)
+  * Upload harness artifacts
+  * Post Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+✓ test (ubuntu-latest) in 1m30s (ID 107545486678)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Toolchain (rust-toolchain.toml)
+  ✓ Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  ✓ Run taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5
+  - Unit and integration (pwsh shim)
+  ✓ Unit and integration (sh shim)
+  - Harness lifecycle (pwsh shim)
+  ✓ Harness lifecycle (sh shim)
+  ✓ Upload harness artifacts
+  ✓ Post Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+* mutants (ID 107545486699)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Toolchain (rust-toolchain.toml)
+  ✓ Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  ✓ Run taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5
+  * Mutation gate (chunk diff)
+  * Upload mutants report
+  * Post Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+* test (macos-latest) (ID 107545486771)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Toolchain (rust-toolchain.toml)
+  ✓ Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  ✓ Run taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5
+  - Unit and integration (pwsh shim)
+  * Unit and integration (sh shim)
+  * Harness lifecycle (pwsh shim)
+  * Harness lifecycle (sh shim)
+  * Upload harness artifacts
+  * Post Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+ANNOTATIONS
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+test (ubuntu-latest): .github#1
+
+Refreshing run status every 60 seconds. Press Ctrl+C to quit.
+
+* build/viola-0.1.0 ci · 35972580463
+Triggered via push about 2 minutes ago
+
+JOBS
+* test (windows-2025) (ID 107545486551)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Toolchain (rust-toolchain.toml)
+  ✓ Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  ✓ Run taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5
+  * Unit and integration (pwsh shim)
+  * Unit and integration (sh shim)
+  * Harness lifecycle (pwsh shim)
+  * Harness lifecycle (sh shim)
+  * Upload harness artifacts
+  * Post Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+✓ test (ubuntu-latest) in 1m30s (ID 107545486678)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Toolchain (rust-toolchain.toml)
+  ✓ Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  ✓ Run taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5
+  - Unit and integration (pwsh shim)
+  ✓ Unit and integration (sh shim)
+  - Harness lifecycle (pwsh shim)
+  ✓ Harness lifecycle (sh shim)
+  ✓ Upload harness artifacts
+  ✓ Post Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+✓ mutants in 2m7s (ID 107545486699)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Toolchain (rust-toolchain.toml)
+  ✓ Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  ✓ Run taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5
+  ✓ Mutation gate (chunk diff)
+  ✓ Upload mutants report
+  ✓ Post Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+* test (macos-latest) (ID 107545486771)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Toolchain (rust-toolchain.toml)
+  ✓ Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  ✓ Run taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5
+  - Unit and integration (pwsh shim)
+  * Unit and integration (sh shim)
+  * Harness lifecycle (pwsh shim)
+  * Harness lifecycle (sh shim)
+  * Upload harness artifacts
+  * Post Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+ANNOTATIONS
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+test (ubuntu-latest): .github#1
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+mutants: .github#1
+
+Refreshing run status every 60 seconds. Press Ctrl+C to quit.
+
+* build/viola-0.1.0 ci · 35972580463
+Triggered via push about 3 minutes ago
+
+JOBS
+* test (windows-2025) (ID 107545486551)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Toolchain (rust-toolchain.toml)
+  ✓ Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  ✓ Run taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5
+  * Unit and integration (pwsh shim)
+  * Unit and integration (sh shim)
+  * Harness lifecycle (pwsh shim)
+  * Harness lifecycle (sh shim)
+  * Upload harness artifacts
+  * Post Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+✓ test (ubuntu-latest) in 1m30s (ID 107545486678)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Toolchain (rust-toolchain.toml)
+  ✓ Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  ✓ Run taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5
+  - Unit and integration (pwsh shim)
+  ✓ Unit and integration (sh shim)
+  - Harness lifecycle (pwsh shim)
+  ✓ Harness lifecycle (sh shim)
+  ✓ Upload harness artifacts
+  ✓ Post Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+✓ mutants in 2m7s (ID 107545486699)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Toolchain (rust-toolchain.toml)
+  ✓ Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  ✓ Run taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5
+  ✓ Mutation gate (chunk diff)
+  ✓ Upload mutants report
+  ✓ Post Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+✓ test (macos-latest) in 3m15s (ID 107545486771)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Toolchain (rust-toolchain.toml)
+  ✓ Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  ✓ Run taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5
+  - Unit and integration (pwsh shim)
+  ✓ Unit and integration (sh shim)
+  - Harness lifecycle (pwsh shim)
+  ✓ Harness lifecycle (sh shim)
+  ✓ Upload harness artifacts
+  ✓ Post Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+
+ANNOTATIONS
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+test (ubuntu-latest): .github#1
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+mutants: .github#1
+
+✓ build/viola-0.1.0 ci · 35972580463
+Triggered via push about 4 minutes ago
+
+JOBS
+✓ test (windows-2025) in 4m34s (ID 107545486551)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Toolchain (rust-toolchain.toml)
+  ✓ Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  ✓ Run taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5
+  ✓ Unit and integration (pwsh shim)
+  - Unit and integration (sh shim)
+  ✓ Harness lifecycle (pwsh shim)
+  - Harness lifecycle (sh shim)
+  ✓ Upload harness artifacts
+  ✓ Post Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+✓ test (ubuntu-latest) in 1m30s (ID 107545486678)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Toolchain (rust-toolchain.toml)
+  ✓ Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  ✓ Run taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5
+  - Unit and integration (pwsh shim)
+  ✓ Unit and integration (sh shim)
+  - Harness lifecycle (pwsh shim)
+  ✓ Harness lifecycle (sh shim)
+  ✓ Upload harness artifacts
+  ✓ Post Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+✓ mutants in 2m7s (ID 107545486699)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Toolchain (rust-toolchain.toml)
+  ✓ Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  ✓ Run taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5
+  ✓ Mutation gate (chunk diff)
+  ✓ Upload mutants report
+  ✓ Post Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+✓ test (macos-latest) in 3m15s (ID 107545486771)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Toolchain (rust-toolchain.toml)
+  ✓ Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  ✓ Run taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5
+  - Unit and integration (pwsh shim)
+  ✓ Unit and integration (sh shim)
+  - Harness lifecycle (pwsh shim)
+  ✓ Harness lifecycle (sh shim)
+  ✓ Upload harness artifacts
+  ✓ Post Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+
+ANNOTATIONS
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+test (ubuntu-latest): .github#1
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+mutants: .github#1
+
+watch_exit=0
+test (macos-latest) completed success
+mutants completed success
+test (ubuntu-latest) completed success
+test (windows-2025) completed success
