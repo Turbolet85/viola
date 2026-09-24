@@ -1,0 +1,196 @@
+[
+{
+"sql": "SELECT callee_name, caller_name, file, line FROM calls WHERE callee_name IN ('log_self_start','log_child_start','log_child_exit','log_self_exit','init_role_logger','set_panic_sink','open_role_file','timestamp','diag_lines','wrap_lines','logs','panic_line') AND callee_kind = 'fn' ORDER BY callee_name, file, line",
+"rows": 31,
+"result": [
+{
+"callee_name": "diag_lines",
+"caller_name": "logs",
+"file": "crates/viola-e2e/src/harness/logs.rs",
+"line": 22
+},
+{
+"callee_name": "diag_lines",
+"caller_name": "diag_lines_reads_only_ndjson_files_in_name_order",
+"file": "crates/viola-e2e/src/harness/logs.rs",
+"line": 150
+},
+{
+"callee_name": "diag_lines",
+"caller_name": "diag_lines_reads_only_ndjson_files_in_name_order",
+"file": "crates/viola-e2e/src/harness/logs.rs",
+"line": 154
+},
+{
+"callee_name": "init_role_logger",
+"caller_name": "run",
+"file": "src/cmd/run.rs",
+"line": 24
+},
+{
+"callee_name": "log_child_exit",
+"caller_name": "run",
+"file": "src/cmd/run.rs",
+"line": 35
+},
+{
+"callee_name": "log_child_start",
+"caller_name": "run",
+"file": "src/cmd/run.rs",
+"line": 33
+},
+{
+"callee_name": "log_self_exit",
+"caller_name": "run",
+"file": "src/cmd/run.rs",
+"line": 36
+},
+{
+"callee_name": "log_self_exit",
+"caller_name": "run",
+"file": "src/cmd/run.rs",
+"line": 40
+},
+{
+"callee_name": "log_self_start",
+"caller_name": "run",
+"file": "src/cmd/run.rs",
+"line": 25
+},
+{
+"callee_name": "logs",
+"caller_name": "crate",
+"file": "crates/viola-e2e/src/bin/viola-harness.rs",
+"line": 8
+},
+{
+"callee_name": "logs",
+"caller_name": "main",
+"file": "crates/viola-e2e/src/bin/viola-harness.rs",
+"line": 142
+},
+{
+"callee_name": "logs",
+"caller_name": "logs_for_an_unknown_session_is_exit_2",
+"file": "crates/viola-e2e/src/harness/logs.rs",
+"line": 159
+},
+{
+"callee_name": "logs",
+"caller_name": "crate",
+"file": "crates/viola-e2e/tests/harness_lifecycle.rs",
+"line": 8
+},
+{
+"callee_name": "logs",
+"caller_name": "harness_session_boots_reports_logs_and_tears_down",
+"file": "crates/viola-e2e/tests/harness_lifecycle.rs",
+"line": 64
+},
+{
+"callee_name": "open_role_file",
+"caller_name": "run",
+"file": "src/cmd/run.rs",
+"line": 23
+},
+{
+"callee_name": "panic_line",
+"caller_name": "viola_panic_hook",
+"file": "src/main.rs",
+"line": 48
+},
+{
+"callee_name": "panic_line",
+"caller_name": "panic_line_has_the_binding_fields_and_no_corr",
+"file": "src/main.rs",
+"line": 142
+},
+{
+"callee_name": "panic_line",
+"caller_name": "panic_line_without_instance_omits_the_key",
+"file": "src/main.rs",
+"line": 166
+},
+{
+"callee_name": "set_panic_sink",
+"caller_name": "panic_hook_writes_exactly_one_line_without_payload",
+"file": "src/main.rs",
+"line": 180
+},
+{
+"callee_name": "set_panic_sink",
+"caller_name": "init_role_logger",
+"file": "src/run/mod.rs",
+"line": 65
+},
+{
+"callee_name": "timestamp",
+"caller_name": "viola_panic_hook",
+"file": "src/main.rs",
+"line": 49
+},
+{
+"callee_name": "timestamp",
+"caller_name": "format_time",
+"file": "src/run/mod.rs",
+"line": 59
+},
+{
+"callee_name": "timestamp",
+"caller_name": "timestamp_is_rfc3339_utc_millis_with_z",
+"file": "src/run/mod.rs",
+"line": 167
+},
+{
+"callee_name": "wrap_lines",
+"caller_name": "diag_lines",
+"file": "crates/viola-e2e/src/harness/logs.rs",
+"line": 44
+},
+{
+"callee_name": "wrap_lines",
+"caller_name": "wrap_lines_wraps_records_and_marks_torn_lines",
+"file": "crates/viola-e2e/src/harness/logs.rs",
+"line": 92
+},
+{
+"callee_name": "wrap_lines",
+"caller_name": "wrap_lines_accepts_crlf_terminated_lines",
+"file": "crates/viola-e2e/src/harness/logs.rs",
+"line": 110
+},
+{
+"callee_name": "wrap_lines",
+"caller_name": "filters_match_named_values_and_treat_absent_as_null",
+"file": "crates/viola-e2e/src/harness/logs.rs",
+"line": 121
+},
+{
+"callee_name": "wrap_lines",
+"caller_name": "filters_match_named_values_and_treat_absent_as_null",
+"file": "crates/viola-e2e/src/harness/logs.rs",
+"line": 126
+},
+{
+"callee_name": "wrap_lines",
+"caller_name": "filters_match_named_values_and_treat_absent_as_null",
+"file": "crates/viola-e2e/src/harness/logs.rs",
+"line": 131
+},
+{
+"callee_name": "wrap_lines",
+"caller_name": "filters_match_named_values_and_treat_absent_as_null",
+"file": "crates/viola-e2e/src/harness/logs.rs",
+"line": 132
+},
+{
+"callee_name": "wrap_lines",
+"caller_name": "torn_lines_survive_any_filter",
+"file": "crates/viola-e2e/src/harness/logs.rs",
+"line": 141
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

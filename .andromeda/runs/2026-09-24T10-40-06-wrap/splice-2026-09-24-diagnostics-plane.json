@@ -1,0 +1,197 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1b01be01",
+"ts": "2026-09-24T10:49:21Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-24T10-40-06-wrap/architecture-entry.md",
+"--lines",
+"24",
+"--run-dir",
+".andromeda/runs/2026-09-24T10-40-06-wrap",
+"--marker",
+"2026-09-24-diagnostics-plane"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+24 at line 69 · lines 68→92 · bytes 9241→12256 · term lf",
+"last line now: - **Control:** `unevaluatedProperties` fired 2 hits in obs."
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 68,
+"bytes": 9241,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 92,
+"bytes": 12256
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1b01be01",
+"ts": "2026-09-24T10:49:21Z",
+"argv": [
+"append",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-24T10-40-06-wrap/obs-plan-entry.md",
+"--lines",
+"19",
+"--run-dir",
+".andromeda/runs/2026-09-24T10-40-06-wrap",
+"--marker",
+"2026-09-24-diagnostics-plane"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append obs-plan-amendments.md:+19 at line 23 · lines 22→41 · bytes 1830→3755 · term lf",
+"last line now: - **Control:** `unevaluatedProperties` fired."
+],
+"stderr": null,
+"wrote": [
+".andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 22,
+"bytes": 1830,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 41,
+"bytes": 3755
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1b01be01",
+"ts": "2026-09-24T10:49:22Z",
+"argv": [
+"append",
+"--file",
+".andromeda/a11y-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-24T10-40-06-wrap/a11y-plan-entry.md",
+"--lines",
+"7",
+"--run-dir",
+".andromeda/runs/2026-09-24T10-40-06-wrap",
+"--marker",
+"2026-09-24-diagnostics-plane"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append a11y-plan-amendments.md:+7 at line 8 · lines 7→14 · bytes 737→1555 · term lf",
+"last line now: Sweep: `accepted as a tests \\+ obs enum` over all seven masters gives 1 remainin"
+],
+"stderr": null,
+"wrote": [
+".andromeda/a11y-plan-amendments.md"
+],
+"before": {
+"lines": 7,
+"bytes": 737,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 14,
+"bytes": 1555
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1b01be01",
+"ts": "2026-09-24T10:49:22Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-24T10-40-06-wrap/security-plan-entry.md",
+"--lines",
+"9",
+"--run-dir",
+".andromeda/runs/2026-09-24T10-40-06-wrap",
+"--marker",
+"2026-09-24-diagnostics-plane"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+9 at line 38 · lines 37→46 · bytes 3293→4164 · term lf",
+"last line now: Sweep: `budget thresholds, GUI port\\)` and the config-row wording over all seven"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 37,
+"bytes": 3293,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 46,
+"bytes": 4164
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1b01be01",
+"ts": "2026-09-24T10:58:50Z",
+"argv": [
+"append",
+"--file",
+"viola-0.1.0/route-archive.md",
+"--payload-file",
+"C:/Users/turbo/AppData/Local/Temp/claude/D--dev-projects-viola/9a3a7896-39a8-4b16-a2be-58a67584a4ca/scratchpad/line17.txt",
+"--lines",
+"1",
+"--run-dir",
+".andromeda/runs/2026-09-24T10-40-06-wrap",
+"--marker",
+"2026-09-24-diagnostics-plane"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append route-archive.md:+1 at line 10 · lines 9→10 · bytes 581→1396 · term lf",
+"last line now: [2026-09-24-diagnostics-plane] Diagnostics plane — per-role JSON sinks with pr"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/route-archive.md"
+],
+"before": {
+"lines": 9,
+"bytes": 581,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 10,
+"bytes": 1396
+}
+}
+]

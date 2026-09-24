@@ -551,7 +551,15 @@ _[ALL tiers — central agent-driven mechanism; Section consumed by
 setup-project to materialize OTel SDK init + log sinks + service
 identity + snapshot generation]_
 
-The architecture commits to the harness pattern (quoted verbatim from the upstream-context Architecture Excerpt, Observability Hints): "`hook` writes only its decision body to stdout and nothing to stderr … `run` writes nothing to the terminal except the child's own output … Its diagnostics go to the instance's `diagnostics/`. `mcp` writes only MCP frames to stdout … `ui` and short-lived CLI verbs may use stderr. The logger and the format are owned by obs." This section specifies the concrete contract.
+The architecture commits to the harness pattern (arch §Cross-cutting Patterns → Diagnostic output channels):
+- `hook` writes only its decision body to stdout and nothing to stderr.
+- `run` writes nothing to the terminal except the child's own output.
+- Every role's codes-only process log goes to its home-level role file under `diagnostics/`, and content-bearing detail goes only to the instance's `diagnostics/detail-<role>.ndjson`.
+- `mcp` writes only MCP frames to stdout.
+- `ui` and short-lived CLI verbs may use stderr for their human output.
+- The logger and the format are owned by obs.
+
+This section specifies the concrete contract.
 
 ### Product mode — Normal vs Inverted (self-observing)
 
@@ -602,7 +610,9 @@ The architecture commits to the harness pattern (quoted verbatim from the upstre
 
 - **Library:** tracing 0.1.44 (facade; Tokio-free, no C) + tracing-subscriber 0.3.23 (`fmt` JSON formatter; meets security Vector 9's `>=0.3.20`).
   - Every line is emitted through **one crate-local macro `obs_event!`**. It is defined in viola-core as a `macro_rules!` that expands to `::tracing::event!`, so viola-core itself stays I/O-free and tracing-free.
-  - The macro always attaches `event` (the `ObsEvent` enum's kebab `Display`), `corr`, `process` (from a process-global `OnceLock<ProcessCtx>`) and `instance`. `message` is a static literal equal to the event name, so it never carries interpolated content.
+  - The macro always attaches `event` (the `ObsEvent` enum's kebab `Display`), plus `process` and `instance` from a process-global `OnceLock<ProcessCtx>`. Each is key absence when it has no value.
+  - `corr` is an ordinary typed `key = value` field that the caller passes on the events that carry one. It is never `?`/`%`, and it is absent when null. The macro has no dedicated `corr` arm, because in `macro_rules` such an arm is ambiguous with the generic `key = value` arm. The schema confines `corr` to the corr-bearing events and types it `number|string`. As measured at chunk 2026-09-24-diagnostics-plane (`crates/viola-core/src/obs.rs`, `tests/contract_diag_schema.rs`).
+  - `message` is a static literal equal to the event name, so it never carries interpolated content.
 - **Format:** structured JSON-per-line. `on_event` formats into a thread-local buffer and makes one `write_all` per line on an append-mode handle, which meets the arch "one `write` per line" rule. The line is codes-only and stays well under 4 KiB. Every role file can have concurrent writers in separate processes, and the same rule covers all of them:
   - `hook-<name>.ndjson`, shared by hook processes;
   - `mcp.ndjson`, shared by one `viola mcp` per Claude session;
@@ -1198,8 +1208,8 @@ _[Standard: included. The Compliance Trace Fields subsection is omitted: securit
      - Instead, the scan step writes a hit report to `target/secret-scan/` (`file`, line, byte offset and pattern class, never the matched bytes), and the separate §9 step 5 uploads that directory as `secret-scan-${{ matrix.os }}`.
      - So the failing job still leaves agent-readable evidence (§11 CI).
 
-**Default-deny posture:** a field is logged only if it is named in this plan's Section 6 catalog. Unknown fields are a build failure (§10), caught by gate G4 (§9) against `schemas/diag-line.v1.json` (`additionalProperties: false` per event). That schema has no `a11y-violation` event: harness a11y rows are validated separately against the tests-owned `e2e-web/schemas/a11y-row.v1.json` (Z7). No config key, flag or env var can widen the allow-list or disable redaction (security Anti-Patterns).
-- **Detail-file scope:** `schemas/diag-line.v1.json` validates home-level lines only. `detail-<process>.ndjson` lines are validated by a sibling `schemas/diag-detail.v1.json`, with `additionalProperties: false`. It allows:
+**Default-deny posture:** a field is logged only if it is named in this plan's Section 6 catalog. Unknown fields are a build failure (§10), caught by gate G4 (§9) against `schemas/diag-line.v1.json`. That schema enforces default-deny with a top-level `unevaluatedProperties: false` over per-event field lists. Per-event `additionalProperties: false` cannot do it, because in JSON Schema 2020-12 `additionalProperties` does not see properties declared inside `allOf`/`if-then`; as measured at chunk 2026-09-24-diagnostics-plane (`tests/contract_diag_schema.rs`). That schema has no `a11y-violation` event: harness a11y rows are validated separately against the tests-owned `e2e-web/schemas/a11y-row.v1.json` (Z7). No config key, flag or env var can widen the allow-list or disable redaction (security Anti-Patterns).
+- **Detail-file scope:** `schemas/diag-line.v1.json` validates home-level lines only. `detail-<process>.ndjson` lines are validated by a sibling `schemas/diag-detail.v1.json`, with a top-level `unevaluatedProperties: false`. The schema is self-contained: it inlines the event enum and uses no cross-file `$ref`. It allows:
   - the same required fields as home-level lines: `timestamp`, `level`, `target`, `message`, `event`, `process` and `instance`, plus `corr` / `conn` when the home-level counterpart carries them;
   - on `event:"panic"` lines only, the home-level line's `panic_location` and `thread` (the `...` in the §7 detail line), so both lines join without the payload;
   - exactly these content fields: `panic_payload` and `backtrace` (panic, §7), `chain` (§7 layer 3) and `drift_report` (§8 table).
@@ -1363,7 +1373,7 @@ _[ALL tiers — single source of truth for all obs bans]_
 
 - NEVER write telemetry to stdout on any role. stdout carries `--json` results (cli), the decision body (hook) and MCP frames (mcp), and `run`'s terminal carries the child's screen. The default tracing-subscriber writer is stdout, so `with_writer` is always explicit.
 - NEVER leave `log_internal_errors` at its default `true`. Writer failures would `eprintln` to stderr and break the Hook contract and the `run` terminal.
-- NEVER call `tracing::{event,info,warn,error,debug,trace}!` directly outside `viola_core::obs`. Only `obs_event!` guarantees `event`, `corr`, `process` and `instance` (clippy `disallowed-macros`).
+- NEVER call `tracing::{event,info,warn,error,debug,trace}!` directly outside `viola_core::obs`. Only `obs_event!` guarantees `event`, `process` and `instance`; the caller sets `corr` explicitly as a typed field on the events that carry one (clippy `disallowed-macros`).
 - NEVER record `corr` with `?corr` / `%corr`. That stringifies numbers, and `corr` must be copied unchanged as a JSON number or string.
 - NEVER read the level from `RUST_LOG`, enable the `env-filter` feature, or call `EnvFilter::from_default_env`. Env vars are not a configuration channel.
 - NEVER write multi-line stack traces. Panics are one line; backtraces are one-line JSON arrays in the instance detail file only.

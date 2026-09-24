@@ -1,0 +1,29 @@
+[
+{
+"tool": "route",
+"v": "1.3",
+"sha8": "d004ec42",
+"ts": "2026-09-24T10:58:40Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-09-24-diagnostics-plane",
+"--run-dir",
+".andromeda/runs/2026-09-24T10-40-06-wrap"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"flip master-route.md:14 - 2026-09-24-diagnostics-plane pending -> complete"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+}
+]

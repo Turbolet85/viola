@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://viola.local/schemas/diag-detail.v1.json",
+  "title": "viola instance detail line (content-bearing)",
+  "description": "One line of <home>/instances/<name>/diagnostics/detail-<process>.ndjson (obs-plan §8 Detail-file scope): the home-level required fields, corr/conn when the home-level counterpart carries them, panic_location and thread on panic lines only, and exactly four content fields.",
+  "type": "object",
+  "required": ["timestamp", "level", "target", "message", "event", "process", "instance"],
+  "properties": {
+    "timestamp": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$" },
+    "level": { "enum": ["DEBUG", "INFO", "WARN", "ERROR"] },
+    "target": { "type": "string", "minLength": 1 },
+    "message": { "type": "string" },
+    "event": {
+      "enum": ["channel-request", "channel-response", "dialog-raised", "dialog-answered", "hook-invoked", "hook-decision", "send-issued", "send-confirmed", "send-refused", "release-from-driver", "process-start", "process-exit", "http-request", "panic", "liveness-changed", "state-recovered", "sse-opened", "sse-closed", "parse-rejected"]
+    },
+    "process": { "enum": ["run", "hook", "mcp", "ui", "cli"] },
+    "instance": { "type": "string", "pattern": "^[a-z][a-z0-9-]{0,31}$" },
+    "corr": { "type": ["number", "string"] },
+    "conn": { "type": "string" },
+    "panic_payload": { "type": "string" },
+    "backtrace": { "type": "array", "items": { "type": "string" } },
+    "chain": { "type": "array", "items": { "type": "string" } },
+    "drift_report": { "type": ["string", "object", "array"] }
+  },
+  "allOf": [
+    { "if": { "properties": { "event": { "const": "panic" } } }, "then": { "properties": {
+      "message": { "const": "panic" }, "panic_location": { "type": "string" }, "thread": { "type": "string" } } } }
+  ],
+  "unevaluatedProperties": false
+}

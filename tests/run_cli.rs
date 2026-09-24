@@ -152,6 +152,156 @@ fn run_appends_to_an_existing_role_file(#[from(home)] tmp: TestHome) {
     assert_eq!(lines.len(), 8);
 }
 
+fn write_config(home: &Path, text: &str) {
+    std::fs::create_dir_all(home).expect("home");
+    std::fs::write(home.join("config.json"), text).expect("config");
+}
+
+/// `viola run builder -- <program>` with captured output; Ctrl-C goes in at once.
+fn run_captured(home: &Path, program: &str, env: &[(&str, &str)]) -> std::process::Output {
+    let mut child = Command::new(VIOLA)
+        .arg("--home")
+        .arg(home)
+        .args(["run", "builder", "--", program])
+        .envs(env.iter().copied())
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .expect("viola runs");
+    if let Some(mut stdin) = child.stdin.take() {
+        let _ = stdin.write_all(b"\x03");
+    }
+    child.wait_with_output().expect("viola exits")
+}
+
+fn key_sets(lines: &[Value]) -> Vec<Vec<String>> {
+    lines
+        .iter()
+        .map(|l| {
+            let mut keys: Vec<String> = l.as_object().expect("object").keys().cloned().collect();
+            keys.sort();
+            keys
+        })
+        .collect()
+}
+
+#[rstest]
+fn run_self_exit_carries_duration_ms(#[from(home)] tmp: TestHome, #[from(home)] missing: TestHome) {
+    let home = tmp.path().to_path_buf();
+    let mut child = Command::new(VIOLA)
+        .arg("--home")
+        .arg(&home)
+        .args(["run", "builder", "--", FAKE])
+        .stdin(Stdio::piped())
+        .stdout(Stdio::null())
+        .stderr(Stdio::null())
+        .spawn()
+        .expect("viola runs");
+    let role = home.join("diagnostics").join("run-builder.ndjson");
+    let deadline = std::time::Instant::now() + std::time::Duration::from_secs(20);
+    while !std::fs::read_to_string(&role)
+        .unwrap_or_default()
+        .contains("\"subject\":\"claude-child\"")
+    {
+        assert!(std::time::Instant::now() < deadline, "child never started");
+        std::thread::yield_now();
+    }
+    // A known lower bound: the wrapper is still running across this observation window.
+    let window = std::time::Instant::now() + std::time::Duration::from_millis(60);
+    while std::time::Instant::now() < window {
+        std::thread::yield_now();
+    }
+    let mut stdin = child.stdin.take().expect("stdin");
+    stdin.write_all(b"\x03").expect("write");
+    drop(stdin);
+    assert_eq!(child.wait().expect("exits").code(), Some(0));
+    let (_, lines) = role_lines(&home, "builder");
+    assert_eq!(lines[3]["subject"], "self");
+    assert!(lines[3]["duration_ms"].as_u64().is_some_and(|ms| ms >= 60));
+    assert!(lines[2].get("duration_ms").is_none());
+
+    let absent = missing.scratch().join("no-such-program");
+    run_viola(
+        missing.path(),
+        "builder",
+        absent.to_str().expect("utf-8"),
+        &[],
+    );
+    let (_, lines) = role_lines(missing.path(), "builder");
+    assert!(lines[1]["duration_ms"].as_u64().is_some());
+}
+
+#[rstest]
+fn run_config_debug_level_keeps_the_key_set(
+    #[from(home)] info: TestHome,
+    #[from(home)] debug: TestHome,
+) {
+    write_config(info.path(), r#"{"v":1,"diagnostics_level":"info"}"#);
+    write_config(debug.path(), r#"{"v":1,"diagnostics_level":"debug"}"#);
+    assert!(run_captured(info.path(), FAKE, &[]).status.success());
+    assert!(run_captured(debug.path(), FAKE, &[]).status.success());
+    let (_, info_lines) = role_lines(info.path(), "builder");
+    let (_, debug_lines) = role_lines(debug.path(), "builder");
+    assert_eq!(info_lines.len(), 4);
+    assert_eq!(key_sets(&debug_lines), key_sets(&info_lines));
+}
+
+#[rstest]
+fn run_config_malformed_emits_parse_rejected(#[from(home)] tmp: TestHome) {
+    write_config(tmp.path(), r#"{"v":1,"diagnostics_level":"loud","x":1}"#);
+    assert!(run_captured(tmp.path(), FAKE, &[]).status.success());
+    let (_, lines) = role_lines(tmp.path(), "builder");
+    assert_eq!(lines.len(), 5);
+    assert_eq!(lines[0]["event"], "process-start");
+    assert_eq!(lines[1]["event"], "parse-rejected");
+    assert_eq!(lines[1]["level"], "WARN");
+    assert_eq!(lines[1]["parser"], "config-json");
+    assert_eq!(lines[1]["detail"], "malformed");
+    assert_eq!(lines[1]["count"], 1);
+    assert_eq!(lines[1]["instance"], "builder");
+}
+
+#[rstest]
+fn run_config_unknown_keys_are_counted(#[from(home)] tmp: TestHome) {
+    write_config(tmp.path(), r#"{"v":1,"budget":{"five_hour":90},"port":1}"#);
+    assert!(run_captured(tmp.path(), FAKE, &[]).status.success());
+    let (_, lines) = role_lines(tmp.path(), "builder");
+    assert_eq!(lines[1]["detail"], "unknown-keys");
+    assert_eq!(lines[1]["count"], 2);
+}
+
+#[rstest]
+fn run_rust_log_changes_nothing(#[from(home)] plain: TestHome, #[from(home)] traced: TestHome) {
+    assert!(run_captured(plain.path(), FAKE, &[]).status.success());
+    assert!(
+        run_captured(traced.path(), FAKE, &[("RUST_LOG", "trace")])
+            .status
+            .success()
+    );
+    let (_, plain_lines) = role_lines(plain.path(), "builder");
+    let (_, traced_lines) = role_lines(traced.path(), "builder");
+    assert_eq!(key_sets(&traced_lines), key_sets(&plain_lines));
+    assert!(traced_lines.iter().all(|l| l["level"] == "INFO"));
+}
+
+#[rstest]
+fn run_is_silent_on_stdout_and_stderr(
+    #[from(home)] child: TestHome,
+    #[from(home)] missing: TestHome,
+) {
+    let out = run_captured(child.path(), FAKE, &[]);
+    assert!(out.status.success());
+    assert!(out.stdout.is_empty(), "stdout: {} bytes", out.stdout.len());
+    assert!(out.stderr.is_empty(), "stderr: {} bytes", out.stderr.len());
+
+    let absent = missing.scratch().join("no-such-program");
+    let out = run_captured(missing.path(), absent.to_str().expect("utf-8"), &[]);
+    assert_eq!(out.status.code(), Some(1));
+    assert!(out.stdout.is_empty(), "stdout: {} bytes", out.stdout.len());
+    assert!(out.stderr.is_empty(), "stderr: {} bytes", out.stderr.len());
+}
+
 #[test]
 fn viola_without_a_verb_is_usage() {
     let status = Command::new(VIOLA)

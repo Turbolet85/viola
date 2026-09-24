@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://viola.local/schemas/diag-line.v1.json",
+  "title": "viola home-level process-log line (codes only)",
+  "description": "One line of <home>/diagnostics/{run-<name>,hook-<name>,mcp,ui-<port>,cli-<name>}.ndjson. Required fields per test-plan §3 Log format; additive fields per obs-plan §6 catalog, default-deny (obs-plan §8). A null corr or instance is key absence, never a literal null; message equals event.",
+  "type": "object",
+  "required": ["timestamp", "level", "target", "message", "event", "process"],
+  "properties": {
+    "timestamp": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$" },
+    "level": { "enum": ["DEBUG", "INFO", "WARN", "ERROR"] },
+    "target": { "type": "string", "minLength": 1 },
+    "message": { "type": "string" },
+    "event": { "$ref": "#/$defs/event" },
+    "process": { "enum": ["run", "hook", "mcp", "ui", "cli"] },
+    "instance": { "type": "string", "pattern": "^[a-z][a-z0-9-]{0,31}$" }
+  },
+  "allOf": [
+    { "if": { "properties": { "event": { "const": "channel-request" } } }, "then": { "properties": { "message": { "const": "channel-request" } } } },
+    { "if": { "properties": { "event": { "const": "channel-response" } } }, "then": { "properties": { "message": { "const": "channel-response" } } } },
+    { "if": { "properties": { "event": { "const": "dialog-raised" } } }, "then": { "properties": { "message": { "const": "dialog-raised" } } } },
+    { "if": { "properties": { "event": { "const": "dialog-answered" } } }, "then": { "properties": { "message": { "const": "dialog-answered" } } } },
+    { "if": { "properties": { "event": { "const": "hook-invoked" } } }, "then": { "properties": { "message": { "const": "hook-invoked" } } } },
+    { "if": { "properties": { "event": { "const": "hook-decision" } } }, "then": { "properties": { "message": { "const": "hook-decision" } } } },
+    { "if": { "properties": { "event": { "const": "send-issued" } } }, "then": { "properties": { "message": { "const": "send-issued" } } } },
+    { "if": { "properties": { "event": { "const": "send-confirmed" } } }, "then": { "properties": { "message": { "const": "send-confirmed" } } } },
+    { "if": { "properties": { "event": { "const": "send-refused" } } }, "then": { "properties": { "message": { "const": "send-refused" } } } },
+    { "if": { "properties": { "event": { "const": "release-from-driver" } } }, "then": { "properties": { "message": { "const": "release-from-driver" } } } },
+    { "if": { "properties": { "event": { "const": "process-start" } } }, "then": { "properties": { "message": { "const": "process-start" } } } },
+    { "if": { "properties": { "event": { "const": "process-exit" } } }, "then": { "properties": { "message": { "const": "process-exit" } } } },
+    { "if": { "properties": { "event": { "const": "http-request" } } }, "then": { "properties": { "message": { "const": "http-request" } } } },
+    { "if": { "properties": { "event": { "const": "panic" } } }, "then": { "properties": { "message": { "const": "panic" } } } },
+    { "if": { "properties": { "event": { "const": "liveness-changed" } } }, "then": { "properties": { "message": { "const": "liveness-changed" } } } },
+    { "if": { "properties": { "event": { "const": "state-recovered" } } }, "then": { "properties": { "message": { "const": "state-recovered" } } } },
+    { "if": { "properties": { "event": { "const": "sse-opened" } } }, "then": { "properties": { "message": { "const": "sse-opened" } } } },
+    { "if": { "properties": { "event": { "const": "sse-closed" } } }, "then": { "properties": { "message": { "const": "sse-closed" } } } },
+    { "if": { "properties": { "event": { "const": "parse-rejected" } } }, "then": { "properties": { "message": { "const": "parse-rejected" } } } },
+
+    { "if": { "properties": { "event": { "const": "channel-request" } } }, "then": { "properties": {
+      "corr": { "$ref": "#/$defs/corr" }, "method": { "type": "string" }, "conn": { "type": "string" },
+      "srv_conn": { "type": "string" }, "from": { "type": "string" }, "from_trust": { "const": "self-reported" },
+      "sender": { "type": "string" }, "v": { "type": "integer" }, "after": { "$ref": "#/$defs/count" },
+      "timeout_ms": { "$ref": "#/$defs/count" } } } },
+    { "if": { "properties": { "event": { "const": "channel-response" } } }, "then": { "properties": {
+      "corr": { "$ref": "#/$defs/corr" }, "method": { "type": "string" }, "conn": { "type": "string" },
+      "srv_conn": { "type": "string" }, "result_class": { "enum": ["ok", "refusal", "error"] },
+      "refusal": { "type": "string" }, "detail": { "type": "string" },
+      "error_code": { "enum": [-32700, -32600, -32601, -32602, -32603] }, "outcome": { "type": "string" },
+      "duration_ms": { "$ref": "#/$defs/count" } } } },
+    { "if": { "properties": { "event": { "enum": ["dialog-raised", "dialog-answered"] } } }, "then": { "properties": {
+      "corr": { "$ref": "#/$defs/corr" }, "dialog_kind": { "type": "string" }, "hook_event": { "$ref": "#/$defs/hook_event" },
+      "from": { "type": "string" }, "from_trust": { "const": "self-reported" }, "deadline_hit": { "type": "boolean" },
+      "duration_ms": { "$ref": "#/$defs/count" } } } },
+    { "if": { "properties": { "event": { "enum": ["hook-invoked", "hook-decision"] } } }, "then": { "properties": {
+      "corr": { "$ref": "#/$defs/corr" }, "hook_event": { "$ref": "#/$defs/hook_event" },
+      "stdin_bytes": { "$ref": "#/$defs/count" }, "invoked_at": { "type": "string" },
+      "decision_emitted": { "type": "boolean" }, "deadline_hit": { "type": "boolean" }, "budget_written": { "type": "boolean" },
+      "detail": { "enum": ["oversize-stdin", "malformed-json", "channel-unreachable", "server-verify-failed", "strict-modes-failed", "unverified-cli", "deadline"] },
+      "duration_ms": { "$ref": "#/$defs/count" } } } },
+    { "if": { "properties": { "event": { "enum": ["send-issued", "send-confirmed", "send-refused"] } } }, "then": { "properties": {
+      "corr": { "$ref": "#/$defs/corr" }, "from": { "type": "string" }, "from_trust": { "const": "self-reported" },
+      "text_bytes": { "$ref": "#/$defs/count" }, "confirmed": { "type": "boolean" }, "refusal": { "type": "string" },
+      "detail": { "type": "string" }, "side": { "enum": ["client", "wrapper"] }, "wheel": { "type": "string" },
+      "window": { "type": "string" }, "used_percentage": { "type": "number" }, "resets_at": { "type": "string" },
+      "paused": { "type": "boolean" }, "duration_ms": { "$ref": "#/$defs/count" }, "conn": { "type": "string" },
+      "srv_conn": { "type": "string" }, "rpc_id": { "$ref": "#/$defs/corr" } } } },
+    { "if": { "properties": { "event": { "const": "release-from-driver" } } }, "then": { "properties": {
+      "corr": { "$ref": "#/$defs/corr" }, "conn": { "type": "string" }, "from": { "type": "string" },
+      "from_trust": { "const": "self-reported" } } } },
+    { "if": { "properties": { "event": { "const": "process-start" } } }, "then": { "properties": {
+      "subject": { "$ref": "#/$defs/subject" }, "service_name": { "const": "viola" }, "version": { "type": "string" },
+      "os": { "enum": ["windows", "macos", "linux"] }, "pid": { "$ref": "#/$defs/count" },
+      "child_pid": { "$ref": "#/$defs/count" }, "port": { "$ref": "#/$defs/count" }, "endpoint_kind": { "type": "string" },
+      "pty_backend": { "type": "string" }, "cli_version": { "type": "string" }, "cli_verified": { "type": "boolean" },
+      "env_stripped_count": { "$ref": "#/$defs/count" }, "env_stripped_known": { "type": "string" } } } },
+    { "if": { "properties": { "event": { "const": "process-exit" } } }, "then": { "properties": {
+      "subject": { "$ref": "#/$defs/subject" }, "exit_code": { "type": "integer" },
+      "child_exit_status": { "type": "integer" }, "shell_exit_status": { "type": "integer" },
+      "exit_source": { "enum": ["handle-wait", "kill-fallback"] },
+      "detail": { "enum": ["already-live", "squatted-name", "pinned-hash-mismatch", "batch-script-child", "internal-error", "instance-dead", "strict-modes-failed", "server-verify-failed", "wrapper-fault"] },
+      "during": { "enum": ["connect", "call"] }, "duration_ms": { "$ref": "#/$defs/count" } } } },
+    { "if": { "properties": { "event": { "const": "http-request" } } }, "then": { "properties": {
+      "method": { "type": "string" }, "path": { "type": "string" }, "route": { "type": "string" },
+      "status": { "type": "integer" }, "problem": { "type": "string" }, "duration_ms": { "$ref": "#/$defs/count" },
+      "skipped": { "type": ["boolean", "integer"] } } } },
+    { "if": { "properties": { "event": { "const": "panic" } } }, "then": { "properties": {
+      "panic_location": { "type": "string" }, "thread": { "type": "string" } } } },
+    { "if": { "properties": { "event": { "const": "liveness-changed" } } }, "then": { "properties": {
+      "subject_instance": { "type": "string" }, "liveness_from": { "$ref": "#/$defs/liveness" },
+      "liveness_to": { "$ref": "#/$defs/liveness" }, "heartbeat_age_ms": { "$ref": "#/$defs/count" },
+      "pid_alive": { "type": "boolean" } } } },
+    { "if": { "properties": { "event": { "const": "state-recovered" } } }, "then": { "properties": {
+      "detail": { "enum": ["torn-line-healed", "snapshot-replayed", "snapshot-unsupported-v"] },
+      "file": { "type": "string" }, "offset": { "$ref": "#/$defs/count" }, "v_seen": { "type": "integer" } } } },
+    { "if": { "properties": { "event": { "enum": ["sse-opened", "sse-closed"] } } }, "then": { "properties": {
+      "last_event_id_present": { "type": "boolean" }, "last_event_id_valid": { "type": "boolean" },
+      "resume_instances": { "$ref": "#/$defs/count" }, "close_cause": { "type": "string" },
+      "events_sent": { "$ref": "#/$defs/count" }, "duration_ms": { "$ref": "#/$defs/count" } } } },
+    { "if": { "properties": { "event": { "const": "parse-rejected" } } }, "then": { "properties": {
+      "parser": { "enum": ["claude-agents-json", "vt100-feed", "config-json", "ledger-stamps", "last-event-id", "hook-stdin", "channel-frame", "prompt-submitted", "paste-text", "state-entry"] },
+      "detail": { "enum": ["malformed", "unreadable", "oversize", "unknown-keys", "panicked", "control-character", "symlink-ignored"] },
+      "count": { "$ref": "#/$defs/count" } } } }
+  ],
+  "unevaluatedProperties": false,
+  "$defs": {
+    "event": {
+      "enum": ["channel-request", "channel-response", "dialog-raised", "dialog-answered", "hook-invoked", "hook-decision", "send-issued", "send-confirmed", "send-refused", "release-from-driver", "process-start", "process-exit", "http-request", "panic", "liveness-changed", "state-recovered", "sse-opened", "sse-closed", "parse-rejected"]
+    },
+    "corr": { "type": ["number", "string"] },
+    "count": { "type": "integer", "minimum": 0 },
+    "subject": { "enum": ["self", "claude-child", "version-probe", "agents-probe", "statusline-shell"] },
+    "liveness": { "enum": ["live", "stale", "gone"] },
+    "hook_event": { "enum": ["session-start", "user-prompt-submit", "pre-tool-use", "permission-request", "stop", "session-end", "notification", "post-tool-use", "post-tool-use-failure", "statusline"] }
+  }
+}

@@ -21,7 +21,7 @@ Path-scoped rules for product code that logs, spans or handles errors. Authorita
 - Init order: panic hook first → clap → home/instance/role → home strict-modes (create first if new) → diagnostics dir/file checks and open → `config.json` → subscriber → `process-start`.
 
 ## Lines
-- Every line goes through `obs_event!` (defined in `viola_core::obs`): it attaches `event`, `corr`, `process`, `instance`; `message` is a static literal equal to the event name. Raw `tracing::{event,info,warn,error,debug,trace}!` is banned by clippy `disallowed-macros`.
+- Every line goes through `obs_event!` (defined in `viola_core::obs`): it attaches `event`, `process`, `instance` (from `ProcessCtx`); the caller passes `corr` as a typed field on the events that carry one; `message` is a static literal equal to the event name. Raw `tracing::{event,info,warn,error,debug,trace}!` is banned by clippy `disallowed-macros`.
 - `event` is a closed kebab-case enum (`ObsEvent`): a new value needs an obs Decisions Log entry and a `schemas/diag-line.v1.json` update. `a11y-violation` is NOT a product event.
 - `corr` per event (JSON-RPC `id` · `dialog_id` · send `cursor`), copied as a number or string — never `?corr` / `%corr`, never renamed. A null `corr` / `instance` is key absence, never a literal `null`.
 - Channel lines carry `conn = "<process>-<pid>-<t0>-<n>"`; wrapper `send-*` lines carry `conn` + `rpc_id`; `from` is logged with `from_trust:"self-reported"`.
@@ -39,3 +39,4 @@ Path-scoped rules for product code that logs, spans or handles errors. Authorita
 
 ## Session Additions
 _This section is owned by `/wrap-session`. setup-project preserves content added here on re-run._
+- 2026-09-24: `obs_event!` expands to `::tracing::event!`, so a raw-log census greps `tracing::(info|warn|error|debug|trace)!` — a bare `tracing::` grep reads the sanctioned macro in `viola_core::obs` as a raw call.

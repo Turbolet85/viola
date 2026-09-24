@@ -32,6 +32,11 @@ name = "contract_fixture_hygiene"
 path = "tests/contract_fixture_hygiene.rs"
 required-features = ["fake-agent"]
 
+[[test]]
+name = "contract_diag_schema"
+path = "tests/contract_diag_schema.rs"
+required-features = ["fake-agent"]
+
 [dependencies]
 viola-core = { path = "crates/viola-core" }
 anyhow.workspace = true

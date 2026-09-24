@@ -1,7 +1,12 @@
 use nutype::nutype;
 
+pub mod obs;
+
 pub const SERVICE_NAME: &str = "viola";
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
+
+/// The byte cap on every external reader (`Read::take`) and on a channel frame.
+pub const MAX_FRAME: u64 = 16 * 1024 * 1024;
 
 /// An instance name: ASCII `[a-z0-9-]`, 1–32 characters, starting with a letter
 /// (architecture §Conventions). The only way to build one is `ViolaName::try_new`,

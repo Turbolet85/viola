@@ -1,37 +1,38 @@
 # Session Handoff
 
-**Last Updated:** 2026-09-24T09:52:10Z
+**Last Updated:** 2026-09-24T10:52:16Z
 **Branch:** build/viola-0.1.0 · 0 ahead of origin/build/viola-0.1.0 as read at this wrap's Setup
 **Status:** clean
-**Last Commit:** 2026-09-24-supply-chain-and-workflow-gates — feat: deny.toml four-family policy, sole-root tokio ban, permanent ban probes, supply-chain + lint CI jobs, nightly advisories
+**Last Commit:** 2026-09-24-diagnostics-plane — feat: closed ObsEvent vocabulary + obs_event!, per-role sinks, diagnostics_level, owner-only detail files, diag line schemas, logs detail source, write-guard repair
 
 ## Position
-- Done: 2026-09-24-supply-chain-and-workflow-gates.
-  - `deny.toml` covers advisories, licences, sources and bans (C, telemetry and feature bans).
-  - `deny-sync.toml` holds the tokio ban, run once per crate in `scripts/sync-crates.txt` as the sole root.
-  - `scripts/deny-probes.sh` proves all 13 bans fire (13/13 banned, control clean).
-  - `ci.yml` gained `lint` (3 OSes) and `supply-chain` (ubuntu). `nightly.yml` runs the weekly advisories check.
-- Next: /andromeda-phase to promote and plan "Diagnostics plane". It carries the PREREQ `close rust gate deferral`.
-- **CI witness owed (plan operator entries):** this wrap pushes the branch. Then:
-  1. Read `check-runs` for the pushed sha. Expect `success` on test ×3, lint ×3, supply-chain and mutants.
-  2. Run `gh workflow run nightly.yml --ref build/viola-0.1.0`.
-  3. Read that dispatched run for the same sha. Expect `success`.
+- Done: 2026-09-24-diagnostics-plane.
+  - `viola_core::obs`: 19-value `ObsEvent`, `ObsProcess`, `ProcessCtx`, `obs_event!`, plus `MAX_FRAME`.
+  - Root `viola::obs`: role files for all 5 roles (only `run` produces today), `config.json` `diagnostics_level`, owner-only `detail-<process>.ndjson` (panic payload + backtrace), run catch-site `process-exit{internal-error}`.
+  - `schemas/diag-line.v1.json` + `diag-detail.v1.json`; harness `logs` streams detail files.
+  - `.claude/settings.json` write guard repaired (it blocked nothing under Git Bash); `scripts/guard-probe.py` proves `2,2,2,2,0,0`.
+  - Rust gate deferral (since 2026-09-24-supply-chain-and-workflow-gates) closed: `run --unit` 135 green; mutants `counted`, 0 survived.
+- Next: /andromeda-phase to promote and plan "Log redaction and never-log floor" (carries a CARRY: route chains and drift reports through the new detail sink).
+- **CI witness owed (plan operator entry):** read `check-runs` for this wrap's pushed sha. Expect `success` on every check.
+- **Recorded:** CI witness for `4d8be52` (the previous chunk). Run `35983992260` (ci, push) and run `35984789181` (nightly) were both `success`.
 
 ## Work done
-- 5 new files, 1 workflow modified. Local gates: 9 green, 1 deferred (Rust unit suite, zero `.rs` delta), 4 left to the operator. Mutants verdict `no-rust-delta`.
-- `plan.md` was edited after implement, on the operator's direction. The gate text now uses cargo-deny 0.20's global `--config` form, and the mutants gate lost a `mutants.out/` artifact key that could never be fresh.
+- 6 new files, 8 modified. 21 local gates green; gate 12 green after the operator-directed `env = []` edit. Smoke ✓ (p3-smoke booted ready, cleanup exact).
 
 ## Drift resolved
-- 21 amendments across 5 masters (arch, test-plan, security-plan, obs-plan, a11y-plan). 14 came from the detectors (one applied in part: the config files went to the tree, not the registry). The orchestrator raised 7 more. There were 0 escalations.
-- Retired: the "graph with the async crates excluded" tokio-ban mechanism (measured false-fail under feature unification), the viola-e2e "tokio wrappers list", and "one workflow `ci.yml`".
-- 9 leaf sites re-derived (CLAUDE.md workflow block, commands, stack, workflow, rules/security, services viola-core and viola-mcp).
+- 17 amendments across 4 masters: arch 9, obs 5, security 2, a11y 1. 1 escalation was resolved with the operator: obs §3/§11 now say `corr` is a caller-supplied typed field, not attached by `obs_event!`.
+- Retired:
+  - arch "hook/mcp diagnostics go to the instance dir / stderr";
+  - obs §8 "`additionalProperties: false` per event" (the schemas use `unevaluatedProperties: false`);
+  - a11y §12 "`a11y-violation` accepted as an enum amendment".
+- Leaves re-derived: `rules/observability.md`, `docs/stack.md`.
 
 ## Notes
 - Operator decisions this chunk:
-  - The weekly run lives in `nightly.yml`; test-plan owns CI layout.
-  - The ban probes are permanent in CI.
-  - The two plan gate edits after implement.
-- New route pins: CARRY on "Wrapper channel" (join `sync-crates.txt`), "MCP server for drivers" (the `viola-channel` own-root false-fail limit) and "Quality gates" (zizmor pedantic `concurrency-limits` left open).
-- Host tools: cargo-deny 0.19.4 → 0.20.2 and zizmor 1.30.1 installed on the dev host (`cargo install --locked`).
-- The operator's viola-lab prototype (`viola.exe` 12172, 58624) was running on the host; it is not this project's.
+  - The guard fix is proven by a repo-local probe.
+  - The CLAUDE.md `v` learning was narrowed; applied as a correction.
+  - `env = []` was added to plan gate 12.
+  - `corr`: amend obs to shipped, and close the trade-off with a CARRY.
+- New route pins: CARRY on "Wrapper channel" (make `corr` `required` in diag-line for corr-bearing events + a negative test), "Hooks to normalised events" (concurrent-append check + argv role classification) and "Log redaction" (the detail-sink pointer).
+- The operator's viola-lab prototype (`viola.exe` 12172, 35652) was running; it is not this project's.
 - Last failed command: none open.

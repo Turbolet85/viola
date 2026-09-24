@@ -116,6 +116,6 @@ _This section is curated by `/wrap-session`. It accumulates universal (Tier 1) r
 - Prompt text reaches viola only from stdin or `--file`, never from a leading-slash argument (Git Bash rewrites `/skill` into a Windows path).
 - `viola release` is a human verb: no driver-facing hint, MCP tool or doc suggests it to a driver (a `release` carrying `from` is refused `-32602`).
 - Design against the installed `claude` CLI, measured: the docs lag the build, so an unmeasured behaviour is a ledger row to probe, not an assumption.
-- Every viola format carries `v`; readers skip and count unknown kinds and fields, and never use `deny_unknown_fields` on viola's own formats (mixed binary versions are real).
+- Every viola format carries `v` except process-log lines, whose version is their schema filename (`diag-line.v1.json`); readers skip and count unknown kinds and fields, and never use `deny_unknown_fields` on viola's own formats (mixed binary versions are real). [corrected 2026-09-24: the diag-line default-deny field list admits no `v`]
 - Probe, baseline and gate a CI tool at the exact version CI pins — install that version on the host first; an older host tool accepts flags the pinned one rejects, so a plan written against it ships gate commands that cannot pass.
 <!-- USER:session-learnings end -->

@@ -1345,7 +1345,7 @@ between phase loops._
   - **D-A11Y-20** The text-spacing override and the VSR bundle are served through same-origin `page.route` URLs (`/assets/__a11y/*`), so CSP `script-src` / `style-src 'self'` holds without `bypassCSP`.
 - **Resolved questions (overseer, founder-delegated, 2026-09-24):**
   - **Reflow below 760 CSS px:** v1 keeps the documented SC 1.4.10 exception from D-A11Y-04. Data tables may use the two-dimensional exception; the ATIS, tape and strips get a layout when the phone view lands.
-  - **`a11y-violation` event value:** accepted as a tests + obs enum amendment by the D-21 route (see D-A11Y-09).
+  - **`a11y-violation` event value:** not a product `event` value. It is a harness-only row validated by the tests-owned `e2e-web/schemas/a11y-row.v1.json` (overseer fix pass 3, Z7; see D-A11Y-09). The shipped `ObsEvent` and the `schemas/diag-line.v1.json` event enum (19 values) carry no `a11y-violation`.
   - **401 access strip copy:** bound to design-system.md, which already specifies `UNAUTHORIZED  this page has no session for <host>` plus one instruction line. The announcement reads that visible text. It must not contain the token, URL or `.url` path.
   - **Unwrapped NAME ellipsis:** truncation is CSS-only. The full name stays in the DOM as the accessible name, with no `title` tooltip (SC 1.4.13 stays free of hover content).
   - **ESLint core version:** pinned exactly through the lockfile (dev tool, lockfile-pinnable) when the lint stage lands.

@@ -1,29 +1,41 @@
 mod cmd;
+mod obs;
 mod run;
 
 use std::fs::File;
 use std::io::Write as _;
 use std::panic::PanicHookInfo;
-use std::path::{Component, Path};
+use std::path::{Component, Path, PathBuf};
 use std::process::ExitCode;
 use std::sync::{Arc, OnceLock};
 
 use clap::Parser as _;
+use serde_json::{Map, Value};
+use viola_core::ViolaName;
+use viola_core::obs::{ObsEvent, ObsProcess};
 
-/// Where the panic hook writes: the role file of the process, opened before any work runs.
+/// Where the panic hook writes: the role file of the process, opened before any work runs, and
+/// the home its instance detail file lives under.
 struct PanicSink {
     file: Arc<File>,
-    process: &'static str,
-    instance: Option<String>,
+    process: ObsProcess,
+    instance: Option<ViolaName>,
+    home: PathBuf,
 }
 
 static PANIC_SINK: OnceLock<PanicSink> = OnceLock::new();
 
-pub(crate) fn set_panic_sink(file: Arc<File>, process: &'static str, instance: Option<String>) {
+pub(crate) fn set_panic_sink(
+    file: Arc<File>,
+    process: ObsProcess,
+    instance: Option<ViolaName>,
+    home: PathBuf,
+) {
     let _ = PANIC_SINK.set(PanicSink {
         file,
         process,
         instance,
+        home,
     });
 }
 
@@ -33,11 +45,15 @@ fn main() -> ExitCode {
         Ok(code) => code,
         Err(_) => ExitCode::from(1),
     })
-    .unwrap_or(ExitCode::from(1))
+    .unwrap_or_else(|_| {
+        obs::panic_exit_line();
+        ExitCode::from(1)
+    })
 }
 
-/// Never calls the default hook and never writes stderr: one JSON line, one `write_all`,
-/// into the role file (obs-plan §7). The payload is content and stays out of this line.
+/// Never calls the default hook and never writes stderr: one payload-free JSON line, one
+/// `write_all`, into the role file; payload and backtrace go only to the instance detail file
+/// (obs-plan §7).
 fn viola_panic_hook(info: &PanicHookInfo<'_>) {
     let Some(sink) = PANIC_SINK.get() else {
         return;
@@ -46,14 +62,61 @@ fn viola_panic_hook(info: &PanicHookInfo<'_>) {
         .location()
         .map(|l| format!("{}:{}", panic_location(Path::new(l.file())), l.line()))
         .unwrap_or_default();
+    let timestamp = obs::timestamp(chrono::Utc::now());
+    let thread = std::thread::current()
+        .name()
+        .unwrap_or("<unnamed>")
+        .to_owned();
     let line = panic_line(
-        &run::timestamp(chrono::Utc::now()),
-        sink.process,
-        sink.instance.as_deref(),
+        &timestamp,
+        sink.process.as_str(),
+        sink.instance.as_ref().map(AsRef::as_ref),
         &location,
-        std::thread::current().name().unwrap_or("<unnamed>"),
+        &thread,
     );
     let _ = (&*sink.file).write_all(line.as_bytes());
+    if let Some(instance) = &sink.instance {
+        let detail = panic_detail_line(
+            &timestamp,
+            sink.process,
+            instance,
+            &location,
+            &thread,
+            info.payload_as_str().unwrap_or("non-string payload"),
+        );
+        obs::write_detail(&sink.home, instance, sink.process, &detail);
+    }
+}
+
+fn panic_detail_line(
+    timestamp: &str,
+    process: ObsProcess,
+    instance: &ViolaName,
+    location: &str,
+    thread: &str,
+    payload: &str,
+) -> String {
+    let backtrace: Vec<Value> = std::backtrace::Backtrace::force_capture()
+        .to_string()
+        .lines()
+        .map(str::trim)
+        .filter(|l| !l.is_empty())
+        .map(Value::from)
+        .collect();
+    let mut fields = Map::new();
+    fields.insert("panic_location".to_owned(), location.into());
+    fields.insert("thread".to_owned(), thread.into());
+    fields.insert("panic_payload".to_owned(), payload.into());
+    fields.insert("backtrace".to_owned(), Value::Array(backtrace));
+    obs::detail_line(
+        timestamp,
+        "ERROR",
+        "viola::panic",
+        ObsEvent::Panic,
+        process,
+        instance,
+        fields,
+    )
 }
 
 fn panic_line(
@@ -169,30 +232,69 @@ mod tests {
         assert!(v.get("instance").is_none());
     }
 
+    /// The role file keeps one payload-free line; payload and backtrace land only in the
+    /// instance detail file, which validates against its committed schema.
     #[test]
-    fn panic_hook_writes_exactly_one_line_without_payload() {
+    fn panic_hook_writes_detail_line_with_payload_and_backtrace() {
         let dir = tempfile::tempdir().expect("tempdir");
+        let home = dir.path().join("home");
+        std::fs::create_dir(&home).expect("home");
         let path = dir.path().join("run-builder.ndjson");
         let file = std::fs::OpenOptions::new()
             .create(true)
             .append(true)
             .open(&path)
             .expect("open");
-        set_panic_sink(Arc::new(file), "run", Some("builder".to_owned()));
+        let builder = ViolaName::try_new("builder".to_owned()).expect("valid");
+        set_panic_sink(
+            Arc::new(file),
+            ObsProcess::Run,
+            Some(builder.clone()),
+            home.clone(),
+        );
         std::panic::set_hook(Box::new(viola_panic_hook));
         let caught = std::panic::catch_unwind(|| panic!("secret-payload-text"));
         let _ = std::panic::take_hook();
         assert!(caught.is_err());
+
         let text = std::fs::read_to_string(&path).expect("read");
         assert_eq!(text.lines().count(), 1);
         assert!(!text.contains("secret-payload-text"));
-        let v: serde_json::Value = serde_json::from_str(text.trim_end()).expect("json");
+        let v: Value = serde_json::from_str(text.trim_end()).expect("json");
         assert_eq!(v["event"], "panic");
         assert_eq!(v["instance"], "builder");
+        assert!(v.get("backtrace").is_none());
         assert!(
             v["panic_location"]
                 .as_str()
                 .is_some_and(|l| l.starts_with("src/main.rs:"))
         );
+
+        let detail_path = obs::detail_path(&home, &builder, ObsProcess::Run);
+        let detail_text = std::fs::read_to_string(&detail_path).expect("detail file");
+        assert_eq!(detail_text.lines().count(), 1);
+        let d: Value = serde_json::from_str(detail_text.trim_end()).expect("json");
+        assert_eq!(d["event"], "panic");
+        assert_eq!(d["level"], "ERROR");
+        assert_eq!(d["target"], "viola::panic");
+        assert_eq!(d["instance"], "builder");
+        assert_eq!(d["panic_payload"], "secret-payload-text");
+        assert_eq!(d["panic_location"], v["panic_location"]);
+        assert_eq!(d["thread"], v["thread"]);
+        assert!(
+            d["backtrace"]
+                .as_array()
+                .is_some_and(|frames| !frames.is_empty() && frames.iter().all(Value::is_string))
+        );
+        let schema: Value = serde_json::from_str(
+            &std::fs::read_to_string(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/schemas/diag-detail.v1.json"
+            ))
+            .expect("schema"),
+        )
+        .expect("schema JSON");
+        let validator = jsonschema::validator_for(&schema).expect("valid schema");
+        assert!(validator.is_valid(&d));
     }
 }

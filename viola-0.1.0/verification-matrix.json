@@ -55,7 +55,8 @@
         "ref": null,
         "status": "planned"
       },
-      "chunk": null
+      "chunk": null,
+      "notes": "2026-09-24 (2026-09-24-diagnostics-plane, phase P5): not claimed. This chunk builds the closed event vocabulary, obs_event!, the run role's schema-true lines (null as key absence) and the logs detail source with torn-line marking. The acceptance still needs the hook/mcp/ui/cli roles (no producer yet), the hook stderr/exit guarantee, the events source and the --kind filter. It stays pooled for the chunk that lands the last of those."
     },
     {
       "id": "v1-05",
@@ -68,7 +69,8 @@
         "ref": null,
         "status": "planned"
       },
-      "chunk": null
+      "chunk": null,
+      "notes": "2026-09-24 (2026-09-24-diagnostics-plane, phase P5): not claimed. This chunk commits both line schemas and routes the panic payload to the detail file, leaving one payload-free error line (proven in-process). The acceptance still needs the hook exit-0 path, CI schema conformance of every line (G4), the canary secret scan, and the print and raw-log lint bans. Those belong to Observability gates and the hook chunk."
     },
     {
       "id": "v1-06",
@@ -225,7 +227,8 @@
         "ref": null,
         "status": "planned"
       },
-      "chunk": null
+      "chunk": null,
+      "notes": "2026-09-24 (2026-09-24-diagnostics-plane, phase P5): not claimed. This chunk creates the per-role home-level sinks and the owner-only per-instance detail files, so content-bearing detail now exists only per instance. The acceptance still needs the home strict-modes check before any diagnostics open and the owner/mode/symlink checks on existing diagnostics files (Home and code-bearing file integrity), plus the architecture amendment naming both roots and every sink (wrap-authored)."
     },
     {
       "id": "v1-18",

@@ -3,8 +3,9 @@ use std::path::Path;
 use std::process::ExitCode;
 
 use viola_core::ViolaName;
+use viola_core::obs::ObsProcess;
 
-use crate::run;
+use crate::{obs, run};
 
 #[derive(clap::Args)]
 pub(crate) struct RunArgs {
@@ -21,9 +22,12 @@ fn parse_name(raw: &str) -> Result<ViolaName, String> {
 }
 
 pub(crate) fn run(home: &Path, args: RunArgs) -> anyhow::Result<ExitCode> {
-    let role_file = run::open_role_file(home, &args.name)?;
-    run::init_role_logger(role_file, "run", &args.name);
-    run::log_self_start(&args.name);
+    let (level, rejection) = obs::read_diagnostics_level(home);
+    obs::viola_obs_init(home, ObsProcess::Run, Some(args.name.clone()), level)?;
+    run::log_self_start();
+    if let Some(rejection) = rejection {
+        obs::log_config_rejection(rejection);
+    }
 
     let (program, program_args) = args
         .program
@@ -31,14 +35,14 @@ pub(crate) fn run(home: &Path, args: RunArgs) -> anyhow::Result<ExitCode> {
         .expect("clap requires at least one program word");
     match run::spawn_child(program, program_args) {
         Ok(mut child) => {
-            run::log_child_start(&args.name, child.id());
+            run::log_child_start(child.id());
             let status = child.wait()?;
-            run::log_child_exit(&args.name, status.code());
-            run::log_self_exit(&args.name, 0, None);
+            run::log_child_exit(status.code());
+            run::log_self_exit(0, None);
             Ok(ExitCode::SUCCESS)
         }
         Err(_) => {
-            run::log_self_exit(&args.name, 1, Some("internal-error"));
+            run::log_self_exit(1, Some("internal-error"));
             Ok(ExitCode::from(1))
         }
     }

@@ -1,0 +1,201 @@
+[
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "685af9e8",
+"ts": "2026-09-24T10:21:31Z",
+"argv": [
+"coverage",
+"--dir",
+"viola-0.1.0",
+"--run-dir",
+".andromeda/runs/2026-09-24T10-05-14-phase",
+"--marker",
+"2026-09-24-diagnostics-plane"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"verified 1/53 · deferred 0 · planned 52 · implemented 0 · unclaimed 52",
+"unclaimed: v1-01 v1-02 v1-03 v1-04 v1-05 v1-07 v1-08 v1-09 v1-10 v1-11 v1-12 v1-13 v1-14 v1-15 v1-16 v1-17",
+"          v1-18 v1-19 v1-20 v1-21 v1-22 v1-23 v1-24 v1-25 v1-26 v1-27 v1-28 v1-29 v1-30 v1-31 v1-32 v1-33",
+"          v1-34 v1-35 v1-36 v1-37 v1-38 v1-39 v1-40 v1-41 v1-42 v1-43 v1-44 v1-45 v1-46 v1-47 v1-48 v1-49",
+"          v1-50 v1-51 v1-52 v1-53",
+"claimed-unfinished: none",
+"done-test: NO — 52 not verified|deferred · unclaimed 52",
+"chunks referenced: 1 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "685af9e8",
+"ts": "2026-09-24T10:21:45Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-04",
+"--text-file",
+".andromeda/runs/2026-09-24T10-05-14-phase/note-v1-04.md",
+"--run-dir",
+".andromeda/runs/2026-09-24T10-05-14-phase",
+"--marker",
+"2026-09-24-diagnostics-plane"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"note v1-04: +435 chars (total 435) · status planned · ref/acceptance untouched",
+"wrote viola-0.1.0\\verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0\\verification-matrix.json"
+],
+"before": {
+"id": "v1-04",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "Every process role writes one-line JSON records carrying the grepped fields under the closed event vocabulary; a null co… (417 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-04",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "Every process role writes one-line JSON records carrying the grepped fields under the closed event vocabulary; a null co… (417 chars)",
+"notes_chars": 435
+}
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "685af9e8",
+"ts": "2026-09-24T10:21:45Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-05",
+"--text-file",
+".andromeda/runs/2026-09-24T10-05-14-phase/note-v1-05.md",
+"--run-dir",
+".andromeda/runs/2026-09-24T10-05-14-phase",
+"--marker",
+"2026-09-24-diagnostics-plane"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"note v1-05: +416 chars (total 416) · status planned · ref/acceptance untouched",
+"wrote viola-0.1.0\\verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0\\verification-matrix.json"
+],
+"before": {
+"id": "v1-05",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "A panic after log initialisation leaves exactly one error line and the hook still ends successfully; every home-level an… (431 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-05",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "A panic after log initialisation leaves exactly one error line and the hook still ends successfully; every home-level an… (431 chars)",
+"notes_chars": 416
+}
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "685af9e8",
+"ts": "2026-09-24T10:21:45Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-17",
+"--text-file",
+".andromeda/runs/2026-09-24T10-05-14-phase/note-v1-17.md",
+"--run-dir",
+".andromeda/runs/2026-09-24T10-05-14-phase",
+"--marker",
+"2026-09-24-diagnostics-plane"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"note v1-17: +485 chars (total 485) · status planned · ref/acceptance untouched",
+"wrote viola-0.1.0\\verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0\\verification-matrix.json"
+],
+"before": {
+"id": "v1-17",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "The architecture names both diagnostics roots and every process's sink; on every OS the home is created and passes its s… (333 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-17",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "The architecture names both diagnostics roots and every process's sink; on every OS the home is created and passes its s… (333 chars)",
+"notes_chars": 485
+}
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "685af9e8",
+"ts": "2026-09-24T10:21:45Z",
+"argv": [
+"audit",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-09-24-diagnostics-plane",
+"--plan",
+"viola-0.1.0/chunks/2026-09-24-diagnostics-plane/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-24T10-05-14-phase"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-24-diagnostics-plane: 0 · ## Acceptance Criteria: line 330, 50 lines",
+"pool: unclaimed 52 [v1-01 v1-02 v1-03 v1-04 v1-05 v1-07 v1-08 v1-09 v1-10 v1-11 v1-12 v1-13 v1-14 v1-15 v1-16 v1-17 v1-18 v1-19 v1-20 v1-21 v1-22 v1-23 v1-24 v1-25 v1-26 v1-27 v1-28 v1-29 v1-30 v1-31 v1-32 v1-33 v1-34 v1-35 v1-36 v1-37 v1-38 v1-39 v1-40 v1-41 v1-42 v1-43 v1-44 v1-45 v1-46 v1-47 v1-48 v1-49 v1-50 v1-51 v1-52 v1-53]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]
