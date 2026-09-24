@@ -14,7 +14,7 @@ Nothing inside the workspace. Third-party: nutype 0.8.0, serde, serde_json, chro
 Every workspace crate and the root bin: event kinds (kebab-case wire values), `RefusalReason` (`#[serde(other)] unknown`), newtypes, validators, constants, `CoreError`.
 
 ### Dependencies
-None beyond the workspace-shared third-party crates; tokio is banned in its graph (`cargo deny`).
+None beyond the workspace-shared third-party crates; tokio is banned in its graph (the sole-root `deny-sync.toml` ban; `viola-core` is listed in `scripts/sync-crates.txt`).
 
 ## Internal conventions
 - New event kinds and refusal details are added ONLY here, never with Claude-specific names; `detail` values are kebab-case strings from a closed set per reason.

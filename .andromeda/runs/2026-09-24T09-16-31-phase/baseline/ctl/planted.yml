@@ -1,0 +1,5 @@
+jobs:
+  x:
+    steps:
+      - run: |
+          echo ${{ github.event.before }}

@@ -1,0 +1,21 @@
+gate v1.1 · 4c16668f
+shell C:\Program Files\Git\bin\bash.exe (from $SHELL; -c, non-login)
+root D:\dev\projects\viola · marker 2026-09-24-supply-chain-and-workflow-gates · entries 14
+logs C:\Users\turbo\AppData\Local\Temp\andromeda-gate\2026-09-24-supply-chain-and-workflow-gates\run-20260924T093244Z · bound: GNU timeout
+delta docs 34
+prose L118-126: These are the local gates /implement runs. No external process is driven and there is no l… (998 chars)
+  1 probe       not run — dry-run · cargo deny --version
+  2 probe       not run — dry-run · zizmor --version
+  3 lint        not run — dry-run · cargo deny check
+  4 lint        not run — dry-run · test -s scripts/sync-crates.txt && while read -r c; do car… (175 chars)
+  5 build       not run — dry-run · test -s scripts/sync-crates.txt && cargo check $(sed 's/^/… (88 chars)
+  6 lint        not run — dry-run · bash scripts/deny-probes.sh
+  7 lint        not run — dry-run · zizmor .github/workflows/
+  8 probe       not run — dry-run · grep -HnE '\$\{\{\s*github\.event' .github/workflows/*.yml… (108 chars)
+  9 unit        not run — defer (key): zero .rs delta: the chunk writes TOML, Y… (124 chars) · bash scripts/agent-run.sh run --unit
+ 10 integration not run — dry-run · AGENT_RUN_CHUNK_BASE=61f9676882bbc06116ff9b47fc5c7328e8de1… (101 chars)
+ 11 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (82 chars)
+ 12 probe       not run — leg operator (the letter drives it) · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (129 chars)
+ 13 probe       not run — leg operator (the letter drives it) · gh workflow run nightly.yml --ref build/viola-0.1.0
+ 14 probe       not run — leg operator (the letter drives it) · gh run list --workflow nightly.yml --event workflow_dispat… (169 chars)
+entries 14 · green 0 · red 0 · recorded 0 · timeout 0 · not-run 14

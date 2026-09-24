@@ -12,15 +12,15 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
    ↓
 [2026-09-24-fake-agent-and-test-data-fixtures] Fake agent and test-data fixtures — scripted modes and control file, receipts, temp-home fixture chain under target/e2e-home, fixture scrub-and-schema walk, committed property seeds
    ↓
-Supply-chain and workflow gates — cargo-deny families with telemetry-crate and redaction-toggle bans, weekly advisory run, zizmor, tokio-free sync-crate check, least-privilege permissions
+[2026-09-24-supply-chain-and-workflow-gates] Supply-chain and workflow gates — cargo-deny families with telemetry-crate and redaction-toggle bans, weekly advisory run, zizmor, tokio-free sync-crate check, least-privilege permissions
    ↓
-Diagnostics plane — per-role JSON sinks with process-start service identity, closed event vocabulary and line schemas, owner-only per-instance detail files, diagnostics_level, torn-line-aware logs merge  CARRY: chunk 2026-09-24-three-os-ci-headless-harness-skeleton shipped the first role lines with raw `tracing::info!`/`error!` in `src/run/mod.rs` (event/process/instance passed by hand) — migrate them to `obs_event!`; its panic hook writes the payload nowhere (no `detail-run.ndjson` yet) and `process-exit{subject:"self"}` has no `duration_ms`; the harness `logs` streams only the home-level diag source (events + detail sources and `--kind`/`--after` arrive with their producers)
+Diagnostics plane — per-role JSON sinks with process-start service identity, closed event vocabulary and line schemas, owner-only per-instance detail files, diagnostics_level, torn-line-aware logs merge  CARRY: chunk 2026-09-24-three-os-ci-headless-harness-skeleton shipped the first role lines with raw `tracing::info!`/`error!` in `src/run/mod.rs` (event/process/instance passed by hand) — migrate them to `obs_event!`; its panic hook writes the payload nowhere (no `detail-run.ndjson` yet) and `process-exit{subject:"self"}` has no `duration_ms`; the harness `logs` streams only the home-level diag source (events + detail sources and `--kind`/`--after` arrive with their producers)  PREREQ: close rust gate deferral (deferred since 2026-09-24-supply-chain-and-workflow-gates)
    ↓
 Log redaction and never-log floor — skip-all span fields, redacted payload types, fixed error displays, content-bearing records only in instance detail files
    ↓
 Observability gates — panic hook first, zero-panic, schema, bare-instrument and abort-panic gates, canary secret scan before any upload, print and raw-log lint bans  CARRY: the fake agent is a `[[bin]]` of the root package (lints are per package) — when the print bans land, exempt it with a crate-level `#![allow(clippy::print_stdout, clippy::print_stderr)]` in `src/bin/viola-fake-agent.rs` (obs-plan §3 obs-ci-gate-wire as amended 2026-09-24); the obs G3 gate is written with `rg`, which is absent from the local gate shell's PATH (chunk 1 ran it as `grep -rEn`)
    ↓
-Quality gates — fatal fmt/clippy lint, MSRV 1.96 job, per-OS coverage floors, seeded property and fuzz corpus replay, zero retries, per-job gate verdict
+Quality gates — fatal fmt/clippy lint, MSRV 1.96 job, per-OS coverage floors, seeded property and fuzz corpus replay, zero retries, per-job gate verdict  CARRY: chunk 2026-09-24-supply-chain-and-workflow-gates left zizmor's pedantic-persona `concurrency-limits` (help, low) open on `ci.yml` and `nightly.yml` — the default persona suppresses it; decide whether the workflows take a `concurrency:` block (it changes run cancellation)
    ↓
 Workspace tree and code-graph planes — arch tree lists test/obs/a11y artifacts, release build free of test binaries, Rust plane ok, TypeScript plane decided
 
@@ -31,7 +31,7 @@ PTY wrapper on Windows — viola run passthrough with zero own bytes, npm-shim r
    ↓
 Instance state and start order — append-only event log, atomic snapshot, heartbeat, pinned bin/ copy, plugin folder, documented start order, live/stale name refusal
    ↓
-Wrapper channel — JSON-RPC 2.0 ndjson over the per-instance named pipe (Unix: per-user socket directory), SQOS-opened client, v/sender/conn in every frame, MAX_FRAME, newer-peer refusal
+Wrapper channel — JSON-RPC 2.0 ndjson over the per-instance named pipe (Unix: per-user socket directory), SQOS-opened client, v/sender/conn in every frame, MAX_FRAME, newer-peer refusal  CARRY: chunk 2026-09-24-supply-chain-and-workflow-gates wired the tokio ban as a sole-root `deny-sync.toml` run per crate in `scripts/sync-crates.txt` — `viola-channel` joins that list (and CI job 3's `cargo check`) with its crate, without its `tokio` feature
    ↓
 Hooks to normalised events — exec-form plugin hooks by absolute path, hook-to-kind map, harness/paste/tag normalisation, silent unwrapped no-op, fail-open exit 0, perf-job-gated hook deadlines
    ↓
@@ -70,7 +70,7 @@ CLI machine contract — --json per verb mirroring channel results, typed exits 
    ↓
 CLI output discipline — linear static output on three OSes, grouped --help, colour only beside its word, zero wrapper bytes, unblocked human keys during sends
    ↓
-MCP server for drivers — stdio tools send/wait/last/answer/list, CLI-parity results and code-only refusals, no wheel or link controls, calls under the tool-call timeout
+MCP server for drivers — stdio tools send/wait/last/answer/list, CLI-parity results and code-only refusals, no wheel or link controls, calls under the tool-call timeout  CARRY: chunk 2026-09-24-supply-chain-and-workflow-gates measured (research.md §Measured facts, scratch workspace) that once a member enables `viola-channel[tokio]`, `viola-channel` as its own `deny-sync.toml` sole root false-fails (`cargo metadata` reports its unified features) — keep `viola-channel`'s own normal graph tokio-ban-checked by another sync root or form, never drop it from coverage
    ↓
 Optional plugin install — MCP-only plugin for unwrapped drivers, absolute-path command, never two hook processes per event, MCP-server precedence measured as ledger row
 

@@ -14,7 +14,7 @@ The stdio MCP server `viola mcp` (rmcp 3.4.1, features exactly `server` + `trans
 Claude Code driver sessions (the MCP client) via the embedded `.mcp.json` whose command is the absolute pinned `viola` path.
 
 ### Dependencies
-Tokio allowed (listed in the cargo-deny tokio wrappers list).
+Tokio allowed: `viola-mcp` is never a root of the `deny-sync.toml` tokio ban, which runs only for the crates in `scripts/sync-crates.txt`.
 
 ## Internal conventions
 - Tool inputs: `send {target, text}`, `wait {target, after?, timeout_ms?}`, `last {target}`, `answer {target, dialog_id, response}`, `list {}`. `release`, `pause`, `link`, `unlink` are CLI-only (an affordance, not enforcement).

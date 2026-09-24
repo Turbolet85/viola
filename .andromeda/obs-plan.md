@@ -1214,7 +1214,7 @@ _[Standard: included. The Compliance Trace Fields subsection is omitted: securit
 
 _[ALL tiers]_
 
-**Platform:** GitHub Actions, single workflow `.github/workflows/ci.yml`, native matrix `windows-2025` / `macos-latest` / `ubuntu-latest` (arch CI/CD Platform). No OTLP collector job.
+**Platform:** GitHub Actions; the single push/PR workflow `.github/workflows/ci.yml` (beside the scheduled `nightly.yml`, which runs only the weekly `cargo deny check advisories`), native matrix `windows-2025` / `macos-latest` / `ubuntu-latest` (arch CI/CD Platform). No OTLP collector job.
 
 **Telemetry artifact handling:**
 

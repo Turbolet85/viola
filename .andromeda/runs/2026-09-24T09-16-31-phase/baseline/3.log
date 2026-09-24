@@ -1,0 +1,2651 @@
+2026-09-24 09:31:41 [WARN] unable to find a config path, falling back to default config
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\allocator-api2-0.2.21\Cargo.toml:27:12
+   │
+27 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ allocator-api2 v0.2.21
+     └── hashbrown v0.17.1
+         ├── indexmap v2.14.2
+         │   └── serde_json v1.0.151
+         │       ├── jsonschema v0.57.0
+         │       │   └── (dev) viola v0.1.0
+         │       ├── jsonschema-value v0.57.0
+         │       │   └── jsonschema v0.57.0 (*)
+         │       ├── referencing v0.57.0
+         │       │   └── jsonschema v0.57.0 (*)
+         │       ├── tracing-subscriber v0.3.23
+         │       │   └── viola v0.1.0 (*)
+         │       └── (dev) viola v0.1.0 (*)
+         └── referencing v0.57.0 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\android_system_properties-0.1.6\Cargo.toml:28:12
+   │
+28 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ android_system_properties v0.1.6
+     └── iana-time-zone v0.1.65
+         └── chrono v0.4.45
+             └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\anstream-1.0.0\Cargo.toml:42:12
+   │
+42 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ anstream v1.0.0
+     └── clap_builder v4.6.7
+         └── clap v4.6.7
+             └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\anstyle-1.0.14\Cargo.toml:41:12
+   │
+41 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ anstyle v1.0.14
+     ├── anstream v1.0.0
+     │   └── clap_builder v4.6.7
+     │       └── clap v4.6.7
+     │           └── viola v0.1.0
+     ├── anstyle-wincon v3.0.11
+     │   └── anstream v1.0.0 (*)
+     └── clap_builder v4.6.7 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\anstyle-parse-1.0.0\Cargo.toml:41:12
+   │
+41 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ anstyle-parse v1.0.0
+     └── anstream v1.0.0
+         └── clap_builder v4.6.7
+             └── clap v4.6.7
+                 └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\anstyle-query-1.1.5\Cargo.toml:42:12
+   │
+42 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ anstyle-query v1.1.5
+     └── anstream v1.0.0
+         └── clap_builder v4.6.7
+             └── clap v4.6.7
+                 └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\anstyle-wincon-3.0.11\Cargo.toml:41:12
+   │
+41 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ anstyle-wincon v3.0.11
+     └── anstream v1.0.0
+         └── clap_builder v4.6.7
+             └── clap v4.6.7
+                 └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\anyhow-1.0.104\Cargo.toml:35:12
+   │
+35 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ anyhow v1.0.104
+     └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\autocfg-1.5.1\Cargo.toml:33:12
+   │
+33 │ license = "Apache-2.0 OR MIT"
+   │            ━━━━━━━━━━────━━━
+   │            │             │
+   │            │             rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ autocfg v1.5.1
+     └── (build) num-traits v0.2.19
+         ├── chrono v0.4.45
+         │   └── viola v0.1.0
+         ├── jsonschema v0.57.0
+         │   └── (dev) viola v0.1.0 (*)
+         ├── jsonschema-value v0.57.0
+         │   └── jsonschema v0.57.0 (*)
+         ├── num v0.4.3
+         │   └── fraction v0.17.0
+         │       ├── jsonschema v0.57.0 (*)
+         │       └── jsonschema-value v0.57.0 (*)
+         ├── num-bigint v0.4.8
+         │   ├── fraction v0.17.0 (*)
+         │   ├── num v0.4.3 (*)
+         │   └── num-rational v0.4.2
+         │       └── num v0.4.3 (*)
+         ├── num-complex v0.4.6
+         │   └── num v0.4.3 (*)
+         ├── num-integer v0.1.47
+         │   ├── num v0.4.3 (*)
+         │   ├── num-bigint v0.4.8 (*)
+         │   ├── num-iter v0.1.46
+         │   │   └── num v0.4.3 (*)
+         │   └── num-rational v0.4.2 (*)
+         ├── num-iter v0.1.46 (*)
+         ├── num-rational v0.4.2 (*)
+         └── proptest v1.11.0
+             └── (dev) viola-core v0.1.0
+                 └── viola v0.1.0 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\bumpalo-3.20.3\Cargo.toml:44:12
+   │
+44 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ bumpalo v3.20.3
+     └── wasm-bindgen-macro-support v0.2.128
+         └── wasm-bindgen-macro v0.2.128
+             └── wasm-bindgen v0.2.128
+                 ├── getrandom v0.3.4
+                 │   ├── ahash v0.8.12
+                 │   │   ├── jsonschema v0.57.0
+                 │   │   │   └── (dev) viola v0.1.0
+                 │   │   ├── jsonschema-value v0.57.0
+                 │   │   │   └── jsonschema v0.57.0 (*)
+                 │   │   └── referencing v0.57.0
+                 │   │       └── jsonschema v0.57.0 (*)
+                 │   ├── jsonschema v0.57.0 (*)
+                 │   ├── jsonschema-value v0.57.0 (*)
+                 │   ├── rand_core v0.9.5
+                 │   │   ├── rand v0.9.5
+                 │   │   │   └── proptest v1.11.0
+                 │   │   │       └── (dev) viola-core v0.1.0
+                 │   │   │           └── viola v0.1.0 (*)
+                 │   │   ├── rand_chacha v0.9.0
+                 │   │   │   └── proptest v1.11.0 (*)
+                 │   │   └── rand_xorshift v0.4.0
+                 │   │       └── proptest v1.11.0 (*)
+                 │   └── referencing v0.57.0 (*)
+                 ├── iana-time-zone v0.1.65
+                 │   └── chrono v0.4.45
+                 │       └── viola v0.1.0 (*)
+                 └── js-sys v0.3.105
+                     ├── getrandom v0.3.4 (*)
+                     └── iana-time-zone v0.1.65 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cc-1.4.7\Cargo.toml:38:12
+   │
+38 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ cc v1.4.7
+     └── (build) iana-time-zone-haiku v0.1.2
+         └── iana-time-zone v0.1.65
+             └── chrono v0.4.45
+                 └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cfg-if-1.0.5\Cargo.toml:30:12
+   │
+30 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ cfg-if v1.0.5
+     ├── ahash v0.8.12
+     │   ├── jsonschema v0.57.0
+     │   │   └── (dev) viola v0.1.0
+     │   ├── jsonschema-value v0.57.0
+     │   │   └── jsonschema v0.57.0 (*)
+     │   └── referencing v0.57.0
+     │       └── jsonschema v0.57.0 (*)
+     ├── getrandom v0.3.4
+     │   ├── ahash v0.8.12 (*)
+     │   ├── jsonschema v0.57.0 (*)
+     │   ├── jsonschema-value v0.57.0 (*)
+     │   ├── rand_core v0.9.5
+     │   │   ├── rand v0.9.5
+     │   │   │   └── proptest v1.11.0
+     │   │   │       └── (dev) viola-core v0.1.0
+     │   │   │           └── viola v0.1.0 (*)
+     │   │   ├── rand_chacha v0.9.0
+     │   │   │   └── proptest v1.11.0 (*)
+     │   │   └── rand_xorshift v0.4.0
+     │   │       └── proptest v1.11.0 (*)
+     │   └── referencing v0.57.0 (*)
+     ├── getrandom v0.4.3
+     │   └── tempfile v3.27.0
+     │       └── (dev) viola v0.1.0 (*)
+     ├── js-sys v0.3.105
+     │   ├── getrandom v0.3.4 (*)
+     │   └── iana-time-zone v0.1.65
+     │       └── chrono v0.4.45
+     │           └── viola v0.1.0 (*)
+     ├── nutype_macros v0.8.0
+     │   └── nutype v0.8.0
+     │       └── viola-core v0.1.0 (*)
+     ├── parking_lot_core v0.9.12
+     │   └── parking_lot v0.12.5
+     │       └── referencing v0.57.0 (*)
+     ├── rstest_macros v0.27.0
+     │   └── rstest v0.27.0
+     │       └── (dev) viola v0.1.0 (*)
+     ├── thread_local v1.1.10
+     │   └── tracing-subscriber v0.3.23
+     │       └── viola v0.1.0 (*)
+     └── wasm-bindgen v0.2.128
+         ├── getrandom v0.3.4 (*)
+         ├── iana-time-zone v0.1.65 (*)
+         └── js-sys v0.3.105 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\chrono-0.4.45\Cargo.toml:39:12
+   │
+39 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ chrono v0.4.45
+     └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\clap-4.6.7\Cargo.toml:42:12
+   │
+42 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ clap v4.6.7
+     └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\clap_builder-4.6.7\Cargo.toml:42:12
+   │
+42 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ clap_builder v4.6.7
+     └── clap v4.6.7
+         └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\clap_derive-4.6.7\Cargo.toml:45:12
+   │
+45 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ clap_derive v4.6.7
+     └── clap v4.6.7
+         └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\clap_lex-1.1.1\Cargo.toml:42:12
+   │
+42 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ clap_lex v1.1.1
+     └── clap_builder v4.6.7
+         └── clap v4.6.7
+             └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\colorchoice-1.0.5\Cargo.toml:42:12
+   │
+42 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ colorchoice v1.0.5
+     └── anstream v1.0.0
+         └── clap_builder v4.6.7
+             └── clap v4.6.7
+                 └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\convert_case-0.11.0\Cargo.toml:31:12
+   │
+31 │ license = "MIT"
+   │            ━━━
+   │            │
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ convert_case v0.11.0
+     └── kinded_macros v0.5.1
+         └── kinded v0.5.1
+             └── nutype_macros v0.8.0
+                 └── nutype v0.8.0
+                     └── viola-core v0.1.0
+                         └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\core-foundation-sys-0.8.7\Cargo.toml:25:12
+   │
+25 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ core-foundation-sys v0.8.7
+     └── iana-time-zone v0.1.65
+         └── chrono v0.4.45
+             └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\equivalent-1.0.2\Cargo.toml:32:12
+   │
+32 │ license = "Apache-2.0 OR MIT"
+   │            ━━━━━━━━━━────━━━
+   │            │             │
+   │            │             rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ equivalent v1.0.2
+     ├── hashbrown v0.17.1
+     │   ├── indexmap v2.14.2
+     │   │   └── serde_json v1.0.151
+     │   │       ├── jsonschema v0.57.0
+     │   │       │   └── (dev) viola v0.1.0
+     │   │       ├── jsonschema-value v0.57.0
+     │   │       │   └── jsonschema v0.57.0 (*)
+     │   │       ├── referencing v0.57.0
+     │   │       │   └── jsonschema v0.57.0 (*)
+     │   │       ├── tracing-subscriber v0.3.23
+     │   │       │   └── viola v0.1.0 (*)
+     │   │       └── (dev) viola v0.1.0 (*)
+     │   └── referencing v0.57.0 (*)
+     └── indexmap v2.14.2 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\find-msvc-tools-0.1.13\Cargo.toml:28:12
+   │
+28 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ find-msvc-tools v0.1.13
+     └── cc v1.4.7
+         └── (build) iana-time-zone-haiku v0.1.2
+             └── iana-time-zone v0.1.65
+                 └── chrono v0.4.45
+                     └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\foldhash-0.2.0\Cargo.toml:40:12
+   │
+40 │ license = "Zlib"
+   │            ━━━━
+   │            │
+   │            rejected: license is not explicitly allowed
+   │
+   ├ Zlib - zlib License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ foldhash v0.2.0
+     └── hashbrown v0.17.1
+         ├── indexmap v2.14.2
+         │   └── serde_json v1.0.151
+         │       ├── jsonschema v0.57.0
+         │       │   └── (dev) viola v0.1.0
+         │       ├── jsonschema-value v0.57.0
+         │       │   └── jsonschema v0.57.0 (*)
+         │       ├── referencing v0.57.0
+         │       │   └── jsonschema v0.57.0 (*)
+         │       ├── tracing-subscriber v0.3.23
+         │       │   └── viola v0.1.0 (*)
+         │       └── (dev) viola v0.1.0 (*)
+         └── referencing v0.57.0 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\futures-core-0.3.34\Cargo.toml:28:12
+   │
+28 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ futures-core v0.3.34
+     └── futures-util v0.3.34
+         └── js-sys v0.3.105
+             ├── getrandom v0.3.4
+             │   ├── ahash v0.8.12
+             │   │   ├── jsonschema v0.57.0
+             │   │   │   └── (dev) viola v0.1.0
+             │   │   ├── jsonschema-value v0.57.0
+             │   │   │   └── jsonschema v0.57.0 (*)
+             │   │   └── referencing v0.57.0
+             │   │       └── jsonschema v0.57.0 (*)
+             │   ├── jsonschema v0.57.0 (*)
+             │   ├── jsonschema-value v0.57.0 (*)
+             │   ├── rand_core v0.9.5
+             │   │   ├── rand v0.9.5
+             │   │   │   └── proptest v1.11.0
+             │   │   │       └── (dev) viola-core v0.1.0
+             │   │   │           └── viola v0.1.0 (*)
+             │   │   ├── rand_chacha v0.9.0
+             │   │   │   └── proptest v1.11.0 (*)
+             │   │   └── rand_xorshift v0.4.0
+             │   │       └── proptest v1.11.0 (*)
+             │   └── referencing v0.57.0 (*)
+             └── iana-time-zone v0.1.65
+                 └── chrono v0.4.45
+                     └── viola v0.1.0 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\futures-task-0.3.34\Cargo.toml:28:12
+   │
+28 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ futures-task v0.3.34
+     └── futures-util v0.3.34
+         └── js-sys v0.3.105
+             ├── getrandom v0.3.4
+             │   ├── ahash v0.8.12
+             │   │   ├── jsonschema v0.57.0
+             │   │   │   └── (dev) viola v0.1.0
+             │   │   ├── jsonschema-value v0.57.0
+             │   │   │   └── jsonschema v0.57.0 (*)
+             │   │   └── referencing v0.57.0
+             │   │       └── jsonschema v0.57.0 (*)
+             │   ├── jsonschema v0.57.0 (*)
+             │   ├── jsonschema-value v0.57.0 (*)
+             │   ├── rand_core v0.9.5
+             │   │   ├── rand v0.9.5
+             │   │   │   └── proptest v1.11.0
+             │   │   │       └── (dev) viola-core v0.1.0
+             │   │   │           └── viola v0.1.0 (*)
+             │   │   ├── rand_chacha v0.9.0
+             │   │   │   └── proptest v1.11.0 (*)
+             │   │   └── rand_xorshift v0.4.0
+             │   │       └── proptest v1.11.0 (*)
+             │   └── referencing v0.57.0 (*)
+             └── iana-time-zone v0.1.65
+                 └── chrono v0.4.45
+                     └── viola v0.1.0 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\futures-util-0.3.34\Cargo.toml:28:12
+   │
+28 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ futures-util v0.3.34
+     └── js-sys v0.3.105
+         ├── getrandom v0.3.4
+         │   ├── ahash v0.8.12
+         │   │   ├── jsonschema v0.57.0
+         │   │   │   └── (dev) viola v0.1.0
+         │   │   ├── jsonschema-value v0.57.0
+         │   │   │   └── jsonschema v0.57.0 (*)
+         │   │   └── referencing v0.57.0
+         │   │       └── jsonschema v0.57.0 (*)
+         │   ├── jsonschema v0.57.0 (*)
+         │   ├── jsonschema-value v0.57.0 (*)
+         │   ├── rand_core v0.9.5
+         │   │   ├── rand v0.9.5
+         │   │   │   └── proptest v1.11.0
+         │   │   │       └── (dev) viola-core v0.1.0
+         │   │   │           └── viola v0.1.0 (*)
+         │   │   ├── rand_chacha v0.9.0
+         │   │   │   └── proptest v1.11.0 (*)
+         │   │   └── rand_xorshift v0.4.0
+         │   │       └── proptest v1.11.0 (*)
+         │   └── referencing v0.57.0 (*)
+         └── iana-time-zone v0.1.65
+             └── chrono v0.4.45
+                 └── viola v0.1.0 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\hashbrown-0.17.1\Cargo.toml:39:12
+   │
+39 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ hashbrown v0.17.1
+     ├── indexmap v2.14.2
+     │   └── serde_json v1.0.151
+     │       ├── jsonschema v0.57.0
+     │       │   └── (dev) viola v0.1.0
+     │       ├── jsonschema-value v0.57.0
+     │       │   └── jsonschema v0.57.0 (*)
+     │       ├── referencing v0.57.0
+     │       │   └── jsonschema v0.57.0 (*)
+     │       ├── tracing-subscriber v0.3.23
+     │       │   └── viola v0.1.0 (*)
+     │       └── (dev) viola v0.1.0 (*)
+     └── referencing v0.57.0 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\heck-0.5.0\Cargo.toml:33:12
+   │
+33 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ heck v0.5.0
+     ├── clap_derive v4.6.7
+     │   └── clap v4.6.7
+     │       └── viola v0.1.0
+     └── strum_macros v0.28.0
+         └── strum v0.28.0
+             └── jsonschema v0.57.0
+                 └── (dev) viola v0.1.0 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\iana-time-zone-0.1.65\Cargo.toml:39:12
+   │
+39 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ iana-time-zone v0.1.65
+     └── chrono v0.4.45
+         └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\iana-time-zone-haiku-0.1.2\Cargo.toml:28:12
+   │
+28 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ iana-time-zone-haiku v0.1.2
+     └── iana-time-zone v0.1.65
+         └── chrono v0.4.45
+             └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\indexmap-2.14.2\Cargo.toml:34:12
+   │
+34 │ license = "Apache-2.0 OR MIT"
+   │            ━━━━━━━━━━────━━━
+   │            │             │
+   │            │             rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ indexmap v2.14.2
+     └── serde_json v1.0.151
+         ├── jsonschema v0.57.0
+         │   └── (dev) viola v0.1.0
+         ├── jsonschema-value v0.57.0
+         │   └── jsonschema v0.57.0 (*)
+         ├── referencing v0.57.0
+         │   └── jsonschema v0.57.0 (*)
+         ├── tracing-subscriber v0.3.23
+         │   └── viola v0.1.0 (*)
+         └── (dev) viola v0.1.0 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\is_terminal_polyfill-1.70.2\Cargo.toml:37:12
+   │
+37 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ is_terminal_polyfill v1.70.2
+     └── anstream v1.0.0
+         └── clap_builder v4.6.7
+             └── clap v4.6.7
+                 └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\itoa-1.0.18\Cargo.toml:34:12
+   │
+34 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ itoa v1.0.18
+     ├── jsonschema v0.57.0
+     │   └── (dev) viola v0.1.0
+     ├── referencing v0.57.0
+     │   └── jsonschema v0.57.0 (*)
+     └── serde_json v1.0.151
+         ├── jsonschema v0.57.0 (*)
+         ├── jsonschema-value v0.57.0
+         │   └── jsonschema v0.57.0 (*)
+         ├── referencing v0.57.0 (*)
+         ├── tracing-subscriber v0.3.23
+         │   └── viola v0.1.0 (*)
+         └── (dev) viola v0.1.0 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\js-sys-0.3.105\Cargo.toml:36:12
+   │
+36 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ js-sys v0.3.105
+     ├── getrandom v0.3.4
+     │   ├── ahash v0.8.12
+     │   │   ├── jsonschema v0.57.0
+     │   │   │   └── (dev) viola v0.1.0
+     │   │   ├── jsonschema-value v0.57.0
+     │   │   │   └── jsonschema v0.57.0 (*)
+     │   │   └── referencing v0.57.0
+     │   │       └── jsonschema v0.57.0 (*)
+     │   ├── jsonschema v0.57.0 (*)
+     │   ├── jsonschema-value v0.57.0 (*)
+     │   ├── rand_core v0.9.5
+     │   │   ├── rand v0.9.5
+     │   │   │   └── proptest v1.11.0
+     │   │   │       └── (dev) viola-core v0.1.0
+     │   │   │           └── viola v0.1.0 (*)
+     │   │   ├── rand_chacha v0.9.0
+     │   │   │   └── proptest v1.11.0 (*)
+     │   │   └── rand_xorshift v0.4.0
+     │   │       └── proptest v1.11.0 (*)
+     │   └── referencing v0.57.0 (*)
+     └── iana-time-zone v0.1.65
+         └── chrono v0.4.45
+             └── viola v0.1.0 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\kinded-0.5.1\Cargo.toml:37:12
+   │
+37 │ license = "MIT"
+   │            ━━━
+   │            │
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ kinded v0.5.1
+     └── nutype_macros v0.8.0
+         └── nutype v0.8.0
+             └── viola-core v0.1.0
+                 └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\kinded_macros-0.5.1\Cargo.toml:37:12
+   │
+37 │ license = "MIT"
+   │            ━━━
+   │            │
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ kinded_macros v0.5.1
+     └── kinded v0.5.1
+         └── nutype_macros v0.8.0
+             └── nutype v0.8.0
+                 └── viola-core v0.1.0
+                     └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\lazy_static-1.5.0\Cargo.toml:30:12
+   │
+30 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ lazy_static v1.5.0
+     └── sharded-slab v0.1.7
+         └── tracing-subscriber v0.3.23
+             └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\libc-0.2.189\Cargo.toml:43:12
+   │
+43 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ libc v0.2.189
+     ├── android_system_properties v0.1.6
+     │   └── iana-time-zone v0.1.65
+     │       └── chrono v0.4.45
+     │           └── viola v0.1.0
+     ├── errno v0.3.14
+     │   └── rustix v1.1.5
+     │       └── tempfile v3.27.0
+     │           └── (dev) viola v0.1.0 (*)
+     ├── getrandom v0.3.4
+     │   ├── ahash v0.8.12
+     │   │   ├── jsonschema v0.57.0
+     │   │   │   └── (dev) viola v0.1.0 (*)
+     │   │   ├── jsonschema-value v0.57.0
+     │   │   │   └── jsonschema v0.57.0 (*)
+     │   │   └── referencing v0.57.0
+     │   │       └── jsonschema v0.57.0 (*)
+     │   ├── jsonschema v0.57.0 (*)
+     │   ├── jsonschema-value v0.57.0 (*)
+     │   ├── rand_core v0.9.5
+     │   │   ├── rand v0.9.5
+     │   │   │   └── proptest v1.11.0
+     │   │   │       └── (dev) viola-core v0.1.0
+     │   │   │           └── viola v0.1.0 (*)
+     │   │   ├── rand_chacha v0.9.0
+     │   │   │   └── proptest v1.11.0 (*)
+     │   │   └── rand_xorshift v0.4.0
+     │   │       └── proptest v1.11.0 (*)
+     │   └── referencing v0.57.0 (*)
+     ├── getrandom v0.4.3
+     │   └── tempfile v3.27.0 (*)
+     ├── parking_lot_core v0.9.12
+     │   └── parking_lot v0.12.5
+     │       └── referencing v0.57.0 (*)
+     └── rustix v1.1.5 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\log-0.4.34\Cargo.toml:32:12
+   │
+32 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ log v0.4.34
+     └── iana-time-zone v0.1.65
+         └── chrono v0.4.45
+             └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\memchr-2.8.3\Cargo.toml:48:12
+   │
+48 │ license = "Unlicense OR MIT"
+   │            ━━━━━━━━━────━━━
+   │            │            │
+   │            │            rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ Unlicense - The Unlicense:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ memchr v2.8.3
+     ├── aho-corasick v1.1.5
+     │   ├── regex v1.13.1
+     │   │   ├── jsonschema v0.57.0
+     │   │   │   └── (dev) viola v0.1.0
+     │   │   └── rstest_macros v0.27.0
+     │   │       └── rstest v0.27.0
+     │   │           └── (dev) viola v0.1.0 (*)
+     │   └── regex-automata v0.4.18
+     │       ├── fancy-regex v0.19.2
+     │       │   └── jsonschema v0.57.0 (*)
+     │       └── regex v1.13.1 (*)
+     ├── regex v1.13.1 (*)
+     ├── regex-automata v0.4.18 (*)
+     └── serde_json v1.0.151
+         ├── jsonschema v0.57.0 (*)
+         ├── jsonschema-value v0.57.0
+         │   └── jsonschema v0.57.0 (*)
+         ├── referencing v0.57.0
+         │   └── jsonschema v0.57.0 (*)
+         ├── tracing-subscriber v0.3.23
+         │   └── viola v0.1.0 (*)
+         └── (dev) viola v0.1.0 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\num-traits-0.2.19\Cargo.toml:36:12
+   │
+36 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ num-traits v0.2.19
+     ├── chrono v0.4.45
+     │   └── viola v0.1.0
+     ├── jsonschema v0.57.0
+     │   └── (dev) viola v0.1.0 (*)
+     ├── jsonschema-value v0.57.0
+     │   └── jsonschema v0.57.0 (*)
+     ├── num v0.4.3
+     │   └── fraction v0.17.0
+     │       ├── jsonschema v0.57.0 (*)
+     │       └── jsonschema-value v0.57.0 (*)
+     ├── num-bigint v0.4.8
+     │   ├── fraction v0.17.0 (*)
+     │   ├── num v0.4.3 (*)
+     │   └── num-rational v0.4.2
+     │       └── num v0.4.3 (*)
+     ├── num-complex v0.4.6
+     │   └── num v0.4.3 (*)
+     ├── num-integer v0.1.47
+     │   ├── num v0.4.3 (*)
+     │   ├── num-bigint v0.4.8 (*)
+     │   ├── num-iter v0.1.46
+     │   │   └── num v0.4.3 (*)
+     │   └── num-rational v0.4.2 (*)
+     ├── num-iter v0.1.46 (*)
+     ├── num-rational v0.4.2 (*)
+     └── proptest v1.11.0
+         └── (dev) viola-core v0.1.0
+             └── viola v0.1.0 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\nutype-0.8.0\Cargo.toml:38:12
+   │
+38 │ license = "MIT"
+   │            ━━━
+   │            │
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ nutype v0.8.0
+     └── viola-core v0.1.0
+         └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\nutype_macros-0.8.0\Cargo.toml:38:12
+   │
+38 │ license = "MIT"
+   │            ━━━
+   │            │
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ nutype_macros v0.8.0
+     └── nutype v0.8.0
+         └── viola-core v0.1.0
+             └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\once_cell-1.21.4\Cargo.toml:41:12
+   │
+41 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ once_cell v1.21.4
+     ├── ahash v0.8.12
+     │   ├── jsonschema v0.57.0
+     │   │   └── (dev) viola v0.1.0
+     │   ├── jsonschema-value v0.57.0
+     │   │   └── jsonschema v0.57.0 (*)
+     │   └── referencing v0.57.0
+     │       └── jsonschema v0.57.0 (*)
+     ├── tempfile v3.27.0
+     │   └── (dev) viola v0.1.0 (*)
+     ├── tracing-core v0.1.36
+     │   ├── tracing v0.1.44
+     │   │   └── viola v0.1.0 (*)
+     │   ├── tracing-serde v0.2.0
+     │   │   └── tracing-subscriber v0.3.23
+     │   │       └── viola v0.1.0 (*)
+     │   └── tracing-subscriber v0.3.23 (*)
+     └── wasm-bindgen v0.2.128
+         ├── getrandom v0.3.4
+         │   ├── ahash v0.8.12 (*)
+         │   ├── jsonschema v0.57.0 (*)
+         │   ├── jsonschema-value v0.57.0 (*)
+         │   ├── rand_core v0.9.5
+         │   │   ├── rand v0.9.5
+         │   │   │   └── proptest v1.11.0
+         │   │   │       └── (dev) viola-core v0.1.0
+         │   │   │           └── viola v0.1.0 (*)
+         │   │   ├── rand_chacha v0.9.0
+         │   │   │   └── proptest v1.11.0 (*)
+         │   │   └── rand_xorshift v0.4.0
+         │   │       └── proptest v1.11.0 (*)
+         │   └── referencing v0.57.0 (*)
+         ├── iana-time-zone v0.1.65
+         │   └── chrono v0.4.45
+         │       └── viola v0.1.0 (*)
+         └── js-sys v0.3.105
+             ├── getrandom v0.3.4 (*)
+             └── iana-time-zone v0.1.65 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\once_cell_polyfill-1.70.2\Cargo.toml:37:12
+   │
+37 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ once_cell_polyfill v1.70.2
+     └── anstyle-wincon v3.0.11
+         └── anstream v1.0.0
+             └── clap_builder v4.6.7
+                 └── clap v4.6.7
+                     └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\pin-project-lite-0.2.17\Cargo.toml:41:12
+   │
+41 │ license = "Apache-2.0 OR MIT"
+   │            ━━━━━━━━━━────━━━
+   │            │             │
+   │            │             rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ pin-project-lite v0.2.17
+     ├── futures-util v0.3.34
+     │   └── js-sys v0.3.105
+     │       ├── getrandom v0.3.4
+     │       │   ├── ahash v0.8.12
+     │       │   │   ├── jsonschema v0.57.0
+     │       │   │   │   └── (dev) viola v0.1.0
+     │       │   │   ├── jsonschema-value v0.57.0
+     │       │   │   │   └── jsonschema v0.57.0 (*)
+     │       │   │   └── referencing v0.57.0
+     │       │   │       └── jsonschema v0.57.0 (*)
+     │       │   ├── jsonschema v0.57.0 (*)
+     │       │   ├── jsonschema-value v0.57.0 (*)
+     │       │   ├── rand_core v0.9.5
+     │       │   │   ├── rand v0.9.5
+     │       │   │   │   └── proptest v1.11.0
+     │       │   │   │       └── (dev) viola-core v0.1.0
+     │       │   │   │           └── viola v0.1.0 (*)
+     │       │   │   ├── rand_chacha v0.9.0
+     │       │   │   │   └── proptest v1.11.0 (*)
+     │       │   │   └── rand_xorshift v0.4.0
+     │       │   │       └── proptest v1.11.0 (*)
+     │       │   └── referencing v0.57.0 (*)
+     │       └── iana-time-zone v0.1.65
+     │           └── chrono v0.4.45
+     │               └── viola v0.1.0 (*)
+     └── tracing v0.1.44
+         └── viola v0.1.0 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\proc-macro2-1.0.107\Cargo.toml:35:12
+   │
+35 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ proc-macro2 v1.0.107
+     ├── clap_derive v4.6.7
+     │   └── clap v4.6.7
+     │       └── viola v0.1.0
+     ├── kinded_macros v0.5.1
+     │   └── kinded v0.5.1
+     │       └── nutype_macros v0.8.0
+     │           └── nutype v0.8.0
+     │               └── viola-core v0.1.0
+     │                   └── viola v0.1.0 (*)
+     ├── nutype_macros v0.8.0 (*)
+     ├── quote v1.0.47
+     │   ├── clap_derive v4.6.7 (*)
+     │   ├── kinded_macros v0.5.1 (*)
+     │   ├── nutype_macros v0.8.0 (*)
+     │   ├── ref-cast-impl v1.0.27
+     │   │   └── ref-cast v1.0.27
+     │   │       └── fluent-uri v0.4.1
+     │   │           └── referencing v0.57.0
+     │   │               └── jsonschema v0.57.0
+     │   │                   └── (dev) viola v0.1.0 (*)
+     │   ├── rstest_macros v0.27.0
+     │   │   └── rstest v0.27.0
+     │   │       └── (dev) viola v0.1.0 (*)
+     │   ├── serde_derive v1.0.229
+     │   │   └── serde v1.0.229
+     │   │       ├── ahash v0.8.12
+     │   │       │   ├── jsonschema v0.57.0 (*)
+     │   │       │   ├── jsonschema-value v0.57.0
+     │   │       │   │   └── jsonschema v0.57.0 (*)
+     │   │       │   └── referencing v0.57.0 (*)
+     │   │       ├── email_address v0.2.9
+     │   │       │   └── jsonschema v0.57.0 (*)
+     │   │       ├── fluent-uri v0.4.1 (*)
+     │   │       ├── jsonschema v0.57.0 (*)
+     │   │       ├── tracing-serde v0.2.0
+     │   │       │   └── tracing-subscriber v0.3.23
+     │   │       │       └── viola v0.1.0 (*)
+     │   │       └── tracing-subscriber v0.3.23 (*)
+     │   ├── strum_macros v0.28.0
+     │   │   └── strum v0.28.0
+     │   │       └── jsonschema v0.57.0 (*)
+     │   ├── syn v2.0.119
+     │   │   ├── kinded_macros v0.5.1 (*)
+     │   │   ├── nutype_macros v0.8.0 (*)
+     │   │   ├── rstest_macros v0.27.0 (*)
+     │   │   ├── strum_macros v0.28.0 (*)
+     │   │   ├── windows-implement v0.60.2
+     │   │   │   └── windows-core v0.62.2
+     │   │   │       └── iana-time-zone v0.1.65
+     │   │   │           └── chrono v0.4.45
+     │   │   │               └── viola v0.1.0 (*)
+     │   │   └── windows-interface v0.59.3
+     │   │       └── windows-core v0.62.2 (*)
+     │   ├── syn v3.0.6
+     │   │   ├── clap_derive v4.6.7 (*)
+     │   │   ├── ref-cast-impl v1.0.27 (*)
+     │   │   ├── serde_derive v1.0.229 (*)
+     │   │   └── wasm-bindgen-macro-support v0.2.128
+     │   │       └── wasm-bindgen-macro v0.2.128
+     │   │           └── wasm-bindgen v0.2.128
+     │   │               ├── getrandom v0.3.4
+     │   │               │   ├── ahash v0.8.12 (*)
+     │   │               │   ├── jsonschema v0.57.0 (*)
+     │   │               │   ├── jsonschema-value v0.57.0 (*)
+     │   │               │   ├── rand_core v0.9.5
+     │   │               │   │   ├── rand v0.9.5
+     │   │               │   │   │   └── proptest v1.11.0
+     │   │               │   │   │       └── (dev) viola-core v0.1.0 (*)
+     │   │               │   │   ├── rand_chacha v0.9.0
+     │   │               │   │   │   └── proptest v1.11.0 (*)
+     │   │               │   │   └── rand_xorshift v0.4.0
+     │   │               │   │       └── proptest v1.11.0 (*)
+     │   │               │   └── referencing v0.57.0 (*)
+     │   │               ├── iana-time-zone v0.1.65 (*)
+     │   │               └── js-sys v0.3.105
+     │   │                   ├── getrandom v0.3.4 (*)
+     │   │                   └── iana-time-zone v0.1.65 (*)
+     │   ├── wasm-bindgen-macro v0.2.128 (*)
+     │   ├── wasm-bindgen-macro-support v0.2.128 (*)
+     │   ├── windows-implement v0.60.2 (*)
+     │   └── windows-interface v0.59.3 (*)
+     ├── ref-cast-impl v1.0.27 (*)
+     ├── rstest_macros v0.27.0 (*)
+     ├── serde_derive v1.0.229 (*)
+     ├── strum_macros v0.28.0 (*)
+     ├── syn v2.0.119 (*)
+     ├── syn v3.0.6 (*)
+     ├── wasm-bindgen-macro-support v0.2.128 (*)
+     ├── windows-implement v0.60.2 (*)
+     └── windows-interface v0.59.3 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\quote-1.0.47\Cargo.toml:32:12
+   │
+32 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ quote v1.0.47
+     ├── clap_derive v4.6.7
+     │   └── clap v4.6.7
+     │       └── viola v0.1.0
+     ├── kinded_macros v0.5.1
+     │   └── kinded v0.5.1
+     │       └── nutype_macros v0.8.0
+     │           └── nutype v0.8.0
+     │               └── viola-core v0.1.0
+     │                   └── viola v0.1.0 (*)
+     ├── nutype_macros v0.8.0 (*)
+     ├── ref-cast-impl v1.0.27
+     │   └── ref-cast v1.0.27
+     │       └── fluent-uri v0.4.1
+     │           └── referencing v0.57.0
+     │               └── jsonschema v0.57.0
+     │                   └── (dev) viola v0.1.0 (*)
+     ├── rstest_macros v0.27.0
+     │   └── rstest v0.27.0
+     │       └── (dev) viola v0.1.0 (*)
+     ├── serde_derive v1.0.229
+     │   └── serde v1.0.229
+     │       ├── ahash v0.8.12
+     │       │   ├── jsonschema v0.57.0 (*)
+     │       │   ├── jsonschema-value v0.57.0
+     │       │   │   └── jsonschema v0.57.0 (*)
+     │       │   └── referencing v0.57.0 (*)
+     │       ├── email_address v0.2.9
+     │       │   └── jsonschema v0.57.0 (*)
+     │       ├── fluent-uri v0.4.1 (*)
+     │       ├── jsonschema v0.57.0 (*)
+     │       ├── tracing-serde v0.2.0
+     │       │   └── tracing-subscriber v0.3.23
+     │       │       └── viola v0.1.0 (*)
+     │       └── tracing-subscriber v0.3.23 (*)
+     ├── strum_macros v0.28.0
+     │   └── strum v0.28.0
+     │       └── jsonschema v0.57.0 (*)
+     ├── syn v2.0.119
+     │   ├── kinded_macros v0.5.1 (*)
+     │   ├── nutype_macros v0.8.0 (*)
+     │   ├── rstest_macros v0.27.0 (*)
+     │   ├── strum_macros v0.28.0 (*)
+     │   ├── windows-implement v0.60.2
+     │   │   └── windows-core v0.62.2
+     │   │       └── iana-time-zone v0.1.65
+     │   │           └── chrono v0.4.45
+     │   │               └── viola v0.1.0 (*)
+     │   └── windows-interface v0.59.3
+     │       └── windows-core v0.62.2 (*)
+     ├── syn v3.0.6
+     │   ├── clap_derive v4.6.7 (*)
+     │   ├── ref-cast-impl v1.0.27 (*)
+     │   ├── serde_derive v1.0.229 (*)
+     │   └── wasm-bindgen-macro-support v0.2.128
+     │       └── wasm-bindgen-macro v0.2.128
+     │           └── wasm-bindgen v0.2.128
+     │               ├── getrandom v0.3.4
+     │               │   ├── ahash v0.8.12 (*)
+     │               │   ├── jsonschema v0.57.0 (*)
+     │               │   ├── jsonschema-value v0.57.0 (*)
+     │               │   ├── rand_core v0.9.5
+     │               │   │   ├── rand v0.9.5
+     │               │   │   │   └── proptest v1.11.0
+     │               │   │   │       └── (dev) viola-core v0.1.0 (*)
+     │               │   │   ├── rand_chacha v0.9.0
+     │               │   │   │   └── proptest v1.11.0 (*)
+     │               │   │   └── rand_xorshift v0.4.0
+     │               │   │       └── proptest v1.11.0 (*)
+     │               │   └── referencing v0.57.0 (*)
+     │               ├── iana-time-zone v0.1.65 (*)
+     │               └── js-sys v0.3.105
+     │                   ├── getrandom v0.3.4 (*)
+     │                   └── iana-time-zone v0.1.65 (*)
+     ├── wasm-bindgen-macro v0.2.128 (*)
+     ├── wasm-bindgen-macro-support v0.2.128 (*)
+     ├── windows-implement v0.60.2 (*)
+     └── windows-interface v0.59.3 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\rustc_version-0.4.1\Cargo.toml:29:12
+   │
+29 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ rustc_version v0.4.1
+     ├── (build) nutype_macros v0.8.0
+     │   └── nutype v0.8.0
+     │       └── viola-core v0.1.0
+     │           └── viola v0.1.0
+     └── (build) rstest_macros v0.27.0
+         └── rstest v0.27.0
+             └── (dev) viola v0.1.0 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\rustversion-1.0.23\Cargo.toml:32:12
+   │
+32 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ rustversion v1.0.23
+     └── (build) wasm-bindgen v0.2.128
+         ├── getrandom v0.3.4
+         │   ├── ahash v0.8.12
+         │   │   ├── jsonschema v0.57.0
+         │   │   │   └── (dev) viola v0.1.0
+         │   │   ├── jsonschema-value v0.57.0
+         │   │   │   └── jsonschema v0.57.0 (*)
+         │   │   └── referencing v0.57.0
+         │   │       └── jsonschema v0.57.0 (*)
+         │   ├── jsonschema v0.57.0 (*)
+         │   ├── jsonschema-value v0.57.0 (*)
+         │   ├── rand_core v0.9.5
+         │   │   ├── rand v0.9.5
+         │   │   │   └── proptest v1.11.0
+         │   │   │       └── (dev) viola-core v0.1.0
+         │   │   │           └── viola v0.1.0 (*)
+         │   │   ├── rand_chacha v0.9.0
+         │   │   │   └── proptest v1.11.0 (*)
+         │   │   └── rand_xorshift v0.4.0
+         │   │       └── proptest v1.11.0 (*)
+         │   └── referencing v0.57.0 (*)
+         ├── iana-time-zone v0.1.65
+         │   └── chrono v0.4.45
+         │       └── viola v0.1.0 (*)
+         └── js-sys v0.3.105
+             ├── getrandom v0.3.4 (*)
+             └── iana-time-zone v0.1.65 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\semver-1.0.28\Cargo.toml:33:12
+   │
+33 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ semver v1.0.28
+     └── rustc_version v0.4.1
+         ├── (build) nutype_macros v0.8.0
+         │   └── nutype v0.8.0
+         │       └── viola-core v0.1.0
+         │           └── viola v0.1.0
+         └── (build) rstest_macros v0.27.0
+             └── rstest v0.27.0
+                 └── (dev) viola v0.1.0 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.229\Cargo.toml:41:12
+   │
+41 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ serde v1.0.229
+     ├── ahash v0.8.12
+     │   ├── jsonschema v0.57.0
+     │   │   └── (dev) viola v0.1.0
+     │   ├── jsonschema-value v0.57.0
+     │   │   └── jsonschema v0.57.0 (*)
+     │   └── referencing v0.57.0
+     │       └── jsonschema v0.57.0 (*)
+     ├── email_address v0.2.9
+     │   └── jsonschema v0.57.0 (*)
+     ├── fluent-uri v0.4.1
+     │   └── referencing v0.57.0 (*)
+     ├── jsonschema v0.57.0 (*)
+     ├── tracing-serde v0.2.0
+     │   └── tracing-subscriber v0.3.23
+     │       └── viola v0.1.0 (*)
+     └── tracing-subscriber v0.3.23 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde_core-1.0.229\Cargo.toml:41:12
+   │
+41 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ serde_core v1.0.229
+     ├── serde v1.0.229
+     │   ├── ahash v0.8.12
+     │   │   ├── jsonschema v0.57.0
+     │   │   │   └── (dev) viola v0.1.0
+     │   │   ├── jsonschema-value v0.57.0
+     │   │   │   └── jsonschema v0.57.0 (*)
+     │   │   └── referencing v0.57.0
+     │   │       └── jsonschema v0.57.0 (*)
+     │   ├── email_address v0.2.9
+     │   │   └── jsonschema v0.57.0 (*)
+     │   ├── fluent-uri v0.4.1
+     │   │   └── referencing v0.57.0 (*)
+     │   ├── jsonschema v0.57.0 (*)
+     │   ├── tracing-serde v0.2.0
+     │   │   └── tracing-subscriber v0.3.23
+     │   │       └── viola v0.1.0 (*)
+     │   └── tracing-subscriber v0.3.23 (*)
+     └── serde_json v1.0.151
+         ├── jsonschema v0.57.0 (*)
+         ├── jsonschema-value v0.57.0 (*)
+         ├── referencing v0.57.0 (*)
+         ├── tracing-subscriber v0.3.23 (*)
+         └── (dev) viola v0.1.0 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde_derive-1.0.229\Cargo.toml:42:12
+   │
+42 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ serde_derive v1.0.229
+     └── serde v1.0.229
+         ├── ahash v0.8.12
+         │   ├── jsonschema v0.57.0
+         │   │   └── (dev) viola v0.1.0
+         │   ├── jsonschema-value v0.57.0
+         │   │   └── jsonschema v0.57.0 (*)
+         │   └── referencing v0.57.0
+         │       └── jsonschema v0.57.0 (*)
+         ├── email_address v0.2.9
+         │   └── jsonschema v0.57.0 (*)
+         ├── fluent-uri v0.4.1
+         │   └── referencing v0.57.0 (*)
+         ├── jsonschema v0.57.0 (*)
+         ├── tracing-serde v0.2.0
+         │   └── tracing-subscriber v0.3.23
+         │       └── viola v0.1.0 (*)
+         └── tracing-subscriber v0.3.23 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde_json-1.0.151\Cargo.toml:40:12
+   │
+40 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ serde_json v1.0.151
+     ├── jsonschema v0.57.0
+     │   └── (dev) viola v0.1.0
+     ├── jsonschema-value v0.57.0
+     │   └── jsonschema v0.57.0 (*)
+     ├── referencing v0.57.0
+     │   └── jsonschema v0.57.0 (*)
+     ├── tracing-subscriber v0.3.23
+     │   └── viola v0.1.0 (*)
+     └── (dev) viola v0.1.0 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\sharded-slab-0.1.7\Cargo.toml:35:12
+   │
+35 │ license = "MIT"
+   │            ━━━
+   │            │
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ sharded-slab v0.1.7
+     └── tracing-subscriber v0.3.23
+         └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\shlex-2.0.1\Cargo.toml:37:12
+   │
+37 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ shlex v2.0.1
+     └── cc v1.4.7
+         └── (build) iana-time-zone-haiku v0.1.2
+             └── iana-time-zone v0.1.65
+                 └── chrono v0.4.45
+                     └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\slab-0.4.12\Cargo.toml:37:12
+   │
+37 │ license = "MIT"
+   │            ━━━
+   │            │
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ slab v0.4.12
+     └── futures-util v0.3.34
+         └── js-sys v0.3.105
+             ├── getrandom v0.3.4
+             │   ├── ahash v0.8.12
+             │   │   ├── jsonschema v0.57.0
+             │   │   │   └── (dev) viola v0.1.0
+             │   │   ├── jsonschema-value v0.57.0
+             │   │   │   └── jsonschema v0.57.0 (*)
+             │   │   └── referencing v0.57.0
+             │   │       └── jsonschema v0.57.0 (*)
+             │   ├── jsonschema v0.57.0 (*)
+             │   ├── jsonschema-value v0.57.0 (*)
+             │   ├── rand_core v0.9.5
+             │   │   ├── rand v0.9.5
+             │   │   │   └── proptest v1.11.0
+             │   │   │       └── (dev) viola-core v0.1.0
+             │   │   │           └── viola v0.1.0 (*)
+             │   │   ├── rand_chacha v0.9.0
+             │   │   │   └── proptest v1.11.0 (*)
+             │   │   └── rand_xorshift v0.4.0
+             │   │       └── proptest v1.11.0 (*)
+             │   └── referencing v0.57.0 (*)
+             └── iana-time-zone v0.1.65
+                 └── chrono v0.4.45
+                     └── viola v0.1.0 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\strsim-0.11.1\Cargo.toml:39:12
+   │
+39 │ license = "MIT"
+   │            ━━━
+   │            │
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ strsim v0.11.1
+     └── clap_builder v4.6.7
+         └── clap v4.6.7
+             └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\syn-2.0.119\Cargo.toml:44:12
+   │
+44 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ syn v2.0.119
+     ├── kinded_macros v0.5.1
+     │   └── kinded v0.5.1
+     │       └── nutype_macros v0.8.0
+     │           └── nutype v0.8.0
+     │               └── viola-core v0.1.0
+     │                   └── viola v0.1.0
+     ├── nutype_macros v0.8.0 (*)
+     ├── rstest_macros v0.27.0
+     │   └── rstest v0.27.0
+     │       └── (dev) viola v0.1.0 (*)
+     ├── strum_macros v0.28.0
+     │   └── strum v0.28.0
+     │       └── jsonschema v0.57.0
+     │           └── (dev) viola v0.1.0 (*)
+     ├── windows-implement v0.60.2
+     │   └── windows-core v0.62.2
+     │       └── iana-time-zone v0.1.65
+     │           └── chrono v0.4.45
+     │               └── viola v0.1.0 (*)
+     └── windows-interface v0.59.3
+         └── windows-core v0.62.2 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\syn-3.0.6\Cargo.toml:44:12
+   │
+44 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ syn v3.0.6
+     ├── clap_derive v4.6.7
+     │   └── clap v4.6.7
+     │       └── viola v0.1.0
+     ├── ref-cast-impl v1.0.27
+     │   └── ref-cast v1.0.27
+     │       └── fluent-uri v0.4.1
+     │           └── referencing v0.57.0
+     │               └── jsonschema v0.57.0
+     │                   └── (dev) viola v0.1.0 (*)
+     ├── serde_derive v1.0.229
+     │   └── serde v1.0.229
+     │       ├── ahash v0.8.12
+     │       │   ├── jsonschema v0.57.0 (*)
+     │       │   ├── jsonschema-value v0.57.0
+     │       │   │   └── jsonschema v0.57.0 (*)
+     │       │   └── referencing v0.57.0 (*)
+     │       ├── email_address v0.2.9
+     │       │   └── jsonschema v0.57.0 (*)
+     │       ├── fluent-uri v0.4.1 (*)
+     │       ├── jsonschema v0.57.0 (*)
+     │       ├── tracing-serde v0.2.0
+     │       │   └── tracing-subscriber v0.3.23
+     │       │       └── viola v0.1.0 (*)
+     │       └── tracing-subscriber v0.3.23 (*)
+     └── wasm-bindgen-macro-support v0.2.128
+         └── wasm-bindgen-macro v0.2.128
+             └── wasm-bindgen v0.2.128
+                 ├── getrandom v0.3.4
+                 │   ├── ahash v0.8.12 (*)
+                 │   ├── jsonschema v0.57.0 (*)
+                 │   ├── jsonschema-value v0.57.0 (*)
+                 │   ├── rand_core v0.9.5
+                 │   │   ├── rand v0.9.5
+                 │   │   │   └── proptest v1.11.0
+                 │   │   │       └── (dev) viola-core v0.1.0
+                 │   │   │           └── viola v0.1.0 (*)
+                 │   │   ├── rand_chacha v0.9.0
+                 │   │   │   └── proptest v1.11.0 (*)
+                 │   │   └── rand_xorshift v0.4.0
+                 │   │       └── proptest v1.11.0 (*)
+                 │   └── referencing v0.57.0 (*)
+                 ├── iana-time-zone v0.1.65
+                 │   └── chrono v0.4.45
+                 │       └── viola v0.1.0 (*)
+                 └── js-sys v0.3.105
+                     ├── getrandom v0.3.4 (*)
+                     └── iana-time-zone v0.1.65 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\thread_local-1.1.10\Cargo.toml:32:12
+   │
+32 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ thread_local v1.1.10
+     └── tracing-subscriber v0.3.23
+         └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tracing-0.1.44\Cargo.toml:44:12
+   │
+44 │ license = "MIT"
+   │            ━━━
+   │            │
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ tracing v0.1.44
+     └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tracing-core-0.1.36\Cargo.toml:39:12
+   │
+39 │ license = "MIT"
+   │            ━━━
+   │            │
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ tracing-core v0.1.36
+     ├── tracing v0.1.44
+     │   └── viola v0.1.0
+     ├── tracing-serde v0.2.0
+     │   └── tracing-subscriber v0.3.23
+     │       └── viola v0.1.0 (*)
+     └── tracing-subscriber v0.3.23 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tracing-serde-0.2.0\Cargo.toml:39:12
+   │
+39 │ license = "MIT"
+   │            ━━━
+   │            │
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ tracing-serde v0.2.0
+     └── tracing-subscriber v0.3.23
+         └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tracing-subscriber-0.3.23\Cargo.toml:44:12
+   │
+44 │ license = "MIT"
+   │            ━━━
+   │            │
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ tracing-subscriber v0.3.23
+     └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\unicode-ident-1.0.26\Cargo.toml:36:13
+   │
+36 │ license = "(MIT OR Apache-2.0) AND Unicode-3.0"
+   │            ─━━━────━━━━━━━━━━──────━━━━━━━━━━━
+   │             │      │               │
+   │             │      │               rejected: license is not explicitly allowed
+   │             │      rejected: license is not explicitly allowed
+   │             rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Unicode-3.0 - Unicode License v3:
+   ├   - OSI approved
+   ├ unicode-ident v1.0.26
+     ├── proc-macro2 v1.0.107
+     │   ├── clap_derive v4.6.7
+     │   │   └── clap v4.6.7
+     │   │       └── viola v0.1.0
+     │   ├── kinded_macros v0.5.1
+     │   │   └── kinded v0.5.1
+     │   │       └── nutype_macros v0.8.0
+     │   │           └── nutype v0.8.0
+     │   │               └── viola-core v0.1.0
+     │   │                   └── viola v0.1.0 (*)
+     │   ├── nutype_macros v0.8.0 (*)
+     │   ├── quote v1.0.47
+     │   │   ├── clap_derive v4.6.7 (*)
+     │   │   ├── kinded_macros v0.5.1 (*)
+     │   │   ├── nutype_macros v0.8.0 (*)
+     │   │   ├── ref-cast-impl v1.0.27
+     │   │   │   └── ref-cast v1.0.27
+     │   │   │       └── fluent-uri v0.4.1
+     │   │   │           └── referencing v0.57.0
+     │   │   │               └── jsonschema v0.57.0
+     │   │   │                   └── (dev) viola v0.1.0 (*)
+     │   │   ├── rstest_macros v0.27.0
+     │   │   │   └── rstest v0.27.0
+     │   │   │       └── (dev) viola v0.1.0 (*)
+     │   │   ├── serde_derive v1.0.229
+     │   │   │   └── serde v1.0.229
+     │   │   │       ├── ahash v0.8.12
+     │   │   │       │   ├── jsonschema v0.57.0 (*)
+     │   │   │       │   ├── jsonschema-value v0.57.0
+     │   │   │       │   │   └── jsonschema v0.57.0 (*)
+     │   │   │       │   └── referencing v0.57.0 (*)
+     │   │   │       ├── email_address v0.2.9
+     │   │   │       │   └── jsonschema v0.57.0 (*)
+     │   │   │       ├── fluent-uri v0.4.1 (*)
+     │   │   │       ├── jsonschema v0.57.0 (*)
+     │   │   │       ├── tracing-serde v0.2.0
+     │   │   │       │   └── tracing-subscriber v0.3.23
+     │   │   │       │       └── viola v0.1.0 (*)
+     │   │   │       └── tracing-subscriber v0.3.23 (*)
+     │   │   ├── strum_macros v0.28.0
+     │   │   │   └── strum v0.28.0
+     │   │   │       └── jsonschema v0.57.0 (*)
+     │   │   ├── syn v2.0.119
+     │   │   │   ├── kinded_macros v0.5.1 (*)
+     │   │   │   ├── nutype_macros v0.8.0 (*)
+     │   │   │   ├── rstest_macros v0.27.0 (*)
+     │   │   │   ├── strum_macros v0.28.0 (*)
+     │   │   │   ├── windows-implement v0.60.2
+     │   │   │   │   └── windows-core v0.62.2
+     │   │   │   │       └── iana-time-zone v0.1.65
+     │   │   │   │           └── chrono v0.4.45
+     │   │   │   │               └── viola v0.1.0 (*)
+     │   │   │   └── windows-interface v0.59.3
+     │   │   │       └── windows-core v0.62.2 (*)
+     │   │   ├── syn v3.0.6
+     │   │   │   ├── clap_derive v4.6.7 (*)
+     │   │   │   ├── ref-cast-impl v1.0.27 (*)
+     │   │   │   ├── serde_derive v1.0.229 (*)
+     │   │   │   └── wasm-bindgen-macro-support v0.2.128
+     │   │   │       └── wasm-bindgen-macro v0.2.128
+     │   │   │           └── wasm-bindgen v0.2.128
+     │   │   │               ├── getrandom v0.3.4
+     │   │   │               │   ├── ahash v0.8.12 (*)
+     │   │   │               │   ├── jsonschema v0.57.0 (*)
+     │   │   │               │   ├── jsonschema-value v0.57.0 (*)
+     │   │   │               │   ├── rand_core v0.9.5
+     │   │   │               │   │   ├── rand v0.9.5
+     │   │   │               │   │   │   └── proptest v1.11.0
+     │   │   │               │   │   │       └── (dev) viola-core v0.1.0 (*)
+     │   │   │               │   │   ├── rand_chacha v0.9.0
+     │   │   │               │   │   │   └── proptest v1.11.0 (*)
+     │   │   │               │   │   └── rand_xorshift v0.4.0
+     │   │   │               │   │       └── proptest v1.11.0 (*)
+     │   │   │               │   └── referencing v0.57.0 (*)
+     │   │   │               ├── iana-time-zone v0.1.65 (*)
+     │   │   │               └── js-sys v0.3.105
+     │   │   │                   ├── getrandom v0.3.4 (*)
+     │   │   │                   └── iana-time-zone v0.1.65 (*)
+     │   │   ├── wasm-bindgen-macro v0.2.128 (*)
+     │   │   ├── wasm-bindgen-macro-support v0.2.128 (*)
+     │   │   ├── windows-implement v0.60.2 (*)
+     │   │   └── windows-interface v0.59.3 (*)
+     │   ├── ref-cast-impl v1.0.27 (*)
+     │   ├── rstest_macros v0.27.0 (*)
+     │   ├── serde_derive v1.0.229 (*)
+     │   ├── strum_macros v0.28.0 (*)
+     │   ├── syn v2.0.119 (*)
+     │   ├── syn v3.0.6 (*)
+     │   ├── wasm-bindgen-macro-support v0.2.128 (*)
+     │   ├── windows-implement v0.60.2 (*)
+     │   └── windows-interface v0.59.3 (*)
+     ├── rstest_macros v0.27.0 (*)
+     ├── syn v2.0.119 (*)
+     ├── syn v3.0.6 (*)
+     └── wasm-bindgen-shared v0.2.128
+         ├── wasm-bindgen v0.2.128 (*)
+         └── wasm-bindgen-macro-support v0.2.128 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\unicode-segmentation-1.13.3\Cargo.toml:50:12
+   │
+50 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ unicode-segmentation v1.13.3
+     └── convert_case v0.11.0
+         └── kinded_macros v0.5.1
+             └── kinded v0.5.1
+                 └── nutype_macros v0.8.0
+                     └── nutype v0.8.0
+                         └── viola-core v0.1.0
+                             └── viola v0.1.0
+
+warning[duplicate]: found 2 duplicate entries for crate 'syn'
+    ┌─ D:\dev\projects\viola/Cargo.lock:117:1
+    │  
+117 │ ╭ syn 2.0.119 registry+https://github.com/rust-lang/crates.io-index
+118 │ │ syn 3.0.6 registry+https://github.com/rust-lang/crates.io-index
+    │ ╰───────────────────────────────────────────────────────────────┘ lock entries
+    │  
+    ├ syn v2.0.119
+      ├── kinded_macros v0.5.1
+      │   └── kinded v0.5.1
+      │       └── nutype_macros v0.8.0
+      │           └── nutype v0.8.0
+      │               └── viola-core v0.1.0
+      │                   └── viola v0.1.0
+      ├── nutype_macros v0.8.0 (*)
+      ├── rstest_macros v0.27.0
+      │   └── rstest v0.27.0
+      │       └── (dev) viola v0.1.0 (*)
+      ├── strum_macros v0.28.0
+      │   └── strum v0.28.0
+      │       └── jsonschema v0.57.0
+      │           └── (dev) viola v0.1.0 (*)
+      ├── windows-implement v0.60.2
+      │   └── windows-core v0.62.2
+      │       └── iana-time-zone v0.1.65
+      │           └── chrono v0.4.45
+      │               └── viola v0.1.0 (*)
+      └── windows-interface v0.59.3
+          └── windows-core v0.62.2 (*)
+    ├ syn v3.0.6
+      ├── clap_derive v4.6.7
+      │   └── clap v4.6.7
+      │       └── viola v0.1.0
+      ├── ref-cast-impl v1.0.27
+      │   └── ref-cast v1.0.27
+      │       └── fluent-uri v0.4.1
+      │           └── referencing v0.57.0
+      │               └── jsonschema v0.57.0
+      │                   └── (dev) viola v0.1.0 (*)
+      ├── serde_derive v1.0.229
+      │   └── serde v1.0.229
+      │       ├── ahash v0.8.12
+      │       │   ├── jsonschema v0.57.0 (*)
+      │       │   ├── jsonschema-value v0.57.0
+      │       │   │   └── jsonschema v0.57.0 (*)
+      │       │   └── referencing v0.57.0 (*)
+      │       ├── email_address v0.2.9
+      │       │   └── jsonschema v0.57.0 (*)
+      │       ├── fluent-uri v0.4.1 (*)
+      │       ├── jsonschema v0.57.0 (*)
+      │       ├── tracing-serde v0.2.0
+      │       │   └── tracing-subscriber v0.3.23
+      │       │       └── viola v0.1.0 (*)
+      │       └── tracing-subscriber v0.3.23 (*)
+      └── wasm-bindgen-macro-support v0.2.128
+          └── wasm-bindgen-macro v0.2.128
+              └── wasm-bindgen v0.2.128
+                  ├── getrandom v0.3.4
+                  │   ├── ahash v0.8.12 (*)
+                  │   ├── jsonschema v0.57.0 (*)
+                  │   ├── jsonschema-value v0.57.0 (*)
+                  │   ├── rand_core v0.9.5
+                  │   │   ├── rand v0.9.5
+                  │   │   │   └── proptest v1.11.0
+                  │   │   │       └── (dev) viola-core v0.1.0
+                  │   │   │           └── viola v0.1.0 (*)
+                  │   │   ├── rand_chacha v0.9.0
+                  │   │   │   └── proptest v1.11.0 (*)
+                  │   │   └── rand_xorshift v0.4.0
+                  │   │       └── proptest v1.11.0 (*)
+                  │   └── referencing v0.57.0 (*)
+                  ├── iana-time-zone v0.1.65
+                  │   └── chrono v0.4.45
+                  │       └── viola v0.1.0 (*)
+                  └── js-sys v0.3.105
+                      ├── getrandom v0.3.4 (*)
+                      └── iana-time-zone v0.1.65 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\urlencoding-2.1.3\Cargo.toml:34:12
+   │
+34 │ license = "MIT"
+   │            ━━━
+   │            │
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ urlencoding v2.1.3
+     └── nutype_macros v0.8.0
+         └── nutype v0.8.0
+             └── viola-core v0.1.0
+                 └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\utf8parse-0.2.2\Cargo.toml:37:12
+   │
+37 │ license = "Apache-2.0 OR MIT"
+   │            ━━━━━━━━━━────━━━
+   │            │             │
+   │            │             rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ utf8parse v0.2.2
+     ├── anstream v1.0.0
+     │   └── clap_builder v4.6.7
+     │       └── clap v4.6.7
+     │           └── viola v0.1.0
+     └── anstyle-parse v1.0.0
+         └── anstream v1.0.0 (*)
+
+warning[no-license-field]: license expression was not specified in manifest for crate 'viola = 0.1.0'
+ ├ viola v0.1.0
+
+warning[unlicensed]: a valid license expression could not be retrieved for the crate
+  ┌─ path+file:///D:/dev/projects/viola#0.1.0-synthesized.toml:2:9
+  │
+2 │ name = "viola"
+  │         ━━━━━
+  │
+  ├ viola v0.1.0 (*)
+
+error[unlicensed]: viola = 0.1.0 is unlicensed
+ ├ viola v0.1.0 (*)
+
+warning[no-license-field]: license expression was not specified in manifest for crate 'viola-core = 0.1.0'
+ ├ viola-core v0.1.0
+   └── viola v0.1.0
+
+warning[unlicensed]: a valid license expression could not be retrieved for the crate
+  ┌─ path+file:///D:/dev/projects/viola/crates/viola-core#0.1.0-synthesized.toml:2:9
+  │
+2 │ name = "viola-core"
+  │         ━━━━━━━━━━
+  │
+  ├ viola-core v0.1.0 (*)
+
+error[unlicensed]: viola-core = 0.1.0 is unlicensed
+ ├ viola-core v0.1.0 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\wasm-bindgen-0.2.128\Cargo.toml:36:12
+   │
+36 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ wasm-bindgen v0.2.128
+     ├── getrandom v0.3.4
+     │   ├── ahash v0.8.12
+     │   │   ├── jsonschema v0.57.0
+     │   │   │   └── (dev) viola v0.1.0
+     │   │   ├── jsonschema-value v0.57.0
+     │   │   │   └── jsonschema v0.57.0 (*)
+     │   │   └── referencing v0.57.0
+     │   │       └── jsonschema v0.57.0 (*)
+     │   ├── jsonschema v0.57.0 (*)
+     │   ├── jsonschema-value v0.57.0 (*)
+     │   ├── rand_core v0.9.5
+     │   │   ├── rand v0.9.5
+     │   │   │   └── proptest v1.11.0
+     │   │   │       └── (dev) viola-core v0.1.0
+     │   │   │           └── viola v0.1.0 (*)
+     │   │   ├── rand_chacha v0.9.0
+     │   │   │   └── proptest v1.11.0 (*)
+     │   │   └── rand_xorshift v0.4.0
+     │   │       └── proptest v1.11.0 (*)
+     │   └── referencing v0.57.0 (*)
+     ├── iana-time-zone v0.1.65
+     │   └── chrono v0.4.45
+     │       └── viola v0.1.0 (*)
+     └── js-sys v0.3.105
+         ├── getrandom v0.3.4 (*)
+         └── iana-time-zone v0.1.65 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\wasm-bindgen-macro-0.2.128\Cargo.toml:34:12
+   │
+34 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ wasm-bindgen-macro v0.2.128
+     └── wasm-bindgen v0.2.128
+         ├── getrandom v0.3.4
+         │   ├── ahash v0.8.12
+         │   │   ├── jsonschema v0.57.0
+         │   │   │   └── (dev) viola v0.1.0
+         │   │   ├── jsonschema-value v0.57.0
+         │   │   │   └── jsonschema v0.57.0 (*)
+         │   │   └── referencing v0.57.0
+         │   │       └── jsonschema v0.57.0 (*)
+         │   ├── jsonschema v0.57.0 (*)
+         │   ├── jsonschema-value v0.57.0 (*)
+         │   ├── rand_core v0.9.5
+         │   │   ├── rand v0.9.5
+         │   │   │   └── proptest v1.11.0
+         │   │   │       └── (dev) viola-core v0.1.0
+         │   │   │           └── viola v0.1.0 (*)
+         │   │   ├── rand_chacha v0.9.0
+         │   │   │   └── proptest v1.11.0 (*)
+         │   │   └── rand_xorshift v0.4.0
+         │   │       └── proptest v1.11.0 (*)
+         │   └── referencing v0.57.0 (*)
+         ├── iana-time-zone v0.1.65
+         │   └── chrono v0.4.45
+         │       └── viola v0.1.0 (*)
+         └── js-sys v0.3.105
+             ├── getrandom v0.3.4 (*)
+             └── iana-time-zone v0.1.65 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\wasm-bindgen-macro-support-0.2.128\Cargo.toml:32:12
+   │
+32 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ wasm-bindgen-macro-support v0.2.128
+     └── wasm-bindgen-macro v0.2.128
+         └── wasm-bindgen v0.2.128
+             ├── getrandom v0.3.4
+             │   ├── ahash v0.8.12
+             │   │   ├── jsonschema v0.57.0
+             │   │   │   └── (dev) viola v0.1.0
+             │   │   ├── jsonschema-value v0.57.0
+             │   │   │   └── jsonschema v0.57.0 (*)
+             │   │   └── referencing v0.57.0
+             │   │       └── jsonschema v0.57.0 (*)
+             │   ├── jsonschema v0.57.0 (*)
+             │   ├── jsonschema-value v0.57.0 (*)
+             │   ├── rand_core v0.9.5
+             │   │   ├── rand v0.9.5
+             │   │   │   └── proptest v1.11.0
+             │   │   │       └── (dev) viola-core v0.1.0
+             │   │   │           └── viola v0.1.0 (*)
+             │   │   ├── rand_chacha v0.9.0
+             │   │   │   └── proptest v1.11.0 (*)
+             │   │   └── rand_xorshift v0.4.0
+             │   │       └── proptest v1.11.0 (*)
+             │   └── referencing v0.57.0 (*)
+             ├── iana-time-zone v0.1.65
+             │   └── chrono v0.4.45
+             │       └── viola v0.1.0 (*)
+             └── js-sys v0.3.105
+                 ├── getrandom v0.3.4 (*)
+                 └── iana-time-zone v0.1.65 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\wasm-bindgen-shared-0.2.128\Cargo.toml:37:12
+   │
+37 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ wasm-bindgen-shared v0.2.128
+     ├── wasm-bindgen v0.2.128
+     │   ├── getrandom v0.3.4
+     │   │   ├── ahash v0.8.12
+     │   │   │   ├── jsonschema v0.57.0
+     │   │   │   │   └── (dev) viola v0.1.0
+     │   │   │   ├── jsonschema-value v0.57.0
+     │   │   │   │   └── jsonschema v0.57.0 (*)
+     │   │   │   └── referencing v0.57.0
+     │   │   │       └── jsonschema v0.57.0 (*)
+     │   │   ├── jsonschema v0.57.0 (*)
+     │   │   ├── jsonschema-value v0.57.0 (*)
+     │   │   ├── rand_core v0.9.5
+     │   │   │   ├── rand v0.9.5
+     │   │   │   │   └── proptest v1.11.0
+     │   │   │   │       └── (dev) viola-core v0.1.0
+     │   │   │   │           └── viola v0.1.0 (*)
+     │   │   │   ├── rand_chacha v0.9.0
+     │   │   │   │   └── proptest v1.11.0 (*)
+     │   │   │   └── rand_xorshift v0.4.0
+     │   │   │       └── proptest v1.11.0 (*)
+     │   │   └── referencing v0.57.0 (*)
+     │   ├── iana-time-zone v0.1.65
+     │   │   └── chrono v0.4.45
+     │   │       └── viola v0.1.0 (*)
+     │   └── js-sys v0.3.105
+     │       ├── getrandom v0.3.4 (*)
+     │       └── iana-time-zone v0.1.65 (*)
+     └── wasm-bindgen-macro-support v0.2.128
+         └── wasm-bindgen-macro v0.2.128
+             └── wasm-bindgen v0.2.128 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\windows-core-0.62.2\Cargo.toml:26:12
+   │
+26 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ windows-core v0.62.2
+     └── iana-time-zone v0.1.65
+         └── chrono v0.4.45
+             └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\windows-implement-0.60.2\Cargo.toml:26:12
+   │
+26 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ windows-implement v0.60.2
+     └── windows-core v0.62.2
+         └── iana-time-zone v0.1.65
+             └── chrono v0.4.45
+                 └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\windows-interface-0.59.3\Cargo.toml:26:12
+   │
+26 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ windows-interface v0.59.3
+     └── windows-core v0.62.2
+         └── iana-time-zone v0.1.65
+             └── chrono v0.4.45
+                 └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\windows-link-0.2.1\Cargo.toml:26:12
+   │
+26 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ windows-link v0.2.1
+     ├── chrono v0.4.45
+     │   └── viola v0.1.0
+     ├── parking_lot_core v0.9.12
+     │   └── parking_lot v0.12.5
+     │       └── referencing v0.57.0
+     │           └── jsonschema v0.57.0
+     │               └── (dev) viola v0.1.0 (*)
+     ├── windows-core v0.62.2
+     │   └── iana-time-zone v0.1.65
+     │       └── chrono v0.4.45 (*)
+     ├── windows-result v0.4.1
+     │   └── windows-core v0.62.2 (*)
+     ├── windows-strings v0.5.1
+     │   └── windows-core v0.62.2 (*)
+     └── windows-sys v0.61.2
+         ├── anstyle-query v1.1.5
+         │   └── anstream v1.0.0
+         │       └── clap_builder v4.6.7
+         │           └── clap v4.6.7
+         │               └── viola v0.1.0 (*)
+         ├── anstyle-wincon v3.0.11
+         │   └── anstream v1.0.0 (*)
+         ├── errno v0.3.14
+         │   └── rustix v1.1.5
+         │       └── tempfile v3.27.0
+         │           └── (dev) viola v0.1.0 (*)
+         ├── rustix v1.1.5 (*)
+         └── tempfile v3.27.0 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\windows-result-0.4.1\Cargo.toml:26:12
+   │
+26 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ windows-result v0.4.1
+     └── windows-core v0.62.2
+         └── iana-time-zone v0.1.65
+             └── chrono v0.4.45
+                 └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\windows-strings-0.5.1\Cargo.toml:26:12
+   │
+26 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ windows-strings v0.5.1
+     └── windows-core v0.62.2
+         └── iana-time-zone v0.1.65
+             └── chrono v0.4.45
+                 └── viola v0.1.0
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\windows-sys-0.61.2\Cargo.toml:26:12
+   │
+26 │ license = "MIT OR Apache-2.0"
+   │            ━━━────━━━━━━━━━━
+   │            │      │
+   │            │      rejected: license is not explicitly allowed
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ Apache-2.0 - Apache License 2.0:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ windows-sys v0.61.2
+     ├── anstyle-query v1.1.5
+     │   └── anstream v1.0.0
+     │       └── clap_builder v4.6.7
+     │           └── clap v4.6.7
+     │               └── viola v0.1.0
+     ├── anstyle-wincon v3.0.11
+     │   └── anstream v1.0.0 (*)
+     ├── errno v0.3.14
+     │   └── rustix v1.1.5
+     │       └── tempfile v3.27.0
+     │           └── (dev) viola v0.1.0 (*)
+     ├── rustix v1.1.5 (*)
+     └── tempfile v3.27.0 (*)
+
+error[rejected]: failed to satisfy license requirements
+   ┌─ D:\dev\rust\cargo\registry\src\index.crates.io-1949cf8c6b5b557f\zmij-1.0.23\Cargo.toml:34:12
+   │
+34 │ license = "MIT"
+   │            ━━━
+   │            │
+   │            rejected: license is not explicitly allowed
+   │
+   ├ MIT - MIT License:
+   ├   - OSI approved
+   ├   - FSF Free/Libre
+   ├ zmij v1.0.23
+     ├── jsonschema-value v0.57.0
+     │   └── jsonschema v0.57.0
+     │       └── (dev) viola v0.1.0
+     └── serde_json v1.0.151
+         ├── jsonschema v0.57.0 (*)
+         ├── jsonschema-value v0.57.0 (*)
+         ├── referencing v0.57.0
+         │   └── jsonschema v0.57.0 (*)
+         ├── tracing-subscriber v0.3.23
+         │   └── viola v0.1.0 (*)
+         └── (dev) viola v0.1.0 (*)
+
+advisories ok, bans ok, licenses FAILED, sources ok

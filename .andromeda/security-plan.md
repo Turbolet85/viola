@@ -131,7 +131,7 @@ _Justification: viola is a local-only, single-user tool. It has no accounts, no 
     - Third-party GitHub Actions, SHA-pinned: `actions/checkout` v7.0.1, `Swatinem/rust-cache` v2.9.2, `taiki-e/install-action` v2.87.19, `actions/upload-artifact` v7.0.1. The toolchain is installed by `rustup` from `rust-toolchain.toml`, with no toolchain action.
     - Future v1.x public distribution and `self_update`.
     - Sources: Stack; Infrastructure Patterns (Build system, CI/CD approach).
-  - **Trust boundary:** `cargo deny check` (licences, C-crate bans, tokio ban), `Cargo.lock`, and `publish = false`. In v1 there is no release, no signing and no deploy stage.
+  - **Trust boundary:** `cargo deny check` over `deny.toml` (advisories, licences, sources, C-crate / telemetry-crate / feature bans), the sole-root `deny-sync.toml` tokio ban per sync crate, `Cargo.lock`, and `publish = false`. In v1 there is no release, no signing and no deploy stage.
 - **Public internet API / file upload / OAuth / WebSocket / webhook:** none. Stack and Conventions list no public listener, no WebSocket ("No WebSocket and no polling endpoints in v1") and no hosting.
 
 **Auth model:**
@@ -157,8 +157,8 @@ _Justification: viola is a local-only, single-user tool. It has no accounts, no 
   - No outbound network calls by viola itself. The `claude` child handles the network to Anthropic on its own.
   - Sources: Occupied Resources (Network, IPC endpoints); Stack (AI/ML N/A).
 - **CI/CD:**
-  - GitHub Actions `ci.yml`, triggered on push and PR, on a native matrix of `windows-2025`, `macos-latest` and `ubuntu-latest`.
-  - Jobs: fmt, clippy `-D warnings`, `cargo check` of the sync crates, `cargo deny check` (on ubuntu), tests against the fake agent with recorded fixtures, and `cargo build --release`.
+  - GitHub Actions `ci.yml`, triggered on push and PR, on a native matrix of `windows-2025`, `macos-latest` and `ubuntu-latest`; plus `nightly.yml` (weekly `schedule` + `workflow_dispatch`) for `cargo deny check advisories`.
+  - Jobs: fmt, clippy `-D warnings`, `cargo check` of the sync crates, the ubuntu supply-chain job (`cargo deny check`, the sole-root tokio ban, the ban probes, zizmor), tests against the fake agent with recorded fixtures, and `cargo build --release`.
   - No deploy stage, no release artefacts and no secrets in v1. The real `claude` CLI and `viola verify` run only locally.
   - v1.x adds a dist 0.33.0 release workflow with cargo-auditable 0.7.6, signing, winget/Homebrew/Scoop and `self_update` 1.3.0.
   - Sources: Infrastructure Patterns (CI/CD approach); Stack (Release).
@@ -305,13 +305,13 @@ _[ALL tiers]_
 - zizmor `>=1.30.1` for GitHub Actions workflows.
 - cargo-audit `>=0.22.2` is not gated in v1 (it would duplicate cargo-deny advisories on the same `Cargo.lock`). It is reserved for v1.x `cargo audit bin` scans of cargo-auditable release binaries.
 
-**`deny.toml` additions** (arch currently lists only licences and bans):
+**`deny.toml` additions** (beside arch's licence list, C-crate bans and obs's telemetry-crate and `veil` / `tracing-subscriber` feature bans — arch §Build system):
 - `[advisories]`: `unmaintained = "all"` (the default), `unsound = "all"`, `yanked = "deny"`, and `ignore = [{ id = "RUSTSEC-2017-0008", reason = "serial via portable-pty =0.8.1; serial ports never opened" }]`. This is the only expected ignore; re-check it whenever the portable-pty pin moves.
 - `[sources]`: `unknown-registry = "deny"`, `unknown-git = "deny"` (crates.io only; this also keeps CVE-2026-5222's sparse-registry class out of reach).
 - `[[bans.features]]`:
   - `rmcp` denies `transport-streamable-http-server` and `auth`.
   - `axum` denies `http2`.
-- The existing arch bans (C-building crates, and `tokio` in the sync crates' graph for three target triples) stay as they are.
+- The arch bans stay as they are: C-building crates in `deny.toml`, and `tokio` in the sync crates' graph for three target triples in `deny-sync.toml`, run per sync crate as the sole root (arch §Build system). Every ban is proven live by `scripts/deny-probes.sh`.
 
 **Pinning:**
 - `Cargo.lock` is committed. `[workspace.dependencies]` pins every third-party version (portable-pty `=0.8.1`). The exception is rmcp, which takes the minor range `>=3.4.1, <3.5` (the `~3.4` pin floored at the catalogued 3.4.1), and `Cargo.lock` must resolve rmcp `>=3.4.1`.
@@ -322,9 +322,9 @@ _[ALL tiers]_
 
 **Update policy:** Manual review, triggered by the scheduled advisory run below. No automated update bot was researched (see the Decisions Log). The rmcp minor range (`>=3.4.1, <3.5`) makes the scheduled run the main signal for that crate.
 
-**CI integration** (`.github/workflows/ci.yml`):
+**CI integration** (`.github/workflows/ci.yml`, `.github/workflows/nightly.yml`):
 - Job 4 (ubuntu) runs `cargo deny check` over all four check families, and fails the build on any advisory, yanked crate or unknown source.
-- A separate workflow trigger, `schedule:` weekly cron, runs `cargo deny check advisories`, because the advisory DB changes without code changes (the default `maximum-db-staleness` is P90D).
+- A separate workflow, `nightly.yml` (weekly `schedule:` cron + `workflow_dispatch`, no cache), runs `cargo deny check advisories`, because the advisory DB changes without code changes (the default `maximum-db-staleness` is P90D).
 - `zizmor .github/workflows/` runs on the ubuntu leg and fails on unpinned actions, `excessive-permissions`, template injection and cache poisoning.
 - Actions are pinned by full commit SHA (the set `ci.yml` uses; SHAs resolved 2026-09-24 via `gh api repos/{repo}/commits/{tag}`):
   - `actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1` (with `persist-credentials: false`)

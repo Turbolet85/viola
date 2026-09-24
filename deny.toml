@@ -1,0 +1,52 @@
+# Workspace dependency policy. The tokio ban cannot live here (viola-mcp and viola-ui use tokio):
+# it is deny-sync.toml, run once per sync crate as the sole root of its graph.
+
+[graph]
+targets = ["x86_64-pc-windows-msvc", "aarch64-apple-darwin", "x86_64-unknown-linux-gnu"]
+
+[advisories]
+unmaintained = "all"
+unsound = "all"
+yanked = "deny"
+ignore = [
+  { id = "RUSTSEC-2017-0008", reason = "serial arrives only via portable-pty =0.8.1; viola never opens a serial port" },
+]
+
+[licenses]
+allow = ["MIT", "Apache-2.0", "Zlib", "Unicode-3.0"]
+private = { ignore = true }
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
+
+[bans]
+deny = [
+  { crate = "cc", reason = "no C in the build" },
+  { crate = "libsqlite3-sys", reason = "no C in the build" },
+  { crate = "openssl-sys", reason = "no C in the build" },
+  { crate = "opentelemetry-otlp", reason = "no telemetry exporter or egress in v1" },
+  { crate = "opentelemetry-stdout", reason = "no telemetry exporter in v1" },
+  { crate = "sentry", reason = "no error reporter or egress in v1" },
+  { crate = "tracing-appender", reason = "its non_blocking writer drops lines and pulls a vulnerable time range" },
+]
+
+[[bans.features]]
+crate = "veil"
+deny = ["toggle"]
+reason = "toggle lets VEIL_DISABLE_REDACTION / veil::disable() switch redaction off"
+
+[[bans.features]]
+crate = "rmcp"
+deny = ["transport-streamable-http-server", "auth"]
+reason = "the MCP server is stdio-only; every 2026 rmcp advisory sits in these features"
+
+[[bans.features]]
+crate = "axum"
+deny = ["http2"]
+reason = "the loopback GUI serves HTTP/1.1 only"
+
+[[bans.features]]
+crate = "tracing-subscriber"
+deny = ["env-filter"]
+reason = "log levels come only from config.json; no EnvFilter or RUST_LOG"

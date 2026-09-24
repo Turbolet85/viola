@@ -73,7 +73,7 @@ viola is a standalone, cross-platform (Windows first) bridge that lets one inter
 - `cargo fmt --all --check` — format gate
 - `cargo clippy --workspace --all-targets --features fake-agent -- -D warnings` — lint gate
 - `cargo check --workspace --all-targets` — type check
-- `cargo deny check` — licences, advisories, sources, the tokio / C-crate bans
+- `cargo deny check` — advisories, licences, sources, bans (the tokio ban is `deny-sync.toml` per sync crate; `bash scripts/deny-probes.sh` proves every ban fires)
 
 Branching: one long-lived build branch per version (`build/viola-X.Y.Z`); main is `main`. See `.claude/docs/commands.md` for the full reference.
 <!-- GENERATED:setup:workflow end -->
@@ -117,4 +117,5 @@ _This section is curated by `/wrap-session`. It accumulates universal (Tier 1) r
 - `viola release` is a human verb: no driver-facing hint, MCP tool or doc suggests it to a driver (a `release` carrying `from` is refused `-32602`).
 - Design against the installed `claude` CLI, measured: the docs lag the build, so an unmeasured behaviour is a ledger row to probe, not an assumption.
 - Every viola format carries `v`; readers skip and count unknown kinds and fields, and never use `deny_unknown_fields` on viola's own formats (mixed binary versions are real).
+- Probe, baseline and gate a CI tool at the exact version CI pins — install that version on the host first; an older host tool accepts flags the pinned one rejects, so a plan written against it ships gate commands that cannot pass.
 <!-- USER:session-learnings end -->

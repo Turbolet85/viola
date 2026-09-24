@@ -1,0 +1,158 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "83ae5b52",
+"ts": "2026-09-24T09:48:48Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-24T09-41-13-wrap/architecture-entry.md",
+"--lines",
+"16",
+"--run-dir",
+".andromeda/runs/2026-09-24T09-41-13-wrap",
+"--marker",
+"2026-09-24-supply-chain-and-workflow-gates"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+16 at line 53 · lines 52→68 · bytes 6364→9241 · term lf",
+"last line now: - After apply: 0 hits in the masters and 0 in the preserve-verbatim homes, playb"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 52,
+"bytes": 6364,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 68,
+"bytes": 9241
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "83ae5b52",
+"ts": "2026-09-24T09:48:48Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-24T09-41-13-wrap/test-plan-entry.md",
+"--lines",
+"12",
+"--run-dir",
+".andromeda/runs/2026-09-24T09-41-13-wrap",
+"--marker",
+"2026-09-24-supply-chain-and-workflow-gates"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+12 at line 101 · lines 100→112 · bytes 9824→11544 · term lf",
+"last line now: **Why:** chunk 2026-09-24-supply-chain-and-workflow-gates. The report's \"Spec cl"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 100,
+"bytes": 9824,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 112,
+"bytes": 11544
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "83ae5b52",
+"ts": "2026-09-24T09:48:48Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-24T09-41-13-wrap/security-plan-entry.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-09-24T09-41-13-wrap",
+"--marker",
+"2026-09-24-supply-chain-and-workflow-gates"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+10 at line 28 · lines 27→37 · bytes 1949→3293 · term lf",
+"last line now: **Why:** chunk 2026-09-24-supply-chain-and-workflow-gates. The fan-out had 0 pro"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 27,
+"bytes": 1949,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 37,
+"bytes": 3293
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "83ae5b52",
+"ts": "2026-09-24T09:48:48Z",
+"argv": [
+"append",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-24T09-41-13-wrap/obs-plan-entry.md",
+"--lines",
+"6",
+"--run-dir",
+".andromeda/runs/2026-09-24T09-41-13-wrap",
+"--marker",
+"2026-09-24-supply-chain-and-workflow-gates"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append obs-plan-amendments.md:+6 at line 17 · lines 16→22 · bytes 1099→1830 · term lf",
+"last line now: **Why:** chunk 2026-09-24-supply-chain-and-workflow-gates. It is a plan-carried "
+],
+"stderr": null,
+"wrote": [
+".andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 16,
+"bytes": 1099,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 22,
+"bytes": 1830
+}
+}
+]

@@ -24,7 +24,7 @@ Universal security requirements for viola. Apply to all files. This rule file ha
 - `Last-Event-ID`: parse every pair with `ViolaName::try_new` + `u64`; any bad pair drops the whole header.
 
 ## Dependencies and CI
-- **Audit tool:** `cargo deny check` (>=0.20.2: advisories, bans, licences, sources — crates.io only; the only ignore is RUSTSEC-2017-0008 via portable-pty `=0.8.1`); weekly scheduled `cargo deny check advisories`; `zizmor` on workflows.
+- **Audit tool:** `cargo deny check` (>=0.20.2: advisories, bans, licences, sources — crates.io only; the only ignore is RUSTSEC-2017-0008 via portable-pty `=0.8.1`); the tokio ban is `deny-sync.toml`, run per sync crate as sole root; `scripts/deny-probes.sh` proves every ban fires; weekly `cargo deny check advisories` in `nightly.yml`; `zizmor` on workflows. Never widen an ignore, add a `skip`/`allow` or silence zizmor to reach green.
 - `Cargo.lock` committed; `[workspace.dependencies]` pins versions (rmcp `>=3.4.1, <3.5`); rmcp features exactly `server` + `transport-io`; axum without `http2`.
 - Actions pinned by full commit SHA; workflow `permissions: {}`, job `contents: read`; no `rust-cache` in a release workflow.
 

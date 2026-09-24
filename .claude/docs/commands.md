@@ -2,7 +2,7 @@
 
 _Complete command reference extracted from `.andromeda/architecture.md`, `.andromeda/test-plan.md` §3/§9 and `.andromeda/obs-plan.md` §9 by `/andromeda-setup-project`. The 5 most common commands live in CLAUDE.md Workflow section for always-loaded access — this file has everything else._
 
-_The workspace, `rust-toolchain.toml`, `.config/nextest.toml`, `viola-harness` and `.github/workflows/ci.yml` exist since chunk 1; `deny.toml` and `e2e-web/` land with later Epoch-1 chunks. Commands for surfaces not built yet are the planned contract._
+_The workspace, `rust-toolchain.toml`, `.config/nextest.toml`, `viola-harness` and `.github/workflows/ci.yml` exist since chunk 1; `deny.toml`, `deny-sync.toml`, `scripts/sync-crates.txt`, `scripts/deny-probes.sh` and `.github/workflows/nightly.yml` since chunk 3; `e2e-web/` lands with a later chunk. Commands for surfaces not built yet are the planned contract._
 
 ## Installation
 - `rustup toolchain install` — installs the toolchain pinned in `rust-toolchain.toml` (1.98.1, components rustfmt + clippy)
@@ -44,10 +44,13 @@ _The workspace, `rust-toolchain.toml`, `.config/nextest.toml`, `viola-harness` a
 - `cargo fmt --all` / `cargo fmt --all --check` — format / format gate (edition from `rustfmt.toml`)
 - `cargo clippy --workspace --all-targets --features fake-agent -- -D warnings` — lint gate (`disallowed-macros`, `print_stdout`, `print_stderr`, `dbg_macro` denied workspace-wide)
 - `cargo check --workspace --all-targets` — type check
-- `cargo check -p viola-core -p viola-pty -p viola-state -p viola-channel -p viola-agent-claude` — the sync crates compile without tokio
+- `cargo check $(sed 's/^/-p /' scripts/sync-crates.txt)` — the listed sync crates compile without tokio (CI job `lint`; each sync crate joins `scripts/sync-crates.txt` with its crate)
 - `cargo tree -e features -p viola --edges normal` — assert rmcp shows only `server`, `transport-io`
 - `cargo modules dependencies --package <crate> --acyclic` / `cargo modules orphans --package <crate> --deny` — boundary review
-- `cargo deny check` (weekly: `cargo deny check advisories`) · `zizmor --format=json .github/workflows/` — supply chain
+- `cargo deny check` — advisories, licences, sources, bans over `deny.toml` (weekly in `nightly.yml`: `cargo deny check advisories`)
+- `cargo deny --config deny-sync.toml --manifest-path crates/<crate>/Cargo.toml check bans` — the tokio ban, once per crate in `scripts/sync-crates.txt` as sole root (cargo-deny 0.20: `--config` goes before the subcommand; `check -c` is rejected)
+- `bash scripts/deny-probes.sh` — proves every ban fires (last line `deny-probes: 13/13 banned, control clean`; needs the network)
+- `zizmor .github/workflows/` (CI: `--format=json`) — workflow lint
 - `npx --prefix e2e-web eslint -c e2e-web/eslint.config.js -f json` · `npx --prefix e2e-web html-validate --config e2e-web/.htmlvalidate.json --formatter json <index.html>` — a11y lint (ubuntu)
 
 ## Observability gates (obs-plan §9, `shell: bash`)

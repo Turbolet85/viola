@@ -1105,7 +1105,7 @@ _Scope: no `cognitive-accessibility` trigger fired (a11y-scope Sec 5), so there 
 
 ## 9. CI Integration
 
-**Platform:** GitHub Actions, one workflow `ci.yml`, matrix `[windows-2025, macos-latest, ubuntu-latest]` (upstream-context Architecture Excerpt → CI/CD Platform).
+**Platform:** GitHub Actions, one push/PR workflow `ci.yml` (the scheduled `nightly.yml` carries no a11y step), matrix `[windows-2025, macos-latest, ubuntu-latest]` (upstream-context Architecture Excerpt → CI/CD Platform).
 
 **Per-pipeline-stage a11y artifacts:**
 

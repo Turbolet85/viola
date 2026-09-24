@@ -29,7 +29,7 @@ _Extracted from `.andromeda/architecture.md` §Stack and Technologies by `/andro
 | Mobile framework | N/A | The phone view is a later version: the same web page behind authentication |
 | Container runtime / deployment | None. `cargo install --path .`; Claude Code plugin compiled into the binary (`include_str!`) and written out by `viola run` | Local-only v1, no hosting |
 | CI/CD | GitHub Actions matrix `windows-2025`, `macos-latest` (macOS 26), `ubuntu-latest`; toolchain installed by `rustup toolchain install` from `rust-toolchain.toml` (no toolchain action); SHA-pinned actions/checkout 7.0.1, Swatinem/rust-cache 2.9.2, taiki-e/install-action 2.87.19, actions/upload-artifact 7.0.1 | Build, lint and test on all three OSes against the fake agent, on native runners |
-| Code quality | rustfmt, clippy (`-D warnings`), `cargo check`; cargo-deny 0.20.2 (licences, C-dependency bans); cargo-modules 0.27.0 (module graph review) | Lint, typecheck, dependency policy, boundary review |
+| Code quality | rustfmt, clippy (`-D warnings`), `cargo check`; cargo-deny 0.20.2 (advisories, licences, sources, bans: C crates, telemetry crates, feature bans; the tokio ban via `deny-sync.toml` per sync crate); zizmor 1.30.1 (GitHub workflow linter); cargo-modules 0.27.0 (module graph review) | Lint, typecheck, dependency policy, workflow lint, boundary review |
 | Release (v1.x, not v1) | dist (cargo-dist) 0.33.0 + cargo-auditable 0.7.6; later self_update 1.3.0 | Public signed releases and installers once distribution is in scope |
 
 The workspace `rust-version` 1.96 floor, the exact `rust-toolchain.toml` pin and the test-only crate `crates/viola-e2e` are folded into architecture.md (chunk `2026-09-24-three-os-ci-headless-harness-skeleton`).

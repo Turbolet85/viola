@@ -110,3 +110,78 @@ jobs:
           path: mutants.out/
           retention-days: 7
           if-no-files-found: warn
+
+  lint:
+    name: lint (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-2025, macos-latest, ubuntu-latest]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Toolchain (rust-toolchain.toml)
+        run: rustup toolchain install
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+      - name: Tokio-free check of the sync crates
+        shell: bash
+        run: |
+          test -s scripts/sync-crates.txt
+          cargo check $(sed 's/^/-p /' scripts/sync-crates.txt)
+
+  supply-chain:
+    name: supply-chain
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Toolchain (rust-toolchain.toml)
+        run: rustup toolchain install
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+      - uses: taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5 # v2.87.19
+        with:
+          tool: cargo-deny@0.20.2
+      - name: Install zizmor
+        run: cargo install --locked zizmor@1.30.1
+      - name: Tool versions
+        shell: bash
+        run: |
+          cargo deny --version
+          zizmor --version
+
+      - name: Dependency policy (cargo deny, all four families)
+        shell: bash
+        run: |
+          mkdir -p target/supply-chain
+          cargo deny --format json check 2> target/supply-chain/deny.json || { cat target/supply-chain/deny.json; exit 1; }
+      - name: Tokio ban per sync crate (sole root)
+        shell: bash
+        run: |
+          test -s scripts/sync-crates.txt
+          while read -r crate; do
+            cargo deny --config deny-sync.toml --manifest-path "crates/$crate/Cargo.toml" check bans
+          done < scripts/sync-crates.txt
+      - name: Ban probes
+        shell: bash
+        run: bash scripts/deny-probes.sh
+      - name: Workflow lint (zizmor)
+        shell: bash
+        run: |
+          mkdir -p target/supply-chain
+          zizmor --format=json .github/workflows/ > target/supply-chain/zizmor.json || { cat target/supply-chain/zizmor.json; exit 1; }
+
+      - name: Upload supply-chain reports
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: supply-chain
+          path: target/supply-chain/
+          retention-days: 7
+          if-no-files-found: warn

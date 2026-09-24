@@ -1,0 +1,406 @@
+[
+{
+"tool": "gate",
+"v": "1.1",
+"sha8": "4c16668f",
+"ts": "2026-09-24T09:52:49Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-09-24-supply-chain-and-workflow-gates/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-24T09-41-13-wrap",
+"--marker",
+"2026-09-24-supply-chain-and-workflow-gates"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\viola · marker 2026-09-24-supply-chain-and-workflow-gates · entries 14",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-supply-chain-and-workflow-gates\\wrap-2026-09-24T09-41-13 · bound: GNU timeout",
+"delta docs 72 · rust 1 · unmapped 5",
+"prose L119-127: These are the local gates /implement runs. No external process is driven and there is no l… (998 chars)",
+"  1 probe       green · exit 0 · 0.11s · 18 B → 1.log · cargo deny --version",
+"  2 probe       green · exit 0 · 0.06s · 14 B → 2.log · zizmor --version",
+"  3 lint        green · exit 0 · 1.09s · 3308 B → 3.log · cargo deny check",
+"  4 lint        green · exit 0 · 0.43s · 8 B → 4.log · test -s scripts/sync-crates.txt && while read -r c; do car… (181 chars)",
+"  5 build       green · exit 0 · 0.16s · 72 B → 5.log · test -s scripts/sync-crates.txt && cargo check $(sed 's/^/… (88 chars)",
+"  6 lint        green · exit 0 · 13.51s · 346 B → 6.log · bash scripts/deny-probes.sh",
+"  7 lint        green · exit 0 · 0.11s · 388 B → 7.log · zizmor .github/workflows/",
+"  8 probe       green · exit 1 · 0.08s · 0 B → 8.log · grep -HnE '\\$\\{\\{\\s*github\\.event' .github/workflows/*.yml… (108 chars)",
+"  9 unit        not run — defer (key): zero .rs delta: the chunk writes TOML, Y… (124 chars) · bash scripts/agent-run.sh run --unit",
+" 10 integration green · exit 0 · 1.1s · 260 B → 10.log · AGENT_RUN_CHUNK_BASE=61f9676882bbc06116ff9b47fc5c7328e8de1… (101 chars)",
+" 11 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (82 chars)",
+" 12 probe       not run — leg operator (the letter drives it) · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (129 chars)",
+" 13 probe       not run — leg operator (the letter drives it) · gh workflow run nightly.yml --ref build/viola-0.1.0",
+" 14 probe       not run — leg operator (the letter drives it) · gh run list --workflow nightly.yml --event workflow_dispat… (169 chars)",
+"entries 14 · green 9 · red 0 · recorded 0 · timeout 0 · not-run 5"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-24-supply-chain-and-workflow-gates",
+"plan": "D:\\dev\\projects\\viola\\viola-0.1.0\\chunks\\2026-09-24-supply-chain-and-workflow-gates\\plan.md",
+"root": "D:\\dev\\projects\\viola",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-supply-chain-and-workflow-gates\\wrap-2026-09-24T09-41-13",
+"delta": {
+"docs": [
+".andromeda/a11y-plan.md",
+".andromeda/architecture-amendments.md",
+".andromeda/architecture.md",
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/obs-plan-amendments.md",
+".andromeda/obs-plan.md",
+".andromeda/security-plan-amendments.md",
+".andromeda/security-plan.md",
+".andromeda/state.yaml",
+".andromeda/test-plan-amendments.md",
+".andromeda/test-plan.md",
+".claude/docs/commands.md",
+".claude/docs/services/viola-core.md",
+".claude/docs/services/viola-mcp.md",
+".claude/docs/stack.md",
+".claude/docs/workflow.md",
+".claude/rules/host-win32.md",
+".claude/rules/security.md",
+".claude/session-handoff.md",
+"CLAUDE.md",
+"viola-0.1.0/working-route.md",
+".andromeda/a11y-plan-amendments.md",
+".andromeda/runs/2026-09-24T08-45-42-wrap/ci-watch.log",
+".andromeda/runs/2026-09-24T09-16-31-phase/a11y.md",
+".andromeda/runs/2026-09-24T09-16-31-phase/arch.md",
+".andromeda/runs/2026-09-24T09-16-31-phase/baseline.sh",
+".andromeda/runs/2026-09-24T09-16-31-phase/baseline/1.log",
+".andromeda/runs/2026-09-24T09-16-31-phase/baseline/10.log",
+".andromeda/runs/2026-09-24T09-16-31-phase/baseline/12-format.log",
+".andromeda/runs/2026-09-24T09-16-31-phase/baseline/14-format.log",
+".andromeda/runs/2026-09-24T09-16-31-phase/baseline/2.log",
+".andromeda/runs/2026-09-24T09-16-31-phase/baseline/3.log",
+".andromeda/runs/2026-09-24T09-16-31-phase/baseline/4.log",
+".andromeda/runs/2026-09-24T09-16-31-phase/baseline/5.log",
+".andromeda/runs/2026-09-24T09-16-31-phase/baseline/6.log",
+".andromeda/runs/2026-09-24T09-16-31-phase/baseline/7.log",
+".andromeda/runs/2026-09-24T09-16-31-phase/baseline/8.log",
+".andromeda/runs/2026-09-24T09-16-31-phase/baseline/8c.log",
+".andromeda/runs/2026-09-24T09-16-31-phase/baseline/ctl/planted.yml",
+".andromeda/runs/2026-09-24T09-16-31-phase/baseline/m1.log",
+".andromeda/runs/2026-09-24T09-16-31-phase/design.md",
+".andromeda/runs/2026-09-24T09-16-31-phase/dryrun.log",
+".andromeda/runs/2026-09-24T09-16-31-phase/layouts.md",
+".andromeda/runs/2026-09-24T09-16-31-phase/master-record.txt",
+".andromeda/runs/2026-09-24T09-16-31-phase/matrix-2026-09-24-supply-chain-and-workflow-gates.json",
+".andromeda/runs/2026-09-24T09-16-31-phase/obs.md",
+".andromeda/runs/2026-09-24T09-16-31-phase/route-2026-09-24-supply-chain-and-workflow-gates.json",
+".andromeda/runs/2026-09-24T09-16-31-phase/route-no-marker.json",
+".andromeda/runs/2026-09-24T09-16-31-phase/security.md",
+".andromeda/runs/2026-09-24T09-16-31-phase/tests.md",
+".andromeda/runs/2026-09-24T09-34-05-implement/gate-2026-09-24-supply-chain-and-workflow-gates.json",
+".andromeda/runs/2026-09-24T09-34-05-implement/gate4-corrected.log",
+".andromeda/runs/2026-09-24T09-34-05-implement/tool-install.log",
+".andromeda/runs/2026-09-24T09-34-05-implement/zizmor-first.txt",
+".andromeda/runs/2026-09-24T09-34-05-implement/zizmor-pedantic.txt",
+".andromeda/runs/2026-09-24T09-41-13-wrap/.raw-fanout-architecture.md",
+".andromeda/runs/2026-09-24T09-41-13-wrap/.raw-fanout-test-plan.md",
+".andromeda/runs/2026-09-24T09-41-13-wrap/append-sidecars.sh",
+".andromeda/runs/2026-09-24T09-41-13-wrap/architecture-entry.md",
+".andromeda/runs/2026-09-24T09-41-13-wrap/code-graph-refresh.log",
+".andromeda/runs/2026-09-24T09-41-13-wrap/curation.md",
+".andromeda/runs/2026-09-24T09-41-13-wrap/fanout-results.md",
+".andromeda/runs/2026-09-24T09-41-13-wrap/obs-plan-entry.md",
+".andromeda/runs/2026-09-24T09-41-13-wrap/route-no-marker.json",
+".andromeda/runs/2026-09-24T09-41-13-wrap/security-plan-entry.md",
+".andromeda/runs/2026-09-24T09-41-13-wrap/splice-2026-09-24-supply-chain-and-workflow-gates.json",
+".andromeda/runs/2026-09-24T09-41-13-wrap/test-plan-entry.md",
+"viola-0.1.0/chunks/2026-09-24-supply-chain-and-workflow-gates/plan.md",
+"viola-0.1.0/chunks/2026-09-24-supply-chain-and-workflow-gates/report.md",
+"viola-0.1.0/chunks/2026-09-24-supply-chain-and-workflow-gates/research.md",
+"viola-0.1.0/chunks/2026-09-24-supply-chain-and-workflow-gates/scope.md"
+],
+"rust": [
+"deny.toml"
+]
+},
+"unmapped": [
+".github/workflows/ci.yml",
+".github/workflows/nightly.yml",
+"deny-sync.toml",
+"scripts/deny-probes.sh",
+"scripts/sync-crates.txt"
+],
+"prose": [
+{
+"from": 119,
+"to": 127,
+"text": "These are the local gates /implement runs. No external process is driven and there is no live leg, so no `probe` precondition exists. There is no boot smoke: the chunk changes no Rust source and no harness path. The workspace unit suite is `defer`red on zero `.rs` delta. The mutation entry still runs, because the harness's own `no-rust-delta` verdict is the assertion. The per-OS `cargo check` runs here on the Windows host; its macOS/Linux legs are witnessed by CI. The last four entries are operator-driven: the commit+push, the CI read pinned to the pushed sha, the `nightly.yml` dispatch, and that dispatched run's read pinned to the same sha. The deny/zizmor JSON artifacts (`target/supply-chain/`, gitignored) have no local producer by design. They are produced by the CI `supply-chain` job on the operator's push, and that job's `success` is read by the check-runs entry. Every local output path (`target/deny-probes/`, `mutants.out/`) is gitignored (`git check-ignore -q` exit 0 on each)."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "probe",
+"run": "cargo deny --version",
+"run_sha8": "70fde94d",
+"expect": [
+"exit 0",
+"contains cargo-deny 0.20.2"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-supply-chain-and-workflow-gates\\wrap-2026-09-24T09-41-13\\1.log",
+"bytes": 18,
+"log_sha8": "1758f5ea",
+"exit": 0,
+"seconds": 0.11,
+"readings": [
+"exit 0 ✓",
+"contains 'cargo-deny 0.20.2' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "probe",
+"run": "zizmor --version",
+"run_sha8": "638dfabc",
+"expect": [
+"exit 0",
+"contains zizmor 1.30.1"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-supply-chain-and-workflow-gates\\wrap-2026-09-24T09-41-13\\2.log",
+"bytes": 14,
+"log_sha8": "8cfc3f0c",
+"exit": 0,
+"seconds": 0.06,
+"readings": [
+"exit 0 ✓",
+"contains 'zizmor 1.30.1' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-supply-chain-and-workflow-gates\\wrap-2026-09-24T09-41-13\\3.log",
+"bytes": 3308,
+"log_sha8": "bd9f9133",
+"exit": 0,
+"seconds": 1.09,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "test -s scripts/sync-crates.txt && while read -r c; do cargo deny --config deny-sync.toml --manifest-path \"crates/$c/Cargo.toml\" check bans || exit 1; done < scripts/sync-crates.txt",
+"run_sha8": "59b56b20",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-supply-chain-and-workflow-gates\\wrap-2026-09-24T09-41-13\\4.log",
+"bytes": 8,
+"log_sha8": "eba7f300",
+"exit": 0,
+"seconds": 0.43,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "build",
+"run": "test -s scripts/sync-crates.txt && cargo check $(sed 's/^/-p /' scripts/sync-crates.txt)",
+"run_sha8": "d884b389",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-supply-chain-and-workflow-gates\\wrap-2026-09-24T09-41-13\\5.log",
+"bytes": 72,
+"log_sha8": "736e2582",
+"exit": 0,
+"seconds": 0.16,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "lint",
+"run": "bash scripts/deny-probes.sh",
+"run_sha8": "6ea4a0e7",
+"expect": [
+"exit 0",
+"last line deny-probes: 13/13 banned, control clean"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-supply-chain-and-workflow-gates\\wrap-2026-09-24T09-41-13\\6.log",
+"bytes": 346,
+"log_sha8": "57359665",
+"exit": 0,
+"seconds": 13.51,
+"readings": [
+"exit 0 ✓",
+"last line 'deny-probes: 13/13 banned, control clean' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "lint",
+"run": "zizmor .github/workflows/",
+"run_sha8": "5dbe1a48",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-supply-chain-and-workflow-gates\\wrap-2026-09-24T09-41-13\\7.log",
+"bytes": 388,
+"log_sha8": "01a25b9b",
+"exit": 0,
+"seconds": 0.11,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "grep -HnE '\\$\\{\\{\\s*github\\.event' .github/workflows/*.yml | grep -vE '^[^:]+:[0-9]+:\\s+[A-Z][A-Z0-9_]*:\\s' ",
+"run_sha8": "85ec2fcd",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-supply-chain-and-workflow-gates\\wrap-2026-09-24T09-41-13\\8.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.08,
+"readings": [
+"exit 1 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — defer (key): zero .rs delta: the chunk writes TOML, Y… (124 chars)"
+},
+{
+"n": 10,
+"role": "integration",
+"run": "AGENT_RUN_CHUNK_BASE=61f9676882bbc06116ff9b47fc5c7328e8de1373 bash scripts/agent-run.sh run --mutants",
+"run_sha8": "296ad147",
+"expect": [
+"exit 0",
+"contains \"suite\":\"mutants\"",
+"contains \"verdict\":\"no-rust-delta\""
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-supply-chain-and-workflow-gates\\wrap-2026-09-24T09-41-13\\10.log",
+"bytes": 260,
+"log_sha8": "5006f30b",
+"exit": 0,
+"seconds": 1.1,
+"readings": [
+"exit 0 ✓",
+"contains '\"suite\":\"mutants\"' ✓",
+"contains '\"verdict\":\"no-rust-delta\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin build/viola-0.1.0",
+"run_sha8": "32523c62",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD)/check-runs --jq '[.check_runs[] | .conclusion] | unique | join(\",\")' ",
+"run_sha8": "4d78cf7d",
+"expect": [
+"exit 0",
+"last line success"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "gh workflow run nightly.yml --ref build/viola-0.1.0",
+"run_sha8": "59e479cf",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "gh run list --workflow nightly.yml --event workflow_dispatch --json headSha,conclusion --jq \"[.[] | select(.headSha == \\\"$(git rev-parse HEAD)\\\") | .conclusion] | first\"",
+"run_sha8": "aa671eff",
+"expect": [
+"exit 0",
+"last line success"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+}
+]
