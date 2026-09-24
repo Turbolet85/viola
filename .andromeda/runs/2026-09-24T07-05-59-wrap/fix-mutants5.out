@@ -1,0 +1,18 @@
+   Compiling serde v1.0.229
+   Compiling memchr v2.8.3
+   Compiling windows-sys v0.61.2
+   Compiling serde_json v1.0.151
+   Compiling anstyle-query v1.1.5
+   Compiling anstyle-wincon v3.0.11
+   Compiling tracing-serde v0.2.0
+   Compiling anstream v1.0.0
+   Compiling clap_builder v4.6.7
+   Compiling tracing-subscriber v0.3.23
+   Compiling clap v4.6.7
+   Compiling viola v0.1.0 (D:\dev\projects\viola)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 3.27s
+ INFO Auto-set test timeout to 108s
+Found 8 mutants to test
+ok       Unmutated baseline in 3s build + 21s test
+8 mutants tested in 64s: 8 caught
+{"v":1,"cmd":"run","ok":true,"suites":[{"suite":"mutants","passed":8,"failed":0,"skipped":0,"survived":0,"artifact":"mutants.out/outcomes.json","failures":[]}],"mutants":{"tested":8}}

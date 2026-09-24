@@ -1,0 +1,41 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "83ae5b52",
+"ts": "2026-09-24T07:58:06Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-24T07-05-59-wrap/test-plan-entry.md",
+"--lines",
+"5",
+"--run-dir",
+".andromeda/runs/2026-09-24T07-05-59-wrap",
+"--marker",
+"2026-09-24-three-os-ci-headless-harness-skeleton"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+5 at line 58 · lines 57→62 · bytes 4788→5883 · term lf",
+"last line now: **Why:** cargo-mutants 27.1 scopes the baseline to the packages the diff touches"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 57,
+"bytes": 4788,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 62,
+"bytes": 5883
+}
+}
+]

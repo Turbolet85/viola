@@ -369,6 +369,18 @@ fn mutants(ws: &Workspace, chunk_base: Option<String>) -> Result<(Suite, u64), S
     fs::create_dir_all(ws.agent_run()).map_err(|_| missing())?;
     fs::write(&diff_path, &diff).map_err(|_| missing())?;
 
+    // cargo-mutants builds only the packages a diff touches, but the harness tests spawn the root
+    // package's `viola` and `viola-fake-agent`: build them (root package only, so the running
+    // `viola-harness` is never relinked) and copy `target/` into the scratch tree.
+    let (built, _) = run_forwarding(
+        Command::new("cargo")
+            .args(["build", "--package", "viola", "--features", "fake-agent"])
+            .env_remove("CARGO_TARGET_DIR")
+            .current_dir(&ws.root),
+    );
+    if built != Some(0) {
+        return Err("build-failed".to_owned());
+    }
     let (code, _) = run_forwarding(
         Command::new("cargo")
             .args([
@@ -379,7 +391,7 @@ fn mutants(ws: &Workspace, chunk_base: Option<String>) -> Result<(Suite, u64), S
                 "--in-diff",
             ])
             .arg(&diff_path)
-            .arg("--test-tool=nextest")
+            .args(["--test-tool=nextest", "--copy-target=true"])
             .env("NEXTEST_PROFILE", "mutants")
             .env_remove("CARGO_TARGET_DIR")
             .current_dir(&ws.root),
@@ -758,6 +770,21 @@ test result: FAILED. 3 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out\n
         assert_eq!(out.code, 1);
         assert_eq!(out.doc["reason"], "base-missing");
         assert!(!ws.agent_run().join("chunk.diff").exists());
+    }
+
+    #[test]
+    fn run_mutants_with_an_unbuildable_root_package_is_build_failed() {
+        let (_tmp, ws) = mini(GOOD_LIB);
+        let base = head(&ws);
+        fs::write(ws.root.join("src").join("lib.rs"), "pub fn broken( {}\n").expect("write");
+        let out = run(
+            &ws,
+            Selection::from_flags(false, false, true, false),
+            None,
+            Some(base),
+        );
+        assert_eq!(out.code, 1);
+        assert_eq!(out.doc["reason"], "build-failed");
     }
 
     #[test]

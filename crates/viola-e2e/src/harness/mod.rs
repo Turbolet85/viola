@@ -157,13 +157,14 @@ impl ProcessId {
         Self::of(self.pid) == Some(*self)
     }
 
-    /// Kills the process only if it is still this same process.
+    /// Kills the process only if it is still this same, live process: an exited-but-unreaped
+    /// Unix child (a zombie) is already gone and is never reported as killed.
     pub fn kill(&self) -> bool {
         let mut sys = System::new();
         let key = Pid::from_u32(self.pid);
         sys.refresh_processes(ProcessesToUpdate::Some(&[key]), true);
         sys.process(key)
-            .filter(|p| p.start_time() == self.started_at)
+            .filter(|p| p.status() != ProcessStatus::Zombie && p.start_time() == self.started_at)
             .is_some_and(|p| p.kill())
     }
 

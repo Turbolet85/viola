@@ -532,5 +532,855 @@
 }
 ]
 }
+},
+{
+"tool": "gate",
+"v": "1.1",
+"sha8": "4c16668f",
+"ts": "2026-09-24T07:51:03Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-09-24-three-os-ci-headless-harness-skeleton/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-24T07-05-59-wrap",
+"--marker",
+"2026-09-24-three-os-ci-headless-harness-skeleton",
+"--skip",
+"14:ci-fix-reverifies-mutants-below"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\viola · marker 2026-09-24-three-os-ci-headless-harness-skeleton · entries 18",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-three-os-ci-headless-harness-skeleton\\wrap-2026-09-24T07-05-59 · bound: GNU timeout",
+"delta docs 3 · rust 1 · unmapped 1",
+"prose L286-290: Local gates /implement runs. The harness lifecycle leg runs against processes the entries … (555 chars)",
+"  1 build       green · exit 0 · 1.36s · 143 B → 1.log · cargo build --workspace --features fake-agent",
+"  2 lint        green · exit 0 · 0.2s · 0 B → 2.log · cargo fmt --all --check",
+"  3 lint        green · exit 0 · 0.83s · 143 B → 3.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  4 unit        green · exit 0 · 7.92s · 9623 B → 4.log · bash scripts/agent-run.sh run --unit",
+"  5 integration green · exit 0 · 21.66s · 3107 B → 5.log · bash scripts/agent-run.sh run --integration",
+"  6 e2e         green · exit 0 · 0.23s · 47 B → 6.log · bash scripts/agent-run.sh cleanup --session gate-smoke",
+"  7 smoke       green · exit 0 · 0.44s · 276 B → 7.log · bash scripts/agent-run.sh boot --session gate-smoke --inst… (70 chars)",
+"  8 e2e         green · exit 0 · 0.22s · 213 B → 8.log · bash scripts/agent-run.sh status --session gate-smoke",
+"  9 e2e         green · exit 0 · 0.22s · 6 B → 9.log · bash scripts/agent-run.sh logs --session gate-smoke --inst… (216 chars)",
+" 10 e2e         green · exit 0 · 0.5s · 175 B → 10.log · bash scripts/agent-run.sh cleanup --session gate-smoke",
+" 11 e2e         green · exit 0 · 0.22s · 47 B → 11.log · bash scripts/agent-run.sh cleanup --session gate-smoke",
+" 12 integration green · exit 1 · 0.23s · 67 B → 12.log · AGENT_RUN_CHUNK_BASE=0000000000000000000000000000000000000… (101 chars)",
+" 13 probe       green · exit 0 · 0.05s · 0 B → 13.log · test ! -e target/agent-run/chunk.diff",
+" 14 integration not run — skipped: ci-fix-reverifies-mutants-below · AGENT_RUN_CHUNK_BASE=13b7ee32e6227d1cb6cecc96fbe412fe34a4e… (101 chars)",
+" 15 probe       green · exit 0 · 0.1s · 3 B → 15.log · python -X utf8 -c \"import re;t=open('.github/workflows/ci.… (183 chars)",
+" 16 probe       green · exit 1 · 0.06s · 0 B → 16.log · grep -rEn --include=Cargo.toml --include=config.toml --inc… (194 chars)",
+" 17 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (82 chars)",
+" 18 probe       not run — leg operator (the letter drives it) · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (129 chars)",
+"entries 18 · green 15 · red 0 · recorded 0 · timeout 0 · not-run 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-24-three-os-ci-headless-harness-skeleton",
+"plan": "D:\\dev\\projects\\viola\\viola-0.1.0\\chunks\\2026-09-24-three-os-ci-headless-harness-skeleton\\plan.md",
+"root": "D:\\dev\\projects\\viola",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-three-os-ci-headless-harness-skeleton\\wrap-2026-09-24T07-05-59",
+"delta": {
+"rust": [
+"crates/viola-e2e/src/harness/mod.rs"
+],
+"docs": [
+".andromeda/runs/2026-09-24T07-05-59-wrap/ci-failed.log",
+".andromeda/runs/2026-09-24T07-05-59-wrap/ci-watch.log",
+".andromeda/runs/2026-09-24T07-05-59-wrap/fix-gates.out"
+]
+},
+"unmapped": [
+".github/workflows/ci.yml"
+],
+"prose": [
+{
+"from": 286,
+"to": 290,
+"text": "Local gates /implement runs. The harness lifecycle leg runs against processes the entries themselves start and stop. No external process is driven and no live leg exists this chunk, so there is no `probe` precondition. The session id `gate-smoke` is pre-cleaned by the first lifecycle entry (cleanup is idempotent), so a re-run never collides with a prior run's residue. The mutation entries run the whole chunk diff (base = this chunk's take-up HEAD `13b7ee3`). The long one runs in the background. The last two entries witness CI on the operator's push."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "build",
+"run": "cargo build --workspace --features fake-agent",
+"run_sha8": "31e29c2b",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-three-os-ci-headless-harness-skeleton\\wrap-2026-09-24T07-05-59\\1.log",
+"bytes": 143,
+"log_sha8": "67a83b02",
+"exit": 0,
+"seconds": 1.36,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-three-os-ci-headless-harness-skeleton\\wrap-2026-09-24T07-05-59\\2.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.2,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-three-os-ci-headless-harness-skeleton\\wrap-2026-09-24T07-05-59\\3.log",
+"bytes": 143,
+"log_sha8": "0e6cc3e1",
+"exit": 0,
+"seconds": 0.83,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-three-os-ci-headless-harness-skeleton\\wrap-2026-09-24T07-05-59\\4.log",
+"bytes": 9623,
+"log_sha8": "5b6732ab",
+"exit": 0,
+"seconds": 7.92,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"run\",\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration",
+"run_sha8": "03525807",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-three-os-ci-headless-harness-skeleton\\wrap-2026-09-24T07-05-59\\5.log",
+"bytes": 3107,
+"log_sha8": "95b3c464",
+"exit": 0,
+"seconds": 21.66,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"run\",\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh cleanup --session gate-smoke",
+"run_sha8": "3dd6cdce",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-three-os-ci-headless-harness-skeleton\\wrap-2026-09-24T07-05-59\\6.log",
+"bytes": 47,
+"log_sha8": "91854d6e",
+"exit": 0,
+"seconds": 0.23,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session gate-smoke --instance builder",
+"run_sha8": "71a26ce4",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"boot\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-three-os-ci-headless-harness-skeleton\\wrap-2026-09-24T07-05-59\\7.log",
+"bytes": 276,
+"log_sha8": "98b466d9",
+"exit": 0,
+"seconds": 0.44,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"boot\",\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh status --session gate-smoke",
+"run_sha8": "8b99315f",
+"expect": [
+"exit 0",
+"contains \"state\":\"ready\""
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-three-os-ci-headless-harness-skeleton\\wrap-2026-09-24T07-05-59\\8.log",
+"bytes": 213,
+"log_sha8": "a0cf7386",
+"exit": 0,
+"seconds": 0.22,
+"readings": [
+"exit 0 ✓",
+"contains '\"state\":\"ready\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh logs --session gate-smoke --instance builder | jq -e -s 'map(select(.src==\"diag\" and .record.event==\"process-start\" and .record.process==\"run\" and (.record|has(\"corr\")|not))) | length >= 1' ",
+"run_sha8": "07f834a7",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-three-os-ci-headless-harness-skeleton\\wrap-2026-09-24T07-05-59\\9.log",
+"bytes": 6,
+"log_sha8": "49628009",
+"exit": 0,
+"seconds": 0.22,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh cleanup --session gate-smoke",
+"run_sha8": "3dd6cdce",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-three-os-ci-headless-harness-skeleton\\wrap-2026-09-24T07-05-59\\10.log",
+"bytes": 175,
+"log_sha8": "308cb3b1",
+"exit": 0,
+"seconds": 0.5,
+"readings": [
+"exit 0 ✓",
+"contains '\"processes_gone\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh cleanup --session gate-smoke",
+"run_sha8": "3dd6cdce",
+"expect": [
+"exit 0",
+"contains \"cleaned\":[]"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-three-os-ci-headless-harness-skeleton\\wrap-2026-09-24T07-05-59\\11.log",
+"bytes": 47,
+"log_sha8": "91854d6e",
+"exit": 0,
+"seconds": 0.22,
+"readings": [
+"exit 0 ✓",
+"contains '\"cleaned\":[]' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "integration",
+"run": "AGENT_RUN_CHUNK_BASE=0000000000000000000000000000000000000000 bash scripts/agent-run.sh run --mutants",
+"run_sha8": "b99c1611",
+"expect": [
+"exit 1",
+"contains \"reason\":\"base-missing\""
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-three-os-ci-headless-harness-skeleton\\wrap-2026-09-24T07-05-59\\12.log",
+"bytes": 67,
+"log_sha8": "5c389247",
+"exit": 1,
+"seconds": 0.23,
+"readings": [
+"exit 1 ✓",
+"contains '\"reason\":\"base-missing\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "test ! -e target/agent-run/chunk.diff",
+"run_sha8": "e9e127aa",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-three-os-ci-headless-harness-skeleton\\wrap-2026-09-24T07-05-59\\13.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.05,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "integration",
+"run": "AGENT_RUN_CHUNK_BASE=13b7ee32e6227d1cb6cecc96fbe412fe34a4e0e6 bash scripts/agent-run.sh run --mutants",
+"run_sha8": "b9d80196",
+"expect": [
+"exit 0",
+"contains \"suite\":\"mutants\"",
+"contains \"survived\":0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — skipped: ci-fix-reverifies-mutants-below"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "python -X utf8 -c \"import re;t=open('.github/workflows/ci.yml').read();u=re.findall(r'uses:\\s*(.+)',t);assert u;print(sum(1 for x in u if not re.match(r'[^@\\s]+@[0-9a-f]{40} # ',x)))\"",
+"run_sha8": "6aeffbc1",
+"expect": [
+"exit 0",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-three-os-ci-headless-harness-skeleton\\wrap-2026-09-24T07-05-59\\15.log",
+"bytes": 3,
+"log_sha8": "13bf7b30",
+"exit": 0,
+"seconds": 0.1,
+"readings": [
+"exit 0 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "grep -rEn --include=Cargo.toml --include=config.toml --include='*.yml' --include='*.yaml' --exclude-dir=target --exclude-dir=.git --exclude-dir=.andromeda \"(panic|_PANIC)\\s*[:=]\\s*[\\\"']?abort\" .",
+"run_sha8": "9bc42504",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-three-os-ci-headless-harness-skeleton\\wrap-2026-09-24T07-05-59\\16.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.06,
+"readings": [
+"exit 1 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin build/viola-0.1.0",
+"run_sha8": "32523c62",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD)/check-runs --jq '[.check_runs[] | .conclusion] | unique | join(\",\")' ",
+"run_sha8": "4d78cf7d",
+"expect": [
+"exit 0",
+"last line success"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.1",
+"sha8": "4c16668f",
+"ts": "2026-09-24T07:56:26Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-09-24-three-os-ci-headless-harness-skeleton/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-24T07-05-59-wrap",
+"--marker",
+"2026-09-24-three-os-ci-headless-harness-skeleton",
+"--skip",
+"14:fix-diff-mutation-run-below"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\viola · marker 2026-09-24-three-os-ci-headless-harness-skeleton · entries 18",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-three-os-ci-headless-harness-skeleton\\wrap-2026-09-24T07-05-59 · bound: GNU timeout",
+"delta docs 10 · rust 2 · unmapped 1",
+"prose L286-290: Local gates /implement runs. The harness lifecycle leg runs against processes the entries … (555 chars)",
+"  1 build       green · exit 0 · 0.8s · 143 B → 1.log · cargo build --workspace --features fake-agent",
+"  2 lint        green · exit 0 · 0.19s · 0 B → 2.log · cargo fmt --all --check",
+"  3 lint        green · exit 0 · 0.58s · 143 B → 3.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  4 unit        green · exit 0 · 6.44s · 9748 B → 4.log · bash scripts/agent-run.sh run --unit",
+"  5 integration green · exit 0 · 21.67s · 3107 B → 5.log · bash scripts/agent-run.sh run --integration",
+"  6 e2e         green · exit 0 · 0.21s · 47 B → 6.log · bash scripts/agent-run.sh cleanup --session gate-smoke",
+"  7 smoke       green · exit 0 · 0.43s · 277 B → 7.log · bash scripts/agent-run.sh boot --session gate-smoke --inst… (70 chars)",
+"  8 e2e         green · exit 0 · 0.22s · 214 B → 8.log · bash scripts/agent-run.sh status --session gate-smoke",
+"  9 e2e         green · exit 0 · 0.23s · 6 B → 9.log · bash scripts/agent-run.sh logs --session gate-smoke --inst… (216 chars)",
+" 10 e2e         green · exit 0 · 0.47s · 175 B → 10.log · bash scripts/agent-run.sh cleanup --session gate-smoke",
+" 11 e2e         green · exit 0 · 0.21s · 47 B → 11.log · bash scripts/agent-run.sh cleanup --session gate-smoke",
+" 12 integration green · exit 1 · 0.22s · 67 B → 12.log · AGENT_RUN_CHUNK_BASE=0000000000000000000000000000000000000… (101 chars)",
+" 13 probe       green · exit 0 · 0.05s · 0 B → 13.log · test ! -e target/agent-run/chunk.diff",
+" 14 integration not run — skipped: fix-diff-mutation-run-below · AGENT_RUN_CHUNK_BASE=13b7ee32e6227d1cb6cecc96fbe412fe34a4e… (101 chars)",
+" 15 probe       green · exit 0 · 0.09s · 3 B → 15.log · python -X utf8 -c \"import re;t=open('.github/workflows/ci.… (183 chars)",
+" 16 probe       green · exit 1 · 0.06s · 0 B → 16.log · grep -rEn --include=Cargo.toml --include=config.toml --inc… (194 chars)",
+" 17 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (82 chars)",
+" 18 probe       not run — leg operator (the letter drives it) · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (129 chars)",
+"entries 18 · green 15 · red 0 · recorded 0 · timeout 0 · not-run 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-24-three-os-ci-headless-harness-skeleton",
+"plan": "D:\\dev\\projects\\viola\\viola-0.1.0\\chunks\\2026-09-24-three-os-ci-headless-harness-skeleton\\plan.md",
+"root": "D:\\dev\\projects\\viola",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-three-os-ci-headless-harness-skeleton\\wrap-2026-09-24T07-05-59",
+"delta": {
+"docs": [
+".andromeda/runs/2026-09-24T07-05-59-wrap/gate-2026-09-24-three-os-ci-headless-harness-skeleton.json",
+".andromeda/runs/2026-09-24T07-05-59-wrap/ci-failed.log",
+".andromeda/runs/2026-09-24T07-05-59-wrap/ci-watch.log",
+".andromeda/runs/2026-09-24T07-05-59-wrap/fix-gates.out",
+".andromeda/runs/2026-09-24T07-05-59-wrap/fix-gates2.out",
+".andromeda/runs/2026-09-24T07-05-59-wrap/fix-mutants.out",
+".andromeda/runs/2026-09-24T07-05-59-wrap/fix-mutants2.out",
+".andromeda/runs/2026-09-24T07-05-59-wrap/fix-mutants3.out",
+".andromeda/runs/2026-09-24T07-05-59-wrap/fix-mutants4.out",
+".andromeda/runs/2026-09-24T07-05-59-wrap/pkgws.log"
+],
+"rust": [
+"crates/viola-e2e/src/harness/mod.rs",
+"crates/viola-e2e/src/harness/run.rs"
+]
+},
+"unmapped": [
+".github/workflows/ci.yml"
+],
+"prose": [
+{
+"from": 286,
+"to": 290,
+"text": "Local gates /implement runs. The harness lifecycle leg runs against processes the entries themselves start and stop. No external process is driven and no live leg exists this chunk, so there is no `probe` precondition. The session id `gate-smoke` is pre-cleaned by the first lifecycle entry (cleanup is idempotent), so a re-run never collides with a prior run's residue. The mutation entries run the whole chunk diff (base = this chunk's take-up HEAD `13b7ee3`). The long one runs in the background. The last two entries witness CI on the operator's push."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "build",
+"run": "cargo build --workspace --features fake-agent",
+"run_sha8": "31e29c2b",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-three-os-ci-headless-harness-skeleton\\wrap-2026-09-24T07-05-59\\1.log",
+"bytes": 143,
+"log_sha8": "b386af7b",
+"exit": 0,
+"seconds": 0.8,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-three-os-ci-headless-harness-skeleton\\wrap-2026-09-24T07-05-59\\2.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.19,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-three-os-ci-headless-harness-skeleton\\wrap-2026-09-24T07-05-59\\3.log",
+"bytes": 143,
+"log_sha8": "14309b9d",
+"exit": 0,
+"seconds": 0.58,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-three-os-ci-headless-harness-skeleton\\wrap-2026-09-24T07-05-59\\4.log",
+"bytes": 9748,
+"log_sha8": "a2cce41f",
+"exit": 0,
+"seconds": 6.44,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"run\",\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration",
+"run_sha8": "03525807",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-three-os-ci-headless-harness-skeleton\\wrap-2026-09-24T07-05-59\\5.log",
+"bytes": 3107,
+"log_sha8": "605a6fd4",
+"exit": 0,
+"seconds": 21.67,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"run\",\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh cleanup --session gate-smoke",
+"run_sha8": "3dd6cdce",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-three-os-ci-headless-harness-skeleton\\wrap-2026-09-24T07-05-59\\6.log",
+"bytes": 47,
+"log_sha8": "91854d6e",
+"exit": 0,
+"seconds": 0.21,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session gate-smoke --instance builder",
+"run_sha8": "71a26ce4",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"boot\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-three-os-ci-headless-harness-skeleton\\wrap-2026-09-24T07-05-59\\7.log",
+"bytes": 277,
+"log_sha8": "02cfe21c",
+"exit": 0,
+"seconds": 0.43,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"boot\",\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh status --session gate-smoke",
+"run_sha8": "8b99315f",
+"expect": [
+"exit 0",
+"contains \"state\":\"ready\""
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-three-os-ci-headless-harness-skeleton\\wrap-2026-09-24T07-05-59\\8.log",
+"bytes": 214,
+"log_sha8": "f28b6a65",
+"exit": 0,
+"seconds": 0.22,
+"readings": [
+"exit 0 ✓",
+"contains '\"state\":\"ready\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh logs --session gate-smoke --instance builder | jq -e -s 'map(select(.src==\"diag\" and .record.event==\"process-start\" and .record.process==\"run\" and (.record|has(\"corr\")|not))) | length >= 1' ",
+"run_sha8": "07f834a7",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-three-os-ci-headless-harness-skeleton\\wrap-2026-09-24T07-05-59\\9.log",
+"bytes": 6,
+"log_sha8": "49628009",
+"exit": 0,
+"seconds": 0.23,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh cleanup --session gate-smoke",
+"run_sha8": "3dd6cdce",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-three-os-ci-headless-harness-skeleton\\wrap-2026-09-24T07-05-59\\10.log",
+"bytes": 175,
+"log_sha8": "308cb3b1",
+"exit": 0,
+"seconds": 0.47,
+"readings": [
+"exit 0 ✓",
+"contains '\"processes_gone\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh cleanup --session gate-smoke",
+"run_sha8": "3dd6cdce",
+"expect": [
+"exit 0",
+"contains \"cleaned\":[]"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-three-os-ci-headless-harness-skeleton\\wrap-2026-09-24T07-05-59\\11.log",
+"bytes": 47,
+"log_sha8": "91854d6e",
+"exit": 0,
+"seconds": 0.21,
+"readings": [
+"exit 0 ✓",
+"contains '\"cleaned\":[]' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "integration",
+"run": "AGENT_RUN_CHUNK_BASE=0000000000000000000000000000000000000000 bash scripts/agent-run.sh run --mutants",
+"run_sha8": "b99c1611",
+"expect": [
+"exit 1",
+"contains \"reason\":\"base-missing\""
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-three-os-ci-headless-harness-skeleton\\wrap-2026-09-24T07-05-59\\12.log",
+"bytes": 67,
+"log_sha8": "5c389247",
+"exit": 1,
+"seconds": 0.22,
+"readings": [
+"exit 1 ✓",
+"contains '\"reason\":\"base-missing\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "test ! -e target/agent-run/chunk.diff",
+"run_sha8": "e9e127aa",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-three-os-ci-headless-harness-skeleton\\wrap-2026-09-24T07-05-59\\13.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.05,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "integration",
+"run": "AGENT_RUN_CHUNK_BASE=13b7ee32e6227d1cb6cecc96fbe412fe34a4e0e6 bash scripts/agent-run.sh run --mutants",
+"run_sha8": "b9d80196",
+"expect": [
+"exit 0",
+"contains \"suite\":\"mutants\"",
+"contains \"survived\":0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — skipped: fix-diff-mutation-run-below"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "python -X utf8 -c \"import re;t=open('.github/workflows/ci.yml').read();u=re.findall(r'uses:\\s*(.+)',t);assert u;print(sum(1 for x in u if not re.match(r'[^@\\s]+@[0-9a-f]{40} # ',x)))\"",
+"run_sha8": "6aeffbc1",
+"expect": [
+"exit 0",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-three-os-ci-headless-harness-skeleton\\wrap-2026-09-24T07-05-59\\15.log",
+"bytes": 3,
+"log_sha8": "13bf7b30",
+"exit": 0,
+"seconds": 0.09,
+"readings": [
+"exit 0 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "grep -rEn --include=Cargo.toml --include=config.toml --include='*.yml' --include='*.yaml' --exclude-dir=target --exclude-dir=.git --exclude-dir=.andromeda \"(panic|_PANIC)\\s*[:=]\\s*[\\\"']?abort\" .",
+"run_sha8": "9bc42504",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-three-os-ci-headless-harness-skeleton\\wrap-2026-09-24T07-05-59\\16.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.06,
+"readings": [
+"exit 1 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin build/viola-0.1.0",
+"run_sha8": "32523c62",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD)/check-runs --jq '[.check_runs[] | .conclusion] | unique | join(\",\")' ",
+"run_sha8": "4d78cf7d",
+"expect": [
+"exit 0",
+"last line success"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
 }
 ]

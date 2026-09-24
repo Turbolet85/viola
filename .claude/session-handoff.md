@@ -2,8 +2,8 @@
 
 **Last Updated:** 2026-09-24T07:23:46Z
 **Branch:** build/viola-0.1.0 · 0 ahead of origin/build/viola-0.1.0 as read at this wrap's Setup
-**Status:** clean
-**Last Commit:** 2026-09-24-three-os-ci-headless-harness-skeleton — feat: 3-OS CI + headless harness skeleton
+**Status:** escalation-open. CI was red on wrap commit `b0236ca` (run 35971295434); a fix commit was pushed, and its CI is being watched. The chunk counts as closed only when all 3 OS + mutants are green (operator directive).
+**Last Commit:** 2026-09-24-three-os-ci-headless-harness-skeleton — fix: CI test tools, Unix zombie kill, mutation prebuild
 
 ## Position
 - Done: 2026-09-24-three-os-ci-headless-harness-skeleton. Workspace (rust 1.98.1 pin, floor 1.96), `viola run` first slice, `viola-harness` with five commands, minimal fake agent, mutation gate, 3-OS `ci.yml`.

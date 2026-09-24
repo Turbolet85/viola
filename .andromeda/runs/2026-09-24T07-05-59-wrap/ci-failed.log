@@ -1,0 +1,1188 @@
+test (windows-2025)	Unit and integration (pwsh shim)	﻿2026-09-24T07:45:28.4604182Z ##[group]Run ./scripts/agent-run.ps1 run --unit
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:45:28.4604674Z [36;1m./scripts/agent-run.ps1 run --unit[0m
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:45:28.4605021Z [36;1mif ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }[0m
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:45:28.4605363Z [36;1m./scripts/agent-run.ps1 run --integration[0m
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:45:28.4605691Z [36;1mif ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }[0m
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:45:28.4676637Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:45:28.4676989Z env:
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:45:28.4677156Z   AGENT_RUN_KEEP_HOMES: 1
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:45:28.4677370Z   CACHE_ON_FAILURE: false
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:45:28.4677566Z   CARGO_INCREMENTAL: 0
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:45:28.4677767Z ##[endgroup]
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:46:50.7953718Z  Downloading crates ...
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:46:51.0060016Z   Downloaded tracing-serde v0.2.0
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:46:51.0237532Z   Downloaded lazy_static v1.5.0
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:46:51.0490709Z   Downloaded autocfg v1.5.1
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:46:51.0780192Z   Downloaded thread_local v1.1.10
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:46:51.1350643Z   Downloaded anyhow v1.0.104
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:46:51.2524543Z   Downloaded sharded-slab v0.1.7
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:46:51.2964866Z   Downloaded pin-project-lite v0.2.17
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:46:51.4075172Z   Downloaded num-traits v0.2.19
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:46:51.4518545Z   Downloaded tracing-core v0.1.36
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:46:51.5184136Z   Downloaded tracing-subscriber v0.3.23
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:46:51.6214627Z   Downloaded chrono v0.4.45
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:46:51.6952508Z   Downloaded tracing v0.1.44
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:46:52.2122991Z    Compiling proc-macro2 v1.0.107
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:46:52.2142569Z    Compiling quote v1.0.47
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:46:52.7471572Z    Compiling unicode-ident v1.0.26
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:46:52.9326653Z    Compiling windows-link v0.2.1
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:46:52.9940443Z    Compiling cfg-if v1.0.5
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:46:53.0559680Z    Compiling unicode-segmentation v1.13.3
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:46:54.1725922Z    Compiling syn v2.0.119
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:46:54.3009461Z    Compiling syn v3.0.6
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:01.2994030Z    Compiling semver v1.0.28
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:01.7824904Z    Compiling rustc_version v0.4.1
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:02.1830243Z    Compiling convert_case v0.11.0
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:02.5437819Z    Compiling nutype_macros v0.8.0
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:02.6669227Z    Compiling kinded_macros v0.5.1
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:02.8242782Z    Compiling windows-sys v0.61.2
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:03.9326819Z    Compiling serde_core v1.0.229
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:04.4206662Z    Compiling kinded v0.5.1
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:04.5904294Z    Compiling once_cell v1.21.4
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:04.8338719Z    Compiling urlencoding v2.1.3
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:08.6716933Z    Compiling utf8parse v0.2.2
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:08.7718221Z    Compiling once_cell_polyfill v1.70.2
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:08.8820152Z    Compiling anstyle v1.0.14
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:09.2178601Z    Compiling serde v1.0.229
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:09.6106433Z    Compiling zmij v1.0.23
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:10.1130306Z    Compiling anstyle-wincon v3.0.11
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:10.5342412Z    Compiling anstyle-parse v1.0.0
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:10.7837273Z    Compiling anstyle-query v1.1.5
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:10.9603787Z    Compiling serde_derive v1.0.229
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:16.3306054Z    Compiling hashbrown v0.17.1
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:17.3117038Z    Compiling is_terminal_polyfill v1.70.2
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:17.4169504Z    Compiling equivalent v1.0.2
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:17.4912998Z    Compiling memchr v2.8.3
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:18.3993508Z    Compiling nutype v0.8.0
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:18.5134980Z    Compiling colorchoice v1.0.5
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:18.6411343Z    Compiling serde_json v1.0.151
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:18.9280325Z    Compiling anstream v1.0.0
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:19.0475998Z    Compiling indexmap v2.14.2
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:20.5851663Z    Compiling clap_lex v1.1.1
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:20.6261651Z    Compiling itoa v1.0.18
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:20.9198921Z    Compiling strsim v0.11.1
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:20.9860316Z    Compiling heck v0.5.0
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:21.3089482Z    Compiling clap_derive v4.6.7
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:21.6779439Z    Compiling clap_builder v4.6.7
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:27.4117725Z    Compiling viola-core v0.1.0 (D:\a\viola\viola\crates\viola-core)
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:27.5577004Z    Compiling windows-interface v0.59.3
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:28.7608492Z    Compiling windows-implement v0.60.2
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:29.9190765Z    Compiling windows-strings v0.5.1
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:30.5006184Z    Compiling windows-result v0.4.1
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:30.7598785Z    Compiling getrandom v0.4.3
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:30.9718832Z    Compiling windows-core v0.62.2
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:31.1272561Z    Compiling clap v4.6.7
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:31.3693610Z    Compiling fastrand v2.5.0
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:31.7400842Z    Compiling winapi v0.3.9
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:31.8342074Z    Compiling tempfile v3.27.0
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:32.4021581Z    Compiling windows-threading v0.2.1
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:32.5450559Z    Compiling ntapi v0.4.3
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:32.7572330Z    Compiling libc v0.2.189
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:32.8611016Z    Compiling windows-future v0.3.2
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:34.0740180Z    Compiling windows-collections v0.3.2
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:34.7966627Z    Compiling windows-numerics v0.3.1
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:35.0870682Z    Compiling autocfg v1.5.1
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:35.6641268Z    Compiling thiserror v2.0.20
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:35.6828790Z    Compiling num-traits v0.2.19
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:36.2668032Z    Compiling windows v0.62.2
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:38.2661813Z    Compiling tracing-core v0.1.36
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:39.3567032Z    Compiling thiserror-impl v2.0.20
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:41.5634756Z    Compiling lazy_static v1.5.0
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:41.6513286Z    Compiling anyhow v1.0.104
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:42.2031731Z    Compiling sharded-slab v0.1.7
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:44.3068880Z    Compiling tracing-serde v0.2.0
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:44.4963419Z    Compiling thread_local v1.1.10
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:44.9235094Z    Compiling pin-project-lite v0.2.17
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:45.0306257Z    Compiling tracing v0.1.44
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:45.4137319Z    Compiling tracing-subscriber v0.3.23
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:49.1391215Z    Compiling chrono v0.4.45
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:47:52.6701606Z    Compiling viola v0.1.0 (D:\a\viola\viola)
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:01.7223066Z    Compiling sysinfo v0.39.6
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:05.9840916Z    Compiling viola-e2e v0.1.0 (D:\a\viola\viola\crates\viola-e2e)
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.0615024Z     Finished `test` profile [unoptimized + debuginfo] target(s) in 1m 21s
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.1604090Z ────────────
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.1605307Z  Nextest run ID 1b77a468-f6d0-4d07-ac92-cbab7c7dac58 with nextest profile: ci
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.1606715Z     Starting 82 tests across 5 binaries (3 binaries skipped)
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.1798810Z         PASS [   0.015s] ( 1/82) viola::bin/viola run::tests::millis_utc_writes_the_current_timestamp
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.1917611Z         PASS [   0.021s] ( 2/82) viola::bin/viola run::tests::ensure_private_dir_creates_missing_parents
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.1991597Z         PASS [   0.021s] ( 3/82) viola::bin/viola run::tests::timestamp_is_rfc3339_utc_millis_with_z
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.2033504Z         PASS [   0.020s] ( 4/82) viola::bin/viola tests::panic_hook_writes_exactly_one_line_without_payload
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.2139737Z         PASS [   0.011s] ( 5/82) viola::bin/viola tests::panic_line_without_instance_omits_the_key
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.2141904Z         PASS [   0.016s] ( 6/82) viola::bin/viola tests::panic_line_has_the_binding_fields_and_no_corr
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.2364603Z         PASS [   0.018s] ( 7/82) viola::bin/viola tests::panic_location_dependency_path_trimmed_to_crate_dir
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.2394420Z         PASS [   0.021s] ( 8/82) viola::bin/viola tests::panic_location_absolute_without_src_keeps_file_name_only
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.2532975Z         PASS [   0.019s] ( 9/82) viola::bin/viola tests::panic_location_relative_path_kept_with_forward_slashes
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.2572053Z         PASS [   0.019s] (10/82) viola::bin/viola tests::panic_location_src_at_root_keeps_file_name_only
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.2703082Z         PASS [   0.017s] (11/82) viola-core tests::version_is_the_package_version
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.2742028Z         PASS [   0.017s] (12/82) viola-core tests::viola_name_digits_and_hyphen_after_first_accepted
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.2874472Z         PASS [   0.019s] (13/82) viola-core tests::viola_name_displays_its_value
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.2910346Z         PASS [   0.016s] (14/82) viola-core tests::viola_name_empty_rejected
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.3076311Z         PASS [   0.016s] (15/82) viola-core tests::viola_name_length_boundary_holds
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.3078256Z         PASS [   0.019s] (16/82) viola-core tests::viola_name_leading_non_letter_rejected
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.3215043Z         PASS [   0.016s] (17/82) viola-core tests::viola_name_outside_charset_rejected
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.3253688Z         PASS [   0.016s] (18/82) viola-core tests::viola_name_plain_words_accepted
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.3500136Z         PASS [   0.031s] (19/82) viola-e2e harness::boot::tests::boot_refuses_an_invalid_session_id
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.4962267Z         PASS [   0.171s] (20/82) viola-e2e harness::boot::tests::boot_with_a_failing_build_reports_build_failed_with_its_exit
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.5186577Z         PASS [   0.022s] (21/82) viola-e2e harness::boot::tests::failure_doc_carries_the_closed_fields
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.5370167Z         PASS [   0.018s] (22/82) viola-e2e harness::boot::tests::instance_spec_parses_name_and_args
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.5580287Z         PASS [   0.021s] (23/82) viola-e2e harness::boot::tests::instance_spec_rejects_invalid_names
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.6082073Z         PASS [   0.053s] (24/82) viola-e2e harness::boot::tests::readiness_is_ready_when_both_processes_live
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.6366682Z         PASS [   0.028s] (25/82) viola-e2e harness::boot::tests::readiness_names_each_missing_check
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.6599364Z         PASS [   0.022s] (26/82) viola-e2e harness::boot::tests::readiness_reports_a_wrapper_that_already_exited
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.6820891Z         PASS [   0.020s] (27/82) viola-e2e harness::boot::tests::role_file_is_the_run_role_basename
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.7039816Z         PASS [   0.024s] (28/82) viola-e2e harness::boot::tests::role_state_reads_start_child_and_exit_lines
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.7241060Z         PASS [   0.019s] (29/82) viola-e2e harness::boot::tests::session_path_puts_the_session_bin_first
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.7242700Z         PASS [   0.373s] (30/82) viola-e2e harness::boot::tests::cargo_build_succeeds_on_a_buildable_package
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.7515801Z         PASS [   0.029s] (31/82) viola-e2e harness::boot::tests::wait_ready_returns_a_ready_instance
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.7704034Z         PASS [   0.019s] (32/82) viola-e2e harness::cleanup::tests::all_sessions_lists_only_recorded_valid_sessions
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.8012619Z         PASS [   0.031s] (33/82) viola-e2e harness::cleanup::tests::cleanup_all_stops_recorded_sessions_and_refuses_foreign_homes
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.8143737Z         PASS [   0.013s] (34/82) viola-e2e harness::cleanup::tests::cleanup_rejects_an_invalid_session_id
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.8273523Z         PASS [   0.013s] (35/82) viola-e2e harness::cleanup::tests::cleanup_without_a_session_is_ok_and_empty
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.8415836Z         PASS [   0.014s] (36/82) viola-e2e harness::cleanup::tests::killed_by_supervisor_reads_the_killed_names
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.8564543Z         PASS [   0.015s] (37/82) viola-e2e harness::cleanup::tests::remove_session_home_refuses_paths_outside_e2e_home
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.8700815Z         PASS [   0.014s] (38/82) viola-e2e harness::cleanup::tests::remove_session_home_removes_a_boot_created_parent
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.8830724Z         PASS [   0.013s] (39/82) viola-e2e harness::cleanup::tests::summarize_is_ok_only_when_everything_is_proven
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.8983788Z         PASS [   0.015s] (40/82) viola-e2e harness::logs::tests::diag_lines_reads_only_ndjson_files_in_name_order
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.9115830Z         PASS [   0.013s] (41/82) viola-e2e harness::logs::tests::filters_match_named_values_and_treat_absent_as_null
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.9244711Z         PASS [   0.013s] (42/82) viola-e2e harness::logs::tests::logs_for_an_unknown_session_is_exit_2
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.9374594Z         PASS [   0.013s] (43/82) viola-e2e harness::logs::tests::torn_lines_survive_any_filter
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.9501098Z         PASS [   0.013s] (44/82) viola-e2e harness::logs::tests::wrap_lines_accepts_crlf_terminated_lines
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.9631972Z         PASS [   0.013s] (45/82) viola-e2e harness::logs::tests::wrap_lines_wraps_records_and_marks_torn_lines
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:13.9819827Z         PASS [   0.016s] (46/82) viola-e2e harness::run::tests::attr_reads_one_attribute_or_nothing
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:14.0517463Z         PASS [   0.327s] (47/82) viola-e2e harness::boot::tests::wait_ready_times_out_with_the_missing_checks
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:14.0719675Z         PASS [   0.019s] (48/82) viola-e2e harness::run::tests::exit_must_agree_turns_a_silent_red_exit_red
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:14.0935510Z         PASS [   0.020s] (49/82) viola-e2e harness::run::tests::listed_reads_non_empty_lines
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:14.1207900Z         PASS [   0.030s] (50/82) viola-e2e harness::run::tests::merge_summary_replaces_by_suite
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:14.1384074Z         PASS [   0.017s] (51/82) viola-e2e harness::run::tests::mutants_exit_codes_map_to_reasons
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:14.1593937Z         PASS [   0.018s] (52/82) viola-e2e harness::run::tests::mutants_suite_counts_missed_and_timeout_as_survivors
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:14.1734468Z         PASS [   0.017s] (53/82) viola-e2e harness::run::tests::parse_doctest_sums_result_lines
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:14.2020298Z         PASS [   0.025s] (54/82) viola-e2e harness::run::tests::parse_junit_counts_pass_fail_skip
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:14.5742929Z         PASS [   0.593s] (55/82) viola-e2e harness::run::tests::chunk_diff_holds_tracked_edits_and_untracked_files
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:14.8246564Z         PASS [   0.622s] (56/82) viola-e2e harness::run::tests::resolve_base_needs_a_real_commit
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.6427311Z         FAIL [   1.064s] (57/82) viola-e2e harness::run::tests::run_mutants_passes_when_the_change_is_tested
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.6453343Z   stdout ───
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.6556781Z 
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.6562114Z     running 1 test
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.6615273Z     test harness::run::tests::run_mutants_passes_when_the_change_is_tested ... FAILED
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.6619865Z 
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.6620820Z     failures:
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.6626881Z 
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.6627233Z     failures:
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.6637670Z         harness::run::tests::run_mutants_passes_when_the_change_is_tested
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.6669734Z 
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.6681451Z     test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 63 filtered out; finished in 1.04s
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.6699779Z 
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.6723447Z   stderr ───
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.6808512Z     warning: in the working copy of 'a.rs', LF will be replaced by CRLF the next time Git touches it
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.6812877Z     warning: in the working copy of '.config/nextest.toml', LF will be replaced by CRLF the next time Git touches it
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.6815875Z     warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.6829077Z     warning: in the working copy of 'Cargo.toml', LF will be replaced by CRLF the next time Git touches it
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.6844081Z     warning: in the working copy of 'src/lib.rs', LF will be replaced by CRLF the next time Git touches it
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.6863396Z     warning: in the working copy of 'tests/it.rs', LF will be replaced by CRLF the next time Git touches it
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.6874663Z     error: no such command: `mutants`
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.6890544Z 
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.6900728Z     help: view all installed commands with `cargo --list`
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.6903555Z     help: find a package to install `mutants` with `cargo search cargo-mutants`
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.7005002Z 
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.7007289Z     thread 'harness::run::tests::run_mutants_passes_when_the_change_is_tested' (7416) panicked at crates\viola-e2e\src\harness\run.rs:806:9:
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.7010253Z     assertion `left == right` failed: {"v":1,"cmd":"run","ok":false,"reason":"mutants-exit-101","suites":[]}
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.7043944Z       left: 1
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.7061114Z      right: 0
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.7101912Z     note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.7103691Z 
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.7104978Z         FAIL [   0.862s] (58/82) viola-e2e harness::run::tests::run_mutants_reports_survivors_of_an_untested_change
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.7106284Z   stdout ───
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.7106730Z 
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.7107088Z     running 1 test
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.7108031Z     test harness::run::tests::run_mutants_reports_survivors_of_an_untested_change ... FAILED
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.7116739Z 
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.7117177Z     failures:
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.7117679Z 
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.7118025Z     failures:
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.7118887Z         harness::run::tests::run_mutants_reports_survivors_of_an_untested_change
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.7119676Z 
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.7120366Z     test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 63 filtered out; finished in 0.84s
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.7121249Z 
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.7121718Z   stderr ───
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.7122759Z     warning: in the working copy of '.config/nextest.toml', LF will be replaced by CRLF the next time Git touches it
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.7124351Z     warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.7125848Z     warning: in the working copy of 'Cargo.toml', LF will be replaced by CRLF the next time Git touches it
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.7127326Z     warning: in the working copy of 'src/lib.rs', LF will be replaced by CRLF the next time Git touches it
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.7129219Z     warning: in the working copy of 'tests/it.rs', LF will be replaced by CRLF the next time Git touches it
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.7130393Z     error: no such command: `mutants`
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.7130921Z 
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.7131415Z     help: view all installed commands with `cargo --list`
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.7132476Z     help: find a package to install `mutants` with `cargo search cargo-mutants`
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.7133265Z 
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.7134261Z     thread 'harness::run::tests::run_mutants_reports_survivors_of_an_untested_change' (6084) panicked at crates\viola-e2e\src\harness\run.rs:673:32:
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.7159746Z     suite mutants in {"v":1,"cmd":"run","ok":false,"reason":"mutants-exit-101","suites":[]}
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.7197868Z     note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:15.7219734Z 
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:16.2817752Z         PASS [   0.640s] (59/82) viola-e2e harness::run::tests::run_mutants_with_an_unreachable_base_is_base_missing_and_writes_no_diff
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:18.3860344Z         PASS [   2.104s] (60/82) viola-e2e harness::run::tests::run_with_a_failing_test_is_red_and_names_it
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:18.6820381Z         PASS [   2.997s] (61/82) viola-e2e harness::run::tests::run_reports_unit_integration_and_doctest_suites
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:18.9703994Z         PASS [   0.287s] (62/82) viola-e2e harness::run::tests::run_without_a_workspace_is_artifact_missing
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:18.9906170Z         PASS [   0.018s] (63/82) viola-e2e harness::run::tests::selection_defaults_to_everything
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:19.0115313Z         PASS [   0.021s] (64/82) viola-e2e harness::run::tests::selection_picks_only_the_named_suites
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:19.0323244Z         PASS [   0.019s] (65/82) viola-e2e harness::run::tests::suite_is_green_only_without_failures_or_survivors
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:19.0538291Z         PASS [   0.023s] (66/82) viola-e2e harness::supervise::tests::exit_report_is_red_when_anything_was_killed
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:19.0750036Z         PASS [   0.021s] (67/82) viola-e2e harness::supervise::tests::stop_requested_by_file_or_missing_spec
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:19.2006466Z         PASS [   0.125s] (68/82) viola-e2e harness::supervise::tests::stop_sends_ctrl_c_and_the_child_exits_without_a_kill
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:19.2197842Z         PASS [   0.019s] (69/82) viola-e2e harness::supervise::tests::supervise_without_a_spec_is_usage
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:19.2396978Z         PASS [   0.020s] (70/82) viola-e2e harness::supervise::tests::wait_or_kill_kills_a_survivor_at_the_deadline
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:19.2593134Z         PASS [   0.018s] (71/82) viola-e2e harness::tests::bin_dir_from_test_exe_skips_deps
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:19.2779235Z         PASS [   0.019s] (72/82) viola-e2e harness::tests::exe_appends_platform_suffix
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:19.2983372Z         PASS [   0.020s] (73/82) viola-e2e harness::tests::expired_tracks_the_deadline
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:19.3187612Z         PASS [   0.020s] (74/82) viola-e2e harness::tests::json_round_trips_through_files
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:19.3393092Z         PASS [   0.020s] (75/82) viola-e2e harness::tests::load_session_unknown_is_exit_2
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:19.3572088Z         PASS [   0.018s] (76/82) viola-e2e harness::tests::outcome_codes_follow_ok
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:19.8718285Z         PASS [   0.517s] (77/82) viola-e2e harness::tests::process_id_kill_stops_a_child_and_wait_gone_sees_it
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:19.8961117Z         PASS [   0.024s] (78/82) viola-e2e harness::tests::process_id_sees_itself_alive_and_a_wrong_start_time_dead
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:19.9088919Z         PASS [   0.013s] (79/82) viola-e2e harness::tests::valid_session_id_accepts_test_style_ids
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:19.9224783Z         PASS [   0.013s] (80/82) viola-e2e harness::tests::valid_session_id_rejects_path_escapes
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:19.9351558Z         PASS [   0.013s] (81/82) viola-e2e harness::tests::workspace_root_holds_the_root_manifest
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:20.3456996Z         PASS [   1.962s] (82/82) viola-e2e harness::run::tests::run_with_a_filter_matching_nothing_is_red
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:20.3458840Z ────────────
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:20.3459695Z      Summary [   7.186s] 82 tests run: 80 passed, 2 failed, 0 skipped
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:20.3467168Z         FAIL [   1.064s] (57/82) viola-e2e harness::run::tests::run_mutants_passes_when_the_change_is_tested
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:20.3469272Z         FAIL [   0.862s] (58/82) viola-e2e harness::run::tests::run_mutants_reports_survivors_of_an_untested_change
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:20.3496313Z error: test run failed
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:20.5050192Z     Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:20.5099058Z    Doc-tests viola_core
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:20.5714784Z    Doc-tests viola_e2e
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:20.6894200Z 
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:20.6895355Z running 0 tests
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:20.6895893Z 
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:20.6896615Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:20.6897915Z 
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:20.6898078Z 
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:20.6898400Z running 0 tests
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:20.6898822Z 
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:20.6899459Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:20.6900271Z 
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:20.6906653Z {"v":1,"cmd":"run","ok":false,"suites":[{"suite":"nextest-unit","passed":80,"failed":2,"skipped":0,"survived":0,"artifact":"D:\\a\\viola\\viola\\target\\agent-run\\artifacts\\junit-nextest-unit.xml","failures":["viola-e2e harness::run::tests::run_mutants_passes_when_the_change_is_tested","viola-e2e harness::run::tests::run_mutants_reports_survivors_of_an_untested_change"]},{"suite":"doctest","passed":0,"failed":0,"skipped":0,"survived":0,"artifact":null,"failures":[]}]}
+test (windows-2025)	Unit and integration (pwsh shim)	2026-09-24T07:48:20.7424015Z ##[error]Process completed with exit code 1.
+test (macos-latest)	Unit and integration (sh shim)	﻿2026-09-24T07:45:16.0795970Z ##[group]Run bash scripts/agent-run.sh run --unit
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:16.0796360Z [36;1mbash scripts/agent-run.sh run --unit[0m
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:16.0796620Z [36;1mbash scripts/agent-run.sh run --integration[0m
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:16.0845190Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:16.0845460Z env:
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:16.0845660Z   AGENT_RUN_KEEP_HOMES: 1
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:16.0845860Z   CACHE_ON_FAILURE: false
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:16.0846060Z   CARGO_INCREMENTAL: 0
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:16.0846230Z ##[endgroup]
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:34.9397140Z  Downloading crates ...
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:34.9696290Z   Downloaded autocfg v1.5.1
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:34.9753680Z   Downloaded lazy_static v1.5.0
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:34.9803500Z   Downloaded pin-project-lite v0.2.17
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:34.9953640Z   Downloaded anyhow v1.0.104
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:35.0063950Z   Downloaded core-foundation-sys v0.8.7
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:35.0163530Z   Downloaded iana-time-zone v0.1.65
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:35.0220510Z   Downloaded num-traits v0.2.19
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:35.0271960Z   Downloaded tracing-serde v0.2.0
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:35.0286920Z   Downloaded thread_local v1.1.10
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:35.0317700Z   Downloaded sharded-slab v0.1.7
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:35.0392080Z   Downloaded tracing-core v0.1.36
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:35.0448400Z   Downloaded chrono v0.4.45
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:35.0556280Z   Downloaded tracing-subscriber v0.3.23
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:35.0706900Z   Downloaded tracing v0.1.44
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:35.2604260Z    Compiling proc-macro2 v1.0.107
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:35.2731240Z    Compiling quote v1.0.47
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:35.2742180Z    Compiling unicode-ident v1.0.26
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:35.3375390Z    Compiling cfg-if v1.0.5
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:35.3621510Z    Compiling semver v1.0.28
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:35.5167230Z    Compiling unicode-segmentation v1.13.3
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:35.6175050Z    Compiling rustc_version v0.4.1
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:35.8391220Z    Compiling convert_case v0.11.0
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:35.8609960Z    Compiling nutype_macros v0.8.0
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:36.0726360Z    Compiling serde_core v1.0.229
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:36.1734130Z    Compiling libc v0.2.189
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:36.2393420Z    Compiling syn v3.0.6
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:36.3135160Z    Compiling syn v2.0.119
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:36.6252590Z    Compiling once_cell v1.21.4
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:36.7906860Z    Compiling urlencoding v2.1.3
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:39.5080710Z    Compiling zmij v1.0.23
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:39.6404660Z    Compiling serde v1.0.229
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:39.7493170Z    Compiling utf8parse v0.2.2
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:39.7939160Z    Compiling anstyle-parse v1.0.0
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:39.9374440Z    Compiling serde_derive v1.0.229
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:39.9465120Z    Compiling anstyle-query v1.1.5
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:40.0130500Z    Compiling memchr v2.8.3
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:40.5630530Z    Compiling kinded_macros v0.5.1
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:40.7549400Z    Compiling serde_json v1.0.151
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:40.9744220Z    Compiling hashbrown v0.17.1
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:41.2776420Z    Compiling kinded v0.5.1
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:41.5150870Z    Compiling anstyle v1.0.14
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:41.6828640Z    Compiling is_terminal_polyfill v1.70.2
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:41.7408510Z    Compiling equivalent v1.0.2
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:41.7870210Z    Compiling colorchoice v1.0.5
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:41.8533350Z    Compiling bitflags v2.13.2
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.0493790Z    Compiling anstream v1.0.0
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.3329620Z    Compiling indexmap v2.14.2
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.1938010Z    Compiling itoa v1.0.18
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.3206770Z    Compiling heck v0.5.0
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.4644650Z    Compiling clap_lex v1.1.1
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.4676080Z    Compiling strsim v0.11.1
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.6635180Z    Compiling clap_builder v4.6.7
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.7949620Z    Compiling clap_derive v4.6.7
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:46.4494780Z    Compiling getrandom v0.4.3
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:46.6289820Z    Compiling rustix v1.1.5
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:47.0082710Z    Compiling clap v4.6.7
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:47.0331200Z    Compiling nutype v0.8.0
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:47.0632830Z    Compiling errno v0.3.14
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:47.0768180Z    Compiling viola-core v0.1.0 (/Users/runner/work/viola/viola/crates/viola-core)
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:47.2442970Z    Compiling fastrand v2.5.0
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:47.4206600Z    Compiling objc2-core-foundation v0.3.2
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:47.5481030Z    Compiling autocfg v1.5.1
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:47.8548250Z    Compiling thiserror v2.0.20
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:48.1470010Z    Compiling tempfile v3.27.0
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:48.1823070Z    Compiling objc2-io-kit v0.3.2
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:48.4146090Z    Compiling num-traits v0.2.19
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:48.4739820Z    Compiling thiserror-impl v2.0.20
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:48.5364900Z    Compiling tracing-core v0.1.36
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:48.7418180Z    Compiling sysinfo v0.39.6
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:49.0737970Z    Compiling anyhow v1.0.104
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:49.3243200Z    Compiling lazy_static v1.5.0
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:49.3848970Z    Compiling core-foundation-sys v0.8.7
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:49.5434270Z    Compiling sharded-slab v0.1.7
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:49.5627780Z    Compiling iana-time-zone v0.1.65
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:49.6487180Z    Compiling tracing-serde v0.2.0
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:49.7568830Z    Compiling thread_local v1.1.10
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:49.9457830Z    Compiling pin-project-lite v0.2.17
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:49.9976290Z    Compiling tracing-subscriber v0.3.23
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:50.0420260Z    Compiling tracing v0.1.44
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:50.1942840Z    Compiling chrono v0.4.45
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:50.5871910Z    Compiling viola-e2e v0.1.0 (/Users/runner/work/viola/viola/crates/viola-e2e)
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:52.0473820Z    Compiling viola v0.1.0 (/Users/runner/work/viola/viola)
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.3923770Z     Finished `test` profile [unoptimized + debuginfo] target(s) in 19.24s
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.4506700Z ────────────
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.4508370Z  Nextest run ID d8c73f07-917c-4abd-9135-99c01bbf2adb with nextest profile: ci
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.4509730Z     Starting 82 tests across 5 binaries (3 binaries skipped)
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.4666720Z         PASS [   0.013s] ( 1/82) viola::bin/viola run::tests::timestamp_is_rfc3339_utc_millis_with_z
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.4677500Z         PASS [   0.013s] ( 2/82) viola::bin/viola run::tests::millis_utc_writes_the_current_timestamp
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.4696240Z         PASS [   0.017s] ( 3/82) viola::bin/viola run::tests::ensure_private_dir_creates_missing_parents
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.4858570Z         PASS [   0.018s] ( 4/82) viola::bin/viola tests::panic_line_has_the_binding_fields_and_no_corr
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.4900300Z         PASS [   0.020s] ( 5/82) viola::bin/viola tests::panic_line_without_instance_omits_the_key
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.5003140Z         PASS [   0.023s] ( 6/82) viola::bin/viola tests::panic_hook_writes_exactly_one_line_without_payload
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.5113710Z         PASS [   0.015s] ( 7/82) viola::bin/viola tests::panic_location_absolute_without_src_keeps_file_name_only
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.5215460Z         PASS [   0.014s] ( 8/82) viola::bin/viola tests::panic_location_dependency_path_trimmed_to_crate_dir
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.5317430Z         PASS [   0.016s] ( 9/82) viola::bin/viola tests::panic_location_relative_path_kept_with_forward_slashes
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.5362990Z         PASS [   0.018s] (10/82) viola::bin/viola tests::panic_location_src_at_root_keeps_file_name_only
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.5469400Z         PASS [   0.013s] (11/82) viola-core tests::viola_name_digits_and_hyphen_after_first_accepted
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.5577760Z         PASS [   0.018s] (12/82) viola-core tests::version_is_the_package_version
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.5680990Z         PASS [   0.015s] (13/82) viola-core tests::viola_name_displays_its_value
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.5735750Z         PASS [   0.017s] (14/82) viola-core tests::viola_name_empty_rejected
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.5843270Z         PASS [   0.015s] (15/82) viola-core tests::viola_name_leading_non_letter_rejected
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.5906360Z         PASS [   0.012s] (16/82) viola-core tests::viola_name_length_boundary_holds
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.6016820Z         PASS [   0.011s] (17/82) viola-core tests::viola_name_outside_charset_rejected
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.6088960Z         PASS [   0.020s] (18/82) viola-core tests::viola_name_plain_words_accepted
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.6089960Z         PASS [   0.015s] (19/82) viola-e2e harness::boot::tests::boot_refuses_an_invalid_session_id
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.6099200Z         PASS [   0.019s] (20/82) viola-e2e harness::boot::tests::failure_doc_carries_the_closed_fields
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.6112390Z         PASS [   0.017s] (21/82) viola-e2e harness::boot::tests::instance_spec_parses_name_and_args
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.6151080Z         PASS [   0.017s] (22/82) viola-e2e harness::boot::tests::instance_spec_rejects_invalid_names
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.6164290Z         PASS [   0.069s] (23/82) viola-e2e harness::boot::tests::boot_with_a_failing_build_reports_build_failed_with_its_exit
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.6325100Z         PASS [   0.017s] (24/82) viola-e2e harness::boot::tests::readiness_is_ready_when_both_processes_live
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.6342110Z         PASS [   0.017s] (25/82) viola-e2e harness::boot::tests::readiness_names_each_missing_check
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.6478400Z         PASS [   0.015s] (26/82) viola-e2e harness::boot::tests::readiness_reports_a_wrapper_that_already_exited
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.6495010Z         PASS [   0.016s] (27/82) viola-e2e harness::boot::tests::role_file_is_the_run_role_basename
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.6641450Z         PASS [   0.011s] (28/82) viola-e2e harness::boot::tests::role_state_reads_start_child_and_exit_lines
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.6712360Z         PASS [   0.012s] (29/82) viola-e2e harness::boot::tests::session_path_puts_the_session_bin_first
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.6736090Z         PASS [   0.015s] (30/82) viola-e2e harness::boot::tests::wait_ready_returns_a_ready_instance
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.6869870Z         PASS [   0.013s] (31/82) viola-e2e harness::cleanup::tests::all_sessions_lists_only_recorded_valid_sessions
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.7019630Z         PASS [   0.015s] (32/82) viola-e2e harness::cleanup::tests::cleanup_all_stops_recorded_sessions_and_refuses_foreign_homes
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.7173850Z         PASS [   0.015s] (33/82) viola-e2e harness::cleanup::tests::cleanup_rejects_an_invalid_session_id
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.7287680Z         PASS [   0.011s] (34/82) viola-e2e harness::cleanup::tests::cleanup_without_a_session_is_ok_and_empty
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.7429530Z         PASS [   0.187s] (35/82) viola-e2e harness::boot::tests::cargo_build_succeeds_on_a_buildable_package
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.7441980Z         PASS [   0.015s] (36/82) viola-e2e harness::cleanup::tests::killed_by_supervisor_reads_the_killed_names
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.7547630Z         PASS [   0.010s] (37/82) viola-e2e harness::cleanup::tests::remove_session_home_removes_a_boot_created_parent
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.7559580Z         PASS [   0.013s] (38/82) viola-e2e harness::cleanup::tests::remove_session_home_refuses_paths_outside_e2e_home
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.7672200Z         PASS [   0.012s] (39/82) viola-e2e harness::cleanup::tests::summarize_is_ok_only_when_everything_is_proven
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.7676350Z         PASS [   0.012s] (40/82) viola-e2e harness::logs::tests::diag_lines_reads_only_ndjson_files_in_name_order
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.7780800Z         PASS [   0.011s] (41/82) viola-e2e harness::logs::tests::filters_match_named_values_and_treat_absent_as_null
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.7841350Z         PASS [   0.016s] (42/82) viola-e2e harness::logs::tests::logs_for_an_unknown_session_is_exit_2
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.7896870Z         PASS [   0.012s] (43/82) viola-e2e harness::logs::tests::torn_lines_survive_any_filter
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.7955160Z         PASS [   0.012s] (44/82) viola-e2e harness::logs::tests::wrap_lines_accepts_crlf_terminated_lines
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.8003490Z         PASS [   0.011s] (45/82) viola-e2e harness::logs::tests::wrap_lines_wraps_records_and_marks_torn_lines
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.8046800Z         PASS [   0.009s] (46/82) viola-e2e harness::run::tests::attr_reads_one_attribute_or_nothing
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.8143790Z         PASS [   0.010s] (47/82) viola-e2e harness::run::tests::exit_must_agree_turns_a_silent_red_exit_red
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.8247930Z         PASS [   0.010s] (48/82) viola-e2e harness::run::tests::listed_reads_non_empty_lines
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.8361750Z         PASS [   0.011s] (49/82) viola-e2e harness::run::tests::merge_summary_replaces_by_suite
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.8468930Z         PASS [   0.011s] (50/82) viola-e2e harness::run::tests::mutants_exit_codes_map_to_reasons
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.8575450Z         PASS [   0.011s] (51/82) viola-e2e harness::run::tests::mutants_suite_counts_missed_and_timeout_as_survivors
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.8683900Z         PASS [   0.011s] (52/82) viola-e2e harness::run::tests::parse_doctest_sums_result_lines
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.8784660Z         PASS [   0.010s] (53/82) viola-e2e harness::run::tests::parse_junit_counts_pass_fail_skip
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:54.9179430Z         PASS [   0.117s] (54/82) viola-e2e harness::run::tests::chunk_diff_holds_tracked_edits_and_untracked_files
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.0205970Z         PASS [   0.142s] (55/82) viola-e2e harness::run::tests::resolve_base_needs_a_real_commit
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.1148350Z         FAIL [   0.193s] (56/82) viola-e2e harness::run::tests::run_mutants_passes_when_the_change_is_tested
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.1149150Z   stdout ───
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.1149350Z 
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.1149500Z     running 1 test
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.1149950Z     test harness::run::tests::run_mutants_passes_when_the_change_is_tested ... FAILED
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.1150210Z 
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.1150350Z     failures:
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.1150520Z 
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.1150670Z     failures:
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.1150950Z         harness::run::tests::run_mutants_passes_when_the_change_is_tested
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.1151260Z 
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.1185750Z     test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 63 filtered out; finished in 0.18s
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.1188870Z 
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.1189220Z   stderr ───
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.1189530Z     error: no such command: `mutants`
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.1189740Z 
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.1197720Z     help: view all installed commands with `cargo --list`
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.1198380Z     help: find a package to install `mutants` with `cargo search cargo-mutants`
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.1198840Z 
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.1199250Z     thread 'harness::run::tests::run_mutants_passes_when_the_change_is_tested' (16526) panicked at crates/viola-e2e/src/harness/run.rs:806:9:
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.1200080Z     assertion `left == right` failed: {"v":1,"cmd":"run","ok":false,"reason":"mutants-exit-101","suites":[]}
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.1200430Z       left: 1
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.1200570Z      right: 0
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.1200990Z     note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.1201350Z 
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.1361930Z         PASS [   0.474s] (57/82) viola-e2e harness::boot::tests::wait_ready_times_out_with_the_missing_checks
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.2256400Z         FAIL [   0.205s] (58/82) viola-e2e harness::run::tests::run_mutants_reports_survivors_of_an_untested_change
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.2354370Z   stdout ───
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.2355170Z 
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.2356450Z     running 1 test
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.2357870Z     test harness::run::tests::run_mutants_reports_survivors_of_an_untested_change ... FAILED
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.2359630Z 
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.2364780Z     failures:
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.2388130Z 
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.2392310Z     failures:
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.2415710Z         harness::run::tests::run_mutants_reports_survivors_of_an_untested_change
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.2417440Z 
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.2420940Z     test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 63 filtered out; finished in 0.19s
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.2422160Z 
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.2492100Z   stderr ───
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.2495750Z     error: no such command: `mutants`
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.2505190Z 
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.2556620Z     help: view all installed commands with `cargo --list`
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.2558920Z     help: find a package to install `mutants` with `cargo search cargo-mutants`
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.2560540Z 
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.2562280Z     thread 'harness::run::tests::run_mutants_reports_survivors_of_an_untested_change' (16585) panicked at crates/viola-e2e/src/harness/run.rs:673:32:
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.2590750Z     suite mutants in {"v":1,"cmd":"run","ok":false,"reason":"mutants-exit-101","suites":[]}
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.2613700Z     note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.2615370Z 
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:55.2716970Z         PASS [   0.155s] (59/82) viola-e2e harness::run::tests::run_mutants_with_an_unreachable_base_is_base_missing_and_writes_no_diff
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:56.3924980Z         PASS [   1.166s] (60/82) viola-e2e harness::run::tests::run_with_a_failing_test_is_red_and_names_it
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:56.5295140Z         PASS [   1.257s] (61/82) viola-e2e harness::run::tests::run_with_a_filter_matching_nothing_is_red
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:56.5417940Z         PASS [   0.012s] (62/82) viola-e2e harness::run::tests::selection_defaults_to_everything
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:56.5524110Z         PASS [   0.011s] (63/82) viola-e2e harness::run::tests::selection_picks_only_the_named_suites
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:56.5624840Z         PASS [   0.010s] (64/82) viola-e2e harness::run::tests::suite_is_green_only_without_failures_or_survivors
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:56.5760550Z         PASS [   0.173s] (65/82) viola-e2e harness::run::tests::run_without_a_workspace_is_artifact_missing
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:56.5862250Z         PASS [   0.015s] (66/82) viola-e2e harness::supervise::tests::exit_report_is_red_when_anything_was_killed
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:56.5894480Z         PASS [   0.012s] (67/82) viola-e2e harness::supervise::tests::stop_requested_by_file_or_missing_spec
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:56.5929580Z         PASS [   0.015s] (68/82) viola-e2e harness::supervise::tests::supervise_without_a_spec_is_usage
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:56.6063240Z         PASS [   0.013s] (69/82) viola-e2e harness::supervise::tests::wait_or_kill_kills_a_survivor_at_the_deadline
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:56.6177300Z         PASS [   0.011s] (70/82) viola-e2e harness::tests::bin_dir_from_test_exe_skips_deps
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:56.6203710Z         PASS [   1.484s] (71/82) viola-e2e harness::run::tests::run_reports_unit_integration_and_doctest_suites
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:56.6321890Z         PASS [   0.011s] (72/82) viola-e2e harness::tests::expired_tracks_the_deadline
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:56.6323410Z         PASS [   0.014s] (73/82) viola-e2e harness::tests::exe_appends_platform_suffix
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:56.6447890Z         PASS [   0.012s] (74/82) viola-e2e harness::tests::load_session_unknown_is_exit_2
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:56.6455450Z         PASS [   0.014s] (75/82) viola-e2e harness::tests::json_round_trips_through_files
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:56.6612200Z         PASS [   0.016s] (76/82) viola-e2e harness::tests::outcome_codes_follow_ok
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:56.6724100Z         PASS [   0.011s] (77/82) viola-e2e harness::tests::process_id_sees_itself_alive_and_a_wrong_start_time_dead
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:56.6836660Z         PASS [   0.011s] (78/82) viola-e2e harness::tests::valid_session_id_accepts_test_style_ids
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:56.6951320Z         PASS [   0.011s] (79/82) viola-e2e harness::tests::valid_session_id_rejects_path_escapes
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:56.7134810Z         PASS [   0.018s] (80/82) viola-e2e harness::tests::workspace_root_holds_the_root_manifest
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:56.7556770Z         PASS [   0.178s] (81/82) viola-e2e harness::supervise::tests::stop_sends_ctrl_c_and_the_child_exits_without_a_kill
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:56.9807120Z         PASS [   0.326s] (82/82) viola-e2e harness::tests::process_id_kill_stops_a_child_and_wait_gone_sees_it
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:56.9908810Z ────────────
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:57.0010920Z      Summary [   2.522s] 82 tests run: 80 passed, 2 failed, 0 skipped
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:57.0021130Z         FAIL [   0.193s] (56/82) viola-e2e harness::run::tests::run_mutants_passes_when_the_change_is_tested
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:57.0022830Z         FAIL [   0.205s] (58/82) viola-e2e harness::run::tests::run_mutants_reports_survivors_of_an_untested_change
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:57.0023400Z error: test run failed
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:57.0774080Z     Finished `test` profile [unoptimized + debuginfo] target(s) in 0.06s
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:57.0793410Z    Doc-tests viola_core
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:57.1186150Z    Doc-tests viola_e2e
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:57.2070280Z 
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:57.2070720Z running 0 tests
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:57.2071050Z 
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:57.2071560Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:57.2072090Z 
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:57.2072170Z 
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:57.2072360Z running 0 tests
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:57.2072580Z 
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:57.2072860Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:57.2073230Z 
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:57.2076610Z {"v":1,"cmd":"run","ok":false,"suites":[{"suite":"nextest-unit","passed":80,"failed":2,"skipped":0,"survived":0,"artifact":"/Users/runner/work/viola/viola/target/agent-run/artifacts/junit-nextest-unit.xml","failures":["viola-e2e harness::run::tests::run_mutants_passes_when_the_change_is_tested","viola-e2e harness::run::tests::run_mutants_reports_survivors_of_an_untested_change"]},{"suite":"doctest","passed":0,"failed":0,"skipped":0,"survived":0,"artifact":null,"failures":[]}]}
+test (macos-latest)	Unit and integration (sh shim)	2026-09-24T07:45:57.2099000Z ##[error]Process completed with exit code 1.
+mutants	Mutation gate (chunk diff)	﻿2026-09-24T07:45:10.9919470Z ##[group]Run bash scripts/agent-run.sh run --mutants
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:10.9919806Z [36;1mbash scripts/agent-run.sh run --mutants[0m
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:10.9954290Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:10.9954577Z env:
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:10.9954761Z   CACHE_ON_FAILURE: false
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:10.9954964Z   CARGO_INCREMENTAL: 0
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:10.9955223Z   AGENT_RUN_CHUNK_BASE: 13b7ee32e6227d1cb6cecc96fbe412fe34a4e0e6
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:10.9955509Z ##[endgroup]
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.7213613Z ERROR cargo test failed in an unmutated tree, so no mutants were tested
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8236674Z Found 286 mutants to test
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8237398Z FAILED   Unmutated baseline in 24s build + 3s test
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8237764Z 
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8238183Z *** baseline
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8238526Z 
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8239334Z *** /home/runner/.rustup/toolchains/1.98.1-x86_64-unknown-linux-gnu/bin/cargo nextest run --no-run --verbose --package=viola@0.1.0 --package=viola-core@0.1.0 --package=viola-e2e@0.1.0 --features=fake-agent
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8240570Z {"v":1,"cmd":"run","ok":false,"reason":"mutants-exit-4","suites":[]}
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8243386Z  Downloading crates ...
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8244183Z   Downloaded lazy_static v1.5.0
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8244559Z   Downloaded thread_local v1.1.10
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8245007Z   Downloaded tracing-serde v0.2.0
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8245360Z   Downloaded autocfg v1.5.1
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8245660Z   Downloaded iana-time-zone v0.1.65
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8246358Z   Downloaded pin-project-lite v0.2.17
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8246704Z   Downloaded anyhow v1.0.104
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8247048Z   Downloaded num-traits v0.2.19
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8247352Z   Downloaded sharded-slab v0.1.7
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8247662Z   Downloaded tracing-core v0.1.36
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8247966Z   Downloaded chrono v0.4.45
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8248466Z   Downloaded tracing-subscriber v0.3.23
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8248757Z   Downloaded tracing v0.1.44
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8249036Z    Compiling proc-macro2 v1.0.107
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8249315Z    Compiling unicode-ident v1.0.26
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8249603Z    Compiling quote v1.0.47
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8249895Z    Compiling cfg-if v1.0.5
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8250173Z    Compiling semver v1.0.28
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8250482Z    Compiling unicode-segmentation v1.13.3
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8250826Z    Compiling rustc_version v0.4.1
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8251130Z    Compiling convert_case v0.11.0
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8251624Z    Compiling nutype_macros v0.8.0
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8251935Z    Compiling serde_core v1.0.229
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8252241Z    Compiling once_cell v1.21.4
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8252540Z    Compiling syn v3.0.6
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8253001Z    Compiling syn v2.0.119
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8253214Z    Compiling urlencoding v2.1.3
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8253426Z    Compiling zmij v1.0.23
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8253623Z    Compiling utf8parse v0.2.2
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8253829Z    Compiling serde v1.0.229
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8254040Z    Compiling anstyle-parse v1.0.0
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8254252Z    Compiling colorchoice v1.0.5
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8254457Z    Compiling equivalent v1.0.2
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8254662Z    Compiling anstyle v1.0.14
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8254873Z    Compiling is_terminal_polyfill v1.70.2
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8255094Z    Compiling memchr v2.8.3
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8255291Z    Compiling serde_derive v1.0.229
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8255502Z    Compiling anstyle-query v1.1.5
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8255718Z    Compiling hashbrown v0.17.1
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8255919Z    Compiling kinded_macros v0.5.1
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8256120Z    Compiling libc v0.2.189
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8256312Z    Compiling kinded v0.5.1
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8256509Z    Compiling serde_json v1.0.151
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8256718Z    Compiling indexmap v2.14.2
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8256921Z    Compiling anstream v1.0.0
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8257120Z    Compiling heck v0.5.0
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8257313Z    Compiling itoa v1.0.18
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8257505Z    Compiling strsim v0.11.1
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8257831Z    Compiling clap_lex v1.1.1
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8258448Z    Compiling clap_builder v4.6.7
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8258680Z    Compiling clap_derive v4.6.7
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8258885Z    Compiling nutype v0.8.0
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8259207Z    Compiling viola-core v0.1.0 (/tmp/cargo-mutants-viola-ElybNA.tmp/crates/viola-core)
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8259554Z    Compiling rustix v1.1.5
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8259759Z    Compiling getrandom v0.4.3
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8259970Z    Compiling clap v4.6.7
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8260172Z    Compiling linux-raw-sys v0.12.1
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8260385Z    Compiling bitflags v2.13.2
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8260679Z    Compiling fastrand v2.5.0
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8260905Z    Compiling thiserror v2.0.20
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8261107Z    Compiling autocfg v1.5.1
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8261319Z    Compiling thiserror-impl v2.0.20
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8261542Z    Compiling num-traits v0.2.19
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8261751Z    Compiling tracing-core v0.1.36
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8261963Z    Compiling tempfile v3.27.0
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8262165Z    Compiling sysinfo v0.39.6
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8262366Z    Compiling lazy_static v1.5.0
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8262569Z    Compiling anyhow v1.0.104
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8262780Z    Compiling sharded-slab v0.1.7
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8262989Z    Compiling tracing-serde v0.2.0
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8263195Z    Compiling thread_local v1.1.10
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8263404Z    Compiling iana-time-zone v0.1.65
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8263632Z    Compiling pin-project-lite v0.2.17
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8263873Z    Compiling tracing v0.1.44
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8264080Z    Compiling tracing-subscriber v0.3.23
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8264299Z    Compiling chrono v0.4.45
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8264763Z    Compiling viola-e2e v0.1.0 (/tmp/cargo-mutants-viola-ElybNA.tmp/crates/viola-e2e)
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8265246Z    Compiling viola v0.1.0 (/tmp/cargo-mutants-viola-ElybNA.tmp)
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8265803Z     Finished `test` profile [unoptimized + debuginfo] target(s) in 23.46s
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8266046Z 
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8266128Z *** result: Success
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8266233Z 
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8266697Z *** /home/runner/.rustup/toolchains/1.98.1-x86_64-unknown-linux-gnu/bin/cargo nextest run --verbose --package=viola@0.1.0 --package=viola-core@0.1.0 --package=viola-e2e@0.1.0 --features=fake-agent
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8267345Z     Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8267938Z ────────────
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8268713Z  Nextest run ID b3d466ed-1252-419b-8678-0159187624a0 with nextest profile: mutants
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8269269Z     Starting 104 tests across 8 binaries
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8274248Z        START [         ] (  1/104) viola::run_cli fake_agent_exits_on_stdin_eof
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8274888Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/run_cli-4514654b0c06436d --exact fake_agent_exits_on_stdin_eof --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8275483Z        START [         ] (  1/104) viola::run_cli fake_agent_answers_version_in_the_cli_format
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8276097Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/run_cli-4514654b0c06436d --exact fake_agent_answers_version_in_the_cli_format --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8276698Z         PASS [   0.005s] (  1/104) viola::run_cli fake_agent_exits_on_stdin_eof
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8277074Z        START [         ] (  2/104) viola::run_cli fake_agent_stops_at_ctrl_c_and_reads_no_further
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8277680Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/run_cli-4514654b0c06436d --exact fake_agent_stops_at_ctrl_c_and_reads_no_further --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8278571Z         PASS [   0.005s] (  2/104) viola::run_cli fake_agent_answers_version_in_the_cli_format
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8278960Z        START [         ] (  3/104) viola::run_cli run_appends_to_an_existing_role_file
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8279526Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/run_cli-4514654b0c06436d --exact run_appends_to_an_existing_role_file --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8280259Z         PASS [   0.009s] (  3/104) viola::run_cli run_appends_to_an_existing_role_file
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8280622Z        START [         ] (  4/104) viola::run_cli run_child_exit_status_is_recorded
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8281164Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/run_cli-4514654b0c06436d --exact run_child_exit_status_is_recorded --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8281727Z         PASS [   0.006s] (  4/104) viola::run_cli run_child_exit_status_is_recorded
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8282090Z        START [         ] (  5/104) viola::run_cli run_creates_home_0700_and_role_file_0600
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8282657Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/run_cli-4514654b0c06436d --exact run_creates_home_0700_and_role_file_0600 --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8283221Z         PASS [   0.006s] (  5/104) viola::run_cli run_creates_home_0700_and_role_file_0600
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8283612Z        START [         ] (  6/104) viola::run_cli run_with_a_bad_name_is_usage_and_creates_nothing
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8284205Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/run_cli-4514654b0c06436d --exact run_with_a_bad_name_is_usage_and_creates_nothing --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8284811Z         PASS [   0.007s] (  6/104) viola::run_cli run_with_a_bad_name_is_usage_and_creates_nothing
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8285234Z        START [         ] (  7/104) viola::run_cli run_with_a_missing_program_exits_1_with_internal_error
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8285870Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/run_cli-4514654b0c06436d --exact run_with_a_missing_program_exits_1_with_internal_error --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8286502Z         PASS [   0.006s] (  7/104) viola::run_cli run_with_a_missing_program_exits_1_with_internal_error
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8286917Z        START [         ] (  8/104) viola::run_cli run_with_fake_agent_writes_start_and_exit_lines
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8287506Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/run_cli-4514654b0c06436d --exact run_with_fake_agent_writes_start_and_exit_lines --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8288293Z         PASS [   0.006s] (  8/104) viola::run_cli run_with_fake_agent_writes_start_and_exit_lines
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8288676Z        START [         ] (  9/104) viola::run_cli viola_without_a_verb_is_usage
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8289273Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/run_cli-4514654b0c06436d --exact viola_without_a_verb_is_usage --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8289795Z         PASS [   0.005s] (  9/104) viola::run_cli viola_without_a_verb_is_usage
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8290187Z        START [         ] ( 10/104) viola::bin/viola run::tests::ensure_private_dir_creates_missing_parents
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8290835Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola-f1880d00d3f0f61b --exact run::tests::ensure_private_dir_creates_missing_parents --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8291479Z         PASS [   0.004s] ( 10/104) viola::bin/viola run::tests::ensure_private_dir_creates_missing_parents
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8291919Z        START [         ] ( 11/104) viola::bin/viola run::tests::millis_utc_writes_the_current_timestamp
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8292578Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola-f1880d00d3f0f61b --exact run::tests::millis_utc_writes_the_current_timestamp --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8293216Z         PASS [   0.004s] ( 11/104) viola::bin/viola run::tests::millis_utc_writes_the_current_timestamp
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8293644Z        START [         ] ( 12/104) viola::bin/viola run::tests::timestamp_is_rfc3339_utc_millis_with_z
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8294249Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola-f1880d00d3f0f61b --exact run::tests::timestamp_is_rfc3339_utc_millis_with_z --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8294933Z         PASS [   0.004s] ( 12/104) viola::bin/viola run::tests::timestamp_is_rfc3339_utc_millis_with_z
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8295403Z        START [         ] ( 13/104) viola::bin/viola tests::panic_hook_writes_exactly_one_line_without_payload
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8296058Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola-f1880d00d3f0f61b --exact tests::panic_hook_writes_exactly_one_line_without_payload --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8296724Z         PASS [   0.004s] ( 13/104) viola::bin/viola tests::panic_hook_writes_exactly_one_line_without_payload
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8297183Z        START [         ] ( 14/104) viola::bin/viola tests::panic_line_has_the_binding_fields_and_no_corr
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8297813Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola-f1880d00d3f0f61b --exact tests::panic_line_has_the_binding_fields_and_no_corr --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8298637Z         PASS [   0.004s] ( 14/104) viola::bin/viola tests::panic_line_has_the_binding_fields_and_no_corr
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8299083Z        START [         ] ( 15/104) viola::bin/viola tests::panic_line_without_instance_omits_the_key
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8299704Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola-f1880d00d3f0f61b --exact tests::panic_line_without_instance_omits_the_key --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8300327Z         PASS [   0.004s] ( 15/104) viola::bin/viola tests::panic_line_without_instance_omits_the_key
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8300795Z        START [         ] ( 16/104) viola::bin/viola tests::panic_location_absolute_without_src_keeps_file_name_only
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8301482Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola-f1880d00d3f0f61b --exact tests::panic_location_absolute_without_src_keeps_file_name_only --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8302183Z         PASS [   0.004s] ( 16/104) viola::bin/viola tests::panic_location_absolute_without_src_keeps_file_name_only
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8302669Z        START [         ] ( 17/104) viola::bin/viola tests::panic_location_dependency_path_trimmed_to_crate_dir
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8303342Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola-f1880d00d3f0f61b --exact tests::panic_location_dependency_path_trimmed_to_crate_dir --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8304013Z         PASS [   0.004s] ( 17/104) viola::bin/viola tests::panic_location_dependency_path_trimmed_to_crate_dir
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8304538Z        START [         ] ( 18/104) viola::bin/viola tests::panic_location_relative_path_kept_with_forward_slashes
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8305209Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola-f1880d00d3f0f61b --exact tests::panic_location_relative_path_kept_with_forward_slashes --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8305887Z         PASS [   0.004s] ( 18/104) viola::bin/viola tests::panic_location_relative_path_kept_with_forward_slashes
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8306363Z        START [         ] ( 19/104) viola::bin/viola tests::panic_location_src_at_root_keeps_file_name_only
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8307007Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola-f1880d00d3f0f61b --exact tests::panic_location_src_at_root_keeps_file_name_only --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8307650Z         PASS [   0.004s] ( 19/104) viola::bin/viola tests::panic_location_src_at_root_keeps_file_name_only
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8308190Z        START [         ] ( 20/104) viola-core tests::version_is_the_package_version
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8308773Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_core-f65344f8561968ef --exact tests::version_is_the_package_version --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8309351Z         PASS [   0.004s] ( 20/104) viola-core tests::version_is_the_package_version
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8309748Z        START [         ] ( 21/104) viola-core tests::viola_name_digits_and_hyphen_after_first_accepted
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8310453Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_core-f65344f8561968ef --exact tests::viola_name_digits_and_hyphen_after_first_accepted --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8311105Z         PASS [   0.004s] ( 21/104) viola-core tests::viola_name_digits_and_hyphen_after_first_accepted
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8311511Z        START [         ] ( 22/104) viola-core tests::viola_name_displays_its_value
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8312070Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_core-f65344f8561968ef --exact tests::viola_name_displays_its_value --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8312679Z         PASS [   0.004s] ( 22/104) viola-core tests::viola_name_displays_its_value
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8313023Z        START [         ] ( 23/104) viola-core tests::viola_name_empty_rejected
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8313554Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_core-f65344f8561968ef --exact tests::viola_name_empty_rejected --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8314106Z         PASS [   0.004s] ( 23/104) viola-core tests::viola_name_empty_rejected
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8314468Z        START [         ] ( 24/104) viola-core tests::viola_name_leading_non_letter_rejected
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8315073Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_core-f65344f8561968ef --exact tests::viola_name_leading_non_letter_rejected --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8315674Z         PASS [   0.004s] ( 24/104) viola-core tests::viola_name_leading_non_letter_rejected
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8316059Z        START [         ] ( 25/104) viola-core tests::viola_name_length_boundary_holds
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8316626Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_core-f65344f8561968ef --exact tests::viola_name_length_boundary_holds --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8317199Z         PASS [   0.004s] ( 25/104) viola-core tests::viola_name_length_boundary_holds
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8317563Z        START [         ] ( 26/104) viola-core tests::viola_name_outside_charset_rejected
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8318315Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_core-f65344f8561968ef --exact tests::viola_name_outside_charset_rejected --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8318911Z         PASS [   0.004s] ( 26/104) viola-core tests::viola_name_outside_charset_rejected
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8319268Z        START [         ] ( 27/104) viola-core tests::viola_name_plain_words_accepted
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8319930Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_core-f65344f8561968ef --exact tests::viola_name_plain_words_accepted --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8320490Z         PASS [   0.004s] ( 27/104) viola-core tests::viola_name_plain_words_accepted
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8320895Z        START [         ] ( 28/104) viola-e2e harness::boot::tests::boot_refuses_an_invalid_session_id
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8321544Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::boot::tests::boot_refuses_an_invalid_session_id --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8322200Z         PASS [   0.004s] ( 28/104) viola-e2e harness::boot::tests::boot_refuses_an_invalid_session_id
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8322684Z        START [         ] ( 29/104) viola-e2e harness::boot::tests::boot_with_a_failing_build_reports_build_failed_with_its_exit
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8323439Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::boot::tests::boot_with_a_failing_build_reports_build_failed_with_its_exit --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8324209Z         PASS [   0.021s] ( 29/104) viola-e2e harness::boot::tests::boot_with_a_failing_build_reports_build_failed_with_its_exit
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8324711Z        START [         ] ( 30/104) viola-e2e harness::boot::tests::cargo_build_succeeds_on_a_buildable_package
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8325380Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::boot::tests::cargo_build_succeeds_on_a_buildable_package --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8326108Z         PASS [   0.068s] ( 30/104) viola-e2e harness::boot::tests::cargo_build_succeeds_on_a_buildable_package
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8326556Z        START [         ] ( 31/104) viola-e2e harness::boot::tests::failure_doc_carries_the_closed_fields
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8327207Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::boot::tests::failure_doc_carries_the_closed_fields --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8327860Z         PASS [   0.005s] ( 31/104) viola-e2e harness::boot::tests::failure_doc_carries_the_closed_fields
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8328410Z        START [         ] ( 32/104) viola-e2e harness::boot::tests::instance_spec_parses_name_and_args
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8329050Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::boot::tests::instance_spec_parses_name_and_args --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8329690Z         PASS [   0.004s] ( 32/104) viola-e2e harness::boot::tests::instance_spec_parses_name_and_args
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8330128Z        START [         ] ( 33/104) viola-e2e harness::boot::tests::instance_spec_rejects_invalid_names
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8330765Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::boot::tests::instance_spec_rejects_invalid_names --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8331422Z         PASS [   0.008s] ( 33/104) viola-e2e harness::boot::tests::instance_spec_rejects_invalid_names
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8331928Z        START [         ] ( 34/104) viola-e2e harness::boot::tests::readiness_is_ready_when_both_processes_live
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8332610Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::boot::tests::readiness_is_ready_when_both_processes_live --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8333287Z         PASS [   0.008s] ( 34/104) viola-e2e harness::boot::tests::readiness_is_ready_when_both_processes_live
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8333734Z        START [         ] ( 35/104) viola-e2e harness::boot::tests::readiness_names_each_missing_check
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8334368Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::boot::tests::readiness_names_each_missing_check --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8335067Z         PASS [   0.009s] ( 35/104) viola-e2e harness::boot::tests::readiness_names_each_missing_check
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8335531Z        START [         ] ( 36/104) viola-e2e harness::boot::tests::readiness_reports_a_wrapper_that_already_exited
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8336222Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::boot::tests::readiness_reports_a_wrapper_that_already_exited --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8336908Z         PASS [   0.008s] ( 36/104) viola-e2e harness::boot::tests::readiness_reports_a_wrapper_that_already_exited
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8337359Z        START [         ] ( 37/104) viola-e2e harness::boot::tests::role_file_is_the_run_role_basename
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8338100Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::boot::tests::role_file_is_the_run_role_basename --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8338797Z         PASS [   0.006s] ( 37/104) viola-e2e harness::boot::tests::role_file_is_the_run_role_basename
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8339239Z        START [         ] ( 38/104) viola-e2e harness::boot::tests::role_state_reads_start_child_and_exit_lines
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8339906Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::boot::tests::role_state_reads_start_child_and_exit_lines --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8340582Z         PASS [   0.007s] ( 38/104) viola-e2e harness::boot::tests::role_state_reads_start_child_and_exit_lines
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8341084Z        START [         ] ( 39/104) viola-e2e harness::boot::tests::session_path_puts_the_session_bin_first
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8341730Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::boot::tests::session_path_puts_the_session_bin_first --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8342390Z         PASS [   0.004s] ( 39/104) viola-e2e harness::boot::tests::session_path_puts_the_session_bin_first
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8342826Z        START [         ] ( 40/104) viola-e2e harness::boot::tests::wait_ready_returns_a_ready_instance
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8343456Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::boot::tests::wait_ready_returns_a_ready_instance --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8344220Z         PASS [   0.004s] ( 40/104) viola-e2e harness::boot::tests::wait_ready_returns_a_ready_instance
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8344756Z        START [         ] ( 41/104) viola-e2e harness::boot::tests::wait_ready_times_out_with_the_missing_checks
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8345434Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::boot::tests::wait_ready_times_out_with_the_missing_checks --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8346082Z         PASS [   0.505s] ( 41/104) viola::run_cli fake_agent_stops_at_ctrl_c_and_reads_no_further
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8346555Z        START [         ] ( 42/104) viola-e2e harness::cleanup::tests::all_sessions_lists_only_recorded_valid_sessions
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8347280Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::cleanup::tests::all_sessions_lists_only_recorded_valid_sessions --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8348107Z         PASS [   0.004s] ( 42/104) viola-e2e harness::cleanup::tests::all_sessions_lists_only_recorded_valid_sessions
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8348708Z        START [         ] ( 43/104) viola-e2e harness::cleanup::tests::cleanup_all_stops_recorded_sessions_and_refuses_foreign_homes
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8349493Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::cleanup::tests::cleanup_all_stops_recorded_sessions_and_refuses_foreign_homes --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8350294Z         PASS [   0.005s] ( 43/104) viola-e2e harness::cleanup::tests::cleanup_all_stops_recorded_sessions_and_refuses_foreign_homes
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8350871Z        START [         ] ( 44/104) viola-e2e harness::cleanup::tests::cleanup_rejects_an_invalid_session_id
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8351540Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::cleanup::tests::cleanup_rejects_an_invalid_session_id --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8352214Z         PASS [   0.003s] ( 44/104) viola-e2e harness::cleanup::tests::cleanup_rejects_an_invalid_session_id
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8352687Z        START [         ] ( 45/104) viola-e2e harness::cleanup::tests::cleanup_without_a_session_is_ok_and_empty
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8353385Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::cleanup::tests::cleanup_without_a_session_is_ok_and_empty --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8354064Z         PASS [   0.003s] ( 45/104) viola-e2e harness::cleanup::tests::cleanup_without_a_session_is_ok_and_empty
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8354543Z        START [         ] ( 46/104) viola-e2e harness::cleanup::tests::killed_by_supervisor_reads_the_killed_names
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8355235Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::cleanup::tests::killed_by_supervisor_reads_the_killed_names --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8355934Z         PASS [   0.003s] ( 46/104) viola-e2e harness::cleanup::tests::killed_by_supervisor_reads_the_killed_names
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8356482Z        START [         ] ( 47/104) viola-e2e harness::cleanup::tests::remove_session_home_refuses_paths_outside_e2e_home
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8357209Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::cleanup::tests::remove_session_home_refuses_paths_outside_e2e_home --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8357946Z         PASS [   0.003s] ( 47/104) viola-e2e harness::cleanup::tests::remove_session_home_refuses_paths_outside_e2e_home
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8358688Z        START [         ] ( 48/104) viola-e2e harness::cleanup::tests::remove_session_home_removes_a_boot_created_parent
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8359401Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::cleanup::tests::remove_session_home_removes_a_boot_created_parent --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8360129Z         PASS [   0.003s] ( 48/104) viola-e2e harness::cleanup::tests::remove_session_home_removes_a_boot_created_parent
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8360633Z        START [         ] ( 49/104) viola-e2e harness::cleanup::tests::summarize_is_ok_only_when_everything_is_proven
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8361335Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::cleanup::tests::summarize_is_ok_only_when_everything_is_proven --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8362045Z         PASS [   0.003s] ( 49/104) viola-e2e harness::cleanup::tests::summarize_is_ok_only_when_everything_is_proven
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8362536Z        START [         ] ( 50/104) viola-e2e harness::logs::tests::diag_lines_reads_only_ndjson_files_in_name_order
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8363237Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::logs::tests::diag_lines_reads_only_ndjson_files_in_name_order --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8363943Z         PASS [   0.003s] ( 50/104) viola-e2e harness::logs::tests::diag_lines_reads_only_ndjson_files_in_name_order
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8364431Z        START [         ] ( 51/104) viola-e2e harness::logs::tests::filters_match_named_values_and_treat_absent_as_null
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8365128Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::logs::tests::filters_match_named_values_and_treat_absent_as_null --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8365843Z         PASS [   0.003s] ( 51/104) viola-e2e harness::logs::tests::filters_match_named_values_and_treat_absent_as_null
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8366369Z        START [         ] ( 52/104) viola-e2e harness::logs::tests::logs_for_an_unknown_session_is_exit_2
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8367018Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::logs::tests::logs_for_an_unknown_session_is_exit_2 --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8367657Z         PASS [   0.003s] ( 52/104) viola-e2e harness::logs::tests::logs_for_an_unknown_session_is_exit_2
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8368139Z        START [         ] ( 53/104) viola-e2e harness::logs::tests::torn_lines_survive_any_filter
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8368761Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::logs::tests::torn_lines_survive_any_filter --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8369398Z         PASS [   0.003s] ( 53/104) viola-e2e harness::logs::tests::torn_lines_survive_any_filter
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8369847Z        START [         ] ( 54/104) viola-e2e harness::logs::tests::wrap_lines_accepts_crlf_terminated_lines
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8370512Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::logs::tests::wrap_lines_accepts_crlf_terminated_lines --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8371182Z         PASS [   0.003s] ( 54/104) viola-e2e harness::logs::tests::wrap_lines_accepts_crlf_terminated_lines
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8371647Z        START [         ] ( 55/104) viola-e2e harness::logs::tests::wrap_lines_wraps_records_and_marks_torn_lines
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8372383Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::logs::tests::wrap_lines_wraps_records_and_marks_torn_lines --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8373073Z         PASS [   0.003s] ( 55/104) viola-e2e harness::logs::tests::wrap_lines_wraps_records_and_marks_torn_lines
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8373526Z        START [         ] ( 56/104) viola-e2e harness::run::tests::attr_reads_one_attribute_or_nothing
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8374158Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::run::tests::attr_reads_one_attribute_or_nothing --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8374801Z         PASS [   0.003s] ( 56/104) viola-e2e harness::run::tests::attr_reads_one_attribute_or_nothing
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8375264Z        START [         ] ( 57/104) viola-e2e harness::run::tests::chunk_diff_holds_tracked_edits_and_untracked_files
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8375958Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::run::tests::chunk_diff_holds_tracked_edits_and_untracked_files --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8376660Z         PASS [   0.017s] ( 57/104) viola-e2e harness::run::tests::chunk_diff_holds_tracked_edits_and_untracked_files
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8377136Z        START [         ] ( 58/104) viola-e2e harness::run::tests::exit_must_agree_turns_a_silent_red_exit_red
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8377818Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::run::tests::exit_must_agree_turns_a_silent_red_exit_red --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8378554Z         PASS [   0.003s] ( 58/104) viola-e2e harness::run::tests::exit_must_agree_turns_a_silent_red_exit_red
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8378990Z        START [         ] ( 59/104) viola-e2e harness::run::tests::listed_reads_non_empty_lines
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8379598Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::run::tests::listed_reads_non_empty_lines --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8380200Z         PASS [   0.003s] ( 59/104) viola-e2e harness::run::tests::listed_reads_non_empty_lines
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8380603Z        START [         ] ( 60/104) viola-e2e harness::run::tests::merge_summary_replaces_by_suite
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8381232Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::run::tests::merge_summary_replaces_by_suite --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8381933Z         PASS [   0.305s] ( 60/104) viola-e2e harness::boot::tests::wait_ready_times_out_with_the_missing_checks
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8382380Z        START [         ] ( 61/104) viola-e2e harness::run::tests::mutants_exit_codes_map_to_reasons
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8382998Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::run::tests::mutants_exit_codes_map_to_reasons --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8383632Z         PASS [   0.004s] ( 61/104) viola-e2e harness::run::tests::merge_summary_replaces_by_suite
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8384125Z        START [         ] ( 62/104) viola-e2e harness::run::tests::mutants_suite_counts_missed_and_timeout_as_survivors
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8384837Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::run::tests::mutants_suite_counts_missed_and_timeout_as_survivors --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8385517Z         PASS [   0.004s] ( 62/104) viola-e2e harness::run::tests::mutants_exit_codes_map_to_reasons
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8385929Z        START [         ] ( 63/104) viola-e2e harness::run::tests::parse_doctest_sums_result_lines
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8386545Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::run::tests::parse_doctest_sums_result_lines --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8387273Z         PASS [   0.004s] ( 63/104) viola-e2e harness::run::tests::mutants_suite_counts_missed_and_timeout_as_survivors
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8387734Z        START [         ] ( 64/104) viola-e2e harness::run::tests::parse_junit_counts_pass_fail_skip
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8388430Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::run::tests::parse_junit_counts_pass_fail_skip --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8389074Z         PASS [   0.004s] ( 64/104) viola-e2e harness::run::tests::parse_doctest_sums_result_lines
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8389485Z        START [         ] ( 65/104) viola-e2e harness::run::tests::resolve_base_needs_a_real_commit
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8390113Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::run::tests::resolve_base_needs_a_real_commit --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8390741Z         PASS [   0.004s] ( 65/104) viola-e2e harness::run::tests::parse_junit_counts_pass_fail_skip
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8391183Z        START [         ] ( 66/104) viola-e2e harness::run::tests::run_mutants_passes_when_the_change_is_tested
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8391851Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::run::tests::run_mutants_passes_when_the_change_is_tested --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8392504Z         PASS [   0.021s] ( 66/104) viola-e2e harness::run::tests::resolve_base_needs_a_real_commit
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8392968Z        START [         ] ( 67/104) viola-e2e harness::run::tests::run_mutants_reports_survivors_of_an_untested_change
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8393679Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::run::tests::run_mutants_reports_survivors_of_an_untested_change --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8394367Z         PASS [   1.393s] ( 67/104) viola-e2e harness::run::tests::run_mutants_passes_when_the_change_is_tested
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8394894Z        START [         ] ( 68/104) viola-e2e harness::run::tests::run_mutants_with_an_unreachable_base_is_base_missing_and_writes_no_diff
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8395698Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::run::tests::run_mutants_with_an_unreachable_base_is_base_missing_and_writes_no_diff --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8396513Z         PASS [   1.393s] ( 68/104) viola-e2e harness::run::tests::run_mutants_reports_survivors_of_an_untested_change
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8397004Z        START [         ] ( 69/104) viola-e2e harness::run::tests::run_reports_unit_integration_and_doctest_suites
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8397696Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::run::tests::run_reports_unit_integration_and_doctest_suites --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8398511Z         PASS [   0.019s] ( 69/104) viola-e2e harness::run::tests::run_mutants_with_an_unreachable_base_is_base_missing_and_writes_no_diff
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8399043Z        START [         ] ( 70/104) viola-e2e harness::run::tests::run_with_a_failing_test_is_red_and_names_it
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8399717Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::run::tests::run_with_a_failing_test_is_red_and_names_it --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8400387Z         PASS [   0.416s] ( 70/104) viola-e2e harness::run::tests::run_with_a_failing_test_is_red_and_names_it
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8400840Z        START [         ] ( 71/104) viola-e2e harness::run::tests::run_with_a_filter_matching_nothing_is_red
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8401493Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::run::tests::run_with_a_filter_matching_nothing_is_red --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8402170Z         PASS [   0.552s] ( 71/104) viola-e2e harness::run::tests::run_reports_unit_integration_and_doctest_suites
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8402682Z        START [         ] ( 72/104) viola-e2e harness::run::tests::run_without_a_workspace_is_artifact_missing
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8403345Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::run::tests::run_without_a_workspace_is_artifact_missing --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8404007Z         PASS [   0.137s] ( 72/104) viola-e2e harness::run::tests::run_without_a_workspace_is_artifact_missing
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8404440Z        START [         ] ( 73/104) viola-e2e harness::run::tests::selection_defaults_to_everything
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8405057Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::run::tests::selection_defaults_to_everything --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8405686Z         PASS [   0.007s] ( 73/104) viola-e2e harness::run::tests::selection_defaults_to_everything
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8406110Z        START [         ] ( 74/104) viola-e2e harness::run::tests::selection_picks_only_the_named_suites
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8406746Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::run::tests::selection_picks_only_the_named_suites --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8407394Z         PASS [   0.006s] ( 74/104) viola-e2e harness::run::tests::selection_picks_only_the_named_suites
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8407848Z        START [         ] ( 75/104) viola-e2e harness::run::tests::suite_is_green_only_without_failures_or_survivors
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8408607Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::run::tests::suite_is_green_only_without_failures_or_survivors --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8409311Z         PASS [   0.004s] ( 75/104) viola-e2e harness::run::tests::suite_is_green_only_without_failures_or_survivors
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8409799Z        START [         ] ( 76/104) viola-e2e harness::supervise::tests::exit_report_is_red_when_anything_was_killed
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8410502Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::supervise::tests::exit_report_is_red_when_anything_was_killed --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8411213Z         PASS [   0.004s] ( 76/104) viola-e2e harness::supervise::tests::exit_report_is_red_when_anything_was_killed
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8411736Z        START [         ] ( 77/104) viola-e2e harness::supervise::tests::stop_requested_by_file_or_missing_spec
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8412401Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::supervise::tests::stop_requested_by_file_or_missing_spec --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8413078Z         PASS [   0.004s] ( 77/104) viola-e2e harness::supervise::tests::stop_requested_by_file_or_missing_spec
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8413577Z        START [         ] ( 78/104) viola-e2e harness::supervise::tests::stop_sends_ctrl_c_and_the_child_exits_without_a_kill
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8414329Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::supervise::tests::stop_sends_ctrl_c_and_the_child_exits_without_a_kill --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8415032Z         PASS [   0.367s] ( 78/104) viola-e2e harness::run::tests::run_with_a_filter_matching_nothing_is_red
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8415489Z        START [         ] ( 79/104) viola-e2e harness::supervise::tests::supervise_without_a_spec_is_usage
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8416145Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::supervise::tests::supervise_without_a_spec_is_usage --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8416810Z         PASS [   0.003s] ( 79/104) viola-e2e harness::supervise::tests::supervise_without_a_spec_is_usage
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8417295Z        START [         ] ( 80/104) viola-e2e harness::supervise::tests::wait_or_kill_kills_a_survivor_at_the_deadline
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8418097Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::supervise::tests::wait_or_kill_kills_a_survivor_at_the_deadline --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8418819Z         PASS [   0.003s] ( 80/104) viola-e2e harness::supervise::tests::wait_or_kill_kills_a_survivor_at_the_deadline
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8419276Z        START [         ] ( 81/104) viola-e2e harness::tests::bin_dir_from_test_exe_skips_deps
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8419886Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::tests::bin_dir_from_test_exe_skips_deps --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8420498Z         PASS [   0.003s] ( 81/104) viola-e2e harness::tests::bin_dir_from_test_exe_skips_deps
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8420883Z        START [         ] ( 82/104) viola-e2e harness::tests::exe_appends_platform_suffix
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8421481Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::tests::exe_appends_platform_suffix --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8422081Z         PASS [   0.003s] ( 82/104) viola-e2e harness::tests::exe_appends_platform_suffix
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8422449Z        START [         ] ( 83/104) viola-e2e harness::tests::expired_tracks_the_deadline
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8423023Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::tests::expired_tracks_the_deadline --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8423607Z         PASS [   0.003s] ( 83/104) viola-e2e harness::tests::expired_tracks_the_deadline
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8423982Z        START [         ] ( 84/104) viola-e2e harness::tests::json_round_trips_through_files
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8424582Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::tests::json_round_trips_through_files --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8425182Z         PASS [   0.003s] ( 84/104) viola-e2e harness::tests::json_round_trips_through_files
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8425560Z        START [         ] ( 85/104) viola-e2e harness::tests::load_session_unknown_is_exit_2
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8426158Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::tests::load_session_unknown_is_exit_2 --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8426801Z         PASS [   0.003s] ( 85/104) viola-e2e harness::tests::load_session_unknown_is_exit_2
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8427231Z        START [         ] ( 86/104) viola-e2e harness::tests::outcome_codes_follow_ok
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8427793Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::tests::outcome_codes_follow_ok --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8428426Z         PASS [   0.003s] ( 86/104) viola-e2e harness::tests::outcome_codes_follow_ok
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8428848Z        START [         ] ( 87/104) viola-e2e harness::tests::process_id_kill_stops_a_child_and_wait_gone_sees_it
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8429547Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::tests::process_id_kill_stops_a_child_and_wait_gone_sees_it --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8430274Z         PASS [   0.105s] ( 87/104) viola-e2e harness::supervise::tests::stop_sends_ctrl_c_and_the_child_exits_without_a_kill
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8430799Z        START [         ] ( 88/104) viola-e2e harness::tests::process_id_sees_itself_alive_and_a_wrong_start_time_dead
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8431509Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::tests::process_id_sees_itself_alive_and_a_wrong_start_time_dead --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8432222Z         PASS [   0.004s] ( 88/104) viola-e2e harness::tests::process_id_sees_itself_alive_and_a_wrong_start_time_dead
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8432738Z        START [         ] ( 89/104) viola-e2e harness::tests::valid_session_id_accepts_test_style_ids
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8433370Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::tests::valid_session_id_accepts_test_style_ids --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8434022Z         PASS [   0.003s] ( 89/104) viola-e2e harness::tests::valid_session_id_accepts_test_style_ids
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8434453Z        START [         ] ( 90/104) viola-e2e harness::tests::valid_session_id_rejects_path_escapes
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8435080Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::tests::valid_session_id_rejects_path_escapes --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8435713Z         PASS [   0.003s] ( 90/104) viola-e2e harness::tests::valid_session_id_rejects_path_escapes
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8436126Z        START [         ] ( 91/104) viola-e2e harness::tests::workspace_root_holds_the_root_manifest
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8436757Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/viola_e2e-b3f99e29f31cc5bb --exact harness::tests::workspace_root_holds_the_root_manifest --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8437398Z         PASS [   0.003s] ( 91/104) viola-e2e harness::tests::workspace_root_holds_the_root_manifest
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8437846Z        START [         ] ( 92/104) viola-e2e::cli boot_with_an_invalid_instance_name_is_usage_before_any_build
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8438571Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/cli-cbace2c049a1611f --exact boot_with_an_invalid_instance_name_is_usage_before_any_build --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8439228Z         PASS [   0.004s] ( 92/104) viola-e2e::cli boot_with_an_invalid_instance_name_is_usage_before_any_build
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8439671Z        START [         ] ( 93/104) viola-e2e::cli cleanup_keeps_the_home_under_agent_run_keep_homes
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8440286Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/cli-cbace2c049a1611f --exact cleanup_keeps_the_home_under_agent_run_keep_homes --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8441074Z         PASS [   0.305s] ( 93/104) viola-e2e harness::tests::process_id_kill_stops_a_child_and_wait_gone_sees_it
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8441724Z        START [         ] ( 94/104) viola-e2e::cli cleanup_of_an_unknown_session_is_ok_and_empty
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8442442Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/cli-cbace2c049a1611f --exact cleanup_of_an_unknown_session_is_ok_and_empty --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8443139Z         PASS [   0.005s] ( 94/104) viola-e2e::cli cleanup_of_an_unknown_session_is_ok_and_empty
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8443649Z        START [         ] ( 95/104) viola-e2e::cli status_and_logs_of_an_unknown_session_are_exit_2
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8444321Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/cli-cbace2c049a1611f --exact status_and_logs_of_an_unknown_session_are_exit_2 --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8445040Z         PASS [   0.006s] ( 95/104) viola-e2e::cli status_and_logs_of_an_unknown_session_are_exit_2
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8445524Z        START [         ] ( 96/104) viola-e2e::cli status_logs_and_cleanup_drive_a_booted_session
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8446202Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/cli-cbace2c049a1611f --exact status_logs_and_cleanup_drive_a_booted_session --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8446904Z         PASS [   0.309s] ( 96/104) viola-e2e::cli cleanup_keeps_the_home_under_agent_run_keep_homes
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8447403Z        START [         ] ( 97/104) viola-e2e::cli supervise_without_a_spec_exits_2_and_prints_nothing
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8448334Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/cli-cbace2c049a1611f --exact supervise_without_a_spec_exits_2_and_prints_nothing --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8449056Z         PASS [   0.004s] ( 97/104) viola-e2e::cli supervise_without_a_spec_exits_2_and_prints_nothing
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8449611Z        START [         ] ( 98/104) viola-e2e::cli unbuilt_selectors_and_unknown_commands_are_usage
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8450319Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/cli-cbace2c049a1611f --exact unbuilt_selectors_and_unknown_commands_are_usage --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8450995Z         PASS [   0.009s] ( 98/104) viola-e2e::cli unbuilt_selectors_and_unknown_commands_are_usage
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8451594Z        START [         ] ( 99/104) viola-e2e::harness_lifecycle boot_that_never_gets_ready_times_out_and_stops_its_supervisor
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8452403Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/harness_lifecycle-fbee3c126eb25026 --exact boot_that_never_gets_ready_times_out_and_stops_its_supervisor --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8453155Z         PASS [   0.313s] ( 99/104) viola-e2e::cli status_logs_and_cleanup_drive_a_booted_session
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8453719Z        START [         ] (100/104) viola-e2e::harness_lifecycle boot_without_the_fake_agent_binary_is_build_failed
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8454477Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/harness_lifecycle-fbee3c126eb25026 --exact boot_without_the_fake_agent_binary_is_build_failed --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8455306Z         PASS [   0.004s] (100/104) viola-e2e::harness_lifecycle boot_without_the_fake_agent_binary_is_build_failed
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8455903Z        START [         ] (101/104) viola-e2e::harness_lifecycle cleanup_force_kills_a_recorded_process_that_outlives_the_stop
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8456737Z              command: /tmp/cargo-mutants-viola-ElybNA.tmp/target/debug/deps/harness_lifecycle-fbee3c126eb25026 --exact cleanup_force_kills_a_recorded_process_that_outlives_the_stop --nocapture
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8457569Z         FAIL [   0.309s] (101/104) viola-e2e::harness_lifecycle cleanup_force_kills_a_recorded_process_that_outlives_the_stop
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8458284Z   stdout ───
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8458451Z 
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8458598Z     running 1 test
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8458948Z     test cleanup_force_kills_a_recorded_process_that_outlives_the_stop ... FAILED
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8459210Z 
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8459359Z     failures:
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8459493Z 
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8459618Z     failures:
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8459933Z         cleanup_force_kills_a_recorded_process_that_outlives_the_stop
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8460255Z 
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8460491Z     test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.31s
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8460807Z 
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8460925Z   stderr ───
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8461098Z 
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8461466Z     thread 'cleanup_force_kills_a_recorded_process_that_outlives_the_stop' (5579) panicked at crates/viola-e2e/tests/harness_lifecycle.rs:144:5:
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8462025Z     assertion `left == right` failed
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8462359Z       left: Array [String("supervisor"), String("builder")]
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8462722Z      right: Array [String("builder")]
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8463113Z     note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8463412Z 
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8463585Z   Cancelling due to test failure: immediately terminating 1 test still running
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8464177Z      SIGTERM [   0.595s] (102/104) viola-e2e::harness_lifecycle boot_that_never_gets_ready_times_out_and_stops_its_supervisor
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8464717Z ────────────
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8465083Z      Summary [   3.758s] 102/104 tests run: 100 passed, 2 failed, 0 skipped
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8465615Z         FAIL [   0.309s] (101/104) viola-e2e::harness_lifecycle cleanup_force_kills_a_recorded_process_that_outlives_the_stop
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8466260Z warning: 2/104 tests were not run due to test failure (run with --no-fail-fast to run all tests, or run with --max-fail)
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8466753Z error: test run failed
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8466977Z 
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8467078Z *** result: Failure(100)
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8467239Z 
+mutants	Mutation gate (chunk diff)	2026-09-24T07:45:58.8476678Z ##[error]Process completed with exit code 1.
+test (ubuntu-latest)	Unit and integration (sh shim)	﻿2026-09-24T07:45:10.8884668Z ##[group]Run bash scripts/agent-run.sh run --unit
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:10.8885031Z [36;1mbash scripts/agent-run.sh run --unit[0m
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:10.8885320Z [36;1mbash scripts/agent-run.sh run --integration[0m
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:10.8938232Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:10.8938422Z env:
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:10.8938535Z   AGENT_RUN_KEEP_HOMES: 1
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:10.8938666Z   CACHE_ON_FAILURE: false
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:10.8938789Z   CARGO_INCREMENTAL: 0
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:10.8938909Z ##[endgroup]
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:25.0304107Z  Downloading crates ...
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:25.0785869Z   Downloaded autocfg v1.5.1
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:25.0853999Z   Downloaded iana-time-zone v0.1.65
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:25.0880948Z   Downloaded lazy_static v1.5.0
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:25.0932408Z   Downloaded anyhow v1.0.104
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:25.1096153Z   Downloaded pin-project-lite v0.2.17
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:25.1142061Z   Downloaded tracing-serde v0.2.0
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:25.1150064Z   Downloaded thread_local v1.1.10
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:25.1228183Z   Downloaded sharded-slab v0.1.7
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:25.1252604Z   Downloaded tracing-core v0.1.36
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:25.1277346Z   Downloaded num-traits v0.2.19
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:25.1310028Z   Downloaded chrono v0.4.45
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:25.1363998Z   Downloaded tracing-subscriber v0.3.23
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:25.1430416Z   Downloaded tracing v0.1.44
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:25.4731876Z    Compiling proc-macro2 v1.0.107
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:25.4739689Z    Compiling unicode-ident v1.0.26
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:25.5095879Z    Compiling quote v1.0.47
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:25.6022692Z    Compiling cfg-if v1.0.5
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:25.6197017Z    Compiling semver v1.0.28
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:25.7551803Z    Compiling unicode-segmentation v1.13.3
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:25.9771894Z    Compiling convert_case v0.11.0
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:26.0797057Z    Compiling syn v3.0.6
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:26.1105321Z    Compiling syn v2.0.119
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:28.1885236Z    Compiling rustc_version v0.4.1
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:28.3112069Z    Compiling nutype_macros v0.8.0
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:28.3781702Z    Compiling serde_core v1.0.229
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:28.5071626Z    Compiling urlencoding v2.1.3
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:28.5691628Z    Compiling once_cell v1.21.4
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:28.6701734Z    Compiling kinded_macros v0.5.1
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:29.0201656Z    Compiling kinded v0.5.1
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:29.9142399Z    Compiling utf8parse v0.2.2
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:29.9439057Z    Compiling serde v1.0.229
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:30.0501652Z    Compiling zmij v1.0.23
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:30.1662050Z    Compiling anstyle-parse v1.0.0
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:30.2361718Z    Compiling serde_derive v1.0.229
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:31.8921935Z    Compiling serde_json v1.0.151
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:31.9544620Z    Compiling is_terminal_polyfill v1.70.2
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:31.9789910Z    Compiling anstyle-query v1.1.5
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:32.0102247Z    Compiling libc v0.2.189
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:32.1531545Z    Compiling memchr v2.8.3
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:32.5751598Z    Compiling anstyle v1.0.14
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:32.6740229Z    Compiling hashbrown v0.17.1
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:32.6829382Z    Compiling nutype v0.8.0
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:32.7046012Z    Compiling colorchoice v1.0.5
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:32.7371826Z    Compiling equivalent v1.0.2
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:32.7570193Z    Compiling anstream v1.0.0
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:32.9931301Z    Compiling indexmap v2.14.2
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:33.3481881Z    Compiling itoa v1.0.18
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:33.3751707Z    Compiling strsim v0.11.1
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:33.4179215Z    Compiling heck v0.5.0
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:33.5021310Z    Compiling clap_lex v1.1.1
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:33.5791740Z    Compiling clap_builder v4.6.7
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:33.5991532Z    Compiling clap_derive v4.6.7
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:35.8961646Z    Compiling viola-core v0.1.0 (/home/runner/work/viola/viola/crates/viola-core)
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:35.9393679Z    Compiling getrandom v0.4.3
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:36.0177212Z    Compiling rustix v1.1.5
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:36.1543096Z    Compiling clap v4.6.7
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:36.1786232Z    Compiling bitflags v2.13.2
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:36.1794442Z    Compiling linux-raw-sys v0.12.1
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:36.3622946Z    Compiling fastrand v2.5.0
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:36.4601724Z    Compiling autocfg v1.5.1
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:36.6346910Z    Compiling thiserror v2.0.20
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:36.7878282Z    Compiling num-traits v0.2.19
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:36.8503440Z    Compiling tracing-core v0.1.36
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:37.1901399Z    Compiling thiserror-impl v2.0.20
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:37.5801653Z    Compiling tempfile v3.27.0
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:37.8591541Z    Compiling sysinfo v0.39.6
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:37.8677966Z    Compiling lazy_static v1.5.0
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:37.8920015Z    Compiling anyhow v1.0.104
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:38.0341722Z    Compiling sharded-slab v0.1.7
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:38.6442077Z    Compiling tracing-serde v0.2.0
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:38.6581514Z    Compiling thread_local v1.1.10
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:38.6979267Z    Compiling iana-time-zone v0.1.65
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:38.7661520Z    Compiling pin-project-lite v0.2.17
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:38.7891831Z    Compiling tracing v0.1.44
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:38.8221650Z    Compiling chrono v0.4.45
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:38.8893022Z    Compiling tracing-subscriber v0.3.23
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:39.7832147Z    Compiling viola-e2e v0.1.0 (/home/runner/work/viola/viola/crates/viola-e2e)
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:40.1809228Z    Compiling viola v0.1.0 (/home/runner/work/viola/viola)
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.2984832Z     Finished `test` profile [unoptimized + debuginfo] target(s) in 16.88s
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.3258108Z ────────────
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.3258866Z  Nextest run ID c76eb525-63e0-4555-96f2-6b53a6cce120 with nextest profile: ci
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.3259248Z     Starting 82 tests across 5 binaries (3 binaries skipped)
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.3306058Z         PASS [   0.004s] ( 1/82) viola::bin/viola run::tests::millis_utc_writes_the_current_timestamp
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.3321416Z         PASS [   0.005s] ( 2/82) viola::bin/viola run::tests::ensure_private_dir_creates_missing_parents
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.3351699Z         PASS [   0.004s] ( 3/82) viola::bin/viola run::tests::timestamp_is_rfc3339_utc_millis_with_z
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.3371418Z         PASS [   0.004s] ( 4/82) viola::bin/viola tests::panic_hook_writes_exactly_one_line_without_payload
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.3401316Z         PASS [   0.005s] ( 5/82) viola::bin/viola tests::panic_line_has_the_binding_fields_and_no_corr
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.3421155Z         PASS [   0.004s] ( 6/82) viola::bin/viola tests::panic_line_without_instance_omits_the_key
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.3428224Z         PASS [   0.004s] ( 7/82) viola::bin/viola tests::panic_location_absolute_without_src_keeps_file_name_only
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.3428956Z         PASS [   0.004s] ( 8/82) viola::bin/viola tests::panic_location_dependency_path_trimmed_to_crate_dir
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.3474564Z         PASS [   0.005s] ( 9/82) viola::bin/viola tests::panic_location_src_at_root_keeps_file_name_only
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.3480787Z         PASS [   0.005s] (10/82) viola::bin/viola tests::panic_location_relative_path_kept_with_forward_slashes
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.3517308Z         PASS [   0.004s] (11/82) viola-core tests::viola_name_digits_and_hyphen_after_first_accepted
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.3541563Z         PASS [   0.004s] (12/82) viola-core tests::version_is_the_package_version
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.3555187Z         PASS [   0.003s] (13/82) viola-core tests::viola_name_empty_rejected
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.3555738Z         PASS [   0.004s] (14/82) viola-core tests::viola_name_displays_its_value
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.3590030Z         PASS [   0.004s] (15/82) viola-core tests::viola_name_length_boundary_holds
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.3601270Z         PASS [   0.004s] (16/82) viola-core tests::viola_name_leading_non_letter_rejected
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.3633965Z         PASS [   0.004s] (17/82) viola-core tests::viola_name_outside_charset_rejected
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.3651470Z         PASS [   0.004s] (18/82) viola-core tests::viola_name_plain_words_accepted
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.3678311Z         PASS [   0.004s] (19/82) viola-e2e harness::boot::tests::boot_refuses_an_invalid_session_id
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.3839750Z         PASS [   0.020s] (20/82) viola-e2e harness::boot::tests::boot_with_a_failing_build_reports_build_failed_with_its_exit
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.3881258Z         PASS [   0.004s] (21/82) viola-e2e harness::boot::tests::failure_doc_carries_the_closed_fields
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.3916526Z         PASS [   0.004s] (22/82) viola-e2e harness::boot::tests::instance_spec_parses_name_and_args
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.3962162Z         PASS [   0.004s] (23/82) viola-e2e harness::boot::tests::instance_spec_rejects_invalid_names
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.4021892Z         PASS [   0.005s] (24/82) viola-e2e harness::boot::tests::readiness_is_ready_when_both_processes_live
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.4061580Z         PASS [   0.004s] (25/82) viola-e2e harness::boot::tests::readiness_names_each_missing_check
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.4096149Z         PASS [   0.003s] (26/82) viola-e2e harness::boot::tests::readiness_reports_a_wrapper_that_already_exited
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.4127152Z         PASS [   0.003s] (27/82) viola-e2e harness::boot::tests::role_file_is_the_run_role_basename
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.4158652Z         PASS [   0.003s] (28/82) viola-e2e harness::boot::tests::role_state_reads_start_child_and_exit_lines
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.4190123Z         PASS [   0.003s] (29/82) viola-e2e harness::boot::tests::session_path_puts_the_session_bin_first
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.4227982Z         PASS [   0.004s] (30/82) viola-e2e harness::boot::tests::wait_ready_returns_a_ready_instance
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.6270685Z         PASS [   0.259s] (31/82) viola-e2e harness::boot::tests::cargo_build_succeeds_on_a_buildable_package
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.6313277Z         PASS [   0.004s] (32/82) viola-e2e harness::cleanup::tests::all_sessions_lists_only_recorded_valid_sessions
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.6361687Z         PASS [   0.005s] (33/82) viola-e2e harness::cleanup::tests::cleanup_all_stops_recorded_sessions_and_refuses_foreign_homes
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.6393351Z         PASS [   0.003s] (34/82) viola-e2e harness::cleanup::tests::cleanup_rejects_an_invalid_session_id
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.6425784Z         PASS [   0.003s] (35/82) viola-e2e harness::cleanup::tests::cleanup_without_a_session_is_ok_and_empty
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.6457565Z         PASS [   0.003s] (36/82) viola-e2e harness::cleanup::tests::killed_by_supervisor_reads_the_killed_names
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.6489649Z         PASS [   0.003s] (37/82) viola-e2e harness::cleanup::tests::remove_session_home_refuses_paths_outside_e2e_home
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.6522324Z         PASS [   0.003s] (38/82) viola-e2e harness::cleanup::tests::remove_session_home_removes_a_boot_created_parent
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.6554309Z         PASS [   0.003s] (39/82) viola-e2e harness::cleanup::tests::summarize_is_ok_only_when_everything_is_proven
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.6587112Z         PASS [   0.003s] (40/82) viola-e2e harness::logs::tests::diag_lines_reads_only_ndjson_files_in_name_order
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.6619562Z         PASS [   0.003s] (41/82) viola-e2e harness::logs::tests::filters_match_named_values_and_treat_absent_as_null
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.6651089Z         PASS [   0.003s] (42/82) viola-e2e harness::logs::tests::logs_for_an_unknown_session_is_exit_2
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.6684337Z         PASS [   0.003s] (43/82) viola-e2e harness::logs::tests::torn_lines_survive_any_filter
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.6716594Z         PASS [   0.003s] (44/82) viola-e2e harness::logs::tests::wrap_lines_accepts_crlf_terminated_lines
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.6746530Z         PASS [   0.003s] (45/82) viola-e2e harness::logs::tests::wrap_lines_wraps_records_and_marks_torn_lines
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.6778606Z         PASS [   0.003s] (46/82) viola-e2e harness::run::tests::attr_reads_one_attribute_or_nothing
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.7057272Z         PASS [   0.028s] (47/82) viola-e2e harness::run::tests::chunk_diff_holds_tracked_edits_and_untracked_files
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.7087274Z         PASS [   0.003s] (48/82) viola-e2e harness::run::tests::exit_must_agree_turns_a_silent_red_exit_red
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.7118720Z         PASS [   0.003s] (49/82) viola-e2e harness::run::tests::listed_reads_non_empty_lines
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.7171730Z         PASS [   0.004s] (50/82) viola-e2e harness::run::tests::merge_summary_replaces_by_suite
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.7195481Z         PASS [   0.004s] (51/82) viola-e2e harness::run::tests::mutants_exit_codes_map_to_reasons
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.7224718Z         PASS [   0.003s] (52/82) viola-e2e harness::run::tests::mutants_suite_counts_missed_and_timeout_as_survivors
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.7254259Z         PASS [   0.003s] (53/82) viola-e2e harness::run::tests::parse_doctest_sums_result_lines
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.7281188Z         PASS [   0.304s] (54/82) viola-e2e harness::boot::tests::wait_ready_times_out_with_the_missing_checks
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.7301411Z         PASS [   0.004s] (55/82) viola-e2e harness::run::tests::parse_junit_counts_pass_fail_skip
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.7520260Z         PASS [   0.025s] (56/82) viola-e2e harness::run::tests::resolve_base_needs_a_real_commit
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.7841676Z         FAIL [   0.053s] (57/82) viola-e2e harness::run::tests::run_mutants_passes_when_the_change_is_tested
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.7862004Z   stdout ───
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.7862296Z 
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.7874521Z     running 1 test
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.7874989Z     test harness::run::tests::run_mutants_passes_when_the_change_is_tested ... FAILED
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.7875350Z 
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.7875501Z     failures:
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.7875673Z 
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.7875816Z     failures:
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.7876139Z         harness::run::tests::run_mutants_passes_when_the_change_is_tested
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.7876453Z 
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.7876755Z     test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 63 filtered out; finished in 0.05s
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.7877167Z 
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.7877381Z   stderr ───
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.7877644Z     error: no such command: `mutants`
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.7877870Z 
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.7878074Z     help: view all installed commands with `cargo --list`
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.7878517Z     help: find a package to install `mutants` with `cargo search cargo-mutants`
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.7878861Z 
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.7879447Z     thread 'harness::run::tests::run_mutants_passes_when_the_change_is_tested' (4282) panicked at crates/viola-e2e/src/harness/run.rs:806:9:
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.7880161Z     assertion `left == right` failed: {"v":1,"cmd":"run","ok":false,"reason":"mutants-exit-101","suites":[]}
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.7880926Z       left: 1
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.7881180Z      right: 0
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.7881686Z     note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.7882018Z 
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.8049085Z         FAIL [   0.052s] (58/82) viola-e2e harness::run::tests::run_mutants_reports_survivors_of_an_untested_change
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.8062095Z   stdout ───
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.8080821Z 
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.8093048Z     running 1 test
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.8093546Z     test harness::run::tests::run_mutants_reports_survivors_of_an_untested_change ... FAILED
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.8093913Z 
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.8094084Z     failures:
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.8094256Z 
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.8094398Z     failures:
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.8094730Z         harness::run::tests::run_mutants_reports_survivors_of_an_untested_change
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.8095054Z 
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.8095354Z     test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 63 filtered out; finished in 0.05s
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.8095733Z 
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.8095962Z   stderr ───
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.8096214Z     error: no such command: `mutants`
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.8096435Z 
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.8096642Z     help: view all installed commands with `cargo --list`
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.8097077Z     help: find a package to install `mutants` with `cargo search cargo-mutants`
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.8097408Z 
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.8097837Z     thread 'harness::run::tests::run_mutants_reports_survivors_of_an_untested_change' (4306) panicked at crates/viola-e2e/src/harness/run.rs:673:32:
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.8098806Z     suite mutants in {"v":1,"cmd":"run","ok":false,"reason":"mutants-exit-101","suites":[]}
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.8099535Z     note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.8099860Z 
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:42.8119408Z         PASS [   0.029s] (59/82) viola-e2e harness::run::tests::run_mutants_with_an_unreachable_base_is_base_missing_and_writes_no_diff
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.1661835Z         PASS [   0.354s] (60/82) viola-e2e harness::run::tests::run_with_a_failing_test_is_red_and_names_it
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.3176114Z         PASS [   0.512s] (61/82) viola-e2e harness::run::tests::run_reports_unit_integration_and_doctest_suites
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.4400067Z         PASS [   0.121s] (62/82) viola-e2e harness::run::tests::run_without_a_workspace_is_artifact_missing
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.4431612Z         PASS [   0.004s] (63/82) viola-e2e harness::run::tests::selection_defaults_to_everything
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.4463436Z         PASS [   0.004s] (64/82) viola-e2e harness::run::tests::selection_picks_only_the_named_suites
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.4521199Z         PASS [   0.004s] (65/82) viola-e2e harness::run::tests::suite_is_green_only_without_failures_or_survivors
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.4551273Z         PASS [   0.004s] (66/82) viola-e2e harness::supervise::tests::exit_report_is_red_when_anything_was_killed
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.4594525Z         PASS [   0.005s] (67/82) viola-e2e harness::supervise::tests::stop_requested_by_file_or_missing_spec
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.5170185Z         PASS [   0.351s] (68/82) viola-e2e harness::run::tests::run_with_a_filter_matching_nothing_is_red
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.5205155Z         PASS [   0.004s] (69/82) viola-e2e harness::supervise::tests::supervise_without_a_spec_is_usage
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.5238492Z         PASS [   0.003s] (70/82) viola-e2e harness::supervise::tests::wait_or_kill_kills_a_survivor_at_the_deadline
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.5271323Z         PASS [   0.003s] (71/82) viola-e2e harness::tests::bin_dir_from_test_exe_skips_deps
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.5302193Z         PASS [   0.003s] (72/82) viola-e2e harness::tests::exe_appends_platform_suffix
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.5334209Z         PASS [   0.003s] (73/82) viola-e2e harness::tests::expired_tracks_the_deadline
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.5368674Z         PASS [   0.003s] (74/82) viola-e2e harness::tests::json_round_trips_through_files
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.5401750Z         PASS [   0.003s] (75/82) viola-e2e harness::tests::load_session_unknown_is_exit_2
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.5433516Z         PASS [   0.003s] (76/82) viola-e2e harness::tests::outcome_codes_follow_ok
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.5642974Z         PASS [   0.105s] (77/82) viola-e2e harness::supervise::tests::stop_sends_ctrl_c_and_the_child_exits_without_a_kill
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.5687653Z         PASS [   0.004s] (78/82) viola-e2e harness::tests::process_id_sees_itself_alive_and_a_wrong_start_time_dead
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.5719842Z         PASS [   0.003s] (79/82) viola-e2e harness::tests::valid_session_id_accepts_test_style_ids
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.5751339Z         PASS [   0.003s] (80/82) viola-e2e harness::tests::valid_session_id_rejects_path_escapes
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.5783371Z         PASS [   0.003s] (81/82) viola-e2e harness::tests::workspace_root_holds_the_root_manifest
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.8491451Z         PASS [   0.306s] (82/82) viola-e2e harness::tests::process_id_kill_stops_a_child_and_wait_gone_sees_it
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.8495525Z ────────────
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.8495884Z      Summary [   1.523s] 82 tests run: 80 passed, 2 failed, 0 skipped
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.8496527Z         FAIL [   0.053s] (57/82) viola-e2e harness::run::tests::run_mutants_passes_when_the_change_is_tested
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.8497236Z         FAIL [   0.052s] (58/82) viola-e2e harness::run::tests::run_mutants_reports_survivors_of_an_untested_change
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.8505186Z error: test run failed
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.8888162Z     Finished `test` profile [unoptimized + debuginfo] target(s) in 0.03s
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.8904076Z    Doc-tests viola_core
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.9044695Z    Doc-tests viola_e2e
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.9449125Z 
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.9450891Z running 0 tests
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.9451399Z 
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.9452721Z {"v":1,"cmd":"run","ok":false,"suites":[{"suite":"nextest-unit","passed":80,"failed":2,"skipped":0,"survived":0,"artifact":"/home/runner/work/viola/viola/target/agent-run/artifacts/junit-nextest-unit.xml","failures":["viola-e2e harness::run::tests::run_mutants_passes_when_the_change_is_tested","viola-e2e harness::run::tests::run_mutants_reports_survivors_of_an_untested_change"]},{"suite":"doctest","passed":0,"failed":0,"skipped":0,"survived":0,"artifact":null,"failures":[]}]}
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.9454493Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.9454936Z 
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.9455075Z 
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.9455284Z running 0 tests
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.9455523Z 
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.9455846Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.9456257Z 
+test (ubuntu-latest)	Unit and integration (sh shim)	2026-09-24T07:45:43.9468060Z ##[error]Process completed with exit code 1.

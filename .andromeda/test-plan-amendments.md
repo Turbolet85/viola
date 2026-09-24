@@ -55,3 +55,8 @@
 - The language version is the exact 1.98.1 pin.
 
 **Why:** a caught mutant was graded Timeout under `fail-fast = true` (auto timeout 108 s, measured 2026-09-24); the chunk shipped the rustup step (report Deviation 5, Harness / gate surface; expected amendment 6). Sweep `dtolnay` over test-plan: lines 1398 and 1403 amended; 756 and 1393 no change (the nightly fuzz toolchain and the MSRV 1.96 job are separate toolchains).
+
+## 2026-09-24-three-os-ci-headless-harness-skeleton — mutation gate prebuilds the root bins (post-commit CI fix)
+**Section:** §3 `run` step 4 (Command)
+**Change:** `run --mutants` first runs `cargo build --package viola --features fake-agent`, which fails with `reason:"build-failed"`, and then passes `--copy-target=true` to cargo-mutants, so the scratch tree carries the root `viola` / `viola-fake-agent` bins that the harness tests spawn.
+**Why:** cargo-mutants 27.1 scopes the baseline to the packages the diff touches. A diff touching only `crates/viola-e2e` failed its baseline with `fake agent: NotFound`, exit 4, measured on the dev host 2026-09-24. `test_workspace` / `test_package` in `.cargo/mutants.toml` and `--test-workspace=true` did not widen that scope (measured). The operator chose prebuild + copy-target over moving tests or `--in-place` (founder-delegated, 2026-09-24). Cost: one `target/` copy per run, 2.9 GB on the dev host. Sweep `cargo mutants --workspace` over test-plan: the line-555 command was amended; 0 other hits. Leaf `.claude/docs/commands.md` re-derived.

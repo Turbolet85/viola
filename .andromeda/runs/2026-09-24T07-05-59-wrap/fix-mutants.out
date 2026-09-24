@@ -1,0 +1,355 @@
+ERROR cargo test failed in an unmutated tree, so no mutants were tested
+Found 5 mutants to test
+FAILED   Unmutated baseline in 19s build + 0s test
+
+*** baseline
+
+*** D:\\dev\\rust\\rustup\\toolchains\\1.98.1-x86_64-pc-windows-msvc\\bin\\cargo.exe nextest run --no-run --verbose --package=viola-e2e@0.1.0 --features=fake-agent
+   Compiling proc-macro2 v1.0.107
+   Compiling unicode-ident v1.0.26
+   Compiling quote v1.0.47
+   Compiling windows-link v0.2.1
+   Compiling semver v1.0.28
+   Compiling unicode-segmentation v1.13.3
+   Compiling cfg-if v1.0.5
+   Compiling serde_core v1.0.229
+   Compiling anstyle v1.0.14
+   Compiling once_cell_polyfill v1.70.2
+   Compiling utf8parse v0.2.2
+   Compiling winapi v0.3.9
+   Compiling colorchoice v1.0.5
+   Compiling is_terminal_polyfill v1.70.2
+   Compiling getrandom v0.4.3
+   Compiling urlencoding v2.1.3
+   Compiling zmij v1.0.23
+   Compiling ntapi v0.4.3
+   Compiling libc v0.2.189
+   Compiling clap_lex v1.1.1
+   Compiling memchr v2.8.3
+   Compiling serde_json v1.0.151
+   Compiling serde v1.0.229
+   Compiling strsim v0.11.1
+   Compiling hashbrown v0.17.1
+   Compiling heck v0.5.0
+   Compiling thiserror v2.0.20
+   Compiling equivalent v1.0.2
+   Compiling once_cell v1.21.4
+   Compiling itoa v1.0.18
+   Compiling fastrand v2.5.0
+   Compiling windows-strings v0.5.1
+   Compiling windows-result v0.4.1
+   Compiling windows-sys v0.61.2
+   Compiling windows-threading v0.2.1
+   Compiling anstyle-parse v1.0.0
+   Compiling rustc_version v0.4.1
+   Compiling convert_case v0.11.0
+   Compiling nutype_macros v0.8.0
+   Compiling indexmap v2.14.2
+   Compiling anstyle-wincon v3.0.11
+   Compiling anstyle-query v1.1.5
+   Compiling tempfile v3.27.0
+   Compiling anstream v1.0.0
+   Compiling syn v2.0.119
+   Compiling syn v3.0.6
+   Compiling clap_builder v4.6.7
+   Compiling serde_derive v1.0.229
+   Compiling thiserror-impl v2.0.20
+   Compiling clap_derive v4.6.7
+   Compiling windows-interface v0.59.3
+   Compiling windows-implement v0.60.2
+   Compiling kinded_macros v0.5.1
+   Compiling windows-core v0.62.2
+   Compiling kinded v0.5.1
+   Compiling clap v4.6.7
+   Compiling windows-collections v0.3.2
+   Compiling windows-future v0.3.2
+   Compiling windows-numerics v0.3.1
+   Compiling windows v0.62.2
+   Compiling nutype v0.8.0
+   Compiling viola-core v0.1.0 (C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\crates\viola-core)
+   Compiling sysinfo v0.39.6
+   Compiling viola-e2e v0.1.0 (C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\crates\viola-e2e)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 18.51s
+
+*** result: Success
+
+*** D:\\dev\\rust\\rustup\\toolchains\\1.98.1-x86_64-pc-windows-msvc\\bin\\cargo.exe nextest run --verbose --package=viola-e2e@0.1.0 --features=fake-agent
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.09s
+────────────
+ Nextest run ID be96a896-8304-4e37-900d-381eb67af72b with nextest profile: mutants
+    Starting 76 tests across 4 binaries
+       START [         ] ( 1/76) viola-e2e harness::boot::tests::boot_refuses_an_invalid_session_id
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::boot::tests::boot_refuses_an_invalid_session_id --nocapture
+       START [         ] ( 1/76) viola-e2e harness::boot::tests::failure_doc_carries_the_closed_fields
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::boot::tests::failure_doc_carries_the_closed_fields --nocapture
+       START [         ] ( 1/76) viola-e2e harness::boot::tests::cargo_build_succeeds_on_a_buildable_package
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::boot::tests::cargo_build_succeeds_on_a_buildable_package --nocapture
+       START [         ] ( 1/76) viola-e2e harness::boot::tests::instance_spec_rejects_invalid_names
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::boot::tests::instance_spec_rejects_invalid_names --nocapture
+       START [         ] ( 1/76) viola-e2e harness::boot::tests::instance_spec_parses_name_and_args
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::boot::tests::instance_spec_parses_name_and_args --nocapture
+       START [         ] ( 1/76) viola-e2e harness::boot::tests::readiness_names_each_missing_check
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::boot::tests::readiness_names_each_missing_check --nocapture
+       START [         ] ( 1/76) viola-e2e harness::boot::tests::boot_with_a_failing_build_reports_build_failed_with_its_exit
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::boot::tests::boot_with_a_failing_build_reports_build_failed_with_its_exit --nocapture
+       START [         ] ( 1/76) viola-e2e harness::boot::tests::role_file_is_the_run_role_basename
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::boot::tests::role_file_is_the_run_role_basename --nocapture
+       START [         ] ( 1/76) viola-e2e harness::boot::tests::readiness_reports_a_wrapper_that_already_exited
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::boot::tests::readiness_reports_a_wrapper_that_already_exited --nocapture
+       START [         ] ( 1/76) viola-e2e harness::boot::tests::readiness_is_ready_when_both_processes_live
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::boot::tests::readiness_is_ready_when_both_processes_live --nocapture
+       START [         ] ( 1/76) viola-e2e harness::boot::tests::session_path_puts_the_session_bin_first
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::boot::tests::session_path_puts_the_session_bin_first --nocapture
+       START [         ] ( 1/76) viola-e2e harness::boot::tests::role_state_reads_start_child_and_exit_lines
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::boot::tests::role_state_reads_start_child_and_exit_lines --nocapture
+       START [         ] ( 1/76) viola-e2e harness::boot::tests::wait_ready_times_out_with_the_missing_checks
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::boot::tests::wait_ready_times_out_with_the_missing_checks --nocapture
+       START [         ] ( 1/76) viola-e2e harness::boot::tests::wait_ready_returns_a_ready_instance
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::boot::tests::wait_ready_returns_a_ready_instance --nocapture
+       START [         ] ( 1/76) viola-e2e harness::cleanup::tests::all_sessions_lists_only_recorded_valid_sessions
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::cleanup::tests::all_sessions_lists_only_recorded_valid_sessions --nocapture
+       START [         ] ( 1/76) viola-e2e harness::cleanup::tests::cleanup_rejects_an_invalid_session_id
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::cleanup::tests::cleanup_rejects_an_invalid_session_id --nocapture
+       START [         ] ( 1/76) viola-e2e harness::cleanup::tests::cleanup_all_stops_recorded_sessions_and_refuses_foreign_homes
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::cleanup::tests::cleanup_all_stops_recorded_sessions_and_refuses_foreign_homes --nocapture
+       START [         ] ( 1/76) viola-e2e harness::cleanup::tests::cleanup_without_a_session_is_ok_and_empty
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::cleanup::tests::cleanup_without_a_session_is_ok_and_empty --nocapture
+       START [         ] ( 1/76) viola-e2e harness::cleanup::tests::remove_session_home_refuses_paths_outside_e2e_home
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::cleanup::tests::remove_session_home_refuses_paths_outside_e2e_home --nocapture
+       START [         ] ( 1/76) viola-e2e harness::cleanup::tests::killed_by_supervisor_reads_the_killed_names
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::cleanup::tests::killed_by_supervisor_reads_the_killed_names --nocapture
+       START [         ] ( 1/76) viola-e2e harness::cleanup::tests::remove_session_home_removes_a_boot_created_parent
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::cleanup::tests::remove_session_home_removes_a_boot_created_parent --nocapture
+       START [         ] ( 1/76) viola-e2e harness::logs::tests::diag_lines_reads_only_ndjson_files_in_name_order
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::logs::tests::diag_lines_reads_only_ndjson_files_in_name_order --nocapture
+       START [         ] ( 1/76) viola-e2e harness::logs::tests::filters_match_named_values_and_treat_absent_as_null
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::logs::tests::filters_match_named_values_and_treat_absent_as_null --nocapture
+       START [         ] ( 1/76) viola-e2e harness::cleanup::tests::summarize_is_ok_only_when_everything_is_proven
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::cleanup::tests::summarize_is_ok_only_when_everything_is_proven --nocapture
+       START [         ] ( 1/76) viola-e2e harness::logs::tests::logs_for_an_unknown_session_is_exit_2
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::logs::tests::logs_for_an_unknown_session_is_exit_2 --nocapture
+       START [         ] ( 1/76) viola-e2e harness::logs::tests::torn_lines_survive_any_filter
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::logs::tests::torn_lines_survive_any_filter --nocapture
+       START [         ] ( 1/76) viola-e2e harness::logs::tests::wrap_lines_wraps_records_and_marks_torn_lines
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::logs::tests::wrap_lines_wraps_records_and_marks_torn_lines --nocapture
+       START [         ] ( 1/76) viola-e2e harness::logs::tests::wrap_lines_accepts_crlf_terminated_lines
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::logs::tests::wrap_lines_accepts_crlf_terminated_lines --nocapture
+       START [         ] ( 1/76) viola-e2e harness::run::tests::chunk_diff_holds_tracked_edits_and_untracked_files
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::run::tests::chunk_diff_holds_tracked_edits_and_untracked_files --nocapture
+       START [         ] ( 1/76) viola-e2e harness::run::tests::listed_reads_non_empty_lines
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::run::tests::listed_reads_non_empty_lines --nocapture
+       START [         ] ( 1/76) viola-e2e harness::run::tests::exit_must_agree_turns_a_silent_red_exit_red
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::run::tests::exit_must_agree_turns_a_silent_red_exit_red --nocapture
+       START [         ] ( 1/76) viola-e2e harness::run::tests::attr_reads_one_attribute_or_nothing
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::run::tests::attr_reads_one_attribute_or_nothing --nocapture
+        PASS [   0.014s] ( 1/76) viola-e2e harness::boot::tests::instance_spec_rejects_invalid_names
+       START [         ] ( 2/76) viola-e2e harness::run::tests::merge_summary_replaces_by_suite
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::run::tests::merge_summary_replaces_by_suite --nocapture
+        PASS [   0.024s] ( 2/76) viola-e2e harness::cleanup::tests::killed_by_supervisor_reads_the_killed_names
+       START [         ] ( 3/76) viola-e2e harness::run::tests::mutants_exit_codes_map_to_reasons
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::run::tests::mutants_exit_codes_map_to_reasons --nocapture
+        PASS [   0.046s] ( 3/76) viola-e2e harness::boot::tests::failure_doc_carries_the_closed_fields
+       START [         ] ( 4/76) viola-e2e harness::run::tests::mutants_suite_counts_missed_and_timeout_as_survivors
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::run::tests::mutants_suite_counts_missed_and_timeout_as_survivors --nocapture
+        PASS [   0.052s] ( 4/76) viola-e2e harness::boot::tests::instance_spec_parses_name_and_args
+        PASS [   0.052s] ( 5/76) viola-e2e harness::boot::tests::readiness_names_each_missing_check
+       START [         ] ( 6/76) viola-e2e harness::run::tests::parse_junit_counts_pass_fail_skip
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::run::tests::parse_junit_counts_pass_fail_skip --nocapture
+       START [         ] ( 6/76) viola-e2e harness::run::tests::parse_doctest_sums_result_lines
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::run::tests::parse_doctest_sums_result_lines --nocapture
+        PASS [   0.060s] ( 6/76) viola-e2e harness::logs::tests::logs_for_an_unknown_session_is_exit_2
+       START [         ] ( 7/76) viola-e2e harness::run::tests::resolve_base_needs_a_real_commit
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::run::tests::resolve_base_needs_a_real_commit --nocapture
+        PASS [   0.061s] ( 7/76) viola-e2e harness::cleanup::tests::all_sessions_lists_only_recorded_valid_sessions
+       START [         ] ( 8/76) viola-e2e harness::run::tests::run_mutants_passes_when_the_change_is_tested
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::run::tests::run_mutants_passes_when_the_change_is_tested --nocapture
+        PASS [   0.066s] ( 8/76) viola-e2e harness::boot::tests::wait_ready_returns_a_ready_instance
+       START [         ] ( 9/76) viola-e2e harness::run::tests::run_mutants_reports_survivors_of_an_untested_change
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::run::tests::run_mutants_reports_survivors_of_an_untested_change --nocapture
+        PASS [   0.065s] ( 9/76) viola-e2e harness::logs::tests::wrap_lines_wraps_records_and_marks_torn_lines
+       START [         ] (10/76) viola-e2e harness::run::tests::run_mutants_with_an_unreachable_base_is_base_missing_and_writes_no_diff
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::run::tests::run_mutants_with_an_unreachable_base_is_base_missing_and_writes_no_diff --nocapture
+        PASS [   0.070s] (10/76) viola-e2e harness::boot::tests::session_path_puts_the_session_bin_first
+       START [         ] (11/76) viola-e2e harness::run::tests::run_reports_unit_integration_and_doctest_suites
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::run::tests::run_reports_unit_integration_and_doctest_suites --nocapture
+        PASS [   0.074s] (11/76) viola-e2e harness::logs::tests::wrap_lines_accepts_crlf_terminated_lines
+       START [         ] (12/76) viola-e2e harness::run::tests::run_with_a_failing_test_is_red_and_names_it
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::run::tests::run_with_a_failing_test_is_red_and_names_it --nocapture
+        PASS [   0.078s] (12/76) viola-e2e harness::boot::tests::readiness_is_ready_when_both_processes_live
+       START [         ] (13/76) viola-e2e harness::run::tests::run_with_a_filter_matching_nothing_is_red
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::run::tests::run_with_a_filter_matching_nothing_is_red --nocapture
+        PASS [   0.081s] (13/76) viola-e2e harness::cleanup::tests::remove_session_home_removes_a_boot_created_parent
+       START [         ] (14/76) viola-e2e harness::run::tests::run_without_a_workspace_is_artifact_missing
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::run::tests::run_without_a_workspace_is_artifact_missing --nocapture
+        PASS [   0.084s] (14/76) viola-e2e harness::boot::tests::role_file_is_the_run_role_basename
+       START [         ] (15/76) viola-e2e harness::run::tests::selection_defaults_to_everything
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::run::tests::selection_defaults_to_everything --nocapture
+        PASS [   0.091s] (15/76) viola-e2e harness::boot::tests::readiness_reports_a_wrapper_that_already_exited
+       START [         ] (16/76) viola-e2e harness::run::tests::selection_picks_only_the_named_suites
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::run::tests::selection_picks_only_the_named_suites --nocapture
+        PASS [   0.103s] (16/76) viola-e2e harness::logs::tests::filters_match_named_values_and_treat_absent_as_null
+       START [         ] (17/76) viola-e2e harness::run::tests::suite_is_green_only_without_failures_or_survivors
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::run::tests::suite_is_green_only_without_failures_or_survivors --nocapture
+        PASS [   0.106s] (17/76) viola-e2e harness::run::tests::exit_must_agree_turns_a_silent_red_exit_red
+       START [         ] (18/76) viola-e2e harness::supervise::tests::exit_report_is_red_when_anything_was_killed
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::supervise::tests::exit_report_is_red_when_anything_was_killed --nocapture
+        PASS [   0.111s] (18/76) viola-e2e harness::cleanup::tests::cleanup_rejects_an_invalid_session_id
+       START [         ] (19/76) viola-e2e harness::supervise::tests::stop_requested_by_file_or_missing_spec
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::supervise::tests::stop_requested_by_file_or_missing_spec --nocapture
+        PASS [   0.119s] (19/76) viola-e2e harness::cleanup::tests::cleanup_all_stops_recorded_sessions_and_refuses_foreign_homes
+       START [         ] (20/76) viola-e2e harness::supervise::tests::stop_sends_ctrl_c_and_the_child_exits_without_a_kill
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::supervise::tests::stop_sends_ctrl_c_and_the_child_exits_without_a_kill --nocapture
+        PASS [   0.129s] (20/76) viola-e2e harness::logs::tests::diag_lines_reads_only_ndjson_files_in_name_order
+       START [         ] (21/76) viola-e2e harness::supervise::tests::supervise_without_a_spec_is_usage
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::supervise::tests::supervise_without_a_spec_is_usage --nocapture
+        PASS [   0.137s] (21/76) viola-e2e harness::cleanup::tests::remove_session_home_refuses_paths_outside_e2e_home
+       START [         ] (22/76) viola-e2e harness::supervise::tests::wait_or_kill_kills_a_survivor_at_the_deadline
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::supervise::tests::wait_or_kill_kills_a_survivor_at_the_deadline --nocapture
+        PASS [   0.141s] (22/76) viola-e2e harness::boot::tests::boot_refuses_an_invalid_session_id
+       START [         ] (23/76) viola-e2e harness::tests::bin_dir_from_test_exe_skips_deps
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::tests::bin_dir_from_test_exe_skips_deps --nocapture
+        PASS [   0.143s] (23/76) viola-e2e harness::logs::tests::torn_lines_survive_any_filter
+       START [         ] (24/76) viola-e2e harness::tests::exe_appends_platform_suffix
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::tests::exe_appends_platform_suffix --nocapture
+        PASS [   0.151s] (24/76) viola-e2e harness::run::tests::listed_reads_non_empty_lines
+       START [         ] (25/76) viola-e2e harness::tests::expired_tracks_the_deadline
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::tests::expired_tracks_the_deadline --nocapture
+        PASS [   0.155s] (25/76) viola-e2e harness::boot::tests::role_state_reads_start_child_and_exit_lines
+       START [         ] (26/76) viola-e2e harness::tests::json_round_trips_through_files
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::tests::json_round_trips_through_files --nocapture
+        PASS [   0.159s] (26/76) viola-e2e harness::cleanup::tests::summarize_is_ok_only_when_everything_is_proven
+       START [         ] (27/76) viola-e2e harness::tests::load_session_unknown_is_exit_2
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::tests::load_session_unknown_is_exit_2 --nocapture
+        PASS [   0.164s] (27/76) viola-e2e harness::boot::tests::boot_with_a_failing_build_reports_build_failed_with_its_exit
+       START [         ] (28/76) viola-e2e harness::tests::outcome_codes_follow_ok
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::tests::outcome_codes_follow_ok --nocapture
+        PASS [   0.164s] (28/76) viola-e2e harness::cleanup::tests::cleanup_without_a_session_is_ok_and_empty
+       START [         ] (29/76) viola-e2e harness::tests::process_id_kill_stops_a_child_and_wait_gone_sees_it
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::tests::process_id_kill_stops_a_child_and_wait_gone_sees_it --nocapture
+        PASS [   0.168s] (29/76) viola-e2e harness::run::tests::attr_reads_one_attribute_or_nothing
+       START [         ] (30/76) viola-e2e harness::tests::process_id_sees_itself_alive_and_a_wrong_start_time_dead
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::tests::process_id_sees_itself_alive_and_a_wrong_start_time_dead --nocapture
+        PASS [   0.154s] (30/76) viola-e2e harness::run::tests::mutants_exit_codes_map_to_reasons
+       START [         ] (31/76) viola-e2e harness::tests::valid_session_id_accepts_test_style_ids
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::tests::valid_session_id_accepts_test_style_ids --nocapture
+        PASS [   0.166s] (31/76) viola-e2e harness::run::tests::merge_summary_replaces_by_suite
+       START [         ] (32/76) viola-e2e harness::tests::valid_session_id_rejects_path_escapes
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::tests::valid_session_id_rejects_path_escapes --nocapture
+        PASS [   0.137s] (32/76) viola-e2e harness::run::tests::mutants_suite_counts_missed_and_timeout_as_survivors
+       START [         ] (33/76) viola-e2e harness::tests::workspace_root_holds_the_root_manifest
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\viola_e2e-a504d38cc68ad671.exe' --exact harness::tests::workspace_root_holds_the_root_manifest --nocapture
+        PASS [   0.136s] (33/76) viola-e2e harness::run::tests::parse_doctest_sums_result_lines
+       START [         ] (34/76) viola-e2e::cli boot_with_an_invalid_instance_name_is_usage_before_any_build
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\cli-10bcbd618b73fcc2.exe' --exact boot_with_an_invalid_instance_name_is_usage_before_any_build --nocapture
+        PASS [   0.140s] (34/76) viola-e2e harness::run::tests::parse_junit_counts_pass_fail_skip
+       START [         ] (35/76) viola-e2e::cli cleanup_keeps_the_home_under_agent_run_keep_homes
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\cli-10bcbd618b73fcc2.exe' --exact cleanup_keeps_the_home_under_agent_run_keep_homes --nocapture
+        PASS [   0.218s] (35/76) viola-e2e harness::boot::tests::cargo_build_succeeds_on_a_buildable_package
+       START [         ] (36/76) viola-e2e::cli cleanup_of_an_unknown_session_is_ok_and_empty
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\cli-10bcbd618b73fcc2.exe' --exact cleanup_of_an_unknown_session_is_ok_and_empty --nocapture
+        PASS [   0.155s] (36/76) viola-e2e harness::run::tests::selection_defaults_to_everything
+       START [         ] (37/76) viola-e2e::cli status_and_logs_of_an_unknown_session_are_exit_2
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\cli-10bcbd618b73fcc2.exe' --exact status_and_logs_of_an_unknown_session_are_exit_2 --nocapture
+        PASS [   0.156s] (37/76) viola-e2e harness::run::tests::selection_picks_only_the_named_suites
+       START [         ] (38/76) viola-e2e::cli status_logs_and_cleanup_drive_a_booted_session
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\cli-10bcbd618b73fcc2.exe' --exact status_logs_and_cleanup_drive_a_booted_session --nocapture
+        PASS [   0.150s] (38/76) viola-e2e harness::run::tests::suite_is_green_only_without_failures_or_survivors
+       START [         ] (39/76) viola-e2e::cli supervise_without_a_spec_exits_2_and_prints_nothing
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\cli-10bcbd618b73fcc2.exe' --exact supervise_without_a_spec_exits_2_and_prints_nothing --nocapture
+        PASS [   0.151s] (39/76) viola-e2e harness::supervise::tests::exit_report_is_red_when_anything_was_killed
+       START [         ] (40/76) viola-e2e::cli unbuilt_selectors_and_unknown_commands_are_usage
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\cli-10bcbd618b73fcc2.exe' --exact unbuilt_selectors_and_unknown_commands_are_usage --nocapture
+        PASS [   0.157s] (40/76) viola-e2e harness::supervise::tests::stop_requested_by_file_or_missing_spec
+       START [         ] (41/76) viola-e2e::harness_lifecycle boot_that_never_gets_ready_times_out_and_stops_its_supervisor
+             command: 'C:\Users\turbo\AppData\Local\Temp\cargo-mutants-viola-XkSHs1.tmp\target\debug\deps\harness_lifecycle-b55aa39f4374fee9.exe' --exact boot_that_never_gets_ready_times_out_and_stops_its_supervisor --nocapture
+        FAIL [   0.156s] (41/76) viola-e2e harness::supervise::tests::stop_sends_ctrl_c_and_the_child_exits_without_a_kill
+  stdout ───
+
+    running 1 test
+    test harness::supervise::tests::stop_sends_ctrl_c_and_the_child_exits_without_a_kill ... FAILED
+
+    failures:
+
+    failures:
+        harness::supervise::tests::stop_sends_ctrl_c_and_the_child_exits_without_a_kill
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 63 filtered out; finished in 0.00s
+
+  stderr ───
+
+    thread 'harness::supervise::tests::stop_sends_ctrl_c_and_the_child_exits_without_a_kill' (49800) panicked at crates\viola-e2e\src\harness\supervise.rs:146:46:
+    fake agent: Os { code: 2, kind: NotFound, message: "The system cannot find the file specified." }
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+  Cancelling due to test failure: immediately terminating 31 tests still running
+       ABORT [   0.140s] (42/76) viola-e2e harness::supervise::tests::wait_or_kill_kills_a_survivor_at_the_deadline
+           - terminated via job object
+       ABORT [   0.152s] (43/76) viola-e2e harness::supervise::tests::supervise_without_a_spec_is_usage
+           - terminated via job object
+       ABORT [   0.202s] (44/76) viola-e2e harness::run::tests::run_with_a_filter_matching_nothing_is_red
+           - terminated via job object
+       ABORT [   0.140s] (45/76) viola-e2e harness::tests::bin_dir_from_test_exe_skips_deps
+           - terminated via job object
+       ABORT [   0.214s] (46/76) viola-e2e harness::run::tests::run_mutants_with_an_unreachable_base_is_base_missing_and_writes_no_diff
+           - terminated via job object
+       ABORT [   0.215s] (47/76) viola-e2e harness::run::tests::run_mutants_reports_survivors_of_an_untested_change
+           - terminated via job object
+       ABORT [   0.220s] (48/76) viola-e2e harness::run::tests::run_mutants_passes_when_the_change_is_tested
+           - terminated via job object
+       ABORT [   0.281s] (49/76) viola-e2e harness::boot::tests::wait_ready_times_out_with_the_missing_checks
+           - terminated via job object
+       ABORT [   0.221s] (50/76) viola-e2e harness::run::tests::resolve_base_needs_a_real_commit
+           - terminated via job object
+       ABORT [   0.280s] (51/76) viola-e2e harness::run::tests::chunk_diff_holds_tracked_edits_and_untracked_files
+           - terminated via job object
+       ABORT [   0.207s] (52/76) viola-e2e harness::run::tests::run_with_a_failing_test_is_red_and_names_it
+           - terminated via job object
+       ABORT [   0.200s] (53/76) viola-e2e harness::run::tests::run_without_a_workspace_is_artifact_missing
+           - terminated via job object
+       ABORT [   0.211s] (54/76) viola-e2e harness::run::tests::run_reports_unit_integration_and_doctest_suites
+           - terminated via job object
+       ABORT [   0.140s] (55/76) viola-e2e harness::tests::exe_appends_platform_suffix
+           - terminated via job object
+       ABORT [   0.137s] (56/76) viola-e2e harness::tests::expired_tracks_the_deadline
+           - terminated via job object
+       ABORT [   0.138s] (57/76) viola-e2e harness::tests::json_round_trips_through_files
+           - terminated via job object
+       ABORT [   0.138s] (58/76) viola-e2e harness::tests::load_session_unknown_is_exit_2
+           - terminated via job object
+       ABORT [   0.138s] (59/76) viola-e2e harness::tests::outcome_codes_follow_ok
+           - terminated via job object
+       ABORT [   0.141s] (60/76) viola-e2e harness::tests::process_id_kill_stops_a_child_and_wait_gone_sees_it
+           - terminated via job object
+       ABORT [   0.140s] (61/76) viola-e2e harness::tests::process_id_sees_itself_alive_and_a_wrong_start_time_dead
+           - terminated via job object
+       ABORT [   0.135s] (62/76) viola-e2e harness::tests::valid_session_id_accepts_test_style_ids
+           - terminated via job object
+       ABORT [   0.138s] (63/76) viola-e2e harness::tests::valid_session_id_rejects_path_escapes
+           - terminated via job object
+       ABORT [   0.139s] (64/76) viola-e2e harness::tests::workspace_root_holds_the_root_manifest
+           - terminated via job object
+       ABORT [   0.140s] (65/76) viola-e2e::cli boot_with_an_invalid_instance_name_is_usage_before_any_build
+           - terminated via job object
+       ABORT [   0.140s] (66/76) viola-e2e::cli cleanup_keeps_the_home_under_agent_run_keep_homes
+           - terminated via job object
+       ABORT [   0.119s] (67/76) viola-e2e::cli cleanup_of_an_unknown_session_is_ok_and_empty
+           - terminated via job object
+       ABORT [   0.101s] (68/76) viola-e2e::cli status_and_logs_of_an_unknown_session_are_exit_2
+           - terminated via job object
+       ABORT [   0.098s] (69/76) viola-e2e::cli status_logs_and_cleanup_drive_a_booted_session
+           - terminated via job object
+       ABORT [   0.096s] (70/76) viola-e2e::cli supervise_without_a_spec_exits_2_and_prints_nothing
+           - terminated via job object
+       ABORT [   0.096s] (71/76) viola-e2e::cli unbuilt_selectors_and_unknown_commands_are_usage
+           - terminated via job object
+       ABORT [   0.090s] (72/76) viola-e2e::harness_lifecycle boot_that_never_gets_ready_times_out_and_stops_its_supervisor
+           - terminated via job object
+────────────
+     Summary [   0.360s] 72/76 tests run: 40 passed, 32 failed, 0 skipped
+        FAIL [   0.156s] (41/76) viola-e2e harness::supervise::tests::stop_sends_ctrl_c_and_the_child_exits_without_a_kill
+warning: 4/76 tests were not run due to test failure (run with --no-fail-fast to run all tests, or run with --max-fail)
+error: test run failed
+
+*** result: Failure(100)
+
+{"v":1,"cmd":"run","ok":false,"reason":"mutants-exit-4","suites":[]}

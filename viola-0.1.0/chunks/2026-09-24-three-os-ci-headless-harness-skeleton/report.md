@@ -202,3 +202,16 @@
   - Everything this chunk started has terminated: the harness supervisors, `viola run`, the fake agents, cargo-mutants, nextest and the scratch test binaries. Re-measured at wrap Setup: no process with an executable under `D:\dev\projects\viola\` or a `cargo-mutants-viola*` scratch.
   - Three monitor pipeline processes (tail 14096, grep 50388, grep 54492) were stopped by pid during implement.
   - Two `viola.exe` processes belong to `viola-lab/prototype`, not this chunk.
+
+## Post-commit CI (operator entries 17–18)
+- **Wrap commit and push:** `b0236ca` was committed and pushed; `13b7ee3..b0236ca` landed on `origin/build/viola-0.1.0`.
+- **CI run 35971295434 on sha `b0236ca2ebf15eb44db913fc934402df2b1ff34c`:** the check-runs read `failure`. `test (windows-2025)`, `test (macos-latest)`, `test (ubuntu-latest)` and `mutants` all failed. Log: `.andromeda/runs/2026-09-24T07-05-59-wrap/ci-failed.log`. v1-06's CI clause was therefore false on that push.
+- **Three causes, all this chunk's:**
+  1. `ci.yml`'s `test` job installed only cargo-nextest. The harness unit tests that drive `run --mutants` against a temp project failed with `no such command: mutants`, on all three OSes. Fix: the test job installs `cargo-mutants@27.1.0` too.
+  2. On Unix, `ProcessId::kill` counted an exited-but-unreaped child (a zombie) as killed. The mutants baseline failed on `cleanup_force_kills_a_recorded_process_that_outlives_the_stop`, with `killed == ["supervisor","builder"]`. Windows has no zombies, so this could not be seen locally. Fix: `kill` treats a zombie as gone, the same as `alive`.
+  3. Latent, found while mutation-testing fix 2: a diff touching only `viola-e2e` fails the cargo-mutants baseline, because the root bins are never built in the scratch copy (exit 4). Neither `test_workspace` nor `test_package` in `.cargo/mutants.toml`, nor the CLI flag, widened the scope (measured). The operator chose (founder-delegated): `run --mutants` prebuilds the root package (`cargo build --package viola --features fake-agent`; a failure is `reason:"build-failed"`) and passes `--copy-target=true`. Cost recorded: one `target/` copy per run, 2.9 GB on the dev host. test-plan §3 step 4 is amended, with a sidecar entry and a §12 closed value.
+- **Fix verification (dev host):**
+  - all 15 local non-leg gates green; the full-chunk mutation entry was skipped with a reason, covered below;
+  - a fix-diff mutation run based on `b0236ca`: 8 mutants, 8 caught;
+  - a new test, `run_mutants_with_an_unbuildable_root_package_is_build_failed`.
+- **Owed:** CI must be green on all three OSes plus mutants on the fix commit before the chunk counts as closed (operator directive). v1-06 stays `verified` only with that witness; a still-red run takes a PREMISE-CORRECTION note.

@@ -1,0 +1,25 @@
+gate v1.1 · 4c16668f
+shell C:\Program Files\Git\bin\bash.exe (from $SHELL; -c, non-login)
+root D:\dev\projects\viola · marker 2026-09-24-three-os-ci-headless-harness-skeleton · entries 18
+logs C:\Users\turbo\AppData\Local\Temp\andromeda-gate\2026-09-24-three-os-ci-headless-harness-skeleton\wrap-2026-09-24T07-05-59 · bound: GNU timeout
+delta docs 3 · rust 1 · unmapped 1
+prose L286-290: Local gates /implement runs. The harness lifecycle leg runs against processes the entries … (555 chars)
+  1 build       green · exit 0 · 1.36s · 143 B → 1.log · cargo build --workspace --features fake-agent
+  2 lint        green · exit 0 · 0.2s · 0 B → 2.log · cargo fmt --all --check
+  3 lint        green · exit 0 · 0.83s · 143 B → 3.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)
+  4 unit        green · exit 0 · 7.92s · 9623 B → 4.log · bash scripts/agent-run.sh run --unit
+  5 integration green · exit 0 · 21.66s · 3107 B → 5.log · bash scripts/agent-run.sh run --integration
+  6 e2e         green · exit 0 · 0.23s · 47 B → 6.log · bash scripts/agent-run.sh cleanup --session gate-smoke
+  7 smoke       green · exit 0 · 0.44s · 276 B → 7.log · bash scripts/agent-run.sh boot --session gate-smoke --inst… (70 chars)
+  8 e2e         green · exit 0 · 0.22s · 213 B → 8.log · bash scripts/agent-run.sh status --session gate-smoke
+  9 e2e         green · exit 0 · 0.22s · 6 B → 9.log · bash scripts/agent-run.sh logs --session gate-smoke --inst… (216 chars)
+ 10 e2e         green · exit 0 · 0.5s · 175 B → 10.log · bash scripts/agent-run.sh cleanup --session gate-smoke
+ 11 e2e         green · exit 0 · 0.22s · 47 B → 11.log · bash scripts/agent-run.sh cleanup --session gate-smoke
+ 12 integration green · exit 1 · 0.23s · 67 B → 12.log · AGENT_RUN_CHUNK_BASE=0000000000000000000000000000000000000… (101 chars)
+ 13 probe       green · exit 0 · 0.05s · 0 B → 13.log · test ! -e target/agent-run/chunk.diff
+ 14 integration not run — skipped: ci-fix-reverifies-mutants-below · AGENT_RUN_CHUNK_BASE=13b7ee32e6227d1cb6cecc96fbe412fe34a4e… (101 chars)
+ 15 probe       green · exit 0 · 0.1s · 3 B → 15.log · python -X utf8 -c "import re;t=open('.github/workflows/ci.… (183 chars)
+ 16 probe       green · exit 1 · 0.06s · 0 B → 16.log · grep -rEn --include=Cargo.toml --include=config.toml --inc… (194 chars)
+ 17 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (82 chars)
+ 18 probe       not run — leg operator (the letter drives it) · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (129 chars)
+entries 18 · green 15 · red 0 · recorded 0 · timeout 0 · not-run 3
