@@ -228,8 +228,8 @@ Deviation note: the Color World names strip buff for "the ruled field grid". Thi
 
 | Role | Font | Weight | Size | Tracking | Usage |
 |------|------|--------|------|----------|-------|
-| Display | Bahnschrift stack, semi-condensed | 600 | 16px / 24px line, uppercase | 0.08em | `VIOLA` at the start of the `<viola-atis>` header (there is no hero). The `BAY` after it is Label and `127.0.0.1:47319` is Data, as in the ATIS anatomy |
-| Heading | Bahnschrift stack, semi-condensed | 600 | 11px / 16px, uppercase | 0.12em | Rack separator labels: `WRAPPED`, `UNWRAPPED · READ-ONLY`, `TAPE` |
+| Display | Bahnschrift stack, semi-condensed | 600 | 16px / 24px line, uppercase | 0.08em | `VIOLA` at the start of the `<viola-atis>` header (there is no hero), rendered as the page's one `<h1>` (a11y-plan D-A11Y-02). The `BAY` after it is Label and `127.0.0.1:47319` is Data, as in the ATIS anatomy |
+| Heading | Bahnschrift stack, semi-condensed | 600 | 11px / 16px, uppercase | 0.12em | Rack separator labels: `WRAPPED`, `UNWRAPPED · READ-ONLY`, `TAPE`, each rendered as an `<h2>` (a11y-plan D-A11Y-02); the two rack labels sit in their rack table's `<caption>` |
 | Callsign | Bahnschrift stack, normal width | 600 | 15px / 32px (strip height) | 0.02em | The NAME cell. Never text-transformed: a `ViolaName` is lower-case `[a-z0-9-]` and must read exactly as it is typed as a `target`. |
 | Body | Cascadia Mono stack | 400 (600 for `human` in WHEEL and in `prompt · human`, and for the strip's `DIALOG` word) | 13px / 20px | 0 | Field values, tape text, transfer markers, phraseology words |
 | Label | Bahnschrift stack, semi-condensed | 400 | 11px / 16px, uppercase | 0.06em | Column captions (NAME · LIVE · STATUS · WHEEL · DIALOG · CLI), and `BAY`, `5H` / `7D` and `TAPE` in the ATIS header (the tape panel's `TAPE` separator is Heading). The strip's `DIALOG <kind>` value is not Label: it is Body (Cascadia 13px) with `DIALOG` at weight 600, so the 20ch DIALOG track measures it in `ch` like every other field. |
@@ -537,7 +537,7 @@ State lives only in `data-*` attributes set by Lit. The following are never used
   - DIALOG: `none` | `DIALOG question` / `DIALOG permission` / `DIALOG plan`
   - CLI: `<version> verified` | `<version> unverified-cli` | `unknown`
 - **Never blank.** An absent reading prints `unknown`. Absent-by-contract fields on unwrapped rows print `n/a`.
-- **Column captions** appear once per rack, in a header row on anthracite: Bahnschrift 11px uppercase, lamp-off, `role="columnheader"`. They are never repeated inside strips, because lamp-off on holder fails AA. The header row uses the same grid as the strips under it: `--strip-cols` at ≥1024px, and at 760–1023px `--strip-cols-wrapped` with `--strip-areas-wrapped` on two Label lines (11px / 16px): NAME · LIVE · STATUS · DIALOG, then WHEEL under NAME + LIVE and CLI under STATUS + DIALOG. The band track stays empty, and captions take the field cells' `space-xs` inline padding, so every caption starts where its value starts. The gap between the caption row and the first strip is the rack's row gap, `space-xs`, the same gap strips and transfer markers already use; there is no separate token for it.
+- **Column captions** appear once per rack, in a header row on anthracite: Bahnschrift 11px uppercase, lamp-off, native `<th scope="col">` cells in the rack table's header row (exposed as `columnheader`). They are never repeated inside strips, because lamp-off on holder fails AA. The header row uses the same grid as the strips under it: `--strip-cols` at ≥1024px, and at 760–1023px `--strip-cols-wrapped` with `--strip-areas-wrapped` on two Label lines (11px / 16px): NAME · LIVE · STATUS · DIALOG, then WHEEL under NAME + LIVE and CLI under STATUS + DIALOG. The band track stays empty, and captions take the field cells' `space-xs` inline padding, so every caption starts where its value starts. The gap between the caption row and the first strip is the rack's row gap, `space-xs`, the same gap strips and transfer markers already use; there is no separate token for it.
 - **States:**
   - Default (live, lit).
   - `stale`: an instant lamp-off swap (see the `states` layer).
@@ -548,7 +548,7 @@ State lives only in `data-*` attributes set by Lit. The following are never used
   - Focus: the row is not focusable in v1. There are no controls.
   - Disabled: n/a.
 - **Unwrapped variant:** `data-wrapped="false"`. Anthracite surface, 1px dashed rail outline, no band slot. The name renders as a text binding only, never as a link or a target. A name wider than the NAME track ends in an ellipsis (`text-overflow: ellipsis`), matching the CLI's `...` for unwrapped NAMEs. It is the only strip cell that truncates. A wrapped `ViolaName` (the callsign) is never clipped.
-- **Semantics:** light-DOM `role="row"` inside a `role="table"` rack, with cells as `role="cell"`. Lit `${}` text bindings only.
+- **Semantics:** semantic HTML first (a11y-plan D-A11Y-02). Each rack is a native `<table>` whose `<caption>` holds the rack's `<h2>` label. `<viola-session-row>` is a role-less light-DOM host with `display: contents` that renders a native `<tr>` with `<td>` cells. No ARIA role is set on the custom-element host, and none through `setAttribute`. The table exposes `table` / `row` / `columnheader` / `cell` natively, and the visual grid above is unchanged. Lit `${}` text bindings only.
 
 **2. `<viola-readback>`: the readback box** (signature; bootstrap first)
 - **Anatomy:** a 16px square `.rb` (1px buff rule, `aria-hidden="true"`) plus a word cell (Cascadia 13px buff on anthracite). It always sits at the far right of its line: issue on the left, readback on the right, read as one unit.
@@ -581,7 +581,7 @@ State lives only in `data-*` attributes set by Lit. The following are never used
 - **Behaviour:** a new marker fades in at ≤120ms, and an `unlink` removes it instantly. There is no node graph and no drawn edge between strips.
 
 **4. `<viola-event-feed>`: the tower tape**
-- **Anatomy:** a `role="log"` panel on anthracite. Each line is a `<details class="tape-line">` (the `.tape-line` that `@layer motion` fades). Its `<summary>` carries `display: grid; grid-template-columns: var(--tape-cols); column-gap: var(--space-xs)` and the 20px (`--line-h`) row, so the cells below are grid items of the summary. The expanded body sits under the summary across the full line width. The summary's default disclosure marker is not drawn, and no replacement glyph is added.
+- **Anatomy:** a `role="log"` panel with an explicit `aria-live="off"` on anthracite. A `log` is an implicit polite live region, so `off` keeps the whole tape from being announced; only the separate status region speaks (a11y-plan D-A11Y-03). Each line is a `<details class="tape-line">` (the `.tape-line` that `@layer motion` fades). Its `<summary>` carries `display: grid; grid-template-columns: var(--tape-cols); column-gap: var(--space-xs)` and the 20px (`--line-h`) row, so the cells below are grid items of the summary. The expanded body sits under the summary across the full line width. The summary's default disclosure marker is not drawn, and no replacement glyph is added.
   - TIME: `HH:MM:SS.mmm` UTC, lamp-off, tabular-nums. The panel header says `UTC`.
   - INSTANCE: buff, truncated with an ellipsis at 16ch.
   - KIND: the event-kind word.
@@ -955,4 +955,12 @@ _Orchestrator records key decisions here. Manual additions welcome._
   - Under `--json` no hint text is printed. A per-cause detail code there is **pending an arch amendment**: arch fixes `{"v":1,"error":"instance-unreachable","detail":null}` for exit 21 and gives exit 1 no `--json` document. Design does not change that payload. It points at obs-plan D-20's codes and notes that the stale-heartbeat and unwrapped-name causes have no code yet.
 - **T5 (ratified):** `list` table rows also escape `\n` and `\t`, so each row stays a single fixed-width line. The security plan's "keeping `\n` and `\t`" is a floor. `wait` / `last` text keeps them.
 - **By:** manual edit, overseer fix pass 2026-09-24.
+
+2026-09-24: overseer fix pass 2, 2026-09-24 (cross-plan findings "a11y P3.5", founder-delegated). Each item was checked against the cited line first. These are design amendments accepted with the a11y plan.
+- **Y1 (a11y-plan D-A11Y-02):**
+  - Racks are native `<table>` / `<tr>` / `<td>` with `<th scope="col">` captions. They replace `role="row"` on `<viola-session-row>` inside a `role="table"` rack: semantic HTML first, with no ARIA role on a custom-element host.
+  - `VIOLA` is the page's `<h1>`, and the rack separator labels are `<h2>`, the rack labels inside each table's `<caption>`.
+  - Visual anatomy, grid tracks and tokens are unchanged. Web-spa component 1 Semantics, the column captions and the Typography Display / Heading rows are updated.
+- **Y2 (a11y-plan D-A11Y-03):** the tape keeps `role="log"` with an explicit `aria-live="off"`, which removes the implicit polite live region. This enforces the existing rule that the whole tape is never announced. Web-spa component 4 Anatomy is updated.
+- **By:** manual edit, overseer fix pass 2, 2026-09-24 (founder-delegated).
 

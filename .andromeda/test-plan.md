@@ -591,7 +591,7 @@ the concrete contract.
   3. Cleanup confirms the supervisor pid is gone via sysinfo (pid + start time) and reads that report.
   4. For each instance, `viola last <name> --json --home <home>` must exit 21. The endpoint recorded in the snapshot must be unconnectable: an `interprocess` connect fails with NotFound, and on Unix the `<per-user 0700 dir>/viola-<h12>.sock` path no longer exists (`$XDG_RUNTIME_DIR/viola/` on Linux, `$TMPDIR/viola/` on macOS, `/tmp/viola-<uid>/` as the fallback; security IPC access control).
   5. `127.0.0.1:<port>` must be bindable, and `<home>/ui/<port>.url` must be absent.
-  6. It removes the home dir with its `target/e2e-home/viola-session-*` parent, the cookie file and `session.json`.
+  6. It removes the home dir with its `target/e2e-home/viola-session-*` parent, the cookie file and `session.json`. **In CI the home is kept:** `ci.yml` sets `AGENT_RUN_KEEP_HOMES=1` on every leg, so step 6 removes only the cookie file and `session.json`, and the home stays under `target/e2e-home/` until obs-plan's gate steps have run (G2, G4, the secret scan and the scan-gated uploads, obs-plan §9 step order). The ephemeral runner then discards it with the job. `home_removed` reports `"kept"` in that mode, which is not a failure.
 - Idempotency: cleanup MUST be idempotent. With no `session.json` it prints `{"v":1,"cmd":"cleanup","ok":true,"cleaned":[]}` and exits 0.
 - Verification: reported in `{"cleaned":[…],"endpoint_gone":true,"port_free":true,"url_file_removed":true,"home_removed":true,"killed":[<names force-killed>]}`. Any `false` field means exit 1. A force-kill is reported but does not by itself fail cleanup. It does fail the `url_file_removed` check for the UI, because that file is removed only on graceful shutdown.
 
@@ -603,7 +603,7 @@ the concrete contract.
 
   Torn or unparseable lines are emitted as `{"src":…,"torn":true,"offset":n}` and never dropped. Assertions pipe into `jq -e` (jq 1.8.2) or jaq 3.1.1, for example `agent-run logs --instance builder --kind send-issued | jq -e '.record.data.cursor'`.
 - Format: see Log format below.
-- Retention window: the whole lifetime of the session home. Events are never truncated, and `cleanup` deletes the home. On CI failure the home's `diagnostics/` and `events.ndjson` are uploaded as an artifact, after the secret-scan test has passed on them. Every harness and rstest home lives under `target/e2e-home/` (boot step 2), which is the root obs-plan's CI gates and upload read.
+- Retention window: the whole lifetime of the session home. Events are never truncated, and `cleanup` deletes the home, except in CI, where `AGENT_RUN_KEEP_HOMES=1` keeps it until obs-plan's gate steps have run (`cleanup` step 6). On CI failure the home's `diagnostics/` and `events.ndjson` are uploaded as an artifact, after the secret-scan test has passed on them. Every harness and rstest home lives under `target/e2e-home/` (boot step 2), which is the root obs-plan's CI gates and upload read.
 
 **Internal harness subcommands** (implemented in `viola-harness`, forwarded unchanged by the shims, not part of the agent's 5-command surface):
 
@@ -666,6 +666,7 @@ This is the `agent-run status` document. Its nested `list` and `ui` members are 
     - `release-from-driver`: `corr` = the JSON-RPC request `id` (obs-plan D-01; the wrapper's `-32602` refusal of a `release` that carries `from`)
     - `process-start`, `process-exit`, `http-request`, `panic`: `corr` = null
     - `liveness-changed`, `state-recovered`, `sse-opened`, `sse-closed`, `parse-rejected`: `corr` = null (obs-plan D-02 … D-05)
+    - `a11y-violation`: `corr` = null. Written only by the a11y Playwright fixture, one row per failing check, into `e2e-web/test-results/a11y/*.ndjson` (harness artifacts, `process:"ui"`), never into any `diagnostics/` file, so G2, G4 and the schema check never see it (a11y-plan D-A11Y-09)
   - `process` (`run|hook|mcp|ui|cli`; `cli` is a short-lived verb with a resolved instance, writing `cli-<name>.ndjson`, obs-plan D-06) and `instance` (a `ViolaName` or null).
   - `corr` is copied unchanged as a JSON number or string. It is never renamed (for example to `correlation_id`).
   - **Null encoding:** a null `corr` or `instance` is written as key **absence** (tracing has no null field value; obs-plan D-12). The harness and every `jq` / jaq assertion treat an absent key and `null` as the same value (`.corr == null` holds for both), and obs-plan's `schemas/diag-line.v1.json` rejects a literal `null`.
@@ -698,7 +699,7 @@ This is the `agent-run status` document. Its nested `list` and `ui` members are 
 - **Per-test isolation:**
   - Every test gets a fresh home, so no endpoint, log or `budget.json` is shared: the FNV-1a endpoint hash includes the absolute home path.
   - The few tests touching the default port 47319 run in the nextest test group `fixed-port` (`max-threads = 1`).
-- **Cleanup:** `TempDir` drop removes per-test homes. Harness sessions are cleared by `cleanup`. A failing test calls `TempDir::keep()` only when `AGENT_RUN_KEEP_FAILED=1`, so that `logs` can inspect the home.
+- **Cleanup:** `TempDir` drop removes per-test homes. Harness sessions are cleared by `cleanup`. A failing test calls `TempDir::keep()` only when `AGENT_RUN_KEEP_FAILED=1`, so that `logs` can inspect the home. In CI, `AGENT_RUN_KEEP_HOMES=1` (set by `ci.yml`) makes every rstest home call `TempDir::keep()`, passing or failing, and makes harness `cleanup` keep its home (§3 `cleanup` step 6). The homes then stay under `target/e2e-home/` until obs-plan's G2, G4, secret scan and scan-gated uploads have run.
 
 ### Bootstrap phases (derive for route / setup-project)
 
@@ -1326,7 +1327,7 @@ Skipped as "untestable" per test-scope Sec 1:
 **Test data lifecycle:**
 - **Per-test:** isolated state. Each test has its own home, so there is no shared endpoint, log or `budget.json`. Env is set per child with `Command::env`, never `std::env::set_var`, which is `unsafe` in edition 2024.
 - **Per-session:** `cleanup` removes the harness home, `session.json`, the cookie file and the supervisor.
-- **CI:** an ephemeral runner per job. Homes live under the runner temp dir and are discarded with the job.
+- **CI:** an ephemeral runner per job. Homes live under the workspace's `target/e2e-home/` and are kept (`AGENT_RUN_KEEP_HOMES=1`) until obs-plan's gate steps have run (G2, G4, the secret scan and the scan-gated uploads). The runner discards them with the job.
 
 (See `## 11. Test Anti-Patterns` § Test Data for data bans.)
 
@@ -1370,7 +1371,7 @@ Skipped as "untestable" per test-scope Sec 1:
 
 | Stage | Runs | Parallel | Cache |
 |-------|------|----------|-------|
-| Lint | `cargo fmt --check`; `cargo clippy --workspace --all-targets --features fake-agent -- -D warnings`; `cargo check -p viola-core -p viola-pty -p viola-state -p viola-channel -p viola-agent-claude` (no tokio); `cargo tree -e features -p viola --edges normal` (assert rmcp shows only `server`, `transport-io`); `cargo modules dependencies --package <crate> --acyclic` and `cargo modules orphans --package <crate> --deny` per crate. On ubuntu only: `cargo deny --format json check` and `zizmor --format=json .github/workflows/`. | per OS matrix | Swatinem/rust-cache v2.9.2 (SHA-pinned; key: OS + toolchain + `Cargo.lock`), in `ci.yml` only |
+| Lint | `cargo fmt --check`; `cargo clippy --workspace --all-targets --features fake-agent -- -D warnings`; `cargo check -p viola-core -p viola-pty -p viola-state -p viola-channel -p viola-agent-claude` (no tokio); `cargo tree -e features -p viola --edges normal` (assert rmcp shows only `server`, `transport-io`); `cargo modules dependencies --package <crate> --acyclic` and `cargo modules orphans --package <crate> --deny` per crate. On ubuntu only: `cargo deny --format json check` and `zizmor --format=json .github/workflows/`, and, before `run --browser`, the a11y lint (a11y-plan D-A11Y-14): `npx --prefix e2e-web eslint -c e2e-web/eslint.config.js -f json` (eslint-plugin-lit-a11y 5.1.1 over the `crates/viola-ui/` Lit sources) and `npx --prefix e2e-web html-validate --config e2e-web/.htmlvalidate.json --formatter json` on the `assets/index.html` that `viola-ui` embeds, both writing to `e2e-web/test-results/lint/`. The a11y lint adds no harness `suite` value. | per OS matrix | Swatinem/rust-cache v2.9.2 (SHA-pinned; key: OS + toolchain + `Cargo.lock`), in `ci.yml` only |
 | Unit | `scripts/agent-run.sh run --unit` (pwsh `scripts/agent-run.ps1 run --unit` on windows) | yes (nextest process-per-test) | rust-cache |
 | Integration | `agent-run run --integration` | yes, except the `fixed-port` group (`max-threads = 1`) | rust-cache |
 | E2E | `agent-run run --e2e` on all 3 OSes; `agent-run run --browser` on ubuntu only (`npx playwright install --with-deps chromium`, runner Node) | matrix per OS | rust-cache (npm and browsers are not cached; see Decisions Log) |
@@ -1405,7 +1406,7 @@ The agent reads job conclusions with `gh run view --json jobs` and fetches artif
 - Coverage falls below threshold (Section 10) on any OS
 - Any missed or timed-out mutant in the chunk diff
 - A hyperfine budget breach, or a fuzz corpus replay crash
-- Lint errors: fmt, clippy `-D warnings`, the sync crates failing to build without tokio, a cargo deny ban/advisory/licence, a zizmor finding, a cargo-modules cycle/orphan, or rmcp `client` in the release graph
+- Lint errors: fmt, clippy `-D warnings`, the sync crates failing to build without tokio, a cargo deny ban/advisory/licence, a zizmor finding, a cargo-modules cycle/orphan, rmcp `client` in the release graph, or an eslint-plugin-lit-a11y / html-validate finding in the ubuntu a11y lint
 - Quality gate check fails
 
 (See `## 11. Test Anti-Patterns` § CI for CI bans.)
@@ -1661,6 +1662,15 @@ between phase loops._
 - **Rationale:** the overseer's cross-plan audit (`viola-overseer/cross-plan-findings.md`, tests vs arch/security/design, 2026-09-24 03:20; obs P3.5 amendments, 03:50; intent draft, 04:10).
 - **Impact:** §1, §3 (`boot`, `status`, `cleanup`, `logs`, Log format), §4, §5, §6 (Paths 2 and 6, secret scan, schema conformance, the new security-negatives suite, parity, bay-degraded), §9, §10. Arch is unchanged here: the MSRV 1.96 floor and the diagnostics roots are arch amendments routed through route (obs-plan D-22).
 - **By:** manual edit, overseer fix pass 2026-09-24 (founder-delegated).
+
+`2026-09-24`: overseer fix pass 2, 2026-09-24 (cross-plan findings "obs vs upstreams" and "a11y P3.5", founder-delegated). Each item was checked against the cited line before the edit.
+- **Decision:**
+  - B1 (as ruled): in CI, homes are kept until the gate steps have run. `ci.yml` sets `AGENT_RUN_KEEP_HOMES=1`. Harness `cleanup` then keeps the home and reports `home_removed:"kept"`, and every rstest home calls `TempDir::keep()`. The homes stay under `target/e2e-home/` for obs-plan's G2, G4, secret scan and scan-gated uploads. The CI data-lifecycle line no longer says homes live in the runner temp dir. Fixed in §3 `cleanup` step 6, `logs` retention, Test data bootstrap → Cleanup, and §7 Test data lifecycle.
+  - Y3: the `event` enum gains `a11y-violation` (`corr` null). It is written only by the a11y fixture into `e2e-web/test-results/a11y/*.ndjson`, never into `diagnostics/` (a11y-plan D-A11Y-09, accepted by the D-21 route).
+  - Y5: the ubuntu Lint stage runs the a11y lint (eslint-plugin-lit-a11y + html-validate, a11y-plan D-A11Y-14) before `run --browser`, and a finding fails the build. No new harness `suite` value.
+- **Rationale:** obs-plan's CI gates read `target/e2e-home/**`, but homes were deleted on green, so G2's non-empty check failed and nothing was scanned (finding B1). The a11y plan promoted the `a11y-violation` rows and the lint stage.
+- **Impact:** §3 (`cleanup`, `logs`, Log format, Test data bootstrap), §7, §9 (Lint stage, build failure conditions). The a11y plan is unchanged.
+- **By:** manual edit, overseer fix pass 2, 2026-09-24 (founder-delegated).
 
 **Subsequent entry format (for manual additions or re-runs):**
 

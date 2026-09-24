@@ -33,7 +33,7 @@ runs are fine._
 | `color-border-subtle` | Border Subtle (rack rail) | `--rule-deco` |
 | `color-border-standard` | Border Standard (printed field grid) | `--rule-field` |
 | `color-border-emphasis` | Border Emphasis (a border that is a state) | `--rule-info`, `--rb-rule`, `--rb-strike` |
-| `color-border-focus` | Border Focus | `--focus-ring` |
+| (none: the focus ring is named `--focus-ring` directly) | Border Focus | `--focus-ring` (design-system.md is the token authority; a11y-plan D-A11Y-19) |
 | `color-border-handoff` | Border Handoff (the blue left tick) | `--handoff` at `--rule-strong` |
 
 Spacing uses `space-micro` · `space-xs` · `space-sm` · `space-md` · `space-lg` · `space-xl`. Geometry uses `--strip-h`, `--line-h`, `--band-w`, `--rb-size`, `--cock-offset`, `--rule`, `--rule-strong`, `--focus-w` and `--focus-offset`. Radius uses `radius-sm` · `radius-md` · `radius-lg`, all resolving through `--radius`. `radius-full` is never used. Tracks come from `--strip-cols`, `--strip-cols-wrapped` and `--tape-cols`. Motion uses `--cock-dur` / `--cock-ease` and `--fade-dur` / `--fade-ease`.
@@ -198,7 +198,7 @@ A refused `send` line's body prints the full `unable · <reason> · <detail>` th
 - **IA model:** one page, one bay, no nav chrome, no tabs, no sidebar and no breadcrumbs. The four regions stand in a fixed vertical order: (1) `<viola-atis>`, (2) the WRAPPED rack, (3) the UNWRAPPED · READ-ONLY rack, (4) the TAPE. The rack separator labels (`WRAPPED`, `UNWRAPPED · READ-ONLY`, `TAPE`) are the only wayfinding. Each is Heading (uppercase, `--track-rack`) in `color-text-primary` on `color-surface-base`, followed by a `--rule` in `color-border-subtle` that runs to the rack's end edge. The label sits `space-md` above the rack's caption row. Racks are `space-lg` apart, and the tape is `space-lg` below the last rack.
 - **Skip link:** `skip to tape` is the first tab stop. It is hidden until focused, then drawn over the header's inline start in Label type on `color-surface-base` with the focus ring. Its target is the tape region.
 - **Tab order after the skip link:** every tape `<summary>` from oldest to newest, then the `N new lines below` anchor. Strips, captions and transfer markers are not focusable, because v1 has no controls.
-- **Focus:** a `--focus-w` outline in `color-border-focus`, offset `--focus-offset`, `radius-sm`, appearing instantly. The only hover feedback is the underline on the link-styled `N new lines below` anchor and the skip link. There is no hover colour anywhere.
+- **Focus:** a `--focus-w` outline in `--focus-ring`, offset `--focus-offset`, `radius-sm`, appearing instantly. The only hover feedback is the underline on the link-styled `N new lines below` anchor and the skip link. There is no hover colour anywhere.
 - **Responsive:** at ≥1024 every strip is one line. At 760–1023 strips switch to `--strip-cols-wrapped` / `--strip-rows-wrapped` / `--strip-areas-wrapped`, and the caption row follows the same two-line template. The region order never changes, and a narrow viewport never collapses a rack into a menu.
 - **No search, no filter, no command palette.** The tape is capped at 2000 DOM lines. The full record is `events.ndjson`, and the trim notice says so.
 
@@ -308,7 +308,7 @@ A refused `send` line's body prints the full `unable · <reason> · <detail>` th
   7. Errors announced (#44): the announcement scope listed above.
   8. Loading indicators (#78): overridden. Waiting is shown as words (`open`, `unknown`, `read 4m ago`, `sessions: no reading yet`, `TAPE connecting`).
   9. Horizontal scroll (#69): fixed `ch` tracks sized for the widest fallback face, `--cock-offset` end padding, and ellipsis only in the tape TEXT, the INSTANCE and word/reason tracks, and unwrapped names.
-  10. Focus states (#28): the `color-border-focus` ring on the skip link, the summaries and the new-lines anchor.
+  10. Focus states (#28): the `--focus-ring` ring on the skip link, the summaries and the new-lines anchor.
 - **Multi-surface coordination:**
   - The strip's six fields and words are exactly `viola list`'s columns and words, in the same order and slot order.
   - Every action (send, pause, release, link, answer) is a CLI verb. The page shows its outcome as a tape line and a field word, and never offers the action itself.
@@ -610,3 +610,7 @@ hint: viola list                                          <- stderr, the last li
   - `--json` carries no hint text. A per-cause detail code there is pending an arch amendment, because arch fixes `"detail":null` for exit 21.
 - **T5 (ratified):** `list` row escaping also escapes `\n` / `\t`. This is stricter than the security floor.
 - **By:** manual edit, overseer fix pass 2026-09-24.
+
+`2026-09-24`: overseer fix pass 2, 2026-09-24 (cross-plan findings "a11y P3.5", founder-delegated). Checked against the cited lines first.
+- **Y4 (a11y-plan D-A11Y-19):** the focus ring is named `--focus-ring`, the design-system token, in the Focus rule and in Quality check 10. The `color-border-focus` alias row in the token map becomes a pointer to `--focus-ring`. It already resolved there, so this is a naming change only, with no visual change. The other `color-*` aliases in the map are unchanged, because they were not part of the finding.
+- **By:** manual edit, overseer fix pass 2, 2026-09-24 (founder-delegated).

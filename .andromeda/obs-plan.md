@@ -157,7 +157,7 @@ The arch Surfaces product type names three parts: CLI binary, Claude Code plugin
 
 - **Surface:** cli (short-lived verbs: `send · wait · last · list · answer · pause · release · link · unlink · verify · plugin install`)
 - **Backend instrumentation hooks:** Rust `tracing` facade with `#[tracing::instrument]` spans on the dispatch functions, plus a tracing-subscriber JSON structured logger (tests excerpt, Log format: `tracing-subscriber 0.3.23 fmt().json().flatten_event(true).with_current_span(false)`). Each process gets its own panic hook: a `std::panic::set_hook` replacement that writes one line. No HTTP framework is involved, so there is no auto-instrumentation.
-- **Frontend instrumentation hooks:** N/A. The only output is terminal stdout/stderr (design excerpt, cli: "Telemetry hint: stdout/stderr only, no frontend").
+- **Frontend instrumentation hooks:** N/A. The only output is terminal stdout/stderr (design-system.md cli surface: static fixed-column text, with no interactive prompt, TUI or pager).
 - **Exporter:** A file sink only: JSON-per-line to `diagnostics/` when an instance is resolved (security Vector 6: "write the full error only to `diagnostics/` when an instance is resolved"). Without an instance there is no process-log file, and human stderr carries only fixed-message lines (design excerpt, CLI faults). Network OTLP is excluded: security says "viola makes no outbound network calls". The stdout exporter is excluded because stdout carries `--json` results.
 - **Service identity:** `service.name` is hardcoded `"viola"`, the binary name. `service.version` is compile-time `env!("CARGO_PKG_VERSION")`, the same value already used as `sender`, `writer` and `/health.version`. The process role is the `process` field. The instance is `ViolaName` from an explicit argument or `VIOLA_NAME`. `deployment.environment` is N/A: local-only, with no environments (arch Obs-Relevant Conventions, Service identity; arch Surfaces, "no hosting").
 - **Notes:**
@@ -207,9 +207,9 @@ The arch Surfaces product type names three parts: CLI binary, Claude Code plugin
 
 - **Surface:** web-spa (`viola ui`: axum 0.8.9 backend on `127.0.0.1:47319` plus the embedded Lit frontend)
 - **Backend instrumentation hooks:** `tracing` spans through tower-http tracing middleware on the axum router (arch Stack: "tower-http tracing middleware can be used here"), emitting `http-request` lines with method, path without its query, status, duration and Problem URN. The SSE connection lifecycle (`/api/events`: open, `Last-Event-ID` resume, keep-alive, close) gets manual spans. Tokio is allowed in this crate.
-- **Frontend instrumentation hooks:** The design excerpt names browser OTel SDK + `@opentelemetry/auto-instrumentations-web` + web-vitals as the candidate, "vendored and same-origin". In v1 it has nowhere to send data: GET-only routes, 405 on other methods, a ban on new listeners, and a CSP of `default-src 'none'; script-src 'self'`. Baseline instead:
+- **Frontend instrumentation hooks:** None. design-system.md names no browser telemetry SDK, and in v1 one would have nowhere to send data: GET-only routes, 405 on other methods, a ban on new listeners, and a CSP of `default-src 'none'; script-src 'self'`. Baseline instead:
   - DOM state words the headless browser reads (brief §3.4; tests excerpt, No screen parsing: "E2E verdicts rely on … DOM attributes");
-  - server-side `http-request` lines as the proxy for the design-excerpt hooks (page load → first `/api/sessions`; SSE open → first event).
+  - server-side `http-request` lines as the page-load proxy (page load → first `/api/sessions`; SSE open → first event). This proxy is obs's own derivation, not a design hint.
 
   Phase 2 should confirm whether any browser SDK path is admissible.
 - **Exporter:** A file sink `diagnostics/ui-<port>.ndjson` (tests excerpt). stderr is also allowed for `ui` (arch Output channel rules). The one-time launch line containing the token is the only token-bearing stderr line, and it must never go into the log file (security Anti-Patterns).
@@ -342,7 +342,7 @@ Span names below are internal `tracing` spans in `<area>.<operation>` snake_case
 - **Surfaces involved:** web-spa (`ui` backend and frontend) + persistent stores (notify tail of `events.ndjson`)
 - **Must-trace spans:** `ui.http_request` for each of `/`, `/api/sessions`, `/api/links`, `/ready` and `/health`, then `ui.sse_stream` (open › resume › keep-alive › close) and `state.tail_notify`. Log events: `process-start` (ui) and `http-request`. The SSE open/close lifecycle event is pending (section 3, gap b).
 - **Required log fields:** `event`, `process="ui"`, `instance=null`, `corr=null`, `method`, `path` (query stripped), `status`, `problem` (URN), `duration_ms`, `last_event_id_present`, `close_cause`, and `skipped` counts (`unknown_kinds`, `unknown_fields`, `torn_lines`). Token, `Cookie` and `?t=` never appear.
-- **Source:** arch hint 7; design excerpt, Loading/Error/Empty (TTI-proxy span, SSE connecting → open span, closed-transition counter); tests excerpt, E4 SSE `Last-Event-ID` resume; creator must-work "GUI (D5)" and "First live test … reads the dashboard"
+- **Source:** arch hint 7; design-system.md Loading/Error/Empty (the `TAPE connecting` → `TAPE live` → `TAPE stopped` words; the TTI proxy, SSE spans and closed-transition counter are obs's own derivation from those states, not design hints); tests excerpt, E4 SSE `Last-Event-ID` resume; creator must-work "GUI (D5)" and "First live test … reads the dashboard"
 
 Tests E1 (unwrapped hook no-op), E2 (R8 env strip), E3 (`link` / `unlink` transfer markers) and E5 (snapshot corruption → replay) are covered by the section 5 triggers and by E2E tracing expansion in Phase 3 if needed.
 
@@ -572,7 +572,7 @@ The architecture commits to the harness pattern (quoted verbatim from the upstre
      - `hook` and `mcp`: `VIOLA_NAME` only;
      - `cli`: the caller's `VIOLA_NAME`, then the target argument (Trace context propagation);
      - `ui`: no instance. Its file name needs `<port>`, and the GUI port can come from `config.json` (security Data Classifications, config values). For `ui` only, the step-5 `config.json` parse therefore runs here and its result is reused at step 5. `<port>` resolves flag → `config.json` → `47319` (arch precedence flags > config > defaults). A `ui` panic during that parse falls in the §7 pre-init window (D-29).
-  4. Create `<home>/diagnostics/` with `DirBuilderExt::mode(0o700)` on Unix; on Windows it inherits the home DACL. Open the role file with `OpenOptions::new().append(true).create(true)` and `OpenOptionsExt::mode(0o600)` on Unix. If the open fails, the writer becomes `std::io::sink` (or stderr for `mcp` only, D-09). The instance detail file `<home>/instances/<name>/diagnostics/detail-<process>.ndjson` is **not** opened here. It is opened lazily, with the same append / 0600 / 0700 rules, by the first content-bearing record (chain, drift report), and the panic hook opens it itself when it is still closed. A failed detail open drops only the detail line, never the home-level line, and writes nothing to stderr. The error-free `hook` path therefore keeps exactly one log `open` (D-29).
+  4. **Home strict-modes first, diagnostics init after** (overseer fix pass 2, B2). When viola creates the home (a not-yet-existing `--home`, as the tests harness passes), it creates it first: 0700 on Unix, and on Windows the explicit protected user + SYSTEM DACL that security requires for a `--home` outside `%USERPROFILE%`. The role's security strict-modes check then runs on the home (owner, mode / DACL, not a symlink; security `~/.viola/` access control). Nothing under the home, `diagnostics/` included, is created or opened before that check passes. A refused home gets no diagnostics line: the role exits with its security outcome (`hook` fails open with exit 0), and a panic in this window falls in the §7 pre-init window (D-29). Roles with no strict-modes check in security still get the diagnostics checks below. Only then create `<home>/diagnostics/` with `DirBuilderExt::mode(0o700)` on Unix; on Windows it inherits the already-verified home DACL. Before the first write, `diagnostics/` and every opened diagnostics file (role file, and later the detail file) get the same checks as the home: on Unix, `lstat` owner == `geteuid()`, `mode & 0o077 == 0`, not a symlink (files opened with `O_NOFOLLOW`); on Windows, owner and DACL. A failed check is handled like a failed open (below), so a pre-existing foreign, permissive or symlinked diagnostics file is never written. Open the role file with `OpenOptions::new().append(true).create(true)` and `OpenOptionsExt::mode(0o600)` on Unix. If the open fails, the writer becomes `std::io::sink` (or stderr for `mcp` only, D-09). The instance detail file `<home>/instances/<name>/diagnostics/detail-<process>.ndjson` is **not** opened here. It is opened lazily, with the same append / 0600 / 0700 rules, by the first content-bearing record (chain, drift report), and the panic hook opens it itself when it is still closed. A failed detail open drops only the detail line, never the home-level line, and writes nothing to stderr. The error-free `hook` path therefore keeps exactly one log `open` (D-29).
   5. Parse `<home>/config.json` once for the process. `diagnostics_level` falls back to `"info"` when the file is missing or unreadable or the value is unknown. Then install the subscriber with an explicit writer (below). No subscriber exists during the parse, so its skipped-key count and failure `detail` are held in memory. A panic during the parse is still logged, because the role file exists after step 4.
   6. `obs_event!(ProcessStart, …)`, then `parse-rejected{parser:"config-json", detail, count}` if the step-5 parse failed or skipped keys (D-28).
 
@@ -638,22 +638,26 @@ The architecture commits to the harness pattern (quoted verbatim from the upstre
 
 ### Log format JSON schema
 
-**Binding. Reproduced verbatim from upstream-context Section 5 Test Plan Excerpt → Test Harness Contract Summary → Log format JSON schema. Obs aligns to tests, not vice versa.**
+**Binding. Reproduced verbatim from test-plan.md §3 Test Harness Contract → Log format (re-synced in overseer fix pass 2, 2026-09-24, after test-plan amendments D-21 / 693e083 and fix pass 2). Obs aligns to tests, not vice versa.**
 
 ```markdown
 - **Format:** JSON-per-line. There are two streams:
   - **Event stream:** product events in `instances/<name>/events.ndjson`, exactly the arch Event line `{"v":1,"ts","instance","kind","source":"hook|wrapper|cli","data"}`.
-  - **Process logs:** emitted by tracing-subscriber 0.3.23 `fmt().json().flatten_event(true).with_current_span(false)`, writing to `<home>/diagnostics/{run-<name>,hook-<name>,mcp,ui-<port>}.ndjson`. Files are 0600, dirs 0700, with one `write` per line.
+  - **Process logs:** emitted by tracing-subscriber 0.3.23 `fmt().json().flatten_event(true).with_current_span(false)`, writing codes-only lines to `<home>/diagnostics/{run-<name>,hook-<name>,mcp,ui-<port>,cli-<name>}.ndjson`. Content-bearing detail (chains, drift reports, panic payload and backtrace) goes only to `<home>/instances/<name>/diagnostics/detail-<process>.ndjson` (obs-plan D-08). Files are 0600, dirs 0700, with one `write` per line.
 - **Required fields:**
   - For process logs: `timestamp` (RFC 3339 UTC with ms and `Z`), `level` (`DEBUG|INFO|WARN|ERROR`), `target`, and `fields.message` (or the flattened `message`).
   - `event`, a closed kebab-case enum. A new value needs a Decisions Log entry, like the §3 closed enums. Each value fixes what its `corr` holds:
     - `channel-request`, `channel-response`: `corr` = the JSON-RPC request `id`
     - `dialog-raised`, `dialog-answered`: `corr` = `dialog_id`
     - `hook-invoked`, `hook-decision`: `corr` = `dialog_id` for dialog hooks, otherwise null
-    - `send-issued`, `send-confirmed`, `send-refused`: `corr` = the send `cursor`
+    - `send-issued`, `send-confirmed`, `send-refused`: `corr` = the send `cursor`. A send refused before `send-issued` (`human-typing`, `budget-paused`, `input-not-ready`, `turn-running`) has no arch cursor, so its wrapper-side `send-refused` carries `corr` = the target's `events.ndjson` end offset at the moment of refusal, a log join key only, never returned to the caller (obs-plan D-28). Wrapper-side `send-*` lines also carry `conn` and `rpc_id`, the originating `send` request's connection and JSON-RPC `id`, so `(conn, rpc_id)` joins them to that call's `channel-*` lines (obs-plan D-30). The client-side `send-refused{side:"client"}` has `corr` null.
+    - `release-from-driver`: `corr` = the JSON-RPC request `id` (obs-plan D-01; the wrapper's `-32602` refusal of a `release` that carries `from`)
     - `process-start`, `process-exit`, `http-request`, `panic`: `corr` = null
-  - `process` (`run|hook|mcp|ui`) and `instance` (a `ViolaName` or null).
+    - `liveness-changed`, `state-recovered`, `sse-opened`, `sse-closed`, `parse-rejected`: `corr` = null (obs-plan D-02 … D-05)
+    - `a11y-violation`: `corr` = null. Written only by the a11y Playwright fixture, one row per failing check, into `e2e-web/test-results/a11y/*.ndjson` (harness artifacts, `process:"ui"`), never into any `diagnostics/` file, so G2, G4 and the schema check never see it (a11y-plan D-A11Y-09)
+  - `process` (`run|hook|mcp|ui|cli`; `cli` is a short-lived verb with a resolved instance, writing `cli-<name>.ndjson`, obs-plan D-06) and `instance` (a `ViolaName` or null).
   - `corr` is copied unchanged as a JSON number or string. It is never renamed (for example to `correlation_id`).
+  - **Null encoding:** a null `corr` or `instance` is written as key **absence** (tracing has no null field value; obs-plan D-12). The harness and every `jq` / jaq assertion treat an absent key and `null` as the same value (`.corr == null` holds for both), and obs-plan's `schemas/diag-line.v1.json` rejects a literal `null`.
 
   obs-plan may add fields but must not rename or remove these. The harness greps on them.
 - **Constraints:**
@@ -669,6 +673,7 @@ The architecture commits to the harness pattern (quoted verbatim from the upstre
   - `state-recovered`: `corr` = null (D-03)
   - `sse-opened`, `sse-closed`: `corr` = null (D-04)
   - `parse-rejected`: `corr` = null (D-05)
+- **Accepted `event` value (a11y-plan D-A11Y-09, by the D-21 route; overseer fix pass 2):** `a11y-violation`, `corr` = null. The a11y Playwright fixture writes it only into `e2e-web/test-results/a11y/*.ndjson`, using the diag-line field names without renaming any. It never appears in a `diagnostics/` file, so G2, G4 and `schemas/diag-line.v1.json` never see it, and no product code emits it.
 - **Accepted `process` value:** `cli`, for short-lived verbs with a resolved instance (D-06; tests amendment D-21 adds it to the `process` enum and to the harness `--process` filter).
 - **Additive fields:** catalogued per event in Section 6.
 - **Null encoding:** tracing 0.1.44 has no null field value; an `Option::None` field records nothing. A null `corr` / `instance` is therefore represented by **key absence**, and `jq '.corr'` yields `null` either way. The panic hook's hand-written line follows the same rule. It never writes `corr`, and it omits `instance` when none resolved (always for `ui`). Both emitters are therefore schema-identical: `schemas/diag-line.v1.json` declares `corr` (number | string) and `instance` (string) as optional keys and rejects a literal `null` for either, which catches an emitter that drifts (D-26). Key absence is ACCEPTED (D-12, review 2026-09-24); the tests amendment D-21 states "absent = null" for `corr` / `instance`, so harness readers treat a missing key and a literal `null` identically.
@@ -692,7 +697,7 @@ Illustrative line (one physical line on disk):
 ### Snapshot / paste-to-AI integration
 
 N/A: there is no pulse-class receiver in the stack. The paste-to-AI workflow runs through the tests harness instead of a tail of a single log file:
-- `scripts/agent-run.sh logs` / `scripts/agent-run.ps1 logs` merges `events.ndjson` (`{"src":"events","instance","offset","record"}`) with every `diagnostics/*.ndjson` (`{"src":"diag","file","record"}`). Torn lines appear as `{"torn":true,"offset":n}`. The merged output is filterable by `--instance`, `--kind`, `--process`, `--after`.
+- `scripts/agent-run.sh logs` / `scripts/agent-run.ps1 logs` merges `events.ndjson` (`{"src":"events","instance","offset","record"}`) with every `diagnostics/*.ndjson` (`{"src":"diag","file","record"}`) and every instance detail line from `instances/*/diagnostics/detail-*.ndjson` (`{"src":"diag","file","instance","record"}`; the added `instance` tells apart the same `detail-<process>.ndjson` basename across instances, per tests `logs`). Torn lines appear as `{"torn":true,"offset":n}`. The merged output is filterable by `--instance`, `--kind`, `--process`, `--after`.
 - `agent-run status` is the aggregate health snapshot: `state`, `last_error` closed enum, `api_sessions_equal_list`.
 - Canonical agent queries:
   - To follow one send across every side: `agent-run logs | jq -c 'select(.record.instance=="B" and (.record.event|IN("send-issued","send-confirmed","send-refused")) and .record.corr==412)'`, where `B` is the send's target.
@@ -774,7 +779,7 @@ setup-project reads this to materialize phase scaffolding.]_
   - the instance-scoped `detail-<process>.ndjson` routing.
 - **obs-ci-gate-wire:** CI steps per Section 9:
   - `clippy.toml` `disallowed-macros` (raw `tracing::{event,info,warn,error,debug,trace}` outside `viola_core::obs`);
-  - `[workspace.lints.clippy]` `print_stdout` / `print_stderr` / `dbg_macro` = `deny` (§11 Logs), plus `[lints] workspace = true` in **every** member's `Cargo.toml`. A member without it inherits no workspace lints, so the ban silently does not apply there. Prove it both ways: a `println!` in a `hook` path fails clippy, and the output modules' local `#[allow]` passes;
+  - `[workspace.lints.clippy]` `print_stdout` / `print_stderr` / `dbg_macro` = `deny` (§11 Logs), plus `[lints] workspace = true` in **every product** member's `Cargo.toml` (the root bin `viola` and the product `crates/viola-*` crates). A product member without it inherits no workspace lints, so the ban silently does not apply there. **Exempt (overseer fix pass 2, B5):** `viola-harness` (`crates/viola-e2e`) and the fake agent (`viola-fake-agent`) must print: the harness prints exactly one JSON document per command on stdout, and the fake agent emulates the claude CLI on stdout/stderr (tests §3, §4). Cargo cannot override single lints under `workspace = true`, so these two members omit it and carry their own `[lints.clippy]` table without `print_stdout` / `print_stderr`. A CI assertion lists members: every product member has `workspace = true`, and only these two lack it. Prove it both ways: a `println!` in a `hook` path fails clippy, and the output modules' local `#[allow]` passes;
   - the SHA-pinned PCRE2 ripgrep install step, then G1 (bare `#[instrument]`) and G3 (`panic = "abort"`);
   - G2 (zero `event:"panic"`), G4 (`id: schema-conformance`), the secret scan (`id: secret-scan`, `if: always()`) and the scan-gated uploads, in the §9 step order;
   - SHA-pinned `actions/upload-artifact` v7.0.1.
@@ -951,7 +956,7 @@ Skipped as not-instrumentable per obs-scope §1: `viola-core` (it supplies `ObsE
 - **`verify` / `plugin install`:**
   - Dispatch spans: `cli.verify`, with `cli.verify_step` per step and `state.ledger_write` for the stamp, and `cli.plugin_install`.
   - With `VIOLA_NAME` set they log `process-start` / `process-exit{exit_code, detail}` to `cli-<name>.ndjson`. Run from a plain terminal with no instance, they write no process-log file (D-06). Their agent-readable outcome is then the exit code plus the `stamped <version>  N pass  N fail` stderr summary (design).
-  - `viola verify` never runs in CI (arch Pipeline note), so no CI gate depends on it.
+  - In CI, `viola verify` runs only against the fake agent: tests harness `boot` step 4 and the rstest `stamped_home` fixture, as the only writer of `ledger/stamps.json` (test-plan Decisions Log). The real-`claude` verify never runs in CI (arch Pipeline note; the arch amend is pending). No obs gate depends on verify's own log lines. Its home-level lines, when `VIOLA_NAME` is set, fall under G2, G4 and the secret scan like any other.
 
 (See `## 11. Obs Anti-Patterns` § Spans / Traces for span-level bans.)
 
@@ -977,15 +982,15 @@ _[Standard: included. There is no in-process metrics pipeline. Every metric is d
 |-----------|-----------|------|------|----------------------|
 | Hook latency per `hook_event` (Scenario 4/6; perf trigger) | `viola.hook.duration_ms` ← `hook-decision.duration_ms` | histogram | ms | raw samples; gate = hyperfine `max` |
 | Channel call latency per `method` | `viola.channel.duration_ms` ← `channel-response.duration_ms` | histogram | ms | raw samples |
-| Send → readback latency (design Readback hook) | `viola.send.confirm_ms` ← `send-confirmed.duration_ms` | histogram | ms | raw samples |
-| Send terminal state (design: counter per terminal state) | `viola.send.outcome` ← count of `send-confirmed{confirmed}` / `send-refused{refusal,detail,side}` | counter | 1 | n/a |
+| Send → readback latency (design readback states `open` → `read back`) | `viola.send.confirm_ms` ← `send-confirmed.duration_ms` | histogram | ms | raw samples |
+| Send terminal state (design readback words `read back` / `unable` / `unconfirmable`) | `viola.send.outcome` ← count of `send-confirmed{confirmed}` / `send-refused{refusal,detail,side}` | counter | 1 | n/a |
 | `wait` outcome (design CLI `viola wait`) | `viola.wait.outcome` ← `channel-response{method:"wait"}.outcome` | counter | 1 | n/a |
 | HTTP request latency per `route` | `viola.ui.http.duration_ms` ← `http-request.duration_ms` | histogram | ms | raw samples |
 | HTTP status / Problem URN | `viola.ui.http.problem` ← `http-request.problem` | counter | 1 | n/a |
-| SSE lifecycle (design: closed-transition counter with cause) | `viola.ui.sse.closed` ← `sse-closed.close_cause`; `viola.ui.sse.duration_ms` | counter / histogram | 1 / ms | raw samples |
-| Liveness transitions (design: live → stale counter) | `viola.state.liveness_transition` ← `liveness-changed{liveness_to}` | counter | 1 | n/a |
+| SSE lifecycle (design `TAPE stopped` state) | `viola.ui.sse.closed` ← `sse-closed.close_cause`; `viola.ui.sse.duration_ms` | counter / histogram | 1 / ms | raw samples |
+| Liveness transitions (design `stale` liveness) | `viola.state.liveness_transition` ← `liveness-changed{liveness_to}` | counter | 1 | n/a |
 | Heal / recovery (chaos) | `viola.state.recovered` ← `state-recovered.detail` | counter | 1 | n/a |
-| Skipped records (design header counters) | `viola.parse.skipped` ← `http-request.skipped` on `/api/sessions` and `list --json` `skipped` | gauge | 1 | n/a |
+| Skipped records (design ATIS `skipped N · N · N` box) | `viola.parse.skipped` ← `http-request.skipped` on `/api/sessions` and `list --json` `skipped` | gauge | 1 | n/a |
 | Parse rejections per parser (creator-explicit) | `viola.parse.rejected` ← `parse-rejected{parser, detail, count}` | counter | 1 | n/a |
 | `unknown` fallback / higher-`v` rejections | `viola.compat.unknown` ← `send-refused{refusal:"unknown"}`; `viola.compat.v_rejected` ← `channel-response{error_code:-32602}` | counter | 1 | n/a |
 | Child / probe exits | `viola.child.exit` ← `process-exit{subject, child_exit_status, exit_source}` | counter | 1 | n/a |
@@ -1008,7 +1013,7 @@ awk 1 diagnostics/hook-*.ndjson | jq -R -n '[inputs|fromjson?|select(.event=="ho
 
 _[ALL tiers]_
 
-**Log format JSON schema:** aligned with the tests' Section 3 log format. The binding text is reproduced verbatim in Section 3 → Log format JSON schema, from upstream-context Section 5 Test Plan Excerpt → Test Harness Contract Summary. This section only **adds** fields and the D-01…D-06 enum values; it renames and removes nothing.
+**Log format JSON schema:** aligned with the tests' Section 3 log format. The binding text is reproduced verbatim in Section 3 → Log format JSON schema, from test-plan.md §3 Log format (re-synced in overseer fix pass 2). This section only **adds** fields, the D-01…D-06 enum values and the a11y-owned `a11y-violation` harness-artifact value; it renames and removes nothing.
 
 **Required fields (every log line)** (tests):
 - `timestamp`: RFC 3339 UTC with milliseconds and `Z` (`MillisUtc` timer)
@@ -1251,7 +1256,7 @@ set +e; rg -n --hidden -g 'Cargo.toml' -g 'config.toml' -g '*.yml' -g '*.yaml' "
 **Artifact retention:** `retention-days: 7`, below the 90-day default (obs-research CI pattern).
 
 **Step order and conditions** (copied into `ci.yml`):
-1. Integration and E2E tests and the hyperfine perf gates (every viola home under `target/e2e-home/`, including the §10 perf-gate hook home), then G2 and G4, **both** `if: always()`. The perf gates run in this same per-OS job ("the perf job" in §10), so G2, the scan and the `diag-<os>` upload cover their home. A separate perf job would either upload no diagnostics or collide on `diag-<os>`, because artifact names are unique per workflow run. A failed test step must not skip G2: failing runs are where panic lines are most likely, and §10 measures panics only through G2's exit code (D-29).
+1. Integration and E2E tests and the hyperfine perf gates (every viola home under `target/e2e-home/`, including the §10 perf-gate hook home), then G2 and G4, **both** `if: always()`. The perf gates run in this same per-OS job ("the perf job" in §10), so G2, the scan and the `diag-<os>` upload cover their home. A separate perf job would either upload no diagnostics or collide on `diag-<os>`, because artifact names are unique per workflow run. A failed test step must not skip G2: failing runs are where panic lines are most likely, and §10 measures panics only through G2's exit code (D-29). **Homes are kept until the gate steps have run** (overseer fix pass 2, B1): `ci.yml` sets `AGENT_RUN_KEEP_HOMES=1`, so neither harness `cleanup` nor an rstest `TempDir` drop deletes a home before G2, G4, the secret scan and the scan-gated uploads have read it (test-plan §3 `cleanup` step 6). Without it, a green run leaves `target/e2e-home/` empty, G2's non-empty check fails, and nothing is scanned.
 2. Harness capture, `if: failure()`, into `target/agent-run/`.
 3. Secret scan, `id: secret-scan`, `if: always()`, over `target/e2e-home/**/diagnostics/*.ndjson` and `target/agent-run/*`, and also `target/nextest/ci/junit.xml`, because nextest stores failing tests' captured output in it. Without `always()`, a failed E2E step skips the scan (outcome `skipped`), and the gated uploads are then skipped too, which loses the failing job's diagnostics (§11 CI).
 4. The `diag-<os>` / `harness-<os>` / `junit-<os>` uploads, gated on `steps.secret-scan.outcome == 'success'` as in the table. On a failed scan the hit report (step 5) names the JUnit file like any other hit.
@@ -1357,7 +1362,7 @@ _[ALL tiers — single source of truth for all obs bans]_
 - NEVER log at `info` inside hot loops (PTY pump, notify tail per line). Use counts on the boundary event instead.
 - NEVER use tracing-appender `non_blocking`. It drops lines when full, needs a `WorkerGuard` flush, and breaks the hook's exit-0 / `max < 1.0 s` gate and the zero-unlogged-panics invariant.
 - NEVER rename tests fields (for example `corr` → `correlation_id`, `event` → `event_type`) or add `event` values without a Decisions Log entry.
-- NEVER use `print!` / `println!` / `eprint!` / `eprintln!` / `dbg!` in the `hook`, `run` or `mcp` code paths. They bypass the file sink and break the Hook contract, the `run` terminal rule and MCP framing. Enforced by `[workspace.lints.clippy]` `print_stdout`, `print_stderr`, `dbg_macro` = `deny` under the §9 clippy step. Only the output modules that own `--json`, human CLI stderr, the hook decision body and the one-time `ui` launch line carry a local `#[allow]`.
+- NEVER use `print!` / `println!` / `eprint!` / `eprintln!` / `dbg!` in the `hook`, `run` or `mcp` code paths of the product crates (`viola-harness` and the fake agent are exempt, §3 obs-ci-gate-wire). They bypass the file sink and break the Hook contract, the `run` terminal rule and MCP framing. Enforced by `[workspace.lints.clippy]` `print_stdout`, `print_stderr`, `dbg_macro` = `deny` under the §9 clippy step. Only the output modules that own `--json`, human CLI stderr, the hook decision body and the one-time `ui` launch line carry a local `#[allow]`.
 - NEVER install `tracing_log::LogTracer` (or any `log` bridge) by hand. D-11 keeps `tracing-log` off, and bridged records lack `event`, `corr`, `process` and `instance` (D-23).
 
 ### Error Reporting
@@ -1726,6 +1731,20 @@ between phase loops._
   - The panic hook writes only to the step-4 handle, so `sink` and the `mcp` stderr fallback get no panic line.
 - **Impact:** §3 (Log format illustrative line, Trace context propagation), §9 (Telemetry artifact handling, Step order), §10 exemptions. Arch: the D-10 `conn` acknowledgment covers the new format.
 - **By:** `/andromeda-obs` iteration 10
+
+`2026-09-24` — overseer fix pass 2, 2026-09-24 (cross-plan findings "obs vs upstreams" and "a11y P3.5", founder-delegated; each item checked against the cited line before the edit)
+- **Decision:**
+  - B1 (as ruled): in CI, homes are kept until the gate steps have run (`AGENT_RUN_KEEP_HOMES=1`, set by `ci.yml`, honoured by harness `cleanup` and the rstest homes). Tests states the same. §9 Step order.
+  - B2 (as ruled): the home strict-modes check, including a viola-created home, runs first, and diagnostics init runs after it. `diagnostics/` and every diagnostics file get the same owner / mode (DACL) / symlink checks as the home, and a failed check is handled like a failed open. §3 Init order step 4. The init order is an arch amendment, routed with the D-22 intent cap.
+  - B3: the verbatim tests log-format copy is re-synced to test-plan.md §3 after 693e083 and fix pass 2 (`cli`, the detail files, the D-21 events, null as absence, the pre-issue `corr`, `conn` / `rpc_id`, `a11y-violation`).
+  - B5: the print ban is scoped to the product crates. `viola-harness` and the fake agent are exempt through their own `[lints.clippy]` table, with a CI member-list assertion. §3 obs-ci-gate-wire and §11 Logs.
+  - B8: the `logs` detail-line wrapper carries `instance`, per tests. §3 Snapshot / paste-to-AI.
+  - B9: "verify never in CI" is replaced by "verify runs in CI only against the fake agent". §4 `verify`.
+  - B11: citations of design "telemetry hints" that design-system.md does not contain are dropped or re-anchored to real design states (readback words, `TAPE` states, `stale`, the ATIS `skipped` box). §1 (telemetry surfaces and the path source), §5 metrics.
+  - Y3: `a11y-violation` joins the accepted `event` values (a11y-plan D-A11Y-09, D-21 route). It is a harness artifact only, never in `diagnostics/`.
+- **Rationale:** the overseer's audit "obs vs upstreams" (2026-09-24 05:10) and the a11y P3.5 items (05:52). Obs aligns to tests, and tests is upstream.
+- **Impact:** §1, §3 (Init order, Log format, obs-ci-gate-wire, Snapshot / paste-to-AI), §4, §5, §9, §11. The arch amendment for B2 is routed with D-22. Architecture, security and a11y plans are unchanged.
+- **By:** manual edit, overseer fix pass 2, 2026-09-24 (founder-delegated).
 
 (Append new entries at the bottom; do not modify historical
 entries.)
