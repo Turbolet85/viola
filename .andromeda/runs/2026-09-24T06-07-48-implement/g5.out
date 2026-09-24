@@ -1,0 +1,25 @@
+gate v1.1 · 4c16668f
+shell C:\Program Files\Git\bin\bash.exe (from $SHELL; -c, non-login)
+root D:\dev\projects\viola · marker 2026-09-24-three-os-ci-headless-harness-skeleton · entries 18
+logs C:\Users\turbo\AppData\Local\Temp\andromeda-gate\2026-09-24-three-os-ci-headless-harness-skeleton\implement-2026-09-24T06-07-48 · bound: GNU timeout
+delta docs 50 · rust 24 · unmapped 3
+prose L286-290: Local gates /implement runs. The harness lifecycle leg runs against processes the entries … (555 chars)
+  1 build       not run — excluded · cargo build --workspace --features fake-agent
+  2 lint        green · exit 0 · 0.19s · 0 B → 2.log · cargo fmt --all --check
+  3 lint        green · exit 0 · 0.37s · 143 B → 3.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)
+  4 unit        not run — excluded · bash scripts/agent-run.sh run --unit
+  5 integration green · exit 0 · 22.05s · 3178 B → 5.log · bash scripts/agent-run.sh run --integration
+  6 e2e         not run — excluded · bash scripts/agent-run.sh cleanup --session gate-smoke
+  7 smoke       not run — excluded · bash scripts/agent-run.sh boot --session gate-smoke --inst… (70 chars)
+  8 e2e         not run — excluded · bash scripts/agent-run.sh status --session gate-smoke
+  9 e2e         not run — excluded · bash scripts/agent-run.sh logs --session gate-smoke --inst… (216 chars)
+ 10 e2e         not run — excluded · bash scripts/agent-run.sh cleanup --session gate-smoke
+ 11 e2e         not run — excluded · bash scripts/agent-run.sh cleanup --session gate-smoke
+ 12 integration not run — excluded · AGENT_RUN_CHUNK_BASE=0000000000000000000000000000000000000… (101 chars)
+ 13 probe       not run — excluded · test ! -e target/agent-run/chunk.diff
+ 14 integration not run — excluded · AGENT_RUN_CHUNK_BASE=13b7ee32e6227d1cb6cecc96fbe412fe34a4e… (101 chars)
+ 15 probe       not run — excluded · python -X utf8 -c "import re;t=open('.github/workflows/ci.… (183 chars)
+ 16 probe       not run — excluded · grep -rEn --include=Cargo.toml --include=config.toml --inc… (194 chars)
+ 17 probe       not run — excluded · git diff --quiet && git diff --cached --quiet && git push … (82 chars)
+ 18 probe       not run — excluded · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (129 chars)
+entries 18 · green 3 · red 0 · recorded 0 · timeout 0 · not-run 15

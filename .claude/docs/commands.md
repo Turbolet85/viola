@@ -2,10 +2,10 @@
 
 _Complete command reference extracted from `.andromeda/architecture.md`, `.andromeda/test-plan.md` §3/§9 and `.andromeda/obs-plan.md` §9 by `/andromeda-setup-project`. The 5 most common commands live in CLAUDE.md Workflow section for always-loaded access — this file has everything else._
 
-_At setup the repo holds no workspace yet: the root `Cargo.toml`, `rust-toolchain.toml`, `deny.toml`, `.config/nextest.toml`, `viola-harness` and `e2e-web/` land with the Epoch-1 Foundation chunks. Commands below are the planned contract._
+_The workspace, `rust-toolchain.toml`, `.config/nextest.toml`, `viola-harness` and `.github/workflows/ci.yml` exist since chunk 1; `deny.toml` and `e2e-web/` land with later Epoch-1 chunks. Commands for surfaces not built yet are the planned contract._
 
 ## Installation
-- `rustup show` — installs the toolchain pinned in `rust-toolchain.toml` (one current stable ≥ 1.96, components rustfmt + clippy)
+- `rustup toolchain install` — installs the toolchain pinned in `rust-toolchain.toml` (1.98.1, components rustfmt + clippy)
 - `cargo install --locked cargo-nextest@0.9.146 cargo-llvm-cov@0.9.1 cargo-mutants@27.1.0 cargo-deny@0.20.2` — test / coverage / mutation / policy tools (CI uses taiki-e/install-action, SHA-pinned)
 - `cargo install --locked hyperfine@1.20.0 cargo-modules@0.27.0 zizmor@1.30.1 jaq@3.1.1` — perf gate, boundary review, workflow lint, log assertions
 - `npm ci --prefix e2e-web` then `npx --prefix e2e-web playwright install --with-deps chromium` — browser suite (ubuntu CI; local optional)
@@ -27,15 +27,16 @@ _At setup the repo holds no workspace yet: the root `Cargo.toml`, `rust-toolchai
 - `cleanup [--session <id>|--all]` — graceful stop, endpoint/port/url-file checks, home removal (idempotent)
 - `logs [--session <id>] [--instance <name>] [--kind <kind>] [--process run|hook|mcp|ui|cli] [--after <offset>]` — merged ndjson of events + diagnostics
 - Internal (forwarded by the shims, not agent-facing): `supervise`, `ui-restart --session <id>`, `gate --require <suites> [--artifacts <dir>]`
+- Built today (the grammar grows per chunk; anything else is exit 2 `reason:"usage"`): `boot [--session] [--instance <name>[:<args>]]... [--cli-version]` · `run [--unit|--integration|--mutants|--all] [--filter]` · `status [--session]` · `cleanup [--session|--all]` · `logs [--session] [--instance] [--process]` · internal `supervise`. Interim fields: `status` → `list`/`ui` `null` + `instances[]`; `cleanup` → `processes_gone`, endpoint/port/url `null`.
 
 ## Testing
 - `cargo nextest run --workspace --features fake-agent --profile ci -E 'kind(lib) | kind(bin)'` — unit
-- `cargo nextest run --workspace --features fake-agent --profile ci -E 'kind(test) & !binary(/^(path|tui|mcp|http|sse|cross|chaos|contract)_/)'` — integration
+- `cargo nextest run --workspace --features fake-agent --profile ci -E 'kind(test)'` — integration (gains `& !binary(/^(path|tui|mcp|http|sse|cross|chaos|contract)_/)` once an E2E binary exists: nextest rejects an unmatched `binary()` regex). The harness runs these with `CARGO_TARGET_DIR=target/harness` and `--features viola/fake-agent`.
 - `cargo nextest run --workspace --features fake-agent --profile ci -E 'binary(/^(path|tui|mcp|http|sse|cross|chaos|contract)_/)'` — fake-agent E2E
 - `cargo test --workspace --doc` — doctests (nextest cannot run them)
 - `npx --prefix e2e-web playwright test [--grep "<title>"]` — browser suite (ubuntu)
 - `cargo llvm-cov nextest --workspace --features fake-agent --profile ci --lcov --output-path target/lcov.info --ignore-filename-regex '(viola-fake-agent|crates/viola-e2e|tests/support|fuzz/)' --fail-under-lines 85 --fail-under-functions 95 --fail-under-regions 80` — coverage gate
-- `NEXTEST_PROFILE=mutants cargo mutants --workspace --features fake-agent --in-diff target/agent-run/chunk.diff --test-tool=nextest` — mutation gate (diff from `git diff <base>...HEAD`)
+- `NEXTEST_PROFILE=mutants cargo mutants --workspace --features fake-agent --in-diff target/agent-run/chunk.diff --test-tool=nextest` — mutation gate (diff = working tree + untracked files from `merge-base(<base>, HEAD)`; base from `AGENT_RUN_CHUNK_BASE`)
 - `cargo mutants --file <path> --test-tool=nextest` — one file's mutants
 - `cargo +nightly fuzz run <target> -- -runs=0` — corpus replay (ubuntu)
 
@@ -57,7 +58,7 @@ _At setup the repo holds no workspace yet: the root `Cargo.toml`, `rust-toolchai
 
 ## Build & Deploy
 - `cargo build --release --bin viola` — release build (fake agent excluded: feature off)
-- `cargo build --workspace --features fake-agent` — harness build (boot step 1)
+- `CARGO_TARGET_DIR=target/harness cargo build --workspace --features viola/fake-agent` — harness build (boot step 1; its own target dir because a running `target/debug/viola-harness.exe` cannot be relinked on Windows)
 - No deploy stage in v1; v1.x adds a dist 0.33.0 release workflow
 
 ## Code-graph

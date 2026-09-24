@@ -6,7 +6,7 @@
 <!-- GENERATED:setup:overview start -->
 viola is a standalone, cross-platform (Windows first) bridge that lets one interactive Claude Code session drive another on the user's own subscription. It wraps the unmodified `claude` CLI in a pseudo-terminal, types at turn boundaries, answers dialogs through hooks, holds a one-driver wheel the human can take at any moment, and shows the sessions and their links on a minimal view-only loopback page.
 
-**Stack:** Rust stable (edition 2024, MSRV floor 1.96), one Cargo workspace producing one native `viola` binary with the Claude Code plugin (hooks + stdio MCP) embedded; std threads on the hot path, Tokio only in `mcp`/`ui`; no database (ndjson logs + atomic JSON snapshots under `~/.viola/`); local-only, installed with `cargo install --path .`.
+**Stack:** Rust 1.98.1 pinned by `rust-toolchain.toml` (edition 2024, MSRV floor 1.96), one Cargo workspace producing one native `viola` binary with the Claude Code plugin (hooks + stdio MCP) embedded; std threads on the hot path, Tokio only in `mcp`/`ui`; no database (ndjson logs + atomic JSON snapshots under `~/.viola/`); local-only, installed with `cargo install --path .`.
 
 **Key directories:**
 - `src/` — the `viola` bin: clap dispatch (`src/cmd/`), the `run` PTY pump, wheel and budget governor (`src/run/`)

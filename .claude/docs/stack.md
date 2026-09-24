@@ -6,7 +6,7 @@ _Extracted from `.andromeda/architecture.md` §Stack and Technologies by `/andro
 
 | Layer | Technology | Role |
 |---|---|---|
-| Language / runtime | Rust stable (host 1.95; workspace `rust-version = "1.89"`, edition 2024) | One native binary `viola` / `viola.exe`. 1.89 is the highest floor among the dependencies (std `File::lock`); axum needs 1.80 and rmcp 1.88 |
+| Language / runtime | Rust 1.98.1, pinned exactly by `rust-toolchain.toml` (rustfmt + clippy); workspace `rust-version = "1.96"`, edition 2024 | One native binary `viola` / `viola.exe`. 1.96 is the declared floor (the security toolchain floor; sysinfo 0.39.6 needs 1.95, std `File::lock` 1.89, rmcp 1.88, axum 1.80) |
 | Backend framework (concurrency model) | Hybrid: std threads for `run`, `hook`, `send`, `wait` and every other CLI verb; Tokio 1.53.1 built only inside `mcp`, `ui` | No async runtime on the hot `hook` path. The async ecosystem is used only where rmcp and axum require it |
 | HTTP server (GUI) | axum 0.8.9 (feature `sse`) + tower-http 0.7.1 (`CompressionLayer`, with `text/event-stream` excluded) | View-only GET routes and the SSE feed on 127.0.0.1 |
 | CLI parser | clap 4.6.7 (derive) | Subcommands `run · send · wait · last · list · answer · hook · mcp · ui · verify · pause · release · link · unlink · plugin install` |
@@ -16,7 +16,8 @@ _Extracted from `.andromeda/architecture.md` §Stack and Technologies by `/andro
 | Database | None. ndjson append logs + atomically replaced JSON snapshots on the local filesystem | Authoritative audit trail and mutable state (wheel mirror, links, budget readings) |
 | ORM / migrations | N/A. Every record carries `v`, readers skip unknown kinds and fields, and a snapshot with an unsupported `v` is rebuilt by replaying the log | Stands in for schema migration |
 | State-file primitives | atomic-write-file 0.3.1 (snapshots); std `File::lock` on separate `.lock` files; std `OpenOptions::append` (one `write` per line) | Crash-safe multi-process writes with no C code |
-| Serialization | serde 1.0.229, serde_json 1.0.151, serde_path_to_error 0.1.20 | Channel frames, log events, snapshots, tolerant parsing of external payloads with path-precise drift reports |
+| Serialization | serde 1.0.229, serde_json 1.0.151 (feature `preserve_order`, which pulls indexmap), serde_path_to_error 0.1.20 | Channel frames, log events, snapshots, tolerant parsing of external payloads with path-precise drift reports; `preserve_order` keeps a printed document's declared key order (e.g. `{"v":1,"cmd":…,"ok":…}`) |
+| Logging | tracing 0.1.44 (default features off, `std`); tracing-subscriber 0.3.23 (default features off, `fmt,json,registry,std`; root bin only) | One-line JSON process logs into the viola home's `diagnostics/`; the line format and levels are owned by the obs plan |
 | Domain newtypes | nutype 0.8.0 | `ViolaName` (charset + length cap), `Percent` (0–100) |
 | Timestamps | chrono 0.4.45 | RFC 3339 UTC, millisecond precision. Already in the tree through rmcp |
 | Error types | thiserror 2.0.20 (per crate); anyhow 1.0.104 (bin edge only) | Typed errors that callers can branch on; context chains only at dispatch |
@@ -27,11 +28,11 @@ _Extracted from `.andromeda/architecture.md` §Stack and Technologies by `/andro
 | AI/ML serving | N/A | viola calls no model API. It drives the unmodified `claude` CLI on the user's subscription |
 | Mobile framework | N/A | The phone view is a later version: the same web page behind authentication |
 | Container runtime / deployment | None. `cargo install --path .`; Claude Code plugin compiled into the binary (`include_str!`) and written out by `viola run` | Local-only v1, no hosting |
-| CI/CD | GitHub Actions matrix `windows-2025`, `macos-latest` (macOS 26), `ubuntu-latest`; dtolnay/rust-toolchain; Swatinem/rust-cache 2.9.2 | Build, lint and test on all three OSes against the fake agent, on native runners |
+| CI/CD | GitHub Actions matrix `windows-2025`, `macos-latest` (macOS 26), `ubuntu-latest`; toolchain installed by `rustup toolchain install` from `rust-toolchain.toml` (no toolchain action); SHA-pinned actions/checkout 7.0.1, Swatinem/rust-cache 2.9.2, taiki-e/install-action 2.87.19, actions/upload-artifact 7.0.1 | Build, lint and test on all three OSes against the fake agent, on native runners |
 | Code quality | rustfmt, clippy (`-D warnings`), `cargo check`; cargo-deny 0.20.2 (licences, C-dependency bans); cargo-modules 0.27.0 (module graph review) | Lint, typecheck, dependency policy, boundary review |
 | Release (v1.x, not v1) | dist (cargo-dist) 0.33.0 + cargo-auditable 0.7.6; later self_update 1.3.0 | Public signed releases and installers once distribution is in scope |
 
-**Pending arch amendments already ratified by the plans** (folded into architecture.md by the wrap reconcile of the implementing chunk): the workspace `rust-version` rises to **1.96** (security toolchain floor; sysinfo 0.39.6 needs 1.95; obs D-22, requirements v1-19), with one current stable pinned in `rust-toolchain.toml`; the test-only crate `crates/viola-e2e` joins the workspace (test-plan §12).
+The workspace `rust-version` 1.96 floor, the exact `rust-toolchain.toml` pin and the test-only crate `crates/viola-e2e` are folded into architecture.md (chunk `2026-09-24-three-os-ci-headless-harness-skeleton`).
 
 ## Security-plan additions
 - getrandom 0.4.3 (GUI token) · constant_time_eq 0.6.0 (token compare) · windows-sys 0.61.2 SID / SQOS / DACL APIs · a pure-Rust SHA-256 crate (open question — picked and logged before the chunk that writes `bin/`).

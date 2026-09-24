@@ -128,7 +128,7 @@ _Justification: viola is a local-only, single-user tool. It has no accounts, no 
 - **Vector:** Supply chain (build and CI).
   - **Entry point:**
     - Cargo dependencies. Arch notes interprocess has a single main maintainer and rmcp releases nearly weekly with its minor version pinned.
-    - Third-party GitHub Actions: `dtolnay/rust-toolchain@stable` and `Swatinem/rust-cache@v2.9.2`.
+    - Third-party GitHub Actions, SHA-pinned: `actions/checkout` v7.0.1, `Swatinem/rust-cache` v2.9.2, `taiki-e/install-action` v2.87.19, `actions/upload-artifact` v7.0.1. The toolchain is installed by `rustup` from `rust-toolchain.toml`, with no toolchain action.
     - Future v1.x public distribution and `self_update`.
     - Sources: Stack; Infrastructure Patterns (Build system, CI/CD approach).
   - **Trust boundary:** `cargo deny check` (licences, C-crate bans, tokio ban), `Cargo.lock`, and `publish = false`. In v1 there is no release, no signing and no deploy stage.
@@ -317,7 +317,7 @@ _[ALL tiers]_
 - `Cargo.lock` is committed. `[workspace.dependencies]` pins every third-party version (portable-pty `=0.8.1`). The exception is rmcp, which takes the minor range `>=3.4.1, <3.5` (the `~3.4` pin floored at the catalogued 3.4.1), and `Cargo.lock` must resolve rmcp `>=3.4.1`.
 - `Cargo.lock` must resolve bytes `>=1.11.1` (RUSTSEC-2026-0007). If obs selects tracing-subscriber, it needs `>=0.3.20` (RUSTSEC-2025-0055).
 - notify stays on 8.2.0 (no 9.0 pre-release).
-- The host toolchain moves to Rust `>=1.96` to match CI's `@stable` 1.98.x.
+- The toolchain is pinned exactly by `rust-toolchain.toml` (`channel = "1.98.1"`, rustfmt + clippy); the host and CI both install it through rustup. The workspace `rust-version` floor is 1.96.
 - External CLI tools use minimum floors, not exact pins.
 
 **Update policy:** Manual review, triggered by the scheduled advisory run below. No automated update bot was researched (see the Decisions Log). The rmcp minor range (`>=3.4.1, <3.5`) makes the scheduled run the main signal for that crate.
@@ -326,9 +326,13 @@ _[ALL tiers]_
 - Job 4 (ubuntu) runs `cargo deny check` over all four check families, and fails the build on any advisory, yanked crate or unknown source.
 - A separate workflow trigger, `schedule:` weekly cron, runs `cargo deny check advisories`, because the advisory DB changes without code changes (the default `maximum-db-staleness` is P90D).
 - `zizmor .github/workflows/` runs on the ubuntu leg and fails on unpinned actions, `excessive-permissions`, template injection and cache poisoning.
-- Actions are pinned by full commit SHA:
-  - `dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable`
+- Actions are pinned by full commit SHA (the set `ci.yml` uses; SHAs resolved 2026-09-24 via `gh api repos/{repo}/commits/{tag}`):
+  - `actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1` (with `persist-credentials: false`)
   - `Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2`
+  - `taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5 # v2.87.19`
+  - `actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1`
+- The toolchain comes from `rust-toolchain.toml` through a `rustup toolchain install` step; no toolchain action is used.
+- A value from the event payload reaches a step only through `env:` (e.g. `AGENT_RUN_CHUNK_BASE`), never through `${{ }}` inside `run:`.
 - Workflow-level `permissions: {}` and job-level `contents: read`.
 - Optionally, enable GitHub's Actions policy for SHA pinning on the repository.
 

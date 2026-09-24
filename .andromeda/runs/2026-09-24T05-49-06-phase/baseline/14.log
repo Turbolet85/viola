@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import re;t=open('.github/workflows/ci.yml').read();u=re.findall(r'uses:\s*(.+)',t);assert u;print(sum(1 for x in u if not re.match(r'[^@\s]+@[0-9a-f]{40} # ',x)))
+                ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '.github/workflows/ci.yml'

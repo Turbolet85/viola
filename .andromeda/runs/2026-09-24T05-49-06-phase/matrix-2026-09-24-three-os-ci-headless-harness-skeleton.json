@@ -1,0 +1,111 @@
+[
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "26f9c9bd",
+"ts": "2026-09-24T06:06:40Z",
+"argv": [
+"coverage",
+"--dir",
+"viola-0.1.0",
+"--run-dir",
+".andromeda/runs/2026-09-24T05-49-06-phase",
+"--marker",
+"2026-09-24-three-os-ci-headless-harness-skeleton"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"verified 0/53 · deferred 0 · planned 53 · implemented 0 · unclaimed 53",
+"unclaimed: v1-01 v1-02 v1-03 v1-04 v1-05 v1-06 v1-07 v1-08 v1-09 v1-10 v1-11 v1-12 v1-13 v1-14 v1-15 v1-16",
+"          v1-17 v1-18 v1-19 v1-20 v1-21 v1-22 v1-23 v1-24 v1-25 v1-26 v1-27 v1-28 v1-29 v1-30 v1-31 v1-32",
+"          v1-33 v1-34 v1-35 v1-36 v1-37 v1-38 v1-39 v1-40 v1-41 v1-42 v1-43 v1-44 v1-45 v1-46 v1-47 v1-48",
+"          v1-49 v1-50 v1-51 v1-52 v1-53",
+"claimed-unfinished: none",
+"done-test: NO — 53 not verified|deferred · unclaimed 53",
+"chunks referenced: 0 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "26f9c9bd",
+"ts": "2026-09-24T06:06:50Z",
+"argv": [
+"claim",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-06",
+"--chunk",
+"2026-09-24-three-os-ci-headless-harness-skeleton",
+"--acceptance-file",
+".andromeda/runs/2026-09-24T05-49-06-phase/acceptance-v1-06.md",
+"--run-dir",
+".andromeda/runs/2026-09-24T05-49-06-phase"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"claim v1-06 → chunk 2026-09-24-three-os-ci-headless-harness-skeleton (was null; status planned kept)",
+"acceptance: Every chunk's diff is mutation-tested in the harness run and in CI; a … (275 chars)",
+"         → `agent-run run --mutants` mutation-tests the chunk diff: the working t… (1101 chars)",
+"wrote viola-0.1.0\\verification-matrix.json · 1 entry changed",
+"pool: unclaimed 52 [v1-01 v1-02 v1-03 v1-04 v1-05 v1-07 v1-08 v1-09 v1-10 v1-11 v1-12 v1-13 v1-14 v1-15 v1-16 v1-17 v1-18 v1-19 v1-20 v1-21 v1-22 v1-23 v1-24 v1-25 v1-26 v1-27 v1-28 v1-29 v1-30 v1-31 v1-32 v1-33 v1-34 v1-35 v1-36 v1-37 v1-38 v1-39 v1-40 v1-41 v1-42 v1-43 v1-44 v1-45 v1-46 v1-47 v1-48 v1-49 v1-50 v1-51 v1-52 v1-53]"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0\\verification-matrix.json"
+],
+"before": {
+"id": "v1-06",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "Every chunk's diff is mutation-tested in the harness run and in CI; a missed or timed-out mutant, or a missing diff base… (275 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-06",
+"chunk": "2026-09-24-three-os-ci-headless-harness-skeleton",
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "`agent-run run --mutants` mutation-tests the chunk diff: the working tree plus untracked files from the merge-base of th… (1101 chars)",
+"notes_chars": 0
+}
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "26f9c9bd",
+"ts": "2026-09-24T06:06:50Z",
+"argv": [
+"audit",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-09-24-three-os-ci-headless-harness-skeleton",
+"--plan",
+"viola-0.1.0/chunks/2026-09-24-three-os-ci-headless-harness-skeleton/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-24T05-49-06-phase"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-24-three-os-ci-headless-harness-skeleton: 1 · ## Acceptance Criteria: line 407, 62 lines",
+"v1-06: cited in ## Acceptance Criteria (line 434)",
+"pool: unclaimed 52 [v1-01 v1-02 v1-03 v1-04 v1-05 v1-07 v1-08 v1-09 v1-10 v1-11 v1-12 v1-13 v1-14 v1-15 v1-16 v1-17 v1-18 v1-19 v1-20 v1-21 v1-22 v1-23 v1-24 v1-25 v1-26 v1-27 v1-28 v1-29 v1-30 v1-31 v1-32 v1-33 v1-34 v1-35 v1-36 v1-37 v1-38 v1-39 v1-40 v1-41 v1-42 v1-43 v1-44 v1-45 v1-46 v1-47 v1-48 v1-49 v1-50 v1-51 v1-52 v1-53]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

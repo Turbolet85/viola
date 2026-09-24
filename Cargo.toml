@@ -1,0 +1,71 @@
+[package]
+name = "viola"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[features]
+fake-agent = []
+
+[[bin]]
+name = "viola"
+path = "src/main.rs"
+
+[[bin]]
+name = "viola-fake-agent"
+path = "src/bin/viola-fake-agent.rs"
+required-features = ["fake-agent"]
+
+[[test]]
+name = "run_cli"
+path = "tests/run_cli.rs"
+required-features = ["fake-agent"]
+
+[dependencies]
+viola-core = { path = "crates/viola-core" }
+anyhow.workspace = true
+chrono.workspace = true
+clap.workspace = true
+serde_json.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+
+[dev-dependencies]
+serde_json.workspace = true
+tempfile.workspace = true
+
+[lints]
+workspace = true
+
+[workspace]
+members = ["crates/*"]
+resolver = "3"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.96"
+publish = false
+
+[workspace.dependencies]
+anyhow = "=1.0.104"
+chrono = { version = "=0.4.45", default-features = false, features = ["clock", "std"] }
+clap = { version = "=4.6.7", features = ["derive"] }
+nutype = "=0.8.0"
+serde = { version = "=1.0.229", features = ["derive"] }
+serde_json = { version = "=1.0.151", features = ["preserve_order"] }
+sysinfo = { version = "=0.39.6", default-features = false, features = ["system"] }
+tempfile = "=3.27.0"
+thiserror = "=2.0.20"
+tracing = { version = "=0.1.44", default-features = false, features = ["std"] }
+tracing-subscriber = { version = "=0.3.23", default-features = false, features = ["fmt", "json", "registry", "std"] }
+
+[workspace.lints.rust]
+unused_must_use = "deny"
+
+[profile.dev]
+panic = "unwind"
+
+[profile.release]
+panic = "unwind"

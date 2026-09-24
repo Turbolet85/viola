@@ -24,14 +24,14 @@ A change on one side keeps the other in sync; a log-format break is a harness br
 - Every command prints exactly one JSON document on stdout starting `{"v":1,"cmd":"<command>","ok":<bool>,…}`; exit 0 ok · 1 failure · 2 usage. A human-only message without the JSON document is forbidden.
 
 ## boot
-- Steps in order: `cargo build --workspace --features fake-agent` → a not-yet-existing home under `target/e2e-home/viola-session-*/home` → copy the fake agent to `target/agent-run/<session>/bin/claude[.exe]` on a harness-scoped `PATH` (per child via `Command::env`) → `viola verify --home` against it unless `--unstamped` → detached `viola-harness supervise` owning one portable-pty per instance → optional `viola ui` → token exchange (303 + `HttpOnly; SameSite=Strict`, cookie stored 0600, never printed).
-- Readiness is a bounded 100 ms file-state probe: snapshot has `endpoint/pid/started_at/child_pid`, heartbeat < 5 s, `events.ndjson` lines 1–3 = `wheel{cause:start}` → `budget-gate` → `session-start{source:hook}`; UI `/health` ok and `/ready` `"ready"`. Failure reasons are the closed list in test-plan §3.
+- Steps in order: `cargo build --workspace --features viola/fake-agent` with `CARGO_TARGET_DIR=target/harness` (the CLI's `<bin dir>` is `target/harness/debug`: a running `target/debug/viola-harness.exe` cannot be relinked on Windows) → a not-yet-existing home under `target/e2e-home/viola-session-*/home` → copy the fake agent to `target/agent-run/<session>/bin/claude[.exe]` on a harness-scoped `PATH` (per child via `Command::env`) → `viola verify --home` against it unless `--unstamped` → `viola-harness supervise` as an ordinary child (outlives `boot`, stops only via `stop.request`) owning one portable-pty per instance (a stdin pipe per wrapper until `viola-pty` exists) → optional `viola ui` → token exchange (303 + `HttpOnly; SameSite=Strict`, cookie stored 0600, never printed).
+- Readiness is a bounded 100 ms file-state probe. Interim (until snapshot/heartbeat/events exist): `diagnostics/run-<name>.ndjson` has `process-start` for `subject:"self"` and `subject:"claude-child"`, both pids alive by pid + start time. Target: snapshot has `endpoint/pid/started_at/child_pid`, heartbeat < 5 s, `events.ndjson` lines 1–3 = `wheel{cause:start}` → `budget-gate` → `session-start{source:hook}`; UI `/health` ok and `/ready` `"ready"`. Failure reasons are the closed list in test-plan §3.
 - After UI readiness, byte-compare every embedded `/assets/*` with the repo file (`stale-embedded-assets`).
 - No nested `cargo run` inside nextest: tests use the `harness_session` fixture or the rstest chain `home → fake_agent_path → stamped_home → booted_wrapper`.
 
 ## status / cleanup / logs
 - `status`: `viola list --json` + `/ready` + cookie-gated `/api/info` and `/api/sessions`; `api_sessions_equal_list` deep-equals `.ok.items`; exit 0 only for `state:"ready"`.
-- `cleanup`: `stop.request` → Ctrl-C into each outer PTY → `child.wait()` 10 s → `kill()`; verify endpoint gone (CLI exit 21, socket path absent), port free, `ui/<port>.url` removed. Idempotent (no session → `ok:true, cleaned:[]`). Kill targets verified by pid + start time. `AGENT_RUN_KEEP_HOMES=1` (CI) keeps the home (`home_removed:"kept"`).
+- `cleanup`: `stop.request` → Ctrl-C into each outer PTY (into each wrapper's stdin pipe, then closed, until `viola-pty`) → `child.wait()` 10 s → `kill()`; `processes_gone` proves supervisor, wrappers and children gone (endpoint/port/url fields `null` until those surfaces exist); verify endpoint gone (CLI exit 21, socket path absent), port free, `ui/<port>.url` removed. Idempotent (no session → `ok:true, cleaned:[]`). Kill targets verified by pid + start time. `AGENT_RUN_KEEP_HOMES=1` (CI) keeps the home (`home_removed:"kept"`).
 - `logs`: merge `events.ndjson` (`src:"events"`, byte `offset`), home `diagnostics/*.ndjson` and `instances/*/diagnostics/detail-*.ndjson` (with `instance`); torn lines emitted as `{"torn":true}`, never dropped; filters `--instance --kind --process --after`.
 
 ## Fake agent (`viola-fake-agent`, feature `fake-agent`)
@@ -40,7 +40,7 @@ A change on one side keeps the other in sync; a log-format break is a harness br
 - It must not drift from recorded `viola verify` fixtures (contract suite).
 
 ## Exemptions
-- `viola-harness` and the fake agent print by design: they omit `[lints] workspace = true` and carry their own `[lints.clippy]` without `print_stdout` / `print_stderr`.
+- `viola-harness` and the fake agent print by design. `viola-e2e` omits `[lints] workspace = true` and carries its own `[lints.clippy]` without `print_stdout` / `print_stderr`; the fake agent is a `[[bin]]` of the root package (lints are per package), so it takes a crate-level `#![allow(clippy::print_stdout, clippy::print_stderr)]` once the print bans land.
 
 ## Session Additions
 _This section is owned by `/wrap-session`. setup-project preserves content added here on re-run._

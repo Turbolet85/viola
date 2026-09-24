@@ -1,0 +1,111 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+permissions: {}
+
+jobs:
+  test:
+    name: test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-2025, macos-latest, ubuntu-latest]
+    env:
+      AGENT_RUN_KEEP_HOMES: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Toolchain (rust-toolchain.toml)
+        run: rustup toolchain install
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+      - uses: taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5 # v2.87.19
+        with:
+          tool: cargo-nextest@0.9.146
+
+      - name: Unit and integration (pwsh shim)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          ./scripts/agent-run.ps1 run --unit
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          ./scripts/agent-run.ps1 run --integration
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Unit and integration (sh shim)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          bash scripts/agent-run.sh run --unit
+          bash scripts/agent-run.sh run --integration
+
+      - name: Harness lifecycle (pwsh shim)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          function Step { param([string[]]$a) ./scripts/agent-run.ps1 @a; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE } }
+          Step cleanup, --session, ci-smoke
+          Step boot, --session, ci-smoke, --instance, builder
+          Step status, --session, ci-smoke
+          $lines = ./scripts/agent-run.ps1 logs --session ci-smoke --instance builder
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $starts = @($lines | ForEach-Object { $_ | ConvertFrom-Json } | Where-Object { $_.record.event -eq 'process-start' -and $_.record.process -eq 'run' })
+          if ($starts.Count -lt 1) { Write-Error 'no process-start line from viola run'; exit 1 }
+          Step cleanup, --session, ci-smoke
+          Step cleanup, --session, ci-smoke
+      - name: Harness lifecycle (sh shim)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          bash scripts/agent-run.sh cleanup --session ci-smoke
+          bash scripts/agent-run.sh boot --session ci-smoke --instance builder
+          bash scripts/agent-run.sh status --session ci-smoke
+          bash scripts/agent-run.sh logs --session ci-smoke --instance builder \
+            | python3 -c "import json,sys; recs=[json.loads(l) for l in sys.stdin if l.strip()]; sys.exit(0 if any(r.get('record',{}).get('event')=='process-start' and r['record'].get('process')=='run' for r in recs) else 1)"
+          bash scripts/agent-run.sh cleanup --session ci-smoke
+          bash scripts/agent-run.sh cleanup --session ci-smoke
+
+      - name: Upload harness artifacts
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: agent-run-${{ matrix.os }}
+          path: target/agent-run/artifacts/
+          retention-days: 7
+          if-no-files-found: warn
+
+  mutants:
+    name: mutants
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Toolchain (rust-toolchain.toml)
+        run: rustup toolchain install
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+      - uses: taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5 # v2.87.19
+        with:
+          tool: cargo-nextest@0.9.146,cargo-mutants@27.1.0
+      - name: Mutation gate (chunk diff)
+        shell: bash
+        env:
+          AGENT_RUN_CHUNK_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: bash scripts/agent-run.sh run --mutants
+      - name: Upload mutants report
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: mutants
+          path: mutants.out/
+          retention-days: 7
+          if-no-files-found: warn

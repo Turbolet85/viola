@@ -87,3 +87,5 @@ not hypothetical. (Rendered only on Windows-host projects; inert elsewhere.)
   against the intended edit count; the diff size is what surfaced (3).
 
 ## Session Additions
+- 2026-09-24: A running `.exe` cannot be relinked on Windows (`os error 5`), and a workspace-wide cargo build/test re-fingerprints a package's bins even with identical features — any tool that runs cargo on this workspace while one of its own exes is running (the harness, a live supervisor or wrapper) uses a separate `CARGO_TARGET_DIR`.
+- 2026-09-24: Stopping a Monitor/background task leaves its `tail.exe`/`grep.exe` running and holding their files open, which blocks renames of that directory (cargo-mutants' `mutants.out` → `.old`): watch tool output with a handle-free poll (`cat` per interval), never `tail -F`, and stop leftovers by verified pid.

@@ -10,7 +10,7 @@ _Extracted from `.andromeda/architecture.md` §Conventions by `/andromeda-setup-
 
 ## Variable & identifier naming
 - Types UpperCamelCase; functions/variables snake_case; constants SCREAMING_SNAKE_CASE (standard Rust).
-- Env vars: `VIOLA_` prefix (`VIOLA_NAME`, `VIOLA_DIR`, `VIOLA_BIN`) — wrapper-to-child plumbing only, never configuration.
+- Env vars: `VIOLA_` prefix (`VIOLA_NAME`, `VIOLA_DIR`, `VIOLA_BIN`) — wrapper-to-child plumbing only, never configuration. Test-harness-only variables use `AGENT_RUN_` (`AGENT_RUN_CHUNK_BASE`, `AGENT_RUN_KEEP_HOMES`) and are never read by `viola`.
 - Product/binary/identifiers use `viola`; `BRIDGE_NAME` / `BridgeName` from earlier artifacts are superseded.
 - Error enums: one `thiserror` enum per crate named `<Crate>Error` (`PtyError`, `ChannelError`, `StateError`, `AgentError`, `McpError`, `UiError`, `CoreError`).
 

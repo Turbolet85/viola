@@ -49,3 +49,4 @@ Path-scoped rules for test authoring (what tests assert, fixtures, coverage). Lo
 
 ## Session Additions
 _This section is owned by `/wrap-session`. setup-project preserves content added here on re-run._
+- 2026-09-24: Under the zero-missed mutation gate every function needs an effect a test can observe — an unobservable body (a flag nothing reads, an env var no process consumes) is an unkillable mutant, so leave it out until its consumer exists; test code that drives cargo (nextest, doctest, cargo-mutants, a build) against a throwaway temp Cargo project (package named `viola` so `viola/<feature>` resolves), never a nested build of this workspace.

@@ -76,11 +76,11 @@
       "observed_gap": "`cargo-mutants` is installed on the host; no project runs it (H:55-59).",
       "verification": {
         "method": "integration",
-        "acceptance": "Every chunk's diff is mutation-tested in the harness run and in CI; a missed or timed-out mutant, or a missing diff base, turns the run red; each guard test in a chunk plan has a paired remove-the-guard mutation that it kills; observability code is mutated like product code.",
-        "ref": null,
-        "status": "planned"
+        "acceptance": "`agent-run run --mutants` mutation-tests the chunk diff: the working tree plus untracked files from the merge-base of the base, where the base is `AGENT_RUN_CHUNK_BASE`, then `git merge-base HEAD origin/main`, then `github.event.before` or the PR base sha in CI. An unreachable base (the all-zero sha included) exits 1 with `reason:\"base-missing\"` and leaves no `target/agent-run/chunk.diff`. The verdict reads `mutants.out/outcomes.json`: any missed or timed-out mutant, or a cargo-mutants exit of 1/4/5/6/70, exits 1. Unit tests over fixture outcomes prove each of these branches. The ubuntu `mutants` CI job runs the same command on every push and pull_request, and it concluded success on the push that carries this chunk. This chunk's own run on base `13b7ee32e6227d1cb6cecc96fbe412fe34a4e0e6` exits 0 with the `mutants` suite `survived: 0`, over a diff that contains the panic hook and the role logger, so observability code is mutated like product code. Each guard test in this plan (the base-missing guard and the mutants exit-code guard) kills its own remove-the-guard mutant within that run.",
+        "ref": "crates/viola-e2e/src/harness/run.rs::tests::{run_mutants_with_an_unreachable_base_is_base_missing_and_writes_no_diff, run_mutants_reports_survivors_of_an_untested_change, run_mutants_passes_when_the_change_is_tested, mutants_exit_codes_map_to_reasons, mutants_suite_counts_missed_and_timeout_as_survivors, resolve_base_needs_a_real_commit, chunk_diff_holds_tracked_edits_and_untracked_files} + plan gate `AGENT_RUN_CHUNK_BASE=13b7ee3… bash scripts/agent-run.sh run --mutants` (286 mutants: 244 caught, 42 unviable, 0 missed, 0 timeout; diff includes src/main.rs panic hook + src/run/mod.rs role logger) + .github/workflows/ci.yml job `mutants` (push + pull_request; CI witness = plan operator entries 17-18 at wrap)",
+        "status": "verified"
       },
-      "chunk": null
+      "chunk": "2026-09-24-three-os-ci-headless-harness-skeleton"
     },
     {
       "id": "v1-07",

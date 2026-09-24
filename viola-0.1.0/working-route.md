@@ -8,17 +8,17 @@ _verbatim line to route-archive.md); markerless lines stay mutable._
 _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` headers are structural._
 
 ### Epoch 1 — Foundation
-Three-OS CI and headless harness skeleton — SHA-pinned actions, pinned 1.96-floor toolchain, nextest, five agent-run commands, minimal fake agent, per-role JSON line, mutation gate
+[2026-09-24-three-os-ci-headless-harness-skeleton] Three-OS CI and headless harness skeleton — SHA-pinned actions, pinned 1.96-floor toolchain, nextest, five agent-run commands, minimal fake agent, per-role JSON line, mutation gate
    ↓
 Fake agent and test-data fixtures — scripted modes and control file, receipts, temp-home fixture chain under target/e2e-home, fixture scrub-and-schema walk, committed property seeds
    ↓
 Supply-chain and workflow gates — cargo-deny families with telemetry-crate and redaction-toggle bans, weekly advisory run, zizmor, tokio-free sync-crate check, least-privilege permissions
    ↓
-Diagnostics plane — per-role JSON sinks with process-start service identity, closed event vocabulary and line schemas, owner-only per-instance detail files, diagnostics_level, torn-line-aware logs merge
+Diagnostics plane — per-role JSON sinks with process-start service identity, closed event vocabulary and line schemas, owner-only per-instance detail files, diagnostics_level, torn-line-aware logs merge  CARRY: chunk 2026-09-24-three-os-ci-headless-harness-skeleton shipped the first role lines with raw `tracing::info!`/`error!` in `src/run/mod.rs` (event/process/instance passed by hand) — migrate them to `obs_event!`; its panic hook writes the payload nowhere (no `detail-run.ndjson` yet) and `process-exit{subject:"self"}` has no `duration_ms`; the harness `logs` streams only the home-level diag source (events + detail sources and `--kind`/`--after` arrive with their producers)
    ↓
 Log redaction and never-log floor — skip-all span fields, redacted payload types, fixed error displays, content-bearing records only in instance detail files
    ↓
-Observability gates — panic hook first, zero-panic, schema, bare-instrument and abort-panic gates, canary secret scan before any upload, print and raw-log lint bans
+Observability gates — panic hook first, zero-panic, schema, bare-instrument and abort-panic gates, canary secret scan before any upload, print and raw-log lint bans  CARRY: the fake agent is a `[[bin]]` of the root package (lints are per package) — when the print bans land, exempt it with a crate-level `#![allow(clippy::print_stdout, clippy::print_stderr)]` in `src/bin/viola-fake-agent.rs` (obs-plan §3 obs-ci-gate-wire as amended 2026-09-24); the obs G3 gate is written with `rg`, which is absent from the local gate shell's PATH (chunk 1 ran it as `grep -rEn`)
    ↓
 Quality gates — fatal fmt/clippy lint, MSRV 1.96 job, per-OS coverage floors, seeded property and fuzz corpus replay, zero retries, per-job gate verdict
    ↓
@@ -27,7 +27,7 @@ Workspace tree and code-graph planes — arch tree lists test/obs/a11y artifacts
 ### Epoch 2 — Windows slice I: wrapper, events, ledger
 Security prerequisites — SQOS pipe-handle spike and pure-Rust SHA-256 pick, both recorded ahead of the channel client and bin/ writes; no unprotected-connect fallback
    ↓
-PTY wrapper on Windows — viola run passthrough with zero own bytes, npm-shim resolution, .cmd refusal, CLAUDE* strip, process-handle exit, portable-pty line recorded
+PTY wrapper on Windows — viola run passthrough with zero own bytes, npm-shim resolution, .cmd refusal, CLAUDE* strip, process-handle exit, portable-pty line recorded  CARRY: chunk 2026-09-24-three-os-ci-headless-harness-skeleton's `viola run` is the first slice — `src/run/mod.rs::spawn_child` is the one spawn function whose body becomes the `viola-pty` seam (it spawns with the full inherited env today: the R8 strip is this entry's); it sets no `VIOLA_NAME`/`VIOLA_DIR`/`VIOLA_BIN` yet and emits no `run.start` span; the harness supervisor stops wrappers through a stdin pipe (`\x03` then close) until outer PTYs exist — switch `supervise` and the `run_cli` tests to the PTY form here
    ↓
 Instance state and start order — append-only event log, atomic snapshot, heartbeat, pinned bin/ copy, plugin folder, documented start order, live/stale name refusal
    ↓
@@ -66,7 +66,7 @@ Session links — driver-to-driven link on first cross-instance send or answer, 
 The board: viola list — BAY header over six-column board, liveness, status, wheel/budget pause, amber DIALOG, dim stale rows, CLI verdict, read-only unwrapped rows
 
 ### Epoch 5 — Driver surface
-CLI machine contract — --json per verb mirroring channel results, typed exits 0/1/2/10–14/20/21, cause-named hints, global --home, config.json thresholds and port
+CLI machine contract — --json per verb mirroring channel results, typed exits 0/1/2/10–14/20/21, cause-named hints, global --home, config.json thresholds and port  CARRY: chunk 2026-09-24-three-os-ci-headless-harness-skeleton resolves `--home` as given, else `<user home>/.viola`, without `std::fs::canonicalize` and without the `VIOLA_DIR`-grandparent step (security-plan §Input Validation CLI row; arch §Cross-cutting Config management)
    ↓
 CLI output discipline — linear static output on three OSes, grouped --help, colour only beside its word, zero wrapper bytes, unblocked human keys during sends
    ↓
@@ -79,7 +79,7 @@ Windows endpoint admission — pipe access for the owning user and SYSTEM only, 
    ↓
 Server verification before any frame — clients match the recorded wrapper pid and start time; CLI/MCP report unreachable, hooks fail open on mismatch
    ↓
-Home and code-bearing file integrity — owner-only home, DACL check before any diagnostics file, pinned-binary re-hash, per-start plugin rewrite, single stamp/snapshot writers
+Home and code-bearing file integrity — owner-only home, DACL check before any diagnostics file, pinned-binary re-hash, per-start plugin rewrite, single stamp/snapshot writers  CARRY: chunk 2026-09-24-three-os-ci-headless-harness-skeleton's `viola run` creates the home and `diagnostics/` with Unix 0700/0600 only — no strict-modes check before opening the role file and no Windows protected user+SYSTEM DACL for a `--home` outside `%USERPROFILE%` (test-plan §3 boot step 2 and security-plan §Anti-Patterns Data Protection state the target)
    ↓
 Bounded inputs at every boundary — size caps, depth limits, closed types, names validated before path joins, paste rule client and wrapper side
    ↓

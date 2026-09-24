@@ -1,0 +1,21 @@
+[test-groups]
+fixed-port = { max-threads = 1 }
+
+# Every test touching the default port 47319 carries `default_port` in its name.
+[[profile.default.overrides]]
+filter = 'test(/default_port/)'
+test-group = 'fixed-port'
+
+[profile.ci]
+retries = 0
+fail-fast = false
+slow-timeout = { period = "30s", terminate-after = 4 }
+
+[profile.ci.junit]
+path = "junit.xml"
+
+# A mutant that hangs a test must end as a failed (caught) test, not a cargo-mutants timeout:
+# the first failure terminates every running test at once, and a hung test is killed at 30 s.
+[profile.mutants]
+fail-fast = { max-fail = 1, terminate = "immediate" }
+slow-timeout = { period = "15s", terminate-after = 2 }

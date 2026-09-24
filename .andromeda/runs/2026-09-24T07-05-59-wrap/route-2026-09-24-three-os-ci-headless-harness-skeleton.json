@@ -1,0 +1,29 @@
+[
+{
+"tool": "route",
+"v": "1.3",
+"sha8": "14c47f47",
+"ts": "2026-09-24T07:44:22Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-09-24-three-os-ci-headless-harness-skeleton",
+"--run-dir",
+".andromeda/runs/2026-09-24T07-05-59-wrap"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"flip master-route.md:11 - 2026-09-24-three-os-ci-headless-harness-skeleton pending -> complete"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+}
+]

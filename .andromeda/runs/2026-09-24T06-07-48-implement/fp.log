@@ -1,0 +1,12 @@
+   0.065430200s  INFO prepare_target{force=false package_id=viola-e2e v0.1.0 (D:\dev\projects\viola\crates\viola-e2e) target="viola-harness"}: cargo::core::compiler::fingerprint: fingerprint dirty for viola-e2e v0.1.0 (D:\dev\projects\viola\crates\viola-e2e)/Build/TargetInner { name: "viola-harness", doc: true, ..: with_path("D:\\dev\\projects\\viola\\crates\\viola-e2e\\src\\bin\\viola-harness.rs", Edition2024) }
+   0.065488200s  INFO prepare_target{force=false package_id=viola-e2e v0.1.0 (D:\dev\projects\viola\crates\viola-e2e) target="viola-harness"}: cargo::core::compiler::fingerprint:     dirty: UnitDependencyInfoChanged { unit: UnitIndex(67) }
+   Compiling viola-e2e v0.1.0 (D:\dev\projects\viola\crates\viola-e2e)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.41s
+  Executable unittests src\main.rs (target\debug\deps\viola-820883534a4a4bdf.exe)
+  Executable unittests src\bin\viola-fake-agent.rs (target\debug\deps\viola_fake_agent-754f61dd1dde86d0.exe)
+  Executable tests\run_cli.rs (target\debug\deps\run_cli-9832ace366a81837.exe)
+  Executable unittests src\lib.rs (target\debug\deps\viola_core-206e81c264a23f07.exe)
+  Executable unittests src\lib.rs (target\debug\deps\viola_e2e-2a16c5c7de69f4c3.exe)
+  Executable unittests src\bin\viola-harness.rs (target\debug\deps\viola_harness-d3fb389e84250c9f.exe)
+  Executable tests\cli.rs (target\debug\deps\cli-7baa025bab548926.exe)
+  Executable tests\harness_lifecycle.rs (target\debug\deps\harness_lifecycle-330adacdc6839619.exe)

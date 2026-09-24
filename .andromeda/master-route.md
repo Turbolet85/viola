@@ -8,4 +8,4 @@ marker = {date}-{slug} (e.g. 2026-06-04-otlp-http-ingest), minted at promotion.
 -->
 
 ## viola-0.1.0
-_(no chunks promoted yet)_
+2026-09-24-three-os-ci-headless-harness-skeleton · complete · 3-OS CI + five-command headless harness skeleton, minimal fake agent, mutation gate · → viola-0.1.0/chunks/2026-09-24-three-os-ci-headless-harness-skeleton/

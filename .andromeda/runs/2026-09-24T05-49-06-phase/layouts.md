@@ -1,0 +1,4 @@
+# layouts extract
+
+## No domain coverage
+This chunk builds only the workspace, toolchain, nextest config, the `viola-harness` agent-run commands (a test-plan §3 JSON contract, not a product surface), the fake `claude` stand-in, one NDJSON diagnostics line and CI. None of that renders on either surface in layout-templates. There is no web-spa bay, no `viola` verb output (§Surface: cli · Output structure) and no focus, responsive, modal or empty-state element. The one loose link: if the newborn `viola` bin prints anything, it must not print a banner, per layout-templates §Surface: cli · Component — Header / banner "No banner anywhere". Whether the bin prints anything at all is research's question. The amendment sidecar `D:/dev/projects/viola/.andromeda/layout-templates-amendments.md` does not exist, so the history is empty.

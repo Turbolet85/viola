@@ -7,7 +7,7 @@ _Extracted from architecture.md and project conventions by `/andromeda-setup-pro
 - **Commit format:** conventional commits (`feat:`, `fix:`, `chore:`, `refactor:`, `docs:`, `test:`, `perf:`, `build:`, `ci:`); wrap commits each chunk.
 - **Main branch:** `main`
 - **Never force push** to main; the version branch is pushed at every wrap commit (the remote matches local HEAD on exit).
-- **PRs:** CI runs on push and PR (`ci.yml`); the mutation job diffs against the PR base (`AGENT_RUN_CHUNK_BASE`).
+- **PRs:** CI runs on push and PR (`ci.yml`); the `mutants` job diffs against `AGENT_RUN_CHUNK_BASE` = the PR base sha, or else the push's `github.event.before` (this project pushes one build branch, so the push trigger is what fires per chunk).
 
 ## Andromeda workflow
 

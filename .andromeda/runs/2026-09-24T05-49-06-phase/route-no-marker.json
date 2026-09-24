@@ -1,0 +1,26 @@
+[
+{
+"tool": "route",
+"v": "1.3",
+"sha8": "473d2729",
+"ts": "2026-09-24T05:49:18Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-09-24T05-49-06-phase"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 50 of 50 entries · freight blocks 0 · rows are an INDEX, not the text",
+"no freight block on a markerless entry matched (116 lines read) — an empty listing is a verdict, not an absence proof"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

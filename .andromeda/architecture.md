@@ -10,7 +10,7 @@
 
 | Layer | Technology | Role |
 |---|---|---|
-| Language / runtime | Rust stable (host 1.95; workspace `rust-version = "1.89"`, edition 2024) | One native binary `viola` / `viola.exe`. 1.89 is the highest floor among the dependencies (std `File::lock`); axum needs 1.80 and rmcp 1.88 |
+| Language / runtime | Rust 1.98.1, pinned exactly by `rust-toolchain.toml` (rustfmt + clippy); workspace `rust-version = "1.96"`, edition 2024 | One native binary `viola` / `viola.exe`. 1.96 is the declared floor (the security toolchain floor; sysinfo 0.39.6 needs 1.95, std `File::lock` 1.89, rmcp 1.88, axum 1.80) |
 | Backend framework (concurrency model) | Hybrid: std threads for `run`, `hook`, `send`, `wait` and every other CLI verb; Tokio 1.53.1 built only inside `mcp`, `ui` | No async runtime on the hot `hook` path. The async ecosystem is used only where rmcp and axum require it |
 | HTTP server (GUI) | axum 0.8.9 (feature `sse`) + tower-http 0.7.1 (`CompressionLayer`, with `text/event-stream` excluded) | View-only GET routes and the SSE feed on 127.0.0.1 |
 | CLI parser | clap 4.6.7 (derive) | Subcommands `run · send · wait · last · list · answer · hook · mcp · ui · verify · pause · release · link · unlink · plugin install` |
@@ -20,7 +20,8 @@
 | Database | None. ndjson append logs + atomically replaced JSON snapshots on the local filesystem | Authoritative audit trail and mutable state (wheel mirror, links, budget readings) |
 | ORM / migrations | N/A. Every record carries `v`, readers skip unknown kinds and fields, and a snapshot with an unsupported `v` is rebuilt by replaying the log | Stands in for schema migration |
 | State-file primitives | atomic-write-file 0.3.1 (snapshots); std `File::lock` on separate `.lock` files; std `OpenOptions::append` (one `write` per line) | Crash-safe multi-process writes with no C code |
-| Serialization | serde 1.0.229, serde_json 1.0.151, serde_path_to_error 0.1.20 | Channel frames, log events, snapshots, tolerant parsing of external payloads with path-precise drift reports |
+| Serialization | serde 1.0.229, serde_json 1.0.151 (feature `preserve_order`, which pulls indexmap), serde_path_to_error 0.1.20 | Channel frames, log events, snapshots, tolerant parsing of external payloads with path-precise drift reports; `preserve_order` keeps a printed document's declared key order (e.g. `{"v":1,"cmd":…,"ok":…}`) |
+| Logging | tracing 0.1.44 (default features off, `std`); tracing-subscriber 0.3.23 (default features off, `fmt,json,registry,std`; root bin only) | One-line JSON process logs into the viola home's `diagnostics/`; the line format and levels are owned by the obs plan |
 | Domain newtypes | nutype 0.8.0 | `ViolaName` (charset + length cap), `Percent` (0–100) |
 | Timestamps | chrono 0.4.45 | RFC 3339 UTC, millisecond precision. Already in the tree through rmcp |
 | Error types | thiserror 2.0.20 (per crate); anyhow 1.0.104 (bin edge only) | Typed errors that callers can branch on; context chains only at dispatch |
@@ -31,7 +32,7 @@
 | AI/ML serving | N/A | viola calls no model API. It drives the unmodified `claude` CLI on the user's subscription |
 | Mobile framework | N/A | The phone view is a later version: the same web page behind authentication |
 | Container runtime / deployment | None. `cargo install --path .`; Claude Code plugin compiled into the binary (`include_str!`) and written out by `viola run` | Local-only v1, no hosting |
-| CI/CD | GitHub Actions matrix `windows-2025`, `macos-latest` (macOS 26), `ubuntu-latest`; dtolnay/rust-toolchain; Swatinem/rust-cache 2.9.2 | Build, lint and test on all three OSes against the fake agent, on native runners |
+| CI/CD | GitHub Actions matrix `windows-2025`, `macos-latest` (macOS 26), `ubuntu-latest`; toolchain installed by `rustup toolchain install` from `rust-toolchain.toml` (no toolchain action); SHA-pinned actions/checkout 7.0.1, Swatinem/rust-cache 2.9.2, taiki-e/install-action 2.87.19, actions/upload-artifact 7.0.1 | Build, lint and test on all three OSes against the fake agent, on native runners |
 | Code quality | rustfmt, clippy (`-D warnings`), `cargo check`; cargo-deny 0.20.2 (licences, C-dependency bans); cargo-modules 0.27.0 (module graph review) | Lint, typecheck, dependency policy, boundary review |
 | Release (v1.x, not v1) | dist (cargo-dist) 0.33.0 + cargo-auditable 0.7.6; later self_update 1.3.0 | Public signed releases and installers once distribution is in scope |
 
@@ -92,7 +93,7 @@
 - **[Timestamps] chrono 0.4.45, RFC 3339 UTC, millisecond precision everywhere viola writes.** External `resets_at` is parsed tolerantly, and a malformed value becomes `unknown`, never an error. Rationale: chrono is already in the tree through rmcp, and external clocks must never break parsing.
 - **[Validation] Two regimes.** External payloads (hook JSON, `claude agents --json`, statusline) are parsed tolerantly: no `deny_unknown_fields`, `#[serde(default)]` / `Option<T>`, the raw `serde_json::Value` kept for the fixture recorder, and serde_path_to_error for drift reports. viola's own formats are versioned-tolerant: every channel `params`, event and snapshot carries `v`, and readers skip and count unknown kinds and fields. nutype newtypes `ViolaName` and `Percent`. No garde or validator. Rationale: the CLI changes between builds, and parsing must never break when the ledger is the thing that decides behaviour. `deny_unknown_fields` on own formats was rejected because mixed binary versions are real.
 - **[Error Handling] thiserror 2.0.20, one enum per workspace crate; anyhow 1.0.104 only in the `viola` bin's `main` and dispatch.** `RefusalReason` lives in `viola-core`. Rationale: callers branch on refusal variants across three surfaces (channel, CLI exit codes, MCP `isError`). anyhow's context chains are only useful where errors reach a human.
-- **[Module Boundaries] Cargo workspace, flat `crates/` layout, with the root `Cargo.toml` as both the `viola` bin package and `[workspace]`.** Members: `viola-core`, `viola-pty`, `viola-channel`, `viola-state`, `viola-agent-claude`, `viola-mcp`, `viola-ui`. Only `viola-mcp` and `viola-ui` list `tokio`, and `viola-channel`'s Tokio client sits behind a `tokio` feature only `viola-mcp` enables. Rationale: the compiler enforces that `viola-pty` cannot see `viola-agent-claude`. `cargo install --path .` requires the bin at the root. cargo_pup needs nightly and was rejected.
+- **[Module Boundaries] Cargo workspace, flat `crates/` layout, with the root `Cargo.toml` as both the `viola` bin package and `[workspace]`.** Members: `viola-core`, `viola-pty`, `viola-channel`, `viola-state`, `viola-agent-claude`, `viola-mcp`, `viola-ui`, plus the test-only `viola-e2e` (the `viola-harness` agent-run harness; no product crate depends on it). Each product crate is created by the first chunk that consumes it. Only `viola-mcp` and `viola-ui` list `tokio`, and `viola-channel`'s Tokio client sits behind a `tokio` feature only `viola-mcp` enables. Rationale: the compiler enforces that `viola-pty` cannot see `viola-agent-claude`. `cargo install --path .` requires the bin at the root. cargo_pup needs nightly and was rejected.
 - **[Deployment / Distribution] `cargo install --path .`, with the plugin compiled into the binary (KEYSTONE).** `hooks/hooks.json`, `.mcp.json` and `.claude-plugin/plugin.json` are embedded via `include_str!`, and `plugin.json`'s version comes from `CARGO_PKG_VERSION`. At start, `viola run` copies its own exe to `<viola home>/bin/<CARGO_PKG_VERSION>-<short content hash>/viola(.exe)` if that copy is absent. It writes the plugin files to `<viola home>/plugin/<CARGO_PKG_VERSION>-<short content hash>/` and substitutes the copy's path (forward slashes) into every exec-form `command` in `hooks.json` and `.mcp.json`. It then passes that folder with `--plugin-dir`, sets `VIOLA_BIN` to the copy and puts the copy's folder first on the child's PATH. Hooks and MCP never search PATH. Rationale: the binary and the plugin can no longer drift apart. The prototype proved that PATH-found hooks run a different binary from the wrapper after a rebuild. The content hash is part of the key because `CARGO_PKG_VERSION` stays `0.1.0` across development rebuilds, so the version alone would collide. A rebuild therefore never changes what a running session calls. Known trade-off: a hook fix applies only to sessions started after the rebuild. The per-frame `v` + sender version stays as the second safety net, for the optional user-level install (`viola plugin install`), which is not bound to a wrapper's pinned copy.
 - **[Plugin Scope] The plugin loads only into wrapped sessions via `--plugin-dir`.** Both driver and driven run under `viola run`. `viola plugin install` (a local marketplace) is optional, for the MCP verbs in an unwrapped driver. The installed plugin carries only `.mcp.json` and no hooks, so a wrapped session that also has it installed never runs two hook processes for one event (two `hook.dialog` requests for one dialog). Its `command` is the absolute path of the exe that ran `plugin install`, never a PATH lookup. Whether Claude Code loads both a `--plugin-dir` plugin and an installed plugin with the same name, and which `viola` MCP server a wrapped session then uses, is a capability-ledger row. Rationale: unwrapped sessions carry no viola hooks at all, so there is no per-tool-call spawn cost outside viola.
 - **[CLI Conventions] Human text by default, `--json` for agents, a typed exit code per refusal. Prompt text comes from stdin or `--file`, never from a leading-slash argument.** viola warns when an argument carries a Git Bash rewritten-path prefix. Rationale: Git Bash rewrites `/skill` arguments into Windows paths (brief §6), and agents need machine-parseable refusals.
@@ -166,7 +167,7 @@
   - SessionEnd → `session-end`.
   - Notification, PostToolUse and PostToolUseFailure → `activity`. It is log-only and never wakes `wait`.
   - `hook statusline` emits no event.
-- **Environment variables:** `VIOLA_` prefix, SCREAMING_SNAKE_CASE.
+- **Environment variables:** `VIOLA_` prefix, SCREAMING_SNAKE_CASE, for every variable the product reads or sets. Test-harness-only variables use the `AGENT_RUN_` prefix and are never read by the `viola` binary.
 - **On-disk files:** lower-case with `.ndjson` for logs, `.json` for snapshots and `.lock` for lock files, one lock file per guarded file (`<name>.lock`).
 - **CLI:** flags are kebab-case long options (`--json`, `--file`, `--budget`, `--port`, and the global `--home`). Subcommands are single lower-case words. Verb arguments mirror the channel `params`: `viola send <target>` (text from stdin or `--file`), `viola wait <target> [--after <cursor>] [--timeout-ms <n>]`, `viola last <target>`, `viola answer <target> <dialog_id>` (the `response` object as JSON from stdin or `--file`), `viola pause <target>`, `viola release <target> [--budget]`, `viola link <driver> <driven>`, `viola unlink <driver> <driven>`. Like the MCP server, the CLI adds `from` from its own `VIOLA_NAME` when set.
 
@@ -333,6 +334,7 @@ The wrapper appends `wheel` and `budget-gate` (`source: wrapper`) once at start 
 
 **Binary, subcommands and exit codes**
 - Binary: `viola` (`viola.exe`).
+- Test-only binaries, never in a release build: `viola-fake-agent` (a `[[bin]]` of the root package behind feature `fake-agent`, the stand-in `claude`) and `viola-harness` (in `viola-e2e`, behind `scripts/agent-run.{sh,ps1}`; its command contract is test-plan §3).
 - Subcommands: `run`, `send`, `wait`, `last`, `list`, `answer`, `hook <event>`, `mcp`, `ui`, `verify`, `pause`, `release` (incl. `--budget`), `link`, `unlink`, `plugin install`.
 - Hook event arguments: `session-start`, `user-prompt-submit`, `pre-tool-use`, `permission-request`, `stop`, `session-end`, `notification`, `post-tool-use`, `post-tool-use-failure`, plus `statusline` (the per-session statusline wrapper).
 - Exit codes `0, 1, 2, 10–14, 20, 21` as defined in Conventions.
@@ -345,6 +347,7 @@ The wrapper appends `wheel` and `budget-gate` (`source: wrapper`) once at start 
 
 **Workspace crates**
 - `viola` (root bin), `viola-core`, `viola-pty`, `viola-channel`, `viola-state`, `viola-agent-claude`, `viola-mcp`, `viola-ui`.
+- Test-only: `viola-e2e` (harness library + bin `viola-harness`, `publish = false`; declares a no-op `fake-agent` feature so package-scoped `--features fake-agent` invocations resolve).
 
 **Environment variables**
 - `VIOLA_NAME`: the instance's `ViolaName`. It is set by `viola run` in the child, and its absence makes every hook a silent exit 0.
@@ -353,25 +356,30 @@ The wrapper appends `wheel` and `budget-gate` (`source: wrapper`) once at start 
 - `PATH`: prefixed by `viola run` with the pinned copy's folder for the child.
 - Removed from the child's environment (R8 strip list, a ledger row): `CLAUDECODE`, `CLAUDE_CODE_SESSION_ID`, `CLAUDE_CODE_BRIDGE_SESSION_ID`, `CLAUDE_CODE_MESSAGING_SOCKET`, `CLAUDE_CODE_MESSAGING_TOKEN` and the remaining `CLAUDE*` parent-identity variables on the measured list.
 - Read-only, provided by Claude Code to plugin processes: `CLAUDE_PLUGIN_ROOT`, `CLAUDE_PLUGIN_DATA`. viola never uses them to locate its binary.
+- Test-harness only, read by `viola-harness` and never by `viola`: `AGENT_RUN_CHUNK_BASE` (the mutation gate's diff base) and `AGENT_RUN_KEEP_HOMES` (`1` keeps `target/e2e-home/` homes for the CI gates).
 
 **Filesystem (viola home = `<user home>/.viola/`)**
 - `config.json`: user settings (budget thresholds, GUI port).
 - `bin/<version>-<hash>/viola(.exe)`: the pinned copy of the binary that `viola run` creates if it is absent, where `<hash>` is a short hash of the exe's content. v1 never deletes pinned copies or plugin folders. Each instance snapshot records the pinned path it uses, so any later cleanup (an open item) can skip copies that a live or `stale` instance still calls.
 - `plugin/<version>-<hash>/.claude-plugin/plugin.json`, `plugin/<version>-<hash>/hooks/hooks.json`, `plugin/<version>-<hash>/.mcp.json`.
 - `marketplace/`: written only by `viola plugin install`.
+- `diagnostics/`: home-level per-role process logs, codes only (`run-<name>.ndjson` today, one line per `write`; dir 0700, files 0600 on Unix; line format owned by obs). Content-bearing detail stays in `instances/<ViolaName>/diagnostics/`.
 - `instances/<ViolaName>/events.ndjson`, `events.ndjson.lock`, `snapshot.json`, `snapshot.json.lock`, `heartbeat`, `settings.json` (the per-session settings override that wraps the statusline), `diagnostics/` (reserved for `hook`, wrapper and in-session `mcp` diagnostics; file format owned by obs). v1 never rotates or truncates `events.ndjson`, because `wait`'s `after`, `send`'s `cursor` and SSE ids are byte offsets into it. Bounding its size is an open item, and any scheme must keep existing offsets valid.
 - `budget.json` + `budget.json.lock`: the newest `rate_limits` reading across wrapped sessions, timestamped, last-writer-wins. Written only by `hook statusline`. Read by each wrapper's budget gate ([Budget Governor]), and by `list` and `ui` for the envelope's top-level `budget`.
 - `ledger/stamps.json` + `ledger/stamps.json.lock`: `viola verify` stamps (CLI version → verified behaviours, plus the values measured for that version, such as the confirmation window). The rows themselves (probes and expected post-conditions) are compiled into `viola-agent-claude`. Read by `run`'s version gate and by `ui` (`verified_cli_versions`).
 
 **Repository**
 - `fixtures/claude/<cli-version>/`: hook-payload fixtures recorded by `viola verify` and replayed by the fake agent in CI.
+- `target/agent-run/<session>/` (harness session record, supervisor handshake files, the session's `bin/claude[.exe]` copy), `target/agent-run/chunk.diff` and `target/agent-run/artifacts/` (per-suite JUnit, `run-summary.json`): written by `viola-harness`, gitignored.
+- `target/e2e-home/viola-session-*/home`: every harness and test home, kept in CI for the obs gates.
+- `target/harness/`: the harness's own cargo target dir (`CARGO_TARGET_DIR` for its builds and test runs), because a running `target/debug/viola-harness.exe` cannot be relinked on Windows.
 
 **Docker volumes, containers, service names:** none.
 
 ## Infrastructure Patterns
 
 **Build system**
-- Cargo workspace with `resolver = "3"` (the edition 2024 default, which prefers dependency versions compatible with `rust-version = "1.89"`). Shared `version.workspace = true` and `[workspace.dependencies]` pin every third-party version in one place (portable-pty as `=0.8.1`; rmcp minor pinned as `~3.4`).
+- Cargo workspace with `resolver = "3"` (the edition 2024 default, which prefers dependency versions compatible with `rust-version = "1.96"`). Shared `version.workspace = true` and `[workspace.dependencies]` pin every third-party version in one place (portable-pty as `=0.8.1`; rmcp minor pinned as `~3.4`).
 - Lint: `cargo fmt --all --check` and `cargo clippy --workspace --all-targets -- -D warnings`.
 - Typecheck: `cargo check --workspace --all-targets`.
 - Dependency policy: `cargo deny check` (licences, bans on C-building crates such as `cc`, `libsqlite3-sys` and `openssl-sys`, and a ban on `tokio` anywhere in the normal dependency graph, direct or transitive, of `viola-core`, `viola-pty`, `viola-channel` without its feature, `viola-state` and `viola-agent-claude`, evaluated for the Windows, macOS and Linux target triples so `cfg`-gated dependencies are covered). The ban is checked over the graph with `viola`, `viola-mcp` and `viola-ui` excluded, not with a direct-parent allowlist, because Tokio could otherwise arrive unnoticed through a third-party feature such as interprocess's or notify's.
@@ -399,7 +407,7 @@ The wrapper appends `wheel` and `budget-gate` (`source: wrapper`) once at start 
 viola/
 ├── Cargo.toml                  # [package] viola (bin) + [workspace] members = ["crates/*"]
 ├── Cargo.lock
-├── rust-toolchain.toml         # channel = "stable", components = ["rustfmt", "clippy"]
+├── rust-toolchain.toml         # channel = "1.98.1" (exact pin), components = ["rustfmt", "clippy"]
 ├── deny.toml                   # cargo-deny: licences, C-crate bans, tokio bans
 ├── .gitignore
 ├── plugin/                     # embedded via include_str!, written out by `viola run`
@@ -410,7 +418,9 @@ viola/
 │   ├── main.rs                 # clap 4.6.7 dispatch
 │   ├── cmd/                    # one module per subcommand: run, send, wait, last, list,
 │   │                           #   answer, hook, mcp, ui, verify, pause, release, link, unlink, plugin
-│   └── run/                    # PTY pump, wheel, budget governor, readiness gate wiring
+│   ├── run/                    # PTY pump, wheel, budget governor, readiness gate wiring
+│   └── bin/viola-fake-agent.rs # test-only stand-in `claude` (feature `fake-agent`)
+├── tests/                      # root integration tests (sync)
 ├── crates/
 │   ├── viola-core/             # normalised events, RefusalReason, ViolaName, Percent, `v` constants
 │   ├── viola-pty/              # pty seam over portable-pty =0.8.1 (+ windows-sys kill fallback)
@@ -419,7 +429,10 @@ viola/
 │   ├── viola-agent-claude/     # hook parsing, dialog mapping, R8 strip, shim resolution,
 │   │                           #   capability ledger, screen signatures, statusline parsing
 │   ├── viola-mcp/              # rmcp 3.4.1 stdio server, thin adapter over viola-channel
-│   └── viola-ui/               # axum 0.8.9 GET routes + SSE, Host allowlist
+│   ├── viola-ui/               # axum 0.8.9 GET routes + SSE, Host allowlist
+│   └── viola-e2e/              # test-only: viola-harness (agent-run boot/run/status/cleanup/logs)
+├── scripts/agent-run.{sh,ps1}  # identical shims over viola-harness
+├── .config/nextest.toml        # nextest profiles `ci` and `mutants`, `fixed-port` group
 ├── fixtures/
 │   └── claude/<cli-version>/   # hook-payload fixtures recorded by `viola verify`
 ├── .github/
@@ -430,8 +443,10 @@ viola/
 
 **CI/CD approach**
 - GitHub Actions, one workflow `ci.yml`, triggered on push and pull request, with matrix `os: [windows-2025, macos-latest, ubuntu-latest]` on native runners.
-- Setup steps: `dtolnay/rust-toolchain@stable` with rustfmt and clippy, then `Swatinem/rust-cache@v2.9.2`.
-- Jobs per OS:
+- Least privilege: `permissions: {}` at the workflow top and `contents: read` per job; every `uses:` pinned by full commit SHA with a version comment.
+- Setup steps: `actions/checkout` v7.0.1 (`persist-credentials: false`), `rustup toolchain install` (reads `rust-toolchain.toml`: the exact pin plus rustfmt and clippy; no toolchain action), `Swatinem/rust-cache` v2.9.2, and `taiki-e/install-action` v2.87.19 for the version-pinned cargo tools.
+- Jobs wired today: `test` (per OS: harness `run --unit` / `--integration` through the OS's shim, then the boot → status → logs → cleanup lifecycle; `AGENT_RUN_KEEP_HOMES=1`; `target/agent-run/artifacts/` uploaded as `agent-run-<os>` with actions/upload-artifact v7.0.1) and `mutants` (ubuntu, on push and pull_request: `agent-run run --mutants` over the chunk diff, base = the PR base sha or `github.event.before`, passed through `env:`).
+- Target jobs per OS, each wired by the chunk that owns it (Supply-chain gates, Quality gates, Workspace tree):
   1. `cargo fmt --all --check`
   2. `cargo clippy --workspace --all-targets -- -D warnings`
   3. `cargo check -p viola-core -p viola-pty -p viola-channel -p viola-state -p viola-agent-claude` (proves the sync crates, including the `hook` path, compile on each OS without `viola-channel`'s `tokio` feature; the ban itself is enforced by job 4)
@@ -455,7 +470,7 @@ viola/
 - **Capability ledger as the single gate for CLI-specific behaviour.** Any new dependence on an undocumented `claude` behaviour is added as a ledger row in `viola-agent-claude`, with a `viola verify` probe that has a post-condition check. It is never hard-coded as an unconditional assumption.
 - **Tokio containment.** New code on the `run`, `hook`, `send` or channel-server paths uses std threads and blocking I/O. Only `viola-mcp` and `viola-ui` may build a runtime. CLI `wait` is a blocking read on `viola-channel`'s sync client.
 - **Crash-safe disk writes.** Append-only logs use one `write` per line. Mutable files are replaced atomically. Every guarded file has its own `.lock` sibling. Readers always tolerate a torn last line.
-- **Diagnostic output channels.** `hook` writes only its decision body to stdout and nothing to stderr (Hook Contract). While the child runs, `run` writes nothing to the terminal except the child's own output, because the terminal carries the child's screen. Its diagnostics go to the instance's `diagnostics/`. `mcp` writes only MCP frames to stdout. Its diagnostics go to stderr, or to the instance's `diagnostics/` when `VIOLA_DIR` is set. `ui` and short-lived CLI verbs may use stderr. The logger and the format are owned by obs.
+- **Diagnostic output channels.** `hook` writes only its decision body to stdout and nothing to stderr (Hook Contract). While the child runs, `run` writes nothing to the terminal except the child's own output, because the terminal carries the child's screen. Its codes-only process log goes to the home-level `diagnostics/run-<name>.ndjson`; content-bearing detail belongs in the instance's `diagnostics/`. `mcp` writes only MCP frames to stdout. Its diagnostics go to stderr, or to the instance's `diagnostics/` when `VIOLA_DIR` is set. `ui` and short-lived CLI verbs may use stderr. The logger and the format are owned by obs.
 - **Cross-platform discipline.**
   - Every path written into plugin files uses forward slashes.
   - Nothing shells out through `sh`, `bash` or `cmd`, except `hook statusline` running the user's own statusline command (see Hook contract).
@@ -487,7 +502,7 @@ viola/
 
 ## Inherited Defaults
 
-- Framework: Rust stable (MSRV 1.89, edition 2024). A sync std-thread core; Tokio 1.53.1 only in `mcp`/`ui`; axum 0.8.9 for HTTP/SSE; rmcp 3.4.1 for MCP; clap 4.6.7 for the CLI.
+- Framework: Rust 1.98.1, pinned by `rust-toolchain.toml` (MSRV 1.96, edition 2024). A sync std-thread core; Tokio 1.53.1 only in `mcp`/`ui`; axum 0.8.9 for HTTP/SSE; rmcp 3.4.1 for MCP; clap 4.6.7 for the CLI.
 - Database: none. ndjson append logs + atomic JSON snapshots (atomic-write-file 0.3.1) + std `File::lock`, serde_json 1.0.151.
 - IPC: interprocess 2.4.4 local sockets, one endpoint per `viola run`, JSON-RPC 2.0 over ndjson with `v` + sender version in every `params`.
 - API style: view-only GET under `/api/` + SSE `/api/events` on `127.0.0.1:47319`; RFC 9457 Problem Details for HTTP errors; typed `RefusalReason` in `result.refusal`.
