@@ -1,0 +1,85 @@
+src/bin/viola-fake-agent.rs:57:9: replace Opts::parse -> Self with Default::default()
+src/bin/viola-fake-agent.rs:62:17: delete match arm "--version" in Opts::parse
+src/bin/viola-fake-agent.rs:63:17: delete match arm "--cli-version" in Opts::parse
+src/bin/viola-fake-agent.rs:64:17: delete match arm "--report-version" in Opts::parse
+src/bin/viola-fake-agent.rs:65:17: delete match arm "--script" in Opts::parse
+src/bin/viola-fake-agent.rs:66:17: delete match arm "--control" in Opts::parse
+src/bin/viola-fake-agent.rs:67:17: delete match arm "--receipt" in Opts::parse
+src/bin/viola-fake-agent.rs:68:17: delete match arm "--fixtures" in Opts::parse
+src/bin/viola-fake-agent.rs:69:17: delete match arm "--plugin-dir" in Opts::parse
+src/bin/viola-fake-agent.rs:70:17: delete match arm "--suppress-prompt-submit" in Opts::parse
+src/bin/viola-fake-agent.rs:71:17: delete match arm "--local-command-mode" in Opts::parse
+src/bin/viola-fake-agent.rs:72:17: delete match arm "--inject-harness-turn" in Opts::parse
+src/bin/viola-fake-agent.rs:73:17: delete match arm "--exit-no-eof" in Opts::parse
+src/bin/viola-fake-agent.rs:74:17: delete match arm HOLD_STDOUT in Opts::parse
+src/bin/viola-fake-agent.rs:82:9: replace Opts::cli_version -> &str with ""
+src/bin/viola-fake-agent.rs:82:9: replace Opts::cli_version -> &str with "xyzzy"
+src/bin/viola-fake-agent.rs:86:9: replace Opts::version_answer -> String with String::new()
+src/bin/viola-fake-agent.rs:86:9: replace Opts::version_answer -> String with "xyzzy".into()
+src/bin/viola-fake-agent.rs:96:9: replace Receipt::open -> Self with Default::default()
+src/bin/viola-fake-agent.rs:106:9: replace Receipt::write with ()
+src/bin/viola-fake-agent.rs:120:5: replace hex -> String with String::new()
+src/bin/viola-fake-agent.rs:120:5: replace hex -> String with "xyzzy".into()
+src/bin/viola-fake-agent.rs:133:5: replace parse_script -> Option<Vec<Step>> with None
+src/bin/viola-fake-agent.rs:133:5: replace parse_script -> Option<Vec<Step>> with Some(vec![])
+src/bin/viola-fake-agent.rs:133:5: replace parse_script -> Option<Vec<Step>> with Some(vec![Default::default()])
+src/bin/viola-fake-agent.rs:134:17: replace != with == in parse_script
+src/bin/viola-fake-agent.rs:154:5: replace hook_commands -> Vec<(String, Vec<String>)> with vec![]
+src/bin/viola-fake-agent.rs:154:5: replace hook_commands -> Vec<(String, Vec<String>)> with vec![(String::new(), vec![])]
+src/bin/viola-fake-agent.rs:154:5: replace hook_commands -> Vec<(String, Vec<String>)> with vec![(String::new(), vec![String::new()])]
+src/bin/viola-fake-agent.rs:154:5: replace hook_commands -> Vec<(String, Vec<String>)> with vec![(String::new(), vec!["xyzzy".into()])]
+src/bin/viola-fake-agent.rs:154:5: replace hook_commands -> Vec<(String, Vec<String>)> with vec![("xyzzy".into(), vec![])]
+src/bin/viola-fake-agent.rs:154:5: replace hook_commands -> Vec<(String, Vec<String>)> with vec![("xyzzy".into(), vec![String::new()])]
+src/bin/viola-fake-agent.rs:154:5: replace hook_commands -> Vec<(String, Vec<String>)> with vec![("xyzzy".into(), vec!["xyzzy".into()])]
+src/bin/viola-fake-agent.rs:164:31: replace == with != in hook_commands
+src/bin/viola-fake-agent.rs:183:5: replace payload -> Vec<u8> with vec![]
+src/bin/viola-fake-agent.rs:183:5: replace payload -> Vec<u8> with vec![0]
+src/bin/viola-fake-agent.rs:183:5: replace payload -> Vec<u8> with vec![1]
+src/bin/viola-fake-agent.rs:185:9: delete match arm Ok(Value::Object(mut obj)) in payload
+src/bin/viola-fake-agent.rs:201:9: replace Agent::fire -> &'static str with ""
+src/bin/viola-fake-agent.rs:201:9: replace Agent::fire -> &'static str with "xyzzy"
+src/bin/viola-fake-agent.rs:228:9: replace Agent::run_hook with ()
+src/bin/viola-fake-agent.rs:228:12: delete ! in Agent::run_hook
+src/bin/viola-fake-agent.rs:262:9: replace Agent::submit with ()
+src/bin/viola-fake-agent.rs:265:48: replace && with || in Agent::submit
+src/bin/viola-fake-agent.rs:284:9: replace Agent::wait_control with ()
+src/bin/viola-fake-agent.rs:290:67: replace == with != in Agent::wait_control
+src/bin/viola-fake-agent.rs:291:33: replace + with - in Agent::wait_control
+src/bin/viola-fake-agent.rs:291:33: replace + with * in Agent::wait_control
+src/bin/viola-fake-agent.rs:291:28: replace + with - in Agent::wait_control
+src/bin/viola-fake-agent.rs:291:28: replace + with * in Agent::wait_control
+src/bin/viola-fake-agent.rs:302:9: replace Agent::run_steps with ()
+src/bin/viola-fake-agent.rs:319:5: replace start_receipts with ()
+src/bin/viola-fake-agent.rs:364:9: replace Input::feed -> Vec<Action> with vec![]
+src/bin/viola-fake-agent.rs:364:9: replace Input::feed -> Vec<Action> with vec![Default::default()]
+src/bin/viola-fake-agent.rs:367:56: replace - with + in Input::feed
+src/bin/viola-fake-agent.rs:367:56: replace - with / in Input::feed
+src/bin/viola-fake-agent.rs:372:25: replace || with && in Input::feed
+src/bin/viola-fake-agent.rs:372:17: replace == with != in Input::feed
+src/bin/viola-fake-agent.rs:372:28: delete ! in Input::feed
+src/bin/viola-fake-agent.rs:374:25: replace == with != in Input::feed
+src/bin/viola-fake-agent.rs:384:28: replace == with != in Input::feed
+src/bin/viola-fake-agent.rs:394:9: replace Input::plain -> Vec<Action> with vec![]
+src/bin/viola-fake-agent.rs:394:9: replace Input::plain -> Vec<Action> with vec![Default::default()]
+src/bin/viola-fake-agent.rs:395:13: delete match arm 0x03 in Input::plain
+src/bin/viola-fake-agent.rs:396:13: delete match arm b'\r' in Input::plain
+src/bin/viola-fake-agent.rs:398:20: delete ! in Input::plain
+src/bin/viola-fake-agent.rs:412:5: replace hold_inherited_stdout with ()
+src/bin/viola-fake-agent.rs:420:5: replace main -> ExitCode with Default::default()
+src/bin/viola-fake-agent.rs:452:8: delete ! in main
+crates/viola-core/src/lib.rs:9:38: replace * with +
+crates/viola-core/src/lib.rs:9:38: replace * with /
+crates/viola-core/src/lib.rs:9:31: replace * with +
+crates/viola-core/src/lib.rs:9:31: replace * with /
+crates/viola-core/src/lib.rs:21:5: replace is_valid_name -> bool with true
+crates/viola-core/src/lib.rs:21:5: replace is_valid_name -> bool with false
+crates/viola-core/src/lib.rs:27:9: replace && with || in is_valid_name
+crates/viola-core/src/lib.rs:26:9: replace && with || in is_valid_name
+crates/viola-core/src/lib.rs:25:17: replace <= with > in is_valid_name
+crates/viola-core/src/lib.rs:29:67: replace || with && in is_valid_name
+crates/viola-core/src/lib.rs:29:45: replace || with && in is_valid_name
+crates/viola-core/src/lib.rs:29:73: replace == with != in is_valid_name
+crates/viola-e2e/src/bin/viola-harness.rs:103:5: replace emit -> ExitCode with Default::default()
+crates/viola-e2e/src/bin/viola-harness.rs:108:5: replace main -> ExitCode with Default::default()
+crates/viola-e2e/src/bin/viola-harness.rs:154:47: delete ! in main
+crates/viola-e2e/src/bin/viola-harness.rs:175:78: replace == with != in main

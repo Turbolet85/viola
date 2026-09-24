@@ -1,0 +1,16 @@
+# metrics.py after-readings, working tree after /implement (gate run 2, 2026-09-24)
+## gate 1
+run.rs code 472
+files 38
+0
+## gate 2
+functions 846
+0
+## gate 3
+pairs 7
+0
+## in-diff mutation gate (gate 15, windows host leg, base 9df9e45)
+Found 143 mutants to test
+143 mutants tested in 12m: 138 caught, 5 unviable
+## first run (before the FUZZ_HOST_SUPPORTED fix)
+143 mutants tested in 13m: 1 missed, 138 caught, 4 unviable — MISSED crates/viola-e2e/src/harness/run/fuzz.rs:11:5: replace fuzz_host_supported -> bool with false

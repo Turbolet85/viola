@@ -5,7 +5,7 @@
 use std::path::PathBuf;
 use std::process::ExitCode;
 
-use clap::{Parser, Subcommand};
+use clap::{Args, Parser, Subcommand};
 use viola_e2e::harness::boot::{BootOptions, DEFAULT_CLI_VERSION, InstanceSpec, boot};
 use viola_e2e::harness::cleanup::{Target, cleanup};
 use viola_e2e::harness::gate::{gate, parse_legs, parse_require};
@@ -34,25 +34,7 @@ enum Cmd {
         #[arg(long, default_value = DEFAULT_CLI_VERSION)]
         cli_version: String,
     },
-    Run {
-        #[arg(long)]
-        unit: bool,
-        #[arg(long)]
-        integration: bool,
-        #[arg(long)]
-        mutants: bool,
-        #[arg(long)]
-        coverage: bool,
-        #[arg(long)]
-        fuzz_replay: bool,
-        #[arg(long)]
-        all: bool,
-        #[arg(long)]
-        filter: Option<String>,
-        /// A mutation leg whose verdict the `gate` union decides.
-        #[arg(long, requires = "mutants")]
-        leg: Option<String>,
-    },
+    Run(RunArgs),
     Status {
         #[arg(long, default_value = "default")]
         session: String,
@@ -87,6 +69,27 @@ enum Cmd {
     },
 }
 
+#[derive(Args)]
+struct RunArgs {
+    #[arg(long)]
+    unit: bool,
+    #[arg(long)]
+    integration: bool,
+    #[arg(long)]
+    mutants: bool,
+    #[arg(long)]
+    coverage: bool,
+    #[arg(long)]
+    fuzz_replay: bool,
+    #[arg(long)]
+    all: bool,
+    #[arg(long)]
+    filter: Option<String>,
+    /// A mutation leg whose verdict the `gate` union decides.
+    #[arg(long, requires = "mutants")]
+    leg: Option<String>,
+}
+
 const COMMANDS: [&str; 9] = [
     "boot",
     "run",
@@ -102,6 +105,93 @@ const COMMANDS: [&str; 9] = [
 fn emit(outcome: Outcome) -> ExitCode {
     println!("{}", outcome.doc);
     ExitCode::from(outcome.code)
+}
+
+/// No `--instance` boots the overseer + builder pair.
+fn boot_cmd(
+    ws: Workspace,
+    session: String,
+    instances: Vec<String>,
+    cli_version: String,
+) -> ExitCode {
+    let raw = if instances.is_empty() {
+        vec!["overseer".to_owned(), "builder".to_owned()]
+    } else {
+        instances
+    };
+    let Some(instances) = raw.iter().map(|r| InstanceSpec::parse(r)).collect() else {
+        return emit(Outcome::usage(Some("boot"), "invalid-instance"));
+    };
+    emit(boot(&BootOptions {
+        bin_dir: ws.harness_bins(),
+        ws,
+        session,
+        instances,
+        cli_version,
+        build: true,
+    }))
+}
+
+fn run_cmd(ws: &Workspace, args: RunArgs) -> ExitCode {
+    if args.leg.as_deref().is_some_and(|l| !valid_session_id(l)) {
+        return emit(Outcome::usage(Some("run"), "invalid-leg"));
+    }
+    let named = Selection {
+        unit: args.unit,
+        integration: args.integration,
+        mutants: args.mutants,
+        coverage: args.coverage,
+        fuzz_replay: args.fuzz_replay,
+    };
+    emit(run_with(
+        ws,
+        Selection::from_flags(named, args.all),
+        args.filter.as_deref(),
+        std::env::var("AGENT_RUN_CHUNK_BASE").ok(),
+        args.leg.as_deref(),
+        &mut run_forwarding,
+    ))
+}
+
+fn cleanup_cmd(ws: &Workspace, session: Option<&str>, all: bool) -> ExitCode {
+    let keep = std::env::var("AGENT_RUN_KEEP_HOMES").is_ok_and(|v| v == "1");
+    let target = if all {
+        Target::All
+    } else {
+        Target::Session(session.unwrap_or("default"))
+    };
+    emit(cleanup(ws, target, keep))
+}
+
+/// `logs` streams ndjson lines instead of one document.
+fn logs_cmd(ws: &Workspace, session: &str, filter: &Filter<'_>) -> ExitCode {
+    match logs(ws, session, filter) {
+        Ok(lines) => {
+            for line in lines {
+                println!("{line}");
+            }
+            ExitCode::SUCCESS
+        }
+        Err(out) => emit(out),
+    }
+}
+
+fn gate_cmd(
+    ws: &Workspace,
+    require: &str,
+    artifacts: Option<PathBuf>,
+    mutants_legs: Option<&str>,
+) -> ExitCode {
+    let Some(require) = parse_require(require) else {
+        return emit(Outcome::usage(Some("gate"), "unknown-suite"));
+    };
+    let legs = match mutants_legs.map(parse_legs) {
+        Some(None) => return emit(Outcome::usage(Some("gate"), "invalid-leg")),
+        Some(Some(legs)) => Some(legs),
+        None => None,
+    };
+    let artifacts = artifacts.unwrap_or_else(|| ws.artifacts());
+    emit(gate(&artifacts, &require, legs.as_deref()))
 }
 
 fn main() -> ExitCode {
@@ -123,63 +213,10 @@ fn main() -> ExitCode {
             session,
             instances,
             cli_version,
-        } => {
-            let raw = if instances.is_empty() {
-                vec!["overseer".to_owned(), "builder".to_owned()]
-            } else {
-                instances
-            };
-            let Some(instances) = raw.iter().map(|r| InstanceSpec::parse(r)).collect() else {
-                return emit(Outcome::usage(Some("boot"), "invalid-instance"));
-            };
-            emit(boot(&BootOptions {
-                bin_dir: ws.harness_bins(),
-                ws,
-                session,
-                instances,
-                cli_version,
-                build: true,
-            }))
-        }
-        Cmd::Run {
-            unit,
-            integration,
-            mutants,
-            coverage,
-            fuzz_replay,
-            all,
-            filter,
-            leg,
-        } => {
-            if leg.as_deref().is_some_and(|l| !valid_session_id(l)) {
-                return emit(Outcome::usage(Some("run"), "invalid-leg"));
-            }
-            let named = Selection {
-                unit,
-                integration,
-                mutants,
-                coverage,
-                fuzz_replay,
-            };
-            emit(run_with(
-                &ws,
-                Selection::from_flags(named, all),
-                filter.as_deref(),
-                std::env::var("AGENT_RUN_CHUNK_BASE").ok(),
-                leg.as_deref(),
-                &mut run_forwarding,
-            ))
-        }
+        } => boot_cmd(ws, session, instances, cli_version),
+        Cmd::Run(args) => run_cmd(&ws, args),
         Cmd::Status { session } => emit(status(&ws, &session)),
-        Cmd::Cleanup { session, all } => {
-            let keep = std::env::var("AGENT_RUN_KEEP_HOMES").is_ok_and(|v| v == "1");
-            let target = if all {
-                Target::All
-            } else {
-                Target::Session(session.as_deref().unwrap_or("default"))
-            };
-            emit(cleanup(&ws, target, keep))
-        }
+        Cmd::Cleanup { session, all } => cleanup_cmd(&ws, session.as_deref(), all),
         Cmd::Logs {
             session,
             instance,
@@ -189,15 +226,7 @@ fn main() -> ExitCode {
                 instance: instance.as_deref(),
                 process: process.as_deref(),
             };
-            match logs(&ws, &session, &filter) {
-                Ok(lines) => {
-                    for line in lines {
-                        println!("{line}");
-                    }
-                    ExitCode::SUCCESS
-                }
-                Err(out) => emit(out),
-            }
+            logs_cmd(&ws, &session, &filter)
         }
         Cmd::Supervise { session } => ExitCode::from(supervise(&ws, &session).code),
         Cmd::SchemaCheck => emit(schema_check(&ws)),
@@ -206,17 +235,6 @@ fn main() -> ExitCode {
             require,
             artifacts,
             mutants_legs,
-        } => {
-            let Some(require) = parse_require(&require) else {
-                return emit(Outcome::usage(Some("gate"), "unknown-suite"));
-            };
-            let legs = match mutants_legs.as_deref().map(parse_legs) {
-                Some(None) => return emit(Outcome::usage(Some("gate"), "invalid-leg")),
-                Some(Some(legs)) => Some(legs),
-                None => None,
-            };
-            let artifacts = artifacts.unwrap_or_else(|| ws.artifacts());
-            emit(gate(&artifacts, &require, legs.as_deref()))
-        }
+        } => gate_cmd(&ws, &require, artifacts, mutants_legs.as_deref()),
     }
 }

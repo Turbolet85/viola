@@ -137,6 +137,11 @@ mod tests {
     }
 
     #[test]
+    fn max_frame_is_sixteen_mib() {
+        assert_eq!(MAX_FRAME, 16_777_216);
+    }
+
+    #[test]
     fn version_is_the_package_version() {
         assert_eq!(VERSION, "0.1.0");
         assert_eq!(SERVICE_NAME, "viola");

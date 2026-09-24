@@ -100,6 +100,27 @@ fn path_str(p: &Path) -> &str {
     p.to_str().expect("utf-8 path")
 }
 
+const PROMPT_FIXTURE: (&str, &str) = ("UserPromptSubmit", "default");
+
+/// The fake agent with `plugin` as its plugin folder and one `(event, variant)` fixture.
+fn hooked(
+    tmp: &TestHome,
+    plugin: &Path,
+    (event, variant): (&str, &str),
+    extra: &[&str],
+    env: &[(&str, &str)],
+) -> Direct {
+    let fx = fixtures(tmp, event, variant);
+    let mut args = vec![
+        "--plugin-dir",
+        path_str(plugin),
+        "--fixtures",
+        path_str(&fx),
+    ];
+    args.extend_from_slice(extra);
+    Direct::spawn(tmp, &args, env)
+}
+
 fn prompts(lines: &[Value]) -> Vec<&Value> {
     of_kind(lines, "prompt")
 }
@@ -137,19 +158,11 @@ fn fake_agent_report_version_changes_only_the_version_answer() {
     );
     let tmp = TestHome::new();
     let (plugin, _) = echo_plugin(&tmp, "UserPromptSubmit");
-    let fx = fixtures(&tmp, "UserPromptSubmit", "default");
-    let mut agent = Direct::spawn(
+    let mut agent = hooked(
         &tmp,
-        &[
-            "--report-version",
-            "9.0.0",
-            "--cli-version",
-            "2.1.0",
-            "--plugin-dir",
-            path_str(&plugin),
-            "--fixtures",
-            path_str(&fx),
-        ],
+        &plugin,
+        PROMPT_FIXTURE,
+        &["--report-version", "9.0.0", "--cli-version", "2.1.0"],
         &[],
     );
     agent.send(&paste("replay"));
@@ -243,17 +256,7 @@ fn fake_agent_cr_with_nothing_typed_submits_nothing() {
 fn fake_agent_fires_the_plugin_hook_with_the_prompt_in_the_payload() {
     let tmp = TestHome::new();
     let (plugin, echo) = echo_plugin(&tmp, "UserPromptSubmit");
-    let fx = fixtures(&tmp, "UserPromptSubmit", "default");
-    let mut agent = Direct::spawn(
-        &tmp,
-        &[
-            "--plugin-dir",
-            path_str(&plugin),
-            "--fixtures",
-            path_str(&fx),
-        ],
-        &[],
-    );
+    let mut agent = hooked(&tmp, &plugin, PROMPT_FIXTURE, &[], &[]);
     agent.send(&paste("hello there"));
     let lines = agent.finish();
     let hooks = of_kind(&lines, "hook");
@@ -279,17 +282,7 @@ fn fake_agent_hook_stdout_and_exit_are_receipted() {
         FAKE,
         &["--version", "--cli-version", "4.5.6"],
     );
-    let fx = fixtures(&tmp, "UserPromptSubmit", "default");
-    let mut agent = Direct::spawn(
-        &tmp,
-        &[
-            "--plugin-dir",
-            path_str(&plugin),
-            "--fixtures",
-            path_str(&fx),
-        ],
-        &[],
-    );
+    let mut agent = hooked(&tmp, &plugin, PROMPT_FIXTURE, &[], &[]);
     agent.send(&paste("x"));
     let lines = agent.finish();
     let hook = of_kind(&lines, "hook")[0];
@@ -332,15 +325,11 @@ fn fake_agent_never_runs_a_non_absolute_hook_command() {
         "decoy-hook",
         &["--receipt", path_str(&marker)],
     );
-    let fx = fixtures(&tmp, "UserPromptSubmit", "default");
-    let mut agent = Direct::spawn(
+    let mut agent = hooked(
         &tmp,
-        &[
-            "--plugin-dir",
-            path_str(&plugin),
-            "--fixtures",
-            path_str(&fx),
-        ],
+        &plugin,
+        PROMPT_FIXTURE,
+        &[],
         &[("PATH", path_str(&bin))],
     );
     agent.send(&paste("a"));
@@ -356,16 +345,11 @@ fn fake_agent_never_runs_a_non_absolute_hook_command() {
 fn fake_agent_suppress_prompt_submit_fires_nothing() {
     let tmp = TestHome::new();
     let (plugin, echo) = echo_plugin(&tmp, "UserPromptSubmit");
-    let fx = fixtures(&tmp, "UserPromptSubmit", "default");
-    let mut agent = Direct::spawn(
+    let mut agent = hooked(
         &tmp,
-        &[
-            "--plugin-dir",
-            path_str(&plugin),
-            "--fixtures",
-            path_str(&fx),
-            "--suppress-prompt-submit",
-        ],
+        &plugin,
+        PROMPT_FIXTURE,
+        &["--suppress-prompt-submit"],
         &[],
     );
     agent.send(&paste("a"));
@@ -379,16 +363,11 @@ fn fake_agent_suppress_prompt_submit_fires_nothing() {
 fn fake_agent_local_command_mode_skips_only_slash_prompts() {
     let tmp = TestHome::new();
     let (plugin, _) = echo_plugin(&tmp, "UserPromptSubmit");
-    let fx = fixtures(&tmp, "UserPromptSubmit", "default");
-    let mut agent = Direct::spawn(
+    let mut agent = hooked(
         &tmp,
-        &[
-            "--plugin-dir",
-            path_str(&plugin),
-            "--fixtures",
-            path_str(&fx),
-            "--local-command-mode",
-        ],
+        &plugin,
+        PROMPT_FIXTURE,
+        &["--local-command-mode"],
         &[],
     );
     agent.send(&paste("/clear"));
@@ -406,17 +385,7 @@ fn fake_agent_local_command_mode_skips_only_slash_prompts() {
 fn fake_agent_slash_prompt_fires_without_local_command_mode() {
     let tmp = TestHome::new();
     let (plugin, _) = echo_plugin(&tmp, "UserPromptSubmit");
-    let fx = fixtures(&tmp, "UserPromptSubmit", "default");
-    let mut agent = Direct::spawn(
-        &tmp,
-        &[
-            "--plugin-dir",
-            path_str(&plugin),
-            "--fixtures",
-            path_str(&fx),
-        ],
-        &[],
-    );
+    let mut agent = hooked(&tmp, &plugin, PROMPT_FIXTURE, &[], &[]);
     agent.send(&paste("/clear"));
     assert_eq!(prompts(&agent.finish())[0]["submit"], "fired");
 }
@@ -437,18 +406,12 @@ fn steps(lines: &[Value]) -> Vec<(u64, String)> {
 fn fake_agent_gated_steps_wait_for_control_lines() {
     let tmp = TestHome::new();
     let (plugin, _) = echo_plugin(&tmp, "PreToolUse");
-    let fx = fixtures(&tmp, "PreToolUse", "ask");
     let script = workspace_path(GATED_TURN);
-    let agent = Direct::spawn(
+    let agent = hooked(
         &tmp,
-        &[
-            "--script",
-            path_str(&script),
-            "--plugin-dir",
-            path_str(&plugin),
-            "--fixtures",
-            path_str(&fx),
-        ],
+        &plugin,
+        ("PreToolUse", "ask"),
+        &["--script", path_str(&script)],
         &[],
     );
     fake::stays_false(&agent.receipt, HOLD_WINDOW, |l| !steps(l).is_empty());

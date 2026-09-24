@@ -166,9 +166,49 @@ fn panic_location(file: &Path) -> String {
     }
 }
 
+/// Helpers shared by this binary's test modules.
+#[cfg(test)]
+pub(crate) mod test_support {
+    use serde_json::Value;
+
+    /// One complete JSON line: a single `\n`, at the end.
+    pub(crate) fn one_line(line: &str) -> Value {
+        assert!(line.ends_with('\n'));
+        assert_eq!(line.matches('\n').count(), 1);
+        serde_json::from_str(line).expect("json")
+    }
+
+    /// The home-level keys of a diagnostics line; `message` is the event name.
+    pub(crate) fn assert_home_level(
+        v: &Value,
+        timestamp: &str,
+        level: &str,
+        target: &str,
+        event: &str,
+        process: &str,
+        instance: &str,
+    ) {
+        assert_eq!(v["timestamp"], timestamp);
+        assert_eq!(v["level"], level);
+        assert_eq!(v["target"], target);
+        assert_eq!(v["message"], event);
+        assert_eq!(v["event"], event);
+        assert_eq!(v["process"], process);
+        assert_eq!(v["instance"], instance);
+    }
+
+    pub(crate) fn diag_detail_validator() -> jsonschema::Validator {
+        let path = concat!(env!("CARGO_MANIFEST_DIR"), "/schemas/diag-detail.v1.json");
+        let text = std::fs::read_to_string(path).expect("schema");
+        let schema: Value = serde_json::from_str(&text).expect("schema JSON");
+        jsonschema::validator_for(&schema).expect("valid schema")
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::test_support::{assert_home_level, diag_detail_validator, one_line};
 
     #[test]
     fn panic_location_relative_path_kept_with_forward_slashes() {
@@ -213,18 +253,18 @@ mod tests {
             "src/x.rs:3",
             "main",
         );
-        assert!(line.ends_with('\n'));
-        assert_eq!(line.matches('\n').count(), 1);
-        let v: serde_json::Value = serde_json::from_str(&line).expect("json");
-        assert_eq!(v["level"], "ERROR");
-        assert_eq!(v["target"], "viola::panic");
-        assert_eq!(v["message"], "panic");
-        assert_eq!(v["event"], "panic");
-        assert_eq!(v["process"], "run");
-        assert_eq!(v["instance"], "builder");
+        let v = one_line(&line);
+        assert_home_level(
+            &v,
+            "2026-09-24T06:00:00.000Z",
+            "ERROR",
+            "viola::panic",
+            "panic",
+            "run",
+            "builder",
+        );
         assert_eq!(v["panic_location"], "src/x.rs:3");
         assert_eq!(v["thread"], "main");
-        assert_eq!(v["timestamp"], "2026-09-24T06:00:00.000Z");
         assert!(v.get("corr").is_none());
     }
 
@@ -289,15 +329,6 @@ mod tests {
                 .as_array()
                 .is_some_and(|frames| !frames.is_empty() && frames.iter().all(Value::is_string))
         );
-        let schema: Value = serde_json::from_str(
-            &std::fs::read_to_string(concat!(
-                env!("CARGO_MANIFEST_DIR"),
-                "/schemas/diag-detail.v1.json"
-            ))
-            .expect("schema"),
-        )
-        .expect("schema JSON");
-        let validator = jsonschema::validator_for(&schema).expect("valid schema");
-        assert!(validator.is_valid(&d));
+        assert!(diag_detail_validator().is_valid(&d));
     }
 }

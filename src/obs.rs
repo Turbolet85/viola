@@ -341,6 +341,7 @@ pub(crate) fn write_detail(home: &Path, instance: &ViolaName, process: ObsProces
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::test_support::{assert_home_level, diag_detail_validator, one_line};
     use chrono::TimeZone as _;
     use rstest::rstest;
     use std::sync::Mutex;
@@ -474,6 +475,20 @@ mod tests {
         );
     }
 
+    /// The read stops at 16 MiB: an object past the cap is never seen, one ending at it is.
+    #[test]
+    fn read_diagnostics_level_reads_at_most_sixteen_mib() {
+        const CAP: usize = 16 << 20;
+        let object = r#"{"v":1,"diagnostics_level":"debug"}"#;
+        let past_cap = " ".repeat(CAP) + object;
+        assert_eq!(
+            level_of(Some(&past_cap)),
+            (Level::INFO, Some(ConfigRejection::Malformed))
+        );
+        let at_cap = " ".repeat(CAP - object.len()) + object;
+        assert_eq!(level_of(Some(&at_cap)), (Level::DEBUG, None));
+    }
+
     /// Opening `<file>/config.json` fails at open with ENOTDIR (`NotADirectory`, not `NotFound`),
     /// so only the open-error arm yields `Unreadable`; the directory case above opens fine on Unix
     /// and fails at read instead.
@@ -515,16 +530,16 @@ mod tests {
             &name("builder"),
             fields,
         );
-        assert!(line.ends_with('\n'));
-        assert_eq!(line.matches('\n').count(), 1);
-        let v: Value = serde_json::from_str(&line).expect("json");
-        assert_eq!(v["timestamp"], "2026-09-24T06:00:00.000Z");
-        assert_eq!(v["level"], "ERROR");
-        assert_eq!(v["target"], "viola::panic");
-        assert_eq!(v["message"], "panic");
-        assert_eq!(v["event"], "panic");
-        assert_eq!(v["process"], "run");
-        assert_eq!(v["instance"], "builder");
+        let v = one_line(&line);
+        assert_home_level(
+            &v,
+            "2026-09-24T06:00:00.000Z",
+            "ERROR",
+            "viola::panic",
+            "panic",
+            "run",
+            "builder",
+        );
         assert_eq!(v["panic_payload"], "boom");
     }
 
@@ -644,9 +659,7 @@ mod tests {
             &name("builder"),
             &error,
         );
-        assert!(line.ends_with('\n'));
-        assert_eq!(line.matches('\n').count(), 1);
-        let v: Value = serde_json::from_str(&line).expect("json");
+        let v = one_line(&line);
         assert_eq!(v["event"], "process-exit");
         assert_eq!(v["level"], "ERROR");
         assert_eq!(v["process"], "run");
@@ -658,16 +671,7 @@ mod tests {
                 "parse failed near canary-chain-value-5c1e"
             ])
         );
-        let schema: Value = serde_json::from_str(
-            &fs::read_to_string(concat!(
-                env!("CARGO_MANIFEST_DIR"),
-                "/schemas/diag-detail.v1.json"
-            ))
-            .expect("schema"),
-        )
-        .expect("schema JSON");
-        let validator = jsonschema::validator_for(&schema).expect("valid schema");
-        assert!(validator.is_valid(&v));
+        assert!(diag_detail_validator().is_valid(&v));
 
         let tmp = tempfile::tempdir().expect("tempdir");
         let home = tmp.path().join("home");

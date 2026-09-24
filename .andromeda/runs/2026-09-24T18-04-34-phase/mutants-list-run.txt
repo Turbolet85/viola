@@ -1,0 +1,154 @@
+crates/viola-e2e/src/harness/run.rs:44:9: replace Selection::from_flags -> Self with Default::default()
+crates/viola-e2e/src/harness/run.rs:44:26: replace == with != in Selection::from_flags
+crates/viola-e2e/src/harness/run.rs:46:13: delete field unit from struct Self expression in Selection::from_flags
+crates/viola-e2e/src/harness/run.rs:47:13: delete field integration from struct Self expression in Selection::from_flags
+crates/viola-e2e/src/harness/run.rs:48:13: delete field mutants from struct Self expression in Selection::from_flags
+crates/viola-e2e/src/harness/run.rs:46:37: replace || with && in Selection::from_flags
+crates/viola-e2e/src/harness/run.rs:46:30: replace || with && in Selection::from_flags
+crates/viola-e2e/src/harness/run.rs:47:51: replace || with && in Selection::from_flags
+crates/viola-e2e/src/harness/run.rs:47:44: replace || with && in Selection::from_flags
+crates/viola-e2e/src/harness/run.rs:48:43: replace || with && in Selection::from_flags
+crates/viola-e2e/src/harness/run.rs:48:36: replace || with && in Selection::from_flags
+crates/viola-e2e/src/harness/run.rs:67:9: replace Suite::named -> Self with Default::default()
+crates/viola-e2e/src/harness/run.rs:68:13: delete field suite from struct Self expression in Suite::named
+crates/viola-e2e/src/harness/run.rs:74:9: replace Suite::green -> bool with true
+crates/viola-e2e/src/harness/run.rs:74:9: replace Suite::green -> bool with false
+crates/viola-e2e/src/harness/run.rs:74:26: replace && with || in Suite::green
+crates/viola-e2e/src/harness/run.rs:74:21: replace == with != in Suite::green
+crates/viola-e2e/src/harness/run.rs:74:43: replace == with != in Suite::green
+crates/viola-e2e/src/harness/run.rs:85:5: replace run -> Outcome with Default::default()
+crates/viola-e2e/src/harness/run.rs:106:5: replace fuzz_host_supported -> bool with true
+crates/viola-e2e/src/harness/run.rs:106:5: replace fuzz_host_supported -> bool with false
+crates/viola-e2e/src/harness/run.rs:118:5: replace run_with -> Outcome with Default::default()
+crates/viola-e2e/src/harness/run.rs:118:24: replace && with || in run_with
+crates/viola-e2e/src/harness/run.rs:118:27: delete ! in run_with
+crates/viola-e2e/src/harness/run.rs:139:36: replace || with && in run_with
+crates/viola-e2e/src/harness/run.rs:139:17: replace || with && in run_with
+crates/viola-e2e/src/harness/run.rs:150:20: replace && with || in run_with
+crates/viola-e2e/src/harness/run.rs:159:70: replace && with || in run_with
+crates/viola-e2e/src/harness/run.rs:159:46: replace && with || in run_with
+crates/viola-e2e/src/harness/run.rs:159:57: replace == with != in run_with
+crates/viola-e2e/src/harness/run.rs:159:82: replace == with != in run_with
+crates/viola-e2e/src/harness/run.rs:160:32: replace && with || in run_with
+crates/viola-e2e/src/harness/run.rs:160:67: replace || with && in run_with
+crates/viola-e2e/src/harness/run.rs:179:5: replace run_forwarding -> (Option<i32>, String) with (None, String::new())
+crates/viola-e2e/src/harness/run.rs:179:5: replace run_forwarding -> (Option<i32>, String) with (None, "xyzzy".into())
+crates/viola-e2e/src/harness/run.rs:179:5: replace run_forwarding -> (Option<i32>, String) with (Some(0), String::new())
+crates/viola-e2e/src/harness/run.rs:179:5: replace run_forwarding -> (Option<i32>, String) with (Some(0), "xyzzy".into())
+crates/viola-e2e/src/harness/run.rs:179:5: replace run_forwarding -> (Option<i32>, String) with (Some(1), String::new())
+crates/viola-e2e/src/harness/run.rs:179:5: replace run_forwarding -> (Option<i32>, String) with (Some(1), "xyzzy".into())
+crates/viola-e2e/src/harness/run.rs:179:5: replace run_forwarding -> (Option<i32>, String) with (Some(-1), String::new())
+crates/viola-e2e/src/harness/run.rs:179:5: replace run_forwarding -> (Option<i32>, String) with (Some(-1), "xyzzy".into())
+crates/viola-e2e/src/harness/run.rs:195:5: replace junit_source -> PathBuf with Default::default()
+crates/viola-e2e/src/harness/run.rs:204:5: replace junit_suite -> Suite with Default::default()
+crates/viola-e2e/src/harness/run.rs:207:13: delete field failed from struct Suite expression in junit_suite
+crates/viola-e2e/src/harness/run.rs:208:13: delete field failures from struct Suite expression in junit_suite
+crates/viola-e2e/src/harness/run.rs:228:5: replace nextest -> Suite with Default::default()
+crates/viola-e2e/src/harness/run.rs:252:5: replace coverage -> Suite with Default::default()
+crates/viola-e2e/src/harness/run.rs:279:40: replace == with != in coverage
+crates/viola-e2e/src/harness/run.rs:290:8: delete ! in coverage
+crates/viola-e2e/src/harness/run.rs:291:22: replace += with -= in coverage
+crates/viola-e2e/src/harness/run.rs:291:22: replace += with *= in coverage
+crates/viola-e2e/src/harness/run.rs:299:5: replace exit_must_agree with ()
+crates/viola-e2e/src/harness/run.rs:299:24: replace && with || in exit_must_agree
+crates/viola-e2e/src/harness/run.rs:299:13: replace != with == in exit_must_agree
+crates/viola-e2e/src/harness/run.rs:299:40: replace == with != in exit_must_agree
+crates/viola-e2e/src/harness/run.rs:307:5: replace attr -> &'a str with ""
+crates/viola-e2e/src/harness/run.rs:307:5: replace attr -> &'a str with "xyzzy"
+crates/viola-e2e/src/harness/run.rs:309:28: replace + with - in attr
+crates/viola-e2e/src/harness/run.rs:309:28: replace + with * in attr
+crates/viola-e2e/src/harness/run.rs:316:5: replace parse_junit -> Suite with Default::default()
+crates/viola-e2e/src/harness/run.rs:326:38: replace || with && in parse_junit
+crates/viola-e2e/src/harness/run.rs:327:26: replace += with -= in parse_junit
+crates/viola-e2e/src/harness/run.rs:327:26: replace += with *= in parse_junit
+crates/viola-e2e/src/harness/run.rs:334:27: replace += with -= in parse_junit
+crates/viola-e2e/src/harness/run.rs:334:27: replace += with *= in parse_junit
+crates/viola-e2e/src/harness/run.rs:336:26: replace += with -= in parse_junit
+crates/viola-e2e/src/harness/run.rs:336:26: replace += with *= in parse_junit
+crates/viola-e2e/src/harness/run.rs:343:5: replace doctest -> Suite with Default::default()
+crates/viola-e2e/src/harness/run.rs:362:5: replace count_before -> u64 with 0
+crates/viola-e2e/src/harness/run.rs:362:5: replace count_before -> u64 with 1
+crates/viola-e2e/src/harness/run.rs:371:5: replace parse_doctest -> Suite with Default::default()
+crates/viola-e2e/src/harness/run.rs:373:22: replace += with -= in parse_doctest
+crates/viola-e2e/src/harness/run.rs:373:22: replace += with *= in parse_doctest
+crates/viola-e2e/src/harness/run.rs:374:22: replace += with -= in parse_doctest
+crates/viola-e2e/src/harness/run.rs:374:22: replace += with *= in parse_doctest
+crates/viola-e2e/src/harness/run.rs:375:23: replace += with -= in parse_doctest
+crates/viola-e2e/src/harness/run.rs:375:23: replace += with *= in parse_doctest
+crates/viola-e2e/src/harness/run.rs:381:5: replace merge_summary -> Result<(), super::HarnessError> with Ok(())
+crates/viola-e2e/src/harness/run.rs:386:35: replace != with == in merge_summary
+crates/viola-e2e/src/harness/run.rs:403:5: replace fuzz_channel -> Option<String> with None
+crates/viola-e2e/src/harness/run.rs:403:5: replace fuzz_channel -> Option<String> with Some(String::new())
+crates/viola-e2e/src/harness/run.rs:403:5: replace fuzz_channel -> Option<String> with Some("xyzzy".into())
+crates/viola-e2e/src/harness/run.rs:407:19: delete ! in fuzz_channel
+crates/viola-e2e/src/harness/run.rs:412:5: replace fuzz_targets -> Vec<String> with vec![]
+crates/viola-e2e/src/harness/run.rs:412:5: replace fuzz_targets -> Vec<String> with vec![String::new()]
+crates/viola-e2e/src/harness/run.rs:412:5: replace fuzz_targets -> Vec<String> with vec!["xyzzy".into()]
+crates/viola-e2e/src/harness/run.rs:417:53: replace == with != in fuzz_targets
+crates/viola-e2e/src/harness/run.rs:425:5: replace has_entries -> bool with true
+crates/viola-e2e/src/harness/run.rs:425:5: replace has_entries -> bool with false
+crates/viola-e2e/src/harness/run.rs:431:5: replace fuzz_replay -> Result<Suite, Refusal> with Ok(Default::default())
+crates/viola-e2e/src/harness/run.rs:436:14: replace != with == in fuzz_replay
+crates/viola-e2e/src/harness/run.rs:449:9: delete field artifact from struct Suite expression in fuzz_replay
+crates/viola-e2e/src/harness/run.rs:454:12: delete ! in fuzz_replay
+crates/viola-e2e/src/harness/run.rs:455:26: replace += with -= in fuzz_replay
+crates/viola-e2e/src/harness/run.rs:455:26: replace += with *= in fuzz_replay
+crates/viola-e2e/src/harness/run.rs:467:17: replace == with != in fuzz_replay
+crates/viola-e2e/src/harness/run.rs:468:26: replace += with -= in fuzz_replay
+crates/viola-e2e/src/harness/run.rs:468:26: replace += with *= in fuzz_replay
+crates/viola-e2e/src/harness/run.rs:470:26: replace += with -= in fuzz_replay
+crates/viola-e2e/src/harness/run.rs:470:26: replace += with *= in fuzz_replay
+crates/viola-e2e/src/harness/run.rs:480:5: replace git -> Option<String> with None
+crates/viola-e2e/src/harness/run.rs:480:5: replace git -> Option<String> with Some(String::new())
+crates/viola-e2e/src/harness/run.rs:480:5: replace git -> Option<String> with Some("xyzzy".into())
+crates/viola-e2e/src/harness/run.rs:494:5: replace commit_exists -> bool with true
+crates/viola-e2e/src/harness/run.rs:494:5: replace commit_exists -> bool with false
+crates/viola-e2e/src/harness/run.rs:499:5: replace resolve_base -> Option<String> with None
+crates/viola-e2e/src/harness/run.rs:499:5: replace resolve_base -> Option<String> with Some(String::new())
+crates/viola-e2e/src/harness/run.rs:499:5: replace resolve_base -> Option<String> with Some("xyzzy".into())
+crates/viola-e2e/src/harness/run.rs:501:21: delete ! in resolve_base
+crates/viola-e2e/src/harness/run.rs:511:5: replace chunk_diff -> Option<String> with None
+crates/viola-e2e/src/harness/run.rs:511:5: replace chunk_diff -> Option<String> with Some(String::new())
+crates/viola-e2e/src/harness/run.rs:511:5: replace chunk_diff -> Option<String> with Some("xyzzy".into())
+crates/viola-e2e/src/harness/run.rs:517:50: delete ! in chunk_diff
+crates/viola-e2e/src/harness/run.rs:540:5: replace mutants_exit_reason -> Option<String> with None
+crates/viola-e2e/src/harness/run.rs:540:5: replace mutants_exit_reason -> Option<String> with Some(String::new())
+crates/viola-e2e/src/harness/run.rs:540:5: replace mutants_exit_reason -> Option<String> with Some("xyzzy".into())
+crates/viola-e2e/src/harness/run.rs:548:5: replace count -> u64 with 0
+crates/viola-e2e/src/harness/run.rs:548:5: replace count -> u64 with 1
+crates/viola-e2e/src/harness/run.rs:553:5: replace mutants_suite -> (Suite, u64) with (Default::default(), 0)
+crates/viola-e2e/src/harness/run.rs:553:5: replace mutants_suite -> (Suite, u64) with (Default::default(), 1)
+crates/viola-e2e/src/harness/run.rs:553:46: replace + with - in mutants_suite
+crates/viola-e2e/src/harness/run.rs:553:46: replace + with * in mutants_suite
+crates/viola-e2e/src/harness/run.rs:554:55: replace + with - in mutants_suite
+crates/viola-e2e/src/harness/run.rs:554:55: replace + with * in mutants_suite
+crates/viola-e2e/src/harness/run.rs:554:44: replace + with - in mutants_suite
+crates/viola-e2e/src/harness/run.rs:554:44: replace + with * in mutants_suite
+crates/viola-e2e/src/harness/run.rs:568:5: replace listed -> Vec<String> with vec![]
+crates/viola-e2e/src/harness/run.rs:568:5: replace listed -> Vec<String> with vec![String::new()]
+crates/viola-e2e/src/harness/run.rs:568:5: replace listed -> Vec<String> with vec!["xyzzy".into()]
+crates/viola-e2e/src/harness/run.rs:571:21: delete ! in listed
+crates/viola-e2e/src/harness/run.rs:579:5: replace diff_paths -> Vec<&str> with vec![]
+crates/viola-e2e/src/harness/run.rs:579:5: replace diff_paths -> Vec<&str> with vec![""]
+crates/viola-e2e/src/harness/run.rs:579:5: replace diff_paths -> Vec<&str> with vec!["xyzzy"]
+crates/viola-e2e/src/harness/run.rs:588:5: replace diff_files -> usize with 0
+crates/viola-e2e/src/harness/run.rs:588:5: replace diff_files -> usize with 1
+crates/viola-e2e/src/harness/run.rs:594:5: replace rust_delta -> bool with true
+crates/viola-e2e/src/harness/run.rs:594:5: replace rust_delta -> bool with false
+crates/viola-e2e/src/harness/run.rs:600:5: replace no_rust_delta -> (Suite, Value) with (Default::default(), Default::default())
+crates/viola-e2e/src/harness/run.rs:601:9: delete field artifact from struct Suite expression in no_rust_delta
+crates/viola-e2e/src/harness/run.rs:615:5: replace leg_outcome -> Option<&'static str> with None
+crates/viola-e2e/src/harness/run.rs:615:5: replace leg_outcome -> Option<&'static str> with Some("")
+crates/viola-e2e/src/harness/run.rs:615:5: replace leg_outcome -> Option<&'static str> with Some("xyzzy")
+crates/viola-e2e/src/harness/run.rs:616:9: delete match arm "CaughtMutant" in leg_outcome
+crates/viola-e2e/src/harness/run.rs:617:9: delete match arm "MissedMutant" in leg_outcome
+crates/viola-e2e/src/harness/run.rs:618:9: delete match arm "Timeout" in leg_outcome
+crates/viola-e2e/src/harness/run.rs:619:9: delete match arm "Unviable" in leg_outcome
+crates/viola-e2e/src/harness/run.rs:627:5: replace leg_verdict -> Value with Default::default()
+crates/viola-e2e/src/harness/run.rs:641:5: replace leg_verdict_path -> PathBuf with Default::default()
+crates/viola-e2e/src/harness/run.rs:645:5: replace write_leg_verdict with ()
+crates/viola-e2e/src/harness/run.rs:660:5: replace mutants -> Result<(Suite, Value), String> with Ok((Default::default(), Default::default()))
+crates/viola-e2e/src/harness/run.rs:670:8: delete ! in mutants
+crates/viola-e2e/src/harness/run.rs:690:14: replace != with == in mutants
+crates/viola-e2e/src/harness/run.rs:720:17: delete field failed from struct Suite expression in mutants
+crates/viola-e2e/src/harness/run.rs:721:17: delete field failures from struct Suite expression in mutants

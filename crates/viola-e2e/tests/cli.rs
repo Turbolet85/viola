@@ -5,6 +5,7 @@ use std::process::{Command, Output};
 
 use serde_json::Value;
 use viola_e2e::harness::boot::{BootOptions, DEFAULT_CLI_VERSION, InstanceSpec, boot};
+use viola_e2e::harness::cleanup::{Target, cleanup};
 use viola_e2e::harness::{SessionRecord, Workspace, bin_dir_from_exe, read_json};
 
 const HARNESS: &str = env!("CARGO_BIN_EXE_viola-harness");
@@ -127,7 +128,20 @@ fn supervise_without_a_spec_exits_2_and_prints_nothing() {
     assert!(out.stdout.is_empty());
 }
 
-fn booted(label: &str) -> (Workspace, String, SessionRecord) {
+/// Stops the session through the library `cleanup` on drop, pass or fail: a broken binary `cleanup`
+/// must not leave the supervisor running (Windows then cannot relink its exe).
+struct Booted {
+    ws: Workspace,
+    session: String,
+}
+
+impl Drop for Booted {
+    fn drop(&mut self) {
+        let _ = cleanup(&self.ws, Target::Session(&self.session), false);
+    }
+}
+
+fn booted(label: &str) -> (Booted, SessionRecord) {
     let ws = Workspace::from_build();
     let session = format!("cli-{label}-{}", std::process::id());
     let opts = BootOptions {
@@ -138,15 +152,18 @@ fn booted(label: &str) -> (Workspace, String, SessionRecord) {
         cli_version: DEFAULT_CLI_VERSION.to_owned(),
         build: false,
     };
+    let guard = Booted { ws, session };
     let out = boot(&opts);
     assert_eq!(out.code, 0, "{}", out.doc);
-    let record = read_json(&ws.session_dir(&session).join("session.json")).expect("record");
-    (ws, session, record)
+    let record =
+        read_json(&guard.ws.session_dir(&guard.session).join("session.json")).expect("record");
+    (guard, record)
 }
 
 #[test]
 fn status_logs_and_cleanup_drive_a_booted_session() {
-    let (_ws, session, record) = booted("drive");
+    let (guard, record) = booted("drive");
+    let session = guard.session.clone();
     let status = harness(&["status", "--session", &session]);
     assert_eq!(status.status.code(), Some(0));
     assert_eq!(document(&status)["state"], "ready");
@@ -183,7 +200,8 @@ fn status_logs_and_cleanup_drive_a_booted_session() {
 
 #[test]
 fn cleanup_keeps_the_home_under_agent_run_keep_homes() {
-    let (_ws, session, record) = booted("keep");
+    let (guard, record) = booted("keep");
+    let session = guard.session.clone();
     let out = Command::new(HARNESS)
         .args(["cleanup", "--session", &session])
         .env("AGENT_RUN_KEEP_HOMES", "1")

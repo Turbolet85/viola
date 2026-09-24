@@ -1,0 +1,60 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "ac6c73e5",
+"ts": "2026-09-24T18:26:00Z",
+"argv": [
+"coverage",
+"--dir",
+"viola-0.1.0",
+"--run-dir",
+".andromeda/runs/2026-09-24T18-04-34-phase",
+"--marker",
+"2026-09-24-epoch-1-cleanup"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"verified 3/53 · deferred 0 · planned 50 · implemented 0 · unclaimed 50",
+"unclaimed: v1-01 v1-02 v1-03 v1-04 v1-05 v1-07 v1-08 v1-09 v1-10 v1-11 v1-12 v1-13 v1-14 v1-15 v1-16 v1-17",
+"          v1-18 v1-20 v1-21 v1-22 v1-24 v1-25 v1-26 v1-27 v1-28 v1-29 v1-30 v1-31 v1-32 v1-33 v1-34 v1-35",
+"          v1-36 v1-37 v1-38 v1-39 v1-40 v1-41 v1-42 v1-43 v1-44 v1-45 v1-46 v1-47 v1-48 v1-49 v1-50 v1-51",
+"          v1-52 v1-53",
+"claimed-unfinished: none",
+"done-test: NO — 50 not verified|deferred · unclaimed 50",
+"chunks referenced: 3 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "ac6c73e5",
+"ts": "2026-09-24T18:26:00Z",
+"argv": [
+"audit",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-09-24-epoch-1-cleanup",
+"--plan",
+"viola-0.1.0/chunks/2026-09-24-epoch-1-cleanup/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-24T18-04-34-phase"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-24-epoch-1-cleanup: 0 · ## Acceptance Criteria: line 299, 33 lines",
+"pool: unclaimed 50 [v1-01 v1-02 v1-03 v1-04 v1-05 v1-07 v1-08 v1-09 v1-10 v1-11 v1-12 v1-13 v1-14 v1-15 v1-16 v1-17 v1-18 v1-20 v1-21 v1-22 v1-24 v1-25 v1-26 v1-27 v1-28 v1-29 v1-30 v1-31 v1-32 v1-33 v1-34 v1-35 v1-36 v1-37 v1-38 v1-39 v1-40 v1-41 v1-42 v1-43 v1-44 v1-45 v1-46 v1-47 v1-48 v1-49 v1-50 v1-51 v1-52 v1-53]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

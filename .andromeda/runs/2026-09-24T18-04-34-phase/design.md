@@ -1,0 +1,4 @@
+# design extract
+
+## No domain coverage
+This chunk is a behaviour-preserving cleanup of test tooling. It pins MAX_FRAME with a test, decomposes functions in the viola-e2e harness and the fake agent, splits run.rs, and removes clone pairs from test modules. None of that renders anything, and it adds no pixel, token, motion or glyph work. design-system §Surface: cli covers only "stdout/stderr of the `viola` binary", so the harness and fake-agent JSON are outside it. One indirect link: the main.rs↔obs.rs panic-line asserts guard §Surface: cli §Platform-Specific Notes "Stack traces never print" (also §Per-Surface Bans cli "NEVER print stack traces"). The shared helper that replaces those asserts has to keep that check exactly as strong as it is now. That is the obs/tests domain's job to verify, not design's.

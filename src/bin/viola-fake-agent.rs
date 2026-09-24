@@ -416,17 +416,8 @@ fn hold_inherited_stdout() {
         .spawn();
 }
 
-fn main() -> ExitCode {
-    let args: Vec<String> = std::env::args().skip(1).collect();
-    let opts = Opts::parse(&args);
-    if opts.hold_stdout {
-        std::thread::sleep(HOLD_FOR);
-        return ExitCode::SUCCESS;
-    }
-    if opts.version {
-        println!("{}", opts.version_answer());
-        return ExitCode::SUCCESS;
-    }
+/// The `--inject-harness-turn` step, then the `--script` steps; `None` for an unreadable script.
+fn script_steps(opts: &Opts) -> Option<Vec<Step>> {
     let mut steps = Vec::new();
     if opts.inject_harness_turn {
         steps.push(Step {
@@ -437,22 +428,17 @@ fn main() -> ExitCode {
         });
     }
     if let Some(path) = &opts.script {
-        let parsed = fs::read_to_string(path).ok().and_then(|t| parse_script(&t));
-        let Some(script) = parsed else {
-            eprintln!("fake agent: unreadable script");
-            return ExitCode::from(2);
-        };
-        steps.extend(script);
+        steps.extend(
+            fs::read_to_string(path)
+                .ok()
+                .and_then(|t| parse_script(&t))?,
+        );
     }
-    let agent = Arc::new(Agent {
-        receipt: Receipt::open(opts.receipt.as_deref()),
-        opts,
-    });
-    start_receipts(&agent);
-    if !steps.is_empty() {
-        let runner = Arc::clone(&agent);
-        std::thread::spawn(move || runner.run_steps(&steps));
-    }
+    Some(steps)
+}
+
+/// Reads stdin byte by byte until EOF or `\x03`.
+fn read_stdin(agent: &Agent) -> ExitCode {
     let mut input = Input::new();
     let mut stdin = std::io::stdin().lock();
     let mut byte = [0u8; 1];
@@ -471,6 +457,33 @@ fn main() -> ExitCode {
         }
     }
     ExitCode::SUCCESS
+}
+
+fn main() -> ExitCode {
+    let args: Vec<String> = std::env::args().skip(1).collect();
+    let opts = Opts::parse(&args);
+    if opts.hold_stdout {
+        std::thread::sleep(HOLD_FOR);
+        return ExitCode::SUCCESS;
+    }
+    if opts.version {
+        println!("{}", opts.version_answer());
+        return ExitCode::SUCCESS;
+    }
+    let Some(steps) = script_steps(&opts) else {
+        eprintln!("fake agent: unreadable script");
+        return ExitCode::from(2);
+    };
+    let agent = Arc::new(Agent {
+        receipt: Receipt::open(opts.receipt.as_deref()),
+        opts,
+    });
+    start_receipts(&agent);
+    if !steps.is_empty() {
+        let runner = Arc::clone(&agent);
+        std::thread::spawn(move || runner.run_steps(&steps));
+    }
+    read_stdin(&agent)
 }
 
 #[cfg(test)]

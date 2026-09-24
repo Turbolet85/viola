@@ -1,0 +1,76 @@
+[
+{
+"sql": "SELECT callee_name, callee_kind, COUNT(*) AS sites, COUNT(DISTINCT file) AS files FROM refs WHERE callee_crate = 'viola-e2e' AND callee_file LIKE '%harness/run.rs' AND file NOT LIKE '%harness/run.rs' AND callee_kind <> 'module' GROUP BY 1, 2 ORDER BY sites DESC, callee_name",
+"rows": 11,
+"result": [
+{
+"callee_name": "Selection",
+"callee_kind": "type",
+"sites": 3,
+"files": 1
+},
+{
+"callee_name": "leg_verdict_path",
+"callee_kind": "fn",
+"sites": 3,
+"files": 1
+},
+{
+"callee_name": "COVERAGE_FLOORS",
+"callee_kind": "term",
+"sites": 2,
+"files": 1
+},
+{
+"callee_name": "run_forwarding",
+"callee_kind": "fn",
+"sites": 2,
+"files": 1
+},
+{
+"callee_name": "run_with",
+"callee_kind": "fn",
+"sites": 2,
+"files": 1
+},
+{
+"callee_name": "coverage",
+"callee_kind": "term",
+"sites": 1,
+"files": 1
+},
+{
+"callee_name": "from_flags",
+"callee_kind": "fn",
+"sites": 1,
+"files": 1
+},
+{
+"callee_name": "fuzz_replay",
+"callee_kind": "term",
+"sites": 1,
+"files": 1
+},
+{
+"callee_name": "integration",
+"callee_kind": "term",
+"sites": 1,
+"files": 1
+},
+{
+"callee_name": "mutants",
+"callee_kind": "term",
+"sites": 1,
+"files": 1
+},
+{
+"callee_name": "unit",
+"callee_kind": "term",
+"sites": 1,
+"files": 1
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]
