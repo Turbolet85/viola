@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.3",
+"sha8": "d004ec42",
+"ts": "2026-09-24T15:55:36Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-09-24-workspace-tree-and-code-graph-planes",
+"--expect-prefix",
+"Workspace tree and code-graph planes",
+"--record-file",
+".andromeda/runs/2026-09-24T15-54-06-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-09-24T15-54-06-phase"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:25 - [2026-09-24-workspace-tree-and-code-graph-planes]",
+"record master-route.md:18 - appended under `## viola-0.1.0`",
+"promoted 2026-09-24-workspace-tree-and-code-graph-planes - working-route:25 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+".\\viola-0.1.0\\working-route.md",
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+}
+]

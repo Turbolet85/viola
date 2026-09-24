@@ -13,7 +13,7 @@ viola is a standalone, cross-platform (Windows first) bridge that lets one inter
 - `crates/` — the workspace library crates (`viola-core`, `-pty`, `-channel`, `-state`, `-agent-claude`, `-mcp`, `-ui`) + test-only `viola-e2e`
 - `plugin/` — `hooks.json`, `.mcp.json`, `plugin.json`, embedded via `include_str!` and written out by `viola run`
 - `fixtures/claude/<cli-version>/` — hook payloads recorded by `viola verify`, replayed by the fake agent in CI; `fixtures/fake-scripts/` — committed fake-agent turn scripts
-- `e2e-web/` — Playwright + axe browser suite (Node, test-side only)
+- `e2e-web/` — Playwright + axe browser suite (Node, test-side only; the ts code-graph plane via its tracked `tsconfig.json`); `a11y/sr-pass/` — manual screen-reader pass records
 <!-- GENERATED:setup:overview end -->
 
 ## Modules

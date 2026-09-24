@@ -1,0 +1,51 @@
+[
+{
+"tool": "route",
+"v": "1.3",
+"sha8": "d004ec42",
+"ts": "2026-09-24T15:54:13Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-09-24T15-54-06-phase"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 43 of 50 entries · freight blocks 26 · rows are an INDEX, not the text",
+"25 · PREREQ: · 368 chars · PREREQ: first action at take-up (the 2026-09-24-quality-gates plan's operator entries): read…",
+"25 · CARRY: · 381 chars · CARRY: chunk 2026-09-24-quality-gates left `fuzz/Cargo.lock` (libfuzzer-sys, which builds C++…",
+"25 · CARRY: · 353 chars · CARRY: chunk 2026-09-24-quality-gates left test-plan §9's Lint-row `cargo tree -e features` (…",
+"30 · CARRY: · 520 chars · CARRY: chunk 2026-09-24-three-os-ci-headless-harness-skeleton's `viola run` is the first slic…",
+"30 · CARRY: · 472 chars · CARRY: chunk 2026-09-24-fake-agent-and-test-data-fixtures deferred the `viola_e2e::fixtures` …",
+"34 · CARRY: · 259 chars · CARRY: chunk 2026-09-24-supply-chain-and-workflow-gates wired the tokio ban as a sole-root `d…",
+"34 · CARRY: · 445 chars · CARRY: chunk 2026-09-24-diagnostics-plane made `corr` a caller-supplied typed field of `obs_e…",
+"34 · CARRY: · 509 chars · CARRY: chunk 2026-09-24-log-redaction-and-never-log-floor found no redaction subject at HEAD …",
+"34 · CARRY: · 403 chars · CARRY: chunk 2026-09-24-quality-gates seeded the fuzz pipeline (`fuzz/` workspace, `run --fuz…",
+"36 · CARRY: · 536 chars · CARRY: chunk 2026-09-24-diagnostics-plane deferred two obs items to the first shared-writer, …",
+"36 · CARRY: · 532 chars · CARRY: chunk 2026-09-24-log-redaction-and-never-log-floor routed dispatch errors through `cmd…",
+"36 · CARRY: · 416 chars · CARRY: chunk 2026-09-24-quality-gates seeded the fuzz pipeline with a `viola_name` target. Th…",
+"38 · CARRY: · 404 chars · CARRY: chunk 2026-09-24-log-redaction-and-never-log-floor left the catch site silent because …",
+"40 · CARRY: · 463 chars · CARRY: chunk 2026-09-24-fake-agent-and-test-data-fixtures deferred the `fixtures/claude/*/*.j…",
+"42 · CARRY: · 216 chars · CARRY: chunk 2026-09-24-fake-agent-and-test-data-fixtures's fake agent runs every `type:\"comm…",
+"45 · CARRY: · 212 chars · CARRY: chunk 2026-09-24-fake-agent-and-test-data-fixtures deferred the fake agent's `--vt100-…",
+"45 · CARRY: · 300 chars · CARRY: chunk 2026-09-24-quality-gates seeded the fuzz pipeline with a `viola_name` target. Th…",
+"47 · CARRY: · 314 chars · CARRY: chunk 2026-09-24-quality-gates seeded the fuzz pipeline with a `viola_name` target. Th…",
+"60 · CARRY: · 200 chars · CARRY: chunk 2026-09-24-fake-agent-and-test-data-fixtures deferred the fake agent's `statusli…",
+"66 · CARRY: · 264 chars · CARRY: chunk 2026-09-24-fake-agent-and-test-data-fixtures deferred the fake agent's `agents -…",
+"66 · CARRY: · 297 chars · CARRY: chunk 2026-09-24-quality-gates seeded the fuzz pipeline with a `viola_name` target. Th…",
+"69 · CARRY: · 274 chars · CARRY: chunk 2026-09-24-three-os-ci-headless-harness-skeleton resolves `--home` as given, els…",
+"73 · CARRY: · 396 chars · CARRY: chunk 2026-09-24-supply-chain-and-workflow-gates measured (research.md §Measured facts…",
+"82 · CARRY: · 363 chars · CARRY: chunk 2026-09-24-three-os-ci-headless-harness-skeleton's `viola run` creates the home …",
+"93 · CARRY: · 402 chars · CARRY: chunk 2026-09-24-quality-gates gates mutation on the union of an ubuntu and a windows …",
+"100 · CARRY: · 316 chars · CARRY: chunk 2026-09-24-quality-gates seeded the fuzz pipeline with a `viola_name` target. T…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

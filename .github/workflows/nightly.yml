@@ -27,6 +27,7 @@ jobs:
         run: |
           cargo deny --version
           cargo deny check advisories
+          cargo deny --manifest-path fuzz/Cargo.toml check advisories
 
   fuzz:
     name: fuzz

@@ -1,0 +1,674 @@
+[
+{
+"tool": "gate",
+"v": "1.1",
+"sha8": "851b9a6f",
+"ts": "2026-09-24T16:42:25Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-09-24-workspace-tree-and-code-graph-planes/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-24T16-23-20-wrap",
+"--marker",
+"2026-09-24-workspace-tree-and-code-graph-planes"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\viola · marker 2026-09-24-workspace-tree-and-code-graph-planes · entries 27",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-workspace-tree-and-code-graph-planes\\wrap-2026-09-24T16-23-20 · bound: GNU timeout",
+"delta docs 66 · unmapped 6",
+"prose L155-164: The gates run on this Windows host during /implement. - **No Rust delta.** The chunk chang… (827 chars)",
+"  1 probe       green · exit 0 · 0.53s · 113 B → 1.log · bash scripts/release-check.sh --probe",
+"  2 build       green · exit 0 · 0.37s · 88 B → 2.log · CARGO_TARGET_DIR=target/release-check bash scripts/release… (67 chars)",
+"  3 probe       green · exit 0 · 1.09s · 63 B → 3.log · bash scripts/orphans-check.sh --probe",
+"  4 probe       green · exit 0 · 13.25s · 213 B → 4.log · bash scripts/orphans-check.sh",
+"  5 probe       green · exit 0 · 1.03s · 676 B → 5.log · cargo deny --manifest-path fuzz/Cargo.toml check advisorie… (67 chars)",
+"  6 probe       green · exit 0 · 1.06s · 664 B → 6.log · cargo deny --manifest-path fuzz/Cargo.toml check advisorie… (59 chars)",
+"  7 probe       green · exit 0 · 1.05s · 3308 B → 7.log · cargo deny check",
+"  8 probe       green · exit 0 · 0.43s · 8 B → 8.log · test -s scripts/sync-crates.txt && while read -r c; do car… (181 chars)",
+"  9 probe       green · exit 0 · 16.93s · 346 B → 9.log · bash scripts/deny-probes.sh",
+" 10 probe       green · exit 0 · 0.11s · 388 B → 10.log · zizmor .github/workflows/",
+" 11 probe       green · exit 0 · 0.09s · 3 B → 11.log · python -X utf8 -c \"import re,glob;print(sum(1 for f in glo… (197 chars)",
+" 12 probe       green · exit 0 · 0.13s · 3 B → 12.log · python -X utf8 -c \"import yaml,glob;print(sum(s.get('run',… (207 chars)",
+" 13 probe       green · exit 1 · 0.06s · 2 B → 13.log · grep -ciE 'a11y|playwright|--browser' .github/workflows/ni… (67 chars)",
+" 14 probe       green · exit 0 · 0.06s · 2 B → 14.log · grep -c 'bash scripts/release-check.sh' .github/workflows/… (64 chars)",
+" 15 probe       green · exit 0 · 0.06s · 2 B → 15.log · grep -c 'scripts/orphans-check.sh' .github/workflows/ci.ym… (59 chars)",
+" 16 probe       green · exit 0 · 0.06s · 59 B → 16.log · grep -c 'manifest-path fuzz/Cargo.toml' .github/workflows/… (94 chars)",
+" 17 build       green · exit 0 · 0.17s · 90 B → 17.log · bash scripts/install-ripgrep.sh",
+" 18 probe       green · exit 0 · 0.08s · 0 B → 18.log · export PATH=\"$PWD/target/tools/ripgrep/bin:$PATH\"; set +e;… (184 chars)",
+" 19 probe       recorded · exit 0 · 0.08s · 7 B → 19.log · python -X utf8 -c \"a=open('.andromeda/architecture.md',enc… (317 chars)",
+" 20 probe       green · exit 0 · 0.06s · 0 B → 20.log · git ls-files --cached --others --exclude-standard -- tscon… (162 chars)",
+" 21 lint        not run — defer (key): zero .rs delta: the chunk touches only w… (80 chars) · cargo fmt --all --check",
+" 22 lint        not run — defer (key): zero .rs delta · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+" 23 unit        not run — defer (key): zero .rs delta; no Rust test reads a fil… (60 chars) · bash scripts/agent-run.sh run --unit",
+" 24 integration green · exit 0 · 0.94s · 260 B → 24.log · AGENT_RUN_CHUNK_BASE=3f385ddf55da967cd0a39eda67eaf5f8d0755… (101 chars)",
+" 25 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (82 chars)",
+" 26 probe       not run — leg operator (the letter drives it) · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (129 chars)",
+" 27 probe       not run — leg operator (the letter drives it) · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (162 chars)",
+"entries 27 · green 20 · red 0 · recorded 1 · timeout 0 · not-run 6"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-24-workspace-tree-and-code-graph-planes",
+"plan": "D:\\dev\\projects\\viola\\viola-0.1.0\\chunks\\2026-09-24-workspace-tree-and-code-graph-planes\\plan.md",
+"root": "D:\\dev\\projects\\viola",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-workspace-tree-and-code-graph-planes\\wrap-2026-09-24T16-23-20",
+"delta": {
+"docs": [
+".andromeda/architecture-amendments.md",
+".andromeda/architecture.md",
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/obs-plan-amendments.md",
+".andromeda/obs-plan.md",
+".andromeda/security-plan-amendments.md",
+".andromeda/security-plan.md",
+".andromeda/state.yaml",
+".andromeda/test-plan-amendments.md",
+".andromeda/test-plan.md",
+".claude/docs/commands.md",
+".claude/docs/obs-summary.md",
+".claude/docs/session-learnings.md",
+".claude/docs/stack.md",
+".claude/rules/security.md",
+".claude/session-handoff.md",
+"CLAUDE.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-09-24T14-48-15-wrap/push.log",
+".andromeda/runs/2026-09-24T15-54-06-phase/a11y.md",
+".andromeda/runs/2026-09-24T15-54-06-phase/acceptance-v1-23.md",
+".andromeda/runs/2026-09-24T15-54-06-phase/arch.md",
+".andromeda/runs/2026-09-24T15-54-06-phase/baseline/1.log",
+".andromeda/runs/2026-09-24T15-54-06-phase/baseline/2.log",
+".andromeda/runs/2026-09-24T15-54-06-phase/baseline/2b.log",
+".andromeda/runs/2026-09-24T15-54-06-phase/baseline/3.log",
+".andromeda/runs/2026-09-24T15-54-06-phase/baseline/4.log",
+".andromeda/runs/2026-09-24T15-54-06-phase/baseline/5.log",
+".andromeda/runs/2026-09-24T15-54-06-phase/baseline/6.log",
+".andromeda/runs/2026-09-24T15-54-06-phase/baseline/7.log",
+".andromeda/runs/2026-09-24T15-54-06-phase/baseline/8.log",
+".andromeda/runs/2026-09-24T15-54-06-phase/baseline/controls.log",
+".andromeda/runs/2026-09-24T15-54-06-phase/baseline/controls.sh",
+".andromeda/runs/2026-09-24T15-54-06-phase/baseline/controls/wf/x.yml",
+".andromeda/runs/2026-09-24T15-54-06-phase/design.md",
+".andromeda/runs/2026-09-24T15-54-06-phase/layouts.md",
+".andromeda/runs/2026-09-24T15-54-06-phase/master-record.txt",
+".andromeda/runs/2026-09-24T15-54-06-phase/matrix-2026-09-24-workspace-tree-and-code-graph-planes.json",
+".andromeda/runs/2026-09-24T15-54-06-phase/note-v1-23.md",
+".andromeda/runs/2026-09-24T15-54-06-phase/obs.md",
+".andromeda/runs/2026-09-24T15-54-06-phase/route-2026-09-24-workspace-tree-and-code-graph-planes.json",
+".andromeda/runs/2026-09-24T15-54-06-phase/route-no-marker.json",
+".andromeda/runs/2026-09-24T15-54-06-phase/security.md",
+".andromeda/runs/2026-09-24T15-54-06-phase/tests.md",
+".andromeda/runs/2026-09-24T15-54-06-phase/tree-query-2026-09-24-workspace-tree-and-code-graph-planes.json",
+".andromeda/runs/2026-09-24T16-17-36-implement/gate-2026-09-24-workspace-tree-and-code-graph-planes.json",
+".andromeda/runs/2026-09-24T16-17-36-implement/gate-run-1.out",
+".andromeda/runs/2026-09-24T16-17-36-implement/matrix-2026-09-24-workspace-tree-and-code-graph-planes.json",
+".andromeda/runs/2026-09-24T16-23-20-wrap/.raw-fanout-architecture.md",
+".andromeda/runs/2026-09-24T16-23-20-wrap/.raw-fanout-obs-plan.md",
+".andromeda/runs/2026-09-24T16-23-20-wrap/.raw-fanout-test-plan.md",
+".andromeda/runs/2026-09-24T16-23-20-wrap/architecture-entry.md",
+".andromeda/runs/2026-09-24T16-23-20-wrap/curation.md",
+".andromeda/runs/2026-09-24T16-23-20-wrap/fanout-results.md",
+".andromeda/runs/2026-09-24T16-23-20-wrap/light-gate.out",
+".andromeda/runs/2026-09-24T16-23-20-wrap/obs-plan-entry.md",
+".andromeda/runs/2026-09-24T16-23-20-wrap/refresh.log",
+".andromeda/runs/2026-09-24T16-23-20-wrap/route-no-marker.json",
+".andromeda/runs/2026-09-24T16-23-20-wrap/security-plan-entry.md",
+".andromeda/runs/2026-09-24T16-23-20-wrap/splice-2026-09-24-workspace-tree-and-code-graph-planes.json",
+".andromeda/runs/2026-09-24T16-23-20-wrap/test-plan-entry.md",
+"viola-0.1.0/chunks/2026-09-24-workspace-tree-and-code-graph-planes/plan.md",
+"viola-0.1.0/chunks/2026-09-24-workspace-tree-and-code-graph-planes/report.md",
+"viola-0.1.0/chunks/2026-09-24-workspace-tree-and-code-graph-planes/research.md",
+"viola-0.1.0/chunks/2026-09-24-workspace-tree-and-code-graph-planes/scope.md"
+]
+},
+"unmapped": [
+".github/workflows/ci.yml",
+".github/workflows/nightly.yml",
+"viola-0.1.0/verification-matrix.json",
+"scripts/orphans-check.sh",
+"scripts/release-check.sh",
+"viola-0.1.0/chunks/2026-09-24-workspace-tree-and-code-graph-planes/artifact-inventory.tsv"
+],
+"prose": [
+{
+"from": 155,
+"to": 164,
+"text": "The gates run on this Windows host during /implement. - **No Rust delta.** The chunk changes no `.rs` file, so the Rust workspace gates (fmt, clippy, nextest unit) are   listed and deferred. /implement re-verifies that reason against the tree. - **The mutation entry must read `no-rust-delta`.** - **No smoke leg:** no boot path changes, and no product binary behaviour changes. - **Separate target dirs.** Every cargo build here that could collide with a running exe uses its own   `CARGO_TARGET_DIR` (host-win32 §Session Additions 2026-09-24). Every output path is under `target/`, which is   gitignored. - **The Linux and macOS halves are witnessed in CI on the pushed sha:** the release and orphans jobs on three OSes,   and the ubuntu `supply-chain` and `nightly` audits. The operator entries at the end read that witness."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "probe",
+"run": "bash scripts/release-check.sh --probe",
+"run_sha8": "3b748abc",
+"expect": [
+"exit 0",
+"last line release-check probes: 3/3 refused, control clean"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-workspace-tree-and-code-graph-planes\\wrap-2026-09-24T16-23-20\\1.log",
+"bytes": 113,
+"log_sha8": "9009dc80",
+"exit": 0,
+"seconds": 0.53,
+"readings": [
+"exit 0 ✓",
+"last line 'release-check probes: 3/3 refused, control clean' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "build",
+"run": "CARGO_TARGET_DIR=target/release-check bash scripts/release-check.sh",
+"run_sha8": "f6aea256",
+"expect": [
+"exit 0",
+"last line release-check: viola only"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-workspace-tree-and-code-graph-planes\\wrap-2026-09-24T16-23-20\\2.log",
+"bytes": 88,
+"log_sha8": "f4df1a24",
+"exit": 0,
+"seconds": 0.37,
+"readings": [
+"exit 0 ✓",
+"last line 'release-check: viola only' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "probe",
+"run": "bash scripts/orphans-check.sh --probe",
+"run_sha8": "6032d9ad",
+"expect": [
+"exit 0",
+"last line orphans-check probes: 1/1 fired, control clean"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-workspace-tree-and-code-graph-planes\\wrap-2026-09-24T16-23-20\\3.log",
+"bytes": 63,
+"log_sha8": "017706c5",
+"exit": 0,
+"seconds": 1.09,
+"readings": [
+"exit 0 ✓",
+"last line 'orphans-check probes: 1/1 fired, control clean' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "probe",
+"run": "bash scripts/orphans-check.sh",
+"run_sha8": "f05a4287",
+"expect": [
+"exit 0",
+"last line orphans-check: 5/5 targets clean"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-workspace-tree-and-code-graph-planes\\wrap-2026-09-24T16-23-20\\4.log",
+"bytes": 213,
+"log_sha8": "38a6025d",
+"exit": 0,
+"seconds": 13.25,
+"readings": [
+"exit 0 ✓",
+"last line 'orphans-check: 5/5 targets clean' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "probe",
+"run": "cargo deny --manifest-path fuzz/Cargo.toml check advisories sources",
+"run_sha8": "5244df61",
+"expect": [
+"exit 0",
+"contains advisories ok, sources ok"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-workspace-tree-and-code-graph-planes\\wrap-2026-09-24T16-23-20\\5.log",
+"bytes": 676,
+"log_sha8": "39d24be6",
+"exit": 0,
+"seconds": 1.03,
+"readings": [
+"exit 0 ✓",
+"contains 'advisories ok, sources ok' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "probe",
+"run": "cargo deny --manifest-path fuzz/Cargo.toml check advisories",
+"run_sha8": "0335c593",
+"expect": [
+"exit 0",
+"contains advisories ok"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-workspace-tree-and-code-graph-planes\\wrap-2026-09-24T16-23-20\\6.log",
+"bytes": 664,
+"log_sha8": "ce5e2937",
+"exit": 0,
+"seconds": 1.06,
+"readings": [
+"exit 0 ✓",
+"contains 'advisories ok' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-workspace-tree-and-code-graph-planes\\wrap-2026-09-24T16-23-20\\7.log",
+"bytes": 3308,
+"log_sha8": "bd9f9133",
+"exit": 0,
+"seconds": 1.05,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "test -s scripts/sync-crates.txt && while read -r c; do cargo deny --config deny-sync.toml --manifest-path \"crates/$c/Cargo.toml\" check bans || exit 1; done < scripts/sync-crates.txt",
+"run_sha8": "59b56b20",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-workspace-tree-and-code-graph-planes\\wrap-2026-09-24T16-23-20\\8.log",
+"bytes": 8,
+"log_sha8": "eba7f300",
+"exit": 0,
+"seconds": 0.43,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "bash scripts/deny-probes.sh",
+"run_sha8": "6ea4a0e7",
+"expect": [
+"exit 0",
+"last line deny-probes: 13/13 banned, control clean"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-workspace-tree-and-code-graph-planes\\wrap-2026-09-24T16-23-20\\9.log",
+"bytes": 346,
+"log_sha8": "57359665",
+"exit": 0,
+"seconds": 16.93,
+"readings": [
+"exit 0 ✓",
+"last line 'deny-probes: 13/13 banned, control clean' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "zizmor .github/workflows/",
+"run_sha8": "5dbe1a48",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-workspace-tree-and-code-graph-planes\\wrap-2026-09-24T16-23-20\\10.log",
+"bytes": 388,
+"log_sha8": "01a25b9b",
+"exit": 0,
+"seconds": 0.11,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "python -X utf8 -c \"import re,glob;print(sum(1 for f in glob.glob('.github/workflows/*.yml') for l in open(f,encoding='utf-8') if re.search(r'uses:\\s',l) and not re.search(r'@[0-9a-f]{40} # v',l)))\"",
+"run_sha8": "de568419",
+"expect": [
+"exit 0",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-workspace-tree-and-code-graph-planes\\wrap-2026-09-24T16-23-20\\11.log",
+"bytes": 3,
+"log_sha8": "13bf7b30",
+"exit": 0,
+"seconds": 0.09,
+"readings": [
+"exit 0 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "python -X utf8 -c \"import yaml,glob;print(sum(s.get('run','').count(chr(36)+'{{') for f in glob.glob('.github/workflows/*.yml') for j in yaml.safe_load(open(f))['jobs'].values() for s in j.get('steps',[])))\"",
+"run_sha8": "63e7e265",
+"expect": [
+"exit 0",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-workspace-tree-and-code-graph-planes\\wrap-2026-09-24T16-23-20\\12.log",
+"bytes": 3,
+"log_sha8": "13bf7b30",
+"exit": 0,
+"seconds": 0.13,
+"readings": [
+"exit 0 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "grep -ciE 'a11y|playwright|--browser' .github/workflows/nightly.yml",
+"run_sha8": "f86c0c5d",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-workspace-tree-and-code-graph-planes\\wrap-2026-09-24T16-23-20\\13.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.06,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "grep -c 'bash scripts/release-check.sh' .github/workflows/ci.yml",
+"run_sha8": "efd1c92a",
+"expect": [
+"exit 0",
+"last line 2"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-workspace-tree-and-code-graph-planes\\wrap-2026-09-24T16-23-20\\14.log",
+"bytes": 2,
+"log_sha8": "53c234e5",
+"exit": 0,
+"seconds": 0.06,
+"readings": [
+"exit 0 ✓",
+"last line '2' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "grep -c 'scripts/orphans-check.sh' .github/workflows/ci.yml",
+"run_sha8": "aa084a68",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-workspace-tree-and-code-graph-planes\\wrap-2026-09-24T16-23-20\\15.log",
+"bytes": 2,
+"log_sha8": "4355a46b",
+"exit": 0,
+"seconds": 0.06,
+"readings": [
+"exit 0 ✓",
+"last line '1' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "grep -c 'manifest-path fuzz/Cargo.toml' .github/workflows/ci.yml .github/workflows/nightly.yml",
+"run_sha8": "3c04ed9f",
+"expect": [
+"exit 0",
+"contains ci.yml:1",
+"contains nightly.yml:1"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-workspace-tree-and-code-graph-planes\\wrap-2026-09-24T16-23-20\\16.log",
+"bytes": 59,
+"log_sha8": "15d3dffa",
+"exit": 0,
+"seconds": 0.06,
+"readings": [
+"exit 0 ✓",
+"contains 'ci.yml:1' ✓",
+"contains 'nightly.yml:1' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "build",
+"run": "bash scripts/install-ripgrep.sh",
+"run_sha8": "dcb8426b",
+"expect": [
+"exit 0",
+"contains ripgrep/bin"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-workspace-tree-and-code-graph-planes\\wrap-2026-09-24T16-23-20\\17.log",
+"bytes": 90,
+"log_sha8": "f0fd37f2",
+"exit": 0,
+"seconds": 0.17,
+"readings": [
+"exit 0 ✓",
+"contains 'ripgrep/bin' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "export PATH=\"$PWD/target/tools/ripgrep/bin:$PATH\"; set +e; rg -n --hidden -g 'Cargo.toml' -g 'config.toml' -g '*.yml' -g '*.yaml' \"(panic|_PANIC)\\s*[:=]\\s*[\\\"']?abort\" .; test $? -eq 1",
+"run_sha8": "60b15b07",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-workspace-tree-and-code-graph-planes\\wrap-2026-09-24T16-23-20\\18.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.08,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "python -X utf8 -c \"a=open('.andromeda/architecture.md',encoding='utf-8').read();r=[l.split(chr(9)) for l in open('viola-0.1.0/chunks/2026-09-24-workspace-tree-and-code-graph-planes/artifact-inventory.tsv',encoding='utf-8').read().splitlines()[1:] if l.strip()];print(len(r));print(sum(1 for x in r if x[0] not in a))\"",
+"run_sha8": "5e6f74b7",
+"expect": [],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-workspace-tree-and-code-graph-planes\\wrap-2026-09-24T16-23-20\\19.log",
+"bytes": 7,
+"log_sha8": "f819dbd1",
+"exit": 0,
+"seconds": 0.08,
+"readings": [
+"report-only (expect = [])"
+],
+"survivors": [],
+"outcome": "recorded"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "git ls-files --cached --others --exclude-standard -- tsconfig.json 'crates/viola-ui/*tsconfig*.json' 'crates/viola-ui/*package.json' 'crates/viola-ui/*.config.*' ",
+"run_sha8": "7b37a723",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-workspace-tree-and-code-graph-planes\\wrap-2026-09-24T16-23-20\\20.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.06,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 21,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — defer (key): zero .rs delta: the chunk touches only w… (80 chars)"
+},
+{
+"n": 22,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — defer (key): zero .rs delta"
+},
+{
+"n": 23,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — defer (key): zero .rs delta; no Rust test reads a fil… (60 chars)"
+},
+{
+"n": 24,
+"role": "integration",
+"run": "AGENT_RUN_CHUNK_BASE=3f385ddf55da967cd0a39eda67eaf5f8d07556a2 bash scripts/agent-run.sh run --mutants",
+"run_sha8": "ae604e53",
+"expect": [
+"exit 0",
+"contains \"verdict\":\"no-rust-delta\""
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-workspace-tree-and-code-graph-planes\\wrap-2026-09-24T16-23-20\\24.log",
+"bytes": 260,
+"log_sha8": "9fd1c6e4",
+"exit": 0,
+"seconds": 0.94,
+"readings": [
+"exit 0 ✓",
+"contains '\"verdict\":\"no-rust-delta\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 25,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin build/viola-0.1.0",
+"run_sha8": "32523c62",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 26,
+"role": "probe",
+"run": "gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD)/check-runs --jq '[.check_runs[] | .conclusion] | unique | join(\",\")' ",
+"run_sha8": "4d78cf7d",
+"expect": [
+"exit 0",
+"last line success"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 27,
+"role": "probe",
+"run": "gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD)/check-runs --jq '[.check_runs[] | select(.name | startswith(\"release (\")) | .conclusion] | join(\",\")' ",
+"run_sha8": "b5acba58",
+"expect": [
+"exit 0",
+"last line success,success,success"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+}
+]

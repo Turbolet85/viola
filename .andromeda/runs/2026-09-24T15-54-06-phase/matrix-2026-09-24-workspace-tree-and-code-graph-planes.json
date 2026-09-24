@@ -1,0 +1,114 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "ac6c73e5",
+"ts": "2026-09-24T16:16:24Z",
+"argv": [
+"coverage",
+"--dir",
+"viola-0.1.0",
+"--run-dir",
+".andromeda/runs/2026-09-24T15-54-06-phase",
+"--marker",
+"2026-09-24-workspace-tree-and-code-graph-planes"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"verified 2/53 · deferred 0 · planned 51 · implemented 0 · unclaimed 51",
+"unclaimed: v1-01 v1-02 v1-03 v1-04 v1-05 v1-07 v1-08 v1-09 v1-10 v1-11 v1-12 v1-13 v1-14 v1-15 v1-16 v1-17",
+"          v1-18 v1-20 v1-21 v1-22 v1-23 v1-24 v1-25 v1-26 v1-27 v1-28 v1-29 v1-30 v1-31 v1-32 v1-33 v1-34",
+"          v1-35 v1-36 v1-37 v1-38 v1-39 v1-40 v1-41 v1-42 v1-43 v1-44 v1-45 v1-46 v1-47 v1-48 v1-49 v1-50",
+"          v1-51 v1-52 v1-53",
+"claimed-unfinished: none",
+"done-test: NO — 51 not verified|deferred · unclaimed 51",
+"chunks referenced: 2 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "ac6c73e5",
+"ts": "2026-09-24T16:16:41Z",
+"argv": [
+"claim",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-23",
+"--chunk",
+"2026-09-24-workspace-tree-and-code-graph-planes",
+"--acceptance-file",
+".andromeda/runs/2026-09-24T15-54-06-phase/acceptance-v1-23.md",
+"--note-file",
+".andromeda/runs/2026-09-24T15-54-06-phase/note-v1-23.md",
+"--run-dir",
+".andromeda/runs/2026-09-24T15-54-06-phase"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"claim v1-23 → chunk 2026-09-24-workspace-tree-and-code-graph-planes (was null; status planned kept)",
+"acceptance: The architecture's workspace, directory tree and dependency policy lis… (221 chars)",
+"         → By construction, three parts, all required:⏎⏎(a) The release build con… (1540 chars)",
+"notes: +582 chars (total 582)",
+"wrote viola-0.1.0\\verification-matrix.json · 1 entry changed",
+"pool: unclaimed 50 [v1-01 v1-02 v1-03 v1-04 v1-05 v1-07 v1-08 v1-09 v1-10 v1-11 v1-12 v1-13 v1-14 v1-15 v1-16 v1-17 v1-18 v1-20 v1-21 v1-22 v1-24 v1-25 v1-26 v1-27 v1-28 v1-29 v1-30 v1-31 v1-32 v1-33 v1-34 v1-35 v1-36 v1-37 v1-38 v1-39 v1-40 v1-41 v1-42 v1-43 v1-44 v1-45 v1-46 v1-47 v1-48 v1-49 v1-50 v1-51 v1-52 v1-53]"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0\\verification-matrix.json"
+],
+"before": {
+"id": "v1-23",
+"chunk": null,
+"status": "planned",
+"method": "by-construction",
+"ref": "null",
+"acceptance": "The architecture's workspace, directory tree and dependency policy list every test, observability and accessibility arti… (221 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-23",
+"chunk": "2026-09-24-workspace-tree-and-code-graph-planes",
+"status": "planned",
+"method": "by-construction",
+"ref": "null",
+"acceptance": "By construction, three parts, all required:⏎⏎(a) The release build contains no test-only binary.⏎- `bash scripts/release… (1540 chars)",
+"notes_chars": 582
+}
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "ac6c73e5",
+"ts": "2026-09-24T16:16:41Z",
+"argv": [
+"audit",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-09-24-workspace-tree-and-code-graph-planes",
+"--plan",
+"viola-0.1.0/chunks/2026-09-24-workspace-tree-and-code-graph-planes/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-24T15-54-06-phase"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-24-workspace-tree-and-code-graph-planes: 1 · ## Acceptance Criteria: line 330, 38 lines",
+"v1-23: cited in ## Acceptance Criteria (line 331)",
+"pool: unclaimed 50 [v1-01 v1-02 v1-03 v1-04 v1-05 v1-07 v1-08 v1-09 v1-10 v1-11 v1-12 v1-13 v1-14 v1-15 v1-16 v1-17 v1-18 v1-20 v1-21 v1-22 v1-24 v1-25 v1-26 v1-27 v1-28 v1-29 v1-30 v1-31 v1-32 v1-33 v1-34 v1-35 v1-36 v1-37 v1-38 v1-39 v1-40 v1-41 v1-42 v1-43 v1-44 v1-45 v1-46 v1-47 v1-48 v1-49 v1-50 v1-51 v1-52 v1-53]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

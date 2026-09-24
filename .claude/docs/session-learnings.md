@@ -8,6 +8,16 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-09-24 — Three pattern probes that match what they were not aimed at
+A sweep or guard is only as good as its pattern, and three natural patterns in this repo match more, or less, than they appear to.
+- A bare `grep owed` over the masters also hits `allowed`, `followed` and `showed`. Word-bound it (`grep -w owed`) before counting stale "owed" clauses.
+- An absolute-path probe built on `[A-Za-z]:/` matches the `s:/` inside every `https://` URL. Exclude URL schemes, or match drive letters only at a token start, before calling a report path-free.
+- A git pathspec `dir/**/name` does not match `dir/name`: without `:(glob)` magic, `**/` needs a directory level between. The fnmatch form `dir/*name` (where `*` crosses `/`) catches both.
+
+The third was a guard that could never fire on its main case. Only a planted known-positive control exposed it, so run every new guard against a planted positive before trusting its silence.
+
+---
+
 ## 2026-09-24 — A gate atom must not match what a green run can print
 A `lacks` / `contains` atom on a test runner's log reads the whole log, and test NAMES are part of it. A `lacks failed` atom over a green nextest run went red because two passing tests are named `…_build_failed…`, and a `contains 0 failed` atom went red because nextest's green summary never prints a failed count at all. Assert on the runner's own summary token (nextest prints `N failed,` only on a red run), and read the token from a recorded log of the real run before writing the atom.
 

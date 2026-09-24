@@ -1,0 +1,158 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1b01be01",
+"ts": "2026-09-24T16:37:52Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-24T16-23-20-wrap/architecture-entry.md",
+"--lines",
+"21",
+"--run-dir",
+".andromeda/runs/2026-09-24T16-23-20-wrap",
+"--marker",
+"2026-09-24-workspace-tree-and-code-graph-planes"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+21 at line 140 · lines 139→160 · bytes 19016→23275 · term lf",
+"last line now: **Sweep** (cascade step 2, `sweep.py` over the seven masters + CLAUDE.md + `.cla"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 139,
+"bytes": 19016,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 160,
+"bytes": 23275
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1b01be01",
+"ts": "2026-09-24T16:37:53Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-24T16-23-20-wrap/test-plan-entry.md",
+"--lines",
+"21",
+"--run-dir",
+".andromeda/runs/2026-09-24T16-23-20-wrap",
+"--marker",
+"2026-09-24-workspace-tree-and-code-graph-planes"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+21 at line 150 · lines 149→170 · bytes 17010→19821 · term lf",
+"last line now: 0 stale. Fanned 13 proposals (8 `dependent-of`), all applied, re-derived from th"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 149,
+"bytes": 17010,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 170,
+"bytes": 19821
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1b01be01",
+"ts": "2026-09-24T16:37:53Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-24T16-23-20-wrap/security-plan-entry.md",
+"--lines",
+"18",
+"--run-dir",
+".andromeda/runs/2026-09-24T16-23-20-wrap",
+"--marker",
+"2026-09-24-workspace-tree-and-code-graph-planes"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+18 at line 74 · lines 73→91 · bytes 7821→10224 · term lf",
+"last line now: Leaves re-derived: `.claude/rules/security.md` (weekly advisories over both lock"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 73,
+"bytes": 7821,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 91,
+"bytes": 10224
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1b01be01",
+"ts": "2026-09-24T16:37:53Z",
+"argv": [
+"append",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-24T16-23-20-wrap/obs-plan-entry.md",
+"--lines",
+"9",
+"--run-dir",
+".andromeda/runs/2026-09-24T16-23-20-wrap",
+"--marker",
+"2026-09-24-workspace-tree-and-code-graph-planes"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append obs-plan-amendments.md:+9 at line 78 · lines 77→86 · bytes 8552→10554 · term lf",
+"last line now: **Sweep** (same pass `sweep.py`, the `unscanned uploads` / `two unscanned` famil"
+],
+"stderr": null,
+"wrote": [
+".andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 77,
+"bytes": 8552,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 86,
+"bytes": 10554
+}
+}
+]

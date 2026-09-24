@@ -7,14 +7,14 @@ _The workspace, `rust-toolchain.toml`, `.config/nextest.toml`, `viola-harness` a
 ## Installation
 - `rustup toolchain install` — installs the toolchain pinned in `rust-toolchain.toml` (1.98.1, components rustfmt + clippy)
 - `cargo install --locked cargo-nextest@0.9.146 cargo-llvm-cov@0.9.1 cargo-mutants@27.1.0 cargo-deny@0.20.2` — test / coverage / mutation / policy tools (CI uses taiki-e/install-action, SHA-pinned)
-- `cargo install --locked hyperfine@1.20.0 cargo-modules@0.27.0 zizmor@1.30.1` — perf gate, boundary review, workflow lint
+- `cargo install --locked hyperfine@1.20.0 cargo-modules@0.27.0 zizmor@1.30.1` — perf gate, orphans gate + on-demand boundary review, workflow lint (CI installs cargo-modules this way in `lint`: taiki-e has no manifest for it)
 - `bash scripts/install-ripgrep.sh`: ripgrep 15.2.0 (PCRE2, sha256-verified) into `target/tools/ripgrep/bin` for G1/G3.
-- `jq` for G2: runner-provided in CI and presence-checked, never installed there. jaq 3.1.1 takes the same filters locally.
+- `jq` for G2, `scripts/release-check.sh` and `scripts/orphans-check.sh`: runner-provided in CI, never installed there (G2 presence-checks it; the scripts refuse with `tool-missing: jq`). jaq 3.1.1 takes the same filters locally.
 - `npm ci --prefix e2e-web` then `npx --prefix e2e-web playwright install --with-deps chromium` — browser suite (ubuntu CI; local optional)
 - `cargo install --path .` — install `viola` from the repo root
 - `pip install -r scripts/requirements.txt` — code-graph Python deps (duckdb + protobuf)
 - `rustup component add rust-analyzer` — the Rust SCIP indexer for the code-graph (already on PATH on the founder's host)
-- `npm i -g @sourcegraph/scip-typescript` — the TypeScript indexer (only if a ts plane is activated)
+- `npm i -g @sourcegraph/scip-typescript` — the TypeScript indexer for the ts plane, which activates with the tracked `e2e-web/tsconfig.json` (e2e-web only; never over `crates/viola-ui/`)
 
 ## Development
 - `viola run <name> -- claude [args]` — wrap a live session (Windows live target)
@@ -48,9 +48,11 @@ _The workspace, `rust-toolchain.toml`, `.config/nextest.toml`, `viola-harness` a
 - `bash scripts/lint-probes.sh`: proves every clippy ban fires and both controls pass, plus the fail-closed raw-`event!` grep (last line `lint-probes: 4 bans fired, 2 controls clean`; CI runs it on the Linux lint leg).
 - `cargo check --workspace --all-targets` — type check
 - `cargo check $(sed 's/^/-p /' scripts/sync-crates.txt)` — the listed sync crates compile without tokio (CI job `lint`; each sync crate joins `scripts/sync-crates.txt` with its crate)
-- `cargo tree -e features -p viola --edges normal` — assert rmcp shows only `server`, `transport-io`
-- `cargo modules dependencies --package <crate> --acyclic` / `cargo modules orphans --package <crate> --deny` — boundary review
-- `cargo deny check` — advisories, licences, sources, bans over `deny.toml`, root `Cargo.lock` only (weekly in `nightly.yml`: `cargo deny check advisories`). `fuzz/Cargo.lock` sits outside it by a ratified test-only exemption; its audit is owed to the next chunk
+- `bash scripts/orphans-check.sh [--probe]` — `cargo modules orphans --deny` per lib/bin target (last line `orphans-check: N/N targets clean`; the probe's `orphans-check probes: 1/1 fired, control clean`); CI job `lint`, all 3 OS
+- `cargo modules dependencies --package <crate> --lib` — the on-demand boundary review only: `--acyclic` is not a gate (cargo-modules 0.27.0 reads every type ↔ inherent method as a cycle)
+- `cargo tree -e features -p viola --edges normal` — the rmcp `server` + `transport-io` assertion; it lands with the "MCP server for drivers" chunk (no rmcp in the graph before `viola-mcp`)
+- `cargo deny check` — advisories, licences, sources, bans over `deny.toml`, the root `Cargo.lock` (weekly in `nightly.yml`: `cargo deny check advisories`)
+- `cargo deny --manifest-path fuzz/Cargo.toml check advisories sources` — the separate `fuzz/Cargo.lock` audit (CI `supply-chain` with `--format json` into `target/supply-chain/deny-fuzz.json`; weekly `check advisories` in `nightly.yml`). Run it from the repo root: under `fuzz/` rustup demands the fuzz nightly. `fuzz/` stays outside the root graph by a ratified test-only exemption
 - `cargo deny --config deny-sync.toml --manifest-path crates/<crate>/Cargo.toml check bans` — the tokio ban, once per crate in `scripts/sync-crates.txt` as sole root (cargo-deny 0.20: `--config` goes before the subcommand; `check -c` is rejected)
 - `bash scripts/deny-probes.sh` — proves every ban fires (last line `deny-probes: 13/13 banned, control clean`; needs the network)
 - `zizmor .github/workflows/` (CI: `--format=json`) — workflow lint
@@ -62,11 +64,11 @@ _The workspace, `rust-toolchain.toml`, `.config/nextest.toml`, `viola-harness` a
 - G3 no abort panic strategy: `rg -n --hidden -g 'Cargo.toml' -g 'config.toml' -g '*.yml' -g '*.yaml' "(panic|_PANIC)\s*[:=]\s*[\"']?abort" .` must exit 1
 - G1 and G3 need `rg` on `PATH`: `PATH="$PWD/target/tools/ripgrep/bin:$PATH"` after `scripts/install-ripgrep.sh`.
 - G4 schema conformance against `schemas/diag-line.v1.json` / `schemas/diag-detail.v1.json`: `bash scripts/agent-run.sh schema-check`.
-- Secret scan before any upload: `bash scripts/agent-run.sh secret-scan` (`id: secret-scan`). The hit report goes to `target/secret-scan/hits.json`.
+- Secret scan before any diagnostics-bearing upload: `bash scripts/agent-run.sh secret-scan` (`id: secret-scan`). The hit report goes to `target/secret-scan/hits.json`. The unscanned uploads (the mutants leg verdicts, nightly `fuzz/artifacts/`, the `supply-chain` reports) are admissible only by content, per obs-plan §8 item 6.
 - Locally, G2, G4 and the scan need kept homes. Clear `target/e2e-home` and `target/agent-run` first (a local `run --mutants` leaves a `chunk.diff` there that holds canary literals), then run `AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --integration`.
 
 ## Build & Deploy
-- `cargo build --release --bin viola` — release build (fake agent excluded: feature off)
+- `bash scripts/release-check.sh [--probe]` — release build `cargo build --release --locked --bin viola` (fake agent excluded: feature off), judged from its own artifact records: last line `release-check: viola only` (the probe's `release-check probes: 3/3 refused, control clean`). CI job `release`, all 3 OS. Locally, pass `CARGO_TARGET_DIR=target/release-check` to keep it off a shared `target/release/`
 - `CARGO_TARGET_DIR=target/harness cargo build --workspace --features viola/fake-agent` — harness build (boot step 1; its own target dir because a running `target/debug/viola-harness.exe` cannot be relinked on Windows)
 - No deploy stage in v1; v1.x adds a dist 0.33.0 release workflow
 

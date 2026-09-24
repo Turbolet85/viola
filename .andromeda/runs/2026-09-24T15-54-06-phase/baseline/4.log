@@ -1,0 +1,9 @@
+warning[advisory-not-detected]: advisory was not encountered
+   ┌─ deny.toml:12:11
+   │
+12 │   { id = "RUSTSEC-2017-0008", reason = "serial arrives only via portable-pty =0.8.1; viola never opens a serial port" },
+   │           ━━━━━━━━━━━━━━━━━             ──────────────────────────────────────────────────────────────────────────── ignore reason
+   │           │                              
+   │           no crate matched advisory criteria
+
+advisories ok, sources ok

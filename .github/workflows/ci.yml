@@ -311,6 +311,36 @@ jobs:
         if: runner.os == 'Linux'
         shell: bash
         run: bash scripts/lint-probes.sh
+      # taiki-e/install-action has no cargo-modules manifest; its fallback would fetch an unpinned binary.
+      - name: Install cargo-modules
+        run: cargo install --locked cargo-modules@0.27.0
+      - name: Module orphans (per lib/bin target)
+        shell: bash
+        run: bash scripts/orphans-check.sh --probe && bash scripts/orphans-check.sh
+
+  # Target job 6: the release build carries only `viola`, judged from the build's own artifact records.
+  release:
+    name: release (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-2025, macos-latest, ubuntu-latest]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Toolchain (rust-toolchain.toml)
+        run: rustup toolchain install
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+      - name: Release-check probes (test-only binaries refused)
+        shell: bash
+        run: bash scripts/release-check.sh --probe
+      - name: Release build (viola only)
+        shell: bash
+        run: bash scripts/release-check.sh
 
   supply-chain:
     name: supply-chain
@@ -340,6 +370,13 @@ jobs:
         run: |
           mkdir -p target/supply-chain
           cargo deny --format json check 2> target/supply-chain/deny.json || { cat target/supply-chain/deny.json; exit 1; }
+      # fuzz/ is its own workspace outside the graph above. Run from the repo root: under fuzz/, rustup would
+      # resolve fuzz/rust-toolchain.toml's nightly, which this job does not install.
+      - name: Fuzz lockfile audit (advisories, sources)
+        shell: bash
+        run: |
+          mkdir -p target/supply-chain
+          cargo deny --manifest-path fuzz/Cargo.toml --format json check advisories sources 2> target/supply-chain/deny-fuzz.json || { cat target/supply-chain/deny-fuzz.json; exit 1; }
       - name: Tokio ban per sync crate (sole root)
         shell: bash
         run: |

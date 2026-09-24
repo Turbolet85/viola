@@ -1,0 +1,21 @@
+
+## 2026-09-24-workspace-tree-and-code-graph-planes — tree lists every test/obs/a11y artifact, release-check, orphans gate, fuzz lock audit, code-graph planes
+**Section:** Stack and Technologies (Code quality row) · Occupied Resources → Repository · Infrastructure Patterns (Build system: Dependency policy, Boundary review, a new Code-graph planes bullet · Project directory structure · CI/CD approach: nightly sentence, Setup steps, jobs wired, target job 6)
+**Change:**
+- Code quality row: cargo-modules 0.27.0 is installed with `cargo install --locked` in `lint`; the orphans gate runs in CI and the dependency graph is reviewed on demand. `jq` is also used by `scripts/release-check.sh` and `scripts/orphans-check.sh`.
+- Repository:
+  - `target/supply-chain/` names `deny-fuzz.json` and is admissible by content (obs-plan §8 item 6);
+  - new entries: `target/orphans-probes/run-<utc>-<pid>/`, `target/release-check/`, `target/perf/` (its hyperfine exports are the separate `perf/*.json`), `target/nextest/ci/junit.xml`, `e2e-web/test-results/` with `e2e-web/test-results/a11y/` and `e2e-web/test-results/lint/`.
+- Build system:
+  - the fuzz lockfile's audit is wired (ci.yml `supply-chain` advisories + sources into `deny-fuzz.json`; weekly nightly advisories), run from the repo root, where cargo-deny resolves the root `deny.toml` by walking up;
+  - boundary review: `cargo modules orphans --deny` per lib/bin target via `scripts/orphans-check.sh` (+ `--probe`) is a CI gate, and the `--acyclic` graph is an on-demand review;
+  - the rmcp `cargo tree -e features` check lands with the "MCP server for drivers" chunk;
+  - new code-graph planes bullet: rust = the root workspace through rust-analyzer SCIP (every member; `fuzz/` outside); ts = `e2e-web/` only via a tracked `e2e-web/tsconfig.json` (noEmit, strict); nothing under `crates/viola-ui/` is ever covered by a tsconfig, package manifest or bundler config.
+- Tree: `tests/cmd/*.toml` (trycmd), `tests/snapshots/`, `crates/viola-ui/assets/` (`index.html`, `app.css`, vendored Lit 3.3.3 ESM), `scripts/release-check.sh`, `scripts/orphans-check.sh`, `e2e-web/` with its 10 entries, `a11y/sr-pass/`, and the updated ci.yml / nightly.yml comments.
+- CI/CD:
+  - nightly `advisories` covers both lockfiles;
+  - Setup steps add the jq consumers and the cargo-modules install route (no taiki-e manifest);
+  - 8 jobs wired and 15 check-runs per push: `lint` gains the orphans steps, `supply-chain` the fuzz lockfile audit, and the new `release` job (plain exit-code, no gate step);
+  - target job 6 is `cargo build --release --locked --bin viola` through `scripts/release-check.sh`, judged on the build's own artifact records, never a `target/release/` listing.
+**Why:** chunk 2026-09-24-workspace-tree-and-code-graph-planes (report Changes: Files, Symbols/APIs, Schema/config, Code-graph planes, Counts moved, Dev-tool versions, Harness/gate surface; Spec claims disproved 1-3). v1-23's inventory gate read 45 rows / 25 missing before this amendment and 45 / 0 after it. Operator P4 decisions 1-3. The obs §8 upload admissibility was ratified at this wrap's P2.
+**Sweep** (cascade step 2, `sweep.py` over the seven masters + CLAUDE.md + `.claude/rules/*` + `.claude/docs/**`; 16 pattern families including `owed` word-bounded, `root Cargo.lock only`, `outside cargo deny`, `module graph review`/`graph on demand`, `acyclic`, `cargo-modules cycle`, `rmcp client in the release graph`, `cargo tree -e features`, `Jobs wired (7)`, `12 check-runs`, bare `cargo build --release`, `jq (G2)` sole consumer, `last step of every job`, nightly advisories without fuzz, unscanned uploads, `No separate test crate`): architecture hits after the apply are all this pass's own new text (`acyclic` :412, `cargo tree` :413, bare `cargo build --release` :528 inside the measured sentence), 0 stale. The known-positive control fired (`acyclic` 6 hits corpus-wide). Leaves re-derived: CLAUDE.md `GENERATED:setup:overview` (Key directories gains the ts plane note and `a11y/sr-pass/`), `.claude/docs/stack.md` (Code quality row recomputed from the arch row: it had lagged cargo-llvm-cov/cargo-fuzz; Testing jq line), `.claude/docs/commands.md` (install, jq, Lint lines 51-55, release build, scip-typescript line).

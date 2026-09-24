@@ -1,0 +1,49 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "ac6c73e5",
+"ts": "2026-09-24T16:22:04Z",
+"argv": [
+"implement",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-09-24-workspace-tree-and-code-graph-planes",
+"--id",
+"v1-23",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-24T16-17-36-implement"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"implement v1-23 · status planned → implemented · ref by-construction: (a) scripts/release-check.sh — `--probe` prints \"release-check … (746 chars)",
+"wrote viola-0.1.0\\verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0\\verification-matrix.json"
+],
+"before": {
+"id": "v1-23",
+"chunk": "2026-09-24-workspace-tree-and-code-graph-planes",
+"status": "planned",
+"method": "by-construction",
+"ref": "null",
+"acceptance": "By construction, three parts, all required:⏎⏎(a) The release build contains no test-only binary.⏎- `bash scripts/release… (1540 chars)",
+"notes_chars": 582
+},
+"after": {
+"id": "v1-23",
+"chunk": "2026-09-24-workspace-tree-and-code-graph-planes",
+"status": "implemented",
+"method": "by-construction",
+"ref": "by-construction: (a) scripts/release-check.sh — `--probe` prints \"release-check probes: 3/3 refused, control clean\", def… (746 chars)",
+"acceptance": "By construction, three parts, all required:⏎⏎(a) The release build contains no test-only binary.⏎- `bash scripts/release… (1540 chars)",
+"notes_chars": 582
+}
+}
+]

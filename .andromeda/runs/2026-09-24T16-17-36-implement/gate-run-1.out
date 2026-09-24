@@ -1,0 +1,34 @@
+gate v1.1 · 851b9a6f
+shell C:\Program Files\Git\bin\bash.exe (from $SHELL; -c, non-login)
+root D:\dev\projects\viola · marker 2026-09-24-workspace-tree-and-code-graph-planes · entries 27
+logs C:\Users\turbo\AppData\Local\Temp\andromeda-gate\2026-09-24-workspace-tree-and-code-graph-planes\implement-2026-09-24T16-17-36 · bound: GNU timeout
+delta docs 35 · unmapped 6
+prose L155-164: The gates run on this Windows host during /implement. - **No Rust delta.** The chunk chang… (827 chars)
+  1 probe       green · exit 0 · 0.58s · 113 B → 1.log · bash scripts/release-check.sh --probe
+  2 build       green · exit 0 · 8.58s · 1907 B → 2.log · CARGO_TARGET_DIR=target/release-check bash scripts/release… (67 chars)
+  3 probe       green · exit 0 · 1.15s · 63 B → 3.log · bash scripts/orphans-check.sh --probe
+  4 probe       green · exit 0 · 13.55s · 213 B → 4.log · bash scripts/orphans-check.sh
+  5 probe       green · exit 0 · 1.24s · 676 B → 5.log · cargo deny --manifest-path fuzz/Cargo.toml check advisorie… (67 chars)
+  6 probe       green · exit 0 · 1.06s · 664 B → 6.log · cargo deny --manifest-path fuzz/Cargo.toml check advisorie… (59 chars)
+  7 probe       green · exit 0 · 0.99s · 3308 B → 7.log · cargo deny check
+  8 probe       green · exit 0 · 0.43s · 8 B → 8.log · test -s scripts/sync-crates.txt && while read -r c; do car… (181 chars)
+  9 probe       green · exit 0 · 15.43s · 346 B → 9.log · bash scripts/deny-probes.sh
+ 10 probe       green · exit 0 · 0.11s · 388 B → 10.log · zizmor .github/workflows/
+ 11 probe       green · exit 0 · 0.1s · 3 B → 11.log · python -X utf8 -c "import re,glob;print(sum(1 for f in glo… (197 chars)
+ 12 probe       green · exit 0 · 0.13s · 3 B → 12.log · python -X utf8 -c "import yaml,glob;print(sum(s.get('run',… (207 chars)
+ 13 probe       green · exit 1 · 0.08s · 2 B → 13.log · grep -ciE 'a11y|playwright|--browser' .github/workflows/ni… (67 chars)
+ 14 probe       green · exit 0 · 0.06s · 2 B → 14.log · grep -c 'bash scripts/release-check.sh' .github/workflows/… (64 chars)
+ 15 probe       green · exit 0 · 0.06s · 2 B → 15.log · grep -c 'scripts/orphans-check.sh' .github/workflows/ci.ym… (59 chars)
+ 16 probe       green · exit 0 · 0.06s · 59 B → 16.log · grep -c 'manifest-path fuzz/Cargo.toml' .github/workflows/… (94 chars)
+ 17 build       green · exit 0 · 0.15s · 90 B → 17.log · bash scripts/install-ripgrep.sh
+ 18 probe       green · exit 0 · 0.11s · 0 B → 18.log · export PATH="$PWD/target/tools/ripgrep/bin:$PATH"; set +e;… (184 chars)
+ 19 probe       recorded · exit 0 · 0.09s · 8 B → 19.log · python -X utf8 -c "a=open('.andromeda/architecture.md',enc… (317 chars)
+ 20 probe       green · exit 0 · 0.07s · 0 B → 20.log · git ls-files --cached --others --exclude-standard -- tscon… (162 chars)
+ 21 lint        not run — defer (key): zero .rs delta: the chunk touches only w… (80 chars) · cargo fmt --all --check
+ 22 lint        not run — defer (key): zero .rs delta · cargo clippy --workspace --all-targets --features fake-age… (75 chars)
+ 23 unit        not run — defer (key): zero .rs delta; no Rust test reads a fil… (60 chars) · bash scripts/agent-run.sh run --unit
+ 24 integration green · exit 0 · 0.8s · 260 B → 24.log · AGENT_RUN_CHUNK_BASE=3f385ddf55da967cd0a39eda67eaf5f8d0755… (101 chars)
+ 25 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (82 chars)
+ 26 probe       not run — leg operator (the letter drives it) · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (129 chars)
+ 27 probe       not run — leg operator (the letter drives it) · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (162 chars)
+entries 27 · green 20 · red 0 · recorded 1 · timeout 0 · not-run 6

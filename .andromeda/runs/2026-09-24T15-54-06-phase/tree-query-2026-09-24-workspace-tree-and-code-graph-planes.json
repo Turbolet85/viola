@@ -1,0 +1,52 @@
+[
+{
+"sql": "SELECT crate, COUNT(*) AS syms, COUNT(DISTINCT file) AS files FROM symbol GROUP BY crate ORDER BY crate",
+"rows": 3,
+"result": [
+{
+"crate": "viola",
+"syms": 341,
+"files": 15
+},
+{
+"crate": "viola-core",
+"syms": 70,
+"files": 2
+},
+{
+"crate": "viola-e2e",
+"syms": 501,
+"files": 16
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT COUNT(*) AS fuzz_syms FROM symbol WHERE file LIKE 'fuzz/%'",
+"rows": 1,
+"result": [
+{
+"fuzz_syms": 0
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT from_crate, to_crate FROM crate_edges ORDER BY 1,2",
+"rows": 2,
+"result": [
+{
+"from_crate": "viola",
+"to_crate": "viola-core"
+},
+{
+"from_crate": "viola-e2e",
+"to_crate": "viola-core"
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

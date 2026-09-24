@@ -1,0 +1,46 @@
+token	path	owner	arch-home
+viola-e2e/	crates/viola-e2e/	test-plan §2	tree
+viola-fake-agent.rs	src/bin/viola-fake-agent.rs	test-plan §2	tree
+agent-run.{sh,ps1}	scripts/agent-run.{sh,ps1}	test-plan §3	tree
+fuzz_targets/	fuzz/fuzz_targets/	test-plan §2	tree
+corpus/<target>/	fuzz/corpus/<target>/	test-plan §2	tree
+claude/<cli-version>/	fixtures/claude/<cli-version>/	test-plan §2	tree
+fake-scripts/	fixtures/fake-scripts/	test-plan §2	tree
+trycmd	tests/cmd/*.toml	test-plan §2	tree
+snapshots/	tests/snapshots/	test-plan §2	tree
+support/	tests/support/	test-plan §2	tree
+nextest.toml	.config/nextest.toml	test-plan §3	tree
+proptest-regressions/	crates/viola-core/proptest-regressions/	test-plan §3	tree
+fake-script.v1.json	schemas/fake-script.v1.json	test-plan §3	tree
+e2e-web/	e2e-web/	test-plan §2	tree
+package.json	e2e-web/package.json	test-plan §3	tree
+playwright.config.ts	e2e-web/playwright.config.ts	test-plan §3	tree
+tsconfig.json	e2e-web/tsconfig.json	test-plan §3 (ts plane, operator decision 2026-09-24)	tree
+*.spec.ts	e2e-web/tests/*.spec.ts	test-plan §2	tree
+a11y-row.v1.json	e2e-web/schemas/a11y-row.v1.json	test-plan §3	tree
+release-check.sh	scripts/release-check.sh	test-plan §9	tree
+orphans-check.sh	scripts/orphans-check.sh	test-plan §9	tree
+target/agent-run/	target/agent-run/	test-plan §3	repository
+target/e2e-home/	target/e2e-home/	test-plan §3	repository
+target/harness/	target/harness/	test-plan §3	repository
+target/perf/	target/perf/	test-plan §10	repository
+target/nextest/ci/	target/nextest/ci/junit.xml	test-plan §9	repository
+target/supply-chain/	target/supply-chain/	test-plan §9	repository
+deny-fuzz.json	target/supply-chain/deny-fuzz.json	test-plan §9	repository
+target/orphans-probes/	target/orphans-probes/	test-plan §9	repository
+target/release-check/	target/release-check/	test-plan §9	repository
+e2e-web/test-results/	e2e-web/test-results/	test-plan §9	repository
+diag-line.v1.json	schemas/diag-line.v1.json	obs-plan §3	tree
+diag-detail.v1.json	schemas/diag-detail.v1.json	obs-plan §3	tree
+clippy.toml	clippy.toml	obs-plan §3	tree
+lint-probes.sh	scripts/lint-probes.sh	obs-plan §3	tree
+target/secret-scan/	target/secret-scan/hits.json	obs-plan §8	repository
+a11y.ts	e2e-web/fixtures/a11y.ts	a11y-plan §3	tree
+.htmlvalidate.json	e2e-web/.htmlvalidate.json	a11y-plan §3	tree
+eslint.config.js	e2e-web/eslint.config.js	a11y-plan §3	tree
+sc-coverage.json	e2e-web/a11y/sc-coverage.json	a11y-plan §3	tree
+sr-pass/	a11y/sr-pass/ (TEMPLATE.json, <date>-<at>.json)	a11y-plan §3	tree
+index.html	crates/viola-ui/assets/index.html	a11y-plan §3	tree
+e2e-web/test-results/a11y/	e2e-web/test-results/a11y/	a11y-plan §9	repository
+e2e-web/test-results/lint/	e2e-web/test-results/lint/	a11y-plan §9	repository
+app.css	crates/viola-ui/assets/app.css	design-system §Surface: web-spa	tree
