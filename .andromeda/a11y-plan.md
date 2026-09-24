@@ -277,7 +277,7 @@ _Justification: web-spa carries about 11 assertable entities (inside Standard's 
   - **Gate:** `gate --require playwright` never allows skips.
   - **Axe verdict:** `violations` must equal `[]` after each state strip renders: empty, 503 and cocked. a11y extends this to the 401 access strip, `TAPE stopped` and steady state.
   - **No new suite:** no new `suite` enum value (such as `a11y`) is added without a Decisions Log entry.
-  - **CLI output discipline** runs inside `nextest-integration` / `nextest-e2e` on all three OS legs.
+  - **CLI output discipline** runs inside `nextest-integration` / `nextest-e2e` (locally), and in CI inside the per-OS `test` job's single instrumented `coverage` suite, on all three OS legs.
 
 **Critical paths (must-be-accessible):**
 
@@ -496,7 +496,7 @@ run from CI / dev / and emit machine-parseable violation JSON.
     - tabbable 6.5.0 as the tab-order oracle.
     - @guidepup/virtual-screen-reader 0.33.0 as the announcement proxy.
     - eslint-plugin-lit-a11y 5.1.1 at lint time.
-  - **cli:** no a11y tool exists for terminal output. Output discipline is checked with assert_cmd 2.2.2 + predicates 3.1.4 + trycmd 1.2.1, running in the `nextest-integration` / `nextest-e2e` suites on all three OS legs.
+  - **cli:** no a11y tool exists for terminal output. Output discipline is checked with assert_cmd 2.2.2 + predicates 3.1.4 + trycmd 1.2.1, running in the `nextest-integration` / `nextest-e2e` suites locally, and in the CI `test` job's `coverage` suite (one instrumented nextest run), on all three OS legs.
   - **tui:** portable-pty outer-PTY boundary driver, using the inherited `=0.8.1` pin (Decisions Log D-A11Y-13).
   - **Rejected:** `lighthouse` 13.5.0, `pa11y` 10.0.0 / `pa11y-ci` 4.1.1 and `@lhci/cli` 0.15.1 each need a second Puppeteer/CDP client, which breaks Overseer Direction 1. `playwright-lighthouse` 4.0.0 is stale. The WAVE API cannot reach loopback.
 - **Configuration:** one shared a11y-owned fixture, `makeAxeBuilder`, lives in `e2e-web/fixtures/a11y.ts`. Specs call only this fixture and never `withTags` / `disableRules`, which keeps the tests-plan rule.
@@ -1112,7 +1112,7 @@ _Scope: no `cognitive-accessibility` trigger fired (a11y-scope Sec 5), so there 
 | Stage | A11y tool | Artifact | Consumer |
 |-------|-----------|----------|----------|
 | Lint (ubuntu, before `run --browser`) | eslint-plugin-lit-a11y 5.1.1 (`npx --prefix e2e-web eslint -f json` with `-c e2e-web/eslint.config.js` over the Lit `html` templates in `crates/viola-ui/`, source glob per the config's `files` entry); html-validate 11.16.0 CLI `--config e2e-web/.htmlvalidate.json --formatter json` on the `assets/index.html` that `viola-ui` embeds. Same commands and configs as Section 3 → Bootstrap phases → a11y-ci-gate-wire | ESLint JSON + html-validate JSON in `e2e-web/test-results/lint/` | CI step fails on any error; uploaded artifact |
-| Unit / integration (all three OS legs) | assert_cmd 2.2.2 + predicates 3.1.4 + trycmd 1.2.1; portable-pty outer PTY (cli SGR, tui boundary) | harness `run` JSON `suites[{suite:"nextest-integration"|"nextest-e2e",…,failures[]}]` | `gate`; no a11y rows, no conformance claim |
+| Unit / integration (all three OS legs) | assert_cmd 2.2.2 + predicates 3.1.4 + trycmd 1.2.1; portable-pty outer PTY (cli SGR, tui boundary) | harness `run` JSON `suites[{suite:"nextest-integration"|"nextest-e2e"|"coverage",…,failures[]}]` (CI: `coverage`) | `gate --require coverage,doctest`; no a11y rows, no conformance claim |
 | E2E (ubuntu only) | `@axe-core/playwright` 4.13.0, Playwright 1.63.0 aria/keyboard/emulation, html-validate (rendered DOM), colorjs.io 0.7.1, tabbable 6.5.0, @guidepup/virtual-screen-reader 0.33.0 | Playwright JSON (+ JUnit) with `attachments[]`: scrubbed axe JSON, token-pair JSON, html-validate JSON, VSR phrase log, `a11y-violations` NDJSON | harness `run` JSON `suites[{suite:"playwright",passed,failed,skipped,artifact}]`, `gate --require playwright`, uploaded artifact |
 | Aggregation (ubuntu, after `gate`, with `if: always()` so it runs even when `gate` already failed the job; a missing Playwright JSON report fails this step; the artifact upload step is also `if: always()`) | `jq` (catalog-less JSON transport, not an a11y tool) over the Playwright JSON report and `e2e-web/test-results/a11y/*.ndjson`: per `@sc-*` tag pass/fail compared with `e2e-web/a11y/sc-coverage.json`, plus a per-`violation_type` row count. `sc-coverage.json` lists every row of the Section 3 per-SC map (ranges expanded). Rows marked `yes…` need ≥ 1 passing test tagged with that SC (1.4.10 only through the ≥ 760 reflow tests). Absence rows (`no media`, `no audio`, `no images`, `no inputs`, `no submissions`, `no surface`) are met by the `surface-absence` spec carrying one `@sc-<id>` per absent SC. The `no custom pointer/motion/drag` row (SC 2.5.1 / 2.5.2 / 2.5.4 / 2.5.7) is met only by the tabbable-oracle actuator test named in that map row (the only actuators are native `<a>` / `<summary>`), tagged `@sc-2.5.1 @sc-2.5.2 @sc-2.5.4 @sc-2.5.7`. `surface-absence` never carries these four tags, because an element-absence walk cannot prove the absence of path, motion or drag gestures. `single-page exception` / `single page` rows are met by the route check and region-order test (`@sc-2.4.5`, `@sc-3.2.3`). `indeterminate-language content` (3.1.2) is met by the tape `lang` DOM assertion | `e2e-web/test-results/a11y/sc-coverage-report.json` (per SC: `{sc, passing_tests, status}`; plus `violation_type_counts`, so a `scrub-leak` shows up separately from `csp-console`) | fails CI if any listed SC has zero passing tagged tests; uploaded artifact |
 
@@ -1150,7 +1150,7 @@ _Scope: no `cognitive-accessibility` trigger fired (a11y-scope Sec 5), so there 
 **Standard+ invariants:**
 - Zero new violations per PR (regression budget): the binary verdict makes the base-branch baseline empty, so every violation on a PR fails it (SC-tagged rows identify the regression).
 - WCAG SC coverage report: every row of the Section 3 per-SC map as listed in `sc-coverage.json` (ranges expanded; including the absence rows, the single-page exception rows and the `3.2.6, 3.3.7, 3.3.8 (2.2)` no-surface row) has ≥ 1 passing `@sc-*`-tagged test in `sc-coverage-report.json`. Each row is met according to its "Applies in v1" value, exactly as the Section 9 Aggregation row defines. SC 1.4.10 is met only through the ≥ 760 CSS px reflow tests, and the < 760 band is the documented exception. "Applicable SC" in this section, including the failure conditions below, means exactly this row set.
-- The CLI output-discipline invariants (P4, P6) pass on all three OS legs inside `nextest-integration` / `nextest-e2e`, under the tests' mutation gate where they live in crate tests.
+- The CLI output-discipline invariants (P4, P6) pass on all three OS legs inside `nextest-integration` / `nextest-e2e` (CI: the `coverage` suite), under the tests' mutation gate where they live in crate tests.
 
 **Performance budget per a11y CI run:**
 - axe `analyze()` < 30 s per state render. The fixture records `duration_ms` in the axe attachment, and the a11y spec's Playwright `timeout` bounds it.

@@ -1,9 +1,10 @@
-//! `run`: the built suites (unit · integration · doctest) and the per-chunk mutation gate, one JSON
-//! summary, merged by suite into `target/agent-run/artifacts/run-summary.json` (test-plan §3 `run`).
+//! `run`: the built suites (unit · integration · doctest · coverage · fuzz-replay) and the per-chunk
+//! mutation gate, one JSON summary, merged by suite into
+//! `target/agent-run/artifacts/run-summary.json` (test-plan §3 `run`).
 
 use std::fs;
 use std::io::Write as _;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
 
 use serde::{Deserialize, Serialize};
@@ -16,21 +17,36 @@ const UNIT: &str = "kind(lib) | kind(bin)";
 // operator that matches no binary, so that exclusion arrives with the first E2E binary and `--e2e`.
 const INTEGRATION: &str = "kind(test)";
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+/// test-plan §10's excluded trees, with a separator class: llvm-cov reports Windows paths with `\`.
+pub const COVERAGE_IGNORE: &str =
+    r"(viola-fake-agent|crates[/\\]viola-e2e|tests[/\\]support|fuzz[/\\])";
+
+/// test-plan §10 Comprehensive: line, function and region floors, per OS.
+pub const COVERAGE_FLOORS: [(&str, f64); 3] =
+    [("lines", 85.0), ("functions", 95.0), ("regions", 80.0)];
+
+/// Runs one tool invocation: its exit code and its stdout.
+pub type Runner<'r> = dyn FnMut(&mut Command) -> (Option<i32>, String) + 'r;
+
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
 pub struct Selection {
     pub unit: bool,
     pub integration: bool,
     pub mutants: bool,
+    pub coverage: bool,
+    pub fuzz_replay: bool,
 }
 
 impl Selection {
-    /// No selector, or `--all`, selects every built suite.
-    pub fn from_flags(unit: bool, integration: bool, mutants: bool, all: bool) -> Self {
-        let none = !(unit || integration || mutants);
+    /// No selector, or `--all`, selects unit, integration and mutants. `--coverage` replaces the
+    /// nextest runs and `--fuzz-replay` is Linux-only, so neither joins the default.
+    pub fn from_flags(named: Selection, all: bool) -> Self {
+        let none = named == Selection::default();
         Self {
-            unit: unit || all || none,
-            integration: integration || all || none,
-            mutants: mutants || all || none,
+            unit: named.unit || all || none,
+            integration: named.integration || all || none,
+            mutants: named.mutants || all || none,
+            ..named
         }
     }
 }
@@ -66,32 +82,89 @@ pub fn run(
     filter: Option<&str>,
     chunk_base: Option<String>,
 ) -> Outcome {
+    run_with(ws, sel, filter, chunk_base, None, &mut run_forwarding)
+}
+
+/// A tool arm that tested nothing: the document's `reason` and an optional `detail`.
+#[derive(Debug, PartialEq, Eq)]
+pub struct Refusal {
+    pub reason: String,
+    pub detail: Option<String>,
+}
+
+impl Refusal {
+    fn new(reason: &str, detail: Option<&str>) -> Self {
+        Self {
+            reason: reason.to_owned(),
+            detail: detail.map(str::to_owned),
+        }
+    }
+}
+
+/// Cargo-fuzz's libFuzzer runs on the Linux runner only (test-plan §3 `--fuzz-replay`).
+pub fn fuzz_host_supported() -> bool {
+    cfg!(target_os = "linux")
+}
+
+/// `leg` names a mutation leg whose verdict the `gate` union decides (`--mutants --leg`).
+pub fn run_with(
+    ws: &Workspace,
+    sel: Selection,
+    filter: Option<&str>,
+    chunk_base: Option<String>,
+    leg: Option<&str>,
+    runner: &mut Runner<'_>,
+) -> Outcome {
+    if sel.fuzz_replay && !fuzz_host_supported() {
+        let doc = json!({"v": 1, "cmd": "run", "ok": false, "reason": "fuzz-linux-only"});
+        return Outcome { doc, code: 2 };
+    }
     let mut suites = Vec::new();
-    if sel.unit {
-        suites.push(nextest(ws, "nextest-unit", UNIT, filter));
+    if sel.coverage {
+        suites.push(coverage(ws, filter, runner));
+    } else {
+        if sel.unit {
+            suites.push(nextest(ws, "nextest-unit", UNIT, filter, runner));
+        }
+        if sel.integration {
+            suites.push(nextest(
+                ws,
+                "nextest-integration",
+                INTEGRATION,
+                filter,
+                runner,
+            ));
+        }
     }
-    if sel.integration {
-        suites.push(nextest(ws, "nextest-integration", INTEGRATION, filter));
+    if sel.unit || sel.integration || sel.coverage {
+        suites.push(doctest(ws, runner));
     }
-    if sel.unit || sel.integration {
-        suites.push(doctest(ws));
+    let mut refusal = None;
+    if sel.fuzz_replay {
+        match fuzz_replay(ws, runner) {
+            Ok(suite) => suites.push(suite),
+            Err(r) => refusal = Some(r),
+        }
     }
-    let mut reason = None;
     let mut mutants_doc = None;
-    if sel.mutants {
-        match mutants(ws, chunk_base) {
+    if sel.mutants && refusal.is_none() {
+        match mutants(ws, chunk_base, leg, runner) {
             Ok((suite, doc)) => {
                 suites.push(suite);
                 mutants_doc = Some(doc);
             }
-            Err(r) => reason = Some(r),
+            Err(reason) => refusal = Some(Refusal::new(&reason, None)),
         }
     }
-    let ok = reason.is_none() && suites.iter().all(Suite::green);
+    let deferred = |s: &Suite| leg.is_some() && s.suite == "mutants" && s.failed == s.survived;
+    let ok = refusal.is_none() && suites.iter().all(|s| s.green() || deferred(s));
     let _ = merge_summary(&ws.artifacts().join("run-summary.json"), &suites);
     let mut doc = json!({"v": 1, "cmd": "run", "ok": ok});
-    if let Some(reason) = reason {
-        doc["reason"] = json!(reason);
+    if let Some(refusal) = refusal {
+        doc["reason"] = json!(refusal.reason);
+        if let Some(detail) = refusal.detail {
+            doc["detail"] = json!(detail);
+        }
     }
     doc["suites"] = json!(suites);
     if let Some(mutants_doc) = mutants_doc {
@@ -102,7 +175,7 @@ pub fn run(
 
 /// Runs a cargo tool with its stdout moved to our stderr: the harness's stdout carries only its
 /// document.
-fn run_forwarding(cmd: &mut Command) -> (Option<i32>, String) {
+pub fn run_forwarding(cmd: &mut Command) -> (Option<i32>, String) {
     let output = cmd.stdin(Stdio::null()).stderr(Stdio::inherit()).output();
     match output {
         Ok(out) => {
@@ -116,20 +189,48 @@ fn run_forwarding(cmd: &mut Command) -> (Option<i32>, String) {
     }
 }
 
-fn nextest(ws: &Workspace, suite: &str, layer: &str, filter: Option<&str>) -> Suite {
-    // nextest keeps its store under `<workspace root>/target/nextest` whatever the target dir.
-    let junit = ws
-        .root
+/// nextest keeps its store under `<workspace root>/target/nextest` whatever the target dir, and
+/// under `cargo llvm-cov nextest` too (measured: llvm-cov 0.9.1, nextest 0.9.133).
+fn junit_source(ws: &Workspace) -> PathBuf {
+    ws.root
         .join("target")
         .join("nextest")
         .join("ci")
-        .join("junit.xml");
-    let _ = fs::remove_file(&junit);
+        .join("junit.xml")
+}
+
+/// The suite a finished JUnit-writing run reports; the report is copied to `junit-<suite>.xml`.
+fn junit_suite(ws: &Workspace, suite: &str, code: Option<i32>, tool: &str) -> Suite {
+    let artifact = ws.artifacts().join(format!("junit-{suite}.xml"));
+    let Ok(xml) = fs::read_to_string(junit_source(ws)) else {
+        return Suite {
+            failed: 1,
+            failures: vec!["artifact-missing".to_owned()],
+            ..Suite::named(suite)
+        };
+    };
+    let _ = fs::create_dir_all(ws.artifacts());
+    let _ = fs::write(&artifact, &xml);
+    let mut result = parse_junit(&xml);
+    result.suite = suite.to_owned();
+    result.artifact = Some(artifact.to_string_lossy().into_owned());
+    exit_must_agree(&mut result, code, tool);
+    result
+}
+
+fn nextest(
+    ws: &Workspace,
+    suite: &str,
+    layer: &str,
+    filter: Option<&str>,
+    runner: &mut Runner<'_>,
+) -> Suite {
+    let _ = fs::remove_file(junit_source(ws));
     let expr = match filter {
         Some(f) => format!("({layer}) & ({f})"),
         None => layer.to_owned(),
     };
-    let (code, _) = run_forwarding(
+    let (code, _) = runner(
         Command::new("cargo")
             .args([
                 "nextest",
@@ -142,21 +243,55 @@ fn nextest(ws: &Workspace, suite: &str, layer: &str, filter: Option<&str>) -> Su
             .env("CARGO_TARGET_DIR", ws.cargo_target())
             .current_dir(&ws.root),
     );
-    let artifact = ws.artifacts().join(format!("junit-{suite}.xml"));
-    let Ok(xml) = fs::read_to_string(&junit) else {
-        return Suite {
-            failed: 1,
-            failures: vec!["artifact-missing".to_owned()],
-            ..Suite::named(suite)
-        };
-    };
+    junit_suite(ws, suite, code, "nextest")
+}
+
+/// The instrumented run that replaces the unit and integration nextest runs (test-plan §3
+/// `--coverage`). llvm-cov builds in its own target dir, so the running harness is never relinked.
+fn coverage(ws: &Workspace, filter: Option<&str>, runner: &mut Runner<'_>) -> Suite {
+    let summary = ws.artifacts().join("llvm-cov-summary.json");
+    let _ = fs::remove_file(junit_source(ws));
+    let _ = fs::remove_file(&summary);
+    let mut cmd = Command::new("cargo");
+    cmd.args([
+        "llvm-cov",
+        "nextest",
+        "--workspace",
+        "--features",
+        "viola/fake-agent",
+        "--profile",
+        "ci",
+        "--lcov",
+        "--output-path",
+        "target/lcov.info",
+        "--ignore-filename-regex",
+        COVERAGE_IGNORE,
+    ]);
+    for (metric, floor) in COVERAGE_FLOORS {
+        cmd.arg(format!("--fail-under-{metric}"))
+            .arg(floor.to_string());
+    }
+    if let Some(f) = filter {
+        cmd.args(["-E", f]);
+    }
+    let (code, _) = runner(cmd.current_dir(&ws.root));
+    let mut suite = junit_suite(ws, "coverage", code, "llvm-cov");
+    if suite.failures.iter().any(|f| f == "artifact-missing") {
+        return suite;
+    }
     let _ = fs::create_dir_all(ws.artifacts());
-    let _ = fs::write(&artifact, &xml);
-    let mut result = parse_junit(&xml);
-    result.suite = suite.to_owned();
-    result.artifact = Some(artifact.to_string_lossy().into_owned());
-    exit_must_agree(&mut result, code, "nextest");
-    result
+    let _ = runner(
+        Command::new("cargo")
+            .args(["llvm-cov", "report", "--json", "--summary-only"])
+            .args(["--ignore-filename-regex", COVERAGE_IGNORE, "--output-path"])
+            .arg(&summary)
+            .current_dir(&ws.root),
+    );
+    if !summary.is_file() {
+        suite.failed += 1;
+        suite.failures.push("llvm-cov-summary-missing".to_owned());
+    }
+    suite
 }
 
 /// A red tool exit with nothing red in its report is still red (a build failure, no tests run).
@@ -204,8 +339,8 @@ pub fn parse_junit(xml: &str) -> Suite {
     suite
 }
 
-fn doctest(ws: &Workspace) -> Suite {
-    let (code, out) = run_forwarding(
+fn doctest(ws: &Workspace, runner: &mut Runner<'_>) -> Suite {
+    let (code, out) = runner(
         Command::new("cargo")
             .args([
                 "test",
@@ -259,6 +394,84 @@ fn merge_summary(path: &Path, suites: &[Suite]) -> Result<(), super::HarnessErro
         path,
         &json!({"v": 1, "cmd": "run", "ok": ok, "suites": merged}),
     )
+}
+
+// ---- fuzz corpus replay (test-plan §3 `--fuzz-replay`) ----
+
+/// The `channel` of `fuzz/rust-toolchain.toml`: the one source of the fuzz toolchain.
+pub fn fuzz_channel(toml: &str) -> Option<String> {
+    toml.lines()
+        .filter_map(|l| l.trim().strip_prefix("channel"))
+        .filter_map(|rest| rest.trim_start().strip_prefix('='))
+        .map(|v| v.trim().trim_matches('"').to_owned())
+        .find(|v| !v.is_empty())
+}
+
+/// Every `fuzz/fuzz_targets/<target>.rs`, by name, sorted.
+fn fuzz_targets(fuzz: &Path) -> Vec<String> {
+    let mut targets: Vec<String> = fs::read_dir(fuzz.join("fuzz_targets"))
+        .into_iter()
+        .flatten()
+        .flatten()
+        .map(|e| e.path())
+        .filter(|p| p.extension().is_some_and(|x| x == "rs"))
+        .filter_map(|p| p.file_stem().map(|s| s.to_string_lossy().into_owned()))
+        .collect();
+    targets.sort();
+    targets
+}
+
+fn has_entries(dir: &Path) -> bool {
+    fs::read_dir(dir).is_ok_and(|mut entries| entries.next().is_some())
+}
+
+/// Replays each target's committed corpus once (`-runs=0`); an absent or empty corpus fails its
+/// target, never passes it.
+fn fuzz_replay(ws: &Workspace, runner: &mut Runner<'_>) -> Result<Suite, Refusal> {
+    let (probe, _) = runner(
+        Command::new("cargo")
+            .args(["fuzz", "--version"])
+            .current_dir(&ws.root),
+    );
+    if probe != Some(0) {
+        return Err(Refusal::new("tool-missing", Some("cargo-fuzz")));
+    }
+    let fuzz = ws.root.join("fuzz");
+    let channel = fs::read_to_string(fuzz.join("rust-toolchain.toml"))
+        .ok()
+        .and_then(|t| fuzz_channel(&t))
+        .ok_or_else(|| Refusal::new("tool-missing", Some("fuzz/rust-toolchain.toml")))?;
+    let targets = fuzz_targets(&fuzz);
+    if targets.is_empty() {
+        return Err(Refusal::new("corpus-empty", None));
+    }
+    let mut suite = Suite {
+        artifact: Some("fuzz/corpus".to_owned()),
+        ..Suite::named("fuzz-replay")
+    };
+    for target in targets {
+        let corpus = fuzz.join("corpus").join(&target);
+        if !has_entries(&corpus) {
+            suite.failed += 1;
+            suite.failures.push(format!("{target}: corpus-empty"));
+            continue;
+        }
+        let (code, _) = runner(
+            Command::new("cargo")
+                .arg(format!("+{channel}"))
+                .args(["fuzz", "run", "--fuzz-dir", "fuzz", &target])
+                .arg(format!("fuzz/corpus/{target}"))
+                .args(["--", "-runs=0"])
+                .current_dir(&ws.root),
+        );
+        if code == Some(0) {
+            suite.passed += 1;
+        } else {
+            suite.failed += 1;
+            suite.failures.push(target);
+        }
+    }
+    Ok(suite)
 }
 
 // ---- mutation gate (test-plan §3 `run` step 4, §10) ----
@@ -397,16 +610,70 @@ fn no_rust_delta(diff: &str) -> (Suite, Value) {
     (suite, doc)
 }
 
-fn mutants(ws: &Workspace, chunk_base: Option<String>) -> Result<(Suite, Value), String> {
+/// One outcome as the `gate` union reads it; `None` for the baseline and anything else unscored.
+fn leg_outcome(summary: &str) -> Option<&'static str> {
+    match summary {
+        "CaughtMutant" => Some("caught"),
+        "MissedMutant" => Some("missed"),
+        "Timeout" => Some("timeout"),
+        "Unviable" => Some("unviable"),
+        _ => None,
+    }
+}
+
+/// The reduced per-leg verdict: each mutant's name and outcome, never an argv, a log path or test
+/// output (`outcomes.json` carries all three).
+pub fn leg_verdict(leg: &str, verdict: &str, outcomes: &Value) -> Value {
+    let mutants: Vec<Value> = outcomes["outcomes"]
+        .as_array()
+        .into_iter()
+        .flatten()
+        .filter_map(|o| {
+            let name = o["scenario"]["Mutant"]["name"].as_str()?;
+            let outcome = leg_outcome(o["summary"].as_str()?)?;
+            Some(json!({"name": name, "outcome": outcome}))
+        })
+        .collect();
+    json!({"v": 1, "leg": leg, "verdict": verdict, "mutants": mutants})
+}
+
+pub fn leg_verdict_path(artifacts: &Path, leg: &str) -> PathBuf {
+    artifacts.join(format!("mutants-verdict-{leg}.json"))
+}
+
+fn write_leg_verdict(ws: &Workspace, leg: Option<&str>, verdict: &str, outcomes: &Value) {
+    if let Some(leg) = leg {
+        let _ = fs::create_dir_all(ws.artifacts());
+        let _ = write_json(
+            &leg_verdict_path(&ws.artifacts(), leg),
+            &leg_verdict(leg, verdict, outcomes),
+        );
+    }
+}
+
+fn mutants(
+    ws: &Workspace,
+    chunk_base: Option<String>,
+    leg: Option<&str>,
+    runner: &mut Runner<'_>,
+) -> Result<(Suite, Value), String> {
     let diff_path = ws.agent_run().join("chunk.diff");
     let _ = fs::remove_file(&diff_path);
+    if let Some(leg) = leg {
+        let _ = fs::remove_file(leg_verdict_path(&ws.artifacts(), leg));
+    }
     let missing = || "base-missing".to_owned();
     let base = resolve_base(&ws.root, chunk_base).ok_or_else(missing)?;
     let diff = chunk_diff(&ws.root, &base).ok_or_else(missing)?;
     fs::create_dir_all(ws.agent_run()).map_err(|_| missing())?;
     fs::write(&diff_path, &diff).map_err(|_| missing())?;
     if !rust_delta(&diff) {
-        return Ok(no_rust_delta(&diff));
+        write_leg_verdict(ws, leg, "no-rust-delta", &Value::Null);
+        let (suite, mut doc) = no_rust_delta(&diff);
+        if let Some(leg) = leg {
+            doc["leg"] = json!(leg);
+        }
+        return Ok((suite, doc));
     }
     let out_dir = ws.root.join("mutants.out");
     let _ = fs::remove_file(out_dir.join("outcomes.json"));
@@ -414,7 +681,7 @@ fn mutants(ws: &Workspace, chunk_base: Option<String>) -> Result<(Suite, Value),
     // cargo-mutants builds only the packages a diff touches, but the harness tests spawn the root
     // package's `viola` and `viola-fake-agent`: build them (root package only, so the running
     // `viola-harness` is never relinked) and copy `target/` into the scratch tree.
-    let (built, _) = run_forwarding(
+    let (built, _) = runner(
         Command::new("cargo")
             .args(["build", "--package", "viola", "--features", "fake-agent"])
             .env_remove("CARGO_TARGET_DIR")
@@ -423,7 +690,7 @@ fn mutants(ws: &Workspace, chunk_base: Option<String>) -> Result<(Suite, Value),
     if built != Some(0) {
         return Err("build-failed".to_owned());
     }
-    let (code, _) = run_forwarding(
+    let (code, _) = runner(
         Command::new("cargo")
             .args([
                 "mutants",
@@ -443,6 +710,7 @@ fn mutants(ws: &Workspace, chunk_base: Option<String>) -> Result<(Suite, Value),
     }
     let (suite, tested) = match read_json::<Value>(&out_dir.join("outcomes.json")) {
         Ok(outcomes) => {
+            write_leg_verdict(ws, leg, "counted", &outcomes);
             let mut failures = listed(&out_dir.join("missed.txt"));
             failures.extend(listed(&out_dir.join("timeout.txt")));
             mutants_suite(&outcomes, failures)
@@ -456,33 +724,73 @@ fn mutants(ws: &Workspace, chunk_base: Option<String>) -> Result<(Suite, Value),
             0,
         ),
     };
-    Ok((suite, json!({"tested": tested, "verdict": "counted"})))
+    let mut doc = json!({"tested": tested, "verdict": "counted"});
+    if let Some(leg) = leg {
+        doc["leg"] = json!(leg);
+    }
+    Ok((suite, doc))
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
 
+    fn flags(unit: bool, integration: bool, mutants: bool, all: bool) -> Selection {
+        let named = Selection {
+            unit,
+            integration,
+            mutants,
+            ..Selection::default()
+        };
+        Selection::from_flags(named, all)
+    }
+
     #[test]
-    fn selection_defaults_to_everything() {
+    fn selection_defaults_to_unit_integration_and_mutants() {
         let all = Selection {
             unit: true,
             integration: true,
             mutants: true,
+            ..Selection::default()
         };
-        assert_eq!(Selection::from_flags(false, false, false, false), all);
-        assert_eq!(Selection::from_flags(false, false, false, true), all);
-        assert_eq!(Selection::from_flags(true, false, true, true), all);
+        assert_eq!(flags(false, false, false, false), all);
+        assert_eq!(flags(false, false, false, true), all);
+        assert_eq!(flags(true, false, true, true), all);
     }
 
     #[test]
     fn selection_picks_only_the_named_suites() {
-        let unit = Selection::from_flags(true, false, false, false);
+        let unit = flags(true, false, false, false);
         assert!(unit.unit && !unit.integration && !unit.mutants);
-        let integ = Selection::from_flags(false, true, false, false);
+        let integ = flags(false, true, false, false);
         assert!(!integ.unit && integ.integration && !integ.mutants);
-        let muts = Selection::from_flags(false, false, true, false);
+        let muts = flags(false, false, true, false);
         assert!(!muts.unit && !muts.integration && muts.mutants);
+    }
+
+    #[test]
+    fn selection_coverage_or_fuzz_alone_selects_nothing_else() {
+        for named in [
+            Selection {
+                coverage: true,
+                ..Selection::default()
+            },
+            Selection {
+                fuzz_replay: true,
+                ..Selection::default()
+            },
+        ] {
+            assert_eq!(Selection::from_flags(named, false), named);
+        }
+        let with_all = Selection::from_flags(
+            Selection {
+                coverage: true,
+                ..Selection::default()
+            },
+            true,
+        );
+        assert!(with_all.unit && with_all.integration && with_all.mutants && with_all.coverage);
+        assert!(!with_all.fuzz_replay);
     }
 
     #[test]
@@ -729,7 +1037,7 @@ test result: FAILED. 3 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out\n
     #[test]
     fn run_reports_unit_integration_and_doctest_suites() {
         let (_tmp, ws) = mini(GOOD_LIB);
-        let sel = Selection::from_flags(true, true, false, false);
+        let sel = flags(true, true, false, false);
         let out = run(&ws, sel, None, None);
         assert_eq!(out.code, 0, "{}", out.doc);
         assert_eq!(suite(&out.doc, "nextest-unit")["passed"], 1);
@@ -746,12 +1054,7 @@ test result: FAILED. 3 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out\n
         let lib = "pub fn two() -> u32 { 3 }\n#[cfg(test)]\nmod tests {\n    #[test]\n    \
                    fn two_is_two() { assert_eq!(super::two(), 2); }\n}\n";
         let (_tmp, ws) = mini(lib);
-        let out = run(
-            &ws,
-            Selection::from_flags(true, false, false, false),
-            None,
-            None,
-        );
+        let out = run(&ws, flags(true, false, false, false), None, None);
         assert_eq!(out.code, 1);
         let unit = suite(&out.doc, "nextest-unit");
         assert_eq!(unit["failed"], 1);
@@ -767,7 +1070,7 @@ test result: FAILED. 3 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out\n
         let (_tmp, ws) = mini(GOOD_LIB);
         let out = run(
             &ws,
-            Selection::from_flags(false, true, false, false),
+            flags(false, true, false, false),
             Some("test(=no_such_test)"),
             None,
         );
@@ -783,12 +1086,7 @@ test result: FAILED. 3 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out\n
         let ws = Workspace {
             root: empty.path().to_path_buf(),
         };
-        let out = run(
-            &ws,
-            Selection::from_flags(true, false, false, false),
-            None,
-            None,
-        );
+        let out = run(&ws, flags(true, false, false, false), None, None);
         assert_eq!(out.code, 1);
         assert_eq!(
             suite(&out.doc, "nextest-unit")["failures"][0],
@@ -804,7 +1102,7 @@ test result: FAILED. 3 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out\n
         fs::write(ws.agent_run().join("chunk.diff"), "stale").expect("write");
         let out = run(
             &ws,
-            Selection::from_flags(false, false, true, false),
+            flags(false, false, true, false),
             None,
             Some("0".repeat(40)),
         );
@@ -818,12 +1116,7 @@ test result: FAILED. 3 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out\n
         let (_tmp, ws) = mini(GOOD_LIB);
         let base = head(&ws);
         fs::write(ws.root.join("src").join("lib.rs"), "pub fn broken( {}\n").expect("write");
-        let out = run(
-            &ws,
-            Selection::from_flags(false, false, true, false),
-            None,
-            Some(base),
-        );
+        let out = run(&ws, flags(false, false, true, false), None, Some(base));
         assert_eq!(out.code, 1);
         assert_eq!(out.doc["reason"], "build-failed");
     }
@@ -834,12 +1127,7 @@ test result: FAILED. 3 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out\n
         let base = head(&ws);
         let lib = format!("{GOOD_LIB}pub fn three() -> u32 {{ 3 }}\n");
         fs::write(ws.root.join("src").join("lib.rs"), lib).expect("write");
-        let out = run(
-            &ws,
-            Selection::from_flags(false, false, true, false),
-            None,
-            Some(base),
-        );
+        let out = run(&ws, flags(false, false, true, false), None, Some(base));
         assert_eq!(out.code, 1, "{}", out.doc);
         let m = suite(&out.doc, "mutants");
         assert!(m["survived"].as_u64().is_some_and(|n| n >= 1));
@@ -865,12 +1153,7 @@ test result: FAILED. 3 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out\n
              fn three_is_three() {{ assert_eq!(super::three(), 3); }}\n}}\n"
         );
         fs::write(ws.root.join("src").join("lib.rs"), lib).expect("write");
-        let out = run(
-            &ws,
-            Selection::from_flags(false, false, true, false),
-            None,
-            Some(base),
-        );
+        let out = run(&ws, flags(false, false, true, false), None, Some(base));
         assert_eq!(out.code, 0, "{}", out.doc);
         let m = suite(&out.doc, "mutants");
         assert_eq!(m["survived"], 0);
@@ -918,12 +1201,7 @@ test result: FAILED. 3 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out\n
         let base = head(&ws);
         plant_stale_outcomes(&ws);
         fs::write(ws.root.join("README.md"), "docs only\n").expect("write");
-        let out = run(
-            &ws,
-            Selection::from_flags(false, false, true, false),
-            None,
-            Some(base),
-        );
+        let out = run(&ws, flags(false, false, true, false), None, Some(base));
         assert_eq!(out.code, 0, "{}", out.doc);
         assert_eq!(
             out.doc["mutants"],
@@ -947,12 +1225,7 @@ test result: FAILED. 3 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out\n
         // A Rust file no package builds: a Rust delta by path, yet cargo-mutants finds no source.
         fs::create_dir_all(ws.root.join("scripts")).expect("mkdir");
         fs::write(ws.root.join("scripts").join("tool.rs"), "fn main() {}\n").expect("write");
-        let out = run(
-            &ws,
-            Selection::from_flags(false, false, true, false),
-            None,
-            Some(base),
-        );
+        let out = run(&ws, flags(false, false, true, false), None, Some(base));
         assert_eq!(out.code, 1, "{}", out.doc);
         let m = suite(&out.doc, "mutants");
         assert_eq!(m["failures"][0], "outcomes-missing");
@@ -961,6 +1234,487 @@ test result: FAILED. 3 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out\n
             json!({"tested": 0, "verdict": "counted"})
         );
         assert!(!out.doc.to_string().contains("777"));
+    }
+
+    // ---- the tool seam: coverage, fuzz replay and the mutants leg against a stand-in runner ----
+
+    type Calls = Vec<Vec<String>>;
+
+    fn args_of(cmd: &Command) -> Vec<String> {
+        cmd.get_args()
+            .map(|a| a.to_string_lossy().into_owned())
+            .collect()
+    }
+
+    fn has(call: &[String], words: &[&str]) -> bool {
+        call.windows(words.len())
+            .any(|w| w.iter().zip(words).all(|(a, b)| a == b))
+    }
+
+    const GREEN_JUNIT: &str = "<testsuites><testcase name=\"a\" classname=\"c\"/>\
+        <testcase name=\"b\" classname=\"c\"/></testsuites>";
+    const DOCTEST_OK: &str = "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured\n";
+
+    fn scratch() -> (tempfile::TempDir, Workspace) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let ws = Workspace {
+            root: tmp.path().to_path_buf(),
+        };
+        (tmp, ws)
+    }
+
+    /// The stand-in for `cargo llvm-cov` + doctest: `junit` and `summary` say what it writes,
+    /// `code` is the instrumented run's exit.
+    fn run_coverage(
+        ws: &Workspace,
+        sel: Selection,
+        filter: Option<&str>,
+        junit: bool,
+        summary: bool,
+        code: i32,
+    ) -> (Outcome, Calls) {
+        let mut calls = Vec::new();
+        let root = ws.root.clone();
+        let out = {
+            let mut runner = |cmd: &mut Command| {
+                let args = args_of(cmd);
+                let answer = if has(&args, &["llvm-cov", "nextest"]) {
+                    if junit {
+                        let path = root.join("target/nextest/ci/junit.xml");
+                        fs::create_dir_all(path.parent().expect("parent")).expect("mkdir");
+                        fs::write(path, GREEN_JUNIT).expect("junit");
+                    }
+                    (Some(code), String::new())
+                } else if has(&args, &["llvm-cov", "report"]) {
+                    if summary {
+                        fs::write(args.last().expect("output path"), "{}").expect("summary");
+                    }
+                    (Some(0), String::new())
+                } else {
+                    (Some(0), DOCTEST_OK.to_owned())
+                };
+                calls.push(args);
+                answer
+            };
+            run_with(ws, sel, filter, None, None, &mut runner)
+        };
+        (out, calls)
+    }
+
+    /// `run --coverage` as the CI step calls it: no other selector.
+    fn coverage_only() -> Selection {
+        Selection::from_flags(
+            Selection {
+                coverage: true,
+                ..Selection::default()
+            },
+            false,
+        )
+    }
+
+    #[test]
+    fn coverage_alone_still_runs_the_doctests() {
+        let (_tmp, ws) = scratch();
+        let (out, calls) = run_coverage(&ws, coverage_only(), None, true, true, 0);
+        assert_eq!(out.code, 0, "{}", out.doc);
+        assert_eq!(suite(&out.doc, "doctest")["passed"], 1);
+        assert!(
+            calls
+                .iter()
+                .any(|c| has(c, &["test", "--workspace", "--doc"]))
+        );
+    }
+
+    #[test]
+    fn coverage_replaces_the_nextest_runs_with_one_instrumented_run() {
+        let (_tmp, ws) = scratch();
+        let with_nextest_layers = Selection {
+            unit: true,
+            integration: true,
+            coverage: true,
+            ..Selection::default()
+        };
+        let (out, calls) = run_coverage(&ws, with_nextest_layers, None, true, true, 0);
+        assert_eq!(out.code, 0, "{}", out.doc);
+        assert_eq!(suite(&out.doc, "coverage")["passed"], 2);
+        assert_eq!(suite(&out.doc, "doctest")["passed"], 1);
+        assert_eq!(out.doc["suites"].as_array().map(Vec::len), Some(2));
+        assert!(ws.artifacts().join("junit-coverage.xml").is_file());
+        assert!(ws.artifacts().join("llvm-cov-summary.json").is_file());
+        assert!(
+            !calls
+                .iter()
+                .any(|c| c.first().is_some_and(|a| a == "nextest"))
+        );
+        let instrumented = &calls[0];
+        for words in [
+            &["--features", "viola/fake-agent"][..],
+            &["--profile", "ci"],
+            &["--ignore-filename-regex", COVERAGE_IGNORE],
+            &["--fail-under-lines", "85"],
+            &["--fail-under-functions", "95"],
+            &["--fail-under-regions", "80"],
+            &["--output-path", "target/lcov.info"],
+        ] {
+            assert!(has(instrumented, words), "{words:?} in {instrumented:?}");
+        }
+        assert!(!instrumented.contains(&"-E".to_owned()));
+        assert!(has(
+            &calls[1],
+            &["--ignore-filename-regex", COVERAGE_IGNORE]
+        ));
+    }
+
+    #[test]
+    fn coverage_passes_the_filter_as_its_expression() {
+        let (_tmp, ws) = scratch();
+        let (_, calls) = run_coverage(&ws, coverage_only(), Some("test(x)"), true, true, 0);
+        assert!(has(&calls[0], &["-E", "test(x)"]));
+    }
+
+    #[test]
+    fn coverage_ignore_regex_matches_either_separator() {
+        let excluded = [
+            "D:\\v\\crates\\viola-e2e\\src\\a.rs",
+            "/v/crates/viola-e2e/src/a.rs",
+            "/v/tests/support/home.rs",
+            "D:\\v\\tests\\support\\home.rs",
+            "/v/fuzz/fuzz_targets/x.rs",
+            "D:\\v\\src\\bin\\viola-fake-agent.rs",
+        ];
+        let body = COVERAGE_IGNORE
+            .trim_start_matches('(')
+            .trim_end_matches(')');
+        let alternatives: Vec<String> = body.split('|').map(|a| a.replace(r"[/\\]", "/")).collect();
+        for path in excluded {
+            let normal = path.replace('\\', "/");
+            assert!(
+                alternatives.iter().any(|a| normal.contains(a.as_str())),
+                "{path}"
+            );
+        }
+        assert!(
+            !alternatives
+                .iter()
+                .any(|a| "/v/src/main.rs".contains(a.as_str()))
+        );
+    }
+
+    #[test]
+    fn coverage_without_junit_is_artifact_missing_and_skips_the_report() {
+        let (_tmp, ws) = scratch();
+        let (out, calls) = run_coverage(&ws, coverage_only(), None, false, true, 1);
+        assert_eq!(out.code, 1);
+        assert_eq!(
+            suite(&out.doc, "coverage")["failures"][0],
+            "artifact-missing"
+        );
+        assert!(!calls.iter().any(|c| has(c, &["llvm-cov", "report"])));
+    }
+
+    #[test]
+    fn coverage_without_a_fresh_summary_is_red() {
+        let (_tmp, ws) = scratch();
+        fs::create_dir_all(ws.artifacts()).expect("mkdir");
+        fs::write(ws.artifacts().join("llvm-cov-summary.json"), "stale").expect("stale");
+        let (out, _) = run_coverage(&ws, coverage_only(), None, true, false, 0);
+        assert_eq!(out.code, 1);
+        let cov = suite(&out.doc, "coverage");
+        assert_eq!(cov["failed"], 1);
+        assert_eq!(cov["failures"][0], "llvm-cov-summary-missing");
+    }
+
+    #[test]
+    fn coverage_red_exit_over_green_tests_is_red() {
+        let (_tmp, ws) = scratch();
+        let (out, _) = run_coverage(&ws, coverage_only(), None, true, true, 1);
+        assert_eq!(out.code, 1);
+        assert_eq!(
+            suite(&out.doc, "coverage")["failures"][0],
+            "llvm-cov-exit-1"
+        );
+    }
+
+    #[test]
+    fn fuzz_channel_reads_the_toolchain_file() {
+        let toml = "[toolchain]\nchannel = \"nightly-2026-09-20\"\ncomponents = [\"rust-src\"]\n";
+        assert_eq!(fuzz_channel(toml).as_deref(), Some("nightly-2026-09-20"));
+        assert_eq!(fuzz_channel("channel=\"x\"").as_deref(), Some("x"));
+        assert_eq!(fuzz_channel("channels = \"x\"\n"), None);
+        assert_eq!(fuzz_channel("channel = \"\"\n"), None);
+        assert_eq!(fuzz_channel("[toolchain]\n"), None);
+    }
+
+    fn plant_fuzz(ws: &Workspace, targets: &[&str], corpora: &[(&str, bool)]) {
+        let fuzz = ws.root.join("fuzz");
+        fs::create_dir_all(fuzz.join("fuzz_targets")).expect("mkdir");
+        fs::write(
+            fuzz.join("rust-toolchain.toml"),
+            "[toolchain]\nchannel = \"nightly-2026-09-20\"\n",
+        )
+        .expect("toolchain");
+        for t in targets {
+            fs::write(fuzz.join("fuzz_targets").join(format!("{t}.rs")), "").expect("target");
+        }
+        fs::write(fuzz.join("fuzz_targets").join("README.md"), "").expect("not a target");
+        for (t, seeded) in corpora {
+            let dir = fuzz.join("corpus").join(t);
+            fs::create_dir_all(&dir).expect("mkdir");
+            if *seeded {
+                fs::write(dir.join("seed"), "builder").expect("seed");
+            }
+        }
+    }
+
+    /// `version` is `cargo fuzz --version`'s exit; `red` names the targets whose replay fails.
+    fn replay(ws: &Workspace, version: i32, red: &[&str]) -> (Result<Suite, Refusal>, Calls) {
+        let mut calls = Vec::new();
+        let result = {
+            let mut runner = |cmd: &mut Command| {
+                let args = args_of(cmd);
+                let code = if has(&args, &["fuzz", "--version"]) {
+                    version
+                } else {
+                    i32::from(red.iter().any(|t| args.contains(&(*t).to_owned())))
+                };
+                calls.push(args);
+                (Some(code), String::new())
+            };
+            fuzz_replay(ws, &mut runner)
+        };
+        (result, calls)
+    }
+
+    #[test]
+    fn fuzz_replay_without_cargo_fuzz_is_tool_missing() {
+        let (_tmp, ws) = scratch();
+        plant_fuzz(&ws, &["a"], &[("a", true)]);
+        let (result, calls) = replay(&ws, 101, &[]);
+        assert_eq!(
+            result.expect_err("refused"),
+            Refusal::new("tool-missing", Some("cargo-fuzz"))
+        );
+        assert_eq!(calls.len(), 1);
+    }
+
+    #[test]
+    fn fuzz_replay_without_its_toolchain_file_is_tool_missing() {
+        let (_tmp, ws) = scratch();
+        let (result, _) = replay(&ws, 0, &[]);
+        assert_eq!(
+            result.expect_err("refused"),
+            Refusal::new("tool-missing", Some("fuzz/rust-toolchain.toml"))
+        );
+    }
+
+    #[test]
+    fn fuzz_replay_without_targets_is_corpus_empty() {
+        let (_tmp, ws) = scratch();
+        plant_fuzz(&ws, &[], &[]);
+        let (result, _) = replay(&ws, 0, &[]);
+        assert_eq!(
+            result.expect_err("refused"),
+            Refusal::new("corpus-empty", None)
+        );
+    }
+
+    #[test]
+    fn fuzz_replay_counts_each_target_and_never_passes_an_empty_corpus() {
+        let (_tmp, ws) = scratch();
+        plant_fuzz(
+            &ws,
+            &["d", "c", "b", "a"],
+            &[("a", true), ("b", false), ("d", true)],
+        );
+        let (result, calls) = replay(&ws, 0, &["d"]);
+        let suite = result.expect("replayed");
+        assert_eq!(suite.suite, "fuzz-replay");
+        assert_eq!(suite.artifact.as_deref(), Some("fuzz/corpus"));
+        assert_eq!((suite.passed, suite.failed), (1, 3));
+        assert_eq!(suite.failures, ["b: corpus-empty", "c: corpus-empty", "d"]);
+        let expected: Vec<String> = [
+            "+nightly-2026-09-20",
+            "fuzz",
+            "run",
+            "--fuzz-dir",
+            "fuzz",
+            "a",
+            "fuzz/corpus/a",
+            "--",
+            "-runs=0",
+        ]
+        .map(str::to_owned)
+        .to_vec();
+        assert_eq!(calls[1], expected);
+        assert_eq!(calls.len(), 3, "version probe, then a and d only");
+    }
+
+    #[test]
+    fn fuzz_host_is_linux_only() {
+        assert_eq!(fuzz_host_supported(), cfg!(target_os = "linux"));
+    }
+
+    #[test]
+    fn run_fuzz_replay_refusals_reach_the_document() {
+        let (_tmp, ws) = scratch();
+        let mut ran = 0;
+        let sel = Selection {
+            fuzz_replay: true,
+            mutants: true,
+            ..Selection::default()
+        };
+        let out = run_with(&ws, sel, None, None, None, &mut |_: &mut Command| {
+            ran += 1;
+            (Some(101), String::new())
+        });
+        if cfg!(target_os = "linux") {
+            assert_eq!(out.code, 1);
+            assert_eq!(out.doc["reason"], "tool-missing");
+            assert_eq!(out.doc["detail"], "cargo-fuzz");
+            assert!(
+                out.doc.get("mutants").is_none(),
+                "mutants skipped after a refusal"
+            );
+            assert_eq!(ran, 1);
+        } else {
+            assert_eq!(out.code, 2);
+            assert_eq!(out.doc["reason"], "fuzz-linux-only");
+            assert_eq!(ran, 0);
+        }
+    }
+
+    const OUTCOMES: &str = r#"{"outcomes": [
+        {"scenario": "Baseline", "summary": "Success", "log_path": "log/baseline.log"},
+        {"scenario": {"Mutant": {"name": "src/a.rs:1:5: replace a with 0"}}, "summary": "CaughtMutant",
+         "phase_results": [{"argv": ["C:\\cargo.exe"]}]},
+        {"scenario": {"Mutant": {"name": "src/a.rs:2:5: replace b with 1"}}, "summary": "MissedMutant"},
+        {"scenario": {"Mutant": {"name": "src/a.rs:3:5: replace c with 2"}}, "summary": "Timeout"},
+        {"scenario": {"Mutant": {"name": "src/a.rs:4:5: replace d with 3"}}, "summary": "Unviable"},
+        {"scenario": {"Mutant": {"name": "src/a.rs:5:5: replace e with 4"}}, "summary": "Failure"}
+    ], "caught": 1, "missed": 1, "timeout": 1, "unviable": 1}"#;
+
+    #[test]
+    fn leg_verdict_keeps_names_and_outcomes_only() {
+        let outcomes: Value = serde_json::from_str(OUTCOMES).expect("json");
+        let v = leg_verdict("ubuntu-latest", "counted", &outcomes);
+        assert_eq!(
+            v,
+            json!({"v": 1, "leg": "ubuntu-latest", "verdict": "counted", "mutants": [
+                {"name": "src/a.rs:1:5: replace a with 0", "outcome": "caught"},
+                {"name": "src/a.rs:2:5: replace b with 1", "outcome": "missed"},
+                {"name": "src/a.rs:3:5: replace c with 2", "outcome": "timeout"},
+                {"name": "src/a.rs:4:5: replace d with 3", "outcome": "unviable"},
+            ]})
+        );
+        assert_eq!(
+            leg_verdict("w", "no-rust-delta", &Value::Null)["mutants"],
+            json!([])
+        );
+        assert_eq!(
+            leg_verdict_path(Path::new("a"), "w"),
+            Path::new("a").join("mutants-verdict-w.json")
+        );
+    }
+
+    /// A Rust delta in `mini`, then a stand-in `cargo mutants` that writes `outcomes` (or nothing).
+    fn run_leg(
+        leg: Option<&str>,
+        outcomes: Option<&str>,
+    ) -> (tempfile::TempDir, Workspace, Outcome) {
+        let (tmp, ws) = mini(GOOD_LIB);
+        let base = head(&ws);
+        fs::write(ws.root.join("src").join("b.rs"), "fn b() {}\n").expect("write");
+        let out_dir = ws.root.join("mutants.out");
+        let out = run_with(
+            &ws,
+            flags(false, false, true, false),
+            None,
+            Some(base),
+            leg,
+            &mut |cmd: &mut Command| {
+                if has(&args_of(cmd), &["mutants"]) {
+                    if let Some(text) = outcomes {
+                        fs::create_dir_all(&out_dir).expect("mkdir");
+                        fs::write(out_dir.join("outcomes.json"), text).expect("outcomes");
+                        fs::write(
+                            out_dir.join("missed.txt"),
+                            "src/a.rs:2:5: replace b with 1\n",
+                        )
+                        .expect("missed");
+                    }
+                    return (Some(2), String::new());
+                }
+                (Some(0), String::new())
+            },
+        );
+        (tmp, ws, out)
+    }
+
+    #[test]
+    fn run_mutants_leg_defers_survivors_to_the_gate_union() {
+        let (_tmp, ws, out) = run_leg(Some("l1"), Some(OUTCOMES));
+        assert_eq!(out.code, 0, "{}", out.doc);
+        assert_eq!(out.doc["mutants"]["leg"], "l1");
+        assert_eq!(suite(&out.doc, "mutants")["survived"], 2);
+        let v: Value = read_json(&leg_verdict_path(&ws.artifacts(), "l1")).expect("verdict");
+        assert_eq!(v["verdict"], "counted");
+        assert_eq!(v["mutants"].as_array().map(Vec::len), Some(4));
+        assert!(!v.to_string().contains("argv"));
+    }
+
+    #[test]
+    fn run_mutants_without_a_leg_keeps_survivors_red() {
+        let (_tmp, _ws, out) = run_leg(None, Some(OUTCOMES));
+        assert_eq!(out.code, 1);
+        assert!(out.doc["mutants"].get("leg").is_none());
+    }
+
+    #[test]
+    fn run_mutants_leg_without_outcomes_stays_red_and_writes_no_verdict() {
+        let (_tmp, ws, out) = run_leg(Some("l1"), None);
+        assert_eq!(out.code, 1);
+        assert_eq!(
+            suite(&out.doc, "mutants")["failures"][0],
+            "outcomes-missing"
+        );
+        assert!(!leg_verdict_path(&ws.artifacts(), "l1").exists());
+    }
+
+    #[test]
+    fn run_mutants_leg_no_rust_delta_writes_its_verdict() {
+        let (_tmp, ws) = mini(GOOD_LIB);
+        let base = head(&ws);
+        fs::write(ws.root.join("README.md"), "docs only\n").expect("write");
+        let out = run_with(
+            &ws,
+            flags(false, false, true, false),
+            None,
+            Some(base),
+            Some("l2"),
+            &mut run_forwarding,
+        );
+        assert_eq!(out.code, 0, "{}", out.doc);
+        assert_eq!(out.doc["mutants"]["leg"], "l2");
+        let v: Value = read_json(&leg_verdict_path(&ws.artifacts(), "l2")).expect("verdict");
+        assert_eq!(v["verdict"], "no-rust-delta");
+    }
+
+    #[test]
+    fn run_mutants_leg_refused_clears_a_stale_verdict() {
+        let (_tmp, ws) = mini(GOOD_LIB);
+        fs::create_dir_all(ws.artifacts()).expect("mkdir");
+        let stale = leg_verdict_path(&ws.artifacts(), "l3");
+        fs::write(&stale, "{}").expect("stale");
+        let out = run_with(
+            &ws,
+            flags(false, false, true, false),
+            None,
+            Some("0".repeat(40)),
+            Some("l3"),
+            &mut run_forwarding,
+        );
+        assert_eq!(out.doc["reason"], "base-missing");
+        assert!(!stale.exists());
     }
 
     #[test]

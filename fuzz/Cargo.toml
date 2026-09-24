@@ -1,0 +1,25 @@
+[package]
+name = "viola-fuzz"
+version = "0.0.0"
+edition = "2024"
+publish = false
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+arbitrary = "=1.4.2"
+libfuzzer-sys = "=0.4.13"
+viola-core = { path = "../crates/viola-core" }
+
+# Its own workspace: libfuzzer-sys builds C++ with `cc`, which the root `deny.toml` bans from the
+# product graph.
+[workspace]
+members = ["."]
+
+[[bin]]
+name = "viola_name"
+path = "fuzz_targets/viola_name.rs"
+test = false
+doc = false
+bench = false

@@ -1,0 +1,49 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "ac6c73e5",
+"ts": "2026-09-24T14:46:23Z",
+"argv": [
+"implement",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-09-24-quality-gates",
+"--id",
+"v1-19",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-24T14-09-21-implement"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"implement v1-19 · status planned → implemented · ref plan gates `RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv-probe cargo check… (740 chars)",
+"wrote viola-0.1.0\\verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0\\verification-matrix.json"
+],
+"before": {
+"id": "v1-19",
+"chunk": "2026-09-24-quality-gates",
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "`Cargo.toml` `[workspace.package]` declares `rust-version = \"1.96\"`, and `rust-toolchain.toml` pins the single current s… (555 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-19",
+"chunk": "2026-09-24-quality-gates",
+"status": "implemented",
+"method": "integration",
+"ref": "plan gates `RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv-probe cargo check --workspace --all-targets --features vi… (740 chars)",
+"acceptance": "`Cargo.toml` `[workspace.package]` declares `rust-version = \"1.96\"`, and `rust-toolchain.toml` pins the single current s… (555 chars)",
+"notes_chars": 0
+}
+}
+]

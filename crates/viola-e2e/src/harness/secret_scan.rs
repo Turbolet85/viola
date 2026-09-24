@@ -219,15 +219,19 @@ fn owner_only(mode: u32) -> bool {
     mode & 0o777 == 0o600
 }
 
-#[cfg(unix)]
+/// One body for every OS: cargo-mutants mutates `#[cfg]`-gated items it cannot compile on the
+/// runner, so a per-OS pair of functions leaves the other OS's body unkillable in CI.
 fn file_mode(path: &Path) -> Option<u32> {
-    use std::os::unix::fs::PermissionsExt as _;
-    fs::metadata(path).ok().map(|m| m.permissions().mode())
-}
-
-#[cfg(not(unix))]
-fn file_mode(_path: &Path) -> Option<u32> {
-    None
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::PermissionsExt as _;
+        fs::metadata(path).ok().map(|m| m.permissions().mode())
+    }
+    #[cfg(not(unix))]
+    {
+        let _ = path;
+        None
+    }
 }
 
 #[cfg(test)]

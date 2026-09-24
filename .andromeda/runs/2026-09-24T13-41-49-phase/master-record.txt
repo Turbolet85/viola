@@ -1,0 +1,1 @@
+2026-09-24-quality-gates · pending · quality CI gates: MSRV 1.96 job, per-OS llvm-cov floors (85/95/80), seeded proptest + cargo-fuzz corpus replay, zero-retry check, viola-harness gate per job; zizmor concurrency decision, mutants.out scan, CI-missed file_mode mutant kill · → viola-0.1.0/chunks/2026-09-24-quality-gates/

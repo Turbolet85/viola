@@ -24,12 +24,12 @@ _The workspace, `rust-toolchain.toml`, `.config/nextest.toml`, `viola-harness` a
 
 ## Harness (the agent's 5 commands — `scripts/agent-run.sh` / `scripts/agent-run.ps1`)
 - `boot [--session <id>] [--instance <name>[:<args>]]... [--ui] [--unstamped] [--cli-version <ver>] [--agents-mode recorded|oversize|malformed] [--statusline-echo]` — build, create a home, stamp via `viola verify` against the fake agent, start wrappers (+ UI), wait for readiness
-- `run [--unit|--integration|--e2e|--browser|--mutants|--coverage|--perf|--fuzz-replay|--all] [--filter <nextest-filterset>] [--local-live]` — invoke suites; one JSON summary
+- `run [--unit|--integration|--e2e|--browser|--mutants|--coverage|--perf|--fuzz-replay|--all] [--filter <nextest-filterset>] [--leg <name>] [--local-live]` — invoke suites; one JSON summary. `--leg` (needs `--mutants`) writes `artifacts/mutants-verdict-<name>.json` and defers survivors to the `gate` union
 - `status [--session <id>]` — `viola list --json` + `/ready` + `/api/sessions`, with `api_sessions_equal_list`
 - `cleanup [--session <id>|--all]` — graceful stop, endpoint/port/url-file checks, home removal (idempotent)
 - `logs [--session <id>] [--instance <name>] [--kind <kind>] [--process run|hook|mcp|ui|cli] [--after <offset>]` — merged ndjson of events + diagnostics
-- Internal (forwarded by the shims, not agent-facing): `supervise`, `ui-restart --session <id>`, `gate --require <suites> [--artifacts <dir>]`
-- Built today (the grammar grows per chunk; anything else is exit 2 `reason:"usage"`): `boot [--session] [--instance <name>[:<args>]]... [--cli-version]` · `run [--unit|--integration|--mutants|--all] [--filter]` · `status [--session]` · `cleanup [--session|--all]` · `logs [--session] [--instance] [--process]` · internal `supervise`. Interim fields: `status` → `list`/`ui` `null` + `instances[]`; `cleanup` → `processes_gone`, endpoint/port/url `null`.
+- Internal (forwarded by the shims, not agent-facing): `supervise`, `ui-restart --session <id>`, `gate --require <suites> [--artifacts <dir>] [--mutants-legs a,b]` (the per-job verdict; a missing artifact is a breach; with `--mutants-legs` a mutant is red only when no leg caught it)
+- Built today (the grammar grows per chunk; anything else is exit 2 `reason:"usage"`): `boot [--session] [--instance <name>[:<args>]]... [--cli-version]` · `run [--unit|--integration|--mutants|--coverage|--fuzz-replay|--all] [--filter] [--leg]` (`--fuzz-replay` is Linux-only: exit 2 `fuzz-linux-only` elsewhere) · `status [--session]` · `cleanup [--session|--all]` · `logs [--session] [--instance] [--process]` · internal `supervise`, `schema-check`, `secret-scan`, `gate`. Interim fields: `status` → `list`/`ui` `null` + `instances[]`; `cleanup` → `processes_gone`, endpoint/port/url `null`.
 
 ## Testing
 - `cargo nextest run --workspace --features fake-agent --profile ci -E 'kind(lib) | kind(bin)'` — unit
@@ -37,10 +37,10 @@ _The workspace, `rust-toolchain.toml`, `.config/nextest.toml`, `viola-harness` a
 - `cargo nextest run --workspace --features fake-agent --profile ci -E 'binary(/^(path|tui|mcp|http|sse|cross|chaos|contract)_/)'` — fake-agent E2E
 - `cargo test --workspace --doc` — doctests (nextest cannot run them)
 - `npx --prefix e2e-web playwright test [--grep "<title>"]` — browser suite (ubuntu)
-- `cargo llvm-cov nextest --workspace --features fake-agent --profile ci --lcov --output-path target/lcov.info --ignore-filename-regex '(viola-fake-agent|crates/viola-e2e|tests/support|fuzz/)' --fail-under-lines 85 --fail-under-functions 95 --fail-under-regions 80` — coverage gate
+- `cargo llvm-cov nextest --workspace --features viola/fake-agent --profile ci --lcov --output-path target/lcov.info --ignore-filename-regex '(viola-fake-agent|crates[/\\]viola-e2e|tests[/\\]support|fuzz[/\\])' --fail-under-lines 85 --fail-under-functions 95 --fail-under-regions 80` — coverage gate (`run --coverage`; the separator class makes the regex match Windows paths; JUnit stays at `target/nextest/ci/junit.xml`), then `cargo llvm-cov report --json --summary-only` → `artifacts/llvm-cov-summary.json`
 - `cargo build --package viola --features fake-agent` then `NEXTEST_PROFILE=mutants cargo mutants --workspace --features fake-agent --in-diff target/agent-run/chunk.diff --test-tool=nextest --copy-target=true` — mutation gate (the prebuild + copied `target/` give the scratch tree the root bins the harness tests spawn) (diff = working tree + untracked files from `merge-base(<base>, HEAD)`; base from `AGENT_RUN_CHUNK_BASE`). A diff with no `.rs` path skips cargo-mutants and reports `"verdict":"no-rust-delta"`; a Rust delta deletes a stale `mutants.out/outcomes.json` first and reports `"verdict":"counted"`
 - `cargo mutants --file <path> --test-tool=nextest` — one file's mutants
-- `cargo +nightly fuzz run <target> -- -runs=0` — corpus replay (ubuntu)
+- `cargo +<channel> fuzz run --fuzz-dir fuzz <target> fuzz/corpus/<target> -- -runs=0` — corpus replay (`run --fuzz-replay`, Linux; channel from `fuzz/rust-toolchain.toml`; `fuzz/` is its own cargo workspace)
 
 ## Linting & Formatting
 - `cargo fmt --all` / `cargo fmt --all --check` — format / format gate (edition from `rustfmt.toml`)
@@ -50,7 +50,7 @@ _The workspace, `rust-toolchain.toml`, `.config/nextest.toml`, `viola-harness` a
 - `cargo check $(sed 's/^/-p /' scripts/sync-crates.txt)` — the listed sync crates compile without tokio (CI job `lint`; each sync crate joins `scripts/sync-crates.txt` with its crate)
 - `cargo tree -e features -p viola --edges normal` — assert rmcp shows only `server`, `transport-io`
 - `cargo modules dependencies --package <crate> --acyclic` / `cargo modules orphans --package <crate> --deny` — boundary review
-- `cargo deny check` — advisories, licences, sources, bans over `deny.toml` (weekly in `nightly.yml`: `cargo deny check advisories`)
+- `cargo deny check` — advisories, licences, sources, bans over `deny.toml`, root `Cargo.lock` only (weekly in `nightly.yml`: `cargo deny check advisories`). `fuzz/Cargo.lock` sits outside it by a ratified test-only exemption; its audit is owed to the next chunk
 - `cargo deny --config deny-sync.toml --manifest-path crates/<crate>/Cargo.toml check bans` — the tokio ban, once per crate in `scripts/sync-crates.txt` as sole root (cargo-deny 0.20: `--config` goes before the subcommand; `check -c` is rejected)
 - `bash scripts/deny-probes.sh` — proves every ban fires (last line `deny-probes: 13/13 banned, control clean`; needs the network)
 - `zizmor .github/workflows/` (CI: `--format=json`) — workflow lint

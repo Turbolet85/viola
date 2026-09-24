@@ -1,0 +1,1 @@
+quality CI gates: viola-harness gate verdict per job, per-OS llvm-cov floors (85/95/80, separator-agnostic ignore regex), MSRV 1.96 job via rustup, two-leg mutation (ubuntu + windows) with a union verdict, seeded fuzz replay (fuzz/ workspace, viola_name target), zero-retry contract test; mutants.out upload removed, zizmor concurrency declined, file_mode one body

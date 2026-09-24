@@ -1,46 +1,56 @@
 # Session Handoff
 
-**Last Updated:** 2026-09-24T13:24:00Z
+**Last Updated:** 2026-09-24T15:08:00Z
 **Branch:** build/viola-0.1.0 · 0 ahead of origin/build/viola-0.1.0 as read at this wrap's Setup
 **Status:** clean
-**Last Commit:** 2026-09-24-observability-gates — feat: obs CI gates (lint bans + probes, G1–G4, canary secret scan before scan-gated uploads) and the 2834e4d mutants-timeout cause fix
+**Last Commit:** 2026-09-24-quality-gates — feat: per-job gate verdict, per-OS coverage, MSRV 1.96, two-leg mutation union, seeded fuzz replay
 
 ## Position
-- Done: 2026-09-24-observability-gates.
-  - Lint bans: clippy denies `print_stdout`, `print_stderr` and `dbg_macro`, and `clippy.toml` bans the tracing level macros. Raw `event!` is caught by a fail-closed grep in `scripts/lint-probes.sh`. Clippy 1.98.1 cannot exempt `obs_event!`'s inner `event!`; that was measured, and obs D-33 records it.
-  - CI `lint` job (3 OSes): fmt, clippy, ripgrep 15.2.0, G1 and G3.
-  - CI `test` job: G2, G4 (`viola-harness schema-check`) and the canary secret scan (`viola-harness secret-scan`), with every upload gated on the scan.
-  - The `2834e4d` mutants red is fixed at its cause: exit-aware readiness bounded at 10 s, and a nextest mutants kill of 10 s (30 s for `viola-e2e`).
-- Next: /andromeda-phase to promote and plan "Quality gates". Its PREREQ fires first; see below.
-- **CI witness owed right after this push** (overseer):
-  - `check-runs` all `success` on the pushed sha;
-  - the `test (ubuntu-latest)` log carries one `PASS … viola::cli_fake_agent wrapper_boot_exiting_before_ready_fails_as_exited` line;
-  - the ubuntu `mutants` job kills the 3 `#[cfg(unix)]` `file_mode` mutants. Any survivor folds into "Quality gates" (its PREREQ).
-- **Recorded:** local light-gate reds, ratified at the P2 escalation and skipped with reasons:
-  - the `Cargo.lock`-unchanged probe, a plan-probe defect (one lock edge line; no new package; deny green);
-  - `run --mutants` with 3 survivors, which the Windows host cannot kill (see the witness above).
+- Done: 2026-09-24-quality-gates.
+  - New `viola-harness gate` with per-job `--require`.
+  - `run --coverage`: one instrumented run per OS, floors 85/95/80.
+  - `run --fuzz-replay` and the `fuzz/` workspace with the `viola_name` target.
+  - Mutation runs as a two-leg matrix (ubuntu + windows) with a `mutants-verdict` union.
+  - New `msrv` job on 1.96 via rustup.
+  - Zero-retries contract test.
+  - The `mutants.out/` upload is removed.
+- Next: `/andromeda-phase` to promote and plan "Workspace tree and code-graph planes". Its PREREQ fires first; see below.
+- **CI witness owed right after this push** (the plan's operator entries):
+  - check-runs all `success` on the pushed sha;
+  - the `mutants-verdict-ubuntu-latest` artifact lists the 3 `replace file_mode` mutants `caught`;
+  - the `msrv` log carries `rustc 1.96`.
+
+  Any red folds into "Workspace tree and code-graph planes" (its PREREQ).
+- Local numbers (Windows host, product files only):
+  - coverage: lines 97.86 / functions **95.40** / regions 98.05. Functions has 0.4 points of headroom;
+  - local mutants leg: 118 mutants, 2 missed, both equivalent on Windows (`file_mode -> None`, `fuzz_host_supported -> false`). The CI union is the verdict.
 
 ## Work done
-- 20 source files (7 new, 13 modified).
-- Implement: 28 of 33 gates green, the 2 reds above, 3 operator legs owed. Smoke ✓ (impl-smoke ready, processes gone).
-- Real homes: `schema-check` 26 files / 95 lines, 0 failures; `secret-scan` 34 files, 0 hits; G2 `true`.
+- Source: 9 files modified, 6 new, plus the `fuzz/` tree. All changes are in test-only `viola-e2e`, CI and `fuzz/`; no product crate changed.
+- Gates: 35 green, 2 recorded, 4 operator legs owed. Smoke ✓.
+- v1-19 is implemented; the wrap flips it to verified.
 
 ## Drift resolved
-- 23 amendments, 1 escalation (the two reds; resolved by ratified skip plus a witness PREREQ):
-  - arch ×7: Stack Code quality row, 3 `target/` paths, tree, Lint, CI jobs and setup;
-  - security ×2: the obs canary scan in CI, and still no repo scanner;
-  - test-plan ×7: internal `schema-check` / `secret-scan`, 10 s exit-aware readiness, mutants profile and override, runner jq, pinned ripgrep, scan-gated uploads;
-  - obs ×7: the raw-tracing ban split, D-33 superseding D-25's exemption clause.
-- Leaves re-derived: `rules/observability.md`, `rules/verification-harness.md`, `docs/stack.md`, `docs/commands.md`.
+- 54 amendments: arch 14, security 12, test-plan 24, obs 3, a11y 1 group of 4 sites. Leaves re-derived: stack, commands, workflow, tests-summary, `rules/testing.md`, `rules/verification-harness.md`, `rules/security.md`.
+- 2 escalations, ratified by the overseer:
+  - `fuzz/Cargo.lock` sits outside `cargo deny` as a test-only exemption; its audit is CARRYd to the next chunk;
+  - two unscanned uploads are admissible by content: the verdict JSON (repo-relative names only) and the nightly `fuzz/artifacts/`.
+- Disproved and amended:
+  - the coverage JUnit is at `target/nextest/ci/junit.xml`, not `llvm-cov-target`;
+  - the forward-slash ignore regex never matched on Windows;
+  - the prior PREREQ's `file_mode` premise: the CI misses were the `#[cfg(not(unix))]` stub.
 
 ## Notes
-- Operator decisions this chunk:
-  - check bodies as internal harness subcommands;
-  - G2 on runner `jq` (F2 covers jq only), with a pinned, checksum-verified rg install;
-  - deadlines fixed by cause and by value;
-  - raw-tracing ban = level-macro path ban plus a fail-closed `event!` grep;
-  - the `mutants.out/` upload is a CARRY on "Quality gates".
-- Curation: T2 ×3 (`testing.md`: mutant-reachable waits must detect exit and stay below the 20 s floor; `testing.md`: keep `#[cfg(unix)]` bodies to a minimal reader; `host-win32.md`: `pwd -W` for native-tool paths).
-- Deferred learnings (max-3 cap): adding an already-locked crate to a new workspace member still adds a `Cargo.lock` edge line, so a "lock unchanged" probe is red by construction; assert "no new package" instead (confidence 0.8).
-- The operator's viola-lab prototype (`viola.exe` 12172, 14064) was running; it is not this project's.
+- **Operator decisions this chunk:**
+  - the windows mutants leg with a union verdict, now;
+  - seed fuzz with `ViolaName::try_new` now;
+  - the macOS-only residual goes to "Unix endpoint and home hardening" as a CARRY;
+  - leans approved: rustup, not dtolnay; no `concurrency:` block (zizmor pedantic declined); the `mutants.out/` upload removed.
+- **Route:** 1 PREREQ and 9 CARRYs.
+  - The next entry gets the CI witness, the fuzz-lock audit, and the `cargo tree` / `cargo modules` rows.
+  - Six parser entries each get a property test, fuzz target and corpus: Wrapper channel, Hooks, Readiness gate, Confirmed send, The board, Resumable SSE feed.
+  - "Unix endpoint and home hardening" gets the macOS mutants leg.
+- **Host changes:** installed Rust 1.96, `nightly-2026-09-20`, `llvm-tools-preview` on 1.98.1, and cargo-llvm-cov 0.9.1 (replacing 0.8.5). Created `target/msrv-probe` and `target/llvm-cov-target` (~3.3 GB).
+- **Deferred learnings** (max-3 cap): `git check-ignore -q` on a not-yet-existing path reads "not ignored" for a trailing-slash dir pattern (`target/`), so a gitignore probe on an unborn directory is a false negative (confidence 0.8).
+- The operator's viola-lab prototype (`viola.exe` 12172, 56736) was running; it is not this project's.
 - Last failed command: none open.

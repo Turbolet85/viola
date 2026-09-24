@@ -7,7 +7,7 @@ _Extracted from architecture.md and project conventions by `/andromeda-setup-pro
 - **Commit format:** conventional commits (`feat:`, `fix:`, `chore:`, `refactor:`, `docs:`, `test:`, `perf:`, `build:`, `ci:`); wrap commits each chunk.
 - **Main branch:** `main`
 - **Never force push** to main; the version branch is pushed at every wrap commit (the remote matches local HEAD on exit).
-- **PRs:** CI runs on push and PR (`ci.yml`; `nightly.yml` runs the weekly advisory check on `schedule` / `workflow_dispatch` from the default branch); the `mutants` job diffs against `AGENT_RUN_CHUNK_BASE` = the PR base sha, or else the push's `github.event.before` (this project pushes one build branch, so the push trigger is what fires per chunk).
+- **PRs:** CI runs on push and PR (`ci.yml`; `nightly.yml` runs the weekly advisory check and the 120 s-per-target fuzz time-box on `schedule` / `workflow_dispatch` from the default branch). The `mutants` legs (ubuntu-latest, windows-2025) diff against `AGENT_RUN_CHUNK_BASE` = the PR base sha, or else the push's `github.event.before` (this project pushes one build branch, so the push trigger is what fires per chunk). The `mutants-verdict` job gates their union. No `concurrency:` block, so no push's run is cancelled.
 
 ## Andromeda workflow
 
@@ -43,7 +43,7 @@ This project uses the Andromeda pipeline for architecture, planning, and impleme
 **Don't skip session boundaries.** They keep CLAUDE.md and project knowledge fresh over time.
 
 ## Verification discipline
-- Every gate is agent-runnable with a machine-readable verdict: nextest JUnit, Playwright JSON, `mutants.out/outcomes.json`, hyperfine JSON, llvm-cov JSON, one harness JSON document per command.
+- Every gate is agent-runnable with a machine-readable verdict: nextest JUnit, Playwright JSON, `mutants.out/outcomes.json` (locally) and the per-leg `mutants-verdict-<leg>.json` (CI), hyperfine JSON, llvm-cov JSON, one harness JSON document per command, and `viola-harness gate` as the one verdict per CI job.
 - CI (three OSes) is the authority for OS-specific code: a Linux-only or Windows-only local run is not proof for the other OSes.
 - The real `claude` CLI runs only locally (`agent-run run --local-live`, `viola verify`); CI uses the fake agent and recorded fixtures. Changed real-CLI behaviour means a local fixture refresh + the contract suite.
 - Zero flakes: a flaky test keeps the chunk red until the root cause is fixed in that chunk.

@@ -24,26 +24,25 @@ jobs:
           persist-credentials: false
       - name: Toolchain (rust-toolchain.toml)
         run: rustup toolchain install
+      - name: Coverage instrumentation (llvm-tools)
+        run: rustup component add llvm-tools-preview
       - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
       - uses: taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5 # v2.87.19
         with:
           # cargo-mutants too: the harness's own tests drive `run --mutants` against a temp project
-          tool: cargo-nextest@0.9.146,cargo-mutants@27.1.0
+          tool: cargo-nextest@0.9.146,cargo-mutants@27.1.0,cargo-llvm-cov@0.9.1
 
-      - name: Unit and integration (pwsh shim)
+      # One instrumented nextest run replaces the unit and integration runs; doctest follows it.
+      - name: Coverage and doctest (pwsh shim)
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          ./scripts/agent-run.ps1 run --unit
+          ./scripts/agent-run.ps1 run --coverage
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          ./scripts/agent-run.ps1 run --integration
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-      - name: Unit and integration (sh shim)
+      - name: Coverage and doctest (sh shim)
         if: runner.os != 'Windows'
         shell: bash
-        run: |
-          bash scripts/agent-run.sh run --unit
-          bash scripts/agent-run.sh run --integration
+        run: bash scripts/agent-run.sh run --coverage
 
       - name: Harness lifecycle (pwsh shim)
         if: runner.os == 'Windows'
@@ -133,12 +132,23 @@ jobs:
           retention-days: 7
           if-no-files-found: warn
 
+      - name: Gate verdict
+        if: always()
+        shell: bash
+        run: bash scripts/agent-run.sh gate --require coverage,doctest
+
+  # One leg per OS: cargo-mutants cannot compile another OS's #[cfg] bodies, so each leg misses
+  # them; mutants-verdict judges the union (a mutant is red only if no leg caught it).
   mutants:
-    name: mutants
-    runs-on: ubuntu-latest
+    name: mutants (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 360
     permissions:
       contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-2025]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -150,19 +160,108 @@ jobs:
       - uses: taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5 # v2.87.19
         with:
           tool: cargo-nextest@0.9.146,cargo-mutants@27.1.0
-      - name: Mutation gate (chunk diff)
+      - name: Mutation leg (chunk diff)
         shell: bash
         env:
           AGENT_RUN_CHUNK_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
-        run: bash scripts/agent-run.sh run --mutants
-      - name: Upload mutants report
+          LEG: ${{ matrix.os }}
+        run: bash scripts/agent-run.sh run --mutants --leg "$LEG"
+      # Names and outcomes only: cargo-mutants' raw output carries absolute argv paths and test output.
+      - name: Upload leg verdict
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: mutants
-          path: mutants.out/
+          name: mutants-verdict-${{ matrix.os }}
+          path: target/agent-run/artifacts/mutants-verdict-${{ matrix.os }}.json
           retention-days: 7
           if-no-files-found: warn
+
+  mutants-verdict:
+    name: mutants-verdict
+    needs: mutants
+    if: always()
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Toolchain (rust-toolchain.toml)
+        run: rustup toolchain install
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          pattern: mutants-verdict-*
+          merge-multiple: true
+          path: target/agent-run/artifacts
+      - name: Gate verdict (union of the legs)
+        shell: bash
+        run: bash scripts/agent-run.sh gate --require mutants --mutants-legs ubuntu-latest,windows-2025
+
+  msrv:
+    name: msrv
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Toolchain (rust-toolchain.toml)
+        run: rustup toolchain install
+      - name: Toolchain (the 1.96 floor)
+        run: rustup toolchain install 1.96 --profile minimal
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          key: msrv
+      - uses: taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5 # v2.87.19
+        with:
+          tool: cargo-nextest@0.9.146,cargo-mutants@27.1.0
+      # RUSTUP_TOOLCHAIN outranks rust-toolchain.toml, so the pin stays untouched.
+      - name: Floor compiler
+        shell: bash
+        env:
+          RUSTUP_TOOLCHAIN: "1.96"
+        run: rustc --version
+      - name: Check on 1.96
+        shell: bash
+        env:
+          RUSTUP_TOOLCHAIN: "1.96"
+        run: cargo check --workspace
+      - name: Unit on 1.96
+        shell: bash
+        env:
+          RUSTUP_TOOLCHAIN: "1.96"
+        run: bash scripts/agent-run.sh run --unit
+      - name: Gate verdict
+        if: always()
+        shell: bash
+        run: bash scripts/agent-run.sh gate --require nextest-unit
+
+  fuzz-replay:
+    name: fuzz-replay
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Toolchain (rust-toolchain.toml)
+        run: rustup toolchain install
+      - name: Toolchain (fuzz/rust-toolchain.toml)
+        working-directory: fuzz
+        run: rustup toolchain install
+      - name: Install cargo-fuzz
+        run: cargo install --locked cargo-fuzz@0.13.2
+      - name: Corpus replay
+        shell: bash
+        run: bash scripts/agent-run.sh run --fuzz-replay
+      - name: Gate verdict
+        if: always()
+        shell: bash
+        run: bash scripts/agent-run.sh gate --require fuzz-replay
 
   lint:
     name: lint (${{ matrix.os }})

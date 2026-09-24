@@ -58,7 +58,7 @@ fn status_and_logs_of_an_unknown_session_are_exit_2() {
 fn unbuilt_selectors_and_unknown_commands_are_usage() {
     for (args, cmd) in [
         (vec!["run", "--browser"], Value::from("run")),
-        (vec!["run", "--coverage"], Value::from("run")),
+        (vec!["run", "--perf"], Value::from("run")),
         (vec!["boot", "--ui"], Value::from("boot")),
         (vec!["bogus"], Value::Null),
         (vec![], Value::Null),
@@ -70,6 +70,47 @@ fn unbuilt_selectors_and_unknown_commands_are_usage() {
         assert_eq!(doc["cmd"], cmd);
         assert_eq!(doc["ok"], false);
     }
+}
+
+#[test]
+fn gate_and_leg_usage_errors_are_exit_2() {
+    for (args, cmd, detail) in [
+        (vec!["gate"], "gate", "arguments"),
+        (vec!["gate", "--require", "bogus"], "gate", "unknown-suite"),
+        (vec!["gate", "--require", "a11y"], "gate", "unknown-suite"),
+        (
+            vec!["gate", "--require", "mutants", "--mutants-legs", "a/b"],
+            "gate",
+            "invalid-leg",
+        ),
+        (vec!["run", "--unit", "--leg", "x"], "run", "arguments"),
+        (
+            vec!["run", "--mutants", "--leg", "../x"],
+            "run",
+            "invalid-leg",
+        ),
+    ] {
+        let out = harness(&args);
+        assert_eq!(out.status.code(), Some(2), "{args:?}");
+        let doc = document(&out);
+        assert_eq!(doc["cmd"], cmd, "{args:?}");
+        assert_eq!(doc["reason"], "usage", "{args:?}");
+        assert_eq!(doc["detail"], detail, "{args:?}");
+    }
+}
+
+#[test]
+fn gate_over_an_empty_artifacts_dir_names_the_missing_suite() {
+    let empty = tempfile::tempdir().expect("tempdir");
+    let dir = empty.path().to_string_lossy().into_owned();
+    let out = harness(&["gate", "--require", "doctest", "--artifacts", &dir]);
+    assert_eq!(out.status.code(), Some(1));
+    let doc = document(&out);
+    assert_eq!(doc["cmd"], "gate");
+    assert_eq!(
+        doc["breaches"],
+        serde_json::json!([{"gate": "suite-missing", "suite": "doctest", "detail": "no-run-summary"}])
+    );
 }
 
 #[test]

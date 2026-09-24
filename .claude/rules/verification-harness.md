@@ -40,7 +40,8 @@ A change on one side keeps the other in sync; a log-format break is a harness br
 - Receipt ndjson `"v":1` + kebab `kind`: `start`, `env` (names only), `fds` (Unix), `key`, `prompt` (`text`, `hex`, `bare_esc`, `origin`, `submit`), `hook`, `step`.
 - Modes built: `--suppress-prompt-submit`, `--local-command-mode`, `--inject-harness-turn`, `--exit-no-eof`, `--report-version`. `--vt100-panic-bytes`, `statusline-echo` and `agents --json` land with their consumers. Exits on `\x03`.
 - Root fixture chain: `tests/support/` (`home` → `fake_agent_path` → `stamped_home` interim, no stamps → `booted_wrapper`). Homes live under `target/e2e-home/viola-test-*`, kept per `AGENT_RUN_KEEP_HOMES` / `AGENT_RUN_KEEP_FAILED`. The `viola_e2e::fixtures` copy lands with its first E2E consumer.
-- `run --mutants` classifies `chunk.diff` first. A diff with no `.rs` path gives `verdict:"no-rust-delta"` and never runs cargo-mutants. A Rust delta deletes a stale `outcomes.json`, then gives `verdict:"counted"`.
+- `run --mutants` classifies `chunk.diff` first. A diff with no `.rs` path gives `verdict:"no-rust-delta"` and never runs cargo-mutants. A Rust delta deletes a stale `outcomes.json`, then gives `verdict:"counted"`. `--leg <name>` also writes `artifacts/mutants-verdict-<name>.json` (repo-relative names and outcomes only) and defers survivors to `gate --mutants-legs`, the CI union.
+- `run --coverage` (one instrumented `cargo llvm-cov nextest` run as suite `coverage`, then doctest) and `run --fuzz-replay` (Linux only) drive their tools through the `run_with` runner seam, so the harness's own tests use a stand-in runner and never nest `cargo llvm-cov` or `cargo fuzz` inside nextest.
 - It must not drift from recorded `viola verify` fixtures (contract suite).
 
 ## Exemptions

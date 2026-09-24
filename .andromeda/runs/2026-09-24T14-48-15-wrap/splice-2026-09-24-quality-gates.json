@@ -1,0 +1,314 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1b01be01",
+"ts": "2026-09-24T14:59:58Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan.md",
+"--payload-file",
+".andromeda/runs/2026-09-24T14-48-15-wrap/security-decisions-entry.md",
+"--lines",
+"6",
+"--run-dir",
+".andromeda/runs/2026-09-24T14-48-15-wrap",
+"--marker",
+"2026-09-24-quality-gates"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append security-plan.md:+6 at line 644 · lines 643→649 · bytes 95956→97351 · term lf",
+"last line now: - **By:** the overseer (founder-delegated), wrap-session P2 escalation"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan.md"
+],
+"before": {
+"lines": 643,
+"bytes": 95956,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 649,
+"bytes": 97351
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1b01be01",
+"ts": "2026-09-24T15:02:15Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan.md",
+"--payload-file",
+".andromeda/runs/2026-09-24T14-48-15-wrap/test-decisions-entry.md",
+"--lines",
+"16",
+"--run-dir",
+".andromeda/runs/2026-09-24T14-48-15-wrap",
+"--marker",
+"2026-09-24-quality-gates"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append test-plan.md:+16 at line 1795 · lines 1794→1810 · bytes 225945→228543 · term lf",
+"last line now: "
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan.md"
+],
+"before": {
+"lines": 1794,
+"bytes": 225945,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1810,
+"bytes": 228543
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1b01be01",
+"ts": "2026-09-24T15:05:12Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-24T14-48-15-wrap/sc-test-plan.md",
+"--lines",
+"17",
+"--run-dir",
+".andromeda/runs/2026-09-24T14-48-15-wrap",
+"--marker",
+"2026-09-24-quality-gates"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+17 at line 133 · lines 132→149 · bytes 13993→17010 · term lf",
+"last line now: - Leaves re-derived: `.claude/docs/commands.md` (run/gate/built-today lines, llv"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 132,
+"bytes": 13993,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 149,
+"bytes": 17010
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1b01be01",
+"ts": "2026-09-24T15:05:12Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-24T14-48-15-wrap/sc-architecture.md",
+"--lines",
+"14",
+"--run-dir",
+".andromeda/runs/2026-09-24T14-48-15-wrap",
+"--marker",
+"2026-09-24-quality-gates"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+14 at line 126 · lines 125→139 · bytes 16647→19016 · term lf",
+"last line now: **Sweep:** `dtolnay` 0 · `runs only`/`only for advisories` 0 · \"four\" actions "
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 125,
+"bytes": 16647,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 139,
+"bytes": 19016
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1b01be01",
+"ts": "2026-09-24T15:05:12Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-24T14-48-15-wrap/sc-security-plan.md",
+"--lines",
+"13",
+"--run-dir",
+".andromeda/runs/2026-09-24T14-48-15-wrap",
+"--marker",
+"2026-09-24-quality-gates"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+13 at line 61 · lines 60→73 · bytes 5507→7821 · term lf",
+"last line now: **Sweep:** `mutants\\.out` 3 hits, the amended `:384`, the new Decisions entry, a"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 60,
+"bytes": 5507,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 73,
+"bytes": 7821
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1b01be01",
+"ts": "2026-09-24T15:05:12Z",
+"argv": [
+"append",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-24T14-48-15-wrap/sc-obs-plan.md",
+"--lines",
+"9",
+"--run-dir",
+".andromeda/runs/2026-09-24T14-48-15-wrap",
+"--marker",
+"2026-09-24-quality-gates"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append obs-plan-amendments.md:+9 at line 69 · lines 68→77 · bytes 7253→8552 · term lf",
+"last line now: **Sweep:** `mutants\\.out|outcomes\\.json` 2 hits after the apply (`:1209` new tex"
+],
+"stderr": null,
+"wrote": [
+".andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 68,
+"bytes": 7253,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 77,
+"bytes": 8552
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1b01be01",
+"ts": "2026-09-24T15:05:12Z",
+"argv": [
+"append",
+"--file",
+".andromeda/a11y-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-24T14-48-15-wrap/sc-a11y-plan.md",
+"--lines",
+"6",
+"--run-dir",
+".andromeda/runs/2026-09-24T14-48-15-wrap",
+"--marker",
+"2026-09-24-quality-gates"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append a11y-plan-amendments.md:+6 at line 15 · lines 14→20 · bytes 1555→2706 · term lf",
+"last line now: **Sweep:** `nextest-integration|nextest-e2e` 4 hits, all amended (`:280, :499, :"
+],
+"stderr": null,
+"wrote": [
+".andromeda/a11y-plan-amendments.md"
+],
+"before": {
+"lines": 14,
+"bytes": 1555,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 20,
+"bytes": 2706
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1b01be01",
+"ts": "2026-09-24T15:21:25Z",
+"argv": [
+"append",
+"--file",
+"viola-0.1.0/route-archive.md",
+"--payload-file",
+".andromeda/runs/2026-09-24T14-48-15-wrap/archive-payload.md",
+"--lines",
+"3",
+"--run-dir",
+".andromeda/runs/2026-09-24T14-48-15-wrap",
+"--marker",
+"2026-09-24-quality-gates"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append route-archive.md:+3 at line 17 · lines 16→19 · bytes 2722→4257 · term lf",
+"last line now: [2026-09-24-quality-gates] Quality gates — fatal fmt/clippy lint, MSRV 1.96 jo"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/route-archive.md"
+],
+"before": {
+"lines": 16,
+"bytes": 2722,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 19,
+"bytes": 4257
+}
+}
+]

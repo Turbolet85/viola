@@ -27,3 +27,38 @@ jobs:
         run: |
           cargo deny --version
           cargo deny check advisories
+
+  fuzz:
+    name: fuzz
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Toolchain (rust-toolchain.toml)
+        run: rustup toolchain install
+      - name: Toolchain (fuzz/rust-toolchain.toml)
+        working-directory: fuzz
+        run: rustup toolchain install
+      - name: Install cargo-fuzz
+        run: cargo install --locked cargo-fuzz@0.13.2
+      - name: Time-boxed fuzz (120 s per target)
+        shell: bash
+        run: |
+          channel=$(sed -n 's/^channel *= *"\(.*\)"/\1/p' fuzz/rust-toolchain.toml)
+          test -n "$channel"
+          for src in fuzz/fuzz_targets/*.rs; do
+            t=$(basename "$src" .rs)
+            cargo "+$channel" fuzz run --fuzz-dir fuzz "$t" "fuzz/corpus/$t" -- -max_total_time=120
+          done
+      # Crash reproducers are fuzzer inputs, not test output.
+      - name: Upload crash reproducers
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: fuzz-artifacts
+          path: fuzz/artifacts/
+          retention-days: 7
+          if-no-files-found: warn

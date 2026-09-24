@@ -8,6 +8,11 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-09-24 — A gate atom must not match what a green run can print
+A `lacks` / `contains` atom on a test runner's log reads the whole log, and test NAMES are part of it. A `lacks failed` atom over a green nextest run went red because two passing tests are named `…_build_failed…`, and a `contains 0 failed` atom went red because nextest's green summary never prints a failed count at all. Assert on the runner's own summary token (nextest prints `N failed,` only on a red run), and read the token from a recorded log of the real run before writing the atom.
+
+---
+
 ## 2026-09-24 — Reproduce a folded CI red on the host before planning its fix
 A CI red folded into a chunk is closed against its recorded run. Still, reproduce its mechanism locally before the plan is written: the host can carry a second face of the same defect that the runner cannot show. The mutation gate's Rust-free-diff failure read as `outcomes-missing` on the clean CI runner. On the dev host, the same tool exit left an earlier run's `mutants.out/` in place, and the harness would have reported the stale counts as a pass.
 

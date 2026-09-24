@@ -1205,6 +1205,9 @@ _[Standard: included. The Compliance Trace Fields subsection is omitted: securit
    - **Detail-file upload** (§9) is admissible only because E2E inputs are synthetic.
    - The same rule covers the `harness-<os>` artifact. `agent-run logs` merges `events.ndjson` records (`prompt-submitted.data.text`, `last_assistant_message`) and detail lines, so it carries the canary by design. The scan applies the Critical-class patterns to `target/agent-run/*`, and the canary rule exempts those files as it exempts `detail-*.ndjson`.
    - Any non-synthetic input source must first drop `detail-*.ndjson` and `target/agent-run/` from the upload paths.
+   - **Unscanned uploads, admissible by content** (operator ratification 2026-09-24):
+     - each mutants leg's `mutants-verdict-<os>.json` holds repo-relative source locations and mutant outcomes only: never an absolute path, an argv, a log path or test output. `mutants.out/` is never uploaded (its `outcomes.json` held absolute argv paths; its `log/` held test output).
+     - the nightly `fuzz` job's `fuzz/artifacts/` (on `failure()`) holds crash inputs the fuzzer mutated from the committed synthetic `fuzz/corpus/<target>/`. A non-synthetic corpus seed must first drop that upload.
    - **Scan failure:**
      - The pre-upload ban wins: no `diag-<os>` or `harness-<os>` artifact is uploaded.
      - Instead, the scan step writes a hit report to `target/secret-scan/` (`file`, line, byte offset and pattern class, never the matched bytes), and the separate §9 step 5 uploads that directory as `secret-scan-${{ matrix.os }}`.
@@ -1226,7 +1229,7 @@ _[Standard: included. The Compliance Trace Fields subsection is omitted: securit
 
 _[ALL tiers]_
 
-**Platform:** GitHub Actions; the single push/PR workflow `.github/workflows/ci.yml` (beside the scheduled `nightly.yml`, which runs only the weekly `cargo deny check advisories`), native matrix `windows-2025` / `macos-latest` / `ubuntu-latest` (arch CI/CD Platform). No OTLP collector job.
+**Platform:** GitHub Actions; the single push/PR workflow `.github/workflows/ci.yml` (beside the scheduled `nightly.yml`, which runs the weekly `cargo deny check advisories` and a `fuzz` job: 120 s per target on the `fuzz/rust-toolchain.toml` nightly, uploading `fuzz/artifacts/` on `failure()` only, see §8 item 6), native matrix `windows-2025` / `macos-latest` / `ubuntu-latest` (arch CI/CD Platform). No OTLP collector job.
 
 **Telemetry artifact handling:**
 
@@ -1246,7 +1249,7 @@ _[ALL tiers]_
 | Unit tests | In-memory `Vec<u8>` writer tests parse emitted lines with serde_json against `schemas/diag-line.v1.json` (tests-owned bodies) | nextest JUnit |
 | Integration tests | `diagnostics/*.ndjson` from fake-agent runs. Their viola homes must live under `target/e2e-home/` (the directory layout is tests-owned), so G2, G4, the secret scan and the `diag-<os>` upload cover them. A `hook` panic exits 0, so a home outside that root would hide it. perf: hyperfine JSON with `max` assertions | uploaded artifacts + G2 / G4 + budget assertion exit codes |
 | E2E tests | `agent-run logs` / `status`; Playwright DOM-attribute reads; zero-`event:"panic"` gate G2 and schema gate G4 (below) | uploaded artifacts + gate exit codes |
-| Mutation | obs code (`obs_event!` call sites, `MillisUtc`, panic hook, TraceLayer closures) under cargo-mutants like product code | `mutants.out/outcomes.json` |
+| Mutation | obs code (`obs_event!` call sites, `MillisUtc`, panic hook, TraceLayer closures) under cargo-mutants like product code | per-leg `mutants-verdict-<os>.json` (ubuntu-latest, windows-2025), merged by the `mutants-verdict` job's `gate --require mutants --mutants-legs …`: a mutant is red only when no leg caught it |
 
 **Gate commands.** Each gate is its own `run:` step with `shell: bash` on all three OSes, and is copied verbatim into `ci.yml`:
 - **G1, bare `#[instrument]`.**

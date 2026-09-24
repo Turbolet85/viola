@@ -1,19 +1,21 @@
 //! `viola-harness`: parse, call `viola_e2e::harness`, print one JSON document, exit 0 · 1 · 2.
 //! (`logs` streams ndjson instead; `supervise` prints nothing — its document is its file.)
-//! `schema-check` and `secret-scan` are internal CI gate bodies, not agent commands.
+//! `schema-check`, `secret-scan` and `gate` are internal CI gate bodies, not agent commands.
 
+use std::path::PathBuf;
 use std::process::ExitCode;
 
 use clap::{Parser, Subcommand};
 use viola_e2e::harness::boot::{BootOptions, DEFAULT_CLI_VERSION, InstanceSpec, boot};
 use viola_e2e::harness::cleanup::{Target, cleanup};
+use viola_e2e::harness::gate::{gate, parse_legs, parse_require};
 use viola_e2e::harness::logs::{Filter, logs};
-use viola_e2e::harness::run::{Selection, run};
+use viola_e2e::harness::run::{Selection, run_forwarding, run_with};
 use viola_e2e::harness::schema_check::schema_check;
 use viola_e2e::harness::secret_scan::secret_scan;
 use viola_e2e::harness::status::status;
 use viola_e2e::harness::supervise::supervise;
-use viola_e2e::harness::{Outcome, Workspace};
+use viola_e2e::harness::{Outcome, Workspace, valid_session_id};
 
 #[derive(Parser)]
 #[command(name = "viola-harness")]
@@ -40,9 +42,16 @@ enum Cmd {
         #[arg(long)]
         mutants: bool,
         #[arg(long)]
+        coverage: bool,
+        #[arg(long)]
+        fuzz_replay: bool,
+        #[arg(long)]
         all: bool,
         #[arg(long)]
         filter: Option<String>,
+        /// A mutation leg whose verdict the `gate` union decides.
+        #[arg(long, requires = "mutants")]
+        leg: Option<String>,
     },
     Status {
         #[arg(long, default_value = "default")]
@@ -68,9 +77,17 @@ enum Cmd {
     },
     SchemaCheck,
     SecretScan,
+    Gate {
+        #[arg(long)]
+        require: String,
+        #[arg(long)]
+        artifacts: Option<PathBuf>,
+        #[arg(long)]
+        mutants_legs: Option<String>,
+    },
 }
 
-const COMMANDS: [&str; 8] = [
+const COMMANDS: [&str; 9] = [
     "boot",
     "run",
     "status",
@@ -79,6 +96,7 @@ const COMMANDS: [&str; 8] = [
     "supervise",
     "schema-check",
     "secret-scan",
+    "gate",
 ];
 
 fn emit(outcome: Outcome) -> ExitCode {
@@ -127,14 +145,31 @@ fn main() -> ExitCode {
             unit,
             integration,
             mutants,
+            coverage,
+            fuzz_replay,
             all,
             filter,
-        } => emit(run(
-            &ws,
-            Selection::from_flags(unit, integration, mutants, all),
-            filter.as_deref(),
-            std::env::var("AGENT_RUN_CHUNK_BASE").ok(),
-        )),
+            leg,
+        } => {
+            if leg.as_deref().is_some_and(|l| !valid_session_id(l)) {
+                return emit(Outcome::usage(Some("run"), "invalid-leg"));
+            }
+            let named = Selection {
+                unit,
+                integration,
+                mutants,
+                coverage,
+                fuzz_replay,
+            };
+            emit(run_with(
+                &ws,
+                Selection::from_flags(named, all),
+                filter.as_deref(),
+                std::env::var("AGENT_RUN_CHUNK_BASE").ok(),
+                leg.as_deref(),
+                &mut run_forwarding,
+            ))
+        }
         Cmd::Status { session } => emit(status(&ws, &session)),
         Cmd::Cleanup { session, all } => {
             let keep = std::env::var("AGENT_RUN_KEEP_HOMES").is_ok_and(|v| v == "1");
@@ -167,5 +202,21 @@ fn main() -> ExitCode {
         Cmd::Supervise { session } => ExitCode::from(supervise(&ws, &session).code),
         Cmd::SchemaCheck => emit(schema_check(&ws)),
         Cmd::SecretScan => emit(secret_scan(&ws)),
+        Cmd::Gate {
+            require,
+            artifacts,
+            mutants_legs,
+        } => {
+            let Some(require) = parse_require(&require) else {
+                return emit(Outcome::usage(Some("gate"), "unknown-suite"));
+            };
+            let legs = match mutants_legs.as_deref().map(parse_legs) {
+                Some(None) => return emit(Outcome::usage(Some("gate"), "invalid-leg")),
+                Some(Some(legs)) => Some(legs),
+                None => None,
+            };
+            let artifacts = artifacts.unwrap_or_else(|| ws.artifacts());
+            emit(gate(&artifacts, &require, legs.as_deref()))
+        }
     }
 }

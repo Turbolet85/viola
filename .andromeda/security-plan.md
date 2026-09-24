@@ -128,10 +128,10 @@ _Justification: viola is a local-only, single-user tool. It has no accounts, no 
 - **Vector:** Supply chain (build and CI).
   - **Entry point:**
     - Cargo dependencies. Arch notes interprocess has a single main maintainer and rmcp releases nearly weekly with its minor version pinned.
-    - Third-party GitHub Actions, SHA-pinned: `actions/checkout` v7.0.1, `Swatinem/rust-cache` v2.9.2, `taiki-e/install-action` v2.87.19, `actions/upload-artifact` v7.0.1. The toolchain is installed by `rustup` from `rust-toolchain.toml`, with no toolchain action.
+    - Third-party GitHub Actions, SHA-pinned: `actions/checkout` v7.0.1, `Swatinem/rust-cache` v2.9.2, `taiki-e/install-action` v2.87.19, `actions/upload-artifact` v7.0.1, `actions/download-artifact` v8.0.1. Every toolchain is installed by `rustup`, with no toolchain action: `rust-toolchain.toml` (1.98.1), `fuzz/rust-toolchain.toml` (`nightly-2026-09-20`, fuzz jobs only) and the MSRV `1.96` (selected with `RUSTUP_TOOLCHAIN`).
     - Future v1.x public distribution and `self_update`.
     - Sources: Stack; Infrastructure Patterns (Build system, CI/CD approach).
-  - **Trust boundary:** `cargo deny check` over `deny.toml` (advisories, licences, sources, C-crate / telemetry-crate / feature bans), the sole-root `deny-sync.toml` tokio ban per sync crate, `Cargo.lock`, and `publish = false`. In v1 there is no release, no signing and no deploy stage.
+  - **Trust boundary:** `cargo deny check` over `deny.toml` (advisories, licences, sources, C-crate / telemetry-crate / feature bans), the sole-root `deny-sync.toml` tokio ban per sync crate, `Cargo.lock`, and `publish = false`. `cargo deny` covers the root `Cargo.lock` only. The test-only `fuzz/` workspace (its own `fuzz/Cargo.lock`, with the C++-building `libfuzzer-sys`) sits outside it by an operator-ratified exemption; its advisory and source audit is owed (see §Dependency Security). In v1 there is no release, no signing and no deploy stage.
 - **Public internet API / file upload / OAuth / WebSocket / webhook:** none. Stack and Conventions list no public listener, no WebSocket ("No WebSocket and no polling endpoints in v1") and no hosting.
 
 **Auth model:**
@@ -157,8 +157,8 @@ _Justification: viola is a local-only, single-user tool. It has no accounts, no 
   - No outbound network calls by viola itself. The `claude` child handles the network to Anthropic on its own.
   - Sources: Occupied Resources (Network, IPC endpoints); Stack (AI/ML N/A).
 - **CI/CD:**
-  - GitHub Actions `ci.yml`, triggered on push and PR, on a native matrix of `windows-2025`, `macos-latest` and `ubuntu-latest`; plus `nightly.yml` (weekly `schedule` + `workflow_dispatch`) for `cargo deny check advisories`.
-  - Jobs: fmt, clippy `-D warnings`, `cargo check` of the sync crates, the ubuntu supply-chain job (`cargo deny check`, the sole-root tokio ban, the ban probes, zizmor), tests against the fake agent with recorded fixtures, and `cargo build --release`.
+  - GitHub Actions `ci.yml`, triggered on push and PR, on a native matrix of `windows-2025`, `macos-latest` and `ubuntu-latest`; plus `nightly.yml` (weekly `schedule` + `workflow_dispatch`) for `cargo deny check advisories` and a time-boxed fuzz run.
+  - Jobs: fmt, clippy `-D warnings`, `cargo check` of the sync crates, the ubuntu supply-chain job (`cargo deny check`, the sole-root tokio ban, the ban probes, zizmor), tests against the fake agent with recorded fixtures (per OS under coverage), mutation (ubuntu and windows legs plus a union verdict), MSRV 1.96, fuzz corpus replay, and `cargo build --release`.
   - No deploy stage, no release artefacts and no secrets in v1. The real `claude` CLI and `viola verify` run only locally.
   - v1.x adds a dist 0.33.0 release workflow with cargo-auditable 0.7.6, signing, winget/Homebrew/Scoop and `self_update` 1.3.0.
   - Sources: Infrastructure Patterns (CI/CD approach); Stack (Release).
@@ -312,26 +312,29 @@ _[ALL tiers]_
   - `rmcp` denies `transport-streamable-http-server` and `auth`.
   - `axum` denies `http2`.
 - The arch bans stay as they are: C-building crates in `deny.toml`, and `tokio` in the sync crates' graph for three target triples in `deny-sync.toml`, run per sync crate as the sole root (arch §Build system). Every ban is proven live by `scripts/deny-probes.sh`.
+- `fuzz/` is a separate cargo workspace (`viola-fuzz`, `publish = false`, excluded from the root by `exclude = ["fuzz"]`) with its own committed `fuzz/Cargo.lock`: `libfuzzer-sys =0.4.13` (builds C++ via `cc`), `arbitrary =1.4.2` and a path dep on `viola-core`. That lockfile is outside `cargo deny`'s root graph, so the C-build ban, advisories and sources do not cover it. The operator ratified this on 2026-09-24 as a test-only exemption (Decisions Log). It holds only while the crate is never linked into a shipped binary and `fuzz` never joins the root `[workspace]`. The advisory and source audit of `fuzz/Cargo.lock` (`cargo deny --manifest-path fuzz/Cargo.toml check advisories sources`) is owed to the "Workspace tree and code-graph planes" chunk.
 
 **Pinning:**
-- `Cargo.lock` is committed. `[workspace.dependencies]` pins every third-party version (portable-pty `=0.8.1`). The exception is rmcp, which takes the minor range `>=3.4.1, <3.5` (the `~3.4` pin floored at the catalogued 3.4.1), and `Cargo.lock` must resolve rmcp `>=3.4.1`.
+- `Cargo.lock` and `fuzz/Cargo.lock` are committed. `[workspace.dependencies]` pins every third-party version of the root graph (portable-pty `=0.8.1`), and `fuzz/Cargo.toml` pins its own crates exactly (`libfuzzer-sys =0.4.13`, `arbitrary =1.4.2`). The exception is rmcp, which takes the minor range `>=3.4.1, <3.5` (the `~3.4` pin floored at the catalogued 3.4.1), and `Cargo.lock` must resolve rmcp `>=3.4.1`.
 - `Cargo.lock` must resolve bytes `>=1.11.1` (RUSTSEC-2026-0007). If obs selects tracing-subscriber, it needs `>=0.3.20` (RUSTSEC-2025-0055).
 - notify stays on 8.2.0 (no 9.0 pre-release).
-- The toolchain is pinned exactly by `rust-toolchain.toml` (`channel = "1.98.1"`, rustfmt + clippy); the host and CI both install it through rustup. The workspace `rust-version` floor is 1.96.
+- The product toolchain is pinned exactly by `rust-toolchain.toml` (`channel = "1.98.1"`, rustfmt + clippy); the host and CI both install it through rustup. The workspace `rust-version` floor is 1.96, and the CI `msrv` job checks it with `rustup toolchain install 1.96 --profile minimal` selected by `RUSTUP_TOOLCHAIN=1.96`. The fuzz-only `fuzz/rust-toolchain.toml` pins `channel = "nightly-2026-09-20"`, also installed through rustup.
 - External CLI tools use minimum floors, not exact pins.
 
 **Update policy:** Manual review, triggered by the scheduled advisory run below. No automated update bot was researched (see the Decisions Log). The rmcp minor range (`>=3.4.1, <3.5`) makes the scheduled run the main signal for that crate.
 
 **CI integration** (`.github/workflows/ci.yml`, `.github/workflows/nightly.yml`):
-- Job 4 (ubuntu) runs `cargo deny check` over all four check families, and fails the build on any advisory, yanked crate or unknown source.
-- A separate workflow, `nightly.yml` (weekly `schedule:` cron + `workflow_dispatch`, no cache), runs `cargo deny check advisories`, because the advisory DB changes without code changes (the default `maximum-db-staleness` is P90D).
+- Job 4 (ubuntu) runs `cargo deny check` over all four check families, and fails the build on any advisory, yanked crate or unknown source. It covers the root `Cargo.lock` only, not `fuzz/Cargo.lock` (see the `fuzz/` exemption above).
+- A separate workflow, `nightly.yml` (weekly `schedule:` cron + `workflow_dispatch`, no cache), runs `cargo deny check advisories`, because the advisory DB changes without code changes (the default `maximum-db-staleness` is P90D). Its second job, `fuzz`, installs `cargo-fuzz@0.13.2` with `cargo install --locked`, runs each target for 120 s on the `fuzz/rust-toolchain.toml` nightly, and uploads `fuzz/artifacts/` on failure.
+- The workflows carry no `concurrency:` block. zizmor's pedantic `concurrency-limits` (2 low findings) was declined on 2026-09-24 and stays visible: a concurrency group cancels pending runs even with `cancel-in-progress: false`, which would drop a push's `--in-diff` mutation diff and its `always()` gate and upload chain. The default persona, which CI runs, does not report it.
 - `zizmor .github/workflows/` runs on the ubuntu leg and fails on unpinned actions, `excessive-permissions`, template injection and cache poisoning.
 - Actions are pinned by full commit SHA (the set `ci.yml` uses; SHAs resolved 2026-09-24 via `gh api repos/{repo}/commits/{tag}`):
   - `actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1` (with `persist-credentials: false`)
   - `Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2`
   - `taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5 # v2.87.19`
   - `actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1`
-- The toolchain comes from `rust-toolchain.toml` through a `rustup toolchain install` step; no toolchain action is used.
+  - `actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1` (the `mutants-verdict` job; resolved 2026-09-24 via `gh api repos/actions/download-artifact/git/ref/tags/v8.0.1`)
+- Toolchains come from `rustup toolchain install` steps: `rust-toolchain.toml`, `fuzz/rust-toolchain.toml` (run in `working-directory: fuzz`, in the fuzz jobs) and `1.96` in the `msrv` job (selected with `RUSTUP_TOOLCHAIN=1.96`). No toolchain action is used.
 - A value from the event payload reaches a step only through `env:` (e.g. `AGENT_RUN_CHUNK_BASE`), never through `${{ }}` inside `run:`.
 - Workflow-level `permissions: {}` and job-level `contents: read`.
 - Optionally, enable GitHub's Actions policy for SHA pinning on the repository.
@@ -378,7 +381,9 @@ combine, setup-project may add stack-specific intermediate steps.
   - Add the `MAX_FRAME` const and the `Read::take` wrappers on every external reader.
 - **dep-audit-tooling-install:** cargo-deny `>=0.20.2` with the `deny.toml` `[advisories]`, `[sources]` and `[[bans.features]]` additions; zizmor `>=1.30.1`. cargo-audit `>=0.22.2` is deferred to v1.x binary scans.
 - **secret-management-init:** N/A for stored secrets (none in v1). Only the GUI per-launch token file `<viola home>/ui/<port>.url` (0600) and its cleanup on shutdown.
-- **secret-scanning-ci-gate:** No repo secret scanner in v1. There are no secrets in the repo or CI, and no scanner was researched (see the Decisions Log). The CI `test` job does run obs-plan §9's artifact canary scan: `viola-harness secret-scan` over test-home diagnostics, the harness capture and the nextest JUnit report, checked against this plan's NEVER-log floor. It never prints or writes the matched bytes, and every scan-gated upload (`diag-`, `junit-`, `harness-<os>`) waits for it to pass. The `mutants` job's `mutants.out/` upload is not scanned yet (a CARRY on "Quality gates"). `.gitignore` excludes any local `--home` test directories so recorded state never lands in git.
+- **secret-scanning-ci-gate:** No repo secret scanner in v1. There are no secrets in the repo or CI, and no scanner was researched (see the Decisions Log). The CI `test` job does run obs-plan §9's artifact canary scan: `viola-harness secret-scan` over test-home diagnostics, the harness capture and the nextest JUnit report, checked against this plan's NEVER-log floor. It never prints or writes the matched bytes, and every scan-gated upload (`diag-`, `junit-`, `harness-<os>`) waits for it to pass. The `mutants.out/` upload is removed: `outcomes.json` held absolute argv paths and `log/` held test output. Two uploads leave CI unscanned, admissible by content (operator ratification 2026-09-24):
+  - each mutants leg's `mutants-verdict-<os>.json`, harness-authored, holding repo-relative source locations and outcomes only: never an absolute path, an argv, a log path or test output;
+  - the nightly `fuzz` job's `fuzz/artifacts/` on failure: crash inputs the fuzzer mutated from the committed synthetic corpus. A non-synthetic corpus seed must first drop that upload. `.gitignore` excludes any local `--home` test directories so recorded state never lands in git.
 - **error-sanitization-wire:**
   - `thiserror` `Display` impls on the `<Crate>Error` enums must not interpolate upstream text or absolute paths.
   - `UiError` maps to fixed Problem Details `detail` strings.
@@ -636,3 +641,9 @@ _Records key decisions during plan generation + manual additions between phase l
   - Sections changed: Input Validation (paste rule, constants), Authentication & Authorization (Windows DACL, client verification), Data Protection (code-bearing artefacts), Anti-Patterns (Input, Data Protection).
   - Arch amendments: new ledger row "largest hook payload seen" (CLI Version Compatibility), and `<hash>` defined as truncated SHA-256 (Deployment / Distribution).
 - **By:** `/andromeda-security` Phase 3.5, user review
+
+`2026-09-24` — Fuzz workspace exemption and unscanned CI uploads (chunk 2026-09-24-quality-gates)
+- **Decision:** `fuzz/` is a separate cargo workspace (`viola-fuzz`, excluded from the root) with its own `fuzz/Cargo.lock` holding `libfuzzer-sys =0.4.13` (builds C++ via `cc`) and `arbitrary =1.4.2`. It is accepted outside `cargo deny`'s root graph as test-only. Its fuzz toolchain is `fuzz/rust-toolchain.toml` `nightly-2026-09-20`. The first target is `viola_name` (`ViolaName::try_new`), with a synthetic corpus only. Two CI uploads leave without the secret scan, admissible by content: `mutants-verdict-<os>.json` (repo-relative source locations and outcomes only, never absolute paths) and the nightly `fuzz/artifacts/` (fuzzer inputs from the synthetic corpus).
+- **Rationale:** The crates run only in the CI fuzz jobs (`contents: read`) and are never linked into `viola`. A secret scan has nothing to match in the verdict file, and the mutants job has no homes to scan (`empty-scope`). The raw `mutants.out/` upload it replaces held absolute argv paths and test output.
+- **Conditions:** `fuzz` never joins the root `[workspace]`; a non-synthetic corpus seed drops the fuzz upload first. The advisory and source audit of `fuzz/Cargo.lock` is owed to the "Workspace tree and code-graph planes" chunk (route CARRY).
+- **By:** the overseer (founder-delegated), wrap-session P2 escalation

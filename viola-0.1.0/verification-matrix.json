@@ -98,7 +98,8 @@
         "ref": null,
         "status": "planned"
       },
-      "chunk": null
+      "chunk": null,
+      "notes": "2026-09-24 (2026-09-24-quality-gates, phase P5): not claimed. This chunk builds:\n- per-OS coverage floors;\n- the `gate` verdict per CI job, with missing artifact = breach;\n- zero retries;\n- a seeded fuzz replay that fails on an empty corpus, with its first target on `ViolaName::try_new`.\n\nThe acceptance still needs \"hook deadlines hold on the worst sample\" (no hook verb or hyperfine exists at HEAD) and \"every security-named parser surface has seeded property tests\" (0 of test-plan §6's seven parsers exist at HEAD). The claim waits for the chunks that land the hooks, perf gates and parsers."
     },
     {
       "id": "v1-08",
@@ -251,11 +252,11 @@
       "observed_gap": "arch declares `rust-version = \"1.89\"` (A:13, A:374, A:490); sysinfo 0.39.6 needs 1.95; security moves the host to ≥1.96 (S:320); tests and obs now use 1.96 (TP §9 MSRV row; OB D-22); the host still has 1.95 (XF T14, O5, I2, I3).",
       "verification": {
         "method": "integration",
-        "acceptance": "The workspace, the MSRV CI job and the pinned toolchain agree on one declared floor of 1.96; the primary toolchain is a single pinned current stable; external CLI tools are stated as minimum floors.",
-        "ref": null,
-        "status": "planned"
+        "acceptance": "`Cargo.toml` `[workspace.package]` declares `rust-version = \"1.96\"`, and `rust-toolchain.toml` pins the single current stable (`channel = \"1.98.1\"`). The `ci.yml` `msrv` job installs 1.96 with `rustup toolchain install 1.96` (no toolchain action) and runs `cargo check --workspace` and `agent-run run --unit` under `RUSTUP_TOOLCHAIN=1.96`. Its log prints `rustc 1.96`, it ends in `viola-harness gate --require nextest-unit`, and it is green on the chunk's pushed sha. External CLI tools are stated as minimum floors, not exact pins (security-plan.md:321).",
+        "ref": "plan gates `RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv-probe cargo check --workspace --all-targets --features viola/fake-agent` (green, rustc 1.96.1) + `RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv-probe cargo nextest run … -E 'kind(lib) | kind(bin)'` (green, 0 failed) + `grep -c 'channel = \"1.98.1\"' rust-toolchain.toml` (last line 1); `.github/workflows/ci.yml` job `msrv` (rustup toolchain install 1.96 · RUSTUP_TOOLCHAIN=1.96 rustc --version / cargo check --workspace / agent-run run --unit · gate --require nextest-unit); security-plan.md:321 (external CLI tools as minimum floors). CI witness on the pushed sha OWED to the plan's operator entries: check-runs all `success`, and the `msrv` job log carrying `rustc 1.96`.",
+        "status": "verified"
       },
-      "chunk": null
+      "chunk": "2026-09-24-quality-gates"
     },
     {
       "id": "v1-20",
