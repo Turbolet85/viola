@@ -1,0 +1,398 @@
+## 1. Coverage Scope
+
+- **Entity:** `viola` root bin: clap dispatch, the `run` pump, the wheel, the budget governor and the readiness-gate wiring (`src/cmd/<subcommand>`, `src/run/`)
+  - **Source:** arch excerpt, Workspace / Modules (viola root bin), plus Project Intent critical-path hints 1, 5 and 6
+  - **Testability:** testable
+- **Entity:** `viola-core`: normalised event kinds, `RefusalReason` (kebab-case, `#[serde(other)] unknown`), `ViolaName`, `Percent` (0–100), `v` constants, `validate_paste_text`
+  - **Source:** arch excerpt, Workspace / Modules and Stack (nutype 0.8.0); security excerpt, Vector 2
+  - **Testability:** testable
+- **Entity:** `viola-pty`: the seam over portable-pty `=0.8.1` (spawn, read, write, resize, wait, kill), exit detected on the process handle and never on EOF, plus the windows-sys `TerminateProcess` fallback
+  - **Source:** arch excerpt, Stack and Workspace / Modules; creator excerpt, Must-Work (Windows ConPTY EOF)
+  - **Testability:** testable
+- **Entity:** `viola-channel`: JSON-RPC 2.0 over ndjson on `interprocess` local sockets. Covers the sync client/server, the Tokio client feature, the FNV-1a endpoint hash, `MAX_FRAME` (16 MiB) and the result/refusal/error shapes
+  - **Source:** arch excerpt, Workspace / Modules and Standard Contracts (Wrapper channel, Endpoint); security excerpt, Vector 1
+  - **Testability:** partially-testable
+  - **Reason if not fully testable:** same-user behaviour is testable: framing, method dispatch, refusal order, `-32602` on a higher `v`, the pid/start-time server verification, and `run` exiting 1 on a squatted name. The cross-user parts cannot be driven on hosted GitHub runners, which have no second OS account: rejecting a peer with a different euid, rejecting remote pipe clients, and denying access through the Windows pipe DACL `D:P(A;;GA;;;<user-SID>)(A;;GA;;;SY)`. They have to be asserted at the peer-credential check boundary. The security excerpt (data classifications) notes the Windows DACL cases are only "partially testable with stubs".
+- **Entity:** `viola-state`: ndjson logs, atomic snapshots, `File::lock` on `.lock` siblings, torn-line healing, tailing, pid + start-time liveness, rebuild by replay, Unix modes and strict-modes
+  - **Source:** arch excerpt, Workspace / Modules and Standard Contracts (On-disk); security excerpt, Vector 7
+  - **Testability:** partially-testable
+  - **Reason if not fully testable:** Unix modes and strict-modes, torn lines, snapshot replay, heartbeat staleness and pinned-exe hash mismatch are testable in a temp `--home`. Windows strict-modes cases that need a foreign-owner SID or a volume without persistent ACLs (FAT/exFAT) cannot be provisioned on windows-2025 hosted runners. They get stubs at the descriptor-check layer, per the security excerpt's Config classification ("partially testable with stubs for the Windows DACL cases").
+- **Entity:** `viola-agent-claude`, covering:
+  - hook parsing and dialog mapping (S3/S7/S8)
+  - the R8 `CLAUDE*` strip
+  - npm-shim → `claude.exe` resolution
+  - the version gate, the capability ledger and the `verify` probes
+  - screen signatures, statusline parsing, `claude agents --json` parsing
+  - `prompt-submitted` normalisation (M2 harness prefixes; M3/M4 `<pasted_content` / `<\pasted_content`)
+  - **Source:** arch excerpt, Workspace / Modules and Test-Relevant Conventions (Ledger probes); creator excerpt, Must-Work (M1–M6, S3/S7/S8, R8)
+  - **Testability:** partially-testable
+  - **Reason if not fully testable:** parsers, mapping, normalisation, the env strip (using a stub child that dumps its env) and the version gate are testable against the fake agent and against `fixtures/claude/<cli-version>/`. The real `claude` CLI's live behaviour cannot be reached in CI (arch excerpt, CI/CD: "The real `claude` and `viola verify` run only locally"). That includes CLI-native modals (M1), real harness-injected turns (M2), real `claude agents --json` output and new-version drift. Locally it is agent-runnable through `viola verify` (Haiku, spends tokens).
+- **Entity:** `viola-mcp`: rmcp 3.4.1 stdio server with tools `send · wait · last · answer · list`, `isError` mapping, and server-side re-validation of `target`, `dialog_id`, `response` and `text`
+  - **Source:** arch excerpt, Stack and Standard Contracts (MCP); security excerpt, Vector 5
+  - **Testability:** testable
+- **Entity:** `viola-ui`: axum GET + SSE, the Host allowlist, token exchange and cookie gate, security headers, Problem Details, and `Last-Event-ID` resume
+  - **Source:** arch excerpt, Standard Contracts (GUI HTTP); security excerpt, Vector 3
+  - **Testability:** testable
+- **Entity:** web page (Lit 3.3.3 light-DOM `viola-*` elements, embedded `/` and `/assets/*`): the ATIS header, WRAPPED / UNWRAPPED · READ-ONLY racks, transfer markers, the event tape, readback boxes, the cocked strip and the state strips
+  - **Source:** design excerpt, Surfaces (web-spa) and Brand Identity Anchors; layout excerpt, web-spa layout types and Signature Placements
+  - **Testability:** testable
+- **Entity:** `viola hook <event>` and `viola hook statusline`: exec-form Claude Code hooks. They always exit 0, never write stderr, emit decision bodies, and write `rate_limits` → `budget.json` before passing the statusline through
+  - **Source:** arch excerpt, Standard Contracts (Hooks); security excerpt, Vector 4
+  - **Testability:** testable
+- **Entity:** CLI verbs and the `--json` / exit-code contract (`run · send · wait · last · list · answer · pause · release · link · unlink · ui · verify · plugin install`, global `--home`, exits 0/1/2/10–14/20/21), plus the human TTY output (k9s-style `viola list`, the readback mirror, C0/C1 escaping)
+  - **Source:** arch excerpt, Standard Contracts (CLI); design excerpt, Surfaces (cli); layout excerpt, cli Signature Placements
+  - **Testability:** testable
+- **Entity:** on-disk event log `instances/<name>/events.ndjson` (prompts and assistant output, high classification) plus the design cross-lane CL-1 `send-issued` / `send-refused` events
+  - **Source:** arch excerpt, On-disk (Event line); security excerpt, Data Classifications (Prompts, Tool args); creator excerpt, Founder Direction 5
+  - **Testability:** testable (temp `--home` + fake agent, per the security excerpt's testability hint)
+- **Entity:** config and code-bearing state: `snapshot.json`, `config.json`, `settings.json`, `budget.json`, `ledger/stamps.json`, the `plugin/` files (`hooks.json` / `.mcp.json`), the pinned exe (SHA-256 16-hex re-hash), the `heartbeat` file
+  - **Source:** arch excerpt, On-disk (Snapshot envelope, Instance snapshot, Other files); security excerpt, Data Classifications (Config and code-bearing state) and Vector 7
+  - **Testability:** partially-testable
+  - **Reason if not fully testable:** same Windows DACL limitation as `viola-state`. Everything else is testable in a temp home.
+- **Entity:** GUI per-launch token: 32 getrandom bytes, `ui/<port>.url` (0600, removed on graceful shutdown), the `viola_<port>` cookie, constant-time compare
+  - **Source:** security excerpt, Vector 3 (Token exchange) and Data Classifications (GUI per-launch token)
+  - **Testability:** testable (constant-time behaviour is asserted by code-path review or a static check, not by a timing measurement)
+- **Entity:** inherited credentials strip (`CLAUDE_CODE_MESSAGING_TOKEN` / `_SOCKET` and the other `CLAUDE*` values, 14 variables per S6)
+  - **Source:** security excerpt, Data Classifications (Inherited credentials); creator excerpt, Must-Work (R8/S6)
+  - **Testability:** partially-testable
+  - **Reason if not fully testable:** a stub child that reports its env can prove the strip happened. Whether the real `claude` then registers as a session of its own can only be observed in local `viola verify` / live tests.
+- **Entity:** liveness enrichment (sysinfo 0.39.6 + `claude agents --json`: unwrapped rows, idle/busy status)
+  - **Source:** arch excerpt, Stack (sysinfo + `claude agents --json`) and GUI HTTP (`/api/sessions` unwrapped row)
+  - **Testability:** partially-testable
+  - **Reason if not fully testable:** the parser and row mapping are testable with a stub `claude` on PATH that emits recorded JSON. The real subcommand's output shape is reachable only locally.
+- **Entity:** budget data source (statusline `rate_limits.five_hour|seven_day.used_percentage`, `resets_at`)
+  - **Source:** creator excerpt, Must-Work (O8/§7); arch excerpt, Project Intent hint 6
+  - **Testability:** partially-testable
+  - **Reason if not fully testable:** threshold logic, the `budget-gate` events and the `"unknown"` fallback are testable with synthetic statusline stdin. Real Anthropic-side usage values are untestable because they are server-side subscription state.
+- **Entity:** dependency and boundary policy (the `cargo deny` tokio and C-crate bans, the `cargo check` of sync crates without tokio, clippy `-D warnings`, cargo-modules boundary review, SHA-pinned Actions / zizmor)
+  - **Source:** arch excerpt, Stack (std threads + Tokio; rustfmt / clippy / cargo-deny / cargo-modules) and CI/CD; security excerpt, Vector 9
+  - **Testability:** testable (exit-code gates in CI)
+- **Untestable zones:**
+  - Real `claude` CLI and Anthropic backend in CI (live sessions, real rate-limit values, real CLI-native modals, token spend). Scope: arch excerpt, CI/CD and Test-Relevant Conventions (Live vs CI split). Local only, through `viola verify`.
+  - Cross-OS-user attacks (a second local user squatting or connecting to the endpoint, reading the home). Hosted runners provide one account (security excerpt, Vectors 1 and 7).
+  - Windows volumes without persistent ACLs and foreign-owner SIDs on hosted runners (security excerpt, Vector 7 and Data Classifications).
+  - macOS local runs. Security excerpt, Context: "macOS is CI-only in v1".
+- **N/A (deferred, not in v1 scope):**
+  - Mobile / phone view (arch excerpt, Surfaces, Deferred; layout excerpt: "<760 not laid out in v1").
+  - v1.x `POST /api/sessions/{name}/pause|unlink` and the brake buttons (arch excerpt, GUI HTTP "Reserved, not served in v1"). The only v1 assertion is that non-GET returns 405.
+
+## 2. Surfaces Under Test
+
+- **Surface:** cli (`viola` verbs: `send · wait · last · list · answer · pause · release · link · unlink · verify · plugin install · ui · run` launch semantics)
+  - **Driver:** subprocess + `assert_cmd` / `Command::cargo_bin("viola")`, with `--home <per-test temp>` and `--json`
+  - **Signal:** exit code (0, 1, 2, 10–14, 20, 21) plus one JSON document on stdout (`{"v":1,"ok":…}` / `{"v":1,"refusal":…,"detail":…}` / `{"v":1,"error":…}`). Human mode is checked by stdout/stderr line match: `[RB] read back … cursor <n>`, `unable  <name>  <reason>  <detail>` + last-line `hint:`, `stamped <ver>  <n> pass  <n> fail`. There must be no SGR under non-TTY / `NO_COLOR` / `TERM=dumb`.
+  - **Boundary:** cross-surface (verbs talk to the `run` wrapper over the IPC channel, and read disk for `list`)
+  - **Notes:** traced to arch excerpt, CLI and design excerpt, Surfaces (cli). The human TTY rendering (bold NAME, amber `DIALOG`, dim `stale`) needs a pseudo-TTY on stdout. It is driven through the same outer-PTY driver as the tui surface, not by screen inspection of the child agent.
+
+- **Surface:** cli (the `viola hook <event>` and `viola hook statusline` exec-form entry points, invoked by Claude Code or the fake agent)
+  - **Driver:** subprocess + `assert_cmd` feeding recorded hook payloads from `fixtures/claude/<cli-version>/` on stdin, with and without `VIOLA_NAME` / `VIOLA_DIR`
+  - **Signal:** exit code is always 0. stderr is always empty. stdout is either empty (no decision / async hooks) or exactly the PreToolUse / PermissionRequest decision body. Side effects are checked as a matching `events.ndjson` line, a hook trace under `diagnostics/`, and `budget.json` contents for statusline.
+  - **Boundary:** cross-surface (hook → IPC `hook.dialog` / `hook.event` → wrapper → disk)
+  - **Notes:** traced to arch excerpt, Hooks and security excerpt, Vector 4. Deadline checks apply: spine hooks within the spine deadline, SessionEnd ~1 s.
+
+- **Surface:** tui (`viola run <name> -- <fake agent>` terminal passthrough, i.e. the human's side of the PTY)
+  - **Driver:** PEXPECT-class outer-PTY driver. The test spawns `viola run` inside a PTY it owns, writes human keystrokes and bracketed pastes, and resizes. The concrete crate is Phase 2's choice.
+  - **Signal:** `events.ndjson` lines (`wheel {holder:"human", cause:"human-input"}`, `prompt-submitted {origin:"human"}`), the fake agent's own report of what it received (one prompt, newlines inside, no Esc), and process exit code / exit detection on the process handle
+  - **Boundary:** cross-surface (TUI input → wrapper wheel → IPC refusals seen by cli / MCP)
+  - **Notes:** traced to arch excerpt, Stack (portable-pty, vt100) and creator excerpt, Must-Work (R2, R3/S1, Windows ConPTY). Assertions must never parse the rendered child screen for content (creator excerpt, Test Anti-Patterns: "Nobody parses the rendered screen for content"). The vt100 readiness gate is tested through its refusal outputs (`input-not-ready`), not by scraping the screen.
+
+- **Surface:** ipc-internal (wrapper channel: JSON-RPC 2.0 over ndjson on a named pipe / Unix socket; methods `send`, `wait`, `last`, `answer`, `pause`, `release`, `link`, `unlink`, `hook.dialog`, `hook.event`)
+  - **Driver:** language-native IPC test client (the `viola-channel` sync client, or a raw `interprocess` `local_socket` client for malformed frames) + JSON schema assertion
+  - **Signal:** IPC response payload check. Success is `{"result":{"ok":…}}`. Refusal is `{"result":{"refusal":…,"detail":…}}` with the first-applicable ordering. Protocol faults are `{"error":{code,message,data}}` with codes -32700 / -32600 / -32601 / -32602 (`data:{supported, wrapper}`) / -32603 (`"internal error"`, `data:null`). This is cross-checked against the `events.ndjson` byte-offset `cursor`.
+  - **Boundary:** single-surface for protocol tests; cross-surface when fed by the fake agent
+  - **Notes:** traced to arch excerpt, Wrapper channel and security excerpt, Vector 1. Cross-user peer rejection is flagged in section 1.
+
+- **Surface:** ipc-internal (MCP stdio server `viola mcp`, tools `send · wait · last · answer · list`)
+  - **Driver:** language-native MCP stdio test client. It spawns `viola mcp --home <tmp>` and speaks JSON-RPC over stdin/stdout, with JSON schema assertion.
+  - **Signal:** MCP tool result. `isError:false` + `structuredContent` equal to the `ok` payload. `isError:true` + `{refusal, detail}` and text `"refused: <reason>"`. `isError:true` + `{"error":"instance-unreachable"|"wrapper-fault"}`. There must be no `release` / `pause` / `link` / `unlink` tools in `tools/list`.
+  - **Boundary:** cross-surface (MCP → wrapper channel → run wrapper → fake agent)
+  - **Notes:** traced to arch excerpt, MCP and security excerpt, Vector 5. Schemas are advisory, so negative inputs must be sent that violate the advertised schema.
+
+- **Surface:** api-service (GUI HTTP GET routes on `127.0.0.1:<port>`: `/health`, `/ready`, `/api/info`, `/api/sessions`, `/api/links`, SSE `/api/events`, `/`, `/assets/*`)
+  - **Driver:** language-native HTTP client (reqwest) + curl for raw Host-header / method probes. The SSE client parses the `event:` / `data:` / `id:` fields.
+  - **Signal:** HTTP status plus a JSON body check. Examples: `/health` `{"v":1,"status":"ok",…}`, `/ready` `status` + `checks{viola_home,event_tail,claude_agents}`, the `/api/sessions` envelope incl. `skipped` and `budget`, and the Problem Details URNs. The header set is checked too: CSP, `nosniff`, `no-referrer`, CORP, `no-store`, no `Access-Control-*`, SSE not compressed. For SSE, the `id:` `<ViolaName>:<offset>` list is matched against the file offsets.
+  - **Boundary:** cross-surface (reads disk written by `run` / `hook`)
+  - **Notes:** traced to arch excerpt, GUI HTTP and security excerpt, Vector 3. The test obtains the token by reading `ui/<port>.url` from the temp home, then exchanges it at `GET /?t=<token>` for the cookie.
+
+- **Surface:** web-spa (the `viola ui` single page, "strip bay")
+  - **Driver:** Playwright headless (Chromium). The design excerpt fixes CI headless GUI checks on ubuntu with DejaVu fonts.
+  - **Signal:**
+    - DOM state through role-based queries: `role="table"` racks, `role="row"` strips, `role="columnheader"` captions NAME · LIVE · STATUS · WHEEL · DIALOG · CLI, `role="log"` tape, `role="status"` live region
+    - `data-*` attributes: `data-dialog="pending"`, `data-liveness="stale"`, `data-wrapped="false"`, `viola-readback[data-rb=open|read|refused|unconfirmable]`
+    - `document.title` (`DIALOG <name> · viola` / `viola`)
+    - the fixed state-strip copy
+    - `scrollWidth <= clientWidth` at 1024 and 760–1023 widths
+    - the console free of CSP / Trusted Types violations
+  - **Boundary:** cross-surface (page ← SSE / `api/*` ← disk ← `run` / `hook` / cli)
+  - **Notes:** traced to design excerpt, Surfaces and Brand Identity Anchors, and layout excerpt, Signature Placements. Assertions are DOM / attribute / text only, with no screenshot diffing. `<760px` is not laid out in v1 (N/A).
+
+- **Surface:** library-only (workspace crates `viola-core`, `viola-pty`, `viola-channel`, `viola-state`, `viola-agent-claude`, `viola-mcp`, `viola-ui` at the unit level)
+  - **Driver:** language-native test runner only (`cargo test` per crate / workspace)
+  - **Signal:** process exit code plus libtest per-test result lines
+  - **Boundary:** single-surface
+  - **Notes:** traced to arch excerpt, Workspace / Modules and Test-Relevant Conventions ("No separate test crate is declared"). These tests run on all three CI OSes.
+
+## 3. Test Harness Specification
+
+Inherited pattern: arch excerpt, Test Harness Commitment ("Development Style: agent-driven") with harness design deferred to tests. Binding founder direction: creator excerpt, Founder Directions 2 and 3: "the fake agent + `viola verify` fixtures are the contract"; "Structured JSON logs from every process (run/hook/mcp/ui) … a `logs` command in the harness, hook trace in diagnostics/".
+
+- **5-command requirements:**
+  - `boot`:
+    - Builds `viola` and creates a fresh temp home, passed as `--home` (arch excerpt, Per-test isolation).
+    - Starts one or more `viola run <name> -- <fake agent> <args>` wrappers and optionally `viola ui --home <tmp> --port <free port>`.
+    - Readiness, per instance: `instances/<name>/snapshot.json` exists with `endpoint`, `pid`, `started_at`, `child_pid`. The `heartbeat` mtime is under 5 s old. The log has a start `wheel` and a `budget-gate` event followed by `session-start`.
+    - Readiness, UI: `GET /health` returns 200 `"status":"ok"` and `GET /ready` returns 200 `"status":"ok"`.
+    - On readiness failure it exits non-zero with a JSON reason on stdout. A `run` refusal to start (exit 1: live endpoint or `stale` heartbeat) is surfaced verbatim.
+  - `run`:
+    - Invokes, in order:
+      1. the workspace unit and integration tests (`cargo test`)
+      2. fake-agent E2E against `fixtures/claude/*`
+      3. the headless-browser suite against the booted UI
+      4. mutation testing scoped to the chunk diff (Founder Direction 1: "surviving mutants are red")
+    - Exit 0 only if every suite passes and no mutant survives. Non-zero otherwise, with a JSON summary on stdout (suite, passed, failed, survived).
+    - Local-only mode adds `viola verify` against the real CLI. It must never run in CI (arch excerpt, CI/CD).
+  - `status`:
+    - Queries `viola list --json --home <tmp>` (no cookie needed) and, if the UI is booted, `GET /ready` and cookie-authenticated `GET /api/sessions`.
+    - The agent polls per item: `name`, `wrapped`, `liveness`, `status`, `wheel`, `budget_paused`, `dialog_pending`, `cli_verified`.
+    - It also polls the envelope `skipped{unknown_kinds, unknown_fields, torn_lines}` and `budget`.
+  - `cleanup`:
+    - Stops every wrapper and the UI process started by `boot`. Exit is confirmed on the process handle, not EOF.
+    - Deletes the temp home and verifies the endpoint is gone: a CLI verb against the name returns exit 21, and the Unix socket file or pipe no longer exists.
+    - Verifies the UI port is free and `ui/<port>.url` was removed.
+    - Must be idempotent: a second run exits 0 and reports nothing to clean.
+  - `logs`:
+    - Prints, as JSON lines, the structured per-process logs of `run` / `hook` / `mcp` / `ui` in the §3 log format (Founder Direction 3; the exact field set is not in the distilled excerpt, so Phase 3 pins it).
+    - Also prints `instances/<name>/events.ndjson` and the hook trace under `diagnostics/`.
+    - Filterable by instance and kind.
+    - Retention is the lifetime of the temp home: events are never truncated (arch excerpt, Event line), and `cleanup` deletes the home.
+- **Status endpoint shape:**
+  - `GET /health`: `{"v":1,"status":"ok","name":"viola","version":"0.1.0","ts":<RFC3339 ms Z>}`.
+  - `GET /ready`: `{"v":1,"status":"ok"|"not-ready", …, "checks":{"viola_home":"ok"|"unavailable"|"error","event_tail":…,"claude_agents":…}}` (503 when not-ready; `claude_agents` failing alone keeps 200).
+  - `GET /api/sessions` / `viola list --json`: `{v, generated_at, items:[{name, wrapped, liveness:"live"|"stale", status:"idle"|"busy"|"unknown", wheel?:"human"|"driver", budget_paused?, dialog_pending, cli_version?, cli_verified?}], skipped:{unknown_kinds, unknown_fields, torn_lines}, budget:{five_hour:{used_percentage,resets_at}, seven_day:{…}, read_at, paused}|"unknown"}`.
+  - Source: arch excerpt, GUI HTTP.
+- **Log format:**
+  - Events: JSON-per-line ndjson `{"v":1,"ts","instance","kind","source":"hook|wrapper|cli","data"}` (arch excerpt, Event line).
+  - Process logs: structured JSON lines per Founder Direction 3, parseable with `jq`.
+  - Logs must never contain the token, the `Cookie` header, `?t=`, or stripped `CLAUDE*` values (security excerpt, Error-sanitization).
+- **PID file location:**
+  - There is no standalone pid file. The wrapper `pid`, `started_at` and `child_pid` live in `<home>/instances/<name>/snapshot.json`, with liveness in `<home>/instances/<name>/heartbeat` (touched every 1 s; >5 s means gone unless pid + start time show `stale`).
+  - The UI process is discovered through `<home>/ui/<port>.url` and `GET /api/info` (`pid`, `bind`).
+  - Source: arch excerpt, Instance snapshot / Other files.
+- **Test data strategy:**
+  - Self-bootstrapping per test: a fresh `--home` temp dir.
+  - The fake agent is the child (`viola run <name> -- <fake agent>`; it answers `--version` like the real CLI). It replays hook payloads from `fixtures/claude/<cli-version>/`, which `viola verify` records locally and CI replays.
+  - `budget.json` is seeded by piping synthetic statusline stdin into `viola hook statusline`, and `claude agents --json` by a stub on PATH.
+  - Property / fuzz generators cover the parser surfaces the security excerpt lists.
+  - Constraints:
+    - Fixtures must not come from real prompts and must be checked for absolute paths and usernames (security excerpt, Anti-Patterns: "Fixtures from real prompts, or unchecked for paths and usernames").
+    - Open conflict for Phase 3: the arch excerpt (Per-test isolation) says the home's `ledger/stamps.json` "can stamp the fake agent's version". The security excerpt rejects "a non-`verify` process writing `stamps.json`". Stamps must therefore be produced by running `viola verify` against the fake agent, or the conflict must be resolved upstream.
+    - No developer-seeded state.
+
+## 4. Critical Paths
+
+- **Path:** `run` start sequence. Collision check, pinned copy and plugin folder, version gate, exclusive endpoint bind, first snapshot and heartbeat, start `wheel` and `budget-gate` events, and only then the child spawn. A second `run` of the same name, or a squatted endpoint, exits 1.
+  - **Surfaces involved:** tui (`viola run`) + ipc-internal + cli (`list --json`) + api-service
+  - **Verification signal:**
+    - `events.ndjson` order is `wheel{cause:"start"}` → `budget-gate` → then the fake agent's `session-start`.
+    - `snapshot.json` has `endpoint`, `pinned_bin`, `pid`, `started_at`; `plugin/` and `settings.json` are rewritten.
+    - `viola list --json` shows `{wrapped:true, liveness:"live"}`.
+    - A duplicate `run` exits 1. A tampered pinned exe (hash mismatch) exits 1.
+  - **Source:** arch excerpt, Project Intent, Critical paths hint 1; security excerpt, Vector 7 (pinned exe)
+- **Path:** confirmed `send` with CL-1 events. Driver `send` is accepted, then `send-issued (cursor, from)` is logged, one bracketed paste + Enter is written, and the matching `prompt-submitted{origin:"driver"}` confirms it. If no match arrives in the window, the result is `not-delivered`/`no-prompt-submitted` and `send-refused` is logged. A local command yields `unconfirmable`. Multi-line text arrives as one prompt.
+  - **Surfaces involved:** cli + ipc-internal (MCP `send`) + tui (fake agent receipt) + api-service (SSE) + web-spa
+  - **Verification signal:**
+    - CLI `--json` exit 0 with `{submitted_at, cursor}`, where `cursor` equals the pre-paste `events.ndjson` end offset.
+    - The log shows `send-issued` then `prompt-submitted`.
+    - The fake agent reports one prompt with newlines intact and no ESC.
+    - The web tape `viola-readback` goes `data-rb="open"` → `"read"`.
+    - With the fake agent suppressing UserPromptSubmit, the CLI exits 13 with detail `no-prompt-submitted`, `send-refused` is logged, and the readback shows `data-rb="refused"`.
+    - An MCP `send` gives `isError:false` with the same `structuredContent`.
+  - **Source:** arch excerpt, Critical paths hint 2; creator excerpt, R3/S1, M3/M4, M5, Founder Direction 5
+- **Path:** `wait` / `last` event-driven readback, including the §6 live flow (overseer sends to builder, waits for `Stop`, reads the dashboard). `wait` wakes only on `turn-ended` / `question` / `permission` / `plan` / `session-end`, returns at once if the event is already logged at or after `after`, and times out with `{timed_out:true}`.
+  - **Surfaces involved:** cli + ipc-internal (channel + MCP `wait` / `last`) + api-service + web-spa
+  - **Verification signal:**
+    - `wait --after <cursor> --json` returns the `turn-ended` event with its `cursor` after the fake agent fires Stop.
+    - `activity` / `wheel` lines do not wake it.
+    - `last` returns `{last_assistant_message, ts}` from the newest `turn-ended`.
+    - Killing the wrapper mid-wait gives exit 21 / MCP `instance-unreachable`.
+    - `/api/sessions` shows `status` changing busy → idle.
+  - **Source:** arch excerpt, Critical paths hint 3; creator excerpt, S5 and §6 first live test
+- **Path:** dialog → `answer` (question / permission / plan). The hook raises `hook.dialog`, exactly one dialog is pending per instance, and the driver answers by `dialog_id`. The hook emits the correct decision body: PreToolUse `allow` + `updatedInput.answers` (incl. `annotations`); PermissionRequest `allow` / `deny`; plan approve via PreToolUse only, revise via PermissionRequest `deny` + `message`.
+  - **Surfaces involved:** cli (`hook` + `answer`) + ipc-internal (channel `hook.dialog` / `answer`, MCP `answer`) + api-service + web-spa
+  - **Verification signal:**
+    - The `question` / `permission` / `plan` event is logged exactly once with a `dialog_id`.
+    - `wait` returns it at once.
+    - Hook stdout equals the exact decision JSON, exit 0, stderr empty.
+    - A second concurrent dialog gets a `null` response.
+    - An unknown `dialog_id` yields exit 13 `unknown-dialog`.
+    - Web strip: `data-dialog="pending"`, `DIALOG <kind>`, and `document.title` = `DIALOG <name> · viola` while pending, reverting after the answer.
+  - **Source:** arch excerpt, Critical paths hint 4 and Hooks; creator excerpt, S3/S7/S8
+- **Path:** human takes the wheel, automation is refused, `release` returns it. A human editing key in the `run` terminal since the last turn boundary moves the wheel to the human. A driver `send` is refused with `human-typing`. `pause` forces it manually. The wheel returns only via CLI `viola release`, and `release` carrying `from` is rejected.
+  - **Surfaces involved:** tui (outer-PTY keystrokes) + cli + ipc-internal (channel + MCP) + web-spa
+  - **Verification signal:**
+    - The log shows `wheel{holder:"human", cause:"human-input"}`.
+    - `send --json` exits 10 with detail `null`. After `pause` the detail is `manual-pause`.
+    - MCP `send` gives `isError:true` `"refused: human-typing"`.
+    - `release` gives `{wheel:"driver"}` and the next `send` exits 0.
+    - `release` with `from` gives `-32602` `release-from-driver` (exit 20).
+    - A harness-injected turn (`<agent-message from=`, `<task-notification>`) does not flip the wheel.
+    - The human is never blocked: typing still reaches the fake agent.
+  - **Source:** arch excerpt, Critical paths hint 5; creator excerpt, R2, M2 and §6 passed run ("the founder typing into the window took the wheel, `send` was refused, `release` returned it")
+- **Path:** budget governor. `viola hook statusline` writes `rate_limits` to `budget.json` and passes the user's statusline stdout through unchanged. Crossing `five_hour` ≥ 90 % or `seven_day` ≥ 85 % refuses automated `send` with `budget-paused`, and `release --budget` overrides it.
+  - **Surfaces involved:** cli (`hook statusline`, `send`, `release`) + ipc-internal + api-service + web-spa (ATIS header)
+  - **Verification signal:**
+    - `budget.json` holds the fed percentages. A malformed `resets_at` becomes `"unknown"`.
+    - Statusline stdout equals the user command's stdout (empty on failure), exit 0.
+    - A `budget-gate{paused:true, window}` event is logged.
+    - `send` exits 11 with detail `five-hour` / `seven-day`.
+    - `/api/sessions` `budget.paused:true` and the ATIS cell shows `budget-paused`.
+    - `release --budget` gives `{budget_paused:false}`.
+  - **Source:** arch excerpt, Critical paths hint 6; creator excerpt, O8 / §7
+- **Path:** unverified CLI version gate. On a version not in the ledger stamps, viola still types, runs the wheel and emits events, but withholds dialog answers, and drivers get `unverified-cli`.
+  - **Surfaces involved:** tui (fake agent reporting an unlisted `--version`) + cli (`hook`, `answer`) + ipc-internal + api-service
+  - **Verification signal:**
+    - `send` still confirms (exit 0).
+    - `hook.dialog` returns `null` at once, so hook stdout is empty.
+    - `answer` exits 12. MCP `answer` gives `isError:true` `"refused: unverified-cli"`.
+    - `/api/sessions` item `cli_verified:false`.
+    - `viola verify` against a stamped fixture version ends `stamped <ver>  <n> pass  0 fail`.
+  - **Source:** arch excerpt, Critical paths hint 7; security excerpt, Vector 4 ("A non-null dialog decision needs a `viola verify` stamp")
+
+Covered by E2E suite expansion in Phase 3 if needed (beyond the 7):
+- R5: unwrapped session hooks are a silent no-op.
+- R8: the `CLAUDE*` env strip.
+- `link` / `unlink` transfer markers (`/api/links`, `<viola-transfer>` readback).
+- SSE `Last-Event-ID` resume.
+- Snapshot corruption → replay recovery.
+
+## 5. Coverage Triggers
+
+- **Trigger type:** security-vector-coverage (IPC)
+  - **Source:** security excerpt, Vector 1
+  - **Required test type:** negative tests covering:
+    - frame over `MAX_FRAME` → `-32600` + close
+    - higher `params.v` → `-32602` with `data.supported`/`wrapper`
+    - `release` with `from` → `release-from-driver`
+    - server pid / start-time mismatch vs `snapshot.json` → CLI exit 21 / MCP `instance-unreachable` / hook exit 0 with no body
+    - squatted endpoint → `run` exit 1
+    - Unix socket dir 0700 and file 0600 asserted
+    - no inherited channel handles in the child
+- **Trigger type:** security-vector-coverage (paste injection)
+  - **Source:** security excerpt, Vector 2
+  - **Required test type:** negative tests showing ESC, other C0, DEL and C1 (U+0080–U+009F) in `send.text` and free-text answers are rejected (never stripped) as `not-delivered`/`control-character` before other refusals, at both the client and the wrapper. LF / CR / TAB and multi-byte UTF-8 are accepted.
+- **Trigger type:** security-vector-coverage (loopback GUI)
+  - **Source:** security excerpt, Vector 3
+  - **Required test type:** negative tests covering:
+    - Host missing, wrong-case, trailing-dot or wrong-port → 403 `host-not-allowed` on every route
+    - non-GET → 405
+    - `/api/*` and SSE without cookie → 401
+    - bad `?t=` → 401 with no cookie and `no-store`
+    - good `?t=` → 303 + HttpOnly / SameSite=Strict cookie
+    - no `Access-Control-*` headers
+    - CSP / `nosniff` / `no-referrer` / CORP on every response
+    - SSE uncompressed
+    - one bad `Last-Event-ID` pair drops the whole header
+    - bind is 127.0.0.1 only
+    - event text containing HTML renders as text (no DOM injection) in headless browser
+- **Trigger type:** security-vector-coverage (hook stdin)
+  - **Source:** security excerpt, Vector 4; arch excerpt, Hooks
+  - **Required test type:** fail-open tests on oversize stdin, malformed JSON, clap error, channel failure, a forced panic, and a missing `VIOLA_NAME`. Each must give exit 0 with empty stderr and no body. `statusline_command` must not run when the home fails strict-modes.
+- **Trigger type:** security-vector-coverage (MCP)
+  - **Source:** security excerpt, Vector 5
+  - **Required test type:** schema-violating tool calls (non-`ViolaName` `target`, non-`u64` `dialog_id`, open-string `behavior`, control chars in `text`) are rejected by the handler. `isError` payloads carry codes only.
+- **Trigger type:** security-vector-coverage (CLI and env)
+  - **Source:** security excerpt, Vector 6
+  - **Required test type:** negative tests covering:
+    - path-traversal names (`../x`, uppercase, `/`) rejected by `parse_viola_name`
+    - `--home` / `VIOLA_DIR` failing strict-modes → exit 1 / 21 / hook 0
+    - oversize `answer` JSON
+    - out-of-range `Percent` in `config.json`
+    - no env / flag / config disables a control
+    - a leading-slash argument is never taken as a prompt (§6 rewritten-path warning)
+- **Trigger type:** security-vector-coverage (filesystem)
+  - **Source:** security excerpt, Vector 7
+  - **Required test type:** negative tests covering:
+    - group/world-writable home or instance dir → refused
+    - pinned exe hash mismatch → exit 1
+    - `plugin/` and `settings.json` rewritten on start
+    - over-long ndjson line counted in `skipped.torn_lines`
+    - symlinks ignored by tailing
+    - Windows DACL owner / ACE cases where the runner allows, stubbed otherwise (section 1)
+- **Trigger type:** security-vector-coverage (child spawn)
+  - **Source:** security excerpt, Vector 8
+  - **Required test type:**
+    - `.cmd` / `.bat` PTY child → `run` exit 1 (windows runner)
+    - npm-shim fixture resolves to `claude.exe`
+    - oversize / malformed `claude agents --json` → `unknown`
+    - row `name` never usable as a `target`
+    - human-mode `list` / `wait` / `last` escape C0/C1
+    - forced vt100 panic → `not-delivered`/`input-not-ready` with passthrough continuing
+- **Trigger type:** security-vector-coverage (supply chain)
+  - **Source:** security excerpt, Vector 9; arch excerpt, Stack (tokio ban)
+  - **Required test type:** CI gates on exit code: `cargo deny check` (only ignore RUSTSEC-2017-0008), `cargo check` of sync crates without tokio, zizmor on workflows, SHA-pinned Actions assertion.
+- **Trigger type:** property-test
+  - **Source:** security excerpt, "Parser surfaces for fuzz/property coverage ('tests owns the cases')"
+  - **Required test type:** property / fuzz tests on:
+    - `validate_paste_text` (decoded chars vs raw bytes)
+    - the `Last-Event-ID` parser
+    - channel ndjson framing at the `MAX_FRAME` boundary
+    - the hook stdin parser incl. `hook statusline`
+    - the `claude agents --json` parser
+    - vt100 feed under `catch_unwind`
+    - `prompt-submitted` normalisation (`<pasted_content` / `<\pasted_content`; creator excerpt, M3/M4)
+- **Trigger type:** chaos-test
+  - **Source:** arch excerpt, Stack (ndjson + atomic snapshots "crash-safe") and On-disk (replay recovery); creator excerpt, Risk Tolerance ("parses defensively and heals itself from day one")
+  - **Required test type:**
+    - kill the wrapper mid-write and truncate the last ndjson line: readers count `torn_lines` and heal
+    - corrupt `snapshot.json` or give it an unsupported `v`: rebuild by replay recovers only `links`, `agent_session_id`, `wheel`, `budget_paused`, `budget_override_until`, with `dialog_pending:false`
+    - child exits without EOF (ConPTY): exit detected on the handle
+    - endpoint vanishes during `wait`: `instance-unreachable`
+    - stale-heartbeat / live-pid distinction
+- **Trigger type:** performance-budget
+  - **Source:** arch excerpt, Hooks (deadlines) and GUI HTTP (SSE keep-alive 15 s, heartbeat 1 s / 5 s)
+  - **Required test type:** timing assertions that spine hooks (SessionStart, UserPromptSubmit, Stop) exit within the spine deadline and SessionEnd within ~1 s, that SSE emits keep-alive within 15 s, and that heartbeat staleness flips at >5 s.
+- **Trigger type:** cross-surface-coordination
+  - **Source:** design excerpt, Layout Categories (the same captions and slot order in the web racks and CLI `viola list`); layout excerpt, Signature Placements (tape readback + transfer-marker readback "flips same frame"); creator excerpt, Founder Direction 5 (CL-1 `send-issued` / `send-refused`)
+  - **Required test type:**
+    - one scenario asserts CLI `list --json` == `/api/sessions` items
+    - CLI caption row matches web `columnheader`s NAME · LIVE · STATUS · WHEEL · DIALOG · CLI
+    - a `send` shows `[RB]` on the CLI and `data-rb="read"` on both the tape line and the outbound transfer marker
+    - `send-refused` shows `[/ ]` / exit 10–14 and `data-rb="refused"`
+    - MCP and CLI return identical `ok` / refusal payloads for the same channel result
+- **Trigger type:** multi-os-compat
+  - **Source:** arch excerpt, CI/CD (matrix `[windows-2025, macos-latest, ubuntu-latest]`) and Test-Relevant Conventions ("Every OS-specific branch compiles and is tested on its CI runner"); creator excerpt, Founder Direction 4 and D3
+  - **Required test type:** full workspace and fake-agent E2E on all three runners. OS-branch tests cover named pipe vs Unix socket, ConPTY vs openpty, Windows DACL / strict-modes vs Unix modes, and macOS euid + dir-only server verification. The headless-browser suite runs on ubuntu.
+- **Trigger type:** multi-version-compat
+  - **Source:** arch excerpt, Test-Relevant Conventions (fixtures per `<cli-version>`, Ledger probes) and Standard Contracts (Versioning `v`); creator excerpt, Risk Tolerance ("The docs lag the installed build")
+  - **Required test type:**
+    - replay every `fixtures/claude/<cli-version>/` set
+    - stamped vs unstamped version gate
+    - unknown event kinds / fields counted in `skipped` rather than failing
+    - `RefusalReason` `unknown` fallback (exit 14)
+    - higher `v` rejected with `-32602`
+    - every ledger row has a `viola verify` probe with a post-condition (local run, exit code + `stamped … pass … fail` line)
+- **Trigger type:** contract-test-against-sandbox
+  - **Source:** creator excerpt, Test Anti-Patterns (§3.4 FAKE AGENT; S8 instrument defect; §4.2 "A long real session surfaced what the fake agent … could not"); creator excerpt, Founder Direction 2
+  - **Required test type:** a contract suite asserting the fake agent's behaviour matches recorded `viola verify` fixtures, including forwarding `annotations` (S8). This guards against the fake agent drifting from the real CLI. Live `viola verify` refreshes the fixtures locally.
+- **Trigger type:** security-vector-coverage (error sanitization and secret logging)
+  - **Source:** security excerpt, Error-sanitization expectations and Anti-Patterns (Secrets and logging)
+  - **Required test type:** assertions that CLI `--json`, MCP `isError`, Problem Details and channel `error.data` contain no absolute paths, serde paths or values, anyhow chains or tool `input`. `-32603` must be exactly `"internal error"` / `data:null`. A grep of all logs and `diagnostics/` must show no token, `Cookie`, `?t=` or stripped `CLAUDE*` values. `diagnostics/` must be 0600.
+- **Trigger type:** mutation testing (discipline trigger; closest template category is property-test)
+  - **Source:** creator excerpt, Founder Direction 1 ("cargo-mutants scoped to each chunk diff, surviving mutants are red; include it in the P2 research catalog")
+  - **Required test type:** mutation run scoped to each chunk diff as part of harness `run`. Any surviving mutant makes `run` exit non-zero.
+- **Trigger type:** discipline (no screen-content parsing, no blanket approval, no flakes)
+  - **Source:** creator excerpt, Test Anti-Patterns (§3.2 / R7, prior-art "Blanket approval", §3.4 "do not flake")
+  - **Required test type:** E2E assertions must use hook events, `events.ndjson`, channel payloads and DOM attributes, never scraped child-screen content. A negative test proves no path auto-approves a dialog without a verify stamp and wheel `driver`. Waits must key on logged events and byte offsets, not sleeps.
+
+## 6. Test Tier
+
+**Comprehensive (2)**
+
+**Justification:** The passed security tier is Minimal, but the security excerpt adds targeted elevations and 9 attack vectors, each needing negative tests. It also explicitly hands 7 parser surfaces to tests for property/fuzz coverage. Section 2 has 8 agent-driven surface entries (cli verbs, hook exec, tui passthrough, the IPC channel, MCP stdio, the GUI HTTP API, web-spa and library crates) across 3 required OSes. Section 1 has 18 entities and section 4 has 7 critical paths that cross surfaces. Four drivers beyond the Standard baseline push the tier to Comprehensive:
+- the creator brief requires multi-platform CI (Founder Direction 4, D3)
+- crash-safe self-healing state needs chaos tests
+- hook deadlines and SSE keep-alive need performance-budget tests
+- multi-version CLI fixtures need compat tests
+- the founder mandates mutation testing from chunk 1
+
+The one Comprehensive component that does not apply is compliance verification: the security excerpt, Context, says "No compliance triggers".
