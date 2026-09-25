@@ -1250,7 +1250,7 @@ _[ALL tiers]_
 | Unit tests | In-memory `Vec<u8>` writer tests parse emitted lines with serde_json against `schemas/diag-line.v1.json` (tests-owned bodies) | nextest JUnit |
 | Integration tests | `diagnostics/*.ndjson` from fake-agent runs. Their viola homes must live under `target/e2e-home/` (the directory layout is tests-owned), so G2, G4, the secret scan and the `diag-<os>` upload cover them. A `hook` panic exits 0, so a home outside that root would hide it. perf: hyperfine JSON with `max` assertions | uploaded artifacts + G2 / G4 + budget assertion exit codes |
 | E2E tests | `agent-run logs` / `status`; Playwright DOM-attribute reads; zero-`event:"panic"` gate G2 and schema gate G4 (below) | uploaded artifacts + gate exit codes |
-| Mutation | obs code (`obs_event!` call sites, `MillisUtc`, panic hook, TraceLayer closures) under cargo-mutants like product code | per-leg `mutants-verdict-<os>.json` (ubuntu-latest, windows-2025), merged by the `mutants-verdict` job's `gate --require mutants --mutants-legs …`: a mutant is red only when no leg caught it |
+| Mutation | obs code (`obs_event!` call sites, `MillisUtc`, panic hook, TraceLayer closures) under cargo-mutants like product code | per-leg `mutants-verdict-<os>.json` (ubuntu-latest, windows-2025), merged by the `mutants-verdict` job's `gate --require mutants --mutants-legs …`: a mutant is red only when no leg caught it; before that union, a leg whose unviable mutants outnumber its caught ones is red at its own run (test-plan §10 Mutation gate) |
 
 **Gate commands.** Each gate is its own `run:` step with `shell: bash` on all three OSes, and is copied verbatim into `ci.yml`:
 - **G1, bare `#[instrument]`.**

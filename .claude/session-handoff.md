@@ -1,37 +1,47 @@
 # Session Handoff
 
-**Last Updated:** 2026-09-24T18:00:38Z
-**Branch:** build/viola-0.1.0 · 0 ahead of origin/build/viola-0.1.0 as read at this wrap's Setup
+**Last Updated:** 2026-09-25T11:43:30Z
+**Branch:** build/viola-0.1.0 · 0 ahead of origin/build/viola-0.1.0 as read at this wrap's Setup (HEAD d14f234 = the pushed pre-CI commit)
 **Status:** clean
-**Last Commit:** 0-pending wrap — chore(route): operator-requested adaptation — the Epoch 1 cleanup chunk goes in at the Epoch 2 head
+**Last Commit:** 2026-09-24-epoch-1-cleanup — the chunk commit on top of the pre-CI commit d14f234
 
 ## Position
-- Done: the Epoch 1 boundary work. There was no chunk to wrap: 0 pending, Epoch 1 is 8/8 complete.
-  - `/andromeda-evolve-diagnose` ran for Epoch 1: `runs/2026-09-24T17-37-22-evolve-diagnose/proposals.md` (10 proposals, 8 level candidates, 2 extension candidates).
-  - `/andromeda-code-audit` wrote the first ledger record (baseline) to `.andromeda/code-metrics.ndjson`; the report is `runs/2026-09-24T17-47-08-code-audit/proposals.md`.
-  - Operator route adaptation: a new first Epoch 2 entry, "Epoch 1 cleanup", sits ahead of "Security prerequisites". The record is `runs/2026-09-24T18-00-38-wrap/adaptation-record.md`.
-- Next: `/andromeda-phase` to promote and plan "Epoch 1 cleanup". It carries the Rust gate-deferral PREREQ, which moved here from Security prerequisites: this is the first chunk with a Rust delta.
-  - A CARRY holds the measured coordinates.
-  - A second CARRY asks that chunk's wrap P2 to propose a playbook rule keeping obs-plan §1 out of the cascade sweep.
+- Done: `2026-09-24-epoch-1-cleanup`. The Epoch 1 problem spots are cleaned up:
+  - the MAX_FRAME pin is mutation-witnessed;
+  - cognitive over 15: 3 → 0;
+  - run.rs 1 562 → 472 code lines, split into `harness/run/*`;
+  - in-scope clone pairs 9 → 0;
+  - the Rust gate deferral is closed.
+
+  Folded CI reds: the mutation leg now streams per-mutant progress, a `cli.rs` Drop guard stops leaked sessions, and an
+  unviable-swamp rule applies. CI run 36126924953 on d14f234: 15/15 success.
+- Next: `/andromeda-phase` to promote and plan "Security prerequisites", the next markerless Epoch 2 entry.
 
 ## Work done
-- No source changed. Route: 1 entry inserted, 1 PREREQ moved (the diff is 3 added / 1 removed; no frozen line touched).
-- The v1-23 condition is met: all three `release` legs read `success` on a28f696 (CI run 36032014621). The matrix reads 3/53 verified.
+- 8 source files modified and 5 new `harness/run/*` modules, plus evidence and operator passes 1–4 (`chunks/2026-09-24-epoch-1-cleanup/evidence/`).
+- Two force-pushes and one rewind of `build/viola-0.1.0` (never `main`), each on the founder's ruling, each with `--force-with-lease`.
+
+## Drift resolved
+- **test-plan:** 12 proposals plus 1 orchestrator-raised addition, all applied (§2, §3 `run` step 4 / Exit semantics / `gate` /
+  quality-gate-config-emit, §9, §10 Mutation gate, §11, §12 entry).
+  - The Founder Direction 1 clause "unviable … do not fail the gate" is now tightened to `unviable <= caught`, on the overseer's decision.
+- **Cross-master restatements:** `architecture.md:515` and `obs-plan.md:1253` amended.
+- **Leaves re-derived:** `commands.md`, `tests-summary.md`, `testing.md`, `verification-harness.md`.
+- **Escalation resolved:** 1 — the playbook rule "Verbatim scope copy" (obs-plan §1 stays out of cascade sweeps), operator-approved.
 
 ## Notes
 - **Operator decisions:**
-  - the cleanup chunk as printed, including the run.rs split (the overseer's reason: it gives viola-e2e its first mutation witness);
-  - items 4–5 are out of the chunk.
-- **The run.rs split puts 154 of viola-e2e's 431 mutants in the in-diff scope, per CI leg.** The estimate is 50+ min per leg, from the slowest viola-e2e test at 20.6 s.
-- **Host, operator-owned:** cargo-nextest 0.9.133 → the CI pin 0.9.146 (`cargo install --locked cargo-nextest@0.9.146`). The overseer installs it.
-- **Code-metrics ledger correction owed:** record `ts 2026-09-24T17:51:10Z` (sha a28f696) lists `mutation.survivors` sites without their column (`lib.rs:9`), so its 4 rows read as 2 duplicated pairs. The true sites are `:9:31`/`:9:38` × {+, /}. The next ledger-mode record carries this in its `corrections[]`.
-- **Unmeasured hypothesis:** the claim that fuzz's `arbitrary` reaches `fuzz_target!` through libfuzzer-sys's re-export. libfuzzer-sys is not in the host registry. The item-4 disposition stands on the measured spec pin.
-- **Deferred learnings (filtered at this wrap's curation):**
-  - The epoch-boundary cleanup-chunk convention scored 0.5. It is kept in the operator's auto-memory, not the repo.
-  - The fuzz `arbitrary` machete false positive scored 0.2, because its mechanism is unmeasured.
-  - The prior `git check-ignore` learning stays unreproduced.
-- The operator's viola-lab prototype was running earlier this session; it is not this project's.
+  - the swamp rule is `unviable > caught`, picked by measurement across the chunk-7, chunk-8 and this chunk's legs;
+  - the reduced partial-verdict upload for cancelled legs is **declined** (a decision, not a deferral);
+  - every new guard test carries its remove-the-guard run.
+- **Observation, not red, not chased (overseer):** two Windows-only unviable fake-agent `main` mutants (`viola-fake-agent.rs:463:5`,
+  `:482:8`, each after a 1 s build); ubuntu caught both. Hypothesis, not measured: a relink lock from the `--exit-no-eof` test's grandchild
+  holding the exe for 10 s.
+- **CI reads by sha:** `gh api …/commits/{sha}/check-runs` returns every run on that sha, including superseded ones after a force-push.
+- **The repo is now PUBLIC** (Actions minutes free). The earlier billing block on `mutants-verdict` no longer applies (verified in run 36126924953).
+- **Deferred learnings (Filter 5 cap, 0.8 each):**
+  - a `cfg!()`-valued fn is an equivalent mutant on one OS's leg; make it a const (an additive facet of testing.md's cfg entry);
+  - `check-runs` by sha mixes superseded runs after a force-push.
+- **Code-metrics ledger correction still owed:** the next ledger-mode code-audit record carries the `mutation.survivors` column correction
+  (`lib.rs:9:31` / `:9:38`).
 - Last failed command: none open.
-
-## Session End Status
-Completed normally at 2026-09-24 20:02:29

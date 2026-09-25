@@ -1,0 +1,81 @@
+[
+{
+"tool": "route",
+"v": "1.4",
+"sha8": "86c1b723",
+"ts": "2026-09-25T11:41:53Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-09-25T11-29-18-wrap"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 42 of 51 entries · freight blocks 25 · rows are an INDEX, not the text",
+"32 · CARRY: · 520 chars · CARRY: chunk 2026-09-24-three-os-ci-headless-harness-skeleton's `viola run` is the first slic…",
+"32 · CARRY: · 472 chars · CARRY: chunk 2026-09-24-fake-agent-and-test-data-fixtures deferred the `viola_e2e::fixtures` …",
+"32 · CARRY: · 588 chars · CARRY: chunk 2026-09-24-workspace-tree-and-code-graph-planes gated `cargo modules orphans --d…",
+"36 · CARRY: · 259 chars · CARRY: chunk 2026-09-24-supply-chain-and-workflow-gates wired the tokio ban as a sole-root `d…",
+"36 · CARRY: · 445 chars · CARRY: chunk 2026-09-24-diagnostics-plane made `corr` a caller-supplied typed field of `obs_e…",
+"36 · CARRY: · 509 chars · CARRY: chunk 2026-09-24-log-redaction-and-never-log-floor found no redaction subject at HEAD …",
+"36 · CARRY: · 403 chars · CARRY: chunk 2026-09-24-quality-gates seeded the fuzz pipeline (`fuzz/` workspace, `run --fuz…",
+"38 · CARRY: · 536 chars · CARRY: chunk 2026-09-24-diagnostics-plane deferred two obs items to the first shared-writer, …",
+"38 · CARRY: · 532 chars · CARRY: chunk 2026-09-24-log-redaction-and-never-log-floor routed dispatch errors through `cmd…",
+"38 · CARRY: · 416 chars · CARRY: chunk 2026-09-24-quality-gates seeded the fuzz pipeline with a `viola_name` target. Th…",
+"40 · CARRY: · 404 chars · CARRY: chunk 2026-09-24-log-redaction-and-never-log-floor left the catch site silent because …",
+"42 · CARRY: · 463 chars · CARRY: chunk 2026-09-24-fake-agent-and-test-data-fixtures deferred the `fixtures/claude/*/*.j…",
+"44 · CARRY: · 216 chars · CARRY: chunk 2026-09-24-fake-agent-and-test-data-fixtures's fake agent runs every `type:\"comm…",
+"47 · CARRY: · 212 chars · CARRY: chunk 2026-09-24-fake-agent-and-test-data-fixtures deferred the fake agent's `--vt100-…",
+"47 · CARRY: · 300 chars · CARRY: chunk 2026-09-24-quality-gates seeded the fuzz pipeline with a `viola_name` target. Th…",
+"49 · CARRY: · 314 chars · CARRY: chunk 2026-09-24-quality-gates seeded the fuzz pipeline with a `viola_name` target. Th…",
+"62 · CARRY: · 200 chars · CARRY: chunk 2026-09-24-fake-agent-and-test-data-fixtures deferred the fake agent's `statusli…",
+"68 · CARRY: · 264 chars · CARRY: chunk 2026-09-24-fake-agent-and-test-data-fixtures deferred the fake agent's `agents -…",
+"68 · CARRY: · 297 chars · CARRY: chunk 2026-09-24-quality-gates seeded the fuzz pipeline with a `viola_name` target. Th…",
+"71 · CARRY: · 274 chars · CARRY: chunk 2026-09-24-three-os-ci-headless-harness-skeleton resolves `--home` as given, els…",
+"75 · CARRY: · 396 chars · CARRY: chunk 2026-09-24-supply-chain-and-workflow-gates measured (research.md §Measured facts…",
+"75 · CARRY: · 529 chars · CARRY: chunk 2026-09-24-workspace-tree-and-code-graph-planes moved test-plan §9 Lint row's rm…",
+"84 · CARRY: · 363 chars · CARRY: chunk 2026-09-24-three-os-ci-headless-harness-skeleton's `viola run` creates the home …",
+"95 · CARRY: · 402 chars · CARRY: chunk 2026-09-24-quality-gates gates mutation on the union of an ubuntu and a windows …",
+"102 · CARRY: · 316 chars · CARRY: chunk 2026-09-24-quality-gates seeded the fuzz pipeline with a `viola_name` target. T…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.4",
+"sha8": "86c1b723",
+"ts": "2026-09-25T11:41:54Z",
+"argv": [
+"route.py",
+"epoch",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-09-25T11-29-18-wrap"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"working-route.md · 8 epoch headers · 51 entries · freeze state joined to 9 master records",
+"10 · Epoch 1 — Foundation · entries 8 · markerless 0 · frozen complete 8 · pending 0",
+"27 · Epoch 2 — Windows slice I: wrapper, events,… · entries 9 · markerless 8 · frozen complete 0 · pending 1",
+"46 · Epoch 3 — Windows slice II: driving verbs a… · entries 6 · markerless 6 · frozen complete 0 · pending 0",
+"59 · Epoch 4 — Session state & governance · entries 5 · markerless 5 · frozen complete 0 · pending 0",
+"70 · Epoch 5 — Driver surface · entries 4 · markerless 4 · frozen complete 0 · pending 0",
+"79 · Epoch 6 — Security hardening · entries 6 · markerless 6 · frozen complete 0 · pending 0",
+"92 · Epoch 7 — Cross-OS completion · entries 3 · markerless 3 · frozen complete 0 · pending 0",
+"99 · Epoch 8 — Web UI, polish & ship · entries 10 · markerless 10 · frozen complete 0 · pending 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

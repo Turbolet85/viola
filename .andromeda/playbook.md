@@ -37,6 +37,10 @@ becomes a new rule here. Format owned by /andromeda-wrap-session (`references/am
   verdict: escalate
   note: always a human's call — never mint a routine rule for this class, however often it recurs: the recurrence is the reason it must keep reaching the operator (a routine verdict here silently widens a precedent). The escalation resolves on the operator's ratification, recorded in the sidecar.
 
+- pattern: Verbatim scope copy — a proposal or a cascade-sweep hit lands inside obs-plan §1 (Obs Scope Summary). That section is the verbatim copy of obs-scope.md; its closing note (obs-plan.md:485) says it keeps its pending wording and that §3, §6 and §12 win where they differ.
+  verdict: routine
+  note: reject for §1 — never bring §1 to current truth. Apply the change in the section that wins (§3 / §6 / §12) instead. The cascade edited §1 twice in Epoch 1 (runs/2026-09-24T17-37-22-evolve-diagnose/proposals.md P9: L91, L112). Appended 2026-09-25 by the 2026-09-24-epoch-1-cleanup wrap, operator-approved.
+
 _(more grow from escalations + resolved cases — the first five above were harvested from live projects that
 derived them separately, the sixth is the never-routine class; anything genuinely project-specific still starts
 here empty.)_

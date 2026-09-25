@@ -92,3 +92,4 @@ not hypothetical. (Rendered only on Windows-host projects; inert elsewhere.)
 - 2026-09-24: `grep` over a glob that matches ONE file prints no `file:` prefix, so an exemption keyed on `^[^:]+:[0-9]+:` never matches — use `grep -H` whenever a later stage parses the prefix.
 - 2026-09-24: Under Git Bash `${var//\\//}` deletes forward slashes instead of mapping backslashes to them — normalise path separators with `tr '\\' '/'`.
 - 2026-09-24: Git Bash `pwd` prints `/d/...`, which a native Windows tool reads as `D:\d\...`; write any path a native tool will read (a Cargo manifest `path =`, `$GITHUB_PATH`) as `pwd -W`, falling back to `pwd` off Windows.
+- 2026-09-25: Stop a process by its exact `ExecutablePath` (`Get-CimInstance Win32_Process`), never by a command-line substring: the stopping shell's own command line carries the substring, so it gets killed too.

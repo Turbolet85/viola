@@ -1,0 +1,119 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "f3b5b1ea",
+"ts": "2026-09-25T11:38:45Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-25T11-29-18-wrap/test-plan-entry.md",
+"--lines",
+"26",
+"--run-dir",
+".andromeda/runs/2026-09-25T11-29-18-wrap",
+"--marker",
+"2026-09-24-epoch-1-cleanup"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+26 at line 171 · lines 170→196 · bytes 19821→23356 · term lf",
+"last line now: - Fanned 12 proposals (11 `dependent-of`), all applied with their text re-derive"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 170,
+"bytes": 19821,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 196,
+"bytes": 23356
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "f3b5b1ea",
+"ts": "2026-09-25T11:38:45Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-25T11-29-18-wrap/architecture-entry.md",
+"--lines",
+"6",
+"--run-dir",
+".andromeda/runs/2026-09-25T11-29-18-wrap",
+"--marker",
+"2026-09-24-epoch-1-cleanup"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+6 at line 161 · lines 160→166 · bytes 23275→24184 · term lf",
+"last line now: **Sweep:** the same pass pattern (`sweep.txt`) found 1 architecture hit, `:515`,"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 160,
+"bytes": 23275,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 166,
+"bytes": 24184
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "f3b5b1ea",
+"ts": "2026-09-25T11:38:46Z",
+"argv": [
+"append",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-25T11-29-18-wrap/obs-plan-entry.md",
+"--lines",
+"6",
+"--run-dir",
+".andromeda/runs/2026-09-25T11-29-18-wrap",
+"--marker",
+"2026-09-24-epoch-1-cleanup"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append obs-plan-amendments.md:+6 at line 87 · lines 86→92 · bytes 10554→11566 · term lf",
+"last line now: **Sweep:** the same pass pattern (`sweep.txt`) found 1 obs-plan hit, `:1253`, am"
+],
+"stderr": null,
+"wrote": [
+".andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 86,
+"bytes": 10554,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 92,
+"bytes": 11566
+}
+}
+]

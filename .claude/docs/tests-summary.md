@@ -39,7 +39,7 @@ The harness is the agent-driven verification surface. `scripts/agent-run.{sh,ps1
 | Coverage (line) | ≥ 85 % per OS | cargo-llvm-cov 0.9.1 `--fail-under-lines` |
 | Coverage (branch → region) | ≥ 80 % | `--fail-under-regions` |
 | Coverage (function) | ≥ 95 % | `--fail-under-functions` |
-| Mutation | 0 missed, 0 timeout in the chunk diff | cargo-mutants 27.1.0 `--in-diff`; a Rust delta reads a fresh `outcomes.json` (`verdict:"counted"`), a diff with no `.rs` path passes as `verdict:"no-rust-delta"`. CI runs two legs (ubuntu-latest, windows-2025) and gates their union (`gate --mutants-legs`): a mutant is red only when no leg caught it, because cargo-mutants reports another OS's `#[cfg]` bodies as missed |
+| Mutation | 0 missed, 0 timeout, unviable ≤ caught in the chunk diff | cargo-mutants 27.1.0 `--in-diff`; more unviable than caught mutants is red (`unviable-exceeds-caught`: the builds failed, nothing was tested); a Rust delta reads a fresh `outcomes.json` (`verdict:"counted"`), a diff with no `.rs` path passes as `verdict:"no-rust-delta"`. CI runs two legs (ubuntu-latest, windows-2025) and gates their union (`gate --mutants-legs`): a mutant is red only when no leg caught it, because cargo-mutants reports another OS's `#[cfg]` bodies as missed |
 | Flakiness budget | zero — no retries, a flake keeps the chunk red | nextest `retries = 0`, Playwright `retries: 0` |
 | Performance budget | hook `max` < 1.0 s (SessionEnd; spine provisional until arch names the constant) | hyperfine 1.20.0 `--warmup 3 --runs 30`, gated on `max` |
 | Per-job verdict | every required suite present, 0 failed, 0 skipped, artifacts present | `viola-harness gate --require …` |
