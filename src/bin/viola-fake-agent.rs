@@ -410,12 +410,19 @@ impl Input {
     }
 }
 
-fn hold_inherited_stdout() {
-    let _ = Command::new(std::env::current_exe().unwrap_or_default())
-        .arg(HOLD_STDOUT)
+/// On Unix the holder leaves the foreground process group: the fake agent is its terminal's session
+/// leader, and its exit sends that group SIGHUP, which would end the holder with it.
+fn hold_inherited_stdout(receipt: Option<&Path>) {
+    let mut cmd = Command::new(std::env::current_exe().unwrap_or_default());
+    cmd.arg(HOLD_STDOUT)
         .stdin(Stdio::null())
-        .stderr(Stdio::null())
-        .spawn();
+        .stderr(Stdio::null());
+    if let Some(receipt) = receipt {
+        cmd.arg("--receipt").arg(receipt);
+    }
+    #[cfg(unix)]
+    std::os::unix::process::CommandExt::process_group(&mut cmd, 0);
+    let _ = cmd.spawn();
 }
 
 /// The `--inject-harness-turn` step, then the `--script` steps; `None` for an unreadable script.
@@ -466,7 +473,7 @@ fn read_stdin(agent: &Agent) -> ExitCode {
                 Action::Submit(bytes) => agent.submit(&bytes, "human"),
                 Action::Exit => {
                     if agent.opts.exit_no_eof {
-                        hold_inherited_stdout();
+                        hold_inherited_stdout(agent.opts.receipt.as_deref());
                     }
                     return ExitCode::SUCCESS;
                 }
@@ -480,6 +487,7 @@ fn main() -> ExitCode {
     let args: Vec<String> = std::env::args().skip(1).collect();
     let opts = Opts::parse(&args);
     if opts.hold_stdout {
+        Receipt::open(opts.receipt.as_deref()).write("hold", json!({"pid": std::process::id()}));
         std::thread::sleep(HOLD_FOR);
         return ExitCode::SUCCESS;
     }

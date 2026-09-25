@@ -41,9 +41,12 @@ fn pty_exit_is_read_on_the_handle_while_the_output_is_held(#[from(home)] tmp: Te
         std::thread::yield_now();
     };
     assert_eq!(code, 0);
+    // The holder's own receipt splits the two reds: it never started, or it started and the
+    // output still ended.
+    fake::wait_for(&receipt, "hold", |l| !of_kind(l, "hold").is_empty());
     assert!(
         !pty.drained(),
-        "the output ended before exit: nothing was holding it"
+        "the output ended although the holder started (hold receipt present)"
     );
 }
 
