@@ -44,10 +44,15 @@ fn pty_exit_is_read_on_the_handle_while_the_output_is_held(#[from(home)] tmp: Te
     // The holder's own receipt splits the two reds: it never started, or it started and the
     // output still ended.
     fake::wait_for(&receipt, "hold", |l| !of_kind(l, "hold").is_empty());
-    assert!(
-        !pty.drained(),
-        "the output ended although the holder started (hold receipt present)"
-    );
+    // On macOS the output ends when the session leader exits, whoever still holds the slave
+    // (measured in CI run 36166907442: `hold` present, output ended); exit on the handle is shown
+    // there by the code above alone.
+    if cfg!(not(target_os = "macos")) {
+        assert!(
+            !pty.drained(),
+            "the output ended although the holder started (hold receipt present)"
+        );
+    }
 }
 
 #[rstest]
