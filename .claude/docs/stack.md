@@ -12,10 +12,11 @@ _Extracted from `.andromeda/architecture.md` §Stack and Technologies by `/andro
 | CLI parser | clap 4.6.7 (derive) | Subcommands `run · send · wait · last · list · answer · hook · mcp · ui · verify · pause · release · link · unlink · plugin install` |
 | PTY layer | portable-pty `=0.8.1` (pinned) behind viola's own `pty` seam; windows-sys 0.61.2 for the `TerminateProcess` kill fallback | Hosts the unmodified `claude` in ConPTY (Windows) or openpty (Unix) |
 | Screen model | vt100 0.16.2 | Pre-send readiness and modal detection on `run`'s pump thread. Never used to read content |
-| Wrapper IPC | interprocess 2.4.4 `local_socket` (sync API; Tokio flavour only in `viola-mcp`) | One endpoint per `viola run`: a named pipe on Windows, a Unix domain socket elsewhere |
+| Wrapper IPC | interprocess 2.4.4 `local_socket` (sync API; Tokio flavour only in `viola-mcp`); on Windows the client opens with windows-sys 0.61.2 `CreateFileW(SECURITY_SQOS_PRESENT \| SECURITY_IDENTIFICATION \| FILE_FLAG_OVERLAPPED)` + `Stream::try_from`, never the default connect | One endpoint per `viola run`: a named pipe on Windows, a Unix domain socket elsewhere; the Windows open leaves the server able to identify, never impersonate, the client (measured) |
 | Database | None. ndjson append logs + atomically replaced JSON snapshots on the local filesystem | Authoritative audit trail and mutable state (wheel mirror, links, budget readings) |
 | ORM / migrations | N/A. Every record carries `v`, readers skip unknown kinds and fields, and a snapshot with an unsupported `v` is rebuilt by replaying the log. Exception: process-log lines carry no `v`; their version is the schema filename (`schemas/diag-line.v1.json`, `diag-detail.v1.json`) | Stands in for schema migration |
 | State-file primitives | atomic-write-file 0.3.1 (snapshots); std `File::lock` on separate `.lock` files; std `OpenOptions::append` (one `write` per line) | Crash-safe multi-process writes with no C code |
+| Content hash | sha2 `=0.11.0` (`default-features = false`; pure Rust, no `cc`) | SHA-256 of the exe bytes truncated to 16 hex for the `bin/` / `plugin/` `<version>-<hash>` keys; a root dev-dependency (its KAT) until `viola-state` consumes it |
 | Serialization | serde 1.0.229, serde_json 1.0.151 (feature `preserve_order`, which pulls indexmap), serde_path_to_error 0.1.20 | Channel frames, log events, snapshots, tolerant parsing of external payloads with path-precise drift reports; `preserve_order` keeps a printed document's declared key order (e.g. `{"v":1,"cmd":…,"ok":…}`) |
 | Logging | tracing 0.1.44 (default features off, `std`); tracing-subscriber 0.3.23 (default features off, `fmt,json,registry,std`; root bin only) | One-line JSON process logs into the viola home's `diagnostics/`; the line format and levels are owned by the obs plan |
 | Domain newtypes | nutype 0.8.0 | `ViolaName` (charset + length cap), `Percent` (0–100) |
@@ -35,7 +36,8 @@ _Extracted from `.andromeda/architecture.md` §Stack and Technologies by `/andro
 The workspace `rust-version` 1.96 floor, the exact `rust-toolchain.toml` pin and the test-only crate `crates/viola-e2e` are folded into architecture.md (chunk `2026-09-24-three-os-ci-headless-harness-skeleton`).
 
 ## Security-plan additions
-- getrandom 0.4.3 (GUI token) · constant_time_eq 0.6.0 (token compare) · windows-sys 0.61.2 SID / SQOS / DACL APIs · a pure-Rust SHA-256 crate (open question — picked and logged before the chunk that writes `bin/`).
+- getrandom 0.4.3 (GUI token) · constant_time_eq 0.6.0 (token compare) · windows-sys 0.61.2 SID / SQOS / DACL APIs · sha2 `=0.11.0` for the SHA-256 `<hash>` (Decisions Log `2026-09-25`).
+- Licence: the project is `MIT OR Apache-2.0` (`[workspace.package]`, `license.workspace = true`; `LICENSE-MIT` + `LICENSE-APACHE`). `deny.toml` allows `MIT`, `Apache-2.0`, `Zlib`, `Unicode-3.0`, plus `0BSD` only per crate for interprocess's `doctest-file` and `recvmsg`.
 - Audit: cargo-deny `>=0.20.2` (+ `[advisories]`, `[sources]`, `[[bans.features]]`), zizmor `>=1.30.1`; cargo-audit `>=0.22.2` deferred to v1.x binary scans.
 
 ## Observability (obs-plan §3)

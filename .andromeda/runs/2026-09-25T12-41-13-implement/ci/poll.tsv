@@ -1,0 +1,15 @@
+mutants-verdict	completed	success	36138441784
+test (macos-latest)	completed	success	36138441784
+mutants (windows-2025)	completed	success	36138441784
+release (windows-2025)	completed	success	36138441784
+test (ubuntu-latest)	completed	success	36138441784
+supply-chain	completed	success	36138441784
+lint (windows-2025)	completed	success	36138441784
+release (macos-latest)	completed	success	36138441784
+mutants (ubuntu-latest)	completed	success	36138441784
+fuzz-replay	completed	success	36138441784
+release (ubuntu-latest)	completed	success	36138441784
+lint (ubuntu-latest)	completed	success	36138441784
+test (windows-2025)	completed	success	36138441784
+lint (macos-latest)	completed	success	36138441784
+msrv	completed	success	36138441784

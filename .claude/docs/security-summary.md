@@ -42,10 +42,14 @@ viola is a local-only, single-user tool: no accounts, no public listener, no dat
 
 1. v1 GUI cookie on `/api/*` + SSE. 2. Unix endpoint in a per-user 0700 dir. 3. `not-delivered`/`control-character` + URNs `unauthorized` / `cross-origin-forbidden`. 4. `release` with `from` → `-32602 release-from-driver`. 5. `<home>/ui/<port>.url` (0600). 6. `MAX_FRAME` = 16 MiB in `viola-core`. 7. Ledger row "largest hook payload seen". 8. `<hash>` = truncated SHA-256 (16 hex).
 
+## Resolved prerequisites (Decisions Log `2026-09-25`)
+
+- **SQOS spike: passed.** `CreateFileW(SECURITY_SQOS_PRESENT | SECURITY_IDENTIFICATION | FILE_FLAG_OVERLAPPED)` adopted by interprocess 2.4.4 `Stream::try_from` leaves the server at `SecurityIdentification` (measured; `tests/channel_sqos_open.rs` pins it). `FILE_FLAG_OVERLAPPED` is required (non-overlapped adoption hangs); never fall back to the default connect (it reads `SecurityImpersonation`).
+- **SHA-256 crate: `sha2 =0.11.0`** (`default-features = false`, pure Rust, no `cc`); `<hash>` = the first 16 hex; `tests/contract_content_hash.rs` pins it.
+- **Licences:** `0BSD` enters only per crate (`doctest-file`, `recvmsg` via interprocess) through `[[licenses.exceptions]]`, never through `allow`.
+
 ## Open questions (block specific chunks)
 
-- **SQOS spike:** does interprocess 2.4.4 `Stream::try_from(OwnedHandle)` accept a `FILE_FLAG_OVERLAPPED` SQOS handle? Resolve before the `viola-channel` client chunk; never fall back to the default connect.
-- **SHA-256 crate:** pure Rust, passes the C-build ban; pick and log before the chunk that writes `bin/`.
 - `events.ndjson` retention (arch open item) — any scheme keeps 0600 and valid offsets.
 
 ## Path-scoped enforcement

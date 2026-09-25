@@ -1,0 +1,98 @@
+[
+{
+"tool": "route",
+"v": "1.4",
+"sha8": "86c1b723",
+"ts": "2026-09-25T13:29:26Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-09-25-security-prerequisites",
+"--desc-file",
+".andromeda/runs/2026-09-25T13-11-43-wrap/master-desc.txt",
+"--run-dir",
+".andromeda/runs/2026-09-25T13-11-43-wrap"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"flip master-route.md:20 - 2026-09-25-security-prerequisites pending -> complete - desc REWRITTEN from --desc-file"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.4",
+"sha8": "86c1b723",
+"ts": "2026-09-25T13:29:26Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-09-25-security-prerequisites",
+"--date",
+"2026-09-25",
+"--run-dir",
+".andromeda/runs/2026-09-25T13-11-43-wrap",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"pin listing NOT DERIVED -- 2026-09-25-security-prerequisites's line :30 carries no freight (already compact)",
+"compacted 0 lines (10 stamped read) -- an empty sweep is a verdict, not an absence proof"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.4",
+"sha8": "86c1b723",
+"ts": "2026-09-25T13:29:41Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-09-25-security-prerequisites",
+"--date",
+"2026-09-25",
+"--run-dir",
+".andromeda/runs/2026-09-25T13-11-43-wrap"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"pin listing NOT DERIVED -- 2026-09-25-security-prerequisites's line :30 carries no freight (already compact)",
+"compacted 0 lines (10 stamped read) -- an empty sweep is a verdict, not an absence proof"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [],
+"skips": [],
+"kept_notes": []
+}
+}
+]

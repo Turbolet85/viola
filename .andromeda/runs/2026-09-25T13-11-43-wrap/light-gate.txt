@@ -1,0 +1,35 @@
+gate v1.2 · d4325653
+shell C:\Program Files\Git\bin\bash.exe (from $SHELL; -c, non-login)
+root D:\dev\projects\viola · marker 2026-09-25-security-prerequisites · entries 27
+logs C:\Users\turbo\AppData\Local\Temp\andromeda-gate\2026-09-25-security-prerequisites\wrap-2026-09-25T13-11-43 · bound: GNU timeout
+delta docs 44
+prose L158-170: The gates run on this Windows host during /implement. - **Rust delta:** the delta is test-… (912 chars)
+prose L172-174:   The operator entries at the end read them on the pushed sha. - **One-shot mutating contr… (274 chars)
+  1 lint        green · exit 0 · 0.27s · 0 B → 1.log · cargo fmt --all --check
+  2 lint        green · exit 0 · 0.35s · 72 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)
+  3 unit        green · exit 0 · 6.92s · 23662 B → 3.log · bash scripts/agent-run.sh run --unit
+  4 integration green · exit 0 · 0.92s · 1819 B → 4.log · bash scripts/agent-run.sh run --integration --filter 'bina… (113 chars)
+  5 integration green · exit 0 · 22.78s · 12249 B → 5.log · bash scripts/agent-run.sh run --integration
+  6 probe       green · exit 0 · 0.07s · 2 B → 6.log · grep -c -E 'SECURITY_SQOS_PRESENT \| SECURITY_IDENTIFICATI… (112 chars)
+  7 probe       green · exit 1 · 0.06s · 2 B → 7.log · grep -c -E 'LocalSocketStream::connect|connect_without_wai… (121 chars)
+  8 probe       green · exit 0 · 0.06s · 2 B → 8.log · grep -c -E '^allow = \["MIT", "Apache-2.0", "Zlib", "Unico… (79 chars)
+  9 probe       green · exit 0 · 0.08s · 2 B → 9.log · grep -c -E '^crate = "(doctest-file|recvmsg)"$' deny.toml
+ 10 probe       green · exit 0 · 0.99s · 3786 B → 10.log · cargo deny check
+ 11 probe       green · exit 0 · 0.17s · 79 B → 11.log · cargo tree -i sha2 -e normal,dev --target all
+ 12 probe       green · exit 0 · 0.18s · 86 B → 12.log · cargo tree -i interprocess -e normal,dev --target x86_64-p… (72 chars)
+ 13 probe       green · exit 0 · 1.0s · 676 B → 13.log · cargo deny --manifest-path fuzz/Cargo.toml check advisorie… (67 chars)
+ 14 probe       green · exit 0 · 0.45s · 8 B → 14.log · cargo deny --config deny-sync.toml --manifest-path crates/… (90 chars)
+ 15 probe       green · exit 0 · 10.68s · 346 B → 15.log · bash scripts/deny-probes.sh
+ 16 probe       green · exit 0 · 0.06s · 0 B → 16.log · git diff --exit-code --quiet -- fuzz/Cargo.lock
+ 17 probe       green · exit 0 · 0.15s · 23 B → 17.log · cargo metadata --no-deps --format-version 1 | python -X ut… (164 chars)
+ 18 probe       green · exit 0 · 0.11s · 23 B → 18.log · cargo metadata --no-deps --format-version 1 --manifest-pat… (196 chars)
+ 19 probe       green · exit 0 · 0.06s · 2 B → 19.log · grep -c -E '^Copyright \(c\) 2026 Turbolet85$' LICENSE-MIT
+ 20 probe       green · exit 0 · 0.06s · 2 B → 20.log · grep -c -E 'Apache License|Version 2\.0, January 2004' LIC… (69 chars)
+ 21 probe       green · exit 0 · 0.06s · 2 B → 21.log · grep -c -E 'LICENSE-APACHE|LICENSE-MIT' README.md
+ 22 build       green · exit 0 · 0.2s · 72 B → 22.log · RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv cargo c… (88 chars)
+ 23 probe       green · exit 0 · 13.9s · 213 B → 23.log · bash scripts/orphans-check.sh
+ 24 integration green · exit 0 · 127.29s · 1638 B → 24.log · AGENT_RUN_CHUNK_BASE=874420dc617668ea7c5a7155589d9bf4b954c… (101 chars)
+ 25 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (82 chars)
+ 26 probe       not run — leg operator (the letter drives it) · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (129 chars)
+ 27 probe       not run — leg operator (the letter drives it) · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (160 chars)
+entries 27 · green 24 · red 0 · recorded 0 · timeout 0 · not-run 3

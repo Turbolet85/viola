@@ -1,0 +1,377 @@
+﻿2026-09-25T13:02:13.8375999Z Current runner version: '2.337.0'
+2026-09-25T13:02:13.8406588Z ##[group]Runner Image Provisioner
+2026-09-25T13:02:13.8407542Z Hosted Compute Agent
+2026-09-25T13:02:13.8408186Z Version: 20260828.587
+2026-09-25T13:02:13.8408909Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+2026-09-25T13:02:13.8409795Z Build Date: 2026-08-28T16:44:25Z
+2026-09-25T13:02:13.8410626Z Worker ID: {e9d170c5-f3ee-4bce-9c9e-dcd422666a08}
+2026-09-25T13:02:13.8411569Z Azure Region: westus3
+2026-09-25T13:02:13.8412223Z ##[endgroup]
+2026-09-25T13:02:13.8413685Z ##[group]Operating System
+2026-09-25T13:02:13.8414391Z Microsoft Windows Server 2025
+2026-09-25T13:02:13.8415138Z 10.0.26100
+2026-09-25T13:02:13.8415790Z Datacenter
+2026-09-25T13:02:13.8416361Z ##[endgroup]
+2026-09-25T13:02:13.8416948Z ##[group]Runner Image
+2026-09-25T13:02:13.8417635Z Image: windows-2025-vs2026
+2026-09-25T13:02:13.8418288Z Version: 20260922.246.2
+2026-09-25T13:02:13.8420155Z Included Software: https://github.com/actions/runner-images/blob/win25-vs2026/20260922.246/images/windows/Windows2025-VS2026-Readme.md
+2026-09-25T13:02:13.8422249Z Image Release: https://github.com/actions/runner-images/releases/tag/win25-vs2026%2F20260922.246
+2026-09-25T13:02:13.8423776Z ##[endgroup]
+2026-09-25T13:02:13.8425077Z ##[group]GITHUB_TOKEN Permissions
+2026-09-25T13:02:13.8427182Z Contents: read
+2026-09-25T13:02:13.8427808Z Metadata: read
+2026-09-25T13:02:13.8428471Z ##[endgroup]
+2026-09-25T13:02:13.8430751Z Secret source: Actions
+2026-09-25T13:02:13.8431826Z Cache mode: write
+2026-09-25T13:02:13.8432665Z Prepare workflow directory
+2026-09-25T13:02:13.8770158Z Prepare all required actions
+2026-09-25T13:02:13.8810926Z Getting action download info
+2026-09-25T13:02:14.2154415Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-09-25T13:02:14.3130289Z Download action repository 'Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6' (SHA:6323deb102c322ba6fcbdcafc7e3dddab59af2b6)
+2026-09-25T13:02:14.9721511Z Download action repository 'taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5' (SHA:7623a79cdfecb99d681017af368ca353d9f49bb5)
+2026-09-25T13:02:15.7219543Z Download action repository 'actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a' (SHA:043fb46d1a93c77aae656e7c1c64a875d1fc6a0a)
+2026-09-25T13:02:16.1490489Z Complete job name: mutants (windows-2025)
+2026-09-25T13:02:16.3371905Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-09-25T13:02:16.3373586Z with:
+2026-09-25T13:02:16.3374181Z   fetch-depth: 0
+2026-09-25T13:02:16.3374786Z   persist-credentials: false
+2026-09-25T13:02:16.3375461Z   repository: Turbolet85/viola
+2026-09-25T13:02:16.3381768Z   token: ***
+2026-09-25T13:02:16.3382336Z   ssh-strict: true
+2026-09-25T13:02:16.3383118Z   ssh-user: git
+2026-09-25T13:02:16.3383673Z   clean: true
+2026-09-25T13:02:16.3384365Z   sparse-checkout-cone-mode: true
+2026-09-25T13:02:16.3385083Z   fetch-tags: false
+2026-09-25T13:02:16.3385731Z   show-progress: true
+2026-09-25T13:02:16.3386324Z   lfs: false
+2026-09-25T13:02:16.3386881Z   submodules: false
+2026-09-25T13:02:16.3387510Z   set-safe-directory: true
+2026-09-25T13:02:16.3388226Z   allow-unsafe-pr-checkout: false
+2026-09-25T13:02:16.3389119Z ##[endgroup]
+2026-09-25T13:02:16.4721859Z Syncing repository: Turbolet85/viola
+2026-09-25T13:02:16.4724110Z ##[group]Getting Git version info
+2026-09-25T13:02:16.4724886Z Working directory is 'D:\a\viola\viola'
+2026-09-25T13:02:16.5419407Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-09-25T13:02:17.0296092Z git version 2.55.0.windows.5
+2026-09-25T13:02:17.0342359Z ##[endgroup]
+2026-09-25T13:02:17.0356837Z Temporarily overriding HOME='D:\a\_temp\3cd924a8-e661-4381-9227-4ee2d258d658' before making global git config changes
+2026-09-25T13:02:17.0358608Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-25T13:02:17.0364878Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\viola\viola
+2026-09-25T13:02:17.1128074Z Deleting the contents of 'D:\a\viola\viola'
+2026-09-25T13:02:17.1131230Z ##[group]Determining repository object format
+2026-09-25T13:02:17.1133295Z ##[endgroup]
+2026-09-25T13:02:17.1134851Z ##[group]Initializing the repository
+2026-09-25T13:02:17.1136381Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\viola\viola
+2026-09-25T13:02:17.2058865Z Initialized empty Git repository in D:/a/viola/viola/.git/
+2026-09-25T13:02:17.2101842Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/Turbolet85/viola
+2026-09-25T13:02:17.2675207Z ##[endgroup]
+2026-09-25T13:02:17.2676306Z ##[group]Disabling automatic garbage collection
+2026-09-25T13:02:17.2682210Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+2026-09-25T13:02:17.2960217Z ##[endgroup]
+2026-09-25T13:02:17.2961241Z ##[group]Setting up auth
+2026-09-25T13:02:17.2961998Z Removing SSH command configuration
+2026-09-25T13:02:17.2970318Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-09-25T13:02:17.3239167Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-09-25T13:02:19.1128502Z Removing HTTP extra header
+2026-09-25T13:02:19.1145755Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-25T13:02:19.1430260Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-09-25T13:02:19.6292562Z Removing includeIf entries pointing to credentials config files
+2026-09-25T13:02:19.6302494Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-25T13:02:19.6575002Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-09-25T13:02:20.1545488Z [command]"C:\Program Files\Git\bin\git.exe" config --file D:\a\_temp\git-credentials-ac3e4e74-da2e-4f91-9c2c-fab839e89457.config http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+2026-09-25T13:02:20.1824937Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/viola/viola/.git.path D:\a\_temp\git-credentials-ac3e4e74-da2e-4f91-9c2c-fab839e89457.config
+2026-09-25T13:02:20.2100588Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/viola/viola/.git/worktrees/*.path D:\a\_temp\git-credentials-ac3e4e74-da2e-4f91-9c2c-fab839e89457.config
+2026-09-25T13:02:20.2414527Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-ac3e4e74-da2e-4f91-9c2c-fab839e89457.config
+2026-09-25T13:02:20.2680010Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-ac3e4e74-da2e-4f91-9c2c-fab839e89457.config
+2026-09-25T13:02:20.2954640Z ##[endgroup]
+2026-09-25T13:02:20.2955123Z ##[group]Fetching the repository
+2026-09-25T13:02:20.2966892Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+2026-09-25T13:02:22.6396069Z From https://github.com/Turbolet85/viola
+2026-09-25T13:02:22.6398116Z  * [new branch]      build/viola-0.1.0 -> origin/build/viola-0.1.0
+2026-09-25T13:02:22.6460268Z [command]"C:\Program Files\Git\bin\git.exe" branch --list --remote origin/build/viola-0.1.0
+2026-09-25T13:02:22.6835496Z   origin/build/viola-0.1.0
+2026-09-25T13:02:22.6885729Z [command]"C:\Program Files\Git\bin\git.exe" rev-parse refs/remotes/origin/build/viola-0.1.0
+2026-09-25T13:02:22.7549996Z 8e25ca70f6232eb3e55bf4710d86814fb2c9e865
+2026-09-25T13:02:22.7585630Z ##[endgroup]
+2026-09-25T13:02:22.7585970Z ##[group]Determining the checkout info
+2026-09-25T13:02:22.7586498Z ##[endgroup]
+2026-09-25T13:02:22.7594161Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+2026-09-25T13:02:22.8858465Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+2026-09-25T13:02:22.9122527Z ##[group]Checking out the ref
+2026-09-25T13:02:22.9131162Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force -B build/viola-0.1.0 refs/remotes/origin/build/viola-0.1.0
+2026-09-25T13:02:23.3950156Z Switched to a new branch 'build/viola-0.1.0'
+2026-09-25T13:02:23.4014636Z branch 'build/viola-0.1.0' set up to track 'origin/build/viola-0.1.0'.
+2026-09-25T13:02:23.4073388Z ##[endgroup]
+2026-09-25T13:02:23.4488136Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+2026-09-25T13:02:23.4740129Z 8e25ca70f6232eb3e55bf4710d86814fb2c9e865
+2026-09-25T13:02:23.4782146Z ##[group]Removing auth
+2026-09-25T13:02:23.4782382Z Removing SSH command configuration
+2026-09-25T13:02:23.4788980Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-09-25T13:02:23.5070014Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-09-25T13:02:23.9804599Z Removing HTTP extra header
+2026-09-25T13:02:23.9811555Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-25T13:02:24.0075838Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-09-25T13:02:24.5043396Z Removing includeIf entries pointing to credentials config files
+2026-09-25T13:02:24.5050304Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-25T13:02:24.5276600Z includeif.gitdir:D:/a/viola/viola/.git.path
+2026-09-25T13:02:24.5278124Z includeif.gitdir:D:/a/viola/viola/.git/worktrees/*.path
+2026-09-25T13:02:24.5278572Z includeif.gitdir:/github/workspace/.git.path
+2026-09-25T13:02:24.5278952Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-09-25T13:02:24.5314911Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/viola/viola/.git.path
+2026-09-25T13:02:24.5531924Z D:\a\_temp\git-credentials-ac3e4e74-da2e-4f91-9c2c-fab839e89457.config
+2026-09-25T13:02:24.5570621Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/viola/viola/.git.path D\:\\a\\_temp\\git\-credentials\-ac3e4e74\-da2e\-4f91\-9c2c\-fab839e89457\.config
+2026-09-25T13:02:24.5877572Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/viola/viola/.git/worktrees/*.path
+2026-09-25T13:02:24.6092141Z D:\a\_temp\git-credentials-ac3e4e74-da2e-4f91-9c2c-fab839e89457.config
+2026-09-25T13:02:24.6131198Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/viola/viola/.git/worktrees/*.path D\:\\a\\_temp\\git\-credentials\-ac3e4e74\-da2e\-4f91\-9c2c\-fab839e89457\.config
+2026-09-25T13:02:24.6397431Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-09-25T13:02:24.6615071Z /github/runner_temp/git-credentials-ac3e4e74-da2e-4f91-9c2c-fab839e89457.config
+2026-09-25T13:02:24.6658630Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-ac3e4e74\-da2e\-4f91\-9c2c\-fab839e89457\.config
+2026-09-25T13:02:24.6921092Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-09-25T13:02:24.7137577Z /github/runner_temp/git-credentials-ac3e4e74-da2e-4f91-9c2c-fab839e89457.config
+2026-09-25T13:02:24.7174699Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-ac3e4e74\-da2e\-4f91\-9c2c\-fab839e89457\.config
+2026-09-25T13:02:24.7441018Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-09-25T13:02:25.3107467Z Removing credentials config 'D:\a\_temp\git-credentials-ac3e4e74-da2e-4f91-9c2c-fab839e89457.config'
+2026-09-25T13:02:25.3117682Z ##[endgroup]
+2026-09-25T13:02:25.3455343Z ##[group]Run rustup toolchain install
+2026-09-25T13:02:25.3455686Z [36;1mrustup toolchain install[0m
+2026-09-25T13:02:25.4685158Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-09-25T13:02:25.4685467Z ##[endgroup]
+2026-09-25T13:02:26.4761729Z info: syncing channel updates for 1.98.1-x86_64-pc-windows-msvc
+2026-09-25T13:02:27.1647264Z info: latest update on 2026-09-03 for version 1.98.1 (48a229cea 2026-09-01)
+2026-09-25T13:02:27.1696930Z info: downloading 5 components
+2026-09-25T13:02:35.9211491Z info: the active toolchain `1.98.1-x86_64-pc-windows-msvc` has been installed
+2026-09-25T13:02:35.9212017Z info: it's active because: overridden by 'D:\a\viola\viola\rust-toolchain.toml'
+2026-09-25T13:02:36.0470476Z ##[group]Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+2026-09-25T13:02:36.0470829Z with:
+2026-09-25T13:02:36.0470987Z   prefix-key: v0-rust
+2026-09-25T13:02:36.0471160Z   add-job-id-key: true
+2026-09-25T13:02:36.0471339Z   add-rust-environment-hash-key: true
+2026-09-25T13:02:36.0471551Z   cache-targets: true
+2026-09-25T13:02:36.0471721Z   cache-all-crates: false
+2026-09-25T13:02:36.0471917Z   cache-workspace-crates: false
+2026-09-25T13:02:36.0472095Z   save-if: true
+2026-09-25T13:02:36.0472248Z   cache-provider: github
+2026-09-25T13:02:36.0472420Z   cache-bin: true
+2026-09-25T13:02:36.0472566Z   lookup-only: false
+2026-09-25T13:02:36.0472718Z   cmd-format: {0}
+2026-09-25T13:02:36.0472870Z ##[endgroup]
+2026-09-25T13:02:41.0484808Z ##[group]Cache Configuration
+2026-09-25T13:02:41.0485133Z Cache Provider:
+2026-09-25T13:02:41.0485335Z     github
+2026-09-25T13:02:41.0485513Z Workspaces:
+2026-09-25T13:02:41.0485710Z     D:\a\viola\viola
+2026-09-25T13:02:41.0486024Z Cache Paths:
+2026-09-25T13:02:41.0486228Z     C:\Users\runneradmin\.cargo\bin
+2026-09-25T13:02:41.0486541Z     C:\Users\runneradmin\.cargo\.crates.toml
+2026-09-25T13:02:41.0486870Z     C:\Users\runneradmin\.cargo\.crates2.json
+2026-09-25T13:02:41.0487164Z     C:\Users\runneradmin\.cargo\registry
+2026-09-25T13:02:41.0487423Z     C:\Users\runneradmin\.cargo\git
+2026-09-25T13:02:41.0487691Z     D:\a\viola\viola\target
+2026-09-25T13:02:41.0487926Z Restore Key:
+2026-09-25T13:02:41.0488167Z     v0-rust-mutants-Windows_NT-x64-40a42ff5
+2026-09-25T13:02:41.0488434Z Cache Key:
+2026-09-25T13:02:41.0488664Z     v0-rust-mutants-Windows_NT-x64-40a42ff5-c59ed8f2
+2026-09-25T13:02:41.0488987Z .. Prefix:
+2026-09-25T13:02:41.0489233Z   - v0-rust-mutants-Windows_NT-x64
+2026-09-25T13:02:41.0489543Z .. Environment considered:
+2026-09-25T13:02:41.0489784Z   - Rust Versions:
+2026-09-25T13:02:41.0490123Z     - 1.98.1 x86_64-pc-windows-msvc 48a229ceaefd4985c50990b14116b6d856af0985
+2026-09-25T13:02:41.0490557Z   - CARGO_INCREMENTAL
+2026-09-25T13:02:41.0490723Z .. Lockfiles considered:
+2026-09-25T13:02:41.0490894Z   - D:\a\viola\viola\Cargo.lock
+2026-09-25T13:02:41.0491075Z   - D:\a\viola\viola\Cargo.toml
+2026-09-25T13:02:41.0491331Z   - D:\a\viola\viola\crates\viola-core\Cargo.toml
+2026-09-25T13:02:41.0491878Z   - D:\a\viola\viola\crates\viola-e2e\Cargo.toml
+2026-09-25T13:02:41.0492198Z   - D:\a\viola\viola\fuzz\rust-toolchain.toml
+2026-09-25T13:02:41.0492679Z   - D:\a\viola\viola\rust-toolchain.toml
+2026-09-25T13:02:41.0493015Z ##[endgroup]
+2026-09-25T13:02:41.0493099Z 
+2026-09-25T13:02:41.0493166Z ... Restoring cache ...
+2026-09-25T13:02:41.3487170Z Cache hit for restore-key: v0-rust-mutants-Windows_NT-x64-40a42ff5-847e1f5d
+2026-09-25T13:02:42.5732117Z Received 75497472 of 205319240 (36.8%), 71.6 MBs/sec
+2026-09-25T13:02:43.5846282Z Received 134217728 of 205319240 (65.4%), 63.5 MBs/sec
+2026-09-25T13:02:44.1603486Z Received 205319240 of 205319240 (100.0%), 75.5 MBs/sec
+2026-09-25T13:02:44.1606331Z Cache Size: ~196 MB (205319240 B)
+2026-09-25T13:02:44.1712889Z [command]"C:\Program Files\Git\usr\bin\tar.exe" -xf D:/a/_temp/d2885791-bfa9-40bf-bf3c-a862ec28b62b/cache.tzst -P -C D:/a/viola/viola --force-local --use-compress-program "zstd -d"
+2026-09-25T13:02:48.5819577Z Cache restored successfully
+2026-09-25T13:02:48.5924005Z Restored from cache key "v0-rust-mutants-Windows_NT-x64-40a42ff5-847e1f5d" full match: false.
+2026-09-25T13:02:48.6287896Z ##[group]Run taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5
+2026-09-25T13:02:48.6288267Z with:
+2026-09-25T13:02:48.6288460Z   tool: cargo-nextest@0.9.146,cargo-mutants@27.1.0
+2026-09-25T13:02:48.6288692Z   checksum: true
+2026-09-25T13:02:48.6288857Z   fallback: cargo-binstall
+2026-09-25T13:02:48.6289024Z env:
+2026-09-25T13:02:48.6289163Z   CACHE_ON_FAILURE: false
+2026-09-25T13:02:48.6289340Z   CARGO_INCREMENTAL: 0
+2026-09-25T13:02:48.6289506Z ##[endgroup]
+2026-09-25T13:02:48.6373383Z ##[start-action display=Run bail() {;id=__taiki-e_install-action.__run]
+2026-09-25T13:02:48.6379946Z ##[end-action id=__taiki-e_install-action.__run;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-09-25T13:02:48.6383988Z ##[start-action display=Run Set-StrictMode -Version Latest;id=__taiki-e_install-action.__run_2]
+2026-09-25T13:02:48.6526676Z ##[group]Run Set-StrictMode -Version Latest
+2026-09-25T13:02:48.6526994Z [36;1mSet-StrictMode -Version Latest[0m
+2026-09-25T13:02:48.6527382Z [36;1m$remove_env = @('ENV','BASH_ENV','CDPATH','SHELLOPTS','BASHOPTS','BASH_FUNC_*')[0m
+2026-09-25T13:02:48.6527710Z [36;1mforeach ($name in $remove_env) {[0m
+2026-09-25T13:02:48.6527974Z [36;1m  if (Test-Path "Env:$name") { Remove-Item "Env:\$name" }[0m
+2026-09-25T13:02:48.6528220Z [36;1m}[0m
+2026-09-25T13:02:48.6528383Z [36;1mfor ($i=1; $i -le 10; $i++) {[0m
+2026-09-25T13:02:48.6528619Z [36;1m  $prev_err_action = $ErrorActionPreference[0m
+2026-09-25T13:02:48.6528869Z [36;1m  $ErrorActionPreference = "Continue"[0m
+2026-09-25T13:02:48.6529151Z [36;1m  & bash --noprofile --norc "$env:GITHUB_ACTION_PATH\main.sh"[0m
+2026-09-25T13:02:48.6529431Z [36;1m  $code = $LASTEXITCODE[0m
+2026-09-25T13:02:48.6529655Z [36;1m  $ErrorActionPreference = "$prev_err_action"[0m
+2026-09-25T13:02:48.6529939Z [36;1m  if (Test-Path "$env:USERPROFILE\.install-action\init") {[0m
+2026-09-25T13:02:48.6530249Z [36;1m    # If bash started successfully, main.sh creates init file.[0m
+2026-09-25T13:02:48.6530586Z [36;1m    Remove-Item "$env:USERPROFILE\.install-action\init" -Force[0m
+2026-09-25T13:02:48.6530843Z [36;1m    exit $code[0m
+2026-09-25T13:02:48.6531006Z [36;1m  }[0m
+2026-09-25T13:02:48.6531152Z [36;1m  if ($i -lt 10) {[0m
+2026-09-25T13:02:48.6531707Z [36;1m    Write-Output "::warning::install-action: installation failed due to bash startup failure (<https://github.com/actions/partner-runner-images/issues/169>); retrying..."[0m
+2026-09-25T13:02:48.6532261Z [36;1m  }[0m
+2026-09-25T13:02:48.6532401Z [36;1m}[0m
+2026-09-25T13:02:48.6532954Z [36;1mWrite-Output "::error::install-action: installation failed due to bash startup failure (<https://github.com/actions/partner-runner-images/issues/169>); this maybe resolved by re-running job"[0m
+2026-09-25T13:02:48.6533529Z [36;1mexit 1[0m
+2026-09-25T13:02:48.6592326Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-09-25T13:02:48.6592610Z env:
+2026-09-25T13:02:48.6592778Z   CACHE_ON_FAILURE: false
+2026-09-25T13:02:48.6593713Z   CARGO_INCREMENTAL: 0
+2026-09-25T13:02:48.6593933Z   INPUT_TOOL: cargo-nextest@0.9.146,cargo-mutants@27.1.0
+2026-09-25T13:02:48.6594177Z   INPUT_CHECKSUM: true
+2026-09-25T13:02:48.6594354Z   INPUT_FALLBACK: cargo-binstall
+2026-09-25T13:02:48.6596806Z   DEFAULT_GITHUB_TOKEN: ***
+2026-09-25T13:02:48.6597138Z   ACTION_USER_AGENT: taiki-e/install-action (7623a79cdfecb99d681017af368ca353d9f49bb5)
+2026-09-25T13:02:48.6597526Z   RUNNER_OS: Windows
+2026-09-25T13:02:48.6597901Z   RUNNER_ARCH: X64
+2026-09-25T13:02:48.6598095Z ##[endgroup]
+2026-09-25T13:02:49.4130877Z info: host platform: x86_64_windows
+2026-09-25T13:02:49.4603842Z info: cargo is located at /c/Users/runneradmin/.cargo/bin/cargo
+2026-09-25T13:02:50.0630151Z info: installing cargo-nextest@0.9.146
+2026-09-25T13:02:50.4103295Z info: downloading https://github.com/nextest-rs/nextest/releases/download/cargo-nextest-0.9.146/cargo-nextest-0.9.146-x86_64-pc-windows-msvc.tar.gz
+2026-09-25T13:02:50.8747992Z info: verifying sha256 checksum for cargo-nextest-0.9.146-x86_64-pc-windows-msvc.tar.gz
+2026-09-25T13:02:51.4275027Z info: cargo-nextest installed at /c/Users/runneradmin/.cargo/bin/cargo-nextest.exe
+2026-09-25T13:02:51.4366108Z + cargo-nextest nextest --version
+2026-09-25T13:02:51.4580547Z cargo-nextest 0.9.146 (8af696ddc 2026-09-21)
+2026-09-25T13:02:51.4580928Z release: 0.9.146
+2026-09-25T13:02:51.4581205Z commit-hash: 8af696ddcce8fff2962d6a5168b6d138b8616a35
+2026-09-25T13:02:51.4581594Z commit-date: 2026-09-21
+2026-09-25T13:02:51.4581846Z host: x86_64-pc-windows-msvc
+2026-09-25T13:02:51.4609072Z 
+2026-09-25T13:02:51.6973876Z info: installing cargo-mutants@27.1.0
+2026-09-25T13:02:51.9191139Z info: downloading https://github.com/sourcefrog/cargo-mutants/releases/download/v27.1.0/cargo-mutants-x86_64-pc-windows-msvc.zip
+2026-09-25T13:02:52.3429333Z info: verifying sha256 checksum for cargo-mutants-x86_64-pc-windows-msvc.zip
+2026-09-25T13:02:52.6134908Z info: cargo-mutants installed at /c/Users/runneradmin/.cargo/bin/cargo-mutants.exe
+2026-09-25T13:02:52.6222434Z + cargo-mutants mutants --version
+2026-09-25T13:02:52.6378745Z cargo-mutants 27.1.0
+2026-09-25T13:02:52.6399833Z 
+2026-09-25T13:02:52.6891616Z ##[end-action id=__taiki-e_install-action.__run_2;outcome=success;conclusion=success;duration_ms=4050]
+2026-09-25T13:02:52.7019941Z ##[group]Run bash scripts/agent-run.sh run --mutants --leg "$LEG"
+2026-09-25T13:02:52.7020378Z [36;1mbash scripts/agent-run.sh run --mutants --leg "$LEG"[0m
+2026-09-25T13:02:52.7030254Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+2026-09-25T13:02:52.7030567Z env:
+2026-09-25T13:02:52.7030739Z   CACHE_ON_FAILURE: false
+2026-09-25T13:02:52.7030921Z   CARGO_INCREMENTAL: 0
+2026-09-25T13:02:52.7031150Z   AGENT_RUN_CHUNK_BASE: 874420dc617668ea7c5a7155589d9bf4b954c056
+2026-09-25T13:02:52.7031404Z   LEG: windows-2025
+2026-09-25T13:02:52.7031578Z ##[endgroup]
+2026-09-25T13:03:09.7253340Z    Compiling viola v0.1.0 (D:\a\viola\viola)
+2026-09-25T13:03:10.8024706Z     Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.87s
+2026-09-25T13:03:10.9605117Z Found 9 mutants to test
+2026-09-25T13:03:53.5820540Z ok       Unmutated baseline in 8s build + 31s test
+2026-09-25T13:03:53.5820868Z  INFO Auto-set build timeout to 42s
+2026-09-25T13:03:53.5822033Z  INFO Auto-set test timeout to 156s
+2026-09-25T13:04:06.0741259Z caught   crates/viola-e2e/src/harness/run/mutants.rs:143:5: replace rust_paths -> Vec<&str> with vec![] in 7s build + 5s test
+2026-09-25T13:04:18.7559608Z caught   crates/viola-e2e/src/harness/run/mutants.rs:143:5: replace rust_paths -> Vec<&str> with vec![""] in 6s build + 5s test
+2026-09-25T13:04:30.3619387Z caught   crates/viola-e2e/src/harness/run/mutants.rs:143:5: replace rust_paths -> Vec<&str> with vec!["xyzzy"] in 6s build + 5s test
+2026-09-25T13:04:40.2859512Z caught   crates/viola-e2e/src/harness/run/mutants.rs:145:12: delete ! in rust_paths in 7s build + 2s test
+2026-09-25T13:04:48.6543754Z caught   crates/viola-e2e/src/harness/run/mutants.rs:156:5: replace test_target -> bool with true in 6s build + 1s test
+2026-09-25T13:04:59.5436267Z caught   crates/viola-e2e/src/harness/run/mutants.rs:156:5: replace test_target -> bool with false in 7s build + 3s test
+2026-09-25T13:05:08.2297152Z caught   crates/viola-e2e/src/harness/run/mutants.rs:169:5: replace unmutated -> (Suite, Value) with (Default::default(), Default::default()) in 6s build + 1s test
+2026-09-25T13:05:18.2847637Z caught   crates/viola-e2e/src/harness/run/mutants.rs:233:5: replace mutants -> Result<(Suite, Value), String> with Ok((Default::default(), Default::default())) in 6s build + 3s test
+2026-09-25T13:05:27.2818879Z caught   crates/viola-e2e/src/harness/run/mutants.rs:243:8: delete ! in mutants in 7s build + 1s test
+2026-09-25T13:05:27.9046566Z 9 mutants tested in 2m: 9 caught
+2026-09-25T13:05:27.9147411Z {"v":1,"cmd":"run","ok":true,"suites":[{"suite":"mutants","passed":9,"failed":0,"skipped":0,"survived":0,"artifact":"mutants.out/outcomes.json","failures":[]}],"mutants":{"tested":9,"verdict":"counted","leg":"windows-2025"}}
+2026-09-25T13:05:27.9465066Z ##[group]Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+2026-09-25T13:05:27.9465509Z with:
+2026-09-25T13:05:27.9465747Z   name: mutants-verdict-windows-2025
+2026-09-25T13:05:27.9466089Z   path: target/agent-run/artifacts/mutants-verdict-windows-2025.json
+2026-09-25T13:05:27.9466465Z   retention-days: 7
+2026-09-25T13:05:27.9466695Z   if-no-files-found: warn
+2026-09-25T13:05:27.9466939Z   compression-level: 6
+2026-09-25T13:05:27.9467172Z   overwrite: false
+2026-09-25T13:05:27.9467426Z   include-hidden-files: false
+2026-09-25T13:05:27.9467659Z   archive: true
+2026-09-25T13:05:27.9467863Z env:
+2026-09-25T13:05:27.9468064Z   CACHE_ON_FAILURE: false
+2026-09-25T13:05:27.9468312Z   CARGO_INCREMENTAL: 0
+2026-09-25T13:05:27.9468524Z ##[endgroup]
+2026-09-25T13:05:28.0986402Z With the provided path, there will be 1 file uploaded
+2026-09-25T13:05:28.0991145Z Artifact name is valid!
+2026-09-25T13:05:28.0992123Z Root directory input is valid!
+2026-09-25T13:05:28.4656907Z Uploading artifact: mutants-verdict-windows-2025.zip
+2026-09-25T13:05:28.4692436Z Beginning upload of artifact content to blob storage
+2026-09-25T13:05:28.7100442Z Uploaded bytes 510
+2026-09-25T13:05:28.7704423Z Finished uploading artifact content to blob storage!
+2026-09-25T13:05:28.7705287Z SHA256 digest of uploaded artifact is 478ba3f4388672e673bd246dd0675068174f58d47a9c9fa251ee269d6479d0d6
+2026-09-25T13:05:28.7705937Z Finalizing artifact upload
+2026-09-25T13:05:29.1219898Z Artifact mutants-verdict-windows-2025 successfully finalized. Artifact ID 10866225327
+2026-09-25T13:05:29.1220943Z Artifact mutants-verdict-windows-2025 has been successfully uploaded! Final size is 510 bytes. Artifact ID is 10866225327
+2026-09-25T13:05:29.1227974Z Artifact download URL: https://github.com/Turbolet85/viola/actions/runs/36138441784/artifacts/10866225327
+2026-09-25T13:05:29.1528317Z Post job cleanup.
+2026-09-25T13:05:29.2862326Z ##[group]Cache Configuration
+2026-09-25T13:05:29.2863014Z Cache Provider:
+2026-09-25T13:05:29.2863519Z     github
+2026-09-25T13:05:29.2863952Z Workspaces:
+2026-09-25T13:05:29.2864281Z     D:\a\viola\viola
+2026-09-25T13:05:29.2864639Z Cache Paths:
+2026-09-25T13:05:29.2864968Z     C:\Users\runneradmin\.cargo\bin
+2026-09-25T13:05:29.2865438Z     C:\Users\runneradmin\.cargo\.crates.toml
+2026-09-25T13:05:29.2865912Z     C:\Users\runneradmin\.cargo\.crates2.json
+2026-09-25T13:05:29.2866402Z     C:\Users\runneradmin\.cargo\registry
+2026-09-25T13:05:29.2866831Z     C:\Users\runneradmin\.cargo\git
+2026-09-25T13:05:29.2867281Z     D:\a\viola\viola\target
+2026-09-25T13:05:29.2867629Z Restore Key:
+2026-09-25T13:05:29.2867965Z     v0-rust-mutants-Windows_NT-x64-40a42ff5
+2026-09-25T13:05:29.2868382Z Cache Key:
+2026-09-25T13:05:29.2869029Z     v0-rust-mutants-Windows_NT-x64-40a42ff5-c59ed8f2
+2026-09-25T13:05:29.2869510Z .. Prefix:
+2026-09-25T13:05:29.2869918Z   - v0-rust-mutants-Windows_NT-x64
+2026-09-25T13:05:29.2870790Z .. Environment considered:
+2026-09-25T13:05:29.2871148Z   - Rust Versions:
+2026-09-25T13:05:29.2871635Z     - 1.98.1 x86_64-pc-windows-msvc 48a229ceaefd4985c50990b14116b6d856af0985
+2026-09-25T13:05:29.2872145Z   - CARGO_INCREMENTAL
+2026-09-25T13:05:29.2872527Z .. Lockfiles considered:
+2026-09-25T13:05:29.2872894Z   - D:\a\viola\viola\Cargo.lock
+2026-09-25T13:05:29.2873272Z   - D:\a\viola\viola\Cargo.toml
+2026-09-25T13:05:29.2873716Z   - D:\a\viola\viola\crates\viola-core\Cargo.toml
+2026-09-25T13:05:29.2874191Z   - D:\a\viola\viola\crates\viola-e2e\Cargo.toml
+2026-09-25T13:05:29.2874647Z   - D:\a\viola\viola\fuzz\rust-toolchain.toml
+2026-09-25T13:05:29.2875129Z   - D:\a\viola\viola\rust-toolchain.toml
+2026-09-25T13:05:29.2875812Z ##[endgroup]
+2026-09-25T13:05:29.2876007Z 
+2026-09-25T13:05:32.7149299Z ... Cleaning D:\a\viola\viola\target ...
+2026-09-25T13:05:32.7440687Z ... Cleaning cargo registry (cache-all-crates: false) ...
+2026-09-25T13:05:35.6214403Z ... Cleaning cargo/bin ...
+2026-09-25T13:05:35.6277677Z ... Cleaning cargo git cache ...
+2026-09-25T13:05:35.6283314Z ... Saving cache ...
+2026-09-25T13:05:35.6891024Z [command]"C:\Program Files\Git\usr\bin\tar.exe" --posix -cf cache.tzst --exclude cache.tzst -P -C D:/a/viola/viola --files-from manifest.txt --force-local --use-compress-program "zstd -T0"
+2026-09-25T13:05:39.2290154Z Sent 4098273 of 205424865 (2.0%), 3.9 MBs/sec
+2026-09-25T13:05:40.2296149Z Sent 138316001 of 205424865 (67.3%), 65.9 MBs/sec
+2026-09-25T13:05:41.2311480Z Sent 205424865 of 205424865 (100.0%), 65.2 MBs/sec
+2026-09-25T13:05:53.5025875Z ##[warning]Failed to save: Failed to FinalizeCacheEntryUpload: Received non-retryable error: Failed request: (404) Not Found: cache entry not found
+2026-09-25T13:05:53.5449372Z Post job cleanup.
+2026-09-25T13:05:53.6930001Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-09-25T13:05:53.7170628Z git version 2.55.0.windows.5
+2026-09-25T13:05:53.7227618Z Temporarily overriding HOME='D:\a\_temp\9642c897-9bdb-4503-a47a-3a2281a9eddb' before making global git config changes
+2026-09-25T13:05:53.7228280Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-25T13:05:53.7236759Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\viola\viola
+2026-09-25T13:05:53.7507591Z Removing SSH command configuration
+2026-09-25T13:05:53.7517238Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-09-25T13:05:53.7790603Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-09-25T13:05:54.2598295Z Removing HTTP extra header
+2026-09-25T13:05:54.2607334Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-25T13:05:54.2882926Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-09-25T13:05:54.8147009Z Removing includeIf entries pointing to credentials config files
+2026-09-25T13:05:54.8156334Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-25T13:05:54.8434656Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-09-25T13:05:55.3357037Z Cleaning up orphan processes
+2026-09-25T13:05:55.3571083Z Terminate orphan process: pid (7016) (vctip)

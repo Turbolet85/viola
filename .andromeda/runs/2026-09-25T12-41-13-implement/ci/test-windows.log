@@ -1,0 +1,856 @@
+﻿2026-09-25T13:02:14.0204745Z Current runner version: '2.337.0'
+2026-09-25T13:02:14.0506051Z ##[group]Runner Image Provisioner
+2026-09-25T13:02:14.0506954Z Hosted Compute Agent
+2026-09-25T13:02:14.0507567Z Version: 20260828.587
+2026-09-25T13:02:14.0508234Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+2026-09-25T13:02:14.0509043Z Build Date: 2026-08-28T16:44:25Z
+2026-09-25T13:02:14.0509678Z Worker ID: {08be4371-1814-45e2-9fa6-65d157cc801a}
+2026-09-25T13:02:14.0510345Z Azure Region: eastus
+2026-09-25T13:02:14.0510864Z ##[endgroup]
+2026-09-25T13:02:14.0512258Z ##[group]Operating System
+2026-09-25T13:02:14.0512873Z Microsoft Windows Server 2025
+2026-09-25T13:02:14.0513434Z 10.0.26100
+2026-09-25T13:02:14.0513920Z Datacenter
+2026-09-25T13:02:14.0514393Z ##[endgroup]
+2026-09-25T13:02:14.0514902Z ##[group]Runner Image
+2026-09-25T13:02:14.0515430Z Image: windows-2025-vs2026
+2026-09-25T13:02:14.0516082Z Version: 20260922.246.2
+2026-09-25T13:02:14.0517483Z Included Software: https://github.com/actions/runner-images/blob/win25-vs2026/20260922.246/images/windows/Windows2025-VS2026-Readme.md
+2026-09-25T13:02:14.0519120Z Image Release: https://github.com/actions/runner-images/releases/tag/win25-vs2026%2F20260922.246
+2026-09-25T13:02:14.0520016Z ##[endgroup]
+2026-09-25T13:02:14.0521085Z ##[group]GITHUB_TOKEN Permissions
+2026-09-25T13:02:14.0522930Z Contents: read
+2026-09-25T13:02:14.0523480Z Metadata: read
+2026-09-25T13:02:14.0523962Z ##[endgroup]
+2026-09-25T13:02:14.0526509Z Secret source: Actions
+2026-09-25T13:02:14.0527337Z Cache mode: write
+2026-09-25T13:02:14.0528057Z Prepare workflow directory
+2026-09-25T13:02:14.1821522Z Prepare all required actions
+2026-09-25T13:02:14.1870946Z Getting action download info
+2026-09-25T13:02:14.3574583Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-09-25T13:02:14.5528365Z Download action repository 'Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6' (SHA:6323deb102c322ba6fcbdcafc7e3dddab59af2b6)
+2026-09-25T13:02:14.8355737Z Download action repository 'taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5' (SHA:7623a79cdfecb99d681017af368ca353d9f49bb5)
+2026-09-25T13:02:15.3266414Z Download action repository 'actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a' (SHA:043fb46d1a93c77aae656e7c1c64a875d1fc6a0a)
+2026-09-25T13:02:16.5680820Z Complete job name: test (windows-2025)
+2026-09-25T13:02:17.0363321Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-09-25T13:02:17.0365055Z with:
+2026-09-25T13:02:17.0365843Z   persist-credentials: false
+2026-09-25T13:02:17.0366799Z   repository: Turbolet85/viola
+2026-09-25T13:02:17.0374580Z   token: ***
+2026-09-25T13:02:17.0375338Z   ssh-strict: true
+2026-09-25T13:02:17.0376097Z   ssh-user: git
+2026-09-25T13:02:17.0376836Z   clean: true
+2026-09-25T13:02:17.0377612Z   sparse-checkout-cone-mode: true
+2026-09-25T13:02:17.0378527Z   fetch-depth: 1
+2026-09-25T13:02:17.0379280Z   fetch-tags: false
+2026-09-25T13:02:17.0380077Z   show-progress: true
+2026-09-25T13:02:17.0380862Z   lfs: false
+2026-09-25T13:02:17.0381591Z   submodules: false
+2026-09-25T13:02:17.0382802Z   set-safe-directory: true
+2026-09-25T13:02:17.0383716Z   allow-unsafe-pr-checkout: false
+2026-09-25T13:02:17.0384891Z env:
+2026-09-25T13:02:17.0385617Z   AGENT_RUN_KEEP_HOMES: 1
+2026-09-25T13:02:17.0386447Z ##[endgroup]
+2026-09-25T13:02:17.1881782Z Syncing repository: Turbolet85/viola
+2026-09-25T13:02:17.1884283Z ##[group]Getting Git version info
+2026-09-25T13:02:17.1885326Z Working directory is 'D:\a\viola\viola'
+2026-09-25T13:02:17.2984215Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-09-25T13:02:17.6803292Z git version 2.55.0.windows.5
+2026-09-25T13:02:17.6854873Z ##[endgroup]
+2026-09-25T13:02:17.6871603Z Temporarily overriding HOME='D:\a\_temp\aee92a79-9833-4213-8a25-361a6b00c4bd' before making global git config changes
+2026-09-25T13:02:17.6872939Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-25T13:02:17.6882257Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\viola\viola
+2026-09-25T13:02:17.7496537Z Deleting the contents of 'D:\a\viola\viola'
+2026-09-25T13:02:17.7502137Z ##[group]Determining repository object format
+2026-09-25T13:02:17.7504073Z ##[endgroup]
+2026-09-25T13:02:17.7505256Z ##[group]Initializing the repository
+2026-09-25T13:02:17.7511734Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\viola\viola
+2026-09-25T13:02:17.8363905Z Initialized empty Git repository in D:/a/viola/viola/.git/
+2026-09-25T13:02:17.8407597Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/Turbolet85/viola
+2026-09-25T13:02:17.9036128Z ##[endgroup]
+2026-09-25T13:02:17.9038165Z ##[group]Disabling automatic garbage collection
+2026-09-25T13:02:17.9046466Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+2026-09-25T13:02:17.9356369Z ##[endgroup]
+2026-09-25T13:02:17.9360991Z ##[group]Setting up auth
+2026-09-25T13:02:17.9362442Z Removing SSH command configuration
+2026-09-25T13:02:17.9373846Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-09-25T13:02:17.9690508Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-09-25T13:02:19.4536431Z Removing HTTP extra header
+2026-09-25T13:02:19.4538200Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-25T13:02:19.4871258Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-09-25T13:02:20.0156395Z Removing includeIf entries pointing to credentials config files
+2026-09-25T13:02:20.0168881Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-25T13:02:20.0481676Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-09-25T13:02:20.6364794Z [command]"C:\Program Files\Git\bin\git.exe" config --file D:\a\_temp\git-credentials-d8c174cb-df8f-4649-8785-78acd8e49f64.config http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+2026-09-25T13:02:20.6727221Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/viola/viola/.git.path D:\a\_temp\git-credentials-d8c174cb-df8f-4649-8785-78acd8e49f64.config
+2026-09-25T13:02:20.7120480Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/viola/viola/.git/worktrees/*.path D:\a\_temp\git-credentials-d8c174cb-df8f-4649-8785-78acd8e49f64.config
+2026-09-25T13:02:20.7500902Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-d8c174cb-df8f-4649-8785-78acd8e49f64.config
+2026-09-25T13:02:20.7796389Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-d8c174cb-df8f-4649-8785-78acd8e49f64.config
+2026-09-25T13:02:20.8110319Z ##[endgroup]
+2026-09-25T13:02:20.8110938Z ##[group]Fetching the repository
+2026-09-25T13:02:20.8123434Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +8e25ca70f6232eb3e55bf4710d86814fb2c9e865:refs/remotes/origin/build/viola-0.1.0
+2026-09-25T13:02:23.5037324Z From https://github.com/Turbolet85/viola
+2026-09-25T13:02:23.5038264Z  * [new ref]         8e25ca70f6232eb3e55bf4710d86814fb2c9e865 -> origin/build/viola-0.1.0
+2026-09-25T13:02:23.5098843Z [command]"C:\Program Files\Git\bin\git.exe" branch --list --remote origin/build/viola-0.1.0
+2026-09-25T13:02:23.5500421Z   origin/build/viola-0.1.0
+2026-09-25T13:02:23.5541755Z [command]"C:\Program Files\Git\bin\git.exe" rev-parse refs/remotes/origin/build/viola-0.1.0
+2026-09-25T13:02:23.5801260Z 8e25ca70f6232eb3e55bf4710d86814fb2c9e865
+2026-09-25T13:02:23.5832613Z ##[endgroup]
+2026-09-25T13:02:23.5832977Z ##[group]Determining the checkout info
+2026-09-25T13:02:23.5833627Z ##[endgroup]
+2026-09-25T13:02:23.5841394Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+2026-09-25T13:02:23.6263865Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+2026-09-25T13:02:23.6546441Z ##[group]Checking out the ref
+2026-09-25T13:02:23.6559123Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force -B build/viola-0.1.0 refs/remotes/origin/build/viola-0.1.0
+2026-09-25T13:02:24.0334577Z Switched to a new branch 'build/viola-0.1.0'
+2026-09-25T13:02:24.0405970Z branch 'build/viola-0.1.0' set up to track 'origin/build/viola-0.1.0'.
+2026-09-25T13:02:24.0459867Z ##[endgroup]
+2026-09-25T13:02:24.0909267Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+2026-09-25T13:02:24.1180028Z 8e25ca70f6232eb3e55bf4710d86814fb2c9e865
+2026-09-25T13:02:24.1217572Z ##[group]Removing auth
+2026-09-25T13:02:24.1217850Z Removing SSH command configuration
+2026-09-25T13:02:24.1228108Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-09-25T13:02:24.1530171Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-09-25T13:02:24.7203610Z Removing HTTP extra header
+2026-09-25T13:02:24.7213209Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-25T13:02:24.7524206Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-09-25T13:02:25.3098074Z Removing includeIf entries pointing to credentials config files
+2026-09-25T13:02:25.3107698Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-25T13:02:25.3365012Z includeif.gitdir:D:/a/viola/viola/.git.path
+2026-09-25T13:02:25.3365638Z includeif.gitdir:D:/a/viola/viola/.git/worktrees/*.path
+2026-09-25T13:02:25.3366011Z includeif.gitdir:/github/workspace/.git.path
+2026-09-25T13:02:25.3366367Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-09-25T13:02:25.3405967Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/viola/viola/.git.path
+2026-09-25T13:02:25.3658604Z D:\a\_temp\git-credentials-d8c174cb-df8f-4649-8785-78acd8e49f64.config
+2026-09-25T13:02:25.3697154Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/viola/viola/.git.path D\:\\a\\_temp\\git\-credentials\-d8c174cb\-df8f\-4649\-8785\-78acd8e49f64\.config
+2026-09-25T13:02:25.4000171Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/viola/viola/.git/worktrees/*.path
+2026-09-25T13:02:25.4247278Z D:\a\_temp\git-credentials-d8c174cb-df8f-4649-8785-78acd8e49f64.config
+2026-09-25T13:02:25.4288526Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/viola/viola/.git/worktrees/*.path D\:\\a\\_temp\\git\-credentials\-d8c174cb\-df8f\-4649\-8785\-78acd8e49f64\.config
+2026-09-25T13:02:25.4592377Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-09-25T13:02:25.4876396Z /github/runner_temp/git-credentials-d8c174cb-df8f-4649-8785-78acd8e49f64.config
+2026-09-25T13:02:25.4919530Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-d8c174cb\-df8f\-4649\-8785\-78acd8e49f64\.config
+2026-09-25T13:02:25.5236682Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-09-25T13:02:25.5496750Z /github/runner_temp/git-credentials-d8c174cb-df8f-4649-8785-78acd8e49f64.config
+2026-09-25T13:02:25.5535384Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-d8c174cb\-df8f\-4649\-8785\-78acd8e49f64\.config
+2026-09-25T13:02:25.5825518Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-09-25T13:02:26.1160890Z Removing credentials config 'D:\a\_temp\git-credentials-d8c174cb-df8f-4649-8785-78acd8e49f64.config'
+2026-09-25T13:02:26.1172440Z ##[endgroup]
+2026-09-25T13:02:26.1526399Z ##[group]Run rustup toolchain install
+2026-09-25T13:02:26.1526780Z [36;1mrustup toolchain install[0m
+2026-09-25T13:02:26.2247491Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-09-25T13:02:26.2247896Z env:
+2026-09-25T13:02:26.2248099Z   AGENT_RUN_KEEP_HOMES: 1
+2026-09-25T13:02:26.2248342Z ##[endgroup]
+2026-09-25T13:02:27.2675429Z info: syncing channel updates for 1.98.1-x86_64-pc-windows-msvc
+2026-09-25T13:02:27.8098730Z info: latest update on 2026-09-03 for version 1.98.1 (48a229cea 2026-09-01)
+2026-09-25T13:02:27.8160337Z info: downloading 5 components
+2026-09-25T13:02:36.7340955Z info: the active toolchain `1.98.1-x86_64-pc-windows-msvc` has been installed
+2026-09-25T13:02:36.7341664Z info: it's active because: overridden by 'D:\a\viola\viola\rust-toolchain.toml'
+2026-09-25T13:02:36.8941033Z ##[group]Run rustup component add llvm-tools-preview
+2026-09-25T13:02:36.8941499Z [36;1mrustup component add llvm-tools-preview[0m
+2026-09-25T13:02:36.9011420Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-09-25T13:02:36.9011799Z env:
+2026-09-25T13:02:36.9011980Z   AGENT_RUN_KEEP_HOMES: 1
+2026-09-25T13:02:36.9012205Z ##[endgroup]
+2026-09-25T13:02:37.2843685Z info: downloading component llvm-tools
+2026-09-25T13:02:41.1826990Z ##[group]Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+2026-09-25T13:02:41.1827458Z with:
+2026-09-25T13:02:41.1827641Z   prefix-key: v0-rust
+2026-09-25T13:02:41.1827852Z   add-job-id-key: true
+2026-09-25T13:02:41.1828067Z   add-rust-environment-hash-key: true
+2026-09-25T13:02:41.1828317Z   cache-targets: true
+2026-09-25T13:02:41.1828512Z   cache-all-crates: false
+2026-09-25T13:02:41.1828726Z   cache-workspace-crates: false
+2026-09-25T13:02:41.1828942Z   save-if: true
+2026-09-25T13:02:41.1829118Z   cache-provider: github
+2026-09-25T13:02:41.1829318Z   cache-bin: true
+2026-09-25T13:02:41.1829504Z   lookup-only: false
+2026-09-25T13:02:41.1829689Z   cmd-format: {0}
+2026-09-25T13:02:41.1829870Z env:
+2026-09-25T13:02:41.1830035Z   AGENT_RUN_KEEP_HOMES: 1
+2026-09-25T13:02:41.1830233Z ##[endgroup]
+2026-09-25T13:02:46.3380320Z ##[group]Cache Configuration
+2026-09-25T13:02:46.3380767Z Cache Provider:
+2026-09-25T13:02:46.3381060Z     github
+2026-09-25T13:02:46.3381668Z Workspaces:
+2026-09-25T13:02:46.3381994Z     D:\a\viola\viola
+2026-09-25T13:02:46.3382299Z Cache Paths:
+2026-09-25T13:02:46.3385055Z     C:\Users\runneradmin\.cargo\bin
+2026-09-25T13:02:46.3385519Z     C:\Users\runneradmin\.cargo\.crates.toml
+2026-09-25T13:02:46.3386027Z     C:\Users\runneradmin\.cargo\.crates2.json
+2026-09-25T13:02:46.3386498Z     C:\Users\runneradmin\.cargo\registry
+2026-09-25T13:02:46.3386951Z     C:\Users\runneradmin\.cargo\git
+2026-09-25T13:02:46.3387364Z     D:\a\viola\viola\target
+2026-09-25T13:02:46.3387700Z Restore Key:
+2026-09-25T13:02:46.3388044Z     v0-rust-test-Windows_NT-x64-40a42ff5
+2026-09-25T13:02:46.3388312Z Cache Key:
+2026-09-25T13:02:46.3388531Z     v0-rust-test-Windows_NT-x64-40a42ff5-c59ed8f2
+2026-09-25T13:02:46.3389098Z .. Prefix:
+2026-09-25T13:02:46.3389303Z   - v0-rust-test-Windows_NT-x64
+2026-09-25T13:02:46.3389548Z .. Environment considered:
+2026-09-25T13:02:46.3389755Z   - Rust Versions:
+2026-09-25T13:02:46.3390281Z     - 1.98.1 x86_64-pc-windows-msvc 48a229ceaefd4985c50990b14116b6d856af0985
+2026-09-25T13:02:46.3390840Z   - CARGO_INCREMENTAL
+2026-09-25T13:02:46.3391047Z .. Lockfiles considered:
+2026-09-25T13:02:46.3391266Z   - D:\a\viola\viola\Cargo.lock
+2026-09-25T13:02:46.3391493Z   - D:\a\viola\viola\Cargo.toml
+2026-09-25T13:02:46.3391751Z   - D:\a\viola\viola\crates\viola-core\Cargo.toml
+2026-09-25T13:02:46.3392099Z   - D:\a\viola\viola\crates\viola-e2e\Cargo.toml
+2026-09-25T13:02:46.3392393Z   - D:\a\viola\viola\fuzz\rust-toolchain.toml
+2026-09-25T13:02:46.3392681Z   - D:\a\viola\viola\rust-toolchain.toml
+2026-09-25T13:02:46.3393132Z ##[endgroup]
+2026-09-25T13:02:46.3393246Z 
+2026-09-25T13:02:46.3393320Z ... Restoring cache ...
+2026-09-25T13:02:46.5425994Z Cache hit for restore-key: v0-rust-test-Windows_NT-x64-40a42ff5-847e1f5d
+2026-09-25T13:02:47.6439005Z Received 180355072 of 587669203 (30.7%), 161.0 MBs/sec
+2026-09-25T13:02:48.6786569Z Received 364904448 of 587669203 (62.1%), 165.5 MBs/sec
+2026-09-25T13:02:49.7070680Z Received 536870912 of 587669203 (91.4%), 163.5 MBs/sec
+2026-09-25T13:02:49.9486565Z Received 587669203 of 587669203 (100.0%), 166.5 MBs/sec
+2026-09-25T13:02:49.9487383Z Cache Size: ~560 MB (587669203 B)
+2026-09-25T13:02:49.9571592Z [command]"C:\Program Files\Git\usr\bin\tar.exe" -xf D:/a/_temp/9ff65fcf-e02e-40f5-ae1d-ce57880367c3/cache.tzst -P -C D:/a/viola/viola --force-local --use-compress-program "zstd -d"
+2026-09-25T13:02:59.2554788Z Cache restored successfully
+2026-09-25T13:02:59.2869714Z Restored from cache key "v0-rust-test-Windows_NT-x64-40a42ff5-847e1f5d" full match: false.
+2026-09-25T13:02:59.7199500Z ##[group]Run taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5
+2026-09-25T13:02:59.7199970Z with:
+2026-09-25T13:02:59.7200296Z   tool: cargo-nextest@0.9.146,cargo-mutants@27.1.0,cargo-llvm-cov@0.9.1
+2026-09-25T13:02:59.7200655Z   checksum: true
+2026-09-25T13:02:59.7200853Z   fallback: cargo-binstall
+2026-09-25T13:02:59.7201063Z env:
+2026-09-25T13:02:59.7201242Z   AGENT_RUN_KEEP_HOMES: 1
+2026-09-25T13:02:59.7201460Z   CACHE_ON_FAILURE: false
+2026-09-25T13:02:59.7201661Z   CARGO_INCREMENTAL: 0
+2026-09-25T13:02:59.7201855Z ##[endgroup]
+2026-09-25T13:02:59.7302489Z ##[start-action display=Run bail() {;id=__taiki-e_install-action.__run]
+2026-09-25T13:02:59.7310740Z ##[end-action id=__taiki-e_install-action.__run;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-09-25T13:02:59.7315839Z ##[start-action display=Run Set-StrictMode -Version Latest;id=__taiki-e_install-action.__run_2]
+2026-09-25T13:02:59.7468039Z ##[group]Run Set-StrictMode -Version Latest
+2026-09-25T13:02:59.7468431Z [36;1mSet-StrictMode -Version Latest[0m
+2026-09-25T13:02:59.7468885Z [36;1m$remove_env = @('ENV','BASH_ENV','CDPATH','SHELLOPTS','BASHOPTS','BASH_FUNC_*')[0m
+2026-09-25T13:02:59.7469329Z [36;1mforeach ($name in $remove_env) {[0m
+2026-09-25T13:02:59.7469674Z [36;1m  if (Test-Path "Env:$name") { Remove-Item "Env:\$name" }[0m
+2026-09-25T13:02:59.7469991Z [36;1m}[0m
+2026-09-25T13:02:59.7470188Z [36;1mfor ($i=1; $i -le 10; $i++) {[0m
+2026-09-25T13:02:59.7470485Z [36;1m  $prev_err_action = $ErrorActionPreference[0m
+2026-09-25T13:02:59.7470812Z [36;1m  $ErrorActionPreference = "Continue"[0m
+2026-09-25T13:02:59.7471179Z [36;1m  & bash --noprofile --norc "$env:GITHUB_ACTION_PATH\main.sh"[0m
+2026-09-25T13:02:59.7471535Z [36;1m  $code = $LASTEXITCODE[0m
+2026-09-25T13:02:59.7471844Z [36;1m  $ErrorActionPreference = "$prev_err_action"[0m
+2026-09-25T13:02:59.7472215Z [36;1m  if (Test-Path "$env:USERPROFILE\.install-action\init") {[0m
+2026-09-25T13:02:59.7472637Z [36;1m    # If bash started successfully, main.sh creates init file.[0m
+2026-09-25T13:02:59.7473065Z [36;1m    Remove-Item "$env:USERPROFILE\.install-action\init" -Force[0m
+2026-09-25T13:02:59.7474149Z [36;1m    exit $code[0m
+2026-09-25T13:02:59.7474357Z [36;1m  }[0m
+2026-09-25T13:02:59.7474546Z [36;1m  if ($i -lt 10) {[0m
+2026-09-25T13:02:59.7475250Z [36;1m    Write-Output "::warning::install-action: installation failed due to bash startup failure (<https://github.com/actions/partner-runner-images/issues/169>); retrying..."[0m
+2026-09-25T13:02:59.7475968Z [36;1m  }[0m
+2026-09-25T13:02:59.7476231Z [36;1m}[0m
+2026-09-25T13:02:59.7476968Z [36;1mWrite-Output "::error::install-action: installation failed due to bash startup failure (<https://github.com/actions/partner-runner-images/issues/169>); this maybe resolved by re-running job"[0m
+2026-09-25T13:02:59.7477751Z [36;1mexit 1[0m
+2026-09-25T13:02:59.7552830Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-09-25T13:02:59.7553195Z env:
+2026-09-25T13:02:59.7553380Z   AGENT_RUN_KEEP_HOMES: 1
+2026-09-25T13:02:59.7553621Z   CACHE_ON_FAILURE: false
+2026-09-25T13:02:59.7553851Z   CARGO_INCREMENTAL: 0
+2026-09-25T13:02:59.7554189Z   INPUT_TOOL: cargo-nextest@0.9.146,cargo-mutants@27.1.0,cargo-llvm-cov@0.9.1
+2026-09-25T13:02:59.7554578Z   INPUT_CHECKSUM: true
+2026-09-25T13:02:59.7554805Z   INPUT_FALLBACK: cargo-binstall
+2026-09-25T13:02:59.7557751Z   DEFAULT_GITHUB_TOKEN: ***
+2026-09-25T13:02:59.7558170Z   ACTION_USER_AGENT: taiki-e/install-action (7623a79cdfecb99d681017af368ca353d9f49bb5)
+2026-09-25T13:02:59.7558585Z   RUNNER_OS: Windows
+2026-09-25T13:02:59.7558782Z   RUNNER_ARCH: X64
+2026-09-25T13:02:59.7558990Z ##[endgroup]
+2026-09-25T13:03:00.3474154Z info: host platform: x86_64_windows
+2026-09-25T13:03:00.4037449Z info: cargo is located at /c/Users/runneradmin/.cargo/bin/cargo
+2026-09-25T13:03:00.9860683Z info: installing cargo-nextest@0.9.146
+2026-09-25T13:03:01.3884467Z info: downloading https://github.com/nextest-rs/nextest/releases/download/cargo-nextest-0.9.146/cargo-nextest-0.9.146-x86_64-pc-windows-msvc.tar.gz
+2026-09-25T13:03:01.6562468Z info: verifying sha256 checksum for cargo-nextest-0.9.146-x86_64-pc-windows-msvc.tar.gz
+2026-09-25T13:03:02.2858996Z info: cargo-nextest installed at /c/Users/runneradmin/.cargo/bin/cargo-nextest.exe
+2026-09-25T13:03:02.2959876Z + cargo-nextest nextest --version
+2026-09-25T13:03:02.3251445Z cargo-nextest 0.9.146 (8af696ddc 2026-09-21)
+2026-09-25T13:03:02.3251953Z release: 0.9.146
+2026-09-25T13:03:02.3252584Z commit-hash: 8af696ddcce8fff2962d6a5168b6d138b8616a35
+2026-09-25T13:03:02.3253151Z commit-date: 2026-09-21
+2026-09-25T13:03:02.3253535Z host: x86_64-pc-windows-msvc
+2026-09-25T13:03:02.3281582Z 
+2026-09-25T13:03:02.5845790Z info: installing cargo-mutants@27.1.0
+2026-09-25T13:03:02.8330381Z info: downloading https://github.com/sourcefrog/cargo-mutants/releases/download/v27.1.0/cargo-mutants-x86_64-pc-windows-msvc.zip
+2026-09-25T13:03:03.2134675Z info: verifying sha256 checksum for cargo-mutants-x86_64-pc-windows-msvc.zip
+2026-09-25T13:03:03.5276713Z info: cargo-mutants installed at /c/Users/runneradmin/.cargo/bin/cargo-mutants.exe
+2026-09-25T13:03:03.5370474Z + cargo-mutants mutants --version
+2026-09-25T13:03:03.5565262Z cargo-mutants 27.1.0
+2026-09-25T13:03:03.5587680Z 
+2026-09-25T13:03:03.8191533Z info: installing cargo-llvm-cov@0.9.1
+2026-09-25T13:03:04.2088484Z info: downloading https://github.com/taiki-e/cargo-llvm-cov/releases/download/v0.9.1/cargo-llvm-cov-x86_64-pc-windows-msvc.tar.gz
+2026-09-25T13:03:04.4737565Z info: verifying sha256 checksum for cargo-llvm-cov-x86_64-pc-windows-msvc.tar.gz
+2026-09-25T13:03:04.7312577Z info: cargo-llvm-cov installed at /c/Users/runneradmin/.cargo/bin/cargo-llvm-cov.exe
+2026-09-25T13:03:04.7406230Z + cargo-llvm-cov llvm-cov --version
+2026-09-25T13:03:04.7621378Z cargo-llvm-cov 0.9.1
+2026-09-25T13:03:04.7649336Z 
+2026-09-25T13:03:04.8210797Z ##[end-action id=__taiki-e_install-action.__run_2;outcome=success;conclusion=success;duration_ms=5089]
+2026-09-25T13:03:04.8373648Z ##[group]Run ./scripts/agent-run.ps1 run --coverage
+2026-09-25T13:03:04.8374113Z [36;1m./scripts/agent-run.ps1 run --coverage[0m
+2026-09-25T13:03:04.8374698Z [36;1mif ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }[0m
+2026-09-25T13:03:04.8446581Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-09-25T13:03:04.8446936Z env:
+2026-09-25T13:03:04.8447116Z   AGENT_RUN_KEEP_HOMES: 1
+2026-09-25T13:03:04.8447340Z   CACHE_ON_FAILURE: false
+2026-09-25T13:03:04.8447554Z   CARGO_INCREMENTAL: 0
+2026-09-25T13:03:04.8447749Z ##[endgroup]
+2026-09-25T13:03:21.5972169Z info: cargo-llvm-cov currently setting cfg(coverage); you can opt-out it by passing --no-cfg-coverage
+2026-09-25T13:03:22.1754877Z  Downloading crates ...
+2026-09-25T13:03:22.9333197Z   Downloaded doctest-file v1.1.1
+2026-09-25T13:03:22.9489943Z   Downloaded hybrid-array v0.4.15
+2026-09-25T13:03:22.9671529Z   Downloaded digest v0.11.3
+2026-09-25T13:03:22.9893438Z   Downloaded crypto-common v0.2.2
+2026-09-25T13:03:22.9984122Z   Downloaded block-buffer v0.12.1
+2026-09-25T13:03:23.0086112Z   Downloaded cpufeatures v0.3.1
+2026-09-25T13:03:23.0200733Z   Downloaded interprocess v2.4.4
+2026-09-25T13:03:23.1627998Z   Downloaded recvmsg v1.0.0
+2026-09-25T13:03:23.2054078Z   Downloaded sha2 v0.11.0
+2026-09-25T13:03:23.2439204Z   Downloaded typenum v1.20.1
+2026-09-25T13:03:23.2679951Z   Downloaded widestring v1.2.1
+2026-09-25T13:03:23.6067032Z    Compiling windows-sys v0.61.2
+2026-09-25T13:03:23.6143190Z    Compiling viola-core v0.1.0 (D:\a\viola\viola\crates\viola-core)
+2026-09-25T13:03:23.6202523Z    Compiling typenum v1.20.1
+2026-09-25T13:03:23.6271939Z    Compiling recvmsg v1.0.0
+2026-09-25T13:03:23.8856191Z    Compiling cpufeatures v0.3.1
+2026-09-25T13:03:23.9733209Z    Compiling doctest-file v1.1.1
+2026-09-25T13:03:24.1251058Z    Compiling widestring v1.2.1
+2026-09-25T13:03:25.2353380Z    Compiling hybrid-array v0.4.15
+2026-09-25T13:03:26.1487747Z    Compiling block-buffer v0.12.1
+2026-09-25T13:03:26.1954256Z    Compiling crypto-common v0.2.2
+2026-09-25T13:03:26.7483457Z    Compiling anstyle-wincon v3.0.11
+2026-09-25T13:03:26.7484128Z    Compiling anstyle-query v1.1.5
+2026-09-25T13:03:26.9349083Z    Compiling anstream v1.0.0
+2026-09-25T13:03:27.1353931Z    Compiling tempfile v3.27.0
+2026-09-25T13:03:27.5216908Z    Compiling clap_builder v4.6.7
+2026-09-25T13:03:27.5442100Z    Compiling digest v0.11.3
+2026-09-25T13:03:27.7492277Z    Compiling sha2 v0.11.0
+2026-09-25T13:03:27.9680972Z    Compiling interprocess v2.4.4
+2026-09-25T13:03:29.8357394Z    Compiling clap v4.6.7
+2026-09-25T13:03:29.8880894Z    Compiling viola-e2e v0.1.0 (D:\a\viola\viola\crates\viola-e2e)
+2026-09-25T13:03:32.1754487Z    Compiling viola v0.1.0 (D:\a\viola\viola)
+2026-09-25T13:03:44.0801785Z     Finished `test` profile [unoptimized + debuginfo] target(s) in 20.67s
+2026-09-25T13:03:44.2661984Z ────────────
+2026-09-25T13:03:44.2662699Z  Nextest run ID 4a522b4b-78b4-4e12-ae7b-29955af331e0 with nextest profile: ci
+2026-09-25T13:03:44.2663414Z     Starting 301 tests across 16 binaries
+2026-09-25T13:03:44.2859213Z         PASS [   0.017s] (  1/301) viola::channel_sqos_open sqos_identification_open_adopted_reads_identification
+2026-09-25T13:03:44.2872961Z         PASS [   0.020s] (  2/301) viola::channel_sqos_open sqos_flags_absent_open_reads_impersonation
+2026-09-25T13:03:44.3147474Z         PASS [   0.028s] (  3/301) viola::cli_fake_agent fake_agent_cr_with_nothing_typed_submits_nothing
+2026-09-25T13:03:44.3152269Z         PASS [   0.030s] (  4/301) viola::cli_fake_agent fake_agent_bracketed_paste_and_cr_is_one_prompt
+2026-09-25T13:03:44.3224783Z         PASS [   0.054s] (  5/301) viola::cli_fake_agent booted_wrapper_fixture_is_ready_and_receipting
+2026-09-25T13:03:44.3320252Z         PASS [   0.065s] (  6/301) viola::cli_fake_agent chain_boots_the_fake_agent_under_viola_with_a_gated_script
+2026-09-25T13:03:44.3593767Z         PASS [   0.044s] (  7/301) viola::cli_fake_agent fake_agent_fires_the_plugin_hook_with_the_prompt_in_the_payload
+2026-09-25T13:03:44.3675726Z         PASS [   0.036s] (  8/301) viola::cli_fake_agent fake_agent_hook_stdout_and_exit_are_receipted
+2026-09-25T13:03:44.4231153Z         PASS [   0.055s] (  9/301) viola::cli_fake_agent fake_agent_local_command_mode_skips_only_slash_prompts
+2026-09-25T13:03:44.4493892Z         PASS [   0.026s] ( 10/301) viola::cli_fake_agent fake_agent_never_runs_a_non_absolute_hook_command
+2026-09-25T13:03:44.4741299Z         PASS [   0.025s] ( 11/301) viola::cli_fake_agent fake_agent_receipt_env_holds_names_never_values
+2026-09-25T13:03:44.4953098Z         PASS [   0.021s] ( 12/301) viola::cli_fake_agent fake_agent_rejects_an_unreadable_script::case_1_wrong_version
+2026-09-25T13:03:44.5168335Z         PASS [   0.021s] ( 13/301) viola::cli_fake_agent fake_agent_rejects_an_unreadable_script::case_2_unknown_event
+2026-09-25T13:03:44.5380600Z         PASS [   0.021s] ( 14/301) viola::cli_fake_agent fake_agent_rejects_an_unreadable_script::case_3_not_json
+2026-09-25T13:03:44.5723857Z         LEAK [   0.257s] ( 15/301) viola::cli_fake_agent fake_agent_exit_no_eof_exits_while_stdout_is_held
+2026-09-25T13:03:44.5856579Z         PASS [   0.047s] ( 16/301) viola::cli_fake_agent fake_agent_report_version_changes_only_the_version_answer
+2026-09-25T13:03:44.6126138Z         PASS [   0.026s] ( 17/301) viola::cli_fake_agent fake_agent_suppress_prompt_submit_fires_nothing
+2026-09-25T13:03:44.6144419Z         PASS [   0.042s] ( 18/301) viola::cli_fake_agent fake_agent_slash_prompt_fires_without_local_command_mode
+2026-09-25T13:03:44.6379499Z         PASS [   0.026s] ( 19/301) viola::cli_fake_agent fake_agent_typed_bytes_are_keys_byte_exact
+2026-09-25T13:03:44.6403538Z         PASS [   0.026s] ( 20/301) viola::cli_fake_agent fake_agent_ungated_steps_run_at_start
+2026-09-25T13:03:44.6761235Z         PASS [   0.038s] ( 21/301) viola::cli_fake_agent fake_agent_without_a_fixture_or_plugin_spawns_nothing
+2026-09-25T13:03:44.6766444Z         PASS [   0.036s] ( 22/301) viola::cli_fake_agent fake_agent_without_exit_no_eof_releases_stdout_at_exit
+2026-09-25T13:03:44.6875358Z         PASS [   0.012s] ( 23/301) viola::cli_fake_agent keep_decision_keeps_for_ci_or_failed_tests::case_1_nothing_set
+2026-09-25T13:03:44.6888142Z         PASS [   0.329s] ( 24/301) viola::cli_fake_agent fake_agent_injected_harness_turn_is_a_gated_harness_prompt
+2026-09-25T13:03:44.6892604Z         PASS [   0.013s] ( 25/301) viola::cli_fake_agent keep_decision_keeps_for_ci_or_failed_tests::case_2_failed_flag_but_passing
+2026-09-25T13:03:44.6987592Z         PASS [   0.011s] ( 26/301) viola::cli_fake_agent keep_decision_keeps_for_ci_or_failed_tests::case_3_panicking_without_flag
+2026-09-25T13:03:44.7016048Z         PASS [   0.013s] ( 27/301) viola::cli_fake_agent keep_decision_keeps_for_ci_or_failed_tests::case_4_failed_and_panicking
+2026-09-25T13:03:44.7044616Z         PASS [   0.015s] ( 28/301) viola::cli_fake_agent keep_decision_keeps_for_ci_or_failed_tests::case_5_keep_homes
+2026-09-25T13:03:44.7104117Z         PASS [   0.012s] ( 29/301) viola::cli_fake_agent keep_decision_keeps_for_ci_or_failed_tests::case_6_keep_homes_panicking
+2026-09-25T13:03:44.7144558Z         PASS [   0.012s] ( 30/301) viola::cli_fake_agent keep_decision_keeps_for_ci_or_failed_tests::case_7_both_flags_passing
+2026-09-25T13:03:44.7170419Z         PASS [   0.012s] ( 31/301) viola::cli_fake_agent keep_decision_keeps_for_ci_or_failed_tests::case_8_both_flags_panicking
+2026-09-25T13:03:44.7233019Z         PASS [   0.013s] ( 32/301) viola::cli_fake_agent test_home_drop_follows_the_keep_decision
+2026-09-25T13:03:44.7290746Z         PASS [   0.012s] ( 33/301) viola::contract_content_hash sha256_published_vector_matches_digest::case_1_empty
+2026-09-25T13:03:44.7361204Z         PASS [   0.013s] ( 34/301) viola::contract_content_hash sha256_published_vector_matches_digest::case_2_abc
+2026-09-25T13:03:44.7417306Z         PASS [   0.012s] ( 35/301) viola::contract_content_hash sha256_published_vector_matches_digest::case_3_two_blocks
+2026-09-25T13:03:44.7479416Z         PASS [   0.033s] ( 36/301) viola::cli_fake_agent wrapper_boot_exiting_before_ready_fails_as_exited
+2026-09-25T13:03:44.7496245Z         PASS [   0.013s] ( 37/301) viola::contract_content_hash sha256_truncated_to_eight_bytes_yields_sixteen_hex::case_1_empty
+2026-09-25T13:03:44.7541548Z         PASS [   0.012s] ( 38/301) viola::contract_content_hash sha256_truncated_to_eight_bytes_yields_sixteen_hex::case_2_abc
+2026-09-25T13:03:44.7697762Z         PASS [   0.015s] ( 39/301) viola::contract_diag_schema diag_line_schema_event_enum_equals_the_log_format_literals
+2026-09-25T13:03:44.8017201Z         PASS [   0.052s] ( 40/301) viola::contract_diag_schema diag_line_schema_confines_corr_to_its_events
+2026-09-25T13:03:44.8085938Z         PASS [   0.060s] ( 41/301) viola::contract_diag_schema diag_detail_schema_allows_content_fields_only_there
+2026-09-25T13:03:44.8234945Z         PASS [   0.054s] ( 42/301) viola::contract_diag_schema diag_line_schema_rejects_literal_null_corr_and_instance::case_1_null_corr
+2026-09-25T13:03:44.8536221Z         PASS [   0.052s] ( 43/301) viola::contract_diag_schema diag_line_schema_rejects_literal_null_corr_and_instance::case_2_null_instance
+2026-09-25T13:03:44.8593009Z         PASS [   0.051s] ( 44/301) viola::contract_diag_schema diag_line_schema_rejects_literal_null_corr_and_instance::case_3_message_not_the_event
+2026-09-25T13:03:44.8779066Z         PASS [   0.054s] ( 45/301) viola::contract_diag_schema diag_line_schema_rejects_literal_null_corr_and_instance::case_4_uncatalogued_key
+2026-09-25T13:03:44.8907495Z         PASS [   0.013s] ( 46/301) viola::contract_fixture_hygiene absolute_path_and_username_predicates_hold_their_edges
+2026-09-25T13:03:44.9082277Z         PASS [   0.054s] ( 47/301) viola::contract_diag_schema diag_line_schema_rejects_literal_null_corr_and_instance::case_5_bad_timestamp
+2026-09-25T13:03:44.9330631Z         PASS [   0.042s] ( 48/301) viola::contract_fixture_hygiene fake_script_passes_hygiene::path_1_fixtures_fake_scripts_gated_turn_json
+2026-09-25T13:03:44.9452662Z         PASS [   0.037s] ( 49/301) viola::contract_fixture_hygiene non_json_is_a_schema_violation_and_unknown_fields_are_tolerated
+2026-09-25T13:03:44.9463748Z         PASS [   0.013s] ( 50/301) viola::contract_fixture_hygiene planted_absolute_path_in_a_key_is_rejected
+2026-09-25T13:03:44.9587062Z         PASS [   0.013s] ( 51/301) viola::contract_fixture_hygiene planted_absolute_path_is_rejected::case_1_windows_drive
+2026-09-25T13:03:44.9607736Z         PASS [   0.014s] ( 52/301) viola::contract_fixture_hygiene planted_absolute_path_is_rejected::case_2_windows_drive_slash
+2026-09-25T13:03:44.9710845Z         PASS [   0.012s] ( 53/301) viola::contract_fixture_hygiene planted_absolute_path_is_rejected::case_3_linux_home
+2026-09-25T13:03:44.9738207Z         PASS [   0.013s] ( 54/301) viola::contract_fixture_hygiene planted_absolute_path_is_rejected::case_4_macos_users
+2026-09-25T13:03:44.9800880Z         PASS [   0.659s] ( 55/301) viola::cli_fake_agent fake_agent_gated_steps_wait_for_control_lines
+2026-09-25T13:03:44.9846691Z         PASS [   0.013s] ( 56/301) viola::contract_fixture_hygiene planted_absolute_path_is_rejected::case_5_windows_users
+2026-09-25T13:03:45.0140223Z         PASS [   0.040s] ( 57/301) viola::contract_fixture_hygiene planted_schema_violation_is_rejected::case_1_wrong_version
+2026-09-25T13:03:45.0165226Z         PASS [   0.036s] ( 58/301) viola::contract_fixture_hygiene planted_schema_violation_is_rejected::case_2_no_steps
+2026-09-25T13:03:45.0206468Z         PASS [   0.160s] ( 59/301) viola::contract_diag_schema diag_lines_from_real_runs_validate
+2026-09-25T13:03:45.0222124Z         PASS [   0.037s] ( 60/301) viola::contract_fixture_hygiene planted_schema_violation_is_rejected::case_3_unknown_event
+2026-09-25T13:03:45.0342676Z         PASS [   0.014s] ( 61/301) viola::contract_fixture_hygiene violation_classes_have_kebab_names
+2026-09-25T13:03:45.0364700Z         PASS [   0.014s] ( 62/301) viola::contract_lints panic_hook_is_the_first_statement_of_main
+2026-09-25T13:03:45.0473672Z         PASS [   0.013s] ( 63/301) viola::contract_lints table_reads_the_body_up_to_the_next_header
+2026-09-25T13:03:45.0517125Z         PASS [   0.014s] ( 64/301) viola::contract_lints workspace_members_inherit_the_lint_table_except_the_harness_crate
+2026-09-25T13:03:45.0549531Z         PASS [   0.040s] ( 65/301) viola::contract_fixture_hygiene planted_schema_violation_is_rejected::case_4_gate_not_bool
+2026-09-25T13:03:45.0580516Z         PASS [   0.042s] ( 66/301) viola::contract_fixture_hygiene planted_username_is_rejected_placeholder_is_not
+2026-09-25T13:03:45.0739883Z         PASS [   0.024s] ( 67/301) viola::run_cli fake_agent_exits_on_stdin_eof
+2026-09-25T13:03:45.0814622Z         PASS [   0.035s] ( 68/301) viola::run_cli fake_agent_answers_version_in_the_cli_format
+2026-09-25T13:03:45.1101719Z         PASS [   0.036s] ( 69/301) viola::run_cli run_child_exit_status_is_recorded
+2026-09-25T13:03:45.1187532Z         PASS [   0.061s] ( 70/301) viola::run_cli run_appends_to_an_existing_role_file
+2026-09-25T13:03:45.1458991Z         PASS [   0.063s] ( 71/301) viola::run_cli run_config_debug_level_keeps_the_key_set
+2026-09-25T13:03:45.1483602Z         PASS [   0.038s] ( 72/301) viola::run_cli run_config_malformed_emits_parse_rejected
+2026-09-25T13:03:45.1562077Z         PASS [   0.037s] ( 73/301) viola::run_cli run_config_unknown_keys_are_counted
+2026-09-25T13:03:45.2015489Z         PASS [   0.054s] ( 74/301) viola::run_cli run_is_silent_on_stdout_and_stderr
+2026-09-25T13:03:45.2035866Z         PASS [   0.059s] ( 75/301) viola::run_cli run_internal_error_routes_the_chain_to_the_detail_file
+2026-09-25T13:03:45.2321853Z         PASS [   0.076s] ( 76/301) viola::run_cli run_never_writes_a_claude_canary_anywhere
+2026-09-25T13:03:45.2587646Z         PASS [   0.057s] ( 77/301) viola::run_cli run_rust_log_changes_nothing
+2026-09-25T13:03:45.2706962Z         PASS [   0.038s] ( 78/301) viola::run_cli run_with_a_bad_name_is_usage_and_creates_nothing
+2026-09-25T13:03:45.2864212Z         PASS [   0.027s] ( 79/301) viola::run_cli run_with_a_missing_program_exits_1_with_internal_error
+2026-09-25T13:03:45.3045421Z         PASS [   0.034s] ( 80/301) viola::run_cli run_with_fake_agent_writes_start_and_exit_lines
+2026-09-25T13:03:45.3071714Z         PASS [   0.021s] ( 81/301) viola::run_cli viola_without_a_verb_is_usage
+2026-09-25T13:03:45.3145884Z         PASS [   0.111s] ( 82/301) viola::run_cli run_self_exit_carries_duration_ms
+2026-09-25T13:03:45.3162919Z         PASS [   0.012s] ( 83/301) viola::bin/viola obs::tests::config_rejection_detail_and_count::case_1_unreadable
+2026-09-25T13:03:45.3190825Z         PASS [   0.012s] ( 84/301) viola::bin/viola obs::tests::config_rejection_detail_and_count::case_2_malformed
+2026-09-25T13:03:45.3259168Z         PASS [   0.011s] ( 85/301) viola::bin/viola obs::tests::config_rejection_detail_and_count::case_3_unknown_keys
+2026-09-25T13:03:45.3289917Z         PASS [   0.013s] ( 86/301) viola::bin/viola obs::tests::detail_line_carries_the_home_level_keys_then_the_fields
+2026-09-25T13:03:45.3330016Z         PASS [   0.014s] ( 87/301) viola::bin/viola obs::tests::ensure_private_dir_creates_missing_parents
+2026-09-25T13:03:45.3417577Z         PASS [   0.013s] ( 88/301) viola::bin/viola obs::tests::internal_error_exit_line_writes_run_internal_error
+2026-09-25T13:03:45.3449000Z         PASS [   0.012s] ( 89/301) viola::bin/viola obs::tests::log_config_rejection_writes_one_warn_line
+2026-09-25T13:03:45.3538480Z         PASS [   0.012s] ( 90/301) viola::bin/viola obs::tests::millis_utc_writes_the_current_timestamp
+2026-09-25T13:03:45.3575573Z         PASS [   0.012s] ( 91/301) viola::bin/viola obs::tests::open_role_file_without_a_name_creates_nothing
+2026-09-25T13:03:45.3663449Z         PASS [   0.012s] ( 92/301) viola::bin/viola obs::tests::read_diagnostics_level_cases::case_01_absent_file
+2026-09-25T13:03:45.3708603Z         PASS [   0.013s] ( 93/301) viola::bin/viola obs::tests::read_diagnostics_level_cases::case_02_no_version
+2026-09-25T13:03:45.3776438Z         PASS [   0.051s] ( 94/301) viola::bin/viola obs::tests::internal_error_detail_line_carries_the_chain
+2026-09-25T13:03:45.3797742Z         PASS [   0.013s] ( 95/301) viola::bin/viola obs::tests::read_diagnostics_level_cases::case_03_version_only
+2026-09-25T13:03:45.3840316Z         PASS [   0.013s] ( 96/301) viola::bin/viola obs::tests::read_diagnostics_level_cases::case_04_info
+2026-09-25T13:03:45.3908129Z         PASS [   0.014s] ( 97/301) viola::bin/viola obs::tests::read_diagnostics_level_cases::case_05_debug
+2026-09-25T13:03:45.3930837Z         PASS [   0.013s] ( 98/301) viola::bin/viola obs::tests::read_diagnostics_level_cases::case_06_trace
+2026-09-25T13:03:45.3975327Z         PASS [   0.013s] ( 99/301) viola::bin/viola obs::tests::read_diagnostics_level_cases::case_07_not_a_string
+2026-09-25T13:03:45.4043851Z         PASS [   0.013s] (100/301) viola::bin/viola obs::tests::read_diagnostics_level_cases::case_08_newer_version
+2026-09-25T13:03:45.4066134Z         PASS [   0.013s] (101/301) viola::bin/viola obs::tests::read_diagnostics_level_cases::case_09_not_an_object
+2026-09-25T13:03:45.4113065Z         PASS [   0.014s] (102/301) viola::bin/viola obs::tests::read_diagnostics_level_cases::case_10_not_json
+2026-09-25T13:03:45.4179350Z         PASS [   0.014s] (103/301) viola::bin/viola obs::tests::read_diagnostics_level_cases::case_11_unknown_keys
+2026-09-25T13:03:45.4244407Z         PASS [   0.013s] (104/301) viola::bin/viola obs::tests::read_diagnostics_level_unreadable_config_is_reported
+2026-09-25T13:03:45.4297351Z         PASS [   0.012s] (105/301) viola::bin/viola obs::tests::role_file_name_maps_every_process::case_1_run
+2026-09-25T13:03:45.4355761Z         PASS [   0.011s] (106/301) viola::bin/viola obs::tests::role_file_name_maps_every_process::case_2_hook
+2026-09-25T13:03:45.4401901Z         PASS [   0.010s] (107/301) viola::bin/viola obs::tests::role_file_name_maps_every_process::case_3_cli
+2026-09-25T13:03:45.4478624Z         PASS [   0.012s] (108/301) viola::bin/viola obs::tests::role_file_name_maps_every_process::case_4_mcp
+2026-09-25T13:03:45.4526281Z         PASS [   0.012s] (109/301) viola::bin/viola obs::tests::role_file_name_maps_every_process::case_5_ui
+2026-09-25T13:03:45.4601371Z         PASS [   0.012s] (110/301) viola::bin/viola obs::tests::role_file_name_maps_every_process::case_6_ui_without_port
+2026-09-25T13:03:45.4638564Z         PASS [   0.011s] (111/301) viola::bin/viola obs::tests::role_file_name_maps_every_process::case_7_run_without_name
+2026-09-25T13:03:45.4720807Z         PASS [   0.012s] (112/301) viola::bin/viola obs::tests::subscriber_level_gates_debug_lines_only
+2026-09-25T13:03:45.4755081Z         PASS [   0.012s] (113/301) viola::bin/viola obs::tests::targets_enable_viola_crates_at_the_level_and_nothing_else
+2026-09-25T13:03:45.4835681Z         PASS [   0.011s] (114/301) viola::bin/viola obs::tests::timestamp_is_rfc3339_utc_millis_with_z
+2026-09-25T13:03:45.4910800Z         PASS [   0.015s] (115/301) viola::bin/viola obs::tests::write_detail_creates_owner_only_dirs_and_one_line
+2026-09-25T13:03:45.4962177Z         PASS [   0.012s] (116/301) viola::bin/viola obs::tests::write_detail_under_a_file_drops_the_line
+2026-09-25T13:03:45.5071302Z         PASS [   0.011s] (117/301) viola::bin/viola tests::panic_line_has_the_binding_fields_and_no_corr
+2026-09-25T13:03:45.5180163Z         PASS [   0.011s] (118/301) viola::bin/viola tests::panic_line_without_instance_omits_the_key
+2026-09-25T13:03:45.5290367Z         PASS [   0.011s] (119/301) viola::bin/viola tests::panic_location_absolute_without_src_keeps_file_name_only
+2026-09-25T13:03:45.5395505Z         PASS [   0.010s] (120/301) viola::bin/viola tests::panic_location_dependency_path_trimmed_to_crate_dir
+2026-09-25T13:03:45.5503285Z         PASS [   0.011s] (121/301) viola::bin/viola tests::panic_location_relative_path_kept_with_forward_slashes
+2026-09-25T13:03:45.5613390Z         PASS [   0.011s] (122/301) viola::bin/viola tests::panic_location_src_at_root_keeps_file_name_only
+2026-09-25T13:03:45.5721565Z         PASS [   0.518s] (123/301) viola::run_cli fake_agent_stops_at_ctrl_c_and_reads_no_further
+2026-09-25T13:03:45.5726982Z         PASS [   0.011s] (124/301) viola::bin/viola-fake-agent tests::hex_is_lowercase_two_digits_per_byte
+2026-09-25T13:03:45.5837777Z         PASS [   0.011s] (125/301) viola::bin/viola-fake-agent tests::hook_commands_take_only_command_entries_for_the_event
+2026-09-25T13:03:45.5855217Z         PASS [   0.012s] (126/301) viola::bin/viola-fake-agent tests::input_escape_sequences_that_are_not_a_paste_are_keys
+2026-09-25T13:03:45.5952107Z         PASS [   0.011s] (127/301) viola::bin/viola-fake-agent tests::input_paste_then_cr_is_one_submit
+2026-09-25T13:03:45.5970094Z         PASS [   0.012s] (128/301) viola::bin/viola-fake-agent tests::input_typed_bytes_are_keys_and_cr_submits_them
+2026-09-25T13:03:45.6065900Z         PASS [   0.011s] (129/301) viola::bin/viola-fake-agent tests::opts_default_to_the_default_cli_version
+2026-09-25T13:03:45.6085574Z         PASS [   0.011s] (130/301) viola::bin/viola-fake-agent tests::opts_parse_reads_values_flags_and_ignores_unknown
+2026-09-25T13:03:45.6180944Z         PASS [   0.012s] (131/301) viola::bin/viola-fake-agent tests::parse_script_takes_registered_events_with_defaults
+2026-09-25T13:03:45.6203187Z         PASS [   0.012s] (132/301) viola::bin/viola-fake-agent tests::payload_sets_only_the_prompt_field
+2026-09-25T13:03:45.6296683Z         PASS [   0.012s] (133/301) viola-core obs::tests::obs_ctx_first_set_wins
+2026-09-25T13:03:45.6312830Z         PASS [   0.011s] (134/301) viola-core obs::tests::obs_event_display_matches_the_log_format_literals
+2026-09-25T13:03:45.6428808Z         PASS [   0.013s] (135/301) viola-core obs::tests::obs_process_display_is_the_five_roles
+2026-09-25T13:03:45.6449392Z         PASS [   0.013s] (136/301) viola-core tests::max_frame_is_sixteen_mib
+2026-09-25T13:03:45.6550389Z         PASS [   0.012s] (137/301) viola-core tests::version_is_the_package_version
+2026-09-25T13:03:45.6570044Z         PASS [   0.012s] (138/301) viola-core tests::viola_name_digits_and_hyphen_after_first_accepted
+2026-09-25T13:03:45.6665906Z         PASS [   0.012s] (139/301) viola-core tests::viola_name_displays_its_value
+2026-09-25T13:03:45.6693462Z         PASS [   0.012s] (140/301) viola-core tests::viola_name_empty_rejected
+2026-09-25T13:03:45.6820653Z         PASS [   0.013s] (141/301) viola-core tests::viola_name_leading_non_letter_rejected
+2026-09-25T13:03:45.6884175Z         PASS [   0.016s] (142/301) viola-core tests::viola_name_length_boundary_holds
+2026-09-25T13:03:45.6997196Z         PASS [   0.018s] (143/301) viola-core tests::viola_name_outside_charset_rejected
+2026-09-25T13:03:45.7084599Z         PASS [   0.021s] (144/301) viola-core tests::viola_name_plain_words_accepted
+2026-09-25T13:03:45.7953429Z         PASS [   0.301s] (145/301) viola::bin/viola tests::panic_hook_writes_detail_line_with_payload_and_backtrace
+2026-09-25T13:03:45.8160566Z         PASS [   0.118s] (146/301) viola-core tests::viola_name_prop_accepts_every_valid_shape
+2026-09-25T13:03:45.8162137Z         PASS [   0.109s] (147/301) viola-core tests::viola_name_prop_agrees_with_the_oracle
+2026-09-25T13:03:45.8401777Z         PASS [   0.021s] (148/301) viola-e2e harness::boot::tests::boot_refuses_an_invalid_session_id
+2026-09-25T13:03:45.9018203Z         PASS [   0.106s] (149/301) viola-core tests::viola_name_prop_rejects_hostile_neighbours
+2026-09-25T13:03:45.9207404Z         PASS [   0.081s] (150/301) viola-e2e harness::boot::tests::boot_with_a_failing_build_reports_build_failed_with_its_exit
+2026-09-25T13:03:45.9404468Z         PASS [   0.020s] (151/301) viola-e2e harness::boot::tests::failure_doc_carries_the_closed_fields
+2026-09-25T13:03:45.9604672Z         PASS [   0.020s] (152/301) viola-e2e harness::boot::tests::instance_spec_parses_name_and_args
+2026-09-25T13:03:45.9793868Z         PASS [   0.021s] (153/301) viola-e2e harness::boot::tests::instance_spec_rejects_invalid_names
+2026-09-25T13:03:45.9804105Z         PASS [   0.164s] (154/301) viola-core tests::viola_name_prop_rejects_over_32_chars
+2026-09-25T13:03:46.0087675Z         PASS [   0.028s] (155/301) viola-e2e harness::boot::tests::readiness_names_each_missing_check
+2026-09-25T13:03:46.0173931Z         PASS [   0.036s] (156/301) viola-e2e harness::boot::tests::readiness_is_ready_when_both_processes_live
+2026-09-25T13:03:46.0323788Z         PASS [   0.023s] (157/301) viola-e2e harness::boot::tests::readiness_reports_a_wrapper_that_already_exited
+2026-09-25T13:03:46.0389847Z         PASS [   0.022s] (158/301) viola-e2e harness::boot::tests::role_file_is_the_run_role_basename
+2026-09-25T13:03:46.0527868Z         PASS [   0.020s] (159/301) viola-e2e harness::boot::tests::role_state_reads_start_child_and_exit_lines
+2026-09-25T13:03:46.0612147Z         PASS [   0.023s] (160/301) viola-e2e harness::boot::tests::session_path_puts_the_session_bin_first
+2026-09-25T13:03:46.0839984Z         PASS [   0.033s] (161/301) viola-e2e harness::boot::tests::wait_ready_returns_a_ready_instance
+2026-09-25T13:03:46.1085692Z         PASS [   0.024s] (162/301) viola-e2e harness::cleanup::tests::all_sessions_lists_only_recorded_valid_sessions
+2026-09-25T13:03:46.1522835Z         PASS [   0.044s] (163/301) viola-e2e harness::cleanup::tests::cleanup_all_stops_recorded_sessions_and_refuses_foreign_homes
+2026-09-25T13:03:46.1694769Z         PASS [   0.017s] (164/301) viola-e2e harness::cleanup::tests::cleanup_rejects_an_invalid_session_id
+2026-09-25T13:03:46.1827313Z         PASS [   0.776s] (165/301) viola::bin/viola obs::tests::read_diagnostics_level_reads_at_most_sixteen_mib
+2026-09-25T13:03:46.1880961Z         PASS [   0.018s] (166/301) viola-e2e harness::cleanup::tests::cleanup_without_a_session_is_ok_and_empty
+2026-09-25T13:03:46.2026833Z         PASS [   0.020s] (167/301) viola-e2e harness::cleanup::tests::killed_by_supervisor_reads_the_killed_names
+2026-09-25T13:03:46.2079218Z         PASS [   0.020s] (168/301) viola-e2e harness::cleanup::tests::remove_session_home_refuses_paths_outside_e2e_home
+2026-09-25T13:03:46.2220277Z         PASS [   0.019s] (169/301) viola-e2e harness::cleanup::tests::remove_session_home_removes_a_boot_created_parent
+2026-09-25T13:03:46.2260326Z         PASS [   0.018s] (170/301) viola-e2e harness::cleanup::tests::summarize_is_ok_only_when_everything_is_proven
+2026-09-25T13:03:46.2323012Z         PASS [   0.333s] (171/301) viola-e2e harness::boot::tests::cargo_build_succeeds_on_a_buildable_package
+2026-09-25T13:03:46.2508041Z         PASS [   0.024s] (172/301) viola-e2e harness::gate::tests::gate_coverage_without_its_summary_is_artifact_missing
+2026-09-25T13:03:46.2509700Z         PASS [   0.028s] (173/301) viola-e2e harness::gate::tests::gate_checks_each_coverage_floor_on_its_own
+2026-09-25T13:03:46.2714514Z         PASS [   0.037s] (174/301) viola-e2e harness::gate::tests::gate_fails_failed_and_skipped_suites_playwright_included
+2026-09-25T13:03:46.2744526Z         PASS [   0.023s] (175/301) viola-e2e harness::gate::tests::gate_names_an_absent_suite_and_its_missing_junit
+2026-09-25T13:03:46.2887768Z         PASS [   0.038s] (176/301) viola-e2e harness::gate::tests::gate_passes_a_clean_coverage_and_doctest_job
+2026-09-25T13:03:46.3018221Z         PASS [   0.027s] (177/301) viola-e2e harness::gate::tests::gate_single_leg_mutants_read_the_summary_survivors
+2026-09-25T13:03:46.3019565Z         PASS [   0.032s] (178/301) viola-e2e harness::gate::tests::gate_perf_gates_the_max_sample_against_the_spine_deadline
+2026-09-25T13:03:46.3138125Z         PASS [   0.025s] (179/301) viola-e2e harness::gate::tests::gate_union_is_red_only_where_no_leg_caught_the_mutant
+2026-09-25T13:03:46.3242102Z         PASS [   0.023s] (180/301) viola-e2e harness::gate::tests::gate_without_a_run_summary_is_suite_missing_for_each_suite
+2026-09-25T13:03:46.3251951Z         PASS [   0.024s] (181/301) viola-e2e harness::gate::tests::gate_union_needs_every_named_leg
+2026-09-25T13:03:46.3364674Z         PASS [   0.020s] (182/301) viola-e2e harness::gate::tests::parse_legs_holds_names_to_a_file_safe_charset
+2026-09-25T13:03:46.3441809Z         PASS [   0.020s] (183/301) viola-e2e harness::gate::tests::parse_require_accepts_only_closed_suites
+2026-09-25T13:03:46.3621005Z         PASS [   0.037s] (184/301) viola-e2e harness::logs::tests::detail_lines_carry_instance_and_skip_invalid_names
+2026-09-25T13:03:46.3648600Z         PASS [   0.031s] (185/301) viola-e2e harness::logs::tests::detail_lines_mark_torn_lines
+2026-09-25T13:03:46.3731424Z         PASS [   0.027s] (186/301) viola-e2e harness::logs::tests::detail_lines_skip_a_diagnostics_path_that_is_not_a_dir
+2026-09-25T13:03:46.3893976Z         PASS [   0.329s] (187/301) viola-e2e harness::boot::tests::wait_ready_times_out_with_the_missing_checks
+2026-09-25T13:03:46.3895247Z         PASS [   0.027s] (188/301) viola-e2e harness::logs::tests::diag_lines_reads_only_ndjson_files_in_name_order
+2026-09-25T13:03:46.3901674Z         PASS [   0.025s] (189/301) viola-e2e harness::logs::tests::filters_match_named_values_and_treat_absent_as_null
+2026-09-25T13:03:46.3933414Z         PASS [   0.022s] (190/301) viola-e2e harness::logs::tests::logs_for_an_unknown_session_is_exit_2
+2026-09-25T13:03:46.4166172Z         PASS [   0.026s] (191/301) viola-e2e harness::logs::tests::wrap_lines_accepts_crlf_terminated_lines
+2026-09-25T13:03:46.4168506Z         PASS [   0.026s] (192/301) viola-e2e harness::logs::tests::torn_lines_survive_any_filter
+2026-09-25T13:03:46.4204924Z         PASS [   0.031s] (193/301) viola-e2e harness::logs::tests::wrap_lines_wraps_records_and_marks_torn_lines
+2026-09-25T13:03:46.4382650Z         PASS [   0.043s] (194/301) viola-e2e harness::run::coverage::tests::coverage_alone_still_runs_the_doctests
+2026-09-25T13:03:46.4394587Z         PASS [   0.024s] (195/301) viola-e2e harness::run::coverage::tests::coverage_ignore_regex_matches_either_separator
+2026-09-25T13:03:46.4568645Z         PASS [   0.040s] (196/301) viola-e2e harness::run::coverage::tests::coverage_passes_the_filter_as_its_expression
+2026-09-25T13:03:46.4577010Z         PASS [   0.037s] (197/301) viola-e2e harness::run::coverage::tests::coverage_red_exit_over_green_tests_is_red
+2026-09-25T13:03:46.4748299Z         PASS [   0.035s] (198/301) viola-e2e harness::run::coverage::tests::coverage_without_a_fresh_summary_is_red
+2026-09-25T13:03:46.4763251Z         PASS [   0.040s] (199/301) viola-e2e harness::run::coverage::tests::coverage_replaces_the_nextest_runs_with_one_instrumented_run
+2026-09-25T13:03:46.4832530Z         PASS [   0.024s] (200/301) viola-e2e harness::run::doctest::tests::parse_doctest_sums_result_lines
+2026-09-25T13:03:46.4912258Z         PASS [   0.032s] (201/301) viola-e2e harness::run::coverage::tests::coverage_without_junit_is_artifact_missing_and_skips_the_report
+2026-09-25T13:03:46.4985924Z         PASS [   0.024s] (202/301) viola-e2e harness::run::fuzz::tests::fuzz_channel_reads_the_toolchain_file
+2026-09-25T13:03:46.5033609Z         PASS [   0.027s] (203/301) viola-e2e harness::run::fuzz::tests::fuzz_host_is_linux_only
+2026-09-25T13:03:46.5199383Z         PASS [   0.038s] (204/301) viola-e2e harness::run::fuzz::tests::fuzz_replay_counts_each_target_and_never_passes_an_empty_corpus
+2026-09-25T13:03:46.5233653Z         PASS [   0.024s] (205/301) viola-e2e harness::run::fuzz::tests::fuzz_replay_without_its_toolchain_file_is_tool_missing
+2026-09-25T13:03:46.5259492Z         PASS [   0.035s] (206/301) viola-e2e harness::run::fuzz::tests::fuzz_replay_without_cargo_fuzz_is_tool_missing
+2026-09-25T13:03:46.5384564Z         PASS [   0.034s] (207/301) viola-e2e harness::run::fuzz::tests::fuzz_replay_without_targets_is_corpus_empty
+2026-09-25T13:03:46.5519365Z         PASS [   0.025s] (208/301) viola-e2e harness::run::mutants::tests::leg_verdict_keeps_names_and_outcomes_only
+2026-09-25T13:03:46.5523377Z         PASS [   0.031s] (209/301) viola-e2e harness::run::fuzz::tests::run_fuzz_replay_refusals_reach_the_document
+2026-09-25T13:03:46.5683251Z         PASS [   0.029s] (210/301) viola-e2e harness::run::mutants::tests::listed_reads_non_empty_lines
+2026-09-25T13:03:46.5732093Z         PASS [   0.023s] (211/301) viola-e2e harness::run::mutants::tests::mutants_exit_codes_map_to_reasons
+2026-09-25T13:03:46.5846646Z         PASS [   0.031s] (212/301) viola-e2e harness::run::mutants::tests::mutants_suite_counts_missed_and_timeout_as_survivors
+2026-09-25T13:03:46.5957788Z         PASS [   0.026s] (213/301) viola-e2e harness::run::mutants::tests::mutants_suite_is_red_when_unviable_outnumbers_caught
+2026-09-25T13:03:47.2105433Z         PASS [   0.688s] (214/301) viola-e2e harness::run::mutants::tests::chunk_diff_holds_tracked_edits_and_untracked_files
+2026-09-25T13:03:47.2554948Z         PASS [   0.683s] (215/301) viola-e2e harness::run::mutants::tests::resolve_base_needs_a_real_commit
+2026-09-25T13:03:47.6217958Z         PASS [   1.040s] (216/301) viola-e2e harness::run::mutants::tests::run_mutants_leg_defers_survivors_to_the_gate_union
+2026-09-25T13:03:47.6531750Z         PASS [   1.061s] (217/301) viola-e2e harness::run::mutants::tests::run_mutants_leg_no_rust_delta_writes_its_verdict
+2026-09-25T13:03:47.9907672Z         PASS [   0.777s] (218/301) viola-e2e harness::run::mutants::tests::run_mutants_leg_refused_clears_a_stale_verdict
+2026-09-25T13:03:48.1690718Z         PASS [   0.911s] (219/301) viola-e2e harness::run::mutants::tests::run_mutants_leg_with_an_unviable_swamp_is_red_not_deferred
+2026-09-25T13:03:49.4596093Z         PASS [   1.806s] (220/301) viola-e2e harness::run::mutants::tests::run_mutants_mixed_src_and_test_delta_without_outcomes_stays_outcomes_missing
+2026-09-25T13:03:49.4621145Z         PASS [   1.840s] (221/301) viola-e2e harness::run::mutants::tests::run_mutants_leg_without_outcomes_stays_red_and_writes_no_verdict
+2026-09-25T13:03:49.8603781Z         PASS [   1.872s] (222/301) viola-e2e harness::run::mutants::tests::run_mutants_no_rust_delta_passes_by_name_and_never_reads_stale_outcomes
+2026-09-25T13:03:50.3917294Z         PASS [   0.930s] (223/301) viola-e2e harness::run::mutants::tests::run_mutants_prints_every_outcome_and_bounds_each_build
+2026-09-25T13:03:51.3224050Z         PASS [   0.930s] (224/301) viola-e2e harness::run::mutants::tests::run_mutants_test_only_delta_passes_by_name_without_running_cargo
+2026-09-25T13:03:51.5590953Z         PASS [   1.694s] (225/301) viola-e2e harness::run::mutants::tests::run_mutants_rust_delta_without_fresh_outcomes_is_outcomes_missing
+2026-09-25T13:03:52.3116339Z         PASS [   0.755s] (226/301) viola-e2e harness::run::mutants::tests::run_mutants_with_an_unreachable_base_is_base_missing_and_writes_no_diff
+2026-09-25T13:03:52.7635545Z         PASS [   1.444s] (227/301) viola-e2e harness::run::mutants::tests::run_mutants_with_an_unbuildable_root_package_is_build_failed
+2026-09-25T13:03:52.7953357Z         PASS [   0.030s] (228/301) viola-e2e harness::run::mutants::tests::rust_delta_classifies_diff_headers
+2026-09-25T13:03:52.8290766Z         PASS [   0.033s] (229/301) viola-e2e harness::run::mutants::tests::rust_paths_lists_each_rust_path_once
+2026-09-25T13:03:52.8596064Z         PASS [   0.030s] (230/301) viola-e2e harness::run::mutants::tests::test_target_holds_only_test_bench_and_example_dirs
+2026-09-25T13:03:52.9144375Z         PASS [   0.054s] (231/301) viola-e2e harness::run::nextest::tests::attr_reads_one_attribute_or_nothing
+2026-09-25T13:03:52.9364052Z         PASS [   0.025s] (232/301) viola-e2e harness::run::nextest::tests::exit_must_agree_turns_a_silent_red_exit_red
+2026-09-25T13:03:52.9645661Z         PASS [   0.029s] (233/301) viola-e2e harness::run::nextest::tests::parse_junit_counts_pass_fail_skip
+2026-09-25T13:03:52.9955869Z         PASS [   0.028s] (234/301) viola-e2e harness::run::tests::merge_summary_replaces_by_suite
+2026-09-25T13:03:53.2817022Z         PASS [   0.969s] (235/301) viola-e2e harness::run::mutants::tests::run_mutants_without_a_leg_keeps_survivors_red
+2026-09-25T13:03:54.5270309Z         PASS [   6.353s] (236/301) viola-e2e harness::run::mutants::tests::run_mutants_passes_when_the_change_is_tested
+2026-09-25T13:03:55.2962000Z         PASS [   5.833s] (237/301) viola-e2e harness::run::mutants::tests::run_mutants_reports_survivors_of_an_untested_change
+2026-09-25T13:03:55.5903991Z         PASS [   2.310s] (238/301) viola-e2e harness::run::tests::run_with_a_failing_test_is_red_and_names_it
+2026-09-25T13:03:55.6114213Z         PASS [   0.021s] (239/301) viola-e2e harness::run::tests::selection_coverage_or_fuzz_alone_selects_nothing_else
+2026-09-25T13:03:55.6370779Z         PASS [   0.342s] (240/301) viola-e2e harness::run::tests::run_without_a_workspace_is_artifact_missing
+2026-09-25T13:03:55.6381465Z         PASS [   0.027s] (241/301) viola-e2e harness::run::tests::selection_defaults_to_unit_integration_and_mutants
+2026-09-25T13:03:55.6597958Z         PASS [   0.023s] (242/301) viola-e2e harness::run::tests::selection_picks_only_the_named_suites
+2026-09-25T13:03:55.6608580Z         PASS [   0.023s] (243/301) viola-e2e harness::run::tests::suite_is_green_only_without_failures_or_survivors
+2026-09-25T13:03:55.6869041Z         PASS [   0.026s] (244/301) viola-e2e harness::schema_check::tests::relative_uses_forward_slashes
+2026-09-25T13:03:55.6871014Z         PASS [   0.026s] (245/301) viola-e2e harness::schema_check::tests::diag_kind_classifies_role_and_detail_files_only_inside_diagnostics
+2026-09-25T13:03:55.7745636Z         PASS [   0.088s] (246/301) viola-e2e harness::schema_check::tests::schema_check_names_file_line_and_keyword_never_the_content
+2026-09-25T13:03:55.7777814Z         PASS [   0.091s] (247/301) viola-e2e harness::schema_check::tests::schema_check_counts_a_torn_line_and_skips_a_directory
+2026-09-25T13:03:55.8423448Z         PASS [   0.066s] (248/301) viola-e2e harness::schema_check::tests::schema_check_on_an_empty_scope_is_empty_scope
+2026-09-25T13:03:55.8493520Z         PASS [   0.069s] (249/301) viola-e2e harness::schema_check::tests::schema_check_passes_a_conforming_role_line
+2026-09-25T13:03:55.9033507Z         PASS [   0.053s] (250/301) viola-e2e harness::schema_check::tests::schema_check_with_unreadable_schemas_is_schema_unreadable
+2026-09-25T13:03:55.9125235Z         PASS [   2.919s] (251/301) viola-e2e harness::run::tests::run_reports_unit_integration_and_doctest_suites
+2026-09-25T13:03:55.9273286Z         PASS [   0.025s] (252/301) viola-e2e harness::secret_scan::tests::cookie_pairs_need_digits_then_equals
+2026-09-25T13:03:55.9355634Z         PASS [   0.091s] (253/301) viola-e2e harness::schema_check::tests::schema_check_validates_detail_files_against_the_detail_schema
+2026-09-25T13:03:55.9399823Z         PASS [   0.027s] (254/301) viola-e2e harness::secret_scan::tests::find_all_handles_short_and_empty_inputs
+2026-09-25T13:03:55.9650379Z         PASS [   0.038s] (255/301) viola-e2e harness::secret_scan::tests::mode_hit_flags_only_a_mode_that_is_not_owner_only
+2026-09-25T13:03:55.9706680Z         PASS [   0.035s] (256/301) viola-e2e harness::secret_scan::tests::secret_scan_clears_a_stale_report_on_a_clean_run
+2026-09-25T13:03:55.9900360Z         PASS [   0.049s] (257/301) viola-e2e harness::secret_scan::tests::secret_scan_content_canary_fails_a_role_file_only
+2026-09-25T13:03:56.0232893Z         PASS [   0.059s] (258/301) viola-e2e harness::secret_scan::tests::secret_scan_descends_into_the_capture_tree
+2026-09-25T13:03:56.0256816Z         PASS [   0.055s] (259/301) viola-e2e harness::secret_scan::tests::secret_scan_flags_every_critical_class_even_in_a_detail_file
+2026-09-25T13:03:56.0265115Z         PASS [   0.037s] (260/301) viola-e2e harness::secret_scan::tests::secret_scan_hit_locates_without_the_matched_bytes
+2026-09-25T13:03:56.0571265Z         PASS [   0.030s] (261/301) viola-e2e harness::secret_scan::tests::secret_scan_on_an_empty_scope_is_empty_scope
+2026-09-25T13:03:56.0616923Z         PASS [   0.038s] (262/301) viola-e2e harness::secret_scan::tests::secret_scan_passes_a_clean_tree
+2026-09-25T13:03:56.0742917Z         PASS [   0.051s] (263/301) viola-e2e harness::secret_scan::tests::secret_scan_marks_a_report_it_could_not_write
+2026-09-25T13:03:56.1017232Z         PASS [   0.026s] (264/301) viola-e2e harness::secret_scan::tests::url_token_takes_the_t_parameter
+2026-09-25T13:03:56.1273544Z         PASS [   0.027s] (265/301) viola-e2e harness::supervise::tests::exit_report_is_red_when_anything_was_killed
+2026-09-25T13:03:56.1306055Z         PASS [   0.068s] (266/301) viola-e2e harness::secret_scan::tests::secret_scan_scans_the_junit_report
+2026-09-25T13:03:56.1333275Z         PASS [   0.079s] (267/301) viola-e2e harness::secret_scan::tests::secret_scan_reads_the_gui_token_from_the_url_file
+2026-09-25T13:03:56.1546314Z         PASS [   0.028s] (268/301) viola-e2e harness::supervise::tests::stop_requested_by_file_or_missing_spec
+2026-09-25T13:03:56.1740087Z         PASS [   0.027s] (269/301) viola-e2e harness::supervise::tests::supervise_without_a_spec_is_usage
+2026-09-25T13:03:56.1933165Z         PASS [   0.033s] (270/301) viola-e2e harness::tests::bin_dir_from_test_exe_skips_deps
+2026-09-25T13:03:56.1982905Z         PASS [   0.043s] (271/301) viola-e2e harness::supervise::tests::wait_or_kill_kills_a_survivor_at_the_deadline
+2026-09-25T13:03:56.2139280Z         PASS [   0.020s] (272/301) viola-e2e harness::tests::exe_appends_platform_suffix
+2026-09-25T13:03:56.2293597Z         PASS [   0.023s] (273/301) viola-e2e harness::tests::expired_tracks_the_deadline
+2026-09-25T13:03:56.2454878Z         PASS [   0.030s] (274/301) viola-e2e harness::tests::json_round_trips_through_files
+2026-09-25T13:03:56.2597302Z         PASS [   0.127s] (275/301) viola-e2e harness::supervise::tests::stop_sends_ctrl_c_and_the_child_exits_without_a_kill
+2026-09-25T13:03:56.2612798Z         PASS [   0.041s] (276/301) viola-e2e harness::tests::load_session_unknown_is_exit_2
+2026-09-25T13:03:56.2713980Z         PASS [   0.026s] (277/301) viola-e2e harness::tests::outcome_codes_follow_ok
+2026-09-25T13:03:56.2939660Z         PASS [   0.022s] (278/301) viola-e2e harness::tests::valid_session_id_accepts_test_style_ids
+2026-09-25T13:03:56.3092504Z         PASS [   0.047s] (279/301) viola-e2e harness::tests::process_id_sees_itself_alive_and_a_wrong_start_time_dead
+2026-09-25T13:03:56.3118763Z         PASS [   0.019s] (280/301) viola-e2e harness::tests::valid_session_id_rejects_path_escapes
+2026-09-25T13:03:56.3271405Z         PASS [   0.019s] (281/301) viola-e2e harness::tests::workspace_root_holds_the_root_manifest
+2026-09-25T13:03:56.3620447Z         PASS [   0.050s] (282/301) viola-e2e::cli boot_with_an_invalid_instance_name_is_usage_before_any_build
+2026-09-25T13:03:56.4001413Z         PASS [   0.038s] (283/301) viola-e2e::cli cleanup_of_an_unknown_session_is_ok_and_empty
+2026-09-25T13:03:56.5150582Z         PASS [   0.115s] (284/301) viola-e2e::cli gate_and_leg_usage_errors_are_exit_2
+2026-09-25T13:03:56.5476098Z         PASS [   0.032s] (285/301) viola-e2e::cli gate_over_an_empty_artifacts_dir_names_the_missing_suite
+2026-09-25T13:03:56.5983539Z         PASS [   0.051s] (286/301) viola-e2e::cli status_and_logs_of_an_unknown_session_are_exit_2
+2026-09-25T13:03:56.7164237Z         PASS [   0.389s] (287/301) viola-e2e::cli cleanup_keeps_the_home_under_agent_run_keep_homes
+2026-09-25T13:03:56.7676256Z         PASS [   2.244s] (288/301) viola-e2e harness::run::tests::run_with_a_filter_matching_nothing_is_red
+2026-09-25T13:03:56.7766209Z         PASS [   0.058s] (289/301) viola-e2e::cli supervise_without_a_spec_exits_2_and_prints_nothing
+2026-09-25T13:03:56.7770980Z         PASS [   0.518s] (290/301) viola-e2e harness::tests::process_id_kill_stops_a_child_and_wait_gone_sees_it
+2026-09-25T13:03:56.8057414Z         PASS [   0.030s] (291/301) viola-e2e::harness_lifecycle boot_without_the_fake_agent_binary_is_build_failed
+2026-09-25T13:03:56.8777479Z         PASS [   0.114s] (292/301) viola-e2e::cli unbuilt_selectors_and_unknown_commands_are_usage
+2026-09-25T13:03:57.0682088Z         PASS [   0.470s] (293/301) viola-e2e::cli status_logs_and_cleanup_drive_a_booted_session
+2026-09-25T13:03:57.2275703Z         PASS [   0.422s] (294/301) viola-e2e::harness_lifecycle cleanup_force_kills_a_recorded_process_that_outlives_the_stop
+2026-09-25T13:03:57.2394128Z         PASS [   0.011s] (295/301) viola-e2e::scan_patterns canaries_match_only_the_full_shape
+2026-09-25T13:03:57.2537885Z         PASS [   0.015s] (296/301) viola-e2e::scan_patterns scan_covers_every_canary_the_root_tests_plant
+2026-09-25T13:03:57.2668637Z         PASS [   0.013s] (297/301) viola-e2e::zero_retries zero_retries_checker_flags_every_retry_form
+2026-09-25T13:03:57.2689155Z         PASS [   0.391s] (298/301) viola-e2e::harness_lifecycle harness_session_boots_reports_logs_and_tears_down
+2026-09-25T13:03:57.2761831Z         PASS [   0.009s] (299/301) viola-e2e::zero_retries zero_retries_hold_in_the_repo_nextest_config
+2026-09-25T13:03:57.3891691Z         PASS [   0.321s] (300/301) viola-e2e::harness_lifecycle harness_session_with_a_dead_wrapper_reads_degraded
+2026-09-25T13:04:17.1319399Z         PASS [  20.357s] (301/301) viola-e2e::harness_lifecycle boot_that_never_gets_ready_times_out_and_stops_its_supervisor
+2026-09-25T13:04:17.1320966Z ────────────
+2026-09-25T13:04:17.1321409Z      Summary [  32.866s] 301 tests run: 301 passed (1 leaky), 0 skipped
+2026-09-25T13:04:17.3486823Z 
+2026-09-25T13:04:17.3487379Z     Finished report saved to target/lcov.info
+2026-09-25T13:04:17.8323042Z 
+2026-09-25T13:04:17.8323829Z     Finished report saved to D:\a\viola\viola\target\agent-run\artifacts\llvm-cov-summary.json
+2026-09-25T13:04:18.1012932Z    Compiling windows-sys v0.61.2
+2026-09-25T13:04:18.1100026Z    Compiling viola-core v0.1.0 (D:\a\viola\viola\crates\viola-core)
+2026-09-25T13:04:19.9623557Z    Compiling anstyle-query v1.1.5
+2026-09-25T13:04:19.9624338Z    Compiling anstyle-wincon v3.0.11
+2026-09-25T13:04:19.9624961Z    Compiling tempfile v3.27.0
+2026-09-25T13:04:20.1347111Z    Compiling anstream v1.0.0
+2026-09-25T13:04:20.5044120Z    Compiling clap_builder v4.6.7
+2026-09-25T13:04:22.2580166Z    Compiling clap v4.6.7
+2026-09-25T13:04:22.2949047Z    Compiling viola-e2e v0.1.0 (D:\a\viola\viola\crates\viola-e2e)
+2026-09-25T13:04:24.9059633Z     Finished `test` profile [unoptimized + debuginfo] target(s) in 7.03s
+2026-09-25T13:04:24.9168136Z    Doc-tests viola_core
+2026-09-25T13:04:24.9662093Z    Doc-tests viola_e2e
+2026-09-25T13:04:25.1125755Z 
+2026-09-25T13:04:25.1126484Z running 0 tests
+2026-09-25T13:04:25.1126794Z 
+2026-09-25T13:04:25.1127180Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-09-25T13:04:25.1127554Z 
+2026-09-25T13:04:25.1127558Z 
+2026-09-25T13:04:25.1127637Z running 0 tests
+2026-09-25T13:04:25.1127767Z 
+2026-09-25T13:04:25.1128016Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-09-25T13:04:25.1128350Z 
+2026-09-25T13:04:25.1138754Z {"v":1,"cmd":"run","ok":true,"suites":[{"suite":"coverage","passed":301,"failed":0,"skipped":0,"survived":0,"artifact":"D:\\a\\viola\\viola\\target\\agent-run\\artifacts\\junit-coverage.xml","failures":[]},{"suite":"doctest","passed":0,"failed":0,"skipped":0,"survived":0,"artifact":null,"failures":[]}]}
+2026-09-25T13:04:25.1660258Z ##[group]Run function Step { param([string[]]$a) ./scripts/agent-run.ps1 @a; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE } }
+2026-09-25T13:04:25.1661235Z [36;1mfunction Step { param([string[]]$a) ./scripts/agent-run.ps1 @a; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE } }[0m
+2026-09-25T13:04:25.1661800Z [36;1mStep cleanup, --session, ci-smoke[0m
+2026-09-25T13:04:25.1662155Z [36;1mStep boot, --session, ci-smoke, --instance, builder[0m
+2026-09-25T13:04:25.1662500Z [36;1mStep status, --session, ci-smoke[0m
+2026-09-25T13:04:25.1662901Z [36;1m$lines = ./scripts/agent-run.ps1 logs --session ci-smoke --instance builder[0m
+2026-09-25T13:04:25.1663364Z [36;1mif ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }[0m
+2026-09-25T13:04:25.1664044Z [36;1m$starts = @($lines | ForEach-Object { $_ | ConvertFrom-Json } | Where-Object { $_.record.event -eq 'process-start' -and $_.record.process -eq 'run' })[0m
+2026-09-25T13:04:25.1664875Z [36;1mif ($starts.Count -lt 1) { Write-Error 'no process-start line from viola run'; exit 1 }[0m
+2026-09-25T13:04:25.1665328Z [36;1mStep cleanup, --session, ci-smoke[0m
+2026-09-25T13:04:25.1665810Z [36;1mStep cleanup, --session, ci-smoke[0m
+2026-09-25T13:04:25.1740879Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-09-25T13:04:25.1741232Z env:
+2026-09-25T13:04:25.1741418Z   AGENT_RUN_KEEP_HOMES: 1
+2026-09-25T13:04:25.1741662Z   CACHE_ON_FAILURE: false
+2026-09-25T13:04:25.1741882Z   CARGO_INCREMENTAL: 0
+2026-09-25T13:04:25.1742110Z ##[endgroup]
+2026-09-25T13:04:25.7835863Z {"v":1,"cmd":"cleanup","ok":true,"cleaned":[]}
+2026-09-25T13:04:26.2663331Z    Compiling viola-core v0.1.0 (D:\a\viola\viola\crates\viola-core)
+2026-09-25T13:04:26.3487088Z    Compiling viola-e2e v0.1.0 (D:\a\viola\viola\crates\viola-e2e)
+2026-09-25T13:04:26.4218055Z    Compiling viola v0.1.0 (D:\a\viola\viola)
+2026-09-25T13:04:29.9708374Z     Finished `dev` profile [unoptimized + debuginfo] target(s) in 3.89s
+2026-09-25T13:04:30.1027428Z {"v":1,"cmd":"boot","ok":true,"session":"ci-smoke","home":"D:\\a\\viola\\viola\\target\\e2e-home\\viola-session-uCR9XN\\home","instances":[{"name":"builder","wrapper_pid":2700,"child_pid":8996}]}
+2026-09-25T13:04:30.3695222Z {"v":1,"cmd":"status","ok":true,"state":"ready","pid":null,"uptime_ms":null,"last_error":null,"list":null,"ui":null,"api_sessions_equal_list":null,"instances":[{"name":"builder","wrapper_pid":2700,"alive":true}]}
+2026-09-25T13:04:31.1387616Z {"v":1,"cmd":"cleanup","ok":true,"cleaned":["ci-smoke"],"processes_gone":true,"endpoint_gone":null,"port_free":null,"url_file_removed":null,"home_removed":"kept","killed":[]}
+2026-09-25T13:04:31.4039156Z {"v":1,"cmd":"cleanup","ok":true,"cleaned":[]}
+2026-09-25T13:04:31.5004894Z ##[group]Run jq --version
+2026-09-25T13:04:31.5005225Z [36;1mjq --version[0m
+2026-09-25T13:04:31.5020263Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+2026-09-25T13:04:31.5020672Z env:
+2026-09-25T13:04:31.5020850Z   AGENT_RUN_KEEP_HOMES: 1
+2026-09-25T13:04:31.5021072Z   CACHE_ON_FAILURE: false
+2026-09-25T13:04:31.5021286Z   CARGO_INCREMENTAL: 0
+2026-09-25T13:04:31.5021519Z ##[endgroup]
+2026-09-25T13:04:31.5865576Z jq-1.8.1
+2026-09-25T13:04:31.6081998Z ##[group]Run test -n "$(find target/e2e-home -path '*/diagnostics/*.ndjson' ! -name 'detail-*' -print -quit)"
+2026-09-25T13:04:31.6082823Z [36;1mtest -n "$(find target/e2e-home -path '*/diagnostics/*.ndjson' ! -name 'detail-*' -print -quit)"[0m
+2026-09-25T13:04:31.6083680Z [36;1mfind target/e2e-home -path '*/diagnostics/*.ndjson' ! -name 'detail-*' -exec awk 1 {} + | jq -R -n -e '[inputs|fromjson?|select(.event=="panic")]|length==0'[0m
+2026-09-25T13:04:31.6099176Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+2026-09-25T13:04:31.6099581Z env:
+2026-09-25T13:04:31.6099765Z   AGENT_RUN_KEEP_HOMES: 1
+2026-09-25T13:04:31.6099989Z   CACHE_ON_FAILURE: false
+2026-09-25T13:04:31.6100197Z   CARGO_INCREMENTAL: 0
+2026-09-25T13:04:31.6100409Z ##[endgroup]
+2026-09-25T13:04:32.0898140Z awk: cmd. line:1: warning: command line argument `target/e2e-home/viola-test-82FR5E/home/diagnostics/run-builder.ndjson' is a directory: skipped
+2026-09-25T13:04:32.0901947Z awk: cmd. line:1: warning: command line argument `target/e2e-home/viola-test-aiGHng/home/diagnostics/run-builder.ndjson' is a directory: skipped
+2026-09-25T13:04:32.0906064Z awk: cmd. line:1: warning: command line argument `target/e2e-home/viola-test-DltuXe/home/diagnostics/run-builder.ndjson' is a directory: skipped
+2026-09-25T13:04:32.0926422Z awk: cmd. line:1: warning: command line argument `target/e2e-home/viola-test-QeRqJ7/home/diagnostics/run-builder.ndjson' is a directory: skipped
+2026-09-25T13:04:32.0936021Z awk: cmd. line:1: warning: command line argument `target/e2e-home/viola-test-vzoZGt/home/diagnostics/run-builder.ndjson' is a directory: skipped
+2026-09-25T13:04:32.0943440Z awk: cmd. line:1: warning: command line argument `target/e2e-home/viola-test-y1paBA/home/diagnostics/run-builder.ndjson' is a directory: skipped
+2026-09-25T13:04:32.0957459Z true
+2026-09-25T13:04:32.1214143Z ##[group]Run bash scripts/agent-run.sh schema-check
+2026-09-25T13:04:32.1214870Z [36;1mbash scripts/agent-run.sh schema-check[0m
+2026-09-25T13:04:32.1230956Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+2026-09-25T13:04:32.1231356Z env:
+2026-09-25T13:04:32.1231540Z   AGENT_RUN_KEEP_HOMES: 1
+2026-09-25T13:04:32.1231770Z   CACHE_ON_FAILURE: false
+2026-09-25T13:04:32.1231976Z   CARGO_INCREMENTAL: 0
+2026-09-25T13:04:32.1232182Z ##[endgroup]
+2026-09-25T13:04:32.5482411Z {"v":1,"cmd":"schema-check","ok":true,"files":27,"lines":99,"torn":0,"skipped_non_file":6,"failures":[]}
+2026-09-25T13:04:32.5787822Z ##[group]Run bash scripts/agent-run.sh secret-scan
+2026-09-25T13:04:32.5788268Z [36;1mbash scripts/agent-run.sh secret-scan[0m
+2026-09-25T13:04:32.5804150Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+2026-09-25T13:04:32.5804539Z env:
+2026-09-25T13:04:32.5804718Z   AGENT_RUN_KEEP_HOMES: 1
+2026-09-25T13:04:32.5804934Z   CACHE_ON_FAILURE: false
+2026-09-25T13:04:32.5805153Z   CARGO_INCREMENTAL: 0
+2026-09-25T13:04:32.5805353Z ##[endgroup]
+2026-09-25T13:04:33.9114207Z {"v":1,"cmd":"secret-scan","ok":true,"files":37,"skipped_non_file":6,"mode_check":"skipped-windows","hits":[]}
+2026-09-25T13:04:33.9431739Z ##[group]Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+2026-09-25T13:04:33.9432210Z with:
+2026-09-25T13:04:33.9432410Z   name: diag-windows-2025
+2026-09-25T13:04:33.9432684Z   path: target/e2e-home/**/diagnostics/*.ndjson
+2026-09-25T13:04:33.9432969Z   retention-days: 7
+2026-09-25T13:04:33.9433169Z   if-no-files-found: warn
+2026-09-25T13:04:33.9433381Z   compression-level: 6
+2026-09-25T13:04:33.9433583Z   overwrite: false
+2026-09-25T13:04:33.9433781Z   include-hidden-files: false
+2026-09-25T13:04:33.9434000Z   archive: true
+2026-09-25T13:04:33.9434170Z env:
+2026-09-25T13:04:33.9434343Z   AGENT_RUN_KEEP_HOMES: 1
+2026-09-25T13:04:33.9434554Z   CACHE_ON_FAILURE: false
+2026-09-25T13:04:33.9434757Z   CARGO_INCREMENTAL: 0
+2026-09-25T13:04:33.9434969Z ##[endgroup]
+2026-09-25T13:04:34.3896736Z With the provided path, there will be 27 files uploaded
+2026-09-25T13:04:34.3903777Z Artifact name is valid!
+2026-09-25T13:04:34.3905097Z Root directory input is valid!
+2026-09-25T13:04:34.5701431Z Uploading artifact: diag-windows-2025.zip
+2026-09-25T13:04:34.5746232Z Beginning upload of artifact content to blob storage
+2026-09-25T13:04:34.6660826Z Uploaded bytes 12586
+2026-09-25T13:04:34.6788178Z Finished uploading artifact content to blob storage!
+2026-09-25T13:04:34.6789370Z SHA256 digest of uploaded artifact is f58510dbcb53231cf4c65cbd13f140bd0d016ed45e90bcbd5107a96cc3d3eb21
+2026-09-25T13:04:34.6791171Z Finalizing artifact upload
+2026-09-25T13:04:34.9079932Z Artifact diag-windows-2025 successfully finalized. Artifact ID 10864579427
+2026-09-25T13:04:34.9080830Z Artifact diag-windows-2025 has been successfully uploaded! Final size is 12586 bytes. Artifact ID is 10864579427
+2026-09-25T13:04:34.9087754Z Artifact download URL: https://github.com/Turbolet85/viola/actions/runs/36138441784/artifacts/10864579427
+2026-09-25T13:04:34.9386312Z ##[group]Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+2026-09-25T13:04:34.9386778Z with:
+2026-09-25T13:04:34.9386978Z   name: junit-windows-2025
+2026-09-25T13:04:34.9387225Z   path: target/nextest/ci/junit.xml
+2026-09-25T13:04:34.9387480Z   retention-days: 7
+2026-09-25T13:04:34.9387690Z   if-no-files-found: warn
+2026-09-25T13:04:34.9387905Z   compression-level: 6
+2026-09-25T13:04:34.9388114Z   overwrite: false
+2026-09-25T13:04:34.9388317Z   include-hidden-files: false
+2026-09-25T13:04:34.9388542Z   archive: true
+2026-09-25T13:04:34.9388722Z env:
+2026-09-25T13:04:34.9388894Z   AGENT_RUN_KEEP_HOMES: 1
+2026-09-25T13:04:34.9389112Z   CACHE_ON_FAILURE: false
+2026-09-25T13:04:34.9389322Z   CARGO_INCREMENTAL: 0
+2026-09-25T13:04:34.9389519Z ##[endgroup]
+2026-09-25T13:04:35.1073579Z With the provided path, there will be 1 file uploaded
+2026-09-25T13:04:35.1079153Z Artifact name is valid!
+2026-09-25T13:04:35.1080818Z Root directory input is valid!
+2026-09-25T13:04:35.3069877Z Uploading artifact: junit-windows-2025.zip
+2026-09-25T13:04:35.3114719Z Beginning upload of artifact content to blob storage
+2026-09-25T13:04:35.3660311Z Uploaded bytes 8222
+2026-09-25T13:04:35.3779602Z Finished uploading artifact content to blob storage!
+2026-09-25T13:04:35.3781371Z SHA256 digest of uploaded artifact is 9893c44655c8539e520e59a01c18f4d5a57362db6daa121801734a0d8d031d2a
+2026-09-25T13:04:35.3782419Z Finalizing artifact upload
+2026-09-25T13:04:35.6258635Z Artifact junit-windows-2025 successfully finalized. Artifact ID 10864529385
+2026-09-25T13:04:35.6259565Z Artifact junit-windows-2025 has been successfully uploaded! Final size is 8222 bytes. Artifact ID is 10864529385
+2026-09-25T13:04:35.6266343Z Artifact download URL: https://github.com/Turbolet85/viola/actions/runs/36138441784/artifacts/10864529385
+2026-09-25T13:04:35.6540457Z ##[group]Run bash scripts/agent-run.sh gate --require coverage,doctest
+2026-09-25T13:04:35.6541088Z [36;1mbash scripts/agent-run.sh gate --require coverage,doctest[0m
+2026-09-25T13:04:35.6555230Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+2026-09-25T13:04:35.6555644Z env:
+2026-09-25T13:04:35.6555829Z   AGENT_RUN_KEEP_HOMES: 1
+2026-09-25T13:04:35.6556063Z   CACHE_ON_FAILURE: false
+2026-09-25T13:04:35.6556280Z   CARGO_INCREMENTAL: 0
+2026-09-25T13:04:35.6556490Z ##[endgroup]
+2026-09-25T13:04:35.9846080Z {"v":1,"cmd":"gate","ok":true,"breaches":[]}
+2026-09-25T13:04:36.0232401Z Post job cleanup.
+2026-09-25T13:04:36.1731778Z ##[group]Cache Configuration
+2026-09-25T13:04:36.1734296Z Cache Provider:
+2026-09-25T13:04:36.1734769Z     github
+2026-09-25T13:04:36.1735476Z Workspaces:
+2026-09-25T13:04:36.1735806Z     D:\a\viola\viola
+2026-09-25T13:04:36.1736185Z Cache Paths:
+2026-09-25T13:04:36.1736973Z     C:\Users\runneradmin\.cargo\bin
+2026-09-25T13:04:36.1737796Z     C:\Users\runneradmin\.cargo\.crates.toml
+2026-09-25T13:04:36.1738390Z     C:\Users\runneradmin\.cargo\.crates2.json
+2026-09-25T13:04:36.1738944Z     C:\Users\runneradmin\.cargo\registry
+2026-09-25T13:04:36.1739431Z     C:\Users\runneradmin\.cargo\git
+2026-09-25T13:04:36.1739890Z     D:\a\viola\viola\target
+2026-09-25T13:04:36.1740282Z Restore Key:
+2026-09-25T13:04:36.1740625Z     v0-rust-test-Windows_NT-x64-40a42ff5
+2026-09-25T13:04:36.1741084Z Cache Key:
+2026-09-25T13:04:36.1741463Z     v0-rust-test-Windows_NT-x64-40a42ff5-c59ed8f2
+2026-09-25T13:04:36.1741975Z .. Prefix:
+2026-09-25T13:04:36.1742345Z   - v0-rust-test-Windows_NT-x64
+2026-09-25T13:04:36.1742753Z .. Environment considered:
+2026-09-25T13:04:36.1743126Z   - Rust Versions:
+2026-09-25T13:04:36.1743636Z     - 1.98.1 x86_64-pc-windows-msvc 48a229ceaefd4985c50990b14116b6d856af0985
+2026-09-25T13:04:36.1744274Z   - CARGO_INCREMENTAL
+2026-09-25T13:04:36.1744630Z .. Lockfiles considered:
+2026-09-25T13:04:36.1745035Z   - D:\a\viola\viola\Cargo.lock
+2026-09-25T13:04:36.1745484Z   - D:\a\viola\viola\Cargo.toml
+2026-09-25T13:04:36.1745974Z   - D:\a\viola\viola\crates\viola-core\Cargo.toml
+2026-09-25T13:04:36.1746530Z   - D:\a\viola\viola\crates\viola-e2e\Cargo.toml
+2026-09-25T13:04:36.1747085Z   - D:\a\viola\viola\fuzz\rust-toolchain.toml
+2026-09-25T13:04:36.1747616Z   - D:\a\viola\viola\rust-toolchain.toml
+2026-09-25T13:04:36.1748339Z ##[endgroup]
+2026-09-25T13:04:36.1748532Z 
+2026-09-25T13:04:40.9281401Z ... Cleaning D:\a\viola\viola\target ...
+2026-09-25T13:04:41.7281428Z ... Cleaning cargo registry (cache-all-crates: false) ...
+2026-09-25T13:04:45.2516059Z ... Cleaning cargo/bin ...
+2026-09-25T13:04:45.2596739Z ... Cleaning cargo git cache ...
+2026-09-25T13:04:45.2602773Z ... Saving cache ...
+2026-09-25T13:04:45.3564932Z [command]"C:\Program Files\Git\usr\bin\tar.exe" --posix -cf cache.tzst --exclude cache.tzst -P -C D:/a/viola/viola --files-from manifest.txt --force-local --use-compress-program "zstd -T0"
+2026-09-25T13:04:55.3929930Z Sent 0 of 616617945 (0.0%), 0.0 MBs/sec
+2026-09-25T13:04:56.4025971Z Sent 549509081 of 616617945 (89.1%), 260.1 MBs/sec
+2026-09-25T13:04:57.1510430Z Sent 616617945 of 616617945 (100.0%), 212.8 MBs/sec
+2026-09-25T13:04:57.3074964Z Post job cleanup.
+2026-09-25T13:04:57.5263262Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-09-25T13:04:57.5545457Z git version 2.55.0.windows.5
+2026-09-25T13:04:57.5614519Z Temporarily overriding HOME='D:\a\_temp\6d3d87f6-5b1e-4ddc-b075-60063a646cfc' before making global git config changes
+2026-09-25T13:04:57.5615798Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-25T13:04:57.5628323Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\viola\viola
+2026-09-25T13:04:57.5923704Z Removing SSH command configuration
+2026-09-25T13:04:57.5933961Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-09-25T13:04:57.6226747Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-09-25T13:04:58.1510074Z Removing HTTP extra header
+2026-09-25T13:04:58.1520390Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-25T13:04:58.1808351Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-09-25T13:04:58.7000151Z Removing includeIf entries pointing to credentials config files
+2026-09-25T13:04:58.7011313Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-25T13:04:58.7299668Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-09-25T13:04:59.2631576Z Cleaning up orphan processes
+2026-09-25T13:04:59.3262405Z Terminate orphan process: pid (1192) (vctip)

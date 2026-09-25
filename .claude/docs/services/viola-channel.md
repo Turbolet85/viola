@@ -26,7 +26,7 @@ Tokio only behind the `tokio` feature; the sync build must pass `cargo check` wi
 ## Crate-specific gotchas
 - Endpoint names must be stable across toolchains → never `DefaultHasher`.
 - macOS socket paths cap at ~104 bytes; the recorded snapshot `endpoint` is authoritative (children may see another `TMPDIR`).
-- **Open spike:** does `Stream::try_from(OwnedHandle)` accept a `FILE_FLAG_OVERLAPPED` SQOS handle? Resolve before the client chunk; never fall back to the default connect.
+- **SQOS spike passed** (security-plan Decisions Log `2026-09-25`): the client opens with windows-sys `CreateFileW(SECURITY_SQOS_PRESENT | SECURITY_IDENTIFICATION | FILE_FLAG_OVERLAPPED)` and adopts via `Stream::try_from` — reuse the recipe `tests/channel_sqos_open.rs` pins. Keep `FILE_FLAG_OVERLAPPED` (non-overlapped adoption hangs) and never fall back to the default connect (the server then reads `SecurityImpersonation`). A safe-Rust equivalent was measured: std `OpenOptions::security_qos_flags` + `custom_flags(FILE_FLAG_OVERLAPPED)`.
 
 ## Entry points for modification
 - **Framing / codec / shapes:** `crates/viola-channel/src/`

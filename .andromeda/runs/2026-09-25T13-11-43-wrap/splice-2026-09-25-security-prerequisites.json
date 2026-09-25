@@ -1,0 +1,197 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "f3b5b1ea",
+"ts": "2026-09-25T13:19:05Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan.md",
+"--payload-file",
+".andromeda/runs/2026-09-25T13-11-43-wrap/security-dl-entry.md",
+"--lines",
+"21",
+"--run-dir",
+".andromeda/runs/2026-09-25T13-11-43-wrap",
+"--marker",
+"2026-09-25-security-prerequisites"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append security-plan.md:+21 at line 650 · lines 649→670 · bytes 98695→102004 · term lf",
+"last line now: - **By:** the operator (overseer, founder-delegated). The 0BSD exceptions were r"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan.md"
+],
+"before": {
+"lines": 649,
+"bytes": 98695,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 670,
+"bytes": 102004
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "f3b5b1ea",
+"ts": "2026-09-25T13:20:25Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan.md",
+"--payload-file",
+".andromeda/runs/2026-09-25T13-11-43-wrap/test-plan-dl-entry.md",
+"--lines",
+"20",
+"--run-dir",
+".andromeda/runs/2026-09-25T13-11-43-wrap",
+"--marker",
+"2026-09-25-security-prerequisites"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append test-plan.md:+20 at line 1844 · lines 1843→1863 · bytes 240672→243035 · term lf",
+"last line now: - **By:** `/andromeda-wrap-session`, chunk `2026-09-25-security-prerequisites`."
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan.md"
+],
+"before": {
+"lines": 1843,
+"bytes": 240672,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1863,
+"bytes": 243035
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "f3b5b1ea",
+"ts": "2026-09-25T13:22:41Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-25T13-11-43-wrap/sc-security-plan.md",
+"--lines",
+"25",
+"--run-dir",
+".andromeda/runs/2026-09-25T13-11-43-wrap",
+"--marker",
+"2026-09-25-security-prerequisites"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+25 at line 92 · lines 91→116 · bytes 10224→13258 · term lf",
+"last line now: - 0 hits in CLAUDE.md `GENERATED` blocks, the curation homes, playbook and drift"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 91,
+"bytes": 10224,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 116,
+"bytes": 13258
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "f3b5b1ea",
+"ts": "2026-09-25T13:22:41Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-25T13-11-43-wrap/sc-architecture.md",
+"--lines",
+"31",
+"--run-dir",
+".andromeda/runs/2026-09-25T13-11-43-wrap",
+"--marker",
+"2026-09-25-security-prerequisites"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+31 at line 167 · lines 166→197 · bytes 24184→27449 · term lf",
+"last line now: - CLAUDE.md `GENERATED` blocks recomputed from the amended sections: no line cha"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 166,
+"bytes": 24184,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 197,
+"bytes": 27449
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "f3b5b1ea",
+"ts": "2026-09-25T13:22:41Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-25T13-11-43-wrap/sc-test-plan.md",
+"--lines",
+"24",
+"--run-dir",
+".andromeda/runs/2026-09-25T13-11-43-wrap",
+"--marker",
+"2026-09-25-security-prerequisites"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+24 at line 197 · lines 196→220 · bytes 23356→25649 · term lf",
+"last line now: - Fanned 7 proposals (5 D-tests-obs-harness, 4 of them `dependent-of`; 2 D-tests"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 196,
+"bytes": 23356,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 220,
+"bytes": 25649
+}
+}
+]

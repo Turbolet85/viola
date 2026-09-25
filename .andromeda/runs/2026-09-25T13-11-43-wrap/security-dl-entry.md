@@ -1,0 +1,21 @@
+
+`2026-09-25` — SQOS adoption spike, SHA-256 crate, 0BSD licence exceptions (chunk 2026-09-25-security-prerequisites)
+- **Decision:**
+  - **SQOS spike: passed.** On interprocess `=2.4.4` + windows-sys `=0.61.2`, `CreateFileW(GENERIC_READ | GENERIC_WRITE, …, OPEN_EXISTING, SECURITY_SQOS_PRESENT | SECURITY_IDENTIFICATION | FILE_FLAG_OVERLAPPED)` adopted by `interprocess::os::windows::named_pipe::local_socket::Stream::try_from(OwnedHandle)` exchanges bytes both ways, and a same-user server reads `SecurityIdentification`. This is the Windows client open. No replacement is needed, and interprocess's default connect stays banned as a fallback or test double.
+  - **SHA-256 crate: `sha2 =0.11.0`, `default-features = false`** (RustCrypto, MIT OR Apache-2.0, rust-version 1.85). `<hash>` = the first 8 digest bytes as 16 lowercase hex characters. FNV-1a / `DefaultHasher` stay banned for it.
+  - **Licences:** interprocess's transitive `doctest-file` 1.1.1 and `recvmsg` 1.0.0 (both `0BSD`) are admitted by per-crate `[[licenses.exceptions]]`, never by adding `0BSD` to `allow`.
+- **Rationale:**
+  - SQOS, as measured at chunk 2026-09-25-security-prerequisites (research.md §Measured facts, scratch probe on 1.98.1-msvc):
+    - the recipe reads level 1 (Identification);
+    - the same open without the SQOS flags, and interprocess's default connect, read level 2 (Impersonation), so the check discriminates;
+    - without `FILE_FLAG_OVERLAPPED` the adopted handle hangs its first exchange.
+  - The level holds through interprocess's internal re-open: `try_from` calls `ReOpenFile(h, …, FILE_FLAG_OVERLAPPED)` with no SQOS flags (interprocess 2.4.4 `named_pipe/c_wrappers.rs:176-182`), and the measured level shows the re-open keeps the connection's connect-time level.
+  - The measured safe-Rust equivalent, std `OpenOptions::security_qos_flags(SECURITY_IDENTIFICATION)` + `custom_flags(FILE_FLAG_OVERLAPPED)`, also reads level 1. It is recorded for the `viola-channel` chunk to weigh, not adopted.
+  - sha2: its graph (cfg-if, cpufeatures, digest, block-buffer, crypto-common, hybrid-array, typenum; libc on aarch64-apple) has no `cc` on the three `[graph]` triples, passes `cargo deny check`, and builds on the 1.96 floor.
+  - 0BSD is OSI-approved and more permissive than MIT. The per-crate form is the narrowest widening: any other 0BSD crate still fails the gate.
+- **Conditions:**
+  - `tests/channel_sqos_open.rs` (`#[cfg(windows)]`, the windows-2025 CI `test` leg) pins the recipe and its no-SQOS control. The `viola-channel` client reuses the recipe, and its own `security_negatives_*.rs` case lands with that crate.
+  - `tests/contract_content_hash.rs` pins sha2 against published FIPS 180-2 vectors and the 16-hex truncation. `sha2` is a root dev-dependency until `viola-state` consumes it.
+  - Each further licence exception needs its own entry here.
+  - Witness: CI run 36138441784 on `8e25ca7`, 15/15 success. The windows `test` leg PASSed both SQOS tests and all five hash cases.
+- **By:** the operator (overseer, founder-delegated). The 0BSD exceptions were ratified at the phase P4 fork and again in the wrap P2 directive, as a boundary widening (playbook "Boundary widening", never routine). The spike and pick were recorded by `/andromeda-wrap-session` P2 from the chunk's evidence.

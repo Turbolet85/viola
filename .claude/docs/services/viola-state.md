@@ -27,7 +27,7 @@ Tokio banned in its graph; tailing and liveness are sync (shared by `list`, `mcp
 ## Crate-specific gotchas
 - Append + exclusive lock on the same file fails on Windows — lock the sibling.
 - A bare pid is unsafe (reuse) — always pid + start time.
-- **Open question:** the pure-Rust SHA-256 crate for the pinned-exe re-hash — pick and log before the chunk that writes `bin/`.
+- **SHA-256 crate:** `sha2 =0.11.0` (`default-features = false`; security-plan Decisions Log `2026-09-25`) for the pinned-exe re-hash; `<hash>` = the first 8 digest bytes as 16 lowercase hex. Take it from `[workspace.dependencies]` as a normal dependency here; `tests/contract_content_hash.rs` holds its KAT today.
 
 ## Entry points for modification
 - **Home / strict-modes / creation:** `crates/viola-state/src/` (per-OS modules)

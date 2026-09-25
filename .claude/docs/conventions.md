@@ -52,7 +52,7 @@ See `.claude/rules/testing.md` for testing rules. This doc describes *convention
 
 ## Imports / module organization
 - Crate dependency direction is enforced by manifests: `viola-core` depends on no viola crate; `viola-pty` knows no agent; only `viola-agent-claude` knows Claude payload shapes; only `viola-mcp` / `viola-ui` list tokio; the root bin depends on all members.
-- Shared third-party versions come from `[workspace.dependencies]`; every member sets `publish = false` and `version.workspace = true`.
+- Shared third-party versions come from `[workspace.dependencies]`; every member sets `publish = false`, `version.workspace = true` and `license.workspace = true` (`MIT OR Apache-2.0`; `fuzz/Cargo.toml` carries the literal).
 
 ## Cross-references
 - For complete architecture, see `.andromeda/architecture.md`

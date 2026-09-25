@@ -567,7 +567,7 @@
         "method": "integration",
         "acceptance": "On this Windows host and the windows-2025 CI test leg, `tests/channel_sqos_open.rs` passes: a client handle opened by windows-sys `CreateFileW(SECURITY_SQOS_PRESENT | SECURITY_IDENTIFICATION | FILE_FLAG_OVERLAPPED)` and adopted by interprocess 2.4.4 `local_socket::Stream::try_from(OwnedHandle)` exchanges bytes both ways while the test-owned same-user pipe server reads `TokenImpersonationLevel` = `SecurityIdentification`, its no-SQOS control reads `SecurityImpersonation`, and the witness contains no interprocess default connect; `sha2 =0.11.0` (`default-features = false`) is pinned in `[workspace.dependencies]` and resolved in the root graph with `cargo deny check` green, and `tests/contract_content_hash.rs` passes the published FIPS 180-2 SHA-256 vectors and the 16-hex `<hash>` truncation — both in the tree before the chunk that writes the channel client and the chunk that writes the pinned-binary folder.",
         "ref": "tests/channel_sqos_open.rs::sqos_identification_open_adopted_reads_identification + tests/channel_sqos_open.rs::sqos_flags_absent_open_reads_impersonation + tests/contract_content_hash.rs::sha256_published_vector_matches_digest + tests/contract_content_hash.rs::sha256_truncated_to_eight_bytes_yields_sixteen_hex (local Windows 1.98.1-msvc: 7/7; cargo deny check green) — the windows-2025 CI leg is read at the operator pass",
-        "status": "implemented"
+        "status": "verified"
       },
       "chunk": "2026-09-25-security-prerequisites"
     },
