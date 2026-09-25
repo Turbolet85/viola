@@ -319,6 +319,8 @@ fn start_receipts(agent: &Agent) {
     agent
         .receipt
         .write("start", json!({"cli_version": agent.opts.cli_version()}));
+    let cwd = std::env::current_dir().map(|d| d.to_string_lossy().into_owned());
+    agent.receipt.write("cwd", json!({"cwd": cwd.ok()}));
     let mut names: Vec<String> = std::env::vars_os()
         .map(|(k, _)| k.to_string_lossy().into_owned())
         .collect();
@@ -437,12 +439,27 @@ fn script_steps(opts: &Opts) -> Option<Vec<Step>> {
     Some(steps)
 }
 
+/// The terminal size as a `size` receipt, written at start and before any byte read after it
+/// changed (the resize oracle); nothing when stdin/stdout is not a terminal.
+fn receipt_size(agent: &Agent, last: &mut Option<viola_pty::Size>) {
+    let now = viola_pty::host_size();
+    if let Some(size) = now.filter(|s| Some(*s) != *last) {
+        agent
+            .receipt
+            .write("size", json!({"cols": size.cols, "rows": size.rows}));
+        *last = now;
+    }
+}
+
 /// Reads stdin byte by byte until EOF or `\x03`.
 fn read_stdin(agent: &Agent) -> ExitCode {
     let mut input = Input::new();
     let mut stdin = std::io::stdin().lock();
     let mut byte = [0u8; 1];
+    let mut size = None;
+    receipt_size(agent, &mut size);
     while let Ok(1) = stdin.read(&mut byte) {
+        receipt_size(agent, &mut size);
         for action in input.feed(byte[0]) {
             match action {
                 Action::Key(b) => agent.receipt.write("key", json!({"hex": hex(&[b])})),
@@ -478,6 +495,9 @@ fn main() -> ExitCode {
         receipt: Receipt::open(opts.receipt.as_deref()),
         opts,
     });
+    // Raw like the real CLI: on a cooked terminal keys wait for Enter and `\x03` never arrives.
+    // The `start` receipt below is written only once the mode is set.
+    let _terminal = viola_pty::HostTerminal::enter();
     start_receipts(&agent);
     if !steps.is_empty() {
         let runner = Arc::clone(&agent);

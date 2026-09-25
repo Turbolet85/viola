@@ -1,0 +1,4 @@
+fired    stray
+fired    gated
+FAILED   per-os (want clean, exit 1) — /d/dev/projects/viola/target/orphans-probes/run-20260925T162850Z-198423/per-os.log
+orphans-check probes: FAILED — 2/2 fired, control red

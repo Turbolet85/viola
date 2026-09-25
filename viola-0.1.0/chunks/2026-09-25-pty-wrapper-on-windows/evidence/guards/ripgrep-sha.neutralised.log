@@ -1,0 +1,4 @@
+fired    retry (exit 7 after 6 attempts)
+FAILED   checksum mismatch (exit 0) — /d/dev/projects/viola/target/tools/ripgrep/probe-20260925T162806Z-198397/mismatch.log
+fired    checksum match accepted
+install-ripgrep probes: FAILED — 2/3 fired

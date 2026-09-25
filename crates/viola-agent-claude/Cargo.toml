@@ -1,0 +1,21 @@
+[package]
+name = "viola-agent-claude"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[features]
+# No code behind it: it exists so that a `--features fake-agent` build scoped to this package
+# (cargo-mutants) resolves.
+fake-agent = []
+
+[dependencies]
+thiserror.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+
+[lints]
+workspace = true

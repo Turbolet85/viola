@@ -482,13 +482,17 @@ fn fake_agent_rejects_an_unreadable_script(#[case] body: &str) {
     assert_eq!(status.code(), Some(2));
 }
 
-/// Runs `viola run` with a PIPED stdout, Ctrl-C, and reports (viola's status, EOF seen at exit).
+/// Runs `viola run` with a PIPED stdout, Ctrl-C once the fake agent's terminal is raw (its `start`
+/// receipt), and reports (viola's status, EOF seen at exit).
 fn run_and_watch_stdout(tmp: &TestHome, fake_args: &[&str]) -> (ExitStatus, bool, Arc<AtomicBool>) {
+    let receipt = tmp.scratch().join("watch.receipt.ndjson");
     let mut child = Command::new(VIOLA)
         .arg("--home")
         .arg(tmp.path())
         .args(["run", "builder", "--", FAKE])
         .args(fake_args)
+        .arg("--receipt")
+        .arg(&receipt)
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())
         .stderr(Stdio::null())
@@ -502,6 +506,7 @@ fn run_and_watch_stdout(tmp: &TestHome, fake_args: &[&str]) -> (ExitStatus, bool
         let _ = out.read_to_end(&mut sink);
         seen.store(true, Ordering::SeqCst);
     });
+    fake::wait_for(&receipt, "start", |l| !of_kind(l, "start").is_empty());
     child
         .stdin
         .as_mut()
@@ -513,12 +518,13 @@ fn run_and_watch_stdout(tmp: &TestHome, fake_args: &[&str]) -> (ExitStatus, bool
     (status, at_exit, eof)
 }
 
+/// Under the PTY the grandchild holds the child's console, not viola's stdout: the wrapper still
+/// exits on the child's process handle (the PTY-level no-EOF witness is `tui_pty_seam`).
 #[test]
 fn fake_agent_exit_no_eof_exits_while_stdout_is_held() {
     let tmp = TestHome::new();
-    let (status, eof_at_exit, _) = run_and_watch_stdout(&tmp, &["--exit-no-eof"]);
+    let (status, _, _) = run_and_watch_stdout(&tmp, &["--exit-no-eof"]);
     assert_eq!(status.code(), Some(0));
-    assert!(!eof_at_exit, "stdout reached EOF: nothing held it");
     let role = std::fs::read_to_string(tmp.path().join("diagnostics").join("run-builder.ndjson"))
         .expect("role");
     let exit: Value = role

@@ -1,0 +1,27 @@
+
+running 1 test
+tests::spawn_runs_a_raw_child_that_sees_its_size_a_resize_and_its_own_exit_code --- FAILED
+
+failures:
+
+---- tests::spawn_runs_a_raw_child_that_sees_its_size_a_resize_and_its_own_exit_code stdout ----
+
+thread 'tests::spawn_runs_a_raw_child_that_sees_its_size_a_resize_and_its_own_exit_code' (49972) panicked at crates\viola-pty\src\lib.rs:1017:13:
+child report stopped at ["start pid=32276 raw=true size=100x30"]
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    tests::spawn_runs_a_raw_child_that_sees_its_size_a_resize_and_its_own_exit_code
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 18 filtered out; finished in 10.05s
+
+warning: constant `COOKED_INPUT` is never used
+   --> crates\viola-pty\src\lib.rs:356:7
+    |
+356 | const COOKED_INPUT: u32 = 0x0007;
+    |       ^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+error: test failed, to rerun pass `-p viola-pty --lib`

@@ -1,0 +1,101 @@
+[
+ {
+  "id": "batch-refusal",
+  "file": "crates/viola-agent-claude/src/lib.rs",
+  "witness": "cargo test -q -p viola-agent-claude resolve_program_refuses",
+  "neutralised_exit": 101,
+  "red": true,
+  "seconds": 0.4,
+  "log": "batch-refusal.neutralised.log"
+ },
+ {
+  "id": "identity-floor",
+  "file": "crates/viola-agent-claude/src/lib.rs",
+  "witness": "cargo test -q -p viola-agent-claude plan_strip_strips_a_floor_name",
+  "neutralised_exit": 101,
+  "red": true,
+  "seconds": 0.4,
+  "log": "identity-floor.neutralised.log"
+ },
+ {
+  "id": "claude-prefix",
+  "file": "crates/viola-agent-claude/src/lib.rs",
+  "witness": "cargo test -q -p viola-agent-claude plan_strip_removes_identity",
+  "neutralised_exit": 101,
+  "red": true,
+  "seconds": 0.4,
+  "log": "claude-prefix.neutralised.log"
+ },
+ {
+  "id": "child-cwd",
+  "file": "crates/viola-pty/src/lib.rs",
+  "witness": "cargo test -q --features fake-agent --test tui_passthrough tui_keys_reach",
+  "neutralised_exit": 101,
+  "red": true,
+  "seconds": 1.4,
+  "log": "child-cwd.neutralised.log"
+ },
+ {
+  "id": "raw-input-flags",
+  "file": "crates/viola-pty/src/lib.rs",
+  "witness": "cargo test -q -p viola-pty spawn_runs_a_raw_child",
+  "neutralised_exit": 101,
+  "red": true,
+  "seconds": 10.8,
+  "log": "raw-input-flags.neutralised.log"
+ },
+ {
+  "id": "terminal-restore",
+  "file": "crates/viola-pty/src/lib.rs",
+  "witness": "cargo test -q -p viola-pty spawn_runs_a_raw_child",
+  "neutralised_exit": 101,
+  "red": true,
+  "seconds": 0.8,
+  "log": "terminal-restore.neutralised.log"
+ },
+ {
+  "id": "keep-child-input",
+  "file": "crates/viola-pty/src/lib.rs",
+  "witness": "cargo test -q -p viola-pty pump_keeps_the_child_input_open",
+  "neutralised_exit": 101,
+  "red": true,
+  "seconds": 1.6,
+  "log": "keep-child-input.neutralised.log"
+ },
+ {
+  "id": "ctrl-c-resend",
+  "file": "crates/viola-e2e/src/harness/supervise.rs",
+  "witness": "cargo test -q -p viola-e2e --lib stop_presses_ctrl_c_again",
+  "neutralised_exit": 101,
+  "red": true,
+  "seconds": 11.8,
+  "log": "ctrl-c-resend.neutralised.log"
+ },
+ {
+  "id": "ripgrep-sha",
+  "file": "scripts/install-ripgrep.sh",
+  "witness": "bash scripts/install-ripgrep.sh --probe",
+  "neutralised_exit": 1,
+  "red": true,
+  "seconds": 43.7,
+  "log": "ripgrep-sha.neutralised.log"
+ },
+ {
+  "id": "orphans-every-triple",
+  "file": "scripts/orphans-check.sh",
+  "witness": "bash scripts/orphans-check.sh --probe",
+  "neutralised_exit": 1,
+  "red": true,
+  "seconds": 4.8,
+  "log": "orphans-every-triple.neutralised.log"
+ },
+ {
+  "id": "exit-on-handle",
+  "file": "crates/viola-pty/src/lib.rs",
+  "witness": "cargo test -q -p viola-pty pump_waits_for_the_handle_after_the_output_ends",
+  "neutralised_exit": 101,
+  "red": true,
+  "seconds": 0.8,
+  "log": "exit-on-handle.neutralised.log"
+ }
+]

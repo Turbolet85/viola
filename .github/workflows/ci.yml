@@ -290,6 +290,9 @@ jobs:
       - name: Clippy (warnings fatal; print and raw-log bans)
         shell: bash
         run: cargo clippy --workspace --all-targets --features fake-agent -- -D warnings
+      - name: ripgrep install probes (retry fires, checksum refuses a mismatch)
+        shell: bash
+        run: bash scripts/install-ripgrep.sh --probe
       - name: Install ripgrep (PCRE2, checksum-pinned)
         shell: bash
         run: |

@@ -1,0 +1,19 @@
+
+running 1 test
+tests::pump_keeps_the_child_input_open_after_its_own_input_ends --- FAILED
+
+failures:
+
+---- tests::pump_keeps_the_child_input_open_after_its_own_input_ends stdout ----
+
+thread 'tests::pump_keeps_the_child_input_open_after_its_own_input_ends' (60464) panicked at crates\viola-pty\src\lib.rs:722:9:
+the child's input closed before it exited
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    tests::pump_keeps_the_child_input_open_after_its_own_input_ends
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 18 filtered out; finished in 0.79s
+
+error: test failed, to rerun pass `-p viola-pty --lib`

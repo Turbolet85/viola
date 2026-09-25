@@ -3,31 +3,80 @@
 #[allow(dead_code)]
 mod support;
 
+use std::ffi::OsString;
 use std::io::Write as _;
 use std::path::{Path, PathBuf};
-use std::process::{Command, ExitStatus, Output, Stdio};
+use std::process::{Child, Command, Output, Stdio};
+use std::time::{Duration, Instant};
 
 use rstest::rstest;
 use serde_json::Value;
 use support::fake::FAKE;
 use support::home::{TestHome, VIOLA, home};
+use support::outer_pty::{EXIT_WITHIN, OuterPty};
 
-fn run_viola(home: &Path, name: &str, program: &str, extra: &[&str]) -> ExitStatus {
-    let mut child = Command::new(VIOLA)
-        .arg("--home")
-        .arg(home)
-        .args(["run", name, "--", program])
-        .args(extra)
-        .env("CLAUDE_CODE_MESSAGING_TOKEN", "canary-token-value-7f3a")
-        .stdin(Stdio::piped())
-        .stdout(Stdio::null())
-        .stderr(Stdio::null())
-        .spawn()
-        .expect("viola runs");
-    if let Some(mut stdin) = child.stdin.take() {
+/// Below cargo-mutants' 20 s auto-timeout floor.
+const READY_WITHIN: Duration = Duration::from_secs(10);
+
+/// A receipt outside the home (the home must stay viola's to create) and the args that ask the
+/// fake agent for it; other programs get no receipt argument.
+fn receipt_args(program: &str) -> (tempfile::TempDir, Vec<OsString>) {
+    let dir = tempfile::tempdir().expect("receipt dir");
+    let args = if program == FAKE {
+        vec!["--receipt".into(), dir.path().join("r.ndjson").into()]
+    } else {
+        Vec::new()
+    };
+    (dir, args)
+}
+
+/// True once the fake agent's terminal is raw (its `start` receipt); false if `exited` first.
+fn wait_raw(dir: &tempfile::TempDir, mut exited: impl FnMut() -> bool) -> bool {
+    let receipt = dir.path().join("r.ndjson");
+    let deadline = Instant::now() + READY_WITHIN;
+    loop {
+        if std::fs::read_to_string(&receipt)
+            .unwrap_or_default()
+            .contains("\"kind\":\"start\"")
+        {
+            return true;
+        }
+        if exited() {
+            return false;
+        }
+        assert!(
+            Instant::now() < deadline,
+            "the wrapped program never started"
+        );
+        std::thread::yield_now();
+    }
+}
+
+/// `viola run <name> -- <program> <extra>` under an outer PTY; Ctrl-C once the child is raw.
+fn run_viola(home: &Path, name: &str, program: &str, extra: &[&str]) -> Option<i32> {
+    let (dir, mut fake_args) = receipt_args(program);
+    let mut args: Vec<OsString> = vec!["--home".into(), home.into()];
+    args.extend(["run", name, "--", program].map(OsString::from));
+    args.extend(extra.iter().map(OsString::from));
+    args.append(&mut fake_args);
+    let mut pty = OuterPty::spawn(
+        Path::new(VIOLA),
+        &args,
+        &[("CLAUDE_CODE_MESSAGING_TOKEN", "canary-token-value-7f3a")],
+    );
+    if wait_raw(&dir, || pty.try_wait().is_some()) {
+        pty.write(b"\x03");
+    }
+    i32::try_from(pty.wait_exit(EXIT_WITHIN)).ok()
+}
+
+/// A piped-stdin wrapper: Ctrl-C into the pipe once the child is raw.
+fn ctrl_c_when_raw(child: &mut Child, dir: &tempfile::TempDir) {
+    if wait_raw(dir, || child.try_wait().ok().flatten().is_some())
+        && let Some(stdin) = child.stdin.as_mut()
+    {
         let _ = stdin.write_all(b"\x03");
     }
-    child.wait().expect("viola exits")
 }
 
 fn role_lines(home: &Path, name: &str) -> (String, Vec<Value>) {
@@ -59,7 +108,7 @@ fn run_with_fake_agent_writes_start_and_exit_lines(#[from(home)] tmp: TestHome) 
         FAKE,
         &["--cli-version", "9.9.9", "--argv-sentinel-q1"],
     );
-    assert_eq!(status.code(), Some(0));
+    assert_eq!(status, Some(0));
     let (text, lines) = role_lines(&home, "builder");
     let shape: Vec<(&str, &str)> = lines
         .iter()
@@ -99,6 +148,18 @@ fn run_with_fake_agent_writes_start_and_exit_lines(#[from(home)] tmp: TestHome) 
     assert_eq!(lines[0]["os"], std::env::consts::OS);
     assert!(lines[0]["pid"].as_u64().is_some());
     assert!(lines[1]["child_pid"].as_u64().is_some());
+    let backend = if cfg!(windows) { "conpty" } else { "openpty" };
+    assert_eq!(lines[1]["pty_backend"], backend);
+    assert!(
+        lines[1]["env_stripped_count"]
+            .as_u64()
+            .is_some_and(|n| n >= 1)
+    );
+    assert!(
+        lines[1]["env_stripped_known"]
+            .as_str()
+            .is_some_and(|names| names.split(',').any(|n| n == "CLAUDE_CODE_MESSAGING_TOKEN"))
+    );
     assert_eq!(lines[2]["child_exit_status"], 0);
     assert_eq!(lines[2]["exit_source"], "handle-wait");
     assert_eq!(lines[3]["exit_code"], 0);
@@ -111,7 +172,7 @@ fn run_with_fake_agent_writes_start_and_exit_lines(#[from(home)] tmp: TestHome) 
 fn run_child_exit_status_is_recorded(#[from(home)] tmp: TestHome) {
     let home = tmp.path().to_path_buf();
     let status = run_viola(&home, "builder", FAKE, &["--version"]);
-    assert_eq!(status.code(), Some(0));
+    assert_eq!(status, Some(0));
     let (_, lines) = role_lines(&home, "builder");
     assert_eq!(lines[2]["child_exit_status"], 0);
     assert_eq!(lines.len(), 4);
@@ -122,7 +183,7 @@ fn run_with_a_bad_name_is_usage_and_creates_nothing(#[from(home)] tmp: TestHome)
     let home = tmp.path().to_path_buf();
     for bad in ["Builder", "../x", "1abc"] {
         let status = run_viola(&home, bad, FAKE, &[]);
-        assert_eq!(status.code(), Some(2), "{bad}");
+        assert_eq!(status, Some(2), "{bad}");
     }
     assert!(!home.exists());
 }
@@ -132,7 +193,7 @@ fn run_with_a_missing_program_exits_1_with_internal_error(#[from(home)] tmp: Tes
     let home = tmp.path().to_path_buf();
     let missing = tmp.scratch().join("no-such-program");
     let status = run_viola(&home, "builder", missing.to_str().expect("utf-8"), &[]);
-    assert_eq!(status.code(), Some(1));
+    assert_eq!(status, Some(1));
     let (text, lines) = role_lines(&home, "builder");
     assert_eq!(lines.len(), 2);
     assert_eq!(lines[1]["event"], "process-exit");
@@ -157,21 +218,21 @@ fn write_config(home: &Path, text: &str) {
     std::fs::write(home.join("config.json"), text).expect("config");
 }
 
-/// `viola run builder -- <program>` with captured output; Ctrl-C goes in at once.
+/// `viola run builder -- <program>` on pipes with captured output; Ctrl-C once the child is raw.
 fn run_captured(home: &Path, program: &str, env: &[(&str, &str)]) -> std::process::Output {
+    let (dir, fake_args) = receipt_args(program);
     let mut child = Command::new(VIOLA)
         .arg("--home")
         .arg(home)
         .args(["run", "builder", "--", program])
+        .args(&fake_args)
         .envs(env.iter().copied())
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())
         .stderr(Stdio::piped())
         .spawn()
         .expect("viola runs");
-    if let Some(mut stdin) = child.stdin.take() {
-        let _ = stdin.write_all(b"\x03");
-    }
+    ctrl_c_when_raw(&mut child, &dir);
     child.wait_with_output().expect("viola exits")
 }
 
@@ -189,10 +250,12 @@ fn key_sets(lines: &[Value]) -> Vec<Vec<String>> {
 #[rstest]
 fn run_self_exit_carries_duration_ms(#[from(home)] tmp: TestHome, #[from(home)] missing: TestHome) {
     let home = tmp.path().to_path_buf();
+    let (dir, fake_args) = receipt_args(FAKE);
     let mut child = Command::new(VIOLA)
         .arg("--home")
         .arg(&home)
         .args(["run", "builder", "--", FAKE])
+        .args(&fake_args)
         .stdin(Stdio::piped())
         .stdout(Stdio::null())
         .stderr(Stdio::null())
@@ -215,9 +278,8 @@ fn run_self_exit_carries_duration_ms(#[from(home)] tmp: TestHome, #[from(home)] 
     while std::time::Instant::now() < window {
         std::thread::yield_now();
     }
-    let mut stdin = child.stdin.take().expect("stdin");
-    stdin.write_all(b"\x03").expect("write");
-    drop(stdin);
+    ctrl_c_when_raw(&mut child, &dir);
+    drop(child.stdin.take());
     assert_eq!(child.wait().expect("exits").code(), Some(0));
     let (_, lines) = role_lines(&home, "builder");
     assert_eq!(lines[3]["subject"], "self");
@@ -288,6 +350,11 @@ fn run_rust_log_changes_nothing(#[from(home)] plain: TestHome, #[from(home)] tra
     assert!(traced_lines.iter().all(|l| l["level"] == "INFO"));
 }
 
+/// viola's own human and diagnostic literals: none may reach its stdout.
+const VIOLA_LITERALS: [&str; 5] = ["unable:", "hint:", "error:", "\"event\":", "\"process\":"];
+
+/// stdout carries only the child's screen as its PTY renders it: nothing on Unix for a child that
+/// prints nothing, ConPTY's own preamble on Windows (research fact 4); never a byte of viola's.
 #[rstest]
 fn run_is_silent_on_stdout_and_stderr(
     #[from(home)] child: TestHome,
@@ -295,7 +362,12 @@ fn run_is_silent_on_stdout_and_stderr(
 ) {
     let out = run_captured(child.path(), FAKE, &[]);
     assert!(out.status.success());
-    assert!(out.stdout.is_empty(), "stdout: {} bytes", out.stdout.len());
+    for literal in VIOLA_LITERALS {
+        assert!(!holds(&out.stdout, literal), "viola wrote {literal:?}");
+    }
+    if cfg!(unix) {
+        assert!(out.stdout.is_empty(), "stdout: {} bytes", out.stdout.len());
+    }
     assert!(out.stderr.is_empty(), "stderr: {} bytes", out.stderr.len());
 
     let absent = missing.scratch().join("no-such-program");

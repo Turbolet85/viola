@@ -30,7 +30,7 @@ const VIOLA_TARGETS: [&str; 8] = [
     "viola_ui",
 ];
 
-const CONFIG_KEYS: [&str; 2] = ["v", "diagnostics_level"];
+const CONFIG_KEYS: [&str; 3] = ["v", "diagnostics_level", "claude_env_keep"];
 
 static STARTED: OnceLock<Instant> = OnceLock::new();
 

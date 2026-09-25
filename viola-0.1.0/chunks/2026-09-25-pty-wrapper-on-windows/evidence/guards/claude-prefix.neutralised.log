@@ -1,0 +1,21 @@
+
+running 1 test
+tests::plan_strip_removes_identity_and_unknown_claude_names_and_keeps_the_rest --- FAILED
+
+failures:
+
+---- tests::plan_strip_removes_identity_and_unknown_claude_names_and_keeps_the_rest stdout ----
+
+thread 'tests::plan_strip_removes_identity_and_unknown_claude_names_and_keeps_the_rest' (61052) panicked at crates\viola-agent-claude\src\lib.rs:220:9:
+assertion `left == right` failed
+  left: ["PATH", "CLAUDECODE", "CLAUDE_CODE_SESSION_ID", "CLAUDE_VIOLA_TEST_NEW_X", "HOME"]
+ right: ["CLAUDECODE", "CLAUDE_CODE_SESSION_ID", "CLAUDE_VIOLA_TEST_NEW_X"]
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    tests::plan_strip_removes_identity_and_unknown_claude_names_and_keeps_the_rest
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 15 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p viola-agent-claude --lib`

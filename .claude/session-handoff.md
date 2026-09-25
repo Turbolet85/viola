@@ -39,3 +39,6 @@
   - The code-metrics ledger's `mutation.survivors` correction (`lib.rs:9:31` / `:9:38`) is still owed at the next ledger-mode audit.
   - Two Windows-only unviable fake-agent `main` mutants were observed and not chased.
 - Last failed command: none open.
+
+## Session End Status
+Completed normally at 2026-09-25 17:04:58

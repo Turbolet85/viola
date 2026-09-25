@@ -7,6 +7,7 @@ mod support;
 use std::io::Write as _;
 use std::path::Path;
 use std::process::{Command, Stdio};
+use std::time::{Duration, Instant};
 
 use rstest::rstest;
 use serde_json::{Value, json};
@@ -165,19 +166,48 @@ fn run_lines(home: &Path, program: &str, config: Option<&str>) -> Vec<Value> {
         std::fs::create_dir_all(home).expect("home");
         std::fs::write(home.join("config.json"), config).expect("config");
     }
-    let mut child = Command::new(VIOLA)
-        .arg("--home")
+    // The receipt sits outside the home, which stays viola's to create.
+    let receipts = tempfile::tempdir().expect("receipt dir");
+    let receipt = receipts.path().join("r.ndjson");
+    let mut cmd = Command::new(VIOLA);
+    cmd.arg("--home")
         .arg(home)
-        .args(["run", "builder", "--", program])
+        .args(["run", "builder", "--", program]);
+    if program == FAKE {
+        cmd.arg("--receipt").arg(&receipt);
+    }
+    let mut child = cmd
         .stdin(Stdio::piped())
         .stdout(Stdio::null())
         .stderr(Stdio::null())
         .spawn()
         .expect("viola runs");
-    if let Some(mut stdin) = child.stdin.take() {
-        let _ = stdin.write_all(b"\x03");
+    // Ctrl-C only once the child's terminal is raw (its `start` receipt): sooner, it is swallowed.
+    let deadline = Instant::now() + Duration::from_secs(10);
+    loop {
+        if child.try_wait().expect("try_wait").is_some() {
+            break;
+        }
+        if std::fs::read_to_string(&receipt)
+            .unwrap_or_default()
+            .contains("\"kind\":\"start\"")
+        {
+            if let Some(stdin) = child.stdin.as_mut() {
+                let _ = stdin.write_all(b"\x03");
+            }
+            break;
+        }
+        assert!(
+            Instant::now() < deadline,
+            "the wrapped program never started"
+        );
+        std::thread::yield_now();
     }
-    child.wait().expect("viola exits");
+    let deadline = Instant::now() + Duration::from_secs(10);
+    while child.try_wait().expect("try_wait").is_none() {
+        assert!(Instant::now() < deadline, "viola never exited");
+        std::thread::yield_now();
+    }
     std::fs::read_to_string(home.join("diagnostics").join("run-builder.ndjson"))
         .expect("role file")
         .lines()

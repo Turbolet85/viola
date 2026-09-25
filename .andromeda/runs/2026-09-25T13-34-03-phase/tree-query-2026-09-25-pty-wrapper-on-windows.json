@@ -1,0 +1,123 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'spawn_child' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 1,
+"result": [
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/run().",
+"file": "src/cmd/run.rs",
+"line": 35
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT symbol, crate, kind, file, def_line FROM symbol WHERE name IN ('supervise','Wrapper','booted_wrapper','log_child_exit','log_child_start','run','Supervisor') AND kind <> 'meta' ORDER BY file",
+"rows": 12,
+"result": [
+{
+"symbol": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/",
+"crate": "viola-e2e",
+"kind": "module",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"def_line": 0
+},
+{
+"symbol": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/run().",
+"crate": "viola-e2e",
+"kind": "fn",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"def_line": 80
+},
+{
+"symbol": "rust-analyzer cargo viola-e2e 0.1.0 harness/supervise/",
+"crate": "viola-e2e",
+"kind": "module",
+"file": "crates/viola-e2e/src/harness/supervise.rs",
+"def_line": 0
+},
+{
+"symbol": "rust-analyzer cargo viola-e2e 0.1.0 harness/supervise/Wrapper#",
+"crate": "viola-e2e",
+"kind": "type",
+"file": "crates/viola-e2e/src/harness/supervise.rs",
+"def_line": 17
+},
+{
+"symbol": "rust-analyzer cargo viola-e2e 0.1.0 harness/supervise/supervise().",
+"crate": "viola-e2e",
+"kind": "fn",
+"file": "crates/viola-e2e/src/harness/supervise.rs",
+"def_line": 48
+},
+{
+"symbol": "rust-analyzer cargo viola 0.1.0 cmd/run/",
+"crate": "viola",
+"kind": "module",
+"file": "src/cmd/run.rs",
+"def_line": 0
+},
+{
+"symbol": "rust-analyzer cargo viola 0.1.0 cmd/run/run().",
+"crate": "viola",
+"kind": "fn",
+"file": "src/cmd/run.rs",
+"def_line": 23
+},
+{
+"symbol": "rust-analyzer cargo viola 0.1.0 run/",
+"crate": "viola",
+"kind": "module",
+"file": "src/run/mod.rs",
+"def_line": 0
+},
+{
+"symbol": "rust-analyzer cargo viola 0.1.0 run/log_child_start().",
+"crate": "viola",
+"kind": "fn",
+"file": "src/run/mod.rs",
+"def_line": 22
+},
+{
+"symbol": "rust-analyzer cargo viola 0.1.0 run/log_child_exit().",
+"crate": "viola",
+"kind": "fn",
+"file": "src/run/mod.rs",
+"def_line": 31
+},
+{
+"symbol": "rust-analyzer cargo viola 0.1.0 support/home/Wrapper#",
+"crate": "viola",
+"kind": "type",
+"file": "tests/support/home.rs",
+"def_line": 109
+},
+{
+"symbol": "rust-analyzer cargo viola 0.1.0 support/home/booted_wrapper#",
+"crate": "viola",
+"kind": "type",
+"file": "tests/support/home.rs",
+"def_line": 217
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT from_crate, to_crate FROM crate_edges",
+"rows": 2,
+"result": [
+{
+"from_crate": "viola",
+"to_crate": "viola-core"
+},
+{
+"from_crate": "viola-e2e",
+"to_crate": "viola-core"
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

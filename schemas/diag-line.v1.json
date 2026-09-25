@@ -71,7 +71,8 @@
       "os": { "enum": ["windows", "macos", "linux"] }, "pid": { "$ref": "#/$defs/count" },
       "child_pid": { "$ref": "#/$defs/count" }, "port": { "$ref": "#/$defs/count" }, "endpoint_kind": { "type": "string" },
       "pty_backend": { "type": "string" }, "cli_version": { "type": "string" }, "cli_verified": { "type": "boolean" },
-      "env_stripped_count": { "$ref": "#/$defs/count" }, "env_stripped_known": { "type": "string" } } } },
+      "env_stripped_count": { "$ref": "#/$defs/count" }, "env_stripped_known": { "type": "string" },
+      "env_kept": { "type": "string" } } } },
     { "if": { "properties": { "event": { "const": "process-exit" } } }, "then": { "properties": {
       "subject": { "$ref": "#/$defs/subject" }, "exit_code": { "type": "integer" },
       "child_exit_status": { "type": "integer" }, "shell_exit_status": { "type": "integer" },

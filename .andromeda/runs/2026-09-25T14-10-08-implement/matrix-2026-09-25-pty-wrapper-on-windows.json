@@ -1,0 +1,49 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "84f383a7",
+"ts": "2026-09-25T16:46:50Z",
+"argv": [
+"implement",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-09-25-pty-wrapper-on-windows",
+"--id",
+"v1-25",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-25T14-10-08-implement"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"implement v1-25 · status planned → implemented · ref by-construction: the portable-pty line record is the Cargo.toml [workspace.depen… (544 chars)",
+"wrote viola-0.1.0\\verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0\\verification-matrix.json"
+],
+"before": {
+"id": "v1-25",
+"chunk": "2026-09-25-pty-wrapper-on-windows",
+"status": "planned",
+"method": "by-construction",
+"ref": "null",
+"acceptance": "The portable-pty line is recorded beside its pin (the `Cargo.toml` `[workspace.dependencies]` portable-pty comment) and … (703 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-25",
+"chunk": "2026-09-25-pty-wrapper-on-windows",
+"status": "implemented",
+"method": "by-construction",
+"ref": "by-construction: the portable-pty line record is the Cargo.toml [workspace.dependencies] portable-pty comment and the cr… (544 chars)",
+"acceptance": "The portable-pty line is recorded beside its pin (the `Cargo.toml` `[workspace.dependencies]` portable-pty comment) and … (703 chars)",
+"notes_chars": 0
+}
+}
+]

@@ -1,16 +1,16 @@
 //! The root copy of the fixture chain. The `viola_e2e::fixtures` copy lands with its first E2E
 //! consumer; both follow one contract (test-plan §3 `run` step 2).
 
+use std::ffi::OsString;
 use std::fs;
-use std::io::Write as _;
 use std::path::{Path, PathBuf};
-use std::process::{Child, ChildStdin, Command, ExitStatus, Stdio};
 use std::time::{Duration, Instant};
 
 use rstest::fixture;
 use serde_json::Value;
 
 use super::fake;
+use super::outer_pty::{EXIT_WITHIN, OuterPty};
 
 pub const VIOLA: &str = env!("CARGO_BIN_EXE_viola");
 /// Below cargo-mutants' 20 s auto-timeout floor, so a mutant that never gets ready is caught, not
@@ -105,56 +105,59 @@ pub fn stamped_home(home: TestHome, fake_agent_path: PathBuf) -> StampedHome {
     }
 }
 
-/// `viola run <name> -- <fake agent> --control … --receipt …` on a piped stdin (the PTY seam
-/// replaces the pipe when `viola-pty` lands).
+/// `viola run <name> -- <fake agent> --control … --receipt …` under an outer PTY, the way a
+/// human's terminal hosts it.
 pub struct Wrapper {
     pub stamped: StampedHome,
     pub name: String,
-    child: Child,
-    stdin: Option<ChildStdin>,
+    pty: OuterPty,
+}
+
+/// The wrapper's exit code once it stopped.
+pub struct Stopped(Option<u32>);
+
+impl Stopped {
+    pub fn code(&self) -> Option<i32> {
+        self.0.and_then(|c| i32::try_from(c).ok())
+    }
 }
 
 impl Wrapper {
     /// `script` is workspace-relative, resolved here the way the harness resolves it.
     pub fn boot(stamped: StampedHome, name: &str, script: Option<&str>, extra: &[&str]) -> Self {
         let home = stamped.home.path().to_path_buf();
-        let mut cmd = Command::new(VIOLA);
-        cmd.arg("--home")
-            .arg(&home)
-            .args(["run", name, "--"])
-            .arg(&stamped.fake)
-            .arg("--control")
-            .arg(fake::control_path(&home, name))
-            .arg("--receipt")
-            .arg(fake::receipt_path(&home, name));
+        let mut args: Vec<OsString> = vec!["--home".into(), home.clone().into()];
+        args.extend(["run", name, "--"].map(OsString::from));
+        args.push(stamped.fake.clone().into());
+        args.push("--control".into());
+        args.push(fake::control_path(&home, name).into());
+        args.push("--receipt".into());
+        args.push(fake::receipt_path(&home, name).into());
         if let Some(script) = script {
-            cmd.arg("--script").arg(workspace_path(script));
+            args.push("--script".into());
+            args.push(workspace_path(script).into());
         }
-        let mut child = cmd
-            .args(extra)
-            .stdin(Stdio::piped())
-            .stdout(Stdio::null())
-            .stderr(Stdio::null())
-            .spawn()
-            .expect("viola run");
-        let stdin = child.stdin.take();
+        args.extend(extra.iter().map(OsString::from));
+        let pty = OuterPty::spawn(Path::new(VIOLA), &args, &[]);
         let mut wrapper = Self {
             stamped,
             name: name.to_owned(),
-            child,
-            stdin,
+            pty,
         };
         wrapper.wait_ready();
         wrapper
     }
 
-    /// Interim readiness (verification-harness rules): `process-start` for `self` and `claude-child`.
-    /// A wrapper that exits first fails at once (test-plan §3 Readiness: `run-exited`).
+    /// Interim readiness (verification-harness rules): `process-start` for `self` and
+    /// `claude-child`, then the fake agent's `start` receipt, written once its terminal is raw so
+    /// that no key sent after this can be swallowed. A wrapper that exits first fails at once
+    /// (test-plan §3 Readiness: `run-exited`).
     fn wait_ready(&mut self) {
         let role = self
             .home()
             .join("diagnostics")
             .join(format!("run-{}.ndjson", self.name));
+        let receipt = self.receipt();
         let deadline = Instant::now() + READY_WITHIN;
         loop {
             let lines: Vec<Value> = fs::read_to_string(&role)
@@ -167,11 +170,12 @@ impl Wrapper {
                     .iter()
                     .any(|l| l["event"] == "process-start" && l["subject"] == subject)
             };
-            if started("self") && started("claude-child") {
+            let raw = fake::receipt(&receipt).iter().any(|l| l["kind"] == "start");
+            if started("self") && started("claude-child") && raw {
                 return;
             }
-            if let Some(status) = self.child.try_wait().expect("try_wait") {
-                panic!("wrapper {} exited before ready: {status}", self.name);
+            if let Some(code) = self.pty.try_wait() {
+                panic!("wrapper {} exited before ready: {code}", self.name);
             }
             assert!(Instant::now() < deadline, "wrapper {} not ready", self.name);
             std::thread::yield_now();
@@ -183,9 +187,7 @@ impl Wrapper {
     }
 
     pub fn send(&mut self, bytes: &[u8]) {
-        let stdin = self.stdin.as_mut().expect("stdin open");
-        stdin.write_all(bytes).expect("write");
-        stdin.flush().expect("flush");
+        self.pty.write(bytes);
     }
 
     pub fn release(&self) {
@@ -196,21 +198,10 @@ impl Wrapper {
         fake::receipt_path(self.home(), &self.name)
     }
 
-    /// Ctrl-C into the child, then the wrapper's own exit.
-    pub fn stop(mut self) -> ExitStatus {
-        if let Some(mut stdin) = self.stdin.take() {
-            let _ = stdin.write_all(b"\x03");
-        }
-        self.child.wait().expect("viola exits")
-    }
-}
-
-impl Drop for Wrapper {
-    fn drop(&mut self) {
-        if let Ok(None) = self.child.try_wait() {
-            let _ = self.child.kill();
-            let _ = self.child.wait();
-        }
+    /// Ctrl-C into the terminal, then the wrapper's own exit.
+    pub fn stop(mut self) -> Stopped {
+        self.pty.write(b"\x03");
+        Stopped(Some(self.pty.wait_exit(EXIT_WITHIN)))
     }
 }
 

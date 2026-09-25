@@ -1,0 +1,29 @@
+
+running 1 test
+tests::pump_waits_for_the_handle_after_the_output_ends --- FAILED
+
+failures:
+
+---- tests::pump_waits_for_the_handle_after_the_output_ends stdout ----
+
+thread 'tests::pump_waits_for_the_handle_after_the_output_ends' (65328) panicked at crates\viola-pty\src\lib.rs:664:9:
+returned on the end of output
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    tests::pump_waits_for_the_handle_after_the_output_ends
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 19 filtered out; finished in 0.00s
+
+warning: variable does not need to be mutable
+   --> crates\viola-pty\src\lib.rs:295:9
+    |
+295 |     let mut output_done = false;
+    |         ----^^^^^^^^^^^
+    |         |
+    |         help: remove this `mut`
+    |
+    = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+error: test failed, to rerun pass `-p viola-pty --lib`

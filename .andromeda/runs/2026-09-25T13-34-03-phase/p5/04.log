@@ -1,0 +1,43 @@
+  error: operator didn't match any binary names
+   ╭────
+ 1 │ (kind(test)) & (binary(tui_pty_seam) | binary(tui_passthrough) | binary(tui_env_strip) | binary(cli_program_resolution))
+   ·                        ──────┬─────
+   ·                              ╰── no binary names matched this
+   ╰────
+
+  error: operator didn't match any binary names
+   ╭────
+ 1 │ (kind(test)) & (binary(tui_pty_seam) | binary(tui_passthrough) | binary(tui_env_strip) | binary(cli_program_resolution))
+   ·                                               ───────┬───────
+   ·                                                      ╰── no binary names matched this
+   ╰────
+
+  error: operator didn't match any binary names
+   ╭────
+ 1 │ (kind(test)) & (binary(tui_pty_seam) | binary(tui_passthrough) | binary(tui_env_strip) | binary(cli_program_resolution))
+   ·                                                                         ──────┬──────
+   ·                                                                               ╰── no binary names matched this
+   ╰────
+
+  error: operator didn't match any binary names
+   ╭────
+ 1 │ (kind(test)) & (binary(tui_pty_seam) | binary(tui_passthrough) | binary(tui_env_strip) | binary(cli_program_resolution))
+   ·                                                                                                 ───────────┬──────────
+   ·                                                                                                            ╰── no binary names matched this
+   ╰────
+
+error: failed to parse filterset
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.10s
+   Doc-tests viola_core
+   Doc-tests viola_e2e
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+{"v":1,"cmd":"run","ok":false,"suites":[{"suite":"nextest-integration","passed":0,"failed":1,"skipped":0,"survived":0,"artifact":null,"failures":["artifact-missing"]},{"suite":"doctest","passed":0,"failed":0,"skipped":0,"survived":0,"artifact":null,"failures":[]}]}

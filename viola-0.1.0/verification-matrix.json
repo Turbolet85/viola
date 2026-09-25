@@ -330,12 +330,12 @@
       "requirement": "the chunk that writes the PTY seam records which portable-pty line it uses and why (the Windows defect re-checked), keeping the seam's contract, exit-on-handle detection and non-inheritable handles either way.",
       "observed_gap": "arch pins portable-pty `=0.8.1` (2023) and excludes 0.9.0 for a Windows garbage-read bug (A:44); a11y notes 0.9.0 is the maintained line and inherits the risk (AY D-A11Y-13; XF Y6).",
       "verification": {
-        "method": "manual",
-        "acceptance": "The project records which portable-pty line the PTY seam uses and why, with the Windows defect re-checked on current evidence, and the seam's contract, exit detection on the process handle and non-inheritable handles hold either way.",
-        "ref": null,
-        "status": "planned"
+        "method": "by-construction",
+        "acceptance": "The portable-pty line is recorded beside its pin (the `Cargo.toml` `[workspace.dependencies]` portable-pty comment) and in the `viola-pty` crate doc. The record names 0.8.1 as the line in use and why 0.9.0 is excluded: wezterm#6783 (Windows `pty.read` returns garbage from 0.9.0) was re-checked open on 2026-09-25, and 0.9.0 is still crates.io's newest release. It also states that child exit is detected on the process handle and that the spawn passes `bInheritHandles = 0` (portable-pty 0.8.1 `src/win/psuedocon.rs:141`). Under that line the seam's exit-on-handle tests pass: the `--exit-no-eof` fake child's exit is reported by `wait()` on a real PTY, and a never-EOF mock reader returns on `wait()`.",
+        "ref": "by-construction: the portable-pty line record is the Cargo.toml [workspace.dependencies] portable-pty comment and the crates/viola-pty/src/lib.rs crate doc (0.8.1; 0.9.0 excluded for wezterm#6783, re-checked open 2026-09-25 with 0.9.0 still newest; exit on the process handle; bInheritHandles = 0 at portable-pty 0.8.1 src/win/psuedocon.rs:141); exit-on-handle witnesses crates/viola-pty/src/lib.rs::tests::pump_returns_on_the_handle_while_the_output_never_ends and tests/tui_pty_seam.rs::pty_exit_is_read_on_the_handle_while_the_output_is_held",
+        "status": "implemented"
       },
-      "chunk": null
+      "chunk": "2026-09-25-pty-wrapper-on-windows"
     },
     {
       "id": "v1-26",

@@ -43,8 +43,30 @@ name = "contract_lints"
 path = "tests/contract_lints.rs"
 required-features = ["fake-agent"]
 
+[[test]]
+name = "tui_pty_seam"
+path = "tests/tui_pty_seam.rs"
+required-features = ["fake-agent"]
+
+[[test]]
+name = "tui_passthrough"
+path = "tests/tui_passthrough.rs"
+required-features = ["fake-agent"]
+
+[[test]]
+name = "tui_env_strip"
+path = "tests/tui_env_strip.rs"
+required-features = ["fake-agent"]
+
+[[test]]
+name = "cli_program_resolution"
+path = "tests/cli_program_resolution.rs"
+required-features = ["fake-agent"]
+
 [dependencies]
 viola-core = { path = "crates/viola-core" }
+viola-pty = { path = "crates/viola-pty" }
+viola-agent-claude = { path = "crates/viola-agent-claude" }
 anyhow.workspace = true
 chrono.workspace = true
 clap.workspace = true
@@ -59,9 +81,11 @@ serde_json.workspace = true
 sha2.workspace = true
 tempfile.workspace = true
 
+[target.'cfg(windows)'.dependencies]
+windows-sys.workspace = true
+
 [target.'cfg(windows)'.dev-dependencies]
 interprocess.workspace = true
-windows-sys.workspace = true
 
 [lints]
 workspace = true
@@ -86,7 +110,15 @@ clap = { version = "=4.6.7", features = ["derive"] }
 interprocess = "=2.4.4"
 # Default features pull reqwest and the C-building aws-lc-rs; schemas are local files only.
 jsonschema = { version = "=0.57.0", default-features = false }
+# Only for termios raw mode and the terminal size on Unix; already in the graph through portable-pty.
+libc = "=0.2.189"
+mockall = "=0.15.0"
 nutype = "=0.8.0"
+# 0.8.1, not the newer 0.9.0: from 0.9.0 `pty.read` returns garbage on Windows (wezterm#6783, still
+# open and 0.9.0 still the newest release on 2026-09-25). 0.8.1 spawns with `bInheritHandles = 0`
+# (src/win/psuedocon.rs:141); child exit is read on the process handle, never on EOF (ConPTY does not
+# close its output when the child exits).
+portable-pty = "=0.8.1"
 proptest = { version = "=1.11.0", default-features = false, features = ["std"] }
 rstest = { version = "=0.27.0", default-features = false }
 serde = { version = "=1.0.229", features = ["derive"] }
@@ -98,7 +130,7 @@ tempfile = "=3.27.0"
 thiserror = "=2.0.20"
 tracing = { version = "=0.1.44", default-features = false, features = ["std"] }
 tracing-subscriber = { version = "=0.3.23", default-features = false, features = ["fmt", "json", "registry", "std"] }
-windows-sys = { version = "=0.61.2", features = ["Win32_Foundation", "Win32_Security", "Win32_Storage_FileSystem", "Win32_System_Pipes", "Win32_System_Threading"] }
+windows-sys = { version = "=0.61.2", features = ["Win32_Foundation", "Win32_Security", "Win32_Storage_FileSystem", "Win32_System_Console", "Win32_System_Pipes", "Win32_System_Registry", "Win32_System_Threading"] }
 
 [workspace.lints.rust]
 unused_must_use = "deny"

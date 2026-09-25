@@ -1,0 +1,21 @@
+
+running 1 test
+harness::supervise::tests::stop_presses_ctrl_c_again_when_the_first_is_lost --- FAILED
+
+failures:
+
+---- harness::supervise::tests::stop_presses_ctrl_c_again_when_the_first_is_lost stdout ----
+
+thread 'harness::supervise::tests::stop_presses_ctrl_c_again_when_the_first_is_lost' (63144) panicked at crates\viola-e2e\src\harness\supervise.rs:260:9:
+assertion `left == right` failed: {"name":"builder","exit_code":1,"killed":true}
+  left: Bool(true)
+ right: false
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    harness::supervise::tests::stop_presses_ctrl_c_again_when_the_first_is_lost
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 135 filtered out; finished in 10.09s
+
+error: test failed, to rerun pass `-p viola-e2e --lib`

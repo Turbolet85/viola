@@ -17,6 +17,7 @@ path = "src/bin/viola-harness.rs"
 
 [dependencies]
 viola-core = { path = "../viola-core" }
+viola-pty = { path = "../viola-pty" }
 clap.workspace = true
 jsonschema.workspace = true
 serde.workspace = true

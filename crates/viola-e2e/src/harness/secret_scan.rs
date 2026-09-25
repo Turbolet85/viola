@@ -13,10 +13,19 @@ use super::{Outcome, Workspace, write_json};
 
 /// NEVER-log values: forbidden in every scanned file, detail files included (obs-plan §8). The
 /// stripped `CLAUDE*` ones are the fixed canaries the root tests plant through the environment.
-pub const CRITICAL: [(&str, &str); 4] = [
+pub const CRITICAL: [(&str, &str); 13] = [
     ("claude-stripped", "canary-token-value-7f3a"),
     ("claude-stripped", "canary-socket-value-2b9d"),
     ("claude-stripped", "canary-entrypoint-value-8e41"),
+    ("claude-stripped", "canary-claudecode-value-3c07"),
+    ("claude-stripped", "canary-bridge-value-91d2"),
+    ("claude-stripped", "canary-child-value-4e6b"),
+    ("claude-stripped", "canary-execpath-value-a813"),
+    ("claude-stripped", "canary-attended-value-5f29"),
+    ("claude-stripped", "canary-session-value-d4a0"),
+    ("claude-stripped", "canary-effort-value-0b7e"),
+    ("claude-stripped", "canary-pid-value-6c35"),
+    ("claude-stripped", "canary-newname-value-e2f8"),
     ("token-query", "?t="),
 ];
 

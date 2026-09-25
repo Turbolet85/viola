@@ -1,0 +1,30 @@
+
+running 2 tests
+tests::resolve_program_refuses_a_non_claude_script_even_beside_the_exe --- FAILED
+tests::resolve_program_refuses_a_shim_without_its_exe_and_any_other_script --- FAILED
+
+failures:
+
+---- tests::resolve_program_refuses_a_non_claude_script_even_beside_the_exe stdout ----
+
+thread 'tests::resolve_program_refuses_a_non_claude_script_even_beside_the_exe' (65056) panicked at crates\viola-agent-claude\src\lib.rs:363:9:
+assertion `left == right` failed
+  left: Ok("root\\npm\\codex.CMD")
+ right: Err(BatchScriptChild)
+
+---- tests::resolve_program_refuses_a_shim_without_its_exe_and_any_other_script stdout ----
+
+thread 'tests::resolve_program_refuses_a_shim_without_its_exe_and_any_other_script' (61076) panicked at crates\viola-agent-claude\src\lib.rs:350:13:
+assertion `left == right` failed: claude
+  left: Ok("root\\bin\\claude.CMD")
+ right: Err(BatchScriptChild)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    tests::resolve_program_refuses_a_non_claude_script_even_beside_the_exe
+    tests::resolve_program_refuses_a_shim_without_its_exe_and_any_other_script
+
+test result: FAILED. 0 passed; 2 failed; 0 ignored; 0 measured; 14 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p viola-agent-claude --lib`

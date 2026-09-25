@@ -1,0 +1,21 @@
+
+running 1 test
+tui_keys_reach_the_child_as_typed_and_ctrl_c_ends_it --- FAILED
+
+failures:
+
+---- tui_keys_reach_the_child_as_typed_and_ctrl_c_ends_it stdout ----
+
+thread 'tui_keys_reach_the_child_as_typed_and_ctrl_c_ends_it' (47456) panicked at tests\tui_passthrough.rs:75:5:
+assertion `left == right` failed
+  left: String("C:\\Users\\turbo")
+ right: String("D:\\dev\\projects\\viola")
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    tui_keys_reach_the_child_as_typed_and_ctrl_c_ends_it
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.10s
+
+error: test failed, to rerun pass `--test tui_passthrough`

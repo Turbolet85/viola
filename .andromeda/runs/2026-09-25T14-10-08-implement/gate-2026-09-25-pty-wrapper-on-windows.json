@@ -1,0 +1,4393 @@
+[
+{
+"tool": "gate",
+"v": "1.2",
+"sha8": "d4325653",
+"ts": "2026-09-25T15:23:08Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-25T14-10-08-implement",
+"--marker",
+"2026-09-25-pty-wrapper-on-windows"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\viola · marker 2026-09-25-pty-wrapper-on-windows · entries 29",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08 · bound: GNU timeout",
+"delta docs 33 · rust 24 · unmapped 6",
+"prose L152-162: The gates run on this Windows host during /implement. - **Rust delta:** product, test and … (833 chars)",
+"  1 lint        green · exit 0 · 0.32s · 0 B → 1.log · cargo fmt --all --check",
+"  2 lint        green · exit 0 · 1.24s · 143 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 unit        green · exit 0 · 16.12s · 29215 B → 3.log · bash scripts/agent-run.sh run --unit",
+"  4 integration green · exit 0 · 1.67s · 2450 B → 4.log · bash scripts/agent-run.sh run --integration --filter 'bina… (159 chars)",
+"  5 integration red · exit 0 ✗ (exit 1) · exit 1 · 23.92s · 14346 B → 5.log · AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --int… (66 chars)",
+"  6 probe       green · exit 0 · 0.32s · 106 B → 6.log · bash scripts/agent-run.sh schema-check",
+"  7 probe       red · exit 0 ✗ (exit 1) · exit 1 · 28.41s · 194 B → 7.log · bash scripts/agent-run.sh secret-scan",
+"  8 smoke       green · exit 0 · 0.26s · 47 B → 8.log · bash scripts/agent-run.sh cleanup --session p-pty-smoke",
+"  9 smoke       green · exit 0 · 6.26s · 854 B → 9.log · bash scripts/agent-run.sh boot --session p-pty-smoke --ins… (71 chars)",
+" 10 smoke       green · exit 0 · 0.28s · 214 B → 10.log · bash scripts/agent-run.sh status --session p-pty-smoke",
+" 11 smoke       green · exit 0 · 0.27s · 8 B → 11.log · bash scripts/agent-run.sh logs --session p-pty-smoke --ins… (339 chars)",
+" 12 smoke       green · exit 0 · 0.54s · 176 B → 12.log · bash scripts/agent-run.sh cleanup --session p-pty-smoke",
+" 13 probe       green · exit 0 · 0.06s · 2 B → 13.log · grep -c -E '^viola-(pty|agent-claude)$' scripts/sync-crate… (63 chars)",
+" 14 probe       green · exit 0 · 0.48s · 8 B → 14.log · cargo deny --config deny-sync.toml --manifest-path crates/… (89 chars)",
+" 15 probe       green · exit 0 · 0.45s · 8 B → 15.log · cargo deny --config deny-sync.toml --manifest-path crates/… (98 chars)",
+" 16 probe       green · exit 0 · 1.06s · 5511 B → 16.log · cargo deny check",
+" 17 probe       green · exit 0 · 16.29s · 346 B → 17.log · bash scripts/deny-probes.sh",
+" 18 probe       green · exit 0 · 0.18s · 139 B → 18.log · cargo tree -i portable-pty -e normal --target all",
+" 19 probe       green · exit 0 · 0.15s · 41 B → 19.log · cargo tree -p viola-pty -e normal --depth 1 --target all -… (182 chars)",
+" 20 probe       green · exit 0 · 5.28s · 77 B → 20.log · bash scripts/orphans-check.sh --probe",
+" 21 probe       green · exit 0 · 58.38s · 33 B → 21.log · bash scripts/orphans-check.sh",
+" 22 probe       green · exit 0 · 43.62s · 143 B → 22.log · bash scripts/install-ripgrep.sh --probe",
+" 23 probe       green · exit 0 · 0.11s · 388 B → 23.log · zizmor --format=plain .github/workflows/",
+" 24 build       green · exit 0 · 0.17s · 90 B → 24.log · bash scripts/install-ripgrep.sh",
+" 25 build       green · exit 0 · 4.99s · 1501 B → 25.log · RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv cargo c… (116 chars)",
+" 26 integration red · exit 0 ✗ (exit 1) · exit 1 · 1.68s · 337 B → 26.log · AGENT_RUN_CHUNK_BASE=02535078faca200f099920313eb52dbeec424… (101 chars)",
+" 27 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (82 chars)",
+" 28 probe       not run — leg operator (the letter drives it) · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (129 chars)",
+" 29 probe       not run — leg operator (the letter drives it) · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (160 chars)",
+"entries 29 · green 23 · red 3 (5,7,26) · recorded 0 · timeout 0 · not-run 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-25-pty-wrapper-on-windows",
+"plan": "D:\\dev\\projects\\viola\\viola-0.1.0\\chunks\\2026-09-25-pty-wrapper-on-windows\\plan.md",
+"root": "D:\\dev\\projects\\viola",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-09-25T13-11-43-wrap/push.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/a11y.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/acceptance-v1-25.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/arch.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/design.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/layouts.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/master-record.txt",
+".andromeda/runs/2026-09-25T13-34-03-phase/matrix-2026-09-25-pty-wrapper-on-windows.json",
+".andromeda/runs/2026-09-25T13-34-03-phase/obs.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/04.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/09.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/09a.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/09b.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/09c.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/11.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/12.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/13.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/16.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/17.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/18.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/20.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/route-2026-09-25-pty-wrapper-on-windows.json",
+".andromeda/runs/2026-09-25T13-34-03-phase/route-no-marker.json",
+".andromeda/runs/2026-09-25T13-34-03-phase/security.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/tests.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/tree-query-2026-09-25-pty-wrapper-on-windows.json",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/plan.md",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/research.md",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/scope.md"
+],
+"rust": [
+"Cargo.lock",
+"Cargo.toml",
+"crates/viola-e2e/Cargo.toml",
+"crates/viola-e2e/src/harness/secret_scan.rs",
+"crates/viola-e2e/src/harness/supervise.rs",
+"src/bin/viola-fake-agent.rs",
+"src/cmd/run.rs",
+"src/obs.rs",
+"src/run/mod.rs",
+"tests/cli_fake_agent.rs",
+"tests/contract_diag_schema.rs",
+"tests/run_cli.rs",
+"tests/support/home.rs",
+"tests/support/mod.rs",
+"crates/viola-agent-claude/Cargo.toml",
+"crates/viola-agent-claude/src/lib.rs",
+"crates/viola-pty/Cargo.toml",
+"crates/viola-pty/src/lib.rs",
+"src/run/env.rs",
+"tests/cli_program_resolution.rs",
+"tests/support/outer_pty.rs",
+"tests/tui_env_strip.rs",
+"tests/tui_passthrough.rs",
+"tests/tui_pty_seam.rs"
+]
+},
+"unmapped": [
+".github/workflows/ci.yml",
+"schemas/diag-line.v1.json",
+"scripts/install-ripgrep.sh",
+"scripts/orphans-check.sh",
+"scripts/sync-crates.txt",
+"viola-0.1.0/verification-matrix.json"
+],
+"prose": [
+{
+"from": 152,
+"to": 162,
+"text": "The gates run on this Windows host during /implement. - **Rust delta:** product, test and script. No gate defers. - **Smoke:** the harness lifecycle (boot → status → logs → cleanup) is the headless verification. It runs first among the legs, per the standing direction. - **Separate target dir:** the msrv entry keeps its own `CARGO_TARGET_DIR` (host-win32 §Session Additions 2026-09-24). - **CI witnesses** (the operator entries at the end read them on the pushed sha):   - the Unix halves of every `cfg`: raw termios, the openpty byte-compare, `claude_env_keep` survival;   - the ubuntu `supply-chain` job;   - the three `lint` legs: the orphans triple rule and the ripgrep probe on each curl;   - per-OS coverage floors;   - both mutation legs and their union. - **One-shot mutating controls:** the step 12 runs are never entries."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.32,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\2.log",
+"bytes": 143,
+"log_sha8": "35d390b8",
+"exit": 0,
+"seconds": 1.24,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\3.log",
+"bytes": 29215,
+"log_sha8": "a0548490",
+"exit": 0,
+"seconds": 16.12,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"run\",\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(tui_pty_seam) | binary(tui_passthrough) | binary(tui_env_strip) | binary(cli_program_resolution)' ",
+"run_sha8": "07ed04b7",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\4.log",
+"bytes": 2450,
+"log_sha8": "aa06cefd",
+"exit": 0,
+"seconds": 1.67,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"run\",\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "integration",
+"run": "AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --integration",
+"run_sha8": "130402e2",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\5.log",
+"bytes": 14346,
+"log_sha8": "23cd42aa",
+"exit": 1,
+"seconds": 23.92,
+"readings": [
+"exit 0 ✗ (exit 1)",
+"contains '\"cmd\":\"run\",\"ok\":true' ✗"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 1)"
+},
+{
+"n": 6,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\6.log",
+"bytes": 106,
+"log_sha8": "19d35c09",
+"exit": 0,
+"seconds": 0.32,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "bash scripts/agent-run.sh secret-scan",
+"run_sha8": "57dd664b",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\7.log",
+"bytes": 194,
+"log_sha8": "00ceea83",
+"exit": 1,
+"seconds": 28.41,
+"readings": [
+"exit 0 ✗ (exit 1)",
+"contains '\"ok\":true' ✗"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 1)"
+},
+{
+"n": 8,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-pty-smoke",
+"run_sha8": "2c6c9f0b",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\8.log",
+"bytes": 47,
+"log_sha8": "91854d6e",
+"exit": 0,
+"seconds": 0.26,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-pty-smoke --instance builder",
+"run_sha8": "ee3126f5",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\9.log",
+"bytes": 854,
+"log_sha8": "4d00dc85",
+"exit": 0,
+"seconds": 6.26,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-pty-smoke",
+"run_sha8": "2fc027f9",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\10.log",
+"bytes": 214,
+"log_sha8": "f702d77e",
+"exit": 0,
+"seconds": 0.28,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh logs --session p-pty-smoke --instance builder | python -X utf8 -c \"import json,sys; r=[json.loads(l)['record'] for l in sys.stdin if l.strip() and 'record' in json.loads(l)]; s=[x for x in r if x.get('event')=='process-start' and x.get('subject')=='claude-child']; print(s[0].get('pty_backend') if s else 'none')\"",
+"run_sha8": "5fb35fa0",
+"expect": [
+"exit 0",
+"last line conpty"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\11.log",
+"bytes": 8,
+"log_sha8": "ee272a11",
+"exit": 0,
+"seconds": 0.27,
+"readings": [
+"exit 0 ✓",
+"last line 'conpty' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-pty-smoke",
+"run_sha8": "2c6c9f0b",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\12.log",
+"bytes": 176,
+"log_sha8": "3dc13aea",
+"exit": 0,
+"seconds": 0.54,
+"readings": [
+"exit 0 ✓",
+"contains '\"processes_gone\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "grep -c -E '^viola-(pty|agent-claude)$' scripts/sync-crates.txt",
+"run_sha8": "b5234b8f",
+"expect": [
+"exit 0",
+"last line 2"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\13.log",
+"bytes": 2,
+"log_sha8": "53c234e5",
+"exit": 0,
+"seconds": 0.06,
+"readings": [
+"exit 0 ✓",
+"last line '2' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "cargo deny --config deny-sync.toml --manifest-path crates/viola-pty/Cargo.toml check bans",
+"run_sha8": "a2c78971",
+"expect": [
+"exit 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\14.log",
+"bytes": 8,
+"log_sha8": "eba7f300",
+"exit": 0,
+"seconds": 0.48,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "cargo deny --config deny-sync.toml --manifest-path crates/viola-agent-claude/Cargo.toml check bans",
+"run_sha8": "59ea9c52",
+"expect": [
+"exit 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\15.log",
+"bytes": 8,
+"log_sha8": "eba7f300",
+"exit": 0,
+"seconds": 0.45,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": [
+"exit 0",
+"contains advisories ok, bans ok, licenses ok, sources ok"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\16.log",
+"bytes": 5511,
+"log_sha8": "ea330bab",
+"exit": 0,
+"seconds": 1.06,
+"readings": [
+"exit 0 ✓",
+"contains 'advisories ok, bans ok, licenses ok, sources ok' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "bash scripts/deny-probes.sh",
+"run_sha8": "6ea4a0e7",
+"expect": [
+"exit 0",
+"last line deny-probes: 13/13 banned, control clean"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\17.log",
+"bytes": 346,
+"log_sha8": "57359665",
+"exit": 0,
+"seconds": 16.29,
+"readings": [
+"exit 0 ✓",
+"last line 'deny-probes: 13/13 banned, control clean' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "cargo tree -i portable-pty -e normal --target all",
+"run_sha8": "a8b6e27f",
+"expect": [
+"exit 0",
+"contains portable-pty v0.8.1"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\18.log",
+"bytes": 139,
+"log_sha8": "24ef713d",
+"exit": 0,
+"seconds": 0.18,
+"readings": [
+"exit 0 ✓",
+"contains 'portable-pty v0.8.1' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "cargo tree -p viola-pty -e normal --depth 1 --target all --prefix none | python -X utf8 -c \"import sys; print(sorted({l.split()[0] for l in sys.stdin if l.strip()} - {'viola-pty'}))\"",
+"run_sha8": "47f9dac4",
+"expect": [
+"exit 0",
+"last line ['libc', 'portable-pty', 'windows-sys']"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\19.log",
+"bytes": 41,
+"log_sha8": "04b115f5",
+"exit": 0,
+"seconds": 0.15,
+"readings": [
+"exit 0 ✓",
+"last line \"['libc', 'portable-pty', 'windows-sys']\" ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "bash scripts/orphans-check.sh --probe",
+"run_sha8": "6032d9ad",
+"expect": [
+"exit 0",
+"last line orphans-check probes: 2/2 fired, control clean"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\20.log",
+"bytes": 77,
+"log_sha8": "de3c731c",
+"exit": 0,
+"seconds": 5.28,
+"readings": [
+"exit 0 ✓",
+"last line 'orphans-check probes: 2/2 fired, control clean' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "bash scripts/orphans-check.sh",
+"run_sha8": "f05a4287",
+"expect": [
+"exit 0",
+"last line orphans-check: 7/7 targets clean"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\21.log",
+"bytes": 33,
+"log_sha8": "7f3e3e8a",
+"exit": 0,
+"seconds": 58.38,
+"readings": [
+"exit 0 ✓",
+"last line 'orphans-check: 7/7 targets clean' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "bash scripts/install-ripgrep.sh --probe",
+"run_sha8": "366d0238",
+"expect": [
+"exit 0",
+"last line install-ripgrep probes: 3/3 fired"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\22.log",
+"bytes": 143,
+"log_sha8": "fe0bb319",
+"exit": 0,
+"seconds": 43.62,
+"readings": [
+"exit 0 ✓",
+"last line 'install-ripgrep probes: 3/3 fired' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "zizmor --format=plain .github/workflows/",
+"run_sha8": "0f3c1c47",
+"expect": [
+"exit 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\23.log",
+"bytes": 388,
+"log_sha8": "01a25b9b",
+"exit": 0,
+"seconds": 0.11,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 24,
+"role": "build",
+"run": "bash scripts/install-ripgrep.sh",
+"run_sha8": "dcb8426b",
+"expect": [
+"exit 0",
+"contains install-ripgrep: ripgrep 15.2.0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\24.log",
+"bytes": 90,
+"log_sha8": "f0fd37f2",
+"exit": 0,
+"seconds": 0.17,
+"readings": [
+"exit 0 ✓",
+"contains 'install-ripgrep: ripgrep 15.2.0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 25,
+"role": "build",
+"run": "RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv cargo check --workspace --all-targets --features viola/fake-agent",
+"run_sha8": "635d1615",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\25.log",
+"bytes": 1501,
+"log_sha8": "fcb25106",
+"exit": 0,
+"seconds": 4.99,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 26,
+"role": "integration",
+"run": "AGENT_RUN_CHUNK_BASE=02535078faca200f099920313eb52dbeec424a88 bash scripts/agent-run.sh run --mutants",
+"run_sha8": "2e83bc16",
+"expect": [
+"exit 0",
+"contains \"verdict\":\"counted\"",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\26.log",
+"bytes": 337,
+"log_sha8": "8a716133",
+"exit": 1,
+"seconds": 1.68,
+"readings": [
+"exit 0 ✗ (exit 1)",
+"contains '\"verdict\":\"counted\"' ✗",
+"contains '\"cmd\":\"run\",\"ok\":true' ✗"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 1)"
+},
+{
+"n": 27,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin build/viola-0.1.0",
+"run_sha8": "32523c62",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 28,
+"role": "probe",
+"run": "gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD)/check-runs --jq '[.check_runs[] | .conclusion] | unique | join(\",\")' ",
+"run_sha8": "4d78cf7d",
+"expect": [
+"exit 0",
+"last line success"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 29,
+"role": "probe",
+"run": "gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD)/check-runs --jq '[.check_runs[] | select(.name | startswith(\"mutants\")) | .conclusion] | join(\",\")' ",
+"run_sha8": "a45521f5",
+"expect": [
+"exit 0",
+"last line success,success,success"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.2",
+"sha8": "d4325653",
+"ts": "2026-09-25T15:23:25Z",
+"argv": [
+"show",
+"--run-dir",
+".andromeda/runs/2026-09-25T14-10-08-implement",
+"--marker",
+"2026-09-25-pty-wrapper-on-windows",
+"--n",
+"5"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"5 integration red · exit 0 ✗ (exit 1)",
+"run (130402e2): AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --integration",
+"  exit 0 ✗ (exit 1)",
+"  contains '\"cmd\":\"run\",\"ok\":true' ✗",
+"log C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\5.log · 14346 B · 23cd42aa",
+"--- failing block from L82 ---",
+"        FAIL [   0.513s] ( 78/112) viola::run_cli run_is_silent_on_stdout_and_stderr",
+"  stdout ───",
+"",
+"    running 1 test",
+"    test run_is_silent_on_stdout_and_stderr ... FAILED",
+"",
+"    failures:",
+"",
+"    failures:",
+"        run_is_silent_on_stdout_and_stderr",
+"",
+"    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 16 filtered out; finished in 0.39s",
+"",
+"  stderr ───",
+"",
+"    thread 'run_is_silent_on_stdout_and_stderr' (54648) panicked at tests\\run_cli.rs:360:5:",
+"    stdout: 122 bytes",
+"    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace",
+"",
+"        PASS [   0.515s] ( 79/112) viola::run_cli run_config_unknown_keys_are_counted"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "gate",
+"v": "1.2",
+"sha8": "d4325653",
+"ts": "2026-09-25T15:23:25Z",
+"argv": [
+"show",
+"--run-dir",
+".andromeda/runs/2026-09-25T14-10-08-implement",
+"--marker",
+"2026-09-25-pty-wrapper-on-windows",
+"--n",
+"7"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"7 probe red · exit 0 ✗ (exit 1)",
+"run (57dd664b): bash scripts/agent-run.sh secret-scan",
+"  exit 0 ✗ (exit 1)",
+"  contains '\"ok\":true' ✗",
+"log C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\7.log · 194 B · 00ceea83",
+"--- no anchored failure; last 20 non-empty lines ---",
+"{\"v\":1,\"cmd\":\"secret-scan\",\"ok\":false,\"files\":391,\"skipped_non_file\":4,\"mode_check\":\"skipped-windows\",\"hits\":[{\"file\":\"agent-run/chunk.diff\",\"line\":4753,\"offset\":303733,\"class\":\"token-query\"}]}"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "gate",
+"v": "1.2",
+"sha8": "d4325653",
+"ts": "2026-09-25T15:23:25Z",
+"argv": [
+"show",
+"--run-dir",
+".andromeda/runs/2026-09-25T14-10-08-implement",
+"--marker",
+"2026-09-25-pty-wrapper-on-windows",
+"--n",
+"26"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"26 integration red · exit 0 ✗ (exit 1)",
+"run (2e83bc16): AGENT_RUN_CHUNK_BASE=02535078faca200f099920313eb52dbeec424a88 bash scripts/agent-run.sh run --mutants",
+"  exit 0 ✗ (exit 1)",
+"  contains '\"verdict\":\"counted\"' ✗",
+"  contains '\"cmd\":\"run\",\"ok\":true' ✗",
+"log C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\26.log · 337 B · 8a716133",
+"--- failing block from L3 ---",
+"Error: move \"D:\\\\dev\\\\projects\\\\viola\\\\mutants.out\" to \"D:\\\\dev\\\\projects\\\\viola\\\\mutants.out.old\"",
+"",
+"Caused by:",
+"    Access is denied. (os error 5)",
+"{\"v\":1,\"cmd\":\"run\",\"ok\":false,\"reason\":\"mutants-exit-1\",\"suites\":[]}",
+""
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "gate",
+"v": "1.2",
+"sha8": "d4325653",
+"ts": "2026-09-25T15:27:35Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-25T14-10-08-implement",
+"--marker",
+"2026-09-25-pty-wrapper-on-windows",
+"--only",
+"5,7"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\viola · marker 2026-09-25-pty-wrapper-on-windows · entries 29",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08 · bound: GNU timeout",
+"delta docs 34 · rust 24 · unmapped 6",
+"prose L152-162: The gates run on this Windows host during /implement. - **Rust delta:** product, test and … (833 chars)",
+"  1 lint        not run — excluded · cargo fmt --all --check",
+"  2 lint        not run — excluded · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 unit        not run — excluded · bash scripts/agent-run.sh run --unit",
+"  4 integration not run — excluded · bash scripts/agent-run.sh run --integration --filter 'bina… (159 chars)",
+"  5 integration red · exit 0 ✗ (exit 1) · exit 1 · 25.03s · 14690 B → 5.log · AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --int… (66 chars)",
+"  6 probe       not run — excluded · bash scripts/agent-run.sh schema-check",
+"  7 probe       green · exit 0 · 31.84s · 112 B → 7.log · bash scripts/agent-run.sh secret-scan",
+"  8 smoke       not run — excluded · bash scripts/agent-run.sh cleanup --session p-pty-smoke",
+"  9 smoke       not run — excluded · bash scripts/agent-run.sh boot --session p-pty-smoke --ins… (71 chars)",
+" 10 smoke       not run — excluded · bash scripts/agent-run.sh status --session p-pty-smoke",
+" 11 smoke       not run — excluded · bash scripts/agent-run.sh logs --session p-pty-smoke --ins… (339 chars)",
+" 12 smoke       not run — excluded · bash scripts/agent-run.sh cleanup --session p-pty-smoke",
+" 13 probe       not run — excluded · grep -c -E '^viola-(pty|agent-claude)$' scripts/sync-crate… (63 chars)",
+" 14 probe       not run — excluded · cargo deny --config deny-sync.toml --manifest-path crates/… (89 chars)",
+" 15 probe       not run — excluded · cargo deny --config deny-sync.toml --manifest-path crates/… (98 chars)",
+" 16 probe       not run — excluded · cargo deny check",
+" 17 probe       not run — excluded · bash scripts/deny-probes.sh",
+" 18 probe       not run — excluded · cargo tree -i portable-pty -e normal --target all",
+" 19 probe       not run — excluded · cargo tree -p viola-pty -e normal --depth 1 --target all -… (182 chars)",
+" 20 probe       not run — excluded · bash scripts/orphans-check.sh --probe",
+" 21 probe       not run — excluded · bash scripts/orphans-check.sh",
+" 22 probe       not run — excluded · bash scripts/install-ripgrep.sh --probe",
+" 23 probe       not run — excluded · zizmor --format=plain .github/workflows/",
+" 24 build       not run — excluded · bash scripts/install-ripgrep.sh",
+" 25 build       not run — excluded · RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv cargo c… (116 chars)",
+" 26 integration not run — excluded · AGENT_RUN_CHUNK_BASE=02535078faca200f099920313eb52dbeec424… (101 chars)",
+" 27 probe       not run — excluded · git diff --quiet && git diff --cached --quiet && git push … (82 chars)",
+" 28 probe       not run — excluded · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (129 chars)",
+" 29 probe       not run — excluded · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (160 chars)",
+"entries 29 · green 1 · red 1 (5) · recorded 0 · timeout 0 · not-run 27"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-25-pty-wrapper-on-windows",
+"plan": "D:\\dev\\projects\\viola\\viola-0.1.0\\chunks\\2026-09-25-pty-wrapper-on-windows\\plan.md",
+"root": "D:\\dev\\projects\\viola",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-09-25T13-11-43-wrap/push.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/a11y.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/acceptance-v1-25.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/arch.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/design.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/layouts.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/master-record.txt",
+".andromeda/runs/2026-09-25T13-34-03-phase/matrix-2026-09-25-pty-wrapper-on-windows.json",
+".andromeda/runs/2026-09-25T13-34-03-phase/obs.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/04.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/09.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/09a.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/09b.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/09c.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/11.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/12.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/13.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/16.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/17.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/18.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/20.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/route-2026-09-25-pty-wrapper-on-windows.json",
+".andromeda/runs/2026-09-25T13-34-03-phase/route-no-marker.json",
+".andromeda/runs/2026-09-25T13-34-03-phase/security.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/tests.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/tree-query-2026-09-25-pty-wrapper-on-windows.json",
+".andromeda/runs/2026-09-25T14-10-08-implement/gate-2026-09-25-pty-wrapper-on-windows.json",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/plan.md",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/research.md",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/scope.md"
+],
+"rust": [
+"Cargo.lock",
+"Cargo.toml",
+"crates/viola-e2e/Cargo.toml",
+"crates/viola-e2e/src/harness/secret_scan.rs",
+"crates/viola-e2e/src/harness/supervise.rs",
+"src/bin/viola-fake-agent.rs",
+"src/cmd/run.rs",
+"src/obs.rs",
+"src/run/mod.rs",
+"tests/cli_fake_agent.rs",
+"tests/contract_diag_schema.rs",
+"tests/run_cli.rs",
+"tests/support/home.rs",
+"tests/support/mod.rs",
+"crates/viola-agent-claude/Cargo.toml",
+"crates/viola-agent-claude/src/lib.rs",
+"crates/viola-pty/Cargo.toml",
+"crates/viola-pty/src/lib.rs",
+"src/run/env.rs",
+"tests/cli_program_resolution.rs",
+"tests/support/outer_pty.rs",
+"tests/tui_env_strip.rs",
+"tests/tui_passthrough.rs",
+"tests/tui_pty_seam.rs"
+]
+},
+"unmapped": [
+".github/workflows/ci.yml",
+"schemas/diag-line.v1.json",
+"scripts/install-ripgrep.sh",
+"scripts/orphans-check.sh",
+"scripts/sync-crates.txt",
+"viola-0.1.0/verification-matrix.json"
+],
+"prose": [
+{
+"from": 152,
+"to": 162,
+"text": "The gates run on this Windows host during /implement. - **Rust delta:** product, test and script. No gate defers. - **Smoke:** the harness lifecycle (boot → status → logs → cleanup) is the headless verification. It runs first among the legs, per the standing direction. - **Separate target dir:** the msrv entry keeps its own `CARGO_TARGET_DIR` (host-win32 §Session Additions 2026-09-24). - **CI witnesses** (the operator entries at the end read them on the pushed sha):   - the Unix halves of every `cfg`: raw termios, the openpty byte-compare, `claude_env_keep` survival;   - the ubuntu `supply-chain` job;   - the three `lint` legs: the orphans triple rule and the ripgrep probe on each curl;   - per-OS coverage floors;   - both mutation legs and their union. - **One-shot mutating controls:** the step 12 runs are never entries."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(tui_pty_seam) | binary(tui_passthrough) | binary(tui_env_strip) | binary(cli_program_resolution)' ",
+"run_sha8": "07ed04b7",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "integration",
+"run": "AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --integration",
+"run_sha8": "130402e2",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\5.log",
+"bytes": 14690,
+"log_sha8": "e667750f",
+"exit": 1,
+"seconds": 25.03,
+"readings": [
+"exit 0 ✗ (exit 1)",
+"contains '\"cmd\":\"run\",\"ok\":true' ✗"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 1)"
+},
+{
+"n": 6,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "bash scripts/agent-run.sh secret-scan",
+"run_sha8": "57dd664b",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\7.log",
+"bytes": 112,
+"log_sha8": "8ef054cc",
+"exit": 0,
+"seconds": 31.84,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-pty-smoke",
+"run_sha8": "2c6c9f0b",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-pty-smoke --instance builder",
+"run_sha8": "ee3126f5",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-pty-smoke",
+"run_sha8": "2fc027f9",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh logs --session p-pty-smoke --instance builder | python -X utf8 -c \"import json,sys; r=[json.loads(l)['record'] for l in sys.stdin if l.strip() and 'record' in json.loads(l)]; s=[x for x in r if x.get('event')=='process-start' and x.get('subject')=='claude-child']; print(s[0].get('pty_backend') if s else 'none')\"",
+"run_sha8": "5fb35fa0",
+"expect": [
+"exit 0",
+"last line conpty"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-pty-smoke",
+"run_sha8": "2c6c9f0b",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "grep -c -E '^viola-(pty|agent-claude)$' scripts/sync-crates.txt",
+"run_sha8": "b5234b8f",
+"expect": [
+"exit 0",
+"last line 2"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "cargo deny --config deny-sync.toml --manifest-path crates/viola-pty/Cargo.toml check bans",
+"run_sha8": "a2c78971",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "cargo deny --config deny-sync.toml --manifest-path crates/viola-agent-claude/Cargo.toml check bans",
+"run_sha8": "59ea9c52",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": [
+"exit 0",
+"contains advisories ok, bans ok, licenses ok, sources ok"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "bash scripts/deny-probes.sh",
+"run_sha8": "6ea4a0e7",
+"expect": [
+"exit 0",
+"last line deny-probes: 13/13 banned, control clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "cargo tree -i portable-pty -e normal --target all",
+"run_sha8": "a8b6e27f",
+"expect": [
+"exit 0",
+"contains portable-pty v0.8.1"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "cargo tree -p viola-pty -e normal --depth 1 --target all --prefix none | python -X utf8 -c \"import sys; print(sorted({l.split()[0] for l in sys.stdin if l.strip()} - {'viola-pty'}))\"",
+"run_sha8": "47f9dac4",
+"expect": [
+"exit 0",
+"last line ['libc', 'portable-pty', 'windows-sys']"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "bash scripts/orphans-check.sh --probe",
+"run_sha8": "6032d9ad",
+"expect": [
+"exit 0",
+"last line orphans-check probes: 2/2 fired, control clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "bash scripts/orphans-check.sh",
+"run_sha8": "f05a4287",
+"expect": [
+"exit 0",
+"last line orphans-check: 7/7 targets clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "bash scripts/install-ripgrep.sh --probe",
+"run_sha8": "366d0238",
+"expect": [
+"exit 0",
+"last line install-ripgrep probes: 3/3 fired"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "zizmor --format=plain .github/workflows/",
+"run_sha8": "0f3c1c47",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 24,
+"role": "build",
+"run": "bash scripts/install-ripgrep.sh",
+"run_sha8": "dcb8426b",
+"expect": [
+"exit 0",
+"contains install-ripgrep: ripgrep 15.2.0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 25,
+"role": "build",
+"run": "RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv cargo check --workspace --all-targets --features viola/fake-agent",
+"run_sha8": "635d1615",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 26,
+"role": "integration",
+"run": "AGENT_RUN_CHUNK_BASE=02535078faca200f099920313eb52dbeec424a88 bash scripts/agent-run.sh run --mutants",
+"run_sha8": "2e83bc16",
+"expect": [
+"exit 0",
+"contains \"verdict\":\"counted\"",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 27,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin build/viola-0.1.0",
+"run_sha8": "32523c62",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 28,
+"role": "probe",
+"run": "gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD)/check-runs --jq '[.check_runs[] | .conclusion] | unique | join(\",\")' ",
+"run_sha8": "4d78cf7d",
+"expect": [
+"exit 0",
+"last line success"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 29,
+"role": "probe",
+"run": "gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD)/check-runs --jq '[.check_runs[] | select(.name | startswith(\"mutants\")) | .conclusion] | join(\",\")' ",
+"run_sha8": "a45521f5",
+"expect": [
+"exit 0",
+"last line success,success,success"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.2",
+"sha8": "d4325653",
+"ts": "2026-09-25T15:27:41Z",
+"argv": [
+"show",
+"--run-dir",
+".andromeda/runs/2026-09-25T14-10-08-implement",
+"--marker",
+"2026-09-25-pty-wrapper-on-windows",
+"--n",
+"5"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"5 integration red · exit 0 ✗ (exit 1)",
+"run (130402e2): AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --integration",
+"  exit 0 ✗ (exit 1)",
+"  contains '\"cmd\":\"run\",\"ok\":true' ✗",
+"log C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\5.log · 14690 B · e667750f",
+"--- failing block from L116 ---",
+"        FAIL [  11.892s] (110/112) viola-e2e::harness_lifecycle harness_session_boots_reports_logs_and_tears_down",
+"  stdout ───",
+"",
+"    running 1 test",
+"    test harness_session_boots_reports_logs_and_tears_down ... FAILED",
+"",
+"    failures:",
+"",
+"    failures:",
+"        harness_session_boots_reports_logs_and_tears_down",
+"",
+"    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 4 filtered out; finished in 10.80s",
+"",
+"  stderr ───",
+"",
+"    thread 'harness_session_boots_reports_logs_and_tears_down' (45964) panicked at crates\\viola-e2e\\tests\\harness_lifecycle.rs:80:5:",
+"    assertion `left == right` failed",
+"      left: Array [String(\"builder\"), String(\"overseer\")]",
+"     right: Array []",
+"    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "gate",
+"v": "1.2",
+"sha8": "d4325653",
+"ts": "2026-09-25T15:42:54Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-25T14-10-08-implement",
+"--marker",
+"2026-09-25-pty-wrapper-on-windows"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\viola · marker 2026-09-25-pty-wrapper-on-windows · entries 29",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08 · bound: GNU timeout",
+"delta docs 34 · rust 24 · unmapped 6",
+"prose L152-162: The gates run on this Windows host during /implement. - **Rust delta:** product, test and … (833 chars)",
+"  1 lint        green · exit 0 · 0.32s · 0 B → 1.log · cargo fmt --all --check",
+"  2 lint        green · exit 0 · 0.87s · 193 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 unit        green · exit 0 · 9.94s · 27978 B → 3.log · bash scripts/agent-run.sh run --unit",
+"  4 integration green · exit 0 · 1.73s · 2450 B → 4.log · bash scripts/agent-run.sh run --integration --filter 'bina… (159 chars)",
+"  5 integration green · exit 0 · 24.11s · 13687 B → 5.log · AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --int… (66 chars)",
+"  6 probe       green · exit 0 · 0.43s · 107 B → 6.log · bash scripts/agent-run.sh schema-check",
+"  7 probe       green · exit 0 · 34.0s · 112 B → 7.log · bash scripts/agent-run.sh secret-scan",
+"  8 smoke       green · exit 0 · 0.29s · 47 B → 8.log · bash scripts/agent-run.sh cleanup --session p-pty-smoke",
+"  9 smoke       green · exit 0 · 1.91s · 399 B → 9.log · bash scripts/agent-run.sh boot --session p-pty-smoke --ins… (71 chars)",
+" 10 smoke       green · exit 0 · 0.29s · 214 B → 10.log · bash scripts/agent-run.sh status --session p-pty-smoke",
+" 11 smoke       green · exit 0 · 0.32s · 8 B → 11.log · bash scripts/agent-run.sh logs --session p-pty-smoke --ins… (339 chars)",
+" 12 smoke       green · exit 0 · 0.56s · 176 B → 12.log · bash scripts/agent-run.sh cleanup --session p-pty-smoke",
+" 13 probe       green · exit 0 · 0.07s · 2 B → 13.log · grep -c -E '^viola-(pty|agent-claude)$' scripts/sync-crate… (63 chars)",
+" 14 probe       green · exit 0 · 0.51s · 8 B → 14.log · cargo deny --config deny-sync.toml --manifest-path crates/… (89 chars)",
+" 15 probe       green · exit 0 · 0.45s · 8 B → 15.log · cargo deny --config deny-sync.toml --manifest-path crates/… (98 chars)",
+" 16 probe       green · exit 0 · 1.15s · 5511 B → 16.log · cargo deny check",
+" 17 probe       green · exit 0 · 11.06s · 346 B → 17.log · bash scripts/deny-probes.sh",
+" 18 probe       green · exit 0 · 0.16s · 139 B → 18.log · cargo tree -i portable-pty -e normal --target all",
+" 19 probe       green · exit 0 · 0.17s · 41 B → 19.log · cargo tree -p viola-pty -e normal --depth 1 --target all -… (182 chars)",
+" 20 probe       green · exit 0 · 5.36s · 77 B → 20.log · bash scripts/orphans-check.sh --probe",
+" 21 probe       green · exit 0 · 58.36s · 33 B → 21.log · bash scripts/orphans-check.sh",
+" 22 probe       green · exit 0 · 43.69s · 143 B → 22.log · bash scripts/install-ripgrep.sh --probe",
+" 23 probe       green · exit 0 · 0.16s · 388 B → 23.log · zizmor --format=plain .github/workflows/",
+" 24 build       green · exit 0 · 0.17s · 90 B → 24.log · bash scripts/install-ripgrep.sh",
+" 25 build       green · exit 0 · 0.56s · 193 B → 25.log · RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv cargo c… (116 chars)",
+" 26 integration red · exit 0 ✗ (exit 1) · exit 1 · 599.17s · 22940 B → 26.log · AGENT_RUN_CHUNK_BASE=02535078faca200f099920313eb52dbeec424… (101 chars)",
+" 27 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (82 chars)",
+" 28 probe       not run — leg operator (the letter drives it) · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (129 chars)",
+" 29 probe       not run — leg operator (the letter drives it) · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (160 chars)",
+"entries 29 · green 25 · red 1 (26) · recorded 0 · timeout 0 · not-run 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-25-pty-wrapper-on-windows",
+"plan": "D:\\dev\\projects\\viola\\viola-0.1.0\\chunks\\2026-09-25-pty-wrapper-on-windows\\plan.md",
+"root": "D:\\dev\\projects\\viola",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-09-25T13-11-43-wrap/push.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/a11y.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/acceptance-v1-25.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/arch.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/design.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/layouts.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/master-record.txt",
+".andromeda/runs/2026-09-25T13-34-03-phase/matrix-2026-09-25-pty-wrapper-on-windows.json",
+".andromeda/runs/2026-09-25T13-34-03-phase/obs.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/04.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/09.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/09a.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/09b.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/09c.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/11.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/12.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/13.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/16.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/17.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/18.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/20.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/route-2026-09-25-pty-wrapper-on-windows.json",
+".andromeda/runs/2026-09-25T13-34-03-phase/route-no-marker.json",
+".andromeda/runs/2026-09-25T13-34-03-phase/security.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/tests.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/tree-query-2026-09-25-pty-wrapper-on-windows.json",
+".andromeda/runs/2026-09-25T14-10-08-implement/gate-2026-09-25-pty-wrapper-on-windows.json",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/plan.md",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/research.md",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/scope.md"
+],
+"rust": [
+"Cargo.lock",
+"Cargo.toml",
+"crates/viola-e2e/Cargo.toml",
+"crates/viola-e2e/src/harness/secret_scan.rs",
+"crates/viola-e2e/src/harness/supervise.rs",
+"src/bin/viola-fake-agent.rs",
+"src/cmd/run.rs",
+"src/obs.rs",
+"src/run/mod.rs",
+"tests/cli_fake_agent.rs",
+"tests/contract_diag_schema.rs",
+"tests/run_cli.rs",
+"tests/support/home.rs",
+"tests/support/mod.rs",
+"crates/viola-agent-claude/Cargo.toml",
+"crates/viola-agent-claude/src/lib.rs",
+"crates/viola-pty/Cargo.toml",
+"crates/viola-pty/src/lib.rs",
+"src/run/env.rs",
+"tests/cli_program_resolution.rs",
+"tests/support/outer_pty.rs",
+"tests/tui_env_strip.rs",
+"tests/tui_passthrough.rs",
+"tests/tui_pty_seam.rs"
+]
+},
+"unmapped": [
+".github/workflows/ci.yml",
+"schemas/diag-line.v1.json",
+"scripts/install-ripgrep.sh",
+"scripts/orphans-check.sh",
+"scripts/sync-crates.txt",
+"viola-0.1.0/verification-matrix.json"
+],
+"prose": [
+{
+"from": 152,
+"to": 162,
+"text": "The gates run on this Windows host during /implement. - **Rust delta:** product, test and script. No gate defers. - **Smoke:** the harness lifecycle (boot → status → logs → cleanup) is the headless verification. It runs first among the legs, per the standing direction. - **Separate target dir:** the msrv entry keeps its own `CARGO_TARGET_DIR` (host-win32 §Session Additions 2026-09-24). - **CI witnesses** (the operator entries at the end read them on the pushed sha):   - the Unix halves of every `cfg`: raw termios, the openpty byte-compare, `claude_env_keep` survival;   - the ubuntu `supply-chain` job;   - the three `lint` legs: the orphans triple rule and the ripgrep probe on each curl;   - per-OS coverage floors;   - both mutation legs and their union. - **One-shot mutating controls:** the step 12 runs are never entries."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.32,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\2.log",
+"bytes": 193,
+"log_sha8": "0f70b408",
+"exit": 0,
+"seconds": 0.87,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\3.log",
+"bytes": 27978,
+"log_sha8": "67ef065e",
+"exit": 0,
+"seconds": 9.94,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"run\",\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(tui_pty_seam) | binary(tui_passthrough) | binary(tui_env_strip) | binary(cli_program_resolution)' ",
+"run_sha8": "07ed04b7",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\4.log",
+"bytes": 2450,
+"log_sha8": "f6316837",
+"exit": 0,
+"seconds": 1.73,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"run\",\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "integration",
+"run": "AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --integration",
+"run_sha8": "130402e2",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\5.log",
+"bytes": 13687,
+"log_sha8": "f0eda611",
+"exit": 0,
+"seconds": 24.11,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"run\",\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\6.log",
+"bytes": 107,
+"log_sha8": "79f7835d",
+"exit": 0,
+"seconds": 0.43,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "bash scripts/agent-run.sh secret-scan",
+"run_sha8": "57dd664b",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\7.log",
+"bytes": 112,
+"log_sha8": "7d2fb74a",
+"exit": 0,
+"seconds": 34.0,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-pty-smoke",
+"run_sha8": "2c6c9f0b",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\8.log",
+"bytes": 47,
+"log_sha8": "91854d6e",
+"exit": 0,
+"seconds": 0.29,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-pty-smoke --instance builder",
+"run_sha8": "ee3126f5",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\9.log",
+"bytes": 399,
+"log_sha8": "d727dd84",
+"exit": 0,
+"seconds": 1.91,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-pty-smoke",
+"run_sha8": "2fc027f9",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\10.log",
+"bytes": 214,
+"log_sha8": "5444dae1",
+"exit": 0,
+"seconds": 0.29,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh logs --session p-pty-smoke --instance builder | python -X utf8 -c \"import json,sys; r=[json.loads(l)['record'] for l in sys.stdin if l.strip() and 'record' in json.loads(l)]; s=[x for x in r if x.get('event')=='process-start' and x.get('subject')=='claude-child']; print(s[0].get('pty_backend') if s else 'none')\"",
+"run_sha8": "5fb35fa0",
+"expect": [
+"exit 0",
+"last line conpty"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\11.log",
+"bytes": 8,
+"log_sha8": "ee272a11",
+"exit": 0,
+"seconds": 0.32,
+"readings": [
+"exit 0 ✓",
+"last line 'conpty' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-pty-smoke",
+"run_sha8": "2c6c9f0b",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\12.log",
+"bytes": 176,
+"log_sha8": "3dc13aea",
+"exit": 0,
+"seconds": 0.56,
+"readings": [
+"exit 0 ✓",
+"contains '\"processes_gone\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "grep -c -E '^viola-(pty|agent-claude)$' scripts/sync-crates.txt",
+"run_sha8": "b5234b8f",
+"expect": [
+"exit 0",
+"last line 2"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\13.log",
+"bytes": 2,
+"log_sha8": "53c234e5",
+"exit": 0,
+"seconds": 0.07,
+"readings": [
+"exit 0 ✓",
+"last line '2' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "cargo deny --config deny-sync.toml --manifest-path crates/viola-pty/Cargo.toml check bans",
+"run_sha8": "a2c78971",
+"expect": [
+"exit 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\14.log",
+"bytes": 8,
+"log_sha8": "eba7f300",
+"exit": 0,
+"seconds": 0.51,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "cargo deny --config deny-sync.toml --manifest-path crates/viola-agent-claude/Cargo.toml check bans",
+"run_sha8": "59ea9c52",
+"expect": [
+"exit 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\15.log",
+"bytes": 8,
+"log_sha8": "eba7f300",
+"exit": 0,
+"seconds": 0.45,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": [
+"exit 0",
+"contains advisories ok, bans ok, licenses ok, sources ok"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\16.log",
+"bytes": 5511,
+"log_sha8": "ea330bab",
+"exit": 0,
+"seconds": 1.15,
+"readings": [
+"exit 0 ✓",
+"contains 'advisories ok, bans ok, licenses ok, sources ok' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "bash scripts/deny-probes.sh",
+"run_sha8": "6ea4a0e7",
+"expect": [
+"exit 0",
+"last line deny-probes: 13/13 banned, control clean"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\17.log",
+"bytes": 346,
+"log_sha8": "57359665",
+"exit": 0,
+"seconds": 11.06,
+"readings": [
+"exit 0 ✓",
+"last line 'deny-probes: 13/13 banned, control clean' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "cargo tree -i portable-pty -e normal --target all",
+"run_sha8": "a8b6e27f",
+"expect": [
+"exit 0",
+"contains portable-pty v0.8.1"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\18.log",
+"bytes": 139,
+"log_sha8": "24ef713d",
+"exit": 0,
+"seconds": 0.16,
+"readings": [
+"exit 0 ✓",
+"contains 'portable-pty v0.8.1' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "cargo tree -p viola-pty -e normal --depth 1 --target all --prefix none | python -X utf8 -c \"import sys; print(sorted({l.split()[0] for l in sys.stdin if l.strip()} - {'viola-pty'}))\"",
+"run_sha8": "47f9dac4",
+"expect": [
+"exit 0",
+"last line ['libc', 'portable-pty', 'windows-sys']"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\19.log",
+"bytes": 41,
+"log_sha8": "04b115f5",
+"exit": 0,
+"seconds": 0.17,
+"readings": [
+"exit 0 ✓",
+"last line \"['libc', 'portable-pty', 'windows-sys']\" ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "bash scripts/orphans-check.sh --probe",
+"run_sha8": "6032d9ad",
+"expect": [
+"exit 0",
+"last line orphans-check probes: 2/2 fired, control clean"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\20.log",
+"bytes": 77,
+"log_sha8": "de3c731c",
+"exit": 0,
+"seconds": 5.36,
+"readings": [
+"exit 0 ✓",
+"last line 'orphans-check probes: 2/2 fired, control clean' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "bash scripts/orphans-check.sh",
+"run_sha8": "f05a4287",
+"expect": [
+"exit 0",
+"last line orphans-check: 7/7 targets clean"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\21.log",
+"bytes": 33,
+"log_sha8": "7f3e3e8a",
+"exit": 0,
+"seconds": 58.36,
+"readings": [
+"exit 0 ✓",
+"last line 'orphans-check: 7/7 targets clean' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "bash scripts/install-ripgrep.sh --probe",
+"run_sha8": "366d0238",
+"expect": [
+"exit 0",
+"last line install-ripgrep probes: 3/3 fired"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\22.log",
+"bytes": 143,
+"log_sha8": "fe0bb319",
+"exit": 0,
+"seconds": 43.69,
+"readings": [
+"exit 0 ✓",
+"last line 'install-ripgrep probes: 3/3 fired' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "zizmor --format=plain .github/workflows/",
+"run_sha8": "0f3c1c47",
+"expect": [
+"exit 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\23.log",
+"bytes": 388,
+"log_sha8": "01a25b9b",
+"exit": 0,
+"seconds": 0.16,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 24,
+"role": "build",
+"run": "bash scripts/install-ripgrep.sh",
+"run_sha8": "dcb8426b",
+"expect": [
+"exit 0",
+"contains install-ripgrep: ripgrep 15.2.0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\24.log",
+"bytes": 90,
+"log_sha8": "f0fd37f2",
+"exit": 0,
+"seconds": 0.17,
+"readings": [
+"exit 0 ✓",
+"contains 'install-ripgrep: ripgrep 15.2.0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 25,
+"role": "build",
+"run": "RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv cargo check --workspace --all-targets --features viola/fake-agent",
+"run_sha8": "635d1615",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\25.log",
+"bytes": 193,
+"log_sha8": "1ebe8bfc",
+"exit": 0,
+"seconds": 0.56,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 26,
+"role": "integration",
+"run": "AGENT_RUN_CHUNK_BASE=02535078faca200f099920313eb52dbeec424a88 bash scripts/agent-run.sh run --mutants",
+"run_sha8": "2e83bc16",
+"expect": [
+"exit 0",
+"contains \"verdict\":\"counted\"",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\26.log",
+"bytes": 22940,
+"log_sha8": "f4cf995d",
+"exit": 1,
+"seconds": 599.17,
+"readings": [
+"exit 0 ✗ (exit 1)",
+"contains '\"verdict\":\"counted\"' ✓",
+"contains '\"cmd\":\"run\",\"ok\":true' ✗"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 1)"
+},
+{
+"n": 27,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin build/viola-0.1.0",
+"run_sha8": "32523c62",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 28,
+"role": "probe",
+"run": "gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD)/check-runs --jq '[.check_runs[] | .conclusion] | unique | join(\",\")' ",
+"run_sha8": "4d78cf7d",
+"expect": [
+"exit 0",
+"last line success"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 29,
+"role": "probe",
+"run": "gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD)/check-runs --jq '[.check_runs[] | select(.name | startswith(\"mutants\")) | .conclusion] | join(\",\")' ",
+"run_sha8": "a45521f5",
+"expect": [
+"exit 0",
+"last line success,success,success"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.2",
+"sha8": "d4325653",
+"ts": "2026-09-25T15:43:07Z",
+"argv": [
+"show",
+"--run-dir",
+".andromeda/runs/2026-09-25T14-10-08-implement",
+"--marker",
+"2026-09-25-pty-wrapper-on-windows",
+"--n",
+"26"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"26 integration red · exit 0 ✗ (exit 1)",
+"run (2e83bc16): AGENT_RUN_CHUNK_BASE=02535078faca200f099920313eb52dbeec424a88 bash scripts/agent-run.sh run --mutants",
+"  exit 0 ✗ (exit 1)",
+"  contains '\"verdict\":\"counted\"' ✓",
+"  contains '\"cmd\":\"run\",\"ok\":true' ✗",
+"log C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\26.log · 22940 B · f4cf995d",
+"--- no anchored failure; last 20 non-empty lines ---",
+"unviable crates/viola-pty/src/lib.rs:405:95: replace != with == in HostTerminal::enter in 0s build",
+"unviable crates/viola-pty/src/lib.rs:410:10: delete ! in HostTerminal::enter in 0s build",
+"unviable crates/viola-pty/src/lib.rs:416:9: replace HostTerminal::enter -> Option<Self> with None in 0s build",
+"unviable crates/viola-pty/src/lib.rs:416:9: replace HostTerminal::enter -> Option<Self> with Some(Default::default()) in 0s build",
+"unviable crates/viola-pty/src/lib.rs:418:64: replace != with == in HostTerminal::enter in 0s build",
+"unviable crates/viola-pty/src/lib.rs:423:71: replace == with != in HostTerminal::enter in 0s build",
+"unviable crates/viola-pty/src/lib.rs:431:9: replace <impl Drop for HostTerminal>::drop with () in 0s build",
+"unviable crates/viola-pty/src/lib.rs:448:5: replace host_size -> Option<Size> with None in 0s build",
+"unviable crates/viola-pty/src/lib.rs:448:5: replace host_size -> Option<Size> with Some(Default::default()) in 0s build",
+"unviable crates/viola-pty/src/lib.rs:456:87: replace == with != in host_size in 0s build",
+"unviable crates/viola-pty/src/lib.rs:468:76: replace != with == in host_size in 0s build",
+"unviable crates/viola-pty/src/lib.rs:471:28: replace && with || in host_size in 0s build",
+"unviable crates/viola-pty/src/lib.rs:471:24: replace > with == in host_size in 0s build",
+"unviable crates/viola-pty/src/lib.rs:471:24: replace > with < in host_size in 0s build",
+"unviable crates/viola-pty/src/lib.rs:471:24: replace > with >= in host_size in 0s build",
+"unviable crates/viola-pty/src/lib.rs:471:41: replace > with == in host_size in 0s build",
+"unviable crates/viola-pty/src/lib.rs:471:41: replace > with < in host_size in 0s build",
+"unviable crates/viola-pty/src/lib.rs:471:41: replace > with >= in host_size in 0s build",
+"194 mutants tested in 10m: 6 missed, 43 caught, 145 unviable",
+"{\"v\":1,\"cmd\":\"run\",\"ok\":false,\"suites\":[{\"suite\":\"mutants\",\"passed\":43,\"failed\":7,\"skipped\":0,\"survived\":6,\"artifact\":\"mutants.out/outcomes.json\",\"failures\":[\"crates/viola-e2e/src/harness/supervise.rs:134:42: replace + with - in wait_or_kill\",\"crates/viola-e2e/src/harness/supervise.rs:142:42: replace + with - in wait_or_kill\",\"crates/viola-e2e/src/harness/supervise.rs:146:41: replace + with - in wait_or_kill\",\"crates/viola-e2e/src/harness/supervise.rs:150:33: replace match guard !expired(reaped) with true in wait_or_kill\",\"crates/viola-e2e/src/harness/supervise.rs:150:33: replace match guard !expired(reaped) with false in wait_or_kill\",\"crates/viola-e2e/src/harness/supervise.rs:150:33: delete ! in wait_or_kill\",\"unviable-exceeds-caught\"]}],\"mutants\":{\"tested\":194,\"verdict\":\"counted\"}}"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "gate",
+"v": "1.2",
+"sha8": "d4325653",
+"ts": "2026-09-25T15:57:11Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-25T14-10-08-implement",
+"--marker",
+"2026-09-25-pty-wrapper-on-windows",
+"--only",
+"26"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\viola · marker 2026-09-25-pty-wrapper-on-windows · entries 29",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08 · bound: GNU timeout",
+"delta docs 34 · rust 24 · unmapped 6",
+"prose L152-162: The gates run on this Windows host during /implement. - **Rust delta:** product, test and … (833 chars)",
+"  1 lint        not run — excluded · cargo fmt --all --check",
+"  2 lint        not run — excluded · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 unit        not run — excluded · bash scripts/agent-run.sh run --unit",
+"  4 integration not run — excluded · bash scripts/agent-run.sh run --integration --filter 'bina… (159 chars)",
+"  5 integration not run — excluded · AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --int… (66 chars)",
+"  6 probe       not run — excluded · bash scripts/agent-run.sh schema-check",
+"  7 probe       not run — excluded · bash scripts/agent-run.sh secret-scan",
+"  8 smoke       not run — excluded · bash scripts/agent-run.sh cleanup --session p-pty-smoke",
+"  9 smoke       not run — excluded · bash scripts/agent-run.sh boot --session p-pty-smoke --ins… (71 chars)",
+" 10 smoke       not run — excluded · bash scripts/agent-run.sh status --session p-pty-smoke",
+" 11 smoke       not run — excluded · bash scripts/agent-run.sh logs --session p-pty-smoke --ins… (339 chars)",
+" 12 smoke       not run — excluded · bash scripts/agent-run.sh cleanup --session p-pty-smoke",
+" 13 probe       not run — excluded · grep -c -E '^viola-(pty|agent-claude)$' scripts/sync-crate… (63 chars)",
+" 14 probe       not run — excluded · cargo deny --config deny-sync.toml --manifest-path crates/… (89 chars)",
+" 15 probe       not run — excluded · cargo deny --config deny-sync.toml --manifest-path crates/… (98 chars)",
+" 16 probe       not run — excluded · cargo deny check",
+" 17 probe       not run — excluded · bash scripts/deny-probes.sh",
+" 18 probe       not run — excluded · cargo tree -i portable-pty -e normal --target all",
+" 19 probe       not run — excluded · cargo tree -p viola-pty -e normal --depth 1 --target all -… (182 chars)",
+" 20 probe       not run — excluded · bash scripts/orphans-check.sh --probe",
+" 21 probe       not run — excluded · bash scripts/orphans-check.sh",
+" 22 probe       not run — excluded · bash scripts/install-ripgrep.sh --probe",
+" 23 probe       not run — excluded · zizmor --format=plain .github/workflows/",
+" 24 build       not run — excluded · bash scripts/install-ripgrep.sh",
+" 25 build       not run — excluded · RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv cargo c… (116 chars)",
+" 26 integration red · exit 0 ✗ (exit 1) · exit 1 · 741.85s · 27995 B → 26.log · AGENT_RUN_CHUNK_BASE=02535078faca200f099920313eb52dbeec424… (101 chars)",
+" 27 probe       not run — excluded · git diff --quiet && git diff --cached --quiet && git push … (82 chars)",
+" 28 probe       not run — excluded · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (129 chars)",
+" 29 probe       not run — excluded · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (160 chars)",
+"entries 29 · green 0 · red 1 (26) · recorded 0 · timeout 0 · not-run 28"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-25-pty-wrapper-on-windows",
+"plan": "D:\\dev\\projects\\viola\\viola-0.1.0\\chunks\\2026-09-25-pty-wrapper-on-windows\\plan.md",
+"root": "D:\\dev\\projects\\viola",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-09-25T13-11-43-wrap/push.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/a11y.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/acceptance-v1-25.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/arch.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/design.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/layouts.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/master-record.txt",
+".andromeda/runs/2026-09-25T13-34-03-phase/matrix-2026-09-25-pty-wrapper-on-windows.json",
+".andromeda/runs/2026-09-25T13-34-03-phase/obs.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/04.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/09.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/09a.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/09b.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/09c.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/11.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/12.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/13.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/16.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/17.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/18.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/20.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/route-2026-09-25-pty-wrapper-on-windows.json",
+".andromeda/runs/2026-09-25T13-34-03-phase/route-no-marker.json",
+".andromeda/runs/2026-09-25T13-34-03-phase/security.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/tests.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/tree-query-2026-09-25-pty-wrapper-on-windows.json",
+".andromeda/runs/2026-09-25T14-10-08-implement/gate-2026-09-25-pty-wrapper-on-windows.json",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/plan.md",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/research.md",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/scope.md"
+],
+"rust": [
+"Cargo.lock",
+"Cargo.toml",
+"crates/viola-e2e/Cargo.toml",
+"crates/viola-e2e/src/harness/secret_scan.rs",
+"crates/viola-e2e/src/harness/supervise.rs",
+"src/bin/viola-fake-agent.rs",
+"src/cmd/run.rs",
+"src/obs.rs",
+"src/run/mod.rs",
+"tests/cli_fake_agent.rs",
+"tests/contract_diag_schema.rs",
+"tests/run_cli.rs",
+"tests/support/home.rs",
+"tests/support/mod.rs",
+"crates/viola-agent-claude/Cargo.toml",
+"crates/viola-agent-claude/src/lib.rs",
+"crates/viola-pty/Cargo.toml",
+"crates/viola-pty/src/lib.rs",
+"src/run/env.rs",
+"tests/cli_program_resolution.rs",
+"tests/support/outer_pty.rs",
+"tests/tui_env_strip.rs",
+"tests/tui_passthrough.rs",
+"tests/tui_pty_seam.rs"
+]
+},
+"unmapped": [
+".github/workflows/ci.yml",
+"schemas/diag-line.v1.json",
+"scripts/install-ripgrep.sh",
+"scripts/orphans-check.sh",
+"scripts/sync-crates.txt",
+"viola-0.1.0/verification-matrix.json"
+],
+"prose": [
+{
+"from": 152,
+"to": 162,
+"text": "The gates run on this Windows host during /implement. - **Rust delta:** product, test and script. No gate defers. - **Smoke:** the harness lifecycle (boot → status → logs → cleanup) is the headless verification. It runs first among the legs, per the standing direction. - **Separate target dir:** the msrv entry keeps its own `CARGO_TARGET_DIR` (host-win32 §Session Additions 2026-09-24). - **CI witnesses** (the operator entries at the end read them on the pushed sha):   - the Unix halves of every `cfg`: raw termios, the openpty byte-compare, `claude_env_keep` survival;   - the ubuntu `supply-chain` job;   - the three `lint` legs: the orphans triple rule and the ripgrep probe on each curl;   - per-OS coverage floors;   - both mutation legs and their union. - **One-shot mutating controls:** the step 12 runs are never entries."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(tui_pty_seam) | binary(tui_passthrough) | binary(tui_env_strip) | binary(cli_program_resolution)' ",
+"run_sha8": "07ed04b7",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "integration",
+"run": "AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --integration",
+"run_sha8": "130402e2",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "bash scripts/agent-run.sh secret-scan",
+"run_sha8": "57dd664b",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-pty-smoke",
+"run_sha8": "2c6c9f0b",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-pty-smoke --instance builder",
+"run_sha8": "ee3126f5",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-pty-smoke",
+"run_sha8": "2fc027f9",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh logs --session p-pty-smoke --instance builder | python -X utf8 -c \"import json,sys; r=[json.loads(l)['record'] for l in sys.stdin if l.strip() and 'record' in json.loads(l)]; s=[x for x in r if x.get('event')=='process-start' and x.get('subject')=='claude-child']; print(s[0].get('pty_backend') if s else 'none')\"",
+"run_sha8": "5fb35fa0",
+"expect": [
+"exit 0",
+"last line conpty"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-pty-smoke",
+"run_sha8": "2c6c9f0b",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "grep -c -E '^viola-(pty|agent-claude)$' scripts/sync-crates.txt",
+"run_sha8": "b5234b8f",
+"expect": [
+"exit 0",
+"last line 2"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "cargo deny --config deny-sync.toml --manifest-path crates/viola-pty/Cargo.toml check bans",
+"run_sha8": "a2c78971",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "cargo deny --config deny-sync.toml --manifest-path crates/viola-agent-claude/Cargo.toml check bans",
+"run_sha8": "59ea9c52",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": [
+"exit 0",
+"contains advisories ok, bans ok, licenses ok, sources ok"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "bash scripts/deny-probes.sh",
+"run_sha8": "6ea4a0e7",
+"expect": [
+"exit 0",
+"last line deny-probes: 13/13 banned, control clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "cargo tree -i portable-pty -e normal --target all",
+"run_sha8": "a8b6e27f",
+"expect": [
+"exit 0",
+"contains portable-pty v0.8.1"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "cargo tree -p viola-pty -e normal --depth 1 --target all --prefix none | python -X utf8 -c \"import sys; print(sorted({l.split()[0] for l in sys.stdin if l.strip()} - {'viola-pty'}))\"",
+"run_sha8": "47f9dac4",
+"expect": [
+"exit 0",
+"last line ['libc', 'portable-pty', 'windows-sys']"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "bash scripts/orphans-check.sh --probe",
+"run_sha8": "6032d9ad",
+"expect": [
+"exit 0",
+"last line orphans-check probes: 2/2 fired, control clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "bash scripts/orphans-check.sh",
+"run_sha8": "f05a4287",
+"expect": [
+"exit 0",
+"last line orphans-check: 7/7 targets clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "bash scripts/install-ripgrep.sh --probe",
+"run_sha8": "366d0238",
+"expect": [
+"exit 0",
+"last line install-ripgrep probes: 3/3 fired"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "zizmor --format=plain .github/workflows/",
+"run_sha8": "0f3c1c47",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 24,
+"role": "build",
+"run": "bash scripts/install-ripgrep.sh",
+"run_sha8": "dcb8426b",
+"expect": [
+"exit 0",
+"contains install-ripgrep: ripgrep 15.2.0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 25,
+"role": "build",
+"run": "RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv cargo check --workspace --all-targets --features viola/fake-agent",
+"run_sha8": "635d1615",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 26,
+"role": "integration",
+"run": "AGENT_RUN_CHUNK_BASE=02535078faca200f099920313eb52dbeec424a88 bash scripts/agent-run.sh run --mutants",
+"run_sha8": "2e83bc16",
+"expect": [
+"exit 0",
+"contains \"verdict\":\"counted\"",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\26.log",
+"bytes": 27995,
+"log_sha8": "6169d7e3",
+"exit": 1,
+"seconds": 741.85,
+"readings": [
+"exit 0 ✗ (exit 1)",
+"contains '\"verdict\":\"counted\"' ✓",
+"contains '\"cmd\":\"run\",\"ok\":true' ✗"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 1)"
+},
+{
+"n": 27,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin build/viola-0.1.0",
+"run_sha8": "32523c62",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 28,
+"role": "probe",
+"run": "gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD)/check-runs --jq '[.check_runs[] | .conclusion] | unique | join(\",\")' ",
+"run_sha8": "4d78cf7d",
+"expect": [
+"exit 0",
+"last line success"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 29,
+"role": "probe",
+"run": "gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD)/check-runs --jq '[.check_runs[] | select(.name | startswith(\"mutants\")) | .conclusion] | join(\",\")' ",
+"run_sha8": "a45521f5",
+"expect": [
+"exit 0",
+"last line success,success,success"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.2",
+"sha8": "d4325653",
+"ts": "2026-09-25T16:13:16Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-25T14-10-08-implement",
+"--marker",
+"2026-09-25-pty-wrapper-on-windows",
+"--only",
+"26"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\viola · marker 2026-09-25-pty-wrapper-on-windows · entries 29",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08 · bound: GNU timeout",
+"delta docs 34 · rust 24 · unmapped 6",
+"prose L152-162: The gates run on this Windows host during /implement. - **Rust delta:** product, test and … (833 chars)",
+"  1 lint        not run — excluded · cargo fmt --all --check",
+"  2 lint        not run — excluded · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 unit        not run — excluded · bash scripts/agent-run.sh run --unit",
+"  4 integration not run — excluded · bash scripts/agent-run.sh run --integration --filter 'bina… (159 chars)",
+"  5 integration not run — excluded · AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --int… (66 chars)",
+"  6 probe       not run — excluded · bash scripts/agent-run.sh schema-check",
+"  7 probe       not run — excluded · bash scripts/agent-run.sh secret-scan",
+"  8 smoke       not run — excluded · bash scripts/agent-run.sh cleanup --session p-pty-smoke",
+"  9 smoke       not run — excluded · bash scripts/agent-run.sh boot --session p-pty-smoke --ins… (71 chars)",
+" 10 smoke       not run — excluded · bash scripts/agent-run.sh status --session p-pty-smoke",
+" 11 smoke       not run — excluded · bash scripts/agent-run.sh logs --session p-pty-smoke --ins… (339 chars)",
+" 12 smoke       not run — excluded · bash scripts/agent-run.sh cleanup --session p-pty-smoke",
+" 13 probe       not run — excluded · grep -c -E '^viola-(pty|agent-claude)$' scripts/sync-crate… (63 chars)",
+" 14 probe       not run — excluded · cargo deny --config deny-sync.toml --manifest-path crates/… (89 chars)",
+" 15 probe       not run — excluded · cargo deny --config deny-sync.toml --manifest-path crates/… (98 chars)",
+" 16 probe       not run — excluded · cargo deny check",
+" 17 probe       not run — excluded · bash scripts/deny-probes.sh",
+" 18 probe       not run — excluded · cargo tree -i portable-pty -e normal --target all",
+" 19 probe       not run — excluded · cargo tree -p viola-pty -e normal --depth 1 --target all -… (182 chars)",
+" 20 probe       not run — excluded · bash scripts/orphans-check.sh --probe",
+" 21 probe       not run — excluded · bash scripts/orphans-check.sh",
+" 22 probe       not run — excluded · bash scripts/install-ripgrep.sh --probe",
+" 23 probe       not run — excluded · zizmor --format=plain .github/workflows/",
+" 24 build       not run — excluded · bash scripts/install-ripgrep.sh",
+" 25 build       not run — excluded · RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv cargo c… (116 chars)",
+" 26 integration red · exit 0 ✗ (exit 1) · exit 1 · 728.79s · 23992 B → 26.log · AGENT_RUN_CHUNK_BASE=02535078faca200f099920313eb52dbeec424… (101 chars)",
+" 27 probe       not run — excluded · git diff --quiet && git diff --cached --quiet && git push … (82 chars)",
+" 28 probe       not run — excluded · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (129 chars)",
+" 29 probe       not run — excluded · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (160 chars)",
+"entries 29 · green 0 · red 1 (26) · recorded 0 · timeout 0 · not-run 28"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-25-pty-wrapper-on-windows",
+"plan": "D:\\dev\\projects\\viola\\viola-0.1.0\\chunks\\2026-09-25-pty-wrapper-on-windows\\plan.md",
+"root": "D:\\dev\\projects\\viola",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-09-25T13-11-43-wrap/push.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/a11y.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/acceptance-v1-25.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/arch.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/design.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/layouts.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/master-record.txt",
+".andromeda/runs/2026-09-25T13-34-03-phase/matrix-2026-09-25-pty-wrapper-on-windows.json",
+".andromeda/runs/2026-09-25T13-34-03-phase/obs.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/04.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/09.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/09a.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/09b.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/09c.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/11.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/12.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/13.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/16.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/17.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/18.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/20.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/route-2026-09-25-pty-wrapper-on-windows.json",
+".andromeda/runs/2026-09-25T13-34-03-phase/route-no-marker.json",
+".andromeda/runs/2026-09-25T13-34-03-phase/security.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/tests.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/tree-query-2026-09-25-pty-wrapper-on-windows.json",
+".andromeda/runs/2026-09-25T14-10-08-implement/gate-2026-09-25-pty-wrapper-on-windows.json",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/plan.md",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/research.md",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/scope.md"
+],
+"rust": [
+"Cargo.lock",
+"Cargo.toml",
+"crates/viola-e2e/Cargo.toml",
+"crates/viola-e2e/src/harness/secret_scan.rs",
+"crates/viola-e2e/src/harness/supervise.rs",
+"src/bin/viola-fake-agent.rs",
+"src/cmd/run.rs",
+"src/obs.rs",
+"src/run/mod.rs",
+"tests/cli_fake_agent.rs",
+"tests/contract_diag_schema.rs",
+"tests/run_cli.rs",
+"tests/support/home.rs",
+"tests/support/mod.rs",
+"crates/viola-agent-claude/Cargo.toml",
+"crates/viola-agent-claude/src/lib.rs",
+"crates/viola-pty/Cargo.toml",
+"crates/viola-pty/src/lib.rs",
+"src/run/env.rs",
+"tests/cli_program_resolution.rs",
+"tests/support/outer_pty.rs",
+"tests/tui_env_strip.rs",
+"tests/tui_passthrough.rs",
+"tests/tui_pty_seam.rs"
+]
+},
+"unmapped": [
+".github/workflows/ci.yml",
+"schemas/diag-line.v1.json",
+"scripts/install-ripgrep.sh",
+"scripts/orphans-check.sh",
+"scripts/sync-crates.txt",
+"viola-0.1.0/verification-matrix.json"
+],
+"prose": [
+{
+"from": 152,
+"to": 162,
+"text": "The gates run on this Windows host during /implement. - **Rust delta:** product, test and script. No gate defers. - **Smoke:** the harness lifecycle (boot → status → logs → cleanup) is the headless verification. It runs first among the legs, per the standing direction. - **Separate target dir:** the msrv entry keeps its own `CARGO_TARGET_DIR` (host-win32 §Session Additions 2026-09-24). - **CI witnesses** (the operator entries at the end read them on the pushed sha):   - the Unix halves of every `cfg`: raw termios, the openpty byte-compare, `claude_env_keep` survival;   - the ubuntu `supply-chain` job;   - the three `lint` legs: the orphans triple rule and the ripgrep probe on each curl;   - per-OS coverage floors;   - both mutation legs and their union. - **One-shot mutating controls:** the step 12 runs are never entries."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(tui_pty_seam) | binary(tui_passthrough) | binary(tui_env_strip) | binary(cli_program_resolution)' ",
+"run_sha8": "07ed04b7",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "integration",
+"run": "AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --integration",
+"run_sha8": "130402e2",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "bash scripts/agent-run.sh secret-scan",
+"run_sha8": "57dd664b",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-pty-smoke",
+"run_sha8": "2c6c9f0b",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-pty-smoke --instance builder",
+"run_sha8": "ee3126f5",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-pty-smoke",
+"run_sha8": "2fc027f9",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh logs --session p-pty-smoke --instance builder | python -X utf8 -c \"import json,sys; r=[json.loads(l)['record'] for l in sys.stdin if l.strip() and 'record' in json.loads(l)]; s=[x for x in r if x.get('event')=='process-start' and x.get('subject')=='claude-child']; print(s[0].get('pty_backend') if s else 'none')\"",
+"run_sha8": "5fb35fa0",
+"expect": [
+"exit 0",
+"last line conpty"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-pty-smoke",
+"run_sha8": "2c6c9f0b",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "grep -c -E '^viola-(pty|agent-claude)$' scripts/sync-crates.txt",
+"run_sha8": "b5234b8f",
+"expect": [
+"exit 0",
+"last line 2"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "cargo deny --config deny-sync.toml --manifest-path crates/viola-pty/Cargo.toml check bans",
+"run_sha8": "a2c78971",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "cargo deny --config deny-sync.toml --manifest-path crates/viola-agent-claude/Cargo.toml check bans",
+"run_sha8": "59ea9c52",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": [
+"exit 0",
+"contains advisories ok, bans ok, licenses ok, sources ok"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "bash scripts/deny-probes.sh",
+"run_sha8": "6ea4a0e7",
+"expect": [
+"exit 0",
+"last line deny-probes: 13/13 banned, control clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "cargo tree -i portable-pty -e normal --target all",
+"run_sha8": "a8b6e27f",
+"expect": [
+"exit 0",
+"contains portable-pty v0.8.1"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "cargo tree -p viola-pty -e normal --depth 1 --target all --prefix none | python -X utf8 -c \"import sys; print(sorted({l.split()[0] for l in sys.stdin if l.strip()} - {'viola-pty'}))\"",
+"run_sha8": "47f9dac4",
+"expect": [
+"exit 0",
+"last line ['libc', 'portable-pty', 'windows-sys']"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "bash scripts/orphans-check.sh --probe",
+"run_sha8": "6032d9ad",
+"expect": [
+"exit 0",
+"last line orphans-check probes: 2/2 fired, control clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "bash scripts/orphans-check.sh",
+"run_sha8": "f05a4287",
+"expect": [
+"exit 0",
+"last line orphans-check: 7/7 targets clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "bash scripts/install-ripgrep.sh --probe",
+"run_sha8": "366d0238",
+"expect": [
+"exit 0",
+"last line install-ripgrep probes: 3/3 fired"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "zizmor --format=plain .github/workflows/",
+"run_sha8": "0f3c1c47",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 24,
+"role": "build",
+"run": "bash scripts/install-ripgrep.sh",
+"run_sha8": "dcb8426b",
+"expect": [
+"exit 0",
+"contains install-ripgrep: ripgrep 15.2.0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 25,
+"role": "build",
+"run": "RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv cargo check --workspace --all-targets --features viola/fake-agent",
+"run_sha8": "635d1615",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 26,
+"role": "integration",
+"run": "AGENT_RUN_CHUNK_BASE=02535078faca200f099920313eb52dbeec424a88 bash scripts/agent-run.sh run --mutants",
+"run_sha8": "2e83bc16",
+"expect": [
+"exit 0",
+"contains \"verdict\":\"counted\"",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\26.log",
+"bytes": 23992,
+"log_sha8": "ea8eccbf",
+"exit": 1,
+"seconds": 728.79,
+"readings": [
+"exit 0 ✗ (exit 1)",
+"contains '\"verdict\":\"counted\"' ✓",
+"contains '\"cmd\":\"run\",\"ok\":true' ✗"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 1)"
+},
+{
+"n": 27,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin build/viola-0.1.0",
+"run_sha8": "32523c62",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 28,
+"role": "probe",
+"run": "gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD)/check-runs --jq '[.check_runs[] | .conclusion] | unique | join(\",\")' ",
+"run_sha8": "4d78cf7d",
+"expect": [
+"exit 0",
+"last line success"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 29,
+"role": "probe",
+"run": "gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD)/check-runs --jq '[.check_runs[] | select(.name | startswith(\"mutants\")) | .conclusion] | join(\",\")' ",
+"run_sha8": "a45521f5",
+"expect": [
+"exit 0",
+"last line success,success,success"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.2",
+"sha8": "d4325653",
+"ts": "2026-09-25T16:45:40Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-25T14-10-08-implement",
+"--marker",
+"2026-09-25-pty-wrapper-on-windows"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\viola · marker 2026-09-25-pty-wrapper-on-windows · entries 29",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08 · bound: GNU timeout",
+"delta docs 34 · python 1 · rust 24 · unmapped 18",
+"prose L152-162: The gates run on this Windows host during /implement. - **Rust delta:** product, test and … (833 chars)",
+"  1 lint        green · exit 0 · 0.3s · 0 B → 1.log · cargo fmt --all --check",
+"  2 lint        green · exit 0 · 1.68s · 353 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 unit        green · exit 0 · 11.81s · 29440 B → 3.log · bash scripts/agent-run.sh run --unit",
+"  4 integration green · exit 0 · 1.64s · 2450 B → 4.log · bash scripts/agent-run.sh run --integration --filter 'bina… (159 chars)",
+"  5 integration green · exit 0 · 24.46s · 13697 B → 5.log · AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --int… (66 chars)",
+"  6 probe       green · exit 0 · 0.44s · 109 B → 6.log · bash scripts/agent-run.sh schema-check",
+"  7 probe       green · exit 0 · 34.71s · 113 B → 7.log · bash scripts/agent-run.sh secret-scan",
+"  8 smoke       green · exit 0 · 0.27s · 47 B → 8.log · bash scripts/agent-run.sh cleanup --session p-pty-smoke",
+"  9 smoke       green · exit 0 · 1.98s · 470 B → 9.log · bash scripts/agent-run.sh boot --session p-pty-smoke --ins… (71 chars)",
+" 10 smoke       green · exit 0 · 0.28s · 214 B → 10.log · bash scripts/agent-run.sh status --session p-pty-smoke",
+" 11 smoke       green · exit 0 · 0.28s · 8 B → 11.log · bash scripts/agent-run.sh logs --session p-pty-smoke --ins… (339 chars)",
+" 12 smoke       green · exit 0 · 0.45s · 176 B → 12.log · bash scripts/agent-run.sh cleanup --session p-pty-smoke",
+" 13 probe       green · exit 0 · 0.06s · 2 B → 13.log · grep -c -E '^viola-(pty|agent-claude)$' scripts/sync-crate… (63 chars)",
+" 14 probe       green · exit 0 · 0.48s · 8 B → 14.log · cargo deny --config deny-sync.toml --manifest-path crates/… (89 chars)",
+" 15 probe       green · exit 0 · 0.46s · 8 B → 15.log · cargo deny --config deny-sync.toml --manifest-path crates/… (98 chars)",
+" 16 probe       green · exit 0 · 1.01s · 5511 B → 16.log · cargo deny check",
+" 17 probe       green · exit 0 · 15.69s · 346 B → 17.log · bash scripts/deny-probes.sh",
+" 18 probe       green · exit 0 · 0.16s · 139 B → 18.log · cargo tree -i portable-pty -e normal --target all",
+" 19 probe       green · exit 0 · 0.15s · 41 B → 19.log · cargo tree -p viola-pty -e normal --depth 1 --target all -… (182 chars)",
+" 20 probe       green · exit 0 · 4.8s · 77 B → 20.log · bash scripts/orphans-check.sh --probe",
+" 21 probe       green · exit 0 · 59.66s · 33 B → 21.log · bash scripts/orphans-check.sh",
+" 22 probe       green · exit 0 · 43.72s · 143 B → 22.log · bash scripts/install-ripgrep.sh --probe",
+" 23 probe       green · exit 0 · 0.12s · 388 B → 23.log · zizmor --format=plain .github/workflows/",
+" 24 build       green · exit 0 · 0.2s · 90 B → 24.log · bash scripts/install-ripgrep.sh",
+" 25 build       green · exit 0 · 0.86s · 353 B → 25.log · RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv cargo c… (116 chars)",
+" 26 integration red · exit 0 ✗ (exit 1) · exit 1 · 730.5s · 23238 B → 26.log · AGENT_RUN_CHUNK_BASE=02535078faca200f099920313eb52dbeec424… (101 chars)",
+" 27 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (82 chars)",
+" 28 probe       not run — leg operator (the letter drives it) · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (129 chars)",
+" 29 probe       not run — leg operator (the letter drives it) · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (160 chars)",
+"entries 29 · green 25 · red 1 (26) · recorded 0 · timeout 0 · not-run 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-25-pty-wrapper-on-windows",
+"plan": "D:\\dev\\projects\\viola\\viola-0.1.0\\chunks\\2026-09-25-pty-wrapper-on-windows\\plan.md",
+"root": "D:\\dev\\projects\\viola",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-09-25T13-11-43-wrap/push.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/a11y.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/acceptance-v1-25.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/arch.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/design.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/layouts.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/master-record.txt",
+".andromeda/runs/2026-09-25T13-34-03-phase/matrix-2026-09-25-pty-wrapper-on-windows.json",
+".andromeda/runs/2026-09-25T13-34-03-phase/obs.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/04.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/09.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/09a.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/09b.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/09c.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/11.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/12.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/13.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/16.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/17.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/18.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/p5/20.log",
+".andromeda/runs/2026-09-25T13-34-03-phase/route-2026-09-25-pty-wrapper-on-windows.json",
+".andromeda/runs/2026-09-25T13-34-03-phase/route-no-marker.json",
+".andromeda/runs/2026-09-25T13-34-03-phase/security.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/tests.md",
+".andromeda/runs/2026-09-25T13-34-03-phase/tree-query-2026-09-25-pty-wrapper-on-windows.json",
+".andromeda/runs/2026-09-25T14-10-08-implement/gate-2026-09-25-pty-wrapper-on-windows.json",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/plan.md",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/research.md",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/scope.md"
+],
+"rust": [
+"Cargo.lock",
+"Cargo.toml",
+"crates/viola-e2e/Cargo.toml",
+"crates/viola-e2e/src/harness/secret_scan.rs",
+"crates/viola-e2e/src/harness/supervise.rs",
+"src/bin/viola-fake-agent.rs",
+"src/cmd/run.rs",
+"src/obs.rs",
+"src/run/mod.rs",
+"tests/cli_fake_agent.rs",
+"tests/contract_diag_schema.rs",
+"tests/run_cli.rs",
+"tests/support/home.rs",
+"tests/support/mod.rs",
+"crates/viola-agent-claude/Cargo.toml",
+"crates/viola-agent-claude/src/lib.rs",
+"crates/viola-pty/Cargo.toml",
+"crates/viola-pty/src/lib.rs",
+"src/run/env.rs",
+"tests/cli_program_resolution.rs",
+"tests/support/outer_pty.rs",
+"tests/tui_env_strip.rs",
+"tests/tui_passthrough.rs",
+"tests/tui_pty_seam.rs"
+],
+"python": [
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/evidence/guards/guards.py"
+]
+},
+"unmapped": [
+".github/workflows/ci.yml",
+"schemas/diag-line.v1.json",
+"scripts/install-ripgrep.sh",
+"scripts/orphans-check.sh",
+"scripts/sync-crates.txt",
+"viola-0.1.0/verification-matrix.json",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/evidence/guards/batch-refusal.neutralised.log",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/evidence/guards/child-cwd.neutralised.log",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/evidence/guards/claude-prefix.neutralised.log",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/evidence/guards/ctrl-c-resend.neutralised.log",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/evidence/guards/exit-on-handle.neutralised.log",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/evidence/guards/identity-floor.neutralised.log",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/evidence/guards/keep-child-input.neutralised.log",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/evidence/guards/orphans-every-triple.neutralised.log",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/evidence/guards/raw-input-flags.neutralised.log",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/evidence/guards/readings.json",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/evidence/guards/ripgrep-sha.neutralised.log",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/evidence/guards/terminal-restore.neutralised.log"
+],
+"prose": [
+{
+"from": 152,
+"to": 162,
+"text": "The gates run on this Windows host during /implement. - **Rust delta:** product, test and script. No gate defers. - **Smoke:** the harness lifecycle (boot → status → logs → cleanup) is the headless verification. It runs first among the legs, per the standing direction. - **Separate target dir:** the msrv entry keeps its own `CARGO_TARGET_DIR` (host-win32 §Session Additions 2026-09-24). - **CI witnesses** (the operator entries at the end read them on the pushed sha):   - the Unix halves of every `cfg`: raw termios, the openpty byte-compare, `claude_env_keep` survival;   - the ubuntu `supply-chain` job;   - the three `lint` legs: the orphans triple rule and the ripgrep probe on each curl;   - per-OS coverage floors;   - both mutation legs and their union. - **One-shot mutating controls:** the step 12 runs are never entries."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.3,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\2.log",
+"bytes": 353,
+"log_sha8": "55889529",
+"exit": 0,
+"seconds": 1.68,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\3.log",
+"bytes": 29440,
+"log_sha8": "72e7cb79",
+"exit": 0,
+"seconds": 11.81,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"run\",\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(tui_pty_seam) | binary(tui_passthrough) | binary(tui_env_strip) | binary(cli_program_resolution)' ",
+"run_sha8": "07ed04b7",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\4.log",
+"bytes": 2450,
+"log_sha8": "a3346dcc",
+"exit": 0,
+"seconds": 1.64,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"run\",\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "integration",
+"run": "AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --integration",
+"run_sha8": "130402e2",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\5.log",
+"bytes": 13697,
+"log_sha8": "a2191743",
+"exit": 0,
+"seconds": 24.46,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"run\",\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\6.log",
+"bytes": 109,
+"log_sha8": "d66e0134",
+"exit": 0,
+"seconds": 0.44,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "bash scripts/agent-run.sh secret-scan",
+"run_sha8": "57dd664b",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\7.log",
+"bytes": 113,
+"log_sha8": "3582f325",
+"exit": 0,
+"seconds": 34.71,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-pty-smoke",
+"run_sha8": "2c6c9f0b",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\8.log",
+"bytes": 47,
+"log_sha8": "91854d6e",
+"exit": 0,
+"seconds": 0.27,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-pty-smoke --instance builder",
+"run_sha8": "ee3126f5",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\9.log",
+"bytes": 470,
+"log_sha8": "70fea3b3",
+"exit": 0,
+"seconds": 1.98,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-pty-smoke",
+"run_sha8": "2fc027f9",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\10.log",
+"bytes": 214,
+"log_sha8": "c9402461",
+"exit": 0,
+"seconds": 0.28,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh logs --session p-pty-smoke --instance builder | python -X utf8 -c \"import json,sys; r=[json.loads(l)['record'] for l in sys.stdin if l.strip() and 'record' in json.loads(l)]; s=[x for x in r if x.get('event')=='process-start' and x.get('subject')=='claude-child']; print(s[0].get('pty_backend') if s else 'none')\"",
+"run_sha8": "5fb35fa0",
+"expect": [
+"exit 0",
+"last line conpty"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\11.log",
+"bytes": 8,
+"log_sha8": "ee272a11",
+"exit": 0,
+"seconds": 0.28,
+"readings": [
+"exit 0 ✓",
+"last line 'conpty' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-pty-smoke",
+"run_sha8": "2c6c9f0b",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\12.log",
+"bytes": 176,
+"log_sha8": "3dc13aea",
+"exit": 0,
+"seconds": 0.45,
+"readings": [
+"exit 0 ✓",
+"contains '\"processes_gone\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "grep -c -E '^viola-(pty|agent-claude)$' scripts/sync-crates.txt",
+"run_sha8": "b5234b8f",
+"expect": [
+"exit 0",
+"last line 2"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\13.log",
+"bytes": 2,
+"log_sha8": "53c234e5",
+"exit": 0,
+"seconds": 0.06,
+"readings": [
+"exit 0 ✓",
+"last line '2' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "cargo deny --config deny-sync.toml --manifest-path crates/viola-pty/Cargo.toml check bans",
+"run_sha8": "a2c78971",
+"expect": [
+"exit 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\14.log",
+"bytes": 8,
+"log_sha8": "eba7f300",
+"exit": 0,
+"seconds": 0.48,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "cargo deny --config deny-sync.toml --manifest-path crates/viola-agent-claude/Cargo.toml check bans",
+"run_sha8": "59ea9c52",
+"expect": [
+"exit 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\15.log",
+"bytes": 8,
+"log_sha8": "eba7f300",
+"exit": 0,
+"seconds": 0.46,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": [
+"exit 0",
+"contains advisories ok, bans ok, licenses ok, sources ok"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\16.log",
+"bytes": 5511,
+"log_sha8": "ea330bab",
+"exit": 0,
+"seconds": 1.01,
+"readings": [
+"exit 0 ✓",
+"contains 'advisories ok, bans ok, licenses ok, sources ok' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "bash scripts/deny-probes.sh",
+"run_sha8": "6ea4a0e7",
+"expect": [
+"exit 0",
+"last line deny-probes: 13/13 banned, control clean"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\17.log",
+"bytes": 346,
+"log_sha8": "57359665",
+"exit": 0,
+"seconds": 15.69,
+"readings": [
+"exit 0 ✓",
+"last line 'deny-probes: 13/13 banned, control clean' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "cargo tree -i portable-pty -e normal --target all",
+"run_sha8": "a8b6e27f",
+"expect": [
+"exit 0",
+"contains portable-pty v0.8.1"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\18.log",
+"bytes": 139,
+"log_sha8": "24ef713d",
+"exit": 0,
+"seconds": 0.16,
+"readings": [
+"exit 0 ✓",
+"contains 'portable-pty v0.8.1' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "cargo tree -p viola-pty -e normal --depth 1 --target all --prefix none | python -X utf8 -c \"import sys; print(sorted({l.split()[0] for l in sys.stdin if l.strip()} - {'viola-pty'}))\"",
+"run_sha8": "47f9dac4",
+"expect": [
+"exit 0",
+"last line ['libc', 'portable-pty', 'windows-sys']"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\19.log",
+"bytes": 41,
+"log_sha8": "04b115f5",
+"exit": 0,
+"seconds": 0.15,
+"readings": [
+"exit 0 ✓",
+"last line \"['libc', 'portable-pty', 'windows-sys']\" ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "bash scripts/orphans-check.sh --probe",
+"run_sha8": "6032d9ad",
+"expect": [
+"exit 0",
+"last line orphans-check probes: 2/2 fired, control clean"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\20.log",
+"bytes": 77,
+"log_sha8": "de3c731c",
+"exit": 0,
+"seconds": 4.8,
+"readings": [
+"exit 0 ✓",
+"last line 'orphans-check probes: 2/2 fired, control clean' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "bash scripts/orphans-check.sh",
+"run_sha8": "f05a4287",
+"expect": [
+"exit 0",
+"last line orphans-check: 7/7 targets clean"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\21.log",
+"bytes": 33,
+"log_sha8": "7f3e3e8a",
+"exit": 0,
+"seconds": 59.66,
+"readings": [
+"exit 0 ✓",
+"last line 'orphans-check: 7/7 targets clean' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "bash scripts/install-ripgrep.sh --probe",
+"run_sha8": "366d0238",
+"expect": [
+"exit 0",
+"last line install-ripgrep probes: 3/3 fired"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\22.log",
+"bytes": 143,
+"log_sha8": "fe0bb319",
+"exit": 0,
+"seconds": 43.72,
+"readings": [
+"exit 0 ✓",
+"last line 'install-ripgrep probes: 3/3 fired' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "zizmor --format=plain .github/workflows/",
+"run_sha8": "0f3c1c47",
+"expect": [
+"exit 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\23.log",
+"bytes": 388,
+"log_sha8": "01a25b9b",
+"exit": 0,
+"seconds": 0.12,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 24,
+"role": "build",
+"run": "bash scripts/install-ripgrep.sh",
+"run_sha8": "dcb8426b",
+"expect": [
+"exit 0",
+"contains install-ripgrep: ripgrep 15.2.0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\24.log",
+"bytes": 90,
+"log_sha8": "f0fd37f2",
+"exit": 0,
+"seconds": 0.2,
+"readings": [
+"exit 0 ✓",
+"contains 'install-ripgrep: ripgrep 15.2.0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 25,
+"role": "build",
+"run": "RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv cargo check --workspace --all-targets --features viola/fake-agent",
+"run_sha8": "635d1615",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\25.log",
+"bytes": 353,
+"log_sha8": "85ee0e62",
+"exit": 0,
+"seconds": 0.86,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 26,
+"role": "integration",
+"run": "AGENT_RUN_CHUNK_BASE=02535078faca200f099920313eb52dbeec424a88 bash scripts/agent-run.sh run --mutants",
+"run_sha8": "2e83bc16",
+"expect": [
+"exit 0",
+"contains \"verdict\":\"counted\"",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-25-pty-wrapper-on-windows\\implement-2026-09-25T14-10-08\\26.log",
+"bytes": 23238,
+"log_sha8": "65263d4c",
+"exit": 1,
+"seconds": 730.5,
+"readings": [
+"exit 0 ✗ (exit 1)",
+"contains '\"verdict\":\"counted\"' ✓",
+"contains '\"cmd\":\"run\",\"ok\":true' ✗"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 1)"
+},
+{
+"n": 27,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin build/viola-0.1.0",
+"run_sha8": "32523c62",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 28,
+"role": "probe",
+"run": "gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD)/check-runs --jq '[.check_runs[] | .conclusion] | unique | join(\",\")' ",
+"run_sha8": "4d78cf7d",
+"expect": [
+"exit 0",
+"last line success"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 29,
+"role": "probe",
+"run": "gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD)/check-runs --jq '[.check_runs[] | select(.name | startswith(\"mutants\")) | .conclusion] | join(\",\")' ",
+"run_sha8": "a45521f5",
+"expect": [
+"exit 0",
+"last line success,success,success"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+}
+]

@@ -1,0 +1,4 @@
+   Compiling viola v0.1.0 (D:\dev\projects\viola)
+   Compiling viola-e2e v0.1.0 (D:\dev\projects\viola\crates\viola-e2e)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.75s
+{"v":1,"cmd":"boot","ok":true,"session":"p-pty-smoke","home":"D:\\dev\\projects\\viola\\target\\e2e-home\\viola-session-3ojNZk\\home","instances":[{"name":"builder","wrapper_pid":29132,"child_pid":61640}]}

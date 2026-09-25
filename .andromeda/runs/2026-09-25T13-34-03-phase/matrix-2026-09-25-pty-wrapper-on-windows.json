@@ -1,0 +1,114 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "84f383a7",
+"ts": "2026-09-25T14:09:00Z",
+"argv": [
+"coverage",
+"--dir",
+"viola-0.1.0",
+"--run-dir",
+".andromeda/runs/2026-09-25T13-34-03-phase",
+"--marker",
+"2026-09-25-pty-wrapper-on-windows"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"verified 4/53 · deferred 0 · planned 49 · implemented 0 · unclaimed 49",
+"unclaimed: v1-01 v1-02 v1-03 v1-04 v1-05 v1-07 v1-08 v1-09 v1-10 v1-11 v1-12 v1-13 v1-14 v1-15 v1-16 v1-17",
+"          v1-18 v1-20 v1-21 v1-22 v1-24 v1-25 v1-26 v1-27 v1-28 v1-29 v1-30 v1-31 v1-32 v1-33 v1-34 v1-35",
+"          v1-36 v1-37 v1-38 v1-39 v1-40 v1-41 v1-42 v1-44 v1-45 v1-46 v1-47 v1-48 v1-49 v1-50 v1-51 v1-52",
+"          v1-53",
+"claimed-unfinished: none",
+"done-test: NO — 49 not verified|deferred · unclaimed 49",
+"chunks referenced: 4 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "84f383a7",
+"ts": "2026-09-25T14:09:10Z",
+"argv": [
+"claim",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-25",
+"--chunk",
+"2026-09-25-pty-wrapper-on-windows",
+"--acceptance-file",
+".andromeda/runs/2026-09-25T13-34-03-phase/acceptance-v1-25.md",
+"--method",
+"by-construction",
+"--run-dir",
+".andromeda/runs/2026-09-25T13-34-03-phase"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"claim v1-25 → chunk 2026-09-25-pty-wrapper-on-windows (was null; status planned kept)",
+"acceptance: The project records which portable-pty line the PTY seam uses and why,… (233 chars)",
+"         → The portable-pty line is recorded beside its pin (the `Cargo.toml` `[w… (703 chars)",
+"method: manual → by-construction",
+"wrote viola-0.1.0\\verification-matrix.json · 1 entry changed",
+"pool: unclaimed 48 [v1-01 v1-02 v1-03 v1-04 v1-05 v1-07 v1-08 v1-09 v1-10 v1-11 v1-12 v1-13 v1-14 v1-15 v1-16 v1-17 v1-18 v1-20 v1-21 v1-22 v1-24 v1-26 v1-27 v1-28 v1-29 v1-30 v1-31 v1-32 v1-33 v1-34 v1-35 v1-36 v1-37 v1-38 v1-39 v1-40 v1-41 v1-42 v1-44 v1-45 v1-46 v1-47 v1-48 v1-49 v1-50 v1-51 v1-52 v1-53]"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0\\verification-matrix.json"
+],
+"before": {
+"id": "v1-25",
+"chunk": null,
+"status": "planned",
+"method": "manual",
+"ref": "null",
+"acceptance": "The project records which portable-pty line the PTY seam uses and why, with the Windows defect re-checked on current evi… (233 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-25",
+"chunk": "2026-09-25-pty-wrapper-on-windows",
+"status": "planned",
+"method": "by-construction",
+"ref": "null",
+"acceptance": "The portable-pty line is recorded beside its pin (the `Cargo.toml` `[workspace.dependencies]` portable-pty comment) and … (703 chars)",
+"notes_chars": 0
+}
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "84f383a7",
+"ts": "2026-09-25T14:09:11Z",
+"argv": [
+"audit",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-09-25-pty-wrapper-on-windows",
+"--plan",
+"viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-25T13-34-03-phase"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-25-pty-wrapper-on-windows: 1 · ## Acceptance Criteria: line 331, 25 lines",
+"v1-25: cited in ## Acceptance Criteria (line 355)",
+"pool: unclaimed 48 [v1-01 v1-02 v1-03 v1-04 v1-05 v1-07 v1-08 v1-09 v1-10 v1-11 v1-12 v1-13 v1-14 v1-15 v1-16 v1-17 v1-18 v1-20 v1-21 v1-22 v1-24 v1-26 v1-27 v1-28 v1-29 v1-30 v1-31 v1-32 v1-33 v1-34 v1-35 v1-36 v1-37 v1-38 v1-39 v1-40 v1-41 v1-42 v1-44 v1-45 v1-46 v1-47 v1-48 v1-49 v1-50 v1-51 v1-52 v1-53]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]
