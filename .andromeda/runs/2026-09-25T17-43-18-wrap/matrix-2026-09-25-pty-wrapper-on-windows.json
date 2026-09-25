@@ -1,0 +1,99 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "84f383a7",
+"ts": "2026-09-25T18:08:00Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-09-25-pty-wrapper-on-windows",
+"--run-dir",
+".andromeda/runs/2026-09-25T17-43-18-wrap",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-25-pty-wrapper-on-windows: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v1-25 → verified — The portable-pty line is recorded beside its pin (the `Cargo.toml` `[workspace.d… (703 chars)",
+"dry-run: nothing written",
+"version: verified 5/53"
+],
+"stderr": null,
+"wrote": [],
+"before": [
+{
+"id": "v1-25",
+"chunk": "2026-09-25-pty-wrapper-on-windows",
+"status": "implemented",
+"method": "by-construction",
+"ref": "by-construction: the portable-pty line record is the Cargo.toml [workspace.dependencies] portable-pty comment and the cr… (544 chars)",
+"acceptance": "The portable-pty line is recorded beside its pin (the `Cargo.toml` `[workspace.dependencies]` portable-pty comment) and … (703 chars)",
+"notes_chars": 0
+}
+],
+"after": [
+{
+"id": "v1-25",
+"chunk": "2026-09-25-pty-wrapper-on-windows",
+"status": "verified",
+"method": "by-construction",
+"ref": "by-construction: the portable-pty line record is the Cargo.toml [workspace.dependencies] portable-pty comment and the cr… (544 chars)",
+"acceptance": "The portable-pty line is recorded beside its pin (the `Cargo.toml` `[workspace.dependencies]` portable-pty comment) and … (703 chars)",
+"notes_chars": 0
+}
+]
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "84f383a7",
+"ts": "2026-09-25T18:11:55Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-09-25-pty-wrapper-on-windows",
+"--run-dir",
+".andromeda/runs/2026-09-25T17-43-18-wrap"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-25-pty-wrapper-on-windows: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v1-25 → verified — The portable-pty line is recorded beside its pin (the `Cargo.toml` `[workspace.d… (703 chars)",
+"wrote viola-0.1.0\\verification-matrix.json · 1 entry changed",
+"version: verified 5/53"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0\\verification-matrix.json"
+],
+"before": [
+{
+"id": "v1-25",
+"chunk": "2026-09-25-pty-wrapper-on-windows",
+"status": "implemented",
+"method": "by-construction",
+"ref": "by-construction: the portable-pty line record is the Cargo.toml [workspace.dependencies] portable-pty comment and the cr… (544 chars)",
+"acceptance": "The portable-pty line is recorded beside its pin (the `Cargo.toml` `[workspace.dependencies]` portable-pty comment) and … (703 chars)",
+"notes_chars": 0
+}
+],
+"after": [
+{
+"id": "v1-25",
+"chunk": "2026-09-25-pty-wrapper-on-windows",
+"status": "verified",
+"method": "by-construction",
+"ref": "by-construction: the portable-pty line record is the Cargo.toml [workspace.dependencies] portable-pty comment and the cr… (544 chars)",
+"acceptance": "The portable-pty line is recorded beside its pin (the `Cargo.toml` `[workspace.dependencies]` portable-pty comment) and … (703 chars)",
+"notes_chars": 0
+}
+]
+}
+]

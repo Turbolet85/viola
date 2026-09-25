@@ -1,0 +1,197 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "f3b5b1ea",
+"ts": "2026-09-25T18:03:22Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-25T17-43-18-wrap/architecture-entry.md",
+"--lines",
+"11",
+"--run-dir",
+".andromeda/runs/2026-09-25T17-43-18-wrap",
+"--marker",
+"2026-09-25-pty-wrapper-on-windows"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+11 at line 198 · lines 197→208 · bytes 27449→30612 · term lf",
+"last line now: **Sweep:** patterns `14-name|14 names|14 known|14 S6|14 variables|strip list|com"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 197,
+"bytes": 27449,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 208,
+"bytes": 30612
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "f3b5b1ea",
+"ts": "2026-09-25T18:03:22Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-25T17-43-18-wrap/security-plan-entry.md",
+"--lines",
+"11",
+"--run-dir",
+".andromeda/runs/2026-09-25T17-43-18-wrap",
+"--marker",
+"2026-09-25-pty-wrapper-on-windows"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+11 at line 117 · lines 116→127 · bytes 13258→15582 · term lf",
+"last line now: **Sweep:** patterns as the architecture entry of this chunk over the 7 masters: "
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 116,
+"bytes": 13258,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 127,
+"bytes": 15582
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "f3b5b1ea",
+"ts": "2026-09-25T18:03:22Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-25T17-43-18-wrap/test-plan-entry.md",
+"--lines",
+"11",
+"--run-dir",
+".andromeda/runs/2026-09-25T17-43-18-wrap",
+"--marker",
+"2026-09-25-pty-wrapper-on-windows"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+11 at line 221 · lines 220→231 · bytes 25649→28190 · term lf",
+"last line now: **Sweep:** patterns as the architecture entry of this chunk plus `grandchild|hol"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 220,
+"bytes": 25649,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 231,
+"bytes": 28190
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "f3b5b1ea",
+"ts": "2026-09-25T18:03:23Z",
+"argv": [
+"append",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-25T17-43-18-wrap/obs-plan-entry.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-09-25T17-43-18-wrap",
+"--marker",
+"2026-09-25-pty-wrapper-on-windows"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append obs-plan-amendments.md:+10 at line 93 · lines 92→102 · bytes 11566→13823 · term lf",
+"last line now: **Sweep:** patterns as the architecture entry of this chunk plus `D-14|env_strip"
+],
+"stderr": null,
+"wrote": [
+".andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 92,
+"bytes": 11566,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 102,
+"bytes": 13823
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "f3b5b1ea",
+"ts": "2026-09-25T18:03:23Z",
+"argv": [
+"append",
+"--file",
+".andromeda/a11y-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-25T17-43-18-wrap/a11y-plan-entry.md",
+"--lines",
+"6",
+"--run-dir",
+".andromeda/runs/2026-09-25T17-43-18-wrap",
+"--marker",
+"2026-09-25-pty-wrapper-on-windows"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append a11y-plan-amendments.md:+6 at line 21 · lines 20→26 · bytes 2706→4257 · term lf",
+"last line now: **Sweep:** `no SGR or cursor control|zero SGR|byte for byte|viola-originated` ov"
+],
+"stderr": null,
+"wrote": [
+".andromeda/a11y-plan-amendments.md"
+],
+"before": {
+"lines": 20,
+"bytes": 2706,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 26,
+"bytes": 4257
+}
+}
+]

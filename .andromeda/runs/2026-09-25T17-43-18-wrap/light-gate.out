@@ -1,0 +1,36 @@
+gate v1.2 · d4325653
+shell C:\Program Files\Git\bin\bash.exe (from $SHELL; -c, non-login)
+root D:\dev\projects\viola · marker 2026-09-25-pty-wrapper-on-windows · entries 29
+logs C:\Users\turbo\AppData\Local\Temp\andromeda-gate\2026-09-25-pty-wrapper-on-windows\wrap-2026-09-25T17-43-18 · bound: GNU timeout
+delta docs 37
+prose L152-162: The gates run on this Windows host during /implement. - **Rust delta:** product, test and … (833 chars)
+  1 lint        green · exit 0 · 0.32s · 0 B → 1.log · cargo fmt --all --check
+  2 lint        green · exit 0 · 0.5s · 122 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)
+  3 unit        green · exit 0 · 9.04s · 29209 B → 3.log · bash scripts/agent-run.sh run --unit
+  4 integration green · exit 0 · 1.64s · 2450 B → 4.log · bash scripts/agent-run.sh run --integration --filter 'bina… (159 chars)
+  5 integration green · exit 0 · 24.19s · 13697 B → 5.log · AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --int… (66 chars)
+  6 probe       green · exit 0 · 0.48s · 109 B → 6.log · bash scripts/agent-run.sh schema-check
+  7 probe       green · exit 0 · 38.59s · 113 B → 7.log · bash scripts/agent-run.sh secret-scan
+  8 smoke       green · exit 0 · 0.31s · 47 B → 8.log · bash scripts/agent-run.sh cleanup --session p-pty-smoke
+  9 smoke       green · exit 0 · 1.85s · 399 B → 9.log · bash scripts/agent-run.sh boot --session p-pty-smoke --ins… (71 chars)
+ 10 smoke       green · exit 0 · 0.32s · 214 B → 10.log · bash scripts/agent-run.sh status --session p-pty-smoke
+ 11 smoke       green · exit 0 · 0.36s · 8 B → 11.log · bash scripts/agent-run.sh logs --session p-pty-smoke --ins… (339 chars)
+ 12 smoke       green · exit 0 · 0.56s · 176 B → 12.log · bash scripts/agent-run.sh cleanup --session p-pty-smoke
+ 13 probe       green · exit 0 · 0.06s · 2 B → 13.log · grep -c -E '^viola-(pty|agent-claude)$' scripts/sync-crate… (63 chars)
+ 14 probe       green · exit 0 · 0.52s · 8 B → 14.log · cargo deny --config deny-sync.toml --manifest-path crates/… (89 chars)
+ 15 probe       green · exit 0 · 0.48s · 8 B → 15.log · cargo deny --config deny-sync.toml --manifest-path crates/… (98 chars)
+ 16 probe       green · exit 0 · 1.13s · 5511 B → 16.log · cargo deny check
+ 17 probe       green · exit 0 · 18.12s · 346 B → 17.log · bash scripts/deny-probes.sh
+ 18 probe       green · exit 0 · 0.17s · 139 B → 18.log · cargo tree -i portable-pty -e normal --target all
+ 19 probe       green · exit 0 · 0.18s · 41 B → 19.log · cargo tree -p viola-pty -e normal --depth 1 --target all -… (182 chars)
+ 20 probe       green · exit 0 · 5.53s · 77 B → 20.log · bash scripts/orphans-check.sh --probe
+ 21 probe       green · exit 0 · 61.94s · 33 B → 21.log · bash scripts/orphans-check.sh
+ 22 probe       green · exit 0 · 43.73s · 143 B → 22.log · bash scripts/install-ripgrep.sh --probe
+ 23 probe       green · exit 0 · 0.12s · 388 B → 23.log · zizmor --format=plain .github/workflows/
+ 24 build       green · exit 0 · 0.21s · 90 B → 24.log · bash scripts/install-ripgrep.sh
+ 25 build       green · exit 0 · 0.39s · 122 B → 25.log · RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv cargo c… (116 chars)
+ 26 integration not run — skipped: plan form cannot pass on Windows with cfg(unix) bodies in the diff (implement read it in the CI form --leg windows-2025 · AGENT_RUN_CHUNK_BASE=02535078faca200f099920313eb52dbeec424… (101 chars)
+ 27 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (82 chars)
+ 28 probe       not run — leg operator (the letter drives it) · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (129 chars)
+ 29 probe       not run — leg operator (the letter drives it) · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (160 chars)
+entries 29 · green 25 · red 0 · recorded 0 · timeout 0 · not-run 4

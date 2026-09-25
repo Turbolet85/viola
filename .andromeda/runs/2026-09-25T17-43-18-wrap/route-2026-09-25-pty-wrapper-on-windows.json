@@ -1,0 +1,147 @@
+[
+{
+"tool": "route",
+"v": "1.4",
+"sha8": "86c1b723",
+"ts": "2026-09-25T18:08:00Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-09-25-pty-wrapper-on-windows",
+"--date",
+"2026-09-25",
+"--run-dir",
+".andromeda/runs/2026-09-25T17-43-18-wrap",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 3,
+"stdout": [],
+"stderr": "2026-09-25-pty-wrapper-on-windows: its record is 'pending' -- compact runs AFTER the flip",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.4",
+"sha8": "86c1b723",
+"ts": "2026-09-25T18:11:55Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-09-25-pty-wrapper-on-windows",
+"--run-dir",
+".andromeda/runs/2026-09-25T17-43-18-wrap"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"flip master-route.md:21 - 2026-09-25-pty-wrapper-on-windows pending -> complete"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.4",
+"sha8": "86c1b723",
+"ts": "2026-09-25T18:11:55Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-09-25-pty-wrapper-on-windows",
+"--date",
+"2026-09-25",
+"--run-dir",
+".andromeda/runs/2026-09-25T17-43-18-wrap",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"pin :32 strip CARRY: 520ch \"CARRY: chunk 2026-09-24-three-os-ci-head\"",
+"pin :32 strip CARRY: 472ch \"CARRY: chunk 2026-09-24-fake-agent-and-t\"",
+"pin :32 strip CARRY: 588ch \"CARRY: chunk 2026-09-24-workspace-tree-a\"",
+"pin next markerless :34 holds CARRY:×2",
+"32 · 2026-09-25-pty-wrapper-on-windows · strip 3 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 32,
+"marker": "2026-09-25-pty-wrapper-on-windows",
+"blocks": 3,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.4",
+"sha8": "86c1b723",
+"ts": "2026-09-25T18:12:02Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-09-25-pty-wrapper-on-windows",
+"--date",
+"2026-09-25",
+"--run-dir",
+".andromeda/runs/2026-09-25T17-43-18-wrap"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"pin :32 strip CARRY: 520ch \"CARRY: chunk 2026-09-24-three-os-ci-head\"",
+"pin :32 strip CARRY: 472ch \"CARRY: chunk 2026-09-24-fake-agent-and-t\"",
+"pin :32 strip CARRY: 588ch \"CARRY: chunk 2026-09-24-workspace-tree-a\"",
+"pin next markerless :34 holds CARRY:×2",
+"32 · 2026-09-25-pty-wrapper-on-windows · strip 3 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+".\\viola-0.1.0\\route-archive.md",
+".\\viola-0.1.0\\working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 32,
+"marker": "2026-09-25-pty-wrapper-on-windows",
+"blocks": 3,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

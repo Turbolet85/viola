@@ -37,7 +37,7 @@ Path-scoped rules for test authoring (what tests assert, fixtures, coverage). Lo
 
 ## What to assert
 - Never parse the rendered child screen; verdicts come from hook events, `events.ndjson`, channel payloads, the fake-agent receipt, exit codes and DOM attributes.
-- Oracles are literals in the test (the 14 S6 names, refusal order, exit codes) — never import the product's own list; compare kebab-case serde values and integer exits, never `Debug` strings.
+- Oracles are literals in the test (the 11 identity-floor names, refusal order, exit codes) — never import the product's own `IDENTITY_FLOOR`; compare kebab-case serde values and integer exits, never `Debug` strings.
 - A multi-surface path asserts every surface it lists; a lower-layer case (parser, refusal order, threshold, clock) belongs in unit tests, not E2E.
 - No test auto-approves a dialog; a decision body without a verify stamp and wheel `driver` fails the test.
 - Web selectors: roles + `data-*` + exact text; never CSS classes (`.band`, `.rb`), inline `style` or xpath; never `bypassCSP` or `toHaveScreenshot`.

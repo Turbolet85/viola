@@ -53,6 +53,36 @@ the whole chunk (`git diff 0253507..HEAD`).
   — the revoke hypothesis now has a measurement. Per option (a): the held-output assertion is scoped to Windows +
   Linux in a follow-up citing this run.
 
+## Run 36165685381 (17ea8c7) — final, completed `failure`
+- Entry 28 (`…/commits/17ea8c7c6d6593ec47780f706fc5ead8089b7d67/check-runs`): `failure,success` — RED. Non-success:
+  `test (ubuntu-latest)`, `test (macos-latest)` (the held-output test, fixed in c05e6e2 / 7681c73) and `mutants-verdict`.
+- Entry 29 (mutants jobs): `mutants (windows-2025)=success`, `mutants (ubuntu-latest)=success`,
+  `mutants-verdict=failure` — RED on the union.
+- Union breaches (the gate's own line): `{"cmd":"gate","ok":false,"breaches":[crates/viola-pty/src/lib.rs:395:9: replace
+  HostTerminal::enter -> Option<Self> with Some(Default::default()), crates/viola-pty/src/lib.rs:420:9: replace
+  HostTerminal::enter -> Option<Self> with Some(Default::default())]}` (line numbers of the 17ea8c7 tree).
+- Reading (from the tree, not a separate measurement): each mutant is UNVIABLE on the leg that compiles its `enter`
+  (`HostTerminal` has no `Default`), and on the other leg that `enter` is compiled out, so the mutant builds and reads
+  MISSED there. The union treats unviable-on-one + missed-on-the-other as a survivor. Both legs are individually
+  `success`; the 5 other cfg(unix) survivors of the local Windows leg did not breach (caught or unviable on ubuntu).
+- OPEN for the wrap (not dispositioned here; context ran out): either the harness union rule (`gate --mutants-legs`:
+  an unviable reading on the compiling leg means the mutant cannot exist) or a product change that makes the mutant
+  viable-and-killed (e.g. a `Default` the child PTY test would catch). This breach is this chunk's, introduced with
+  `HostTerminal`; the fix runs below mutate only their own lines and never revisit it.
+
+## Run 36167590761 (7681c73, the macOS scoping follow-up) — completed `success`
+- Entry 28 (`…/commits/7681c739c9fe2659520c62ed29e305c6aad3adef/check-runs`): `success` — every job green, incl.
+  `test (macos-latest)`, `test (ubuntu-latest)`, `test (windows-2025)`.
+- Entry 29: `mutants (ubuntu-latest)=success`, `mutants (windows-2025)=success`, `mutants-verdict=success`
+  (fix-only diff, base c05e6e2).
+
+## Summary of the three runs
+| run | sha | entry 28 | entry 29 | note |
+|---|---|---|---|---|
+| 36165685381 | 17ea8c7 | RED (test ubuntu+macos, union) | legs green, union RED (2 breaches above) | full-chunk mutation verdict, base 0253507 |
+| 36166907442 | c05e6e2 | RED (test macos only) | green | measured the macOS revoke (`hold` present) |
+| 36167590761 | 7681c73 | GREEN | green | HEAD at the time of writing |
+
 ## For the wrap (operator-directed CARRYs / notes)
 - HYPOTHESIS (unmeasured, not a finding): Rust std's Windows console stdin may treat a leading `^Z` as end of input,
   which would stop that key reaching the child. Carry it, labelled as a hypothesis, on the next route entry that feeds

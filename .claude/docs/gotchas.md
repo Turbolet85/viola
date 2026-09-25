@@ -26,7 +26,7 @@ Rendered by `/andromeda-setup-project` on the first run and kept current by wrap
 
 ## `claude` on PATH is an npm shim
 **What breaks:** spawning `claude` by name on Windows hits the npm `.cmd` shim; portable-pty builds its own `CreateProcessW` line without std's BatBadBut escaping.
-**How to avoid:** resolve the shim to `…\@anthropic-ai\claude-code\bin\claude.exe`; `viola run` refuses (exit 1) a `.cmd` / `.bat` PTY child.
+**How to avoid:** viola resolves the program itself (PATHEXT only, never the bare name — portable-pty's own search hits the extensionless sh shim first) and resolves the shim to its sibling `…\@anthropic-ai\claude-code\bin\claude.exe` without reading it; `viola run` refuses (exit 1) any other `.cmd` / `.bat` PTY child.
 **References:** brief §4.1; security §Input Validation (child executable resolution).
 
 ## Append + exclusive lock fails on Windows
@@ -90,9 +90,9 @@ Rendered by `/andromeda-setup-project` on the first run and kept current by wrap
 **References:** arch Ledger rows; test-plan Path 2 step 3.
 
 ## The parent session's identity leaks into the child
-**What breaks:** started from inside a Claude session, the child inherits `CLAUDECODE`, `CLAUDE_CODE_SESSION_ID`, the Remote Control bridge and the messaging socket/token (14 variables measured).
-**How to avoid:** the R8 strip list in `viola-agent-claude`; log only `env_stripped_count` / known names, never values.
-**References:** brief §4.1 S6; obs D-14.
+**What breaks:** started from inside a Claude session, the child inherits `CLAUDECODE`, `CLAUDE_CODE_SESSION_ID`, the Remote Control bridge and the messaging socket/token (11 names measured on the Windows host).
+**How to avoid:** the R8 rule: `viola-agent-claude::plan_strip` removes every inherited `CLAUDE*` name except persistent-environment names (Windows registry `Environment`, Unix `config.json` `claude_env_keep`), and always the 11-name `IDENTITY_FLOOR`; log names only (`env_stripped_count` / `env_stripped_known` / `env_kept`), never values.
+**References:** brief §4.1 S6; arch Occupied Resources → Environment variables; security Decisions Log 2026-09-25; obs D-34.
 
 ## The docs lag the installed CLI
 **What breaks:** designing against docs misses real flags (`stream-json` input, `claude attach`) and real behaviours.

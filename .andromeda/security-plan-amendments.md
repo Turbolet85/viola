@@ -114,3 +114,14 @@ Leaves re-derived: `.claude/rules/security.md` (weekly advisories over both lock
   - `.claude/docs/services/viola-channel.md:29`;
   - `.claude/docs/services/viola-state.md:30`.
 - 0 hits in CLAUDE.md `GENERATED` blocks, the curation homes, playbook and drift-base.
+
+## 2026-09-25-pty-wrapper-on-windows — R8 persistent-environment exemption, registry name reader, child resolution as built
+**Section:** Input Validation (Configuration values row; new row "Persistent-environment names (Windows registry)"; Child executable resolution row) · Secret Management → Storage (inherited credentials) · Error Handling (fixed `Display`) · Bootstrap phases (`error-sanitization-wire`) · Security Decisions Log (new `2026-09-25` entry)
+**Change:**
+- `config.json` `claude_env_keep`: ≤ 32 names matching `^CLAUDE[A-Z0-9_]*$`, rejected whole when bad, a floor name ineffective.
+- New Input Validation row for the registry reader: value names only, bounded buffer, missing key → empty set, the identity floor overrides it.
+- Child executable resolution as built: viola resolves the program to an absolute path (PATHEXT only on Windows, never the bare name), `claude.cmd`/`.bat` → fixed sibling `claude.exe` with the shim never read, every other `.cmd`/`.bat` → closed `Refusal::BatchScriptChild` (exit 1, no spawn, two fixed stderr lines), explicit cwd.
+- Secret Management: R8 described as the prefix rule + persistent exemption + 11-name identity floor (both messaging variables on the floor), names only.
+- `PtyError`'s `Display` is hand-written (the other enums thiserror); fixed messages unchanged.
+**Why:** chunk 2026-09-25-pty-wrapper-on-windows report Changes (Schema / config, Symbols, Coverage) and expected amendment 4. Boundary widening (the child may receive persistent `CLAUDE*` names; `config.json` admits a key; registry names are read) ratified by operator ruling 1, confirmed at wrap P2 (E1) and recorded in the Decisions Log. Rejected (E4): the two Threat Model Summary edits (:42, :109) — that section is the verbatim copy of threat-assessment.md (:18); the winning sections carry the truth.
+**Sweep:** patterns as the architecture entry of this chunk over the 7 masters: security :42 and :109 (verbatim Threat Model) no change per E4; :675 the new Decisions Log entry itself; :389 and :465 (thiserror `Display` on `PtyError`) amended. Leaves: `.claude/docs/security-summary.md` and `.claude/rules/security.md` recomputed — no line states the strip list, the config keys or the resolution mechanism beyond "resolve to the real .exe", which stays true: no change.

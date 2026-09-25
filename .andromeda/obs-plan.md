@@ -553,7 +553,7 @@ identity + snapshot generation]_
 
 The architecture commits to the harness pattern (arch §Cross-cutting Patterns → Diagnostic output channels):
 - `hook` writes only its decision body to stdout and nothing to stderr.
-- `run` writes nothing to the terminal except the child's own output.
+- `run` writes nothing to the terminal except the child's own output, with one exception before any child is spawned: the `.cmd`/`.bat` refusal writes exactly two fixed stderr lines (`unable: <name>'s command is a .cmd or .bat script` / `hint: pass the real executable, not a .cmd or .bat shim`, no path or pid). While the child runs, `run` writes nothing of its own.
 - Every role's codes-only process log goes to its home-level role file under `diagnostics/`, and content-bearing detail goes only to the instance's `diagnostics/detail-<role>.ndjson`.
 - `mcp` writes only MCP frames to stdout.
 - `ui` and short-lived CLI verbs may use stderr for their human output.
@@ -854,7 +854,7 @@ Skipped as not-instrumentable per obs-scope §1: `viola-core` (it supplies `ObsE
 - **Required span attributes:**
   - `run.start`: `instance`;
   - `run.collision_check`: `outcome` (`free|already-live|squatted-name`);
-  - `run.pin_copy`: `outcome` (`ok|pinned-hash-mismatch|batch-script-child`);
+  - `run.pin_copy`: `outcome` (`ok|pinned-hash-mismatch`); the `.cmd`/`.bat` refusal (`batch-script-child`) is decided earlier, by viola-side program resolution (`resolve_program`, after obs init and before the strip plan and `pty.spawn`), and logged as `process-exit{subject:"self", exit_code:1, detail:"batch-script-child"}` with no child spawned and no `process-start{subject:"claude-child"}`;
   - `run.version_gate`: `cli_version`, `cli_verified`;
   - `channel.bind`: `endpoint_kind` (`named-pipe|unix-socket`);
   - `state.snapshot_write`: `v`;
@@ -865,7 +865,7 @@ Skipped as not-instrumentable per obs-scope §1: `viola-core` (it supplies `ObsE
   - `process-start{subject:"self", service_name, version, os, pid, endpoint_kind}`.
   - `process-start` / `process-exit{subject:"version-probe", child_exit_status, duration_ms}`.
   - On failure, `process-exit{subject:"self", exit_code:1, detail}` with `detail` ∈ `already-live|squatted-name|pinned-hash-mismatch|batch-script-child` (Founder Direction 4; no path or pid).
-  - On success, `process-start{subject:"claude-child", child_pid, pty_backend, cli_version, cli_verified, env_stripped_count, env_stripped_known}` (D-14).
+  - On success, `process-start{subject:"claude-child", child_pid, pty_backend, cli_version, cli_verified, env_stripped_count, env_stripped_known, env_kept}` (D-34).
   - Product order `wheel{cause:"start"}` → `budget-gate` → `session-start` is verified from `events.ndjson` through `agent-run logs --kind`, not duplicated into process logs.
 - **Cleanup:**
   - `run.start` closes when `pty.spawn` returns.
@@ -965,7 +965,7 @@ Skipped as not-instrumentable per obs-scope §1: `viola-core` (it supplies `ObsE
 
 **Edge flows** (tests E1–E5):
 - **E1** (unwrapped hook no-op): no `VIOLA_NAME` means no file, no line, exit 0 and empty stdout/stderr, asserted by absence (D-16).
-- **E2** (R8 strip): `env_stripped_count` / `env_stripped_known` on `process-start{subject:"claude-child"}`, never values (D-14).
+- **E2** (R8 strip): `env_stripped_count`, `env_stripped_known` (the stripped names) and `env_kept` (the persistent-set names kept) on `process-start{subject:"claude-child"}`; names only, never values (D-34).
 - **E3** (`link` / `unlink`): `channel-request` / `channel-response{method:"link"|"unlink"}` on the driven wrapper; the product `link` / `unlink` events live in `events.ndjson`.
 - **E4** (SSE resume): the `sse-opened` resume fields.
 - **E5** (snapshot corruption): `state-recovered{detail:"snapshot-replayed"|"snapshot-unsupported-v", file:"snapshot.json", v_seen}` (D-03).
@@ -1054,7 +1054,7 @@ Template fields deliberately **not** emitted (D-12):
 
 | Event | Additive fields |
 |-------|-----------------|
-| `process-start` | `subject` (`self|claude-child|version-probe|agents-probe|statusline-shell`), `service_name`, `version`, `os`, `pid`, `child_pid`, `port` (ui), `endpoint_kind`, `pty_backend`, `cli_version`, `cli_verified`, `env_stripped_count`, `env_stripped_known` |
+| `process-start` | `subject` (`self|claude-child|version-probe|agents-probe|statusline-shell`), `service_name`, `version`, `os`, `pid`, `child_pid`, `port` (ui), `endpoint_kind`, `pty_backend`, `cli_version`, `cli_verified`, `env_stripped_count`, `env_stripped_known`, `env_kept` (claude-child: the kept `CLAUDE*` names, comma-joined, names only) |
 | `process-exit` | `subject`, `exit_code` (self), `child_exit_status` (child/probes), `shell_exit_status` (statusline), `exit_source` (`handle-wait|kill-fallback`), `detail`, `during` (`connect|call`), `duration_ms` |
 | `channel-request` | `method`, `conn` / `srv_conn`, `from`, `from_trust`, `sender`, `v`, `after`, `timeout_ms` |
 | `channel-response` | `method`, `conn` / `srv_conn`, `result_class` (`ok|refusal|error`), `refusal`, `detail`, `error_code` (`-32700|-32600|-32601|-32602|-32603`), `outcome`, `duration_ms` |
@@ -1116,7 +1116,7 @@ Template fields deliberately **not** emitted (D-12):
 
 _[Standard: included]_
 
-**Platform pick:** **local error capture only, with no external platform.** The mechanism is thiserror 2.0.20 typed errors with fixed-message `Display` impls on `PtyError`, `ChannelError`, `StateError`, `AgentError`, `McpError`, `UiError` and `CoreError`. anyhow 1.0.104 is used at the root-bin dispatch edge and its catch-site reporter (`viola::obs::report_internal_error`) only, plus a hand-written `std::panic::set_hook` and `std::panic::catch_unwind` (obs-research, Error Reporting Platform).
+**Platform pick:** **local error capture only, with no external platform.** The mechanism is typed errors with fixed-message `Display` impls — hand-written on `PtyError` (`viola-pty` takes no thiserror), thiserror 2.0.20 on `ChannelError`, `StateError`, `AgentError`, `McpError`, `UiError` and `CoreError`. anyhow 1.0.104 is used at the root-bin dispatch edge and its catch-site reporter (`viola::obs::report_internal_error`) only, plus a hand-written `std::panic::set_hook` and `std::panic::catch_unwind` (obs-research, Error Reporting Platform).
 - sentry 0.49.3 / sentry-tracing 0.49.3 are **not admissible**. They break the egress ban ("viola makes no outbound network calls"), and their default `reqwest` + `native-tls` + `tokio` transport breaks the cargo-deny C-crate (`openssl-sys`) and Tokio-in-sync-crates bans.
 - tracing-panic 0.1.2 (stale) and human-panic 2.0.8 (writes a human report to stderr) were rejected.
 
@@ -1173,7 +1173,7 @@ _[Standard: included. The Compliance Trace Fields subsection is omitted: securit
 | Data type | Classification | Obs handling | Scrubbing mechanism |
 |-----------|---------------|--------------|---------------------|
 | GUI per-launch token, launch URL, `ui/<port>.url` contents, `viola_<port>` cookie / `Cookie` header | Critical | never-log (the only exception is the one-time stderr launch line, written directly and never through the subscriber) | Custom TraceLayer `make_span_with` records `uri.path()` only; `DefaultMakeSpan` and `.include_headers(true)` banned; `?t=` never reachable as a field; secret-scan test over all `diagnostics/` |
-| `CLAUDE_CODE_MESSAGING_TOKEN`, `CLAUDE_CODE_MESSAGING_SOCKET`, other R8-stripped `CLAUDE*` values | Critical | never-log anywhere, including detail files | R8 strip logs `env_stripped_count` + `env_stripped_known` (names from a compile-time list only, D-14); env maps never passed to a span or event; secret-scan test |
+| `CLAUDE_CODE_MESSAGING_TOKEN`, `CLAUDE_CODE_MESSAGING_SOCKET`, other R8-stripped `CLAUDE*` values | Critical | never-log anywhere, including detail files | R8 strip logs `env_stripped_count` + `env_stripped_known` (stripped names) + `env_kept` (kept names), names only, values never read (D-34); env maps never passed to a span or event; secret-scan test with one canary per identity-floor name plus an unknown name |
 | v1.x signing credentials | Critical | never-log | Not present in v1 runtime; CI secrets never echoed into artifacts (Section 9) |
 | Prompt text, assistant output (`prompt-submitted.data.text`, `last_assistant_message`) | High | never in any home-level process-log line; payloads stay in contract payloads and reach an instance `detail-<process>.ndjson` only inside a chain or drift report | `#[instrument(skip_all)]`; veil 0.3.0 `#[derive(Redact)]` with `#[redact]` on `SendParams.text`, `LastResult.last_assistant_message`, `HookEventParams.data`; only `text_bytes` logged |
 | Tool `input`, plan text, dialog questions/answers | High | never in any home-level process-log line; instance `detail-<process>.ndjson` only inside a chain or drift report | `#[redact]` on `HookDialogParams.data`, `AnswerParams.response`; codes-only dialog events (`dialog_kind`) |
@@ -1386,7 +1386,7 @@ _[ALL tiers — single source of truth for all obs bans]_
 - NEVER log at `info` inside hot loops (PTY pump, notify tail per line). Use counts on the boundary event instead.
 - NEVER use tracing-appender `non_blocking`. It drops lines when full, needs a `WorkerGuard` flush, and breaks the hook's exit-0 / `max < 1.0 s` gate and the zero-unlogged-panics invariant.
 - NEVER rename tests fields (for example `corr` → `correlation_id`, `event` → `event_type`) or add `event` values without a Decisions Log entry.
-- NEVER use `print!` / `println!` / `eprint!` / `eprintln!` / `dbg!` in the `hook`, `run` or `mcp` code paths of the product crates (`viola-harness` and the fake agent are exempt, §3 obs-ci-gate-wire). They bypass the file sink and break the Hook contract, the `run` terminal rule and MCP framing. Enforced by `[workspace.lints.clippy]` `print_stdout`, `print_stderr`, `dbg_macro` = `deny` under the §9 clippy step. Only the output modules that own `--json`, human CLI stderr, the hook decision body and the one-time `ui` launch line carry a local `#[allow]`, plus the fake agent's crate-level `#![allow]` in `src/bin/viola-fake-agent.rs` (a root-package bin, §3 obs-ci-gate-wire).
+- NEVER use `print!` / `println!` / `eprint!` / `eprintln!` / `dbg!` in the `hook`, `run` or `mcp` code paths of the product crates (`viola-harness` and the fake agent are exempt, §3 obs-ci-gate-wire). They bypass the file sink and break the Hook contract, the `run` terminal rule and MCP framing. Enforced by `[workspace.lints.clippy]` `print_stdout`, `print_stderr`, `dbg_macro` = `deny` under the §9 clippy step. Only the output modules that own `--json`, human CLI stderr, the hook decision body and the one-time `ui` launch line carry a local `#[allow]` — the `run` path's one such site is the pre-spawn `.cmd`/`.bat` refusal fn (two fixed stderr lines) — plus the fake agent's crate-level `#![allow]` in `src/bin/viola-fake-agent.rs` (a root-package bin, §3 obs-ci-gate-wire).
 - NEVER install `tracing_log::LogTracer` (or any `log` bridge) by hand. D-11 keeps `tracing-log` off, and bridged records lack `event`, `corr`, `process` and `instance` (D-23).
 
 ### Error Reporting
@@ -1787,6 +1787,15 @@ between phase loops._
 - **Rationale:** as measured on clippy 1.98.1 at chunk 2026-09-24-observability-gates (`.andromeda/runs/2026-09-24T12-21-11-implement/clippy-disallowed-macros-measurement.md`), every allow placement inside the macro, at the call site and on the calling fn still reported the ban. Only a crate-level `#![allow]` in the caller silences it, which would disable the ban for that crate. With `tracing::event` listed, all 16 `obs_event!` call sites failed.
 - **Impact:** §3 logger-stack-install and obs-ci-gate-wire, §8 PII Scrubbing item 1, §9 Lint row, §10 failure conditions, §11 Logs.
 - **By:** operator decision at /implement P1 (overseer, founder-delegated), applied by wrap-session 2026-09-24.
+
+`2026-09-25` — D-34 R8 strip logging names every stripped and kept name (supersedes D-14)
+- **Decision:**
+  - D-14 ("names drawn only from viola's compile-time list of the 14 known variables; unknown `CLAUDE*` names are counted but not named") is superseded.
+  - `process-start{subject:"claude-child"}` carries `env_stripped_count`, `env_stripped_known` (every stripped name, comma-joined) and `env_kept` (every kept name, comma-joined). Names only: no value is read by the strip, the registry reader or any log, and no env map is passed to a span or event.
+  - The strip removes every inherited `CLAUDE*` name (ASCII case-insensitive on Windows, exact on Unix) except the persistent set — Windows `HKCU`/`HKLM` `Environment` value names, Unix `config.json` `claude_env_keep` — and always the 11-name identity floor `IDENTITY_FLOOR` measured on the Windows host. There is no 14-name list.
+- **Rationale:** operator ruling 1 at chunk 2026-09-25-pty-wrapper-on-windows (P4): each stripped and kept name is named in the log. The S6 "14" list was never enumerated by any artifact (the chunk's research fact 7). `CLAUDE*` names are not secrets; their values stay never-log (§8).
+- **Impact:** §4 Scenario 1 / E2, §6 `process-start` catalog, §8 data classification row.
+- **By:** operator ruling (overseer, founder-delegated), applied by wrap-session 2026-09-25.
 
 (Append new entries at the bottom; do not modify historical
 entries.)

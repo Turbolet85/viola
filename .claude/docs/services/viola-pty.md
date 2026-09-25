@@ -8,7 +8,7 @@ viola's own PTY seam over portable-pty `=0.8.1`: spawn · read · write · resiz
 ## Key integrations
 
 ### Consumes from
-portable-pty `=0.8.1`; windows-sys 0.61.2 (Windows only, kill fallback).
+portable-pty `=0.8.1`; windows-sys 0.61.2 (Windows only: kill fallback, console raw/VT modes); libc `=0.2.189` (Unix only: termios raw mode, terminal size). No thiserror: `PtyError` is hand-written with fixed messages.
 
 ### Publishes to
 The root bin's `run` pump (`src/run/`) and the tests' outer-PTY driver (`tests/support/outer_pty.rs`, `viola-harness supervise`).
@@ -24,7 +24,9 @@ No viola crate. Tokio banned in its graph.
 ## Crate-specific gotchas
 - ConPTY does not close the output stream on exit — detect exit only via `wait()`.
 - 0.9.0 has the Windows garbage-read bug (wezterm#6783); the pin is re-decided on current evidence by the PTY chunk (requirements v1-25).
-- `.cmd` / `.bat` children are refused before spawn (portable-pty bypasses std's BatBadBut escaping).
+- `.cmd` / `.bat` children are refused before spawn (portable-pty bypasses std's BatBadBut escaping); the caller passes an absolute program path and an explicit cwd (0.8.1 defaults to `%USERPROFILE%`).
+- `HostTerminal` switches the host terminal to raw input + VT output for the run and restores it on Drop — without it ConPTY line-buffers keys until Enter and swallows Ctrl-C.
+- Keep the ConPTY input writer until the child exits: dropping it makes conhost send `CTRL_CLOSE` (child exit `0xC000013A`).
 
 ## Entry points for modification
 - **Seam trait + portable-pty adapter:** `crates/viola-pty/src/`
@@ -34,7 +36,7 @@ No viola crate. Tokio banned in its graph.
 ## Testing this crate
 - **Unit tests:** `cargo nextest run -p viola-pty`
 - **Integration:** real ConPTY / openpty spawn of the fake agent; run on all three CI OSes
-- **Chaos:** the `--exit-no-eof` fake mode (a grandchild holds the slave open on Unix; native on ConPTY)
+- **No-EOF:** the `--exit-no-eof` fake mode (`tests/tui_pty_seam.rs`): exit on the handle everywhere; the held output outlives the session leader natively on ConPTY and on Linux only for a holder in its own process group; on macOS it ends at the leader's exit (CI run 36166907442), so that half is asserted on Windows + Linux
 
 ## References
 - `.andromeda/architecture.md` [PTY] · `.claude/docs/gotchas.md` (ConPTY, portable-pty 0.9.0, npm shim)

@@ -8,7 +8,7 @@ The `viola` binary. It holds the clap 4.6.7 dispatch (`src/main.rs`, one module 
 ## Key integrations
 
 ### Consumes from
-Every workspace member; clap, anyhow, tracing-subscriber, chrono (direct, for `MillisUtc`), windows-sys (VT enable, console width).
+Every workspace member; clap, anyhow, tracing-subscriber, chrono (direct, for `MillisUtc`), windows-sys (Windows only: VT enable, console width, and the registry value-name reader for the R8 persistent set in `src/run/env.rs`).
 
 ### Publishes to
 Users (human CLI), drivers (`--json`, exit codes), Claude Code (hook decision bodies via `viola hook`, the MCP server via `viola mcp`), the page (`viola ui`).

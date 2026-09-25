@@ -41,6 +41,10 @@ becomes a new rule here. Format owned by /andromeda-wrap-session (`references/am
   verdict: routine
   note: reject for §1 — never bring §1 to current truth. Apply the change in the section that wins (§3 / §6 / §12) instead. The cascade edited §1 twice in Epoch 1 (runs/2026-09-24T17-37-22-evolve-diagnose/proposals.md P9: L91, L112). Appended 2026-09-25 by the 2026-09-24-epoch-1-cleanup wrap, operator-approved.
 
+- pattern: Verbatim upstream copy (other masters) — a proposal or a cascade-sweep hit lands inside security-plan's Threat Model Summary (labelled `[ALL tiers — VERBATIM copy from threat-assessment.md]`) or inside a11y-plan §1 (A11y Scope Summary, verbatim from a11y-scope.md per D-A11Y-15) on a line that is NOT a D-A11Y-15 deferral clause.
+  verdict: routine
+  note: reject for those sections — they stay verbatim copies of their upstream source. Apply the fact in the section that wins instead (security-plan §Input Validation / §Secret Management and the rest of the plan; a11y-plan §3 / §6 and later sections). An a11y §1 deferral clause may still take a `[resolved: …]` pointer (D-A11Y-15). Same class as the obs §1 rule above. Appended 2026-09-25 by the 2026-09-25-pty-wrapper-on-windows wrap (E4: security :42, :109 and a11y :98, :179 rejected), operator-approved.
+
 _(more grow from escalations + resolved cases — the first five above were harvested from live projects that
 derived them separately, the sixth is the never-routine class; anything genuinely project-specific still starts
 here empty.)_

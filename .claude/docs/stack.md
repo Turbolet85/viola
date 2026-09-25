@@ -10,7 +10,7 @@ _Extracted from `.andromeda/architecture.md` §Stack and Technologies by `/andro
 | Backend framework (concurrency model) | Hybrid: std threads for `run`, `hook`, `send`, `wait` and every other CLI verb; Tokio 1.53.1 built only inside `mcp`, `ui` | No async runtime on the hot `hook` path. The async ecosystem is used only where rmcp and axum require it |
 | HTTP server (GUI) | axum 0.8.9 (feature `sse`) + tower-http 0.7.1 (`CompressionLayer`, with `text/event-stream` excluded) | View-only GET routes and the SSE feed on 127.0.0.1 |
 | CLI parser | clap 4.6.7 (derive) | Subcommands `run · send · wait · last · list · answer · hook · mcp · ui · verify · pause · release · link · unlink · plugin install` |
-| PTY layer | portable-pty `=0.8.1` (pinned) behind viola's own `pty` seam; windows-sys 0.61.2 for the `TerminateProcess` kill fallback | Hosts the unmodified `claude` in ConPTY (Windows) or openpty (Unix) |
+| PTY layer | portable-pty `=0.8.1` (pinned) behind viola's own `pty` seam; windows-sys 0.61.2 for the `TerminateProcess` kill fallback and the host console's raw/VT modes (`Win32_System_Console`); libc `=0.2.189` (Unix only) for the host tty's raw mode — both behind `HostTerminal` | Hosts the unmodified `claude` in ConPTY (Windows) or openpty (Unix) |
 | Screen model | vt100 0.16.2 | Pre-send readiness and modal detection on `run`'s pump thread. Never used to read content |
 | Wrapper IPC | interprocess 2.4.4 `local_socket` (sync API; Tokio flavour only in `viola-mcp`); on Windows the client opens with windows-sys 0.61.2 `CreateFileW(SECURITY_SQOS_PRESENT \| SECURITY_IDENTIFICATION \| FILE_FLAG_OVERLAPPED)` + `Stream::try_from`, never the default connect | One endpoint per `viola run`: a named pipe on Windows, a Unix domain socket elsewhere; the Windows open leaves the server able to identify, never impersonate, the client (measured) |
 | Database | None. ndjson append logs + atomically replaced JSON snapshots on the local filesystem | Authoritative audit trail and mutable state (wheel mirror, links, budget readings) |
@@ -21,7 +21,7 @@ _Extracted from `.andromeda/architecture.md` §Stack and Technologies by `/andro
 | Logging | tracing 0.1.44 (default features off, `std`); tracing-subscriber 0.3.23 (default features off, `fmt,json,registry,std`; root bin only) | One-line JSON process logs into the viola home's `diagnostics/`; the line format and levels are owned by the obs plan |
 | Domain newtypes | nutype 0.8.0 | `ViolaName` (charset + length cap), `Percent` (0–100) |
 | Timestamps | chrono 0.4.45 | RFC 3339 UTC, millisecond precision. Already in the tree through rmcp |
-| Error types | thiserror 2.0.20 (per crate); anyhow 1.0.104 (bin edge only) | Typed errors that callers can branch on; context chains built at dispatch and recorded only in the owner-only instance detail file |
+| Error types | thiserror 2.0.20 (per crate; `viola-pty`'s `PtyError` is hand-written); anyhow 1.0.104 (bin edge only) | Typed errors that callers can branch on; context chains built at dispatch and recorded only in the owner-only instance detail file |
 | Message broker | None. Per-wrapper local sockets (JSON-RPC 2.0 over ndjson) for request/response; notify 8.2.0 tailing the ndjson logs for fan-out to `ui` | Local IPC and event fan-out without a broker or daemon |
 | Push / real-time | SSE through axum 0.8.9 `Sse::keep_alive`, fed by notify 8.2.0 | Live GUI feed `/api/events` |
 | Process liveness | sysinfo 0.39.6 (pid + process start time) + `claude agents --json` | Enriches the primary signal, the heartbeat file |
