@@ -1,0 +1,35 @@
+   Compiling viola v0.1.0 (D:\dev\projects\viola)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.31s
+────────────
+ Nextest run ID 1b5e0a50-3ff2-41e7-a957-0152b64495d2 with nextest profile: ci
+    Starting 5 tests across 1 binary
+        PASS [   0.008s] (1/5) viola::contract_content_hash sha256_truncated_to_eight_bytes_yields_sixteen_hex::case_2_abc
+        PASS [   0.012s] (2/5) viola::contract_content_hash sha256_truncated_to_eight_bytes_yields_sixteen_hex::case_1_empty
+        FAIL [   0.015s] (3/5) viola::contract_content_hash sha256_published_vector_matches_digest::case_2_abc
+  stdout ───
+
+    running 1 test
+    test sha256_published_vector_matches_digest::case_2_abc ... FAILED
+
+    failures:
+
+    failures:
+        sha256_published_vector_matches_digest::case_2_abc
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s
+
+  stderr ───
+
+    thread 'sha256_published_vector_matches_digest::case_2_abc' (42928) panicked at tests\contract_content_hash.rs:25:5:
+    assertion `left == right` failed
+      left: "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+     right: "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ae"
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+        PASS [   0.019s] (4/5) viola::contract_content_hash sha256_published_vector_matches_digest::case_1_empty
+        PASS [   0.023s] (5/5) viola::contract_content_hash sha256_published_vector_matches_digest::case_3_two_blocks
+────────────
+     Summary [   0.023s] 5 tests run: 4 passed, 1 failed, 0 skipped
+        FAIL [   0.015s] (3/5) viola::contract_content_hash sha256_published_vector_matches_digest::case_2_abc
+error: test run failed
+rc=100

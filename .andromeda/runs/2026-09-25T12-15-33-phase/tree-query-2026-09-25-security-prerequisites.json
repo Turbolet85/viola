@@ -1,0 +1,14 @@
+[
+{
+"sql": "SELECT from_crate, to_crate FROM crate_edges WHERE to_crate = 'viola' OR from_crate = 'viola';",
+"rows": 1,
+"result": [
+{
+"from_crate": "viola",
+"to_crate": "viola-core"
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

@@ -1,0 +1,49 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "84f383a7",
+"ts": "2026-09-25T13:00:38Z",
+"argv": [
+"implement",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-09-25-security-prerequisites",
+"--id",
+"v1-43",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-25T12-41-13-implement"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"implement v1-43 · status planned → implemented · ref tests/channel_sqos_open.rs::sqos_identification_open_adopted_reads_identificatio… (424 chars)",
+"wrote viola-0.1.0\\verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0\\verification-matrix.json"
+],
+"before": {
+"id": "v1-43",
+"chunk": "2026-09-25-security-prerequisites",
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "On this Windows host and the windows-2025 CI test leg, `tests/channel_sqos_open.rs` passes: a client handle opened by wi… (918 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-43",
+"chunk": "2026-09-25-security-prerequisites",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/channel_sqos_open.rs::sqos_identification_open_adopted_reads_identification + tests/channel_sqos_open.rs::sqos_fla… (424 chars)",
+"acceptance": "On this Windows host and the windows-2025 CI test leg, `tests/channel_sqos_open.rs` passes: a client handle opened by wi… (918 chars)",
+"notes_chars": 0
+}
+}
+]

@@ -1,0 +1,311 @@
+   Compiling viola-e2e v0.1.0 (D:\dev\projects\viola\crates\viola-e2e)
+warning: function `test_target` is never used
+   --> crates\viola-e2e\src\harness\run\mutants.rs:155:8
+    |
+155 | pub fn test_target(path: &str) -> bool {
+    |        ^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `viola-e2e` (lib) generated 1 warning
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.77s
+────────────
+ Nextest run ID 8ca7c55c-c928-4836-89ba-0a0e82bc003a with nextest profile: ci
+    Starting 27 tests across 6 binaries (124 tests skipped)
+        PASS [   0.014s] ( 1/27) viola-e2e harness::run::mutants::tests::leg_verdict_keeps_names_and_outcomes_only
+        PASS [   0.018s] ( 2/27) viola-e2e harness::run::mutants::tests::mutants_suite_counts_missed_and_timeout_as_survivors
+        PASS [   0.023s] ( 3/27) viola-e2e harness::run::mutants::tests::listed_reads_non_empty_lines
+        PASS [   0.039s] ( 4/27) viola-e2e harness::run::mutants::tests::test_target_holds_only_test_bench_and_example_dirs
+        PASS [   0.053s] ( 5/27) viola-e2e harness::run::mutants::tests::rust_paths_lists_each_rust_path_once
+        PASS [   0.060s] ( 6/27) viola-e2e harness::run::mutants::tests::rust_delta_classifies_diff_headers
+        PASS [   0.065s] ( 7/27) viola-e2e harness::run::mutants::tests::mutants_exit_codes_map_to_reasons
+        PASS [   0.080s] ( 8/27) viola-e2e harness::gate::tests::gate_single_leg_mutants_read_the_summary_survivors
+        PASS [   0.086s] ( 9/27) viola-e2e harness::run::mutants::tests::mutants_suite_is_red_when_unviable_outnumbers_caught
+        PASS [   0.156s] (10/27) viola-e2e harness::run::tests::selection_defaults_to_unit_integration_and_mutants
+        PASS [   0.379s] (11/27) viola-e2e harness::run::mutants::tests::chunk_diff_holds_tracked_edits_and_untracked_files
+        PASS [   0.550s] (12/27) viola-e2e harness::run::mutants::tests::resolve_base_needs_a_real_commit
+        PASS [   0.659s] (13/27) viola-e2e harness::run::mutants::tests::run_mutants_with_an_unreachable_base_is_base_missing_and_writes_no_diff
+        FAIL [   0.662s] (14/27) viola-e2e harness::run::mutants::tests::run_mutants_reports_survivors_of_an_untested_change
+  stdout ───
+
+    running 1 test
+    test harness::run::mutants::tests::run_mutants_reports_survivors_of_an_untested_change ... FAILED
+
+    failures:
+
+    failures:
+        harness::run::mutants::tests::run_mutants_reports_survivors_of_an_untested_change
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 132 filtered out; finished in 0.64s
+
+  stderr ───
+    warning: in the working copy of 'a.rs', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of '.config/nextest.toml', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of 'Cargo.toml', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of 'src/lib.rs', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of 'tests/it.rs', LF will be replaced by CRLF the next time Git touches it
+
+    thread 'harness::run::mutants::tests::run_mutants_reports_survivors_of_an_untested_change' (58148) panicked at crates\viola-e2e\src\harness\run\mutants.rs:443:9:
+    assertion `left == right` failed: {"v":1,"cmd":"run","ok":true,"suites":[{"suite":"mutants","passed":0,"failed":0,"skipped":0,"survived":0,"artifact":"target/agent-run/chunk.diff","failures":[]}],"mutants":{"tested":0,"verdict":"test-only-rust-delta","diff":"target/agent-run/chunk.diff","files":1,"rust_files":["src/lib.rs"]}}
+      left: 0
+     right: 1
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+        PASS [   0.691s] (15/27) viola-e2e harness::run::mutants::tests::run_mutants_leg_no_rust_delta_writes_its_verdict
+        FAIL [   0.693s] (16/27) viola-e2e harness::run::mutants::tests::run_mutants_passes_when_the_change_is_tested
+  stdout ───
+
+    running 1 test
+    test harness::run::mutants::tests::run_mutants_passes_when_the_change_is_tested ... FAILED
+
+    failures:
+
+    failures:
+        harness::run::mutants::tests::run_mutants_passes_when_the_change_is_tested
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 132 filtered out; finished in 0.62s
+
+  stderr ───
+    warning: in the working copy of 'a.rs', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of '.config/nextest.toml', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of 'Cargo.toml', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of 'src/lib.rs', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of 'tests/it.rs', LF will be replaced by CRLF the next time Git touches it
+
+    thread 'harness::run::mutants::tests::run_mutants_passes_when_the_change_is_tested' (11532) panicked at crates\viola-e2e\src\harness\run\mutants.rs:472:9:
+    assertion failed: m["passed"].as_u64().is_some_and(|n| n >= 1)
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+        FAIL [   0.694s] (17/27) viola-e2e harness::run::mutants::tests::run_mutants_mixed_src_and_test_delta_without_outcomes_stays_outcomes_missing
+  stdout ───
+
+    running 1 test
+    test harness::run::mutants::tests::run_mutants_mixed_src_and_test_delta_without_outcomes_stays_outcomes_missing ... FAILED
+
+    failures:
+
+    failures:
+        harness::run::mutants::tests::run_mutants_mixed_src_and_test_delta_without_outcomes_stays_outcomes_missing
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 132 filtered out; finished in 0.65s
+
+  stderr ───
+    warning: in the working copy of 'a.rs', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of '.config/nextest.toml', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of 'Cargo.toml', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of 'src/lib.rs', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of 'tests/it.rs', LF will be replaced by CRLF the next time Git touches it
+
+    thread 'harness::run::mutants::tests::run_mutants_mixed_src_and_test_delta_without_outcomes_stays_outcomes_missing' (61376) panicked at crates\viola-e2e\src\harness\run\mutants.rs:637:9:
+    assertion `left == right` failed: {"v":1,"cmd":"run","ok":true,"suites":[{"suite":"mutants","passed":0,"failed":0,"skipped":0,"survived":0,"artifact":"target/agent-run/chunk.diff","failures":[]}],"mutants":{"tested":0,"verdict":"test-only-rust-delta","diff":"target/agent-run/chunk.diff","files":2,"leg":"l6","rust_files":["tests/it.rs","src/b.rs"]}}
+      left: 0
+     right: 1
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+        PASS [   0.695s] (18/27) viola-e2e harness::run::mutants::tests::run_mutants_leg_refused_clears_a_stale_verdict
+        FAIL [   0.755s] (19/27) viola-e2e harness::run::mutants::tests::run_mutants_leg_with_an_unviable_swamp_is_red_not_deferred
+  stdout ───
+
+    running 1 test
+    test harness::run::mutants::tests::run_mutants_leg_with_an_unviable_swamp_is_red_not_deferred ... FAILED
+
+    failures:
+
+    failures:
+        harness::run::mutants::tests::run_mutants_leg_with_an_unviable_swamp_is_red_not_deferred
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 132 filtered out; finished in 0.71s
+
+  stderr ───
+    warning: in the working copy of 'a.rs', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of '.config/nextest.toml', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of 'Cargo.toml', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of 'src/lib.rs', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of 'tests/it.rs', LF will be replaced by CRLF the next time Git touches it
+
+    thread 'harness::run::mutants::tests::run_mutants_leg_with_an_unviable_swamp_is_red_not_deferred' (21668) panicked at crates\viola-e2e\src\harness\run\mutants.rs:374:9:
+    assertion `left == right` failed: {"v":1,"cmd":"run","ok":true,"suites":[{"suite":"mutants","passed":0,"failed":0,"skipped":0,"survived":0,"artifact":"target/agent-run/chunk.diff","failures":[]}],"mutants":{"tested":0,"verdict":"test-only-rust-delta","diff":"target/agent-run/chunk.diff","files":1,"leg":"l4","rust_files":["src/b.rs"]}}
+      left: 0
+     right: 1
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+        FAIL [   0.755s] (20/27) viola-e2e harness::run::mutants::tests::run_mutants_without_a_leg_keeps_survivors_red
+  stdout ───
+
+    running 1 test
+    test harness::run::mutants::tests::run_mutants_without_a_leg_keeps_survivors_red ... FAILED
+
+    failures:
+
+    failures:
+        harness::run::mutants::tests::run_mutants_without_a_leg_keeps_survivors_red
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 132 filtered out; finished in 0.67s
+
+  stderr ───
+    warning: in the working copy of 'a.rs', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of '.config/nextest.toml', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of 'Cargo.toml', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of 'src/lib.rs', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of 'tests/it.rs', LF will be replaced by CRLF the next time Git touches it
+
+    thread 'harness::run::mutants::tests::run_mutants_without_a_leg_keeps_survivors_red' (55480) panicked at crates\viola-e2e\src\harness\run\mutants.rs:758:9:
+    assertion `left == right` failed
+      left: 0
+     right: 1
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+        FAIL [   0.791s] (21/27) viola-e2e harness::run::mutants::tests::run_mutants_with_an_unbuildable_root_package_is_build_failed
+  stdout ───
+
+    running 1 test
+    test harness::run::mutants::tests::run_mutants_with_an_unbuildable_root_package_is_build_failed ... FAILED
+
+    failures:
+
+    failures:
+        harness::run::mutants::tests::run_mutants_with_an_unbuildable_root_package_is_build_failed
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 132 filtered out; finished in 0.67s
+
+  stderr ───
+    warning: in the working copy of 'a.rs', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of '.config/nextest.toml', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of 'Cargo.toml', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of 'src/lib.rs', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of 'tests/it.rs', LF will be replaced by CRLF the next time Git touches it
+
+    thread 'harness::run::mutants::tests::run_mutants_with_an_unbuildable_root_package_is_build_failed' (37772) panicked at crates\viola-e2e\src\harness\run\mutants.rs:432:9:
+    assertion `left == right` failed
+      left: 0
+     right: 1
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+        FAIL [   0.814s] (22/27) viola-e2e harness::run::mutants::tests::run_mutants_leg_defers_survivors_to_the_gate_union
+  stdout ───
+
+    running 1 test
+    test harness::run::mutants::tests::run_mutants_leg_defers_survivors_to_the_gate_union ... FAILED
+
+    failures:
+
+    failures:
+        harness::run::mutants::tests::run_mutants_leg_defers_survivors_to_the_gate_union
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 132 filtered out; finished in 0.64s
+
+  stderr ───
+    warning: in the working copy of 'a.rs', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of '.config/nextest.toml', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of 'Cargo.toml', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of 'src/lib.rs', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of 'tests/it.rs', LF will be replaced by CRLF the next time Git touches it
+
+    thread 'harness::run::mutants::tests::run_mutants_leg_defers_survivors_to_the_gate_union' (54752) panicked at crates\viola-e2e\src\harness\run\mutants.rs:722:9:
+    assertion `left == right` failed
+      left: Number(0)
+     right: 2
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+        FAIL [   0.816s] (23/27) viola-e2e harness::run::mutants::tests::run_mutants_rust_delta_without_fresh_outcomes_is_outcomes_missing
+  stdout ───
+
+    running 1 test
+    test harness::run::mutants::tests::run_mutants_rust_delta_without_fresh_outcomes_is_outcomes_missing ... FAILED
+
+    failures:
+
+    failures:
+        harness::run::mutants::tests::run_mutants_rust_delta_without_fresh_outcomes_is_outcomes_missing
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 132 filtered out; finished in 0.65s
+
+  stderr ───
+    warning: in the working copy of 'a.rs', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of '.config/nextest.toml', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of 'Cargo.toml', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of 'src/lib.rs', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of 'tests/it.rs', LF will be replaced by CRLF the next time Git touches it
+
+    thread 'harness::run::mutants::tests::run_mutants_rust_delta_without_fresh_outcomes_is_outcomes_missing' (57160) panicked at crates\viola-e2e\src\harness\run\mutants.rs:576:9:
+    assertion `left == right` failed: {"v":1,"cmd":"run","ok":true,"suites":[{"suite":"mutants","passed":0,"failed":0,"skipped":0,"survived":0,"artifact":"target/agent-run/chunk.diff","failures":[]}],"mutants":{"tested":0,"verdict":"test-only-rust-delta","diff":"target/agent-run/chunk.diff","files":1,"rust_files":["scripts/tool.rs"]}}
+      left: 0
+     right: 1
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+        FAIL [   0.835s] (24/27) viola-e2e harness::run::mutants::tests::run_mutants_prints_every_outcome_and_bounds_each_build
+  stdout ───
+
+    running 1 test
+    test harness::run::mutants::tests::run_mutants_prints_every_outcome_and_bounds_each_build ... FAILED
+
+    failures:
+
+    failures:
+        harness::run::mutants::tests::run_mutants_prints_every_outcome_and_bounds_each_build
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 132 filtered out; finished in 0.65s
+
+  stderr ───
+    warning: in the working copy of 'a.rs', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of '.config/nextest.toml', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of 'Cargo.toml', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of 'src/lib.rs', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of 'tests/it.rs', LF will be replaced by CRLF the next time Git touches it
+
+    thread 'harness::run::mutants::tests::run_mutants_prints_every_outcome_and_bounds_each_build' (38908) panicked at crates\viola-e2e\src\harness\run\mutants.rs:749:14:
+    cargo mutants ran
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+        PASS [   0.836s] (25/27) viola-e2e harness::run::mutants::tests::run_mutants_no_rust_delta_passes_by_name_and_never_reads_stale_outcomes
+        FAIL [   0.836s] (26/27) viola-e2e harness::run::mutants::tests::run_mutants_leg_without_outcomes_stays_red_and_writes_no_verdict
+  stdout ───
+
+    running 1 test
+    test harness::run::mutants::tests::run_mutants_leg_without_outcomes_stays_red_and_writes_no_verdict ... FAILED
+
+    failures:
+
+    failures:
+        harness::run::mutants::tests::run_mutants_leg_without_outcomes_stays_red_and_writes_no_verdict
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 132 filtered out; finished in 0.66s
+
+  stderr ───
+    warning: in the working copy of 'a.rs', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of '.config/nextest.toml', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of 'Cargo.toml', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of 'src/lib.rs', LF will be replaced by CRLF the next time Git touches it
+    warning: in the working copy of 'tests/it.rs', LF will be replaced by CRLF the next time Git touches it
+
+    thread 'harness::run::mutants::tests::run_mutants_leg_without_outcomes_stays_red_and_writes_no_verdict' (54760) panicked at crates\viola-e2e\src\harness\run\mutants.rs:765:9:
+    assertion `left == right` failed
+      left: 0
+     right: 1
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+        PASS [   0.869s] (27/27) viola-e2e harness::run::mutants::tests::run_mutants_test_only_delta_passes_by_name_without_running_cargo
+────────────
+     Summary [   0.870s] 27 tests run: 17 passed, 10 failed, 124 skipped
+        FAIL [   0.662s] (14/27) viola-e2e harness::run::mutants::tests::run_mutants_reports_survivors_of_an_untested_change
+        FAIL [   0.693s] (16/27) viola-e2e harness::run::mutants::tests::run_mutants_passes_when_the_change_is_tested
+        FAIL [   0.694s] (17/27) viola-e2e harness::run::mutants::tests::run_mutants_mixed_src_and_test_delta_without_outcomes_stays_outcomes_missing
+        FAIL [   0.755s] (19/27) viola-e2e harness::run::mutants::tests::run_mutants_leg_with_an_unviable_swamp_is_red_not_deferred
+        FAIL [   0.755s] (20/27) viola-e2e harness::run::mutants::tests::run_mutants_without_a_leg_keeps_survivors_red
+        FAIL [   0.791s] (21/27) viola-e2e harness::run::mutants::tests::run_mutants_with_an_unbuildable_root_package_is_build_failed
+        FAIL [   0.814s] (22/27) viola-e2e harness::run::mutants::tests::run_mutants_leg_defers_survivors_to_the_gate_union
+        FAIL [   0.816s] (23/27) viola-e2e harness::run::mutants::tests::run_mutants_rust_delta_without_fresh_outcomes_is_outcomes_missing
+        FAIL [   0.835s] (24/27) viola-e2e harness::run::mutants::tests::run_mutants_prints_every_outcome_and_bounds_each_build
+        FAIL [   0.836s] (26/27) viola-e2e harness::run::mutants::tests::run_mutants_leg_without_outcomes_stays_red_and_writes_no_verdict
+error: test run failed
+rc=100

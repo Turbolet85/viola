@@ -1,0 +1,35 @@
+   Compiling viola-e2e v0.1.0 (D:\dev\projects\viola\crates\viola-e2e)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.70s
+────────────
+ Nextest run ID 992f8a23-1eed-4630-ab4b-92e2422481ce with nextest profile: ci
+    Starting 27 tests across 6 binaries (124 tests skipped)
+        PASS [   0.013s] ( 1/27) viola-e2e harness::run::mutants::tests::leg_verdict_keeps_names_and_outcomes_only
+        PASS [   0.018s] ( 2/27) viola-e2e harness::run::mutants::tests::listed_reads_non_empty_lines
+        PASS [   0.021s] ( 3/27) viola-e2e harness::run::mutants::tests::mutants_suite_counts_missed_and_timeout_as_survivors
+        PASS [   0.029s] ( 4/27) viola-e2e harness::run::mutants::tests::mutants_exit_codes_map_to_reasons
+        PASS [   0.051s] ( 5/27) viola-e2e harness::run::tests::selection_defaults_to_unit_integration_and_mutants
+        PASS [   0.069s] ( 6/27) viola-e2e harness::gate::tests::gate_single_leg_mutants_read_the_summary_survivors
+        PASS [   0.087s] ( 7/27) viola-e2e harness::run::mutants::tests::test_target_holds_only_test_bench_and_example_dirs
+        PASS [   0.095s] ( 8/27) viola-e2e harness::run::mutants::tests::rust_delta_classifies_diff_headers
+        PASS [   0.125s] ( 9/27) viola-e2e harness::run::mutants::tests::rust_paths_lists_each_rust_path_once
+        PASS [   0.161s] (10/27) viola-e2e harness::run::mutants::tests::mutants_suite_is_red_when_unviable_outnumbers_caught
+        PASS [   0.412s] (11/27) viola-e2e harness::run::mutants::tests::resolve_base_needs_a_real_commit
+        PASS [   0.520s] (12/27) viola-e2e harness::run::mutants::tests::chunk_diff_holds_tracked_edits_and_untracked_files
+        PASS [   0.596s] (13/27) viola-e2e harness::run::mutants::tests::run_mutants_with_an_unreachable_base_is_base_missing_and_writes_no_diff
+        PASS [   0.698s] (14/27) viola-e2e harness::run::mutants::tests::run_mutants_leg_refused_clears_a_stale_verdict
+        PASS [   0.736s] (15/27) viola-e2e harness::run::mutants::tests::run_mutants_no_rust_delta_passes_by_name_and_never_reads_stale_outcomes
+        PASS [   0.744s] (16/27) viola-e2e harness::run::mutants::tests::run_mutants_without_a_leg_keeps_survivors_red
+        PASS [   0.802s] (17/27) viola-e2e harness::run::mutants::tests::run_mutants_mixed_src_and_test_delta_without_outcomes_stays_outcomes_missing
+        PASS [   0.804s] (18/27) viola-e2e harness::run::mutants::tests::run_mutants_leg_with_an_unviable_swamp_is_red_not_deferred
+        PASS [   0.806s] (19/27) viola-e2e harness::run::mutants::tests::run_mutants_leg_defers_survivors_to_the_gate_union
+        PASS [   0.872s] (20/27) viola-e2e harness::run::mutants::tests::run_mutants_leg_without_outcomes_stays_red_and_writes_no_verdict
+        PASS [   0.895s] (21/27) viola-e2e harness::run::mutants::tests::run_mutants_prints_every_outcome_and_bounds_each_build
+        PASS [   0.899s] (22/27) viola-e2e harness::run::mutants::tests::run_mutants_leg_no_rust_delta_writes_its_verdict
+        PASS [   0.899s] (23/27) viola-e2e harness::run::mutants::tests::run_mutants_test_only_delta_passes_by_name_without_running_cargo
+        PASS [   1.019s] (24/27) viola-e2e harness::run::mutants::tests::run_mutants_with_an_unbuildable_root_package_is_build_failed
+        PASS [   1.195s] (25/27) viola-e2e harness::run::mutants::tests::run_mutants_rust_delta_without_fresh_outcomes_is_outcomes_missing
+        PASS [   4.387s] (26/27) viola-e2e harness::run::mutants::tests::run_mutants_reports_survivors_of_an_untested_change
+        PASS [   4.480s] (27/27) viola-e2e harness::run::mutants::tests::run_mutants_passes_when_the_change_is_tested
+────────────
+     Summary [   4.482s] 27 tests run: 27 passed, 124 skipped
+rc=0

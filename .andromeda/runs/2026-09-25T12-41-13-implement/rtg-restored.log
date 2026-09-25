@@ -1,0 +1,15 @@
+   Compiling viola v0.1.0 (D:\dev\projects\viola)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.35s
+────────────
+ Nextest run ID 01d047bc-46e9-43f7-a5f8-70b1130d1198 with nextest profile: ci
+    Starting 7 tests across 2 binaries
+        PASS [   0.008s] (1/7) viola::contract_content_hash sha256_published_vector_matches_digest::case_2_abc
+        PASS [   0.012s] (2/7) viola::channel_sqos_open sqos_flags_absent_open_reads_impersonation
+        PASS [   0.016s] (3/7) viola::channel_sqos_open sqos_identification_open_adopted_reads_identification
+        PASS [   0.020s] (4/7) viola::contract_content_hash sha256_published_vector_matches_digest::case_1_empty
+        PASS [   0.023s] (5/7) viola::contract_content_hash sha256_published_vector_matches_digest::case_3_two_blocks
+        PASS [   0.027s] (6/7) viola::contract_content_hash sha256_truncated_to_eight_bytes_yields_sixteen_hex::case_2_abc
+        PASS [   0.030s] (7/7) viola::contract_content_hash sha256_truncated_to_eight_bytes_yields_sixteen_hex::case_1_empty
+────────────
+     Summary [   0.031s] 7 tests run: 7 passed, 0 skipped
+rc=0

@@ -1,0 +1,114 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "84f383a7",
+"ts": "2026-09-25T12:40:07Z",
+"argv": [
+"coverage",
+"--dir",
+"viola-0.1.0",
+"--run-dir",
+".andromeda/runs/2026-09-25T12-15-33-phase",
+"--marker",
+"2026-09-25-security-prerequisites"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"verified 3/53 · deferred 0 · planned 50 · implemented 0 · unclaimed 50",
+"unclaimed: v1-01 v1-02 v1-03 v1-04 v1-05 v1-07 v1-08 v1-09 v1-10 v1-11 v1-12 v1-13 v1-14 v1-15 v1-16 v1-17",
+"          v1-18 v1-20 v1-21 v1-22 v1-24 v1-25 v1-26 v1-27 v1-28 v1-29 v1-30 v1-31 v1-32 v1-33 v1-34 v1-35",
+"          v1-36 v1-37 v1-38 v1-39 v1-40 v1-41 v1-42 v1-43 v1-44 v1-45 v1-46 v1-47 v1-48 v1-49 v1-50 v1-51",
+"          v1-52 v1-53",
+"claimed-unfinished: none",
+"done-test: NO — 50 not verified|deferred · unclaimed 50",
+"chunks referenced: 3 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "84f383a7",
+"ts": "2026-09-25T12:40:16Z",
+"argv": [
+"claim",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-43",
+"--chunk",
+"2026-09-25-security-prerequisites",
+"--acceptance-file",
+".andromeda/runs/2026-09-25T12-15-33-phase/acceptance-v1-43.md",
+"--method",
+"integration",
+"--run-dir",
+".andromeda/runs/2026-09-25T12-15-33-phase"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"claim v1-43 → chunk 2026-09-25-security-prerequisites (was null; status planned kept)",
+"acceptance: The SQOS spike outcome, or its recorded replacement, exists before the… (293 chars)",
+"         → On this Windows host and the windows-2025 CI test leg, `tests/channel_… (918 chars)",
+"method: manual → integration",
+"wrote viola-0.1.0\\verification-matrix.json · 1 entry changed",
+"pool: unclaimed 49 [v1-01 v1-02 v1-03 v1-04 v1-05 v1-07 v1-08 v1-09 v1-10 v1-11 v1-12 v1-13 v1-14 v1-15 v1-16 v1-17 v1-18 v1-20 v1-21 v1-22 v1-24 v1-25 v1-26 v1-27 v1-28 v1-29 v1-30 v1-31 v1-32 v1-33 v1-34 v1-35 v1-36 v1-37 v1-38 v1-39 v1-40 v1-41 v1-42 v1-44 v1-45 v1-46 v1-47 v1-48 v1-49 v1-50 v1-51 v1-52 v1-53]"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0\\verification-matrix.json"
+],
+"before": {
+"id": "v1-43",
+"chunk": null,
+"status": "planned",
+"method": "manual",
+"ref": "null",
+"acceptance": "The SQOS spike outcome, or its recorded replacement, exists before the chunk that writes the channel client, and the cho… (293 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-43",
+"chunk": "2026-09-25-security-prerequisites",
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "On this Windows host and the windows-2025 CI test leg, `tests/channel_sqos_open.rs` passes: a client handle opened by wi… (918 chars)",
+"notes_chars": 0
+}
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "84f383a7",
+"ts": "2026-09-25T12:40:16Z",
+"argv": [
+"audit",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-09-25-security-prerequisites",
+"--plan",
+"viola-0.1.0/chunks/2026-09-25-security-prerequisites/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-25T12-15-33-phase"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-25-security-prerequisites: 1 · ## Acceptance Criteria: line 343, 37 lines",
+"v1-43: cited in ## Acceptance Criteria (line 350)",
+"pool: unclaimed 49 [v1-01 v1-02 v1-03 v1-04 v1-05 v1-07 v1-08 v1-09 v1-10 v1-11 v1-12 v1-13 v1-14 v1-15 v1-16 v1-17 v1-18 v1-20 v1-21 v1-22 v1-24 v1-25 v1-26 v1-27 v1-28 v1-29 v1-30 v1-31 v1-32 v1-33 v1-34 v1-35 v1-36 v1-37 v1-38 v1-39 v1-40 v1-41 v1-42 v1-44 v1-45 v1-46 v1-47 v1-48 v1-49 v1-50 v1-51 v1-52 v1-53]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

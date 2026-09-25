@@ -138,19 +138,48 @@ pub fn rust_delta(diff: &str) -> bool {
     diff_paths(diff).iter().any(|p| p.ends_with(".rs"))
 }
 
-/// A diff with no Rust source never reaches cargo-mutants: its silent exit 0 writes no
-/// `outcomes.json`, and an earlier run's file would otherwise be read as this one's.
-fn no_rust_delta(diff: &str) -> (Suite, Value) {
+/// Every Rust path the diff names, once each, in diff order.
+pub fn rust_paths(diff: &str) -> Vec<&str> {
+    let mut paths: Vec<&str> = Vec::new();
+    for path in diff_paths(diff).into_iter().filter(|p| p.ends_with(".rs")) {
+        if !paths.contains(&path) {
+            paths.push(path);
+        }
+    }
+    paths
+}
+
+/// A file of an auto-discovered test, bench or example target of the root package or a
+/// `crates/<member>`: cargo-mutants 27.1.0 mutates lib and bin targets only (measured: `--list-files`
+/// over a package with `src/`, `tests/`, `benches/` and `examples/` files lists `src/lib.rs` alone).
+pub fn test_target(path: &str) -> bool {
+    let within = match path.strip_prefix("crates/") {
+        Some(member) => member.split_once('/').map_or("", |(_, rest)| rest),
+        None => path,
+    };
+    ["tests/", "benches/", "examples/"]
+        .iter()
+        .any(|dir| within.starts_with(dir))
+}
+
+/// A diff cargo-mutants can find no mutant in never reaches it: its silent exit writes no
+/// `outcomes.json`, and an earlier run's file would otherwise be read as this one's. The verdict
+/// names why it is empty, never a bare pass.
+fn unmutated(ws: &Workspace, leg: Option<&str>, verdict: &str, diff: &str) -> (Suite, Value) {
+    write_leg_verdict(ws, leg, verdict, &Value::Null);
     let suite = Suite {
         artifact: Some("target/agent-run/chunk.diff".to_owned()),
         ..Suite::named("mutants")
     };
-    let doc = json!({
+    let mut doc = json!({
         "tested": 0,
-        "verdict": "no-rust-delta",
+        "verdict": verdict,
         "diff": "target/agent-run/chunk.diff",
         "files": diff_files(diff),
     });
+    if let Some(leg) = leg {
+        doc["leg"] = json!(leg);
+    }
     (suite, doc)
 }
 
@@ -212,11 +241,12 @@ pub(super) fn mutants(
     fs::create_dir_all(ws.agent_run()).map_err(|_| missing())?;
     fs::write(&diff_path, &diff).map_err(|_| missing())?;
     if !rust_delta(&diff) {
-        write_leg_verdict(ws, leg, "no-rust-delta", &Value::Null);
-        let (suite, mut doc) = no_rust_delta(&diff);
-        if let Some(leg) = leg {
-            doc["leg"] = json!(leg);
-        }
+        return Ok(unmutated(ws, leg, "no-rust-delta", &diff));
+    }
+    let rust_files = rust_paths(&diff);
+    if rust_files.iter().all(|p| test_target(p)) {
+        let (suite, mut doc) = unmutated(ws, leg, "test-only-rust-delta", &diff);
+        doc["rust_files"] = json!(rust_files);
         return Ok((suite, doc));
     }
     let out_dir = ws.root.join("mutants.out");
@@ -467,6 +497,41 @@ mod tests {
         assert_eq!(diff_files(""), 0);
     }
 
+    #[test]
+    fn rust_paths_lists_each_rust_path_once() {
+        let diff = "diff --git a/tests/a.rs b/tests/a.rs\n\
+            diff --git a/src/old.rs b/notes/old.md\n\
+            diff --git a/README.md b/README.md\n";
+        assert_eq!(rust_paths(diff), vec!["tests/a.rs", "src/old.rs"]);
+        assert!(rust_paths(DOCS_DIFF).is_empty());
+    }
+
+    #[test]
+    fn test_target_holds_only_test_bench_and_example_dirs() {
+        for path in [
+            "tests/it.rs",
+            "benches/b.rs",
+            "examples/e.rs",
+            "crates/viola-core/tests/x.rs",
+            "crates/viola-e2e/benches/b.rs",
+            "crates/viola-e2e/examples/e.rs",
+        ] {
+            assert!(test_target(path), "{path}");
+        }
+        for path in [
+            "src/lib.rs",
+            "src/bin/viola-fake-agent.rs",
+            "crates/viola-core/src/lib.rs",
+            "crates/tests/x.rs",
+            "crates/viola-core",
+            "src/tests/x.rs",
+            "tests.rs",
+            "fuzz/fuzz_targets/viola_name.rs",
+        ] {
+            assert!(!test_target(path), "{path}");
+        }
+    }
+
     fn plant_stale_outcomes(ws: &Workspace) {
         let out = ws.root.join("mutants.out");
         fs::create_dir_all(&out).expect("mkdir");
@@ -515,6 +580,70 @@ mod tests {
             out.doc["mutants"],
             json!({"tested": 0, "verdict": "counted"})
         );
+        assert!(!out.doc.to_string().contains("777"));
+    }
+
+    fn write_test_target(ws: &Workspace) {
+        fs::create_dir_all(ws.root.join("tests")).expect("mkdir");
+        fs::write(ws.root.join("tests").join("it.rs"), "#[test]\nfn it() {}\n").expect("write");
+    }
+
+    #[test]
+    fn run_mutants_test_only_delta_passes_by_name_without_running_cargo() {
+        let (_tmp, ws) = mini(GOOD_LIB);
+        let base = head(&ws);
+        plant_stale_outcomes(&ws);
+        write_test_target(&ws);
+        fs::write(ws.root.join("README.md"), "docs\n").expect("write");
+        let mut calls = Vec::new();
+        let out = run_with(
+            &ws,
+            flags(false, false, true, false),
+            None,
+            Some(base),
+            Some("l5"),
+            &mut |cmd: &mut Command| {
+                calls.push(args_of(cmd));
+                (Some(0), String::new())
+            },
+        );
+        assert_eq!(out.code, 0, "{}", out.doc);
+        assert_eq!(
+            out.doc["mutants"],
+            json!({"tested": 0, "verdict": "test-only-rust-delta", "diff": "target/agent-run/chunk.diff",
+                   "files": 2, "rust_files": ["tests/it.rs"], "leg": "l5"})
+        );
+        assert!(calls.is_empty(), "{calls:?}");
+        let v: Value = read_json(&leg_verdict_path(&ws.artifacts(), "l5")).expect("verdict");
+        assert_eq!(v["verdict"], "test-only-rust-delta");
+        assert!(!out.doc.to_string().contains("777"));
+    }
+
+    #[test]
+    fn run_mutants_mixed_src_and_test_delta_without_outcomes_stays_outcomes_missing() {
+        let (_tmp, ws) = mini(GOOD_LIB);
+        let base = head(&ws);
+        plant_stale_outcomes(&ws);
+        write_test_target(&ws);
+        fs::write(ws.root.join("src").join("b.rs"), "fn b() {}\n").expect("write");
+        let out = run_with(
+            &ws,
+            flags(false, false, true, false),
+            None,
+            Some(base),
+            Some("l6"),
+            &mut |_: &mut Command| (Some(0), String::new()),
+        );
+        assert_eq!(out.code, 1, "{}", out.doc);
+        assert_eq!(
+            suite(&out.doc, "mutants")["failures"][0],
+            "outcomes-missing"
+        );
+        assert_eq!(
+            out.doc["mutants"],
+            json!({"tested": 0, "verdict": "counted", "leg": "l6"})
+        );
+        assert!(!leg_verdict_path(&ws.artifacts(), "l6").exists());
         assert!(!out.doc.to_string().contains("777"));
     }
 

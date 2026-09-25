@@ -1,0 +1,23 @@
+   Compiling viola v0.1.0 (D:\dev\projects\viola)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.32s
+────────────
+ Nextest run ID ab8577df-d718-4ef0-9327-9fd3ca30b342 with nextest profile: ci
+    Starting 2 tests across 1 binary
+        PASS [   0.009s] (1/2) viola::channel_sqos_open sqos_flags_absent_open_reads_impersonation
+        SLOW [> 30.000s] (───) viola::channel_sqos_open sqos_identification_open_adopted_reads_identification
+        SLOW [> 60.000s] (───) viola::channel_sqos_open sqos_identification_open_adopted_reads_identification
+        SLOW [> 90.000s] (───) viola::channel_sqos_open sqos_identification_open_adopted_reads_identification
+ TERMINATING [>120.000s] (───) viola::channel_sqos_open sqos_identification_open_adopted_reads_identification
+     TIMEOUT [ 120.036s] (2/2) viola::channel_sqos_open sqos_identification_open_adopted_reads_identification
+  stdout ───
+
+    running 1 test
+    test sqos_identification_open_adopted_reads_identification has been running for over 60 seconds
+
+    (test timed out)
+
+────────────
+     Summary [ 120.037s] 2 tests run: 1 passed, 1 timed out, 0 skipped
+     TIMEOUT [ 120.036s] (2/2) viola::channel_sqos_open sqos_identification_open_adopted_reads_identification
+error: test run failed
+rc=100

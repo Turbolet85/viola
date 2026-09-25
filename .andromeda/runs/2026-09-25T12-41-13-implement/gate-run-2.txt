@@ -1,0 +1,35 @@
+gate v1.2 · d4325653
+shell C:\Program Files\Git\bin\bash.exe (from $SHELL; -c, non-login)
+root D:\dev\projects\viola · marker 2026-09-25-security-prerequisites · entries 27
+logs C:\Users\turbo\AppData\Local\Temp\andromeda-gate\2026-09-25-security-prerequisites\implement-2026-09-25T12-41-13 · bound: GNU timeout
+delta docs 43 · rust 8 · unmapped 3
+prose L158-170: The gates run on this Windows host during /implement. - **Rust delta:** the delta is test-… (912 chars)
+prose L172-174:   The operator entries at the end read them on the pushed sha. - **One-shot mutating contr… (274 chars)
+  1 lint        green · exit 0 · 0.26s · 0 B → 1.log · cargo fmt --all --check
+  2 lint        green · exit 0 · 0.39s · 122 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)
+  3 unit        not run — excluded · bash scripts/agent-run.sh run --unit
+  4 integration green · exit 0 · 1.2s · 1869 B → 4.log · bash scripts/agent-run.sh run --integration --filter 'bina… (113 chars)
+  5 integration green · exit 0 · 22.8s · 12249 B → 5.log · bash scripts/agent-run.sh run --integration
+  6 probe       not run — excluded · grep -c -E 'SECURITY_SQOS_PRESENT \| SECURITY_IDENTIFICATI… (112 chars)
+  7 probe       not run — excluded · grep -c -E 'LocalSocketStream::connect|connect_without_wai… (121 chars)
+  8 probe       not run — excluded · grep -c -E '^allow = \["MIT", "Apache-2.0", "Zlib", "Unico… (79 chars)
+  9 probe       not run — excluded · grep -c -E '^crate = "(doctest-file|recvmsg)"$' deny.toml
+ 10 probe       not run — excluded · cargo deny check
+ 11 probe       not run — excluded · cargo tree -i sha2 -e normal,dev --target all
+ 12 probe       not run — excluded · cargo tree -i interprocess -e normal,dev --target x86_64-p… (72 chars)
+ 13 probe       not run — excluded · cargo deny --manifest-path fuzz/Cargo.toml check advisorie… (67 chars)
+ 14 probe       not run — excluded · cargo deny --config deny-sync.toml --manifest-path crates/… (90 chars)
+ 15 probe       not run — excluded · bash scripts/deny-probes.sh
+ 16 probe       not run — excluded · git diff --exit-code --quiet -- fuzz/Cargo.lock
+ 17 probe       not run — excluded · cargo metadata --no-deps --format-version 1 | python -X ut… (164 chars)
+ 18 probe       not run — excluded · cargo metadata --no-deps --format-version 1 --manifest-pat… (196 chars)
+ 19 probe       not run — excluded · grep -c -E '^Copyright \(c\) 2026 Turbolet85$' LICENSE-MIT
+ 20 probe       not run — excluded · grep -c -E 'Apache License|Version 2\.0, January 2004' LIC… (69 chars)
+ 21 probe       not run — excluded · grep -c -E 'LICENSE-APACHE|LICENSE-MIT' README.md
+ 22 build       not run — excluded · RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv cargo c… (88 chars)
+ 23 probe       not run — excluded · bash scripts/orphans-check.sh
+ 24 integration not run — excluded · AGENT_RUN_CHUNK_BASE=874420dc617668ea7c5a7155589d9bf4b954c… (101 chars)
+ 25 probe       not run — excluded · git diff --quiet && git diff --cached --quiet && git push … (82 chars)
+ 26 probe       not run — excluded · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (129 chars)
+ 27 probe       not run — excluded · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (160 chars)
+entries 27 · green 4 · red 0 · recorded 0 · timeout 0 · not-run 23
