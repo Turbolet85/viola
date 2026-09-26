@@ -119,12 +119,16 @@ nutype = "=0.8.0"
 # (src/win/psuedocon.rs:141); child exit is read on the process handle, never on EOF (ConPTY does not
 # close its output when the child exits).
 portable-pty = "=0.8.1"
-proptest = { version = "=1.11.0", default-features = false, features = ["std"] }
+# `span-locations`: real line numbers outside a proc macro, for the mutants union's cfg reading.
+proc-macro2 = { version = "=1.0.107", features = ["span-locations"] }
+proptest ={ version = "=1.11.0", default-features = false, features = ["std"] }
 rstest = { version = "=0.27.0", default-features = false }
 serde = { version = "=1.0.229", features = ["derive"] }
 serde_json = { version = "=1.0.151", features = ["preserve_order"] }
 # The truncated SHA-256 `<hash>` of bin/ and plugin/: pure Rust, no default `alloc`/`oid`.
 sha2 = { version = "=0.11.0", default-features = false }
+# viola-e2e only: parses source for the `#[cfg]`s around a mutant (harness/cfg_legs.rs).
+syn = { version = "=2.0.119", default-features = false, features = ["full", "parsing", "printing", "visit"] }
 sysinfo = { version = "=0.39.6", default-features = false, features = ["system"] }
 tempfile = "=3.27.0"
 thiserror = "=2.0.20"

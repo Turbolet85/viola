@@ -1,0 +1,33 @@
+$ cargo nextest run -p viola-e2e --lib --no-fail-fast -E test(=harness::run::mutants::tests::chunk_base_of_the_wrap_push_is_its_parent)
+   Compiling viola-e2e v0.1.0 (D:\dev\projects\viola\crates\viola-e2e)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.32s
+────────────
+ Nextest run ID 82792d4b-bcfa-4241-b5bf-52677359913a with nextest profile: default
+    Starting 1 test across 1 binary (153 tests skipped)
+        FAIL [   0.255s] (1/1) viola-e2e harness::run::mutants::tests::chunk_base_of_the_wrap_push_is_its_parent
+  stdout ───
+
+    running 1 test
+    test harness::run::mutants::tests::chunk_base_of_the_wrap_push_is_its_parent ... FAILED
+
+    failures:
+
+    failures:
+        harness::run::mutants::tests::chunk_base_of_the_wrap_push_is_its_parent
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 153 filtered out; finished in 0.24s
+
+  stderr ───
+
+    thread 'harness::run::mutants::tests::chunk_base_of_the_wrap_push_is_its_parent' (26992) panicked at crates\viola-e2e\src\harness\run\mutants.rs:577:9:
+    assertion `left == right` failed
+      left: Some("62364fe768c08ebb786f15fa4e0f72d4322319f4")
+     right: Some("cb9a362a0e750ea64ffd5e47533385dcfb0bd4b3")
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+────────────
+     Summary [   0.256s] 1 test run: 0 passed, 1 failed, 153 skipped
+        FAIL [   0.255s] (1/1) viola-e2e harness::run::mutants::tests::chunk_base_of_the_wrap_push_is_its_parent
+error: test run failed
+
+exit 100

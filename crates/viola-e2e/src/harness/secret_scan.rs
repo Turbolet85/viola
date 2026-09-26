@@ -76,6 +76,10 @@ pub fn scan(roots: &Roots, report_dir: &Path) -> Outcome {
     }
     let mut capture = Vec::new();
     collect_files(&roots.agent_run, &mut capture);
+    // The mutation leg's `chunk.diff` is repository source by construction (this file's own patterns
+    // included), not runtime capture, and the `harness-<os>` upload excludes it.
+    let mutation_diff = roots.agent_run.join("chunk.diff");
+    capture.retain(|path| *path != mutation_diff);
     if roots.junit.is_file() {
         capture.push(roots.junit.clone());
     }
@@ -363,6 +367,28 @@ mod tests {
             out.doc["hits"][0]["file"],
             "agent-run/ci-smoke/nested/status.json"
         );
+    }
+
+    const DIFF_LINE: &str = "+    (\"token-query\", \"?t=\"),\n";
+
+    #[test]
+    fn secret_scan_skips_the_mutation_diff() {
+        let t = tree();
+        plant(&t.roots.agent_run, "chunk.diff", DIFF_LINE);
+        let out = scan(&t.roots, &t.report);
+        assert_eq!(out.code, 0, "{}", out.doc);
+        assert_eq!(out.doc["files"], 1, "the role file only");
+    }
+
+    #[test]
+    fn secret_scan_skips_the_mutation_diff_only_at_its_path() {
+        let t = tree();
+        plant(&t.roots.agent_run, "chunk.diff", DIFF_LINE);
+        plant(&t.roots.agent_run, "logs.ndjson", DIFF_LINE);
+        plant(&t.roots.agent_run, "x/chunk.diff", DIFF_LINE);
+        let out = scan(&t.roots, &t.report);
+        assert_eq!(classes(&out), ["token-query", "token-query"]);
+        assert_eq!(out.doc["files"], 3);
     }
 
     #[test]

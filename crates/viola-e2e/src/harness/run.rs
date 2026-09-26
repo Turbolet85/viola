@@ -22,8 +22,8 @@ pub use coverage::{COVERAGE_FLOORS, COVERAGE_IGNORE};
 pub use doctest::parse_doctest;
 pub use fuzz::{FUZZ_HOST_SUPPORTED, fuzz_channel};
 pub use mutants::{
-    chunk_diff, commit_exists, diff_files, diff_paths, leg_verdict, leg_verdict_path,
-    mutants_exit_reason, mutants_suite, resolve_base, rust_delta,
+    chunk_diff, diff_files, diff_paths, leg_verdict, leg_verdict_path, mutants_exit_reason,
+    mutants_suite, resolve_base, rust_delta,
 };
 pub use nextest::parse_junit;
 
@@ -77,7 +77,8 @@ impl Suite {
     }
 }
 
-/// `chunk_base` is `AGENT_RUN_CHUNK_BASE` as the caller read it.
+/// `chunk_base` is `AGENT_RUN_CHUNK_BASE` as the caller read it: an explicit override of the base
+/// `resolve_base` derives from the master route's history.
 pub fn run(
     ws: &Workspace,
     sel: Selection,

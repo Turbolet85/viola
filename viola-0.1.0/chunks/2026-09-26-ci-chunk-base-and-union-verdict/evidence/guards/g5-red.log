@@ -1,0 +1,33 @@
+$ cargo nextest run -p viola-e2e --lib --no-fail-fast -E test(=harness::cfg_legs::tests::compiled_legs_keep_every_leg_when_unsure)
+   Compiling viola-e2e v0.1.0 (D:\dev\projects\viola\crates\viola-e2e)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.32s
+────────────
+ Nextest run ID b45d4292-3330-4235-96a0-b57dc9f98de0 with nextest profile: default
+    Starting 1 test across 1 binary (153 tests skipped)
+        FAIL [   0.015s] (1/1) viola-e2e harness::cfg_legs::tests::compiled_legs_keep_every_leg_when_unsure
+  stdout ───
+
+    running 1 test
+    test harness::cfg_legs::tests::compiled_legs_keep_every_leg_when_unsure ... FAILED
+
+    failures:
+
+    failures:
+        harness::cfg_legs::tests::compiled_legs_keep_every_leg_when_unsure
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 153 filtered out; finished in 0.00s
+
+  stderr ───
+
+    thread 'harness::cfg_legs::tests::compiled_legs_keep_every_leg_when_unsure' (18664) panicked at crates\viola-e2e\src\harness\cfg_legs.rs:375:9:
+    assertion `left == right` failed: an unknown predicate
+      left: []
+     right: ["ubuntu-latest", "windows-2025"]
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+────────────
+     Summary [   0.016s] 1 test run: 0 passed, 1 failed, 153 skipped
+        FAIL [   0.015s] (1/1) viola-e2e harness::cfg_legs::tests::compiled_legs_keep_every_leg_when_unsure
+error: test run failed
+
+exit 100

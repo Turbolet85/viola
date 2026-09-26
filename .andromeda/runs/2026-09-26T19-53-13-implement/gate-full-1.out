@@ -1,0 +1,26 @@
+gate v1.2 · fab316fd
+shell C:\Program Files\Git\bin\bash.exe (from $SHELL; -c, non-login)
+root D:\dev\projects\viola · marker 2026-09-26-ci-chunk-base-and-union-verdict · entries 17
+logs C:\Users\turbo\AppData\Local\Temp\andromeda-gate\2026-09-26-ci-chunk-base-and-union-verdict\implement-2026-09-26T19-53-13 · bound: GNU timeout
+delta docs 34 · rust 10 · unmapped 16
+prose L157-163: The gates run on this Windows host during /implement. The Rust delta is harness-only (`vio… (688 chars)
+prose L165-166: The remove-the-guard runs (step 10) mutate source and revert, so they are ONE-SHOT runs at… (225 chars)
+prose L168-171: The witness replay (`gate … --artifacts …run-36165685381/artifacts`) reads run 36165685381… (377 chars)
+  1 lint        green · exit 0 · 0.31s · 0 B → 1.log · cargo fmt --all --check
+  2 lint        green · exit 0 · 0.78s · 143 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)
+  3 unit        green · exit 0 · 10.45s · 31370 B → 3.log · bash scripts/agent-run.sh run --unit
+  4 unit        green · exit 0 · 2.12s · 3411 B → 4.log · bash scripts/agent-run.sh run --unit --filter 'test(/chunk… (107 chars)
+  5 probe       green · exit 0 · 4.08s · 45 B → 5.log · bash scripts/agent-run.sh gate --require mutants --mutants… (170 chars)
+  6 integration green · exit 0 · 23.33s · 13687 B → 6.log · AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --int… (66 chars)
+  7 integration red · exit 0 ✗ (exit 1) · exit 1 · 1.78s · 337 B → 7.log · bash scripts/agent-run.sh run --mutants
+  8 probe       green · exit 0 · 0.06s · 3 B → 8.log · grep -c -F '?t=' target/agent-run/chunk.diff
+  9 probe       green · exit 0 · 38.24s · 113 B → 9.log · bash scripts/agent-run.sh secret-scan
+ 10 probe       green · exit 1 · 0.06s · 2 B → 10.log · grep -c 'github\.event' .github/workflows/ci.yml
+ 11 probe       green · exit 0 · 0.06s · 2 B → 11.log · grep -c -F '!target/agent-run/chunk.diff' .github/workflow… (66 chars)
+ 12 probe       green · exit 0 · 0.17s · 388 B → 12.log · zizmor --format=plain .github/workflows/
+ 13 probe       green · exit 0 · 1.35s · 5511 B → 13.log · cargo deny check
+ 14 build       green · exit 0 · 3.34s · 265 B → 14.log · RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv cargo c… (116 chars)
+ 15 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (82 chars)
+ 16 probe       not run — leg operator (the letter drives it) · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (129 chars)
+ 17 probe       not run — leg operator (the letter drives it) · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (160 chars)
+entries 17 · green 13 · red 1 (7) · recorded 0 · timeout 0 · not-run 3

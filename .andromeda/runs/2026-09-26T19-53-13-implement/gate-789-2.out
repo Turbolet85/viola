@@ -1,0 +1,26 @@
+gate v1.2 · fab316fd
+shell C:\Program Files\Git\bin\bash.exe (from $SHELL; -c, non-login)
+root D:\dev\projects\viola · marker 2026-09-26-ci-chunk-base-and-union-verdict · entries 17
+logs C:\Users\turbo\AppData\Local\Temp\andromeda-gate\2026-09-26-ci-chunk-base-and-union-verdict\implement-2026-09-26T19-53-13 · bound: GNU timeout
+delta docs 35 · rust 10 · unmapped 16
+prose L157-163: The gates run on this Windows host during /implement. The Rust delta is harness-only (`vio… (688 chars)
+prose L165-166: The remove-the-guard runs (step 10) mutate source and revert, so they are ONE-SHOT runs at… (225 chars)
+prose L168-171: The witness replay (`gate … --artifacts …run-36165685381/artifacts`) reads run 36165685381… (377 chars)
+  1 lint        not run — excluded · cargo fmt --all --check
+  2 lint        not run — excluded · cargo clippy --workspace --all-targets --features fake-age… (75 chars)
+  3 unit        not run — excluded · bash scripts/agent-run.sh run --unit
+  4 unit        not run — excluded · bash scripts/agent-run.sh run --unit --filter 'test(/chunk… (107 chars)
+  5 probe       not run — excluded · bash scripts/agent-run.sh gate --require mutants --mutants… (170 chars)
+  6 integration not run — excluded · AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --int… (66 chars)
+  7 integration red · exit 0 ✗ (exit 1) · exit 1 · 558.29s · 11018 B → 7.log · bash scripts/agent-run.sh run --mutants
+  8 probe       green · exit 0 · 0.09s · 3 B → 8.log · grep -c -F '?t=' target/agent-run/chunk.diff
+  9 probe       green · exit 0 · 39.56s · 113 B → 9.log · bash scripts/agent-run.sh secret-scan
+ 10 probe       not run — excluded · grep -c 'github\.event' .github/workflows/ci.yml
+ 11 probe       not run — excluded · grep -c -F '!target/agent-run/chunk.diff' .github/workflow… (66 chars)
+ 12 probe       not run — excluded · zizmor --format=plain .github/workflows/
+ 13 probe       not run — excluded · cargo deny check
+ 14 build       not run — excluded · RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv cargo c… (116 chars)
+ 15 probe       not run — excluded · git diff --quiet && git diff --cached --quiet && git push … (82 chars)
+ 16 probe       not run — excluded · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (129 chars)
+ 17 probe       not run — excluded · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (160 chars)
+entries 17 · green 2 · red 1 (7) · recorded 0 · timeout 0 · not-run 14

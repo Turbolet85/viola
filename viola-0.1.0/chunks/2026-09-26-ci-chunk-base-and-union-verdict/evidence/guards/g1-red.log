@@ -1,0 +1,42 @@
+$ cargo nextest run -p viola-e2e --lib --no-fail-fast -E test(=harness::run::mutants::tests::chunk_base_holds_the_flip_across_a_pass)
+   Compiling viola-e2e v0.1.0 (D:\dev\projects\viola\crates\viola-e2e)
+warning: function `pre_ci_parent` is never used
+  --> crates\viola-e2e\src\harness\run\mutants.rs:92:4
+   |
+92 | fn pre_ci_parent(repo: &Path) -> Option<String> {
+   |    ^^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `viola-e2e` (lib test) generated 1 warning
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.98s
+────────────
+ Nextest run ID c084b695-a604-4343-a902-39fe68f9a1df with nextest profile: default
+    Starting 1 test across 1 binary (153 tests skipped)
+        FAIL [   0.658s] (1/1) viola-e2e harness::run::mutants::tests::chunk_base_holds_the_flip_across_a_pass
+  stdout ───
+
+    running 1 test
+    test harness::run::mutants::tests::chunk_base_holds_the_flip_across_a_pass ... FAILED
+
+    failures:
+
+    failures:
+        harness::run::mutants::tests::chunk_base_holds_the_flip_across_a_pass
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 153 filtered out; finished in 0.65s
+
+  stderr ───
+
+    thread 'harness::run::mutants::tests::chunk_base_holds_the_flip_across_a_pass' (49844) panicked at crates\viola-e2e\src\harness\run\mutants.rs:555:9:
+    assertion `left == right` failed
+      left: Some("c2f879149826c7108242a5d1c2dd7a183549bcee")
+     right: Some("1438807471c756ec1e8e9c707b375f41b3a99c89")
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+────────────
+     Summary [   0.659s] 1 test run: 0 passed, 1 failed, 153 skipped
+        FAIL [   0.658s] (1/1) viola-e2e harness::run::mutants::tests::chunk_base_holds_the_flip_across_a_pass
+error: test run failed
+
+exit 100

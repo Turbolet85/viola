@@ -26,19 +26,89 @@ fn git(repo: &Path, args: &[&str]) -> Option<String> {
         .then(|| String::from_utf8_lossy(&out.stdout).into_owned())
 }
 
-pub fn commit_exists(repo: &Path, rev: &str) -> bool {
-    git(repo, &["cat-file", "-e", &format!("{rev}^{{commit}}")]).is_some()
+/// The full sha a revision names, when it names a commit.
+fn commit_sha(repo: &Path, rev: &str) -> Option<String> {
+    git(
+        repo,
+        &[
+            "rev-parse",
+            "--verify",
+            "--quiet",
+            &format!("{rev}^{{commit}}"),
+        ],
+    )
+    .map(|sha| sha.trim().to_owned())
 }
 
-/// `AGENT_RUN_CHUNK_BASE`, else the merge-base with `origin/main`; `None` when neither is a commit.
+const MASTER_ROUTE: &str = ".andromeda/master-route.md";
+
+/// `AGENT_RUN_CHUNK_BASE` when set; else the chunk's last master flip (`chunk_flip`); else the
+/// merge-base with `origin/main`. `None` when the chosen revision is not a commit.
 pub fn resolve_base(repo: &Path, from_env: Option<String>) -> Option<String> {
     let base = from_env
         .map(|b| b.trim().to_owned())
         .filter(|b| !b.is_empty())
+        .or_else(|| chunk_flip(repo))
         .or_else(|| {
             git(repo, &["merge-base", "HEAD", "origin/main"]).map(|b| b.trim().to_owned())
         })?;
-    commit_exists(repo, &base).then_some(base)
+    commit_sha(repo, &base)
+}
+
+/// The last commit that flipped a master record, found from the parent of the oldest operator
+/// pre-CI commit of a pending chunk (else from HEAD), so no commit of an operator pass can move it —
+/// not even one editing a `complete` record. The wrap push is itself the flip and reads its parent.
+fn chunk_flip(repo: &Path) -> Option<String> {
+    let bound = pre_ci_parent(repo).unwrap_or_else(|| "HEAD".to_owned());
+    let found = git(
+        repo,
+        &[
+            "log",
+            "-1",
+            "--format=%H",
+            "-G",
+            " · complete · ",
+            &bound,
+            "--",
+            MASTER_ROUTE,
+        ],
+    )?;
+    let flip = found.trim();
+    if flip.is_empty() {
+        return None;
+    }
+    if Some(flip.to_owned()) == commit_sha(repo, "HEAD") {
+        return commit_sha(repo, "HEAD^");
+    }
+    Some(flip.to_owned())
+}
+
+/// `{sha}^` of the oldest commit in HEAD's history whose message carries a pending chunk's
+/// `chore({marker}): operator pre-CI commit`.
+fn pre_ci_parent(repo: &Path) -> Option<String> {
+    let master = git(repo, &["show", &format!("HEAD:{MASTER_ROUTE}")])?;
+    let greps: Vec<String> = master
+        .lines()
+        .filter_map(pending_marker)
+        .map(|marker| format!("chore({marker}): operator pre-CI commit"))
+        .collect();
+    if greps.is_empty() {
+        return None;
+    }
+    let mut args = vec!["log", "--reverse", "--format=%H", "-F"];
+    for grep in &greps {
+        args.extend(["--grep", grep.as_str()]);
+    }
+    args.push("HEAD");
+    let oldest = git(repo, &args)?.lines().next()?.to_owned();
+    Some(format!("{oldest}^"))
+}
+
+/// The marker of a `{marker} · pending · …` master record line.
+fn pending_marker(line: &str) -> Option<&str> {
+    line.split_once(" · pending · ")
+        .map(|(marker, _)| marker)
+        .filter(|m| !m.is_empty() && !m.contains(' '))
 }
 
 /// The chunk as the working tree holds it: tracked changes since the merge-base plus every
@@ -165,7 +235,13 @@ pub fn test_target(path: &str) -> bool {
 /// A diff cargo-mutants can find no mutant in never reaches it: its silent exit writes no
 /// `outcomes.json`, and an earlier run's file would otherwise be read as this one's. The verdict
 /// names why it is empty, never a bare pass.
-fn unmutated(ws: &Workspace, leg: Option<&str>, verdict: &str, diff: &str) -> (Suite, Value) {
+fn unmutated(
+    ws: &Workspace,
+    leg: Option<&str>,
+    verdict: &str,
+    diff: &str,
+    base: &str,
+) -> (Suite, Value) {
     write_leg_verdict(ws, leg, verdict, &Value::Null);
     let suite = Suite {
         artifact: Some("target/agent-run/chunk.diff".to_owned()),
@@ -174,6 +250,7 @@ fn unmutated(ws: &Workspace, leg: Option<&str>, verdict: &str, diff: &str) -> (S
     let mut doc = json!({
         "tested": 0,
         "verdict": verdict,
+        "base": base,
         "diff": "target/agent-run/chunk.diff",
         "files": diff_files(diff),
     });
@@ -241,11 +318,11 @@ pub(super) fn mutants(
     fs::create_dir_all(ws.agent_run()).map_err(|_| missing())?;
     fs::write(&diff_path, &diff).map_err(|_| missing())?;
     if !rust_delta(&diff) {
-        return Ok(unmutated(ws, leg, "no-rust-delta", &diff));
+        return Ok(unmutated(ws, leg, "no-rust-delta", &diff, &base));
     }
     let rust_files = rust_paths(&diff);
     if rust_files.iter().all(|p| test_target(p)) {
-        let (suite, mut doc) = unmutated(ws, leg, "test-only-rust-delta", &diff);
+        let (suite, mut doc) = unmutated(ws, leg, "test-only-rust-delta", &diff, &base);
         doc["rust_files"] = json!(rust_files);
         return Ok((suite, doc));
     }
@@ -301,7 +378,7 @@ pub(super) fn mutants(
             0,
         ),
     };
-    let mut doc = json!({"tested": tested, "verdict": "counted"});
+    let mut doc = json!({"tested": tested, "verdict": "counted", "base": base});
     if let Some(leg) = leg {
         doc["leg"] = json!(leg);
     }
@@ -392,7 +469,161 @@ mod tests {
         assert_eq!(resolve_base(repo.path(), Some(zeros)), None);
         assert_eq!(resolve_base(repo.path(), None), None);
         assert_eq!(resolve_base(repo.path(), Some("  ".to_owned())), None);
-        assert!(commit_exists(repo.path(), "HEAD"));
+    }
+
+    const FLIPPED: &str = "## p-0.1.0\na · complete · first · → x\n";
+    const PENDING: &str = "## p-0.1.0\na · complete · first · → x\nm · pending · second · → y\n";
+    const EDITED: &str =
+        "## p-0.1.0\na · complete · first, edited mid-pass · → x\nm · pending · second · → y\n";
+    const WRAPPED: &str =
+        "## p-0.1.0\na · complete · first, edited mid-pass · → x\nm · complete · second · → y\n";
+
+    /// A repo whose history an operator pass leaves: each commit rewrites the code file and, when
+    /// given, the master route.
+    struct Pass(tempfile::TempDir);
+
+    impl Pass {
+        fn new() -> Self {
+            Self(git_repo())
+        }
+
+        fn head(&self) -> String {
+            git(self.0.path(), &["rev-parse", "HEAD"])
+                .expect("head")
+                .trim()
+                .to_owned()
+        }
+
+        fn commit(&self, subject: &str, master: Option<&str>, code: &str) -> String {
+            let dir = self.0.path();
+            if let Some(text) = master {
+                fs::create_dir_all(dir.join(".andromeda")).expect("mkdir");
+                fs::write(dir.join(MASTER_ROUTE), text).expect("master");
+            }
+            fs::write(dir.join("a.rs"), code).expect("code");
+            for args in [vec!["add", "-A"], vec!["commit", "-q", "-m", subject]] {
+                let ok = Command::new("git")
+                    .arg("-C")
+                    .arg(dir)
+                    .args(["-c", "user.name=t", "-c", "user.email=t@example.com"])
+                    .args(&args)
+                    .output()
+                    .expect("git")
+                    .status
+                    .success();
+                assert!(ok, "git {args:?}");
+            }
+            self.head()
+        }
+
+        fn base(&self) -> Option<String> {
+            resolve_base(self.0.path(), None)
+        }
+    }
+
+    #[test]
+    fn chunk_base_holds_the_flip_across_a_pass() {
+        let p = Pass::new();
+        p.commit(
+            "chore(a): operator pre-CI commit, for the run a's verdict reads",
+            None,
+            "fn a() { 0; }\n",
+        );
+        let flip = p.commit("feat(a): wrap a", Some(FLIPPED), "fn a() {}\n");
+        p.commit(
+            "chore(m): operator pre-CI commit, for the run m's verdict reads",
+            Some(PENDING),
+            "fn a() { 1; }\n",
+        );
+        assert_eq!(p.base(), Some(flip.clone()));
+        p.commit(
+            "fix(m): operator fix after CI run 1, code only",
+            None,
+            "fn a() { 2; }\n",
+        );
+        assert_eq!(p.base(), Some(flip.clone()));
+        p.commit(
+            "fix(m): operator fix after CI run 2, edits a complete record",
+            Some(EDITED),
+            "fn a() { 3; }\n",
+        );
+        assert_eq!(p.base(), Some(flip));
+    }
+
+    #[test]
+    fn chunk_base_is_the_last_flip_before_any_pre_ci_commit() {
+        let p = Pass::new();
+        let flip = p.commit("feat(a): wrap a", Some(FLIPPED), "fn a() {}\n");
+        p.commit("chore(route): adaptation", None, "fn a() { 1; }\n");
+        assert_eq!(p.base(), Some(flip.clone()));
+        p.commit(
+            "docs(m): promoted, not pushed",
+            Some(PENDING),
+            "fn a() { 2; }\n",
+        );
+        assert_eq!(p.base(), Some(flip));
+    }
+
+    #[test]
+    fn chunk_base_of_the_wrap_push_is_its_parent() {
+        let p = Pass::new();
+        let root = p.head();
+        p.commit("feat(a): wrap a", Some(FLIPPED), "fn a() {}\n");
+        assert_eq!(p.base(), Some(root));
+        p.commit(
+            "chore(m): operator pre-CI commit, for the run m's verdict reads",
+            Some(PENDING),
+            "fn a() { 1; }\n",
+        );
+        let fix = p.commit(
+            "fix(m): operator fix after CI run 1, edits a complete record",
+            Some(EDITED),
+            "fn a() { 2; }\n",
+        );
+        p.commit("feat(m): wrap m", Some(WRAPPED), "fn a() { 2; }\n");
+        assert_eq!(p.base(), Some(fix));
+    }
+
+    #[test]
+    fn chunk_base_bound_is_the_oldest_pre_ci_commit() {
+        let p = Pass::new();
+        let flip = p.commit("feat(a): wrap a", Some(FLIPPED), "fn a() {}\n");
+        p.commit(
+            "chore(m): operator pre-CI commit, first",
+            Some(PENDING),
+            "fn a() { 1; }\n",
+        );
+        p.commit(
+            "fix(m): operator fix after CI run 1, edits a complete record",
+            Some(EDITED),
+            "fn a() { 2; }\n",
+        );
+        p.commit(
+            "chore(m): operator pre-CI commit, again",
+            None,
+            "fn a() { 3; }\n",
+        );
+        assert_eq!(p.base(), Some(flip));
+    }
+
+    #[test]
+    fn chunk_base_override_wins() {
+        let p = Pass::new();
+        let root = p.head();
+        p.commit("feat(a): wrap a", Some(FLIPPED), "fn a() {}\n");
+        p.commit("chore(route): adaptation", None, "fn a() { 1; }\n");
+        assert_eq!(
+            resolve_base(p.0.path(), Some(root[..12].to_owned())),
+            Some(root)
+        );
+    }
+
+    #[test]
+    fn chunk_base_reads_only_pending_record_markers() {
+        assert_eq!(pending_marker("m-1 · pending · d · → l"), Some("m-1"));
+        assert_eq!(pending_marker("m-1 · complete · d · → l"), None);
+        assert_eq!(pending_marker(" · pending · d · → l"), None);
+        assert_eq!(pending_marker("a note · pending · d"), None);
     }
 
     #[test]
@@ -548,11 +779,17 @@ mod tests {
         let base = head(&ws);
         plant_stale_outcomes(&ws);
         fs::write(ws.root.join("README.md"), "docs only\n").expect("write");
-        let out = run(&ws, flags(false, false, true, false), None, Some(base));
+        let out = run(
+            &ws,
+            flags(false, false, true, false),
+            None,
+            Some(base.clone()),
+        );
         assert_eq!(out.code, 0, "{}", out.doc);
         assert_eq!(
             out.doc["mutants"],
-            json!({"tested": 0, "verdict": "no-rust-delta", "diff": "target/agent-run/chunk.diff", "files": 1})
+            json!({"tested": 0, "verdict": "no-rust-delta", "base": base,
+                   "diff": "target/agent-run/chunk.diff", "files": 1})
         );
         let m = suite(&out.doc, "mutants");
         assert_eq!(
@@ -572,13 +809,18 @@ mod tests {
         // A Rust file no package builds: a Rust delta by path, yet cargo-mutants finds no source.
         fs::create_dir_all(ws.root.join("scripts")).expect("mkdir");
         fs::write(ws.root.join("scripts").join("tool.rs"), "fn main() {}\n").expect("write");
-        let out = run(&ws, flags(false, false, true, false), None, Some(base));
+        let out = run(
+            &ws,
+            flags(false, false, true, false),
+            None,
+            Some(base.clone()),
+        );
         assert_eq!(out.code, 1, "{}", out.doc);
         let m = suite(&out.doc, "mutants");
         assert_eq!(m["failures"][0], "outcomes-missing");
         assert_eq!(
             out.doc["mutants"],
-            json!({"tested": 0, "verdict": "counted"})
+            json!({"tested": 0, "verdict": "counted", "base": base})
         );
         assert!(!out.doc.to_string().contains("777"));
     }
@@ -600,7 +842,7 @@ mod tests {
             &ws,
             flags(false, false, true, false),
             None,
-            Some(base),
+            Some(base.clone()),
             Some("l5"),
             &mut |cmd: &mut Command| {
                 calls.push(args_of(cmd));
@@ -610,7 +852,8 @@ mod tests {
         assert_eq!(out.code, 0, "{}", out.doc);
         assert_eq!(
             out.doc["mutants"],
-            json!({"tested": 0, "verdict": "test-only-rust-delta", "diff": "target/agent-run/chunk.diff",
+            json!({"tested": 0, "verdict": "test-only-rust-delta", "base": base,
+                   "diff": "target/agent-run/chunk.diff",
                    "files": 2, "rust_files": ["tests/it.rs"], "leg": "l5"})
         );
         assert!(calls.is_empty(), "{calls:?}");
@@ -630,7 +873,7 @@ mod tests {
             &ws,
             flags(false, false, true, false),
             None,
-            Some(base),
+            Some(base.clone()),
             Some("l6"),
             &mut |_: &mut Command| (Some(0), String::new()),
         );
@@ -641,7 +884,7 @@ mod tests {
         );
         assert_eq!(
             out.doc["mutants"],
-            json!({"tested": 0, "verdict": "counted", "leg": "l6"})
+            json!({"tested": 0, "verdict": "counted", "base": base, "leg": "l6"})
         );
         assert!(!leg_verdict_path(&ws.artifacts(), "l6").exists());
         assert!(!out.doc.to_string().contains("777"));

@@ -1,0 +1,298 @@
+[
+{
+"sql": "SELECT callee_name, caller, file, line FROM calls WHERE callee_name IN ('resolve_base','union','scan','collect_files','secret_scan','mutants','chunk_diff','gate') AND callee_kind = 'fn' AND callee_crate = 'viola-e2e' ORDER BY callee_name, file, line",
+"rows": 48,
+"result": [
+{
+"callee_name": "chunk_diff",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 24
+},
+{
+"callee_name": "chunk_diff",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants/mutants().",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 239
+},
+{
+"callee_name": "chunk_diff",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants/tests/chunk_diff_holds_tracked_edits_and_untracked_files().",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 402
+},
+{
+"callee_name": "chunk_diff",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants/tests/chunk_diff_holds_tracked_edits_and_untracked_files().",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 406
+},
+{
+"callee_name": "collect_files",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/secret_scan/scan().",
+"file": "crates/viola-e2e/src/harness/secret_scan.rs",
+"line": 77
+},
+{
+"callee_name": "collect_files",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/secret_scan/gui_tokens().",
+"file": "crates/viola-e2e/src/harness/secret_scan.rs",
+"line": 178
+},
+{
+"callee_name": "collect_files",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/secret_scan/collect_files().",
+"file": "crates/viola-e2e/src/harness/secret_scan.rs",
+"line": 213
+},
+{
+"callee_name": "gate",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 crate/",
+"file": "crates/viola-e2e/src/bin/viola-harness.rs",
+"line": 10
+},
+{
+"callee_name": "gate",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 gate_cmd().",
+"file": "crates/viola-e2e/src/bin/viola-harness.rs",
+"line": 193
+},
+{
+"callee_name": "gate",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/gate/tests/gate_passes_a_clean_coverage_and_doctest_job().",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 280
+},
+{
+"callee_name": "gate",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/gate/tests/gate_without_a_run_summary_is_suite_missing_for_each_suite().",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 291
+},
+{
+"callee_name": "gate",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/gate/tests/gate_names_an_absent_suite_and_its_missing_junit().",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 307
+},
+{
+"callee_name": "gate",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/gate/tests/gate_fails_failed_and_skipped_suites_playwright_included().",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 329
+},
+{
+"callee_name": "gate",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/gate/tests/gate_checks_each_coverage_floor_on_its_own().",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 345
+},
+{
+"callee_name": "gate",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/gate/tests/gate_checks_each_coverage_floor_on_its_own().",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 359
+},
+{
+"callee_name": "gate",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/gate/tests/gate_coverage_without_its_summary_is_artifact_missing().",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 374
+},
+{
+"callee_name": "gate",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/gate/tests/gate_single_leg_mutants_read_the_summary_survivors().",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 385
+},
+{
+"callee_name": "gate",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/gate/tests/gate_single_leg_mutants_read_the_summary_survivors().",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 394
+},
+{
+"callee_name": "gate",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/gate/tests/gate_union_is_red_only_where_no_leg_caught_the_mutant().",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 435
+},
+{
+"callee_name": "gate",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/gate/tests/gate_union_needs_every_named_leg().",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 448
+},
+{
+"callee_name": "gate",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/gate/tests/gate_union_needs_every_named_leg().",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 455
+},
+{
+"callee_name": "gate",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/gate/tests/gate_perf_gates_the_max_sample_against_the_spine_deadline().",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 462
+},
+{
+"callee_name": "gate",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/gate/tests/gate_perf_gates_the_max_sample_against_the_spine_deadline().",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 472
+},
+{
+"callee_name": "gate",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/gate/tests/gate_perf_gates_the_max_sample_against_the_spine_deadline().",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 476
+},
+{
+"callee_name": "mutants",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/tool_arms().",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 180
+},
+{
+"callee_name": "resolve_base",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 25
+},
+{
+"callee_name": "resolve_base",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants/mutants().",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 238
+},
+{
+"callee_name": "resolve_base",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants/tests/resolve_base_needs_a_real_commit().",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 387
+},
+{
+"callee_name": "resolve_base",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants/tests/resolve_base_needs_a_real_commit().",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 391
+},
+{
+"callee_name": "resolve_base",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants/tests/resolve_base_needs_a_real_commit().",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 392
+},
+{
+"callee_name": "resolve_base",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants/tests/resolve_base_needs_a_real_commit().",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 393
+},
+{
+"callee_name": "scan",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/secret_scan/secret_scan().",
+"file": "crates/viola-e2e/src/harness/secret_scan.rs",
+"line": 58
+},
+{
+"callee_name": "scan",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/secret_scan/tests/secret_scan_passes_a_clean_tree().",
+"file": "crates/viola-e2e/src/harness/secret_scan.rs",
+"line": 301
+},
+{
+"callee_name": "scan",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/secret_scan/tests/secret_scan_flags_every_critical_class_even_in_a_detail_file().",
+"file": "crates/viola-e2e/src/harness/secret_scan.rs",
+"line": 317
+},
+{
+"callee_name": "scan",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/secret_scan/tests/secret_scan_reads_the_gui_token_from_the_url_file().",
+"file": "crates/viola-e2e/src/harness/secret_scan.rs",
+"line": 343
+},
+{
+"callee_name": "scan",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/secret_scan/tests/secret_scan_descends_into_the_capture_tree().",
+"file": "crates/viola-e2e/src/harness/secret_scan.rs",
+"line": 359
+},
+{
+"callee_name": "scan",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/secret_scan/tests/secret_scan_marks_a_report_it_could_not_write().",
+"file": "crates/viola-e2e/src/harness/secret_scan.rs",
+"line": 372
+},
+{
+"callee_name": "scan",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/secret_scan/tests/secret_scan_marks_a_report_it_could_not_write().",
+"file": "crates/viola-e2e/src/harness/secret_scan.rs",
+"line": 375
+},
+{
+"callee_name": "scan",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/secret_scan/tests/secret_scan_content_canary_fails_a_role_file_only().",
+"file": "crates/viola-e2e/src/harness/secret_scan.rs",
+"line": 409
+},
+{
+"callee_name": "scan",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/secret_scan/tests/secret_scan_content_canary_fails_a_role_file_only().",
+"file": "crates/viola-e2e/src/harness/secret_scan.rs",
+"line": 416
+},
+{
+"callee_name": "scan",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/secret_scan/tests/secret_scan_hit_locates_without_the_matched_bytes().",
+"file": "crates/viola-e2e/src/harness/secret_scan.rs",
+"line": 428
+},
+{
+"callee_name": "scan",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/secret_scan/tests/secret_scan_scans_the_junit_report().",
+"file": "crates/viola-e2e/src/harness/secret_scan.rs",
+"line": 448
+},
+{
+"callee_name": "scan",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/secret_scan/tests/secret_scan_on_an_empty_scope_is_empty_scope().",
+"file": "crates/viola-e2e/src/harness/secret_scan.rs",
+"line": 460
+},
+{
+"callee_name": "scan",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/secret_scan/tests/secret_scan_clears_a_stale_report_on_a_clean_run().",
+"file": "crates/viola-e2e/src/harness/secret_scan.rs",
+"line": 469
+},
+{
+"callee_name": "scan",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/secret_scan/tests/",
+"file": "crates/viola-e2e/src/harness/secret_scan.rs",
+"line": 483
+},
+{
+"callee_name": "secret_scan",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 crate/",
+"file": "crates/viola-e2e/src/bin/viola-harness.rs",
+"line": 14
+},
+{
+"callee_name": "secret_scan",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 main().",
+"file": "crates/viola-e2e/src/bin/viola-harness.rs",
+"line": 232
+},
+{
+"callee_name": "union",
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/gate/gate().",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 62
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

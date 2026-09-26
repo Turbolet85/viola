@@ -1,0 +1,11 @@
+$ cargo nextest run -p viola-e2e --lib --no-fail-fast -E test(=harness::run::mutants::tests::chunk_base_of_the_wrap_push_is_its_parent)
+   Compiling viola-e2e v0.1.0 (D:\dev\projects\viola\crates\viola-e2e)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.33s
+────────────
+ Nextest run ID 02b9e8b5-1065-478f-83bb-1b6e67b05771 with nextest profile: default
+    Starting 1 test across 1 binary (153 tests skipped)
+        PASS [   0.620s] (1/1) viola-e2e harness::run::mutants::tests::chunk_base_of_the_wrap_push_is_its_parent
+────────────
+     Summary [   0.620s] 1 test run: 1 passed, 153 skipped
+
+exit 0

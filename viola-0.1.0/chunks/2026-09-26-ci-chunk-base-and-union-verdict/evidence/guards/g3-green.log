@@ -1,0 +1,11 @@
+$ cargo nextest run -p viola-e2e --lib --no-fail-fast -E test(=harness::gate::tests::union_by_compiled_legs_clears_the_recorded_breach)
+   Compiling viola-e2e v0.1.0 (D:\dev\projects\viola\crates\viola-e2e)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.29s
+────────────
+ Nextest run ID 8f0d84d6-8dcc-4097-94d9-73682c61ed50 with nextest profile: default
+    Starting 1 test across 1 binary (153 tests skipped)
+        PASS [   0.019s] (1/1) viola-e2e harness::gate::tests::union_by_compiled_legs_clears_the_recorded_breach
+────────────
+     Summary [   0.019s] 1 test run: 1 passed, 153 skipped
+
+exit 0

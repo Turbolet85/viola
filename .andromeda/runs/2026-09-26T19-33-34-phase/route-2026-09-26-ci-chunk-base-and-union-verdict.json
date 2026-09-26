@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.4",
+"sha8": "ef8fabf3",
+"ts": "2026-09-26T19:34:13Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-09-26-ci-chunk-base-and-union-verdict",
+"--expect-prefix",
+"CI chunk base and union verdict",
+"--record-file",
+".andromeda/runs/2026-09-26T19-33-34-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-09-26T19-33-34-phase"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:34 - [2026-09-26-ci-chunk-base-and-union-verdict]",
+"record master-route.md:22 - appended under `## viola-0.1.0`",
+"promoted 2026-09-26-ci-chunk-base-and-union-verdict - working-route:34 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+".\\viola-0.1.0\\working-route.md",
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+}
+]

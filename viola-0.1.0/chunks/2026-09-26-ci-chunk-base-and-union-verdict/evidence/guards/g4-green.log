@@ -1,0 +1,11 @@
+$ cargo nextest run -p viola-e2e --lib --no-fail-fast -E test(=harness::gate::tests::union_by_compiled_legs_body_no_leg_compiles_is_judged_by_all)
+   Compiling viola-e2e v0.1.0 (D:\dev\projects\viola\crates\viola-e2e)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.25s
+────────────
+ Nextest run ID b24ba526-ca08-4180-b5dc-a1b7d4df6a4c with nextest profile: default
+    Starting 1 test across 1 binary (153 tests skipped)
+        PASS [   0.017s] (1/1) viola-e2e harness::gate::tests::union_by_compiled_legs_body_no_leg_compiles_is_judged_by_all
+────────────
+     Summary [   0.018s] 1 test run: 1 passed, 153 skipped
+
+exit 0

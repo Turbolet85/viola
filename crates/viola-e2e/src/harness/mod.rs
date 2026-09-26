@@ -1,4 +1,5 @@
 pub mod boot;
+pub mod cfg_legs;
 pub mod cleanup;
 pub mod gate;
 pub mod logs;

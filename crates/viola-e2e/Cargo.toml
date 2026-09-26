@@ -20,8 +20,10 @@ viola-core = { path = "../viola-core" }
 viola-pty = { path = "../viola-pty" }
 clap.workspace = true
 jsonschema.workspace = true
+proc-macro2.workspace = true
 serde.workspace = true
 serde_json.workspace = true
+syn.workspace = true
 sysinfo.workspace = true
 tempfile.workspace = true
 thiserror.workspace = true

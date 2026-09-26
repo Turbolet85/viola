@@ -1,0 +1,11 @@
+$ cargo nextest run -p viola-e2e --lib --no-fail-fast -E test(=harness::cfg_legs::tests::compiled_legs_keep_every_leg_when_unsure)
+   Compiling viola-e2e v0.1.0 (D:\dev\projects\viola\crates\viola-e2e)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.30s
+────────────
+ Nextest run ID d86b94d4-91f1-431b-8552-341025c6421d with nextest profile: default
+    Starting 1 test across 1 binary (153 tests skipped)
+        PASS [   0.018s] (1/1) viola-e2e harness::cfg_legs::tests::compiled_legs_keep_every_leg_when_unsure
+────────────
+     Summary [   0.018s] 1 test run: 1 passed, 153 skipped
+
+exit 0

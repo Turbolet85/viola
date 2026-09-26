@@ -1,0 +1,1 @@
+{"v":1,"cmd":"gate","ok":false,"breaches":[{"gate":"mutants","suite":"mutants","detail":"crates/viola-pty/src/lib.rs:395:9: replace HostTerminal::enter -> Option<Self> with Some(Default::default())"},{"gate":"mutants","suite":"mutants","detail":"crates/viola-pty/src/lib.rs:420:9: replace HostTerminal::enter -> Option<Self> with Some(Default::default())"}]}

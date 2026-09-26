@@ -1,0 +1,33 @@
+$ cargo nextest run -p viola-e2e --lib --no-fail-fast -E test(=harness::secret_scan::tests::secret_scan_skips_the_mutation_diff_only_at_its_path)
+   Compiling viola-e2e v0.1.0 (D:\dev\projects\viola\crates\viola-e2e)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.28s
+────────────
+ Nextest run ID 4ab5f3ed-2a48-4154-bbc1-dbfb2f0f0094 with nextest profile: default
+    Starting 1 test across 1 binary (153 tests skipped)
+        FAIL [   0.019s] (1/1) viola-e2e harness::secret_scan::tests::secret_scan_skips_the_mutation_diff_only_at_its_path
+  stdout ───
+
+    running 1 test
+    test harness::secret_scan::tests::secret_scan_skips_the_mutation_diff_only_at_its_path ... FAILED
+
+    failures:
+
+    failures:
+        harness::secret_scan::tests::secret_scan_skips_the_mutation_diff_only_at_its_path
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 153 filtered out; finished in 0.01s
+
+  stderr ───
+
+    thread 'harness::secret_scan::tests::secret_scan_skips_the_mutation_diff_only_at_its_path' (19248) panicked at crates\viola-e2e\src\harness\secret_scan.rs:390:9:
+    assertion `left == right` failed
+      left: ["token-query"]
+     right: ["token-query", "token-query"]
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+────────────
+     Summary [   0.020s] 1 test run: 0 passed, 1 failed, 153 skipped
+        FAIL [   0.019s] (1/1) viola-e2e harness::secret_scan::tests::secret_scan_skips_the_mutation_diff_only_at_its_path
+error: test run failed
+
+exit 100

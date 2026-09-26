@@ -1,0 +1,27 @@
+gate v1.2 · fab316fd
+4 unit green
+run (3af35661): bash scripts/agent-run.sh run --unit --filter 'test(/chunk_base_|compiled_legs_|skips_the_mutation_diff/)' 
+  exit 0 ✓
+  contains '"cmd":"run","ok":true' ✓
+log C:\Users\turbo\AppData\Local\Temp\andromeda-gate\2026-09-26-ci-chunk-base-and-union-verdict\implement-2026-09-26T19-53-13\4.log · 3411 B · 5bc0ad5d
+--- no anchored failure; last 20 non-empty lines ---
+        PASS [   0.640s] (15/18) viola-e2e harness::run::mutants::tests::chunk_base_is_the_last_flip_before_any_pre_ci_commit
+        PASS [   0.715s] (16/18) viola-e2e harness::run::mutants::tests::chunk_base_bound_is_the_oldest_pre_ci_commit
+        PASS [   0.763s] (17/18) viola-e2e harness::run::mutants::tests::chunk_base_of_the_wrap_push_is_its_parent
+        PASS [   0.861s] (18/18) viola-e2e harness::run::mutants::tests::chunk_base_holds_the_flip_across_a_pass
+────────────
+     Summary [   0.871s] 18 tests run: 18 passed, 248 skipped
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+   Doc-tests viola_agent_claude
+   Doc-tests viola_core
+   Doc-tests viola_e2e
+   Doc-tests viola_pty
+running 0 tests
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+running 0 tests
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+running 0 tests
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+running 0 tests
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+{"v":1,"cmd":"run","ok":true,"suites":[{"suite":"nextest-unit","passed":18,"failed":0,"skipped":0,"survived":0,"artifact":"D:\\dev\\projects\\viola\\target\\agent-run\\artifacts\\junit-nextest-unit.xml","failures":[]},{"suite":"doctest","passed":0,"failed":0,"skipped":0,"survived":0,"artifact":null,"failures":[]}]}

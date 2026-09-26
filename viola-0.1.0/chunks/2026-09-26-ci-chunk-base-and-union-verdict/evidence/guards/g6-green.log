@@ -1,0 +1,11 @@
+$ cargo nextest run -p viola-e2e --lib --no-fail-fast -E test(=harness::secret_scan::tests::secret_scan_skips_the_mutation_diff_only_at_its_path)
+   Compiling viola-e2e v0.1.0 (D:\dev\projects\viola\crates\viola-e2e)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.28s
+────────────
+ Nextest run ID 3c80862f-248c-4026-b4d0-2e9d81a6b41b with nextest profile: default
+    Starting 1 test across 1 binary (153 tests skipped)
+        PASS [   0.019s] (1/1) viola-e2e harness::secret_scan::tests::secret_scan_skips_the_mutation_diff_only_at_its_path
+────────────
+     Summary [   0.019s] 1 test run: 1 passed, 153 skipped
+
+exit 0

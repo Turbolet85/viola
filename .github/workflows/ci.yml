@@ -112,7 +112,10 @@ jobs:
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: harness-${{ matrix.os }}
-          path: target/agent-run/
+          # The secret scan skips the mutation leg's diff (repository source), so it never ships.
+          path: |
+            target/agent-run/
+            !target/agent-run/chunk.diff
           retention-days: 7
           if-no-files-found: warn
       - name: Upload JUnit
@@ -138,7 +141,8 @@ jobs:
         run: bash scripts/agent-run.sh gate --require coverage,doctest
 
   # One leg per OS: cargo-mutants cannot compile another OS's #[cfg] bodies, so each leg misses
-  # them; mutants-verdict judges the union (a mutant is red only if no leg caught it).
+  # them; mutants-verdict judges each mutant only on the legs that compile its line (read from the
+  # source's #[cfg]s; every leg when none does): red when none of them caught it and one missed it.
   mutants:
     name: mutants (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
@@ -160,10 +164,11 @@ jobs:
       - uses: taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5 # v2.87.19
         with:
           tool: cargo-nextest@0.9.146,cargo-mutants@27.1.0
-      - name: Mutation leg (chunk diff)
+      # The harness derives the base from the master route's history (the last flip before the
+      # chunk's first operator pre-CI commit), so every push of an operator pass mutates the whole chunk.
+      - name: Mutation leg (whole chunk)
         shell: bash
         env:
-          AGENT_RUN_CHUNK_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
           LEG: ${{ matrix.os }}
         run: bash scripts/agent-run.sh run --mutants --leg "$LEG"
       # Names and outcomes only: cargo-mutants' raw output carries absolute argv paths and test output.

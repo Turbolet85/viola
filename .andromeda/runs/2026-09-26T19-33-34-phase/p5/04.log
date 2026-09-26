@@ -1,0 +1,36 @@
+   Compiling viola v0.1.0 (D:\dev\projects\viola)
+   Compiling viola-e2e v0.1.0 (D:\dev\projects\viola\crates\viola-e2e)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.55s
+────────────
+ Nextest run ID 09abbef8-5ea3-4bee-82c3-57e5a8441afe with nextest profile: ci
+    Starting 0 tests across 7 binaries (248 tests and 15 binaries skipped)
+────────────
+     Summary [   0.001s] 0 tests run: 0 passed, 248 skipped
+error: no tests to run
+(hint: use `--no-tests` to customize)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.10s
+   Doc-tests viola_agent_claude
+   Doc-tests viola_core
+   Doc-tests viola_e2e
+   Doc-tests viola_pty
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+{"v":1,"cmd":"run","ok":false,"suites":[{"suite":"nextest-unit","passed":0,"failed":1,"skipped":0,"survived":0,"artifact":"D:\\dev\\projects\\viola\\target\\agent-run\\artifacts\\junit-nextest-unit.xml","failures":["nextest-exit-4"]},{"suite":"doctest","passed":0,"failed":0,"skipped":0,"survived":0,"artifact":null,"failures":[]}]}

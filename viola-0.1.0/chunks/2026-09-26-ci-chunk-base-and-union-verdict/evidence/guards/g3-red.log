@@ -1,0 +1,33 @@
+$ cargo nextest run -p viola-e2e --lib --no-fail-fast -E test(=harness::gate::tests::union_by_compiled_legs_clears_the_recorded_breach)
+   Compiling viola-e2e v0.1.0 (D:\dev\projects\viola\crates\viola-e2e)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.30s
+────────────
+ Nextest run ID 0df46229-10e6-4035-aa63-24cc3d08ac79 with nextest profile: default
+    Starting 1 test across 1 binary (153 tests skipped)
+        FAIL [   0.019s] (1/1) viola-e2e harness::gate::tests::union_by_compiled_legs_clears_the_recorded_breach
+  stdout ───
+
+    running 1 test
+    test harness::gate::tests::union_by_compiled_legs_clears_the_recorded_breach ... FAILED
+
+    failures:
+
+    failures:
+        harness::gate::tests::union_by_compiled_legs_clears_the_recorded_breach
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 153 filtered out; finished in 0.01s
+
+  stderr ───
+
+    thread 'harness::gate::tests::union_by_compiled_legs_clears_the_recorded_breach' (8832) panicked at crates\viola-e2e\src\harness\gate.rs:517:9:
+    assertion `left == right` failed: {"v":1,"cmd":"gate","ok":false,"breaches":[{"gate":"mutants","suite":"mutants","detail":"crates/viola-pty/src/lib.rs:395:9: replace HostTerminal::enter -> Option<Self> with Some(Default::default())"},{"gate":"mutants","suite":"mutants","detail":"crates/viola-pty/src/lib.rs:420:9: replace HostTerminal::enter -> Option<Self> with Some(Default::default())"}]}
+      left: 1
+     right: 0
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+────────────
+     Summary [   0.020s] 1 test run: 0 passed, 1 failed, 153 skipped
+        FAIL [   0.019s] (1/1) viola-e2e harness::gate::tests::union_by_compiled_legs_clears_the_recorded_breach
+error: test run failed
+
+exit 100

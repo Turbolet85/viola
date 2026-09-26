@@ -191,7 +191,7 @@ fn gate_cmd(
         None => None,
     };
     let artifacts = artifacts.unwrap_or_else(|| ws.artifacts());
-    emit(gate(&artifacts, &require, legs.as_deref()))
+    emit(gate(&artifacts, &ws.root, &require, legs.as_deref()))
 }
 
 fn main() -> ExitCode {
