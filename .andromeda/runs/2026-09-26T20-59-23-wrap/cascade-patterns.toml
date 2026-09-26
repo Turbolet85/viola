@@ -1,0 +1,51 @@
+# Retired claims of this pass (2026-09-26-ci-chunk-base-and-union-verdict): the event-derived CI base,
+# the outcome-only union, the whole-capture secret-scan scope, the per-push-diff concurrency reason.
+
+[[pattern]]
+id = "ev-before"
+fixed = "github.event.before"
+
+[[pattern]]
+id = "ev-pr-base"
+fixed = "pull_request.base.sha"
+
+[[pattern]]
+id = "sets-base-env"
+regex = 'sets `?AGENT_RUN_CHUNK_BASE'
+
+[[pattern]]
+id = "env-example"
+fixed = "(e.g. `AGENT_RUN_CHUNK_BASE`)"
+
+[[pattern]]
+id = "diff-base-reg"
+fixed = "the mutation gate's diff base, read by"
+
+[[pattern]]
+id = "no-leg-caught"
+regex = 'no leg (reports `?caught`?|caught it)'
+
+[[pattern]]
+id = "red-only-no-leg"
+regex = 'red only (when|if) no leg'
+
+[[pattern]]
+id = "scan-every-file"
+fixed = "every file under `target/agent-run/`"
+
+[[pattern]]
+id = "scan-capture-in"
+fixed = "the harness capture in `target/agent-run/`"
+
+[[pattern]]
+id = "scan-agent-star"
+fixed = "`target/agent-run/*`"
+
+[[pattern]]
+id = "upload-path"
+fixed = "path: target/agent-run/`"
+
+[[pattern]]
+id = "push-mut-diff"
+regex = "drop a push's|push's `--in-diff`"
+

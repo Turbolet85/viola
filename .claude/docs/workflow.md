@@ -7,7 +7,7 @@ _Extracted from architecture.md and project conventions by `/andromeda-setup-pro
 - **Commit format:** conventional commits (`feat:`, `fix:`, `chore:`, `refactor:`, `docs:`, `test:`, `perf:`, `build:`, `ci:`); wrap commits each chunk.
 - **Main branch:** `main`
 - **Never force push** to main; the version branch is pushed at every wrap commit (the remote matches local HEAD on exit).
-- **PRs:** CI runs on push and PR (`ci.yml`; `nightly.yml` runs the weekly advisory check and the 120 s-per-target fuzz time-box on `schedule` / `workflow_dispatch` from the default branch). The `mutants` legs (ubuntu-latest, windows-2025) diff against `AGENT_RUN_CHUNK_BASE` = the PR base sha, or else the push's `github.event.before` (this project pushes one build branch, so the push trigger is what fires per chunk). The `mutants-verdict` job gates their union. No `concurrency:` block, so no push's run is cancelled.
+- **PRs:** CI runs on push and PR (`ci.yml`; `nightly.yml` runs the weekly advisory check and the 120 s-per-target fuzz time-box on `schedule` / `workflow_dispatch` from the default branch). The `mutants` legs (ubuntu-latest, windows-2025) diff the whole chunk against a base the harness derives from git history — the last master flip before the chunk's oldest operator pre-CI commit — so every push of an operator pass, fix pushes included, re-reads the whole chunk (this project pushes one build branch, so the push trigger is what fires per chunk). CI passes no `github.event` value. The `mutants-verdict` job gates their union, judging each mutant only by the legs whose `#[cfg]`s compile its line. No `concurrency:` block, so no push's run is cancelled.
 
 ## Andromeda workflow
 

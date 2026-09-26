@@ -1,0 +1,9 @@
+
+## 2026-09-26-ci-chunk-base-and-union-verdict — chunk.diff out of the canary scan and the harness upload; ci.yml reads no event value
+**Section:** Dependency Security → CI integration (event-payload `env:` rule; declined `concurrency-limits` reason) · Bootstrap phases → `secret-scanning-ci-gate` · Secret Management → Secret scanning in CI
+**Change:**
+- The canary scan covers the harness capture except the mutation leg's `target/agent-run/chunk.diff` (repository source text by construction); the `harness-<os>` upload drops the same file, so it is never scanned and never uploaded; a `chunk.diff` elsewhere is still scanned. The two admissible-by-content unscanned uploads are unchanged.
+- The event-payload rule stays; its example is retired: `ci.yml` reads no `github.event` value, the mutation base is derived by the harness, `AGENT_RUN_CHUNK_BASE` is only a local override.
+- The declined-concurrency reason keeps the `always()` gate/upload chain and retires the "drop a push's `--in-diff` mutation diff" half.
+**Why:** chunk 2026-09-26-ci-chunk-base-and-union-verdict report Symbols/APIs, Harness / gate surface, Counts (`ci.yml` `github.event` 1 → 0), Expected amendments (security-plan). The :340 example was flagged by the doc-agent outside its detectors and raised by the orchestrator (check 5); :331 was found by the cascade sweep (cross-master restatement of the architecture reason).
+**Sweep:** the test-plan entry's 12 patterns; security-plan rows :331, :340, :386, :430–:438 amended; no other hit. Leaves: `docs/security-summary.md` and `rules/security.md` state neither the scan scope nor the base (0 hits) — no change. Fanned 2 proposals (D-security-auth, 1 `dependent-of`) + 2 orchestrator-raised, all applied with text re-derived from the report; D-security-deps (syn/proc-macro2 exact pins, MIT OR Apache-2.0, deny four-green) and D-security-input found no drift.

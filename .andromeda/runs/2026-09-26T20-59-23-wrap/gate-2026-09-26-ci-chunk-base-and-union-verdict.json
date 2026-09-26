@@ -1,0 +1,456 @@
+[
+{
+"tool": "gate",
+"v": "1.2",
+"sha8": "fab316fd",
+"ts": "2026-09-26T21:25:06Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-09-26-ci-chunk-base-and-union-verdict/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-26T20-59-23-wrap",
+"--marker",
+"2026-09-26-ci-chunk-base-and-union-verdict"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\viola · marker 2026-09-26-ci-chunk-base-and-union-verdict · entries 17",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-26-ci-chunk-base-and-union-verdict\\wrap-2026-09-26T20-59-23 · bound: GNU timeout",
+"delta docs 41",
+"prose L157-163: The gates run on this Windows host during /implement. The Rust delta is harness-only (`vio… (688 chars)",
+"prose L165-166: The remove-the-guard runs (step 10) mutate source and revert, so they are ONE-SHOT runs at… (225 chars)",
+"prose L168-171: The witness replay (`gate … --artifacts …run-36165685381/artifacts`) reads run 36165685381… (377 chars)",
+"  1 lint        green · exit 0 · 0.34s · 0 B → 1.log · cargo fmt --all --check",
+"  2 lint        green · exit 0 · 0.39s · 72 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 unit        green · exit 0 · 9.69s · 31420 B → 3.log · bash scripts/agent-run.sh run --unit",
+"  4 unit        green · exit 0 · 2.58s · 3411 B → 4.log · bash scripts/agent-run.sh run --unit --filter 'test(/chunk… (107 chars)",
+"  5 probe       green · exit 0 · 4.04s · 45 B → 5.log · bash scripts/agent-run.sh gate --require mutants --mutants… (170 chars)",
+"  6 integration green · exit 0 · 23.85s · 13687 B → 6.log · AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --int… (66 chars)",
+"  7 integration green · exit 0 · 558.47s · 10692 B → 7.log · bash scripts/agent-run.sh run --mutants",
+"  8 probe       green · exit 0 · 0.1s · 3 B → 8.log · grep -c -F '?t=' target/agent-run/chunk.diff",
+"  9 probe       green · exit 0 · 42.81s · 113 B → 9.log · bash scripts/agent-run.sh secret-scan",
+" 10 probe       green · exit 1 · 0.1s · 2 B → 10.log · grep -c 'github\\.event' .github/workflows/ci.yml",
+" 11 probe       green · exit 0 · 0.06s · 2 B → 11.log · grep -c -F '!target/agent-run/chunk.diff' .github/workflow… (66 chars)",
+" 12 probe       green · exit 0 · 0.12s · 388 B → 12.log · zizmor --format=plain .github/workflows/",
+" 13 probe       green · exit 0 · 1.05s · 5511 B → 13.log · cargo deny check",
+" 14 build       green · exit 0 · 0.27s · 72 B → 14.log · RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv cargo c… (116 chars)",
+" 15 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (82 chars)",
+" 16 probe       not run — leg operator (the letter drives it) · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (129 chars)",
+" 17 probe       not run — leg operator (the letter drives it) · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (160 chars)",
+"entries 17 · green 14 · red 0 · recorded 0 · timeout 0 · not-run 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-26-ci-chunk-base-and-union-verdict",
+"plan": "D:\\dev\\projects\\viola\\viola-0.1.0\\chunks\\2026-09-26-ci-chunk-base-and-union-verdict\\plan.md",
+"root": "D:\\dev\\projects\\viola",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-26-ci-chunk-base-and-union-verdict\\wrap-2026-09-26T20-59-23",
+"delta": {
+"docs": [
+".andromeda/architecture-amendments.md",
+".andromeda/architecture.md",
+".andromeda/friction-log.ndjson",
+".andromeda/obs-plan-amendments.md",
+".andromeda/obs-plan.md",
+".andromeda/security-plan-amendments.md",
+".andromeda/security-plan.md",
+".andromeda/state.yaml",
+".andromeda/test-plan-amendments.md",
+".andromeda/test-plan.md",
+".claude/docs/commands.md",
+".claude/docs/stack.md",
+".claude/docs/tests-summary.md",
+".claude/docs/workflow.md",
+".claude/rules/host-win32.md",
+".claude/rules/testing.md",
+".claude/rules/verification-harness.md",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-09-26T20-59-23-wrap/.raw-fanout-architecture.md",
+".andromeda/runs/2026-09-26T20-59-23-wrap/.raw-fanout-obs-plan.md",
+".andromeda/runs/2026-09-26T20-59-23-wrap/.raw-fanout-security-plan.md",
+".andromeda/runs/2026-09-26T20-59-23-wrap/.raw-fanout-test-plan.md",
+".andromeda/runs/2026-09-26T20-59-23-wrap/architecture-entry.md",
+".andromeda/runs/2026-09-26T20-59-23-wrap/cascade-2026-09-26-ci-chunk-base-and-union-verdict.json",
+".andromeda/runs/2026-09-26T20-59-23-wrap/cascade-patterns.toml",
+".andromeda/runs/2026-09-26T20-59-23-wrap/code-graph-refresh.log",
+".andromeda/runs/2026-09-26T20-59-23-wrap/curation.md",
+".andromeda/runs/2026-09-26T20-59-23-wrap/fanout-results.md",
+".andromeda/runs/2026-09-26T20-59-23-wrap/light-gate.out",
+".andromeda/runs/2026-09-26T20-59-23-wrap/obs-plan-entry.md",
+".andromeda/runs/2026-09-26T20-59-23-wrap/pins-after.txt",
+".andromeda/runs/2026-09-26T20-59-23-wrap/pins.txt",
+".andromeda/runs/2026-09-26T20-59-23-wrap/route-no-marker.json",
+".andromeda/runs/2026-09-26T20-59-23-wrap/security-plan-entry.md",
+".andromeda/runs/2026-09-26T20-59-23-wrap/splice-2026-09-26-ci-chunk-base-and-union-verdict.json",
+".andromeda/runs/2026-09-26T20-59-23-wrap/sweep-1.out",
+".andromeda/runs/2026-09-26T20-59-23-wrap/sweep-2.out",
+".andromeda/runs/2026-09-26T20-59-23-wrap/test-plan-entry.md",
+"viola-0.1.0/chunks/2026-09-26-ci-chunk-base-and-union-verdict/evidence/operator-pass.md",
+"viola-0.1.0/chunks/2026-09-26-ci-chunk-base-and-union-verdict/report.md"
+]
+},
+"unmapped": [],
+"prose": [
+{
+"from": 157,
+"to": 163,
+"text": "The gates run on this Windows host during /implement. The Rust delta is harness-only (`viola-e2e`) plus manifests and `ci.yml`; no product crate changes and no gate defers. There is no boot smoke: this chunk changes no boot path and no harness lifecycle verb, so the harness lifecycle is not re-driven here (the CI `test` jobs drive it on every push). Order matters twice: - `run --integration` keeps the homes that `secret-scan` needs, or the scan reads `empty-scope`. - `run --mutants` precedes `secret-scan`, so the scan runs over a live `target/agent-run/chunk.diff`. This chunk's diff   touches `secret_scan.rs`, which holds `?t=`; the probe between them proves the residue is there."
+},
+{
+"from": 165,
+"to": 166,
+"text": "The remove-the-guard runs (step 10) mutate source and revert, so they are ONE-SHOT runs at implement, never entries. Both readings of each go to `evidence/guards/`, and the `run --unit` entries guard every property on re-run."
+},
+{
+"from": 168,
+"to": 171,
+"text": "The witness replay (`gate … --artifacts …run-36165685381/artifacts`) reads run 36165685381's two recorded leg files against HEAD's tree. `crates/viola-pty/src/lib.rs` is byte-identical to the 17ea8c7 tree those files were cut from (`git diff --stat 17ea8c7 HEAD -- crates/viola-pty/src/lib.rs`: empty). CI's ubuntu leg and the union are read by the operator entries at the end."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-26-ci-chunk-base-and-union-verdict\\wrap-2026-09-26T20-59-23\\1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.34,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-26-ci-chunk-base-and-union-verdict\\wrap-2026-09-26T20-59-23\\2.log",
+"bytes": 72,
+"log_sha8": "f4403412",
+"exit": 0,
+"seconds": 0.39,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-26-ci-chunk-base-and-union-verdict\\wrap-2026-09-26T20-59-23\\3.log",
+"bytes": 31420,
+"log_sha8": "24c182cf",
+"exit": 0,
+"seconds": 9.69,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"run\",\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/chunk_base_|compiled_legs_|skips_the_mutation_diff/)' ",
+"run_sha8": "3af35661",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-26-ci-chunk-base-and-union-verdict\\wrap-2026-09-26T20-59-23\\4.log",
+"bytes": 3411,
+"log_sha8": "6ebe4ac3",
+"exit": 0,
+"seconds": 2.58,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"run\",\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "probe",
+"run": "bash scripts/agent-run.sh gate --require mutants --mutants-legs ubuntu-latest,windows-2025 --artifacts .andromeda/runs/2026-09-26T19-33-34-phase/run-36165685381/artifacts",
+"run_sha8": "3c1eb598",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"gate\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-26-ci-chunk-base-and-union-verdict\\wrap-2026-09-26T20-59-23\\5.log",
+"bytes": 45,
+"log_sha8": "916126be",
+"exit": 0,
+"seconds": 4.04,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"gate\",\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "integration",
+"run": "AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --integration",
+"run_sha8": "130402e2",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-26-ci-chunk-base-and-union-verdict\\wrap-2026-09-26T20-59-23\\6.log",
+"bytes": 13687,
+"log_sha8": "935daeb8",
+"exit": 0,
+"seconds": 23.85,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"run\",\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --mutants",
+"run_sha8": "2986e919",
+"expect": [
+"exit 0",
+"contains \"verdict\":\"counted\"",
+"contains \"base\":\"fcca1ce",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-26-ci-chunk-base-and-union-verdict\\wrap-2026-09-26T20-59-23\\7.log",
+"bytes": 10692,
+"log_sha8": "d69dc37b",
+"exit": 0,
+"seconds": 558.47,
+"readings": [
+"exit 0 ✓",
+"contains '\"verdict\":\"counted\"' ✓",
+"contains '\"base\":\"fcca1ce' ✓",
+"contains '\"cmd\":\"run\",\"ok\":true' ✓",
+"artifact fresh (target/agent-run/chunk.diff)"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "grep -c -F '?t=' target/agent-run/chunk.diff",
+"run_sha8": "ce1c219c",
+"expect": [
+"exit 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-26-ci-chunk-base-and-union-verdict\\wrap-2026-09-26T20-59-23\\8.log",
+"bytes": 3,
+"log_sha8": "7ea9844a",
+"exit": 0,
+"seconds": 0.1,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "bash scripts/agent-run.sh secret-scan",
+"run_sha8": "57dd664b",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"secret-scan\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-26-ci-chunk-base-and-union-verdict\\wrap-2026-09-26T20-59-23\\9.log",
+"bytes": 113,
+"log_sha8": "1ddb89e4",
+"exit": 0,
+"seconds": 42.81,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"secret-scan\",\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "grep -c 'github\\.event' .github/workflows/ci.yml",
+"run_sha8": "dba94ab3",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-26-ci-chunk-base-and-union-verdict\\wrap-2026-09-26T20-59-23\\10.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.1,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "grep -c -F '!target/agent-run/chunk.diff' .github/workflows/ci.yml",
+"run_sha8": "b07aa945",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-26-ci-chunk-base-and-union-verdict\\wrap-2026-09-26T20-59-23\\11.log",
+"bytes": 2,
+"log_sha8": "4355a46b",
+"exit": 0,
+"seconds": 0.06,
+"readings": [
+"exit 0 ✓",
+"last line '1' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "zizmor --format=plain .github/workflows/",
+"run_sha8": "0f3c1c47",
+"expect": [
+"exit 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-26-ci-chunk-base-and-union-verdict\\wrap-2026-09-26T20-59-23\\12.log",
+"bytes": 388,
+"log_sha8": "01a25b9b",
+"exit": 0,
+"seconds": 0.12,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": [
+"exit 0",
+"contains advisories ok, bans ok, licenses ok, sources ok"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-26-ci-chunk-base-and-union-verdict\\wrap-2026-09-26T20-59-23\\13.log",
+"bytes": 5511,
+"log_sha8": "ea330bab",
+"exit": 0,
+"seconds": 1.05,
+"readings": [
+"exit 0 ✓",
+"contains 'advisories ok, bans ok, licenses ok, sources ok' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "build",
+"run": "RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv cargo check --workspace --all-targets --features viola/fake-agent",
+"run_sha8": "635d1615",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-26-ci-chunk-base-and-union-verdict\\wrap-2026-09-26T20-59-23\\14.log",
+"bytes": 72,
+"log_sha8": "fecede7c",
+"exit": 0,
+"seconds": 0.27,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin build/viola-0.1.0",
+"run_sha8": "32523c62",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD)/check-runs --jq '[.check_runs[] | .conclusion] | unique | join(\",\")' ",
+"run_sha8": "4d78cf7d",
+"expect": [
+"exit 0",
+"last line success"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD)/check-runs --jq '[.check_runs[] | select(.name | startswith(\"mutants\")) | .conclusion] | join(\",\")' ",
+"run_sha8": "a45521f5",
+"expect": [
+"exit 0",
+"last line success,success,success"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+}
+]

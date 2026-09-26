@@ -328,7 +328,7 @@ _[ALL tiers]_
 **CI integration** (`.github/workflows/ci.yml`, `.github/workflows/nightly.yml`):
 - Job 4 (ubuntu) runs `cargo deny check` over all four check families, and fails the build on any advisory, yanked crate or unknown source. It covers the root `Cargo.lock` only. The same job then audits `fuzz/Cargo.lock` for advisories and sources in its own step (see the `fuzz/` exemption above).
 - A separate workflow, `nightly.yml` (weekly `schedule:` cron + `workflow_dispatch`, no cache), runs `cargo deny check advisories` and `cargo deny --manifest-path fuzz/Cargo.toml check advisories`, because the advisory DB changes without code changes (the default `maximum-db-staleness` is P90D). Its second job, `fuzz`, installs `cargo-fuzz@0.13.2` with `cargo install --locked`, runs each target for 120 s on the `fuzz/rust-toolchain.toml` nightly, and uploads `fuzz/artifacts/` on failure.
-- The workflows carry no `concurrency:` block. zizmor's pedantic `concurrency-limits` (2 low findings) was declined on 2026-09-24 and stays visible: a concurrency group cancels pending runs even with `cancel-in-progress: false`, which would drop a push's `--in-diff` mutation diff and its `always()` gate and upload chain. The default persona, which CI runs, does not report it.
+- The workflows carry no `concurrency:` block. zizmor's pedantic `concurrency-limits` (2 low findings) was declined on 2026-09-24 and stays visible: a concurrency group cancels pending runs even with `cancel-in-progress: false`, which would drop a cancelled run's `always()` gate and upload chain. (Every mutation run now covers the whole chunk from the harness-derived base, so a cancelled run no longer loses mutation coverage; that half of the original reason is retired.) The default persona, which CI runs, does not report it.
 - `zizmor .github/workflows/` runs on the ubuntu leg and fails on unpinned actions, `excessive-permissions`, template injection and cache poisoning.
 - Actions are pinned by full commit SHA (the set `ci.yml` uses; SHAs resolved 2026-09-24 via `gh api repos/{repo}/commits/{tag}`):
   - `actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1` (with `persist-credentials: false`)
@@ -337,7 +337,7 @@ _[ALL tiers]_
   - `actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1`
   - `actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1` (the `mutants-verdict` job; resolved 2026-09-24 via `gh api repos/actions/download-artifact/git/ref/tags/v8.0.1`)
 - Toolchains come from `rustup toolchain install` steps: `rust-toolchain.toml`, `fuzz/rust-toolchain.toml` (run in `working-directory: fuzz`, in the fuzz jobs) and `1.96` in the `msrv` job (selected with `RUSTUP_TOOLCHAIN=1.96`). No toolchain action is used.
-- A value from the event payload reaches a step only through `env:` (e.g. `AGENT_RUN_CHUNK_BASE`), never through `${{ }}` inside `run:`.
+- A value from the event payload reaches a step only through `env:`, never through `${{ }}` inside `run:`. Today `ci.yml` reads no `github.event` value at all: the mutation base is derived by the harness from git history, and `AGENT_RUN_CHUNK_BASE` is only a local override.
 - Workflow-level `permissions: {}` and job-level `contents: read`.
 - Optionally, enable GitHub's Actions policy for SHA pinning on the repository.
 
@@ -383,7 +383,7 @@ combine, setup-project may add stack-specific intermediate steps.
   - Add the `MAX_FRAME` const and the `Read::take` wrappers on every external reader.
 - **dep-audit-tooling-install:** cargo-deny `>=0.20.2` with the `deny.toml` `[advisories]`, `[sources]` and `[[bans.features]]` additions; zizmor `>=1.30.1`. cargo-audit `>=0.22.2` is deferred to v1.x binary scans.
 - **secret-management-init:** N/A for stored secrets (none in v1). Only the GUI per-launch token file `<viola home>/ui/<port>.url` (0600) and its cleanup on shutdown.
-- **secret-scanning-ci-gate:** No repo secret scanner in v1. There are no secrets in the repo or CI, and no scanner was researched (see the Decisions Log). The CI `test` job does run obs-plan §9's artifact canary scan: `viola-harness secret-scan` over test-home diagnostics, the harness capture and the nextest JUnit report, checked against this plan's NEVER-log floor. It never prints or writes the matched bytes, and every scan-gated upload (`diag-`, `junit-`, `harness-<os>`) waits for it to pass. The `mutants.out/` upload is removed: `outcomes.json` held absolute argv paths and `log/` held test output. Two uploads leave CI unscanned, admissible by content (operator ratification 2026-09-24):
+- **secret-scanning-ci-gate:** No repo secret scanner in v1. There are no secrets in the repo or CI, and no scanner was researched (see the Decisions Log). The CI `test` job does run obs-plan §9's artifact canary scan: `viola-harness secret-scan` over test-home diagnostics, the harness capture except the mutation leg's `target/agent-run/chunk.diff`, and the nextest JUnit report, checked against this plan's NEVER-log floor. That one file is repository source text by construction (it trips `?t=` whenever it touches the scan's own patterns), so it is skipped by exact path and the `harness-<os>` upload drops it (`!target/agent-run/chunk.diff`): it is never scanned and never uploaded, and a `chunk.diff` anywhere else under the capture is still scanned. It never prints or writes the matched bytes, and every scan-gated upload (`diag-`, `junit-`, `harness-<os>`) waits for it to pass. The `mutants.out/` upload is removed: `outcomes.json` held absolute argv paths and `log/` held test output. Two uploads leave CI unscanned, admissible by content (operator ratification 2026-09-24):
   - each mutants leg's `mutants-verdict-<os>.json`, harness-authored, holding repo-relative source locations and outcomes only: never an absolute path, an argv, a log path or test output;
   - the nightly `fuzz` job's `fuzz/artifacts/` on failure: crash inputs the fuzzer mutated from the committed synthetic corpus. A non-synthetic corpus seed must first drop that upload. `.gitignore` excludes any local `--home` test directories so recorded state never lands in git.
 - **error-sanitization-wire:**
@@ -435,7 +435,7 @@ What CI does run is the obs-owned artifact canary scan (`viola-harness secret-sc
 - the content canary, which fails only in home-level role files;
 - a non-`0600` diagnostics file, Unix only.
 
-It never prints or writes the matched bytes, and the test-home uploads run only when it succeeds.
+It reads every file under `target/agent-run/` except the mutation leg's `target/agent-run/chunk.diff`, which is skipped by exact path and excluded from the `harness-<os>` upload, so it is never uploaded. It never prints or writes the matched bytes, and the test-home uploads run only when it succeeds.
 
 **Rotation cadence:**
 - **API keys / DB passwords:** N/A.

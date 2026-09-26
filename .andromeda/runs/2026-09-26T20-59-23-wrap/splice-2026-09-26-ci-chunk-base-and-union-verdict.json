@@ -1,0 +1,158 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "72c4f8a5",
+"ts": "2026-09-26T21:11:13Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-26T20-59-23-wrap/test-plan-entry.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-09-26T20-59-23-wrap",
+"--marker",
+"2026-09-26-ci-chunk-base-and-union-verdict"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+10 at line 232 · lines 231→241 · bytes 28190→31127 · term lf",
+"last line now: **Sweep:** `cascade.py sweep` over 12 patterns (`github.event.before` · `pull_r"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 231,
+"bytes": 28190,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 241,
+"bytes": 31127
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "72c4f8a5",
+"ts": "2026-09-26T21:11:14Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-26T20-59-23-wrap/architecture-entry.md",
+"--lines",
+"12",
+"--run-dir",
+".andromeda/runs/2026-09-26T20-59-23-wrap",
+"--marker",
+"2026-09-26-ci-chunk-base-and-union-verdict"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+12 at line 209 · lines 208→220 · bytes 30612→32949 · term lf",
+"last line now: **Sweep:** the test-plan entry's 12 patterns; architecture rows :364 (edited, tr"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 208,
+"bytes": 30612,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 220,
+"bytes": 32949
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "72c4f8a5",
+"ts": "2026-09-26T21:11:14Z",
+"argv": [
+"append",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-26T20-59-23-wrap/obs-plan-entry.md",
+"--lines",
+"8",
+"--run-dir",
+".andromeda/runs/2026-09-26T20-59-23-wrap",
+"--marker",
+"2026-09-26-ci-chunk-base-and-union-verdict"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append obs-plan-amendments.md:+8 at line 103 · lines 102→110 · bytes 13823→15673 · term lf",
+"last line now: **Sweep:** the test-plan entry's 12 patterns; obs-plan rows :1206, :1240, :1253,"
+],
+"stderr": null,
+"wrote": [
+".andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 102,
+"bytes": 13823,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 110,
+"bytes": 15673
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "72c4f8a5",
+"ts": "2026-09-26T21:11:14Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-26T20-59-23-wrap/security-plan-entry.md",
+"--lines",
+"9",
+"--run-dir",
+".andromeda/runs/2026-09-26T20-59-23-wrap",
+"--marker",
+"2026-09-26-ci-chunk-base-and-union-verdict"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+9 at line 128 · lines 127→136 · bytes 15582→17486 · term lf",
+"last line now: **Sweep:** the test-plan entry's 12 patterns; security-plan rows :331, :340, :38"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 127,
+"bytes": 15582,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 136,
+"bytes": 17486
+}
+}
+]
