@@ -6,6 +6,14 @@ on:
 
 permissions: {}
 
+# The Node pin: the official release's SHASUMS256.txt values. scripts/install-node.sh parses these
+# lines (CI on every OS and the WSL pre-push provisioning), so this is their only home.
+env:
+  NODE_PIN_VERSION: "24.21.0"
+  NODE_PIN_SHA256_LINUX_X64: "fd8e59d5a511510f6a298afb548f18c7d2b1be404d8b4a27d94fbe49f56cb2d6"
+  NODE_PIN_SHA256_DARWIN_ARM64: "bed7eea5325e1108f32ce5228ddd6a5f0f08a499ee42aa7442aea583702f6057"
+  NODE_PIN_SHA256_WIN_X64: "158f7685b44de51f6c0df1d153526cbcd3e1bc739a8dfc607721cef75de9e541"
+
 jobs:
   test:
     name: test (${{ matrix.os }})
@@ -70,6 +78,44 @@ jobs:
           bash scripts/agent-run.sh cleanup --session ci-smoke
           bash scripts/agent-run.sh cleanup --session ci-smoke
 
+      # The browser pipe: Node from the sha256-pinned official build (no toolchain Action), Playwright from
+      # the committed lockfile, its Chromium per OS. No npm or browser cache (test-plan §12).
+      - name: Node (pinned)
+        shell: bash
+        run: |
+          case "$RUNNER_OS" in
+            Windows) key=win-x64 ;;
+            macOS) key=darwin-arm64 ;;
+            *) key=linux-x64 ;;
+          esac
+          bash scripts/install-node.sh "$key" "$RUNNER_TEMP/node" > "$RUNNER_TEMP/install-node.txt"
+          cat "$RUNNER_TEMP/install-node.txt"
+          bin=$(sed -n 's/^install-node: //p' "$RUNNER_TEMP/install-node.txt")
+          test -n "$bin"
+          test "$("$bin/node" --version | tr -d '\r')" = "v$NODE_PIN_VERSION"
+          (cd "$bin" && { pwd -W 2>/dev/null || pwd; }) >> "$GITHUB_PATH"
+      - name: Browser suite dependencies (npm ci)
+        shell: bash
+        run: npm ci --prefix e2e-web
+      - name: Chromium (with system deps)
+        if: runner.os == 'Linux'
+        shell: bash
+        run: npx --no --prefix e2e-web playwright install --with-deps chromium
+      - name: Chromium
+        if: runner.os != 'Linux'
+        shell: bash
+        run: npx --no --prefix e2e-web playwright install chromium
+      - name: Browser suite (pwsh shim)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          ./scripts/agent-run.ps1 run --browser
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Browser suite (sh shim)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: bash scripts/agent-run.sh run --browser
+
       # obs-plan §9 step order: G2 and G4 over the kept homes, the failure capture, the secret scan,
       # then uploads only behind a clean scan (a bare always()/failure() would upload after a hit).
       - name: Gate tools present
@@ -123,7 +169,9 @@ jobs:
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: junit-${{ matrix.os }}
-          path: target/nextest/ci/junit.xml
+          path: |
+            target/nextest/ci/junit.xml
+            target/agent-run/artifacts/junit-playwright.xml
           retention-days: 7
           if-no-files-found: warn
       - name: Upload secret-scan hit report
@@ -138,7 +186,7 @@ jobs:
       - name: Gate verdict
         if: always()
         shell: bash
-        run: bash scripts/agent-run.sh gate --require coverage,doctest
+        run: bash scripts/agent-run.sh gate --require coverage,doctest,playwright
 
   # One leg per OS: cargo-mutants cannot compile another OS's #[cfg] bodies, so each leg misses
   # them; mutants-verdict judges each mutant only on the legs that compile its line (read from the
@@ -385,6 +433,22 @@ jobs:
         run: |
           mkdir -p target/supply-chain
           cargo deny --manifest-path fuzz/Cargo.toml --format json check advisories sources 2> target/supply-chain/deny-fuzz.json || { cat target/supply-chain/deny-fuzz.json; exit 1; }
+      # e2e-web/package-lock.json is outside both cargo graphs: its own advisories and sources audit.
+      # The JSON stays in target/npm-audit/, out of the unscanned supply-chain upload.
+      - name: Node (pinned)
+        shell: bash
+        run: |
+          bash scripts/install-node.sh linux-x64 "$RUNNER_TEMP/node" > "$RUNNER_TEMP/install-node.txt"
+          cat "$RUNNER_TEMP/install-node.txt"
+          bin=$(sed -n 's/^install-node: //p' "$RUNNER_TEMP/install-node.txt")
+          test -n "$bin"
+          test "$("$bin/node" --version)" = "v$NODE_PIN_VERSION"
+          echo "$bin" >> "$GITHUB_PATH"
+      - name: npm lockfile audit (advisories, sources)
+        shell: bash
+        run: |
+          jq --version
+          bash scripts/npm-audit.sh || { cat target/npm-audit/audit.json; exit 1; }
       - name: Tokio ban per sync crate (sole root)
         shell: bash
         run: |

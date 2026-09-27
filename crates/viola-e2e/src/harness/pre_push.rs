@@ -270,7 +270,7 @@ mod tests {
     use crate::harness::read_json;
 
     pub(super) const HOME: &str = "/home/tester";
-    const CI_LINE: &str = "      - uses: x\n        with:\n          tool: cargo-nextest@0.9.146,cargo-mutants@27.1.0,cargo-llvm-cov@0.9.1\n";
+    pub(super) const CI_LINE: &str = "env:\n  NODE_PIN_VERSION: \"24.21.0\"\n      - uses: x\n        with:\n          tool: cargo-nextest@0.9.146,cargo-mutants@27.1.0,cargo-llvm-cov@0.9.1\n";
 
     pub(super) fn same(path: &Path) -> Option<String> {
         Some(path.to_string_lossy().into_owned())
@@ -407,11 +407,13 @@ mod tests {
                 .on(&["nextest --version"], 0, "cargo-nextest 0.9.146 (x)\n")
                 .on(&["mutants --version"], 0, "cargo-mutants 27.1.0\n")
                 .on(&["llvm-cov --version"], 0, "cargo-llvm-cov 0.9.1\n")
+                .on(&["node --version"], 0, "v24.21.0\n")
                 .on(&["rev-parse HEAD"], 0, "h1\n")
                 .on(&["rev-parse FETCH_HEAD"], 0, "h1\n")
                 .on(&["write-tree"], 0, "t1\n")
                 .on(&["du -sb"], 0, "10\t/x\n")
                 .on(&["run --coverage"], 0, &green_doc("coverage"))
+                .on(&["run --browser"], 0, &green_doc("playwright"))
                 .on(
                     &["gate --require coverage,doctest"],
                     0,

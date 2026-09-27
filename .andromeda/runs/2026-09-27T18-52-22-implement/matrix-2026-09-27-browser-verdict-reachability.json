@@ -1,0 +1,49 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "3bf0941b",
+"ts": "2026-09-27T19:28:56Z",
+"argv": [
+"implement",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-09-27-browser-verdict-reachability",
+"--id",
+"v1-08",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-27T18-52-22-implement"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"implement v1-08 · status planned → implemented · ref viola-0.1.0/chunks/2026-09-27-browser-verdict-reachability/evidence/code-graph-p… (206 chars)",
+"wrote viola-0.1.0\\verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0\\verification-matrix.json"
+],
+"before": {
+"id": "v1-08",
+"chunk": "2026-09-27-browser-verdict-reachability",
+"status": "planned",
+"method": "manual",
+"ref": "null",
+"acceptance": "After setup the code-graph health check is green (health.py check 11 ✓, read at this chunk's session start with planes r… (686 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-08",
+"chunk": "2026-09-27-browser-verdict-reachability",
+"status": "implemented",
+"method": "manual",
+"ref": "viola-0.1.0/chunks/2026-09-27-browser-verdict-reachability/evidence/code-graph-planes.md (gate entries 32-34: tree-refre… (206 chars)",
+"acceptance": "After setup the code-graph health check is green (health.py check 11 ✓, read at this chunk's session start with planes r… (686 chars)",
+"notes_chars": 0
+}
+}
+]

@@ -217,19 +217,20 @@ fn run_refuses_a_stale_name(booted_wrapper: Wrapper) {
         assert!(ok.success(), "kill {sig}");
     };
     signal("-STOP");
-    let deadline = Instant::now() + Duration::from_secs(10);
+    let watch = support::watch::Watch::start("stat");
+    let deadline = Instant::now() + support::watch::WITHIN;
     loop {
         let stat = Command::new("ps")
             .args(["-o", "stat=", "-p", &pid])
             .output()
             .expect("ps");
-        if String::from_utf8_lossy(&stat.stdout)
-            .trim_start()
-            .starts_with('T')
-        {
+        let text = String::from_utf8_lossy(&stat.stdout);
+        let state = text.trim_start();
+        if state.starts_with('T') {
             break;
         }
-        assert!(Instant::now() < deadline, "wrapper never stopped");
+        watch.note(&format!("stat {}", state.chars().next().unwrap_or('-')));
+        watch.deadline_check(deadline, "wrapper never stopped");
         std::thread::yield_now();
     }
     fs::File::options()

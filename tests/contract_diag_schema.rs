@@ -7,13 +7,14 @@ mod support;
 use std::io::Write as _;
 use std::path::Path;
 use std::process::{Command, Stdio};
-use std::time::{Duration, Instant};
+use std::time::Instant;
 
 use rstest::rstest;
 use serde_json::{Value, json};
 use support::fake::FAKE;
 use support::home::{TestHome, VIOLA, home, workspace_path};
 use support::hygiene::load_schema;
+use support::watch::{WITHIN, Watch};
 
 /// test-plan §3 Log format + obs-plan D-01…D-05; `a11y-violation` is a harness-only row.
 const LOG_FORMAT_EVENTS: [&str; 19] = [
@@ -241,29 +242,35 @@ fn run_lines(home: &Path, program: &str, config: Option<&str>) -> Vec<Value> {
         .spawn()
         .expect("viola runs");
     // Ctrl-C only once the child's terminal is raw (its `start` receipt): sooner, it is swallowed.
-    let deadline = Instant::now() + Duration::from_secs(10);
+    let watch = Watch::start("raw");
+    let deadline = Instant::now() + WITHIN;
     loop {
-        if child.try_wait().expect("try_wait").is_some() {
+        let exited = child.try_wait().expect("try_wait").is_some();
+        if exited {
             break;
         }
-        if std::fs::read_to_string(&receipt)
+        let started = std::fs::read_to_string(&receipt)
             .unwrap_or_default()
-            .contains("\"kind\":\"start\"")
-        {
+            .contains("\"kind\":\"start\"");
+        if started {
             if let Some(stdin) = child.stdin.as_mut() {
                 let _ = stdin.write_all(b"\x03");
             }
             break;
         }
-        assert!(
-            Instant::now() < deadline,
-            "the wrapped program never started"
-        );
+        watch.note(&format!("start receipt {started} exited {exited}"));
+        watch.deadline_check(deadline, "the wrapped program never started");
         std::thread::yield_now();
     }
-    let deadline = Instant::now() + Duration::from_secs(10);
-    while child.try_wait().expect("try_wait").is_none() {
-        assert!(Instant::now() < deadline, "viola never exited");
+    let watch = Watch::start("exit");
+    let deadline = Instant::now() + WITHIN;
+    loop {
+        let exited = child.try_wait().expect("try_wait").is_some();
+        if exited {
+            break;
+        }
+        watch.note(&format!("exited {exited}"));
+        watch.deadline_check(deadline, "viola never exited");
         std::thread::yield_now();
     }
     support::ndjson::read_lines(&home.join("diagnostics").join("run-builder.ndjson"))

@@ -19,6 +19,9 @@ const CLONE_DIR: &str = "viola-pre-push";
 /// disk, and outside the tree a scratch copy is made from.
 const SCRATCH_DIR: &str = "viola-pre-push-scratch";
 
+/// Where `scripts/wsl-provision.sh` installs ci.yml's pinned Node, under the distro user's home.
+const NODE_BIN: &str = ".local/viola-node/bin";
+
 /// The distro side: its user's home, the clone and the mutation scratch under it. Never printed.
 pub(super) struct Linux {
     home: String,
@@ -42,6 +45,7 @@ impl Linux {
     /// `--exec` passes argv verbatim (the `--` form re-parses it through the distro shell), and
     /// `env -i` hands the child only HOME, a Linux PATH and the `env` assignments named here: the
     /// distro PATH carries the Windows one, and nothing of this process's environment crosses.
+    /// Every PATH component is a constant under the distro home or a system dir.
     fn cmd_env(&self, cd: Option<&str>, env: &[String], argv: &[&str]) -> Command {
         let mut cmd = Command::new(WSL);
         cmd.args(["-d", DISTRO]);
@@ -51,8 +55,8 @@ impl Linux {
         cmd.args(["--exec", "/usr/bin/env", "-i"])
             .arg(format!("HOME={}", self.home))
             .arg(format!(
-                "PATH={}/.cargo/bin:/usr/local/bin:/usr/bin:/bin",
-                self.home
+                "PATH={home}/.cargo/bin:{home}/{NODE_BIN}:/usr/local/bin:/usr/bin:/bin",
+                home = self.home
             ))
             .args(env)
             .args(argv);
@@ -99,6 +103,16 @@ pub fn ci_pins(ci_yml: &str) -> Option<Vec<(String, String)>> {
         .collect()
 }
 
+/// The workflow-level `NODE_PIN_VERSION` in ci.yml: the one version source of Node, which
+/// `scripts/install-node.sh` parses the same way.
+pub fn node_pin(ci_yml: &str) -> Option<String> {
+    ci_yml
+        .lines()
+        .filter_map(|l| l.strip_prefix("  NODE_PIN_VERSION:"))
+        .map(|v| v.trim().trim_matches('"').to_owned())
+        .find(|v| !v.is_empty())
+}
+
 /// The last non-empty stdout line, when it is a harness document.
 pub fn last_document(stdout: &str) -> Option<Value> {
     stdout
@@ -119,8 +133,8 @@ pub(super) fn distro_home(runner: &mut Runner<'_>) -> Result<String, Stop> {
         .ok_or_else(|| Stop::new("tool-missing", "wsl-distro-ubuntu"))
 }
 
-/// The C linker, then every tool at its pin: `rust-toolchain.toml`'s channel and ci.yml's test-job
-/// tool line, never a version written here.
+/// The C linker, then every tool at its pin: `rust-toolchain.toml`'s channel, ci.yml's test-job
+/// tool line and its Node pin, never a version written here.
 pub(super) fn tools(ws: &Workspace, linux: &Linux, runner: &mut Runner<'_>) -> Result<(), Stop> {
     if out(runner, linux.cmd(None, &["cc", "--version"])).is_none() {
         return Err(Stop::new("tool-missing", "cc"));
@@ -130,10 +144,10 @@ pub(super) fn tools(ws: &Workspace, linux: &Linux, runner: &mut Runner<'_>) -> R
         .ok()
         .and_then(|toml| fuzz_channel(&toml))
         .ok_or_else(unreadable)?;
-    let pins = fs::read_to_string(ws.root.join(".github").join("workflows").join("ci.yml"))
-        .ok()
-        .and_then(|yml| ci_pins(&yml))
-        .ok_or_else(unreadable)?;
+    let yml = fs::read_to_string(ws.root.join(".github").join("workflows").join("ci.yml"))
+        .map_err(|_| unreadable())?;
+    let pins = ci_pins(&yml).ok_or_else(unreadable)?;
+    let node = node_pin(&yml).ok_or_else(unreadable)?;
     let toolchain = format!("+{channel}");
     let mut wanted = vec![("rustc".to_owned(), channel.clone())];
     wanted.extend(pins);
@@ -152,6 +166,12 @@ pub(super) fn tools(ws: &Workspace, linux: &Linux, runner: &mut Runner<'_>) -> R
         if version != Some(pin.as_str()) {
             return Err(Stop::new("tool-pin-mismatch", name));
         }
+    }
+    let Some(text) = out(runner, linux.cmd(None, &["node", "--version"])) else {
+        return Err(Stop::new("tool-missing", "node"));
+    };
+    if text.trim() != format!("v{node}") {
+        return Err(Stop::new("tool-pin-mismatch", "node"));
     }
     Ok(())
 }
@@ -318,7 +338,8 @@ pub(super) fn leg(doc: &Value) -> Value {
     out
 }
 
-/// `run --coverage` then `gate --require coverage,doctest`: the ubuntu test job's own suites.
+/// `run --coverage`, `run --browser`, then `gate --require coverage,doctest,playwright`: the ubuntu
+/// test job's own suites.
 pub(super) fn linux_tests(
     linux: &Linux,
     runner: &mut Runner<'_>,
@@ -329,10 +350,15 @@ pub(super) fn linux_tests(
     if !ok(&run) {
         return Ok(false);
     }
+    let browser = linux_harness(linux, &[], &["run", "--browser"], runner)?;
+    doc.linux.insert("browser".to_owned(), summary(&browser));
+    if !ok(&browser) {
+        return Ok(false);
+    }
     let gate = linux_harness(
         linux,
         &[],
-        &["gate", "--require", "coverage,doctest"],
+        &["gate", "--require", "coverage,doctest,playwright"],
         runner,
     )?;
     doc.linux.insert("gate".to_owned(), summary(&gate));
@@ -394,6 +420,91 @@ mod tests {
         assert_eq!(pins, want.to_vec());
         assert_eq!(ci_pins("tool: cargo-nextest@1,cargo-mutants@2\n"), None);
         assert_eq!(ci_pins("tool: cargo-nextest@1,cargo-llvm-cov\n"), None);
+    }
+
+    #[test]
+    fn pre_push_node_pin_reads_the_workflow_env_line() {
+        let root = Workspace::from_build().root;
+        let yml = fs::read_to_string(root.join(".github/workflows/ci.yml")).expect("ci.yml");
+        assert_eq!(node_pin(&yml).as_deref(), Some("24.21.0"));
+        assert_eq!(
+            node_pin("env:\n  NODE_PIN_VERSION: 1.2.3\n").as_deref(),
+            Some("1.2.3")
+        );
+        assert_eq!(
+            node_pin("    NODE_PIN_VERSION: \"1.2.3\"\n"),
+            None,
+            "job level"
+        );
+        assert_eq!(node_pin("  NODE_PIN_VERSION: \"\"\n"), None);
+        assert_eq!(node_pin("  NODE_PIN_SHA256_WIN_X64: \"ab\"\n"), None);
+    }
+
+    #[test]
+    fn pre_push_node_missing_or_off_pin_is_named() {
+        let absent = Fake::new().on(&["node --version"], 127, "");
+        let absent = stopped(absent, "tool-missing", Some("node"), "tools");
+        assert!(
+            absent
+                .calls
+                .last()
+                .is_some_and(|c| c.ends_with("node --version"))
+        );
+        let other = Fake::new().on(&["node --version"], 0, "v24.20.0\n");
+        stopped(other, "tool-pin-mismatch", Some("node"), "tools");
+        let (_tmp, ws) = pinned();
+        fs::write(
+            ws.root.join(".github/workflows/ci.yml"),
+            super::super::tests::CI_LINE.replace("  NODE_PIN_VERSION", "    NODE_PIN_VERSION"),
+        )
+        .expect("ci");
+        let mut fake = Fake::new().green("b", "caught");
+        let out = drive(&ws, &mut fake);
+        assert_eq!(out.doc["reason"], "tool-pin-mismatch");
+        assert_eq!(out.doc["detail"], "pins-unreadable");
+    }
+
+    #[test]
+    fn pre_push_linux_browser_red_stops_before_the_gate() {
+        let (_tmp, ws) = pinned();
+        let red = "{\"v\":1,\"cmd\":\"run\",\"ok\":false,\"reason\":\"browser-missing\",\
+                   \"suites\":[{\"suite\":\"playwright\",\"passed\":0,\"failed\":1,\"skipped\":0,\
+                   \"survived\":0,\"artifact\":null,\"failures\":[\"chromium-missing\"]}]}\n";
+        let mut fake = Fake::new()
+            .on(&["run --browser"], 1, red)
+            .green("b", "caught");
+        let out = drive(&ws, &mut fake);
+        assert_eq!(out.doc["stage"], "linux-tests");
+        assert_eq!(out.doc["linux"]["browser"]["reason"], "browser-missing");
+        assert_eq!(
+            out.doc["linux"]["browser"]["suites"][0]["failures"][0],
+            "chromium-missing"
+        );
+        assert!(out.doc["linux"].get("gate").is_none());
+        assert!(!fake.calls.iter().any(|c| c.contains("gate --require")));
+        assert!(!fake.calls.iter().any(|c| c.contains("--mutants")));
+    }
+
+    #[test]
+    fn pre_push_linux_tests_run_coverage_browser_then_the_playwright_gate() {
+        let (_tmp, ws) = pinned();
+        let mut fake = Fake::new().green("b", "caught");
+        let out = drive(&ws, &mut fake);
+        let at = |needle: &str| {
+            fake.calls
+                .iter()
+                .position(|c| c.ends_with(needle))
+                .unwrap_or_else(|| panic!("{needle} in {:?}", fake.calls))
+        };
+        let coverage = at("bash scripts/agent-run.sh run --coverage");
+        let browser = at("bash scripts/agent-run.sh run --browser");
+        let gate = at("bash scripts/agent-run.sh gate --require coverage,doctest,playwright");
+        assert!(coverage < browser && browser < gate, "{:?}", fake.calls);
+        assert_eq!(
+            out.doc["linux"]["browser"]["suites"][0]["suite"],
+            "playwright"
+        );
+        assert_eq!(out.doc["linux"]["gate"]["ok"], true, "{}", out.doc);
     }
 
     #[test]
@@ -514,8 +625,8 @@ mod tests {
         let wipe = at(&format!("rm -rf {scratch}"));
         let make = at(&format!("mkdir -m 700 {scratch}"));
         let leg = at(&format!(
-            ".cargo/bin:/usr/local/bin:/usr/bin:/bin TMPDIR={scratch} bash scripts/agent-run.sh \
-             run --mutants --leg ubuntu-latest"
+            ".cargo/bin:{HOME}/.local/viola-node/bin:/usr/local/bin:/usr/bin:/bin TMPDIR={scratch} \
+             bash scripts/agent-run.sh run --mutants --leg ubuntu-latest"
         ));
         assert!(wipe < make && make < leg, "{:?}", fake.calls);
         let coverage = at("bash scripts/agent-run.sh run --coverage");

@@ -8,8 +8,9 @@ use std::time::{Duration, Instant};
 
 use serde_json::{Value, json};
 
+use super::watch::{WITHIN, Watch};
+
 pub const FAKE: &str = env!("CARGO_BIN_EXE_viola-fake-agent");
-const WAIT_WITHIN: Duration = Duration::from_secs(10);
 
 pub fn control_path(home: &Path, name: &str) -> PathBuf {
     home.join("fake").join(format!("{name}.control"))
@@ -41,15 +42,32 @@ pub fn of_kind<'a>(lines: &'a [Value], kind: &str) -> Vec<&'a Value> {
     lines.iter().filter(|l| l["kind"] == kind).collect()
 }
 
-/// Waits until `pred` holds over the receipt; panics at the deadline.
+/// The receipt's kinds in first-seen order: codes only, never a line's content.
+fn kinds(lines: &[Value]) -> String {
+    let mut seen: Vec<&str> = Vec::new();
+    for kind in lines.iter().filter_map(|l| l["kind"].as_str()) {
+        if !seen.contains(&kind) {
+            seen.push(kind);
+        }
+    }
+    seen.join(",")
+}
+
+/// Waits until `pred` holds over the receipt; panics at the deadline with the watch report.
 pub fn wait_for(path: &Path, what: &str, pred: impl Fn(&[Value]) -> bool) -> Vec<Value> {
-    let deadline = Instant::now() + WAIT_WITHIN;
+    let watch = Watch::start("receipt");
+    let deadline = Instant::now() + WITHIN;
     loop {
         let lines = receipt(path);
         if pred(&lines) {
             return lines;
         }
-        assert!(Instant::now() < deadline, "timed out waiting for {what}");
+        watch.note(&format!(
+            "receipt lines {} kinds {}",
+            lines.len(),
+            kinds(&lines)
+        ));
+        watch.deadline_check(deadline, &format!("timed out waiting for {what}"));
         std::thread::yield_now();
     }
 }

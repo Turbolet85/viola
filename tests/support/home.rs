@@ -12,11 +12,9 @@ use sysinfo::{Pid, ProcessStatus, ProcessesToUpdate, System};
 
 use super::fake;
 use super::outer_pty::{EXIT_WITHIN, OuterPty};
+use super::watch::{WITHIN, Watch};
 
 pub const VIOLA: &str = env!("CARGO_BIN_EXE_viola");
-/// Below cargo-mutants' 20 s auto-timeout floor, so a mutant that never gets ready is caught, not
-/// graded Timeout; readiness itself takes milliseconds.
-const READY_WITHIN: Duration = Duration::from_secs(10);
 
 /// Keep a test's home for the CI gates (`AGENT_RUN_KEEP_HOMES=1`) or for a failing test's
 /// post-mortem (`AGENT_RUN_KEEP_FAILED=1`); remove it otherwise.
@@ -219,19 +217,28 @@ impl Wrapper {
     /// receipt is written once the agent's terminal is raw, so no key sent after this is
     /// swallowed. A wrapper that exits first fails at once (`run-exited`).
     fn wait_ready(&mut self, before: &Starts) {
-        let deadline = Instant::now() + READY_WITHIN;
+        let watch = Watch::start("ready");
+        let deadline = Instant::now() + WITHIN;
         loop {
             let now = Starts::read(self.home(), &self.name);
             let started = now.wrapper > before.wrapper
                 && now.child > before.child
                 && now.receipt > before.receipt;
-            if started && snapshot_ready(&self.instance_dir()) && beat_fresh(&self.instance_dir()) {
+            // Read in the predicate's short-circuit order: an early read of `snapshot.json` holds it
+            // open while the wrapper replaces it, which Windows refuses (viola_state::fs).
+            let snapshot = started && snapshot_ready(&self.instance_dir());
+            let beat = snapshot && beat_fresh(&self.instance_dir());
+            if started && snapshot && beat {
                 return;
             }
+            watch.note(&format!(
+                "starts w{} c{} r{} snapshot {snapshot} beat {beat}",
+                now.wrapper, now.child, now.receipt
+            ));
             if let Some(code) = self.pty.try_wait() {
                 panic!("wrapper {} exited before ready: {code}", self.name);
             }
-            assert!(Instant::now() < deadline, "wrapper {} not ready", self.name);
+            watch.deadline_check(deadline, &format!("wrapper {} not ready", self.name));
             std::thread::yield_now();
         }
     }

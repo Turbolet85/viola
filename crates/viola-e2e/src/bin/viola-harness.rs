@@ -86,6 +86,8 @@ struct RunArgs {
     #[arg(long)]
     fuzz_replay: bool,
     #[arg(long)]
+    browser: bool,
+    #[arg(long)]
     all: bool,
     #[arg(long)]
     filter: Option<String>,
@@ -150,6 +152,7 @@ fn run_cmd(ws: &Workspace, args: RunArgs) -> ExitCode {
         mutants: args.mutants,
         coverage: args.coverage,
         fuzz_replay: args.fuzz_replay,
+        browser: args.browser,
         files: args.files,
     };
     emit(run_with(

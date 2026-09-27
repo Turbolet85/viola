@@ -7,16 +7,14 @@ use std::ffi::OsString;
 use std::io::Write as _;
 use std::path::{Path, PathBuf};
 use std::process::{Child, Command, Output, Stdio};
-use std::time::{Duration, Instant};
+use std::time::Instant;
 
 use rstest::rstest;
 use serde_json::Value;
 use support::fake::FAKE;
 use support::home::{TestHome, VIOLA, home};
 use support::outer_pty::{EXIT_WITHIN, OuterPty};
-
-/// Below cargo-mutants' 20 s auto-timeout floor.
-const READY_WITHIN: Duration = Duration::from_secs(10);
+use support::watch::{WITHIN, Watch};
 
 /// A receipt outside the home (the home must stay viola's to create) and the args that ask the
 /// fake agent for it; other programs get no receipt argument.
@@ -33,21 +31,21 @@ fn receipt_args(program: &str) -> (tempfile::TempDir, Vec<OsString>) {
 /// True once the fake agent's terminal is raw (its `start` receipt); false if `exited` first.
 fn wait_raw(dir: &tempfile::TempDir, mut exited: impl FnMut() -> bool) -> bool {
     let receipt = dir.path().join("r.ndjson");
-    let deadline = Instant::now() + READY_WITHIN;
+    let watch = Watch::start("raw");
+    let deadline = Instant::now() + WITHIN;
     loop {
-        if std::fs::read_to_string(&receipt)
+        let started = std::fs::read_to_string(&receipt)
             .unwrap_or_default()
-            .contains("\"kind\":\"start\"")
-        {
+            .contains("\"kind\":\"start\"");
+        if started {
             return true;
         }
-        if exited() {
+        let gone = exited();
+        watch.note(&format!("start receipt {started} exited {gone}"));
+        if gone {
             return false;
         }
-        assert!(
-            Instant::now() < deadline,
-            "the wrapped program never started"
-        );
+        watch.deadline_check(deadline, "the wrapped program never started");
         std::thread::yield_now();
     }
 }
@@ -259,15 +257,22 @@ fn run_self_exit_carries_duration_ms(#[from(home)] tmp: TestHome, #[from(home)] 
         .spawn()
         .expect("viola runs");
     let role = home.join("diagnostics").join("run-builder.ndjson");
-    let deadline = std::time::Instant::now() + std::time::Duration::from_secs(10);
-    while !std::fs::read_to_string(&role)
-        .unwrap_or_default()
-        .contains("\"subject\":\"claude-child\"")
-    {
+    let watch = Watch::start("claude-child");
+    let deadline = std::time::Instant::now() + WITHIN;
+    loop {
+        let text = std::fs::read_to_string(&role).unwrap_or_default();
+        let line = text.contains("\"subject\":\"claude-child\"");
+        if line {
+            break;
+        }
+        watch.note(&format!(
+            "claude-child line {line} role bytes {}",
+            text.len()
+        ));
         if let Some(status) = child.try_wait().expect("try_wait") {
             panic!("wrapper exited before the child started: {status}");
         }
-        assert!(std::time::Instant::now() < deadline, "child never started");
+        watch.deadline_check(deadline, "child never started");
         std::thread::yield_now();
     }
     // A known lower bound: the wrapper is still running across this observation window.

@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.4",
+"sha8": "1c775680",
+"ts": "2026-09-27T18:22:52Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-09-27-browser-verdict-reachability",
+"--expect-prefix",
+"Browser verdict reachability",
+"--record-file",
+".andromeda/runs/2026-09-27T18-21-09-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-09-27T18-21-09-phase"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:45 - [2026-09-27-browser-verdict-reachability]",
+"record master-route.md:27 - appended under `## viola-0.1.0`",
+"promoted 2026-09-27-browser-verdict-reachability - working-route:45 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+".\\viola-0.1.0\\working-route.md",
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+}
+]

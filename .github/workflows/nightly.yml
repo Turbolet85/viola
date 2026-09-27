@@ -29,6 +29,29 @@ jobs:
           cargo deny check advisories
           cargo deny --manifest-path fuzz/Cargo.toml check advisories
 
+  npm-advisories:
+    name: npm-advisories
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Node (pinned)
+        shell: bash
+        run: |
+          bash scripts/install-node.sh linux-x64 "$RUNNER_TEMP/node" > "$RUNNER_TEMP/install-node.txt"
+          cat "$RUNNER_TEMP/install-node.txt"
+          bin=$(sed -n 's/^install-node: //p' "$RUNNER_TEMP/install-node.txt")
+          test -n "$bin"
+          echo "$bin" >> "$GITHUB_PATH"
+      - name: Advisories (npm audit, e2e-web lockfile)
+        shell: bash
+        run: |
+          jq --version
+          bash scripts/npm-audit.sh --advisories-only || { cat target/npm-audit/audit.json; exit 1; }
+
   fuzz:
     name: fuzz
     runs-on: ubuntu-latest

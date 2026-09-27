@@ -1,19 +1,26 @@
 #!/usr/bin/env bash
 # Provisions the Linux toolchain the local pre-push gate (`agent-run.sh pre-push`) runs in WSL2
-# `Ubuntu`: rustup, the `rust-toolchain.toml` channel with llvm-tools, and the cargo tools at the
-# exact versions ci.yml's `test` job pins. Runs INSIDE the distro, from a checkout of this repo, as
-# the ordinary user. Pins are read from rust-toolchain.toml and ci.yml, never restated here, so a CI
-# pin bump reads as `pin-mismatch` until re-provisioned. The C linker (`build-essential`) is a
-# system package this script never installs; it runs as root through `wsl -u root` beforehand.
-#   (no flag)  install what is missing or off-pin, then check
-#   --check    check only: print the pinned versions or name the first mismatch
-#   --probe    prove the checksum refusal and the pin-mismatch refusal fire, and the real pins pass
+# `Ubuntu`: rustup, the `rust-toolchain.toml` channel with llvm-tools, the cargo tools at the
+# exact versions ci.yml's `test` job pins, ci.yml's pinned Node (scripts/install-node.sh) and the
+# locked Playwright's Chromium. Runs INSIDE the distro, from a checkout of this repo, as the ordinary
+# user. Pins are read from rust-toolchain.toml and ci.yml, never restated here, so a CI pin bump
+# reads as `pin-mismatch` until re-provisioned. The C linker (`build-essential`) and Chromium's
+# system libraries are system packages the user run never installs: they run as root through
+# `wsl -u root` (the latter as `--install-deps`, after the user run), never through sudo.
+#   (no flag)                  install what is missing or off-pin, then check
+#   --check                    check only: print the pinned versions or name the first mismatch
+#   --probe                    prove the checksum refusals and the pin-mismatch refusal fire, and the
+#                              real pins pass
+#   --install-deps <user home> as uid 0 only: install the system libraries that user's provisioned
+#                              Playwright names for Chromium
 set -euo pipefail
 
 rustup_version=1.29.1
 rustup_sha=dda7234360b7f578ca8b0ddcb80145646fa61a67c1720a5abc7051b35c9fcb71
 root=$(cd "$(dirname "$0")/.." && pwd)
-export PATH="$HOME/.cargo/bin:/usr/local/bin:/usr/bin:/bin"
+node_dir=.local/viola-node
+web_dir=.cache/viola-provision/e2e-web
+export PATH="$HOME/.cargo/bin:$HOME/$node_dir/bin:/usr/local/bin:/usr/bin:/bin"
 
 need() {
   if ! command -v "$1" >/dev/null 2>&1; then
@@ -40,9 +47,15 @@ pins() {
     | sed 's/^[[:space:]]*tool:[[:space:]]*//' | tr ',' '\n' | tr -d ' \r'
 }
 
+# The workflow-level `NODE_PIN_VERSION` of a ci.yml (install-node.sh parses the same line).
+node_pin() {
+  sed -n 's/^  NODE_PIN_VERSION: *"\([^"]*\)".*/\1/p' "$1" | head -1 | tr -d '\r'
+}
+
 installed() {
   local out
   case "$1" in
+    node) out=$(node --version 2>/dev/null) || return 0; printf '%s\n' "${out#v}"; return 0 ;;
     rustc) out=$(cd "$root" && rustc --version 2>/dev/null) || return 0 ;;
     *) out=$(cd "$root" && cargo "${1#cargo-}" --version 2>/dev/null) || return 0 ;;
   esac
@@ -74,7 +87,13 @@ check() {
     fi
     line="$line $name $got"
   done <<< "$listed"
-  echo "$line"
+  pin=$(node_pin "$1")
+  got=$(installed node)
+  if [ -z "$pin" ] || [ "$got" != "$pin" ]; then
+    echo "pin-mismatch: node"
+    return 1
+  fi
+  echo "$line node v$got"
 }
 
 install_rustup() {
@@ -106,7 +125,35 @@ install_all() {
       (cd "$root" && cargo install --locked "$pin")
     fi
   done <<< "$(pins "$root/.github/workflows/ci.yml")"
+  bash "$root/scripts/install-node.sh" linux-x64 "$HOME/$node_dir"
+  node --version
+  # The lockfile installs in the distro's own scratch, never in a checkout: from /mnt/<drive> it
+  # would write Linux node_modules into the Windows tree (the pre-push clone runs its own npm ci).
+  mkdir -p "$HOME/$web_dir"
+  cp "$root/e2e-web/package.json" "$root/e2e-web/package-lock.json" "$HOME/$web_dir/"
+  (cd "$HOME/$web_dir" && npm ci && npx --no playwright install chromium)
   check "$root/.github/workflows/ci.yml"
+}
+
+# install_deps <user home>: as uid 0, the apt packages that user's locked Playwright names for
+# Chromium, printed (--dry-run) and then installed. `wsl -u root` is uid 0 with no password.
+install_deps() {
+  local home=$1 node cli
+  if [ "$(id -u)" -ne 0 ]; then
+    echo "wsl-provision: install-deps needs uid 0 (wsl.exe -d Ubuntu -u root)"
+    exit 2
+  fi
+  node="$home/$node_dir/bin/node"
+  cli="$home/$web_dir/node_modules/@playwright/test/cli.js"
+  if [ ! -x "$node" ] || [ ! -f "$cli" ]; then
+    echo "wsl-provision: install-deps needs the user provision first"
+    exit 1
+  fi
+  # The dry run lists the missing packages and exits non-zero while any is missing (measured:
+  # Playwright 1.63.0); the install below is the verdict.
+  PATH="$home/$node_dir/bin:/usr/sbin:/usr/bin:/sbin:/bin" "$node" "$cli" install-deps --dry-run chromium || true
+  PATH="$home/$node_dir/bin:/usr/sbin:/usr/bin:/sbin:/bin" "$node" "$cli" install-deps chromium
+  echo "wsl-provision: install-deps ok"
 }
 
 probe() {
@@ -121,23 +168,33 @@ probe() {
     refused=$((refused + 1))
   fi
   rm -rf "$tmp"
-  if [ "$refused" -ne 2 ]; then
-    echo "wsl-provision --probe: $refused/2 refused"
+  case "$(bash "$root/scripts/install-node.sh" --probe || true)" in
+    "install-node --probe: 1/1 refused, pins ok v"*) refused=$((refused + 1)) ;;
+  esac
+  if [ "$refused" -ne 3 ]; then
+    echo "wsl-provision --probe: $refused/3 refused"
     exit 1
   fi
   if ! check "$root/.github/workflows/ci.yml" >/dev/null; then
-    echo "wsl-provision --probe: 2/2 refused, control dirty"
+    echo "wsl-provision --probe: 3/3 refused, control dirty"
     exit 1
   fi
-  echo "wsl-provision --probe: 2/2 refused, control clean"
+  echo "wsl-provision --probe: 3/3 refused, control clean"
 }
 
 case "${1:-}" in
   "") install_all ;;
   --check) check "$root/.github/workflows/ci.yml" ;;
   --probe) probe ;;
+  --install-deps)
+    if [ $# -ne 2 ] || [ "${2#/}" = "$2" ]; then
+      echo "usage: $0 [--check|--probe|--install-deps <user home>]"
+      exit 2
+    fi
+    install_deps "$2"
+    ;;
   *)
-    echo "usage: $0 [--check|--probe]"
+    echo "usage: $0 [--check|--probe|--install-deps <user home>]"
     exit 2
     ;;
 esac

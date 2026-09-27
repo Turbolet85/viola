@@ -1,0 +1,130 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name IN ('run_with','linux_tests','test_suites','tool_arms','junit_suite') AND callee_kind = 'fn' ORDER BY callee_name, file, line;",
+"rows": 24,
+"result": [
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/coverage/",
+"file": "crates/viola-e2e/src/harness/run/coverage.rs",
+"line": 6
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/coverage/coverage().",
+"file": "crates/viola-e2e/src/harness/run/coverage.rs",
+"line": 45
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/nextest/nextest().",
+"file": "crates/viola-e2e/src/harness/run/nextest.rs",
+"line": 67
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/pre_push/",
+"file": "crates/viola-e2e/src/harness/pre_push.rs",
+"line": 19
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/pre_push/stages().",
+"file": "crates/viola-e2e/src/harness/pre_push.rs",
+"line": 155
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 crate/",
+"file": "crates/viola-e2e/src/bin/viola-harness.rs",
+"line": 13
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 run_cmd().",
+"file": "crates/viola-e2e/src/bin/viola-harness.rs",
+"line": 154
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/pre_push/",
+"file": "crates/viola-e2e/src/harness/pre_push.rs",
+"line": 13
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/pre_push/stages().",
+"file": "crates/viola-e2e/src/harness/pre_push.rs",
+"line": 184
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/pre_push/windows_tests().",
+"file": "crates/viola-e2e/src/harness/pre_push.rs",
+"line": 251
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/run().",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 90
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/coverage/tests/",
+"file": "crates/viola-e2e/src/harness/run/coverage.rs",
+"line": 70
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/coverage/tests/run_coverage().",
+"file": "crates/viola-e2e/src/harness/run/coverage.rs",
+"line": 110
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/fuzz/tests/",
+"file": "crates/viola-e2e/src/harness/run/fuzz.rs",
+"line": 94
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/fuzz/tests/run_fuzz_replay_refusals_reach_the_document().",
+"file": "crates/viola-e2e/src/harness/run/fuzz.rs",
+"line": 225
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants/tests/",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 227
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants/tests/run_mutants_test_only_delta_passes_by_name_without_running_cargo().",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 476
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants/tests/run_mutants_mixed_src_and_test_delta_without_outcomes_stays_outcomes_missing().",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 507
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants/tests/stub_run().",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 584
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants/tests/run_mutants_never_keeps_test_homes().",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 704
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants/tests/run_mutants_leg_no_rust_delta_writes_its_verdict().",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 749
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants/tests/run_mutants_leg_refused_clears_a_stale_verdict().",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 769
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/run_with().",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 126
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/run_with().",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 128
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

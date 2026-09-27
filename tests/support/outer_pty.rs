@@ -11,8 +11,10 @@ use std::time::{Duration, Instant};
 
 use viola_pty::{PortablePty, Pty as _, Size, SpawnSpec};
 
-/// Below cargo-mutants' 20 s auto-timeout floor (testing.md).
-pub const EXIT_WITHIN: Duration = Duration::from_secs(10);
+use super::watch::{WITHIN, Watch};
+
+/// The recorder's bound, below the nextest `mutants` kill (testing.md).
+pub const EXIT_WITHIN: Duration = WITHIN;
 
 pub struct OuterPty {
     pty: PortablePty,
@@ -85,14 +87,19 @@ impl OuterPty {
         self.exit
     }
 
-    /// The exit code within `within`; panics at the deadline.
+    /// The exit code within `within`; panics at the deadline with the watch report.
     pub fn wait_exit(&mut self, within: Duration) -> u32 {
+        let watch = Watch::start("exit");
         let deadline = Instant::now() + within;
         loop {
-            if let Some(code) = self.try_wait() {
+            let exit = self.try_wait();
+            let bytes = self.output.lock().expect("output").len();
+            let state = exit.map_or("none".to_owned(), |c| c.to_string());
+            watch.note(&format!("exit {state} output bytes {bytes}"));
+            if let Some(code) = exit {
                 return code;
             }
-            assert!(Instant::now() < deadline, "outer pty child never exited");
+            watch.deadline_check(deadline, "outer pty child never exited");
             std::thread::yield_now();
         }
     }
