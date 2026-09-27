@@ -32,6 +32,9 @@ const CLONE_DIR: &str = "viola-pre-push";
 /// disk, and outside the tree a scratch copy is made from.
 const SCRATCH_DIR: &str = "viola-pre-push-scratch";
 const LINUX_LEG: &str = "ubuntu-latest";
+/// The host stages' `CARGO_BUILD_JOBS` (half the host's 32 threads): fewer parallel rustc and link
+/// processes lower the memory peak — a hypothesis, measured per run.
+const HOST_BUILD_JOBS: &str = "16";
 const HOST_LEG: &str = "windows-2025";
 
 /// Why a stage stopped: a closed `reason` and an optional closed `detail`.
@@ -178,6 +181,7 @@ struct Doc {
     sync: Option<Value>,
     cache: Option<Value>,
     linux: Map<String, Value>,
+    vm: Option<Value>,
     windows: Map<String, Value>,
     legs: Map<String, Value>,
     gate: Option<Value>,
@@ -203,6 +207,9 @@ impl Doc {
         }
         if !self.linux.is_empty() {
             doc["linux"] = Value::Object(self.linux);
+        }
+        if let Some(vm) = self.vm {
+            doc["vm"] = vm;
         }
         if !self.windows.is_empty() {
             doc["windows"] = Value::Object(self.windows);
@@ -249,6 +256,13 @@ fn stages(
     if !tests? {
         return Ok(false);
     }
+    doc.stage = "vm-release";
+    doc.vm = Some(release_vm(runner));
+    let mut capped = |cmd: &mut Command| {
+        cmd.env("CARGO_BUILD_JOBS", HOST_BUILD_JOBS);
+        runner(cmd)
+    };
+    let runner: &mut Runner<'_> = &mut capped;
     doc.stage = "windows-tests";
     if !windows_tests(ws, runner, doc) {
         return Ok(false);
@@ -510,6 +524,33 @@ fn linux_tests(linux: &Linux, runner: &mut Runner<'_>, doc: &mut Doc) -> Result<
     Ok(ok(&gate))
 }
 
+/// The host's free physical memory in KiB, read from the OS; `None` when unreadable.
+fn host_free_kib(runner: &mut Runner<'_>) -> Option<u64> {
+    let mut cmd = Command::new("powershell.exe");
+    cmd.args([
+        "-NoProfile",
+        "-Command",
+        "(Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory",
+    ]);
+    out(runner, cmd).and_then(|text| text.trim().parse().ok())
+}
+
+/// The Linux side is done and its verdict is on the host: the VM is stopped so the host stages link
+/// with its memory back (measured: an idle VM kept ~21 GB while the host's links failed with
+/// 0xc0000142). Its ext4 disk, and the clone's build cache on it, survive.
+fn release_vm(runner: &mut Runner<'_>) -> Value {
+    let free_kib_before = host_free_kib(runner);
+    let mut terminate = Command::new(WSL);
+    terminate.args(["--terminate", DISTRO]);
+    let terminated = out(runner, terminate).is_some();
+    let free_kib_after = host_free_kib(runner);
+    json!({
+        "terminated": terminated,
+        "free_kib_before": free_kib_before,
+        "free_kib_after": free_kib_after,
+    })
+}
+
 /// `run --coverage` then `gate --require coverage,doctest` on this host: the windows test job's own
 /// suites and floors, before its mutation leg.
 fn windows_tests(ws: &Workspace, runner: &mut Runner<'_>, doc: &mut Doc) -> bool {
@@ -615,6 +656,8 @@ mod tests {
         answers: Vec<(Vec<String>, i32, String)>,
         calls: Vec<String>,
         claude_envs: usize,
+        /// Each host `cargo` call's `CARGO_BUILD_JOBS`, in call order.
+        cargo_jobs: Vec<Option<String>>,
         /// The host coverage run's stand-in, once `root` is known: what `cargo llvm-cov` leaves.
         host_coverage: Option<Coverage>,
         root: Option<PathBuf>,
@@ -635,6 +678,7 @@ mod tests {
                 answers: Vec::new(),
                 calls: Vec::new(),
                 claude_envs: 0,
+                cargo_jobs: Vec::new(),
                 host_coverage: None,
                 root: None,
             }
@@ -715,6 +759,7 @@ mod tests {
                 .on(&["--mutants --leg ubuntu-latest"], 0, &format!("{leg}\n"))
                 .on(&["cat "], 0, &verdict.to_string())
                 .on(&["cargo test --workspace --doc"], 0, DOCTEST_OK)
+                .on(&["FreePhysicalMemory"], 0, "1048576\n")
                 .host(coverage)
         }
 
@@ -729,6 +774,13 @@ mod tests {
                 .get_envs()
                 .filter(|(k, _)| k.to_string_lossy().starts_with("CLAUDE"))
                 .count();
+            if cmd.get_program() == "cargo" {
+                let jobs = cmd
+                    .get_envs()
+                    .find(|(k, _)| *k == "CARGO_BUILD_JOBS")
+                    .and_then(|(_, v)| v.map(|v| v.to_string_lossy().into_owned()));
+                self.cargo_jobs.push(jobs);
+            }
             self.calls.push(line.clone());
             if let Some(answer) = self.coverage(&line, last_arg.as_deref()) {
                 return answer;
@@ -768,6 +820,54 @@ mod tests {
 
     /// The windows test job's suites run on the host after the Linux leg and before the host leg,
     /// and their reduced documents sit under `windows`.
+    /// The VM is stopped only after the ubuntu verdict is on the host, and before any host stage;
+    /// the host's free memory is recorded on both sides of it.
+    #[test]
+    fn pre_push_stops_the_vm_after_the_copy_back_and_before_the_host_stages() {
+        let (_tmp, ws) = pinned();
+        let mut fake = Fake::new().green("b", "caught");
+        let out = drive(&ws, &mut fake);
+        let at = |needle: &str| {
+            fake.calls
+                .iter()
+                .position(|c| c.contains(needle))
+                .unwrap_or_else(|| panic!("{needle} in {:?}", fake.calls))
+        };
+        let copy_back = at("mutants-verdict-ubuntu-latest.json");
+        let terminate = at("wsl.exe --terminate Ubuntu");
+        let host = at("cargo llvm-cov nextest");
+        assert!(
+            copy_back < terminate && terminate < host,
+            "{:?}",
+            fake.calls
+        );
+        assert!(
+            !fake.calls[terminate + 1..]
+                .iter()
+                .any(|c| c.starts_with("wsl.exe -d")),
+            "the distro was used again after the stop"
+        );
+        assert_eq!(
+            out.doc["vm"],
+            json!({"terminated": true, "free_kib_before": 1_048_576, "free_kib_after": 1_048_576})
+        );
+    }
+
+    /// Every host cargo call of the host stages runs capped; the Linux side's harness calls are
+    /// WSL calls and carry no host cargo at all.
+    #[test]
+    fn pre_push_caps_the_host_stages_build_jobs() {
+        let (_tmp, ws) = pinned();
+        let mut fake = Fake::new().green("b", "caught");
+        drive(&ws, &mut fake);
+        assert!(!fake.cargo_jobs.is_empty());
+        assert!(
+            fake.cargo_jobs.iter().all(|j| j.as_deref() == Some("16")),
+            "{:?}",
+            fake.cargo_jobs
+        );
+    }
+
     #[test]
     fn pre_push_windows_tests_run_between_the_linux_leg_and_the_windows_leg() {
         let (_tmp, ws) = pinned();
@@ -1057,7 +1157,13 @@ mod tests {
         let mut fake = red_tests().green("b", "caught");
         drive(&ws, &mut fake);
         let clean = format!("--exec /usr/bin/env -i HOME={HOME} PATH={HOME}/.cargo/bin:");
-        let wsl: Vec<&String> = fake.calls.iter().filter(|c| c.starts_with(WSL)).collect();
+        // The one call that runs nothing inside the distro: stopping it (`release_vm`).
+        let terminate = "wsl.exe --terminate Ubuntu";
+        let wsl: Vec<&String> = fake
+            .calls
+            .iter()
+            .filter(|c| c.starts_with(WSL) && *c != terminate)
+            .collect();
         assert!(wsl.len() > 10, "{wsl:?}");
         for call in wsl {
             assert!(call.starts_with("wsl.exe -d Ubuntu "), "{call}");

@@ -28,6 +28,17 @@ and `method` at `diagnostics_level: "debug"`.
 - With the strict label: **green**. Unit cases `version_label_takes_version_strings_only` pin it
   (`canary-chain-value-5c1e`, `1.2.3-rc.1`, `1234567890.1.1` refused; `123456789.20.300` taken).
 
+## `pre-push` stops the VM before the host stages (`crates/viola-e2e/src/harness/pre_push.rs`)
+
+Guard: `release_vm` runs `wsl.exe --terminate Ubuntu` after the ubuntu verdict's copy-back and
+before any host stage (overseer direction after two host memory stops).
+Test: `pre_push::tests::pre_push_stops_the_vm_after_the_copy_back_and_before_the_host_stages`.
+
+- Neutralised (`out(runner, terminate)` replaced by `false`, confirmed by grep): **red** — `wsl.exe
+  --terminate Ubuntu in [...]`, the call list running from the copy-back `cat` and the `du` probes
+  straight into `cargo llvm-cov nextest` with no terminate.
+- Restored (grep: marker gone): **green**, the `pre_push` tests 29/29.
+
 ## E2: the wrapped child holds nothing of viola's (`tests/tui_channel_fds.rs`)
 
 All on Linux, in the pre-push WSL clone under `env -i`, on the working tree synced by a temp-index
