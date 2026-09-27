@@ -1,0 +1,1143 @@
+{
+ "links": [
+  {
+   "chunk": "2026-09-24-epoch-1-cleanup",
+   "consumer": "phase/take-up",
+   "consumer_line": 197,
+   "artifact": "handoff",
+   "why": "quality:thin host nextest 0.9.133 line stale; the operator's mid-run direction re-measured 0.9.146",
+   "producer": null,
+   "producer_line": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "producer_note": null
+  },
+  {
+   "chunk": "2026-09-24-epoch-1-cleanup",
+   "consumer": "phase/research",
+   "consumer_line": 200,
+   "artifact": "runs/2026-09-24T18-04-34-phase/a11y.md",
+   "why": "friction:input.extract-signal-gap",
+   "producer": null,
+   "producer_line": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "producer_note": null
+  },
+  {
+   "chunk": "2026-09-24-epoch-1-cleanup",
+   "consumer": "wrap-session/report",
+   "consumer_line": 208,
+   "artifact": "implement-outcome",
+   "why": "quality:thin implement's green was superseded: CI runs 36046091888 (stall) and 36118112104 (false-green windows swamp) led to two post-implement fixes (streaming+flags, cli.rs guard + swamp rule); the final basis is operator pass 4, run 36126924953",
+   "producer": "implement/smoke",
+   "producer_line": 207,
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "green"
+   ],
+   "producer_note": ""
+  },
+  {
+   "chunk": "2026-09-24-epoch-1-cleanup",
+   "consumer": "wrap-session/report",
+   "consumer_line": 208,
+   "artifact": "plan",
+   "why": "quality:thin plan's 'no contract changes / no expected amendments' superseded by the harness mutation-contract changes folded after implement",
+   "producer": "phase/validate",
+   "producer_line": 202,
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "baseline-matched-forecast"
+   ],
+   "producer_note": "viola-core mutation baseline read 4 missed / 8 caught, exactly the audit's 4 survivors; metrics entries red by absence; grep guards' known-positive controls each printed 0, exit 1"
+  },
+  {
+   "chunk": "2026-09-24-epoch-1-cleanup",
+   "consumer": "wrap-session/report",
+   "consumer_line": 209,
+   "artifact": "viola-0.1.0/chunks/2026-09-24-epoch-1-cleanup/report.md",
+   "why": "friction:input.implement-outcome-unsettled",
+   "producer": null,
+   "producer_line": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "producer_note": null
+  },
+  {
+   "chunk": "2026-09-24-epoch-1-cleanup",
+   "consumer": "wrap-session/reconcile",
+   "consumer_line": 210,
+   "artifact": "drift-base",
+   "why": "quality:thin no detector binds a harness contract changing in code while test-plan text lags; the test-plan agent filed 12 proposals under D-tests-obs-harness whose literal invariant held",
+   "producer": null,
+   "producer_line": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "producer_note": null
+  },
+  {
+   "chunk": "2026-09-25-security-prerequisites",
+   "consumer": "implement/fix-loop",
+   "consumer_line": 225,
+   "artifact": "plan",
+   "why": "quality:wrong step 4 carried a mistyped NIST 448-bit message literal; step 10 forecast a green counted mutation verdict for a test-target-only Rust delta, which test-plan §10's operator ruling makes red",
+   "producer": "phase/plan",
+   "producer_line": 221,
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:0bsd-licence-disposition",
+    "designed-dialogue:mit-copyright-holder",
+    "authority-resolved:research-measurement-over-security-extract-windows-targets",
+    "fence-parses-first-try"
+   ],
+   "producer_note": "27 gate entries, 9 acceptance criteria, v1-43 to be claimed at P5"
+  },
+  {
+   "chunk": "2026-09-25-security-prerequisites",
+   "consumer": "implement/fix-loop",
+   "consumer_line": 225,
+   "artifact": "research",
+   "why": "quality:thin closure left the 0-mutant verdict as an unmeasured hypothesis; the harness's outcomes-missing arm and test-plan:1790 were not read",
+   "producer": "phase/research",
+   "producer_line": 219,
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "graph-not-applicable",
+    "unresolved-questions",
+    "mechanism-measured"
+   ],
+   "producer_note": "scratch probe measured 7 SQOS open cases (A: spec path -> SecurityIdentification; no-SQOS control -> SecurityImpersonation) and ran repo deny.toml on the new graph; 2 open questions to P4"
+  },
+  {
+   "chunk": "2026-09-25-security-prerequisites",
+   "consumer": "wrap-session/reconcile",
+   "consumer_line": 232,
+   "artifact": "report",
+   "why": "quality:thin the report's Expected-amendments site list for the SHA-256 open-pick claim missed security-plan:265 (Data Protection); the security detector's own sweep found it",
+   "producer": "wrap-session/report",
+   "producer_line": 231,
+   "producer_outcome": "ok",
+   "producer_signals": [],
+   "producer_note": "all families from session knowledge; 3 extra reads were master-site greps for the expected-amendment basis lines"
+  },
+  {
+   "chunk": "2026-09-25-security-prerequisites",
+   "consumer": "wrap-session/reconcile",
+   "consumer_line": 234,
+   "artifact": "viola-0.1.0/chunks/2026-09-25-security-prerequisites/report.md",
+   "why": "friction:input.report-insufficient",
+   "producer": null,
+   "producer_line": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "producer_note": null
+  },
+  {
+   "chunk": "2026-09-25-security-prerequisites",
+   "consumer": "wrap-session/reconcile",
+   "consumer_line": 234,
+   "artifact": ".andromeda/security-plan.md:265",
+   "why": "friction:input.report-insufficient",
+   "producer": null,
+   "producer_line": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "producer_note": null
+  },
+  {
+   "chunk": "2026-09-25-pty-wrapper-on-windows",
+   "consumer": "implement/code",
+   "consumer_line": 254,
+   "artifact": "plan",
+   "why": "quality:thin step 2 prescribed a thiserror PtyError while the plan own dependency probe asserts viola-pty deps == [libc, portable-pty, windows-sys]; resolved by a hand-written Display/Error impl",
+   "producer": "phase/plan",
+   "producer_line": 249,
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:r8-strip-set",
+    "designed-dialogue:unix-raw-tty",
+    "designed-dialogue:viola-env-ownership",
+    "authority-resolved:a11y two-space refusal form yielded to design-system cli pattern 2 fixed-message form"
+   ],
+   "producer_note": "one AskUserQuestion round, 3 questions; R8 answered with a custom founder ruling (persistent-env exemption) outside the offered options; the plan adds an identity-floor guard to the ruling to hold the no-config-disables-a-control invariant, flagged for the P5 review; 365 lines, 12 steps, 12 criteria"
+  },
+  {
+   "chunk": "2026-09-25-pty-wrapper-on-windows",
+   "consumer": "implement/code",
+   "consumer_line": 254,
+   "artifact": "research",
+   "why": "quality:thin companion sweep missed tests/cli_fake_agent.rs and tests/contract_diag_schema.rs, both drive viola run through piped stdin with an immediate Ctrl-C",
+   "producer": "phase/research",
+   "producer_line": 245,
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "unresolved-questions"
+   ],
+   "producer_note": "3 open plan-decision questions (R8 strip set, Unix raw tty, VIOLA_* ownership); 4 scratch spikes measured ConPTY input/output, portable-pty spawn facts, cargo-modules cfg orphans, curl exit-35 retry"
+  },
+  {
+   "chunk": "2026-09-25-pty-wrapper-on-windows",
+   "consumer": "implement/code",
+   "consumer_line": 255,
+   "artifact": "research.md",
+   "why": "friction:input.research-files-wrong",
+   "producer": null,
+   "producer_line": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "producer_note": null
+  },
+  {
+   "chunk": "2026-09-25-pty-wrapper-on-windows",
+   "consumer": "implement/code",
+   "consumer_line": 255,
+   "artifact": "tests/cli_fake_agent.rs",
+   "why": "friction:input.research-files-wrong",
+   "producer": null,
+   "producer_line": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "producer_note": null
+  },
+  {
+   "chunk": "2026-09-25-pty-wrapper-on-windows",
+   "consumer": "implement/code",
+   "consumer_line": 255,
+   "artifact": "tests/contract_diag_schema.rs",
+   "why": "friction:input.research-files-wrong",
+   "producer": null,
+   "producer_line": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "producer_note": null
+  },
+  {
+   "chunk": "2026-09-25-pty-wrapper-on-windows",
+   "consumer": "implement/code",
+   "consumer_line": 256,
+   "artifact": "plan.md",
+   "why": "friction:input.plan-step-ambiguous",
+   "producer": null,
+   "producer_line": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "producer_note": null
+  },
+  {
+   "chunk": "2026-09-25-pty-wrapper-on-windows",
+   "consumer": "implement/fix-loop",
+   "consumer_line": 258,
+   "artifact": "plan",
+   "why": "quality:thin entry 26 runs cargo-mutants on this Windows host without --leg, so cfg(unix) bodies this chunk adds (termios, ioctl) grade missed by construction; read in the CI form (--leg windows-2025, ok:true) with the union as the verdict",
+   "producer": "phase/plan",
+   "producer_line": 249,
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:r8-strip-set",
+    "designed-dialogue:unix-raw-tty",
+    "designed-dialogue:viola-env-ownership",
+    "authority-resolved:a11y two-space refusal form yielded to design-system cli pattern 2 fixed-message form"
+   ],
+   "producer_note": "one AskUserQuestion round, 3 questions; R8 answered with a custom founder ruling (persistent-env exemption) outside the offered options; the plan adds an identity-floor guard to the ruling to hold the no-config-disables-a-control invariant, flagged for the P5 review; 365 lines, 12 steps, 12 criteria"
+  },
+  {
+   "chunk": "2026-09-25-pty-wrapper-on-windows",
+   "consumer": "implement/fix-loop",
+   "consumer_line": 258,
+   "artifact": "research",
+   "why": "quality:thin missed tests/contract_diag_schema.rs (hung on a swallowed Ctrl-C) and that the new crates need a no-op fake-agent feature for package-scoped mutant builds",
+   "producer": "phase/research",
+   "producer_line": 245,
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "unresolved-questions"
+   ],
+   "producer_note": "3 open plan-decision questions (R8 strip set, Unix raw tty, VIOLA_* ownership); 4 scratch spikes measured ConPTY input/output, portable-pty spawn facts, cargo-modules cfg orphans, curl exit-35 retry"
+  },
+  {
+   "chunk": null,
+   "consumer": "new-session/orientation",
+   "consumer_line": 267,
+   "artifact": "handoff",
+   "why": "quality:thin written at the security-prerequisites wrap; Position Next (/andromeda-phase PTY wrapper) predates that chunk promote + implement + operator pass",
+   "producer": null,
+   "producer_line": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "producer_note": null
+  },
+  {
+   "chunk": null,
+   "consumer": "new-session/orientation",
+   "consumer_line": 269,
+   "artifact": ".claude/session-handoff.md",
+   "why": "friction:input.handoff-git-mismatch",
+   "producer": null,
+   "producer_line": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "producer_note": null
+  },
+  {
+   "chunk": null,
+   "consumer": "new-session/orientation",
+   "consumer_line": 269,
+   "artifact": "viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/evidence/operator-pass.md",
+   "why": "friction:input.handoff-git-mismatch",
+   "producer": null,
+   "producer_line": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "producer_note": null
+  },
+  {
+   "chunk": "2026-09-25-pty-wrapper-on-windows",
+   "consumer": "wrap-session/report",
+   "consumer_line": 270,
+   "artifact": "conversation",
+   "why": "quality:thin implement conversation cleared; this window holds only new-session + the overseer directions",
+   "producer": "implement/smoke",
+   "producer_line": 264,
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "fired-boot-path"
+   ],
+   "producer_note": ""
+  },
+  {
+   "chunk": "2026-09-25-pty-wrapper-on-windows",
+   "consumer": "wrap-session/report",
+   "consumer_line": 270,
+   "artifact": "implement-outcome",
+   "why": "quality:thin no P4 report on disk; implement evolve records (12) + gate record stood in; superseded by the operator pass, 2 fix commits and 3 CI runs",
+   "producer": "implement/smoke",
+   "producer_line": 264,
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "green"
+   ],
+   "producer_note": ""
+  },
+  {
+   "chunk": "2026-09-25-pty-wrapper-on-windows",
+   "consumer": "wrap-session/report",
+   "consumer_line": 270,
+   "artifact": "operator-directive",
+   "why": "quality:thin 4 overseer directions; direction 4 names \"ConPTY swallows focus reports\" with 0 hits for a basis in the implement run dir and evidence/",
+   "producer": null,
+   "producer_line": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "producer_note": null
+  },
+  {
+   "chunk": "2026-09-25-pty-wrapper-on-windows",
+   "consumer": "wrap-session/report",
+   "consumer_line": 270,
+   "artifact": "plan",
+   "why": "quality:thin viola-agent-claude deps (viola-core) and PtyError thiserror disagree with the shipped manifests; entry run --mutants plan form cannot pass with cfg(unix) bodies",
+   "producer": "phase/plan",
+   "producer_line": 249,
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:r8-strip-set",
+    "designed-dialogue:unix-raw-tty",
+    "designed-dialogue:viola-env-ownership",
+    "authority-resolved:a11y two-space refusal form yielded to design-system cli pattern 2 fixed-message form"
+   ],
+   "producer_note": "one AskUserQuestion round, 3 questions; R8 answered with a custom founder ruling (persistent-env exemption) outside the offered options; the plan adds an identity-floor guard to the ruling to hold the no-config-disables-a-control invariant, flagged for the P5 review; 365 lines, 12 steps, 12 criteria"
+  },
+  {
+   "chunk": "2026-09-25-pty-wrapper-on-windows",
+   "consumer": "wrap-session/report",
+   "consumer_line": 272,
+   "artifact": "evidence/operator-pass.md",
+   "why": "friction:input.implement-outcome-unsettled",
+   "producer": null,
+   "producer_line": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "producer_note": null
+  },
+  {
+   "chunk": "2026-09-25-pty-wrapper-on-windows",
+   "consumer": "wrap-session/reconcile",
+   "consumer_line": 273,
+   "artifact": "report",
+   "why": "quality:thin carried no statement on spans in the run path; obs-plan requires pty.spawn + seam spans and 0 #[instrument] exist workspace-wide, surfaced by the orchestrator at validate; fake-agent receipt field names absent (a detector invented cwd {path})",
+   "producer": "wrap-session/report",
+   "producer_line": 270,
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "reconstructed"
+   ],
+   "producer_note": "all 6 Changes families rebuilt from git diff, grep of pub items, research facts and evolve records"
+  },
+  {
+   "chunk": "2026-09-25-pty-wrapper-on-windows",
+   "consumer": "wrap-session/reconcile",
+   "consumer_line": 273,
+   "artifact": "wrap-playbook",
+   "why": "quality:thin verbatim-copy rule covered obs §1 only; security Threat Model Summary and a11y §1 hits had no rule (rule appended, E4)",
+   "producer": null,
+   "producer_line": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "producer_note": null
+  },
+  {
+   "chunk": "2026-09-25-pty-wrapper-on-windows",
+   "consumer": "wrap-session/reconcile",
+   "consumer_line": 274,
+   "artifact": "report.md",
+   "why": "friction:input.report-insufficient",
+   "producer": null,
+   "producer_line": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "producer_note": null
+  },
+  {
+   "chunk": "2026-09-25-pty-wrapper-on-windows",
+   "consumer": "wrap-session/reconcile",
+   "consumer_line": 274,
+   "artifact": "obs-plan.md",
+   "why": "friction:input.report-insufficient",
+   "producer": null,
+   "producer_line": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "producer_note": null
+  },
+  {
+   "chunk": "2026-09-25-pty-wrapper-on-windows",
+   "consumer": "wrap-session/reconcile",
+   "consumer_line": 274,
+   "artifact": "working-route.md",
+   "why": "friction:input.report-insufficient",
+   "producer": null,
+   "producer_line": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "producer_note": null
+  },
+  {
+   "chunk": "2026-09-25-pty-wrapper-on-windows",
+   "consumer": "wrap-session/gates",
+   "consumer_line": 283,
+   "artifact": "plan",
+   "why": "quality:thin entry run --mutants (plan form, no --leg) cannot pass on the Windows host with cfg(unix) bodies in the diff; skipped with reason, verdict from the CI legs + union per overseer direction 3",
+   "producer": "phase/plan",
+   "producer_line": 249,
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:r8-strip-set",
+    "designed-dialogue:unix-raw-tty",
+    "designed-dialogue:viola-env-ownership",
+    "authority-resolved:a11y two-space refusal form yielded to design-system cli pattern 2 fixed-message form"
+   ],
+   "producer_note": "one AskUserQuestion round, 3 questions; R8 answered with a custom founder ruling (persistent-env exemption) outside the offered options; the plan adds an identity-floor guard to the ruling to hold the no-config-disables-a-control invariant, flagged for the P5 review; 365 lines, 12 steps, 12 criteria"
+  },
+  {
+   "chunk": "2026-09-26-local-linux-pre-push-gate",
+   "consumer": "phase/plan",
+   "consumer_line": 311,
+   "artifact": "research",
+   "why": "quality:thin P3 closure verified the clone-history precondition of CARRY 2's base-equality claim but not the claim itself at HEAD==flip; re-derived at P4",
+   "producer": "phase/research",
+   "producer_line": 309,
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "unresolved-questions",
+    "host-measured",
+    "bash-guard-fired"
+   ],
+   "producer_note": "3 plan-decision questions; sync form chosen by measurement (clone+patch 0.9 s vs rsync 2.74 s repeat); two bash-guard blocks (cat heredoc to file, doubled backslash) redone via Write-tool scripts"
+  },
+  {
+   "chunk": "2026-09-26-local-linux-pre-push-gate",
+   "consumer": "implement/fix-loop",
+   "consumer_line": 317,
+   "artifact": "plan",
+   "why": "quality:thin entry 6 (root apt install) lacked the apt-get update its P5 note flagged as a hypothesis; measured red exit 100 on 404s",
+   "producer": "phase/plan",
+   "producer_line": 311,
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:base-timing",
+    "designed-dialogue:verdict-union",
+    "designed-dialogue:unix-test-form",
+    "designed-dialogue:wiring-home",
+    "planlint-caught-platform-slot"
+   ],
+   "producer_note": "4 forks in one round, all recommendations taken; 492 lines (over the ~400 guide); planlint check 9 hit resolved by filling research's Platform issues slot"
+  },
+  {
+   "chunk": "2026-09-26-local-linux-pre-push-gate",
+   "consumer": "implement/fix-loop",
+   "consumer_line": 323,
+   "artifact": "plan",
+   "why": "quality:thin widened on the operator's word at implement (scope item 6, steps 10-13); the window-test entry's exact-name filter selected nothing and was corrected to the regex form",
+   "producer": "phase/plan",
+   "producer_line": 311,
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:base-timing",
+    "designed-dialogue:verdict-union",
+    "designed-dialogue:unix-test-form",
+    "designed-dialogue:wiring-home",
+    "planlint-caught-platform-slot"
+   ],
+   "producer_note": "4 forks in one round, all recommendations taken; 492 lines (over the ~400 guide); planlint check 9 hit resolved by filling research's Platform issues slot"
+  },
+  {
+   "chunk": "2026-09-26-local-linux-pre-push-gate",
+   "consumer": "wrap-session/report",
+   "consumer_line": 326,
+   "artifact": "implement-outcome",
+   "why": "quality:thin implement's first P4 report (stuck) was superseded by the operator's scope widening and experiments A/B, then the operator pass; the final green report and the operator-pass evidence stood in",
+   "producer": "implement/smoke",
+   "producer_line": 325,
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "green"
+   ],
+   "producer_note": ""
+  },
+  {
+   "chunk": "2026-09-26-local-linux-pre-push-gate",
+   "consumer": "wrap-session/curation",
+   "consumer_line": 331,
+   "artifact": "conversation",
+   "why": "quality:thin the implement window's conversation is gone (wrap resumed across a session boundary); candidates came from the report's Decisions & corrections",
+   "producer": "implement/smoke",
+   "producer_line": 325,
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "skipped"
+   ],
+   "producer_note": "no boot-path change; the changed entry points (viola-harness pre-push, viola run) ran live through pre-push and the tui tests at P2"
+  },
+  {
+   "chunk": "2026-09-27-instance-state-and-start-order",
+   "consumer": "phase/distill",
+   "consumer_line": 337,
+   "artifact": "scope",
+   "why": "quality:wrong item 7 said a stale instance is taken over; arch/tests/design define stale = live pid + old beat (refuse), gone = dead pid (takeover). Item 5 implied settings.json in the plugin folder; arch puts it under instances/<name>/. Both were [inferred]-tagged",
+   "producer": "phase/take-up",
+   "producer_line": 336,
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "scope-inferred",
+    "carry-folded"
+   ],
+   "producer_note": "2 CARRYs folded (both self-contained); 10 [inferred] bullets, mostly boundary placement vs later entries"
+  },
+  {
+   "chunk": "2026-09-27-instance-state-and-start-order",
+   "consumer": "phase/validate",
+   "consumer_line": 341,
+   "artifact": "plan",
+   "why": "quality:thin check 4(2) boot-path without smoke and 4(6) G4 named but unlisted fired; 4(9) smoke baseline exposed harness logs lacking the events source and --kind",
+   "producer": "phase/plan",
+   "producer_line": 340,
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:atomic-write-primitive",
+    "designed-dialogue:plugin-body-before-hook-verb",
+    "authority-resolved:test-plan §4 gone=pid-dead over arch fresh-beat silence"
+   ],
+   "producer_note": "370 lines, 14 steps, 17 gates, 19 criteria; planlint 2 hits resolved (platform slot filled, operator atom source named)"
+  },
+  {
+   "chunk": "2026-09-27-instance-state-and-start-order",
+   "consumer": "implement/code",
+   "consumer_line": 344,
+   "artifact": "research",
+   "why": "quality:thin lists missed two consumers: harness_lifecycle.rs builds a logs Filter literal; viola-agent-claude has no serde_json dev-dep for the plugin JSON asserts",
+   "producer": "phase/research",
+   "producer_line": 338,
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "unresolved-questions"
+   ],
+   "producer_note": "3 open questions (2 true forks: atomic-write licence, plugin content before hook verb exists; 1 lean)"
+  },
+  {
+   "chunk": "2026-09-27-instance-state-and-start-order",
+   "consumer": "implement/code",
+   "consumer_line": 345,
+   "artifact": "viola-0.1.0/chunks/2026-09-27-instance-state-and-start-order/research.md",
+   "why": "friction:input.research-files-wrong",
+   "producer": null,
+   "producer_line": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "producer_note": null
+  },
+  {
+   "chunk": "2026-09-27-instance-state-and-start-order",
+   "consumer": "implement/code",
+   "consumer_line": 345,
+   "artifact": "crates/viola-e2e/src/harness/logs.rs",
+   "why": "friction:input.research-files-wrong",
+   "producer": null,
+   "producer_line": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "producer_note": null
+  },
+  {
+   "chunk": "2026-09-27-instance-state-and-start-order",
+   "consumer": "implement/fix-loop",
+   "consumer_line": 346,
+   "artifact": "plan",
+   "why": "quality:thin Test Commands ran as written; the plan did not foresee that a pinned exe copy in every test home multiplies across the mutation legs",
+   "producer": "phase/validate",
+   "producer_line": 341,
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "baseline-exposed-gap"
+   ],
+   "producer_note": "6 new entries baselined red; the logs --kind baseline surfaced logs.rs:4 'events source arrives with its producer'"
+  },
+  {
+   "chunk": "2026-09-27-instance-state-and-start-order",
+   "consumer": "implement/fix-loop",
+   "consumer_line": 346,
+   "artifact": "research",
+   "why": "quality:thin two companion oracles outside the lists: tests/cli_fake_agent.rs pins the start receipt; crates/viola-e2e/tests/harness_lifecycle.rs pins the readiness missing list",
+   "producer": "phase/research",
+   "producer_line": 338,
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "unresolved-questions"
+   ],
+   "producer_note": "3 open questions (2 true forks: atomic-write licence, plugin content before hook verb exists; 1 lean)"
+  },
+  {
+   "chunk": "2026-09-27-instance-state-and-start-order",
+   "consumer": "wrap-session/report",
+   "consumer_line": 359,
+   "artifact": "implement-outcome",
+   "why": "quality:thin implement's green report was followed by the operator pass, a CI red and a fix commit ed359cd; the evidence files and the overseer directives stand beside it as the basis",
+   "producer": "implement/fix-loop",
+   "producer_line": 354,
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "green"
+   ],
+   "producer_note": "pre-push green: /tmp peak 0.13 GB, scratch peak 14.6 GB on disk, 160 mutants per leg"
+  },
+  {
+   "chunk": "2026-09-27-instance-state-and-start-order",
+   "consumer": "wrap-session/curation",
+   "consumer_line": 366,
+   "artifact": "conversation",
+   "why": "quality:thin checkpoint answered in a resumed window after the context-alarm pause; the curation trace is read from the run dir's curation.md, not a live window",
+   "producer": "implement/smoke",
+   "producer_line": 353,
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "recorded-not-rerun"
+   ],
+   "producer_note": "smoke entries 15-19 green again as P2 gates on the final tree"
+  },
+  {
+   "chunk": "2026-09-27-wrapper-channel",
+   "consumer": "implement/code",
+   "consumer_line": 387,
+   "artifact": "plan",
+   "why": "quality:thin step 12 hook-invoked/hook-decision corr rules contradict obs-plan D-07 and the budget scenario; step 5 names SecurityDescriptor::deserialize (needs a widestring U16CStr, no such dep) and ListenerOptionsExt::mode (Unsupported on macOS)",
+   "producer": "phase/plan",
+   "producer_line": 383,
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "authority-resolved:arch Unix endpoint path yielded to security-plan Decisions Log amendment 2",
+    "authority-resolved:route Epoch 6 SDDL deferral yielded to security-plan listener mandate",
+    "authority-resolved:arch crate dep direction yielded to obs-plan §3 instrumentation hooks (Expected amendment)",
+    "plan-oversize"
+   ],
+   "producer_note": "448 lines, 16 steps in two parts; all forks decisive leans, no question asked; CI-read entry controlled at P4 on a green (17c99c9) and a red (39b8297) sha"
+  },
+  {
+   "chunk": "2026-09-27-wrapper-channel",
+   "consumer": "implement/code",
+   "consumer_line": 387,
+   "artifact": "research",
+   "why": "quality:thin boundary lists held; viola-state already depended on tracing, so its Cargo.toml needed no edit; fuzz/Cargo.lock unlisted but moves with fuzz/Cargo.toml",
+   "producer": "phase/research",
+   "producer_line": 380,
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "unresolved-questions"
+   ],
+   "producer_note": "3 open questions, two with leans (pty span location, Unix lock arbiter)"
+  },
+  {
+   "chunk": "2026-09-27-wrapper-channel",
+   "consumer": "implement/code",
+   "consumer_line": 388,
+   "artifact": "viola-0.1.0/chunks/2026-09-27-wrapper-channel/plan.md",
+   "why": "friction:input.plan-step-ambiguous",
+   "producer": null,
+   "producer_line": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "producer_note": null
+  },
+  {
+   "chunk": "2026-09-27-wrapper-channel",
+   "consumer": "implement/code",
+   "consumer_line": 388,
+   "artifact": "schemas/diag-line.v1.json",
+   "why": "friction:input.plan-step-ambiguous",
+   "producer": null,
+   "producer_line": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "producer_note": null
+  },
+  {
+   "chunk": "2026-09-27-wrapper-channel",
+   "consumer": "implement/code",
+   "consumer_line": 389,
+   "artifact": "crates/viola-channel/src/server.rs",
+   "why": "friction:input.conventions-gap",
+   "producer": null,
+   "producer_line": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "producer_note": null
+  },
+  {
+   "chunk": "2026-09-27-wrapper-channel",
+   "consumer": "implement/fix-loop",
+   "consumer_line": 392,
+   "artifact": "plan",
+   "why": "quality:thin Test Commands ran as written; entry 20 acceptance premise for E2 (fds 0,1,2 and at most one other) falsified by measurement; v1-20 acceptance 'dispatch takes no conn input' untrue of the planned Dispatch(method, params) signature until conn was stripped",
+   "producer": "phase/plan",
+   "producer_line": 383,
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "authority-resolved:arch Unix endpoint path yielded to security-plan Decisions Log amendment 2",
+    "authority-resolved:route Epoch 6 SDDL deferral yielded to security-plan listener mandate",
+    "authority-resolved:arch crate dep direction yielded to obs-plan §3 instrumentation hooks (Expected amendment)",
+    "plan-oversize"
+   ],
+   "producer_note": "448 lines, 16 steps in two parts; all forks decisive leans, no question asked; CI-read entry controlled at P4 on a green (17c99c9) and a red (39b8297) sha"
+  },
+  {
+   "chunk": "2026-09-27-wrapper-channel",
+   "consumer": "implement/fix-loop",
+   "consumer_line": 392,
+   "artifact": "tests",
+   "why": "quality:thin tests/support/fake.rs receipt reader and ten role/events readers parsed a live-appended file with expect per line",
+   "producer": null,
+   "producer_line": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "producer_note": null
+  },
+  {
+   "chunk": "2026-09-27-wrapper-channel",
+   "consumer": "wrap-session/curation",
+   "consumer_line": 408,
+   "artifact": "conversation",
+   "why": "quality:thin the implement/operator-pass conversation was in the prior window; only the resumed wrap session is in this window",
+   "producer": "implement/smoke",
+   "producer_line": 399,
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "fired-boot-path",
+    "teardown-exact"
+   ],
+   "producer_note": "by hand: boot ready, status ready, snapshot endpoint and endpoint_kind:named-pipe read back, cleanup processes_gone+endpoint_gone+home_removed with killed [], idempotent second cleanup, wrapper and child pids gone"
+  }
+ ],
+ "shapes": [
+  {
+   "producer": null,
+   "artifact": "handoff",
+   "consumer": "phase/take-up",
+   "chunks": [
+    "2026-09-24-epoch-1-cleanup"
+   ],
+   "k": 1
+  },
+  {
+   "producer": null,
+   "artifact": "runs/2026-09-24T18-04-34-phase/a11y.md",
+   "consumer": "phase/research",
+   "chunks": [
+    "2026-09-24-epoch-1-cleanup"
+   ],
+   "k": 1
+  },
+  {
+   "producer": "implement/smoke",
+   "artifact": "implement-outcome",
+   "consumer": "wrap-session/report",
+   "chunks": [
+    "2026-09-24-epoch-1-cleanup",
+    "2026-09-25-pty-wrapper-on-windows",
+    "2026-09-26-local-linux-pre-push-gate"
+   ],
+   "k": 3
+  },
+  {
+   "producer": "phase/validate",
+   "artifact": "plan",
+   "consumer": "wrap-session/report",
+   "chunks": [
+    "2026-09-24-epoch-1-cleanup"
+   ],
+   "k": 1
+  },
+  {
+   "producer": null,
+   "artifact": "viola-0.1.0/chunks/2026-09-24-epoch-1-cleanup/report.md",
+   "consumer": "wrap-session/report",
+   "chunks": [
+    "2026-09-24-epoch-1-cleanup"
+   ],
+   "k": 1
+  },
+  {
+   "producer": null,
+   "artifact": "drift-base",
+   "consumer": "wrap-session/reconcile",
+   "chunks": [
+    "2026-09-24-epoch-1-cleanup"
+   ],
+   "k": 1
+  },
+  {
+   "producer": "phase/plan",
+   "artifact": "plan",
+   "consumer": "implement/fix-loop",
+   "chunks": [
+    "2026-09-25-pty-wrapper-on-windows",
+    "2026-09-25-security-prerequisites",
+    "2026-09-26-local-linux-pre-push-gate",
+    "2026-09-27-wrapper-channel"
+   ],
+   "k": 4
+  },
+  {
+   "producer": "phase/research",
+   "artifact": "research",
+   "consumer": "implement/fix-loop",
+   "chunks": [
+    "2026-09-25-pty-wrapper-on-windows",
+    "2026-09-25-security-prerequisites",
+    "2026-09-27-instance-state-and-start-order"
+   ],
+   "k": 3
+  },
+  {
+   "producer": "wrap-session/report",
+   "artifact": "report",
+   "consumer": "wrap-session/reconcile",
+   "chunks": [
+    "2026-09-25-pty-wrapper-on-windows",
+    "2026-09-25-security-prerequisites"
+   ],
+   "k": 2
+  },
+  {
+   "producer": null,
+   "artifact": "viola-0.1.0/chunks/2026-09-25-security-prerequisites/report.md",
+   "consumer": "wrap-session/reconcile",
+   "chunks": [
+    "2026-09-25-security-prerequisites"
+   ],
+   "k": 1
+  },
+  {
+   "producer": null,
+   "artifact": ".andromeda/security-plan.md:265",
+   "consumer": "wrap-session/reconcile",
+   "chunks": [
+    "2026-09-25-security-prerequisites"
+   ],
+   "k": 1
+  },
+  {
+   "producer": "phase/plan",
+   "artifact": "plan",
+   "consumer": "implement/code",
+   "chunks": [
+    "2026-09-25-pty-wrapper-on-windows",
+    "2026-09-27-wrapper-channel"
+   ],
+   "k": 2
+  },
+  {
+   "producer": "phase/research",
+   "artifact": "research",
+   "consumer": "implement/code",
+   "chunks": [
+    "2026-09-25-pty-wrapper-on-windows",
+    "2026-09-27-instance-state-and-start-order",
+    "2026-09-27-wrapper-channel"
+   ],
+   "k": 3
+  },
+  {
+   "producer": null,
+   "artifact": "research.md",
+   "consumer": "implement/code",
+   "chunks": [
+    "2026-09-25-pty-wrapper-on-windows"
+   ],
+   "k": 1
+  },
+  {
+   "producer": null,
+   "artifact": "tests/cli_fake_agent.rs",
+   "consumer": "implement/code",
+   "chunks": [
+    "2026-09-25-pty-wrapper-on-windows"
+   ],
+   "k": 1
+  },
+  {
+   "producer": null,
+   "artifact": "tests/contract_diag_schema.rs",
+   "consumer": "implement/code",
+   "chunks": [
+    "2026-09-25-pty-wrapper-on-windows"
+   ],
+   "k": 1
+  },
+  {
+   "producer": null,
+   "artifact": "plan.md",
+   "consumer": "implement/code",
+   "chunks": [
+    "2026-09-25-pty-wrapper-on-windows"
+   ],
+   "k": 1
+  },
+  {
+   "producer": null,
+   "artifact": "handoff",
+   "consumer": "new-session/orientation",
+   "chunks": [
+    "None"
+   ],
+   "k": 1
+  },
+  {
+   "producer": null,
+   "artifact": ".claude/session-handoff.md",
+   "consumer": "new-session/orientation",
+   "chunks": [
+    "None"
+   ],
+   "k": 1
+  },
+  {
+   "producer": null,
+   "artifact": "viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/evidence/operator-pass.md",
+   "consumer": "new-session/orientation",
+   "chunks": [
+    "None"
+   ],
+   "k": 1
+  },
+  {
+   "producer": "implement/smoke",
+   "artifact": "conversation",
+   "consumer": "wrap-session/report",
+   "chunks": [
+    "2026-09-25-pty-wrapper-on-windows"
+   ],
+   "k": 1
+  },
+  {
+   "producer": null,
+   "artifact": "operator-directive",
+   "consumer": "wrap-session/report",
+   "chunks": [
+    "2026-09-25-pty-wrapper-on-windows"
+   ],
+   "k": 1
+  },
+  {
+   "producer": "phase/plan",
+   "artifact": "plan",
+   "consumer": "wrap-session/report",
+   "chunks": [
+    "2026-09-25-pty-wrapper-on-windows"
+   ],
+   "k": 1
+  },
+  {
+   "producer": null,
+   "artifact": "evidence/operator-pass.md",
+   "consumer": "wrap-session/report",
+   "chunks": [
+    "2026-09-25-pty-wrapper-on-windows"
+   ],
+   "k": 1
+  },
+  {
+   "producer": null,
+   "artifact": "wrap-playbook",
+   "consumer": "wrap-session/reconcile",
+   "chunks": [
+    "2026-09-25-pty-wrapper-on-windows"
+   ],
+   "k": 1
+  },
+  {
+   "producer": null,
+   "artifact": "report.md",
+   "consumer": "wrap-session/reconcile",
+   "chunks": [
+    "2026-09-25-pty-wrapper-on-windows"
+   ],
+   "k": 1
+  },
+  {
+   "producer": null,
+   "artifact": "obs-plan.md",
+   "consumer": "wrap-session/reconcile",
+   "chunks": [
+    "2026-09-25-pty-wrapper-on-windows"
+   ],
+   "k": 1
+  },
+  {
+   "producer": null,
+   "artifact": "working-route.md",
+   "consumer": "wrap-session/reconcile",
+   "chunks": [
+    "2026-09-25-pty-wrapper-on-windows"
+   ],
+   "k": 1
+  },
+  {
+   "producer": "phase/plan",
+   "artifact": "plan",
+   "consumer": "wrap-session/gates",
+   "chunks": [
+    "2026-09-25-pty-wrapper-on-windows"
+   ],
+   "k": 1
+  },
+  {
+   "producer": "phase/research",
+   "artifact": "research",
+   "consumer": "phase/plan",
+   "chunks": [
+    "2026-09-26-local-linux-pre-push-gate"
+   ],
+   "k": 1
+  },
+  {
+   "producer": "implement/smoke",
+   "artifact": "conversation",
+   "consumer": "wrap-session/curation",
+   "chunks": [
+    "2026-09-26-local-linux-pre-push-gate",
+    "2026-09-27-instance-state-and-start-order",
+    "2026-09-27-wrapper-channel"
+   ],
+   "k": 3
+  },
+  {
+   "producer": "phase/take-up",
+   "artifact": "scope",
+   "consumer": "phase/distill",
+   "chunks": [
+    "2026-09-27-instance-state-and-start-order"
+   ],
+   "k": 1
+  },
+  {
+   "producer": "phase/plan",
+   "artifact": "plan",
+   "consumer": "phase/validate",
+   "chunks": [
+    "2026-09-27-instance-state-and-start-order"
+   ],
+   "k": 1
+  },
+  {
+   "producer": null,
+   "artifact": "viola-0.1.0/chunks/2026-09-27-instance-state-and-start-order/research.md",
+   "consumer": "implement/code",
+   "chunks": [
+    "2026-09-27-instance-state-and-start-order"
+   ],
+   "k": 1
+  },
+  {
+   "producer": null,
+   "artifact": "crates/viola-e2e/src/harness/logs.rs",
+   "consumer": "implement/code",
+   "chunks": [
+    "2026-09-27-instance-state-and-start-order"
+   ],
+   "k": 1
+  },
+  {
+   "producer": "phase/validate",
+   "artifact": "plan",
+   "consumer": "implement/fix-loop",
+   "chunks": [
+    "2026-09-27-instance-state-and-start-order"
+   ],
+   "k": 1
+  },
+  {
+   "producer": "implement/fix-loop",
+   "artifact": "implement-outcome",
+   "consumer": "wrap-session/report",
+   "chunks": [
+    "2026-09-27-instance-state-and-start-order"
+   ],
+   "k": 1
+  },
+  {
+   "producer": null,
+   "artifact": "viola-0.1.0/chunks/2026-09-27-wrapper-channel/plan.md",
+   "consumer": "implement/code",
+   "chunks": [
+    "2026-09-27-wrapper-channel"
+   ],
+   "k": 1
+  },
+  {
+   "producer": null,
+   "artifact": "schemas/diag-line.v1.json",
+   "consumer": "implement/code",
+   "chunks": [
+    "2026-09-27-wrapper-channel"
+   ],
+   "k": 1
+  },
+  {
+   "producer": null,
+   "artifact": "crates/viola-channel/src/server.rs",
+   "consumer": "implement/code",
+   "chunks": [
+    "2026-09-27-wrapper-channel"
+   ],
+   "k": 1
+  },
+  {
+   "producer": null,
+   "artifact": "tests",
+   "consumer": "implement/fix-loop",
+   "chunks": [
+    "2026-09-27-wrapper-channel"
+   ],
+   "k": 1
+  }
+ ]
+}

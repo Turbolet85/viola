@@ -1,0 +1,194 @@
+{
+ "unused_deps": [
+  [
+   "viola-e2e (crates/viola-e2e/Cargo.toml)",
+   "proc-macro2"
+  ],
+  [
+   "viola-fuzz (fuzz/Cargo.toml, own workspace)",
+   "arbitrary"
+  ]
+ ],
+ "zero_ref_candidates": 0,
+ "top": [],
+ "unused_deps_notes": {
+  "proc-macro2": "feature-enabling dependency: the workspace pin carries features = [\"span-locations\"] (Cargo.toml:139-140) so syn spans give real lines in harness/cfg_legs.rs:78; no `proc_macro2` path in source is by design; a machete false positive"
+ },
+ "raw_zero_ref": 584,
+ "classes": {
+  "test (tests/ segment, symbol or file path)": 557,
+  "test-only helper (cfg(test) module)": 7,
+  "trait-impl method reached by dispatch": 11,
+  "entry point": 3,
+  "derive/attr-invoked (#[from] variant)": 2,
+  "inline format-string capture": 2,
+  "trait method reached by dyn dispatch (called via Box<dyn Pty> in the crate test module)": 1,
+  "derive/attr-invoked (serde serialize_with)": 1
+ },
+ "classed_non_test": [
+  [
+   "test-only helper (cfg(test) module)",
+   "test_capture/impl#[Fields][Visit]record_debug().",
+   "crates/viola-channel/src/lib.rs",
+   105
+  ],
+  [
+   "test-only helper (cfg(test) module)",
+   "test_capture/impl#[Fields][Visit]record_str().",
+   "crates/viola-channel/src/lib.rs",
+   109
+  ],
+  [
+   "test-only helper (cfg(test) module)",
+   "test_capture/impl#[Fields][Visit]record_u64().",
+   "crates/viola-channel/src/lib.rs",
+   112
+  ],
+  [
+   "test-only helper (cfg(test) module)",
+   "test_capture/impl#[Fields][Visit]record_i64().",
+   "crates/viola-channel/src/lib.rs",
+   115
+  ],
+  [
+   "test-only helper (cfg(test) module)",
+   "test_capture/impl#[Fields][Visit]record_bool().",
+   "crates/viola-channel/src/lib.rs",
+   118
+  ],
+  [
+   "test-only helper (cfg(test) module)",
+   "test_capture/impl#[Captured][`Layer<S>`]on_new_span().",
+   "crates/viola-channel/src/lib.rs",
+   130
+  ],
+  [
+   "test-only helper (cfg(test) module)",
+   "test_capture/impl#[Captured][`Layer<S>`]on_event().",
+   "crates/viola-channel/src/lib.rs",
+   140
+  ],
+  [
+   "trait-impl method reached by dispatch",
+   "server/impl#[`ResponseLine<'_>`][Drop]drop().",
+   "crates/viola-channel/src/server.rs",
+   421
+  ],
+  [
+   "trait-impl method reached by dispatch",
+   "obs/impl#[ObsEvent][Display]fmt().",
+   "crates/viola-core/src/obs.rs",
+   82
+  ],
+  [
+   "trait-impl method reached by dispatch",
+   "obs/impl#[ObsProcess][Display]fmt().",
+   "crates/viola-core/src/obs.rs",
+   112
+  ],
+  [
+   "entry point",
+   "main().",
+   "crates/viola-e2e/src/bin/viola-harness.rs",
+   201
+  ],
+  [
+   "trait-impl method reached by dispatch",
+   "harness/cfg_legs/impl#[Cover][`Visit<'ast>`]visit_item_fn().",
+   "crates/viola-e2e/src/harness/cfg_legs.rs",
+   89
+  ],
+  [
+   "trait-impl method reached by dispatch",
+   "harness/cfg_legs/impl#[Cover][`Visit<'ast>`]visit_item_impl().",
+   "crates/viola-e2e/src/harness/cfg_legs.rs",
+   94
+  ],
+  [
+   "trait-impl method reached by dispatch",
+   "harness/cfg_legs/impl#[Cover][`Visit<'ast>`]visit_item_mod().",
+   "crates/viola-e2e/src/harness/cfg_legs.rs",
+   99
+  ],
+  [
+   "trait-impl method reached by dispatch",
+   "harness/cfg_legs/impl#[Cover][`Visit<'ast>`]visit_impl_item_fn().",
+   "crates/viola-e2e/src/harness/cfg_legs.rs",
+   104
+  ],
+  [
+   "trait-impl method reached by dispatch",
+   "harness/cfg_legs/impl#[Cover][`Visit<'ast>`]visit_local().",
+   "crates/viola-e2e/src/harness/cfg_legs.rs",
+   109
+  ],
+  [
+   "trait-impl method reached by dispatch",
+   "harness/cfg_legs/impl#[Cover][`Visit<'ast>`]visit_expr().",
+   "crates/viola-e2e/src/harness/cfg_legs.rs",
+   114
+  ],
+  [
+   "derive/attr-invoked (#[from] variant)",
+   "harness/HarnessError#Json#",
+   "crates/viola-e2e/src/harness/mod.rs",
+   29
+  ],
+  [
+   "inline format-string capture",
+   "harness/pre_push/CLONE_DIR.",
+   "crates/viola-e2e/src/harness/pre_push.rs",
+   28
+  ],
+  [
+   "inline format-string capture",
+   "harness/pre_push/SCRATCH_DIR.",
+   "crates/viola-e2e/src/harness/pre_push.rs",
+   32
+  ],
+  [
+   "trait-impl method reached by dispatch",
+   "impl#[PtyError][Display]fmt().",
+   "crates/viola-pty/src/lib.rs",
+   90
+  ],
+  [
+   "trait method reached by dyn dispatch (called via Box<dyn Pty> in the crate test module)",
+   "Pty#child_pid().",
+   "crates/viola-pty/src/lib.rs",
+   122
+  ],
+  [
+   "trait-impl method reached by dispatch",
+   "impl#[HostTerminal][Drop]drop().",
+   "crates/viola-pty/src/lib.rs",
+   443
+  ],
+  [
+   "derive/attr-invoked (serde serialize_with)",
+   "events/kind_str().",
+   "crates/viola-state/src/events.rs",
+   36
+  ],
+  [
+   "derive/attr-invoked (#[from] variant)",
+   "StateError#Encode#",
+   "crates/viola-state/src/lib.rs",
+   19
+  ],
+  [
+   "entry point",
+   "main().",
+   "src/bin/viola-fake-agent.rs",
+   496
+  ],
+  [
+   "entry point",
+   "main().",
+   "src/main.rs",
+   41
+  ]
+ ],
+ "machete_exit": 1,
+ "machete_stdout_tail": "cargo-machete found the following unused dependencies in this directory:\nviola-e2e -- .\\crates\\viola-e2e\\Cargo.toml:\n\tproc-macro2\nviola-fuzz -- .\\fuzz\\Cargo.toml:\n\tarbitrary\n\nIf you believe cargo-machete has detected an unused dependency incorrectly,\nyou can add the dependency to the list of dependencies to ignore in the\n`[package.metadata.cargo-machete]` section of the appropriate Cargo.toml.\nFor example:\n\n[package.metadata.cargo-machete]\nignored = [\"prost\"]\n\nYou can also try running it with the `--with-metadata` flag for better accuracy,\nthough this may modify your Cargo.lock files.\n\n"
+}

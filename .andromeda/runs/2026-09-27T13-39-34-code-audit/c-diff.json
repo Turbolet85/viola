@@ -1,0 +1,533 @@
+{
+ "totals.loc": [
+  8602,
+  18657
+ ],
+ "totals.files": [
+  33,
+  68
+ ],
+ "totals.units": [
+  3,
+  7
+ ],
+ "duplication.pct": [
+  1.42,
+  1.29
+ ],
+ "duplication.clones": [
+  16,
+  34
+ ],
+ "duplication.duplicated_lines": [
+  137,
+  274
+ ],
+ "duplication.total_lines": [
+  9679,
+  21210
+ ],
+ "complexity.cyclomatic_p50": [
+  1.0,
+  1.0
+ ],
+ "complexity.cyclomatic_p90": [
+  4.0,
+  4.0
+ ],
+ "complexity.cognitive_p50": [
+  0.0,
+  0.0
+ ],
+ "complexity.cognitive_p90": [
+  2.0,
+  2.0
+ ],
+ "complexity.over_ceiling": [
+  3,
+  0
+ ],
+ "sizes.file_p50": [
+  177,
+  191
+ ],
+ "sizes.file_p90": [
+  578,
+  609
+ ],
+ "sizes.file_max": [
+  1562,
+  1335
+ ],
+ "sizes.over_800": [
+  1,
+  4
+ ],
+ "graph.cycles": [
+  0,
+  0
+ ],
+ "graph.cross_unit_edges": [
+  2,
+  10
+ ],
+ "dead.zero_ref_candidates": [
+  0,
+  0
+ ],
+ "coverage.line": [
+  98.21,
+  96.77
+ ],
+ "churn.pct": [
+  null,
+  16.97
+ ],
+ "churn.files_churned": [
+  null,
+  30
+ ],
+ "dup_split": [
+  {
+   "src": {
+    "pairs": 6,
+    "lines": 42
+   },
+   "test": {
+    "pairs": 8,
+    "lines": 84
+   },
+   "mixed": {
+    "pairs": 2,
+    "lines": 27
+   }
+  },
+  {
+   "src": {
+    "pairs": 14,
+    "lines": 108
+   },
+   "test": {
+    "pairs": 12,
+    "lines": 106
+   },
+   "mixed": {
+    "pairs": 8,
+    "lines": 94
+   }
+  }
+ ],
+ "dup_top_cur": [
+  [
+   "crates/viola-channel/src/server.rs:919",
+   "tests/channel_endpoint.rs:385",
+   21,
+   "new"
+  ],
+  [
+   "crates/viola-core/src/obs.rs:175",
+   "tests/contract_diag_schema.rs:19",
+   21,
+   "new"
+  ],
+  [
+   "tests/channel_sqos_open.rs:90",
+   "tests/security_negatives_channel.rs:72",
+   19,
+   "new"
+  ],
+  [
+   "crates/viola-channel/src/server.rs:967",
+   "tests/channel_endpoint.rs:330",
+   17,
+   "new"
+  ],
+  [
+   "crates/viola-channel/src/lib.rs:103",
+   "src/cmd/run.rs:372",
+   13,
+   "new"
+  ],
+  [
+   "tests/run_cli.rs:384",
+   "tests/tui_env_strip.rs:34",
+   12,
+   "new"
+  ],
+  [
+   "crates/viola-channel/tests/channel_frames.rs:40",
+   "tests/channel_endpoint.rs:51",
+   11,
+   "new"
+  ],
+  [
+   "crates/viola-channel/src/lib.rs:210",
+   "crates/viola-e2e/src/harness/cleanup.rs:324",
+   10,
+   "new"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:532",
+   "crates/viola-pty/src/lib.rs:713",
+   10,
+   "new"
+  ],
+  [
+   "tests/run_cli.rs:453",
+   "tests/tui_env_strip.rs:108",
+   10,
+   "new"
+  ]
+ ],
+ "sizes_top": [
+  [
+   [
+    "crates/viola-e2e/src/harness/pre_push.rs",
+    1335
+   ],
+   [
+    "crates/viola-pty/src/lib.rs",
+    1074
+   ],
+   [
+    "crates/viola-e2e/src/harness/run/mutants.rs",
+    1029
+   ],
+   [
+    "crates/viola-channel/src/server.rs",
+    869
+   ],
+   [
+    "src/bin/viola-fake-agent.rs",
+    619
+   ],
+   [
+    "src/obs.rs",
+    615
+   ],
+   [
+    "tests/cli_fake_agent.rs",
+    609
+   ],
+   [
+    "crates/viola-e2e/src/harness/boot.rs",
+    577
+   ],
+   [
+    "crates/viola-e2e/src/harness/gate.rs",
+    563
+   ],
+   [
+    "tests/run_cli.rs",
+    522
+   ]
+  ],
+  [
+   "crates/viola-e2e/src/harness/pre_push.rs",
+   "crates/viola-pty/src/lib.rs",
+   "crates/viola-e2e/src/harness/run/mutants.rs",
+   "crates/viola-channel/src/server.rs"
+  ]
+ ],
+ "complexity_top": [
+  {
+   "fn": "scan_file",
+   "file": "crates/viola-e2e/src/harness/secret_scan.rs:116",
+   "value": 15.0
+  },
+  {
+   "fn": "eval",
+   "file": "crates/viola-e2e/src/harness/cfg_legs.rs:137",
+   "value": 14.0
+  },
+  {
+   "fn": "check_tree",
+   "file": "crates/viola-e2e/src/harness/schema_check.rs:85",
+   "value": 13.0
+  },
+  {
+   "fn": "coverage",
+   "file": "crates/viola-e2e/src/harness/pre_push.rs:693",
+   "value": 12.0
+  },
+  {
+   "fn": "union",
+   "file": "crates/viola-e2e/src/harness/gate.rs:120",
+   "value": 11.0
+  },
+  {
+   "fn": "finish",
+   "file": "crates/viola-e2e/src/harness/pre_push.rs:191",
+   "value": 11.0
+  },
+  {
+   "fn": "native",
+   "file": "crates/viola-e2e/src/harness/pre_push.rs:1281",
+   "value": 11.0
+  },
+  {
+   "fn": "feed",
+   "file": "src/bin/viola-fake-agent.rs:376",
+   "value": 11.0
+  },
+  {
+   "fn": "readiness",
+   "file": "crates/viola-e2e/src/harness/boot.rs:271",
+   "value": 10.0
+  },
+  {
+   "fn": "gate",
+   "file": "crates/viola-e2e/src/harness/gate.rs:59",
+   "value": 10.0
+  }
+ ],
+ "fan_in_entrants": [
+  [
+   "rust-analyzer cargo viola-pty 0.1.0 Size#",
+   44
+  ],
+  [
+   "rust-analyzer cargo viola-channel 0.1.0 crate/",
+   42
+  ],
+  [
+   "rust-analyzer cargo viola-e2e 0.1.0 harness/run/",
+   33
+  ],
+  [
+   "rust-analyzer cargo viola-e2e 0.1.0 harness/run/Runner#",
+   30
+  ],
+  [
+   "rust-analyzer cargo viola-channel 0.1.0 ProtocolError#",
+   29
+  ],
+  [
+   "rust-analyzer cargo viola-channel 0.1.0 ChannelError#",
+   27
+  ]
+ ],
+ "fan_out": [
+  [
+   [
+    "viola",
+    1
+   ],
+   [
+    "viola-e2e",
+    1
+   ]
+  ],
+  [
+   [
+    "viola",
+    5
+   ],
+   [
+    "viola-e2e",
+    3
+   ],
+   [
+    "viola-state",
+    1
+   ],
+   [
+    "viola-channel",
+    1
+   ]
+  ]
+ ],
+ "unused_deps": [
+  [
+   [
+    "viola-fuzz (fuzz/Cargo.toml, own workspace)",
+    "arbitrary"
+   ]
+  ],
+  [
+   [
+    "viola-e2e (crates/viola-e2e/Cargo.toml)",
+    "proc-macro2"
+   ],
+   [
+    "viola-fuzz (fuzz/Cargo.toml, own workspace)",
+    "arbitrary"
+   ]
+  ]
+ ],
+ "mutation": {
+  "base_scores": {
+   "viola-core": 86.21
+  },
+  "cur_scores": {
+   "viola-channel": 96.72,
+   "viola-state": 96.0,
+   "viola-pty": 92.75,
+   "viola-agent-claude": 100.0,
+   "viola-core": 100.0
+  },
+  "cur_counts": {
+   "viola-channel": {
+    "mutants": 138,
+    "caught": 118,
+    "missed": 4,
+    "timeout": 0,
+    "unviable": 16
+   },
+   "viola-state": {
+    "mutants": 58,
+    "caught": 48,
+    "missed": 2,
+    "timeout": 0,
+    "unviable": 8
+   },
+   "viola-pty": {
+    "mutants": 85,
+    "caught": 64,
+    "missed": 5,
+    "timeout": 0,
+    "unviable": 16
+   },
+   "viola-agent-claude": {
+    "mutants": 40,
+    "caught": 36,
+    "missed": 0,
+    "timeout": 0,
+    "unviable": 4
+   },
+   "viola-core": {
+    "mutants": 32,
+    "caught": 31,
+    "missed": 0,
+    "timeout": 0,
+    "unviable": 1
+   }
+  },
+  "survivors": [
+   [
+    "crates/viola-channel/src/client.rs:195:5",
+    "replace open -> io::Result<Stream> with Ok(Default::default())"
+   ],
+   [
+    "crates/viola-channel/src/endpoint.rs:76:5",
+    "replace host_socket_dir -> PathBuf with Default::default()"
+   ],
+   [
+    "crates/viola-channel/src/server.rs:75:9",
+    "replace <impl Drop for Guard>::drop with ()"
+   ],
+   [
+    "crates/viola-channel/src/server.rs:108:5",
+    "replace listen -> Result<(Listener, Guard), ChannelError> with Ok((Default::default(), Default::default()))"
+   ],
+   [
+    "crates/viola-state/src/fs.rs:16:5",
+    "replace restrict -> io::Result<()> with Ok(())"
+   ],
+   [
+    "crates/viola-state/src/pin.rs:74:19",
+    "replace match guard e.kind() == io::ErrorKind::NotFound with true"
+   ],
+   [
+    "crates/viola-pty/src/lib.rs:430:9",
+    "replace HostTerminal::enter -> Option<Self> with None"
+   ],
+   [
+    "crates/viola-pty/src/lib.rs:430:9",
+    "replace HostTerminal::enter -> Option<Self> with Some(Default::default())"
+   ],
+   [
+    "crates/viola-pty/src/lib.rs:432:64",
+    "replace != with =="
+   ],
+   [
+    "crates/viola-pty/src/lib.rs:437:71",
+    "replace == with !="
+   ],
+   [
+    "crates/viola-pty/src/lib.rs:482:76",
+    "replace != with =="
+   ]
+  ]
+ },
+ "hotspots": [
+  [
+   "crates/viola-e2e/src/harness/pre_push.rs",
+   48.0
+  ],
+  [
+   "src/bin/viola-fake-agent.rs",
+   44.0
+  ],
+  [
+   "crates/viola-e2e/src/harness/run/mutants.rs",
+   42.0
+  ],
+  [
+   "crates/viola-e2e/src/harness/secret_scan.rs",
+   30.0
+  ],
+  [
+   "tests/run_cli.rs",
+   30.0
+  ],
+  [
+   "tests/tui_env_strip.rs",
+   30.0
+  ],
+  [
+   "tests/tui_passthrough.rs",
+   30.0
+  ],
+  [
+   "tests/support/home.rs",
+   27.0
+  ],
+  [
+   "crates/viola-pty/src/lib.rs",
+   21.0
+  ],
+  [
+   "crates/viola-e2e/src/harness/boot.rs",
+   20.0
+  ]
+ ],
+ "tool_versions": {
+  "cargo-machete": [
+   "0.9.2",
+   "0.9.2"
+  ],
+  "cargo-mutants": [
+   "27.1.0",
+   "27.1.0"
+  ],
+  "rustc": [
+   "1.98.1",
+   "1.98.1"
+  ],
+  "rust-code-analysis": [
+   "0.0.25",
+   "0.0.25"
+  ],
+  "cargo-nextest": [
+   "0.9.133",
+   "0.9.146"
+  ],
+  "code-graph.py": [
+   "d0425fb1",
+   "d0425fb1"
+  ],
+  "tokei": [
+   "14.0.0",
+   "14.0.0"
+  ],
+  "jscpd": [
+   "5.0.16",
+   "5.0.16"
+  ],
+  "cargo-llvm-cov": [
+   "0.9.1",
+   "0.9.1"
+  ]
+ }
+}

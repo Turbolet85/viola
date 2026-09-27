@@ -1,0 +1,596 @@
+{
+ "themes_at_threshold": [
+  {
+   "label": "L1",
+   "signature": "band-aid",
+   "theme": "The bash-guard / PreToolUse file-target guard blocks doubled backslashes and heredocs with a file target; each session re-routes through a scratchpad script or the Edit tool",
+   "facts": [
+    {
+     "ref": "L245 2026-09-25T13:55:39Z-a#0",
+     "chunk": "2026-09-25-pty-wrapper-on-windows",
+     "step": "phase/research",
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "bash-guard hook blocked a grep carrying a doubled backslash (the escaped dot of .cmd); re-ran with a [.] character class"
+    },
+    {
+     "ref": "L245 2026-09-25T13:55:39Z-a#1",
+     "chunk": "2026-09-25-pty-wrapper-on-windows",
+     "step": "phase/research",
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "bash-guard hook blocked this checkpoint as a one-line heredoc append (backslash in a note); re-authored as a scratchpad python script run by path"
+    },
+    {
+     "ref": "L254 2026-09-25T15:19:15Z-a#3",
+     "chunk": "2026-09-25-pty-wrapper-on-windows",
+     "step": "implement/code",
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "bash-guard blocked a doubled-backslash python heredoc and a cat heredoc with a file target twice; edits re-done via the Edit tool and scratchpad scripts"
+    },
+    {
+     "ref": "L344 2026-09-27T02:15:13Z-a#2",
+     "chunk": "2026-09-27-instance-state-and-start-order",
+     "step": "implement/code",
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "a cat heredoc append to src/run/mod.rs was blocked by the PreToolUse file-target guard; the Edit tool wrote it"
+    },
+    {
+     "ref": "L387 2026-09-27T08:10:38Z-a#5",
+     "chunk": "2026-09-27-wrapper-channel",
+     "step": "implement/code",
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "bash-guard blocked an inline python carrying a doubled backslash; the FNV oracle ran as a scratchpad script with chr(92)"
+    },
+    {
+     "ref": "L399 2026-09-27T10:16:57Z-a#0",
+     "chunk": "2026-09-27-wrapper-channel",
+     "step": "implement/smoke",
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "bash-guard blocked a pipe-path Test-Path carrying doubled backslashes; dropped it, the harness cleanup's own viola-client connect proves endpoint_gone"
+    }
+   ],
+   "friction": [],
+   "prior": [
+    {
+     "ref": "L53 2026-09-24T09:26:43Z-a#0",
+     "chunk": "2026-09-24-supply-chain-and-workflow-gates",
+     "step": "phase/research",
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "a cat heredoc writing scratch Cargo manifests was blocked by the PreToolUse hook; the files went through the Write tool and the probe ran as a scratchpad script by path"
+    },
+    {
+     "ref": "L125 2026-09-24T12:20:24Z-a#1",
+     "chunk": "2026-09-24-observability-gates",
+     "step": "phase/validate",
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "a PreToolUse hook blocks Write to any path containing /target/, including a scratchpad target/ tree; the control file was created by a python script run by path"
+    }
+   ],
+   "extra_lines": []
+  },
+  {
+   "label": "L2",
+   "signature": "band-aid",
+   "theme": "Implement's file lists (research's modify-set; plan and research read-only at implement) — companion tests and manifests outside the lists are edited anyway, or product code is shaped to stay inside them",
+   "facts": [
+    {
+     "ref": "L254 2026-09-25T15:19:15Z-a#1",
+     "chunk": "2026-09-25-pty-wrapper-on-windows",
+     "step": "implement/code",
+     "nature": "process",
+     "solution": "workaround",
+     "note": "edited tests/cli_fake_agent.rs and tests/contract_diag_schema.rs outside the research modify-set as companions of step 7 (both raced a Ctrl-C ahead of the fake agent raw mode and hung or died)"
+    },
+    {
+     "ref": "L344 2026-09-27T02:15:13Z-a#0",
+     "chunk": "2026-09-27-instance-state-and-start-order",
+     "step": "implement/code",
+     "nature": "process",
+     "solution": "workaround",
+     "note": "logs --kind: public Filter kept two-field and a Query/query() added, because crates/viola-e2e/tests/harness_lifecycle.rs (outside the research lists) builds a Filter literal"
+    },
+    {
+     "ref": "L344 2026-09-27T02:15:13Z-a#1",
+     "chunk": "2026-09-27-instance-state-and-start-order",
+     "step": "implement/code",
+     "nature": "process",
+     "solution": "workaround",
+     "note": "plugin_files tests assert literal strings instead of parsing JSON: viola-agent-claude has no serde_json dev-dependency and its Cargo.toml is outside the lists"
+    },
+    {
+     "ref": "L346 2026-09-27T02:48:45Z-a#2",
+     "chunk": "2026-09-27-instance-state-and-start-order",
+     "step": "implement/fix-loop",
+     "nature": "process",
+     "solution": "workaround",
+     "note": "tests/cli_fake_agent.rs (outside the lists) updated: it pinned the start receipt shape that plan step 13 grows"
+    },
+    {
+     "ref": "L346 2026-09-27T02:48:45Z-a#3",
+     "chunk": "2026-09-27-instance-state-and-start-order",
+     "step": "implement/fix-loop",
+     "nature": "process",
+     "solution": "workaround",
+     "note": "harness readiness made staged (snapshot/heartbeat only after both process starts) so crates/viola-e2e/tests/harness_lifecycle.rs keeps its two-entry missing oracle unedited"
+    },
+    {
+     "ref": "L387 2026-09-27T08:10:38Z-a#6",
+     "chunk": "2026-09-27-wrapper-channel",
+     "step": "implement/code",
+     "nature": "process",
+     "solution": "workaround",
+     "note": "span-capture helper first added to src/main.rs test_support (not in the file lists), moved into the cmd/run.rs test module and main.rs restored"
+    },
+    {
+     "ref": "L392 2026-09-27T10:15:29Z-a#5",
+     "chunk": "2026-09-27-wrapper-channel",
+     "step": "implement/fix-loop",
+     "nature": "process",
+     "solution": "workaround",
+     "note": "cosmetic name_str edit to refuse_batch_script reverted so the pre-existing, stderr-unasserted function left the mutation diff; its killer would sit in an out-of-scope test file"
+    }
+   ],
+   "friction": [],
+   "prior": [
+    {
+     "ref": "L82 2026-09-24T10:31:39Z-a#2",
+     "chunk": "2026-09-24-diagnostics-plane",
+     "step": "implement/code",
+     "nature": "process",
+     "solution": "workaround",
+     "note": "the existing panic_hook_writes_exactly_one_line_without_payload test was merged into the plan-named panic_hook_writes_detail_line_with_payload_and_backtrace (all its assertions kept) because both set the process-global panic sink"
+    },
+    {
+     "ref": "L107 2026-09-24T11:34:08Z-a#0",
+     "chunk": "2026-09-24-log-redaction-and-never-log-floor",
+     "step": "implement/code",
+     "nature": "process",
+     "solution": "workaround",
+     "note": "step 6 asked the new test to capture the home-level line for the same failure, but the role line needs ProcessCtx and only one test may set it; moved that assertion into the existing ctx-setting test (renamed internal_error_exit_line_writes_run_internal_error) so it is non-vacuous"
+    },
+    {
+     "ref": "L129 2026-09-24T12:31:54Z-a#1",
+     "chunk": "2026-09-24-observability-gates",
+     "step": "implement/code",
+     "nature": "process",
+     "solution": "workaround",
+     "note": "the operator asked for the clippy measurement to go into research.md; /implement may not edit research.md, so it went to the run dir (clippy-disallowed-macros-measurement.md) for wrap"
+    },
+    {
+     "ref": "L61 2026-09-24T09:39:16Z-a#0",
+     "chunk": "2026-09-24-supply-chain-and-workflow-gates",
+     "step": "implement/fix-loop",
+     "nature": "process",
+     "solution": "workaround",
+     "note": "plan gate 4's run text is invalid under cargo-deny 0.20.2 and plan.md is read-only at implement: ran the corrected --config form by hand (exit 0, bans ok) and surfaced the plan correction"
+    },
+    {
+     "ref": "L84 2026-09-24T10:38:06Z-a#0",
+     "chunk": "2026-09-24-diagnostics-plane",
+     "step": "implement/fix-loop",
+     "nature": "process",
+     "solution": "workaround",
+     "note": "gate entry 12 not run by gate.py (not run — env c unset: the entry's own loop variable, no env key); ran its exact run text by hand in the resolved Git Bash with pipefail, exit 0 'bans ok'; plan.md not edited (read-only at implement)"
+    }
+   ],
+   "extra_lines": []
+  },
+  {
+   "label": "L3",
+   "signature": "override",
+   "theme": "A pending chunk's scope widened or folded mid-implement by the operator/overseer — the rule: phase refuses a pending chunk and implement may not edit plan/research, so no skill path exists for a widening",
+   "facts": [
+    {
+     "ref": "L229 2026-09-25T13:00:45Z-a#0",
+     "chunk": "2026-09-25-security-prerequisites",
+     "step": "implement/fix-loop",
+     "nature": "process",
+     "solution": "overridden",
+     "note": "operator widened scope (option A) to the harness mutants.rs and its tests to add the explicit test-only-rust-delta verdict; test-plan §10 wording goes to the wrap as an amendment"
+    },
+    {
+     "ref": "L351 2026-09-27T04:03:46Z-a#0",
+     "chunk": "2026-09-27-instance-state-and-start-order",
+     "step": "implement/fix-loop",
+     "nature": "process",
+     "solution": "overridden",
+     "note": "the stuck soft-exit was resolved by an overseer ruling (option 1): research/plan file lists widened by direct edit for mutants.rs, the fixture sweep, a sysinfo dev-dependency and cli_fake_agent.rs"
+    },
+    {
+     "ref": "L354 2026-09-27T04:48:02Z-a#0",
+     "chunk": "2026-09-27-instance-state-and-start-order",
+     "step": "implement/fix-loop",
+     "nature": "process",
+     "solution": "overridden",
+     "note": "second overseer fold before the operator pass: the pre-push Linux mutation scratch moved off the /tmp tmpfs"
+    },
+    {
+     "ref": "L392 2026-09-27T10:15:29Z-a#0",
+     "chunk": "2026-09-27-wrapper-channel",
+     "step": "implement/fix-loop",
+     "nature": "process",
+     "solution": "overridden",
+     "note": "overseer widened the E2 predicate to 'the child holds nothing of viola's' (no socket, no path under the viola home, 0-2 the pty) with a remove-the-guard pair"
+    },
+    {
+     "ref": "L392 2026-09-27T10:15:29Z-a#1",
+     "chunk": "2026-09-27-wrapper-channel",
+     "step": "implement/fix-loop",
+     "nature": "process",
+     "solution": "overridden",
+     "note": "overseer folded the torn receipt read (tests/support/fake.rs, outside the diff) into the chunk, then the whole live-append ndjson reader class (11 sites onto tests/support/ndjson.rs)"
+    }
+   ],
+   "friction": [],
+   "prior": [
+    {
+     "ref": "L27 2026-09-24T08:09:02Z-a#0",
+     "chunk": "2026-09-24-fake-agent-and-test-data-fixtures",
+     "step": "phase/take-up",
+     "nature": "process",
+     "solution": "overridden",
+     "note": "Setup 5a red (mutants outcomes-missing on a Rust-free diff, run 35973118026) judged not intersecting; letter offers take-up-unowned or mint-a-chunk; operator chose a third course: fold into this chunk with a no-vacuous-pass constraint"
+    },
+    {
+     "ref": "L73 2026-09-24T10:06:26Z-a#0",
+     "chunk": "2026-09-24-diagnostics-plane",
+     "step": "phase/take-up",
+     "nature": "process",
+     "solution": "overridden",
+     "note": "operator pasted an overseer note mid-Setup folding an out-of-entry item (.claude/settings.json write-guard repair) into this chunk's scope as [inferred], plus a CI-witness record owed to wrap"
+    },
+    {
+     "ref": "L146 2026-09-24T13:43:24Z-a#0",
+     "chunk": "2026-09-24-quality-gates",
+     "step": "phase/take-up",
+     "nature": "process",
+     "solution": "overridden",
+     "note": "PREREQ first action (read CI ubuntu mutants job) was performed by the overseer and delivered mid-turn (run 36005608858: 2 MISSED file_mode mutants), with a directive to fold both as an [inferred] item; the mutants log was not re-read here"
+    },
+    {
+     "ref": "L129 2026-09-24T12:31:54Z-a#0",
+     "chunk": "2026-09-24-observability-gates",
+     "step": "implement/code",
+     "nature": "product-logic",
+     "solution": "overridden",
+     "note": "clippy 1.98.1 disallowed_macros ignores every allow inside obs_event! (only a crate-level allow in the caller works: throwaway 8-placement probe); the operator chose level-macro ban + fail-closed event! grep over obs-plan §3's form"
+    }
+   ],
+   "extra_lines": []
+  },
+  {
+   "label": "L4",
+   "signature": "band-aid",
+   "theme": "rust-analyzer (the session LSP) holds mutants.out, so cargo-mutants cannot rename it (os error 5); stopped by hand before each mutation run",
+   "facts": [
+    {
+     "ref": "L258 2026-09-25T16:59:16Z-a#0",
+     "chunk": "2026-09-25-pty-wrapper-on-windows",
+     "step": "implement/fix-loop",
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "this session's LSP rust-analyzer held a handle on mutants.out, so cargo-mutants' rename to mutants.out.old failed with os error 5; stopped rust-analyzer before each mutation run (it respawns on edits)"
+    },
+    {
+     "ref": "L295 2026-09-26T20:35:27Z-a#0",
+     "chunk": "2026-09-26-ci-chunk-base-and-union-verdict",
+     "step": "implement/fix-loop",
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "rust-analyzer (session LSP) held mutants.out, cargo-mutants rename failed os error 5; stopped by exact ExecutablePath before each leg run (it restarts after edits), per the deferred 0.7 learning"
+    },
+    {
+     "ref": "L304 2026-09-26T21:25:51Z-a#0",
+     "chunk": "2026-09-26-ci-chunk-base-and-union-verdict",
+     "step": "wrap-session/gates",
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "rust-analyzer stop-check run before the light gate's run --mutants (0 found running this time)"
+    }
+   ],
+   "friction": [],
+   "prior": [
+    {
+     "ref": "L12 2026-09-24T07:04:20Z-a#1",
+     "chunk": "2026-09-24-three-os-ci-headless-harness-skeleton",
+     "step": "implement/fix-loop",
+     "nature": "environment",
+     "solution": "removed-cause",
+     "note": "my own Monitor tail -F held mutants.out open and survived TaskStop, blocking cargo-mutants' rename twice; the three leftover processes were stopped by pid and the monitor re-armed as a handle-free poll"
+    }
+   ],
+   "extra_lines": []
+  },
+  {
+   "label": "L5",
+   "signature": "band-aid",
+   "theme": "Committed run dirs and evidence pick up content that must not be committed or that enters the chunk diff: absolute host paths, mutants.out copies, a python bytecode cache, .rs control files, a stale chunk.diff",
+   "facts": [
+    {
+     "ref": "L202 2026-09-24T18:26:11Z-a#0",
+     "chunk": "2026-09-24-epoch-1-cleanup",
+     "step": "phase/validate",
+     "nature": "process",
+     "solution": "workaround",
+     "note": "known-positive control copies (.rs) minted in the committed run dir were deleted after reading and replaced by p5-controls.md, since untracked .rs files would enter the chunk diff that run --mutants classifies"
+    },
+    {
+     "ref": "L215 2026-09-25T12:07:13Z-a#0",
+     "chunk": "2026-09-24-epoch-1-cleanup",
+     "step": "wrap-session/gates",
+     "nature": "process",
+     "solution": "workaround",
+     "note": "the light gate's printed listing (redirected to the wrap run dir) carries absolute host log paths; it was moved to the session scratchpad before the commit so the committed run dir holds no absolute path"
+    },
+    {
+     "ref": "L258 2026-09-25T16:59:16Z-a#1",
+     "chunk": "2026-09-25-pty-wrapper-on-windows",
+     "step": "implement/fix-loop",
+     "nature": "process",
+     "solution": "workaround",
+     "note": "secret-scan hit its own ?t= pattern table inside target/agent-run/chunk.diff, residue of a prior run --mutants whose diff carries secret_scan.rs; removed the residue before the scan; the scan scope is a harness owner question, not narrowed here"
+    },
+    {
+     "ref": "L295 2026-09-26T20:35:27Z-a#1",
+     "chunk": "2026-09-26-ci-chunk-base-and-union-verdict",
+     "step": "implement/fix-loop",
+     "nature": "process",
+     "solution": "removed-cause",
+     "note": "orchestrator copied mutants.out/outcomes.json (absolute argv paths, test output) into evidence; deleted before any commit, counts recorded in a markdown file instead"
+    },
+    {
+     "ref": "L326 2026-09-27T01:05:00Z-a#0",
+     "chunk": "2026-09-26-local-linux-pre-push-gate",
+     "step": "wrap-session/report",
+     "nature": "process",
+     "solution": "removed-cause",
+     "note": "a python bytecode cache from the evidence guard scripts rode the pre-CI commit; deleted at the wrap"
+    }
+   ],
+   "friction": [],
+   "prior": [],
+   "extra_lines": []
+  },
+  {
+   "label": "L6",
+   "signature": "band-aid",
+   "theme": "The verbatim raw-twin discipline for agent returns — twins written as condensed indexes or field-kept transcriptions, saves paraphrased or reflowed",
+   "facts": [
+    {
+     "ref": "L273 2026-09-25T18:03:46Z-a#0",
+     "chunk": "2026-09-25-pty-wrapper-on-windows",
+     "step": "wrap-session/reconcile",
+     "nature": "process",
+     "solution": "workaround",
+     "note": "raw twins consolidated into fanout-results.md (one table per doc with dispositions) instead of per-doc .raw-fanout-{doc}.md files"
+    },
+    {
+     "ref": "L288 2026-09-26T19:38:37Z-a#1",
+     "chunk": "2026-09-26-ci-chunk-base-and-union-verdict",
+     "step": "phase/distill",
+     "nature": "process",
+     "solution": "removed-cause",
+     "note": "orchestrator folded nested sub-bullets in the arch and tests saves; restored to the raw nesting by anchored Edits so saved == raw and no twin was owed"
+    },
+    {
+     "ref": "L403 2026-09-27T12:54:15Z-b#0",
+     "chunk": "2026-09-27-wrapper-channel",
+     "step": "wrap-session/reconcile",
+     "nature": "process",
+     "solution": "workaround",
+     "note": "raw fan-out twins for architecture and test-plan were written as field-kept transcriptions (sidecar/rationale lines omitted), not byte-verbatim agent returns; fanout-results.md says so"
+    }
+   ],
+   "friction": [
+    {
+     "ref": "L244 2026-09-25T13:41:00Z-c",
+     "chunk": "2026-09-25-pty-wrapper-on-windows",
+     "step": "phase/distill",
+     "what": "the orchestrator's first save of layouts.md was a paraphrased reconstruction instead of the verbatim return body; caught before validation and re-saved verbatim via a second whole-content Write",
+     "impact": {
+      "retries": 1
+     }
+    }
+   ],
+   "prior": [
+    {
+     "ref": "L29 2026-09-24T08:13:24Z-a#0",
+     "chunk": "2026-09-24-fake-agent-and-test-data-fixtures",
+     "step": "phase/distill",
+     "nature": "process",
+     "solution": "workaround",
+     "note": "arch return arrived with a harness neutralization line and <\\ rewrites in two harness-turn prefixes; saved copy restored the literal < and dropped the line; raw twin written as the differing span plus a note, not a byte-complete raw copy"
+    },
+    {
+     "ref": "L163 2026-09-24T15:05:18Z-a#0",
+     "chunk": "2026-09-24-quality-gates",
+     "step": "wrap-session/reconcile",
+     "nature": "process",
+     "solution": "workaround",
+     "note": "raw fan-out twins for architecture/security/test-plan written as a condensed per-proposal index (detector · section · basis) rather than the verbatim YAML, to bound transcript size; fanout-results.md carries each doc's verdict and counts"
+    }
+   ],
+   "extra_lines": []
+  },
+  {
+   "label": "L7",
+   "signature": "chronic-degrade",
+   "theme": "A wrap does not fit one context window: resumed across a session boundary or paused at the context alarm, its evolve checkpoints degrade to ok-degraded and curation reads a conversation that is gone",
+   "facts": [
+    {
+     "ref": "L329 2026-09-27T01:12:11Z-a#0",
+     "chunk": "2026-09-26-local-linux-pre-push-gate",
+     "step": "wrap-session/reconcile",
+     "nature": "process",
+     "solution": "workaround",
+     "note": "wrap resumed across a session boundary: the prior window paused at 86% context after 13 of 24 body applies; this window applied the rest from p2-apply-state.md and ran the whole cascade, so the fan-out/validate half of this step ran in a window whose trace is gone (fan-out counts taken from fanout-results.md: arch 10, security 4, test-plan 7, four docs 0; 19 accepted, 2 rejected as registry over-reach, 5 orchestrator-raised)"
+    },
+    {
+     "ref": "L402 2026-09-27T12:54:15Z-a#0",
+     "chunk": "2026-09-27-wrapper-channel",
+     "step": "wrap-session/report",
+     "nature": "resources",
+     "solution": "deferred",
+     "note": "P1 paused at the context alarm: its evolve checkpoint, the drift-base check-field pre-scan against the Changes bullets and the per-master grep counts behind Expected amendments were not done (resume.md); the report says the search basis is owed to P2's detectors"
+    }
+   ],
+   "friction": [],
+   "prior": [],
+   "extra_lines": [
+    408,
+    366
+   ]
+  }
+ ],
+ "themes_below": [
+  {
+   "theme": "MSYS / WSL argument crossing",
+   "nature": "environment",
+   "facts": [
+    {
+     "ref": "L309 2026-09-26T21:42:25Z-a#0",
+     "chunk": "2026-09-26-local-linux-pre-push-gate",
+     "step": "phase/research",
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "the directive's form `wsl -d Ubuntu -- <cmd>` re-parses argv through the distro shell ($t expanded empty); used `wsl -d Ubuntu --exec` with scripts run by path"
+    },
+    {
+     "ref": "L309 2026-09-26T21:42:25Z-a#1",
+     "chunk": "2026-09-26-local-linux-pre-push-gate",
+     "step": "phase/research",
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "Git Bash rewrote a /mnt/c/... argument to C:/Program Files/Git/mnt/c/... (exit 127); scoped MSYS2_ARG_CONV_EXCL='*' per the host-win32 rule"
+    }
+   ],
+   "friction": [],
+   "note": "2 facts; the same crossing appears as typed tooling.host-shell (P11) and recall.corpus-recurrence (P6) — covered there."
+  },
+  {
+   "theme": "code-graph query read through | tail against the cookbook",
+   "nature": "process",
+   "facts": [
+    {
+     "ref": "L289 2026-09-26T19:43:50Z-a#0",
+     "chunk": "2026-09-26-ci-chunk-base-and-union-verdict",
+     "step": "phase/research",
+     "nature": "process",
+     "solution": "workaround",
+     "note": "first graph query read through | tail, which the cookbook forbids; re-read the full result from the trace file"
+    },
+    {
+     "ref": "L338 2026-09-27T01:48:28Z-a#0",
+     "chunk": "2026-09-27-instance-state-and-start-order",
+     "step": "phase/research",
+     "nature": "process",
+     "solution": "workaround",
+     "note": "the one code-graph query was first read through `| tail -40` against the cookbook's no-clip rule; re-read from the trace file (rows 59) before any conclusion"
+    }
+   ],
+   "friction": [],
+   "note": "2 facts, 2 chunks, no prior-epoch recurrence."
+  },
+  {
+   "theme": "cascade.py 16-char pattern-id limit not stated in the reference",
+   "nature": "process",
+   "facts": [
+    {
+     "ref": "L300 2026-09-26T21:11:22Z-a#0",
+     "chunk": "2026-09-26-ci-chunk-base-and-union-verdict",
+     "step": "wrap-session/reconcile",
+     "nature": "process",
+     "solution": "workaround",
+     "note": "cascade.py refused a 14-char+ pattern id and an unfired control (per-push-diff); ids shortened, the unfired pattern dropped"
+    }
+   ],
+   "friction": [
+    {
+     "ref": "L330 2026-09-27T01:12:11Z-b",
+     "chunk": "2026-09-26-local-linux-pre-push-gate",
+     "step": "wrap-session/reconcile",
+     "what": "cascade.py sweep refused the pattern file (exit 2): pattern ids are limited to 16 chars, the reference's cascade section does not state the limit; 12 ids renamed and the sweep re-run",
+     "impact": {
+      "retries": 1
+     }
+    },
+    {
+     "ref": "L406 2026-09-27T12:54:15Z-e",
+     "chunk": "2026-09-27-wrapper-channel",
+     "step": "wrap-session/reconcile",
+     "what": "cascade.py sweep refused the first pattern file (exit 2): pattern ids over 16 chars; ids shortened and the sweep re-run",
+     "impact": {
+      "retries": 1
+     }
+    }
+   ],
+   "note": "1 problem fact + 2 untyped friction records = 3 occurrences in 3 chunks; each stream alone is below its threshold. Cheapest fix on this page: state the limit in the cascade section, or print it in the refusal."
+  },
+  {
+   "theme": "light-gate --skip overriding the source-delta arm",
+   "nature": "process",
+   "facts": [
+    {
+     "ref": "L283 2026-09-25T18:12:28Z-a#0",
+     "chunk": "2026-09-25-pty-wrapper-on-windows",
+     "step": "wrap-session/gates",
+     "nature": "process",
+     "solution": "overridden",
+     "note": "light-gate entry 26 (run --mutants, plan form) skipped via --skip with a directive reason rather than the source-delta arm; the operator (direction 3) fixed the chunk mutation verdict as the CI runs 36165685381/36166907442/36167590761 and ratified the 2 union breaches (direction 1)"
+    }
+   ],
+   "friction": [],
+   "note": "1 in-epoch; 2 the epoch before (L137, L143) — recurring across epochs at n=1 in-epoch."
+  },
+  {
+   "theme": "mutation equivalence shaping product code (fn -> const, literal consts, no join, visitor coverage)",
+   "nature": "product-logic",
+   "facts": [
+    {
+     "ref": "L205 2026-09-24T19:06:18Z-a#0",
+     "chunk": "2026-09-24-epoch-1-cleanup",
+     "step": "implement/fix-loop",
+     "nature": "product-logic",
+     "solution": "workaround",
+     "note": "the surviving mutant fuzz_host_supported -> false is equivalent on Windows (cfg!(linux) is already false), so no test could kill it on this leg; instead of the plan's add-a-killing-test route, the fn became pub const FUZZ_HOST_SUPPORTED (no fn body to mutate) and its test oracle became std::env::consts::OS == linux"
+    },
+    {
+     "ref": "L351 2026-09-27T04:03:46Z-a#1",
+     "chunk": "2026-09-27-instance-state-and-start-order",
+     "step": "implement/fix-loop",
+     "nature": "product-logic",
+     "solution": "workaround",
+     "note": "Heartbeat guard keeps only its Sender (no join): the join was unobservable and survived mutation; the plan said the drop joins the thread"
+    },
+    {
+     "ref": "L392 2026-09-27T10:15:29Z-a#4",
+     "chunk": "2026-09-27-wrapper-channel",
+     "step": "implement/fix-loop",
+     "nature": "product-logic",
+     "solution": "workaround",
+     "note": "Win32 flag combinations written as literal consts pinned by a unit test: |->^ over disjoint bits is an equivalent mutant, and cargo-mutants still mutates const initializers"
+    },
+    {
+     "ref": "L294 2026-09-26T20:00:37Z-a#0",
+     "chunk": "2026-09-26-ci-chunk-base-and-union-verdict",
+     "step": "implement/code",
+     "nature": "product-logic",
+     "solution": "workaround",
+     "note": "plan step 4 listed trait items, fields, match arms and inner #![cfg] among the visited nodes; the visitor covers only the forms measured in lib/bin code (fn, impl, inline mod, impl fn, let, 7 statement-expression kinds). Every other form reads as uncfg'd and keeps every leg, so it can never exempt a mutant, and each hook is one fewer unkillable mutant; recorded for the report"
+    }
+   ],
+   "friction": [],
+   "note": "At the count threshold, but nature product-logic sits outside the band-aid signature — an observation: the mutation gate is a design force on product shape. Correlates: P3, P14."
+  }
+ ],
+ "signatures": {
+  "deferred-forever": "none: L280 closed by 2026-09-26-local-linux-pre-push-gate; L285#1 surfaced; L402 routed to P2 same wrap"
+ }
+}

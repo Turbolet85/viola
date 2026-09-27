@@ -1,0 +1,43 @@
+{
+ "unit": "viola-channel",
+ "complete": true,
+ "end_time": "2026-09-27T13:47:07.8899151Z",
+ "total_mutants": 138,
+ "mutants_json_len": 138,
+ "baseline_summary": "Success",
+ "counts": {
+  "mutants": 138,
+  "caught": 118,
+  "missed": 4,
+  "timeout": 0,
+  "unviable": 16
+ },
+ "unit_state": "138/138",
+ "score_formula": "caught/(caught+missed)",
+ "survivor_rows_unique": true,
+ "survivors_equal_missed": true,
+ "state": "complete 138/138",
+ "score": 96.72,
+ "survivors": [
+  [
+   "crates/viola-channel/src/client.rs:195:5",
+   "replace open -> io::Result<Stream> with Ok(Default::default())",
+   "open"
+  ],
+  [
+   "crates/viola-channel/src/endpoint.rs:76:5",
+   "replace host_socket_dir -> PathBuf with Default::default()",
+   "host_socket_dir"
+  ],
+  [
+   "crates/viola-channel/src/server.rs:75:9",
+   "replace <impl Drop for Guard>::drop with ()",
+   "<impl Drop for Guard>::drop"
+  ],
+  [
+   "crates/viola-channel/src/server.rs:108:5",
+   "replace listen -> Result<(Listener, Guard), ChannelError> with Ok((Default::default(), Default::default()))",
+   "listen"
+  ]
+ ]
+}

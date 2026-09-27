@@ -1,0 +1,56 @@
+{
+ "totals": {
+  "loc": 18657,
+  "files": 68,
+  "units": 7
+ },
+ "sizes": {
+  "file_p50": 191,
+  "file_p90": 609,
+  "file_max": 1335,
+  "over_800": 4,
+  "top": [
+   [
+    "crates/viola-e2e/src/harness/pre_push.rs",
+    1335
+   ],
+   [
+    "crates/viola-pty/src/lib.rs",
+    1074
+   ],
+   [
+    "crates/viola-e2e/src/harness/run/mutants.rs",
+    1029
+   ],
+   [
+    "crates/viola-channel/src/server.rs",
+    869
+   ],
+   [
+    "src/bin/viola-fake-agent.rs",
+    619
+   ],
+   [
+    "src/obs.rs",
+    615
+   ],
+   [
+    "tests/cli_fake_agent.rs",
+    609
+   ],
+   [
+    "crates/viola-e2e/src/harness/boot.rs",
+    577
+   ],
+   [
+    "crates/viola-e2e/src/harness/gate.rs",
+    563
+   ],
+   [
+    "tests/run_cli.rs",
+    522
+   ]
+  ]
+ },
+ "population": "git ls-files \"*.rs\" minus ^(scripts|docs|refs|fuzz|.andromeda|.claude)/ (68 files)"
+}

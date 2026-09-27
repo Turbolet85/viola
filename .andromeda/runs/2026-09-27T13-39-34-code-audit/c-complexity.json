@@ -1,0 +1,66 @@
+{
+ "cyclomatic_p50": 1.0,
+ "cyclomatic_p90": 4.0,
+ "cognitive_p50": 0.0,
+ "cognitive_p90": 2.0,
+ "over_ceiling": 0,
+ "max": {
+  "fn": "scan_file",
+  "file": "crates/viola-e2e/src/harness/secret_scan.rs:116",
+  "val": 15.0
+ },
+ "top": [
+  {
+   "fn": "scan_file",
+   "file": "crates/viola-e2e/src/harness/secret_scan.rs:116",
+   "value": 15.0
+  },
+  {
+   "fn": "eval",
+   "file": "crates/viola-e2e/src/harness/cfg_legs.rs:137",
+   "value": 14.0
+  },
+  {
+   "fn": "check_tree",
+   "file": "crates/viola-e2e/src/harness/schema_check.rs:85",
+   "value": 13.0
+  },
+  {
+   "fn": "coverage",
+   "file": "crates/viola-e2e/src/harness/pre_push.rs:693",
+   "value": 12.0
+  },
+  {
+   "fn": "union",
+   "file": "crates/viola-e2e/src/harness/gate.rs:120",
+   "value": 11.0
+  },
+  {
+   "fn": "finish",
+   "file": "crates/viola-e2e/src/harness/pre_push.rs:191",
+   "value": 11.0
+  },
+  {
+   "fn": "native",
+   "file": "crates/viola-e2e/src/harness/pre_push.rs:1281",
+   "value": 11.0
+  },
+  {
+   "fn": "feed",
+   "file": "src/bin/viola-fake-agent.rs:376",
+   "value": 11.0
+  },
+  {
+   "fn": "readiness",
+   "file": "crates/viola-e2e/src/harness/boot.rs:271",
+   "value": 10.0
+  },
+  {
+   "fn": "gate",
+   "file": "crates/viola-e2e/src/harness/gate.rs:59",
+   "value": 10.0
+  }
+ ],
+ "functions": 1833,
+ "over_ceiling_list": []
+}

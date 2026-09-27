@@ -1,0 +1,375 @@
+{
+ "epoch": "Epoch 2 - Windows slice I: wrapper, events, ledger",
+ "records": 219,
+ "step": 114,
+ "friction": 105,
+ "unparseable": 0,
+ "malformed_ts_in_epoch": [],
+ "coverage": {
+  "None": {
+   "new-session": {
+    "n": 13,
+    "expected": null,
+    "steps": [
+     "orientation",
+     "orientation",
+     "orientation",
+     "orientation",
+     "orientation",
+     "orientation",
+     "orientation",
+     "orientation",
+     "orientation",
+     "orientation",
+     "orientation",
+     "orientation",
+     "orientation"
+    ]
+   },
+   "wrap-session": {
+    "n": 3,
+    "expected": 5,
+    "steps": [
+     "route-resolve",
+     "curation",
+     "route-resolve"
+    ]
+   }
+  },
+  "2026-09-24-epoch-1-cleanup": {
+   "phase": {
+    "n": 5,
+    "expected": 5,
+    "steps": [
+     "take-up",
+     "distill",
+     "research",
+     "plan",
+     "validate"
+    ]
+   },
+   "implement": {
+    "n": 3,
+    "expected": 3,
+    "steps": [
+     "code",
+     "fix-loop",
+     "smoke"
+    ]
+   },
+   "wrap-session": {
+    "n": 5,
+    "expected": 5,
+    "steps": [
+     "report",
+     "reconcile",
+     "curation",
+     "route-resolve",
+     "gates"
+    ]
+   }
+  },
+  "2026-09-25-security-prerequisites": {
+   "phase": {
+    "n": 5,
+    "expected": 5,
+    "steps": [
+     "take-up",
+     "distill",
+     "research",
+     "plan",
+     "validate"
+    ]
+   },
+   "implement": {
+    "n": 5,
+    "expected": 3,
+    "steps": [
+     "code",
+     "fix-loop",
+     "smoke",
+     "fix-loop",
+     "smoke"
+    ]
+   },
+   "wrap-session": {
+    "n": 5,
+    "expected": 5,
+    "steps": [
+     "report",
+     "reconcile",
+     "curation",
+     "route-resolve",
+     "gates"
+    ]
+   }
+  },
+  "2026-09-25-pty-wrapper-on-windows": {
+   "phase": {
+    "n": 5,
+    "expected": 5,
+    "steps": [
+     "take-up",
+     "distill",
+     "research",
+     "plan",
+     "validate"
+    ]
+   },
+   "implement": {
+    "n": 3,
+    "expected": 3,
+    "steps": [
+     "code",
+     "fix-loop",
+     "smoke"
+    ]
+   },
+   "wrap-session": {
+    "n": 5,
+    "expected": 5,
+    "steps": [
+     "report",
+     "reconcile",
+     "curation",
+     "route-resolve",
+     "gates"
+    ]
+   }
+  },
+  "2026-09-26-ci-chunk-base-and-union-verdict": {
+   "phase": {
+    "n": 5,
+    "expected": 5,
+    "steps": [
+     "take-up",
+     "distill",
+     "research",
+     "plan",
+     "validate"
+    ]
+   },
+   "implement": {
+    "n": 3,
+    "expected": 3,
+    "steps": [
+     "code",
+     "fix-loop",
+     "smoke"
+    ]
+   },
+   "wrap-session": {
+    "n": 5,
+    "expected": 5,
+    "steps": [
+     "report",
+     "reconcile",
+     "curation",
+     "route-resolve",
+     "gates"
+    ]
+   }
+  },
+  "2026-09-26-local-linux-pre-push-gate": {
+   "phase": {
+    "n": 5,
+    "expected": 5,
+    "steps": [
+     "take-up",
+     "distill",
+     "research",
+     "plan",
+     "validate"
+    ]
+   },
+   "implement": {
+    "n": 5,
+    "expected": 3,
+    "steps": [
+     "code",
+     "fix-loop",
+     "smoke",
+     "fix-loop",
+     "smoke"
+    ]
+   },
+   "wrap-session": {
+    "n": 5,
+    "expected": 5,
+    "steps": [
+     "report",
+     "reconcile",
+     "curation",
+     "route-resolve",
+     "gates"
+    ]
+   }
+  },
+  "2026-09-27-instance-state-and-start-order": {
+   "phase": {
+    "n": 5,
+    "expected": 5,
+    "steps": [
+     "take-up",
+     "distill",
+     "research",
+     "plan",
+     "validate"
+    ]
+   },
+   "implement": {
+    "n": 6,
+    "expected": 3,
+    "steps": [
+     "code",
+     "fix-loop",
+     "smoke",
+     "fix-loop",
+     "smoke",
+     "fix-loop"
+    ]
+   },
+   "wrap-session": {
+    "n": 5,
+    "expected": 5,
+    "steps": [
+     "report",
+     "reconcile",
+     "curation",
+     "route-resolve",
+     "gates"
+    ]
+   }
+  },
+  "2026-09-27-wrapper-channel": {
+   "phase": {
+    "n": 5,
+    "expected": 5,
+    "steps": [
+     "take-up",
+     "distill",
+     "research",
+     "plan",
+     "validate"
+    ]
+   },
+   "implement": {
+    "n": 3,
+    "expected": 3,
+    "steps": [
+     "code",
+     "fix-loop",
+     "smoke"
+    ]
+   },
+   "wrap-session": {
+    "n": 5,
+    "expected": 5,
+    "steps": [
+     "report",
+     "reconcile",
+     "curation",
+     "route-resolve",
+     "gates"
+    ]
+   }
+  }
+ },
+ "step_runs": {
+  "new-session/orientation": 13,
+  "wrap-session/route-resolve": 9,
+  "wrap-session/curation": 8,
+  "phase/take-up": 7,
+  "phase/distill": 7,
+  "phase/research": 7,
+  "phase/plan": 7,
+  "phase/validate": 7,
+  "implement/code": 7,
+  "implement/fix-loop": 11,
+  "implement/smoke": 10,
+  "wrap-session/report": 7,
+  "wrap-session/reconcile": 7,
+  "wrap-session/gates": 7
+ },
+ "untyped_rate": {
+  "wrap-session/route-resolve": {
+   "untyped": 1,
+   "friction": 7,
+   "step_runs": 9
+  },
+  "wrap-session/curation": {
+   "untyped": 0,
+   "friction": 12,
+   "step_runs": 8
+  },
+  "phase/research": {
+   "untyped": 0,
+   "friction": 10,
+   "step_runs": 7
+  },
+  "phase/validate": {
+   "untyped": 0,
+   "friction": 10,
+   "step_runs": 7
+  },
+  "implement/fix-loop": {
+   "untyped": 3,
+   "friction": 29,
+   "step_runs": 11
+  },
+  "wrap-session/report": {
+   "untyped": 0,
+   "friction": 4,
+   "step_runs": 7
+  },
+  "wrap-session/reconcile": {
+   "untyped": 5,
+   "friction": 15,
+   "step_runs": 7
+  },
+  "phase/distill": {
+   "untyped": 1,
+   "friction": 3,
+   "step_runs": 7
+  },
+  "implement/code": {
+   "untyped": 2,
+   "friction": 9,
+   "step_runs": 7
+  },
+  "implement/smoke": {
+   "untyped": 0,
+   "friction": 1,
+   "step_runs": 10
+  },
+  "new-session/orientation": {
+   "untyped": 0,
+   "friction": 2,
+   "step_runs": 13
+  },
+  "wrap-session/gates": {
+   "untyped": 0,
+   "friction": 2,
+   "step_runs": 7
+  },
+  "phase/plan": {
+   "untyped": 0,
+   "friction": 1,
+   "step_runs": 7
+  }
+ },
+ "problem_fact_fill": [
+  47,
+  114
+ ],
+ "id_fill": [
+  219,
+  219
+ ],
+ "outcomes": {
+  "ok": 101,
+  "halted-resolved": 7,
+  "ok-degraded": 3,
+  "soft-exit": 3
+ }
+}

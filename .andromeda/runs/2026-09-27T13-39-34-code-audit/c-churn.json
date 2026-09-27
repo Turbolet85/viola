@@ -1,0 +1,9 @@
+{
+ "pct": 16.97,
+ "files_churned": 30,
+ "adds_all": 13647,
+ "adds_churned": 2316,
+ "files_touched": 58,
+ "commits": 14,
+ "command": "git log --reverse --numstat --format=@%H a28f69684d3202e85b0de2e4e0ad26e23cbe0e7d..HEAD -- \"*.rs\"  # minus ^(scripts|docs|refs|fuzz|.andromeda|.claude)/"
+}

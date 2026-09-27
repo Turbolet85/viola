@@ -1,0 +1,2060 @@
+[
+ {
+  "key": "phase/validate/contract.mechanical-check",
+  "n": 10,
+  "weight": 18,
+  "impact": {
+   "iterations": 4,
+   "extra_reads": 10,
+   "dialogue_rounds": 2
+  },
+  "halt_softexit_cases": 0,
+  "rate_den": 7,
+  "chunks": [
+   "2026-09-24-epoch-1-cleanup",
+   "2026-09-25-pty-wrapper-on-windows",
+   "2026-09-25-security-prerequisites",
+   "2026-09-26-ci-chunk-base-and-union-verdict",
+   "2026-09-26-local-linux-pre-push-gate",
+   "2026-09-27-instance-state-and-start-order",
+   "2026-09-27-wrapper-channel"
+  ],
+  "above": true,
+  "cases": [
+   {
+    "id": "2026-09-24T18:26:11Z-b",
+    "line": 203,
+    "chunk": "2026-09-24-epoch-1-cleanup",
+    "skill": "phase",
+    "step": "validate",
+    "what": "check 5 (placeholder leak) and check 4 (9) (new-entry grep) fired on the P4 draft: a brace-shaped output-format description in step 1 prose, and two grep probes aimed at new scopes left unmarked new; both fixed before the review",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": null,
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-25T12:40:25Z-b",
+    "line": 223,
+    "chunk": "2026-09-25-security-prerequisites",
+    "skill": "phase",
+    "step": "validate",
+    "what": "check 4(9) corpus grep found two P4-authored entries without new=true (the deny-sync sole-root form, the deny.toml allow-line grep) and check 9 found research's Platform-issues slot 'none' while the fence reads CI runs; all resolved at P5 before review",
+    "impact": {
+     "extra_reads": 2
+    },
+    "evidence": ".andromeda/runs/2026-09-25T12-15-33-phase/p5/",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-25T14:09:16Z-b",
+    "line": 251,
+    "chunk": "2026-09-25-pty-wrapper-on-windows",
+    "skill": "phase",
+    "step": "validate",
+    "what": "check 4(6) required-resolution: acceptance criteria named secret-scan, G4 schema-check, zizmor and the coverage floors with no gate entry; added the three entries (+ kept homes on the integration run) and reworded coverage to the operator CI read",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": null,
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-25T14:09:16Z-c",
+    "line": 252,
+    "chunk": "2026-09-25-pty-wrapper-on-windows",
+    "skill": "phase",
+    "step": "validate",
+    "what": "check 4(9) vacuity: install-ripgrep.sh --probe (the script ignores its arguments today and exits 0 on the real install) and orphans-check.sh --probe (already green at 1/1) carried exit-only expects; added last-line verdict atoms so both baseline red",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": ".andromeda/runs/2026-09-25T13-34-03-phase/p5/18.log",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-25T14:09:16Z-d",
+    "line": 253,
+    "chunk": "2026-09-25-pty-wrapper-on-windows",
+    "skill": "phase",
+    "step": "validate",
+    "what": "check 2 touchpoint: the secret-scan canary table was listed by description, not path; resolved to crates/viola-e2e/src/harness/secret_scan.rs l.15-20 (scan_patterns.rs no change)",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": null,
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-26T19:52:42Z-b",
+    "line": 293,
+    "chunk": "2026-09-26-ci-chunk-base-and-union-verdict",
+    "skill": "phase",
+    "step": "validate",
+    "what": "check 4 (4)/(5)/(6) each required a resolution the P4 authoring self-check does not name: an artifact key on a producer a criterion reads, atom-from sources on operator check-run reads, one-shot guard prose",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": ".andromeda/runs/2026-09-26T19-33-34-phase/p5/",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-26T21:56:15Z-b",
+    "line": 314,
+    "chunk": "2026-09-26-local-linux-pre-push-gate",
+    "skill": "phase",
+    "step": "validate",
+    "what": "the review caught a premise no check reads: research M3 made build-essential an operator sudo-password step, but wsl -u root is uid 0 with no password (overseer measurement); entry 6 turned into an ordinary build entry",
+    "impact": {
+     "dialogue_rounds": 1
+    },
+    "evidence": null,
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-26T21:56:15Z-c",
+    "line": 315,
+    "chunk": "2026-09-26-local-linux-pre-push-gate",
+    "skill": "phase",
+    "step": "validate",
+    "what": "check 9: research's Platform issues slot was first filled with context sources (a REST doc, a runner-image log) under a lead pointing back at check 9, reading as a completed search; the review rewrote it to 'none — no signature search' with the sources as context, and the HIT stands",
+    "impact": {
+     "dialogue_rounds": 1
+    },
+    "evidence": null,
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T02:00:23Z-b",
+    "line": 342,
+    "chunk": "2026-09-27-instance-state-and-start-order",
+    "skill": "phase",
+    "step": "validate",
+    "what": "checks 4(2) (src/cmd/run.rs boot path, no smoke entry) and 4(6) (criterion named G4, no entry) fired on the P4 fence; the added smoke's 4(9) baseline then showed harness logs has no --kind/events source, adding a step-13 bullet and two touchpoints",
+    "impact": {
+     "extra_reads": 4
+    },
+    "evidence": ".andromeda/runs/2026-09-27T01-36-12-phase/p5/s4.log",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T07:31:23Z-b",
+    "line": 385,
+    "chunk": "2026-09-27-wrapper-channel",
+    "skill": "phase",
+    "step": "validate",
+    "what": "P5 checks fired on the P4 plan: check 3 (minted names absent from arch Occupied Resources: the Unix viola-<h12>.lock and the test endpoint names), check 8 (three criteria — first-snapshot endpoint, squatted stderr, wrapper role-file conn/corr and the v1-20 debug-redaction half — had no step writing their witness against a real wrapper), check 6 size WARN 468 > ~400; all resolved by plan edits before review, full set re-run",
+    "impact": {
+     "iterations": 0,
+     "extra_reads": 3
+    },
+    "evidence": ".andromeda/runs/2026-09-27T07-09-57-phase/p5/",
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "*/*/contract.premise-falsified",
+  "n": 9,
+  "weight": 14,
+  "impact": {
+   "iterations": 1,
+   "dialogue_rounds": 2,
+   "extra_reads": 11
+  },
+  "halt_softexit_cases": 0,
+  "rate_den": null,
+  "chunks": [
+   "2026-09-24-epoch-1-cleanup",
+   "2026-09-25-pty-wrapper-on-windows",
+   "2026-09-25-security-prerequisites",
+   "2026-09-26-local-linux-pre-push-gate",
+   "2026-09-27-instance-state-and-start-order",
+   "2026-09-27-wrapper-channel"
+  ],
+  "above": true,
+  "cases": [
+   {
+    "id": "2026-09-24T19:06:18Z-b",
+    "line": 206,
+    "chunk": "2026-09-24-epoch-1-cleanup",
+    "skill": "implement",
+    "step": "fix-loop",
+    "what": "scope/plan premise that every moved run.rs mutant was once caught held only for the two-leg union: fuzz_host_supported -> false had passed at authoring via the ubuntu leg alone, so the host-leg entry asserting ok:true went red on it",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": "viola-0.1.0/chunks/2026-09-24-epoch-1-cleanup/evidence/metrics-after.txt",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-25T12:31:58Z-b",
+    "line": 220,
+    "chunk": "2026-09-25-security-prerequisites",
+    "skill": "phase",
+    "step": "research",
+    "what": "security-plan names interprocess 2.4.4 for the channel client, but its transitive deps doctest-file and recvmsg are 0BSD, which the repo deny.toml licence allowlist rejects; the scope premise 'cargo deny stays green' failed on measurement",
+    "impact": {
+     "dialogue_rounds": 1
+    },
+    "evidence": "viola-0.1.0/chunks/2026-09-25-security-prerequisites/research.md#cargo-deny",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-25T13:55:39Z-b",
+    "line": 246,
+    "chunk": "2026-09-25-pty-wrapper-on-windows",
+    "skill": "phase",
+    "step": "research",
+    "what": "a11y-plan §3 Windows zero-viola-bytes check (no SGR or cursor control the child did not emit) is unsatisfiable: ConPTY itself emits ?9001h/?1004h/?25l/2J/H, an OSC 0 title with the command line, and re-renders nested output (measured spike)",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": "viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/research.md §Measured facts 4",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-25T13:55:39Z-c",
+    "line": 247,
+    "chunk": "2026-09-25-pty-wrapper-on-windows",
+    "skill": "phase",
+    "step": "research",
+    "what": "test-plan §4/§6 require a literal 14-name list copied from S6, but input.md S6 and the brief name only 5 of the 14; no artifact enumerates them",
+    "impact": {
+     "extra_reads": 3
+    },
+    "evidence": "viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/research.md §Measured facts 7",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-25T13:55:39Z-d",
+    "line": 248,
+    "chunk": "2026-09-25-pty-wrapper-on-windows",
+    "skill": "phase",
+    "step": "research",
+    "what": "the working entry presumed the fake agent and the wrapper can simply move to a PTY; under ConPTY a cooked console line-buffers input and swallows Ctrl-C (0x03) in both child and wrapper, so raw-mode handling enters scope",
+    "impact": {
+     "extra_reads": 2
+    },
+    "evidence": "viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/research.md §Measured facts 1-3",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-26T21:50:54Z-b",
+    "line": 312,
+    "chunk": "2026-09-26-local-linux-pre-push-gate",
+    "skill": "phase",
+    "step": "plan",
+    "what": "CARRY 2's 'the leg's printed base should equal the Windows and CI legs' base' fails before the pre-CI commit when HEAD is the wrap flip: chunk_flip steps to HEAD^ (acd08c7) while CI derives a69c5ef; found at P4 synthesis, missed by the P3 closure",
+    "impact": {
+     "extra_reads": 1,
+     "dialogue_rounds": 1
+    },
+    "evidence": null,
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T01:48:28Z-b",
+    "line": 339,
+    "chunk": "2026-09-27-instance-state-and-start-order",
+    "skill": "phase",
+    "step": "research",
+    "what": "architecture.md:22/:50 [Snapshot writer] names atomic-write-file 0.3.1, whose crates.io licence (BSD-3-Clause) the project's deny.toml allow list rejects; no spec records the conflict",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": "viola-0.1.0/chunks/2026-09-27-instance-state-and-start-order/research.md §Measured facts",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T07:22:14Z-b",
+    "line": 381,
+    "chunk": "2026-09-27-wrapper-channel",
+    "skill": "phase",
+    "step": "research",
+    "what": "CARRY from 2026-09-24-diagnostics-plane: make corr required for every channel-*/dialog-*/hook-*/send-*/release-from-driver line; obs-plan itself documents null corr for hook.event notifications, client-side send-refused and non-dialog hook-invoked, and -32700/-32600 responses carry no id",
+    "impact": {
+     "extra_reads": 2
+    },
+    "evidence": "viola-0.1.0/chunks/2026-09-27-wrapper-channel/scope.md fold item 2",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T07:22:14Z-c",
+    "line": 382,
+    "chunk": "2026-09-27-wrapper-channel",
+    "skill": "phase",
+    "step": "research",
+    "what": "CARRY from 2026-09-27-instance-state-and-start-order named this chunk's exclusive-bind arbiter as owner of the replace_private_shared red; the red's boot was two names (builder, overseer) with distinct endpoints and the bind sits after the pin copy, so the arbiter cannot reach it",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": "viola-0.1.0/chunks/2026-09-27-wrapper-channel/scope.md fold item 11",
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "wrap-session/reconcile/UNTYPED",
+  "n": 5,
+  "weight": 15,
+  "impact": {
+   "retries": 3,
+   "extra_reads": 2,
+   "reformulations": 7
+  },
+  "halt_softexit_cases": 0,
+  "rate_den": 7,
+  "chunks": [
+   "2026-09-26-local-linux-pre-push-gate",
+   "2026-09-27-instance-state-and-start-order",
+   "2026-09-27-wrapper-channel"
+  ],
+  "above": false,
+  "cases": [
+   {
+    "id": "2026-09-27T01:12:11Z-b",
+    "line": 330,
+    "chunk": "2026-09-26-local-linux-pre-push-gate",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "what": "cascade.py sweep refused the pattern file (exit 2): pattern ids are limited to 16 chars, the reference's cascade section does not state the limit; 12 ids renamed and the sweep re-run",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": ".andromeda/runs/2026-09-27T00-51-08-wrap/cascade-patterns.toml",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T06:33:04Z-d",
+    "line": 363,
+    "chunk": "2026-09-27-instance-state-and-start-order",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "what": "the fan-out missed four stale restatements that the cascade sweep caught (test-plan:529, :1775, obs-plan:869, security-plan:671) and a wider leaf grep found six leaf lines the sweep patterns did not name (they stated the chunk's NEW facts' predecessors, not retired wording)",
+    "impact": {
+     "extra_reads": 2
+    },
+    "evidence": ".andromeda/runs/2026-09-27T06-12-23-wrap/cascade-sweep.md",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T12:54:15Z-c",
+    "line": 404,
+    "chunk": "2026-09-27-wrapper-channel",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "what": "The architecture detector cited source/manifest lines for 7 of 18 proposals (endpoint.rs, server.rs, frame.rs, Cargo.toml) against its prompt's re-derivation ban and carried unreported facts (dir fallback, lock mode, unlink order, dependency versions); all 7 were rejected and their report-carried facts re-raised by the orchestrator",
+    "impact": {
+     "reformulations": 7
+    },
+    "evidence": ".andromeda/runs/2026-09-27T12-33-51-wrap/fanout-results.md",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T12:54:15Z-e",
+    "line": 406,
+    "chunk": "2026-09-27-wrapper-channel",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "what": "cascade.py sweep refused the first pattern file (exit 2): pattern ids over 16 chars; ids shortened and the sweep re-run",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": ".andromeda/runs/2026-09-27T12-33-51-wrap/cascade-patterns.toml",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T12:54:15Z-f",
+    "line": 407,
+    "chunk": "2026-09-27-wrapper-channel",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "what": "An architecture [Session Liveness] edit removed a still-true clause (a name with an answering endpoint refuses) beyond the retired pending-bind claim; caught on re-reading the edit and restored before the sweep",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": null,
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "implement/fix-loop/retry.fix-iterations",
+  "n": 3,
+  "weight": 19,
+  "impact": {
+   "iterations": 12,
+   "retries": 4
+  },
+  "halt_softexit_cases": 0,
+  "rate_den": 11,
+  "chunks": [
+   "2026-09-25-pty-wrapper-on-windows",
+   "2026-09-27-instance-state-and-start-order",
+   "2026-09-27-wrapper-channel"
+  ],
+  "above": true,
+  "cases": [
+   {
+    "id": "2026-09-25T16:59:16Z-f",
+    "line": 263,
+    "chunk": "2026-09-25-pty-wrapper-on-windows",
+    "skill": "implement",
+    "step": "fix-loop",
+    "what": "mutation leg took 4 runs: unviable swamp (new crates lacked the fake-agent feature cargo-mutants passes), then 49 missed (real-PTY paths testable only via root tests), then 9, then 5 cfg(unix)-only",
+    "impact": {
+     "iterations": 4
+    },
+    "evidence": null,
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T04:03:46Z-b",
+    "line": 352,
+    "chunk": "2026-09-27-instance-state-and-start-order",
+    "skill": "implement",
+    "step": "fix-loop",
+    "what": "the pre-push union named 5 then 1 surviving mutants across two further runs (unobservable umask-only restrict, redundant parent filter, unjoined-thread drop, NotFound guard, non-object event line); each run costs ~18 min",
+    "impact": {
+     "iterations": 2,
+     "retries": 2
+    },
+    "evidence": ".andromeda/runs/2026-09-27T02-03-01-implement (gate entry 21)",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T10:15:29Z-b",
+    "line": 393,
+    "chunk": "2026-09-27-wrapper-channel",
+    "skill": "implement",
+    "step": "fix-loop",
+    "what": "6 iterations to green; two went to mutation survivors, the second after hoisting disjoint-bit flag operators into consts on the false belief that cargo-mutants skips const initializers (27.1.0 mutates them), costing one full pre-push run",
+    "impact": {
+     "iterations": 6,
+     "retries": 2
+    },
+    "evidence": null,
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "wrap-session/route-resolve/contract.carry-no-owner",
+  "n": 4,
+  "weight": 14,
+  "impact": {
+   "extra_reads": 1,
+   "dialogue_rounds": 2,
+   "halted": 2
+  },
+  "halt_softexit_cases": 2,
+  "rate_den": 9,
+  "chunks": [
+   "2026-09-25-pty-wrapper-on-windows",
+   "2026-09-27-instance-state-and-start-order",
+   "2026-09-27-wrapper-channel"
+  ],
+  "above": true,
+  "cases": [
+   {
+    "id": "2026-09-25T18:06:56Z-b",
+    "line": 281,
+    "chunk": "2026-09-25-pty-wrapper-on-windows",
+    "skill": "wrap-session",
+    "step": "route-resolve",
+    "what": "the ^Z hypothesis was directed to \"the next route entry that feeds viola run stdin\", which no entry names; placed on \"The wheel\" (human-keystroke path) by reading entries 47-57",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": null,
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T06:40:33Z-b",
+    "line": 372,
+    "chunk": "2026-09-27-instance-state-and-start-order",
+    "skill": "wrap-session",
+    "step": "route-resolve",
+    "what": "overseer item 4 (local pre-push has no Windows llvm-cov test stage, green twice on trees CI read red) was relayed as a route note naming no entry; placement halted and the overseer chose a CARRY on Wrapper channel with a fold-now direction",
+    "impact": {
+     "dialogue_rounds": 1,
+     "halted": 1
+    },
+    "evidence": ".andromeda/runs/2026-09-27T06-12-23-wrap/resume.md",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T06:40:33Z-c",
+    "line": 373,
+    "chunk": "2026-09-27-instance-state-and-start-order",
+    "skill": "wrap-session",
+    "step": "route-resolve",
+    "what": "the replace_private_shared fix-by-reasoning label had a recurrence owner only in the report entry, with no route entry named; placement was asked in the same halt round and the overseer chose Wrapper channel, which lands the exclusive-bind arbiter",
+    "impact": {},
+    "evidence": "viola-0.1.0/chunks/2026-09-27-instance-state-and-start-order/report.md:142",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T13:10:00Z-b",
+    "line": 411,
+    "chunk": "2026-09-27-wrapper-channel",
+    "skill": "wrap-session",
+    "step": "route-resolve",
+    "what": "Two recurrence watches owned by this chunk's frozen line (viola-pty resize red, harness_lifecycle concurrent-boot red) had no owner after the flip and no report mention; halted, and the overseer directed one move to the head entry with a 3-green-runs expiry, to be taken by the Epoch 2 cleanup chunk not yet minted",
+    "impact": {
+     "dialogue_rounds": 1,
+     "halted": 1
+    },
+    "evidence": null,
+    "clause_retracted": [
+     "ts 2026-09-27T13:10:00Z (hand-authored; true time 12:54:15Z–12:58:22Z)"
+    ]
+   }
+  ]
+ },
+ {
+  "key": "implement/fix-loop/contract.vacuous-check-found",
+  "n": 5,
+  "weight": 10,
+  "impact": {
+   "iterations": 5
+  },
+  "halt_softexit_cases": 0,
+  "rate_den": 11,
+  "chunks": [
+   "2026-09-25-pty-wrapper-on-windows",
+   "2026-09-26-local-linux-pre-push-gate",
+   "2026-09-27-wrapper-channel"
+  ],
+  "above": true,
+  "cases": [
+   {
+    "id": "2026-09-25T16:59:16Z-b",
+    "line": 259,
+    "chunk": "2026-09-25-pty-wrapper-on-windows",
+    "skill": "implement",
+    "step": "fix-loop",
+    "what": "remove-the-guard showed pump_copies_the_output_it_drains_after_exit insensitive to an exit-on-output-EOF guard; added pump_waits_for_the_handle_after_the_output_ends, then red under the neutralised guard",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": "viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/evidence/guards/readings.json",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-25T16:59:16Z-c",
+    "line": 260,
+    "chunk": "2026-09-25-pty-wrapper-on-windows",
+    "skill": "implement",
+    "step": "fix-loop",
+    "what": "the child PTY test checked terminal restore through a fresh HostTerminal::enter(), true with or without the restore; a drop->() mutant survived until the check read ENABLE_LINE_INPUT / ICANON after drop",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": null,
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-26T22:32:35Z-d",
+    "line": 320,
+    "chunk": "2026-09-26-local-linux-pre-push-gate",
+    "skill": "implement",
+    "step": "fix-loop",
+    "what": "guard g8 (git clean in the sync) neutralised stayed green: reset --hard already drops files the clone's own add -A staged, so the test never exercised clean; a stray clone-side file case was added and the re-run pair holds",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": "chunks/2026-09-26-local-linux-pre-push-gate/evidence/guards/readings.json",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T00:30:00Z-b",
+    "line": 324,
+    "chunk": "2026-09-26-local-linux-pre-push-gate",
+    "skill": "implement",
+    "step": "fix-loop",
+    "what": "the union's first live run found 7 survivors in this chunk's own new tests: the 40 GiB cap used only symbolically (6 arithmetic mutants) and no pin on skipping git apply for an unchanged tree; literal and call-absence assertions added, killed on the next run",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": "implement run dir pp-instr-1.out / pp-instr-2.out",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T10:15:29Z-e",
+    "line": 396,
+    "chunk": "2026-09-27-wrapper-channel",
+    "skill": "implement",
+    "step": "fix-loop",
+    "what": "the mutation protocol found the Unix stale-socket removal's non-NotFound error guard insensitive: any leftover that cannot be removed already fails the bind, so the guard was removed",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": null,
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "*/*/recall.corpus-recurrence",
+  "n": 6,
+  "weight": 7,
+  "impact": {
+   "retries": 1
+  },
+  "halt_softexit_cases": 0,
+  "rate_den": null,
+  "chunks": [
+   "2026-09-26-ci-chunk-base-and-union-verdict",
+   "2026-09-26-local-linux-pre-push-gate",
+   "2026-09-27-instance-state-and-start-order"
+  ],
+  "above": true,
+  "cases": [
+   {
+    "id": "2026-09-26T21:12:33Z-b",
+    "line": 302,
+    "chunk": "2026-09-26-ci-chunk-base-and-union-verdict",
+    "skill": "wrap-session",
+    "step": "curation",
+    "what": "the rust-analyzer mutants.out lock recurred (os error 5) because the prior session left it as a 0.7 deferred learning in the handoff rather than a curated entry; this session reproduced it on the first run --mutants",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": ".andromeda/runs/2026-09-26T20-59-23-wrap/curation.md",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T01:13:54Z-b",
+    "line": 332,
+    "chunk": "2026-09-26-local-linux-pre-push-gate",
+    "skill": "wrap-session",
+    "step": "curation",
+    "what": "the report's sweep hazard 'from Git Bash a /mnt/c/… argument needs MSYS2_ARG_CONV_EXCL' is already curated in host-win32.md §Paths (leading-/ mangling, scope MSYS2_ARG_CONV_EXCL); the implement work reproduced the failure anyway",
+    "impact": {},
+    "evidence": "viola-0.1.0/chunks/2026-09-26-local-linux-pre-push-gate/report.md §Decisions & corrections",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T06:37:12Z-b",
+    "line": 367,
+    "chunk": "2026-09-27-instance-state-and-start-order",
+    "skill": "wrap-session",
+    "step": "curation",
+    "what": "events.md 'append + exclusive lock fails on Windows' was already curated; the chunk's lock opener was written append-only anyway",
+    "impact": {},
+    "evidence": ".andromeda/runs/2026-09-27T06-12-23-wrap/curation.md",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T06:37:12Z-c",
+    "line": 368,
+    "chunk": "2026-09-27-instance-state-and-start-order",
+    "skill": "wrap-session",
+    "step": "curation",
+    "what": "verification-harness.md 2026-09-25 'Never pipe agent-run.sh boot' was already curated; a subprocess capture of boot hung anyway",
+    "impact": {},
+    "evidence": ".andromeda/runs/2026-09-27T06-12-23-wrap/curation.md",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T06:37:12Z-d",
+    "line": 369,
+    "chunk": "2026-09-27-instance-state-and-start-order",
+    "skill": "wrap-session",
+    "step": "curation",
+    "what": "host-win32.md 2026-09-25 'Stop a process by its exact ExecutablePath' was already curated; a command-line-substring stop killed its own shell anyway",
+    "impact": {},
+    "evidence": ".andromeda/runs/2026-09-27T06-12-23-wrap/curation.md",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T06:37:12Z-e",
+    "line": 370,
+    "chunk": "2026-09-27-instance-state-and-start-order",
+    "skill": "wrap-session",
+    "step": "curation",
+    "what": "host-win32.md §Paths MSYS leading-slash conversion was already curated; a wsl.exe --exec /usr/bin/... call was mangled anyway",
+    "impact": {},
+    "evidence": ".andromeda/runs/2026-09-27T06-12-23-wrap/curation.md",
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "implement/fix-loop/tooling.result-not-run-stable",
+  "n": 4,
+  "weight": 9,
+  "impact": {
+   "iterations": 3,
+   "retries": 2
+  },
+  "halt_softexit_cases": 0,
+  "rate_den": 11,
+  "chunks": [
+   "2026-09-25-pty-wrapper-on-windows",
+   "2026-09-26-ci-chunk-base-and-union-verdict",
+   "2026-09-27-instance-state-and-start-order",
+   "2026-09-27-wrapper-channel"
+  ],
+  "above": true,
+  "cases": [
+   {
+    "id": "2026-09-25T16:59:16Z-e",
+    "line": 262,
+    "chunk": "2026-09-25-pty-wrapper-on-windows",
+    "skill": "implement",
+    "step": "fix-loop",
+    "what": "secret-scan read target/agent-run/chunk.diff left by a prior run --mutants (hit: its own ?t= pattern-table line as diff context of secret_scan.rs); green once the residue was removed",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": null,
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-26T20:35:27Z-c",
+    "line": 297,
+    "chunk": "2026-09-26-ci-chunk-base-and-union-verdict",
+    "skill": "implement",
+    "step": "fix-loop",
+    "what": "two cargo-mutants 27.1.0 windows runs over the identical final tree graded differently: caught 73 / unviable 6, then caught 71 / unviable 8 (79 tested both times); no artifact froze the first number, both green",
+    "impact": {},
+    "evidence": "viola-0.1.0/chunks/2026-09-26-ci-chunk-base-and-union-verdict/evidence/mutants-leg-windows-local.md",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T04:48:02Z-b",
+    "line": 355,
+    "chunk": "2026-09-27-instance-state-and-start-order",
+    "skill": "implement",
+    "step": "fix-loop",
+    "what": "harness_lifecycle harness_session_boots_reports_logs_and_tears_down went red once (concurrent overseer+builder boot, builder exit 1) on a tree it passed on before, and passed 8/8 on reproduction; the red run left no chain (home removed by the test)",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": null,
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T10:15:29Z-f",
+    "line": 397,
+    "chunk": "2026-09-27-wrapper-channel",
+    "skill": "implement",
+    "step": "fix-loop",
+    "what": "tui_passthrough tui_host_resize_reaches_the_child went red in one Linux pre-push after green in two: the receipt reader parsed a torn final line; no artifact froze the first number; folded as a harness fix, not closed by re-run",
+    "impact": {
+     "iterations": 2,
+     "retries": 1
+    },
+    "evidence": "viola-0.1.0/chunks/2026-09-27-wrapper-channel/evidence/red-torn-receipt-read.md",
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "wrap-session/reconcile/ambiguity.playbook-no-match",
+  "n": 3,
+  "weight": 10,
+  "impact": {
+   "dialogue_rounds": 2,
+   "halted": 1
+  },
+  "halt_softexit_cases": 1,
+  "rate_den": 7,
+  "chunks": [
+   "2026-09-25-pty-wrapper-on-windows",
+   "2026-09-27-instance-state-and-start-order",
+   "2026-09-27-wrapper-channel"
+  ],
+  "above": true,
+  "cases": [
+   {
+    "id": "2026-09-25T18:03:46Z-d",
+    "line": 276,
+    "chunk": "2026-09-25-pty-wrapper-on-windows",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "what": "four proposals landed in verbatim upstream copies (security Threat Model Summary :42 :109, a11y §1 :98 :179) that the obs-§1-only verbatim rule did not cover; escalated E4, rule widened on approval",
+    "impact": {
+     "dialogue_rounds": 1
+    },
+    "evidence": null,
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T06:33:04Z-c",
+    "line": 362,
+    "chunk": "2026-09-27-instance-state-and-start-order",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "what": "the [Snapshot writer] reversal of a locked decision matched no playbook rule; the operator P4 ruling plus the wrap directive settled it (apply), the rule proposal goes to the card",
+    "impact": {
+     "dialogue_rounds": 0
+    },
+    "evidence": null,
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T12:54:15Z-d",
+    "line": 405,
+    "chunk": "2026-09-27-wrapper-channel",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "what": "The E2 fd-witness change (report: 'overseer-widened predicate') matched no playbook rule; escalated by unease under the founder's directive 1 and resolved live by the overseer as a premise fix, not a widening",
+    "impact": {
+     "dialogue_rounds": 1,
+     "halted": 1
+    },
+    "evidence": null,
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "*/*/contract.narrow-basis-claim",
+  "n": 5,
+  "weight": 5,
+  "impact": {
+   "extra_reads": 2
+  },
+  "halt_softexit_cases": 0,
+  "rate_den": null,
+  "chunks": [
+   "2026-09-25-pty-wrapper-on-windows",
+   "2026-09-25-security-prerequisites",
+   "2026-09-26-ci-chunk-base-and-union-verdict",
+   "2026-09-27-instance-state-and-start-order",
+   "None"
+  ],
+  "above": true,
+  "cases": [
+   {
+    "id": "2026-09-24T18:01:23Z-d",
+    "line": 195,
+    "chunk": null,
+    "skill": "wrap-session",
+    "step": "curation",
+    "what": "route-resolve's item-4 disposition stated as fact that fuzz_target! reaches arbitrary through libfuzzer-sys's re-export; curation's measurement attempt found libfuzzer-sys absent from the host registry, so the mechanism was unmeasured; the adaptation record and handoff relabel it a hypothesis (the disposition stands on the measured spec pin)",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": ".andromeda/runs/2026-09-24T18-00-38-wrap/adaptation-record.md",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-25T13:24:03Z-a",
+    "line": 237,
+    "chunk": "2026-09-25-security-prerequisites",
+    "skill": "wrap-session",
+    "step": "curation",
+    "what": "the recurrence record asserted a prior wrap had named the formatter-reflow hazard without any search establishing it; no such prior entry was read, so the recurrence premise is unsupported",
+    "impact": {},
+    "evidence": ".andromeda/runs/2026-09-25T13-11-43-wrap/curation.md",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-25T17:12:00Z-a",
+    "line": 266,
+    "chunk": "2026-09-25-pty-wrapper-on-windows",
+    "skill": "implement",
+    "step": "code",
+    "what": "the 16:44:58 session end was attributed to the contract_diag_schema Ctrl-C hang from the timing of an exit-137 call alone; per the operator the window was closed by hand, and a hung test cannot close a window",
+    "impact": {},
+    "evidence": "viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/evidence/",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-26T19:43:50Z-b",
+    "line": 290,
+    "chunk": "2026-09-26-ci-chunk-base-and-union-verdict",
+    "skill": "phase",
+    "step": "research",
+    "what": "research.md first stated AGENT_RUN_CHUNK_BASE at 3 hits and an a11y 0-hit grep over e2e-web|playwright|--browser before either was run; re-derivation gave 4 hits and confirmed 0",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": "viola-0.1.0/chunks/2026-09-26-ci-chunk-base-and-union-verdict/research.md",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T07:06:36Z-b",
+    "line": 375,
+    "chunk": "2026-09-27-instance-state-and-start-order",
+    "skill": "wrap-session",
+    "step": "gates",
+    "what": "the route-resolve CARRY count was taken from the first edit batch and missed the second two-CARRY edit on :40; the route.py pins listing reads 8, and the handoff line was corrected before the commit",
+    "impact": {},
+    "evidence": ".andromeda/runs/2026-09-27T06-12-23-wrap/pins-after.txt",
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "implement/fix-loop/tooling.environmental",
+  "n": 3,
+  "weight": 8,
+  "impact": {
+   "iterations": 2,
+   "retries": 3
+  },
+  "halt_softexit_cases": 0,
+  "rate_den": 11,
+  "chunks": [
+   "2026-09-25-pty-wrapper-on-windows",
+   "2026-09-26-ci-chunk-base-and-union-verdict",
+   "2026-09-26-local-linux-pre-push-gate"
+  ],
+  "above": true,
+  "cases": [
+   {
+    "id": "2026-09-25T16:59:16Z-d",
+    "line": 261,
+    "chunk": "2026-09-25-pty-wrapper-on-windows",
+    "skill": "implement",
+    "step": "fix-loop",
+    "what": "cargo-mutants mutants.out rename denied (os error 5) while the session LSP rust-analyzer watched the workspace; renames succeeded only after stopping it",
+    "impact": {
+     "iterations": 1,
+     "retries": 2
+    },
+    "evidence": null,
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-26T20:35:27Z-b",
+    "line": 296,
+    "chunk": "2026-09-26-ci-chunk-base-and-union-verdict",
+    "skill": "implement",
+    "step": "fix-loop",
+    "what": "cargo-mutants could not rename mutants.out: rust-analyzer held it (os error 5); the LSP restarted after edits so the stop was repeated before each of three leg runs",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": "viola-0.1.0/chunks/2026-09-26-ci-chunk-base-and-union-verdict/evidence/mutants-leg-windows-local.md",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-26T22:32:35Z-b",
+    "line": 318,
+    "chunk": "2026-09-26-local-linux-pre-push-gate",
+    "skill": "implement",
+    "step": "fix-loop",
+    "what": "build-essential install exit 100: security.ubuntu.com 404 on libc-dev-bin/linux-libc-dev/libc6-dev under stale package lists; apt-get update fixed it",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": "chunks/2026-09-26-local-linux-pre-push-gate/evidence/provision.md",
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "*/*/tooling.host-shell",
+  "n": 3,
+  "weight": 7,
+  "impact": {
+   "retries": 4
+  },
+  "halt_softexit_cases": 0,
+  "rate_den": null,
+  "chunks": [
+   "2026-09-26-local-linux-pre-push-gate",
+   "2026-09-27-instance-state-and-start-order"
+  ],
+  "above": true,
+  "cases": [
+   {
+    "id": "2026-09-26T21:42:25Z-b",
+    "line": 310,
+    "chunk": "2026-09-26-local-linux-pre-push-gate",
+    "skill": "phase",
+    "step": "research",
+    "what": "wsl.exe with `--` joins argv and re-parses it through the distro's login shell, so a quoted probe script lost its variables; --exec passes argv verbatim",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": null,
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T02:48:45Z-d",
+    "line": 349,
+    "chunk": "2026-09-27-instance-state-and-start-order",
+    "skill": "implement",
+    "step": "fix-loop",
+    "what": "MSYS argument conversion rewrote /usr/bin/printenv in a wsl.exe --exec call into a Windows path; re-run with MSYS2_ARG_CONV_EXCL",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": null,
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T06:33:04Z-e",
+    "line": 364,
+    "chunk": "2026-09-27-instance-state-and-start-order",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "what": "a python edit script with bytes literals failed on a non-ASCII em dash; converted to str literals encoded at use (the conversion itself was blocked once by the bash guard for a doubled backslash and went through a file)",
+    "impact": {
+     "retries": 2
+    },
+    "evidence": null,
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "implement/fix-loop/UNTYPED",
+  "n": 3,
+  "weight": 7,
+  "impact": {
+   "iterations": 2,
+   "extra_reads": 6,
+   "retries": 2
+  },
+  "halt_softexit_cases": 0,
+  "rate_den": 11,
+  "chunks": [
+   "2026-09-26-local-linux-pre-push-gate",
+   "2026-09-27-instance-state-and-start-order"
+  ],
+  "above": false,
+  "cases": [
+   {
+    "id": "2026-09-26T22:32:35Z-c",
+    "line": 319,
+    "chunk": "2026-09-26-local-linux-pre-push-gate",
+    "skill": "implement",
+    "step": "fix-loop",
+    "what": "a red reproducible only through the gate under test: tui_host_resize_reaches_the_child fails 3/3 inside pre-push, 0/68 in isolated reproductions of each of its parts; the investigation found no discriminating variable",
+    "impact": {
+     "iterations": 2,
+     "extra_reads": 6
+    },
+    "evidence": "chunks/2026-09-26-local-linux-pre-push-gate/evidence/linux-red-investigation.md",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T04:48:02Z-c",
+    "line": 356,
+    "chunk": "2026-09-27-instance-state-and-start-order",
+    "skill": "implement",
+    "step": "fix-loop",
+    "what": "a reproduction script captured viola-harness boot stdout through a subprocess pipe and hung (the supervisor inherits the pipe), the case verification-harness.md 2026-09-25 names; stopped by pid and cleaned through the harness",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": null,
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T06:11:19Z-b",
+    "line": 358,
+    "chunk": "2026-09-27-instance-state-and-start-order",
+    "skill": "implement",
+    "step": "fix-loop",
+    "what": "a poller was stopped by a command-line substring match (wait-ci.sh), which also killed the stopping shell itself (exit 255): the exact case host-win32.md 2026-09-25 rules out; only the poller's and that command's own shells were matched",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": null,
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "implement/fix-loop/contract.spec-reality-gap",
+  "n": 2,
+  "weight": 10,
+  "impact": {
+   "iterations": 2,
+   "halted": 1,
+   "soft_exit": 1
+  },
+  "halt_softexit_cases": 2,
+  "rate_den": 11,
+  "chunks": [
+   "2026-09-25-security-prerequisites",
+   "2026-09-27-instance-state-and-start-order"
+  ],
+  "above": true,
+  "cases": [
+   {
+    "id": "2026-09-25T12:51:49Z-b",
+    "line": 226,
+    "chunk": "2026-09-25-security-prerequisites",
+    "skill": "implement",
+    "step": "fix-loop",
+    "what": "plan step 10 / acceptance forecast mutants verdict counted and green for a tests-only Rust delta; test-plan §10 (operator ruling, test-plan.md:1790) and the harness make a Rust delta with no fresh outcomes.json red (outcomes-missing), so the gate cannot pass without a harness/spec change outside scope",
+    "impact": {
+     "iterations": 1,
+     "halted": 1
+    },
+    "evidence": ".andromeda/runs/2026-09-25T12-41-13-implement/gate-run-3.txt",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T02:48:45Z-b",
+    "line": 347,
+    "chunk": "2026-09-27-instance-state-and-start-order",
+    "skill": "implement",
+    "step": "fix-loop",
+    "what": "the per-start pinned copy of the running exe lands in every test home (38 MB debug on Linux); homes kept by AGENT_RUN_KEEP_HOMES or left by fail-fast-killed tests exhaust disk across the mutation legs, so the plan mutation gate cannot pass",
+    "impact": {
+     "iterations": 1,
+     "soft_exit": 1
+    },
+    "evidence": ".andromeda/runs/2026-09-27T02-03-01-implement (gate entry 21)",
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "wrap-session/report/input.implement-outcome-unsettled",
+  "n": 3,
+  "weight": 6,
+  "impact": {
+   "iterations": 3,
+   "extra_reads": 3
+  },
+  "halt_softexit_cases": 0,
+  "rate_den": 7,
+  "chunks": [
+   "2026-09-24-epoch-1-cleanup",
+   "2026-09-25-pty-wrapper-on-windows",
+   "2026-09-26-local-linux-pre-push-gate"
+  ],
+  "above": true,
+  "cases": [
+   {
+    "id": "2026-09-25T11:31:29Z-b",
+    "line": 209,
+    "chunk": "2026-09-24-epoch-1-cleanup",
+    "skill": "wrap-session",
+    "step": "report",
+    "what": "implement reported green, but two CI operator passes after it surfaced a windows stall and a false-green unviable swamp; the outcome basis became operator pass 4 (run 36126924953) after two more harness fixes folded post-implement",
+    "impact": {
+     "iterations": 3
+    },
+    "evidence": "viola-0.1.0/chunks/2026-09-24-epoch-1-cleanup/evidence/",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-25T17:48:31Z-c",
+    "line": 272,
+    "chunk": "2026-09-25-pty-wrapper-on-windows",
+    "skill": "wrap-session",
+    "step": "report",
+    "what": "steps ran after implement: operator pass pushed 17ea8c7, two fix commits (c05e6e2 unix holder group, 7681c73 macOS scoping) and three CI runs; outcome basis = operator-pass.md incl. its uncommitted final sections",
+    "impact": {
+     "extra_reads": 2
+    },
+    "evidence": "viola-0.1.0/chunks/2026-09-25-pty-wrapper-on-windows/evidence/operator-pass.md",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T01:05:00Z-b",
+    "line": 327,
+    "chunk": "2026-09-26-local-linux-pre-push-gate",
+    "skill": "wrap-session",
+    "step": "report",
+    "what": "implement soft-exited stuck; the operator then widened scope (product viola-pty fix) and ran experiments A/B and the operator pass, so the report's outcome basis is the resumed implement plus the operator-pass evidence",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": "chunks/2026-09-26-local-linux-pre-push-gate/report.md Outcome basis",
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "*/*/contract.structural-blind-spot",
+  "n": 3,
+  "weight": 6,
+  "impact": {
+   "extra_reads": 2,
+   "iterations": 2,
+   "retries": 1
+  },
+  "halt_softexit_cases": 0,
+  "rate_den": null,
+  "chunks": [
+   "2026-09-24-epoch-1-cleanup",
+   "2026-09-27-instance-state-and-start-order",
+   "2026-09-27-wrapper-channel"
+  ],
+  "above": true,
+  "cases": [
+   {
+    "id": "2026-09-25T11:39:35Z-b",
+    "line": 211,
+    "chunk": "2026-09-24-epoch-1-cleanup",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "what": "no drift-base detector covers a harness-internal contract (the run --mutants verdict and invocation) that changed in code while test-plan §3/§10 text lagged; the test-plan agent reused D-tests-obs-harness (whose test-plan↔obs-plan invariant held), and the arch and obs agents could only flag their restatements out of scope",
+    "impact": {
+     "extra_reads": 2
+    },
+    "evidence": ".andromeda/runs/2026-09-25T11-29-18-wrap/fanout-results.md",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T06:11:19Z-a",
+    "line": 357,
+    "chunk": "2026-09-27-instance-state-and-start-order",
+    "skill": "implement",
+    "step": "fix-loop",
+    "what": "pre-push green twice (1187 s, 1163 s) on trees CI read red: the canary-scan TIMEOUT needs a slower runner than the 32-core WSL leg, and the llvm-cov windows test job is not a pre-push stage; CI's first failure came at +88 s",
+    "impact": {
+     "iterations": 1,
+     "retries": 1
+    },
+    "evidence": "viola-0.1.0/chunks/2026-09-27-instance-state-and-start-order/evidence/operator-pass.md",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T10:15:29Z-d",
+    "line": 395,
+    "chunk": "2026-09-27-wrapper-channel",
+    "skill": "implement",
+    "step": "fix-loop",
+    "what": "cargo-mutants runs only the mutated package's tests, so viola-channel mutants in the owner-only DACL and SQOS flags survived although the root security tests would kill them; closed by crate-level DACL read-back and flag pin tests",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": null,
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "implement/code/UNTYPED",
+  "n": 2,
+  "weight": 8,
+  "impact": {
+   "iterations": 3,
+   "retries": 3,
+   "extra_reads": 1
+  },
+  "halt_softexit_cases": 0,
+  "rate_den": 7,
+  "chunks": [
+   "2026-09-25-pty-wrapper-on-windows",
+   "2026-09-27-wrapper-channel"
+  ],
+  "above": false,
+  "cases": [
+   {
+    "id": "2026-09-25T15:19:15Z-d",
+    "line": 257,
+    "chunk": "2026-09-25-pty-wrapper-on-windows",
+    "skill": "implement",
+    "step": "code",
+    "what": "a mis-diagnosed mechanism (Ctrl-C event under raw ConPTY input) was implemented with a measured-claim comment before a recording handler showed CTRL_CLOSE from the dropped ConPTY input writer; reverted",
+    "impact": {
+     "iterations": 3,
+     "retries": 1
+    },
+    "evidence": null,
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T08:10:38Z-e",
+    "line": 391,
+    "chunk": "2026-09-27-wrapper-channel",
+    "skill": "implement",
+    "step": "code",
+    "what": "a scoped tracing subscriber as the only dispatcher caches a callsite first hit on another thread (the server worker) as disabled, so a client test missed its channel-response line; one test moved to a process-global capture",
+    "impact": {
+     "retries": 2,
+     "extra_reads": 1
+    },
+    "evidence": null,
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "implement/fix-loop/ambiguity.scope-pressure",
+  "n": 2,
+  "weight": 7,
+  "impact": {
+   "reformulations": 1,
+   "dialogue_rounds": 2
+  },
+  "halt_softexit_cases": 0,
+  "rate_den": 11,
+  "chunks": [
+   "2026-09-27-instance-state-and-start-order",
+   "2026-09-27-wrapper-channel"
+  ],
+  "above": false,
+  "cases": [
+   {
+    "id": "2026-09-27T02:48:45Z-c",
+    "line": 348,
+    "chunk": "2026-09-27-instance-state-and-start-order",
+    "skill": "implement",
+    "step": "fix-loop",
+    "what": "two red oracles sat outside research lists: cli_fake_agent.rs edited as the planned receipt change own oracle; harness_lifecycle.rs avoided by staging readiness",
+    "impact": {
+     "reformulations": 1
+    },
+    "evidence": null,
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T10:15:29Z-g",
+    "line": 398,
+    "chunk": "2026-09-27-wrapper-channel",
+    "skill": "implement",
+    "step": "fix-loop",
+    "what": "the torn-read fix and its class sweep sat outside research's file lists (tests/support/fake.rs, home.rs, a new ndjson.rs and eight root test files); T3 near-fired and the overseer directed the fold",
+    "impact": {
+     "dialogue_rounds": 2
+    },
+    "evidence": null,
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "wrap-session/reconcile/contract.false-positive-proposal",
+  "n": 3,
+  "weight": 4,
+  "impact": {
+   "iterations": 0,
+   "extra_reads": 1,
+   "reformulations": 1
+  },
+  "halt_softexit_cases": 0,
+  "rate_den": 7,
+  "chunks": [
+   "2026-09-25-pty-wrapper-on-windows",
+   "2026-09-25-security-prerequisites",
+   "2026-09-27-instance-state-and-start-order"
+  ],
+  "above": true,
+  "cases": [
+   {
+    "id": "2026-09-25T13:22:49Z-b",
+    "line": 233,
+    "chunk": "2026-09-25-security-prerequisites",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "what": "arch detector proposed widening the PTY layer row's windows-sys role to the SQOS open (dependent-of D-arch-decisions); the row's viola-pty kill-fallback claim stays true and the channel's use belongs to the IPC row — rejected",
+    "impact": {
+     "iterations": 0
+    },
+    "evidence": ".andromeda/runs/2026-09-25T13-11-43-wrap/.raw-fanout-architecture.md",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-25T18:03:46Z-c",
+    "line": 275,
+    "chunk": "2026-09-25-pty-wrapper-on-windows",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "what": "two proposals carried a collateral fact the report does not: test-plan T8 fake-agent cwd receipt as {path} (code: {cwd}); architecture A4 bad claude_env_keep reported as parse-rejected{parser:\"config-json\"}; both applied with the report fact only",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": null,
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T06:33:04Z-b",
+    "line": 361,
+    "chunk": "2026-09-27-instance-state-and-start-order",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "what": "D-arch-resources proposed that a local #[allow(clippy::print_stderr)] sits on the new refuse helper; the root bin carries no print allow (writeln! on the locked stderr) — the old arch text was already false and the proposal inherited its premise; the body was re-derived from the code",
+    "impact": {
+     "reformulations": 1
+    },
+    "evidence": ".andromeda/runs/2026-09-27T06-12-23-wrap/validation.md",
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "implement/code/input.research-files-wrong",
+  "n": 2,
+  "weight": 6,
+  "impact": {
+   "iterations": 3,
+   "extra_reads": 4,
+   "reformulations": 1
+  },
+  "halt_softexit_cases": 0,
+  "rate_den": 7,
+  "chunks": [
+   "2026-09-25-pty-wrapper-on-windows",
+   "2026-09-27-instance-state-and-start-order"
+  ],
+  "above": false,
+  "cases": [
+   {
+    "id": "2026-09-25T15:19:15Z-b",
+    "line": 255,
+    "chunk": "2026-09-25-pty-wrapper-on-windows",
+    "skill": "implement",
+    "step": "code",
+    "what": "research companion sweep for Wrapper|booted_wrapper|stdin.*x03|Stdio::piped omitted tests/cli_fake_agent.rs and tests/contract_diag_schema.rs; both needed the start-receipt readiness fix and one hung the session",
+    "impact": {
+     "iterations": 3,
+     "extra_reads": 4
+    },
+    "evidence": null,
+    "clause_retracted": [
+     "discounted clause: \"and one hung the session\" — the test hung, the session end was a hand-closed window"
+    ]
+   },
+   {
+    "id": "2026-09-27T02:15:13Z-b",
+    "line": 345,
+    "chunk": "2026-09-27-instance-state-and-start-order",
+    "skill": "implement",
+    "step": "code",
+    "what": "step 13 grows the harness logs Filter by a kind field, but research's companion sweep covered only SpawnSpec literals; a Filter literal in crates/viola-e2e/tests/harness_lifecycle.rs would break, so the field became a separate Query type",
+    "impact": {
+     "reformulations": 1
+    },
+    "evidence": null,
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "wrap-session/curation/ambiguity.filter-borderline",
+  "n": 3,
+  "weight": 3,
+  "impact": {
+   "deferred": 6
+  },
+  "halt_softexit_cases": 0,
+  "rate_den": 8,
+  "chunks": [
+   "2026-09-24-epoch-1-cleanup",
+   "2026-09-25-pty-wrapper-on-windows",
+   "2026-09-27-wrapper-channel"
+  ],
+  "above": true,
+  "cases": [
+   {
+    "id": "2026-09-25T11:41:06Z-b",
+    "line": 213,
+    "chunk": "2026-09-24-epoch-1-cleanup",
+    "skill": "wrap-session",
+    "step": "curation",
+    "what": "five candidates tied at confidence 0.8 (three of them only via the no-other-home +0.2); the Filter 5 cap of 3 was filled by judgment (the operator convention and two measured design-deciding facts first), with no tiebreak rule for equal scores",
+    "impact": {
+     "deferred": 2
+    },
+    "evidence": null,
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-25T18:05:25Z-b",
+    "line": 278,
+    "chunk": "2026-09-25-pty-wrapper-on-windows",
+    "skill": "wrap-session",
+    "step": "curation",
+    "what": "Filter 5 cap: two survivors tied at 0.7 (CI-form mutation leg on Windows; rust-analyzer holding mutants.out); the mutation-leg entry was taken as nearer the next chunk and the other deferred to the handoff by judgment",
+    "impact": {
+     "deferred": 1
+    },
+    "evidence": null,
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T13:02:00Z-b",
+    "line": 409,
+    "chunk": "2026-09-27-wrapper-channel",
+    "skill": "wrap-session",
+    "step": "curation",
+    "what": "Four candidates tied at 0.8 for Filter 5's three slots (all measurement +0.4, detail +0.2, no-other-home +0.2); the sweep-hazard candidate was deferred by judgment, and the founder's boundary-widening ruling (0.7) fell below the cap and was routed to a playbook proposal",
+    "impact": {
+     "deferred": 3
+    },
+    "evidence": ".andromeda/runs/2026-09-27T12-33-51-wrap/curation.md",
+    "clause_retracted": [
+     "ts 2026-09-27T13:02:00Z (hand-authored; true time 12:54:15Z–12:58:22Z)"
+    ]
+   }
+  ]
+ },
+ {
+  "key": "implement/fix-loop/contract.test-expectation",
+  "n": 2,
+  "weight": 4,
+  "impact": {
+   "iterations": 2
+  },
+  "halt_softexit_cases": 0,
+  "rate_den": 11,
+  "chunks": [
+   "2026-09-25-security-prerequisites",
+   "2026-09-27-wrapper-channel"
+  ],
+  "above": false,
+  "cases": [
+   {
+    "id": "2026-09-25T12:51:49Z-c",
+    "line": 227,
+    "chunk": "2026-09-25-security-prerequisites",
+    "skill": "implement",
+    "step": "fix-loop",
+    "what": "the plan's FIPS 180-2 448-bit message literal dropped 'klmnlmnomn' (…jklmmnopnopq); the digest literal was right, so the KAT went red; fixed to the published message, verified independently with hashlib",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": ".andromeda/runs/2026-09-25T12-41-13-implement/gate-run-1.txt",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T10:15:29Z-c",
+    "line": 394,
+    "chunk": "2026-09-27-wrapper-channel",
+    "skill": "implement",
+    "step": "fix-loop",
+    "what": "the plan's E2 witness bound (child fds 0,1,2 and at most one other, the PTY slave) was falsified on Linux: the fake agent holds its receipt file and its /dev/fd listing handle, measured [0,1,2,3,4]; the witness was rebuilt on the live /proc fd table",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": null,
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "implement/code/input.plan-step-ambiguous",
+  "n": 2,
+  "weight": 3,
+  "impact": {
+   "iterations": 0,
+   "reformulations": 1
+  },
+  "halt_softexit_cases": 0,
+  "rate_den": 7,
+  "chunks": [
+   "2026-09-25-pty-wrapper-on-windows",
+   "2026-09-27-wrapper-channel"
+  ],
+  "above": false,
+  "cases": [
+   {
+    "id": "2026-09-25T15:19:15Z-c",
+    "line": 256,
+    "chunk": "2026-09-25-pty-wrapper-on-windows",
+    "skill": "implement",
+    "step": "code",
+    "what": "plan step 2 (PtyError via thiserror) contradicted plan gate 17 (viola-pty normal deps exactly libc, portable-pty, windows-sys)",
+    "impact": {
+     "iterations": 0
+    },
+    "evidence": null,
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T08:10:38Z-b",
+    "line": 388,
+    "chunk": "2026-09-27-wrapper-channel",
+    "skill": "implement",
+    "step": "code",
+    "what": "plan step 12 makes corr required on hook-decision unconditionally and on hook-invoked for dialog hooks, but obs-plan D-07 and the budget scenario document null-corr lines on both; implemented per the documented discriminators and surfaced",
+    "impact": {
+     "reformulations": 1
+    },
+    "evidence": null,
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "wrap-session/route-resolve/ambiguity.trajectory-halt",
+  "n": 1,
+  "weight": 5,
+  "impact": {
+   "dialogue_rounds": 2,
+   "extra_reads": 3
+  },
+  "halt_softexit_cases": 0,
+  "rate_den": 9,
+  "chunks": [
+   "None"
+  ],
+  "above": false,
+  "cases": [
+   {
+    "id": "2026-09-24T18:01:23Z-b",
+    "line": 193,
+    "chunk": null,
+    "skill": "wrap-session",
+    "step": "route-resolve",
+    "what": "operator direction named the entry's slot but left its item contents to the orchestrator; the proposal went to dialogue, where the first print did not reach the overseer (only the question options did) and it was re-printed as text with the requested mutation-cost measurement (cargo mutants --list per touched file)",
+    "impact": {
+     "dialogue_rounds": 2,
+     "extra_reads": 3
+    },
+    "evidence": ".andromeda/runs/2026-09-24T18-00-38-wrap/adaptation-record.md",
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "wrap-session/reconcile/input.report-insufficient",
+  "n": 2,
+  "weight": 2,
+  "impact": {
+   "extra_reads": 3
+  },
+  "halt_softexit_cases": 0,
+  "rate_den": 7,
+  "chunks": [
+   "2026-09-25-pty-wrapper-on-windows",
+   "2026-09-25-security-prerequisites"
+  ],
+  "above": false,
+  "cases": [
+   {
+    "id": "2026-09-25T13:22:49Z-c",
+    "line": 234,
+    "chunk": "2026-09-25-security-prerequisites",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "what": "report Expected-amendments listed security-plan 608/609/611 + 205/373/375 for the open-pick claim but missed :265, where the Data Protection bullet restated it; the detector's claim sweep caught it",
+    "impact": {
+     "extra_reads": 0
+    },
+    "evidence": ".andromeda/runs/2026-09-25T13-11-43-wrap/.raw-fanout-security-plan.md",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-25T18:03:46Z-b",
+    "line": 274,
+    "chunk": "2026-09-25-pty-wrapper-on-windows",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "what": "report stated the run-path log lines but not that no tracing span exists (obs-plan requires pty.spawn and viola-pty seam spans); the orchestrator found 0 #[instrument] workspace-wide and the Wrapper channel entry owning the first spans",
+    "impact": {
+     "extra_reads": 3
+    },
+    "evidence": null,
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "phase/distill/contract.binding-contradiction",
+  "n": 2,
+  "weight": 2,
+  "impact": {
+   "retries": 0
+  },
+  "halt_softexit_cases": 0,
+  "rate_den": 7,
+  "chunks": [
+   "2026-09-25-pty-wrapper-on-windows",
+   "2026-09-27-wrapper-channel"
+  ],
+  "above": false,
+  "cases": [
+   {
+    "id": "2026-09-25T13:41:00Z-b",
+    "line": 243,
+    "chunk": "2026-09-25-pty-wrapper-on-windows",
+    "skill": "phase",
+    "step": "distill",
+    "what": "a11y extract states the CLI refusal as `unable  <reason>  <detail>` (a11y-plan §8) while design and layouts fix the exit-1 start refusal as `unable: <cause>` (design-system cli pattern 2); a11y deferred the form to P3/P4, so noted to synthesis, not retried",
+    "impact": {
+     "retries": 0
+    },
+    "evidence": ".andromeda/runs/2026-09-25T13-34-03-phase/",
+    "clause_retracted": null
+   },
+   {
+    "id": "2026-09-27T07:16:46Z-b",
+    "line": 379,
+    "chunk": "2026-09-27-wrapper-channel",
+    "skill": "phase",
+    "step": "distill",
+    "what": "check C: arch extract (architecture §Occupied Resources IPC endpoints: Unix socket at $TMPDIR/viola-<h12>.sock) contradicts security + tests extracts (security-plan amendment 2 / test-plan §4 vectors: per-user 0700 dir); both extracts faithful to their masters, so a spec-level divergence, carried to P4 synthesis, no retry",
+    "impact": {
+     "retries": 0
+    },
+    "evidence": ".andromeda/runs/2026-09-27T07-09-57-phase/",
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "implement/code/tooling.hook-friction",
+  "n": 1,
+  "weight": 3,
+  "impact": {
+   "retries": 2,
+   "extra_reads": 2
+  },
+  "halt_softexit_cases": 0,
+  "rate_den": 7,
+  "chunks": [
+   "2026-09-27-wrapper-channel"
+  ],
+  "above": false,
+  "cases": [
+   {
+    "id": "2026-09-27T08:10:38Z-d",
+    "line": 390,
+    "chunk": "2026-09-27-wrapper-channel",
+    "skill": "implement",
+    "step": "code",
+    "what": "the PostToolUse formatter reflowed a region between edits, so two Edit anchors written against the pre-format text matched nothing",
+    "impact": {
+     "retries": 2,
+     "extra_reads": 2
+    },
+    "evidence": null,
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "phase/distill/UNTYPED",
+  "n": 1,
+  "weight": 2,
+  "impact": {
+   "retries": 1
+  },
+  "halt_softexit_cases": 0,
+  "rate_den": 7,
+  "chunks": [
+   "2026-09-25-pty-wrapper-on-windows"
+  ],
+  "above": false,
+  "cases": [
+   {
+    "id": "2026-09-25T13:41:00Z-c",
+    "line": 244,
+    "chunk": "2026-09-25-pty-wrapper-on-windows",
+    "skill": "phase",
+    "step": "distill",
+    "what": "the orchestrator's first save of layouts.md was a paraphrased reconstruction instead of the verbatim return body; caught before validation and re-saved verbatim via a second whole-content Write",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": ".andromeda/runs/2026-09-25T13-34-03-phase/layouts.md",
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "implement/smoke/tooling.harness-friction",
+  "n": 1,
+  "weight": 2,
+  "impact": {
+   "retries": 1
+  },
+  "halt_softexit_cases": 0,
+  "rate_den": 10,
+  "chunks": [
+   "2026-09-25-pty-wrapper-on-windows"
+  ],
+  "above": false,
+  "cases": [
+   {
+    "id": "2026-09-25T17:10:29Z-b",
+    "line": 265,
+    "chunk": "2026-09-25-pty-wrapper-on-windows",
+    "skill": "implement",
+    "step": "smoke",
+    "what": "agent-run boot leaves supervise holding the stdout it inherited, so boot | <pipe> never reaches EOF while the session runs (pre-existing: boot.rs untouched by this chunk)",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": null,
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "*/*/contract.token-proxy-check",
+  "n": 1,
+  "weight": 2,
+  "impact": {
+   "retries": 1,
+   "extra_reads": 1
+  },
+  "halt_softexit_cases": 0,
+  "rate_den": null,
+  "chunks": [
+   "None"
+  ],
+  "above": false,
+  "cases": [
+   {
+    "id": "2026-09-25T17:42:17Z-b",
+    "line": 268,
+    "chunk": null,
+    "skill": "new-session",
+    "step": "orientation",
+    "what": "hand-written section-marker extractor mismatched the CLAUDE.md start/end marker grammar: checks 1, 2 and 14 read region-not-found / 0 markers / 0 pointer rows (false red direction); truth came from grepping the marker lines",
+    "impact": {
+     "retries": 1,
+     "extra_reads": 1
+    },
+    "evidence": null,
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "implement/fix-loop/contract.instrument-validity",
+  "n": 1,
+  "weight": 2,
+  "impact": {
+   "iterations": 1
+  },
+  "halt_softexit_cases": 0,
+  "rate_den": 11,
+  "chunks": [
+   "2026-09-26-local-linux-pre-push-gate"
+  ],
+  "above": false,
+  "cases": [
+   {
+    "id": "2026-09-26T23:20:00Z-a",
+    "line": 322,
+    "chunk": "2026-09-26-local-linux-pre-push-gate",
+    "skill": "implement",
+    "step": "fix-loop",
+    "what": "the resize-red instrument dumped only from the test's own 10 s deadline assert; the one instrumented recurrence ended as a nextest TIMEOUT at 10.006 s in the mutants baseline, so no dump fired and cargo-mutants deleted the probe file with its scratch tree",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": "chunks/2026-09-26-local-linux-pre-push-gate/evidence/linux-red-investigation.md",
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "phase/research/input.extract-signal-gap",
+  "n": 1,
+  "weight": 1,
+  "impact": {
+   "extra_reads": 1
+  },
+  "halt_softexit_cases": 0,
+  "rate_den": 7,
+  "chunks": [
+   "2026-09-24-epoch-1-cleanup"
+  ],
+  "above": false,
+  "cases": [
+   {
+    "id": "2026-09-24T18:17:28Z-b",
+    "line": 200,
+    "chunk": "2026-09-24-epoch-1-cleanup",
+    "skill": "phase",
+    "step": "research",
+    "what": "a11y extract stated run --browser must still exit 2 browser-linux-only / browser-missing after the split; at HEAD --browser is unbuilt and clap refuses it as usage (cli.rs:60)",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": "viola-0.1.0/chunks/2026-09-24-epoch-1-cleanup/research.md",
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "new-session/orientation/input.handoff-git-mismatch",
+  "n": 1,
+  "weight": 1,
+  "impact": {
+   "extra_reads": 1
+  },
+  "halt_softexit_cases": 0,
+  "rate_den": 13,
+  "chunks": [
+   "None"
+  ],
+  "above": false,
+  "cases": [
+   {
+    "id": "2026-09-25T17:42:17Z-c",
+    "line": 269,
+    "chunk": null,
+    "skill": "new-session",
+    "step": "orientation",
+    "what": "handoff Status clean / Position Next /andromeda-phase vs measured: chunk promoted (master pending), 3 chunk commits on HEAD, operator-pass.md uncommitted with an OPEN union-breach disposition for the wrap; handoff writer is wrap-only, so the lag spans phase+implement+operator pass",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": null,
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "*/*/recall.change-reconstruction",
+  "n": 1,
+  "weight": 1,
+  "impact": {
+   "extra_reads": 10
+  },
+  "halt_softexit_cases": 0,
+  "rate_den": null,
+  "chunks": [
+   "2026-09-25-pty-wrapper-on-windows"
+  ],
+  "above": false,
+  "cases": [
+   {
+    "id": "2026-09-25T17:48:31Z-b",
+    "line": 271,
+    "chunk": "2026-09-25-pty-wrapper-on-windows",
+    "skill": "wrap-session",
+    "step": "report",
+    "what": "Files/Symbols/Crates/Dependencies/Schema/Coverage all reconstructed by git diff 0253507 + pub-item grep + research.md facts; no implement conversation in the window",
+    "impact": {
+     "extra_reads": 10
+    },
+    "evidence": null,
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "wrap-session/curation/ambiguity.tier-routing",
+  "n": 1,
+  "weight": 1,
+  "impact": {},
+  "halt_softexit_cases": 0,
+  "rate_den": 8,
+  "chunks": [
+   "2026-09-25-pty-wrapper-on-windows"
+  ],
+  "above": false,
+  "cases": [
+   {
+    "id": "2026-09-25T18:05:25Z-c",
+    "line": 279,
+    "chunk": "2026-09-25-pty-wrapper-on-windows",
+    "skill": "wrap-session",
+    "step": "curation",
+    "what": "the relayed-claim-stays-hypothesis learning fit Tier 1 (universal directive) or Tier 3 (pipeline process context); routed Tier 1 as a one-sentence directive under 600 B",
+    "impact": {},
+    "evidence": null,
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "wrap-session/route-resolve/contract.no-sanctioned-channel",
+  "n": 1,
+  "weight": 1,
+  "impact": {},
+  "halt_softexit_cases": 0,
+  "rate_den": 9,
+  "chunks": [
+   "2026-09-25-pty-wrapper-on-windows"
+  ],
+  "above": false,
+  "cases": [
+   {
+    "id": "2026-09-25T18:06:56Z-c",
+    "line": 282,
+    "chunk": "2026-09-25-pty-wrapper-on-windows",
+    "skill": "wrap-session",
+    "step": "route-resolve",
+    "what": "secret-scan reading target/agent-run/chunk.diff residue (implement friction 16:59:16Z-e, \"a harness owner question\") has no route owner and no directive disposition; recorded in the report Decisions and the handoff Notes, not pinned",
+    "impact": {},
+    "evidence": null,
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "wrap-session/gates/tooling.result-not-run-stable",
+  "n": 1,
+  "weight": 1,
+  "impact": {},
+  "halt_softexit_cases": 0,
+  "rate_den": 7,
+  "chunks": [
+   "2026-09-26-ci-chunk-base-and-union-verdict"
+  ],
+  "above": false,
+  "cases": [
+   {
+    "id": "2026-09-26T21:25:51Z-b",
+    "line": 305,
+    "chunk": "2026-09-26-ci-chunk-base-and-union-verdict",
+    "skill": "wrap-session",
+    "step": "gates",
+    "what": "the light gate's windows leg over the same Rust tree read caught 74 / unviable 5, after implement's 73/6 and 71/8; verdict green each time, no artifact froze a count",
+    "impact": {},
+    "evidence": ".andromeda/runs/2026-09-26T20-59-23-wrap/light-gate.out",
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "implement/code/input.conventions-gap",
+  "n": 1,
+  "weight": 1,
+  "impact": {
+   "extra_reads": 5
+  },
+  "halt_softexit_cases": 0,
+  "rate_den": 7,
+  "chunks": [
+   "2026-09-27-wrapper-channel"
+  ],
+  "above": false,
+  "cases": [
+   {
+    "id": "2026-09-27T08:10:38Z-c",
+    "line": 389,
+    "chunk": "2026-09-27-wrapper-channel",
+    "skill": "implement",
+    "step": "code",
+    "what": "research measured the listener controls but not their preconditions: SecurityDescriptor::deserialize takes a widestring type outside the deps, and mode() is Unsupported on macOS; both settled by reading interprocess 2.4.4 source",
+    "impact": {
+     "extra_reads": 5
+    },
+    "evidence": null,
+    "clause_retracted": null
+   }
+  ]
+ },
+ {
+  "key": "wrap-session/route-resolve/UNTYPED",
+  "n": 1,
+  "weight": 1,
+  "impact": {},
+  "halt_softexit_cases": 0,
+  "rate_den": 9,
+  "chunks": [
+   "2026-09-27-wrapper-channel"
+  ],
+  "above": false,
+  "cases": [
+   {
+    "id": "2026-09-27T12:58:32Z-a",
+    "line": 412,
+    "chunk": "2026-09-27-wrapper-channel",
+    "skill": "wrap-session",
+    "step": "route-resolve",
+    "what": "Four records of this wrap (ids 2026-09-27T13:02:00Z-a/-b, curation; 2026-09-27T13:10:00Z-a/-b, route-resolve) carry a hand-authored ts, not a date -u reading; the real clock read 12:58:22Z just after both were written, so both stamps are later than their events (true time between 12:54:15Z and 12:58:22Z); their content stands",
+    "impact": {},
+    "evidence": null,
+    "clause_retracted": null
+   }
+  ]
+ }
+]

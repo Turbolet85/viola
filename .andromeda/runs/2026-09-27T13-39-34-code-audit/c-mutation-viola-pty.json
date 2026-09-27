@@ -1,0 +1,48 @@
+{
+ "unit": "viola-pty",
+ "complete": true,
+ "end_time": "2026-09-27T13:51:29.8524252Z",
+ "total_mutants": 85,
+ "mutants_json_len": 85,
+ "baseline_summary": "Success",
+ "counts": {
+  "mutants": 85,
+  "caught": 64,
+  "missed": 5,
+  "timeout": 0,
+  "unviable": 16
+ },
+ "unit_state": "85/85",
+ "score_formula": "caught/(caught+missed)",
+ "survivor_rows_unique": true,
+ "survivors_equal_missed": true,
+ "state": "complete 85/85",
+ "score": 92.75,
+ "survivors": [
+  [
+   "crates/viola-pty/src/lib.rs:430:9",
+   "replace HostTerminal::enter -> Option<Self> with None",
+   "HostTerminal::enter"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:430:9",
+   "replace HostTerminal::enter -> Option<Self> with Some(Default::default())",
+   "HostTerminal::enter"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:432:64",
+   "replace != with ==",
+   "HostTerminal::enter"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:437:71",
+   "replace == with !=",
+   "HostTerminal::enter"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:482:76",
+   "replace != with ==",
+   "host_size"
+  ]
+ ]
+}

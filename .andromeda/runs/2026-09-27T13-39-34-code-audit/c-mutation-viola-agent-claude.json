@@ -1,0 +1,22 @@
+{
+ "unit": "viola-agent-claude",
+ "complete": true,
+ "end_time": "2026-09-27T13:52:36.4225358Z",
+ "total_mutants": 40,
+ "mutants_json_len": 40,
+ "baseline_summary": "Success",
+ "counts": {
+  "mutants": 40,
+  "caught": 36,
+  "missed": 0,
+  "timeout": 0,
+  "unviable": 4
+ },
+ "unit_state": "40/40",
+ "score_formula": "caught/(caught+missed)",
+ "survivor_rows_unique": true,
+ "survivors_equal_missed": true,
+ "state": "complete 40/40",
+ "score": 100.0,
+ "survivors": []
+}

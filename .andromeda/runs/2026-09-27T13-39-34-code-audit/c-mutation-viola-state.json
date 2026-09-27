@@ -1,0 +1,33 @@
+{
+ "unit": "viola-state",
+ "complete": true,
+ "end_time": "2026-09-27T13:49:27.7185688Z",
+ "total_mutants": 58,
+ "mutants_json_len": 58,
+ "baseline_summary": "Success",
+ "counts": {
+  "mutants": 58,
+  "caught": 48,
+  "missed": 2,
+  "timeout": 0,
+  "unviable": 8
+ },
+ "unit_state": "58/58",
+ "score_formula": "caught/(caught+missed)",
+ "survivor_rows_unique": true,
+ "survivors_equal_missed": true,
+ "state": "complete 58/58",
+ "score": 96.0,
+ "survivors": [
+  [
+   "crates/viola-state/src/fs.rs:16:5",
+   "replace restrict -> io::Result<()> with Ok(())",
+   "restrict"
+  ],
+  [
+   "crates/viola-state/src/pin.rs:74:19",
+   "replace match guard e.kind() == io::ErrorKind::NotFound with true",
+   "pin_exe"
+  ]
+ ]
+}
