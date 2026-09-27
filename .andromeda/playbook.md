@@ -45,6 +45,10 @@ becomes a new rule here. Format owned by /andromeda-wrap-session (`references/am
   verdict: routine
   note: reject for those sections — they stay verbatim copies of their upstream source. Apply the fact in the section that wins instead (security-plan §Input Validation / §Secret Management and the rest of the plan; a11y-plan §3 / §6 and later sections). An a11y §1 deferral clause may still take a `[resolved: …]` pointer (D-A11Y-15). Same class as the obs §1 rule above. Appended 2026-09-25 by the 2026-09-25-pty-wrapper-on-windows wrap (E4: security :42, :109 and a11y :98, :179 rejected), operator-approved.
 
+- pattern: Boundary widening — what ratifies it. Any proposal, sweep hit or wrap/phase step that meets a widening of the "Boundary widening" class above, including one an earlier direction already "settled".
+  verdict: escalate
+  note: the founder's ruling of 2026-09-27, recorded as the founder's. The widening HALTS in the dialog for a live answer at the step that meets it. A direction written before the widening was shown (a wrap directive, a standing overseer ruling, a founder-delegated call) never ratifies it. A founder answer on disk counts only when it was given AFTER that specific widening was shown to him (as the 2026-09-27 retroactive ratification of the `FAKE_AGENT_PUMP_DELAY_MS` seam, the pre-push `TMPDIR` carve-out and the `supply-chain` unscanned upload was). Record the ratification in the owning sidecar as the founder's, with the relay named when an overseer relayed it. Appended 2026-09-27 by the 2026-09-27-wrapper-channel wrap, operator-approved.
+
 _(more grow from escalations + resolved cases — the first five above were harvested from live projects that
 derived them separately, the sixth is the never-routine class; anything genuinely project-specific still starts
 here empty.)_

@@ -1,0 +1,51 @@
+{
+ "file": "D:/dev/projects/viola/.andromeda/a11y-plan-amendments.md",
+ "file_sha256": "8bdf1913bdb23d6f2fac45d19ec8a08de41cccc946fe9cc3afa0396632a028ab",
+ "file_bytes": 4257,
+ "entries": 4,
+ "set": [
+  {
+   "row": 1,
+   "line": 3,
+   "heading": "## 2026-09-24-supply-chain-and-workflow-gates — Platform: ci.yml is the one push/PR workflow",
+   "sha256": "d3e8da0213846473b6d61576a555e3c459e07fad9350ddd6de771a4fbea2b390",
+   "bytes": 709,
+   "ref": ".andromeda/runs/2026-09-24T09-41-13-wrap/",
+   "why": "no **Ref:**",
+   "file": "001.md"
+  },
+  {
+   "row": 2,
+   "line": 9,
+   "heading": "## 2026-09-24-diagnostics-plane — stale a11y-violation resolved-question bullet",
+   "sha256": "76093bf0fdacf6d88f6dedaa027e626202a0bd638332446270210355d5e73f37",
+   "bytes": 817,
+   "ref": ".andromeda/runs/2026-09-24T10-40-06-wrap/",
+   "why": "no **Ref:**",
+   "file": "002.md"
+  },
+  {
+   "row": 3,
+   "line": 16,
+   "heading": "## 2026-09-24-quality-gates — CLI output-discipline evidence reports under the CI `coverage` suite",
+   "sha256": "250aae7afe6fe4d0ae0c9c23a15cb94b940947dff0c073b8a2b34942c5ecb80a",
+   "bytes": 1150,
+   "ref": ".andromeda/runs/2026-09-24T14-48-15-wrap/",
+   "why": "field **Sweep:**; no **Ref:**",
+   "file": "003.md"
+  },
+  {
+   "row": 4,
+   "line": 22,
+   "heading": "## 2026-09-25-pty-wrapper-on-windows — Windows zero-viola-bytes oracle is literal absence",
+   "sha256": "c2b37f9ba54bf2bf9f26150b557556fff18c68e0b806dc436d0338505d15a492",
+   "bytes": 1550,
+   "ref": ".andromeda/runs/2026-09-25T17-43-18-wrap/",
+   "why": "field **Sweep:**; no **Ref:**",
+   "file": "004.md"
+  }
+ ],
+ "batches": [
+  "batch-1.txt"
+ ]
+}

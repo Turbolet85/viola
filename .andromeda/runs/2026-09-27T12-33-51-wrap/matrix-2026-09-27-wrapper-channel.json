@@ -1,0 +1,99 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "3bf0941b",
+"ts": "2026-09-27T12:59:57Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-09-27-wrapper-channel",
+"--run-dir",
+".andromeda/runs/2026-09-27T12-33-51-wrap",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-27-wrapper-channel: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v1-20 → verified — A request from the viola client over a real wrapper endpoint carries `conn` matc… (612 chars)",
+"dry-run: nothing written",
+"version: verified 6/53"
+],
+"stderr": null,
+"wrote": [],
+"before": [
+{
+"id": "v1-20",
+"chunk": "2026-09-27-wrapper-channel",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/channel_endpoint.rs::channel_wrapper_logs_each_call_with_corr_and_conn · tests/channel_endpoint.rs::channel_debug_… (357 chars)",
+"acceptance": "A request from the viola client over a real wrapper endpoint carries `conn` matching `^[a-z]+-\\d+-\\d+-\\d+$`, and the wra… (612 chars)",
+"notes_chars": 0
+}
+],
+"after": [
+{
+"id": "v1-20",
+"chunk": "2026-09-27-wrapper-channel",
+"status": "verified",
+"method": "integration",
+"ref": "tests/channel_endpoint.rs::channel_wrapper_logs_each_call_with_corr_and_conn · tests/channel_endpoint.rs::channel_debug_… (357 chars)",
+"acceptance": "A request from the viola client over a real wrapper endpoint carries `conn` matching `^[a-z]+-\\d+-\\d+-\\d+$`, and the wra… (612 chars)",
+"notes_chars": 0
+}
+]
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "3bf0941b",
+"ts": "2026-09-27T13:26:43Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-09-27-wrapper-channel",
+"--run-dir",
+".andromeda/runs/2026-09-27T12-33-51-wrap"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-27-wrapper-channel: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v1-20 → verified — A request from the viola client over a real wrapper endpoint carries `conn` matc… (612 chars)",
+"wrote viola-0.1.0\\verification-matrix.json · 1 entry changed",
+"version: verified 6/53"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0\\verification-matrix.json"
+],
+"before": [
+{
+"id": "v1-20",
+"chunk": "2026-09-27-wrapper-channel",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/channel_endpoint.rs::channel_wrapper_logs_each_call_with_corr_and_conn · tests/channel_endpoint.rs::channel_debug_… (357 chars)",
+"acceptance": "A request from the viola client over a real wrapper endpoint carries `conn` matching `^[a-z]+-\\d+-\\d+-\\d+$`, and the wra… (612 chars)",
+"notes_chars": 0
+}
+],
+"after": [
+{
+"id": "v1-20",
+"chunk": "2026-09-27-wrapper-channel",
+"status": "verified",
+"method": "integration",
+"ref": "tests/channel_endpoint.rs::channel_wrapper_logs_each_call_with_corr_and_conn · tests/channel_endpoint.rs::channel_debug_… (357 chars)",
+"acceptance": "A request from the viola client over a real wrapper endpoint carries `conn` matching `^[a-z]+-\\d+-\\d+-\\d+$`, and the wra… (612 chars)",
+"notes_chars": 0
+}
+]
+}
+]

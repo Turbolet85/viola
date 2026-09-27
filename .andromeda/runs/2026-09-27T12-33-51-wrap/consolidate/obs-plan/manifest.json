@@ -1,0 +1,131 @@
+{
+ "file": "D:/dev/projects/viola/.andromeda/obs-plan-amendments.md",
+ "file_sha256": "5129aa6e8f66c2ccb5c581bb5ab4d29088e8e9fee0e4d94b121c2866c387fd6b",
+ "file_bytes": 20009,
+ "entries": 13,
+ "set": [
+  {
+   "row": 1,
+   "line": 3,
+   "heading": "## 2026-09-24-three-os-ci-headless-harness-skeleton — fake agent's print-ban exemption",
+   "sha256": "87a1715f5f5fe0e5c3dcf0c530e6e79793499f88fb8c19e48a67a9bf9f8e08e7",
+   "bytes": 1072,
+   "ref": ".andromeda/runs/2026-09-24T07-05-59-wrap/",
+   "why": "no **Ref:**",
+   "file": "001.md"
+  },
+  {
+   "row": 2,
+   "line": 18,
+   "heading": "## 2026-09-24-supply-chain-and-workflow-gates — Platform: nightly.yml beside the single push/PR ci.yml",
+   "sha256": "69ce3045b611f9711de4cd825b598c5d32b14d34c0e37ba1c7d492e6602c8067",
+   "bytes": 730,
+   "ref": ".andromeda/runs/2026-09-24T09-41-13-wrap/",
+   "why": "no **Ref:**",
+   "file": "002.md"
+  },
+  {
+   "row": 3,
+   "line": 24,
+   "heading": "## 2026-09-24-diagnostics-plane — obs_event! field set, schema default-deny keyword",
+   "sha256": "e4f0cb7ab8b263045ede21275b43b67288339379ba54d1ffba5a4d66fc7d4898",
+   "bytes": 1924,
+   "ref": ".andromeda/runs/2026-09-24T10-40-06-wrap/",
+   "why": "no **Ref:**",
+   "file": "003.md"
+  },
+  {
+   "row": 4,
+   "line": 43,
+   "heading": "## 2026-09-24-log-redaction-and-never-log-floor — anyhow scope follows the catch-site reporter",
+   "sha256": "9089010a69212d3c62702daf3d7cb3978cabd024bd4605d3b36322e6e1a7c591",
+   "bytes": 1365,
+   "ref": ".andromeda/runs/2026-09-24T11-37-52-wrap/",
+   "why": "field **Sweep:**, **Leaves re-derived:**; no **Ref:**",
+   "file": "004.md"
+  },
+  {
+   "row": 5,
+   "line": 50,
+   "heading": "## 2026-09-24-observability-gates — raw-tracing ban: level-macro path ban plus a fail-closed raw-`event!` grep",
+   "sha256": "b194e6aa967a0695d4c8ff5f189126860009981d7fe57f295a37f30823d70aeb",
+   "bytes": 2131,
+   "ref": ".andromeda/runs/2026-09-24T13-07-17-wrap/",
+   "why": "field **Sweep (cascade step 2):**; no **Ref:**",
+   "file": "005.md"
+  },
+  {
+   "row": 6,
+   "line": 70,
+   "heading": "## 2026-09-24-quality-gates — mutation consumer, unscanned uploads admissible by content, nightly fuzz",
+   "sha256": "06393ad47a783d8a5ed1f8930a99b19362b279fc0e2f4d18cb2a455a7ac3bc3e",
+   "bytes": 1298,
+   "ref": ".andromeda/runs/2026-09-24T14-48-15-wrap/",
+   "why": "field **Sweep:**; no **Ref:**",
+   "file": "006.md"
+  },
+  {
+   "row": 7,
+   "line": 79,
+   "heading": "## 2026-09-24-workspace-tree-and-code-graph-planes — supply-chain artifact admitted by content (operator ratification)",
+   "sha256": "ac34eb8b80e10c400ecde54e3dc81e46c98373da9f24e547850cc6fbcf38a732",
+   "bytes": 2001,
+   "ref": ".andromeda/runs/2026-09-24T16-23-20-wrap/",
+   "why": "no **Ref:**",
+   "file": "007.md"
+  },
+  {
+   "row": 8,
+   "line": 88,
+   "heading": "## 2026-09-24-epoch-1-cleanup — §9 Mutation row names the per-leg unviable rule",
+   "sha256": "39a8e2452a47808e50cf15974b374cc910b2f617fadd4f357a0bd7402727f900",
+   "bytes": 1011,
+   "ref": ".andromeda/runs/2026-09-25T11-29-18-wrap/",
+   "why": "field **Sweep:**; no **Ref:**",
+   "file": "008.md"
+  },
+  {
+   "row": 9,
+   "line": 94,
+   "heading": "## 2026-09-25-pty-wrapper-on-windows — env_kept, D-34 supersedes D-14, batch-script-child from resolution, run refusal stderr",
+   "sha256": "d860287f613307199d19d043441ea5f537b063a9bba947c19585392f9717bf07",
+   "bytes": 2256,
+   "ref": ".andromeda/runs/2026-09-25T17-43-18-wrap/",
+   "why": "field **Sweep:**; no **Ref:**",
+   "file": "009.md"
+  },
+  {
+   "row": 10,
+   "line": 104,
+   "heading": "## 2026-09-26-ci-chunk-base-and-union-verdict — chunk.diff out of the secret scan and the harness upload; compiling-leg union",
+   "sha256": "f8762669e08d79b2bfb1d6edc2917f343f0d801eb0be80f7a27c0c3bd17765de",
+   "bytes": 1849,
+   "ref": ".andromeda/runs/2026-09-26T20-59-23-wrap/",
+   "why": "field **Sweep:**; no **Ref:**",
+   "file": "010.md"
+  },
+  {
+   "row": 11,
+   "line": 112,
+   "heading": "## 2026-09-26-local-linux-pre-push-gate — local union before the push; no clone path in the `pre-push` document",
+   "sha256": "99c6d01f1554d06c326cf6407f827bba7870e408ca5b3480af94409ed02afec1",
+   "bytes": 1823,
+   "ref": ".andromeda/runs/2026-09-27T00-51-08-wrap/",
+   "why": "field **Sweep:**; no **Ref:**",
+   "file": "011.md"
+  },
+  {
+   "row": 12,
+   "line": 120,
+   "heading": "## 2026-09-27-instance-state-and-start-order — `already-live` covers the stale refusal; `gone` is taken over",
+   "sha256": "b3a3f026f1e47fb3725ecf2b2787dcb3179987023e1ba9b6f6fe5272cb653b63",
+   "bytes": 1201,
+   "ref": ".andromeda/runs/2026-09-27T06-12-23-wrap/",
+   "why": "field **Sweep:**; no **Ref:**",
+   "file": "012.md"
+  }
+ ],
+ "batches": [
+  "batch-1.txt"
+ ]
+}

@@ -1,0 +1,181 @@
+{
+ "file": "D:/dev/projects/viola/.andromeda/architecture-amendments.md",
+ "file_sha256": "503e2725e16078388ecc05abb5987170c1685fac2caa2baebc1ed8a991bb3353",
+ "file_bytes": 41590,
+ "entries": 18,
+ "set": [
+  {
+   "row": 1,
+   "line": 3,
+   "heading": "## 2026-09-24-three-os-ci-headless-harness-skeleton — toolchain floor and exact pin",
+   "sha256": "a67aa737dd40373b4a6dcc9ac6021d87b7bfe19a56905633d9be3c896bc5d0a7",
+   "bytes": 888,
+   "ref": ".andromeda/runs/2026-09-24T07-05-59-wrap/",
+   "why": "no **Ref:**",
+   "file": "001.md"
+  },
+  {
+   "row": 2,
+   "line": 8,
+   "heading": "## 2026-09-24-three-os-ci-headless-harness-skeleton — CI setup and wired jobs",
+   "sha256": "a40baf14ad8886aae0b71866d83fb7bef86dedd86d537f07f5574aa08e2831c1",
+   "bytes": 1239,
+   "ref": ".andromeda/runs/2026-09-24T07-05-59-wrap/",
+   "why": "no **Ref:**",
+   "file": "002.md"
+  },
+  {
+   "row": 3,
+   "line": 21,
+   "heading": "## 2026-09-24-three-os-ci-headless-harness-skeleton — test-only crate, bins, env vars, paths",
+   "sha256": "6417cb8ef9040a03cbe6bc6abbab2c290cab065664f27fac1afa50e4360ff34d",
+   "bytes": 1430,
+   "ref": ".andromeda/runs/2026-09-24T07-05-59-wrap/",
+   "why": "no **Ref:**",
+   "file": "003.md"
+  },
+  {
+   "row": 4,
+   "line": 32,
+   "heading": "## 2026-09-24-three-os-ci-headless-harness-skeleton — run's process log location, logging and serialization rows",
+   "sha256": "3af8b6e59bde26983cd757341afcc018ade5fbbecf017df0c825dc3bc424e75c",
+   "bytes": 880,
+   "ref": ".andromeda/runs/2026-09-24T07-05-59-wrap/",
+   "why": "no **Ref:**",
+   "file": "004.md"
+  },
+  {
+   "row": 5,
+   "line": 41,
+   "heading": "## 2026-09-24-fake-agent-and-test-data-fixtures — test homes, test env vars and test-side paths registered",
+   "sha256": "265ed8e31667bdc57f9a140cf0301401b94010b89d50a917ccd398326be7adb4",
+   "bytes": 1892,
+   "ref": ".andromeda/runs/2026-09-24T08-45-42-wrap/",
+   "why": "no **Ref:**",
+   "file": "005.md"
+  },
+  {
+   "row": 6,
+   "line": 54,
+   "heading": "## 2026-09-24-supply-chain-and-workflow-gates — sole-root tokio ban, four-family deny policy, nightly.yml",
+   "sha256": "4ff36a941a4e95f33893943c297a5dbe2285ed2538e39e33e946df37e8e42e1c",
+   "bytes": 2876,
+   "ref": ".andromeda/runs/2026-09-24T09-41-13-wrap/",
+   "why": "no **Ref:**",
+   "file": "006.md"
+  },
+  {
+   "row": 7,
+   "line": 70,
+   "heading": "## 2026-09-24-diagnostics-plane — diagnostics roots, config key, diag schemas, v exception",
+   "sha256": "9dea1d3d34db23a2b7a178218b3e3ca3c78e4520af9dc9b3d59529a7d2645e63",
+   "bytes": 3014,
+   "ref": ".andromeda/runs/2026-09-24T10-40-06-wrap/",
+   "why": "no **Ref:**",
+   "file": "007.md"
+  },
+  {
+   "row": 8,
+   "line": 94,
+   "heading": "## 2026-09-24-log-redaction-and-never-log-floor — anyhow's scope includes the catch-site reporter",
+   "sha256": "392ba8df9070045636dff1578751958efc609ef430c7f0bb100da50120b39afb",
+   "bytes": 2312,
+   "ref": ".andromeda/runs/2026-09-24T11-37-52-wrap/",
+   "why": "field **Sweep (cascade step 2):**; no **Ref:**",
+   "file": "008.md"
+  },
+  {
+   "row": 9,
+   "line": 105,
+   "heading": "## 2026-09-24-observability-gates — lint bans, gate tools, new target/ paths, scan-gated CI uploads",
+   "sha256": "4a08b8acc70d65a84d30357af1c6fa413d78838bcf0067582091011f23d52027",
+   "bytes": 2077,
+   "ref": ".andromeda/runs/2026-09-24T13-07-17-wrap/",
+   "why": "field **Sweep (cascade step 2):**; no **Ref:**",
+   "file": "009.md"
+  },
+  {
+   "row": 10,
+   "line": 127,
+   "heading": "## 2026-09-24-quality-gates — fuzz workspace, coverage and fuzz tooling, MSRV job, two-leg mutation, download-artifact",
+   "sha256": "beffa85cc3d39010cc875406440498b7cb4459148d651c8be69fdd8615e917f2",
+   "bytes": 2368,
+   "ref": ".andromeda/runs/2026-09-24T14-48-15-wrap/",
+   "why": "field **Sweep:**; no **Ref:**",
+   "file": "010.md"
+  },
+  {
+   "row": 11,
+   "line": 141,
+   "heading": "## 2026-09-24-workspace-tree-and-code-graph-planes — tree lists every test/obs/a11y artifact, release-check, orphans gate, fuzz lock audit, code-graph planes",
+   "sha256": "07303168a1b97b97a9c7b6abcd9a98a7fdf01518f9fe8b2851c0052e745f3125",
+   "bytes": 4258,
+   "ref": ".andromeda/runs/2026-09-24T16-23-20-wrap/",
+   "why": "no **Ref:**",
+   "file": "011.md"
+  },
+  {
+   "row": 12,
+   "line": 162,
+   "heading": "## 2026-09-24-epoch-1-cleanup — the mutation union is no longer the only red path",
+   "sha256": "f066f3caf01427cbace425f1a6ad4ed95fae7e685ce3fd335ada5beecf9116c8",
+   "bytes": 908,
+   "ref": ".andromeda/runs/2026-09-25T11-29-18-wrap/",
+   "why": "field **Sweep:**; no **Ref:**",
+   "file": "012.md"
+  },
+  {
+   "row": 13,
+   "line": 168,
+   "heading": "## 2026-09-25-security-prerequisites — SQOS client open, sha2 content hash, licence MIT OR Apache-2.0, 0BSD exceptions",
+   "sha256": "14116059088427a36b03644b9d8d081cfc2ad2df38f2357263f09658ea8e399a",
+   "bytes": 3264,
+   "ref": ".andromeda/runs/2026-09-25T13-11-43-wrap/",
+   "why": "field **Sweep:**; no **Ref:**",
+   "file": "013.md"
+  },
+  {
+   "row": 14,
+   "line": 199,
+   "heading": "## 2026-09-25-pty-wrapper-on-windows — PTY wrapper as built: R8 prefix rule + identity floor, viola-side program resolution, HostTerminal, PtyError exception",
+   "sha256": "666b48be107addc0a99f8dcc23bb144ea7f21982799bed04e81ad37962deeab0",
+   "bytes": 3162,
+   "ref": ".andromeda/runs/2026-09-25T17-43-18-wrap/",
+   "why": "field **Sweep:**; no **Ref:**",
+   "file": "014.md"
+  },
+  {
+   "row": 15,
+   "line": 210,
+   "heading": "## 2026-09-26-ci-chunk-base-and-union-verdict — derived whole-chunk mutation base, compiling-leg union, syn/proc-macro2 in viola-e2e",
+   "sha256": "58e0d86263b0d88acd834af0c37198bc609c720e50e3885c8f4b6e927339454b",
+   "bytes": 2336,
+   "ref": ".andromeda/runs/2026-09-26T20-59-23-wrap/",
+   "why": "field **Sweep:**; no **Ref:**",
+   "file": "015.md"
+  },
+  {
+   "row": 16,
+   "line": 222,
+   "heading": "## 2026-09-26-local-linux-pre-push-gate — local pre-push gate, `FAKE_AGENT_PUMP_DELAY_MS` test seam, `target/pre-push/`",
+   "sha256": "c0e5384a2541052b6222091d7bc45180afa5fe0aa0aa807bddfde59ff64e5f1a",
+   "bytes": 2854,
+   "ref": ".andromeda/runs/2026-09-27T00-51-08-wrap/",
+   "why": "field **Sweep:**; no **Ref:**",
+   "file": "016.md"
+  },
+  {
+   "row": 17,
+   "line": 232,
+   "heading": "## 2026-09-27-instance-state-and-start-order — tempfile `persist` snapshot writer, liveness by process check, start order as landed, `viola-state`",
+   "sha256": "550ae8f1f87bb2c08b0323936086bfdd089741cff19e037232bc7ce71e4ef900",
+   "bytes": 3373,
+   "ref": ".andromeda/runs/2026-09-27T06-12-23-wrap/",
+   "why": "field **Sweep:**; no **Ref:**",
+   "file": "017.md"
+  }
+ ],
+ "batches": [
+  "batch-1.txt"
+ ]
+}

@@ -1,0 +1,137 @@
+[
+{
+"tool": "route",
+"v": "1.4",
+"sha8": "1c775680",
+"ts": "2026-09-27T13:27:02Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-09-27-wrapper-channel",
+"--run-dir",
+".andromeda/runs/2026-09-27T12-33-51-wrap"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"flip master-route.md:25 - 2026-09-27-wrapper-channel pending -> complete"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.4",
+"sha8": "1c775680",
+"ts": "2026-09-27T13:27:03Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-09-27-wrapper-channel",
+"--date",
+"2026-09-27",
+"--run-dir",
+".andromeda/runs/2026-09-27T12-33-51-wrap",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"pin :40 strip CARRY: 259ch \"CARRY: chunk 2026-09-24-supply-chain-and\"",
+"pin :40 strip CARRY: 445ch \"CARRY: chunk 2026-09-24-diagnostics-plan\"",
+"pin :40 strip CARRY: 509ch \"CARRY: chunk 2026-09-24-log-redaction-an\"",
+"pin :40 strip CARRY: 403ch \"CARRY: chunk 2026-09-24-quality-gates se\"",
+"pin :40 strip CARRY: 959ch \"CARRY: chunk 2026-09-25-security-prerequ\"",
+"pin :40 strip CARRY: 260ch \"CARRY: chunk 2026-09-25-pty-wrapper-on-w\"",
+"pin :40 strip CARRY: 455ch \"CARRY: chunk 2026-09-25-pty-wrapper-on-w\"",
+"pin :40 strip CARRY: 651ch \"CARRY: chunk 2026-09-27-instance-state-a\"",
+"pin :40 strip CARRY: 808ch \"CARRY: chunk 2026-09-27-instance-state-a\"",
+"pin :40 strip CARRY: 543ch \"CARRY: chunk 2026-09-27-instance-state-a\"",
+"pin :40 strip CARRY: 764ch \"CARRY: chunk 2026-09-27-instance-state-a\"",
+"pin next markerless :43 holds CARRY:×5",
+"40 · 2026-09-27-wrapper-channel · strip 11 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 40,
+"marker": "2026-09-27-wrapper-channel",
+"blocks": 11,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.4",
+"sha8": "1c775680",
+"ts": "2026-09-27T13:27:11Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-09-27-wrapper-channel",
+"--date",
+"2026-09-27",
+"--run-dir",
+".andromeda/runs/2026-09-27T12-33-51-wrap"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"pin :40 strip CARRY: 259ch \"CARRY: chunk 2026-09-24-supply-chain-and\"",
+"pin :40 strip CARRY: 445ch \"CARRY: chunk 2026-09-24-diagnostics-plan\"",
+"pin :40 strip CARRY: 509ch \"CARRY: chunk 2026-09-24-log-redaction-an\"",
+"pin :40 strip CARRY: 403ch \"CARRY: chunk 2026-09-24-quality-gates se\"",
+"pin :40 strip CARRY: 959ch \"CARRY: chunk 2026-09-25-security-prerequ\"",
+"pin :40 strip CARRY: 260ch \"CARRY: chunk 2026-09-25-pty-wrapper-on-w\"",
+"pin :40 strip CARRY: 455ch \"CARRY: chunk 2026-09-25-pty-wrapper-on-w\"",
+"pin :40 strip CARRY: 651ch \"CARRY: chunk 2026-09-27-instance-state-a\"",
+"pin :40 strip CARRY: 808ch \"CARRY: chunk 2026-09-27-instance-state-a\"",
+"pin :40 strip CARRY: 543ch \"CARRY: chunk 2026-09-27-instance-state-a\"",
+"pin :40 strip CARRY: 764ch \"CARRY: chunk 2026-09-27-instance-state-a\"",
+"pin next markerless :43 holds CARRY:×5",
+"40 · 2026-09-27-wrapper-channel · strip 11 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+".\\viola-0.1.0\\route-archive.md",
+".\\viola-0.1.0\\working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 40,
+"marker": "2026-09-27-wrapper-channel",
+"blocks": 11,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

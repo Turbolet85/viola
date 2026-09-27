@@ -1,48 +1,43 @@
 # Session Handoff
 
-**Last Updated:** 2026-09-27T06:40:51Z
+**Last Updated:** 2026-09-27T12:58:32Z
 **Branch:** build/viola-0.1.0 · 0 ahead of origin/build/viola-0.1.0 as read at this wrap's Setup
 **Status:** clean
-**Last Commit:** 2026-09-27-instance-state-and-start-order — feat: append-only event log, atomic snapshot, heartbeat, pinned bin copy with re-hash refusal, plugin folder, live/stale name refusal, VIOLA_* at spawn
+**Last Commit:** 2026-09-27-wrapper-channel — feat: wrapper channel — JSON-RPC ndjson endpoint, hardened listener, exclusive-bind start arbiter, first spans
 
 ## Position
-- Done: 2026-09-27-instance-state-and-start-order — `viola-state` (events, snapshot, heartbeat, liveness, `replace_private`),
-  the `viola run` start order (collision → pin copy → plugin → snapshot → heartbeat → start events → spawn), the pinned
-  `bin/` copy refused on a failed re-hash, and `VIOLA_NAME` / `VIOLA_DIR` / `VIOLA_BIN` + the PATH prefix at child spawn.
-- Next: Wrapper channel (working-route:40): `/andromeda-phase` to promote and plan it.
+- Done: 2026-09-27-wrapper-channel — the `viola-channel` crate (frames ≤ `MAX_FRAME`, `v`/`sender`/`conn`, `-32602`
+  newer peer, `-32601` for unbuilt methods), the protected pipe DACL and SQOS client, the per-user 0700 Unix socket dir
+  with chmod 0600 and the `.lock` arbiter, `squatted-name`, `endpoint` in the first snapshot, the Scenario 1 spans,
+  the `channel_frame` fuzz target, `pre-push` `vm-release` + `windows-tests`. Epoch 2 is complete.
+- Next: the Epoch 2 cleanup chunk the boundary ritual mints at the head (a 0-pending `/andromeda-wrap-session`
+  route adaptation), then Hooks to normalised events (working-route:43) via `/andromeda-phase`.
 
 ## Work done
-- Wrap resumed across a session boundary. It had paused at the context alarm after P3, so the P3 evolve checkpoint and
-  P4–P7 ran in this session from `.andromeda/runs/2026-09-27T06-12-23-wrap/`.
+- Wrap resumed at P2 in `.andromeda/runs/2026-09-27T12-33-51-wrap/` (P1 had paused at the context alarm). Epoch-close
+  sidecar consolidation ran (P7 3b) as the sidecars' backfill.
 
 ## Drift resolved
-- 48 fan-out proposals plus 1 raised by the orchestrator, applied to architecture, security-plan, obs-plan and test-plan
-  bodies, with four sidecar entries. The biggest change: atomic-write-file → tempfile `persist` through the one
-  `replace_private` helper, because BSD-3-Clause is outside the licence allow list. Also: `endpoint` is absent until
-  "Wrapper channel"; a gone pid is `gone`. 19 leaf lines re-derived in 9 files.
-- 0 escalations open. The Snapshot-writer reversal and the pre-push `TMPDIR` `env -i` carve-out were settled by
-  recorded overseer directions.
-- Route: 8 CARRYs. Four on "Wrapper channel": snapshot `endpoint` + exclusive-bind arbiter + Scenario 1 spans; the
-  viola-pty CI flake; the pre-push Windows coverage `test` stage; the `replace_private_shared` reasoned-fix recurrence.
-  Four more: plugin hooks + `events.ndjson` line 3 on "Hooks to normalised events", `settings.json` on "Statusline
-  pass-through", and the `viola-state` round-trip suite and Path 1 `path_` binary on "Self-healing state" and "The
-  board".
+- 43 proposals applied outright (arch 10, security 5, test-plan 17, orchestrator raises 11); 7 arch proposals
+  rejected for citing source/manifest lines, their report-carried facts re-raised; 1 escalation (E2 fd witness)
+  resolved live: a premise fix, not a widening. 5 sidecar entries, incl. the founder's ratification of three
+  standing widenings (on-disk basis: `ratification-evidence.md`). New playbook rule: what ratifies a widening.
+- Route: 3 CARRYs — the two recurrence watches on the head entry (move once; retire after 3 consecutive green CI
+  runs with no recurrence; the cleanup chunk tries a forced-window repro of the viola-pty hang first), landed-ahead
+  controls on Epoch 6 "Windows endpoint admission" and Epoch 7 "Unix endpoint and home hardening".
 
 ## Notes
 - **Every pre-push / light gate:** stop rust-analyzer by exact ExecutablePath first (host-win32.md).
-- **For the operator (playbook proposal):** "a locked-decision reversal settled by a recorded operator direction →
-  apply, and record the direction in the sidecar" (two such reversals applied this wrap).
-- **recurrence-despite-learning (4):** events.md "append + exclusive lock fails on Windows"; verification-harness.md
-  "Never pipe agent-run.sh boot"; host-win32.md "Stop a process by its exact ExecutablePath"; host-win32.md §Paths
-  MSYS conversion (`wsl.exe --exec /usr/bin/…`). Each rule was already curated and the work re-hit it anyway.
-- **Deferred learnings (carried):** a `clean` guard's red half needs a stray clone-side file (0.8, cap); a
-  `cfg!()`-valued fn is an equivalent mutant on one OS's leg, so make it a const (0.8); `check-runs` by sha mixes
-  superseded runs after a force-push (0.8).
-- **Carried:** the code-metrics `mutation.survivors` correction (`lib.rs:9:31` / `:9:38`) is owed at the next
-  ledger-mode audit; two Windows-only unviable fake-agent `main` mutants observed, not chased. Prior-chunk overseer
-  items: `2026-09-26-local-linux-pre-push-gate/evidence/plan-template-proposal.md` and the planlint check-9 slot question.
-- Epoch 2 header wording stays as is (overseer decision: the friction-log grouping keys on it).
+- **For the operator:** `CARGO_BUILD_JOBS=16` is kept but its own effect on the host memory peak is not separable
+  from the VM stop — the `.wslconfig` memory cap is the operator/founder's call (report Insufficient fixes).
+- **Left for the operator (report):** 4 `%TEMP%/cargo-mutants-viola-*.tmp` dirs and `target/harness-check/`.
+- **Deferred learnings (max-3 cap):** the `"777"` digit-substring sweep hazard over a doc carrying a git sha (0.8);
+  the overseer's "a red found now folds into this chunk even outside its diff; a green re-run never closes a red"
+  (0.7). The founder's boundary-widening ruling went to the playbook instead.
+- **Carried from earlier wraps:** a `clean` guard's red half needs a stray clone-side file (0.8, cap); a
+  `cfg!()`-valued fn is an equivalent mutant on one OS's leg — make it a const (0.8); `check-runs` by sha mixes
+  superseded runs after a force-push (0.8). The code-metrics `mutation.survivors` correction is owed at the next
+  ledger-mode audit. Prior-chunk overseer items: `2026-09-26-local-linux-pre-push-gate/evidence/plan-template-proposal.md`
+  and the planlint check-9 slot question.
+- The P1 evolve checkpoint could not be answered (its trace was in the prior window); recorded as `ok-degraded`.
 - Last failed command: none.
-
-## Session End Status
-Completed normally at 2026-09-27 09:31:56

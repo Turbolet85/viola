@@ -1,0 +1,6 @@
+
+## 2026-09-27-wrapper-channel — founder ratification of three standing boundary widenings
+**Section:** §Input Validation (the `FAKE_AGENT_PUMP_DELAY_MS` test-seam row) · §Secret Management (pre-push `env -i`: the Linux mutation leg's `TMPDIR`) · the CI `supply-chain` artifact uploaded unscanned (obs-plan §8 item 6, admitted at chunk 2026-09-24-workspace-tree-and-code-graph-planes)
+**Change:** no body text changes. The three carve-outs stand exactly as written: the `fake-agent`-only `FAKE_AGENT_PUMP_DELAY_MS` seam (capped at 5 s, absent from release builds); `TMPDIR=<distro home>/viola-pre-push-scratch` as the one named, constant, distro-derived `env -i` assignment; the `supply-chain` artifact (`deny.json`, `deny-fuzz.json`, `zizmor.json`) admissible by content, its guard clause binding.
+**Why:** founder ratified 2026-09-27, relayed by the overseer (driving-guide provenance rule: a founder ruling is recorded as the founder's). Each widening had rested on an earlier overseer direction (founder-delegated); under the founder's ruling of the same day a boundary widening needs a live answer and an earlier direction never ratifies one, so these three were put to the founder live and ratified. The standing rule for later chunks: a widening halts the wrap for a live answer.
+**Ref:** .andromeda/runs/2026-09-27T12-33-51-wrap/

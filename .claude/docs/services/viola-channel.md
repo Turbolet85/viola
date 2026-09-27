@@ -8,7 +8,7 @@ The wrapper channel: JSON-RPC 2.0 over ndjson on interprocess 2.4.4 local socket
 ## Key integrations
 
 ### Consumes from
-`viola-core` (`RefusalReason`, `ViolaName`, `MAX_FRAME`, `v`); interprocess 2.4.4; windows-sys 0.61.2 (SID lookup, SQOS `CreateFileW`); sysinfo 0.39.6 (start-time check).
+`viola-core` (`RefusalReason`, `ViolaName`, `MAX_FRAME`, `v`); interprocess 2.4.4; serde, serde_json, thiserror, tracing, veil (as landed); windows-sys 0.61.2 (SID lookup, SDDL conversion via `Win32_Security_Authorization`, SQOS `CreateFileW`); libc (Unix: the uid for the socket dir); sysinfo 0.39.6 (start-time check, with the client verification).
 
 ### Publishes to
 The wrapper (`run`) server side; clients `hook`, the CLI verbs, `viola-mcp` (Tokio client) and the tests' raw-frame clients.
@@ -19,13 +19,14 @@ Tokio only behind the `tokio` feature; the sync build must pass `cargo check` wi
 ## Internal conventions
 - Every `params` carries `v`, `sender` and (additively) `conn = "<process>-<pid>-<t0>-<n>"`; a newer `v` → `-32602` `{supported, wrapper}`.
 - Methods: `send · wait · last · answer · pause · release · link · unlink · hook.dialog` (+ notification `hook.event`); integer ids monotonic per connection.
-- Windows listener: protected SDDL `D:P(A;;GA;;;<user-SID>)(A;;GA;;;SY)`, `accept_remote(false)`, first-instance, `inheritable(false)`. Unix: 0700 per-user dir checked (`lstat`, owner, no symlink) before bind and before connect; `mode(0o600)` secondary; `peer_creds` euid on accept. `try_overwrite` off.
+- Windows listener: protected SDDL `D:P(A;;GA;;;<user-SID>)(A;;GA;;;SY)` converted by windows-sys (read back canonical as `(A;;FA;;;…)`, the SID possibly an alias), `accept_remote(false)`, first-instance, `inheritable(false)`. Unix: 0700 per-user dir checked (`lstat`, owner, no symlink) before bind and before connect; socket chmod 0600 after the bind (never `ListenerOptionsExt::mode`: `Unsupported` on macOS fails the bind); `.lock` sibling as the start arbiter; `peer_creds` euid on accept. `try_overwrite` off.
+- A frame is one line ≤ `MAX_FRAME` (`\n` counted); oversize → `-32600` + close. Only `hook.event` may be id-less. The server strips `conn` before dispatch; a mis-shaped `conn` is logged as `srv_conn`.
 - Client: open (Windows SQOS Identification), verify server pid + start time (Linux/FreeBSD pid, macOS euid + dir) against the snapshot BEFORE writing any frame; mismatch → CLI/MCP `instance-unreachable`, hook fails open.
 - `channel-request` / `channel-response` log method, `corr` (JSON-RPC id), `conn`, result class, error code, `sender` — never params or bodies; a `Drop` guard in dispatch always logs the response.
 
 ## Crate-specific gotchas
 - Endpoint names must be stable across toolchains → never `DefaultHasher`.
-- macOS socket paths cap at ~104 bytes; the recorded snapshot `endpoint` is authoritative (children may see another `TMPDIR`).
+- macOS socket paths cap at ~104 bytes; the recorded snapshot `endpoint` is authoritative (children may see another environment).
 - **SQOS spike passed** (security-plan Decisions Log `2026-09-25`): the client opens with windows-sys `CreateFileW(SECURITY_SQOS_PRESENT | SECURITY_IDENTIFICATION | FILE_FLAG_OVERLAPPED)` and adopts via `Stream::try_from` — reuse the recipe `tests/channel_sqos_open.rs` pins. Keep `FILE_FLAG_OVERLAPPED` (non-overlapped adoption hangs) and never fall back to the default connect (the server then reads `SecurityImpersonation`). A safe-Rust equivalent was measured: std `OpenOptions::security_qos_flags` + `custom_flags(FILE_FLAG_OVERLAPPED)`.
 
 ## Entry points for modification

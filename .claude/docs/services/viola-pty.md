@@ -8,7 +8,7 @@ viola's own PTY seam over portable-pty `=0.8.1`: spawn · read · write · resiz
 ## Key integrations
 
 ### Consumes from
-portable-pty `=0.8.1`; windows-sys 0.61.2 (Windows only: kill fallback, console raw/VT modes); libc `=0.2.189` (Unix only: termios raw mode, terminal size). No thiserror: `PtyError` is hand-written with fixed messages.
+portable-pty `=0.8.1`; tracing (the `pty.spawn` span); windows-sys 0.61.2 (Windows only: kill fallback, console raw/VT modes); libc `=0.2.189` (Unix only: termios raw mode, terminal size). No thiserror: `PtyError` is hand-written with fixed messages.
 
 ### Publishes to
 The root bin's `run` pump (`src/run/`) and the tests' outer-PTY driver (`tests/support/outer_pty.rs`, `viola-harness supervise`).

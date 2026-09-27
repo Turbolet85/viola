@@ -11,7 +11,7 @@ viola is a local-only, single-user tool: no accounts, no public listener, no dat
 
 ## Threat model highlights
 
-- **A foreign OS user connects to the IPC endpoint** → Windows protected SDDL (user SID + SYSTEM), `accept_remote(false)`; Unix 0700 per-user socket dir + `mode(0o600)` + `peer_creds` euid check.
+- **A foreign OS user connects to the IPC endpoint** → Windows protected SDDL (user SID + SYSTEM), `accept_remote(false)`; Unix 0700 per-user socket dir + socket chmod 0600 after the bind + `peer_creds` euid check.
 - **A squatter impersonates the wrapper** → the client verifies the server's pid (+ start time) against a strict-modes-checked `snapshot.json` before the first frame; Windows clients open with SQOS Identification. On macOS it is euid + dir only (a recorded known gap). A squatted name blocks `run` (DoS accepted, no takeover).
 - **Bracketed-paste breakout** (`ESC[201~` inside `send.text`) → `validate_paste_text` rejects every C0 except LF/CR/TAB, DEL and C1, client- and wrapper-side.
 - **Another local user reads the feed over loopback TCP** → cookie gate on `/api/*` + SSE; Host allowlist first (DNS rebinding); no CORS; CSP + Trusted Types; text-only rendering.

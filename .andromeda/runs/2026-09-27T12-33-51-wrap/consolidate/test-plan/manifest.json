@@ -1,0 +1,191 @@
+{
+ "file": "D:/dev/projects/viola/.andromeda/test-plan-amendments.md",
+ "file_sha256": "174ffc08527ea22aee4bf70cf618f53969f63cdf6af1283718ed8e34333df888",
+ "file_bytes": 38598,
+ "entries": 19,
+ "set": [
+  {
+   "row": 1,
+   "line": 3,
+   "heading": "## 2026-09-24-three-os-ci-headless-harness-skeleton — harness builds in its own target dir",
+   "sha256": "e1df5b6bcbae8e211e604f670bf09e03627492330a856f1804e99c333b6e36ad",
+   "bytes": 1236,
+   "ref": ".andromeda/runs/2026-09-24T07-05-59-wrap/",
+   "why": "no **Ref:**",
+   "file": "001.md"
+  },
+  {
+   "row": 2,
+   "line": 20,
+   "heading": "## 2026-09-24-three-os-ci-headless-harness-skeleton — integration filterset, mutation diff, base and trigger",
+   "sha256": "d518e0b9fdda96029f54f4065d794b8d2222c0029513db106ece57b265dc4e6c",
+   "bytes": 1192,
+   "ref": ".andromeda/runs/2026-09-24T07-05-59-wrap/",
+   "why": "no **Ref:**",
+   "file": "002.md"
+  },
+  {
+   "row": 3,
+   "line": 37,
+   "heading": "## 2026-09-24-three-os-ci-headless-harness-skeleton — interim supervisor, readiness, status and cleanup",
+   "sha256": "b4f635b2f4ea380230478f48629b701f8f95ee3a972e259da2515e9b00239aa6",
+   "bytes": 1452,
+   "ref": ".andromeda/runs/2026-09-24T07-05-59-wrap/",
+   "why": "no **Ref:**",
+   "file": "003.md"
+  },
+  {
+   "row": 4,
+   "line": 50,
+   "heading": "## 2026-09-24-three-os-ci-headless-harness-skeleton — nextest mutants profile and toolchain source",
+   "sha256": "5f9109c5e6953b40a3620dd67c4e406be2e438be21a4b42770cb95591996f1ff",
+   "bytes": 877,
+   "ref": ".andromeda/runs/2026-09-24T07-05-59-wrap/",
+   "why": "no **Ref:**",
+   "file": "004.md"
+  },
+  {
+   "row": 5,
+   "line": 59,
+   "heading": "## 2026-09-24-three-os-ci-headless-harness-skeleton — mutation gate prebuilds the root bins (post-commit CI fix)",
+   "sha256": "12923e08123917ac9090b3f9dff28be0eaa1217cb7534d00acb7033fa919173d",
+   "bytes": 1094,
+   "ref": ".andromeda/runs/2026-09-24T07-05-59-wrap/",
+   "why": "no **Ref:**",
+   "file": "005.md"
+  },
+  {
+   "row": 6,
+   "line": 64,
+   "heading": "## 2026-09-24-fake-agent-and-test-data-fixtures — mutation verdict for Rust-free diffs",
+   "sha256": "281c1b5389308da983741fd9b55fa4a2e2764f75cde813c088098509178b1cd0",
+   "bytes": 1361,
+   "ref": ".andromeda/runs/2026-09-24T08-45-42-wrap/",
+   "why": "no **Ref:**",
+   "file": "006.md"
+  },
+  {
+   "row": 7,
+   "line": 75,
+   "heading": "## 2026-09-24-fake-agent-and-test-data-fixtures — fake-agent contract as built, consumer-first",
+   "sha256": "46abde8c09295513badb0a7f64082752c05a87072e055b41a1c39b58752a3168",
+   "bytes": 1570,
+   "ref": ".andromeda/runs/2026-09-24T08-45-42-wrap/",
+   "why": "no **Ref:**",
+   "file": "007.md"
+  },
+  {
+   "row": 8,
+   "line": 90,
+   "heading": "## 2026-09-24-fake-agent-and-test-data-fixtures — fixture naming and `--fixtures` root (operator-resolved escalations)",
+   "sha256": "5a6cd3ad289d82573994b099c776c4aa2f5d6c1a09d67ba084ba03996a7d96c1",
+   "bytes": 1007,
+   "ref": ".andromeda/runs/2026-09-24T08-45-42-wrap/",
+   "why": "no **Ref:**",
+   "file": "008.md"
+  },
+  {
+   "row": 9,
+   "line": 102,
+   "heading": "## 2026-09-24-supply-chain-and-workflow-gates — Lint row from sync-crates.txt, Supply-chain stage, wrappers sentence retired",
+   "sha256": "c58b7e5d2ccc8f7b3b36f9b4c575fc14a04ab48fc7e99c598dc95be4441c41b1",
+   "bytes": 1719,
+   "ref": ".andromeda/runs/2026-09-24T09-41-13-wrap/",
+   "why": "no **Ref:**",
+   "file": "009.md"
+  },
+  {
+   "row": 10,
+   "line": 114,
+   "heading": "## 2026-09-24-observability-gates — internal gate subcommands, exit-aware 10 s readiness, mutants kill below the floor, runner jq and pinned ripgrep, scan-gated uploads",
+   "sha256": "6bdf77ccd8ff6ad47e269bb0b9110e9e7fc2f7ed74bbf80312f0d1924fd40a95",
+   "bytes": 2448,
+   "ref": ".andromeda/runs/2026-09-24T13-07-17-wrap/",
+   "why": "field **Sweep (cascade step 2):**; no **Ref:**",
+   "file": "010.md"
+  },
+  {
+   "row": 11,
+   "line": 134,
+   "heading": "## 2026-09-24-quality-gates — per-job gate, coverage JUnit and regex, two-leg mutation union, seeded fuzz replay, rustup MSRV",
+   "sha256": "caef6b68017272618b1a55c276eb11ffa9a0a62c3265596a557fd731c6b3bf99",
+   "bytes": 3016,
+   "ref": ".andromeda/runs/2026-09-24T14-48-15-wrap/",
+   "why": "no **Ref:**",
+   "file": "011.md"
+  },
+  {
+   "row": 12,
+   "line": 151,
+   "heading": "## 2026-09-24-workspace-tree-and-code-graph-planes — Lint row disposed, release-check job, fuzz lock audit, jq consumers",
+   "sha256": "f925199aad42de94d0abacca47442af216160546bd4776c7baef1f3e634bad6d",
+   "bytes": 2810,
+   "ref": ".andromeda/runs/2026-09-24T16-23-20-wrap/",
+   "why": "no **Ref:**",
+   "file": "012.md"
+  },
+  {
+   "row": 13,
+   "line": 172,
+   "heading": "## 2026-09-24-epoch-1-cleanup — mutation leg streams its progress; an unviable swamp is red",
+   "sha256": "2b4fdb7345fb532d951a169ebd07609ffc160937ddb49ee53328be5cfd770b34",
+   "bytes": 3534,
+   "ref": ".andromeda/runs/2026-09-25T11-29-18-wrap/",
+   "why": "no **Ref:**",
+   "file": "013.md"
+  },
+  {
+   "row": 14,
+   "line": 198,
+   "heading": "## 2026-09-25-security-prerequisites — the `test-only-rust-delta` mutation verdict; the SQOS open and content hash pinned",
+   "sha256": "ab8edc38653514549b9c1d0cdf9237b460724da128ff9acc93399684fb45d2fa",
+   "bytes": 2292,
+   "ref": ".andromeda/runs/2026-09-25T13-11-43-wrap/",
+   "why": "no **Ref:**",
+   "file": "014.md"
+  },
+  {
+   "row": 15,
+   "line": 222,
+   "heading": "## 2026-09-25-pty-wrapper-on-windows — 11-name identity floor, no-EOF measured per OS, harness on outer PTYs, fake-agent receipts",
+   "sha256": "efdd6996acda9df42512391e09386459c0791550722adb06ac31a5588105f7d7",
+   "bytes": 2540,
+   "ref": ".andromeda/runs/2026-09-25T17-43-18-wrap/",
+   "why": "field **Sweep:**; no **Ref:**",
+   "file": "015.md"
+  },
+  {
+   "row": 16,
+   "line": 233,
+   "heading": "## 2026-09-26-ci-chunk-base-and-union-verdict — derived whole-chunk base, compiling-leg union, chunk.diff out of the scan",
+   "sha256": "7776cb64e1b121faf269f022f6fa8ba01349fef5eedb502ed4c7631d5d337ceb",
+   "bytes": 2936,
+   "ref": ".andromeda/runs/2026-09-26T20-59-23-wrap/",
+   "why": "field **Sweep:**; no **Ref:**",
+   "file": "016.md"
+  },
+  {
+   "row": 17,
+   "line": 243,
+   "heading": "## 2026-09-26-local-linux-pre-push-gate — `pre-push` local Linux gate, uncommitted-promotion base rule, pump resize baseline",
+   "sha256": "19be773eb240b773b335cee2e56e555864f00d65176d54cef2f6699925e8276a",
+   "bytes": 3215,
+   "ref": ".andromeda/runs/2026-09-27T00-51-08-wrap/",
+   "why": "field **Sweep:**; no **Ref:**",
+   "file": "017.md"
+  },
+  {
+   "row": 18,
+   "line": 255,
+   "heading": "## 2026-09-27-instance-state-and-start-order — staged readiness, liveness by process check, mutation runs keep no home, pre-push scratch",
+   "sha256": "e86c6b4c69d5510bf7136e9cb207a06a05256edb139f202cec892274b9c55dc4",
+   "bytes": 2232,
+   "ref": ".andromeda/runs/2026-09-27T06-12-23-wrap/",
+   "why": "field **Sweep:**; no **Ref:**",
+   "file": "018.md"
+  }
+ ],
+ "batches": [
+  "batch-1.txt"
+ ]
+}

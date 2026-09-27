@@ -1,0 +1,73 @@
+# Cascade step-2 sweep — 2026-09-27-wrapper-channel. One pattern per retired claim / mechanism of this pass.
+
+[[pattern]]
+id = "mode0600"
+regex = 'ListenerOptionsExt::mode|mode\(0o600\)'
+
+[[pattern]]
+id = "sddeser"
+fixed = "SecurityDescriptor::deserialize"
+
+[[pattern]]
+id = "ga-literal"
+fixed = "(A;;GA;;;"
+
+[[pattern]]
+id = "tmpdir-path"
+regex = 'TMPDIR/viola-<h12>|TMPDIR`? ?is unset|/tmp/viola-<h12>\.sock'
+
+[[pattern]]
+id = "bind-pending"
+regex = '(once|when|until|with|joins with|arrives with) "Wrapper channel"|"Wrapper channel" (binds|lands|arrives)'
+
+[[pattern]]
+id = "endpt-gone-null"
+regex = 'endpoint_gone[^.]{0,80}null'
+
+[[pattern]]
+id = "next-read-zero"
+regex = 'next read returns 0'
+
+[[pattern]]
+id = "fd-premise"
+regex = '0/1/2 plus the PTY|at most one other|fds 0, 1, 2 and'
+
+[[pattern]]
+id = "pty-deps"
+regex = 'exactly portable-pty|portable-pty, windows-sys'
+
+[[pattern]]
+id = "fuzz-targets"
+regex = 'today `viola_name`|fuzz targets? 1\b|viola_name\.rs'
+
+[[pattern]]
+id = "member-list"
+fixed = "`viola-pty`, `viola-agent-claude`"
+
+[[pattern]]
+id = "tracing-std"
+fixed = "tracing 0.1.44 (default features off, `std`)"
+
+[[pattern]]
+id = "corr-optional"
+regex = 'corr[^.]{0,80}optional key|optional keys'
+
+[[pattern]]
+id = "prepush-stages"
+regex = '`linux-leg`[^.]{0,40}`windows-leg`|linux-leg\W+windows-leg'
+
+[[pattern]]
+id = "amend2-pending"
+regex = 'Amendment 2 \(Unix endpoint move\): before'
+
+[[pattern]]
+id = "ipc-notfound"
+regex = '`interprocess` connect fails'
+
+[[pattern]]
+id = "boot-missing"
+regex = '<name>:snapshot`, `<name>:heartbeat'
+
+[[pattern]]
+id = "chan-corr-id"
+regex = '`channel-response`: `corr` = the JSON-RPC request `id`$'

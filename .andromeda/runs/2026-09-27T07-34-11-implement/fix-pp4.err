@@ -1,0 +1,1708 @@
+/home/turbo
+cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0
+Copyright (C) 2025 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+rustc 1.98.1 (48a229cea 2026-09-01)
+cargo-nextest 0.9.146 (8af696ddc 2026-09-21)
+release: 0.9.146
+commit-hash: 8af696ddcce8fff2962d6a5168b6d138b8616a35
+commit-date: 2026-09-21
+host: x86_64-unknown-linux-gnu
+cargo-mutants 27.1.0
+cargo-llvm-cov 0.9.1
+14cea02815a70ec859e6f8c4555b7d8f9b5f4350
+cd2ef4bc2625d15462e46be3129fa3969a1439f7
+.andromeda/runs/2026-09-27T07-34-11-implement/fix-pp.err
+.andromeda/runs/2026-09-27T07-34-11-implement/fix-pp.out
+.andromeda/runs/2026-09-27T07-34-11-implement/fix-pp.ra
+.andromeda/runs/2026-09-27T07-34-11-implement/fix-pp.start
+.andromeda/runs/2026-09-27T07-34-11-implement/fix-pp2.end
+.andromeda/runs/2026-09-27T07-34-11-implement/fix-pp2.err
+.andromeda/runs/2026-09-27T07-34-11-implement/fix-pp2.head
+.andromeda/runs/2026-09-27T07-34-11-implement/fix-pp2.out
+.andromeda/runs/2026-09-27T07-34-11-implement/fix-pp2.ra
+.andromeda/runs/2026-09-27T07-34-11-implement/fix-pp2.rc
+.andromeda/runs/2026-09-27T07-34-11-implement/fix-pp2.start
+.andromeda/runs/2026-09-27T07-34-11-implement/fix-pp3.end
+.andromeda/runs/2026-09-27T07-34-11-implement/fix-pp3.err
+.andromeda/runs/2026-09-27T07-34-11-implement/fix-pp3.head
+.andromeda/runs/2026-09-27T07-34-11-implement/fix-pp3.out
+.andromeda/runs/2026-09-27T07-34-11-implement/fix-pp3.ra
+.andromeda/runs/2026-09-27T07-34-11-implement/fix-pp3.rc
+.andromeda/runs/2026-09-27T07-34-11-implement/fix-pp3.start
+.andromeda/runs/2026-09-27T07-34-11-implement/fix-pp4.err
+.andromeda/runs/2026-09-27T07-34-11-implement/fix-pp4.head
+.andromeda/runs/2026-09-27T07-34-11-implement/fix-pp4.out
+.andromeda/runs/2026-09-27T07-34-11-implement/fix-pp4.ra
+.andromeda/runs/2026-09-27T07-34-11-implement/fix-pp4.start
+viola-0.1.0/chunks/2026-09-27-wrapper-channel/evidence/operator-pass-continued.md
+.git
+14cea02815a70ec859e6f8c4555b7d8f9b5f4350
+/mnt/d/dev/projects/viola/target/pre-push/tree.patch:1640: trailing whitespace.
+  = note: 
+/mnt/d/dev/projects/viola/target/pre-push/tree.patch:1655: trailing whitespace.
+  = note: 
+/mnt/d/dev/projects/viola/target/pre-push/tree.patch:1724: trailing whitespace.
+  = note: 
+/mnt/d/dev/projects/viola/target/pre-push/tree.patch:1726: trailing whitespace.
+  = note: 
+/mnt/d/dev/projects/viola/target/pre-push/tree.patch:2546: trailing whitespace.
+  = note: 
+warning: squelched 3 whitespace errors
+warning: 8 lines add whitespace errors.
+cd2ef4bc2625d15462e46be3129fa3969a1439f7
+12169389845	/home/turbo/viola-pre-push/target
+119351317	/home/turbo/viola-pre-push-scratch
+info: cargo-llvm-cov currently setting cfg(coverage); you can opt-out it by passing --no-cfg-coverage
+   Compiling viola-agent-claude v0.1.0 (/home/turbo/viola-pre-push/crates/viola-agent-claude)
+   Compiling viola-core v0.1.0 (/home/turbo/viola-pre-push/crates/viola-core)
+   Compiling viola-pty v0.1.0 (/home/turbo/viola-pre-push/crates/viola-pty)
+   Compiling viola-channel v0.1.0 (/home/turbo/viola-pre-push/crates/viola-channel)
+   Compiling viola-state v0.1.0 (/home/turbo/viola-pre-push/crates/viola-state)
+   Compiling viola-e2e v0.1.0 (/home/turbo/viola-pre-push/crates/viola-e2e)
+   Compiling viola v0.1.0 (/home/turbo/viola-pre-push)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 4.77s
+────────────
+ Nextest run ID 81e2bd5f-ae3c-49ec-be6c-7aff268e88de with nextest profile: ci
+    Starting 595 tests across 29 binaries
+        PASS [   0.011s] (  1/595) viola::cli_fake_agent keep_decision_keeps_for_ci_or_failed_tests::case_1_nothing_set
+        PASS [   0.012s] (  2/595) viola::cli_fake_agent keep_decision_keeps_for_ci_or_failed_tests::case_3_panicking_without_flag
+        PASS [   0.012s] (  3/595) viola::cli_fake_agent keep_decision_keeps_for_ci_or_failed_tests::case_5_keep_homes
+        PASS [   0.013s] (  4/595) viola::cli_fake_agent keep_decision_keeps_for_ci_or_failed_tests::case_4_failed_and_panicking
+        PASS [   0.014s] (  5/595) viola::channel_endpoint channel_endpoint_second_bind_is_taken_while_the_first_lives
+        PASS [   0.013s] (  6/595) viola::cli_fake_agent keep_decision_keeps_for_ci_or_failed_tests::case_2_failed_flag_but_passing
+        PASS [   0.008s] (  7/595) viola::cli_fake_agent keep_decision_keeps_for_ci_or_failed_tests::case_6_keep_homes_panicking
+        PASS [   0.008s] (  8/595) viola::cli_fake_agent keep_decision_keeps_for_ci_or_failed_tests::case_7_both_flags_passing
+        PASS [   0.008s] (  9/595) viola::cli_fake_agent keep_decision_keeps_for_ci_or_failed_tests::case_8_both_flags_panicking
+        PASS [   0.025s] ( 10/595) viola::cli_fake_agent fake_agent_cr_with_nothing_typed_submits_nothing
+        PASS [   0.026s] ( 11/595) viola::cli_fake_agent fake_agent_rejects_an_unreadable_script::case_1_wrong_version
+        PASS [   0.027s] ( 12/595) viola::cli_fake_agent fake_agent_ungated_steps_run_at_start
+        PASS [   0.031s] ( 13/595) viola::cli_fake_agent fake_agent_without_a_fixture_or_plugin_spawns_nothing
+        PASS [   0.033s] ( 14/595) viola::cli_fake_agent fake_agent_typed_bytes_are_keys_byte_exact
+        PASS [   0.037s] ( 15/595) viola::cli_fake_agent fake_agent_rejects_an_unreadable_script::case_2_unknown_event
+        PASS [   0.038s] ( 16/595) viola::cli_fake_agent fake_agent_bracketed_paste_and_cr_is_one_prompt
+        PASS [   0.040s] ( 17/595) viola::cli_fake_agent fake_agent_rejects_an_unreadable_script::case_3_not_json
+        PASS [   0.027s] ( 18/595) viola::cli_fake_agent test_home_drop_follows_the_keep_decision
+        PASS [   0.042s] ( 19/595) viola::cli_fake_agent fake_agent_slash_prompt_fires_without_local_command_mode
+        PASS [   0.044s] ( 20/595) viola::cli_fake_agent fake_agent_fires_the_plugin_hook_with_the_prompt_in_the_payload
+        PASS [   0.045s] ( 21/595) viola::cli_fake_agent fake_agent_report_version_changes_only_the_version_answer
+        PASS [   0.046s] ( 22/595) viola::cli_fake_agent fake_agent_receipt_lists_open_fds
+        PASS [   0.009s] ( 23/595) viola::contract_content_hash sha256_published_vector_matches_digest::case_2_abc
+        PASS [   0.009s] ( 24/595) viola::contract_content_hash sha256_published_vector_matches_digest::case_1_empty
+        PASS [   0.009s] ( 25/595) viola::contract_content_hash sha256_published_vector_matches_digest::case_3_two_blocks
+        PASS [   0.051s] ( 26/595) viola::cli_fake_agent fake_agent_local_command_mode_skips_only_slash_prompts
+        PASS [   0.013s] ( 27/595) viola::contract_content_hash sha256_truncated_to_eight_bytes_yields_sixteen_hex::case_1_empty
+        PASS [   0.054s] ( 28/595) viola::cli_fake_agent fake_agent_receipt_env_holds_names_never_values
+        PASS [   0.015s] ( 29/595) viola::contract_content_hash sha256_truncated_to_eight_bytes_yields_sixteen_hex::case_2_abc
+        PASS [   0.058s] ( 30/595) viola::cli_fake_agent fake_agent_suppress_prompt_submit_fires_nothing
+        PASS [   0.048s] ( 31/595) viola::cli_fake_agent receipt_reader_leaves_a_torn_final_line_unread
+        PASS [   0.069s] ( 32/595) viola::cli_fake_agent fake_agent_hook_stdout_and_exit_are_receipted
+        PASS [   0.013s] ( 33/595) viola::contract_diag_schema diag_line_schema_event_enum_equals_the_log_format_literals
+        PASS [   0.094s] ( 34/595) viola::cli_fake_agent fake_agent_never_runs_a_non_absolute_hook_command
+        PASS [   0.044s] ( 35/595) viola::contract_diag_schema diag_line_schema_accepts_each_documented_null_corr::case_6_fail_open_hook_invoked
+        PASS [   0.049s] ( 36/595) viola::contract_diag_schema diag_line_schema_accepts_each_documented_null_corr::case_4_client_send_refused
+        PASS [   0.076s] ( 37/595) viola::cli_instance_state fixture_sweep_removes_only_homes_whose_owner_is_gone
+        PASS [   0.043s] ( 38/595) viola::contract_diag_schema diag_line_schema_accepts_each_documented_null_corr::case_7_non_dialog_hook_decision
+        PASS [   0.055s] ( 39/595) viola::contract_diag_schema diag_line_schema_accepts_each_documented_null_corr::case_2_parse_error_reply
+        PASS [   0.052s] ( 40/595) viola::contract_diag_schema diag_line_schema_accepts_each_documented_null_corr::case_8_fail_open_hook_decision
+        PASS [   0.049s] ( 41/595) viola::contract_diag_schema diag_line_schema_rejects_literal_null_corr_and_instance::case_1_null_corr
+        PASS [   0.063s] ( 42/595) viola::contract_diag_schema diag_line_schema_accepts_each_documented_null_corr::case_5_non_dialog_hook_invoked
+        PASS [   0.065s] ( 43/595) viola::contract_diag_schema diag_line_schema_confines_corr_to_its_events
+        PASS [   0.079s] ( 44/595) viola::contract_diag_schema diag_line_schema_accepts_each_documented_null_corr::case_3_oversize_reply
+        PASS [   0.081s] ( 45/595) viola::contract_diag_schema diag_line_schema_accepts_each_documented_null_corr::case_1_notification
+        PASS [   0.094s] ( 46/595) viola::contract_diag_schema diag_detail_schema_allows_content_fields_only_there
+        PASS [   0.056s] ( 47/595) viola::contract_diag_schema diag_line_schema_requires_corr_where_it_is_always_defined::case_02_dialog_answered
+        PASS [   0.057s] ( 48/595) viola::contract_diag_schema diag_line_schema_requires_corr_where_it_is_always_defined::case_03_release_from_driver
+        PASS [   0.077s] ( 49/595) viola::contract_diag_schema diag_line_schema_rejects_literal_null_corr_and_instance::case_3_message_not_the_event
+        PASS [   0.091s] ( 50/595) viola::contract_diag_schema diag_line_schema_rejects_literal_null_corr_and_instance::case_2_null_instance
+        PASS [   0.177s] ( 51/595) viola::channel_endpoint channel_endpoint_answers_protocol_faults
+        PASS [   0.082s] ( 52/595) viola::contract_diag_schema diag_line_schema_rejects_literal_null_corr_and_instance::case_5_bad_timestamp
+        PASS [   0.086s] ( 53/595) viola::contract_diag_schema diag_line_schema_rejects_literal_null_corr_and_instance::case_4_uncatalogued_key
+        PASS [   0.027s] ( 54/595) viola::contract_fixture_hygiene absolute_path_and_username_predicates_hold_their_edges
+        PASS [   0.062s] ( 55/595) viola::contract_diag_schema diag_line_schema_requires_corr_where_it_is_always_defined::case_08_send_wrapper
+        PASS [   0.080s] ( 56/595) viola::contract_diag_schema diag_line_schema_requires_corr_where_it_is_always_defined::case_05_channel_request_unlisted_method
+        PASS [   0.076s] ( 57/595) viola::contract_diag_schema diag_line_schema_requires_corr_where_it_is_always_defined::case_07_channel_response_ok
+        PASS [   0.096s] ( 58/595) viola::contract_diag_schema diag_line_schema_requires_corr_where_it_is_always_defined::case_01_dialog_raised
+        PASS [   0.011s] ( 59/595) viola::contract_fixture_hygiene planted_absolute_path_is_rejected::case_1_windows_drive
+        PASS [   0.083s] ( 60/595) viola::contract_diag_schema diag_line_schema_requires_corr_where_it_is_always_defined::case_06_channel_response_fault
+        PASS [   0.073s] ( 61/595) viola::contract_diag_schema diag_line_schema_requires_corr_where_it_is_always_defined::case_10_hook_decision_dialog
+        PASS [   0.100s] ( 62/595) viola::contract_diag_schema diag_line_schema_requires_corr_where_it_is_always_defined::case_04_channel_request
+        PASS [   0.025s] ( 63/595) viola::contract_fixture_hygiene planted_absolute_path_in_a_key_is_rejected
+        PASS [   0.020s] ( 64/595) viola::contract_fixture_hygiene planted_absolute_path_is_rejected::case_4_macos_users
+        PASS [   0.026s] ( 65/595) viola::contract_fixture_hygiene planted_absolute_path_is_rejected::case_3_linux_home
+        PASS [   0.029s] ( 66/595) viola::contract_fixture_hygiene planted_absolute_path_is_rejected::case_2_windows_drive_slash
+        PASS [   0.014s] ( 67/595) viola::contract_lints panic_hook_is_the_first_statement_of_main
+        PASS [   0.057s] ( 68/595) viola::contract_fixture_hygiene non_json_is_a_schema_violation_and_unknown_fields_are_tolerated
+        PASS [   0.063s] ( 69/595) viola::contract_fixture_hygiene fake_script_passes_hygiene::path_1_fixtures_fake_scripts_gated_turn_json
+        PASS [   0.097s] ( 70/595) viola::contract_diag_schema diag_line_schema_requires_corr_where_it_is_always_defined::case_09_send_refused_wrapper
+        PASS [   0.035s] ( 71/595) viola::contract_fixture_hygiene planted_absolute_path_is_rejected::case_5_windows_users
+        PASS [   0.028s] ( 72/595) viola::contract_fixture_hygiene violation_classes_have_kebab_names
+        PASS [   0.037s] ( 73/595) viola::contract_fixture_hygiene planted_schema_violation_is_rejected::case_3_unknown_event
+        PASS [   0.024s] ( 74/595) viola::contract_lints table_reads_the_body_up_to_the_next_header
+        PASS [   0.024s] ( 75/595) viola::contract_lints workspace_members_inherit_the_lint_table_except_the_harness_crate
+        PASS [   0.024s] ( 76/595) viola::run_cli fake_agent_answers_version_in_the_cli_format
+        PASS [   0.018s] ( 77/595) viola::run_cli fake_agent_exits_on_stdin_eof
+        PASS [   0.049s] ( 78/595) viola::contract_fixture_hygiene planted_schema_violation_is_rejected::case_1_wrong_version
+        PASS [   0.049s] ( 79/595) viola::contract_fixture_hygiene planted_schema_violation_is_rejected::case_2_no_steps
+        PASS [   0.106s] ( 80/595) viola::contract_diag_schema diag_line_schema_requires_corr_where_it_is_always_defined::case_11_hook_decision_question
+        PASS [   0.052s] ( 81/595) viola::contract_fixture_hygiene planted_schema_violation_is_rejected::case_4_gate_not_bool
+        PASS [   0.050s] ( 82/595) viola::contract_fixture_hygiene planted_username_is_rejected_placeholder_is_not
+        PASS [   0.082s] ( 83/595) viola::run_cli run_internal_error_routes_the_chain_to_the_detail_file
+        PASS [   0.075s] ( 84/595) viola::run_cli run_with_a_bad_name_is_usage_and_creates_nothing
+        PASS [   0.022s] ( 85/595) viola::run_cli viola_without_a_verb_is_usage
+        PASS [   0.343s] ( 86/595) viola::cli_fake_agent fake_agent_injected_harness_turn_is_a_gated_harness_prompt
+        PASS [   0.656s] ( 87/595) viola::cli_fake_agent fake_agent_gated_steps_wait_for_control_lines
+        PASS [   0.517s] ( 88/595) viola::run_cli fake_agent_stops_at_ctrl_c_and_reads_no_further
+        PASS [   0.869s] ( 89/595) viola::cli_fake_agent chain_boots_the_fake_agent_under_viola_with_a_gated_script
+        PASS [   0.880s] ( 90/595) viola::cli_instance_state run_refuses_a_squatted_endpoint
+        PASS [   0.895s] ( 91/595) viola::cli_fake_agent wrapper_boot_exiting_before_ready_fails_as_exited
+        PASS [   0.963s] ( 92/595) viola::channel_endpoint channel_debug_level_keeps_request_content_out_of_the_role_files
+        PASS [   0.157s] ( 93/595) viola::tui_pty_seam pty_exit_is_read_on_the_handle_while_the_output_is_held
+        PASS [   1.133s] ( 94/595) viola::cli_fake_agent fake_agent_without_exit_no_eof_releases_stdout_at_exit
+        PASS [   0.019s] ( 95/595) viola::bin/viola cmd::run::tests::no_methods_answers_method_not_found_for_every_method
+        PASS [   1.145s] ( 96/595) viola::cli_instance_state run_refuses_a_stale_name
+        PASS [   0.008s] ( 97/595) viola::bin/viola obs::tests::config_rejection_detail_and_count::case_1_unreadable
+        PASS [   0.010s] ( 98/595) viola::bin/viola obs::tests::config_rejection_detail_and_count::case_2_malformed
+        PASS [   0.015s] ( 99/595) viola::bin/viola obs::tests::config_rejection_detail_and_count::case_3_unknown_keys
+        PASS [   0.089s] (100/595) viola::tui_pty_seam pty_resize_reaches_the_child
+        PASS [   1.189s] (101/595) viola::cli_instance_state path1_start_writes_state_before_the_spawn
+        PASS [   1.216s] (102/595) viola::cli_fake_agent booted_wrapper_fixture_is_ready_and_receipting
+        PASS [   0.011s] (103/595) viola::bin/viola obs::tests::detail_line_carries_the_home_level_keys_then_the_fields
+        PASS [   0.010s] (104/595) viola::bin/viola obs::tests::ensure_private_dir_creates_missing_parents
+        PASS [   0.010s] (105/595) viola::bin/viola obs::tests::log_config_rejection_writes_one_warn_line
+        PASS [   0.010s] (106/595) viola::bin/viola obs::tests::millis_utc_writes_the_current_timestamp
+        PASS [   0.017s] (107/595) viola::bin/viola obs::tests::internal_error_exit_line_writes_run_internal_error
+        PASS [   0.008s] (108/595) viola::bin/viola obs::tests::open_role_file_without_a_name_creates_nothing
+        PASS [   0.008s] (109/595) viola::bin/viola obs::tests::read_diagnostics_level_cases::case_01_absent_file
+        PASS [   0.009s] (110/595) viola::bin/viola obs::tests::read_diagnostics_level_cases::case_02_no_version
+        PASS [   0.032s] (111/595) viola::bin/viola obs::tests::internal_error_detail_line_carries_the_chain
+        PASS [   0.010s] (112/595) viola::bin/viola obs::tests::read_diagnostics_level_cases::case_03_version_only
+        PASS [   0.008s] (113/595) viola::bin/viola obs::tests::read_diagnostics_level_cases::case_04_info
+        PASS [   0.010s] (114/595) viola::bin/viola obs::tests::read_diagnostics_level_cases::case_05_debug
+        PASS [   0.009s] (115/595) viola::bin/viola obs::tests::read_diagnostics_level_cases::case_06_trace
+        PASS [   0.009s] (116/595) viola::bin/viola obs::tests::read_diagnostics_level_cases::case_07_not_a_string
+        PASS [   0.009s] (117/595) viola::bin/viola obs::tests::read_diagnostics_level_cases::case_08_newer_version
+        PASS [   0.009s] (118/595) viola::bin/viola obs::tests::read_diagnostics_level_cases::case_09_not_an_object
+        PASS [   0.011s] (119/595) viola::bin/viola obs::tests::read_diagnostics_level_cases::case_10_not_json
+        PASS [   0.009s] (120/595) viola::bin/viola obs::tests::read_diagnostics_level_cases::case_11_unknown_keys
+        PASS [   0.016s] (121/595) viola::bin/viola obs::tests::read_diagnostics_level_file_as_home_is_unreadable
+        PASS [   0.010s] (122/595) viola::bin/viola obs::tests::read_diagnostics_level_unreadable_config_is_reported
+        PASS [   0.011s] (123/595) viola::bin/viola obs::tests::role_file_name_maps_every_process::case_1_run
+        PASS [   0.009s] (124/595) viola::bin/viola obs::tests::role_file_name_maps_every_process::case_2_hook
+        PASS [   0.009s] (125/595) viola::bin/viola obs::tests::role_file_name_maps_every_process::case_3_cli
+        PASS [   0.008s] (126/595) viola::bin/viola obs::tests::role_file_name_maps_every_process::case_4_mcp
+        PASS [   0.009s] (127/595) viola::bin/viola obs::tests::role_file_name_maps_every_process::case_5_ui
+        PASS [   1.270s] (128/595) viola::cli_instance_state run_refuses_a_live_name
+        PASS [   0.008s] (129/595) viola::bin/viola obs::tests::role_file_name_maps_every_process::case_7_run_without_name
+        PASS [   0.013s] (130/595) viola::bin/viola obs::tests::role_file_name_maps_every_process::case_6_ui_without_port
+        PASS [   0.008s] (131/595) viola::bin/viola obs::tests::targets_enable_viola_crates_at_the_level_and_nothing_else
+        PASS [   0.009s] (132/595) viola::bin/viola obs::tests::timestamp_is_rfc3339_utc_millis_with_z
+        PASS [   0.011s] (133/595) viola::bin/viola obs::tests::subscriber_level_gates_debug_lines_only
+        PASS [   0.009s] (134/595) viola::bin/viola obs::tests::write_detail_creates_owner_only_dirs_and_one_line
+        PASS [   0.008s] (135/595) viola::bin/viola obs::tests::write_detail_under_a_file_drops_the_line
+        PASS [   0.009s] (136/595) viola::bin/viola run::env::tests::claude_names_are_upper_snake_after_the_prefix
+        PASS [   0.010s] (137/595) viola::bin/viola run::env::tests::env_keep_reads_the_listed_claude_names
+        PASS [   0.015s] (138/595) viola::bin/viola run::env::tests::env_keep_absent_or_foreign_documents_read_as_none_without_a_rejection
+        PASS [   0.009s] (139/595) viola::bin/viola run::env::tests::env_keep_rejects_the_whole_list_on_any_bad_entry
+        PASS [   0.009s] (140/595) viola::bin/viola run::env::tests::env_keep_takes_exactly_the_maximum
+        PASS [   0.009s] (141/595) viola::bin/viola run::env::tests::persistent_names_are_the_pass_list_on_unix
+        PASS [   0.009s] (142/595) viola::bin/viola run::env::tests::read_env_keep_reads_the_home_config_file
+        PASS [   0.010s] (143/595) viola::bin/viola run::env::tests::persistent_names_report_a_bad_pass_list_on_every_os
+        PASS [   0.013s] (144/595) viola::bin/viola run::tests::spawn_env_sets_viola_names_and_prefixes_path
+        PASS [   0.013s] (145/595) viola::bin/viola run::tests::spawn_env_without_an_inherited_path_puts_only_the_pinned_dir
+        PASS [   0.012s] (146/595) viola::bin/viola tests::panic_line_has_the_binding_fields_and_no_corr
+        PASS [   0.011s] (147/595) viola::bin/viola tests::panic_line_without_instance_omits_the_key
+        PASS [   0.010s] (148/595) viola::bin/viola tests::panic_location_absolute_without_src_keeps_file_name_only
+        PASS [   0.009s] (149/595) viola::bin/viola tests::panic_location_dependency_path_trimmed_to_crate_dir
+        PASS [   0.008s] (150/595) viola::bin/viola tests::panic_location_relative_path_kept_with_forward_slashes
+        PASS [   0.007s] (151/595) viola::bin/viola-fake-agent tests::hex_is_lowercase_two_digits_per_byte
+        PASS [   1.126s] (152/595) viola::run_cli run_creates_home_0700_and_role_file_0600
+        PASS [   0.009s] (153/595) viola::bin/viola tests::panic_location_src_at_root_keeps_file_name_only
+        PASS [   0.007s] (154/595) viola::bin/viola-fake-agent tests::hook_commands_take_only_command_entries_for_the_event
+        PASS [   0.007s] (155/595) viola::bin/viola-fake-agent tests::input_escape_sequences_that_are_not_a_paste_are_keys
+        PASS [   0.008s] (156/595) viola::bin/viola-fake-agent tests::input_typed_bytes_are_keys_and_cr_submits_them
+        PASS [   0.009s] (157/595) viola::bin/viola-fake-agent tests::input_paste_then_cr_is_one_submit
+        PASS [   0.007s] (158/595) viola::bin/viola-fake-agent tests::opts_default_to_the_default_cli_version
+        PASS [   0.007s] (159/595) viola::bin/viola-fake-agent tests::opts_parse_reads_values_flags_and_ignores_unknown
+        PASS [   0.008s] (160/595) viola::bin/viola-fake-agent tests::parse_script_takes_registered_events_with_defaults
+        PASS [   0.008s] (161/595) viola::bin/viola-fake-agent tests::payload_sets_only_the_prompt_field
+        PASS [   0.007s] (162/595) viola-agent-claude tests::identity_floor_is_the_measured_list
+        PASS [   0.007s] (163/595) viola-agent-claude tests::plan_strip_folds_case_only_when_the_host_does
+        PASS [   0.008s] (164/595) viola-agent-claude tests::plan_strip_is_empty_without_claude_names
+        PASS [   0.007s] (165/595) viola-agent-claude tests::plan_strip_on_this_host_removes_identity_and_keeps_a_persistent_name
+        PASS [   0.007s] (166/595) viola-agent-claude tests::plan_strip_removes_identity_and_unknown_claude_names_and_keeps_the_rest
+        PASS [   0.007s] (167/595) viola-agent-claude tests::plan_strip_strips_a_floor_name_even_when_it_is_persistent
+        PASS [   1.384s] (168/595) viola::channel_endpoint channel_wrapper_logs_each_call_with_corr_and_conn
+        PASS [   0.007s] (169/595) viola-agent-claude tests::plugin_files_are_the_three_layout_paths
+        PASS [   0.007s] (170/595) viola-agent-claude tests::refusal_messages_are_fixed
+        PASS [   0.007s] (171/595) viola-agent-claude tests::plugin_files_render_substitutes_the_pinned_path
+        PASS [   0.009s] (172/595) viola-agent-claude tests::resolve_program_follows_pathext_order_and_path_order
+        PASS [   0.008s] (173/595) viola-agent-claude tests::resolve_program_on_unix_takes_the_bare_name_and_never_refuses
+        PASS [   0.012s] (174/595) viola-agent-claude tests::resolve_program_never_takes_an_extensionless_file_on_windows
+        PASS [   0.009s] (175/595) viola-agent-claude tests::resolve_program_refuses_a_non_claude_script_even_beside_the_exe
+        PASS [   0.016s] (176/595) viola-agent-claude tests::resolve_program_refuses_a_shim_without_its_exe_and_any_other_script
+        PASS [   0.010s] (177/595) viola-agent-claude tests::resolve_program_reports_a_missing_program
+        PASS [   0.009s] (178/595) viola-agent-claude tests::resolve_program_uses_a_given_path_as_given
+        PASS [   0.014s] (179/595) viola-agent-claude tests::resolve_program_takes_a_name_with_an_extension_as_is_on_path
+        PASS [   0.014s] (180/595) viola-agent-claude tests::resolve_program_turns_the_claude_shim_into_its_exe
+        PASS [   0.009s] (181/595) viola-channel client::tests::client_connect_to_a_missing_endpoint_is_not_found
+        PASS [   0.015s] (182/595) viola-channel client::tests::client_and_server_log_the_call_under_one_conn_and_corr
+        PASS [   1.189s] (183/595) viola::run_cli run_config_malformed_emits_parse_rejected
+        PASS [   1.197s] (184/595) viola::run_cli run_child_exit_status_is_recorded
+        PASS [   0.015s] (185/595) viola-channel client::tests::client_conn_has_the_documented_shape_and_counts_connections
+        PASS [   0.009s] (186/595) viola-channel client::tests::fault_of_maps_all_five_codes
+        PASS [   0.094s] (187/595) viola::bin/viola tests::panic_hook_writes_detail_line_with_payload_and_backtrace
+        PASS [   1.176s] (188/595) viola::run_cli run_with_a_missing_program_exits_1_with_internal_error
+        PASS [   0.008s] (189/595) viola-channel client::tests::reply_class_reads_the_outcome::case_1_ok
+        PASS [   0.015s] (190/595) viola-channel client::tests::client_stamps_the_envelope_and_counts_ids_per_connection
+        PASS [   1.426s] (191/595) viola::cli_fake_agent fake_agent_exit_no_eof_exits_while_stdout_is_held
+        PASS [   0.008s] (192/595) viola-channel client::tests::reply_class_reads_the_outcome::case_4_foreign_code
+        PASS [   0.009s] (193/595) viola-channel client::tests::reply_class_reads_the_outcome::case_2_refusal
+        PASS [   0.008s] (194/595) viola-channel endpoint::tests::endpoint_name_differs_by_home_and_by_name
+        PASS [   0.008s] (195/595) viola-channel endpoint::tests::endpoint_name_golden_vectors::case_1_windows_home
+        PASS [   0.008s] (196/595) viola-channel endpoint::tests::endpoint_name_golden_vectors::case_2_unix_home
+        PASS [   0.008s] (197/595) viola-channel endpoint::tests::endpoint_name_refuses_a_non_utf8_home
+        PASS [   0.011s] (198/595) viola-channel client::tests::reply_class_reads_the_outcome::case_3_fault
+        PASS [   0.008s] (199/595) viola-channel endpoint::tests::endpoint_path_is_a_socket_in_the_per_user_dir_on_unix
+        PASS [   0.007s] (200/595) viola-channel endpoint::tests::fnv1a_matches_the_published_vectors
+        PASS [   0.011s] (201/595) viola-channel endpoint::tests::socket_dir_picks_the_per_user_dir::case_6_macos_no_tmpdir
+        PASS [   0.012s] (202/595) viola-channel endpoint::tests::socket_dir_picks_the_per_user_dir::case_5_macos_tmpdir
+        PASS [   0.012s] (203/595) viola-channel endpoint::tests::socket_dir_picks_the_per_user_dir::case_3_linux_relative_xdg
+        PASS [   0.013s] (204/595) viola-channel endpoint::tests::socket_dir_picks_the_per_user_dir::case_4_linux_empty_xdg
+        PASS [   0.015s] (205/595) viola-channel endpoint::tests::socket_dir_picks_the_per_user_dir::case_2_linux_no_xdg
+        PASS [   0.010s] (206/595) viola-channel frame::tests::parse_request_faults_carry_the_readable_id::case_4_array_params
+        PASS [   0.013s] (207/595) viola-channel frame::tests::parse_request_faults_carry_the_readable_id::case_2_no_method
+        PASS [   0.015s] (208/595) viola-channel frame::tests::parse_request_faults_carry_the_readable_id::case_3_wrong_version
+        PASS [   0.020s] (209/595) viola-channel endpoint::tests::socket_dir_picks_the_per_user_dir::case_1_linux_xdg
+        PASS [   0.018s] (210/595) viola-channel frame::tests::parse_request_faults_carry_the_readable_id::case_1_not_json
+        PASS [   0.010s] (211/595) viola-channel frame::tests::parse_request_faults_carry_the_readable_id::case_7_not_an_object
+        PASS [   0.010s] (212/595) viola-channel frame::tests::parse_request_faults_carry_the_readable_id::case_5_bad_v
+        PASS [   0.011s] (213/595) viola-channel frame::tests::parse_request_reads_the_envelope_and_skips_unknown_fields
+        PASS [   0.011s] (214/595) viola-channel frame::tests::read_frame_at_end_of_input_is_closed::case_1_empty
+        PASS [   0.014s] (215/595) viola-channel frame::tests::parse_request_faults_carry_the_readable_id::case_6_string_id
+        PASS [   0.012s] (216/595) viola-channel frame::tests::read_frame_at_end_of_input_is_closed::case_2_torn
+        PASS [   0.017s] (217/595) viola-channel frame::tests::parse_request_takes_a_notification_without_params
+        PASS [   0.008s] (218/595) viola-channel frame::tests::responses_carry_the_id_or_null
+        PASS [   0.010s] (219/595) viola-channel frame::tests::request_debug_redacts_params
+        PASS [   0.012s] (220/595) viola-channel frame::tests::write_frame_writes_one_line_in_one_call
+        PASS [   0.012s] (221/595) viola-channel server::tests::answer_a_panicking_dispatch_is_internal_error_and_closes
+        PASS [   0.013s] (222/595) viola-channel server::tests::answer_faults_log_a_response_without_a_request::case_2_not_a_request
+        PASS [   0.016s] (223/595) viola-channel server::tests::answer_faults_log_a_response_without_a_request::case_1_not_json
+        PASS [   0.021s] (224/595) viola-channel server::tests::answer_classes_a_refusal_result
+        PASS [   0.016s] (225/595) viola-channel server::tests::answer_ok_echoes_the_id_and_logs_both_lines
+        PASS [   0.012s] (226/595) viola-channel server::tests::answer_refuses_a_newer_version_with_supported_and_wrapper
+        PASS [   0.019s] (227/595) viola-channel server::tests::answer_rejects_a_notification_of_another_method::case_1_request_method
+        PASS [   0.011s] (228/595) viola-channel server::tests::answer_takes_the_current_version_and_an_older_one
+        PASS [   0.011s] (229/595) viola-channel server::tests::answer_to_a_notification_is_nothing
+        PASS [   0.016s] (230/595) viola-channel server::tests::answer_rejects_a_notification_of_another_method::case_2_unknown_method
+        PASS [   1.262s] (231/595) viola::run_cli run_config_unknown_keys_are_counted
+        PASS [   0.015s] (232/595) viola-channel server::tests::answer_without_conn_logs_the_server_discriminator
+        PASS [   0.015s] (233/595) viola-channel server::tests::bind_of_a_live_endpoint_is_taken_until_it_drops
+        PASS [   0.010s] (234/595) viola-channel server::tests::dispatch_span_carries_method_and_conn_never_params
+        PASS [   0.015s] (235/595) viola-channel server::tests::bind_span_carries_the_endpoint_kind
+        PASS [   0.011s] (236/595) viola-channel server::tests::is_conn_takes_only_the_documented_shape::case_02_at_64_bytes
+        PASS [   0.015s] (237/595) viola-channel server::tests::dispatch_never_receives_the_peer_conn
+        PASS [   0.059s] (238/595) viola-channel frame::tests::read_frame_takes_a_line_up_to_the_bound::case_1_one_under
+        PASS [   0.016s] (239/595) viola-channel server::tests::is_conn_takes_only_the_documented_shape::case_01_valid
+        PASS [   0.022s] (240/595) viola-channel server::tests::bind_takes_over_a_leftover_socket_file_and_makes_it_0600
+        PASS [   0.066s] (241/595) viola-channel frame::tests::read_frame_takes_a_line_up_to_the_bound::case_2_at_the_bound
+        PASS [   0.070s] (242/595) viola-channel frame::tests::read_frame_refuses_one_byte_over_the_bound
+        PASS [   0.015s] (243/595) viola-channel server::tests::is_conn_takes_only_the_documented_shape::case_06_two_numbers
+        PASS [   0.018s] (244/595) viola-channel server::tests::is_conn_takes_only_the_documented_shape::case_04_empty_process
+        PASS [   0.011s] (245/595) viola-channel server::tests::is_conn_takes_only_the_documented_shape::case_08_empty_number
+        PASS [   0.025s] (246/595) viola-channel server::tests::is_conn_takes_only_the_documented_shape::case_03_over_64_bytes
+        PASS [   0.012s] (247/595) viola-channel server::tests::is_conn_takes_only_the_documented_shape::case_10_canary
+        PASS [   0.019s] (248/595) viola-channel server::tests::is_conn_takes_only_the_documented_shape::case_07_four_numbers
+        PASS [   1.272s] (249/595) viola::run_cli run_with_fake_agent_writes_start_and_exit_lines
+        PASS [   0.021s] (250/595) viola-channel server::tests::is_conn_takes_only_the_documented_shape::case_05_upper_process
+        PASS [   0.018s] (251/595) viola-channel server::tests::is_conn_takes_only_the_documented_shape::case_09_letter_number
+        PASS [   0.012s] (252/595) viola-channel server::tests::peer_labels_are_one_or_the_other
+        PASS [   0.011s] (253/595) viola-channel server::tests::version_label_takes_version_strings_only::case_01_semver
+        PASS [   0.014s] (254/595) viola-channel server::tests::version_label_takes_version_strings_only::case_03_ten_digits
+        PASS [   1.216s] (255/595) viola::tui_channel_fds tui_channel_fds_the_child_holds_nothing_of_violas
+        PASS [   0.019s] (256/595) viola-channel server::tests::method_label_is_the_closed_list
+        PASS [   0.015s] (257/595) viola-channel server::tests::version_label_takes_version_strings_only::case_06_empty
+        PASS [   0.020s] (258/595) viola-channel server::tests::refuse_oversize_logs_parse_rejected_and_closes
+        PASS [   1.505s] (259/595) viola::cli_instance_state run_takes_over_a_gone_name_and_appends
+        PASS [   1.508s] (260/595) viola::cli_instance_state run_rewrites_the_plugin_folder_each_start
+        PASS [   0.020s] (261/595) viola-channel server::tests::version_label_takes_version_strings_only::case_02_nine_digits
+        PASS [   0.016s] (262/595) viola-channel server::tests::version_label_takes_version_strings_only::case_07_two_parts
+        PASS [   0.020s] (263/595) viola-channel server::tests::version_label_takes_version_strings_only::case_05_canary
+        PASS [   0.021s] (264/595) viola-channel server::tests::version_label_takes_version_strings_only::case_04_pre_release
+        PASS [   0.017s] (265/595) viola-channel server::tests::version_label_takes_version_strings_only::case_08_four_parts
+        PASS [   0.016s] (266/595) viola-channel server::tests::version_label_takes_version_strings_only::case_09_empty_part
+        PASS [   0.016s] (267/595) viola-channel server::tests::version_label_takes_version_strings_only::case_10_letters
+        PASS [   0.013s] (268/595) viola-channel server::tests::version_label_takes_version_strings_only::case_11_space
+        PASS [   0.013s] (269/595) viola-channel tests::channel_error_display_is_a_fixed_literal::case_8_non_utf8
+        PASS [   0.014s] (270/595) viola-channel tests::channel_error_display_is_a_fixed_literal::case_5_parse
+        PASS [   0.016s] (271/595) viola-channel tests::channel_error_display_is_a_fixed_literal::case_3_connect
+        PASS [   0.015s] (272/595) viola-channel tests::channel_error_display_is_a_fixed_literal::case_4_oversize
+        PASS [   0.011s] (273/595) viola-channel tests::protocol_error_body_is_the_literal_wire_object::case_2_invalid
+        PASS [   0.016s] (274/595) viola-channel tests::channel_error_display_is_a_fixed_literal::case_7_closed
+        PASS [   0.018s] (275/595) viola-channel tests::channel_error_display_is_a_fixed_literal::case_6_io
+        PASS [   0.021s] (276/595) viola-channel tests::channel_error_display_is_a_fixed_literal::case_2_bind
+        PASS [   0.024s] (277/595) viola-channel tests::channel_error_display_is_a_fixed_literal::case_1_bind_taken
+        PASS [   0.019s] (278/595) viola-channel tests::channel_error_keeps_the_os_error_as_its_source
+        PASS [   1.227s] (279/595) viola::tui_env_strip tui_env_strip_keeps_a_pass_listed_name_on_unix
+        PASS [   0.020s] (280/595) viola-channel tests::protocol_error_body_is_the_literal_wire_object::case_4_version
+        PASS [   0.023s] (281/595) viola-channel tests::protocol_error_body_is_the_literal_wire_object::case_1_parse
+        PASS [   0.013s] (282/595) viola-channel tests::protocol_version_is_one
+        PASS [   0.021s] (283/595) viola-channel tests::protocol_error_body_is_the_literal_wire_object::case_3_method
+        PASS [   0.011s] (284/595) viola-core obs::tests::obs_ctx_first_set_wins
+        PASS [   0.024s] (285/595) viola-channel tests::protocol_error_body_is_the_literal_wire_object::case_5_internal
+        PASS [   0.011s] (286/595) viola-core obs::tests::obs_process_display_is_the_five_roles
+        PASS [   0.018s] (287/595) viola-core obs::tests::obs_event_display_matches_the_log_format_literals
+        PASS [   0.425s] (288/595) viola::bin/viola cmd::run::tests::start_opens_the_scenario_one_spans_under_run_start
+        PASS [   0.016s] (289/595) viola-core tests::max_frame_is_sixteen_mib
+        PASS [   0.017s] (290/595) viola-core tests::version_is_the_package_version
+        PASS [   0.926s] (291/595) viola::tui_env_strip tui_env_viola_names_reach_the_child
+        PASS [   0.022s] (292/595) viola-core tests::event_kind_as_str_is_kebab_case
+        PASS [   0.850s] (293/595) viola::tui_passthrough tui_child_output_passes_through_without_viola_bytes
+        PASS [   0.014s] (294/595) viola-core tests::viola_name_length_boundary_holds
+        PASS [   0.022s] (295/595) viola-core tests::viola_name_digits_and_hyphen_after_first_accepted
+        PASS [   0.015s] (296/595) viola-core tests::viola_name_plain_words_accepted
+        PASS [   0.016s] (297/595) viola-core tests::viola_name_displays_its_value
+        PASS [   0.018s] (298/595) viola-core tests::viola_name_leading_non_letter_rejected
+        PASS [   0.038s] (299/595) viola-channel::channel_frames channel_frame_not_json_is_a_parse_error_and_the_connection_stays
+        PASS [   0.018s] (300/595) viola-core tests::viola_name_empty_rejected
+        PASS [   0.685s] (301/595) viola::tui_passthrough tui_keys_reach_the_child_as_typed_and_ctrl_c_ends_it
+        PASS [   0.012s] (302/595) viola-e2e harness::boot::tests::boot_refuses_an_invalid_session_id
+        PASS [   0.024s] (303/595) viola-core tests::viola_name_outside_charset_rejected
+        PASS [   0.015s] (304/595) viola-e2e harness::boot::tests::failure_doc_carries_the_closed_fields
+        PASS [   0.020s] (305/595) viola-e2e harness::boot::tests::beat_fresh_is_true_only_under_five_seconds
+        PASS [   0.013s] (306/595) viola-e2e harness::boot::tests::instance_spec_rejects_invalid_names
+        PASS [   0.016s] (307/595) viola-e2e harness::boot::tests::instance_spec_parses_name_and_args
+        PASS [   0.018s] (308/595) viola-e2e harness::boot::tests::fresh_age_is_strictly_under_five_seconds
+        PASS [   0.020s] (309/595) viola-e2e harness::boot::tests::readiness_names_a_missing_endpoint
+        PASS [   0.025s] (310/595) viola-e2e harness::boot::tests::readiness_is_ready_when_both_processes_live
+        PASS [   0.013s] (311/595) viola-e2e harness::boot::tests::session_path_puts_the_session_bin_first
+        PASS [   0.022s] (312/595) viola-e2e harness::boot::tests::readiness_reports_a_wrapper_that_already_exited
+        PASS [   0.026s] (313/595) viola-e2e harness::boot::tests::readiness_names_each_missing_check
+        PASS [   0.020s] (314/595) viola-e2e harness::boot::tests::wait_ready_returns_a_ready_instance
+        PASS [   0.023s] (315/595) viola-e2e harness::boot::tests::role_state_reads_start_child_and_exit_lines
+        PASS [   0.023s] (316/595) viola-e2e harness::boot::tests::snapshot_ready_needs_pid_started_at_and_child_pid
+        PASS [   0.027s] (317/595) viola-e2e harness::boot::tests::snapshot_endpoint_reads_the_recorded_endpoint
+        PASS [   0.017s] (318/595) viola-e2e harness::cfg_legs::tests::compiled_legs_evaluates_each_predicate_per_target
+        PASS [   0.032s] (319/595) viola-e2e harness::boot::tests::role_file_is_the_run_role_basename
+        PASS [   0.021s] (320/595) viola-e2e harness::cfg_legs::tests::compiled_legs_all_and_any_are_three_valued
+        PASS [   0.059s] (321/595) viola-e2e harness::boot::tests::boot_with_a_failing_build_reports_build_failed_with_its_exit
+        PASS [   0.014s] (322/595) viola-e2e harness::cleanup::tests::cleanup_rejects_an_invalid_session_id
+        PASS [   0.013s] (323/595) viola-e2e harness::cleanup::tests::killed_by_supervisor_reads_the_killed_names
+        PASS [   0.022s] (324/595) viola-e2e harness::cfg_legs::tests::compiled_legs_location_reads_path_and_line
+        PASS [   0.024s] (325/595) viola-e2e harness::cleanup::tests::all_sessions_lists_only_recorded_valid_sessions
+        PASS [   0.028s] (326/595) viola-e2e harness::cfg_legs::tests::compiled_legs_keep_every_leg_when_unsure
+        PASS [   0.018s] (327/595) viola-e2e harness::cleanup::tests::cleanup_without_a_session_is_ok_and_empty
+        PASS [   0.079s] (328/595) viola-core tests::viola_name_prop_accepts_every_valid_shape
+        PASS [   0.018s] (329/595) viola-e2e harness::cleanup::tests::remove_session_home_refuses_paths_outside_e2e_home
+        PASS [   0.029s] (330/595) viola-e2e harness::cleanup::tests::cleanup_all_stops_recorded_sessions_and_refuses_foreign_homes
+        PASS [   0.013s] (331/595) viola-e2e harness::cleanup::tests::unconnectable_is_true_only_once_nothing_listens
+        PASS [   0.044s] (332/595) viola-e2e harness::cfg_legs::tests::compiled_legs_follow_item_and_statement_cfgs
+        PASS [   0.018s] (333/595) viola-e2e harness::gate::tests::gate_checks_each_coverage_floor_on_its_own
+        PASS [   0.024s] (334/595) viola-e2e harness::cleanup::tests::remove_session_home_removes_a_boot_created_parent
+        PASS [   0.024s] (335/595) viola-e2e harness::cleanup::tests::summarize_is_ok_only_when_everything_is_proven
+        PASS [   0.016s] (336/595) viola-e2e harness::gate::tests::gate_names_an_absent_suite_and_its_missing_junit
+        PASS [   0.090s] (337/595) viola-core tests::viola_name_prop_rejects_hostile_neighbours
+        PASS [   0.013s] (338/595) viola-e2e harness::gate::tests::gate_passes_a_clean_coverage_and_doctest_job
+        PASS [   0.020s] (339/595) viola-e2e harness::gate::tests::gate_coverage_without_its_summary_is_artifact_missing
+        PASS [   0.015s] (340/595) viola-e2e harness::gate::tests::gate_single_leg_mutants_read_the_summary_survivors
+        PASS [   0.095s] (341/595) viola-core tests::viola_name_prop_agrees_with_the_oracle
+        PASS [   0.017s] (342/595) viola-e2e harness::gate::tests::gate_union_is_red_only_where_no_leg_caught_the_mutant
+        PASS [   0.022s] (343/595) viola-e2e harness::gate::tests::gate_perf_gates_the_max_sample_against_the_spine_deadline
+        PASS [   0.013s] (344/595) viola-e2e harness::gate::tests::parse_legs_holds_names_to_a_file_safe_charset
+        PASS [   0.013s] (345/595) viola-e2e harness::gate::tests::gate_without_a_run_summary_is_suite_missing_for_each_suite
+        PASS [   0.014s] (346/595) viola-e2e harness::gate::tests::parse_require_accepts_only_closed_suites
+        PASS [   0.017s] (347/595) viola-e2e harness::gate::tests::gate_union_needs_every_named_leg
+        PASS [   0.034s] (348/595) viola-e2e harness::gate::tests::gate_fails_failed_and_skipped_suites_playwright_included
+        PASS [   0.015s] (349/595) viola-e2e harness::gate::tests::union_by_compiled_legs_missed_on_the_compiling_leg_stays_red
+        PASS [   0.017s] (350/595) viola-e2e harness::gate::tests::union_by_compiled_legs_shared_code_unviable_and_missed_stays_red
+        PASS [   0.016s] (351/595) viola-e2e harness::logs::tests::detail_lines_carry_instance_and_skip_invalid_names
+        PASS [   0.021s] (352/595) viola-e2e harness::gate::tests::union_by_compiled_legs_control_without_cfg_keeps_both
+        PASS [   0.022s] (353/595) viola-e2e harness::gate::tests::union_by_compiled_legs_body_no_leg_compiles_is_judged_by_all
+        PASS [   0.024s] (354/595) viola-e2e harness::gate::tests::union_by_compiled_legs_clears_the_recorded_breach
+        PASS [   0.016s] (355/595) viola-e2e harness::logs::tests::diag_lines_reads_only_ndjson_files_in_name_order
+        PASS [   0.014s] (356/595) viola-e2e harness::logs::tests::filters_match_named_values_and_treat_absent_as_null
+        PASS [   0.019s] (357/595) viola-e2e harness::logs::tests::detail_lines_skip_a_diagnostics_path_that_is_not_a_dir
+        PASS [   0.015s] (358/595) viola-e2e harness::logs::tests::filter_with_kind_keeps_instance_and_process
+        PASS [   0.015s] (359/595) viola-e2e harness::logs::tests::kind_filter_matches_event_kinds_and_never_a_diag_line
+        PASS [   0.022s] (360/595) viola-e2e harness::logs::tests::detail_lines_mark_torn_lines
+        PASS [   0.014s] (361/595) viola-e2e harness::logs::tests::logs_for_an_unknown_session_is_exit_2
+        PASS [   0.014s] (362/595) viola-e2e harness::logs::tests::torn_lines_survive_any_filter
+        PASS [   0.021s] (363/595) viola-e2e harness::logs::tests::event_lines_read_each_valid_instance_in_name_order
+        PASS [   0.013s] (364/595) viola-e2e harness::logs::tests::wrap_events_mark_json_that_is_not_an_object_torn
+        PASS [   1.484s] (365/595) viola::run_cli run_appends_to_an_existing_role_file
+        PASS [   0.013s] (366/595) viola-e2e harness::logs::tests::wrap_lines_accepts_crlf_terminated_lines
+        PASS [   0.014s] (367/595) viola-e2e harness::logs::tests::wrap_events_carry_instance_and_line_offsets
+        PASS [   0.015s] (368/595) viola-e2e harness::logs::tests::wrap_lines_wraps_records_and_marks_torn_lines
+        PASS [   0.013s] (369/595) viola-e2e harness::pre_push::tests::pre_push_host_gate_is_a_windows_const
+        PASS [   0.015s] (370/595) viola-e2e harness::pre_push::tests::pre_push_document_carries_no_absolute_path
+        PASS [   0.012s] (371/595) viola-e2e harness::pre_push::tests::pre_push_last_document_takes_the_final_json_line
+        PASS [   0.016s] (372/595) viola-e2e harness::pre_push::tests::pre_push_distro_missing_is_tool_missing
+        PASS [   0.017s] (373/595) viola-e2e harness::pre_push::tests::pre_push_cc_missing_is_tool_missing_cc
+        PASS [   0.020s] (374/595) viola-e2e harness::pre_push::tests::pre_push_cache_over_cap_is_cleaned_and_reported
+        PASS [   0.013s] (375/595) viola-e2e harness::pre_push::tests::pre_push_linux_test_red_stops_before_the_legs
+        PASS [   0.014s] (376/595) viola-e2e harness::pre_push::tests::pre_push_linux_gate_red_stops_before_the_legs
+        PASS [   0.018s] (377/595) viola-e2e harness::pre_push::tests::pre_push_every_wsl_call_uses_exec_and_a_clean_env
+        PASS [   0.021s] (378/595) viola-e2e harness::pre_push::tests::pre_push_ci_pins_parse_the_test_job_tool_line
+        PASS [   1.378s] (379/595) viola::tui_env_strip tui_env_strip_removes_identity_and_unknown_claude_names
+        PASS [   0.014s] (380/595) viola-e2e harness::pre_push::tests::pre_push_pin_mismatch_names_the_tool
+        PASS [   0.014s] (381/595) viola-e2e harness::pre_push::tests::pre_push_refuses_off_windows_host
+        PASS [   0.143s] (382/595) viola-core tests::viola_name_prop_rejects_over_32_chars
+        PASS [   0.011s] (383/595) viola-e2e harness::pre_push::tests::pre_push_toolchain_channel_reads_the_pin
+        PASS [   0.012s] (384/595) viola-e2e harness::pre_push::tests::pre_push_sync_fetch_of_another_head_is_red
+        PASS [   0.013s] (385/595) viola-e2e harness::pre_push::tests::pre_push_sync_mismatch_is_red
+        PASS [   0.014s] (386/595) viola-e2e harness::pre_push::tests::pre_push_scratch_that_cannot_be_made_stops_at_cache
+        PASS [   0.284s] (387/595) viola-channel frame::tests::read_frame_prop_frames_or_refuses_by_line_length
+        PASS [   0.012s] (388/595) viola-e2e harness::pre_push::tests::pre_push_unreadable_linux_document_is_named
+        PASS [   0.012s] (389/595) viola-e2e harness::pre_push::tests::pre_push_unreadable_pins_stop_at_tools
+        PASS [   0.022s] (390/595) viola-e2e harness::pre_push::tests::pre_push_mutation_scratch_is_on_the_clone_disk_and_wiped_first
+        PASS [   0.015s] (391/595) viola-e2e harness::pre_push::tests::pre_push_verdict_missing_is_red
+        PASS [   0.180s] (392/595) viola-channel::channel_frames channel_frame_one_byte_over_is_refused_and_closed
+        PASS [   0.011s] (393/595) viola-e2e harness::pre_push::tests::pre_push_wsl_path_maps_drive_paths
+        PASS [   0.014s] (394/595) viola-e2e harness::pre_push::tests::pre_push_windows_tests_red_stops_before_the_windows_leg
+        PASS [   0.013s] (395/595) viola-e2e harness::run::coverage::tests::coverage_alone_still_runs_the_doctests
+        PASS [   0.011s] (396/595) viola-e2e harness::run::coverage::tests::coverage_passes_the_filter_as_its_expression
+        PASS [   0.012s] (397/595) viola-e2e harness::run::coverage::tests::coverage_ignore_regex_matches_either_separator
+        PASS [   0.011s] (398/595) viola-e2e harness::run::coverage::tests::coverage_red_exit_over_green_tests_is_red
+        PASS [   0.010s] (399/595) viola-e2e harness::run::coverage::tests::coverage_without_a_fresh_summary_is_red
+        PASS [   0.010s] (400/595) viola-e2e harness::run::doctest::tests::parse_doctest_sums_result_lines
+        PASS [   0.011s] (401/595) viola-e2e harness::run::coverage::tests::coverage_replaces_the_nextest_runs_with_one_instrumented_run
+        PASS [   0.010s] (402/595) viola-e2e harness::run::fuzz::tests::fuzz_channel_reads_the_toolchain_file
+        PASS [   0.011s] (403/595) viola-e2e harness::run::coverage::tests::coverage_without_junit_is_artifact_missing_and_skips_the_report
+        PASS [   0.019s] (404/595) viola-e2e harness::pre_push::tests::pre_push_windows_tests_run_between_the_linux_leg_and_the_windows_leg
+        PASS [   0.022s] (405/595) viola-e2e harness::pre_push::tests::pre_push_windows_leg_red_stops_before_the_union
+        PASS [   0.010s] (406/595) viola-e2e harness::run::fuzz::tests::fuzz_host_is_linux_only
+        PASS [   0.011s] (407/595) viola-e2e harness::run::fuzz::tests::fuzz_replay_counts_each_target_and_never_passes_an_empty_corpus
+        PASS [   0.011s] (408/595) viola-e2e harness::run::fuzz::tests::fuzz_replay_without_its_toolchain_file_is_tool_missing
+        PASS [   0.012s] (409/595) viola-e2e harness::run::fuzz::tests::fuzz_replay_without_cargo_fuzz_is_tool_missing
+        PASS [   0.011s] (410/595) viola-e2e harness::run::fuzz::tests::fuzz_replay_without_targets_is_corpus_empty
+        PASS [   0.010s] (411/595) viola-e2e harness::run::mutants::tests::carries_number_reads_counts_never_digits_in_strings
+        PASS [   0.011s] (412/595) viola-e2e harness::run::fuzz::tests::run_fuzz_replay_refusals_reach_the_document
+        PASS [   0.010s] (413/595) viola-e2e harness::run::mutants::tests::chunk_base_reads_only_pending_record_markers
+        PASS [   0.010s] (414/595) viola-e2e harness::run::mutants::tests::leg_verdict_keeps_names_and_outcomes_only
+        PASS [   0.012s] (415/595) viola-e2e harness::run::mutants::tests::listed_reads_non_empty_lines
+        PASS [   0.009s] (416/595) viola-e2e harness::run::mutants::tests::mutants_suite_is_red_when_unviable_outnumbers_caught
+        PASS [   0.012s] (417/595) viola-e2e harness::run::mutants::tests::mutants_exit_codes_map_to_reasons
+        PASS [   0.011s] (418/595) viola-e2e harness::run::mutants::tests::mutants_suite_counts_missed_and_timeout_as_survivors
+        PASS [   0.041s] (419/595) viola-e2e harness::run::mutants::tests::chunk_diff_holds_tracked_edits_and_untracked_files
+        PASS [   0.095s] (420/595) viola-e2e harness::pre_push::tests::pre_push_base_mismatch_is_red
+        PASS [   0.209s] (421/595) viola-e2e harness::boot::tests::cargo_build_succeeds_on_a_buildable_package
+        PASS [   0.048s] (422/595) viola-e2e harness::run::mutants::tests::resolve_base_needs_a_real_commit
+        PASS [   0.056s] (423/595) viola-e2e harness::run::mutants::tests::chunk_base_of_an_uncommitted_promotion_is_the_flip_at_head
+        PASS [   0.056s] (424/595) viola-e2e harness::run::mutants::tests::chunk_base_override_wins
+        PASS [   0.044s] (425/595) viola-e2e harness::run::mutants::tests::run_mutants_leg_refused_clears_a_stale_verdict
+        PASS [   0.054s] (426/595) viola-e2e harness::run::mutants::tests::run_mutants_leg_defers_survivors_to_the_gate_union
+        PASS [   0.054s] (427/595) viola-e2e harness::run::mutants::tests::run_mutants_leg_no_rust_delta_writes_its_verdict
+        PASS [   0.051s] (428/595) viola-e2e harness::run::mutants::tests::run_mutants_leg_without_outcomes_stays_red_and_writes_no_verdict
+        PASS [   0.051s] (429/595) viola-e2e harness::run::mutants::tests::run_mutants_leg_with_an_unviable_swamp_is_red_not_deferred
+        PASS [   0.051s] (430/595) viola-e2e harness::run::mutants::tests::run_mutants_mixed_src_and_test_delta_without_outcomes_stays_outcomes_missing
+        PASS [   0.011s] (431/595) viola-e2e harness::run::mutants::tests::rust_delta_classifies_diff_headers
+        PASS [   0.012s] (432/595) viola-e2e harness::run::mutants::tests::rust_paths_lists_each_rust_path_once
+        PASS [   0.091s] (433/595) viola-e2e harness::run::mutants::tests::chunk_base_of_a_pending_record_head_already_holds_is_the_parent
+        PASS [   0.091s] (434/595) viola-e2e harness::run::mutants::tests::chunk_base_is_the_last_flip_before_any_pre_ci_commit
+        PASS [   0.012s] (435/595) viola-e2e harness::run::nextest::tests::attr_reads_one_attribute_or_nothing
+        PASS [   0.015s] (436/595) viola-e2e harness::run::mutants::tests::test_target_holds_only_test_bench_and_example_dirs
+        PASS [   0.058s] (437/595) viola-e2e harness::run::mutants::tests::run_mutants_never_keeps_test_homes
+        PASS [   0.102s] (438/595) viola-e2e harness::run::mutants::tests::chunk_base_bound_is_the_oldest_pre_ci_commit
+        PASS [   0.011s] (439/595) viola-e2e harness::run::nextest::tests::exit_must_agree_turns_a_silent_red_exit_red
+        PASS [   0.125s] (440/595) viola-e2e harness::pre_push::tests::pre_push_union_reads_both_legs
+        PASS [   0.011s] (441/595) viola-e2e harness::run::nextest::tests::parse_junit_counts_pass_fail_skip
+        PASS [   0.940s] (442/595) viola::tui_passthrough tui_host_resize_reaches_the_child
+        PASS [   0.014s] (443/595) viola-e2e harness::run::tests::merge_summary_replaces_by_suite
+        PASS [   0.056s] (444/595) viola-e2e harness::run::mutants::tests::run_mutants_prints_every_outcome_and_bounds_each_build
+        PASS [   0.045s] (445/595) viola-e2e harness::run::mutants::tests::run_mutants_with_an_unreachable_base_is_base_missing_and_writes_no_diff
+        PASS [   0.013s] (446/595) viola-e2e harness::run::tests::selection_coverage_or_fuzz_alone_selects_nothing_else
+        PASS [   0.013s] (447/595) viola-e2e harness::run::tests::selection_picks_only_the_named_suites
+        PASS [   0.014s] (448/595) viola-e2e harness::run::tests::selection_defaults_to_unit_integration_and_mutants
+        PASS [   0.056s] (449/595) viola-e2e harness::run::mutants::tests::run_mutants_test_only_delta_passes_by_name_without_running_cargo
+        PASS [   0.117s] (450/595) viola-e2e harness::run::mutants::tests::chunk_base_of_the_wrap_push_is_its_parent
+        PASS [   0.305s] (451/595) viola-channel::channel_frames channel_frame_up_to_the_bound_is_answered::case_2_at_the_bound
+        PASS [   0.068s] (452/595) viola-e2e harness::run::mutants::tests::run_mutants_no_rust_delta_passes_by_name_and_never_reads_stale_outcomes
+        PASS [   0.018s] (453/595) viola-e2e harness::run::tests::suite_is_green_only_without_failures_or_survivors
+        PASS [   0.316s] (454/595) viola-channel::channel_frames channel_frame_up_to_the_bound_is_answered::case_1_one_under
+        PASS [   0.017s] (455/595) viola-e2e harness::schema_check::tests::relative_uses_forward_slashes
+        PASS [   0.014s] (456/595) viola-e2e harness::secret_scan::tests::cookie_pairs_need_digits_then_equals
+        PASS [   0.016s] (457/595) viola-e2e harness::schema_check::tests::schema_check_with_unreadable_schemas_is_schema_unreadable
+        PASS [   0.069s] (458/595) viola-e2e harness::run::mutants::tests::run_mutants_without_a_leg_keeps_survivors_red
+        PASS [   0.025s] (459/595) viola-e2e harness::schema_check::tests::diag_kind_classifies_role_and_detail_files_only_inside_diagnostics
+        PASS [   0.014s] (460/595) viola-e2e harness::secret_scan::tests::find_all_handles_short_and_empty_inputs
+        PASS [   0.011s] (461/595) viola-e2e harness::secret_scan::tests::mode_hit_flags_only_a_mode_that_is_not_owner_only
+        PASS [   0.011s] (462/595) viola-e2e harness::secret_scan::tests::secret_scan_clears_a_stale_report_on_a_clean_run
+        PASS [   0.012s] (463/595) viola-e2e harness::secret_scan::tests::secret_scan_content_canary_fails_a_role_file_only
+        PASS [   0.011s] (464/595) viola-e2e harness::secret_scan::tests::secret_scan_descends_into_the_capture_tree
+        PASS [   0.011s] (465/595) viola-e2e harness::secret_scan::tests::secret_scan_hit_locates_without_the_matched_bytes
+        PASS [   0.011s] (466/595) viola-e2e harness::secret_scan::tests::secret_scan_flags_a_diagnostics_file_that_is_not_owner_only
+        PASS [   0.011s] (467/595) viola-e2e harness::secret_scan::tests::secret_scan_marks_a_report_it_could_not_write
+        PASS [   0.010s] (468/595) viola-e2e harness::secret_scan::tests::secret_scan_on_an_empty_scope_is_empty_scope
+        PASS [   0.013s] (469/595) viola-e2e harness::secret_scan::tests::secret_scan_flags_every_critical_class_even_in_a_detail_file
+        PASS [   0.012s] (470/595) viola-e2e harness::secret_scan::tests::secret_scan_passes_a_clean_tree
+        PASS [   0.011s] (471/595) viola-e2e harness::secret_scan::tests::secret_scan_reads_the_gui_token_from_the_url_file
+        PASS [   0.010s] (472/595) viola-e2e harness::supervise::tests::exit_report_is_red_when_anything_was_killed
+        PASS [   0.163s] (473/595) viola-e2e harness::run::mutants::tests::chunk_base_holds_the_flip_across_a_pass
+        PASS [   0.012s] (474/595) viola-e2e harness::secret_scan::tests::secret_scan_scans_the_junit_report
+        PASS [   0.013s] (475/595) viola-e2e harness::secret_scan::tests::secret_scan_skips_the_mutation_diff
+        PASS [   0.013s] (476/595) viola-e2e harness::secret_scan::tests::secret_scan_skips_the_mutation_diff_only_at_its_path
+        PASS [   0.013s] (477/595) viola-e2e harness::secret_scan::tests::url_token_takes_the_t_parameter
+        PASS [   0.053s] (478/595) viola-e2e harness::schema_check::tests::schema_check_names_file_line_and_keyword_never_the_content
+        PASS [   0.055s] (479/595) viola-e2e harness::schema_check::tests::schema_check_counts_a_torn_line_and_skips_a_directory
+        PASS [   0.197s] (480/595) viola-e2e harness::pre_push::tests::pre_push_sync_reproduces_a_dirty_tree
+        PASS [   0.056s] (481/595) viola-e2e harness::schema_check::tests::schema_check_passes_a_conforming_role_line
+        PASS [   0.010s] (482/595) viola-e2e harness::supervise::tests::supervise_without_a_spec_is_usage
+        PASS [   0.011s] (483/595) viola-e2e harness::supervise::tests::stop_requested_by_file_or_missing_spec
+        PASS [   0.012s] (484/595) viola-e2e harness::tests::bin_dir_from_test_exe_skips_deps
+        PASS [   0.011s] (485/595) viola-e2e harness::tests::exe_appends_platform_suffix
+        PASS [   0.010s] (486/595) viola-e2e harness::tests::json_round_trips_through_files
+        PASS [   0.011s] (487/595) viola-e2e harness::tests::expired_tracks_the_deadline
+        PASS [   0.010s] (488/595) viola-e2e harness::tests::outcome_codes_follow_ok
+        PASS [   0.069s] (489/595) viola-e2e harness::schema_check::tests::schema_check_on_an_empty_scope_is_empty_scope
+        PASS [   0.069s] (490/595) viola-e2e harness::schema_check::tests::schema_check_validates_detail_files_against_the_detail_schema
+        PASS [   0.017s] (491/595) viola-e2e harness::tests::load_session_unknown_is_exit_2
+        PASS [   0.670s] (492/595) viola::bin/viola obs::tests::read_diagnostics_level_reads_at_most_sixteen_mib
+        PASS [   0.015s] (493/595) viola-e2e harness::tests::process_id_sees_itself_alive_and_a_wrong_start_time_dead
+        PASS [   0.011s] (494/595) viola-e2e harness::tests::valid_session_id_accepts_test_style_ids
+        PASS [   0.323s] (495/595) viola-e2e harness::boot::tests::wait_ready_times_out_with_the_missing_checks
+        PASS [   0.011s] (496/595) viola-e2e harness::tests::workspace_root_holds_the_root_manifest
+        PASS [   0.012s] (497/595) viola-e2e harness::tests::valid_session_id_rejects_path_escapes
+        PASS [   0.016s] (498/595) viola-e2e::cli boot_with_an_invalid_instance_name_is_usage_before_any_build
+        PASS [   0.014s] (499/595) viola-e2e::cli cleanup_of_an_unknown_session_is_ok_and_empty
+        PASS [   0.014s] (500/595) viola-e2e::cli gate_over_an_empty_artifacts_dir_names_the_missing_suite
+        PASS [   0.014s] (501/595) viola-e2e::cli supervise_without_a_spec_exits_2_and_prints_nothing
+        PASS [   0.018s] (502/595) viola-e2e::cli status_and_logs_of_an_unknown_session_are_exit_2
+        PASS [   0.010s] (503/595) viola-e2e::harness_lifecycle boot_without_the_fake_agent_binary_is_build_failed
+        PASS [   0.008s] (504/595) viola-e2e::scan_patterns canaries_match_only_the_full_shape
+        PASS [   0.010s] (505/595) viola-e2e::scan_patterns scan_covers_every_canary_the_root_tests_plant
+        PASS [   0.007s] (506/595) viola-e2e::zero_retries zero_retries_checker_flags_every_retry_form
+        PASS [   0.034s] (507/595) viola-e2e::cli unbuilt_selectors_and_unknown_commands_are_usage
+        PASS [   0.064s] (508/595) viola-e2e harness::supervise::tests::wait_or_kill_kills_a_survivor_at_the_deadline
+        PASS [   0.009s] (509/595) viola-e2e::zero_retries zero_retries_hold_in_the_repo_nextest_config
+        PASS [   0.040s] (510/595) viola-e2e::cli gate_and_leg_usage_errors_are_exit_2
+        PASS [   0.009s] (511/595) viola-pty tests::exit_source_codes_are_the_catalog_words
+        PASS [   0.009s] (512/595) viola-pty tests::pty_error_display_is_fixed_and_keeps_the_source
+        PASS [   0.011s] (513/595) viola-pty tests::nonzero_size_refuses_an_empty_terminal
+        PASS [   0.010s] (514/595) viola-pty tests::pty_child_entry
+        PASS [   0.009s] (515/595) viola-pty tests::pump_copies_the_output_it_drains_after_exit
+        PASS [   0.009s] (516/595) viola-pty tests::pump_drains_output_that_arrives_after_the_exit
+        PASS [   0.202s] (517/595) viola-e2e harness::run::mutants::tests::run_mutants_with_an_unbuildable_root_package_is_build_failed
+        PASS [   0.168s] (518/595) viola-e2e harness::run::tests::run_without_a_workspace_is_artifact_missing
+        PASS [   0.115s] (519/595) viola-e2e harness::supervise::tests::stop_sends_ctrl_c_and_the_child_exits_without_a_kill
+        PASS [   0.062s] (520/595) viola-pty tests::kill_ends_a_child_that_would_never_exit
+        PASS [   0.054s] (521/595) viola-pty tests::pump_kills_the_child_when_a_worker_panics
+        PASS [   1.847s] (522/595) viola::run_cli run_config_debug_level_keeps_the_key_set
+        PASS [   0.007s] (523/595) viola-pty tests::raw_input_mode_matches_the_measured_console_switch
+        PASS [   1.847s] (524/595) viola::run_cli run_is_silent_on_stdout_and_stderr
+        PASS [   1.840s] (525/595) viola::run_cli run_self_exit_carries_duration_ms
+        PASS [   0.284s] (526/595) viola-e2e harness::run::mutants::tests::run_mutants_rust_delta_without_fresh_outcomes_is_outcomes_missing
+        PASS [   0.009s] (527/595) viola-pty tests::size_from_window_counts_inclusive_corners
+        PASS [   0.009s] (528/595) viola-pty tests::vt_output_mode_adds_vt_processing_and_keeps_the_rest
+        PASS [   0.008s] (529/595) viola-state events::tests::events_append_into_a_missing_dir_fails
+        PASS [   0.012s] (530/595) viola-pty tests::spawn_runs_a_raw_child_that_sees_its_size_a_resize_and_its_own_exit_code
+        PASS [   0.010s] (531/595) viola-state events::tests::events_append_keeps_prior_bytes_and_writes_one_line
+        PASS [   1.861s] (532/595) viola::run_cli run_rust_log_changes_nothing
+        PASS [   0.009s] (533/595) viola-state events::tests::events_append_twice_adds_two_lines_in_order
+        PASS [   0.009s] (534/595) viola-state fs::tests::create_private_dir_creates_missing_parents_and_is_idempotent
+        PASS [   0.009s] (535/595) viola-state fs::tests::create_private_dir_under_a_file_fails
+        PASS [   0.009s] (536/595) viola-state fs::tests::created_or_present_passes_only_already_exists
+        PASS [   0.008s] (537/595) viola-state fs::tests::open_private_lock_locks_exclusively_and_keeps_bytes
+        PASS [   0.009s] (538/595) viola-state fs::tests::open_private_append_appends_after_prior_bytes
+        PASS [   0.009s] (539/595) viola-state fs::tests::fs_private_modes_are_explicit
+        PASS [   0.009s] (540/595) viola-state fs::tests::replace_private_leaves_the_target_when_the_rename_fails
+        PASS [   0.214s] (541/595) viola-e2e harness::supervise::tests::reap_returns_the_code_once_the_probe_reports_one
+        PASS [   0.009s] (542/595) viola-state fs::tests::replace_private_replaces_the_whole_file
+        PASS [   0.008s] (543/595) viola-state fs::tests::replace_private_under_a_missing_dir_fails
+        PASS [   0.009s] (544/595) viola-state fs::tests::replace_private_shared_fails_unless_the_bytes_are_already_there
+        PASS [   0.007s] (545/595) viola-state liveness::tests::liveness_classify_boundaries::case_1_fresh
+        PASS [   0.010s] (546/595) viola-state heartbeat::tests::touch_heartbeat_creates_the_file_and_beat_age_reads_it
+        PASS [   0.007s] (547/595) viola-state liveness::tests::liveness_classify_boundaries::case_2_at_the_bound
+        PASS [   0.008s] (548/595) viola-state liveness::tests::liveness_classify_boundaries::case_3_just_past
+        PASS [   0.010s] (549/595) viola-state liveness::tests::liveness_classify_boundaries::case_4_no_beat
+        PASS [   0.009s] (550/595) viola-state liveness::tests::liveness_classify_boundaries::case_5_dead_fresh_beat
+        PASS [   0.008s] (551/595) viola-state liveness::tests::liveness_classify_boundaries::case_6_dead_old_beat
+        PASS [   0.007s] (552/595) viola-state liveness::tests::liveness_classify_boundaries::case_7_dead_no_beat
+        PASS [   0.010s] (553/595) viola-state liveness::tests::liveness_same_process_rejects_a_wrong_start_time
+        PASS [   0.008s] (554/595) viola-state pin::tests::content_key_is_the_sixteen_hex_sha256_prefix::case_2_abc
+        PASS [   0.008s] (555/595) viola-state pin::tests::pin_error_messages_are_fixed
+        PASS [   0.009s] (556/595) viola-state pin::tests::content_key_is_the_sixteen_hex_sha256_prefix::case_1_empty
+        PASS [   0.014s] (557/595) viola-state liveness::tests::process_start_time_is_none_for_a_dead_pid
+        PASS [   0.008s] (558/595) viola-state pin::tests::pin_exe_copies_then_refuses_a_tampered_copy
+        PASS [   0.008s] (559/595) viola-state pin::tests::pin_exe_reports_an_unreadable_source_or_copy
+        PASS [   0.009s] (560/595) viola-state pin::tests::pin_exe_refuses_an_unreadable_copy_and_leaves_it
+        PASS [   0.010s] (561/595) viola-state snapshot::tests::read_snapshot_is_none_for_missing_malformed_or_unsupported
+        PASS [   0.013s] (562/595) viola-state pin::tests::pin_exe_hashes_a_copy_longer_than_one_read
+        PASS [   0.007s] (563/595) viola-state snapshot::tests::read_snapshot_takes_unknown_fields_and_the_human_wheel
+        PASS [   0.008s] (564/595) viola-state snapshot::tests::snapshot_write_narrows_an_open_target_to_owner_only
+        PASS [   0.008s] (565/595) viola-state tests::state_error_messages_are_fixed
+        PASS [   0.008s] (566/595) viola-state snapshot::tests::snapshot_write_replaces_atomically_with_the_envelope
+        PASS [   0.007s] (567/595) viola-state tests::timestamp_is_rfc3339_utc_millis_with_z
+        PASS [   2.150s] (568/595) viola::cli_instance_state run_refuses_a_tampered_pinned_copy
+        PASS [   0.310s] (569/595) viola-e2e harness::supervise::tests::reap_gives_up_at_its_bound_and_on_a_probe_error
+        PASS [   0.324s] (570/595) viola-e2e harness::tests::process_id_kill_stops_a_child_and_wait_gone_sees_it
+        PASS [   2.026s] (571/595) viola::run_cli run_never_writes_a_claude_canary_anywhere
+        PASS [   0.271s] (572/595) viola-pty tests::pump_waits_for_the_handle_after_the_output_ends
+        PASS [   0.573s] (573/595) viola-e2e harness::run::tests::run_with_a_failing_test_is_red_and_names_it
+        PASS [   0.650s] (574/595) viola-e2e harness::run::tests::run_with_a_filter_matching_nothing_is_red
+        PASS [   2.362s] (575/595) viola::contract_diag_schema diag_lines_from_real_runs_validate
+        PASS [   0.734s] (576/595) viola-e2e harness::run::tests::run_reports_unit_integration_and_doctest_suites
+        PASS [   0.550s] (577/595) viola-pty tests::pump_returns_on_the_handle_while_the_output_never_ends
+        PASS [   0.609s] (578/595) viola-pty tests::pump_does_not_look_at_the_size_before_its_first_period
+        PASS [   0.476s] (579/595) viola-state snapshot::tests::read_snapshot_reads_at_most_sixteen_mib
+        PASS [   0.772s] (580/595) viola-e2e::cli cleanup_keeps_the_home_under_agent_run_keep_homes
+        PASS [   0.780s] (581/595) viola-e2e::cli status_logs_and_cleanup_drive_a_booted_session
+        PASS [   0.771s] (582/595) viola-e2e::harness_lifecycle cleanup_force_kills_a_recorded_process_that_outlives_the_stop
+        PASS [   0.779s] (583/595) viola-e2e::harness_lifecycle harness_session_boots_reports_logs_and_tears_down
+        PASS [   0.778s] (584/595) viola-e2e::harness_lifecycle harness_session_with_a_dead_wrapper_reads_degraded
+        PASS [   0.772s] (585/595) viola-pty tests::pump_forwards_a_resize_that_lands_before_its_first_look
+        PASS [   0.772s] (586/595) viola-pty tests::pump_keeps_the_child_input_open_after_its_own_input_ends
+        PASS [   1.985s] (587/595) viola::tui_passthrough tui_host_resize_in_the_pump_start_window_reaches_the_child
+        PASS [   1.032s] (588/595) viola-pty tests::pump_forwards_a_host_size_change_once
+        PASS [   1.117s] (589/595) viola-e2e harness::supervise::tests::stop_presses_ctrl_c_again_when_the_first_is_lost
+        PASS [   1.298s] (590/595) viola-e2e harness::run::mutants::tests::run_mutants_passes_when_the_change_is_tested
+        PASS [   1.297s] (591/595) viola-e2e harness::run::mutants::tests::run_mutants_reports_survivors_of_an_untested_change
+        PASS [   1.273s] (592/595) viola-pty tests::pump_does_not_resize_while_the_size_is_unchanged
+        PASS [   1.517s] (593/595) viola-pty tests::pump_looks_at_the_size_once_per_period
+        PASS [   3.509s] (594/595) viola-state heartbeat::tests::heartbeat_thread_refreshes_the_beat
+        PASS [  20.496s] (595/595) viola-e2e::harness_lifecycle boot_that_never_gets_ready_times_out_and_stops_its_supervisor
+────────────
+     Summary [  22.433s] 595 tests run: 595 passed, 0 skipped
+
+    Finished report saved to target/lcov.info
+
+    Finished report saved to /home/turbo/viola-pre-push/target/agent-run/artifacts/llvm-cov-summary.json
+   Compiling viola-channel v0.1.0 (/home/turbo/viola-pre-push/crates/viola-channel)
+   Compiling viola-e2e v0.1.0 (/home/turbo/viola-pre-push/crates/viola-e2e)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.72s
+   Doc-tests viola_agent_claude
+   Doc-tests viola_channel
+   Doc-tests viola_core
+   Doc-tests viola_e2e
+   Doc-tests viola_pty
+   Doc-tests viola_state
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+{"v":1,"cmd":"run","ok":true,"suites":[{"suite":"coverage","passed":595,"failed":0,"skipped":0,"survived":0,"artifact":"/home/turbo/viola-pre-push/target/agent-run/artifacts/junit-coverage.xml","failures":[]},{"suite":"doctest","passed":0,"failed":0,"skipped":0,"survived":0,"artifact":null,"failures":[]}]}
+{"v":1,"cmd":"gate","ok":true,"breaches":[]}
+   Compiling viola-channel v0.1.0 (/home/turbo/viola-pre-push/crates/viola-channel)
+   Compiling viola v0.1.0 (/home/turbo/viola-pre-push)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.88s
+Found 186 mutants to test
+ok       Unmutated baseline in 14s build + 24s test
+ INFO Auto-set build timeout to 71s
+ INFO Auto-set test timeout to 124s
+caught   src/run/mod.rs:18:5: replace log_self_start with () in 11s build + 1s test
+caught   src/cmd/run.rs:42:5: replace name_str -> &str with "" in 1s build + 1s test
+caught   src/cmd/run.rs:42:5: replace name_str -> &str with "xyzzy" in 0s build + 1s test
+caught   src/cmd/run.rs:63:9: replace <impl Dispatch for NoMethods>::dispatch -> Result<Value, ProtocolError> with Ok(Default::default()) in 0s build + 1s test
+caught   src/cmd/run.rs:68:5: replace run -> anyhow::Result<ExitCode> with Ok(Default::default()) in 1s build + 0s test
+unviable src/cmd/run.rs:104:5: replace start -> anyhow::Result<Started> with Ok(Default::default()) in 0s build
+unviable src/cmd/run.rs:153:5: replace refused -> Started with Default::default() in 0s build
+caught   src/cmd/run.rs:160:5: replace collision_check -> Option<Started> with None in 1s build + 1s test
+unviable src/cmd/run.rs:160:5: replace collision_check -> Option<Started> with Some(Default::default()) in 0s build
+caught   src/cmd/run.rs:181:5: replace pin_and_plugin -> anyhow::Result<Option<(Pinned, PathBuf)>> with Ok(None) in 1s build + 0s test
+unviable src/cmd/run.rs:181:5: replace pin_and_plugin -> anyhow::Result<Option<(Pinned, PathBuf)>> with Ok(Some((Default::default(), Default::default()))) in 0s build
+caught   src/cmd/run.rs:204:5: replace bind_endpoint -> anyhow::Result<Option<(String, Server)>> with Ok(None) in 1s build + 1s test
+unviable src/cmd/run.rs:204:5: replace bind_endpoint -> anyhow::Result<Option<(String, Server)>> with Ok(Some((String::new(), Default::default()))) in 0s build
+unviable src/cmd/run.rs:204:5: replace bind_endpoint -> anyhow::Result<Option<(String, Server)>> with Ok(Some(("xyzzy".into(), Default::default()))) in 0s build
+unviable src/cmd/run.rs:224:5: replace start_state -> anyhow::Result<(Heartbeat, InstanceSnapshot)> with Ok((Default::default(), Default::default())) in 0s build
+unviable src/cmd/run.rs:263:5: replace spawn_child -> anyhow::Result<(PortablePty, Option<HostTerminal>, Size)> with Ok((Default::default(), None, Default::default())) in 0s build
+unviable src/cmd/run.rs:263:5: replace spawn_child -> anyhow::Result<(PortablePty, Option<HostTerminal>, Size)> with Ok((Default::default(), Some(Default::default()), Default::default())) in 0s build
+caught   src/cmd/run.rs:281:5: replace pump_child -> anyhow::Result<ExitCode> with Ok(Default::default()) in 1s build + 1s test
+caught   src/cmd/run.rs:349:5: replace refuse_squatted with () in 1s build + 1s test
+caught   crates/viola-channel/src/lib.rs:59:9: replace ProtocolError::code -> i64 with 0 in 4s build + 0s test
+caught   crates/viola-channel/src/lib.rs:59:9: replace ProtocolError::code -> i64 with 1 in 0s build + 0s test
+caught   crates/viola-channel/src/lib.rs:59:9: replace ProtocolError::code -> i64 with -1 in 0s build + 0s test
+caught   crates/viola-channel/src/lib.rs:60:28: delete - in ProtocolError::code in 0s build + 0s test
+caught   crates/viola-channel/src/lib.rs:61:37: delete - in ProtocolError::code in 0s build + 0s test
+caught   crates/viola-channel/src/lib.rs:62:37: delete - in ProtocolError::code in 0s build + 0s test
+caught   crates/viola-channel/src/lib.rs:63:41: delete - in ProtocolError::code in 0s build + 0s test
+caught   crates/viola-channel/src/lib.rs:64:31: delete - in ProtocolError::code in 0s build + 0s test
+caught   crates/viola-channel/src/lib.rs:69:9: replace ProtocolError::message -> &'static str with "" in 0s build + 0s test
+caught   crates/viola-channel/src/lib.rs:69:9: replace ProtocolError::message -> &'static str with "xyzzy" in 0s build + 0s test
+caught   crates/viola-channel/src/lib.rs:81:9: replace ProtocolError::body -> Value with Default::default() in 0s build + 0s test
+caught   crates/viola-channel/src/lib.rs:82:13: delete match arm Self::UnsupportedVersion in ProtocolError::body in 0s build + 0s test
+unviable crates/viola-channel/src/client.rs:34:9: replace Client::connect -> Result<Self, ChannelError> with Ok(Default::default()) in 0s build
+caught   crates/viola-channel/src/client.rs:35:61: replace + with - in Client::connect in 0s build + 0s test
+caught   crates/viola-channel/src/client.rs:35:61: replace + with * in Client::connect in 0s build + 0s test
+caught   crates/viola-channel/src/client.rs:46:9: replace Client::conn -> &str with "" in 0s build + 0s test
+caught   crates/viola-channel/src/client.rs:46:9: replace Client::conn -> &str with "xyzzy" in 0s build + 0s test
+caught   crates/viola-channel/src/client.rs:56:9: replace Client::request -> Result<Value, ChannelError> with Ok(Default::default()) in 0s build + 0s test
+caught   crates/viola-channel/src/client.rs:58:22: replace += with -= in Client::request in 0s build + 0s test
+caught   crates/viola-channel/src/client.rs:58:22: replace += with *= in Client::request in 0s build + 0s test
+unviable crates/viola-channel/src/client.rs:85:5: replace reply_class -> Class with Default::default() in 0s build
+caught   crates/viola-channel/src/client.rs:92:5: replace fault_of -> Option<ProtocolError> with None in 0s build + 0s test
+unviable crates/viola-channel/src/client.rs:92:5: replace fault_of -> Option<ProtocolError> with Some(Default::default()) in 0s build
+caught   crates/viola-channel/src/client.rs:100:32: replace == with != in fault_of in 0s build + 0s test
+caught   crates/viola-channel/src/client.rs:104:5: replace t0_ms -> u128 with 0 in 0s build + 0s test
+caught   crates/viola-channel/src/client.rs:104:5: replace t0_ms -> u128 with 1 in 0s build + 0s test
+MISSED   crates/viola-channel/src/client.rs:131:5: replace retry_busy -> bool with true in 0s build + 0s test
+MISSED   crates/viola-channel/src/client.rs:131:5: replace retry_busy -> bool with false in 0s build + 0s test
+MISSED   crates/viola-channel/src/client.rs:131:45: replace && with || in retry_busy in 0s build + 0s test
+MISSED   crates/viola-channel/src/client.rs:131:26: replace == with != in retry_busy in 0s build + 0s test
+MISSED   crates/viola-channel/src/client.rs:131:52: replace < with == in retry_busy in 0s build + 0s test
+MISSED   crates/viola-channel/src/client.rs:131:52: replace < with > in retry_busy in 0s build + 0s test
+MISSED   crates/viola-channel/src/client.rs:131:52: replace < with <= in retry_busy in 0s build + 0s test
+MISSED   crates/viola-channel/src/client.rs:141:5: replace busy_deadline -> Instant with Default::default() in 0s build + 0s test
+MISSED   crates/viola-channel/src/client.rs:141:11: replace + with - in busy_deadline in 0s build + 0s test
+MISSED   crates/viola-channel/src/client.rs:141:11: replace + with * in busy_deadline in 0s build + 0s test
+MISSED   crates/viola-channel/src/client.rs:146:5: replace open -> io::Result<Stream> with Ok(Default::default()) in 0s build + 0s test
+MISSED   crates/viola-channel/src/client.rs:176:19: replace != with == in open in 0s build + 0s test
+MISSED   crates/viola-channel/src/client.rs:180:12: delete ! in open in 0s build + 0s test
+unviable crates/viola-channel/src/client.rs:195:5: replace open -> io::Result<Stream> with Ok(Default::default()) in 0s build
+caught   crates/viola-channel/src/endpoint.rs:24:5: replace fnv1a -> u64 with 0 in 0s build + 0s test
+caught   crates/viola-channel/src/endpoint.rs:24:5: replace fnv1a -> u64 with 1 in 0s build + 0s test
+caught   crates/viola-channel/src/endpoint.rs:25:15: replace ^ with | in fnv1a in 0s build + 0s test
+caught   crates/viola-channel/src/endpoint.rs:25:15: replace ^ with & in fnv1a in 0s build + 0s test
+caught   crates/viola-channel/src/endpoint.rs:32:5: replace endpoint_name -> Result<String, ChannelError> with Ok(String::new()) in 0s build + 0s test
+caught   crates/viola-channel/src/endpoint.rs:32:5: replace endpoint_name -> Result<String, ChannelError> with Ok("xyzzy".into()) in 0s build + 0s test
+caught   crates/viola-channel/src/endpoint.rs:42:5: replace socket_dir -> PathBuf with Default::default() in 0s build + 0s test
+caught   crates/viola-channel/src/endpoint.rs:43:9: delete match arm (false, Some(xdg), _) in socket_dir in 0s build + 0s test
+caught   crates/viola-channel/src/endpoint.rs:44:9: delete match arm (true, _, Some(tmpdir)) in socket_dir in 0s build + 0s test
+caught   crates/viola-channel/src/endpoint.rs:50:5: replace absolute -> Option<&OsStr> with None in 0s build + 0s test
+unviable crates/viola-channel/src/endpoint.rs:50:5: replace absolute -> Option<&OsStr> with Some(Box::leak(Box::new(Default::default()))) in 0s build
+caught   crates/viola-channel/src/endpoint.rs:50:51: replace == with != in absolute in 0s build + 0s test
+caught   crates/viola-channel/src/endpoint.rs:56:5: replace endpoint_path -> Result<String, ChannelError> with Ok(String::new()) in 0s build + 0s test
+caught   crates/viola-channel/src/endpoint.rs:56:5: replace endpoint_path -> Result<String, ChannelError> with Ok("xyzzy".into()) in 0s build + 0s test
+caught   crates/viola-channel/src/endpoint.rs:76:5: replace host_socket_dir -> PathBuf with Default::default() in 0s build + 0s test
+caught   crates/viola-channel/src/frame.rs:18:5: replace read_frame -> Result<Vec<u8>, ChannelError> with Ok(vec![]) in 0s build + 0s test
+caught   crates/viola-channel/src/frame.rs:18:5: replace read_frame -> Result<Vec<u8>, ChannelError> with Ok(vec![0]) in 0s build + 0s test
+caught   crates/viola-channel/src/frame.rs:18:5: replace read_frame -> Result<Vec<u8>, ChannelError> with Ok(vec![1]) in 0s build + 0s test
+caught   crates/viola-channel/src/frame.rs:23:5: replace read_frame_within -> Result<Vec<u8>, ChannelError> with Ok(vec![]) in 0s build + 0s test
+caught   crates/viola-channel/src/frame.rs:23:5: replace read_frame_within -> Result<Vec<u8>, ChannelError> with Ok(vec![0]) in 0s build + 0s test
+caught   crates/viola-channel/src/frame.rs:23:5: replace read_frame_within -> Result<Vec<u8>, ChannelError> with Ok(vec![1]) in 0s build + 0s test
+caught   crates/viola-channel/src/frame.rs:27:20: replace == with != in read_frame_within in 0s build + 0s test
+caught   crates/viola-channel/src/frame.rs:29:61: replace >= with < in read_frame_within in 0s build + 0s test
+caught   crates/viola-channel/src/frame.rs:38:5: replace write_frame -> Result<(), ChannelError> with Ok(()) in 0s build + 0s test
+unviable crates/viola-channel/src/frame.rs:73:5: replace parse_request -> Result<(Request, Params), (Option<u64>, ProtocolError)> with Ok((Default::default(), Default::default())) in 0s build
+caught   crates/viola-channel/src/frame.rs:77:24: replace != with == in parse_request in 0s build + 0s test
+caught   crates/viola-channel/src/frame.rs:81:9: delete match arm Value::Null in parse_request in 0s build + 0s test
+caught   crates/viola-channel/src/frame.rs:82:9: delete match arm Value::Object(_) in parse_request in 0s build + 0s test
+caught   crates/viola-channel/src/frame.rs:89:5: replace ok_response -> Value with Default::default() in 0s build + 0s test
+caught   crates/viola-channel/src/frame.rs:94:5: replace error_response -> Value with Default::default() in 0s build + 0s test
+unviable crates/viola-channel/src/server.rs:47:9: replace Server::bind -> Result<Self, ChannelError> with Ok(Default::default()) in 0s build
+unviable crates/viola-channel/src/server.rs:53:9: replace Server::serve -> Serving with Default::default() in 0s build
+caught   crates/viola-channel/src/server.rs:75:9: replace <impl Drop for Guard>::drop with () in 0s build + 0s test
+MISSED   crates/viola-channel/src/server.rs:83:5: replace listen -> Result<(Listener, Guard), ChannelError> with Ok((Default::default(), Default::default())) in 0s build + 0s test
+MISSED   crates/viola-channel/src/server.rs:94:25: replace == with != in listen in 0s build + 0s test
+unviable crates/viola-channel/src/server.rs:108:5: replace listen -> Result<(Listener, Guard), ChannelError> with Ok((Default::default(), Default::default())) in 0s build
+caught   crates/viola-channel/src/server.rs:147:5: replace accept_loop with () in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:159:5: replace serve_conn with () in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:170:60: replace || with && in serve_conn in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:183:5: replace answer -> Option<Reply> with None in 0s build + 0s test
+unviable crates/viola-channel/src/server.rs:183:5: replace answer -> Option<Reply> with Some(Default::default()) in 0s build
+caught   crates/viola-channel/src/server.rs:204:29: replace && with || in answer in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:204:39: replace != with == in answer in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:225:29: replace == with != in answer in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:239:5: replace dispatched -> Result<Value, ProtocolError> with Ok(Default::default()) in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:239:17: replace > with == in dispatched in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:239:17: replace > with < in dispatched in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:239:17: replace > with >= in dispatched in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:250:5: replace reject_frame with () in 0s build + 0s test
+unviable crates/viola-channel/src/server.rs:260:5: replace refuse_oversize -> Reply with Default::default() in 0s build
+unviable crates/viola-channel/src/server.rs:279:9: replace Peer<'a>::of -> Self with Default::default() in 0s build
+caught   crates/viola-channel/src/server.rs:286:9: replace Peer<'a>::conn -> Option<&'a str> with None in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:286:9: replace Peer<'a>::conn -> Option<&'a str> with Some("") in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:286:9: replace Peer<'a>::conn -> Option<&'a str> with Some("xyzzy") in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:293:9: replace Peer<'a>::srv_conn -> Option<&'a str> with None in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:293:9: replace Peer<'a>::srv_conn -> Option<&'a str> with Some("") in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:293:9: replace Peer<'a>::srv_conn -> Option<&'a str> with Some("xyzzy") in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:300:9: replace Peer<'a>::label -> &'a str with "" in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:300:9: replace Peer<'a>::label -> &'a str with "xyzzy" in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:309:5: replace is_conn -> bool with true in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:309:5: replace is_conn -> bool with false in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:316:9: replace && with || in is_conn in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:315:9: replace && with || in is_conn in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:314:9: replace && with || in is_conn in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:313:9: replace && with || in is_conn in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:312:16: replace <= with > in is_conn in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:313:12: delete ! in is_conn in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:315:26: replace == with != in is_conn in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:318:36: replace && with || in is_conn in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:318:22: delete ! in is_conn in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:324:5: replace version_label -> Option<&str> with None in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:324:5: replace version_label -> Option<&str> with Some("") in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:324:5: replace version_label -> Option<&str> with Some("xyzzy") in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:326:9: replace && with || in version_label in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:325:26: replace == with != in version_label in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:328:49: replace && with || in version_label in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:350:5: replace method_label -> Option<&'static str> with None in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:350:5: replace method_label -> Option<&'static str> with Some("") in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:350:5: replace method_label -> Option<&'static str> with Some("xyzzy") in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:350:33: replace == with != in method_label in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:354:5: replace log_request with () in 0s build + 0s test
+unviable crates/viola-channel/src/server.rs:377:9: replace Class::of -> Self with Default::default() in 0s build
+unviable crates/viola-channel/src/server.rs:417:9: replace ResponseLine<'a>::client -> Self with Default::default() in 0s build
+caught   crates/viola-channel/src/server.rs:423:9: replace <impl Drop for ResponseLine<'_>>::drop with () in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:445:13: delete match arm Some(ProtocolError::Internal) in <impl Drop for ResponseLine<'_>>::drop in 0s build + 0s test
+caught   crates/viola-channel/src/server.rs:446:13: delete match arm Some(ProtocolError::InvalidRequest | ProtocolError::UnsupportedVersion) in <impl Drop for ResponseLine<'_>>::drop in 0s build + 0s test
+MISSED   crates/viola-channel/src/server.rs:476:9: replace win::owner_only_sddl -> String with String::new() in 0s build + 0s test
+MISSED   crates/viola-channel/src/server.rs:476:9: replace win::owner_only_sddl -> String with "xyzzy".into() in 0s build + 0s test
+MISSED   crates/viola-channel/src/server.rs:480:9: replace win::owner_only_descriptor -> io::Result<SecurityDescriptor> with Ok(Default::default()) in 0s build + 0s test
+MISSED   crates/viola-channel/src/server.rs:485:9: replace win::user_sid -> io::Result<String> with Ok(String::new()) in 0s build + 0s test
+MISSED   crates/viola-channel/src/server.rs:485:9: replace win::user_sid -> io::Result<String> with Ok("xyzzy".into()) in 0s build + 0s test
+MISSED   crates/viola-channel/src/server.rs:487:86: replace == with != in win::user_sid in 0s build + 0s test
+MISSED   crates/viola-channel/src/server.rs:497:9: replace win::token_user_sid -> io::Result<String> with Ok(String::new()) in 0s build + 0s test
+MISSED   crates/viola-channel/src/server.rs:497:9: replace win::token_user_sid -> io::Result<String> with Ok("xyzzy".into()) in 0s build + 0s test
+MISSED   crates/viola-channel/src/server.rs:506:19: replace == with != in win::token_user_sid in 0s build + 0s test
+MISSED   crates/viola-channel/src/server.rs:513:72: replace == with != in win::token_user_sid in 0s build + 0s test
+MISSED   crates/viola-channel/src/server.rs:533:9: replace win::from_sddl -> io::Result<SecurityDescriptor> with Ok(Default::default()) in 0s build + 0s test
+MISSED   crates/viola-channel/src/server.rs:544:22: replace == with != in win::from_sddl in 0s build + 0s test
+caught   crates/viola-e2e/src/harness/boot.rs:234:5: replace snapshot_data -> Option<Value> with None in 10s build + 0s test
+caught   crates/viola-e2e/src/harness/boot.rs:234:5: replace snapshot_data -> Option<Value> with Some(Default::default()) in 1s build + 0s test
+caught   crates/viola-e2e/src/harness/boot.rs:242:5: replace snapshot_ready -> bool with true in 1s build + 0s test
+caught   crates/viola-e2e/src/harness/boot.rs:242:5: replace snapshot_ready -> bool with false in 1s build + 0s test
+caught   crates/viola-e2e/src/harness/boot.rs:243:58: replace && with || in snapshot_ready in 1s build + 0s test
+caught   crates/viola-e2e/src/harness/boot.rs:243:27: replace && with || in snapshot_ready in 1s build + 0s test
+caught   crates/viola-e2e/src/harness/boot.rs:249:5: replace snapshot_endpoint -> Option<String> with None in 1s build + 0s test
+caught   crates/viola-e2e/src/harness/boot.rs:249:5: replace snapshot_endpoint -> Option<String> with Some(String::new()) in 1s build + 0s test
+caught   crates/viola-e2e/src/harness/boot.rs:249:5: replace snapshot_endpoint -> Option<String> with Some("xyzzy".into()) in 1s build + 0s test
+unviable crates/viola-e2e/src/harness/boot.rs:272:5: replace readiness -> Readiness with Default::default() in 0s build
+unviable crates/viola-e2e/src/harness/cleanup.rs:52:5: replace summarize -> Outcome with Default::default() in 0s build
+caught   crates/viola-e2e/src/harness/cleanup.rs:66:46: replace && with || in summarize in 1s build + 0s test
+caught   crates/viola-e2e/src/harness/cleanup.rs:66:29: replace && with || in summarize in 1s build + 0s test
+caught   crates/viola-e2e/src/harness/cleanup.rs:66:62: replace != with == in summarize in 1s build + 0s test
+unviable crates/viola-e2e/src/harness/cleanup.rs:90:5: replace cleanup_one -> Report with Default::default() in 0s build
+caught   crates/viola-e2e/src/harness/cleanup.rs:131:5: replace unconnectable -> bool with true in 1s build + 0s test
+caught   crates/viola-e2e/src/harness/cleanup.rs:131:5: replace unconnectable -> bool with false in 1s build + 0s test
+caught   crates/viola-e2e/src/harness/cleanup.rs:140:9: delete ! in unconnectable in 1s build + 0s test
+unviable crates/viola-e2e/src/harness/pre_push.rs:188:9: replace Doc::finish -> Outcome with Default::default() in 0s build
+caught   crates/viola-e2e/src/harness/pre_push.rs:207:12: delete ! in Doc::finish in 1s build + 0s test
+caught   crates/viola-e2e/src/harness/pre_push.rs:227:5: replace stages -> Result<bool, Stop> with Ok(true) in 1s build + 0s test
+caught   crates/viola-e2e/src/harness/pre_push.rs:227:5: replace stages -> Result<bool, Stop> with Ok(false) in 1s build + 0s test
+caught   crates/viola-e2e/src/harness/pre_push.rs:253:8: delete ! in stages in 1s build + 0s test
+caught   crates/viola-e2e/src/harness/pre_push.rs:516:5: replace windows_tests -> bool with true in 1s build + 0s test
+caught   crates/viola-e2e/src/harness/pre_push.rs:516:5: replace windows_tests -> bool with false in 1s build + 0s test
+caught   crates/viola-e2e/src/harness/pre_push.rs:517:9: delete field coverage from struct Selection expression in windows_tests in 1s build + 0s test
+caught   crates/viola-e2e/src/harness/pre_push.rs:522:17: replace != with == in windows_tests in 1s build + 0s test
+caught   crates/viola-e2e/src/harness/pre_push.rs:528:17: replace == with != in windows_tests in 1s build + 0s test
+caught   crates/viola-state/src/snapshot.rs:57:5: replace write_snapshot -> Result<(), StateError> with Ok(()) in 4s build + 0s test
+186 mutants tested in 5m: 27 missed, 132 caught, 27 unviable
+{"v":1,"cmd":"run","ok":true,"suites":[{"suite":"mutants","passed":132,"failed":27,"skipped":0,"survived":27,"artifact":"mutants.out/outcomes.json","failures":["crates/viola-channel/src/client.rs:131:5: replace retry_busy -> bool with true","crates/viola-channel/src/client.rs:131:5: replace retry_busy -> bool with false","crates/viola-channel/src/client.rs:131:45: replace && with || in retry_busy","crates/viola-channel/src/client.rs:131:26: replace == with != in retry_busy","crates/viola-channel/src/client.rs:131:52: replace < with == in retry_busy","crates/viola-channel/src/client.rs:131:52: replace < with > in retry_busy","crates/viola-channel/src/client.rs:131:52: replace < with <= in retry_busy","crates/viola-channel/src/client.rs:141:5: replace busy_deadline -> Instant with Default::default()","crates/viola-channel/src/client.rs:141:11: replace + with - in busy_deadline","crates/viola-channel/src/client.rs:141:11: replace + with * in busy_deadline","crates/viola-channel/src/client.rs:146:5: replace open -> io::Result<Stream> with Ok(Default::default())","crates/viola-channel/src/client.rs:176:19: replace != with == in open","crates/viola-channel/src/client.rs:180:12: delete ! in open","crates/viola-channel/src/server.rs:83:5: replace listen -> Result<(Listener, Guard), ChannelError> with Ok((Default::default(), Default::default()))","crates/viola-channel/src/server.rs:94:25: replace == with != in listen","crates/viola-channel/src/server.rs:476:9: replace win::owner_only_sddl -> String with String::new()","crates/viola-channel/src/server.rs:476:9: replace win::owner_only_sddl -> String with \"xyzzy\".into()","crates/viola-channel/src/server.rs:480:9: replace win::owner_only_descriptor -> io::Result<SecurityDescriptor> with Ok(Default::default())","crates/viola-channel/src/server.rs:485:9: replace win::user_sid -> io::Result<String> with Ok(String::new())","crates/viola-channel/src/server.rs:485:9: replace win::user_sid -> io::Result<String> with Ok(\"xyzzy\".into())","crates/viola-channel/src/server.rs:487:86: replace == with != in win::user_sid","crates/viola-channel/src/server.rs:497:9: replace win::token_user_sid -> io::Result<String> with Ok(String::new())","crates/viola-channel/src/server.rs:497:9: replace win::token_user_sid -> io::Result<String> with Ok(\"xyzzy\".into())","crates/viola-channel/src/server.rs:506:19: replace == with != in win::token_user_sid","crates/viola-channel/src/server.rs:513:72: replace == with != in win::token_user_sid","crates/viola-channel/src/server.rs:533:9: replace win::from_sddl -> io::Result<SecurityDescriptor> with Ok(Default::default())","crates/viola-channel/src/server.rs:544:22: replace == with != in win::from_sddl"]}],"mutants":{"tested":186,"verdict":"counted","base":"17c99c9cd098256405af2b9312dddbc740fce14b","leg":"ubuntu-latest"}}
+{
+  "v": 1,
+  "leg": "ubuntu-latest",
+  "verdict": "counted",
+  "mutants": [
+    {
+      "name": "src/run/mod.rs:18:5: replace log_self_start with ()",
+      "outcome": "caught"
+    },
+    {
+      "name": "src/cmd/run.rs:42:5: replace name_str -> &str with \"\"",
+      "outcome": "caught"
+    },
+    {
+      "name": "src/cmd/run.rs:42:5: replace name_str -> &str with \"xyzzy\"",
+      "outcome": "caught"
+    },
+    {
+      "name": "src/cmd/run.rs:63:9: replace <impl Dispatch for NoMethods>::dispatch -> Result<Value, ProtocolError> with Ok(Default::default())",
+      "outcome": "caught"
+    },
+    {
+      "name": "src/cmd/run.rs:68:5: replace run -> anyhow::Result<ExitCode> with Ok(Default::default())",
+      "outcome": "caught"
+    },
+    {
+      "name": "src/cmd/run.rs:104:5: replace start -> anyhow::Result<Started> with Ok(Default::default())",
+      "outcome": "unviable"
+    },
+    {
+      "name": "src/cmd/run.rs:153:5: replace refused -> Started with Default::default()",
+      "outcome": "unviable"
+    },
+    {
+      "name": "src/cmd/run.rs:160:5: replace collision_check -> Option<Started> with None",
+      "outcome": "caught"
+    },
+    {
+      "name": "src/cmd/run.rs:160:5: replace collision_check -> Option<Started> with Some(Default::default())",
+      "outcome": "unviable"
+    },
+    {
+      "name": "src/cmd/run.rs:181:5: replace pin_and_plugin -> anyhow::Result<Option<(Pinned, PathBuf)>> with Ok(None)",
+      "outcome": "caught"
+    },
+    {
+      "name": "src/cmd/run.rs:181:5: replace pin_and_plugin -> anyhow::Result<Option<(Pinned, PathBuf)>> with Ok(Some((Default::default(), Default::default())))",
+      "outcome": "unviable"
+    },
+    {
+      "name": "src/cmd/run.rs:204:5: replace bind_endpoint -> anyhow::Result<Option<(String, Server)>> with Ok(None)",
+      "outcome": "caught"
+    },
+    {
+      "name": "src/cmd/run.rs:204:5: replace bind_endpoint -> anyhow::Result<Option<(String, Server)>> with Ok(Some((String::new(), Default::default())))",
+      "outcome": "unviable"
+    },
+    {
+      "name": "src/cmd/run.rs:204:5: replace bind_endpoint -> anyhow::Result<Option<(String, Server)>> with Ok(Some((\"xyzzy\".into(), Default::default())))",
+      "outcome": "unviable"
+    },
+    {
+      "name": "src/cmd/run.rs:224:5: replace start_state -> anyhow::Result<(Heartbeat, InstanceSnapshot)> with Ok((Default::default(), Default::default()))",
+      "outcome": "unviable"
+    },
+    {
+      "name": "src/cmd/run.rs:263:5: replace spawn_child -> anyhow::Result<(PortablePty, Option<HostTerminal>, Size)> with Ok((Default::default(), None, Default::default()))",
+      "outcome": "unviable"
+    },
+    {
+      "name": "src/cmd/run.rs:263:5: replace spawn_child -> anyhow::Result<(PortablePty, Option<HostTerminal>, Size)> with Ok((Default::default(), Some(Default::default()), Default::default()))",
+      "outcome": "unviable"
+    },
+    {
+      "name": "src/cmd/run.rs:281:5: replace pump_child -> anyhow::Result<ExitCode> with Ok(Default::default())",
+      "outcome": "caught"
+    },
+    {
+      "name": "src/cmd/run.rs:349:5: replace refuse_squatted with ()",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/lib.rs:59:9: replace ProtocolError::code -> i64 with 0",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/lib.rs:59:9: replace ProtocolError::code -> i64 with 1",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/lib.rs:59:9: replace ProtocolError::code -> i64 with -1",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/lib.rs:60:28: delete - in ProtocolError::code",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/lib.rs:61:37: delete - in ProtocolError::code",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/lib.rs:62:37: delete - in ProtocolError::code",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/lib.rs:63:41: delete - in ProtocolError::code",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/lib.rs:64:31: delete - in ProtocolError::code",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/lib.rs:69:9: replace ProtocolError::message -> &'static str with \"\"",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/lib.rs:69:9: replace ProtocolError::message -> &'static str with \"xyzzy\"",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/lib.rs:81:9: replace ProtocolError::body -> Value with Default::default()",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/lib.rs:82:13: delete match arm Self::UnsupportedVersion in ProtocolError::body",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/client.rs:34:9: replace Client::connect -> Result<Self, ChannelError> with Ok(Default::default())",
+      "outcome": "unviable"
+    },
+    {
+      "name": "crates/viola-channel/src/client.rs:35:61: replace + with - in Client::connect",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/client.rs:35:61: replace + with * in Client::connect",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/client.rs:46:9: replace Client::conn -> &str with \"\"",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/client.rs:46:9: replace Client::conn -> &str with \"xyzzy\"",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/client.rs:56:9: replace Client::request -> Result<Value, ChannelError> with Ok(Default::default())",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/client.rs:58:22: replace += with -= in Client::request",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/client.rs:58:22: replace += with *= in Client::request",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/client.rs:85:5: replace reply_class -> Class with Default::default()",
+      "outcome": "unviable"
+    },
+    {
+      "name": "crates/viola-channel/src/client.rs:92:5: replace fault_of -> Option<ProtocolError> with None",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/client.rs:92:5: replace fault_of -> Option<ProtocolError> with Some(Default::default())",
+      "outcome": "unviable"
+    },
+    {
+      "name": "crates/viola-channel/src/client.rs:100:32: replace == with != in fault_of",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/client.rs:104:5: replace t0_ms -> u128 with 0",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/client.rs:104:5: replace t0_ms -> u128 with 1",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/client.rs:131:5: replace retry_busy -> bool with true",
+      "outcome": "missed"
+    },
+    {
+      "name": "crates/viola-channel/src/client.rs:131:5: replace retry_busy -> bool with false",
+      "outcome": "missed"
+    },
+    {
+      "name": "crates/viola-channel/src/client.rs:131:45: replace && with || in retry_busy",
+      "outcome": "missed"
+    },
+    {
+      "name": "crates/viola-channel/src/client.rs:131:26: replace == with != in retry_busy",
+      "outcome": "missed"
+    },
+    {
+      "name": "crates/viola-channel/src/client.rs:131:52: replace < with == in retry_busy",
+      "outcome": "missed"
+    },
+    {
+      "name": "crates/viola-channel/src/client.rs:131:52: replace < with > in retry_busy",
+      "outcome": "missed"
+    },
+    {
+      "name": "crates/viola-channel/src/client.rs:131:52: replace < with <= in retry_busy",
+      "outcome": "missed"
+    },
+    {
+      "name": "crates/viola-channel/src/client.rs:141:5: replace busy_deadline -> Instant with Default::default()",
+      "outcome": "missed"
+    },
+    {
+      "name": "crates/viola-channel/src/client.rs:141:11: replace + with - in busy_deadline",
+      "outcome": "missed"
+    },
+    {
+      "name": "crates/viola-channel/src/client.rs:141:11: replace + with * in busy_deadline",
+      "outcome": "missed"
+    },
+    {
+      "name": "crates/viola-channel/src/client.rs:146:5: replace open -> io::Result<Stream> with Ok(Default::default())",
+      "outcome": "missed"
+    },
+    {
+      "name": "crates/viola-channel/src/client.rs:176:19: replace != with == in open",
+      "outcome": "missed"
+    },
+    {
+      "name": "crates/viola-channel/src/client.rs:180:12: delete ! in open",
+      "outcome": "missed"
+    },
+    {
+      "name": "crates/viola-channel/src/client.rs:195:5: replace open -> io::Result<Stream> with Ok(Default::default())",
+      "outcome": "unviable"
+    },
+    {
+      "name": "crates/viola-channel/src/endpoint.rs:24:5: replace fnv1a -> u64 with 0",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/endpoint.rs:24:5: replace fnv1a -> u64 with 1",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/endpoint.rs:25:15: replace ^ with | in fnv1a",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/endpoint.rs:25:15: replace ^ with & in fnv1a",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/endpoint.rs:32:5: replace endpoint_name -> Result<String, ChannelError> with Ok(String::new())",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/endpoint.rs:32:5: replace endpoint_name -> Result<String, ChannelError> with Ok(\"xyzzy\".into())",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/endpoint.rs:42:5: replace socket_dir -> PathBuf with Default::default()",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/endpoint.rs:43:9: delete match arm (false, Some(xdg), _) in socket_dir",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/endpoint.rs:44:9: delete match arm (true, _, Some(tmpdir)) in socket_dir",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/endpoint.rs:50:5: replace absolute -> Option<&OsStr> with None",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/endpoint.rs:50:5: replace absolute -> Option<&OsStr> with Some(Box::leak(Box::new(Default::default())))",
+      "outcome": "unviable"
+    },
+    {
+      "name": "crates/viola-channel/src/endpoint.rs:50:51: replace == with != in absolute",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/endpoint.rs:56:5: replace endpoint_path -> Result<String, ChannelError> with Ok(String::new())",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/endpoint.rs:56:5: replace endpoint_path -> Result<String, ChannelError> with Ok(\"xyzzy\".into())",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/endpoint.rs:76:5: replace host_socket_dir -> PathBuf with Default::default()",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/frame.rs:18:5: replace read_frame -> Result<Vec<u8>, ChannelError> with Ok(vec![])",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/frame.rs:18:5: replace read_frame -> Result<Vec<u8>, ChannelError> with Ok(vec![0])",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/frame.rs:18:5: replace read_frame -> Result<Vec<u8>, ChannelError> with Ok(vec![1])",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/frame.rs:23:5: replace read_frame_within -> Result<Vec<u8>, ChannelError> with Ok(vec![])",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/frame.rs:23:5: replace read_frame_within -> Result<Vec<u8>, ChannelError> with Ok(vec![0])",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/frame.rs:23:5: replace read_frame_within -> Result<Vec<u8>, ChannelError> with Ok(vec![1])",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/frame.rs:27:20: replace == with != in read_frame_within",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/frame.rs:29:61: replace >= with < in read_frame_within",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/frame.rs:38:5: replace write_frame -> Result<(), ChannelError> with Ok(())",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/frame.rs:73:5: replace parse_request -> Result<(Request, Params), (Option<u64>, ProtocolError)> with Ok((Default::default(), Default::default()))",
+      "outcome": "unviable"
+    },
+    {
+      "name": "crates/viola-channel/src/frame.rs:77:24: replace != with == in parse_request",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/frame.rs:81:9: delete match arm Value::Null in parse_request",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/frame.rs:82:9: delete match arm Value::Object(_) in parse_request",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/frame.rs:89:5: replace ok_response -> Value with Default::default()",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/frame.rs:94:5: replace error_response -> Value with Default::default()",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:47:9: replace Server::bind -> Result<Self, ChannelError> with Ok(Default::default())",
+      "outcome": "unviable"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:53:9: replace Server::serve -> Serving with Default::default()",
+      "outcome": "unviable"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:75:9: replace <impl Drop for Guard>::drop with ()",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:83:5: replace listen -> Result<(Listener, Guard), ChannelError> with Ok((Default::default(), Default::default()))",
+      "outcome": "missed"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:94:25: replace == with != in listen",
+      "outcome": "missed"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:108:5: replace listen -> Result<(Listener, Guard), ChannelError> with Ok((Default::default(), Default::default()))",
+      "outcome": "unviable"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:147:5: replace accept_loop with ()",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:159:5: replace serve_conn with ()",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:170:60: replace || with && in serve_conn",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:183:5: replace answer -> Option<Reply> with None",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:183:5: replace answer -> Option<Reply> with Some(Default::default())",
+      "outcome": "unviable"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:204:29: replace && with || in answer",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:204:39: replace != with == in answer",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:225:29: replace == with != in answer",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:239:5: replace dispatched -> Result<Value, ProtocolError> with Ok(Default::default())",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:239:17: replace > with == in dispatched",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:239:17: replace > with < in dispatched",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:239:17: replace > with >= in dispatched",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:250:5: replace reject_frame with ()",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:260:5: replace refuse_oversize -> Reply with Default::default()",
+      "outcome": "unviable"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:279:9: replace Peer<'a>::of -> Self with Default::default()",
+      "outcome": "unviable"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:286:9: replace Peer<'a>::conn -> Option<&'a str> with None",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:286:9: replace Peer<'a>::conn -> Option<&'a str> with Some(\"\")",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:286:9: replace Peer<'a>::conn -> Option<&'a str> with Some(\"xyzzy\")",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:293:9: replace Peer<'a>::srv_conn -> Option<&'a str> with None",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:293:9: replace Peer<'a>::srv_conn -> Option<&'a str> with Some(\"\")",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:293:9: replace Peer<'a>::srv_conn -> Option<&'a str> with Some(\"xyzzy\")",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:300:9: replace Peer<'a>::label -> &'a str with \"\"",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:300:9: replace Peer<'a>::label -> &'a str with \"xyzzy\"",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:309:5: replace is_conn -> bool with true",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:309:5: replace is_conn -> bool with false",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:316:9: replace && with || in is_conn",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:315:9: replace && with || in is_conn",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:314:9: replace && with || in is_conn",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:313:9: replace && with || in is_conn",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:312:16: replace <= with > in is_conn",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:313:12: delete ! in is_conn",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:315:26: replace == with != in is_conn",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:318:36: replace && with || in is_conn",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:318:22: delete ! in is_conn",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:324:5: replace version_label -> Option<&str> with None",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:324:5: replace version_label -> Option<&str> with Some(\"\")",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:324:5: replace version_label -> Option<&str> with Some(\"xyzzy\")",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:326:9: replace && with || in version_label",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:325:26: replace == with != in version_label",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:328:49: replace && with || in version_label",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:350:5: replace method_label -> Option<&'static str> with None",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:350:5: replace method_label -> Option<&'static str> with Some(\"\")",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:350:5: replace method_label -> Option<&'static str> with Some(\"xyzzy\")",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:350:33: replace == with != in method_label",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:354:5: replace log_request with ()",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:377:9: replace Class::of -> Self with Default::default()",
+      "outcome": "unviable"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:417:9: replace ResponseLine<'a>::client -> Self with Default::default()",
+      "outcome": "unviable"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:423:9: replace <impl Drop for ResponseLine<'_>>::drop with ()",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:445:13: delete match arm Some(ProtocolError::Internal) in <impl Drop for ResponseLine<'_>>::drop",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:446:13: delete match arm Some(ProtocolError::InvalidRequest | ProtocolError::UnsupportedVersion) in <impl Drop for ResponseLine<'_>>::drop",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:476:9: replace win::owner_only_sddl -> String with String::new()",
+      "outcome": "missed"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:476:9: replace win::owner_only_sddl -> String with \"xyzzy\".into()",
+      "outcome": "missed"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:480:9: replace win::owner_only_descriptor -> io::Result<SecurityDescriptor> with Ok(Default::default())",
+      "outcome": "missed"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:485:9: replace win::user_sid -> io::Result<String> with Ok(String::new())",
+      "outcome": "missed"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:485:9: replace win::user_sid -> io::Result<String> with Ok(\"xyzzy\".into())",
+      "outcome": "missed"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:487:86: replace == with != in win::user_sid",
+      "outcome": "missed"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:497:9: replace win::token_user_sid -> io::Result<String> with Ok(String::new())",
+      "outcome": "missed"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:497:9: replace win::token_user_sid -> io::Result<String> with Ok(\"xyzzy\".into())",
+      "outcome": "missed"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:506:19: replace == with != in win::token_user_sid",
+      "outcome": "missed"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:513:72: replace == with != in win::token_user_sid",
+      "outcome": "missed"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:533:9: replace win::from_sddl -> io::Result<SecurityDescriptor> with Ok(Default::default())",
+      "outcome": "missed"
+    },
+    {
+      "name": "crates/viola-channel/src/server.rs:544:22: replace == with != in win::from_sddl",
+      "outcome": "missed"
+    },
+    {
+      "name": "crates/viola-e2e/src/harness/boot.rs:234:5: replace snapshot_data -> Option<Value> with None",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-e2e/src/harness/boot.rs:234:5: replace snapshot_data -> Option<Value> with Some(Default::default())",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-e2e/src/harness/boot.rs:242:5: replace snapshot_ready -> bool with true",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-e2e/src/harness/boot.rs:242:5: replace snapshot_ready -> bool with false",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-e2e/src/harness/boot.rs:243:58: replace && with || in snapshot_ready",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-e2e/src/harness/boot.rs:243:27: replace && with || in snapshot_ready",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-e2e/src/harness/boot.rs:249:5: replace snapshot_endpoint -> Option<String> with None",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-e2e/src/harness/boot.rs:249:5: replace snapshot_endpoint -> Option<String> with Some(String::new())",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-e2e/src/harness/boot.rs:249:5: replace snapshot_endpoint -> Option<String> with Some(\"xyzzy\".into())",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-e2e/src/harness/boot.rs:272:5: replace readiness -> Readiness with Default::default()",
+      "outcome": "unviable"
+    },
+    {
+      "name": "crates/viola-e2e/src/harness/cleanup.rs:52:5: replace summarize -> Outcome with Default::default()",
+      "outcome": "unviable"
+    },
+    {
+      "name": "crates/viola-e2e/src/harness/cleanup.rs:66:46: replace && with || in summarize",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-e2e/src/harness/cleanup.rs:66:29: replace && with || in summarize",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-e2e/src/harness/cleanup.rs:66:62: replace != with == in summarize",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-e2e/src/harness/cleanup.rs:90:5: replace cleanup_one -> Report with Default::default()",
+      "outcome": "unviable"
+    },
+    {
+      "name": "crates/viola-e2e/src/harness/cleanup.rs:131:5: replace unconnectable -> bool with true",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-e2e/src/harness/cleanup.rs:131:5: replace unconnectable -> bool with false",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-e2e/src/harness/cleanup.rs:140:9: delete ! in unconnectable",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-e2e/src/harness/pre_push.rs:188:9: replace Doc::finish -> Outcome with Default::default()",
+      "outcome": "unviable"
+    },
+    {
+      "name": "crates/viola-e2e/src/harness/pre_push.rs:207:12: delete ! in Doc::finish",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-e2e/src/harness/pre_push.rs:227:5: replace stages -> Result<bool, Stop> with Ok(true)",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-e2e/src/harness/pre_push.rs:227:5: replace stages -> Result<bool, Stop> with Ok(false)",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-e2e/src/harness/pre_push.rs:253:8: delete ! in stages",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-e2e/src/harness/pre_push.rs:516:5: replace windows_tests -> bool with true",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-e2e/src/harness/pre_push.rs:516:5: replace windows_tests -> bool with false",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-e2e/src/harness/pre_push.rs:517:9: delete field coverage from struct Selection expression in windows_tests",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-e2e/src/harness/pre_push.rs:522:17: replace != with == in windows_tests",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-e2e/src/harness/pre_push.rs:528:17: replace == with != in windows_tests",
+      "outcome": "caught"
+    },
+    {
+      "name": "crates/viola-state/src/snapshot.rs:57:5: replace write_snapshot -> Result<(), StateError> with Ok(())",
+      "outcome": "caught"
+    }
+  ]
+}
+12247572911	/home/turbo/viola-pre-push/target
+82997699	/home/turbo/viola-pre-push-scratch
+info: cargo-llvm-cov currently setting cfg(coverage); you can opt-out it by passing --no-cfg-coverage
+   Compiling viola-agent-claude v0.1.0 (D:\dev\projects\viola\crates\viola-agent-claude)
+   Compiling viola-core v0.1.0 (D:\dev\projects\viola\crates\viola-core)
+   Compiling viola-pty v0.1.0 (D:\dev\projects\viola\crates\viola-pty)
+   Compiling viola-channel v0.1.0 (D:\dev\projects\viola\crates\viola-channel)
+   Compiling viola-state v0.1.0 (D:\dev\projects\viola\crates\viola-state)
+   Compiling viola-e2e v0.1.0 (D:\dev\projects\viola\crates\viola-e2e)
+   Compiling viola v0.1.0 (D:\dev\projects\viola)
+error: could not compile `viola-e2e` (test "cli")
+
+Caused by:
+  process didn't exit successfully: `D:\dev\rust\cargo\bin\cargo-llvm-cov.exe 'D:\dev\rust\rustup\toolchains\1.98.1-x86_64-pc-windows-msvc\bin\rustc.exe' --crate-name cli --edition=2024 'crates\viola-e2e\tests\cli.rs' --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --deny=unused_must_use '--deny=clippy::dbg_macro' --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values("fake-agent"))' -C metadata=ea84d82618c3d9c1 -C extra-filename=-34d8c12c81b58734 --out-dir 'D:\dev\projects\viola\target\llvm-cov-target\debug\deps' -C 'incremental=D:\dev\projects\viola\target\llvm-cov-target\debug\incremental' -L 'dependency=D:\dev\projects\viola\target\llvm-cov-target\debug\deps' --extern 'clap=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libclap-afeed656c95631a7.rlib' --extern 'jsonschema=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libjsonschema-33569956d5cf6467.rlib' --extern 'proc_macro2=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libproc_macro2-ff309384b46f2c97.rlib' --extern 'serde=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libserde-1cea1b01d59e4543.rlib' --extern 'serde_json=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libserde_json-db8bc4959e209caa.rlib' --extern 'syn=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libsyn-8eb3859ce3843a25.rlib' --extern 'sysinfo=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libsysinfo-453bc2c56e4fcef6.rlib' --extern 'tempfile=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libtempfile-4fd7dd27c3c31eee.rlib' --extern 'thiserror=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libthiserror-22c3be82d2831aa8.rlib' --extern 'viola_channel=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libviola_channel-dbd37a1b64935376.rlib' --extern 'viola_core=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libviola_core-a756d0cd5b78a266.rlib' --extern 'viola_e2e=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libviola_e2e-9a89c2c21a665f4a.rlib' --extern 'viola_pty=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libviola_pty-a0b7447e7487fc6a.rlib'` (exit code: 0xc0000142, STATUS_DLL_INIT_FAILED)
+warning: build failed, waiting for other jobs to finish...
+error: could not compile `viola-e2e` (bin "viola-harness" test)
+
+Caused by:
+  process didn't exit successfully: `D:\dev\rust\cargo\bin\cargo-llvm-cov.exe 'D:\dev\rust\rustup\toolchains\1.98.1-x86_64-pc-windows-msvc\bin\rustc.exe' --crate-name viola_harness --edition=2024 'crates\viola-e2e\src\bin\viola-harness.rs' --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --deny=unused_must_use '--deny=clippy::dbg_macro' --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values("fake-agent"))' -C metadata=1e2c46a6c5838c1d -C extra-filename=-82ad63a33831b319 --out-dir 'D:\dev\projects\viola\target\llvm-cov-target\debug\deps' -C 'incremental=D:\dev\projects\viola\target\llvm-cov-target\debug\incremental' -L 'dependency=D:\dev\projects\viola\target\llvm-cov-target\debug\deps' --extern 'clap=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libclap-afeed656c95631a7.rlib' --extern 'jsonschema=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libjsonschema-33569956d5cf6467.rlib' --extern 'proc_macro2=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libproc_macro2-ff309384b46f2c97.rlib' --extern 'serde=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libserde-1cea1b01d59e4543.rlib' --extern 'serde_json=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libserde_json-db8bc4959e209caa.rlib' --extern 'syn=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libsyn-8eb3859ce3843a25.rlib' --extern 'sysinfo=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libsysinfo-453bc2c56e4fcef6.rlib' --extern 'tempfile=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libtempfile-4fd7dd27c3c31eee.rlib' --extern 'thiserror=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libthiserror-22c3be82d2831aa8.rlib' --extern 'viola_channel=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libviola_channel-dbd37a1b64935376.rlib' --extern 'viola_core=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libviola_core-a756d0cd5b78a266.rlib' --extern 'viola_e2e=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libviola_e2e-9a89c2c21a665f4a.rlib' --extern 'viola_pty=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libviola_pty-a0b7447e7487fc6a.rlib'` (exit code: 0xc0000142, STATUS_DLL_INIT_FAILED)
+error: could not compile `viola-e2e` (test "scan_patterns")
+
+Caused by:
+  process didn't exit successfully: `D:\dev\rust\cargo\bin\cargo-llvm-cov.exe 'D:\dev\rust\rustup\toolchains\1.98.1-x86_64-pc-windows-msvc\bin\rustc.exe' --crate-name scan_patterns --edition=2024 'crates\viola-e2e\tests\scan_patterns.rs' --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --deny=unused_must_use '--deny=clippy::dbg_macro' --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values("fake-agent"))' -C metadata=8a7460921be7c814 -C extra-filename=-f9e733cbe4a719db --out-dir 'D:\dev\projects\viola\target\llvm-cov-target\debug\deps' -C 'incremental=D:\dev\projects\viola\target\llvm-cov-target\debug\incremental' -L 'dependency=D:\dev\projects\viola\target\llvm-cov-target\debug\deps' --extern 'clap=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libclap-afeed656c95631a7.rlib' --extern 'jsonschema=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libjsonschema-33569956d5cf6467.rlib' --extern 'proc_macro2=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libproc_macro2-ff309384b46f2c97.rlib' --extern 'serde=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libserde-1cea1b01d59e4543.rlib' --extern 'serde_json=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libserde_json-db8bc4959e209caa.rlib' --extern 'syn=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libsyn-8eb3859ce3843a25.rlib' --extern 'sysinfo=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libsysinfo-453bc2c56e4fcef6.rlib' --extern 'tempfile=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libtempfile-4fd7dd27c3c31eee.rlib' --extern 'thiserror=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libthiserror-22c3be82d2831aa8.rlib' --extern 'viola_channel=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libviola_channel-dbd37a1b64935376.rlib' --extern 'viola_core=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libviola_core-a756d0cd5b78a266.rlib' --extern 'viola_e2e=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libviola_e2e-9a89c2c21a665f4a.rlib' --extern 'viola_pty=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libviola_pty-a0b7447e7487fc6a.rlib'` (exit code: 0xc0000142, STATUS_DLL_INIT_FAILED)
+error: could not compile `viola-e2e` (test "harness_lifecycle")
+
+Caused by:
+  process didn't exit successfully: `D:\dev\rust\cargo\bin\cargo-llvm-cov.exe 'D:\dev\rust\rustup\toolchains\1.98.1-x86_64-pc-windows-msvc\bin\rustc.exe' --crate-name harness_lifecycle --edition=2024 'crates\viola-e2e\tests\harness_lifecycle.rs' --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --deny=unused_must_use '--deny=clippy::dbg_macro' --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values("fake-agent"))' -C metadata=faf16bf5b0448c53 -C extra-filename=-97d2654d7bf2bfcc --out-dir 'D:\dev\projects\viola\target\llvm-cov-target\debug\deps' -C 'incremental=D:\dev\projects\viola\target\llvm-cov-target\debug\incremental' -L 'dependency=D:\dev\projects\viola\target\llvm-cov-target\debug\deps' --extern 'clap=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libclap-afeed656c95631a7.rlib' --extern 'jsonschema=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libjsonschema-33569956d5cf6467.rlib' --extern 'proc_macro2=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libproc_macro2-ff309384b46f2c97.rlib' --extern 'serde=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libserde-1cea1b01d59e4543.rlib' --extern 'serde_json=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libserde_json-db8bc4959e209caa.rlib' --extern 'syn=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libsyn-8eb3859ce3843a25.rlib' --extern 'sysinfo=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libsysinfo-453bc2c56e4fcef6.rlib' --extern 'tempfile=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libtempfile-4fd7dd27c3c31eee.rlib' --extern 'thiserror=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libthiserror-22c3be82d2831aa8.rlib' --extern 'viola_channel=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libviola_channel-dbd37a1b64935376.rlib' --extern 'viola_core=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libviola_core-a756d0cd5b78a266.rlib' --extern 'viola_e2e=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libviola_e2e-9a89c2c21a665f4a.rlib' --extern 'viola_pty=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libviola_pty-a0b7447e7487fc6a.rlib'` (exit code: 0xc0000142, STATUS_DLL_INIT_FAILED)
+error: could not compile `viola-e2e` (bin "viola-harness")
+
+Caused by:
+  process didn't exit successfully: `D:\dev\rust\cargo\bin\cargo-llvm-cov.exe 'D:\dev\rust\rustup\toolchains\1.98.1-x86_64-pc-windows-msvc\bin\rustc.exe' --crate-name viola_harness --edition=2024 'crates\viola-e2e\src\bin\viola-harness.rs' --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --deny=unused_must_use '--deny=clippy::dbg_macro' --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values("fake-agent"))' -C metadata=9269761113994fa2 --out-dir 'D:\dev\projects\viola\target\llvm-cov-target\debug\deps' -C 'incremental=D:\dev\projects\viola\target\llvm-cov-target\debug\incremental' -L 'dependency=D:\dev\projects\viola\target\llvm-cov-target\debug\deps' --extern 'clap=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libclap-afeed656c95631a7.rlib' --extern 'jsonschema=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libjsonschema-33569956d5cf6467.rlib' --extern 'proc_macro2=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libproc_macro2-ff309384b46f2c97.rlib' --extern 'serde=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libserde-1cea1b01d59e4543.rlib' --extern 'serde_json=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libserde_json-db8bc4959e209caa.rlib' --extern 'syn=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libsyn-8eb3859ce3843a25.rlib' --extern 'sysinfo=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libsysinfo-453bc2c56e4fcef6.rlib' --extern 'tempfile=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libtempfile-4fd7dd27c3c31eee.rlib' --extern 'thiserror=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libthiserror-22c3be82d2831aa8.rlib' --extern 'viola_channel=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libviola_channel-dbd37a1b64935376.rlib' --extern 'viola_core=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libviola_core-a756d0cd5b78a266.rlib' --extern 'viola_e2e=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libviola_e2e-9a89c2c21a665f4a.rlib' --extern 'viola_pty=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libviola_pty-a0b7447e7487fc6a.rlib'` (exit code: 0xc0000142, STATUS_DLL_INIT_FAILED)
+error: could not compile `viola-e2e` (test "zero_retries")
+
+Caused by:
+  process didn't exit successfully: `D:\dev\rust\cargo\bin\cargo-llvm-cov.exe 'D:\dev\rust\rustup\toolchains\1.98.1-x86_64-pc-windows-msvc\bin\rustc.exe' --crate-name zero_retries --edition=2024 'crates\viola-e2e\tests\zero_retries.rs' --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --deny=unused_must_use '--deny=clippy::dbg_macro' --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values("fake-agent"))' -C metadata=2ee7f5698be1e0a4 -C extra-filename=-a8b61a7437fea534 --out-dir 'D:\dev\projects\viola\target\llvm-cov-target\debug\deps' -C 'incremental=D:\dev\projects\viola\target\llvm-cov-target\debug\incremental' -L 'dependency=D:\dev\projects\viola\target\llvm-cov-target\debug\deps' --extern 'clap=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libclap-afeed656c95631a7.rlib' --extern 'jsonschema=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libjsonschema-33569956d5cf6467.rlib' --extern 'proc_macro2=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libproc_macro2-ff309384b46f2c97.rlib' --extern 'serde=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libserde-1cea1b01d59e4543.rlib' --extern 'serde_json=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libserde_json-db8bc4959e209caa.rlib' --extern 'syn=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libsyn-8eb3859ce3843a25.rlib' --extern 'sysinfo=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libsysinfo-453bc2c56e4fcef6.rlib' --extern 'tempfile=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libtempfile-4fd7dd27c3c31eee.rlib' --extern 'thiserror=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libthiserror-22c3be82d2831aa8.rlib' --extern 'viola_channel=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libviola_channel-dbd37a1b64935376.rlib' --extern 'viola_core=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libviola_core-a756d0cd5b78a266.rlib' --extern 'viola_e2e=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libviola_e2e-9a89c2c21a665f4a.rlib' --extern 'viola_pty=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libviola_pty-a0b7447e7487fc6a.rlib'` (exit code: 0xc0000142, STATUS_DLL_INIT_FAILED)
+error: linking with `link.exe` failed: exit code: 0xc0000142
+  |
+  = note: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\link.exe" "/NOLOGO" "D:\\dev\\projects\\viola\\target\\llvm-cov-target\\debug\\deps\\rustcuDPKIH\\symbols.o" "<239 object files omitted>" "D:\\dev\\projects\\viola\\target\\llvm-cov-target\\debug\\deps/{libjsonschema-33569956d5cf6467,libregex-9c7875c5a593f523,libjsonschema_regex-07298ba366550cef,libfancy_regex-1837dfc1eeb93b7b,libbit_set-86a2e827e0cd9c9d,libbit_vec-df7d28155da132a4,libregex_automata-dc397f78d82d7c66,libaho_corasick-828acb0de4216f19,libregex_syntax-d847373a77d5ef8f,libuuid_simd-d310bccdc8d56bc7,liboutref-2ded20e015c5988c,libvsimd-031e3ca928190470,libunicode_general_category-73bceb155b39249f,libemail_address-e4acce4cfc1c4f75,libdata_encoding-1889c71738f85665,libstrum-09f52bca4b4ad24e,libreferencing-b3761a309653fc30,libmicromap-321f139771b943d4,libpercent_encoding-c95f8ba67fbc3d93,libparking_lot-6bbe76c6bd1a39ef,libparking_lot_core-dccaf6440c4e04a6,libsmallvec-cb4676707768fb85,liblock_api-aabca05385a81b91,libscopeguard-9676f3a15593b57d,libfluent_uri-d4e7ac4c5cbcccf7,libborrow_or_share-002d7f5d73905cf7,libref_cast-856a9ae1506f1038,libjsonschema_value-0ffd63c285d8fb0b,libbytecount-1060e2a2b75d6305,libfraction-dd4633c9ace092fe,libnum-1a9981fa602b0a5b,libnum_iter-20d6f6d962933e0c,libnum_rational-2459046cdd0b5e9c,libnum_complex-bbf28112bfea61b0,libnum_bigint-2d13410dbb231644,libnum_integer-79b1220c7c4dfb60,libnum_traits-592b7bbed5c462f8,libnum_cmp-b08e1e71ec02093d,libahash-0ce2345e44652a6c,libgetrandom-0219bd3058f1538e,libzerocopy-bfbffb1dc3001375,libviola_channel-dbd37a1b64935376,libveil-b931f09feb0a5f40,libinterprocess-57e8788d96fc3f10,librecvmsg-f1c79c490b069d34,libwidestring-0983d3a11efb8560,libtempfile-4fd7dd27c3c31eee,libgetrandom-90af86e7a7ef5bc5,libcfg_if-9e0e1ebe0465657b,libfastrand-b2d335aed0bf022b,libthiserror-22c3be82d2831aa8}.rlib" "<sysroot>\\lib\\rustlib\\x86_64-pc-windows-msvc\\lib/{libtest-*,libgetopts-*,librustc_std_workspace_std-*}.rlib" "D:\\dev\\projects\\viola\\target\\llvm-cov-target\\debug\\deps/{libsysinfo-453bc2c56e4fcef6,libntapi-fff960a8becc487d,libwindows-82aae29f8930d896,libwindows_core-4600c88bfb7b11c6,libwindows_strings-32c730d1db7e5ad3,libwindows_result-ca4f5f9fc2914b52,libviola_pty-a0b7447e7487fc6a,libtracing-be718ef06bbe5866,libpin_project_lite-0322403ad7038c93,libtracing_core-ac24225d4cbd6464,libonce_cell-a370ef70151a782e,libwindows_sys-9c3c03b8a78dc29e,libwindows_link-7a8a0afead3b0c82,libportable_pty-1b018cc5ddf40735,libshell_words-cb03a81fa6a3ae0a,liblog-3386d069fcf78819,libserial-9162e8f31eebe60c,libserial_windows-c1c43cdefa937a1c,libserial_core-14c2e277963eeedd,libshared_library-d6a7d65c473dbc11,liblazy_static-f5ce520619b7341f,libfiledescriptor-6f38eb141b97c89b,liblibc-a57dd6a0bf711b37,libthiserror-4cd9412195975ae5,libwinreg-0cbf79fab705cd4f,libwinapi-bc872670b2265669,libdowncast_rs-6f01e030b4c72ed8,libanyhow-a00cfbe1b3746a87,libsyn-8eb3859ce3843a25,libquote-c4b28e974ac3630a,libproc_macro2-ff309384b46f2c97,libunicode_ident-9c8040fb8dc47209}.rlib" "<sysroot>\\lib\\rustlib\\x86_64-pc-windows-msvc\\lib/{libproc_macro-*,librustc_literal_escaper-*}.rlib" "D:\\dev\\projects\\viola\\target\\llvm-cov-target\\debug\\deps/libviola_core-a756d0cd5b78a266.rlib" "<sysroot>\\lib\\rustlib\\x86_64-pc-windows-msvc\\lib/libprofiler_builtins-*.rlib" "D:\\dev\\projects\\viola\\target\\llvm-cov-target\\debug\\deps/{libnutype-0c90f718677c848d,libserde_json-db8bc4959e209caa,libmemchr-99b291cbb84a2499,libzmij-d03a7e6b8d728323,libitoa-dbb0a97f4f35ec31,libindexmap-5260c0b59b820434,libhashbrown-9fbee43bdd47c933,libequivalent-24fa4381730418e2,libfoldhash-3a5d74184bd74903,liballocator_api2-381ba9bb63ce6761,libserde-1cea1b01d59e4543,libserde_core-d032c7c0931344b4}.rlib" "<sysroot>\\lib\\rustlib\\x86_64-pc-windows-msvc\\lib/{libstd-*,libpanic_unwind-*,libcfg_if-*,libwindows_link-*,librustc_demangle-*,libstd_detect-*,libhashbrown-*,librustc_std_workspace_alloc-*,libunwind-*,librustc_std_workspace_core-*,liballoc-*,libcore-*,libcompiler_builtins-*}.rlib" "kernel32.lib" "ntdll.lib" "legacy_stdio_definitions.lib" "advapi32.lib" "cfgmgr32.lib" "credui.lib" "gdi32.lib" "kernel32.lib" "msimg32.lib" "opengl32.lib" "secur32.lib" "synchronization.lib" "user32.lib" "winspool.lib" "ws2_32.lib" "kernel32.lib" "kernel32.lib" "kernel32.lib" "ntdll.lib" "userenv.lib" "ws2_32.lib" "dbghelp.lib" "/defaultlib:msvcrt" "/NXCOMPAT" "/OUT:D:\\dev\\projects\\viola\\target\\llvm-cov-target\\debug\\deps\\viola_e2e-4dbbe4bbfa892a0f.exe" "/OPT:REF,NOICF" "/DEBUG" "/PDBALTPATH:%_PDB%" "/NATVIS:<sysroot>\\lib\\rustlib\\etc\\intrinsic.natvis" "/NATVIS:<sysroot>\\lib\\rustlib\\etc\\liballoc.natvis" "/NATVIS:<sysroot>\\lib\\rustlib\\etc\\libcore.natvis" "/NATVIS:<sysroot>\\lib\\rustlib\\etc\\libstd.natvis" "/NATVIS:D:\\dev\\projects\\viola\\target\\llvm-cov-target\\debug\\deps\\rustcuDPKIH\\viola_e2e-0.natvis" "/NATVIS:D:\\dev\\projects\\viola\\target\\llvm-cov-target\\debug\\deps\\rustcuDPKIH\\viola_e2e-1.natvis" "/NATVIS:D:\\dev\\projects\\viola\\target\\llvm-cov-target\\debug\\deps\\rustcuDPKIH\\viola_e2e-2.natvis"
+  = note: some arguments are omitted. use `--verbose` to show all linker arguments
+  = note: 
+
+note: `link.exe` returned an unexpected error
+
+note: the Visual Studio build tools may need to be repaired using the Visual Studio installer
+
+note: or a necessary component may be missing from the "C++ build tools" workload
+
+error: process didn't exit successfully: `'D:\dev\rust\rustup\toolchains\1.98.1-x86_64-pc-windows-msvc\bin\rustc.exe' --crate-name viola_e2e --edition=2024 'crates\viola-e2e\src\lib.rs' --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --deny=unused_must_use '--deny=clippy::dbg_macro' --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values("fake-agent"))' -C metadata=ec8c9d0e177c05f5 -C extra-filename=-4dbbe4bbfa892a0f --out-dir 'D:\dev\projects\viola\target\llvm-cov-target\debug\deps' -C 'incremental=D:\dev\projects\viola\target\llvm-cov-target\debug\incremental' -L 'dependency=D:\dev\projects\viola\target\llvm-cov-target\debug\deps' --extern 'clap=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libclap-afeed656c95631a7.rlib' --extern 'jsonschema=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libjsonschema-33569956d5cf6467.rlib' --extern 'proc_macro2=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libproc_macro2-ff309384b46f2c97.rlib' --extern 'serde=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libserde-1cea1b01d59e4543.rlib' --extern 'serde_json=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libserde_json-db8bc4959e209caa.rlib' --extern 'syn=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libsyn-8eb3859ce3843a25.rlib' --extern 'sysinfo=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libsysinfo-453bc2c56e4fcef6.rlib' --extern 'tempfile=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libtempfile-4fd7dd27c3c31eee.rlib' --extern 'thiserror=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libthiserror-22c3be82d2831aa8.rlib' --extern 'viola_channel=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libviola_channel-dbd37a1b64935376.rlib' --extern 'viola_core=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libviola_core-a756d0cd5b78a266.rlib' --extern 'viola_pty=D:\dev\projects\viola\target\llvm-cov-target\debug\deps\libviola_pty-a0b7447e7487fc6a.rlib' -C instrument-coverage --cfg=coverage` (exit code: 1)
+error: could not compile `viola-e2e` (lib test) due to 1 previous error
+error: command `'D:\dev\rust\rustup\toolchains\1.98.1-x86_64-pc-windows-msvc\bin\cargo.exe' '--color=auto' test --manifest-path 'D:\dev\projects\viola\Cargo.toml' --no-run --message-format json-render-diagnostics --workspace --features viola/fake-agent --target-dir 'D:\dev\projects\viola\target\llvm-cov-target'` exited with code 101
+error: process didn't exit successfully: `'D:\dev\rust\rustup\toolchains\1.98.1-x86_64-pc-windows-msvc\bin\cargo.exe' nextest run --manifest-path 'D:\dev\projects\viola\Cargo.toml' --target-dir 'D:\dev\projects\viola\target\llvm-cov-target' --workspace --features viola/fake-agent --profile ci` (exit code: 101)

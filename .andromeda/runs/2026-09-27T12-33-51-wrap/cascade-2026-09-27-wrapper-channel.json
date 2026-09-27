@@ -1,0 +1,251 @@
+[
+{
+"tool": "cascade",
+"v": "1.0",
+"sha8": "6eb0f76e",
+"ts": "2026-09-27T12:50:46Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-09-27T12-33-51-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-09-27T12-33-51-wrap",
+"--marker",
+"2026-09-27-wrapper-channel"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 2,
+"stdout": [],
+"stderr": "[[pattern]] #1 (mode-0600-mechanism): `id` is 1-16 chars of A-Z a-z 0-9 _ . -",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.0",
+"sha8": "6eb0f76e",
+"ts": "2026-09-27T12:51:08Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-09-27T12-33-51-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-09-27T12-33-51-wrap",
+"--marker",
+"2026-09-27-wrapper-channel"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"baseline 17c99c9c (pre-CI parent — the oldest of 1 pre-CI commit(s), 3fca0ac3)",
+"mode0600 · new 2 · standing 4 · leaf 4 · curation 0 · base 0 · control security-plan.md:189 (prose)",
+"sddeser · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control security-plan.md:189 (prose)",
+"ga-literal · new 1 · standing 2 · leaf 2 · curation 0 · base 0 · control security-plan.md:202 (prose)",
+"tmpdir-path · new 0 · standing 4 · leaf 0 · curation 0 · base 0 · control architecture.md:335 (prose)",
+"bind-pending · new 1 · standing 0 · leaf 2 · curation 0 · base 0 · control architecture.md:92 (prose)",
+"endpt-gone-null · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control test-plan.md:599 (prose)",
+"next-read-zero · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:938 (p…",
+"fd-premise · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:1202 (prose)",
+"pty-deps · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:96 (prose)",
+"fuzz-targets · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control architecture.md:387 (prose)",
+"member-list · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:353 (p…",
+"tracing-std · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:25 (prose)",
+"corr-optional · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control obs-plan.md:697 (prose)",
+"prepush-stages · new 1 · standing 0 · leaf 1 · curation 0 · base 0 · control test-plan.md:671 (prose)",
+"amend2-pending · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:37…",
+"ipc-notfound · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:595 (pro…",
+"boot-missing · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:523 (pro…",
+"chan-corr-id · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control test-plan.md:702 (prose)",
+".andromeda/security-plan.md:189 mode0600 new …tring` dependency) and `ListenerOptionsExt::mode` (see IPC access control…",
+".andromeda/security-plan.md:203 mode0600 standing edited … on every Unix OS. `ListenerOptionsExt::mode(0o600)` is not u…",
+".andromeda/security-plan.md:207 mode0600 standing @c130/5282 … `OpenOptionsExt::mode(0o600)`, except the pinned `bin/<v…",
+".andromeda/security-plan.md:498 mode0600 new …red. NEVER set it with `ListenerOptionsExt::mode`: it returns `Unsupporte…",
+".andromeda/security-plan.md:594 mode0600 standing …the primary control, `mode(0o600)` as secondary, and a `peer_creds` …",
+".andromeda/obs-plan.md:583 mode0600 standing @c1475/2057 …nd `OpenOptionsExt::mode(0o600)` on Unix. If the open fails, …",
+".claude/rules/security.md:13 mode0600 leaf …er abstract namespace, `mode(0o600)` as a secondary control only, `peer_cre…",
+".claude/docs/security-summary.md:14 mode0600 leaf …x 0700 per-user socket dir + `mode(0o600)` + `peer_creds` euid check.",
+".claude/docs/services/viola-channel.md:22 mode0600 leaf …nd before connect; `mode(0o600)` secondary; `peer_creds` euid …",
+".claude/docs/services/viola-state.md:20 mode0600 leaf …ith `OpenOptionsExt::mode(0o600)`, dirs 0700; the pinned `bin/<v…",
+".andromeda/security-plan.md:189 sddeser new …Not used: interprocess `SecurityDescriptor::deserialize` (it needs a `wide…",
+".andromeda/security-plan.md:202 ga-literal new ×2 …t protected DACL, `D:P(A;;GA;;;<user-SID>)(A;;GA;;;SY)`: the user SI…",
+".andromeda/test-plan.md:46 ga-literal standing edited ×2 … DACL (set from `D:P(A;;GA;;;<user-SID>)(A;;GA;;;SY)`, read b…",
+".andromeda/test-plan.md:926 ga-literal standing edited ×2 …CL is set from `D:P(A;;GA;;;<user-SID>)(A;;GA;;;SY)` and rea…",
+".claude/rules/security.md:12 ga-literal leaf ×2 …cit protected SDDL `D:P(A;;GA;;;<user-SID>)(A;;GA;;;SY)`, `accept_remo…",
+".claude/docs/services/viola-channel.md:22 ga-literal leaf ×2 …rotected SDDL `D:P(A;;GA;;;<user-SID>)(A;;GA;;;SY)`, `acc…",
+".andromeda/security-plan.md:57 tmpdir-path standing …ndows, socket file `$TMPDIR/viola-<h12>.sock` (else `/tmp`) on Uni…",
+".andromeda/security-plan.md:497 tmpdir-path standing …the `$TMPDIR` root (`/tmp/viola-<h12>.sock`). Always use a verifi…",
+".andromeda/security-plan.md:598 tmpdir-path standing …ndpoint moves from `$TMPDIR/viola-<h12>.sock` to `<per-user 0700 …",
+".andromeda/test-plan.md:1709 tmpdir-path standing …viola-<uid>/`), not `$TMPDIR/viola-<h12>.sock` (security IPC access …",
+".andromeda/security-plan.md:376 bind-pending new …he 0600 socket landed with \"Wrapper channel\", ahead of Epoch 6's admi…",
+".claude/rules/verification-harness.md:29 bind-pending leaf …d_pid` (`endpoint` joins with \"Wrapper channel\") and the he…",
+".claude/docs/services/viola.md:20 bind-pending leaf …usive endpoint bind (with \"Wrapper channel\") → first snapshot + he…",
+".andromeda/test-plan.md:599 endpt-gone-null new markup …orce-killed first. `endpoint_gone` is reported from the wrapper…",
+".andromeda/test-plan.md:1203 fd-premise standing edited …s.rs`). A count of \"0/1/2 plus the PTY slave\" does not hold: a…",
+".andromeda/architecture.md:96 pty-deps standing edited …al dependencies are exactly portable-pty, tracing, windows-sys …",
+".andromeda/architecture.md:389 fuzz-targets standing edited …gets/<target>.rs` (today `viola_name` and `channel_frame`)…",
+".andromeda/test-plan.md:434 fuzz-targets standing edited …corpus replay gate: today `viola_name` (the pre-parser seed t…",
+".claude/docs/stack.md:21 tracing-std leaf | Logging | tracing 0.1.44 (default features off, `std`); tracing-subscriber …",
+".andromeda/obs-plan.md:698 corr-optional standing edited ….v1.json` declares `corr` (number | string) and `instance` (s…",
+".andromeda/obs-plan.md:1659 corr-optional standing …1.json` declares both as optional keys and rejects a literal `null`.",
+".andromeda/test-plan.md:671 prepush-stages new …cache`, `linux-tests`, `linux-leg`, `vm-release`, `windows-tests`, `win…",
+".claude/docs/commands.md:33 prepush-stages leaf … cache · linux-tests · linux-leg · windows-leg · union`, fail-fast; ev…",
+".andromeda/obs-plan.md:261 chan-corr-id standing … - `channel-request`, `channel-response`: `corr` = the JSON-RPC reque…",
+".andromeda/a11y-plan.md:221 chan-corr-id standing … - `channel-request`, `channel-response`: `corr` = the JSON-RPC requ…",
+"mode0600 · new 2 · standing 4 · leaf 4 · curation 0 · base 0 · control security-plan.md:189 (prose)",
+"sddeser · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control security-plan.md:189 (prose)",
+"ga-literal · new 1 · standing 2 · leaf 2 · curation 0 · base 0 · control security-plan.md:202 (prose)",
+"tmpdir-path · new 0 · standing 4 · leaf 0 · curation 0 · base 0 · control architecture.md:335 (prose)",
+"bind-pending · new 1 · standing 0 · leaf 2 · curation 0 · base 0 · control architecture.md:92 (prose)",
+"endpt-gone-null · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control test-plan.md:599 (prose)",
+"next-read-zero · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:938 (p…",
+"fd-premise · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:1202 (prose)",
+"pty-deps · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:96 (prose)",
+"fuzz-targets · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control architecture.md:387 (prose)",
+"member-list · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:353 (p…",
+"tracing-std · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:25 (prose)",
+"corr-optional · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control obs-plan.md:697 (prose)",
+"prepush-stages · new 1 · standing 0 · leaf 1 · curation 0 · base 0 · control test-plan.md:671 (prose)",
+"amend2-pending · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:37…",
+"ipc-notfound · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:595 (pro…",
+"boot-missing · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:523 (pro…",
+"chan-corr-id · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control test-plan.md:702 (prose)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "17c99c9cd098256405af2b9312dddbc740fce14b",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), 3fca0ac3",
+"counts": {
+"mode0600": {
+"new": 2,
+"standing": 4,
+"leaf": 4,
+"curation": 0,
+"base": 0
+},
+"sddeser": {
+"new": 1,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"ga-literal": {
+"new": 1,
+"standing": 2,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"tmpdir-path": {
+"new": 0,
+"standing": 4,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"bind-pending": {
+"new": 1,
+"standing": 0,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"endpt-gone-null": {
+"new": 1,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"next-read-zero": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"fd-premise": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"pty-deps": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"fuzz-targets": {
+"new": 0,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"member-list": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"tracing-std": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"corr-optional": {
+"new": 0,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"prepush-stages": {
+"new": 1,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"amend2-pending": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"ipc-notfound": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"boot-missing": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"chan-corr-id": {
+"new": 0,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]
