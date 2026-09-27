@@ -10,6 +10,8 @@ publish.workspace = true
 # No code behind it: it exists so that a `--features fake-agent` build scoped to this package
 # (cargo-mutants) resolves.
 fake-agent = []
+# The shared test helpers (`test_support`); enabled only by the root package's `[dev-dependencies]`.
+test-support = []
 
 [dependencies]
 viola-core = { path = "../viola-core" }

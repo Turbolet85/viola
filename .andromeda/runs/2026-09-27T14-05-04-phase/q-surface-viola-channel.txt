@@ -1,0 +1,114 @@
+[
+  {
+    "callee_name": "Server",
+    "callee_kind": "type",
+    "callee_file": "crates/viola-channel/src/server.rs",
+    "sites": 13,
+    "files": 5
+  },
+  {
+    "callee_name": "ProtocolError",
+    "callee_kind": "type",
+    "callee_file": "crates/viola-channel/src/lib.rs",
+    "sites": 10,
+    "files": 3
+  },
+  {
+    "callee_name": "bind",
+    "callee_kind": "fn",
+    "callee_file": "crates/viola-channel/src/server.rs",
+    "sites": 9,
+    "files": 5
+  },
+  {
+    "callee_name": "Client",
+    "callee_kind": "type",
+    "callee_file": "crates/viola-channel/src/client.rs",
+    "sites": 7,
+    "files": 3
+  },
+  {
+    "callee_name": "Dispatch",
+    "callee_kind": "type",
+    "callee_file": "crates/viola-channel/src/server.rs",
+    "sites": 6,
+    "files": 3
+  },
+  {
+    "callee_name": "ChannelError",
+    "callee_kind": "type",
+    "callee_file": "crates/viola-channel/src/lib.rs",
+    "sites": 5,
+    "files": 3
+  },
+  {
+    "callee_name": "connect",
+    "callee_kind": "fn",
+    "callee_file": "crates/viola-channel/src/client.rs",
+    "sites": 5,
+    "files": 3
+  },
+  {
+    "callee_name": "MethodNotFound",
+    "callee_kind": "type",
+    "callee_file": "crates/viola-channel/src/lib.rs",
+    "sites": 4,
+    "files": 3
+  },
+  {
+    "callee_name": "Serving",
+    "callee_kind": "type",
+    "callee_file": "crates/viola-channel/src/server.rs",
+    "sites": 4,
+    "files": 2
+  },
+  {
+    "callee_name": "request",
+    "callee_kind": "fn",
+    "callee_file": "crates/viola-channel/src/client.rs",
+    "sites": 4,
+    "files": 2
+  },
+  {
+    "callee_name": "serve",
+    "callee_kind": "fn",
+    "callee_file": "crates/viola-channel/src/server.rs",
+    "sites": 4,
+    "files": 3
+  },
+  {
+    "callee_name": "BindTaken",
+    "callee_kind": "type",
+    "callee_file": "crates/viola-channel/src/lib.rs",
+    "sites": 2,
+    "files": 2
+  },
+  {
+    "callee_name": "ENDPOINT_KIND",
+    "callee_kind": "term",
+    "callee_file": "crates/viola-channel/src/endpoint.rs",
+    "sites": 2,
+    "files": 2
+  },
+  {
+    "callee_name": "endpoint_path",
+    "callee_kind": "fn",
+    "callee_file": "crates/viola-channel/src/endpoint.rs",
+    "sites": 2,
+    "files": 2
+  },
+  {
+    "callee_name": "Connect",
+    "callee_kind": "type",
+    "callee_file": "crates/viola-channel/src/lib.rs",
+    "sites": 1,
+    "files": 1
+  },
+  {
+    "callee_name": "conn",
+    "callee_kind": "fn",
+    "callee_file": "crates/viola-channel/src/client.rs",
+    "sites": 1,
+    "files": 1
+  }
+]

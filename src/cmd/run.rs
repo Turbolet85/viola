@@ -357,32 +357,16 @@ fn refuse_squatted(name: &ViolaName) {
 mod tests {
     use super::*;
     use std::sync::Mutex;
-    use tracing::field::{Field, Visit};
     use tracing::span::{Attributes, Id, Record};
     use tracing_subscriber::layer::{Context, Layer, SubscriberExt as _};
     use tracing_subscriber::registry::LookupSpan;
+    use viola_channel::test_support::JsonFields as Fields;
     use viola_pty::Pty as _;
 
     /// Every span the calling thread opens, in order: `{name, parent, fields}`, with values
     /// recorded after creation merged in.
     #[derive(Clone, Default)]
     struct Spans(Arc<Mutex<Vec<(u64, Value)>>>);
-
-    #[derive(Default)]
-    struct Fields(serde_json::Map<String, Value>);
-
-    impl Visit for Fields {
-        fn record_debug(&mut self, field: &Field, value: &dyn std::fmt::Debug) {
-            self.0
-                .insert(field.name().to_owned(), format!("{value:?}").into());
-        }
-        fn record_str(&mut self, field: &Field, value: &str) {
-            self.0.insert(field.name().to_owned(), value.into());
-        }
-        fn record_u64(&mut self, field: &Field, value: u64) {
-            self.0.insert(field.name().to_owned(), value.into());
-        }
-    }
 
     impl<S: tracing::Subscriber + for<'a> LookupSpan<'a>> Layer<S> for Spans {
         fn on_new_span(&self, attrs: &Attributes<'_>, id: &Id, ctx: Context<'_, S>) {

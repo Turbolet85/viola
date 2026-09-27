@@ -38,6 +38,49 @@ fn record(ws: &Workspace, session: &str) -> SessionRecord {
     read_json(&ws.session_dir(session).join("session.json")).expect("session record")
 }
 
+/// The root fixture chain's `keep_decision` without `AGENT_RUN_KEEP_HOMES`: only a failing test
+/// under `AGENT_RUN_KEEP_FAILED=1` keeps its home, for the post-mortem.
+fn keep_home(keep_failed: bool, panicking: bool) -> bool {
+    keep_failed && panicking
+}
+
+/// A booted session, stopped when dropped even after a failed assertion (a leaked supervisor
+/// locks its `.exe`); its home goes then too unless `keep_home` says otherwise.
+struct Booted {
+    ws: Workspace,
+    session: String,
+    home_parent: std::path::PathBuf,
+}
+
+impl Booted {
+    fn new(ws: &Workspace, session: &str) -> Self {
+        let home = record(ws, session).home;
+        Self {
+            ws: ws.clone(),
+            session: session.to_owned(),
+            home_parent: home.parent().expect("parent").to_path_buf(),
+        }
+    }
+}
+
+impl Drop for Booted {
+    fn drop(&mut self) {
+        let _ = cleanup(&self.ws, Target::Session(&self.session), true);
+        let keep_failed = std::env::var("AGENT_RUN_KEEP_FAILED").is_ok_and(|v| v == "1");
+        if !keep_home(keep_failed, std::thread::panicking()) {
+            let _ = std::fs::remove_dir_all(&self.home_parent);
+        }
+    }
+}
+
+#[test]
+fn keep_home_is_a_failed_test_under_keep_failed_only() {
+    assert!(keep_home(true, true));
+    assert!(!keep_home(true, false));
+    assert!(!keep_home(false, true));
+    assert!(!keep_home(false, false));
+}
+
 #[test]
 fn harness_session_boots_reports_logs_and_tears_down() {
     let session = session_id("main");
@@ -46,6 +89,7 @@ fn harness_session_boots_reports_logs_and_tears_down() {
 
     let booted = boot(&opts);
     assert_eq!(booted.code, 0, "{}", booted.doc);
+    let guard = Booted::new(&ws, &session);
     assert_eq!(booted.doc["cmd"], "boot");
     assert_eq!(booted.doc["instances"].as_array().map(Vec::len), Some(2));
 
@@ -73,22 +117,24 @@ fn harness_session_boots_reports_logs_and_tears_down() {
     let home_parent = rec.home.parent().expect("parent").to_path_buf();
     assert!(home_parent.starts_with(ws.e2e_home()));
 
-    let first = cleanup(&ws, Target::Session(&session), false);
+    let first = cleanup(&ws, Target::Session(&session), true);
     assert_eq!(first.code, 0, "{}", first.doc);
     assert_eq!(first.doc["processes_gone"], true);
-    assert_eq!(first.doc["home_removed"], true);
+    assert_eq!(first.doc["home_removed"], "kept");
     assert_eq!(first.doc["killed"], serde_json::json!([]));
     assert_eq!(first.doc["endpoint_gone"], true);
-    assert!(!home_parent.exists());
+    assert!(home_parent.exists(), "kept for the guard");
     for inst in &rec.instances {
         assert!(!inst.wrapper().alive());
         assert!(!inst.child().alive());
     }
     assert!(!rec.supervisor().alive());
 
-    let second = cleanup(&ws, Target::Session(&session), false);
+    let second = cleanup(&ws, Target::Session(&session), true);
     assert_eq!(second.code, 0);
     assert_eq!(second.doc["cleaned"], serde_json::json!([]));
+    drop(guard);
+    assert!(!home_parent.exists(), "a passing test's home is removed");
 }
 
 #[test]
@@ -98,6 +144,7 @@ fn harness_session_with_a_dead_wrapper_reads_degraded() {
     let ws = opts.ws.clone();
     let booted = boot(&opts);
     assert_eq!(booted.code, 0, "{}", booted.doc);
+    let _guard = Booted::new(&ws, &session);
 
     let rec = record(&ws, &session);
     let child = rec.instances[0].child();
@@ -114,7 +161,7 @@ fn harness_session_with_a_dead_wrapper_reads_degraded() {
     assert_eq!(st.doc["state"], "degraded");
     assert_eq!(st.doc["instances"][0]["alive"], false);
 
-    let out = cleanup(&ws, Target::Session(&session), false);
+    let out = cleanup(&ws, Target::Session(&session), true);
     assert_eq!(out.code, 0, "{}", out.doc);
 }
 
@@ -127,6 +174,7 @@ fn cleanup_force_kills_a_recorded_process_that_outlives_the_stop() {
     let ws = opts.ws.clone();
     let booted = boot(&opts);
     assert_eq!(booted.code, 0, "{}", booted.doc);
+    let _guard = Booted::new(&ws, &session);
 
     let mut stray = std::process::Command::new(exe(&bins(), "viola-fake-agent"))
         .stdin(std::process::Stdio::piped())
@@ -138,7 +186,7 @@ fn cleanup_force_kills_a_recorded_process_that_outlives_the_stop() {
     rec.instances[0].child_started_at = stray_id.started_at;
     write_json(&ws.session_dir(&session).join("session.json"), &rec).expect("rewrite");
 
-    let out = cleanup(&ws, Target::Session(&session), false);
+    let out = cleanup(&ws, Target::Session(&session), true);
     let _ = stray.wait();
     assert_eq!(out.code, 0, "{}", out.doc);
     assert_eq!(out.doc["killed"], serde_json::json!(["builder"]));

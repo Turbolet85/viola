@@ -10,11 +10,20 @@ if ! jq --version >/dev/null 2>&1; then
   exit 1
 fi
 
-# Reads cargo --message-format=json lines on stdin; passes only when `viola` is the sole executable.
+# Reads cargo --message-format=json lines on stdin; passes only when `viola` is the sole executable and no
+# artifact was built with a test-only feature (`test-support` carries test helpers, `fake-agent` the fake).
 judge() {
-  local names name
+  local input names name featured
+  input=$(cat)
   # Native jq on Windows writes CRLF, which would make every name differ from "viola".
-  names=$(jq -r 'select(.reason == "compiler-artifact" and .executable != null) | .target.name' | tr -d '\r')
+  featured=$(printf '%s\n' "$input" | jq -r 'select(.reason == "compiler-artifact")
+    | .target.name as $t | (.features // [])[] | select(. == "test-support" or . == "fake-agent")
+    | "\(.) in \($t)"' | tr -d '\r')
+  if [ -n "$featured" ]; then
+    echo "release-check: FAILED — test-only feature $(head -n 1 <<< "$featured")"
+    return 1
+  fi
+  names=$(printf '%s\n' "$input" | jq -r 'select(.reason == "compiler-artifact" and .executable != null) | .target.name' | tr -d '\r')
   if [ -z "$names" ]; then
     echo "release-check: FAILED — no executable in the build output"
     return 1
@@ -33,6 +42,8 @@ record() {
 }
 
 lib_record='{"reason":"compiler-artifact","target":{"name":"viola_core","kind":["lib"]},"executable":null}'
+support_record='{"reason":"compiler-artifact","target":{"name":"viola_channel","kind":["lib"]},"features":["test-support"],"executable":null}'
+fake_record='{"reason":"compiler-artifact","target":{"name":"viola","kind":["bin"]},"features":["fake-agent"],"executable":"/probe/viola"}'
 finished='{"reason":"build-finished","success":true}'
 
 # id | expected verdict line | input stream
@@ -48,12 +59,16 @@ refused_by() {
 }
 
 probe() {
-  local total=3 refused=0 control_ok=1 out rc=0
+  local total=5 refused=0 control_ok=1 out rc=0
   refused_by viola-harness "release-check: FAILED — test-only binary viola-harness" \
     "$(record viola)"$'\n'"$(record viola-harness)"$'\n'"$finished"$'\n' && refused=$((refused + 1))
   refused_by viola-fake-agent "release-check: FAILED — test-only binary viola-fake-agent" \
     "$lib_record"$'\n'"$(record viola)"$'\n'"$(record viola-fake-agent)"$'\n' && refused=$((refused + 1))
   refused_by empty "release-check: FAILED — no executable in the build output" "" && refused=$((refused + 1))
+  refused_by test-support "release-check: FAILED — test-only feature test-support in viola_channel" \
+    "$support_record"$'\n'"$(record viola)"$'\n'"$finished"$'\n' && refused=$((refused + 1))
+  refused_by fake-agent "release-check: FAILED — test-only feature fake-agent in viola" \
+    "$lib_record"$'\n'"$fake_record"$'\n'"$finished"$'\n' && refused=$((refused + 1))
 
   out=$(printf '%s' "$lib_record"$'\n'"$(record viola)"$'\n'"$finished"$'\n' | judge) || rc=$?
   if [ "$rc" -ne 0 ] || [ "$out" != "release-check: viola only" ]; then

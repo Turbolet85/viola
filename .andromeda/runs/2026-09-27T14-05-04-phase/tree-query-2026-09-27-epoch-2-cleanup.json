@@ -1,0 +1,375 @@
+[
+{
+"sql": "SELECT callee_name, callee_kind, callee_file, COUNT(*) AS sites, COUNT(DISTINCT file) AS files FROM refs WHERE callee_crate = 'viola-pty' AND callee_file LIKE '%/src/%' AND file NOT LIKE regexp_replace(callee_file, '/src/.*$', '/src/%') AND callee_kind <> 'module' GROUP BY 1, 2, 3 ORDER BY sites DESC, callee_name",
+"rows": 35,
+"result": [
+{
+"callee_name": "Size",
+"callee_kind": "type",
+"callee_file": "crates/viola-pty/src/lib.rs",
+"sites": 20,
+"files": 6
+},
+{
+"callee_name": "PortablePty",
+"callee_kind": "type",
+"callee_file": "crates/viola-pty/src/lib.rs",
+"sites": 9,
+"files": 3
+},
+{
+"callee_name": "SpawnSpec",
+"callee_kind": "type",
+"callee_file": "crates/viola-pty/src/lib.rs",
+"sites": 6,
+"files": 3
+},
+{
+"callee_name": "cols",
+"callee_kind": "term",
+"callee_file": "crates/viola-pty/src/lib.rs",
+"sites": 6,
+"files": 4
+},
+{
+"callee_name": "rows",
+"callee_kind": "term",
+"callee_file": "crates/viola-pty/src/lib.rs",
+"sites": 6,
+"files": 4
+},
+{
+"callee_name": "HostTerminal",
+"callee_kind": "type",
+"callee_file": "crates/viola-pty/src/lib.rs",
+"sites": 5,
+"files": 2
+},
+{
+"callee_name": "DEFAULT",
+"callee_kind": "term",
+"callee_file": "crates/viola-pty/src/lib.rs",
+"sites": 4,
+"files": 4
+},
+{
+"callee_name": "Pty",
+"callee_kind": "type",
+"callee_file": "crates/viola-pty/src/lib.rs",
+"sites": 4,
+"files": 3
+},
+{
+"callee_name": "PtyError",
+"callee_kind": "type",
+"callee_file": "crates/viola-pty/src/lib.rs",
+"sites": 4,
+"files": 1
+},
+{
+"callee_name": "close",
+"callee_kind": "fn",
+"callee_file": "crates/viola-pty/src/lib.rs",
+"sites": 4,
+"files": 2
+},
+{
+"callee_name": "size",
+"callee_kind": "term",
+"callee_file": "crates/viola-pty/src/lib.rs",
+"sites": 4,
+"files": 3
+},
+{
+"callee_name": "try_wait",
+"callee_kind": "fn",
+"callee_file": "crates/viola-pty/src/lib.rs",
+"sites": 4,
+"files": 2
+},
+{
+"callee_name": "PumpEnd",
+"callee_kind": "type",
+"callee_file": "crates/viola-pty/src/lib.rs",
+"sites": 3,
+"files": 1
+},
+{
+"callee_name": "args",
+"callee_kind": "term",
+"callee_file": "crates/viola-pty/src/lib.rs",
+"sites": 3,
+"files": 3
+},
+{
+"callee_name": "cwd",
+"callee_kind": "term",
+"callee_file": "crates/viola-pty/src/lib.rs",
+"sites": 3,
+"files": 3
+},
+{
+"callee_name": "env_remove",
+"callee_kind": "term",
+"callee_file": "crates/viola-pty/src/lib.rs",
+"sites": 3,
+"files": 3
+},
+{
+"callee_name": "env_set",
+"callee_kind": "term",
+"callee_file": "crates/viola-pty/src/lib.rs",
+"sites": 3,
+"files": 3
+},
+{
+"callee_name": "host_size",
+"callee_kind": "fn",
+"callee_file": "crates/viola-pty/src/lib.rs",
+"sites": 3,
+"files": 2
+},
+{
+"callee_name": "kill",
+"callee_kind": "fn",
+"callee_file": "crates/viola-pty/src/lib.rs",
+"sites": 3,
+"files": 3
+},
+{
+"callee_name": "program",
+"callee_kind": "term",
+"callee_file": "crates/viola-pty/src/lib.rs",
+"sites": 3,
+"files": 3
+},
+{
+"callee_name": "spawn",
+"callee_kind": "fn",
+"callee_file": "crates/viola-pty/src/lib.rs",
+"sites": 3,
+"files": 3
+},
+{
+"callee_name": "Exit",
+"callee_kind": "type",
+"callee_file": "crates/viola-pty/src/lib.rs",
+"sites": 2,
+"files": 1
+},
+{
+"callee_name": "PTY_BACKEND",
+"callee_kind": "term",
+"callee_file": "crates/viola-pty/src/lib.rs",
+"sites": 2,
+"files": 2
+},
+{
+"callee_name": "enter",
+"callee_kind": "fn",
+"callee_file": "crates/viola-pty/src/lib.rs",
+"sites": 2,
+"files": 2
+},
+{
+"callee_name": "reader",
+"callee_kind": "fn",
+"callee_file": "crates/viola-pty/src/lib.rs",
+"sites": 2,
+"files": 2
+},
+{
+"callee_name": "resize",
+"callee_kind": "fn",
+"callee_file": "crates/viola-pty/src/lib.rs",
+"sites": 2,
+"files": 2
+},
+{
+"callee_name": "writer",
+"callee_kind": "fn",
+"callee_file": "crates/viola-pty/src/lib.rs",
+"sites": 2,
+"files": 2
+},
+{
+"callee_name": "Exited",
+"callee_kind": "type",
+"callee_file": "crates/viola-pty/src/lib.rs",
+"sites": 1,
+"files": 1
+},
+{
+"callee_name": "Wait",
+"callee_kind": "type",
+"callee_file": "crates/viola-pty/src/lib.rs",
+"sites": 1,
+"files": 1
+},
+{
+"callee_name": "WorkerPanicked",
+"callee_kind": "type",
+"callee_file": "crates/viola-pty/src/lib.rs",
+"sites": 1,
+"files": 1
+},
+{
+"callee_name": "as_str",
+"callee_kind": "fn",
+"callee_file": "crates/viola-pty/src/lib.rs",
+"sites": 1,
+"files": 1
+},
+{
+"callee_name": "child_pid",
+"callee_kind": "fn",
+"callee_file": "crates/viola-pty/src/lib.rs",
+"sites": 1,
+"files": 1
+},
+{
+"callee_name": "code",
+"callee_kind": "term",
+"callee_file": "crates/viola-pty/src/lib.rs",
+"sites": 1,
+"files": 1
+},
+{
+"callee_name": "pump",
+"callee_kind": "fn",
+"callee_file": "crates/viola-pty/src/lib.rs",
+"sites": 1,
+"files": 1
+},
+{
+"callee_name": "source",
+"callee_kind": "term",
+"callee_file": "crates/viola-pty/src/lib.rs",
+"sites": 1,
+"files": 1
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT callee_name, callee_kind, callee_file, COUNT(*) AS sites, COUNT(DISTINCT file) AS files FROM refs WHERE callee_crate = 'viola-channel' AND callee_file LIKE '%/src/%' AND file NOT LIKE regexp_replace(callee_file, '/src/.*$', '/src/%') AND callee_kind <> 'module' GROUP BY 1, 2, 3 ORDER BY sites DESC, callee_name",
+"rows": 16,
+"result": [
+{
+"callee_name": "Server",
+"callee_kind": "type",
+"callee_file": "crates/viola-channel/src/server.rs",
+"sites": 13,
+"files": 5
+},
+{
+"callee_name": "ProtocolError",
+"callee_kind": "type",
+"callee_file": "crates/viola-channel/src/lib.rs",
+"sites": 10,
+"files": 3
+},
+{
+"callee_name": "bind",
+"callee_kind": "fn",
+"callee_file": "crates/viola-channel/src/server.rs",
+"sites": 9,
+"files": 5
+},
+{
+"callee_name": "Client",
+"callee_kind": "type",
+"callee_file": "crates/viola-channel/src/client.rs",
+"sites": 7,
+"files": 3
+},
+{
+"callee_name": "Dispatch",
+"callee_kind": "type",
+"callee_file": "crates/viola-channel/src/server.rs",
+"sites": 6,
+"files": 3
+},
+{
+"callee_name": "ChannelError",
+"callee_kind": "type",
+"callee_file": "crates/viola-channel/src/lib.rs",
+"sites": 5,
+"files": 3
+},
+{
+"callee_name": "connect",
+"callee_kind": "fn",
+"callee_file": "crates/viola-channel/src/client.rs",
+"sites": 5,
+"files": 3
+},
+{
+"callee_name": "MethodNotFound",
+"callee_kind": "type",
+"callee_file": "crates/viola-channel/src/lib.rs",
+"sites": 4,
+"files": 3
+},
+{
+"callee_name": "Serving",
+"callee_kind": "type",
+"callee_file": "crates/viola-channel/src/server.rs",
+"sites": 4,
+"files": 2
+},
+{
+"callee_name": "request",
+"callee_kind": "fn",
+"callee_file": "crates/viola-channel/src/client.rs",
+"sites": 4,
+"files": 2
+},
+{
+"callee_name": "serve",
+"callee_kind": "fn",
+"callee_file": "crates/viola-channel/src/server.rs",
+"sites": 4,
+"files": 3
+},
+{
+"callee_name": "BindTaken",
+"callee_kind": "type",
+"callee_file": "crates/viola-channel/src/lib.rs",
+"sites": 2,
+"files": 2
+},
+{
+"callee_name": "ENDPOINT_KIND",
+"callee_kind": "term",
+"callee_file": "crates/viola-channel/src/endpoint.rs",
+"sites": 2,
+"files": 2
+},
+{
+"callee_name": "endpoint_path",
+"callee_kind": "fn",
+"callee_file": "crates/viola-channel/src/endpoint.rs",
+"sites": 2,
+"files": 2
+},
+{
+"callee_name": "Connect",
+"callee_kind": "type",
+"callee_file": "crates/viola-channel/src/lib.rs",
+"sites": 1,
+"files": 1
+},
+{
+"callee_name": "conn",
+"callee_kind": "fn",
+"callee_file": "crates/viola-channel/src/client.rs",
+"sites": 1,
+"files": 1
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

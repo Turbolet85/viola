@@ -30,6 +30,10 @@ sysinfo.workspace = true
 tempfile.workspace = true
 thiserror.workspace = true
 
+# The proc-macro2 pin only enables syn's `span-locations` for `harness::cfg_legs`; no code names it.
+[package.metadata.cargo-machete]
+ignored = ["proc-macro2"]
+
 # viola-harness prints its JSON document by design: no workspace print bans here (obs-plan B5).
 [lints.rust]
 unused_must_use = "deny"

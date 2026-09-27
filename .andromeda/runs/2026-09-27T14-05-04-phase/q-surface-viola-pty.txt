@@ -1,0 +1,247 @@
+[
+  {
+    "callee_name": "Size",
+    "callee_kind": "type",
+    "callee_file": "crates/viola-pty/src/lib.rs",
+    "sites": 20,
+    "files": 6
+  },
+  {
+    "callee_name": "PortablePty",
+    "callee_kind": "type",
+    "callee_file": "crates/viola-pty/src/lib.rs",
+    "sites": 9,
+    "files": 3
+  },
+  {
+    "callee_name": "SpawnSpec",
+    "callee_kind": "type",
+    "callee_file": "crates/viola-pty/src/lib.rs",
+    "sites": 6,
+    "files": 3
+  },
+  {
+    "callee_name": "cols",
+    "callee_kind": "term",
+    "callee_file": "crates/viola-pty/src/lib.rs",
+    "sites": 6,
+    "files": 4
+  },
+  {
+    "callee_name": "rows",
+    "callee_kind": "term",
+    "callee_file": "crates/viola-pty/src/lib.rs",
+    "sites": 6,
+    "files": 4
+  },
+  {
+    "callee_name": "HostTerminal",
+    "callee_kind": "type",
+    "callee_file": "crates/viola-pty/src/lib.rs",
+    "sites": 5,
+    "files": 2
+  },
+  {
+    "callee_name": "DEFAULT",
+    "callee_kind": "term",
+    "callee_file": "crates/viola-pty/src/lib.rs",
+    "sites": 4,
+    "files": 4
+  },
+  {
+    "callee_name": "Pty",
+    "callee_kind": "type",
+    "callee_file": "crates/viola-pty/src/lib.rs",
+    "sites": 4,
+    "files": 3
+  },
+  {
+    "callee_name": "PtyError",
+    "callee_kind": "type",
+    "callee_file": "crates/viola-pty/src/lib.rs",
+    "sites": 4,
+    "files": 1
+  },
+  {
+    "callee_name": "close",
+    "callee_kind": "fn",
+    "callee_file": "crates/viola-pty/src/lib.rs",
+    "sites": 4,
+    "files": 2
+  },
+  {
+    "callee_name": "size",
+    "callee_kind": "term",
+    "callee_file": "crates/viola-pty/src/lib.rs",
+    "sites": 4,
+    "files": 3
+  },
+  {
+    "callee_name": "try_wait",
+    "callee_kind": "fn",
+    "callee_file": "crates/viola-pty/src/lib.rs",
+    "sites": 4,
+    "files": 2
+  },
+  {
+    "callee_name": "PumpEnd",
+    "callee_kind": "type",
+    "callee_file": "crates/viola-pty/src/lib.rs",
+    "sites": 3,
+    "files": 1
+  },
+  {
+    "callee_name": "args",
+    "callee_kind": "term",
+    "callee_file": "crates/viola-pty/src/lib.rs",
+    "sites": 3,
+    "files": 3
+  },
+  {
+    "callee_name": "cwd",
+    "callee_kind": "term",
+    "callee_file": "crates/viola-pty/src/lib.rs",
+    "sites": 3,
+    "files": 3
+  },
+  {
+    "callee_name": "env_remove",
+    "callee_kind": "term",
+    "callee_file": "crates/viola-pty/src/lib.rs",
+    "sites": 3,
+    "files": 3
+  },
+  {
+    "callee_name": "env_set",
+    "callee_kind": "term",
+    "callee_file": "crates/viola-pty/src/lib.rs",
+    "sites": 3,
+    "files": 3
+  },
+  {
+    "callee_name": "host_size",
+    "callee_kind": "fn",
+    "callee_file": "crates/viola-pty/src/lib.rs",
+    "sites": 3,
+    "files": 2
+  },
+  {
+    "callee_name": "kill",
+    "callee_kind": "fn",
+    "callee_file": "crates/viola-pty/src/lib.rs",
+    "sites": 3,
+    "files": 3
+  },
+  {
+    "callee_name": "program",
+    "callee_kind": "term",
+    "callee_file": "crates/viola-pty/src/lib.rs",
+    "sites": 3,
+    "files": 3
+  },
+  {
+    "callee_name": "spawn",
+    "callee_kind": "fn",
+    "callee_file": "crates/viola-pty/src/lib.rs",
+    "sites": 3,
+    "files": 3
+  },
+  {
+    "callee_name": "Exit",
+    "callee_kind": "type",
+    "callee_file": "crates/viola-pty/src/lib.rs",
+    "sites": 2,
+    "files": 1
+  },
+  {
+    "callee_name": "PTY_BACKEND",
+    "callee_kind": "term",
+    "callee_file": "crates/viola-pty/src/lib.rs",
+    "sites": 2,
+    "files": 2
+  },
+  {
+    "callee_name": "enter",
+    "callee_kind": "fn",
+    "callee_file": "crates/viola-pty/src/lib.rs",
+    "sites": 2,
+    "files": 2
+  },
+  {
+    "callee_name": "reader",
+    "callee_kind": "fn",
+    "callee_file": "crates/viola-pty/src/lib.rs",
+    "sites": 2,
+    "files": 2
+  },
+  {
+    "callee_name": "resize",
+    "callee_kind": "fn",
+    "callee_file": "crates/viola-pty/src/lib.rs",
+    "sites": 2,
+    "files": 2
+  },
+  {
+    "callee_name": "writer",
+    "callee_kind": "fn",
+    "callee_file": "crates/viola-pty/src/lib.rs",
+    "sites": 2,
+    "files": 2
+  },
+  {
+    "callee_name": "Exited",
+    "callee_kind": "type",
+    "callee_file": "crates/viola-pty/src/lib.rs",
+    "sites": 1,
+    "files": 1
+  },
+  {
+    "callee_name": "Wait",
+    "callee_kind": "type",
+    "callee_file": "crates/viola-pty/src/lib.rs",
+    "sites": 1,
+    "files": 1
+  },
+  {
+    "callee_name": "WorkerPanicked",
+    "callee_kind": "type",
+    "callee_file": "crates/viola-pty/src/lib.rs",
+    "sites": 1,
+    "files": 1
+  },
+  {
+    "callee_name": "as_str",
+    "callee_kind": "fn",
+    "callee_file": "crates/viola-pty/src/lib.rs",
+    "sites": 1,
+    "files": 1
+  },
+  {
+    "callee_name": "child_pid",
+    "callee_kind": "fn",
+    "callee_file": "crates/viola-pty/src/lib.rs",
+    "sites": 1,
+    "files": 1
+  },
+  {
+    "callee_name": "code",
+    "callee_kind": "term",
+    "callee_file": "crates/viola-pty/src/lib.rs",
+    "sites": 1,
+    "files": 1
+  },
+  {
+    "callee_name": "pump",
+    "callee_kind": "fn",
+    "callee_file": "crates/viola-pty/src/lib.rs",
+    "sites": 1,
+    "files": 1
+  },
+  {
+    "callee_name": "source",
+    "callee_kind": "term",
+    "callee_file": "crates/viola-pty/src/lib.rs",
+    "sites": 1,
+    "files": 1
+  }
+]

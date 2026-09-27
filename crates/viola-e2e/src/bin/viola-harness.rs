@@ -92,6 +92,9 @@ struct RunArgs {
     /// A mutation leg whose verdict the `gate` union decides.
     #[arg(long, requires = "mutants")]
     leg: Option<String>,
+    /// Scopes the mutation run to this source (repeatable): the inner loop, never a verdict.
+    #[arg(long = "file", requires = "mutants")]
+    files: Vec<String>,
 }
 
 const COMMANDS: [&str; 10] = [
@@ -147,6 +150,7 @@ fn run_cmd(ws: &Workspace, args: RunArgs) -> ExitCode {
         mutants: args.mutants,
         coverage: args.coverage,
         fuzz_replay: args.fuzz_replay,
+        files: args.files,
     };
     emit(run_with(
         ws,
@@ -244,5 +248,26 @@ fn main() -> ExitCode {
             mutants_legs,
         } => gate_cmd(&ws, &require, artifacts, mutants_legs.as_deref()),
         Cmd::PrePush => emit(pre_push(&ws, PRE_PUSH_HOST_SUPPORTED, &mut run_forwarding)),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn run_args(argv: &[&str]) -> Option<RunArgs> {
+        let argv = ["viola-harness", "run"].iter().chain(argv);
+        match Cli::try_parse_from(argv).ok()?.command {
+            Cmd::Run(args) => Some(args),
+            _ => None,
+        }
+    }
+
+    #[test]
+    fn run_file_is_repeatable_and_needs_mutants() {
+        let args = run_args(&["--mutants", "--file", "a.rs", "--file", "b/c.rs"]).expect("parsed");
+        assert_eq!(args.files, ["a.rs", "b/c.rs"]);
+        assert!(run_args(&["--mutants"]).expect("parsed").files.is_empty());
+        assert!(run_args(&["--unit", "--file", "a.rs"]).is_none());
     }
 }

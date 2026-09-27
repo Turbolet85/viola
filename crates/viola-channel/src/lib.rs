@@ -6,6 +6,8 @@ mod client;
 mod endpoint;
 mod frame;
 mod server;
+#[cfg(any(test, feature = "test-support"))]
+pub mod test_support;
 
 use std::io;
 
@@ -93,33 +95,12 @@ mod test_capture {
     use std::path::Path;
     use std::sync::{Arc, Mutex};
 
-    use serde_json::{Map, Value};
-    use tracing::field::{Field, Visit};
+    use serde_json::Value;
     use tracing::span::{Attributes, Id};
     use tracing::{Event, Subscriber};
     use tracing_subscriber::layer::{Context, Layer, SubscriberExt as _};
 
-    #[derive(Default)]
-    struct Fields(Map<String, Value>);
-
-    impl Visit for Fields {
-        fn record_debug(&mut self, field: &Field, value: &dyn std::fmt::Debug) {
-            self.0
-                .insert(field.name().to_owned(), format!("{value:?}").into());
-        }
-        fn record_str(&mut self, field: &Field, value: &str) {
-            self.0.insert(field.name().to_owned(), value.into());
-        }
-        fn record_u64(&mut self, field: &Field, value: u64) {
-            self.0.insert(field.name().to_owned(), value.into());
-        }
-        fn record_i64(&mut self, field: &Field, value: i64) {
-            self.0.insert(field.name().to_owned(), value.into());
-        }
-        fn record_bool(&mut self, field: &Field, value: bool) {
-            self.0.insert(field.name().to_owned(), value.into());
-        }
-    }
+    use crate::test_support::JsonFields as Fields;
 
     #[derive(Clone, Default)]
     pub(crate) struct Captured {
