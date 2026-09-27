@@ -807,6 +807,31 @@ mod tests {
         .expect("write");
     }
 
+    /// Whether any NUMBER in `doc` equals `n`: stale outcomes would surface as a count, while a
+    /// `base` sha or a path may contain the digits by chance (a substring check once read `777`
+    /// inside a sha and failed four tests at once).
+    fn carries_number(doc: &Value, n: u64) -> bool {
+        match doc {
+            Value::Number(v) => v.as_u64() == Some(n),
+            Value::Array(items) => items.iter().any(|v| carries_number(v, n)),
+            Value::Object(fields) => fields.values().any(|v| carries_number(v, n)),
+            _ => false,
+        }
+    }
+
+    #[test]
+    fn carries_number_reads_counts_never_digits_in_strings() {
+        let sha = json!({"mutants": {"base": "0a1777bc", "diff": "x/777/y"}});
+        assert!(
+            sha.to_string().contains("777"),
+            "the old substring check would flag it"
+        );
+        assert!(!carries_number(&sha, 777));
+        let stale = json!({"suites": [{"suite": "mutants", "caught": 777}]});
+        assert!(carries_number(&stale, 777));
+        assert!(!carries_number(&json!({"caught": 7770}), 777));
+    }
+
     #[test]
     fn run_mutants_no_rust_delta_passes_by_name_and_never_reads_stale_outcomes() {
         let (_tmp, ws) = mini(GOOD_LIB);
@@ -831,7 +856,7 @@ mod tests {
             (Some(0), Some(0))
         );
         assert_eq!(m["artifact"], "target/agent-run/chunk.diff");
-        assert!(!out.doc.to_string().contains("777"));
+        assert!(!carries_number(&out.doc, 777), "{}", out.doc);
         assert!(ws.agent_run().join("chunk.diff").is_file());
     }
 
@@ -856,7 +881,7 @@ mod tests {
             out.doc["mutants"],
             json!({"tested": 0, "verdict": "counted", "base": base})
         );
-        assert!(!out.doc.to_string().contains("777"));
+        assert!(!carries_number(&out.doc, 777), "{}", out.doc);
     }
 
     fn write_test_target(ws: &Workspace) {
@@ -893,7 +918,7 @@ mod tests {
         assert!(calls.is_empty(), "{calls:?}");
         let v: Value = read_json(&leg_verdict_path(&ws.artifacts(), "l5")).expect("verdict");
         assert_eq!(v["verdict"], "test-only-rust-delta");
-        assert!(!out.doc.to_string().contains("777"));
+        assert!(!carries_number(&out.doc, 777), "{}", out.doc);
     }
 
     #[test]
@@ -921,7 +946,7 @@ mod tests {
             json!({"tested": 0, "verdict": "counted", "base": base, "leg": "l6"})
         );
         assert!(!leg_verdict_path(&ws.artifacts(), "l6").exists());
-        assert!(!out.doc.to_string().contains("777"));
+        assert!(!carries_number(&out.doc, 777), "{}", out.doc);
     }
 
     const OUTCOMES: &str = r#"{"outcomes": [
