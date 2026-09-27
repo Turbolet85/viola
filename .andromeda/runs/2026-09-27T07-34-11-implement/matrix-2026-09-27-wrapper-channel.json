@@ -1,0 +1,49 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "3bf0941b",
+"ts": "2026-09-27T10:15:02Z",
+"argv": [
+"implement",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-09-27-wrapper-channel",
+"--id",
+"v1-20",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-27T07-34-11-implement"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"implement v1-20 · status planned → implemented · ref tests/channel_endpoint.rs::channel_wrapper_logs_each_call_with_corr_and_conn · t… (357 chars)",
+"wrote viola-0.1.0\\verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0\\verification-matrix.json"
+],
+"before": {
+"id": "v1-20",
+"chunk": "2026-09-27-wrapper-channel",
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "A request from the viola client over a real wrapper endpoint carries `conn` matching `^[a-z]+-\\d+-\\d+-\\d+$`, and the wra… (612 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-20",
+"chunk": "2026-09-27-wrapper-channel",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/channel_endpoint.rs::channel_wrapper_logs_each_call_with_corr_and_conn · tests/channel_endpoint.rs::channel_debug_… (357 chars)",
+"acceptance": "A request from the viola client over a real wrapper endpoint carries `conn` matching `^[a-z]+-\\d+-\\d+-\\d+$`, and the wra… (612 chars)",
+"notes_chars": 0
+}
+}
+]

@@ -1,0 +1,370 @@
+//! The wrapper channel over a real endpoint (test-plan §5 Module ↔ IPC; §6 Path 1): the fault
+//! codes and the exclusive bind against a test-scoped server, the pipe's DACL on Windows, then a real
+//! `viola run`'s endpoint and the `channel-*` lines its role file carries.
+
+#[allow(dead_code)]
+mod support;
+
+use std::fs;
+use std::io::{BufRead as _, BufReader, Write as _};
+use std::path::Path;
+use std::sync::Arc;
+
+use interprocess::local_socket::traits::Stream as _;
+use interprocess::local_socket::{GenericFilePath, Stream, ToFsName as _};
+use rstest::rstest;
+use serde_json::{Map, Value, json};
+use support::home::{StampedHome, Wrapper, booted_wrapper, snapshot_data, stamped_home};
+use support::hygiene::load_schema;
+use viola_channel::{ChannelError, Client, Dispatch, ProtocolError, Server};
+
+const MAX_FRAME: usize = 16 * 1024 * 1024;
+/// The tests-owned content canary (`crates/viola-e2e/src/harness/secret_scan.rs`).
+const CANARY: &str = "canary-chain-value-5c1e";
+
+struct NoMethods;
+
+impl Dispatch for NoMethods {
+    fn dispatch(&self, _: &str, _: &Value) -> Result<Value, ProtocolError> {
+        Err(ProtocolError::MethodNotFound)
+    }
+}
+
+/// A test-owned endpoint, outside the `viola-<h12>` namespace `viola run` binds. A Unix socket
+/// lives in a short `/tmp` dir: macOS caps a socket path near 104 bytes.
+fn test_endpoint(label: &str) -> (tempfile::TempDir, String) {
+    let base = format!("viola-test-chan-{}-{label}", std::process::id());
+    let dir = if cfg!(windows) {
+        tempfile::tempdir()
+    } else {
+        tempfile::Builder::new().prefix("vt").tempdir_in("/tmp")
+    }
+    .expect("socket dir");
+    let endpoint = if cfg!(windows) {
+        format!(r"\\.\pipe\{base}")
+    } else {
+        dir.path()
+            .join(format!("{base}.sock"))
+            .to_string_lossy()
+            .into_owned()
+    };
+    (dir, endpoint)
+}
+
+fn raw(endpoint: &str) -> BufReader<Stream> {
+    let name = endpoint
+        .to_fs_name::<GenericFilePath>()
+        .expect("endpoint name");
+    BufReader::new(Stream::connect(name).expect("connect"))
+}
+
+fn exchange(stream: &mut BufReader<Stream>, bytes: &[u8]) -> Value {
+    stream.get_mut().write_all(bytes).expect("write");
+    let mut line = String::new();
+    stream.read_line(&mut line).expect("reply");
+    serde_json::from_str(&line).expect("one JSON reply")
+}
+
+fn params(pairs: Value) -> Map<String, Value> {
+    pairs.as_object().cloned().expect("object")
+}
+
+/// A request line of exactly `len` bytes, its `\n` included.
+fn padded(len: usize) -> Vec<u8> {
+    let head = r#"{"jsonrpc":"2.0","id":9,"method":"send","params":{"v":1,"pad":""#;
+    let tail = "\"}}\n";
+    let mut line = head.as_bytes().to_vec();
+    line.resize(len - tail.len(), b'x');
+    line.extend_from_slice(tail.as_bytes());
+    line
+}
+
+#[rstest]
+fn channel_endpoint_answers_protocol_faults() {
+    let (_dir, endpoint) = test_endpoint("faults");
+    let _serving = Server::bind(&endpoint)
+        .expect("bound")
+        .serve(Arc::new(NoMethods));
+    let mut client = Client::connect(&endpoint, "cli").expect("connect");
+    let unknown = client
+        .request("last", params(json!({"later_field": true})))
+        .expect("reply");
+    assert_eq!(
+        unknown["error"]["code"], -32601,
+        "an extra params field is no fault"
+    );
+    assert_eq!(unknown["id"], 1);
+
+    let mut stream = raw(&endpoint);
+    let newer = exchange(
+        &mut stream,
+        br#"{"jsonrpc":"2.0","id":4,"method":"send","params":{"v":2,"sender":"9.9.9"}}
+"#,
+    );
+    assert_eq!(
+        newer.to_string(),
+        r#"{"jsonrpc":"2.0","id":4,"error":{"code":-32602,"message":"unsupported protocol version","data":{"supported":1,"wrapper":"0.1.0"}}}"#
+    );
+    let not_json = exchange(&mut stream, b"{\"jsonrpc\":\n");
+    assert_eq!(not_json["error"]["code"], -32700);
+    assert!(not_json["id"].is_null());
+    let over = exchange(&mut stream, &padded(MAX_FRAME + 1));
+    assert_eq!(over["error"]["code"], -32600);
+}
+
+/// Two binds of one endpoint: exactly one wins while it lives; the name is free once it drops.
+#[rstest]
+fn channel_endpoint_second_bind_is_taken_while_the_first_lives() {
+    let (_dir, endpoint) = test_endpoint("twice");
+    let first = Server::bind(&endpoint).expect("first");
+    assert!(matches!(
+        Server::bind(&endpoint),
+        Err(ChannelError::BindTaken)
+    ));
+    drop(first);
+    Server::bind(&endpoint).expect("free once the first dropped");
+}
+
+/// The listener's DACL read back from the pipe: protected, the user and SYSTEM only (security-plan
+/// IPC access control, Windows). Windows reports the `GA` it was given as `FA`.
+#[cfg(windows)]
+#[rstest]
+fn channel_endpoint_pipe_dacl_is_protected_user_and_system() {
+    let (_dir, endpoint) = test_endpoint("dacl");
+    let _serving = Server::bind(&endpoint)
+        .expect("bound")
+        .serve(Arc::new(NoMethods));
+    let expected = format!("D:P(A;;FA;;;{})(A;;FA;;;SY)", win::user_sid());
+    assert_eq!(win::dacl_of(&endpoint), expected);
+}
+
+fn role_lines(home: &Path) -> Vec<Value> {
+    support::ndjson::read_lines(&home.join("diagnostics").join("run-builder.ndjson"))
+}
+
+fn of_event<'a>(lines: &'a [Value], event: &str) -> Vec<&'a Value> {
+    lines.iter().filter(|l| l["event"] == event).collect()
+}
+
+/// A real wrapper's endpoint: every reply has its `channel-response`, joined to its request by
+/// `corr` and the client's `conn`, or the server's `srv-<n>` for a frame without one; an oversize
+/// frame is `parse-rejected`. Every line passes the diag-line schema.
+#[rstest]
+fn channel_wrapper_logs_each_call_with_corr_and_conn(booted_wrapper: Wrapper) {
+    let snapshot = snapshot_data(&booted_wrapper.instance_dir()).expect("snapshot");
+    let endpoint = snapshot["endpoint"].as_str().expect("endpoint").to_owned();
+
+    let mut client = Client::connect(&endpoint, "cli").expect("connect");
+    let conn = client.conn().to_owned();
+    let reply = client.request("last", Map::new()).expect("reply");
+    assert_eq!(reply["error"]["code"], -32601);
+
+    let mut bare = raw(&endpoint);
+    let no_conn = exchange(
+        &mut bare,
+        br#"{"jsonrpc":"2.0","id":7,"method":"wait","params":{"v":1,"sender":"0.1.0"}}
+"#,
+    );
+    assert_eq!(no_conn["id"], 7);
+    let mut big = raw(&endpoint);
+    let over = exchange(&mut big, &padded(MAX_FRAME + 1));
+    assert_eq!(over["error"]["code"], -32600);
+
+    let lines = role_lines(booted_wrapper.home());
+    let joined = |event: &str| {
+        of_event(&lines, event)
+            .into_iter()
+            .filter(|l| l["conn"] == conn.as_str() && l["corr"] == 1)
+            .count()
+    };
+    assert_eq!(joined("channel-request"), 1, "{lines:?}");
+    assert_eq!(joined("channel-response"), 1, "{lines:?}");
+    let answered = of_event(&lines, "channel-response");
+    let srv = answered
+        .iter()
+        .find(|l| l["corr"] == 7)
+        .expect("the conn-less call's response");
+    let srv_conn = srv["srv_conn"].as_str().expect("srv_conn");
+    let n = srv_conn.strip_prefix("srv-").expect("srv-<n>");
+    assert!(n.parse::<u64>().is_ok(), "{srv_conn}");
+    assert!(srv.get("conn").is_none());
+    assert_eq!(srv["method"], "wait");
+    assert_eq!(srv["error_code"], -32601);
+    let rejected = of_event(&lines, "parse-rejected");
+    assert!(
+        rejected
+            .iter()
+            .any(|l| l["parser"] == "channel-frame" && l["detail"] == "oversize"),
+        "{lines:?}"
+    );
+    assert!(
+        answered
+            .iter()
+            .any(|l| l["error_code"] == -32600 && l.get("corr").is_none())
+    );
+
+    let schema = load_schema(&support::home::workspace_path("schemas/diag-line.v1.json"));
+    let validator = jsonschema::validator_for(&schema).expect("schema");
+    for line in &lines {
+        assert!(validator.is_valid(line), "{line}");
+        let text = line.to_string();
+        assert!(
+            !text.contains(&endpoint.replace('\\', "\\\\")),
+            "an endpoint reached a line"
+        );
+    }
+
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::PermissionsExt as _;
+        let mode = |p: &Path| fs::metadata(p).expect("meta").permissions().mode() & 0o777;
+        let socket = Path::new(&endpoint);
+        assert_eq!(mode(socket.parent().expect("socket dir")), 0o700);
+        assert_eq!(mode(socket), 0o600);
+    }
+    assert_eq!(booted_wrapper.stop().code(), Some(0));
+}
+
+/// At `diagnostics_level: "debug"` a request's content never reaches a role file (obs-plan §8;
+/// verification-matrix v1-20): not in `params`, not in a peer's `conn` or `sender`, not in a
+/// frame that is not even JSON.
+#[rstest]
+fn channel_debug_level_keeps_request_content_out_of_the_role_files(stamped_home: StampedHome) {
+    fs::create_dir_all(stamped_home.home.path()).expect("home");
+    fs::write(
+        stamped_home.home.path().join("config.json"),
+        r#"{"v":1,"diagnostics_level":"debug"}"#,
+    )
+    .expect("config");
+    let wrapper = Wrapper::boot(stamped_home, "builder", None, &[]);
+    let snapshot = snapshot_data(&wrapper.instance_dir()).expect("snapshot");
+    let endpoint = snapshot["endpoint"].as_str().expect("endpoint").to_owned();
+
+    let mut client = Client::connect(&endpoint, "cli").expect("connect");
+    let reply = client
+        .request("send", params(json!({"text": CANARY})))
+        .expect("reply");
+    assert_eq!(reply["error"]["code"], -32601);
+    let mut stream = raw(&endpoint);
+    let spoofed = format!(
+        r#"{{"jsonrpc":"2.0","id":2,"method":"{CANARY}","params":{{"v":1,"conn":"{CANARY}","sender":"{CANARY}","from":"{CANARY}"}}}}"#
+    ) + "\n";
+    assert_eq!(
+        exchange(&mut stream, spoofed.as_bytes())["error"]["code"],
+        -32601
+    );
+    let garbage = format!("{CANARY} not json\n");
+    assert_eq!(
+        exchange(&mut stream, garbage.as_bytes())["error"]["code"],
+        -32700
+    );
+
+    let diagnostics = wrapper.home().join("diagnostics");
+    let mut scanned = 0;
+    for entry in fs::read_dir(&diagnostics).expect("diagnostics") {
+        let path = entry.expect("entry").path();
+        let text = fs::read_to_string(&path).expect("role file");
+        assert!(
+            !text.contains(CANARY),
+            "{} carries request content",
+            path.display()
+        );
+        scanned += 1;
+    }
+    assert!(scanned >= 1);
+    let lines = role_lines(wrapper.home());
+    assert_eq!(of_event(&lines, "channel-request").len(), 2, "{lines:?}");
+    assert_eq!(wrapper.stop().code(), Some(0));
+}
+
+#[cfg(windows)]
+mod win {
+    use std::os::windows::io::AsRawHandle as _;
+    use std::ptr;
+
+    use windows_sys::Win32::Foundation::{CloseHandle, HANDLE, LocalFree};
+    use windows_sys::Win32::Security::Authorization::{
+        ConvertSecurityDescriptorToStringSecurityDescriptorW, ConvertSidToStringSidW,
+        GetSecurityInfo, SDDL_REVISION_1, SE_KERNEL_OBJECT,
+    };
+    use windows_sys::Win32::Security::{
+        DACL_SECURITY_INFORMATION, GetTokenInformation, PSECURITY_DESCRIPTOR, TOKEN_QUERY,
+        TOKEN_USER, TokenUser,
+    };
+    use windows_sys::Win32::System::Threading::{GetCurrentProcess, OpenProcessToken};
+    use windows_sys::core::PWSTR;
+
+    /// # Safety
+    /// `text` is a NUL-terminated UTF-16 string allocated with `LocalAlloc`; it is freed here.
+    unsafe fn take_wide(text: PWSTR) -> String {
+        // SAFETY: the caller guarantees the terminator.
+        let len = (0..).take_while(|&i| unsafe { *text.add(i) } != 0).count();
+        // SAFETY: `len` units precede the terminator.
+        let s = String::from_utf16_lossy(unsafe { std::slice::from_raw_parts(text, len) });
+        // SAFETY: allocated by the caller's conversion; freed once.
+        unsafe { LocalFree(text.cast()) };
+        s
+    }
+
+    /// This test process's user SID, read here apart from the product's own lookup.
+    pub fn user_sid() -> String {
+        let mut token: HANDLE = ptr::null_mut();
+        let mut len = 0u32;
+        let mut text: PWSTR = ptr::null_mut();
+        // SAFETY: local out-pointers; the token is closed below and the string freed by take_wide.
+        unsafe {
+            assert_ne!(
+                OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &mut token),
+                0
+            );
+            GetTokenInformation(token, TokenUser, ptr::null_mut(), 0, &mut len);
+            let mut buf = vec![0u64; usize::try_from(len).expect("len").div_ceil(8)];
+            let filled =
+                GetTokenInformation(token, TokenUser, buf.as_mut_ptr().cast(), len, &mut len);
+            assert_ne!(filled, 0);
+            let user = &*buf.as_ptr().cast::<TOKEN_USER>();
+            assert_ne!(ConvertSidToStringSidW(user.User.Sid, &mut text), 0);
+            CloseHandle(token);
+            take_wide(text)
+        }
+    }
+
+    /// The DACL of the pipe `endpoint`, read back through a client handle as SDDL.
+    pub fn dacl_of(endpoint: &str) -> String {
+        let pipe = std::fs::OpenOptions::new()
+            .read(true)
+            .write(true)
+            .open(endpoint)
+            .expect("pipe");
+        let mut sd: PSECURITY_DESCRIPTOR = ptr::null_mut();
+        let mut dacl = ptr::null_mut();
+        let mut text: PWSTR = ptr::null_mut();
+        // SAFETY: a live handle; local out-pointers; `sd` freed once, `text` by take_wide.
+        unsafe {
+            let read = GetSecurityInfo(
+                pipe.as_raw_handle(),
+                SE_KERNEL_OBJECT,
+                DACL_SECURITY_INFORMATION,
+                ptr::null_mut(),
+                ptr::null_mut(),
+                &mut dacl,
+                ptr::null_mut(),
+                &mut sd,
+            );
+            assert_eq!(read, 0, "GetSecurityInfo");
+            let converted = ConvertSecurityDescriptorToStringSecurityDescriptorW(
+                sd,
+                SDDL_REVISION_1,
+                DACL_SECURITY_INFORMATION,
+                &mut text,
+                ptr::null_mut(),
+            );
+            LocalFree(sd);
+            assert_ne!(
+                converted, 0,
+                "ConvertSecurityDescriptorToStringSecurityDescriptorW"
+            );
+            take_wide(text)
+        }
+    }
+}

@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.4",
+"sha8": "ef8fabf3",
+"ts": "2026-09-27T07:11:38Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-09-27-wrapper-channel",
+"--expect-prefix",
+"Wrapper channel",
+"--record-file",
+".andromeda/runs/2026-09-27T07-09-57-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-09-27T07-09-57-phase"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:40 - [2026-09-27-wrapper-channel]",
+"record master-route.md:25 - appended under `## viola-0.1.0`",
+"promoted 2026-09-27-wrapper-channel - working-route:40 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+".\\viola-0.1.0\\working-route.md",
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+}
+]

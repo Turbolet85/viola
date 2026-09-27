@@ -1,0 +1,141 @@
+[
+{
+"tool": "planlint",
+"v": "1.0",
+"sha8": "43f9e5ba",
+"ts": "2026-09-27T07:27:03Z",
+"argv": [
+"check",
+"--plan",
+"viola-0.1.0/chunks/2026-09-27-wrapper-channel/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-27T07-09-57-phase",
+"--marker",
+"2026-09-27-wrapper-channel"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"fence: 23 entries · plan: viola-0.1.0/chunks/2026-09-27-wrapper-channel/plan.md · research: viola-0.1.0/chunks/2026-09-…",
+"check 9 · CI-outcome reads: 1 · Platform issues consulted: none → HIT · `none — no CI verdict was folded at take-up (r…`",
+"  gate 23 · sha=$(git rev-parse HEAD); while :; do s=$(gh api repos/Turbolet85/viola/commits/$sha/check-runs --jq '[.ch…",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 0 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md` rea…`",
+"check 4 (5) · leg entries with a content atom: 2 · note without `atom from`: 0",
+"hits: 1 — each is resolved by its check's own resolution (validation.md 9 · 4 (5)); 0 hits is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 1,
+"hit": true
+},
+"harness": {
+"slot": "filled",
+"live": 0,
+"hit": false
+},
+"atom": {
+"atomed": 2,
+"bare": []
+},
+"hits": 1
+}
+},
+{
+"tool": "planlint",
+"v": "1.0",
+"sha8": "43f9e5ba",
+"ts": "2026-09-27T07:27:49Z",
+"argv": [
+"check",
+"--plan",
+"viola-0.1.0/chunks/2026-09-27-wrapper-channel/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-27T07-09-57-phase",
+"--marker",
+"2026-09-27-wrapper-channel"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"fence: 23 entries · plan: viola-0.1.0/chunks/2026-09-27-wrapper-channel/plan.md · research: viola-0.1.0/chunks/2026-09-…",
+"check 9 · CI-outcome reads: 1 · Platform issues consulted: filled · `GitHub REST \"List check runs for a Git reference\"…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 0 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md` rea…`",
+"check 4 (5) · leg entries with a content atom: 2 · note without `atom from`: 0",
+"hits: 0 — each is resolved by its check's own resolution (validation.md 9 · 4 (5)); 0 hits is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "filled",
+"ci_reads": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 0,
+"hit": false
+},
+"atom": {
+"atomed": 2,
+"bare": []
+},
+"hits": 0
+}
+},
+{
+"tool": "planlint",
+"v": "1.0",
+"sha8": "43f9e5ba",
+"ts": "2026-09-27T07:29:54Z",
+"argv": [
+"check",
+"--plan",
+"viola-0.1.0/chunks/2026-09-27-wrapper-channel/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-27T07-09-57-phase",
+"--marker",
+"2026-09-27-wrapper-channel"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"fence: 23 entries · plan: viola-0.1.0/chunks/2026-09-27-wrapper-channel/plan.md · research: viola-0.1.0/chunks/2026-09-…",
+"check 9 · CI-outcome reads: 1 · Platform issues consulted: filled · `GitHub REST \"List check runs for a Git reference\"…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 0 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md` rea…`",
+"check 4 (5) · leg entries with a content atom: 2 · note without `atom from`: 0",
+"hits: 0 — each is resolved by its check's own resolution (validation.md 9 · 4 (5)); 0 hits is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "filled",
+"ci_reads": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 0,
+"hit": false
+},
+"atom": {
+"atomed": 2,
+"bare": []
+},
+"hits": 0
+}
+}
+]

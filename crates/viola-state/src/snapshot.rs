@@ -16,6 +16,7 @@ use crate::fs::{FILE_MODE, open_private_lock, replace_private};
 
 pub const SNAPSHOT: &str = "snapshot.json";
 const SNAPSHOT_LOCK: &str = "snapshot.json.lock";
+const SNAPSHOT_V: u32 = 1;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "kebab-case")]
@@ -51,9 +52,10 @@ struct Envelope<T> {
     data: T,
 }
 
+#[tracing::instrument(skip_all, name = "state.snapshot_write", fields(v = SNAPSHOT_V))]
 pub fn write_snapshot(instance_dir: &Path, snapshot: &InstanceSnapshot) -> Result<(), StateError> {
     let envelope = Envelope {
-        v: 1,
+        v: SNAPSHOT_V,
         written_at: crate::timestamp(Utc::now()),
         writer: VERSION.to_owned(),
         data: snapshot,

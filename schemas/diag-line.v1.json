@@ -99,7 +99,23 @@
     { "if": { "properties": { "event": { "const": "parse-rejected" } } }, "then": { "properties": {
       "parser": { "enum": ["claude-agents-json", "vt100-feed", "config-json", "ledger-stamps", "last-event-id", "hook-stdin", "channel-frame", "prompt-submitted", "paste-text", "state-entry"] },
       "detail": { "enum": ["malformed", "unreadable", "oversize", "unknown-keys", "panicked", "control-character", "symlink-ignored"] },
-      "count": { "$ref": "#/$defs/count" } } } }
+      "count": { "$ref": "#/$defs/count" } } } },
+
+    { "$comment": "corr is required wherever obs-plan §3 always defines it: dialog_id, the release request id.",
+      "if": { "properties": { "event": { "enum": ["dialog-raised", "dialog-answered", "release-from-driver"] } } },
+      "then": { "required": ["corr"] } },
+    { "$comment": "A channel-request's corr is its JSON-RPC id; only the hook.event notification has none.",
+      "if": { "properties": { "event": { "const": "channel-request" }, "method": { "not": { "const": "hook.event" } } } },
+      "then": { "required": ["corr"] } },
+    { "$comment": "A channel-response copies the request id; a -32700 or oversize -32600 reply has none to copy.",
+      "if": { "properties": { "event": { "const": "channel-response" }, "error_code": { "not": { "enum": [-32700, -32600] } } } },
+      "then": { "required": ["corr"] } },
+    { "$comment": "A wrapper-side send line carries the send cursor (D-28); the client-side send-refused has none.",
+      "if": { "properties": { "event": { "enum": ["send-issued", "send-confirmed", "send-refused"] }, "side": { "const": "wrapper" } }, "required": ["side"] },
+      "then": { "required": ["corr"] } },
+    { "$comment": "A dialog hook's decision carries dialog_id; a non-dialog hook and a fail-open path before dialog_id (a detail code) have none (D-07).",
+      "if": { "properties": { "event": { "const": "hook-decision" }, "hook_event": { "enum": ["pre-tool-use", "permission-request"] } }, "required": ["hook_event"], "not": { "required": ["detail"] } },
+      "then": { "required": ["corr"] } }
   ],
   "unevaluatedProperties": false,
   "$defs": {

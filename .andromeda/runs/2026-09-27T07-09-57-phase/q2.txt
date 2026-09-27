@@ -1,0 +1,30 @@
+[
+  {
+    "from_crate": "viola-e2e",
+    "to_crate": "viola-core"
+  },
+  {
+    "from_crate": "viola",
+    "to_crate": "viola-core"
+  },
+  {
+    "from_crate": "viola",
+    "to_crate": "viola-agent-claude"
+  },
+  {
+    "from_crate": "viola-state",
+    "to_crate": "viola-core"
+  },
+  {
+    "from_crate": "viola",
+    "to_crate": "viola-state"
+  },
+  {
+    "from_crate": "viola-e2e",
+    "to_crate": "viola-pty"
+  },
+  {
+    "from_crate": "viola",
+    "to_crate": "viola-pty"
+  }
+]

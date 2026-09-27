@@ -283,11 +283,7 @@ struct Starts {
 impl Starts {
     fn read(home: &Path, name: &str) -> Self {
         let role = home.join("diagnostics").join(format!("run-{name}.ndjson"));
-        let lines: Vec<Value> = fs::read_to_string(role)
-            .unwrap_or_default()
-            .lines()
-            .filter_map(|l| serde_json::from_str(l).ok())
-            .collect();
+        let lines = super::ndjson::read_lines(&role);
         let started = |subject: &str| {
             lines
                 .iter()

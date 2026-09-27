@@ -20,11 +20,7 @@ const REFUSAL: &str = "unable: builder's command is a .cmd or .bat script\n\
                        hint: pass the real executable, not a .cmd or .bat shim\n";
 
 fn role_lines(home: &Path) -> Vec<Value> {
-    std::fs::read_to_string(home.join("diagnostics").join("run-builder.ndjson"))
-        .expect("role file")
-        .lines()
-        .map(|l| serde_json::from_str(l).expect("line"))
-        .collect()
+    support::ndjson::read_lines(&home.join("diagnostics").join("run-builder.ndjson"))
 }
 
 fn run(home: &Path, program: &str, extra: &[&str], path: Option<&str>) -> Output {

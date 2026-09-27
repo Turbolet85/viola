@@ -32,6 +32,7 @@ pub struct Heartbeat {
 }
 
 impl Heartbeat {
+    #[tracing::instrument(skip_all, name = "state.heartbeat_start")]
     pub fn start(instance_dir: PathBuf) -> Self {
         let (stop, stopped) = mpsc::channel::<()>();
         let _ = std::thread::Builder::new()

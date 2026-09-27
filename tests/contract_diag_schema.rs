@@ -115,12 +115,70 @@ fn diag_line_schema_rejects_literal_null_corr_and_instance(
     assert!(validator.is_valid(&valid));
     let mut without = valid.clone();
     let obj = without.as_object_mut().expect("object");
-    obj.remove("corr");
     obj.remove("instance");
     assert!(validator.is_valid(&without));
+    let mut notification = without.clone();
+    let obj = notification.as_object_mut().expect("object");
+    obj.remove("corr");
+    obj.insert("method".to_owned(), json!("hook.event"));
+    assert!(validator.is_valid(&notification));
     let mut bad = valid;
     bad[key] = value;
     assert!(!validator.is_valid(&bad));
+}
+
+/// A codes-only line of `event` with `extra` fields and no `corr`.
+fn line_without_corr(event: &str, extra: Value) -> Value {
+    let mut line = json!({
+        "timestamp": "2026-09-27T03:12:07.412Z", "level": "INFO", "target": "viola::test",
+        "message": event, "event": event, "process": "run", "instance": "builder"
+    });
+    let obj = line.as_object_mut().expect("object");
+    for (key, value) in extra.as_object().expect("extra fields") {
+        obj.insert(key.clone(), value.clone());
+    }
+    line
+}
+
+/// Each line whose `corr` obs-plan §3 always defines is refused without it, and valid with it.
+#[rstest]
+#[case::dialog_raised("dialog-raised", json!({"dialog_kind": "question"}))]
+#[case::dialog_answered("dialog-answered", json!({"dialog_kind": "permission"}))]
+#[case::release_from_driver("release-from-driver", json!({"conn": "mcp-1-2-3"}))]
+#[case::channel_request("channel-request", json!({"method": "send", "conn": "cli-1-2-3"}))]
+#[case::channel_request_unlisted_method("channel-request", json!({"srv_conn": "srv-1"}))]
+#[case::channel_response_fault("channel-response", json!({"result_class": "error", "error_code": -32601}))]
+#[case::channel_response_ok("channel-response", json!({"result_class": "ok"}))]
+#[case::send_wrapper("send-issued", json!({"side": "wrapper", "rpc_id": 3}))]
+#[case::send_refused_wrapper("send-refused", json!({"side": "wrapper", "refusal": "human-typing"}))]
+#[case::hook_decision_dialog("hook-decision", json!({"hook_event": "permission-request", "decision_emitted": true}))]
+#[case::hook_decision_question("hook-decision", json!({"hook_event": "pre-tool-use"}))]
+fn diag_line_schema_requires_corr_where_it_is_always_defined(
+    #[case] event: &str,
+    #[case] extra: Value,
+) {
+    let validator = jsonschema::validator_for(&line_schema()).expect("valid schema");
+    let without = line_without_corr(event, extra);
+    assert!(!validator.is_valid(&without), "{without}");
+    let mut with = without;
+    with["corr"] = json!(12);
+    assert!(validator.is_valid(&with), "{with}");
+}
+
+/// Each null `corr` obs-plan documents stays valid without it.
+#[rstest]
+#[case::notification("channel-request", json!({"method": "hook.event", "srv_conn": "srv-2"}))]
+#[case::parse_error_reply("channel-response", json!({"result_class": "error", "error_code": -32700}))]
+#[case::oversize_reply("channel-response", json!({"result_class": "error", "error_code": -32600}))]
+#[case::client_send_refused("send-refused", json!({"side": "client", "refusal": "not-delivered", "detail": "control-character"}))]
+#[case::non_dialog_hook_invoked("hook-invoked", json!({"hook_event": "statusline"}))]
+#[case::fail_open_hook_invoked("hook-invoked", json!({"hook_event": "pre-tool-use"}))]
+#[case::non_dialog_hook_decision("hook-decision", json!({"hook_event": "statusline", "budget_written": true}))]
+#[case::fail_open_hook_decision("hook-decision", json!({"hook_event": "permission-request", "detail": "channel-unreachable"}))]
+fn diag_line_schema_accepts_each_documented_null_corr(#[case] event: &str, #[case] extra: Value) {
+    let validator = jsonschema::validator_for(&line_schema()).expect("valid schema");
+    let line = line_without_corr(event, extra);
+    assert!(validator.is_valid(&line), "{line}");
 }
 
 #[test]
@@ -208,11 +266,7 @@ fn run_lines(home: &Path, program: &str, config: Option<&str>) -> Vec<Value> {
         assert!(Instant::now() < deadline, "viola never exited");
         std::thread::yield_now();
     }
-    std::fs::read_to_string(home.join("diagnostics").join("run-builder.ndjson"))
-        .expect("role file")
-        .lines()
-        .map(|l| serde_json::from_str(l).expect("one JSON object per line"))
-        .collect()
+    support::ndjson::read_lines(&home.join("diagnostics").join("run-builder.ndjson"))
 }
 
 #[rstest]

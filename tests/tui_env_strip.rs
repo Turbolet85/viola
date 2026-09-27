@@ -75,11 +75,8 @@ fn wrapped_env(tmp: &TestHome, env: &[(&str, &str)]) -> (Vec<String>, Value, Vec
         .iter()
         .map(|n| n.as_str().expect("name").to_owned())
         .collect();
-    let role = std::fs::read_to_string(home.join("diagnostics").join("run-builder.ndjson"))
-        .expect("role file");
-    let start = role
-        .lines()
-        .map(|l| serde_json::from_str::<Value>(l).expect("line"))
+    let start = support::ndjson::read_lines(&home.join("diagnostics").join("run-builder.ndjson"))
+        .into_iter()
         .find(|l| l["event"] == "process-start" && l["subject"] == "claude-child")
         .expect("child start line");
     (names, start, pty.finish())

@@ -68,11 +68,22 @@ name = "cli_instance_state"
 path = "tests/cli_instance_state.rs"
 required-features = ["fake-agent"]
 
+[[test]]
+name = "channel_endpoint"
+path = "tests/channel_endpoint.rs"
+required-features = ["fake-agent"]
+
+[[test]]
+name = "tui_channel_fds"
+path = "tests/tui_channel_fds.rs"
+required-features = ["fake-agent"]
+
 [dependencies]
 viola-core = { path = "crates/viola-core" }
 viola-pty = { path = "crates/viola-pty" }
 viola-agent-claude = { path = "crates/viola-agent-claude" }
 viola-state = { path = "crates/viola-state" }
+viola-channel = { path = "crates/viola-channel" }
 anyhow.workspace = true
 chrono.workspace = true
 clap.workspace = true
@@ -81,6 +92,8 @@ tracing.workspace = true
 tracing-subscriber.workspace = true
 
 [dev-dependencies]
+# Raw frames and raw servers against a real endpoint, beside the viola client.
+interprocess.workspace = true
 jsonschema.workspace = true
 rstest.workspace = true
 serde_json.workspace = true
@@ -90,9 +103,6 @@ tempfile.workspace = true
 
 [target.'cfg(windows)'.dependencies]
 windows-sys.workspace = true
-
-[target.'cfg(windows)'.dev-dependencies]
-interprocess.workspace = true
 
 [lints]
 workspace = true
@@ -139,9 +149,12 @@ syn = { version = "=2.0.119", default-features = false, features = ["full", "par
 sysinfo = { version = "=0.39.6", default-features = false, features = ["system"] }
 tempfile = "=3.27.0"
 thiserror = "=2.0.20"
-tracing = { version = "=0.1.44", default-features = false, features = ["std"] }
+# `attributes`: `#[instrument(skip_all, name = "<area>.<operation>", fields(..))]`, the only span form (obs-plan §3).
+tracing = { version = "=0.1.44", default-features = false, features = ["attributes", "std"] }
 tracing-subscriber = { version = "=0.3.23", default-features = false, features = ["fmt", "json", "registry", "std"] }
-windows-sys = { version = "=0.61.2", features = ["Win32_Foundation", "Win32_Security", "Win32_Storage_FileSystem", "Win32_System_Console", "Win32_System_Pipes", "Win32_System_Registry", "Win32_System_Threading"] }
+# No `toggle`: redaction can never be switched off at runtime (deny.toml bans it).
+veil = "=0.3.0"
+windows-sys = { version = "=0.61.2", features = ["Win32_Foundation", "Win32_Security", "Win32_Security_Authorization", "Win32_Storage_FileSystem", "Win32_System_Console", "Win32_System_Pipes", "Win32_System_Registry", "Win32_System_Threading"] }
 
 [workspace.lints.rust]
 unused_must_use = "deny"

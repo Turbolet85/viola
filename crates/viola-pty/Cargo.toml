@@ -13,6 +13,8 @@ fake-agent = []
 
 [dependencies]
 portable-pty.workspace = true
+# Spans on the seam operations only (obs-plan §3); never on read or write.
+tracing.workspace = true
 
 [target.'cfg(windows)'.dependencies]
 windows-sys.workspace = true

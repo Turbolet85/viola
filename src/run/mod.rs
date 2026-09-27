@@ -23,6 +23,7 @@ pub(crate) fn log_self_start() {
         version = VERSION,
         os = std::env::consts::OS,
         pid = std::process::id(),
+        endpoint_kind = viola_channel::ENDPOINT_KIND,
     );
 }
 

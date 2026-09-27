@@ -18,6 +18,8 @@ path = "src/bin/viola-harness.rs"
 [dependencies]
 viola-core = { path = "../viola-core" }
 viola-pty = { path = "../viola-pty" }
+# `cleanup` proves each recorded endpoint unconnectable with the viola client.
+viola-channel = { path = "../viola-channel" }
 clap.workspace = true
 jsonschema.workspace = true
 proc-macro2.workspace = true

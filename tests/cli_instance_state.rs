@@ -19,17 +19,43 @@ use support::home::{
     StampedHome, TestHome, VIOLA, Wrapper, beat_age, booted_wrapper, home, process_start,
     snapshot_data, stamped_home, sweep_gone_owners, write_owner,
 };
+use viola_core::ViolaName;
 
 const LIVE: &str = "unable: builder is already live\nhint: viola list\n";
+const SQUATTED: &str = "unable: the endpoint for builder is held by another process\n\
+                        hint: another process holds this name's endpoint; stop it or pick another name\n";
+
+/// The endpoint `viola run builder` computes for `home` (its golden vectors are viola-channel's).
+fn endpoint_of(home: &Path) -> String {
+    let home = std::path::absolute(home).expect("absolute home");
+    let name = ViolaName::try_new("builder".to_owned()).expect("valid");
+    viola_channel::endpoint_path(&name, &home).expect("endpoint")
+}
+
+/// `\\.\pipe\viola-<h12>` on Windows, `<dir>/viola-<h12>.sock` on Unix.
+fn assert_endpoint_shape(endpoint: &str) {
+    let base = if cfg!(windows) {
+        endpoint.strip_prefix(r"\\.\pipe\")
+    } else {
+        Path::new(endpoint)
+            .file_name()
+            .and_then(|n| n.to_str())
+            .and_then(|n| n.strip_suffix(".sock"))
+    }
+    .expect("per-OS endpoint form");
+    let hex = base.strip_prefix("viola-").expect("viola- prefix");
+    assert_eq!(hex.len(), 12, "{endpoint}");
+    assert!(
+        hex.bytes()
+            .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b)),
+        "{endpoint}"
+    );
+}
 const TAMPERED: &str = "unable: the pinned viola copy failed its integrity check\n\
                         hint: the pinned copy was changed after it was written, so viola will not run it\n";
 
 fn lines(path: &Path) -> Vec<Value> {
-    fs::read_to_string(path)
-        .unwrap_or_default()
-        .lines()
-        .map(|l| serde_json::from_str(l).expect("one JSON object per line"))
-        .collect()
+    support::ndjson::read_lines(path)
 }
 
 fn events(instance_dir: &Path) -> Vec<Value> {
@@ -133,6 +159,15 @@ fn path1_start_writes_state_before_the_spawn(booted_wrapper: Wrapper) {
     );
     assert_eq!(snap["cli_verified"], false);
     assert_eq!(snap["wheel"], "driver");
+    let endpoint = snap["endpoint"].as_str().expect("endpoint");
+    assert_eq!(endpoint, endpoint_of(booted_wrapper.home()));
+    assert_endpoint_shape(endpoint);
+    let kind = if cfg!(windows) {
+        "named-pipe"
+    } else {
+        "unix-socket"
+    };
+    assert_eq!(pid_of("self", "endpoint_kind"), kind);
     let pinned = snap["pinned_bin"].as_str().expect("pinned_bin");
     assert!(!pinned.contains('\\') && Path::new(pinned).is_absolute());
     assert!(Path::new(pinned).is_file());
@@ -233,10 +268,7 @@ fn run_takes_over_a_gone_name_and_appends(stamped_home: StampedHome) {
     let second = Wrapper::boot(stamped, "builder", None, &[]);
     let now = fs::read(dir.join("events.ndjson")).expect("events");
     assert!(now.starts_with(&prior), "earlier bytes were not kept");
-    let added: Vec<Value> = String::from_utf8_lossy(&now[prior.len()..])
-        .lines()
-        .map(|l| serde_json::from_str(l).expect("line"))
-        .collect();
+    let added = support::ndjson::complete_lines(&now[prior.len()..]);
     let kinds: Vec<&Value> = added.iter().map(|l| &l["kind"]).collect();
     assert_eq!(kinds, [&json!("wheel"), &json!("budget-gate")]);
     assert_ne!(snapshot_data(&dir).expect("snapshot")["pid"], first_pid);
@@ -277,6 +309,32 @@ fn run_refuses_a_tampered_pinned_copy(stamped_home: StampedHome) {
         fs::read(VIOLA).expect("viola")
     );
     assert_eq!(second.stop().code(), Some(0));
+}
+
+/// The exclusive bind arbitrates a name: with its endpoint already held, `run` exits 1 naming
+/// neither the holder nor the pipe, and writes no snapshot and starts no child.
+#[rstest]
+fn run_refuses_a_squatted_endpoint(stamped_home: StampedHome) {
+    let home = stamped_home.home.path().to_path_buf();
+    let endpoint = endpoint_of(&home);
+    #[cfg(unix)]
+    fs::create_dir_all(Path::new(&endpoint).parent().expect("socket dir")).expect("socket dir");
+    let squatter = viola_channel::Server::bind(&endpoint).expect("the squatter binds first");
+
+    let out = run_refused(&home);
+    assert_eq!(out.status.code(), Some(1));
+    assert!(out.stdout.is_empty(), "stdout: {} bytes", out.stdout.len());
+    assert_eq!(String::from_utf8_lossy(&out.stderr), SQUATTED);
+    assert!(refused_with(&home, "squatted-name"));
+    assert!(
+        !home
+            .join("instances")
+            .join("builder")
+            .join("snapshot.json")
+            .exists()
+    );
+    assert_eq!(child_starts(&home), 0);
+    drop(squatter);
 }
 
 #[rstest]

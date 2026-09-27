@@ -1,0 +1,57 @@
+[
+  {
+    "caller": "rust-analyzer cargo viola-state 0.1.0 snapshot/tests/snapshot_write_replaces_atomically_with_the_envelope().",
+    "file": "crates/viola-state/src/snapshot.rs",
+    "line": 106
+  },
+  {
+    "caller": "rust-analyzer cargo viola-state 0.1.0 snapshot/tests/snapshot_write_replaces_atomically_with_the_envelope().",
+    "file": "crates/viola-state/src/snapshot.rs",
+    "line": 125
+  },
+  {
+    "caller": "rust-analyzer cargo viola-state 0.1.0 snapshot/tests/",
+    "file": "crates/viola-state/src/snapshot.rs",
+    "line": 141
+  },
+  {
+    "caller": "rust-analyzer cargo viola 0.1.0 cmd/run/",
+    "file": "src/cmd/run.rs",
+    "line": 18
+  },
+  {
+    "caller": "rust-analyzer cargo viola 0.1.0 cmd/run/run().",
+    "file": "src/cmd/run.rs",
+    "line": 56
+  },
+  {
+    "caller": "rust-analyzer cargo viola 0.1.0 cmd/run/run().",
+    "file": "src/cmd/run.rs",
+    "line": 85
+  },
+  {
+    "caller": "rust-analyzer cargo viola 0.1.0 cmd/run/run().",
+    "file": "src/cmd/run.rs",
+    "line": 93
+  },
+  {
+    "caller": "rust-analyzer cargo viola 0.1.0 cmd/run/run().",
+    "file": "src/cmd/run.rs",
+    "line": 103
+  },
+  {
+    "caller": "rust-analyzer cargo viola 0.1.0 cmd/run/start_state().",
+    "file": "src/cmd/run.rs",
+    "line": 158
+  },
+  {
+    "caller": "rust-analyzer cargo viola 0.1.0 cmd/run/spawn_and_pump().",
+    "file": "src/cmd/run.rs",
+    "line": 194
+  },
+  {
+    "caller": "rust-analyzer cargo viola 0.1.0 cmd/run/spawn_and_pump().",
+    "file": "src/cmd/run.rs",
+    "line": 195
+  }
+]

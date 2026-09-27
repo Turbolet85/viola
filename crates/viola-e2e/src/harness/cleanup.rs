@@ -7,6 +7,7 @@ use std::time::{Duration, Instant};
 
 use serde_json::{Value, json};
 
+use super::boot::{instance_dir, snapshot_endpoint};
 use super::supervise::remove_stop_files;
 use super::{
     Outcome, ProcessId, SessionRecord, Workspace, read_json, session_record_path, valid_session_id,
@@ -22,6 +23,7 @@ pub enum Target<'a> {
 
 struct Report {
     processes_gone: bool,
+    endpoint_gone: bool,
     home_removed: Value,
     killed: Vec<String>,
 }
@@ -54,17 +56,18 @@ fn summarize(cleaned: Vec<String>, reports: Vec<Report>, keep_homes: bool) -> Ou
         );
     }
     let processes_gone = reports.iter().all(|r| r.processes_gone);
+    let endpoint_gone = reports.iter().all(|r| r.endpoint_gone);
     let home_removed = if keep_homes {
         json!("kept")
     } else {
         json!(reports.iter().all(|r| r.home_removed == true))
     };
     let killed: Vec<String> = reports.into_iter().flat_map(|r| r.killed).collect();
-    let ok = processes_gone && home_removed != false;
+    let ok = processes_gone && endpoint_gone && home_removed != false;
     Outcome::new(
         json!({
             "v": 1, "cmd": "cleanup", "ok": ok, "cleaned": cleaned,
-            "processes_gone": processes_gone, "endpoint_gone": null, "port_free": null,
+            "processes_gone": processes_gone, "endpoint_gone": endpoint_gone, "port_free": null,
             "url_file_removed": null, "home_removed": home_removed, "killed": killed,
         }),
         ok,
@@ -102,6 +105,10 @@ fn cleanup_one(ws: &Workspace, id: &str, record: &SessionRecord, keep_homes: boo
     }
     let deadline = Instant::now() + KILL_DEADLINE;
     let processes_gone = targets.iter().all(|(_, id)| id.wait_gone(deadline));
+    let endpoint_gone = record.instances.iter().all(|inst| {
+        let recorded = snapshot_endpoint(&instance_dir(&record.home, &inst.name));
+        recorded.as_deref().is_some_and(unconnectable)
+    });
 
     let home_removed = if keep_homes {
         json!("kept")
@@ -112,8 +119,25 @@ fn cleanup_one(ws: &Workspace, id: &str, record: &SessionRecord, keep_homes: boo
     let _ = fs::remove_file(session_record_path(ws, id));
     Report {
         processes_gone,
+        endpoint_gone,
         home_removed,
         killed,
+    }
+}
+
+/// The endpoint is gone for a client (test-plan §3 `cleanup` step 4): on Windows a viola-client
+/// connect finds no pipe; on Unix the socket file no longer exists.
+pub fn unconnectable(endpoint: &str) -> bool {
+    #[cfg(windows)]
+    {
+        matches!(
+            viola_channel::Client::connect(endpoint, "cli"),
+            Err(viola_channel::ChannelError::Connect(e)) if e.kind() == std::io::ErrorKind::NotFound
+        )
+    }
+    #[cfg(unix)]
+    {
+        !Path::new(endpoint).exists()
     }
 }
 
@@ -165,6 +189,7 @@ mod tests {
     fn report(gone: bool, removed: bool, killed: &[&str]) -> Report {
         Report {
             processes_gone: gone,
+            endpoint_gone: true,
             home_removed: json!(removed),
             killed: killed.iter().map(|k| (*k).to_owned()).collect(),
         }
@@ -176,7 +201,15 @@ mod tests {
         let good = summarize(one(), vec![report(true, true, &[])], false);
         assert_eq!(good.code, 0);
         assert_eq!(good.doc["home_removed"], true);
+        assert_eq!(good.doc["endpoint_gone"], true);
         assert_eq!(good.doc["cleaned"], json!(["s"]));
+        let listening = Report {
+            endpoint_gone: false,
+            ..report(true, true, &[])
+        };
+        let lingering_endpoint = summarize(one(), vec![report(true, true, &[]), listening], false);
+        assert_eq!(lingering_endpoint.code, 1);
+        assert_eq!(lingering_endpoint.doc["endpoint_gone"], false);
         let lingering = summarize(one(), vec![report(false, true, &["a"])], false);
         assert_eq!(lingering.code, 1);
         assert_eq!(lingering.doc["processes_gone"], false);
@@ -244,6 +277,10 @@ mod tests {
         let out = cleanup(&ws, Target::All, false);
         assert_eq!(out.doc["cleaned"], json!(["s"]));
         assert_eq!(out.doc["processes_gone"], true);
+        assert_eq!(
+            out.doc["endpoint_gone"], false,
+            "no endpoint was ever recorded"
+        );
         assert_eq!(out.doc["home_removed"], false);
         assert_eq!(out.code, 1);
         assert!(!session_record_path(&ws, "s").exists());
@@ -281,6 +318,29 @@ mod tests {
         fs::create_dir_all(parent.join("home").join("diagnostics")).expect("mkdir");
         assert!(remove_session_home(&ws, &parent.join("home")));
         assert!(!parent.exists());
+    }
+
+    /// A test-owned endpoint name, outside the `viola-<h12>` namespace `viola run` binds.
+    fn test_endpoint(dir: &Path, label: &str) -> String {
+        let base = format!("viola-test-chan-{}-{label}", std::process::id());
+        if cfg!(windows) {
+            format!(r"\\.\pipe\{base}")
+        } else {
+            dir.join(format!("{base}.sock"))
+                .to_string_lossy()
+                .into_owned()
+        }
+    }
+
+    #[test]
+    fn unconnectable_is_true_only_once_nothing_listens() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let endpoint = test_endpoint(tmp.path(), "gone");
+        assert!(unconnectable(&endpoint));
+        let server = viola_channel::Server::bind(&endpoint).expect("bound");
+        assert!(!unconnectable(&endpoint));
+        drop(server);
+        assert!(unconnectable(&endpoint));
     }
 
     #[test]

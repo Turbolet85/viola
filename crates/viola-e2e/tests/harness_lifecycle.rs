@@ -78,7 +78,7 @@ fn harness_session_boots_reports_logs_and_tears_down() {
     assert_eq!(first.doc["processes_gone"], true);
     assert_eq!(first.doc["home_removed"], true);
     assert_eq!(first.doc["killed"], serde_json::json!([]));
-    assert!(first.doc["endpoint_gone"].is_null());
+    assert_eq!(first.doc["endpoint_gone"], true);
     assert!(!home_parent.exists());
     for inst in &rec.instances {
         assert!(!inst.wrapper().alive());

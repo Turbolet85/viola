@@ -82,10 +82,7 @@ fn ctrl_c_when_raw(child: &mut Child, dir: &tempfile::TempDir) {
 fn role_lines(home: &Path, name: &str) -> (String, Vec<Value>) {
     let path: PathBuf = home.join("diagnostics").join(format!("run-{name}.ndjson"));
     let text = std::fs::read_to_string(path).expect("role file");
-    let lines = text
-        .lines()
-        .map(|l| serde_json::from_str(l).expect("one JSON object per line"))
-        .collect();
+    let lines = support::ndjson::complete_lines(text.as_bytes());
     (text, lines)
 }
 

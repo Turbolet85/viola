@@ -32,12 +32,9 @@ pub fn release(control: &Path) {
     f.write_all(b"go\n").expect("append");
 }
 
+/// The receipt's complete lines; a line the agent is still appending is read once it lands.
 pub fn receipt(path: &Path) -> Vec<Value> {
-    fs::read_to_string(path)
-        .unwrap_or_default()
-        .lines()
-        .map(|l| serde_json::from_str(l).expect("one JSON object per receipt line"))
-        .collect()
+    super::ndjson::read_lines(path)
 }
 
 pub fn of_kind<'a>(lines: &'a [Value], kind: &str) -> Vec<&'a Value> {

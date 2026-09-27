@@ -230,16 +230,23 @@ pub fn instance_dir(home: &Path, name: &str) -> PathBuf {
     home.join("instances").join(name)
 }
 
+fn snapshot_data(instance_dir: &Path) -> Option<Value> {
+    fs::read(instance_dir.join("snapshot.json"))
+        .ok()
+        .and_then(|b| serde_json::from_slice::<Value>(&b).ok())
+        .map(|doc| doc["data"].clone())
+}
+
 /// `snapshot.json` parses with `pid`, `started_at` and `child_pid` in its `data`.
 pub fn snapshot_ready(instance_dir: &Path) -> bool {
-    let doc = fs::read(instance_dir.join("snapshot.json"))
-        .ok()
-        .and_then(|b| serde_json::from_slice::<Value>(&b).ok());
-    doc.is_some_and(|d| {
-        d["data"]["pid"].is_u64()
-            && d["data"]["started_at"].is_string()
-            && d["data"]["child_pid"].is_u64()
+    snapshot_data(instance_dir).is_some_and(|d| {
+        d["pid"].is_u64() && d["started_at"].is_string() && d["child_pid"].is_u64()
     })
+}
+
+/// The channel endpoint the wrapper recorded in its snapshot, once it bound one.
+pub fn snapshot_endpoint(instance_dir: &Path) -> Option<String> {
+    snapshot_data(instance_dir).and_then(|d| d["endpoint"].as_str().map(str::to_owned))
 }
 
 /// `heartbeat` exists and was touched less than 5 s ago.
@@ -280,6 +287,8 @@ pub fn readiness(home: &Path, inst: &InstanceSpec) -> Readiness {
         let dir = instance_dir(home, &inst.name);
         if !snapshot_ready(&dir) {
             missing.push(format!("{}:snapshot", inst.name));
+        } else if snapshot_endpoint(&dir).is_none() {
+            missing.push(format!("{}:endpoint", inst.name));
         }
         if !beat_fresh(&dir) {
             missing.push(format!("{}:heartbeat", inst.name));
@@ -391,7 +400,7 @@ mod tests {
         tmp
     }
 
-    const SNAPSHOT: &str = r#"{"v":1,"written_at":"t","writer":"0.1.0","data":{"pid":1,"started_at":"s","child_pid":2}}"#;
+    const SNAPSHOT: &str = r#"{"v":1,"written_at":"t","writer":"0.1.0","data":{"pid":1,"started_at":"s","child_pid":2,"endpoint":"e"}}"#;
 
     /// The instance's snapshot and heartbeat, both as a ready wrapper leaves them.
     fn plant_state(home: &Path) {
@@ -427,6 +436,36 @@ mod tests {
         }
         fs::write(tmp.path().join("snapshot.json"), "not json").expect("write");
         assert!(!snapshot_ready(tmp.path()));
+    }
+
+    #[test]
+    fn snapshot_endpoint_reads_the_recorded_endpoint() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        assert_eq!(snapshot_endpoint(tmp.path()), None);
+        fs::write(tmp.path().join("snapshot.json"), SNAPSHOT).expect("write");
+        assert_eq!(snapshot_endpoint(tmp.path()).as_deref(), Some("e"));
+        let without = r#"{"v":1,"data":{"pid":1,"started_at":"s","child_pid":2}}"#;
+        fs::write(tmp.path().join("snapshot.json"), without).expect("write");
+        assert!(snapshot_ready(tmp.path()));
+        assert_eq!(snapshot_endpoint(tmp.path()), None);
+    }
+
+    /// A snapshot without `endpoint` is not ready: the wrapper has not bound its channel.
+    #[test]
+    fn readiness_names_a_missing_endpoint() {
+        let me = std::process::id();
+        let home = home_with(&[
+            format!(r#"{{"event":"process-start","subject":"self","pid":{me}}}"#),
+            format!(r#"{{"event":"process-start","subject":"claude-child","child_pid":{me}}}"#),
+        ]);
+        plant_state(home.path());
+        let dir = instance_dir(home.path(), "builder");
+        let without = r#"{"v":1,"data":{"pid":1,"started_at":"s","child_pid":2}}"#;
+        fs::write(dir.join("snapshot.json"), without).expect("snapshot");
+        assert_eq!(
+            readiness(home.path(), &spec("builder")),
+            Readiness::Pending(vec!["builder:endpoint".to_owned()])
+        );
     }
 
     #[test]

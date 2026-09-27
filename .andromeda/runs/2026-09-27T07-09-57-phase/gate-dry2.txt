@@ -1,0 +1,30 @@
+gate v1.2 · fab316fd
+shell C:\Program Files\Git\bin\bash.exe (from $SHELL; -c, non-login)
+root D:\dev\projects\viola · marker 2026-09-27-wrapper-channel · entries 23
+logs C:\Users\turbo\AppData\Local\Temp\andromeda-gate\2026-09-27-wrapper-channel\run-20260927T072749Z · bound: GNU timeout
+delta docs 24
+prose L216-226: The gates run on this Windows host during /implement. The chunk adds a product crate and c… (1210 chars)
+  1 lint        not run — dry-run · cargo fmt --all --check
+  2 lint        not run — dry-run · cargo clippy --workspace --all-targets --features fake-age… (75 chars)
+  3 lint        not run — dry-run · bash scripts/lint-probes.sh
+  4 build       not run — dry-run · test -s scripts/sync-crates.txt && cargo check $(sed 's/^/… (88 chars)
+  5 probe       not run — dry-run · cargo deny --config deny-sync.toml --manifest-path crates/… (93 chars)
+  6 probe       not run — dry-run · cargo deny check
+  7 probe       not run — dry-run · bash scripts/deny-probes.sh
+  8 lint        not run — dry-run · bash scripts/orphans-check.sh
+  9 unit        not run — dry-run · bash scripts/agent-run.sh run --unit
+ 10 unit        not run — dry-run · bash scripts/agent-run.sh run --unit --filter 'package(vio… (71 chars)
+ 11 integration not run — dry-run · AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --int… (66 chars)
+ 12 integration not run — dry-run · AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --int… (200 chars)
+ 13 probe       not run — dry-run · bash scripts/agent-run.sh schema-check
+ 14 probe       not run — dry-run · bash scripts/agent-run.sh secret-scan
+ 15 smoke       not run — dry-run · bash scripts/agent-run.sh cleanup --session p-channel-smok… (59 chars)
+ 16 smoke       not run — dry-run · bash scripts/agent-run.sh boot --session p-channel-smoke -… (75 chars)
+ 17 smoke       not run — dry-run · bash scripts/agent-run.sh status --session p-channel-smoke
+ 18 smoke       not run — dry-run · bash scripts/agent-run.sh cleanup --session p-channel-smok… (59 chars)
+ 19 build       not run — dry-run · RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv cargo c… (116 chars)
+ 20 integration not run — dry-run · bash scripts/agent-run.sh pre-push
+ 21 integration not run — leg operator (the letter drives it) · bash scripts/agent-run.sh pre-push
+ 22 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (82 chars)
+ 23 probe       not run — leg operator (the letter drives it) · sha=$(git rev-parse HEAD); while :; do s=$(gh api "repos/T… (487 chars)
+entries 23 · green 0 · red 0 · recorded 0 · timeout 0 · not-run 23

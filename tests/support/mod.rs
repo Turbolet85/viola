@@ -6,4 +6,5 @@
 pub mod fake;
 pub mod home;
 pub mod hygiene;
+pub mod ndjson;
 pub mod outer_pty;

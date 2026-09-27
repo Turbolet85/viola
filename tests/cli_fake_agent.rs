@@ -206,6 +206,34 @@ fn fake_agent_receipt_env_holds_names_never_values() {
     assert!(lines.iter().all(|l| l["v"] == 1));
 }
 
+/// A receipt read while the agent appends can end in a line not yet complete (a reader can see an
+/// append part-way): only newline-terminated lines are read, and the rest is read once it lands.
+#[test]
+fn receipt_reader_leaves_a_torn_final_line_unread() {
+    let tmp = TestHome::new();
+    std::fs::create_dir_all(tmp.scratch()).expect("scratch");
+    let path = tmp.scratch().join("torn.receipt.ndjson");
+    std::fs::write(
+        &path,
+        "{\"v\":1,\"kind\":\"start\"}\n{\"v\":1,\"kind\":\"ke",
+    )
+    .expect("torn");
+    assert_eq!(fake::receipt(&path), [json!({"v": 1, "kind": "start"})]);
+    let mut rest = std::fs::OpenOptions::new()
+        .append(true)
+        .open(&path)
+        .expect("append");
+    rest.write_all(b"y\"}\n").expect("the rest of the line");
+    assert_eq!(
+        fake::receipt(&path),
+        [
+            json!({"v": 1, "kind": "start"}),
+            json!({"v": 1, "kind": "key"})
+        ]
+    );
+    assert!(fake::receipt(&tmp.scratch().join("absent.ndjson")).is_empty());
+}
+
 #[cfg(unix)]
 #[test]
 fn fake_agent_receipt_lists_open_fds() {
@@ -539,13 +567,11 @@ fn fake_agent_exit_no_eof_exits_while_stdout_is_held() {
     let tmp = TestHome::new();
     let (status, _, _) = run_and_watch_stdout(&tmp, &["--exit-no-eof"]);
     assert_eq!(status.code(), Some(0));
-    let role = std::fs::read_to_string(tmp.path().join("diagnostics").join("run-builder.ndjson"))
-        .expect("role");
-    let exit: Value = role
-        .lines()
-        .map(|l| serde_json::from_str::<Value>(l).expect("line"))
-        .find(|l| l["event"] == "process-exit" && l["subject"] == "claude-child")
-        .expect("child exit line");
+    let exit =
+        support::ndjson::read_lines(&tmp.path().join("diagnostics").join("run-builder.ndjson"))
+            .into_iter()
+            .find(|l| l["event"] == "process-exit" && l["subject"] == "claude-child")
+            .expect("child exit line");
     assert_eq!(exit["exit_source"], "handle-wait");
     assert_eq!(exit["child_exit_status"], 0);
 }

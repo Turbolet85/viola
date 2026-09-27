@@ -2,15 +2,18 @@ use std::ffi::OsString;
 use std::io::{self, Write as _};
 use std::path::{Path, PathBuf};
 use std::process::ExitCode;
+use std::sync::Arc;
 use std::time::SystemTime;
 
 use anyhow::Context as _;
 use chrono::Utc;
-use serde_json::json;
+use serde_json::{Value, json};
+use tracing::instrument;
 use viola_agent_claude::{Refusal, StripPlan};
+use viola_channel::{ChannelError, Dispatch, ProtocolError, Server, Serving};
 use viola_core::obs::ObsProcess;
 use viola_core::{EventKind, ViolaName};
-use viola_pty::{HostTerminal, PumpEnd, Size, SpawnSpec};
+use viola_pty::{HostTerminal, PortablePty, PumpEnd, Size, SpawnSpec};
 use viola_state::events::{EventLine, Source, append_event};
 use viola_state::fs::{FILE_MODE, create_private_dir, replace_private_shared};
 use viola_state::heartbeat::{Heartbeat, beat_age, touch_heartbeat};
@@ -35,6 +38,10 @@ fn parse_name(raw: &str) -> Result<ViolaName, String> {
     ViolaName::try_new(raw.to_owned()).map_err(|_| "invalid instance name".to_owned())
 }
 
+fn name_str(name: &ViolaName) -> &str {
+    name.as_ref()
+}
+
 /// Test-only seam, compiled only with the test-only `fake-agent` feature and so absent from any
 /// release build: `FAKE_AGENT_PUMP_DELAY_MS` holds the pump back after the child starts, so a test can
 /// land a host resize between the spawn sizing and the pump's first look without a timing bet.
@@ -48,9 +55,15 @@ fn hold_pump_start() {
     }
 }
 
-/// The documented start order (architecture §Established Decisions [Session Liveness]): program
-/// resolution, collision check, pinned copy + plugin folder, first snapshot + heartbeat, start
-/// events, then the spawn. The version gate and the endpoint bind have no step yet.
+/// The wrapper's channel answers no method yet: each one is `-32601` until its chunk lands.
+pub(crate) struct NoMethods;
+
+impl Dispatch for NoMethods {
+    fn dispatch(&self, _method: &str, _params: &Value) -> Result<Value, ProtocolError> {
+        Err(ProtocolError::MethodNotFound)
+    }
+}
+
 pub(crate) fn run(home: &Path, args: RunArgs) -> anyhow::Result<ExitCode> {
     let (level, rejection) = obs::read_diagnostics_level(home);
     obs::viola_obs_init(home, ObsProcess::Run, Some(args.name.clone()), level)?;
@@ -62,7 +75,32 @@ pub(crate) fn run(home: &Path, args: RunArgs) -> anyhow::Result<ExitCode> {
     if let Some(rejection) = keep_rejection {
         obs::log_config_rejection(rejection);
     }
+    match start(home, &args, &persistent)? {
+        Started::Launched(launched) => pump_child(*launched),
+        Started::Refused(code) => Ok(code),
+    }
+}
 
+/// Everything the pump needs, and the guards that must outlive it: the heartbeat thread and the
+/// served endpoint.
+struct Launched {
+    pty: PortablePty,
+    terminal: Option<HostTerminal>,
+    size: Size,
+    _beat: Heartbeat,
+    _serving: Serving,
+}
+
+enum Started {
+    Launched(Box<Launched>),
+    Refused(ExitCode),
+}
+
+/// The documented start order (architecture §Established Decisions [Session Liveness]): program
+/// resolution, collision check, pinned copy + plugin folder, endpoint bind, first snapshot +
+/// heartbeat, start events, then the spawn. The version gate has no step yet.
+#[instrument(skip_all, name = "run.start", fields(instance = name_str(&args.name)))]
+fn start(home: &Path, args: &RunArgs, persistent: &[String]) -> anyhow::Result<Started> {
     let (program, program_args) = args
         .program
         .split_first()
@@ -72,26 +110,26 @@ pub(crate) fn run(home: &Path, args: RunArgs) -> anyhow::Result<ExitCode> {
         Ok(program) => program,
         Err(Refusal::BatchScriptChild) => {
             refuse_batch_script(&args.name);
-            run::log_self_exit(1, Some("batch-script-child"));
-            return Ok(ExitCode::from(1));
+            return Ok(refused("batch-script-child"));
         }
-        Err(Refusal::NotFound) => {
-            run::log_self_exit(1, Some("internal-error"));
-            return Ok(ExitCode::from(1));
-        }
+        Err(Refusal::NotFound) => return Ok(refused("internal-error")),
     };
 
     let home = std::path::absolute(home)?;
-    let instance_dir = home.join("instances").join(args.name.as_ref());
-    if let Some(refused) = collision_check(&args.name, &instance_dir) {
-        return Ok(refused);
+    let instance_dir = home.join("instances").join(name_str(&args.name));
+    if let Some(refusal) = collision_check(&args.name, &instance_dir) {
+        return Ok(refusal);
     }
     let Some((pinned, plugin_dir)) = pin_and_plugin(&home)? else {
         refuse_tampered_pin();
-        run::log_self_exit(1, Some("pinned-hash-mismatch"));
-        return Ok(ExitCode::from(1));
+        return Ok(refused("pinned-hash-mismatch"));
     };
-    let (_beat, snapshot) = start_state(&args.name, &instance_dir, &pinned)?;
+    let Some((endpoint, server)) = bind_endpoint(&args.name, &home)? else {
+        refuse_squatted(&args.name);
+        return Ok(refused("squatted-name"));
+    };
+    let serving = server.serve(Arc::new(NoMethods));
+    let (beat, snapshot) = start_state(&args.name, &instance_dir, &pinned, endpoint)?;
     let launch = run::child_launch(
         &args.name,
         &instance_dir,
@@ -100,32 +138,56 @@ pub(crate) fn run(home: &Path, args: RunArgs) -> anyhow::Result<ExitCode> {
         std::env::var_os("PATH"),
         program_args,
     );
-    let strip = viola_agent_claude::plan_strip(std::env::vars_os().map(|(k, _)| k), &persistent);
-    spawn_and_pump(program, cwd, launch, &strip, &instance_dir, snapshot)
+    let strip = viola_agent_claude::plan_strip(std::env::vars_os().map(|(k, _)| k), persistent);
+    let (pty, terminal, size) = spawn_child(program, cwd, launch, &strip, &instance_dir, snapshot)?;
+    Ok(Started::Launched(Box::new(Launched {
+        pty,
+        terminal,
+        size,
+        _beat: beat,
+        _serving: serving,
+    })))
+}
+
+fn refused(detail: &'static str) -> Started {
+    run::log_self_exit(1, Some(detail));
+    Started::Refused(ExitCode::from(1))
 }
 
 /// A `live` or `stale` name refuses before anything is written; a `gone` one is taken over.
-fn collision_check(name: &ViolaName, instance_dir: &Path) -> Option<ExitCode> {
-    let snapshot = read_snapshot(instance_dir)?;
-    let age = beat_age(instance_dir, SystemTime::now());
-    match classify(age, same_process(&snapshot)) {
+#[instrument(skip_all, name = "run.collision_check", fields(outcome = tracing::field::Empty))]
+fn collision_check(name: &ViolaName, instance_dir: &Path) -> Option<Started> {
+    let taken = read_snapshot(instance_dir).map(|snapshot| {
+        let age = beat_age(instance_dir, SystemTime::now());
+        classify(age, same_process(&snapshot))
+    });
+    let outcome = match taken {
+        None | Some(Liveness::Gone) => "free",
+        Some(Liveness::Live | Liveness::Stale) => "already-live",
+    };
+    tracing::Span::current().record("outcome", outcome);
+    match taken? {
         Liveness::Gone => return None,
         Liveness::Live => refuse_live(name),
         Liveness::Stale => refuse_stale(name),
     }
-    run::log_self_exit(1, Some("already-live"));
-    Some(ExitCode::from(1))
+    Some(refused("already-live"))
 }
 
 /// The pinned copy of this exe, then `plugin/<key>/` rewritten whole; `None` when the pinned copy
 /// failed its re-hash.
+#[instrument(skip_all, name = "run.pin_copy", fields(outcome = tracing::field::Empty))]
 fn pin_and_plugin(home: &Path) -> anyhow::Result<Option<(Pinned, PathBuf)>> {
     let exe = std::env::current_exe()?;
     let pinned = match pin_exe(home, &exe) {
         Ok(pinned) => pinned,
-        Err(PinError::HashMismatch) => return Ok(None),
+        Err(PinError::HashMismatch) => {
+            tracing::Span::current().record("outcome", "pinned-hash-mismatch");
+            return Ok(None);
+        }
         Err(error) => return Err(error.into()),
     };
+    tracing::Span::current().record("outcome", "ok");
     let plugin_dir = home.join("plugin").join(&pinned.key);
     for (rel, content) in viola_agent_claude::plugin_files(&pinned.path_fwd) {
         let path = plugin_dir.join(rel);
@@ -135,17 +197,34 @@ fn pin_and_plugin(home: &Path) -> anyhow::Result<Option<(Pinned, PathBuf)>> {
     Ok(Some((pinned, plugin_dir)))
 }
 
-/// The first snapshot, the heartbeat and its thread, then the two start events; the returned
-/// guard keeps the heartbeat running.
+/// The instance's endpoint, bound before the first snapshot so the child's first hook finds it
+/// listening. The exclusive bind is the arbiter of two starts of one name: `None` when another
+/// process holds it.
+fn bind_endpoint(name: &ViolaName, home: &Path) -> anyhow::Result<Option<(String, Server)>> {
+    let endpoint = viola_channel::endpoint_path(name, home)?;
+    #[cfg(unix)]
+    if let Some(dir) = Path::new(&endpoint).parent() {
+        create_private_dir(dir)?;
+    }
+    match Server::bind(&endpoint) {
+        Ok(server) => Ok(Some((endpoint, server))),
+        Err(ChannelError::BindTaken) => Ok(None),
+        Err(error) => Err(error.into()),
+    }
+}
+
+/// The first snapshot (with the endpoint), the heartbeat and its thread, then the two start
+/// events; the returned guard keeps the heartbeat running.
 fn start_state(
     name: &ViolaName,
     instance_dir: &Path,
     pinned: &Pinned,
+    endpoint: String,
 ) -> anyhow::Result<(Heartbeat, InstanceSnapshot)> {
     create_private_dir(instance_dir)?;
     let pid = std::process::id();
     let snapshot = InstanceSnapshot {
-        endpoint: None,
+        endpoint: Some(endpoint),
         pid,
         started_at: own_start(pid).context("own start time unreadable")?,
         pinned_bin: pinned.path_fwd.clone(),
@@ -172,14 +251,15 @@ fn start_state(
     Ok((beat, snapshot))
 }
 
-fn spawn_and_pump(
+/// The child under a PTY, the host terminal raw first, then its pid in the snapshot.
+fn spawn_child(
     program: PathBuf,
     cwd: PathBuf,
     launch: ChildLaunch,
     strip: &StripPlan,
     instance_dir: &Path,
     mut snapshot: InstanceSnapshot,
-) -> anyhow::Result<ExitCode> {
+) -> anyhow::Result<(PortablePty, Option<HostTerminal>, Size)> {
     let spec = SpawnSpec {
         program,
         args: launch.args,
@@ -190,17 +270,28 @@ fn spawn_and_pump(
     };
     // Raw before the spawn: every key the human types from here on reaches the child as typed.
     let terminal = HostTerminal::enter();
-    let mut pty = viola_pty::spawn(&spec)?;
+    let pty = viola_pty::spawn(&spec)?;
     snapshot.child_pid = viola_pty::Pty::child_pid(&pty);
     write_snapshot(instance_dir, &snapshot)?;
     run::log_child_start(snapshot.child_pid, strip);
+    Ok((pty, terminal, spec.size))
+}
+
+fn pump_child(launched: Launched) -> anyhow::Result<ExitCode> {
+    let Launched {
+        mut pty,
+        terminal,
+        size,
+        _beat,
+        _serving,
+    } = launched;
     #[cfg(feature = "fake-agent")]
     hold_pump_start();
     let end = viola_pty::pump(
         &mut pty,
         Box::new(io::stdin()),
         Box::new(io::stdout()),
-        spec.size,
+        size,
         &mut viola_pty::host_size,
     );
     drop(terminal);
@@ -251,4 +342,159 @@ fn refuse_tampered_pin() {
         "the pinned viola copy failed its integrity check",
         "the pinned copy was changed after it was written, so viola will not run it",
     );
+}
+
+/// The bind loser cannot tell a racing viola from any other holder, so it names neither.
+fn refuse_squatted(name: &ViolaName) {
+    let name = name_str(name);
+    refuse(
+        &format!("the endpoint for {name} is held by another process"),
+        "another process holds this name's endpoint; stop it or pick another name",
+    );
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::sync::Mutex;
+    use tracing::field::{Field, Visit};
+    use tracing::span::{Attributes, Id, Record};
+    use tracing_subscriber::layer::{Context, Layer, SubscriberExt as _};
+    use tracing_subscriber::registry::LookupSpan;
+    use viola_pty::Pty as _;
+
+    /// Every span the calling thread opens, in order: `{name, parent, fields}`, with values
+    /// recorded after creation merged in.
+    #[derive(Clone, Default)]
+    struct Spans(Arc<Mutex<Vec<(u64, Value)>>>);
+
+    #[derive(Default)]
+    struct Fields(serde_json::Map<String, Value>);
+
+    impl Visit for Fields {
+        fn record_debug(&mut self, field: &Field, value: &dyn std::fmt::Debug) {
+            self.0
+                .insert(field.name().to_owned(), format!("{value:?}").into());
+        }
+        fn record_str(&mut self, field: &Field, value: &str) {
+            self.0.insert(field.name().to_owned(), value.into());
+        }
+        fn record_u64(&mut self, field: &Field, value: u64) {
+            self.0.insert(field.name().to_owned(), value.into());
+        }
+    }
+
+    impl<S: tracing::Subscriber + for<'a> LookupSpan<'a>> Layer<S> for Spans {
+        fn on_new_span(&self, attrs: &Attributes<'_>, id: &Id, ctx: Context<'_, S>) {
+            let mut fields = Fields::default();
+            attrs.record(&mut fields);
+            let parent = ctx
+                .span(id)
+                .and_then(|s| s.parent())
+                .map(|p| p.name().to_owned());
+            let span =
+                json!({"name": attrs.metadata().name(), "parent": parent, "fields": fields.0});
+            self.0.lock().expect("spans").push((id.into_u64(), span));
+        }
+
+        fn on_record(&self, id: &Id, values: &Record<'_>, _: Context<'_, S>) {
+            let mut fields = Fields::default();
+            values.record(&mut fields);
+            let mut spans = self.0.lock().expect("spans");
+            if let Some((_, span)) = spans.iter_mut().rev().find(|(i, _)| *i == id.into_u64()) {
+                for (key, value) in fields.0 {
+                    span["fields"][key] = value;
+                }
+            }
+        }
+    }
+
+    impl Spans {
+        fn all(&self) -> Vec<Value> {
+            let spans = self.0.lock().expect("spans");
+            spans.iter().map(|(_, span)| span.clone()).collect()
+        }
+    }
+
+    fn capture_spans<R>(f: impl FnOnce() -> R) -> (R, Spans) {
+        let spans = Spans::default();
+        let subscriber = tracing_subscriber::registry().with(spans.clone());
+        (tracing::subscriber::with_default(subscriber, f), spans)
+    }
+
+    #[test]
+    fn no_methods_answers_method_not_found_for_every_method() {
+        for method in ["send", "wait", "hook.event", "anything"] {
+            assert_eq!(
+                NoMethods.dispatch(method, &json!({"v": 1})),
+                Err(ProtocolError::MethodNotFound)
+            );
+        }
+    }
+
+    fn field<'a>(spans: &'a [Value], name: &str) -> &'a Value {
+        spans
+            .iter()
+            .find(|s| s["name"] == name)
+            .map(|s| &s["fields"])
+            .unwrap_or_else(|| panic!("no span {name} in {spans:?}"))
+    }
+
+    /// One in-process start through the spawn (obs-plan §4 Scenario 1): every step's span, in the
+    /// documented order, under `run.start`, with its required fields; then the seam's own spans.
+    /// The home is outside `target/e2e-home`: its pinned copy is this test binary, not `viola`.
+    #[test]
+    fn start_opens_the_scenario_one_spans_under_run_start() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let exe = std::env::current_exe().expect("test exe");
+        let args = RunArgs {
+            name: ViolaName::try_new("builder".to_owned()).expect("valid"),
+            program: vec![exe.into_os_string(), OsString::from("--list")],
+        };
+        let (started, spans) = capture_spans(|| start(&tmp.path().join("home"), &args, &[]));
+        let Started::Launched(mut launched) = started.expect("started") else {
+            panic!("the start was refused");
+        };
+        let (_, seam) = capture_spans(|| {
+            let _ = launched.pty.resize(Size { cols: 90, rows: 30 });
+            let _ = launched.pty.kill();
+        });
+        drop(launched);
+
+        let spans = spans.all();
+        let names: Vec<&str> = spans.iter().filter_map(|s| s["name"].as_str()).collect();
+        assert_eq!(
+            names,
+            [
+                "run.start",
+                "run.collision_check",
+                "run.pin_copy",
+                "channel.bind",
+                "state.snapshot_write",
+                "state.heartbeat_start",
+                "pty.spawn",
+                "state.snapshot_write",
+            ]
+        );
+        assert!(spans[0]["parent"].is_null());
+        assert!(
+            spans[1..].iter().all(|s| s["parent"] == "run.start"),
+            "{spans:?}"
+        );
+        assert_eq!(field(&spans, "run.start")["instance"], "builder");
+        assert_eq!(field(&spans, "run.collision_check")["outcome"], "free");
+        assert_eq!(field(&spans, "run.pin_copy")["outcome"], "ok");
+        assert_eq!(
+            field(&spans, "channel.bind")["endpoint_kind"],
+            viola_channel::ENDPOINT_KIND
+        );
+        assert_eq!(field(&spans, "state.snapshot_write")["v"], 1);
+        let spawn = field(&spans, "pty.spawn");
+        assert_eq!(spawn["pty_backend"], viola_pty::PTY_BACKEND);
+        assert!(spawn["env_stripped_count"].is_u64(), "{spawn}");
+
+        let seam: Vec<Value> = seam.all();
+        let names: Vec<&str> = seam.iter().filter_map(|s| s["name"].as_str()).collect();
+        assert_eq!(names, ["pty.resize", "pty.kill"]);
+    }
 }

@@ -40,11 +40,7 @@ fn run_args(home: &Path, receipt: Option<&Path>, extra: &[&str]) -> Vec<OsString
 }
 
 fn role_lines(home: &Path) -> Vec<Value> {
-    std::fs::read_to_string(home.join("diagnostics").join("run-builder.ndjson"))
-        .expect("role file")
-        .lines()
-        .map(|l| serde_json::from_str(l).expect("line"))
-        .collect()
+    support::ndjson::read_lines(&home.join("diagnostics").join("run-builder.ndjson"))
 }
 
 fn unix_us() -> u128 {

@@ -265,11 +265,11 @@
       "observed_gap": "obs adds a `conn` field (`<process>-<pid>-<t0>-<n>`) to every channel request so calls can be joined across processes, and a `diagnostics_level` key (`info`|`debug`) to `config.json`; arch lists neither (XF O6).",
       "verification": {
         "method": "integration",
-        "acceptance": "Channel requests may carry an optional connection discriminator that joins calls across processes; a peer that omits it still works and it is never treated as identity; the config file names a diagnostics level that changes volume only and can never disable redaction.",
-        "ref": null,
-        "status": "planned"
+        "acceptance": "A request from the viola client over a real wrapper endpoint carries `conn` matching `^[a-z]+-\\d+-\\d+-\\d+$`, and the wrapper's `diagnostics/run-<name>.ndjson` logs it on `channel-request` and `channel-response` with `corr` equal to the request id; a raw frame without `conn` is served and logged with `srv_conn` of the form `srv-<n>`; the server's dispatch takes no `conn` input, so it is never used as identity; with `config.json` `diagnostics_level: \"debug\"`, the tests-owned content canary sent in request params reaches no file under `<home>/diagnostics/` (tests/channel_endpoint.rs, package(viola-channel)).",
+        "ref": "tests/channel_endpoint.rs::channel_wrapper_logs_each_call_with_corr_and_conn · tests/channel_endpoint.rs::channel_debug_level_keeps_request_content_out_of_the_role_files · crates/viola-channel/src/server.rs::tests::dispatch_never_receives_the_peer_conn · crates/viola-channel/src/client.rs::tests::client_conn_has_the_documented_shape_and_counts_connections",
+        "status": "implemented"
       },
-      "chunk": null
+      "chunk": "2026-09-27-wrapper-channel"
     },
     {
       "id": "v1-21",

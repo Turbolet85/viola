@@ -128,6 +128,11 @@ pub struct PortablePty {
     child: Box<dyn Child + Send + Sync>,
 }
 
+#[tracing::instrument(
+    skip_all,
+    name = "pty.spawn",
+    fields(pty_backend = PTY_BACKEND, env_stripped_count = spec.env_remove.len())
+)]
 pub fn spawn(spec: &SpawnSpec) -> Result<PortablePty, PtyError> {
     let pair = native_pty_system()
         .openpty(pty_size(spec.size))
@@ -184,6 +189,7 @@ impl Pty for PortablePty {
             .map_err(|e| PtyError::Handle(e.into()))
     }
 
+    #[tracing::instrument(skip_all, name = "pty.resize")]
     fn resize(&mut self, size: Size) -> Result<(), PtyError> {
         self.master()?
             .resize(pty_size(size))
@@ -197,6 +203,7 @@ impl Pty for PortablePty {
             .map_err(PtyError::Wait)
     }
 
+    #[tracing::instrument(skip_all, name = "pty.kill")]
     fn kill(&mut self) -> Result<(), PtyError> {
         match self.child.kill() {
             Ok(()) => Ok(()),

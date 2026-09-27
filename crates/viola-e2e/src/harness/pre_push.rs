@@ -1,8 +1,9 @@
 //! `pre-push`: the local Linux gate an operator pass runs before its push (test-plan §3 Internal
 //! harness subcommands). From this Windows host it syncs a history-carrying clone in WSL2 `Ubuntu`
 //! from the working tree, runs the ubuntu test job's suites and the `ubuntu-latest` mutation leg
-//! there, the `windows-2025` leg here, and judges both legs with CI's own union. Stages run in order
-//! and stop at the first red; one document names the stage it reached.
+//! there, the windows test job's coverage suites and the `windows-2025` leg here, and judges both
+//! legs with CI's own union. Stages run in order and stop at the first red; one document names the
+//! stage it reached. Runner-speed timeouts are CI's alone: no local stage can reproduce them.
 
 use std::fs;
 use std::path::Path;
@@ -177,6 +178,7 @@ struct Doc {
     sync: Option<Value>,
     cache: Option<Value>,
     linux: Map<String, Value>,
+    windows: Map<String, Value>,
     legs: Map<String, Value>,
     gate: Option<Value>,
 }
@@ -201,6 +203,9 @@ impl Doc {
         }
         if !self.linux.is_empty() {
             doc["linux"] = Value::Object(self.linux);
+        }
+        if !self.windows.is_empty() {
+            doc["windows"] = Value::Object(self.windows);
         }
         if !self.legs.is_empty() {
             doc["legs"] = Value::Object(self.legs);
@@ -242,6 +247,10 @@ fn stages(
         cache["scratch_bytes_after"] = json!(scratch_after);
     }
     if !tests? {
+        return Ok(false);
+    }
+    doc.stage = "windows-tests";
+    if !windows_tests(ws, runner, doc) {
         return Ok(false);
     }
     doc.stage = "windows-leg";
@@ -501,6 +510,24 @@ fn linux_tests(linux: &Linux, runner: &mut Runner<'_>, doc: &mut Doc) -> Result<
     Ok(ok(&gate))
 }
 
+/// `run --coverage` then `gate --require coverage,doctest` on this host: the windows test job's own
+/// suites and floors, before its mutation leg.
+fn windows_tests(ws: &Workspace, runner: &mut Runner<'_>, doc: &mut Doc) -> bool {
+    let coverage = Selection {
+        coverage: true,
+        ..Selection::default()
+    };
+    let run = run_with(ws, coverage, None, None, None, runner);
+    doc.windows.insert("run".to_owned(), summary(&run.doc));
+    if run.code != 0 {
+        return false;
+    }
+    let required = ["coverage".to_owned(), "doctest".to_owned()];
+    let floors = gate(&ws.artifacts(), &ws.root, &required, None);
+    doc.windows.insert("gate".to_owned(), summary(&floors.doc));
+    floors.code == 0
+}
+
 /// The ubuntu leg in the clone, its reduced verdict copied beside the host's for the union.
 fn linux_leg(
     ws: &Workspace,
@@ -588,7 +615,19 @@ mod tests {
         answers: Vec<(Vec<String>, i32, String)>,
         calls: Vec<String>,
         claude_envs: usize,
+        /// The host coverage run's stand-in, once `root` is known: what `cargo llvm-cov` leaves.
+        host_coverage: Option<Coverage>,
+        root: Option<PathBuf>,
     }
+
+    #[derive(Clone, Copy)]
+    enum Coverage {
+        Green,
+        Failing,
+        BelowFloor,
+    }
+
+    const DOCTEST_OK: &str = "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured\n";
 
     impl Fake {
         fn new() -> Self {
@@ -596,7 +635,48 @@ mod tests {
                 answers: Vec::new(),
                 calls: Vec::new(),
                 claude_envs: 0,
+                host_coverage: None,
+                root: None,
             }
+        }
+
+        fn host(mut self, coverage: Coverage) -> Self {
+            self.host_coverage = Some(coverage);
+            self
+        }
+
+        /// `cargo llvm-cov nextest` writes its JUnit report, `cargo llvm-cov report` its summary.
+        fn coverage(&self, line: &str, last_arg: Option<&str>) -> Option<(Option<i32>, String)> {
+            let (Some(coverage), Some(root)) = (self.host_coverage, &self.root) else {
+                return None;
+            };
+            if line.starts_with("cargo llvm-cov nextest") {
+                let failing = matches!(coverage, Coverage::Failing);
+                let case = if failing {
+                    "<testcase name=\"a\" classname=\"c\"><failure message=\"x\"/></testcase>"
+                } else {
+                    "<testcase name=\"a\" classname=\"c\"/>"
+                };
+                let junit = root.join("target/nextest/ci/junit.xml");
+                fs::create_dir_all(junit.parent().expect("parent")).expect("mkdir");
+                fs::write(junit, format!("<testsuites>{case}</testsuites>")).expect("junit");
+                return Some((Some(if failing { 100 } else { 0 }), String::new()));
+            }
+            if line.starts_with("cargo llvm-cov report") {
+                let pct = if matches!(coverage, Coverage::BelowFloor) {
+                    50.0
+                } else {
+                    100.0
+                };
+                let totals = json!({"data": [{"totals": {
+                    "lines": {"percent": pct}, "functions": {"percent": pct},
+                    "regions": {"percent": pct},
+                }}]});
+                let path = last_arg.expect("output path");
+                fs::write(path, totals.to_string()).expect("summary");
+                return Some((Some(0), String::new()));
+            }
+            None
         }
 
         fn on(mut self, patterns: &[&str], code: i32, out: &str) -> Self {
@@ -611,6 +691,7 @@ mod tests {
                 "mutants": {"tested": 1, "verdict": "counted", "base": base, "leg": LINUX_LEG}});
             let verdict = json!({"v": 1, "leg": LINUX_LEG, "verdict": "counted",
                 "mutants": [{"name": MUTANT, "outcome": linux_outcome}]});
+            let coverage = self.host_coverage.unwrap_or(Coverage::Green);
             self.on(&["printenv HOME"], 0, &format!("{HOME}\n"))
                 .on(&["cc --version"], 0, "cc 13\n")
                 .on(
@@ -633,6 +714,8 @@ mod tests {
                 )
                 .on(&["--mutants --leg ubuntu-latest"], 0, &format!("{leg}\n"))
                 .on(&["cat "], 0, &verdict.to_string())
+                .on(&["cargo test --workspace --doc"], 0, DOCTEST_OK)
+                .host(coverage)
         }
 
         fn answer(&mut self, cmd: &mut Command) -> (Option<i32>, String) {
@@ -640,12 +723,16 @@ mod tests {
                 .chain(cmd.get_args())
                 .map(|a| a.to_string_lossy().into_owned())
                 .collect();
+            let last_arg = line.last().cloned();
             let line = line.join(" ");
             self.claude_envs += cmd
                 .get_envs()
                 .filter(|(k, _)| k.to_string_lossy().starts_with("CLAUDE"))
                 .count();
             self.calls.push(line.clone());
+            if let Some(answer) = self.coverage(&line, last_arg.as_deref()) {
+                return answer;
+            }
             self.answers
                 .iter()
                 .find(|(pats, _, _)| pats.iter().all(|p| line.contains(p.as_str())))
@@ -675,7 +762,52 @@ mod tests {
     }
 
     fn drive(ws: &Workspace, fake: &mut Fake) -> Outcome {
+        fake.root = Some(ws.root.clone());
         pre_push_with(ws, true, same, &mut |c| fake.answer(c))
+    }
+
+    /// The windows test job's suites run on the host after the Linux leg and before the host leg,
+    /// and their reduced documents sit under `windows`.
+    #[test]
+    fn pre_push_windows_tests_run_between_the_linux_leg_and_the_windows_leg() {
+        let (_tmp, ws) = pinned();
+        let mut fake = Fake::new().green("b", "caught");
+        let out = drive(&ws, &mut fake);
+        assert_eq!(out.doc["stage"], "windows-leg", "{}", out.doc);
+        assert_eq!(out.doc["windows"]["run"]["ok"], true, "{}", out.doc);
+        assert_eq!(out.doc["windows"]["run"]["suites"][0]["suite"], "coverage");
+        assert_eq!(out.doc["windows"]["gate"]["ok"], true, "{}", out.doc);
+        let at = |needle: &str| {
+            fake.calls
+                .iter()
+                .position(|c| c.contains(needle))
+                .unwrap_or_else(|| panic!("{needle} in {:?}", fake.calls))
+        };
+        assert!(at("--mutants --leg ubuntu-latest") < at("cargo llvm-cov nextest"));
+        assert!(!fake.calls[at("cargo llvm-cov nextest")].starts_with(WSL));
+        let keys: Vec<&String> = out.doc.as_object().expect("doc").keys().collect();
+        let (linux, windows, legs) = (
+            keys.iter().position(|k| *k == "linux"),
+            keys.iter().position(|k| *k == "windows"),
+            keys.iter().position(|k| *k == "legs"),
+        );
+        assert!(linux < windows && windows < legs, "{keys:?}");
+    }
+
+    /// A red windows test stage stops the pass before the host mutation leg.
+    #[test]
+    fn pre_push_windows_tests_red_stops_before_the_windows_leg() {
+        for (coverage, section) in [(Coverage::Failing, "run"), (Coverage::BelowFloor, "gate")] {
+            let (_tmp, ws) = pinned();
+            let mut fake = Fake::new().host(coverage).green("b", "caught");
+            let out = drive(&ws, &mut fake);
+            assert_eq!(out.code, 1, "{}", out.doc);
+            assert_eq!(out.doc["stage"], "windows-tests", "{}", out.doc);
+            assert_eq!(out.doc["windows"][section]["ok"], false, "{}", out.doc);
+            assert!(out.doc.get("reason").is_none());
+            assert!(out.doc["legs"].get(HOST_LEG).is_none(), "{}", out.doc);
+            assert!(!fake.calls.iter().any(|c| c.starts_with("cargo mutants")));
+        }
     }
 
     #[test]
@@ -977,6 +1109,7 @@ mod tests {
             "{{\"outcomes\":[{{\"scenario\":{{\"Mutant\":{{\"name\":\"{MUTANT}\"}}}},\"summary\":\"{windows}\"}}],\
              \"caught\":0,\"missed\":1,\"timeout\":0,\"unviable\":0}}"
         );
+        fake.root = Some(root.clone());
         pre_push_with(ws, true, same, &mut |c| {
             let args: Vec<String> = c
                 .get_args()
