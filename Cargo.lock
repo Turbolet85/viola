@@ -1600,12 +1600,14 @@ dependencies = [
  "rstest",
  "serde_json",
  "sha2",
+ "sysinfo",
  "tempfile",
  "tracing",
  "tracing-subscriber",
  "viola-agent-claude",
  "viola-core",
  "viola-pty",
+ "viola-state",
  "windows-sys",
 ]
 
@@ -1651,6 +1653,22 @@ dependencies = [
  "portable-pty",
  "tempfile",
  "windows-sys",
+]
+
+[[package]]
+name = "viola-state"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "rstest",
+ "serde",
+ "serde_json",
+ "sha2",
+ "sysinfo",
+ "tempfile",
+ "thiserror 2.0.20",
+ "tracing",
+ "viola-core",
 ]
 
 [[package]]

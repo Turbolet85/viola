@@ -63,10 +63,16 @@ name = "cli_program_resolution"
 path = "tests/cli_program_resolution.rs"
 required-features = ["fake-agent"]
 
+[[test]]
+name = "cli_instance_state"
+path = "tests/cli_instance_state.rs"
+required-features = ["fake-agent"]
+
 [dependencies]
 viola-core = { path = "crates/viola-core" }
 viola-pty = { path = "crates/viola-pty" }
 viola-agent-claude = { path = "crates/viola-agent-claude" }
+viola-state = { path = "crates/viola-state" }
 anyhow.workspace = true
 chrono.workspace = true
 clap.workspace = true
@@ -79,6 +85,7 @@ jsonschema.workspace = true
 rstest.workspace = true
 serde_json.workspace = true
 sha2.workspace = true
+sysinfo.workspace = true
 tempfile.workspace = true
 
 [target.'cfg(windows)'.dependencies]
@@ -148,6 +155,11 @@ dbg_macro = "deny"
 
 [profile.dev]
 panic = "unwind"
+
+# The pinned-copy key hashes the whole running exe on every start (38 MB unoptimized on Linux):
+# the digest runs optimized in dev and test builds too.
+[profile.dev.package.sha2]
+opt-level = 3
 
 [profile.release]
 panic = "unwind"

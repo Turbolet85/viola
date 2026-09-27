@@ -1,7 +1,7 @@
 //! `viola::obs`: the codes-only role file per process, the owner-only per-instance detail files
 //! and the `diagnostics_level` read (obs-plan §3). Nothing here writes stdout or stderr.
 
-use std::fs::{self, File, OpenOptions};
+use std::fs::File;
 use std::io::{self, Read as _, Write as _};
 use std::path::{Path, PathBuf};
 use std::sync::{Arc, OnceLock};
@@ -36,32 +36,12 @@ static STARTED: OnceLock<Instant> = OnceLock::new();
 
 /// Creates `dir` (and missing parents) owner-only; an existing one is narrowed to 0700 on Unix.
 pub(crate) fn ensure_private_dir(dir: &Path) -> io::Result<()> {
-    let mut builder = fs::DirBuilder::new();
-    builder.recursive(true);
-    #[cfg(unix)]
-    {
-        use std::os::unix::fs::{DirBuilderExt as _, PermissionsExt as _};
-        builder.mode(0o700).create(dir)?;
-        fs::set_permissions(dir, fs::Permissions::from_mode(0o700))
-    }
-    #[cfg(not(unix))]
-    builder.create(dir)
+    viola_state::fs::create_private_dir(dir)
 }
 
 /// Append-only, 0600 on Unix.
 fn open_private_append(path: &Path) -> io::Result<File> {
-    let mut options = OpenOptions::new();
-    options.create(true).append(true);
-    #[cfg(unix)]
-    {
-        use std::os::unix::fs::{OpenOptionsExt as _, PermissionsExt as _};
-        options.mode(0o600);
-        let file = options.open(path)?;
-        file.set_permissions(fs::Permissions::from_mode(0o600))?;
-        Ok(file)
-    }
-    #[cfg(not(unix))]
-    options.open(path)
+    viola_state::fs::open_private_append(path)
 }
 
 /// The home-level role file's basename; `None` when the role's naming input is missing.
@@ -344,6 +324,7 @@ mod tests {
     use crate::test_support::{assert_home_level, diag_detail_validator, one_line};
     use chrono::TimeZone as _;
     use rstest::rstest;
+    use std::fs;
     use std::sync::Mutex;
 
     fn name(raw: &str) -> ViolaName {

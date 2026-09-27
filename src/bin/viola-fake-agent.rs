@@ -316,9 +316,20 @@ impl Agent {
 }
 
 fn start_receipts(agent: &Agent) {
-    agent
-        .receipt
-        .write("start", json!({"cli_version": agent.opts.cli_version()}));
+    let started_at = chrono::Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Millis, true);
+    let plugin_dir = agent
+        .opts
+        .plugin_dir
+        .as_ref()
+        .map(|d| d.to_string_lossy().into_owned());
+    agent.receipt.write(
+        "start",
+        json!({
+            "cli_version": agent.opts.cli_version(),
+            "started_at": started_at,
+            "plugin_dir": plugin_dir,
+        }),
+    );
     let cwd = std::env::current_dir().map(|d| d.to_string_lossy().into_owned());
     agent.receipt.write("cwd", json!({"cwd": cwd.ok()}));
     let mut names: Vec<String> = std::env::vars_os()

@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.4",
+"sha8": "ef8fabf3",
+"ts": "2026-09-27T01:37:39Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-09-27-instance-state-and-start-order",
+"--expect-prefix",
+"Instance state and start order",
+"--record-file",
+".andromeda/runs/2026-09-27T01-36-12-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-09-27T01-36-12-phase"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:38 - [2026-09-27-instance-state-and-start-order]",
+"record master-route.md:24 - appended under `## viola-0.1.0`",
+"promoted 2026-09-27-instance-state-and-start-order - working-route:38 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+".\\viola-0.1.0\\working-route.md",
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+}
+]

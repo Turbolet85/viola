@@ -26,6 +26,10 @@ pub const CACHE_CAP_BYTES: u64 = 40 * 1024 * 1024 * 1024;
 const WSL: &str = "wsl.exe";
 const DISTRO: &str = "Ubuntu";
 const CLONE_DIR: &str = "viola-pre-push";
+/// The Linux mutation leg's `TMPDIR`: cargo-mutants copies the tree (and `target/`) into
+/// `std::env::temp_dir()`, which on the distro is a RAM tmpfs. This sits beside the clone, on its
+/// disk, and outside the tree a scratch copy is made from.
+const SCRATCH_DIR: &str = "viola-pre-push-scratch";
 const LINUX_LEG: &str = "ubuntu-latest";
 const HOST_LEG: &str = "windows-2025";
 
@@ -45,10 +49,11 @@ impl Stop {
     }
 }
 
-/// The distro side: its user's home and the clone under it. Never printed.
+/// The distro side: its user's home, the clone and the mutation scratch under it. Never printed.
 struct Linux {
     home: String,
     clone: String,
+    scratch: String,
 }
 
 impl Linux {
@@ -56,13 +61,18 @@ impl Linux {
         Self {
             home: home.to_owned(),
             clone: format!("{home}/{CLONE_DIR}"),
+            scratch: format!("{home}/{SCRATCH_DIR}"),
         }
     }
 
-    /// `--exec` passes argv verbatim (the `--` form re-parses it through the distro shell), and
-    /// `env -i` hands the child only HOME and a Linux PATH: the distro PATH carries the Windows one,
-    /// and nothing of this process's environment crosses.
     fn cmd(&self, cd: Option<&str>, argv: &[&str]) -> Command {
+        self.cmd_env(cd, &[], argv)
+    }
+
+    /// `--exec` passes argv verbatim (the `--` form re-parses it through the distro shell), and
+    /// `env -i` hands the child only HOME, a Linux PATH and the `env` assignments named here: the
+    /// distro PATH carries the Windows one, and nothing of this process's environment crosses.
+    fn cmd_env(&self, cd: Option<&str>, env: &[String], argv: &[&str]) -> Command {
         let mut cmd = Command::new(WSL);
         cmd.args(["-d", DISTRO]);
         if let Some(dir) = cd {
@@ -74,6 +84,7 @@ impl Linux {
                 "PATH={}/.cargo/bin:/usr/local/bin:/usr/bin:/bin",
                 self.home
             ))
+            .args(env)
             .args(argv);
         cmd
     }
@@ -225,8 +236,10 @@ fn stages(
         linux_leg(ws, &linux, runner, doc)
     });
     let bytes_after = target_bytes(&linux, runner);
+    let scratch_after = dir_bytes(&linux, runner, &linux.scratch);
     if let Some(cache) = doc.cache.as_mut() {
         cache["bytes_after"] = json!(bytes_after);
+        cache["scratch_bytes_after"] = json!(scratch_after);
     }
     if !tests? {
         return Ok(false);
@@ -386,13 +399,19 @@ fn sync(
     Ok(json!({"head": head, "tree": tree, "files": files, "ms": ms}))
 }
 
-fn target_bytes(linux: &Linux, runner: &mut Runner<'_>) -> u64 {
-    let target = format!("{}/target", linux.clone);
-    out(runner, linux.cmd(None, &["du", "-sb", &target]))
+/// `du -sb` of a distro path; 0 when it is absent or unreadable.
+fn dir_bytes(linux: &Linux, runner: &mut Runner<'_>, path: &str) -> u64 {
+    out(runner, linux.cmd(None, &["du", "-sb", path]))
         .and_then(|text| text.split_whitespace().next()?.parse().ok())
         .unwrap_or(0)
 }
 
+fn target_bytes(linux: &Linux, runner: &mut Runner<'_>) -> u64 {
+    dir_bytes(linux, runner, &format!("{}/target", linux.clone))
+}
+
+/// The clone's `target/` against its cap, then the mutation scratch wiped and recreated owner-only
+/// (what a previous run left in it is reported, never reused).
 fn cache(linux: &Linux, runner: &mut Runner<'_>) -> Result<Value, Stop> {
     let bytes = target_bytes(linux, runner);
     let cleaned = bytes > CACHE_CAP_BYTES;
@@ -401,14 +420,31 @@ fn cache(linux: &Linux, runner: &mut Runner<'_>) -> Result<Value, Stop> {
         out(runner, linux.cmd(None, &["rm", "-rf", &target]))
             .ok_or_else(|| Stop::new("sync-failed", "cache"))?;
     }
-    Ok(json!({"bytes": bytes, "cap": CACHE_CAP_BYTES, "cleaned": cleaned}))
+    let scratch_bytes = dir_bytes(linux, runner, &linux.scratch);
+    out(runner, linux.cmd(None, &["rm", "-rf", &linux.scratch]))
+        .and_then(|_| {
+            out(
+                runner,
+                linux.cmd(None, &["mkdir", "-m", "700", &linux.scratch]),
+            )
+        })
+        .ok_or_else(|| Stop::new("sync-failed", "scratch"))?;
+    Ok(json!({
+        "bytes": bytes, "cap": CACHE_CAP_BYTES, "cleaned": cleaned,
+        "scratch_bytes": scratch_bytes,
+    }))
 }
 
 /// One harness command inside the clone, read from its own stdout document.
-fn linux_harness(linux: &Linux, args: &[&str], runner: &mut Runner<'_>) -> Result<Value, Stop> {
+fn linux_harness(
+    linux: &Linux,
+    env: &[String],
+    args: &[&str],
+    runner: &mut Runner<'_>,
+) -> Result<Value, Stop> {
     let mut argv = vec!["bash", "scripts/agent-run.sh"];
     argv.extend_from_slice(args);
-    let (_, stdout) = runner(&mut linux.cmd(Some(&linux.clone), &argv));
+    let (_, stdout) = runner(&mut linux.cmd_env(Some(&linux.clone), env, &argv));
     last_document(&stdout).ok_or_else(|| Stop::new("linux-document-unreadable", args[0]))
 }
 
@@ -450,12 +486,17 @@ fn leg(doc: &Value) -> Value {
 
 /// `run --coverage` then `gate --require coverage,doctest`: the ubuntu test job's own suites.
 fn linux_tests(linux: &Linux, runner: &mut Runner<'_>, doc: &mut Doc) -> Result<bool, Stop> {
-    let run = linux_harness(linux, &["run", "--coverage"], runner)?;
+    let run = linux_harness(linux, &[], &["run", "--coverage"], runner)?;
     doc.linux.insert("run".to_owned(), summary(&run));
     if !ok(&run) {
         return Ok(false);
     }
-    let gate = linux_harness(linux, &["gate", "--require", "coverage,doctest"], runner)?;
+    let gate = linux_harness(
+        linux,
+        &[],
+        &["gate", "--require", "coverage,doctest"],
+        runner,
+    )?;
     doc.linux.insert("gate".to_owned(), summary(&gate));
     Ok(ok(&gate))
 }
@@ -469,7 +510,13 @@ fn linux_leg(
 ) -> Result<bool, Stop> {
     let host_copy = leg_verdict_path(&ws.artifacts(), LINUX_LEG);
     let _ = fs::remove_file(&host_copy);
-    let run = linux_harness(linux, &["run", "--mutants", "--leg", LINUX_LEG], runner)?;
+    let tmpdir = format!("TMPDIR={}", linux.scratch);
+    let run = linux_harness(
+        linux,
+        &[tmpdir],
+        &["run", "--mutants", "--leg", LINUX_LEG],
+        runner,
+    )?;
     doc.legs.insert(LINUX_LEG.to_owned(), leg(&run));
     if !ok(&run) {
         return Ok(false);
@@ -775,7 +822,45 @@ mod tests {
         let out = drive(&ws, &mut fake);
         assert_eq!(out.doc["cache"]["cleaned"], false);
         assert_eq!(out.doc["cache"]["bytes_after"], CACHE_CAP_BYTES);
-        assert!(!fake.calls.iter().any(|c| c.contains("rm -rf")));
+        assert!(!fake.calls.iter().any(|c| c.ends_with(&rm)));
+    }
+
+    #[test]
+    fn pre_push_mutation_scratch_is_on_the_clone_disk_and_wiped_first() {
+        let (_tmp, ws) = pinned();
+        let mut fake = Fake::new().green("b", "caught");
+        let out = drive(&ws, &mut fake);
+        let scratch = format!("{HOME}/{SCRATCH_DIR}");
+        assert_eq!(scratch, "/home/tester/viola-pre-push-scratch");
+        let at = |needle: &str| {
+            fake.calls
+                .iter()
+                .position(|c| c.ends_with(needle))
+                .unwrap_or_else(|| panic!("{needle} in {:?}", fake.calls))
+        };
+        let wipe = at(&format!("rm -rf {scratch}"));
+        let make = at(&format!("mkdir -m 700 {scratch}"));
+        let leg = at(&format!(
+            ".cargo/bin:/usr/local/bin:/usr/bin:/bin TMPDIR={scratch} bash scripts/agent-run.sh \
+             run --mutants --leg ubuntu-latest"
+        ));
+        assert!(wipe < make && make < leg, "{:?}", fake.calls);
+        let coverage = at("bash scripts/agent-run.sh run --coverage");
+        assert!(!fake.calls[coverage].contains("TMPDIR="));
+        assert_eq!(
+            fake.calls.iter().filter(|c| c.contains("TMPDIR=")).count(),
+            1
+        );
+        assert_eq!(out.doc["cache"]["scratch_bytes"], 10, "{}", out.doc);
+        assert_eq!(out.doc["cache"]["scratch_bytes_after"], 10);
+    }
+
+    #[test]
+    fn pre_push_scratch_that_cannot_be_made_stops_at_cache() {
+        let fake = Fake::new().on(&["mkdir -m 700"], 1, "");
+        stopped(fake, "sync-failed", Some("scratch"), "cache");
+        let fake = Fake::new().on(&["rm -rf /home/tester/viola-pre-push-scratch"], 1, "");
+        stopped(fake, "sync-failed", Some("scratch"), "cache");
     }
 
     #[test]

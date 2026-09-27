@@ -105,10 +105,21 @@ fn tui_env_strip_removes_identity_and_unknown_claude_names(#[from(home)] tmp: Te
     for (name, _) in STRIPPED {
         assert!(known.contains(&name), "{name} not named");
     }
+    // The pinned copy under `bin/` is byte-for-byte the built binary: nothing written at run
+    // time is in it, and scanning its megabytes twelve times would dominate the test.
+    let viola = std::fs::read(VIOLA).expect("viola binary");
+    let written: Vec<(std::path::PathBuf, Vec<u8>)> = files_under(tmp.path())
+        .into_iter()
+        .map(|f| {
+            let bytes = std::fs::read(&f).unwrap_or_default();
+            (f, bytes)
+        })
+        .filter(|(_, bytes)| *bytes != viola)
+        .collect();
     let mut hits = Vec::new();
     for (name, value) in STRIPPED {
-        for file in files_under(tmp.path()) {
-            if holds(&std::fs::read(&file).unwrap_or_default(), value) {
+        for (file, bytes) in &written {
+            if holds(bytes, value) {
                 hits.push(format!("{} {name}", file.display()));
             }
         }
@@ -117,6 +128,15 @@ fn tui_env_strip_removes_identity_and_unknown_claude_names(#[from(home)] tmp: Te
         }
     }
     assert!(hits.is_empty(), "canary value found: {hits:?}");
+}
+
+/// E2's presence half: the child learns its instance, its state dir and the pinned binary.
+#[rstest]
+fn tui_env_viola_names_reach_the_child(#[from(home)] tmp: TestHome) {
+    let (names, _, _) = wrapped_env(&tmp, &[]);
+    for name in ["VIOLA_NAME", "VIOLA_DIR", "VIOLA_BIN"] {
+        assert!(names.iter().any(|n| n == name), "{name} missing");
+    }
 }
 
 /// The Unix pass-list: a name `config.json` keeps survives, and is named as kept; a floor name

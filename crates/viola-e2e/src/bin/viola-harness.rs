@@ -9,7 +9,7 @@ use clap::{Args, Parser, Subcommand};
 use viola_e2e::harness::boot::{BootOptions, DEFAULT_CLI_VERSION, InstanceSpec, boot};
 use viola_e2e::harness::cleanup::{Target, cleanup};
 use viola_e2e::harness::gate::{gate, parse_legs, parse_require};
-use viola_e2e::harness::logs::{Filter, logs};
+use viola_e2e::harness::logs::{Query, query};
 use viola_e2e::harness::pre_push::{PRE_PUSH_HOST_SUPPORTED, pre_push};
 use viola_e2e::harness::run::{Selection, run_forwarding, run_with};
 use viola_e2e::harness::schema_check::schema_check;
@@ -53,6 +53,8 @@ enum Cmd {
         instance: Option<String>,
         #[arg(long)]
         process: Option<String>,
+        #[arg(long)]
+        kind: Option<String>,
     },
     Supervise {
         #[arg(long)]
@@ -167,8 +169,8 @@ fn cleanup_cmd(ws: &Workspace, session: Option<&str>, all: bool) -> ExitCode {
 }
 
 /// `logs` streams ndjson lines instead of one document.
-fn logs_cmd(ws: &Workspace, session: &str, filter: &Filter<'_>) -> ExitCode {
-    match logs(ws, session, filter) {
+fn logs_cmd(ws: &Workspace, session: &str, filter: &Query<'_>) -> ExitCode {
+    match query(ws, session, filter) {
         Ok(lines) => {
             for line in lines {
                 println!("{line}");
@@ -224,10 +226,12 @@ fn main() -> ExitCode {
             session,
             instance,
             process,
+            kind,
         } => {
-            let filter = Filter {
+            let filter = Query {
                 instance: instance.as_deref(),
                 process: process.as_deref(),
+                kind: kind.as_deref(),
             };
             logs_cmd(&ws, &session, &filter)
         }

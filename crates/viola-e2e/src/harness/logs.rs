@@ -1,7 +1,9 @@
 //! `logs`: every `<home>/diagnostics/*.ndjson` line as `{"src":"diag","file","record"}`, then
-//! every `<home>/instances/<name>/diagnostics/detail-*.ndjson` line with its `instance`; a torn or
-//! unparseable line becomes `{"src":"diag","file",…,"torn":true,"offset":n}` and is never dropped
-//! (test-plan §3 `logs`). The events source arrives with its producer.
+//! every `<home>/instances/<name>/diagnostics/detail-*.ndjson` line with its `instance`, then every
+//! `<home>/instances/<name>/events.ndjson` line as `{"src":"events","instance","offset","record"}`
+//! (`offset` = the line's first byte); a torn or unparseable line keeps its source and offset with
+//! `"torn":true` and is never dropped (test-plan §3 `logs`). `--kind` matches an event record's
+//! `kind`; a diagnostics line never matches it.
 
 use std::fs;
 use std::io::Read as _;
@@ -20,10 +22,32 @@ pub struct Filter<'a> {
     pub process: Option<&'a str>,
 }
 
+impl<'a> Filter<'a> {
+    pub fn with_kind(&self, kind: Option<&'a str>) -> Query<'a> {
+        Query {
+            instance: self.instance,
+            process: self.process,
+            kind,
+        }
+    }
+}
+
+/// A `Filter` plus `--kind`, which only an event record can match.
+pub struct Query<'a> {
+    pub instance: Option<&'a str>,
+    pub process: Option<&'a str>,
+    pub kind: Option<&'a str>,
+}
+
 pub fn logs(ws: &Workspace, session: &str, filter: &Filter<'_>) -> Result<Vec<Value>, Outcome> {
+    query(ws, session, &filter.with_kind(None))
+}
+
+pub fn query(ws: &Workspace, session: &str, filter: &Query<'_>) -> Result<Vec<Value>, Outcome> {
     let record = load_session(ws, "logs", session)?;
     let mut out = diag_lines(&record.home.join("diagnostics"), filter);
     out.extend(detail_lines(&record.home.join("instances"), filter));
+    out.extend(event_lines(&record.home.join("instances"), filter));
     Ok(out)
 }
 
@@ -50,15 +74,15 @@ fn files_in(dir: &Path, keep: impl Fn(&str) -> bool) -> Vec<(String, Vec<u8>)> {
         .collect()
 }
 
-pub fn diag_lines(dir: &Path, filter: &Filter<'_>) -> Vec<Value> {
+pub fn diag_lines(dir: &Path, filter: &Query<'_>) -> Vec<Value> {
     files_in(dir, |n| n.ends_with(".ndjson"))
         .into_iter()
         .flat_map(|(file, bytes)| wrap_lines(&file, &bytes, filter))
         .collect()
 }
 
-/// Instance dirs are named only through `ViolaName::try_new`; symlinked dirs and files are skipped.
-pub fn detail_lines(instances: &Path, filter: &Filter<'_>) -> Vec<Value> {
+/// Instance dirs, named only through `ViolaName::try_new`, in name order; symlinks are skipped.
+fn instance_names(instances: &Path) -> Vec<String> {
     let mut names: Vec<String> = fs::read_dir(instances)
         .into_iter()
         .flatten()
@@ -68,8 +92,13 @@ pub fn detail_lines(instances: &Path, filter: &Filter<'_>) -> Vec<Value> {
         .filter(|n| ViolaName::try_new(n.clone()).is_ok())
         .collect();
     names.sort();
+    names
+}
+
+/// Symlinked dirs and files are skipped.
+pub fn detail_lines(instances: &Path, filter: &Query<'_>) -> Vec<Value> {
     let mut out = Vec::new();
-    for name in names {
+    for name in instance_names(instances) {
         let dir = instances.join(&name).join("diagnostics");
         if !fs::symlink_metadata(&dir).is_ok_and(|m| m.is_dir()) {
             continue;
@@ -82,11 +111,67 @@ pub fn detail_lines(instances: &Path, filter: &Filter<'_>) -> Vec<Value> {
     out
 }
 
-pub fn wrap_lines(file: &str, bytes: &[u8], filter: &Filter<'_>) -> Vec<Value> {
+pub fn wrap_lines(file: &str, bytes: &[u8], filter: &Query<'_>) -> Vec<Value> {
     wrap_in(file, None, bytes, filter)
 }
 
-fn wrap_in(file: &str, instance: Option<&str>, bytes: &[u8], filter: &Filter<'_>) -> Vec<Value> {
+/// Every instance's `events.ndjson`, in instance-name order.
+pub fn event_lines(instances: &Path, filter: &Query<'_>) -> Vec<Value> {
+    let mut out = Vec::new();
+    for name in instance_names(instances) {
+        let dir = instances.join(&name);
+        for (_, bytes) in files_in(&dir, |n| n == "events.ndjson") {
+            out.extend(wrap_events(&name, &bytes, filter));
+        }
+    }
+    out
+}
+
+pub fn wrap_events(instance: &str, bytes: &[u8], filter: &Query<'_>) -> Vec<Value> {
+    let head = |at: usize| {
+        let mut head = Map::new();
+        head.insert("src".to_owned(), "events".into());
+        head.insert("instance".to_owned(), instance.into());
+        head.insert("offset".to_owned(), at.into());
+        head
+    };
+    let mut out = Vec::new();
+    for (at, line) in split_lines(bytes) {
+        match line.and_then(|l| serde_json::from_slice::<Value>(l).ok()) {
+            Some(record) if record.is_object() => {
+                if event_matches(&record, filter) {
+                    let mut wrapped = head(at);
+                    wrapped.insert("record".to_owned(), record);
+                    out.push(Value::Object(wrapped));
+                }
+            }
+            _ => {
+                let mut torn = head(at);
+                torn.insert("torn".to_owned(), true.into());
+                out.push(Value::Object(torn));
+            }
+        }
+    }
+    out
+}
+
+/// Each line's starting offset and its bytes without the terminator; `None` for an unterminated
+/// tail.
+fn split_lines(bytes: &[u8]) -> Vec<(usize, Option<&[u8]>)> {
+    let mut out = Vec::new();
+    let mut offset = 0;
+    for chunk in bytes.split_inclusive(|b| *b == b'\n') {
+        let at = offset;
+        offset += chunk.len();
+        let line = chunk
+            .strip_suffix(b"\n")
+            .map(|l| l.strip_suffix(b"\r").unwrap_or(l));
+        out.push((at, line));
+    }
+    out
+}
+
+fn wrap_in(file: &str, instance: Option<&str>, bytes: &[u8], filter: &Query<'_>) -> Vec<Value> {
     let head = || {
         let mut head = Map::new();
         head.insert("src".to_owned(), "diag".into());
@@ -103,18 +188,14 @@ fn wrap_in(file: &str, instance: Option<&str>, bytes: &[u8], filter: &Filter<'_>
         Value::Object(out)
     };
     let mut out = Vec::new();
-    let mut offset = 0;
-    for chunk in bytes.split_inclusive(|b| *b == b'\n') {
-        let at = offset;
-        offset += chunk.len();
-        let Some(line) = chunk.strip_suffix(b"\n") else {
+    for (at, line) in split_lines(bytes) {
+        let Some(line) = line else {
             out.push(torn(at));
             continue;
         };
-        let line = line.strip_suffix(b"\r").unwrap_or(line);
         match serde_json::from_slice::<Value>(line) {
             Ok(record) if record.is_object() => {
-                if matches(&record, filter) {
+                if filter.kind.is_none() && matches(&record, filter) {
                     let mut wrapped = head();
                     wrapped.insert("record".to_owned(), record);
                     out.push(Value::Object(wrapped));
@@ -127,10 +208,16 @@ fn wrap_in(file: &str, instance: Option<&str>, bytes: &[u8], filter: &Filter<'_>
 }
 
 /// An absent key and `null` are the same value (obs-plan null-as-absence), so neither matches a name.
-fn matches(record: &Value, filter: &Filter<'_>) -> bool {
-    let field_is =
-        |key: &str, want: Option<&str>| want.is_none_or(|w| record[key].as_str() == Some(w));
-    field_is("instance", filter.instance) && field_is("process", filter.process)
+fn field_is(record: &Value, key: &str, want: Option<&str>) -> bool {
+    want.is_none_or(|w| record[key].as_str() == Some(w))
+}
+
+fn matches(record: &Value, filter: &Query<'_>) -> bool {
+    field_is(record, "instance", filter.instance) && field_is(record, "process", filter.process)
+}
+
+fn event_matches(record: &Value, filter: &Query<'_>) -> bool {
+    matches(record, filter) && field_is(record, "kind", filter.kind)
 }
 
 #[cfg(test)]
@@ -138,9 +225,10 @@ mod tests {
     use super::*;
     use serde_json::json;
 
-    const NONE: Filter<'static> = Filter {
+    const NONE: Query<'static> = Query {
         instance: None,
         process: None,
+        kind: None,
     };
 
     #[test]
@@ -172,19 +260,22 @@ mod tests {
     #[test]
     fn filters_match_named_values_and_treat_absent_as_null() {
         let bytes = b"{\"instance\":\"builder\",\"process\":\"run\"}\n{\"process\":\"run\"}\n{\"instance\":null,\"process\":\"ui\"}\n";
-        let by_instance = Filter {
+        let by_instance = Query {
             instance: Some("builder"),
             process: None,
+            kind: None,
         };
         assert_eq!(wrap_lines("f", bytes, &by_instance).len(), 1);
-        let by_process = Filter {
+        let by_process = Query {
             instance: None,
             process: Some("run"),
+            kind: None,
         };
         assert_eq!(wrap_lines("f", bytes, &by_process).len(), 2);
-        let both = Filter {
+        let both = Query {
             instance: Some("builder"),
             process: Some("ui"),
+            kind: None,
         };
         assert!(wrap_lines("f", bytes, &both).is_empty());
         assert_eq!(wrap_lines("f", bytes, &NONE).len(), 3);
@@ -192,9 +283,10 @@ mod tests {
 
     #[test]
     fn torn_lines_survive_any_filter() {
-        let only = Filter {
+        let only = Query {
             instance: Some("x"),
             process: Some("y"),
+            kind: Some("z"),
         };
         assert_eq!(wrap_lines("f", b"garbage\n", &only).len(), 1);
     }
@@ -214,8 +306,29 @@ mod tests {
 
     #[test]
     fn logs_for_an_unknown_session_is_exit_2() {
-        let out = logs(&Workspace::from_build(), "no-such-session-x9", &NONE).expect_err("unknown");
+        let filter = Filter {
+            instance: None,
+            process: None,
+        };
+        let out =
+            logs(&Workspace::from_build(), "no-such-session-x9", &filter).expect_err("unknown");
         assert_eq!(out.code, 2);
+        let out =
+            query(&Workspace::from_build(), "no-such-session-x9", &NONE).expect_err("unknown");
+        assert_eq!(out.code, 2);
+    }
+
+    #[test]
+    fn filter_with_kind_keeps_instance_and_process() {
+        let filter = Filter {
+            instance: Some("builder"),
+            process: Some("run"),
+        };
+        let q = filter.with_kind(Some("wheel"));
+        assert_eq!(
+            (q.instance, q.process, q.kind),
+            (Some("builder"), Some("run"), Some("wheel"))
+        );
     }
 
     fn plant(instances: &Path, dir: &str, file: &str, text: &str) {
@@ -251,9 +364,10 @@ mod tests {
         assert_eq!(out[1]["instance"], "overseer");
         assert_eq!(out[1]["file"], "detail-cli.ndjson");
 
-        let only_cli = Filter {
+        let only_cli = Query {
             instance: None,
             process: Some("cli"),
+            kind: None,
         };
         let filtered = detail_lines(instances, &only_cli);
         assert_eq!(filtered.len(), 1);
@@ -278,6 +392,81 @@ mod tests {
             json!({"src": "diag", "file": "detail-run.ndjson", "instance": "builder",
                    "torn": true, "offset": whole.len()})
         );
+    }
+
+    const WHEEL: &str = "{\"v\":1,\"instance\":\"builder\",\"kind\":\"wheel\",\"source\":\"wrapper\",\"data\":{\"cause\":\"start\"}}\n";
+    const GATE: &str = "{\"v\":1,\"instance\":\"builder\",\"kind\":\"budget-gate\",\"source\":\"wrapper\",\"data\":{}}\n";
+
+    #[test]
+    fn wrap_events_carry_instance_and_line_offsets() {
+        let bytes = format!("{WHEEL}not json\n{GATE}{{\"par");
+        let out = wrap_events("builder", bytes.as_bytes(), &NONE);
+        assert_eq!(out.len(), 4);
+        assert_eq!(
+            out[0],
+            json!({"src": "events", "instance": "builder", "offset": 0,
+                   "record": serde_json::from_str::<Value>(WHEEL).expect("json")})
+        );
+        assert_eq!(
+            out[1],
+            json!({"src": "events", "instance": "builder", "offset": WHEEL.len(), "torn": true})
+        );
+        let gate_at = WHEEL.len() + "not json\n".len();
+        assert_eq!(out[2]["offset"], gate_at);
+        assert_eq!(out[2]["record"]["kind"], "budget-gate");
+        assert_eq!(
+            out[3],
+            json!({"src": "events", "instance": "builder", "offset": gate_at + GATE.len(), "torn": true})
+        );
+    }
+
+    #[test]
+    fn wrap_events_mark_json_that_is_not_an_object_torn() {
+        let out = wrap_events("builder", b"[1]\n\"text\"\n", &NONE);
+        assert_eq!(
+            out,
+            [
+                json!({"src": "events", "instance": "builder", "offset": 0, "torn": true}),
+                json!({"src": "events", "instance": "builder", "offset": 4, "torn": true}),
+            ]
+        );
+    }
+
+    #[test]
+    fn kind_filter_matches_event_kinds_and_never_a_diag_line() {
+        let wheel = Query {
+            instance: None,
+            process: None,
+            kind: Some("wheel"),
+        };
+        let bytes = format!("{WHEEL}{GATE}");
+        let out = wrap_events("builder", bytes.as_bytes(), &wheel);
+        assert_eq!(out.len(), 1);
+        assert_eq!(out[0]["record"]["kind"], "wheel");
+        assert_eq!(wrap_events("builder", bytes.as_bytes(), &NONE).len(), 2);
+        let diag = b"{\"event\":\"process-start\",\"kind\":\"wheel\"}\n";
+        assert!(wrap_lines("run-builder.ndjson", diag, &wheel).is_empty());
+        assert_eq!(wrap_lines("run-builder.ndjson", diag, &NONE).len(), 1);
+        let other = Query {
+            instance: Some("overseer"),
+            process: None,
+            kind: Some("wheel"),
+        };
+        assert!(wrap_events("builder", bytes.as_bytes(), &other).is_empty());
+    }
+
+    #[test]
+    fn event_lines_read_each_valid_instance_in_name_order() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        for dir in ["overseer", "builder", "bad_name"] {
+            fs::create_dir_all(tmp.path().join(dir)).expect("dir");
+            fs::write(tmp.path().join(dir).join("events.ndjson"), WHEEL).expect("write");
+        }
+        fs::write(tmp.path().join("builder").join("other.ndjson"), GATE).expect("write");
+        let out = event_lines(tmp.path(), &NONE);
+        let names: Vec<&Value> = out.iter().map(|l| &l["instance"]).collect();
+        assert_eq!(names, [&json!("builder"), &json!("overseer")]);
+        assert!(event_lines(&tmp.path().join("missing"), &NONE).is_empty());
     }
 
     #[test]

@@ -17,6 +17,23 @@ pub const MAX_FRAME: u64 = 16 * 1024 * 1024;
 )]
 pub struct ViolaName(String);
 
+/// The closed set of normalised `events.ndjson` kinds; a kind is added here only, never under a
+/// Claude-specific name (architecture §Standard Contracts).
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum EventKind {
+    Wheel,
+    BudgetGate,
+}
+
+impl EventKind {
+    pub const fn as_str(self) -> &'static str {
+        match self {
+            Self::Wheel => "wheel",
+            Self::BudgetGate => "budget-gate",
+        }
+    }
+}
+
 fn is_valid_name(name: &str) -> bool {
     let bytes = name.as_bytes();
     let Some(first) = bytes.first() else {
@@ -139,6 +156,12 @@ mod tests {
     #[test]
     fn max_frame_is_sixteen_mib() {
         assert_eq!(MAX_FRAME, 16_777_216);
+    }
+
+    #[test]
+    fn event_kind_as_str_is_kebab_case() {
+        assert_eq!(EventKind::Wheel.as_str(), "wheel");
+        assert_eq!(EventKind::BudgetGate.as_str(), "budget-gate");
     }
 
     #[test]

@@ -491,7 +491,8 @@
         "ref": null,
         "status": "planned"
       },
-      "chunk": null
+      "chunk": null,
+      "notes": "2026-09-27 (2026-09-27-instance-state-and-start-order, phase P5): not claimed. This chunk produces the state `list` will read: the snapshot with pid, started_at, wheel, budget_paused and cli_verified, the 1 s heartbeat file, and the live/stale/gone classifier in viola-state. The `list` verb, the board rendering and `claude agents --json` enrichment belong to later entries, so the acceptance is not provable by this chunk."
     },
     {
       "id": "v1-38",
@@ -543,7 +544,8 @@
         "ref": null,
         "status": "planned"
       },
-      "chunk": null
+      "chunk": null,
+      "notes": "2026-09-27 (2026-09-27-instance-state-and-start-order, phase P5): not claimed, only partly advanced. This chunk lands the append-only `events.ndjson` writer (one write per line, never truncated, prior bytes kept on a gone takeover) and the atomic snapshot replace (tempfile persist helper). Torn-line healing, snapshot rebuild by replay, unknown kind and field counting, and newer-peer refusal remain with \"Self-healing state\" and \"Wrapper channel\", so the acceptance is not provable by this chunk."
     },
     {
       "id": "v1-42",
@@ -595,7 +597,8 @@
         "ref": null,
         "status": "planned"
       },
-      "chunk": null
+      "chunk": null,
+      "notes": "2026-09-27 (2026-09-27-instance-state-and-start-order, phase P5): not claimed, only partly advanced. This chunk lands owner-only creation (0700 dirs, 0600 files, set explicitly on Unix), the pinned-binary SHA-256 re-hash before reuse (exit 1 on mismatch), the per-start plugin folder rewrite, and the wrapper as the sole snapshot writer. Strict-modes refusal on read and the Windows DACL (\"Home and code-bearing file integrity\"), stamps written only by `viola verify` (\"Capability ledger and viola verify\") and the per-start settings.json rewrite with statusline gating (\"Statusline pass-through\") remain, so the acceptance is not provable by this chunk."
     },
     {
       "id": "v1-46",

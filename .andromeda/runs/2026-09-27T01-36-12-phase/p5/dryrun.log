@@ -1,0 +1,31 @@
+gate v1.2 · fab316fd
+shell C:\Program Files\Git\bin\bash.exe (from $SHELL; -c, non-login)
+root D:\dev\projects\viola · marker 2026-09-27-instance-state-and-start-order · entries 24
+logs C:\Users\turbo\AppData\Local\Temp\andromeda-gate\2026-09-27-instance-state-and-start-order\run-20260927T015840Z · bound: GNU timeout
+delta docs 28
+prose L205-213: The gates run on this Windows host during /implement. The chunk adds a product crate and c… (874 chars)
+  1 lint        not run — dry-run · cargo fmt --all --check
+  2 lint        not run — dry-run · cargo clippy --workspace --all-targets --features fake-age… (75 chars)
+  3 build       not run — dry-run · test -s scripts/sync-crates.txt && cargo check $(sed 's/^/… (88 chars)
+  4 probe       not run — dry-run · cargo deny --config deny-sync.toml --manifest-path crates/… (91 chars)
+  5 probe       not run — dry-run · cargo deny check
+  6 probe       not run — dry-run · bash scripts/deny-probes.sh
+  7 lint        not run — dry-run · bash scripts/orphans-check.sh
+  8 unit        not run — dry-run · bash scripts/agent-run.sh run --unit
+  9 unit        not run — dry-run · bash scripts/agent-run.sh run --unit --filter 'package(vio… (69 chars)
+ 10 unit        not run — dry-run · bash scripts/agent-run.sh run --unit --filter 'test(/plugi… (93 chars)
+ 11 integration not run — dry-run · AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --int… (66 chars)
+ 12 integration not run — dry-run · AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --int… (151 chars)
+ 13 probe       not run — dry-run · bash scripts/agent-run.sh schema-check
+ 14 probe       not run — dry-run · bash scripts/agent-run.sh secret-scan
+ 15 smoke       not run — dry-run · bash scripts/agent-run.sh cleanup --session p-state-smoke
+ 16 smoke       not run — dry-run · bash scripts/agent-run.sh boot --session p-state-smoke --i… (73 chars)
+ 17 smoke       not run — dry-run · bash scripts/agent-run.sh status --session p-state-smoke
+ 18 smoke       not run — dry-run · bash scripts/agent-run.sh logs --session p-state-smoke --i… (86 chars)
+ 19 smoke       not run — dry-run · bash scripts/agent-run.sh cleanup --session p-state-smoke
+ 20 build       not run — dry-run · RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv cargo c… (116 chars)
+ 21 integration not run — dry-run · bash scripts/agent-run.sh pre-push
+ 22 integration not run — leg operator (the letter drives it) · bash scripts/agent-run.sh pre-push
+ 23 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (82 chars)
+ 24 probe       not run — leg operator (the letter drives it) · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (129 chars)
+entries 24 · green 0 · red 0 · recorded 0 · timeout 0 · not-run 24

@@ -104,6 +104,51 @@ fn plan_strip_with(
     plan
 }
 
+/// The flag that hands the per-start plugin folder to the `claude` child.
+pub const PLUGIN_DIR_FLAG: &str = "--plugin-dir";
+
+const VERSION: &str = env!("CARGO_PKG_VERSION");
+const VERSION_TOKEN: &str = "@@VIOLA_VERSION@@";
+const BIN_TOKEN: &str = "@@VIOLA_BIN@@";
+
+/// The embedded plugin, relative path → template. `hooks` and `mcpServers` stay empty until the
+/// `hook` and `mcp` verbs exist: a registered command that exits 2 blocks Claude Code.
+const PLUGIN_FILES: [(&str, &str); 3] = [
+    (
+        ".claude-plugin/plugin.json",
+        include_str!(concat!(
+            env!("CARGO_MANIFEST_DIR"),
+            "/../../plugin/.claude-plugin/plugin.json"
+        )),
+    ),
+    (
+        "hooks/hooks.json",
+        include_str!(concat!(
+            env!("CARGO_MANIFEST_DIR"),
+            "/../../plugin/hooks/hooks.json"
+        )),
+    ),
+    (
+        ".mcp.json",
+        include_str!(concat!(
+            env!("CARGO_MANIFEST_DIR"),
+            "/../../plugin/.mcp.json"
+        )),
+    ),
+];
+
+/// A template with the version and the pinned binary's forward-slash absolute path filled in.
+fn render(template: &str, pinned_bin_fwd: &str) -> String {
+    template
+        .replace(VERSION_TOKEN, VERSION)
+        .replace(BIN_TOKEN, pinned_bin_fwd)
+}
+
+/// The plugin folder's files, each as `(relative path, content)`, rewritten on every start.
+pub fn plugin_files(pinned_bin_fwd: &str) -> [(&'static str, String); 3] {
+    PLUGIN_FILES.map(|(path, template)| (path, render(template, pinned_bin_fwd)))
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, thiserror::Error)]
 pub enum Refusal {
     #[error("the command is a .cmd or .bat script")]
@@ -446,6 +491,37 @@ mod tests {
         };
         let got = resolve_program(OsStr::new("absent"), &root(), none, &fs);
         assert_eq!(got, Err(Refusal::NotFound));
+    }
+
+    #[test]
+    fn plugin_files_are_the_three_layout_paths() {
+        let files = plugin_files("C:/h/bin/0.1.0-0123456789abcdef/viola.exe");
+        let paths: Vec<&str> = files.iter().map(|(p, _)| *p).collect();
+        assert_eq!(
+            paths,
+            [
+                ".claude-plugin/plugin.json",
+                "hooks/hooks.json",
+                ".mcp.json"
+            ]
+        );
+        assert_eq!(
+            files[0].1,
+            "{\n  \"name\": \"viola\",\n  \"version\": \"0.1.0\",\n  \"description\": \
+             \"viola bridge: hooks and MCP server for a wrapped Claude Code session\"\n}\n"
+        );
+        assert_eq!(files[1].1, "{\n  \"hooks\": {}\n}\n");
+        assert_eq!(files[2].1, "{\n  \"mcpServers\": {}\n}\n");
+        assert_eq!(PLUGIN_DIR_FLAG, "--plugin-dir");
+    }
+
+    #[test]
+    fn plugin_files_render_substitutes_the_pinned_path() {
+        let template = r#"{"command":"@@VIOLA_BIN@@","args":["hook"],"v":"@@VIOLA_VERSION@@"}"#;
+        assert_eq!(
+            render(template, "C:/h/bin/0.1.0-0123456789abcdef/viola.exe"),
+            r#"{"command":"C:/h/bin/0.1.0-0123456789abcdef/viola.exe","args":["hook"],"v":"0.1.0"}"#
+        );
     }
 
     #[test]

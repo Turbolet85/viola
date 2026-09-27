@@ -1,12 +1,13 @@
 //! `boot`: build, a fresh home, the fake agent on a session PATH, a supervisor running one
 //! `viola run` per instance, then bounded readiness (test-plan §3 `boot`, steps 1-3 and 5; step 4
-//! `viola verify` and the UI steps arrive with those verbs).
+//! `viola verify` and the UI steps arrive with those verbs). Readiness reads the role file, the
+//! instance snapshot and the heartbeat; the `events.ndjson` check waits for `session-start`.
 
 use std::ffi::OsString;
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
-use std::time::{Duration, Instant};
+use std::time::{Duration, Instant, SystemTime};
 
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
@@ -222,7 +223,44 @@ pub enum Readiness {
     Pending(Vec<String>),
 }
 
-/// One readiness probe: the wrapper's and the child's `process-start` lines, both processes alive.
+/// A beat older than this is not ready (architecture §Standard Contracts → Session liveness).
+const BEAT_WITHIN: Duration = Duration::from_secs(5);
+
+pub fn instance_dir(home: &Path, name: &str) -> PathBuf {
+    home.join("instances").join(name)
+}
+
+/// `snapshot.json` parses with `pid`, `started_at` and `child_pid` in its `data`.
+pub fn snapshot_ready(instance_dir: &Path) -> bool {
+    let doc = fs::read(instance_dir.join("snapshot.json"))
+        .ok()
+        .and_then(|b| serde_json::from_slice::<Value>(&b).ok());
+    doc.is_some_and(|d| {
+        d["data"]["pid"].is_u64()
+            && d["data"]["started_at"].is_string()
+            && d["data"]["child_pid"].is_u64()
+    })
+}
+
+/// `heartbeat` exists and was touched less than 5 s ago.
+pub fn beat_fresh(instance_dir: &Path) -> bool {
+    fs::metadata(instance_dir.join("heartbeat"))
+        .and_then(|m| m.modified())
+        .is_ok_and(|at| {
+            fresh_age(
+                SystemTime::now()
+                    .duration_since(at)
+                    .unwrap_or(Duration::ZERO),
+            )
+        })
+}
+
+pub fn fresh_age(age: Duration) -> bool {
+    age < BEAT_WITHIN
+}
+
+/// One readiness probe, staged: the wrapper's and the child's `process-start` lines with both
+/// processes alive; only then the snapshot and a fresh heartbeat, which the wrapper writes first.
 pub fn readiness(home: &Path, inst: &InstanceSpec) -> Readiness {
     let text = fs::read_to_string(role_file(home, &inst.name)).unwrap_or_default();
     let state = role_state(&text);
@@ -231,8 +269,24 @@ pub fn readiness(home: &Path, inst: &InstanceSpec) -> Readiness {
     }
     let wrapper = state.wrapper_pid.and_then(ProcessId::of);
     let child = state.child_pid.and_then(ProcessId::of);
+    let mut missing = Vec::new();
+    if wrapper.is_none() {
+        missing.push(format!("{}:run-process-start", inst.name));
+    }
+    if child.is_none() {
+        missing.push(format!("{}:child-process-start", inst.name));
+    }
+    if missing.is_empty() {
+        let dir = instance_dir(home, &inst.name);
+        if !snapshot_ready(&dir) {
+            missing.push(format!("{}:snapshot", inst.name));
+        }
+        if !beat_fresh(&dir) {
+            missing.push(format!("{}:heartbeat", inst.name));
+        }
+    }
     match (wrapper, child) {
-        (Some(wrapper), Some(child)) => Readiness::Ready(InstanceRecord {
+        (Some(wrapper), Some(child)) if missing.is_empty() => Readiness::Ready(InstanceRecord {
             name: inst.name.clone(),
             wrapper_pid: wrapper.pid,
             started_at: wrapper.started_at,
@@ -240,16 +294,7 @@ pub fn readiness(home: &Path, inst: &InstanceSpec) -> Readiness {
             child_started_at: child.started_at,
             fake_args: inst.fake_args.clone(),
         }),
-        (wrapper, child) => {
-            let mut missing = Vec::new();
-            if wrapper.is_none() {
-                missing.push(format!("{}:run-process-start", inst.name));
-            }
-            if child.is_none() {
-                missing.push(format!("{}:child-process-start", inst.name));
-            }
-            Readiness::Pending(missing)
-        }
+        _ => Readiness::Pending(missing),
     }
 }
 
@@ -346,6 +391,66 @@ mod tests {
         tmp
     }
 
+    const SNAPSHOT: &str = r#"{"v":1,"written_at":"t","writer":"0.1.0","data":{"pid":1,"started_at":"s","child_pid":2}}"#;
+
+    /// The instance's snapshot and heartbeat, both as a ready wrapper leaves them.
+    fn plant_state(home: &Path) {
+        let dir = instance_dir(home, "builder");
+        fs::create_dir_all(&dir).expect("mkdir");
+        fs::write(dir.join("snapshot.json"), SNAPSHOT).expect("snapshot");
+        fs::write(dir.join("heartbeat"), b"").expect("heartbeat");
+    }
+
+    fn set_mtime(path: &Path, at: SystemTime) {
+        fs::File::options()
+            .write(true)
+            .open(path)
+            .expect("open")
+            .set_modified(at)
+            .expect("mtime");
+    }
+
+    #[test]
+    fn snapshot_ready_needs_pid_started_at_and_child_pid() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        assert!(!snapshot_ready(tmp.path()));
+        fs::write(tmp.path().join("snapshot.json"), SNAPSHOT).expect("write");
+        assert!(snapshot_ready(tmp.path()));
+        for data in [
+            r#"{"started_at":"s","child_pid":2}"#,
+            r#"{"pid":1,"child_pid":2}"#,
+            r#"{"pid":1,"started_at":"s"}"#,
+        ] {
+            let doc = format!(r#"{{"v":1,"data":{data}}}"#);
+            fs::write(tmp.path().join("snapshot.json"), doc).expect("write");
+            assert!(!snapshot_ready(tmp.path()), "{data}");
+        }
+        fs::write(tmp.path().join("snapshot.json"), "not json").expect("write");
+        assert!(!snapshot_ready(tmp.path()));
+    }
+
+    #[test]
+    fn fresh_age_is_strictly_under_five_seconds() {
+        assert!(fresh_age(Duration::ZERO));
+        assert!(fresh_age(Duration::from_millis(4_999)));
+        assert!(!fresh_age(Duration::from_secs(5)));
+    }
+
+    #[test]
+    fn beat_fresh_is_true_only_under_five_seconds() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        assert!(!beat_fresh(tmp.path()));
+        let beat = tmp.path().join("heartbeat");
+        fs::write(&beat, b"").expect("write");
+        assert!(beat_fresh(tmp.path()));
+        set_mtime(&beat, SystemTime::now() - Duration::from_millis(4_000));
+        assert!(beat_fresh(tmp.path()));
+        set_mtime(&beat, SystemTime::now() - Duration::from_millis(5_500));
+        assert!(!beat_fresh(tmp.path()));
+        set_mtime(&beat, SystemTime::now() + Duration::from_secs(60));
+        assert!(beat_fresh(tmp.path()));
+    }
+
     #[test]
     fn readiness_is_ready_when_both_processes_live() {
         let me = std::process::id();
@@ -353,6 +458,14 @@ mod tests {
             format!(r#"{{"event":"process-start","subject":"self","pid":{me}}}"#),
             format!(r#"{{"event":"process-start","subject":"claude-child","child_pid":{me}}}"#),
         ]);
+        assert_eq!(
+            readiness(home.path(), &spec("builder")),
+            Readiness::Pending(vec![
+                "builder:snapshot".to_owned(),
+                "builder:heartbeat".to_owned()
+            ])
+        );
+        plant_state(home.path());
         let Readiness::Ready(rec) = readiness(home.path(), &spec("builder:-x")) else {
             panic!("expected ready");
         };
@@ -420,6 +533,7 @@ mod tests {
             format!(r#"{{"event":"process-start","subject":"self","pid":{me}}}"#),
             format!(r#"{{"event":"process-start","subject":"claude-child","child_pid":{me}}}"#),
         ]);
+        plant_state(home.path());
         let rec = wait_ready(home.path(), &spec("builder"), Instant::now()).expect("ready");
         assert_eq!(rec.name, "builder");
     }

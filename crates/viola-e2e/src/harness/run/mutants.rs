@@ -369,6 +369,10 @@ pub(super) fn mutants(
             // Live to our stderr: a leg that stalls or is cancelled still shows its last outcome.
             .stdout(Stdio::from(std::io::stderr()))
             .env("NEXTEST_PROFILE", "mutants")
+            // No home outlives a mutant's test run: nothing reads them afterwards (the kept-home
+            // gates belong to the test job), and each carries a pinned copy of the viola binary.
+            .env("AGENT_RUN_KEEP_HOMES", "0")
+            .env("AGENT_RUN_KEEP_FAILED", "0")
             .env_remove("CARGO_TARGET_DIR")
             .current_dir(&ws.root),
     );
@@ -1022,6 +1026,41 @@ mod tests {
             .expect("cargo mutants ran");
         for flag in ["--caught", "--unviable", "--build-timeout-multiplier=5"] {
             assert!(mutants.contains(&flag.to_owned()), "{flag} in {mutants:?}");
+        }
+    }
+
+    #[test]
+    fn run_mutants_never_keeps_test_homes() {
+        let (_tmp, ws) = mini(GOOD_LIB);
+        let base = head(&ws);
+        fs::write(ws.root.join("src").join("b.rs"), "fn b() {}\n").expect("write");
+        let mut env = None;
+        let _ = run_with(
+            &ws,
+            flags(false, false, true, false),
+            None,
+            Some(base),
+            Some("l1"),
+            &mut |cmd: &mut Command| {
+                if has(&args_of(cmd), &["mutants", "--workspace"]) {
+                    env = Some(
+                        cmd.get_envs()
+                            .map(|(k, v)| {
+                                let v = v.map(|v| v.to_string_lossy().into_owned());
+                                (k.to_string_lossy().into_owned(), v)
+                            })
+                            .collect::<Vec<_>>(),
+                    );
+                }
+                (Some(0), String::new())
+            },
+        );
+        let env = env.expect("cargo mutants ran");
+        for name in ["AGENT_RUN_KEEP_HOMES", "AGENT_RUN_KEEP_FAILED"] {
+            assert!(
+                env.contains(&(name.to_owned(), Some("0".to_owned()))),
+                "{name} in {env:?}"
+            );
         }
     }
 

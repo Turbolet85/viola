@@ -1,0 +1,7 @@
+error: unexpected argument '--kind' found
+
+Usage: viola-harness.exe logs --session <SESSION> --instance <INSTANCE>
+
+For more information, try '--help'.
+
+{"v":1,"cmd":"logs","ok":false,"reason":"usage","detail":"arguments"}

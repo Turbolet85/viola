@@ -4,10 +4,11 @@
 use std::ffi::OsString;
 use std::fs;
 use std::path::{Path, PathBuf};
-use std::time::{Duration, Instant};
+use std::time::{Duration, Instant, SystemTime};
 
 use rstest::fixture;
-use serde_json::Value;
+use serde_json::{Value, json};
+use sysinfo::{Pid, ProcessStatus, ProcessesToUpdate, System};
 
 use super::fake;
 use super::outer_pty::{EXIT_WITHIN, OuterPty};
@@ -27,6 +28,60 @@ fn flag(name: &str) -> bool {
     std::env::var(name).is_ok_and(|v| v == "1")
 }
 
+/// The owner record beside a test's home: the test process's pid and OS start time.
+const OWNER: &str = "owner.json";
+
+/// `pid`'s OS start time; `None` when it is gone or a zombie.
+pub fn process_start(pid: u32) -> Option<u64> {
+    let mut sys = System::new();
+    let key = Pid::from_u32(pid);
+    sys.refresh_processes(ProcessesToUpdate::Some(&[key]), true);
+    sys.process(key)
+        .filter(|p| p.status() != ProcessStatus::Zombie)
+        .map(sysinfo::Process::start_time)
+}
+
+/// Removes every dir under `base` whose owner record names a test process that is verifiably gone
+/// (its pid dead, or alive with another start time). A dir without a readable record is never
+/// touched, whatever its name or age: a sibling may still be writing its record. Returns how many
+/// dirs were removed.
+pub fn sweep_gone_owners(base: &Path) -> usize {
+    let mut removed = 0;
+    for entry in fs::read_dir(base).into_iter().flatten().flatten() {
+        if !entry.file_type().is_ok_and(|t| t.is_dir()) {
+            continue;
+        }
+        let dir = entry.path();
+        let Some(owner) = fs::read(dir.join(OWNER))
+            .ok()
+            .and_then(|b| serde_json::from_slice::<Value>(&b).ok())
+        else {
+            continue;
+        };
+        let (Some(pid), Some(started_at)) = (
+            owner["pid"].as_u64().and_then(|p| u32::try_from(p).ok()),
+            owner["started_at"].as_u64(),
+        ) else {
+            continue;
+        };
+        if process_start(pid) == Some(started_at) {
+            continue;
+        }
+        if fs::remove_dir_all(&dir).is_ok() {
+            removed += 1;
+        }
+    }
+    removed
+}
+
+/// Records this test process as the owner of `dir`.
+pub fn write_owner(dir: &Path) {
+    let pid = std::process::id();
+    let started_at = process_start(pid).expect("own start time");
+    let record = json!({"pid": pid, "started_at": started_at});
+    fs::write(dir.join(OWNER), record.to_string()).expect("owner record");
+}
+
 /// `<workspace>/target/e2e-home/viola-test-*/` with the home at `home/`, which is never created
 /// here: viola creates it with its own modes.
 pub struct TestHome {
@@ -35,13 +90,20 @@ pub struct TestHome {
 }
 
 impl TestHome {
+    /// A test killed mid-run (nextest's fail-fast terminate) never drops its home, and each home
+    /// holds a pinned copy of the viola binary: homes whose owner is gone are swept first, unless
+    /// homes are being kept.
     pub fn new() -> Self {
         let base = workspace_path("target/e2e-home");
         fs::create_dir_all(&base).expect("e2e-home");
+        if !flag("AGENT_RUN_KEEP_HOMES") && !flag("AGENT_RUN_KEEP_FAILED") {
+            sweep_gone_owners(&base);
+        }
         let dir = tempfile::Builder::new()
             .prefix("viola-test-")
             .tempdir_in(base)
             .expect("tempdir");
+        write_owner(dir.path());
         let home = dir.path().join("home");
         Self {
             dir: Some(dir),
@@ -67,6 +129,8 @@ impl Drop for TestHome {
             std::thread::panicking(),
         );
         if let (true, Some(dir)) = (keep, self.dir.take()) {
+            // A kept home is no longer owned: no later sweep may take it.
+            let _ = fs::remove_file(dir.path().join(OWNER));
             let _ = dir.keep();
         }
     }
@@ -138,40 +202,30 @@ impl Wrapper {
             args.push(workspace_path(script).into());
         }
         args.extend(extra.iter().map(OsString::from));
+        let before = Starts::read(&home, name);
         let pty = OuterPty::spawn(Path::new(VIOLA), &args, &[]);
         let mut wrapper = Self {
             stamped,
             name: name.to_owned(),
             pty,
         };
-        wrapper.wait_ready();
+        wrapper.wait_ready(&before);
         wrapper
     }
 
-    /// Interim readiness (verification-harness rules): `process-start` for `self` and
-    /// `claude-child`, then the fake agent's `start` receipt, written once its terminal is raw so
-    /// that no key sent after this can be swallowed. A wrapper that exits first fails at once
-    /// (test-plan §3 Readiness: `run-exited`).
-    fn wait_ready(&mut self) {
-        let role = self
-            .home()
-            .join("diagnostics")
-            .join(format!("run-{}.ndjson", self.name));
-        let receipt = self.receipt();
+    /// Readiness (test-plan §3 boot): `process-start` for `self` and `claude-child` and the fake
+    /// agent's `start` receipt, each new since `before` (a gone name's files are reused), then the
+    /// snapshot with `pid`, `started_at` and `child_pid`, and a heartbeat under 5 s old. The
+    /// receipt is written once the agent's terminal is raw, so no key sent after this is
+    /// swallowed. A wrapper that exits first fails at once (`run-exited`).
+    fn wait_ready(&mut self, before: &Starts) {
         let deadline = Instant::now() + READY_WITHIN;
         loop {
-            let lines: Vec<Value> = fs::read_to_string(&role)
-                .unwrap_or_default()
-                .lines()
-                .filter_map(|l| serde_json::from_str(l).ok())
-                .collect();
-            let started = |subject: &str| {
-                lines
-                    .iter()
-                    .any(|l| l["event"] == "process-start" && l["subject"] == subject)
-            };
-            let raw = fake::receipt(&receipt).iter().any(|l| l["kind"] == "start");
-            if started("self") && started("claude-child") && raw {
+            let now = Starts::read(self.home(), &self.name);
+            let started = now.wrapper > before.wrapper
+                && now.child > before.child
+                && now.receipt > before.receipt;
+            if started && snapshot_ready(&self.instance_dir()) && beat_fresh(&self.instance_dir()) {
                 return;
             }
             if let Some(code) = self.pty.try_wait() {
@@ -180,6 +234,10 @@ impl Wrapper {
             assert!(Instant::now() < deadline, "wrapper {} not ready", self.name);
             std::thread::yield_now();
         }
+    }
+
+    pub fn instance_dir(&self) -> PathBuf {
+        self.home().join("instances").join(&self.name)
     }
 
     pub fn home(&self) -> &Path {
@@ -199,10 +257,79 @@ impl Wrapper {
     }
 
     /// Ctrl-C into the terminal, then the wrapper's own exit.
-    pub fn stop(mut self) -> Stopped {
-        self.pty.write(b"\x03");
-        Stopped(Some(self.pty.wait_exit(EXIT_WITHIN)))
+    pub fn stop(self) -> Stopped {
+        self.stop_keep().0
     }
+
+    /// `stop`, handing the home back for a next start of the same name.
+    pub fn stop_keep(self) -> (Stopped, StampedHome) {
+        let Self {
+            stamped, mut pty, ..
+        } = self;
+        pty.write(b"\x03");
+        let code = pty.wait_exit(EXIT_WITHIN);
+        drop(pty);
+        (Stopped(Some(code)), stamped)
+    }
+}
+
+/// How many starts the role file and the receipt hold so far.
+struct Starts {
+    wrapper: usize,
+    child: usize,
+    receipt: usize,
+}
+
+impl Starts {
+    fn read(home: &Path, name: &str) -> Self {
+        let role = home.join("diagnostics").join(format!("run-{name}.ndjson"));
+        let lines: Vec<Value> = fs::read_to_string(role)
+            .unwrap_or_default()
+            .lines()
+            .filter_map(|l| serde_json::from_str(l).ok())
+            .collect();
+        let started = |subject: &str| {
+            lines
+                .iter()
+                .filter(|l| l["event"] == "process-start" && l["subject"] == subject)
+                .count()
+        };
+        let receipt = fake::receipt(&fake::receipt_path(home, name));
+        Self {
+            wrapper: started("self"),
+            child: started("claude-child"),
+            receipt: fake::of_kind(&receipt, "start").len(),
+        }
+    }
+}
+
+/// The instance snapshot's `data`, when it parses.
+pub fn snapshot_data(instance_dir: &Path) -> Option<Value> {
+    let text = fs::read_to_string(instance_dir.join("snapshot.json")).ok()?;
+    let doc: Value = serde_json::from_str(&text).ok()?;
+    Some(doc["data"].clone())
+}
+
+fn snapshot_ready(instance_dir: &Path) -> bool {
+    snapshot_data(instance_dir).is_some_and(|d| {
+        d["pid"].is_u64() && d["started_at"].is_string() && d["child_pid"].is_u64()
+    })
+}
+
+/// The heartbeat's age; `None` when it is absent.
+pub fn beat_age(instance_dir: &Path) -> Option<Duration> {
+    let modified = fs::metadata(instance_dir.join("heartbeat"))
+        .and_then(|m| m.modified())
+        .ok()?;
+    Some(
+        SystemTime::now()
+            .duration_since(modified)
+            .unwrap_or(Duration::ZERO),
+    )
+}
+
+fn beat_fresh(instance_dir: &Path) -> bool {
+    beat_age(instance_dir).is_some_and(|age| age < Duration::from_secs(5))
 }
 
 #[fixture]

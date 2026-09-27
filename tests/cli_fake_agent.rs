@@ -185,10 +185,24 @@ fn fake_agent_receipt_env_holds_names_never_values() {
     let mut sorted = names.clone();
     sorted.sort_by(|a, b| a.as_str().cmp(&b.as_str()));
     assert_eq!(&sorted, names);
+    let start = of_kind(&lines, "start")[0];
+    let keys: Vec<&str> = start
+        .as_object()
+        .expect("object")
+        .keys()
+        .map(String::as_str)
+        .collect();
     assert_eq!(
-        of_kind(&lines, "start")[0],
-        &json!({"v": 1, "kind": "start", "cli_version": "2.1.0"})
+        keys,
+        ["v", "kind", "cli_version", "started_at", "plugin_dir"]
     );
+    assert_eq!(start["cli_version"], "2.1.0");
+    assert!(
+        start["started_at"]
+            .as_str()
+            .is_some_and(|t| t.ends_with('Z') && t.len() == 24)
+    );
+    assert_eq!(start["plugin_dir"], json!(null));
     assert!(lines.iter().all(|l| l["v"] == 1));
 }
 
