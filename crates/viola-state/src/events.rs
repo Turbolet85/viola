@@ -16,11 +16,13 @@ use crate::fs::{open_private_append, open_private_lock};
 pub const EVENTS: &str = "events.ndjson";
 const EVENTS_LOCK: &str = "events.ndjson.lock";
 
-/// Who appended the line; this build's wrapper is the only writer.
+/// Who appended the line: the wrapper, or a `hook` process (through the wrapper's channel, or
+/// directly for a SessionEnd the channel could not take).
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "kebab-case")]
 pub enum Source {
     Wrapper,
+    Hook,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize)]
@@ -59,12 +61,33 @@ impl EventLine {
 
 /// Appends `line` to `<instance_dir>/events.ndjson` with a single `write_all`.
 pub fn append_event(instance_dir: &Path, line: &EventLine) -> Result<(), StateError> {
-    let mut bytes = serde_json::to_vec(line)?;
-    bytes.push(b'\n');
+    let bytes = line_bytes(line)?;
     let lock = open_private_lock(&instance_dir.join(EVENTS_LOCK))?;
     lock.lock()?;
+    write_line(instance_dir, &bytes)
+}
+
+/// `append_event` without waiting: `Ok(false)`, and nothing written, while another writer holds
+/// the lock (the SessionEnd hook's direct append, architecture [Hook Transport]).
+pub fn try_append_event(instance_dir: &Path, line: &EventLine) -> Result<bool, StateError> {
+    let bytes = line_bytes(line)?;
+    let lock = open_private_lock(&instance_dir.join(EVENTS_LOCK))?;
+    if lock.try_lock().is_err() {
+        return Ok(false);
+    }
+    write_line(instance_dir, &bytes)?;
+    Ok(true)
+}
+
+fn line_bytes(line: &EventLine) -> Result<Vec<u8>, StateError> {
+    let mut bytes = serde_json::to_vec(line)?;
+    bytes.push(b'\n');
+    Ok(bytes)
+}
+
+fn write_line(instance_dir: &Path, bytes: &[u8]) -> Result<(), StateError> {
     let mut file = open_private_append(&instance_dir.join(EVENTS))?;
-    file.write_all(&bytes)?;
+    file.write_all(bytes)?;
     Ok(())
 }
 
@@ -136,6 +159,58 @@ mod tests {
             .map(|l| serde_json::from_str::<Value>(l).expect("line")["kind"].clone())
             .collect();
         assert_eq!(kinds, [json!("wheel"), json!("budget-gate")]);
+    }
+
+    #[test]
+    fn events_append_from_a_hook_reads_source_hook() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let line = EventLine::new(
+            &name(),
+            EventKind::SessionStart,
+            Source::Hook,
+            json!({"cause": "startup", "agent_session_id": null}),
+            at(),
+        );
+        append_event(tmp.path(), &line).expect("append");
+        let text = fs::read_to_string(tmp.path().join("events.ndjson")).expect("read");
+        assert!(
+            text.contains(r#""kind":"session-start","source":"hook""#),
+            "{text}"
+        );
+    }
+
+    #[test]
+    fn events_try_append_writes_only_while_the_lock_is_free() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let line = EventLine::new(
+            &name(),
+            EventKind::SessionEnd,
+            Source::Hook,
+            json!({}),
+            at(),
+        );
+        let held = open_private_lock(&tmp.path().join("events.ndjson.lock")).expect("lock file");
+        held.lock().expect("held");
+        assert!(!try_append_event(tmp.path(), &line).expect("busy"));
+        assert!(!tmp.path().join("events.ndjson").exists());
+        drop(held);
+        assert!(try_append_event(tmp.path(), &line).expect("free"));
+        let text = fs::read_to_string(tmp.path().join("events.ndjson")).expect("read");
+        assert_eq!(text.lines().count(), 1);
+        assert!(text.contains(r#""kind":"session-end","source":"hook","data":{}"#));
+    }
+
+    #[test]
+    fn events_try_append_into_a_missing_dir_fails() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let line = EventLine::new(
+            &name(),
+            EventKind::SessionEnd,
+            Source::Hook,
+            json!({}),
+            at(),
+        );
+        assert!(try_append_event(&tmp.path().join("missing"), &line).is_err());
     }
 
     #[test]

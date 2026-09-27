@@ -21,6 +21,11 @@ pub struct ViolaName(String);
 /// Claude-specific name (architecture §Standard Contracts).
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum EventKind {
+    SessionStart,
+    PromptSubmitted,
+    TurnEnded,
+    SessionEnd,
+    Activity,
     Wheel,
     BudgetGate,
 }
@@ -28,6 +33,11 @@ pub enum EventKind {
 impl EventKind {
     pub const fn as_str(self) -> &'static str {
         match self {
+            Self::SessionStart => "session-start",
+            Self::PromptSubmitted => "prompt-submitted",
+            Self::TurnEnded => "turn-ended",
+            Self::SessionEnd => "session-end",
+            Self::Activity => "activity",
             Self::Wheel => "wheel",
             Self::BudgetGate => "budget-gate",
         }
@@ -160,6 +170,11 @@ mod tests {
 
     #[test]
     fn event_kind_as_str_is_kebab_case() {
+        assert_eq!(EventKind::SessionStart.as_str(), "session-start");
+        assert_eq!(EventKind::PromptSubmitted.as_str(), "prompt-submitted");
+        assert_eq!(EventKind::TurnEnded.as_str(), "turn-ended");
+        assert_eq!(EventKind::SessionEnd.as_str(), "session-end");
+        assert_eq!(EventKind::Activity.as_str(), "activity");
         assert_eq!(EventKind::Wheel.as_str(), "wheel");
         assert_eq!(EventKind::BudgetGate.as_str(), "budget-gate");
     }

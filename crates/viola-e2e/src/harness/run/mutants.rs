@@ -23,6 +23,13 @@ pub(in crate::harness) use scratch::host_scratch_bytes;
 /// timeout by default), so a stalled leg names the mutant it stalled on.
 const MUTANTS_PROGRESS: [&str; 3] = ["--caught", "--unviable", "--build-timeout-multiplier=5"];
 
+/// The mutation run's own target dir, relative to the tree cargo runs in: the root binaries are
+/// prebuilt into the repository's copy, and cargo-mutants' copied tree builds every test binary in
+/// its own. A root test binary a local `cargo test` left in `target/debug` still names the
+/// repository's unmutated `viola` (`CARGO_BIN_EXE_*` is fixed at compile time, and cargo reads the
+/// copied binary as fresh), so a mutant only a root integration test kills would survive.
+const MUTANTS_TARGET: &str = "target/mutants";
+
 /// Only 0, 2 or 3 leave the verdict to the counts; any other exit tested no mutants.
 pub fn mutants_exit_reason(code: Option<i32>) -> Option<String> {
     match code {
@@ -143,7 +150,7 @@ pub(super) fn mutants(
     let (built, _) = runner(
         Command::new("cargo")
             .args(["build", "--package", "viola", "--features", "fake-agent"])
-            .env_remove("CARGO_TARGET_DIR")
+            .env("CARGO_TARGET_DIR", ws.root.join(MUTANTS_TARGET))
             .current_dir(&ws.root),
     );
     if built != Some(0) {
@@ -172,7 +179,7 @@ pub(super) fn mutants(
         // gates belong to the test job), and each carries a pinned copy of the viola binary.
         .env("AGENT_RUN_KEEP_HOMES", "0")
         .env("AGENT_RUN_KEEP_FAILED", "0")
-        .env_remove("CARGO_TARGET_DIR")
+        .env("CARGO_TARGET_DIR", MUTANTS_TARGET)
         .current_dir(&ws.root);
     if let Some((dir, _)) = &scratch {
         // cargo-mutants copies the tree into `std::env::temp_dir()`, which Windows reads from
@@ -694,6 +701,44 @@ mod tests {
         for flag in ["--caught", "--unviable", "--build-timeout-multiplier=5"] {
             assert!(mutants.contains(&flag.to_owned()), "{flag} in {mutants:?}");
         }
+    }
+
+    /// Both the root prebuild and cargo-mutants build in `target/mutants`: the prebuild in the
+    /// repository's, cargo-mutants (a relative path) in its copied tree's.
+    #[test]
+    fn run_mutants_builds_in_its_own_target_dir() {
+        let (_tmp, ws) = mini(GOOD_LIB);
+        let base = head(&ws);
+        fs::write(ws.root.join("src").join("b.rs"), "fn b() {}\n").expect("write");
+        let (mut prebuild, mut mutants) = (None, None);
+        let _ = run_with(
+            &ws,
+            flags(false, false, true, false),
+            None,
+            Some(base),
+            None,
+            &mut |cmd: &mut Command| {
+                let args = args_of(cmd);
+                if has(&args, &["build", "--package", "viola"]) {
+                    prebuild = Some(env_of(cmd));
+                } else if has(&args, &["mutants", "--workspace"]) {
+                    mutants = Some(env_of(cmd));
+                }
+                (Some(0), String::new())
+            },
+        );
+        let target = |env: Option<Env>| {
+            env.expect("ran")
+                .into_iter()
+                .find(|(k, _)| k == "CARGO_TARGET_DIR")
+                .and_then(|(_, v)| v)
+        };
+        let seeded = ws.root.join("target/mutants");
+        assert_eq!(
+            target(prebuild),
+            Some(seeded.to_string_lossy().into_owned())
+        );
+        assert_eq!(target(mutants).as_deref(), Some("target/mutants"));
     }
 
     #[test]

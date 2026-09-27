@@ -518,6 +518,8 @@ fn main() -> ExitCode {
     // The `start` receipt below is written only once the mode is set.
     let _terminal = viola_pty::HostTerminal::enter();
     start_receipts(&agent);
+    // The real CLI fires SessionStart at launch; with no registered hook or no fixture, nothing runs.
+    agent.fire("SessionStart", "default", None);
     if !steps.is_empty() {
         let runner = Arc::clone(&agent);
         std::thread::spawn(move || runner.run_steps(&steps));

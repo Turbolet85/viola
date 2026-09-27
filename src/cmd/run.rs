@@ -55,12 +55,56 @@ fn hold_pump_start() {
     }
 }
 
-/// The wrapper's channel answers no method yet: each one is `-32601` until its chunk lands.
-pub(crate) struct NoMethods;
+/// The wrapper's answers: the `hook.event` notification appends its event; every other method is
+/// `-32601` until its chunk lands.
+pub(crate) struct Methods {
+    name: ViolaName,
+    instance_dir: PathBuf,
+}
 
-impl Dispatch for NoMethods {
-    fn dispatch(&self, _method: &str, _params: &Value) -> Result<Value, ProtocolError> {
-        Err(ProtocolError::MethodNotFound)
+/// The kinds a hook may hand the wrapper.
+const HOOK_KINDS: [EventKind; 5] = [
+    EventKind::SessionStart,
+    EventKind::PromptSubmitted,
+    EventKind::TurnEnded,
+    EventKind::SessionEnd,
+    EventKind::Activity,
+];
+
+impl Methods {
+    /// The event a `hook.event` carries, re-validated here (the wrapper re-runs validators): a hook
+    /// kind, an object `data`, and for `prompt-submitted` a string `text` and a closed `origin`.
+    fn hook_event_line(&self, params: &Value) -> Option<EventLine> {
+        let event = &params["event"];
+        let kind = HOOK_KINDS
+            .into_iter()
+            .find(|k| event["kind"].as_str() == Some(k.as_str()))?;
+        let data = event.get("data").filter(|d| d.is_object())?;
+        let prompt_ok = data["text"].is_string()
+            && matches!(data["origin"].as_str(), Some("harness" | "human"));
+        if kind == EventKind::PromptSubmitted && !prompt_ok {
+            return None;
+        }
+        Some(EventLine::new(
+            &self.name,
+            kind,
+            Source::Hook,
+            data.clone(),
+            Utc::now(),
+        ))
+    }
+}
+
+impl Dispatch for Methods {
+    fn dispatch(&self, method: &str, params: &Value) -> Result<Value, ProtocolError> {
+        if method != "hook.event" {
+            return Err(ProtocolError::MethodNotFound);
+        }
+        // A notification is never answered: an event that fails the checks is simply not appended.
+        if let Some(line) = self.hook_event_line(params) {
+            append_event(&self.instance_dir, &line).map_err(|_| ProtocolError::Internal)?;
+        }
+        Ok(Value::Null)
     }
 }
 
@@ -128,7 +172,10 @@ fn start(home: &Path, args: &RunArgs, persistent: &[String]) -> anyhow::Result<S
         refuse_squatted(&args.name);
         return Ok(refused("squatted-name"));
     };
-    let serving = server.serve(Arc::new(NoMethods));
+    let serving = server.serve(Arc::new(Methods {
+        name: args.name.clone(),
+        instance_dir: instance_dir.clone(),
+    }));
     let (beat, snapshot) = start_state(&args.name, &instance_dir, &pinned, endpoint)?;
     let launch = run::child_launch(
         &args.name,
@@ -406,14 +453,97 @@ mod tests {
         (tracing::subscriber::with_default(subscriber, f), spans)
     }
 
+    fn methods(instance_dir: &Path) -> Methods {
+        Methods {
+            name: ViolaName::try_new("builder".to_owned()).expect("valid"),
+            instance_dir: instance_dir.to_path_buf(),
+        }
+    }
+
+    fn events_in(instance_dir: &Path) -> Vec<Value> {
+        std::fs::read_to_string(instance_dir.join("events.ndjson"))
+            .unwrap_or_default()
+            .lines()
+            .map(|l| serde_json::from_str(l).expect("one JSON object per line"))
+            .collect()
+    }
+
     #[test]
-    fn no_methods_answers_method_not_found_for_every_method() {
-        for method in ["send", "wait", "hook.event", "anything"] {
+    fn methods_answer_method_not_found_for_every_other_method() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        for method in ["send", "wait", "hook.dialog", "anything"] {
             assert_eq!(
-                NoMethods.dispatch(method, &json!({"v": 1})),
+                methods(tmp.path()).dispatch(method, &json!({"v": 1})),
                 Err(ProtocolError::MethodNotFound)
             );
         }
+        assert!(events_in(tmp.path()).is_empty());
+    }
+
+    /// A valid `hook.event` becomes one `source:"hook"` line stamped by the wrapper.
+    #[test]
+    fn methods_append_a_hook_event() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let params = json!({"v": 1, "sender": "0.1.0", "ts": "t",
+            "event": {"kind": "turn-ended", "data": {"last_assistant_message": null}}});
+        assert_eq!(
+            methods(tmp.path()).dispatch("hook.event", &params),
+            Ok(Value::Null)
+        );
+        let lines = events_in(tmp.path());
+        assert_eq!(lines.len(), 1);
+        assert_eq!(lines[0]["v"], 1);
+        assert_eq!(lines[0]["instance"], "builder");
+        assert_eq!(lines[0]["kind"], "turn-ended");
+        assert_eq!(lines[0]["source"], "hook");
+        assert_eq!(lines[0]["data"], json!({"last_assistant_message": null}));
+        let ts = lines[0]["ts"].as_str().expect("ts");
+        assert!(ts.ends_with('Z') && ts.len() == 24, "{ts}");
+    }
+
+    #[rstest::rstest]
+    #[case::session_start(json!({"kind": "session-start", "data": {"cause": "startup", "agent_session_id": null}}))]
+    #[case::prompt(json!({"kind": "prompt-submitted", "data": {"text": "hi", "origin": "human"}}))]
+    #[case::harness(json!({"kind": "prompt-submitted", "data": {"text": "", "origin": "harness"}}))]
+    #[case::session_end(json!({"kind": "session-end", "data": {}}))]
+    #[case::activity(json!({"kind": "activity", "data": {"tool": "Bash"}}))]
+    fn methods_take_every_hook_kind(#[case] event: Value) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let kind = event["kind"].clone();
+        methods(tmp.path())
+            .dispatch("hook.event", &json!({"v": 1, "event": event}))
+            .expect("dispatched");
+        let lines = events_in(tmp.path());
+        assert_eq!(lines.len(), 1);
+        assert_eq!(lines[0]["kind"], kind);
+    }
+
+    #[rstest::rstest]
+    #[case::no_event(json!({"v": 1}))]
+    #[case::wrapper_kind(json!({"v": 1, "event": {"kind": "wheel", "data": {}}}))]
+    #[case::unknown_kind(json!({"v": 1, "event": {"kind": "question", "data": {}}}))]
+    #[case::no_data(json!({"v": 1, "event": {"kind": "session-end"}}))]
+    #[case::data_not_object(json!({"v": 1, "event": {"kind": "session-end", "data": [1]}}))]
+    #[case::driver_origin(json!({"v": 1, "event": {"kind": "prompt-submitted", "data": {"text": "x", "origin": "driver"}}}))]
+    #[case::no_origin(json!({"v": 1, "event": {"kind": "prompt-submitted", "data": {"text": "x"}}}))]
+    #[case::text_not_string(json!({"v": 1, "event": {"kind": "prompt-submitted", "data": {"text": 1, "origin": "human"}}}))]
+    fn methods_refuse_an_event_that_fails_the_checks(#[case] params: Value) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        assert_eq!(
+            methods(tmp.path()).dispatch("hook.event", &params),
+            Ok(Value::Null)
+        );
+        assert!(!tmp.path().join("events.ndjson").exists());
+    }
+
+    #[test]
+    fn methods_report_an_append_that_failed_as_internal() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let params = json!({"v": 1, "event": {"kind": "session-end", "data": {}}});
+        assert_eq!(
+            methods(&tmp.path().join("missing")).dispatch("hook.event", &params),
+            Err(ProtocolError::Internal)
+        );
     }
 
     fn field<'a>(spans: &'a [Value], name: &str) -> &'a Value {

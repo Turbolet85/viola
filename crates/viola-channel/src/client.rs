@@ -31,7 +31,16 @@ pub struct Client {
 impl Client {
     /// `process` is the connecting role (`cli`, `hook`, `mcp`), the first part of `conn`.
     pub fn connect(endpoint: &str, process: &'static str) -> Result<Self, ChannelError> {
-        let stream = open(endpoint).map_err(ChannelError::Connect)?;
+        Self::connect_by(endpoint, process, busy_deadline(Instant::now()))
+    }
+
+    /// `connect`, waiting for a busy Windows pipe only until `busy_until`.
+    pub fn connect_by(
+        endpoint: &str,
+        process: &'static str,
+        busy_until: Instant,
+    ) -> Result<Self, ChannelError> {
+        let stream = open_by(endpoint, busy_until).map_err(ChannelError::Connect)?;
         let n = CONNECTIONS.fetch_add(1, Ordering::Relaxed) + 1;
         let conn = format!("{process}-{}-{}-{n}", std::process::id(), t0_ms());
         Ok(Self {
@@ -77,6 +86,29 @@ impl Client {
         let reply: Value = serde_json::from_slice(&line).map_err(ChannelError::Parse)?;
         logged.class = reply_class(&reply);
         Ok(reply)
+    }
+
+    /// One id-less frame (`hook.event`): written whole, never answered, so nothing is read back.
+    #[instrument(skip_all, name = "channel.request", fields(method = method, conn = self.conn.as_str()))]
+    pub fn notify(
+        &mut self,
+        method: &str,
+        mut params: Map<String, Value>,
+    ) -> Result<(), ChannelError> {
+        params.insert("v".to_owned(), PROTOCOL_V.into());
+        params.insert("sender".to_owned(), VERSION.into());
+        params.insert("conn".to_owned(), self.conn.clone().into());
+        obs_event!(
+            INFO,
+            ObsEvent::ChannelRequest,
+            conn = self.conn.as_str(),
+            method = method_label(method),
+            sender = VERSION,
+            v = PROTOCOL_V,
+        );
+        let frame = json!({"jsonrpc": "2.0", "method": method, "params": params});
+        let mut writer = self.reader.get_ref();
+        write_frame(&mut writer, &frame)
     }
 }
 
@@ -132,17 +164,21 @@ fn retry_busy(error: &io::Error, now: Instant, until: Instant) -> bool {
 }
 
 /// A busy pipe is waited for this long past the first attempt.
-#[cfg(windows)]
 const BUSY_WITHIN: std::time::Duration = std::time::Duration::from_secs(2);
 
 /// When an open that started at `start` stops waiting for a busy pipe.
-#[cfg(windows)]
 fn busy_deadline(start: Instant) -> Instant {
     start + BUSY_WITHIN
 }
 
-#[cfg(windows)]
+/// `open_by` under the default busy wait, for this crate's own pipe tests.
+#[cfg(all(windows, test))]
 pub(crate) fn open(endpoint: &str) -> io::Result<Stream> {
+    open_by(endpoint, busy_deadline(Instant::now()))
+}
+
+#[cfg(windows)]
+fn open_by(endpoint: &str, busy_until: Instant) -> io::Result<Stream> {
     use std::os::windows::ffi::OsStrExt as _;
     use std::os::windows::io::{FromRawHandle as _, OwnedHandle};
     use std::ptr;
@@ -158,7 +194,6 @@ pub(crate) fn open(endpoint: &str) -> io::Result<Stream> {
         .encode_wide()
         .chain(Some(0))
         .collect();
-    let busy_until = busy_deadline(Instant::now());
     let handle = loop {
         // SAFETY: `wide` is NUL-terminated and outlives the call; null security attributes and
         // template are allowed.
@@ -190,10 +225,12 @@ pub(crate) fn open(endpoint: &str) -> io::Result<Stream> {
         .map_err(|_| io::Error::from(io::ErrorKind::InvalidData))
 }
 
+/// A Unix socket has no busy state to wait out: `busy_until` is unused.
 #[cfg(unix)]
-pub(crate) fn open(endpoint: &str) -> io::Result<Stream> {
+fn open_by(endpoint: &str, busy_until: Instant) -> io::Result<Stream> {
     use interprocess::local_socket::traits::Stream as _;
     use interprocess::local_socket::{GenericFilePath, ToFsName as _};
+    let _ = busy_until;
     Stream::connect(endpoint.to_fs_name::<GenericFilePath>()?)
 }
 
@@ -289,6 +326,68 @@ mod tests {
         );
     }
 
+    /// Every dispatched call, in order, as the wrapper's answer sees it.
+    #[derive(Default)]
+    struct Recorder(std::sync::Mutex<Vec<(String, Value)>>);
+
+    impl Dispatch for Recorder {
+        fn dispatch(&self, method: &str, params: &Value) -> Result<Value, ProtocolError> {
+            let mut calls = self.0.lock().expect("calls");
+            calls.push((method.to_owned(), params.clone()));
+            Ok(json!({"ok": {}}))
+        }
+    }
+
+    /// The notification is dispatched with its params (no `conn`), earns no reply and takes no id,
+    /// and the connection carries the next request; its log line has no `corr`.
+    #[test]
+    fn client_notify_sends_one_unanswered_frame_and_keeps_the_connection() {
+        let dir = tempfile::tempdir().expect("tempdir");
+        let endpoint = test_endpoint(dir.path(), "notify");
+        let recorder = Arc::new(Recorder::default());
+        let _serving = Server::bind(&endpoint)
+            .expect("bound")
+            .serve(recorder.clone());
+        let until = Instant::now() + std::time::Duration::from_millis(750);
+        let mut client = Client::connect_by(&endpoint, "hook", until).expect("connect");
+        let mut params = Map::new();
+        params.insert(
+            "event".to_owned(),
+            json!({"kind": "session-end", "data": {}}),
+        );
+        let (sent, got) = crate::test_capture::capture(|| client.notify("hook.event", params));
+        sent.expect("sent");
+        let reply = client.request("last", Map::new()).expect("next request");
+        assert_eq!(reply["id"], 1, "the notification took no id");
+
+        let calls = recorder.0.lock().expect("calls");
+        assert_eq!(calls.len(), 2);
+        assert_eq!(calls[0].0, "hook.event");
+        assert_eq!(
+            calls[0].1,
+            json!({"v": 1, "sender": "0.1.0", "event": {"kind": "session-end", "data": {}}})
+        );
+        assert_eq!(calls[1].0, "last");
+        let line = got.event("channel-request");
+        assert!(line.get("corr").is_none(), "{line}");
+        assert_eq!(line["method"], "hook.event");
+        assert_eq!(line["conn"], client.conn());
+        assert_eq!(line["sender"], "0.1.0");
+        assert_eq!(line["v"], 1);
+        assert_eq!(got.span("channel.request")["method"], "hook.event");
+    }
+
+    #[test]
+    fn client_connect_by_to_a_missing_endpoint_is_not_found() {
+        let dir = tempfile::tempdir().expect("tempdir");
+        let endpoint = test_endpoint(dir.path(), "absent-by");
+        let until = Instant::now() + std::time::Duration::from_secs(1);
+        let Err(ChannelError::Connect(e)) = Client::connect_by(&endpoint, "hook", until) else {
+            panic!("connected to nothing");
+        };
+        assert_eq!(e.kind(), io::ErrorKind::NotFound);
+    }
+
     #[test]
     fn client_connect_to_a_missing_endpoint_is_not_found() {
         let dir = tempfile::tempdir().expect("tempdir");
@@ -323,7 +422,6 @@ mod tests {
     }
 
     /// The deadline is two seconds AFTER the start, never before it.
-    #[cfg(windows)]
     #[test]
     fn busy_deadline_is_two_seconds_after_the_start() {
         let start = Instant::now();

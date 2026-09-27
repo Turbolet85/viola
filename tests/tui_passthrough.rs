@@ -168,6 +168,74 @@ fn tui_host_resize_in_the_pump_start_window_reaches_the_child(#[from(home)] tmp:
     );
 }
 
+/// Types one pasted prompt once the child is raw, waits for its prompt receipt and `hooks` hook
+/// receipts, then ends the child; returns the outer-PTY stream.
+fn prompt_and_finish(mut pty: OuterPty, receipt: &Path, hooks: usize) -> Vec<u8> {
+    fake::wait_for(receipt, "start", |l| !of_kind(l, "start").is_empty());
+    pty.write(b"\x1b[200~hello\x1b[201~\r");
+    fake::wait_for(receipt, "the prompt and its hooks", |l| {
+        !of_kind(l, "prompt").is_empty() && of_kind(l, "hook").len() >= hooks
+    });
+    pty.write(b"\x03");
+    assert_eq!(pty.wait_exit(EXIT_WITHIN), 0);
+    pty.finish()
+}
+
+/// a11y-plan §4 P4 tui case (1) with the plugin's hooks registered and firing: SessionStart at the
+/// child's start and UserPromptSubmit on the prompt run `viola hook`, and the outer stream still
+/// carries no viola-originated byte.
+#[rstest]
+fn tui_hooks_firing_add_no_viola_bytes(#[from(home)] wrapped: TestHome) {
+    let fixtures = wrapped.scratch().join("fixtures");
+    for event in ["SessionStart", "UserPromptSubmit"] {
+        fake::write_fixture(
+            &fixtures,
+            "2.1.0",
+            event,
+            "default",
+            &json!({"hook_event_name": event, "session_id": "s-4", "source": "startup",
+                    "prompt": "canary-chain-value-5c1e"}),
+        );
+    }
+    let fixtures = fixtures.to_str().expect("utf-8 path").to_owned();
+    let receipt = wrapped.scratch().join("hooks.receipt.ndjson");
+    let pty = OuterPty::spawn(
+        Path::new(VIOLA),
+        &run_args(wrapped.path(), Some(&receipt), &["--fixtures", &fixtures]),
+        &[],
+    );
+    let stream = prompt_and_finish(pty, &receipt, 2);
+    let lines = fake::receipt(&receipt);
+    let fired: Vec<(&Value, &Value, &Value)> = of_kind(&lines, "hook")
+        .iter()
+        .map(|h| (&h["event"], &h["ran"], &h["exit_code"]))
+        .collect();
+    assert_eq!(
+        fired,
+        [
+            (&json!("SessionStart"), &json!(true), &json!(0)),
+            (&json!("UserPromptSubmit"), &json!(true), &json!(0)),
+        ]
+    );
+    assert_no_viola_bytes(&stream);
+    #[cfg(unix)]
+    {
+        let direct_receipt = wrapped.scratch().join("direct.receipt.ndjson");
+        let args: Vec<OsString> = vec![
+            "--receipt".into(),
+            direct_receipt.clone().into(),
+            "--fixtures".into(),
+            fixtures.clone().into(),
+        ];
+        let direct = OuterPty::spawn(Path::new(FAKE), &args, &[]);
+        assert_eq!(
+            stream,
+            prompt_and_finish(direct, &direct_receipt, 0),
+            "wrapped and unwrapped streams differ"
+        );
+    }
+}
+
 #[rstest]
 fn tui_child_output_passes_through_without_viola_bytes(#[from(home)] wrapped: TestHome) {
     let mut pty = OuterPty::spawn(

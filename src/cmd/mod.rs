@@ -1,3 +1,4 @@
+mod hook;
 mod run;
 
 use std::path::PathBuf;
@@ -27,6 +28,9 @@ pub(crate) struct Cli {
 enum Command {
     /// Wrap a program as the named instance
     Run(run::RunArgs),
+    /// Hand a Claude Code hook's payload to the wrapper (run by the plugin, never by a person)
+    #[command(hide = true)]
+    Hook(hook::HookArgs),
 }
 
 /// A dispatch error and, once the home and the instance resolved, where its chain may go.
@@ -36,6 +40,11 @@ pub(crate) struct Failure {
 }
 
 pub(crate) fn dispatch(cli: Cli) -> Result<ExitCode, Failure> {
+    let args = match cli.command {
+        // The hook's home is its session's, from `VIOLA_DIR`, never `--home`.
+        Command::Hook(args) => return hook::hook(&args),
+        Command::Run(args) => args,
+    };
     let home = match cli.home {
         Some(home) => home,
         None => std::env::home_dir()
@@ -43,17 +52,13 @@ pub(crate) fn dispatch(cli: Cli) -> Result<ExitCode, Failure> {
             .map_err(|error| Failure { error, sink: None })?
             .join(".viola"),
     };
-    match cli.command {
-        Command::Run(args) => {
-            let sink = DetailSink {
-                home: home.clone(),
-                instance: args.name.clone(),
-                process: ObsProcess::Run,
-            };
-            run::run(&home, args).map_err(|error| Failure {
-                error,
-                sink: Some(sink),
-            })
-        }
-    }
+    let sink = DetailSink {
+        home: home.clone(),
+        instance: args.name.clone(),
+        process: ObsProcess::Run,
+    };
+    run::run(&home, args).map_err(|error| Failure {
+        error,
+        sink: Some(sink),
+    })
 }

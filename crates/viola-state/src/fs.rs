@@ -5,6 +5,7 @@
 use std::fs::{self, File, OpenOptions};
 use std::io::{self, Write as _};
 use std::path::Path;
+use std::time::Duration;
 
 use crate::StateError;
 
@@ -78,16 +79,53 @@ pub fn open_private_lock(path: &Path) -> io::Result<File> {
     Ok(file)
 }
 
+/// How many times the rename is tried while Windows refuses it for a reader holding the target.
+pub const REPLACE_ATTEMPTS: u32 = 100;
+pub(crate) const REPLACE_PAUSE: Duration = Duration::from_millis(10);
+
+/// `ERROR_ACCESS_DENIED`: Windows' answer to a rename over a file a reader holds open, under every
+/// reader share mode, `std::fs::File::open`'s included (measured with the pinned tempfile).
+const ACCESS_DENIED: i32 = 5;
+const HOST_IS_WINDOWS: bool = cfg!(windows);
+
+/// Only a Windows host's reader refusal is waited out; every other failure is final at once.
+fn retry_replace(raw_os_error: Option<i32>, host_is_windows: bool) -> bool {
+    host_is_windows && raw_os_error == Some(ACCESS_DENIED)
+}
+
 /// The one atomic replace: a temp file beside `path`, its mode set before any byte is written,
 /// synced, then renamed over `path`. Any failure leaves `path` as it was.
 pub fn replace_private(path: &Path, bytes: &[u8], mode: u32) -> Result<(), StateError> {
+    replace_private_with(path, bytes, mode, &mut || std::thread::sleep(REPLACE_PAUSE))
+}
+
+/// `replace_private` with the pause between two rename attempts supplied by the caller.
+pub(crate) fn replace_private_with(
+    path: &Path,
+    bytes: &[u8],
+    mode: u32,
+    pause: &mut dyn FnMut(),
+) -> Result<(), StateError> {
     let parent = path.parent().unwrap_or(Path::new("."));
     let mut tmp = tempfile::NamedTempFile::new_in(parent)?;
     restrict(tmp.path(), mode)?;
     tmp.write_all(bytes)?;
     tmp.as_file().sync_all()?;
-    tmp.persist(path).map_err(|e| e.error)?;
-    Ok(())
+    let mut attempts = 0;
+    loop {
+        attempts += 1;
+        match tmp.persist(path) {
+            Ok(_) => return Ok(()),
+            Err(e)
+                if attempts < REPLACE_ATTEMPTS
+                    && retry_replace(e.error.raw_os_error(), HOST_IS_WINDOWS) =>
+            {
+                tmp = e.file;
+                pause();
+            }
+            Err(e) => return Err(e.error.into()),
+        }
+    }
 }
 
 /// `replace_private` for a file every concurrent writer fills with the same bytes (the pinned copy,
@@ -136,6 +174,81 @@ mod tests {
         assert!(replace_private_shared(&path, b"other", FILE_MODE).is_err());
         read_only(false);
         assert_eq!(fs::read(&path).expect("read"), b"same");
+    }
+
+    #[test]
+    fn retry_replace_waits_only_for_a_windows_reader_refusal() {
+        assert!(retry_replace(Some(5), true));
+        assert!(
+            !retry_replace(Some(5), false),
+            "only a Windows host retries"
+        );
+        assert!(
+            !retry_replace(Some(32), true),
+            "a sharing violation is not the refusal"
+        );
+        assert!(!retry_replace(None, true));
+        assert_eq!(REPLACE_ATTEMPTS, 100);
+        assert_eq!(HOST_IS_WINDOWS, cfg!(windows));
+    }
+
+    #[test]
+    fn replace_private_with_never_pauses_a_replace_that_lands() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let path = tmp.path().join("snapshot.json");
+        fs::write(&path, b"old").expect("seed");
+        let mut pauses = 0;
+        replace_private_with(&path, b"new", FILE_MODE, &mut || pauses += 1).expect("replaced");
+        assert_eq!(pauses, 0);
+        assert_eq!(fs::read(&path).expect("read"), b"new");
+    }
+
+    /// A reader holds `snapshot.json` open across the replace (a plain `File::open`, the way a hook
+    /// reads it): Windows refuses the rename until the reader lets go. The pause lets go the first
+    /// time it runs, which also proves the refusal happened.
+    #[cfg(windows)]
+    #[test]
+    fn replace_private_lands_once_a_holding_reader_lets_go() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let path = tmp.path().join("snapshot.json");
+        fs::write(&path, b"old").expect("seed");
+        let mut holder = Some(File::open(&path).expect("reader"));
+        let mut pauses = 0;
+        replace_private_with(&path, b"new", FILE_MODE, &mut || {
+            pauses += 1;
+            holder.take();
+        })
+        .expect("replaced once the reader let go");
+        assert!(pauses >= 1, "the reader never held the target");
+        assert_eq!(fs::read(&path).expect("read"), b"new");
+    }
+
+    #[cfg(windows)]
+    #[test]
+    fn replace_private_gives_up_after_the_attempts_and_keeps_the_old_bytes() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let path = tmp.path().join("snapshot.json");
+        fs::write(&path, b"old").expect("seed");
+        let holder = File::open(&path).expect("reader");
+        let mut pauses = 0;
+        let replaced = replace_private_with(&path, b"new", FILE_MODE, &mut || {
+            pauses += 1;
+            assert!(pauses < REPLACE_ATTEMPTS, "paused past the last attempt");
+        });
+        assert!(replaced.is_err());
+        assert_eq!(
+            pauses + 1,
+            REPLACE_ATTEMPTS,
+            "one pause between two attempts"
+        );
+        drop(holder);
+        assert_eq!(fs::read(&path).expect("read"), b"old");
+        let names: Vec<_> = fs::read_dir(tmp.path())
+            .expect("dir")
+            .flatten()
+            .map(|e| e.file_name())
+            .collect();
+        assert_eq!(names, ["snapshot.json"], "no temp file is left behind");
     }
 
     #[test]

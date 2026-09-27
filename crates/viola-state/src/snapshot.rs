@@ -12,7 +12,7 @@ use serde_json::Value;
 use viola_core::{MAX_FRAME, VERSION};
 
 use crate::StateError;
-use crate::fs::{FILE_MODE, open_private_lock, replace_private};
+use crate::fs::{FILE_MODE, REPLACE_PAUSE, open_private_lock, replace_private_with};
 
 pub const SNAPSHOT: &str = "snapshot.json";
 const SNAPSHOT_LOCK: &str = "snapshot.json.lock";
@@ -54,6 +54,17 @@ struct Envelope<T> {
 
 #[tracing::instrument(skip_all, name = "state.snapshot_write", fields(v = SNAPSHOT_V))]
 pub fn write_snapshot(instance_dir: &Path, snapshot: &InstanceSnapshot) -> Result<(), StateError> {
+    write_snapshot_with(instance_dir, snapshot, &mut || {
+        std::thread::sleep(REPLACE_PAUSE);
+    })
+}
+
+/// `write_snapshot` with the pause between two replace attempts supplied by the caller.
+pub(crate) fn write_snapshot_with(
+    instance_dir: &Path,
+    snapshot: &InstanceSnapshot,
+    pause: &mut dyn FnMut(),
+) -> Result<(), StateError> {
     let envelope = Envelope {
         v: SNAPSHOT_V,
         written_at: crate::timestamp(Utc::now()),
@@ -63,7 +74,7 @@ pub fn write_snapshot(instance_dir: &Path, snapshot: &InstanceSnapshot) -> Resul
     let bytes = serde_json::to_vec(&envelope)?;
     let lock = open_private_lock(&instance_dir.join(SNAPSHOT_LOCK))?;
     lock.lock()?;
-    replace_private(&instance_dir.join(SNAPSHOT), &bytes, FILE_MODE)
+    replace_private_with(&instance_dir.join(SNAPSHOT), &bytes, FILE_MODE, pause)
 }
 
 /// `None` for a missing, unreadable, unparseable or unsupported-`v` snapshot.
@@ -130,6 +141,41 @@ mod tests {
         assert_eq!(second["data"]["pid"], 42);
         assert_eq!(second["data"]["child_pid"], 43);
         assert!(tmp.path().join("snapshot.json.lock").is_file());
+        assert_eq!(read_snapshot(tmp.path()), Some(snapshot(42, Some(43))));
+    }
+
+    /// A reader on another thread holds `snapshot.json` open, the window a hook reading the endpoint
+    /// opens beside the wrapper's second write. It lets go at the first refusal, and the envelope
+    /// lands.
+    #[cfg(windows)]
+    #[test]
+    fn snapshot_write_lands_through_a_reader_holding_the_file() {
+        use std::sync::mpsc;
+        let tmp = tempfile::tempdir().expect("tempdir");
+        write_snapshot(tmp.path(), &snapshot(41, None)).expect("first");
+        let path = tmp.path().join("snapshot.json");
+        let (held_tx, held_rx) = mpsc::channel();
+        let (release_tx, release_rx) = mpsc::channel::<()>();
+        let (released_tx, released_rx) = mpsc::channel();
+        let reader = std::thread::spawn(move || {
+            let file = File::open(&path).expect("reader");
+            held_tx.send(()).expect("held");
+            release_rx.recv().expect("release");
+            drop(file);
+            released_tx.send(()).expect("released");
+        });
+        held_rx.recv().expect("the reader holds the file");
+        let mut pauses = 0;
+        write_snapshot_with(tmp.path(), &snapshot(42, Some(43)), &mut || {
+            pauses += 1;
+            if pauses == 1 {
+                release_tx.send(()).expect("release");
+                released_rx.recv().expect("released");
+            }
+        })
+        .expect("written once the reader let go");
+        reader.join().expect("reader thread");
+        assert!(pauses >= 1, "the reader never held the target");
         assert_eq!(read_snapshot(tmp.path()), Some(snapshot(42, Some(43))));
     }
 

@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "db3af704",
+"ts": "2026-09-27T21:16:59Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-09-27-hooks-to-normalised-events",
+"--expect-prefix",
+"Hooks to normalised events",
+"--record-file",
+".andromeda/runs/2026-09-27T21-14-58-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-09-27T21-14-58-phase"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:47 - [2026-09-27-hooks-to-normalised-events]",
+"record master-route.md:28 - appended under `## viola-0.1.0`",
+"promoted 2026-09-27-hooks-to-normalised-events - working-route:47 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+".\\viola-0.1.0\\working-route.md",
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+}
+]

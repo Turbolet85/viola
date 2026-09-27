@@ -1,0 +1,49 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "808beb02",
+"ts": "2026-09-27T23:08:36Z",
+"argv": [
+"implement",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-09-27-hooks-to-normalised-events",
+"--id",
+"v1-28",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-27T21-48-40-implement"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"implement v1-28 · status planned → implemented · ref tests/hook_events.rs::hook_every_registered_event_lands_as_one_line_of_its_kind … (365 chars)",
+"wrote viola-0.1.0\\verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0\\verification-matrix.json"
+],
+"before": {
+"id": "v1-28",
+"chunk": "2026-09-27-hooks-to-normalised-events",
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "In root integration tests on all three CI OSes (tests/hook_events.rs, tests/hook_fail_open.rs): each of the seven regist… (1425 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-28",
+"chunk": "2026-09-27-hooks-to-normalised-events",
+"status": "implemented",
+"method": "e2e",
+"ref": "tests/hook_events.rs::hook_every_registered_event_lands_as_one_line_of_its_kind + tests/hook_events.rs::hook_prompts_arr… (365 chars)",
+"acceptance": "In root integration tests on all three CI OSes (tests/hook_events.rs, tests/hook_fail_open.rs): each of the seven regist… (1425 chars)",
+"notes_chars": 0
+}
+}
+]

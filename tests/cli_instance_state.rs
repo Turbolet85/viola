@@ -344,6 +344,8 @@ fn run_rewrites_the_plugin_folder_each_start(stamped_home: StampedHome) {
     let hooks = last_plugin_dir(&first).join("hooks").join("hooks.json");
     let (stopped, stamped) = first.stop_keep();
     assert_eq!(stopped.code(), Some(0));
+    let written = fs::read_to_string(&hooks).expect("hooks.json");
+    assert!(written.contains("\"args\": [\"hook\", \"session-start\"]"));
     fs::write(&hooks, r#"{"hooks":{"Stop":"sentinel-7d1e"}}"#).expect("sentinel");
 
     let second = Wrapper::boot(stamped, "builder", None, &[]);
@@ -351,11 +353,64 @@ fn run_rewrites_the_plugin_folder_each_start(stamped_home: StampedHome) {
         last_plugin_dir(&second).join("hooks").join("hooks.json"),
         hooks
     );
-    assert_eq!(
-        fs::read_to_string(&hooks).expect("hooks.json"),
-        "{\n  \"hooks\": {}\n}\n"
-    );
+    assert_eq!(fs::read_to_string(&hooks).expect("hooks.json"), written);
     assert_eq!(second.stop().code(), Some(0));
+}
+
+/// test-plan §6 Path 1 with the child's first hook: records 1–3 are `wheel{cause:"start"}` →
+/// `budget-gate` → `session-start{source:"hook"}`, and the fake agent ran the plugin's
+/// SessionStart command by its absolute path (M6).
+#[rstest]
+fn path1_session_start_is_record_three_through_the_absolute_hook(stamped_home: StampedHome) {
+    let fixtures = stamped_home.home.scratch().join("fixtures");
+    fake::write_fixture(
+        &fixtures,
+        "2.1.0",
+        "SessionStart",
+        "default",
+        &json!({"hook_event_name": "SessionStart", "session_id": "s-3", "source": "startup",
+                "transcript_path": "canary-chain-value-5c1e"}),
+    );
+    let fixtures = fixtures.to_str().expect("utf-8 path").to_owned();
+    let wrapper = Wrapper::boot(stamped_home, "builder", None, &["--fixtures", &fixtures]);
+    let receipt = fake::wait_for(&wrapper.receipt(), "the SessionStart hook", |l| {
+        !of_kind(l, "hook").is_empty()
+    });
+    assert_eq!(
+        of_kind(&receipt, "hook"),
+        [
+            &json!({"v": 1, "kind": "hook", "event": "SessionStart", "command_absolute": true,
+                 "ran": true, "exit_code": 0, "stderr_len": 0, "stdout_hex": ""})
+        ]
+    );
+    let dir = wrapper.instance_dir();
+    let watch = support::watch::Watch::start("events");
+    let deadline = std::time::Instant::now() + support::watch::WITHIN;
+    let events = loop {
+        let lines = events(&dir);
+        if lines.len() >= 3 {
+            break lines;
+        }
+        watch.note(&format!("events {}", lines.len()));
+        watch.deadline_check(deadline, "no third event");
+        std::thread::yield_now();
+    };
+    assert_eq!(events.len(), 3, "{events:?}");
+    let kinds: Vec<(&Value, &Value)> = events.iter().map(|l| (&l["kind"], &l["source"])).collect();
+    assert_eq!(
+        kinds,
+        [
+            (&json!("wheel"), &json!("wrapper")),
+            (&json!("budget-gate"), &json!("wrapper")),
+            (&json!("session-start"), &json!("hook")),
+        ]
+    );
+    assert_eq!(events[0]["data"]["cause"], "start");
+    assert_eq!(
+        events[2]["data"],
+        json!({"cause": "startup", "agent_session_id": "s-3"})
+    );
+    assert_eq!(wrapper.stop().code(), Some(0));
 }
 
 /// The fixture chain's sweep takes a home only when its owning test process is verifiably gone: a

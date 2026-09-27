@@ -78,6 +78,16 @@ name = "tui_channel_fds"
 path = "tests/tui_channel_fds.rs"
 required-features = ["fake-agent"]
 
+[[test]]
+name = "hook_fail_open"
+path = "tests/hook_fail_open.rs"
+required-features = ["fake-agent"]
+
+[[test]]
+name = "hook_events"
+path = "tests/hook_events.rs"
+required-features = ["fake-agent"]
+
 [dependencies]
 viola-core = { path = "crates/viola-core" }
 viola-pty = { path = "crates/viola-pty" }
@@ -145,6 +155,8 @@ proptest ={ version = "=1.11.0", default-features = false, features = ["std"] }
 rstest = { version = "=0.27.0", default-features = false }
 serde = { version = "=1.0.229", features = ["derive"] }
 serde_json = { version = "=1.0.151", features = ["preserve_order"] }
+# The drift report for a hook payload's known field of the wrong type (viola-agent-claude only).
+serde_path_to_error = "=0.1.20"
 # The truncated SHA-256 `<hash>` of bin/ and plugin/: pure Rust, no default `alloc`/`oid`.
 sha2 = { version = "=0.11.0", default-features = false }
 # viola-e2e only: parses source for the `#[cfg]`s around a mutant (harness/cfg_legs.rs).

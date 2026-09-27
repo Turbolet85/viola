@@ -2,6 +2,7 @@ mod cmd;
 mod obs;
 mod run;
 
+use std::ffi::OsString;
 use std::fs::File;
 use std::io::Write as _;
 use std::panic::PanicHookInfo;
@@ -41,17 +42,71 @@ pub(crate) fn set_panic_sink(
 
 fn main() -> ExitCode {
     std::panic::set_hook(Box::new(viola_panic_hook));
-    std::panic::catch_unwind(|| match cmd::dispatch(cmd::Cli::parse()) {
-        Ok(code) => code,
-        Err(failure) => {
-            obs::report_internal_error(&failure.error, failure.sink.as_ref());
-            ExitCode::from(1)
+    let role = role_of(std::env::args_os());
+    let outcome = std::panic::catch_unwind(|| {
+        let cli = match cmd::Cli::try_parse() {
+            Ok(cli) => cli,
+            Err(_) if role == Role::Hook => return Outcome::Unparsed,
+            Err(usage) => usage.exit(),
+        };
+        match cmd::dispatch(cli) {
+            Ok(code) => Outcome::Done(code),
+            Err(failure) => {
+                obs::report_internal_error(&failure.error, failure.sink.as_ref());
+                Outcome::Failed
+            }
         }
     })
     .unwrap_or_else(|_| {
         obs::internal_error_exit_line();
-        ExitCode::from(1)
-    })
+        Outcome::Panicked
+    });
+    exit_code(role, outcome)
+}
+
+/// The process role, read from argv before clap runs (obs-plan §7 main-thread catch site).
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum Role {
+    Hook,
+    Other,
+}
+
+/// The first argument that is neither the global `--home` nor its value names the role, so
+/// `viola --home <dir> hook stop` is still a `hook`.
+fn role_of(args: impl IntoIterator<Item = OsString>) -> Role {
+    let mut args = args.into_iter().skip(1);
+    while let Some(arg) = args.next() {
+        if arg == "--home" {
+            args.next();
+        } else if !arg.to_str().is_some_and(|a| a.starts_with("--home=")) {
+            return if arg == "hook" {
+                Role::Hook
+            } else {
+                Role::Other
+            };
+        }
+    }
+    Role::Other
+}
+
+/// How the catch site's work ended.
+#[derive(Debug, Clone, Copy, PartialEq)]
+enum Outcome {
+    Done(ExitCode),
+    /// A clap error, `--help` and `--version` included, for a role that prints nothing.
+    Unparsed,
+    Failed,
+    Panicked,
+}
+
+/// `hook` exits 0 whatever happened (architecture [Hook Contract]); every other role keeps its
+/// own code and exits 1 on a dispatch error or a caught panic.
+fn exit_code(role: Role, outcome: Outcome) -> ExitCode {
+    match (role, outcome) {
+        (Role::Hook, _) => ExitCode::SUCCESS,
+        (Role::Other, Outcome::Done(code)) => code,
+        (Role::Other, Outcome::Unparsed | Outcome::Failed | Outcome::Panicked) => ExitCode::from(1),
+    }
 }
 
 /// Never calls the default hook and never writes stderr: one payload-free JSON line, one
@@ -65,17 +120,28 @@ fn viola_panic_hook(info: &PanicHookInfo<'_>) {
         .location()
         .map(|l| format!("{}:{}", panic_location(Path::new(l.file())), l.line()))
         .unwrap_or_default();
-    let timestamp = obs::timestamp(chrono::Utc::now());
     let thread = std::thread::current()
         .name()
         .unwrap_or("<unnamed>")
         .to_owned();
+    write_panic_lines(
+        sink,
+        &location,
+        &thread,
+        info.payload_as_str().unwrap_or("non-string payload"),
+    );
+}
+
+/// The panic's two records for `sink`: the codes-only role line, then the payload and backtrace in
+/// the instance detail file when the process has an instance.
+fn write_panic_lines(sink: &PanicSink, location: &str, thread: &str, payload: &str) {
+    let timestamp = obs::timestamp(chrono::Utc::now());
     let line = panic_line(
         &timestamp,
         sink.process.as_str(),
         sink.instance.as_ref().map(AsRef::as_ref),
-        &location,
-        &thread,
+        location,
+        thread,
     );
     let _ = (&*sink.file).write_all(line.as_bytes());
     if let Some(instance) = &sink.instance {
@@ -83,9 +149,9 @@ fn viola_panic_hook(info: &PanicHookInfo<'_>) {
             &timestamp,
             sink.process,
             instance,
-            &location,
-            &thread,
-            info.payload_as_str().unwrap_or("non-string payload"),
+            location,
+            thread,
+            payload,
         );
         obs::write_detail(&sink.home, instance, sink.process, &detail);
     }
@@ -209,6 +275,108 @@ pub(crate) mod test_support {
 mod tests {
     use super::*;
     use crate::test_support::{assert_home_level, diag_detail_validator, one_line};
+
+    use rstest::rstest;
+
+    fn argv(args: &[&str]) -> Vec<OsString> {
+        std::iter::once("viola")
+            .chain(args.iter().copied())
+            .map(OsString::from)
+            .collect()
+    }
+
+    #[rstest]
+    #[case::bare(&["hook", "stop"], Role::Hook)]
+    #[case::home_first(&["--home", "C:/h", "hook", "stop"], Role::Hook)]
+    #[case::home_equals(&["--home=C:/h", "hook", "stop"], Role::Hook)]
+    #[case::home_named_hook(&["--home", "hook", "run", "x"], Role::Other)]
+    #[case::run(&["run", "builder", "--", "claude"], Role::Other)]
+    #[case::run_after_home(&["--home", "C:/h", "run", "b"], Role::Other)]
+    #[case::help(&["--help"], Role::Other)]
+    #[case::nothing(&[], Role::Other)]
+    #[case::home_only(&["--home", "C:/h"], Role::Other)]
+    #[case::later_hook(&["run", "hook"], Role::Other)]
+    fn role_of_skips_the_home_flag_and_its_value(#[case] args: &[&str], #[case] role: Role) {
+        assert_eq!(role_of(argv(args)), role);
+    }
+
+    #[rstest]
+    #[case::hook_done(Role::Hook, Outcome::Done(ExitCode::from(3)), ExitCode::SUCCESS)]
+    #[case::hook_unparsed(Role::Hook, Outcome::Unparsed, ExitCode::SUCCESS)]
+    #[case::hook_failed(Role::Hook, Outcome::Failed, ExitCode::SUCCESS)]
+    #[case::hook_panicked(Role::Hook, Outcome::Panicked, ExitCode::SUCCESS)]
+    #[case::run_done(Role::Other, Outcome::Done(ExitCode::from(3)), ExitCode::from(3))]
+    #[case::run_unparsed(Role::Other, Outcome::Unparsed, ExitCode::from(1))]
+    #[case::run_failed(Role::Other, Outcome::Failed, ExitCode::from(1))]
+    #[case::run_panicked(Role::Other, Outcome::Panicked, ExitCode::from(1))]
+    fn exit_code_maps_role_and_outcome(
+        #[case] role: Role,
+        #[case] outcome: Outcome,
+        #[case] code: ExitCode,
+    ) {
+        assert_eq!(exit_code(role, outcome), code);
+    }
+
+    /// The hook role's panic records, driven through the writer the panic hook calls (no second
+    /// test sets the process-global sink): one payload-free role line, and the payload with its
+    /// backtrace only in `detail-hook.ndjson`.
+    #[test]
+    fn panic_lines_for_a_hook_split_the_payload_into_the_detail_file() {
+        let dir = tempfile::tempdir().expect("tempdir");
+        let home = dir.path().join("home");
+        std::fs::create_dir(&home).expect("home");
+        let path = dir.path().join("hook-builder.ndjson");
+        let file = std::fs::OpenOptions::new()
+            .create(true)
+            .append(true)
+            .open(&path)
+            .expect("open");
+        let builder = ViolaName::try_new("builder".to_owned()).expect("valid");
+        let sink = PanicSink {
+            file: Arc::new(file),
+            process: ObsProcess::Hook,
+            instance: Some(builder.clone()),
+            home: home.clone(),
+        };
+        write_panic_lines(&sink, "src/cmd/hook.rs:9", "main", "hook-payload-text");
+
+        let text = std::fs::read_to_string(&path).expect("read");
+        let v = one_line(&text);
+        assert_eq!(v["event"], "panic");
+        assert_eq!(v["process"], "hook");
+        assert_eq!(v["instance"], "builder");
+        assert_eq!(v["panic_location"], "src/cmd/hook.rs:9");
+        assert!(!text.contains("hook-payload-text"));
+        assert!(v.get("backtrace").is_none());
+
+        let detail_path = obs::detail_path(&home, &builder, ObsProcess::Hook);
+        assert!(detail_path.ends_with("detail-hook.ndjson"));
+        let d = one_line(&std::fs::read_to_string(&detail_path).expect("detail file"));
+        assert_eq!(d["event"], "panic");
+        assert_eq!(d["process"], "hook");
+        assert_eq!(d["panic_payload"], "hook-payload-text");
+        assert_eq!(d["thread"], "main");
+        assert!(d["backtrace"].as_array().is_some_and(|b| !b.is_empty()));
+        assert!(diag_detail_validator().is_valid(&d));
+    }
+
+    #[test]
+    fn panic_lines_without_an_instance_write_only_the_role_line() {
+        let dir = tempfile::tempdir().expect("tempdir");
+        let home = dir.path().join("home");
+        let path = dir.path().join("role.ndjson");
+        let file = std::fs::File::create(&path).expect("create");
+        let sink = PanicSink {
+            file: Arc::new(file),
+            process: ObsProcess::Hook,
+            instance: None,
+            home: home.clone(),
+        };
+        write_panic_lines(&sink, "l", "t", "p");
+        let v = one_line(&std::fs::read_to_string(&path).expect("read"));
+        assert!(v.get("instance").is_none());
+        assert!(!home.exists(), "no detail file without an instance");
+    }
 
     #[test]
     fn panic_location_relative_path_kept_with_forward_slashes() {

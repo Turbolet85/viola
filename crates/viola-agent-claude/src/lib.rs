@@ -1,6 +1,8 @@
 //! What `viola run` must know about the `claude` CLI: which inherited variables carry the parent
 //! session's identity (the R8 strip) and how the npm shim resolves to the real executable.
 
+pub mod hook;
+
 use std::ffi::{OsStr, OsString};
 use std::path::{Path, PathBuf};
 
@@ -111,8 +113,8 @@ const VERSION: &str = env!("CARGO_PKG_VERSION");
 const VERSION_TOKEN: &str = "@@VIOLA_VERSION@@";
 const BIN_TOKEN: &str = "@@VIOLA_BIN@@";
 
-/// The embedded plugin, relative path → template. `hooks` and `mcpServers` stay empty until the
-/// `hook` and `mcp` verbs exist: a registered command that exits 2 blocks Claude Code.
+/// The embedded plugin, relative path → template. `mcpServers` stays empty until the `mcp` verb
+/// exists: a registered command that exits 2 blocks Claude Code.
 const PLUGIN_FILES: [(&str, &str); 3] = [
     (
         ".claude-plugin/plugin.json",
@@ -493,6 +495,35 @@ mod tests {
         assert_eq!(got, Err(Refusal::NotFound));
     }
 
+    /// The rendered `hooks.json`, written out as the oracle: seven exec-form entries on the pinned
+    /// path, the spine and SessionEnd sync, the activity tier async, no dialog tier.
+    const HOOKS_JSON: &str = r#"{
+  "hooks": {
+    "SessionStart": [
+      {"hooks": [{"type": "command", "command": "C:/h/bin/0.1.0-0123456789abcdef/viola.exe", "args": ["hook", "session-start"], "timeout": 5}]}
+    ],
+    "UserPromptSubmit": [
+      {"hooks": [{"type": "command", "command": "C:/h/bin/0.1.0-0123456789abcdef/viola.exe", "args": ["hook", "user-prompt-submit"], "timeout": 5}]}
+    ],
+    "Stop": [
+      {"hooks": [{"type": "command", "command": "C:/h/bin/0.1.0-0123456789abcdef/viola.exe", "args": ["hook", "stop"], "timeout": 5}]}
+    ],
+    "SessionEnd": [
+      {"hooks": [{"type": "command", "command": "C:/h/bin/0.1.0-0123456789abcdef/viola.exe", "args": ["hook", "session-end"]}]}
+    ],
+    "Notification": [
+      {"hooks": [{"type": "command", "command": "C:/h/bin/0.1.0-0123456789abcdef/viola.exe", "args": ["hook", "notification"], "async": true}]}
+    ],
+    "PostToolUse": [
+      {"hooks": [{"type": "command", "command": "C:/h/bin/0.1.0-0123456789abcdef/viola.exe", "args": ["hook", "post-tool-use"], "async": true}]}
+    ],
+    "PostToolUseFailure": [
+      {"hooks": [{"type": "command", "command": "C:/h/bin/0.1.0-0123456789abcdef/viola.exe", "args": ["hook", "post-tool-use-failure"], "async": true}]}
+    ]
+  }
+}
+"#;
+
     #[test]
     fn plugin_files_are_the_three_layout_paths() {
         let files = plugin_files("C:/h/bin/0.1.0-0123456789abcdef/viola.exe");
@@ -510,7 +541,8 @@ mod tests {
             "{\n  \"name\": \"viola\",\n  \"version\": \"0.1.0\",\n  \"description\": \
              \"viola bridge: hooks and MCP server for a wrapped Claude Code session\"\n}\n"
         );
-        assert_eq!(files[1].1, "{\n  \"hooks\": {}\n}\n");
+        assert_eq!(files[1].1, HOOKS_JSON);
+        assert!(!files[1].1.contains("\"command\": \"viola"));
         assert_eq!(files[2].1, "{\n  \"mcpServers\": {}\n}\n");
         assert_eq!(PLUGIN_DIR_FLAG, "--plugin-dir");
     }

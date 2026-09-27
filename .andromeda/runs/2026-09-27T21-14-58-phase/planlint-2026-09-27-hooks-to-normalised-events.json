@@ -1,0 +1,262 @@
+[
+{
+"tool": "planlint",
+"v": "1.3",
+"sha8": "38b19d86",
+"ts": "2026-09-27T21:37:15Z",
+"argv": [
+"check",
+"--plan",
+"viola-0.1.0/chunks/2026-09-27-hooks-to-normalised-events/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-27T21-14-58-phase",
+"--marker",
+"2026-09-27-hooks-to-normalised-events"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"fence: 33 entries · plan: viola-0.1.0/chunks/2026-09-27-hooks-to-normalised-events/plan.md · research: viola-0.1.0/chun…",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: none · `none — no runner-only bull…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 0 · Harness rules consulted: filled · `- `.claude/rules/verification-harness.md`: …`",
+"check 4 (5) · leg entries with a content atom: 3 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"hits: 0 — each is resolved by its check's own resolution (validation.md 9 · 4 (5) · 4 (13)); 0 hits is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 0,
+"hit": false
+},
+"atom": {
+"atomed": 3,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"hits": 0
+}
+},
+{
+"tool": "planlint",
+"v": "1.3",
+"sha8": "38b19d86",
+"ts": "2026-09-27T21:39:27Z",
+"argv": [
+"check",
+"--plan",
+"viola-0.1.0/chunks/2026-09-27-hooks-to-normalised-events/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-27T21-14-58-phase",
+"--marker",
+"2026-09-27-hooks-to-normalised-events"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"fence: 33 entries · plan: viola-0.1.0/chunks/2026-09-27-hooks-to-normalised-events/plan.md · research: viola-0.1.0/chun…",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: none · `none — no runner-only bull…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 0 · Harness rules consulted: filled · `- `.claude/rules/verification-harness.md`: …`",
+"check 4 (5) · leg entries with a content atom: 3 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"hits: 0 — each is resolved by its check's own resolution (validation.md 9 · 4 (5) · 4 (13)); 0 hits is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 0,
+"hit": false
+},
+"atom": {
+"atomed": 3,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"hits": 0
+}
+},
+{
+"tool": "planlint",
+"v": "1.3",
+"sha8": "38b19d86",
+"ts": "2026-09-27T21:39:45Z",
+"argv": [
+"check",
+"--plan",
+"viola-0.1.0/chunks/2026-09-27-hooks-to-normalised-events/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-27T21-14-58-phase",
+"--marker",
+"2026-09-27-hooks-to-normalised-events"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"fence: 33 entries · plan: viola-0.1.0/chunks/2026-09-27-hooks-to-normalised-events/plan.md · research: viola-0.1.0/chun…",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: none · `none — no runner-only bull…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 0 · Harness rules consulted: filled · `- `.claude/rules/verification-harness.md`: …`",
+"check 4 (5) · leg entries with a content atom: 3 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"hits: 0 — each is resolved by its check's own resolution (validation.md 9 · 4 (5) · 4 (13)); 0 hits is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 0,
+"hit": false
+},
+"atom": {
+"atomed": 3,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"hits": 0
+}
+},
+{
+"tool": "planlint",
+"v": "1.3",
+"sha8": "38b19d86",
+"ts": "2026-09-27T21:43:56Z",
+"argv": [
+"check",
+"--plan",
+"viola-0.1.0/chunks/2026-09-27-hooks-to-normalised-events/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-27T21-14-58-phase",
+"--marker",
+"2026-09-27-hooks-to-normalised-events"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"fence: 33 entries · plan: viola-0.1.0/chunks/2026-09-27-hooks-to-normalised-events/plan.md · research: viola-0.1.0/chun…",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: none · `none — no runner-only bull…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 0 · Harness rules consulted: filled · `- `.claude/rules/verification-harness.md`: …`",
+"check 4 (5) · leg entries with a content atom: 3 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"hits: 0 — each is resolved by its check's own resolution (validation.md 9 · 4 (5) · 4 (13)); 0 hits is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 0,
+"hit": false
+},
+"atom": {
+"atomed": 3,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"hits": 0
+}
+},
+{
+"tool": "planlint",
+"v": "1.3",
+"sha8": "38b19d86",
+"ts": "2026-09-27T21:45:48Z",
+"argv": [
+"check",
+"--plan",
+"viola-0.1.0/chunks/2026-09-27-hooks-to-normalised-events/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-27T21-14-58-phase",
+"--marker",
+"2026-09-27-hooks-to-normalised-events"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"fence: 33 entries · plan: viola-0.1.0/chunks/2026-09-27-hooks-to-normalised-events/plan.md · research: viola-0.1.0/chun…",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: none · `none — no runner-only bull…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 0 · Harness rules consulted: filled · `- `.claude/rules/verification-harness.md`: …`",
+"check 4 (5) · leg entries with a content atom: 3 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"hits: 0 — each is resolved by its check's own resolution (validation.md 9 · 4 (5) · 4 (13)); 0 hits is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 0,
+"hit": false
+},
+"atom": {
+"atomed": 3,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"hits": 0
+}
+}
+]

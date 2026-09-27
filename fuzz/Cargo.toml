@@ -13,6 +13,7 @@ arbitrary = "=1.4.2"
 libfuzzer-sys = "=0.4.13"
 viola-core = { path = "../crates/viola-core" }
 viola-channel = { path = "../crates/viola-channel" }
+viola-agent-claude = { path = "../crates/viola-agent-claude" }
 
 # Its own workspace: libfuzzer-sys builds C++ with `cc`, which the root `deny.toml` bans from the
 # product graph.
@@ -29,6 +30,13 @@ bench = false
 [[bin]]
 name = "channel_frame"
 path = "fuzz_targets/channel_frame.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "hook_stdin"
+path = "fuzz_targets/hook_stdin.rs"
 test = false
 doc = false
 bench = false

@@ -1,0 +1,309 @@
+//! `viola hook` fails open (security-plan §Error Handling; obs-plan §4 E1; test-plan §6 Security
+//! sweep): every path exits 0 with empty stdout and stderr inside the provisional 1.0 s spine
+//! bound, a hook outside a wrapped session writes nothing anywhere, the verb stays out of
+//! `viola --help`, and concurrent hook processes share their log files line by line (obs-plan
+//! D-28). The forced-panic case waits for its seam (the "Hook perf gate" entry).
+
+#[allow(dead_code)]
+mod support;
+
+use std::ffi::OsString;
+use std::io::Write as _;
+use std::path::{Path, PathBuf};
+use std::process::{Command, Stdio};
+use std::time::{Duration, Instant};
+
+use rstest::rstest;
+use serde_json::{Value, json};
+use support::fake::FAKE;
+use support::home::{StampedHome, TestHome, VIOLA, Wrapper, workspace_path};
+use support::hygiene::load_schema;
+
+/// test-plan §10's provisional spine gate, asserted at unit speed on one process.
+const SPINE_BOUND: Duration = Duration::from_secs(1);
+const CANARY: &str = "canary-chain-value-5c1e";
+
+struct Hooked {
+    code: Option<i32>,
+    stdout: Vec<u8>,
+    stderr: Vec<u8>,
+    took: Duration,
+}
+
+/// `viola <args>` with `env` over an environment that never carries this process's own
+/// `VIOLA_NAME` / `VIOLA_DIR`, `stdin` written from a thread (the hook may stop reading early).
+fn run_hook(args: &[&str], env: &[(&str, OsString)], stdin: Vec<u8>) -> Hooked {
+    let mut cmd = Command::new(VIOLA);
+    cmd.args(args)
+        .env_remove("VIOLA_NAME")
+        .env_remove("VIOLA_DIR")
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped());
+    for (key, value) in env {
+        cmd.env(key, value);
+    }
+    let started = Instant::now();
+    let mut child = cmd.spawn().expect("viola hook");
+    let mut input = child.stdin.take().expect("stdin");
+    let writer = std::thread::spawn(move || {
+        let _ = input.write_all(&stdin);
+    });
+    let out = child.wait_with_output().expect("viola hook exits");
+    let took = started.elapsed();
+    let _ = writer.join();
+    Hooked {
+        code: out.status.code(),
+        stdout: out.stdout,
+        stderr: out.stderr,
+        took,
+    }
+}
+
+fn instance_env(name: &str, dir: &Path) -> Vec<(&'static str, OsString)> {
+    vec![
+        ("VIOLA_NAME", OsString::from(name)),
+        ("VIOLA_DIR", dir.as_os_str().to_owned()),
+    ]
+}
+
+fn role_lines(home: &Path) -> Vec<Value> {
+    support::ndjson::read_lines(&home.join("diagnostics").join("hook-builder.ndjson"))
+}
+
+fn detail_lines(home: &Path) -> Vec<Value> {
+    support::ndjson::read_lines(
+        &home
+            .join("instances")
+            .join("builder")
+            .join("diagnostics")
+            .join("detail-hook.ndjson"),
+    )
+}
+
+/// Schema failures as `<line>:<schema path>` codes, never a line's content.
+fn violations(schema: &str, lines: &[Value]) -> Vec<String> {
+    let schema = load_schema(&workspace_path(schema));
+    let validator = jsonschema::validator_for(&schema).expect("valid schema");
+    lines
+        .iter()
+        .enumerate()
+        .flat_map(|(n, line)| {
+            validator
+                .iter_errors(line)
+                .map(move |e| format!("{n}:{}", e.schema_path()))
+                .collect::<Vec<_>>()
+        })
+        .collect()
+}
+
+#[derive(Clone, Copy, Debug)]
+enum Env {
+    /// `VIOLA_NAME` and `VIOLA_DIR` for a home no wrapper ever used.
+    Instance,
+    /// A home whose wrapper stopped: its snapshot still names the endpoint.
+    Stopped,
+    DirOnly,
+    InvalidName,
+}
+
+#[derive(Clone, Copy, Debug)]
+enum Stdin {
+    Payload,
+    Oversize,
+    Malformed,
+}
+
+fn stdin_bytes(stdin: Stdin) -> Vec<u8> {
+    match stdin {
+        Stdin::Payload => json!({"hook_event_name": "Stop", "last_assistant_message": CANARY})
+            .to_string()
+            .into_bytes(),
+        Stdin::Oversize => {
+            let mut bytes = json!({"transcript_path": CANARY}).to_string().into_bytes();
+            bytes.resize((16 << 20) + 1, b' ');
+            bytes
+        }
+        Stdin::Malformed => format!("{{\"prompt\": \"{CANARY}\"").into_bytes(),
+    }
+}
+
+/// Every fail-open path: exit 0, nothing on stdout or stderr, within the bound. `writes` names
+/// the `hook-decision` detail a resolved instance records; `None` means nothing may be created.
+#[rstest]
+#[case::oversize_stdin(&["hook", "stop"], Env::Instance, Stdin::Oversize, Some("oversize-stdin"))]
+#[case::malformed_json(&["hook", "stop"], Env::Instance, Stdin::Malformed, Some("malformed-json"))]
+#[case::clap_help(&["hook", "--help"], Env::Instance, Stdin::Payload, None)]
+#[case::clap_version(&["hook", "--version"], Env::Instance, Stdin::Payload, None)]
+#[case::clap_missing_event(&["hook"], Env::Instance, Stdin::Payload, None)]
+#[case::clap_extra_argument(&["hook", "stop", "--bogus"], Env::Instance, Stdin::Payload, None)]
+#[case::unknown_event(&["hook", "pre-tool-use"], Env::Instance, Stdin::Payload, None)]
+#[case::unreachable_endpoint(&["hook", "stop"], Env::Stopped, Stdin::Payload, Some("channel-unreachable"))]
+#[case::no_snapshot(&["hook", "stop"], Env::Instance, Stdin::Payload, Some("channel-unreachable"))]
+#[case::name_absent(&["hook", "stop"], Env::DirOnly, Stdin::Payload, None)]
+#[case::name_invalid(&["hook", "stop"], Env::InvalidName, Stdin::Payload, None)]
+fn hook_fails_open_silently_within_the_spine_bound(
+    #[case] args: &[&str],
+    #[case] env: Env,
+    #[case] stdin: Stdin,
+    #[case] writes: Option<&str>,
+) {
+    let stamped = StampedHome {
+        home: TestHome::new(),
+        fake: PathBuf::from(FAKE),
+        stamped: false,
+    };
+    let stamped = match env {
+        Env::Stopped => {
+            let (stopped, stamped) = Wrapper::boot(stamped, "builder", None, &[]).stop_keep();
+            assert_eq!(stopped.code(), Some(0));
+            stamped
+        }
+        Env::Instance | Env::DirOnly | Env::InvalidName => stamped,
+    };
+    let home = stamped.home.path().to_path_buf();
+    let dir = home.join("instances").join("builder");
+    let vars = match env {
+        Env::Instance | Env::Stopped => instance_env("builder", &dir),
+        Env::DirOnly => vec![("VIOLA_DIR", dir.as_os_str().to_owned())],
+        Env::InvalidName => instance_env("Builder", &home.join("instances").join("Builder")),
+    };
+
+    let out = run_hook(args, &vars, stdin_bytes(stdin));
+    assert_eq!(out.code, Some(0));
+    assert!(out.stdout.is_empty(), "stdout: {} bytes", out.stdout.len());
+    assert!(out.stderr.is_empty(), "stderr: {} bytes", out.stderr.len());
+    assert!(out.took < SPINE_BOUND, "took {:?}", out.took);
+
+    let Some(detail) = writes else {
+        assert!(
+            !home.join("diagnostics").exists(),
+            "a diagnostics dir was created"
+        );
+        assert!(
+            !home.join("instances").exists(),
+            "an instances dir was created"
+        );
+        return;
+    };
+    let lines = role_lines(&home);
+    let events: Vec<&str> = lines.iter().filter_map(|l| l["event"].as_str()).collect();
+    let rejected = matches!(stdin, Stdin::Oversize | Stdin::Malformed);
+    let expected: &[&str] = if rejected {
+        &["hook-invoked", "parse-rejected", "hook-decision"]
+    } else {
+        &["hook-invoked", "hook-decision"]
+    };
+    assert_eq!(events, expected);
+    let decision = lines.last().expect("hook-decision");
+    assert_eq!(decision["hook_event"], "stop");
+    assert_eq!(decision["decision_emitted"], false);
+    assert_eq!(decision["detail"], detail);
+    assert_eq!(decision["level"], "WARN");
+    assert!(decision["duration_ms"].is_u64());
+    assert_eq!(lines[0]["hook_event"], "stop");
+    assert!(lines[0]["invoked_at"].is_string());
+    if rejected {
+        assert_eq!(lines[1]["parser"], "hook-stdin");
+        let code = if matches!(stdin, Stdin::Oversize) {
+            "oversize"
+        } else {
+            "malformed"
+        };
+        assert_eq!(lines[1]["detail"], code);
+    }
+    assert!(
+        lines
+            .iter()
+            .all(|l| l["process"] == "hook" && l["instance"] == "builder")
+    );
+    assert!(!lines.iter().any(|l| l.to_string().contains(CANARY)));
+    assert!(violations("schemas/diag-line.v1.json", &lines).is_empty());
+}
+
+/// `viola --help` lists no `hook` verb (layout-templates §Surface: cli › `viola --help`).
+#[test]
+fn hook_verb_is_hidden_from_the_help() {
+    let out = Command::new(VIOLA)
+        .arg("--help")
+        .env_remove("VIOLA_NAME")
+        .env_remove("VIOLA_DIR")
+        .output()
+        .expect("viola --help");
+    assert_eq!(out.status.code(), Some(0));
+    let help = String::from_utf8_lossy(&out.stdout);
+    assert!(help.contains("run"), "{help}");
+    assert!(!help.contains("hook"), "{help}");
+}
+
+/// Eight hook processes at once share one home's `hook-builder.ndjson` and `detail-hook.ndjson`:
+/// every line lands whole (obs-plan D-28). Each payload's `session_id` is a number, so each writes
+/// one drift report; no wrapper and no snapshot, so each ends `channel-unreachable`.
+#[test]
+fn hook_processes_append_whole_lines_side_by_side() {
+    const N: usize = 8;
+    let tmp = TestHome::new();
+    let home = tmp.path().to_path_buf();
+    let dir = home.join("instances").join("builder");
+    let vars = instance_env("builder", &dir);
+    let payload = json!({"session_id": 7, "source": "startup", "transcript_path": CANARY});
+    let children: Vec<_> = (0..N)
+        .map(|_| {
+            let mut cmd = Command::new(VIOLA);
+            cmd.args(["hook", "session-start"])
+                .env_remove("VIOLA_NAME")
+                .env_remove("VIOLA_DIR")
+                .stdin(Stdio::piped())
+                .stdout(Stdio::piped())
+                .stderr(Stdio::piped());
+            for (key, value) in &vars {
+                cmd.env(key, value);
+            }
+            cmd.spawn().expect("viola hook")
+        })
+        .collect();
+    let outputs: Vec<_> = children
+        .into_iter()
+        .map(|mut child| {
+            let mut input = child.stdin.take().expect("stdin");
+            input
+                .write_all(payload.to_string().as_bytes())
+                .expect("payload");
+            drop(input);
+            child.wait_with_output().expect("exit")
+        })
+        .collect();
+    for out in &outputs {
+        assert_eq!(out.status.code(), Some(0));
+        assert!(out.stdout.is_empty() && out.stderr.is_empty());
+    }
+
+    let role_path = home.join("diagnostics").join("hook-builder.ndjson");
+    let role_bytes = std::fs::read(&role_path).expect("role file");
+    assert!(role_bytes.ends_with(b"\n"));
+    let lines = role_lines(&home);
+    assert_eq!(lines.len(), 2 * N);
+    let count = |event: &str| lines.iter().filter(|l| l["event"] == event).count();
+    assert_eq!(count("hook-invoked"), N);
+    assert_eq!(
+        lines
+            .iter()
+            .filter(|l| l["event"] == "hook-decision" && l["detail"] == "channel-unreachable")
+            .count(),
+        N
+    );
+    assert!(violations("schemas/diag-line.v1.json", &lines).is_empty());
+
+    let details = detail_lines(&home);
+    assert_eq!(details.len(), N);
+    for line in &details {
+        assert_eq!(line["event"], "parse-rejected");
+        assert_eq!(
+            line["drift_report"],
+            json!([{"path": "session_id", "expected": "string"}])
+        );
+    }
+    assert!(violations("schemas/diag-detail.v1.json", &details).is_empty());
+    assert!(!lines.iter().any(|l| l.to_string().contains(CANARY)));
+    assert!(!dir.join("events.ndjson").exists());
+}
