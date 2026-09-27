@@ -1,0 +1,45 @@
+   Compiling viola-pty v0.1.0 (D:\dev\projects\viola\crates\viola-pty)
+warning: unused variable: `spawned`
+   --> crates\viola-pty\src\lib.rs:279:5
+    |
+279 |     spawned: Size,
+    |     ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_spawned`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+   Compiling viola-e2e v0.1.0 (D:\dev\projects\viola\crates\viola-e2e)
+warning: `viola-pty` (lib) generated 1 warning (run `cargo fix --lib -p viola-pty` to apply 1 suggestion)
+   Compiling viola v0.1.0 (D:\dev\projects\viola)
+warning: `viola-pty` (lib test) generated 1 warning (1 duplicate)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.49s
+────────────
+ Nextest run ID 859625d0-6bfa-4795-b4ad-754766c7ce1b with nextest profile: default
+    Starting 1 test across 22 binaries (404 tests skipped)
+        FAIL [   8.064s] (1/1) viola::tui_passthrough tui_host_resize_in_the_pump_start_window_reaches_the_child
+  stdout ───
+
+    running 1 test
+    test tui_host_resize_in_the_pump_start_window_reaches_the_child ... FAILED
+
+    failures:
+
+    failures:
+        tui_host_resize_in_the_pump_start_window_reaches_the_child
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 3 filtered out; finished in 8.05s
+
+  stderr ───
+
+    thread 'tui_host_resize_in_the_pump_start_window_reaches_the_child' (50232) panicked at tests\tui_passthrough.rs:141:13:
+    the resize never reached the child
+    trail (C:\Users\turbo\AppData\Local\Temp\viola-resize-14056.ndjson):
+    {"t_us":1790464997709535,"what":"resize-sent"}
+    {"t_us":1790464997710294,"what":"size-observed","receipt":{"v":1,"kind":"size","cols":80,"rows":24}}
+
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+  Cancelling due to test failure: 
+────────────
+     Summary [   8.065s] 1 test run: 0 passed, 1 failed, 404 skipped
+        FAIL [   8.064s] (1/1) viola::tui_passthrough tui_host_resize_in_the_pump_start_window_reaches_the_child
+error: test run failed

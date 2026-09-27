@@ -1,0 +1,24 @@
+   Compiling viola-e2e v0.1.0 (D:\dev\projects\viola\crates\viola-e2e)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.31s
+     Running unittests src\lib.rs (target\check-pp\debug\deps\viola_e2e-1ac3a2946879be09.exe)
+
+running 1 test
+test harness::pre_push::tests::pre_push_linux_test_red_stops_before_the_legs ... FAILED
+
+failures:
+
+---- harness::pre_push::tests::pre_push_linux_test_red_stops_before_the_legs stdout ----
+
+thread 'harness::pre_push::tests::pre_push_linux_test_red_stops_before_the_legs' (55736) panicked at crates\viola-e2e\src\harness\pre_push.rs:788:9:
+assertion `left == right` failed
+  left: String("windows-leg")
+ right: "linux-tests"
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    harness::pre_push::tests::pre_push_linux_test_red_stops_before_the_legs
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 178 filtered out; finished in 0.04s
+
+error: test failed, to rerun pass `-p viola-e2e --lib`

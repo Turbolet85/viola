@@ -1,0 +1,30 @@
+gate v1.2 · fab316fd
+shell C:\Program Files\Git\usr\bin\bash.exe (from $SHELL; -c, non-login)
+root D:\dev\projects\viola · marker 2026-09-26-local-linux-pre-push-gate · entries 20
+logs C:\Users\turbo\AppData\Local\Temp\andromeda-gate\2026-09-26-local-linux-pre-push-gate\implement-2026-09-26T21-57-01 · bound: GNU timeout
+delta docs 115 · python 3 · rust 7 · unmapped 27
+prose L259-262: The gates run on this Windows host during /implement. The Rust delta is harness-only (`vio… (369 chars)
+prose L264-267: The provisioning entries come before the gate that needs them. The `build-essential` insta… (351 chars)
+prose L269-270: The `pre-push` entry is this chunk's mutation gate. It runs both legs and CI's union, so n… (213 chars)
+prose L272-272: Steps 6 and 7 are one-shot source edits (guards, the Unix witness): evidence, never entrie… (92 chars)
+  1 lint        green · exit 0 · 0.3s · 0 B → 1.log · cargo fmt --all --check
+  2 lint        green · exit 0 · 1.12s · 264 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)
+  3 unit        green · exit 0 · 9.94s · 34290 B → 3.log · bash scripts/agent-run.sh run --unit
+  4 unit        green · exit 0 · 2.44s · 3953 B → 4.log · bash scripts/agent-run.sh run --unit --filter 'test(/pre_p… (105 chars)
+  5 unit        green · exit 0 · 2.04s · 1405 B → 5.log · bash scripts/agent-run.sh run --unit --filter 'test(/pump_… (112 chars)
+  6 integration green · exit 0 · 23.83s · 13804 B → 6.log · AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --int… (66 chars)
+  7 build       green · exit 0 · 4.75s · 285 B → 7.log · MSYS2_ARG_CONV_EXCL=* wsl.exe -d Ubuntu -u root --exec /us… (78 chars)
+  8 build       green · exit 0 · 0.36s · 240 B → 8.log · MSYS2_ARG_CONV_EXCL=* wsl.exe -d Ubuntu -u root --exec /us… (98 chars)
+  9 probe       green · exit 0 · 0.35s · 238 B → 9.log · MSYS2_ARG_CONV_EXCL=* wsl.exe -d Ubuntu --exec /usr/bin/cc… (68 chars)
+ 10 build       green · exit 0 · 0.88s · 332 B → 10.log · MSYS2_ARG_CONV_EXCL=* wsl.exe -d Ubuntu --cd /mnt/d/dev/pr… (116 chars)
+ 11 probe       green · exit 0 · 0.45s · 50 B → 11.log · MSYS2_ARG_CONV_EXCL=* wsl.exe -d Ubuntu --cd /mnt/d/dev/pr… (124 chars)
+ 12 probe       green · exit 1 · 0.14s · 2 B → 12.log · CLAUDE_CODE_MESSAGING_TOKEN=canary-prepush-7f3a MSYS2_ARG_… (137 chars)
+ 13 integration green · exit 0 · 846.2s · 94123 B → 13.log · bash scripts/agent-run.sh pre-push
+ 14 probe       green · exit 1 · 0.05s · 2 B → 14.log · grep -c -E '/home/|/mnt/|"[A-Za-z]:' target/agent-run/arti… (98 chars)
+ 15 probe       green · exit 0 · 0.04s · 2 B → 15.log · grep -c pre-push scripts/agent-run.ps1
+ 16 build       green · exit 0 · 0.82s · 264 B → 16.log · RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv cargo c… (116 chars)
+ 17 integration not run — leg operator (the letter drives it) · bash scripts/agent-run.sh pre-push
+ 18 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (82 chars)
+ 19 probe       not run — leg operator (the letter drives it) · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (129 chars)
+ 20 probe       not run — leg operator (the letter drives it) · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (160 chars)
+entries 20 · green 16 · red 0 · recorded 0 · timeout 0 · not-run 4

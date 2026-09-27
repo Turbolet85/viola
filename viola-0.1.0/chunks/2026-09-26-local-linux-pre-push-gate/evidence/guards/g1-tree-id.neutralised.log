@@ -1,0 +1,24 @@
+   Compiling viola-e2e v0.1.0 (D:\dev\projects\viola\crates\viola-e2e)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.50s
+     Running unittests src\lib.rs (target\check-pp\debug\deps\viola_e2e-1ac3a2946879be09.exe)
+
+running 1 test
+test harness::pre_push::tests::pre_push_sync_mismatch_is_red ... FAILED
+
+failures:
+
+---- harness::pre_push::tests::pre_push_sync_mismatch_is_red stdout ----
+
+thread 'harness::pre_push::tests::pre_push_sync_mismatch_is_red' (37856) panicked at crates\viola-e2e\src\harness\pre_push.rs:707:9:
+assertion `left == right` failed: {"v":1,"cmd":"pre-push","ok":false,"stage":"windows-leg","sync":{"head":"h1","tree":"t1","files":0,"ms":0},"cache":{"bytes":10,"cap":42949672960,"cleaned":false,"bytes_after":10},"linux":{"run":{"ok":true,"suites":[{"suite":"coverage","passed":3,"failed":0,"skipped":0,"failures":[]}]},"gate":{"ok":true,"breaches":[]}},"legs":{"ubuntu-latest":{"ok":true,"base":"b","verdict":"counted","tested":1},"windows-2025":{"ok":false,"reason":"base-missing","base":null,"verdict":null,"tested":null}}}
+  left: Null
+ right: "sync-mismatch"
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    harness::pre_push::tests::pre_push_sync_mismatch_is_red
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 178 filtered out; finished in 0.05s
+
+error: test failed, to rerun pass `-p viola-e2e --lib`

@@ -1,0 +1,8 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.12s
+────────────
+ Nextest run ID e6ae0caf-e2d1-471b-9ac0-49179da99b88 with nextest profile: default
+    Starting 2 tests across 22 binaries (403 tests skipped)
+        PASS [   0.363s] (1/2) viola::tui_passthrough tui_host_resize_reaches_the_child
+        PASS [   1.355s] (2/2) viola::tui_passthrough tui_host_resize_in_the_pump_start_window_reaches_the_child
+────────────
+     Summary [   1.356s] 2 tests run: 2 passed, 403 skipped

@@ -1,0 +1,8 @@
+   Compiling viola-pty v0.1.0 (D:\dev\projects\viola\crates\viola-pty)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.65s
+────────────
+ Nextest run ID 362e1b2c-b8d9-49be-a3b4-a0acdb159bc3 with nextest profile: default
+    Starting 1 test across 1 binary (20 tests skipped)
+        PASS [   0.789s] (1/1) viola-pty tests::pump_forwards_a_resize_that_lands_before_its_first_look
+────────────
+     Summary [   0.790s] 1 test run: 1 passed, 20 skipped

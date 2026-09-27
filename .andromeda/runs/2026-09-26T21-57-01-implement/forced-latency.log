@@ -1,0 +1,9 @@
+   Compiling viola v0.1.0 (D:\dev\projects\viola)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.78s
+────────────
+ Nextest run ID a4c66167-232f-4e54-bf75-7c179e6c9b04 with nextest profile: default
+    Starting 2 tests across 22 binaries (403 tests skipped)
+        PASS [   0.363s] (1/2) viola::tui_passthrough tui_host_resize_reaches_the_child
+        PASS [   1.386s] (2/2) viola::tui_passthrough tui_host_resize_in_the_pump_start_window_reaches_the_child
+────────────
+     Summary [   1.387s] 2 tests run: 2 passed, 403 skipped

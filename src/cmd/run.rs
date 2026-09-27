@@ -24,6 +24,19 @@ fn parse_name(raw: &str) -> Result<ViolaName, String> {
     ViolaName::try_new(raw.to_owned()).map_err(|_| "invalid instance name".to_owned())
 }
 
+/// Test-only seam, compiled only with the test-only `fake-agent` feature and so absent from any
+/// release build: `FAKE_AGENT_PUMP_DELAY_MS` holds the pump back after the child starts, so a test can
+/// land a host resize between the spawn sizing and the pump's first look without a timing bet.
+#[cfg(feature = "fake-agent")]
+fn hold_pump_start() {
+    let ms = std::env::var("FAKE_AGENT_PUMP_DELAY_MS")
+        .ok()
+        .and_then(|v| v.parse::<u64>().ok());
+    if let Some(ms) = ms {
+        std::thread::sleep(std::time::Duration::from_millis(ms.min(5_000)));
+    }
+}
+
 pub(crate) fn run(home: &Path, args: RunArgs) -> anyhow::Result<ExitCode> {
     let (level, rejection) = obs::read_diagnostics_level(home);
     obs::viola_obs_init(home, ObsProcess::Run, Some(args.name.clone()), level)?;
@@ -66,10 +79,13 @@ pub(crate) fn run(home: &Path, args: RunArgs) -> anyhow::Result<ExitCode> {
     let terminal = HostTerminal::enter();
     let mut pty = viola_pty::spawn(&spec)?;
     run::log_child_start(viola_pty::Pty::child_pid(&pty), &strip);
+    #[cfg(feature = "fake-agent")]
+    hold_pump_start();
     let end = viola_pty::pump(
         &mut pty,
         Box::new(io::stdin()),
         Box::new(io::stdout()),
+        spec.size,
         &mut viola_pty::host_size,
     );
     drop(terminal);

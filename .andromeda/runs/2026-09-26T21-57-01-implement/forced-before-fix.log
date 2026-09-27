@@ -1,0 +1,113 @@
+   Compiling once_cell v1.21.4
+   Compiling windows-sys v0.61.2
+   Compiling getrandom v0.3.4
+   Compiling typenum v1.20.1
+   Compiling thread_local v1.1.10
+   Compiling sharded-slab v0.1.7
+   Compiling pin-project-lite v0.2.17
+   Compiling syn v2.0.119
+   Compiling aho-corasick v1.1.5
+   Compiling chrono v0.4.45
+   Compiling recvmsg v1.0.0
+   Compiling cpufeatures v0.3.1
+   Compiling widestring v1.2.1
+   Compiling predicates-core v1.0.10
+   Compiling ppv-lite86 v0.2.21
+   Compiling termtree v0.5.1
+   Compiling futures-core v0.3.34
+   Compiling downcast v0.11.0
+   Compiling bitflags v2.13.2
+   Compiling unarray v0.1.4
+   Compiling viola-agent-claude v0.1.0 (D:\dev\projects\viola\crates\viola-agent-claude)
+   Compiling rand_core v0.9.5
+   Compiling ahash v0.8.12
+   Compiling tracing-core v0.1.36
+   Compiling predicates v3.1.4
+   Compiling predicates-tree v1.0.13
+   Compiling fragile v2.1.0
+   Compiling rand_xorshift v0.4.0
+   Compiling rand v0.9.5
+   Compiling jsonschema-value v0.57.0
+   Compiling referencing v0.57.0
+   Compiling rand_chacha v0.9.0
+   Compiling tracing-serde v0.2.0
+   Compiling tracing v0.1.44
+   Compiling tracing-subscriber v0.3.23
+   Compiling proptest v1.11.0
+   Compiling regex-automata v0.4.18
+   Compiling hybrid-array v0.4.15
+   Compiling crypto-common v0.2.2
+   Compiling block-buffer v0.12.1
+   Compiling digest v0.11.3
+   Compiling sha2 v0.11.0
+   Compiling regex v1.13.1
+   Compiling thiserror-impl v1.0.69
+   Compiling kinded_macros v0.5.1
+   Compiling anstyle-query v1.1.5
+   Compiling anstyle-wincon v3.0.11
+   Compiling tempfile v3.27.0
+   Compiling strum_macros v0.28.0
+   Compiling windows-implement v0.60.2
+   Compiling windows-interface v0.59.3
+   Compiling rstest_macros v0.27.0
+   Compiling interprocess v2.4.4
+   Compiling mockall_derive v0.15.0
+   Compiling anstream v1.0.0
+   Compiling clap_builder v4.6.7
+   Compiling kinded v0.5.1
+   Compiling windows-core v0.62.2
+   Compiling nutype_macros v0.8.0
+   Compiling thiserror v1.0.69
+   Compiling filedescriptor v0.8.3
+   Compiling portable-pty v0.8.1
+   Compiling windows-collections v0.3.2
+   Compiling windows-future v0.3.2
+   Compiling windows-numerics v0.3.1
+   Compiling viola-pty v0.1.0 (D:\dev\projects\viola\crates\viola-pty)
+   Compiling strum v0.28.0
+   Compiling jsonschema v0.57.0
+   Compiling windows v0.62.2
+   Compiling clap v4.6.7
+   Compiling rstest v0.27.0
+   Compiling mockall v0.15.0
+   Compiling nutype v0.8.0
+   Compiling viola-core v0.1.0 (D:\dev\projects\viola\crates\viola-core)
+   Compiling viola v0.1.0 (D:\dev\projects\viola)
+   Compiling sysinfo v0.39.6
+   Compiling viola-e2e v0.1.0 (D:\dev\projects\viola\crates\viola-e2e)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 22.21s
+────────────
+ Nextest run ID 234363d1-60d7-4125-9044-13552e50b12d with nextest profile: default
+    Starting 2 tests across 22 binaries (402 tests skipped)
+        PASS [   0.364s] (1/2) viola::tui_passthrough tui_host_resize_reaches_the_child
+        FAIL [   8.072s] (2/2) viola::tui_passthrough tui_host_resize_in_the_pump_start_window_reaches_the_child
+  stdout ───
+
+    running 1 test
+    test tui_host_resize_in_the_pump_start_window_reaches_the_child ... FAILED
+
+    failures:
+
+    failures:
+        tui_host_resize_in_the_pump_start_window_reaches_the_child
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 3 filtered out; finished in 8.06s
+
+  stderr ───
+
+    thread 'tui_host_resize_in_the_pump_start_window_reaches_the_child' (29504) panicked at tests\tui_passthrough.rs:143:13:
+    the resize never reached the child
+    trail (C:\Users\turbo\AppData\Local\Temp\viola-resize-61040.ndjson):
+    {"t_us":1790464805698884,"what":"resize-sent"}
+    {"t_us":1790464805699660,"what":"size-observed","receipt":{"v":1,"kind":"size","cols":80,"rows":24}}
+    pump probe:
+    {"t_us":1790464805675191,"what":"spawn","cols":80,"rows":24}
+    {"t_us":1790464806688566,"what":"baseline","cols":100,"rows":30}
+
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+  Cancelling due to test failure: 
+────────────
+     Summary [   8.074s] 2 tests run: 1 passed, 1 failed, 402 skipped
+        FAIL [   8.072s] (2/2) viola::tui_passthrough tui_host_resize_in_the_pump_start_window_reaches_the_child
+error: test run failed

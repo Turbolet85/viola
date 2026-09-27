@@ -1,0 +1,10 @@
+[
+  {
+    "from_crate": "viola-e2e",
+    "to_crate": "viola-pty"
+  },
+  {
+    "from_crate": "viola-e2e",
+    "to_crate": "viola-core"
+  }
+]

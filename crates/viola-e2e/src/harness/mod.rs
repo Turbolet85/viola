@@ -3,6 +3,7 @@ pub mod cfg_legs;
 pub mod cleanup;
 pub mod gate;
 pub mod logs;
+pub mod pre_push;
 pub mod run;
 pub mod schema_check;
 pub mod secret_scan;

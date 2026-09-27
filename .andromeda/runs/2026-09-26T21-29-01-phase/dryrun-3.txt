@@ -1,0 +1,28 @@
+gate v1.2 · fab316fd
+shell C:\Program Files\Git\bin\bash.exe (from $SHELL; -c, non-login)
+root D:\dev\projects\viola · marker 2026-09-26-local-linux-pre-push-gate · entries 18
+logs C:\Users\turbo\AppData\Local\Temp\andromeda-gate\2026-09-26-local-linux-pre-push-gate\run-20260926T215559Z · bound: GNU timeout
+delta docs 42
+prose L225-228: The gates run on this Windows host during /implement. The Rust delta is harness-only (`vio… (369 chars)
+prose L230-233: The provisioning entries come before the gate that needs them. The `build-essential` insta… (351 chars)
+prose L235-236: The `pre-push` entry is this chunk's mutation gate. It runs both legs and CI's union, so n… (213 chars)
+prose L238-238: Steps 6 and 7 are one-shot source edits (guards, the Unix witness): evidence, never entrie… (92 chars)
+  1 lint        not run — dry-run · cargo fmt --all --check
+  2 lint        not run — dry-run · cargo clippy --workspace --all-targets --features fake-age… (75 chars)
+  3 unit        not run — dry-run · bash scripts/agent-run.sh run --unit
+  4 unit        not run — dry-run · bash scripts/agent-run.sh run --unit --filter 'test(/pre_p… (105 chars)
+  5 integration not run — dry-run · AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --int… (66 chars)
+  6 build       not run — dry-run · MSYS2_ARG_CONV_EXCL=* wsl.exe -d Ubuntu -u root --exec /us… (98 chars)
+  7 probe       not run — dry-run · MSYS2_ARG_CONV_EXCL=* wsl.exe -d Ubuntu --exec /usr/bin/cc… (68 chars)
+  8 build       not run — dry-run · MSYS2_ARG_CONV_EXCL=* wsl.exe -d Ubuntu --cd /mnt/d/dev/pr… (116 chars)
+  9 probe       not run — dry-run · MSYS2_ARG_CONV_EXCL=* wsl.exe -d Ubuntu --cd /mnt/d/dev/pr… (124 chars)
+ 10 probe       not run — dry-run · CLAUDE_CODE_MESSAGING_TOKEN=canary-prepush-7f3a MSYS2_ARG_… (137 chars)
+ 11 integration not run — dry-run · bash scripts/agent-run.sh pre-push
+ 12 probe       not run — dry-run · grep -c -E '/home/|/mnt/|"[A-Za-z]:' target/agent-run/arti… (98 chars)
+ 13 probe       not run — dry-run · grep -c pre-push scripts/agent-run.ps1
+ 14 build       not run — dry-run · RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv cargo c… (116 chars)
+ 15 integration not run — leg operator (the letter drives it) · bash scripts/agent-run.sh pre-push
+ 16 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (82 chars)
+ 17 probe       not run — leg operator (the letter drives it) · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (129 chars)
+ 18 probe       not run — leg operator (the letter drives it) · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD… (160 chars)
+entries 18 · green 0 · red 0 · recorded 0 · timeout 0 · not-run 18

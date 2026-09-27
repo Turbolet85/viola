@@ -1,0 +1,465 @@
+﻿2026-09-26T20:37:46.6995091Z Current runner version: '2.337.0'
+2026-09-26T20:37:46.7021430Z ##[group]Runner Image Provisioner
+2026-09-26T20:37:46.7022262Z Hosted Compute Agent
+2026-09-26T20:37:46.7022948Z Version: 20260828.587
+2026-09-26T20:37:46.7023614Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+2026-09-26T20:37:46.7024390Z Build Date: 2026-08-28T16:44:25Z
+2026-09-26T20:37:46.7025123Z Worker ID: {f18e2432-a301-41a4-882f-9857b8179124}
+2026-09-26T20:37:46.7026220Z Azure Region: eastus
+2026-09-26T20:37:46.7026813Z ##[endgroup]
+2026-09-26T20:37:46.7029762Z ##[group]Operating System
+2026-09-26T20:37:46.7030503Z Ubuntu
+2026-09-26T20:37:46.7031029Z 24.04.5
+2026-09-26T20:37:46.7031522Z LTS
+2026-09-26T20:37:46.7032104Z ##[endgroup]
+2026-09-26T20:37:46.7032678Z ##[group]Runner Image
+2026-09-26T20:37:46.7033669Z Image: ubuntu-24.04
+2026-09-26T20:37:46.7034317Z Version: 20260920.314.1
+2026-09-26T20:37:46.7035836Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260920.314/images/ubuntu/Ubuntu2404-Readme.md
+2026-09-26T20:37:46.7037534Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260920.314
+2026-09-26T20:37:46.7038566Z ##[endgroup]
+2026-09-26T20:37:46.7039710Z ##[group]GITHUB_TOKEN Permissions
+2026-09-26T20:37:46.7041926Z Contents: read
+2026-09-26T20:37:46.7042567Z Metadata: read
+2026-09-26T20:37:46.7043210Z ##[endgroup]
+2026-09-26T20:37:46.7045642Z Secret source: Actions
+2026-09-26T20:37:46.7046653Z Cache mode: write
+2026-09-26T20:37:46.7047494Z Prepare workflow directory
+2026-09-26T20:37:46.7392062Z Prepare all required actions
+2026-09-26T20:37:46.7442785Z Getting action download info
+2026-09-26T20:37:47.0242416Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-09-26T20:37:47.1597158Z Download action repository 'Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6' (SHA:6323deb102c322ba6fcbdcafc7e3dddab59af2b6)
+2026-09-26T20:37:47.3405963Z Download action repository 'taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5' (SHA:7623a79cdfecb99d681017af368ca353d9f49bb5)
+2026-09-26T20:37:47.5144173Z Download action repository 'actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a' (SHA:043fb46d1a93c77aae656e7c1c64a875d1fc6a0a)
+2026-09-26T20:37:47.7583010Z Complete job name: mutants (ubuntu-latest)
+2026-09-26T20:37:47.8528474Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-09-26T20:37:47.8530264Z with:
+2026-09-26T20:37:47.8531054Z   fetch-depth: 0
+2026-09-26T20:37:47.8531921Z   persist-credentials: false
+2026-09-26T20:37:47.8532920Z   repository: Turbolet85/viola
+2026-09-26T20:37:47.8542263Z   token: ***
+2026-09-26T20:37:47.8543083Z   ssh-strict: true
+2026-09-26T20:37:47.8543915Z   ssh-user: git
+2026-09-26T20:37:47.8544715Z   clean: true
+2026-09-26T20:37:47.8545717Z   sparse-checkout-cone-mode: true
+2026-09-26T20:37:47.8546745Z   fetch-tags: false
+2026-09-26T20:37:47.8547595Z   show-progress: true
+2026-09-26T20:37:47.8548462Z   lfs: false
+2026-09-26T20:37:47.8549298Z   submodules: false
+2026-09-26T20:37:47.8550153Z   set-safe-directory: true
+2026-09-26T20:37:47.8551140Z   allow-unsafe-pr-checkout: false
+2026-09-26T20:37:47.8552604Z ##[endgroup]
+2026-09-26T20:37:47.9604828Z Syncing repository: Turbolet85/viola
+2026-09-26T20:37:47.9609714Z ##[group]Getting Git version info
+2026-09-26T20:37:47.9612027Z Working directory is '/home/runner/work/viola/viola'
+2026-09-26T20:37:47.9615713Z [command]/usr/bin/git version
+2026-09-26T20:37:47.9663545Z git version 2.55.0
+2026-09-26T20:37:47.9690004Z ##[endgroup]
+2026-09-26T20:37:47.9704400Z Temporarily overriding HOME='/home/runner/work/_temp/11111fab-7d8c-4243-beec-bcaa6d99b763' before making global git config changes
+2026-09-26T20:37:47.9708659Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-26T20:37:47.9712727Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/viola/viola
+2026-09-26T20:37:47.9772248Z Deleting the contents of '/home/runner/work/viola/viola'
+2026-09-26T20:37:47.9776543Z ##[group]Determining repository object format
+2026-09-26T20:37:47.9779358Z ##[endgroup]
+2026-09-26T20:37:47.9781607Z ##[group]Initializing the repository
+2026-09-26T20:37:47.9783656Z [command]/usr/bin/git init /home/runner/work/viola/viola
+2026-09-26T20:37:47.9914489Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-09-26T20:37:47.9917141Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-09-26T20:37:47.9919200Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-09-26T20:37:47.9921059Z hint: call:
+2026-09-26T20:37:47.9921938Z hint:
+2026-09-26T20:37:47.9923108Z hint: 	git config --global init.defaultBranch <name>
+2026-09-26T20:37:47.9924442Z hint:
+2026-09-26T20:37:47.9926299Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-09-26T20:37:47.9929570Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-09-26T20:37:47.9931534Z hint:
+2026-09-26T20:37:47.9932559Z hint: 	git branch -m <name>
+2026-09-26T20:37:47.9934000Z hint:
+2026-09-26T20:37:47.9936461Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-09-26T20:37:47.9939244Z Initialized empty Git repository in /home/runner/work/viola/viola/.git/
+2026-09-26T20:37:47.9943897Z [command]/usr/bin/git remote add origin https://github.com/Turbolet85/viola
+2026-09-26T20:37:47.9992564Z ##[endgroup]
+2026-09-26T20:37:47.9994778Z ##[group]Disabling automatic garbage collection
+2026-09-26T20:37:47.9997424Z [command]/usr/bin/git config --local gc.auto 0
+2026-09-26T20:37:48.0032363Z ##[endgroup]
+2026-09-26T20:37:48.0034834Z ##[group]Setting up auth
+2026-09-26T20:37:48.0037510Z Removing SSH command configuration
+2026-09-26T20:37:48.0040359Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-26T20:37:48.0089730Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-26T20:37:48.0492997Z Removing HTTP extra header
+2026-09-26T20:37:48.0501648Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-26T20:37:48.0547404Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-26T20:37:48.0775599Z Removing includeIf entries pointing to credentials config files
+2026-09-26T20:37:48.0780844Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-26T20:37:48.0827530Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-26T20:37:48.1066116Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-b532b69f-ec97-48db-996b-121107290ded.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-09-26T20:37:48.1118508Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/viola/viola/.git.path /home/runner/work/_temp/git-credentials-b532b69f-ec97-48db-996b-121107290ded.config
+2026-09-26T20:37:48.1160195Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/viola/viola/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-b532b69f-ec97-48db-996b-121107290ded.config
+2026-09-26T20:37:48.1197011Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-b532b69f-ec97-48db-996b-121107290ded.config
+2026-09-26T20:37:48.1236976Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-b532b69f-ec97-48db-996b-121107290ded.config
+2026-09-26T20:37:48.1271589Z ##[endgroup]
+2026-09-26T20:37:48.1274331Z ##[group]Fetching the repository
+2026-09-26T20:37:48.1280977Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+2026-09-26T20:37:48.9308752Z From https://github.com/Turbolet85/viola
+2026-09-26T20:37:48.9310052Z  * [new branch]      build/viola-0.1.0 -> origin/build/viola-0.1.0
+2026-09-26T20:37:48.9319502Z [command]/usr/bin/git branch --list --remote origin/build/viola-0.1.0
+2026-09-26T20:37:48.9352388Z   origin/build/viola-0.1.0
+2026-09-26T20:37:48.9364265Z [command]/usr/bin/git rev-parse refs/remotes/origin/build/viola-0.1.0
+2026-09-26T20:37:48.9395835Z acd08c718c6b25a6e9ea1d0a292e671bf9e5fe6a
+2026-09-26T20:37:48.9405685Z ##[endgroup]
+2026-09-26T20:37:48.9406623Z ##[group]Determining the checkout info
+2026-09-26T20:37:48.9407492Z ##[endgroup]
+2026-09-26T20:37:48.9409636Z [command]/usr/bin/git sparse-checkout disable
+2026-09-26T20:37:48.9474731Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-09-26T20:37:48.9513777Z ##[group]Checking out the ref
+2026-09-26T20:37:48.9518592Z [command]/usr/bin/git checkout --progress --force -B build/viola-0.1.0 refs/remotes/origin/build/viola-0.1.0
+2026-09-26T20:37:49.0797902Z Switched to a new branch 'build/viola-0.1.0'
+2026-09-26T20:37:49.0812966Z branch 'build/viola-0.1.0' set up to track 'origin/build/viola-0.1.0'.
+2026-09-26T20:37:49.0888400Z ##[endgroup]
+2026-09-26T20:37:49.0890492Z [command]/usr/bin/git log -1 --format=%H
+2026-09-26T20:37:49.0915180Z acd08c718c6b25a6e9ea1d0a292e671bf9e5fe6a
+2026-09-26T20:37:49.0925039Z ##[group]Removing auth
+2026-09-26T20:37:49.0925890Z Removing SSH command configuration
+2026-09-26T20:37:49.0929637Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-26T20:37:49.0977420Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-26T20:37:49.1214070Z Removing HTTP extra header
+2026-09-26T20:37:49.1218690Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-26T20:37:49.1257705Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-26T20:37:49.1490180Z Removing includeIf entries pointing to credentials config files
+2026-09-26T20:37:49.1493113Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-26T20:37:49.1526115Z includeif.gitdir:/home/runner/work/viola/viola/.git.path
+2026-09-26T20:37:49.1533508Z includeif.gitdir:/home/runner/work/viola/viola/.git/worktrees/*.path
+2026-09-26T20:37:49.1534290Z includeif.gitdir:/github/workspace/.git.path
+2026-09-26T20:37:49.1534883Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-09-26T20:37:49.1538269Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/viola/viola/.git.path
+2026-09-26T20:37:49.1566031Z /home/runner/work/_temp/git-credentials-b532b69f-ec97-48db-996b-121107290ded.config
+2026-09-26T20:37:49.1577329Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/viola/viola/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-b532b69f\-ec97\-48db\-996b\-121107290ded\.config
+2026-09-26T20:37:49.1652544Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/viola/viola/.git/worktrees/*.path
+2026-09-26T20:37:49.1681312Z /home/runner/work/_temp/git-credentials-b532b69f-ec97-48db-996b-121107290ded.config
+2026-09-26T20:37:49.1690597Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/viola/viola/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-b532b69f\-ec97\-48db\-996b\-121107290ded\.config
+2026-09-26T20:37:49.1736493Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-09-26T20:37:49.1805721Z /github/runner_temp/git-credentials-b532b69f-ec97-48db-996b-121107290ded.config
+2026-09-26T20:37:49.1833870Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-b532b69f\-ec97\-48db\-996b\-121107290ded\.config
+2026-09-26T20:37:49.1867359Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-09-26T20:37:49.1894594Z /github/runner_temp/git-credentials-b532b69f-ec97-48db-996b-121107290ded.config
+2026-09-26T20:37:49.1903355Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-b532b69f\-ec97\-48db\-996b\-121107290ded\.config
+2026-09-26T20:37:49.1942703Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-26T20:37:49.2172345Z Removing credentials config '/home/runner/work/_temp/git-credentials-b532b69f-ec97-48db-996b-121107290ded.config'
+2026-09-26T20:37:49.2181834Z ##[endgroup]
+2026-09-26T20:37:49.2389085Z ##[group]Run rustup toolchain install
+2026-09-26T20:37:49.2389645Z [36;1mrustup toolchain install[0m
+2026-09-26T20:37:49.2693650Z shell: /usr/bin/bash -e {0}
+2026-09-26T20:37:49.2694209Z ##[endgroup]
+2026-09-26T20:37:49.3328005Z info: syncing channel updates for 1.98.1-x86_64-unknown-linux-gnu
+2026-09-26T20:37:49.4500281Z info: latest update on 2026-09-03 for version 1.98.1 (48a229cea 2026-09-01)
+2026-09-26T20:37:49.4502894Z info: downloading 5 components
+2026-09-26T20:37:57.5086144Z info: the active toolchain `1.98.1-x86_64-unknown-linux-gnu` has been installed
+2026-09-26T20:37:57.5087222Z info: it's active because: overridden by '/home/runner/work/viola/viola/rust-toolchain.toml'
+2026-09-26T20:37:57.5226384Z ##[group]Run Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6
+2026-09-26T20:37:57.5226816Z with:
+2026-09-26T20:37:57.5227025Z   prefix-key: v0-rust
+2026-09-26T20:37:57.5227249Z   add-job-id-key: true
+2026-09-26T20:37:57.5227500Z   add-rust-environment-hash-key: true
+2026-09-26T20:37:57.5227775Z   cache-targets: true
+2026-09-26T20:37:57.5227997Z   cache-all-crates: false
+2026-09-26T20:37:57.5228234Z   cache-workspace-crates: false
+2026-09-26T20:37:57.5228475Z   save-if: true
+2026-09-26T20:37:57.5228686Z   cache-provider: github
+2026-09-26T20:37:57.5228914Z   cache-bin: true
+2026-09-26T20:37:57.5229115Z   lookup-only: false
+2026-09-26T20:37:57.5229328Z   cmd-format: {0}
+2026-09-26T20:37:57.5229541Z ##[endgroup]
+2026-09-26T20:37:58.1046396Z ##[group]Cache Configuration
+2026-09-26T20:37:58.1047074Z Cache Provider:
+2026-09-26T20:37:58.1047546Z     github
+2026-09-26T20:37:58.1047999Z Workspaces:
+2026-09-26T20:37:58.1048479Z     /home/runner/work/viola/viola
+2026-09-26T20:37:58.1049216Z Cache Paths:
+2026-09-26T20:37:58.1049791Z     /home/runner/.cargo/bin
+2026-09-26T20:37:58.1050463Z     /home/runner/.cargo/.crates.toml
+2026-09-26T20:37:58.1051137Z     /home/runner/.cargo/.crates2.json
+2026-09-26T20:37:58.1051890Z     /home/runner/.cargo/registry
+2026-09-26T20:37:58.1053588Z     /home/runner/.cargo/git
+2026-09-26T20:37:58.1054234Z     /home/runner/work/viola/viola/target
+2026-09-26T20:37:58.1054981Z Restore Key:
+2026-09-26T20:37:58.1055827Z     v0-rust-mutants-Linux-x64-5d4fabd5
+2026-09-26T20:37:58.1056521Z Cache Key:
+2026-09-26T20:37:58.1057158Z     v0-rust-mutants-Linux-x64-5d4fabd5-603ce2b0
+2026-09-26T20:37:58.1057811Z .. Prefix:
+2026-09-26T20:37:58.1058328Z   - v0-rust-mutants-Linux-x64
+2026-09-26T20:37:58.1058980Z .. Environment considered:
+2026-09-26T20:37:58.1059566Z   - Rust Versions:
+2026-09-26T20:37:58.1060328Z     - 1.98.1 x86_64-unknown-linux-gnu 48a229ceaefd4985c50990b14116b6d856af0985
+2026-09-26T20:37:58.1061053Z   - CARGO_INCREMENTAL
+2026-09-26T20:37:58.1061565Z .. Lockfiles considered:
+2026-09-26T20:37:58.1062185Z   - /home/runner/work/viola/viola/Cargo.lock
+2026-09-26T20:37:58.1062959Z   - /home/runner/work/viola/viola/Cargo.toml
+2026-09-26T20:37:58.1063770Z   - /home/runner/work/viola/viola/crates/viola-agent-claude/Cargo.toml
+2026-09-26T20:37:58.1064993Z   - /home/runner/work/viola/viola/crates/viola-core/Cargo.toml
+2026-09-26T20:37:58.1068417Z   - /home/runner/work/viola/viola/crates/viola-e2e/Cargo.toml
+2026-09-26T20:37:58.1069201Z   - /home/runner/work/viola/viola/crates/viola-pty/Cargo.toml
+2026-09-26T20:37:58.1069894Z   - /home/runner/work/viola/viola/fuzz/rust-toolchain.toml
+2026-09-26T20:37:58.1070308Z   - /home/runner/work/viola/viola/rust-toolchain.toml
+2026-09-26T20:37:58.1070952Z ##[endgroup]
+2026-09-26T20:37:58.1071082Z 
+2026-09-26T20:37:58.1071171Z ... Restoring cache ...
+2026-09-26T20:37:58.1648171Z Cache hit for restore-key: v0-rust-mutants-Linux-x64-5d4fabd5-5ddafac5
+2026-09-26T20:37:59.1967245Z Received 150994944 of 231987192 (65.1%), 144.0 MBs/sec
+2026-09-26T20:37:59.6190475Z Received 231987192 of 231987192 (100.0%), 155.6 MBs/sec
+2026-09-26T20:37:59.6191448Z Cache Size: ~221 MB (231987192 B)
+2026-09-26T20:37:59.6287313Z [command]/usr/bin/tar -xf /home/runner/work/_temp/8c2abb63-b678-4ecf-a344-493cca796f6a/cache.tzst -P -C /home/runner/work/viola/viola --use-compress-program unzstd
+2026-09-26T20:38:01.1150257Z Cache restored successfully
+2026-09-26T20:38:01.2315156Z Restored from cache key "v0-rust-mutants-Linux-x64-5d4fabd5-5ddafac5" full match: false.
+2026-09-26T20:38:01.3900146Z ##[group]Run taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5
+2026-09-26T20:38:01.3900602Z with:
+2026-09-26T20:38:01.3900848Z   tool: cargo-nextest@0.9.146,cargo-mutants@27.1.0
+2026-09-26T20:38:01.3901161Z   checksum: true
+2026-09-26T20:38:01.3901373Z   fallback: cargo-binstall
+2026-09-26T20:38:01.3901604Z env:
+2026-09-26T20:38:01.3901794Z   CACHE_ON_FAILURE: false
+2026-09-26T20:38:01.3902025Z   CARGO_INCREMENTAL: 0
+2026-09-26T20:38:01.3902240Z ##[endgroup]
+2026-09-26T20:38:01.4006675Z ##[start-action display=Run bail() {;id=__taiki-e_install-action.__run]
+2026-09-26T20:38:01.4345047Z ##[group]Run bail() {
+2026-09-26T20:38:01.4345588Z [36;1mbail() {[0m
+2026-09-26T20:38:01.4345963Z [36;1m  printf '::error::install-action: %s\n' "$*"[0m
+2026-09-26T20:38:01.4346490Z [36;1m  exit 1[0m
+2026-09-26T20:38:01.4346751Z [36;1m}[0m
+2026-09-26T20:38:01.4347224Z [36;1m# If /bin/sh is dash, environment variable containing % is not imported, but is fine[0m
+2026-09-26T20:38:01.4347992Z [36;1m# because it also means that it will not be exposed to subprocess.[0m
+2026-09-26T20:38:01.4348545Z [36;1mif /usr/bin/env | grep -Eq '^BASH_FUNC_'; then[0m
+2026-09-26T20:38:01.4349262Z [36;1m  bail 'bash function injection via BASH_FUNC_ environment variable is not allowed for security reasons'[0m
+2026-09-26T20:38:01.4349921Z [36;1mfi[0m
+2026-09-26T20:38:01.4350215Z [36;1mif ! command -v bash >/dev/null; then[0m
+2026-09-26T20:38:01.4350662Z [36;1m  if grep -Eq '^ID=alpine' /etc/os-release; then[0m
+2026-09-26T20:38:01.4351301Z [36;1m    printf '::group::Install packages required for install-action (bash)\n'[0m
+2026-09-26T20:38:01.4351862Z [36;1m    # NB: sync with apk_install in main.sh[0m
+2026-09-26T20:38:01.4352198Z [36;1m    if command -v sudo >/dev/null; then[0m
+2026-09-26T20:38:01.4352510Z [36;1m      sudo apk --no-cache add bash[0m
+2026-09-26T20:38:01.4352827Z [36;1m    elif command -v doas >/dev/null; then[0m
+2026-09-26T20:38:01.4353150Z [36;1m      doas apk --no-cache add bash[0m
+2026-09-26T20:38:01.4353424Z [36;1m    else[0m
+2026-09-26T20:38:01.4353643Z [36;1m      apk --no-cache add bash[0m
+2026-09-26T20:38:01.4353902Z [36;1m    fi[0m
+2026-09-26T20:38:01.4354124Z [36;1m    printf '::endgroup::\n'[0m
+2026-09-26T20:38:01.4354376Z [36;1m  else[0m
+2026-09-26T20:38:01.4354600Z [36;1m    bail 'this action requires bash'[0m
+2026-09-26T20:38:01.4354874Z [36;1m  fi[0m
+2026-09-26T20:38:01.4355066Z [36;1mfi[0m
+2026-09-26T20:38:01.4355490Z [36;1mbash --noprofile --norc "${GITHUB_ACTION_PATH:?}/main.sh"[0m
+2026-09-26T20:38:01.4359232Z shell: /usr/bin/env -u ENV -u BASH_ENV -u CDPATH -u SHELLOPTS -u BASHOPTS /bin/sh -eu {0}
+2026-09-26T20:38:01.4359664Z env:
+2026-09-26T20:38:01.4359862Z   CACHE_ON_FAILURE: false
+2026-09-26T20:38:01.4360280Z   CARGO_INCREMENTAL: 0
+2026-09-26T20:38:01.4360572Z   INPUT_TOOL: cargo-nextest@0.9.146,cargo-mutants@27.1.0
+2026-09-26T20:38:01.4360903Z   INPUT_CHECKSUM: true
+2026-09-26T20:38:01.4361136Z   INPUT_FALLBACK: cargo-binstall
+2026-09-26T20:38:01.4364002Z   DEFAULT_GITHUB_TOKEN: ***
+2026-09-26T20:38:01.4364427Z   ACTION_USER_AGENT: taiki-e/install-action (7623a79cdfecb99d681017af368ca353d9f49bb5)
+2026-09-26T20:38:01.4364850Z   RUNNER_OS: Linux
+2026-09-26T20:38:01.4365058Z   RUNNER_ARCH: X64
+2026-09-26T20:38:01.4365717Z ##[endgroup]
+2026-09-26T20:38:01.6834425Z info: host platform: x86_64_linux
+2026-09-26T20:38:01.7469669Z info: installing cargo-nextest@0.9.146
+2026-09-26T20:38:01.7686886Z info: downloading https://github.com/nextest-rs/nextest/releases/download/cargo-nextest-0.9.146/cargo-nextest-0.9.146-x86_64-unknown-linux-gnu.tar.gz
+2026-09-26T20:38:01.9848469Z info: verifying sha256 checksum for cargo-nextest-0.9.146-x86_64-unknown-linux-gnu.tar.gz
+2026-09-26T20:38:02.2418139Z info: cargo-nextest installed at /home/runner/.cargo/bin/cargo-nextest
+2026-09-26T20:38:02.2421206Z + cargo-nextest nextest --version
+2026-09-26T20:38:02.2452011Z cargo-nextest 0.9.146 (8af696ddc 2026-09-21)
+2026-09-26T20:38:02.2452598Z release: 0.9.146
+2026-09-26T20:38:02.2453484Z commit-hash: 8af696ddcce8fff2962d6a5168b6d138b8616a35
+2026-09-26T20:38:02.2454100Z commit-date: 2026-09-21
+2026-09-26T20:38:02.2454522Z host: x86_64-unknown-linux-gnu
+2026-09-26T20:38:02.2458612Z 
+2026-09-26T20:38:02.2632574Z info: installing cargo-mutants@27.1.0
+2026-09-26T20:38:02.2762285Z info: downloading https://github.com/sourcefrog/cargo-mutants/releases/download/v27.1.0/cargo-mutants-x86_64-unknown-linux-gnu.tar.gz
+2026-09-26T20:38:02.3891383Z info: verifying sha256 checksum for cargo-mutants-x86_64-unknown-linux-gnu.tar.gz
+2026-09-26T20:38:02.4704019Z info: cargo-mutants installed at /home/runner/.cargo/bin/cargo-mutants
+2026-09-26T20:38:02.4707797Z + cargo-mutants mutants --version
+2026-09-26T20:38:02.4720867Z cargo-mutants 27.1.0
+2026-09-26T20:38:02.4723683Z 
+2026-09-26T20:38:02.4743920Z ##[end-action id=__taiki-e_install-action.__run;outcome=success;conclusion=success;duration_ms=1073]
+2026-09-26T20:38:02.4751714Z ##[start-action display=Run Set-StrictMode -Version Latest;id=__taiki-e_install-action.__run_2]
+2026-09-26T20:38:02.4757449Z ##[end-action id=__taiki-e_install-action.__run_2;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-09-26T20:38:02.4815872Z ##[group]Run bash scripts/agent-run.sh run --mutants --leg "$LEG"
+2026-09-26T20:38:02.4816405Z [36;1mbash scripts/agent-run.sh run --mutants --leg "$LEG"[0m
+2026-09-26T20:38:02.4880236Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-09-26T20:38:02.4880588Z env:
+2026-09-26T20:38:02.4880797Z   CACHE_ON_FAILURE: false
+2026-09-26T20:38:02.4881040Z   CARGO_INCREMENTAL: 0
+2026-09-26T20:38:02.4881267Z   LEG: ubuntu-latest
+2026-09-26T20:38:02.4881478Z ##[endgroup]
+2026-09-26T20:38:20.2786563Z    Compiling viola-core v0.1.0 (/home/runner/work/viola/viola/crates/viola-core)
+2026-09-26T20:38:20.2787783Z    Compiling viola-pty v0.1.0 (/home/runner/work/viola/viola/crates/viola-pty)
+2026-09-26T20:38:20.2799691Z    Compiling viola-agent-claude v0.1.0 (/home/runner/work/viola/viola/crates/viola-agent-claude)
+2026-09-26T20:38:20.5439711Z    Compiling viola v0.1.0 (/home/runner/work/viola/viola)
+2026-09-26T20:38:21.1539034Z     Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.99s
+2026-09-26T20:38:21.3007410Z Found 79 mutants to test
+2026-09-26T20:39:13.4084412Z ok       Unmutated baseline in 28s build + 23s test
+2026-09-26T20:39:13.4084863Z  INFO Auto-set build timeout to 141s
+2026-09-26T20:39:13.4085442Z  INFO Auto-set test timeout to 117s
+2026-09-26T20:39:16.8327018Z caught   crates/viola-e2e/src/bin/viola-harness.rs:185:5: replace gate_cmd -> ExitCode with Default::default() in 0s build + 2s test
+2026-09-26T20:39:20.6583403Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:22:5: replace target -> Option<Target> with None in 3s build + 0s test
+2026-09-26T20:39:21.7139714Z unviable crates/viola-e2e/src/harness/cfg_legs.rs:22:5: replace target -> Option<Target> with Some(Default::default()) in 1s build
+2026-09-26T20:39:25.4535119Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:34:5: replace compiled_legs -> Vec<String> with vec![] in 3s build + 0s test
+2026-09-26T20:39:29.1788859Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:34:5: replace compiled_legs -> Vec<String> with vec![String::new()] in 3s build + 0s test
+2026-09-26T20:39:32.9161182Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:34:5: replace compiled_legs -> Vec<String> with vec!["xyzzy".into()] in 3s build + 0s test
+2026-09-26T20:39:36.7584705Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:39:75: replace != with == in compiled_legs in 3s build + 0s test
+2026-09-26T20:39:40.5784114Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:47:5: replace location -> Option<(&str, usize)> with None in 3s build + 0s test
+2026-09-26T20:39:44.4091340Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:47:5: replace location -> Option<(&str, usize)> with Some(("", 0)) in 3s build + 0s test
+2026-09-26T20:39:48.1921841Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:47:5: replace location -> Option<(&str, usize)> with Some(("", 1)) in 3s build + 0s test
+2026-09-26T20:39:52.0192520Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:47:5: replace location -> Option<(&str, usize)> with Some(("xyzzy", 0)) in 3s build + 0s test
+2026-09-26T20:39:55.7871149Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:47:5: replace location -> Option<(&str, usize)> with Some(("xyzzy", 1)) in 3s build + 0s test
+2026-09-26T20:39:59.6279029Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:59:5: replace covering_cfgs -> Option<Vec<Meta>> with None in 3s build + 0s test
+2026-09-26T20:40:03.4544994Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:59:5: replace covering_cfgs -> Option<Vec<Meta>> with Some(vec![]) in 3s build + 0s test
+2026-09-26T20:40:04.4583290Z unviable crates/viola-e2e/src/harness/cfg_legs.rs:59:5: replace covering_cfgs -> Option<Vec<Meta>> with Some(vec![Default::default()]) in 1s build
+2026-09-26T20:40:08.2776518Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:77:9: replace Cover::note with () in 3s build + 0s test
+2026-09-26T20:40:12.1014690Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:91:9: replace <impl Visit<'ast> for Cover>::visit_item_fn with () in 3s build + 0s test
+2026-09-26T20:40:15.9845613Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:96:9: replace <impl Visit<'ast> for Cover>::visit_item_impl with () in 3s build + 0s test
+2026-09-26T20:40:19.8089516Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:101:9: replace <impl Visit<'ast> for Cover>::visit_item_mod with () in 3s build + 0s test
+2026-09-26T20:40:23.6864302Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:106:9: replace <impl Visit<'ast> for Cover>::visit_impl_item_fn with () in 3s build + 0s test
+2026-09-26T20:40:27.5597217Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:111:9: replace <impl Visit<'ast> for Cover>::visit_local with () in 3s build + 0s test
+2026-09-26T20:40:31.4335797Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:116:9: replace <impl Visit<'ast> for Cover>::visit_expr with () in 3s build + 0s test
+2026-09-26T20:40:35.3100742Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:124:5: replace expr_attrs -> &[Attribute] with Vec::leak(Vec::new()) in 3s build + 0s test
+2026-09-26T20:40:36.3643652Z unviable crates/viola-e2e/src/harness/cfg_legs.rs:124:5: replace expr_attrs -> &[Attribute] with Vec::leak(vec![Default::default()]) in 1s build
+2026-09-26T20:40:40.2346751Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:125:9: delete match arm Expr::Block(e) in expr_attrs in 3s build + 0s test
+2026-09-26T20:40:44.1098212Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:126:9: delete match arm Expr::Call(e) in expr_attrs in 3s build + 0s test
+2026-09-26T20:40:47.9867087Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:127:9: delete match arm Expr::ForLoop(e) in expr_attrs in 3s build + 0s test
+2026-09-26T20:40:51.8708899Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:128:9: delete match arm Expr::If(e) in expr_attrs in 3s build + 0s test
+2026-09-26T20:40:55.7499713Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:129:9: delete match arm Expr::MethodCall(e) in expr_attrs in 3s build + 0s test
+2026-09-26T20:40:59.6285960Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:130:9: delete match arm Expr::Tuple(e) in expr_attrs in 3s build + 0s test
+2026-09-26T20:41:03.5012263Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:131:9: delete match arm Expr::Unsafe(e) in expr_attrs in 3s build + 0s test
+2026-09-26T20:41:07.3275747Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:138:5: replace eval -> Option<bool> with None in 3s build + 0s test
+2026-09-26T20:41:11.1590637Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:138:5: replace eval -> Option<bool> with Some(true) in 3s build + 0s test
+2026-09-26T20:41:15.0306245Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:138:5: replace eval -> Option<bool> with Some(false) in 3s build + 0s test
+2026-09-26T20:41:18.8066502Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:139:26: replace match guard p.is_ident("unix") with true in eval in 3s build + 0s test
+2026-09-26T20:41:22.6856319Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:139:26: replace match guard p.is_ident("unix") with false in eval in 3s build + 0s test
+2026-09-26T20:41:26.5091250Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:140:26: replace match guard p.is_ident("windows") with true in eval in 3s build + 0s test
+2026-09-26T20:41:30.3336468Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:140:26: replace match guard p.is_ident("windows") with false in eval in 3s build + 0s test
+2026-09-26T20:41:34.1678874Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:139:62: replace == with != in eval in 3s build + 0s test
+2026-09-26T20:41:37.9947705Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:140:65: replace == with != in eval in 3s build + 0s test
+2026-09-26T20:41:41.9176534Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:151:27: replace == with != in eval in 3s build + 0s test
+2026-09-26T20:41:45.8469210Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:153:31: replace == with != in eval in 3s build + 0s test
+2026-09-26T20:41:49.7736705Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:165:21: delete match arm [v] in eval in 3s build + 0s test
+2026-09-26T20:41:53.6437080Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:165:38: delete ! in eval in 3s build + 0s test
+2026-09-26T20:41:57.5626860Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:180:5: replace all -> Option<bool> with None in 3s build + 0s test
+2026-09-26T20:42:01.4883989Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:180:5: replace all -> Option<bool> with Some(true) in 3s build + 0s test
+2026-09-26T20:42:05.3157571Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:180:5: replace all -> Option<bool> with Some(false) in 3s build + 0s test
+2026-09-26T20:42:09.1388954Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:182:40: replace == with != in all in 3s build + 0s test
+2026-09-26T20:42:13.0734751Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:190:5: replace any -> Option<bool> with None in 3s build + 0s test
+2026-09-26T20:42:17.0032851Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:190:5: replace any -> Option<bool> with Some(true) in 3s build + 0s test
+2026-09-26T20:42:20.8765675Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:190:5: replace any -> Option<bool> with Some(false) in 3s build + 0s test
+2026-09-26T20:42:24.7516299Z caught   crates/viola-e2e/src/harness/cfg_legs.rs:192:40: replace == with != in any in 3s build + 0s test
+2026-09-26T20:42:25.8060331Z unviable crates/viola-e2e/src/harness/gate.rs:60:5: replace gate -> Outcome with Default::default() in 1s build
+2026-09-26T20:42:29.7331638Z caught   crates/viola-e2e/src/harness/gate.rs:65:13: delete match arm ("mutants", Some(legs)) in gate in 3s build + 0s test
+2026-09-26T20:42:33.7077253Z caught   crates/viola-e2e/src/harness/gate.rs:121:5: replace union with () in 3s build + 0s test
+2026-09-26T20:42:34.7624518Z unviable crates/viola-e2e/src/harness/secret_scan.rs:63:5: replace scan -> Outcome with Default::default() in 1s build
+2026-09-26T20:42:40.7079765Z caught   crates/viola-e2e/src/harness/secret_scan.rs:82:33: replace != with == in scan in 3s build + 2s test
+2026-09-26T20:42:44.7899637Z caught   crates/viola-e2e/src/harness/run/mutants.rs:31:5: replace commit_sha -> Option<String> with None in 3s build + 0s test
+2026-09-26T20:42:48.8691937Z caught   crates/viola-e2e/src/harness/run/mutants.rs:31:5: replace commit_sha -> Option<String> with Some(String::new()) in 3s build + 0s test
+2026-09-26T20:42:52.9974276Z caught   crates/viola-e2e/src/harness/run/mutants.rs:31:5: replace commit_sha -> Option<String> with Some("xyzzy".into()) in 3s build + 0s test
+2026-09-26T20:42:57.0808210Z caught   crates/viola-e2e/src/harness/run/mutants.rs:48:5: replace resolve_base -> Option<String> with None in 3s build + 0s test
+2026-09-26T20:43:01.1157453Z caught   crates/viola-e2e/src/harness/run/mutants.rs:48:5: replace resolve_base -> Option<String> with Some(String::new()) in 3s build + 0s test
+2026-09-26T20:43:05.1915575Z caught   crates/viola-e2e/src/harness/run/mutants.rs:48:5: replace resolve_base -> Option<String> with Some("xyzzy".into()) in 3s build + 0s test
+2026-09-26T20:43:09.2725077Z caught   crates/viola-e2e/src/harness/run/mutants.rs:62:5: replace chunk_flip -> Option<String> with None in 3s build + 0s test
+2026-09-26T20:43:13.3540466Z caught   crates/viola-e2e/src/harness/run/mutants.rs:62:5: replace chunk_flip -> Option<String> with Some(String::new()) in 3s build + 0s test
+2026-09-26T20:43:17.4364457Z caught   crates/viola-e2e/src/harness/run/mutants.rs:62:5: replace chunk_flip -> Option<String> with Some("xyzzy".into()) in 3s build + 0s test
+2026-09-26T20:43:21.6169709Z caught   crates/viola-e2e/src/harness/run/mutants.rs:80:30: replace == with != in chunk_flip in 3s build + 0s test
+2026-09-26T20:43:25.8392359Z caught   crates/viola-e2e/src/harness/run/mutants.rs:89:5: replace pre_ci_parent -> Option<String> with None in 3s build + 0s test
+2026-09-26T20:43:29.9731996Z caught   crates/viola-e2e/src/harness/run/mutants.rs:89:5: replace pre_ci_parent -> Option<String> with Some(String::new()) in 3s build + 0s test
+2026-09-26T20:43:34.0528784Z caught   crates/viola-e2e/src/harness/run/mutants.rs:89:5: replace pre_ci_parent -> Option<String> with Some("xyzzy".into()) in 3s build + 0s test
+2026-09-26T20:43:38.2222405Z caught   crates/viola-e2e/src/harness/run/mutants.rs:109:5: replace pending_marker -> Option<&str> with None in 3s build + 0s test
+2026-09-26T20:43:42.3065535Z caught   crates/viola-e2e/src/harness/run/mutants.rs:109:5: replace pending_marker -> Option<&str> with Some("") in 3s build + 0s test
+2026-09-26T20:43:46.5298961Z caught   crates/viola-e2e/src/harness/run/mutants.rs:109:5: replace pending_marker -> Option<&str> with Some("xyzzy") in 3s build + 0s test
+2026-09-26T20:43:50.7072750Z caught   crates/viola-e2e/src/harness/run/mutants.rs:111:35: replace && with || in pending_marker in 3s build + 0s test
+2026-09-26T20:43:54.8893347Z caught   crates/viola-e2e/src/harness/run/mutants.rs:111:21: delete ! in pending_marker in 3s build + 0s test
+2026-09-26T20:43:59.0686640Z caught   crates/viola-e2e/src/harness/run/mutants.rs:111:38: delete ! in pending_marker in 3s build + 0s test
+2026-09-26T20:44:03.4409678Z caught   crates/viola-e2e/src/harness/run/mutants.rs:245:5: replace unmutated -> (Suite, Value) with (Default::default(), Default::default()) in 3s build + 0s test
+2026-09-26T20:44:07.7183693Z caught   crates/viola-e2e/src/harness/run/mutants.rs:310:5: replace mutants -> Result<(Suite, Value), String> with Ok((Default::default(), Default::default())) in 3s build + 0s test
+2026-09-26T20:44:11.9970424Z caught   crates/viola-e2e/src/harness/run/mutants.rs:320:8: delete ! in mutants in 3s build + 0s test
+2026-09-26T20:44:12.4123059Z 79 mutants tested in 6m: 74 caught, 5 unviable
+2026-09-26T20:44:12.4231979Z {"v":1,"cmd":"run","ok":true,"suites":[{"suite":"mutants","passed":74,"failed":0,"skipped":0,"survived":0,"artifact":"mutants.out/outcomes.json","failures":[]}],"mutants":{"tested":79,"verdict":"counted","base":"fcca1cebef44778f7475b61535bded1484218289","leg":"ubuntu-latest"}}
+2026-09-26T20:44:12.4299493Z ##[group]Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+2026-09-26T20:44:12.4299919Z with:
+2026-09-26T20:44:12.4300143Z   name: mutants-verdict-ubuntu-latest
+2026-09-26T20:44:12.4300541Z   path: target/agent-run/artifacts/mutants-verdict-ubuntu-latest.json
+2026-09-26T20:44:12.4300913Z   retention-days: 7
+2026-09-26T20:44:12.4301128Z   if-no-files-found: warn
+2026-09-26T20:44:12.4301355Z   compression-level: 6
+2026-09-26T20:44:12.4301574Z   overwrite: false
+2026-09-26T20:44:12.4301812Z   include-hidden-files: false
+2026-09-26T20:44:12.4302044Z   archive: true
+2026-09-26T20:44:12.4302234Z env:
+2026-09-26T20:44:12.4302423Z   CACHE_ON_FAILURE: false
+2026-09-26T20:44:12.4302649Z   CARGO_INCREMENTAL: 0
+2026-09-26T20:44:12.4302874Z ##[endgroup]
+2026-09-26T20:44:12.5892859Z With the provided path, there will be 1 file uploaded
+2026-09-26T20:44:12.5895013Z Artifact name is valid!
+2026-09-26T20:44:12.5896743Z Root directory input is valid!
+2026-09-26T20:44:12.7868940Z Uploading artifact: mutants-verdict-ubuntu-latest.zip
+2026-09-26T20:44:12.7917070Z Beginning upload of artifact content to blob storage
+2026-09-26T20:44:12.8518263Z Uploaded bytes 1373
+2026-09-26T20:44:12.8654064Z Finished uploading artifact content to blob storage!
+2026-09-26T20:44:12.8655414Z SHA256 digest of uploaded artifact is f11e8470d85d0d6a716aeb7a648c43483e9d307c315b0fe5307891cd1878b416
+2026-09-26T20:44:12.8656140Z Finalizing artifact upload
+2026-09-26T20:44:13.0833523Z Artifact mutants-verdict-ubuntu-latest successfully finalized. Artifact ID 10915621395
+2026-09-26T20:44:13.0835759Z Artifact mutants-verdict-ubuntu-latest has been successfully uploaded! Final size is 1373 bytes. Artifact ID is 10915621395
+2026-09-26T20:44:13.0840502Z Artifact download URL: https://github.com/Turbolet85/viola/actions/runs/36270173848/artifacts/10915621395
+2026-09-26T20:44:13.1018879Z Post job cleanup.
+2026-09-26T20:44:13.2312020Z ##[group]Cache Configuration
+2026-09-26T20:44:13.2313070Z Cache Provider:
+2026-09-26T20:44:13.2313548Z     github
+2026-09-26T20:44:13.2313979Z Workspaces:
+2026-09-26T20:44:13.2314469Z     /home/runner/work/viola/viola
+2026-09-26T20:44:13.2315089Z Cache Paths:
+2026-09-26T20:44:13.2315855Z     /home/runner/.cargo/bin
+2026-09-26T20:44:13.2316426Z     /home/runner/.cargo/.crates.toml
+2026-09-26T20:44:13.2316955Z     /home/runner/.cargo/.crates2.json
+2026-09-26T20:44:13.2317333Z     /home/runner/.cargo/registry
+2026-09-26T20:44:13.2317662Z     /home/runner/.cargo/git
+2026-09-26T20:44:13.2317986Z     /home/runner/work/viola/viola/target
+2026-09-26T20:44:13.2318334Z Restore Key:
+2026-09-26T20:44:13.2318801Z     v0-rust-mutants-Linux-x64-5d4fabd5
+2026-09-26T20:44:13.2319203Z Cache Key:
+2026-09-26T20:44:13.2319514Z     v0-rust-mutants-Linux-x64-5d4fabd5-603ce2b0
+2026-09-26T20:44:13.2319919Z .. Prefix:
+2026-09-26T20:44:13.2320252Z   - v0-rust-mutants-Linux-x64
+2026-09-26T20:44:13.2320584Z .. Environment considered:
+2026-09-26T20:44:13.2320889Z   - Rust Versions:
+2026-09-26T20:44:13.2321312Z     - 1.98.1 x86_64-unknown-linux-gnu 48a229ceaefd4985c50990b14116b6d856af0985
+2026-09-26T20:44:13.2321808Z   - CARGO_INCREMENTAL
+2026-09-26T20:44:13.2322100Z .. Lockfiles considered:
+2026-09-26T20:44:13.2322429Z   - /home/runner/work/viola/viola/Cargo.lock
+2026-09-26T20:44:13.2322827Z   - /home/runner/work/viola/viola/Cargo.toml
+2026-09-26T20:44:13.2323325Z   - /home/runner/work/viola/viola/crates/viola-agent-claude/Cargo.toml
+2026-09-26T20:44:13.2323902Z   - /home/runner/work/viola/viola/crates/viola-core/Cargo.toml
+2026-09-26T20:44:13.2324430Z   - /home/runner/work/viola/viola/crates/viola-e2e/Cargo.toml
+2026-09-26T20:44:13.2324940Z   - /home/runner/work/viola/viola/crates/viola-pty/Cargo.toml
+2026-09-26T20:44:13.2325819Z   - /home/runner/work/viola/viola/fuzz/rust-toolchain.toml
+2026-09-26T20:44:13.2326689Z   - /home/runner/work/viola/viola/rust-toolchain.toml
+2026-09-26T20:44:13.2327329Z ##[endgroup]
+2026-09-26T20:44:13.2327483Z 
+2026-09-26T20:44:14.1084558Z ... Cleaning /home/runner/work/viola/viola/target ...
+2026-09-26T20:44:14.1544889Z ... Cleaning cargo registry (cache-all-crates: false) ...
+2026-09-26T20:44:14.7891058Z ... Cleaning cargo/bin ...
+2026-09-26T20:44:14.7916483Z ... Cleaning cargo git cache ...
+2026-09-26T20:44:14.7921508Z ... Saving cache ...
+2026-09-26T20:44:14.8112425Z [command]/usr/bin/tar --posix -cf cache.tzst --exclude cache.tzst -P -C /home/runner/work/viola/viola --files-from manifest.txt --use-compress-program zstdmt
+2026-09-26T20:44:18.7342760Z Sent 148780295 of 282998023 (52.6%), 142.0 MBs/sec
+2026-09-26T20:44:18.8896736Z Sent 282998023 of 282998023 (100.0%), 233.7 MBs/sec
+2026-09-26T20:44:19.0226451Z Post job cleanup.
+2026-09-26T20:44:19.1169730Z [command]/usr/bin/git version
+2026-09-26T20:44:19.1236062Z git version 2.55.0
+2026-09-26T20:44:19.1280729Z Temporarily overriding HOME='/home/runner/work/_temp/e4035f2b-f7dc-4a37-be78-feb1bc117feb' before making global git config changes
+2026-09-26T20:44:19.1282292Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-26T20:44:19.1306621Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/viola/viola
+2026-09-26T20:44:19.1339633Z Removing SSH command configuration
+2026-09-26T20:44:19.1348114Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-26T20:44:19.1400615Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-26T20:44:19.1658898Z Removing HTTP extra header
+2026-09-26T20:44:19.1665995Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-26T20:44:19.1710599Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-26T20:44:19.2047854Z Removing includeIf entries pointing to credentials config files
+2026-09-26T20:44:19.2048421Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-26T20:44:19.2181900Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-26T20:44:19.2625013Z Cleaning up orphan processes

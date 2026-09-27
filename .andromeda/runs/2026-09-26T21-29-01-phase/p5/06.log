@@ -1,0 +1,10 @@
+== id -u as root
+0
+exit=0
+== dpkg -s build-essential
+dpkg-query: package 'build-essential' is not installed and no information is available
+Use dpkg --info (= dpkg-deb --info) to examine archive files.
+exit=1
+== apt-get -s install -y build-essential
+exit=0
+0 upgraded, 44 newly installed, 0 to remove and 0 not upgraded.

@@ -10,6 +10,7 @@ use viola_e2e::harness::boot::{BootOptions, DEFAULT_CLI_VERSION, InstanceSpec, b
 use viola_e2e::harness::cleanup::{Target, cleanup};
 use viola_e2e::harness::gate::{gate, parse_legs, parse_require};
 use viola_e2e::harness::logs::{Filter, logs};
+use viola_e2e::harness::pre_push::{PRE_PUSH_HOST_SUPPORTED, pre_push};
 use viola_e2e::harness::run::{Selection, run_forwarding, run_with};
 use viola_e2e::harness::schema_check::schema_check;
 use viola_e2e::harness::secret_scan::secret_scan;
@@ -67,6 +68,7 @@ enum Cmd {
         #[arg(long)]
         mutants_legs: Option<String>,
     },
+    PrePush,
 }
 
 #[derive(Args)]
@@ -90,7 +92,7 @@ struct RunArgs {
     leg: Option<String>,
 }
 
-const COMMANDS: [&str; 9] = [
+const COMMANDS: [&str; 10] = [
     "boot",
     "run",
     "status",
@@ -100,6 +102,7 @@ const COMMANDS: [&str; 9] = [
     "schema-check",
     "secret-scan",
     "gate",
+    "pre-push",
 ];
 
 fn emit(outcome: Outcome) -> ExitCode {
@@ -236,5 +239,6 @@ fn main() -> ExitCode {
             artifacts,
             mutants_legs,
         } => gate_cmd(&ws, &require, artifacts, mutants_legs.as_deref()),
+        Cmd::PrePush => emit(pre_push(&ws, PRE_PUSH_HOST_SUPPORTED, &mut run_forwarding)),
     }
 }

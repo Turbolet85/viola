@@ -1,0 +1,190 @@
+[
+{
+"tool": "planlint",
+"v": "1.0",
+"sha8": "43f9e5ba",
+"ts": "2026-09-26T21:50:06Z",
+"argv": [
+"check",
+"--plan",
+"viola-0.1.0/chunks/2026-09-26-local-linux-pre-push-gate/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-26T21-29-01-phase",
+"--marker",
+"2026-09-26-local-linux-pre-push-gate"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"fence: 18 entries · plan: viola-0.1.0/chunks/2026-09-26-local-linux-pre-push-gate/plan.md · research: viola-0.1.0/chunk…",
+"check 9 · CI-outcome reads: 2 · Platform issues consulted: none → HIT · `none — no runner-only bullet was folded (Setu…`",
+"  gate 17 · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD)/check-runs --jq '[.check_runs[] | .conclusion] …",
+"  gate 18 · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD)/check-runs --jq '[.check_runs[] | select(.name …",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 0 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md` — r…`",
+"check 4 (5) · leg entries with a content atom: 3 · note without `atom from`: 0",
+"hits: 1 — each is resolved by its check's own resolution (validation.md 9 · 4 (5)); 0 hits is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 2,
+"hit": true
+},
+"harness": {
+"slot": "filled",
+"live": 0,
+"hit": false
+},
+"atom": {
+"atomed": 3,
+"bare": []
+},
+"hits": 1
+}
+},
+{
+"tool": "planlint",
+"v": "1.0",
+"sha8": "43f9e5ba",
+"ts": "2026-09-26T21:50:46Z",
+"argv": [
+"check",
+"--plan",
+"viola-0.1.0/chunks/2026-09-26-local-linux-pre-push-gate/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-26T21-29-01-phase",
+"--marker",
+"2026-09-26-local-linux-pre-push-gate"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"fence: 18 entries · plan: viola-0.1.0/chunks/2026-09-26-local-linux-pre-push-gate/plan.md · research: viola-0.1.0/chunk…",
+"check 9 · CI-outcome reads: 2 · Platform issues consulted: filled · `(filled at P5 check 9 — the plan's two operator `…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 0 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md` — r…`",
+"check 4 (5) · leg entries with a content atom: 3 · note without `atom from`: 0",
+"hits: 0 — each is resolved by its check's own resolution (validation.md 9 · 4 (5)); 0 hits is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "filled",
+"ci_reads": 2,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 0,
+"hit": false
+},
+"atom": {
+"atomed": 3,
+"bare": []
+},
+"hits": 0
+}
+},
+{
+"tool": "planlint",
+"v": "1.0",
+"sha8": "43f9e5ba",
+"ts": "2026-09-26T21:52:26Z",
+"argv": [
+"check",
+"--plan",
+"viola-0.1.0/chunks/2026-09-26-local-linux-pre-push-gate/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-26T21-29-01-phase",
+"--marker",
+"2026-09-26-local-linux-pre-push-gate"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"fence: 18 entries · plan: viola-0.1.0/chunks/2026-09-26-local-linux-pre-push-gate/plan.md · research: viola-0.1.0/chunk…",
+"check 9 · CI-outcome reads: 2 · Platform issues consulted: filled · `(filled at P5 check 9 — the plan's two operator `…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 0 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md` — r…`",
+"check 4 (5) · leg entries with a content atom: 3 · note without `atom from`: 0",
+"hits: 0 — each is resolved by its check's own resolution (validation.md 9 · 4 (5)); 0 hits is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "filled",
+"ci_reads": 2,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 0,
+"hit": false
+},
+"atom": {
+"atomed": 3,
+"bare": []
+},
+"hits": 0
+}
+},
+{
+"tool": "planlint",
+"v": "1.0",
+"sha8": "43f9e5ba",
+"ts": "2026-09-26T21:55:59Z",
+"argv": [
+"check",
+"--plan",
+"viola-0.1.0/chunks/2026-09-26-local-linux-pre-push-gate/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-26T21-29-01-phase",
+"--marker",
+"2026-09-26-local-linux-pre-push-gate"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"fence: 18 entries · plan: viola-0.1.0/chunks/2026-09-26-local-linux-pre-push-gate/plan.md · research: viola-0.1.0/chunk…",
+"check 9 · CI-outcome reads: 2 · Platform issues consulted: none → HIT · `none — no issue-tracker or release-notes sear…`",
+"  gate 17 · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD)/check-runs --jq '[.check_runs[] | .conclusion] …",
+"  gate 18 · gh api repos/Turbolet85/viola/commits/$(git rev-parse HEAD)/check-runs --jq '[.check_runs[] | select(.name …",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 0 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md` — r…`",
+"check 4 (5) · leg entries with a content atom: 3 · note without `atom from`: 0",
+"hits: 1 — each is resolved by its check's own resolution (validation.md 9 · 4 (5)); 0 hits is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 2,
+"hit": true
+},
+"harness": {
+"slot": "filled",
+"live": 0,
+"hit": false
+},
+"atom": {
+"atomed": 3,
+"bare": []
+},
+"hits": 1
+}
+}
+]

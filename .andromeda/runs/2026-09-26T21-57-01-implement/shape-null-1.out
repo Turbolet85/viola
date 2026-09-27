@@ -1,0 +1,1 @@
+{"v":1,"cmd":"run","ok":false,"suites":[{"suite":"coverage","passed":1,"failed":1,"skipped":0,"survived":0,"artifact":"/home/turbo/viola-pre-push/target/agent-run/artifacts/junit-coverage.xml","failures":["llvm-cov-exit-1"]},{"suite":"doctest","passed":0,"failed":0,"skipped":0,"survived":0,"artifact":null,"failures":[]}]}

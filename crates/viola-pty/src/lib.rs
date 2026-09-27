@@ -269,11 +269,14 @@ fn copy(mut from: impl Read, mut to: impl Write) {
 
 /// Pumps `input` into the child and the child's output into `output`, forwards host size changes,
 /// and returns when the child exits (read on the handle) or a pump thread panics (the child is
-/// then killed). Each pump thread body runs inside `catch_unwind`.
+/// then killed). Each pump thread body runs inside `catch_unwind`. `spawned` is the size the PTY
+/// was opened with: a host resize that lands before the pump's first look still differs from it,
+/// where a fresh read at that point would already hold the new size and forward nothing.
 pub fn pump(
     pty: &mut dyn Pty,
     input: Box<dyn Read + Send>,
     output: Box<dyn Write + Send>,
+    spawned: Size,
     host_size: &mut dyn FnMut() -> Option<Size>,
 ) -> Result<PumpEnd, PtyError> {
     let reader = pty.reader()?;
@@ -290,7 +293,7 @@ pub fn pump(
         copy(input, &mut writer);
         let _ = keep.send(writer);
     });
-    let mut last = host_size();
+    let mut last = Some(spawned);
     let mut next_resize = Instant::now() + RESIZE_EVERY;
     let mut output_done = false;
     loop {
@@ -525,6 +528,7 @@ mod tests {
             &mut pty,
             Box::new(io::empty()),
             Box::new(io::sink()),
+            Size::DEFAULT,
             &mut no_size,
         )
         .expect("pump");
@@ -564,6 +568,7 @@ mod tests {
             &mut pty,
             Box::new(&b"x"[..]),
             Box::new(io::sink()),
+            Size::DEFAULT,
             &mut no_size,
         )
         .expect("pump");
@@ -615,11 +620,58 @@ mod tests {
             &mut pty,
             Box::new(io::empty()),
             Box::new(io::sink()),
+            Size::DEFAULT,
             &mut sizes,
         )
         .expect("pump");
         assert!(matches!(end, PumpEnd::Exited(_)));
         assert_eq!(resized.load(Ordering::SeqCst), 1);
+    }
+
+    /// The host was resized after the PTY opened but before the pump's first look (a terminal
+    /// resized while `viola run` starts): the first look already differs from the spawned size.
+    #[test]
+    fn pump_forwards_a_resize_that_lands_before_its_first_look() {
+        let mut pty = MockPty::new();
+        pty.expect_reader().returning(|| Ok(Box::new(NeverEof)));
+        pty.expect_writer().returning(|| Ok(Box::new(io::sink())));
+        let resized = Arc::new(AtomicUsize::new(0));
+        let seen = Arc::clone(&resized);
+        let started = Instant::now();
+        pty.expect_try_wait().returning(move || {
+            Ok(
+                (seen.load(Ordering::SeqCst) > 0 || started.elapsed() > RESIZE_EVERY * 4)
+                    .then_some(0),
+            )
+        });
+        let count = Arc::clone(&resized);
+        pty.expect_resize()
+            .withf(|s| {
+                *s == Size {
+                    cols: 100,
+                    rows: 30,
+                }
+            })
+            .returning(move |_| {
+                count.fetch_add(1, Ordering::SeqCst);
+                Ok(())
+            });
+        pty.expect_close().return_const(());
+        let mut already_resized = || {
+            Some(Size {
+                cols: 100,
+                rows: 30,
+            })
+        };
+        pump(
+            &mut pty,
+            Box::new(io::empty()),
+            Box::new(io::sink()),
+            Size { cols: 80, rows: 24 },
+            &mut already_resized,
+        )
+        .expect("pump");
+        assert_eq!(resized.load(Ordering::SeqCst), 1, "the resize was lost");
     }
 
     #[test]
@@ -637,6 +689,7 @@ mod tests {
             &mut pty,
             Box::new(io::empty()),
             Box::new(io::sink()),
+            Size::DEFAULT,
             &mut same,
         )
         .expect("pump");
@@ -656,6 +709,7 @@ mod tests {
             &mut pty,
             Box::new(io::empty()),
             Box::new(io::sink()),
+            Size::DEFAULT,
             &mut no_size,
         )
         .expect("pump");
@@ -700,6 +754,7 @@ mod tests {
             &mut pty,
             Box::new(io::empty()),
             Box::new(sink),
+            Size::DEFAULT,
             &mut no_size,
         )
         .expect("pump");
@@ -745,6 +800,7 @@ mod tests {
             &mut pty,
             Box::new(io::empty()),
             Box::new(io::sink()),
+            Size::DEFAULT,
             &mut no_size,
         )
         .expect("pump");
@@ -773,19 +829,13 @@ mod tests {
             .returning(exits_after(RESIZE_EVERY / 3));
         pty.expect_resize().never();
         pty.expect_close().return_const(());
-        let mut calls = 0;
-        let mut sizes = move || {
-            calls += 1;
-            Some(if calls == 1 {
-                Size::DEFAULT
-            } else {
-                Size { cols: 9, rows: 9 }
-            })
-        };
+        // Any look at all would find a size other than the spawned one, and resize.
+        let mut sizes = || Some(Size { cols: 9, rows: 9 });
         pump(
             &mut pty,
             Box::new(io::empty()),
             Box::new(io::sink()),
+            Size::DEFAULT,
             &mut sizes,
         )
         .expect("pump");
@@ -809,6 +859,7 @@ mod tests {
             &mut pty,
             Box::new(io::empty()),
             Box::new(io::sink()),
+            Size::DEFAULT,
             &mut sizes,
         )
         .expect("pump");
@@ -861,6 +912,7 @@ mod tests {
             &mut pty,
             Box::new(io::empty()),
             Box::new(Into(Arc::clone(&out))),
+            Size::DEFAULT,
             &mut no_size,
         )
         .expect("pump");

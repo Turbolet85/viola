@@ -1,0 +1,344 @@
+[
+{
+"sql": "SELECT caller_name, callee_name, file, line FROM calls WHERE callee_name IN ('run_with','gate','resolve_base','leg_verdict_path') AND callee_kind = 'fn' AND callee_crate = 'viola-e2e' ORDER BY callee_name, file, line",
+"rows": 53,
+"result": [
+{
+"caller_name": "crate",
+"callee_name": "gate",
+"file": "crates/viola-e2e/src/bin/viola-harness.rs",
+"line": 10
+},
+{
+"caller_name": "gate_cmd",
+"callee_name": "gate",
+"file": "crates/viola-e2e/src/bin/viola-harness.rs",
+"line": 193
+},
+{
+"caller_name": "gate_passes_a_clean_coverage_and_doctest_job",
+"callee_name": "gate",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 290
+},
+{
+"caller_name": "gate_without_a_run_summary_is_suite_missing_for_each_suite",
+"callee_name": "gate",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 301
+},
+{
+"caller_name": "gate_names_an_absent_suite_and_its_missing_junit",
+"callee_name": "gate",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 317
+},
+{
+"caller_name": "gate_fails_failed_and_skipped_suites_playwright_included",
+"callee_name": "gate",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 339
+},
+{
+"caller_name": "gate_checks_each_coverage_floor_on_its_own",
+"callee_name": "gate",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 360
+},
+{
+"caller_name": "gate_checks_each_coverage_floor_on_its_own",
+"callee_name": "gate",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 374
+},
+{
+"caller_name": "gate_coverage_without_its_summary_is_artifact_missing",
+"callee_name": "gate",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 389
+},
+{
+"caller_name": "gate_single_leg_mutants_read_the_summary_survivors",
+"callee_name": "gate",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 400
+},
+{
+"caller_name": "gate_single_leg_mutants_read_the_summary_survivors",
+"callee_name": "gate",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 409
+},
+{
+"caller_name": "gate_union_is_red_only_where_no_leg_caught_the_mutant",
+"callee_name": "gate",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 450
+},
+{
+"caller_name": "gate_union_needs_every_named_leg",
+"callee_name": "gate",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 463
+},
+{
+"caller_name": "gate_union_needs_every_named_leg",
+"callee_name": "gate",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 471
+},
+{
+"caller_name": "union_of",
+"callee_name": "gate",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 504
+},
+{
+"caller_name": "gate_perf_gates_the_max_sample_against_the_spine_deadline",
+"callee_name": "gate",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 577
+},
+{
+"caller_name": "gate_perf_gates_the_max_sample_against_the_spine_deadline",
+"callee_name": "gate",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 587
+},
+{
+"caller_name": "gate_perf_gates_the_max_sample_against_the_spine_deadline",
+"callee_name": "gate",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 591
+},
+{
+"caller_name": "gate",
+"callee_name": "leg_verdict_path",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 10
+},
+{
+"caller_name": "union",
+"callee_name": "leg_verdict_path",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 122
+},
+{
+"caller_name": "leg",
+"callee_name": "leg_verdict_path",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 418
+},
+{
+"caller_name": "run",
+"callee_name": "leg_verdict_path",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 24
+},
+{
+"caller_name": "write_leg_verdict",
+"callee_name": "leg_verdict_path",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 297
+},
+{
+"caller_name": "mutants",
+"callee_name": "leg_verdict_path",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 312
+},
+{
+"caller_name": "run_mutants_test_only_delta_passes_by_name_without_running_cargo",
+"callee_name": "leg_verdict_path",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 859
+},
+{
+"caller_name": "run_mutants_mixed_src_and_test_delta_without_outcomes_stays_outcomes_missing",
+"callee_name": "leg_verdict_path",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 888
+},
+{
+"caller_name": "leg_verdict_keeps_names_and_outcomes_only",
+"callee_name": "leg_verdict_path",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 920
+},
+{
+"caller_name": "run_mutants_leg_defers_survivors_to_the_gate_union",
+"callee_name": "leg_verdict_path",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 965
+},
+{
+"caller_name": "run_mutants_leg_without_outcomes_stays_red_and_writes_no_verdict",
+"callee_name": "leg_verdict_path",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 1012
+},
+{
+"caller_name": "run_mutants_leg_no_rust_delta_writes_its_verdict",
+"callee_name": "leg_verdict_path",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 1030
+},
+{
+"caller_name": "run_mutants_leg_refused_clears_a_stale_verdict",
+"callee_name": "leg_verdict_path",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 1038
+},
+{
+"caller_name": "run",
+"callee_name": "resolve_base",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 25
+},
+{
+"caller_name": "mutants",
+"callee_name": "resolve_base",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 315
+},
+{
+"caller_name": "resolve_base_needs_a_real_commit",
+"callee_name": "resolve_base",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 464
+},
+{
+"caller_name": "resolve_base_needs_a_real_commit",
+"callee_name": "resolve_base",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 468
+},
+{
+"caller_name": "resolve_base_needs_a_real_commit",
+"callee_name": "resolve_base",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 469
+},
+{
+"caller_name": "resolve_base_needs_a_real_commit",
+"callee_name": "resolve_base",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 470
+},
+{
+"caller_name": "base",
+"callee_name": "resolve_base",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 519
+},
+{
+"caller_name": "chunk_base_override_wins",
+"callee_name": "resolve_base",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 615
+},
+{
+"caller_name": "crate",
+"callee_name": "run_with",
+"file": "crates/viola-e2e/src/bin/viola-harness.rs",
+"line": 12
+},
+{
+"caller_name": "run_cmd",
+"callee_name": "run_with",
+"file": "crates/viola-e2e/src/bin/viola-harness.rs",
+"line": 145
+},
+{
+"caller_name": "run",
+"callee_name": "run_with",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 87
+},
+{
+"caller_name": "tests",
+"callee_name": "run_with",
+"file": "crates/viola-e2e/src/harness/run/coverage.rs",
+"line": 70
+},
+{
+"caller_name": "run_coverage",
+"callee_name": "run_with",
+"file": "crates/viola-e2e/src/harness/run/coverage.rs",
+"line": 110
+},
+{
+"caller_name": "tests",
+"callee_name": "run_with",
+"file": "crates/viola-e2e/src/harness/run/fuzz.rs",
+"line": 94
+},
+{
+"caller_name": "run_fuzz_replay_refusals_reach_the_document",
+"callee_name": "run_with",
+"file": "crates/viola-e2e/src/harness/run/fuzz.rs",
+"line": 225
+},
+{
+"caller_name": "tests",
+"callee_name": "run_with",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 390
+},
+{
+"caller_name": "run_mutants_test_only_delta_passes_by_name_without_running_cargo",
+"callee_name": "run_with",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 840
+},
+{
+"caller_name": "run_mutants_mixed_src_and_test_delta_without_outcomes_stays_outcomes_missing",
+"callee_name": "run_with",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 871
+},
+{
+"caller_name": "run_leg",
+"callee_name": "run_with",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 934
+},
+{
+"caller_name": "run_mutants_prints_every_outcome_and_bounds_each_build",
+"callee_name": "run_with",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 977
+},
+{
+"caller_name": "run_mutants_leg_no_rust_delta_writes_its_verdict",
+"callee_name": "run_with",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 1020
+},
+{
+"caller_name": "run_mutants_leg_refused_clears_a_stale_verdict",
+"callee_name": "run_with",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 1040
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT from_crate, to_crate FROM crate_edges WHERE to_crate = 'viola-e2e' OR from_crate = 'viola-e2e'",
+"rows": 2,
+"result": [
+{
+"from_crate": "viola-e2e",
+"to_crate": "viola-pty"
+},
+{
+"from_crate": "viola-e2e",
+"to_crate": "viola-core"
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

@@ -1,0 +1,65 @@
+[
+{
+"sql": "SELECT caller_name, file, line FROM calls WHERE callee_name = 'pump' AND callee_kind = 'fn' AND callee_crate = 'viola-pty' ORDER BY file, line",
+"rows": 11,
+"result": [
+{
+"caller_name": "pump_returns_on_the_handle_while_the_output_never_ends",
+"file": "crates/viola-pty/src/lib.rs",
+"line": 523
+},
+{
+"caller_name": "pump_kills_the_child_when_a_worker_panics",
+"file": "crates/viola-pty/src/lib.rs",
+"line": 562
+},
+{
+"caller_name": "pump_forwards_a_host_size_change_once",
+"file": "crates/viola-pty/src/lib.rs",
+"line": 613
+},
+{
+"caller_name": "pump_does_not_resize_while_the_size_is_unchanged",
+"file": "crates/viola-pty/src/lib.rs",
+"line": 635
+},
+{
+"caller_name": "pump_waits_for_the_handle_after_the_output_ends",
+"file": "crates/viola-pty/src/lib.rs",
+"line": 654
+},
+{
+"caller_name": "pump_copies_the_output_it_drains_after_exit",
+"file": "crates/viola-pty/src/lib.rs",
+"line": 698
+},
+{
+"caller_name": "pump_keeps_the_child_input_open_after_its_own_input_ends",
+"file": "crates/viola-pty/src/lib.rs",
+"line": 743
+},
+{
+"caller_name": "pump_does_not_look_at_the_size_before_its_first_period",
+"file": "crates/viola-pty/src/lib.rs",
+"line": 784
+},
+{
+"caller_name": "pump_looks_at_the_size_once_per_period",
+"file": "crates/viola-pty/src/lib.rs",
+"line": 807
+},
+{
+"caller_name": "pump_drains_output_that_arrives_after_the_exit",
+"file": "crates/viola-pty/src/lib.rs",
+"line": 859
+},
+{
+"caller_name": "run",
+"file": "src/cmd/run.rs",
+"line": 68
+}
+],
+"db_state": "regenerated",
+"plane": "rust"
+}
+]

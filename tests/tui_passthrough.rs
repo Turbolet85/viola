@@ -8,8 +8,9 @@
 mod support;
 
 use std::ffi::OsString;
+use std::fs::OpenOptions;
 use std::path::Path;
-use std::time::Instant;
+use std::time::{Duration, Instant};
 
 use rstest::rstest;
 use serde_json::{Value, json};
@@ -44,6 +45,12 @@ fn role_lines(home: &Path) -> Vec<Value> {
         .lines()
         .map(|l| serde_json::from_str(l).expect("line"))
         .collect()
+}
+
+fn unix_us() -> u128 {
+    std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map_or(0, |d| d.as_micros())
 }
 
 fn keys(lines: &[Value]) -> Vec<&str> {
@@ -90,34 +97,79 @@ fn tui_keys_reach_the_child_as_typed_and_ctrl_c_ends_it(#[from(home)] tmp: TestH
     assert_no_viola_bytes(&pty.finish());
 }
 
-#[rstest]
-fn tui_host_resize_reaches_the_child(#[from(home)] tmp: TestHome) {
+/// Below nextest's `mutants` kill (5 s × 2): a test killed before its own assertion loses its evidence.
+const RESIZE_WITHIN: Duration = Duration::from_secs(8);
+
+/// Resizes the host terminal once the child has started and waits for the child to see the new
+/// size. Every observation is appended as it happens to `viola-resize-<pid>.ndjson` in the temp
+/// dir, outside the test home and any scratch copy, so a run killed mid-wait still leaves it;
+/// the file is removed on success. Returns how long the new size took to reach the child.
+fn resize_reaches_the_child(tmp: &TestHome, env: &[(&str, &str)]) -> Duration {
     let receipt = tmp.scratch().join("resize.receipt.ndjson");
+    let trail = std::env::temp_dir().join(format!("viola-resize-{}.ndjson", std::process::id()));
+    let note = |line: Value| {
+        use std::io::Write as _;
+        if let Ok(mut f) = OpenOptions::new().create(true).append(true).open(&trail) {
+            let _ = writeln!(f, "{line}");
+        }
+    };
     let mut pty = OuterPty::spawn_sized(
         Path::new(VIOLA),
         &run_args(tmp.path(), Some(&receipt), &[]),
-        &[],
+        env,
         Size { cols: 80, rows: 24 },
     );
     fake::wait_for(&receipt, "start", |l| !of_kind(l, "start").is_empty());
+    note(json!({"t_us": unix_us(), "what": "resize-sent"}));
+    let sent = Instant::now();
     pty.resize(Size {
         cols: 100,
         rows: 30,
     });
     let target = json!({"v": 1, "kind": "size", "cols": 100, "rows": 30});
-    let deadline = Instant::now() + EXIT_WITHIN;
+    let deadline = sent + RESIZE_WITHIN;
+    let mut observed: Vec<Value> = Vec::new();
     // Each key makes the child re-read its size; the wrapper forwards the host size on its own poll.
     while !of_kind(&fake::receipt(&receipt), "size").contains(&&target) {
-        assert!(
-            Instant::now() < deadline,
-            "the resize never reached the child"
-        );
+        for size in of_kind(&fake::receipt(&receipt), "size") {
+            if !observed.contains(size) {
+                observed.push(size.clone());
+                note(json!({"t_us": unix_us(), "what": "size-observed", "receipt": size}));
+            }
+        }
+        if Instant::now() >= deadline {
+            let trail_text = std::fs::read_to_string(&trail).unwrap_or_default();
+            panic!(
+                "the resize never reached the child\ntrail ({}):\n{trail_text}",
+                trail.display()
+            );
+        }
         let seen = keys(&fake::receipt(&receipt)).len();
         pty.write(b"z");
         fake::wait_for(&receipt, "the key", |l| keys(l).len() > seen);
     }
+    let took = sent.elapsed();
     pty.write(b"\x03");
     assert_eq!(pty.wait_exit(EXIT_WITHIN), 0);
+    let _ = std::fs::remove_file(&trail);
+    took
+}
+
+#[rstest]
+fn tui_host_resize_reaches_the_child(#[from(home)] tmp: TestHome) {
+    resize_reaches_the_child(&tmp, &[]);
+}
+
+/// The window between the spawn sizing and the pump's first look, forced open: `viola run` (built
+/// with `fake-agent`) holds the pump back 1 s, and the resize is sent inside that hold. The new size
+/// arrives only after the hold and the pump's first period, which proves the resize landed inside it.
+#[rstest]
+fn tui_host_resize_in_the_pump_start_window_reaches_the_child(#[from(home)] tmp: TestHome) {
+    let took = resize_reaches_the_child(&tmp, &[("FAKE_AGENT_PUMP_DELAY_MS", "1000")]);
+    assert!(
+        took >= Duration::from_millis(900) && took < Duration::from_secs(3),
+        "the resize took {took:?}: it did not land inside the 1 s hold"
+    );
 }
 
 #[rstest]

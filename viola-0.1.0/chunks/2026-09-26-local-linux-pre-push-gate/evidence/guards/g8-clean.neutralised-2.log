@@ -1,0 +1,22 @@
+   Compiling viola-e2e v0.1.0 (D:\dev\projects\viola\crates\viola-e2e)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.41s
+     Running unittests src\lib.rs (target\check-pp\debug\deps\viola_e2e-1ac3a2946879be09.exe)
+
+running 1 test
+test harness::pre_push::tests::pre_push_sync_reproduces_a_dirty_tree ... FAILED
+
+failures:
+
+---- harness::pre_push::tests::pre_push_sync_reproduces_a_dirty_tree stdout ----
+
+thread 'harness::pre_push::tests::pre_push_sync_reproduces_a_dirty_tree' (62604) panicked at crates\viola-e2e\src\harness\pre_push.rs:1036:58:
+second sync: Stop { reason: "sync-mismatch", detail: Some("") }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    harness::pre_push::tests::pre_push_sync_reproduces_a_dirty_tree
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 178 filtered out; finished in 1.21s
+
+error: test failed, to rerun pass `-p viola-e2e --lib`

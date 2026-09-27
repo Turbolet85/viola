@@ -1,0 +1,41 @@
+   Compiling viola-pty v0.1.0 (D:\dev\projects\viola\crates\viola-pty)
+warning: unused variable: `spawned`
+   --> crates\viola-pty\src\lib.rs:279:5
+    |
+279 |     spawned: Size,
+    |     ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_spawned`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: `viola-pty` (lib) generated 1 warning (run `cargo fix --lib -p viola-pty` to apply 1 suggestion)
+warning: `viola-pty` (lib test) generated 1 warning (1 duplicate)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.63s
+────────────
+ Nextest run ID 2499a741-680e-429f-be74-19a5499d2682 with nextest profile: default
+    Starting 1 test across 1 binary (20 tests skipped)
+        FAIL [   1.550s] (1/1) viola-pty tests::pump_forwards_a_resize_that_lands_before_its_first_look
+  stdout ───
+
+    running 1 test
+    test tests::pump_forwards_a_resize_that_lands_before_its_first_look ... FAILED
+
+    failures:
+
+    failures:
+        tests::pump_forwards_a_resize_that_lands_before_its_first_look
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 20 filtered out; finished in 1.54s
+
+  stderr ───
+
+    thread 'tests::pump_forwards_a_resize_that_lands_before_its_first_look' (45952) panicked at crates\viola-pty\src\lib.rs:674:9:
+    assertion `left == right` failed: the resize was lost
+      left: 0
+     right: 1
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+  Cancelling due to test failure: 
+────────────
+     Summary [   1.551s] 1 test run: 0 passed, 1 failed, 20 skipped
+        FAIL [   1.550s] (1/1) viola-pty tests::pump_forwards_a_resize_that_lands_before_its_first_look
+error: test run failed

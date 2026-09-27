@@ -1,0 +1,35 @@
+   Compiling winapi v0.3.9
+   Compiling mockall_derive v0.15.0
+   Compiling thiserror v1.0.69
+   Compiling mockall v0.15.0
+   Compiling filedescriptor v0.8.3
+   Compiling winreg v0.10.1
+   Compiling portable-pty v0.8.1
+   Compiling viola-pty v0.1.0 (D:\dev\projects\viola\crates\viola-pty)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.13s
+────────────
+ Nextest run ID d4aa4d9f-1c42-4070-b05d-3eb60c80dc6f with nextest profile: default
+    Starting 21 tests across 1 binary
+        PASS [   0.009s] ( 1/21) viola-pty tests::pump_copies_the_output_it_drains_after_exit
+        PASS [   0.013s] ( 2/21) viola-pty tests::exit_source_codes_are_the_catalog_words
+        PASS [   0.020s] ( 3/21) viola-pty tests::pty_child_entry
+        PASS [   0.039s] ( 4/21) viola-pty tests::pty_error_display_is_fixed_and_keeps_the_source
+        PASS [   0.043s] ( 5/21) viola-pty tests::pump_drains_output_that_arrives_after_the_exit
+        PASS [   0.046s] ( 6/21) viola-pty tests::size_from_window_counts_inclusive_corners
+        PASS [   0.074s] ( 7/21) viola-pty tests::kill_ends_a_child_that_would_never_exit
+        PASS [   0.076s] ( 8/21) viola-pty tests::pump_kills_the_child_when_a_worker_panics
+        PASS [   0.077s] ( 9/21) viola-pty tests::raw_input_mode_matches_the_measured_console_switch
+        PASS [   0.081s] (10/21) viola-pty tests::terminate_ends_a_live_process_and_refuses_a_missing_one
+        PASS [   0.085s] (11/21) viola-pty tests::nonzero_size_refuses_an_empty_terminal
+        PASS [   0.089s] (12/21) viola-pty tests::vt_output_mode_adds_vt_processing_and_keeps_the_rest
+        PASS [   0.118s] (13/21) viola-pty tests::spawn_runs_a_raw_child_that_sees_its_size_a_resize_and_its_own_exit_code
+        PASS [   0.295s] (14/21) viola-pty tests::pump_waits_for_the_handle_after_the_output_ends
+        PASS [   0.644s] (15/21) viola-pty tests::pump_returns_on_the_handle_while_the_output_never_ends
+        PASS [   0.660s] (16/21) viola-pty tests::pump_does_not_look_at_the_size_before_its_first_period
+        PASS [   0.815s] (17/21) viola-pty tests::pump_forwards_a_resize_that_lands_before_its_first_look
+        PASS [   0.860s] (18/21) viola-pty tests::pump_keeps_the_child_input_open_after_its_own_input_ends
+        PASS [   1.125s] (19/21) viola-pty tests::pump_forwards_a_host_size_change_once
+        PASS [   1.296s] (20/21) viola-pty tests::pump_does_not_resize_while_the_size_is_unchanged
+        PASS [   1.560s] (21/21) viola-pty tests::pump_looks_at_the_size_once_per_period
+────────────
+     Summary [   1.561s] 21 tests run: 21 passed, 0 skipped

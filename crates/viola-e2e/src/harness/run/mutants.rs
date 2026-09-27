@@ -77,10 +77,23 @@ fn chunk_flip(repo: &Path) -> Option<String> {
     if flip.is_empty() {
         return None;
     }
-    if Some(flip.to_owned()) == commit_sha(repo, "HEAD") {
+    if Some(flip.to_owned()) == commit_sha(repo, "HEAD") && !uncommitted_promotion(repo) {
         return commit_sha(repo, "HEAD^");
     }
     Some(flip.to_owned())
+}
+
+/// A chunk promoted but not yet committed: the working tree's master route holds a pending record
+/// HEAD's copy lacks, so the chunk's work sits on top of HEAD even when HEAD is the flip.
+fn uncommitted_promotion(repo: &Path) -> bool {
+    let Ok(tree) = fs::read_to_string(repo.join(MASTER_ROUTE)) else {
+        return false;
+    };
+    let head = git(repo, &["show", &format!("HEAD:{MASTER_ROUTE}")]).unwrap_or_default();
+    let committed: Vec<&str> = head.lines().filter_map(pending_marker).collect();
+    tree.lines()
+        .filter_map(pending_marker)
+        .any(|marker| !committed.contains(&marker))
 }
 
 /// `{sha}^` of the oldest commit in HEAD's history whose message carries a pending chunk's
@@ -582,6 +595,23 @@ mod tests {
         );
         p.commit("feat(m): wrap m", Some(WRAPPED), "fn a() { 2; }\n");
         assert_eq!(p.base(), Some(fix));
+    }
+
+    #[test]
+    fn chunk_base_of_an_uncommitted_promotion_is_the_flip_at_head() {
+        let p = Pass::new();
+        let flip = p.commit("feat(a): wrap a", Some(FLIPPED), "fn a() {}\n");
+        fs::write(p.0.path().join(MASTER_ROUTE), PENDING).expect("promote");
+        fs::write(p.0.path().join("a.rs"), "fn a() { 1; }\n").expect("code");
+        assert_eq!(p.base(), Some(flip));
+    }
+
+    #[test]
+    fn chunk_base_of_a_pending_record_head_already_holds_is_the_parent() {
+        let p = Pass::new();
+        let root = p.head();
+        p.commit("feat(a): wrap a", Some(PENDING), "fn a() {}\n");
+        assert_eq!(p.base(), Some(root));
     }
 
     #[test]

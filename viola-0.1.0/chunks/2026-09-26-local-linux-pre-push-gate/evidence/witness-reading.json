@@ -1,0 +1,23 @@
+{
+  "host": {
+    "exit": 1,
+    "nextest_unit_failures": [
+      "nextest-exit-4"
+    ]
+  },
+  "pre_push": {
+    "exit": 1,
+    "ok": false,
+    "stage": "linux-tests",
+    "failures": [
+      "viola-e2e harness::pre_push::tests::pre_push_planted_unix_red"
+    ],
+    "legs_ran": false,
+    "sync": {
+      "head": "a69c5efb082f1d04f067073a5638618fd709be7e",
+      "tree": "99cc204581cbc8821bbf96a8fcd589a6a09eff09",
+      "files": 161,
+      "ms": 1259
+    }
+  }
+}

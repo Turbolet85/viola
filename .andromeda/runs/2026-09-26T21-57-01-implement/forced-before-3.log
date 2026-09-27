@@ -1,0 +1,35 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.13s
+────────────
+ Nextest run ID fb19c1f7-29fc-4919-ac4f-8335fb4ff1e0 with nextest profile: default
+    Starting 2 tests across 22 binaries (402 tests skipped)
+        PASS [   0.354s] (1/2) viola::tui_passthrough tui_host_resize_reaches_the_child
+        FAIL [   8.099s] (2/2) viola::tui_passthrough tui_host_resize_in_the_pump_start_window_reaches_the_child
+  stdout ───
+
+    running 1 test
+    test tui_host_resize_in_the_pump_start_window_reaches_the_child ... FAILED
+
+    failures:
+
+    failures:
+        tui_host_resize_in_the_pump_start_window_reaches_the_child
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 3 filtered out; finished in 8.09s
+
+  stderr ───
+
+    thread 'tui_host_resize_in_the_pump_start_window_reaches_the_child' (64292) panicked at tests\tui_passthrough.rs:143:13:
+    the resize never reached the child
+    trail (C:\Users\turbo\AppData\Local\Temp\viola-resize-22204.ndjson):
+    {"t_us":1790464842022310,"what":"resize-sent"}
+    {"t_us":1790464842023115,"what":"size-observed","receipt":{"v":1,"kind":"size","cols":80,"rows":24}}
+    pump probe:
+    {"t_us":1790464841967569,"what":"spawn","cols":80,"rows":24}
+    {"t_us":1790464843013379,"what":"baseline","cols":100,"rows":30}
+
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+────────────
+     Summary [   8.101s] 2 tests run: 1 passed, 1 failed, 402 skipped
+        FAIL [   8.099s] (2/2) viola::tui_passthrough tui_host_resize_in_the_pump_start_window_reaches_the_child
+error: test run failed

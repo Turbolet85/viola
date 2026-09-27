@@ -1,0 +1,215 @@
+[
+  {
+    "guard": "g1-tree-id",
+    "file": "crates/viola-e2e/src/harness/pre_push.rs",
+    "test": "pre_push_sync_mismatch_is_red",
+    "neutralised": {
+      "exit": 101,
+      "result": "test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 178 filtered out; finished in 0.05s",
+      "ran": [
+        "test harness::pre_push::tests::pre_push_sync_mismatch_is_red ... FAILED"
+      ]
+    },
+    "restored": {
+      "exit": 0,
+      "result": "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 178 filtered out; finished in 0.00s",
+      "ran": [
+        "test harness::pre_push::tests::pre_push_sync_mismatch_is_red ... ok"
+      ]
+    },
+    "pair_ok": true
+  },
+  {
+    "guard": "g2-base",
+    "file": "crates/viola-e2e/src/harness/pre_push.rs",
+    "test": "pre_push_base_mismatch_is_red",
+    "neutralised": {
+      "exit": 101,
+      "result": "test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 178 filtered out; finished in 0.33s",
+      "ran": [
+        "test harness::pre_push::tests::pre_push_base_mismatch_is_red ... FAILED"
+      ]
+    },
+    "restored": {
+      "exit": 0,
+      "result": "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 178 filtered out; finished in 0.30s",
+      "ran": [
+        "test harness::pre_push::tests::pre_push_base_mismatch_is_red ... ok"
+      ]
+    },
+    "pair_ok": true
+  },
+  {
+    "guard": "g3-uncommitted-promotion",
+    "file": "crates/viola-e2e/src/harness/run/mutants.rs",
+    "test": "chunk_base_of_an_uncommitted_promotion_is_the_flip_at_head",
+    "neutralised": {
+      "exit": 101,
+      "result": "test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 178 filtered out; finished in 0.30s",
+      "ran": [
+        "test harness::run::mutants::tests::chunk_base_of_an_uncommitted_promotion_is_the_flip_at_head ... FAILED"
+      ]
+    },
+    "restored": {
+      "exit": 0,
+      "result": "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 178 filtered out; finished in 0.27s",
+      "ran": [
+        "test harness::run::mutants::tests::chunk_base_of_an_uncommitted_promotion_is_the_flip_at_head ... ok"
+      ]
+    },
+    "pair_ok": true
+  },
+  {
+    "guard": "g4-cache-cap",
+    "file": "crates/viola-e2e/src/harness/pre_push.rs",
+    "test": "pre_push_cache_over_cap_is_cleaned_and_reported",
+    "neutralised": {
+      "exit": 101,
+      "result": "test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 178 filtered out; finished in 0.00s",
+      "ran": [
+        "test harness::pre_push::tests::pre_push_cache_over_cap_is_cleaned_and_reported ... FAILED"
+      ]
+    },
+    "restored": {
+      "exit": 0,
+      "result": "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 178 filtered out; finished in 0.00s",
+      "ran": [
+        "test harness::pre_push::tests::pre_push_cache_over_cap_is_cleaned_and_reported ... ok"
+      ]
+    },
+    "pair_ok": true
+  },
+  {
+    "guard": "g5-pin",
+    "file": "crates/viola-e2e/src/harness/pre_push.rs",
+    "test": "pre_push_pin_mismatch_names_the_tool",
+    "neutralised": {
+      "exit": 101,
+      "result": "test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 178 filtered out; finished in 0.04s",
+      "ran": [
+        "test harness::pre_push::tests::pre_push_pin_mismatch_names_the_tool ... FAILED"
+      ]
+    },
+    "restored": {
+      "exit": 0,
+      "result": "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 178 filtered out; finished in 0.01s",
+      "ran": [
+        "test harness::pre_push::tests::pre_push_pin_mismatch_names_the_tool ... ok"
+      ]
+    },
+    "pair_ok": true
+  },
+  {
+    "guard": "g6-env-i",
+    "file": "crates/viola-e2e/src/harness/pre_push.rs",
+    "test": "pre_push_every_wsl_call_uses_exec_and_a_clean_env",
+    "neutralised": {
+      "exit": 101,
+      "result": "test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 178 filtered out; finished in 0.00s",
+      "ran": [
+        "test harness::pre_push::tests::pre_push_every_wsl_call_uses_exec_and_a_clean_env ... FAILED"
+      ]
+    },
+    "restored": {
+      "exit": 0,
+      "result": "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 178 filtered out; finished in 0.00s",
+      "ran": [
+        "test harness::pre_push::tests::pre_push_every_wsl_call_uses_exec_and_a_clean_env ... ok"
+      ]
+    },
+    "pair_ok": true
+  },
+  {
+    "guard": "g7-fail-fast",
+    "file": "crates/viola-e2e/src/harness/pre_push.rs",
+    "test": "pre_push_linux_test_red_stops_before_the_legs",
+    "neutralised": {
+      "exit": 101,
+      "result": "test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 178 filtered out; finished in 0.04s",
+      "ran": [
+        "test harness::pre_push::tests::pre_push_linux_test_red_stops_before_the_legs ... FAILED"
+      ]
+    },
+    "restored": {
+      "exit": 0,
+      "result": "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 178 filtered out; finished in 0.00s",
+      "ran": [
+        "test harness::pre_push::tests::pre_push_linux_test_red_stops_before_the_legs ... ok"
+      ]
+    },
+    "pair_ok": true
+  },
+  {
+    "guard": "g8-clean",
+    "file": "crates/viola-e2e/src/harness/pre_push.rs",
+    "test": "pre_push_sync_reproduces_a_dirty_tree",
+    "neutralised": {
+      "exit": 0,
+      "result": "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 178 filtered out; finished in 1.00s",
+      "ran": [
+        "test harness::pre_push::tests::pre_push_sync_reproduces_a_dirty_tree ... ok"
+      ]
+    },
+    "restored": {
+      "exit": 0,
+      "result": "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 178 filtered out; finished in 1.00s",
+      "ran": [
+        "test harness::pre_push::tests::pre_push_sync_reproduces_a_dirty_tree ... ok"
+      ]
+    },
+    "pair_ok": false
+  },
+  {
+    "guard": "g8-clean-2",
+    "file": "crates/viola-e2e/src/harness/pre_push.rs",
+    "test": "pre_push_sync_reproduces_a_dirty_tree",
+    "neutralised": {
+      "exit": 101,
+      "result": "test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 178 filtered out; finished in 1.21s",
+      "ran": [
+        "test harness::pre_push::tests::pre_push_sync_reproduces_a_dirty_tree ... FAILED"
+      ]
+    },
+    "restored": {
+      "exit": 0,
+      "result": "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 178 filtered out; finished in 0.93s",
+      "ran": [
+        "test harness::pre_push::tests::pre_push_sync_reproduces_a_dirty_tree ... ok"
+      ]
+    },
+    "pair_ok": true
+  },
+  {
+    "guard": "g9-pump-baseline",
+    "file": "crates/viola-pty/src/lib.rs",
+    "tests": [
+      "test(/pump_forwards_a_resize_that_lands_before_its_first_look/)",
+      "test(/tui_host_resize_in_the_pump_start_window_reaches_the_child/)"
+    ],
+    "neutralised": {
+      "unit": {
+        "exit": 100,
+        "summary": "Summary [   1.551s] 1 test run: 0 passed, 1 failed, 20 skipped",
+        "signature": true
+      },
+      "forced": {
+        "exit": 100,
+        "summary": "Summary [   8.065s] 1 test run: 0 passed, 1 failed, 404 skipped",
+        "signature": true
+      }
+    },
+    "restored": {
+      "unit": {
+        "exit": 0,
+        "summary": "Summary [   0.790s] 1 test run: 1 passed, 20 skipped",
+        "signature": false
+      },
+      "forced": {
+        "exit": 0,
+        "summary": "Summary [   1.352s] 1 test run: 1 passed, 404 skipped",
+        "signature": false
+      }
+    },
+    "pair_ok": true
+  }
+]

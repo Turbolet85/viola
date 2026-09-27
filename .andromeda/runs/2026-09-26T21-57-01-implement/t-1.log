@@ -1,0 +1,175 @@
+   Compiling unicode-ident v1.0.26
+   Compiling windows-link v0.2.1
+   Compiling cfg-if v1.0.5
+   Compiling memchr v2.8.3
+   Compiling allocator-api2 v0.2.21
+   Compiling equivalent v1.0.2
+   Compiling foldhash v0.2.0
+   Compiling regex-syntax v0.8.11
+   Compiling once_cell v1.21.4
+   Compiling utf8parse v0.2.2
+   Compiling smallvec v1.16.1
+   Compiling anstyle v1.0.14
+   Compiling scopeguard v1.2.0
+   Compiling itoa v1.0.18
+   Compiling libc v0.2.189
+   Compiling serde_core v1.0.229
+   Compiling winapi v0.3.9
+   Compiling zerocopy v0.8.58
+   Compiling zmij v1.0.23
+   Compiling once_cell_polyfill v1.70.2
+   Compiling bitflags v1.3.2
+   Compiling pin-utils v0.1.0
+   Compiling num-traits v0.2.19
+   Compiling memoffset v0.6.5
+   Compiling bit-vec v0.8.0
+   Compiling colorchoice v1.0.5
+   Compiling borrow-or-share v0.2.4
+   Compiling is_terminal_polyfill v1.70.2
+   Compiling lazy_static v1.5.0
+   Compiling anyhow v1.0.104
+   Compiling downcast-rs v1.2.1
+   Compiling percent-encoding v2.3.2
+   Compiling windows-sys v0.61.2
+   Compiling windows-result v0.4.1
+   Compiling proc-macro2 v1.0.107
+   Compiling windows-strings v0.5.1
+   Compiling getrandom v0.3.4
+   Compiling lock_api v0.4.14
+   Compiling serial-core v0.4.0
+   Compiling anstyle-parse v1.0.0
+   Compiling windows-threading v0.2.1
+   Compiling nix v0.25.1
+   Compiling outref v0.5.2
+   Compiling shared_library v0.1.9
+   Compiling bytecount v0.6.9
+   Compiling num-cmp v0.1.0
+   Compiling parking_lot_core v0.9.12
+   Compiling strsim v0.11.1
+   Compiling clap_lex v1.1.1
+   Compiling micromap v0.3.0
+   Compiling log v0.4.34
+   Compiling shell-words v1.1.1
+   Compiling vsimd v0.8.0
+   Compiling serial-windows v0.4.0
+   Compiling bit-set v0.8.0
+   Compiling getrandom v0.4.3
+   Compiling hashbrown v0.17.1
+   Compiling unicode-general-category v1.1.0
+   Compiling data-encoding v2.11.1
+   Compiling fastrand v2.5.0
+   Compiling parking_lot v0.12.5
+   Compiling serial v0.4.0
+   Compiling aho-corasick v1.1.5
+   Compiling quote v1.0.47
+   Compiling syn v2.0.119
+   Compiling syn v3.0.6
+   Compiling uuid-simd v0.8.0
+   Compiling num-integer v0.1.47
+   Compiling num-complex v0.4.6
+   Compiling indexmap v2.14.2
+   Compiling num-bigint v0.4.8
+   Compiling num-iter v0.1.46
+   Compiling regex-automata v0.4.18
+   Compiling jsonschema-regex v0.57.0
+   Compiling num-rational v0.4.2
+   Compiling serde_json v1.0.151
+   Compiling num v0.4.3
+   Compiling fraction v0.17.0
+   Compiling winreg v0.10.1
+   Compiling ntapi v0.4.3
+   Compiling anstyle-wincon v3.0.11
+   Compiling anstyle-query v1.1.5
+   Compiling tempfile v3.27.0
+   Compiling anstream v1.0.0
+   Compiling serde_derive v1.0.229
+   Compiling ref-cast-impl v1.0.27
+   Compiling clap_derive v4.6.7
+   Compiling thiserror-impl v2.0.20
+   Compiling clap_builder v4.6.7
+   Compiling ref-cast v1.0.27
+   Compiling windows-implement v0.60.2
+   Compiling windows-interface v0.59.3
+   Compiling thiserror-impl v1.0.69
+   Compiling kinded_macros v0.5.1
+   Compiling strum_macros v0.28.0
+   Compiling thiserror v2.0.20
+   Compiling regex v1.13.1
+   Compiling fancy-regex v0.19.2
+   Compiling kinded v0.5.1
+   Compiling windows-core v0.62.2
+   Compiling nutype_macros v0.8.0
+   Compiling thiserror v1.0.69
+   Compiling filedescriptor v0.8.3
+   Compiling windows-collections v0.3.2
+   Compiling windows-numerics v0.3.1
+   Compiling windows-future v0.3.2
+   Compiling portable-pty v0.8.1
+   Compiling clap v4.6.7
+   Compiling viola-pty v0.1.0 (D:\dev\projects\viola\crates\viola-pty)
+   Compiling serde v1.0.229
+   Compiling strum v0.28.0
+   Compiling windows v0.62.2
+   Compiling ahash v0.8.12
+   Compiling fluent-uri v0.4.1
+   Compiling email_address v0.2.9
+   Compiling jsonschema-value v0.57.0
+   Compiling referencing v0.57.0
+   Compiling jsonschema v0.57.0
+   Compiling nutype v0.8.0
+   Compiling viola-core v0.1.0 (D:\dev\projects\viola\crates\viola-core)
+   Compiling sysinfo v0.39.6
+   Compiling viola-e2e v0.1.0 (D:\dev\projects\viola\crates\viola-e2e)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 23.40s
+     Running unittests src\lib.rs (target/check-pp\debug\deps\viola_e2e-1ac3a2946879be09.exe)
+
+running 31 tests
+test harness::pre_push::tests::pre_push_host_gate_is_a_windows_const ... ok
+test harness::pre_push::tests::pre_push_toolchain_channel_reads_the_pin ... ok
+test harness::pre_push::tests::pre_push_wsl_path_maps_drive_paths ... ok
+test harness::pre_push::tests::pre_push_ci_pins_parse_the_test_job_tool_line ... ok
+test harness::pre_push::tests::pre_push_last_document_takes_the_final_json_line ... ok
+test harness::run::mutants::tests::chunk_base_reads_only_pending_record_markers ... ok
+test harness::pre_push::tests::pre_push_cc_missing_is_tool_missing_cc ... ok
+test harness::pre_push::tests::pre_push_refuses_off_windows_host ... ok
+test harness::pre_push::tests::pre_push_distro_missing_is_tool_missing ... ok
+test harness::pre_push::tests::pre_push_sync_fetch_of_another_head_is_red ... ok
+test harness::pre_push::tests::pre_push_linux_test_red_stops_before_the_legs ... ok
+test harness::pre_push::tests::pre_push_sync_mismatch_is_red ... ok
+test harness::pre_push::tests::pre_push_document_carries_no_absolute_path ... ok
+test harness::pre_push::tests::pre_push_unreadable_linux_document_is_named ... ok
+test harness::pre_push::tests::pre_push_linux_gate_red_stops_before_the_legs ... ok
+test harness::pre_push::tests::pre_push_unreadable_pins_stop_at_tools ... ok
+test harness::pre_push::tests::pre_push_every_wsl_call_uses_exec_and_a_clean_env ... ok
+test harness::pre_push::tests::pre_push_cache_over_cap_is_cleaned_and_reported ... ok
+test harness::pre_push::tests::pre_push_verdict_missing_is_red ... ok
+test harness::pre_push::tests::pre_push_pin_mismatch_names_the_tool ... ok
+test harness::pre_push::tests::pre_push_windows_leg_red_stops_before_the_union ... ok
+test harness::pre_push::tests::pre_push_base_mismatch_is_red ... ok
+test harness::run::mutants::tests::chunk_base_of_an_uncommitted_promotion_is_the_flip_at_head ... ok
+test harness::run::mutants::tests::chunk_base_override_wins ... ok
+test harness::run::mutants::tests::chunk_base_of_a_pending_record_head_already_holds_is_the_parent ... ok
+test harness::run::mutants::tests::chunk_base_is_the_last_flip_before_any_pre_ci_commit ... ok
+test harness::run::mutants::tests::chunk_base_bound_is_the_oldest_pre_ci_commit ... ok
+test harness::pre_push::tests::pre_push_union_reads_both_legs ... ok
+test harness::pre_push::tests::pre_push_sync_reproduces_a_dirty_tree ... FAILED
+test harness::run::mutants::tests::chunk_base_of_the_wrap_push_is_its_parent ... ok
+test harness::run::mutants::tests::chunk_base_holds_the_flip_across_a_pass ... ok
+
+failures:
+
+---- harness::pre_push::tests::pre_push_sync_reproduces_a_dirty_tree stdout ----
+
+thread 'harness::pre_push::tests::pre_push_sync_reproduces_a_dirty_tree' (55688) panicked at crates\viola-e2e\src\harness\pre_push.rs:1026:9:
+M a.rs
+ D c.rs
+?? new.rs
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    harness::pre_push::tests::pre_push_sync_reproduces_a_dirty_tree
+
+test result: FAILED. 30 passed; 1 failed; 0 ignored; 0 measured; 148 filtered out; finished in 1.20s
+
+error: test failed, to rerun pass `-p viola-e2e --lib`

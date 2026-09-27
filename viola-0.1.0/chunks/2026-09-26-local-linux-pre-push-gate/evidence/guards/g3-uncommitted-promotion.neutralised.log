@@ -1,0 +1,33 @@
+   Compiling viola-e2e v0.1.0 (D:\dev\projects\viola\crates\viola-e2e)
+warning: function `uncommitted_promotion` is never used
+  --> crates\viola-e2e\src\harness\run\mutants.rs:88:4
+   |
+88 | fn uncommitted_promotion(repo: &Path) -> bool {
+   |    ^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `viola-e2e` (lib test) generated 1 warning
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.48s
+     Running unittests src\lib.rs (target\check-pp\debug\deps\viola_e2e-1ac3a2946879be09.exe)
+
+running 1 test
+test harness::run::mutants::tests::chunk_base_of_an_uncommitted_promotion_is_the_flip_at_head ... FAILED
+
+failures:
+
+---- harness::run::mutants::tests::chunk_base_of_an_uncommitted_promotion_is_the_flip_at_head stdout ----
+
+thread 'harness::run::mutants::tests::chunk_base_of_an_uncommitted_promotion_is_the_flip_at_head' (28988) panicked at crates\viola-e2e\src\harness\run\mutants.rs:606:9:
+assertion `left == right` failed
+  left: Some("343ac71ac2a78ef268efc22c8794937d71dce795")
+ right: Some("9a5834bb26cd4b115c388d624f7810664c9a1bdf")
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    harness::run::mutants::tests::chunk_base_of_an_uncommitted_promotion_is_the_flip_at_head
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 178 filtered out; finished in 0.30s
+
+error: test failed, to rerun pass `-p viola-e2e --lib`

@@ -1,0 +1,39 @@
+   Compiling viola-e2e v0.1.0 (D:\dev\projects\viola\crates\viola-e2e)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.42s
+     Running unittests src\lib.rs (target/check-pp\debug\deps\viola_e2e-1ac3a2946879be09.exe)
+
+running 31 tests
+test harness::pre_push::tests::pre_push_host_gate_is_a_windows_const ... ok
+test harness::pre_push::tests::pre_push_last_document_takes_the_final_json_line ... ok
+test harness::pre_push::tests::pre_push_toolchain_channel_reads_the_pin ... ok
+test harness::pre_push::tests::pre_push_ci_pins_parse_the_test_job_tool_line ... ok
+test harness::pre_push::tests::pre_push_wsl_path_maps_drive_paths ... ok
+test harness::run::mutants::tests::chunk_base_reads_only_pending_record_markers ... ok
+test harness::pre_push::tests::pre_push_cache_over_cap_is_cleaned_and_reported ... ok
+test harness::pre_push::tests::pre_push_every_wsl_call_uses_exec_and_a_clean_env ... ok
+test harness::pre_push::tests::pre_push_linux_test_red_stops_before_the_legs ... ok
+test harness::pre_push::tests::pre_push_refuses_off_windows_host ... ok
+test harness::pre_push::tests::pre_push_linux_gate_red_stops_before_the_legs ... ok
+test harness::pre_push::tests::pre_push_cc_missing_is_tool_missing_cc ... ok
+test harness::pre_push::tests::pre_push_unreadable_pins_stop_at_tools ... ok
+test harness::pre_push::tests::pre_push_sync_fetch_of_another_head_is_red ... ok
+test harness::pre_push::tests::pre_push_unreadable_linux_document_is_named ... ok
+test harness::pre_push::tests::pre_push_sync_mismatch_is_red ... ok
+test harness::pre_push::tests::pre_push_distro_missing_is_tool_missing ... ok
+test harness::pre_push::tests::pre_push_document_carries_no_absolute_path ... ok
+test harness::pre_push::tests::pre_push_pin_mismatch_names_the_tool ... ok
+test harness::pre_push::tests::pre_push_verdict_missing_is_red ... ok
+test harness::pre_push::tests::pre_push_windows_leg_red_stops_before_the_union ... ok
+test harness::run::mutants::tests::chunk_base_of_an_uncommitted_promotion_is_the_flip_at_head ... ok
+test harness::run::mutants::tests::chunk_base_override_wins ... ok
+test harness::run::mutants::tests::chunk_base_of_a_pending_record_head_already_holds_is_the_parent ... ok
+test harness::pre_push::tests::pre_push_base_mismatch_is_red ... ok
+test harness::run::mutants::tests::chunk_base_bound_is_the_oldest_pre_ci_commit ... ok
+test harness::run::mutants::tests::chunk_base_is_the_last_flip_before_any_pre_ci_commit ... ok
+test harness::pre_push::tests::pre_push_union_reads_both_legs ... ok
+test harness::run::mutants::tests::chunk_base_of_the_wrap_push_is_its_parent ... ok
+test harness::run::mutants::tests::chunk_base_holds_the_flip_across_a_pass ... ok
+test harness::pre_push::tests::pre_push_sync_reproduces_a_dirty_tree ... ok
+
+test result: ok. 31 passed; 0 failed; 0 ignored; 0 measured; 148 filtered out; finished in 1.54s
+

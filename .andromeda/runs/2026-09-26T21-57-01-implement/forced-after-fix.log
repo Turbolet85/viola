@@ -1,0 +1,11 @@
+   Compiling viola-pty v0.1.0 (D:\dev\projects\viola\crates\viola-pty)
+   Compiling viola-e2e v0.1.0 (D:\dev\projects\viola\crates\viola-e2e)
+   Compiling viola v0.1.0 (D:\dev\projects\viola)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.44s
+────────────
+ Nextest run ID 62f3f45a-c9cf-46d3-af35-cabcdd63e017 with nextest profile: default
+    Starting 2 tests across 22 binaries (403 tests skipped)
+        PASS [   0.384s] (1/2) viola::tui_passthrough tui_host_resize_reaches_the_child
+        PASS [   1.386s] (2/2) viola::tui_passthrough tui_host_resize_in_the_pump_start_window_reaches_the_child
+────────────
+     Summary [   1.387s] 2 tests run: 2 passed, 403 skipped
