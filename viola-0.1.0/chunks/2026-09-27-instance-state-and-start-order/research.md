@@ -77,7 +77,9 @@
   `crates/viola-e2e/src/harness/pre_push.rs` — the Linux mutation leg's `TMPDIR` points cargo-mutants' scratch
   copies at `$HOME/viola-pre-push-scratch` on the clone's own disk (cargo-mutants 27.1.0 `copy_tree.rs:81-84`
   builds each with `tempfile::Builder::tempdir()`, i.e. `std::env::temp_dir()`, and has no location option),
-  wiped at the start of each run and counted in the cache report.
+  wiped at the start of each run and counted in the cache report. CI-red fix (overseer, 2026-09-27, run
+  36296402785): `tests/run_cli.rs` — its canary scan reads every file under each home, now including the 38 MB
+  pinned copy (5.1 s isolated on Linux; a 10 s TIMEOUT in CI's ubuntu mutants baseline).
 - Companion sweep: `SpawnSpec {` literal sites — grep over the tree gives `src/cmd/run.rs:70`, `crates/viola-pty/src/lib.rs:1057` (test), `crates/viola-e2e/src/harness/supervise.rs` (harness) · 1 changed · 2 no-change (they build their own spec).
 
 ## Measured facts (research-time)

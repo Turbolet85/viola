@@ -450,11 +450,22 @@ fn holds(haystack: &[u8], needle: &str) -> bool {
 
 /// Every canary hit as `<where> <variable>`, never the matched bytes.
 fn canary_hits(home: &Path, out: &Output) -> Vec<String> {
+    // The pinned copy under `bin/` is byte-for-byte the built binary: nothing written at run time
+    // is in it, and scanning its megabytes per canary is what the time goes on.
+    let viola = std::fs::read(VIOLA).expect("viola binary");
+    let written: Vec<(PathBuf, Vec<u8>)> = files_under(home)
+        .into_iter()
+        .map(|f| {
+            let bytes = std::fs::read(&f).unwrap_or_default();
+            (f, bytes)
+        })
+        .filter(|(_, bytes)| *bytes != viola)
+        .collect();
     let mut hits = Vec::new();
     for (variable, value) in CLAUDE_CANARIES {
-        for file in files_under(home) {
-            if holds(&std::fs::read(&file).unwrap_or_default(), value) {
-                let shown = file.strip_prefix(home).unwrap_or(&file).display();
+        for (file, bytes) in &written {
+            if holds(bytes, value) {
+                let shown = file.strip_prefix(home).unwrap_or(file).display();
                 hits.push(format!("{shown} {variable}"));
             }
         }

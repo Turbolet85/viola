@@ -204,7 +204,8 @@ presence half lands.
   `crates/viola-e2e/src/harness/run/mutants.rs` (no kept homes in a mutation run), `tests/support/home.rs` (sweep
   of homes whose owning test process is gone, never by age or name), `Cargo.toml` (`sysinfo` root dev-dependency),
   `tests/cli_fake_agent.rs` (the `start` receipt oracle). Second fold (overseer, 2026-09-27):
-  `crates/viola-e2e/src/harness/pre_push.rs` (the Linux mutation leg's scratch off the `/tmp` tmpfs).
+  `crates/viola-e2e/src/harness/pre_push.rs` (the Linux mutation leg's scratch off the `/tmp` tmpfs). CI-red fix
+  (run 36296402785): `tests/run_cli.rs` (its canary scan skips the byte-identical pinned copy).
 
 ## Test Commands
 The gates run on this Windows host during /implement. The chunk adds a product crate and changes the root manifest,
