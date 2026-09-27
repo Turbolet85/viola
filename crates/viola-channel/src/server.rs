@@ -943,7 +943,58 @@ mod tests {
             shown
         };
         let sid = win::user_sid().expect("sid");
-        assert_eq!(shown, format!("D:P(A;;FA;;;{sid})(A;;FA;;;SY)"));
+        let expected = canonical_sddl(&format!("D:P(A;;FA;;;{sid})(A;;FA;;;SY)"));
+        assert_eq!(shown, expected);
+    }
+
+    /// `sddl` as Windows itself renders it after a string → descriptor → string round trip: a
+    /// well-known SID comes back as its alias (the built-in Administrator, CI's runner user, as `LA`).
+    #[cfg(windows)]
+    fn canonical_sddl(sddl: &str) -> String {
+        use std::ptr;
+        use windows_sys::Win32::Foundation::LocalFree;
+        use windows_sys::Win32::Security::Authorization::{
+            ConvertSecurityDescriptorToStringSecurityDescriptorW,
+            ConvertStringSecurityDescriptorToSecurityDescriptorW, SDDL_REVISION_1,
+        };
+        use windows_sys::Win32::Security::{DACL_SECURITY_INFORMATION, PSECURITY_DESCRIPTOR};
+        use windows_sys::core::PWSTR;
+
+        let wide: Vec<u16> = sddl.encode_utf16().chain(Some(0)).collect();
+        let mut sd: PSECURITY_DESCRIPTOR = ptr::null_mut();
+        let mut text: PWSTR = ptr::null_mut();
+        // SAFETY: `wide` is NUL-terminated; `sd` and `text` are LocalAlloc'd and freed once each.
+        unsafe {
+            let parsed = ConvertStringSecurityDescriptorToSecurityDescriptorW(
+                wide.as_ptr(),
+                SDDL_REVISION_1,
+                &mut sd,
+                ptr::null_mut(),
+            );
+            assert_ne!(parsed, 0, "from SDDL");
+            let shown = ConvertSecurityDescriptorToStringSecurityDescriptorW(
+                sd,
+                SDDL_REVISION_1,
+                DACL_SECURITY_INFORMATION,
+                &mut text,
+                ptr::null_mut(),
+            );
+            LocalFree(sd);
+            assert_ne!(shown, 0, "to SDDL");
+            let len = (0..).take_while(|&i| *text.add(i) != 0).count();
+            let canonical = String::from_utf16_lossy(std::slice::from_raw_parts(text, len));
+            LocalFree(text.cast());
+            canonical
+        }
+    }
+
+    #[cfg(windows)]
+    #[test]
+    fn canonical_sddl_renders_well_known_sids_as_their_aliases() {
+        assert_eq!(
+            canonical_sddl("D:P(A;;FA;;;S-1-5-32-544)(A;;FA;;;S-1-5-18)"),
+            "D:P(A;;FA;;;BA)(A;;FA;;;SY)"
+        );
     }
 
     /// Neither end of the pipe is inheritable: no channel handle can reach the wrapped child.

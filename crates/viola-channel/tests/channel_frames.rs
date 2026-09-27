@@ -80,13 +80,20 @@ fn channel_frame_up_to_the_bound_is_answered(#[case] len: usize) {
 }
 
 /// The server reads no further than the bound, answers once and closes: the next read ends the
-/// stream (a reset where the OS reports the unread byte it dropped).
+/// stream (a reset where the OS reports the unread byte it dropped). The frame's tail may meet that
+/// close (measured on macOS: EPIPE on the write); the reply must still be there.
 #[test]
 fn channel_frame_one_byte_over_is_refused_and_closed() {
     let dir = tempfile::tempdir().expect("tempdir");
     let (endpoint, _serving) = serve(dir.path(), "over");
     let mut stream = raw(&endpoint);
-    let reply = send(&mut stream, &request_of(MAX_FRAME + 1));
+    match stream.get_mut().write_all(&request_of(MAX_FRAME + 1)) {
+        Err(e) if matches!(e.kind(), ErrorKind::BrokenPipe | ErrorKind::ConnectionReset) => {}
+        written => written.expect("write"),
+    }
+    let mut line = String::new();
+    stream.read_line(&mut line).expect("reply");
+    let reply: Value = serde_json::from_str(&line).expect("one JSON reply");
     assert_eq!(
         reply,
         json!({"jsonrpc": "2.0", "id": null, "error":

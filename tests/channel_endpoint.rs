@@ -6,7 +6,7 @@
 mod support;
 
 use std::fs;
-use std::io::{BufRead as _, BufReader, Write as _};
+use std::io::{BufRead as _, BufReader, ErrorKind, Write as _};
 use std::path::Path;
 use std::sync::Arc;
 
@@ -65,6 +65,19 @@ fn exchange(stream: &mut BufReader<Stream>, bytes: &[u8]) -> Value {
     serde_json::from_str(&line).expect("one JSON reply")
 }
 
+/// A frame past the bound, then the reply. The server answers once it has read `MAX_FRAME` bytes
+/// and closes, so the frame's tail may meet the close (measured on macOS: EPIPE on the write); the
+/// reply must still be there.
+fn send_oversize(stream: &mut BufReader<Stream>) -> Value {
+    match stream.get_mut().write_all(&padded(MAX_FRAME + 1)) {
+        Err(e) if matches!(e.kind(), ErrorKind::BrokenPipe | ErrorKind::ConnectionReset) => {}
+        written => written.expect("write"),
+    }
+    let mut line = String::new();
+    stream.read_line(&mut line).expect("reply");
+    serde_json::from_str(&line).expect("one JSON reply")
+}
+
 fn params(pairs: Value) -> Map<String, Value> {
     pairs.as_object().cloned().expect("object")
 }
@@ -108,7 +121,7 @@ fn channel_endpoint_answers_protocol_faults() {
     let not_json = exchange(&mut stream, b"{\"jsonrpc\":\n");
     assert_eq!(not_json["error"]["code"], -32700);
     assert!(not_json["id"].is_null());
-    let over = exchange(&mut stream, &padded(MAX_FRAME + 1));
+    let over = send_oversize(&mut stream);
     assert_eq!(over["error"]["code"], -32600);
 }
 
@@ -134,7 +147,7 @@ fn channel_endpoint_pipe_dacl_is_protected_user_and_system() {
     let _serving = Server::bind(&endpoint)
         .expect("bound")
         .serve(Arc::new(NoMethods));
-    let expected = format!("D:P(A;;FA;;;{})(A;;FA;;;SY)", win::user_sid());
+    let expected = win::canonical_sddl(&format!("D:P(A;;FA;;;{})(A;;FA;;;SY)", win::user_sid()));
     assert_eq!(win::dacl_of(&endpoint), expected);
 }
 
@@ -167,7 +180,7 @@ fn channel_wrapper_logs_each_call_with_corr_and_conn(booted_wrapper: Wrapper) {
     );
     assert_eq!(no_conn["id"], 7);
     let mut big = raw(&endpoint);
-    let over = exchange(&mut big, &padded(MAX_FRAME + 1));
+    let over = send_oversize(&mut big);
     assert_eq!(over["error"]["code"], -32600);
 
     let lines = role_lines(booted_wrapper.home());
@@ -304,6 +317,35 @@ mod win {
         // SAFETY: allocated by the caller's conversion; freed once.
         unsafe { LocalFree(text.cast()) };
         s
+    }
+
+    /// `sddl` as Windows renders it after a string → descriptor → string round trip: a well-known
+    /// SID comes back as its alias (CI's runner user, the built-in Administrator, as `LA`).
+    pub fn canonical_sddl(sddl: &str) -> String {
+        use windows_sys::Win32::Security::Authorization::ConvertStringSecurityDescriptorToSecurityDescriptorW;
+        let wide: Vec<u16> = sddl.encode_utf16().chain(Some(0)).collect();
+        let mut sd: PSECURITY_DESCRIPTOR = ptr::null_mut();
+        let mut text: PWSTR = ptr::null_mut();
+        // SAFETY: `wide` is NUL-terminated; `sd` is freed once, `text` by take_wide.
+        unsafe {
+            let parsed = ConvertStringSecurityDescriptorToSecurityDescriptorW(
+                wide.as_ptr(),
+                SDDL_REVISION_1,
+                &mut sd,
+                ptr::null_mut(),
+            );
+            assert_ne!(parsed, 0, "from SDDL");
+            let shown = ConvertSecurityDescriptorToStringSecurityDescriptorW(
+                sd,
+                SDDL_REVISION_1,
+                DACL_SECURITY_INFORMATION,
+                &mut text,
+                ptr::null_mut(),
+            );
+            LocalFree(sd);
+            assert_ne!(shown, 0, "to SDDL");
+            take_wide(text)
+        }
     }
 
     /// This test process's user SID, read here apart from the product's own lookup.
