@@ -272,7 +272,7 @@ _Justification: web-spa carries about 11 assertable entities (inside Standard's 
   - **Themes:** dark only, so there is one palette and no light theme (Overseer Direction 6). Forced-colors emulation must pass: borders survive, the strike becomes a dashed outline plus `unable`, and the cock band maps to the system highlight colour.
 
 - **CI integration:**
-  - **Runner:** tests' 5-command discipline, `scripts/agent-run.sh run --browser` (or `.ps1`), which runs `npx --prefix e2e-web playwright test`. It runs on the ubuntu leg of GitHub Actions `ci.yml` only; `--browser` on Windows or macOS exits 2 with `reason:"browser-linux-only"`, and a missing Chromium fails with `reason:"browser-missing"`.
+  - **Runner:** tests' 5-command discipline, `scripts/agent-run.sh run --browser` (or `.ps1`), which runs the locked Playwright CLI (`node node_modules/@playwright/test/cli.js test` in `e2e-web/`, after `npm ci`). The browser pipe runs on all three legs of GitHub Actions `ci.yml`'s `test` job (test-plan §3 `run` step 3, founder ruling W125); the a11y verdict stays judged on the ubuntu leg only. A failed `npm ci` or a missing Chromium fails with `reason:"browser-missing"`.
   - **Where results land:** inside the existing `playwright` suite entry of the `run` JSON (`suites[{suite:"playwright",passed,failed,skipped,artifact}]`, with failures in `suites[].failures[]`).
   - **Gate:** `gate --require playwright` never allows skips.
   - **Axe verdict:** `violations` must equal `[]` after each state strip renders: empty, 503 and cocked. a11y extends this to the 401 access strip, `TAPE stopped` and steady state.
@@ -666,9 +666,9 @@ The binding contract is the obs Log Format JSON Schema (upstream-context Section
   - a11y specs are ordinary files in `e2e-web/`, so they run in the existing `playwright` suite.
   - There is no separate driver and no new `suite` enum value.
 - **Command:**
-  - `scripts/agent-run.sh run --browser` (POSIX) or `scripts/agent-run.ps1 run --browser`, which invokes `npx --prefix e2e-web playwright test`, followed by `gate --require playwright` (skips never allowed).
+  - `scripts/agent-run.sh run --browser` (POSIX) or `scripts/agent-run.ps1 run --browser`, which invokes the locked Playwright CLI (`node node_modules/@playwright/test/cli.js test` in `e2e-web/`), followed by `gate --require …playwright` (skips never allowed).
   - Per-test session lifecycle is `boot` → test → `cleanup`. `status` is the readiness precondition, and `logs` is the failure-triage read.
-  - Ubuntu leg of `ci.yml` only: `browser-linux-only` exit 2 elsewhere, and `browser-missing` is a failure.
+  - The browser suite runs on every leg of `ci.yml`'s `test` job; the a11y verdict is judged on the ubuntu leg only. `browser-missing` is a failure.
 - **Artifact:**
   - Playwright JSON report at the suite `artifact` path, with `attachments[]` holding scrubbed axe JSON, token-pair JSON, html-validate JSON, VSR phrase logs and the `a11y-violations` NDJSON.
   - `e2e-web/test-results/` is uploaded by `actions/upload-artifact` v7.0.1, SHA-pinned per zizmor.
@@ -681,7 +681,7 @@ the contract above. Listed for explicitness — route may reorder /
 combine, setup-project may add stack-specific intermediate steps.
 
 - **a11y-tooling-install:**
-  - `@axe-core/playwright@4.13.0` is already declared in `e2e-web/package.json` by tests.
+  - Add `@axe-core/playwright@4.13.0` to `e2e-web/package.json`. Tests declared only `@playwright/test@1.63.0` when the browser pipe landed (chunk 2026-09-27-browser-verdict-reachability); the axe pin is this phase's.
   - Add the devDependencies `colorjs.io@0.7.1`, `tabbable@6.5.0`, `@guidepup/virtual-screen-reader@0.33.0`, `html-validate@11.16.0` and `eslint-plugin-lit-a11y@5.1.1`, plus its `eslint` core peer, pinned exactly through the lockfile (Decisions Log → Resolved questions → ESLint core version).
   - Create `e2e-web/fixtures/a11y.ts` with `makeAxeBuilder` (tags `['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22aa']` + the five best-practice rules by id), the scrubber, and the violation-row writer.
   - Create the html-validate config declaring the `viola-*` elements.
@@ -1112,18 +1112,18 @@ _Scope: no `cognitive-accessibility` trigger fired (a11y-scope Sec 5), so there 
 | Stage | A11y tool | Artifact | Consumer |
 |-------|-----------|----------|----------|
 | Lint (ubuntu, before `run --browser`) | eslint-plugin-lit-a11y 5.1.1 (`npx --prefix e2e-web eslint -f json` with `-c e2e-web/eslint.config.js` over the Lit `html` templates in `crates/viola-ui/`, source glob per the config's `files` entry); html-validate 11.16.0 CLI `--config e2e-web/.htmlvalidate.json --formatter json` on the `assets/index.html` that `viola-ui` embeds. Same commands and configs as Section 3 → Bootstrap phases → a11y-ci-gate-wire | ESLint JSON + html-validate JSON in `e2e-web/test-results/lint/` | CI step fails on any error; uploaded artifact |
-| Unit / integration (all three OS legs) | assert_cmd 2.2.2 + predicates 3.1.4 + trycmd 1.2.1; portable-pty outer PTY (cli SGR, tui boundary) | harness `run` JSON `suites[{suite:"nextest-integration"|"nextest-e2e"|"coverage",…,failures[]}]` (CI: `coverage`) | `gate --require coverage,doctest`; no a11y rows, no conformance claim |
-| E2E (ubuntu only) | `@axe-core/playwright` 4.13.0, Playwright 1.63.0 aria/keyboard/emulation, html-validate (rendered DOM), colorjs.io 0.7.1, tabbable 6.5.0, @guidepup/virtual-screen-reader 0.33.0 | Playwright JSON (+ JUnit) with `attachments[]`: scrubbed axe JSON, token-pair JSON, html-validate JSON, VSR phrase log, `a11y-violations` NDJSON | harness `run` JSON `suites[{suite:"playwright",passed,failed,skipped,artifact}]`, `gate --require playwright`, uploaded artifact |
+| Unit / integration (all three OS legs) | assert_cmd 2.2.2 + predicates 3.1.4 + trycmd 1.2.1; portable-pty outer PTY (cli SGR, tui boundary) | harness `run` JSON `suites[{suite:"nextest-integration"|"nextest-e2e"|"coverage",…,failures[]}]` (CI: `coverage`) | the per-OS `test` job's `gate --require coverage,doctest,playwright`; no a11y rows, no conformance claim |
+| E2E (the a11y verdict judged on ubuntu only; the browser suite itself runs on all three OS legs) | `@axe-core/playwright` 4.13.0, Playwright 1.63.0 aria/keyboard/emulation, html-validate (rendered DOM), colorjs.io 0.7.1, tabbable 6.5.0, @guidepup/virtual-screen-reader 0.33.0 | Playwright JSON (+ JUnit) with `attachments[]`: scrubbed axe JSON, token-pair JSON, html-validate JSON, VSR phrase log, `a11y-violations` NDJSON | harness `run` JSON `suites[{suite:"playwright",passed,failed,skipped,artifact}]`, `gate --require coverage,doctest,playwright`, uploaded artifact |
 | Aggregation (ubuntu, after `gate`, with `if: always()` so it runs even when `gate` already failed the job; a missing Playwright JSON report fails this step; the artifact upload step is also `if: always()`) | `jq` (catalog-less JSON transport, not an a11y tool) over the Playwright JSON report and `e2e-web/test-results/a11y/*.ndjson`: per `@sc-*` tag pass/fail compared with `e2e-web/a11y/sc-coverage.json`, plus a per-`violation_type` row count. `sc-coverage.json` lists every row of the Section 3 per-SC map (ranges expanded). Rows marked `yes…` need ≥ 1 passing test tagged with that SC (1.4.10 only through the ≥ 760 reflow tests). Absence rows (`no media`, `no audio`, `no images`, `no inputs`, `no submissions`, `no surface`) are met by the `surface-absence` spec carrying one `@sc-<id>` per absent SC. The `no custom pointer/motion/drag` row (SC 2.5.1 / 2.5.2 / 2.5.4 / 2.5.7) is met only by the tabbable-oracle actuator test named in that map row (the only actuators are native `<a>` / `<summary>`), tagged `@sc-2.5.1 @sc-2.5.2 @sc-2.5.4 @sc-2.5.7`. `surface-absence` never carries these four tags, because an element-absence walk cannot prove the absence of path, motion or drag gestures. `single-page exception` / `single page` rows are met by the route check and region-order test (`@sc-2.4.5`, `@sc-3.2.3`). `indeterminate-language content` (3.1.2) is met by the tape `lang` DOM assertion | `e2e-web/test-results/a11y/sc-coverage-report.json` (per SC: `{sc, passing_tests, status}`; plus `violation_type_counts`, so a `scrub-leak` shows up separately from `csp-console`) | fails CI if any listed SC has zero passing tagged tests; uploaded artifact |
 
 **Pipeline integration:**
 
 - a11y CI runs in the same pipeline as the tests' E2E, per the upstream-context Section 5 Test Harness Contract Summary (binding 5-command discipline).
-  - `scripts/agent-run.sh run --browser` / `scripts/agent-run.ps1 run --browser` invokes `npx --prefix e2e-web playwright test`, which runs the a11y specs inline with the tests' specs.
+  - `scripts/agent-run.sh run --browser` / `scripts/agent-run.ps1 run --browser` invokes the locked Playwright CLI (`node node_modules/@playwright/test/cli.js test` in `e2e-web/`), which runs the a11y specs inline with the tests' specs.
   - Each test uses `boot --session pw-<spec>-<test id>-<workerIndex>` → `/?t=<token>` from `ui/<port>.url` → `cleanup`.
   - `status` is the readiness precondition (`state:"ready"`), and `logs` is the triage read on failure.
   - There is no `npm test:a11y`, no `webServer`, no second driver and no new `suite` enum value.
-- On Windows and macOS legs `--browser` exits 2 with `reason:"browser-linux-only"`, and the web a11y gate is ubuntu-only. A missing Chromium fails with `browser-missing` and is never skipped.
+- The browser suite runs on the Windows, macOS and ubuntu legs, while the web a11y gate is judged on the ubuntu leg only. A failed `npm ci` or a missing Chromium fails with `browser-missing` and is never skipped.
 - Per-PR diff: the binary verdict (`violations: []`, contrast `incomplete: []`, every non-axe check passing) means the base branch carries zero violations, so any violation on a PR is new and fails the PR. No fingerprint baseline is stored.
 - WCAG criterion coverage report: `sc-coverage-report.json`, per surface (`web-spa`) and per SC, from `@sc-*` tags. History is the sequence of uploaded artifacts per run.
 
@@ -1262,7 +1262,7 @@ _Scope: no `cognitive-accessibility` trigger fired (a11y-scope Sec 5), so there 
   agent-runnable principle)
 - NEVER run a11y specs with `bypassCSP`, pass an axe `locale`, or ignore a CSP / Trusted Types console violation.
 - NEVER add a `suite` value (such as `a11y`), a `webServer`, or a separate `npm test:a11y` driver outside `scripts/agent-run.* run --browser`.
-- NEVER treat `browser-missing` as a skip, or run `--browser` on Windows or macOS legs.
+- NEVER treat `browser-missing` as a skip, or judge the a11y verdict on the Windows or macOS legs.
 - NEVER attach raw axe results. Scrub `url` to its path and drop `nodes[].html` first.
 
 ### SLO
@@ -1329,7 +1329,7 @@ between phase loops._
   - **D-A11Y-09** Violation rows use `event:"a11y-violation"` and `process:"ui"`. They are harness-only rows under `e2e-web/test-results/a11y/`, never in `diagnostics/`, and are validated by the tests-owned `e2e-web/schemas/a11y-row.v1.json`. `a11y-violation` is not a product `event` enum value and has no `ObsEvent` variant (overseer fix pass 3, Z7). The additive fields are `service_name`, `version`, `os`, `surface`, `check_source`, `wcag_criterion`, `violation_type`, `severity`, `selector`, `remediation`, `ci_run_id`, `git_sha`.
   - **D-A11Y-10** colorjs.io 0.7.1 is chosen over `culori` 4.0.2 as the single token-pair checker, because it parses every CSS Color 4 computed value.
   - **D-A11Y-11** @guidepup/virtual-screen-reader 0.33.0 is the gating announcement proxy. Its Trusted Types safety is unverified at runtime, so the first spec asserts a clean CSP/TT console. If it fails, the fallback is a `page.addInitScript` MutationObserver recorder on `[role=status],[role=log],[aria-live]`.
-  - **D-A11Y-12** `@guidepup/guidepup` 0.34.0 / `@guidepup/playwright` 0.19.1 (real NVDA/VoiceOver) are founder-local only. Adding them to CI needs a tests-harness change, because `--browser` is ubuntu-only and Guidepup has no Orca support.
+  - **D-A11Y-12** `@guidepup/guidepup` 0.34.0 / `@guidepup/playwright` 0.19.1 (real NVDA/VoiceOver) are founder-local only. Adding them to CI needs a tests-harness change: the a11y verdict is judged on the ubuntu leg only (the `--browser` pipe itself runs on all three OSes since 2026-09-27), and Guidepup has no Orca support.
   - **D-A11Y-13** Inherited risk: portable-pty is pinned `=0.8.1` (2023-03-13) by arch/tests, while 0.9.0 is the maintained line. a11y inherits the driver and does not re-pin.
   - **D-A11Y-14** A lint stage is added on the ubuntu leg of `ci.yml` (eslint-plugin-lit-a11y 5.1.1, html-validate 11.16.0 CLI). It sits before `run --browser`, like clippy/zizmor, and adds no harness `suite`.
   - **D-A11Y-15** Section 1 is reproduced verbatim from a11y-scope.md, except that deferral clauses addressed to later synthesis steps are replaced by `[resolved: …]` pointers.

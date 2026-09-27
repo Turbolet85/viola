@@ -1,0 +1,1072 @@
+[
+{
+"tool": "gate",
+"v": "1.2",
+"sha8": "c8c764ea",
+"ts": "2026-09-27T20:33:46Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-09-27-browser-verdict-reachability/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-27T19-50-23-wrap",
+"--marker",
+"2026-09-27-browser-verdict-reachability",
+"--skip",
+"42:operator-only per the E1 live ratification at this wrap (never the gate tool); its one run is recorded in evidence/wsl-chromium-deps.md"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\viola · marker 2026-09-27-browser-verdict-reachability · entries 46",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23 · bound: GNU timeout",
+"delta docs 45 · python 1",
+"prose L216-229: The live smoke is the harness lifecycle (boot/status/cleanup), because the recorder touche… (1294 chars)",
+"  1 lint        green · exit 0 · 0.53s · 0 B → 1.log · cargo fmt --all --check",
+"  2 lint        green · exit 0 · 0.47s · 72 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 lint        green · exit 0 · 3.33s · 286 B → 3.log · bash scripts/lint-probes.sh",
+"  4 lint        green · exit 0 · 92.08s · 33 B → 4.log · bash scripts/orphans-check.sh",
+"  5 lint        green · exit 0 · 0.13s · 388 B → 5.log · zizmor .github/workflows/",
+"  6 probe       green · exit 0 · 1.1s · 52 B → 6.log · bash scripts/install-node.sh --probe",
+"  7 probe       green · exit 0 · 0.07s · 2 B → 7.log · grep -cE '^  NODE_PIN_(VERSION|SHA256_(LINUX_X64|DARWIN_AR… (98 chars)",
+"  8 build       green · exit 0 · 1.57s · 76 B → 8.log · npm ci --prefix e2e-web",
+"  9 build       green · exit 0 · 1.81s · 0 B → 9.log · npx --no --prefix e2e-web playwright install chromium",
+" 10 e2e         green · exit 0 · 3.05s · 439 B → 10.log · bash scripts/agent-run.sh run --browser",
+" 11 probe       green · exit 0 · 0.46s · 45 B → 11.log · bash scripts/agent-run.sh gate --require playwright",
+" 12 probe       green · exit 0 · 0.2s · 0 B → 12.log · test -f target/agent-run/artifacts/junit-playwright.xml",
+" 13 e2e         green · exit 0 · 2.3s · 158 B → 13.log · npx --no --prefix e2e-web playwright test --config e2e-web… (95 chars)",
+" 14 probe       green · exit 1 · 0.25s · 2 B → 14.log · git ls-files --cached --others --exclude-standard crates |… (112 chars)",
+" 15 probe       green · exit 0 · 0.23s · 2 B → 15.log · grep -cE '\"(noEmit|strict)\": true' e2e-web/tsconfig.json",
+" 16 probe       green · exit 0 · 0.07s · 2 B → 16.log · grep -cE 'retries: 0|forbidOnly: true|headless: true|pw\\.j… (105 chars)",
+" 17 probe       green · exit 1 · 0.07s · 2 B → 17.log · grep -cE 'webServer|bypassCSP|globalSetup|retries: [1-9]' … (86 chars)",
+" 18 probe       green · exit 1 · 0.13s · 2 B → 18.log · grep -cE 'test\\.(skip|fixme)|waitForTimeout|@a11y|@sc-|\\.r… (105 chars)",
+" 19 probe       green · exit 1 · 0.07s · 2 B → 19.log · grep -ciE '<script|<style|style=|@font-face|https?://|#[0-… (102 chars)",
+" 20 probe       green · exit 0 · 0.08s · 2 B → 20.log · grep -c 'gate --require coverage,doctest,playwright' .gith… (77 chars)",
+" 21 probe       green · exit 1 · 0.12s · 0 B → 21.log · grep -rn 'wsl-exec' crates src .github scripts/agent-run.s… (130 chars)",
+" 22 probe       green · exit 0 · 2.14s · 57 B → 22.log · bash scripts/npm-audit.sh",
+" 23 probe       green · exit 0 · 0.39s · 46 B → 23.log · bash scripts/npm-audit.sh --probe",
+" 24 probe       green · exit 1 · 0.15s · 0 B → 24.log · grep -rnE 'from_secs\\(10\\)' tests",
+" 25 probe       green · exit 1 · 0.14s · 0 B → 25.log · grep -rl 'zz_root_watch_control' tests",
+" 26 unit        green · exit 0 · 17.59s · 57834 B → 26.log · bash scripts/agent-run.sh run --unit",
+" 27 unit        green · exit 0 · 13.22s · 28878 B → 27.log · bash scripts/agent-run.sh run --unit --filter 'package(vio… (67 chars)",
+" 28 integration green · exit 0 · 26.53s · 19099 B → 28.log · AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --int… (66 chars)",
+" 29 probe       green · exit 0 · 2.21s · 111 B → 29.log · bash scripts/agent-run.sh schema-check",
+" 30 probe       green · exit 0 · 145.87s · 115 B → 30.log · bash scripts/agent-run.sh secret-scan",
+" 31 unit        green · exit 0 · 200.05s · 3079 B → 31.log · bash scripts/agent-run.sh run --mutants --file crates/viol… (90 chars)",
+" 32 probe       green · exit 0 · 17.99s · 93 B → 32.log · python -X utf8 scripts/code-graph.py refresh",
+" 33 probe       green · exit 0 · 0.32s · 0 B → 33.log · test -f .andromeda/cache/rust/tree.db && test -f .andromed… (76 chars)",
+" 34 probe       green · exit 0 · 0.3s · 1593 B → 34.log · python -X utf8 C:/Users/turbo/.claude/skills/andromeda-too… (127 chars)",
+" 35 smoke       green · exit 0 · 0.36s · 47 B → 35.log · bash scripts/agent-run.sh cleanup --session p-browser-smok… (59 chars)",
+" 36 smoke       green · exit 0 · 2.07s · 403 B → 36.log · bash scripts/agent-run.sh boot --session p-browser-smoke -… (75 chars)",
+" 37 smoke       green · exit 0 · 0.41s · 214 B → 37.log · bash scripts/agent-run.sh status --session p-browser-smoke",
+" 38 smoke       green · exit 0 · 0.76s · 180 B → 38.log · bash scripts/agent-run.sh cleanup --session p-browser-smok… (59 chars)",
+" 39 probe       green · exit 0 · 1.18s · 88 B → 39.log · bash scripts/release-check.sh",
+" 40 build       green · exit 0 · 0.68s · 193 B → 40.log · RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv cargo c… (116 chars)",
+" 41 build       green · exit 0 · 7.18s · 332 B → 41.log · MSYS2_ARG_CONV_EXCL='*' wsl.exe -d Ubuntu --cd /mnt/d/dev/… (248 chars)",
+" 42 build       not run — skipped: operator-only per the E1 live ratification at this wrap (never the gate tool); its one run is recorded in evidence/wsl-chromium-deps.md · MSYS2_ARG_CONV_EXCL='*' wsl.exe -d Ubuntu -u root --cd /mn… (293 chars)",
+" 43 integration green · exit 0 · 540.93s · 173741 B → 43.log · bash scripts/agent-run.sh pre-push",
+" 44 integration not run — leg operator (the letter drives it) · bash scripts/agent-run.sh pre-push",
+" 45 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (82 chars)",
+" 46 probe       not run — leg operator (the letter drives it) · python -X utf8 C:/Users/turbo/.claude/skills/andromeda-too… (108 chars)",
+"entries 46 · green 42 · red 0 · recorded 0 · timeout 0 · not-run 4"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-27-browser-verdict-reachability",
+"plan": "D:\\dev\\projects\\viola\\viola-0.1.0\\chunks\\2026-09-27-browser-verdict-reachability\\plan.md",
+"root": "D:\\dev\\projects\\viola",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23",
+"delta": {
+"docs": [
+".andromeda/a11y-plan-amendments.md",
+".andromeda/a11y-plan.md",
+".andromeda/architecture-amendments.md",
+".andromeda/architecture.md",
+".andromeda/design-system.md",
+".andromeda/friction-log.ndjson",
+".andromeda/obs-plan-amendments.md",
+".andromeda/obs-plan.md",
+".andromeda/security-plan-amendments.md",
+".andromeda/security-plan.md",
+".andromeda/state.yaml",
+".andromeda/test-plan-amendments.md",
+".andromeda/test-plan.md",
+".claude/docs/commands.md",
+".claude/docs/security-summary.md",
+".claude/docs/stack.md",
+".claude/docs/tests-summary.md",
+".claude/docs/workflow.md",
+".claude/rules/security.md",
+".claude/rules/testing.md",
+".claude/rules/verification-harness.md",
+".claude/session-handoff.md",
+"CLAUDE.md",
+"viola-0.1.0/chunks/2026-09-27-browser-verdict-reachability/evidence/operator-pass.md",
+"viola-0.1.0/working-route.md",
+".andromeda/design-system-amendments.md",
+".andromeda/runs/2026-09-27T19-50-23-wrap/a11y-plan-entry.md",
+".andromeda/runs/2026-09-27T19-50-23-wrap/architecture-entry.md",
+".andromeda/runs/2026-09-27T19-50-23-wrap/cascade-2026-09-27-browser-verdict-reachability.json",
+".andromeda/runs/2026-09-27T19-50-23-wrap/cascade-dispositions.md",
+".andromeda/runs/2026-09-27T19-50-23-wrap/cascade-patterns.toml",
+".andromeda/runs/2026-09-27T19-50-23-wrap/design-system-entry.md",
+".andromeda/runs/2026-09-27T19-50-23-wrap/evolve-2026-09-27-browser-verdict-reachability.json",
+".andromeda/runs/2026-09-27T19-50-23-wrap/fanout-results.md",
+".andromeda/runs/2026-09-27T19-50-23-wrap/obs-plan-entry.md",
+".andromeda/runs/2026-09-27T19-50-23-wrap/route-no-marker.json",
+".andromeda/runs/2026-09-27T19-50-23-wrap/security-plan-entry.md",
+".andromeda/runs/2026-09-27T19-50-23-wrap/splice-2026-09-27-browser-verdict-reachability.json",
+".andromeda/runs/2026-09-27T19-50-23-wrap/splice-a11y-plan.log",
+".andromeda/runs/2026-09-27T19-50-23-wrap/splice-architecture.log",
+".andromeda/runs/2026-09-27T19-50-23-wrap/splice-obs-plan.log",
+".andromeda/runs/2026-09-27T19-50-23-wrap/splice-security-plan.log",
+".andromeda/runs/2026-09-27T19-50-23-wrap/splice-test-plan.log",
+".andromeda/runs/2026-09-27T19-50-23-wrap/test-plan-entry.md",
+"viola-0.1.0/chunks/2026-09-27-browser-verdict-reachability/report.md"
+],
+"python": [
+".andromeda/runs/2026-09-27T19-50-23-wrap/sites.py"
+]
+},
+"unmapped": [],
+"prose": [
+{
+"from": 216,
+"to": 229,
+"text": "The live smoke is the harness lifecycle (boot/status/cleanup), because the recorder touches `home.rs`'s readiness. - **Browser leg:** runs locally on the host's Node (v24.13.1, which satisfies `engines >=20`), after a host Chromium install   entry. - **WSL leg:** proven by the pre-push entry. Two plan entries run before it (overseer review direction, 2026-09-27; no operator   step): the re-provision, as the distro user under `env -i`, then the root `--install-deps` through `wsl.exe -d Ubuntu -u root`.   The installed package list is recorded in `evidence/wsl-chromium-deps.md`. - **Pinned Node download:** proven by CI's own run on each OS, because the host keeps its own Node. - **No headful self-verify gate:** none exists yet, because `viola ui` and its page arrive in Epoch 8, and the stub is a test   fixture, not a UI surface. - **One-shot control:** the recorder's remove-the-guard pair (step 13) MUTATES source and reverts, so it runs once at implement,   with both readings in `evidence/root-watch-recorder.md`. The non-mutating entries that guard it on every re-run are the   `from_secs(10)` census and the `zz_root_watch_control` census. - **`npx --no`:** every `npx` form carries `--no`, so a missing local package fails instead of fetching the registry's newest   Playwright."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.53,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\2.log",
+"bytes": 72,
+"log_sha8": "2461b00c",
+"exit": 0,
+"seconds": 0.47,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "bash scripts/lint-probes.sh",
+"run_sha8": "4811ad1f",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\3.log",
+"bytes": 286,
+"log_sha8": "99be9959",
+"exit": 0,
+"seconds": 3.33,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "bash scripts/orphans-check.sh",
+"run_sha8": "f05a4287",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\4.log",
+"bytes": 33,
+"log_sha8": "7f633437",
+"exit": 0,
+"seconds": 92.08,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "zizmor .github/workflows/",
+"run_sha8": "5dbe1a48",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\5.log",
+"bytes": 388,
+"log_sha8": "01a25b9b",
+"exit": 0,
+"seconds": 0.13,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "probe",
+"run": "bash scripts/install-node.sh --probe",
+"run_sha8": "063ed6a9",
+"expect": [
+"exit 0",
+"contains install-node --probe: 1/1 refused, pins ok v24.21.0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\6.log",
+"bytes": 52,
+"log_sha8": "85d26a42",
+"exit": 0,
+"seconds": 1.1,
+"readings": [
+"exit 0 ✓",
+"contains 'install-node --probe: 1/1 refused, pins ok v24.21.0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "grep -cE '^  NODE_PIN_(VERSION|SHA256_(LINUX_X64|DARWIN_ARM64|WIN_X64)):' .github/workflows/ci.yml",
+"run_sha8": "56eeae8d",
+"expect": [
+"exit 0",
+"last line 4"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\7.log",
+"bytes": 2,
+"log_sha8": "7de1555d",
+"exit": 0,
+"seconds": 0.07,
+"readings": [
+"exit 0 ✓",
+"last line '4' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "build",
+"run": "npm ci --prefix e2e-web",
+"run_sha8": "e8669a18",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\8.log",
+"bytes": 76,
+"log_sha8": "63a795ac",
+"exit": 0,
+"seconds": 1.57,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "build",
+"run": "npx --no --prefix e2e-web playwright install chromium",
+"run_sha8": "a9502db1",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\9.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 1.81,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --browser",
+"run_sha8": "a705f1e9",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true",
+"contains \"suite\":\"playwright\",\"passed\":1,\"failed\":0,\"skipped\":0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\10.log",
+"bytes": 439,
+"log_sha8": "57064c16",
+"exit": 0,
+"seconds": 3.05,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"run\",\"ok\":true' ✓",
+"contains '\"suite\":\"playwright\",\"passed\":1,\"failed\":0,\"skipped\":0' ✓",
+"artifact fresh (target/agent-run/artifacts/)"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "bash scripts/agent-run.sh gate --require playwright",
+"run_sha8": "534aeadb",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"gate\",\"ok\":true",
+"contains \"breaches\":[]"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\11.log",
+"bytes": 45,
+"log_sha8": "916126be",
+"exit": 0,
+"seconds": 0.46,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"gate\",\"ok\":true' ✓",
+"contains '\"breaches\":[]' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "test -f target/agent-run/artifacts/junit-playwright.xml",
+"run_sha8": "110e7f12",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\12.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.2,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "e2e",
+"run": "npx --no --prefix e2e-web playwright test --config e2e-web/playwright.config.ts --grep 'pipe:' ",
+"run_sha8": "bf7eb5b9",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\13.log",
+"bytes": 158,
+"log_sha8": "9d496af9",
+"exit": 0,
+"seconds": 2.3,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "git ls-files --cached --others --exclude-standard crates | grep -cE '(^|/)(tsconfig[^/]*\\.json|package\\.json)$' ",
+"run_sha8": "11c12bce",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\14.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.25,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "grep -cE '\"(noEmit|strict)\": true' e2e-web/tsconfig.json",
+"run_sha8": "4511c684",
+"expect": [
+"exit 0",
+"last line 2"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\15.log",
+"bytes": 2,
+"log_sha8": "53c234e5",
+"exit": 0,
+"seconds": 0.23,
+"readings": [
+"exit 0 ✓",
+"last line '2' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "grep -cE 'retries: 0|forbidOnly: true|headless: true|pw\\.json|pw-junit\\.xml' e2e-web/playwright.config.ts",
+"run_sha8": "19bed2de",
+"expect": [
+"exit 0",
+"last line 5"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\16.log",
+"bytes": 2,
+"log_sha8": "f0b5c2c2",
+"exit": 0,
+"seconds": 0.07,
+"readings": [
+"exit 0 ✓",
+"last line '5' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "grep -cE 'webServer|bypassCSP|globalSetup|retries: [1-9]' e2e-web/playwright.config.ts",
+"run_sha8": "45144884",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\17.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.07,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "grep -cE 'test\\.(skip|fixme)|waitForTimeout|@a11y|@sc-|\\.route\\(' e2e-web/tests/pipe-reachability.spec.ts",
+"run_sha8": "c3ef9b06",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\18.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.13,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "grep -ciE '<script|<style|style=|@font-face|https?://|#[0-9a-f]{3,6}\\b|<viola-' e2e-web/stub/pipe.html",
+"run_sha8": "3839662b",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\19.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.07,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "grep -c 'gate --require coverage,doctest,playwright' .github/workflows/ci.yml",
+"run_sha8": "494fdfc4",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\20.log",
+"bytes": 2,
+"log_sha8": "4355a46b",
+"exit": 0,
+"seconds": 0.08,
+"readings": [
+"exit 0 ✓",
+"last line '1' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "grep -rn 'wsl-exec' crates src .github scripts/agent-run.sh scripts/agent-run.ps1 scripts/wsl-provision.sh scripts/install-node.sh",
+"run_sha8": "eac19cd1",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\21.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.12,
+"readings": [
+"exit 1 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "bash scripts/npm-audit.sh",
+"run_sha8": "75e30de7",
+"expect": [
+"exit 0",
+"contains npm-audit: advisories 0, sources registry.npmjs.org only"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\22.log",
+"bytes": 57,
+"log_sha8": "e4d0da36",
+"exit": 0,
+"seconds": 2.14,
+"readings": [
+"exit 0 ✓",
+"contains 'npm-audit: advisories 0, sources registry.npmjs.org only' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "bash scripts/npm-audit.sh --probe",
+"run_sha8": "2455f679",
+"expect": [
+"exit 0",
+"contains npm-audit --probe: 1/1 refused, control clean"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\23.log",
+"bytes": 46,
+"log_sha8": "82b84d28",
+"exit": 0,
+"seconds": 0.39,
+"readings": [
+"exit 0 ✓",
+"contains 'npm-audit --probe: 1/1 refused, control clean' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "grep -rnE 'from_secs\\(10\\)' tests",
+"run_sha8": "94a51693",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\24.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.15,
+"readings": [
+"exit 1 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 25,
+"role": "probe",
+"run": "grep -rl 'zz_root_watch_control' tests",
+"run_sha8": "5618a486",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\25.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.14,
+"readings": [
+"exit 1 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 26,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\26.log",
+"bytes": 57834,
+"log_sha8": "03127520",
+"exit": 0,
+"seconds": 17.59,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"run\",\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 27,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'package(viola-e2e)' ",
+"run_sha8": "3d601f56",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\27.log",
+"bytes": 28878,
+"log_sha8": "094016f5",
+"exit": 0,
+"seconds": 13.22,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"run\",\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 28,
+"role": "integration",
+"run": "AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --integration",
+"run_sha8": "130402e2",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\28.log",
+"bytes": 19099,
+"log_sha8": "f444e27c",
+"exit": 0,
+"seconds": 26.53,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"run\",\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 29,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"schema-check\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\29.log",
+"bytes": 111,
+"log_sha8": "4622fff6",
+"exit": 0,
+"seconds": 2.21,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"schema-check\",\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 30,
+"role": "probe",
+"run": "bash scripts/agent-run.sh secret-scan",
+"run_sha8": "57dd664b",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"secret-scan\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\30.log",
+"bytes": 115,
+"log_sha8": "700ab9e2",
+"exit": 0,
+"seconds": 145.87,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"secret-scan\",\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 31,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --mutants --file crates/viola-e2e/src/harness/run/browser.rs",
+"run_sha8": "c1693ba1",
+"expect": [
+"exit 0",
+"contains \"verdict\":\"scoped\""
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\31.log",
+"bytes": 3079,
+"log_sha8": "305a09b8",
+"exit": 0,
+"seconds": 200.05,
+"readings": [
+"exit 0 ✓",
+"contains '\"verdict\":\"scoped\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 32,
+"role": "probe",
+"run": "python -X utf8 scripts/code-graph.py refresh",
+"run_sha8": "3f55cb1f",
+"expect": [
+"exit 0",
+"contains tree-refresh[rust]:",
+"contains tree-refresh[ts]:"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\32.log",
+"bytes": 93,
+"log_sha8": "fd879d8c",
+"exit": 0,
+"seconds": 17.99,
+"readings": [
+"exit 0 ✓",
+"contains 'tree-refresh[rust]:' ✓",
+"contains 'tree-refresh[ts]:' ✓",
+"artifact fresh (.andromeda/cache/)"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 33,
+"role": "probe",
+"run": "test -f .andromeda/cache/rust/tree.db && test -f .andromeda/cache/ts/tree.db",
+"run_sha8": "42a9a980",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\33.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.32,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 34,
+"role": "probe",
+"run": "python -X utf8 C:/Users/turbo/.claude/skills/andromeda-tools/scripts/health.py check --root . --stack rust --style agent-driven",
+"run_sha8": "e4c4cf39",
+"expect": [
+"exit 0",
+"contains check 11 · ✓",
+"contains planes rust, ts"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\34.log",
+"bytes": 1593,
+"log_sha8": "e6bac732",
+"exit": 0,
+"seconds": 0.3,
+"readings": [
+"exit 0 ✓",
+"contains 'check 11 · ✓' ✓",
+"contains 'planes rust, ts' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 35,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-browser-smoke",
+"run_sha8": "892c8198",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\35.log",
+"bytes": 47,
+"log_sha8": "91854d6e",
+"exit": 0,
+"seconds": 0.36,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 36,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-browser-smoke --instance builder",
+"run_sha8": "3bf1fd95",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\36.log",
+"bytes": 403,
+"log_sha8": "d60a51ee",
+"exit": 0,
+"seconds": 2.07,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 37,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-browser-smoke",
+"run_sha8": "756e3fc2",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\37.log",
+"bytes": 214,
+"log_sha8": "e2f0f6d1",
+"exit": 0,
+"seconds": 0.41,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 38,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-browser-smoke",
+"run_sha8": "892c8198",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\38.log",
+"bytes": 180,
+"log_sha8": "9654853a",
+"exit": 0,
+"seconds": 0.76,
+"readings": [
+"exit 0 ✓",
+"contains '\"processes_gone\":true' ✓",
+"contains '\"endpoint_gone\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 39,
+"role": "probe",
+"run": "bash scripts/release-check.sh",
+"run_sha8": "3405b7ab",
+"expect": [
+"exit 0",
+"last line release-check: viola only"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\39.log",
+"bytes": 88,
+"log_sha8": "8ca45f5b",
+"exit": 0,
+"seconds": 1.18,
+"readings": [
+"exit 0 ✓",
+"last line 'release-check: viola only' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 40,
+"role": "build",
+"run": "RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv cargo check --workspace --all-targets --features viola/fake-agent",
+"run_sha8": "635d1615",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\40.log",
+"bytes": 193,
+"log_sha8": "32a12cb7",
+"exit": 0,
+"seconds": 0.68,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 41,
+"role": "build",
+"run": "MSYS2_ARG_CONV_EXCL='*' wsl.exe -d Ubuntu --cd /mnt/d/dev/projects/viola --exec /usr/bin/env -i HOME=\"$(MSYS2_ARG_CONV_EXCL='*' wsl.exe -d Ubuntu --exec /usr/bin/printenv HOME | tr -d '\\r')\" PATH=/usr/bin:/bin /usr/bin/bash scripts/wsl-provision.sh",
+"run_sha8": "2ee9b8de",
+"expect": [
+"exit 0",
+"contains wsl-provision: pins ok",
+"contains node v24.21.0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\41.log",
+"bytes": 332,
+"log_sha8": "79d0f846",
+"exit": 0,
+"seconds": 7.18,
+"readings": [
+"exit 0 ✓",
+"contains 'wsl-provision: pins ok' ✓",
+"contains 'node v24.21.0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 42,
+"role": "build",
+"run": "MSYS2_ARG_CONV_EXCL='*' wsl.exe -d Ubuntu -u root --cd /mnt/d/dev/projects/viola --exec /usr/bin/env -i HOME=/root PATH=/usr/sbin:/usr/bin:/sbin:/bin /usr/bin/bash scripts/wsl-provision.sh --install-deps \"$(MSYS2_ARG_CONV_EXCL='*' wsl.exe -d Ubuntu --exec /usr/bin/printenv HOME | tr -d '\\r')\"",
+"run_sha8": "6efff4de",
+"expect": [
+"exit 0",
+"last line wsl-provision: install-deps ok"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — skipped: operator-only per the E1 live ratification at this wrap (never the gate tool); its one run is recorded in evidence/wsl-chromium-deps.md"
+},
+{
+"n": 43,
+"role": "integration",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"pre-push\",\"ok\":true",
+"contains \"stage\":\"union\""
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-browser-verdict-reachability\\wrap-2026-09-27T19-50-23\\43.log",
+"bytes": 173741,
+"log_sha8": "ea64d416",
+"exit": 0,
+"seconds": 540.93,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"pre-push\",\"ok\":true' ✓",
+"contains '\"stage\":\"union\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 44,
+"role": "integration",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"pre-push\",\"ok\":true",
+"contains \"stage\":\"union\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 45,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin build/viola-0.1.0",
+"run_sha8": "32523c62",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 46,
+"role": "probe",
+"run": "python -X utf8 C:/Users/turbo/.claude/skills/andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 5400",
+"run_sha8": "1dedcd4d",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+}
+]

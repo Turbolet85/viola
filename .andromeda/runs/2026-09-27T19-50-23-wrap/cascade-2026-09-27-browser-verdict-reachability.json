@@ -1,0 +1,181 @@
+[
+{
+"tool": "cascade",
+"v": "1.0",
+"sha8": "6eb0f76e",
+"ts": "2026-09-27T20:07:29Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-09-27T19-50-23-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-09-27T19-50-23-wrap",
+"--marker",
+"2026-09-27-browser-verdict-reachability"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"baseline 49f64447 (pre-CI parent — the oldest of 1 pre-CI commit(s), 5f0a8095)",
+"linux-only-arm · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control test-plan.md:551 (prose)",
+"ubuntu-e2e-job · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:660 (prose)",
+"browser-ubuntu · new 3 · standing 2 · leaf 1 · curation 0 · base 0 · control test-plan.md:396 (prose)",
+"runner-node · new 2 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:1445 (prose)",
+"npx-invoke · new 0 · standing 1 · leaf 2 · curation 0 · base 0 · control test-plan.md:546 (prose)",
+"axe-declared · new 0 · standing 3 · leaf 0 · curation 0 · base 0 · control a11y-plan.md:132 (prose)",
+"ready-10s · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:542 (prose)",
+"linux-run-gate · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:665 (p…",
+"all-browser · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:551 (pros…",
+"two-nightly · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:534 (p…",
+"never-sudo · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:326 (p…",
+"other-launcher · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control security-plan.md:426 (prose)",
+"gui-on-ubuntu · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control design-system.md:227 (prose)",
+"gate-cov-doc · new 0 · standing 3 · leaf 1 · curation 0 · base 0 · control architecture.md:537 (prose)",
+".andromeda/test-plan.md:1929 linux-only-arm new …runs on every OS (the `browser-linux-only` arm is retired) and only un…",
+".andromeda/test-plan.md:1753 ubuntu-e2e-job standing …OS Lint stage to the ubuntu browser job, after `npm ci --prefix e…",
+".andromeda/architecture.md:552 browser-ubuntu new @c1927/2013 … e2e-web` and the Playwright Chromium install per OS (`-…",
+".andromeda/test-plan.md:796 browser-ubuntu new … --no --prefix e2e-web playwright install chromium` (`--with-deps` on u…",
+".andromeda/test-plan.md:1444 browser-ubuntu new … --no --prefix e2e-web playwright install chromium` (`--with-deps` on …",
+".andromeda/test-plan.md:1661 browser-ubuntu standing     - web-spa: Playwright 1.63.0 headless Chromium on ubuntu, with…",
+".andromeda/a11y-plan.md:132 browser-ubuntu standing …E driver, running on Playwright Test 1.63.0 with headless Chromium…",
+".claude/rules/testing.md:20 browser-ubuntu leaf … eventsource-client) + Playwright 1.63.0 specs `e2e-web/tests/<bay-lay…",
+".andromeda/architecture.md:37 runner-node new …nstall-node.sh` (never runner-image Node, never a setup action); `@playw…",
+".andromeda/security-plan.md:710 runner-node new …olchain action and not runner-image Node (P4 operator fork 1). The WSL…",
+".andromeda/test-plan.md:1670 runner-node standing edited … and sha256-checks (runner-image Node retired 2026-09-27: the…",
+".andromeda/a11y-plan.md:1122 npx-invoke standing …n --browser` invokes `npx --prefix e2e-web playwright test`, which ru…",
+".claude/rules/testing.md:47 npx-invoke leaf …owser` · **one spec:** `npx --prefix e2e-web playwright test --grep \"<titl…",
+".claude/docs/commands.md:42 npx-invoke leaf - `npx --prefix e2e-web playwright test [--grep \"<title>\"]` — browser suite…",
+".andromeda/a11y-plan.md:132 axe-declared standing ….** Version 4.13.0 is already declared in the tests E2E driver, runn…",
+".andromeda/a11y-plan.md:196 axe-declared standing … 1.63.0 driver. It is already declared (tests excerpt, E2E driver), …",
+".andromeda/a11y-plan.md:1306 axe-declared standing     - it is already declared in the tests' Playwright Test 1.63.0 dr…",
+".andromeda/security-plan.md:429 other-launcher standing edited @c604/2764 …ns Log entry. One other launcher exists, `sc…",
+".andromeda/design-system.md:932 gui-on-ubuntu standing …S + Linux, and CI's headless GUI checks run on ubuntu). `--font…",
+".andromeda/architecture.md:569 gate-cov-doc standing edited @c986/2711 …--coverage` + `gate --require coverage,doctest`…",
+".andromeda/test-plan.md:662 gate-cov-doc standing edited …n --coverage` then `gate --require coverage,doctest` on the h…",
+".andromeda/a11y-plan.md:1115 gate-cov-doc standing …` (CI: `coverage`) | `gate --require coverage,doctest`; no a11y row…",
+".claude/docs/commands.md:33 gate-cov-doc leaf ×2 …s `run --coverage` + `gate --require coverage,doctest` and the `ubunt…",
+"linux-only-arm · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control test-plan.md:551 (prose)",
+"ubuntu-e2e-job · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:660 (prose)",
+"browser-ubuntu · new 3 · standing 2 · leaf 1 · curation 0 · base 0 · control test-plan.md:396 (prose)",
+"runner-node · new 2 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:1445 (prose)",
+"npx-invoke · new 0 · standing 1 · leaf 2 · curation 0 · base 0 · control test-plan.md:546 (prose)",
+"axe-declared · new 0 · standing 3 · leaf 0 · curation 0 · base 0 · control a11y-plan.md:132 (prose)",
+"ready-10s · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:542 (prose)",
+"linux-run-gate · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:665 (p…",
+"all-browser · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:551 (pros…",
+"two-nightly · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:534 (p…",
+"never-sudo · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:326 (p…",
+"other-launcher · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control security-plan.md:426 (prose)",
+"gui-on-ubuntu · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control design-system.md:227 (prose)",
+"gate-cov-doc · new 0 · standing 3 · leaf 1 · curation 0 · base 0 · control architecture.md:537 (prose)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "49f644472a11092d68c11c2cd84cfd3cef9fa994",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), 5f0a8095",
+"counts": {
+"linux-only-arm": {
+"new": 1,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"ubuntu-e2e-job": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"browser-ubuntu": {
+"new": 3,
+"standing": 2,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"runner-node": {
+"new": 2,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"npx-invoke": {
+"new": 0,
+"standing": 1,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"axe-declared": {
+"new": 0,
+"standing": 3,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"ready-10s": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"linux-run-gate": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"all-browser": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"two-nightly": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"never-sudo": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"other-launcher": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"gui-on-ubuntu": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"gate-cov-doc": {
+"new": 0,
+"standing": 3,
+"leaf": 1,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]

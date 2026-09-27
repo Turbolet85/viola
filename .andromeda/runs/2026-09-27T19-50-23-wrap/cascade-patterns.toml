@@ -1,0 +1,55 @@
+[[pattern]]
+id = "linux-only-arm"
+fixed = 'browser-linux-only'
+
+[[pattern]]
+id = "ubuntu-e2e-job"
+regex = '(?i)ubuntu (E2E|browser) job'
+
+[[pattern]]
+id = "browser-ubuntu"
+regex = '(?i)(browser|playwright)[^\n]{0,60}(ubuntu only|ubuntu-only|on ubuntu\b|ubuntu leg of[^\n]{0,20}only)'
+
+[[pattern]]
+id = "runner-node"
+regex = '(?i)runner[- ]image node|runner node'
+
+[[pattern]]
+id = "npx-invoke"
+fixed = 'npx --prefix e2e-web playwright test'
+
+[[pattern]]
+id = "axe-declared"
+regex = '(?i)already declared'
+
+[[pattern]]
+id = "ready-10s"
+fixed = 'bounded at 10 s'
+
+[[pattern]]
+id = "linux-run-gate"
+fixed = 'linux{run,gate}'
+
+[[pattern]]
+id = "all-browser"
+regex = '--all`?[^\n]{0,60}(browser|playwright)'
+
+[[pattern]]
+id = "two-nightly"
+fixed = 'two ubuntu jobs'
+
+[[pattern]]
+id = "never-sudo"
+fixed = 'The script never runs sudo'
+
+[[pattern]]
+id = "other-launcher"
+fixed = 'One other launcher exists'
+
+[[pattern]]
+id = "gui-on-ubuntu"
+regex = '(?i)headless GUI checks (in CI )?run on ubuntu'
+
+[[pattern]]
+id = "gate-cov-doc"
+regex = 'gate --require coverage,doctest`'

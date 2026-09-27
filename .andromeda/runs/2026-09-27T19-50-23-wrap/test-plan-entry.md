@@ -1,0 +1,11 @@
+
+## 2026-09-27-browser-verdict-reachability — `run --browser` on every OS, pinned Node, npm audit, root waits at 7 s
+**Section:** §1 (web-spa driver; harness run order; multi-os-compat) · §2 (E2E row; V9 row; Playwright naming) · §3 (`run` Command body, steps 2 and 3, Output `archived`, Test selection; `gate`; `pre-push` PATH, stages, document; Closed enums; Bootstrap `test-runner-install`, `ci-tool-install`) · §6 (Drivers web-spa) · §9 (Lint, Supply-chain, E2E, Coverage rows; tool-install paragraph; Matrix builds; Test report format) · §11 (CI ban) · §12 (Browser caching; new `2026-09-27` entry)
+**Change:**
+- `run --browser` runs on every OS and only when named (was: Linux under `--browser` or `--all`, `browser-linux-only` elsewhere); `--all` runs steps 1, 2, 4. The harness deletes stale reports, spawns `npm ci` (`npm.cmd`), a Chromium probe and `node …/cli.js test` (was `npx --prefix e2e-web playwright test`); `browser-missing` for a failed `npm ci` or absent Chromium. New `run` reason `browser-missing`; pre-push detail `node`.
+- The root `booted_wrapper` bound is 7 s (was 10 s), `tests/support/watch.rs` `WITHIN`, with a streamed `viola-root-watch` report.
+- CI: the per-OS `test` job runs the browser suite and gates `coverage,doctest,playwright` (was an ubuntu E2E job gating `playwright`); `junit-<os>` carries 2 paths; `supply-chain` + `npm-advisories` audit the npm lockfile; Node from `install-node.sh` (runner-image Node retired). Test selection passes `--config`.
+- pre-push: `tools` checks `node`; `linux-tests` runs `run --coverage`, `run --browser`, `gate --require coverage,doctest,playwright`; `linux{run,browser,gate}`; the PATH gains `<home>/.local/viola-node/bin`. §6: headless on all three OSes; axe joins with Epoch 8. §2: `pipe-reachability.spec.ts` is the one non-layout spec.
+**Why:** founder ruling W125; P4 operator forks 1–3; the 7 s bound below the 10 s mutants kill (a remove-the-guard pair: 7 s FAIL with the report, 12 s TIMEOUT with the output lost).
+**Kept:** the §12 initial entry's "Playwright … on ubuntu, with @axe-core/playwright 4.13.0" stands as history; the new entry records the supersession.
+**Ref:** .andromeda/runs/2026-09-27T19-50-23-wrap/

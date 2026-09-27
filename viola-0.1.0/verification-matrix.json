@@ -110,7 +110,7 @@
         "method": "manual",
         "acceptance": "After setup the code-graph health check is green (health.py check 11 ✓, read at this chunk's session start with planes rust). After this chunk's `python -X utf8 scripts/code-graph.py refresh`, the output carries both `tree-refresh[rust]:` and `tree-refresh[ts]:`, and `.andromeda/cache/rust/tree.db` and `.andromeda/cache/ts/tree.db` both exist. `health.py check` then reads check 11 ✓ with `planes rust, ts`. The project states explicitly that the TypeScript plane is active for the browser tests: `evidence/code-graph-planes.md` quotes the architecture §Infrastructure Patterns → Code-graph planes sentence that makes `e2e-web/` (via the tracked `e2e-web/tsconfig.json`) the ts plane.",
         "ref": "viola-0.1.0/chunks/2026-09-27-browser-verdict-reachability/evidence/code-graph-planes.md (gate entries 32-34: tree-refresh[rust] + tree-refresh[ts], both tree.db present, health.py check 11 planes rust, ts)",
-        "status": "implemented"
+        "status": "verified"
       },
       "chunk": "2026-09-27-browser-verdict-reachability"
     },

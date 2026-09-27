@@ -1,0 +1,99 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "3bf0941b",
+"ts": "2026-09-27T20:15:26Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-09-27-browser-verdict-reachability",
+"--run-dir",
+".andromeda/runs/2026-09-27T19-50-23-wrap",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-27-browser-verdict-reachability: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v1-08 → verified — After setup the code-graph health check is green (health.py check 11 ✓, read at … (686 chars)",
+"dry-run: nothing written",
+"version: verified 7/53"
+],
+"stderr": null,
+"wrote": [],
+"before": [
+{
+"id": "v1-08",
+"chunk": "2026-09-27-browser-verdict-reachability",
+"status": "implemented",
+"method": "manual",
+"ref": "viola-0.1.0/chunks/2026-09-27-browser-verdict-reachability/evidence/code-graph-planes.md (gate entries 32-34: tree-refre… (206 chars)",
+"acceptance": "After setup the code-graph health check is green (health.py check 11 ✓, read at this chunk's session start with planes r… (686 chars)",
+"notes_chars": 0
+}
+],
+"after": [
+{
+"id": "v1-08",
+"chunk": "2026-09-27-browser-verdict-reachability",
+"status": "verified",
+"method": "manual",
+"ref": "viola-0.1.0/chunks/2026-09-27-browser-verdict-reachability/evidence/code-graph-planes.md (gate entries 32-34: tree-refre… (206 chars)",
+"acceptance": "After setup the code-graph health check is green (health.py check 11 ✓, read at this chunk's session start with planes r… (686 chars)",
+"notes_chars": 0
+}
+]
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "3bf0941b",
+"ts": "2026-09-27T20:34:02Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-09-27-browser-verdict-reachability",
+"--run-dir",
+".andromeda/runs/2026-09-27T19-50-23-wrap"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-27-browser-verdict-reachability: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v1-08 → verified — After setup the code-graph health check is green (health.py check 11 ✓, read at … (686 chars)",
+"wrote viola-0.1.0\\verification-matrix.json · 1 entry changed",
+"version: verified 7/53"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0\\verification-matrix.json"
+],
+"before": [
+{
+"id": "v1-08",
+"chunk": "2026-09-27-browser-verdict-reachability",
+"status": "implemented",
+"method": "manual",
+"ref": "viola-0.1.0/chunks/2026-09-27-browser-verdict-reachability/evidence/code-graph-planes.md (gate entries 32-34: tree-refre… (206 chars)",
+"acceptance": "After setup the code-graph health check is green (health.py check 11 ✓, read at this chunk's session start with planes r… (686 chars)",
+"notes_chars": 0
+}
+],
+"after": [
+{
+"id": "v1-08",
+"chunk": "2026-09-27-browser-verdict-reachability",
+"status": "verified",
+"method": "manual",
+"ref": "viola-0.1.0/chunks/2026-09-27-browser-verdict-reachability/evidence/code-graph-planes.md (gate entries 32-34: tree-refre… (206 chars)",
+"acceptance": "After setup the code-graph health check is green (health.py check 11 ✓, read at this chunk's session start with planes r… (686 chars)",
+"notes_chars": 0
+}
+]
+}
+]

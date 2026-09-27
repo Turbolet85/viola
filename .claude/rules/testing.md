@@ -17,7 +17,7 @@ Path-scoped rules for test authoring (what tests assert, fixtures, coverage). Lo
 ## Framework
 - **Unit:** libtest `#[cfg(test)] mod tests` inline in every crate + root `src/`, run through cargo-nextest 0.9.146; rstest 0.27 `#[case]` tables, proptest 1.11.0 (`cases: 512`), insta 1.48.0 (check mode only), mockall 0.15.0 only on seam traits the product defines (`Pty`, liveness probe, `Clock`).
 - **Integration:** crate `tests/<topic>.rs` + root `tests/{cli,hook,tui,channel,chaos,contract}_<topic>.rs` (sync, tokio-free) with assert_cmd 2.2.2, trycmd 1.2.1, axum-test 21.1.0, jsonschema 0.57.0.
-- **E2E:** `crates/viola-e2e/tests/{path,mcp,http,sse,cross}_<topic>.rs` (rmcp client, reqwest, eventsource-client) + Playwright 1.63.0 specs `e2e-web/tests/<bay-layout-type>.spec.ts` (ubuntu only).
+- **E2E:** `crates/viola-e2e/tests/{path,mcp,http,sse,cross}_<topic>.rs` (rmcp client, reqwest, eventsource-client) + Playwright 1.63.0 specs `e2e-web/tests/<bay-layout-type>.spec.ts` (the pipe stub `pipe-reachability.spec.ts`, titles `pipe:`, is the one exception) on all three CI OSes; render, contrast and a11y verdicts are judged on the ubuntu leg.
 - **Doctests:** `cargo test --workspace --doc` (nextest cannot run them); examples that must not run use `no_run` / `text`, never `ignore`.
 
 ## Naming
@@ -44,7 +44,7 @@ Path-scoped rules for test authoring (what tests assert, fixtures, coverage). Lo
 
 ## Running tests
 - **Everything:** `scripts/agent-run.sh run --all` · **one Rust test:** `scripts/agent-run.sh run --e2e --filter 'test(/path2_send_confirms/)'`
-- **Unit / integration:** `run --unit` / `run --integration` · **browser (ubuntu):** `run --browser` · **one spec:** `npx --prefix e2e-web playwright test --grep "<title>"`
+- **Unit / integration:** `run --unit` / `run --integration` · **browser (every OS, only when named — never under `--all`):** `run --browser` · **one spec:** `npx --no --prefix e2e-web playwright test --config e2e-web/playwright.config.ts --grep "<title>"` (from the repo root `--config` is required)
 - **Coverage:** `run --coverage` (lines 85 / functions 95 / regions 80 per OS) · **mutants:** `run --mutants` (zero missed, zero timeout, unviable ≤ caught; verdict from a fresh `mutants.out/outcomes.json` — in the host mutation scratch `<repo parent>/viola-mutants-scratch` on a Windows host — never the exit code alone; `--file <path>` is the scoped inner loop, `verdict:"scoped"`, never a leg verdict; a diff with no `.rs` path passes as `verdict:"no-rust-delta"`; one whose `.rs` paths are all test targets — `tests/`, `benches/`, `examples/` — as `verdict:"test-only-rust-delta"`; a mixed diff is `counted`). In CI the verdict is the union of the ubuntu and windows legs (`run --mutants --leg` + `gate --mutants-legs`), each mutant judged only by the legs whose `#[cfg]`s compile its line, so a body gated to one OS is killed (or proven unviable) on the leg that compiles it and a miss there stays red; `pre-push` runs the same two legs and union locally before the push, so a Unix-only red surfaces on the Windows host · **fuzz:** `run --fuzz-replay` (Linux only; targets in the separate `fuzz/` workspace, synthetic corpus)
 
 ## Session Additions

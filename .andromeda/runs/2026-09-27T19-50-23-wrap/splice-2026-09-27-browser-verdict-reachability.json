@@ -1,0 +1,197 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "a47846e6",
+"ts": "2026-09-27T20:11:42Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-27T19-50-23-wrap/architecture-entry.md",
+"--lines",
+"11",
+"--run-dir",
+".andromeda/runs/2026-09-27T19-50-23-wrap",
+"--marker",
+"2026-09-27-browser-verdict-reachability"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+11 at line 222 · lines 221→232 · bytes 32468→34569 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-27T19-50-23-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 221,
+"bytes": 32468,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 232,
+"bytes": 34569
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "a47846e6",
+"ts": "2026-09-27T20:11:42Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-27T19-50-23-wrap/security-plan-entry.md",
+"--lines",
+"11",
+"--run-dir",
+".andromeda/runs/2026-09-27T19-50-23-wrap",
+"--marker",
+"2026-09-27-browser-verdict-reachability"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+11 at line 157 · lines 156→167 · bytes 20985→23129 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-27T19-50-23-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 156,
+"bytes": 20985,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 167,
+"bytes": 23129
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "a47846e6",
+"ts": "2026-09-27T20:11:42Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-27T19-50-23-wrap/test-plan-entry.md",
+"--lines",
+"11",
+"--run-dir",
+".andromeda/runs/2026-09-27T19-50-23-wrap",
+"--marker",
+"2026-09-27-browser-verdict-reachability"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+11 at line 236 · lines 235→246 · bytes 31061→33288 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-27T19-50-23-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 235,
+"bytes": 31061,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 246,
+"bytes": 33288
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "a47846e6",
+"ts": "2026-09-27T20:11:43Z",
+"argv": [
+"append",
+"--file",
+".andromeda/a11y-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-27T19-50-23-wrap/a11y-plan-entry.md",
+"--lines",
+"11",
+"--run-dir",
+".andromeda/runs/2026-09-27T19-50-23-wrap",
+"--marker",
+"2026-09-27-browser-verdict-reachability"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append a11y-plan-amendments.md:+11 at line 29 · lines 28→39 · bytes 3542→5103 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-27T19-50-23-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/a11y-plan-amendments.md"
+],
+"before": {
+"lines": 28,
+"bytes": 3542,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 39,
+"bytes": 5103
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "a47846e6",
+"ts": "2026-09-27T20:11:43Z",
+"argv": [
+"append",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-27T19-50-23-wrap/obs-plan-entry.md",
+"--lines",
+"9",
+"--run-dir",
+".andromeda/runs/2026-09-27T19-50-23-wrap",
+"--marker",
+"2026-09-27-browser-verdict-reachability"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append obs-plan-amendments.md:+9 at line 139 · lines 138→147 · bytes 16123→17110 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-27T19-50-23-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 138,
+"bytes": 16123,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 147,
+"bytes": 17110
+}
+}
+]
