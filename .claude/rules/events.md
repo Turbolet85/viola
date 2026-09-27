@@ -26,9 +26,9 @@ Path-scoped rules for viola's event log and state: the normalised event kinds, t
 - The link set is derived by replaying `link`/`unlink`; a repeated pair adds no line.
 
 ## Snapshots and liveness
-- Envelope `{"v":1,"written_at","writer","data"}`, replaced atomically (atomic-write-file); only the instance's wrapper writes `instances/<name>/snapshot.json`.
+- Envelope `{"v":1,"written_at","writer","data"}`, replaced atomically (tempfile `persist` through the one shared helper `viola_state::fs::replace_private`); only the instance's wrapper writes `instances/<name>/snapshot.json`.
 - An unsupported `v` or a parse failure → ignore the snapshot and replay the log; replay recovers only `links`, `agent_session_id`, `wheel`, `budget_paused`, `budget_override_until` (`dialog_pending` reads false).
-- Heartbeat touched every 1 s; older than 5 s = gone unless pid + start time are alive (`stale`). Never a bare pid.
+- Heartbeat touched every 1 s. A snapshot pid that is dead, or alive with another start time, is `gone` whatever the beat; otherwise a beat ≤ 5 s old is `live`, an older or absent one `stale`. Never a bare pid.
 
 ## Parsing
 - Readers heal a torn last line and count it; unknown kinds and fields are skipped and counted (`skipped`), never fatal. External payloads parse tolerantly (`#[serde(default)]`, `Option<T>`, no `deny_unknown_fields`), with serde_path_to_error drift reports going to the instance detail file only.

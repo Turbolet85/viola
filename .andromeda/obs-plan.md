@@ -617,7 +617,7 @@ This section specifies the concrete contract.
   - `hook-<name>.ndjson`, shared by hook processes;
   - `mcp.ndjson`, shared by one `viola mcp` per Claude session;
   - `cli-<name>.ndjson`, shared by concurrent short-lived verbs;
-  - `run-<name>.ndjson` and `ui-<port>.ndjson`, briefly: a second `viola run <name>` or `viola ui` on a live name or port opens the same file at init step 4. It appends its `process-start` and its exit-1 `process-exit` (for example `detail:"already-live"`, Scenario 1) next to the live process's lines. The concurrent-append check covers this collision path too (D-29);
+  - `run-<name>.ndjson` and `ui-<port>.ndjson`, briefly: a second `viola run <name>` on a live or `stale` name, or `viola ui` on a live port, opens the same file at init step 4. It appends its `process-start` and its exit-1 `process-exit` (for example `detail:"already-live"`, Scenario 1) next to the holder's lines. A `gone` name is taken over instead, with no exit-1 line. The concurrent-append check covers this collision path too (D-29);
   - the instance detail files `detail-hook.ndjson`, `detail-cli.ndjson` and `detail-mcp.ndjson`, shared by those same processes. Their lines (chains, drift reports, one-line backtraces) are not codes-only and can exceed 4 KiB, so the size argument below does not apply to them. They rely only on the single `write_all` and the torn-line tolerance, and the concurrent-append check must include a detail line larger than 4 KiB (D-28).
 
   Each line is one `write_all` of one complete line on an append-mode handle. POSIX `O_APPEND` fixes the offset per write; on Windows, `append(true)` opens with `FILE_APPEND_DATA` only. Non-interleaving at this size is an assumption, not a POSIX guarantee, because the 4 KiB `PIPE_BUF` rule applies to pipes. Two things back it:
@@ -853,7 +853,7 @@ Skipped as not-instrumentable per obs-scope §1: `viola-core` (it supplies `ObsE
 - **Must-trace spans:** `run.start` (INTERNAL, root) › `run.collision_check` › `run.pin_copy` › `run.version_gate` (spawns the `version-probe`) › `channel.bind` › `state.snapshot_write` › `state.heartbeat_start` › `pty.spawn` (CLIENT).
 - **Required span attributes:**
   - `run.start`: `instance`;
-  - `run.collision_check`: `outcome` (`free|already-live|squatted-name`);
+  - `run.collision_check`: `outcome` (`free|already-live|squatted-name`) — a `live` or `stale` holder is `already-live`; a `gone` one is `free` (taken over, its `events.ndjson` appended to);
   - `run.pin_copy`: `outcome` (`ok|pinned-hash-mismatch`); the `.cmd`/`.bat` refusal (`batch-script-child`) is decided earlier, by viola-side program resolution (`resolve_program`, after obs init and before the strip plan and `pty.spawn`), and logged as `process-exit{subject:"self", exit_code:1, detail:"batch-script-child"}` with no child spawned and no `process-start{subject:"claude-child"}`;
   - `run.version_gate`: `cli_version`, `cli_verified`;
   - `channel.bind`: `endpoint_kind` (`named-pipe|unix-socket`);
@@ -866,7 +866,7 @@ Skipped as not-instrumentable per obs-scope §1: `viola-core` (it supplies `ObsE
   - `process-start` / `process-exit{subject:"version-probe", child_exit_status, duration_ms}`.
   - On failure, `process-exit{subject:"self", exit_code:1, detail}` with `detail` ∈ `already-live|squatted-name|pinned-hash-mismatch|batch-script-child` (Founder Direction 4; no path or pid).
   - On success, `process-start{subject:"claude-child", child_pid, pty_backend, cli_version, cli_verified, env_stripped_count, env_stripped_known, env_kept}` (D-34).
-  - Product order `wheel{cause:"start"}` → `budget-gate` → `session-start` is verified from `events.ndjson` through `agent-run logs --kind`, not duplicated into process logs.
+  - Product order `wheel{cause:"start"}` → `budget-gate` → `session-start` is verified from `events.ndjson` through `agent-run logs --kind`, not duplicated into process logs (`session-start` joins with "Hooks to normalised events"; `run` writes the first two today).
 - **Cleanup:**
   - `run.start` closes when `pty.spawn` returns.
   - The handle-wait thread emits `process-exit{subject:"claude-child", child_exit_status, exit_source:"handle-wait"|"kill-fallback"}`, never on reader EOF (ConPTY chaos class). `run` then emits `process-exit{subject:"self", exit_code, duration_ms}`.
@@ -1070,7 +1070,7 @@ Template fields deliberately **not** emitted (D-12):
 | `parse-rejected` (D-05) | `parser` (`claude-agents-json|vt100-feed|config-json|ledger-stamps|last-event-id|hook-stdin|channel-frame|prompt-submitted|paste-text|state-entry`), `detail`, `count` |
 
 **`detail` code catalog** (closed, kebab-case, never a path or pid; Founder Direction 4):
-- `process-exit` exit 1: `already-live`, `squatted-name`, `pinned-hash-mismatch`, `batch-script-child`, `internal-error`.
+- `process-exit` exit 1: `already-live` (a `live` or a `stale` holder of the name; a `gone` holder is taken over with no exit-1 line), `squatted-name`, `pinned-hash-mismatch`, `batch-script-child`, `internal-error`.
 - `process-exit` exit 21: `instance-dead`, `strict-modes-failed`, `server-verify-failed`.
 - `process-exit` exit 20: `wrapper-fault`.
 - `hook-decision` fail-open codes (security Vector 4): `oversize-stdin`, `malformed-json`, `channel-unreachable`, `server-verify-failed`, `strict-modes-failed`, `unverified-cli`, `deadline`.

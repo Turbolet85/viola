@@ -1,0 +1,81 @@
+# Retired claims of this pass: their names AND their verbs / mechanisms.
+
+[[pattern]]
+id = "awf-name"
+fixed = "atomic-write-file"
+
+[[pattern]]
+id = "awf-commit"
+regex = 'commit\(\)'
+
+[[pattern]]
+id = "ref-answering"
+regex = 'answering endpoint'
+
+[[pattern]]
+id = "ref-live-ep"
+regex = 'live endpoint'
+
+[[pattern]]
+id = "live-age-first"
+regex = '(older than 5 s|>\s?5 s)[^\n]{0,60}(gone|stale)'
+
+[[pattern]]
+id = "live-5.1-gone"
+regex = '5\.1 s[^\n]{0,30}gone'
+
+[[pattern]]
+id = "mock-instant-hb"
+regex = 'mock_instant[^\n]{0,80}(heartbeat|stale|live)'
+
+[[pattern]]
+id = "snap-ep-first"
+regex = '`endpoint`, `(pid|pinned_bin)`'
+
+[[pattern]]
+id = "snap-data-ep"
+regex = '\{endpoint, pid'
+
+[[pattern]]
+id = "env-i-only"
+regex = 'HOME \+ PATH only'
+
+[[pattern]]
+id = "keep-every-leg"
+regex = 'KEEP_HOMES=1`? on every leg|every rstest home'
+
+[[pattern]]
+id = "logs-kind"
+fixed = "`logs --kind`, …"
+
+[[pattern]]
+id = "stderr-allow"
+regex = 'only human stderr site|allow\(clippy::print_stderr\)'
+
+[[pattern]]
+id = "sha2-devdep"
+regex = 'root dev-dependency'
+
+[[pattern]]
+id = "interim-ready"
+regex = '[Ii]nterim readiness'
+
+[[pattern]]
+id = "ss-third"
+regex = 'budget-gate[^\n]{0,60}session-start'
+
+[[pattern]]
+id = "members-no-state"
+regex = '`viola-agent-claude`,? (and )?`viola-e2e`'
+
+[[pattern]]
+id = "live-name-port"
+regex = 'on a live name or port'
+
+[[pattern]]
+id = "pin-if-absent"
+regex = 'creates if it is absent|if that copy is absent'
+
+[[pattern]]
+id = "plugin-rewrite"
+regex = 'rewrit\w+ `?plugin/'

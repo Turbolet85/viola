@@ -1,0 +1,9 @@
+
+## 2026-09-27-instance-state-and-start-order — the tempfile `persist` helper; `TMPDIR` carve-out under `env -i`
+**Section:** §Authentication & Authorization (Token / session storage; `~/.viola/` access control) · §Data Protection (plugin folder, `settings.json`) · §Bootstrap phases (auth-scaffolding-baseline) · §Secret Management (pre-push `env -i`) · §Dependency Security (the sha2 KAT line) · the pre-push Decisions/critical line (`env -i`)
+**Change:**
+- Every "atomic-write-file" site → the shared tempfile `persist` helper `viola_state::fs::replace_private` (mode set on the temp file before any byte, then `sync_all` + `persist`); the plugin rewrite uses `replace_private_shared` (a failed replace counts as done only over byte-identical content).
+- `env -i`: the Linux mutation leg's `TMPDIR=<distro home>/viola-pre-push-scratch` is recorded as the one named, constant, distro-derived assignment beside HOME and PATH — no host value; any assignment taking a host value stays a boundary widening needing its own Decisions Log entry.
+- sha2: now a `viola-state` product dependency; the root dev-dependency stays for the KAT.
+**Why:** chunk report Spec claims 1, Dependencies, Harness (`pre-push` TMPDIR); Expected amendment 6. The `TMPDIR` crossing is the boundary-widening class (never routine): RATIFIED by the overseer (founder-delegated) before the fan-out — "a named, constant, distro-derived assignment; no host value" — recorded here as that exact carve-out.
+**Sweep:** rows :197, :207, :265, :266, :380, :426, :686 are this pass's text; :671 amended (fold); :207@c1782, :500, :579 (the snapshot `endpoint` as a verification reference once bound) true — no change. Leaves re-derived: `rules/security.md` (:15, :32), `docs/security-summary.md` (:66); `docs/security-summary.md:28` true. Full rows: `runs/2026-09-27T06-12-23-wrap/cascade-sweep.md`.

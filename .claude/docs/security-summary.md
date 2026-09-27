@@ -63,7 +63,7 @@ For the enforcement bullets (secrets, trust boundary, validation, dependencies, 
 - `MAX_FRAME` stays 16 MiB, checked against the ledger's measured largest hook payload.
 - A driver's `release` is refused as an affordance guard, not enforcement (same-user processes are trusted in v1).
 - GUI cookie is per-port (`viola_<port>`) with no `Max-Age`; cross-port cookie exposure accepted as residual.
-- The local `pre-push` gate (Decisions Log `2026-09-27`): every WSL call runs under `env -i` (HOME + PATH only), so no `CLAUDE*` value crosses into WSL2 `Ubuntu`; `scripts/wsl-provision.sh` installs from ci.yml's own pins (sha256-pinned rustup-init 1.29.1, `cargo install --locked`), a third install site and never a new version source.
+- The local `pre-push` gate (Decisions Log `2026-09-27`): every WSL call runs under `env -i` (HOME + PATH, plus the Linux mutation leg's distro-derived constant `TMPDIR`), so no host value — `CLAUDE*` included — crosses into WSL2 `Ubuntu`; `scripts/wsl-provision.sh` installs from ci.yml's own pins (sha256-pinned rustup-init 1.29.1, `cargo install --locked`), a third install site and never a new version source.
 
 ---
 

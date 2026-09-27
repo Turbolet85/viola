@@ -17,12 +17,12 @@ The harness is the agent-driven verification surface. `scripts/agent-run.{sh,ps1
 - **Status:** `agent-run status` aggregates `viola list --json`, `GET /ready` and cookie-gated `/api/sessions` (`state: ready|degraded|down`, `api_sessions_equal_list`)
 - **PID file:** none as a product file — pids live in `instances/<name>/snapshot.json`; the harness record is `target/agent-run/<session>/session.json`
 - **Log format:** JSON-per-line — `events.ndjson` (arch event line) + process logs in `<home>/diagnostics/*.ndjson`; required fields `timestamp level target message event process instance corr` (bound to obs-plan §3)
-- **Tempdir convention:** a not-yet-existing home under `target/e2e-home/viola-session-*/home` (harness) or `target/e2e-home/viola-test-*/home` (root rstest chain, `tests/support/home.rs`) — viola creates it; kept in CI (`AGENT_RUN_KEEP_HOMES=1`) until obs gates and the secret scan have read it, and on a failing test under `AGENT_RUN_KEEP_FAILED=1`
+- **Tempdir convention:** a not-yet-existing home under `target/e2e-home/viola-session-*/home` (harness) or `target/e2e-home/viola-test-*/home` (root rstest chain, `tests/support/home.rs`) — viola creates it; kept in CI (`AGENT_RUN_KEEP_HOMES=1`; never under `run --mutants`) until obs gates and the secret scan have read it, a root home's leftover removed only once its recorded owner process is gone, and on a failing test under `AGENT_RUN_KEEP_FAILED=1`
 - **Fake agent:** `viola-fake-agent` (root `[[bin]]`, feature `fake-agent`) replays `fixtures/claude/<cli-version>/<Event>.<variant>.json` recorded by `viola verify`, runs absolute exec-form hooks from `<plugin-dir>/hooks/hooks.json`, gates script steps on `--control`, and writes an ndjson `--receipt`; CI stamps homes only by running `viola verify` against it (the root `stamped_home` is an interim no-stamp seam until then); the real `claude` never runs in CI
 
 ## E2E coverage (§6)
 
-- **Path 1 — `run` start sequence** — event order `wheel{start}` → `budget-gate` → `session-start`; duplicate / squatted / tampered-exe starts exit 1; plugin files rewritten with absolute pinned paths
+- **Path 1 — `run` start sequence** — event order `wheel{start}` → `budget-gate` → `session-start` (the third with "Hooks to normalised events"); duplicate / squatted / tampered-exe starts exit 1; plugin files rewritten with absolute pinned paths
 - **Path 2 — confirmed `send` + CL-1 records** — `cursor` = pre-paste offset, `send-issued` then `prompt-submitted{driver}`; `no-prompt-submitted` → exit 13 + `send-refused`; local command → `unconfirmable`; readback `open → read`
 - **Path 3 — `wait` / `last`** — wakes only on driver-relevant kinds, returns already-logged events at once, typed timeout, exit 21 on a vanished wrapper
 - **Path 4 — dialog → `answer`** — insta-pinned decision bodies (S3/S7/S8), one pending dialog, `unknown-dialog`, no decision without stamp + wheel `driver`
