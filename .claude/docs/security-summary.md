@@ -36,7 +36,7 @@ viola is a local-only, single-user tool: no accounts, no public listener, no dat
 - NEVER let an exec-form command viola writes resolve `viola` through PATH — absolute pinned path only.
 - NEVER answer `hook.dialog` non-`null` without a `viola verify` stamp; only `viola verify` writes the stamps.
 - NEVER let a process other than the instance's wrapper write its `snapshot.json`.
-- NEVER let `config.json`, a `VIOLA_*` env var or a flag switch off a control.
+- NEVER let `config.json`, a `VIOLA_*` env var or a flag switch off a control. The one env carve-out is the test seam `FAKE_AGENT_PUMP_DELAY_MS` (only under `fake-agent`, capped at 5 s, absent from release builds, switches off nothing); another seam needs its own Decisions Log entry.
 
 ## Arch amendments this plan requires (routed through wrap reconciles)
 
@@ -63,6 +63,7 @@ For the enforcement bullets (secrets, trust boundary, validation, dependencies, 
 - `MAX_FRAME` stays 16 MiB, checked against the ledger's measured largest hook payload.
 - A driver's `release` is refused as an affordance guard, not enforcement (same-user processes are trusted in v1).
 - GUI cookie is per-port (`viola_<port>`) with no `Max-Age`; cross-port cookie exposure accepted as residual.
+- The local `pre-push` gate (Decisions Log `2026-09-27`): every WSL call runs under `env -i` (HOME + PATH only), so no `CLAUDE*` value crosses into WSL2 `Ubuntu`; `scripts/wsl-provision.sh` installs from ci.yml's own pins (sha256-pinned rustup-init 1.29.1, `cargo install --locked`), a third install site and never a new version source.
 
 ---
 

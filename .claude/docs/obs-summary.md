@@ -48,6 +48,7 @@ The obs harness is **bound** to the test harness: tests owns the grepped fields 
 - HTTP spans record `uri.path()` only; no headers
 - Content-bearing records only in instance detail files; boundary-only logging — never in the PTY pump or notify tail loops
 - Merged phase with security's `logging-redaction-wire`
+- The local `viola-harness pre-push` document and the leg verdict it copies back from WSL2 are never uploaded and carry no absolute path — no Windows repo/home path, no Linux clone/home path (obs-plan §8 item 6)
 
 ## Universal anti-patterns
 

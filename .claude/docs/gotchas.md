@@ -99,6 +99,16 @@ Rendered by `/andromeda-setup-project` on the first run and kept current by wrap
 **How to avoid:** design against the installed CLI, measured; every relied-on behaviour is a ledger row with a `viola verify` probe.
 **References:** brief §4; arch [CLI Version Compatibility].
 
+## A resize before the pump's first look was lost
+**What breaks:** a host resize landing between the PTY's spawn sizing and the pump's first size read never reached the child, because the pump took a second `host_size()` read as its baseline (as measured at chunk 2026-09-26-local-linux-pre-push-gate: `spawn` 80×24 → resize +23.7 ms → pump baseline 100×30 at +990 ms; 6/6 red under a forced window).
+**How to avoid:** `viola_pty::pump(…, spawned, host_size)` takes the size the PTY was spawned with as its baseline. The forced-window test reaches the window through the `fake-agent`-only `FAKE_AGENT_PUMP_DELAY_MS` seam rather than sampling the race.
+**References:** test-plan §5 Module ↔ PTY, §12 `2026-09-27`; arch §Occupied Resources → Environment variables.
+
+## `wsl.exe -- cmd` re-parses argv through the distro shell
+**What breaks:** `wsl.exe -d Ubuntu -- cmd args` joins argv and hands it to the distro's shell, so `$…` expands (empty) and quoting changes; the distro's default environment also carries the Windows PATH.
+**How to avoid:** `wsl.exe -d Ubuntu [--cd D] --exec /usr/bin/env -i HOME=… PATH=…` — argv verbatim, no inherited environment (`viola-harness pre-push` does exactly this).
+**References:** test-plan §3 Internal harness subcommands (`pre-push`); security-plan §Secret Management.
+
 ## Related
 
 - For runtime-discovered learnings, see `.claude/docs/session-learnings.md` (curated by /andromeda-wrap-session)

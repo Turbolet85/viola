@@ -1,0 +1,100 @@
+# Cascade step-2 sweep — every amendment of this pass (wrap of 2026-09-26-local-linux-pre-push-gate)
+
+# test-plan §3 run step 4 Base — the retired "HEAD is the flip only at the wrap push" rule
+[[pattern]]
+id = "base-head-itself"
+fixed = "When that commit is HEAD"
+
+[[pattern]]
+id = "base-head-caret"
+regex = 'HEAD\^'
+
+[[pattern]]
+id = "base-wrap-push"
+fixed = "wrap push"
+
+[[pattern]]
+id = "base-last-flip"
+regex = 'last (master )?flip'
+
+# test-plan §5 Module <-> PTY — resize propagation / pump baseline
+[[pattern]]
+id = "resize-propag"
+fixed = "a resize is propagated"
+
+[[pattern]]
+id = "resize-any"
+regex = '[Rr]esize'
+
+[[pattern]]
+id = "version-source"
+fixed = "exactly one version source"
+
+[[pattern]]
+id = "rustup-install"
+regex = 'install(s|ed)? (it )?(through|via|by) (`)?rustup'
+
+[[pattern]]
+id = "rustup-tc-inst"
+fixed = "rustup toolchain install"
+
+[[pattern]]
+id = "cargo-locked"
+fixed = "cargo install --locked"
+
+# test-plan §3 internal harness subcommands (5 -> 6) and closed enums
+[[pattern]]
+id = "internal-subcmd"
+regex = '[Ii]nternal (harness )?subcommand'
+
+[[pattern]]
+id = "closed-enums"
+fixed = "Closed enums"
+
+# env-var rule and its carve-out (architecture + security-plan + obs-plan restatements)
+[[pattern]]
+id = "viola-prefix"
+regex = 'VIOLA_\*'
+
+[[pattern]]
+id = "every-var-prod"
+regex = 'every variable the product'
+
+[[pattern]]
+id = "never-read-viola"
+regex = 'never read by (the )?`?viola'
+
+[[pattern]]
+id = "not-config-chan"
+regex = 'not a configuration channel'
+
+[[pattern]]
+id = "never-reads-env"
+regex = 'never reads env'
+
+[[pattern]]
+id = "agent-run-prefix"
+fixed = "AGENT_RUN_"
+
+# mutation gate — the union verdict, now also computed locally before the push
+[[pattern]]
+id = "mutation-gate"
+fixed = "Mutation gate"
+
+[[pattern]]
+id = "mutants-legs"
+fixed = "--mutants-legs"
+
+[[pattern]]
+id = "operator-pass"
+regex = 'operator (pass|push)'
+
+# counts moved: ubuntu coverage suite 399 -> 401
+[[pattern]]
+id = "target-registry"
+fixed = "target/release-check"
+
+# project tree scripts listing
+[[pattern]]
+id = "install-ripgrep"
+fixed = "install-ripgrep.sh"

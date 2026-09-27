@@ -1,0 +1,158 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "72c4f8a5",
+"ts": "2026-09-27T01:11:45Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-27T00-51-08-wrap/test-plan-entry.md",
+"--lines",
+"12",
+"--run-dir",
+".andromeda/runs/2026-09-27T00-51-08-wrap",
+"--marker",
+"2026-09-26-local-linux-pre-push-gate"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+12 at line 242 · lines 241→253 · bytes 31127→34343 · term lf",
+"last line now: **Sweep:** `cascade.py sweep` (baseline a69c5efb) over 23 patterns — the retir"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 241,
+"bytes": 31127,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 253,
+"bytes": 34343
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "72c4f8a5",
+"ts": "2026-09-27T01:11:45Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-27T00-51-08-wrap/architecture-entry.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-09-27T00-51-08-wrap",
+"--marker",
+"2026-09-26-local-linux-pre-push-gate"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+10 at line 221 · lines 220→230 · bytes 32949→35804 · term lf",
+"last line now: **Sweep:** the test-plan entry's 23 patterns (+4 hand-controlled). Architecture "
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 220,
+"bytes": 32949,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 230,
+"bytes": 35804
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "72c4f8a5",
+"ts": "2026-09-27T01:11:45Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-27T00-51-08-wrap/security-plan-entry.md",
+"--lines",
+"11",
+"--run-dir",
+".andromeda/runs/2026-09-27T00-51-08-wrap",
+"--marker",
+"2026-09-26-local-linux-pre-push-gate"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+11 at line 137 · lines 136→147 · bytes 17486→20035 · term lf",
+"last line now: **Sweep:** the test-plan entry's 23 patterns (+4 hand-controlled). Security-plan"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 136,
+"bytes": 17486,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 147,
+"bytes": 20035
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "72c4f8a5",
+"ts": "2026-09-27T01:11:45Z",
+"argv": [
+"append",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-27T00-51-08-wrap/obs-plan-entry.md",
+"--lines",
+"8",
+"--run-dir",
+".andromeda/runs/2026-09-27T00-51-08-wrap",
+"--marker",
+"2026-09-26-local-linux-pre-push-gate"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append obs-plan-amendments.md:+8 at line 111 · lines 110→118 · bytes 15673→17497 · term lf",
+"last line now: **Sweep:** the test-plan entry's 23 patterns (+4 hand-controlled). obs-plan rows"
+],
+"stderr": null,
+"wrote": [
+".andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 110,
+"bytes": 15673,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 118,
+"bytes": 17497
+}
+}
+]

@@ -29,6 +29,8 @@ Universal security requirements for viola. Apply to all files. This rule file ha
 - `fuzz/` is its own cargo workspace, and its `fuzz/Cargo.lock` (libfuzzer-sys builds C++) sits outside the root `cargo deny` graph by a ratified test-only exemption: never link it into `viola`, never add `fuzz` to the root `[workspace]`. Its lockfile gets its own audit, `cargo deny --manifest-path fuzz/Cargo.toml check advisories sources`, run from the repo root (CI `supply-chain`; advisories weekly).
 - The release build carries `viola` only: `scripts/release-check.sh` judges the build's own artifact records (never a `target/release/` listing) and refuses any test-only binary.
 - Actions pinned by full commit SHA; workflow `permissions: {}`, job `contents: read`; no `rust-cache` in a release workflow.
+- The WSL2 `pre-push` distro installs only CI's own pins (`scripts/wsl-provision.sh`: sha256-pinned rustup-init, `cargo install --locked` of ci.yml's `test`-job line), and every WSL call runs under `env -i` — no host `CLAUDE*` value crosses.
+- The only env var outside `VIOLA_*` any `viola` build reads is the test seam `FAKE_AGENT_PUMP_DELAY_MS`: `cfg(feature = "fake-agent")` only, capped at 5 s, never in a release build. Another seam needs a Decisions Log entry.
 
 ## Error handling
 - thiserror `Display` impls use fixed messages (no paths, no payloads); channel `-32603` is exactly `"internal error"` / `data: null`; Problem Details `detail` strings are fixed and never name a path.
