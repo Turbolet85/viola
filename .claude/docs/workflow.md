@@ -8,7 +8,7 @@ _Extracted from architecture.md and project conventions by `/andromeda-setup-pro
 - **Main branch:** `main`
 - **Never force push** to main; the version branch is pushed at every wrap commit (the remote matches local HEAD on exit).
 - **PRs:** CI runs on push and PR (`ci.yml`; `nightly.yml` runs the weekly advisory check and the 120 s-per-target fuzz time-box on `schedule` / `workflow_dispatch` from the default branch). The `mutants` legs (ubuntu-latest, windows-2025) diff the whole chunk against a base the harness derives from git history — the last master flip before the chunk's oldest operator pre-CI commit — so every push of an operator pass, fix pushes included, re-reads the whole chunk (this project pushes one build branch, so the push trigger is what fires per chunk). CI passes no `github.event` value. The `mutants-verdict` job gates their union, judging each mutant only by the legs whose `#[cfg]`s compile its line. No `concurrency:` block, so no push's run is cancelled.
-- **Before the push:** the operator pass runs, in order: stop rust-analyzer → `bash scripts/agent-run.sh pre-push` on the uncommitted tree (the ubuntu test suites and the `ubuntu-latest` leg in WSL2 `Ubuntu`, the `windows-2025` leg on the host, CI's own union) → the pre-CI commit → the guarded push → the CI reads. A red `pre-push` stops the pass; CI's run on the pushed sha stays the verdict of record.
+- **Before the push:** the operator pass runs, in order: `bash scripts/agent-run.sh pre-push` on the uncommitted tree (rust-analyzer may keep running: the Windows mutation leg's `mutants.out/` lives in the host scratch outside the repository) (the ubuntu test suites and the `ubuntu-latest` leg in WSL2 `Ubuntu`, the `windows-2025` leg on the host, CI's own union) → the pre-CI commit → the guarded push → the CI reads. A red `pre-push` stops the pass; CI's run on the pushed sha stays the verdict of record.
 
 ## Andromeda workflow
 
@@ -44,7 +44,7 @@ This project uses the Andromeda pipeline for architecture, planning, and impleme
 **Don't skip session boundaries.** They keep CLAUDE.md and project knowledge fresh over time.
 
 ## Verification discipline
-- Every gate is agent-runnable with a machine-readable verdict: nextest JUnit, Playwright JSON, `mutants.out/outcomes.json` (locally) and the per-leg `mutants-verdict-<leg>.json` (CI), hyperfine JSON, llvm-cov JSON, one harness JSON document per command, and `viola-harness gate` as the one verdict per CI job.
+- Every gate is agent-runnable with a machine-readable verdict: nextest JUnit, Playwright JSON, `mutants.out/outcomes.json` (locally; in the host mutation scratch on Windows, each run's copy archived in `target/run-archive/`) and the per-leg `mutants-verdict-<leg>.json` (CI), hyperfine JSON, llvm-cov JSON, one harness JSON document per command, and `viola-harness gate` as the one verdict per CI job.
 - CI (three OSes) is the authority for OS-specific code: a Linux-only or Windows-only local run is not proof for the other OSes.
 - The real `claude` CLI runs only locally (`agent-run run --local-live`, `viola verify`); CI uses the fake agent and recorded fixtures. Changed real-CLI behaviour means a local fixture refresh + the contract suite.
 - Zero flakes: a flaky test keeps the chunk red until the root cause is fixed in that chunk.

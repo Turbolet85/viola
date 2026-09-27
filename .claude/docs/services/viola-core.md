@@ -35,7 +35,7 @@ None beyond the workspace-shared third-party crates; tokio is banned in its grap
 ## Testing this crate
 - **Unit tests:** `cargo nextest run -p viola-core`
 - **Property:** proptest `cases: 512` (UTF-8 continuation bytes never trip the C1 check); committed `proptest-regressions/`
-- **Mutants:** `cargo mutants --file crates/viola-core/src/<file>.rs --test-tool=nextest` — killed by this crate's own tests
+- **Mutants:** `bash scripts/agent-run.sh run --mutants --file crates/viola-core/src/<file>.rs` (the scoped inner loop, `verdict:"scoped"`) — killed by this crate's own tests
 
 ## References
 - `.andromeda/architecture.md` — §Conventions (refusal reasons, event kinds, data model)

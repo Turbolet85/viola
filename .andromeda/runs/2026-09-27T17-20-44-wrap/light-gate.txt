@@ -1,0 +1,44 @@
+gate v1.2 · c8c764ea
+shell C:\Program Files\Git\bin\bash.exe (from $SHELL; -c, non-login)
+root D:\dev\projects\viola · marker 2026-09-27-epoch-2-cleanup · entries 37
+logs C:\Users\turbo\AppData\Local\Temp\andromeda-gate\2026-09-27-epoch-2-cleanup\wrap-2026-09-27T17-20-44 · bound: GNU timeout
+delta docs 46
+prose L182-197: The gates run on this Windows host during /implement. - **Supply-chain and release:** the … (1509 chars)
+  1 lint        green · exit 0 · 0.42s · 0 B → 1.log · cargo fmt --all --check
+  2 lint        green · exit 0 · 0.4s · 72 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)
+  3 lint        green · exit 0 · 2.76s · 286 B → 3.log · bash scripts/lint-probes.sh
+  4 lint        green · exit 0 · 82.57s · 33 B → 4.log · bash scripts/orphans-check.sh
+  5 build       green · exit 0 · 0.37s · 143 B → 5.log · test -s scripts/sync-crates.txt && cargo check $(sed 's/^/… (88 chars)
+  6 probe       green · exit 0 · 0.62s · 1336 B → 6.log · cargo deny --config deny-sync.toml --manifest-path crates/… (93 chars)
+  7 probe       green · exit 0 · 1.2s · 8826 B → 7.log · cargo deny check
+  8 probe       green · exit 0 · 13.75s · 346 B → 8.log · bash scripts/deny-probes.sh
+  9 probe       green · exit 0 · 1.68s · 155 B → 9.log · bash scripts/release-check.sh --probe
+ 10 probe       green · exit 0 · 2.74s · 209 B → 10.log · bash scripts/release-check.sh
+ 11 probe       green · exit 0 · 0.18s · 619 B → 11.log · python -X utf8 viola-0.1.0/chunks/2026-09-27-epoch-2-clean… (76 chars)
+ 12 probe       green · exit 0 · 0.45s · 13 B → 12.log · python -X utf8 viola-0.1.0/chunks/2026-09-27-epoch-2-clean… (78 chars)
+ 13 probe       green · exit 0 · 0.24s · 123 B → 13.log · cargo machete crates
+ 14 probe       green · exit 1 · 0.29s · 596 B → 14.log · cargo machete
+ 15 unit        green · exit 0 · 13.44s · 56009 B → 15.log · bash scripts/agent-run.sh run --unit
+ 16 unit        green · exit 0 · 12.65s · 41269 B → 16.log · bash scripts/agent-run.sh run --unit --filter 'package(vio… (113 chars)
+ 17 unit        green · exit 0 · 43.16s · 27760 B → 17.log · for i in $(seq 20); do bash scripts/agent-run.sh run --uni… (189 chars)
+ 18 integration green · exit 0 · 25.52s · 19099 B → 18.log · AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --int… (66 chars)
+ 19 integration green · exit 0 · 22.74s · 3210 B → 19.log · AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --int… (196 chars)
+ 20 probe       green · exit 0 · 1.61s · 110 B → 20.log · bash scripts/agent-run.sh schema-check
+ 21 probe       green · exit 0 · 114.82s · 114 B → 21.log · bash scripts/agent-run.sh secret-scan
+ 22 lint        green · exit 1 · 0.07s · 0 B → 22.log · PATH="$PWD/target/tools/ripgrep/bin:$PATH" rg -n -U --pcre… (122 chars)
+ 23 probe       green · exit 1 · 0.08s · 0 B → 23.log · grep -rn -E 'try_overwrite|ListenerOptionsExt::mode' crate… (107 chars)
+ 24 probe       green · exit 0 · 0.08s · 2 B → 24.log · grep -rho 'security_descriptor(' crates/viola-channel/src … (65 chars)
+ 25 probe       green · exit 0 · 0.06s · 0 B → 25.log · git check-ignore -q target/run-archive/1
+ 26 probe       green · exit 0 · 4.15s · 70 B → 26.log · bash scripts/wsl-exec.sh --probe
+ 27 unit        green · exit 0 · 197.31s · 3509 B → 27.log · bash scripts/agent-run.sh run --mutants --file crates/viol… (98 chars)
+ 28 probe       green · exit 0 · 0.05s · 0 B → 28.log · test ! -e mutants.out
+ 29 smoke       green · exit 0 · 0.29s · 47 B → 29.log · bash scripts/agent-run.sh cleanup --session p-cleanup-smok… (59 chars)
+ 30 smoke       green · exit 0 · 2.12s · 472 B → 30.log · bash scripts/agent-run.sh boot --session p-cleanup-smoke -… (75 chars)
+ 31 smoke       green · exit 0 · 0.33s · 213 B → 31.log · bash scripts/agent-run.sh status --session p-cleanup-smoke
+ 32 smoke       green · exit 0 · 0.52s · 180 B → 32.log · bash scripts/agent-run.sh cleanup --session p-cleanup-smok… (59 chars)
+ 33 build       green · exit 0 · 1.02s · 264 B → 33.log · RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv cargo c… (116 chars)
+ 34 integration green · exit 0 · 1494.01s · 239374 B → 34.log · bash scripts/agent-run.sh pre-push
+ 35 integration not run — leg operator (the letter drives it) · bash scripts/agent-run.sh pre-push
+ 36 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (82 chars)
+ 37 probe       not run — leg operator (the letter drives it) · python -X utf8 C:/Users/turbo/.claude/skills/andromeda-too… (108 chars)
+entries 37 · green 34 · red 0 · recorded 0 · timeout 0 · not-run 3

@@ -11,7 +11,7 @@ The wrapper channel: JSON-RPC 2.0 over ndjson on interprocess 2.4.4 local socket
 `viola-core` (`RefusalReason`, `ViolaName`, `MAX_FRAME`, `v`); interprocess 2.4.4; serde, serde_json, thiserror, tracing, veil (as landed); windows-sys 0.61.2 (SID lookup, SDDL conversion via `Win32_Security_Authorization`, SQOS `CreateFileW`); libc (Unix: the uid for the socket dir); sysinfo 0.39.6 (start-time check, with the client verification).
 
 ### Publishes to
-The wrapper (`run`) server side; clients `hook`, the CLI verbs, `viola-mcp` (Tokio client) and the tests' raw-frame clients.
+The wrapper (`run`) server side; clients `hook`, the CLI verbs, `viola-mcp` (Tokio client) and the tests' raw-frame clients. Tests only: the `test-support` feature (`pub mod test_support`: `JsonFields`; on Windows `canonical_sddl`, `dacl_of`, an independent `user_sid`) — enabled only by the root `[dev-dependencies]`, never in a release build (release-check refuses it).
 
 ### Dependencies
 Tokio only behind the `tokio` feature; the sync build must pass `cargo check` without it on all three OSes.

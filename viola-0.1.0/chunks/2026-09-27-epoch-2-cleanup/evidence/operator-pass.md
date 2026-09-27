@@ -14,6 +14,19 @@ entry 35 (below) is red and stays on record; the watch it tripped is recurred-an
 - `cache`: `windows_scratch_bytes` 16 306 276, `windows_scratch_bytes_after` 74 587 168.
 - This green does not close the watch (testing.md 2026-09-27). The pass continues to the pre-CI commit, entry 36 and entry 37.
 
+## Pre-CI commit, entry 36 (push), entry 37 (CI read)
+
+- Pre-CI commit **`f0e6dbc`** `chore(2026-09-27-epoch-2-cleanup): operator pre-CI commit, for the run this chunk's verdict reads`
+  (`git add -A`, 68 files; `scripts/wsl-exec.sh` at index mode `100755`). Tree clean after it.
+- Entry 36: `git diff --quiet && git diff --cached --quiet && git push origin build/viola-0.1.0` → exit 0, fast-forward
+  `a0e6506..f0e6dbc` at 2026-09-27T16:33:55Z. Never forced. HEAD equals `origin/build/viola-0.1.0`.
+- Entry 37: `ci.py conclusion --sha HEAD --wait 5400`, 16:34:02Z → 17:19:25Z, exit 0:
+  `f0e6dbc857cb verdict: green · checks 15/15 · wall 2698 s · runs ci#36333711860 completed/success` (89 polls over 2723 s).
+- CI red-to-first-action: **not applicable** (no CI red). The one red-to-act figure of this pass is entry 35's first run: **36 s**
+  at most (above).
+- The viola-pty watch after this run: the red of 16:02Z stays **OPEN** (no captured chain). ci#36333711860 is the first green CI
+  run since the reset, so the expiry counter reads **1 of 3**. It counts toward the retirement rule and does not close the recurrence.
+
 Order directed by the overseer: entry 22 made self-sufficient and `scripts/wsl-exec.sh` given its executable bit, then entry 35
 `pre-push` on the uncommitted tree (a red stops the pass), then the pre-CI commit, entry 36's guarded push, and entry 37's CI read.
 **The first attempt stopped at entry 35 (red).** Nothing was committed or pushed then, and entries 36–37 did not run.

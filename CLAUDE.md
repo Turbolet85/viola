@@ -119,4 +119,5 @@ _This section is curated by `/wrap-session`. It accumulates universal (Tier 1) r
 - Every viola format carries `v` except process-log lines, whose version is their schema filename (`diag-line.v1.json`); readers skip and count unknown kinds and fields, and never use `deny_unknown_fields` on viola's own formats (mixed binary versions are real). [corrected 2026-09-24: the diag-line default-deny field list admits no `v`]
 - Probe, baseline and gate a CI tool at the exact version CI pins — install that version on the host first; an older host tool accepts flags the pinned one rejects, so a plan written against it ships gate commands that cannot pass.
 - A claim that reaches a wrap only through a relayed direction, with no artifact on disk behind it, is carried as a labelled HYPOTHESIS on the route, never written into a spec master as fact.
+- A red stays open until its cause is known: a green re-run never closes it, and a red met during a chunk folds into that chunk even outside its diff.
 <!-- USER:session-learnings end -->

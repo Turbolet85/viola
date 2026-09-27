@@ -1,0 +1,50 @@
+# Cascade step-2 sweep patterns: one per retired claim / qualified mechanism of this pass's amendments.
+[[pattern]]
+id = 'probe-3of3'
+fixed = '3/3 refused'
+
+[[pattern]]
+id = 'keepfail-only'
+fixed = 'Read only by the root test chain'
+
+[[pattern]]
+id = 'stop-ra'
+regex = '(stop|stopped|stopping) (the session.s )?rust-analyzer'
+ignore_case = true
+
+[[pattern]]
+id = 'mutout-json'
+fixed = 'mutants.out/outcomes.json'
+
+[[pattern]]
+id = 'rc-exec-only'
+regex = 'release-check[^|]{0,120}(viola. only|executables)'
+
+[[pattern]]
+id = 'raw-mut-file'
+fixed = 'cargo mutants --file'
+
+[[pattern]]
+id = 'keep-failed'
+fixed = 'AGENT_RUN_KEEP_FAILED'
+
+[[pattern]]
+id = 'temp-copies'
+regex = '(scratch|temp) cop(y|ies)|temp dir'
+
+[[pattern]]
+id = 'rstest-case'
+regex = 'rstest .?#\[case\]'
+
+[[pattern]]
+id = 'verdict-list'
+fixed = 'test-only-rust-delta'
+
+[[pattern]]
+id = 'every-wsl'
+regex = 'every WSL call'
+ignore_case = true
+
+[[pattern]]
+id = 'usage-detail'
+fixed = 'unknown-suite'
