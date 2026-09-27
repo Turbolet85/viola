@@ -131,6 +131,16 @@ fn retry_busy(error: &io::Error, now: Instant, until: Instant) -> bool {
     error.raw_os_error() == Some(PIPE_BUSY) && now < until
 }
 
+/// A busy pipe is waited for this long past the first attempt.
+#[cfg(windows)]
+const BUSY_WITHIN: std::time::Duration = std::time::Duration::from_secs(2);
+
+/// When an open that started at `start` stops waiting for a busy pipe.
+#[cfg(windows)]
+fn busy_deadline(start: Instant) -> Instant {
+    start + BUSY_WITHIN
+}
+
 #[cfg(windows)]
 pub(crate) fn open(endpoint: &str) -> io::Result<Stream> {
     use std::os::windows::ffi::OsStrExt as _;
@@ -142,14 +152,13 @@ pub(crate) fn open(endpoint: &str) -> io::Result<Stream> {
     use windows_sys::Win32::Storage::FileSystem::{CreateFileW, OPEN_EXISTING};
     use windows_sys::Win32::System::Pipes::WaitNamedPipeW;
 
-    const BUSY_WITHIN: std::time::Duration = std::time::Duration::from_secs(2);
     const BUSY_WAIT_MS: u32 = 100;
 
     let wide: Vec<u16> = std::ffi::OsStr::new(endpoint)
         .encode_wide()
         .chain(Some(0))
         .collect();
-    let busy_until = Instant::now() + BUSY_WITHIN;
+    let busy_until = busy_deadline(Instant::now());
     let handle = loop {
         // SAFETY: `wide` is NUL-terminated and outlives the call; null security attributes and
         // template are allowed.
@@ -310,6 +319,17 @@ mod tests {
         assert_eq!(
             SQOS_OPEN,
             SECURITY_SQOS_PRESENT | SECURITY_IDENTIFICATION | FILE_FLAG_OVERLAPPED
+        );
+    }
+
+    /// The deadline is two seconds AFTER the start, never before it.
+    #[cfg(windows)]
+    #[test]
+    fn busy_deadline_is_two_seconds_after_the_start() {
+        let start = Instant::now();
+        assert_eq!(
+            busy_deadline(start).saturating_duration_since(start),
+            std::time::Duration::from_secs(2)
         );
     }
 
