@@ -3,6 +3,7 @@
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
+use std::time::Instant;
 
 use serde_json::{Value, json};
 
@@ -90,6 +91,19 @@ fn unmutated(verdict: &str, diff: &str, base: &str) -> (Suite, Value) {
     (suite, doc)
 }
 
+/// MEASUREMENT ONLY (macOS 120 s kill, plan step 8): one phase of the arm through `runner`,
+/// bracketed by `mutants-phase` lines on stderr; the start line survives a kill.
+fn timed(runner: &mut Runner<'_>, name: &str, cmd: &mut Command) -> (Option<i32>, String) {
+    let started = Instant::now();
+    eprintln!("mutants-phase {name} start");
+    let out = runner(cmd);
+    eprintln!(
+        "mutants-phase {name} done {} ms",
+        started.elapsed().as_millis()
+    );
+    out
+}
+
 /// The mutation arm's result: its suite, its document part, and the `outcomes.json` it read (for
 /// the run archive), when cargo-mutants ran.
 pub(super) type Mutated = (Suite, Value, Option<PathBuf>);
@@ -129,7 +143,9 @@ pub(super) fn mutants(
     // cargo-mutants builds only the packages a diff touches, but the harness tests spawn the root
     // package's `viola` and `viola-fake-agent`: build them (root package only, so the running
     // `viola-harness` is never relinked) and copy `target/` into the scratch tree.
-    let (built, _) = runner(
+    let (built, _) = timed(
+        runner,
+        "prebuild",
         Command::new("cargo")
             .args(["build", "--package", "viola", "--features", "fake-agent"])
             .env("CARGO_TARGET_DIR", ws.root.join(MUTANTS_TARGET))
@@ -154,6 +170,8 @@ pub(super) fn mutants(
     cargo_mutants
         .args(["--test-tool=nextest", "--copy-target=true"])
         .args(MUTANTS_PROGRESS)
+        // MEASUREMENT ONLY (macOS 120 s kill): cargo-mutants' own phase trace; removed after it.
+        .args(["-L", "debug", "--all-logs"])
         // Live to our stderr: a run that stalls or is cancelled still shows its last outcome.
         .stdout(Stdio::from(std::io::stderr()))
         .env("NEXTEST_PROFILE", "mutants")
@@ -172,7 +190,7 @@ pub(super) fn mutants(
             .arg("--output")
             .arg(dir);
     }
-    let (code, _) = runner(&mut cargo_mutants);
+    let (code, _) = timed(runner, "cargo-mutants", &mut cargo_mutants);
     if let Some(reason) = mutants_exit_reason(code) {
         return Err(reason);
     }
@@ -238,6 +256,93 @@ mod tests {
             Some(base),
             &mut runner,
         )
+    }
+
+    /// MEASUREMENT ONLY (macOS 120 s kill, plan step 8): the nested cargo's cold build of the
+    /// throwaway crate's test targets into the `target/mutants` cargo-mutants copies (so the cold
+    /// build moves out of its baseline rather than adding to it), with cargo's job-queue log; then
+    /// each fresh test binary executed twice (`--list`, as nextest does), each timed; and the NAMES
+    /// only of the inherited build variables. Never a value, never a path.
+    fn measure(ws: &Workspace, test: &str) {
+        let started = Instant::now();
+        let names: Vec<String> = {
+            let wanted = [
+                "CARGO_MAKEFLAGS",
+                "MAKEFLAGS",
+                "MFLAGS",
+                "RUSTFLAGS",
+                "CARGO_ENCODED_RUSTFLAGS",
+                "RUSTC_WRAPPER",
+                "RUSTC_WORKSPACE_WRAPPER",
+                "LLVM_PROFILE_FILE",
+                "RUSTDOCFLAGS",
+                "CARGO_BUILD_JOBS",
+            ];
+            let mut names: Vec<String> = std::env::vars_os()
+                .filter_map(|(k, _)| k.into_string().ok())
+                .filter(|k| {
+                    wanted.contains(&k.as_str())
+                        || k.starts_with("CARGO_LLVM_COV")
+                        || k.ends_with("RUSTFLAGS")
+                        || k.starts_with("NEXTEST")
+                })
+                .collect();
+            names.sort();
+            names
+        };
+        eprintln!("mutants-measure {test} env-names {}", names.join(","));
+        let cargo_home = ws.root.parent().unwrap_or(&ws.root).join("cargo-home");
+        let build_started = Instant::now();
+        let out = Command::new("cargo")
+            .args([
+                "build",
+                "--tests",
+                "--features",
+                "fake-agent",
+                "--message-format=json-render-diagnostics",
+            ])
+            .env("CARGO_TARGET_DIR", ws.root.join(MUTANTS_TARGET))
+            .env("CARGO_HOME", &cargo_home)
+            .env("CARGO_LOG", "cargo::core::compiler::job_queue=debug")
+            .current_dir(&ws.root)
+            .stderr(Stdio::inherit())
+            .output()
+            .expect("cargo build --tests");
+        eprintln!(
+            "mutants-measure {test} build exit {:?} {} ms",
+            out.status.code(),
+            build_started.elapsed().as_millis()
+        );
+        let exes: Vec<PathBuf> = String::from_utf8_lossy(&out.stdout)
+            .lines()
+            .filter_map(|l| serde_json::from_str::<Value>(l).ok())
+            .filter(|m| m["reason"] == "compiler-artifact" && m["profile"]["test"] == true)
+            .filter_map(|m| m["executable"].as_str().map(PathBuf::from))
+            .collect();
+        for exe in exes {
+            let name = exe
+                .file_name()
+                .map(|n| n.to_string_lossy().into_owned())
+                .unwrap_or_default();
+            for pass in ["first", "second"] {
+                let at = Instant::now();
+                let code = Command::new(&exe)
+                    .arg("--list")
+                    .stdout(Stdio::null())
+                    .stderr(Stdio::null())
+                    .status()
+                    .map(|s| s.code());
+                eprintln!(
+                    "mutants-measure {test} exec {name} {pass} {:?} {} ms",
+                    code.ok().flatten(),
+                    at.elapsed().as_millis()
+                );
+            }
+        }
+        eprintln!(
+            "mutants-measure {test} total {} ms",
+            started.elapsed().as_millis()
+        );
     }
 
     #[test]
@@ -314,6 +419,7 @@ mod tests {
         let base = head(&ws);
         let lib = format!("{GOOD_LIB}pub fn three() -> u32 {{ 3 }}\n");
         fs::write(ws.root.join("src").join("lib.rs"), lib).expect("write");
+        measure(&ws, "survivors");
         let out = run_private(&ws, base);
         assert_eq!(out.code, 1, "{}", out.doc);
         let m = suite(&out.doc, "mutants");
@@ -340,6 +446,7 @@ mod tests {
              fn three_is_three() {{ assert_eq!(super::three(), 3); }}\n}}\n"
         );
         fs::write(ws.root.join("src").join("lib.rs"), lib).expect("write");
+        measure(&ws, "passes");
         let out = run_private(&ws, base);
         assert_eq!(out.code, 0, "{}", out.doc);
         let m = suite(&out.doc, "mutants");
