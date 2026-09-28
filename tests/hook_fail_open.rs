@@ -276,18 +276,6 @@ fn hook_forced_panic_fails_open_with_one_role_line_and_one_detail_line() {
         &panic_env(&dir),
         stdin_bytes(Stdin::Payload),
     );
-    // MEASUREMENT ONLY (Windows 1.0 s spine bound): printed before any assertion; removed once read.
-    let measured = detail_lines(&home).first().and_then(|d| {
-        d["backtrace"]
-            .as_array()?
-            .last()?
-            .as_str()
-            .map(str::to_owned)
-    });
-    #[allow(clippy::print_stderr)]
-    {
-        eprintln!("hook-panic took={:?} {measured:?}", out.took);
-    }
     assert_eq!(out.code, Some(0));
     assert!(out.stdout.is_empty(), "stdout: {} bytes", out.stdout.len());
     assert!(out.stderr.is_empty(), "stderr: {} bytes", out.stderr.len());

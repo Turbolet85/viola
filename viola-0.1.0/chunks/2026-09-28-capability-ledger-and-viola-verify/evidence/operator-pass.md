@@ -61,6 +61,22 @@ the pass stops here for the overseer's review of the recorded set.
   trails 12 not read · binary 0 not read by P1`, every predicate's control fired on its known positive
 - verdict: green
 
+## Entries 33-34 — the push and the CI read, with the reds folded after the first push
+- `01f22aa` (pre-CI commit) pushed; `ci.py conclusion` → `verdict: red` — ci#36429783467, `test (macos-latest)`: the
+  two `viola-e2e` harness mutants tests killed at the 120 s line (101.6 / 101.9 s on the previous green head). Folded
+  on the overseer's word; measured with timing-only pushes `65dd401`, `1027f87`, `8cc9f14` (their measurement code is
+  removed from the final tree).
+- `1027f87`: `test (windows-2025)` red — `hook_forced_panic_fails_open_…` took 1.50 s against the 1.0 s spine bound.
+  Folded on the overseer's word: symbolising 72 frames was 351 of the hook's 403 ms (ci#36436266196).
+- `8cc9f14`: `test (windows-2025)` red on `viola-pty` — the H2 class, recorded and NOT folded (`evidence/h2-ci-red.md`).
+- `a5f7a67` (fix: a private `CARGO_HOME` for the harness tests' nested cargo; raw panic frames, never symbolised),
+  pre-push green before its push: ci#36448654074 green in every job — macOS 0 `Blocking` lines, tests 81.6 / 82.0 s;
+  Windows forced-panic hook 23.7 ms. The remaining ~73 s macOS cold compile is a CARRY
+  (`evidence/macos-mutants-baseline-carry.md`).
+- Final tree (measurement code removed): the full gate block green (27 of 27, pre-push `ok:true` · `union` as entry 27
+  = this pass's entry 32 on the same uncommitted tree), then `gate.py hygiene`, the commit, the guarded push and the
+  `ci.py conclusion` read below.
+
 ## Overseer review — approved (2026-09-28 15:14, the Viola overseer)
 Recorded verbatim from the overseer's word: "Overseer review of fixtures/claude/2.1.283 (4 files), 2026-09-28 15:14:
 approved. Every path is scrubbed to ~ and <user>. A search for the user name, @, gmail, sk-ant, token and C:\Users

@@ -14,12 +14,6 @@ slow-timeout = { period = "30s", terminate-after = 4 }
 [profile.ci.junit]
 path = "junit.xml"
 
-# MEASUREMENT ONLY (macOS 120 s kill): the two harness mutants tests print their phase lines on a
-# passing run too; removed with cargo-mutants' -L debug once the phases are read.
-[[profile.ci.overrides]]
-filter = 'test(/harness::run::mutants::tests::run_mutants_(passes_when_the_change_is_tested|reports_survivors_of_an_untested_change)/) | test(=hook_forced_panic_fails_open_with_one_role_line_and_one_detail_line)'
-success-output = "immediate"
-
 # A mutant that hangs a test must end as a failed (caught) test, not a cargo-mutants timeout: the
 # first failure terminates every running test at once. cargo-mutants' auto timeout floors at 20 s,
 # so every in-test wait and this kill (10 s) stay below it — at or above it, a hang grades Timeout.
