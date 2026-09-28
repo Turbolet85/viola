@@ -1,0 +1,27 @@
+[[pattern]]
+id = "writeln"
+fixed = 'writeln!'
+
+[[pattern]]
+id = "refuse-helper"
+fixed = '`refuse`'
+
+[[pattern]]
+id = "one-exception"
+regex = '(one|only|single) (such site|exception)|refusal fn'
+
+[[pattern]]
+id = "refusal-list"
+regex = 'live or stale name|unable:`\s*/\s*`hint:'
+
+[[pattern]]
+id = "human-stderr"
+regex = 'human[ -](CLI )?stderr'
+
+[[pattern]]
+id = "env-only"
+regex = 'only other variables|two variables outside|not a configuration channel'
+
+[[pattern]]
+id = "clap-pin"
+fixed = 'clap 4.6.7'

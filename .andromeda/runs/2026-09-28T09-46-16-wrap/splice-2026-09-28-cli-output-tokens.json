@@ -1,0 +1,158 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "49608d7a",
+"ts": "2026-09-28T09:55:08Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-28T09-46-16-wrap/architecture-entry.md",
+"--lines",
+"9",
+"--run-dir",
+".andromeda/runs/2026-09-28T09-46-16-wrap",
+"--marker",
+"2026-09-28-cli-output-tokens"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+9 at line 263 · lines 262→271 · bytes 39959→41395 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-28T09-46-16-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 262,
+"bytes": 39959,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 271,
+"bytes": 41395
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "49608d7a",
+"ts": "2026-09-28T09:55:08Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-28T09-46-16-wrap/test-plan-entry.md",
+"--lines",
+"7",
+"--run-dir",
+".andromeda/runs/2026-09-28T09-46-16-wrap",
+"--marker",
+"2026-09-28-cli-output-tokens"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+7 at line 277 · lines 276→283 · bytes 38225→38908 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-28T09-46-16-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 276,
+"bytes": 38225,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 283,
+"bytes": 38908
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "49608d7a",
+"ts": "2026-09-28T09:55:08Z",
+"argv": [
+"append",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-28T09-46-16-wrap/obs-plan-entry.md",
+"--lines",
+"8",
+"--run-dir",
+".andromeda/runs/2026-09-28T09-46-16-wrap",
+"--marker",
+"2026-09-28-cli-output-tokens"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append obs-plan-amendments.md:+8 at line 176 · lines 175→183 · bytes 20793→21823 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-28T09-46-16-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 175,
+"bytes": 20793,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 183,
+"bytes": 21823
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "49608d7a",
+"ts": "2026-09-28T09:55:08Z",
+"argv": [
+"append",
+"--file",
+".andromeda/design-system-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-28T09-46-16-wrap/design-system-entry.md",
+"--lines",
+"7",
+"--run-dir",
+".andromeda/runs/2026-09-28T09-46-16-wrap",
+"--marker",
+"2026-09-28-cli-output-tokens"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append design-system-amendments.md:+7 at line 9 · lines 8→15 · bytes 1029→1717 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-28T09-46-16-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/design-system-amendments.md"
+],
+"before": {
+"lines": 8,
+"bytes": 1029,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 15,
+"bytes": 1717
+}
+}
+]

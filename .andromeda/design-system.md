@@ -683,7 +683,7 @@ State lives only in `data-*` attributes set by Lit. The following are never used
 - Callers: the human on a TTY, and LLM driver sessions via `--json` / MCP.
 
 **Toolkit / Framework:**
-- clap 4.6.7 (derive), Rust stable.
+- clap 4.6.7 (derive) built without its `color` feature, Rust stable: clap's help and usage output is plain in every mode, and no dependency reads a colour or terminal variable, so every styled byte of human output is viola's own SGR module's.
 - TTY detection uses std `IsTerminal`.
 - Windows VT enabling uses windows-sys 0.61.2 `SetConsoleMode(ENABLE_VIRTUAL_TERMINAL_PROCESSING)`, already in the stack. If it fails, output has no colour.
 - Styling is a small hand-written SGR module in the `viola` bin. It adds no dependency.

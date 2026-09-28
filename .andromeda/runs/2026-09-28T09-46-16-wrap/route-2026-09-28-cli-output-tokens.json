@@ -1,0 +1,121 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "db3af704",
+"ts": "2026-09-28T10:16:11Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-09-28-cli-output-tokens",
+"--run-dir",
+".andromeda/runs/2026-09-28T09-46-16-wrap",
+"--desc-file",
+".andromeda/runs/2026-09-28T09-46-16-wrap/master-desc.txt"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"flip master-route.md:30 - 2026-09-28-cli-output-tokens pending -> complete - desc REWRITTEN from --desc-file"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "db3af704",
+"ts": "2026-09-28T10:16:18Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-09-28-cli-output-tokens",
+"--date",
+"2026-09-28",
+"--run-dir",
+".andromeda/runs/2026-09-28T09-46-16-wrap",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"pin :51 strip CARRY: 404ch \"CARRY: chunk 2026-09-24-log-redaction-an\"",
+"pin :51 strip CARRY: 788ch \"CARRY: chunk 2026-09-27-browser-verdict-\"",
+"pin next markerless :53 holds CARRY:×5",
+"51 · 2026-09-28-cli-output-tokens · strip 2 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 51,
+"marker": "2026-09-28-cli-output-tokens",
+"blocks": 2,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "db3af704",
+"ts": "2026-09-28T10:16:26Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-09-28-cli-output-tokens",
+"--date",
+"2026-09-28",
+"--run-dir",
+".andromeda/runs/2026-09-28T09-46-16-wrap"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"pin :51 strip CARRY: 404ch \"CARRY: chunk 2026-09-24-log-redaction-an\"",
+"pin :51 strip CARRY: 788ch \"CARRY: chunk 2026-09-27-browser-verdict-\"",
+"pin next markerless :53 holds CARRY:×5",
+"51 · 2026-09-28-cli-output-tokens · strip 2 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+".\\viola-0.1.0\\route-archive.md",
+".\\viola-0.1.0\\working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 51,
+"marker": "2026-09-28-cli-output-tokens",
+"blocks": 2,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

@@ -957,6 +957,7 @@ threshold.
   - trycmd `tests/cmd/*.toml` covers the `viola-list` piped/`NO_COLOR` board (`BAY` line, caption row NAME · LIVE · STATUS · WHEEL · DIALOG · CLI, `-- UNWRAPPED - READ-ONLY --`), the `viola-send` mirror `[RB]`/`[  ]`/`[/ ]`, `viola-help` and the `viola-verify` step counter
   - snapbox redactions `[..]` mask timestamps, cursors and temp paths
   - no `\x1b[` under non-TTY / `NO_COLOR` / `TERM=dumb`
+  - `tests/cli_output_plain.rs` (`[[test]]`, `required-features = ["fake-agent"]`, uses `tests/support`) is the plain-output witness for clap's own output, all 3 OSes: `viola --help` (exit 0) and a clap usage error (exit 2) under `CLICOLOR_FORCE=1` / `CLICOLOR=1` into a pipe carry no ESC byte on stdout or stderr; `viola --help` under the outer PTY carries no SGR whose parameters hold bold `1` or underline `4` (the `ESC [ params m` parameters are parsed, never the screen text — ConPTY adds its own `ESC[m`); one case self-checks that parser against literals.
   - `tests/cli_slash_args.rs` (Vector 6, §6 rewritten-path warning): an rstest `#[case]` table passes leading-slash argv values (`/clear`, `/model x`, `//server/share`) in the target and text positions of `send` and `answer`, on all 3 OSes.
     - Each case exits 2 with a `--json` usage error.
     - `events.ndjson` gains no bytes, and the fake-agent receipt has no new `prompt` entry, so the value is never delivered as a prompt.
