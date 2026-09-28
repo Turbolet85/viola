@@ -197,12 +197,12 @@ baseline = 'green — recorded, empty diff at 537ac36'
 expect = []
 note = 'report-only: the review reads that the diff touches only the two removed jobs, their comment block and the :159 comment'
 [[gate]]
-run = '''grep -rlE 'mutants-legs|leg_verdict|cfg_legs|compiled_legs|mutants-verdict|invalid-leg|scoped-leg|linux-leg|windows-leg' crates src scripts .github Cargo.toml'''
+run = '''grep -rlE 'mutants-legs|leg_verdict|cfg_legs|compiled_legs|mutants-verdict|invalid-leg|scoped-leg|linux-leg|windows-leg' crates src scripts .github Cargo.toml | grep -vxF crates/viola-e2e/tests/cli.rs'''
 role = 'probe'
 new = true
 baseline = 'red — exit 0, 13 files listed: 11 under crates/viola-e2e (Cargo.toml, viola-harness.rs, cfg_legs.rs, gate.rs, mod.rs, pre_push.rs, pre_push/linux.rs, run.rs, run/mutants.rs, run/mutants/leg.rs, tests/cli.rs), .github/workflows/ci.yml, Cargo.toml; every one is in the modify set'
 expect = ['exit 1', 'no output']
-note = 'steps 2-7: no source, script, workflow or manifest names the retired machinery'
+note = 'steps 2-7: no source, script, workflow or manifest names the retired machinery. NARROWED at the wrap (operator + overseer ruling at implement P2): tests/cli.rs is filtered out because it names --mutants-legs to prove the flag is refused (step 6); every other hit still reads red'
 [[gate]]
 run = 'bash scripts/agent-run.sh run --unit'
 role = 'unit'

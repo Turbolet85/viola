@@ -291,3 +291,13 @@
 - §1/§3: the `boot` line-3 readiness check joins with "Verify-stamped test homes and harness" (was "Capability ledger and viola verify", which landed with the harness unchanged); §1's arch quotation reads the real CLI only locally, `verify` in CI against the fake agent.
 **Why:** rstest 0.27 refuses an empty glob at compile time (`rstest_macros-0.27.0/src/parse/rstest/files.rs:635`, measured at implement); the rest is the chunk's landed surface (report Changes). `contract_ledger_probes.rs` and the per-set insta pin stay in §5/§6 unchanged: the "Verify-stamped test homes and harness" and "Fake-agent drift contract" entries own them.
 **Ref:** .andromeda/runs/2026-09-28T18-10-28-wrap/
+
+## 2026-09-28-mutation-testing-to-the-epoch-boundary — mutation moves to the epoch boundary; legs, union and pre-push mutation stages retire; the macOS exclusion
+**Section:** §1 (tier justification, `run` order, required test type) · §2 (Unit, Mutation rows) · §3 (Exit codes; `run` body, step 4 Base and Command, exit semantics, output, test selection; `secret-scan`; `gate` signature, inputs, breaches, output, CI; `pre-push` stages, sync, document; Closed enums; `quality-gate-config-emit`) · §5 (oversize frame) · §6 (canary scope) · §9 (Coverage report, Mutation, Quality gates rows; matrix; report format; build failure) · §10 (Mutation gate; build failure) · §11 (CI) · §12 (new `2026-09-28` entry)
+**Change:**
+- No per-chunk, pre-push or CI mutation gate: `run --mutants` [`--file`] is named-only (no selector and `--all` run steps 1 and 2), and `/andromeda-code-audit` runs mutation at the epoch boundary; the verdict rule (`missed == 0`, `timeout == 0`, `unviable <= caught`) is unchanged.
+- Retired: `run --leg`, `gate --mutants-legs`, usage `invalid-leg` / `scoped-leg`, the leg verdict file and its outcome enum, the `#[cfg]` union; `pre-push` stages `linux-leg` / `windows-leg` / `union`, reasons `verdict-missing` / `base-mismatch`, the document's `legs` / `gate` / scratch byte fields, the distro scratch dir. The §9 Mutation row reads "none in CI".
+- §10: the two real-cargo-mutants harness self-tests are compiled out on macOS — cargo-mutants' baseline build in its copied tree holds ~77 s of an 80.9 s phase against 0.41 s outside it, as measured at CI run 36481260151; the cause stays unnamed, runner-side under the operator's ruling; kill 120 s and `retries = 0` unchanged.
+- §5: the oversize-frame test also accepts ENOTCONN on the write (macOS, CI run 36482322449).
+**Why:** the founder's 2026-09-28 17:59 ruling; the overseer's P4 answer removes the union with its last caller; the macOS arm and the ENOTCONN fold on the operator's words.
+**Ref:** .andromeda/runs/2026-09-28T21-04-49-wrap/

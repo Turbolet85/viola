@@ -1150,7 +1150,7 @@ _Scope: no `cognitive-accessibility` trigger fired (a11y-scope Sec 5), so there 
 **Standard+ invariants:**
 - Zero new violations per PR (regression budget): the binary verdict makes the base-branch baseline empty, so every violation on a PR fails it (SC-tagged rows identify the regression).
 - WCAG SC coverage report: every row of the Section 3 per-SC map as listed in `sc-coverage.json` (ranges expanded; including the absence rows, the single-page exception rows and the `3.2.6, 3.3.7, 3.3.8 (2.2)` no-surface row) has ≥ 1 passing `@sc-*`-tagged test in `sc-coverage-report.json`. Each row is met according to its "Applies in v1" value, exactly as the Section 9 Aggregation row defines. SC 1.4.10 is met only through the ≥ 760 CSS px reflow tests, and the < 760 band is the documented exception. "Applicable SC" in this section, including the failure conditions below, means exactly this row set.
-- The CLI output-discipline invariants (P4, P6) pass on all three OS legs inside `nextest-integration` / `nextest-e2e` (CI: the `coverage` suite), under the tests' mutation gate where they live in crate tests.
+- The CLI output-discipline invariants (P4, P6) pass on all three OS legs inside `nextest-integration` / `nextest-e2e` (CI: the `coverage` suite); where they live in crate tests, the epoch-boundary mutation audit (`run --mutants`, test-plan §10) covers them.
 
 **Performance budget per a11y CI run:**
 - axe `analyze()` < 30 s per state render. The fixture records `duration_ms` in the axe attachment, and the a11y spec's Playwright `timeout` bounds it.

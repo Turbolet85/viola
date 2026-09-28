@@ -48,7 +48,7 @@ The obs harness is **bound** to the test harness: tests owns the grepped fields 
 - HTTP spans record `uri.path()` only; no headers
 - Content-bearing records only in instance detail files; boundary-only logging — never in the PTY pump or notify tail loops
 - Merged phase with security's `logging-redaction-wire`
-- The local `viola-harness pre-push` document and the leg verdict it copies back from WSL2 are never uploaded and carry no absolute path — no Windows repo/home path, no Linux clone/home path; its `cache` host-scratch fields are byte counts (obs-plan §8 item 6)
+- The local `viola-harness pre-push` document is never uploaded and carries no absolute path — no Windows repo/home path, no Linux clone/home path (obs-plan §8 item 6)
 - `mutants.out/` is never uploaded; on a Windows host it sits in the host mutation scratch outside the repository, named by no document (only `scratch_bytes`). `target/run-archive/<n>/` (each run's JUnit and the `outcomes.json` it read) is never uploaded either — gitignored, outside every upload path (obs-plan §8 item 6)
 
 ## Universal anti-patterns

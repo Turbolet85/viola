@@ -48,3 +48,13 @@ with the one-measurement-push bound".
 
 ## Push 4 — the red folded
 - **Entry 24** before it: pre-push exit 0, `"stage":"windows-tests"`, `ok:true` (Linux 917, Windows 932).
+- **Entry 23** before the commit: `hygiene: clean`.
+- **Entry 25** clean-tree guard held · `9da5f67..17b93c7`.
+- **Entry 26 — the final verdict:** `17b93c7f73ef verdict: green · checks 15/15 · wall 242 s · runs ci#36483042659
+  completed/success`.
+- **Entry 27** `gh run download 36483042659 … -n junit-<os>`:
+  | OS | testcases · failures | `run_mutants_passes_when_the_change_is_tested` | `…reports_survivors_of_an_untested_change` | `channel_endpoint_answers_protocol_faults` |
+  |---|---|---|---|---|
+  | macos-latest | 915 · 0 | absent | absent | 0.226 s |
+  | ubuntu-latest | 917 · 0 | 1.791 s | 1.792 s | 0.297 s |
+  | windows-2025 | 932 · 0 | 6.101 s | 5.801 s | 0.165 s |

@@ -1,0 +1,10 @@
+## 2026-09-28-mutation-testing-to-the-epoch-boundary — the distro TMPDIR carve-out, the leg-verdict upload and the download-artifact pin retire
+**Section:** Dependency Security (CI integration: the concurrency note, the SHA-pinned list, the event-payload line) · Bootstrap phases (`secret-scanning-ci-gate`) · Secret Management (Development: the pre-push WSL crossing; Secret scanning in CI) · Security Decisions Log (new `2026-09-28` entry)
+**Change:**
+- The pre-push WSL crossing carries exactly `HOME` and `PATH` (was: plus the Linux mutation leg's constant `TMPDIR=<distro home>/viola-pre-push-scratch`); a host-valued assignment stays a boundary widening.
+- One CI upload stays unscanned, the nightly `fuzz/artifacts/` (was two: the mutants legs' `mutants-verdict-<os>.json` left with the CI mutation jobs); the scan's exact-path skip is `run --mutants`' `chunk.diff` (was "the mutation leg's"), the skip and the upload exclusion unchanged.
+- SHA-pinned actions: checkout, rust-cache, install-action, upload-artifact (`actions/download-artifact` v8.0.1 removed, 5 → 4). The concurrency note reads that CI runs no mutation job; the event-payload line re-scopes the derived mutation base to `run --mutants`.
+- A narrowing Decisions Log entry records both retirements; the 2026-09-24 and 2026-09-27 entries stay as history.
+**Why:** the founder's 2026-09-28 17:59 ruling removed the CI and pre-push mutation legs, so the carve-out, the upload and the pin have no user. A narrowing, never the widening class.
+**Kept:** the Threat Model Summary (its `download-artifact` and "mutation legs plus a union verdict" lines) — a verbatim copy of threat-assessment.md; the facts live in §Dependency Security.
+**Ref:** .andromeda/runs/2026-09-28T21-04-49-wrap/

@@ -199,3 +199,13 @@
 - Short-lived `cli`: when an instance resolves, `process-exit{subject:"self", exit_code:1, detail:"internal-error"}` to `cli-<name>.ndjson` (as `run` does), the chain only in `detail-cli.ndjson`, then exactly `error: internal error\n` in one `write_all`, no hint, exit 1.
 **Why:** symbolising 72 frames cost 351.4 ms of a 402.7 ms hook run on the Windows runner and pushed the forced-panic hook to 1.50 s against the 1.0 s spine bound; raw capture measured 23.7 ms (as measured at CI runs 36436266196, 36435153705, 36448654074). The overseer directed this amendment.
 **Ref:** .andromeda/runs/2026-09-28T18-10-28-wrap/
+
+## 2026-09-28-mutation-testing-to-the-epoch-boundary — the mutation row leaves CI; the leg verdict upload and pre-push scratch counts retire
+**Section:** §8 item 6 (the `chunk.diff` owner; the pre-push document; unscanned uploads) · §9 (the `harness-<os>` row, the Mutation row, step 3 of the step order) · §10 (build / deploy failure conditions)
+**Change:**
+- §9 Mutation row: no CI job since 2026-09-28 — obs code meets cargo-mutants at `agent-run run --mutants`, run at the epoch boundary through `/andromeda-code-audit` and on demand (was: per-leg `mutants-verdict-<os>.json` merged by the `mutants-verdict` union job, and the pre-push union).
+- §8 item 6: the pre-push document is never uploaded and carries no absolute path (the copied-back leg verdict and the `windows_scratch_bytes*` fields are gone); the unscanned `mutants-verdict-<os>.json` upload left with the CI jobs; `chunk.diff` is `run --mutants`' diff (§9 and step 3 alike).
+- §10: a surviving mutant in obs code is a failure at a `run --mutants` (the audit or on demand).
+**Why:** the founder's 2026-09-28 17:59 ruling moves mutation testing to the epoch-boundary code audit.
+**Kept:** §1 (the verbatim obs-scope copy) untouched.
+**Ref:** .andromeda/runs/2026-09-28T21-04-49-wrap/

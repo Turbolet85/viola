@@ -1,0 +1,10 @@
+
+## 2026-09-28-mutation-testing-to-the-epoch-boundary — mutation leaves CI and the pre-push; syn, proc-macro2 and the download-artifact pin out
+**Section:** Stack and Technologies (CI/CD, Code quality rows) · Occupied Resources (Environment variables `AGENT_RUN_CHUNK_BASE`; Filesystem test-side install sites; Repository `target/agent-run/`, `viola-mutants-scratch/`) · Infrastructure Patterns (Project directory structure `ci.yml` comment; Crate dependency direction; CI/CD approach: workflows note, Setup steps, Jobs wired today, the pre-push paragraph)
+**Change:**
+- CI: 7 jobs / 15 check-runs per push (was 9 / 18), as measured at ci#36483042659 on `17b93c7`; the `mutants` matrix and the `mutants-verdict` union job are gone — CI runs no mutation job, mutation runs only through `agent-run run --mutants` [`--file`], kept for `/andromeda-code-audit`. The SHA-pinned set is checkout, rust-cache, install-action, upload-artifact (`actions/download-artifact` 8.0.1 gone).
+- Pre-push: stages `tools → sync → cache → linux-tests → vm-release → windows-tests`, `ok:true` when `windows-tests` is green; no mutation stage, no union, no equal-`base` rule; every WSL call is `env -i HOME=… PATH=…` with no further assignment (the `TMPDIR=<distro home>/viola-pre-push-scratch` sentence retired); `cache` reports `bytes`, `cap`, `cleaned`, `bytes_after`.
+- Stack: syn 2.0.119 / proc-macro2 1.0.107 (the union's `#[cfg]` reader `harness::cfg_legs`) removed from `viola-e2e` and the Code quality row; the crate-direction bullet no longer lists them.
+- Occupied Resources: `artifacts/mutants-verdict-<leg>.json` retired; `chunk.diff` is `run --mutants`' diff; the host mutation scratch serves `run --mutants` on a Windows host (no pre-push or CI leg); `AGENT_RUN_CHUNK_BASE` overrides `run --mutants`' base, and CI never sets it; the distro PATH component comes from `Linux::cmd` (was `Linux::cmd_env`).
+**Why:** the founder's ruling of 2026-09-28 17:59 moves mutation testing to the epoch-boundary code audit; the overseer's P4 answer removes the leg and union machinery that no caller keeps.
+**Ref:** .andromeda/runs/2026-09-28T21-04-49-wrap/

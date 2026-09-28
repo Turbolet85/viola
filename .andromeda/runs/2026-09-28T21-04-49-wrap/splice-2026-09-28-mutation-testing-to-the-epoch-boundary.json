@@ -1,0 +1,207 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "49608d7a",
+"ts": "2026-09-28T21:20:46Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-28T21-04-49-wrap/architecture-entry.payload",
+"--lines",
+"10",
+"--expect-last-prefix",
+"**Ref:**",
+"--run-dir",
+".andromeda/runs/2026-09-28T21-04-49-wrap",
+"--marker",
+"2026-09-28-mutation-testing-to-the-epoch-boundary"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+10 at line 310 · lines 309→319 · bytes 47974→50130 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-28T21-04-49-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 309,
+"bytes": 47974,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 319,
+"bytes": 50130
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "49608d7a",
+"ts": "2026-09-28T21:20:47Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-28T21-04-49-wrap/security-plan-entry.payload",
+"--lines",
+"11",
+"--expect-last-prefix",
+"**Ref:**",
+"--run-dir",
+".andromeda/runs/2026-09-28T21-04-49-wrap",
+"--marker",
+"2026-09-28-mutation-testing-to-the-epoch-boundary"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+11 at line 217 · lines 216→227 · bytes 31416→33179 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-28T21-04-49-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 216,
+"bytes": 31416,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 227,
+"bytes": 33179
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "49608d7a",
+"ts": "2026-09-28T21:20:47Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-28T21-04-49-wrap/test-plan-entry.payload",
+"--lines",
+"10",
+"--expect-last-prefix",
+"**Ref:**",
+"--run-dir",
+".andromeda/runs/2026-09-28T21-04-49-wrap",
+"--marker",
+"2026-09-28-mutation-testing-to-the-epoch-boundary"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+10 at line 294 · lines 293→303 · bytes 40823→42862 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-28T21-04-49-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 293,
+"bytes": 40823,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 303,
+"bytes": 42862
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "49608d7a",
+"ts": "2026-09-28T21:20:47Z",
+"argv": [
+"append",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-28T21-04-49-wrap/obs-plan-entry.payload",
+"--lines",
+"10",
+"--expect-last-prefix",
+"**Ref:**",
+"--run-dir",
+".andromeda/runs/2026-09-28T21-04-49-wrap",
+"--marker",
+"2026-09-28-mutation-testing-to-the-epoch-boundary"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append obs-plan-amendments.md:+10 at line 202 · lines 201→211 · bytes 24798→26063 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-28T21-04-49-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 201,
+"bytes": 24798,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 211,
+"bytes": 26063
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "49608d7a",
+"ts": "2026-09-28T21:20:47Z",
+"argv": [
+"append",
+"--file",
+".andromeda/a11y-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-28T21-04-49-wrap/a11y-plan-entry.payload",
+"--lines",
+"6",
+"--expect-last-prefix",
+"**Ref:**",
+"--run-dir",
+".andromeda/runs/2026-09-28T21-04-49-wrap",
+"--marker",
+"2026-09-28-mutation-testing-to-the-epoch-boundary"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append a11y-plan-amendments.md:+6 at line 40 · lines 39→45 · bytes 5103→5653 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-28T21-04-49-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/a11y-plan-amendments.md"
+],
+"before": {
+"lines": 39,
+"bytes": 5103,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 45,
+"bytes": 5653
+}
+}
+]

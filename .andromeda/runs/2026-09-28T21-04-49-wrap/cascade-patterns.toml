@@ -1,0 +1,83 @@
+[[pattern]]
+id = "mverdict"
+fixed = 'mutants-verdict'
+
+[[pattern]]
+id = "mlegs"
+fixed = 'mutants-legs'
+
+[[pattern]]
+id = "invleg"
+fixed = 'invalid-leg'
+
+[[pattern]]
+id = "scopedleg"
+fixed = 'scoped-leg'
+
+[[pattern]]
+id = "legstages"
+regex = 'linux-leg|windows-leg'
+
+[[pattern]]
+id = "prereasons"
+regex = 'verdict-missing|base-mismatch'
+
+[[pattern]]
+id = "prescratch"
+fixed = 'viola-pre-push-scratch'
+
+[[pattern]]
+id = "dlartifact"
+fixed = 'download-artifact'
+
+[[pattern]]
+id = "cfglegs"
+fixed = 'cfg_legs'
+
+[[pattern]]
+id = "synpm"
+regex = '\bsyn\b|proc-macro2'
+
+[[pattern]]
+id = "mutleg"
+regex = 'mutation legs?|mutants legs?|leg verdicts?'
+ignore_case = true
+
+[[pattern]]
+id = "union"
+regex = 'union of (the |both |two )?legs|the union|union verdict|same union'
+ignore_case = true
+
+[[pattern]]
+id = "checkruns"
+regex = '18 check-runs|18/18|\(9; 18'
+
+[[pattern]]
+id = "runleg"
+regex = '--leg\b'
+
+[[pattern]]
+id = "mutgate"
+regex = 'per-chunk mutation|mutation gate'
+ignore_case = true
+
+[[pattern]]
+id = "scratchbytes"
+regex = 'windows_scratch_bytes|scratch_bytes_after'
+
+[[pattern]]
+id = "tmpdircarve"
+fixed = 'TMPDIR=<distro home>'
+
+[[pattern]]
+id = "cmdenv"
+fixed = 'cmd_env'
+
+[[pattern]]
+id = "defaultsel"
+fixed = 'steps 1, 2 and 4'
+
+[[pattern]]
+id = "wholechunk"
+regex = 'mutates the whole chunk|whole chunk'
+ignore_case = true

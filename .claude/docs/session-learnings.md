@@ -8,6 +8,11 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-09-28 — A plan whose test and probe contradict: narrow the probe
+When a plan's own test must name a retired token to prove it is refused (a CLI test passing a removed flag) while the same plan's grep probe forbids that token anywhere in the tree, the two cannot both hold. The operator's ruling: narrow the probe to exclude exactly the refusal test (every other hit still reds), recorded in the plan's `note`, at the wrap. Never split the token in the test to dodge the grep, and never carry the probe as a standing red: a permanently red probe stops discriminating, and a dodged token hides the very reference the test exists to make.
+
+---
+
 ## 2026-09-24 — Three pattern probes that match what they were not aimed at
 A sweep or guard is only as good as its pattern, and three natural patterns in this repo match more, or less, than they appear to.
 - A bare `grep owed` over the masters also hits `allowed`, `followed` and `showed`. Word-bound it (`grep -w owed`) before counting stale "owed" clauses.

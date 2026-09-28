@@ -37,3 +37,9 @@
 **Why:** founder ruling W125 put the browser pipe on all three CI OSes before the a11y harness lands on it (chunk 2026-09-27-browser-verdict-reachability); the axe pin was deferred to Epoch 8.
 **Kept:** §1 (the verbatim a11y-scope copy) and the §12 key-decision history ("already declared") stand as written.
 **Ref:** .andromeda/runs/2026-09-27T19-50-23-wrap/
+
+## 2026-09-28-mutation-testing-to-the-epoch-boundary — the CLI output-discipline invariants meet mutation at the epoch-boundary audit
+**Section:** §10 SLO Invariants & A11y Budgets (the CLI output-discipline invariants P4, P6)
+**Change:** where those invariants live in crate tests, the epoch-boundary mutation audit (`run --mutants`, test-plan §10) covers them (was "under the tests' mutation gate").
+**Why:** the founder's 2026-09-28 17:59 ruling removed the per-chunk and CI mutation gates.
+**Ref:** .andromeda/runs/2026-09-28T21-04-49-wrap/

@@ -3,13 +3,65 @@
 "tool": "gate",
 "v": "1.4",
 "sha8": "4a57daca",
-"ts": "2026-09-28T20:29:41Z",
+"ts": "2026-09-28T21:05:05Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-09-28-mutation-testing-to-the-epoch-boundary",
+"--run-dir",
+".andromeda/runs/2026-09-28T21-04-49-wrap",
+"--marker",
+"2026-09-28-mutation-testing-to-the-epoch-boundary"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\viola · base 537ac366 (the parent of the oldest pre-CI commit d5deb010) · lists new 0 · modify 17 · derived 1 · record 3",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"recorded companion crates/viola-e2e/src/harness/run/mutants/scratch.rs",
+"recorded widening tests/channel_endpoint.rs",
+"record: not changed — .config/nextest.toml",
+"list Cargo.lock (derived by `cargo check --workspace`) ×1",
+"scope: clean — changed 20 · listed 18 · recorded 2 (companion 1 · mechanical 0 · in-intent 0 · widening 1) · absorbed 0 · excluded 37"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\viola",
+"base": "537ac3667a81ad435023d44750ace4e516129b76",
+"base_why": "the parent of the oldest pre-CI commit d5deb010",
+"counts": {
+"changed": 20,
+"listed": 18,
+"recorded": 2,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 1,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 1
+},
+"excluded": 37,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.4",
+"sha8": "4a57daca",
+"ts": "2026-09-28T21:28:56Z",
 "argv": [
 "run",
 "--plan",
 "viola-0.1.0/chunks/2026-09-28-mutation-testing-to-the-epoch-boundary/plan.md",
 "--run-dir",
-".andromeda/runs/2026-09-28T20-16-40-implement",
+".andromeda/runs/2026-09-28T21-04-49-wrap",
 "--marker",
 "2026-09-28-mutation-testing-to-the-epoch-boundary"
 ],
@@ -18,37 +70,37 @@
 "stdout": [
 "shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
 "root D:\\dev\\projects\\viola · marker 2026-09-28-mutation-testing-to-the-epoch-boundary · entries 27",
-"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\implement-2026-09-28T20-16-40 · bound: GNU timeout",
-"delta docs 34 · rust 18 · unmapped 1",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\wrap-2026-09-28T21-04-49 · bound: GNU timeout",
+"delta docs 48",
 "prose L129-134: This chunk authors no per-chunk mutants entry. The founder's ruling retires that gate, and… (671 chars)",
-"  1 lint        green · exit 0 · 0.55s · 0 B → 1.log · cargo fmt --all --check",
-"  2 lint        green · exit 0 · 2.48s · 580 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
-"  3 lint        green · exit 0 · 87.01s · 33 B → 3.log · bash scripts/orphans-check.sh",
-"  4 probe       green · exit 0 · 1.75s · 9180 B → 4.log · cargo deny check",
-"  5 probe       green · exit 0 · 13.48s · 346 B → 5.log · bash scripts/deny-probes.sh",
-"  6 probe       green · exit 1 · 0.16s · 2 B → 6.log · grep -cE '^  (mutants|mutants-verdict):' .github/workflows… (65 chars)",
-"  7 probe       green · exit 1 · 0.07s · 2 B → 7.log · grep -c download-artifact .github/workflows/ci.yml",
+"  1 lint        green · exit 0 · 0.6s · 0 B → 1.log · cargo fmt --all --check",
+"  2 lint        green · exit 0 · 0.52s · 72 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 lint        green · exit 0 · 84.19s · 33 B → 3.log · bash scripts/orphans-check.sh",
+"  4 probe       green · exit 0 · 1.38s · 9180 B → 4.log · cargo deny check",
+"  5 probe       green · exit 0 · 14.83s · 346 B → 5.log · bash scripts/deny-probes.sh",
+"  6 probe       green · exit 1 · 0.06s · 2 B → 6.log · grep -cE '^  (mutants|mutants-verdict):' .github/workflows… (65 chars)",
+"  7 probe       green · exit 1 · 0.06s · 2 B → 7.log · grep -c download-artifact .github/workflows/ci.yml",
 "  8 probe       green · exit 0 · 0.06s · 2 B → 8.log · grep -c \"tool: cargo-nextest@0.9.146,cargo-mutants@27.1.0,… (104 chars)",
-"  9 probe       green · exit 0 · 0.16s · 0 B → 9.log · git diff --quiet HEAD -- scripts/wsl-provision.sh",
-" 10 probe       green · exit 0 · 0.18s · 0 B → 10.log · git diff --quiet HEAD -- .config/nextest.toml",
+"  9 probe       green · exit 0 · 0.07s · 0 B → 9.log · git diff --quiet HEAD -- scripts/wsl-provision.sh",
+" 10 probe       green · exit 0 · 0.07s · 0 B → 10.log · git diff --quiet HEAD -- .config/nextest.toml",
 " 11 probe       green · exit 0 · 0.07s · 0 B → 11.log · git diff --quiet HEAD -- src tests crates/viola-core crate… (135 chars)",
-" 12 probe       recorded · exit 0 · 0.07s · 3541 B → 12.log · git diff HEAD -- .github/workflows/ci.yml",
-" 13 probe       red · exit 1 ✗ (exit 0) · exit 0 · 0.07s · 30 B → 13.log · grep -rlE 'mutants-legs|leg_verdict|cfg_legs|compiled_legs… (158 chars)",
-" 14 unit        green · exit 0 · 33.48s · 86506 B → 14.log · bash scripts/agent-run.sh run --unit",
-" 15 integration green · exit 0 · 2.16s · 2493 B → 15.log · bash scripts/agent-run.sh run --integration --filter 'bina… (67 chars)",
-" 16 integration green · exit 0 · 27.95s · 27022 B → 16.log · bash scripts/agent-run.sh run --integration",
-" 17 build       green · exit 0 · 1.88s · 143 B → 17.log · RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv cargo c… (116 chars)",
-" 18 smoke       green · exit 0 · 0.37s · 47 B → 18.log · bash scripts/agent-run.sh cleanup --session p-mut-smoke",
-" 19 smoke       green · exit 0 · 20.03s · 1571 B → 19.log · bash scripts/agent-run.sh boot --session p-mut-smoke --ins… (71 chars)",
+" 12 probe       recorded · exit 0 · 0.07s · 0 B → 12.log · git diff HEAD -- .github/workflows/ci.yml",
+" 13 probe       green · exit 1 · 0.08s · 0 B → 13.log · grep -rlE 'mutants-legs|leg_verdict|cfg_legs|compiled_legs… (200 chars)",
+" 14 unit        green · exit 0 · 18.16s · 85968 B → 14.log · bash scripts/agent-run.sh run --unit",
+" 15 integration green · exit 0 · 2.06s · 2493 B → 15.log · bash scripts/agent-run.sh run --integration --filter 'bina… (67 chars)",
+" 16 integration green · exit 0 · 30.27s · 27022 B → 16.log · bash scripts/agent-run.sh run --integration",
+" 17 build       green · exit 0 · 0.75s · 193 B → 17.log · RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv cargo c… (116 chars)",
+" 18 smoke       green · exit 0 · 0.38s · 47 B → 18.log · bash scripts/agent-run.sh cleanup --session p-mut-smoke",
+" 19 smoke       green · exit 0 · 2.3s · 398 B → 19.log · bash scripts/agent-run.sh boot --session p-mut-smoke --ins… (71 chars)",
 " 20 smoke       green · exit 0 · 0.29s · 214 B → 20.log · bash scripts/agent-run.sh status --session p-mut-smoke",
-" 21 smoke       green · exit 0 · 0.41s · 176 B → 21.log · bash scripts/agent-run.sh cleanup --session p-mut-smoke",
-" 22 integration green · exit 0 · 120.88s · 230482 B → 22.log · bash scripts/agent-run.sh pre-push",
+" 21 smoke       green · exit 0 · 0.54s · 176 B → 21.log · bash scripts/agent-run.sh cleanup --session p-mut-smoke",
+" 22 integration green · exit 0 · 94.51s · 226580 B → 22.log · bash scripts/agent-run.sh pre-push",
 " 23 probe       not run — leg operator (the letter drives it) · python -X utf8 C:/Users/turbo/.claude/skills/andromeda-too… (84 chars)",
 " 24 integration not run — leg operator (the letter drives it) · bash scripts/agent-run.sh pre-push",
 " 25 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (82 chars)",
 " 26 probe       not run — leg operator (the letter drives it) · python -X utf8 C:/Users/turbo/.claude/skills/andromeda-too… (108 chars)",
 " 27 probe       not run — leg operator (the letter drives it) · gh run download <id> -R Turbolet85/viola -n junit-macos-la… (86 chars)",
-"entries 27 · green 20 · red 1 (13) · recorded 1 · timeout 0 · not-run 5"
+"entries 27 · green 21 · red 0 · recorded 1 · timeout 0 · not-run 5"
 ],
 "stderr": null,
 "wrote": [],
@@ -59,68 +111,60 @@
 "plan": "D:\\dev\\projects\\viola\\viola-0.1.0\\chunks\\2026-09-28-mutation-testing-to-the-epoch-boundary\\plan.md",
 "root": "D:\\dev\\projects\\viola",
 "shell": "C:\\Program Files\\Git\\bin\\bash.exe",
-"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\implement-2026-09-28T20-16-40",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\wrap-2026-09-28T21-04-49",
 "delta": {
 "docs": [
+".andromeda/a11y-plan-amendments.md",
+".andromeda/a11y-plan.md",
+".andromeda/architecture-amendments.md",
+".andromeda/architecture.md",
 ".andromeda/friction-log.ndjson",
-".andromeda/master-route.md",
-".andromeda/runs/2026-09-28T18-10-28-wrap/evolve-2026-09-28-capability-ledger-and-viola-verify.json",
+".andromeda/obs-plan-amendments.md",
+".andromeda/obs-plan.md",
+".andromeda/runs/2026-09-28T20-16-40-implement/gate-2026-09-28-mutation-testing-to-the-epoch-boundary.json",
+".andromeda/security-plan-amendments.md",
+".andromeda/security-plan.md",
+".andromeda/state.yaml",
+".andromeda/test-plan-amendments.md",
+".andromeda/test-plan.md",
+".claude/docs/commands.md",
+".claude/docs/obs-summary.md",
+".claude/docs/security-summary.md",
+".claude/docs/session-learnings.md",
+".claude/docs/stack.md",
+".claude/docs/tests-summary.md",
+".claude/docs/workflow.md",
+".claude/rules/security.md",
+".claude/rules/testing.md",
+".claude/rules/verification-harness.md",
 ".claude/session-handoff.md",
-"viola-0.1.0/working-route.md",
-".andromeda/runs/2026-09-28T18-10-28-wrap/health-2026-09-28-capability-ledger-and-viola-verify.json",
-".andromeda/runs/2026-09-28T19-54-53-phase/a11y-history.md",
-".andromeda/runs/2026-09-28T19-54-53-phase/a11y.md",
-".andromeda/runs/2026-09-28T19-54-53-phase/arch-history.md",
-".andromeda/runs/2026-09-28T19-54-53-phase/arch.md",
-".andromeda/runs/2026-09-28T19-54-53-phase/ci-no-marker.json",
-".andromeda/runs/2026-09-28T19-54-53-phase/design.md",
-".andromeda/runs/2026-09-28T19-54-53-phase/evolve-2026-09-28-mutation-testing-to-the-epoch-boundary.json",
-".andromeda/runs/2026-09-28T19-54-53-phase/gate-2026-09-28-mutation-testing-to-the-epoch-boundary.json",
-".andromeda/runs/2026-09-28T19-54-53-phase/layouts.md",
-".andromeda/runs/2026-09-28T19-54-53-phase/master-record.txt",
-".andromeda/runs/2026-09-28T19-54-53-phase/matrix-2026-09-28-mutation-testing-to-the-epoch-boundary.json",
-".andromeda/runs/2026-09-28T19-54-53-phase/obs-history.md",
-".andromeda/runs/2026-09-28T19-54-53-phase/obs.md",
-".andromeda/runs/2026-09-28T19-54-53-phase/p5-baseline.sh",
-".andromeda/runs/2026-09-28T19-54-53-phase/planlint-2026-09-28-mutation-testing-to-the-epoch-boundary.json",
-".andromeda/runs/2026-09-28T19-54-53-phase/route-2026-09-28-mutation-testing-to-the-epoch-boundary.json",
-".andromeda/runs/2026-09-28T19-54-53-phase/route-no-marker.json",
-".andromeda/runs/2026-09-28T19-54-53-phase/security-history.md",
-".andromeda/runs/2026-09-28T19-54-53-phase/security.md",
-".andromeda/runs/2026-09-28T19-54-53-phase/sidecar-2026-09-28-mutation-testing-to-the-epoch-boundary.json",
-".andromeda/runs/2026-09-28T19-54-53-phase/tests-history.md",
-".andromeda/runs/2026-09-28T19-54-53-phase/tests.md",
-".andromeda/runs/2026-09-28T19-54-53-phase/tree-query-2026-09-28-mutation-testing-to-the-epoch-boundary.json",
-".andromeda/runs/2026-09-28T20-16-40-implement/evolve-2026-09-28-mutation-testing-to-the-epoch-boundary.json",
+"viola-0.1.0/chunks/2026-09-28-mutation-testing-to-the-epoch-boundary/evidence/operator-pass.md",
 "viola-0.1.0/chunks/2026-09-28-mutation-testing-to-the-epoch-boundary/plan.md",
-"viola-0.1.0/chunks/2026-09-28-mutation-testing-to-the-epoch-boundary/research.md",
-"viola-0.1.0/chunks/2026-09-28-mutation-testing-to-the-epoch-boundary/scope-record.md",
-"viola-0.1.0/chunks/2026-09-28-mutation-testing-to-the-epoch-boundary/scope.md"
-],
-"rust": [
-"Cargo.lock",
-"Cargo.toml",
-"crates/viola-e2e/Cargo.toml",
-"crates/viola-e2e/src/bin/viola-harness.rs",
-"crates/viola-e2e/src/harness/cfg_legs.rs",
-"crates/viola-e2e/src/harness/gate.rs",
-"crates/viola-e2e/src/harness/mod.rs",
-"crates/viola-e2e/src/harness/pre_push.rs",
-"crates/viola-e2e/src/harness/pre_push/linux.rs",
-"crates/viola-e2e/src/harness/run.rs",
-"crates/viola-e2e/src/harness/run/browser.rs",
-"crates/viola-e2e/src/harness/run/coverage.rs",
-"crates/viola-e2e/src/harness/run/fuzz.rs",
-"crates/viola-e2e/src/harness/run/mutants.rs",
-"crates/viola-e2e/src/harness/run/mutants/leg.rs",
-"crates/viola-e2e/src/harness/run/mutants/scratch.rs",
-"crates/viola-e2e/src/harness/run/perf.rs",
-"crates/viola-e2e/tests/cli.rs"
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-09-28T21-04-49-wrap/a11y-plan-entry.md",
+".andromeda/runs/2026-09-28T21-04-49-wrap/a11y-plan-entry.payload",
+".andromeda/runs/2026-09-28T21-04-49-wrap/architecture-entry.md",
+".andromeda/runs/2026-09-28T21-04-49-wrap/architecture-entry.payload",
+".andromeda/runs/2026-09-28T21-04-49-wrap/cascade-2026-09-28-mutation-testing-to-the-epoch-boundary.json",
+".andromeda/runs/2026-09-28T21-04-49-wrap/cascade-dispositions.md",
+".andromeda/runs/2026-09-28T21-04-49-wrap/cascade-patterns.toml",
+".andromeda/runs/2026-09-28T21-04-49-wrap/curation.md",
+".andromeda/runs/2026-09-28T21-04-49-wrap/evolve-2026-09-28-mutation-testing-to-the-epoch-boundary.json",
+".andromeda/runs/2026-09-28T21-04-49-wrap/fanout-results.md",
+".andromeda/runs/2026-09-28T21-04-49-wrap/gate-2026-09-28-mutation-testing-to-the-epoch-boundary.json",
+".andromeda/runs/2026-09-28T21-04-49-wrap/health-2026-09-28-mutation-testing-to-the-epoch-boundary.json",
+".andromeda/runs/2026-09-28T21-04-49-wrap/obs-plan-entry.md",
+".andromeda/runs/2026-09-28T21-04-49-wrap/obs-plan-entry.payload",
+".andromeda/runs/2026-09-28T21-04-49-wrap/route-no-marker.json",
+".andromeda/runs/2026-09-28T21-04-49-wrap/security-plan-entry.md",
+".andromeda/runs/2026-09-28T21-04-49-wrap/security-plan-entry.payload",
+".andromeda/runs/2026-09-28T21-04-49-wrap/splice-2026-09-28-mutation-testing-to-the-epoch-boundary.json",
+".andromeda/runs/2026-09-28T21-04-49-wrap/test-plan-entry.md",
+".andromeda/runs/2026-09-28T21-04-49-wrap/test-plan-entry.payload",
+"viola-0.1.0/chunks/2026-09-28-mutation-testing-to-the-epoch-boundary/report.md"
 ]
 },
-"unmapped": [
-".github/workflows/ci.yml"
-],
+"unmapped": [],
 "prose": [
 {
 "from": 129,
@@ -135,11 +179,11 @@
 "run": "cargo fmt --all --check",
 "run_sha8": "2d009b4c",
 "expect": null,
-"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\implement-2026-09-28T20-16-40\\1.log",
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\wrap-2026-09-28T21-04-49\\1.log",
 "bytes": 0,
 "log_sha8": "e3b0c442",
 "exit": 0,
-"seconds": 0.55,
+"seconds": 0.6,
 "readings": [
 "exit 0 ✓"
 ],
@@ -152,11 +196,11 @@
 "run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
 "run_sha8": "84426f9a",
 "expect": null,
-"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\implement-2026-09-28T20-16-40\\2.log",
-"bytes": 580,
-"log_sha8": "c38d3f94",
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\wrap-2026-09-28T21-04-49\\2.log",
+"bytes": 72,
+"log_sha8": "1f5852af",
 "exit": 0,
-"seconds": 2.48,
+"seconds": 0.52,
 "readings": [
 "exit 0 ✓"
 ],
@@ -169,11 +213,11 @@
 "run": "bash scripts/orphans-check.sh",
 "run_sha8": "f05a4287",
 "expect": null,
-"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\implement-2026-09-28T20-16-40\\3.log",
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\wrap-2026-09-28T21-04-49\\3.log",
 "bytes": 33,
 "log_sha8": "7f633437",
 "exit": 0,
-"seconds": 87.01,
+"seconds": 84.19,
 "readings": [
 "exit 0 ✓"
 ],
@@ -186,11 +230,11 @@
 "run": "cargo deny check",
 "run_sha8": "2708b9d9",
 "expect": null,
-"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\implement-2026-09-28T20-16-40\\4.log",
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\wrap-2026-09-28T21-04-49\\4.log",
 "bytes": 9180,
 "log_sha8": "d34562e1",
 "exit": 0,
-"seconds": 1.75,
+"seconds": 1.38,
 "readings": [
 "exit 0 ✓"
 ],
@@ -203,11 +247,11 @@
 "run": "bash scripts/deny-probes.sh",
 "run_sha8": "6ea4a0e7",
 "expect": null,
-"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\implement-2026-09-28T20-16-40\\5.log",
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\wrap-2026-09-28T21-04-49\\5.log",
 "bytes": 346,
 "log_sha8": "57359665",
 "exit": 0,
-"seconds": 13.48,
+"seconds": 14.83,
 "readings": [
 "exit 0 ✓"
 ],
@@ -223,11 +267,11 @@
 "exit 1",
 "last line 0"
 ],
-"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\implement-2026-09-28T20-16-40\\6.log",
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\wrap-2026-09-28T21-04-49\\6.log",
 "bytes": 2,
 "log_sha8": "9a271f2a",
 "exit": 1,
-"seconds": 0.16,
+"seconds": 0.06,
 "readings": [
 "exit 1 ✓",
 "last line '0' ✓"
@@ -244,11 +288,11 @@
 "exit 1",
 "last line 0"
 ],
-"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\implement-2026-09-28T20-16-40\\7.log",
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\wrap-2026-09-28T21-04-49\\7.log",
 "bytes": 2,
 "log_sha8": "9a271f2a",
 "exit": 1,
-"seconds": 0.07,
+"seconds": 0.06,
 "readings": [
 "exit 1 ✓",
 "last line '0' ✓"
@@ -265,7 +309,7 @@
 "exit 0",
 "last line 1"
 ],
-"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\implement-2026-09-28T20-16-40\\8.log",
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\wrap-2026-09-28T21-04-49\\8.log",
 "bytes": 2,
 "log_sha8": "4355a46b",
 "exit": 0,
@@ -283,11 +327,11 @@
 "run": "git diff --quiet HEAD -- scripts/wsl-provision.sh",
 "run_sha8": "f7ecd0e7",
 "expect": null,
-"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\implement-2026-09-28T20-16-40\\9.log",
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\wrap-2026-09-28T21-04-49\\9.log",
 "bytes": 0,
 "log_sha8": "e3b0c442",
 "exit": 0,
-"seconds": 0.16,
+"seconds": 0.07,
 "readings": [
 "exit 0 ✓"
 ],
@@ -300,11 +344,11 @@
 "run": "git diff --quiet HEAD -- .config/nextest.toml",
 "run_sha8": "aa1d5645",
 "expect": null,
-"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\implement-2026-09-28T20-16-40\\10.log",
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\wrap-2026-09-28T21-04-49\\10.log",
 "bytes": 0,
 "log_sha8": "e3b0c442",
 "exit": 0,
-"seconds": 0.18,
+"seconds": 0.07,
 "readings": [
 "exit 0 ✓"
 ],
@@ -317,7 +361,7 @@
 "run": "git diff --quiet HEAD -- src tests crates/viola-core crates/viola-pty crates/viola-channel crates/viola-state crates/viola-agent-claude",
 "run_sha8": "f08d7e5a",
 "expect": null,
-"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\implement-2026-09-28T20-16-40\\11.log",
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\wrap-2026-09-28T21-04-49\\11.log",
 "bytes": 0,
 "log_sha8": "e3b0c442",
 "exit": 0,
@@ -334,9 +378,9 @@
 "run": "git diff HEAD -- .github/workflows/ci.yml",
 "run_sha8": "878f6b68",
 "expect": [],
-"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\implement-2026-09-28T20-16-40\\12.log",
-"bytes": 3541,
-"log_sha8": "d6b7447b",
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\wrap-2026-09-28T21-04-49\\12.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
 "exit": 0,
 "seconds": 0.07,
 "readings": [
@@ -348,23 +392,23 @@
 {
 "n": 13,
 "role": "probe",
-"run": "grep -rlE 'mutants-legs|leg_verdict|cfg_legs|compiled_legs|mutants-verdict|invalid-leg|scoped-leg|linux-leg|windows-leg' crates src scripts .github Cargo.toml",
-"run_sha8": "36f60bf2",
+"run": "grep -rlE 'mutants-legs|leg_verdict|cfg_legs|compiled_legs|mutants-verdict|invalid-leg|scoped-leg|linux-leg|windows-leg' crates src scripts .github Cargo.toml | grep -vxF crates/viola-e2e/tests/cli.rs",
+"run_sha8": "7dddd369",
 "expect": [
 "exit 1",
 "no output"
 ],
-"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\implement-2026-09-28T20-16-40\\13.log",
-"bytes": 30,
-"log_sha8": "64a8d4b9",
-"exit": 0,
-"seconds": 0.07,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\wrap-2026-09-28T21-04-49\\13.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.08,
 "readings": [
-"exit 1 ✗ (exit 0)",
-"no output ✗ (30 B)"
+"exit 1 ✓",
+"no output ✓"
 ],
 "survivors": [],
-"outcome": "red · exit 1 ✗ (exit 0)"
+"outcome": "green"
 },
 {
 "n": 14,
@@ -375,11 +419,11 @@
 "exit 0",
 "contains \"cmd\":\"run\",\"ok\":true"
 ],
-"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\implement-2026-09-28T20-16-40\\14.log",
-"bytes": 86506,
-"log_sha8": "4fca602d",
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\wrap-2026-09-28T21-04-49\\14.log",
+"bytes": 85968,
+"log_sha8": "7a43d1eb",
 "exit": 0,
-"seconds": 33.48,
+"seconds": 18.16,
 "readings": [
 "exit 0 ✓",
 "contains '\"cmd\":\"run\",\"ok\":true' ✓"
@@ -396,11 +440,11 @@
 "exit 0",
 "contains \"cmd\":\"run\",\"ok\":true"
 ],
-"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\implement-2026-09-28T20-16-40\\15.log",
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\wrap-2026-09-28T21-04-49\\15.log",
 "bytes": 2493,
-"log_sha8": "9c5c570a",
+"log_sha8": "31048f98",
 "exit": 0,
-"seconds": 2.16,
+"seconds": 2.06,
 "readings": [
 "exit 0 ✓",
 "contains '\"cmd\":\"run\",\"ok\":true' ✓"
@@ -417,11 +461,11 @@
 "exit 0",
 "contains \"cmd\":\"run\",\"ok\":true"
 ],
-"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\implement-2026-09-28T20-16-40\\16.log",
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\wrap-2026-09-28T21-04-49\\16.log",
 "bytes": 27022,
-"log_sha8": "73b497cf",
+"log_sha8": "a74ce33f",
 "exit": 0,
-"seconds": 27.95,
+"seconds": 30.27,
 "readings": [
 "exit 0 ✓",
 "contains '\"cmd\":\"run\",\"ok\":true' ✓"
@@ -435,11 +479,11 @@
 "run": "RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv cargo check --workspace --all-targets --features viola/fake-agent",
 "run_sha8": "635d1615",
 "expect": null,
-"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\implement-2026-09-28T20-16-40\\17.log",
-"bytes": 143,
-"log_sha8": "59d21179",
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\wrap-2026-09-28T21-04-49\\17.log",
+"bytes": 193,
+"log_sha8": "06a61b29",
 "exit": 0,
-"seconds": 1.88,
+"seconds": 0.75,
 "readings": [
 "exit 0 ✓"
 ],
@@ -455,11 +499,11 @@
 "exit 0",
 "contains \"ok\":true"
 ],
-"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\implement-2026-09-28T20-16-40\\18.log",
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\wrap-2026-09-28T21-04-49\\18.log",
 "bytes": 47,
 "log_sha8": "91854d6e",
 "exit": 0,
-"seconds": 0.37,
+"seconds": 0.38,
 "readings": [
 "exit 0 ✓",
 "contains '\"ok\":true' ✓"
@@ -476,11 +520,11 @@
 "exit 0",
 "contains \"ok\":true"
 ],
-"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\implement-2026-09-28T20-16-40\\19.log",
-"bytes": 1571,
-"log_sha8": "42d93e5c",
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\wrap-2026-09-28T21-04-49\\19.log",
+"bytes": 398,
+"log_sha8": "7e7af4b3",
 "exit": 0,
-"seconds": 20.03,
+"seconds": 2.3,
 "readings": [
 "exit 0 ✓",
 "contains '\"ok\":true' ✓"
@@ -497,9 +541,9 @@
 "exit 0",
 "contains \"ok\":true"
 ],
-"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\implement-2026-09-28T20-16-40\\20.log",
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\wrap-2026-09-28T21-04-49\\20.log",
 "bytes": 214,
-"log_sha8": "b7ef5826",
+"log_sha8": "2112d859",
 "exit": 0,
 "seconds": 0.29,
 "readings": [
@@ -519,11 +563,11 @@
 "contains \"processes_gone\":true",
 "contains \"endpoint_gone\":true"
 ],
-"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\implement-2026-09-28T20-16-40\\21.log",
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\wrap-2026-09-28T21-04-49\\21.log",
 "bytes": 176,
 "log_sha8": "0ea4fea1",
 "exit": 0,
-"seconds": 0.41,
+"seconds": 0.54,
 "readings": [
 "exit 0 ✓",
 "contains '\"processes_gone\":true' ✓",
@@ -544,11 +588,11 @@
 "lacks \"legs\"",
 "lacks \"union\""
 ],
-"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\implement-2026-09-28T20-16-40\\22.log",
-"bytes": 230482,
-"log_sha8": "d36ba293",
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-28-mutation-testing-to-the-epoch-boundary\\wrap-2026-09-28T21-04-49\\22.log",
+"bytes": 226580,
+"log_sha8": "cac4dc99",
 "exit": 0,
-"seconds": 120.88,
+"seconds": 94.51,
 "readings": [
 "exit 0 ✓",
 "contains '\"cmd\":\"pre-push\",\"ok\":true' ✓",
@@ -651,24 +695,20 @@
 "tool": "gate",
 "v": "1.4",
 "sha8": "4a57daca",
-"ts": "2026-09-28T20:31:02Z",
+"ts": "2026-09-28T21:29:17Z",
 "argv": [
-"scope",
-"--chunk-dir",
-"viola-0.1.0/chunks/2026-09-28-mutation-testing-to-the-epoch-boundary",
+"hygiene",
 "--run-dir",
-".andromeda/runs/2026-09-28T20-16-40-implement",
+".andromeda/runs/2026-09-28T21-04-49-wrap",
 "--marker",
 "2026-09-28-mutation-testing-to-the-epoch-boundary"
 ],
 "cwd": "D:\\dev\\projects\\viola",
 "exit": 0,
 "stdout": [
-"root D:\\dev\\projects\\viola · base HEAD (no pre-CI commit) · lists new 0 · modify 17 · derived 1 · record 1",
-"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
-"recorded companion crates/viola-e2e/src/harness/run/mutants/scratch.rs",
-"list Cargo.lock (derived by `cargo check --workspace`) ×1",
-"scope: clean — changed 19 · listed 18 · recorded 1 (companion 1 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 35"
+"root D:\\dev\\projects\\viola · planes rust, ts",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P2 · P3 rust · P3 ts — each fired on its synthetic known positive",
+"hygiene: clean — read 23 (runs 22 · evidence 1) · trails 8 not read · binary 0 not read by P1"
 ],
 "stderr": null,
 "wrote": [],
@@ -676,38 +716,34 @@
 "after": null,
 "extra": {
 "root": "D:\\dev\\projects\\viola",
-"base": "HEAD",
-"base_why": "no pre-CI commit",
+"planes": [
+"rust",
+"ts"
+],
+"rows": [],
 "counts": {
-"changed": 19,
-"listed": 18,
-"recorded": 1,
-"unrecorded": 0,
-"indet": 0,
-"absorbed": 0
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 22,
+"evidence": 1,
+"trails": 8,
+"binary": 0
 },
-"by_class": {
-"companion": 1,
-"mechanical": 0,
-"in-intent": 0,
-"widening": 0
-},
-"excluded": 35,
-"unparsed": 0,
-"widening_without_word": 0
+"indeterminate": 0
 }
 },
 {
 "tool": "gate",
 "v": "1.4",
 "sha8": "4a57daca",
-"ts": "2026-09-28T21:04:06Z",
+"ts": "2026-09-28T21:29:17Z",
 "argv": [
 "scope",
 "--chunk-dir",
 "viola-0.1.0/chunks/2026-09-28-mutation-testing-to-the-epoch-boundary",
 "--run-dir",
-".andromeda/runs/2026-09-28T20-16-40-implement",
+".andromeda/runs/2026-09-28T21-04-49-wrap",
 "--marker",
 "2026-09-28-mutation-testing-to-the-epoch-boundary"
 ],
@@ -720,7 +756,7 @@
 "recorded widening tests/channel_endpoint.rs",
 "record: not changed — .config/nextest.toml",
 "list Cargo.lock (derived by `cargo check --workspace`) ×1",
-"scope: clean — changed 20 · listed 18 · recorded 2 (companion 1 · mechanical 0 · in-intent 0 · widening 1) · absorbed 0 · excluded 37"
+"scope: clean — changed 20 · listed 18 · recorded 2 (companion 1 · mechanical 0 · in-intent 0 · widening 1) · absorbed 0 · excluded 80"
 ],
 "stderr": null,
 "wrote": [],
@@ -744,7 +780,7 @@
 "in-intent": 0,
 "widening": 1
 },
-"excluded": 37,
+"excluded": 80,
 "unparsed": 0,
 "widening_without_word": 0
 }
