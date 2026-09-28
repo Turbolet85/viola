@@ -3,6 +3,7 @@
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
+use std::time::Instant;
 
 use serde_json::{Value, json};
 
@@ -104,6 +105,20 @@ fn unmutated(
     (suite, doc)
 }
 
+/// One phase of the arm through `runner`, bracketed by `mutants-phase` lines on stderr. The start
+/// line survives a kill, so a phase that stalls is still named and the run's phase times stay
+/// readable in a killed test's captured output.
+fn timed(runner: &mut Runner<'_>, name: &str, cmd: &mut Command) -> (Option<i32>, String) {
+    let started = Instant::now();
+    eprintln!("mutants-phase {name} start");
+    let out = runner(cmd);
+    eprintln!(
+        "mutants-phase {name} done {} ms",
+        started.elapsed().as_millis()
+    );
+    out
+}
+
 /// The mutation arm's result: its suite, its document part, and the `outcomes.json` it read (for
 /// the run archive), when cargo-mutants ran.
 pub(super) type Mutated = (Suite, Value, Option<PathBuf>);
@@ -147,7 +162,9 @@ pub(super) fn mutants(
     // cargo-mutants builds only the packages a diff touches, but the harness tests spawn the root
     // package's `viola` and `viola-fake-agent`: build them (root package only, so the running
     // `viola-harness` is never relinked) and copy `target/` into the scratch tree.
-    let (built, _) = runner(
+    let (built, _) = timed(
+        runner,
+        "prebuild",
         Command::new("cargo")
             .args(["build", "--package", "viola", "--features", "fake-agent"])
             .env("CARGO_TARGET_DIR", ws.root.join(MUTANTS_TARGET))
@@ -172,6 +189,8 @@ pub(super) fn mutants(
     cargo_mutants
         .args(["--test-tool=nextest", "--copy-target=true"])
         .args(MUTANTS_PROGRESS)
+        // MEASUREMENT ONLY (macOS 120 s kill): cargo-mutants' own phase trace; removed after it.
+        .args(["-L", "debug"])
         // Live to our stderr: a leg that stalls or is cancelled still shows its last outcome.
         .stdout(Stdio::from(std::io::stderr()))
         .env("NEXTEST_PROFILE", "mutants")
@@ -190,7 +209,7 @@ pub(super) fn mutants(
             .arg("--output")
             .arg(dir);
     }
-    let (code, _) = runner(&mut cargo_mutants);
+    let (code, _) = timed(runner, "cargo-mutants", &mut cargo_mutants);
     if let Some(reason) = mutants_exit_reason(code) {
         return Err(reason);
     }
