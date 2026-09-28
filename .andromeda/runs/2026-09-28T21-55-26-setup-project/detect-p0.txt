@@ -1,0 +1,16 @@
+upgrade v1.0 · c78f62d3
+U01 · ok · setup · CLAUDE.md @imports block · 1 import line(s) = the template's
+U02 · behind · setup · .claude/settings.json hooks · write relay-backslash · bash current
+U03 · ok · setup · scripts/code-graph.py · code-graph-views.sql · code-graph-cookbook.md · lines behind: code-graph.py …
+U04 · ok · setup · .claude/rules/host-win32.md · every template line present above `## Session Additions`
+U05 · ok · setup · rustfmt.toml · rustfmt.toml present
+U06 · ok · setup · .gitattributes · .gitattributes carries `* text=auto eol=lf`
+U07 · behind · setup · .gitignore base ignores · not ignored by the root .gitignore: __pycache__/ · zz/a/__pycache__/
+U08 · ok · hand · .andromeda/playbook.md seed rules · all 6 seed rules present by name or `seed:` tag
+U09 · ok · noted · .claude/docs/workflow.md · .claude/docs/workflow.md carries `it never commits`
+U10 · ok · noted · scripts/agent-run.sh ensure_fresh_artifacts hook · scripts/agent-run.sh carries `ensure_fresh_artifa…
+U11 · ok · setup · .andromeda/friction-log.ndjson · code-metrics.ndjson line endings · friction-log.ndjson LF · code-me…
+U12 · n/a · setup · .andromeda/residuals.md header · residuals.md absent (wrap lazy-creates it with the current header)
+U13 · ok · hand · .andromeda/{doc}-amendments.md entry form · 7 sidecars · every entry on the form
+U14 · ok · hand · working-route markerless introducers · 37 markerless entries · 0 introducers behind markup or after t…
+upgrade: for setup 2 (U02, U07) · awaiting a door 0 · noted 0 · INDETERMINATE 0 · 14 detectors of 29 registry entries
