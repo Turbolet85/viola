@@ -1,11 +1,12 @@
 //! The fixture scrub-and-schema walk (test-plan §7 Fixture hygiene): every committed scenario
-//! script is synthetic and schema-valid, and every rejection arm is proven on a planted input.
-//! The `fixtures/claude/*/*.json` walk joins with the first recorded fixture.
+//! script and every recorded `fixtures/claude/*/*.json` payload is scrubbed and schema-valid, and
+//! every rejection arm is proven on a planted input. The recorded set is walked at run time, not
+//! by `#[files]`, which refuses to compile over a glob that matches nothing.
 
 #[allow(dead_code)]
 mod support;
 
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 use rstest::rstest;
 use serde_json::{Value, json};
@@ -16,6 +17,124 @@ use support::hygiene::{
 
 fn script_schema() -> Value {
     load_schema(&workspace_path("schemas/fake-script.v1.json"))
+}
+
+fn claude_schema() -> Value {
+    load_schema(&workspace_path("schemas/claude-fixture.v1.json"))
+}
+
+/// `<root>/*/*.json`, sorted: the recorded set, one dir per CLI version.
+fn claude_fixtures(root: &Path) -> Vec<PathBuf> {
+    let mut found: Vec<PathBuf> = std::fs::read_dir(root)
+        .into_iter()
+        .flatten()
+        .flatten()
+        .filter(|version| version.path().is_dir())
+        .flat_map(|version| {
+            std::fs::read_dir(version.path())
+                .into_iter()
+                .flatten()
+                .flatten()
+        })
+        .map(|entry| entry.path())
+        .filter(|path| path.extension().is_some_and(|e| e == "json") && path.is_file())
+        .collect();
+    found.sort();
+    found
+}
+
+#[test]
+fn claude_fixtures_pass_hygiene() {
+    let schema = claude_schema();
+    let user = host_user();
+    for path in claude_fixtures(&workspace_path("fixtures/claude")) {
+        let bytes = std::fs::read(&path).expect("fixture");
+        assert_eq!(
+            check(&bytes, &schema, user.as_deref()),
+            Ok(()),
+            "{}",
+            path.display()
+        );
+    }
+}
+
+#[test]
+fn claude_fixtures_walks_every_version_dir_and_only_json_files() {
+    let tmp = tempfile::tempdir().expect("tempdir");
+    for (rel, body) in [
+        ("2.1.0/Stop.default.json", "{}"),
+        ("2.1.0/notes.txt", "x"),
+        ("9.9.9/SessionStart.default.json", "{}"),
+        ("top.json", "{}"),
+    ] {
+        let path = tmp.path().join(rel);
+        std::fs::create_dir_all(path.parent().expect("parent")).expect("dir");
+        std::fs::write(path, body).expect("file");
+    }
+    let names: Vec<String> = claude_fixtures(tmp.path())
+        .iter()
+        .map(|p| {
+            p.strip_prefix(tmp.path())
+                .expect("under root")
+                .to_string_lossy()
+                .replace('\\', "/")
+        })
+        .collect();
+    assert_eq!(
+        names,
+        ["2.1.0/Stop.default.json", "9.9.9/SessionStart.default.json"]
+    );
+    assert!(claude_fixtures(&tmp.path().join("missing")).is_empty());
+}
+
+fn claude_payload(extra: &Value) -> Vec<u8> {
+    let mut doc = json!({"hook_event_name": "Stop", "session_id": "s-1", "cwd": "~/work"});
+    if let (Some(doc), Some(extra)) = (doc.as_object_mut(), extra.as_object()) {
+        doc.extend(extra.clone());
+    }
+    doc.to_string().into_bytes()
+}
+
+#[test]
+fn claude_fixture_scrubbed_payload_is_clean() {
+    let bytes = claude_payload(
+        &json!({"transcript_path": "~/.claude/projects/C--Users-<user>--w/s.jsonl"}),
+    );
+    assert_eq!(check(&bytes, &claude_schema(), Some("plantuser")), Ok(()));
+}
+
+#[rstest]
+#[case::drive_path(json!({"cwd": "C:\\Users\\plantuser\\work"}))]
+#[case::linux_home(json!({"transcript_path": "/home/plantuser/.claude/x.jsonl"}))]
+#[case::macos_users(json!({"cwd": "/Users/plantuser/work"}))]
+fn planted_claude_absolute_path_is_rejected(#[case] extra: Value) {
+    assert_eq!(
+        check(&claude_payload(&extra), &claude_schema(), None),
+        Err(Violation::AbsolutePath)
+    );
+}
+
+#[test]
+fn planted_claude_username_is_rejected() {
+    let bytes = claude_payload(
+        &json!({"transcript_path": "~/.claude/projects/C--Users-plantuser--w/s.jsonl"}),
+    );
+    assert_eq!(
+        check(&bytes, &claude_schema(), Some("plantuser")),
+        Err(Violation::Username)
+    );
+}
+
+#[rstest]
+#[case::no_event(json!({"session_id": "s"}))]
+#[case::unknown_event(json!({"hook_event_name": "Nope"}))]
+#[case::event_not_string(json!({"hook_event_name": 1}))]
+#[case::not_object(json!(["Stop"]))]
+fn planted_claude_schema_violation_is_rejected(#[case] doc: Value) {
+    assert_eq!(
+        check(doc.to_string().as_bytes(), &claude_schema(), None),
+        Err(Violation::Schema)
+    );
 }
 
 #[rstest]

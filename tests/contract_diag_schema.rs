@@ -305,5 +305,6 @@ fn diag_lines_from_real_runs_validate(
         seen += lines.len();
         assert_eq!(violations(&schema, label, lines), Vec::<String>::new());
     }
-    assert_eq!(seen, 4 + 2 + 5);
+    // Each run's four, two and five lines plus its version-probe start and exit.
+    assert_eq!(seen, 6 + 4 + 7);
 }

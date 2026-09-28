@@ -1,6 +1,7 @@
 //! Test-only stand-in for the `claude` CLI (feature `fake-agent`, never in a release build).
 //! Behaviour contract: test-plan §7 "Fake agent". Everything it observes goes to the `--receipt`
-//! file; stdout carries only the `--version` answer, so wrapped and unwrapped runs stay comparable.
+//! file; stdout carries only the `--version` answer and print mode's one reply line, so wrapped and
+//! unwrapped runs stay comparable.
 
 // It emulates the claude CLI on stdout/stderr; the workspace print bans are for product code.
 #![allow(clippy::print_stdout, clippy::print_stderr)]
@@ -37,6 +38,7 @@ const REGISTERED_EVENTS: [&str; 9] = [
 #[derive(Debug, Default)]
 struct Opts {
     version: bool,
+    print: Option<String>,
     cli_version: Option<String>,
     report_version: Option<String>,
     script: Option<PathBuf>,
@@ -60,6 +62,7 @@ impl Opts {
             let mut value = || it.next().cloned();
             match a.as_str() {
                 "--version" => o.version = true,
+                "-p" | "--print" => o.print = value(),
                 "--cli-version" => o.cli_version = value(),
                 "--report-version" => o.report_version = value(),
                 "--script" => o.script = value().map(PathBuf::from),
@@ -469,6 +472,17 @@ fn receipt_size(agent: &Agent, last: &mut Option<viola_pty::Size>) {
     }
 }
 
+/// Print mode (`-p <prompt>`): one turn's spine hooks from the fixture set, the prompt as sent, then
+/// one reply line. It never enters raw mode and never reads stdin.
+fn print_turn(agent: &Agent, prompt: &str) {
+    start_receipts(agent);
+    agent.fire("SessionStart", "default", None);
+    agent.fire("UserPromptSubmit", "default", Some(prompt));
+    agent.fire("Stop", "default", None);
+    agent.fire("SessionEnd", "default", None);
+    println!("ok");
+}
+
 /// Reads stdin byte by byte until EOF or `\x03`.
 fn read_stdin(agent: &Agent) -> ExitCode {
     let mut input = Input::new();
@@ -504,6 +518,14 @@ fn main() -> ExitCode {
     }
     if opts.version {
         println!("{}", opts.version_answer());
+        return ExitCode::SUCCESS;
+    }
+    if let Some(prompt) = opts.print.clone() {
+        let agent = Agent {
+            receipt: Receipt::open(opts.receipt.as_deref()),
+            opts,
+        };
+        print_turn(&agent, &prompt);
         return ExitCode::SUCCESS;
     }
     let Some(steps) = script_steps(&opts) else {
@@ -571,7 +593,14 @@ mod tests {
             "--inject-harness-turn",
             "--exit-no-eof",
             "--version",
+            "-p",
+            "a prompt",
         ]));
+        assert_eq!(o.print.as_deref(), Some("a prompt"));
+        assert_eq!(
+            Opts::parse(&args(&["--print", "q"])).print.as_deref(),
+            Some("q")
+        );
         assert_eq!(o.cli_version(), "3.0.0");
         assert_eq!(o.version_answer(), "4.0.0 (Claude Code)");
         assert_eq!(o.script.as_deref(), Some(Path::new("s.json")));
@@ -590,6 +619,7 @@ mod tests {
         assert_eq!(o.cli_version(), DEFAULT_CLI_VERSION);
         assert_eq!(o.version_answer(), "2.1.0 (Claude Code)");
         assert!(!o.version && !o.exit_no_eof && !o.suppress_prompt_submit);
+        assert!(o.print.is_none());
     }
 
     #[test]

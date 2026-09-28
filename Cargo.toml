@@ -98,6 +98,16 @@ name = "cli_output_plain"
 path = "tests/cli_output_plain.rs"
 required-features = ["fake-agent"]
 
+[[test]]
+name = "cli_verify"
+path = "tests/cli_verify.rs"
+required-features = ["fake-agent"]
+
+[[test]]
+name = "cli_version_gate"
+path = "tests/cli_version_gate.rs"
+required-features = ["fake-agent"]
+
 [dependencies]
 viola-core = { path = "crates/viola-core" }
 viola-pty = { path = "crates/viola-pty" }

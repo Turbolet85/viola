@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "db3af704",
+"ts": "2026-09-28T10:24:20Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-09-28-capability-ledger-and-viola-verify",
+"--expect-prefix",
+"Capability ledger and viola verify",
+"--record-file",
+".andromeda/runs/2026-09-28T10-22-37-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-09-28T10-22-37-phase"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:53 - [2026-09-28-capability-ledger-and-viola-verify]",
+"record master-route.md:31 - appended under `## viola-0.1.0`",
+"promoted 2026-09-28-capability-ledger-and-viola-verify - working-route:53 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+".\\viola-0.1.0\\working-route.md",
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+}
+]

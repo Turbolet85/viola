@@ -33,3 +33,6 @@
 - **Curation:** T1 1 (a no-verdict classifier refusal is a transient outage: wait, retry the same call); T2 1 extension
   (verification-harness.md 2026-09-25: OS-gated killers of a shared body).
 - **Last failed command:** none.
+
+## Session End Status
+Completed normally at 2026-09-28 12:52:38

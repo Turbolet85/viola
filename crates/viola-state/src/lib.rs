@@ -1,6 +1,7 @@
 //! viola's disk state: owner-only creation, the one atomic replace, the append-only event log, the
-//! snapshot envelope, the heartbeat, pid + start-time liveness and the pinned exe copy
-//! (architecture §Standard Contracts, §Occupied Resources → Filesystem). Sync only: no Tokio.
+//! snapshot envelope, the heartbeat, pid + start-time liveness, the pinned exe copy and the
+//! capability stamps' bytes (architecture §Standard Contracts, §Occupied Resources → Filesystem).
+//! Sync only: no Tokio.
 
 pub mod events;
 pub mod fs;
@@ -8,6 +9,7 @@ pub mod heartbeat;
 pub mod liveness;
 pub mod pin;
 pub mod snapshot;
+pub mod stamps;
 
 use chrono::{DateTime, SecondsFormat, Utc};
 

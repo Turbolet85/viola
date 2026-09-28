@@ -1,11 +1,11 @@
 //! `viola hook <event>` (hidden): the hook payload on stdin becomes one `hook.event` for the
 //! wrapper that owns the session. It fails open on every path: exit 0, nothing on stdout or stderr,
 //! and outside a wrapped session nothing written anywhere (architecture [Hook Contract]; obs-plan
-//! §4 E1).
+//! §4 E1). With `--capture <dir>` (the `viola verify` probe plugin) it only files the raw payload.
 
 use std::ffi::{OsStr, OsString};
 use std::io::Read;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use std::process::ExitCode;
 use std::time::{Duration, Instant};
 
@@ -13,10 +13,12 @@ use chrono::Utc;
 use serde_json::{Map, Value, json};
 use tracing::instrument;
 use viola_agent_claude::hook::{HookEvent, Normalised};
+use viola_agent_claude::ledger::{capture_file_name, parse_capture_file_name};
 use viola_channel::Client;
 use viola_core::obs::{ObsEvent, ObsProcess};
 use viola_core::{MAX_FRAME, ViolaName, obs_event};
 use viola_state::events::{EventLine, Source, try_append_event};
+use viola_state::fs::{FILE_MODE, replace_private};
 use viola_state::snapshot::read_snapshot;
 
 use super::Failure;
@@ -28,6 +30,9 @@ mod seam;
 pub(crate) struct HookArgs {
     /// The hook event, kebab-case
     event: String,
+    /// File the raw payload into this directory and do nothing else
+    #[arg(long, hide = true, value_name = "DIR")]
+    capture: Option<PathBuf>,
 }
 
 /// The hook's whole budget from its start. Provisional: below test-plan §10's 1.0 s spine gate
@@ -70,6 +75,10 @@ pub(crate) fn hook(args: &HookArgs) -> Result<ExitCode, Failure> {
     let Some(event) = HookEvent::from_arg(&args.event) else {
         return Ok(ExitCode::SUCCESS);
     };
+    if let Some(dir) = &args.capture {
+        capture(event, dir, &mut std::io::stdin().lock());
+        return Ok(ExitCode::SUCCESS);
+    }
     let instance = instance_of(
         std::env::var_os("VIOLA_NAME"),
         std::env::var_os("VIOLA_DIR"),
@@ -140,6 +149,32 @@ fn handle(
         append_session_end(instance, normalised);
     }
     Ok(Some("channel-unreachable"))
+}
+
+/// The raw payload into the first free `<dir>/<Event>.<k>.json`, and nothing else: no `VIOLA_*`
+/// read, no log, no channel. `dir` must be an absolute, existing directory; every failure writes
+/// nothing.
+fn capture(event: HookEvent, dir: &Path, stdin: &mut dyn Read) -> Option<PathBuf> {
+    if !dir.is_absolute() || !dir.is_dir() {
+        return None;
+    }
+    let mut bytes = Vec::new();
+    stdin.take(MAX_FRAME + 1).read_to_end(&mut bytes).ok()?;
+    let path = dir.join(capture_file_name(event, free_k(dir)?));
+    replace_private(&path, &bytes, FILE_MODE).ok()?;
+    Some(path)
+}
+
+/// The first `k` no capture of any event holds, so the names sort in arrival order. `n` captures
+/// leave one of `1..=n + 1` free, so the search is bounded.
+fn free_k(dir: &Path) -> Option<u32> {
+    let taken: Vec<u32> = std::fs::read_dir(dir)
+        .ok()?
+        .flatten()
+        .filter_map(|e| parse_capture_file_name(e.file_name().to_str()?).map(|(_, k)| k))
+        .collect();
+    let n = u32::try_from(taken.len()).ok()?;
+    (1..=n + 1).find(|k| !taken.contains(k))
 }
 
 fn reject_stdin(detail: &'static str) {
@@ -361,6 +396,68 @@ mod tests {
         );
         assert!(!instance.dir.join("diagnostics").exists());
         assert!(!instance.dir.join("events.ndjson").exists());
+    }
+
+    #[test]
+    fn capture_files_each_payload_under_the_next_free_k() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let first = capture(HookEvent::SessionStart, tmp.path(), &mut &b"{\"a\":1}"[..]);
+        assert_eq!(first, Some(tmp.path().join("SessionStart.1.json")));
+        assert_eq!(
+            fs::read(tmp.path().join("SessionStart.1.json")).expect("capture"),
+            b"{\"a\":1}"
+        );
+        fs::write(tmp.path().join("notes.txt"), b"x").expect("unrelated file");
+        fs::write(tmp.path().join("Stop.3.json"), b"x").expect("a later k");
+        let second = capture(HookEvent::Stop, tmp.path(), &mut &b"not json"[..]);
+        assert_eq!(second, Some(tmp.path().join("Stop.2.json")));
+        assert_eq!(
+            fs::read(tmp.path().join("Stop.2.json")).expect("raw"),
+            b"not json"
+        );
+        let third = capture(HookEvent::Stop, tmp.path(), &mut &b""[..]);
+        assert_eq!(third, Some(tmp.path().join("Stop.4.json")));
+    }
+
+    #[test]
+    fn capture_keeps_one_byte_past_the_cap() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let cap = usize::try_from(MAX_FRAME).expect("fits");
+        let body = vec![b' '; cap + 5];
+        let path = capture(HookEvent::Stop, tmp.path(), &mut &body[..]).expect("written");
+        assert_eq!(fs::metadata(path).expect("meta").len(), MAX_FRAME + 1);
+    }
+
+    struct Failing;
+
+    impl Read for Failing {
+        fn read(&mut self, _: &mut [u8]) -> std::io::Result<usize> {
+            Err(std::io::Error::other("closed"))
+        }
+    }
+
+    #[test]
+    fn capture_refuses_a_bad_dir_or_stdin_and_writes_nothing() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let relative = Path::new("viola-capture-relative-5c1e");
+        assert_eq!(capture(HookEvent::Stop, relative, &mut &b"{}"[..]), None);
+        assert!(!relative.exists());
+        // A relative dir that exists is refused too: only an absolute path is taken.
+        assert_eq!(
+            capture(HookEvent::Stop, Path::new("."), &mut &b"{}"[..]),
+            None
+        );
+        assert!(!Path::new("Stop.1.json").exists());
+        let missing = tmp.path().join("missing");
+        assert_eq!(capture(HookEvent::Stop, &missing, &mut &b"{}"[..]), None);
+        assert!(!missing.exists());
+        let file = tmp.path().join("file");
+        fs::write(&file, b"x").expect("a file where the dir should be");
+        assert_eq!(capture(HookEvent::Stop, &file, &mut &b"{}"[..]), None);
+        let dir = tmp.path().join("dir");
+        fs::create_dir(&dir).expect("dir");
+        assert_eq!(capture(HookEvent::Stop, &dir, &mut Failing), None);
+        assert_eq!(fs::read_dir(&dir).expect("dir").count(), 0);
     }
 
     /// Only SessionEnd falls back to a direct append when the channel is out of reach.

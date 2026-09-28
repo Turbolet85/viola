@@ -62,6 +62,9 @@ fn main() -> ExitCode {
         obs::internal_error_exit_line();
         Outcome::Panicked
     });
+    if prints_internal_error(role, outcome) {
+        human::internal_error();
+    }
     exit_code(role, outcome)
 }
 
@@ -69,6 +72,8 @@ fn main() -> ExitCode {
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum Role {
     Hook,
+    /// A human verb whose failure prints `error: internal error` (`verify`).
+    Cli,
     Other,
 }
 
@@ -82,6 +87,8 @@ fn role_of(args: impl IntoIterator<Item = OsString>) -> Role {
         } else if !arg.to_str().is_some_and(|a| a.starts_with("--home=")) {
             return if arg == "hook" {
                 Role::Hook
+            } else if arg == "verify" {
+                Role::Cli
             } else {
                 Role::Other
             };
@@ -105,9 +112,17 @@ enum Outcome {
 fn exit_code(role: Role, outcome: Outcome) -> ExitCode {
     match (role, outcome) {
         (Role::Hook, _) => ExitCode::SUCCESS,
-        (Role::Other, Outcome::Done(code)) => code,
-        (Role::Other, Outcome::Unparsed | Outcome::Failed | Outcome::Panicked) => ExitCode::from(1),
+        (Role::Cli | Role::Other, Outcome::Done(code)) => code,
+        (Role::Cli | Role::Other, Outcome::Unparsed | Outcome::Failed | Outcome::Panicked) => {
+            ExitCode::from(1)
+        }
     }
+}
+
+/// Only the `cli` role owns a stderr line at the catch site (obs-plan §7 Per-role behaviour); its
+/// chain stays in the detail file.
+fn prints_internal_error(role: Role, outcome: Outcome) -> bool {
+    role == Role::Cli && matches!(outcome, Outcome::Failed | Outcome::Panicked)
 }
 
 /// Never calls the default hook and never writes stderr: one payload-free JSON line, one
@@ -297,6 +312,9 @@ mod tests {
     #[case::nothing(&[], Role::Other)]
     #[case::home_only(&["--home", "C:/h"], Role::Other)]
     #[case::later_hook(&["run", "hook"], Role::Other)]
+    #[case::verify(&["verify", "--", "claude"], Role::Cli)]
+    #[case::verify_after_home(&["--home=C:/h", "verify"], Role::Cli)]
+    #[case::later_verify(&["run", "verify"], Role::Other)]
     fn role_of_skips_the_home_flag_and_its_value(#[case] args: &[&str], #[case] role: Role) {
         assert_eq!(role_of(argv(args)), role);
     }
@@ -310,12 +328,33 @@ mod tests {
     #[case::run_unparsed(Role::Other, Outcome::Unparsed, ExitCode::from(1))]
     #[case::run_failed(Role::Other, Outcome::Failed, ExitCode::from(1))]
     #[case::run_panicked(Role::Other, Outcome::Panicked, ExitCode::from(1))]
+    #[case::cli_done(Role::Cli, Outcome::Done(ExitCode::from(3)), ExitCode::from(3))]
+    #[case::cli_unparsed(Role::Cli, Outcome::Unparsed, ExitCode::from(1))]
+    #[case::cli_failed(Role::Cli, Outcome::Failed, ExitCode::from(1))]
+    #[case::cli_panicked(Role::Cli, Outcome::Panicked, ExitCode::from(1))]
     fn exit_code_maps_role_and_outcome(
         #[case] role: Role,
         #[case] outcome: Outcome,
         #[case] code: ExitCode,
     ) {
         assert_eq!(exit_code(role, outcome), code);
+    }
+
+    #[rstest]
+    #[case::cli_failed(Role::Cli, Outcome::Failed, true)]
+    #[case::cli_panicked(Role::Cli, Outcome::Panicked, true)]
+    #[case::cli_done(Role::Cli, Outcome::Done(ExitCode::from(1)), false)]
+    #[case::cli_unparsed(Role::Cli, Outcome::Unparsed, false)]
+    #[case::run_failed(Role::Other, Outcome::Failed, false)]
+    #[case::run_panicked(Role::Other, Outcome::Panicked, false)]
+    #[case::hook_failed(Role::Hook, Outcome::Failed, false)]
+    #[case::hook_panicked(Role::Hook, Outcome::Panicked, false)]
+    fn prints_internal_error_only_for_a_cli_failure(
+        #[case] role: Role,
+        #[case] outcome: Outcome,
+        #[case] prints: bool,
+    ) {
+        assert_eq!(prints_internal_error(role, outcome), prints);
     }
 
     /// The hook role's panic records, driven through the writer the panic hook calls (no second

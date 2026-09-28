@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://viola.local/schemas/claude-fixture.v1.json",
+  "title": "viola recorded claude hook payload fixture",
+  "description": "One fixtures/claude/<cli-version>/<Event>.<variant>.json: a hook payload the CLI handed viola verify's capture plugin, scrubbed. Tolerant: only hook_event_name is pinned, to the events the fake agent registers; every other field is the CLI's and is allowed (test-plan §7 Fixture hygiene).",
+  "type": "object",
+  "required": ["hook_event_name"],
+  "properties": {
+    "hook_event_name": {
+      "enum": ["SessionStart", "UserPromptSubmit", "PreToolUse", "PermissionRequest", "Stop", "SessionEnd", "Notification", "PostToolUse", "PostToolUseFailure"]
+    }
+  }
+}

@@ -1,7 +1,8 @@
 //! The `run` wrapper's process side: its role lines, the persistent-environment read behind the
-//! R8 strip, and where the child's program is looked up.
+//! R8 strip, where the child's program is looked up, and the version gate.
 
 mod env;
+pub(crate) mod version_gate;
 
 use std::ffi::{OsStr, OsString};
 use std::path::{Path, PathBuf};
@@ -27,8 +28,14 @@ pub(crate) fn log_self_start() {
     );
 }
 
-/// Names only: the stripped and kept `CLAUDE*` names, never a value (obs-plan D-14).
-pub(crate) fn log_child_start(child_pid: Option<u32>, strip: &StripPlan) {
+/// Names only: the stripped and kept `CLAUDE*` names, never a value (obs-plan D-14); the version
+/// gate's reading beside them.
+pub(crate) fn log_child_start(
+    child_pid: Option<u32>,
+    strip: &StripPlan,
+    cli_version: Option<&str>,
+    cli_verified: bool,
+) {
     let stripped = strip.removed_names();
     let kept = strip.kept_names();
     obs_event!(
@@ -40,6 +47,8 @@ pub(crate) fn log_child_start(child_pid: Option<u32>, strip: &StripPlan) {
         env_stripped_count = strip.count(),
         env_stripped_known = Some(stripped.as_str()).filter(|s| !s.is_empty()),
         env_kept = Some(kept.as_str()).filter(|s| !s.is_empty()),
+        cli_version = cli_version,
+        cli_verified = cli_verified,
     );
 }
 

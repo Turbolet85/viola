@@ -215,10 +215,12 @@ pub(crate) fn log_config_rejection(rejection: ConfigRejection) {
     );
 }
 
-/// The catch site's role line after a caught panic or a dispatch error: only `run` owns one
-/// (obs-plan §7).
+/// The catch site's role line after a caught panic or a dispatch error: only `run` and `cli` own
+/// one (obs-plan §7).
 pub(crate) fn internal_error_exit_line() {
-    if viola_core::obs::ctx().is_some_and(|c| c.process == ObsProcess::Run) {
+    if viola_core::obs::ctx()
+        .is_some_and(|c| matches!(c.process, ObsProcess::Run | ObsProcess::Cli))
+    {
         obs_event!(
             ERROR,
             ObsEvent::ProcessExit,

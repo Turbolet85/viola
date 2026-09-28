@@ -1,0 +1,202 @@
+[
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "21ddc30a",
+"ts": "2026-09-28T10:24:36Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-28T10-22-37-phase",
+"--marker",
+"2026-09-28-capability-ledger-and-viola-verify"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"appended 1 record(s) · friction-log.ndjson lines 568→569 · bytes 557098→558087 · term lf",
+"ts 2026-09-28T10:24:27Z · clock 2026-09-28T10:24:36Z · bound 2026-09-28T10:18:59Z (line 568)",
+"ids 2026-09-28T10:24:27Z-a"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 568,
+"bytes": 557098,
+"terminator": "LF",
+"bound": "2026-09-28T10:18:59Z"
+},
+"after": {
+"lines": 569,
+"bytes": 558087
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "21ddc30a",
+"ts": "2026-09-28T10:30:48Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-28T10-22-37-phase",
+"--marker",
+"2026-09-28-capability-ledger-and-viola-verify"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"appended 3 record(s) · friction-log.ndjson lines 569→572 · bytes 558087→560898 · term lf",
+"ts 2026-09-28T10:30:34Z · clock 2026-09-28T10:30:48Z · bound 2026-09-28T10:24:27Z (line 569)",
+"ids 2026-09-28T10:30:34Z-a … 2026-09-28T10:30:34Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 569,
+"bytes": 558087,
+"terminator": "LF",
+"bound": "2026-09-28T10:24:27Z"
+},
+"after": {
+"lines": 572,
+"bytes": 560898
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "21ddc30a",
+"ts": "2026-09-28T10:37:02Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-28T10-22-37-phase",
+"--marker",
+"2026-09-28-capability-ledger-and-viola-verify"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"appended 3 record(s) · friction-log.ndjson lines 572→575 · bytes 560898→563208 · term lf",
+"ts 2026-09-28T10:36:49Z · clock 2026-09-28T10:37:02Z · bound 2026-09-28T10:30:34Z (line 572)",
+"ids 2026-09-28T10:36:49Z-a … 2026-09-28T10:36:49Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 572,
+"bytes": 560898,
+"terminator": "LF",
+"bound": "2026-09-28T10:30:34Z"
+},
+"after": {
+"lines": 575,
+"bytes": 563208
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "21ddc30a",
+"ts": "2026-09-28T10:49:02Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-28T10-22-37-phase",
+"--marker",
+"2026-09-28-capability-ledger-and-viola-verify"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"appended 1 record(s) · friction-log.ndjson lines 575→576 · bytes 563208→564382 · term lf",
+"ts 2026-09-28T10:48:49Z · clock 2026-09-28T10:49:02Z · bound 2026-09-28T10:36:49Z (line 575)",
+"ids 2026-09-28T10:48:49Z-a"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 575,
+"bytes": 563208,
+"terminator": "LF",
+"bound": "2026-09-28T10:36:49Z"
+},
+"after": {
+"lines": 576,
+"bytes": 564382
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "21ddc30a",
+"ts": "2026-09-28T10:52:22Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-28T10-22-37-phase",
+"--marker",
+"2026-09-28-capability-ledger-and-viola-verify"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"appended 2 record(s) · friction-log.ndjson lines 576→578 · bytes 564382→566007 · term lf",
+"ts 2026-09-28T10:52:09Z · clock 2026-09-28T10:52:22Z · bound 2026-09-28T10:48:49Z (line 576)",
+"ids 2026-09-28T10:52:09Z-a … 2026-09-28T10:52:09Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 576,
+"bytes": 564382,
+"terminator": "LF",
+"bound": "2026-09-28T10:48:49Z"
+},
+"after": {
+"lines": 578,
+"bytes": 566007
+}
+}
+]

@@ -22,6 +22,7 @@ use viola_state::pin::{PinError, Pinned, pin_exe};
 use viola_state::snapshot::{InstanceSnapshot, Wheel, read_snapshot, write_snapshot};
 
 use crate::run::ChildLaunch;
+use crate::run::version_gate::{Gate, version_gate};
 use crate::{human, obs, run};
 
 #[derive(clap::Args)]
@@ -141,8 +142,8 @@ enum Started {
 }
 
 /// The documented start order (architecture §Established Decisions [Session Liveness]): program
-/// resolution, collision check, pinned copy + plugin folder, endpoint bind, first snapshot +
-/// heartbeat, start events, then the spawn. The version gate has no step yet.
+/// resolution, collision check, pinned copy + plugin folder, the version gate, endpoint bind, first
+/// snapshot + heartbeat, start events, then the spawn.
 #[instrument(skip_all, name = "run.start", fields(instance = name_str(&args.name)))]
 fn start(home: &Path, args: &RunArgs, persistent: &[String]) -> anyhow::Result<Started> {
     let (program, program_args) = args
@@ -168,6 +169,8 @@ fn start(home: &Path, args: &RunArgs, persistent: &[String]) -> anyhow::Result<S
         refuse_tampered_pin();
         return Ok(refused("pinned-hash-mismatch"));
     };
+    let strip = viola_agent_claude::plan_strip(std::env::vars_os().map(|(k, _)| k), persistent);
+    let gate = version_gate(&home, &program, &cwd, &strip);
     let Some((endpoint, server)) = bind_endpoint(&args.name, &home)? else {
         refuse_squatted(&args.name);
         return Ok(refused("squatted-name"));
@@ -176,7 +179,7 @@ fn start(home: &Path, args: &RunArgs, persistent: &[String]) -> anyhow::Result<S
         name: args.name.clone(),
         instance_dir: instance_dir.clone(),
     }));
-    let (beat, snapshot) = start_state(&args.name, &instance_dir, &pinned, endpoint)?;
+    let (beat, snapshot) = start_state(&args.name, &instance_dir, &pinned, endpoint, gate)?;
     let launch = run::child_launch(
         &args.name,
         &instance_dir,
@@ -185,7 +188,6 @@ fn start(home: &Path, args: &RunArgs, persistent: &[String]) -> anyhow::Result<S
         std::env::var_os("PATH"),
         program_args,
     );
-    let strip = viola_agent_claude::plan_strip(std::env::vars_os().map(|(k, _)| k), persistent);
     let (pty, terminal, size) = spawn_child(program, cwd, launch, &strip, &instance_dir, snapshot)?;
     Ok(Started::Launched(Box::new(Launched {
         pty,
@@ -260,13 +262,14 @@ fn bind_endpoint(name: &ViolaName, home: &Path) -> anyhow::Result<Option<(String
     }
 }
 
-/// The first snapshot (with the endpoint), the heartbeat and its thread, then the two start
-/// events; the returned guard keeps the heartbeat running.
+/// The first snapshot (with the endpoint and the version gate's reading), the heartbeat and its
+/// thread, then the two start events; the returned guard keeps the heartbeat running.
 fn start_state(
     name: &ViolaName,
     instance_dir: &Path,
     pinned: &Pinned,
     endpoint: String,
+    gate: Gate,
 ) -> anyhow::Result<(Heartbeat, InstanceSnapshot)> {
     create_private_dir(instance_dir)?;
     let pid = std::process::id();
@@ -275,8 +278,8 @@ fn start_state(
         pid,
         started_at: own_start(pid).context("own start time unreadable")?,
         pinned_bin: pinned.path_fwd.clone(),
-        cli_verified: false,
-        cli_version: None,
+        cli_verified: gate.cli_verified,
+        cli_version: gate.cli_version,
         wheel: Wheel::Driver,
         budget_paused: false,
         links: Vec::new(),
@@ -320,7 +323,12 @@ fn spawn_child(
     let pty = viola_pty::spawn(&spec)?;
     snapshot.child_pid = viola_pty::Pty::child_pid(&pty);
     write_snapshot(instance_dir, &snapshot)?;
-    run::log_child_start(snapshot.child_pid, strip);
+    run::log_child_start(
+        snapshot.child_pid,
+        strip,
+        snapshot.cli_version.as_deref(),
+        snapshot.cli_verified,
+    );
     Ok((pty, terminal, spec.size))
 }
 
@@ -377,7 +385,7 @@ fn refuse_stale(name: &ViolaName) {
     );
 }
 
-fn refuse_tampered_pin() {
+pub(super) fn refuse_tampered_pin() {
     human::refuse(
         "the pinned viola copy failed its integrity check",
         "the pinned copy was changed after it was written, so viola will not run it",
@@ -576,6 +584,7 @@ mod tests {
                 "run.start",
                 "run.collision_check",
                 "run.pin_copy",
+                "run.version_gate",
                 "channel.bind",
                 "state.snapshot_write",
                 "state.heartbeat_start",
@@ -591,6 +600,12 @@ mod tests {
         assert_eq!(field(&spans, "run.start")["instance"], "builder");
         assert_eq!(field(&spans, "run.collision_check")["outcome"], "free");
         assert_eq!(field(&spans, "run.pin_copy")["outcome"], "ok");
+        assert_eq!(field(&spans, "run.version_gate")["cli_verified"], false);
+        assert!(
+            field(&spans, "run.version_gate")
+                .get("cli_version")
+                .is_none()
+        );
         assert_eq!(
             field(&spans, "channel.bind")["endpoint_kind"],
             viola_channel::ENDPOINT_KIND

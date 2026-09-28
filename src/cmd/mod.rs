@@ -1,11 +1,13 @@
 mod hook;
 mod run;
+mod verify;
 
 use std::path::PathBuf;
 use std::process::ExitCode;
 
 use anyhow::Context as _;
 use clap::{Parser, Subcommand};
+use viola_core::ViolaName;
 use viola_core::obs::ObsProcess;
 
 use crate::obs::DetailSink;
@@ -28,6 +30,8 @@ pub(crate) struct Cli {
 enum Command {
     /// Wrap a program as the named instance
     Run(run::RunArgs),
+    /// Measure the local claude CLI against the capability ledger and stamp its version
+    Verify(verify::VerifyArgs),
     /// Hand a Claude Code hook's payload to the wrapper (run by the plugin, never by a person)
     #[command(hide = true)]
     Hook(hook::HookArgs),
@@ -40,25 +44,42 @@ pub(crate) struct Failure {
 }
 
 pub(crate) fn dispatch(cli: Cli) -> Result<ExitCode, Failure> {
-    let args = match cli.command {
+    match cli.command {
         // The hook's home is its session's, from `VIOLA_DIR`, never `--home`.
-        Command::Hook(args) => return hook::hook(&args),
-        Command::Run(args) => args,
-    };
-    let home = match cli.home {
-        Some(home) => home,
-        None => std::env::home_dir()
+        Command::Hook(args) => hook::hook(&args),
+        Command::Run(args) => {
+            let home = resolve_home(cli.home)?;
+            let sink = DetailSink {
+                home: home.clone(),
+                instance: args.name.clone(),
+                process: ObsProcess::Run,
+            };
+            run::run(&home, args).map_err(|error| Failure {
+                error,
+                sink: Some(sink),
+            })
+        }
+        Command::Verify(args) => {
+            let home = resolve_home(cli.home)?;
+            let instance = std::env::var_os("VIOLA_NAME")
+                .and_then(|name| name.into_string().ok())
+                .and_then(|name| ViolaName::try_new(name).ok());
+            let sink = instance.clone().map(|instance| DetailSink {
+                home: home.clone(),
+                instance,
+                process: ObsProcess::Cli,
+            });
+            verify::verify(&home, instance.as_ref(), &args).map_err(|error| Failure { error, sink })
+        }
+    }
+}
+
+fn resolve_home(home: Option<PathBuf>) -> Result<PathBuf, Failure> {
+    match home {
+        Some(home) => Ok(home),
+        None => Ok(std::env::home_dir()
             .context("no user home directory")
             .map_err(|error| Failure { error, sink: None })?
-            .join(".viola"),
-    };
-    let sink = DetailSink {
-        home: home.clone(),
-        instance: args.name.clone(),
-        process: ObsProcess::Run,
-    };
-    run::run(&home, args).map_err(|error| Failure {
-        error,
-        sink: Some(sink),
-    })
+            .join(".viola")),
+    }
 }

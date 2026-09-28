@@ -118,6 +118,8 @@ fn run_with_fake_agent_writes_start_and_exit_lines(#[from(home)] tmp: TestHome) 
         shape,
         [
             ("process-start", "self"),
+            ("process-start", "version-probe"),
+            ("process-exit", "version-probe"),
             ("process-start", "claude-child"),
             ("process-exit", "claude-child"),
             ("process-exit", "self"),
@@ -142,22 +144,22 @@ fn run_with_fake_agent_writes_start_and_exit_lines(#[from(home)] tmp: TestHome) 
     assert_eq!(lines[0]["version"], "0.1.0");
     assert_eq!(lines[0]["os"], std::env::consts::OS);
     assert!(lines[0]["pid"].as_u64().is_some());
-    assert!(lines[1]["child_pid"].as_u64().is_some());
+    assert!(lines[3]["child_pid"].as_u64().is_some());
     let backend = if cfg!(windows) { "conpty" } else { "openpty" };
-    assert_eq!(lines[1]["pty_backend"], backend);
+    assert_eq!(lines[3]["pty_backend"], backend);
     assert!(
-        lines[1]["env_stripped_count"]
+        lines[3]["env_stripped_count"]
             .as_u64()
             .is_some_and(|n| n >= 1)
     );
     assert!(
-        lines[1]["env_stripped_known"]
+        lines[3]["env_stripped_known"]
             .as_str()
             .is_some_and(|names| names.split(',').any(|n| n == "CLAUDE_CODE_MESSAGING_TOKEN"))
     );
-    assert_eq!(lines[2]["child_exit_status"], 0);
-    assert_eq!(lines[2]["exit_source"], "handle-wait");
-    assert_eq!(lines[3]["exit_code"], 0);
+    assert_eq!(lines[4]["child_exit_status"], 0);
+    assert_eq!(lines[4]["exit_source"], "handle-wait");
+    assert_eq!(lines[5]["exit_code"], 0);
     assert!(!text.contains("canary-token-value-7f3a"));
     assert!(!text.contains("argv-sentinel-q1"));
     assert!(!text.contains("9.9.9"));
@@ -169,8 +171,8 @@ fn run_child_exit_status_is_recorded(#[from(home)] tmp: TestHome) {
     let status = run_viola(&home, "builder", FAKE, &["--version"]);
     assert_eq!(status, Some(0));
     let (_, lines) = role_lines(&home, "builder");
-    assert_eq!(lines[2]["child_exit_status"], 0);
-    assert_eq!(lines.len(), 4);
+    assert_eq!(lines[4]["child_exit_status"], 0);
+    assert_eq!(lines.len(), 6);
 }
 
 #[rstest]
@@ -190,12 +192,12 @@ fn run_with_a_missing_program_exits_1_with_internal_error(#[from(home)] tmp: Tes
     let status = run_viola(&home, "builder", missing.to_str().expect("utf-8"), &[]);
     assert_eq!(status, Some(1));
     let (text, lines) = role_lines(&home, "builder");
-    assert_eq!(lines.len(), 2);
-    assert_eq!(lines[1]["event"], "process-exit");
-    assert_eq!(lines[1]["subject"], "self");
-    assert_eq!(lines[1]["level"], "ERROR");
-    assert_eq!(lines[1]["exit_code"], 1);
-    assert_eq!(lines[1]["detail"], "internal-error");
+    assert_eq!(lines.len(), 4);
+    assert_eq!(lines[3]["event"], "process-exit");
+    assert_eq!(lines[3]["subject"], "self");
+    assert_eq!(lines[3]["level"], "ERROR");
+    assert_eq!(lines[3]["exit_code"], 1);
+    assert_eq!(lines[3]["detail"], "internal-error");
     assert!(!text.contains("no-such-program"));
 }
 
@@ -205,7 +207,7 @@ fn run_appends_to_an_existing_role_file(#[from(home)] tmp: TestHome) {
     run_viola(&home, "builder", FAKE, &[]);
     run_viola(&home, "builder", FAKE, &[]);
     let (_, lines) = role_lines(&home, "builder");
-    assert_eq!(lines.len(), 8);
+    assert_eq!(lines.len(), 12);
 }
 
 fn write_config(home: &Path, text: &str) {
@@ -284,9 +286,9 @@ fn run_self_exit_carries_duration_ms(#[from(home)] tmp: TestHome, #[from(home)] 
     drop(child.stdin.take());
     assert_eq!(child.wait().expect("exits").code(), Some(0));
     let (_, lines) = role_lines(&home, "builder");
-    assert_eq!(lines[3]["subject"], "self");
-    assert!(lines[3]["duration_ms"].as_u64().is_some_and(|ms| ms >= 60));
-    assert!(lines[2].get("duration_ms").is_none());
+    assert_eq!(lines[5]["subject"], "self");
+    assert!(lines[5]["duration_ms"].as_u64().is_some_and(|ms| ms >= 60));
+    assert!(lines[4].get("duration_ms").is_none());
 
     let absent = missing.scratch().join("no-such-program");
     run_viola(
@@ -296,7 +298,7 @@ fn run_self_exit_carries_duration_ms(#[from(home)] tmp: TestHome, #[from(home)] 
         &[],
     );
     let (_, lines) = role_lines(missing.path(), "builder");
-    assert!(lines[1]["duration_ms"].as_u64().is_some());
+    assert!(lines[3]["duration_ms"].as_u64().is_some());
 }
 
 #[rstest]
@@ -310,7 +312,7 @@ fn run_config_debug_level_keeps_the_key_set(
     assert!(run_captured(debug.path(), FAKE, &[]).status.success());
     let (_, info_lines) = role_lines(info.path(), "builder");
     let (_, debug_lines) = role_lines(debug.path(), "builder");
-    assert_eq!(info_lines.len(), 4);
+    assert_eq!(info_lines.len(), 6);
     assert_eq!(key_sets(&debug_lines), key_sets(&info_lines));
 }
 
@@ -319,7 +321,7 @@ fn run_config_malformed_emits_parse_rejected(#[from(home)] tmp: TestHome) {
     write_config(tmp.path(), r#"{"v":1,"diagnostics_level":"loud","x":1}"#);
     assert!(run_captured(tmp.path(), FAKE, &[]).status.success());
     let (_, lines) = role_lines(tmp.path(), "builder");
-    assert_eq!(lines.len(), 5);
+    assert_eq!(lines.len(), 7);
     assert_eq!(lines[0]["event"], "process-start");
     assert_eq!(lines[1]["event"], "parse-rejected");
     assert_eq!(lines[1]["level"], "WARN");

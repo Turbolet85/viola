@@ -2,6 +2,7 @@
 //! session's identity (the R8 strip) and how the npm shim resolves to the real executable.
 
 pub mod hook;
+pub mod ledger;
 
 use std::ffi::{OsStr, OsString};
 use std::path::{Path, PathBuf};
@@ -22,8 +23,8 @@ pub const IDENTITY_FLOOR: [&str; 11] = [
     "CLAUDE_PID",
 ];
 
-/// Windows environment names are case-insensitive.
-const CASE_INSENSITIVE: bool = cfg!(windows);
+/// Windows environment names and paths are case-insensitive.
+pub const CASE_INSENSITIVE: bool = cfg!(windows);
 
 /// The npm package's real binary, relative to the folder holding the `claude.cmd` shim.
 const SHIM_TARGET: [&str; 5] = [
@@ -202,7 +203,8 @@ pub fn resolve_program(
     }
 }
 
-fn is_script(path: &Path) -> bool {
+/// A `.cmd` or `.bat` file, which no child is ever spawned from.
+pub fn is_script(path: &Path) -> bool {
     path.extension()
         .is_some_and(|e| e.eq_ignore_ascii_case("cmd") || e.eq_ignore_ascii_case("bat"))
 }

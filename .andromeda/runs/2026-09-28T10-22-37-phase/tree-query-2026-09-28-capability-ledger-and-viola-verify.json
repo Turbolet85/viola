@@ -1,0 +1,184 @@
+[
+{
+"sql": "SELECT caller, callee_crate, file, line FROM calls WHERE callee_name IN ('resolve_program','replace_private','start_state','report_internal_error') AND callee_kind = 'fn' ORDER BY callee_name, file, line",
+"rows": 29,
+"result": [
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 fs/replace_private_shared().",
+"callee_crate": "viola-state",
+"file": "crates/viola-state/src/fs.rs",
+"line": 134
+},
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 fs/tests/replace_private_shared_accepts_a_target_that_already_holds_the_bytes().",
+"callee_crate": "viola-state",
+"file": "crates/viola-state/src/fs.rs",
+"line": 169
+},
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 fs/tests/replace_private_replaces_the_whole_file().",
+"callee_crate": "viola-state",
+"file": "crates/viola-state/src/fs.rs",
+"line": 316
+},
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 fs/tests/replace_private_replaces_the_whole_file().",
+"callee_crate": "viola-state",
+"file": "crates/viola-state/src/fs.rs",
+"line": 317
+},
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 fs/tests/replace_private_leaves_the_target_when_the_rename_fails().",
+"callee_crate": "viola-state",
+"file": "crates/viola-state/src/fs.rs",
+"line": 333
+},
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 fs/tests/replace_private_under_a_missing_dir_fails().",
+"callee_crate": "viola-state",
+"file": "crates/viola-state/src/fs.rs",
+"line": 341
+},
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 fs/tests/",
+"callee_crate": "viola-state",
+"file": "crates/viola-state/src/fs.rs",
+"line": 378
+},
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 fs/tests/",
+"callee_crate": "viola-state",
+"file": "crates/viola-state/src/fs.rs",
+"line": 380
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 main().",
+"callee_crate": "viola",
+"file": "src/main.rs",
+"line": 55
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 obs/tests/internal_error_exit_line_writes_run_internal_error().",
+"callee_crate": "viola",
+"file": "src/obs.rs",
+"line": 626
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 obs/tests/internal_error_detail_line_carries_the_chain().",
+"callee_crate": "viola",
+"file": "src/obs.rs",
+"line": 664
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 tests/resolve_program_turns_the_claude_shim_into_its_exe().",
+"callee_crate": "viola-agent-claude",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 381
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 tests/resolve_program_refuses_a_shim_without_its_exe_and_any_other_script().",
+"callee_crate": "viola-agent-claude",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 395
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 tests/resolve_program_refuses_a_shim_without_its_exe_and_any_other_script().",
+"callee_crate": "viola-agent-claude",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 399
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 tests/resolve_program_refuses_a_non_claude_script_even_beside_the_exe().",
+"callee_crate": "viola-agent-claude",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 408
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 tests/resolve_program_never_takes_an_extensionless_file_on_windows().",
+"callee_crate": "viola-agent-claude",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 417
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 tests/resolve_program_follows_pathext_order_and_path_order().",
+"callee_crate": "viola-agent-claude",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 431
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 tests/resolve_program_follows_pathext_order_and_path_order().",
+"callee_crate": "viola-agent-claude",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 437
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 tests/resolve_program_follows_pathext_order_and_path_order().",
+"callee_crate": "viola-agent-claude",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 440
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 tests/resolve_program_takes_a_name_with_an_extension_as_is_on_path().",
+"callee_crate": "viola-agent-claude",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 449
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 tests/resolve_program_uses_a_given_path_as_given().",
+"callee_crate": "viola-agent-claude",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 457
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 tests/resolve_program_uses_a_given_path_as_given().",
+"callee_crate": "viola-agent-claude",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 460
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 tests/resolve_program_on_unix_takes_the_bare_name_and_never_refuses().",
+"callee_crate": "viola-agent-claude",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 477
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 tests/resolve_program_on_unix_takes_the_bare_name_and_never_refuses().",
+"callee_crate": "viola-agent-claude",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 479
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 tests/resolve_program_reports_a_missing_program().",
+"callee_crate": "viola-agent-claude",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 487
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 tests/resolve_program_reports_a_missing_program().",
+"callee_crate": "viola-agent-claude",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 493
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/start().",
+"callee_crate": "viola",
+"file": "src/cmd/run.rs",
+"line": 152
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/resolve_program().",
+"callee_crate": "viola-agent-claude",
+"file": "src/run/mod.rs",
+"line": 124
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/start().",
+"callee_crate": "viola",
+"file": "src/cmd/run.rs",
+"line": 178
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]
