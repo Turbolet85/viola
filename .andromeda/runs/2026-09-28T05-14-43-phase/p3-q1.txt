@@ -1,0 +1,72 @@
+[
+  {
+    "caller": "rust-analyzer cargo viola-e2e 0.1.0 run_cmd().",
+    "file": "crates/viola-e2e/src/bin/viola-harness.rs",
+    "line": 159
+  },
+  {
+    "caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/gate/gate().",
+    "file": "crates/viola-e2e/src/harness/gate.rs",
+    "line": 78
+  },
+  {
+    "caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/run_with().",
+    "file": "crates/viola-e2e/src/harness/run.rs",
+    "line": 129
+  },
+  {
+    "caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/run_with().",
+    "file": "crates/viola-e2e/src/harness/run.rs",
+    "line": 131
+  },
+  {
+    "caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/test_support/flags().",
+    "file": "crates/viola-e2e/src/harness/run.rs",
+    "line": 387
+  },
+  {
+    "caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/tests/selection_coverage_or_fuzz_alone_selects_nothing_else().",
+    "file": "crates/viola-e2e/src/harness/run.rs",
+    "line": 636
+  },
+  {
+    "caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/tests/selection_coverage_or_fuzz_alone_selects_nothing_else().",
+    "file": "crates/viola-e2e/src/harness/run.rs",
+    "line": 638
+  },
+  {
+    "caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/coverage/tests/coverage_only().",
+    "file": "crates/viola-e2e/src/harness/run/coverage.rs",
+    "line": 117
+  },
+  {
+    "caller": "rust-analyzer cargo viola 0.1.0 cmd/hook/hook().",
+    "file": "src/cmd/hook.rs",
+    "line": 87
+  },
+  {
+    "caller": "rust-analyzer cargo viola 0.1.0 cmd/hook/tests/handled().",
+    "file": "src/cmd/hook.rs",
+    "line": 287
+  },
+  {
+    "caller": "rust-analyzer cargo viola 0.1.0 cmd/dispatch().",
+    "file": "src/cmd/mod.rs",
+    "line": 44
+  },
+  {
+    "caller": "rust-analyzer cargo viola 0.1.0 viola_panic_hook().",
+    "file": "src/main.rs",
+    "line": 126
+  },
+  {
+    "caller": "rust-analyzer cargo viola 0.1.0 tests/panic_lines_for_a_hook_split_the_payload_into_the_detail_file().",
+    "file": "src/main.rs",
+    "line": 340
+  },
+  {
+    "caller": "rust-analyzer cargo viola 0.1.0 tests/panic_lines_without_an_instance_write_only_the_role_line().",
+    "file": "src/main.rs",
+    "line": 374
+  }
+]

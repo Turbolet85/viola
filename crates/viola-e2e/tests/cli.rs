@@ -58,7 +58,7 @@ fn status_and_logs_of_an_unknown_session_are_exit_2() {
 #[test]
 fn unbuilt_selectors_and_unknown_commands_are_usage() {
     for (args, cmd) in [
-        (vec!["run", "--perf"], Value::from("run")),
+        (vec!["run", "--e2e"], Value::from("run")),
         (vec!["boot", "--ui"], Value::from("boot")),
         (vec!["bogus"], Value::Null),
         (vec![], Value::Null),

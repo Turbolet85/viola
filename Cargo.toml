@@ -88,6 +88,11 @@ name = "hook_events"
 path = "tests/hook_events.rs"
 required-features = ["fake-agent"]
 
+[[test]]
+name = "cli_controls_not_disableable"
+path = "tests/cli_controls_not_disableable.rs"
+required-features = ["fake-agent"]
+
 [dependencies]
 viola-core = { path = "crates/viola-core" }
 viola-pty = { path = "crates/viola-pty" }

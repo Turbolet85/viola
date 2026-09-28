@@ -1,0 +1,202 @@
+[
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "21ddc30a",
+"ts": "2026-09-28T05:16:48Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-28T05-14-43-phase",
+"--marker",
+"2026-09-28-hook-perf-gate"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"appended 2 record(s) · friction-log.ndjson lines 518→520 · bytes 507990→509590 · term lf",
+"ts 2026-09-28T05:16:37Z · clock 2026-09-28T05:16:48Z · bound 2026-09-28T05:11:32Z (line 518)",
+"ids 2026-09-28T05:16:37Z-a … 2026-09-28T05:16:37Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 518,
+"bytes": 507990,
+"terminator": "LF",
+"bound": "2026-09-28T05:11:32Z"
+},
+"after": {
+"lines": 520,
+"bytes": 509590
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "21ddc30a",
+"ts": "2026-09-28T05:22:55Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-28T05-14-43-phase",
+"--marker",
+"2026-09-28-hook-perf-gate"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"appended 3 record(s) · friction-log.ndjson lines 520→523 · bytes 509590→512230 · term lf",
+"ts 2026-09-28T05:22:41Z · clock 2026-09-28T05:22:55Z · bound 2026-09-28T05:16:37Z (line 520)",
+"ids 2026-09-28T05:22:41Z-a … 2026-09-28T05:22:41Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 520,
+"bytes": 509590,
+"terminator": "LF",
+"bound": "2026-09-28T05:16:37Z"
+},
+"after": {
+"lines": 523,
+"bytes": 512230
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "21ddc30a",
+"ts": "2026-09-28T05:30:07Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-28T05-14-43-phase",
+"--marker",
+"2026-09-28-hook-perf-gate"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"appended 2 record(s) · friction-log.ndjson lines 523→525 · bytes 512230→513922 · term lf",
+"ts 2026-09-28T05:29:56Z · clock 2026-09-28T05:30:07Z · bound 2026-09-28T05:22:41Z (line 523)",
+"ids 2026-09-28T05:29:56Z-a … 2026-09-28T05:29:56Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 523,
+"bytes": 512230,
+"terminator": "LF",
+"bound": "2026-09-28T05:22:41Z"
+},
+"after": {
+"lines": 525,
+"bytes": 513922
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "21ddc30a",
+"ts": "2026-09-28T05:36:24Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-28T05-14-43-phase",
+"--marker",
+"2026-09-28-hook-perf-gate"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"appended 2 record(s) · friction-log.ndjson lines 525→527 · bytes 513922→515679 · term lf",
+"ts 2026-09-28T05:36:11Z · clock 2026-09-28T05:36:24Z · bound 2026-09-28T05:29:56Z (line 525)",
+"ids 2026-09-28T05:36:11Z-a … 2026-09-28T05:36:11Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 525,
+"bytes": 513922,
+"terminator": "LF",
+"bound": "2026-09-28T05:29:56Z"
+},
+"after": {
+"lines": 527,
+"bytes": 515679
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "21ddc30a",
+"ts": "2026-09-28T05:40:43Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-28T05-14-43-phase",
+"--marker",
+"2026-09-28-hook-perf-gate"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"appended 3 record(s) · friction-log.ndjson lines 527→530 · bytes 515679→517838 · term lf",
+"ts 2026-09-28T05:40:30Z · clock 2026-09-28T05:40:43Z · bound 2026-09-28T05:36:11Z (line 527)",
+"ids 2026-09-28T05:40:30Z-a … 2026-09-28T05:40:30Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 527,
+"bytes": 515679,
+"terminator": "LF",
+"bound": "2026-09-28T05:36:11Z"
+},
+"after": {
+"lines": 530,
+"bytes": 517838
+}
+}
+]

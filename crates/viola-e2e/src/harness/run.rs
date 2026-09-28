@@ -1,5 +1,5 @@
-//! `run`: the built suites (unit · integration · doctest · coverage · browser · fuzz-replay) and the
-//! per-chunk mutation gate, one JSON summary, merged by suite into
+//! `run`: the built suites (unit · integration · doctest · coverage · browser · fuzz-replay · perf)
+//! and the per-chunk mutation gate, one JSON summary, merged by suite into
 //! `target/agent-run/artifacts/run-summary.json` (test-plan §3 `run`).
 
 mod browser;
@@ -8,6 +8,7 @@ mod doctest;
 mod fuzz;
 mod mutants;
 mod nextest;
+mod perf;
 
 use std::fs;
 use std::io::Write as _;
@@ -28,6 +29,7 @@ pub use mutants::{
     mutants_suite, resolve_base, rust_delta,
 };
 pub use nextest::parse_junit;
+pub use perf::ROWS as PERF_ROWS;
 
 /// Runs one tool invocation: its exit code and its stdout.
 pub type Runner<'r> = dyn FnMut(&mut Command) -> (Option<i32>, String) + 'r;
@@ -40,14 +42,15 @@ pub struct Selection {
     pub coverage: bool,
     pub fuzz_replay: bool,
     pub browser: bool,
+    pub perf: bool,
     /// `--file`: the mutation run scoped to these sources (the inner loop, never a verdict).
     pub files: Vec<String>,
 }
 
 impl Selection {
     /// No selector, or `--all`, selects unit, integration and mutants. `--coverage` replaces the
-    /// nextest runs, `--fuzz-replay` is Linux-only and `--browser` needs Node and Chromium, so none
-    /// of them joins the default.
+    /// nextest runs, `--fuzz-replay` is Linux-only, `--browser` needs Node and Chromium and `--perf`
+    /// needs hyperfine and a release build, so none of them joins the default.
     pub fn from_flags(named: Selection, all: bool) -> Self {
         let none = named == Selection::default();
         Self {
@@ -274,7 +277,7 @@ fn test_suites(
     (suites, refusal)
 }
 
-/// Fuzz replay, then the mutation gate unless a refusal came first.
+/// Fuzz replay, the perf rows, then the mutation gate, each unless a refusal came first.
 fn tool_arms(
     ws: &Workspace,
     sel: &Selection,
@@ -286,6 +289,13 @@ fn tool_arms(
     let mut refusal = None;
     if sel.fuzz_replay {
         match fuzz::fuzz_replay(ws, runner) {
+            Ok(suite) => suites.push(suite),
+            Err(r) => refusal = Some(r),
+        }
+    }
+    if sel.perf && refusal.is_none() {
+        let keep = perf::keep_homes(std::env::var("AGENT_RUN_KEEP_HOMES").ok().as_deref());
+        match perf::perf(ws, runner, &mut perf::Live, keep) {
             Ok(suite) => suites.push(suite),
             Err(r) => refusal = Some(r),
         }

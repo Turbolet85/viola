@@ -35,3 +35,6 @@
 - **Deferred learnings:** `recurrence-despite-learning`: testing.md 2026-09-24 (a process-global `OnceLock` test is isolated
   only by nextest's process-per-test). The implement pass hit the same shared-process read under `cargo test`.
 - **Last failed command:** none.
+
+## Session End Status
+Completed normally at 2026-09-28 07:41:08

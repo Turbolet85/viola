@@ -8,7 +8,7 @@ use std::path::Path;
 use serde_json::{Value, json};
 
 use super::cfg_legs::compiled_legs;
-use super::run::{COVERAGE_FLOORS, leg_verdict_path};
+use super::run::{COVERAGE_FLOORS, PERF_ROWS, leg_verdict_path};
 use super::{Outcome, read_json, valid_session_id};
 
 /// The closed `suite` values (test-plan §3 Closed enums).
@@ -189,8 +189,15 @@ fn coverage(artifacts: &Path, breaches: &mut Vec<Value>) {
     }
 }
 
-/// hyperfine's `max` sample is the gated statistic (test-plan §10; obs-plan §10).
+/// Every row `run --perf` times must be present (test-plan §3 `gate`); every `perf-*.json` present
+/// is judged on hyperfine's `max` sample, the gated statistic (test-plan §10; obs-plan §10).
 fn perf(artifacts: &Path, breaches: &mut Vec<Value>) {
+    for row in PERF_ROWS {
+        let name = format!("perf-{row}.json");
+        if !artifacts.join(&name).is_file() {
+            breaches.push(breach("artifact-missing", "perf", name));
+        }
+    }
     let mut files: Vec<String> = fs::read_dir(artifacts)
         .into_iter()
         .flatten()
@@ -199,9 +206,6 @@ fn perf(artifacts: &Path, breaches: &mut Vec<Value>) {
         .filter(|n| n.starts_with("perf-") && n.ends_with(".json"))
         .collect();
     files.sort();
-    if files.is_empty() {
-        breaches.push(breach("artifact-missing", "perf", "perf-*.json".to_owned()));
-    }
     for file in files {
         let max = read_json::<Value>(&artifacts.join(&file))
             .ok()
@@ -572,11 +576,19 @@ mod tests {
     }
 
     #[test]
-    fn gate_perf_gates_the_max_sample_against_the_spine_deadline() {
+    fn gate_perf_requires_every_row_and_gates_the_max_sample_against_the_spine_deadline() {
         let d = dir();
         summary(d.path(), json!([entry("perf", 0, 0, 0)]));
         let none = gate(d.path(), d.path(), &req(&["perf"]), None);
-        assert_eq!(gates(&none), [pair("artifact-missing", "perf-*.json")]);
+        assert_eq!(
+            gates(&none),
+            [
+                pair("artifact-missing", "perf-session-start.json"),
+                pair("artifact-missing", "perf-user-prompt-submit.json"),
+                pair("artifact-missing", "perf-stop.json"),
+                pair("artifact-missing", "perf-session-end.json")
+            ]
+        );
         let hook = |name: &str, max: f64| {
             write_json(
                 &d.path().join(name),
@@ -584,7 +596,15 @@ mod tests {
             )
             .expect("perf");
         };
+        hook("perf-session-start.json", 0.2);
+        hook("perf-user-prompt-submit.json", 0.3);
         hook("perf-stop.json", 0.99);
+        let three = gate(d.path(), d.path(), &req(&["perf"]), None);
+        assert_eq!(
+            gates(&three),
+            [pair("artifact-missing", "perf-session-end.json")]
+        );
+        hook("perf-session-end.json", 0.5);
         assert_eq!(gate(d.path(), d.path(), &req(&["perf"]), None).code, 0);
         hook("perf-session-end.json", 1.0);
         fs::write(d.path().join("perf-zz.json"), "{}").expect("bad");
@@ -597,6 +617,9 @@ mod tests {
                 pair("perf", "perf-zz.json unreadable")
             ]
         );
+        fs::write(d.path().join("perf-stop.json"), "not json").expect("torn");
+        let torn = gate(d.path(), d.path(), &req(&["perf"]), None);
+        assert!(gates(&torn).contains(&pair("perf", "perf-stop.json unreadable")));
     }
 
     #[test]

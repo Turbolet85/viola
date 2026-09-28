@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "db3af704",
+"ts": "2026-09-28T05:16:28Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-09-28-hook-perf-gate",
+"--expect-prefix",
+"Hook perf gate",
+"--record-file",
+".andromeda/runs/2026-09-28T05-14-43-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-09-28T05-14-43-phase"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:49 - [2026-09-28-hook-perf-gate]",
+"record master-route.md:29 - appended under `## viola-0.1.0`",
+"promoted 2026-09-28-hook-perf-gate - working-route:49 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+".\\viola-0.1.0\\working-route.md",
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+}
+]

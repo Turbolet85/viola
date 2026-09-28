@@ -1,0 +1,39 @@
+gate v1.4 · 4a57daca
+shell bash.exe (from $SHELL; -c, non-login)
+root D:\dev\projects\viola · marker 2026-09-28-hook-perf-gate · entries 32
+logs <OS temp>/andromeda-gate/2026-09-28-hook-perf-gate/run-20260928T053833Z · bound: GNU timeout
+delta docs 33
+prose L181-190: Test Commands, and what is absent: - **Live smoke:** the harness lifecycle, unchanged in s… (863 chars)
+  1 lint        not run — dry-run · cargo fmt --all --check
+  2 lint        not run — dry-run · cargo clippy --workspace --all-targets --features fake-age… (75 chars)
+  3 lint        not run — dry-run · cargo clippy --workspace --all-targets -- -D warnings
+  4 lint        not run — dry-run · bash scripts/lint-probes.sh
+  5 lint        not run — dry-run · bash scripts/orphans-check.sh
+  6 lint        not run — dry-run · zizmor .github/workflows/
+  7 probe       not run — dry-run · hyperfine --version
+  8 probe       not run — dry-run · grep -rl 'FAKE_AGENT_HOOK_PANIC' src crates
+  9 probe       not run — dry-run · bash scripts/g2-zero-panics.sh --probe
+ 10 unit        not run — dry-run · bash scripts/agent-run.sh run --unit
+ 11 integration not run — dry-run · AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --int… (66 chars)
+ 12 probe       not run — dry-run · bash scripts/g2-zero-panics.sh
+ 13 probe       not run — dry-run · bash scripts/agent-run.sh schema-check
+ 14 probe       not run — dry-run · bash scripts/agent-run.sh secret-scan
+ 15 e2e         not run — dry-run · bash scripts/agent-run.sh run --perf
+ 16 probe       not run — dry-run · bash scripts/agent-run.sh gate --require perf
+ 17 unit        not run — dry-run · bash scripts/agent-run.sh run --mutants --file src/cmd/hoo… (67 chars)
+ 18 unit        not run — dry-run · bash scripts/agent-run.sh run --mutants --file src/cmd/hoo… (62 chars)
+ 19 unit        not run — dry-run · bash scripts/agent-run.sh run --mutants --file crates/viol… (87 chars)
+ 20 unit        not run — dry-run · bash scripts/agent-run.sh run --mutants --file crates/viol… (83 chars)
+ 21 smoke       not run — dry-run · bash scripts/agent-run.sh cleanup --session p-perf-smoke
+ 22 smoke       not run — dry-run · bash scripts/agent-run.sh boot --session p-perf-smoke --in… (72 chars)
+ 23 smoke       not run — dry-run · bash scripts/agent-run.sh status --session p-perf-smoke
+ 24 smoke       not run — dry-run · bash scripts/agent-run.sh cleanup --session p-perf-smoke
+ 25 probe       not run — dry-run · bash scripts/release-check.sh --probe
+ 26 probe       not run — dry-run · bash scripts/release-check.sh
+ 27 build       not run — dry-run · RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv cargo c… (116 chars)
+ 28 integration not run — dry-run · bash scripts/agent-run.sh pre-push
+ 29 probe       not run — leg operator (the letter drives it) · python -X utf8 {tools_dir}/andromeda-too… (84 chars)
+ 30 integration not run — leg operator (the letter drives it) · bash scripts/agent-run.sh pre-push
+ 31 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (82 chars)
+ 32 probe       not run — leg operator (the letter drives it) · python -X utf8 {tools_dir}/andromeda-too… (108 chars)
+entries 32 · green 0 · red 0 · recorded 0 · timeout 0 · not-run 32

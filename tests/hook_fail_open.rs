@@ -2,7 +2,8 @@
 //! sweep): every path exits 0 with empty stdout and stderr inside the provisional 1.0 s spine
 //! bound, a hook outside a wrapped session writes nothing anywhere, the verb stays out of
 //! `viola --help`, and concurrent hook processes share their log files line by line (obs-plan
-//! D-28). The forced-panic case waits for its seam (the "Hook perf gate" entry).
+//! D-28). The `fake-agent` seam `FAKE_AGENT_HOOK_PANIC=1` forces a real panic, which fails open
+//! too and leaves detail lines over 4 KiB that concurrent processes still append whole.
 
 #[allow(dead_code)]
 mod support;
@@ -71,14 +72,54 @@ fn role_lines(home: &Path) -> Vec<Value> {
     support::ndjson::read_lines(&home.join("diagnostics").join("hook-builder.ndjson"))
 }
 
+fn detail_path(home: &Path) -> PathBuf {
+    home.join("instances")
+        .join("builder")
+        .join("diagnostics")
+        .join("detail-hook.ndjson")
+}
+
 fn detail_lines(home: &Path) -> Vec<Value> {
-    support::ndjson::read_lines(
-        &home
-            .join("instances")
-            .join("builder")
-            .join("diagnostics")
-            .join("detail-hook.ndjson"),
-    )
+    support::ndjson::read_lines(&detail_path(home))
+}
+
+/// The byte length of every line of a file that ends in a newline.
+fn line_lengths(path: &Path) -> Vec<usize> {
+    let bytes = std::fs::read(path).expect("ndjson file");
+    let body = bytes.strip_suffix(b"\n").expect("ends with a newline");
+    body.split(|b| *b == b'\n').map(<[u8]>::len).collect()
+}
+
+/// The seam's file, the only place a forced panic may come from.
+const SEAM: &str = "src/cmd/hook/seam.rs";
+const OVER_4_KIB: usize = 4096;
+
+/// The file part of a line's `panic_location` (`<file>:<line>`).
+fn panic_file(line: &Value) -> Option<&str> {
+    line["panic_location"]
+        .as_str()
+        .and_then(|l| l.rsplit_once(':'))
+        .map(|(file, _)| file)
+}
+
+/// Every file under `dir`, recursively.
+fn files_under(dir: &Path) -> Vec<PathBuf> {
+    let mut files = Vec::new();
+    for entry in std::fs::read_dir(dir).expect("read dir") {
+        let path = entry.expect("dir entry").path();
+        if path.is_dir() {
+            files.extend(files_under(&path));
+        } else {
+            files.push(path);
+        }
+    }
+    files
+}
+
+fn panic_env(dir: &Path) -> Vec<(&'static str, OsString)> {
+    let mut vars = instance_env("builder", dir);
+    vars.push(("FAKE_AGENT_HOOK_PANIC", OsString::from("1")));
+    vars
 }
 
 /// Schema failures as `<line>:<schema path>` codes, never a line's content.
@@ -221,6 +262,59 @@ fn hook_fails_open_silently_within_the_spine_bound(
     assert!(violations("schemas/diag-line.v1.json", &lines).is_empty());
 }
 
+/// A panic after the sink holds the instance still fails open (security-plan §Error Handling): it
+/// leaves one payload-free role line and one detail line over 4 KiB carrying the payload and the
+/// backtrace (obs-plan §7). The seam fires before stdin is read, so nothing holds the canary.
+#[test]
+fn hook_forced_panic_fails_open_with_one_role_line_and_one_detail_line() {
+    let tmp = TestHome::new();
+    let home = tmp.path().to_path_buf();
+    let dir = home.join("instances").join("builder");
+
+    let out = run_hook(
+        &["hook", "stop"],
+        &panic_env(&dir),
+        stdin_bytes(Stdin::Payload),
+    );
+    assert_eq!(out.code, Some(0));
+    assert!(out.stdout.is_empty(), "stdout: {} bytes", out.stdout.len());
+    assert!(out.stderr.is_empty(), "stderr: {} bytes", out.stderr.len());
+    assert!(out.took < SPINE_BOUND, "took {:?}", out.took);
+
+    let lines = role_lines(&home);
+    assert_eq!(lines.len(), 1, "role lines: {}", lines.len());
+    let panic = &lines[0];
+    assert_eq!(panic["event"], "panic");
+    assert_eq!(panic["level"], "ERROR");
+    assert_eq!(panic_file(panic), Some(SEAM));
+    assert!(panic.get("panic_payload").is_none());
+    assert!(panic.get("backtrace").is_none());
+    assert!(violations("schemas/diag-line.v1.json", &lines).is_empty());
+
+    let details = detail_lines(&home);
+    assert_eq!(details.len(), 1, "detail lines: {}", details.len());
+    let detail = &details[0];
+    assert_eq!(detail["event"], "panic");
+    assert_eq!(panic_file(detail), Some(SEAM));
+    assert!(detail["panic_payload"].is_string());
+    assert!(
+        detail["backtrace"]
+            .as_array()
+            .is_some_and(|frames| frames.iter().all(Value::is_string))
+    );
+    let lengths = line_lengths(&detail_path(&home));
+    assert!(lengths.iter().all(|n| *n > OVER_4_KIB), "{lengths:?}");
+    assert!(violations("schemas/diag-detail.v1.json", &details).is_empty());
+
+    for file in files_under(&home) {
+        let bytes = std::fs::read(&file).expect("home file");
+        assert!(
+            !bytes.windows(CANARY.len()).any(|w| w == CANARY.as_bytes()),
+            "the canary reached a home file"
+        );
+    }
+}
+
 /// `viola --help` lists no `hook` verb (layout-templates §Surface: cli › `viola --help`).
 #[test]
 fn hook_verb_is_hidden_from_the_help() {
@@ -306,4 +400,62 @@ fn hook_processes_append_whole_lines_side_by_side() {
     assert!(violations("schemas/diag-detail.v1.json", &details).is_empty());
     assert!(!lines.iter().any(|l| l.to_string().contains(CANARY)));
     assert!(!dir.join("events.ndjson").exists());
+}
+
+/// Eight forced panics at once: every detail line is over 4 KiB, past any pipe or page atomicity
+/// a platform might lend, and each still lands whole from its one `write_all` (obs-plan D-28).
+#[test]
+fn hook_panics_append_whole_lines_over_4_kib_side_by_side() {
+    const N: usize = 8;
+    let tmp = TestHome::new();
+    let home = tmp.path().to_path_buf();
+    let dir = home.join("instances").join("builder");
+    let vars = panic_env(&dir);
+    let payload = stdin_bytes(Stdin::Payload);
+    let children: Vec<_> = (0..N)
+        .map(|_| {
+            let mut cmd = Command::new(VIOLA);
+            cmd.args(["hook", "session-start"])
+                .env_remove("VIOLA_NAME")
+                .env_remove("VIOLA_DIR")
+                .stdin(Stdio::piped())
+                .stdout(Stdio::piped())
+                .stderr(Stdio::piped());
+            for (key, value) in &vars {
+                cmd.env(key, value);
+            }
+            cmd.spawn().expect("viola hook")
+        })
+        .collect();
+    let outputs: Vec<_> = children
+        .into_iter()
+        .map(|mut child| {
+            let mut input = child.stdin.take().expect("stdin");
+            // The seam fires before stdin is read, so the child may already be gone.
+            match input.write_all(&payload) {
+                Ok(()) => {}
+                Err(e) => assert_eq!(e.kind(), std::io::ErrorKind::BrokenPipe),
+            }
+            drop(input);
+            child.wait_with_output().expect("exit")
+        })
+        .collect();
+    for out in &outputs {
+        assert_eq!(out.status.code(), Some(0));
+        assert!(out.stdout.is_empty() && out.stderr.is_empty());
+    }
+
+    let lines = role_lines(&home);
+    assert_eq!(lines.len(), N);
+    assert!(lines.iter().all(|l| l["event"] == "panic"));
+    assert!(lines.iter().all(|l| panic_file(l) == Some(SEAM)));
+    assert!(violations("schemas/diag-line.v1.json", &lines).is_empty());
+
+    let details = detail_lines(&home);
+    assert_eq!(details.len(), N);
+    assert!(details.iter().all(|l| l["event"] == "panic"));
+    let lengths = line_lengths(&detail_path(&home));
+    assert_eq!(lengths.len(), N);
+    assert!(lengths.iter().all(|n| *n > OVER_4_KIB), "{lengths:?}");
+    assert!(violations("schemas/diag-detail.v1.json", &details).is_empty());
 }

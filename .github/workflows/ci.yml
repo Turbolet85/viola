@@ -124,9 +124,7 @@ jobs:
       - name: G2 zero panics
         if: always()
         shell: bash
-        run: |
-          test -n "$(find target/e2e-home -path '*/diagnostics/*.ndjson' ! -name 'detail-*' -print -quit)"
-          find target/e2e-home -path '*/diagnostics/*.ndjson' ! -name 'detail-*' -exec awk 1 {} + | jq -R -n -e '[inputs|fromjson?|select(.event=="panic")]|length==0'
+        run: bash scripts/g2-zero-panics.sh --probe && bash scripts/g2-zero-panics.sh
       - name: G4 schema conformance
         id: schema-conformance
         if: always()
@@ -187,6 +185,78 @@ jobs:
         if: always()
         shell: bash
         run: bash scripts/agent-run.sh gate --require coverage,doctest,playwright
+
+  # test-plan §9 Perf: hyperfine times the real `viola hook` per row against one perf session, and the
+  # gate breaches on any row's max sample at or over the spine deadline. Its own job, so `test` and the
+  # pre-push stay as they are; G2, G4 and the secret scan run over its own kept home.
+  perf:
+    name: perf (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-2025, macos-latest, ubuntu-latest]
+    env:
+      AGENT_RUN_KEEP_HOMES: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Toolchain (rust-toolchain.toml)
+        run: rustup toolchain install
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+      - name: Install hyperfine
+        run: cargo install --locked hyperfine@1.20.0
+      - name: Gate tools present
+        shell: bash
+        run: jq --version
+      - name: Perf rows
+        shell: bash
+        run: bash scripts/agent-run.sh run --perf
+      - name: G2 zero panics
+        if: always()
+        shell: bash
+        run: bash scripts/g2-zero-panics.sh --probe && bash scripts/g2-zero-panics.sh
+      - name: G4 schema conformance
+        if: always()
+        shell: bash
+        run: bash scripts/agent-run.sh schema-check
+      - name: Secret scan
+        id: secret-scan
+        if: always()
+        shell: bash
+        run: bash scripts/agent-run.sh secret-scan
+      - name: Upload perf rows
+        if: always() && steps.secret-scan.outcome == 'success'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: perf-${{ matrix.os }}
+          path: target/agent-run/artifacts/perf-*.json
+          retention-days: 7
+          if-no-files-found: warn
+      - name: Upload diagnostics
+        if: always() && steps.secret-scan.outcome == 'success'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: diag-perf-${{ matrix.os }}
+          path: target/e2e-home/**/diagnostics/*.ndjson
+          retention-days: 7
+          if-no-files-found: warn
+      - name: Upload secret-scan hit report
+        if: always() && steps.secret-scan.outcome == 'failure'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: secret-scan-perf-${{ matrix.os }}
+          path: target/secret-scan/
+          retention-days: 7
+          if-no-files-found: warn
+
+      - name: Gate verdict
+        if: always()
+        shell: bash
+        run: bash scripts/agent-run.sh gate --require perf
 
   # One leg per OS: cargo-mutants cannot compile another OS's #[cfg] bodies, so each leg misses
   # them; mutants-verdict judges each mutant only on the legs that compile its line (read from the

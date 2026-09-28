@@ -88,6 +88,8 @@ struct RunArgs {
     #[arg(long)]
     browser: bool,
     #[arg(long)]
+    perf: bool,
+    #[arg(long)]
     all: bool,
     #[arg(long)]
     filter: Option<String>,
@@ -153,6 +155,7 @@ fn run_cmd(ws: &Workspace, args: RunArgs) -> ExitCode {
         coverage: args.coverage,
         fuzz_replay: args.fuzz_replay,
         browser: args.browser,
+        perf: args.perf,
         files: args.files,
     };
     emit(run_with(
@@ -272,5 +275,11 @@ mod tests {
         assert_eq!(args.files, ["a.rs", "b/c.rs"]);
         assert!(run_args(&["--mutants"]).expect("parsed").files.is_empty());
         assert!(run_args(&["--unit", "--file", "a.rs"]).is_none());
+    }
+
+    #[test]
+    fn run_perf_is_a_flag_of_its_own() {
+        assert!(run_args(&["--perf"]).expect("parsed").perf);
+        assert!(!run_args(&["--all"]).expect("parsed").perf);
     }
 }

@@ -22,6 +22,8 @@ use viola_state::snapshot::read_snapshot;
 use super::Failure;
 use crate::obs::{self, DetailSink};
 
+mod seam;
+
 #[derive(clap::Args)]
 pub(crate) struct HookArgs {
     /// The hook event, kebab-case
@@ -84,6 +86,8 @@ pub(crate) fn hook(args: &HookArgs) -> Result<ExitCode, Failure> {
         Some(instance.name.clone()),
         level,
     );
+    #[cfg(feature = "fake-agent")]
+    seam::panic_if_asked();
     let stdin = &mut std::io::stdin().lock();
     match handle(event, &instance, spine_deadline(started), stdin) {
         Ok(detail) => {
