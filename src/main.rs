@@ -1,6 +1,7 @@
 mod cmd;
 mod human;
 mod obs;
+mod panic_frames;
 mod run;
 
 use std::ffi::OsString;
@@ -181,24 +182,10 @@ fn panic_detail_line(
     thread: &str,
     payload: &str,
 ) -> String {
-    // MEASUREMENT ONLY (Windows 1.0 s spine bound): the capture and render times ride as the last
-    // backtrace string; removed once read.
-    let since_init = obs::duration_ms();
-    let started = std::time::Instant::now();
-    let captured = std::backtrace::Backtrace::force_capture();
-    let capture = started.elapsed();
-    let rendered = captured.to_string();
-    let render = started.elapsed();
-    let mut backtrace: Vec<Value> = rendered
-        .lines()
-        .map(str::trim)
-        .filter(|l| !l.is_empty())
+    let backtrace: Vec<Value> = panic_frames::capture()
+        .into_iter()
         .map(Value::from)
         .collect();
-    backtrace.push(Value::from(format!(
-        "measure: since_init_ms={since_init} capture={capture:?} capture_and_render={render:?} frames={}",
-        backtrace.len()
-    )));
     let mut fields = Map::new();
     fields.insert("panic_location".to_owned(), location.into());
     fields.insert("thread".to_owned(), thread.into());

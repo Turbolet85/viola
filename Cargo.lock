@@ -1572,6 +1572,7 @@ dependencies = [
  "clap",
  "interprocess",
  "jsonschema",
+ "libc",
  "rstest",
  "serde_json",
  "sha2",

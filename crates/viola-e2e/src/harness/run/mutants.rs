@@ -262,6 +262,26 @@ mod tests {
             .to_owned()
     }
 
+    /// `run --mutants` over the throwaway workspace with a private `CARGO_HOME` beside it (in the
+    /// test's tempdir, outside the diffed tree): the workspace has no dependencies, so its nested
+    /// cargo never needs a registry, and it never waits on the package-cache lock of the cargo
+    /// running this suite (measured on the macOS runner: 96 s of a 101 s run blocked on it).
+    fn run_private(ws: &Workspace, base: String) -> Outcome {
+        let cargo_home = ws.root.parent().unwrap_or(&ws.root).join("cargo-home");
+        let mut runner = |cmd: &mut Command| {
+            cmd.env("CARGO_HOME", &cargo_home);
+            run_forwarding(cmd)
+        };
+        run_with(
+            ws,
+            flags(false, false, true, false),
+            None,
+            Some(base),
+            None,
+            &mut runner,
+        )
+    }
+
     #[test]
     fn mutants_exit_codes_map_to_reasons() {
         for pass in [0, 2, 3] {
@@ -342,7 +362,7 @@ mod tests {
         let (_tmp, ws) = mini(GOOD_LIB);
         let base = head(&ws);
         fs::write(ws.root.join("src").join("lib.rs"), "pub fn broken( {}\n").expect("write");
-        let out = run(&ws, flags(false, false, true, false), None, Some(base));
+        let out = run_private(&ws, base);
         assert_eq!(out.code, 1);
         assert_eq!(out.doc["reason"], "build-failed");
     }
@@ -353,7 +373,7 @@ mod tests {
         let base = head(&ws);
         let lib = format!("{GOOD_LIB}pub fn three() -> u32 {{ 3 }}\n");
         fs::write(ws.root.join("src").join("lib.rs"), lib).expect("write");
-        let out = run(&ws, flags(false, false, true, false), None, Some(base));
+        let out = run_private(&ws, base);
         assert_eq!(out.code, 1, "{}", out.doc);
         let m = suite(&out.doc, "mutants");
         assert!(m["survived"].as_u64().is_some_and(|n| n >= 1));
@@ -379,7 +399,7 @@ mod tests {
              fn three_is_three() {{ assert_eq!(super::three(), 3); }}\n}}\n"
         );
         fs::write(ws.root.join("src").join("lib.rs"), lib).expect("write");
-        let out = run(&ws, flags(false, false, true, false), None, Some(base));
+        let out = run_private(&ws, base);
         assert_eq!(out.code, 0, "{}", out.doc);
         let m = suite(&out.doc, "mutants");
         assert_eq!(m["survived"], 0);
