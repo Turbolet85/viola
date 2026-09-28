@@ -190,7 +190,7 @@ pub(super) fn mutants(
         .args(["--test-tool=nextest", "--copy-target=true"])
         .args(MUTANTS_PROGRESS)
         // MEASUREMENT ONLY (macOS 120 s kill): cargo-mutants' own phase trace; removed after it.
-        .args(["-L", "debug"])
+        .args(["-L", "debug", "--all-logs"])
         // Live to our stderr: a leg that stalls or is cancelled still shows its last outcome.
         .stdout(Stdio::from(std::io::stderr()))
         .env("NEXTEST_PROFILE", "mutants")
