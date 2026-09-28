@@ -1,0 +1,72 @@
+[[pattern]]
+id = "hooks-empty"
+fixed = 'hooks": {}'
+
+[[pattern]]
+id = "only-run-prod"
+fixed = 'Only `run` has a producer'
+
+[[pattern]]
+id = "fuzz-two"
+regex = 'viola_name`? and `?channel_frame|viola_name,channel_frame\}'
+
+[[pattern]]
+id = "ac-thiserror"
+fixed = 'thiserror only'
+
+[[pattern]]
+id = "spine-open"
+regex = 'spine deadline[^.]{0,40}open item|open item: one built-in value'
+
+[[pattern]]
+id = "sessionend-1s"
+regex = '~1 s deadline|own ~1 s'
+
+[[pattern]]
+id = "fuzz-core-only"
+fixed = 'depends on `viola-core` by path'
+
+[[pattern]]
+id = "paste-wrapper"
+regex = 'pasted_content id=(…|\.\.\.)'
+
+[[pattern]]
+id = "hooks-lands"
+regex = '(once|join(s|ed)? with|until) "?Hooks to normalised events"?'
+
+[[pattern]]
+id = "forced-panic"
+regex = 'forced[- ]panic|panic trigger|HOOK_PANIC'
+ignore_case = true
+
+[[pattern]]
+id = "4kib"
+regex = '4 ?KiB'
+
+[[pattern]]
+id = "resets-prop"
+regex = 'hook[- ]stdin parser'
+
+[[pattern]]
+id = "copy-target"
+regex = 'copy-target|CARGO_TARGET_DIR'
+
+[[pattern]]
+id = "verify-hookevent"
+regex = 'including `hook\.event`|every `hook` event|every `hook <event>`|including every `hook` event'
+
+[[pattern]]
+id = "prov-1s"
+regex = 'provisional(ly)? `?1\.0 s'
+
+[[pattern]]
+id = "registered-hooks"
+fixed = 'Registered hook events'
+
+[[pattern]]
+id = "perf-arm"
+regex = 'run --perf|`--perf`'
+
+[[pattern]]
+id = "diag-hook-prod"
+regex = 'detail-hook'

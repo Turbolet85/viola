@@ -8,7 +8,7 @@ The only crate that knows Claude Code. It parses hook payloads tolerantly and ma
 ## Key integrations
 
 ### Consumes from
-As landed: thiserror only (`IDENTITY_FLOOR`, `plan_strip`, `resolve_program`, `Refusal`). Planned: `viola-core`, `viola-state`; serde_path_to_error 0.1.20 (drift reports → instance detail file only); vt100 0.16.2 (fed bytes by `run`'s pump, always under `catch_unwind`).
+As landed: `viola-core`, serde, serde_json, serde_path_to_error `=0.1.20` (the `hook` module's drift reports → instance detail file only) and thiserror (`IDENTITY_FLOOR`, `plan_strip`, `resolve_program`, `Refusal`); dev-deps proptest, rstest. Planned: `viola-state`; vt100 0.16.2 (fed bytes by `run`'s pump, always under `catch_unwind`).
 
 ### Publishes to
 `hook` (decision bodies), the wrapper (normalised events, readiness verdicts, version gate), `list` / `mcp` / `ui` (`claude agents --json` rows), `viola verify` (probes, fixture recorder).
@@ -20,6 +20,7 @@ Tokio banned in its graph.
 - Decision bodies: PreToolUse `{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"allow","updatedInput":{…}}}` (questions incl. `annotations`; plan approve); PermissionRequest `decision.behavior` allow/deny + `message` (plan revise). No decision = exit 0 with empty stdout.
 - Security-deciding fields map into closed enums even under tolerant parsing; every external reader bounded by `Read::take(MAX_FRAME)`.
 - Ledger rows (S3, S7, S8, R8 identity floor, shim resolution, statusline source + shell, harness prefixes, `<pasted_content>` wrapper, modal / input-box signatures, hook tier map, turn end without Stop, dialog concurrency, `claude agents --json` join field, plugin precedence, local commands + post-conditions, tag escaping, largest hook payload) are compiled here, never built from runtime or upstream text.
+- `hook` module (as landed): `HookEvent` (7 registered events; `from_arg`, `kind()`, `as_str` = diag-line `$defs.hook_event`), `normalise(event, bytes) -> Normalised{kind, data, drift}`. A wrong-typed known field → a drift entry `{path, expected:"string"}` and read as absent. Prompt order: classify `harness` on the RAW prefix (`<agent-message from=` / `<task-notification>`), then unwrap only the CLI's unescaped same-id pair `<pasted_content id="X">\n…\n</pasted_content id="X">` (ends kept byte for byte), then un-escape `<\` before an ASCII letter or `/` — a typed pair is never unwrapped.
 - An unlisted CLI version → transport-only: types, runs the wheel, emits events, withholds dialog answers (`unverified-cli`).
 - R8 (`plan_strip`, names only): every inherited `CLAUDE*` name (ASCII case-insensitive on Windows, exact on Unix) is removed unless it is in the persistent set (Windows registry `Environment` names, Unix `config.json` `claude_env_keep`); an `IDENTITY_FLOOR` name (11, measured) is removed regardless. Logged as `env_stripped_count` + `env_stripped_known` + `env_kept` — never values.
 - `resolve_program`: PATH × PATHEXT on Windows (never the bare name); `claude.cmd`/`.bat` → sibling `node_modules/@anthropic-ai/claude-code/bin/claude.exe` when it is a file, the shim never read; any other `.cmd`/`.bat` → `Refusal::BatchScriptChild`.

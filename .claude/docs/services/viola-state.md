@@ -19,6 +19,8 @@ Tokio banned in its graph; tailing and liveness are sync (shared by `list`, `mcp
 ## Internal conventions
 - Files created with `OpenOptionsExt::mode(0o600)`, dirs 0700; the pinned `bin/<version>-<hash>/viola` is 0700; the temp file's mode is set before any byte is written, then `persist`; if the mode cannot be set, discard the write.
 - Strict-modes runs in every process that reads `snapshot.json`, `ledger/stamps.json` or `statusline_command`; Windows checks cover inherit-only and generic bits, NULL DACL and non-persistent-ACL volumes, and each existing `events.ndjson` before it is opened.
+- On Windows, `replace_private` retries a `persist` refused with raw OS error 5 (a reader holding the target) every 10 ms, re-persisting the same temp file, at most `fs::REPLACE_ATTEMPTS` = 100 attempts; any other error returns at once. `write_snapshot` and `replace_private_shared` inherit it.
+- `try_append_event(instance_dir, line) -> Result<bool>`: `Ok(false)` with nothing written while `events.ndjson.lock` is held (the hook's SessionEnd fallback, `Source::Hook`).
 - `events.ndjson` is never truncated or rotated (offsets are cursors); instance dirs are reused and appended to.
 - Readers: over-long lines (> `MAX_FRAME`) count as `torn_lines`; unknown kinds/fields are counted in `skipped`; a snapshot with an unsupported `v` or a parse failure → replay (`state-recovered`).
 - Tailing only `instances/<name>/events.ndjson` where `<name>` passes `ViolaName::try_new`; symlinks ignored (`parse-rejected{parser:"state-entry", detail:"symlink-ignored"}`).
@@ -36,7 +38,7 @@ Tokio banned in its graph; tailing and liveness are sync (shared by `list`, `mcp
 
 ## Testing this crate
 - **Unit tests:** `cargo nextest run -p viola-state` (liveness `classify` fed ages directly — 4.9 / 5.0 s live, 5.1 s stale, gone on a pid/start-time mismatch —, replay field set, torn lines)
-- **Integration:** concurrent appenders (one line per `write`, a > 4 KiB detail line), `File::lock` contention, umask-independent modes
+- **Integration:** concurrent appenders (one line per `write`, a > 4 KiB detail line — for the hook files the >4 KiB half lands with the "Hook perf gate" chunk), `File::lock` contention, umask-independent modes
 - **Chaos:** kill mid-append + `set_len`, snapshot truncation / `v:99`
 
 ## References

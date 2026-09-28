@@ -1,0 +1,809 @@
+[
+{
+"tool": "gate",
+"v": "1.3",
+"sha8": "17f5855d",
+"ts": "2026-09-28T05:08:14Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-09-27-hooks-to-normalised-events/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-27T23-42-19-wrap",
+"--marker",
+"2026-09-27-hooks-to-normalised-events"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\viola · marker 2026-09-27-hooks-to-normalised-events · entries 33",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-hooks-to-normalised-events\\wrap-2026-09-27T23-42-19 · bound: GNU timeout",
+"delta docs 38",
+"prose L276-284: Test Commands, and what is absent: - **Live smoke:** the harness lifecycle. Its readiness … (722 chars)",
+"  1 lint        green · exit 0 · 0.44s · 0 B → 1.log · cargo fmt --all --check",
+"  2 lint        green · exit 0 · 0.37s · 72 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 lint        green · exit 0 · 2.09s · 286 B → 3.log · bash scripts/lint-probes.sh",
+"  4 lint        green · exit 0 · 80.74s · 33 B → 4.log · bash scripts/orphans-check.sh",
+"  5 build       green · exit 0 · 0.18s · 72 B → 5.log · cargo check -p viola-core -p viola-pty -p viola-agent-clau… (92 chars)",
+"  6 probe       green · exit 0 · 1.03s · 9181 B → 6.log · cargo deny check",
+"  7 probe       green · exit 0 · 0.98s · 676 B → 7.log · cargo deny --manifest-path fuzz/Cargo.toml check advisorie… (67 chars)",
+"  8 probe       green · exit 0 · 0.47s · 1109 B → 8.log · cargo deny --config deny-sync.toml --manifest-path crates/… (98 chars)",
+"  9 probe       green · exit 0 · 13.36s · 346 B → 9.log · bash scripts/deny-probes.sh",
+" 10 probe       green · exit 0 · 0.06s · 2 B → 10.log · grep -c '\"command\": \"@@VIOLA_BIN@@\"' plugin/hooks/hooks.js… (60 chars)",
+" 11 probe       green · exit 1 · 0.06s · 2 B → 11.log · grep -cE '\"(PreToolUse|PermissionRequest)\"|\"command\": \"vio… (85 chars)",
+" 12 probe       green · exit 0 · 0.06s · 2 B → 12.log · grep -c '\"async\": true' plugin/hooks/hooks.json",
+" 13 probe       green · exit 1 · 0.07s · 0 B → 13.log · grep -rnE 'FAKE_AGENT_HOOK_PANIC|HOOK_PANIC' src crates te… (61 chars)",
+" 14 probe       green · exit 0 · 0.1s · 3 B → 14.log · ls fuzz/corpus/hook_stdin | wc -l",
+" 15 unit        green · exit 0 · 11.55s · 70200 B → 15.log · bash scripts/agent-run.sh run --unit",
+" 16 unit        green · exit 0 · 4.81s · 6335 B → 16.log · bash scripts/agent-run.sh run --unit --filter 'package(vio… (69 chars)",
+" 17 integration green · exit 0 · 24.51s · 21260 B → 17.log · AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --int… (66 chars)",
+" 18 probe       green · exit 0 · 1.84s · 111 B → 18.log · bash scripts/agent-run.sh schema-check",
+" 19 probe       green · exit 0 · 140.64s · 115 B → 19.log · bash scripts/agent-run.sh secret-scan",
+" 20 unit        green · exit 0 · 122.27s · 2371 B → 20.log · bash scripts/agent-run.sh run --mutants --file crates/viol… (75 chars)",
+" 21 unit        green · exit 0 · 131.68s · 5016 B → 21.log · bash scripts/agent-run.sh run --mutants --file crates/viol… (84 chars)",
+" 22 unit        green · exit 0 · 193.14s · 2931 B → 22.log · bash scripts/agent-run.sh run --mutants --file src/cmd/hoo… (62 chars)",
+" 23 smoke       green · exit 0 · 0.3s · 47 B → 23.log · bash scripts/agent-run.sh cleanup --session p-hooks-smoke",
+" 24 smoke       green · exit 0 · 1.64s · 401 B → 24.log · bash scripts/agent-run.sh boot --session p-hooks-smoke --i… (73 chars)",
+" 25 smoke       green · exit 0 · 0.28s · 214 B → 25.log · bash scripts/agent-run.sh status --session p-hooks-smoke",
+" 26 smoke       green · exit 0 · 0.52s · 178 B → 26.log · bash scripts/agent-run.sh cleanup --session p-hooks-smoke",
+" 27 probe       green · exit 0 · 0.53s · 88 B → 27.log · bash scripts/release-check.sh",
+" 28 build       green · exit 0 · 0.23s · 72 B → 28.log · RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv cargo c… (116 chars)",
+" 29 integration green · exit 0 · 876.89s · 227939 B → 29.log · bash scripts/agent-run.sh pre-push",
+" 30 probe       not run — leg operator (the letter drives it) · python -X utf8 C:/Users/turbo/.claude/skills/andromeda-too… (84 chars)",
+" 31 integration not run — leg operator (the letter drives it) · bash scripts/agent-run.sh pre-push",
+" 32 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (82 chars)",
+" 33 probe       not run — leg operator (the letter drives it) · python -X utf8 C:/Users/turbo/.claude/skills/andromeda-too… (108 chars)",
+"entries 33 · green 29 · red 0 · recorded 0 · timeout 0 · not-run 4"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-27-hooks-to-normalised-events",
+"plan": "D:\\dev\\projects\\viola\\viola-0.1.0\\chunks\\2026-09-27-hooks-to-normalised-events\\plan.md",
+"root": "D:\\dev\\projects\\viola",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-hooks-to-normalised-events\\wrap-2026-09-27T23-42-19",
+"delta": {
+"docs": [
+".andromeda/architecture-amendments.md",
+".andromeda/architecture.md",
+".andromeda/friction-log.ndjson",
+".andromeda/obs-plan-amendments.md",
+".andromeda/obs-plan.md",
+".andromeda/security-plan-amendments.md",
+".andromeda/security-plan.md",
+".andromeda/state.yaml",
+".andromeda/test-plan-amendments.md",
+".andromeda/test-plan.md",
+".claude/docs/commands.md",
+".claude/docs/obs-summary.md",
+".claude/docs/security-summary.md",
+".claude/docs/services/viola-agent-claude.md",
+".claude/docs/services/viola-channel.md",
+".claude/docs/services/viola-state.md",
+".claude/docs/services/viola.md",
+".claude/docs/tests-summary.md",
+".claude/rules/api.md",
+".claude/rules/host-win32.md",
+".claude/rules/security.md",
+".claude/rules/verification-harness.md",
+".claude/session-handoff.md",
+"viola-0.1.0/chunks/2026-09-27-hooks-to-normalised-events/evidence/operator-pass.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-09-27T23-42-19-wrap/architecture-entry.md",
+".andromeda/runs/2026-09-27T23-42-19-wrap/cascade-2026-09-27-hooks-to-normalised-events.json",
+".andromeda/runs/2026-09-27T23-42-19-wrap/cascade-dispositions.md",
+".andromeda/runs/2026-09-27T23-42-19-wrap/cascade-patterns.toml",
+".andromeda/runs/2026-09-27T23-42-19-wrap/curation.md",
+".andromeda/runs/2026-09-27T23-42-19-wrap/evolve-2026-09-27-hooks-to-normalised-events.json",
+".andromeda/runs/2026-09-27T23-42-19-wrap/fanout-results.md",
+".andromeda/runs/2026-09-27T23-42-19-wrap/obs-plan-entry.md",
+".andromeda/runs/2026-09-27T23-42-19-wrap/route-no-marker.json",
+".andromeda/runs/2026-09-27T23-42-19-wrap/security-plan-entry.md",
+".andromeda/runs/2026-09-27T23-42-19-wrap/splice-2026-09-27-hooks-to-normalised-events.json",
+".andromeda/runs/2026-09-27T23-42-19-wrap/test-plan-entry.md",
+"viola-0.1.0/chunks/2026-09-27-hooks-to-normalised-events/report.md"
+]
+},
+"unmapped": [],
+"prose": [
+{
+"from": 276,
+"to": 284,
+"text": "Test Commands, and what is absent: - **Live smoke:** the harness lifecycle. Its readiness is unchanged (the line-3 check moved to :51), but `run` now serves a real   dispatcher and writes a filled `hooks.json`. - **Headful self-verify:** none exists (no UI surface until Epoch 8). - **`run --fuzz-replay`:** Linux-only (exit 2 `fuzz-linux-only` on this host). The new corpus is replayed by CI's `fuzz-replay`   job, read through the operator's CI entry. Locally a census entry proves the corpus is non-empty. - **One-shot control:** the remove-the-guard pair (step 4) mutates source and reverts, so it runs once at implement, with both   readings in `evidence/replace-retry.md`. - **No perf gate:** it is the tail entry's."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-hooks-to-normalised-events\\wrap-2026-09-27T23-42-19\\1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.44,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-hooks-to-normalised-events\\wrap-2026-09-27T23-42-19\\2.log",
+"bytes": 72,
+"log_sha8": "2bc683fb",
+"exit": 0,
+"seconds": 0.37,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "bash scripts/lint-probes.sh",
+"run_sha8": "4811ad1f",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-hooks-to-normalised-events\\wrap-2026-09-27T23-42-19\\3.log",
+"bytes": 286,
+"log_sha8": "99be9959",
+"exit": 0,
+"seconds": 2.09,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "bash scripts/orphans-check.sh",
+"run_sha8": "f05a4287",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-hooks-to-normalised-events\\wrap-2026-09-27T23-42-19\\4.log",
+"bytes": 33,
+"log_sha8": "7f633437",
+"exit": 0,
+"seconds": 80.74,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "build",
+"run": "cargo check -p viola-core -p viola-pty -p viola-agent-claude -p viola-state -p viola-channel",
+"run_sha8": "8ca7c520",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-hooks-to-normalised-events\\wrap-2026-09-27T23-42-19\\5.log",
+"bytes": 72,
+"log_sha8": "8c233a54",
+"exit": 0,
+"seconds": 0.18,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-hooks-to-normalised-events\\wrap-2026-09-27T23-42-19\\6.log",
+"bytes": 9181,
+"log_sha8": "b70f162f",
+"exit": 0,
+"seconds": 1.03,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "cargo deny --manifest-path fuzz/Cargo.toml check advisories sources",
+"run_sha8": "5244df61",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-hooks-to-normalised-events\\wrap-2026-09-27T23-42-19\\7.log",
+"bytes": 676,
+"log_sha8": "39d24be6",
+"exit": 0,
+"seconds": 0.98,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "cargo deny --config deny-sync.toml --manifest-path crates/viola-agent-claude/Cargo.toml check bans",
+"run_sha8": "59ea9c52",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-hooks-to-normalised-events\\wrap-2026-09-27T23-42-19\\8.log",
+"bytes": 1109,
+"log_sha8": "cde7210d",
+"exit": 0,
+"seconds": 0.47,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "bash scripts/deny-probes.sh",
+"run_sha8": "6ea4a0e7",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-hooks-to-normalised-events\\wrap-2026-09-27T23-42-19\\9.log",
+"bytes": 346,
+"log_sha8": "57359665",
+"exit": 0,
+"seconds": 13.36,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "grep -c '\"command\": \"@@VIOLA_BIN@@\"' plugin/hooks/hooks.json",
+"run_sha8": "7b0d7737",
+"expect": [
+"exit 0",
+"last line 7"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-hooks-to-normalised-events\\wrap-2026-09-27T23-42-19\\10.log",
+"bytes": 2,
+"log_sha8": "10159baf",
+"exit": 0,
+"seconds": 0.06,
+"readings": [
+"exit 0 ✓",
+"last line '7' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "grep -cE '\"(PreToolUse|PermissionRequest)\"|\"command\": \"viola' plugin/hooks/hooks.json",
+"run_sha8": "08d257ae",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-hooks-to-normalised-events\\wrap-2026-09-27T23-42-19\\11.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.06,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "grep -c '\"async\": true' plugin/hooks/hooks.json",
+"run_sha8": "6dfc8fe3",
+"expect": [
+"exit 0",
+"last line 3"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-hooks-to-normalised-events\\wrap-2026-09-27T23-42-19\\12.log",
+"bytes": 2,
+"log_sha8": "1121cfcc",
+"exit": 0,
+"seconds": 0.06,
+"readings": [
+"exit 0 ✓",
+"last line '3' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "grep -rnE 'FAKE_AGENT_HOOK_PANIC|HOOK_PANIC' src crates tests",
+"run_sha8": "a979f95f",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-hooks-to-normalised-events\\wrap-2026-09-27T23-42-19\\13.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.07,
+"readings": [
+"exit 1 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "ls fuzz/corpus/hook_stdin | wc -l",
+"run_sha8": "e60bbb80",
+"expect": [
+"exit 0",
+"last line 10"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-hooks-to-normalised-events\\wrap-2026-09-27T23-42-19\\14.log",
+"bytes": 3,
+"log_sha8": "917df332",
+"exit": 0,
+"seconds": 0.1,
+"readings": [
+"exit 0 ✓",
+"last line '10' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-hooks-to-normalised-events\\wrap-2026-09-27T23-42-19\\15.log",
+"bytes": 70200,
+"log_sha8": "498f24b5",
+"exit": 0,
+"seconds": 11.55,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"run\",\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'package(viola-state)' ",
+"run_sha8": "04bc1559",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-hooks-to-normalised-events\\wrap-2026-09-27T23-42-19\\16.log",
+"bytes": 6335,
+"log_sha8": "dbab4dcb",
+"exit": 0,
+"seconds": 4.81,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"run\",\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "integration",
+"run": "AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --integration",
+"run_sha8": "130402e2",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"run\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-hooks-to-normalised-events\\wrap-2026-09-27T23-42-19\\17.log",
+"bytes": 21260,
+"log_sha8": "5810f3c0",
+"exit": 0,
+"seconds": 24.51,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"run\",\"ok\":true' ✓",
+"artifact fresh (target/e2e-home/)"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"schema-check\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-hooks-to-normalised-events\\wrap-2026-09-27T23-42-19\\18.log",
+"bytes": 111,
+"log_sha8": "df335466",
+"exit": 0,
+"seconds": 1.84,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"schema-check\",\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "bash scripts/agent-run.sh secret-scan",
+"run_sha8": "57dd664b",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"secret-scan\",\"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-hooks-to-normalised-events\\wrap-2026-09-27T23-42-19\\19.log",
+"bytes": 115,
+"log_sha8": "0fc8d19f",
+"exit": 0,
+"seconds": 140.64,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"secret-scan\",\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 20,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --mutants --file crates/viola-state/src/fs.rs",
+"run_sha8": "e16cb628",
+"expect": [
+"exit 0",
+"contains \"verdict\":\"scoped\""
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-hooks-to-normalised-events\\wrap-2026-09-27T23-42-19\\20.log",
+"bytes": 2371,
+"log_sha8": "780783ca",
+"exit": 0,
+"seconds": 122.27,
+"readings": [
+"exit 0 ✓",
+"contains '\"verdict\":\"scoped\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 21,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --mutants --file crates/viola-agent-claude/src/hook.rs",
+"run_sha8": "77a72717",
+"expect": [
+"exit 0",
+"contains \"verdict\":\"scoped\""
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-hooks-to-normalised-events\\wrap-2026-09-27T23-42-19\\21.log",
+"bytes": 5016,
+"log_sha8": "64249ec4",
+"exit": 0,
+"seconds": 131.68,
+"readings": [
+"exit 0 ✓",
+"contains '\"verdict\":\"scoped\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 22,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --mutants --file src/cmd/hook.rs",
+"run_sha8": "6f170ca9",
+"expect": [
+"exit 0",
+"contains \"verdict\":\"scoped\""
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-hooks-to-normalised-events\\wrap-2026-09-27T23-42-19\\22.log",
+"bytes": 2931,
+"log_sha8": "04d344c7",
+"exit": 0,
+"seconds": 193.14,
+"readings": [
+"exit 0 ✓",
+"contains '\"verdict\":\"scoped\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 23,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-hooks-smoke",
+"run_sha8": "6a96b7c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-hooks-to-normalised-events\\wrap-2026-09-27T23-42-19\\23.log",
+"bytes": 47,
+"log_sha8": "91854d6e",
+"exit": 0,
+"seconds": 0.3,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 24,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-hooks-smoke --instance builder",
+"run_sha8": "26dd1ae1",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-hooks-to-normalised-events\\wrap-2026-09-27T23-42-19\\24.log",
+"bytes": 401,
+"log_sha8": "b8d1babb",
+"exit": 0,
+"seconds": 1.64,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 25,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-hooks-smoke",
+"run_sha8": "92657367",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-hooks-to-normalised-events\\wrap-2026-09-27T23-42-19\\25.log",
+"bytes": 214,
+"log_sha8": "22c23a9f",
+"exit": 0,
+"seconds": 0.28,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 26,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-hooks-smoke",
+"run_sha8": "6a96b7c8",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-hooks-to-normalised-events\\wrap-2026-09-27T23-42-19\\26.log",
+"bytes": 178,
+"log_sha8": "4b88ec14",
+"exit": 0,
+"seconds": 0.52,
+"readings": [
+"exit 0 ✓",
+"contains '\"processes_gone\":true' ✓",
+"contains '\"endpoint_gone\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 27,
+"role": "probe",
+"run": "bash scripts/release-check.sh",
+"run_sha8": "3405b7ab",
+"expect": [
+"exit 0",
+"last line release-check: viola only"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-hooks-to-normalised-events\\wrap-2026-09-27T23-42-19\\27.log",
+"bytes": 88,
+"log_sha8": "83977fa3",
+"exit": 0,
+"seconds": 0.53,
+"readings": [
+"exit 0 ✓",
+"last line 'release-check: viola only' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 28,
+"role": "build",
+"run": "RUSTUP_TOOLCHAIN=1.96 CARGO_TARGET_DIR=target/msrv cargo check --workspace --all-targets --features viola/fake-agent",
+"run_sha8": "635d1615",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-hooks-to-normalised-events\\wrap-2026-09-27T23-42-19\\28.log",
+"bytes": 72,
+"log_sha8": "a4105156",
+"exit": 0,
+"seconds": 0.23,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 29,
+"role": "integration",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"pre-push\",\"ok\":true",
+"contains \"stage\":\"union\""
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-27-hooks-to-normalised-events\\wrap-2026-09-27T23-42-19\\29.log",
+"bytes": 227939,
+"log_sha8": "4fd5b830",
+"exit": 0,
+"seconds": 876.89,
+"readings": [
+"exit 0 ✓",
+"contains '\"cmd\":\"pre-push\",\"ok\":true' ✓",
+"contains '\"stage\":\"union\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 30,
+"role": "probe",
+"run": "python -X utf8 C:/Users/turbo/.claude/skills/andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "f0648308",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 31,
+"role": "integration",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"cmd\":\"pre-push\",\"ok\":true",
+"contains \"stage\":\"union\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 32,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin build/viola-0.1.0",
+"run_sha8": "32523c62",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 33,
+"role": "probe",
+"run": "python -X utf8 C:/Users/turbo/.claude/skills/andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 5400",
+"run_sha8": "1dedcd4d",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.3",
+"sha8": "17f5855d",
+"ts": "2026-09-28T05:08:38Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-09-27T23-42-19-wrap",
+"--marker",
+"2026-09-27-hooks-to-normalised-events"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\viola · planes rust, ts",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P2 · P3 rust · P3 ts — each fired on its synthetic known positive",
+"hygiene: clean — read 16 (runs 15 · evidence 1) · trails 6 not read · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\viola",
+"planes": [
+"rust",
+"ts"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 15,
+"evidence": 1,
+"trails": 6,
+"binary": 0
+},
+"indeterminate": 0
+}
+}
+]

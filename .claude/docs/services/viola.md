@@ -38,7 +38,7 @@ The root package also declares `[[bin]] viola-fake-agent` (`required-features = 
 ## Testing this crate
 - **Unit tests:** `cargo nextest run -p viola`
 - **Integration / E2E:** `scripts/agent-run.sh run --integration` / `--e2e`
-- **Perf:** `scripts/agent-run.sh run --perf` (hook `max` gates)
+- **Perf:** `scripts/agent-run.sh run --perf` (hook `max` gates; the arm lands with the "Hook perf gate" chunk)
 
 ## References
 - `.andromeda/architecture.md` · `.claude/rules/api.md` · `.claude/rules/frontend.md` · `.claude/rules/observability.md`
