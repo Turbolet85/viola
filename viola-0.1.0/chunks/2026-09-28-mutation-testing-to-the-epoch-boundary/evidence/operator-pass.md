@@ -29,3 +29,22 @@ with the one-measurement-push bound".
 - Tree vs `d5deb01` in code: only the two `#[cfg(not(target_os = "macos"))]` attributes and their comment in
   `run/mutants.rs` (`.config/nextest.toml` byte-identical to `d5deb01` again).
 - **Entry 24** before it: pre-push exit 0, `"stage":"windows-tests"`, `ok:true` (Linux 917, Windows 932).
+- **Entry 25** clean-tree guard held · `a7c1560..9da5f67`.
+- **Entry 26** — `9da5f67434ec verdict: red · checks 15/15 · first-fail +136 s test (macos-latest) · runs
+  ci#36482322449`. The macOS suite ran 915 tests (917 minus the two excluded). The one failure is outside this chunk's
+  diff: `viola::channel_endpoint channel_endpoint_answers_protocol_faults`, panicked at `tests/channel_endpoint.rs:76`
+  `write: Os { code: 57, kind: NotConnected, message: "Socket is not connected" }`. Every other job finished green.
+- **Cause (known before the fold):** `send_oversize` writes a 16 MiB + 1 frame; the server replies after `MAX_FRAME`
+  bytes and drops the stream (`serve_conn`, `reply.close`), so the write's tail races the close. On macOS AF_UNIX the
+  losing write reports EPIPE (measured run 36313377307, the tolerance chunk 2026-09-27-wrapper-channel wrote) or, as
+  here, ENOTCONN; the tolerance listed EPIPE and ECONNRESET only. A race in the test's write tolerance — the product's
+  refusal and reply are what the test asserts, and those assertions stay.
+- **Folded** on the operator's word ("Fold every red into this chunk"): `ErrorKind::NotConnected` joins the tolerated
+  kinds, the comment names both measured runs. Recorded in `scope-record.md` as a `widening` (a root test, outside
+  research's lists). **For the wrap:** this touches `tests/`, which the plan's acceptance "(arch) No product crate's
+  source, root test or `Cargo.toml` changes" and gate entry 11 name — the change is a test tolerance, never product
+  source; that acceptance wording needs the wrap's reconcile. Only a macOS runner takes the ENOTCONN path, and the race
+  is not forced open here (testing.md 2026-09-27): a green macOS run after it is a reading, not a proof.
+
+## Push 4 — the red folded
+- **Entry 24** before it: pre-push exit 0, `"stage":"windows-tests"`, `ok:true` (Linux 917, Windows 932).

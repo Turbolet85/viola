@@ -2,3 +2,4 @@
 
 - `crates/viola-e2e/src/harness/run/mutants/scratch.rs` · companion · serves crates/viola-e2e/src/harness/pre_push.rs · self
 - `.config/nextest.toml` · in-intent · serves step 8 · self
+- `tests/channel_endpoint.rs` · widening · serves step 9 · word: "Fold every red into this chunk" — the operator (this session, 2026-09-28)

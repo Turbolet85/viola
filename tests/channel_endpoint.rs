@@ -68,11 +68,16 @@ fn exchange(stream: &mut BufReader<Stream>, bytes: &[u8]) -> Value {
 }
 
 /// A frame past the bound, then the reply. The server answers once it has read `MAX_FRAME` bytes
-/// and closes, so the frame's tail may meet the close (measured on macOS: EPIPE on the write); the
-/// reply must still be there.
+/// and closes, so the frame's tail may meet the close — measured on macOS as EPIPE (run 36313377307)
+/// and as ENOTCONN (run 36482322449), whichever state the peer's close reached first; the reply
+/// must still be there.
 fn send_oversize(stream: &mut BufReader<Stream>) -> Value {
     match stream.get_mut().write_all(&padded(MAX_FRAME + 1)) {
-        Err(e) if matches!(e.kind(), ErrorKind::BrokenPipe | ErrorKind::ConnectionReset) => {}
+        Err(e)
+            if matches!(
+                e.kind(),
+                ErrorKind::BrokenPipe | ErrorKind::ConnectionReset | ErrorKind::NotConnected
+            ) => {}
         written => written.expect("write"),
     }
     let mut line = String::new();
