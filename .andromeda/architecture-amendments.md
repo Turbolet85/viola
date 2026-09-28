@@ -242,3 +242,21 @@
 - `diagnostics/`: `run` and `hook` have producers (was only `run`). Repository: `crates/viola-agent-claude/proptest-regressions/`, fuzz target `hook_stdin` (10 seeds), `target/mutants/` (the mutation run's own target dir). `viola-fuzz` also depends on `viola-agent-claude`. `viola-agent-claude` as landed: `viola-core`, serde, serde_json, serde_path_to_error `=0.1.20`, thiserror (was thiserror only).
 **Why:** the hooks chunk as built; the 750 ms value stays provisional because it is crate-private and unmeasured by a perf gate; the retry is the chunk's CARRY 5 (a reader held `snapshot.json` open during the SessionStart hook's read).
 **Ref:** .andromeda/runs/2026-09-27T23-42-19-wrap/
+
+## 2026-09-28-hook-perf-gate — the second fake-agent test seam `FAKE_AGENT_HOOK_PANIC`
+**Section:** §Established Decisions [Naming]; §Conventions Environment variables; §Occupied Resources → Environment variables (Test seams); §Cross-cutting Patterns Config management
+**Change:**
+- Was one ratified exception (`FAKE_AGENT_PUMP_DELAY_MS`); now two test seams, each read only under `cfg(feature = "fake-agent")` and absent from release builds.
+- `FAKE_AGENT_HOOK_PANIC`: `fn panic_if_asked` in `src/cmd/hook/seam.rs` (module declared without a cfg), called in `hook()` right after `viola_obs_init`, before the stdin lock; panics only on exactly `1` with the fixed 4 608 B payload `"forced-hook-panic ".repeat(256)` → one codes-only `panic` role line + one `detail-hook.ndjson` line over 4 KiB, exit 0, empty streams. Named in product source only in that file; configures nothing, disables no control, widens no redaction.
+**Why:** the fail-open contract proven on a real panic in the real binary. A boundary widening, ratified by the founder live on 2026-09-28 (the seam at 06:21; the seam with G2's exact-path exemption at 09:52:07; relay the Viola overseer).
+**Ref:** .andromeda/runs/2026-09-28T07-37-52-wrap/
+
+## 2026-09-28-hook-perf-gate — perf arm registry, G2 script, the `perf` CI job, hyperfine in §Stack
+**Section:** §Stack and Technologies Code quality; §Occupied Resources Repository (`target/agent-run/`, `target/perf/`, `target/g2-probe/`); §Infrastructure Patterns directory tree (`scripts/`, `ci.yml`); §CI/CD Setup steps and Jobs wired today
+**Change:**
+- `target/perf/` builds with `--features viola/fake-agent` (was `fake-agent`); its hyperfine exports are `target/agent-run/artifacts/perf-<hook>.json`, four rows, all required by `gate --require perf` (was the separate `perf/*.json`); the perf session's `<session>/` holds its synthetic `payload-<hook>.json`.
+- New `target/g2-probe/` (the `--probe` scope) and `scripts/g2-zero-panics.sh` (G2, fail-closed, exempting only `src/cmd/hook/seam.rs:<digits>`, + `--probe`).
+- CI: 9 jobs / 18 check-runs (was 8 / 15, as measured at ci#36390764600); the per-OS `perf` job (hyperfine via `cargo install --locked`, `run --perf`, G2 probe then check, G4, its own scan, scan-gated `perf-<os>` / `diag-perf-<os>`, `gate --require perf`); the `test` job's G2 step runs the script; `test`, pre-push and WSL carry no perf step.
+- §Stack lists hyperfine 1.20.0 (as measured on the Windows dev host).
+**Why:** the perf gate lands in its own per-OS job (operator P4 fork 1), so CARRY 3 does not fire; the export path is the one `gate.rs` already read.
+**Ref:** .andromeda/runs/2026-09-28T07-37-52-wrap/

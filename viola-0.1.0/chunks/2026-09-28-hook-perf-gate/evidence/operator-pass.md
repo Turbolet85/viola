@@ -29,3 +29,26 @@ lines; the WSL VM `terminated:true`.
 ## Final hygiene
 
 `hygiene: clean — read 35 (runs 31 · evidence 4) · trails 11 not read · binary 0 not read by P1`
+
+Then the operator pre-CI commit `5a693d6` (`chore(2026-09-28-hook-perf-gate): operator pre-CI commit, for the run this
+chunk's verdict reads`), `git add -A` over a tree whose hygiene read the line above.
+
+## 31 — push (`git diff --quiet && git diff --cached --quiet && git push origin build/viola-0.1.0`)
+
+Exit 0: `85ae5aa..5a693d6  build/viola-0.1.0 -> build/viola-0.1.0`; 0 ahead of the upstream after it.
+
+## 32 — CI read (`python -X utf8 {tools_dir}/ci.py conclusion --sha HEAD --wait 5400`)
+
+Exit 0. Atoms: `exit 0` ✓ · `contains verdict: green` ✓.
+
+```
+ci v1.0 · 15ed584e
+repo Turbolet85/viola (the push remote `origin`) · polled 36× over 1087 s
+5a693d655913 verdict: green · checks 18/18 · wall 1067 s · runs ci#36390764600 completed/success
+runs: ci#36390764600 push completed/success
+```
+
+18 check-runs = the plan's forecast (9 jobs). Per job from the run's own step records (`gh run view 36390764600`):
+`perf (windows-2025)`, `perf (macos-latest)`, `perf (ubuntu-latest)` success, each with `Perf rows`, `G2 zero panics`
+and `Gate verdict` success; `test` on all three OSes success with `G2 zero panics` (probe then check) and
+`Gate verdict` success. No red to fold into the chunk.

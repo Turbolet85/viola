@@ -1,0 +1,217 @@
+[
+{
+"tool": "cascade",
+"v": "1.0",
+"sha8": "d625a318",
+"ts": "2026-09-28T07:57:25Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-09-28T07-37-52-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-09-28T07-37-52-wrap",
+"--marker",
+"2026-09-28-hook-perf-gate"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"baseline 85ae5aa2 (pre-CI parent — the oldest of 1 pre-CI commit(s), 5a693d65)",
+"pump-seam · new 0 · standing 12 · leaf 4 · curation 0 · base 1 · control architecture.md:107 (prose)",
+"one-exception · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control architecture.md:97 (prose)",
+"one-carve-out · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:583…",
+"one-variable · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:581 (prose)",
+"perf-dir-json · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:407 …",
+"feat-spelling · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:407 …",
+"ci-count · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:556 (pros…",
+"hook-perf-gate · new 0 · standing 0 · leaf 4 · curation 0 · base 0 · control test-plan.md:331 (prose)",
+"no-forced-panic · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:1254 …",
+"not-built-yet · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control test-plan.md:509 (prose)",
+"no-4kib-line · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:924 (prose)",
+"two-sessions · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:1517 (pr…",
+"fixture-stdin · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · case-variants +1 · control test-plan.md:929 (prose)",
+"g2-test-only · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:555 (prose)",
+"same-perf-job · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control obs-plan.md:1285 (prose)",
+"run-hf-gates · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:559 (pro…",
+"perf-glob-code · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control test-plan.md:657 (prose)",
+".andromeda/architecture.md:107 pump-seam standing edited …ns: the test seams `FAKE_AGENT_PUMP_DELAY_MS` and `FAKE_AGENT…",
+".andromeda/architecture.md:172 pump-seam standing edited …are the test seams `FAKE_AGENT_PUMP_DELAY_MS` (capped at 5 s;…",
+".andromeda/architecture.md:374 pump-seam standing   - `FAKE_AGENT_PUMP_DELAY_MS`: `#[cfg(feature = \"fake-agent\")] fn ho…",
+".andromeda/architecture.md:586 pump-seam standing edited …the two test seams `FAKE_AGENT_PUMP_DELAY_MS` (capped at 5 s)…",
+".andromeda/security-plan.md:232 pump-seam standing | Test seam `FAKE_AGENT_PUMP_DELAY_MS` (only in a `viola` built with…",
+".andromeda/security-plan.md:427 pump-seam standing edited …e test-only seams `FAKE_AGENT_PUMP_DELAY_MS` and `FAKE_AGENT…",
+".andromeda/security-plan.md:585 pump-seam standing edited …re the test seams `FAKE_AGENT_PUMP_DELAY_MS` (capped at 5 s;…",
+".andromeda/security-plan.md:688 pump-seam standing …6-09-27` — Test seam `FAKE_AGENT_PUMP_DELAY_MS` and the local pre-p…",
+".andromeda/security-plan.md:690 pump-seam standing … `VIOLA_*` plumbing: `FAKE_AGENT_PUMP_DELAY_MS`, parsed as `u64` mi…",
+".andromeda/security-plan.md:693 pump-seam standing …record the test-only `FAKE_AGENT_PUMP_DELAY_MS` seam as the archite…",
+".andromeda/test-plan.md:927 pump-seam standing …the `fake-agent`-only `FAKE_AGENT_PUMP_DELAY_MS` seam, as measured at c…",
+".andromeda/test-plan.md:1897 pump-seam standing …the `fake-agent`-only `FAKE_AGENT_PUMP_DELAY_MS` seam (capped at 5 s, …",
+".andromeda/playbook.md:50 pump-seam base …ive ratification of the `FAKE_AGENT_PUMP_DELAY_MS` seam, the pre-push `TMPDIR…",
+".claude/rules/security.md:34 pump-seam leaf …reads is the test seam `FAKE_AGENT_PUMP_DELAY_MS`: `cfg(feature = \"fake-ag…",
+".claude/docs/conventions.md:13 pump-seam leaf …tion is the test seam `FAKE_AGENT_PUMP_DELAY_MS` (neither prefix): read …",
+".claude/docs/gotchas.md:104 pump-seam leaf … the `fake-agent`-only `FAKE_AGENT_PUMP_DELAY_MS` seam rather than sampling…",
+".claude/docs/security-summary.md:39 pump-seam leaf …out is the test seam `FAKE_AGENT_PUMP_DELAY_MS` (only under `fake-a…",
+".andromeda/architecture.md:97 one-exception standing …per workspace crate (one ratified exception: `viola-pty`'s `PtyEr…",
+".claude/docs/conventions.md:13 one-exception leaf … read by `viola`. The one ratified exception is the test seam `FAKE_…",
+".claude/rules/security.md:34 one-variable leaf - The only env var outside `VIOLA_*` any `viola` build reads is the test…",
+".claude/docs/obs-summary.md:31 hook-perf-gate leaf …job, with `VIOLA_NAME` set (lands with the \"Hook perf gate\" chunk) |",
+".claude/docs/services/viola-state.md:41 hook-perf-gate leaf …alf lands with the \"Hook perf gate\" chunk), `File::lock` c…",
+".claude/docs/services/viola.md:41 hook-perf-gate leaf …(hook `max` gates; the arm lands with the \"Hook perf gate\" chunk)",
+".claude/docs/tests-summary.md:44 hook-perf-gate leaf …ax` — lands with the \"Hook perf gate\" chunk; until then the fail-…",
+".andromeda/test-plan.md:509 not-built-yet standing …ctor whose surface is not built yet (`boot --ui`, `run --e2e`, …) i…",
+".claude/docs/commands.md:5 not-built-yet leaf …ter chunk. Commands for surfaces not built yet are the planned contract._",
+".andromeda/obs-plan.md:621 no-4kib-line standing edited … 3 CI OSes) carries no line over 4 KiB, and its over-4 KiB hal…",
+".andromeda/test-plan.md:929 fixture-stdin standing …ola hook <event>` fed fixture stdin with `VIOLA_NAME`/`VIOLA_DIR` a…",
+".andromeda/test-plan.md:1184 fixture-stdin standing …iola hook <event> --home H` with fixture stdin and no `VIOLA_NAME`.",
+".claude/docs/commands.md:16 g2-test-only leaf …er installed there (G2 presence-checks it; the scripts refuse with `tool…",
+".andromeda/obs-plan.md:1757 same-perf-job standing   - A separate perf job would leave its hook home unscanned and not …",
+".andromeda/test-plan.md:656 perf-glob-code new …at file; every present `perf-*.json` is judged `.results[0].max < 1.0` …",
+"pump-seam · new 0 · standing 12 · leaf 4 · curation 0 · base 1 · control architecture.md:107 (prose)",
+"one-exception · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control architecture.md:97 (prose)",
+"one-carve-out · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:583…",
+"one-variable · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:581 (prose)",
+"perf-dir-json · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:407 …",
+"feat-spelling · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:407 …",
+"ci-count · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:556 (pros…",
+"hook-perf-gate · new 0 · standing 0 · leaf 4 · curation 0 · base 0 · control test-plan.md:331 (prose)",
+"no-forced-panic · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:1254 …",
+"not-built-yet · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control test-plan.md:509 (prose)",
+"no-4kib-line · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:924 (prose)",
+"two-sessions · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:1517 (pr…",
+"fixture-stdin · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · case-variants +1 · control test-plan.md:929 (prose)",
+"g2-test-only · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:555 (prose)",
+"same-perf-job · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control obs-plan.md:1285 (prose)",
+"run-hf-gates · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:559 (pro…",
+"perf-glob-code · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control test-plan.md:657 (prose)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "85ae5aa25b5e844457bffb6deafea7a0d212c87e",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), 5a693d65",
+"counts": {
+"pump-seam": {
+"new": 0,
+"standing": 12,
+"leaf": 4,
+"curation": 0,
+"base": 1
+},
+"one-exception": {
+"new": 0,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"one-carve-out": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"one-variable": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"perf-dir-json": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"feat-spelling": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"ci-count": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"hook-perf-gate": {
+"new": 0,
+"standing": 0,
+"leaf": 4,
+"curation": 0,
+"base": 0
+},
+"no-forced-panic": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"not-built-yet": {
+"new": 0,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"no-4kib-line": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"two-sessions": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"fixture-stdin": {
+"new": 0,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"g2-test-only": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"same-perf-job": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"run-hf-gates": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"perf-glob-code": {
+"new": 1,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]

@@ -36,7 +36,7 @@ viola is a local-only, single-user tool: no accounts, no public listener, no dat
 - NEVER let an exec-form command viola writes resolve `viola` through PATH — absolute pinned path only.
 - NEVER answer `hook.dialog` non-`null` without a `viola verify` stamp; only `viola verify` writes the stamps.
 - NEVER let a process other than the instance's wrapper write its `snapshot.json`.
-- NEVER let `config.json`, a `VIOLA_*` env var or a flag switch off a control. The one env carve-out is the test seam `FAKE_AGENT_PUMP_DELAY_MS` (only under `fake-agent`, capped at 5 s, absent from release builds, switches off nothing); another seam needs its own Decisions Log entry.
+- NEVER let `config.json`, a `VIOLA_*` env var or a flag switch off a control. The two env carve-outs are the test seams `FAKE_AGENT_PUMP_DELAY_MS` (capped at 5 s) and `FAKE_AGENT_HOOK_PANIC` (exact `1`, forced fail-open hook panic; G2 exempts only its exact file path), both only under `fake-agent`, absent from release builds, switching off nothing; another seam needs its own Decisions Log entry.
 
 ## Arch amendments this plan requires (routed through wrap reconciles)
 

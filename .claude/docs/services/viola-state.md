@@ -38,7 +38,7 @@ Tokio banned in its graph; tailing and liveness are sync (shared by `list`, `mcp
 
 ## Testing this crate
 - **Unit tests:** `cargo nextest run -p viola-state` (liveness `classify` fed ages directly — 4.9 / 5.0 s live, 5.1 s stale, gone on a pid/start-time mismatch —, replay field set, torn lines)
-- **Integration:** concurrent appenders (one line per `write`, a > 4 KiB detail line — for the hook files the >4 KiB half lands with the "Hook perf gate" chunk), `File::lock` contention, umask-independent modes
+- **Integration:** concurrent appenders (one line per `write`, a > 4 KiB detail line — for the hook files, 8 concurrent forced panics through the `fake-agent` seam, `hook_panics_append_whole_lines_over_4_kib_side_by_side`), `File::lock` contention, umask-independent modes
 - **Chaos:** kill mid-append + `set_len`, snapshot truncation / `v:99`
 
 ## References

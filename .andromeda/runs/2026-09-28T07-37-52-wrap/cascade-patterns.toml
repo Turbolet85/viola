@@ -1,0 +1,70 @@
+# Retired claims of this pass (2026-09-28-hook-perf-gate), each swept across the seven masters, the curation homes,
+# the judgment bases and the leaves. Names, verbs and the mechanism phrasing alike.
+
+[[pattern]]
+id = "pump-seam"
+fixed = 'FAKE_AGENT_PUMP_DELAY_MS'
+
+[[pattern]]
+id = "one-exception"
+regex = '(?i)one ratified exception'
+
+[[pattern]]
+id = "one-carve-out"
+regex = '(?i)the one carve-out'
+
+[[pattern]]
+id = "one-variable"
+regex = '(?i)(the one variable outside|one other variable|only env var outside)'
+
+[[pattern]]
+id = "perf-dir-json"
+regex = 'perf/\*\.json|perf/hook-'
+
+[[pattern]]
+id = "feat-spelling"
+fixed = '--features fake-agent --target-dir'
+
+[[pattern]]
+id = "ci-count"
+regex = '15 check-runs|\(8; '
+
+[[pattern]]
+id = "hook-perf-gate"
+regex = '(?i)"?Hook perf gate"? chunk'
+
+[[pattern]]
+id = "no-forced-panic"
+regex = '(?i)no forced panic'
+
+[[pattern]]
+id = "not-built-yet"
+regex = '(?i)not built yet'
+
+[[pattern]]
+id = "no-4kib-line"
+regex = '(?i)no line over 4 KiB'
+
+[[pattern]]
+id = "two-sessions"
+regex = 'perf-stamped|perf-unstamped'
+
+[[pattern]]
+id = "fixture-stdin"
+fixed = 'fixture stdin'
+
+[[pattern]]
+id = "g2-test-only"
+regex = 'presence-checks it|G2 \(`test`\)'
+
+[[pattern]]
+id = "same-perf-job"
+regex = '(?i)separate perf job|same per-OS job'
+
+[[pattern]]
+id = "run-hf-gates"
+fixed = 'runs the hyperfine gates'
+
+[[pattern]]
+id = "perf-glob-code"
+fixed = '`perf-*.json`'
