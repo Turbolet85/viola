@@ -1,0 +1,37 @@
+# tests extract
+
+## Relevance
+relevant: the chunk adds pure decision logic and escaping to the root bin, which the plan's unit, CLI-signal, coverage and mutation mandates cover. The trycmd layouts, `cross_list_rows.rs` and the outer-PTY SGR checks that the plan attaches to human output belong to the consumer verbs (`list`, `send`, `wait`/`last`), not to this layer.
+
+## Constraints
+- Test tier is Comprehensive (per test-plan §1 Test Scope Summary). §10 Quality Gates requires ≥ 85% lines, ≥ 95% functions and ≥ 80% regions, enforced per OS job. So a `#[cfg(windows)]` VT-enable path counts only on the windows-2025 leg and must be covered there. §11 CI forbids widening `--ignore-filename-regex` to reach it.
+- The mutation gate applies to the chunk diff (per test-plan §10 Mutation gate, §9 Mutation row): `missed == 0`, `timeout == 0` and `unviable <= caught`, judged as the ubuntu-latest + windows-2025 union. A `#[cfg(windows)]` body (the `SetConsoleMode` attempt) must be killed, or proven unviable, on the leg that compiles it. A mutant caught only by a doctest counts as missed.
+- Unit tests go inline as `#[cfg(test)] mod tests` in the root-bin source file (per test-plan §4 Conventions, §2 Test directory + naming conventions). Names follow `<subject>_<condition>_<expected>`. Table-driven cases use rstest `#[case::<readable label>]`.
+- test-plan §4 root bin requires human-mode C0/C1 escaping for `list`/`wait`/`last`, with `\n` and `\t` kept. The §12 Test Decisions Log (review-feedback-1 entry) adds that `list` cells escape `\n` and `\t` too. §1 Test Scope Summary (child-spawn security-vector trigger) names "human-mode `list` / `wait` / `last` escape C0/C1" as a required test. The escaper therefore needs both modes tested.
+- The cli surface signal requires no SGR under non-TTY / `NO_COLOR` / `TERM=dumb` (per test-plan §1 Surfaces under test). §5 CLI requires no `\x1b[` under the same three conditions. `hook` surface signal: stderr is always empty and stdout is empty or exactly the decision body (per test-plan §1 Surfaces under test). The layer must not give `viola hook` an output path, and the existing `hook_fail_open.rs` empty-stream assertions must stay green.
+- Cases a lower layer can hold are asserted at that layer (per test-plan §11 Test Strategy; §2 pyramid). The seven-step colour decision order and the per-depth token table are unit cases, not E2E cases. OS-branch code is proven only on its own runner (per test-plan §11 Test Strategy).
+- New root integration binaries use a surface prefix (per test-plan §2 File naming). A `tests/cli_*.rs` binary runs in the integration layer (per test-plan §3 `run` step 1 layer filtersets). A `cross_`/`tui_` prefix moves it into the E2E layer.
+
+## Patterns to follow
+- Keep the decision a pure function over injected facts, fed directly with no environment and no console. `viola_state::liveness::classify` is the model: it is fed the beat's age, not a clock (per test-plan §4 viola-state; §2 Performance / Load row). The injected facts are the mode/verb, the `NO_COLOR`/`TERM`/`COLORTERM` readings, `IsTerminal` and the VT-enable result. This lets every row run on all 3 OSes.
+- Use rstest `#[case]` tables for ordered matrices, as already done for the refusal-order and exit-code tables (per test-plan §4 Fixture pattern at unit level). One labelled case per first-match row (`--json`, `run`, `hook`/`mcp`, `NO_COLOR`, `TERM=dumb`, not-a-TTY, VT failed). Also one case per depth row (truecolor via `COLORTERM`, 256 via `TERM` or Windows VT success, 16 fallback) × token.
+- Write expected values as literals in the test: the exact SGR byte sequences per depth and the `\xHH` escape text (per test-plan §11 Unit, "NEVER import the product's own … as the test oracle").
+- If a process-level check is reachable, use assert_cmd against `CARGO_BIN_EXE_viola`, with env set per child through `Command::env` (per test-plan §5 Driver(s); §7 Test data lifecycle). Any `.env_clear()` must re-add `LLVM_PROFILE_FILE` (per test-plan §11 Integration; §10 stack adjustments).
+- Assert TTY-side SGR through the outer PTY (`tests/support/outer_pty.rs`), checking only the SGR sequences in viola's own output and never a child screen (per test-plan §6 Drivers per surface, cli row; §11 E2E). Whether any TTY-path test is reachable before a human-output verb exists is research's question.
+
+## Anti-patterns to avoid
+- NEVER set `NO_COLOR` / `TERM` / `COLORTERM` with `std::env::set_var` in a test. It is `unsafe` in edition 2024 and races across threads. Inject the facts, or use `Command::env` per child (per test-plan §11 Integration; §7 Test data lifecycle).
+- NEVER derive the expected SGR bytes, decision order or escape output from the product's own tables. Oracles are literals (per test-plan §11 Unit).
+- NEVER park an OS-specific case with `#[ignore]`, and never accept a retry (per test-plan §10 Zero-flakiness budget; §11 Quality).
+
+## Contract bindings
+- tests ↔ obs (obs-plan §7 per-role catch site): the folded CARRY requires a `cli`-process catch-site error to print exactly `error: internal error` on stderr, uncoloured and with no hint. If the chunk gives the catch site a reachable `cli` role, the check is an assert_cmd case in a root `tests/cli_*.rs` binary. It runs alongside the §6 Error sanitization and secret scan (no absolute path, no `Caused by`; per test-plan §6 Non-path suites). Whether a `cli` role is reachable at HEAD is research's question.
+- tests ↔ security (security-plan §Input Validation): the `\x1B`-style escaping and the ratified `list`-cell `\n`/`\t` escaping (test-plan §12, review-feedback-1 entry) are security/design values that tests pin as literals.
+- tests ↔ security (env-var sentence): `tests/cli_controls_not_disableable.rs` covers every `VIOLA_*` env var, global flag and `config.json` key, and has a `--help` completeness case (per test-plan §5 CLI). `NO_COLOR`/`TERM`/`COLORTERM` are outside its domain unless security names an exception. Whether a row or a completeness change follows is a P3/P4 question. If the chunk adds a global flag, the completeness case requires a table row for it.
+- tests ↔ design-system (§Streams, §Tokens): the stdout/stderr split and the per-depth token values are design's contract. Tests assert them and never define them.
+
+## Acceptance criteria contributions
+- `scripts/agent-run.sh run --unit` passes on all 3 OSes, with rstest `#[case::…]` tables covering each first-match row of the colour decision order and each depth × token value, all with literal expected SGR bytes (per test-plan §4 Fixture pattern at unit level; §3 `run` step 1; §11 Unit).
+- Escaper unit cases pass: C0 (other than LF/CR/TAB), DEL and C1 render as `\xHH` text in both modes. List-cell mode also renders `\n`/`\t` as `\x0A`/`\x09`. Message mode keeps `\n`/`\t` (per test-plan §4 root bin; §12 Test Decisions Log, review-feedback-1).
+- No `\x1b[` byte appears in the layer's output when the decision is plain (`--json`, non-TTY, `NO_COLOR`, `TERM=dumb`). This is asserted at unit level over injected facts, and by assert_cmd wherever a reachable process path exists (per test-plan §1 Surfaces under test, cli; §5 CLI).
+- The quality gates hold. `gate --require mutants --mutants-legs ubuntu-latest,windows-2025` reports no breaches: missed 0, timeout 0, unviable ≤ caught, and the `#[cfg(windows)]` VT-enable body is killed or unviable on windows-2025. Per-OS coverage meets ≥ 85% lines, ≥ 95% functions and ≥ 80% regions (per test-plan §10 Mutation gate; §10 Coverage thresholds).

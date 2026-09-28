@@ -1,5 +1,5 @@
 use std::ffi::OsString;
-use std::io::{self, Write as _};
+use std::io;
 use std::path::{Path, PathBuf};
 use std::process::ExitCode;
 use std::sync::Arc;
@@ -22,7 +22,7 @@ use viola_state::pin::{PinError, Pinned, pin_exe};
 use viola_state::snapshot::{InstanceSnapshot, Wheel, read_snapshot, write_snapshot};
 
 use crate::run::ChildLaunch;
-use crate::{obs, run};
+use crate::{human, obs, run};
 
 #[derive(clap::Args)]
 pub(crate) struct RunArgs {
@@ -356,16 +356,9 @@ fn pump_child(launched: Launched) -> anyhow::Result<ExitCode> {
     }
 }
 
-/// A start refusal's two fixed lines on stderr (design-system cli pattern 2): no path, no pid.
-fn refuse(unable: &str, hint: &str) {
-    let mut err = io::stderr().lock();
-    let _ = writeln!(err, "unable: {unable}");
-    let _ = writeln!(err, "hint: {hint}");
-}
-
 fn refuse_batch_script(name: &ViolaName) {
     let name: &str = name.as_ref();
-    refuse(
+    human::refuse(
         &format!("{name}'s command is a .cmd or .bat script"),
         "pass the real executable, not a .cmd or .bat shim",
     );
@@ -373,19 +366,19 @@ fn refuse_batch_script(name: &ViolaName) {
 
 fn refuse_live(name: &ViolaName) {
     let name: &str = name.as_ref();
-    refuse(&format!("{name} is already live"), "viola list");
+    human::refuse(&format!("{name} is already live"), "viola list");
 }
 
 fn refuse_stale(name: &ViolaName) {
     let name: &str = name.as_ref();
-    refuse(
+    human::refuse(
         &format!("{name} is still running but not answering"),
         &format!("viola list shows it as stale; stop that process before starting {name} again"),
     );
 }
 
 fn refuse_tampered_pin() {
-    refuse(
+    human::refuse(
         "the pinned viola copy failed its integrity check",
         "the pinned copy was changed after it was written, so viola will not run it",
     );
@@ -394,7 +387,7 @@ fn refuse_tampered_pin() {
 /// The bind loser cannot tell a racing viola from any other holder, so it names neither.
 fn refuse_squatted(name: &ViolaName) {
     let name = name_str(name);
-    refuse(
+    human::refuse(
         &format!("the endpoint for {name} is held by another process"),
         "another process holds this name's endpoint; stop it or pick another name",
     );

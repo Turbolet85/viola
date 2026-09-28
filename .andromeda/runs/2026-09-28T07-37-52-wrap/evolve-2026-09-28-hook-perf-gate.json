@@ -158,5 +158,45 @@
 "lines": 546,
 "bytes": 531851
 }
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "21ddc30a",
+"ts": "2026-09-28T08:36:07Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-28T07-37-52-wrap",
+"--marker",
+"2026-09-28-hook-perf-gate"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"appended 1 record(s) · friction-log.ndjson lines 546→547 · bytes 531851→533081 · term lf",
+"ts 2026-09-28T08:36:07Z · clock 2026-09-28T08:36:07Z · bound 2026-09-28T08:03:30Z (line 546)",
+"ids 2026-09-28T08:36:07Z-a"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 546,
+"bytes": 531851,
+"terminator": "LF",
+"bound": "2026-09-28T08:03:30Z"
+},
+"after": {
+"lines": 547,
+"bytes": 533081
+}
 }
 ]

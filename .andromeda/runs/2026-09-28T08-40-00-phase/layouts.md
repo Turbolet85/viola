@@ -1,0 +1,36 @@
+# layouts extract
+
+## Relevance
+partial. The chunk touches only the cli surface, and only its shared rendering layer: the token rendering, the expression levels, the stream split and escaping. It builds no verb screen (`list` / `send` / `wait` / `last` / `answer` / `release` wireframes are their own entries), and no part of web-spa applies.
+
+## Constraints
+- Per layout-templates §Surface: cli (Tooling context), styling is one small hand-written SGR module in the `viola` bin, with no colour or table crate. TTY detection uses std `IsTerminal`. Windows VT uses windows-sys `SetConsoleMode`, and colour is off if that fails. The same section also makes that module the owner of fixed-width column padding. Whether padding lands in this chunk or with `viola list` (the scope's Boundaries puts width detection and truncation in `list`) is a P4 decision. The plan names the module, not the chunk.
+- Per layout-templates §Surface: cli (token table), only three styled roles exist. `color-accent` is the attention token, used only on the `DIALOG` word and always followed by the uncoloured kind word. `color-text-muted` is SGR dim across a whole `stale` row, never without the word `stale` in LIVE. Callsign is SGR bold on NAME values only. `color-role-handoff` is not used, `color-surface-*` is never set (no background), the default foreground owns all other ink, and there are no motion tokens.
+- Per layout-templates §Surface: cli (Expression level), a human TTY is at 0.2, with colour only as a second cue. `--json`, non-TTY, `NO_COLOR`, `TERM=dumb` and `viola run` passthrough are at 0.0: no colour, no non-ASCII glyph, no cursor control. The plain rendering must be the same characters minus SGR (§Output structure — `viola list` (piped / `NO_COLOR` / `TERM=dumb`)).
+- Per layout-templates §Component — Primary content block 1: `viola list` strip rows (Styling), on a row that is both cocked and `stale`, `DIALOG` stays amber and not dim, while the kind word and the rest of the row stay dim. Nothing but NAME, `DIALOG` and `stale` rows is ever styled. The token layer must be able to express a dim span interrupted by an undimmed amber span.
+- Per layout-templates §Component — Primary content block 2 (Streams, Line form), results go to stdout. `waiting:`, the issue line, refusals, `hint:` lines, `error: …` lines and the `viola ui` launch line go to stderr, and the two are never mixed. Under `--json` the outcome is one document on stdout, with no stderr line and no hint text. The `hint:` line is always the last stderr line (§Component — Footer / terminator).
+- Per layout-templates §Component — Primary content block 1 (Escaping) and §Decisions Log `2026-09-24` T5, `list` row fields escape C0/C1 controls as hex text, `\n` / `\t` included, so a row never splits. `wait` / `last` text keeps `\n` / `\t` (§Output structure — `viola wait` / `viola last`: "C0/C1 escaped"). The escaper therefore needs two modes: row mode and message mode.
+- Per layout-templates §Component — Header / banner and §Output structure — `viola run`, `viola run` prints nothing while the child runs, and `viola hook` / `viola mcp` have no human surface. The mode decision must never give them an output path. The `viola ui` launch line is unstyled (§Surface: cli → Primary screens).
+
+## Patterns to follow
+- Per layout-templates §IA notes (Multi-surface coordination), use one token vocabulary across surfaces. The cli token names mirror the web names (`color-accent`, `color-text-muted`, Callsign), so the SGR module keys its tokens by those roles, not by raw SGR codes at call sites.
+- Per layout-templates §Surface: cli (token table), use ASCII substitutes: ` - ` for the web `·` inside a field, `->` for `→`, square brackets for the ruled box (`[RB]`, `[  ]`, `[/ ]`), and the two-space gutter as the `space-xs` equivalent. These words print in every human mode, coloured or not.
+- Per layout-templates §Component — Hero / signature output line, the readback mirror carries no colour on purpose: `read back` is never green and `unable` is never red. Any helper the layer exposes for the mirror or refusal words must emit plain text.
+- Per layout-templates §Component — Footer / terminator and §Decisions Log `2026-09-24` (Motion trigger placement → cli), lines are appended and never redrawn. There is no spinner, no progress bar and no terminator word, and the exit code is the terminator.
+
+## Anti-patterns to avoid
+- Emitting colour anywhere except `DIALOG` (amber) and a `stale` row (dim), or setting a background, or emitting handoff blue at any depth (per layout-templates §Surface: cli token table; §IA notes: "Handoff blue exists only on the web").
+- Cursor control, in-place redraw or a non-ASCII glyph in any human mode (per layout-templates §Surface: cli Expression level; §Component — Header / banner "no box drawing").
+- Styling on BAY header cells, caption rows, the rack separator or `fail` in `verify` (per layout-templates §Component — Header / banner "no bold, no colour"; §Output structure — `viola verify` "`fail` is never coloured").
+
+## Contract bindings
+- layouts ↔ design: the per-depth SGR values (truecolor / 256 / 16-colour) of the attention, stale and callsign tokens, and the colour decision order, are owned by design-system §Surface: cli / §Tokens (platform-specific). Layouts fixes only where each token may appear (§Surface: cli token table).
+- layouts ↔ security: the hex-text control escaping is the security floor (security-plan §Input Validation). The `list` row mode's extra `\n` / `\t` escaping is the stricter layouts T5 rule (§Decisions Log `2026-09-24`).
+- layouts ↔ obs: the catch-site `error: internal error` line goes to stderr, uncoloured and with no hint (layout-templates §Component — Primary content block 2: "no hint for … `internal error`"). This binds to the obs-plan §7 CARRY in the scope.
+- layouts ↔ a11y/tests: the plain (0.0) rendering is the same characters minus SGR (§Output structure — `viola list` (piped …)). It is the text an LLM driver or screen reader parses, and human columns and words are a stable contract (§IA notes: Output as a contract).
+
+## Acceptance criteria contributions
+- Under each 0.0 mode (`--json`, non-TTY, `NO_COLOR`, `TERM=dumb`, `viola run`, `hook` / `mcp`), rendering a styled span emits zero ESC (0x1B) bytes and only ASCII, and the text equals the TTY rendering with the SGR sequences stripped (per layout-templates §Surface: cli Expression level; §Output structure — `viola list` (piped / `NO_COLOR` / `TERM=dumb`)).
+- On a cocked `stale` row at every depth, the `DIALOG` word carries the attention SGR with no dim active, the following kind word and the rest of the row are dim, and every styled span ends in a reset (per layout-templates §Component — Primary content block 1: `viola list` strip rows, Styling).
+- No token at any depth emits a background SGR (40–49, 100–107, `48;…`) or the handoff colour (per layout-templates §Surface: cli token table: `color-surface-*` never set, `color-role-handoff` not used).
+- The row-mode escaper renders `\n` / `\t` / ESC as `\x0A` / `\x09` / `\x1B`, keeping the row on one line. The message-mode escaper keeps `\n` / `\t` and escapes the other C0/C1 (per layout-templates §Component — Primary content block 1, Escaping; §Decisions Log `2026-09-24` T5).

@@ -93,6 +93,11 @@ name = "cli_controls_not_disableable"
 path = "tests/cli_controls_not_disableable.rs"
 required-features = ["fake-agent"]
 
+[[test]]
+name = "cli_output_plain"
+path = "tests/cli_output_plain.rs"
+required-features = ["fake-agent"]
+
 [dependencies]
 viola-core = { path = "crates/viola-core" }
 viola-pty = { path = "crates/viola-pty" }
@@ -140,7 +145,16 @@ publish = false
 [workspace.dependencies]
 anyhow = "=1.0.104"
 chrono = { version = "=0.4.45", default-features = false, features = ["clock", "std"] }
-clap = { version = "=4.6.7", features = ["derive"] }
+# No `color`: its anstream stack colours help and usage errors and reads CLICOLOR_FORCE, NO_COLOR,
+# TERM, COLORTERM and CI, which design-system §Surface: cli and the env-var boundary both forbid.
+clap = { version = "=4.6.7", default-features = false, features = [
+    "std",
+    "derive",
+    "help",
+    "usage",
+    "error-context",
+    "suggestions",
+] }
 # The sync API only: the `tokio` feature stays confined to viola-mcp / viola-ui.
 interprocess = "=2.4.4"
 # Default features pull reqwest and the C-building aws-lc-rs; schemas are local files only.

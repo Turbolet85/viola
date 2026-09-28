@@ -1,4 +1,5 @@
 mod cmd;
+mod human;
 mod obs;
 mod run;
 
