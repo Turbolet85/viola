@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "db3af704",
+"ts": "2026-09-28T19:56:18Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-09-28-mutation-testing-to-the-epoch-boundary",
+"--expect-prefix",
+"Mutation testing to the epoch boundary",
+"--record-file",
+".andromeda/runs/2026-09-28T19-54-53-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-09-28T19-54-53-phase"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:55 - [2026-09-28-mutation-testing-to-the-epoch-boundary]",
+"record master-route.md:32 - appended under `## viola-0.1.0`",
+"promoted 2026-09-28-mutation-testing-to-the-epoch-boundary - working-route:55 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+".\\viola-0.1.0\\working-route.md",
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+}
+]

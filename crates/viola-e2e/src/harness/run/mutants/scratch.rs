@@ -19,11 +19,6 @@ fn scratch_dir(root: &Path) -> Option<PathBuf> {
     Some(root.parent()?.join(SCRATCH_NAME))
 }
 
-/// The bytes the host scratch holds now, 0 when it is absent: never its path.
-pub(in crate::harness) fn host_scratch_bytes(root: &Path) -> u64 {
-    scratch_dir(root).map_or(0, |dir| dir_bytes(&dir))
-}
-
 /// The wipe removes whatever `scratch` holds, so it runs only on a dir named exactly
 /// `viola-mutants-scratch` that is neither the repo nor one of its ancestors. A drive or filesystem
 /// root has no final component, so the name check refuses it too.
@@ -158,16 +153,6 @@ mod tests {
     }
 
     #[test]
-    fn host_scratch_bytes_reads_the_sibling_scratch() {
-        let tmp = tempfile::tempdir().expect("tempdir");
-        let root = tmp.path().join("repo");
-        assert_eq!(host_scratch_bytes(&root), 0, "absent");
-        fs::create_dir_all(tmp.path().join(SCRATCH_NAME)).expect("mkdir");
-        fs::write(tmp.path().join(SCRATCH_NAME).join("a"), [0u8; 6]).expect("write");
-        assert_eq!(host_scratch_bytes(&root), 6);
-    }
-
-    #[test]
     fn prepare_empties_the_scratch_and_reports_what_it_held() {
         let tmp = tempfile::tempdir().expect("tempdir");
         let root = tmp.path().join("repo");
@@ -234,7 +219,7 @@ mod tests {
     /// changes.
     #[test]
     fn run_mutants_takes_the_host_scratch_on_windows_only() {
-        let s = stub_run(&[], None, Some(CAUGHT), |ws| {
+        let s = stub_run(&[], Some(CAUGHT), |ws| {
             let scratch = scratch_or_root(ws);
             if cfg!(windows) {
                 fs::create_dir_all(&scratch).expect("mkdir");

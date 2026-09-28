@@ -7,9 +7,8 @@ use std::path::Path;
 
 use serde_json::{Value, json};
 
-use super::cfg_legs::compiled_legs;
-use super::run::{COVERAGE_FLOORS, PERF_ROWS, leg_verdict_path};
-use super::{Outcome, read_json, valid_session_id};
+use super::run::{COVERAGE_FLOORS, PERF_ROWS};
+use super::{Outcome, read_json};
 
 /// The closed `suite` values (test-plan §3 Closed enums).
 pub const SUITES: [&str; 9] = [
@@ -45,26 +44,16 @@ pub fn parse_require(list: &str) -> Option<Vec<String>> {
         .then_some(suites)
 }
 
-/// A comma list of leg names, each held to the session-id charset (it names a file).
-pub fn parse_legs(list: &str) -> Option<Vec<String>> {
-    let legs: Vec<String> = list.split(',').map(|s| s.trim().to_owned()).collect();
-    legs.iter().all(|l| valid_session_id(l)).then_some(legs)
-}
-
 fn breach(gate: &str, suite: &str, detail: String) -> Value {
     json!({"gate": gate, "suite": suite, "detail": detail})
 }
 
-/// `root` is the source tree the mutation legs ran on; the union reads its `#[cfg]`s.
-pub fn gate(artifacts: &Path, root: &Path, require: &[String], legs: Option<&[String]>) -> Outcome {
+pub fn gate(artifacts: &Path, require: &[String]) -> Outcome {
     let summary = read_json::<Value>(&artifacts.join("run-summary.json")).ok();
     let mut breaches = Vec::new();
     for suite in require {
         let suite = suite.as_str();
-        match (suite, legs) {
-            ("mutants", Some(legs)) => union(artifacts, root, legs, &mut breaches),
-            _ => summary_checks(summary.as_ref(), suite, &mut breaches),
-        }
+        summary_checks(summary.as_ref(), suite, &mut breaches);
         if JUNIT.contains(&suite) && !artifacts.join(format!("junit-{suite}.xml")).is_file() {
             breaches.push(breach(
                 "artifact-missing",
@@ -111,54 +100,6 @@ fn summary_checks(summary: Option<&Value>, suite: &str, breaches: &mut Vec<Value
     let survived = count(entry, "survived");
     if suite == "mutants" && survived > 0 {
         breaches.push(breach("mutants", suite, format!("survived {survived}")));
-    }
-}
-
-/// Every leg's verdict must exist. A mutant is judged only by the legs that compile its line (every
-/// leg when none does), and is red when no judged leg caught it and some judged leg missed it or
-/// timed out: a leg that compiles a body out can neither kill it nor fail it.
-fn union(artifacts: &Path, root: &Path, legs: &[String], breaches: &mut Vec<Value>) {
-    let mut verdicts = Vec::new();
-    for leg in legs {
-        let path = leg_verdict_path(artifacts, leg);
-        match read_json::<Value>(&path) {
-            Ok(v) => verdicts.push((leg, v)),
-            Err(_) => breaches.push(breach(
-                "artifact-missing",
-                "mutants",
-                format!("mutants-verdict-{leg}.json"),
-            )),
-        }
-    }
-    if verdicts.len() != legs.len() {
-        return;
-    }
-    let mut names: Vec<&str> = verdicts
-        .iter()
-        .flat_map(|(_, v)| v["mutants"].as_array().into_iter().flatten())
-        .filter_map(|m| m["name"].as_str())
-        .collect();
-    names.sort_unstable();
-    names.dedup();
-    for name in names {
-        let compiling = compiled_legs(root, name, legs);
-        let judged: &[String] = if compiling.is_empty() {
-            legs
-        } else {
-            &compiling
-        };
-        let outcomes: Vec<&str> = verdicts
-            .iter()
-            .filter(|(leg, _)| judged.contains(*leg))
-            .flat_map(|(_, v)| v["mutants"].as_array().into_iter().flatten())
-            .filter(|m| m["name"] == name)
-            .filter_map(|m| m["outcome"].as_str())
-            .collect();
-        let caught = outcomes.contains(&"caught");
-        let survived = outcomes.iter().any(|o| matches!(*o, "missed" | "timeout"));
-        if survived && !caught {
-            breaches.push(breach("mutants", "mutants", name.to_owned()));
-        }
     }
 }
 
@@ -292,7 +233,7 @@ mod tests {
         );
         junit(d.path(), "coverage");
         cov(d.path(), 85.0, 95.0, 80.0);
-        let out = gate(d.path(), d.path(), &req(&["coverage", "doctest"]), None);
+        let out = gate(d.path(), &req(&["coverage", "doctest"]));
         assert_eq!(out.code, 0, "{}", out.doc);
         assert_eq!(
             out.doc,
@@ -303,7 +244,7 @@ mod tests {
     #[test]
     fn gate_without_a_run_summary_is_suite_missing_for_each_suite() {
         let d = dir();
-        let out = gate(d.path(), d.path(), &req(&["doctest", "fuzz-replay"]), None);
+        let out = gate(d.path(), &req(&["doctest", "fuzz-replay"]));
         assert_eq!(out.code, 1);
         assert_eq!(
             gates(&out),
@@ -319,7 +260,7 @@ mod tests {
     fn gate_names_an_absent_suite_and_its_missing_junit() {
         let d = dir();
         summary(d.path(), json!([entry("doctest", 0, 0, 0)]));
-        let out = gate(d.path(), d.path(), &req(&["nextest-unit"]), None);
+        let out = gate(d.path(), &req(&["nextest-unit"]));
         assert_eq!(
             gates(&out),
             [
@@ -341,12 +282,7 @@ mod tests {
         );
         junit(d.path(), "nextest-integration");
         junit(d.path(), "playwright");
-        let out = gate(
-            d.path(),
-            d.path(),
-            &req(&["nextest-integration", "playwright"]),
-            None,
-        );
+        let out = gate(d.path(), &req(&["nextest-integration", "playwright"]));
         assert_eq!(
             gates(&out),
             [
@@ -362,7 +298,7 @@ mod tests {
         summary(d.path(), json!([entry("coverage", 0, 0, 0)]));
         junit(d.path(), "coverage");
         cov(d.path(), 84.99, 94.5, 79.0);
-        let out = gate(d.path(), d.path(), &req(&["coverage"]), None);
+        let out = gate(d.path(), &req(&["coverage"]));
         assert_eq!(
             gates(&out),
             [
@@ -376,7 +312,7 @@ mod tests {
             &json!({"data": [{"totals": {"lines": {"percent": 90.0}}}]}),
         )
         .expect("partial");
-        let partial = gate(d.path(), d.path(), &req(&["coverage"]), None);
+        let partial = gate(d.path(), &req(&["coverage"]));
         assert_eq!(
             gates(&partial),
             [
@@ -391,7 +327,7 @@ mod tests {
         let d = dir();
         summary(d.path(), json!([entry("coverage", 0, 0, 0)]));
         junit(d.path(), "coverage");
-        let out = gate(d.path(), d.path(), &req(&["coverage"]), None);
+        let out = gate(d.path(), &req(&["coverage"]));
         assert_eq!(
             gates(&out),
             [pair("artifact-missing", "llvm-cov-summary.json")]
@@ -399,10 +335,10 @@ mod tests {
     }
 
     #[test]
-    fn gate_single_leg_mutants_read_the_summary_survivors() {
+    fn gate_mutants_reads_the_summary_survivors() {
         let d = dir();
         summary(d.path(), json!([entry("mutants", 2, 0, 2)]));
-        let out = gate(d.path(), d.path(), &req(&["mutants"]), None);
+        let out = gate(d.path(), &req(&["mutants"]));
         assert_eq!(
             gates(&out),
             [
@@ -411,175 +347,14 @@ mod tests {
             ]
         );
         summary(d.path(), json!([entry("mutants", 0, 0, 0)]));
-        assert_eq!(gate(d.path(), d.path(), &req(&["mutants"]), None).code, 0);
-    }
-
-    fn leg(dir: &Path, name: &str, mutants: &[(&str, &str)]) {
-        let list: Vec<Value> = mutants
-            .iter()
-            .map(|(n, o)| json!({"name": n, "outcome": o}))
-            .collect();
-        write_json(
-            &leg_verdict_path(dir, name),
-            &json!({"v": 1, "leg": name, "verdict": "counted", "mutants": list}),
-        )
-        .expect("leg");
-    }
-
-    #[test]
-    fn gate_union_is_red_only_where_no_leg_caught_the_mutant() {
-        let d = dir();
-        leg(
-            d.path(),
-            "ubuntu",
-            &[
-                ("cfg-windows body", "missed"),
-                ("shared", "caught"),
-                ("both missed", "missed"),
-                ("timed out", "timeout"),
-                ("never builds", "unviable"),
-            ],
-        );
-        leg(
-            d.path(),
-            "windows",
-            &[
-                ("cfg-windows body", "caught"),
-                ("shared", "caught"),
-                ("both missed", "missed"),
-                ("timed out", "unviable"),
-                ("never builds", "unviable"),
-            ],
-        );
-        let legs = req(&["ubuntu", "windows"]);
-        let out = gate(d.path(), d.path(), &req(&["mutants"]), Some(&legs));
-        assert_eq!(
-            gates(&out),
-            [pair("mutants", "both missed"), pair("mutants", "timed out")]
-        );
-        assert!(out.doc.to_string().find("run-summary").is_none());
-    }
-
-    #[test]
-    fn gate_union_needs_every_named_leg() {
-        let d = dir();
-        leg(d.path(), "ubuntu", &[("m", "missed")]);
-        let legs = req(&["ubuntu", "windows"]);
-        let out = gate(d.path(), d.path(), &req(&["mutants"]), Some(&legs));
-        assert_eq!(
-            gates(&out),
-            [pair("artifact-missing", "mutants-verdict-windows.json")],
-            "a partial union judges no mutant"
-        );
-        leg(d.path(), "windows", &[("m", "caught")]);
-        assert_eq!(
-            gate(d.path(), d.path(), &req(&["mutants"]), Some(&legs)).code,
-            0
-        );
-    }
-
-    /// Run 36165685381's two union breaches, verbatim from its leg files.
-    const WIN_ENTER: &str = "crates/viola-pty/src/lib.rs:395:9: replace HostTerminal::enter -> \
-                             Option<Self> with Some(Default::default())";
-    const UNIX_ENTER: &str = "crates/viola-pty/src/lib.rs:420:9: replace HostTerminal::enter -> \
-                              Option<Self> with Some(Default::default())";
-    const LEGS: [&str; 2] = ["ubuntu-latest", "windows-2025"];
-
-    /// A `crates/viola-pty/src/lib.rs` whose fns cover lines 394–397 and 418–421, each `#[cfg]`'d
-    /// by its given predicate (none: shared code).
-    fn lib_rs(root: &Path, win: Option<&str>, unix: Option<&str>) {
-        let mut lines = vec![String::new(); 425];
-        for (at, cfg, name) in [(393, win, "enter_windows"), (417, unix, "enter_unix")] {
-            if let Some(cfg) = cfg {
-                lines[at - 1] = format!("#[cfg({cfg})]");
-            }
-            lines[at] = format!("fn {name}() {{");
-            lines[at + 1] = "    // body".to_owned();
-            lines[at + 2] = "    let _ = 1;".to_owned();
-            lines[at + 3] = "}".to_owned();
-        }
-        let dir = root.join("crates").join("viola-pty").join("src");
-        fs::create_dir_all(&dir).expect("mkdir");
-        fs::write(dir.join("lib.rs"), lines.join("\n")).expect("lib.rs");
-    }
-
-    fn union_of(d: &Path, ubuntu: &[(&str, &str)], windows: &[(&str, &str)]) -> Outcome {
-        leg(d, LEGS[0], ubuntu);
-        leg(d, LEGS[1], windows);
-        gate(d, d, &req(&["mutants"]), Some(&req(&LEGS)))
-    }
-
-    #[test]
-    fn union_by_compiled_legs_clears_the_recorded_breach() {
-        let d = dir();
-        lib_rs(d.path(), Some("windows"), Some("unix"));
-        let out = union_of(
-            d.path(),
-            &[(WIN_ENTER, "missed"), (UNIX_ENTER, "unviable")],
-            &[(WIN_ENTER, "unviable"), (UNIX_ENTER, "missed")],
-        );
-        assert_eq!(out.code, 0, "{}", out.doc);
-    }
-
-    #[test]
-    fn union_by_compiled_legs_control_without_cfg_keeps_both() {
-        let d = dir();
-        lib_rs(d.path(), None, None);
-        let out = union_of(
-            d.path(),
-            &[(WIN_ENTER, "missed"), (UNIX_ENTER, "unviable")],
-            &[(WIN_ENTER, "unviable"), (UNIX_ENTER, "missed")],
-        );
-        assert_eq!(
-            gates(&out),
-            [pair("mutants", WIN_ENTER), pair("mutants", UNIX_ENTER)]
-        );
-    }
-
-    #[test]
-    fn union_by_compiled_legs_missed_on_the_compiling_leg_stays_red() {
-        let d = dir();
-        lib_rs(d.path(), Some("windows"), Some("unix"));
-        let out = union_of(
-            d.path(),
-            &[(WIN_ENTER, "caught"), (UNIX_ENTER, "timeout")],
-            &[(WIN_ENTER, "missed"), (UNIX_ENTER, "caught")],
-        );
-        assert_eq!(
-            gates(&out),
-            [pair("mutants", WIN_ENTER), pair("mutants", UNIX_ENTER)]
-        );
-    }
-
-    #[test]
-    fn union_by_compiled_legs_shared_code_unviable_and_missed_stays_red() {
-        let d = dir();
-        lib_rs(d.path(), None, Some("unix"));
-        let out = union_of(
-            d.path(),
-            &[(WIN_ENTER, "missed"), (UNIX_ENTER, "caught")],
-            &[(WIN_ENTER, "unviable"), (UNIX_ENTER, "unviable")],
-        );
-        assert_eq!(gates(&out), [pair("mutants", WIN_ENTER)]);
-    }
-
-    #[test]
-    fn union_by_compiled_legs_body_no_leg_compiles_is_judged_by_all() {
-        let d = dir();
-        lib_rs(d.path(), Some("target_os = \"macos\""), Some("unix"));
-        let out = union_of(
-            d.path(),
-            &[(WIN_ENTER, "missed"), (UNIX_ENTER, "caught")],
-            &[(WIN_ENTER, "missed"), (UNIX_ENTER, "missed")],
-        );
-        assert_eq!(gates(&out), [pair("mutants", WIN_ENTER)]);
+        assert_eq!(gate(d.path(), &req(&["mutants"])).code, 0);
     }
 
     #[test]
     fn gate_perf_requires_every_row_and_gates_the_max_sample_against_the_spine_deadline() {
         let d = dir();
         summary(d.path(), json!([entry("perf", 0, 0, 0)]));
-        let none = gate(d.path(), d.path(), &req(&["perf"]), None);
+        let none = gate(d.path(), &req(&["perf"]));
         assert_eq!(
             gates(&none),
             [
@@ -599,17 +374,17 @@ mod tests {
         hook("perf-session-start.json", 0.2);
         hook("perf-user-prompt-submit.json", 0.3);
         hook("perf-stop.json", 0.99);
-        let three = gate(d.path(), d.path(), &req(&["perf"]), None);
+        let three = gate(d.path(), &req(&["perf"]));
         assert_eq!(
             gates(&three),
             [pair("artifact-missing", "perf-session-end.json")]
         );
         hook("perf-session-end.json", 0.5);
-        assert_eq!(gate(d.path(), d.path(), &req(&["perf"]), None).code, 0);
+        assert_eq!(gate(d.path(), &req(&["perf"])).code, 0);
         hook("perf-session-end.json", 1.0);
         fs::write(d.path().join("perf-zz.json"), "{}").expect("bad");
         fs::write(d.path().join("perf.txt"), "not a perf file").expect("other");
-        let out = gate(d.path(), d.path(), &req(&["perf"]), None);
+        let out = gate(d.path(), &req(&["perf"]));
         assert_eq!(
             gates(&out),
             [
@@ -618,7 +393,7 @@ mod tests {
             ]
         );
         fs::write(d.path().join("perf-stop.json"), "not json").expect("torn");
-        let torn = gate(d.path(), d.path(), &req(&["perf"]), None);
+        let torn = gate(d.path(), &req(&["perf"]));
         assert!(gates(&torn).contains(&pair("perf", "perf-stop.json unreadable")));
     }
 
@@ -633,17 +408,6 @@ mod tests {
         }
         for bad in ["", "a11y", "coverage,", "unit", "coverage,bogus"] {
             assert_eq!(parse_require(bad), None, "{bad:?}");
-        }
-    }
-
-    #[test]
-    fn parse_legs_holds_names_to_a_file_safe_charset() {
-        assert_eq!(
-            parse_legs("ubuntu-latest,windows-2025"),
-            Some(req(&["ubuntu-latest", "windows-2025"]))
-        );
-        for bad in ["", "a/b", "..", "ok,", "a b"] {
-            assert_eq!(parse_legs(bad), None, "{bad:?}");
         }
     }
 }

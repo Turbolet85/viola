@@ -108,7 +108,7 @@ mod tests {
                 calls.push(args);
                 answer
             };
-            run_with(ws, sel, filter, None, None, &mut runner)
+            run_with(ws, sel, filter, None, &mut runner)
         };
         (out, calls)
     }

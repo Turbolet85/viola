@@ -1,0 +1,177 @@
+[
+{
+"tool": "sidecar",
+"v": "1.0",
+"sha8": "80da2476",
+"ts": "2026-09-28T19:59:39Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/architecture-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-09-28T19-54-53-phase",
+"--marker",
+"2026-09-28-mutation-testing-to-the-epoch-boundary"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"bytes 47974 · whole-read bound 120000 · within",
+"entries 28 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 47974,
+"entries": 28,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.0",
+"sha8": "80da2476",
+"ts": "2026-09-28T19:59:39Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-09-28T19-54-53-phase",
+"--marker",
+"2026-09-28-mutation-testing-to-the-epoch-boundary"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"bytes 31416 · whole-read bound 120000 · within",
+"entries 22 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 31416,
+"entries": 22,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.0",
+"sha8": "80da2476",
+"ts": "2026-09-28T19:59:39Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-09-28T19-54-53-phase",
+"--marker",
+"2026-09-28-mutation-testing-to-the-epoch-boundary"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"bytes 40823 · whole-read bound 120000 · within",
+"entries 26 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 40823,
+"entries": 26,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.0",
+"sha8": "80da2476",
+"ts": "2026-09-28T19:59:39Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-09-28T19-54-53-phase",
+"--marker",
+"2026-09-28-mutation-testing-to-the-epoch-boundary"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"bytes 24798 · whole-read bound 120000 · within",
+"entries 21 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 24798,
+"entries": 21,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.0",
+"sha8": "80da2476",
+"ts": "2026-09-28T19:59:39Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/a11y-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-09-28T19-54-53-phase",
+"--marker",
+"2026-09-28-mutation-testing-to-the-epoch-boundary"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"bytes 5103 · whole-read bound 120000 · within",
+"entries 5 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 5103,
+"entries": 5,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+}
+]

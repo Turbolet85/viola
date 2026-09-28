@@ -1,0 +1,202 @@
+[
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "21ddc30a",
+"ts": "2026-09-28T19:56:34Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-28T19-54-53-phase",
+"--marker",
+"2026-09-28-mutation-testing-to-the-epoch-boundary"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"appended 1 record(s) · friction-log.ndjson lines 600→601 · bytes 587448→588561 · term lf",
+"ts 2026-09-28T19:56:26Z · clock 2026-09-28T19:56:34Z · bound 2026-09-28T19:54:11Z (line 600)",
+"ids 2026-09-28T19:56:26Z-a"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 600,
+"bytes": 587448,
+"terminator": "LF",
+"bound": "2026-09-28T19:54:11Z"
+},
+"after": {
+"lines": 601,
+"bytes": 588561
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "21ddc30a",
+"ts": "2026-09-28T20:02:00Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-28T19-54-53-phase",
+"--marker",
+"2026-09-28-mutation-testing-to-the-epoch-boundary"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"appended 1 record(s) · friction-log.ndjson lines 601→602 · bytes 588561→590079 · term lf",
+"ts 2026-09-28T20:01:50Z · clock 2026-09-28T20:02:00Z · bound 2026-09-28T19:56:26Z (line 601)",
+"ids 2026-09-28T20:01:50Z-a"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 601,
+"bytes": 588561,
+"terminator": "LF",
+"bound": "2026-09-28T19:56:26Z"
+},
+"after": {
+"lines": 602,
+"bytes": 590079
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "21ddc30a",
+"ts": "2026-09-28T20:06:33Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-28T19-54-53-phase",
+"--marker",
+"2026-09-28-mutation-testing-to-the-epoch-boundary"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"appended 1 record(s) · friction-log.ndjson lines 602→603 · bytes 590079→591549 · term lf",
+"ts 2026-09-28T20:06:23Z · clock 2026-09-28T20:06:33Z · bound 2026-09-28T20:01:50Z (line 602)",
+"ids 2026-09-28T20:06:23Z-a"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 602,
+"bytes": 590079,
+"terminator": "LF",
+"bound": "2026-09-28T20:01:50Z"
+},
+"after": {
+"lines": 603,
+"bytes": 591549
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "21ddc30a",
+"ts": "2026-09-28T20:10:40Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-28T19-54-53-phase",
+"--marker",
+"2026-09-28-mutation-testing-to-the-epoch-boundary"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"appended 2 record(s) · friction-log.ndjson lines 603→605 · bytes 591549→593271 · term lf",
+"ts 2026-09-28T20:10:29Z · clock 2026-09-28T20:10:40Z · bound 2026-09-28T20:06:23Z (line 603)",
+"ids 2026-09-28T20:10:29Z-a … 2026-09-28T20:10:29Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 603,
+"bytes": 591549,
+"terminator": "LF",
+"bound": "2026-09-28T20:06:23Z"
+},
+"after": {
+"lines": 605,
+"bytes": 593271
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "21ddc30a",
+"ts": "2026-09-28T20:14:46Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-28T19-54-53-phase",
+"--marker",
+"2026-09-28-mutation-testing-to-the-epoch-boundary"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"appended 2 record(s) · friction-log.ndjson lines 605→607 · bytes 593271→595182 · term lf",
+"ts 2026-09-28T20:14:35Z · clock 2026-09-28T20:14:46Z · bound 2026-09-28T20:10:29Z (line 605)",
+"ids 2026-09-28T20:14:35Z-a … 2026-09-28T20:14:35Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 605,
+"bytes": 593271,
+"terminator": "LF",
+"bound": "2026-09-28T20:10:29Z"
+},
+"after": {
+"lines": 607,
+"bytes": 595182
+}
+}
+]

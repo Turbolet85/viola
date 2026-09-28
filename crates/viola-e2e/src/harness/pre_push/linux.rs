@@ -1,5 +1,5 @@
 //! The distro side of `pre-push`: the WSL2 `Ubuntu` clone synced from the working tree, its tool
-//! pins, its build cache and mutation scratch, and the ubuntu test job and leg run inside it.
+//! pins, its build cache, and the ubuntu test job run inside it.
 
 use std::fs;
 use std::path::Path;
@@ -8,25 +8,19 @@ use std::time::Instant;
 
 use serde_json::{Value, json};
 
-use super::super::run::{Runner, fuzz_channel, leg_verdict_path};
-use super::super::{Workspace, write_json};
-use super::{CACHE_CAP_BYTES, DISTRO, Doc, LINUX_LEG, Stop, WSL, ok, out};
+use super::super::Workspace;
+use super::super::run::{Runner, fuzz_channel};
+use super::{CACHE_CAP_BYTES, DISTRO, Doc, Stop, WSL, ok, out};
 
 const CLONE_DIR: &str = "viola-pre-push";
-
-/// The Linux mutation leg's `TMPDIR`: cargo-mutants copies the tree (and `target/`) into
-/// `std::env::temp_dir()`, which on the distro is a RAM tmpfs. This sits beside the clone, on its
-/// disk, and outside the tree a scratch copy is made from.
-const SCRATCH_DIR: &str = "viola-pre-push-scratch";
 
 /// Where `scripts/wsl-provision.sh` installs ci.yml's pinned Node, under the distro user's home.
 const NODE_BIN: &str = ".local/viola-node/bin";
 
-/// The distro side: its user's home, the clone and the mutation scratch under it. Never printed.
+/// The distro side: its user's home and the clone under it. Never printed.
 pub(super) struct Linux {
     home: String,
     pub(super) clone: String,
-    pub(super) scratch: String,
 }
 
 impl Linux {
@@ -34,19 +28,14 @@ impl Linux {
         Self {
             home: home.to_owned(),
             clone: format!("{home}/{CLONE_DIR}"),
-            scratch: format!("{home}/{SCRATCH_DIR}"),
         }
     }
 
-    fn cmd(&self, cd: Option<&str>, argv: &[&str]) -> Command {
-        self.cmd_env(cd, &[], argv)
-    }
-
     /// `--exec` passes argv verbatim (the `--` form re-parses it through the distro shell), and
-    /// `env -i` hands the child only HOME, a Linux PATH and the `env` assignments named here: the
-    /// distro PATH carries the Windows one, and nothing of this process's environment crosses.
-    /// Every PATH component is a constant under the distro home or a system dir.
-    fn cmd_env(&self, cd: Option<&str>, env: &[String], argv: &[&str]) -> Command {
+    /// `env -i` hands the child only HOME and a Linux PATH: the distro PATH carries the Windows one,
+    /// and nothing of this process's environment crosses. Every PATH component is a constant under
+    /// the distro home or a system dir.
+    fn cmd(&self, cd: Option<&str>, argv: &[&str]) -> Command {
         let mut cmd = Command::new(WSL);
         cmd.args(["-d", DISTRO]);
         if let Some(dir) = cd {
@@ -58,7 +47,6 @@ impl Linux {
                 "PATH={home}/.cargo/bin:{home}/{NODE_BIN}:/usr/local/bin:/usr/bin:/bin",
                 home = self.home
             ))
-            .args(env)
             .args(argv);
         cmd
     }
@@ -254,7 +242,7 @@ pub(super) fn sync(
 }
 
 /// `du -sb` of a distro path; 0 when it is absent or unreadable.
-pub(super) fn dir_bytes(linux: &Linux, runner: &mut Runner<'_>, path: &str) -> u64 {
+fn dir_bytes(linux: &Linux, runner: &mut Runner<'_>, path: &str) -> u64 {
     out(runner, linux.cmd(None, &["du", "-sb", path]))
         .and_then(|text| text.split_whitespace().next()?.parse().ok())
         .unwrap_or(0)
@@ -264,8 +252,7 @@ pub(super) fn target_bytes(linux: &Linux, runner: &mut Runner<'_>) -> u64 {
     dir_bytes(linux, runner, &format!("{}/target", linux.clone))
 }
 
-/// The clone's `target/` against its cap, then the mutation scratch wiped and recreated owner-only
-/// (what a previous run left in it is reported, never reused).
+/// The clone's `target/` against its cap.
 pub(super) fn cache(linux: &Linux, runner: &mut Runner<'_>) -> Result<Value, Stop> {
     let bytes = target_bytes(linux, runner);
     let cleaned = bytes > CACHE_CAP_BYTES;
@@ -274,31 +261,18 @@ pub(super) fn cache(linux: &Linux, runner: &mut Runner<'_>) -> Result<Value, Sto
         out(runner, linux.cmd(None, &["rm", "-rf", &target]))
             .ok_or_else(|| Stop::new("sync-failed", "cache"))?;
     }
-    let scratch_bytes = dir_bytes(linux, runner, &linux.scratch);
-    out(runner, linux.cmd(None, &["rm", "-rf", &linux.scratch]))
-        .and_then(|_| {
-            out(
-                runner,
-                linux.cmd(None, &["mkdir", "-m", "700", &linux.scratch]),
-            )
-        })
-        .ok_or_else(|| Stop::new("sync-failed", "scratch"))?;
-    Ok(json!({
-        "bytes": bytes, "cap": CACHE_CAP_BYTES, "cleaned": cleaned,
-        "scratch_bytes": scratch_bytes,
-    }))
+    Ok(json!({"bytes": bytes, "cap": CACHE_CAP_BYTES, "cleaned": cleaned}))
 }
 
 /// One harness command inside the clone, read from its own stdout document.
 pub(super) fn linux_harness(
     linux: &Linux,
-    env: &[String],
     args: &[&str],
     runner: &mut Runner<'_>,
 ) -> Result<Value, Stop> {
     let mut argv = vec!["bash", "scripts/agent-run.sh"];
     argv.extend_from_slice(args);
-    let (_, stdout) = runner(&mut linux.cmd_env(Some(&linux.clone), env, &argv));
+    let (_, stdout) = runner(&mut linux.cmd(Some(&linux.clone), &argv));
     last_document(&stdout).ok_or_else(|| Stop::new("linux-document-unreadable", args[0]))
 }
 
@@ -327,17 +301,6 @@ pub(super) fn summary(doc: &Value) -> Value {
     out
 }
 
-pub(super) fn leg(doc: &Value) -> Value {
-    let mut out = json!({"ok": doc["ok"]});
-    if let Some(reason) = doc["reason"].as_str() {
-        out["reason"] = json!(reason);
-    }
-    for key in ["base", "verdict", "tested"] {
-        out[key] = doc["mutants"][key].clone();
-    }
-    out
-}
-
 /// `run --coverage`, `run --browser`, then `gate --require coverage,doctest,playwright`: the ubuntu
 /// test job's own suites.
 pub(super) fn linux_tests(
@@ -345,58 +308,23 @@ pub(super) fn linux_tests(
     runner: &mut Runner<'_>,
     doc: &mut Doc,
 ) -> Result<bool, Stop> {
-    let run = linux_harness(linux, &[], &["run", "--coverage"], runner)?;
+    let run = linux_harness(linux, &["run", "--coverage"], runner)?;
     doc.linux.insert("run".to_owned(), summary(&run));
     if !ok(&run) {
         return Ok(false);
     }
-    let browser = linux_harness(linux, &[], &["run", "--browser"], runner)?;
+    let browser = linux_harness(linux, &["run", "--browser"], runner)?;
     doc.linux.insert("browser".to_owned(), summary(&browser));
     if !ok(&browser) {
         return Ok(false);
     }
     let gate = linux_harness(
         linux,
-        &[],
         &["gate", "--require", "coverage,doctest,playwright"],
         runner,
     )?;
     doc.linux.insert("gate".to_owned(), summary(&gate));
     Ok(ok(&gate))
-}
-
-/// The ubuntu leg in the clone, its reduced verdict copied beside the host's for the union.
-pub(super) fn linux_leg(
-    ws: &Workspace,
-    linux: &Linux,
-    runner: &mut Runner<'_>,
-    doc: &mut Doc,
-) -> Result<bool, Stop> {
-    let host_copy = leg_verdict_path(&ws.artifacts(), LINUX_LEG);
-    let _ = fs::remove_file(&host_copy);
-    let tmpdir = format!("TMPDIR={}", linux.scratch);
-    let run = linux_harness(
-        linux,
-        &[tmpdir],
-        &["run", "--mutants", "--leg", LINUX_LEG],
-        runner,
-    )?;
-    doc.legs.insert(LINUX_LEG.to_owned(), leg(&run));
-    if !ok(&run) {
-        return Ok(false);
-    }
-    let missing = || Stop::new("verdict-missing", LINUX_LEG);
-    let path = format!(
-        "{}/target/agent-run/artifacts/mutants-verdict-{LINUX_LEG}.json",
-        linux.clone
-    );
-    let verdict: Value = out(runner, linux.cmd(None, &["cat", &path]))
-        .and_then(|text| serde_json::from_str(&text).ok())
-        .filter(|v: &Value| v["leg"] == LINUX_LEG)
-        .ok_or_else(missing)?;
-    fs::create_dir_all(ws.artifacts()).map_err(|_| missing())?;
-    write_json(&host_copy, &verdict).map_err(|_| missing())?;
-    Ok(true)
 }
 
 #[cfg(test)]
@@ -458,7 +386,7 @@ mod tests {
             super::super::tests::CI_LINE.replace("  NODE_PIN_VERSION", "    NODE_PIN_VERSION"),
         )
         .expect("ci");
-        let mut fake = Fake::new().green("b", "caught");
+        let mut fake = Fake::new().green();
         let out = drive(&ws, &mut fake);
         assert_eq!(out.doc["reason"], "tool-pin-mismatch");
         assert_eq!(out.doc["detail"], "pins-unreadable");
@@ -470,9 +398,7 @@ mod tests {
         let red = "{\"v\":1,\"cmd\":\"run\",\"ok\":false,\"reason\":\"browser-missing\",\
                    \"suites\":[{\"suite\":\"playwright\",\"passed\":0,\"failed\":1,\"skipped\":0,\
                    \"survived\":0,\"artifact\":null,\"failures\":[\"chromium-missing\"]}]}\n";
-        let mut fake = Fake::new()
-            .on(&["run --browser"], 1, red)
-            .green("b", "caught");
+        let mut fake = Fake::new().on(&["run --browser"], 1, red).green();
         let out = drive(&ws, &mut fake);
         assert_eq!(out.doc["stage"], "linux-tests");
         assert_eq!(out.doc["linux"]["browser"]["reason"], "browser-missing");
@@ -488,7 +414,7 @@ mod tests {
     #[test]
     fn pre_push_linux_tests_run_coverage_browser_then_the_playwright_gate() {
         let (_tmp, ws) = pinned();
-        let mut fake = Fake::new().green("b", "caught");
+        let mut fake = Fake::new().green();
         let out = drive(&ws, &mut fake);
         let at = |needle: &str| {
             fake.calls
@@ -570,7 +496,7 @@ mod tests {
     fn pre_push_unreadable_pins_stop_at_tools() {
         let (_tmp, ws) = pinned();
         fs::write(ws.root.join(".github/workflows/ci.yml"), "jobs: {}\n").expect("ci");
-        let mut fake = Fake::new().green("b", "caught");
+        let mut fake = Fake::new().green();
         let out = drive(&ws, &mut fake);
         assert_eq!(out.doc["reason"], "tool-pin-mismatch");
         assert_eq!(out.doc["detail"], "pins-unreadable");
@@ -593,7 +519,7 @@ mod tests {
     fn pre_push_cache_over_cap_is_cleaned_and_reported() {
         let over = format!("{}\t/x\n", CACHE_CAP_BYTES + 1);
         let (_tmp, ws) = pinned();
-        let mut fake = red_tests().on(&["du -sb"], 0, &over).green("b", "caught");
+        let mut fake = red_tests().on(&["du -sb"], 0, &over).green();
         let out = drive(&ws, &mut fake);
         assert_eq!(out.doc["cache"]["cleaned"], true, "{}", out.doc);
         assert_eq!(out.doc["cache"]["bytes"], CACHE_CAP_BYTES + 1);
@@ -602,7 +528,7 @@ mod tests {
         assert!(fake.calls.iter().any(|c| c.ends_with(&rm)));
 
         let at = format!("{CACHE_CAP_BYTES}\t/x\n");
-        let mut fake = red_tests().on(&["du -sb"], 0, &at).green("b", "caught");
+        let mut fake = red_tests().on(&["du -sb"], 0, &at).green();
         let out = drive(&ws, &mut fake);
         assert_eq!(out.doc["cache"]["cleaned"], false);
         assert_eq!(out.doc["cache"]["bytes_after"], CACHE_CAP_BYTES);
@@ -610,47 +536,9 @@ mod tests {
     }
 
     #[test]
-    fn pre_push_mutation_scratch_is_on_the_clone_disk_and_wiped_first() {
+    fn pre_push_linux_test_red_stops_at_linux_tests() {
         let (_tmp, ws) = pinned();
-        let mut fake = Fake::new().green("b", "caught");
-        let out = drive(&ws, &mut fake);
-        let scratch = format!("{HOME}/{SCRATCH_DIR}");
-        assert_eq!(scratch, "/home/tester/viola-pre-push-scratch");
-        let at = |needle: &str| {
-            fake.calls
-                .iter()
-                .position(|c| c.ends_with(needle))
-                .unwrap_or_else(|| panic!("{needle} in {:?}", fake.calls))
-        };
-        let wipe = at(&format!("rm -rf {scratch}"));
-        let make = at(&format!("mkdir -m 700 {scratch}"));
-        let leg = at(&format!(
-            ".cargo/bin:{HOME}/.local/viola-node/bin:/usr/local/bin:/usr/bin:/bin TMPDIR={scratch} \
-             bash scripts/agent-run.sh run --mutants --leg ubuntu-latest"
-        ));
-        assert!(wipe < make && make < leg, "{:?}", fake.calls);
-        let coverage = at("bash scripts/agent-run.sh run --coverage");
-        assert!(!fake.calls[coverage].contains("TMPDIR="));
-        assert_eq!(
-            fake.calls.iter().filter(|c| c.contains("TMPDIR=")).count(),
-            1
-        );
-        assert_eq!(out.doc["cache"]["scratch_bytes"], 10, "{}", out.doc);
-        assert_eq!(out.doc["cache"]["scratch_bytes_after"], 10);
-    }
-
-    #[test]
-    fn pre_push_scratch_that_cannot_be_made_stops_at_cache() {
-        let fake = Fake::new().on(&["mkdir -m 700"], 1, "");
-        stopped(fake, "sync-failed", Some("scratch"), "cache");
-        let fake = Fake::new().on(&["rm -rf /home/tester/viola-pre-push-scratch"], 1, "");
-        stopped(fake, "sync-failed", Some("scratch"), "cache");
-    }
-
-    #[test]
-    fn pre_push_linux_test_red_stops_before_the_legs() {
-        let (_tmp, ws) = pinned();
-        let mut fake = red_tests().green("b", "caught");
+        let mut fake = red_tests().green();
         let out = drive(&ws, &mut fake);
         assert_eq!(out.code, 1);
         assert_eq!(out.doc["ok"], false);
@@ -669,13 +557,13 @@ mod tests {
     }
 
     #[test]
-    fn pre_push_linux_gate_red_stops_before_the_legs() {
+    fn pre_push_linux_gate_red_stops_at_linux_tests() {
         let (_tmp, ws) = pinned();
         let red =
             "{\"v\":1,\"cmd\":\"gate\",\"ok\":false,\"breaches\":[{\"gate\":\"coverage\"}]}\n";
         let mut fake = Fake::new()
             .on(&["gate --require coverage,doctest"], 1, red)
-            .green("b", "caught");
+            .green();
         let out = drive(&ws, &mut fake);
         assert_eq!(out.doc["stage"], "linux-tests");
         assert_eq!(out.doc["linux"]["gate"]["breaches"][0]["gate"], "coverage");
@@ -696,7 +584,7 @@ mod tests {
     #[test]
     fn pre_push_every_wsl_call_uses_exec_and_a_clean_env() {
         let (_tmp, ws) = pinned();
-        let mut fake = red_tests().green("b", "caught");
+        let mut fake = red_tests().green();
         drive(&ws, &mut fake);
         let clean = format!("--exec /usr/bin/env -i HOME={HOME} PATH={HOME}/.cargo/bin:");
         // The one call that runs nothing inside the distro: stopping it (`release_vm`).
@@ -715,14 +603,6 @@ mod tests {
             }
         }
         assert_eq!(fake.claude_envs, 0);
-    }
-
-    #[test]
-    fn pre_push_verdict_missing_is_red() {
-        let fake = Fake::new().on(&["cat "], 1, "");
-        stopped(fake, "verdict-missing", Some(LINUX_LEG), "linux-leg");
-        let other = Fake::new().on(&["cat "], 0, "{\"v\":1,\"leg\":\"windows-2025\"}");
-        stopped(other, "verdict-missing", Some(LINUX_LEG), "linux-leg");
     }
 
     /// Runs the call natively: a WSL call loses its `wsl.exe -d Ubuntu [--cd D] --exec /usr/bin/env

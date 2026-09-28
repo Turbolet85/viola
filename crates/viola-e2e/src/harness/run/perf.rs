@@ -509,7 +509,7 @@ mod tests {
             mutants: true,
             ..Selection::default()
         };
-        let out = run_with(&ws, sel, None, None, None, &mut |_: &mut Command| {
+        let out = run_with(&ws, sel, None, None, &mut |_: &mut Command| {
             ran += 1;
             (Some(127), String::new())
         });

@@ -314,7 +314,7 @@ mod tests {
             browser: true,
             ..Selection::default()
         };
-        let out = run_with(&ws, sel, None, None, None, &mut |_: &mut Command| {
+        let out = run_with(&ws, sel, None, None, &mut |_: &mut Command| {
             (Some(1), String::new())
         });
         assert_eq!(out.code, 1);

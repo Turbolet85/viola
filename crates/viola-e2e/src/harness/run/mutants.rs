@@ -1,4 +1,4 @@
-//! The per-chunk mutation gate (test-plan §3 `run` step 4, §10).
+//! The mutation arm, kept for the epoch-boundary code audit (test-plan §3 `run` step 4).
 
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -9,18 +9,14 @@ use serde_json::{Value, json};
 use super::{Runner, Suite, Workspace, read_json};
 
 mod base;
-mod leg;
 mod scratch;
 
 pub use base::{
     chunk_diff, diff_files, diff_paths, resolve_base, rust_delta, rust_paths, test_target,
 };
-use leg::write_leg_verdict;
-pub use leg::{leg_verdict, leg_verdict_path};
-pub(in crate::harness) use scratch::host_scratch_bytes;
 
 /// Every outcome printed as it lands, and each mutant's build bounded (cargo-mutants sets no build
-/// timeout by default), so a stalled leg names the mutant it stalled on.
+/// timeout by default), so a stalled run names the mutant it stalled on.
 const MUTANTS_PROGRESS: [&str; 3] = ["--caught", "--unviable", "--build-timeout-multiplier=5"];
 
 /// The mutation run's own target dir, relative to the tree cargo runs in: the root binaries are
@@ -43,7 +39,7 @@ fn count(outcomes: &Value, key: &str) -> u64 {
     outcomes[key].as_u64().unwrap_or(0)
 }
 
-/// `passed` = caught; `survived` = missed + timeout. Unviable alone is never red, but a leg with more
+/// `passed` = caught; `survived` = missed + timeout. Unviable alone is never red, but a run with more
 /// unviable than caught mutants tested almost nothing: its builds failed (measured on the windows CI
 /// leg of run 36118112104, a leaked process holding a binary: 8 caught, 135 unviable), so it is red.
 pub fn mutants_suite(outcomes: &Value, mut failures: Vec<String>) -> (Suite, u64) {
@@ -79,28 +75,18 @@ fn listed(path: &Path) -> Vec<String> {
 /// A diff cargo-mutants can find no mutant in never reaches it: its silent exit writes no
 /// `outcomes.json`, and an earlier run's file would otherwise be read as this one's. The verdict
 /// names why it is empty, never a bare pass.
-fn unmutated(
-    ws: &Workspace,
-    leg: Option<&str>,
-    verdict: &str,
-    diff: &str,
-    base: &str,
-) -> (Suite, Value) {
-    write_leg_verdict(ws, leg, verdict, &Value::Null);
+fn unmutated(verdict: &str, diff: &str, base: &str) -> (Suite, Value) {
     let suite = Suite {
         artifact: Some("target/agent-run/chunk.diff".to_owned()),
         ..Suite::named("mutants")
     };
-    let mut doc = json!({
+    let doc = json!({
         "tested": 0,
         "verdict": verdict,
         "base": base,
         "diff": "target/agent-run/chunk.diff",
         "files": diff_files(diff),
     });
-    if let Some(leg) = leg {
-        doc["leg"] = json!(leg);
-    }
     (suite, doc)
 }
 
@@ -108,32 +94,28 @@ fn unmutated(
 /// the run archive), when cargo-mutants ran.
 pub(super) type Mutated = (Suite, Value, Option<PathBuf>);
 
-/// `files` scopes the run to those sources (`--file`): an inner-loop filter whose `scoped` verdict
-/// is never a leg verdict, so no union ever reads it.
+/// `files` scopes the run to those sources (`--file`): an inner-loop filter whose verdict reads
+/// `scoped`.
 pub(super) fn mutants(
     ws: &Workspace,
     chunk_base: Option<String>,
-    leg: Option<&str>,
     files: &[String],
     runner: &mut Runner<'_>,
 ) -> Result<Mutated, String> {
     let diff_path = ws.agent_run().join("chunk.diff");
     let _ = fs::remove_file(&diff_path);
-    if let Some(leg) = leg {
-        let _ = fs::remove_file(leg_verdict_path(&ws.artifacts(), leg));
-    }
     let missing = || "base-missing".to_owned();
     let base = resolve_base(&ws.root, chunk_base).ok_or_else(missing)?;
     let diff = chunk_diff(&ws.root, &base).ok_or_else(missing)?;
     fs::create_dir_all(ws.agent_run()).map_err(|_| missing())?;
     fs::write(&diff_path, &diff).map_err(|_| missing())?;
     if !rust_delta(&diff) {
-        let (suite, doc) = unmutated(ws, leg, "no-rust-delta", &diff, &base);
+        let (suite, doc) = unmutated("no-rust-delta", &diff, &base);
         return Ok((suite, doc, None));
     }
     let rust_files = rust_paths(&diff);
     if rust_files.iter().all(|p| test_target(p)) {
-        let (suite, mut doc) = unmutated(ws, leg, "test-only-rust-delta", &diff, &base);
+        let (suite, mut doc) = unmutated("test-only-rust-delta", &diff, &base);
         doc["rust_files"] = json!(rust_files);
         return Ok((suite, doc, None));
     }
@@ -172,7 +154,7 @@ pub(super) fn mutants(
     cargo_mutants
         .args(["--test-tool=nextest", "--copy-target=true"])
         .args(MUTANTS_PROGRESS)
-        // Live to our stderr: a leg that stalls or is cancelled still shows its last outcome.
+        // Live to our stderr: a run that stalls or is cancelled still shows its last outcome.
         .stdout(Stdio::from(std::io::stderr()))
         .env("NEXTEST_PROFILE", "mutants")
         // No home outlives a mutant's test run: nothing reads them afterwards (the kept-home
@@ -202,7 +184,6 @@ pub(super) fn mutants(
     let outcomes_path = out_dir.join("outcomes.json");
     let (suite, tested) = match read_json::<Value>(&outcomes_path) {
         Ok(outcomes) => {
-            write_leg_verdict(ws, leg, verdict, &outcomes);
             let mut failures = listed(&out_dir.join("missed.txt"));
             failures.extend(listed(&out_dir.join("timeout.txt")));
             mutants_suite(&outcomes, failures)
@@ -222,9 +203,6 @@ pub(super) fn mutants(
     }
     if let Some((_, bytes)) = scratch {
         doc["scratch_bytes"] = json!(bytes);
-    }
-    if let Some(leg) = leg {
-        doc["leg"] = json!(leg);
     }
     Ok((suite, doc, Some(outcomes_path)))
 }
@@ -258,7 +236,6 @@ mod tests {
             flags(false, false, true, false),
             None,
             Some(base),
-            None,
             &mut runner,
         )
     }
@@ -303,23 +280,6 @@ mod tests {
         let (s, _) = mutants_suite(&even, vec![]);
         assert!(s.green(), "equal counts are not a swamp");
         assert!(s.failures.is_empty());
-    }
-
-    #[test]
-    fn run_mutants_leg_with_an_unviable_swamp_is_red_not_deferred() {
-        let swamp = r#"{"outcomes": [
-            {"scenario": {"Mutant": {"name": "src/a.rs:1:5: replace a with 0"}}, "summary": "CaughtMutant"},
-            {"scenario": {"Mutant": {"name": "src/a.rs:2:5: replace b with 1"}}, "summary": "Unviable"},
-            {"scenario": {"Mutant": {"name": "src/a.rs:3:5: replace c with 2"}}, "summary": "Unviable"}
-        ], "caught": 1, "missed": 0, "timeout": 0, "unviable": 2}"#;
-        let (_tmp, _ws, out) = run_leg(Some("l4"), Some(swamp));
-        assert_eq!(out.code, 1, "{}", out.doc);
-        let m = suite(&out.doc, "mutants");
-        assert!(
-            m["failures"]
-                .as_array()
-                .is_some_and(|f| f.iter().any(|x| x == "unviable-exceeds-caught"))
-        );
     }
 
     #[test]
@@ -506,7 +466,6 @@ mod tests {
             flags(false, false, true, false),
             None,
             Some(base.clone()),
-            Some("l5"),
             &mut |cmd: &mut Command| {
                 calls.push(args_of(cmd));
                 (Some(0), String::new())
@@ -517,11 +476,9 @@ mod tests {
             out.doc["mutants"],
             json!({"tested": 0, "verdict": "test-only-rust-delta", "base": base,
                    "diff": "target/agent-run/chunk.diff",
-                   "files": 2, "rust_files": ["tests/it.rs"], "leg": "l5"})
+                   "files": 2, "rust_files": ["tests/it.rs"]})
         );
         assert!(calls.is_empty(), "{calls:?}");
-        let v: Value = read_json(&leg_verdict_path(&ws.artifacts(), "l5")).expect("verdict");
-        assert_eq!(v["verdict"], "test-only-rust-delta");
         assert!(!carries_number(&out.doc, 777), "{}", out.doc);
     }
 
@@ -537,7 +494,6 @@ mod tests {
             flags(false, false, true, false),
             None,
             Some(base.clone()),
-            Some("l6"),
             &mut |_: &mut Command| (Some(0), String::new()),
         );
         assert_eq!(out.code, 1, "{}", out.doc);
@@ -547,9 +503,8 @@ mod tests {
         );
         assert_eq!(
             out.doc["mutants"],
-            wiped_stale(json!({"tested": 0, "verdict": "counted", "base": base, "leg": "l6"}))
+            wiped_stale(json!({"tested": 0, "verdict": "counted", "base": base}))
         );
-        assert!(!leg_verdict_path(&ws.artifacts(), "l6").exists());
         assert!(!carries_number(&out.doc, 777), "{}", out.doc);
     }
 
@@ -563,15 +518,6 @@ mod tests {
         {"scenario": {"Mutant": {"name": "src/a.rs:5:5: replace e with 4"}}, "summary": "Failure"}
     ], "caught": 1, "missed": 1, "timeout": 1, "unviable": 1}"#;
 
-    /// A Rust delta in `mini`, then a stand-in `cargo mutants` that writes `outcomes` (or nothing).
-    fn run_leg(
-        leg: Option<&str>,
-        outcomes: Option<&str>,
-    ) -> (tempfile::TempDir, Workspace, Outcome) {
-        let s = stub_run(&[], leg, outcomes, |_| {});
-        (s.tmp, s.ws, s.out)
-    }
-
     pub(super) type Env = Vec<(String, Option<String>)>;
 
     fn env_of(cmd: &Command) -> Env {
@@ -584,18 +530,17 @@ mod tests {
     }
 
     pub(super) struct Stubbed {
-        tmp: tempfile::TempDir,
+        _tmp: tempfile::TempDir,
         pub(super) ws: Workspace,
         pub(super) out: Outcome,
         /// The `cargo mutants` call's args and env, when it ran.
         pub(super) mutants: Option<(Vec<String>, Env)>,
     }
 
-    /// `run_leg` scoped to `files`, with `before` run on the workspace first; the stand-in writes
-    /// where this host's run reads.
+    /// A Rust delta in `mini` scoped to `files`, with `before` run on the workspace first, then a
+    /// stand-in `cargo mutants` that writes `outcomes` (or nothing) where this host's run reads.
     pub(super) fn stub_run(
         files: &[&str],
-        leg: Option<&str>,
         outcomes: Option<&str>,
         before: impl FnOnce(&Workspace),
     ) -> Stubbed {
@@ -609,7 +554,7 @@ mod tests {
             files: files.iter().map(|f| (*f).to_owned()).collect(),
             ..flags(false, false, true, false)
         };
-        let out = run_with(&ws, sel, None, Some(base), leg, &mut |cmd: &mut Command| {
+        let out = run_with(&ws, sel, None, Some(base), &mut |cmd: &mut Command| {
             if has(&args_of(cmd), &["mutants"]) {
                 mutants = Some((args_of(cmd), env_of(cmd)));
                 if let Some(text) = outcomes {
@@ -626,7 +571,7 @@ mod tests {
             (Some(0), String::new())
         });
         Stubbed {
-            tmp,
+            _tmp: tmp,
             ws,
             out,
             mutants,
@@ -637,11 +582,11 @@ mod tests {
         {"scenario": {"Mutant": {"name": "src/a.rs:1:5: replace a with 0"}}, "summary": "CaughtMutant"}
     ], "caught": 1, "missed": 0, "timeout": 0, "unviable": 0}"#;
 
-    /// `--file` scopes cargo-mutants beside `--in-diff`; the verdict is `scoped` with the files, and
-    /// no leg verdict is written. Survivors stay red, as in a counted run.
+    /// `--file` scopes cargo-mutants beside `--in-diff`; the verdict is `scoped` with the files.
+    /// Survivors stay red, as in a counted run.
     #[test]
     fn run_mutants_scoped_passes_each_file_and_reads_as_scoped() {
-        let s = stub_run(&["src/b.rs", "src/c.rs"], None, Some(OUTCOMES), |_| {});
+        let s = stub_run(&["src/b.rs", "src/c.rs"], Some(OUTCOMES), |_| {});
         assert_eq!(s.out.code, 1, "{}", s.out.doc);
         assert_eq!(s.out.doc["mutants"]["verdict"], "scoped");
         assert_eq!(
@@ -657,43 +602,21 @@ mod tests {
             args[at + 2..at + 6],
             ["--file", "src/b.rs", "--file", "src/c.rs"]
         );
-        let written = fs::read_dir(s.ws.artifacts())
-            .into_iter()
-            .flatten()
-            .flatten();
-        assert!(
-            !written
-                .map(|e| e.file_name().to_string_lossy().into_owned())
-                .any(|n| n.starts_with("mutants-verdict-")),
-            "a scoped run wrote a leg verdict"
-        );
 
-        let clean = stub_run(&["src/b.rs"], None, Some(CAUGHT), |_| {});
+        let clean = stub_run(&["src/b.rs"], Some(CAUGHT), |_| {});
         assert_eq!(clean.out.code, 0, "{}", clean.out.doc);
         assert_eq!(clean.out.doc["mutants"]["verdict"], "scoped");
-        let unscoped = stub_run(&[], None, Some(CAUGHT), |_| {});
+        let unscoped = stub_run(&[], Some(CAUGHT), |_| {});
         assert_eq!(unscoped.out.doc["mutants"]["verdict"], "counted");
         assert!(unscoped.out.doc["mutants"].get("files").is_none());
         let (args, _) = unscoped.mutants.expect("ran");
         assert!(!args.contains(&"--file".to_owned()), "{args:?}");
     }
 
-    #[test]
-    fn run_mutants_scoped_with_a_leg_is_a_usage_refusal() {
-        let s = stub_run(&["src/b.rs"], Some("l7"), Some(CAUGHT), |_| {});
-        assert_eq!(s.out.code, 2, "{}", s.out.doc);
-        assert_eq!(
-            s.out.doc,
-            json!({"v": 1, "cmd": "run", "ok": false, "reason": "usage", "detail": "scoped-leg"})
-        );
-        assert!(s.mutants.is_none());
-        assert!(!leg_verdict_path(&s.ws.artifacts(), "l7").exists());
-    }
-
     /// The run's `outcomes.json` is copied into the run archive, outside `target/agent-run/`.
     #[test]
     fn run_mutants_archives_the_outcomes_it_read() {
-        let s = stub_run(&[], None, Some(CAUGHT), |_| {});
+        let s = stub_run(&[], Some(CAUGHT), |_| {});
         assert_eq!(
             s.out.doc["archived"], "target/run-archive/1",
             "{}",
@@ -704,20 +627,8 @@ mod tests {
     }
 
     #[test]
-    fn run_mutants_leg_defers_survivors_to_the_gate_union() {
-        let (_tmp, ws, out) = run_leg(Some("l1"), Some(OUTCOMES));
-        assert_eq!(out.code, 0, "{}", out.doc);
-        assert_eq!(out.doc["mutants"]["leg"], "l1");
-        assert_eq!(suite(&out.doc, "mutants")["survived"], 2);
-        let v: Value = read_json(&leg_verdict_path(&ws.artifacts(), "l1")).expect("verdict");
-        assert_eq!(v["verdict"], "counted");
-        assert_eq!(v["mutants"].as_array().map(Vec::len), Some(4));
-        assert!(!v.to_string().contains("argv"));
-    }
-
-    #[test]
     fn run_mutants_prints_every_outcome_and_bounds_each_build() {
-        let (mutants, _) = stub_run(&[], None, None, |_| {}).mutants.expect("ran");
+        let (mutants, _) = stub_run(&[], None, |_| {}).mutants.expect("ran");
         for flag in ["--caught", "--unviable", "--build-timeout-multiplier=5"] {
             assert!(mutants.contains(&flag.to_owned()), "{flag} in {mutants:?}");
         }
@@ -736,7 +647,6 @@ mod tests {
             flags(false, false, true, false),
             None,
             Some(base),
-            None,
             &mut |cmd: &mut Command| {
                 let args = args_of(cmd);
                 if has(&args, &["build", "--package", "viola"]) {
@@ -772,7 +682,6 @@ mod tests {
             flags(false, false, true, false),
             None,
             Some(base),
-            Some("l1"),
             &mut |cmd: &mut Command| {
                 if has(&args_of(cmd), &["mutants", "--workspace"]) {
                     env = Some(env_of(cmd));
@@ -790,58 +699,11 @@ mod tests {
     }
 
     #[test]
-    fn run_mutants_without_a_leg_keeps_survivors_red() {
-        let (_tmp, _ws, out) = run_leg(None, Some(OUTCOMES));
-        assert_eq!(out.code, 1);
-        assert!(out.doc["mutants"].get("leg").is_none());
-    }
-
-    #[test]
-    fn run_mutants_leg_without_outcomes_stays_red_and_writes_no_verdict() {
-        let (_tmp, ws, out) = run_leg(Some("l1"), None);
-        assert_eq!(out.code, 1);
-        assert_eq!(
-            suite(&out.doc, "mutants")["failures"][0],
-            "outcomes-missing"
-        );
-        assert!(!leg_verdict_path(&ws.artifacts(), "l1").exists());
-    }
-
-    #[test]
-    fn run_mutants_leg_no_rust_delta_writes_its_verdict() {
-        let (_tmp, ws) = mini(GOOD_LIB);
-        let base = head(&ws);
-        fs::write(ws.root.join("README.md"), "docs only\n").expect("write");
-        let out = run_with(
-            &ws,
-            flags(false, false, true, false),
-            None,
-            Some(base),
-            Some("l2"),
-            &mut run_forwarding,
-        );
-        assert_eq!(out.code, 0, "{}", out.doc);
-        assert_eq!(out.doc["mutants"]["leg"], "l2");
-        let v: Value = read_json(&leg_verdict_path(&ws.artifacts(), "l2")).expect("verdict");
-        assert_eq!(v["verdict"], "no-rust-delta");
-    }
-
-    #[test]
-    fn run_mutants_leg_refused_clears_a_stale_verdict() {
-        let (_tmp, ws) = mini(GOOD_LIB);
-        fs::create_dir_all(ws.artifacts()).expect("mkdir");
-        let stale = leg_verdict_path(&ws.artifacts(), "l3");
-        fs::write(&stale, "{}").expect("stale");
-        let out = run_with(
-            &ws,
-            flags(false, false, true, false),
-            None,
-            Some("0".repeat(40)),
-            Some("l3"),
-            &mut run_forwarding,
-        );
-        assert_eq!(out.doc["reason"], "base-missing");
-        assert!(!stale.exists());
+    fn run_mutants_with_survivors_is_red() {
+        let s = stub_run(&[], Some(OUTCOMES), |_| {});
+        assert_eq!(s.out.code, 1, "{}", s.out.doc);
+        assert_eq!(suite(&s.out.doc, "mutants")["survived"], 2);
+        assert_eq!(s.out.doc["mutants"]["verdict"], "counted");
     }
 
     #[test]

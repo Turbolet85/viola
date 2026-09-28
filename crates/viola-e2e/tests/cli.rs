@@ -73,22 +73,18 @@ fn unbuilt_selectors_and_unknown_commands_are_usage() {
 }
 
 #[test]
-fn gate_and_leg_usage_errors_are_exit_2() {
+fn gate_usage_errors_and_the_retired_leg_flags_are_exit_2() {
     for (args, cmd, detail) in [
         (vec!["gate"], "gate", "arguments"),
         (vec!["gate", "--require", "bogus"], "gate", "unknown-suite"),
         (vec!["gate", "--require", "a11y"], "gate", "unknown-suite"),
         (
-            vec!["gate", "--require", "mutants", "--mutants-legs", "a/b"],
+            vec!["gate", "--require", "mutants", "--mutants-legs", "a"],
             "gate",
-            "invalid-leg",
+            "arguments",
         ),
         (vec!["run", "--unit", "--leg", "x"], "run", "arguments"),
-        (
-            vec!["run", "--mutants", "--leg", "../x"],
-            "run",
-            "invalid-leg",
-        ),
+        (vec!["run", "--mutants", "--leg", "x"], "run", "arguments"),
     ] {
         let out = harness(&args);
         assert_eq!(out.status.code(), Some(2), "{args:?}");

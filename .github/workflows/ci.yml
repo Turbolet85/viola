@@ -156,7 +156,7 @@ jobs:
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: harness-${{ matrix.os }}
-          # The secret scan skips the mutation leg's diff (repository source), so it never ships.
+          # The secret scan skips `run --mutants`' diff (repository source), so it never ships.
           path: |
             target/agent-run/
             !target/agent-run/chunk.diff
@@ -257,70 +257,6 @@ jobs:
         if: always()
         shell: bash
         run: bash scripts/agent-run.sh gate --require perf
-
-  # One leg per OS: cargo-mutants cannot compile another OS's #[cfg] bodies, so each leg misses
-  # them; mutants-verdict judges each mutant only on the legs that compile its line (read from the
-  # source's #[cfg]s; every leg when none does): red when none of them caught it and one missed it.
-  mutants:
-    name: mutants (${{ matrix.os }})
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 360
-    permissions:
-      contents: read
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-2025]
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-      - name: Toolchain (rust-toolchain.toml)
-        run: rustup toolchain install
-      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
-      - uses: taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5 # v2.87.19
-        with:
-          tool: cargo-nextest@0.9.146,cargo-mutants@27.1.0
-      # The harness derives the base from the master route's history (the last flip before the
-      # chunk's first operator pre-CI commit), so every push of an operator pass mutates the whole chunk.
-      - name: Mutation leg (whole chunk)
-        shell: bash
-        env:
-          LEG: ${{ matrix.os }}
-        run: bash scripts/agent-run.sh run --mutants --leg "$LEG"
-      # Names and outcomes only: cargo-mutants' raw output carries absolute argv paths and test output.
-      - name: Upload leg verdict
-        if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: mutants-verdict-${{ matrix.os }}
-          path: target/agent-run/artifacts/mutants-verdict-${{ matrix.os }}.json
-          retention-days: 7
-          if-no-files-found: warn
-
-  mutants-verdict:
-    name: mutants-verdict
-    needs: mutants
-    if: always()
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - name: Toolchain (rust-toolchain.toml)
-        run: rustup toolchain install
-      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
-      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
-        with:
-          pattern: mutants-verdict-*
-          merge-multiple: true
-          path: target/agent-run/artifacts
-      - name: Gate verdict (union of the legs)
-        shell: bash
-        run: bash scripts/agent-run.sh gate --require mutants --mutants-legs ubuntu-latest,windows-2025
 
   msrv:
     name: msrv

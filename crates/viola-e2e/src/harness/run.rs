@@ -1,5 +1,5 @@
 //! `run`: the built suites (unit · integration · doctest · coverage · browser · fuzz-replay · perf)
-//! and the per-chunk mutation gate, one JSON summary, merged by suite into
+//! and the mutation arm kept for the epoch-boundary audit, one JSON summary, merged by suite into
 //! `target/agent-run/artifacts/run-summary.json` (test-plan §3 `run`).
 
 mod browser;
@@ -23,10 +23,9 @@ use super::{Outcome, Workspace, read_json, write_json};
 pub use coverage::{COVERAGE_FLOORS, COVERAGE_IGNORE};
 pub use doctest::parse_doctest;
 pub use fuzz::{FUZZ_HOST_SUPPORTED, fuzz_channel};
-pub(super) use mutants::host_scratch_bytes;
 pub use mutants::{
-    chunk_diff, diff_files, diff_paths, leg_verdict, leg_verdict_path, mutants_exit_reason,
-    mutants_suite, resolve_base, rust_delta,
+    chunk_diff, diff_files, diff_paths, mutants_exit_reason, mutants_suite, resolve_base,
+    rust_delta,
 };
 pub use nextest::parse_junit;
 pub use perf::ROWS as PERF_ROWS;
@@ -48,15 +47,15 @@ pub struct Selection {
 }
 
 impl Selection {
-    /// No selector, or `--all`, selects unit, integration and mutants. `--coverage` replaces the
-    /// nextest runs, `--fuzz-replay` is Linux-only, `--browser` needs Node and Chromium and `--perf`
-    /// needs hyperfine and a release build, so none of them joins the default.
+    /// No selector, or `--all`, selects unit and integration. `--coverage` replaces the nextest
+    /// runs, `--fuzz-replay` is Linux-only, `--browser` needs Node and Chromium, `--perf` needs
+    /// hyperfine and a release build, and `--mutants` is the epoch-boundary audit's, so none of them
+    /// joins the default.
     pub fn from_flags(named: Selection, all: bool) -> Self {
         let none = named == Selection::default();
         Self {
             unit: named.unit || all || none,
             integration: named.integration || all || none,
-            mutants: named.mutants || all || none,
             ..named
         }
     }
@@ -94,7 +93,7 @@ pub fn run(
     filter: Option<&str>,
     chunk_base: Option<String>,
 ) -> Outcome {
-    run_with(ws, sel, filter, chunk_base, None, &mut run_forwarding)
+    run_with(ws, sel, filter, chunk_base, &mut run_forwarding)
 }
 
 /// A tool arm that tested nothing: the document's `reason` and an optional `detail`.
@@ -113,29 +112,22 @@ impl Refusal {
     }
 }
 
-/// `leg` names a mutation leg whose verdict the `gate` union decides (`--mutants --leg`).
 pub fn run_with(
     ws: &Workspace,
     sel: Selection,
     filter: Option<&str>,
     chunk_base: Option<String>,
-    leg: Option<&str>,
     runner: &mut Runner<'_>,
 ) -> Outcome {
     if sel.fuzz_replay && !FUZZ_HOST_SUPPORTED {
         let doc = json!({"v": 1, "cmd": "run", "ok": false, "reason": "fuzz-linux-only"});
         return Outcome { doc, code: 2 };
     }
-    // A scoped run is never a leg: the union must never read an inner loop's verdict.
-    if !sel.files.is_empty() && leg.is_some() {
-        return Outcome::usage(Some("run"), "scoped-leg");
-    }
     let (mut suites, browser_refusal) = test_suites(ws, &sel, filter, runner);
     let (tool_refusal, mutants_doc, outcomes) =
-        tool_arms(ws, &sel, chunk_base, leg, runner, &mut suites);
+        tool_arms(ws, &sel, chunk_base, runner, &mut suites);
     let refusal = browser_refusal.or(tool_refusal);
-    let deferred = |s: &Suite| leg.is_some() && s.suite == "mutants" && s.failed == s.survived;
-    let ok = refusal.is_none() && suites.iter().all(|s| s.green() || deferred(s));
+    let ok = refusal.is_none() && suites.iter().all(Suite::green);
     let _ = merge_summary(&ws.artifacts().join("run-summary.json"), &suites);
     let archived = archive(ws, &archive_sources(&suites, outcomes));
     let mut doc = document(ok, refusal, &suites, mutants_doc);
@@ -277,12 +269,11 @@ fn test_suites(
     (suites, refusal)
 }
 
-/// Fuzz replay, the perf rows, then the mutation gate, each unless a refusal came first.
+/// Fuzz replay, the perf rows, then the mutation arm, each unless a refusal came first.
 fn tool_arms(
     ws: &Workspace,
     sel: &Selection,
     chunk_base: Option<String>,
-    leg: Option<&str>,
     runner: &mut Runner<'_>,
     suites: &mut Vec<Suite>,
 ) -> (Option<Refusal>, Option<Value>, Option<PathBuf>) {
@@ -303,7 +294,7 @@ fn tool_arms(
     let mut mutants_doc = None;
     let mut outcomes = None;
     if sel.mutants && refusal.is_none() {
-        match mutants::mutants(ws, chunk_base, leg, &sel.files, runner) {
+        match mutants::mutants(ws, chunk_base, &sel.files, runner) {
             Ok((suite, doc, read)) => {
                 suites.push(suite);
                 mutants_doc = Some(doc);
@@ -610,16 +601,21 @@ mod tests {
     }
 
     #[test]
-    fn selection_defaults_to_unit_integration_and_mutants() {
-        let all = Selection {
+    fn selection_defaults_to_unit_and_integration_without_mutants() {
+        let default = Selection {
             unit: true,
             integration: true,
-            mutants: true,
             ..Selection::default()
         };
-        assert_eq!(flags(false, false, false, false), all);
-        assert_eq!(flags(false, false, false, true), all);
-        assert_eq!(flags(true, false, true, true), all);
+        assert_eq!(flags(false, false, false, false), default);
+        assert_eq!(flags(false, false, false, true), default);
+        assert_eq!(
+            flags(true, false, true, true),
+            Selection {
+                mutants: true,
+                ..default
+            }
+        );
     }
 
     #[test]
@@ -653,8 +649,8 @@ mod tests {
             },
             true,
         );
-        assert!(with_all.unit && with_all.integration && with_all.mutants && with_all.coverage);
-        assert!(!with_all.fuzz_replay);
+        assert!(with_all.unit && with_all.integration && with_all.coverage);
+        assert!(!with_all.mutants && !with_all.fuzz_replay);
     }
 
     #[test]

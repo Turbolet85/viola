@@ -8,7 +8,7 @@ use std::process::ExitCode;
 use clap::{Args, Parser, Subcommand};
 use viola_e2e::harness::boot::{BootOptions, DEFAULT_CLI_VERSION, InstanceSpec, boot};
 use viola_e2e::harness::cleanup::{Target, cleanup};
-use viola_e2e::harness::gate::{gate, parse_legs, parse_require};
+use viola_e2e::harness::gate::{gate, parse_require};
 use viola_e2e::harness::logs::{Query, query};
 use viola_e2e::harness::pre_push::{PRE_PUSH_HOST_SUPPORTED, pre_push};
 use viola_e2e::harness::run::{Selection, run_forwarding, run_with};
@@ -16,7 +16,7 @@ use viola_e2e::harness::schema_check::schema_check;
 use viola_e2e::harness::secret_scan::secret_scan;
 use viola_e2e::harness::status::status;
 use viola_e2e::harness::supervise::supervise;
-use viola_e2e::harness::{Outcome, Workspace, valid_session_id};
+use viola_e2e::harness::{Outcome, Workspace};
 
 #[derive(Parser)]
 #[command(name = "viola-harness")]
@@ -67,8 +67,6 @@ enum Cmd {
         require: String,
         #[arg(long)]
         artifacts: Option<PathBuf>,
-        #[arg(long)]
-        mutants_legs: Option<String>,
     },
     PrePush,
 }
@@ -93,9 +91,6 @@ struct RunArgs {
     all: bool,
     #[arg(long)]
     filter: Option<String>,
-    /// A mutation leg whose verdict the `gate` union decides.
-    #[arg(long, requires = "mutants")]
-    leg: Option<String>,
     /// Scopes the mutation run to this source (repeatable): the inner loop, never a verdict.
     #[arg(long = "file", requires = "mutants")]
     files: Vec<String>,
@@ -145,9 +140,6 @@ fn boot_cmd(
 }
 
 fn run_cmd(ws: &Workspace, args: RunArgs) -> ExitCode {
-    if args.leg.as_deref().is_some_and(|l| !valid_session_id(l)) {
-        return emit(Outcome::usage(Some("run"), "invalid-leg"));
-    }
     let named = Selection {
         unit: args.unit,
         integration: args.integration,
@@ -163,7 +155,6 @@ fn run_cmd(ws: &Workspace, args: RunArgs) -> ExitCode {
         Selection::from_flags(named, args.all),
         args.filter.as_deref(),
         std::env::var("AGENT_RUN_CHUNK_BASE").ok(),
-        args.leg.as_deref(),
         &mut run_forwarding,
     ))
 }
@@ -191,22 +182,12 @@ fn logs_cmd(ws: &Workspace, session: &str, filter: &Query<'_>) -> ExitCode {
     }
 }
 
-fn gate_cmd(
-    ws: &Workspace,
-    require: &str,
-    artifacts: Option<PathBuf>,
-    mutants_legs: Option<&str>,
-) -> ExitCode {
+fn gate_cmd(ws: &Workspace, require: &str, artifacts: Option<PathBuf>) -> ExitCode {
     let Some(require) = parse_require(require) else {
         return emit(Outcome::usage(Some("gate"), "unknown-suite"));
     };
-    let legs = match mutants_legs.map(parse_legs) {
-        Some(None) => return emit(Outcome::usage(Some("gate"), "invalid-leg")),
-        Some(Some(legs)) => Some(legs),
-        None => None,
-    };
     let artifacts = artifacts.unwrap_or_else(|| ws.artifacts());
-    emit(gate(&artifacts, &ws.root, &require, legs.as_deref()))
+    emit(gate(&artifacts, &require))
 }
 
 fn main() -> ExitCode {
@@ -248,11 +229,7 @@ fn main() -> ExitCode {
         Cmd::Supervise { session } => ExitCode::from(supervise(&ws, &session).code),
         Cmd::SchemaCheck => emit(schema_check(&ws)),
         Cmd::SecretScan => emit(secret_scan(&ws)),
-        Cmd::Gate {
-            require,
-            artifacts,
-            mutants_legs,
-        } => gate_cmd(&ws, &require, artifacts, mutants_legs.as_deref()),
+        Cmd::Gate { require, artifacts } => gate_cmd(&ws, &require, artifacts),
         Cmd::PrePush => emit(pre_push(&ws, PRE_PUSH_HOST_SUPPORTED, &mut run_forwarding)),
     }
 }
