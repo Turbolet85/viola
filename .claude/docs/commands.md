@@ -24,7 +24,8 @@ _The workspace, `rust-toolchain.toml`, `.config/nextest.toml`, `viola-harness` a
 - `viola run <name> -- claude [args]` — wrap a live session (Windows live target)
 - `viola run <name> --home <dir> -- <fake agent> <args>` — wrap the fake agent in an isolated home
 - `viola ui [--port <n>]` — serve the view-only page on 127.0.0.1 (prints the launch line once to stderr)
-- `viola verify` — run the live probe suite against the real CLI and stamp the version (local only; spends tokens)
+- `viola verify [--record <dir>] [-- <program> [args…]]` — drive one print-mode probe (Haiku) against the CLI (default `claude`), check the six ledger rows, print `[NN/06]` step lines + the `stamped <ver>  <n> pass  <m> fail` summary on stdout and write `ledger/stamps.json`; exit 1 on a failing row. `--record <dir>` also writes the scrubbed `<dir>/<ver>/<Event>.default.json` fixtures when 0 rows fail. Against the real CLI: local only, spends tokens; CI runs it only against the fake agent's `-p/--print` mode
+- Stamps file: `ledger/stamps.json` in the Ledger stamps envelope `{"v":1,"written_at","writer":"verify","data":{"versions":{"<ver>":{"verified_at","rows":{…},"measured":{…}}}}}` (arch §Standard Contracts); a version is verified only when every row reads `pass`
 
 ## Harness (the agent's 5 commands — `scripts/agent-run.sh` / `scripts/agent-run.ps1`)
 - `boot [--session <id>] [--instance <name>[:<args>]]... [--ui] [--unstamped] [--cli-version <ver>] [--agents-mode recorded|oversize|malformed] [--statusline-echo]` — build, create a home, stamp via `viola verify` against the fake agent, start wrappers (+ UI), wait for readiness

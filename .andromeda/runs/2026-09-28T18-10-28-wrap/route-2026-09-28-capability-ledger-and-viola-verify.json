@@ -1,0 +1,125 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "db3af704",
+"ts": "2026-09-28T19:40:00Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-09-28-capability-ledger-and-viola-verify",
+"--run-dir",
+".andromeda/runs/2026-09-28T18-10-28-wrap"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"flip master-route.md:31 - 2026-09-28-capability-ledger-and-viola-verify pending -> complete"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "db3af704",
+"ts": "2026-09-28T19:40:00Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-09-28-capability-ledger-and-viola-verify",
+"--date",
+"2026-09-28",
+"--run-dir",
+".andromeda/runs/2026-09-28T18-10-28-wrap",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"pin :53 strip CARRY: 463ch \"CARRY: chunk 2026-09-24-fake-agent-and-t\"",
+"pin :53 strip CARRY: 391ch \"CARRY: chunk 2026-09-27-hooks-to-normali\"",
+"pin :53 strip CARRY: 525ch \"CARRY: chunk 2026-09-24-log-redaction-an\"",
+"pin :53 strip CARRY: 847ch \"CARRY: chunk 2026-09-27-browser-verdict-\"",
+"pin :53 strip CARRY: 508ch \"CARRY: chunk 2026-09-28-cli-output-token\"",
+"pin next markerless :55 holds CARRY:×5",
+"53 · 2026-09-28-capability-ledger-and-viola-verify · strip 5 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 53,
+"marker": "2026-09-28-capability-ledger-and-viola-verify",
+"blocks": 5,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "db3af704",
+"ts": "2026-09-28T19:40:08Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-09-28-capability-ledger-and-viola-verify",
+"--date",
+"2026-09-28",
+"--run-dir",
+".andromeda/runs/2026-09-28T18-10-28-wrap"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"pin :53 strip CARRY: 463ch \"CARRY: chunk 2026-09-24-fake-agent-and-t\"",
+"pin :53 strip CARRY: 391ch \"CARRY: chunk 2026-09-27-hooks-to-normali\"",
+"pin :53 strip CARRY: 525ch \"CARRY: chunk 2026-09-24-log-redaction-an\"",
+"pin :53 strip CARRY: 847ch \"CARRY: chunk 2026-09-27-browser-verdict-\"",
+"pin :53 strip CARRY: 508ch \"CARRY: chunk 2026-09-28-cli-output-token\"",
+"pin next markerless :55 holds CARRY:×5",
+"53 · 2026-09-28-capability-ledger-and-viola-verify · strip 5 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+".\\viola-0.1.0\\route-archive.md",
+".\\viola-0.1.0\\working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 53,
+"marker": "2026-09-28-capability-ledger-and-viola-verify",
+"blocks": 5,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

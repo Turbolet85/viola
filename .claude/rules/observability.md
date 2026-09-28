@@ -34,7 +34,9 @@ Path-scoped rules for product code that logs, spans or handles errors. Authorita
 
 ## Panics and errors
 - `panic = "unwind"` in every profile (gate G3). The panic hook writes one line to the role file (no stderr, never the default hook); `catch_unwind` at the main-thread catch site, around `hook` dispatch, the `run` pump and handle-wait threads, and the vt100 feed.
-- `hook` → exit 0, empty stdout; `cli` → exit 1 `error: internal error`; `run` → `process-exit{detail:"internal-error"}`; `mcp`/`ui` main-thread → exit 1.
+- `hook` → exit 0, empty stdout; `cli` → `process-exit{detail:"internal-error"}` when an instance resolves, then exit 1 with exactly `error: internal error` (no hint); `run` → `process-exit{detail:"internal-error"}`; `mcp`/`ui` main-thread → exit 1.
+- The detail-line `backtrace` is raw, never-symbolised frames (`src/panic_frames.rs`: `0x<ip> <module path> base=0x<base> +0x<offset>`, up to 62) — symbolising cost 351 of a 403 ms hook run on the Windows runner; never call `Backtrace::force_capture().to_string()` in a panic path.
+- The hidden `hook --capture` arm does no obs init and writes no line (a bounded panic-line exemption, obs-plan §10).
 - No per-byte or per-line logging in hot loops (PTY pump, notify tail); no line per heartbeat tick or SSE keep-alive — transitions only.
 
 ## Session Additions

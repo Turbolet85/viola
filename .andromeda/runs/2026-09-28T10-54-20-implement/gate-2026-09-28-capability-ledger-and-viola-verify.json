@@ -4191,5 +4191,61 @@
 }
 ]
 }
+},
+{
+"tool": "gate",
+"v": "1.4",
+"sha8": "4a57daca",
+"ts": "2026-09-28T18:09:46Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-09-28-capability-ledger-and-viola-verify",
+"--run-dir",
+".andromeda/runs/2026-09-28T10-54-20-implement",
+"--marker",
+"2026-09-28-capability-ledger-and-viola-verify"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\viola · base 9b4f6f47 (the parent of the oldest pre-CI commit 01f22aab) · lists new 7 · modify 12 · derived 1 · record 7",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"recorded in-intent tests/support/verify.rs",
+"recorded companion tests/support/mod.rs",
+"recorded companion tests/run_cli.rs",
+"recorded companion tests/contract_diag_schema.rs",
+"recorded in-intent src/panic_frames.rs",
+"recorded mechanical Cargo.lock",
+"recorded in-intent crates/viola-e2e/src/harness/run/mutants.rs",
+"list fixtures/claude/*/*.json (derived by `viola verify --record fixtures/claude`) ×4",
+"scope: clean — changed 30 · listed 23 · recorded 7 (companion 3 · mechanical 1 · in-intent 3 · widening 0) · absorbed 4 · excluded 41"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\viola",
+"base": "9b4f6f4772a00ddcb3cb17d3b0c102ebe756dd5d",
+"base_why": "the parent of the oldest pre-CI commit 01f22aab",
+"counts": {
+"changed": 30,
+"listed": 23,
+"recorded": 7,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 4
+},
+"by_class": {
+"companion": 3,
+"mechanical": 1,
+"in-intent": 3,
+"widening": 0
+},
+"excluded": 41,
+"unparsed": 0,
+"widening_without_word": 0
+}
 }
 ]

@@ -46,7 +46,7 @@ This project uses the Andromeda pipeline for architecture, planning, and impleme
 ## Verification discipline
 - Every gate is agent-runnable with a machine-readable verdict: nextest JUnit, Playwright JSON, `mutants.out/outcomes.json` (locally; in the host mutation scratch on Windows, each run's copy archived in `target/run-archive/`) and the per-leg `mutants-verdict-<leg>.json` (CI), hyperfine JSON, llvm-cov JSON, one harness JSON document per command, and `viola-harness gate` as the one verdict per CI job.
 - CI (three OSes) is the authority for OS-specific code: a Linux-only or Windows-only local run is not proof for the other OSes.
-- The real `claude` CLI runs only locally (`agent-run run --local-live`, `viola verify`); CI uses the fake agent and recorded fixtures. Changed real-CLI behaviour means a local fixture refresh + the contract suite.
+- The real `claude` CLI runs only locally (`agent-run run --local-live`, `viola verify` / `verify --record` against it); CI uses the fake agent (including `viola verify` against its print mode) and recorded fixtures. Changed real-CLI behaviour means a local fixture refresh + the contract suite.
 - Zero flakes: a flaky test keeps the chunk red until the root cause is fixed in that chunk.
 
 ## Code review

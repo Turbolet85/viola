@@ -189,3 +189,28 @@
 **Change:** the `perf` job (`contents: read`) installs hyperfine with `cargo install --locked hyperfine@1.20.0` as its own step (no new action, no `github.event` value), runs `agent-run run --perf`, then G2, G4 and its own `secret-scan`; `perf-<os>` and `diag-perf-<os>` upload only on a successful scan, `secret-scan-perf-<os>` only on a failed one; every input is synthetic.
 **Why:** an expected amendment no detector raised (Validate check 5); the uploads are the existing scan-gated, synthetic-input class (the operator's ruling, recorded in the obs sidecar).
 **Ref:** .andromeda/runs/2026-09-28T07-37-52-wrap/
+
+## 2026-09-28-capability-ledger-and-viola-verify — `run`'s and `verify`'s stamps reads before strict-modes, a ratified interim gap until Epoch 6
+**Section:** Authentication & Authorization `~/.viola/` access control (Strict-modes check); Input Validation rows CLI arguments / stdin (Home path) and Own state files on read (Integrity); Security Decisions Log (new `2026-09-28` stamps-read + capture-arm entry)
+**Change:**
+- A second interim gap beside `hook`'s: `viola run`'s version gate reads `ledger/stamps.json` through `read_stamps` (no lock, `take(MAX_FRAME + 1)`, over the cap an error; unreadable or malformed → one `parse-rejected{parser:"ledger-stamps"}` WARN and `cli_verified:false`), and `viola verify`'s `update_stamps` reads the current bytes for its locked read-modify-write, both without the home strict-modes check, until "Home and code-bearing file integrity" (Epoch 6) adds both to the entry-point set.
+- The Decisions Log entry records both widenings of this chunk (this gap and the capture arm), their conditions and witness (ci#36460408121 on `6486276`).
+**Why:** no process runs the strict-modes check yet (Epoch 6 owns it), and a bad stamps file only degrades `run` to unverified. The founder ratified `run`'s read live at 2026-09-28 12:39:40 and its extension to `verify`'s read at 20:24:32, each after it was shown (relay: the Viola overseer). A non-`null` dialog decision still needs strict-modes on `run`'s stamps read first (PREREQ on "Dialog answers by dialog_id").
+**Ref:** .andromeda/runs/2026-09-28T18-10-28-wrap/
+
+## 2026-09-28-capability-ledger-and-viola-verify — the hidden `hook --capture` arm, verify's probe captures and the fixture scrub
+**Section:** Input Validation rows Hook stdin (capture arm) and CLI arguments / stdin (hook sentence); Error Handling (hook bullet); Data Protection At rest (Probe captures) and Repository fixtures
+**Change:**
+- `hook <event> --capture <DIR>` (only `verify`'s probe plugin calls it): an absolute, existing `<DIR>`; stdin through `take(MAX_FRAME + 1)`, written raw and unparsed via `replace_private` (0600) to the first free `<DIR>/<PascalEvent>.<k>.json`, `k` over `1..=n+1`; no `VIOLA_*` read, no obs init, no channel; every failure writes nothing; exit 0 with empty stdout and stderr. The hook's `VIOLA_NAME`/`VIOLA_DIR` shape checks and one-object parse hold for its event path only.
+- Probe captures are transient content-bearing 0600 files under the 0700 `ledger/probes/<pid>/`, removed whole by a drop guard on every exit path of `verify`.
+- `verify --record` scrubs every string and key (home → `~`, both separator spellings, case-folded on Windows; the user word → `<user>`) and refuses the whole recording, nothing written, when a drive path, `/home/`, `/Users/`, `\Users\` or the user word survives.
+**Why:** a boundary widening (a new `hook` crossing: a raw payload written to an argv-named directory), ratified live by the founder at 2026-09-28 20:24:32 after it was shown (relay: the Viola overseer). It avoids a new channel method or an env-var switch, runs as the same user through the pinned exe, and no other caller may register it.
+**Ref:** .andromeda/runs/2026-09-28T18-10-28-wrap/
+
+## 2026-09-28-capability-ledger-and-viola-verify — `MAX_FRAME` consumers extended, verify's CI split
+**Section:** Input Validation Constants; Bootstrap phases (CI/CD, "run only locally")
+**Change:**
+- `MAX_FRAME` also bounds the `--version` reads of `run`'s gate and `viola verify` (stdout and stderr drained through the cap, killed at 5 s), the `hook --capture` stdin, and the `ledger/stamps.json` read (`take(MAX_FRAME + 1)`: over the cap reads as absent in `update_stamps`, an error in `read_stamps`).
+- "The real `claude` CLI and `viola verify` run only locally" is now: the real CLI runs only locally; `verify` runs in CI only against the fake agent, its real-CLI probe and `--record` only locally.
+**Why:** the chunk's new readers are capped as §Input Validation requires; only the list was stale. The CI line cited architecture's CI/CD note, amended in the same pass.
+**Ref:** .andromeda/runs/2026-09-28T18-10-28-wrap/

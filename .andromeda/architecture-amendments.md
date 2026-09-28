@@ -269,3 +269,41 @@
 - The root bin's only human-stderr writer is `src/human.rs` (`write_refusal`, one `write_all`; `refuse`, locked stderr, result dropped), called only by `run`'s five start refusals, squatted endpoint included (was "one `refuse` helper with `writeln!`", four kinds); `src/human.rs` joins the directory tree.
 **Why:** the sentence was false at c04e332 through clap's `color` (as measured at research F1: `CLICOLOR_FORCE=1 viola --help` into a pipe, 25 ESC bytes); the chunk shipped the feature change and the writer (report Changes; ci#36404931982 green).
 **Ref:** .andromeda/runs/2026-09-28T09-46-16-wrap/
+
+## 2026-09-28-capability-ledger-and-viola-verify — the six landed ledger rows, `viola verify`'s probe, the stamps envelope and their registry rows
+**Section:** Established Decisions [CLI Version Compatibility]; §Standard Contracts (new Ledger stamps envelope); §Occupied Resources Binary, Claude Code integration names, Filesystem (`ledger/stamps.json`, `ledger/probes/`, `diagnostics/`), Repository; §Infrastructure Patterns CI/CD approach and Project directory structure (`schemas/`)
+**Change:**
+- The ledger (`viola_agent_claude::ledger`, closed) holds six landed rows: `shim-resolution` · `spine-hooks` · `session-start-fields` · `prompt-verbatim` · `stop-message` · `largest-hook-payload`; a version is verified only when every landed row reads `pass`. The other listed rows land with named owners (screen signatures → readiness gate; local commands → confirmed send; S3/S7/S8 + dialog concurrency → dialog answers; long-paste, tag escaping, harness prefixes, R8 floor → first live test; statusline, `agents --json` join, plugin precedence → Epochs 4/5).
+- `viola verify [--record <DIR>] [-- <program> [args…]]` drives ONE print-mode probe (`-p … --model haiku --plugin-dir <probe>/plugin --no-session-persistence`, 120 s) through the `viola-verify-probe` plugin; a failing row still stamps and exits 1; `--record` writes scrubbed `<Event>.default.json` fixtures only at 0 fail. `--version` is read with no user args, drained through `MAX_FRAME`, killed at 5 s; first line exactly `X.Y.Z (Claude Code)`.
+- Stamps envelope `{"v":1,"written_at","writer":"verify","data":{"versions":{…}}}`: per-version `rows` + `measured`; merge keeps unknown versions and fields; wrong shape replaced whole.
+- Registered: verify's usage; the hidden `hook --capture` flag; the fake agent's `-p/--print`; the probe plugin and its child flags; `ledger/probes/<pid>/` (0700, drop guard) with 0600 transient captures; `stamps.json` modes and its one writer `update_stamps` / lock-free `read_stamps`; `cli-<name>.ndjson` produced by `verify`; `schemas/claude-fixture.v1.json` and the recorded fixture shape (first set 2.1.283).
+- "The real `claude` CLI and `viola verify` run only locally" is now: the real CLI runs only locally; `verify` runs in CI against the fake agent's print mode.
+**Why:** the chunk landed the ledger, the verb, the stamps writer and the first recorded set (CI ci#36460408121 green on `6486276`; live recording `stamped 2.1.283  6 pass  0 fail`).
+**Ref:** .andromeda/runs/2026-09-28T18-10-28-wrap/
+
+## 2026-09-28-capability-ledger-and-viola-verify — the version gate placed and split by crate, `src/human.rs` shared with `verify`, raw panic frames' dependencies
+**Section:** Established Decisions [Session Liveness], [Agent Coverage]; §Conventions CLI exit codes; §Infrastructure Patterns Build system (lint bullet), Crate dependency direction (viola-agent-claude, root bin), Project directory structure (`human.rs`)
+**Change:**
+- `run` start order as landed: program resolution → strip plan → collision → pinned copy and plugin → version gate (`run::version_gate`: a `version-probe` start/exit pair, the stamps read, `cli_version`/`cli_verified` into the first snapshot and the `claude-child` `process-start`, nothing printed) → bind → snapshot → heartbeat → start events → spawn (was "only the version gate has none").
+- The version gate is split: Claude parsing, rows, stamp merge/verdict and scrub in the pure `viola-agent-claude` (no `viola-state` dependency); the spawn in root `run::version_gate`; stamps I/O in `viola_state::stamps` (was "the CLI version gate live[s] only in `viola-agent-claude`").
+- Exit `1` also covers a `verify` failing row, verify's four `unable:`/`hint:` refusals plus run's pinned-copy refusal, and the `cli` role's exact `error: internal error`.
+- `src/human.rs` adds `write_internal_error`/`internal_error` and the stdout `write_result`/`result`; its callers are `run`'s start refusals and `viola verify` (was "only caller is the `viola run` start refusals").
+- The root bin also takes windows-sys `Win32_System_Diagnostics_Debug` + `Win32_System_LibraryLoader` and libc `=0.2.189` (Unix) for `src/panic_frames.rs`.
+**Why:** the report's Symbols and Dependencies (both crates already in §Stack; `cargo deny check` green).
+**Kept:** the 2026-09-28-cli-output-tokens entry's clap facts stand; only its "called only by `run`" clause is retired here, so it is not superseded whole.
+**Ref:** .andromeda/runs/2026-09-28T18-10-28-wrap/
+
+## 2026-09-28-capability-ledger-and-viola-verify — the hidden `hook --capture` arm and verify's probe session, founder-ratified exceptions
+**Section:** Established Decisions [Hook Contract], [Plugin Scope]; §Occupied Resources Environment variables (`VIOLA_NAME`)
+**Change:**
+- [Hook Contract]: `hook` exits 0 at once when `VIOLA_NAME` is absent, except the hidden `hook <event> --capture <DIR>` arm (called only by `verify`'s probe plugin): no `VIOLA_*` read, no obs init, no channel; an absolute existing `<DIR>`, stdin through `take(MAX_FRAME + 1)`, a raw 0600 write to the first free `<DIR>/<PascalEvent>.<k>.json` (`k` across events); every failure writes nothing; exit 0 with empty streams always.
+- [Plugin Scope]: unwrapped sessions carry no viola hooks, except `verify`'s transient `claude -p` probe, which loads only `viola-verify-probe` from `ledger/probes/<pid>/plugin/`, removed when `verify` ends.
+- `VIOLA_NAME`'s absence makes every hook EVENT path a silent exit 0 (was "every hook").
+**Why:** a boundary widening, ratified live by the founder on 2026-09-28 at 20:24:32 after the arm was shown (relay: the Viola overseer); recorded in security-plan's Decisions Log. No other caller may register the arm.
+**Ref:** .andromeda/runs/2026-09-28T18-10-28-wrap/
+
+## 2026-09-28-capability-ledger-and-viola-verify — `StampError` named as an interim divergence from one enum per crate
+**Section:** Established Decisions [Error Handling]; §Conventions Rust error types; Inherited Defaults (Errors)
+**Change:** the one-enum-per-crate rule stands with its one exception (`PtyError`); `viola-agent-claude`'s `StampError` (`Malformed`, the stamps envelope) beside `AgentError` is named as an interim divergence, not an exception, which the "Verify-stamped test homes and harness" route entry folds into `AgentError`.
+**Why:** the chunk landed a second enum where the plan read both ways; the overseer ruled at this wrap that the locked rule stands and the fold rides the route (a CARRY on that entry).
+**Ref:** .andromeda/runs/2026-09-28T18-10-28-wrap/

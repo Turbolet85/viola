@@ -1,0 +1,511 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "49608d7a",
+"ts": "2026-09-28T18:28:00Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan.md",
+"--payload-file",
+".andromeda/runs/2026-09-28T18-10-28-wrap/security-decisions-entry.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-09-28T18-10-28-wrap",
+"--marker",
+"2026-09-28-capability-ledger-and-viola-verify"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append security-plan.md:+10 at line 740 · lines 739→749 · bytes 135500→138258 · term lf",
+"last line now: - **By:** the founder (live ratifications, relay: the Viola overseer): the stamp"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan.md"
+],
+"before": {
+"lines": 739,
+"bytes": 135500,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 749,
+"bytes": 138258
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "49608d7a",
+"ts": "2026-09-28T18:35:17Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-28T18-10-28-wrap/architecture-entry-1.md",
+"--lines",
+"11",
+"--run-dir",
+".andromeda/runs/2026-09-28T18-10-28-wrap",
+"--marker",
+"2026-09-28-capability-ledger-and-viola-verify"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+11 at line 272 · lines 271→282 · bytes 41395→43924 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-28T18-10-28-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 271,
+"bytes": 41395,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 282,
+"bytes": 43924
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "49608d7a",
+"ts": "2026-09-28T18:35:17Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-28T18-10-28-wrap/architecture-entry-2.md",
+"--lines",
+"12",
+"--run-dir",
+".andromeda/runs/2026-09-28T18-10-28-wrap",
+"--marker",
+"2026-09-28-capability-ledger-and-viola-verify"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+12 at line 283 · lines 282→294 · bytes 43924→45913 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-28T18-10-28-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 282,
+"bytes": 43924,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 294,
+"bytes": 45913
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "49608d7a",
+"ts": "2026-09-28T18:35:17Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-28T18-10-28-wrap/architecture-entry-3.md",
+"--lines",
+"9",
+"--run-dir",
+".andromeda/runs/2026-09-28T18-10-28-wrap",
+"--marker",
+"2026-09-28-capability-ledger-and-viola-verify"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+9 at line 295 · lines 294→303 · bytes 45913→47188 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-28T18-10-28-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 294,
+"bytes": 45913,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 303,
+"bytes": 47188
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "49608d7a",
+"ts": "2026-09-28T18:35:17Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-28T18-10-28-wrap/architecture-entry-4.md",
+"--lines",
+"6",
+"--run-dir",
+".andromeda/runs/2026-09-28T18-10-28-wrap",
+"--marker",
+"2026-09-28-capability-ledger-and-viola-verify"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+6 at line 304 · lines 303→309 · bytes 47188→47974 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-28T18-10-28-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 303,
+"bytes": 47188,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 309,
+"bytes": 47974
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "49608d7a",
+"ts": "2026-09-28T18:35:18Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-28T18-10-28-wrap/security-plan-entry-1.md",
+"--lines",
+"8",
+"--run-dir",
+".andromeda/runs/2026-09-28T18-10-28-wrap",
+"--marker",
+"2026-09-28-capability-ledger-and-viola-verify"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+8 at line 192 · lines 191→199 · bytes 27296→28848 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-28T18-10-28-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 191,
+"bytes": 27296,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 199,
+"bytes": 28848
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "49608d7a",
+"ts": "2026-09-28T18:35:18Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-28T18-10-28-wrap/security-plan-entry-2.md",
+"--lines",
+"9",
+"--run-dir",
+".andromeda/runs/2026-09-28T18-10-28-wrap",
+"--marker",
+"2026-09-28-capability-ledger-and-viola-verify"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+9 at line 200 · lines 199→208 · bytes 28848→30486 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-28T18-10-28-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 199,
+"bytes": 28848,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 208,
+"bytes": 30486
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "49608d7a",
+"ts": "2026-09-28T18:35:18Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-28T18-10-28-wrap/security-plan-entry-3.md",
+"--lines",
+"8",
+"--run-dir",
+".andromeda/runs/2026-09-28T18-10-28-wrap",
+"--marker",
+"2026-09-28-capability-ledger-and-viola-verify"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+8 at line 209 · lines 208→216 · bytes 30486→31416 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-28T18-10-28-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 208,
+"bytes": 30486,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 216,
+"bytes": 31416
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "49608d7a",
+"ts": "2026-09-28T18:35:18Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-28T18-10-28-wrap/test-plan-entry-1.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-09-28T18-10-28-wrap",
+"--marker",
+"2026-09-28-capability-ledger-and-viola-verify"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+10 at line 284 · lines 283→293 · bytes 38908→40823 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-28T18-10-28-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 283,
+"bytes": 38908,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 293,
+"bytes": 40823
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "49608d7a",
+"ts": "2026-09-28T18:35:18Z",
+"argv": [
+"append",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-28T18-10-28-wrap/obs-plan-entry-1.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-09-28T18-10-28-wrap",
+"--marker",
+"2026-09-28-capability-ledger-and-viola-verify"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append obs-plan-amendments.md:+10 at line 184 · lines 183→193 · bytes 21823→23506 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-28T18-10-28-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 183,
+"bytes": 21823,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 193,
+"bytes": 23506
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "49608d7a",
+"ts": "2026-09-28T18:35:18Z",
+"argv": [
+"append",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-28T18-10-28-wrap/obs-plan-entry-2.md",
+"--lines",
+"8",
+"--run-dir",
+".andromeda/runs/2026-09-28T18-10-28-wrap",
+"--marker",
+"2026-09-28-capability-ledger-and-viola-verify"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append obs-plan-amendments.md:+8 at line 194 · lines 193→201 · bytes 23506→24798 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-28T18-10-28-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 193,
+"bytes": 23506,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 201,
+"bytes": 24798
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "49608d7a",
+"ts": "2026-09-28T18:35:19Z",
+"argv": [
+"append",
+"--file",
+".andromeda/design-system-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-28T18-10-28-wrap/design-system-entry-1.md",
+"--lines",
+"8",
+"--run-dir",
+".andromeda/runs/2026-09-28T18-10-28-wrap",
+"--marker",
+"2026-09-28-capability-ledger-and-viola-verify"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append design-system-amendments.md:+8 at line 16 · lines 15→23 · bytes 1717→2723 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-28T18-10-28-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/design-system-amendments.md"
+],
+"before": {
+"lines": 15,
+"bytes": 1717,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 23,
+"bytes": 2723
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "49608d7a",
+"ts": "2026-09-28T18:38:52Z",
+"argv": [
+"append",
+"--file",
+"viola-0.1.0/working-route.md",
+"--payload-file",
+".andromeda/runs/2026-09-28T18-10-28-wrap/route-insert.txt",
+"--after-line",
+"54",
+"--lines",
+"6",
+"--run-dir",
+".andromeda/runs/2026-09-28T18-10-28-wrap",
+"--marker",
+"2026-09-28-capability-ledger-and-viola-verify"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append working-route.md:+6 at line 55 · lines 129→135 · bytes 26186→32529 · term lf",
+"last line now: Version done-check — every gate green on three OSes, masters agree, fix-pass i"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/working-route.md"
+],
+"before": {
+"lines": 129,
+"bytes": 26186,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 135,
+"bytes": 32529
+}
+}
+]

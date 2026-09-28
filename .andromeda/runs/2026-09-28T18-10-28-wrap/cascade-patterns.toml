@@ -1,0 +1,71 @@
+[[pattern]]
+id = 'stderr-summary'
+regex = 'stderr summary|verify.{0,60}stderr'
+
+[[pattern]]
+id = 'backtrace-sym'
+regex = 'force_capture|Backtrace::|symboli[sz]'
+
+[[pattern]]
+id = 'readiness-owner'
+fixed = 'Capability ledger and viola verify'
+
+[[pattern]]
+id = 'only-locally'
+regex = 'only locally|never in CI'
+
+[[pattern]]
+id = 'verify-14-steps'
+regex = '14 pass|/14\]|step counter'
+
+[[pattern]]
+id = 'files-glob'
+regex = '#\[files'
+
+[[pattern]]
+id = 'human-caller'
+regex = 'only caller is the|called by `run`'
+
+[[pattern]]
+id = 'gate-no-step'
+fixed = 'only the version gate has none'
+
+[[pattern]]
+id = 'no-viola-hooks'
+regex = 'no viola hooks|carry no viola hooks'
+
+[[pattern]]
+id = 'name-absent'
+regex = 'VIOLA_NAME.{0,50}(absent|absence)|without `VIOLA_NAME`'
+
+[[pattern]]
+id = 'producers'
+fixed = 'have producers today'
+
+[[pattern]]
+id = 'probe-suite'
+regex = 'probe suite|live probe'
+
+[[pattern]]
+id = 'gate-in-agent'
+regex = 'version gate live|gate live only'
+
+[[pattern]]
+id = 'one-enum'
+regex = 'one (error )?enum per|thiserror 2\.0\.20 per crate'
+
+[[pattern]]
+id = 'panic-exempt'
+fixed = 'failed step-4 role-file open'
+
+[[pattern]]
+id = 'maxframe-list'
+fixed = 'input, child output'
+
+[[pattern]]
+id = 'strict-stamps'
+regex = 'strict-modes check before any|every process that reads|read only after the home strict-modes|before any snapshot'
+
+[[pattern]]
+id = 'fake-stdout'
+regex = 'only the `--version` answer|--report-version. changes only'

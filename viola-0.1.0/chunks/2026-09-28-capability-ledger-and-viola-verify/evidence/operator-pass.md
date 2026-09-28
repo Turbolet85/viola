@@ -76,6 +76,9 @@ the pass stops here for the overseer's review of the recorded set.
 - Final tree (measurement code removed): the full gate block green (27 of 27, pre-push `ok:true` · `union` as entry 27
   = this pass's entry 32 on the same uncommitted tree), then `gate.py hygiene`, the commit, the guarded push and the
   `ci.py conclusion` read below.
+- Entry 34 on the final head: `python -X utf8 …/ci.py conclusion --sha HEAD --wait 5400` → exit 0 ·
+  `6486276d0241 verdict: green · checks 18/18 · wall 1401 s · runs ci#36460408121 completed/success` · atoms `exit 0` ✓ ·
+  `contains verdict: green` ✓ — verdict: green
 
 ## Overseer review — approved (2026-09-28 15:14, the Viola overseer)
 Recorded verbatim from the overseer's word: "Overseer review of fixtures/claude/2.1.283 (4 files), 2026-09-28 15:14:

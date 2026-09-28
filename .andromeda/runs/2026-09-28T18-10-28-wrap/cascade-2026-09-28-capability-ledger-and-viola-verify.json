@@ -1,0 +1,242 @@
+[
+{
+"tool": "cascade",
+"v": "1.0",
+"sha8": "d625a318",
+"ts": "2026-09-28T18:30:13Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-09-28T18-10-28-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-09-28T18-10-28-wrap",
+"--marker",
+"2026-09-28-capability-ledger-and-viola-verify"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"baseline 9b4f6f47 (pre-CI parent — the oldest of 1 pre-CI commit(s), 01f22aab)",
+"stderr-summary · new 3 · standing 0 · leaf 0 · curation 0 · base 0 · control obs-plan.md:979 (prose)",
+"backtrace-sym · new 2 · standing 0 · leaf 0 · curation 0 · base 0 · control obs-plan.md:1140 (prose)",
+"readiness-owner · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:174 (prose)",
+"only-locally · new 1 · standing 7 · leaf 1 · curation 0 · base 0 · control architecture.md:577 (prose)",
+"verify-14-steps · new 0 · standing 3 · leaf 1 · curation 0 · base 0 · control design-system.md:795 (prose)",
+"files-glob · new 1 · standing 3 · leaf 1 · curation 0 · base 0 · control test-plan.md:836 (prose)",
+"human-caller · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:426 (prose)",
+"gate-no-step · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:93 (p…",
+"no-viola-hooks · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:100 (prose)",
+"name-absent · new 0 · standing 5 · leaf 0 · curation 0 · base 0 · case-variants +2 · control architecture.md:69 (prose)",
+"producers · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:382 (prose)",
+"probe-suite · new 1 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:91 (prose)",
+"gate-in-agent · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:45 (…",
+"one-enum · new 1 · standing 2 · leaf 1 · curation 0 · base 0 · control architecture.md:97 (prose)",
+"panic-exempt · new 0 · standing 3 · leaf 0 · curation 0 · base 0 · control obs-plan.md:512 (prose)",
+"maxframe-list · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control security-plan.md:241 (prose)",
+"strict-stamps · new 0 · standing 4 · leaf 1 · curation 0 · base 0 · control security-plan.md:207 (prose)",
+"fake-stdout · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:1379 (prose)",
+".andromeda/architecture.md:139 stderr-summary new ×2 …pass  <m> fail`) and verify's refusals, each an `unable:` + `hint…",
+".andromeda/security-plan.md:241 stderr-summary new …un`'s gate and `viola verify`, stdout and stderr drained through th…",
+".andromeda/design-system.md:809 stderr-summary new …d by its own hint; a `verify` run with a failing ledger row prints …",
+".andromeda/architecture.md:466 backtrace-sym new …r` for the raw, never-symbolised panic frames). It contains the subco…",
+".andromeda/obs-plan.md:1141 backtrace-sym new ×3 …cktrace is raw, never-symbolised frames from `src/panic_frames.rs` — …",
+".andromeda/test-plan.md:526 readiness-owner standing edited …ep-4 owner, since \"Capability ledger and viola verify\" lan…",
+".andromeda/architecture.md:91 only-locally new @c2140/2318 …and `--record` run only locally; CI runs `verify` against t…",
+".andromeda/architecture.md:587 only-locally standing edited mixed ×3 …laude` CLI runs only locally, never in CI. `viola…",
+".andromeda/security-plan.md:162 only-locally standing …in v1. The real `claude` CLI and `viola verify` run only locally.",
+".andromeda/test-plan.md:60 only-locally standing …nd `viola verify` run only locally\"). That includes CLI-native modals…",
+".andromeda/test-plan.md:93 only-locally standing …ed JSON. The real subcommand's output shape is reachable only locally.",
+".andromeda/test-plan.md:1670 only-locally standing … \"`viola verify` runs only locally\" as covering verify against the …",
+".andromeda/test-plan.md:1697 only-locally standing ×2 …d `viola verify` run only locally\" should read that the real CLI…",
+".andromeda/obs-plan.md:1771 only-locally standing   - B9: \"verify never in CI\" is replaced by \"verify runs in CI only a…",
+".claude/docs/workflow.md:49 only-locally leaf …real `claude` CLI runs only locally (`agent-run run --local-live`, `viol…",
+".andromeda/design-system.md:795 verify-14-steps standing ×3 - **`verify`:** a step counter (the project's one progress …",
+".andromeda/layout-templates.md:354 verify-14-steps standing …CLI version with a step counter, the project's only progre…",
+".andromeda/test-plan.md:958 verify-14-steps standing edited …ase for the verify step counter arrives with a redaction-h…",
+".claude/docs/design-summary.md:55 verify-14-steps leaf …ack mirror, phraseology verb output, `viola verify` step counter",
+".andromeda/test-plan.md:836 files-glob standing - `#[files(\"fixtures/claude/*/*.json\")]` generates one test per recorde…",
+".andromeda/test-plan.md:864 files-glob standing …es/claude/<ver>/` via `#[files]`; unknown fields are counted, not fata…",
+".andromeda/test-plan.md:1346 files-glob standing …ixture]`, `#[case]`, `#[files]`) + tempfile 3.27.0, plus proptest 1.1…",
+".andromeda/test-plan.md:1384 files-glob new …ixture — not an rstest `#[files(…)]` case, because rstest 0.27 refuses a g…",
+".claude/docs/services/viola-agent-claude.md:36 files-glob leaf - **Tests:** `#[files(\"fixtures/claude/*/*.json\")]` walk…",
+".andromeda/architecture.md:487 human-caller standing edited … and the stdout result writer, called by `run` and `verify`",
+".andromeda/architecture.md:100 no-viola-hooks standing edited …nwrapped sessions carry no viola hooks at all, so there …",
+".andromeda/architecture.md:69 name-absent standing edited …ts 0 at once when `VIOLA_NAME` is absent. The one exception …",
+".andromeda/test-plan.md:119 name-absent standing …/<cli-version>/` on stdin, with and without `VIOLA_NAME` / `VIOLA_DIR`",
+".andromeda/obs-plan.md:512 name-absent standing edited …an instance, `hook` without `VIOLA_NAME`, a failed step-4 role-…",
+".andromeda/obs-plan.md:1307 name-absent standing     3. `hook` without `VIOLA_NAME` (D-16);",
+".andromeda/obs-plan.md:1573 name-absent standing `2026-09-24` — D-16 Hook without `VIOLA_NAME`: no line",
+".andromeda/architecture.md:390 producers standing edited …`hook` and `verify` have producers today (`cli-<name>.ndjson`…",
+".andromeda/architecture.md:91 probe-suite new @c1745/2318 …h its own typed or live probe: the screen signatures with th…",
+".claude/docs/commands.md:27 probe-suite leaf …viola verify` — run the live probe suite against the real CLI and stamp t…",
+".andromeda/architecture.md:97 one-enum standing edited …] thiserror 2.0.20, one enum per workspace crate (one ratified …",
+".andromeda/architecture.md:155 one-enum standing edited …Rust error types:** one error enum per crate, named `<Crate>Er…",
+".andromeda/architecture.md:641 one-enum new …rors: thiserror 2.0.20, one enum per crate (except `viola-pty`'s hand-writ…",
+".claude/docs/conventions.md:15 one-enum leaf - Error enums: one enum per crate named `<Crate>Error` (`PtyError`, `Chann…",
+".andromeda/obs-plan.md:512 panic-exempt standing edited …out `VIOLA_NAME`, a failed step-4 role-file open, the no-obs-i…",
+".andromeda/obs-plan.md:1308 panic-exempt standing     4. a failed step-4 role-file open (§3 init step 4). The writer be…",
+".andromeda/obs-plan.md:1755 panic-exempt standing   - A failed step-4 role-file open is a fourth bounded exemption from…",
+".andromeda/security-plan.md:241 maxframe-list standing edited …cluded), `answer` input, child output (the `--version` r…",
+".andromeda/security-plan.md:207 strict-stamps standing edited @c789/5710 …s check:** in every process that reads `snaps…",
+".andromeda/security-plan.md:229 strict-stamps standing edited …s the `~/.viola/` strict-modes check before any snapshot…",
+".andromeda/security-plan.md:234 strict-stamps standing edited …`. **Integrity:** read only after the home strict-modes …",
+".andromeda/security-plan.md:599 strict-stamps standing …s the check runs in every process that reads `snapshot.json`, `…",
+".claude/docs/services/viola-state.md:21 strict-stamps leaf …rict-modes runs in every process that reads `snapshot.json`…",
+".andromeda/test-plan.md:1380 fake-stdout standing edited … recorded fixture. `--report-version` changes only the `--ver…",
+"stderr-summary · new 3 · standing 0 · leaf 0 · curation 0 · base 0 · control obs-plan.md:979 (prose)",
+"backtrace-sym · new 2 · standing 0 · leaf 0 · curation 0 · base 0 · control obs-plan.md:1140 (prose)",
+"readiness-owner · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:174 (prose)",
+"only-locally · new 1 · standing 7 · leaf 1 · curation 0 · base 0 · control architecture.md:577 (prose)",
+"verify-14-steps · new 0 · standing 3 · leaf 1 · curation 0 · base 0 · control design-system.md:795 (prose)",
+"files-glob · new 1 · standing 3 · leaf 1 · curation 0 · base 0 · control test-plan.md:836 (prose)",
+"human-caller · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:426 (prose)",
+"gate-no-step · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:93 (p…",
+"no-viola-hooks · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:100 (prose)",
+"name-absent · new 0 · standing 5 · leaf 0 · curation 0 · base 0 · case-variants +2 · control architecture.md:69 (prose)",
+"producers · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:382 (prose)",
+"probe-suite · new 1 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:91 (prose)",
+"gate-in-agent · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:45 (…",
+"one-enum · new 1 · standing 2 · leaf 1 · curation 0 · base 0 · control architecture.md:97 (prose)",
+"panic-exempt · new 0 · standing 3 · leaf 0 · curation 0 · base 0 · control obs-plan.md:512 (prose)",
+"maxframe-list · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control security-plan.md:241 (prose)",
+"strict-stamps · new 0 · standing 4 · leaf 1 · curation 0 · base 0 · control security-plan.md:207 (prose)",
+"fake-stdout · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:1379 (prose)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "9b4f6f4772a00ddcb3cb17d3b0c102ebe756dd5d",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), 01f22aab",
+"counts": {
+"stderr-summary": {
+"new": 3,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"backtrace-sym": {
+"new": 2,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"readiness-owner": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"only-locally": {
+"new": 1,
+"standing": 7,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"verify-14-steps": {
+"new": 0,
+"standing": 3,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"files-glob": {
+"new": 1,
+"standing": 3,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"human-caller": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"gate-no-step": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"no-viola-hooks": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"name-absent": {
+"new": 0,
+"standing": 5,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"producers": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"probe-suite": {
+"new": 1,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"gate-in-agent": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"one-enum": {
+"new": 1,
+"standing": 2,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"panic-exempt": {
+"new": 0,
+"standing": 3,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"maxframe-list": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"strict-stamps": {
+"new": 0,
+"standing": 4,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"fake-stdout": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]
