@@ -804,50 +804,6 @@ mod tests {
         wait_exit(&mut child);
     }
 
-    /// MEASUREMENT ONLY (the H2 loop with and without the sideloaded ConPTY): the race the gating test
-    /// no longer runs since `dce98ad`, the key written right after the resize with no wait for the
-    /// child to see the new size.
-    #[cfg(all(windows, feature = "h2-measure"))]
-    fn h2_race() {
-        let mut child = spawn_child_entry(
-            "run",
-            Size {
-                cols: 100,
-                rows: 30,
-            },
-        );
-        let pid = child.pty.child_pid().expect("pid");
-        wait_line(&mut child, &format!("start pid={pid} raw=true size=100x30"));
-        key(&mut child, b'x');
-        wait_line(&mut child, "byte 78");
-        resize(&mut child);
-        key(&mut child, b'y');
-        wait_line(&mut child, "byte 79 size=120x40");
-        wait_line(&mut child, "restored=true");
-        child.report_dsr();
-        assert_eq!(wait_exit(&mut child), 3);
-    }
-
-    #[cfg(all(windows, feature = "h2-measure"))]
-    #[test]
-    fn h2_race_inbox() {
-        assert!(sideload::restrict_dll_search());
-        assert_eq!(pty_backend(), "conpty");
-        h2_race();
-    }
-
-    #[cfg(all(windows, feature = "h2-measure"))]
-    #[test]
-    fn h2_race_sideload() {
-        let dll = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../../vendor/conpty/1.24.260710001/x64/conpty.dll")
-            .canonicalize()
-            .expect("the vendored conpty.dll");
-        sideload::preload(&dll).expect("preload");
-        assert_eq!(pty_backend(), "conpty-sideload");
-        h2_race();
-    }
-
     #[test]
     fn kill_ends_a_child_that_would_never_exit() {
         let mut child = spawn_child_entry("block", Size::DEFAULT);
