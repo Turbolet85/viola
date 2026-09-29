@@ -56,3 +56,60 @@ loop). The loop step is `h2-loop-step.md`'s, verbatim.
   whole and flushed, after `resize` returned, and was lost inside ConPTY / conhost / the child's console read.
 - **Document branch — selected:** the loss sits below viola (the rstudio/rstudio#18884 class), and closing it in the
   product would need viola to hold a key behind a resize, which is banned (a11y-plan §1; plan §Constraints).
+
+## The document branch, as done
+- **Measured limit recorded** in `.claude/docs/gotchas.md` ("A key written right after a ConPTY resize can be lost
+  (H2)") and `.claude/docs/services/viola-pty.md` (Crate-specific gotchas): count, class, `dsr-cpr` readings, builds,
+  run ids. The gotchas entry states the **product window remains** — in `viola run` a human key typed right after a
+  resize can still be lost — names the measured rate (13 / 200, 6.5 %, from push 1 above), and says the reshaped
+  test does not cover that window (operator ruling, P5 review 2026-09-29).
+- **Red test reshaped** (`crates/viola-pty/src/lib.rs`): `resize` then `wait_line("size 120x40")` then the key — the
+  observed signal the localisation shows (class K: the resize landed, the key racing it was lost), never a timer. No
+  retry, `#[ignore]`, skip or compile-out. The `hold` sibling still writes its key right after the resize (the H1
+  witness, unchanged).
+
+## Push 2 — verification of the reshaped test (not a reproduction push)
+- **Commit** `dce98ad` (`fix(…): the H2 red test sends its key once the child sees the new size, and the loop measures
+  it (measurement only)`), the loop step still in ci.yml. Measurement pushes in all: **2 of the 3** allowed.
+- **Run** ci#36529038462 · `ci.py conclusion --sha HEAD --wait 2400` (entry 16, recorded): `dce98ad16123 verdict: red ·
+  checks 15/15 · first-fail +131 s test (ubuntu-latest)` — the ubuntu red is folded below; it is not an H2 reading.
+- **Job** `test (windows-2025)` id 109278323590 · success · step `H2 loop (measurement only)` 06:05:22Z → 06:07:55Z.
+  Same image, `windows-2025-vs2026` 20260922.246.2, provisioner 20260828.587.
+- **Tally (entry 17, the job log):** `h2-loop: iterations 200 · losses 0`. R 0 · K 0 · E 0 · UNCLASSIFIED 0.
+- **Witness:** the forced reading red (push 1: 13 K in 200, the key written right after `resize` returned), then green
+  200/200 (push 2: the key written after the child's `size 120x40`), same runner image, same loop, same instrumentation.
+  Control: push 1 is the unchanged test under the identical loop.
+
+## A red push 2 raised: `test (ubuntu-latest)`, corrupt coverage profile (folded)
+- ci#36529038462 job 109278323561: all 919 tests PASS (`Summary … 919 tests run: 919 passed`), then `llvm-profdata merge`
+  failed on `target/llvm-cov-target/viola-4974-15303557482808059277_2.profraw` ("invalid instrumentation profile data
+  (file header is corrupt)") → `run --coverage` `llvm-cov-exit-1` · `llvm-cov-summary-missing`. The same shape as
+  ci#36481260151 (chunk `2026-09-28-mutation-testing-to-the-epoch-boundary`, `evidence/macos-mutants-phases.md`).
+- **The channel:** the harness self-tests' nested cargo over the throwaway `viola` crate inherits cargo-llvm-cov's
+  `CARGO_LLVM_COV`, `LLVM_PROFILE_FILE`, `RUSTC_WRAPPER`, `__CARGO_LLVM_COV_RUSTC_WRAPPER_RUSTFLAGS`, so the throwaway's
+  binaries are built instrumented and write into the outer run's profile set. Those nested runs are the suite's by-design
+  mid-flight terminations (cargo-mutants, a fail-fast nextest profile).
+- **Measured on this host (known positive):** `cargo llvm-cov nextest --no-report --profile ci -p viola-e2e -E
+  'test(=harness::run::tests::run_reports_unit_integration_and_doctest_suites)'`, counting the new `.profraw` files per
+  run: with the channel open, **17** (two runs), including 2 signatures no other run shows (`2995…` ×1, `3916…` ×3 —
+  the throwaway crate's binaries); with the channel closed, **13** (three runs), those two signatures absent. The
+  corrupt file's own signature is not attributable from the job log (every instrumented process writes `viola-%p-%m`),
+  so that THIS file came through the channel is an INFERENCE, carried as such: the channel is the one measured path
+  that puts binaries outside the suite into the set, and it is now closed. A recurrence on a later HEAD would place
+  the cause elsewhere.
+- **Folded** (operator's word at the implement invocation, "Fold every red into this chunk.", scope-record.md):
+  `crates/viola-e2e/src/harness/run.rs` `test_support::{uninstrumented, run}` remove the four names from every nested
+  tool command a self-test runs for real, and `run/mutants.rs`'s `run_private` and its `run` go through it. Test code
+  only; the harness's own `run --coverage` is unchanged. The final HEAD run is the check, never the close.
+
+## Founder hand-off (plan step 13)
+- **Count:** reproduced — 13 localised losses in 200 iterations at the first measurement push (the fixed count was 3
+  within at most 3 pushes of 200). Rate 6.5 % of isolated loop iterations on the windows-2025 runner under llvm-cov.
+- **Classes:** K 13 · R 0 · E 0. The resize always reached the child; the key, written and flushed right after the
+  resize returned, was lost below viola. `dsr-cpr 0` on every loss (runner) and on the host: no unanswered
+  cursor-position request.
+- **Branch taken:** document. The limit is recorded in gotchas.md and services/viola-pty.md; the red test now sends
+  its key after the child sees the new size (200/200 on the runner). The product window — a human key typed right after
+  a resize in `viola run` — remains, and no test covers it.
+- **The founder's product question, in the founder's words, unanswered:** "the founder's product question on H2 stays
+  open beside this probe".

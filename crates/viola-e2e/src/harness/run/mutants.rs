@@ -209,8 +209,10 @@ pub(super) fn mutants(
 
 #[cfg(test)]
 mod tests {
-    use super::super::test_support::{GOOD_LIB, args_of, flags, has, mini, suite};
-    use super::super::{Outcome, Selection, run, run_forwarding, run_with};
+    use super::super::test_support::{
+        GOOD_LIB, args_of, flags, has, mini, run, suite, uninstrumented,
+    };
+    use super::super::{Outcome, Selection, run_with};
     use super::base::git;
     use super::*;
 
@@ -229,7 +231,7 @@ mod tests {
         let cargo_home = ws.root.parent().unwrap_or(&ws.root).join("cargo-home");
         let mut runner = |cmd: &mut Command| {
             cmd.env("CARGO_HOME", &cargo_home);
-            run_forwarding(cmd)
+            uninstrumented(cmd)
         };
         run_with(
             ws,

@@ -23,3 +23,18 @@ The loop step of `h2-loop-step.md`, inserted verbatim after `Coverage and doctes
 (unique anchor asserted once, LF only, both junctions read back, +38 lines exactly); `yaml.safe_load` parses the file
 and the `test` job's step order reads `… Coverage and doctest (sh shim) → H2 loop (measurement only) → Harness
 lifecycle (pwsh shim) …`.
+
+- **Push 1 (reproduction)** `d8b5051` — entry 8 re-run `"ok":true` · entry 15 exit 0 (`3d04d1c..d8b5051`) · entry 16
+  exit 0, `d8b5051a2d39 verdict: green · checks 15/15 · wall 537 s · runs ci#36527891850 completed/success` (recorded)
+  · entry 17 `gh run view 36527891850 --log` exit 0 → `h2-loop: iterations 200 · losses 13`; R 0 · K 13 · E 0.
+  Cumulative R+K 13 ≥ 3: reproduction stops here (`h2-reproduction.md`).
+- **Push 2 (verification of the reshaped test)** `dce98ad` — entry 8 re-run `"ok":true` · entry 15 exit 0
+  (`d8b5051..dce98ad`) · entry 16 exit 0, `dce98ad16123 verdict: red · checks 15/15 · first-fail +131 s test
+  (ubuntu-latest)` (recorded; run ci#36529038462) · entry 17 (job 109278323590's log) → `h2-loop: iterations 200 ·
+  losses 0`. The ubuntu red — a corrupt coverage profile, all 919 tests passed — is folded (`h2-reproduction.md`).
+  Measurement pushes: 2 of 3.
+
+## Loop removal (plan step 11)
+`git checkout 90aba7c -- .github/workflows/ci.yml` → `cmp` against `git show 90aba7c:.github/workflows/ci.yml`:
+byte-equal · `git ls-files --eol` `i/lf w/lf` · entry 9 `git diff --quiet 90aba7c -- .github/workflows/ci.yml
+crates/viola-pty/Cargo.toml` exit 0.

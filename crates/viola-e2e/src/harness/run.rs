@@ -371,9 +371,37 @@ mod test_support {
 
     use serde_json::Value;
 
-    use super::{Selection, Workspace};
+    use super::{Outcome, Selection, Workspace};
 
     pub(super) type Calls = Vec<Vec<String>>;
+
+    /// The names `cargo llvm-cov` hands its tests. A nested cargo that inherits them builds the
+    /// throwaway crate instrumented, and its binaries then write profiles into the outer coverage
+    /// run's set, where one terminated mid-write fails the merge (ci#36481260151, ci#36529038462).
+    const COVERAGE_ENV: [&str; 4] = [
+        "CARGO_LLVM_COV",
+        "LLVM_PROFILE_FILE",
+        "RUSTC_WRAPPER",
+        "__CARGO_LLVM_COV_RUSTC_WRAPPER_RUSTFLAGS",
+    ];
+
+    /// The real runner, with the coverage run's names removed from the tool's environment.
+    pub(super) fn uninstrumented(cmd: &mut Command) -> (Option<i32>, String) {
+        for name in COVERAGE_ENV {
+            cmd.env_remove(name);
+        }
+        super::run_forwarding(cmd)
+    }
+
+    /// `run` over a throwaway workspace, through [`uninstrumented`].
+    pub(super) fn run(
+        ws: &Workspace,
+        sel: Selection,
+        filter: Option<&str>,
+        chunk_base: Option<String>,
+    ) -> Outcome {
+        super::run_with(ws, sel, filter, chunk_base, &mut uninstrumented)
+    }
 
     pub(super) const GOOD_LIB: &str = "/// ```\n/// assert_eq!(viola::two(), 2);\n/// ```\n\
         pub fn two() -> u32 { 2 }\n\
@@ -500,7 +528,7 @@ mod test_support {
 
 #[cfg(test)]
 mod tests {
-    use super::test_support::{GOOD_LIB, flags, mini, scratch, suite};
+    use super::test_support::{GOOD_LIB, flags, mini, run, scratch, suite};
     use super::*;
 
     #[test]
