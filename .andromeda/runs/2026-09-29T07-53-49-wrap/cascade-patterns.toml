@@ -1,0 +1,47 @@
+[[pattern]]
+id = 'stamperror'
+fixed = 'StampError'
+
+[[pattern]]
+id = 'fold-await'
+regex = 'await(s|ing) its fold'
+
+[[pattern]]
+id = 'interim-seam'
+regex = 'interim (no-stamp )?seam'
+
+[[pattern]]
+id = 'until-verify'
+regex = 'Until `viola verify` exists'
+
+[[pattern]]
+id = 'root-waits-8'
+regex = '8 root waits'
+
+[[pattern]]
+id = 'lines-1-2'
+regex = 'lines 1.2 today'
+
+[[pattern]]
+id = 'joins-verify'
+regex = 'joins? with .Verify-stamped'
+
+[[pattern]]
+id = 'stays-210'
+fixed = 'stays 2.1.0'
+
+[[pattern]]
+id = 'realcli-owner'
+fixed = 'real-CLI verify entry'
+
+[[pattern]]
+id = 'nothing-stamped'
+fixed = 'nothing is stamped yet'
+
+[[pattern]]
+id = 'subj-no-verify'
+regex = 'version-probe\|agents-probe'
+
+[[pattern]]
+id = 'nine-suites'
+regex = 'nine (closed )?(`suite` )?values'

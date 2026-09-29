@@ -255,9 +255,9 @@ baseline = 'red — nextest-exit-4, 0 tests selected: the test is new (P5, 2026-
 [[gate]]
 run = 'bash scripts/agent-run.sh run'
 role = 'integration'
-artifact = 'target/agent-run/artifacts/'
+artifact = 'target/agent-run/artifacts/junit-nextest-integration.xml'
 expect = ['exit 0', 'contains "ok":true']
-note = 'default selection: unit + integration, then the fake-agent E2E layer, which runs contract_ledger_probes (step 7; the E2E-only selector run --e2e is unbuilt, route :85), then doctests; /implement confirms contract_ledger_probes in the archived E2E JUnit'
+note = 'default selection: unit + integration, then the fake-agent E2E layer, which runs contract_ledger_probes (step 7; the E2E-only selector run --e2e is unbuilt, route :85), then doctests; /implement confirms contract_ledger_probes in the archived E2E JUnit. artifact retargeted at the wrap from the directory target/agent-run/artifacts/ to this file, on the operator word "Retarget gate 6 freshness to the file, not the directory": a directory mtime does not move when run overwrites its files (evidence/entry-6-freshness-plan-defect.md)'
 
 [[gate]]
 run = 'CI=true bash scripts/agent-run.sh run --local-live'

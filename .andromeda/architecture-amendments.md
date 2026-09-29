@@ -329,3 +329,25 @@
 **Change:** the test-only row now registers two files per real-PTY test: `<test name>.report` (the child's lines — `start`, the key-free size watcher's `size`, `byte`, `restored`) and the sibling `<test name>.test.report` (the test's steps `resize-returned` · `key-written` · `key-flushed` · `dsr-cpr {n}`, the count of `ESC [ 6 n` the rig's output drain saw). Both kept on a panic or kill, both removed on a pass; `viola` never reads or writes either (was: the child's `.report` only).
 **Why:** the H2 recorder needed the test side of the sequence to localise a lost key (resize never applied · resize applied and key lost · key before the size); codes and counts only, so no user content reaches either file.
 **Ref:** .andromeda/runs/2026-09-29T06-18-44-wrap/
+
+## 2026-09-29-verify-stamped-test-homes-and-harness — StampError folded into AgentError; Refusal named the open divergence
+**Section:** Established Decisions → [Error Handling]; Conventions → Rust error types; Standard Contracts → Ledger stamps envelope; Inherited Defaults → Errors
+**Change:** was "one interim divergence: `viola-agent-claude` carries `StampError` (`Malformed`) beside `AgentError`, awaiting its fold"; now `AgentError` sits at the crate root holding `Malformed` (the hook payload) and `StampsMalformed` ("the capability stamps are malformed"); `ledger::verified` returns `Result<bool, AgentError>`, and a non-`v:1` or wrong-shaped stamps envelope is `AgentError::StampsMalformed` to a reader (`run`'s gate still records `cli_verified:false` with one `parse-rejected{parser:"ledger-stamps"}`). One open divergence, not an exception: the crate's pre-existing thiserror enum `Refusal` (`BatchScriptChild`, `NotFound`, the `resolve_program` refusal) beside `AgentError`; the one-enum rule stands, and its fold or ratification is open.
+**Why:** the one-enum rule (an overseer ruling at the capability-ledger wrap) folded the second enum; the plan's "one thiserror enum" acceptance was measured false against the pre-existing `Refusal`, which the arch registry already listed but the rule's exception text never named — carried on the operator's word, with its owner pinned on the route.
+**Ref:** .andromeda/runs/2026-09-29T07-53-49-wrap/
+
+## 2026-09-29-verify-stamped-test-homes-and-harness — verify's spawn pairs, the harness CI read, verify-stamped homes and the ninth root wait
+**Section:** Occupied Resources → Environment variables (test-harness only); Occupied Resources → Filesystem (`diagnostics/` `cli-<name>.ndjson`; `viola-root-watch` Watch report); Occupied Resources → Repository (`target/e2e-home/…`)
+**Change:**
+- `cli-<name>.ndjson`: verify's self pair now holds two spawn pairs, `version-probe` (the `--version` read) then `verify-probe` (the print-mode probe), each `process-start{subject}` / `process-exit{subject, child_exit_status, duration_ms}` from verify's call-site wrapper; `run_bounded` stays unlogged, so `run`'s gate keeps one `version-probe` pair.
+- `CI` registered as a test-harness-only read: `viola-harness` (bin and `run::run`) reads it for presence and passes it to `run_with` as `ci`; `run --local-live` under it is `{"v":1,"cmd":"run","ok":false,"reason":"live-in-ci"}`, exit 2, before any build, spawn or suite. `viola` never reads it.
+- Repository: harness session homes are stamped at `boot` step 4 by `viola verify` against the fake agent (unless `--unstamped`), root rstest homes by `stamped_home` at the recorded 2.1.283, and `target/e2e-home/viola-live-<pid>/home` is the one real-`claude` verify home of the local-only `run --local-live`.
+- The Watch report's bound is used by 9 root waits on a child (was 8): the ninth, `wait_endpoint_gone`, runs in `Wrapper::stop` / `stop_keep` after the exit until the recorded endpoint is unconnectable.
+**Why:** each is a resource or contract shape this chunk landed; stamps come only from `viola verify`, and the real CLI never runs in CI.
+**Ref:** .andromeda/runs/2026-09-29T07-53-49-wrap/
+
+## 2026-09-29-verify-stamped-test-homes-and-harness — the H2 real-claude measurement is owned by "First live test and self-drive"
+**Section:** Established Decisions → [PTY] (the H2 note)
+**Change:** was "the real-CLI verify entry owns that measurement"; now the working-route entry "First live test and self-drive" owns whether the real `claude` loses a key typed right after a resize, and the harness's local `run --local-live` (a real-`claude` `viola verify`) does not claim it. The founder's product question on H2 stays open.
+**Why:** "real-CLI verify entry" read as this chunk's `--local-live`, which measures the capability-ledger rows only; the handoff and the prior wrap pinned the H2 measurement to "First live test and self-drive".
+**Ref:** .andromeda/runs/2026-09-29T07-53-49-wrap/

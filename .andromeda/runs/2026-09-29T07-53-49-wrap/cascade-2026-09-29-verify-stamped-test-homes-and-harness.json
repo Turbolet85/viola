@@ -1,0 +1,151 @@
+[
+{
+"tool": "cascade",
+"v": "1.0",
+"sha8": "7813f5e9",
+"ts": "2026-09-29T08:04:13Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-09-29T07-53-49-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-09-29T07-53-49-wrap",
+"--marker",
+"2026-09-29-verify-stamped-test-homes-and-harness"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"baseline 31dd9956 (pre-CI parent — the oldest of 1 pre-CI commit(s), 702a3b46)",
+"stamperror · new 1 · standing 0 · leaf 3 · curation 0 · base 0 · control architecture.md:97 (prose)",
+"fold-await · new 0 · standing 0 · leaf 2 · curation 0 · base 0 · control architecture.md:155 (prose)",
+"interim-seam · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control test-plan.md:542 (prose)",
+"until-verify · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:542 (pro…",
+"root-waits-8 · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:397 (prose)",
+"lines-1-2 · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:526 (prose)",
+"joins-verify · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:526 (pro…",
+"stays-210 · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:1379 (prose)",
+"realcli-owner · new 0 · standing 0 · leaf 2 · curation 0 · base 0 · control architecture.md:47 (prose)",
+"nothing-stamped · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:1517 …",
+"subj-no-verify · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:1059 (p…",
+"nine-suites · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:645 (prose)",
+".andromeda/architecture.md:97 stamperror new …med` — the second enum `StampError` was folded into it by chunk 2026-09-2…",
+".claude/docs/conventions.md:15 stamperror leaf …viola-agent-claude`'s `StampError` (`Malformed`) beside `AgentError`, a…",
+".claude/docs/services/viola-agent-claude.md:24 stamperror leaf …ub`, `is_clean`. `StampError::Malformed` is an interim …",
+".claude/docs/stack.md:24 stamperror leaf …agent-claude`'s interim `StampError` awaits its fold); anyhow 1.0.104 (bin ed…",
+".claude/docs/conventions.md:15 fold-await leaf …) beside `AgentError`, awaiting its fold on the \"Verify-stamped test ho…",
+".claude/docs/stack.md:24 fold-await leaf …`'s interim `StampError` awaits its fold); anyhow 1.0.104 (bin edge only). Pa…",
+".claude/docs/tests-summary.md:21 interim-seam leaf … `stamped_home` is an interim no-stamp seam until \"Verify-stamped t…",
+".andromeda/test-plan.md:1936 root-waits-8 standing   - The 8 root waits on a child are bounded at 7 s (`tests/support/w…",
+".claude/docs/gotchas.md:109 realcli-owner leaf …st child's. Owner: the real-CLI verify entry (working-route \"First live…",
+".claude/docs/services/viola-pty.md:30 realcli-owner leaf …ured — owned by the real-CLI verify entry (`.claude/docs/gotc…",
+".andromeda/test-plan.md:645 nine-suites standing edited …ire` takes only the nine closed `suite` values other than `loc…",
+"stamperror · new 1 · standing 0 · leaf 3 · curation 0 · base 0 · control architecture.md:97 (prose)",
+"fold-await · new 0 · standing 0 · leaf 2 · curation 0 · base 0 · control architecture.md:155 (prose)",
+"interim-seam · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control test-plan.md:542 (prose)",
+"until-verify · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:542 (pro…",
+"root-waits-8 · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:397 (prose)",
+"lines-1-2 · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:526 (prose)",
+"joins-verify · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:526 (pro…",
+"stays-210 · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:1379 (prose)",
+"realcli-owner · new 0 · standing 0 · leaf 2 · curation 0 · base 0 · control architecture.md:47 (prose)",
+"nothing-stamped · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:1517 …",
+"subj-no-verify · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:1059 (p…",
+"nine-suites · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:645 (prose)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "31dd9956195dab272778e7aa5237e24eb4412cb5",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), 702a3b46",
+"counts": {
+"stamperror": {
+"new": 1,
+"standing": 0,
+"leaf": 3,
+"curation": 0,
+"base": 0
+},
+"fold-await": {
+"new": 0,
+"standing": 0,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"interim-seam": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"until-verify": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"root-waits-8": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"lines-1-2": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"joins-verify": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"stays-210": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"realcli-owner": {
+"new": 0,
+"standing": 0,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"nothing-stamped": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"subj-no-verify": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"nine-suites": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]

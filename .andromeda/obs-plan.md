@@ -867,7 +867,7 @@ Skipped as not-instrumentable per obs-scope §1: `viola-core` (it supplies `ObsE
   - `process-start` / `process-exit{subject:"version-probe", child_exit_status, duration_ms}`.
   - On failure, `process-exit{subject:"self", exit_code:1, detail}` with `detail` ∈ `already-live|squatted-name|pinned-hash-mismatch|batch-script-child` (Founder Direction 4; no path or pid).
   - On success, `process-start{subject:"claude-child", child_pid, pty_backend, cli_version, cli_verified, env_stripped_count, env_stripped_known, env_kept}` (D-34).
-  - Product order `wheel{cause:"start"}` → `budget-gate` → `session-start` is verified from `events.ndjson` through `agent-run logs --kind`, not duplicated into process logs (`run` writes the first two; `session-start{source:"hook"}` is record three, sent by `viola hook` through `hook.event` since "Hooks to normalised events"; the harness `boot` readiness check of it joins with "Verify-stamped test homes and harness", the `boot` step-4 owner).
+  - Product order `wheel{cause:"start"}` → `budget-gate` → `session-start` is verified from `events.ndjson` through `agent-run logs --kind`, not duplicated into process logs (`run` writes the first two; `session-start{source:"hook"}` is record three, sent by `viola hook` through `hook.event` since "Hooks to normalised events"; the harness `boot` readiness stage `start_records` checks `events.ndjson` lines 1-3 — `wheel{cause:"start"}` → `budget-gate` → `session-start{source:"hook"}` — with the missing code `<name>:events`).
 - **Cleanup:**
   - `run.start` closes when `pty.spawn` returns.
   - The handle-wait thread emits `process-exit{subject:"claude-child", child_exit_status, exit_source:"handle-wait"|"kill-fallback"}`, never on reader EOF (ConPTY chaos class). `run` then emits `process-exit{subject:"self", exit_code, duration_ms}`.
@@ -976,9 +976,9 @@ Skipped as not-instrumentable per obs-scope §1: `viola-core` (it supplies `ObsE
   - The path and stamp contents never appear.
 - **`verify` / `plugin install`:**
   - Dispatch spans: `cli.verify`, with `cli.verify_step` per step and `state.ledger_write` for the stamp, and `cli.plugin_install`.
-  - With `VIOLA_NAME` set they log `process-start` / `process-exit{exit_code, detail}` to `cli-<name>.ndjson`. Run from a plain terminal with no instance, they write no process-log file (D-06). Their agent-readable outcome is then the exit code (`verify`: 0 when every row passes, 1 on a failing row or a refusal) plus `verify`'s stdout: one `[NN/MM] <row id> <row words>  pass|fail` step line per ledger row and the last stdout line `stamped <version>  N pass  N fail` (design-system §Streams). Refusals go to stderr as the fixed `unable:` + `hint:` pair, and an internal fault prints exactly `error: internal error`.
+  - With `VIOLA_NAME` set they log `process-start` / `process-exit{exit_code, detail}` to `cli-<name>.ndjson`; `verify` also logs its two child spawns between them, each a `process-start{subject}` / `process-exit{subject, child_exit_status, duration_ms}` pair: `version-probe` for the `--version` read, then `verify-probe` for the print-mode probe. `run`'s version gate keeps exactly one `version-probe` pair of its own. Run from a plain terminal with no instance, they write no process-log file (D-06). Their agent-readable outcome is then the exit code (`verify`: 0 when every row passes, 1 on a failing row or a refusal) plus `verify`'s stdout: one `[NN/MM] <row id> <row words>  pass|fail` step line per ledger row and the last stdout line `stamped <version>  N pass  N fail` (design-system §Streams). Refusals go to stderr as the fixed `unable:` + `hint:` pair, and an internal fault prints exactly `error: internal error`.
   - The hidden `hook <event> --capture <DIR>` arm (`verify`'s probe capture only) is uninstrumented by design: it reads no `VIOLA_*`, does no obs init, writes no role or detail file and emits no `hook-invoked` / `hook-decision`. Its only output is the raw stdin payload (capped at `MAX_FRAME`), written 0600 to `<probe>/captures/<Event>.<k>.json` under the 0700 `ledger/probes/<pid>/`, which `verify` removes on every exit path; it exits 0 with empty stdout and stderr (founder ratification 2026-09-28, security-plan Decisions Log).
-  - In CI, `viola verify` runs only against the fake agent's print mode: today `tests/cli_verify.rs`; the tests harness `boot` step 4 and the rstest `stamped_home` fixture join with "Verify-stamped test homes and harness", with `verify` the only writer of `ledger/stamps.json` (test-plan Decisions Log). The real-`claude` verify never runs in CI (arch §CI/CD approach). No obs gate depends on verify's own log lines. Its home-level lines, when `VIOLA_NAME` is set, fall under G2, G4 and the secret scan like any other.
+  - In CI, `viola verify` runs only against the fake agent's print mode, at the recorded version 2.1.283: `tests/cli_verify.rs`, the tests harness `boot` step 4 (unless `--unstamped`) and the rstest `stamped_home` fixture, with `verify` the only writer of `ledger/stamps.json` (test-plan Decisions Log). The real-`claude` verify never runs in CI (arch §CI/CD approach): it runs only through the local `run --local-live`, which refuses under `CI` (`live-in-ci`). No obs gate depends on verify's own log lines. Its home-level lines, when `VIOLA_NAME` is set, fall under G2, G4 and the secret scan like any other.
 
 (See `## 11. Obs Anti-Patterns` § Spans / Traces for span-level bans.)
 
@@ -1056,7 +1056,7 @@ Template fields deliberately **not** emitted (D-12):
 
 | Event | Additive fields |
 |-------|-----------------|
-| `process-start` | `subject` (`self|claude-child|version-probe|agents-probe|statusline-shell`), `service_name`, `version`, `os`, `pid`, `child_pid`, `port` (ui), `endpoint_kind`, `pty_backend`, `cli_version`, `cli_verified`, `env_stripped_count`, `env_stripped_known`, `env_kept` (claude-child: the kept `CLAUDE*` names, comma-joined, names only) |
+| `process-start` | `subject` (`self|claude-child|version-probe|verify-probe|agents-probe|statusline-shell`), `service_name`, `version`, `os`, `pid`, `child_pid`, `port` (ui), `endpoint_kind`, `pty_backend`, `cli_version`, `cli_verified`, `env_stripped_count`, `env_stripped_known`, `env_kept` (claude-child: the kept `CLAUDE*` names, comma-joined, names only) |
 | `process-exit` | `subject`, `exit_code` (self), `child_exit_status` (child/probes), `shell_exit_status` (statusline), `exit_source` (`handle-wait|kill-fallback`), `detail`, `during` (`connect|call`), `duration_ms` |
 | `channel-request` | `method`, `conn` / `srv_conn`, `from`, `from_trust`, `sender`, `v`, `after`, `timeout_ms` |
 | `channel-response` | `method`, `conn` / `srv_conn`, `result_class` (`ok|refusal|error`), `refusal`, `detail`, `error_code` (`-32700|-32600|-32601|-32602|-32603`), `outcome`, `duration_ms` |
@@ -1107,7 +1107,7 @@ Template fields deliberately **not** emitted (D-12):
 - **HTTP request** (viola-ui): `http-request` at response time via TraceLayer `on_response`, with method, `uri.path()`, route, status, Problem URN and `duration_ms`. SSE uses `sse-opened` / `sse-closed`, because TraceLayer sees completion at header send.
 - **IPC invocation** (viola-channel): `channel-request` / `channel-response` with method, `corr`, `conn`, result class, error code and `sender`. **No argument digest**: `params` and result bodies are never recorded, not even hashed.
 - **PTY seam** (viola-pty): spawn gives `process-start{subject:"claude-child"}`. Exit comes from the handle-wait thread; kill-fallback use is logged as `exit_source:"kill-fallback"`. Paste gives `text_bytes` only.
-- **Child / shell spawns:** `process-start` / `process-exit` with `subject` ∈ `version-probe|agents-probe|statusline-shell`. `claude agents --json` parse failure gives `parse-rejected{parser:"claude-agents-json"}` and the value `"unknown"`.
+- **Child / shell spawns:** `process-start` / `process-exit` with `subject` ∈ `version-probe|verify-probe|agents-probe|statusline-shell` (`verify-probe`: `viola verify`'s print-mode probe; verify logs its two spawns at the call site, and `run_bounded` itself stays unlogged). `claude agents --json` parse failure gives `parse-rejected{parser:"claude-agents-json"}` and the value `"unknown"`.
 - **gRPC / DB query:** N/A (no gRPC, no database in the stack).
 
 (See `## 11. Obs Anti-Patterns` § Logs for log-level bans.)
@@ -1801,6 +1801,15 @@ between phase loops._
 - **Rationale:** operator ruling 1 at chunk 2026-09-25-pty-wrapper-on-windows (P4): each stripped and kept name is named in the log. The S6 "14" list was never enumerated by any artifact (the chunk's research fact 7). `CLAUDE*` names are not secrets; their values stay never-log (§8).
 - **Impact:** §4 Scenario 1 / E2, §6 `process-start` catalog, §8 data classification row.
 - **By:** operator ruling (overseer, founder-delegated), applied by wrap-session 2026-09-25.
+
+`2026-09-29` — D-35 `verify-probe` joins the closed spawn `subject` enum
+- **Decision:**
+  - `viola verify` logs each of its two child spawns as a `process-start` / `process-exit` pair to `cli-<name>.ndjson` (only when `VIOLA_NAME` resolves), codes only: `subject:"version-probe"` for the `--version` read and the new `subject:"verify-probe"` for the print-mode probe; `process-exit` carries `child_exit_status` and `duration_ms`.
+  - The pairs sit at verify's call sites; the shared `run_bounded` stays unlogged, so `run`'s version gate keeps exactly one `version-probe` pair.
+  - `schemas/diag-line.v1.json` `$defs.subject.enum` is `self|claude-child|version-probe|verify-probe|agents-probe|statusline-shell`.
+- **Rationale:** §6 Child / shell spawns names every spawn as a pair; verify's two spawns wrote none (an overseer ruling at the capability-ledger wrap). A closed value needs this entry (§8 default-deny).
+- **Impact:** §4 `verify`, §6 `process-start` catalog and Boundary-call wrappers. §1 keeps its verbatim wording.
+- **By:** chunk 2026-09-29-verify-stamped-test-homes-and-harness, applied by wrap-session 2026-09-29.
 
 (Append new entries at the bottom; do not modify historical
 entries.)

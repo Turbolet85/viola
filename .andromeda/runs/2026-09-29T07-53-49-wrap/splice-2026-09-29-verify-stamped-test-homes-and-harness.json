@@ -1,0 +1,332 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-29T08:06:18Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-29T07-53-49-wrap/architecture-entry-1.md",
+"--lines",
+"6",
+"--after-line",
+"331",
+"--run-dir",
+".andromeda/runs/2026-09-29T07-53-49-wrap",
+"--marker",
+"2026-09-29-verify-stamped-test-homes-and-harness"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+6 at line 332 · lines 331→337 · bytes 53097→54562 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-29T07-53-49-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 331,
+"bytes": 53097,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 337,
+"bytes": 54562
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-29T08:06:18Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-29T07-53-49-wrap/architecture-entry-2.md",
+"--lines",
+"10",
+"--after-line",
+"337",
+"--run-dir",
+".andromeda/runs/2026-09-29T07-53-49-wrap",
+"--marker",
+"2026-09-29-verify-stamped-test-homes-and-harness"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+10 at line 338 · lines 337→347 · bytes 54562→56310 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-29T07-53-49-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 337,
+"bytes": 54562,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 347,
+"bytes": 56310
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-29T08:06:18Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-29T07-53-49-wrap/architecture-entry-3.md",
+"--lines",
+"6",
+"--after-line",
+"347",
+"--run-dir",
+".andromeda/runs/2026-09-29T07-53-49-wrap",
+"--marker",
+"2026-09-29-verify-stamped-test-homes-and-harness"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+6 at line 348 · lines 347→353 · bytes 56310→57108 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-29T07-53-49-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 347,
+"bytes": 56310,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 353,
+"bytes": 57108
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-29T08:06:50Z",
+"argv": [
+"append",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-29T07-53-49-wrap/obs-plan-entry-1.md",
+"--lines",
+"11",
+"--after-line",
+"211",
+"--run-dir",
+".andromeda/runs/2026-09-29T07-53-49-wrap",
+"--marker",
+"2026-09-29-verify-stamped-test-homes-and-harness"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append obs-plan-amendments.md:+11 at line 212 · lines 211→222 · bytes 26063→27826 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-29T07-53-49-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 211,
+"bytes": 26063,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 222,
+"bytes": 27826
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-29T08:06:51Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-29T07-53-49-wrap/test-plan-entry-1.md",
+"--lines",
+"9",
+"--after-line",
+"315",
+"--run-dir",
+".andromeda/runs/2026-09-29T07-53-49-wrap",
+"--marker",
+"2026-09-29-verify-stamped-test-homes-and-harness"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+9 at line 316 · lines 315→324 · bytes 45748→47361 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-29T07-53-49-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 315,
+"bytes": 45748,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 324,
+"bytes": 47361
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-29T08:06:51Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-29T07-53-49-wrap/test-plan-entry-2.md",
+"--lines",
+"8",
+"--after-line",
+"324",
+"--run-dir",
+".andromeda/runs/2026-09-29T07-53-49-wrap",
+"--marker",
+"2026-09-29-verify-stamped-test-homes-and-harness"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+8 at line 325 · lines 324→332 · bytes 47361→48794 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-29T07-53-49-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 324,
+"bytes": 47361,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 332,
+"bytes": 48794
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-29T08:06:51Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-29T07-53-49-wrap/test-plan-entry-3.md",
+"--lines",
+"9",
+"--after-line",
+"332",
+"--run-dir",
+".andromeda/runs/2026-09-29T07-53-49-wrap",
+"--marker",
+"2026-09-29-verify-stamped-test-homes-and-harness"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+9 at line 333 · lines 332→341 · bytes 48794→49862 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-29T07-53-49-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 332,
+"bytes": 48794,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 341,
+"bytes": 49862
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-29T08:10:00Z",
+"argv": [
+"append",
+"--file",
+"viola-0.1.0/working-route.md",
+"--payload-file",
+".andromeda/runs/2026-09-29T07-53-49-wrap/route-insert.txt",
+"--lines",
+"2",
+"--after-line",
+"60",
+"--expect-last-prefix",
+"   ↓",
+"--run-dir",
+".andromeda/runs/2026-09-29T07-53-49-wrap",
+"--marker",
+"2026-09-29-verify-stamped-test-homes-and-harness"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append working-route.md:+2 at line 61 · lines 135→137 · bytes 30710→32104 · term lf",
+"last line now: Version done-check — every gate green on three OSes, masters agree, fix-pass i"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/working-route.md"
+],
+"before": {
+"lines": 135,
+"bytes": 30710,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 137,
+"bytes": 32104
+}
+}
+]

@@ -8,6 +8,16 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-09-29 — A gate's freshness check must name a file, never a directory
+A plan gate's `artifact` key is judged by the named path's own mtime. `agent-run.sh run` overwrites its JUnit reports in place, and on NTFS overwriting a file does not move its directory's mtime, so an `artifact` naming `target/agent-run/artifacts/` reads STALE on every run while the run's files are fresh. Name a file the entry writes on every run (for the default `run`, `target/agent-run/artifacts/junit-nextest-integration.xml`), never the directory that holds it; a freshness red on a directory is an instrument defect to retarget, not a standing red to accept.
+
+---
+
+## 2026-09-29 — gate.py hygiene reads `/home/<x>/` in prose as a POSIX user home
+The run-dir hygiene read (`gate.py hygiene`, P1) matches the POSIX form `/home/{user}/…` anywhere in a committed run dir or chunk evidence, including a repo-relative path to a kept test home written as `…/viola-test-X/home/instances/builder/…`, and refuses the file. In evidence prose, name such a file by its parts ("the builder instance's `detail-run.ndjson` in the kept home `viola-test-X`, under `ci/diag-windows-2025/`") rather than as a slash path through `home/`.
+
+---
+
 ## 2026-09-29 — cargo-llvm-cov refuses `--no-report` with `--no-clean`
 cargo-llvm-cov 0.9.1 rejects the pair (`--no-report may not be used together with --no-clean`): a `--no-report` run already keeps the previous build and profiles, so a loop that repeats `cargo llvm-cov nextest --no-report …` needs no `--no-clean` and must not pass it. A loop that runs the command many times should fail closed on an iteration that fails without the evidence it expects (here, no kept test report), so a usage error reads as a broken measurement rather than as a pass.
 

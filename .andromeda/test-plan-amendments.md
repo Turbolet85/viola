@@ -313,3 +313,29 @@
 **Change:** the bullet keeps its rule — child `viola` processes of the product stay in coverage because `LLVM_PROFILE_FILE` propagates, and `env_clear()` re-adds it — and names its one deliberate exception, which is not the product: the harness self-tests' nested cargo over the throwaway `mini` crate (package `viola`) removes `CARGO_LLVM_COV`, `LLVM_PROFILE_FILE`, `RUSTC_WRAPPER` and `__CARGO_LLVM_COV_RUSTC_WRAPPER_RUSTFLAGS` through `test_support::uninstrumented`, as measured on the dev host (new `.profraw` per run of one such self-test: 17 inherited, 13 removed, the throwaway's two binary signatures gone). That the corrupt-header profiles failing the ubuntu merge (ci#36529038462, ci#36481260151) came through this channel is recorded, not established.
 **Why:** a red met in this chunk's operator pass (919/919 tests passed, the merge failed), folded on the operator's word; the channel was carried from chunk 2026-09-28-mutation-testing-to-the-epoch-boundary, and closing it takes non-product binaries out of the product's coverage set.
 **Ref:** .andromeda/runs/2026-09-29T06-18-44-wrap/
+
+## 2026-09-29-verify-stamped-test-homes-and-harness — stamped root seam, stop waits for the endpoint, boot readiness line 3
+**Section:** §3 `boot` Readiness signal (staged checks; `events.ndjson` bullet); §3 `run` step 2 (the root fixture chain; `WITHIN`)
+**Change:**
+- Root `stamped_home` runs `viola --home <h> verify -- <fake agent> --cli-version 2.1.283 --fixtures <root>/fixtures/claude`; `stamped` is true only on exit 0 and a last line `stamped 2.1.283  <n> pass  0 fail`, else the fixture panics with codes. Was "an interim seam (`stamped:false`) until `viola verify` exists". `StampedHome::unstamped(TestHome)` serves the unverified-path tests; `Wrapper::boot` always passes `--cli-version 2.1.283`, `--fixtures` stays per-test.
+- `Wrapper::stop` / `stop_keep` wait for the exit and then for the recorded endpoint to be unconnectable (`wait_endpoint_gone`, the harness `endpoint_gone` rule); 9 root waits share `WITHIN` (was 8). An exit code is not the endpoint gone: on Windows the stopped wrapper's own pipe took a hook 25 ms after its exit line, as measured at ci#36532038635; why is recorded, not established.
+- `boot` readiness checks `events.ndjson` lines 1-3 through `start_records` after snapshot, endpoint and heartbeat (missing `<name>:events`); was "`boot` checks lines 1–2 today".
+**Why:** stamps come only from `viola verify` against the fake agent (§7 Seed strategies); the folded case_08 red showed "stopped" meant an exit code, not the endpoint gone. The pipe-name-collision hypothesis was falsified (the name carries the home).
+**Ref:** .andromeda/runs/2026-09-29T07-53-49-wrap/
+
+## 2026-09-29-verify-stamped-test-homes-and-harness — run --local-live specified; its suite, reason and codes closed
+**Section:** §3 `run` (`--local-live` bullet; Output format); §3 `gate` (`--require`); §3 Closed enums; §12 Test Decisions Log (2026-09-29)
+**Change:**
+- `--local-live`: under `CI` (presence only, passed to `run_with` as `ci`) it is `{"v":1,"cmd":"run","ok":false,"reason":"live-in-ci"}`, exit 2, before any build, spawn or suite; otherwise, after the selected suites, `cargo build --workspace --features viola/fake-agent` into `target/harness`, then one `<harness bins>/viola --home target/e2e-home/viola-live-<pid>/home verify` against the real `claude`, both through the runner seam. Suite `local-live` passes 1 on exit 0 with each of the six literal row ids naming one `  pass` line and a `… 0 fail` summary; else it fails 1 with `build`, `verify-exit-<n>`, `verify-exit-none` or `row-missing`. It claims no H2 measurement.
+- Output format `suite` gains `local-live`; `gate --require` takes the nine other values; Closed enums add suite `local-live` and its four codes, `run` reason `live-in-ci`, and the `boot` readiness missing codes list with `<name>:events`.
+**Why:** the plan left the live run's binary unstated, so it builds first, as `--perf` does, and a verify that yields no exit code is named; a new closed value takes a Decisions Log entry.
+**Ref:** .andromeda/runs/2026-09-29T07-53-49-wrap/
+
+## 2026-09-29-verify-stamped-test-homes-and-harness — fake-agent default 2.1.283; perf session stamped; H2 owner re-named
+**Section:** §7 Test Data & Fixtures → Fake agent (Modes); §10 Quality Gates → Perf session; §5 Integration Test Strategy → Module ↔ PTY row (H2)
+**Change:**
+- Fake agent `DEFAULT_CLI_VERSION` is 2.1.283, the recorded set's version (was "stays 2.1.0"); its default `--version` answer is `2.1.283 (Claude Code)`, and the harness `boot --cli-version` default is the same.
+- The `--perf` session boots with `BootOptions { …, stamp: true }` and is stamped at boot step 4 (was "No unstamped session exists: nothing is stamped yet").
+- The Module ↔ PTY row's H2 owner is the working-route entry "First live test and self-drive" (was "the real-CLI verify entry"); `run --local-live` does not claim it.
+**Why:** the fake agent answers at the version its fixtures were recorded at, so the wrapper's version gate reads a stamped version; the H2 owner wording matches architecture [PTY].
+**Ref:** .andromeda/runs/2026-09-29T07-53-49-wrap/

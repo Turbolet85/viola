@@ -28,6 +28,29 @@ Acted on exactly the refused rows:
 
 Re-read: `hygiene: clean — read 133 (runs 131 · evidence 2)`.
 
+## Before the push
+`bash scripts/agent-run.sh pre-push` on the tree after the hygiene actions: exit 0, `"ok":true`,
+`stage:"windows-tests"`, i.e. both the Linux (WSL) and host legs green.
+
+## Entry 22 — push
+The pre-CI commit `702a3b4` ("chore(2026-09-29-verify-stamped-test-homes-and-harness): operator pre-CI commit, …")
+was pushed with the entry's exact form: `31dd995..702a3b4  HEAD -> build/viola-0.1.0`. There was one push and
+no measurement push.
+
+## Entry 23 — CI read
+`ci.py conclusion --sha HEAD --wait 1800`: `702a3b466ef3 verdict: green · checks 15/15 · wall 248 s · runs
+ci#36538832471 completed/success` (polled 9× over 250 s).
+
+Per-OS reads from that run's job logs (`gh run view 36538832471 --log`), all PASS:
+
+| test | ubuntu-latest | windows-2025 | macos-latest |
+|---|---|---|---|
+| `hook_fail_open …::case_08_unreachable_endpoint` | 0.186 s | 0.314 s | 0.287 s |
+| `channel_endpoint stop_wait_holds_while_the_endpoint_answers` | 0.147 s | 0.095 s | 0.025 s |
+| `contract_ledger_probes contract_ledger_probes_pass_over_every_recorded_set` | 0.258 s | 0.280 s | 0.281 s |
+
+No CI red to fold. Final HEAD run id: ci#36538832471.
+
 ## Entry 6's freshness check
 Recorded as a plan-target defect for the wrap to retarget, not accepted as a standing red:
 `entry-6-freshness-plan-defect.md`.
