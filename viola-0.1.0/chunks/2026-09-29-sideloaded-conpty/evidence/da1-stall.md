@@ -26,6 +26,16 @@ The six `run_cli` tests on the piped driver went red at their 7 s start wait und
 green); alone one of them took 4.3 s against 1.2 s pre-chunk. With the driver answering DA1 (and the home seed
 below), `run_cli` in parallel: 17/17 in 3 of 3 rounds.
 
+## Consequence measured on CI (ci#36563179341, `2d83718`)
+The DA1 round-trip travels through viola's pump (the query out on the child's output, the answer back on viola's
+stdin), so under the sideload the child's start waits for the pump to run. `tui_passthrough::
+tui_host_resize_in_the_pump_start_window_reaches_the_child` holds the pump 1 s (`FAKE_AGENT_PUMP_DELAY_MS`) and used
+to resize on the child's `start` receipt; that receipt now lands after the hold, so the resize missed the window
+(`the resize took 262.48ms`, runner; 234-255 ms locally, 3 of 3). The test now resizes on the wrapper's own
+`process-start{claude-child}` line (after the spawn sizing, before the pump) and waits for the child's start before
+its keys: 5/5 `tui_passthrough` in 3 of 3 local runs. That run's other 14 checks were green, and its Windows coverage
+step failed on this test alone (974/975).
+
 ## The a11y preamble note
 The plan's implementation notes asked for the sideloaded spawn preamble to be recorded for the a11y amendment if it
 differs from the inbox one: it does (the table above). The zero-viola-literals oracle is unaffected: none of these

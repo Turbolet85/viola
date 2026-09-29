@@ -98,10 +98,13 @@ fn tui_keys_reach_the_child_as_typed_and_ctrl_c_ends_it(#[from(home)] tmp: TestH
 /// Below nextest's `mutants` kill (5 s × 2): a test killed before its own assertion loses its evidence.
 const RESIZE_WITHIN: Duration = Duration::from_secs(8);
 
-/// Resizes the host terminal once the child has started and waits for the child to see the new
-/// size. Every observation is appended as it happens to `viola-resize-<pid>.ndjson` in the temp
-/// dir, outside the test home and any scratch copy, so a run killed mid-wait still leaves it;
-/// the file is removed on success. Returns how long the new size took to reach the child.
+/// Resizes the host terminal once the wrapper has spawned the child (its `process-start` line for
+/// `claude-child`, written after the spawn sizing and before the pump) and waits for the child to
+/// see the new size. The wrapper's line, not the child's `start` receipt: the sideloaded ConPTY
+/// holds the child's start for a DA1 answer that travels through the pump, so the receipt lands only
+/// once the pump runs. Every observation is appended as it happens to `viola-resize-<pid>.ndjson` in
+/// the temp dir, outside the test home and any scratch copy, so a run killed mid-wait still leaves
+/// it; the file is removed on success. Returns how long the new size took to reach the child.
 fn resize_reaches_the_child(tmp: &TestHome, env: &[(&str, &str)]) -> Duration {
     let receipt = tmp.scratch().join("resize.receipt.ndjson");
     let trail = std::env::temp_dir().join(format!("viola-resize-{}.ndjson", std::process::id()));
@@ -117,13 +120,29 @@ fn resize_reaches_the_child(tmp: &TestHome, env: &[(&str, &str)]) -> Duration {
         env,
         Size { cols: 80, rows: 24 },
     );
-    fake::wait_for(&receipt, "start", |l| !of_kind(l, "start").is_empty());
+    let spawned = Instant::now() + RESIZE_WITHIN;
+    while !role_lines(tmp.path())
+        .iter()
+        .any(|l| l["event"] == "process-start" && l["subject"] == "claude-child")
+    {
+        assert!(
+            pty.try_wait().is_none(),
+            "the wrapper exited before the spawn"
+        );
+        assert!(
+            Instant::now() < spawned,
+            "the wrapper never spawned the child"
+        );
+        std::thread::yield_now();
+    }
     note(json!({"t_us": unix_us(), "what": "resize-sent"}));
     let sent = Instant::now();
     pty.resize(Size {
         cols: 100,
         rows: 30,
     });
+    // A key reaches the child as typed only once its terminal is raw.
+    fake::wait_for(&receipt, "start", |l| !of_kind(l, "start").is_empty());
     let target = json!({"v": 1, "kind": "size", "cols": 100, "rows": 30});
     let deadline = sent + RESIZE_WITHIN;
     let mut observed: Vec<Value> = Vec::new();
