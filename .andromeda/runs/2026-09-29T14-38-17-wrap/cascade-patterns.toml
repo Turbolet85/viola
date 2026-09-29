@@ -1,0 +1,69 @@
+# Cascade sweep patterns — 2026-09-29-fake-agent-drift-contract. Derived from every amendment of the pass
+# (A1-A3, R1-R9, T1-T3): the retired claims' tokens AND their mechanism phrasing.
+
+# The harness-prefix set (was two literals; now four) — the literals, the class name, the classifier's verbs.
+[[pattern]]
+id = 'agentmsg'
+fixed = 'agent-message from='
+
+[[pattern]]
+id = 'tasknotif'
+fixed = '<task-notification>'
+
+[[pattern]]
+id = 'harnessprefix'
+regex = 'harness[- ](prompt )?prefix'
+ignore_case = true
+
+[[pattern]]
+id = 'harnessturn'
+regex = 'harness[- ](injected|turn)'
+ignore_case = true
+
+# The retired "an escaped/typed tag never classifies" mechanism, however worded.
+[[pattern]]
+id = 'escapedtyped'
+regex = '(typed.{0,120}escap|escap.{0,120}typed|never classif)'
+ignore_case = true
+
+# insta as the fake-agent pin (retired for the fake-agent half).
+[[pattern]]
+id = 'insta'
+regex = '\binsta\b'
+
+[[pattern]]
+id = 'transcript'
+regex = 'fake-agent transcript|hook sequences?'
+ignore_case = true
+
+# Matcher evaluation's owner (was this chunk; now Dialog answers).
+[[pattern]]
+id = 'matcher'
+regex = 'matchers?\b'
+ignore_case = true
+
+[[pattern]]
+id = 'driftcontract'
+regex = 'drift contract'
+ignore_case = true
+
+# S8 annotations' owner.
+[[pattern]]
+id = 'annotations'
+fixed = 'annotations'
+
+# The resize oracle's mechanism (was key-driven; now a watcher).
+[[pattern]]
+id = 'resizeoracle'
+regex = 'resize oracle|size changed|before a byte read|re-read its size'
+ignore_case = true
+
+# The hook receipt's field list (gains stdin_hex).
+[[pattern]]
+id = 'stdouthex'
+fixed = 'stdout_hex'
+
+# The UserPromptSubmit payload's construction (keeps the trailing newline).
+[[pattern]]
+id = 'promptkey'
+regex = 'only the top-level .prompt.|with .prompt. set|only .prompt. set'

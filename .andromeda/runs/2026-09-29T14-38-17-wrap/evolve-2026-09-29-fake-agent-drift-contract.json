@@ -1,0 +1,162 @@
+[
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-09-29T14:41:26Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-29T14-38-17-wrap",
+"--marker",
+"2026-09-29-fake-agent-drift-contract"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"appended 1 record(s) · friction-log.ndjson lines 736→737 · bytes 714635→715911 · term lf",
+"ts 2026-09-29T14:41:17Z · clock 2026-09-29T14:41:25Z · bound 2026-09-29T14:27:36Z (line 736)",
+"ids 2026-09-29T14:41:17Z-a"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 736,
+"bytes": 714635,
+"terminator": "LF",
+"bound": "2026-09-29T14:27:36Z"
+},
+"after": {
+"lines": 737,
+"bytes": 715911
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-09-29T14:50:24Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-29T14-38-17-wrap",
+"--marker",
+"2026-09-29-fake-agent-drift-contract"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"appended 2 record(s) · friction-log.ndjson lines 737→739 · bytes 715911→718711 · term lf",
+"ts 2026-09-29T14:49:56Z · clock 2026-09-29T14:50:24Z · bound 2026-09-29T14:41:17Z (line 737)",
+"ids 2026-09-29T14:49:56Z-a … 2026-09-29T14:49:56Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 737,
+"bytes": 715911,
+"terminator": "LF",
+"bound": "2026-09-29T14:41:17Z"
+},
+"after": {
+"lines": 739,
+"bytes": 718711
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-09-29T14:51:34Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-29T14-38-17-wrap",
+"--marker",
+"2026-09-29-fake-agent-drift-contract"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"appended 3 record(s) · friction-log.ndjson lines 739→742 · bytes 718711→720995 · term lf",
+"ts 2026-09-29T14:51:22Z · clock 2026-09-29T14:51:34Z · bound 2026-09-29T14:49:56Z (line 739)",
+"ids 2026-09-29T14:51:22Z-a … 2026-09-29T14:51:22Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 739,
+"bytes": 718711,
+"terminator": "LF",
+"bound": "2026-09-29T14:49:56Z"
+},
+"after": {
+"lines": 742,
+"bytes": 720995
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-09-29T14:53:12Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-29T14-38-17-wrap",
+"--marker",
+"2026-09-29-fake-agent-drift-contract"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"appended 2 record(s) · friction-log.ndjson lines 742→744 · bytes 720995→722665 · term lf",
+"ts 2026-09-29T14:53:01Z · clock 2026-09-29T14:53:12Z · bound 2026-09-29T14:51:22Z (line 742)",
+"ids 2026-09-29T14:53:01Z-a … 2026-09-29T14:53:01Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 742,
+"bytes": 720995,
+"terminator": "LF",
+"bound": "2026-09-29T14:51:22Z"
+},
+"after": {
+"lines": 744,
+"bytes": 722665
+}
+}
+]

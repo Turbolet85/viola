@@ -1,0 +1,262 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-29T14:45:26Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan.md",
+"--payload-file",
+".andromeda/runs/2026-09-29T14-38-17-wrap/security-decisions-entry.md",
+"--lines",
+"7",
+"--run-dir",
+".andromeda/runs/2026-09-29T14-38-17-wrap",
+"--marker",
+"2026-09-29-fake-agent-drift-contract"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 2,
+"stdout": [],
+"stderr": "--payload-file: 8 line(s), --lines says 7 — the count is the caller's own assertion",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-29T14:45:31Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan.md",
+"--payload-file",
+".andromeda/runs/2026-09-29T14-38-17-wrap/security-decisions-entry.md",
+"--lines",
+"8",
+"--run-dir",
+".andromeda/runs/2026-09-29T14-38-17-wrap",
+"--marker",
+"2026-09-29-fake-agent-drift-contract"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append security-plan.md:+8 at line 772 · lines 771→779 · bytes 148773→150837 · term lf",
+"last line now: - **By:** the founder (live ratification, relay: the Viola overseer); recorded b"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan.md"
+],
+"before": {
+"lines": 771,
+"bytes": 148773,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 779,
+"bytes": 150837
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-29T14:46:14Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan.md",
+"--payload-file",
+".andromeda/runs/2026-09-29T14-38-17-wrap/test-decisions-entry.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-09-29T14-38-17-wrap",
+"--marker",
+"2026-09-29-fake-agent-drift-contract"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append test-plan.md:+10 at line 1972 · lines 1971→1981 · bytes 299293→300955 · term lf",
+"last line now: - **By:** `/andromeda-wrap-session`, chunk `2026-09-29-fake-agent-drift-contract"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan.md"
+],
+"before": {
+"lines": 1971,
+"bytes": 299293,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1981,
+"bytes": 300955
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-29T14:49:39Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-29T14-38-17-wrap/architecture-entry.md",
+"--lines",
+"7",
+"--run-dir",
+".andromeda/runs/2026-09-29T14-38-17-wrap",
+"--marker",
+"2026-09-29-fake-agent-drift-contract"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+7 at line 384 · lines 383→390 · bytes 62201→63692 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-29T14-38-17-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 383,
+"bytes": 62201,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 390,
+"bytes": 63692
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-29T14:49:39Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-29T14-38-17-wrap/security-plan-entry.md",
+"--lines",
+"8",
+"--run-dir",
+".andromeda/runs/2026-09-29T14-38-17-wrap",
+"--marker",
+"2026-09-29-fake-agent-drift-contract"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+8 at line 254 · lines 253→261 · bytes 37367→38557 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-29T14-38-17-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 253,
+"bytes": 37367,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 261,
+"bytes": 38557
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-29T14:49:40Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-29T14-38-17-wrap/test-plan-entry-prefixes.md",
+"--lines",
+"6",
+"--run-dir",
+".andromeda/runs/2026-09-29T14-38-17-wrap",
+"--marker",
+"2026-09-29-fake-agent-drift-contract"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+6 at line 357 · lines 356→362 · bytes 52691→53578 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-29T14-38-17-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 356,
+"bytes": 52691,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 362,
+"bytes": 53578
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-29T14:49:40Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-29T14-38-17-wrap/test-plan-entry-contract.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-09-29T14-38-17-wrap",
+"--marker",
+"2026-09-29-fake-agent-drift-contract"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+10 at line 363 · lines 362→372 · bytes 53578→55534 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-29T14-38-17-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 362,
+"bytes": 53578,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 372,
+"bytes": 55534
+}
+}
+]

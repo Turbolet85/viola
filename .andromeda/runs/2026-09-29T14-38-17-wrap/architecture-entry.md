@@ -1,0 +1,7 @@
+
+## 2026-09-29-fake-agent-drift-contract — Harness prefixes: the cross-session tag, escaped and plain
+**Section:** Established Decisions → [Human Takeover / Wheel]; [CLI Version Compatibility] → the Harness prompt prefixes row and the Tag escaping row
+**Change:** The harness-injected prompt set was the two literals `<agent-message from=` / `<task-notification>`; now it is `viola-agent-claude`'s four compiled `HARNESS_PREFIXES`, matched on the prompt's raw start with no trim: `<agent-message from=`, `<task-notification>`, `<\cross-session-message`, `<cross-session-message`. Tag escaping gains its one exception: an escaped tag is typed text and never classifies `harness`, except the cross-session message, whose escaped form is the CLI's own injection — so a human who types that tag at a prompt's start is filed `harness`. The Harness prompt prefixes row names the set and records the two cross-session forms as a relayed measurement, not yet measured in this repository.
+**Why:** another Claude session's message was filed `human` and flipped the wheel. The widening of the classifier's `harness` class, with its typed-tag side effect, was ratified live by the founder (relay: the Viola overseer). The first live test measures a real cross-session UserPromptSubmit `prompt` and owns the ledger row.
+**Kept:** no trim before the match (the raw start is the narrower class); the escaped-means-typed rule for every other tag.
+**Ref:** .andromeda/runs/2026-09-29T14-38-17-wrap/

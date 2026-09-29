@@ -19,4 +19,18 @@ playwright 1/1, `gate` green). The red is recorded `red — not this chunk's` wi
     bash, repo, temp-log and skills paths. Rewritten to `<git-bash>` · `<repo>` · `<OS temp>` · `<skills>` (lines 2-4, 22,
     24; binary-mode, CRLF kept, read back).
   - P1 `evidence/host-reds-two-sided.md:8`: the control worktree's absolute path → `<repo parent>/viola-ctl-2d8bc53`.
-- Second firing: `hygiene: clean — read 39 (runs 37 · evidence 2) · trails 12 not read · binary 0 not read by P1`.
+- Second firing: `hygiene: clean — read 39 (runs 37 · evidence 2) · trails 12 not read · binary 0 not read by P1`;
+  with this record written, `clean — read 40 (runs 37 · evidence 3)`.
+
+## Entry 17 — the push
+Pre-CI commit `055adf4`; `git diff --quiet && git diff --cached --quiet && git push origin HEAD`: exit 0,
+`2d8bc53..055adf4 HEAD -> build/viola-0.1.0`; HEAD == `@{u}`.
+
+## Entry 18 — `ci.py conclusion --sha HEAD --wait 1800` (the acceptance read)
+`ci v1.0 · bf89b279` · polled 10× over 282 s · `055adf4b2291 verdict: green · checks 15/15 · wall 270 s · runs
+ci#36583175440 completed/success`; exit 0. Both atoms held (`exit 0`, `contains verdict: green`). **The final HEAD run:
+ci#36583175440.** No red to fold; no fix commit.
+
+## The control worktree
+The same-day control (`<repo parent>/viola-ctl-2d8bc53`, detached at `2d8bc53`) was removed after this read, on the
+operator's word; the wrap's light gate mints its own control if it needs one.

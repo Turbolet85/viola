@@ -1,0 +1,601 @@
+[
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-29T14:38:30Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-09-29-fake-agent-drift-contract",
+"--run-dir",
+".andromeda/runs/2026-09-29T14-38-17-wrap",
+"--marker",
+"2026-09-29-fake-agent-drift-contract"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\viola · base 2d8bc53c (the parent of the oldest pre-CI commit 055adf4b) · lists new 1 · modify 5 · derived 0 · record 1",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"recorded in-intent tests/tui_pty_seam.rs",
+"scope: clean — changed 7 · listed 6 · recorded 1 (companion 0 · mechanical 0 · in-intent 1 · widening 0) · absorbed 0 · excluded 49"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\viola",
+"base": "2d8bc53c4a35bbf03ba33a27157a2c2f3f3a4147",
+"base_why": "the parent of the oldest pre-CI commit 055adf4b",
+"counts": {
+"changed": 7,
+"listed": 6,
+"recorded": 1,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 1,
+"widening": 0
+},
+"excluded": 49,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-29T15:01:59Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-09-29-fake-agent-drift-contract/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-29T14-38-17-wrap",
+"--marker",
+"2026-09-29-fake-agent-drift-contract"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\viola · marker 2026-09-29-fake-agent-drift-contract · entries 18",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-fake-agent-drift-contract\\wrap-2026-09-29T14-38-17 · bound: GNU timeout",
+"delta docs 33 · python 1",
+"prose L130-135: The harness runs every Rust suite (test-plan §3). The contract binary is a root `contract_… (562 chars)",
+"  1 lint        green · exit 0 · 0.81s · 0 B → 1.log · cargo fmt --all --check",
+"  2 lint        green · exit 0 · 0.56s · 72 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 unit        green · exit 0 · 37.04s · 90027 B → 3.log · bash scripts/agent-run.sh run --unit",
+"  4 unit        green · exit 0 · 1.71s · 2315 B → 4.log · bash scripts/agent-run.sh run --unit --filter 'test(/promp… (108 chars)",
+"  5 integration green · exit 0 · 1.82s · 2053 B → 5.log · bash scripts/agent-run.sh run --integration --filter 'bina… (88 chars)",
+"  6 integration green · exit 0 · 1.75s · 1719 B → 6.log · bash scripts/agent-run.sh run --integration --filter 'bina… (130 chars)",
+"  7 integration red · exit 0 ✗ (exit 1) · exit 1 · 13.47s · 13393 B → 7.log · bash scripts/agent-run.sh run --integration --filter 'bina… (155 chars)",
+"  8 integration red · exit 0 ✗ (exit 1) · exit 1 · 65.52s · 158976 B → 8.log · bash scripts/agent-run.sh run",
+"  9 probe       green · exit 0 · 0.11s · 0 B → 9.log · ! (grep -rl --include='*.rs' 'cross-session-message' crate… (121 chars)",
+" 10 probe       green · exit 0 · 0.07s · 0 B → 10.log · git diff --quiet 2d8bc53 -- scripts/wsl-provision.sh .gith… (77 chars)",
+" 11 probe       green · exit 0 · 1.67s · 9180 B → 11.log · cargo deny check",
+" 12 probe       red · exit 0 ✗ (exit 1) · exit 1 · 343.36s · 275672 B → 12.log · bash scripts/agent-run.sh pre-push",
+" 13 smoke       green · exit 0 · 0.31s · 47 B → 13.log · bash scripts/agent-run.sh cleanup --session p-fadc-smoke",
+" 14 smoke       green · exit 0 · 13.41s · 399 B → 14.log · bash scripts/agent-run.sh boot --session p-fadc-smoke --in… (72 chars)",
+" 15 smoke       green · exit 0 · 0.76s · 177 B → 15.log · bash scripts/agent-run.sh cleanup --session p-fadc-smoke",
+" 16 probe       not run — leg operator (the letter drives it) · python -X utf8 C:/Users/turbo/.claude/skills/andromeda-pha… (103 chars)",
+" 17 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (69 chars)",
+" 18 probe       not run — leg operator (the letter drives it) · python -X utf8 C:/Users/turbo/.claude/skills/andromeda-pha… (127 chars)",
+"entries 18 · green 12 · red 3 (7,8,12) · recorded 0 · timeout 0 · not-run 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-29-fake-agent-drift-contract",
+"plan": "D:\\dev\\projects\\viola\\viola-0.1.0\\chunks\\2026-09-29-fake-agent-drift-contract\\plan.md",
+"root": "D:\\dev\\projects\\viola",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-fake-agent-drift-contract\\wrap-2026-09-29T14-38-17",
+"delta": {
+"docs": [
+".andromeda/architecture-amendments.md",
+".andromeda/architecture.md",
+".andromeda/friction-log.ndjson",
+".andromeda/security-plan-amendments.md",
+".andromeda/security-plan.md",
+".andromeda/state.yaml",
+".andromeda/test-plan-amendments.md",
+".andromeda/test-plan.md",
+".claude/docs/security-summary.md",
+".claude/docs/services/viola-agent-claude.md",
+".claude/docs/tests-summary.md",
+".claude/rules/events.md",
+".claude/rules/verification-harness.md",
+".claude/session-handoff.md",
+"viola-0.1.0/chunks/2026-09-29-fake-agent-drift-contract/evidence/operator-pass.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-09-29T14-38-17-wrap/.sweep-listing.txt",
+".andromeda/runs/2026-09-29T14-38-17-wrap/architecture-entry.md",
+".andromeda/runs/2026-09-29T14-38-17-wrap/cascade-2026-09-29-fake-agent-drift-contract.json",
+".andromeda/runs/2026-09-29T14-38-17-wrap/cascade-dispositions.md",
+".andromeda/runs/2026-09-29T14-38-17-wrap/cascade-patterns.toml",
+".andromeda/runs/2026-09-29T14-38-17-wrap/curation.md",
+".andromeda/runs/2026-09-29T14-38-17-wrap/evolve-2026-09-29-fake-agent-drift-contract.json",
+".andromeda/runs/2026-09-29T14-38-17-wrap/fanout-results.md",
+".andromeda/runs/2026-09-29T14-38-17-wrap/gate-2026-09-29-fake-agent-drift-contract.json",
+".andromeda/runs/2026-09-29T14-38-17-wrap/route-no-marker.json",
+".andromeda/runs/2026-09-29T14-38-17-wrap/security-decisions-entry.md",
+".andromeda/runs/2026-09-29T14-38-17-wrap/security-plan-entry.md",
+".andromeda/runs/2026-09-29T14-38-17-wrap/splice-2026-09-29-fake-agent-drift-contract.json",
+".andromeda/runs/2026-09-29T14-38-17-wrap/test-decisions-entry.md",
+".andromeda/runs/2026-09-29T14-38-17-wrap/test-plan-entry-contract.md",
+".andromeda/runs/2026-09-29T14-38-17-wrap/test-plan-entry-prefixes.md",
+"viola-0.1.0/chunks/2026-09-29-fake-agent-drift-contract/report.md"
+],
+"python": [
+".andromeda/runs/2026-09-29T14-38-17-wrap/evolve-reconcile.py"
+]
+},
+"unmapped": [],
+"prose": [
+{
+"from": 130,
+"to": 135,
+"text": "The harness runs every Rust suite (test-plan §3). The contract binary is a root `contract_` test in the integration layer's selection: `contract_ledger_probes` reads in run-archive 380's `junit-nextest-integration.xml`. No live leg runs: the real `claude` is out of this chunk (a cross-session payload needs a live session, which is route :76's). The boot smoke confirms that the change-driven `size` watcher and the `stdin_hex` field leave a booted session's readiness intact. Coverage and the per-OS gates run in CI's `test` job, which the operator pass reads."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-fake-agent-drift-contract\\wrap-2026-09-29T14-38-17\\1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.81,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-fake-agent-drift-contract\\wrap-2026-09-29T14-38-17\\2.log",
+"bytes": 72,
+"log_sha8": "a178c790",
+"exit": 0,
+"seconds": 0.56,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-fake-agent-drift-contract\\wrap-2026-09-29T14-38-17\\3.log",
+"bytes": 90027,
+"log_sha8": "2dd5f42f",
+"exit": 0,
+"seconds": 37.04,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/prompt_origin_files_the_cross_session_tag_as_harness/)'",
+"run_sha8": "1c39d90c",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-fake-agent-drift-contract\\wrap-2026-09-29T14-38-17\\4.log",
+"bytes": 2315,
+"log_sha8": "93f29f55",
+"exit": 0,
+"seconds": 1.71,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(contract_fake_agent_drift)'",
+"run_sha8": "20edc473",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-fake-agent-drift-contract\\wrap-2026-09-29T14-38-17\\5.log",
+"bytes": 2053,
+"log_sha8": "5761e959",
+"exit": 0,
+"seconds": 1.82,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(tui_pty_seam) & test(/pty_resize_reaches_a_child_that_reads_no_key/)'",
+"run_sha8": "e14830fd",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-fake-agent-drift-contract\\wrap-2026-09-29T14-38-17\\6.log",
+"bytes": 1719,
+"log_sha8": "73f0e327",
+"exit": 0,
+"seconds": 1.75,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(tui_pty_seam) | binary(tui_passthrough) | binary(cli_fake_agent) | binary(cli_instance_state)'",
+"run_sha8": "1d824559",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-fake-agent-drift-contract\\wrap-2026-09-29T14-38-17\\7.log",
+"bytes": 13393,
+"log_sha8": "fedba1de",
+"exit": 1,
+"seconds": 13.47,
+"readings": [
+"exit 0 ✗ (exit 1)",
+"contains '\"ok\":true' ✗"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 1)"
+},
+{
+"n": 8,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run",
+"run_sha8": "21443cdf",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-fake-agent-drift-contract\\wrap-2026-09-29T14-38-17\\8.log",
+"bytes": 158976,
+"log_sha8": "76add819",
+"exit": 1,
+"seconds": 65.52,
+"readings": [
+"exit 0 ✗ (exit 1)",
+"contains '\"ok\":true' ✗",
+"artifact fresh (target/agent-run/artifacts/junit-nextest-integration.xml)"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 1)"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "! (grep -rl --include='*.rs' 'cross-session-message' crates src tests | grep -vx 'crates/viola-agent-claude/src/hook.rs')",
+"run_sha8": "49b8479e",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-fake-agent-drift-contract\\wrap-2026-09-29T14-38-17\\9.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.11,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "git diff --quiet 2d8bc53 -- scripts/wsl-provision.sh .github/workflows/ci.yml",
+"run_sha8": "7374b59f",
+"expect": [
+"exit 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-fake-agent-drift-contract\\wrap-2026-09-29T14-38-17\\10.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.07,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-fake-agent-drift-contract\\wrap-2026-09-29T14-38-17\\11.log",
+"bytes": 9180,
+"log_sha8": "d34562e1",
+"exit": 0,
+"seconds": 1.67,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-fake-agent-drift-contract\\wrap-2026-09-29T14-38-17\\12.log",
+"bytes": 275672,
+"log_sha8": "b6d6f68b",
+"exit": 1,
+"seconds": 343.36,
+"readings": [
+"exit 0 ✗ (exit 1)",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 1)"
+},
+{
+"n": 13,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-fadc-smoke",
+"run_sha8": "e56dd743",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-fake-agent-drift-contract\\wrap-2026-09-29T14-38-17\\13.log",
+"bytes": 47,
+"log_sha8": "91854d6e",
+"exit": 0,
+"seconds": 0.31,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-fadc-smoke --instance builder",
+"run_sha8": "4c9a3122",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-fake-agent-drift-contract\\wrap-2026-09-29T14-38-17\\14.log",
+"bytes": 399,
+"log_sha8": "6c70dc8a",
+"exit": 0,
+"seconds": 13.41,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-fadc-smoke",
+"run_sha8": "e56dd743",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-fake-agent-drift-contract\\wrap-2026-09-29T14-38-17\\15.log",
+"bytes": 177,
+"log_sha8": "8da1ca9b",
+"exit": 0,
+"seconds": 0.76,
+"readings": [
+"exit 0 ✓",
+"contains '\"processes_gone\":true' ✓",
+"contains '\"endpoint_gone\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "python -X utf8 C:/Users/turbo/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "f8a39309",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "python -X utf8 C:/Users/turbo/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "aadba3d7",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-29T15:02:40Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-09-29T14-38-17-wrap",
+"--marker",
+"2026-09-29-fake-agent-drift-contract"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\viola · planes rust, ts",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P2 · P3 rust · P3 ts — each fired on its synthetic known positive",
+"hygiene: clean — read 22 (runs 21 · evidence 1) · trails 7 not read · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\viola",
+"planes": [
+"rust",
+"ts"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 21,
+"evidence": 1,
+"trails": 7,
+"binary": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-29T15:02:47Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-09-29-fake-agent-drift-contract",
+"--run-dir",
+".andromeda/runs/2026-09-29T14-38-17-wrap",
+"--marker",
+"2026-09-29-fake-agent-drift-contract"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\viola · base 2d8bc53c (the parent of the oldest pre-CI commit 055adf4b) · lists new 1 · modify 5 · derived 0 · record 1",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"recorded in-intent tests/tui_pty_seam.rs",
+"scope: clean — changed 7 · listed 6 · recorded 1 (companion 0 · mechanical 0 · in-intent 1 · widening 0) · absorbed 0 · excluded 83"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\viola",
+"base": "2d8bc53c4a35bbf03ba33a27157a2c2f3f3a4147",
+"base_why": "the parent of the oldest pre-CI commit 055adf4b",
+"counts": {
+"changed": 7,
+"listed": 6,
+"recorded": 1,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 1,
+"widening": 0
+},
+"excluded": 83,
+"unparsed": 0,
+"widening_without_word": 0
+}
+}
+]

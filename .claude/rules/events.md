@@ -19,7 +19,7 @@ Path-scoped rules for viola's event log and state: the normalised event kinds, t
 ## Hook → kind map (only in `viola-agent-claude`)
 - SessionStart → `session-start` (`cause` startup|clear|resume|compact|unknown, `agent_session_id`); UserPromptSubmit → `prompt-submitted` (`text` normalised: long-paste wrapper removed, then tag escaping reversed; `origin` driver|human|harness); PreToolUse AskUserQuestion → `question`; PreToolUse ExitPlanMode → `plan`; PermissionRequest → `permission`; Stop → `turn-ended` (`last_assistant_message` or `null`); SessionEnd → `session-end`; Notification / PostToolUse / PostToolUseFailure → `activity`.
 - Dialog hooks send only `hook.dialog`; the wrapper assigns `dialog_id` (monotonic, restored from the log on start) and appends the dialog event before it can wake `wait` or reply — even when it replies `null`. At most one dialog pending per instance.
-- Harness turns (`<agent-message from=`, `<task-notification>`) are `origin:"harness"` and never flip the wheel.
+- Harness turns (a prompt whose raw start is `<agent-message from=`, `<task-notification>`, `<\cross-session-message` or `<cross-session-message`) are `origin:"harness"` and never flip the wheel. The escaped cross-session form is the one escaped tag that classifies, so a human typing it at a prompt's start is filed `harness` (founder-ratified, 2026-09-29).
 
 ## Cursors and retention
 - `wait after`, the `send` `cursor` and SSE ids are byte offsets into the instance's `events.ndjson`: never truncate, rotate or rewrite it; instance dirs are reused and appended to.
