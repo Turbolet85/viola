@@ -182,12 +182,17 @@ fn hook_commands(hooks_json: &str, event: &str) -> Vec<(String, Vec<String>)> {
 }
 
 /// For `UserPromptSubmit` the documented `prompt` field carries the prompt; nothing else is built.
+/// The fixture's trailing newline stays, so the recorded prompt yields the recorded bytes.
 fn payload(fixture: Vec<u8>, prompt: Option<&str>) -> Vec<u8> {
     let Some(prompt) = prompt else { return fixture };
     match serde_json::from_slice::<Value>(&fixture) {
         Ok(Value::Object(mut obj)) => {
             obj.insert("prompt".to_owned(), json!(prompt));
-            Value::Object(obj).to_string().into_bytes()
+            let mut bytes = Value::Object(obj).to_string().into_bytes();
+            if fixture.ends_with(b"\n") {
+                bytes.push(b'\n');
+            }
+            bytes
         }
         _ => fixture,
     }
@@ -255,6 +260,7 @@ impl Agent {
                 "exit_code": out.status.code(),
                 "stderr_len": out.stderr.len(),
                 "stdout_hex": hex(&out.stdout),
+                "stdin_hex": hex(body),
             }),
             Err(_) => json!({"event": event, "command_absolute": true, "ran": false}),
         };
@@ -460,8 +466,8 @@ fn script_steps(opts: &Opts) -> Option<Vec<Step>> {
     Some(steps)
 }
 
-/// The terminal size as a `size` receipt, written at start and before any byte read after it
-/// changed (the resize oracle); nothing when stdin/stdout is not a terminal.
+/// The terminal size as a `size` receipt when it differs from `last`: the watcher's one step.
+/// Nothing when stdin/stdout is not a terminal.
 fn receipt_size(agent: &Agent, last: &mut Option<viola_pty::Size>) {
     let now = viola_pty::host_size();
     if let Some(size) = now.filter(|s| Some(*s) != *last) {
@@ -470,6 +476,18 @@ fn receipt_size(agent: &Agent, last: &mut Option<viola_pty::Size>) {
             .write("size", json!({"cols": size.cols, "rows": size.rows}));
         *last = now;
     }
+}
+
+/// The resize oracle: the size at once, then again on every change, polled on the control cadence
+/// for the life of the process, so a resize reaches the receipt with no key after it.
+fn watch_size(agent: Arc<Agent>) {
+    std::thread::spawn(move || {
+        let mut last = None;
+        loop {
+            receipt_size(&agent, &mut last);
+            std::thread::sleep(CONTROL_POLL);
+        }
+    });
 }
 
 /// Print mode (`-p <prompt>`): one turn's spine hooks from the fixture set, the prompt as sent, then
@@ -488,10 +506,7 @@ fn read_stdin(agent: &Agent) -> ExitCode {
     let mut input = Input::new();
     let mut stdin = std::io::stdin().lock();
     let mut byte = [0u8; 1];
-    let mut size = None;
-    receipt_size(agent, &mut size);
     while let Ok(1) = stdin.read(&mut byte) {
-        receipt_size(agent, &mut size);
         for action in input.feed(byte[0]) {
             match action {
                 Action::Key(b) => agent.receipt.write("key", json!({"hex": hex(&[b])})),
@@ -540,6 +555,7 @@ fn main() -> ExitCode {
     // The `start` receipt below is written only once the mode is set.
     let _terminal = viola_pty::HostTerminal::enter();
     start_receipts(&agent);
+    watch_size(Arc::clone(&agent));
     // The real CLI fires SessionStart at launch; with no registered hook or no fixture, nothing runs.
     agent.fire("SessionStart", "default", None);
     if !steps.is_empty() {
@@ -712,6 +728,14 @@ mod tests {
         assert_eq!(out, json!({"prompt": "new", "session_id": "s"}));
         assert_eq!(payload(fixture.clone(), None), fixture);
         assert_eq!(payload(b"[1]".to_vec(), Some("new")), b"[1]");
+        assert_eq!(
+            payload(b"{\"prompt\":\"old\"}\n".to_vec(), Some("new")),
+            b"{\"prompt\":\"new\"}\n"
+        );
+        assert_eq!(
+            payload(b"{\"prompt\":\"old\"}".to_vec(), Some("new")),
+            b"{\"prompt\":\"new\"}"
+        );
     }
 
     #[test]

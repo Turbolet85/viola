@@ -87,7 +87,12 @@ struct Known {
 }
 
 const SESSION_CAUSES: [&str; 4] = ["startup", "clear", "resume", "compact"];
-const HARNESS_PREFIXES: [&str; 2] = ["<agent-message from=", "<task-notification>"];
+const HARNESS_PREFIXES: [&str; 4] = [
+    "<agent-message from=",
+    "<task-notification>",
+    "<\\cross-session-message",
+    "<cross-session-message",
+];
 
 /// Reads `bytes` as `event`'s payload. Only a payload that is not one JSON object is refused.
 pub fn normalise(event: HookEvent, bytes: &[u8]) -> Result<Normalised, AgentError> {
@@ -146,8 +151,11 @@ fn data_of(event: HookEvent, known: Known) -> Value {
     }
 }
 
-/// `harness` when the prompt as the CLI sent it starts with a harness prefix. A prefix the user
-/// typed arrives escaped (`<\task-notification>`), so it never classifies.
+/// `harness` when the prompt as the CLI sent it starts with a harness prefix, matched on the raw
+/// start with no trim. A tag the user typed arrives escaped (`<\task-notification>`), so it never
+/// classifies — with one exception: the cross-session message is itself injected escaped
+/// (`<\cross-session-message`, measured F115 on andromeda-worker, founder-ratified 2026-09-29), so
+/// a human who types that tag at a prompt's start is filed harness too.
 fn prompt_origin(raw: &str) -> &'static str {
     if HARNESS_PREFIXES.iter().any(|p| raw.starts_with(p)) {
         "harness"
@@ -398,6 +406,33 @@ mod tests {
         let got = read(HookEvent::UserPromptSubmit, &json!({"prompt": prompt}));
         assert_eq!(got.kind, EventKind::PromptSubmitted);
         assert_eq!(got.data["origin"], origin);
+    }
+
+    #[rstest]
+    #[case::cross_escaped(
+        "<\\cross-session-message from=\"uds:x\" from-name=\"overseer1\">\nhi",
+        "harness",
+        "<cross-session-message from=\"uds:x\" from-name=\"overseer1\">\nhi"
+    )]
+    #[case::cross_plain(
+        "<cross-session-message from=\"uds:x\">\nhi",
+        "harness",
+        "<cross-session-message from=\"uds:x\">\nhi"
+    )]
+    #[case::cross_escaped_inner(
+        "typed <\\cross-session-message later",
+        "human",
+        "typed <cross-session-message later"
+    )]
+    #[case::cross_plain_inner("see <cross-session-message", "human", "see <cross-session-message")]
+    #[case::leading_space(" <cross-session-message", "human", " <cross-session-message")]
+    fn prompt_origin_files_the_cross_session_tag_as_harness(
+        #[case] prompt: &str,
+        #[case] origin: &str,
+        #[case] text: &str,
+    ) {
+        let got = read(HookEvent::UserPromptSubmit, &json!({"prompt": prompt}));
+        assert_eq!(got.data, json!({"text": text, "origin": origin}));
     }
 
     #[test]

@@ -1,0 +1,25 @@
+gate v1.4 · c63b37d3
+shell <git-bash> (from $SHELL; -c, non-login)
+root <repo> · marker 2026-09-29-fake-agent-drift-contract · entries 18
+logs <OS temp>\andromeda-gate\2026-09-29-fake-agent-drift-contract\run-20260929T132710Z · bound: GNU timeout
+delta docs 39 · rust 1
+prose L130-135: The harness runs every Rust suite (test-plan §3). The contract binary is a root `contract_… (562 chars)
+  1 lint        not run — dry-run · cargo fmt --all --check
+  2 lint        not run — dry-run · cargo clippy --workspace --all-targets --features fake-age… (75 chars)
+  3 unit        not run — dry-run · bash scripts/agent-run.sh run --unit
+  4 unit        not run — dry-run · bash scripts/agent-run.sh run --unit --filter 'test(/promp… (108 chars)
+  5 integration not run — dry-run · bash scripts/agent-run.sh run --integration --filter 'bina… (88 chars)
+  6 integration not run — dry-run · bash scripts/agent-run.sh run --integration --filter 'bina… (130 chars)
+  7 integration not run — dry-run · bash scripts/agent-run.sh run --integration --filter 'bina… (155 chars)
+  8 integration not run — dry-run · bash scripts/agent-run.sh run
+  9 probe       not run — dry-run · ! (grep -rl --include='*.rs' 'cross-session-message' crate… (121 chars)
+ 10 probe       not run — dry-run · git diff --quiet 2d8bc53 -- scripts/wsl-provision.sh .gith… (77 chars)
+ 11 probe       not run — dry-run · cargo deny check
+ 12 probe       not run — dry-run · bash scripts/agent-run.sh pre-push
+ 13 smoke       not run — dry-run · bash scripts/agent-run.sh cleanup --session p-fadc-smoke
+ 14 smoke       not run — dry-run · bash scripts/agent-run.sh boot --session p-fadc-smoke --in… (72 chars)
+ 15 smoke       not run — dry-run · bash scripts/agent-run.sh cleanup --session p-fadc-smoke
+ 16 probe       not run — leg operator (the letter drives it) · python -X utf8 <skills>/andromeda-pha… (103 chars)
+ 17 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (69 chars)
+ 18 probe       not run — leg operator (the letter drives it) · python -X utf8 <skills>/andromeda-pha… (127 chars)
+entries 18 · green 0 · red 0 · recorded 0 · timeout 0 · not-run 18

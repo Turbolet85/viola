@@ -312,10 +312,14 @@ fn fake_agent_fires_the_plugin_hook_with_the_prompt_in_the_payload() {
     let lines = agent.finish();
     let hooks = of_kind(&lines, "hook");
     assert_eq!(hooks.len(), 1);
+    let sent =
+        br#"{"hook_event_name":"UserPromptSubmit","prompt":"hello there","session_id":"synthetic"}"#;
+    let stdin_hex: String = sent.iter().map(|b| format!("{b:02x}")).collect();
     assert_eq!(
         hooks[0],
         &json!({"v": 1, "kind": "hook", "event": "UserPromptSubmit", "command_absolute": true,
-                "ran": true, "exit_code": 0, "stderr_len": 0, "stdout_hex": ""})
+                "ran": true, "exit_code": 0, "stderr_len": 0, "stdout_hex": "",
+                "stdin_hex": stdin_hex})
     );
     assert_eq!(prompts(&lines)[0]["submit"], "fired");
     let payload = echoed_payload(&echo);

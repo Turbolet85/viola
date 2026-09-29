@@ -1,0 +1,1 @@
+{"v":1,"cmd":"run","ok":false,"suites":[{"suite":"nextest-integration","passed":0,"failed":1,"skipped":0,"survived":0,"artifact":null,"failures":["artifact-missing"]},{"suite":"doctest","passed":0,"failed":0,"skipped":0,"survived":0,"artifact":null,"failures":[]}],"archived":"target/run-archive/383"}

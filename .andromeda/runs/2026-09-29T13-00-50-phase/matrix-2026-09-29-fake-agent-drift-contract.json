@@ -1,0 +1,106 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-09-29T13:27:45Z",
+"argv": [
+"coverage",
+"--dir",
+"viola-0.1.0",
+"--run-dir",
+".andromeda/runs/2026-09-29T13-00-50-phase",
+"--marker",
+"2026-09-29-fake-agent-drift-contract"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"verified 9/53 · deferred 0 · planned 44 · implemented 0 · unclaimed 44",
+"unclaimed: v1-01 v1-02 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-12 v1-13 v1-15 v1-16 v1-17 v1-18 v1-21",
+"          v1-22 v1-24 v1-26 v1-27 v1-29 v1-30 v1-31 v1-32 v1-33 v1-34 v1-35 v1-36 v1-37 v1-38 v1-39 v1-40",
+"          v1-41 v1-42 v1-44 v1-45 v1-46 v1-47 v1-48 v1-49 v1-50 v1-51 v1-52 v1-53",
+"claimed-unfinished: none",
+"done-test: NO — 44 not verified|deferred · unclaimed 44",
+"chunks referenced: 9 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-09-29T13:27:54Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-03",
+"--text-file",
+".andromeda/runs/2026-09-29T13-00-50-phase/note-v1-03.md",
+"--run-dir",
+".andromeda/runs/2026-09-29T13-00-50-phase",
+"--marker",
+"2026-09-29-fake-agent-drift-contract"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"note v1-03: +689 chars (total 1406) · status planned · ref/acceptance untouched",
+"wrote viola-0.1.0\\verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0\\verification-matrix.json"
+],
+"before": {
+"id": "v1-03",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "The fake agent reproduces every CLI boundary viola relies on and replays the fixtures recorded per CLI version; a delibe… (323 chars)",
+"notes_chars": 715
+},
+"after": {
+"id": "v1-03",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "The fake agent reproduces every CLI boundary viola relies on and replays the fixtures recorded per CLI version; a delibe… (323 chars)",
+"notes_chars": 1406
+}
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-09-29T13:27:54Z",
+"argv": [
+"audit",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-09-29-fake-agent-drift-contract",
+"--plan",
+"viola-0.1.0/chunks/2026-09-29-fake-agent-drift-contract/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-29T13-00-50-phase"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-29-fake-agent-drift-contract: 0 · ## Acceptance Criteria: line 259, 42 lines",
+"pool: unclaimed 44 [v1-01 v1-02 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-12 v1-13 v1-15 v1-16 v1-17 v1-18 v1-21 v1-22 v1-24 v1-26 v1-27 v1-29 v1-30 v1-31 v1-32 v1-33 v1-34 v1-35 v1-36 v1-37 v1-38 v1-39 v1-40 v1-41 v1-42 v1-44 v1-45 v1-46 v1-47 v1-48 v1-49 v1-50 v1-51 v1-52 v1-53]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

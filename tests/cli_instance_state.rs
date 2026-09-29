@@ -371,11 +371,14 @@ fn path1_session_start_is_record_three_through_the_absolute_hook(stamped_home: S
     let receipt = fake::wait_for(&wrapper.receipt(), "the SessionStart hook", |l| {
         !of_kind(l, "hook").is_empty()
     });
+    let sent = br#"{"hook_event_name":"SessionStart","session_id":"s-3","source":"startup","transcript_path":"canary-chain-value-5c1e"}"#;
+    let stdin_hex: String = sent.iter().map(|b| format!("{b:02x}")).collect();
     assert_eq!(
         of_kind(&receipt, "hook"),
         [
             &json!({"v": 1, "kind": "hook", "event": "SessionStart", "command_absolute": true,
-                 "ran": true, "exit_code": 0, "stderr_len": 0, "stdout_hex": ""})
+                 "ran": true, "exit_code": 0, "stderr_len": 0, "stdout_hex": "",
+                 "stdin_hex": stdin_hex})
         ]
     );
     let dir = wrapper.instance_dir();

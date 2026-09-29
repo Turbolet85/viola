@@ -1,0 +1,35 @@
+# security extract
+
+## Relevance
+partial. The contract suite, the receipt-size truth and the schema check belong to the test plan. Security binds four parts: the harness-origin classifier (item 5), the hygiene of any fixture a witness adds, the test-only boundary of the fake agent and its seams, and the WSL `--install-deps` root-boundary CARRY (item 3).
+
+## Constraints
+- The harness-prefix list that `prompt_origin` matches must stay a compiled constant in `viola-agent-claude`, backed by a capability-ledger row. It is never built from runtime or upstream text (per security-plan §Security Anti-Patterns → Code Patterns, "harness prefixes … only from compiled `viola-agent-claude` ledger rows"). Prompt text stays content: the classifier matches a prefix and never interprets the text (per security-plan §Threat Model Summary, Attack surface → Hook stdin payloads, R1). Research must answer two questions. First, whether a ledger row with a `viola verify` probe covers the cross-session-message tag. Second, whether the CLI itself emits an escaped form.
+- The "escaped or plain" clause needs a check at the boundary. Any tag form that a human's typed input can also produce would make typed text classify as `harness`. The wheel would then not go to the human. The nearest plan floor is "NEVER let a security refusal block the human" (per security-plan §Security Anti-Patterns → Universal). Only a form the CLI is measured to inject may classify as `harness`. The current design reads an escaped form as typed; whether that design survives is a P3/P4 question and must not be presumed.
+- `origin` stays a closed value, `harness` · `human`. The wrapper still re-validates it on `hook.event` before it appends the event (per security-plan §Input Validation, Channel frames row; §Security Anti-Patterns → Input, "NEVER model … the wheel holder … as free `String`s").
+- A fixture recorded as a witness (a tool-bearing event for `matcher`, a cross-session-tag prompt) comes only from a local `viola verify --record` run with synthetic prompts. It must pass verify's home-path and username scrub-and-refuse before any write. No fixture may carry an R8-stripped `CLAUDE*` value or a GUI token (per security-plan §Data Protection → Repository fixtures; §Bootstrap phases, `logging-redaction-wire`). CI runs `viola verify` only against the fake agent (per security-plan §Threat Model Summary, Infrastructure → CI/CD).
+- Whatever payload the fake agent feeds it, `viola hook` keeps its contract. That means stdin read through `take(MAX_FRAME + 1)`, exit 0, empty stderr, and fail-open (per security-plan §Input Validation, Hook stdin row; §Error Handling, Internal logging). The hidden `--capture` arm stays registered only by verify's probe plugin. Matcher evaluation and the contract suite add no other registrant (per security-plan §Security Decisions Log `2026-09-28`, capture arm).
+- The fake agent and any seam added for the receipt-resize fix stay test-only, behind `cfg(feature = "fake-agent")` and absent from release builds. A new env var read by a `viola` build needs its own Decisions Log entry (per security-plan §Security Anti-Patterns → Universal, seam carve-outs; §Input Validation, test-seam rows). Research must say whether the fake-agent bin is gated behind the feature today.
+- WSL CARRY: `wsl-provision.sh --install-deps` stays operator-only. Before any re-provision, root runs only `apt-get install` over the unprivileged dry-run list, checked against a committed allowlist (per security-plan §Secret Management, Development; §Security Decisions Log `2026-09-27`, browser pipe Conditions). If the fixture schema check adds a crate (for example a JSON Schema validator), it must come from crates.io, be pinned in `[workspace.dependencies]`, sit inside the licence allowlist and build no C code (per security-plan §Dependency Security, `deny.toml` additions / Pinning).
+
+## Patterns to follow
+- `HARNESS_PREFIXES` is a compiled literal list in `crates/viola-agent-claude/src/hook.rs`. Extend that list; do not add a runtime source (per security-plan §Security Anti-Patterns → Code Patterns).
+- `viola verify --record` scrubs the recording and refuses the whole of it on any surviving path or username. It is the only way a new fixture is created (per security-plan §Data Protection → Repository fixtures).
+- `scripts/release-check.sh` `judge` refuses any artifact built with `fake-agent` or `test-support`. Its `--probe` shows the refusals (per security-plan §Security Decisions Log `2026-09-27`, test-only feature proven absent).
+- The `viola-harness secret-scan` artifact canary covers the harness capture and the test homes the contract suite produces (per security-plan §Secret Management, Secret scanning in CI).
+
+## Anti-patterns to avoid
+- NEVER build harness prefixes from runtime or upstream text (per security-plan §Security Anti-Patterns → Code Patterns).
+- NEVER commit `fixtures/claude/*` recorded from non-synthetic prompts, or before checking them for home paths and usernames (per security-plan §Security Anti-Patterns → Data Protection).
+- NEVER let the gate tool, a harness command or a pre-push stage run `--install-deps` (per security-plan §Secret Management, Development).
+
+## Contract bindings
+- security ↔ tests: fixture hygiene binds to test-plan §7 (the recorded fixtures and the fake agent), and to the contract suite's byte-equal payload comparison. Any fixture added as a witness goes through the verify scrub before a test reads it.
+- security ↔ obs: every fixture falls under the NEVER-log floor. The suite's harness capture and homes fall under obs-plan §9's secret-scan canary.
+- security ↔ arch: the cross-session tag's origin rule is a capability-ledger row with a `viola verify` probe (arch CLI Version Compatibility). Its effect on the wheel reaches only as far as the `origin` field (events.md).
+
+## Acceptance criteria contributions
+- (security) A grep finds the harness prefixes only as a compiled literal list in `crates/viola-agent-claude/src/hook.rs`. No other crate and no runtime read builds a prefix (per security-plan §Security Anti-Patterns → Code Patterns).
+- (security) Every committed file under `fixtures/claude/` holds no drive path at string start, no `/home/`, `/Users/` or `\Users\`, no host username, and no `CLAUDE_CODE_MESSAGING_*` value. The CI `secret-scan` step passes (per security-plan §Data Protection → Repository fixtures; §Secret Management, Secret scanning in CI).
+- (security) `bash scripts/release-check.sh --probe` reads `5/5 refused, control clean`, and the release build still judges `viola` only (per security-plan §Security Decisions Log `2026-09-27`, test-only feature proven absent).
+- (security) One of two holds. Either `scripts/wsl-provision.sh` is byte-unchanged against the chunk base, so the CARRY moves on, or its `--install-deps` root path runs only `apt-get install` over an allowlist-checked dry-run list. `cargo deny check` and `bash scripts/deny-probes.sh` stay green if a dependency was added (per security-plan §Secret Management, Development; §Dependency Security).

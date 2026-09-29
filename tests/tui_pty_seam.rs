@@ -73,3 +73,23 @@ fn pty_resize_reaches_the_child(#[from(home)] tmp: TestHome) {
     pty.write(b"\x03");
     assert_eq!(pty.wait_exit(EXIT_WITHIN), 0);
 }
+
+/// test-plan §7 Fake agent: the `size` receipt follows a change on its own, so a resize with no
+/// key after it still reaches the receipt (the H2 race needs no key to observe).
+#[rstest]
+fn pty_resize_reaches_a_child_that_reads_no_key(#[from(home)] tmp: TestHome) {
+    let receipt = receipt_in(&tmp);
+    let mut pty = fake_in_pty(&receipt, &[], Size { cols: 80, rows: 24 });
+    fake::wait_for(&receipt, "first size", |l| {
+        of_kind(l, "size").contains(&&json!({"v": 1, "kind": "size", "cols": 80, "rows": 24}))
+    });
+    pty.resize(Size {
+        cols: 100,
+        rows: 30,
+    });
+    fake::wait_for(&receipt, "resized with no key", |l| {
+        of_kind(l, "size").contains(&&json!({"v": 1, "kind": "size", "cols": 100, "rows": 30}))
+    });
+    pty.write(b"\x03");
+    assert_eq!(pty.wait_exit(EXIT_WITHIN), 0);
+}
