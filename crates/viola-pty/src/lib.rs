@@ -701,10 +701,13 @@ mod tests {
         rows: 40,
     };
 
-    /// The resize and the key right after it, each step streamed to the test's report as it returns.
-    fn resize_then_key(child: &mut Child, key: u8) {
+    /// Each step is streamed to the test's report as it returns.
+    fn resize(child: &mut Child) {
         child.pty.resize(RESIZED).expect("resize");
         child.step("resize-returned");
+    }
+
+    fn key(child: &mut Child, key: u8) {
         child.writer.write_all(&[key]).expect("key");
         child.step("key-written");
         child.writer.flush().expect("flush");
@@ -726,7 +729,11 @@ mod tests {
         child.writer.write_all(b"x").expect("key");
         child.writer.flush().expect("flush");
         wait_line(&mut child, "byte 78");
-        resize_then_key(&mut child, b'y');
+        resize(&mut child);
+        // A key written into ConPTY right after a resize can be lost below viola, the child reading
+        // (H2, `.claude/docs/gotchas.md`): this test sends it once the child sees the new size.
+        wait_line(&mut child, "size 120x40");
+        key(&mut child, b'y');
         wait_line(&mut child, "byte 79 size=120x40");
         wait_line(&mut child, "restored=true");
         child.report_dsr();
@@ -757,7 +764,8 @@ mod tests {
         child.writer.write_all(b"x").expect("key");
         child.writer.flush().expect("flush");
         wait_line(&mut child, "byte 78");
-        resize_then_key(&mut child, b'y');
+        resize(&mut child);
+        key(&mut child, b'y');
         wait_line(&mut child, "byte 79 size=120x40");
         wait_line(&mut child, "restored=true");
         child.report_dsr();
@@ -775,8 +783,7 @@ mod tests {
             },
         );
         wait_start(&mut child);
-        child.pty.resize(RESIZED).expect("resize");
-        child.step("resize-returned");
+        resize(&mut child);
         wait_line(&mut child, "size 120x40");
         child.report_dsr();
         child.pty.kill().expect("kill");
