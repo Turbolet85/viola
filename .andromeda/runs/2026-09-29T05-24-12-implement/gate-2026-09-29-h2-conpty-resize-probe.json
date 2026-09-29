@@ -1,0 +1,530 @@
+[
+{
+"tool": "gate",
+"v": "1.4",
+"sha8": "c63b37d3",
+"ts": "2026-09-29T05:34:35Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-09-29-h2-conpty-resize-probe/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-29T05-24-12-implement",
+"--marker",
+"2026-09-29-h2-conpty-resize-probe"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\viola · marker 2026-09-29-h2-conpty-resize-probe · entries 18",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-h2-conpty-resize-probe\\implement-2026-09-29T05-24-12 · bound: GNU timeout",
+"delta docs 34 · rust 1",
+"prose L137-149: The unit gate is the viola-pty package through the harness. The host resize loop repeats t… (1493 chars)",
+"  1 lint        green · exit 0 · 0.57s · 0 B → 1.log · cargo fmt --all --check",
+"  2 lint        green · exit 0 · 1.57s · 264 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 unit        green · exit 0 · 11.89s · 4229 B → 3.log · bash scripts/agent-run.sh run --unit --filter 'package(vio… (66 chars)",
+"  4 unit        green · exit 0 · 52.0s · 36400 B → 4.log · for i in $(seq 20); do bash scripts/agent-run.sh run --uni… (134 chars)",
+"  5 integration green · exit 0 · 40.43s · 111997 B → 5.log · bash scripts/agent-run.sh run",
+"  6 e2e         red · exit 0 ✗ (exit 2) · exit 2 · 0.28s · 188 B → 6.log · bash scripts/agent-run.sh run --e2e",
+"  7 probe       green · exit 0 · 1.41s · 9180 B → 7.log · cargo deny check",
+"  8 probe       green · exit 0 · 92.43s · 226837 B → 8.log · bash scripts/agent-run.sh pre-push",
+"  9 probe       green · exit 0 · 0.08s · 0 B → 9.log · git diff --quiet 90aba7c -- .github/workflows/ci.yml crate… (80 chars)",
+" 10 smoke       green · exit 0 · 0.28s · 47 B → 10.log · bash scripts/agent-run.sh cleanup --session p-h2-smoke",
+" 11 smoke       green · exit 0 · 2.26s · 469 B → 11.log · bash scripts/agent-run.sh boot --session p-h2-smoke --inst… (70 chars)",
+" 12 smoke       green · exit 0 · 0.37s · 214 B → 12.log · bash scripts/agent-run.sh status --session p-h2-smoke",
+" 13 smoke       green · exit 0 · 0.54s · 175 B → 13.log · bash scripts/agent-run.sh cleanup --session p-h2-smoke",
+" 14 probe       not run — leg operator (the letter drives it) · python -X utf8 C:/Users/turbo/.claude/skills/andromeda-pha… (103 chars)",
+" 15 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (69 chars)",
+" 16 probe       not run — leg operator (the letter drives it) · python -X utf8 C:/Users/turbo/.claude/skills/andromeda-pha… (127 chars)",
+" 17 probe       not run — leg operator (the letter drives it) · gh run view <id> --log",
+" 18 probe       not run — leg operator (the letter drives it) · python -X utf8 C:/Users/turbo/.claude/skills/andromeda-pha… (127 chars)",
+"entries 18 · green 12 · red 1 (6) · recorded 0 · timeout 0 · not-run 5"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-29-h2-conpty-resize-probe",
+"plan": "D:\\dev\\projects\\viola\\viola-0.1.0\\chunks\\2026-09-29-h2-conpty-resize-probe\\plan.md",
+"root": "D:\\dev\\projects\\viola",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-h2-conpty-resize-probe\\implement-2026-09-29T05-24-12",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-09-28T21-04-49-wrap/evolve-2026-09-28-mutation-testing-to-the-epoch-boundary.json",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-09-29T05-00-02-phase/a11y-history.md",
+".andromeda/runs/2026-09-29T05-00-02-phase/a11y.md",
+".andromeda/runs/2026-09-29T05-00-02-phase/arch-history.md",
+".andromeda/runs/2026-09-29T05-00-02-phase/arch.md",
+".andromeda/runs/2026-09-29T05-00-02-phase/ci-no-marker.json",
+".andromeda/runs/2026-09-29T05-00-02-phase/design.md",
+".andromeda/runs/2026-09-29T05-00-02-phase/evolve-2026-09-29-h2-conpty-resize-probe.json",
+".andromeda/runs/2026-09-29T05-00-02-phase/gate-2026-09-29-h2-conpty-resize-probe.json",
+".andromeda/runs/2026-09-29T05-00-02-phase/layouts-history.md",
+".andromeda/runs/2026-09-29T05-00-02-phase/layouts.md",
+".andromeda/runs/2026-09-29T05-00-02-phase/master-record.txt",
+".andromeda/runs/2026-09-29T05-00-02-phase/matrix-2026-09-29-h2-conpty-resize-probe.json",
+".andromeda/runs/2026-09-29T05-00-02-phase/obs-history.md",
+".andromeda/runs/2026-09-29T05-00-02-phase/obs.md",
+".andromeda/runs/2026-09-29T05-00-02-phase/planlint-2026-09-29-h2-conpty-resize-probe.json",
+".andromeda/runs/2026-09-29T05-00-02-phase/route-2026-09-29-h2-conpty-resize-probe.json",
+".andromeda/runs/2026-09-29T05-00-02-phase/route-no-marker.json",
+".andromeda/runs/2026-09-29T05-00-02-phase/security-history.md",
+".andromeda/runs/2026-09-29T05-00-02-phase/security.md",
+".andromeda/runs/2026-09-29T05-00-02-phase/sidecar-2026-09-29-h2-conpty-resize-probe.json",
+".andromeda/runs/2026-09-29T05-00-02-phase/tests-history.md",
+".andromeda/runs/2026-09-29T05-00-02-phase/tests.md",
+".andromeda/runs/2026-09-29T05-00-02-phase/tree-query-2026-09-29-h2-conpty-resize-probe.json",
+".andromeda/runs/2026-09-29T05-24-12-implement/evolve-2026-09-29-h2-conpty-resize-probe.json",
+"viola-0.1.0/chunks/2026-09-29-h2-conpty-resize-probe/evidence/h2-loop-step.md",
+"viola-0.1.0/chunks/2026-09-29-h2-conpty-resize-probe/evidence/localisation-rule.md",
+"viola-0.1.0/chunks/2026-09-29-h2-conpty-resize-probe/plan.md",
+"viola-0.1.0/chunks/2026-09-29-h2-conpty-resize-probe/research.md",
+"viola-0.1.0/chunks/2026-09-29-h2-conpty-resize-probe/scope.md"
+],
+"rust": [
+"crates/viola-pty/src/lib.rs"
+]
+},
+"unmapped": [],
+"prose": [
+{
+"from": 137,
+"to": 149,
+"text": "The unit gate is the viola-pty package through the harness. The host resize loop repeats the resize tests 20 times, the prior chunk's forced-window count (`chunks/2026-09-27-epoch-2-cleanup/evidence/pty-forced-window.md`). The default `run` covers the root `tui_` resize paths (`tests/tui_pty_seam.rs:57`, `tests/tui_passthrough.rs:155-169`). `--e2e` runs because the fix branch may touch the pump. The boot smoke (cleanup → boot → status → cleanup, session `p-h2-smoke`) is listed because `pump.rs` is in the modify-set on the fix branch. There is no live leg: the probe drives no external process. The byte-restore guard is green at /implement, red while a measurement commit is the tree (by design), and must read green on the final tree. The evidence files the criteria name (`localisation-rule.md`, `host-localisation.md`, `h2-loop-step.md`, `h2-reproduction.md`) are documents, not a runtime artifact. /implement writes the first three (steps 6-8) from the host loop entry's output. The operator writes the fourth (steps 10 and 13) from the operator entries' outputs, which the `leg` rule requires recorded in `evidence/` anyway. The runner reading is an operator leg (Stage B). The measurement pushes and the loop's removal repeat the push and CI-read entries, and the operator drives them per steps 10-11. Each push and read is recorded in `evidence/`. A measurement push's CI conclusion is recorded, not asserted (`expect = []`). The final read on the restored HEAD is asserted green."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-h2-conpty-resize-probe\\implement-2026-09-29T05-24-12\\1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.57,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-h2-conpty-resize-probe\\implement-2026-09-29T05-24-12\\2.log",
+"bytes": 264,
+"log_sha8": "ba662ef5",
+"exit": 0,
+"seconds": 1.57,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'package(viola-pty)'",
+"run_sha8": "b998efb4",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-h2-conpty-resize-probe\\implement-2026-09-29T05-24-12\\3.log",
+"bytes": 4229,
+"log_sha8": "2b656f86",
+"exit": 0,
+"seconds": 11.89,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "for i in $(seq 20); do bash scripts/agent-run.sh run --unit --filter \"package(viola-pty) & test(/resize/)\" > /dev/null || exit 1; done",
+"run_sha8": "52601ef4",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-h2-conpty-resize-probe\\implement-2026-09-29T05-24-12\\4.log",
+"bytes": 36400,
+"log_sha8": "4b2625aa",
+"exit": 0,
+"seconds": 52.0,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run",
+"run_sha8": "21443cdf",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-h2-conpty-resize-probe\\implement-2026-09-29T05-24-12\\5.log",
+"bytes": 111997,
+"log_sha8": "62b0ddd3",
+"exit": 0,
+"seconds": 40.43,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --e2e",
+"run_sha8": "55ff1d5e",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-h2-conpty-resize-probe\\implement-2026-09-29T05-24-12\\6.log",
+"bytes": 188,
+"log_sha8": "2d5f9ccd",
+"exit": 2,
+"seconds": 0.28,
+"readings": [
+"exit 0 ✗ (exit 2)",
+"contains '\"ok\":true' ✗"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 2)"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-h2-conpty-resize-probe\\implement-2026-09-29T05-24-12\\7.log",
+"bytes": 9180,
+"log_sha8": "d34562e1",
+"exit": 0,
+"seconds": 1.41,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-h2-conpty-resize-probe\\implement-2026-09-29T05-24-12\\8.log",
+"bytes": 226837,
+"log_sha8": "b1bc3c43",
+"exit": 0,
+"seconds": 92.43,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "git diff --quiet 90aba7c -- .github/workflows/ci.yml crates/viola-pty/Cargo.toml",
+"run_sha8": "d819ff85",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-h2-conpty-resize-probe\\implement-2026-09-29T05-24-12\\9.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.08,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-h2-smoke",
+"run_sha8": "719d52ca",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-h2-conpty-resize-probe\\implement-2026-09-29T05-24-12\\10.log",
+"bytes": 47,
+"log_sha8": "91854d6e",
+"exit": 0,
+"seconds": 0.28,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-h2-smoke --instance builder",
+"run_sha8": "d6d85f6e",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-h2-conpty-resize-probe\\implement-2026-09-29T05-24-12\\11.log",
+"bytes": 469,
+"log_sha8": "7afccddb",
+"exit": 0,
+"seconds": 2.26,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-h2-smoke",
+"run_sha8": "eccb7263",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-h2-conpty-resize-probe\\implement-2026-09-29T05-24-12\\12.log",
+"bytes": 214,
+"log_sha8": "dee5aa92",
+"exit": 0,
+"seconds": 0.37,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-h2-smoke",
+"run_sha8": "719d52ca",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-h2-conpty-resize-probe\\implement-2026-09-29T05-24-12\\13.log",
+"bytes": 175,
+"log_sha8": "5612add2",
+"exit": 0,
+"seconds": 0.54,
+"readings": [
+"exit 0 ✓",
+"contains '\"processes_gone\":true' ✓",
+"contains '\"endpoint_gone\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "python -X utf8 C:/Users/turbo/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "f8a39309",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "python -X utf8 C:/Users/turbo/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 2400",
+"run_sha8": "9229926b",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "gh run view <id> --log",
+"run_sha8": "32580d38",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "python -X utf8 C:/Users/turbo/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "aadba3d7",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.4",
+"sha8": "c63b37d3",
+"ts": "2026-09-29T05:34:44Z",
+"argv": [
+"show",
+"--run-dir",
+".andromeda/runs/2026-09-29T05-24-12-implement",
+"--marker",
+"2026-09-29-h2-conpty-resize-probe",
+"--n",
+"6"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"6 e2e red · exit 0 ✗ (exit 2)",
+"run (55ff1d5e): bash scripts/agent-run.sh run --e2e",
+"  exit 0 ✗ (exit 2)",
+"  contains '\"ok\":true' ✗",
+"log C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-h2-conpty-resize-probe\\implement-2026-09-29T05-24-12\\6.log · 188 B · 2d5f9ccd",
+"--- failing block from L1 ---",
+"error: unexpected argument '--e2e' found",
+"",
+"Usage: viola-harness.exe run [OPTIONS]",
+"",
+"For more information, try '--help'.",
+"",
+"{\"v\":1,\"cmd\":\"run\",\"ok\":false,\"reason\":\"usage\",\"detail\":\"arguments\"}",
+""
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "gate",
+"v": "1.4",
+"sha8": "c63b37d3",
+"ts": "2026-09-29T05:37:12Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-09-29-h2-conpty-resize-probe",
+"--run-dir",
+".andromeda/runs/2026-09-29T05-24-12-implement",
+"--marker",
+"2026-09-29-h2-conpty-resize-probe"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\viola · base HEAD (no pre-CI commit) · lists new 1 · modify 5 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"list viola-0.1.0/chunks/2026-09-29-h2-conpty-resize-probe/evidence/ (dir) ×0",
+"scope: clean — changed 1 · listed 1 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 36"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\viola",
+"base": "HEAD",
+"base_why": "no pre-CI commit",
+"counts": {
+"changed": 1,
+"listed": 1,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 36,
+"unparsed": 0,
+"widening_without_word": 0
+}
+}
+]

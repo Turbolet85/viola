@@ -361,7 +361,7 @@ pub fn host_size() -> Option<Size> {
 #[cfg(test)]
 mod tests {
     use std::sync::Arc;
-    use std::sync::atomic::{AtomicBool, Ordering};
+    use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
     use std::time::{Duration, Instant};
 
     use super::*;
@@ -438,7 +438,9 @@ mod tests {
                 size.rows
             ),
         );
-        if std::env::var(CHILD_MODE).as_deref() == Ok("block") {
+        let watched = path.clone();
+        std::thread::spawn(move || watch_size(&watched, size));
+        if matches!(std::env::var(CHILD_MODE).as_deref(), Ok("block" | "watch")) {
             loop {
                 std::thread::park();
             }
@@ -466,6 +468,19 @@ mod tests {
         std::process::exit(3);
     }
 
+    /// Reports every size change the child's terminal shows, read with no key: a lost key after a
+    /// resize then says whether the resize itself reached the child. Runs until the process exits.
+    fn watch_size(path: &std::path::Path, start: Size) {
+        let mut last = start;
+        loop {
+            if let Some(now) = host_size().filter(|now| *now != last) {
+                report(path, &format!("size {}x{}", now.cols, now.rows));
+                last = now;
+            }
+            std::thread::yield_now();
+        }
+    }
+
     /// Whether the terminal on stdin edits lines again (cooked); `None` off a terminal.
     fn line_input_on() -> Option<bool> {
         #[cfg(windows)]
@@ -491,40 +506,104 @@ mod tests {
         pty: PortablePty,
         writer: Box<dyn Write + Send>,
         drained: Arc<AtomicBool>,
+        /// How many cursor-position requests (`ESC [ 6 n`) the child's terminal has written: a
+        /// real terminal answers each one, and this rig never does.
+        dsr: Arc<AtomicUsize>,
+        dsr_reported: bool,
         report: std::path::PathBuf,
+        test_report: std::path::PathBuf,
         _dir: tempfile::TempDir,
     }
 
-    /// A failed test keeps its child's report for the post-mortem, and a killed one never gets here
-    /// at all; a passing test removes it. A child still running is stopped either way.
+    impl Child {
+        /// One step of the test's own side, streamed beside the child's report.
+        fn step(&self, line: &str) {
+            report(&self.test_report, line);
+        }
+
+        fn report_dsr(&mut self) {
+            self.step(&format!("dsr-cpr {}", self.dsr.load(Ordering::SeqCst)));
+            self.dsr_reported = true;
+        }
+
+        /// Both reports whole, for a failure message.
+        fn reports(&self) -> String {
+            let read = |p: &std::path::Path| std::fs::read_to_string(p).unwrap_or_default();
+            format!(
+                "child report:\n{}test report:\n{}",
+                read(&self.report),
+                read(&self.test_report)
+            )
+        }
+    }
+
+    /// A failed test keeps both reports for the post-mortem, and a killed one never gets here at
+    /// all; a passing test removes them. A child still running is stopped either way.
     impl Drop for Child {
         fn drop(&mut self) {
             if matches!(self.pty.try_wait(), Ok(None)) {
                 let _ = self.pty.kill();
             }
-            if !std::thread::panicking() {
+            if std::thread::panicking() {
+                if !self.dsr_reported {
+                    self.report_dsr();
+                }
+            } else {
                 let _ = std::fs::remove_file(&self.report);
+                let _ = std::fs::remove_file(&self.test_report);
             }
         }
     }
 
-    /// Where the child streams its report, one line as each step happens: a known file under the
-    /// temp dir, named after the test, so a test killed by the runner still leaves its evidence.
-    fn report_path() -> std::path::PathBuf {
+    /// Where the child streams its report, one line as each step happens, and beside it the test's
+    /// own report: known files under the temp dir, named after the test, so a test killed by the
+    /// runner still leaves its evidence.
+    fn report_paths() -> (std::path::PathBuf, std::path::PathBuf) {
         let dir = std::env::temp_dir().join("viola-pty-watch");
         std::fs::create_dir_all(&dir).expect("report dir");
         let test = std::thread::current()
             .name()
             .unwrap_or("unnamed")
             .replace("::", ".");
-        let path = dir.join(format!("{test}.report"));
-        let _ = std::fs::remove_file(&path);
-        path
+        let paths = (
+            dir.join(format!("{test}.report")),
+            dir.join(format!("{test}.test.report")),
+        );
+        let _ = std::fs::remove_file(&paths.0);
+        let _ = std::fs::remove_file(&paths.1);
+        paths
+    }
+
+    const DSR_CPR: &[u8] = b"\x1b[6n";
+
+    /// Counts `ESC [ 6 n` in the output, a request split across two reads included. `carry` holds
+    /// the last bytes of the previous read, too few to hold a whole request by themselves.
+    fn count_dsr(carry: &mut Vec<u8>, read: &[u8]) -> usize {
+        carry.extend_from_slice(read);
+        let found = carry
+            .windows(DSR_CPR.len())
+            .filter(|w| *w == DSR_CPR)
+            .count();
+        let keep = carry.len().saturating_sub(DSR_CPR.len() - 1);
+        carry.drain(..keep);
+        found
+    }
+
+    #[test]
+    fn count_dsr_counts_a_request_split_across_reads_once() {
+        let mut carry = Vec::new();
+        assert_eq!(count_dsr(&mut carry, b"ab\x1b[6nc\x1b["), 1);
+        assert_eq!(count_dsr(&mut carry, b"6n"), 1);
+        assert_eq!(count_dsr(&mut carry, b""), 0);
+        assert_eq!(count_dsr(&mut carry, b"\x1b"), 0);
+        assert_eq!(count_dsr(&mut carry, b"[6"), 0);
+        assert_eq!(count_dsr(&mut carry, b"n\x1b[6n\x1b[6m"), 2);
+        assert_eq!(count_dsr(&mut carry, b"x"), 0);
     }
 
     fn spawn_child_entry(mode: &str, size: Size) -> Child {
         let dir = tempfile::tempdir().expect("tempdir");
-        let report = report_path();
+        let (report, test_report) = report_paths();
         let spec = SpawnSpec {
             program: std::env::current_exe().expect("test binary"),
             args: [
@@ -549,37 +628,59 @@ mod tests {
         let writer = pty.writer().expect("writer");
         let drained = Arc::new(AtomicBool::new(false));
         let done = Arc::clone(&drained);
+        let dsr = Arc::new(AtomicUsize::new(0));
+        let seen = Arc::clone(&dsr);
         std::thread::spawn(move || {
             let mut buf = [0u8; 4096];
-            while matches!(reader.read(&mut buf), Ok(n) if n > 0) {}
+            let mut carry = Vec::new();
+            while let Ok(n @ 1..) = reader.read(&mut buf) {
+                seen.fetch_add(count_dsr(&mut carry, &buf[..n]), Ordering::SeqCst);
+            }
             done.store(true, Ordering::SeqCst);
         });
         Child {
             pty,
             writer,
             drained,
+            dsr,
+            dsr_reported: false,
             report,
+            test_report,
             _dir: dir,
         }
     }
 
     /// Below the nextest `mutants` profile's 10 s kill, so a stuck wait fails the test itself, with
-    /// the report so far in its message, before the runner kills it and loses that dump.
+    /// the reports so far in its message, before the runner kills it and loses that dump.
     const CHILD_WITHIN: Duration = Duration::from_secs(7);
 
-    /// The report's lines once it holds `n` of them; panics at the deadline.
-    fn lines(child: &Child, n: usize) -> Vec<String> {
+    /// Waits for the child's report to hold the exact line `want`, wherever the watcher's `size`
+    /// lines land around it; panics at the deadline with both reports whole.
+    fn wait_line(child: &mut Child, want: &str) {
         let deadline = Instant::now() + CHILD_WITHIN;
         loop {
-            let got: Vec<String> = std::fs::read_to_string(&child.report)
-                .unwrap_or_default()
-                .lines()
-                .map(str::to_owned)
-                .collect();
-            if got.len() >= n {
-                return got;
+            let got = std::fs::read_to_string(&child.report).unwrap_or_default();
+            if got.lines().any(|line| line == want) {
+                return;
             }
-            assert!(Instant::now() < deadline, "child report stopped at {got:?}");
+            if Instant::now() >= deadline {
+                child.report_dsr();
+                panic!("child report never showed {want:?}\n{}", child.reports());
+            }
+            std::thread::yield_now();
+        }
+    }
+
+    fn wait_start(child: &mut Child) {
+        let deadline = Instant::now() + CHILD_WITHIN;
+        while !std::fs::read_to_string(&child.report)
+            .unwrap_or_default()
+            .starts_with("start ")
+        {
+            if Instant::now() >= deadline {
+                child.report_dsr();
+                panic!("child never started\n{}", child.reports());
+            }
             std::thread::yield_now();
         }
     }
@@ -595,6 +696,21 @@ mod tests {
         }
     }
 
+    const RESIZED: Size = Size {
+        cols: 120,
+        rows: 40,
+    };
+
+    /// The resize and the key right after it, each step streamed to the test's report as it returns.
+    fn resize_then_key(child: &mut Child, key: u8) {
+        child.pty.resize(RESIZED).expect("resize");
+        child.step("resize-returned");
+        child.writer.write_all(&[key]).expect("key");
+        child.step("key-written");
+        child.writer.flush().expect("flush");
+        child.step("key-flushed");
+    }
+
     #[test]
     fn spawn_runs_a_raw_child_that_sees_its_size_a_resize_and_its_own_exit_code() {
         let mut child = spawn_child_entry(
@@ -604,28 +720,16 @@ mod tests {
                 rows: 30,
             },
         );
-        let first = lines(&child, 1);
         let pid = child.pty.child_pid().expect("pid");
-        assert_eq!(first[0], format!("start pid={pid} raw=true size=100x30"));
+        // A child not raw sees the key only with Enter, and never writes `byte 78`.
+        wait_line(&mut child, &format!("start pid={pid} raw=true size=100x30"));
         child.writer.write_all(b"x").expect("key");
         child.writer.flush().expect("flush");
-        assert_eq!(
-            lines(&child, 2)[1],
-            "byte 78",
-            "a key arrived only with Enter"
-        );
-        child
-            .pty
-            .resize(Size {
-                cols: 120,
-                rows: 40,
-            })
-            .expect("resize");
-        child.writer.write_all(b"y").expect("key");
-        child.writer.flush().expect("flush");
-        let got = lines(&child, 4);
-        assert_eq!(got[2], "byte 79 size=120x40");
-        assert_eq!(got[3], "restored=true");
+        wait_line(&mut child, "byte 78");
+        resize_then_key(&mut child, b'y');
+        wait_line(&mut child, "byte 79 size=120x40");
+        wait_line(&mut child, "restored=true");
+        child.report_dsr();
         assert_eq!(wait_exit(&mut child), 3);
         child.pty.close();
         let deadline = Instant::now() + CHILD_WITHIN;
@@ -649,29 +753,40 @@ mod tests {
                 rows: 30,
             },
         );
-        lines(&child, 1);
+        wait_start(&mut child);
         child.writer.write_all(b"x").expect("key");
         child.writer.flush().expect("flush");
-        assert_eq!(lines(&child, 2)[1], "byte 78");
-        child
-            .pty
-            .resize(Size {
-                cols: 120,
-                rows: 40,
-            })
-            .expect("resize");
-        child.writer.write_all(b"y").expect("key");
-        child.writer.flush().expect("flush");
-        let got = lines(&child, 4);
-        assert_eq!(got[2], "byte 79 size=120x40", "the key after the resize");
-        assert_eq!(got[3], "restored=true");
+        wait_line(&mut child, "byte 78");
+        resize_then_key(&mut child, b'y');
+        wait_line(&mut child, "byte 79 size=120x40");
+        wait_line(&mut child, "restored=true");
+        child.report_dsr();
         assert_eq!(wait_exit(&mut child), 3);
+    }
+
+    /// Whether a resize reaches the child at all, apart from any key: this child never reads.
+    #[test]
+    fn spawn_reports_a_resize_to_a_child_that_reads_no_key() {
+        let mut child = spawn_child_entry(
+            "watch",
+            Size {
+                cols: 100,
+                rows: 30,
+            },
+        );
+        wait_start(&mut child);
+        child.pty.resize(RESIZED).expect("resize");
+        child.step("resize-returned");
+        wait_line(&mut child, "size 120x40");
+        child.report_dsr();
+        child.pty.kill().expect("kill");
+        wait_exit(&mut child);
     }
 
     #[test]
     fn kill_ends_a_child_that_would_never_exit() {
         let mut child = spawn_child_entry("block", Size::DEFAULT);
-        lines(&child, 1);
+        wait_start(&mut child);
         child.pty.kill().expect("kill");
         wait_exit(&mut child);
     }
@@ -680,7 +795,7 @@ mod tests {
     #[test]
     fn terminate_ends_a_live_process_and_refuses_a_missing_one() {
         let mut child = spawn_child_entry("block", Size::DEFAULT);
-        lines(&child, 1);
+        wait_start(&mut child);
         assert!(terminate(child.pty.child_pid().expect("pid")));
         assert_eq!(wait_exit(&mut child), 1);
         assert!(!terminate(0), "pid 0 is not a process this user can open");

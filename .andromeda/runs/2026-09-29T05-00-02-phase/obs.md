@@ -1,0 +1,36 @@
+# obs extract
+
+## Relevance
+partial — the chunk is a test-side probe (child recorder, test-side sequence, a possible Windows CI loop). Obs binds only where a fix touches product code in the `viola-pty` seam or the `run` pump's resize/write path, or where P4 adds a CI probe job.
+
+## Constraints
+- The `viola-pty` seam (spawn, read, write, resize, wait, kill) is an instrumentable entity, but the PTY byte stream is user content and is never logged. A key byte, a paste or screen bytes must not reach any product log line, span field or `detail` code (per obs-plan §1 Obs Scope Summary, `viola-pty` entity; §11 PII Scrubbing). The recorder's `byte NN` / `size=WxH` report is test-child output, not a product log. Whether `pty_child_entry` is compiled only under test cfg, or ships in the product crate, is research's question: it decides whether the §11 Logs print-macro ban (`print_stdout` / `print_stderr` / `dbg_macro` = deny) reaches it.
+- Any span added or changed on the seam uses `#[instrument(skip_all, name = "pty.<operation>", fields(...))]`, named in snake_case under the `pty` area, with closed or numeric fields only (for example a backend `conpty|openpty` or cols/rows counts). Never a bare `#[instrument]`, and never `err`/`ret` on a function whose error or return can carry content (per obs-plan §2 Naming conventions; §11 Spans / Traces; §9 G1). §2's seam list names spawn/write/wait/kill and does not name resize. Whether `PortablePty::resize` already carries a span is research's question.
+- A resize failure that crosses the crate seam as an `Err` is logged once, at WARN/ERROR, with a closed `detail`, and the chain goes only to the instance detail file. portable-pty's own `log` output is OFF, so the seam's returned `Result` is the only capture point (per obs-plan §10 Standard+ invariants, module-boundary error logging; D-23; §6 per-module levels). Whether the `run` pump logs a failed resize today is research's question.
+- `event` is a closed kebab-case enum, and fields are default-deny against the §6 catalog. A new resize or ordering line (for example "resize applied" or "key written after resize") needs a Decisions Log entry and a `schemas/diag-line.v1.json` update before it can be emitted (per obs-plan §6 Additive field catalog; §11 Logs "add `event` values"; §11 PII Scrubbing default-deny).
+- PTY pump / write-path threads keep the §3 hand-off: a cloned `tracing::Span` goes into `span.in_scope(...)`, and `instance` / `corr` are passed as explicit values, never recovered from span context (per obs-plan §3 Trace context propagation, internal async boundaries). The pump and handle-wait bodies stay inside `catch_unwind`. A panic added by a fix must yield exactly one `event:"panic"` line (per obs-plan §7 `run` worker threads; §10 zero unlogged panics).
+- Probe verdicts are exit-code assertions. The zero-flakiness parallel forbids retry-once (per obs-plan §10 Cross-input parallel; §11 SLO "NEVER add retry-once policies"; §11 CI "human-review-gated log analysis"). The fixed reproduction count and the localisation must be read from machine output, not from eyeballing a log.
+- If P4 adds a Windows CI probe job or loop: actions are SHA-pinned, CI env metadata never enters product lines, and any upload of `diagnostics/` or `junit.xml` is gated behind a passing secret scan. nextest stores failing tests' captured output (the child report included) in `junit.xml`, which is in the scan's scope (per obs-plan §9 Telemetry artifact handling and Step order; §11 CI).
+
+## Patterns to follow
+- Seam failure capture from the returned value, not from `log`: `pty.spawn` Err → `process-exit{subject:"self", exit_code:1, detail:"internal-error"}`, with the chain in `detail-run.ndjson` (per obs-plan D-23). A resize or write Err on the fix path follows the same shape.
+- Boundary-count instead of per-item logging: the PTY seam logs spawn / exit / paste as boundary events with `text_bytes` only (per obs-plan §6 Boundary-call wrappers, PTY seam). Any resize observation in product code logs sizes or counts at the boundary, never the bytes.
+- Platform-identical fields: ConPTY vs openpty differences surface as the same fields on every OS, keyed by `pty_backend` (per obs-plan §1 multi-platform-exporter-compat trigger; §4 `pty.spawn` attributes). The recorder change stays cross-platform, as the scope requires.
+- Logging goes only through `obs_event!` under `#[instrument(skip_all, fields(..))]`. Raw `tracing::{info,warn,...}!` / `event!` outside `viola_core::obs` is barred by clippy `disallowed-macros` and `scripts/lint-probes.sh` (per obs-plan §11 Logs; §9 Pipeline integration, Lint row).
+
+## Anti-patterns to avoid
+- No per-byte or per-chunk span or event, and no `info` line, inside the PTY pump read loop or the write path. A fix that "logs every key after a resize" is banned; use counts on the boundary event (per obs-plan §11 Telemetry Strategy "over-instrument hot paths"; §11 Logs "hot loops").
+- Never derive telemetry from screen content (no vt100-scraped size or key evidence in a product line) (per obs-plan §11 Telemetry Strategy).
+- Never install a `log` bridge / `LogTracer` to see portable-pty's internal resize logging (per obs-plan §11 Logs; D-23 Impact).
+
+## Contract bindings
+- obs ↔ tests §3 / §10: the CI JUnit artifact (`junit-<os>`) and the zero-flakiness budget `retries = 0` are the surfaces a probe red reaches. A probe loop must not introduce a retry, and a probe job's JUnit follows the scan-gated upload order (per obs-plan §9; §10 Cross-input parallel).
+- obs ↔ tests (G2 scope): G2 refuses an empty scope (no home-level role file under `target/e2e-home/`). A dedicated probe job that creates no viola home cannot run G2 unchanged. Whether it runs G2/G4 at all is P4's fork (per obs-plan §9 G2; §9 Step order 1).
+- obs ↔ security: the NEVER-log floor and user-content classification of the PTY byte stream govern every recorder/report line that could reach a product log or an uploaded artifact (per obs-plan §1 `viola-pty` entity; §8; §11 PII Scrubbing).
+- obs ↔ arch: a `detail` code or `event` value added for a resize outcome is a Decisions Log amendment (obs-owned `diag-line.v1.json`), not a local addition (per obs-plan §6; §11 Logs).
+
+## Acceptance criteria contributions
+- Every `#[instrument]` added or changed in `crates/viola-pty` or the `run` pump carries `skip_all` first and a `pty.<operation>` / `run.<operation>` name with no content field. G1 (`rg ... ; test $? -eq 1`) passes (per obs-plan §9 G1; §2 Naming conventions).
+- No new `event` value or field appears in any emitted line without a Decisions Log entry, and G4 schema conformance stays green on windows-2025 / macos-latest / ubuntu-latest (per obs-plan §6 Additive field catalog; §9 G4).
+- The diff adds no per-byte / per-chunk `obs_event!` or span in the PTY pump read loop or the write path. A resize or write `Err` on the fix path yields one WARN/ERROR line with a closed `detail`, and its chain goes only to `detail-run.ndjson` (per obs-plan §11 Telemetry Strategy; §10 module-boundary error logging).
+- The reproduction count and localisation are judged by exit-code assertions, with no retry-once in the probe loop. If a CI probe job is added, its artifacts upload only after `steps.secret-scan.outcome == 'success'` (per obs-plan §10 Cross-input parallel; §9 Step order).

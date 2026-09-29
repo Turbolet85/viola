@@ -1,0 +1,202 @@
+[
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-09-29T05:02:32Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-29T05-00-02-phase",
+"--marker",
+"2026-09-29-h2-conpty-resize-probe"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"appended 1 record(s) · friction-log.ndjson lines 626→627 · bytes 612599→613797 · term lf",
+"ts 2026-09-29T05:02:24Z · clock 2026-09-29T05:02:32Z · bound 2026-09-29T04:59:18Z (line 626)",
+"ids 2026-09-29T05:02:24Z-a"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 626,
+"bytes": 612599,
+"terminator": "LF",
+"bound": "2026-09-29T04:59:18Z"
+},
+"after": {
+"lines": 627,
+"bytes": 613797
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-09-29T05:07:56Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-29T05-00-02-phase",
+"--marker",
+"2026-09-29-h2-conpty-resize-probe"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"appended 1 record(s) · friction-log.ndjson lines 627→628 · bytes 613797→615349 · term lf",
+"ts 2026-09-29T05:07:46Z · clock 2026-09-29T05:07:56Z · bound 2026-09-29T05:02:24Z (line 627)",
+"ids 2026-09-29T05:07:46Z-a"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 627,
+"bytes": 613797,
+"terminator": "LF",
+"bound": "2026-09-29T05:02:24Z"
+},
+"after": {
+"lines": 628,
+"bytes": 615349
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-09-29T05:12:31Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-29T05-00-02-phase",
+"--marker",
+"2026-09-29-h2-conpty-resize-probe"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"appended 2 record(s) · friction-log.ndjson lines 628→630 · bytes 615349→617288 · term lf",
+"ts 2026-09-29T05:12:20Z · clock 2026-09-29T05:12:31Z · bound 2026-09-29T05:07:46Z (line 628)",
+"ids 2026-09-29T05:12:20Z-a … 2026-09-29T05:12:20Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 628,
+"bytes": 615349,
+"terminator": "LF",
+"bound": "2026-09-29T05:07:46Z"
+},
+"after": {
+"lines": 630,
+"bytes": 617288
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-09-29T05:17:37Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-29T05-00-02-phase",
+"--marker",
+"2026-09-29-h2-conpty-resize-probe"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"appended 1 record(s) · friction-log.ndjson lines 630→631 · bytes 617288→618381 · term lf",
+"ts 2026-09-29T05:17:23Z · clock 2026-09-29T05:17:37Z · bound 2026-09-29T05:12:20Z (line 630)",
+"ids 2026-09-29T05:17:23Z-a"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 630,
+"bytes": 617288,
+"terminator": "LF",
+"bound": "2026-09-29T05:12:20Z"
+},
+"after": {
+"lines": 631,
+"bytes": 618381
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-09-29T05:22:26Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-29T05-00-02-phase",
+"--marker",
+"2026-09-29-h2-conpty-resize-probe"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"appended 3 record(s) · friction-log.ndjson lines 631→634 · bytes 618381→620826 · term lf",
+"ts 2026-09-29T05:22:08Z · clock 2026-09-29T05:22:26Z · bound 2026-09-29T05:17:23Z (line 631)",
+"ids 2026-09-29T05:22:08Z-a … 2026-09-29T05:22:08Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 631,
+"bytes": 618381,
+"terminator": "LF",
+"bound": "2026-09-29T05:17:23Z"
+},
+"after": {
+"lines": 634,
+"bytes": 620826
+}
+}
+]

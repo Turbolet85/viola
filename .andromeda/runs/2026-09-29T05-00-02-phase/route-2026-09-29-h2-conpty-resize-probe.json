@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-29T05:02:16Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-09-29-h2-conpty-resize-probe",
+"--expect-prefix",
+"H2 ConPTY resize probe",
+"--record-file",
+".andromeda/runs/2026-09-29T05-00-02-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-09-29T05-00-02-phase"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:57 - [2026-09-29-h2-conpty-resize-probe]",
+"record master-route.md:33 - appended under `## viola-0.1.0`",
+"promoted 2026-09-29-h2-conpty-resize-probe - working-route:57 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+".\\viola-0.1.0\\working-route.md",
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+}
+]

@@ -1,0 +1,142 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'resize' AND callee_kind = 'fn' AND callee_crate = 'viola-pty' ORDER BY file, line",
+"rows": 5,
+"result": [
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 tests/spawn_runs_a_raw_child_that_sees_its_size_a_resize_and_its_own_exit_code().",
+"file": "crates/viola-pty/src/lib.rs",
+"line": 618
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 tests/spawn_delivers_a_key_written_right_after_a_resize_to_a_child_not_yet_reading().",
+"file": "crates/viola-pty/src/lib.rs",
+"line": 657
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 pump/pump().",
+"file": "crates/viola-pty/src/pump.rs",
+"line": 104
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/tests/start_opens_the_scenario_one_spans_under_run_start().",
+"file": "src/cmd/run.rs",
+"line": 573
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 support/outer_pty/impl#[OuterPty]resize().",
+"file": "tests/support/outer_pty.rs",
+"line": 79
+}
+],
+"db_state": "regenerated",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'pump' AND callee_kind = 'fn' AND callee_crate = 'viola-pty' ORDER BY file, line",
+"rows": 13,
+"result": [
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 crate/",
+"file": "crates/viola-pty/src/lib.rs",
+"line": 18
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 pump/tests/pump_returns_on_the_handle_while_the_output_never_ends().",
+"file": "crates/viola-pty/src/pump.rs",
+"line": 186
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 pump/tests/pump_kills_the_child_when_a_worker_panics().",
+"file": "crates/viola-pty/src/pump.rs",
+"line": 226
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 pump/tests/pump_forwards_a_host_size_change_once().",
+"file": "crates/viola-pty/src/pump.rs",
+"line": 278
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 pump/tests/pump_forwards_a_resize_that_lands_before_its_first_look().",
+"file": "crates/viola-pty/src/pump.rs",
+"line": 325
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 pump/tests/pump_does_not_resize_while_the_size_is_unchanged().",
+"file": "crates/viola-pty/src/pump.rs",
+"line": 347
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 pump/tests/pump_waits_for_the_handle_after_the_output_ends().",
+"file": "crates/viola-pty/src/pump.rs",
+"line": 367
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 pump/tests/pump_copies_the_output_it_drains_after_exit().",
+"file": "crates/viola-pty/src/pump.rs",
+"line": 412
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 pump/tests/pump_keeps_the_child_input_open_after_its_own_input_ends().",
+"file": "crates/viola-pty/src/pump.rs",
+"line": 458
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 pump/tests/pump_does_not_look_at_the_size_before_its_first_period().",
+"file": "crates/viola-pty/src/pump.rs",
+"line": 493
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 pump/tests/pump_looks_at_the_size_once_per_period().",
+"file": "crates/viola-pty/src/pump.rs",
+"line": 517
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 pump/tests/pump_drains_output_that_arrives_after_the_exit().",
+"file": "crates/viola-pty/src/pump.rs",
+"line": 570
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/pump_child().",
+"file": "src/cmd/run.rs",
+"line": 344
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT from_crate, to_crate FROM crate_edges WHERE to_crate = 'viola-pty' OR from_crate = 'viola-pty'",
+"rows": 2,
+"result": [
+{
+"from_crate": "viola-e2e",
+"to_crate": "viola-pty"
+},
+{
+"from_crate": "viola",
+"to_crate": "viola-pty"
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'resize' AND callee_kind = 'fn' AND callee_file LIKE '%outer_pty.rs' ORDER BY file, line",
+"rows": 2,
+"result": [
+{
+"caller": "rust-analyzer cargo viola 0.1.0 resize_reaches_the_child().",
+"file": "tests/tui_passthrough.rs",
+"line": 120
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 pty_resize_reaches_the_child().",
+"file": "tests/tui_pty_seam.rs",
+"line": 64
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]
