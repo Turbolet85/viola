@@ -1,0 +1,6 @@
+
+## 2026-09-29-h2-conpty-resize-probe — Module ↔ PTY: a key after a resize waits for the observed size, and the H2 limit the tests do not cover
+**Section:** §5 Integration Test Strategy → `Module ↔ PTY` row
+**Change:** the row adds the key-free resize witness `spawn_reports_a_resize_to_a_child_that_reads_no_key`; the rule that a test writing a key after a resize sends it only once the child reports the new size (the red test `spawn_runs_a_raw_child_that_sees_its_size_a_resize_and_its_own_exit_code` waits for its `size 120x40` line: 0 of 200 lost on the windows-2025 runner, ci#36529038462); and the measured limit these tests do not cover — a key written right after the resize returned was lost in 13 of 200 runner iterations (ci#36527891850), resize seen, key flushed, `dsr-cpr 0` — so the product window (a human key typed right after a resize in `viola run`) stays open.
+**Why:** the H2 probe's document branch: the loss is below the seam, so the red test is reshaped to wait on an observed event (never a timer, a retry or a skip — §10 Zero-flakiness budget) and says plainly that it does not cover the product window (the operator's ruling at the P5 review).
+**Ref:** .andromeda/runs/2026-09-29T06-18-44-wrap/

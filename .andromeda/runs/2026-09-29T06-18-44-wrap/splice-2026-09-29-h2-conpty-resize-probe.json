@@ -1,0 +1,158 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-29T06:27:30Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-29T06-18-44-wrap/architecture-entry-1.md",
+"--lines",
+"6",
+"--run-dir",
+".andromeda/runs/2026-09-29T06-18-44-wrap",
+"--marker",
+"2026-09-29-h2-conpty-resize-probe"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+6 at line 320 · lines 319→325 · bytes 50130→51677 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-29T06-18-44-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 319,
+"bytes": 50130,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 325,
+"bytes": 51677
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-29T06:27:31Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-29T06-18-44-wrap/architecture-entry-2.md",
+"--lines",
+"6",
+"--run-dir",
+".andromeda/runs/2026-09-29T06-18-44-wrap",
+"--marker",
+"2026-09-29-h2-conpty-resize-probe"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+6 at line 326 · lines 325→331 · bytes 51677→52638 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-29T06-18-44-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 325,
+"bytes": 51677,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 331,
+"bytes": 52638
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-29T06:27:31Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-29T06-18-44-wrap/test-plan-entry-1.md",
+"--lines",
+"6",
+"--run-dir",
+".andromeda/runs/2026-09-29T06-18-44-wrap",
+"--marker",
+"2026-09-29-h2-conpty-resize-probe"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+6 at line 304 · lines 303→309 · bytes 42862→44100 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-29T06-18-44-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 303,
+"bytes": 42862,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 309,
+"bytes": 44100
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-29T06:27:31Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-29T06-18-44-wrap/test-plan-entry-2.md",
+"--lines",
+"6",
+"--run-dir",
+".andromeda/runs/2026-09-29T06-18-44-wrap",
+"--marker",
+"2026-09-29-h2-conpty-resize-probe"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+6 at line 310 · lines 309→315 · bytes 44100→45437 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-29T06-18-44-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 309,
+"bytes": 44100,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 315,
+"bytes": 45437
+}
+}
+]

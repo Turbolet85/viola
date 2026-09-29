@@ -1,38 +1,40 @@
 # Session Handoff
 
-**Last Updated:** 2026-09-28T21:24Z
+**Last Updated:** 2026-09-29T06:31Z
 **Branch:** build/viola-0.1.0 · 0 ahead of origin/build/viola-0.1.0 as read at this wrap's Setup (the wrap commit is pushed at P7)
 **Status:** clean
-**Last Commit:** 2026-09-28-mutation-testing-to-the-epoch-boundary — the chunk's wrap commit (P7)
+**Last Commit:** 2026-09-29-h2-conpty-resize-probe — the chunk's wrap commit (P7)
 
 ## Position
-- Done: 2026-09-28-mutation-testing-to-the-epoch-boundary — mutation testing left chunks, the pre-push and CI (7 jobs /
-  15 check-runs); `run --mutants` kept, named-only, for `/andromeda-code-audit`; legs, union, `cfg_legs`, syn/proc-macro2
-  gone; the two real-cargo-mutants harness tests excluded on macOS (runner-side, measured). CI ci#36483042659 green 15/15
-  on `17b93c7`.
-- Next: **H2 ConPTY resize probe** (working-route :57, founder ruling 16:54) → `/andromeda-phase`. Then **Verify-stamped
-  test homes and harness** (:59), which now also owns the coverage-profile channel CARRY.
-- **The founder asked for a pause after this wrap** — do not start the next chunk without their word.
+- Done: 2026-09-29-h2-conpty-resize-probe — H2 reproduced 13/200 on the windows-2025 runner, every loss class K (the
+  resize reached the Rust test child; the key, written and flushed into ConPTY, never reached its read; `dsr-cpr 0`);
+  cause not established, product impact for `claude` unmeasured (overseer correction at the wrap); document branch:
+  recorded in arch [PTY], test-plan §5, gotchas.md; the red test now keys after the child sees the new size (200/200).
+  Final HEAD `8a98b9d` ci#36529984077 green 15/15.
+- Next: **Verify-stamped test homes and harness** (working-route :59) → `/andromeda-phase`. Its coverage-channel CARRY
+  is retired (closed by this chunk).
 
 ## Work done
-- Implement, the operator pass (4 pushes: pre-CI, ONE macOS measurement push, two fix pushes), and this wrap in one
-  session. Two CI reds folded: the measurement's corrupt coverage profile (ubuntu), macOS ENOTCONN in
-  `channel_endpoint_answers_protocol_faults`.
+- Implement, the operator pass (4 pushes: pre-CI, reproduction, verification, loop removal + fold; 2 of the 3
+  measurement pushes used) and this wrap in one session. ci.yml byte-identical to `90aba7c`. One CI red folded: the
+  ubuntu corrupt coverage profile (the harness self-tests' throwaway crate no longer inherits cargo-llvm-cov's names).
 
 ## Drift resolved
-- 59 proposals (arch 12 · security 10 · test 37 · the other four 0): 57 applied, 2 rejected (security Threat Model —
-  verbatim copy); 4 raised by the orchestrator (obs ×3, a11y ×1) and 2 cascade-found dependents (test-plan :645, :1273);
-  5 sidecar entries; 9 leaves re-derived; 0 escalations.
+- 3 detector proposals (arch 2 · test-plan 1; the other five 0) + 1 orchestrator raise (test-plan §10 :1506): 4
+  applied, 0 rejected, 0 escalations; 2 narrowed at apply (collateral claims the report does not carry); 4 sidecar
+  entries; cascade 71 rows, no leaf changed.
 
 ## Notes
-- **Plan defect settled:** the entry-13 grep probe is NARROWED (filters out the refusal test `tests/cli.rs`), per the
-  operator + overseer ruling; not a standing red.
-- **For the operator to approve (proposed, not appended):** a playbook discriminator rule — a verbatim-upstream-copy
-  section beats "Accurate this-chunk addition" (applied by precedent at this wrap's P2, security S7/S8).
-- **Curation:** 3 corrections (verification-harness.md ×2, testing.md ×1), 1 extension (testing.md timing rule), 1 Tier 3.
-- **For the operator:** `~/.viola-record` stays on the host by design; 4 `viola.exe` of `additional/viola-lab/prototype`
-  are running (not this chunk's).
+- **The founder's product question on H2 stays open** — whether the real `claude` loses a key typed right after a
+  resize in `viola run` is unmeasured; the measurement is owned by working-route "First live test and self-drive"
+  (CARRY pinned at this wrap, per the overseer).
+- **Route:** `run --e2e` (the plan's entry 6, a plan defect) pinned on :85 "The board: viola list" with its owner; a
+  CARRY on :61 "Fake-agent drift contract" for test-plan §7's `size` receipt wording vs the fake agent; the H2 CARRY on
+  :74; the coverage-channel CARRY on :59 retired (closed by this chunk); the WSL `--install-deps` hardening CARRY moved
+  unchanged from the H2 line to :59 (this chunk did not re-provision).
+- **Epoch 2b has grown to 10 entries (8 promoted):** a boundary here would restore the diagnose/audit cadence — the
+  split is yours to name at a wrap.
+- **Curation:** T2 1 (verification-harness.md), T3 2; 3 rejected at 0.6 (homed in masters this wrap).
+- **Deferred learnings:** `recurrence-despite-learning: host-win32.md Transports — "Documents: the Write tool … a script to a scratchpad file run by path"` (a `cat > file` heredoc was blocked by the Bash guard).
+- **For the operator:** 5 `viola.exe` of `additional/viola-lab/prototype` are running (not this chunk's).
 - **Last failed command:** none.
-
-## Session End Status
-Completed normally at 2026-09-29 07:22:44

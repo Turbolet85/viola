@@ -38,3 +38,10 @@ lifecycle (pwsh shim) …`.
 `git checkout 90aba7c -- .github/workflows/ci.yml` → `cmp` against `git show 90aba7c:.github/workflows/ci.yml`:
 byte-equal · `git ls-files --eol` `i/lf w/lf` · entry 9 `git diff --quiet 90aba7c -- .github/workflows/ci.yml
 crates/viola-pty/Cargo.toml` exit 0.
+
+## Final HEAD `8a98b9d` (the loop removal `6d05367` + the H2 document branch and the ubuntu fold)
+- `gate.py hygiene` re-read before the commit: `hygiene: clean` · entry 9 exit 0 on the committed tree · entry 8
+  re-run `"ok":true` (linux coverage 919/0, gate no breaches · windows coverage 934/0, gate no breaches).
+- **Entry 15** exit 0 · `dce98ad..8a98b9d  HEAD -> build/viola-0.1.0`.
+- **Entry 18** (the plan's entry, `ci.py conclusion --sha HEAD --wait 1800` from the andromeda-tools scripts dir) — exit 0 · `8a98b9d6877f verdict: green · checks 15/15 · wall 246 s · runs ci#36529984077
+  completed/success` · atoms `exit 0` ✓ `contains verdict: green` ✓. **The final HEAD run id: ci#36529984077.**

@@ -1,0 +1,166 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-29T06:36:37Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-09-29-h2-conpty-resize-probe",
+"--run-dir",
+".andromeda/runs/2026-09-29T06-18-44-wrap"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"flip master-route.md:33 - 2026-09-29-h2-conpty-resize-probe pending -> complete"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-29T06:36:38Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-09-29-h2-conpty-resize-probe",
+"--date",
+"2026-09-29",
+"--run-dir",
+".andromeda/runs/2026-09-29T06-18-44-wrap",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"pin :57 strip CARRY: 328ch \"CARRY: founder ruling 2026-09-28 16:54 (\"",
+"pin :57 strip CARRY: 482ch \"CARRY: chunk 2026-09-28-capability-ledge\"",
+"pin :57 strip CARRY: 987ch \"CARRY: chunk 2026-09-27-browser-verdict-\"",
+"pin next markerless :59 holds CARRY:×5",
+"57 · 2026-09-29-h2-conpty-resize-probe · strip 3 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 57,
+"marker": "2026-09-29-h2-conpty-resize-probe",
+"blocks": 3,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-29T06:36:58Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-09-29-h2-conpty-resize-probe",
+"--date",
+"2026-09-29",
+"--run-dir",
+".andromeda/runs/2026-09-29T06-18-44-wrap",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"pin :57 strip CARRY: 328ch \"CARRY: founder ruling 2026-09-28 16:54 (\"",
+"pin :57 strip CARRY: 482ch \"CARRY: chunk 2026-09-28-capability-ledge\"",
+"pin :57 strip CARRY: 987ch \"CARRY: chunk 2026-09-27-browser-verdict-\"",
+"pin next markerless :59 holds CARRY:×6",
+"57 · 2026-09-29-h2-conpty-resize-probe · strip 3 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 57,
+"marker": "2026-09-29-h2-conpty-resize-probe",
+"blocks": 3,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-29T06:37:05Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-09-29-h2-conpty-resize-probe",
+"--date",
+"2026-09-29",
+"--run-dir",
+".andromeda/runs/2026-09-29T06-18-44-wrap"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"pin :57 strip CARRY: 328ch \"CARRY: founder ruling 2026-09-28 16:54 (\"",
+"pin :57 strip CARRY: 482ch \"CARRY: chunk 2026-09-28-capability-ledge\"",
+"pin :57 strip CARRY: 987ch \"CARRY: chunk 2026-09-27-browser-verdict-\"",
+"pin next markerless :59 holds CARRY:×6",
+"57 · 2026-09-29-h2-conpty-resize-probe · strip 3 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+".\\viola-0.1.0\\route-archive.md",
+".\\viola-0.1.0\\working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 57,
+"marker": "2026-09-29-h2-conpty-resize-probe",
+"blocks": 3,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

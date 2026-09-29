@@ -8,6 +8,16 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-09-29 — cargo-llvm-cov refuses `--no-report` with `--no-clean`
+cargo-llvm-cov 0.9.1 rejects the pair (`--no-report may not be used together with --no-clean`): a `--no-report` run already keeps the previous build and profiles, so a loop that repeats `cargo llvm-cov nextest --no-report …` needs no `--no-clean` and must not pass it. A loop that runs the command many times should fail closed on an iteration that fails without the evidence it expects (here, no kept test report), so a usage error reads as a broken measurement rather than as a pass.
+
+---
+
+## 2026-09-29 — Pin `TMP`/`TEMP` in a Windows-runner `shell: bash` step that must find what a test wrote there
+A Rust test's `std::env::temp_dir()` reads `TMP` first on Windows, while Git Bash keeps its own temp mapping, so a CI step that later looks for files a test wrote under the temp dir should export `TMP` and `TEMP` itself as a `cygpath -w` path (for example under `$RUNNER_TEMP`) and read from that same directory. Measured on the windows-2025 runner: every kept report the H2 loop printed was found there.
+
+---
+
 ## 2026-09-28 — A plan whose test and probe contradict: narrow the probe
 When a plan's own test must name a retired token to prove it is refused (a CLI test passing a removed flag) while the same plan's grep probe forbids that token anywhere in the tree, the two cannot both hold. The operator's ruling: narrow the probe to exclude exactly the refusal test (every other hit still reds), recorded in the plan's `note`, at the wrap. Never split the token in the test to dodge the grep, and never carry the probe as a standing red: a permanently red probe stops discriminating, and a dodged token hides the very reference the test exists to make.
 

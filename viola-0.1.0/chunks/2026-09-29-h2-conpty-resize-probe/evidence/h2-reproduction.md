@@ -113,3 +113,17 @@ loop). The loop step is `h2-loop-step.md`'s, verbatim.
   a resize in `viola run` — remains, and no test covers it.
 - **The founder's product question, in the founder's words, unanswered:** "the founder's product question on H2 stays
   open beside this probe".
+
+## Correction at the wrap (overseer, 2026-09-29) — cause unestablished, product impact unmeasured
+The overseer, from web research recorded in the overseer log (not on disk here): microsoft/terminal's current source
+shows the resize path does NOT flush the input buffer (`src/host/output.cpp`, `inputBuffer.cpp`), and no issue reports
+resize input loss. So the readings above that place the loss "inside ConPTY / conhost / the child's console read"
+(§What the localisation says), "below viola (the rstudio/rstudio#18884 class)" (§Branch) and "lost below viola"
+(§Founder hand-off) overstate the measurement. What the measurement establishes: the key left viola's writer written
+and flushed after `resize` returned, and the Rust test child — reading through Rust's stdin (`ReadConsoleW`) — never
+received it; the loss lies between the ConPTY input-pipe write and that child's read, and where inside that span, and
+why, is **not established**. The real `claude` (Node/libuv, `ReadConsoleInputW`) was never measured, so the product
+impact is **unmeasured** — owned by the real-CLI verify entry (working-route "First live test and self-drive", CARRY
+pinned at this wrap). The branch stands: no loss localised to a cause viola controls, which is the fix branch's
+precondition; only its wording changes. The counts, classes, `dsr-cpr` readings, builds and run ids above are
+unchanged.

@@ -1,0 +1,43 @@
+[[pattern]]
+id = 'watchdir'
+fixed = 'viola-pty-watch'
+
+[[pattern]]
+id = 'childreport'
+regex = 'stream (its|the) report|one line per step'
+ignore_case = true
+
+[[pattern]]
+id = 'resize'
+fixed = 'resiz'
+ignore_case = true
+
+[[pattern]]
+id = 'resizeprop'
+regex = 'resize (is|was) propagated|resize reaches'
+ignore_case = true
+
+[[pattern]]
+id = 'ptydefect'
+fixed = 'PTY defect'
+
+[[pattern]]
+id = 'h2'
+regex = '\bH2\b'
+
+[[pattern]]
+id = 'profile'
+fixed = 'LLVM_PROFILE_FILE'
+
+[[pattern]]
+id = 'envclear'
+fixed = 'env_clear'
+
+[[pattern]]
+id = 'covchild'
+regex = 'drops? out of coverage|included, because|profile set|profraw'
+ignore_case = true
+
+[[pattern]]
+id = 'modulepty'
+fixed = 'Module ↔ PTY'

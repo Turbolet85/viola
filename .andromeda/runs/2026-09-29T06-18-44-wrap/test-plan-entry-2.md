@@ -1,0 +1,6 @@
+
+## 2026-09-29-h2-conpty-resize-probe — coverage: the harness self-tests' throwaway crate writes no profile into the outer run
+**Section:** §10 Coverage thresholds → Stack adjustments (the `LLVM_PROFILE_FILE` propagation bullet)
+**Change:** the bullet keeps its rule — child `viola` processes of the product stay in coverage because `LLVM_PROFILE_FILE` propagates, and `env_clear()` re-adds it — and names its one deliberate exception, which is not the product: the harness self-tests' nested cargo over the throwaway `mini` crate (package `viola`) removes `CARGO_LLVM_COV`, `LLVM_PROFILE_FILE`, `RUSTC_WRAPPER` and `__CARGO_LLVM_COV_RUSTC_WRAPPER_RUSTFLAGS` through `test_support::uninstrumented`, as measured on the dev host (new `.profraw` per run of one such self-test: 17 inherited, 13 removed, the throwaway's two binary signatures gone). That the corrupt-header profiles failing the ubuntu merge (ci#36529038462, ci#36481260151) came through this channel is recorded, not established.
+**Why:** a red met in this chunk's operator pass (919/919 tests passed, the merge failed), folded on the operator's word; the channel was carried from chunk 2026-09-28-mutation-testing-to-the-epoch-boundary, and closing it takes non-product binaries out of the product's coverage set.
+**Ref:** .andromeda/runs/2026-09-29T06-18-44-wrap/
