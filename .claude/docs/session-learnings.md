@@ -8,6 +8,11 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-09-29 — Run-dir hygiene: the operator's disposition for phase-run CI copies
+When `gate.py hygiene` refuses files a phase run left in `.andromeda/runs/*-phase/` (copied CI logs, baseline trees), the operator's convention is: delete a copy nothing cites; in a copy an acceptance or the report cites, rewrite the host path roots and keep the line counts; and rename a plane-source control file (a `.rs` the code graph would index) to `.txt`, bytes kept. A plan entry that names the original file keeps that name; the report records the rename as a deviation. Applied at two consecutive chunks' operator passes.
+
+---
+
 ## 2026-09-29 — A gate's freshness check must name a file, never a directory
 A plan gate's `artifact` key is judged by the named path's own mtime. `agent-run.sh run` overwrites its JUnit reports in place, and on NTFS overwriting a file does not move its directory's mtime, so an `artifact` naming `target/agent-run/artifacts/` reads STALE on every run while the run's files are fresh. Name a file the entry writes on every run (for the default `run`, `target/agent-run/artifacts/junit-nextest-integration.xml`), never the directory that holds it; a freshness red on a directory is an instrument defect to retarget, not a standing red to accept.
 

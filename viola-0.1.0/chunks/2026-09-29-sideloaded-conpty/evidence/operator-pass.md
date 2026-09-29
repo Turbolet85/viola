@@ -22,6 +22,9 @@ records cited, and the CI read decides").
   race tests and their helper, the CI loop step. Entry 27 (`! grep -rnE 'h2-measure|h2_race|h2-loop' crates .github
   Cargo.toml`): exit 0, no output. `ci.yml` against `fb78ddc`: the `ConPTY vendor verification` step only.
 
+- Removal `8f643f2`; entry 28 pushed it. Entry 29 (`ci.py conclusion --sha HEAD --wait 1800`): **green**,
+  ci#36566391084, checks 15/15, wall 320 s — the acceptance run.
+
 ## The pre-push guard, pushed through
 Entry 18 (`agent-run.sh pre-push`) is red on its windows-tests stage only; the red is recorded
 `red — not this chunk's` with its two-sided `fb78ddc` basis in `entry-6-not-this-chunk.md`, the acceptance leg is CI.

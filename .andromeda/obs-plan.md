@@ -851,22 +851,23 @@ Skipped as not-instrumentable per obs-scope §1: `viola-core` (it supplies `ObsE
 #### Scenario: `viola run` start sequence to child spawn
 
 - **Surfaces involved:** cli (`run`); ipc-internal (channel bind); persistent stores (snapshot, heartbeat, `events.ndjson`); boundary: `claude --version` probe and the `claude` child.
-- **Must-trace spans:** `run.start` (INTERNAL, root) › `run.collision_check` › `run.pin_copy` › `run.version_gate` (spawns the `version-probe`) › `channel.bind` › `state.snapshot_write` › `state.heartbeat_start` › `pty.spawn` (CLIENT).
+- **Must-trace spans:** `run.start` (INTERNAL, root) › `run.collision_check` › `run.pin_copy` › `run.conpty_sideload` (Windows) › `run.version_gate` (spawns the `version-probe`) › `channel.bind` › `state.snapshot_write` › `state.heartbeat_start` › `pty.spawn` (CLIENT).
 - **Required span attributes:**
   - `run.start`: `instance`;
   - `run.collision_check`: `outcome` (`free|already-live|squatted-name`) — a `live` or `stale` holder is `already-live`; a `gone` one is `free` (taken over, its `events.ndjson` appended to);
   - `run.pin_copy`: `outcome` (`ok|pinned-hash-mismatch`); the `.cmd`/`.bat` refusal (`batch-script-child`) is decided earlier, by viola-side program resolution (`resolve_program`, after obs init and before the strip plan and `pty.spawn`), and logged as `process-exit{subject:"self", exit_code:1, detail:"batch-script-child"}` with no child spawned and no `process-start{subject:"claude-child"}`;
+  - `run.conpty_sideload` (Windows): `outcome` (`loaded|hash-mismatch|unreadable|load-failed|not-built`), `search_restricted` (bool) — never a refusal and never an exit change: any outcome but `loaded` leaves the child on the inbox ConPTY; never the companions' paths or hashes (D-36);
   - `run.version_gate`: `cli_version`, `cli_verified`;
   - `channel.bind`: `endpoint_kind` (`named-pipe|unix-socket`);
   - `state.snapshot_write`: `v`;
-  - `pty.spawn`: `pty_backend` (`conpty|openpty`), `env_stripped_count`.
+  - `pty.spawn`: `pty_backend` (`conpty-sideload|conpty|openpty`, from `viola_pty::pty_backend()`; `conpty-sideload` after a successful pre-load), `env_stripped_count`.
   - Never the endpoint name, `pinned_bin` path or env values.
 - **Required log fields:**
   - Common fields with `process="run"` and `corr` null.
   - `process-start{subject:"self", service_name, version, os, pid, endpoint_kind}`.
   - `process-start` / `process-exit{subject:"version-probe", child_exit_status, duration_ms}`.
   - On failure, `process-exit{subject:"self", exit_code:1, detail}` with `detail` ∈ `already-live|squatted-name|pinned-hash-mismatch|batch-script-child` (Founder Direction 4; no path or pid).
-  - On success, `process-start{subject:"claude-child", child_pid, pty_backend, cli_version, cli_verified, env_stripped_count, env_stripped_known, env_kept}` (D-34).
+  - On success, `process-start{subject:"claude-child", child_pid, pty_backend, cli_version, cli_verified, env_stripped_count, env_stripped_known, env_kept}` (D-34), plus, on Windows when the `run.conpty_sideload` outcome is not `loaded`, `sideload_fallback` (`hash-mismatch|unreadable|load-failed|not-built`, D-36). A degraded sideload adds no `process-exit{exit_code:1}` and no panic line.
   - Product order `wheel{cause:"start"}` → `budget-gate` → `session-start` is verified from `events.ndjson` through `agent-run logs --kind`, not duplicated into process logs (`run` writes the first two; `session-start{source:"hook"}` is record three, sent by `viola hook` through `hook.event` since "Hooks to normalised events"; the harness `boot` readiness stage `start_records` checks `events.ndjson` lines 1-3 — `wheel{cause:"start"}` → `budget-gate` → `session-start{source:"hook"}` — with the missing code `<name>:events`).
 - **Cleanup:**
   - `run.start` closes when `pty.spawn` returns.
@@ -1056,7 +1057,7 @@ Template fields deliberately **not** emitted (D-12):
 
 | Event | Additive fields |
 |-------|-----------------|
-| `process-start` | `subject` (`self|claude-child|version-probe|verify-probe|agents-probe|statusline-shell`), `service_name`, `version`, `os`, `pid`, `child_pid`, `port` (ui), `endpoint_kind`, `pty_backend`, `cli_version`, `cli_verified`, `env_stripped_count`, `env_stripped_known`, `env_kept` (claude-child: the kept `CLAUDE*` names, comma-joined, names only) |
+| `process-start` | `subject` (`self|claude-child|version-probe|verify-probe|agents-probe|statusline-shell`), `service_name`, `version`, `os`, `pid`, `child_pid`, `port` (ui), `endpoint_kind`, `pty_backend` (`conpty-sideload|conpty|openpty`), `cli_version`, `cli_verified`, `env_stripped_count`, `env_stripped_known`, `env_kept` (claude-child: the kept `CLAUDE*` names, comma-joined, names only), `sideload_fallback` (claude-child, Windows, present only on a degrade: `hash-mismatch|unreadable|load-failed|not-built`; D-36) |
 | `process-exit` | `subject`, `exit_code` (self), `child_exit_status` (child/probes), `shell_exit_status` (statusline), `exit_source` (`handle-wait|kill-fallback`), `detail`, `during` (`connect|call`), `duration_ms` |
 | `channel-request` | `method`, `conn` / `srv_conn`, `from`, `from_trust`, `sender`, `v`, `after`, `timeout_ms` |
 | `channel-response` | `method`, `conn` / `srv_conn`, `result_class` (`ok|refusal|error`), `refusal`, `detail`, `error_code` (`-32700|-32600|-32601|-32602|-32603`), `outcome`, `duration_ms` |
@@ -1810,6 +1811,16 @@ between phase loops._
 - **Rationale:** §6 Child / shell spawns names every spawn as a pair; verify's two spawns wrote none (an overseer ruling at the capability-ledger wrap). A closed value needs this entry (§8 default-deny).
 - **Impact:** §4 `verify`, §6 `process-start` catalog and Boundary-call wrappers. §1 keeps its verbatim wording.
 - **By:** chunk 2026-09-29-verify-stamped-test-homes-and-harness, applied by wrap-session 2026-09-29.
+
+`2026-09-29` — D-36 Sideloaded ConPTY telemetry: `run.conpty_sideload`, `pty_backend` `conpty-sideload` and the closed `sideload_fallback`
+- **Decision:**
+  - On Windows, `viola run`'s start step `run.conpty_sideload` runs between `run.pin_copy` and `run.version_gate`, with `outcome` ∈ `loaded|hash-mismatch|unreadable|load-failed|not-built` and `search_restricted` (bool).
+  - `pty_backend` gains the value `conpty-sideload` (read from `viola_pty::pty_backend()`, which replaces the const `PTY_BACKEND`); it stays `{ "type": "string" }` in `schemas/diag-line.v1.json`.
+  - `process-start{subject:"claude-child"}` gains the additive `sideload_fallback`, present only when the outcome is not `loaded`, closed in the schema's `process-start` properties as `hash-mismatch|unreadable|load-failed|not-built` (`diag-detail.v1.json` unchanged).
+  - Codes only: no companion path or hash reaches a home-level line; the degrade stays on the existing info-level lines (no `warn`), with no `process-exit{exit_code:1}` and no panic.
+- **Rationale:** the backends must be told apart and a degrade recorded without a byte on the human's terminal; D-35 is the closed-set widening template, and a closed value needs this entry (§8 default-deny).
+- **Impact:** §4 Scenario 1 (chain, attributes, log fields), §6 `process-start` catalog. §1 keeps its verbatim wording.
+- **By:** chunk 2026-09-29-sideloaded-conpty, applied by wrap-session 2026-09-29.
 
 (Append new entries at the bottom; do not modify historical
 entries.)

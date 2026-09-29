@@ -225,3 +225,29 @@
 **Why:** the founder's 2026-09-28 17:59 ruling removed the CI and pre-push mutation legs, so the carve-out, the upload and the pin have no user. A narrowing, never the widening class.
 **Kept:** the Threat Model Summary (its `download-artifact` and "mutation legs plus a union verdict" lines) — a verbatim copy of threat-assessment.md; the facts live in §Dependency Security.
 **Ref:** .andromeda/runs/2026-09-28T21-04-49-wrap/
+
+## 2026-09-29-sideloaded-conpty — vendored Microsoft ConPTY binaries and the third interim gap (founder live)
+**Section:** Security Decisions Log (`2026-09-29`); Authentication & Authorization → `~/.viola/` access control
+**Change:**
+- New Log entry: `conpty.dll` + `OpenConsole.exe` from `Microsoft.Windows.Console.ConPTY` 1.24.260710001 (MIT) committed under `vendor/conpty/…`, embedded, written to `bin/<version>-<hash>/conpty/` and sideloaded; their own audit (`conpty-vendor.sh`), never a `cargo deny` exemption; no network call at build or run time; the System32 DLL-search restriction as the control for the planting vector.
+- A third dated interim gap, beside the two of `2026-09-28`: until "Home and code-bearing file integrity" (Epoch 6) adds the `conpty/` folder and both files to the Windows strict-modes set, `run` loads them under the `FILE_SHARE_READ`-only held handle and the full SHA-256 re-hash alone, without the owner/DACL check.
+**Why:** both are boundary widenings (a third-party prebuilt binary outside every lockfile audit hosts the child; code-bearing files loaded before the owner/DACL check), ratified by the founder live on 2026-09-29 at 10:41:12, relayed by the Viola overseer, after both forks were shown at the chunk's phase P4. The gap closes with the Epoch 6 entry (route CARRY).
+**Ref:** .andromeda/runs/2026-09-29T12-17-33-wrap/
+
+## 2026-09-29-sideloaded-conpty — the DLL search order and the companions' integrity controls
+**Section:** Input Validation (new row: DLL search order + sideloaded ConPTY companions); Data Protection → Code-bearing artefacts; Security Anti-Patterns → Data Protection, Universal
+**Change:**
+- Input Validation row: every `viola` process restricts its DLL search to System32 as the second statement of `main`, so a bare-name load (portable-pty's included) never resolves from the CWD or `PATH`; `run` writes the companions write-if-absent, re-hashes each in full through a `FILE_SHARE_READ`-only handle and only then pre-loads `conpty.dll` by absolute path, the handles held until `spawn_child` returns; a failure degrades to the inbox ConPTY, recorded only as codes (`run.conpty_sideload`, `sideload_fallback`).
+- Code-bearing artefacts: the list was the pinned exe, the plugin files, `settings.json` and `stamps.json`; it now also holds `bin/<version>-<hash>/conpty/{OpenConsole.exe,conpty.dll}` (write-if-absent, held-handle re-hash, a mismatch left as found).
+- Anti-patterns: never load or launch a companion without that re-hash, never overwrite or delete a failing one; never let a Windows `viola` process reach a DLL load before the restriction, never pre-load by a relative path, and a sideload failure is never a refusal, exit change or terminal byte.
+**Why:** the controls this chunk shipped, measured by its planted, tamper and two-sided restriction tests; the Threat Model Summary stays a verbatim copy (playbook "Verbatim upstream copy").
+**Ref:** .andromeda/runs/2026-09-29T12-17-33-wrap/
+
+## 2026-09-29-sideloaded-conpty — the vendored binaries' own audit, pins and CI step
+**Section:** Dependency Security → Audit tool, Pinning, CI integration; Bootstrap phases → dep-audit-tooling-install, dep-security-ci-gate
+**Change:**
+- Audit tool: the vendored ConPTY binaries sit outside every cargo and npm graph; their gate is `scripts/conpty-vendor.sh` — `--verify` (fetch outside the tree, nupkg SHA-256 before extraction, byte compare, Authenticode signer; `conpty-vendor: verified <version>`) and `--probe` (four refusals and a control; `conpty-vendor probe: 4/4 refused, control clean`). The signer is checked there and in CI; at run time the SHA-256 pin carries it.
+- Pinning: four exact pins (package version, nupkg SHA-256, two file SHA-256s) with one textual home, `src/conpty.rs`; committed binary; a version move is a re-vendor through the script.
+- CI integration and both bootstrap phases: the `test` job's `windows-2025` step `ConPTY vendor verification` and the script join the lists.
+**Why:** a new non-crate dependency needs its own audit like the npm graph and the fuzz lockfile before it (an own audit, never an exemption).
+**Ref:** .andromeda/runs/2026-09-29T12-17-33-wrap/

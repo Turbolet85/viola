@@ -1,0 +1,78 @@
+# Cascade step-2 patterns — wrap of 2026-09-29-sideloaded-conpty.
+# Derived from every amendment of the pass: the retired claims' wording AND mechanism.
+
+[[pattern]]
+id = "inbox-preamble"
+fixed = "ESC[?9001h ESC[?1004h"
+
+[[pattern]]
+id = "conpty-own-bytes"
+regex = 'ConPTY(.s)? (itself )?(emits|own SGR)'
+
+[[pattern]]
+id = "backend-values"
+fixed = "conpty|openpty"
+
+[[pattern]]
+id = "hosts-conpty"
+regex = 'ConPTY \(Windows\)|in ConPTY( \(Windows\))? or openpty|hosted in ConPTY'
+
+[[pattern]]
+id = "pin-then-gate"
+regex = 'run\.pin_copy` › `run\.version_gate|pinned copy and plugin( folder)?, version gate|pinned copy and plugin → version gate'
+
+[[pattern]]
+id = "strip-order"
+regex = 'strip plan → collision|resolution → strip plan'
+
+[[pattern]]
+id = "start-order-verb"
+regex = 'starts in this order|start order|start sequence'
+
+[[pattern]]
+id = "code-bearing"
+regex = 'Code-bearing artefacts|code-bearing file'
+
+[[pattern]]
+id = "rehash-bin"
+regex = 're-hash(es|ed|ing)? (an existing|it|the file|every)'
+
+[[pattern]]
+id = "interim-gap"
+regex = 'interim gap|ratified the same way|a second, ratified'
+
+[[pattern]]
+id = "fresh-home"
+regex = 'not-yet-existing|viola itself creates it|so viola creates it|fresh home'
+
+[[pattern]]
+id = "hand-written"
+regex = 'never hand-written|The one exception is the chaos'
+
+[[pattern]]
+id = "h2-13"
+regex = '13 of 200|13/200'
+
+[[pattern]]
+id = "out-of-graph"
+regex = 'outside both cargo graphs|sits outside .{0,40}graph'
+
+[[pattern]]
+id = "audit-list"
+regex = 'npm-audit\.sh.{0,80}install-node\.sh|cargo-deny, zizmor'
+
+[[pattern]]
+id = "path-dll"
+regex = 'PATH-resolution|through PATH|from the CWD'
+
+[[pattern]]
+id = "matrix-conpty"
+fixed = "ConPTY, named pipe"
+
+[[pattern]]
+id = "first-start"
+regex = 'booted_wrapper. bound|1\.0 s spine'
+
+[[pattern]]
+id = "bin-layout"
+regex = 'bin/<version>-<hash>/`|bin/<version>-<hash>/viola'

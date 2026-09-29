@@ -351,3 +351,33 @@
 **Change:** was "the real-CLI verify entry owns that measurement"; now the working-route entry "First live test and self-drive" owns whether the real `claude` loses a key typed right after a resize, and the harness's local `run --local-live` (a real-`claude` `viola verify`) does not claim it. The founder's product question on H2 stays open.
 **Why:** "real-CLI verify entry" read as this chunk's `--local-live`, which measures the capability-ledger rows only; the handoff and the prior wrap pinned the H2 measurement to "First live test and self-drive".
 **Ref:** .andromeda/runs/2026-09-29T07-53-49-wrap/
+
+## 2026-09-29-sideloaded-conpty — the Windows x64 child is hosted in Microsoft's sideloaded ConPTY
+**Section:** Stack and Technologies → PTY layer, Content hash; Established Decisions → [PTY]; Infrastructure Patterns → Project directory structure
+**Change:**
+- [PTY] as-built: every `viola` process restricts its DLL search to System32 as the second statement of `main` (`viola_pty::sideload::restrict_dll_search`); `run` pre-loads the pinned `bin/<version>-<hash>/conpty/conpty.dll` by absolute path, so portable-pty `=0.8.1`'s bare-name load returns it and the child is hosted by the pinned `OpenConsole.exe`; the seam is unchanged and knows no pinned path. `pty_backend()` reads `conpty-sideload` · `conpty` · `openpty`; any sideload failure fails open to the inbox ConPTY. Harness, `OuterPty` and viola-pty tests stay inbox.
+- H2 with/without in one windows-2025 run (ci#36563868040): sideloaded 0 of 200, inbox 14 of 200, beside the inbox 13 of 200; no rate.
+- The sideloaded preamble `ESC[1t ESC[c ESC[?1004h ESC[?9001h`; its DA1 query holds the child's start until answered (3.54 s vs 0.54 s on the dev host, as measured at the chunk's `evidence/da1-stall.md`); viola stays silent; the headless stall is an open finding owned by the route entry that first runs viola headless.
+- Stack: was "Hosts the unmodified `claude` in ConPTY (Windows)"; now the sideloaded ConPTY on Windows x64 (Microsoft.Windows.Console.ConPTY 1.24.260710001, MIT, vendored and embedded), the inbox ConPTY the fallback; windows-sys also covers `SetDefaultDllDirectories` and `LoadLibraryExW`; sha2 also re-hashes the companions.
+- Tree: `src/conpty.rs`, `main.rs`'s restriction, viola-pty `sideload`, `scripts/conpty-vendor.sh`, `vendor/conpty/<version>/x64/`.
+**Why:** the founder's acceptance was the H2 measurement with and without; the restriction also closes a planting hole that existed before this chunk (a bare-name `conpty.dll` load from the CWD or `PATH`). The vendored delivery is a boundary widening ratified by the founder live (see security-plan's `2026-09-29` Log entry).
+**Ref:** .andromeda/runs/2026-09-29T12-17-33-wrap/
+
+## 2026-09-29-sideloaded-conpty — the ConPTY sideload step in the start order
+**Section:** Established Decisions → [Session Liveness] (both start-order sites); Infrastructure Patterns → CI/CD approach
+**Change:**
+- The prose order now reads collision check, pinned copy and plugin folder, the ConPTY sideload (Windows x64, fail-open), version gate, bind.
+- The as-landed chain was "program resolution → strip plan → collision → pinned copy and plugin → version gate"; now "program resolution → collision → pinned copy and plugin → ConPTY sideload (`run.conpty_sideload`: `pin_companions` + the absolute-path pre-load; `outcome` `loaded` · `hash-mismatch` · `unreadable` · `load-failed` · `not-built`, never a refusal; held handles live until `spawn_child` returns) → strip plan → version gate". The strip plan's place was already stale before this chunk; it follows the pinned copy.
+- CI/CD: the `test` job's `windows-2025`-only `ConPTY vendor verification` step (`conpty-vendor.sh --verify` then `--probe`) runs before the coverage run.
+**Why:** the chunk added one start step between the pinned copy and the strip plan (report Symbols/APIs; the span-order test); the step never changes the exit.
+**Ref:** .andromeda/runs/2026-09-29T12-17-33-wrap/
+
+## 2026-09-29-sideloaded-conpty — the embedded ConPTY companions on disk and in the repository
+**Section:** Established Decisions → [Deployment / Distribution], [Snapshot writer]; Occupied Resources → Filesystem, Repository; Infrastructure Patterns → Deployment model
+**Change:**
+- [Deployment / Distribution]: on Windows x64 the binary embeds `OpenConsole.exe` + `conpty.dll` (`src/conpty.rs`, the four pins' one textual home) and writes them write-if-absent to `bin/<version>-<hash>/conpty/`; each start holds them `FILE_SHARE_READ`-only and re-hashes them in full; unlike the exe a mismatch never refuses the start, it is left as found and the child runs on the inbox ConPTY. The subdirectory keeps them off the child's PATH. First-start cost, as measured at the chunk on the dev host under a parallel suite: `pin_companions` median 1 193 ms; CI stayed green; the root tests seed their homes instead; no bound raised.
+- [Snapshot writer]: the companions join `replace_private_shared`'s users; the held open retries a Win32 error 32 under `REPLACE_ATTEMPTS` (two concurrent first starts, 5-11 ms measured).
+- Filesystem: `bin/<version>-<hash>/conpty/{OpenConsole.exe,conpty.dll}` registered. Repository: `vendor/conpty/<version>/x64/` (MIT nupkg bytes, `.gitattributes` binary, `conpty-vendor.sh` the one writer and verifier) and the test-side `target/conpty-seed/<key>/`.
+- Deployment model: `bin/<version>-<hash>/` also holds `conpty/` on Windows x64, pre-loaded before the spawn.
+**Why:** new resources this chunk landed, registered where their category lives; the fail-open treatment keeps the human's start unblocked.
+**Ref:** .andromeda/runs/2026-09-29T12-17-33-wrap/

@@ -1,0 +1,1 @@
+Sideloaded ConPTY — Microsoft conpty.dll + OpenConsole.exe 1.24.260710001 vendored, embedded and written to bin/<key>/conpty/, re-hashed through held handles before an absolute-path pre-load (signer checked at vendoring and in CI); System32-only DLL search in every viola process; any failure falls back to the inbox ConPTY; H2 on windows-2025: sideload 0/200 vs inbox 14/200

@@ -31,7 +31,7 @@ Path-scoped rules for test authoring (what tests assert, fixtures, coverage). Lo
 - Commit `proptest-regressions/`; chaos faults only from explicit process/file operations or mockall seams.
 
 ## Test data
-- Every test owns a fresh home: a not-yet-existing `home` inside `tempdir_in("<workspace>/target/e2e-home")`, so viola creates it (Windows protected DACL) and CI's G2/G4/secret scan cover it.
+- Every test owns a fresh home: a not-yet-existing `home` inside `tempdir_in("<workspace>/target/e2e-home")`, so viola creates it (Windows protected DACL) and CI's G2/G4/secret scan cover it. The one carve-out: on Windows x64 root tests seed the ConPTY companions through `tests/support/home.rs` `seed_conpty` before `viola run` (test-plan §5); `run_viola_unseeded` starts and `tests/conpty_sideload.rs` never seed, so the product's first-start write stays covered.
 - Never hand-write `ledger/stamps.json` (only `viola verify` against the fake agent), `snapshot.json` (only the wrapper) or `budget.json` (only `viola hook statusline`).
 - Fixtures are synthetic probe text only, scrubbed of absolute paths and usernames; every input embeds the tests-owned canary string.
 
@@ -68,3 +68,4 @@ _This section is owned by `/wrap-session`. setup-project preserves content added
 - 2026-09-28: A test that pins a not-yet-built harness selector as `usage` runs the real arm the day that selector lands (a nested build, boot or tool inside nextest), so the chunk that builds a selector retargets that case to one still unbuilt.
 - 2026-09-28: Never reshape code to take its body out of cargo-mutants' generated set (a fn turned into a closure) to meet unviable ≤ caught — kill its mutants with a test, and where a return type yields only unviable replacements (an `mpsc::Receiver`), return a `Default`-deriving type instead.
 - 2026-09-28: A timing red is never fixed by raising a timeout or a test bound: measure the phases on the runner that failed (timing-only pushes allowed), say what they show before changing the work, then remove the slow work. Extended 2026-09-28: keep the measured test under its kill by moving the cold work into the step it replaces rather than adding a step, and make a passing test's lines visible through a temporary nextest `success-output` override.
+- 2026-09-29: Read a red root test's source before blaming the binary under test: `viola never exited` is the stamped-home fixture's `viola verify` step (`tests/support/verify.rs`), not a wrapper, and a nextest `LEAK` means a child still held the test's stdio after the test ended.

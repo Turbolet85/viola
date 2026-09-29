@@ -339,3 +339,18 @@
 - The Module ↔ PTY row's H2 owner is the working-route entry "First live test and self-drive" (was "the real-CLI verify entry"); `run --local-live` does not claim it.
 **Why:** the fake agent answers at the version its fixtures were recorded at, so the wrapper's version gate reads a stamped version; the H2 owner wording matches architecture [PTY].
 **Ref:** .andromeda/runs/2026-09-29T07-53-49-wrap/
+
+## 2026-09-29-sideloaded-conpty — the H2 pair, the sideloaded backend and its boundary tests
+**Section:** §5 Integration → Module ↔ PTY; Critical Path 1 (the `run` start sequence); §9 CI → Pipeline structure (Coverage report row), Build failure conditions
+**Change:**
+- Module ↔ PTY: beside the inbox 13 of 200, the with/without pair from one windows-2025 run (image `windows-2025-vs2026` 20260828.587, ci#36563868040): sideloaded 0 of 200, inbox 14 of 200, no rate. Windows x64 root `viola run` tests host the child on the sideloaded `OpenConsole.exe`; viola-pty's tests, `OuterPty` and the harness `supervise` stay inbox. The boundary: `conpty_sideload` (5 cases) and the two-sided `restrict_dll_search_keeps_planted_conpty_out_of_a_bare_name_load`. The piped driver answers DA1, and the forced-window resize test resizes on the wrapper's `process-start{claude-child}` line.
+- Critical Path 1: the start sequence gains the ConPTY sideload after the pinned copy and plugin (fail-open).
+- §9: on `windows-2025` the `ConPTY vendor verification` step runs before the coverage run, which covers the `conpty_sideload` binary; a verify or probe not ending its verdict fails the build.
+**Why:** the chunk's measured acceptance and its new test surfaces (report Counts, Harness/gate surface, Coverage).
+**Ref:** .andromeda/runs/2026-09-29T12-17-33-wrap/
+
+## 2026-09-29-sideloaded-conpty — the Windows x64 seeded-home carve-out
+**Section:** §5 Setup / teardown lifecycle; §3 Test data bootstrap → Mechanism; §7 Seed strategies (On-disk product state); §12 Test Decisions Log (`2026-09-29`)
+**Change:** was "every test home is a not-yet-existing path viola creates; on-disk state is never hand-written, the one exception the chaos tests"; now one carve-out: on Windows x64 `Wrapper::boot` and every piped or outer-PTY `viola run` start seed `<home>/bin/<key>/conpty/` through `tests/support/home.rs` `seed_conpty` (hard links, copy fallback, from one per-run `target/conpty-seed/<key>/` copy, byte-identical to the embedded companions), so the test creates those homes first. The product's first-start write stays covered by `tests/conpty_sideload.rs` and `run_viola_unseeded`, which never seed; the harness `boot` never seeds. The seed is §7's second exception.
+**Why:** the first start's companion write cost a median 1 193 ms on the dev host under a parallel suite, which pushed first-start tests past their 7 s waits; the overseer chose a test-side seed and no bound was raised. The operator ruled the carve-out at this wrap (the overseer agreeing) with a route CARRY on the Epoch 6 entry "Home and code-bearing file integrity": once viola sets its own home DACL at creation, a seeded home would skip it, so the seed must then let viola create the home first.
+**Ref:** .andromeda/runs/2026-09-29T12-17-33-wrap/
