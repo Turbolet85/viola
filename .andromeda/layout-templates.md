@@ -37,6 +37,7 @@ runs are fine._
 | `color-border-handoff` | Border Handoff (the blue left tick) | `--handoff` at `--rule-strong` |
 
 Spacing uses `space-micro` · `space-xs` · `space-sm` · `space-md` · `space-lg` · `space-xl`. Geometry uses `--strip-h`, `--line-h`, `--band-w`, `--rb-size`, `--cock-offset`, `--rule`, `--rule-strong`, `--focus-w` and `--focus-offset`. Radius uses `radius-sm` · `radius-md` · `radius-lg`, all resolving through `--radius`. `radius-full` is never used. Tracks come from `--strip-cols`, `--strip-cols-wrapped` and `--tape-cols`. Motion uses `--cock-dur` / `--cock-ease` and `--fade-dur` / `--fade-ease`.
+This document changes no design-system token, colour, font stack, expression level or signature drawing: design-system.md is their authority, and its Component Patterns 1–6 (web) and 1–5 (cli) are the base this document places, adding only the region order, the tape's bounded scroll region, the per-screen instances and the concrete trigger points.
 
 **Expression level (this surface):** 0.3. It allows exactly two motions, each played once on a state change: the cock (`translateX(--cock-offset)` over `--cock-dur`) and the new-line / new-marker opacity fade (`--fade-dur`). The readback fill, the strike, `stale` dimming, a strip's return into line, scroll jumps and text swaps are all instant. The Motion section overrides the 0.3–0.4 calibration row.
 
@@ -191,13 +192,16 @@ A refused `send` line's body prints the full `unable · <reason> · <detail>` th
   6. `TAPE`: Label, followed by `live since 19:40:02Z` (primary ink, with the time in Data), or `connecting` (`color-text-secondary`), or `stopped · viola ui not answering`, boxed in `color-border-emphasis`.
   7. `skipped 0 · 0 · 0`: Body with Data counts, `color-text-muted` while zero. When a count is nonzero it prints in `color-text-primary`, boxed in `color-border-emphasis`, and it is never cleared automatically.
 - **Density:** about 112ch of Body/Data. It takes two lines at 1024 and three or more at 760–1023. When `expired`, `TAPE stopped` or a nonzero `skipped` box appears, the header gains a line and the content below moves down by one `--line-h`, instantly. This is the logged UX-guideline-5 deviation: order is kept, pixel position is not.
+- **Boxed cells:** every boxed ATIS word (`expired`, `budget-paused`, `stopped · viola ui not answering`, a nonzero `skipped` count) carries `space-micro` inline padding.
 - **Never here:** `viola_home`, the token, a version string, a settings gear or a user menu. `/api/info`'s `version` has no slot on the page. The CLI owns version display.
 
 ### Component — Primary navigation (rack separators and keyboard order)
 
 - **IA model:** one page, one bay, no nav chrome, no tabs, no sidebar and no breadcrumbs. The four regions stand in a fixed vertical order: (1) `<viola-atis>`, (2) the WRAPPED rack, (3) the UNWRAPPED · READ-ONLY rack, (4) the TAPE. The rack separator labels (`WRAPPED`, `UNWRAPPED · READ-ONLY`, `TAPE`) are the only wayfinding. Each is Heading (uppercase, `--track-rack`) in `color-text-primary` on `color-surface-base`, followed by a `--rule` in `color-border-subtle` that runs to the rack's end edge. The label sits `space-md` above the rack's caption row. Racks are `space-lg` apart, and the tape is `space-lg` below the last rack.
+- **Ownership:** the semantic roles of the racks, the strips and the tape, and the polite-announcement mechanics, are a11y's (a11y-plan). This document names the regions and what is announced, never their roles.
 - **Skip link:** `skip to tape` is the first tab stop. It is hidden until focused, then drawn over the header's inline start in Label type on `color-surface-base` with the focus ring. Its target is the tape region.
 - **Tab order after the skip link:** every tape `<summary>` from oldest to newest, then the `N new lines below` anchor. Strips, captions and transfer markers are not focusable, because v1 has no controls.
+- **No control slot:** the v1 bay reserves no slot for a control. The v1.x brake controls (`I HAVE CONTROL`, `UNLINK`, the Raised-3 confirmation) have their placement and copy decided at implementation with the security plan.
 - **Focus:** a `--focus-w` outline in `--focus-ring`, offset `--focus-offset`, `radius-sm`, appearing instantly. The only hover feedback is the underline on the link-styled `N new lines below` anchor and the skip link. There is no hover colour anywhere.
 - **Responsive:** at ≥1024 every strip is one line. At 760–1023 strips switch to `--strip-cols-wrapped` / `--strip-rows-wrapped` / `--strip-areas-wrapped`, and the caption row follows the same two-line template. The region order never changes, and a narrow viewport never collapses a rack into a menu.
 - **No search, no filter, no command palette.** The tape is capped at 2000 DOM lines. The full record is `events.ndjson`, and the trim notice says so.
@@ -219,7 +223,9 @@ A refused `send` line's body prints the full `unable · <reason> · <detail>` th
   - `turn-ended` never touches the box.
   - Until CL-1 lands, only `read` boxes render, and markers print `unknown`.
 - **Supporting element, the cocked strip (the High-impact moment):** when a strip's `dialog_pending` turns true, `<viola-session-row data-dialog="pending">` moves by `translateX(--cock-offset)` over `--cock-dur` with `--cock-ease`, once. In the same frame the `--band-w` band slot turns `color-accent`, the DIALOG cell drops to `color-surface-inset`, `DIALOG` prints in `color-accent` at the strong weight, and the kind word stays `color-text-primary` (or `color-text-muted` when the strip is also `stale`). `document.title` becomes `DIALOG overseer · viola` (the first cocked strip by slot, plus `+N`). When the dialog clears, the return into line is instant.
+- **Cock scope:** the cock is the only High-impact moment and plays only on a `<viola-session-row>` in the WRAPPED rack. It never fires in the tape, on an unwrapped strip or on the CLI.
 - **Reduced motion:** `--cock-dur` and `--fade-dur` become `0ms`. The offset position and the amber band stay, because they are state.
+- **Data plumbing:** the plumbing that sets a strip's `dialog_pending` live is decided at implementation, outside this layout. The layout fixes only what the strip draws once the reading is true.
 
 ### Component — Primary content block 1: racks of `<viola-session-row>` strips
 
@@ -336,6 +342,7 @@ A refused `send` line's body prints the full `unable · <reason> · <detail>` th
 | `space-xs` equivalent | The column gutter: two spaces on the terminal grid. Inside one field, ` - ` replaces the web's `·` |
 | `radius-*` | No terminal analogue. Square brackets `[ ]` keep the ruled-rectangle reading |
 | Motion tokens | None. Nothing redraws in place |
+One token vocabulary (`color-*`, `space-*`, `radius-*`, the typography roles) serves both surfaces: the web resolves it to the CSS aliases in `/assets/app.css`, the cli to the SGR tokens, the terminal default foreground or "not used". The differences are platform mechanics only: ANSI depth, the two-space gutter, ASCII `->` / ` - `, and brackets for the ruled box.
 
 **Expression level (this surface):** 0.2 on a human TTY: static fixed-column rows, one static context header, and colour only as a second cue. 0.0 for `--json`, non-TTY, `NO_COLOR`, `TERM=dumb` and `viola run` passthrough: no colour, no non-ASCII glyph and no cursor control.
 
@@ -561,63 +568,4 @@ hint: viola list                                          <- stderr, the last li
 
 ## Decisions Log
 
-`2026-09-24`: Initial layout templates generated by `/andromeda-design` Phase 8.
-
-**Surfaces covered:** web-spa (`viola ui`), cli (`viola` verbs).
-
-**Key layout choices:**
-- **web-spa:** one route and one bay, in four fixed regions (ATIS header, WRAPPED rack, UNWRAPPED · READ-ONLY rack, TAPE). There is no nav chrome, no hero and no page footer. Strips are fixed-field grid rows on `--strip-cols`, in stable name order, never a card grid.
-- **web-spa:** the tape is the only bounded scroll region, filling the viewport below the racks with a ten-line floor. This keeps the racks, and any cocked strip, in view while history is read. The page scrolls only when the racks plus that floor exceed the viewport.
-- **web-spa:** transfer markers are `--line-h` lines in the rack gap on `color-surface-base`, under the driver (outbound, with the box) and under the driven strip (inbound twin, no box). There is no graph.
-- **web-spa:** state strips (first reading, empty, 503, tape stopped) occupy the rack or tape position they describe. They are words only, with no loaders.
-- **cli:** `viola list` is the single board, with one static BAY header and six padded columns identical to the web strip. Every other verb prints one or two phraseology lines, and the exit code is the terminator.
-- **cli:** `viola send` is the only verb carrying the bracketed readback mirror. Other verbs share only its `unable` word column.
-
-**Cross-surface IA decisions:**
-- One token vocabulary (`color-*`, `space-*`, `radius-*`, typography roles) is used on both surfaces. The web resolves it to the CSS aliases in `/assets/app.css`, and the cli to the SGR tokens, the terminal default foreground or "not used". Differences are platform mechanics only: ANSI depth, the two-space gutter, ASCII `->` / ` - `, and brackets for the ruled box.
-- The same six fields, words and slot order apply on both surfaces. `ViolaName` and `cursor` are the only shared references. There is no URL coupling.
-- The web shows state and history. The CLI is the only place actions happen. The web's only printed command is the empty-rack `viola run <name> -- claude`.
-
-**Signature placement strategy:**
-- **web-spa:** `<viola-readback>` at the far right of every tape `send` line (spanning the last two `--tape-cols` tracks) and of every outbound `<viola-transfer>` marker once a send on that link is seen (`unknown` before that). It is one element and one drawing in both places, and both flip in the same frame.
-- **cli:** the `[  ]` issue line (stderr, TTY) plus the `[RB]` / `[/ ]` / `[  ] unconfirmable` outcome line of `viola send`, with the `unable` word column carried into every verb's refusal line.
-- **Supporting element:** the cocked strip on `<viola-session-row>`, mirrored by the amber `DIALOG` word in `viola list` and by `document.title`.
-
-**Motion trigger placement:**
-- **The cock** (the only High-impact moment): `<viola-session-row>` in the WRAPPED rack, when its `dialog_pending` turns true. It plays `translateX(--cock-offset)` over `--cock-dur` once. The band turns `color-accent` and the DIALOG cell insets in the same frame. The return into line is instant. It never fires in the tape, on unwrapped strips or on the CLI.
-- **Ambient fade:** tape lines and `<viola-transfer>` markers that arrive over SSE after first paint (`data-live`) fade in over `--fade-dur`. The first paint is instant.
-- **Deliberately instant:** the readback fill and strike (tape and marker), `stale` dimming, `unlink` removal, the header gaining a line, the `N new lines below` count and the `read Nm ago` age.
-- **Reduced motion:** both durations are zero, and the cock position and band persist.
-- **cli:** no motion. Nothing redraws in place, and nothing uses a spinner or progress bar. `verify` appends step-counter lines.
-
-**Responsive breakpoints (web only):**
-- ≥1024: primary, with one-line strips on `--strip-cols`.
-- 760–1023: two-line strips on `--strip-cols-wrapped` / `--strip-rows-wrapped` / `--strip-areas-wrapped`, a caption row on the same template, the ATIS header on three or more lines, and tape word/reason ending in an ellipsis with the full text in the expanded body.
-- <760: reserved for the later phone view and not laid out in v1.
-- Never horizontal scroll at any supported width. Racks keep `--cock-offset` end padding.
-
-**Notable surface-specific deferrals:**
-- The 401 access strip content and recovery copy, the `viola ui` launch line's credential content, and the v1.x brake controls (`I HAVE CONTROL`, `UNLINK`, Raised-3 confirmation). Their placement and copy are deferred to implementation with the security plan. No control slot is reserved in the v1 bay.
-- The phone view layout below 760, deferred to the later authenticated remote view.
-- The polite-announcement mechanics and semantic roles of racks, strips and the tape are owned by a11y. This document only names what is announced.
-- The data plumbing that sets a strip's `dialog_pending` live, and the CL-1 events (`send-issued` with `cursor` and `from`, `send-refused`, and the `unconfirmable` outcome). Until CL-1 lands, the layout shows only `read` boxes and `unknown` in marker last-send cells.
-
-**Notes:**
-- Four copy lines are layout decisions that were not spelled out in the design system: `no unwrapped sessions` (empty unwrapped rack), the tape INSTANCE cell of a send line printing the sending instance (it depends on CL-1 carrying `from`), the `space-micro` inline padding of boxed ATIS words, and `color-text-primary` for rack separator labels.
-- The design system's Component Patterns 1–6 (web) and 1–5 (cli) were the starting point. This document adds the region order, the tape's bounded scroll region, per-screen instances (`builder` / `overseer` / `scratch` / `c1f9e2a4…`) and the concrete trigger points. It changes no token, colour, font stack, expression level or signature drawing.
-
-`2026-09-24`: Overseer fix pass 2026-09-24 (cross-plan findings, founder-delegated). Each item was checked against the cited upstream line first.
-- **T3:** the Discoverability breadcrumb no longer suggests `viola release builder --budget`. Drivers receive these hints, and a driver's `release` is refused (security: driver-originated `release`, `-32602`, exit 20).
-- **T4:**
-  - The refusal-line component now carries one hint per exit-21 and exit-1 cause, pointing to design-system cli pattern 2. Tests' exit-cause matrix requires a cause-specific hint.
-  - `--json` carries no hint text. A per-cause detail code there is pending an arch amendment, because arch fixes `"detail":null` for exit 21.
-- **T5 (ratified):** `list` row escaping also escapes `\n` / `\t`. This is stricter than the security floor.
-- **By:** manual edit, overseer fix pass 2026-09-24.
-
-`2026-09-24`: overseer fix pass 2, 2026-09-24 (cross-plan findings "a11y P3.5", founder-delegated). Checked against the cited lines first.
-- **Y4 (a11y-plan D-A11Y-19):** the focus ring is named `--focus-ring`, the design-system token, in the Focus rule and in Quality check 10. The `color-border-focus` alias row in the token map becomes a pointer to `--focus-ring`. It already resolved there, so this is a naming change only, with no visual change. The other `color-*` aliases in the map are unchanged, because they were not part of the finding.
-- **By:** manual edit, overseer fix pass 2, 2026-09-24 (founder-delegated).
-
-`2026-09-24`: overseer fix pass 3, 2026-09-24 (cross-plan findings "a11y vs upstreams", founder-delegated). Checked against the cited line first.
-- **Z10 (a11y-plan D-A11Y-06):** the out-of-view announcement scope now matches the a11y plan and design-system: a strip turning cocked, a readback refusal and `TAPE stopped`, plus the 401 access strip (announced instead of `TAPE stopped` after a `viola ui` restart) and a 503 / 404 / 405 rack strip that appears after first render. Quality check 7 points to this list, so it follows unchanged.
-- **By:** manual edit, overseer fix pass 3, 2026-09-24 (founder-delegated).
+History: layout-templates-amendments.md (live); the log moved verbatim to layout-templates-amendments-archive.md (U35).

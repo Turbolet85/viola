@@ -48,6 +48,7 @@ This number is the SINGLE SOURCE OF TRUTH for how much motion and visual dynamis
 The page is a control-tower strip bay after dark. Buff paper strips sit in anthracite holder boots on ruled aluminium racks. Every session holds the same slot for its whole life, so the eye goes to where `builder` always is. The only warm light in the bay is the one arrival holder cocked out of line when a session needs you.
 
 Nothing announces success before it is confirmed. Sends stay visibly open until they are read back. Missing readings print `unknown` in their box instead of shimmering. Old information always carries its age, like an ATIS letter. The density is the calm density of a strip board, not a monitoring dashboard: fixed fields, tabular numbers, one attention colour and one handoff colour. Everything else is paper and ink.
+**Library shortlist direction:** Precision & Density (primary) with Utility & Function (secondary). The style preset is Minimalism & Swiss Style (#1) without its 200–250ms hover, with E-Ink / Paper (#56) as the surface reference, inverted to buff on anthracite. The rejected presets are Dark Mode (OLED) (#7), Real-Time Monitoring (#31: pulsing dots, blink, toasts) and HUD / Sci-Fi FUI (#51: glow, telemetry animation).
 
 ---
 
@@ -216,6 +217,7 @@ Not visualised in v1:
 | Handoff | #5B8DB8 | The 2px (`--rule-strong`) left tick of the outbound and inbound transfer markers only, in the rack gap on anthracite (4.6:1). The only blue rule. Never on holder, never a strip or cell border. |
 
 Deviation note: the Color World names strip buff for "the ruled field grid". This system uses lamp-off buff (the same paper) for the in-strip grid. That way the squint test sees the values and the readback outline first, and buff borders stay reserved for borders that are a state.
+Deviation note (holder colour vs state): the exploration's Strip holder concept has a holder's colour mark the kind of traffic, never its state. Two state changes touch the holder anyway, both forced by the contrast table: `stale` drops the fill to anthracite (lamp-off ink fails AA on holder), and a cocked strip insets its DIALOG cell (amber text fails AA on holder). Kind stays readable without the fill: a `stale` wrapped strip keeps its solid rail edge and 4px band slot, and an unwrapped strip has a dashed rail outline and no band slot.
 
 ---
 
@@ -551,6 +553,7 @@ State lives only in `data-*` attributes set by Lit. The following are never used
   - Disabled: n/a.
 - **Unwrapped variant:** `data-wrapped="false"`. Anthracite surface, 1px dashed rail outline, no band slot. The name renders as a text binding only, never as a link or a target. A name wider than the NAME track ends in an ellipsis (`text-overflow: ellipsis`), matching the CLI's `...` for unwrapped NAMEs. It is the only strip cell that truncates. A wrapped `ViolaName` (the callsign) is never clipped.
 - **Semantics:** semantic HTML first (a11y-plan D-A11Y-02). Each rack is a native `<table>` whose `<caption>` holds the rack's `<h2>` label. `<viola-session-row>` is a role-less light-DOM host with `display: contents` that renders a native `<tr>` with `<td>` cells. No ARIA role is set on the custom-element host, and none through `setAttribute`. The table exposes `table` / `row` / `columnheader` / `cell` natively, and the visual grid above is unchanged. Lit `${}` text bindings only.
+  - A grid `<tr>` still exposes `row`: the a11y plan's aria snapshot asserts `table` / `row` / `cell` in every state.
 
 **2. `<viola-readback>`: the readback box** (signature; bootstrap first)
 - **Anatomy:** a 16px square `.rb` (1px buff rule, `aria-hidden="true"`) plus a word cell (Cascadia 13px buff on anthracite). It always sits at the far right of its line: issue on the left, readback on the right, read as one unit.
@@ -630,6 +633,7 @@ State lives only in `data-*` attributes set by Lit. The following are never used
 - **Pressed:** no fill, because a buff fill means "read back". The confirmation is the resulting `wheel` / `unlink` tape line and strip value.
 - **Surface:** the confirmation surface is Raised-3.
 - **Security:** no token is exposed in markup. The requests use the same-origin `SameSite=Strict` cookie, and no amber is used.
+- **Scope:** "view-only" and "never on this page" are v1 statements. This component, Raised-3, the `radius-sm` brake usage and `Problem::cross-origin-forbidden` are v1.x reservations and do not contradict the v1 bans.
 
 ### Navigation Pattern
 - **One page, one bay, no routes and no nav chrome.** The vertical order is:
@@ -638,6 +642,7 @@ State lives only in `data-*` attributes set by Lit. The following are never used
   3. the UNWRAPPED · READ-ONLY rack
   4. the TAPE
 - **Slots are stable.** Each rack orders strips by `ViolaName` ascending, the same order as CLI `list`. State never changes order. Only a session starting or ending changes slots.
+- **Content jumping (UX guideline 5, #19) is met for order, not for pixel position.** When a transfer marker appears or is removed, the content below moves instantly by the 20px marker line plus its `space-xs` gap. When the sticky ATIS header gains a line (`expired`, `TAPE stopped`, a nonzero `skipped`), it moves by one `--line-h`. No strip ever changes order or slot, and nothing animates the shift. Only the cock stays out of flow (`transform`), because it is the one state change the eye must not lose.
 - **Keyboard:**
   - A visible-on-focus skip link, `skip to tape`, is the first tab stop.
   - Tab then moves through tape `<summary>` elements and the `new lines below` anchor.
@@ -892,6 +897,7 @@ meaningfully different → you defaulted. Redo with intent.
 ### 2. Squint Test
 Blur your eyes at the interface. Can you still perceive hierarchy? Does
 anything jump out harshly? Good craft whispers — nothing should scream.
+In viola, `open` and `unconfirmable` readback boxes look identical under the squint (`unconfirmable` reuses the open drawing and is never filled); only the word cell tells them apart. That is intended, not a failed squint.
 
 ### 3. Signature Test
 Point to the readback box in all three required places: (1) the far right of every send line in `<viola-event-feed>`, (2) the far right of every outbound `<viola-transfer>` marker that has seen a send since page open (before its first send, a marker deliberately prints only the word `unknown` and no box, per web-spa component 3; that is not a missing signature), and (3) the `[RB]` / `[  ]` / `[/ ]` column of CLI `viola send`. On the web, places 1 and 2 must render the same `<viola-readback>` element under the same `.rb` rule: a 16px square, a 1px buff outline, a buff fill with `RB` in graphite at 11px 600, and a 1px `/` strike. The tape box and the marker box must therefore be indistinguishable. If any place lacks the box or draws it differently, the signature does not exist. Inject it.
@@ -908,78 +914,5 @@ domain exploration, not from statistical patterns in training data.
 
 ## Design Decisions Log
 
-_Orchestrator records key decisions here. Manual additions welcome._
-
-2026-09-24: Initial design system generated by /andromeda-design
-- **Brand personality:** "Strip-bay handoff, read back". An ATC tower strip bay after dark with standard-phraseology voice. Base expression is 0.2 (web-spa 0.3; cli TTY 0.2; machine output and passthrough 0.0). Dark only.
-- **Surfaces:** web-spa (`viola ui`: Lit 3.3.3 light-DOM `viola-*` elements, hand-written `@layer` CSS, system-installed Bahnschrift + Cascadia Mono) and cli (clap, hand-written SGR: amber `DIALOG` + dim `stale` only).
-- **Signature:** the readback box (`open` / `RB` read back / `unable` strike, plus the printed word `unconfirmable`) in tape send lines, transfer markers and the CLI `[RB]` / `[  ]` / `[/ ]` column. The cocked strip is the supporting attention element.
-- **Key rejection:** the optimistic "Sending… → Sent ✓" toast. Nothing is shown as delivered until it is read back.
-- **Contrast finding:**
-  - Lamp-off #9C9278 (4.4:1), amber (4.3:1) and blue (3.9:1) fail AA as text on holder #2A2E33.
-  - Therefore: column captions live in the rack header on anthracite, the cocked DIALOG cell is inset anthracite, transfer markers sit in the rack gap, and a `stale` strip drops its holder fill to anthracite (the lamp has moved off).
-- **Customisations of the Color World:**
-  - The in-strip field grid uses lamp-off buff rather than strip buff, so buff borders stay reserved for borders that are a state.
-  - Instance `budget_paused` prints inside the WHEEL field (`driver · budget-paused`) to keep the six fixed columns shared with the CLI.
-  - Absent-by-contract fields print `n/a`, and failed readings print `unknown`.
-- **Data dependency (extends cross-lane follow-up CL-1):**
-  - `send-issued` must carry `cursor` and `from`.
-  - `send-refused` must carry `refusal` + `detail`.
-  - A logged outcome is needed for `ok`/`confirmed:false` (`unconfirmable`) so the box can reach that word.
-  - Readback pairing uses the next `prompt-submitted` with origin `driver` on that instance (at most one send in flight), or `session-start` cause `clear` for `/clear`.
-  - Until CL-1 lands the page shows only `read` boxes, and `unknown` in marker last-send cells.
-
-2026-09-24: Phase 4.5 review round 1 — fonts get explicit per-OS fallback stacks (founder: Bahnschrift and Cascadia Mono are Windows-only, D3 supports macOS + Linux, and CI's headless GUI checks run on ubuntu). `--font-label`: Bahnschrift → "DIN Alternate" → "DejaVu Sans Condensed" → sans-serif; `--font-field`: "Cascadia Mono" → "SF Mono", Menlo → "DejaVu Sans Mono" → monospace. Contrast and render assertions must hold on the Linux fallback, the resolved family is asserted, no web fonts. Colours, expression levels and signature approved as drafted.
-
-2026-09-24: Phase 4.5 review round 2 — restored the two fallbacks the round-1 exact list dropped: Consolas right after "Cascadia Mono" in `--font-field` (on every Windows, so Windows 10 without Windows Terminal stays in a named face), and "Avenir Next Condensed" right after "DIN Alternate" in `--font-label` (macOS). Draft approved; proceed to Phase 5.
-
-2026-09-24: Phase 6 iteration 1. This entry records decisions the body already applied but the log did not carry. No founder-approved colour, expression level, signature drawing or font stack changed.
-- **Library shortlist direction:** Precision & Density (primary) with Utility & Function (secondary). The style preset is Minimalism & Swiss Style (#1), with E-Ink / Paper (#56) as the surface reference, inverted to buff on anthracite. Rejected presets: Dark Mode (OLED) (#7), Real-Time Monitoring (#31: pulsing dots, blink, toasts) and HUD / Sci-Fi FUI (#51: glow, telemetry animation). The Swiss preset's 200–250ms hover is dropped.
-- **Shortlist deviations:**
-  - Palette #81's run-green accent is dropped and its slate warmed to neutral laminate.
-  - #96's route blue is lightened from #2563EB (fails AA) to #5B8DB8.
-  - Typography pairing #1 (Fira Code + Fira Sans) is translated to Bahnschrift + Cascadia Mono under `font-src 'none'`. The `--font-field` stack follows the founder's Phase 4.5 review rounds 1–2 rather than the shortlist's: "SF Mono" is added for macOS and "Noto Sans Mono" is not carried.
-  - Fallback pairing #3 (a mono name cell) is not taken. The Callsign role sets NAME in Bahnschrift at normal width, which answers the "too condensed / too signage" concern.
-  - UX guideline 8, Loading Indicators (#78, "spinner or skeleton"), is overridden per the exploration. Waiting is shown as words: `open`, `unknown`, `read 4m ago`, `sessions: no reading yet`, `waiting:`.
-- **Signature states:** the exploration's `data-rb="open|read|refused"` is extended to four values with `unconfirmable`, the honest outcome of an `ok` send with `confirmed:false`. It deliberately reuses the open drawing and is never filled. In the Squint Test, `open` and `unconfirmable` therefore look identical, and only the word cell tells them apart.
-- **Motion vs the 0.3–0.4 calibration row:** viola overrides the row. Hover is 0ms (link underline only), there is no page transition, and there is one entrance: the 120ms linear `@starting-style` fade on `data-live` tape lines and transfer markers. The cock (12px / 160ms) is the only high-impact moment.
-- **Brake scope:** "never on this page" and "view-only" are v1 statements. Web-spa component 7 (`I HAVE CONTROL`, `UNLINK`), Raised-3, the `radius-sm` brake usage and `Problem::cross-origin-forbidden` stay reserved for v1.x and do not contradict the v1 bans.
-- **Geometry:** `--strip-cols` changes LIVE from 6ch to 8ch, STATUS from 8ch to 10ch, and the WHEEL and CLI maxima from 24ch to 25ch, so `stale`, `unknown` and the 22ch WHEEL / CLI words fit with `space-xs` padding in DejaVu Sans Mono. Field-cell inline padding is `space-xs` (8px) only.
-
-2026-09-24: Phase 6 iteration 8.
-- **UX guideline 5, Content Jumping (#19):** met for order, not for pixel position. When a transfer marker appears or is removed, the content below moves instantly by the 20px marker line plus its `space-xs` gap. When the sticky ATIS header gains a line (`expired`, `TAPE stopped`, a nonzero `skipped`), it moves by one `--line-h`. No strip ever changes order or slot, and nothing animates the shift. Only the cock stays out of flow (`transform`), because it is the one state change the eye must not lose.
-- **Unwrapped names:** an over-long unwrapped name ends in an ellipsis on the web, as it does in the CLI. It is not a target, so its tail is not needed to act on.
-
-2026-09-24: Phase 6 iteration 9.
-- **Holder colour vs state (deviation from the exploration's Strip holder concept):** the exploration says a holder's colour marks the kind of traffic, never its state, and that a cocked strip is not recoloured. Two state changes touch the holder anyway, both forced by the contrast table. `stale` drops the fill to anthracite, because lamp-off ink fails AA on holder. A cocked strip insets its DIALOG cell, because amber text fails AA on holder. Kind stays readable without the fill: a `stale` wrapped strip keeps its solid rail edge and 4px band slot, and an unwrapped strip has a dashed rail outline and no band slot.
-- **`DIALOG` weight:** the cocked strip's amber `DIALOG` word is 600 (Typography, Body row) and the `states` layer sets it. `human` is therefore one of two heavier words after the callsign, not the only one.
-
-2026-09-24: Overseer decisions (founder-delegated), closing two choices Phase 7 left open.
-- **Caption-row spacing:** the gap between a rack's caption row and its first strip is the rack's existing row gap, `space-xs`, the same gap strips and transfer markers use. No new token. `space-md` now reads as the gap between the rack separator label and the caption row.
-- **Exit-1 start refusal hint:** `unable: <name> is already live` is followed by `hint: viola list` (no paths, no pids), like every other refusal. `error: internal error`, the other exit-1 outcome, keeps no hint.
-
-2026-09-24: Overseer fix pass 2026-09-24 (cross-plan findings, founder-delegated). Each item was checked against the cited upstream line first.
-- **T3:** the `human-typing` and `budget-paused` hints no longer name `viola release`. These refusals reach drivers, and the wrapper refuses a `release` that carries `from` (security: driver-originated `release`, `-32602`, `release-from-driver`, exit 20). Tests assert that no driver-facing hint contains `release`. `release` remains a human verb (cli pattern 4).
-- **T4:** cli pattern 2 now gives one hint per cause for exit 21 and exit 1.
-  - Exit 21 causes: not running, unwrapped name, strict-modes, server verification.
-  - Exit 1 causes (`run` start refusals): already live, stale heartbeat, squatted endpoint, pinned SHA-256 mismatch, `.cmd` / `.bat` child, strict-modes home.
-  - Every cause has its own fixed-message line. The exit-code table follows.
-  - Not changed: `error: internal error` keeps no hint. It is a fault, and tests' exit-cause matrix does not list it among the exit-1 causes.
-  - Under `--json` no hint text is printed. A per-cause detail code there is **pending an arch amendment**: arch fixes `{"v":1,"error":"instance-unreachable","detail":null}` for exit 21 and gives exit 1 no `--json` document. Design does not change that payload. It points at obs-plan D-20's codes and notes that the stale-heartbeat and unwrapped-name causes have no code yet.
-- **T5 (ratified):** `list` table rows also escape `\n` and `\t`, so each row stays a single fixed-width line. The security plan's "keeping `\n` and `\t`" is a floor. `wait` / `last` text keeps them.
-- **By:** manual edit, overseer fix pass 2026-09-24.
-
-2026-09-24: overseer fix pass 2, 2026-09-24 (cross-plan findings "a11y P3.5", founder-delegated). Each item was checked against the cited line first. These are design amendments accepted with the a11y plan.
-- **Y1 (a11y-plan D-A11Y-02):**
-  - Racks are native `<table>` / `<tr>` / `<td>` with `<th scope="col">` captions. They replace `role="row"` on `<viola-session-row>` inside a `role="table"` rack: semantic HTML first, with no ARIA role on a custom-element host.
-  - `VIOLA` is the page's `<h1>`, and the rack separator labels are `<h2>`, the rack labels inside each table's `<caption>`.
-  - Visual anatomy, grid tracks and tokens are unchanged. Web-spa component 1 Semantics, the column captions and the Typography Display / Heading rows are updated.
-- **Y2 (a11y-plan D-A11Y-03):** the tape keeps `role="log"` with an explicit `aria-live="off"`, which removes the implicit polite live region. This enforces the existing rule that the whole tape is never announced. Web-spa component 4 Anatomy is updated.
-- **By:** manual edit, overseer fix pass 2, 2026-09-24 (founder-delegated).
-
-2026-09-24: overseer fix pass 3, 2026-09-24 (cross-plan findings "a11y vs upstreams", founder-delegated). Each item was checked against the cited line first.
-- **Z2:** the strip and marker hosts are `display: contents` (Y1), which cannot carry transform, transition or grid layout. The cock `transform` and its `transition`, the marker's `data-live` fade and the strip grid anatomy now target the `<tr>` the host renders (`viola-session-row[data-dialog="pending"] > tr`, `viola-transfer[data-live] > tr`). Tokens, durations and the visual result are unchanged. The `stale` custom-property swap stays on the host, because custom properties inherit through `display: contents`. A grid `<tr>` must still expose `row`; the a11y plan's aria snapshot asserts `table` / `row` / `cell` in every state.
-- **Z9:** the ATIS is a native `<dl>` after the `<h1>`. The printed labels are the `<dt>`s (`BAY`, `5H`, `7D`, `TAPE`, `skipped`). `read … ago` and `gate open` / `budget-paused` get visually hidden `<dt>`s (`budget read`, `budget gate`). Visible text is unchanged. Web-spa component 5 gains a Semantics bullet.
-- **Z10:** the announcer scope matches a11y-plan D-A11Y-06: cocks, refusals and `TAPE stopped`, plus the 401 access strip (announced instead of `TAPE stopped` after a `viola ui` restart) and the 503 / 404 / 405 rack strips that appear after first render. Updated in "Attention outside the tab" and the tape `aria-live` ban.
-- **By:** manual edit, overseer fix pass 3, 2026-09-24 (founder-delegated).
+History: design-system-amendments.md (live); the log moved verbatim to design-system-amendments-archive.md (U35).
 

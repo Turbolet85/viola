@@ -1,0 +1,39 @@
+[[lift]]
+target = "## Authentication & Authorization"
+after = "_Authentication Recovery Flows: omitted"
+text = """**Accepted risk (driver prompt injection):** driven-session output (`wait`/`last`) can prompt-inject a driver LLM into an `answer` `allow`. What to answer is policy outside viola (R1/R4). viola's only part is the closed `behavior` enum and the `unverified-cli` gate: no non-`null` decision without a `viola verify` stamp for the child's CLI version."""
+
+[[lift]]
+target = "## Data Protection"
+after = "_Key management and Data lifecycle subsections are omitted"
+text = """**Accepted risk (local availability):** another local user can hold GUI connections or SSE streams open (v1 has no connection or stream bound), and until arch resolves `events.ndjson` retention, unbounded growth of the file can exhaust local disk. The impact is on availability only (the human's view and the disk), with no confidentiality or integrity impact."""
+
+[[lift]]
+target = "## Dependency Security"
+after = "- The per-OS `test` job's `windows-2025`-only step"
+text = """- The per-OS `release` job builds `cargo build --release --locked --bin viola` through `scripts/release-check.sh`. The script judges that build's own `compiler-artifact` records, never a `target/release/` listing. It refuses any executable other than `viola`, and any artifact whose `features` include a test-only feature (`test-support`, `fake-agent`): `release-check: FAILED — test-only feature {feature} in {target}`. `--probe` runs first and must read 5/5 refused with a clean control. `viola-channel`'s test-only `test-support` feature (shared test helpers) is enabled only by the root package's `[dev-dependencies]`."""
+
+[[lift]]
+target = "## Dependency Security"
+after = "- The per-OS `perf` job"
+text = """- CI's G2 zero-panics gate (`scripts/g2-zero-panics.sh`, in the `test` and `perf` jobs) has exactly one exemption. It does not count a role-file `panic` line whose `panic_location` is exactly `src/cmd/hook/seam.rs:<digits>` (the `FAKE_AGENT_HOOK_PANIC` seam's forced panic). The location is compared as a whole string, never as a prefix, suffix, regex or home path. The perf arm's own zero-panic check exempts nothing. G2's `--probe` runs before every G2 check. It proves that each of these reads red: another file, a look-alike path (`x/…/seam.rs`, `seam.rs.bak`, `seam.rsx`), the seam path without a line number, a missing location and an empty scope. Any further G2 exemption needs its own Decisions Log entry (§Security Anti-Patterns → Universal)."""
+
+[[lift]]
+target = "## Dependency Security"
+after = "_Supply chain integrity subsection omitted"
+text = """**v1.x release prerequisites** (Supply chain integrity, deferred with the release):
+- dist `>=0.33.0` with GitHub Artifact Attestations and Azure Artifact Signing (x86_64).
+- cargo-auditable `>=0.7.6`, plus `cargo audit bin` (cargo-audit `>=0.22.2`) run on the release binaries.
+- self_update 1.3.0 built with `signatures` (zipsign).
+- zizmor's cache-poisoning findings addressed.
+- No `rust-cache` in the release workflow."""
+
+[[lift]]
+target = "## Security Anti-Patterns (NEVER do these)"
+after = "- NEVER ship `self_update` without its `signatures` feature"
+text = """- NEVER let `run --mutants` wipe any directory except the Windows host mutation scratch `<repo parent>/viola-mutants-scratch`. A pure guard refuses (`scratch-refused`) unless the resolved path's final component is exactly `viola-mutants-scratch` and the repository is neither that directory nor inside it. A drive or filesystem root has no final component, so it is refused. A failed removal is `scratch-wipe-failed`. NEVER fall back to `%TEMP%` or the repository, and NEVER print the path."""
+
+[[lift]]
+target = "## Security Anti-Patterns (NEVER do these)"
+after = "- NEVER answer a `hook.dialog` with a non-`null` decision"
+text = """- NEVER answer a `hook.dialog` with a non-`null` decision while `viola run`'s version gate still reads `ledger/stamps.json` without the strict-modes check. The stamps-read interim gap (§Authentication & Authorization, `~/.viola/` access control) closes on `run`'s read before "Dialog answers by dialog_id" answers any dialog."""

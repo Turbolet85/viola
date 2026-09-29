@@ -1,0 +1,103 @@
+**Project directory structure**
+```
+viola/
+├── Cargo.toml                  # [package] viola (bin) + [workspace] members = ["crates/*"], exclude = ["fuzz"]
+├── Cargo.lock
+├── rust-toolchain.toml         # channel = "1.98.1" (exact pin), components = ["rustfmt", "clippy"]
+├── deny.toml                   # cargo-deny: advisories, licences, sources, bans (C, telemetry, features)
+├── deny-sync.toml              # the tokio ban, run per scripts/sync-crates.txt crate as sole root
+├── clippy.toml                 # disallowed-macros: tracing::{info,warn,error,debug,trace}
+├── .gitignore
+├── LICENSE-MIT                 # MIT text (holder Turbolet85); the project is MIT OR Apache-2.0
+├── LICENSE-APACHE              # the standard Apache License 2.0 text
+├── README.md                   # description + `## License` naming both licence files
+├── plugin/                     # embedded via include_str!, written out by `viola run`
+│   ├── .claude-plugin/plugin.json
+│   ├── hooks/hooks.json        # exec-form commands, placeholder for the pinned bin copy
+│   └── .mcp.json
+├── src/                        # the `viola` bin: anyhow edge only
+│   ├── main.rs                 # clap 4.6.7 dispatch (Windows: the System32 DLL-search restriction is its second statement)
+│   ├── conpty.rs               # Windows x64: the embedded ConPTY companions and their four pins (the vendor script parses this text)
+│   ├── human.rs                # human-facing text: the refusal and internal-error stderr writers and the stdout result writer, called by `run` and `verify`
+│   ├── cmd/                    # one module per subcommand: run, send, wait, last, list,
+│   │                           #   answer, hook, mcp, ui, verify, pause, release, link, unlink, plugin
+│   ├── run/                    # PTY pump, wheel, budget governor, readiness gate wiring
+│   └── bin/viola-fake-agent.rs # test-only stand-in `claude` (feature `fake-agent`)
+├── tests/                      # root integration tests (sync)
+│   ├── cmd/*.toml              # trycmd cases: human-mode expected output (snapbox redactions)
+│   ├── snapshots/              # insta snapshots (check mode only)
+│   └── support/                # the sync root fixture chain + fixture-hygiene checker
+├── schemas/                    # JSON schemas: fake-script.v1.json and claude-fixture.v1.json (test-side), diag-line/diag-detail.v1.json (obs line contracts)
+├── crates/
+│   ├── viola-core/             # normalised events, RefusalReason, ViolaName, Percent, `v` constants
+│   │                           #   (+ proptest-regressions/, committed seeds)
+│   ├── viola-pty/              # pty seam over portable-pty =0.8.1 (+ windows-sys kill fallback; HostTerminal raw mode: windows-sys Console / libc termios;
+│   │                           #   `sideload` (Windows): the System32 DLL-search restriction + the absolute-path conpty.dll pre-load)
+│   ├── viola-channel/          # JSON-RPC 2.0 ndjson over interprocess local sockets
+│   ├── viola-state/            # ndjson logs, atomic snapshots, File::lock, torn-line healing, tailing
+│   ├── viola-agent-claude/     # hook parsing, dialog mapping, R8 strip, shim resolution,
+│   │                           #   capability ledger, screen signatures, statusline parsing
+│   │                           #   (+ proptest-regressions/, committed seeds)
+│   ├── viola-mcp/              # rmcp 3.4.1 stdio server, thin adapter over viola-channel
+│   ├── viola-ui/               # axum 0.8.9 GET routes + SSE, Host allowlist
+│   │   └── assets/             # embedded page, no JS build step and no tsconfig: index.html, app.css
+│   │                           #   (the single stylesheet), vendored Lit 3.3.3 ESM
+│   └── viola-e2e/              # test-only: viola-harness (agent-run boot/run/status/cleanup/logs, plus the
+│                               #   internal subcommands incl. `gate` and `pre-push`: harness::pre_push)
+├── scripts/
+│   ├── agent-run.{sh,ps1}      # identical shims over viola-harness
+│   ├── conpty-vendor.sh        # re-vendor vendor/conpty/ from the pinned nupkg (+ --verify: sha256 + byte compare + signer; --probe)
+│   ├── sync-crates.txt         # the single sync-crate list (CI job 3 + the sole-root tokio ban)
+│   ├── deny-probes.sh          # negative probe per cargo-deny ban + a clean control
+│   ├── lint-probes.sh          # each clippy ban fires, controls pass, fail-closed raw-event! grep
+│   ├── release-check.sh        # target job 6: the release build carries `viola` only, no test-only feature (+ --probe)
+│   ├── orphans-check.sh        # cargo modules orphans --deny per lib/bin target (+ --probe)
+│   ├── g2-zero-panics.sh       # obs G2: 0 `event:"panic"` role lines under target/e2e-home, exempting only a
+│   │                           #   `panic_location` of exactly `src/cmd/hook/seam.rs:<digits>` (fail-closed; + --probe)
+│   ├── install-ripgrep.sh      # pinned, sha256-verified ripgrep 15.2.0 → target/tools/ripgrep
+│   ├── install-node.sh         # <os-key> <dest>: the official Node build at ci.yml's NODE_PIN_* (parsed from the
+│   │                           #   file text), sha256-verified, flattened into <dest> (+ --probe)
+│   ├── npm-audit.sh            # e2e-web lockfile: npm audit (every level) + registry.npmjs.org-only sources
+│   │                           #   → target/npm-audit/ (+ --advisories-only, --probe)
+│   ├── wsl-exec.sh             # operator aid only: [--cd DIR] CMD … through `wsl.exe -d Ubuntu --exec env -i` with the
+│   │                           #   distro's HOME and PATH (argv unconverted; --probe); no gate/harness/plan runs a command through it
+│   └── wsl-provision.sh        # in-distro WSL provisioning for `pre-push`: sha256-pinned rustup-init 1.29.1,
+│                               #   rust-toolchain.toml, `cargo install --locked` of ci.yml's test-job pins, the pinned
+│                               #   Node and the locked Playwright's Chromium (+ --check, --probe; --install-deps: uid 0,
+│                               #   operator-only)
+├── vendor/conpty/<version>/x64/ # the committed Microsoft conpty.dll + OpenConsole.exe (binary per .gitattributes)
+├── .config/nextest.toml        # nextest profiles `ci` and `mutants`, `fixed-port` group
+├── fuzz/                       # separate cargo-fuzz workspace (own Cargo.lock; excluded from the root)
+│   ├── rust-toolchain.toml     # channel = "nightly-2026-09-20" (fuzz only)
+│   ├── fuzz_targets/{viola_name,channel_frame,hook_stdin}.rs
+│   └── corpus/<target>/        # committed synthetic seeds
+├── fixtures/
+│   ├── claude/<cli-version>/   # hook-payload fixtures recorded by `viola verify`
+│   └── fake-scripts/           # committed fake-agent turn scripts (synthetic)
+├── e2e-web/                    # test-side Node only (Playwright; axe and the a11y lint land with the a11y chunks);
+│   │                           #   the ts code-graph plane
+│   ├── package.json            # pins @playwright/test 1.63.0 (exact; @axe-core/playwright lands with the a11y chunks)
+│   ├── package-lock.json       # committed; audited by scripts/npm-audit.sh
+│   ├── playwright.config.ts    # headless chromium, retries 0, forbidOnly, reporters pw.json + pw-junit.xml
+│   ├── tsconfig.json           # noEmit, strict, e2e-web/** only
+│   ├── stub/pipe.html          # the file:// reachability stub (one <h1>, no script or style)
+│   ├── eslint.config.js        # eslint-plugin-lit-a11y over the crates/viola-ui Lit sources
+│   ├── .htmlvalidate.json      # html-validate over the embedded assets/index.html
+│   ├── tests/*.spec.ts         # one spec per bay layout type; today the pipe stub's pipe-reachability.spec.ts
+│   ├── fixtures/a11y.ts        # the shared makeAxeBuilder fixture
+│   ├── schemas/a11y-row.v1.json  # tests-owned a11y violation-row schema (not obs schemas/)
+│   ├── a11y/sc-coverage.json   # per-SC coverage map
+│   └── test-results/           # gitignored outputs (a11y/, lint/)
+├── a11y/
+│   └── sr-pass/                # manual screen-reader passes: TEMPLATE.json, <date>-<at>.json
+├── .github/
+│   └── workflows/
+│       ├── ci.yml              # push + PR: 3-OS test (+ the browser suite)/perf (hyperfine rows + gate --require
+│       │                       #   perf)/lint (+ module orphans), msrv, fuzz-replay, 3-OS release
+│       │                       #   (release-check), supply-chain (+ fuzz
+│       │                       #   lockfile audit, npm lockfile audit); the workflow env holds the NODE_PIN_* lines
+│       └── nightly.yml         # weekly schedule + workflow_dispatch: cargo deny check advisories (root + fuzz/Cargo.lock),
+│                               #   npm-advisories (npm-audit.sh --advisories-only) + fuzz time-box
+├── refs/                       # brief and prior-art survey (arch input)
+└── .andromeda/                 # pipeline runs and cache
+```

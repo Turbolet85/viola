@@ -1,0 +1,29 @@
+[[lift]]
+target = "## Brand Identity"
+after = "Nothing announces success before it is confirmed."
+text = """**Library shortlist direction:** Precision & Density (primary) with Utility & Function (secondary). The style preset is Minimalism & Swiss Style (#1) without its 200–250ms hover, with E-Ink / Paper (#56) as the surface reference, inverted to buff on anthracite. The rejected presets are Dark Mode (OLED) (#7), Real-Time Monitoring (#31: pulsing dots, blink, toasts) and HUD / Sci-Fi FUI (#51: glow, telemetry animation)."""
+
+[[lift]]
+target = "## Color Palette"
+after = "Deviation note: the Color World names strip buff"
+text = """Deviation note (holder colour vs state): the exploration's Strip holder concept has a holder's colour mark the kind of traffic, never its state. Two state changes touch the holder anyway, both forced by the contrast table: `stale` drops the fill to anthracite (lamp-off ink fails AA on holder), and a cocked strip insets its DIALOG cell (amber text fails AA on holder). Kind stays readable without the fill: a `stale` wrapped strip keeps its solid rail edge and 4px band slot, and an unwrapped strip has a dashed rail outline and no band slot."""
+
+[[lift]]
+target = "## Surface: web-spa"
+after = "- **Semantics:** semantic HTML first (a11y-plan D-A11Y-02). Each rack"
+text = """  - A grid `<tr>` still exposes `row`: the a11y plan's aria snapshot asserts `table` / `row` / `cell` in every state."""
+
+[[lift]]
+target = "## Surface: web-spa"
+after = "- **Security:** no token is exposed in markup."
+text = """- **Scope:** "view-only" and "never on this page" are v1 statements. This component, Raised-3, the `radius-sm` brake usage and `Problem::cross-origin-forbidden` are v1.x reservations and do not contradict the v1 bans."""
+
+[[lift]]
+target = "## Surface: web-spa"
+after = "- **Slots are stable.** Each rack orders strips"
+text = """- **Content jumping (UX guideline 5, #19) is met for order, not for pixel position.** When a transfer marker appears or is removed, the content below moves instantly by the 20px marker line plus its `space-xs` gap. When the sticky ATIS header gains a line (`expired`, `TAPE stopped`, a nonzero `skipped`), it moves by one `--line-h`. No strip ever changes order or slot, and nothing animates the shift. Only the cock stays out of flow (`transform`), because it is the one state change the eye must not lose."""
+
+[[lift]]
+target = "## Self-Validation Protocol"
+after = "anything jump out harshly? Good craft whispers"
+text = """In viola, `open` and `unconfirmable` readback boxes look identical under the squint (`unconfirmable` reuses the open drawing and is never filled); only the word cell tells them apart. That is intended, not a failed squint."""

@@ -1,0 +1,40 @@
+# U35 lifts whose target is a §3 key: the lift tool cannot land inside a mapped section, so each is applied by hand
+# (Edit tool) into its key file under .andromeda/registries/contracts/{plan}/ after `migrate --apply`, at the same
+# anchor, and proved by `registry.py check --all` (operator go, 2026-09-29: "Into key files"). Texts are the
+# rewriters' verbatim.
+
+[[lift]]
+doc = "a11y-plan"
+key = "A11y testing tool pick"
+after = "  - **tui:** portable-pty outer-PTY boundary driver"
+text = """    - This is an inherited risk: architecture and tests pin portable-pty `=0.8.1` (2023-03-13) while 0.9.0 is the maintained line. a11y inherits that driver as-is and never re-pins it."""
+
+[[lift]]
+doc = "a11y-plan"
+key = "WCAG criteria mapping"
+after = "- **Tier coverage (Standard):**"
+text = """- **Below 760 CSS px:** the SC 1.4.10 exception stands for v1. Data tables may rely on the SC 1.4.10 two-dimensional-layout exception; the ATIS header, the tape and the state strips get a sub-760 layout when the phone view lands, and the exception is re-evaluated then."""
+
+[[lift]]
+doc = "a11y-plan"
+key = "Screen reader test pattern"
+after = "- **Supplemental to automated:**"
+text = """- **Real-AT automation stays out of CI:** adding `@guidepup/guidepup` / `@guidepup/playwright` to CI requires a tests-harness change, because the a11y verdict is judged on the ubuntu leg only (the browser suite itself runs on all three OS legs) and Guidepup has no Orca support."""
+
+[[lift]]
+doc = "obs-plan"
+key = "Logging stack"
+after = "  - Third-party targets (`rmcp`, `axum`"
+text = """  - With `tracing-log` off and no hand-installed `LogTracer`, `log` records from portable-pty 0.8.1 and notify 8.2.0 are dropped; the failure classes they flag are captured from returned values or handles instead: a `pty.spawn` / ConPTY spawn failure is an `Err` from the seam and becomes `process-exit{subject:"self", exit_code:1, detail:"internal-error"}` with the chain in `detail-run.ndjson`; a child exit without EOF is detected by the handle-wait thread (`exit_source`), independent of `log`; a notify watcher error reaches the handler as `Err(notify::Error)` and surfaces through `state.tail_notify` as `sse-closed{close_cause:"tail-error"}`. The accepted loss is only third-party `log` context emitted without a returned error. The chaos cases "child exit without EOF" and "notify watcher error" must each find a viola line; one that does not is a seam gap, answered by a seam fix or the researched fallback json-subscriber 0.3.0, never by re-enabling `tracing-log` or installing `LogTracer` (D-11, D-23)."""
+
+[[lift]]
+doc = "test-plan"
+key = "5-command implementation"
+after = "- Timeout: 20 s per instance"
+text = """- UI port race: the port `boot` step 6 takes by binding `127.0.0.1:0` and releasing it can be taken before `viola ui` binds it; `boot` then exits 1 with `ui-port-taken` and never retries. `viola ui --port 0` (an OS-assigned port reported through `ui/<port>.url`) is requested from arch to remove the race."""
+
+[[lift]]
+doc = "test-plan"
+key = "5-command implementation"
+after = "- **`pre-push`** (the operator pass"
+text = """  - When: the operator pass runs it on the uncommitted tree before the pre-CI commit, and a red stage stops the pass."""

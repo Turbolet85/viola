@@ -1,0 +1,34 @@
+[[lift]]
+target = "## Surface: web-spa"
+after = "Spacing uses `space-micro`"
+text = """This document changes no design-system token, colour, font stack, expression level or signature drawing: design-system.md is their authority, and its Component Patterns 1–6 (web) and 1–5 (cli) are the base this document places, adding only the region order, the tape's bounded scroll region, the per-screen instances and the concrete trigger points."""
+
+[[lift]]
+target = "### Component — Header (`<viola-atis>`)"
+after = "- **Density:**"
+text = """- **Boxed cells:** every boxed ATIS word (`expired`, `budget-paused`, `stopped · viola ui not answering`, a nonzero `skipped` count) carries `space-micro` inline padding."""
+
+[[lift]]
+target = "### Component — Primary navigation (rack separators and keyboard order)"
+after = "- **IA model:**"
+text = """- **Ownership:** the semantic roles of the racks, the strips and the tape, and the polite-announcement mechanics, are a11y's (a11y-plan). This document names the regions and what is announced, never their roles."""
+
+[[lift]]
+target = "### Component — Primary navigation (rack separators and keyboard order)"
+after = "- **Tab order after the skip link:**"
+text = """- **No control slot:** the v1 bay reserves no slot for a control. The v1.x brake controls (`I HAVE CONTROL`, `UNLINK`, the Raised-3 confirmation) have their placement and copy decided at implementation with the security plan."""
+
+[[lift]]
+target = "### Component — Hero / signature section (no hero; the readback box, with the cocked strip as supporting element)"
+after = "- **Supporting element, the cocked strip"
+text = """- **Cock scope:** the cock is the only High-impact moment and plays only on a `<viola-session-row>` in the WRAPPED rack. It never fires in the tape, on an unwrapped strip or on the CLI."""
+
+[[lift]]
+target = "### Component — Hero / signature section (no hero; the readback box, with the cocked strip as supporting element)"
+after = "- **Reduced motion:** `--cock-dur`"
+text = """- **Data plumbing:** the plumbing that sets a strip's `dialog_pending` live is decided at implementation, outside this layout. The layout fixes only what the strip draws once the reading is true."""
+
+[[lift]]
+target = "## Surface: cli"
+after = "| Motion tokens |"
+text = """One token vocabulary (`color-*`, `space-*`, `radius-*`, the typography roles) serves both surfaces: the web resolves it to the CSS aliases in `/assets/app.css`, the cli to the SGR tokens, the terminal default foreground or "not used". The differences are platform mechanics only: ANSI depth, the two-space gutter, ASCII `->` / ` - `, and brackets for the ruled box."""

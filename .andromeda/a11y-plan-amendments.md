@@ -49,3 +49,12 @@
 **Change:** was "ConPTY itself emits `ESC[?9001h ESC[?1004h ESC[?25l ESC[2J ESC[m ESC[H`, an OSC 0 title and `ESC[?25h` on every spawn" (the inbox host only); now the inbox host's bytes (fact 4) and the sideloaded `OpenConsole.exe`'s, `ESC[1t ESC[c ESC[?1004h ESC[?9001h` at spawn and `ESC[?1004l ESC[?9001l` at exit, as measured at the chunk's `evidence/da1-stall.md`. Its DA1 query is answered by the terminal (in the tests, the piped driver), never by viola. The Windows check — viola's own literals absent — runs on both backends: the default case on the sideload and `conpty_sideload`'s tampered case on the inbox fallback. §6 credits both hosts' SGR, cursor and query bytes.
 **Why:** the plan asked for the measured preamble if the sideloaded one differed; it does, and the zero-viola-literals oracle holds on both. §1 stays verbatim.
 **Ref:** .andromeda/runs/2026-09-29T12-17-33-wrap/
+
+## 2026-09-29-t15-07-57-wrap — registry migration (U35): the a11y-plan Decisions Log leaves the body
+**Section:** §12 A11y Decisions Log · §3 → A11y testing tool pick · §3 → WCAG criteria mapping · §3 → Screen reader test pattern (each in its key file under `registries/contracts/a11y-plan/`)
+**Change:** the log moved verbatim to a11y-plan-amendments-archive.md (6 entries: the 2026-09-24 initial entry with D-A11Y-01 … D-A11Y-20, resolved questions and deferrals, plus five 2026-09-24 subsequent entries — the Phase 0 design-excerpt deviation, the overseer directions, P3.5 review 1, overseer fix pass 3 and its Z7 leftover). Every other in-force item already stood in the body. Lifts, each hand-landed in its §3 key file after the migration (a key's span leaves the body verbatim):
+- §3 A11y testing tool pick (under the tui driver bullet): the portable-pty `=0.8.1` pin is an inherited risk (0.9.0 is the maintained line) that a11y never re-pins (D-A11Y-13).
+- §3 WCAG criteria mapping (after Tier coverage): below 760 CSS px, data tables may use the SC 1.4.10 two-dimensional exception, and the ATIS, tape and strips get a layout when the phone view lands (resolved question "Reflow below 760 CSS px").
+- §3 Screen reader test pattern (after Supplemental to automated): Guidepup real-AT automation enters CI only through a tests-harness change, since the a11y verdict is ubuntu-judged and Guidepup has no Orca support (D-A11Y-12, as amended 2026-09-27).
+**Why:** a Decisions Log is keyed by time — history, not current truth; its in-force items now stand in the body
+**Ref:** .andromeda/runs/2026-09-29T15-07-57-wrap/

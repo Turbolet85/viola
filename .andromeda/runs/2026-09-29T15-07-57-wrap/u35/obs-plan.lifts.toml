@@ -1,0 +1,27 @@
+# U35 lifts: in-force items of the obs-plan Decisions Log (§12) that the body did not yet state.
+
+# D-11 / D-23 / D-24 (§3 → Logging stack) moved to k-lifts.toml: it lands in its key file after the migration.
+
+# D-36: schema shape of the sideload fields and the level of a degrade.
+[[lift]]
+target = "## 4. Span / Trace Coverage"
+after = "  - On success, `process-start{subject:"
+text = """  - In `schemas/diag-line.v1.json`, `pty_backend` is `{ "type": "string" }`, while `sideload_fallback` is closed in the `process-start` properties to `hash-mismatch|unreadable|load-failed|not-built` (`diag-detail.v1.json` carries neither). A sideload degrade is recorded on the existing info-level lines, never at `warn`, and no companion path or hash reaches a home-level line (D-36)."""
+
+# D-07: what invoked_at means, and when non-dialog hooks emit.
+[[lift]]
+target = "## 4. Span / Trace Coverage"
+after = "  - hook: `hook-invoked{corr:<dialog_id>, hook_event, stdin_bytes, invoked_at}`"
+text = """  - A dialog hook's `hook-invoked` is written only after the `hook.dialog` response, so its `invoked_at` records the hook's true start instant; non-dialog hooks and fail-open paths before `dialog_id` emit `hook-invoked{corr:null}` immediately, and the wrapper's `dialog-raised` gives live visibility during the wait (D-07)."""
+
+# D-34 (supersedes D-14): what the R8 strip removes and keeps, which the logged names reflect.
+[[lift]]
+target = "## 4. Span / Trace Coverage"
+after = "- **E2** (R8 strip)"
+text = """  - The strip removes every inherited `CLAUDE*` name (ASCII case-insensitive on Windows, exact on Unix) except the persistent set (Windows `HKCU`/`HKLM` `Environment` value names; Unix `config.json` `claude_env_keep`), and always keeps the 11-name identity floor `IDENTITY_FLOOR` measured on the Windows host; there is no compile-time list of known names. `env_stripped_known` names every stripped name and `env_kept` every kept name, each comma-joined; no value is read by the strip, the registry reader or any log, and no env map is passed to a span or event (D-34)."""
+
+# D-35: the spawn subject enum is closed in the line schema.
+[[lift]]
+target = "## 6. Log Coverage"
+after = "- **Child / shell spawns:**"
+text = """  - `schemas/diag-line.v1.json` closes `subject` as `$defs.subject.enum` = `self|claude-child|version-probe|verify-probe|agents-probe|statusline-shell`; each `verify` spawn pair's `process-exit` carries `child_exit_status` and `duration_ms` (D-35)."""

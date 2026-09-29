@@ -1,0 +1,32 @@
+[[lift]]
+target = "## 2. Test Strategy"
+after = "  - **Tokio-client E2E suites and the harness binary"
+text = """  - **Why a test-only crate:** `crates/viola-e2e` hosts `viola-harness` and the tokio-based test clients (rmcp client, reqwest, eventsource-client), so the root package and the sync crates carry no tokio dev-dependency. It is never a root of the tokio ban: the ban runs `deny-sync.toml` once per crate in `scripts/sync-crates.txt`, each as the sole root, so `viola-e2e`'s tokio graph lies outside it with no `wrappers` allowlist and no `--exclude` (an `--exclude` false-fails on a feature-unified optional tokio)."""
+
+# The two §3 → 5-command implementation lifts (`boot` UI-port race · `pre-push` When) moved to k-lifts.toml: they
+# land in their key file after the migration.
+
+[[lift]]
+target = "## 4. Unit Test Strategy"
+after = "  - Token compare function behaviour"
+text = """  - The source-scan test asserts that the GUI token is compared only inside that single compare function. It stands in for a timing measurement; the security plan owns the constant-time primitive."""
+
+[[lift]]
+target = "## 5. Integration Test Strategy"
+after = "**Setup / teardown lifecycle:**"
+text = """**DA1 answer:** under the sideloaded ConPTY the piped test driver (`tests/support/piped.rs` `Piped`) answers a DA1 query `ESC[c` with `ESC[?1;0c`, as a terminal would; viola sends no DA1 answer of its own."""
+
+[[lift]]
+target = "## 9. CI Integration"
+after = "**Platform:** GitHub Actions"
+text = """**Caches:** rust-cache is the only cache, in `ci.yml` only. npm and the Playwright browsers are not cached: no caching action beyond rust-cache was researched, and Node is the pinned official v24.21.0 build that `scripts/install-node.sh` downloads and sha256-checks on every run (no setup-node)."""
+
+[[lift]]
+target = "## 9. CI Integration"
+after = "Every workflow (`ci.yml`, `nightly.yml`) has"
+text = """Neither `ci.yml` nor `nightly.yml` has a `concurrency:` block: a concurrency group cancels pending runs even with `cancel-in-progress: false`, which would drop a push's `always()` gate and upload chain. zizmor's pedantic `concurrency-limits` finding is declined and stays visible (2 low)."""
+
+[[lift]]
+target = "## 10. Quality Gates & Coverage Targets"
+after = "The same deadlines are also asserted at unit speed"
+text = """criterion 0.8.2 is not a gate because it does not exit non-zero on a regression; hyperfine 1.20.0 (the `max` gate above) is the perf gate."""

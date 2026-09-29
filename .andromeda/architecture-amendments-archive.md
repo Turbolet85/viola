@@ -246,3 +246,171 @@ This pass's sweep covered all seven masters, CLAUDE.md, `.claude/rules/*`, `.cla
 - `target/e2e-home`: owner record + gone-owner sweep; not kept under `run --mutants`. CI/CD: pre-push Linux-leg `TMPDIR` scratch; `run --mutants` keeps no home.
 **Why:** chunk report Changes (Symbols, Dependencies, Crates, Harness, Spec claims 1/2), Expected amendments 1–5; [Snapshot writer] is a locked-decision reversal settled by the operator's P4 ruling and the overseer's wrap directive item (3). Registry proposal A17 (Claude Code integration names) rejected — the names stay true; its fact moved to [Deployment].
 **Sweep:** 20 patterns (`runs/2026-09-27T06-12-23-wrap/cascade-patterns.toml`); architecture rows :23, :50, :92, :98, :372, :411 are this pass's text; :146 and :244 true — no change. Leaves re-derived: `docs/stack.md` (:18, :19), `docs/services/viola-state.md` (:6, :11, :20, :38), `docs/services/viola.md` (:20), `rules/events.md` (:29, :31); CLAUDE.md `GENERATED:setup:*` recomputed — no change. Full rows: `runs/2026-09-27T06-12-23-wrap/cascade-sweep.md`.
+
+## Registry migration (U35) — 2026-09-29
+
+<!-- U35 · architecture.md · ## Infrastructure Patterns · sha256 e82620ed08c5b82064e9428abec0019b004890059010727d74c391e856c22efb -->
+
+## Infrastructure Patterns
+
+**Build system**
+- Cargo workspace with `resolver = "3"` (the edition 2024 default, which prefers dependency versions compatible with `rust-version = "1.96"`). Shared `version.workspace = true`, `license.workspace = true` (`[workspace.package]` `license = "MIT OR Apache-2.0"`) and `[workspace.dependencies]` pin every third-party version in one place (portable-pty as `=0.8.1`; rmcp minor pinned as `~3.4`).
+- Lint: `cargo fmt --all --check` and `cargo clippy --workspace --all-targets --features fake-agent -- -D warnings`.
+  - `[workspace.lints.clippy]` denies `print_stdout`, `print_stderr` and `dbg_macro`, and every product member inherits it (`[lints] workspace = true`, asserted by `tests/contract_lints.rs`). `viola-e2e` opts out and denies only `dbg_macro`, because the harness prints its JSON document. The fake agent carries a crate-level print allow. The root bin carries no print allow: its only human writer is `src/human.rs`. On stderr, `write_refusal` writes the two fixed `unable:`/`hint:` lines as ONE `write_all` and `write_internal_error` writes exactly `error: internal error\n`; on stdout, `write_result` writes one line per `write_all`. The `refuse` / `internal_error` / `result` wrappers lock the stream, call the writer and drop the result (a closed pipe is swallowed, never a panic), a form `print_stdout`/`print_stderr` do not flag. Its callers are the `viola run` start refusals (`.cmd`/`.bat` child, live or stale name, tampered pinned copy, squatted endpoint) and `viola verify` (its refusals, step lines, `stamped` summary and the `cli` role's internal error); `hook` and obs never call it.
+  - `clippy.toml` `disallowed-macros` bans `tracing::{info,warn,error,debug,trace}`, so `obs_event!` is the only sanctioned emitter. Raw `event!` is caught by a fail-closed grep in `scripts/lint-probes.sh`, because clippy 1.98.1 cannot exempt a macro's inner expansion (obs-plan §3 logger-stack-install).
+  - `scripts/lint-probes.sh` proves every ban fires and every control passes, as `deny-probes.sh` does for cargo-deny.
+- Typecheck: `cargo check --workspace --all-targets`.
+- Dependency policy: `cargo deny check` over `deny.toml` — advisories, licences (`allow` exactly `MIT`, `Apache-2.0`, `Zlib`, `Unicode-3.0`; `0BSD` only through per-crate `[[licenses.exceptions]]` for `doctest-file` and `recvmsg`, the two 0BSD crates interprocess 2.4.4 pulls in, never through `allow`: operator ratification 2026-09-25, security-plan Decisions Log), sources (crates.io only) and bans: C-building crates (`cc`, `libsqlite3-sys`, `openssl-sys`), telemetry crates (`opentelemetry-otlp`, `opentelemetry-stdout`, `sentry`, `tracing-appender`) and feature bans (`veil/toggle`, `rmcp` `auth` / `transport-streamable-http-server`, `axum/http2`, `tracing-subscriber/env-filter`), evaluated for the Windows, macOS and Linux target triples so `cfg`-gated dependencies are covered. The ban on `tokio` anywhere in the normal dependency graph, direct or transitive, of `viola-core`, `viola-pty`, `viola-channel` without its feature, `viola-state` and `viola-agent-claude` lives in `deny-sync.toml` (the same three triples, `exclude-dev = true`) and runs once per crate listed in `scripts/sync-crates.txt`, that crate as the sole root: `cargo deny --config deny-sync.toml --manifest-path crates/<crate>/Cargo.toml check bans`. Never a direct-parent allowlist (`wrappers`), because Tokio could otherwise arrive unnoticed through a third-party feature such as interprocess's or notify's; never `--exclude` over the workspace, which false-fails under feature unification — a shared crate's optional `tokio` feature stays on after the crate enabling it is excluded (as measured at chunk 2026-09-24-supply-chain-and-workflow-gates, research.md §Measured facts, cargo-deny 0.19.4 and 0.20.2). Limit, same measurement: the crate owning the optional `tokio` feature (`viola-channel`) false-fails as its own root once `viola-mcp` enables that feature (`cargo metadata` reports the unified set), so it is covered through the sync roots that depend on it. Every ban is proven live by `scripts/deny-probes.sh`: a throwaway project per ban must fail with that ban's own diagnostic, and a clean control must pass both configs. `fuzz/` has its own `Cargo.lock` outside this graph, and its libfuzzer-sys builds C++ via `cc`: the only C build in the repository. The operator ratified this on 2026-09-24 as a test-only exemption. The crate is never linked into `viola`, and `fuzz` never joins the root `[workspace]`. Its lockfile is audited separately: the CI `supply-chain` step `Fuzz lockfile audit (advisories, sources)` runs `cargo deny --manifest-path fuzz/Cargo.toml --format json check advisories sources` into `target/supply-chain/deny-fuzz.json`, and the weekly nightly `advisories` job runs `cargo deny --manifest-path fuzz/Cargo.toml check advisories`. Both run from the repo root: cargo-deny resolves the root `deny.toml` by walking up from the manifest, and under `fuzz/` rustup would demand the fuzz nightly (measured at chunk 2026-09-24-workspace-tree-and-code-graph-planes).
+- Boundary review:
+  - `cargo modules orphans --deny` is a CI gate. `scripts/orphans-check.sh` runs it in the per-OS `lint` job once per lib/bin target from `cargo metadata --no-deps`, with `--features` for a target's required features (`viola-fake-agent`), and its `--probe` mode proves it fires on a planted orphan first.
+  - The `cargo modules dependencies` graph (`--acyclic`) stays an on-demand review, never a gate: cargo-modules 0.27.0 reports every type and its own inherent method as a cycle, whatever the filters (measured at the same chunk, 3 of 4 targets).
+  - The rmcp release-graph check (`cargo tree -e features -p viola --edges normal`, rmcp exactly `server` + `transport-io`) has no subject until `viola-mcp` exists; it lands with the "MCP server for drivers" chunk.
+- Code-graph planes (`scripts/code-graph.py`, one DuckDB per language plane under `.andromeda/cache/{plane}/`):
+  - **rust:** the root workspace through rust-analyzer SCIP. It indexes every member (`viola`, `viola-core`, `viola-pty`, `viola-channel`, `viola-agent-claude`, `viola-state`, `viola-e2e`). `fuzz/`, a separate workspace, is outside it.
+  - **ts:** `e2e-web/` only, from its first chunk, through a tracked `e2e-web/tsconfig.json` (noEmit, strict) and scip-typescript. No tsconfig, package manifest or bundler config ever covers `crates/viola-ui/` (the page has no JS build step); a CI-runnable guard lists any such file.
+- Install: `cargo install --path .` from the repo root.
+- Publishing: every workspace member, including the root `viola` bin, sets `publish = false`. Nothing goes to crates.io in v1.
+- Licence: the project is `MIT OR Apache-2.0` (founder ruling 2026-09-25). `license` is set once in root `[workspace.package]` and inherited with `license.workspace = true` by `viola`, `viola-core`, `viola-pty`, `viola-channel`, `viola-agent-claude`, `viola-state` and `viola-e2e`; `fuzz/Cargo.toml`, its own workspace, carries the literal. The texts are `LICENSE-MIT` (holder Turbolet85) and `LICENSE-APACHE` at the root, and `README.md` names both.
+
+**Deployment model**
+- Local-only. There is no Docker, Compose, Kubernetes or serverless.
+- The single `viola` binary is installed on PATH. `viola run <name> -- claude <args>` pins a copy of itself in `~/.viola/bin/<version>-<hash>/` (on Windows x64 also the embedded ConPTY companions in its `conpty/` subdirectory, with `conpty.dll` pre-loaded from there before the spawn), writes the embedded plugin (pointing at that copy) to `~/.viola/plugin/<version>-<hash>/` and launches the child with `--plugin-dir`. `viola ui` is started by hand and serves 127.0.0.1.
+
+**Crate dependency direction** (enforced by manifests)
+- `viola-core` depends on no viola crate. Third-party: nutype (`ViolaName`, `Percent`).
+- `viola-pty` depends on no viola crate and knows no agent. Third-party (as landed): portable-pty, tracing (the `pty.spawn` span), windows-sys (Windows only), libc (Unix only; termios raw mode and the terminal size). No thiserror ([Error Handling]).
+- `viola-channel` → `viola-core`, interprocess, serde, serde_json, thiserror, tracing, veil, windows-sys (Windows only: the SQOS client open adopted by `Stream::try_from`, and the listener DACL through `Win32_Security_Authorization`), libc (Unix only: the uid for the socket directory). As landed it is sync and tokio-free, with a sync client and server; the Tokio client arrives behind the `tokio` feature with `viola-mcp`.
+- `viola-state` → `viola-core`, chrono, serde, serde_json, sha2 (the pinned-copy key and re-hash), sysinfo (the pid + start-time liveness check, shared by CLI `list`, `mcp` and `ui`), tempfile (the one `persist` helper), thiserror, tracing, and notify with tailing.
+- `viola-agent-claude` → `viola-core`, `viola-state`, serde_path_to_error (drift reports on external payloads), vt100 (the screen model and signatures behind the readiness gate; `run`'s pump feeds it bytes). This is the only crate that knows Claude payload shapes, including `claude agents --json`. As landed it depends on `viola-core`, serde, serde_json, serde_path_to_error `=0.1.20` (the `hook` module: `HookEvent`, `normalise`, drift reports) and thiserror (`IDENTITY_FLOOR`, `plan_strip`, `resolve_program`, `Refusal`, `PLUGIN_DIR_FLAG`, `plugin_files` over the `include_str!`-embedded `plugin/` templates, and the pure `ledger` module: the six rows, `parse_version`, `capture_plugin_files`, `check`, `merge_stamp`, `verified`, `scrub`/`is_clean`; `CASE_INSENSITIVE` and `is_script` are `pub` for `verify`), with dev-dependencies proptest and rstest. The ledger chunk added no `viola-state` dependency: the stamps file I/O stays in `viola-state` and the root bin, so the crate stays pure. vt100, and `viola-state` if a later consumer needs it, arrive with the chunks that consume them.
+- `viola-mcp` → `viola-core`, `viola-channel[tokio]`, `viola-state`, `viola-agent-claude`, rmcp, schemars, tokio.
+- `viola-ui` → `viola-core`, `viola-state`, `viola-agent-claude`, axum, tower-http, tokio.
+- serde, serde_json, chrono and thiserror are shared through `[workspace.dependencies]` by every workspace crate except `viola-pty`, which takes none of them. The sync crates (`viola-core`, `viola-state`, `viola-agent-claude`) list chrono directly, because they do not reach it through rmcp.
+- `viola-e2e` (test-only; no product crate depends on it); its dependencies are not listed here.
+- The `viola` root bin → all members, clap, anyhow, windows-sys (Windows only: the registry reader for the R8 persistent-environment names in `src/run/env.rs`, plus `Win32_System_Diagnostics_Debug` and `Win32_System_LibraryLoader` for `src/panic_frames.rs`'s `RtlCaptureStackBackTrace` / `GetModuleHandleExW` / `GetModuleFileNameW`) and libc `=0.2.189` (Unix only: `backtrace` + `dladdr` for the raw, never-symbolised panic frames). It contains the subcommand dispatch, the `run` pump, the wheel and the budget governor, all of which consume only normalised events.
+
+**Project directory structure**
+```
+viola/
+├── Cargo.toml                  # [package] viola (bin) + [workspace] members = ["crates/*"], exclude = ["fuzz"]
+├── Cargo.lock
+├── rust-toolchain.toml         # channel = "1.98.1" (exact pin), components = ["rustfmt", "clippy"]
+├── deny.toml                   # cargo-deny: advisories, licences, sources, bans (C, telemetry, features)
+├── deny-sync.toml              # the tokio ban, run per scripts/sync-crates.txt crate as sole root
+├── clippy.toml                 # disallowed-macros: tracing::{info,warn,error,debug,trace}
+├── .gitignore
+├── LICENSE-MIT                 # MIT text (holder Turbolet85); the project is MIT OR Apache-2.0
+├── LICENSE-APACHE              # the standard Apache License 2.0 text
+├── README.md                   # description + `## License` naming both licence files
+├── plugin/                     # embedded via include_str!, written out by `viola run`
+│   ├── .claude-plugin/plugin.json
+│   ├── hooks/hooks.json        # exec-form commands, placeholder for the pinned bin copy
+│   └── .mcp.json
+├── src/                        # the `viola` bin: anyhow edge only
+│   ├── main.rs                 # clap 4.6.7 dispatch (Windows: the System32 DLL-search restriction is its second statement)
+│   ├── conpty.rs               # Windows x64: the embedded ConPTY companions and their four pins (the vendor script parses this text)
+│   ├── human.rs                # human-facing text: the refusal and internal-error stderr writers and the stdout result writer, called by `run` and `verify`
+│   ├── cmd/                    # one module per subcommand: run, send, wait, last, list,
+│   │                           #   answer, hook, mcp, ui, verify, pause, release, link, unlink, plugin
+│   ├── run/                    # PTY pump, wheel, budget governor, readiness gate wiring
+│   └── bin/viola-fake-agent.rs # test-only stand-in `claude` (feature `fake-agent`)
+├── tests/                      # root integration tests (sync)
+│   ├── cmd/*.toml              # trycmd cases: human-mode expected output (snapbox redactions)
+│   ├── snapshots/              # insta snapshots (check mode only)
+│   └── support/                # the sync root fixture chain + fixture-hygiene checker
+├── schemas/                    # JSON schemas: fake-script.v1.json and claude-fixture.v1.json (test-side), diag-line/diag-detail.v1.json (obs line contracts)
+├── crates/
+│   ├── viola-core/             # normalised events, RefusalReason, ViolaName, Percent, `v` constants
+│   │                           #   (+ proptest-regressions/, committed seeds)
+│   ├── viola-pty/              # pty seam over portable-pty =0.8.1 (+ windows-sys kill fallback; HostTerminal raw mode: windows-sys Console / libc termios;
+│   │                           #   `sideload` (Windows): the System32 DLL-search restriction + the absolute-path conpty.dll pre-load)
+│   ├── viola-channel/          # JSON-RPC 2.0 ndjson over interprocess local sockets
+│   ├── viola-state/            # ndjson logs, atomic snapshots, File::lock, torn-line healing, tailing
+│   ├── viola-agent-claude/     # hook parsing, dialog mapping, R8 strip, shim resolution,
+│   │                           #   capability ledger, screen signatures, statusline parsing
+│   │                           #   (+ proptest-regressions/, committed seeds)
+│   ├── viola-mcp/              # rmcp 3.4.1 stdio server, thin adapter over viola-channel
+│   ├── viola-ui/               # axum 0.8.9 GET routes + SSE, Host allowlist
+│   │   └── assets/             # embedded page, no JS build step and no tsconfig: index.html, app.css
+│   │                           #   (the single stylesheet), vendored Lit 3.3.3 ESM
+│   └── viola-e2e/              # test-only: viola-harness (agent-run boot/run/status/cleanup/logs, plus the
+│                               #   internal subcommands incl. `gate` and `pre-push`: harness::pre_push)
+├── scripts/
+│   ├── agent-run.{sh,ps1}      # identical shims over viola-harness
+│   ├── conpty-vendor.sh        # re-vendor vendor/conpty/ from the pinned nupkg (+ --verify: sha256 + byte compare + signer; --probe)
+│   ├── sync-crates.txt         # the single sync-crate list (CI job 3 + the sole-root tokio ban)
+│   ├── deny-probes.sh          # negative probe per cargo-deny ban + a clean control
+│   ├── lint-probes.sh          # each clippy ban fires, controls pass, fail-closed raw-event! grep
+│   ├── release-check.sh        # target job 6: the release build carries `viola` only, no test-only feature (+ --probe)
+│   ├── orphans-check.sh        # cargo modules orphans --deny per lib/bin target (+ --probe)
+│   ├── g2-zero-panics.sh       # obs G2: 0 `event:"panic"` role lines under target/e2e-home, exempting only a
+│   │                           #   `panic_location` of exactly `src/cmd/hook/seam.rs:<digits>` (fail-closed; + --probe)
+│   ├── install-ripgrep.sh      # pinned, sha256-verified ripgrep 15.2.0 → target/tools/ripgrep
+│   ├── install-node.sh         # <os-key> <dest>: the official Node build at ci.yml's NODE_PIN_* (parsed from the
+│   │                           #   file text), sha256-verified, flattened into <dest> (+ --probe)
+│   ├── npm-audit.sh            # e2e-web lockfile: npm audit (every level) + registry.npmjs.org-only sources
+│   │                           #   → target/npm-audit/ (+ --advisories-only, --probe)
+│   ├── wsl-exec.sh             # operator aid only: [--cd DIR] CMD … through `wsl.exe -d Ubuntu --exec env -i` with the
+│   │                           #   distro's HOME and PATH (argv unconverted; --probe); no gate/harness/plan runs a command through it
+│   └── wsl-provision.sh        # in-distro WSL provisioning for `pre-push`: sha256-pinned rustup-init 1.29.1,
+│                               #   rust-toolchain.toml, `cargo install --locked` of ci.yml's test-job pins, the pinned
+│                               #   Node and the locked Playwright's Chromium (+ --check, --probe; --install-deps: uid 0,
+│                               #   operator-only)
+├── vendor/conpty/<version>/x64/ # the committed Microsoft conpty.dll + OpenConsole.exe (binary per .gitattributes)
+├── .config/nextest.toml        # nextest profiles `ci` and `mutants`, `fixed-port` group
+├── fuzz/                       # separate cargo-fuzz workspace (own Cargo.lock; excluded from the root)
+│   ├── rust-toolchain.toml     # channel = "nightly-2026-09-20" (fuzz only)
+│   ├── fuzz_targets/{viola_name,channel_frame,hook_stdin}.rs
+│   └── corpus/<target>/        # committed synthetic seeds
+├── fixtures/
+│   ├── claude/<cli-version>/   # hook-payload fixtures recorded by `viola verify`
+│   └── fake-scripts/           # committed fake-agent turn scripts (synthetic)
+├── e2e-web/                    # test-side Node only (Playwright; axe and the a11y lint land with the a11y chunks);
+│   │                           #   the ts code-graph plane
+│   ├── package.json            # pins @playwright/test 1.63.0 (exact; @axe-core/playwright lands with the a11y chunks)
+│   ├── package-lock.json       # committed; audited by scripts/npm-audit.sh
+│   ├── playwright.config.ts    # headless chromium, retries 0, forbidOnly, reporters pw.json + pw-junit.xml
+│   ├── tsconfig.json           # noEmit, strict, e2e-web/** only
+│   ├── stub/pipe.html          # the file:// reachability stub (one <h1>, no script or style)
+│   ├── eslint.config.js        # eslint-plugin-lit-a11y over the crates/viola-ui Lit sources
+│   ├── .htmlvalidate.json      # html-validate over the embedded assets/index.html
+│   ├── tests/*.spec.ts         # one spec per bay layout type; today the pipe stub's pipe-reachability.spec.ts
+│   ├── fixtures/a11y.ts        # the shared makeAxeBuilder fixture
+│   ├── schemas/a11y-row.v1.json  # tests-owned a11y violation-row schema (not obs schemas/)
+│   ├── a11y/sc-coverage.json   # per-SC coverage map
+│   └── test-results/           # gitignored outputs (a11y/, lint/)
+├── a11y/
+│   └── sr-pass/                # manual screen-reader passes: TEMPLATE.json, <date>-<at>.json
+├── .github/
+│   └── workflows/
+│       ├── ci.yml              # push + PR: 3-OS test (+ the browser suite)/perf (hyperfine rows + gate --require
+│       │                       #   perf)/lint (+ module orphans), msrv, fuzz-replay, 3-OS release
+│       │                       #   (release-check), supply-chain (+ fuzz
+│       │                       #   lockfile audit, npm lockfile audit); the workflow env holds the NODE_PIN_* lines
+│       └── nightly.yml         # weekly schedule + workflow_dispatch: cargo deny check advisories (root + fuzz/Cargo.lock),
+│                               #   npm-advisories (npm-audit.sh --advisories-only) + fuzz time-box
+├── refs/                       # brief and prior-art survey (arch input)
+└── .andromeda/                 # pipeline runs and cache
+```
+
+**CI/CD approach**
+- GitHub Actions, two workflows. `ci.yml`, triggered on push and pull request, with matrix `os: [windows-2025, macos-latest, ubuntu-latest]` on native runners, is the only push/PR pipeline. `nightly.yml`, triggered by a weekly `schedule` and `workflow_dispatch` (both fire from the repository's default branch), runs three ubuntu jobs with no cache. `advisories` runs `cargo deny check advisories` over the root lockfile and `cargo deny --manifest-path fuzz/Cargo.toml check advisories` over the fuzz lockfile, because the advisory DB moves without code changes; `npm-advisories` does the same for `e2e-web/package-lock.json` (`Node (pinned)`, then `scripts/npm-audit.sh --advisories-only`). `fuzz` runs `cargo +<channel> fuzz run --fuzz-dir fuzz <t> fuzz/corpus/<t> -- -max_total_time=120` per target (the channel comes from `fuzz/rust-toolchain.toml`) and uploads `fuzz/artifacts/` on `failure()`. Neither workflow has a `concurrency:` block. zizmor's pedantic `concurrency-limits` was declined because a concurrency group cancels pending runs, which would drop a cancelled run's `always()` gate and upload chain. (CI runs no mutation job — mutation testing moved to the epoch-boundary code audit on 2026-09-28 — so a cancelled run cannot lose mutation coverage; that half of the original reason is retired.)
+- Least privilege, in every workflow: `permissions: {}` at the workflow top and `contents: read` per job; every `uses:` pinned by full commit SHA with a version comment; event-payload values reach a step only through `env:`. zizmor asserts it.
+- Setup steps: `actions/checkout` v7.0.1 (`persist-credentials: false`), `rustup toolchain install` (reads `rust-toolchain.toml`: the exact pin plus rustfmt and clippy; no toolchain action), `Swatinem/rust-cache` v2.9.2 (`ci.yml` only), and `taiki-e/install-action` v2.87.19 for the version-pinned cargo tools (cargo-deny 0.20.2 included); zizmor 1.30.1 is installed by `cargo install --locked zizmor@1.30.1` in the job that runs it. ripgrep 15.2.0 (G1/G3) comes from `scripts/install-ripgrep.sh` in the `lint` job, because taiki-e/install-action has no ripgrep manifest: the official release asset, checked against its published sha256 and exported on `PATH`. hyperfine 1.20.0 is installed by `cargo install --locked hyperfine@1.20.0` as its own step in the `perf` job (the zizmor precedent; not on the taiki-e line, so the WSL provisioning replays nothing new). `jq` is runner-provided and never installed: the `test` and `perf` jobs presence-check it (`jq --version`) before G2, whose `scripts/g2-zero-panics.sh` refuses with `tool-missing: jq` without it, and `scripts/release-check.sh` (`release`), `scripts/orphans-check.sh` (`lint`) and `scripts/npm-audit.sh` (`supply-chain`, which also runs `jq --version` first) refuse with `tool-missing: jq` without it. cargo-modules 0.27.0 is installed by `cargo install --locked cargo-modules@0.27.0` in the `lint` job, because the pinned taiki-e/install-action has no cargo-modules manifest. The `test` job adds `rustup component add llvm-tools-preview` and `cargo-llvm-cov@0.9.1` on the taiki-e line. `msrv` runs `rustup toolchain install 1.96 --profile minimal`. The fuzz jobs run `rustup toolchain install` in `working-directory: fuzz` (reading `fuzz/rust-toolchain.toml`) and `cargo install --locked cargo-fuzz@0.13.2`. Node v24.21.0 comes from `scripts/install-node.sh` in the `test` and `supply-chain` jobs (and nightly `npm-advisories`), the install-ripgrep precedent with no setup-node action: the official nodejs.org archive for the OS, checked against its `NODE_PIN_SHA256_*` line, extracted to `$RUNNER_TEMP/node` and exported on `PATH`. The `test` job then runs `npm ci --prefix e2e-web` and the Playwright Chromium install per OS (`--with-deps` on ubuntu). No npm or browser cache.
+- Jobs wired today in `ci.yml` (7; 15 check-runs per push, as measured at ci#36483042659 on `17b93c7`): `test` (per OS; on `windows-2025` only, before the coverage run, the `ConPTY vendor verification` step runs `bash scripts/conpty-vendor.sh --verify` then `--probe` (verdicts `conpty-vendor: verified <version>` and `conpty-vendor probe: 4/4 refused, control clean`); then one harness `run --coverage` through the OS's shim, i.e. the instrumented nextest run as suite `coverage` with the per-OS floors 85/95/80, followed by doctest, then the boot → status → logs → cleanup lifecycle, then the browser suite (`Node (pinned)`, `npm ci`, the Chromium install, and `agent-run run --browser` through the OS's shim: suite `playwright`); `AGENT_RUN_KEEP_HOMES=1`; then, in obs-plan §9 order: `jq --version`, G2 (`scripts/g2-zero-panics.sh --probe && scripts/g2-zero-panics.sh`), G4 `schema-check` (`id: schema-conformance`), the `if: failure()` harness capture, and `secret-scan` (`id: secret-scan`, `if: always()`). The uploads are gated on that scan: `diag-<os>` and `junit-<os>` on `always() && steps.secret-scan.outcome == 'success'`, `harness-<os>` (`target/agent-run/` minus `target/agent-run/chunk.diff`, the file the scan skips) on `failure() && … == 'success'`, and `secret-scan-<os>` on `always() && … == 'failure'`, all with actions/upload-artifact v7.0.1 and 7 days (`junit-<os>` carries `target/nextest/ci/junit.xml` and `target/agent-run/artifacts/junit-playwright.xml`); last, an `if: always()` `Gate verdict` step runs `gate --require coverage,doctest,playwright`). `perf` (per OS, `fail-fast: false`, `contents: read`, `AGENT_RUN_KEEP_HOMES=1`; test-plan §9 Perf row) runs checkout, toolchain, rust-cache, `cargo install --locked hyperfine@1.20.0`, `jq --version`, `agent-run run --perf`, then G2 (probe then check), `schema-check` and `secret-scan` (`id: secret-scan`), all `if: always()`; it uploads `perf-<os>` (`target/agent-run/artifacts/perf-*.json`) and `diag-perf-<os>` (`target/e2e-home/**/diagnostics/*.ndjson`) only on `always() && steps.secret-scan.outcome == 'success'`, and `secret-scan-perf-<os>` on a scan failure; last, an `if: always()` `Gate verdict` step runs `gate --require perf`. `test`, the pre-push and the WSL provisioning carry no perf step. CI runs no mutation job: mutation testing runs only through `agent-run run --mutants` [`--file`], kept for the epoch-boundary `/andromeda-code-audit` (test-plan §10 Mutation gate). `msrv` (ubuntu, rust-cache `key: msrv`) runs `RUSTUP_TOOLCHAIN=1.96` steps for `rustc --version`, `cargo check --workspace` and `agent-run run --unit`, then `gate --require nextest-unit`. `fuzz-replay` (ubuntu, no cache) runs `agent-run run --fuzz-replay`, then `gate --require fuzz-replay`. `lint` (per OS: target job 3, then target jobs 1 and 2, the ripgrep install, `rg --pcre2-version`, G1 and G3 verbatim from obs-plan §9, `scripts/lint-probes.sh` on Linux, then `Install cargo-modules` and `Module orphans (per lib/bin target)`: `scripts/orphans-check.sh --probe && scripts/orphans-check.sh`). `release` (per OS, `fail-fast: false`, rust-cache: target job 6) runs `scripts/release-check.sh --probe`, then `scripts/release-check.sh`; like `lint` it is a plain exit-code job, with no upload and no `viola-harness gate` step. `supply-chain` (ubuntu) runs:
+  - target job 4 as `cargo deny --format json check`;
+  - the `Fuzz lockfile audit (advisories, sources)` into `target/supply-chain/deny-fuzz.json`;
+  - `Node (pinned)`, then the `npm lockfile audit (advisories, sources)`: `scripts/npm-audit.sh` over `e2e-web/package-lock.json` (0 advisories at `--audit-level=low`, every `packages[].resolved` from `https://registry.npmjs.org/`), its JSON in `target/npm-audit/`, which is not uploaded;
+  - the sole-root `deny-sync.toml` tokio ban per listed sync crate;
+  - `scripts/deny-probes.sh` and `zizmor --format=json .github/workflows/`.
+
+  Its JSON reports are uploaded from `target/supply-chain/` as artifact `supply-chain` with `if: always()`. Every gate step is fail-closed `shell: bash`.
+- Target jobs per OS, each wired by the chunk that owns it (Supply-chain gates, Quality gates, Workspace tree):
+  1. `cargo fmt --all --check`
+  2. `cargo clippy --workspace --all-targets --features fake-agent -- -D warnings` (workspace lint bans and `clippy.toml` in force)
+  3. `cargo check` with one `-p` per crate listed in `scripts/sync-crates.txt` (target set `viola-core`, `viola-pty`, `viola-channel`, `viola-state`, `viola-agent-claude`; each joins the list with its crate; an empty list or an absent package fails) — proves the sync crates, including the `hook` path, compile on each OS without `viola-channel`'s `tokio` feature; the ban itself is the sole-root `deny-sync.toml` step of job 4
+  4. `cargo deny check` (once, on ubuntu)
+  5. the workspace test suite against the fake agent, replaying `fixtures/claude/*`
+  6. `cargo build --release --locked --bin viola` through `scripts/release-check.sh` (the `release` job): it judges that build's own `compiler-artifact` executables, fails on any other than `viola` (`viola-harness`, `viola-fake-agent`) or on none, fails first on any `compiler-artifact` record whose `features` hold the test-only `test-support` or `fake-agent` (`release-check: FAILED — test-only feature {feature} in {target}`; `--probe` reads `5/5 refused, control clean`), and never lists `target/release/`, where a shared or cached dir keeps stale test-only exes (measured at chunk 2026-09-24-workspace-tree-and-code-graph-planes: a bare `cargo build --release` and `--bin viola` yield `viola` only, `--workspace` adds `viola-harness`)
+- The real `claude` CLI runs only locally, never in CI. `viola verify` runs in CI only against the fake agent's `-p/--print` mode (`tests/cli_verify.rs`); its real-CLI probe and `--record` run only locally.
+- A local pre-push gate precedes every operator push. The operator pass runs, in order: `viola-harness pre-push` on the uncommitted tree → the pre-CI commit → the guarded push → the CI reads; a red `pre-push` stops the pass. `pre-push` runs on the Windows dev host only (elsewhere it refuses `pre-push-windows-only`, exit 2): it syncs the working tree into a history-carrying clone in WSL2 `Ubuntu` (the clone's tree id must equal the Windows tree id), checks the Linux tools there against their pins (the C linker, the channel, ci.yml's cargo tools and `node --version` = `v<NODE_PIN_VERSION>`, refusing `tool-missing` / `tool-pin-mismatch` with detail `node`), runs the ubuntu `test` job's `run --coverage`, `run --browser` (a red stops before the gate) and `gate --require coverage,doctest,playwright` there, terminates the WSL VM once the ubuntu verdict is on the host (`vm-release`, so its memory returns to the host), then runs `run --coverage` + `gate --require coverage,doctest` on the host (`windows-tests`): stages `tools → sync → cache → linux-tests → vm-release → windows-tests`, `ok:true` when `windows-tests` is green, and no mutation stage (test-plan §3 Internal harness subcommands). Every WSL call is `env -i HOME=… PATH=…` with no further assignment; the `cache` section reports the clone's `target/` as `bytes`, `cap`, `cleaned` and `bytes_after`. The host stages run with `CARGO_BUILD_JOBS=16`, set by the harness. `run --mutants` itself sets `AGENT_RUN_KEEP_HOMES=0` and `AGENT_RUN_KEEP_FAILED=0` on the `cargo mutants` command wherever `run --mutants` runs (a mutation run keeps no test home). It is a filter before the push; CI's run on the pushed sha stays the verdict of record.
+- There is no deploy stage in v1. The v1.x release path adds a dist 0.33.0-generated release workflow with cargo-auditable 0.7.6.

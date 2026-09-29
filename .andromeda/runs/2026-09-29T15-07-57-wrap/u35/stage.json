@@ -1,0 +1,947 @@
+{
+ "schema": 1,
+ "project": "D:/dev/projects/viola",
+ "masters": {
+  "a11y-plan.md": {
+   "sha256": "6feaa38ea95df723abb23c803fa1399cc4b3aa46b9bc42d35092515b09d04453",
+   "bytes": 163384,
+   "terminator": "LF"
+  },
+  "architecture.md": {
+   "sha256": "8793b6a5106a12034d6420dc9083e1386895b27352b4e224d4e39e746f4594dc",
+   "bytes": 159981,
+   "terminator": "LF"
+  },
+  "design-system.md": {
+   "sha256": "f4b05b74fdfcec1c51ac04f366709961e9d6f8d75b8484197dc6223e29e22cb9",
+   "bytes": 107340,
+   "terminator": "LF"
+  },
+  "layout-templates.md": {
+   "sha256": "33bf9c45064cda9654671f0b16e743cf19a30542e8058528daa9c5d183f20ff9",
+   "bytes": 64893,
+   "terminator": "LF"
+  },
+  "obs-plan.md": {
+   "sha256": "b65ae574bee95e3e0940b244031b3d58d9d39f4b5c8b53fd35ee2c62e10a765a",
+   "bytes": 221242,
+   "terminator": "LF"
+  },
+  "security-plan.md": {
+   "sha256": "2f58fcc7195af0d3ff48f7a5feb1f60098d2f7f2fdf7ad71de8596e9e5de6f58",
+   "bytes": 150837,
+   "terminator": "LF"
+  },
+  "test-plan.md": {
+   "sha256": "3af22d97033d45c47b8a25f299a740c06cc9cb3ffb7758147003f7c9f0db7a1e",
+   "bytes": 300955,
+   "terminator": "LF"
+  }
+ },
+ "sections": [
+  {
+   "master": "a11y-plan.md",
+   "kind": "K",
+   "heading": "## 3. A11y Assertion Harness Contract",
+   "line": 484,
+   "end": 710,
+   "bytes": 35329,
+   "census": {
+    "dated": 0,
+    "h3": 9,
+    "bold": 0,
+    "dids": [
+     "D-21",
+     "D-A11Y-04",
+     "D-A11Y-09",
+     "D-A11Y-11",
+     "D-A11Y-13",
+     "D-A11Y-17"
+    ],
+    "markers": [
+     "2026-09-25-pty-wrapper-on-windows",
+     "2026-09-27-browser-verdict-reachability",
+     "2026-09-29-sideloaded-conpty"
+    ]
+   },
+   "units": [
+    {
+     "key": "A11y testing tool pick",
+     "slug": "a11y-testing-tool-pick",
+     "file": "contracts/a11y-plan/a11y-testing-tool-pick.md",
+     "line": 489,
+     "bytes": 3864,
+     "sha256": "332583b58c3a9bca3d9078d8b6c9d7ea6473597b9fbde141de5064e9ea2b1dfe",
+     "labels": [
+      "Primary tool per surface",
+      "Configuration"
+     ]
+    },
+    {
+     "key": "WCAG criteria mapping",
+     "slug": "wcag-criteria-mapping",
+     "file": "contracts/a11y-plan/wcag-criteria-mapping.md",
+     "line": 515,
+     "bytes": 9358,
+     "sha256": "d72e533284387d22effa9f7e1a5877ff519c469a6a4efd18757fa4252582ef3f",
+     "labels": [
+      "Tier coverage (Standard)",
+      "Per-SC verification map",
+      "Levels",
+      "Compliance trigger override"
+     ]
+    },
+    {
+     "key": "Structured violation JSON schema",
+     "slug": "structured-violation-json-schema",
+     "file": "contracts/a11y-plan/structured-violation-json-schema.md",
+     "line": 573,
+     "bytes": 6709,
+     "sha256": "67675664a3c5fa4bf271615758a07a8d3d1319d590988caadb053887b39e4ec7",
+     "labels": [
+      "Emission location",
+      "Row shape",
+      "Binding fields",
+      "Additive fields",
+      "Scrubbing (Error sanitization trigger)",
+      "Agent parsing",
+      "cli / tui"
+     ]
+    },
+    {
+     "key": "Focus management test harness",
+     "slug": "focus-management-test-harness",
+     "file": "contracts/a11y-plan/focus-management-test-harness.md",
+     "line": 606,
+     "bytes": 1968,
+     "sha256": "e3a542a1082b0562eea578183f32e27d5488d1c3d9a39720e9510b97637dd738",
+     "labels": [
+      "Driver",
+      "Library",
+      "Pattern"
+     ]
+    },
+    {
+     "key": "Keyboard test harness",
+     "slug": "keyboard-test-harness",
+     "file": "contracts/a11y-plan/keyboard-test-harness.md",
+     "line": 617,
+     "bytes": 2781,
+     "sha256": "856687e3e5b499ed1badce867e5a8b5dc8b34a7b17d19c47783d1e2cdb60fa0e",
+     "labels": [
+      "Sequences per ARIA pattern (only patterns present in v1)",
+      "Tooling"
+     ]
+    },
+    {
+     "key": "Screen reader test pattern",
+     "slug": "screen-reader-test-pattern",
+     "file": "contracts/a11y-plan/screen-reader-test-pattern.md",
+     "line": 626,
+     "bytes": 2894,
+     "sha256": "eb38678aa7f2d4935e728c89288701119b8647b5b2ab66c5ac20e4d212aacc4a",
+     "labels": [
+      "Automated proxy (gating)",
+      "Per-surface test spec (supplemental, founder-owned)",
+      "Manual pass spec format",
+      "Supplemental to automated"
+     ]
+    },
+    {
+     "key": "Contrast verification harness",
+     "slug": "contrast-verification-harness",
+     "file": "contracts/a11y-plan/contrast-verification-harness.md",
+     "line": 645,
+     "bytes": 1356,
+     "sha256": "b40b46f95c4192e3ee53c071e7ee98364ff06e1168efe2c8e298c625149296d2",
+     "labels": [
+      "Source-of-truth tokens",
+      "Verification tool",
+      "WCAG SC mapping"
+     ]
+    },
+    {
+     "key": "CI integration",
+     "slug": "ci-integration",
+     "file": "contracts/a11y-plan/ci-integration.md",
+     "line": 663,
+     "bytes": 1457,
+     "sha256": "c0faf0a3507b3559bcd74bf87f653578c496b31e88c9982166fd9599b6489ea5",
+     "labels": [
+      "Pipeline integration",
+      "Command",
+      "Artifact"
+     ]
+    },
+    {
+     "key": "Bootstrap phases (derive for route / setup-project)",
+     "slug": "bootstrap-phases-derive-for-route-setup-project",
+     "file": "contracts/a11y-plan/bootstrap-phases-derive-for-route-setup-project.md",
+     "line": 677,
+     "bytes": 4799,
+     "sha256": "466bbc366ec1af64c7f43c7c00cecf02c888ec708758c1dd077db3984004de83",
+     "labels": [
+      "a11y-tooling-install",
+      "focus-management-library-install",
+      "aria-component-library-install",
+      "contrast-verification-harness-setup",
+      "screen-reader-test-spec-setup",
+      "a11y-ci-gate-wire",
+      "violation-json-emission-wire"
+     ]
+    }
+   ]
+  },
+  {
+   "master": "a11y-plan.md",
+   "kind": "L",
+   "heading": "## 12. A11y Decisions Log",
+   "line": 1295,
+   "end": 1396,
+   "bytes": 15044,
+   "census": {
+    "dated": 6,
+    "h3": 0,
+    "bold": 2,
+    "dids": [
+     "D-21",
+     "D-A11Y-01",
+     "D-A11Y-02",
+     "D-A11Y-03",
+     "D-A11Y-04",
+     "D-A11Y-05",
+     "D-A11Y-06",
+     "D-A11Y-07",
+     "D-A11Y-08",
+     "D-A11Y-09",
+     "D-A11Y-10",
+     "D-A11Y-11",
+     "D-A11Y-12",
+     "D-A11Y-13",
+     "D-A11Y-14",
+     "D-A11Y-15",
+     "D-A11Y-16",
+     "D-A11Y-17",
+     "D-A11Y-18",
+     "D-A11Y-19",
+     "D-A11Y-20"
+    ],
+    "markers": []
+   },
+   "markers": []
+  },
+  {
+   "master": "architecture.md",
+   "kind": "K",
+   "heading": "## Infrastructure Patterns",
+   "line": 435,
+   "end": 598,
+   "bytes": 32071,
+   "census": {
+    "dated": 0,
+    "h3": 0,
+    "bold": 5,
+    "dids": [],
+    "markers": [
+     "2026-09-24-supply-chain-and-workflow-gates",
+     "2026-09-24-workspace-tree-and-code-graph-planes"
+    ]
+   },
+   "units": [
+    {
+     "key": "Build system",
+     "slug": "build-system",
+     "file": "contracts/architecture/build-system.md",
+     "line": 437,
+     "bytes": 7132,
+     "sha256": "5a01434c4b511ffd6caf5a013a4e2778d049b013fc2e9ca2cb2bbf31197f3df7",
+     "labels": []
+    },
+    {
+     "key": "Deployment model",
+     "slug": "deployment-model",
+     "file": "contracts/architecture/deployment-model.md",
+     "line": 456,
+     "bytes": 562,
+     "sha256": "6be73155648ab226761357f462a2602a0bb1d20eb6aa229e2b82b7331baa86db",
+     "labels": []
+    },
+    {
+     "key": "Crate dependency direction",
+     "slug": "crate-dependency-direction",
+     "file": "contracts/architecture/crate-dependency-direction.md",
+     "line": 460,
+     "bytes": 3347,
+     "sha256": "af0f2589f9dedb56e1683616f7a3b34f4bc39e3a89e111c549652fb7a5025afa",
+     "labels": []
+    },
+    {
+     "key": "Project directory structure",
+     "slug": "project-directory-structure",
+     "file": "contracts/architecture/project-directory-structure.md",
+     "line": 472,
+     "bytes": 9496,
+     "sha256": "813901e293cedb8ab84d50e49d5b115a1d7ff53ce39b1edb833bb1c07dbdb588",
+     "labels": []
+    },
+    {
+     "key": "CI/CD approach",
+     "slug": "ci-cd-approach",
+     "file": "contracts/architecture/ci-cd-approach.md",
+     "line": 576,
+     "bytes": 11528,
+     "sha256": "64b29d46bfef04227fca1842b596a02a0242ad478deebd5328ba8b6c050029ae",
+     "labels": []
+    }
+   ]
+  },
+  {
+   "master": "design-system.md",
+   "kind": "L",
+   "heading": "## Design Decisions Log",
+   "line": 909,
+   "end": 985,
+   "bytes": 12283,
+   "census": {
+    "dated": 10,
+    "h3": 0,
+    "bold": 0,
+    "dids": [
+     "D-20",
+     "D-A11Y-02",
+     "D-A11Y-03",
+     "D-A11Y-06"
+    ],
+    "markers": []
+   },
+   "markers": []
+  },
+  {
+   "master": "layout-templates.md",
+   "kind": "L",
+   "heading": "## Decisions Log",
+   "line": 562,
+   "end": 623,
+   "bytes": 7966,
+   "census": {
+    "dated": 4,
+    "h3": 0,
+    "bold": 8,
+    "dids": [
+     "D-A11Y-06",
+     "D-A11Y-19"
+    ],
+    "markers": []
+   },
+   "markers": []
+  },
+  {
+   "master": "obs-plan.md",
+   "kind": "K",
+   "heading": "## 3. Observability Harness Contract",
+   "line": 548,
+   "end": 813,
+   "bytes": 41686,
+   "census": {
+    "dated": 0,
+    "h3": 10,
+    "bold": 3,
+    "dids": [
+     "D-01",
+     "D-02",
+     "D-03",
+     "D-04",
+     "D-05",
+     "D-06",
+     "D-07",
+     "D-08",
+     "D-09",
+     "D-10",
+     "D-11",
+     "D-12",
+     "D-13",
+     "D-19",
+     "D-21",
+     "D-22",
+     "D-25",
+     "D-26",
+     "D-27",
+     "D-28",
+     "D-29",
+     "D-30",
+     "D-32"
+    ],
+    "markers": [
+     "2026-09-24-diagnostics-plane",
+     "2026-09-24-observability-gates",
+     "2026-09-28-hook-perf-gate"
+    ]
+   },
+   "units": [
+    {
+     "key": "Product mode — Normal vs Inverted (self-observing)",
+     "slug": "product-mode-normal-vs-inverted-self-observing",
+     "file": "contracts/obs-plan/product-mode-normal-vs-inverted-self-observing.md",
+     "line": 564,
+     "bytes": 376,
+     "sha256": "2b7b52310fd86d736f917087d57c4e395516dac87c9746e9d58c4db17618b5fe",
+     "labels": [
+      "Normal"
+     ]
+    },
+    {
+     "key": "OTel SDK init",
+     "slug": "otel-sdk-init",
+     "file": "contracts/obs-plan/otel-sdk-init.md",
+     "line": 568,
+     "bytes": 6169,
+     "sha256": "6d4e3962c82510f3e5d9e4b7b903632a0534c2576665c43e2bb63f6c18ae4518",
+     "labels": [
+      "SDK packages",
+      "Init order",
+      "Init body sketch (≤ 5 lines)"
+     ]
+    },
+    {
+     "key": "Service identity",
+     "slug": "service-identity",
+     "file": "contracts/obs-plan/service-identity.md",
+     "line": 602,
+     "bytes": 1116,
+     "sha256": "59c84b6cdf1d4cec701f48c2dc8f81075bcb7b8e24db098b0d4f55174d161edb",
+     "labels": [
+      "service.name",
+      "service.version",
+      "deployment.environment",
+      "Resource attributes"
+     ]
+    },
+    {
+     "key": "Logging stack",
+     "slug": "logging-stack",
+     "file": "contracts/obs-plan/logging-stack.md",
+     "line": 609,
+     "bytes": 6467,
+     "sha256": "20217e6bed76170deb4e136231370b7236a1f6e64c4967970697e0d9c1747b68",
+     "labels": [
+      "Library",
+      "Format",
+      "Mandatory builder settings beyond the tests line",
+      "Sink",
+      "Agent-mode flag"
+     ]
+    },
+    {
+     "key": "Log format JSON schema",
+     "slug": "log-format-json-schema",
+     "file": "contracts/obs-plan/log-format-json-schema.md",
+     "line": 649,
+     "bytes": 8083,
+     "sha256": "905d32dc1adc4b6f878b62d2ae7cf7c1aabf3014dd02b26732c8e38d4cfca3de",
+     "labels": [
+      "Binding. Reproduced verbatim from test-plan.md §3 Test Harness Contract → Log format (re-synced in overseer fix pass 2, 2026-09-24, after test-plan amendments D-21 / 693e083 and fix pass 2, and again in fix pass 3 for Z7). Obs aligns to tests, not vice versa",
+      "Obs extensions",
+      "Accepted `event` values (tests amendment D-21)",
+      "Not a product `event` value: `a11y-violation`",
+      "Accepted `process` value",
+      "Additive fields",
+      "Null encoding"
+     ]
+    },
+    {
+     "key": "Log file location",
+     "slug": "log-file-location",
+     "file": "contracts/obs-plan/log-file-location.md",
+     "line": 705,
+     "bytes": 1631,
+     "sha256": "2352b04cd170ae0cbe21f561b5202734141d4f50658cb14360b167806aee6b76",
+     "labels": [
+      "Path",
+      "Rotation"
+     ]
+    },
+    {
+     "key": "Snapshot / paste-to-AI integration",
+     "slug": "snapshot-paste-to-ai-integration",
+     "file": "contracts/obs-plan/snapshot-paste-to-ai-integration.md",
+     "line": 716,
+     "bytes": 2693,
+     "sha256": "603ac5593c5eb5e5494395e204e24c01e307b347affabee91e3c9d8048059aa4",
+     "labels": []
+    },
+    {
+     "key": "Trace context propagation",
+     "slug": "trace-context-propagation",
+     "file": "contracts/obs-plan/trace-context-propagation.md",
+     "line": 732,
+     "bytes": 5270,
+     "sha256": "3f59c0f564b9604f3a9138293ed6c1e45ac7cfe9087b1aa6a2966b0d2bb2812a",
+     "labels": [
+      "HTTP boundaries",
+      "gRPC boundaries",
+      "IPC boundaries",
+      "Claude Code → hook stdin",
+      "Internal async boundaries"
+     ]
+    },
+    {
+     "key": "Heartbeat ticks",
+     "slug": "heartbeat-ticks",
+     "file": "contracts/obs-plan/heartbeat-ticks.md",
+     "line": 757,
+     "bytes": 1294,
+     "sha256": "efaac291add14f40562599cea79797d1ac3c58e90ca4aff4a7baca263ed3eed4",
+     "labels": [
+      "Tick interval",
+      "Tick event format",
+      "Stall detection"
+     ]
+    },
+    {
+     "key": "Bootstrap phases (derive for route / setup-project)",
+     "slug": "bootstrap-phases-derive-for-route-setup-project",
+     "file": "contracts/obs-plan/bootstrap-phases-derive-for-route-setup-project.md",
+     "line": 770,
+     "bytes": 7206,
+     "sha256": "aaf13ebee07f132d97fb893337e590d285ea2a5364eddedadc143edd961722bd",
+     "labels": [
+      "otel-sdk-install",
+      "logger-stack-install",
+      "service-identity-wire",
+      "log-format-schema-emit",
+      "trace-context-propagate-wire",
+      "heartbeat-tick-wire",
+      "pii-scrubbing-wire",
+      "obs-ci-gate-wire",
+      "Merged phase position",
+      "Ownership"
+     ]
+    }
+   ]
+  },
+  {
+   "master": "obs-plan.md",
+   "kind": "L",
+   "heading": "## 12. Obs Decisions Log",
+   "line": 1440,
+   "end": 1826,
+   "bytes": 38272,
+   "census": {
+    "dated": 40,
+    "h3": 0,
+    "bold": 2,
+    "dids": [
+     "D-01",
+     "D-02",
+     "D-03",
+     "D-04",
+     "D-05",
+     "D-06",
+     "D-07",
+     "D-08",
+     "D-09",
+     "D-10",
+     "D-11",
+     "D-12",
+     "D-13",
+     "D-14",
+     "D-15",
+     "D-16",
+     "D-17",
+     "D-18",
+     "D-19",
+     "D-20",
+     "D-21",
+     "D-22",
+     "D-23",
+     "D-24",
+     "D-25",
+     "D-26",
+     "D-27",
+     "D-28",
+     "D-29",
+     "D-30",
+     "D-31",
+     "D-32",
+     "D-33",
+     "D-34",
+     "D-35",
+     "D-36",
+     "D-A11Y-09"
+    ],
+    "markers": [
+     "2026-09-24-observability-gates",
+     "2026-09-25-pty-wrapper-on-windows",
+     "2026-09-29-sideloaded-conpty",
+     "2026-09-29-verify-stamped-test-homes-and-harness"
+    ]
+   },
+   "markers": [
+    {
+     "marker": "2026-09-24-observability-gates",
+     "sidecar": true,
+     "archive": true
+    },
+    {
+     "marker": "2026-09-25-pty-wrapper-on-windows",
+     "sidecar": true,
+     "archive": true
+    },
+    {
+     "marker": "2026-09-29-sideloaded-conpty",
+     "sidecar": true,
+     "archive": false
+    },
+    {
+     "marker": "2026-09-29-verify-stamped-test-homes-and-harness",
+     "sidecar": true,
+     "archive": false
+    }
+   ]
+  },
+  {
+   "master": "security-plan.md",
+   "kind": "L",
+   "heading": "## Security Decisions Log",
+   "line": 594,
+   "end": 779,
+   "bytes": 38180,
+   "census": {
+    "dated": 14,
+    "h3": 0,
+    "bold": 1,
+    "dids": [
+     "D-28"
+    ],
+    "markers": [
+     "2026-09-24-quality-gates",
+     "2026-09-25-pty-wrapper-on-windows",
+     "2026-09-25-security-prerequisites",
+     "2026-09-26-local-linux-pre-push-gate",
+     "2026-09-27-browser-verdict-reachability",
+     "2026-09-27-epoch-2-cleanup",
+     "2026-09-27-hooks-to-normalised-events",
+     "2026-09-28-capability-ledger-and-viola-verify",
+     "2026-09-28-hook-perf-gate",
+     "2026-09-28-mutation-testing-to-the-epoch-boundary",
+     "2026-09-29-fake-agent-drift-contract",
+     "2026-09-29-sideloaded-conpty"
+    ]
+   },
+   "markers": [
+    {
+     "marker": "2026-09-24-quality-gates",
+     "sidecar": true,
+     "archive": true
+    },
+    {
+     "marker": "2026-09-25-pty-wrapper-on-windows",
+     "sidecar": true,
+     "archive": true
+    },
+    {
+     "marker": "2026-09-25-security-prerequisites",
+     "sidecar": true,
+     "archive": true
+    },
+    {
+     "marker": "2026-09-26-local-linux-pre-push-gate",
+     "sidecar": true,
+     "archive": true
+    },
+    {
+     "marker": "2026-09-27-browser-verdict-reachability",
+     "sidecar": true,
+     "archive": false
+    },
+    {
+     "marker": "2026-09-27-epoch-2-cleanup",
+     "sidecar": true,
+     "archive": false
+    },
+    {
+     "marker": "2026-09-27-hooks-to-normalised-events",
+     "sidecar": true,
+     "archive": false
+    },
+    {
+     "marker": "2026-09-28-capability-ledger-and-viola-verify",
+     "sidecar": true,
+     "archive": false
+    },
+    {
+     "marker": "2026-09-28-hook-perf-gate",
+     "sidecar": true,
+     "archive": false
+    },
+    {
+     "marker": "2026-09-28-mutation-testing-to-the-epoch-boundary",
+     "sidecar": true,
+     "archive": false
+    },
+    {
+     "marker": "2026-09-29-fake-agent-drift-contract",
+     "sidecar": true,
+     "archive": false
+    },
+    {
+     "marker": "2026-09-29-sideloaded-conpty",
+     "sidecar": true,
+     "archive": false
+    }
+   ]
+  },
+  {
+   "master": "test-plan.md",
+   "kind": "K",
+   "heading": "## 3. Test Harness Contract",
+   "line": 500,
+   "end": 821,
+   "bytes": 74934,
+   "census": {
+    "dated": 0,
+    "h3": 6,
+    "bold": 7,
+    "dids": [
+     "D-01",
+     "D-02",
+     "D-05",
+     "D-06",
+     "D-07",
+     "D-08",
+     "D-12",
+     "D-28",
+     "D-30"
+    ],
+    "markers": [
+     "2026-09-24-observability-gates",
+     "2026-09-24-quality-gates",
+     "2026-09-24-workspace-tree-and-code-graph-planes",
+     "2026-09-25-security-prerequisites",
+     "2026-09-26-ci-chunk-base-and-union-verdict",
+     "2026-09-26-local-linux-pre-push-gate",
+     "2026-09-27-browser-verdict-reachability",
+     "2026-09-27-epoch-2-cleanup",
+     "2026-09-27-hooks-to-normalised-events"
+    ]
+   },
+   "units": [
+    {
+     "key": "5-command implementation",
+     "slug": "5-command-implementation",
+     "file": "contracts/test-plan/5-command-implementation.md",
+     "line": 511,
+     "bytes": 54135,
+     "sha256": "4859be32d446b6df654d679e1d24360509cdf95b0462d15836e0ccb2df82d9d3",
+     "labels": [
+      "boot",
+      "Embedded-asset freshness",
+      "run",
+      "status",
+      "cleanup",
+      "logs",
+      "Internal harness subcommands",
+      "supervise --session <id>",
+      "ui-restart --session <id>",
+      "schema-check",
+      "secret-scan",
+      "Browser-side controls",
+      "gate --require <suite>[,<suite>…] [--artifacts <dir>]",
+      "pre-push",
+      "Closed enums"
+     ]
+    },
+    {
+     "key": "Status endpoint shape",
+     "slug": "status-endpoint-shape",
+     "file": "contracts/test-plan/status-endpoint-shape.md",
+     "line": 675,
+     "bytes": 1350,
+     "sha256": "646b2e4b6925a2169b1a29b6a0f2b6087825231f2a84d1728c0c3694709742d0",
+     "labels": []
+    },
+    {
+     "key": "Log format",
+     "slug": "log-format",
+     "file": "contracts/test-plan/log-format.md",
+     "line": 695,
+     "bytes": 5104,
+     "sha256": "42e32f4dbb233b0273fcfedf5da7cfb6f90762d5a2fc3d99e32af892ffab8a5c",
+     "labels": [
+      "Format",
+      "Required fields",
+      "Harness-side a11y rows (not part of this `event` enum)",
+      "Constraints",
+      "Agent parsing"
+     ]
+    },
+    {
+     "key": "PID file",
+     "slug": "pid-file",
+     "file": "contracts/test-plan/pid-file.md",
+     "line": 726,
+     "bytes": 725,
+     "sha256": "4784872de56b1c15734613e931eb53eb79055bb3b8e8e98e7523b5a04bfab19d",
+     "labels": [
+      "Location",
+      "Lifecycle"
+     ]
+    },
+    {
+     "key": "Test data bootstrap",
+     "slug": "test-data-bootstrap",
+     "file": "contracts/test-plan/test-data-bootstrap.md",
+     "line": 735,
+     "bytes": 2614,
+     "sha256": "88fbc4cefa21557ddc14b3c65a839ee1d1df514a0407d249693448aa42686395",
+     "labels": [
+      "Strategy",
+      "Mechanism",
+      "Per-test isolation",
+      "Cleanup"
+     ]
+    },
+    {
+     "key": "Bootstrap phases (derive for route / setup-project)",
+     "slug": "bootstrap-phases-derive-for-route-setup-project",
+     "file": "contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md",
+     "line": 751,
+     "bytes": 9476,
+     "sha256": "695c46191497f698525af4e3e9c4f0d996a50712d5f2558632728034344cb39a",
+     "labels": [
+      "test-runner-install",
+      "5-command-discipline-wire",
+      "status-endpoint-implement",
+      "log-format-bind-with-obs",
+      "pid-file-commitment-wire",
+      "test-data-bootstrap-wire",
+      "coverage-tooling-install",
+      "ci-tool-install",
+      "quality-gate-config-emit"
+     ]
+    }
+   ]
+  },
+  {
+   "master": "test-plan.md",
+   "kind": "L",
+   "heading": "## 12. Test Decisions Log",
+   "line": 1649,
+   "end": 1981,
+   "bytes": 47939,
+   "census": {
+    "dated": 20,
+    "h3": 0,
+    "bold": 2,
+    "dids": [
+     "D-21",
+     "D-22",
+     "D-28",
+     "D-30",
+     "D-A11Y-09",
+     "D-A11Y-14"
+    ],
+    "markers": [
+     "2026-09-24-epoch-1-cleanup",
+     "2026-09-24-fake-agent-and-test-data-fixtures",
+     "2026-09-24-quality-gates",
+     "2026-09-24-supply-chain-and-workflow-gates",
+     "2026-09-24-three-os-ci-headless-harness-skeleton",
+     "2026-09-24-workspace-tree-and-code-graph-planes",
+     "2026-09-25-security-prerequisites",
+     "2026-09-26-ci-chunk-base-and-union-verdict",
+     "2026-09-26-local-linux-pre-push-gate",
+     "2026-09-27-browser-verdict-reachability",
+     "2026-09-27-epoch-2-cleanup",
+     "2026-09-27-wrapper-channel",
+     "2026-09-28-mutation-testing-to-the-epoch-boundary",
+     "2026-09-29-fake-agent-drift-contract",
+     "2026-09-29-sideloaded-conpty",
+     "2026-09-29-verify-stamped-test-homes-and-harness"
+    ]
+   },
+   "markers": [
+    {
+     "marker": "2026-09-24-epoch-1-cleanup",
+     "sidecar": true,
+     "archive": true
+    },
+    {
+     "marker": "2026-09-24-fake-agent-and-test-data-fixtures",
+     "sidecar": true,
+     "archive": true
+    },
+    {
+     "marker": "2026-09-24-quality-gates",
+     "sidecar": true,
+     "archive": true
+    },
+    {
+     "marker": "2026-09-24-supply-chain-and-workflow-gates",
+     "sidecar": true,
+     "archive": true
+    },
+    {
+     "marker": "2026-09-24-three-os-ci-headless-harness-skeleton",
+     "sidecar": true,
+     "archive": true
+    },
+    {
+     "marker": "2026-09-24-workspace-tree-and-code-graph-planes",
+     "sidecar": true,
+     "archive": true
+    },
+    {
+     "marker": "2026-09-25-security-prerequisites",
+     "sidecar": true,
+     "archive": true
+    },
+    {
+     "marker": "2026-09-26-ci-chunk-base-and-union-verdict",
+     "sidecar": true,
+     "archive": true
+    },
+    {
+     "marker": "2026-09-26-local-linux-pre-push-gate",
+     "sidecar": true,
+     "archive": true
+    },
+    {
+     "marker": "2026-09-27-browser-verdict-reachability",
+     "sidecar": true,
+     "archive": false
+    },
+    {
+     "marker": "2026-09-27-epoch-2-cleanup",
+     "sidecar": true,
+     "archive": false
+    },
+    {
+     "marker": "2026-09-27-wrapper-channel",
+     "sidecar": true,
+     "archive": true
+    },
+    {
+     "marker": "2026-09-28-mutation-testing-to-the-epoch-boundary",
+     "sidecar": true,
+     "archive": false
+    },
+    {
+     "marker": "2026-09-29-fake-agent-drift-contract",
+     "sidecar": true,
+     "archive": false
+    },
+    {
+     "marker": "2026-09-29-sideloaded-conpty",
+     "sidecar": true,
+     "archive": false
+    },
+    {
+     "marker": "2026-09-29-verify-stamped-test-homes-and-harness",
+     "sidecar": true,
+     "archive": false
+    }
+   ]
+  }
+ ]
+}
