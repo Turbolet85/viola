@@ -92,7 +92,7 @@ fn fixtures(tmp: &TestHome, event: &str, variant: &str) -> PathBuf {
     let dir = tmp.scratch().join("fixtures");
     let body =
         json!({"hook_event_name": event, "prompt": "placeholder", "session_id": "synthetic"});
-    fake::write_fixture(&dir, "2.1.0", event, variant, &body);
+    fake::write_fixture(&dir, fake::RECORDED_CLI_VERSION, event, variant, &body);
     dir
 }
 
@@ -147,7 +147,7 @@ fn fake_agent_report_version_changes_only_the_version_answer() {
             "--report-version",
             "9.0.0",
             "--cli-version",
-            "2.1.0",
+            fake::RECORDED_CLI_VERSION,
             "--version",
         ])
         .output()
@@ -162,12 +162,20 @@ fn fake_agent_report_version_changes_only_the_version_answer() {
         &tmp,
         &plugin,
         PROMPT_FIXTURE,
-        &["--report-version", "9.0.0", "--cli-version", "2.1.0"],
+        &[
+            "--report-version",
+            "9.0.0",
+            "--cli-version",
+            fake::RECORDED_CLI_VERSION,
+        ],
         &[],
     );
     agent.send(&paste("replay"));
     let lines = agent.finish();
-    assert_eq!(of_kind(&lines, "start")[0]["cli_version"], "2.1.0");
+    assert_eq!(
+        of_kind(&lines, "start")[0]["cli_version"],
+        fake::RECORDED_CLI_VERSION
+    );
     assert_eq!(prompts(&lines)[0]["submit"], "fired");
 }
 
@@ -196,7 +204,7 @@ fn fake_agent_receipt_env_holds_names_never_values() {
         keys,
         ["v", "kind", "cli_version", "started_at", "plugin_dir"]
     );
-    assert_eq!(start["cli_version"], "2.1.0");
+    assert_eq!(start["cli_version"], fake::RECORDED_CLI_VERSION);
     assert!(
         start["started_at"]
             .as_str()
@@ -590,13 +598,17 @@ fn fake_agent_without_exit_no_eof_releases_stdout_at_exit() {
 
 #[rstest]
 fn chain_boots_the_fake_agent_under_viola_with_a_gated_script(stamped_home: StampedHome) {
-    assert!(!stamped_home.stamped);
+    assert!(stamped_home.stamped);
     let e2e_home = workspace_path("target/e2e-home");
     assert!(stamped_home.home.path().starts_with(&e2e_home));
     assert!(
-        !stamped_home.home.path().exists(),
-        "the chain never pre-creates the home"
+        stamped_home.home.path().exists(),
+        "viola verify created the home"
     );
+    let stamps = std::fs::read(stamped_home.home.path().join("ledger").join("stamps.json"))
+        .expect("stamps written by verify");
+    let stamps: Value = serde_json::from_slice(&stamps).expect("stamps JSON");
+    assert_eq!(stamps["writer"], "verify");
     let mut wrapper = Wrapper::boot(stamped_home, "builder", Some(GATED_TURN), &[]);
     let receipt = wrapper.receipt();
     assert!(receipt.starts_with(wrapper.home().join("fake")));
@@ -607,7 +619,6 @@ fn chain_boots_the_fake_agent_under_viola_with_a_gated_script(stamped_home: Stam
     fake::wait_for(&receipt, "step 1", |l| steps(l).len() == 2);
     wrapper.send(&paste("through viola"));
     fake::wait_for(&receipt, "prompt", |l| !prompts(l).is_empty());
-    assert!(!wrapper.home().join("ledger").join("stamps.json").exists());
     assert_eq!(wrapper.stop().code(), Some(0));
 }
 
@@ -628,9 +639,8 @@ fn booted_wrapper_fixture_is_ready_and_receipting(
 fn wrapper_boot_exiting_before_ready_fails_as_exited(home: TestHome) {
     let missing = home.scratch().join("no-such-program");
     let stamped = StampedHome {
-        home,
         fake: missing,
-        stamped: false,
+        ..StampedHome::unstamped(home)
     };
     Wrapper::boot(stamped, "builder", None, &[]);
 }

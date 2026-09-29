@@ -34,6 +34,9 @@ enum Cmd {
         instances: Vec<String>,
         #[arg(long, default_value = DEFAULT_CLI_VERSION)]
         cli_version: String,
+        /// Skip boot step 4: the home is not stamped through `viola verify`.
+        #[arg(long)]
+        unstamped: bool,
     },
     Run(RunArgs),
     Status {
@@ -87,6 +90,9 @@ struct RunArgs {
     browser: bool,
     #[arg(long)]
     perf: bool,
+    /// One `viola verify` against the real `claude`; refused under `CI`.
+    #[arg(long)]
+    local_live: bool,
     #[arg(long)]
     all: bool,
     #[arg(long)]
@@ -120,6 +126,7 @@ fn boot_cmd(
     session: String,
     instances: Vec<String>,
     cli_version: String,
+    stamp: bool,
 ) -> ExitCode {
     let raw = if instances.is_empty() {
         vec!["overseer".to_owned(), "builder".to_owned()]
@@ -136,6 +143,7 @@ fn boot_cmd(
         instances,
         cli_version,
         build: true,
+        stamp,
     }))
 }
 
@@ -148,6 +156,7 @@ fn run_cmd(ws: &Workspace, args: RunArgs) -> ExitCode {
         fuzz_replay: args.fuzz_replay,
         browser: args.browser,
         perf: args.perf,
+        local_live: args.local_live,
         files: args.files,
     };
     emit(run_with(
@@ -155,6 +164,7 @@ fn run_cmd(ws: &Workspace, args: RunArgs) -> ExitCode {
         Selection::from_flags(named, args.all),
         args.filter.as_deref(),
         std::env::var("AGENT_RUN_CHUNK_BASE").ok(),
+        std::env::var_os("CI").is_some(),
         &mut run_forwarding,
     ))
 }
@@ -209,7 +219,8 @@ fn main() -> ExitCode {
             session,
             instances,
             cli_version,
-        } => boot_cmd(ws, session, instances, cli_version),
+            unstamped,
+        } => boot_cmd(ws, session, instances, cli_version, !unstamped),
         Cmd::Run(args) => run_cmd(&ws, args),
         Cmd::Status { session } => emit(status(&ws, &session)),
         Cmd::Cleanup { session, all } => cleanup_cmd(&ws, session.as_deref(), all),
@@ -258,5 +269,24 @@ mod tests {
     fn run_perf_is_a_flag_of_its_own() {
         assert!(run_args(&["--perf"]).expect("parsed").perf);
         assert!(!run_args(&["--all"]).expect("parsed").perf);
+    }
+
+    #[test]
+    fn run_local_live_is_a_flag_of_its_own() {
+        assert!(run_args(&["--local-live"]).expect("parsed").local_live);
+        assert!(!run_args(&["--all"]).expect("parsed").local_live);
+    }
+
+    #[test]
+    fn boot_stamps_unless_unstamped() {
+        let unstamped = |argv: &[&str]| {
+            let argv = ["viola-harness", "boot"].iter().chain(argv);
+            match Cli::try_parse_from(argv).expect("parsed").command {
+                Cmd::Boot { unstamped, .. } => unstamped,
+                _ => panic!("not boot"),
+            }
+        };
+        assert!(!unstamped(&[]));
+        assert!(unstamped(&["--unstamped"]));
     }
 }

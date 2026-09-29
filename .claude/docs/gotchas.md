@@ -111,6 +111,11 @@ Rendered by `/andromeda-setup-project` on the first run and kept current by wrap
 **Fix if broken:** read the kept reports in `<temp dir>/viola-pty-watch/` (`<test>.report`, `<test>.test.report`) by the chunk's localisation rule — class R (no `size` line), K (size seen, key flushed, key lost) or E (key before size) — before changing any wait; never raise `CHILD_WITHIN` or retry the test.
 **References:** arch [PTY]; test-plan §5 Module ↔ PTY, §10 Zero-flakiness budget; chunk `2026-09-29-h2-conpty-resize-probe` `evidence/h2-reproduction.md`; microsoft/terminal PR #19535 (post-resize CPR — not seen on either build).
 
+## A stopped wrapper's pipe can still take a hook on Windows
+**What breaks:** a `viola hook` fired within milliseconds of the wrapper's exit can still reach the exiting wrapper's own `\\.\pipe\viola-<h12>`: measured at ci#36532038635 (`test (windows-2025)`), where the test's hook connected and wrote its `hook.event` 25 ms after the wrapper's `process-exit` line, after the test had seen the wrapper's exit code. `viola hook` still exits 0 silently (fail-open holds), but the notification reads as delivered, so `SessionEnd`'s direct-append fallback is skipped in that window. **Why the pipe outlives the observed exit is not established** — Microsoft's documented `ExitProcess` order closes handles before the exit status is set, which argues against the obvious reading. A pipe-name collision with another home is ruled out: the endpoint name carries the home.
+**How to avoid (tests):** "stopped" means the endpoint is gone — a client connect reads NotFound (the harness `endpoint_gone` rule) — never the exit code alone: the root fixture's `Wrapper::stop` / `stop_keep` wait for it (`wait_endpoint_gone`).
+**References:** test-plan §10 Zero-flakiness budget; obs-plan §6 fail-open `detail` codes; chunk `2026-09-29-verify-stamped-test-homes-and-harness` research.md §Item 8.
+
 ## `wsl.exe -- cmd` re-parses argv through the distro shell
 **What breaks:** `wsl.exe -d Ubuntu -- cmd args` joins argv and hands it to the distro's shell, so `$…` expands (empty) and quoting changes; the distro's default environment also carries the Windows PATH.
 **How to avoid:** `wsl.exe -d Ubuntu [--cd D] --exec /usr/bin/env -i HOME=… PATH=…` — argv verbatim, no inherited environment (`viola-harness pre-push` does exactly this).

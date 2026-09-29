@@ -7,6 +7,7 @@
 use serde_json::{Map, Value, json};
 use viola_core::MAX_FRAME;
 
+use crate::AgentError;
 use crate::hook::HookEvent;
 
 /// One measured behaviour, in the order `viola verify` checks and prints it.
@@ -221,13 +222,6 @@ pub fn largest(captures: &[Capture]) -> Vec<(HookEvent, usize)> {
     out
 }
 
-/// Fixed messages only: no stamp byte reaches a `Display` (security-plan §Error Handling).
-#[derive(Debug, Clone, Copy, PartialEq, Eq, thiserror::Error)]
-pub enum StampError {
-    #[error("the capability stamps are malformed")]
-    Malformed,
-}
-
 /// The stamps envelope's parts every reader relies on: an object, `data` an object, `versions`
 /// an object; each absent part is empty.
 fn stamp_shape_ok(doc: &Map<String, Value>) -> bool {
@@ -283,14 +277,14 @@ pub fn merge_stamp(
 }
 
 /// `true` only when every [`LedgerRow`] reads `"pass"` under `version`. Bytes that are not a `v:1`
-/// envelope of the documented shape are `Malformed`; an absent version is simply unverified.
-pub fn verified(stamps: &[u8], version: &str) -> Result<bool, StampError> {
-    let doc: Value = serde_json::from_slice(stamps).map_err(|_| StampError::Malformed)?;
+/// envelope of the documented shape are `StampsMalformed`; an absent version is simply unverified.
+pub fn verified(stamps: &[u8], version: &str) -> Result<bool, AgentError> {
+    let doc: Value = serde_json::from_slice(stamps).map_err(|_| AgentError::StampsMalformed)?;
     let shaped = doc
         .as_object()
         .is_some_and(|d| d.get("v").and_then(Value::as_u64) == Some(1) && stamp_shape_ok(d));
     if !shaped {
-        return Err(StampError::Malformed);
+        return Err(AgentError::StampsMalformed);
     }
     let rows = &doc["data"]["versions"][version]["rows"];
     Ok(LedgerRow::ALL.iter().all(|row| rows[row.id()] == "pass"))
@@ -906,14 +900,14 @@ mod tests {
     #[case::data_not_object(br#"{"v":1,"data":1}"#.as_slice())]
     #[case::versions_not_object(br#"{"v":1,"data":{"versions":[]}}"#.as_slice())]
     fn verified_refuses_a_malformed_envelope(#[case] bytes: &[u8]) {
-        assert_eq!(verified(bytes, "2.1.0"), Err(StampError::Malformed));
+        assert_eq!(verified(bytes, "2.1.0"), Err(AgentError::StampsMalformed));
     }
 
     #[test]
     fn verified_reads_an_envelope_without_data_as_unverified() {
         assert_eq!(verified(br#"{"v":1}"#, "2.1.0"), Ok(false));
         assert_eq!(
-            StampError::Malformed.to_string(),
+            AgentError::StampsMalformed.to_string(),
             "the capability stamps are malformed"
         );
     }

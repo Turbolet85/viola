@@ -1,0 +1,54 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.16s
+────────────
+ Nextest run ID 6c2ad684-8fd7-4bf1-ac3f-c6f227eb042b with nextest profile: ci
+    Starting 0 tests across 0 binaries (35 binaries skipped)
+────────────
+     Summary [   0.000s] 0 tests run: 0 passed, 0 skipped
+error: no tests to run
+(hint: use `--no-tests` to customize)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.16s
+────────────
+ Nextest run ID 1f2e0c5e-534d-4863-bc65-32f2adc57a38 with nextest profile: ci
+    Starting 0 tests across 1 binary (13 tests and 34 binaries skipped)
+────────────
+     Summary [   0.000s] 0 tests run: 0 passed, 13 skipped
+error: no tests to run
+(hint: use `--no-tests` to customize)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.12s
+   Doc-tests viola_agent_claude
+   Doc-tests viola_channel
+   Doc-tests viola_core
+   Doc-tests viola_e2e
+   Doc-tests viola_pty
+   Doc-tests viola_state
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+{"v":1,"cmd":"run","ok":false,"suites":[{"suite":"nextest-unit","passed":0,"failed":1,"skipped":0,"survived":0,"artifact":"D:\\dev\\projects\\viola\\target\\agent-run\\artifacts\\junit-nextest-unit.xml","failures":["nextest-exit-4"]},{"suite":"nextest-integration","passed":0,"failed":1,"skipped":0,"survived":0,"artifact":"D:\\dev\\projects\\viola\\target\\agent-run\\artifacts\\junit-nextest-integration.xml","failures":["nextest-exit-4"]},{"suite":"doctest","passed":0,"failed":0,"skipped":0,"survived":0,"artifact":null,"failures":[]}],"archived":"target/run-archive/345"}

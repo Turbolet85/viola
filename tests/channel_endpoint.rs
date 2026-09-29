@@ -8,14 +8,17 @@ mod support;
 use std::fs;
 use std::io::{BufRead as _, BufReader, ErrorKind, Write as _};
 use std::path::Path;
-use std::sync::Arc;
+use std::sync::{Arc, mpsc};
 
 use interprocess::local_socket::traits::Stream as _;
 use interprocess::local_socket::{GenericFilePath, Stream, ToFsName as _};
 use rstest::rstest;
 use serde_json::{Map, Value, json};
-use support::home::{StampedHome, Wrapper, booted_wrapper, snapshot_data, stamped_home};
+use support::home::{
+    StampedHome, Wrapper, booted_wrapper, snapshot_data, stamped_home, wait_endpoint_gone,
+};
 use support::hygiene::load_schema;
+use support::watch::WITHIN;
 #[cfg(windows)]
 use viola_channel::test_support as win;
 use viola_channel::{ChannelError, Client, Dispatch, ProtocolError, Server};
@@ -143,6 +146,41 @@ fn channel_endpoint_second_bind_is_taken_while_the_first_lives() {
     ));
     drop(first);
     Server::bind(&endpoint).expect("free once the first dropped");
+}
+
+/// A stopped wrapper counts as gone only once its endpoint refuses a client: the stop helper's wait
+/// holds while a bound endpoint still answers, and ends once it is dropped.
+#[rstest]
+fn stop_wait_holds_while_the_endpoint_answers() {
+    let (_dir, endpoint) = test_endpoint("gone");
+    let server = Server::bind(&endpoint).expect("bound");
+    let (tx, rx) = mpsc::channel();
+    let polled = endpoint.clone();
+    let waiter = std::thread::Builder::new()
+        .name("stop-wait-witness".to_owned())
+        .spawn(move || {
+            wait_endpoint_gone(&polled, "witness", |reachable| {
+                let _ = tx.send(reachable);
+            });
+        })
+        .expect("waiter");
+    let seen = loop {
+        match rx.recv_timeout(WITHIN) {
+            Ok(true) => break true,
+            Ok(false) => continue,
+            Err(_) => break false,
+        }
+    };
+    assert!(seen, "the wait never read the live endpoint as reachable");
+    assert!(
+        !waiter.is_finished(),
+        "the wait returned while the endpoint still answered"
+    );
+    drop(server);
+    waiter
+        .join()
+        .expect("the wait ends once the endpoint is gone");
+    assert_eq!(rx.try_iter().last(), Some(false));
 }
 
 /// The listener's DACL read back from the pipe: protected, the user and SYSTEM only (security-plan

@@ -124,7 +124,7 @@
     },
     "corr": { "type": ["number", "string"] },
     "count": { "type": "integer", "minimum": 0 },
-    "subject": { "enum": ["self", "claude-child", "version-probe", "agents-probe", "statusline-shell"] },
+    "subject": { "enum": ["self", "claude-child", "version-probe", "verify-probe", "agents-probe", "statusline-shell"] },
     "liveness": { "enum": ["live", "stale", "gone"] },
     "hook_event": { "enum": ["session-start", "user-prompt-submit", "pre-tool-use", "permission-request", "stop", "session-end", "notification", "post-tool-use", "post-tool-use-failure", "statusline"] }
   }

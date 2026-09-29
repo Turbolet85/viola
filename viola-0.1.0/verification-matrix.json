@@ -186,11 +186,11 @@
       "observed_gap": "arch says `viola verify` runs \"only locally, never in CI\" (A:441); stamps may be written only by `viola verify` (S:554); tests ratified running verify against the fake agent in CI (TP §12 User review 1; XF T8).",
       "verification": {
         "method": "integration",
-        "acceptance": "CI test homes are stamped only by viola verify run against the fake agent; the real claude CLI never runs in CI; the local-live mode refuses to start under CI.",
-        "ref": null,
-        "status": "planned"
+        "acceptance": "Every stamped root test home (tests/support/home.rs stamped_home) and every harness boot without --unstamped is stamped by `viola verify -- <fake agent> --cli-version 2.1.283 --fixtures <root>/fixtures/claude` (boot step 4), and the census `! grep -rnE '(fs::write|replace_private|File::create|OpenOptions)[^;]*stamps' tests crates/viola-e2e scripts` prints nothing; the real claude never runs in CI: `grep -c -- '--local-live' .github/workflows/ci.yml` reads 0 and every CI verify runs the fake agent; `CI=true bash scripts/agent-run.sh run --local-live` exits 2 with reason \"live-in-ci\" before any build or spawn (crates/viola-e2e/tests/cli.rs run_local_live_under_ci_is_refused); all green in the final HEAD's CI run on the three OSes.",
+        "ref": "crates/viola-e2e/tests/cli.rs::run_local_live_under_ci_is_refused",
+        "status": "implemented"
       },
-      "chunk": null
+      "chunk": "2026-09-29-verify-stamped-test-homes-and-harness"
     },
     {
       "id": "v1-15",

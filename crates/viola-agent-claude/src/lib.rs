@@ -152,6 +152,16 @@ pub fn plugin_files(pinned_bin_fwd: &str) -> [(&'static str, String); 3] {
     PLUGIN_FILES.map(|(path, template)| (path, render(template, pinned_bin_fwd)))
 }
 
+/// The crate's one error: fixed messages only, so no payload or stamp byte reaches a `Display`
+/// (security-plan §Error Handling).
+#[derive(Debug, Clone, Copy, PartialEq, Eq, thiserror::Error)]
+pub enum AgentError {
+    #[error("the hook payload is not one JSON object")]
+    Malformed,
+    #[error("the capability stamps are malformed")]
+    StampsMalformed,
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, thiserror::Error)]
 pub enum Refusal {
     #[error("the command is a .cmd or .bat script")]

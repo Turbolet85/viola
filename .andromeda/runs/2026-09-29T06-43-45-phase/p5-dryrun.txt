@@ -1,0 +1,30 @@
+gate v1.4 · c63b37d3
+shell <program-files>\Git\bin\bash.exe (from $SHELL; -c, non-login)
+root D:\dev\projects\viola · marker 2026-09-29-verify-stamped-test-homes-and-harness · entries 23
+logs <host-home>\AppData\Local\Temp\andromeda-gate\2026-09-29-verify-stamped-test-homes-and-harness\run-20260929T071248Z · bound: GNU timeout
+delta docs 139 · rust 1
+prose L212-224: The gates are the workspace lint pair, the harness `run` in its unit and default (integrat… (1058 chars)
+  1 lint        not run — dry-run · cargo fmt --all --check
+  2 lint        not run — dry-run · cargo clippy --workspace --all-targets --features fake-age… (75 chars)
+  3 unit        not run — dry-run · bash scripts/agent-run.sh run --unit
+  4 integration not run — dry-run · bash scripts/agent-run.sh run --integration --filter 'bina… (132 chars)
+  5 integration not run — dry-run · bash scripts/agent-run.sh run --integration --filter 'bina… (129 chars)
+  6 integration not run — dry-run · bash scripts/agent-run.sh run
+  7 probe       not run — dry-run · CI=true bash scripts/agent-run.sh run --local-live
+  8 probe       not run — dry-run · ! grep -rnE '(fs::write|replace_private|File::create|OpenO… (108 chars)
+  9 probe       not run — dry-run · grep -c -- '--local-live' .github/workflows/ci.yml
+ 10 probe       not run — dry-run · ! grep -rn StampError crates src tests
+ 11 probe       not run — dry-run · cargo deny check
+ 12 probe       not run — dry-run · bash scripts/agent-run.sh pre-push
+ 13 smoke       not run — dry-run · bash scripts/agent-run.sh cleanup --session p-vsth-smoke
+ 14 smoke       not run — dry-run · bash scripts/agent-run.sh boot --session p-vsth-smoke --in… (72 chars)
+ 15 smoke       not run — dry-run · bash scripts/agent-run.sh logs --session p-vsth-smoke --pr… (67 chars)
+ 16 smoke       not run — dry-run · bash scripts/agent-run.sh logs --session p-vsth-smoke --ki… (74 chars)
+ 17 smoke       not run — dry-run · bash scripts/agent-run.sh cleanup --session p-vsth-smoke
+ 18 smoke       not run — dry-run · bash scripts/agent-run.sh boot --session p-vsth-unstamped … (88 chars)
+ 19 smoke       not run — dry-run · bash scripts/agent-run.sh logs --session p-vsth-unstamped … (71 chars)
+ 20 smoke       not run — dry-run · bash scripts/agent-run.sh cleanup --session p-vsth-unstamp… (60 chars)
+ 21 probe       not run — leg operator (the letter drives it) · python -X utf8 <host-home>/.claude/skills/andromeda-pha… (103 chars)
+ 22 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (69 chars)
+ 23 probe       not run — leg operator (the letter drives it) · python -X utf8 <host-home>/.claude/skills/andromeda-pha… (127 chars)
+entries 23 · green 0 · red 0 · recorded 0 · timeout 0 · not-run 23

@@ -1,0 +1,2 @@
+{"timestamp":"2026-09-29T06:39:41.967Z","level":"INFO","message":"hook-invoked","event":"hook-invoked","process":"hook","instance":"builder","hook_event":"stop","invoked_at":"2026-09-29T06:39:41.967Z","target":"viola::cmd::hook"}
+{"timestamp":"2026-09-29T06:39:41.968Z","level":"WARN","message":"hook-decision","event":"hook-decision","process":"hook","instance":"builder","hook_event":"stop","decision_emitted":false,"duration_ms":1,"detail":"channel-unreachable","target":"viola::cmd::hook"}

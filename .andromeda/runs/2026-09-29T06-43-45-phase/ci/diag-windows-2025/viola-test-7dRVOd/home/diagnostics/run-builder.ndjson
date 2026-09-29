@@ -1,0 +1,2 @@
+{"timestamp":"2026-09-29T06:39:39.232Z","level":"INFO","message":"process-start","event":"process-start","process":"run","instance":"builder","subject":"self","service_name":"viola","version":"0.1.0","os":"windows","pid":7208,"endpoint_kind":"named-pipe","target":"viola::run"}
+{"timestamp":"2026-09-29T06:39:39.235Z","level":"ERROR","message":"process-exit","event":"process-exit","process":"run","instance":"builder","subject":"self","exit_code":1,"detail":"batch-script-child","duration_ms":3,"target":"viola::run"}

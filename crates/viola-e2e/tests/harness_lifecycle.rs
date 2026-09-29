@@ -23,7 +23,15 @@ fn options(session: &str, names: &[&str], bin_dir: &Path) -> BootOptions {
             .collect(),
         cli_version: DEFAULT_CLI_VERSION.to_owned(),
         build: false,
+        stamp: true,
     }
+}
+
+/// The instance snapshot's `cli_verified`, as the wrapper's version gate recorded it.
+fn cli_verified(home: &Path, name: &str) -> serde_json::Value {
+    let snapshot: serde_json::Value =
+        read_json(&home.join("instances").join(name).join("snapshot.json")).expect("snapshot");
+    snapshot["data"]["cli_verified"].clone()
 }
 
 fn bins() -> std::path::PathBuf {
@@ -116,6 +124,14 @@ fn harness_session_boots_reports_logs_and_tears_down() {
     let rec = record(&ws, &session);
     let home_parent = rec.home.parent().expect("parent").to_path_buf();
     assert!(home_parent.starts_with(ws.e2e_home()));
+    assert!(rec.home.join("ledger").join("stamps.json").is_file());
+    for name in ["builder", "overseer"] {
+        assert_eq!(
+            cli_verified(&rec.home, name),
+            true,
+            "{name} stamped by boot"
+        );
+    }
 
     let first = cleanup(&ws, Target::Session(&session), true);
     assert_eq!(first.code, 0, "{}", first.doc);
@@ -220,7 +236,10 @@ fn boot_that_never_gets_ready_times_out_and_stops_its_supervisor() {
     ] {
         std::fs::copy(exe(&real, from), exe(fake_bins.path(), to)).expect("copy");
     }
-    let opts = options(&session, &["builder"], fake_bins.path());
+    let opts = BootOptions {
+        stamp: false,
+        ..options(&session, &["builder"], fake_bins.path())
+    };
     let ws = opts.ws.clone();
     let out = boot(&opts);
     assert_eq!(out.code, 1, "{}", out.doc);
@@ -237,4 +256,48 @@ fn boot_that_never_gets_ready_times_out_and_stops_its_supervisor() {
         let _ = std::fs::remove_dir_all(Path::new(home).parent().expect("parent"));
     }
     let _ = std::fs::remove_dir_all(dir);
+}
+
+/// Boot step 4 over a version the recorded set does not hold: every probe row fails, `verify`
+/// exits 1, and boot stops there, before any supervisor. The workspace is a scratch root, so its
+/// session dir and home go with it.
+#[test]
+fn boot_with_an_unknown_cli_version_is_verify_failed() {
+    let session = session_id("unverified");
+    let scratch = tempfile::tempdir().expect("tempdir");
+    let opts = BootOptions {
+        ws: Workspace {
+            root: scratch.path().to_path_buf(),
+        },
+        cli_version: "9.9.9".to_owned(),
+        ..options(&session, &["builder"], &bins())
+    };
+    let out = boot(&opts);
+    assert_eq!(out.code, 1, "{}", out.doc);
+    assert_eq!(out.doc["reason"], "verify-failed");
+    assert_eq!(out.doc["exit_code"], 1);
+    let dir = opts.ws.session_dir(&session);
+    assert!(
+        !dir.join("supervise.json").exists(),
+        "no supervisor spawned"
+    );
+    assert!(!dir.join("session.json").exists());
+}
+
+#[test]
+fn boot_unstamped_writes_no_stamps() {
+    let session = session_id("unstamped");
+    let opts = BootOptions {
+        stamp: false,
+        ..options(&session, &["builder"], &bins())
+    };
+    let ws = opts.ws.clone();
+    let booted = boot(&opts);
+    assert_eq!(booted.code, 0, "{}", booted.doc);
+    let _guard = Booted::new(&ws, &session);
+    let home = record(&ws, &session).home;
+    assert!(!home.join("ledger").join("stamps.json").exists());
+    assert_eq!(cli_verified(&home, "builder"), false);
+    let out = cleanup(&ws, Target::Session(&session), true);
+    assert_eq!(out.code, 0, "{}", out.doc);
 }

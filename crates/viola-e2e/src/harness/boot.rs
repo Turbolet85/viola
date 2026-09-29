@@ -1,7 +1,8 @@
-//! `boot`: build, a fresh home, the fake agent on a session PATH, a supervisor running one
-//! `viola run` per instance, then bounded readiness (test-plan §3 `boot`, steps 1-3 and 5; step 4
-//! `viola verify` and the UI steps arrive with those verbs). Readiness reads the role file, the
-//! instance snapshot and the heartbeat; the `events.ndjson` check waits for `session-start`.
+//! `boot`: build, a fresh home, the fake agent on a session PATH, the home stamped by `viola verify`
+//! against it (unless `--unstamped`), a supervisor running one `viola run` per instance, then
+//! bounded readiness (test-plan §3 `boot`, steps 1-5; the UI steps arrive with that verb).
+//! Readiness reads the role file, the instance snapshot and the heartbeat, then `events.ndjson`'s
+//! first three records, the last the hook's `session-start`.
 
 use std::ffi::OsString;
 use std::fs;
@@ -18,7 +19,7 @@ use super::{
     read_json, session_record_path, valid_session_id, write_json,
 };
 
-pub const DEFAULT_CLI_VERSION: &str = "2.1.0";
+pub const DEFAULT_CLI_VERSION: &str = "2.1.283";
 const INSTANCE_DEADLINE: Duration = Duration::from_secs(20);
 const ABORT_DEADLINE: Duration = Duration::from_secs(20);
 
@@ -60,6 +61,8 @@ pub struct BootOptions {
     pub instances: Vec<InstanceSpec>,
     pub cli_version: String,
     pub build: bool,
+    /// Boot step 4: stamp the home through `viola verify`; `--unstamped` clears it.
+    pub stamp: bool,
 }
 
 fn failure(
@@ -128,6 +131,11 @@ fn start(opts: &BootOptions) -> Result<Outcome, HarnessError> {
         .tempdir_in(opts.ws.e2e_home())?
         .keep();
     let home = parent.join("home");
+    if opts.stamp
+        && let Err(code) = stamp(opts, &home, &session_bin)
+    {
+        return Ok(failure("verify-failed", None, code.map(i64::from), &[]));
+    }
 
     let spec = SuperviseSpec {
         v: 1,
@@ -172,6 +180,50 @@ fn start(opts: &BootOptions) -> Result<Outcome, HarnessError> {
         json!({"v": 1, "cmd": "boot", "ok": true, "session": opts.session, "home": home, "instances": listed}),
         true,
     ))
+}
+
+/// Boot step 4: `viola verify -- <session claude> --cli-version <v> --fixtures <recorded set>`,
+/// the one way a home is stamped. Its stdout is read for the verdict line only, never copied into
+/// the document; the exit code on failure.
+fn stamp(opts: &BootOptions, home: &Path, session_bin: &Path) -> Result<(), Option<i32>> {
+    let out = Command::new(exe(&opts.bin_dir, "viola"))
+        .arg("--home")
+        .arg(home)
+        .args(["verify", "--"])
+        .arg(exe(session_bin, "claude"))
+        .args(["--cli-version", &opts.cli_version, "--fixtures"])
+        .arg(opts.ws.root.join("fixtures").join("claude"))
+        .env("PATH", session_path(session_bin))
+        .stdin(Stdio::null())
+        .stderr(Stdio::null())
+        .output()
+        .map_err(|_| None)?;
+    if out.status.success() && stamped_line(&String::from_utf8_lossy(&out.stdout)) {
+        Ok(())
+    } else {
+        Err(out.status.code())
+    }
+}
+
+/// `verify`'s last line reads `stamped <version>  <n> pass  0 fail` (test-plan §3 `boot` step 4).
+pub fn stamped_line(stdout: &str) -> bool {
+    let Some(rest) = stdout
+        .lines()
+        .last()
+        .and_then(|l| l.strip_prefix("stamped "))
+    else {
+        return false;
+    };
+    let Some((version, counts)) = rest.split_once("  ") else {
+        return false;
+    };
+    let Some(passed) = counts.strip_suffix(" pass  0 fail") else {
+        return false;
+    };
+    !version.is_empty()
+        && !version.contains(char::is_whitespace)
+        && !passed.is_empty()
+        && passed.bytes().all(|b| b.is_ascii_digit())
 }
 
 /// The supervisor is an ordinary child: it outlives `boot` and is stopped only through
@@ -266,6 +318,28 @@ pub fn fresh_age(age: Duration) -> bool {
     age < BEAT_WITHIN
 }
 
+/// `events.ndjson`'s first three complete lines are `wheel{cause:"start"}`, `budget-gate`, then
+/// the hook's `session-start` (test-plan §3 Readiness signal).
+pub fn start_records(instance_dir: &Path) -> bool {
+    let text = fs::read_to_string(instance_dir.join("events.ndjson")).unwrap_or_default();
+    let records: Option<Vec<Value>> = text
+        .split_inclusive('\n')
+        .filter(|l| l.ends_with('\n'))
+        .take(3)
+        .map(|l| serde_json::from_str(l).ok())
+        .collect();
+    match records.as_deref() {
+        Some([wheel, gate, start]) => {
+            wheel["kind"] == "wheel"
+                && wheel["data"]["cause"] == "start"
+                && gate["kind"] == "budget-gate"
+                && start["kind"] == "session-start"
+                && start["source"] == "hook"
+        }
+        _ => false,
+    }
+}
+
 /// One readiness probe, staged: the wrapper's and the child's `process-start` lines with both
 /// processes alive; only then the snapshot and a fresh heartbeat, which the wrapper writes first.
 pub fn readiness(home: &Path, inst: &InstanceSpec) -> Readiness {
@@ -292,6 +366,9 @@ pub fn readiness(home: &Path, inst: &InstanceSpec) -> Readiness {
         }
         if !beat_fresh(&dir) {
             missing.push(format!("{}:heartbeat", inst.name));
+        }
+        if missing.is_empty() && !start_records(&dir) {
+            missing.push(format!("{}:events", inst.name));
         }
     }
     match (wrapper, child) {
@@ -402,12 +479,85 @@ mod tests {
 
     const SNAPSHOT: &str = r#"{"v":1,"written_at":"t","writer":"0.1.0","data":{"pid":1,"started_at":"s","child_pid":2,"endpoint":"e"}}"#;
 
-    /// The instance's snapshot and heartbeat, both as a ready wrapper leaves them.
+    const WHEEL: &str = r#"{"v":1,"kind":"wheel","source":"wrapper","data":{"cause":"start"}}"#;
+    const GATE: &str = r#"{"v":1,"kind":"budget-gate","source":"wrapper","data":{}}"#;
+    const SESSION_START: &str =
+        r#"{"v":1,"kind":"session-start","source":"hook","data":{"cause":"startup"}}"#;
+
+    fn write_events(dir: &Path, lines: &[&str]) {
+        let text: String = lines.iter().map(|l| format!("{l}\n")).collect();
+        fs::write(dir.join("events.ndjson"), text).expect("events");
+    }
+
+    /// The instance's snapshot, heartbeat and start records, as a ready wrapper leaves them.
     fn plant_state(home: &Path) {
         let dir = instance_dir(home, "builder");
         fs::create_dir_all(&dir).expect("mkdir");
         fs::write(dir.join("snapshot.json"), SNAPSHOT).expect("snapshot");
         fs::write(dir.join("heartbeat"), b"").expect("heartbeat");
+        write_events(&dir, &[WHEEL, GATE, SESSION_START]);
+    }
+
+    #[test]
+    fn start_records_are_wheel_gate_then_the_hooks_session_start() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        assert!(!start_records(tmp.path()));
+        write_events(tmp.path(), &[WHEEL, GATE, SESSION_START]);
+        assert!(start_records(tmp.path()));
+        let from_wrapper = SESSION_START.replace(r#""hook""#, r#""wrapper""#);
+        let resumed = WHEEL.replace(r#""start""#, r#""resume""#);
+        for lines in [
+            vec![WHEEL, GATE],
+            vec![GATE, WHEEL, SESSION_START],
+            vec![WHEEL, GATE, from_wrapper.as_str()],
+            vec![resumed.as_str(), GATE, SESSION_START],
+            vec![WHEEL, "not json", SESSION_START],
+            vec![WHEEL, WHEEL, SESSION_START],
+        ] {
+            write_events(tmp.path(), &lines);
+            assert!(!start_records(tmp.path()), "{lines:?}");
+        }
+        let torn = format!("{WHEEL}\n{GATE}\n{SESSION_START}");
+        fs::write(tmp.path().join("events.ndjson"), torn).expect("events");
+        assert!(
+            !start_records(tmp.path()),
+            "a torn third line is not a record"
+        );
+    }
+
+    #[test]
+    fn readiness_names_missing_start_records() {
+        let me = std::process::id();
+        let home = home_with(&[
+            format!(r#"{{"event":"process-start","subject":"self","pid":{me}}}"#),
+            format!(r#"{{"event":"process-start","subject":"claude-child","child_pid":{me}}}"#),
+        ]);
+        plant_state(home.path());
+        write_events(&instance_dir(home.path(), "builder"), &[WHEEL, GATE]);
+        assert_eq!(
+            readiness(home.path(), &spec("builder")),
+            Readiness::Pending(vec!["builder:events".to_owned()])
+        );
+    }
+
+    #[test]
+    fn stamped_line_reads_only_a_clean_summary() {
+        assert!(stamped_line(
+            "[01/06] a  pass\nstamped 2.1.283  6 pass  0 fail\n"
+        ));
+        assert!(stamped_line("stamped 9.9.9  12 pass  0 fail"));
+        for bad in [
+            "",
+            "stamped 2.1.283  4 pass  2 fail\n",
+            "stamped 2.1.283  6 pass  0 fail\nmore\n",
+            "stamped  6 pass  0 fail",
+            "stamped 2.1.283  x pass  0 fail",
+            "stamped 2.1.283   pass  0 fail",
+            "stamped 2 1  6 pass  0 fail",
+            "unstamped 2.1.283  6 pass  0 fail",
+        ] {
+            assert!(!stamped_line(bad), "{bad:?}");
+        }
     }
 
     fn set_mtime(path: &Path, at: SystemTime) {
@@ -594,6 +744,7 @@ mod tests {
             session: "../escape".to_owned(),
             instances: vec![],
             cli_version: DEFAULT_CLI_VERSION.to_owned(),
+            stamp: false,
             build: false,
         };
         let out = boot(&opts);
@@ -612,6 +763,7 @@ mod tests {
             session: "build-fails".to_owned(),
             instances: vec![],
             cli_version: DEFAULT_CLI_VERSION.to_owned(),
+            stamp: false,
             build: true,
         };
         let out = boot(&opts);

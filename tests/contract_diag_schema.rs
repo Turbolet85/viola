@@ -197,6 +197,25 @@ fn diag_line_schema_confines_corr_to_its_events() {
     assert!(!validator.is_valid(&with_corr));
 }
 
+/// `viola verify`'s print-mode probe is its own spawn subject; a subject outside the catalog is
+/// still refused.
+#[rstest]
+#[case::verify_probe("verify-probe", true)]
+#[case::version_probe("version-probe", true)]
+#[case::unknown("probe", false)]
+fn diag_line_schema_takes_only_catalogued_spawn_subjects(
+    #[case] subject: &str,
+    #[case] valid: bool,
+) {
+    let validator = jsonschema::validator_for(&line_schema()).expect("valid schema");
+    let exit = json!({
+        "timestamp": "2026-09-24T03:12:07.412Z", "level": "INFO", "target": "viola::cmd::verify",
+        "message": "process-exit", "event": "process-exit", "process": "cli",
+        "instance": "verifier", "subject": subject, "child_exit_status": 0, "duration_ms": 12
+    });
+    assert_eq!(validator.is_valid(&exit), valid);
+}
+
 #[test]
 fn diag_detail_schema_allows_content_fields_only_there() {
     let detail = json!({

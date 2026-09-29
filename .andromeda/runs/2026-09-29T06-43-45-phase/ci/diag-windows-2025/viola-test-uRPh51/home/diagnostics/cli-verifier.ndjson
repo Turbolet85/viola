@@ -1,0 +1,2 @@
+{"timestamp":"2026-09-29T06:39:39.724Z","level":"INFO","message":"process-start","event":"process-start","process":"cli","instance":"verifier","subject":"self","service_name":"viola","version":"0.1.0","os":"windows","pid":5844,"endpoint_kind":"named-pipe","target":"viola::run"}
+{"timestamp":"2026-09-29T06:39:39.854Z","level":"INFO","message":"process-exit","event":"process-exit","process":"cli","instance":"verifier","subject":"self","exit_code":1,"duration_ms":130,"target":"viola::run"}

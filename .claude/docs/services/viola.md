@@ -25,8 +25,9 @@ The root package also declares `[[bin]] viola-fake-agent` (`required-features = 
 
 ## Crate-specific gotchas
 - A viola bug must never block the user's session: `viola hook` exits 0 on clap errors, channel failures and caught panics.
+- On Windows a hook fired within milliseconds of the wrapper's exit can still reach the exiting wrapper's pipe (measured 25 ms after the exit line, ci#36532038635; why the pipe outlives the exit is not established). The hook still fails open (exit 0, silent), but its `hook.event` reads as delivered, so `SessionEnd`'s direct-append fallback is skipped in that window. Tests wait for the endpoint to be gone, never for the exit code alone (`gotchas.md`).
 - An anyhow chain holding a serde source is replaced by the fixed `internal error` before stderr; the full chain goes to `detail-<process>.ndjson`. A failed or panicked `verify` (the `cli` role) prints exactly `error: internal error\n` with no hint, after its `process-exit{detail:"internal-error"}` line when an instance resolves.
-- `verify`'s two child spawns (the `--version` read and the print-mode probe) write no `process-start`/`process-exit` yet; the "Verify-stamped test homes and harness" route entry owns them (obs-plan §6).
+- `verify`'s two child spawns are each logged as a `process-start`/`process-exit` pair at the call site: the `--version` read as `version-probe`, the print-mode probe as `verify-probe` (obs-plan §6). `run_bounded` itself stays unlogged, because `run`'s version gate shares it and logs its own pair.
 - `hook <event> --capture <DIR>` (hidden) is `verify`'s capture arm: no `VIOLA_*`, no obs init, no channel, raw 0600 write, exit 0 always.
 - `plugin.json`'s version comes from `CARGO_PKG_VERSION`; the content hash in `bin/`/`plugin/` keys dev rebuilds (a hook fix applies only to sessions started after the rebuild).
 

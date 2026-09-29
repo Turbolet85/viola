@@ -6,6 +6,8 @@ use serde::Deserialize;
 use serde_json::{Value, json};
 use viola_core::EventKind;
 
+use crate::AgentError;
+
 /// The hook events this build registers, each by its `viola hook <event>` argument.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum HookEvent {
@@ -57,13 +59,6 @@ impl HookEvent {
             }
         }
     }
-}
-
-/// Fixed messages only: no payload byte reaches a `Display` (security-plan §Error Handling).
-#[derive(Debug, Clone, Copy, PartialEq, Eq, thiserror::Error)]
-pub enum AgentError {
-    #[error("the hook payload is not one JSON object")]
-    Malformed,
 }
 
 /// A hook payload mapped to its event: the kind, its `data`, and one drift entry per known field

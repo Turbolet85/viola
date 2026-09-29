@@ -1,0 +1,4 @@
+{"timestamp":"2026-09-29T06:39:41.216Z","level":"INFO","message":"process-start","event":"process-start","process":"run","instance":"builder","subject":"self","service_name":"viola","version":"0.1.0","os":"windows","pid":8248,"endpoint_kind":"named-pipe","target":"viola::run"}
+{"timestamp":"2026-09-29T06:39:41.232Z","level":"INFO","message":"process-start","event":"process-start","process":"run","instance":"builder","subject":"version-probe","target":"viola::run::version_gate"}
+{"timestamp":"2026-09-29T06:39:41.234Z","level":"INFO","message":"process-exit","event":"process-exit","process":"run","instance":"builder","subject":"version-probe","duration_ms":1,"target":"viola::run::version_gate"}
+{"timestamp":"2026-09-29T06:39:41.262Z","level":"ERROR","message":"process-exit","event":"process-exit","process":"run","instance":"builder","subject":"self","exit_code":1,"detail":"internal-error","duration_ms":46,"target":"viola::obs"}

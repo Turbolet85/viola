@@ -72,6 +72,29 @@ fn unbuilt_selectors_and_unknown_commands_are_usage() {
     }
 }
 
+/// The real CLI never runs in CI: `--local-live` under `CI` is refused before any build or spawn,
+/// so its home is never made.
+#[test]
+fn run_local_live_under_ci_is_refused() {
+    let child = Command::new(HARNESS)
+        .args(["run", "--local-live"])
+        .env("CI", "true")
+        .stdout(std::process::Stdio::piped())
+        .spawn()
+        .expect("viola-harness runs");
+    let pid = child.id();
+    let out = child.wait_with_output().expect("viola-harness exits");
+    assert_eq!(out.status.code(), Some(2));
+    assert_eq!(
+        document(&out),
+        serde_json::json!({"v": 1, "cmd": "run", "ok": false, "reason": "live-in-ci"})
+    );
+    let live = Workspace::from_build()
+        .e2e_home()
+        .join(format!("viola-live-{pid}"));
+    assert!(!live.exists());
+}
+
 #[test]
 fn gate_usage_errors_and_the_retired_leg_flags_are_exit_2() {
     for (args, cmd, detail) in [
@@ -146,6 +169,7 @@ fn booted(label: &str) -> (Booted, SessionRecord) {
         instances: vec![InstanceSpec::parse("builder").expect("valid")],
         cli_version: DEFAULT_CLI_VERSION.to_owned(),
         build: false,
+        stamp: true,
     };
     let guard = Booted { ws, session };
     let out = boot(&opts);

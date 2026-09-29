@@ -1,0 +1,8 @@
+crates/viola-agent-claude/src/ledger.rs:226:pub enum StampError {
+crates/viola-agent-claude/src/ledger.rs:287:pub fn verified(stamps: &[u8], version: &str) -> Result<bool, StampError> {
+crates/viola-agent-claude/src/ledger.rs:288:    let doc: Value = serde_json::from_slice(stamps).map_err(|_| StampError::Malformed)?;
+crates/viola-agent-claude/src/ledger.rs:293:        return Err(StampError::Malformed);
+crates/viola-agent-claude/src/ledger.rs:909:        assert_eq!(verified(bytes, "2.1.0"), Err(StampError::Malformed));
+crates/viola-agent-claude/src/ledger.rs:916:            StampError::Malformed.to_string(),
+src/run/version_gate.rs:16:use viola_agent_claude::ledger::{StampError, parse_version, verified};
+src/run/version_gate.rs:171:            Err(StampError::Malformed) => (false, Some("malformed")),

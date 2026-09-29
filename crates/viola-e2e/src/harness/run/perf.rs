@@ -163,6 +163,7 @@ pub(super) fn perf(
         }],
         cli_version: DEFAULT_CLI_VERSION.to_owned(),
         build: false,
+        stamp: true,
     });
     let home = match booted_home(&booted.doc) {
         Ok(home) => home,
@@ -509,7 +510,7 @@ mod tests {
             mutants: true,
             ..Selection::default()
         };
-        let out = run_with(&ws, sel, None, None, &mut |_: &mut Command| {
+        let out = run_with(&ws, sel, None, None, false, &mut |_: &mut Command| {
             ran += 1;
             (Some(127), String::new())
         });

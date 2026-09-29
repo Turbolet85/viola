@@ -1,0 +1,113 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-09-29T07:13:36Z",
+"argv": [
+"coverage",
+"--dir",
+"viola-0.1.0",
+"--run-dir",
+".andromeda/runs/2026-09-29T06-43-45-phase",
+"--marker",
+"2026-09-29-verify-stamped-test-homes-and-harness"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"verified 8/53 · deferred 0 · planned 45 · implemented 0 · unclaimed 45",
+"unclaimed: v1-01 v1-02 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-12 v1-13 v1-14 v1-15 v1-16 v1-17 v1-18",
+"          v1-21 v1-22 v1-24 v1-26 v1-27 v1-29 v1-30 v1-31 v1-32 v1-33 v1-34 v1-35 v1-36 v1-37 v1-38 v1-39",
+"          v1-40 v1-41 v1-42 v1-44 v1-45 v1-46 v1-47 v1-48 v1-49 v1-50 v1-51 v1-52 v1-53",
+"claimed-unfinished: none",
+"done-test: NO — 45 not verified|deferred · unclaimed 45",
+"chunks referenced: 8 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-09-29T07:13:48Z",
+"argv": [
+"claim",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-14",
+"--chunk",
+"2026-09-29-verify-stamped-test-homes-and-harness",
+"--acceptance-file",
+".andromeda/runs/2026-09-29T06-43-45-phase/acceptance-v1-14.md",
+"--method",
+"integration",
+"--run-dir",
+".andromeda/runs/2026-09-29T06-43-45-phase"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"claim v1-14 → chunk 2026-09-29-verify-stamped-test-homes-and-harness (was null; status planned kept)",
+"acceptance: CI test homes are stamped only by viola verify run against the fake ag… (159 chars)",
+"         → Every stamped root test home (tests/support/home.rs stamped_home) and … (738 chars)",
+"method: integration → integration",
+"wrote viola-0.1.0\\verification-matrix.json · 1 entry changed",
+"pool: unclaimed 44 [v1-01 v1-02 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-12 v1-13 v1-15 v1-16 v1-17 v1-18 v1-21 v1-22 v1-24 v1-26 v1-27 v1-29 v1-30 v1-31 v1-32 v1-33 v1-34 v1-35 v1-36 v1-37 v1-38 v1-39 v1-40 v1-41 v1-42 v1-44 v1-45 v1-46 v1-47 v1-48 v1-49 v1-50 v1-51 v1-52 v1-53]"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0\\verification-matrix.json"
+],
+"before": {
+"id": "v1-14",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "CI test homes are stamped only by viola verify run against the fake agent; the real claude CLI never runs in CI; the loc… (159 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-14",
+"chunk": "2026-09-29-verify-stamped-test-homes-and-harness",
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "Every stamped root test home (tests/support/home.rs stamped_home) and every harness boot without --unstamped is stamped … (738 chars)",
+"notes_chars": 0
+}
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-09-29T07:13:48Z",
+"argv": [
+"audit",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-09-29-verify-stamped-test-homes-and-harness",
+"--plan",
+"viola-0.1.0/chunks/2026-09-29-verify-stamped-test-homes-and-harness/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-29T06-43-45-phase"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-29-verify-stamped-test-homes-and-harness: 1 · ## Acceptance Criteria: line 386, 49 lines",
+"v1-14: cited in ## Acceptance Criteria (line 387)",
+"pool: unclaimed 44 [v1-01 v1-02 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-12 v1-13 v1-15 v1-16 v1-17 v1-18 v1-21 v1-22 v1-24 v1-26 v1-27 v1-29 v1-30 v1-31 v1-32 v1-33 v1-34 v1-35 v1-36 v1-37 v1-38 v1-39 v1-40 v1-41 v1-42 v1-44 v1-45 v1-46 v1-47 v1-48 v1-49 v1-50 v1-51 v1-52 v1-53]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

@@ -16,7 +16,7 @@ use std::process::{Command, Stdio};
 use std::time::Instant;
 
 use serde_json::{Value, json};
-use support::fake::{self, FAKE, of_kind};
+use support::fake::{self, of_kind};
 use support::home::{StampedHome, TestHome, VIOLA, Wrapper, workspace_path};
 use support::hygiene::load_schema;
 use support::watch::{WITHIN, Watch};
@@ -24,18 +24,14 @@ use support::watch::{WITHIN, Watch};
 const CANARY: &str = "canary-chain-value-5c1e";
 
 fn stamped() -> StampedHome {
-    StampedHome {
-        home: TestHome::new(),
-        fake: PathBuf::from(FAKE),
-        stamped: false,
-    }
+    StampedHome::unstamped(TestHome::new())
 }
 
-/// `<scratch>/fixtures/2.1.0/<Event>.<variant>.json` for each entry.
+/// `<scratch>/fixtures/<recorded version>/<Event>.<variant>.json` for each entry.
 fn fixtures(scratch: &Path, bodies: &[(&str, &str, Value)]) -> PathBuf {
     let dir = scratch.join("fixtures");
     for (event, variant, body) in bodies {
-        fake::write_fixture(&dir, "2.1.0", event, variant, body);
+        fake::write_fixture(&dir, fake::RECORDED_CLI_VERSION, event, variant, body);
     }
     dir
 }

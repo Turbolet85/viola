@@ -9,14 +9,14 @@ mod support;
 
 use std::ffi::OsString;
 use std::io::{Read, Write as _};
-use std::path::{Path, PathBuf};
+use std::path::Path;
 use std::process::{Child, Command, Stdio};
 use std::sync::mpsc;
 use std::time::Instant;
 
 use rstest::rstest;
 use serde_json::Value;
-use support::fake::FAKE;
+use support::fake::{FAKE, RECORDED_CLI_VERSION};
 use support::home::{StampedHome, TestHome, VIOLA, Wrapper, home, snapshot_data};
 use support::verify::{verify, write_spine_set};
 use support::watch::{WITHIN, Watch};
@@ -58,12 +58,7 @@ fn child_start(lines: &[Value]) -> &Value {
 /// Boots `viola run builder` on the fake agent under an outer PTY and hands back the first
 /// snapshot's data and the role lines once it stopped.
 fn run_once(home: TestHome) -> (Value, Vec<Value>) {
-    let stamped = StampedHome {
-        home,
-        fake: PathBuf::from(FAKE),
-        stamped: false,
-    };
-    let wrapper = Wrapper::boot(stamped, "builder", None, &[]);
+    let wrapper = Wrapper::boot(StampedHome::unstamped(home), "builder", None, &[]);
     let snapshot = snapshot_data(&wrapper.instance_dir()).expect("snapshot");
     let (stopped, stamped) = wrapper.stop_keep();
     assert_eq!(stopped.code(), Some(0));
@@ -73,9 +68,9 @@ fn run_once(home: TestHome) -> (Value, Vec<Value>) {
 
 #[rstest]
 fn run_with_a_verified_version_records_cli_verified(#[from(home)] home: TestHome) {
-    stamp(&home, "2.1.0", None);
+    stamp(&home, RECORDED_CLI_VERSION, None);
     let (snapshot, lines) = run_once(home);
-    assert_eq!(snapshot["cli_version"], "2.1.0");
+    assert_eq!(snapshot["cli_version"], RECORDED_CLI_VERSION);
     assert_eq!(snapshot["cli_verified"], true);
     let shape = shape(&lines);
     let at = |event: &str, subject: &str| {
@@ -92,13 +87,13 @@ fn run_with_a_verified_version_records_cli_verified(#[from(home)] home: TestHome
     assert_eq!(lines[probe_exit]["child_exit_status"], 0);
     assert!(lines[probe_exit]["duration_ms"].is_u64());
     let start = child_start(&lines);
-    assert_eq!(start["cli_version"], "2.1.0");
+    assert_eq!(start["cli_version"], RECORDED_CLI_VERSION);
     assert_eq!(start["cli_verified"], true);
     assert!(!lines.iter().any(|l| l["event"] == "parse-rejected"));
 }
 
 #[rstest]
-#[case::failing_row(Some(("2.1.0", Some("Stop"))))]
+#[case::failing_row(Some((RECORDED_CLI_VERSION, Some("Stop"))))]
 #[case::other_version(Some(("3.0.0", None)))]
 #[case::unstamped(None)]
 fn run_without_a_verified_stamp_degrades(
@@ -109,10 +104,10 @@ fn run_without_a_verified_stamp_degrades(
         stamp(&home, version, skip);
     }
     let (snapshot, lines) = run_once(home);
-    assert_eq!(snapshot["cli_version"], "2.1.0");
+    assert_eq!(snapshot["cli_version"], RECORDED_CLI_VERSION);
     assert_eq!(snapshot["cli_verified"], false);
     let start = child_start(&lines);
-    assert_eq!(start["cli_version"], "2.1.0");
+    assert_eq!(start["cli_version"], RECORDED_CLI_VERSION);
     assert_eq!(start["cli_verified"], false);
     assert!(!lines.iter().any(|l| l["event"] == "parse-rejected"));
 }
@@ -231,7 +226,7 @@ fn run_writes_nothing_of_its_own_on_any_gate_outcome(
     #[case] stamped: bool,
 ) {
     if stamped {
-        stamp(&home, "2.1.0", None);
+        stamp(&home, RECORDED_CLI_VERSION, None);
     }
     let receipt = home.scratch().join("receipt.ndjson");
     let args = [
@@ -258,7 +253,7 @@ fn run_writes_nothing_of_its_own_on_any_gate_outcome(
 /// `viola --version` prints `viola 0.1.0`: no CLI version, so none is recorded.
 #[rstest]
 fn run_with_a_child_that_is_not_the_cli_records_no_version(#[from(home)] home: TestHome) {
-    stamp(&home, "2.1.0", None);
+    stamp(&home, RECORDED_CLI_VERSION, None);
     let (_, _) = run_piped(home.path(), VIOLA, &[], || false);
     let snapshot = snapshot_data(&home.path().join("instances").join("builder")).expect("snapshot");
     assert!(snapshot.get("cli_version").is_none(), "{snapshot}");

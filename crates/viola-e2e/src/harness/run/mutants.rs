@@ -238,6 +238,7 @@ mod tests {
             flags(false, false, true, false),
             None,
             Some(base),
+            false,
             &mut runner,
         )
     }
@@ -476,6 +477,7 @@ mod tests {
             flags(false, false, true, false),
             None,
             Some(base.clone()),
+            false,
             &mut |cmd: &mut Command| {
                 calls.push(args_of(cmd));
                 (Some(0), String::new())
@@ -504,6 +506,7 @@ mod tests {
             flags(false, false, true, false),
             None,
             Some(base.clone()),
+            false,
             &mut |_: &mut Command| (Some(0), String::new()),
         );
         assert_eq!(out.code, 1, "{}", out.doc);
@@ -564,22 +567,29 @@ mod tests {
             files: files.iter().map(|f| (*f).to_owned()).collect(),
             ..flags(false, false, true, false)
         };
-        let out = run_with(&ws, sel, None, Some(base), &mut |cmd: &mut Command| {
-            if has(&args_of(cmd), &["mutants"]) {
-                mutants = Some((args_of(cmd), env_of(cmd)));
-                if let Some(text) = outcomes {
-                    fs::create_dir_all(&out_dir).expect("mkdir");
-                    fs::write(out_dir.join("outcomes.json"), text).expect("outcomes");
-                    fs::write(
-                        out_dir.join("missed.txt"),
-                        "src/a.rs:2:5: replace b with 1\n",
-                    )
-                    .expect("missed");
+        let out = run_with(
+            &ws,
+            sel,
+            None,
+            Some(base),
+            false,
+            &mut |cmd: &mut Command| {
+                if has(&args_of(cmd), &["mutants"]) {
+                    mutants = Some((args_of(cmd), env_of(cmd)));
+                    if let Some(text) = outcomes {
+                        fs::create_dir_all(&out_dir).expect("mkdir");
+                        fs::write(out_dir.join("outcomes.json"), text).expect("outcomes");
+                        fs::write(
+                            out_dir.join("missed.txt"),
+                            "src/a.rs:2:5: replace b with 1\n",
+                        )
+                        .expect("missed");
+                    }
+                    return (Some(2), String::new());
                 }
-                return (Some(2), String::new());
-            }
-            (Some(0), String::new())
-        });
+                (Some(0), String::new())
+            },
+        );
         Stubbed {
             _tmp: tmp,
             ws,
@@ -657,6 +667,7 @@ mod tests {
             flags(false, false, true, false),
             None,
             Some(base),
+            false,
             &mut |cmd: &mut Command| {
                 let args = args_of(cmd);
                 if has(&args, &["build", "--package", "viola"]) {
@@ -692,6 +703,7 @@ mod tests {
             flags(false, false, true, false),
             None,
             Some(base),
+            false,
             &mut |cmd: &mut Command| {
                 if has(&args_of(cmd), &["mutants", "--workspace"]) {
                     env = Some(env_of(cmd));

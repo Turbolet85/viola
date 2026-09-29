@@ -1,0 +1,49 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-09-29T07:41:21Z",
+"argv": [
+"implement",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-09-29-verify-stamped-test-homes-and-harness",
+"--id",
+"v1-14",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-29T07-16-28-implement"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"implement v1-14 · status planned → implemented · ref crates/viola-e2e/tests/cli.rs::run_local_live_under_ci_is_refused",
+"wrote viola-0.1.0\\verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0\\verification-matrix.json"
+],
+"before": {
+"id": "v1-14",
+"chunk": "2026-09-29-verify-stamped-test-homes-and-harness",
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "Every stamped root test home (tests/support/home.rs stamped_home) and every harness boot without --unstamped is stamped … (738 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-14",
+"chunk": "2026-09-29-verify-stamped-test-homes-and-harness",
+"status": "implemented",
+"method": "integration",
+"ref": "crates/viola-e2e/tests/cli.rs::run_local_live_under_ci_is_refused",
+"acceptance": "Every stamped root test home (tests/support/home.rs stamped_home) and every harness boot without --unstamped is stamped … (738 chars)",
+"notes_chars": 0
+}
+}
+]

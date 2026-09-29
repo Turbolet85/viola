@@ -190,7 +190,7 @@ fn windows_tests(ws: &Workspace, runner: &mut Runner<'_>, doc: &mut Doc) -> bool
         coverage: true,
         ..Selection::default()
     };
-    let run = run_with(ws, coverage, None, None, runner);
+    let run = run_with(ws, coverage, None, None, false, runner);
     doc.windows.insert("run".to_owned(), summary(&run.doc));
     if run.code != 0 {
         return false;

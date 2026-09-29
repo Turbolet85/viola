@@ -47,8 +47,11 @@ fn spawn_in_pty(
     Ok((pty, input))
 }
 
+/// The fake agent replays the recorded set under `fixtures` (test-plan §3 `boot` step 5), so its
+/// start fires the plugin's SessionStart hook.
 fn spawn_wrapper(
     spec: &SuperviseSpec,
+    fixtures: &Path,
     name: &str,
     fake_args: &[String],
 ) -> Result<Wrapper, viola_pty::PtyError> {
@@ -56,6 +59,8 @@ fn spawn_wrapper(
     args.extend(["run", name, "--"].map(OsString::from));
     args.push(exe(&spec.session_bin, "claude").into());
     args.extend(["--cli-version", &spec.cli_version].map(OsString::from));
+    args.push("--fixtures".into());
+    args.push(fixtures.into());
     args.extend(fake_args.iter().map(OsString::from));
     let env = vec![("PATH".into(), session_path(&spec.session_bin))];
     let (pty, input) = spawn_in_pty(&exe(&spec.bin_dir, "viola"), args, env)?;
@@ -74,9 +79,10 @@ pub fn supervise(ws: &Workspace, session: &str) -> Outcome {
     let Ok(spec) = load_supervise_spec(&dir) else {
         return Outcome::usage(Some("supervise"), "no-supervise-spec");
     };
+    let fixtures = ws.root.join("fixtures").join("claude");
     let mut wrappers = Vec::new();
     for inst in &spec.instances {
-        if let Ok(w) = spawn_wrapper(&spec, &inst.name, &inst.fake_args) {
+        if let Ok(w) = spawn_wrapper(&spec, &fixtures, &inst.name, &inst.fake_args) {
             wrappers.push(w);
         }
     }

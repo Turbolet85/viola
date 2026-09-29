@@ -15,7 +15,7 @@ use std::time::Duration;
 
 use serde_json::{Value, json};
 
-const DEFAULT_CLI_VERSION: &str = "2.1.0";
+const DEFAULT_CLI_VERSION: &str = "2.1.283";
 const PASTE_START: &[u8] = b"\x1b[200~";
 const PASTE_END: &[u8] = b"\x1b[201~";
 const HARNESS_TURN: &str = "<task-notification>synthetic harness turn</task-notification>";
@@ -617,7 +617,7 @@ mod tests {
     fn opts_default_to_the_default_cli_version() {
         let o = Opts::parse(&[]);
         assert_eq!(o.cli_version(), DEFAULT_CLI_VERSION);
-        assert_eq!(o.version_answer(), "2.1.0 (Claude Code)");
+        assert_eq!(o.version_answer(), "2.1.283 (Claude Code)");
         assert!(!o.version && !o.exit_no_eof && !o.suppress_prompt_submit);
         assert!(o.print.is_none());
     }

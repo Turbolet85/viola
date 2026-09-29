@@ -42,6 +42,8 @@ pub struct Selection {
     pub fuzz_replay: bool,
     pub browser: bool,
     pub perf: bool,
+    /// `--local-live`: one `viola verify` against the real `claude` on the operator's host.
+    pub local_live: bool,
     /// `--file`: the mutation run scoped to these sources (the inner loop, never a verdict).
     pub files: Vec<String>,
 }
@@ -49,8 +51,8 @@ pub struct Selection {
 impl Selection {
     /// No selector, or `--all`, selects unit and integration. `--coverage` replaces the nextest
     /// runs, `--fuzz-replay` is Linux-only, `--browser` needs Node and Chromium, `--perf` needs
-    /// hyperfine and a release build, and `--mutants` is the epoch-boundary audit's, so none of them
-    /// joins the default.
+    /// hyperfine and a release build, `--mutants` is the epoch-boundary audit's, and `--local-live`
+    /// drives the real CLI, so none of them joins the default.
     pub fn from_flags(named: Selection, all: bool) -> Self {
         let none = named == Selection::default();
         Self {
@@ -93,7 +95,8 @@ pub fn run(
     filter: Option<&str>,
     chunk_base: Option<String>,
 ) -> Outcome {
-    run_with(ws, sel, filter, chunk_base, &mut run_forwarding)
+    let ci = std::env::var_os("CI").is_some();
+    run_with(ws, sel, filter, chunk_base, ci, &mut run_forwarding)
 }
 
 /// A tool arm that tested nothing: the document's `reason` and an optional `detail`.
@@ -112,13 +115,20 @@ impl Refusal {
     }
 }
 
+/// `ci` is whether the caller's environment carries `CI`: the real CLI never runs there, so
+/// `--local-live` is refused under it before any build or spawn (test-plan §3 `run`).
 pub fn run_with(
     ws: &Workspace,
     sel: Selection,
     filter: Option<&str>,
     chunk_base: Option<String>,
+    ci: bool,
     runner: &mut Runner<'_>,
 ) -> Outcome {
+    if sel.local_live && ci {
+        let doc = json!({"v": 1, "cmd": "run", "ok": false, "reason": "live-in-ci"});
+        return Outcome { doc, code: 2 };
+    }
     if sel.fuzz_replay && !FUZZ_HOST_SUPPORTED {
         let doc = json!({"v": 1, "cmd": "run", "ok": false, "reason": "fuzz-linux-only"});
         return Outcome { doc, code: 2 };
@@ -127,6 +137,9 @@ pub fn run_with(
     let (tool_refusal, mutants_doc, outcomes) =
         tool_arms(ws, &sel, chunk_base, runner, &mut suites);
     let refusal = browser_refusal.or(tool_refusal);
+    if sel.local_live && refusal.is_none() {
+        suites.push(local_live(ws, runner));
+    }
     let ok = refusal.is_none() && suites.iter().all(Suite::green);
     let _ = merge_summary(&ws.artifacts().join("run-summary.json"), &suites);
     let archived = archive(ws, &archive_sources(&suites, outcomes));
@@ -306,6 +319,72 @@ fn tool_arms(
     (refusal, mutants_doc, outcomes)
 }
 
+/// The capability-ledger rows `viola verify` prints, as literals: the live run checks each once.
+const LEDGER_ROWS: [&str; 6] = [
+    "shim-resolution",
+    "spine-hooks",
+    "session-start-fields",
+    "prompt-verbatim",
+    "stop-message",
+    "largest-hook-payload",
+];
+
+/// Suite `local-live`: the harness build, then one `viola verify` against the real `claude` (the
+/// program default, no `--`) into a fresh `target/e2e-home/viola-live-<pid>/home`. Passed when it
+/// exits 0, names every row once with `pass`, and its summary reads `0 fail`; failed with
+/// `build`, `verify-exit-<n>` or `row-missing`. It claims no live product measurement beyond that.
+fn local_live(ws: &Workspace, runner: &mut Runner<'_>) -> Suite {
+    let mut suite = Suite::named("local-live");
+    let (built, _) = runner(
+        Command::new("cargo")
+            .args(["build", "--workspace", "--features", "viola/fake-agent"])
+            .env("CARGO_TARGET_DIR", ws.cargo_target())
+            .current_dir(&ws.root),
+    );
+    if built != Some(0) {
+        suite.failed = 1;
+        suite.failures.push("build".to_owned());
+        return suite;
+    }
+    let home = ws
+        .e2e_home()
+        .join(format!("viola-live-{}", std::process::id()))
+        .join("home");
+    let (code, stdout) = runner(
+        Command::new(super::exe(&ws.harness_bins(), "viola"))
+            .arg("--home")
+            .arg(&home)
+            .arg("verify")
+            .current_dir(&ws.root),
+    );
+    let failure = match code {
+        Some(0) if live_rows_pass(&stdout) => None,
+        Some(0) => Some("row-missing".to_owned()),
+        Some(n) => Some(format!("verify-exit-{n}")),
+        None => Some("verify-exit-none".to_owned()),
+    };
+    match failure {
+        None => suite.passed = 1,
+        Some(code) => {
+            suite.failed = 1;
+            suite.failures.push(code);
+        }
+    }
+    suite
+}
+
+/// Every literal row's step line (`[NN/MM] <row> … pass`) appears once, and the summary reads
+/// `0 fail`.
+fn live_rows_pass(stdout: &str) -> bool {
+    LEDGER_ROWS.iter().all(|row| {
+        let lines: Vec<&str> = stdout
+            .lines()
+            .filter(|l| l.split(' ').nth(1) == Some(*row))
+            .collect();
+        matches!(lines.as_slice(), [line] if line.ends_with("  pass"))
+    }) && super::boot::stamped_line(stdout)
+}
+
 /// Key order is the contract: `v, cmd, ok`, then `reason`, `detail`, `suites`, `mutants`, and
 /// `archived` after them.
 fn document(
@@ -400,7 +479,7 @@ mod test_support {
         filter: Option<&str>,
         chunk_base: Option<String>,
     ) -> Outcome {
-        super::run_with(ws, sel, filter, chunk_base, &mut uninstrumented)
+        super::run_with(ws, sel, filter, chunk_base, false, &mut uninstrumented)
     }
 
     pub(super) const GOOD_LIB: &str = "/// ```\n/// assert_eq!(viola::two(), 2);\n/// ```\n\
@@ -781,5 +860,123 @@ mod tests {
             "artifact-missing"
         );
         assert_eq!(suite(&out.doc, "doctest")["failed"], 1);
+    }
+
+    const LIVE_PASS: &str = "[01/06] shim-resolution claude resolves  pass\n\
+        [02/06] spine-hooks spine hooks fire  pass\n\
+        [03/06] session-start-fields fields  pass\n\
+        [04/06] prompt-verbatim prompt  pass\n\
+        [05/06] stop-message message  pass\n\
+        [06/06] largest-hook-payload payload  pass\n\
+        stamped 2.1.283  6 pass  0 fail\n";
+
+    fn live_only() -> Selection {
+        Selection {
+            local_live: true,
+            ..Selection::default()
+        }
+    }
+
+    /// `--local-live` through a stand-in runner: the build, then `verify` answering `code` with
+    /// `stdout`; the calls it saw.
+    fn live_run(code: Option<i32>, stdout: &str, ci: bool) -> (Outcome, Vec<Vec<String>>) {
+        let (_tmp, ws) = scratch();
+        let mut calls = Vec::new();
+        let out = run_with(
+            &ws,
+            live_only(),
+            None,
+            None,
+            ci,
+            &mut |cmd: &mut Command| {
+                let args = test_support::args_of(cmd);
+                let answer = if args.first().map(String::as_str) == Some("build") {
+                    (Some(0), String::new())
+                } else {
+                    (code, stdout.to_owned())
+                };
+                calls.push(args);
+                answer
+            },
+        );
+        (out, calls)
+    }
+
+    #[test]
+    fn run_local_live_passes_on_a_clean_verify() {
+        let (out, calls) = live_run(Some(0), LIVE_PASS, false);
+        assert_eq!(out.code, 0, "{}", out.doc);
+        let live = suite(&out.doc, "local-live");
+        assert_eq!(
+            (live["passed"].as_u64(), live["failed"].as_u64()),
+            (Some(1), Some(0))
+        );
+        assert_eq!(calls.len(), 2, "the build, then one verify");
+        let verify = &calls[1];
+        assert_eq!(verify.last().map(String::as_str), Some("verify"));
+        assert!(
+            !verify.iter().any(|a| a == "--"),
+            "the real claude, no program"
+        );
+        assert!(verify[1].contains("viola-live-"));
+    }
+
+    #[test]
+    fn run_local_live_names_a_failing_verify_exit() {
+        let (out, _) = live_run(Some(1), LIVE_PASS, false);
+        assert_eq!(out.code, 1);
+        assert_eq!(
+            suite(&out.doc, "local-live")["failures"][0],
+            "verify-exit-1"
+        );
+        let (out, _) = live_run(None, "", false);
+        assert_eq!(
+            suite(&out.doc, "local-live")["failures"][0],
+            "verify-exit-none"
+        );
+    }
+
+    #[test]
+    fn run_local_live_names_a_missing_or_doubled_row() {
+        let missing = LIVE_PASS.replace("[05/06] stop-message message  pass\n", "");
+        let doubled = LIVE_PASS.replace("stop-message", "prompt-verbatim");
+        let failing = LIVE_PASS.replace("stop-message message  pass", "stop-message message  fail");
+        for stdout in [missing, doubled, failing] {
+            let (out, _) = live_run(Some(0), &stdout, false);
+            assert_eq!(out.code, 1);
+            assert_eq!(suite(&out.doc, "local-live")["failures"][0], "row-missing");
+        }
+    }
+
+    #[test]
+    fn run_local_live_names_a_failed_build() {
+        let (_tmp, ws) = scratch();
+        let mut calls = 0;
+        let out = run_with(
+            &ws,
+            live_only(),
+            None,
+            None,
+            false,
+            &mut |_: &mut Command| {
+                calls += 1;
+                (Some(101), String::new())
+            },
+        );
+        assert_eq!(calls, 1, "no verify after a failed build");
+        assert_eq!(suite(&out.doc, "local-live")["failures"][0], "build");
+    }
+
+    #[test]
+    fn run_local_live_under_ci_is_refused_before_any_spawn() {
+        let (out, calls) = live_run(Some(0), LIVE_PASS, true);
+        assert_eq!(out.code, 2);
+        assert_eq!(
+            out.doc,
+            json!({"v": 1, "cmd": "run", "ok": false, "reason": "live-in-ci"})
+        );
+        assert!(calls.is_empty());
+        let (out, _) = live_run(Some(0), LIVE_PASS, false);
+        assert_eq!(out.code, 0, "CI unset runs it");
     }
 }

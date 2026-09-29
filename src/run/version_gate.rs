@@ -12,8 +12,8 @@ use std::time::{Duration, Instant};
 
 use tracing::field::Empty;
 use tracing::instrument;
-use viola_agent_claude::StripPlan;
-use viola_agent_claude::ledger::{StampError, parse_version, verified};
+use viola_agent_claude::ledger::{parse_version, verified};
+use viola_agent_claude::{AgentError, StripPlan};
 use viola_core::obs::ObsEvent;
 use viola_core::{MAX_FRAME, obs_event};
 use viola_state::StateError;
@@ -168,7 +168,7 @@ pub(crate) fn stamps_verdict(
         Err(_) => (false, Some("unreadable")),
         Ok(Some(bytes)) => match verified(&bytes, version) {
             Ok(verified) => (verified, None),
-            Err(StampError::Malformed) => (false, Some("malformed")),
+            Err(AgentError::StampsMalformed | AgentError::Malformed) => (false, Some("malformed")),
         },
     }
 }

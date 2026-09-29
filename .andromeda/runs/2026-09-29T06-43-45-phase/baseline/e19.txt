@@ -1,0 +1,9 @@
+error: unexpected argument '--unstamped' found
+
+  tip: a similar argument exists: '--instance'
+
+Usage: viola-harness.exe boot --session <SESSION> --instance <INSTANCES>
+
+For more information, try '--help'.
+
+{"v":1,"cmd":"boot","ok":false,"reason":"usage","detail":"arguments"}

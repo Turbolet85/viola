@@ -1,0 +1,3 @@
+fn plant(dir: &std::path::Path) {
+    std::fs::write(dir.join("ledger").join("stamps.json"), b"{}").expect("planted");
+}

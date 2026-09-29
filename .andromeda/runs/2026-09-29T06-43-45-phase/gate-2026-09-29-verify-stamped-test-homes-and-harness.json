@@ -1,0 +1,122 @@
+[
+{
+"tool": "gate",
+"v": "1.4",
+"sha8": "c63b37d3",
+"ts": "2026-09-29T07:00:21Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"viola-0.1.0/chunks/2026-09-29-verify-stamped-test-homes-and-harness/research.md",
+"--run-dir",
+".andromeda/runs/2026-09-29T06-43-45-phase",
+"--marker",
+"2026-09-29-verify-stamped-test-homes-and-harness"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 28 items (new 1 · modify 27 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 28,
+"unparsed": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.4",
+"sha8": "c63b37d3",
+"ts": "2026-09-29T07:01:58Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"viola-0.1.0/chunks/2026-09-29-verify-stamped-test-homes-and-harness/research.md",
+"--run-dir",
+".andromeda/runs/2026-09-29T06-43-45-phase",
+"--marker",
+"2026-09-29-verify-stamped-test-homes-and-harness"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 28 items (new 1 · modify 27 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 28,
+"unparsed": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.4",
+"sha8": "c63b37d3",
+"ts": "2026-09-29T07:04:41Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"viola-0.1.0/chunks/2026-09-29-verify-stamped-test-homes-and-harness/research.md",
+"--run-dir",
+".andromeda/runs/2026-09-29T06-43-45-phase",
+"--marker",
+"2026-09-29-verify-stamped-test-homes-and-harness"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 30 items (new 1 · modify 29 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 30,
+"unparsed": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.4",
+"sha8": "c63b37d3",
+"ts": "2026-09-29T07:07:42Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"viola-0.1.0/chunks/2026-09-29-verify-stamped-test-homes-and-harness/research.md",
+"--run-dir",
+".andromeda/runs/2026-09-29T06-43-45-phase",
+"--marker",
+"2026-09-29-verify-stamped-test-homes-and-harness"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 31 items (new 1 · modify 30 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 31,
+"unparsed": 0
+}
+}
+]

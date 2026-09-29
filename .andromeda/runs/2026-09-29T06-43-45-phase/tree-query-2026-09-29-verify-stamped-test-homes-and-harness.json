@@ -1,0 +1,196 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'run_bounded' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 6,
+"result": [
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/verify/",
+"file": "src/cmd/verify.rs",
+"line": 24
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/verify/measure().",
+"file": "src/cmd/verify.rs",
+"line": 111
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/verify/measure().",
+"file": "src/cmd/verify.rs",
+"line": 126
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/version_gate/version_gate().",
+"file": "src/run/version_gate.rs",
+"line": 115
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/version_gate/tests/run_bounded_returns_the_exit_and_stdout().",
+"file": "src/run/version_gate.rs",
+"line": 216
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/version_gate/tests/run_bounded_reports_a_program_that_cannot_start().",
+"file": "src/run/version_gate.rs",
+"line": 236
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT callee, file, line FROM refs WHERE callee_name = 'StampError' ORDER BY file, line",
+"rows": 7,
+"result": [
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/StampError#",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 286
+},
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/StampError#",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 287
+},
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/StampError#",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 292
+},
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/StampError#",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 908
+},
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/StampError#",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 915
+},
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/StampError#",
+"file": "src/run/version_gate.rs",
+"line": 15
+},
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/StampError#",
+"file": "src/run/version_gate.rs",
+"line": 170
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'verified' AND callee_kind = 'fn' AND callee_file LIKE '%ledger.rs' ORDER BY file, line",
+"rows": 11,
+"result": [
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/merge_stamp_writes_the_envelope_for_a_first_version().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 838
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/merge_stamp_keeps_unknown_versions_and_fields_and_replaces_its_own().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 865
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/merge_stamp_replaces_bytes_of_the_wrong_shape_whole().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 877
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/merge_stamp_fills_a_data_object_without_versions().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 886
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/verified_needs_every_row_pass_under_that_version().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 893
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/verified_needs_every_row_pass_under_that_version().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 894
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/verified_needs_every_row_pass_under_that_version().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 897
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/verified_refuses_a_malformed_envelope().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 908
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/verified_reads_an_envelope_without_data_as_unverified().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 913
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/version_gate/",
+"file": "src/run/version_gate.rs",
+"line": 15
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/version_gate/stamps_verdict().",
+"file": "src/run/version_gate.rs",
+"line": 168
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT symbol, crate, kind, file FROM symbol WHERE name = 'stamped_home' AND kind <> 'meta'",
+"rows": 1,
+"result": [
+{
+"symbol": "rust-analyzer cargo viola 0.1.0 support/home/stamped_home#",
+"crate": "viola",
+"kind": "type",
+"file": "tests/support/home.rs"
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT file, COUNT(*) AS sites FROM refs WHERE callee_name IN ('StampedHome', 'stamped_home', 'booted_wrapper') GROUP BY file ORDER BY file",
+"rows": 7,
+"result": [
+{
+"file": "tests/channel_endpoint.rs",
+"sites": 4
+},
+{
+"file": "tests/cli_fake_agent.rs",
+"sites": 5
+},
+{
+"file": "tests/cli_instance_state.rs",
+"sites": 10
+},
+{
+"file": "tests/cli_version_gate.rs",
+"sites": 2
+},
+{
+"file": "tests/hook_events.rs",
+"sites": 3
+},
+{
+"file": "tests/hook_fail_open.rs",
+"sites": 2
+},
+{
+"file": "tests/support/home.rs",
+"sites": 6
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

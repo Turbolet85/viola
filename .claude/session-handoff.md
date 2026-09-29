@@ -38,3 +38,6 @@
 - **Deferred learnings:** `recurrence-despite-learning: host-win32.md Transports — "Documents: the Write tool … a script to a scratchpad file run by path"` (a `cat > file` heredoc was blocked by the Bash guard).
 - **For the operator:** 5 `viola.exe` of `additional/viola-lab/prototype` are running (not this chunk's).
 - **Last failed command:** none.
+
+## Session End Status
+Completed normally at 2026-09-29 09:14:37

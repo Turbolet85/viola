@@ -280,6 +280,10 @@ fn verify_dispatch_error_keeps_the_chain_in_the_detail_file(#[from(home)] home: 
         shape,
         [
             ("process-start", "self", ""),
+            ("process-start", "version-probe", ""),
+            ("process-exit", "version-probe", ""),
+            ("process-start", "verify-probe", ""),
+            ("process-exit", "verify-probe", ""),
             ("process-exit", "self", "internal-error"),
         ]
     );
@@ -312,11 +316,56 @@ fn verify_with_an_instance_logs_its_start_and_exit(#[from(home)] home: TestHome)
         support::ndjson::read_lines(&home.path().join("diagnostics").join("cli-verifier.ndjson"));
     let exit = role
         .iter()
-        .find(|l| l["event"] == "process-exit")
+        .find(|l| l["event"] == "process-exit" && l["subject"] == "self")
         .expect("exit line");
-    assert_eq!(exit["subject"], "self");
     assert_eq!(exit["exit_code"], 1);
     assert!(exit.get("detail").is_none());
+}
+
+/// Each spawn `verify` makes is logged as a pair (obs-plan §6 Child / shell spawns): the `--version`
+/// read as `version-probe`, the print-mode probe as `verify-probe`, between its own start and exit.
+#[rstest]
+fn verify_with_an_instance_logs_both_spawn_pairs(#[from(home)] home: TestHome) {
+    write_spine_set(&fixtures(&home), "2.1.0", None);
+    let env = [("VIOLA_NAME", OsString::from("verifier"))];
+    let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &[], &env);
+    assert_eq!(ran.code, Some(0));
+    let mut expected = STEPS_PASS.join("\n");
+    expected.push_str("\nstamped 2.1.0  6 pass  0 fail\n");
+    assert_eq!(ran.stdout_text(), expected, "stdout is unchanged");
+    assert!(ran.stderr.is_empty());
+    let role =
+        support::ndjson::read_lines(&home.path().join("diagnostics").join("cli-verifier.ndjson"));
+    let shape: Vec<(&str, &str)> = role
+        .iter()
+        .map(|l| {
+            (
+                l["event"].as_str().unwrap_or(""),
+                l["subject"].as_str().unwrap_or(""),
+            )
+        })
+        .collect();
+    assert_eq!(
+        shape,
+        [
+            ("process-start", "self"),
+            ("process-start", "version-probe"),
+            ("process-exit", "version-probe"),
+            ("process-start", "verify-probe"),
+            ("process-exit", "verify-probe"),
+            ("process-exit", "self"),
+        ]
+    );
+    for exit in [&role[2], &role[4]] {
+        assert_eq!(exit["child_exit_status"], 0);
+        assert!(exit["duration_ms"].is_u64());
+    }
+    let validator =
+        jsonschema::validator_for(&load_schema(&workspace_path("schemas/diag-line.v1.json")))
+            .expect("valid schema");
+    for (n, line) in role.iter().enumerate() {
+        assert!(validator.is_valid(line), "role line {n} fails the schema");
+    }
 }
 
 /// A payload holding the user's home and name, the way the real CLI hands `cwd` and

@@ -149,21 +149,51 @@ pub fn fake_agent_path() -> PathBuf {
     PathBuf::from(fake::FAKE)
 }
 
-/// Interim seam: stamps come only from `viola verify` against the fake agent (test-plan §12
-/// Stamps conflict), and that verb does not exist yet — so this home is NOT stamped, and nothing
-/// here writes `ledger/stamps.json`.
+/// A home stamped the one sanctioned way: `viola verify` against the fake agent over the committed
+/// `fixtures/claude/` set at the recorded version (test-plan §7 Seed strategies). Nothing here
+/// writes `ledger/stamps.json`.
 pub struct StampedHome {
     pub home: TestHome,
     pub fake: PathBuf,
     pub stamped: bool,
 }
 
+impl StampedHome {
+    /// A home for the tests that assert the unverified path: nothing is run and nothing written.
+    pub fn unstamped(home: TestHome) -> Self {
+        Self {
+            home,
+            fake: PathBuf::from(fake::FAKE),
+            stamped: false,
+        }
+    }
+}
+
+/// `stamped` reads only the verb's result: exit 0 and a last line `stamped <recorded>  <n> pass
+/// 0 fail`, the count left to the literal-oracle tests since rows land with later chunks.
 #[fixture]
 pub fn stamped_home(home: TestHome, fake_agent_path: PathBuf) -> StampedHome {
+    let ran = super::verify::verify(
+        home.path(),
+        &workspace_path("fixtures/claude"),
+        fake::RECORDED_CLI_VERSION,
+        &[],
+        &[],
+        &[],
+    );
+    let stdout = String::from_utf8_lossy(&ran.stdout);
+    let last = stdout.lines().last().unwrap_or_default();
+    let summary = last.starts_with(&format!("stamped {}  ", fake::RECORDED_CLI_VERSION))
+        && last.ends_with("pass  0 fail");
+    assert!(
+        ran.code == Some(0) && summary,
+        "viola verify did not stamp the home: exit {:?}, summary line matched {summary}",
+        ran.code
+    );
     StampedHome {
         home,
         fake: fake_agent_path,
-        stamped: false,
+        stamped: true,
     }
 }
 
@@ -199,6 +229,7 @@ impl Wrapper {
             args.push("--script".into());
             args.push(workspace_path(script).into());
         }
+        args.extend(["--cli-version", fake::RECORDED_CLI_VERSION].map(OsString::from));
         args.extend(extra.iter().map(OsString::from));
         let before = Starts::read(&home, name);
         let pty = OuterPty::spawn(Path::new(VIOLA), &args, &[]);
@@ -263,20 +294,62 @@ impl Wrapper {
         fake::receipt_path(self.home(), &self.name)
     }
 
-    /// Ctrl-C into the terminal, then the wrapper's own exit.
+    /// Ctrl-C into the terminal, then the wrapper's own exit and its endpoint gone.
     pub fn stop(self) -> Stopped {
         self.stop_keep().0
     }
 
-    /// `stop`, handing the home back for a next start of the same name.
+    /// `stop`, handing the home back for a next start of the same name. An exit code is not the
+    /// endpoint gone: on Windows the exiting wrapper's pipe can still take a connect after the
+    /// exit is seen (`.claude/docs/gotchas.md`), so a recorded endpoint is waited out too.
     pub fn stop_keep(self) -> (Stopped, StampedHome) {
+        let instance_dir = self.instance_dir();
         let Self {
             stamped, mut pty, ..
         } = self;
         pty.write(b"\x03");
         let code = pty.wait_exit(EXIT_WITHIN);
+        let endpoint =
+            snapshot_data(&instance_dir).and_then(|d| d["endpoint"].as_str().map(str::to_owned));
         drop(pty);
+        if let Some(endpoint) = endpoint {
+            wait_endpoint_gone(&endpoint, "stop", |_| {});
+        }
         (Stopped(Some(code)), stamped)
+    }
+}
+
+/// The endpoint is gone for a client (the harness `endpoint_gone` rule,
+/// `crates/viola-e2e/src/harness/cleanup.rs`): on Windows a viola-client connect finds no pipe; on
+/// Unix the socket file no longer exists.
+pub fn unconnectable(endpoint: &str) -> bool {
+    #[cfg(windows)]
+    {
+        matches!(
+            viola_channel::Client::connect(endpoint, "cli"),
+            Err(viola_channel::ChannelError::Connect(e)) if e.kind() == std::io::ErrorKind::NotFound
+        )
+    }
+    #[cfg(unix)]
+    {
+        !Path::new(endpoint).exists()
+    }
+}
+
+/// Polls until `endpoint` is unconnectable, handing each reading to `observe` (`true` = still
+/// reachable); fails at `WITHIN` with the watch report.
+pub fn wait_endpoint_gone(endpoint: &str, label: &str, mut observe: impl FnMut(bool)) {
+    let watch = Watch::start(label);
+    let deadline = Instant::now() + WITHIN;
+    loop {
+        let reachable = !unconnectable(endpoint);
+        observe(reachable);
+        if !reachable {
+            return;
+        }
+        watch.note("endpoint reachable");
+        watch.deadline_check(deadline, &format!("{label}: endpoint still reachable"));
+        std::thread::yield_now();
     }
 }
 

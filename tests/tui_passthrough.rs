@@ -190,7 +190,7 @@ fn tui_hooks_firing_add_no_viola_bytes(#[from(home)] wrapped: TestHome) {
     for event in ["SessionStart", "UserPromptSubmit"] {
         fake::write_fixture(
             &fixtures,
-            "2.1.0",
+            fake::RECORDED_CLI_VERSION,
             event,
             "default",
             &json!({"hook_event_name": event, "session_id": "s-4", "source": "startup",
@@ -246,7 +246,7 @@ fn tui_child_output_passes_through_without_viola_bytes(#[from(home)] wrapped: Te
     assert_eq!(pty.wait_exit(EXIT_WITHIN), 0);
     let stream = pty.finish();
     assert!(
-        holds(&stream, "2.1.0 (Claude Code)"),
+        holds(&stream, "2.1.283 (Claude Code)"),
         "the child's output never reached the terminal"
     );
     assert_no_viola_bytes(&stream);

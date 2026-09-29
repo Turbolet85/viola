@@ -16,7 +16,6 @@ use std::time::{Duration, Instant};
 
 use rstest::rstest;
 use serde_json::{Value, json};
-use support::fake::FAKE;
 use support::home::{StampedHome, TestHome, VIOLA, Wrapper, workspace_path};
 use support::hygiene::load_schema;
 
@@ -189,11 +188,7 @@ fn hook_fails_open_silently_within_the_spine_bound(
     #[case] stdin: Stdin,
     #[case] writes: Option<&str>,
 ) {
-    let stamped = StampedHome {
-        home: TestHome::new(),
-        fake: PathBuf::from(FAKE),
-        stamped: false,
-    };
+    let stamped = StampedHome::unstamped(TestHome::new());
     let stamped = match env {
         Env::Stopped => {
             let (stopped, stamped) = Wrapper::boot(stamped, "builder", None, &[]).stop_keep();

@@ -157,7 +157,7 @@ fn path1_start_writes_state_before_the_spawn(booted_wrapper: Wrapper) {
             .as_str()
             .is_some_and(|s| s.ends_with('Z'))
     );
-    assert_eq!(snap["cli_verified"], false);
+    assert_eq!(snap["cli_verified"], true, "the fixture home is stamped");
     assert_eq!(snap["wheel"], "driver");
     let endpoint = snap["endpoint"].as_str().expect("endpoint");
     assert_eq!(endpoint, endpoint_of(booted_wrapper.home()));
@@ -365,7 +365,7 @@ fn path1_session_start_is_record_three_through_the_absolute_hook(stamped_home: S
     let fixtures = stamped_home.home.scratch().join("fixtures");
     fake::write_fixture(
         &fixtures,
-        "2.1.0",
+        fake::RECORDED_CLI_VERSION,
         "SessionStart",
         "default",
         &json!({"hook_event_name": "SessionStart", "session_id": "s-3", "source": "startup",

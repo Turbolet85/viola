@@ -9,20 +9,20 @@ use std::fs::File;
 use std::io::Read as _;
 use std::path::{Path, PathBuf};
 use std::process::ExitCode;
-use std::time::Duration;
+use std::time::{Duration, Instant};
 
 use chrono::Utc;
 use tracing::instrument;
 use viola_agent_claude::hook::HookEvent;
 use viola_agent_claude::ledger::{self, Capture, LedgerRow, PROBE_PROMPT, ProbeRun};
-use viola_agent_claude::{CASE_INSENSITIVE, PLUGIN_DIR_FLAG, Refusal};
-use viola_core::obs::ObsProcess;
-use viola_core::{MAX_FRAME, ViolaName};
+use viola_agent_claude::{CASE_INSENSITIVE, PLUGIN_DIR_FLAG, Refusal, StripPlan};
+use viola_core::obs::{ObsEvent, ObsProcess};
+use viola_core::{MAX_FRAME, ViolaName, obs_event};
 use viola_state::fs::{FILE_MODE, create_private_dir, replace_private};
 use viola_state::pin::{PinError, pin_exe};
 use viola_state::stamps::{ledger_dir, update_stamps};
 
-use crate::run::version_gate::{VERSION_DEADLINE, run_bounded};
+use crate::run::version_gate::{Bounded, VERSION_DEADLINE, run_bounded};
 use crate::{human, obs, run};
 
 /// The bound on the print-mode probe: one short Haiku turn.
@@ -60,6 +60,35 @@ pub(crate) fn verify(
         run::log_self_exit(code, None);
     }
     Ok(ExitCode::from(code))
+}
+
+/// `run_bounded` between a `process-start` / `process-exit` pair for `subject` (obs-plan §6 Child /
+/// shell spawns). The pair lives at the call site, not in `run_bounded`, which `run`'s version
+/// gate shares and logs itself. Without an instance no subscriber is installed and both are no-ops.
+fn run_logged(
+    subject: &'static str,
+    program: &Path,
+    args: &[OsString],
+    cwd: &Path,
+    strip: &StripPlan,
+    deadline: Duration,
+) -> std::io::Result<Bounded> {
+    let started = Instant::now();
+    obs_event!(INFO, ObsEvent::ProcessStart, subject = subject);
+    let ran = run_bounded(program, args, cwd, strip, deadline);
+    let status = ran
+        .as_ref()
+        .ok()
+        .and_then(|r| r.status)
+        .and_then(|s| s.code());
+    obs_event!(
+        INFO,
+        ObsEvent::ProcessExit,
+        subject = subject,
+        child_exit_status = status,
+        duration_ms = u64::try_from(started.elapsed().as_millis()).unwrap_or(u64::MAX),
+    );
+    ran
 }
 
 fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<u8> {
@@ -109,7 +138,14 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<u8> {
 
     let mut version_args = program_args.clone();
     version_args.push("--version".into());
-    let answer = run_bounded(&program, &version_args, &cwd, &strip, VERSION_DEADLINE)?;
+    let answer = run_logged(
+        "version-probe",
+        &program,
+        &version_args,
+        &cwd,
+        &strip,
+        VERSION_DEADLINE,
+    )?;
     let Some(version) = ledger::parse_version(&answer.stdout) else {
         human::refuse(
             "the CLI version could not be read",
@@ -124,7 +160,14 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<u8> {
         .extend(["-p", PROBE_PROMPT, "--model", "haiku", PLUGIN_DIR_FLAG].map(OsString::from));
     probe_args.push(probe.plugin().into_os_string());
     probe_args.push("--no-session-persistence".into());
-    run_bounded(&program, &probe_args, &probe.dir, &strip, PROBE_DEADLINE)?;
+    run_logged(
+        "verify-probe",
+        &program,
+        &probe_args,
+        &probe.dir,
+        &strip,
+        PROBE_DEADLINE,
+    )?;
     let probe_run = ProbeRun {
         program_is_script: viola_agent_claude::is_script(&program),
         version_answered: true,
