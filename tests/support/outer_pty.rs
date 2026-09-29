@@ -35,10 +35,27 @@ impl OuterPty {
         env: &[(&str, &str)],
         size: Size,
     ) -> Self {
+        Self::spawn_in(
+            program,
+            args,
+            env,
+            size,
+            &std::env::current_dir().expect("cwd"),
+        )
+    }
+
+    /// `spawn_sized` with the child's working directory given.
+    pub fn spawn_in(
+        program: &Path,
+        args: &[OsString],
+        env: &[(&str, &str)],
+        size: Size,
+        cwd: &Path,
+    ) -> Self {
         let spec = SpawnSpec {
             program: program.to_path_buf(),
             args: args.to_vec(),
-            cwd: std::env::current_dir().expect("cwd"),
+            cwd: cwd.to_path_buf(),
             env_set: env
                 .iter()
                 .map(|(k, v)| (OsString::from(k), OsString::from(v)))

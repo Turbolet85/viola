@@ -40,6 +40,15 @@ jobs:
           # cargo-mutants too: the harness's own tests drive `run --mutants` against a temp project
           tool: cargo-nextest@0.9.146,cargo-mutants@27.1.0,cargo-llvm-cov@0.9.1
 
+      # The committed sideloaded ConPTY equals Microsoft's pinned package and carries its signer;
+      # every refusal of the vendor script fires (src/conpty.rs holds the pins).
+      - name: ConPTY vendor verification
+        if: matrix.os == 'windows-2025'
+        shell: bash
+        run: |
+          bash scripts/conpty-vendor.sh --verify
+          bash scripts/conpty-vendor.sh --probe
+
       # One instrumented nextest run replaces the unit and integration runs; doctest follows it.
       - name: Coverage and doctest (pwsh shim)
         if: runner.os == 'Windows'
@@ -51,6 +60,46 @@ jobs:
         if: runner.os != 'Windows'
         shell: bash
         run: bash scripts/agent-run.sh run --coverage
+      # MEASUREMENT ONLY (2026-09-29-sideloaded-conpty): removed before the chunk's wrap.
+      - name: H2 loop (measurement only)
+        if: matrix.os == 'windows-2025'
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          iterations=200
+          h2tmp="$RUNNER_TEMP/h2-tmp"
+          mkdir -p "$h2tmp"
+          TMP="$(cygpath -w "$h2tmp")"
+          TEMP="$TMP"
+          export TMP TEMP
+          watch="$h2tmp/viola-pty-watch"
+          junit=target/nextest/ci/junit.xml
+          cp "$junit" "$RUNNER_TEMP/h2-junit.xml"
+          for leg in sideload inbox; do
+            losses=0
+            for i in $(seq "$iterations"); do
+              if cargo llvm-cov nextest --no-report --profile ci -p viola-pty --features h2-measure \
+                  -E "test(=tests::h2_race_$leg)" > "$RUNNER_TEMP/h2-iter.log" 2>&1; then
+                continue
+              fi
+              kept=("$watch"/*)
+              if [ "${#kept[@]}" -eq 0 ]; then
+                echo "h2-loop: $leg iteration $i failed with no kept report"
+                tail -n 40 "$RUNNER_TEMP/h2-iter.log"
+                exit 1
+              fi
+              losses=$((losses + 1))
+              echo "h2-loop: $leg iteration $i lost"
+              for f in "${kept[@]}"; do
+                echo "--- ${f##*/}"
+                cat "$f"
+              done
+              rm -f "${kept[@]}"
+            done
+            echo "h2-loop: $leg iterations $iterations · losses $losses"
+          done
+          cp "$RUNNER_TEMP/h2-junit.xml" "$junit"
 
       - name: Harness lifecycle (pwsh shim)
         if: runner.os == 'Windows'

@@ -1,0 +1,108 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'spawn' AND callee_kind = 'fn' AND callee_file LIKE '%viola-pty/src/lib.rs' ORDER BY file, line",
+"rows": 4,
+"result": [
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/supervise/spawn_in_pty().",
+"file": "crates/viola-e2e/src/harness/supervise.rs",
+"line": 39
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 tests/spawn_child_entry().",
+"file": "crates/viola-pty/src/lib.rs",
+"line": 625
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/spawn_child().",
+"file": "src/cmd/run.rs",
+"line": 322
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 support/outer_pty/impl#[OuterPty]spawn_sized().",
+"file": "tests/support/outer_pty.rs",
+"line": 48
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'pin_exe' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 14,
+"result": [
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 pin/tests/pin_exe_copies_then_refuses_a_tampered_copy().",
+"file": "crates/viola-state/src/pin.rs",
+"line": 111
+},
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 pin/tests/pin_exe_copies_then_refuses_a_tampered_copy().",
+"file": "crates/viola-state/src/pin.rs",
+"line": 134
+},
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 pin/tests/pin_exe_copies_then_refuses_a_tampered_copy().",
+"file": "crates/viola-state/src/pin.rs",
+"line": 137
+},
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 pin/tests/pin_exe_copies_then_refuses_a_tampered_copy().",
+"file": "crates/viola-state/src/pin.rs",
+"line": 141
+},
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 pin/tests/pin_exe_hashes_a_copy_longer_than_one_read().",
+"file": "crates/viola-state/src/pin.rs",
+"line": 152
+},
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 pin/tests/pin_exe_hashes_a_copy_longer_than_one_read().",
+"file": "crates/viola-state/src/pin.rs",
+"line": 154
+},
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 pin/tests/pin_exe_hashes_a_copy_longer_than_one_read().",
+"file": "crates/viola-state/src/pin.rs",
+"line": 158
+},
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 pin/tests/pin_exe_reports_an_unreadable_source_or_copy().",
+"file": "crates/viola-state/src/pin.rs",
+"line": 166
+},
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 pin/tests/pin_exe_reports_an_unreadable_source_or_copy().",
+"file": "crates/viola-state/src/pin.rs",
+"line": 175
+},
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 pin/tests/",
+"file": "crates/viola-state/src/pin.rs",
+"line": 186
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/",
+"file": "src/cmd/run.rs",
+"line": 20
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/pin_and_plugin().",
+"file": "src/cmd/run.rs",
+"line": 230
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/verify/",
+"file": "src/cmd/verify.rs",
+"line": 21
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/verify/measure().",
+"file": "src/cmd/verify.rs",
+"line": 124
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

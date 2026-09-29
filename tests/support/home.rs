@@ -134,6 +134,51 @@ impl Drop for TestHome {
     }
 }
 
+/// Windows x64: fills `<home>/bin/<key>/conpty/` from one per-run copy under
+/// `target/conpty-seed/<key>/` (a hard link, a copy where linking fails) so a first `viola run` in a
+/// fresh home finds its ConPTY companions present and only re-hashes them: a first start's two
+/// atomic writes cost ~1.2 s under a parallel run on this host. It creates the home, so a test that
+/// asserts viola creates nothing never calls it, and `tests/conpty_sideload.rs` (the product's own
+/// write path, and tampering that would reach a shared link) never does either. Elsewhere a no-op.
+pub fn seed_conpty(home: &Path) {
+    #[cfg(all(windows, target_arch = "x86_64"))]
+    {
+        const FILES: [&str; 2] = ["OpenConsole.exe", "conpty.dll"];
+        static KEY: std::sync::OnceLock<String> = std::sync::OnceLock::new();
+        let key = KEY.get_or_init(|| {
+            let exe = fs::read(VIOLA).expect("viola exe");
+            format!(
+                "{}-{}",
+                viola_core::VERSION,
+                viola_state::pin::content_key(&exe)
+            )
+        });
+        let seed = workspace_path("target/conpty-seed").join(key);
+        fs::create_dir_all(&seed).expect("seed dir");
+        for name in FILES {
+            let path = seed.join(name);
+            if !path.is_file() {
+                let bytes = fs::read(workspace_path("vendor/conpty/1.24.260710001/x64").join(name))
+                    .expect("vendored companion");
+                let mut tmp = tempfile::NamedTempFile::new_in(&seed).expect("seed temp");
+                std::io::Write::write_all(&mut tmp, &bytes).expect("seed write");
+                // Another test process may land the same bytes first.
+                let _ = tmp.persist_noclobber(&path);
+            }
+        }
+        let dest = home.join("bin").join(key).join("conpty");
+        fs::create_dir_all(&dest).expect("conpty dir");
+        for name in FILES {
+            let (from, to) = (seed.join(name), dest.join(name));
+            if !to.exists() && fs::hard_link(&from, &to).is_err() {
+                fs::copy(&from, &to).expect("seed copy");
+            }
+        }
+    }
+    #[cfg(not(all(windows, target_arch = "x86_64")))]
+    let _ = home;
+}
+
 /// A workspace-relative path resolved against the root package's manifest dir.
 pub fn workspace_path(rel: &str) -> PathBuf {
     Path::new(env!("CARGO_MANIFEST_DIR")).join(rel)
@@ -232,6 +277,7 @@ impl Wrapper {
         args.extend(["--cli-version", fake::RECORDED_CLI_VERSION].map(OsString::from));
         args.extend(extra.iter().map(OsString::from));
         let before = Starts::read(&home, name);
+        seed_conpty(&home);
         let pty = OuterPty::spawn(Path::new(VIOLA), &args, &[]);
         let mut wrapper = Self {
             stamped,

@@ -70,7 +70,9 @@
       "subject": { "$ref": "#/$defs/subject" }, "service_name": { "const": "viola" }, "version": { "type": "string" },
       "os": { "enum": ["windows", "macos", "linux"] }, "pid": { "$ref": "#/$defs/count" },
       "child_pid": { "$ref": "#/$defs/count" }, "port": { "$ref": "#/$defs/count" }, "endpoint_kind": { "type": "string" },
-      "pty_backend": { "type": "string" }, "cli_version": { "type": "string" }, "cli_verified": { "type": "boolean" },
+      "pty_backend": { "type": "string" },
+      "sideload_fallback": { "enum": ["hash-mismatch", "unreadable", "load-failed", "not-built"] },
+      "cli_version": { "type": "string" }, "cli_verified": { "type": "boolean" },
       "env_stripped_count": { "$ref": "#/$defs/count" }, "env_stripped_known": { "type": "string" },
       "env_kept": { "type": "string" } } } },
     { "if": { "properties": { "event": { "const": "process-exit" } } }, "then": { "properties": {

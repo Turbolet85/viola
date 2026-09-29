@@ -8,16 +8,15 @@
 mod support;
 
 use std::ffi::OsString;
-use std::io::{Read, Write as _};
 use std::path::Path;
-use std::process::{Child, Command, Stdio};
-use std::sync::mpsc;
+use std::process::Command;
 use std::time::Instant;
 
 use rstest::rstest;
 use serde_json::Value;
 use support::fake::{FAKE, RECORDED_CLI_VERSION};
 use support::home::{StampedHome, TestHome, VIOLA, Wrapper, home, snapshot_data};
+use support::piped::Piped;
 use support::verify::{verify, write_spine_set};
 use support::watch::{WITHIN, Watch};
 
@@ -153,18 +152,6 @@ fn run_with_unreadable_stamps_logs_one_rejection(#[from(home)] home: TestHome) {
     );
 }
 
-fn drain(pipe: Option<impl Read + Send + 'static>) -> mpsc::Receiver<Vec<u8>> {
-    let (tx, rx) = mpsc::channel();
-    if let Some(mut pipe) = pipe {
-        std::thread::spawn(move || {
-            let mut bytes = Vec::new();
-            let _ = pipe.read_to_end(&mut bytes);
-            let _ = tx.send(bytes);
-        });
-    }
-    rx
-}
-
 /// Waits below the kill line for `done`, failing the test at the deadline.
 fn wait_until(what: &str, mut done: impl FnMut() -> bool) {
     let watch = Watch::start(what);
@@ -176,10 +163,6 @@ fn wait_until(what: &str, mut done: impl FnMut() -> bool) {
     }
 }
 
-fn exited(child: &mut Child) -> bool {
-    child.try_wait().expect("try_wait").is_some()
-}
-
 /// `viola run builder -- <program> <args>` on pipes; stdin gets Ctrl-C once `ready` holds.
 fn run_piped(
     home: &Path,
@@ -187,29 +170,21 @@ fn run_piped(
     args: &[OsString],
     ready: impl Fn() -> bool,
 ) -> (Vec<u8>, Vec<u8>) {
-    let mut child = Command::new(VIOLA)
-        .arg("--home")
-        .arg(home)
-        .args(["run", "builder", "--", program])
-        .args(args)
-        .env_remove("VIOLA_NAME")
-        .env_remove("VIOLA_DIR")
-        .stdin(Stdio::piped())
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped())
-        .spawn()
-        .expect("viola run");
-    let stdout = drain(child.stdout.take());
-    let stderr = drain(child.stderr.take());
-    wait_until("ready", || ready() || exited(&mut child));
-    if let Some(stdin) = child.stdin.as_mut() {
-        let _ = stdin.write_all(b"\x03");
-    }
-    wait_until("exit", || exited(&mut child));
-    (
-        stdout.recv().unwrap_or_default(),
-        stderr.recv().unwrap_or_default(),
-    )
+    support::home::seed_conpty(home);
+    let mut piped = Piped::spawn(
+        Command::new(VIOLA)
+            .arg("--home")
+            .arg(home)
+            .args(["run", "builder", "--", program])
+            .args(args)
+            .env_remove("VIOLA_NAME")
+            .env_remove("VIOLA_DIR"),
+    );
+    wait_until("ready", || ready() || piped.exited());
+    piped.write(b"\x03");
+    wait_until("exit", || piped.exited());
+    let out = piped.finish();
+    (out.stdout, out.stderr)
 }
 
 /// viola's own human and diagnostic literals (the `run_cli` set): none may reach its stdout.

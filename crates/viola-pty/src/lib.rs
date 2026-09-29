@@ -15,10 +15,20 @@ use std::path::PathBuf;
 use portable_pty::{Child, CommandBuilder, MasterPty, PtySize, native_pty_system};
 
 mod pump;
+#[cfg(windows)]
+pub mod sideload;
 
 pub use pump::{PumpEnd, pump};
 
-pub const PTY_BACKEND: &str = if cfg!(windows) { "conpty" } else { "openpty" };
+/// The pseudo-terminal this process uses: `conpty-sideload` once [`sideload::preload`] has
+/// succeeded, else kernel32's inbox `conpty` on Windows, `openpty` elsewhere.
+pub fn pty_backend() -> &'static str {
+    #[cfg(windows)]
+    if sideload::preloaded() {
+        return "conpty-sideload";
+    }
+    if cfg!(windows) { "conpty" } else { "openpty" }
+}
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Size {
@@ -73,6 +83,7 @@ pub enum PtyError {
     Resize(Box<dyn std::error::Error + Send + Sync>),
     Wait(io::Error),
     Kill(io::Error),
+    Load(Box<dyn std::error::Error + Send + Sync>),
 }
 
 impl fmt::Display for PtyError {
@@ -84,6 +95,7 @@ impl fmt::Display for PtyError {
             Self::Resize(_) => "pty resize failed",
             Self::Wait(_) => "pty wait failed",
             Self::Kill(_) => "pty kill failed",
+            Self::Load(_) => "pty load failed",
         })
     }
 }
@@ -91,7 +103,9 @@ impl fmt::Display for PtyError {
 impl std::error::Error for PtyError {
     fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
         match self {
-            Self::Open(e) | Self::Spawn(e) | Self::Handle(e) | Self::Resize(e) => Some(e.as_ref()),
+            Self::Open(e) | Self::Spawn(e) | Self::Handle(e) | Self::Resize(e) | Self::Load(e) => {
+                Some(e.as_ref())
+            }
             Self::Wait(e) | Self::Kill(e) => Some(e),
         }
     }
@@ -119,7 +133,7 @@ pub struct PortablePty {
 #[tracing::instrument(
     skip_all,
     name = "pty.spawn",
-    fields(pty_backend = PTY_BACKEND, env_stripped_count = spec.env_remove.len())
+    fields(pty_backend = pty_backend(), env_stripped_count = spec.env_remove.len())
 )]
 pub fn spawn(spec: &SpawnSpec) -> Result<PortablePty, PtyError> {
     let pair = native_pty_system()
@@ -790,6 +804,50 @@ mod tests {
         wait_exit(&mut child);
     }
 
+    /// MEASUREMENT ONLY (the H2 loop with and without the sideloaded ConPTY): the race the gating test
+    /// no longer runs since `dce98ad`, the key written right after the resize with no wait for the
+    /// child to see the new size.
+    #[cfg(all(windows, feature = "h2-measure"))]
+    fn h2_race() {
+        let mut child = spawn_child_entry(
+            "run",
+            Size {
+                cols: 100,
+                rows: 30,
+            },
+        );
+        let pid = child.pty.child_pid().expect("pid");
+        wait_line(&mut child, &format!("start pid={pid} raw=true size=100x30"));
+        key(&mut child, b'x');
+        wait_line(&mut child, "byte 78");
+        resize(&mut child);
+        key(&mut child, b'y');
+        wait_line(&mut child, "byte 79 size=120x40");
+        wait_line(&mut child, "restored=true");
+        child.report_dsr();
+        assert_eq!(wait_exit(&mut child), 3);
+    }
+
+    #[cfg(all(windows, feature = "h2-measure"))]
+    #[test]
+    fn h2_race_inbox() {
+        assert!(sideload::restrict_dll_search());
+        assert_eq!(pty_backend(), "conpty");
+        h2_race();
+    }
+
+    #[cfg(all(windows, feature = "h2-measure"))]
+    #[test]
+    fn h2_race_sideload() {
+        let dll = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../vendor/conpty/1.24.260710001/x64/conpty.dll")
+            .canonicalize()
+            .expect("the vendored conpty.dll");
+        sideload::preload(&dll).expect("preload");
+        assert_eq!(pty_backend(), "conpty-sideload");
+        h2_race();
+    }
+
     #[test]
     fn kill_ends_a_child_that_would_never_exit() {
         let mut child = spawn_child_entry("block", Size::DEFAULT);
@@ -825,6 +883,7 @@ mod tests {
             PtyError::Resize("x".into()),
             PtyError::Wait(io::Error::other("x")),
             PtyError::Kill(io::Error::other("x")),
+            PtyError::Load("x".into()),
         ]
         .iter()
         .map(|e| {
@@ -839,7 +898,8 @@ mod tests {
                 "pty handle failed",
                 "pty resize failed",
                 "pty wait failed",
-                "pty kill failed"
+                "pty kill failed",
+                "pty load failed"
             ]
         );
     }

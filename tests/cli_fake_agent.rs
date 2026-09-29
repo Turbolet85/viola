@@ -5,7 +5,7 @@
 #[allow(dead_code)]
 mod support;
 
-use std::io::{Read as _, Write as _};
+use std::io::Write as _;
 use std::path::{Path, PathBuf};
 use std::process::{Child, ChildStdin, Command, ExitStatus, Stdio};
 use std::sync::Arc;
@@ -18,6 +18,7 @@ use support::fake::{self, FAKE, of_kind, unhex};
 use support::home::{
     StampedHome, TestHome, VIOLA, Wrapper, home, keep_decision, stamped_home, workspace_path,
 };
+use support::piped::Piped;
 
 const SENTINEL: &str = "sentinel-value-7f3a-never-logged";
 const GATED_TURN: &str = "fixtures/fake-scripts/gated-turn.json";
@@ -536,34 +537,20 @@ fn fake_agent_rejects_an_unreadable_script(#[case] body: &str) {
 /// receipt), and reports (viola's status, EOF seen at exit).
 fn run_and_watch_stdout(tmp: &TestHome, fake_args: &[&str]) -> (ExitStatus, bool, Arc<AtomicBool>) {
     let receipt = tmp.scratch().join("watch.receipt.ndjson");
-    let mut child = Command::new(VIOLA)
-        .arg("--home")
-        .arg(tmp.path())
-        .args(["run", "builder", "--", FAKE])
-        .args(fake_args)
-        .arg("--receipt")
-        .arg(&receipt)
-        .stdin(Stdio::piped())
-        .stdout(Stdio::piped())
-        .stderr(Stdio::null())
-        .spawn()
-        .expect("viola run");
-    let eof = Arc::new(AtomicBool::new(false));
-    let mut out = child.stdout.take().expect("stdout");
-    let seen = Arc::clone(&eof);
-    std::thread::spawn(move || {
-        let mut sink = Vec::new();
-        let _ = out.read_to_end(&mut sink);
-        seen.store(true, Ordering::SeqCst);
-    });
+    support::home::seed_conpty(tmp.path());
+    let mut piped = Piped::spawn(
+        Command::new(VIOLA)
+            .arg("--home")
+            .arg(tmp.path())
+            .args(["run", "builder", "--", FAKE])
+            .args(fake_args)
+            .arg("--receipt")
+            .arg(&receipt),
+    );
+    let eof = piped.stdout_eof();
     fake::wait_for(&receipt, "start", |l| !of_kind(l, "start").is_empty());
-    child
-        .stdin
-        .as_mut()
-        .expect("stdin")
-        .write_all(b"\x03")
-        .expect("ctrl-c");
-    let status = child.wait().expect("viola exits");
+    piped.write(b"\x03");
+    let status = piped.wait();
     let at_exit = eof.load(Ordering::SeqCst);
     (status, at_exit, eof)
 }

@@ -7,7 +7,6 @@
 mod support;
 
 use std::fs;
-use std::io::Write as _;
 use std::path::{Path, PathBuf};
 use std::process::{Command, Output, Stdio};
 use std::time::Duration;
@@ -19,6 +18,7 @@ use support::home::{
     StampedHome, TestHome, VIOLA, Wrapper, beat_age, booted_wrapper, home, process_start,
     snapshot_data, stamped_home, sweep_gone_owners, write_owner,
 };
+use support::piped::Piped;
 use viola_core::ViolaName;
 
 const LIVE: &str = "unable: builder is already live\nhint: viola list\n";
@@ -76,19 +76,14 @@ fn child_starts(home: &Path) -> usize {
 /// A second `viola run builder` outside any terminal. A start that is (wrongly) not refused gets
 /// Ctrl-C at once, so the call still ends.
 fn run_refused(home: &Path) -> Output {
-    let mut child = Command::new(VIOLA)
-        .arg("--home")
-        .arg(home)
-        .args(["run", "builder", "--", FAKE])
-        .stdin(Stdio::piped())
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped())
-        .spawn()
-        .expect("viola runs");
-    if let Some(stdin) = child.stdin.as_mut() {
-        let _ = stdin.write_all(b"\x03");
-    }
-    child.wait_with_output().expect("viola exits")
+    let piped = Piped::spawn(
+        Command::new(VIOLA)
+            .arg("--home")
+            .arg(home)
+            .args(["run", "builder", "--", FAKE]),
+    );
+    piped.write(b"\x03");
+    piped.finish()
 }
 
 fn refused_with(home: &Path, detail: &str) -> bool {

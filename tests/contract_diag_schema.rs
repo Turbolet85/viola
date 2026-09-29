@@ -4,9 +4,8 @@
 #[allow(dead_code)]
 mod support;
 
-use std::io::Write as _;
 use std::path::Path;
-use std::process::{Command, Stdio};
+use std::process::Command;
 use std::time::Instant;
 
 use rstest::rstest;
@@ -14,6 +13,7 @@ use serde_json::{Value, json};
 use support::fake::FAKE;
 use support::home::{TestHome, VIOLA, home, workspace_path};
 use support::hygiene::load_schema;
+use support::piped::Piped;
 use support::watch::{WITHIN, Watch};
 
 /// test-plan §3 Log format + obs-plan D-01…D-05; `a11y-violation` is a harness-only row.
@@ -254,17 +254,13 @@ fn run_lines(home: &Path, program: &str, config: Option<&str>) -> Vec<Value> {
     if program == FAKE {
         cmd.arg("--receipt").arg(&receipt);
     }
-    let mut child = cmd
-        .stdin(Stdio::piped())
-        .stdout(Stdio::null())
-        .stderr(Stdio::null())
-        .spawn()
-        .expect("viola runs");
+    support::home::seed_conpty(home);
+    let mut piped = Piped::spawn(&mut cmd);
     // Ctrl-C only once the child's terminal is raw (its `start` receipt): sooner, it is swallowed.
     let watch = Watch::start("raw");
     let deadline = Instant::now() + WITHIN;
     loop {
-        let exited = child.try_wait().expect("try_wait").is_some();
+        let exited = piped.exited();
         if exited {
             break;
         }
@@ -272,9 +268,7 @@ fn run_lines(home: &Path, program: &str, config: Option<&str>) -> Vec<Value> {
             .unwrap_or_default()
             .contains("\"kind\":\"start\"");
         if started {
-            if let Some(stdin) = child.stdin.as_mut() {
-                let _ = stdin.write_all(b"\x03");
-            }
+            piped.write(b"\x03");
             break;
         }
         watch.note(&format!("start receipt {started} exited {exited}"));
@@ -284,7 +278,7 @@ fn run_lines(home: &Path, program: &str, config: Option<&str>) -> Vec<Value> {
     let watch = Watch::start("exit");
     let deadline = Instant::now() + WITHIN;
     loop {
-        let exited = child.try_wait().expect("try_wait").is_some();
+        let exited = piped.exited();
         if exited {
             break;
         }

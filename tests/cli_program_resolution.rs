@@ -7,7 +7,6 @@
 #[allow(dead_code)]
 mod support;
 
-use std::io::Write as _;
 use std::path::{Path, PathBuf};
 use std::process::{Command, Output, Stdio};
 
@@ -15,6 +14,7 @@ use rstest::rstest;
 use serde_json::Value;
 use support::fake::{self, FAKE, of_kind};
 use support::home::{TestHome, VIOLA, home};
+use support::piped::Piped;
 
 const REFUSAL: &str = "unable: builder's command is a .cmd or .bat script\n\
                        hint: pass the real executable, not a .cmd or .bat shim\n";
@@ -108,25 +108,18 @@ fn run_resolves_the_claude_npm_shim_to_its_exe(#[from(home)] tmp: TestHome) {
     let npm = npm_prefix(&tmp);
     let receipt = tmp.scratch().join("shim.receipt.ndjson");
     let path = npm.to_str().expect("utf-8").to_owned();
-    let mut child = Command::new(VIOLA)
-        .arg("--home")
-        .arg(tmp.path())
-        .args(["run", "builder", "--", "claude", "--receipt"])
-        .arg(&receipt)
-        .env("PATH", &path)
-        .stdin(Stdio::piped())
-        .stdout(Stdio::null())
-        .stderr(Stdio::piped())
-        .spawn()
-        .expect("viola runs");
+    support::home::seed_conpty(tmp.path());
+    let piped = Piped::spawn(
+        Command::new(VIOLA)
+            .arg("--home")
+            .arg(tmp.path())
+            .args(["run", "builder", "--", "claude", "--receipt"])
+            .arg(&receipt)
+            .env("PATH", &path),
+    );
     fake::wait_for(&receipt, "start", |l| !of_kind(l, "start").is_empty());
-    child
-        .stdin
-        .as_mut()
-        .expect("stdin")
-        .write_all(b"\x03")
-        .expect("ctrl-c");
-    let out = child.wait_with_output().expect("viola exits");
+    piped.write(b"\x03");
+    let out = piped.finish();
     assert_eq!(out.status.code(), Some(0));
     assert!(out.stderr.is_empty());
     let lines = role_lines(tmp.path());

@@ -28,7 +28,9 @@ fn holds(haystack: &[u8], needle: &str) -> bool {
         .any(|window| window == needle.as_bytes())
 }
 
+/// The args of `viola run builder -- <fake agent>`; the home is seeded with the ConPTY companions.
 fn run_args(home: &Path, receipt: Option<&Path>, extra: &[&str]) -> Vec<OsString> {
+    support::home::seed_conpty(home);
     let mut args: Vec<OsString> = vec!["--home".into(), home.into()];
     args.extend(["run", "builder", "--", FAKE].map(OsString::from));
     if let Some(receipt) = receipt {

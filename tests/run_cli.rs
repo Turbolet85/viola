@@ -6,14 +6,15 @@ mod support;
 use std::ffi::OsString;
 use std::io::Write as _;
 use std::path::{Path, PathBuf};
-use std::process::{Child, Command, Output, Stdio};
+use std::process::{Command, Output, Stdio};
 use std::time::Instant;
 
 use rstest::rstest;
 use serde_json::Value;
 use support::fake::FAKE;
-use support::home::{TestHome, VIOLA, home};
+use support::home::{TestHome, VIOLA, home, seed_conpty};
 use support::outer_pty::{EXIT_WITHIN, OuterPty};
+use support::piped::Piped;
 use support::watch::{WITHIN, Watch};
 
 /// A receipt outside the home (the home must stay viola's to create) and the args that ask the
@@ -26,6 +27,13 @@ fn receipt_args(program: &str) -> (tempfile::TempDir, Vec<OsString>) {
         Vec::new()
     };
     (dir, args)
+}
+
+/// A piped wrapper: Ctrl-C once the child is raw.
+fn ctrl_c_when_raw(piped: &mut Piped, dir: &tempfile::TempDir) {
+    if wait_raw(dir, || piped.exited()) {
+        piped.write(b"\x03");
+    }
 }
 
 /// True once the fake agent's terminal is raw (its `start` receipt); false if `exited` first.
@@ -50,8 +58,14 @@ fn wait_raw(dir: &tempfile::TempDir, mut exited: impl FnMut() -> bool) -> bool {
     }
 }
 
-/// `viola run <name> -- <program> <extra>` under an outer PTY; Ctrl-C once the child is raw.
+/// `run_viola_unseeded` in a home seeded with the ConPTY companions (`support::home::seed_conpty`).
 fn run_viola(home: &Path, name: &str, program: &str, extra: &[&str]) -> Option<i32> {
+    seed_conpty(home);
+    run_viola_unseeded(home, name, program, extra)
+}
+
+/// `viola run <name> -- <program> <extra>` under an outer PTY; Ctrl-C once the child is raw.
+fn run_viola_unseeded(home: &Path, name: &str, program: &str, extra: &[&str]) -> Option<i32> {
     let (dir, mut fake_args) = receipt_args(program);
     let mut args: Vec<OsString> = vec!["--home".into(), home.into()];
     args.extend(["run", name, "--", program].map(OsString::from));
@@ -66,15 +80,6 @@ fn run_viola(home: &Path, name: &str, program: &str, extra: &[&str]) -> Option<i
         pty.write(b"\x03");
     }
     i32::try_from(pty.wait_exit(EXIT_WITHIN)).ok()
-}
-
-/// A piped-stdin wrapper: Ctrl-C into the pipe once the child is raw.
-fn ctrl_c_when_raw(child: &mut Child, dir: &tempfile::TempDir) {
-    if wait_raw(dir, || child.try_wait().ok().flatten().is_some())
-        && let Some(stdin) = child.stdin.as_mut()
-    {
-        let _ = stdin.write_all(b"\x03");
-    }
 }
 
 fn role_lines(home: &Path, name: &str) -> (String, Vec<Value>) {
@@ -145,7 +150,13 @@ fn run_with_fake_agent_writes_start_and_exit_lines(#[from(home)] tmp: TestHome) 
     assert_eq!(lines[0]["os"], std::env::consts::OS);
     assert!(lines[0]["pid"].as_u64().is_some());
     assert!(lines[3]["child_pid"].as_u64().is_some());
-    let backend = if cfg!(windows) { "conpty" } else { "openpty" };
+    let backend = if cfg!(all(windows, target_arch = "x86_64")) {
+        "conpty-sideload"
+    } else if cfg!(windows) {
+        "conpty"
+    } else {
+        "openpty"
+    };
     assert_eq!(lines[3]["pty_backend"], backend);
     assert!(
         lines[3]["env_stripped_count"]
@@ -179,7 +190,7 @@ fn run_child_exit_status_is_recorded(#[from(home)] tmp: TestHome) {
 fn run_with_a_bad_name_is_usage_and_creates_nothing(#[from(home)] tmp: TestHome) {
     let home = tmp.path().to_path_buf();
     for bad in ["Builder", "../x", "1abc"] {
-        let status = run_viola(&home, bad, FAKE, &[]);
+        let status = run_viola_unseeded(&home, bad, FAKE, &[]);
         assert_eq!(status, Some(2), "{bad}");
     }
     assert!(!home.exists());
@@ -218,19 +229,17 @@ fn write_config(home: &Path, text: &str) {
 /// `viola run builder -- <program>` on pipes with captured output; Ctrl-C once the child is raw.
 fn run_captured(home: &Path, program: &str, env: &[(&str, &str)]) -> std::process::Output {
     let (dir, fake_args) = receipt_args(program);
-    let mut child = Command::new(VIOLA)
-        .arg("--home")
-        .arg(home)
-        .args(["run", "builder", "--", program])
-        .args(&fake_args)
-        .envs(env.iter().copied())
-        .stdin(Stdio::piped())
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped())
-        .spawn()
-        .expect("viola runs");
-    ctrl_c_when_raw(&mut child, &dir);
-    child.wait_with_output().expect("viola exits")
+    seed_conpty(home);
+    let mut piped = Piped::spawn(
+        Command::new(VIOLA)
+            .arg("--home")
+            .arg(home)
+            .args(["run", "builder", "--", program])
+            .args(&fake_args)
+            .envs(env.iter().copied()),
+    );
+    ctrl_c_when_raw(&mut piped, &dir);
+    piped.finish()
 }
 
 fn key_sets(lines: &[Value]) -> Vec<Vec<String>> {
@@ -248,16 +257,14 @@ fn key_sets(lines: &[Value]) -> Vec<Vec<String>> {
 fn run_self_exit_carries_duration_ms(#[from(home)] tmp: TestHome, #[from(home)] missing: TestHome) {
     let home = tmp.path().to_path_buf();
     let (dir, fake_args) = receipt_args(FAKE);
-    let mut child = Command::new(VIOLA)
-        .arg("--home")
-        .arg(&home)
-        .args(["run", "builder", "--", FAKE])
-        .args(&fake_args)
-        .stdin(Stdio::piped())
-        .stdout(Stdio::null())
-        .stderr(Stdio::null())
-        .spawn()
-        .expect("viola runs");
+    seed_conpty(&home);
+    let mut piped = Piped::spawn(
+        Command::new(VIOLA)
+            .arg("--home")
+            .arg(&home)
+            .args(["run", "builder", "--", FAKE])
+            .args(&fake_args),
+    );
     let role = home.join("diagnostics").join("run-builder.ndjson");
     let watch = Watch::start("claude-child");
     let deadline = std::time::Instant::now() + WITHIN;
@@ -271,7 +278,7 @@ fn run_self_exit_carries_duration_ms(#[from(home)] tmp: TestHome, #[from(home)] 
             "claude-child line {line} role bytes {}",
             text.len()
         ));
-        if let Some(status) = child.try_wait().expect("try_wait") {
+        if let Some(status) = piped.child.try_wait().expect("try_wait") {
             panic!("wrapper exited before the child started: {status}");
         }
         watch.deadline_check(deadline, "child never started");
@@ -282,9 +289,8 @@ fn run_self_exit_carries_duration_ms(#[from(home)] tmp: TestHome, #[from(home)] 
     while std::time::Instant::now() < window {
         std::thread::yield_now();
     }
-    ctrl_c_when_raw(&mut child, &dir);
-    drop(child.stdin.take());
-    assert_eq!(child.wait().expect("exits").code(), Some(0));
+    ctrl_c_when_raw(&mut piped, &dir);
+    assert_eq!(piped.finish().status.code(), Some(0));
     let (_, lines) = role_lines(&home, "builder");
     assert_eq!(lines[5]["subject"], "self");
     assert!(lines[5]["duration_ms"].as_u64().is_some_and(|ms| ms >= 60));

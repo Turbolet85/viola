@@ -1,2 +1,4 @@
 # Line endings: the pipeline records are LF; eol=lf overrides core.autocrlf at checkout.
 * text=auto eol=lf
+# The vendored ConPTY files are byte-identical to Microsoft's package: never a text conversion.
+vendor/conpty/** binary

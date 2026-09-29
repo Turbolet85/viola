@@ -1,4 +1,6 @@
 mod cmd;
+#[cfg(all(windows, target_arch = "x86_64"))]
+mod conpty;
 mod human;
 mod obs;
 mod panic_frames;
@@ -44,6 +46,10 @@ pub(crate) fn set_panic_sink(
 
 fn main() -> ExitCode {
     std::panic::set_hook(Box::new(viola_panic_hook));
+    // Before any library load: a bare-name DLL (portable-pty's `conpty.dll`) is then found in
+    // System32 or not at all, never in the working directory or on `PATH`.
+    #[cfg(windows)]
+    viola_pty::sideload::restrict_dll_search();
     let role = role_of(std::env::args_os());
     let outcome = std::panic::catch_unwind(|| {
         let cli = match cmd::Cli::try_parse() {

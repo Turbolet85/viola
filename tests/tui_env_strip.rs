@@ -65,6 +65,7 @@ fn wrapped_env(tmp: &TestHome, env: &[(&str, &str)]) -> (Vec<String>, Value, Vec
         "--receipt".into(),
         receipt.clone().into(),
     ];
+    support::home::seed_conpty(home);
     let mut pty = OuterPty::spawn(Path::new(VIOLA), &args, env);
     let lines = fake::wait_for(&receipt, "env", |l| !of_kind(l, "env").is_empty());
     pty.write(b"\x03");

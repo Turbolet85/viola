@@ -8,5 +8,6 @@ pub mod home;
 pub mod hygiene;
 pub mod ndjson;
 pub mod outer_pty;
+pub mod piped;
 pub mod verify;
 pub mod watch;

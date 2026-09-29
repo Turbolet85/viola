@@ -169,6 +169,12 @@ fn start(home: &Path, args: &RunArgs, persistent: &[String]) -> anyhow::Result<S
         refuse_tampered_pin();
         return Ok(refused("pinned-hash-mismatch"));
     };
+    #[cfg(windows)]
+    let sideload = conpty_sideload(&pinned);
+    #[cfg(windows)]
+    let sideload_fallback = sideload.fallback;
+    #[cfg(not(windows))]
+    let sideload_fallback = None;
     let strip = viola_agent_claude::plan_strip(std::env::vars_os().map(|(k, _)| k), persistent);
     let gate = version_gate(&home, &program, &cwd, &strip);
     let Some((endpoint, server)) = bind_endpoint(&args.name, &home)? else {
@@ -188,7 +194,19 @@ fn start(home: &Path, args: &RunArgs, persistent: &[String]) -> anyhow::Result<S
         std::env::var_os("PATH"),
         program_args,
     );
-    let (pty, terminal, size) = spawn_child(program, cwd, launch, &strip, &instance_dir, snapshot)?;
+    let spawned = spawn_child(
+        program,
+        cwd,
+        launch,
+        &strip,
+        &instance_dir,
+        snapshot,
+        sideload_fallback,
+    );
+    // Held from the hash through the spawn: the bytes verified are the bytes loaded and launched.
+    #[cfg(windows)]
+    drop(sideload);
+    let (pty, terminal, size) = spawned?;
     Ok(Started::Launched(Box::new(Launched {
         pty,
         terminal,
@@ -244,6 +262,60 @@ fn pin_and_plugin(home: &Path) -> anyhow::Result<Option<(Pinned, PathBuf)>> {
         replace_private_shared(&path, content.as_bytes(), FILE_MODE)?;
     }
     Ok(Some((pinned, plugin_dir)))
+}
+
+/// The pinned ConPTY companions, held while they are used; `fallback` is why the child runs on the
+/// inbox ConPTY instead (obs-plan §6 `sideload_fallback`), `None` once the sideload is loaded.
+#[cfg(windows)]
+struct Sideload {
+    fallback: Option<&'static str>,
+    _held: Option<viola_state::pin::HeldCompanions>,
+}
+
+/// After the pinned copy, before the spawn: `OpenConsole.exe` and `conpty.dll` written when absent,
+/// re-hashed and held, then `conpty.dll` pre-loaded by absolute path. It never refuses, prints or
+/// changes the exit: any failure leaves the child on the inbox ConPTY, recorded as a code.
+#[cfg(windows)]
+#[instrument(
+    skip_all,
+    name = "run.conpty_sideload",
+    fields(
+        outcome = tracing::field::Empty,
+        search_restricted = tracing::field::Empty
+    )
+)]
+fn conpty_sideload(pinned: &Pinned) -> Sideload {
+    let span = tracing::Span::current();
+    span.record(
+        "search_restricted",
+        viola_pty::sideload::search_restricted(),
+    );
+    let (outcome, held) = sideload_outcome(pinned);
+    span.record("outcome", outcome);
+    Sideload {
+        fallback: (outcome != "loaded").then_some(outcome),
+        _held: held,
+    }
+}
+
+/// `conpty::FILES` puts `OpenConsole.exe` first, so a dll with no verified host never loads.
+#[cfg(all(windows, target_arch = "x86_64"))]
+fn sideload_outcome(pinned: &Pinned) -> (&'static str, Option<viola_state::pin::HeldCompanions>) {
+    use crate::conpty;
+    let held = match viola_state::pin::pin_companions(pinned, conpty::SUBDIR, conpty::FILES) {
+        Ok(held) => held,
+        Err(PinError::HashMismatch) => return ("hash-mismatch", None),
+        Err(PinError::State(_)) => return ("unreadable", None),
+    };
+    match viola_pty::sideload::preload(&held.dir.join(conpty::DLL)) {
+        Ok(()) => ("loaded", Some(held)),
+        Err(_) => ("load-failed", None),
+    }
+}
+
+#[cfg(all(windows, not(target_arch = "x86_64")))]
+fn sideload_outcome(_: &Pinned) -> (&'static str, Option<viola_state::pin::HeldCompanions>) {
+    ("not-built", None)
 }
 
 /// The instance's endpoint, bound before the first snapshot so the child's first hook finds it
@@ -309,6 +381,7 @@ fn spawn_child(
     strip: &StripPlan,
     instance_dir: &Path,
     mut snapshot: InstanceSnapshot,
+    sideload_fallback: Option<&'static str>,
 ) -> anyhow::Result<(PortablePty, Option<HostTerminal>, Size)> {
     let spec = SpawnSpec {
         program,
@@ -328,6 +401,7 @@ fn spawn_child(
         strip,
         snapshot.cli_version.as_deref(),
         snapshot.cli_verified,
+        sideload_fallback,
     );
     Ok((pty, terminal, spec.size))
 }
@@ -578,20 +652,31 @@ mod tests {
 
         let spans = spans.all();
         let names: Vec<&str> = spans.iter().filter_map(|s| s["name"].as_str()).collect();
-        assert_eq!(
-            names,
-            [
-                "run.start",
-                "run.collision_check",
-                "run.pin_copy",
+        let sideload: &[&str] = if cfg!(windows) {
+            &["run.conpty_sideload"]
+        } else {
+            &[]
+        };
+        let expected: Vec<&str> = ["run.start", "run.collision_check", "run.pin_copy"]
+            .iter()
+            .chain(sideload)
+            .chain(&[
                 "run.version_gate",
                 "channel.bind",
                 "state.snapshot_write",
                 "state.heartbeat_start",
                 "pty.spawn",
                 "state.snapshot_write",
-            ]
-        );
+            ])
+            .copied()
+            .collect();
+        assert_eq!(names, expected);
+        if cfg!(all(windows, target_arch = "x86_64")) {
+            let sideload = field(&spans, "run.conpty_sideload");
+            assert_eq!(sideload["outcome"], "loaded");
+            assert!(sideload["search_restricted"].is_boolean(), "{sideload}");
+            assert_eq!(viola_pty::pty_backend(), "conpty-sideload");
+        }
         assert!(spans[0]["parent"].is_null());
         assert!(
             spans[1..].iter().all(|s| s["parent"] == "run.start"),
@@ -612,7 +697,7 @@ mod tests {
         );
         assert_eq!(field(&spans, "state.snapshot_write")["v"], 1);
         let spawn = field(&spans, "pty.spawn");
-        assert_eq!(spawn["pty_backend"], viola_pty::PTY_BACKEND);
+        assert_eq!(spawn["pty_backend"], viola_pty::pty_backend());
         assert!(spawn["env_stripped_count"].is_u64(), "{spawn}");
 
         let seam: Vec<Value> = seam.all();
