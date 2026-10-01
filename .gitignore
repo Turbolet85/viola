@@ -1,5 +1,10 @@
 .andromeda/cache/
 
+# --- Future-version incubator (untracked planning material; not part of the current version) ---
+# 0.2.0 notes (raise, the session graph, the deferred revive variants); kept local + untracked until promoted
+# into a version (founder ruling 2026-10-01, after refs/session-memory-options.md).
+viola-0.2.0-incubator/
+
 # Claude Code (setup-project base)
 .claude/backup/
 .claude/settings.local.json
