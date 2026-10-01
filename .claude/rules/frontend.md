@@ -9,14 +9,15 @@ paths:
 Path-scoped rules for viola's two design surfaces: the `viola ui` strip-bay page (web-spa) and human CLI output (cli). Authoritative sources: `.andromeda/design-system.md` and `.andromeda/layout-templates.md`; output encoding from `.andromeda/security-plan.md` §API Security.
 
 ## Framework (web-spa)
-- **Framework:** Lit 3.3.3, vendored ESM, embedded via `include_bytes!`; no JS build step, no component library.
-- **Component model:** plain light-DOM `viola-*` elements (`createRenderRoot(){ return this; }`) over native HTML — no Shadow DOM, no Lit `static styles` in v1.
+- **Framework:** React + TypeScript (founder ruling 2026-09-30), a built bundle embedded in `viola`; no component library. The bundler, versions, embedding, CSP needs and npm gates are OPEN, owned by the route's frontend-toolchain entry (Epoch 8's head). Until it lands: no JS build step, and no tsconfig, package manifest or bundler config under `crates/viola-ui/` (architecture Build system guard).
+- **Component model:** plain `viola-*` components over native HTML — no Shadow DOM, no component-scoped or runtime-injected styles in v1. The Lit-era light-DOM custom-element form is retired; how each `viola-*` name maps onto React's output (element, class, data attribute) is OPEN, same owner. The rendered-DOM requirements stand.
 - **Styling:** one hand-written `/assets/app.css` with `@layer tokens, base, components, states, motion`, native nesting, custom properties. State only in `data-*` attributes (`data-rb`, `data-dialog`, `data-liveness`, `data-wrapped`, `data-live`).
 - **Routes:** one page `/`; loads `/api/sessions` + `/api/links`, then tails SSE `/api/events`. No client routes, no query-string state, no history entries.
 
 ## Output encoding (CSP `default-src 'none'; script-src 'self'; style-src 'self'; … require-trusted-types-for 'script'`)
-- Every event field and unwrapped session name is a `${}` text binding. NEVER `innerHTML`, `unsafeHTML`, `unsafeSVG`, `styleMap`, `style="…"`, inline `<script>`, inline handlers, `eval`, `@font-face`, CDN assets or Markdown rendering.
+- Every event field and unwrapped session name is a text binding (JSX text children). NEVER `innerHTML`, `dangerouslySetInnerHTML`, `style="…"` (React's `style` prop included), inline `<script>`, inline handlers, `eval`, `@font-face`, CDN assets or Markdown rendering.
 - Never display, echo or log the GUI token, launch URL, `?t=`, `.url` path or a cookie value — the 401 strip included — and never render `viola_home`.
+- `require-trusted-types-for 'script'` stands; lit-html's built-in policy no longer satisfies it, and what does under React is OPEN (frontend-toolchain entry). Relaxing any CSP directive is a boundary widening the founder rules live.
 
 ## Tokens (the Token Test)
 - Exactly eight hex values (`--c-*`), read only where a role alias is assigned; components use role aliases (`--surface-*`, `--ink*`, `--rule-*`, `--attention`, `--handoff`, `--focus-ring`, `--rb-*`). Every length is a token or a `ch` track in `--strip-cols` / `--strip-cols-wrapped` / `--tape-cols`; only the `760px` / `1024px` breakpoints are literal.
@@ -29,7 +30,7 @@ Path-scoped rules for viola's two design surfaces: the `viola ui` strip-bay page
 - Banned: spinners, pulses, blink, shimmer, skeletons, looped/staggered animation, hover colour transitions, "Loading…", toasts, auto-dismissing notices, command palette, shortcuts.
 
 ## Components
-- `<viola-session-row>` strip (six fixed fields NAME · LIVE · STATUS · WHEEL · DIALOG · CLI, stable slot by name, `unknown` for a missing reading, `n/a` absent-by-contract, never blank); `<viola-readback>` (the signature: `open` / `read` / `refused` / `unconfirmable`, identical drawing in tape and marker); `<viola-transfer>`; `<viola-event-feed>` (native `<details>` lines, 2000-line cap, follow only at bottom); `<viola-atis>`.
+- `viola-session-row` strip (six fixed fields NAME · LIVE · STATUS · WHEEL · DIALOG · CLI, stable slot by name, `unknown` for a missing reading, `n/a` absent-by-contract, never blank); `viola-readback` (the signature: `open` / `read` / `refused` / `unconfirmable`, identical drawing in tape and marker); `viola-transfer`; `viola-event-feed` (native `<details>` lines, 2000-line cap, follow only at bottom); `viola-atis`.
 - Nothing is shown as delivered until read back; `turn-ended` never fills a box.
 
 ## CLI surface (`src/cmd/**`)

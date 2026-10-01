@@ -1,0 +1,54 @@
+{
+ "unit": "viola-channel",
+ "exit": 2,
+ "jobs": 4,
+ "total_mutants": 152,
+ "planned_len": 152,
+ "end_time": "2026-10-01T10:47:53.101172Z",
+ "state": "complete",
+ "unit_state": "complete 152/152",
+ "counts": {
+  "mutants": 152,
+  "caught": 130,
+  "missed": 0,
+  "not_measured": 4,
+  "timeout": 0,
+  "unviable": 18
+ },
+ "score": 100.0,
+ "score_formula": "caught/(caught+missed)",
+ "survivors": [],
+ "not_measured": [
+  [
+   "crates/viola-channel/src/client.rs:231:5",
+   "replace open_by -> io::Result<Stream> with Ok(Default::default())",
+   "cfg(unix)"
+  ],
+  [
+   "crates/viola-channel/src/endpoint.rs:76:5",
+   "replace host_socket_dir -> PathBuf with Default::default()",
+   "cfg(unix)"
+  ],
+  [
+   "crates/viola-channel/src/server.rs:75:9",
+   "replace <impl Drop for Guard>::drop with ()",
+   "cfg(unix)"
+  ],
+  [
+   "crates/viola-channel/src/server.rs:108:5",
+   "replace listen -> Result<(Listener, Guard), ChannelError> with Ok((Default::default(), Default::default()))",
+   "cfg(unix)"
+  ]
+ ],
+ "timeouts": [],
+ "tool_tally": {
+  "caught": 130,
+  "missed": 4,
+  "timeout": 0,
+  "unviable": 18,
+  "success": 0,
+  "failure": null
+ },
+ "host": "x86_64-pc-windows-msvc",
+ "start_time": "2026-10-01T10:42:36.3061637Z"
+}

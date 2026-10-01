@@ -1,0 +1,73 @@
+{
+ "pct": 1.35,
+ "duplicated_lines": 416,
+ "total_lines": 30745,
+ "clones": 53,
+ "top": [
+  [
+   "crates/viola-core/src/obs.rs:175",
+   "tests/contract_diag_schema.rs:20",
+   21
+  ],
+  [
+   "tests/hook_fail_open.rs:338",
+   "tests/hook_fail_open.rs:409",
+   20
+  ],
+  [
+   "tests/channel_sqos_open.rs:90",
+   "tests/security_negatives_channel.rs:72",
+   19
+  ],
+  [
+   "tests/cli_controls_not_disableable.rs:47",
+   "tests/hook_fail_open.rs:102",
+   15
+  ],
+  [
+   "tests/cli_verify.rs:340",
+   "tests/run_cli.rs:114",
+   15
+  ],
+  [
+   "crates/viola-e2e/src/harness/cleanup.rs:130",
+   "tests/support/home.rs:371",
+   13
+  ],
+  [
+   "tests/run_cli.rs:397",
+   "tests/tui_env_strip.rs:34",
+   12
+  ],
+  [
+   "crates/viola-channel/tests/channel_frames.rs:40",
+   "tests/channel_endpoint.rs:56",
+   11
+  ],
+  [
+   "crates/viola-agent-claude/src/ledger.rs:412",
+   "tests/support/hygiene.rs:44",
+   10
+  ],
+  [
+   "crates/viola-channel/src/lib.rs:191",
+   "crates/viola-e2e/src/harness/cleanup.rs:324",
+   10
+  ]
+ ],
+ "split": {
+  "src": {
+   "pairs": 20,
+   "lines": 151
+  },
+  "test": {
+   "pairs": 25,
+   "lines": 236
+  },
+  "mixed": {
+   "pairs": 8,
+   "lines": 82
+  }
+ },
+ "sources": 96
+}

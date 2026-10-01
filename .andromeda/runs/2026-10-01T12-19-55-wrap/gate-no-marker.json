@@ -1,0 +1,114 @@
+[
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-10-01T12:37:31Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-10-01T12-19-55-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\viola · planes rust, ts",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P2 · P3 rust · P3 ts — each fired on its synthetic known positive",
+"P1 .andromeda/runs/2026-10-01T09-05-15-evolve-diagnose/proposals.md:486 ×1 · drive",
+"P1 .andromeda/runs/2026-10-01T09-05-15-evolve-diagnose/q-level-raw.json:241 ×5 · drive",
+"P1 .andromeda/runs/2026-10-01T09-05-15-evolve-diagnose/q-level.json:178 ×3 · drive",
+"P1 .andromeda/runs/2026-10-01T09-05-15-evolve-diagnose/q-typed.json:2552 ×5 · drive",
+"P1 .andromeda/runs/2026-10-01T09-18-50-code-audit/mut-e2e.sh:7 ×1 · drive",
+"P1 .andromeda/runs/2026-10-01T09-18-50-code-audit/mut.sh:8 ×2 · msys,drive",
+"P1 .andromeda/runs/2026-10-01T12-19-55-wrap/adaptation-record.md:9 ×1 · drive",
+"hygiene: refused 7 files — P1 7 · P2 0 · P3 0 · read 75 (runs 75 · evidence 0) · trails 4 not read · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\viola",
+"planes": [
+"rust",
+"ts"
+],
+"rows": [
+"P1 .andromeda/runs/2026-10-01T09-05-15-evolve-diagnose/proposals.md:486 ×1 · drive",
+"P1 .andromeda/runs/2026-10-01T09-05-15-evolve-diagnose/q-level-raw.json:241 ×5 · drive",
+"P1 .andromeda/runs/2026-10-01T09-05-15-evolve-diagnose/q-level.json:178 ×3 · drive",
+"P1 .andromeda/runs/2026-10-01T09-05-15-evolve-diagnose/q-typed.json:2552 ×5 · drive",
+"P1 .andromeda/runs/2026-10-01T09-18-50-code-audit/mut-e2e.sh:7 ×1 · drive",
+"P1 .andromeda/runs/2026-10-01T09-18-50-code-audit/mut.sh:8 ×2 · msys,drive",
+"P1 .andromeda/runs/2026-10-01T12-19-55-wrap/adaptation-record.md:9 ×1 · drive"
+],
+"counts": {
+"P1": 7,
+"P2": 0,
+"P3": 0,
+"runs": 75,
+"evidence": 0,
+"trails": 4,
+"binary": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-10-01T12:38:03Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-10-01T12-19-55-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\viola · planes rust, ts",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P2 · P3 rust · P3 ts — each fired on its synthetic known positive",
+"P1 .andromeda/runs/2026-10-01T09-05-15-evolve-diagnose/proposals.md:486 ×1 · drive",
+"P1 .andromeda/runs/2026-10-01T09-05-15-evolve-diagnose/q-level-raw.json:241 ×5 · drive",
+"P1 .andromeda/runs/2026-10-01T09-05-15-evolve-diagnose/q-level.json:178 ×3 · drive",
+"P1 .andromeda/runs/2026-10-01T09-05-15-evolve-diagnose/q-typed.json:2552 ×5 · drive",
+"P1 .andromeda/runs/2026-10-01T09-18-50-code-audit/mut-e2e.sh:7 ×1 · drive",
+"P1 .andromeda/runs/2026-10-01T09-18-50-code-audit/mut.sh:8 ×2 · msys,drive",
+"hygiene: refused 6 files — P1 6 · P2 0 · P3 0 · read 76 (runs 76 · evidence 0) · trails 5 not read · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\viola",
+"planes": [
+"rust",
+"ts"
+],
+"rows": [
+"P1 .andromeda/runs/2026-10-01T09-05-15-evolve-diagnose/proposals.md:486 ×1 · drive",
+"P1 .andromeda/runs/2026-10-01T09-05-15-evolve-diagnose/q-level-raw.json:241 ×5 · drive",
+"P1 .andromeda/runs/2026-10-01T09-05-15-evolve-diagnose/q-level.json:178 ×3 · drive",
+"P1 .andromeda/runs/2026-10-01T09-05-15-evolve-diagnose/q-typed.json:2552 ×5 · drive",
+"P1 .andromeda/runs/2026-10-01T09-18-50-code-audit/mut-e2e.sh:7 ×1 · drive",
+"P1 .andromeda/runs/2026-10-01T09-18-50-code-audit/mut.sh:8 ×2 · msys,drive"
+],
+"counts": {
+"P1": 6,
+"P2": 0,
+"P3": 0,
+"runs": 76,
+"evidence": 0,
+"trails": 5,
+"binary": 0
+},
+"indeterminate": 0
+}
+}
+]

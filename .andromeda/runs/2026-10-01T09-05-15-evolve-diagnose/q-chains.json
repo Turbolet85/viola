@@ -1,0 +1,1970 @@
+{
+ "anchors": [
+  {
+   "chunk": null,
+   "artifact": "handoff",
+   "consumer": "new-session/orientation",
+   "consumer_id": "2026-09-27T12:36:36Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "handoff",
+     "quality": "thin",
+     "note": "Position Next names Wrapper channel for /andromeda-phase and Status clean, but that chunk is already phased, implemented and operator-passed, and a wrap paused after P1; the handoff predates it (last wrap 06:40Z)"
+    }
+   ],
+   "consumer_what": null,
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": null,
+   "artifact": ".claude/session-handoff.md",
+   "consumer": "new-session/orientation",
+   "consumer_id": "2026-09-27T12:36:36Z-b",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "The handoff's Position Next (phase Wrapper channel) and Status clean disagree with git: the chunk has 4 fix commits, an operator pre-CI commit and untracked wrap artifacts; a wrap paused at P1 at 92% context without rewriting the handoff, and only resume.md in the wrap run dir carries the true position",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": null,
+   "artifact": ".andromeda/runs/2026-09-27T12-33-51-wrap/resume.md",
+   "consumer": "new-session/orientation",
+   "consumer_id": "2026-09-27T12:36:36Z-b",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "The handoff's Position Next (phase Wrapper channel) and Status clean disagree with git: the chunk has 4 fix commits, an operator pre-CI commit and untracked wrap artifacts; a wrap paused at P1 at 92% context without rewriting the handoff, and only resume.md in the wrap run dir carries the true position",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-27-epoch-2-cleanup",
+   "artifact": "plan",
+   "consumer": "phase/validate",
+   "consumer_id": "2026-09-27T14:40:04Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "plan",
+     "quality": "thin",
+     "note": "P4 plan needed 6 REQUIRED-RESOLUTIONs at P5 (check 9 slot, 2 unmarked new entries, 4 criteria naming unlisted probes, 1 placeholder leak); all resolved in P5 without a re-plan"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "phase/plan",
+   "producer_id": "2026-09-27T14:32:16Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "plan",
+     "signals": [
+      "designed-dialogue:test-support-placement",
+      "designed-dialogue:scratch-vs-ra-stop",
+      "authority-resolved:research fact 5 over the obs history item",
+      "plan-over-400-lines"
+     ],
+     "note": "439 lines, 31 gate entries, 17 criteria; operator added a wipe guard and a release-check feature proof; planlint 0 hits"
+    }
+   ]
+  },
+  {
+   "chunk": null,
+   "artifact": "handoff",
+   "consumer": "new-session/orientation",
+   "consumer_id": "2026-09-27T14:41:38Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "handoff",
+     "quality": "thin",
+     "note": "Position Next names /andromeda-phase for :43, but a later phase run (2026-09-27T14-05-04-phase, uncommitted) already promoted and planned it; phase does not rewrite the handoff, so the derived pending record superseded it"
+    }
+   ],
+   "consumer_what": null,
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-27-epoch-2-cleanup",
+   "artifact": "plan",
+   "consumer": "implement/code",
+   "consumer_id": "2026-09-27T15:08:04Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "plan",
+     "quality": "thin",
+     "note": "step 6 move list cannot reach its own <=700 target once steps 7/9/11 land; step 7 names rstest cases in a crate without dev-dependencies"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "phase/validate",
+   "producer_id": "2026-09-27T14:40:04Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "plan",
+     "signals": [
+      "baseline-caught-unpassable-gate"
+     ],
+     "note": "cargo machete baseline listed the standing fuzz arbitrary item: a bare cargo machete gate could never read green; split into a strict member-crate entry and the audit instrument with lacks/contains atoms"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-09-27-epoch-2-cleanup",
+   "artifact": "crates/viola-e2e/src/harness/run/mutants.rs",
+   "consumer": "implement/code",
+   "consumer_id": "2026-09-27T15:08:04Z-b",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "step 6 moved exactly the listed base-resolution items, leaving run/mutants.rs at 733 tokei lines vs its <=700 target; after steps 7/9/11 tests it read 820, so the diff classifiers went to base.rs and the per-leg verdict to a new mutants/leg.rs (a file the plan does not list)",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-27-epoch-2-cleanup",
+   "artifact": "crates/viola-e2e/src/harness/run/mutants/leg.rs",
+   "consumer": "implement/code",
+   "consumer_id": "2026-09-27T15:08:04Z-b",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "step 6 moved exactly the listed base-resolution items, leaving run/mutants.rs at 733 tokei lines vs its <=700 target; after steps 7/9/11 tests it read 820, so the diff classifiers went to base.rs and the per-leg verdict to a new mutants/leg.rs (a file the plan does not list)",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-27-epoch-2-cleanup",
+   "artifact": "crates/viola-e2e/Cargo.toml",
+   "consumer": "implement/code",
+   "consumer_id": "2026-09-27T15:08:04Z-c",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "plan step 7 names rstest cases for the scratch guard; viola-e2e carries no [dev-dependencies] at all, measured on read of its Cargo.toml after the first compile failed",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-27-epoch-2-cleanup",
+   "artifact": "plan",
+   "consumer": "implement/fix-loop",
+   "consumer_id": "2026-09-27T15:48:15Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "plan",
+     "quality": "thin",
+     "note": "entry 22 (G1 rg) runs bare rg, but the gate shell has none on PATH; the PATH precondition lives in .claude/docs/commands.md:67, not in the entry"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "phase/validate",
+   "producer_id": "2026-09-27T14:40:04Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "plan",
+     "signals": [
+      "baseline-caught-unpassable-gate"
+     ],
+     "note": "cargo machete baseline listed the standing fuzz arbitrary item: a bare cargo machete gate could never read green; split into a strict member-crate entry and the audit instrument with lacks/contains atoms"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-09-27-epoch-2-cleanup",
+   "artifact": "implement-outcome",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-09-27T17:24:01Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "implement-outcome",
+     "quality": "thin",
+     "note": "implement's green P4 report was superseded: the operator pass ran after it (first pre-push red, the recorder fold, one green re-run, commit, push, CI green)"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "implement/smoke",
+   "producer_id": "2026-09-27T15:50:02Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "implement-outcome",
+     "signals": [
+      "green"
+     ]
+    }
+   ]
+  },
+  {
+   "chunk": "2026-09-27-epoch-2-cleanup",
+   "artifact": "plan",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-09-27T17:24:01Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "plan",
+     "quality": "thin",
+     "note": "step 6 list short of its own <=700 target; clones and mutant-count predictions off (3 vs 4; ~165 vs 200)"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "phase/validate",
+   "producer_id": "2026-09-27T14:40:04Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "plan",
+     "signals": [
+      "baseline-caught-unpassable-gate"
+     ],
+     "note": "cargo machete baseline listed the standing fuzz arbitrary item: a bare cargo machete gate could never read green; split into a strict member-crate entry and the audit instrument with lacks/contains atoms"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-09-27-browser-verdict-reachability",
+   "artifact": "handoff",
+   "consumer": "phase/take-up",
+   "consumer_id": "2026-09-27T18:23:05Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "handoff",
+     "quality": "wrong",
+     "note": "Position Next folded the 8 tests with no direction; the session-start dashboard rendered it as raise, the overseer corrected to lower to 7 s"
+    }
+   ],
+   "consumer_what": null,
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-27-browser-verdict-reachability",
+   "artifact": "viola-0.1.0/working-route.md:45",
+   "consumer": "phase/take-up",
+   "consumer_id": "2026-09-27T18:23:05Z-c",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "the W125 CARRY says Playwright on three CI OSes but does not name that test-plan run step 3 makes the browser step linux-only (browser-linux-only exit 2) and the ubuntu-only E2E job; the conflict surfaced only by a test-plan grep",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-27-browser-verdict-reachability",
+   "artifact": ".andromeda/test-plan.md:550-551",
+   "consumer": "phase/take-up",
+   "consumer_id": "2026-09-27T18:23:05Z-c",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "the W125 CARRY says Playwright on three CI OSes but does not name that test-plan run step 3 makes the browser step linux-only (browser-linux-only exit 2) and the ubuntu-only E2E job; the conflict surfaced only by a test-plan grep",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-27-browser-verdict-reachability",
+   "artifact": "plan",
+   "consumer": "phase/validate",
+   "consumer_id": "2026-09-27T18:50:05Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "plan",
+     "quality": "thin",
+     "note": "P4 plan passed dry-run and planlint but check 4 (6)/(4) needed 8 more entries and 2 artifact keys; check 8 corrected one research claim and two stale atom lines"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "phase/plan",
+   "producer_id": "2026-09-27T18:42:08Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "plan",
+     "signals": [
+      "designed-dialogue:node-pin-source",
+      "designed-dialogue:browser-reach",
+      "designed-dialogue:npm-lockfile-audit",
+      "authority-resolved:arch route-fulfilment lean yielded to test-plan route.fulfill ban",
+      "authority-resolved:axe deferral recorded as a wrap amendment (tests) over not-a-deviation (arch)"
+     ],
+     "note": "35 gate entries, 13 acceptance criteria, 14 steps; gate.py dry-run 35 parsed, planlint 0 hits"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-09-27-browser-verdict-reachability",
+   "artifact": "research",
+   "consumer": "implement/code",
+   "consumer_id": "2026-09-27T19:05:39Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "research",
+     "quality": "thin",
+     "note": "Files-to-modify omitted the shared pre-push test fixtures in pre_push.rs (CI_LINE, Fake::green) that the node pin and run --browser need"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "phase/research",
+   "producer_id": "2026-09-27T18:35:24Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "research",
+     "signals": [
+      "unresolved-questions"
+     ],
+     "note": "3 plan-decision questions: Node pin source, --all/host browser, npm lockfile audit"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-09-27-browser-verdict-reachability",
+   "artifact": "crates/viola-e2e/src/harness/pre_push.rs",
+   "consumer": "implement/code",
+   "consumer_id": "2026-09-27T19:05:39Z-b",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "the Files-to-modify lists omitted pre_push.rs's test module, whose CI_LINE and Fake::green fixtures every linux.rs pre-push test drives; proceeded as an in-scope helper",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-27-browser-verdict-reachability",
+   "artifact": "research",
+   "consumer": "implement/fix-loop",
+   "consumer_id": "2026-09-27T19:29:07Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "research",
+     "quality": "thin",
+     "note": "crates/viola-e2e/tests/cli.rs pinned run --browser as an unbuilt selector and was not listed"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "phase/research",
+   "producer_id": "2026-09-27T18:35:24Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "research",
+     "signals": [
+      "unresolved-questions"
+     ],
+     "note": "3 plan-decision questions: Node pin source, --all/host browser, npm lockfile audit"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-09-27-hooks-to-normalised-events",
+   "artifact": "plan.md",
+   "consumer": "phase/validate",
+   "consumer_id": "2026-09-27T21:46:36Z-b",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "the long-paste wrapper's closing form (id repeated, unescaped CLI pair vs escaped typed forms) lived in the live session log ~/.viola/sessions/viola-builder/events.ndjson and the sibling prototype repo store.rs:241-249, outside every artifact phase reads; the plan shipped a hypothesis, the operator supplied it at review over two rounds (the first relay swapped the forms)",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-27-hooks-to-normalised-events",
+   "artifact": "research.md",
+   "consumer": "phase/validate",
+   "consumer_id": "2026-09-27T21:46:36Z-b",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "the long-paste wrapper's closing form (id repeated, unescaped CLI pair vs escaped typed forms) lived in the live session log ~/.viola/sessions/viola-builder/events.ndjson and the sibling prototype repo store.rs:241-249, outside every artifact phase reads; the plan shipped a hypothesis, the operator supplied it at review over two rounds (the first relay swapped the forms)",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-27-hooks-to-normalised-events",
+   "artifact": "research",
+   "consumer": "implement/code",
+   "consumer_id": "2026-09-27T22:07:16Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "research",
+     "quality": "thin",
+     "note": "companion sweep called cli_instance_state.rs:344-355 body-free (it pinned the empty hooks body); server/win.rs caller of client open unlisted"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "phase/research",
+   "producer_id": "2026-09-27T21:29:44Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "research",
+     "signals": [
+      "unresolved-questions"
+     ],
+     "note": "3 plan-decision questions carried to P4; CARRY 5 mechanism measured by a scratch probe (raw os error 5 under every reader share mode)"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-09-27-hooks-to-normalised-events",
+   "artifact": "viola-0.1.0/chunks/2026-09-27-hooks-to-normalised-events/plan.md",
+   "consumer": "implement/code",
+   "consumer_id": "2026-09-27T22:07:16Z-b",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "plan/research companion sweep said tests/cli_instance_state.rs:344-355 asserts the rewrite not the body (no change); it asserted the literal empty hooks body and needed an edit; research's graph impact omitted client::open's second caller in server/win.rs",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-27-hooks-to-normalised-events",
+   "artifact": "tests/cli_instance_state.rs",
+   "consumer": "implement/code",
+   "consumer_id": "2026-09-27T22:07:16Z-b",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "plan/research companion sweep said tests/cli_instance_state.rs:344-355 asserts the rewrite not the body (no change); it asserted the literal empty hooks body and needed an edit; research's graph impact omitted client::open's second caller in server/win.rs",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-27-hooks-to-normalised-events",
+   "artifact": "crates/viola-channel/src/server/win.rs",
+   "consumer": "implement/code",
+   "consumer_id": "2026-09-27T22:07:16Z-b",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "plan/research companion sweep said tests/cli_instance_state.rs:344-355 asserts the rewrite not the body (no change); it asserted the literal empty hooks body and needed an edit; research's graph impact omitted client::open's second caller in server/win.rs",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-27-hooks-to-normalised-events",
+   "artifact": "viola-0.1.0/chunks/2026-09-27-hooks-to-normalised-events/plan.md",
+   "consumer": "implement/code",
+   "consumer_id": "2026-09-27T22:07:16Z-c",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "plan step 9.3 (a new hook-safe init fn beside viola_obs_init) and step 6 (HookEvent::is_spine) each ask for code with no observable effect in this chunk, against testing.md 2026-09-24; both settled as deviations for the report",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-27-hooks-to-normalised-events",
+   "artifact": "drift-base",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-09-28T04:37:42Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "drift-base",
+     "quality": "thin",
+     "note": "obs detectors carry no plan-text-currency invariant; 4 stale obs sites came only as stripped comments"
+    }
+   ],
+   "consumer_what": null,
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-27-hooks-to-normalised-events",
+   "artifact": "conversation",
+   "consumer": "wrap-session/curation",
+   "consumer_id": "2026-09-28T04:38:48Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "conversation",
+     "quality": "thin",
+     "note": "resumed wrap: the implement / P4 window's conversation is gone; only this window and the report's Decisions & corrections were scanned"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "implement/smoke",
+   "producer_id": "2026-09-27T23:09:08Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "conversation",
+     "signals": [
+      "recorded-from-P2"
+     ],
+     "note": "smoke entries 23-26 ran green as P2 gates in both full runs; not re-driven"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-09-28-hook-perf-gate",
+   "artifact": "viola-0.1.0/working-route.md:49",
+   "consumer": "phase/take-up",
+   "consumer_id": "2026-09-28T05:16:37Z-b",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "CARRY 2 asks for 'a cli_controls_not_disableable.rs row' but no such test file exists at HEAD; test-plan specifies it as the whole Vector 6 table, so create-vs-row is left an inferred premise for P3",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-28-hook-perf-gate",
+   "artifact": "tests/",
+   "consumer": "phase/take-up",
+   "consumer_id": "2026-09-28T05:16:37Z-b",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "CARRY 2 asks for 'a cli_controls_not_disableable.rs row' but no such test file exists at HEAD; test-plan specifies it as the whole Vector 6 table, so create-vs-row is left an inferred premise for P3",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-28-hook-perf-gate",
+   "artifact": "test-plan.md:963",
+   "consumer": "phase/take-up",
+   "consumer_id": "2026-09-28T05:16:37Z-b",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "CARRY 2 asks for 'a cli_controls_not_disableable.rs row' but no such test file exists at HEAD; test-plan specifies it as the whole Vector 6 table, so create-vs-row is left an inferred premise for P3",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-28-hook-perf-gate",
+   "artifact": "obs.md",
+   "consumer": "phase/distill",
+   "consumer_id": "2026-09-28T05:22:41Z-c",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "obs-plan §9 G2 / §10 zero-unlogged-panics carries no exemption for a deliberate test panic, so the ratified forced-panic case would turn G2 red under the plan as written; surfaced by the obs extract for P3/P4",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-28-hook-perf-gate",
+   "artifact": "viola-0.1.0/chunks/2026-09-28-hook-perf-gate/plan.md",
+   "consumer": "implement/code",
+   "consumer_id": "2026-09-28T05:50:39Z-b",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "step 10.2's feature spelling (fake-agent over --workspace) differs from the sibling boot build's viola/fake-agent; took the sibling's and surfaced it for the P4 report",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-28-hook-perf-gate",
+   "artifact": "crates/viola-e2e/src/harness/boot.rs",
+   "consumer": "implement/code",
+   "consumer_id": "2026-09-28T05:50:39Z-b",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "step 10.2's feature spelling (fake-agent over --workspace) differs from the sibling boot build's viola/fake-agent; took the sibling's and surfaced it for the P4 report",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-28-hook-perf-gate",
+   "artifact": "research",
+   "consumer": "implement/fix-loop",
+   "consumer_id": "2026-09-28T06:59:44Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "research",
+     "quality": "thin",
+     "note": "missed the viola-e2e cli.rs test pinning run --perf as an unbuilt usage selector"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "phase/research",
+   "producer_id": "2026-09-28T05:29:56Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "research",
+     "signals": [
+      "unresolved-questions"
+     ],
+     "note": "3 plan-decision open questions (job shape, G2 vs deliberate panic, controls row); scope lists parsed 9 items first try under the new gate.py grammar"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-09-28-hook-perf-gate",
+   "artifact": "drift-base",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-09-28T08:01:06Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "drift-base",
+     "quality": "thin",
+     "note": "no obs detector covers a §3/§10 status or verification-path claim; Validate check 5 raised five obs sites (O5-O9) and one security CI-integration site (S5) from the plan's list"
+    }
+   ],
+   "consumer_what": null,
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-28-cli-output-tokens",
+   "artifact": "plan",
+   "consumer": "implement/fix-loop",
+   "consumer_id": "2026-09-28T09:31:23Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "plan",
+     "quality": "thin",
+     "note": "28 entries ran as written; entry 17's expect (0 missed on a host-only scoped run) cannot hold for refuse_stale, whose only killer is #[cfg(unix)]"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "phase/plan",
+   "producer_id": "2026-09-28T09:00:49Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "plan",
+     "signals": [
+      "designed-dialogue:consumer-less-layer",
+      "authority-resolved:env-reader-deferral-per-testing.md-2026-09-24",
+      "authority-resolved:escape-set-CR-DEL-escaped-per-design-security"
+     ],
+     "note": "348 lines, 6 steps, 27 gate entries, 6 criteria; 5 caller citations from the rust-plane calls query, 0 soft; planlint 0 hits"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-09-28-cli-output-tokens",
+   "artifact": "spec:obs-plan",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-09-28T09:55:16Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "spec:obs-plan",
+     "quality": "thin",
+     "note": "§3 :556 and §11 :1392 still described a lone .cmd/.bat refusal with a local #[allow] after earlier chunks added four more refusals through a no-allow writer"
+    }
+   ],
+   "consumer_what": null,
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-28-cli-output-tokens",
+   "artifact": "plan",
+   "consumer": "wrap-session/gates",
+   "consumer_id": "2026-09-28T10:17:02Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "plan",
+     "quality": "thin",
+     "note": "28 entries re-run unskipped: 23 green, entry 17 red again on the same single survivor (refuse_stale), accepted on the E1 word; 4 operator legs verified from evidence/operator-pass.md"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "phase/plan",
+   "producer_id": "2026-09-28T09:00:49Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "plan",
+     "signals": [
+      "designed-dialogue:consumer-less-layer",
+      "authority-resolved:env-reader-deferral-per-testing.md-2026-09-24",
+      "authority-resolved:escape-set-CR-DEL-escaped-per-design-security"
+     ],
+     "note": "348 lines, 6 steps, 27 gate entries, 6 criteria; 5 caller citations from the rust-plane calls query, 0 soft; planlint 0 hits"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-09-28-capability-ledger-and-viola-verify",
+   "artifact": "plan",
+   "consumer": "implement/code",
+   "consumer_id": "2026-09-28T11:13:10Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "plan",
+     "quality": "thin",
+     "note": "step 8 premised a #[files] glob that compiles over an empty fixtures/claude; rstest 0.27 refuses it at compile time (No file found)"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "phase/plan",
+   "producer_id": "2026-09-28T10:48:49Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "plan",
+     "signals": [
+      "designed-dialogue:split",
+      "designed-dialogue:probe-drive",
+      "designed-dialogue:stamps-trust",
+      "designed-dialogue:live-run",
+      "authority-resolved:obs-plan stderr summary yielded to test-plan :518 + design + layouts stdout",
+      "plan-over-size-guidance"
+     ],
+     "note": "555 lines against the ~150-400 guidance (a 34-entry fence and 17 expected-amendment lines); flagged for P5; 1 planlint HIT (gate 30 atom source) fixed before P5"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-09-28-capability-ledger-and-viola-verify",
+   "artifact": "crates/viola-agent-claude/src/ledger.rs",
+   "consumer": "implement/code",
+   "consumer_id": "2026-09-28T11:13:10Z-c",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "two plan letters were underdetermined and settled in the impl, to be surfaced in the report: capture file k per event vs across events (taken across events, so the spine-hooks order check can read arrival order), and StampError as 'a thiserror variant of AgentError' (taken as its own thiserror enum in ledger.rs, AgentError untouched)",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-28-capability-ledger-and-viola-verify",
+   "artifact": "src/cmd/hook.rs",
+   "consumer": "implement/code",
+   "consumer_id": "2026-09-28T11:13:10Z-c",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "two plan letters were underdetermined and settled in the impl, to be surfaced in the report: capture file k per event vs across events (taken across events, so the spine-hooks order check can read arrival order), and StampError as 'a thiserror variant of AgentError' (taken as its own thiserror enum in ledger.rs, AgentError untouched)",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-28-capability-ledger-and-viola-verify",
+   "artifact": "research",
+   "consumer": "implement/fix-loop",
+   "consumer_id": "2026-09-28T13:10:21Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "research",
+     "quality": "thin",
+     "note": "Files to modify missed the two root tests that pin run's role-line count and indices (tests/run_cli.rs, tests/contract_diag_schema.rs)"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "phase/research",
+   "producer_id": "2026-09-28T10:36:49Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "research",
+     "signals": [
+      "unresolved-questions"
+     ],
+     "note": "3 plan-decision questions: probe mechanism, size split, consumerless rows"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-09-28-capability-ledger-and-viola-verify",
+   "artifact": "implement-outcome",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-09-28T18:13:40Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "implement-outcome",
+     "quality": "thin",
+     "note": "superseded by the operator pass: two CI reds folded after the first push (macOS 120 s kill, Windows spine bound) added src/panic_frames.rs and the harness test change; H2 recorded not folded"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "implement/smoke",
+   "producer_id": "2026-09-28T13:10:47Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "implement-outcome",
+     "signals": [
+      "green"
+     ]
+    }
+   ]
+  },
+  {
+   "chunk": "2026-09-28-capability-ledger-and-viola-verify",
+   "artifact": "plan",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-09-28T18:13:40Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "plan",
+     "quality": "thin",
+     "note": "step 8's #[files]-over-an-empty-glob premise is false in rstest 0.27; size projected 1800-2600, measured +3395"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "phase/plan",
+   "producer_id": "2026-09-28T10:48:49Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "plan",
+     "signals": [
+      "designed-dialogue:split",
+      "designed-dialogue:probe-drive",
+      "designed-dialogue:stamps-trust",
+      "designed-dialogue:live-run",
+      "authority-resolved:obs-plan stderr summary yielded to test-plan :518 + design + layouts stdout",
+      "plan-over-size-guidance"
+     ],
+     "note": "555 lines against the ~150-400 guidance (a 34-entry fence and 17 expected-amendment lines); flagged for P5; 1 planlint HIT (gate 30 atom source) fixed before P5"
+    }
+   ]
+  },
+  {
+   "chunk": null,
+   "artifact": "handoff",
+   "consumer": "new-session/orientation",
+   "consumer_id": "2026-09-28T18:16:19Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "handoff",
+     "quality": "thin",
+     "note": "Position Next names the pending chunk as a /andromeda-phase target and Status reads clean; the chunk has since been phased, implemented, operator-passed and its wrap stopped after P1, so the handoff (last wrap 09:58Z) lags by one chunk"
+    }
+   ],
+   "consumer_what": null,
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": null,
+   "artifact": ".claude/session-handoff.md",
+   "consumer": "new-session/orientation",
+   "consumer_id": "2026-09-28T18:16:19Z-b",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "handoff Status clean + Next '/andromeda-phase' for the capability-ledger chunk disagreed with git (dirty tree, operator pass commits, untracked wrap run dir) and the route (chunk pending); a mid-wrap stop after P1 leaves the handoff unwritten until P7, and the truth came from the wrap run dir's resume.md",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": null,
+   "artifact": ".andromeda/runs/2026-09-28T18-10-28-wrap/resume.md",
+   "consumer": "new-session/orientation",
+   "consumer_id": "2026-09-28T18:16:19Z-b",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "handoff Status clean + Next '/andromeda-phase' for the capability-ledger chunk disagreed with git (dirty tree, operator pass commits, untracked wrap run dir) and the route (chunk pending); a mid-wrap stop after P1 leaves the handoff unwritten until P7, and the truth came from the wrap run dir's resume.md",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-28-capability-ledger-and-viola-verify",
+   "artifact": "report",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-09-28T18:35:39Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "report",
+     "quality": "thin",
+     "note": "Symbols named verify's spawns and its stamps read but not their logging or strict-modes status; two detector questions needed a source read"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "wrap-session/report",
+   "producer_id": "2026-09-28T18:13:40Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "report",
+     "signals": [],
+     "note": "every expected-amendment line carries its per-master grep and hit count (amend_sites.py), 3 new resource names at 0 hits as new entries"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-09-28-capability-ledger-and-viola-verify",
+   "artifact": "viola-0.1.0/chunks/2026-09-28-capability-ledger-and-viola-verify/report.md",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-09-28T18:35:39Z-b",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "report Symbols for viola verify omitted whether its --version read and probe child log process lines and whether its update_stamps read runs strict-modes; obs and security detectors flagged both as questions and main read source to answer",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-28-capability-ledger-and-viola-verify",
+   "artifact": "conversation",
+   "consumer": "wrap-session/curation",
+   "consumer_id": "2026-09-28T18:36:51Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "conversation",
+     "quality": "thin",
+     "note": "resumed wrap: the implement and operator-pass conversation is gone; candidates came from the report's Decisions & corrections, whose quoted overseer directions carried them"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "implement/smoke",
+   "producer_id": "2026-09-28T13:10:47Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "conversation",
+     "signals": [
+      "recorded-not-rerun"
+     ],
+     "note": "the plan's role smoke entries 21-24 drove boot, status and cleanup as P2 gates in the final green block; P3 read their fresh records instead of a second boot"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-09-28-mutation-testing-to-the-epoch-boundary",
+   "artifact": "research",
+   "consumer": "phase/plan",
+   "consumer_id": "2026-09-28T20:10:29Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "research",
+     "quality": "thin",
+     "note": "missed run's default/--all selection still including mutants (run.rs:51-61) until P4 synthesis read Selection; research amended in place"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "phase/research",
+   "producer_id": "2026-09-28T20:06:23Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "research",
+     "signals": [
+      "unresolved-questions"
+     ],
+     "note": "2 open questions: leg/union fork (plan-decision), 73 s mechanism (implementation-scope). Extra reads: the code-audit skill's collectors.md C1 (decides whether the audit calls the harness arm), ci#36473870288 JUnit (runner-only CARRY closed against the run: 108 s on macOS, worse than the carried 82 s), two platform searches + one fetch (XProtect)"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-09-28-mutation-testing-to-the-epoch-boundary",
+   "artifact": "crates/viola-e2e/src/harness/run.rs:51-61",
+   "consumer": "phase/plan",
+   "consumer_id": "2026-09-28T20:10:29Z-b",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "research listed run.rs only for the leg parameter; synthesis found Selection::from_flags still puts mutants in the default and --all selection (the per-chunk gate's other half) and amended research before writing step 3",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-28-mutation-testing-to-the-epoch-boundary",
+   "artifact": "plan",
+   "consumer": "implement/code",
+   "consumer_id": "2026-09-28T20:24:00Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "plan",
+     "quality": "thin",
+     "note": "step 6 / acceptance pin `gate --mutants-legs a` exit 2 in tests/cli.rs while the grep -rlE probe requires no file under crates/ to name mutants-legs"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "phase/plan",
+   "producer_id": "2026-09-28T20:10:29Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "plan",
+     "signals": [
+      "designed-dialogue:leg-union-delete-or-keep",
+      "authority-resolved:directive-literal-reading yielded to no-consumer rule (overseer)"
+     ],
+     "note": "24 gate entries, 7 acceptance criteria, 0 planlint hits; 1 fork asked, overseer took the recommended delete"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-09-28-mutation-testing-to-the-epoch-boundary",
+   "artifact": "research",
+   "consumer": "implement/code",
+   "consumer_id": "2026-09-28T20:24:00Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "research",
+     "quality": "thin",
+     "note": "run/mutants/scratch.rs host_scratch_bytes loses its only consumer with the pre-push legs (Graph impact says so) but the file is not in Files to modify"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "phase/research",
+   "producer_id": "2026-09-28T20:06:23Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "research",
+     "signals": [
+      "unresolved-questions"
+     ],
+     "note": "2 open questions: leg/union fork (plan-decision), 73 s mechanism (implementation-scope). Extra reads: the code-audit skill's collectors.md C1 (decides whether the audit calls the harness arm), ci#36473870288 JUnit (runner-only CARRY closed against the run: 108 s on macOS, worse than the carried 82 s), two platform searches + one fetch (XProtect)"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-09-28-mutation-testing-to-the-epoch-boundary",
+   "artifact": "crates/viola-e2e/src/harness/run/mutants/scratch.rs",
+   "consumer": "implement/code",
+   "consumer_id": "2026-09-28T20:24:00Z-c",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "research lists no edit for run/mutants/scratch.rs although host_scratch_bytes keeps no production caller after pre-push loses its two reads (a dead_code error under -D warnings); made as a recorded companion edit",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-28-mutation-testing-to-the-epoch-boundary",
+   "artifact": "plan",
+   "consumer": "implement/fix-loop",
+   "consumer_id": "2026-09-28T20:30:22Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "plan",
+     "quality": "thin",
+     "note": "every Test Command ran as written; entry 13 (grep -rlE retired names) cannot go green against step 6's own test, the defect recorded at the code step"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "phase/plan",
+   "producer_id": "2026-09-28T20:10:29Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "plan",
+     "signals": [
+      "designed-dialogue:leg-union-delete-or-keep",
+      "authority-resolved:directive-literal-reading yielded to no-consumer rule (overseer)"
+     ],
+     "note": "24 gate entries, 7 acceptance criteria, 0 planlint hits; 1 fork asked, overseer took the recommended delete"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-09-28-mutation-testing-to-the-epoch-boundary",
+   "artifact": "implement-outcome",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-09-28T21:07:44Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "implement-outcome",
+     "quality": "thin",
+     "note": "superseded by the operator pass (4 commits, 2 CI reds folded, the macOS arm and the ENOTCONN widening came after implement P4)"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "implement/smoke",
+   "producer_id": "2026-09-28T20:30:51Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "implement-outcome",
+     "signals": [
+      "green"
+     ]
+    }
+   ]
+  },
+  {
+   "chunk": "2026-09-28-mutation-testing-to-the-epoch-boundary",
+   "artifact": "plan",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-09-28T21:07:44Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "plan",
+     "quality": "thin",
+     "note": "Expected amendments omit a11y-plan :1153; entries 9-11 git diff HEAD probes pass vacuously after an operator pass"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "phase/plan",
+   "producer_id": "2026-09-28T20:10:29Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "plan",
+     "signals": [
+      "designed-dialogue:leg-union-delete-or-keep",
+      "authority-resolved:directive-literal-reading yielded to no-consumer rule (overseer)"
+     ],
+     "note": "24 gate entries, 7 acceptance criteria, 0 planlint hits; 1 fork asked, overseer took the recommended delete"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-09-28-mutation-testing-to-the-epoch-boundary",
+   "artifact": "report",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-09-28T21:21:11Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "report",
+     "quality": "thin",
+     "note": "labelled a11y :1153 as §9 (it is §10, caught by the a11y agent) and did not name obs §10 :1348 (found by a phrasing search at check 5)"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "wrap-session/report",
+   "producer_id": "2026-09-28T21:07:44Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "report",
+     "signals": []
+    }
+   ]
+  },
+  {
+   "chunk": "2026-09-28-mutation-testing-to-the-epoch-boundary",
+   "artifact": "drift-base",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-09-28T21:21:11Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "drift-base",
+     "quality": "thin",
+     "note": "no detector covers CI / mutation-gate facts in obs-plan or a11y-plan; 4 plan-listed sites were raised by the orchestrator (check 5)"
+    }
+   ],
+   "consumer_what": null,
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-28-mutation-testing-to-the-epoch-boundary",
+   "artifact": ".andromeda/obs-plan.md:1348",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-09-28T21:21:11Z-d",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "the report's expected-amendments sweep missed obs-plan §10 'A surviving cargo-mutants mutant in obs code' (no swept token on the line) and mislabelled a11y :1153's section; both recovered at validate",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-28-mutation-testing-to-the-epoch-boundary",
+   "artifact": ".andromeda/a11y-plan.md:1153",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-09-28T21:21:11Z-d",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "the report's expected-amendments sweep missed obs-plan §10 'A surviving cargo-mutants mutant in obs code' (no swept token on the line) and mislabelled a11y :1153's section; both recovered at validate",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-28-mutation-testing-to-the-epoch-boundary",
+   "artifact": "plan",
+   "consumer": "wrap-session/gates",
+   "consumer_id": "2026-09-28T21:30:03Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "plan",
+     "quality": "thin",
+     "note": "entries 9-12 (git diff HEAD probes) read vacuously after the operator pass; entry 13 narrowed at this wrap on the operator's ruling"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "phase/plan",
+   "producer_id": "2026-09-28T20:10:29Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "plan",
+     "signals": [
+      "designed-dialogue:leg-union-delete-or-keep",
+      "authority-resolved:directive-literal-reading yielded to no-consumer rule (overseer)"
+     ],
+     "note": "24 gate entries, 7 acceptance criteria, 0 planlint hits; 1 fork asked, overseer took the recommended delete"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-09-29-h2-conpty-resize-probe",
+   "artifact": "viola-0.1.0/chunks/2026-09-29-h2-conpty-resize-probe/plan.md",
+   "consumer": "implement/code",
+   "consumer_id": "2026-09-29T05:30:47Z-b",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "plan step 8 says the loop runs 'the viola-pty resize tests' but its exact command selects only the red test; followed the exact command, and the step left the job's JUnit overwrite and the runner temp mapping unaddressed (both added to the loop)",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-29-h2-conpty-resize-probe",
+   "artifact": "plan",
+   "consumer": "implement/fix-loop",
+   "consumer_id": "2026-09-29T05:36:30Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "plan",
+     "quality": "wrong",
+     "note": "entry 6 `run --e2e` names a harness selector that does not exist at HEAD (clap: unexpected argument)"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "phase/plan",
+   "producer_id": "2026-09-29T05:17:23Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "plan",
+     "signals": [
+      "designed-dialogue:reproduction-venue",
+      "designed-dialogue:reproduction-count",
+      "authority-resolved:tests-extract size-oracle pattern yielded to research HEAD reading"
+     ],
+     "note": "314 lines, 10 acceptance criteria, 13 gate entries; planlint 4(13) hit on the job-log read resolved by its note per validation.md; witness-reshape fork on the document branch leaned per test-plan sections 10 and 2, surfaced at the review"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-09-29-h2-conpty-resize-probe",
+   "artifact": "implement-outcome",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-09-29T06:21:17Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "implement-outcome",
+     "quality": "thin",
+     "note": "superseded by the operator pass: push 2 reshaped the red test and folded an ubuntu coverage-profile red after implement's green"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "implement/smoke",
+   "producer_id": "2026-09-29T05:37:03Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "implement-outcome",
+     "signals": [
+      "green"
+     ]
+    }
+   ]
+  },
+  {
+   "chunk": "2026-09-29-verify-stamped-test-homes-and-harness",
+   "artifact": "viola-0.1.0/working-route.md:59",
+   "consumer": "phase/take-up",
+   "consumer_id": "2026-09-29T06:46:21Z-b",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "CARRY 1's consumer grep (stamped_home|booted_wrapper, '5 root test files') lists 4 root files + 2 support modules; StampedHome|Wrapper::boot adds cli_version_gate, hook_events, hook_fail_open — the red's own test was outside the named set",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-29-verify-stamped-test-homes-and-harness",
+   "artifact": "viola-0.1.0/working-route.md:59",
+   "consumer": "phase/take-up",
+   "consumer_id": "2026-09-29T06:46:21Z-c",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "CARRY 5 places run_bounded in src/cmd/verify.rs; it is defined at src/run/version_gate.rs:39 and shared with run's version gate",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-29-verify-stamped-test-homes-and-harness",
+   "artifact": "research.md",
+   "consumer": "phase/plan",
+   "consumer_id": "2026-09-29T07:07:51Z-b",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "research.md Files to modify omitted tests/support/fake.rs, the home for the root chain's recorded-version constant a plan step needed; added before the plan closed and re-parsed (31 items)",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-29-verify-stamped-test-homes-and-harness",
+   "artifact": "plan.md step 1",
+   "consumer": "phase/plan",
+   "consumer_id": "2026-09-29T07:07:51Z-b",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "research.md Files to modify omitted tests/support/fake.rs, the home for the root chain's recorded-version constant a plan step needed; added before the plan closed and re-parsed (31 items)",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-29-verify-stamped-test-homes-and-harness",
+   "artifact": "plan",
+   "consumer": "phase/validate",
+   "consumer_id": "2026-09-29T07:13:56Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "plan",
+     "quality": "thin",
+     "note": "three defects fixed in P5 before the review (filter entries, missing census entries, step 3 mechanism); full check set re-run after each edit"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "phase/plan",
+   "producer_id": "2026-09-29T07:07:51Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "plan",
+     "signals": [
+      "designed-dialogue:item-8-fix-and-witness",
+      "designed-dialogue:wrapper-boot-fixtures",
+      "authority-resolved:extract-collision-witness-yielded-to-corrected-scope"
+     ],
+     "note": "475 lines, above the ~400 guide; 15 steps, 11 acceptance criteria, 21 gate entries; flagged for P5"
+    }
+   ]
+  },
+  {
+   "chunk": null,
+   "artifact": "handoff",
+   "consumer": "new-session/orientation",
+   "consumer_id": "2026-09-29T07:15:45Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "handoff",
+     "quality": "thin",
+     "note": "Position Next names the phase for Verify-stamped test homes and harness; a phase ran after the wrap (runs/2026-09-29T06-43-45-phase, matrix json present) so the chunk is master-pending and its outputs sit uncommitted; the handoff is a write-time fact, read through the run dir at no extra cost"
+    }
+   ],
+   "consumer_what": null,
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-29-verify-stamped-test-homes-and-harness",
+   "artifact": "plan",
+   "consumer": "implement/fix-loop",
+   "consumer_id": "2026-09-29T07:41:36Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "plan",
+     "quality": "thin",
+     "note": "gate 6's artifact key names a directory (target/agent-run/artifacts/); its mtime does not move when the run overwrites the files inside, so the atom reads STALE on every run while the files are fresh"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "phase/plan",
+   "producer_id": "2026-09-29T07:07:51Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "plan",
+     "signals": [
+      "designed-dialogue:item-8-fix-and-witness",
+      "designed-dialogue:wrapper-boot-fixtures",
+      "authority-resolved:extract-collision-witness-yielded-to-corrected-scope"
+     ],
+     "note": "475 lines, above the ~400 guide; 15 steps, 11 acceptance criteria, 21 gate entries; flagged for P5"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-09-29-verify-stamped-test-homes-and-harness",
+   "artifact": "plan",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-09-29T07:56:48Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "plan",
+     "quality": "thin",
+     "note": "gate 6 artifact key named a directory; Expected amendments list omitted the local-live failure codes and the Refusal enum premise"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "phase/plan",
+   "producer_id": "2026-09-29T07:07:51Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "plan",
+     "signals": [
+      "designed-dialogue:item-8-fix-and-witness",
+      "designed-dialogue:wrapper-boot-fixtures",
+      "authority-resolved:extract-collision-witness-yielded-to-corrected-scope"
+     ],
+     "note": "475 lines, above the ~400 guide; 15 steps, 11 acceptance criteria, 21 gate entries; flagged for P5"
+    }
+   ]
+  },
+  {
+   "chunk": null,
+   "artifact": "handoff",
+   "consumer": "new-session/orientation",
+   "consumer_id": "2026-09-29T08:51:29Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "handoff",
+     "quality": "thin",
+     "note": "Status clean and Next -> /andromeda-phase predate the phase run 08:18-08:50Z that promoted 2026-09-29-sideloaded-conpty; tree carries its uncommitted phase outputs"
+    }
+   ],
+   "consumer_what": null,
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": null,
+   "artifact": ".claude/session-handoff.md",
+   "consumer": "new-session/orientation",
+   "consumer_id": "2026-09-29T08:51:29Z-b",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "handoff Status clean / Position Next /andromeda-phase disagreed with git (7 modified + 2 untracked phase outputs) and route.py cursor (1 pending, promoted): a phase ran after the wrap wrote the handoff and did not rewrite it",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": null,
+   "artifact": ".andromeda/runs/2026-09-29T08-18-26-phase/",
+   "consumer": "new-session/orientation",
+   "consumer_id": "2026-09-29T08:51:29Z-b",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "handoff Status clean / Position Next /andromeda-phase disagreed with git (7 modified + 2 untracked phase outputs) and route.py cursor (1 pending, promoted): a phase ran after the wrap wrote the handoff and did not rewrite it",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-29-sideloaded-conpty",
+   "artifact": "research",
+   "consumer": "implement/code",
+   "consumer_id": "2026-09-29T09:03:34Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "research",
+     "quality": "thin",
+     "note": "Files to modify omits schemas/diag-line.v1.json, which plan step 7 edits; recorded as a companion scope line"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "phase/research",
+   "producer_id": "2026-09-29T08:36:18Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "research",
+     "signals": [
+      "unresolved-questions"
+     ],
+     "note": "3 plan-decision questions: delivery of the bytes, signature site, DLL load before Epoch 6 strict-modes; lists parsed 15 (new 6, modify 9)"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-09-29-sideloaded-conpty",
+   "artifact": "crates/viola-state/src/pin.rs",
+   "consumer": "implement/code",
+   "consumer_id": "2026-09-29T09:03:34Z-c",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "plan step 8 puts every Windows case in real homes under target/e2e-home, while the neighbouring pin_exe unit tests use tempfile::tempdir; the viola-state and viola-pty unit cases followed the neighbours, the root integration cases use target/e2e-home; surfaced in the report",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-29-sideloaded-conpty",
+   "artifact": "viola-0.1.0/chunks/2026-09-29-sideloaded-conpty/plan.md",
+   "consumer": "implement/code",
+   "consumer_id": "2026-09-29T09:03:34Z-c",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "plan step 8 puts every Windows case in real homes under target/e2e-home, while the neighbouring pin_exe unit tests use tempfile::tempdir; the viola-state and viola-pty unit cases followed the neighbours, the root integration cases use target/e2e-home; surfaced in the report",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-29-sideloaded-conpty",
+   "artifact": "research",
+   "consumer": "implement/fix-loop",
+   "consumer_id": "2026-09-29T11:38:38Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "research",
+     "quality": "thin",
+     "note": "no fact covered first-start cost under parallel load or the new host's DA1 query"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "phase/research",
+   "producer_id": "2026-09-29T08:36:18Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "research",
+     "signals": [
+      "unresolved-questions"
+     ],
+     "note": "3 plan-decision questions: delivery of the bytes, signature site, DLL load before Epoch 6 strict-modes; lists parsed 15 (new 6, modify 9)"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-09-29-sideloaded-conpty",
+   "artifact": "implement-outcome",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-09-29T12:20:27Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "implement-outcome",
+     "quality": "thin",
+     "note": "superseded by the operator pass: CI red on 2d83718 fixed at 224efc4, the H2 removal at 8f643f2; the outcome basis is the pass's evidence and ci#36566391084"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "implement/smoke",
+   "producer_id": "2026-09-29T11:38:38Z-g",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "implement-outcome",
+     "signals": [
+      "green"
+     ]
+    }
+   ]
+  },
+  {
+   "chunk": "2026-09-29-sideloaded-conpty",
+   "artifact": "viola-0.1.0/chunks/2026-09-29-sideloaded-conpty/evidence/operator-pass.md",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-09-29T12:20:27Z-b",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "implement's P4 report predates the operator pass: a CI red (ci#36563179341), its fix commit 224efc4 and the H2 removal 8f643f2 came after it; the report's outcome basis is the pass's evidence files and ci#36566391084",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": null,
+   "artifact": "handoff",
+   "consumer": "new-session/orientation",
+   "consumer_id": "2026-09-29T12:22:59Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "handoff",
+     "quality": "thin",
+     "note": "written at the verify-stamped wrap; Position Next names 2026-09-29-sideloaded-conpty for /andromeda-phase while it is now master-pending with a wrap stopped after P1 (run dir 2026-09-29T12-17-33-wrap/resume.md) - the write-time shape, found only by reading the untracked run dir"
+    }
+   ],
+   "consumer_what": null,
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-29-sideloaded-conpty",
+   "artifact": "conversation",
+   "consumer": "wrap-session/curation",
+   "consumer_id": "2026-09-29T12:42:23Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "conversation",
+     "quality": "thin",
+     "note": "a resumed wrap: the implement window's corrections are gone; only this window (P2 on) and the report remained"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "implement/smoke",
+   "producer_id": "2026-09-29T11:38:38Z-g",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "conversation",
+     "signals": [
+      "recorded-from-P2"
+     ],
+     "note": "the plan's smoke entries 19-22 ran as gates: cleanup, boot, logs carrying pty_backend conpty-sideload, cleanup with processes_gone and endpoint_gone"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-09-29-sideloaded-conpty",
+   "artifact": "report",
+   "consumer": "wrap-session/route-resolve",
+   "consumer_id": "2026-09-29T12:44:36Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "report",
+     "quality": "thin",
+     "note": "two owners were named by description, not by route title: 'the route entry that first runs viola headless' (DA1) and 'the P5 pin' (host reds) - neither maps to a markerless title"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "wrap-session/report",
+   "producer_id": "2026-09-29T12:20:27Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "report",
+     "signals": [],
+     "note": "expected-amendment sites located by one regex per anchor over the seven masters; 13/200 and DLL-search anchors read 0 hits and are stated so"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-09-29-fake-agent-drift-contract",
+   "artifact": "crates/viola-agent-claude/src/hook.rs",
+   "consumer": "phase/take-up",
+   "consumer_id": "2026-09-29T13:02:37Z-b",
+   "consumer_kind": "friction",
+   "consumer_verdict": null,
+   "consumer_what": "The overseer-directed harness-origin item rests on a measurement on andromeda-worker and a fix in the prototype's hook.rs harness_injected, both outside this repository; folded as [inferred] with its claim verbatim",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null
+  },
+  {
+   "chunk": "2026-09-29-fake-agent-drift-contract",
+   "artifact": "research",
+   "consumer": "implement/code",
+   "consumer_id": "2026-09-29T13:37:20Z-a",
+   "consumer_kind": "step",
+   "consumer_verdict": [
+    {
+     "artifact": "research",
+     "quality": "thin",
+     "note": "Files to modify predates the P4 forks: tests/tui_pty_seam.rs (plan step 5 and the plan's own touchpoint list) is absent, recorded in-intent"
+    }
+   ],
+   "consumer_what": null,
+   "producer": "phase/research",
+   "producer_id": "2026-09-29T13:14:07Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    {
+     "artifact": "research",
+     "signals": [
+      "unresolved-questions"
+     ],
+     "note": "3 plan-decision forks: cross-session escaped form, matcher build-or-recarry, receipt size code-or-wording"
+    }
+   ]
+  }
+ ],
+ "shapes": [
+  {
+   "shape": [
+    "implement/smoke",
+    "implement-outcome",
+    "wrap-session/report"
+   ],
+   "chunks": [
+    "2026-09-27-epoch-2-cleanup",
+    "2026-09-28-capability-ledger-and-viola-verify",
+    "2026-09-28-mutation-testing-to-the-epoch-boundary",
+    "2026-09-29-h2-conpty-resize-probe",
+    "2026-09-29-sideloaded-conpty"
+   ],
+   "k": 5
+  },
+  {
+   "shape": [
+    "phase/research",
+    "research",
+    "implement/code"
+   ],
+   "chunks": [
+    "2026-09-27-browser-verdict-reachability",
+    "2026-09-27-hooks-to-normalised-events",
+    "2026-09-28-mutation-testing-to-the-epoch-boundary",
+    "2026-09-29-fake-agent-drift-contract",
+    "2026-09-29-sideloaded-conpty"
+   ],
+   "k": 5
+  },
+  {
+   "shape": [
+    "phase/research",
+    "research",
+    "implement/fix-loop"
+   ],
+   "chunks": [
+    "2026-09-27-browser-verdict-reachability",
+    "2026-09-28-capability-ledger-and-viola-verify",
+    "2026-09-28-hook-perf-gate",
+    "2026-09-29-sideloaded-conpty"
+   ],
+   "k": 4
+  },
+  {
+   "shape": [
+    "phase/plan",
+    "plan",
+    "implement/fix-loop"
+   ],
+   "chunks": [
+    "2026-09-28-cli-output-tokens",
+    "2026-09-28-mutation-testing-to-the-epoch-boundary",
+    "2026-09-29-h2-conpty-resize-probe",
+    "2026-09-29-verify-stamped-test-homes-and-harness"
+   ],
+   "k": 4
+  },
+  {
+   "shape": [
+    "phase/plan",
+    "plan",
+    "phase/validate"
+   ],
+   "chunks": [
+    "2026-09-27-browser-verdict-reachability",
+    "2026-09-27-epoch-2-cleanup",
+    "2026-09-29-verify-stamped-test-homes-and-harness"
+   ],
+   "k": 3
+  },
+  {
+   "shape": [
+    "implement/smoke",
+    "conversation",
+    "wrap-session/curation"
+   ],
+   "chunks": [
+    "2026-09-27-hooks-to-normalised-events",
+    "2026-09-28-capability-ledger-and-viola-verify",
+    "2026-09-29-sideloaded-conpty"
+   ],
+   "k": 3
+  },
+  {
+   "shape": [
+    "phase/plan",
+    "plan",
+    "wrap-session/report"
+   ],
+   "chunks": [
+    "2026-09-28-capability-ledger-and-viola-verify",
+    "2026-09-28-mutation-testing-to-the-epoch-boundary",
+    "2026-09-29-verify-stamped-test-homes-and-harness"
+   ],
+   "k": 3
+  },
+  {
+   "shape": [
+    "phase/plan",
+    "plan",
+    "wrap-session/gates"
+   ],
+   "chunks": [
+    "2026-09-28-cli-output-tokens",
+    "2026-09-28-mutation-testing-to-the-epoch-boundary"
+   ],
+   "k": 2
+  },
+  {
+   "shape": [
+    "phase/plan",
+    "plan",
+    "implement/code"
+   ],
+   "chunks": [
+    "2026-09-28-capability-ledger-and-viola-verify",
+    "2026-09-28-mutation-testing-to-the-epoch-boundary"
+   ],
+   "k": 2
+  },
+  {
+   "shape": [
+    "wrap-session/report",
+    "report",
+    "wrap-session/reconcile"
+   ],
+   "chunks": [
+    "2026-09-28-capability-ledger-and-viola-verify",
+    "2026-09-28-mutation-testing-to-the-epoch-boundary"
+   ],
+   "k": 2
+  },
+  {
+   "shape": [
+    "phase/validate",
+    "plan",
+    "implement/code"
+   ],
+   "chunks": [
+    "2026-09-27-epoch-2-cleanup"
+   ],
+   "k": 1
+  },
+  {
+   "shape": [
+    "phase/validate",
+    "plan",
+    "implement/fix-loop"
+   ],
+   "chunks": [
+    "2026-09-27-epoch-2-cleanup"
+   ],
+   "k": 1
+  },
+  {
+   "shape": [
+    "phase/validate",
+    "plan",
+    "wrap-session/report"
+   ],
+   "chunks": [
+    "2026-09-27-epoch-2-cleanup"
+   ],
+   "k": 1
+  },
+  {
+   "shape": [
+    "phase/research",
+    "research",
+    "phase/plan"
+   ],
+   "chunks": [
+    "2026-09-28-mutation-testing-to-the-epoch-boundary"
+   ],
+   "k": 1
+  },
+  {
+   "shape": [
+    "wrap-session/report",
+    "report",
+    "wrap-session/route-resolve"
+   ],
+   "chunks": [
+    "2026-09-29-sideloaded-conpty"
+   ],
+   "k": 1
+  }
+ ]
+}

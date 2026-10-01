@@ -41,7 +41,7 @@ viola is a local-only, single-user tool: no accounts, no public listener, no dat
 
 ## Arch amendments this plan requires (routed through wrap reconciles)
 
-1. v1 GUI cookie on `/api/*` + SSE. 2. Unix endpoint in a per-user 0700 dir. 3. `not-delivered`/`control-character` + URNs `unauthorized` / `cross-origin-forbidden`. 4. `release` with `from` → `-32602 release-from-driver`. 5. `<home>/ui/<port>.url` (0600). 6. `MAX_FRAME` = 16 MiB in `viola-core`. 7. Ledger row "largest hook payload seen". 8. `<hash>` = truncated SHA-256 (16 hex).
+1. v1 GUI cookie on `/api/*` + SSE. 2. Unix endpoint in a per-user 0700 dir. 3. `not-delivered`/`control-character` + URNs `unauthorized` / `cross-origin-forbidden`. 4. `release` with `from` → `-32602 release-from-driver`. 5. `<home>/ui/<port>.url` (0600). 6. `MAX_FRAME` = 16 MiB in `viola-core`. 7. Ledger row "largest hook payload seen". 8. `<hash>` = truncated SHA-256 (16 hex). Amendments 1, 5 and amendment 3's two URNs were folded into architecture at the 2026-10-01 0-pending wrap; amendment 3's `control-character` detail lands with the route's "Confirmed send" entry.
 
 ## Resolved prerequisites (Decisions Log `2026-09-25`)
 

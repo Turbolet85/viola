@@ -1,0 +1,60 @@
+{
+ "measured": [
+  [
+   "crates/viola-state/src/fs.rs:16:5",
+   "replace restrict -> io::Result<()> with Ok(())"
+  ],
+  [
+   "crates/viola-state/src/pin.rs:74:19",
+   "replace match guard e.kind() == io::ErrorKind::NotFound with true"
+  ]
+ ],
+ "not_measured": [
+  [
+   "crates/viola-channel/src/client.rs:195:5",
+   "replace open -> io::Result<Stream> with Ok(Default::default())",
+   "cfg(unix)"
+  ],
+  [
+   "crates/viola-channel/src/endpoint.rs:76:5",
+   "replace host_socket_dir -> PathBuf with Default::default()",
+   "cfg(unix)"
+  ],
+  [
+   "crates/viola-channel/src/server.rs:75:9",
+   "replace <impl Drop for Guard>::drop with ()",
+   "cfg(unix)"
+  ],
+  [
+   "crates/viola-channel/src/server.rs:108:5",
+   "replace listen -> Result<(Listener, Guard), ChannelError> with Ok((Default::default(), Default::default()))",
+   "cfg(unix)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:430:9",
+   "replace HostTerminal::enter -> Option<Self> with None",
+   "cfg(unix)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:430:9",
+   "replace HostTerminal::enter -> Option<Self> with Some(Default::default())",
+   "cfg(unix)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:432:64",
+   "replace != with ==",
+   "cfg(unix)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:437:71",
+   "replace == with !=",
+   "cfg(unix)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:482:76",
+   "replace != with ==",
+   "cfg(unix)"
+  ]
+ ],
+ "unmatched": []
+}

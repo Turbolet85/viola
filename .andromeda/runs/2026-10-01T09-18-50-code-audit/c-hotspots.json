@@ -1,0 +1,61 @@
+{
+ "hotspots": [
+  [
+   "crates/viola-e2e/src/harness/run/mutants.rs",
+   132.0
+  ],
+  [
+   "crates/viola-e2e/src/harness/run.rs",
+   66.0
+  ],
+  [
+   "src/main.rs",
+   54.0
+  ],
+  [
+   "crates/viola-e2e/src/harness/pre_push.rs",
+   48.0
+  ],
+  [
+   "tests/tui_passthrough.rs",
+   48.0
+  ],
+  [
+   "tests/hook_fail_open.rs",
+   45.0
+  ],
+  [
+   "src/bin/viola-fake-agent.rs",
+   44.0
+  ],
+  [
+   "tests/run_cli.rs",
+   40.0
+  ],
+  [
+   "crates/viola-e2e/src/harness/pre_push/linux.rs",
+   33.0
+  ],
+  [
+   "crates/viola-agent-claude/src/lib.rs",
+   27.0
+  ]
+ ],
+ "commits": {
+  "crates/viola-e2e/src/harness/run/mutants.rs": 11,
+  "crates/viola-e2e/src/harness/run.rs": 6,
+  "src/main.rs": 6,
+  "crates/viola-e2e/src/bin/viola-harness.rs": 5,
+  "crates/viola-pty/src/lib.rs": 5,
+  "src/cmd/run.rs": 5,
+  "tests/cli_instance_state.rs": 5,
+  "tests/hook_fail_open.rs": 5,
+  "crates/viola-e2e/src/harness/pre_push.rs": 4,
+  "crates/viola-e2e/tests/cli.rs": 4,
+  "tests/contract_diag_schema.rs": 4,
+  "tests/run_cli.rs": 4,
+  "src/bin/viola-fake-agent.rs": 4,
+  "tests/tui_passthrough.rs": 4,
+  "crates/viola-e2e/src/harness/pre_push/linux.rs": 3
+ }
+}

@@ -1,7 +1,7 @@
 ### Focus management test harness
 
 - **Driver:** the tests' Playwright Test 1.63.0 driver, per the upstream-context Section 5 Test Harness Contract Summary (binding). There is no separate harness. Each test boots `pw-<spec>-<test id>-<workerIndex>`, navigates `/?t=<token>`, runs `cleanup`, and uses `retries: 0`. Waits use auto-waiting locators and SSE event offsets only.
-- **Library:** no runtime focus library. Native platform focus (`:focus-visible`, `<details>`/`<summary>`, fragment links) under Lit 3.3.3 light DOM. tabbable 6.5.0 is test-side only: it is injected with `page.evaluate(source)` and its `tabbable(document.body)` list is the expected-sequence oracle.
+- **Library:** no runtime focus library. Native platform focus (`:focus-visible`, `<details>`/`<summary>`, fragment links) in the DOM the page's React components render. tabbable 6.5.0 is test-side only: it is injected with `page.evaluate(source)` and its `tabbable(document.body)` list is the expected-sequence oracle.
 - **Pattern:**
   - **Tab walk:** scripted Tab / Shift+Tab traversal from `page.locator('body').focus()`, asserting `toBeFocused()` at each step against the oracle.
   - **Initial focus:** after load, `document.activeElement` is `<body>`.

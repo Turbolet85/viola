@@ -24,7 +24,7 @@ viola is a standalone, cross-platform (Windows first) bridge that lets one inter
 - **`viola-state`** — ndjson logs, atomic snapshots, `.lock` siblings, torn-line healing, tailing, liveness, strict-modes
 - **`viola-agent-claude`** — the only crate that knows Claude: hook parsing, dialog mapping, R8 strip, shim resolution, capability ledger, screen signatures
 - **`viola-mcp`** — rmcp 3.4.1 stdio server, tools `send · wait · last · answer · list` (Tokio)
-- **`viola-ui`** — axum 0.8.9 GET routes + SSE on 127.0.0.1, Host allowlist, cookie gate, embedded Lit page (Tokio)
+- **`viola-ui`** — axum 0.8.9 GET routes + SSE on 127.0.0.1, Host allowlist, cookie gate, embedded React + TypeScript page (its toolchain lands with the frontend-toolchain chunk) (Tokio)
 - **`viola`** (root bin) — subcommand dispatch, the `run` pump, wheel, budget governor; the only crate with anyhow
 - **`viola-e2e`** (test-only, `publish = false`) — `viola-harness` behind `scripts/agent-run.*` + the Tokio-based E2E clients
 <!-- GENERATED:setup:modules end -->

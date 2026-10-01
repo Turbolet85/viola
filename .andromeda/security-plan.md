@@ -387,10 +387,10 @@ the contract above. Listed for explicitness — route may reorder /
 combine, setup-project may add stack-specific intermediate steps.
 
 - **auth-scaffolding-baseline:** Narrowed to the local boundary; no auth library. Each arch amendment (Decisions Log) must be folded in before the first chunk that implements it:
-  - Amendments 3 (`control-character` detail and the two Problem Details URNs) and 6 (`MAX_FRAME`): before the `viola-core` chunk.
+  - Amendments 3 (`control-character` detail and the two Problem Details URNs) and 6 (`MAX_FRAME`): before the `viola-core` chunk. Amendment 3's two URNs are folded into architecture §Conventions (GUI HTTP errors) at the 2026-10-01 0-pending wrap; its `control-character` detail lands with the route's "Confirmed send" entry.
   - Amendment 2 (Unix endpoint move): folded into architecture §Occupied Resources (IPC endpoints) by the `viola-channel` chunk ("Wrapper channel").
   - Amendment 4 (`release-from-driver`): before the `viola` bin channel dispatch.
-  - Amendments 1 (v1 GUI cookie) and 5 (`ui/<port>.url`): before the `viola-ui` chunk.
+  - Amendments 1 (v1 GUI cookie) and 5 (`ui/<port>.url`): folded into architecture §Established Decisions [GUI Control Scope] and §Occupied Resources (Filesystem) at the 2026-10-01 0-pending wrap, ahead of the `viola-ui` chunk.
   - Amendment 7 (largest-hook-payload ledger row): before the `viola verify` chunk.
   - Amendment 8 (SHA-256 `<hash>`): before the chunk that writes `bin/`.
   - `viola-channel`: per-OS listener hardening (Windows SDDL converted by windows-sys into interprocess `security_descriptor` + windows-sys SID lookup; Unix 0700 per-user socket directory + chmod 0600 after the bind + `peer_creds` euid check). The SDDL, the per-user directory and the 0600 socket landed with "Wrapper channel", ahead of Epoch 6's admission entry; the `peer_creds` decision and the directory verification stay with their route entries.

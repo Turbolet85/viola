@@ -40,8 +40,9 @@ viola/
 │   │                           #   (+ proptest-regressions/, committed seeds)
 │   ├── viola-mcp/              # rmcp 3.4.1 stdio server, thin adapter over viola-channel
 │   ├── viola-ui/               # axum 0.8.9 GET routes + SSE, Host allowlist
-│   │   └── assets/             # embedded page, no JS build step and no tsconfig: index.html, app.css
-│   │                           #   (the single stylesheet), vendored Lit 3.3.3 ESM
+│   │   └── assets/             # embedded page: index.html, app.css (the single stylesheet); no JS build step
+│   │                           #   and no tsconfig until the frontend-toolchain entry brings the React + TypeScript
+│   │                           #   bundle (founder ruling 2026-09-30; its source and bundle layout OPEN)
 │   └── viola-e2e/              # test-only: viola-harness (agent-run boot/run/status/cleanup/logs, plus the
 │                               #   internal subcommands incl. `gate` and `pre-push`: harness::pre_push)
 ├── scripts/
@@ -81,7 +82,7 @@ viola/
 │   ├── playwright.config.ts    # headless chromium, retries 0, forbidOnly, reporters pw.json + pw-junit.xml
 │   ├── tsconfig.json           # noEmit, strict, e2e-web/** only
 │   ├── stub/pipe.html          # the file:// reachability stub (one <h1>, no script or style)
-│   ├── eslint.config.js        # eslint-plugin-lit-a11y over the crates/viola-ui Lit sources
+│   ├── eslint.config.js        # eslint-plugin-jsx-a11y over the crates/viola-ui frontend sources
 │   ├── .htmlvalidate.json      # html-validate over the embedded assets/index.html
 │   ├── tests/*.spec.ts         # one spec per bay layout type; today the pipe stub's pipe-reachability.spec.ts
 │   ├── fixtures/a11y.ts        # the shared makeAxeBuilder fixture

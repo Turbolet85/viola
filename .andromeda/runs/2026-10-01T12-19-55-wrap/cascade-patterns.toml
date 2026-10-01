@@ -1,0 +1,75 @@
+[[pattern]]
+id = "lit-word"
+regex = '\bLit\b'
+
+[[pattern]]
+id = "lit-a11y"
+fixed = 'lit-a11y'
+
+[[pattern]]
+id = "lit-html"
+fixed = 'lit-html'
+
+[[pattern]]
+id = "light-dom"
+regex = 'light[- ]DOM'
+ignore_case = true
+
+[[pattern]]
+id = "render-root"
+fixed = 'createRenderRoot'
+
+[[pattern]]
+id = "no-build"
+regex = 'no (JS )?build step'
+ignore_case = true
+
+[[pattern]]
+id = "vendored-esm"
+fixed = 'vendored ESM'
+
+[[pattern]]
+id = "static-styles"
+fixed = 'static styles'
+
+[[pattern]]
+id = "stylemap"
+fixed = 'styleMap'
+
+[[pattern]]
+id = "unsafe-html"
+regex = 'unsafe(HTML|SVG)'
+
+[[pattern]]
+id = "custom-elem"
+regex = 'custom[- ]element'
+ignore_case = true
+
+[[pattern]]
+id = "conn-callback"
+fixed = 'connectedCallback'
+
+[[pattern]]
+id = "tmpl-binding"
+regex = '\$\{\}'
+
+[[pattern]]
+id = "html-template"
+regex = '`html` template'
+
+[[pattern]]
+id = "no-token-gui"
+regex = 'no token (or|and)( no)? CSRF'
+
+[[pattern]]
+id = "no-token-any"
+regex = '\bno (token|CSRF|cookie)\b'
+ignore_case = true
+
+[[pattern]]
+id = "urn-unauth"
+fixed = 'urn:viola:problem:unauthorized'
+
+[[pattern]]
+id = "ui-url"
+fixed = 'ui/<port>.url'

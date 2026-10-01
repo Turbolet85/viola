@@ -51,10 +51,10 @@ The workspace `rust-version` 1.96 floor, the exact `rust-toolchain.toml` pin and
 - Node (test-side only, `e2e-web/`): Node v24.21.0 (the sha256-pinned official build, `scripts/install-node.sh`) · @playwright/test 1.63.0 (exact, committed lockfile) · @axe-core/playwright 4.13.0 lands with the a11y chunks.
 
 ## Accessibility (a11y-plan §3)
-- colorjs.io 0.7.1 · tabbable 6.5.0 · @guidepup/virtual-screen-reader 0.33.0 · html-validate 11.16.0 · eslint-plugin-lit-a11y 5.1.1 (+ eslint core, lockfile-pinned). Lighthouse / pa11y dropped (D-A11Y-05).
+- colorjs.io 0.7.1 · tabbable 6.5.0 · @guidepup/virtual-screen-reader 0.33.0 · html-validate 11.16.0 · eslint-plugin-jsx-a11y, version OPEN (+ eslint core, lockfile-pinned). Lighthouse / pa11y dropped (D-A11Y-05).
 
 ## Frontend (design-system §Surface: web-spa)
-- Lit 3.3.3 vendored ESM, light DOM, no build step; hand-written `@layer` CSS; installed fonts only (Bahnschrift / Cascadia Mono stacks with DejaVu as the Linux CI render).
+- React + TypeScript, a built bundle embedded in `viola` (founder ruling 2026-09-30); the bundler, versions, embedding, CSP needs and npm gates are OPEN, owned by the route's frontend-toolchain entry, and until it lands the page has no JS build step; hand-written `@layer` CSS; installed fonts only (Bahnschrift / Cascadia Mono stacks with DejaVu as the Linux CI render).
 
 ## Rationale
 

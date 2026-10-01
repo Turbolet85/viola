@@ -1,0 +1,33 @@
+{
+ "unit": "viola-core",
+ "exit": 0,
+ "jobs": 4,
+ "total_mutants": 32,
+ "planned_len": 32,
+ "end_time": "2026-10-01T10:33:41.7800283Z",
+ "state": "complete",
+ "unit_state": "complete 32/32",
+ "counts": {
+  "mutants": 32,
+  "caught": 31,
+  "missed": 0,
+  "not_measured": 0,
+  "timeout": 0,
+  "unviable": 1
+ },
+ "score": 100.0,
+ "score_formula": "caught/(caught+missed)",
+ "survivors": [],
+ "not_measured": [],
+ "timeouts": [],
+ "tool_tally": {
+  "caught": 31,
+  "missed": 0,
+  "timeout": 0,
+  "unviable": 1,
+  "success": 0,
+  "failure": null
+ },
+ "host": "x86_64-pc-windows-msvc",
+ "start_time": "2026-10-01T10:31:49.3801387Z"
+}

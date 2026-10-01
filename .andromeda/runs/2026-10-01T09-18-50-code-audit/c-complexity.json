@@ -1,0 +1,65 @@
+{
+ "functions": 2572,
+ "cyclomatic_p50": 1.0,
+ "cyclomatic_p90": 4.0,
+ "cognitive_p50": 0.0,
+ "cognitive_p90": 2.0,
+ "over_ceiling": 1,
+ "max": {
+  "fn": "sgr_attributes",
+  "file": "tests/cli_output_plain.rs:36",
+  "val": 23.0
+ },
+ "top": [
+  {
+   "fn": "sgr_attributes",
+   "file": "tests/cli_output_plain.rs:36",
+   "value": 23.0
+  },
+  {
+   "fn": "scan_file",
+   "file": "crates/viola-e2e/src/harness/secret_scan.rs:116",
+   "value": 15.0
+  },
+  {
+   "fn": "readiness",
+   "file": "crates/viola-e2e/src/harness/boot.rs:345",
+   "value": 13.0
+  },
+  {
+   "fn": "check_tree",
+   "file": "crates/viola-e2e/src/harness/schema_check.rs:85",
+   "value": 13.0
+  },
+  {
+   "fn": "coverage",
+   "file": "crates/viola-e2e/src/harness/pre_push.rs:292",
+   "value": 12.0
+  },
+  {
+   "fn": "mutants",
+   "file": "crates/viola-e2e/src/harness/run/mutants.rs:99",
+   "value": 12.0
+  },
+  {
+   "fn": "resize_reaches_the_child",
+   "file": "tests/tui_passthrough.rs:108",
+   "value": 12.0
+  },
+  {
+   "fn": "native",
+   "file": "crates/viola-e2e/src/harness/pre_push/linux.rs:610",
+   "value": 11.0
+  },
+  {
+   "fn": "tool_arms",
+   "file": "crates/viola-e2e/src/harness/run.rs:286",
+   "value": 11.0
+  },
+  {
+   "fn": "feed",
+   "file": "src/bin/viola-fake-agent.rs:385",
+   "value": 11.0
+  }
+ ]
+}

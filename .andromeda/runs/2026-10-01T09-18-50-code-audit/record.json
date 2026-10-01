@@ -1,0 +1,701 @@
+{
+ "ts": "2026-10-01T12:09:55Z",
+ "epoch": "Epoch 2b — Windows slice I b: events and ledger",
+ "mode": "trend",
+ "sha": "95c1a9b5fc5984a9a2024e5d6e5c51f59d6af255",
+ "baseline_sha": "69abc0d038732cff8d45602f82f8bebaf28bbb72",
+ "span": 1,
+ "ancestry_broken": false,
+ "head_overshoot": {
+  "boundary_sha": "093bffb24c7fa2aae5fb79e27742b993c8cccb51",
+  "commits": 3,
+  "files": [],
+  "note": "3 commits past the flip of 2026-09-29-fake-agent-drift-contract (11f135c registry migration, 4a3062d refs doc, 95c1a9b .gitignore): no source path touched - .andromeda/**, .claude/**, refs/**, .gitignore only; operator-confirmed trend at HEAD"
+ },
+ "tool_versions": {
+  "jscpd": "5.0.16",
+  "tokei": "14.0.0",
+  "rust-code-analysis": "0.0.25",
+  "cargo-machete": "0.9.2",
+  "cargo-mutants": "27.1.0",
+  "cargo-llvm-cov": "0.9.1",
+  "cargo-nextest": "0.9.146",
+  "rustc": "1.98.1",
+  "code-graph.py": "d0425fb1"
+ },
+ "totals": {
+  "loc": 26689,
+  "files": 98,
+  "units": 7
+ },
+ "duplication": {
+  "pct": 1.35,
+  "duplicated_lines": 416,
+  "total_lines": 30745,
+  "clones": 53,
+  "top": [
+   [
+    "crates/viola-core/src/obs.rs:175",
+    "tests/contract_diag_schema.rs:20",
+    21
+   ],
+   [
+    "tests/hook_fail_open.rs:338",
+    "tests/hook_fail_open.rs:409",
+    20
+   ],
+   [
+    "tests/channel_sqos_open.rs:90",
+    "tests/security_negatives_channel.rs:72",
+    19
+   ],
+   [
+    "tests/cli_controls_not_disableable.rs:47",
+    "tests/hook_fail_open.rs:102",
+    15
+   ],
+   [
+    "tests/cli_verify.rs:340",
+    "tests/run_cli.rs:114",
+    15
+   ],
+   [
+    "crates/viola-e2e/src/harness/cleanup.rs:130",
+    "tests/support/home.rs:371",
+    13
+   ],
+   [
+    "tests/run_cli.rs:397",
+    "tests/tui_env_strip.rs:34",
+    12
+   ],
+   [
+    "crates/viola-channel/tests/channel_frames.rs:40",
+    "tests/channel_endpoint.rs:56",
+    11
+   ],
+   [
+    "crates/viola-agent-claude/src/ledger.rs:412",
+    "tests/support/hygiene.rs:44",
+    10
+   ],
+   [
+    "crates/viola-channel/src/lib.rs:191",
+    "crates/viola-e2e/src/harness/cleanup.rs:324",
+    10
+   ]
+  ],
+  "split": {
+   "src": {
+    "pairs": 20,
+    "lines": 151
+   },
+   "test": {
+    "pairs": 25,
+    "lines": 236
+   },
+   "mixed": {
+    "pairs": 8,
+    "lines": 82
+   }
+  }
+ },
+ "complexity": {
+  "cyclomatic_p50": 1.0,
+  "cyclomatic_p90": 4.0,
+  "cognitive_p50": 0.0,
+  "cognitive_p90": 2.0,
+  "over_ceiling": 1,
+  "max": {
+   "fn": "sgr_attributes",
+   "file": "tests/cli_output_plain.rs:36",
+   "val": 23.0
+  },
+  "top": [
+   {
+    "fn": "sgr_attributes",
+    "file": "tests/cli_output_plain.rs:36",
+    "value": 23.0
+   },
+   {
+    "fn": "scan_file",
+    "file": "crates/viola-e2e/src/harness/secret_scan.rs:116",
+    "value": 15.0
+   },
+   {
+    "fn": "readiness",
+    "file": "crates/viola-e2e/src/harness/boot.rs:345",
+    "value": 13.0
+   },
+   {
+    "fn": "check_tree",
+    "file": "crates/viola-e2e/src/harness/schema_check.rs:85",
+    "value": 13.0
+   },
+   {
+    "fn": "coverage",
+    "file": "crates/viola-e2e/src/harness/pre_push.rs:292",
+    "value": 12.0
+   },
+   {
+    "fn": "mutants",
+    "file": "crates/viola-e2e/src/harness/run/mutants.rs:99",
+    "value": 12.0
+   },
+   {
+    "fn": "resize_reaches_the_child",
+    "file": "tests/tui_passthrough.rs:108",
+    "value": 12.0
+   },
+   {
+    "fn": "native",
+    "file": "crates/viola-e2e/src/harness/pre_push/linux.rs:610",
+    "value": 11.0
+   },
+   {
+    "fn": "tool_arms",
+    "file": "crates/viola-e2e/src/harness/run.rs:286",
+    "value": 11.0
+   },
+   {
+    "fn": "feed",
+    "file": "src/bin/viola-fake-agent.rs:385",
+    "value": 11.0
+   }
+  ]
+ },
+ "sizes": {
+  "file_p50": 222,
+  "file_p90": 617,
+  "file_max": 884,
+  "over_800": 2,
+  "top": [
+   [
+    "crates/viola-agent-claude/src/ledger.rs",
+    884
+   ],
+   [
+    "crates/viola-e2e/src/harness/run.rs",
+    866
+   ],
+   [
+    "crates/viola-pty/src/lib.rs",
+    719
+   ],
+   [
+    "crates/viola-e2e/src/harness/boot.rs",
+    714
+   ],
+   [
+    "crates/viola-channel/src/server.rs",
+    668
+   ],
+   [
+    "src/bin/viola-fake-agent.rs",
+    666
+   ],
+   [
+    "crates/viola-e2e/src/harness/run/mutants.rs",
+    634
+   ],
+   [
+    "crates/viola-e2e/src/harness/pre_push/linux.rs",
+    625
+   ],
+   [
+    "src/cmd/run.rs",
+    619
+   ],
+   [
+    "src/obs.rs",
+    617
+   ]
+  ]
+ },
+ "graph": {
+  "cycles": 0,
+  "cycle_paths": [],
+  "fan_in_top": [
+   [
+    "rust-analyzer cargo viola-e2e 0.1.0 harness/Workspace#",
+    114
+   ],
+   [
+    "rust-analyzer cargo viola 0.1.0 support/home/TestHome#",
+    92
+   ],
+   [
+    "rust-analyzer cargo viola-e2e 0.1.0 harness/Outcome#doc.",
+    90
+   ],
+   [
+    "rust-analyzer cargo viola-e2e 0.1.0 harness/Outcome#code.",
+    78
+   ],
+   [
+    "rust-analyzer cargo viola 0.1.0 crate/",
+    75
+   ],
+   [
+    "rust-analyzer cargo viola-e2e 0.1.0 harness/Workspace#root.",
+    69
+   ],
+   [
+    "rust-analyzer cargo viola 0.1.0 support/home/impl#[TestHome]path().",
+    64
+   ],
+   [
+    "rust-analyzer cargo viola-core 0.1.0 __nutype_ViolaName__/ViolaName#",
+    62
+   ],
+   [
+    "rust-analyzer cargo viola-agent-claude 0.1.0 hook/HookEvent#",
+    61
+   ],
+   [
+    "rust-analyzer cargo viola-e2e 0.1.0 harness/Outcome#",
+    57
+   ],
+   [
+    "rust-analyzer cargo viola-pty 0.1.0 Size#",
+    52
+   ],
+   [
+    "rust-analyzer cargo viola-e2e 0.1.0 harness/run/",
+    48
+   ],
+   [
+    "rust-analyzer cargo viola-channel 0.1.0 crate/",
+    47
+   ],
+   [
+    "rust-analyzer cargo viola 0.1.0 support/home/home#",
+    47
+   ],
+   [
+    "rust-analyzer cargo viola 0.1.0 support/fake/",
+    45
+   ],
+   [
+    "rust-analyzer cargo viola-e2e 0.1.0 harness/run/Suite#",
+    43
+   ],
+   [
+    "rust-analyzer cargo viola 0.1.0 support/home/impl#[TestHome]scratch().",
+    42
+   ],
+   [
+    "rust-analyzer cargo viola 0.1.0 support/fake/FAKE.",
+    40
+   ],
+   [
+    "rust-analyzer cargo viola-core 0.1.0 obs/ObsProcess#",
+    38
+   ],
+   [
+    "rust-analyzer cargo viola-e2e 0.1.0 harness/run/Runner#",
+    36
+   ]
+  ],
+  "fan_out": [
+   [
+    "viola",
+    5
+   ],
+   [
+    "viola-e2e",
+    3
+   ],
+   [
+    "viola-state",
+    1
+   ],
+   [
+    "viola-channel",
+    1
+   ],
+   [
+    "viola-agent-claude",
+    1
+   ]
+  ],
+  "cross_unit_edges": 11
+ },
+ "dead": {
+  "unused_deps": [
+   [
+    "viola-fuzz (fuzz/Cargo.toml, own workspace)",
+    "arbitrary"
+   ]
+  ],
+  "zero_ref_candidates": 0,
+  "top": []
+ },
+ "coverage": {
+  "line": null,
+  "branch": null
+ },
+ "churn": {
+  "pct": 18.41,
+  "files_churned": 41
+ },
+ "hotspots": [
+  [
+   "crates/viola-e2e/src/harness/run/mutants.rs",
+   132.0
+  ],
+  [
+   "crates/viola-e2e/src/harness/run.rs",
+   66.0
+  ],
+  [
+   "src/main.rs",
+   54.0
+  ],
+  [
+   "crates/viola-e2e/src/harness/pre_push.rs",
+   48.0
+  ],
+  [
+   "tests/tui_passthrough.rs",
+   48.0
+  ],
+  [
+   "tests/hook_fail_open.rs",
+   45.0
+  ],
+  [
+   "src/bin/viola-fake-agent.rs",
+   44.0
+  ],
+  [
+   "tests/run_cli.rs",
+   40.0
+  ],
+  [
+   "crates/viola-e2e/src/harness/pre_push/linux.rs",
+   33.0
+  ],
+  [
+   "crates/viola-agent-claude/src/lib.rs",
+   27.0
+  ]
+ ],
+ "mutation": {
+  "scoped_units": [
+   "viola-core",
+   "viola-pty",
+   "viola-state",
+   "viola-channel",
+   "viola-agent-claude",
+   "viola",
+   "viola-e2e"
+  ],
+  "unit_states": {
+   "viola-core": "complete 32/32",
+   "viola-pty": "complete 96/96",
+   "viola-state": "complete 121/121",
+   "viola-channel": "complete 152/152",
+   "viola-agent-claude": "complete 194/194",
+   "viola": "complete 352/352",
+   "viola-e2e": "baseline-test-failure"
+  },
+  "scores": {
+   "viola-core": 100.0,
+   "viola-pty": 94.67,
+   "viola-state": 97.25,
+   "viola-channel": 100.0,
+   "viola-agent-claude": 100.0,
+   "viola": 99.67
+  },
+  "counts": {
+   "viola-core": {
+    "mutants": 32,
+    "caught": 31,
+    "missed": 0,
+    "not_measured": 0,
+    "timeout": 0,
+    "unviable": 1
+   },
+   "viola-pty": {
+    "mutants": 96,
+    "caught": 71,
+    "missed": 4,
+    "not_measured": 5,
+    "timeout": 0,
+    "unviable": 16
+   },
+   "viola-state": {
+    "mutants": 121,
+    "caught": 106,
+    "missed": 3,
+    "not_measured": 0,
+    "timeout": 0,
+    "unviable": 12
+   },
+   "viola-channel": {
+    "mutants": 152,
+    "caught": 130,
+    "missed": 0,
+    "not_measured": 4,
+    "timeout": 0,
+    "unviable": 18
+   },
+   "viola-agent-claude": {
+    "mutants": 194,
+    "caught": 178,
+    "missed": 0,
+    "not_measured": 0,
+    "timeout": 0,
+    "unviable": 16
+   },
+   "viola": {
+    "mutants": 352,
+    "caught": 302,
+    "missed": 1,
+    "not_measured": 4,
+    "timeout": 0,
+    "unviable": 45
+   }
+  },
+  "score_formula": "caught/(caught+missed)",
+  "survivors": [
+   [
+    "crates/viola-pty/src/lib.rs:196:9",
+    "replace <impl Pty for PortablePty>::resize -> Result<(), PtyError> with Ok(())"
+   ],
+   [
+    "crates/viola-pty/src/lib.rs:330:9",
+    "replace <impl Drop for HostTerminal>::drop with ()"
+   ],
+   [
+    "crates/viola-pty/src/sideload.rs:34:5",
+    "replace search_restricted -> bool with true"
+   ],
+   [
+    "crates/viola-pty/src/sideload.rs:34:5",
+    "replace search_restricted -> bool with false"
+   ],
+   [
+    "crates/viola-state/src/fs.rs:17:5",
+    "replace restrict -> io::Result<()> with Ok(())"
+   ],
+   [
+    "crates/viola-state/src/pin.rs:81:19",
+    "replace match guard e.kind() == io::ErrorKind::NotFound with true in pin_exe"
+   ],
+   [
+    "crates/viola-state/src/pin.rs:171:23",
+    "replace match guard e.kind() == io::ErrorKind::NotFound with true in pin_companions"
+   ],
+   [
+    "src/cmd/run.rs:455:5",
+    "replace refuse_stale with ()"
+   ]
+  ],
+  "host": "x86_64-pc-windows-msvc",
+  "not_measured": [
+   [
+    "crates/viola-pty/src/lib.rs:315:9",
+    "replace HostTerminal::enter -> Option<Self> with None",
+    "cfg(unix)"
+   ],
+   [
+    "crates/viola-pty/src/lib.rs:317:64",
+    "replace != with == in HostTerminal::enter",
+    "cfg(unix)"
+   ],
+   [
+    "crates/viola-pty/src/lib.rs:315:9",
+    "replace HostTerminal::enter -> Option<Self> with Some(Default::default())",
+    "cfg(unix)"
+   ],
+   [
+    "crates/viola-pty/src/lib.rs:322:71",
+    "replace == with != in HostTerminal::enter",
+    "cfg(unix)"
+   ],
+   [
+    "crates/viola-pty/src/lib.rs:367:76",
+    "replace != with == in host_size",
+    "cfg(unix)"
+   ],
+   [
+    "crates/viola-channel/src/client.rs:231:5",
+    "replace open_by -> io::Result<Stream> with Ok(Default::default())",
+    "cfg(unix)"
+   ],
+   [
+    "crates/viola-channel/src/endpoint.rs:76:5",
+    "replace host_socket_dir -> PathBuf with Default::default()",
+    "cfg(unix)"
+   ],
+   [
+    "crates/viola-channel/src/server.rs:75:9",
+    "replace <impl Drop for Guard>::drop with ()",
+    "cfg(unix)"
+   ],
+   [
+    "crates/viola-channel/src/server.rs:108:5",
+    "replace listen -> Result<(Listener, Guard), ChannelError> with Ok((Default::default(), Default::default()))",
+    "cfg(unix)"
+   ],
+   [
+    "src/panic_frames.rs:69:5",
+    "replace raw_frames -> Vec<usize> with vec![0]",
+    "cfg(unix)"
+   ],
+   [
+    "src/panic_frames.rs:80:5",
+    "replace module_of -> Option<(String, usize)> with None",
+    "cfg(unix)"
+   ],
+   [
+    "src/panic_frames.rs:80:5",
+    "replace module_of -> Option<(String, usize)> with Some((String::new(), 1))",
+    "cfg(unix)"
+   ],
+   [
+    "src/cmd/run.rs:318:5",
+    "replace sideload_outcome -> (&'static str, Option<viola_state::pin::HeldCompanions>) with (\"xyzzy\", None)",
+    "cfg(all(windows, not(target_arch = \"x86_64\")))"
+   ]
+  ]
+ },
+ "commands": {
+  "sizes": "tokei --output json $(cat .andromeda/runs/2026-10-01T09-18-50-code-audit/source-files.txt)  # population: git ls-files \"*.rs\" minus ^(scripts|docs|refs|fuzz|.andromeda|.claude|viola-0.2.0-incubator)/ (98 files); summarizer .andromeda/runs/2026-10-01T09-18-50-code-audit/a13.py",
+  "duplication": "jscpd --reporters json --output .andromeda/runs/2026-10-01T09-18-50-code-audit/jscpd --format rust --silent --ignore \"fuzz/**,scripts/**,.andromeda/**,.claude/**,docs/**,refs/**,e2e-web/**,target/**,viola-0.2.0-incubator/**\" .  # summarizer .andromeda/runs/2026-10-01T09-18-50-code-audit/a13.py (reproduces the 69abc0d record exactly)",
+  "complexity": "mkdir -p .andromeda/runs/2026-10-01T09-18-50-code-audit/rca ; rust-code-analysis-cli -m -O json -o .andromeda/runs/2026-10-01T09-18-50-code-audit/rca $(sed \"s/^/-p /\" .andromeda/runs/2026-10-01T09-18-50-code-audit/source-files.txt)  # per-function (closures included) cognitive = metrics.cognitive.sum, cyclomatic = metrics.cyclomatic.sum; .andromeda/runs/2026-10-01T09-18-50-code-audit/cx.py ... all (reproduces the 69abc0d record exactly)",
+  "graph": "python scripts/code-graph.py query .andromeda/runs/2026-10-01T09-18-50-code-audit code-audit \"<audit-pass.md canonical CYCLES / FAN-IN / FAN-OUT / edge-count SQL, verbatim>\" rust  # driven by .andromeda/runs/2026-10-01T09-18-50-code-audit/graph_q.py",
+  "dead": "cargo machete ; python scripts/code-graph.py query .andromeda/runs/2026-10-01T09-18-50-code-audit code-audit \"SELECT s.symbol, s.kind, s.file, s.def_line FROM symbol s LEFT JOIN refs r ON r.callee = s.symbol WHERE r.callee IS NULL ORDER BY s.file, s.def_line\" rust  # classed by .andromeda/runs/2026-10-01T09-18-50-code-audit/dead.py + .andromeda/runs/2026-10-01T09-18-50-code-audit/churn.py (tests/ segment union, FP classes, 3 residuals reviewed by hand)",
+  "coverage": "cargo llvm-cov nextest --workspace --features viola/fake-agent --profile ci --json --summary-only --output-path .andromeda/runs/2026-10-01T09-18-50-code-audit/cov-raw.json --ignore-filename-regex '(viola-fake-agent|crates[/\\\\]viola-e2e|tests[/\\\\]support|fuzz[/\\\\])'  # run by path: .andromeda/runs/2026-10-01T09-18-50-code-audit/cov.sh (twice)",
+  "churn": "git log --reverse --numstat --format=@%H 69abc0d038732cff8d45602f82f8bebaf28bbb72..HEAD -- \"*.rs\"  # minus ^(scripts|docs|refs|fuzz|.andromeda|.claude|viola-0.2.0-incubator)/; .andromeda/runs/2026-10-01T09-18-50-code-audit/churn.py",
+  "hotspots": "c-churn per-file commit count x max per-function cognitive in the file (c-complexity)",
+  "mutation": "NEXTEST_PROFILE=mutants timeout 14400 cargo mutants -p {unit} --test-tool=nextest -j 4 --output .andromeda/runs/2026-10-01T09-18-50-code-audit/mutants-{unit}  # one unit at a time via .andromeda/runs/2026-10-01T09-18-50-code-audit/mut.sh, TMP/TEMP set to a session scratch dir outside the repo; viola and viola-e2e add --features fake-agent; viola-e2e re-invoked by .andromeda/runs/2026-10-01T09-18-50-code-audit/mut-e2e.sh as mutants-viola-e2e-b (--test-package viola-e2e --test-package viola) and mutants-viola-e2e-c (--test-workspace=true)",
+  "head_overshoot": "git log --format=%H -1 -S'2026-09-29-fake-agent-drift-contract · complete' -- .andromeda/master-route.md ; git rev-list --count 093bffb24c7fa2aae5fb79e27742b993c8cccb51..HEAD ; git diff --numstat 093bffb24c7fa2aae5fb79e27742b993c8cccb51..HEAD -- (source paths)"
+ },
+ "corrections": [
+  {
+   "target_sha": "69abc0d038732cff8d45602f82f8bebaf28bbb72",
+   "field": "mutation.not_measured",
+   "was": null,
+   "now": [
+    [
+     "crates/viola-channel/src/client.rs:195:5",
+     "replace open -> io::Result<Stream> with Ok(Default::default())",
+     "cfg(unix)"
+    ],
+    [
+     "crates/viola-channel/src/endpoint.rs:76:5",
+     "replace host_socket_dir -> PathBuf with Default::default()",
+     "cfg(unix)"
+    ],
+    [
+     "crates/viola-channel/src/server.rs:75:9",
+     "replace <impl Drop for Guard>::drop with ()",
+     "cfg(unix)"
+    ],
+    [
+     "crates/viola-channel/src/server.rs:108:5",
+     "replace listen -> Result<(Listener, Guard), ChannelError> with Ok((Default::default(), Default::default()))",
+     "cfg(unix)"
+    ],
+    [
+     "crates/viola-pty/src/lib.rs:430:9",
+     "replace HostTerminal::enter -> Option<Self> with None",
+     "cfg(unix)"
+    ],
+    [
+     "crates/viola-pty/src/lib.rs:430:9",
+     "replace HostTerminal::enter -> Option<Self> with Some(Default::default())",
+     "cfg(unix)"
+    ],
+    [
+     "crates/viola-pty/src/lib.rs:432:64",
+     "replace != with ==",
+     "cfg(unix)"
+    ],
+    [
+     "crates/viola-pty/src/lib.rs:437:71",
+     "replace == with !=",
+     "cfg(unix)"
+    ],
+    [
+     "crates/viola-pty/src/lib.rs:482:76",
+     "replace != with ==",
+     "cfg(unix)"
+    ]
+   ],
+   "note": "schema-gap fill: the record predates not_measured. Recomputed at 69abc0d (cargo mutants --list --json over a git-archive extract + the pinned collectors.md cover(), host x86_64-pc-windows-msvc): 9 of its 11 survivors are #[cfg(unix)] spans the host never builds. Matched back by site + text; the record had dropped the tool's \" in {function}\" suffix on 3 operator mutants and one match guard. By .andromeda/runs/2026-10-01T09-18-50-code-audit/base_nm.py"
+  },
+  {
+   "target_sha": "69abc0d038732cff8d45602f82f8bebaf28bbb72",
+   "field": "mutation.counts",
+   "was": {
+    "viola-channel": {
+     "mutants": 138,
+     "caught": 118,
+     "missed": 4,
+     "timeout": 0,
+     "unviable": 16
+    },
+    "viola-pty": {
+     "mutants": 85,
+     "caught": 64,
+     "missed": 5,
+     "timeout": 0,
+     "unviable": 16
+    }
+   },
+   "now": {
+    "viola-channel": {
+     "mutants": 138,
+     "caught": 118,
+     "missed": 0,
+     "timeout": 0,
+     "unviable": 16,
+     "not_measured": 4
+    },
+    "viola-pty": {
+     "mutants": 85,
+     "caught": 64,
+     "missed": 0,
+     "timeout": 0,
+     "unviable": 16,
+     "not_measured": 5
+    }
+   },
+   "note": "the not_measured split of the fill above; viola-state (2 missed), viola-agent-claude and viola-core unchanged (0 not_measured)"
+  },
+  {
+   "target_sha": "69abc0d038732cff8d45602f82f8bebaf28bbb72",
+   "field": "mutation.scores",
+   "was": {
+    "viola-channel": 96.72,
+    "viola-pty": 92.75
+   },
+   "now": {
+    "viola-channel": 100.0,
+    "viola-pty": 100.0
+   },
+   "note": "caught/(caught+missed) with host-excluded mutants out of missed: 118/118 and 64/64; mutation-drop reads these"
+  }
+ ],
+ "skips": [
+  {
+   "metric": "mutation:viola-e2e",
+   "reason": "baseline-test-failure",
+   "note": "the unmutated tree fails 32 of 246 harness tests in cargo-mutants' copied tree: they spawn target/debug/viola-fake-agent.exe, a ROOT-package bin a -p viola-e2e build never produces (os error 2). Three forms tried, all built and tested --package=viola-e2e only: per-unit; --test-package viola-e2e --test-package viola; --test-workspace=true. The project's own run --mutants prebuild + --copy-target form was not tried."
+  },
+  {
+   "metric": "coverage",
+   "reason": "baseline-test-failure",
+   "note": "the project coverage command's test run failed both times (90, then 80 failed; 79 common); run 2's test phase had 0 foreign rustc in 14 samples and 8-24% CPU, so the host-load hypothesis is not supported for run 2"
+  },
+  {
+   "metric": "coverage.branch",
+   "reason": "declined",
+   "note": "the project coverage command does not instrument branches (as at the 69abc0d record)"
+  }
+ ]
+}

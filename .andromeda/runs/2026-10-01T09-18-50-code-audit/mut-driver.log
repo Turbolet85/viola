@@ -1,0 +1,43 @@
+2026-10-01T10:31:47Z START viola-core jobs=4 free=137G out=.andromeda/runs/2026-10-01T09-18-50-code-audit/mutants-viola-core
+2026-10-01T10:33:42Z END viola-core rc=0
+{"unit": "viola-core", "unit_state": "complete 32/32", "counts": {"mutants": 32, "caught": 31, "missed": 0, "not_measured": 0, "timeout": 0, "unviable": 1}, "score": 100.0}
+2026-10-01T10:33:43Z scratch leftovers after viola-core: 0
+2026-10-01T10:33:43Z START viola-pty jobs=4 free=137G out=.andromeda/runs/2026-10-01T09-18-50-code-audit/mutants-viola-pty
+2026-10-01T10:37:33Z END viola-pty rc=2
+{"unit": "viola-pty", "unit_state": "complete 96/96", "counts": {"mutants": 96, "caught": 71, "missed": 4, "not_measured": 5, "timeout": 0, "unviable": 16}, "score": 94.67}
+2026-10-01T10:37:34Z scratch leftovers after viola-pty: 184
+2026-10-01T10:37:34Z scratch leftovers removed
+2026-10-01T10:37:34Z START viola-state jobs=4 free=137G out=.andromeda/runs/2026-10-01T09-18-50-code-audit/mutants-viola-state
+2026-10-01T10:42:33Z END viola-state rc=2
+{"unit": "viola-state", "unit_state": "complete 121/121", "counts": {"mutants": 121, "caught": 106, "missed": 3, "not_measured": 0, "timeout": 0, "unviable": 12}, "score": 97.25}
+2026-10-01T10:42:34Z scratch leftovers after viola-state: 529
+2026-10-01T10:42:34Z scratch leftovers removed
+2026-10-01T10:42:34Z START viola-channel jobs=4 free=136G out=.andromeda/runs/2026-10-01T09-18-50-code-audit/mutants-viola-channel
+2026-10-01T10:47:53Z END viola-channel rc=2
+{"unit": "viola-channel", "unit_state": "complete 152/152", "counts": {"mutants": 152, "caught": 130, "missed": 0, "not_measured": 4, "timeout": 0, "unviable": 18}, "score": 100.0}
+2026-10-01T10:47:53Z scratch leftovers after viola-channel: 545
+2026-10-01T10:47:54Z scratch leftovers removed
+2026-10-01T10:47:54Z START viola-agent-claude jobs=4 free=136G out=.andromeda/runs/2026-10-01T09-18-50-code-audit/mutants-viola-agent-claude
+2026-10-01T10:54:06Z END viola-agent-claude rc=0
+{"unit": "viola-agent-claude", "unit_state": "complete 194/194", "counts": {"mutants": 194, "caught": 178, "missed": 0, "not_measured": 0, "timeout": 0, "unviable": 16}, "score": 100.0}
+2026-10-01T10:54:07Z scratch leftovers after viola-agent-claude: 545
+2026-10-01T10:54:07Z scratch leftovers removed
+2026-10-01T10:54:07Z START viola jobs=4 free=136G out=.andromeda/runs/2026-10-01T09-18-50-code-audit/mutants-viola
+2026-10-01T11:28:39Z END viola rc=2
+{"unit": "viola", "unit_state": "complete 352/352", "counts": {"mutants": 352, "caught": 302, "missed": 1, "not_measured": 4, "timeout": 0, "unviable": 45}, "score": 99.67}
+2026-10-01T11:28:40Z scratch leftovers after viola: 790
+2026-10-01T11:28:40Z scratch leftovers removed
+2026-10-01T11:28:40Z START viola-e2e jobs=4 free=135G out=.andromeda/runs/2026-10-01T09-18-50-code-audit/mutants-viola-e2e
+2026-10-01T11:29:27Z END viola-e2e rc=4
+{"unit": "viola-e2e", "exit": 4, "jobs": 4, "total_mutants": 0, "planned_len": 727, "end_time": "2026-10-01T11:29:25.3529147Z", "state": "baseline-test-failure"}
+2026-10-01T11:29:28Z scratch leftovers after viola-e2e: 786
+2026-10-01T11:29:28Z scratch leftovers removed
+2026-10-01T11:29:28Z DRIVER DONE
+2026-10-01T11:30:34Z START viola-e2e (re-invocation, --test-package viola-e2e --test-package viola) jobs=4 free=135G out=.andromeda/runs/2026-10-01T09-18-50-code-audit/mutants-viola-e2e-b
+2026-10-01T11:31:23Z END viola-e2e rc=4
+{"unit": "viola-e2e", "exit": 4, "jobs": 4, "total_mutants": 0, "planned_len": 727, "end_time": "2026-10-01T11:31:21.1580384Z", "state": "baseline-test-failure"}
+2026-10-01T11:31:23Z E2E DONE
+2026-10-01T11:31:50Z START viola-e2e (re-invocation, --test-workspace=true) jobs=4 free=135G out=.andromeda/runs/2026-10-01T09-18-50-code-audit/mutants-viola-e2e-c
+2026-10-01T11:32:35Z END viola-e2e rc=4
+{"unit": "viola-e2e", "exit": 4, "jobs": 4, "total_mutants": 0, "planned_len": 727, "end_time": "2026-10-01T11:32:32.8896926Z", "state": "baseline-test-failure"}
+2026-10-01T11:32:35Z E2E DONE

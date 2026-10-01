@@ -1,0 +1,76 @@
+{
+ "unit": "viola-pty",
+ "exit": 2,
+ "jobs": 4,
+ "total_mutants": 96,
+ "planned_len": 96,
+ "end_time": "2026-10-01T10:37:32.7894569Z",
+ "state": "complete",
+ "unit_state": "complete 96/96",
+ "counts": {
+  "mutants": 96,
+  "caught": 71,
+  "missed": 4,
+  "not_measured": 5,
+  "timeout": 0,
+  "unviable": 16
+ },
+ "score": 94.67,
+ "score_formula": "caught/(caught+missed)",
+ "survivors": [
+  [
+   "crates/viola-pty/src/lib.rs:196:9",
+   "replace <impl Pty for PortablePty>::resize -> Result<(), PtyError> with Ok(())"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:330:9",
+   "replace <impl Drop for HostTerminal>::drop with ()"
+  ],
+  [
+   "crates/viola-pty/src/sideload.rs:34:5",
+   "replace search_restricted -> bool with true"
+  ],
+  [
+   "crates/viola-pty/src/sideload.rs:34:5",
+   "replace search_restricted -> bool with false"
+  ]
+ ],
+ "not_measured": [
+  [
+   "crates/viola-pty/src/lib.rs:315:9",
+   "replace HostTerminal::enter -> Option<Self> with None",
+   "cfg(unix)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:317:64",
+   "replace != with == in HostTerminal::enter",
+   "cfg(unix)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:315:9",
+   "replace HostTerminal::enter -> Option<Self> with Some(Default::default())",
+   "cfg(unix)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:322:71",
+   "replace == with != in HostTerminal::enter",
+   "cfg(unix)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:367:76",
+   "replace != with == in host_size",
+   "cfg(unix)"
+  ]
+ ],
+ "timeouts": [],
+ "tool_tally": {
+  "caught": 71,
+  "missed": 9,
+  "timeout": 0,
+  "unviable": 16,
+  "success": 0,
+  "failure": null
+ },
+ "host": "x86_64-pc-windows-msvc",
+ "start_time": "2026-10-01T10:33:44.730432Z"
+}

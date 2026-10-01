@@ -1,0 +1,39 @@
+{
+ "unused_deps": [
+  [
+   "viola-fuzz (fuzz/Cargo.toml, own workspace)",
+   "arbitrary"
+  ]
+ ],
+ "zero_ref_candidates": 0,
+ "top": [],
+ "classing": {
+  "raw": 817,
+  "tests_segment_excluded": 792,
+  "fp_classes": {
+   "trait-impl method (dispatch)": 15,
+   "entry point": 3,
+   "test-only helper (test crate / test-support)": 4
+  },
+  "residual_reviewed_fp": [
+   [
+    "Pty#child_pid().",
+    "fn",
+    "crates/viola-pty/src/lib.rs:124",
+    "trait method reached by dispatch: a trait DECLARATION called as viola_pty::Pty::child_pid(&pty) at src/cmd/run.rs:397"
+   ],
+   [
+    "events/kind_str().",
+    "fn",
+    "crates/viola-state/src/events.rs:38",
+    "derive/attr-invoked: #[serde(serialize_with = \"kind_str\")] at crates/viola-state/src/events.rs:33"
+   ],
+   [
+    "StateError#Encode#",
+    "type",
+    "crates/viola-state/src/lib.rs:21",
+    "derive/attr-invoked: a thiserror #[from] variant (crates/viola-state/src/lib.rs:22)"
+   ]
+  ]
+ }
+}

@@ -1,0 +1,33 @@
+{
+ "unit": "viola-agent-claude",
+ "exit": 0,
+ "jobs": 4,
+ "total_mutants": 194,
+ "planned_len": 194,
+ "end_time": "2026-10-01T10:54:06.1484697Z",
+ "state": "complete",
+ "unit_state": "complete 194/194",
+ "counts": {
+  "mutants": 194,
+  "caught": 178,
+  "missed": 0,
+  "not_measured": 0,
+  "timeout": 0,
+  "unviable": 16
+ },
+ "score": 100.0,
+ "score_formula": "caught/(caught+missed)",
+ "survivors": [],
+ "not_measured": [],
+ "timeouts": [],
+ "tool_tally": {
+  "caught": 178,
+  "missed": 0,
+  "timeout": 0,
+  "unviable": 16,
+  "success": 0,
+  "failure": null
+ },
+ "host": "x86_64-pc-windows-msvc",
+ "start_time": "2026-10-01T10:47:55.1650202Z"
+}

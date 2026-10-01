@@ -1,0 +1,155 @@
+{
+ "cycles": 0,
+ "cycle_paths": [],
+ "fan_in_top": [
+  [
+   "rust-analyzer cargo viola-e2e 0.1.0 harness/Workspace#",
+   114
+  ],
+  [
+   "rust-analyzer cargo viola 0.1.0 support/home/TestHome#",
+   92
+  ],
+  [
+   "rust-analyzer cargo viola-e2e 0.1.0 harness/Outcome#doc.",
+   90
+  ],
+  [
+   "rust-analyzer cargo viola-e2e 0.1.0 harness/Outcome#code.",
+   78
+  ],
+  [
+   "rust-analyzer cargo viola 0.1.0 crate/",
+   75
+  ],
+  [
+   "rust-analyzer cargo viola-e2e 0.1.0 harness/Workspace#root.",
+   69
+  ],
+  [
+   "rust-analyzer cargo viola 0.1.0 support/home/impl#[TestHome]path().",
+   64
+  ],
+  [
+   "rust-analyzer cargo viola-core 0.1.0 __nutype_ViolaName__/ViolaName#",
+   62
+  ],
+  [
+   "rust-analyzer cargo viola-agent-claude 0.1.0 hook/HookEvent#",
+   61
+  ],
+  [
+   "rust-analyzer cargo viola-e2e 0.1.0 harness/Outcome#",
+   57
+  ],
+  [
+   "rust-analyzer cargo viola-pty 0.1.0 Size#",
+   52
+  ],
+  [
+   "rust-analyzer cargo viola-e2e 0.1.0 harness/run/",
+   48
+  ],
+  [
+   "rust-analyzer cargo viola-channel 0.1.0 crate/",
+   47
+  ],
+  [
+   "rust-analyzer cargo viola 0.1.0 support/home/home#",
+   47
+  ],
+  [
+   "rust-analyzer cargo viola 0.1.0 support/fake/",
+   45
+  ],
+  [
+   "rust-analyzer cargo viola-e2e 0.1.0 harness/run/Suite#",
+   43
+  ],
+  [
+   "rust-analyzer cargo viola 0.1.0 support/home/impl#[TestHome]scratch().",
+   42
+  ],
+  [
+   "rust-analyzer cargo viola 0.1.0 support/fake/FAKE.",
+   40
+  ],
+  [
+   "rust-analyzer cargo viola-core 0.1.0 obs/ObsProcess#",
+   38
+  ],
+  [
+   "rust-analyzer cargo viola-e2e 0.1.0 harness/run/Runner#",
+   36
+  ]
+ ],
+ "fan_out": [
+  [
+   "viola",
+   5
+  ],
+  [
+   "viola-e2e",
+   3
+  ],
+  [
+   "viola-state",
+   1
+  ],
+  [
+   "viola-channel",
+   1
+  ],
+  [
+   "viola-agent-claude",
+   1
+  ]
+ ],
+ "cross_unit_edges": 11,
+ "edge_list": [
+  [
+   "viola",
+   "viola-agent-claude"
+  ],
+  [
+   "viola",
+   "viola-channel"
+  ],
+  [
+   "viola",
+   "viola-core"
+  ],
+  [
+   "viola",
+   "viola-pty"
+  ],
+  [
+   "viola",
+   "viola-state"
+  ],
+  [
+   "viola-agent-claude",
+   "viola-core"
+  ],
+  [
+   "viola-channel",
+   "viola-core"
+  ],
+  [
+   "viola-e2e",
+   "viola-channel"
+  ],
+  [
+   "viola-e2e",
+   "viola-core"
+  ],
+  [
+   "viola-e2e",
+   "viola-pty"
+  ],
+  [
+   "viola-state",
+   "viola-core"
+  ]
+ ]
+}

@@ -1,0 +1,353 @@
+{
+ "clusters": {
+  "U1 tooling.hook-friction as Universal (bash guard)": [
+   {
+    "id": "2026-09-27T19:05:39Z-c",
+    "line": 467,
+    "chunk": "2026-09-27-browser-verdict-reachability",
+    "skill": "implement",
+    "step": "code",
+    "what": "the Bash PreToolUse guards refused two commands (a doubled backslash in a test path; a cat heredoc appending to a test file) and each was re-issued in the sanctioned form",
+    "impact": {
+     "retries": 2
+    },
+    "evidence": null
+   },
+   {
+    "id": "2026-09-27T22:07:16Z-d",
+    "line": 500,
+    "chunk": "2026-09-27-hooks-to-normalised-events",
+    "skill": "implement",
+    "step": "code",
+    "what": "the bash-guard PreToolUse hook blocked two python heredoc edit scripts carrying Rust string escapes (a doubled backslash); both edits were redone with the Edit tool",
+    "impact": {
+     "retries": 2
+    },
+    "evidence": null
+   },
+   {
+    "id": "2026-09-29T13:14:07Z-b",
+    "line": 728,
+    "chunk": "2026-09-29-fake-agent-drift-contract",
+    "skill": "phase",
+    "step": "research",
+    "what": "The doubled-backslash Bash guard fired twice in research although host-win32.md's 2026-09-28 addition naming it was loaded; both probes were re-run through the Grep tool",
+    "impact": {
+     "retries": 2
+    },
+    "evidence": null
+   }
+  ],
+  "U2 tooling.pattern-file-refused (cascade.py) + 2 prior-epoch": [
+   {
+    "id": "2026-09-29T12:40:29Z-e",
+    "line": 713,
+    "chunk": "2026-09-29-sideloaded-conpty",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "what": "cascade.py refused the first three pattern files: a doubled single quote inside a TOML literal string, an id over 16 chars, and PTY_BACKEND whose control never fires (no master ever named the const) - fixed, dropped and hand-controlled by grep",
+    "impact": {
+     "retries": 3
+    },
+    "evidence": ".andromeda/runs/2026-09-29T12-17-33-wrap/sweep-out.txt"
+   }
+  ],
+  "below: classifier refusal / no verdict": [
+   {
+    "id": "2026-09-28T09:11:55Z-b",
+    "line": 557,
+    "chunk": "2026-09-28-cli-output-tokens",
+    "skill": "implement",
+    "step": "code",
+    "what": "the Bash tool's auto-mode safety classifier returned no verdict (server-side error) on 2 consecutive calls at implement Setup (6 more at the preceding new-session); read-only Setup reads filled the wait and the third call ran",
+    "impact": {
+     "retries": 2
+    },
+    "evidence": null
+   },
+   {
+    "id": "2026-09-29T11:38:38Z-f",
+    "line": 704,
+    "chunk": "2026-09-29-sideloaded-conpty",
+    "skill": "implement",
+    "step": "fix-loop",
+    "what": "the permission classifier refused running the tests with the companion hash compare neutralised (a remove-the-guard run the testing rules require); recorded not run",
+    "impact": {
+     "halted": 1
+    },
+    "evidence": "viola-0.1.0/chunks/2026-09-29-sideloaded-conpty/evidence/guard-runs.md"
+   }
+  ],
+  "below: cargo-mutants mechanics": [
+   {
+    "id": "2026-09-28T06:59:44Z-c",
+    "line": 536,
+    "chunk": "2026-09-28-hook-perf-gate",
+    "skill": "implement",
+    "step": "fix-loop",
+    "what": "a test module gated #[cfg(all(test, feature = \"fake-agent\"))] is mutated by cargo-mutants (only a bare cfg(test) is skipped): a test fn body graded MISSED in the scoped loop and both pre-push legs; fixed by stacking #[cfg(test)] and #[cfg(feature)]",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": "gate 17 and gate 28, first full run"
+   },
+   {
+    "id": "2026-09-28T13:10:21Z-c",
+    "line": 586,
+    "chunk": "2026-09-28-capability-ledger-and-viola-verify",
+    "skill": "implement",
+    "step": "fix-loop",
+    "what": "entry 18 (run --mutants --file src/run/version_gate.rs) went red on unviable 13 > caught 8 with 0 missed: an mpsc::Receiver return gives cargo-mutants 10 uncompilable replacements; a closure hid them, the operator asked for a fn, a Default-deriving return type made them 4 viable and caught",
+    "impact": {
+     "iterations": 2,
+     "dialogue_rounds": 1
+    },
+    "evidence": null
+   }
+  ],
+  "below: hygiene refusing own artifact": [
+   {
+    "id": "2026-09-29T08:15:37Z-b",
+    "line": 685,
+    "chunk": "2026-09-29-verify-stamped-test-homes-and-harness",
+    "skill": "wrap-session",
+    "step": "gates",
+    "what": "P7.3c hygiene refused this wrap's own curation.md, whose proof line quoted the repo-relative kept-home path the new Tier-3 learning warns against; reworded by parts, re-read clean",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": null
+   }
+  ],
+  "below: vacuous git diff HEAD after operator pass (-> X2)": [
+   {
+    "id": "2026-09-28T21:30:03Z-b",
+    "line": 625,
+    "chunk": "2026-09-28-mutation-testing-to-the-epoch-boundary",
+    "skill": "wrap-session",
+    "step": "gates",
+    "what": "after an operator pass the plan's 'git diff --quiet HEAD -- …' probes (wsl-provision, nextest.toml, product paths) and the recorded 'git diff HEAD -- ci.yml' compare against a HEAD that already holds the chunk, so they pass or read empty vacuously at the light gate; the report re-read them against the pre-CI base 537ac36",
+    "impact": {
+     "extra_reads": 3
+    },
+    "evidence": null
+   }
+  ],
+  "mistyped: cascade-miss": [
+   {
+    "id": "2026-09-28T04:37:42Z-d",
+    "line": 512,
+    "chunk": "2026-09-27-hooks-to-normalised-events",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "what": "the obs-plan doc-agent returned proposals: [] under its three detectors while naming four stale obs sites in stripped comments; the orchestrator raised them through check 5 (O1 O2 O3 O5), as it did 8 more sites the detectors never proposed (A15-A17, S8-S9, T15-T17)",
+    "impact": {
+     "extra_reads": 6
+    },
+    "evidence": ".andromeda/runs/2026-09-27T23-42-19-wrap/fanout-results.md"
+   },
+   {
+    "id": "2026-09-29T06:27:43Z-d",
+    "line": 645,
+    "chunk": "2026-09-29-h2-conpty-resize-probe",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "what": "no detector proposed test-plan §10 :1506 (child viola processes stay in coverage because LLVM_PROFILE_FILE propagates) although the report's Harness bullet carried the throwaway-crate exception; raised by the orchestrator as routine",
+    "impact": {
+     "extra_reads": 2
+    },
+    "evidence": null
+   }
+  ],
+  "mistyped: token-proxy-check": [
+   {
+    "id": "2026-09-29T13:08:32Z-c",
+    "line": 726,
+    "chunk": "2026-09-29-fake-agent-drift-contract",
+    "skill": "phase",
+    "step": "distill",
+    "what": "obs history cites carry a parenthetical disambiguator after the marker (e.g. '2026-09-28-hook-perf-gate (uploads)'), so the H2 heading match missed 4 cites until the bare marker was re-checked",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": null
+   }
+  ],
+  "mistyped: ladder-uncovered-state": [
+   {
+    "id": "2026-09-27T13:59:14Z-b",
+    "line": 416,
+    "chunk": null,
+    "skill": "new-session",
+    "step": "orientation",
+    "what": "the ladder has no rung for an epoch boundary whose diagnosis and audit have run but whose cleanup chunk is not yet minted: rung 4 says /andromeda-phase, and the right next step (route-adaptation request, then a 0-pending wrap) came from the handoff and the founder's memory rule",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": null
+   }
+  ],
+  "below: registry path (-> L4)": [
+   {
+    "id": "2026-09-29T08:22:50Z-b",
+    "line": 688,
+    "chunk": "2026-09-29-sideloaded-conpty",
+    "skill": "phase",
+    "step": "take-up",
+    "what": "locating a registry crate's source by assumed ~/.cargo path failed twice (default path absent, filesystem find timed out); cargo metadata manifest_path answered at once",
+    "impact": {
+     "retries": 2
+    },
+    "evidence": null
+   }
+  ],
+  "singletons": [
+   {
+    "id": "2026-09-27T15:48:15Z-d",
+    "line": 436,
+    "chunk": "2026-09-27-epoch-2-cleanup",
+    "skill": "implement",
+    "step": "fix-loop",
+    "what": "entry 28 (test ! -e mutants.out) ran at 17:18:14 local, one minute before the operator removal of the leftover at 17:19, so it read red and was re-run alone",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": null
+   },
+   {
+    "id": "2026-09-27T18:23:05Z-b",
+    "line": 453,
+    "chunk": "2026-09-27-browser-verdict-reachability",
+    "skill": "phase",
+    "step": "take-up",
+    "what": "new-session dashboard rendered the handoff's direction-less 8-test fold as raise the wait bound; the handoff named the race but not the fix direction, and the overseer had to correct it at the phase invocation",
+    "impact": {
+     "dialogue_rounds": 1
+    },
+    "evidence": null
+   },
+   {
+    "id": "2026-09-27T19:29:07Z-c",
+    "line": 470,
+    "chunk": "2026-09-27-browser-verdict-reachability",
+    "skill": "implement",
+    "step": "fix-loop",
+    "what": "the recorder's first wait_ready read snapshot.json on every poll from spawn; one wrapper then died internal-error (state file i/o, Access is denied os error 5) and orphaned its fake agent, reddening integration and the boot smoke; fixed by reading in the predicate's short-circuit order",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": null
+   },
+   {
+    "id": "2026-09-28T10:36:49Z-c",
+    "line": 575,
+    "chunk": "2026-09-28-capability-ledger-and-viola-verify",
+    "skill": "phase",
+    "step": "research",
+    "what": "the overseer's size yardstick (recent chunks at 55-65 % of an implement window) is recorded in no artifact on disk; research substituted code-diff insertions of the last four chunks as the measurable proxy",
+    "impact": {
+     "extra_reads": 2
+    },
+    "evidence": null
+   },
+   {
+    "id": "2026-09-29T05:12:20Z-b",
+    "line": 630,
+    "chunk": "2026-09-29-h2-conpty-resize-probe",
+    "skill": "phase",
+    "step": "research",
+    "what": "a relative redirect path counted four levels up from the run dir wrote the first graph query's output to the projects directory outside the repo; found on the next call and removed, later queries printed to stdout",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": null
+   }
+  ]
+ },
+ "previous_epoch_untyped": [
+  {
+   "id": "2026-09-25T13:41:00Z-c",
+   "chunk": "2026-09-25-pty-wrapper-on-windows",
+   "skill": "phase",
+   "step": "distill",
+   "what": "the orchestrator's first save of layouts.md was a paraphrased reconstruction instead of the verbatim return body; caught before validation and re-saved verbatim via a second whole-content Write"
+  },
+  {
+   "id": "2026-09-25T15:19:15Z-d",
+   "chunk": "2026-09-25-pty-wrapper-on-windows",
+   "skill": "implement",
+   "step": "code",
+   "what": "a mis-diagnosed mechanism (Ctrl-C event under raw ConPTY input) was implemented with a measured-claim comment before a recording handler showed CTRL_CLOSE from the dropped ConPTY input writer; reverted"
+  },
+  {
+   "id": "2026-09-26T22:32:35Z-c",
+   "chunk": "2026-09-26-local-linux-pre-push-gate",
+   "skill": "implement",
+   "step": "fix-loop",
+   "what": "a red reproducible only through the gate under test: tui_host_resize_reaches_the_child fails 3/3 inside pre-push, 0/68 in isolated reproductions of each of its parts; the investigation found no discriminating variable"
+  },
+  {
+   "id": "2026-09-27T01:12:11Z-b",
+   "chunk": "2026-09-26-local-linux-pre-push-gate",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "what": "cascade.py sweep refused the pattern file (exit 2): pattern ids are limited to 16 chars, the reference's cascade section does not state the limit; 12 ids renamed and the sweep re-run"
+  },
+  {
+   "id": "2026-09-27T04:48:02Z-c",
+   "chunk": "2026-09-27-instance-state-and-start-order",
+   "skill": "implement",
+   "step": "fix-loop",
+   "what": "a reproduction script captured viola-harness boot stdout through a subprocess pipe and hung (the supervisor inherits the pipe), the case verification-harness.md 2026-09-25 names; stopped by pid and cleaned through the harness"
+  },
+  {
+   "id": "2026-09-27T06:11:19Z-b",
+   "chunk": "2026-09-27-instance-state-and-start-order",
+   "skill": "implement",
+   "step": "fix-loop",
+   "what": "a poller was stopped by a command-line substring match (wait-ci.sh), which also killed the stopping shell itself (exit 255): the exact case host-win32.md 2026-09-25 rules out; only the poller's and that command's own shells were matched"
+  },
+  {
+   "id": "2026-09-27T06:33:04Z-d",
+   "chunk": "2026-09-27-instance-state-and-start-order",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "what": "the fan-out missed four stale restatements that the cascade sweep caught (test-plan:529, :1775, obs-plan:869, security-plan:671) and a wider leaf grep found six leaf lines the sweep patterns did not name (they stated the chunk's NEW facts' predecessors, not retired wording)"
+  },
+  {
+   "id": "2026-09-27T08:10:38Z-e",
+   "chunk": "2026-09-27-wrapper-channel",
+   "skill": "implement",
+   "step": "code",
+   "what": "a scoped tracing subscriber as the only dispatcher caches a callsite first hit on another thread (the server worker) as disabled, so a client test missed its channel-response line; one test moved to a process-global capture"
+  },
+  {
+   "id": "2026-09-27T12:54:15Z-c",
+   "chunk": "2026-09-27-wrapper-channel",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "what": "The architecture detector cited source/manifest lines for 7 of 18 proposals (endpoint.rs, server.rs, frame.rs, Cargo.toml) against its prompt's re-derivation ban and carried unreported facts (dir fallback, lock mode, unlink order, dependency versions); all 7 were rejected and their report-carried facts re-raised by the orchestrator"
+  },
+  {
+   "id": "2026-09-27T12:54:15Z-e",
+   "chunk": "2026-09-27-wrapper-channel",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "what": "cascade.py sweep refused the first pattern file (exit 2): pattern ids over 16 chars; ids shortened and the sweep re-run"
+  },
+  {
+   "id": "2026-09-27T12:54:15Z-f",
+   "chunk": "2026-09-27-wrapper-channel",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "what": "An architecture [Session Liveness] edit removed a still-true clause (a name with an answering endpoint refuses) beyond the retired pending-bind claim; caught on re-reading the edit and restored before the sweep"
+  },
+  {
+   "id": "2026-09-27T12:58:32Z-a",
+   "chunk": "2026-09-27-wrapper-channel",
+   "skill": "wrap-session",
+   "step": "route-resolve",
+   "what": "Four records of this wrap (ids 2026-09-27T13:02:00Z-a/-b, curation; 2026-09-27T13:10:00Z-a/-b, route-resolve) carry a hand-authored ts, not a date -u reading; the real clock read 12:58:22Z just after both were written, so both stamps are later than their events (true time between 12:54:15Z and 12:58:22Z); their content stands"
+  }
+ ]
+}

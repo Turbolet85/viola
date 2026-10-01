@@ -1,0 +1,83 @@
+{
+ "line": null,
+ "branch": null,
+ "status": "not measured: the project coverage command fails at HEAD on this host in two runs",
+ "command": "cargo llvm-cov nextest --workspace --features viola/fake-agent --profile ci --json --summary-only --output-path .andromeda/runs/2026-10-01T09-18-50-code-audit/cov-raw.json --ignore-filename-regex '(viola-fake-agent|crates[/\\\\]viola-e2e|tests[/\\\\]support|fuzz[/\\\\])'  # run by path: .andromeda/runs/2026-10-01T09-18-50-code-audit/cov.sh (twice)",
+ "run1": {
+  "window": "2026-10-01T09:20Z-10:00Z",
+  "nextest_summary": "985 tests run: 895 passed (30 slow), 89 failed, 1 timed out, 0 skipped",
+  "failed": 90,
+  "note": "a foreign project build (cargo xtask pre-push:linux, toolchain 1.95) ran on the host (overseer measurement)"
+ },
+ "run2": {
+  "window": "build 11:33-11:58Z, tests 12:03:38-12:08:54Z",
+  "nextest_summary": "985 tests run: 905 passed (22 slow), 80 failed, 0 skipped",
+  "failed": 80,
+  "failed_by_test_binary": {
+   "viola::run_cli": 12,
+   "viola::hook_fail_open": 11,
+   "viola::cli_verify": 10,
+   "viola::cli_version_gate": 8,
+   "viola::cli_instance_state": 7,
+   "viola::cli_fake_agent": 6,
+   "viola::tui_passthrough": 5,
+   "viola::conpty_sideload": 5,
+   "viola-e2e::harness_lifecycle": 4,
+   "viola::hook_events": 3,
+   "viola::tui_env_strip": 2,
+   "viola-e2e::cli": 2,
+   "viola::channel_endpoint": 2,
+   "viola::cli_program_resolution": 1,
+   "viola::contract_diag_schema": 1,
+   "viola::contract_ledger_probes": 1
+  },
+  "panic_first_lines": {
+   "viola never exited": 32,
+   "the wrapped program never started": 12,
+   "wrapper builder not ready": 7,
+   "assertion `left == right` failed: {\"v\":1,\"cmd\":\"boot\",\"ok\":false,\"reason\":\"readiness-timeout\",\"instance\":\"builder\",\"exit": 6,
+   "timed out waiting for start": 5,
+   "timed out waiting for env": 2,
+   "the wrapper never spawned the child": 2,
+   "timed out waiting for step 0": 1
+  },
+  "foreign_rustc_samples_in_test_phase": 0,
+  "test_phase_samples": 14,
+  "cpu_pct_in_test_phase": [
+   8,
+   24
+  ],
+  "foreign_rustc_seen": [
+   "2026-10-01T11:40:00Z foreign_rustc=4 cpu=12",
+   "2026-10-01T11:40:27Z foreign_rustc=3 cpu=7",
+   "2026-10-01T11:40:51Z foreign_rustc=1 cpu=8",
+   "2026-10-01T11:44:20Z foreign_rustc=2 cpu=8",
+   "2026-10-01T11:44:43Z foreign_rustc=3 cpu=7",
+   "2026-10-01T11:45:06Z foreign_rustc=1 cpu=10",
+   "2026-10-01T11:46:14Z foreign_rustc=2 cpu=13",
+   "2026-10-01T11:46:37Z foreign_rustc=1 cpu=13",
+   "2026-10-01T11:47:00Z foreign_rustc=1 cpu=9"
+  ],
+  "watcher": ".andromeda/runs/2026-10-01T09-18-50-code-audit/cov-watch.sh (rustc.exe outside the 1.98.1 toolchain path + total CPU, every 20 s)"
+ },
+ "overlap": {
+  "both": 79,
+  "only_run1": 11,
+  "only_run2": [
+   "viola::cli_verify verify_under_a_regular_file_prints_only_the_internal_error_line"
+  ]
+ },
+ "contrast": "the unmutated viola package suite PASSED as cargo-mutants' baseline in a copied tree (gitignored files not copied) at 10:54Z (367/367 tests across 26 binaries passed, 36 s build + 10.9 s test, NEXTEST_PROFILE=mutants); the same binaries fail in-repo under coverage (twice) and in a plain in-repo nextest probe (2/2, with every inherited CLAUDE*/VIOLA_*/ANTHROPIC* var unset) - a location/local-state-dependent red, cause unknown",
+ "skips": [
+  {
+   "metric": "coverage",
+   "reason": "baseline-test-failure",
+   "note": "the project coverage command's test run failed both times (90, then 80 failed; 79 common); run 2's test phase had 0 foreign rustc in 14 samples and 8-24% CPU, so the host-load hypothesis is not supported for run 2"
+  },
+  {
+   "metric": "coverage.branch",
+   "reason": "declined",
+   "note": "the project coverage command does not instrument branches (as at the 69abc0d record)"
+  }
+ ]
+}

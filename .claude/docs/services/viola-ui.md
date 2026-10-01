@@ -11,7 +11,7 @@ _Crate implementation notes. Primary source: `.andromeda/architecture.md` [GUI C
 `viola-core`, `viola-state` (tail, sessions, links, liveness, budget), `viola-agent-claude` (`claude agents --json`); axum, tower-http (`set-header`, `compression` on assets, `trace`), tokio, getrandom 0.4.3, constant_time_eq 0.6.0.
 
 ### Publishes to
-The browser page (Lit 3.3.3 light DOM) and the harness (`status`, Playwright specs, reqwest/curl/eventsource-client suites).
+The browser page (React + TypeScript bundle from the route's frontend-toolchain entry; toolchain OPEN until then) and the harness (`status`, Playwright specs, reqwest/curl/eventsource-client suites).
 
 ### Dependencies
 Tokio allowed. axum without `http2`. No CORS layer, no `ServeDir`.
@@ -21,7 +21,7 @@ Tokio allowed. axum without `http2`. No CORS layer, no `ServeDir`.
 - Token: 32 `getrandom` bytes, hex, memory only; launch URL written atomically to `<home>/ui/<port>.url` (0600) and printed once to stderr; `GET /?t=` → constant-time compare → `Set-Cookie: viola_<port>=…; HttpOnly; SameSite=Strict; Path=/` + 303 to `/`; the `.url` file is removed on graceful shutdown. No route reprints the token.
 - SSE: `id:` = composite cursor `<ViolaName>:<offset>,…` over every tailed instance; `Last-Event-ID` parsed pair by pair through `ViolaName::try_new` + `u64` — any bad pair drops the whole header; `data:` is the event line verbatim; keep-alive every 15 s; never compressed.
 - Logs: `http-request` with `uri.path()` only (truncated 256 B), route template, status, Problem URN; `sse-opened` / `sse-closed` from a `Drop` guard; `liveness-changed` on transitions. The launch line never goes through the subscriber.
-- Page: `/assets/app.css` token layers, `viola-*` light-DOM elements, text bindings only, native semantics per a11y-plan §4 (table racks, `log` with `aria-live="off"`, one polite `status`).
+- Page: `/assets/app.css` token layers, `viola-*` components (their mapping onto React's output OPEN), text bindings only, native semantics per a11y-plan §4 (table racks, `log` with `aria-live="off"`, one polite `status`).
 
 ## Crate-specific gotchas
 - A v1.x brake route (`POST /api/sessions/{name}/pause|unlink`) needs the cookie plus the `Sec-Fetch-Site`/`Origin` check and a Security Decisions Log entry — not served in v1.
@@ -30,7 +30,7 @@ Tokio allowed. axum without `http2`. No CORS layer, no `ServeDir`.
 
 ## Entry points for modification
 - **Router, middleware, handlers:** `crates/viola-ui/src/`
-- **Embedded page:** `crates/viola-ui/assets/` (`index.html`, `app.css`, vendored Lit, `viola-*` elements)
+- **Embedded page:** `crates/viola-ui/assets/` (`index.html`, `app.css`; the React + TypeScript sources and bundle layout land with the frontend-toolchain entry)
 - **Tests:** crate `tests/` with axum-test (route/header/Problem matrix); E2E `http_*` / `sse_*` in `crates/viola-e2e`; Playwright specs in `e2e-web/tests/`
 
 ## Testing this crate

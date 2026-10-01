@@ -356,7 +356,7 @@ All motion decisions flow from the expression level set in Brand Identity.
   - Two spaces separate columns, and a refusal's reason from its detail (they are separate fields, as in the exit-code table).
   - ` - ` (space, hyphen, space) replaces `·` inside one field or label: `driver - budget-paused`, `skipped 0 - 0 - 0`, `-- UNWRAPPED - READ-ONLY --`.
 
-**Library:** None. `img-src 'self'` rules out CDN icon sets. `unsafeSVG` and inline SVG markup are banned, and no icon font can load (`font-src 'none'`).
+**Library:** None. `img-src 'self'` rules out CDN icon sets. SVG through `dangerouslySetInnerHTML` and inline SVG markup are banned, and no icon font can load (`font-src 'none'`).
 
 **Size grid:** Glyphs are 1em of the text that carries them (13px), with a 4px (`--space-micro`) gap. The readback box is a 16px square, drawn with borders, not a glyph.
 
@@ -373,10 +373,10 @@ All motion decisions flow from the expression level set in Brand Identity.
 - The page is verified in a headless browser by default.
 
 **Toolkit / Framework (from tooling-decisions.md):**
-- Lit 3.3.3, vendored ESM, embedded via `include_bytes!`, with no JS build step.
+- React + TypeScript, by founder ruling (2026-09-30): 0.2.0 renders the session hierarchy as a node graph, which a build-less Lit page does not fit. A build step bundles the page and the bundle is embedded in `viola`. The bundler and its version, the React version, how the bundle is embedded, the CSP the bundle needs and the npm supply-chain gates are OPEN, owned by the route's frontend-toolchain entry (Epoch 8's head), whose wrap writes the measured facts here. Until that entry lands the page has no JS build step, and architecture §Infrastructure Patterns → Build system keeps its no-bundler guard.
 - Hand-written modern CSS (native nesting, `@layer`, custom properties) in `/assets/app.css`.
-- No component library: plain custom `viola-*` elements over semantic HTML.
-- Every `viola-*` element renders into light DOM (`createRenderRoot(){ return this; }`) so `/assets/app.css` applies. Lit `static styles` are not used in v1 until the headless check proves that constructable stylesheets pass `style-src 'self'` plus Trusted Types.
+- No component library: plain `viola-*` components over semantic HTML.
+- Styling is `/assets/app.css` alone under `style-src 'self'`: no Shadow DOM, no component-scoped or runtime-injected styles in v1. The Lit-era host form (light-DOM `viola-*` custom elements via `createRenderRoot(){ return this; }`, role-less `display: contents` hosts) is retired with Lit. How each `viola-*` name maps onto React's output (an element, a class, a data attribute) is OPEN, owned by the frontend-toolchain entry. Below, `viola-*` names and selectors name components; the rendered-DOM requirements they state (native `<table>` / `<tr>` / `<td>`, roles, `data-*` state) stand unchanged.
 
 ### Tokens (platform-specific)
 
@@ -525,7 +525,7 @@ All motion decisions flow from the expression level set in Brand Identity.
 }
 ```
 
-State lives only in `data-*` attributes set by Lit. The following are never used: `style="…"`, Lit `styleMap`, and runtime `<style>` injection (CSP `style-src 'self'`).
+State lives only in `data-*` attributes set by the page's components. The following are never used: `style="…"` (React's `style` prop included), and runtime `<style>` injection (CSP `style-src 'self'`).
 
 ### Component Patterns
 
@@ -552,7 +552,7 @@ State lives only in `data-*` attributes set by Lit. The following are never used
   - Focus: the row is not focusable in v1. There are no controls.
   - Disabled: n/a.
 - **Unwrapped variant:** `data-wrapped="false"`. Anthracite surface, 1px dashed rail outline, no band slot. The name renders as a text binding only, never as a link or a target. A name wider than the NAME track ends in an ellipsis (`text-overflow: ellipsis`), matching the CLI's `...` for unwrapped NAMEs. It is the only strip cell that truncates. A wrapped `ViolaName` (the callsign) is never clipped.
-- **Semantics:** semantic HTML first (a11y-plan D-A11Y-02). Each rack is a native `<table>` whose `<caption>` holds the rack's `<h2>` label. `<viola-session-row>` is a role-less light-DOM host with `display: contents` that renders a native `<tr>` with `<td>` cells. No ARIA role is set on the custom-element host, and none through `setAttribute`. The table exposes `table` / `row` / `columnheader` / `cell` natively, and the visual grid above is unchanged. Lit `${}` text bindings only.
+- **Semantics:** semantic HTML first (a11y-plan D-A11Y-02). Each rack is a native `<table>` whose `<caption>` holds the rack's `<h2>` label. The `viola-session-row` component renders a native `<tr>` with `<td>` cells; any element left between `<tbody>` and that `<tr>` is role-less with `display: contents`. No ARIA role is set on a row by script (no `setAttribute`, no imperative role); roles come from the native elements. The table exposes `table` / `row` / `columnheader` / `cell` natively, and the visual grid above is unchanged. Text bindings only (JSX text children, never an HTML sink).
   - A grid `<tr>` still exposes `row`: the a11y plan's aria snapshot asserts `table` / `row` / `cell` in every state.
 
 **2. `<viola-readback>`: the readback box** (signature; bootstrap first)
@@ -594,7 +594,7 @@ State lives only in `data-*` attributes set by Lit. The following are never used
   - The RB box and word or reason, on send lines only. The whole `<viola-readback>` is one grid item spanning the last two tracks (`grid-column: -3 / -1`). Its own inline-grid (`var(--rb-size) auto`, `space-micro` gap) puts the box at the start of the `--rb-size` track and the word `space-micro` (4px) after the box. The word therefore starts 4px before the word / reason track (the tape's column-gap is `space-xs`) and has that track plus 4px. Send-line words align with one another. The tape box is the same element, drawing and box-to-word gap as the transfer-marker box. Other lines let TEXT span to the end.
 - **Per-kind treatment:** see the domain status table.
 - **Order:** oldest at the top, new lines appended at the bottom (tape order). A 1px rail rule marks each minute boundary.
-- **Expanded body.** Opening a line's `<summary>` (keyboard: Enter/Space) shows the full text in Code type with `white-space: pre-wrap` on the inset well: prompt text, `last_assistant_message`, plan text, question options, permission `input` as JSON text, and `source`. It is always a `${}` text binding and never Markdown.
+- **Expanded body.** Opening a line's `<summary>` (keyboard: Enter/Space) shows the full text in Code type with `white-space: pre-wrap` on the inset well: prompt text, `last_assistant_message`, plan text, question options, permission `input` as JSON text, and `source`. It is always a text binding (JSX text children) and never Markdown.
 - **Empty:** `TAPE live since 19:40:02Z — no events yet`. The SSE stream starts at each file's current end, so the tape holds only events after page open.
 - **Line cap.** The component keeps at most 2000 lines in the DOM. Beyond that it prints `older lines trimmed from view: N — the full tape is events.ndjson` at the top.
 - **Follow rule.** The tape auto-follows only while scrolled to the bottom. Otherwise it prints the static line `N new lines below`, a link-styled button-less anchor to `#tape-end`.
@@ -665,9 +665,9 @@ State lives only in `data-*` attributes set by Lit. The following are never used
 
 ### Platform-Specific Notes
 - **CSP** (`default-src 'none'; script-src 'self'; style-src 'self'; … require-trusted-types-for 'script'`):
-  - Lit's built-in `lit-html` Trusted Types policy satisfies `require-trusted-types-for`. No `trusted-types` allowlist directive is set.
-  - Banned: `unsafeHTML`, `unsafeSVG`, `innerHTML`, `styleMap` and `style="…"`.
-  - Every event field and unwrapped session name is a `${}` text binding.
+  - `require-trusted-types-for 'script'` stands. The Lit-era claim that lit-html's built-in policy satisfies it is retired with Lit; what satisfies it under React (a named policy, a `trusted-types` allowlist directive, or no sink use at all) is OPEN, owned by the frontend-toolchain entry, and any relaxation of a directive is a boundary widening the founder rules live.
+  - Banned: `dangerouslySetInnerHTML`, `innerHTML` and `style="…"` (React's `style` prop included).
+  - Every event field and unwrapped session name is a text binding (JSX text children).
   - Assistant Markdown is never rendered. Code-like content shows as plain pre-wrapped text.
 - **Fonts:**
   - Per-OS stacks exactly as the `--font-label` / `--font-field` tokens in Typography → Per-OS fallback stacks. No web fonts.
@@ -675,7 +675,7 @@ State lives only in `data-*` attributes set by Lit. The following are never used
   - **Linux is the CI render.** The headless GUI checks' render and contrast assertions are judged on the ubuntu leg (the browser suite runs on all three CI OSes), so they must hold with DejaVu Sans Condensed + DejaVu Sans Mono resolved. The check asserts the resolved family (not a banned face, not an unlisted fontconfig substitute), and the CI image provides the DejaVu families.
 - **Forced colors (Windows High Contrast):** borders survive, and the strike gradient is dropped (dashed outline fallback plus the word `unable`). The cock band maps to `Highlight`.
 - **URL hygiene:** after the `/?t=` exchange the server's 303 leaves the address bar at `/`. The page never writes the token into history, title, storage or DOM.
-- **Constructable stylesheets:** light DOM only in v1, so `/assets/app.css` is the single stylesheet. Revisit Lit `static styles` only after the headless CSP check passes.
+- **Constructable stylesheets:** not used in v1, so `/assets/app.css` is the single stylesheet. Revisit them only after the headless CSP check passes.
 - **`@starting-style`:** Chromium 117+, Firefox 129+, Safari 17.5+. Older engines show new lines without the fade, which is acceptable at 0.3.
 
 ---
@@ -865,7 +865,7 @@ hint: builder did not submit the prompt; check it, then send again
 - **NEVER animate `busy`, `stale`, `turn-ended`, the readback fill or the strip's return into line.** Only the cock (160ms) and new-line/new-marker fades (≤120ms) move. Motion → Hard limits is the canonical list of banned effects. This bullet names only the banned triggers.
 - **NEVER add a command palette, keyboard shortcuts, toasts, auto-dismissing notices or auto-refresh indicators.** The shortlist takes only the Terminal half of #81 and rejects the Real-Time Monitoring (#31) effect set. The page appends tape lines and changes field words in place, and nothing announces itself visually.
 - **NEVER use hover colour changes or add hover-only information.** There are no controls in v1. Hover is a link underline only, and every piece of information is visible or reachable by keyboard (`<details>`). The one exception is the tail of an over-long unwrapped name (web-spa component 1), and that is never exposed on hover either.
-- **NEVER use `innerHTML`, `unsafeHTML`, `unsafeSVG`, `styleMap`, `style="…"`, inline `<script>`, inline handlers, `eval`, `@font-face`, CDN assets or Markdown rendering.** The CSP (`style-src 'self'`, `font-src 'none'`, `require-trusted-types-for 'script'`) and the GUI output-encoding elevation forbid them, and event text is untrusted upstream content.
+- **NEVER use `innerHTML`, `dangerouslySetInnerHTML`, `style="…"` (React's `style` prop included), inline `<script>`, inline handlers, `eval`, `@font-face`, CDN assets or Markdown rendering.** The CSP (`style-src 'self'`, `font-src 'none'`, `require-trusted-types-for 'script'`) and the GUI output-encoding elevation forbid them, and event text is untrusted upstream content.
 - **NEVER display, echo or log the GUI token, the launch URL, the `?t=` query, the `.url` path, or a cookie value on the page, including in the 401 strip.** The security plan treats all of them as secrets, and recovery is only the launch line or a restart. No credential input field exists in v1.
 - **NEVER render `viola_home` from `/api/info`.** It contains the OS username, the only PII in scope, and the bay has no use for it.
 - **NEVER put the whole tape in an `aria-live` region.** Announce only cocks, refusals, `TAPE stopped`, the 401 access strip and the 503 / 404 / 405 rack strips that appear after first render (a11y-plan D-A11Y-06). Anything else floods a screen reader for hours.

@@ -1,0 +1,55 @@
+{
+ "sizes": {
+  "file_p50": 222,
+  "file_p90": 617,
+  "file_max": 884,
+  "over_800": 2,
+  "top": [
+   [
+    "crates/viola-agent-claude/src/ledger.rs",
+    884
+   ],
+   [
+    "crates/viola-e2e/src/harness/run.rs",
+    866
+   ],
+   [
+    "crates/viola-pty/src/lib.rs",
+    719
+   ],
+   [
+    "crates/viola-e2e/src/harness/boot.rs",
+    714
+   ],
+   [
+    "crates/viola-channel/src/server.rs",
+    668
+   ],
+   [
+    "src/bin/viola-fake-agent.rs",
+    666
+   ],
+   [
+    "crates/viola-e2e/src/harness/run/mutants.rs",
+    634
+   ],
+   [
+    "crates/viola-e2e/src/harness/pre_push/linux.rs",
+    625
+   ],
+   [
+    "src/cmd/run.rs",
+    619
+   ],
+   [
+    "src/obs.rs",
+    617
+   ]
+  ]
+ },
+ "totals": {
+  "loc": 26689,
+  "files": 98
+ },
+ "missing": []
+}

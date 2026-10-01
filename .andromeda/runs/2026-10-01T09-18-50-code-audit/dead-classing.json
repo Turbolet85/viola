@@ -1,0 +1,28 @@
+{
+ "raw": 817,
+ "stage1_tests_excluded": 792,
+ "after_stage1": 25,
+ "fp_classes": {
+  "trait-impl method (dispatch)": 15,
+  "entry point": 3,
+  "test-only helper (test crate / test-support)": 4
+ },
+ "residual_before_review": 3,
+ "residual": [
+  [
+   "Pty#child_pid().",
+   "fn",
+   "crates/viola-pty/src/lib.rs:124"
+  ],
+  [
+   "events/kind_str().",
+   "fn",
+   "crates/viola-state/src/events.rs:38"
+  ],
+  [
+   "StateError#Encode#",
+   "type",
+   "crates/viola-state/src/lib.rs:21"
+  ]
+ ]
+}

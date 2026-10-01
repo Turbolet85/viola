@@ -1,46 +1,40 @@
 # Session Handoff
 
-**Last Updated:** 2026-09-29T15:25Z
+**Last Updated:** 2026-10-01T12:37Z
 **Branch:** build/viola-0.1.0 · 0 ahead of origin/build/viola-0.1.0 as read at this wrap's Setup (this wrap's commit is pushed after this file is written)
 **Status:** clean
-**Last Commit:** no-marker — chore(registries): registry migration (U35) — 0-pending wrap
+**Last Commit:** no-marker — chore(route): operator-requested adaptation — 0-pending wrap (Epoch 2b boundary)
 
 ## Position
-- Done: the U35 registry migration (0-pending wrap, `.andromeda/runs/2026-09-29T15-07-57-wrap/`). No chunk was
-  wrapped; the last chunk stays 2026-09-29-fake-agent-drift-contract (Epoch 2b complete).
-  - The six Decisions Logs left the masters' bodies verbatim for `{doc}-amendments-archive.md`, one record entry each
-    in the live sidecar (heading marker `2026-09-29-t15-07-57-wrap`). The four keyed sections (tests / obs / a11y §3,
-    arch §Infrastructure Patterns) became 30 key files under `.andromeda/registries/contracts/` with four
-    `{plan}-contracts.toml` indexes; read one key through `registry.py contracts`, never the set whole.
-  - `registry.py check --all` clean; `upgrade.py detect` U35 read `ok-uncommitted` at the worktree before the commit.
-- Next: **Readiness gate and timing constants** (working-route :66, Epoch 3's head) → `/andromeda-phase`. It carries
-  the host-reds CARRY and the WSL `--install-deps` CARRY.
-  - Epoch boundary first, if the operator wants the cadence: `/andromeda-evolve-diagnose` for Epoch 2b and the
-    epoch-boundary `/andromeda-code-audit`.
+- Done: the Epoch 2b boundary. Both boundary reports are committed: evolve `.andromeda/runs/2026-10-01T09-05-15-evolve-diagnose/`
+  and code audit `.andromeda/runs/2026-10-01T09-18-50-code-audit/`. The route adaptation (relay items A–D) landed in a
+  0-pending wrap, `.andromeda/runs/2026-10-01T12-19-55-wrap/` (`adaptation-record.md`). Last chunk:
+  2026-09-29-fake-agent-drift-contract.
+- Next: **Epoch 2b cleanup** (working-route :66, Epoch 3's new head) → `/andromeda-phase`.
+  - M2 comes first: the in-repo suite is red at HEAD (80 of 985 failed; CI green). It stays an open red until its cause is known.
+  - It also carries M1 (8 survivors), M3 (the viola-e2e mutation form), the WSL leg for 12 `cfg(unix)` mutants, the
+    `.tmp*` leak, evolve L4/P6/P2, P5 (can a claude child outlive its wrapper), and the two CARRYs that move with the head
+    (host reds, WSL `--install-deps`).
+  - If phase sizes it over one window, raise a split of M3 + the WSL leg at its P1 (overseer direction).
 
 ## Work done
-- The U35 door in its order: stage → six lift rewriters → verify (3 runs) → operator review in 5 batches → apply →
-  six key-file lifts by hand → `check --all` → re-detect. Record: that run dir's `adaptation-record.md`.
+- Route: three entries inserted (Epoch 2b cleanup at the Epoch 3 head; `viola revive` after Self-healing state; Frontend
+  toolchain at the Epoch 8 head), :129 and :133 reworded off Lit.
+- Masters: the web front's toolkit is React + TypeScript (founder ruling), with its measured details OPEN and owned by
+  the Frontend toolchain entry; arch's GUI reads are cookie-gated (security amendments 1, 5 and 3's URNs folded).
 
 ## Drift resolved
-- None detected: this path runs no fan-out. 54 D-ids reviewed: 48 history-only, 6 lifted.
-- 36 lifts: 30 by `migrate --apply`, 6 hand-landed in §3 key files. Three were re-cut to exactly the log's words
-  (design 3 and layout 2 narrowed, security 2 widened).
+- No fan-out on this path. The amendments record ratifications; sweep + dispositions in the run dir's
+  `cascade-dispositions.md`; 7 sidecar entries; `registry.py check --all` clean.
 
 ## Notes
-- **Letter vs tool:** the U35 letter's `{marker}` (the run-dir name) fails `registry.py`'s record-heading grammar
-  (uppercase `T`, no `-` after the date). The operator's form `2026-09-29-t15-07-57-wrap` passes. Friction logged;
-  the tool owner (overseer1) is told by the operator.
-- **Citations now resolve to cold history:** body pointers "(see the Decisions Log)" / "Decisions Log D-…" and the
-  rule files' "Decisions Log `2026-09-28`" / "`2026-09-29`" references now reach the archives. Each rule they carry
-  was confirmed in a body or lifted; the pointer text itself was not rewritten.
-- **Route:** 4 CARRYs, unchanged — :66 (WSL and host-reds), :72 (matcher evaluation, S8 `annotations`), :76 (measure a
-  real cross-session prompt).
-  - Beside :76, the HYPOTHESIS on hand-back framing: in this session, all six subagent hand-backs reached the
-    orchestrator framed `Another Claude session sent a message:` ahead of `<agent-message from=`. That is this
-    harness's view, not a driven session's UserPromptSubmit `prompt`, so the HYPOTHESIS stays open for :76.
-- **Deferred learnings:** unchanged from the prior wrap (the doubled-backslash guard recurrence; the cross-drive
-  `git worktree` move).
-- **For the operator:** still on disk — `target/baseline-target`, `target/e2e-home/probe-*` (3),
-  `target/conpty-seed/`.
+- **No control was retired.** The Build-system no-bundler guard, every CSP directive and every output-encoding ban stand.
+  Retiring or relaxing any of them is the Frontend toolchain entry's boundary widening, which the founder rules live.
+- **Open for the founder** (on the revive entry): whether a revived instance starts with the wheel at `human`.
+- **Left as history:** `viola-0.1.0/intent.md:118` and v1-08's `observed_gap` still describe Lit (dated route-time
+  observations; no writer on the wrap path).
+- **Disk:** D: had 74 GB free at session start, with `target/` at 73 GB. `target/baseline-target`, `target/e2e-home/probe-*` (3)
+  and `target/conpty-seed/` are M2's suspects; leave them in place until the cleanup chunk has diffed against them.
+- **Route:** CARRYs that move with the head now sit on :66. The :76 HYPOTHESIS on hand-back framing stays open.
+- **Deferred learnings:** unchanged (the doubled-backslash guard recurrence; the cross-drive `git worktree` move).
 - **Last failed command:** none.

@@ -1,0 +1,348 @@
+{
+ "baseline": "69abc0d038732cff8d45602f82f8bebaf28bbb72",
+ "baseline_of_baseline": "a28f69684d3202e85b0de2e4e0ad26e23cbe0e7d",
+ "rows": [
+  {
+   "check": "new-cycle",
+   "metric": "graph.cycles",
+   "baseline": 0,
+   "current": 0,
+   "fires": false,
+   "class": "proposal"
+  },
+  {
+   "check": "duplication-up",
+   "metric": "duplication.pct",
+   "baseline": 1.29,
+   "current": 1.35,
+   "fires": false,
+   "class": "proposal"
+  },
+  {
+   "check": "complexity-creep",
+   "metric": "complexity.over_ceiling",
+   "baseline": 0,
+   "current": 1,
+   "fires": false,
+   "class": "proposal"
+  },
+  {
+   "check": "dead-growth",
+   "metric": "dead.zero_ref_candidates",
+   "baseline": 0,
+   "current": 0,
+   "fires": false,
+   "class": "proposal"
+  },
+  {
+   "check": "coverage-drop",
+   "metric": "coverage.line",
+   "baseline": 96.77,
+   "current": null,
+   "fires": null,
+   "class": "not evaluable: current null (skip)"
+  },
+  {
+   "check": "mutation-drop",
+   "metric": "mutation.scores.viola-core",
+   "baseline": 100.0,
+   "current": 100.0,
+   "fires": false,
+   "class": "proposal"
+  },
+  {
+   "check": "mutation-drop",
+   "metric": "mutation.scores.viola-pty",
+   "baseline": 100.0,
+   "current": 94.67,
+   "fires": false,
+   "class": "proposal"
+  },
+  {
+   "check": "mutation-drop",
+   "metric": "mutation.scores.viola-state",
+   "baseline": 96.0,
+   "current": 97.25,
+   "fires": false,
+   "class": "proposal"
+  },
+  {
+   "check": "mutation-drop",
+   "metric": "mutation.scores.viola-channel",
+   "baseline": 100.0,
+   "current": 100.0,
+   "fires": false,
+   "class": "proposal"
+  },
+  {
+   "check": "mutation-drop",
+   "metric": "mutation.scores.viola-agent-claude",
+   "baseline": 100.0,
+   "current": 100.0,
+   "fires": false,
+   "class": "proposal"
+  },
+  {
+   "check": "mutation-drop",
+   "metric": "mutation.scores.viola",
+   "baseline": null,
+   "current": 99.67,
+   "fires": null,
+   "class": "not evaluable"
+  },
+  {
+   "check": "mutation-drop",
+   "metric": "mutation.scores.viola-e2e",
+   "baseline": null,
+   "current": null,
+   "fires": null,
+   "class": "not evaluable"
+  }
+ ],
+ "entrants": {
+  "complexity.top": [
+   {
+    "fn": "sgr_attributes",
+    "file": "tests/cli_output_plain.rs:36",
+    "value": 23.0
+   },
+   {
+    "fn": "mutants",
+    "file": "crates/viola-e2e/src/harness/run/mutants.rs:99",
+    "value": 12.0
+   },
+   {
+    "fn": "resize_reaches_the_child",
+    "file": "tests/tui_passthrough.rs:108",
+    "value": 12.0
+   },
+   {
+    "fn": "native",
+    "file": "crates/viola-e2e/src/harness/pre_push/linux.rs:610",
+    "value": 11.0
+   },
+   {
+    "fn": "tool_arms",
+    "file": "crates/viola-e2e/src/harness/run.rs:286",
+    "value": 11.0
+   }
+  ],
+  "sizes.top": [
+   [
+    "crates/viola-agent-claude/src/ledger.rs",
+    884
+   ],
+   [
+    "crates/viola-e2e/src/harness/run.rs",
+    866
+   ],
+   [
+    "crates/viola-e2e/src/harness/pre_push/linux.rs",
+    625
+   ],
+   [
+    "src/cmd/run.rs",
+    619
+   ]
+  ],
+  "hotspots": [
+   [
+    "crates/viola-e2e/src/harness/run.rs",
+    66.0
+   ],
+   [
+    "src/main.rs",
+    54.0
+   ],
+   [
+    "tests/hook_fail_open.rs",
+    45.0
+   ],
+   [
+    "crates/viola-e2e/src/harness/pre_push/linux.rs",
+    33.0
+   ],
+   [
+    "crates/viola-agent-claude/src/lib.rs",
+    27.0
+   ]
+  ],
+  "graph.fan_in_top": [
+   [
+    "rust-analyzer cargo viola-agent-claude 0.1.0 hook/HookEvent#",
+    61
+   ],
+   [
+    "rust-analyzer cargo viola 0.1.0 support/home/home#",
+    47
+   ],
+   [
+    "rust-analyzer cargo viola 0.1.0 support/home/impl#[TestHome]scratch().",
+    42
+   ]
+  ],
+  "duplication.top": [
+   [
+    "tests/hook_fail_open.rs:338",
+    "tests/hook_fail_open.rs:409",
+    20
+   ],
+   [
+    "tests/cli_controls_not_disableable.rs:47",
+    "tests/hook_fail_open.rs:102",
+    15
+   ],
+   [
+    "tests/cli_verify.rs:340",
+    "tests/run_cli.rs:114",
+    15
+   ],
+   [
+    "crates/viola-e2e/src/harness/cleanup.rs:130",
+    "tests/support/home.rs:371",
+    13
+   ],
+   [
+    "crates/viola-agent-claude/src/ledger.rs:412",
+    "tests/support/hygiene.rs:44",
+    10
+   ]
+  ]
+ },
+ "monotonic": {
+  "duplication.pct": {
+   "values": [
+    1.42,
+    1.29,
+    1.35
+   ],
+   "fires": false
+  },
+  "complexity.over_ceiling": {
+   "values": [
+    3,
+    0,
+    1
+   ],
+   "fires": false
+  },
+  "dead.zero_ref_candidates": {
+   "values": [
+    0,
+    0,
+    0
+   ],
+   "fires": false
+  },
+  "sizes.file_max": {
+   "values": [
+    1562,
+    1335,
+    884
+   ],
+   "fires": false
+  },
+  "sizes.over_800": {
+   "values": [
+    1,
+    4,
+    2
+   ],
+   "fires": false
+  },
+  "coverage.line": {
+   "values": [
+    98.21,
+    96.77,
+    null
+   ],
+   "fires": null,
+   "note": "not evaluable: null at one of the three records (coverage skip)"
+  }
+ },
+ "mutation": {
+  "viola-core": {
+   "last_scored": 100.0,
+   "now": 100.0,
+   "fires": false
+  },
+  "viola-pty": {
+   "last_scored": 100.0,
+   "now": 94.67,
+   "fires": false
+  },
+  "viola-state": {
+   "last_scored": 96.0,
+   "now": 97.25,
+   "fires": false
+  },
+  "viola-channel": {
+   "last_scored": 100.0,
+   "now": 100.0,
+   "fires": false
+  },
+  "viola-agent-claude": {
+   "last_scored": 100.0,
+   "now": 100.0,
+   "fires": false
+  },
+  "viola": {
+   "last_scored": null,
+   "now": 99.67,
+   "fires": null
+  },
+  "viola-e2e": {
+   "last_scored": null,
+   "now": null,
+   "fires": null
+  }
+ },
+ "survivors_baseline_measured": [
+  [
+   "crates/viola-state/src/fs.rs:16:5",
+   "replace restrict -> io::Result<()> with Ok(())"
+  ],
+  [
+   "crates/viola-state/src/pin.rs:74:19",
+   "replace match guard e.kind() == io::ErrorKind::NotFound with true"
+  ]
+ ],
+ "survivors_new": [
+  [
+   "crates/viola-pty/src/lib.rs:196:9",
+   "replace <impl Pty for PortablePty>::resize -> Result<(), PtyError> with Ok(())"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:330:9",
+   "replace <impl Drop for HostTerminal>::drop with ()"
+  ],
+  [
+   "crates/viola-pty/src/sideload.rs:34:5",
+   "replace search_restricted -> bool with true"
+  ],
+  [
+   "crates/viola-pty/src/sideload.rs:34:5",
+   "replace search_restricted -> bool with false"
+  ],
+  [
+   "crates/viola-state/src/fs.rs:17:5",
+   "replace restrict -> io::Result<()> with Ok(())"
+  ],
+  [
+   "crates/viola-state/src/pin.rs:81:19",
+   "replace match guard e.kind() == io::ErrorKind::NotFound with true in pin_exe"
+  ],
+  [
+   "crates/viola-state/src/pin.rs:171:23",
+   "replace match guard e.kind() == io::ErrorKind::NotFound with true in pin_companions"
+  ],
+  [
+   "src/cmd/run.rs:455:5",
+   "replace refuse_stale with ()"
+  ]
+ ],
+ "graph_edges": [
+  10,
+  11
+ ]
+}

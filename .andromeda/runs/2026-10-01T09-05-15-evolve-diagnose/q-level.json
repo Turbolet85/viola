@@ -1,0 +1,644 @@
+{
+ "themes": {
+  "L1 bash-guard refusal (band-aid)": [
+   {
+    "id": "2026-09-27T15:08:04Z-a",
+    "index": 2,
+    "chunk": "2026-09-27-epoch-2-cleanup",
+    "skill": "implement",
+    "step": "code",
+    "nature": "environment",
+    "solution": "workaround",
+    "note": "bash-guard blocked a heredoc-to-file and three doubled-backslash commands; used the Edit tool and chr(92) instead"
+   },
+   {
+    "id": "2026-09-28T08:44:48Z-a",
+    "index": 0,
+    "chunk": "2026-09-28-cli-output-tokens",
+    "skill": "phase",
+    "step": "take-up",
+    "nature": "environment",
+    "solution": "workaround",
+    "note": "bash-guard refused a grep whose regex escaped a bracket after x1b; retyped the pattern without the escape and re-ran (and this record's first append was refused for the same reason: a JSON-escaped backslash in its note)"
+   },
+   {
+    "id": "2026-09-28T11:13:10Z-a",
+    "index": 1,
+    "chunk": "2026-09-28-capability-ledger-and-viola-verify",
+    "skill": "implement",
+    "step": "code",
+    "nature": "environment",
+    "solution": "workaround",
+    "note": "the bash guard refused a python edit heredoc carrying an escaped backslash; the fake-agent edits went through the Edit tool"
+   },
+   {
+    "id": "2026-09-28T20:24:00Z-a",
+    "index": 0,
+    "chunk": "2026-09-28-mutation-testing-to-the-epoch-boundary",
+    "skill": "implement",
+    "step": "code",
+    "nature": "environment",
+    "solution": "workaround",
+    "note": "a 7.3 KB python heredoc edit was refused by the Bash size guard; moved each multi-hunk edit script to a scratchpad file run by path"
+   },
+   {
+    "id": "2026-09-29T06:53:11Z-a",
+    "index": 0,
+    "chunk": "2026-09-29-verify-stamped-test-homes-and-harness",
+    "skill": "phase",
+    "step": "distill",
+    "nature": "environment",
+    "solution": "workaround",
+    "note": "a sed edit of the H2 check script carrying a doubled backslash was blocked by the Bash guard; made the same edit with the Edit tool"
+   },
+   {
+    "id": "2026-09-29T07:29:54Z-a",
+    "index": 0,
+    "chunk": "2026-09-29-verify-stamped-test-homes-and-harness",
+    "skill": "implement",
+    "step": "code",
+    "nature": "environment",
+    "solution": "workaround",
+    "note": "the Bash guard blocked a sed carrying an escaped newline literal for tests/run_cli.rs; the one-line change went through the Edit tool"
+   },
+   {
+    "id": "2026-09-29T09:03:34Z-a",
+    "index": 0,
+    "chunk": "2026-09-29-sideloaded-conpty",
+    "skill": "implement",
+    "step": "code",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "a python edit script written through a cat heredoc to a scratchpad file was refused by the Bash guard (file-target heredoc); the lib.rs edits went through the Edit tool instead"
+   },
+   {
+    "id": "2026-09-29T13:14:07Z-a",
+    "index": 0,
+    "chunk": "2026-09-29-fake-agent-drift-contract",
+    "skill": "phase",
+    "step": "research",
+    "nature": "environment",
+    "solution": "workaround",
+    "note": "the Bash guard refused two probes carrying a doubled backslash (a sed-like grep pattern and a verify.rs grep); re-ran them through the Grep tool"
+   }
+  ],
+  "L2 companions outside research/plan file lists (band-aid)": [
+   {
+    "id": "2026-09-27T19:05:39Z-a",
+    "index": 0,
+    "chunk": "2026-09-27-browser-verdict-reachability",
+    "skill": "implement",
+    "step": "code",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "edited the test module of crates/viola-e2e/src/harness/pre_push.rs (outside the plan's Files-to-modify) because tools() now reads the node pin and linux_tests calls run --browser, which the shared Fake fixtures must answer"
+   },
+   {
+    "id": "2026-09-27T19:29:07Z-a",
+    "index": 0,
+    "chunk": "2026-09-27-browser-verdict-reachability",
+    "skill": "implement",
+    "step": "fix-loop",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "edited crates/viola-e2e/tests/cli.rs outside the plan's Files-to-modify: its run --browser usage case pinned the selector this chunk builds"
+   },
+   {
+    "id": "2026-09-27T22:07:16Z-a",
+    "index": 0,
+    "chunk": "2026-09-27-hooks-to-normalised-events",
+    "skill": "implement",
+    "step": "code",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "crates/viola-channel/src/server/win.rs (outside the lists) calls client::open in a test: kept a cfg(all(windows,test)) open wrapper over the new open_by instead of editing the caller"
+   },
+   {
+    "id": "2026-09-28T09:11:55Z-a",
+    "index": 0,
+    "chunk": "2026-09-28-cli-output-tokens",
+    "skill": "implement",
+    "step": "code",
+    "nature": "product-logic",
+    "solution": "workaround",
+    "note": "plan step 5 asks help_is_plain_on_a_terminal to run 'with no colour variable set', but tests/support OuterPty::spawn exposes no env_remove (SpawnSpec.env_remove hardcoded empty) and tests/support is out of the research lists; the case inherits the runner env instead — surfaced in the report"
+   }
+  ],
+  "L3 run-bare contract piped (band-aid)": [
+   {
+    "id": "2026-09-28T09:56:48Z-a",
+    "index": 0,
+    "chunk": "2026-09-28-cli-output-tokens",
+    "skill": "wrap-session",
+    "step": "curation",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "health.py check 1 row for the curation size line was read through `| grep | head` instead of the documented bare call; the row read 124/200, T1 1.8 KB, 0 over 600 B — the P7 size line re-runs it bare"
+   },
+   {
+    "id": "2026-09-28T19:40:40Z-a",
+    "index": 0,
+    "chunk": "2026-09-28-capability-ledger-and-viola-verify",
+    "skill": "wrap-session",
+    "step": "gates",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "the P7.3c hygiene and scope re-reads were run chained with a trailing tail -1 instead of bare as the contract says; the verdict lines read clean"
+   },
+   {
+    "id": "2026-09-29T07:13:56Z-a",
+    "index": 0,
+    "chunk": "2026-09-29-verify-stamped-test-homes-and-harness",
+    "skill": "phase",
+    "step": "validate",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "one gate.py dry-run was read through | tail against the run-bare contract; re-run bare before relying on it"
+   },
+   {
+    "id": "2026-09-29T07:56:48Z-a",
+    "index": 1,
+    "chunk": "2026-09-29-verify-stamped-test-homes-and-harness",
+    "skill": "wrap-session",
+    "step": "report",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "the P1 gate.py scope read was piped through tail -2 instead of run bare; its summary line read clean"
+   }
+  ],
+  "L4 CARGO_HOME registry location (band-aid, recurring)": [
+   {
+    "id": "2026-09-28T08:55:52Z-a",
+    "index": 0,
+    "chunk": "2026-09-28-cli-output-tokens",
+    "skill": "phase",
+    "step": "research",
+    "nature": "environment",
+    "solution": "workaround",
+    "note": "cargo registry not at ~/.cargo; located via CARGO_HOME (D:/dev/rust/cargo) to read anstyle-query source"
+   },
+   {
+    "id": "2026-09-29T08:22:50Z-a",
+    "index": 0,
+    "chunk": "2026-09-29-sideloaded-conpty",
+    "skill": "phase",
+    "step": "take-up",
+    "nature": "environment",
+    "solution": "workaround",
+    "note": "grounding read of portable-pty source: ~/.cargo registry absent (CARGO_HOME is D:/dev/rust/cargo) and a find / fallback timed out at 120s and was stopped; resolved the path through cargo metadata"
+   }
+  ],
+  "below: auto-mode classifier no verdict": [
+   {
+    "id": "2026-09-28T07:41:04Z-a",
+    "index": 0,
+    "chunk": "2026-09-28-hook-perf-gate",
+    "skill": "wrap-session",
+    "step": "report",
+    "nature": "environment",
+    "solution": "workaround",
+    "note": "the Bash auto-mode classifier returned no verdict for eight consecutive calls at Setup; the pending-record probe ran through the Grep tool and the references were read while Bash was unavailable, then the git reads resumed on Bash"
+   },
+   {
+    "id": "2026-09-28T08:36:07Z-a",
+    "index": 0,
+    "chunk": "2026-09-28-hook-perf-gate",
+    "skill": "wrap-session",
+    "step": "gates",
+    "nature": "environment",
+    "solution": "workaround",
+    "note": "the Bash auto-mode classifier returned no verdict on three P7 calls (the gate read, the coverage/epoch call); the gate summary was read with the Read tool and the epoch predicate with Grep while Bash was unavailable"
+   }
+  ],
+  "below: plan-letter vs implementation": [
+   {
+    "id": "2026-09-27T15:08:04Z-a",
+    "index": 0,
+    "chunk": "2026-09-27-epoch-2-cleanup",
+    "skill": "implement",
+    "step": "code",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "plan step 7 asks rstest cases; viola-e2e has no dev-dependencies, so a labelled case table replaced rstest rather than adding a manifest edge"
+   },
+   {
+    "id": "2026-09-27T22:07:16Z-a",
+    "index": 1,
+    "chunk": "2026-09-27-hooks-to-normalised-events",
+    "skill": "implement",
+    "step": "code",
+    "nature": "product-logic",
+    "solution": "workaround",
+    "note": "plan step 9.3 asks a new hook-safe init fn in src/obs.rs; viola_obs_init already leaves no subscriber on a failed role-file open (a sink in effect), so the hook calls it and drops the error, and obs.rs is untouched (testing.md 2026-09-24: a duplicate guard is an unkillable mutant)"
+   },
+   {
+    "id": "2026-09-27T22:07:16Z-a",
+    "index": 2,
+    "chunk": "2026-09-27-hooks-to-normalised-events",
+    "skill": "implement",
+    "step": "code",
+    "nature": "product-logic",
+    "solution": "workaround",
+    "note": "plan step 6 HookEvent::is_spine() has no consumer in this chunk (one 750 ms deadline for every event): omitted"
+   },
+   {
+    "id": "2026-09-28T05:50:39Z-a",
+    "index": 0,
+    "chunk": "2026-09-28-hook-perf-gate",
+    "skill": "implement",
+    "step": "code",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "plan step 10.2 writes the perf build as --features fake-agent over --workspace; used --features viola/fake-agent, the spelling boot.rs's cargo_build uses for the same workspace build"
+   },
+   {
+    "id": "2026-09-28T11:13:10Z-a",
+    "index": 0,
+    "chunk": "2026-09-28-capability-ledger-and-viola-verify",
+    "skill": "implement",
+    "step": "code",
+    "nature": "product-logic",
+    "solution": "workaround",
+    "note": "the claude-fixture hygiene walk is a runtime directory walk, not the plan's #[files] case: rstest 0.27 refuses an empty glob at compile time, and fixtures/claude/ is empty until the operator pass"
+   }
+  ],
+  "below: hygiene refusing host path in own artifact": [
+   {
+    "id": "2026-09-29T06:37:38Z-a",
+    "index": 0,
+    "chunk": "2026-09-29-h2-conpty-resize-probe",
+    "skill": "wrap-session",
+    "step": "gates",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "hygiene refused evidence/operator-pass.md:46 (a host drive path in the transcribed entry-18 command); rewritten to the tool name, re-read clean"
+   }
+  ],
+  "below: MSYS arg conversion": [
+   {
+    "id": "2026-09-27T18:35:24Z-a",
+    "index": 0,
+    "chunk": "2026-09-27-browser-verdict-reachability",
+    "skill": "phase",
+    "step": "research",
+    "nature": "environment",
+    "solution": "workaround",
+    "note": "the WSL Node probe died on MSYS arg conversion (/usr/bin/env became a Git path); re-ran with MSYS2_ARG_CONV_EXCL set per host-win32.md"
+   }
+  ],
+  "below: anchored long-line edit": [
+   {
+    "id": "2026-09-29T06:31:10Z-a",
+    "index": 0,
+    "chunk": "2026-09-29-h2-conpty-resize-probe",
+    "skill": "wrap-session",
+    "step": "route-resolve",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "the anchored Edit removing the :59 CARRY missed (the anchor misquoted the preceding clause); the removal went through a byte-mode python splice by unique start and end anchors instead"
+   }
+  ],
+  "observation: removed-cause target/ residue": [
+   {
+    "id": "2026-09-27T19:29:07Z-a",
+    "index": 1,
+    "chunk": "2026-09-27-browser-verdict-reachability",
+    "skill": "implement",
+    "step": "fix-loop",
+    "nature": "environment",
+    "solution": "removed-cause",
+    "note": "stopped a viola-fake-agent.exe (pid 13856) orphaned by the red integration test; it locked target/harness and failed the boot smoke build (os error 5)"
+   },
+   {
+    "id": "2026-09-27T23:08:39Z-a",
+    "index": 0,
+    "chunk": "2026-09-27-hooks-to-normalised-events",
+    "skill": "implement",
+    "step": "fix-loop",
+    "nature": "process",
+    "solution": "removed-cause",
+    "note": "entry 22 red (4 hook.rs mutants missed on the Windows host): cargo-mutants copied a root test binary an ad-hoc cargo nextest run left in target/debug, whose compiled-in CARGO_BIN_EXE_viola named the repository's unmutated viola; fixed outside the research lists in viola-e2e run/mutants.rs (own target dir target/mutants), per the fold-a-red rule"
+   }
+  ],
+  "signature: overridden (no rule >= 3)": [
+   {
+    "id": "2026-09-27T18:23:05Z-a",
+    "index": 0,
+    "chunk": "2026-09-27-browser-verdict-reachability",
+    "skill": "phase",
+    "step": "take-up",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "the overseer corrected the 8-test fold direction at invocation: lower each 10 s bound to 7 s and stream the child report, never raise; the dashboard had said raise"
+   },
+   {
+    "id": "2026-09-27T18:50:05Z-a",
+    "index": 0,
+    "chunk": "2026-09-27-browser-verdict-reachability",
+    "skill": "phase",
+    "step": "validate",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "the overseer's review replaced the operator-run Chromium root deps line with plan entries run by implement via wsl -u root, and asked the installed package list in evidence; plan edited, full mechanical set re-run before the word"
+   },
+   {
+    "id": "2026-09-27T21:46:36Z-a",
+    "index": 0,
+    "chunk": "2026-09-27-hooks-to-normalised-events",
+    "skill": "phase",
+    "step": "validate",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "operator overrode the plan's fake-agent-only panic seam (FAKE_AGENT_HOOK_PANIC) at review: unratified boundary widening; panic proven in-process, forced-panic case + seam + >4 KiB concurrent detail line carried to the Hook perf gate tail"
+   },
+   {
+    "id": "2026-09-28T09:00:49Z-a",
+    "index": 0,
+    "chunk": "2026-09-28-cli-output-tokens",
+    "skill": "phase",
+    "step": "plan",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "operator (overseer, founder-delegated) chose 'Narrow to live consumers' at the P4 fork: tokens, colour decision, fact reader, env admission and escapers leave the chunk as route CARRYs to :60/:62/:79; the chunk ships clap colour-off + the refusal writer"
+   },
+   {
+    "id": "2026-09-28T13:10:21Z-a",
+    "index": 1,
+    "chunk": "2026-09-28-capability-ledger-and-viola-verify",
+    "skill": "implement",
+    "step": "fix-loop",
+    "nature": "product-logic",
+    "solution": "overridden",
+    "note": "the operator (overseer) asked to keep drain a fn and kill its mutants rather than hide them in a closure; drain now returns a Default-deriving Drained, 4 viable mutants all caught"
+   },
+   {
+    "id": "2026-09-28T20:30:22Z-a",
+    "index": 0,
+    "chunk": "2026-09-28-mutation-testing-to-the-epoch-boundary",
+    "skill": "implement",
+    "step": "fix-loop",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "plan probe 13 vs step 6 test contradiction: the operator (overseer) ruled keep the literal in tests/cli.rs and have the wrap narrow the probe, so entry 13 stays red at implement"
+   },
+   {
+    "id": "2026-09-29T07:56:48Z-a",
+    "index": 0,
+    "chunk": "2026-09-29-verify-stamped-test-homes-and-harness",
+    "skill": "wrap-session",
+    "step": "report",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "on the operator's word the wrap edited plan.md gate 6's artifact key (directory to junit-nextest-integration.xml) before the light gate; plan.md is otherwise read-only after phase"
+   },
+   {
+    "id": "2026-09-29T11:38:38Z-a",
+    "index": 0,
+    "chunk": "2026-09-29-sideloaded-conpty",
+    "skill": "implement",
+    "step": "fix-loop",
+    "nature": "environment",
+    "solution": "overridden",
+    "note": "entries 6 and 18 red on this host with the same failures on the fb78ddc control; the overseer ruled them not this chunk's and made CI the acceptance leg"
+   },
+   {
+    "id": "2026-09-29T12:20:27Z-a",
+    "index": 0,
+    "chunk": "2026-09-29-sideloaded-conpty",
+    "skill": "wrap-session",
+    "step": "report",
+    "nature": "resources",
+    "solution": "overridden",
+    "note": "the operator stopped the wrap after P1 (context at 63 %, over the 60 % line); the run dir carries a resume point naming P2"
+   }
+  ],
+  "signature: deferred (all routed or closed)": [
+   {
+    "id": "2026-09-27T15:08:04Z-a",
+    "index": 1,
+    "chunk": "2026-09-27-epoch-2-cleanup",
+    "skill": "implement",
+    "step": "code",
+    "nature": "environment",
+    "solution": "deferred",
+    "note": "the permission layer denied rm -rf mutants.out (plan step 7 one-time removal at implement); left to the operator before the test ! -e mutants.out entry"
+   },
+   {
+    "id": "2026-09-27T17:40:03Z-a",
+    "index": 0,
+    "chunk": "2026-09-27-epoch-2-cleanup",
+    "skill": "wrap-session",
+    "step": "curation",
+    "nature": "process",
+    "solution": "deferred",
+    "note": "CARRY 2's third cargo-mutants fact (unviable without the fake-agent feature) deferred to the handoff: its evidence was not located beyond the evolve P3 proposal parenthetical; the other two facts were already curated"
+   },
+   {
+    "id": "2026-09-27T23:50:59Z-a",
+    "index": 0,
+    "chunk": "2026-09-27-hooks-to-normalised-events",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "nature": "process",
+    "solution": "deferred",
+    "note": "E1 (hook.event sent without server verification or strict-modes until Epoch 6) is a boundary widening; the P4 overseer ruling was founder-delegated and cannot ratify it; overseer chose to hold for the founder's live word, so the wrap halted before apply and commit, run dir resumable"
+   },
+   {
+    "id": "2026-09-28T18:35:39Z-a",
+    "index": 1,
+    "chunk": "2026-09-28-capability-ledger-and-viola-verify",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "nature": "product-logic",
+    "solution": "deferred",
+    "note": "StampError fold (E3) and verify's unlogged child spawns (E4) deferred by the overseer's ruling as CARRYs on the Verify-stamped test homes and harness entry"
+   },
+   {
+    "id": "2026-09-29T05:36:30Z-a",
+    "index": 0,
+    "chunk": "2026-09-29-h2-conpty-resize-probe",
+    "skill": "implement",
+    "step": "fix-loop",
+    "nature": "process",
+    "solution": "deferred",
+    "note": "entry 6 red (run --e2e unbuilt selector) predates the chunk, control at 90aba7c reproduces it; reported to the operator and the wrap rather than building the selector, which the harness defers to its first E2E binary"
+   },
+   {
+    "id": "2026-09-29T14:26:19Z-a",
+    "index": 0,
+    "chunk": "2026-09-29-fake-agent-drift-contract",
+    "skill": "implement",
+    "step": "fix-loop",
+    "nature": "product-logic",
+    "solution": "deferred",
+    "note": "measured the step-4 size watcher's idle cost (~3 ms/s per PTY fake agent + ~1 ms/s OpenConsole, 0 on the control); left at the plan's CONTROL_POLL cadence and reported, since quiet-host rounds show the control failing the load-bound tests at least as often"
+   }
+  ],
+  "unclustered singletons": [
+   {
+    "id": "2026-09-27T15:48:15Z-a",
+    "index": 0,
+    "chunk": "2026-09-27-epoch-2-cleanup",
+    "skill": "implement",
+    "step": "fix-loop",
+    "nature": "environment",
+    "solution": "workaround",
+    "note": "G1 entry 22 exit 127 (rg not on the gate shell PATH): re-ran it through gate.py --only with the pinned target/tools/ripgrep/bin on the launch PATH, per commands.md:67; the entry text unchanged"
+   },
+   {
+    "id": "2026-09-27T20:34:46Z-a",
+    "index": 0,
+    "chunk": "2026-09-27-browser-verdict-reachability",
+    "skill": "wrap-session",
+    "step": "gates",
+    "nature": "process",
+    "solution": "prohibition",
+    "note": "the light gate skipped plan entry 42 (the wsl -u root --install-deps launch): the E1 ratification at this wrap forbids the gate tool from running it; its one run stands recorded in evidence/wsl-chromium-deps.md"
+   },
+   {
+    "id": "2026-09-28T04:40:24Z-a",
+    "index": 0,
+    "chunk": "2026-09-27-hooks-to-normalised-events",
+    "skill": "wrap-session",
+    "step": "route-resolve",
+    "nature": "environment",
+    "solution": "workaround",
+    "note": "Git Bash has no rev; the route line endings were read with a one-line python probe instead"
+   },
+   {
+    "id": "2026-09-28T08:55:52Z-a",
+    "index": 1,
+    "chunk": "2026-09-28-cli-output-tokens",
+    "skill": "phase",
+    "step": "research",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "measured clap SGR on the existing target/debug/viola.exe (built 00:35, clap line unchanged since b0236ca) instead of rebuilding at HEAD"
+   },
+   {
+    "id": "2026-09-28T13:10:21Z-a",
+    "index": 0,
+    "chunk": "2026-09-28-capability-ledger-and-viola-verify",
+    "skill": "implement",
+    "step": "fix-loop",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "the backgrounded gate block was stopped twice before its end (after a read-only mutant review found unkillable forms, and on the operator's question about the drain closure) and re-fired whole so every entry read one tree"
+   },
+   {
+    "id": "2026-09-28T18:35:39Z-a",
+    "index": 0,
+    "chunk": "2026-09-28-capability-ledger-and-viola-verify",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "validation read src/cmd/verify.rs and src/run/version_gate.rs to settle two detector questions the report left open (verify's child-spawn logging, its stamps read vs strict-modes) instead of the report alone"
+   },
+   {
+    "id": "2026-09-28T21:21:11Z-a",
+    "index": 0,
+    "chunk": "2026-09-28-mutation-testing-to-the-epoch-boundary",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "two playbook rules with opposite verdicts read on security Threat Model proposals S7/S8 (Verbatim upstream copy vs Accurate this-chunk addition); resolved by the section-specific later rule and three prior wraps' precedent without the escalation the collision clause asks for; the discriminator rule is proposed at the wrap card, not appended"
+   },
+   {
+    "id": "2026-09-29T11:38:38Z-a",
+    "index": 1,
+    "chunk": "2026-09-29-sideloaded-conpty",
+    "skill": "implement",
+    "step": "fix-loop",
+    "nature": "process",
+    "solution": "unresolved",
+    "note": "the remove-the-guard run for the companion hash compare was refused by the permission classifier; not routed around, recorded not run, the tampered-copy tests stand as witness (overseer)"
+   },
+   {
+    "id": "2026-09-29T11:38:38Z-a",
+    "index": 2,
+    "chunk": "2026-09-29-sideloaded-conpty",
+    "skill": "implement",
+    "step": "fix-loop",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "first-start companion writes (~1.2 s under load) kept product-side; test homes seeded from a per-run hard-linked copy instead (overseer's word)"
+   },
+   {
+    "id": "2026-09-29T13:14:07Z-a",
+    "index": 1,
+    "chunk": "2026-09-29-fake-agent-drift-contract",
+    "skill": "phase",
+    "step": "research",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "item 5's decisive evidence sits outside the repo; read the prototype's src/hook.rs read-only at D:/dev/projects/additional/viola-lab/prototype to close the premise"
+   }
+  ]
+ },
+ "ok_degraded": [
+  {
+   "id": "2026-09-28T04:38:48Z-a",
+   "chunk": "2026-09-27-hooks-to-normalised-events",
+   "skill": "wrap-session",
+   "step": "curation"
+  },
+  {
+   "id": "2026-09-28T09:31:23Z-a",
+   "chunk": "2026-09-28-cli-output-tokens",
+   "skill": "implement",
+   "step": "fix-loop"
+  },
+  {
+   "id": "2026-09-29T05:36:30Z-a",
+   "chunk": "2026-09-29-h2-conpty-resize-probe",
+   "skill": "implement",
+   "step": "fix-loop"
+  },
+  {
+   "id": "2026-09-29T11:38:38Z-a",
+   "chunk": "2026-09-29-sideloaded-conpty",
+   "skill": "implement",
+   "step": "fix-loop"
+  }
+ ],
+ "chronic_degrade_L5": {
+  "ok_degraded_fix_loop": [
+   {
+    "id": "2026-09-28T09:31:23Z-a",
+    "chunk": "2026-09-28-cli-output-tokens",
+    "skill": "implement",
+    "step": "fix-loop"
+   },
+   {
+    "id": "2026-09-29T05:36:30Z-a",
+    "chunk": "2026-09-29-h2-conpty-resize-probe",
+    "skill": "implement",
+    "step": "fix-loop"
+   },
+   {
+    "id": "2026-09-29T11:38:38Z-a",
+    "chunk": "2026-09-29-sideloaded-conpty",
+    "skill": "implement",
+    "step": "fix-loop"
+   }
+  ],
+  "light_gate_red": [
+   "2026-09-28T10:17:02Z-b",
+   "2026-09-29T12:58:23Z-b",
+   "2026-09-29T15:03:46Z-b"
+  ],
+  "override_fact": {
+   "id": "2026-09-29T11:38:38Z-a",
+   "index": 0,
+   "chunk": "2026-09-29-sideloaded-conpty",
+   "skill": "implement",
+   "step": "fix-loop",
+   "nature": "environment",
+   "solution": "overridden",
+   "note": "entries 6 and 18 red on this host with the same failures on the fb78ddc control; the overseer ruled them not this chunk's and made CI the acceptance leg"
+  }
+ },
+ "previous_epoch_facts_read_for_recurrence": 86
+}

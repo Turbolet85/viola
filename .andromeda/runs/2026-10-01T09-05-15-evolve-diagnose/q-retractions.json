@@ -1,0 +1,38 @@
+{
+ "records": 750,
+ "unparseable": 0,
+ "malformed_ts": [],
+ "retracted_ids": [
+  "2026-09-25T13:23:53Z-b"
+ ],
+ "retracted_problems": [
+  [
+   "2026-09-25T15:19:15Z-a",
+   4
+  ]
+ ],
+ "clause_retracted": {
+  "2026-09-25T15:19:15Z-b": [
+   "discounted clause: \"and one hung the session\" — the test hung, the session end was a hand-closed window"
+  ],
+  "2026-09-27T13:02:00Z-b": [
+   "ts 2026-09-27T13:02:00Z (hand-authored; true time 12:54:15Z–12:58:22Z)"
+  ],
+  "2026-09-27T13:10:00Z-b": [
+   "ts 2026-09-27T13:10:00Z (hand-authored; true time 12:54:15Z–12:58:22Z)"
+  ]
+ },
+ "unresolvable": [
+  [
+   "2026-09-27T07:06:36Z-b",
+   "unknown-id-or-scope",
+   "{\"id\": null, \"note\": \"discount the signal carries-pinned-7 and the note '7 CARRYs' in step record 2026-09-27T06:40:33Z-a: 8 CARRYs were pinned (:40 x4, :43, :65, :67, :73); a step-record signal has no"
+  ],
+  [
+   "2026-09-27T12:58:32Z-a",
+   "unknown-id-or-scope",
+   "{\"id\": null, \"note\": \"discount the ts of step records 2026-09-27T13:02:00Z-a and 2026-09-27T13:10:00Z-a the same way; their content stands\"}"
+  ]
+ ],
+ "retraction_of_retraction": []
+}

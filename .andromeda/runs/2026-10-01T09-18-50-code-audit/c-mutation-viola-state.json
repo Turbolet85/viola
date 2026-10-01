@@ -1,0 +1,46 @@
+{
+ "unit": "viola-state",
+ "exit": 2,
+ "jobs": 4,
+ "total_mutants": 121,
+ "planned_len": 121,
+ "end_time": "2026-10-01T10:42:32.9903664Z",
+ "state": "complete",
+ "unit_state": "complete 121/121",
+ "counts": {
+  "mutants": 121,
+  "caught": 106,
+  "missed": 3,
+  "not_measured": 0,
+  "timeout": 0,
+  "unviable": 12
+ },
+ "score": 97.25,
+ "score_formula": "caught/(caught+missed)",
+ "survivors": [
+  [
+   "crates/viola-state/src/fs.rs:17:5",
+   "replace restrict -> io::Result<()> with Ok(())"
+  ],
+  [
+   "crates/viola-state/src/pin.rs:81:19",
+   "replace match guard e.kind() == io::ErrorKind::NotFound with true in pin_exe"
+  ],
+  [
+   "crates/viola-state/src/pin.rs:171:23",
+   "replace match guard e.kind() == io::ErrorKind::NotFound with true in pin_companions"
+  ]
+ ],
+ "not_measured": [],
+ "timeouts": [],
+ "tool_tally": {
+  "caught": 106,
+  "missed": 3,
+  "timeout": 0,
+  "unviable": 12,
+  "success": 0,
+  "failure": null
+ },
+ "host": "x86_64-pc-windows-msvc",
+ "start_time": "2026-10-01T10:37:36.1890422Z"
+}

@@ -1,0 +1,59 @@
+{
+ "unit": "viola",
+ "exit": 2,
+ "jobs": 4,
+ "total_mutants": 352,
+ "planned_len": 352,
+ "end_time": "2026-10-01T11:28:38.8913304Z",
+ "state": "complete",
+ "unit_state": "complete 352/352",
+ "counts": {
+  "mutants": 352,
+  "caught": 302,
+  "missed": 1,
+  "not_measured": 4,
+  "timeout": 0,
+  "unviable": 45
+ },
+ "score": 99.67,
+ "score_formula": "caught/(caught+missed)",
+ "survivors": [
+  [
+   "src/cmd/run.rs:455:5",
+   "replace refuse_stale with ()"
+  ]
+ ],
+ "not_measured": [
+  [
+   "src/panic_frames.rs:69:5",
+   "replace raw_frames -> Vec<usize> with vec![0]",
+   "cfg(unix)"
+  ],
+  [
+   "src/panic_frames.rs:80:5",
+   "replace module_of -> Option<(String, usize)> with None",
+   "cfg(unix)"
+  ],
+  [
+   "src/panic_frames.rs:80:5",
+   "replace module_of -> Option<(String, usize)> with Some((String::new(), 1))",
+   "cfg(unix)"
+  ],
+  [
+   "src/cmd/run.rs:318:5",
+   "replace sideload_outcome -> (&'static str, Option<viola_state::pin::HeldCompanions>) with (\"xyzzy\", None)",
+   "cfg(all(windows, not(target_arch = \"x86_64\")))"
+  ]
+ ],
+ "timeouts": [],
+ "tool_tally": {
+  "caught": 302,
+  "missed": 5,
+  "timeout": 0,
+  "unviable": 45,
+  "success": 0,
+  "failure": null
+ },
+ "host": "x86_64-pc-windows-msvc",
+ "start_time": "2026-10-01T10:54:07.9764368Z"
+}

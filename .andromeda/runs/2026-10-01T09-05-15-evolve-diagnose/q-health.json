@@ -1,0 +1,366 @@
+{
+ "epoch": "Epoch 2b — Windows slice I b: events and ledger",
+ "records": 335,
+ "step": 171,
+ "friction": 164,
+ "coverage": {
+  "None": {
+   "new-session": [
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation"
+   ],
+   "wrap-session": [
+    "route-resolve"
+   ]
+  },
+  "2026-09-27-epoch-2-cleanup": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-09-27-browser-verdict-reachability": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-09-27-hooks-to-normalised-events": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-09-28-hook-perf-gate": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-09-28-cli-output-tokens": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-09-28-capability-ledger-and-viola-verify": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-09-28-mutation-testing-to-the-epoch-boundary": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-09-29-h2-conpty-resize-probe": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-09-29-verify-stamped-test-homes-and-harness": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-09-29-sideloaded-conpty": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-09-29-fake-agent-drift-contract": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  }
+ },
+ "expected_per_chunk": {
+  "phase": 5,
+  "implement": 3,
+  "wrap-session": 5
+ },
+ "unparseable": 0,
+ "malformed_ts_in_epoch": [],
+ "untyped_rate": {
+  "new-session/orientation": {
+   "step_runs": 26,
+   "friction": 5,
+   "untyped": 1
+  },
+  "wrap-session/route-resolve": {
+   "step_runs": 12,
+   "friction": 11,
+   "untyped": 0
+  },
+  "phase/take-up": {
+   "step_runs": 11,
+   "friction": 7,
+   "untyped": 2
+  },
+  "phase/distill": {
+   "step_runs": 11,
+   "friction": 12,
+   "untyped": 1
+  },
+  "phase/research": {
+   "step_runs": 11,
+   "friction": 9,
+   "untyped": 3
+  },
+  "phase/plan": {
+   "step_runs": 11,
+   "friction": 4,
+   "untyped": 0
+  },
+  "phase/validate": {
+   "step_runs": 11,
+   "friction": 17,
+   "untyped": 0
+  },
+  "implement/code": {
+   "step_runs": 11,
+   "friction": 20,
+   "untyped": 3
+  },
+  "implement/fix-loop": {
+   "step_runs": 11,
+   "friction": 22,
+   "untyped": 5
+  },
+  "implement/smoke": {
+   "step_runs": 11,
+   "friction": 0,
+   "untyped": 0
+  },
+  "wrap-session/report": {
+   "step_runs": 11,
+   "friction": 5,
+   "untyped": 0
+  },
+  "wrap-session/reconcile": {
+   "step_runs": 12,
+   "friction": 31,
+   "untyped": 3
+  },
+  "wrap-session/curation": {
+   "step_runs": 11,
+   "friction": 14,
+   "untyped": 0
+  },
+  "wrap-session/gates": {
+   "step_runs": 11,
+   "friction": 7,
+   "untyped": 2
+  }
+ },
+ "problem_fill": [
+  42,
+  171
+ ],
+ "id_fill": [
+  335,
+  335
+ ],
+ "outcomes": {
+  "ok": 158,
+  "halted-resolved": 9,
+  "ok-degraded": 4
+ },
+ "excluded_by_retraction_in_epoch": []
+}
