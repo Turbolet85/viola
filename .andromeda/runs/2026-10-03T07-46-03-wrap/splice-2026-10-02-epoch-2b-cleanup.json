@@ -1,0 +1,119 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-10-03T07:54:42Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-03T07-46-03-wrap/architecture-entry.md",
+"--lines",
+"7",
+"--run-dir",
+".andromeda/runs/2026-10-03T07-46-03-wrap",
+"--marker",
+"2026-10-02-epoch-2b-cleanup"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+7 at line 404 · lines 403→410 · bytes 66059→67060 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-03T07-46-03-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 403,
+"bytes": 66059,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 410,
+"bytes": 67060
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-10-03T07:54:44Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-03T07-46-03-wrap/test-plan-entry.md",
+"--lines",
+"6",
+"--run-dir",
+".andromeda/runs/2026-10-03T07-46-03-wrap",
+"--marker",
+"2026-10-02-epoch-2b-cleanup"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+6 at line 397 · lines 396→402 · bytes 58204→59264 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-03T07-46-03-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 396,
+"bytes": 58204,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 402,
+"bytes": 59264
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-10-03T07:54:45Z",
+"argv": [
+"append",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-03T07-46-03-wrap/obs-plan-entry.md",
+"--lines",
+"6",
+"--run-dir",
+".andromeda/runs/2026-10-03T07-46-03-wrap",
+"--marker",
+"2026-10-02-epoch-2b-cleanup"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"append obs-plan-amendments.md:+6 at line 250 · lines 249→255 · bytes 31371→31980 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-03T07-46-03-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 249,
+"bytes": 31371,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 255,
+"bytes": 31980
+}
+}
+]

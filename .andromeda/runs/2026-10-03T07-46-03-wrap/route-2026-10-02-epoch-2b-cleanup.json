@@ -1,0 +1,135 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-03T11:35:56Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-10-02-epoch-2b-cleanup",
+"--run-dir",
+".andromeda/runs/2026-10-03T07-46-03-wrap",
+"--desc-file",
+".andromeda/runs/2026-10-03T07-46-03-wrap/master-desc.txt"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"flip master-route.md:37 - 2026-10-02-epoch-2b-cleanup pending -> complete - desc REWRITTEN from --desc-file"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-03T11:36:04Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-02-epoch-2b-cleanup",
+"--date",
+"2026-10-03",
+"--run-dir",
+".andromeda/runs/2026-10-03T07-46-03-wrap",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"pin :66 strip CARRY: 1133ch \"CARRY: the Epoch 2b boundary code audit \"",
+"pin :66 strip CARRY: 383ch \"CARRY: the same audit's M1, eight surviv\"",
+"pin :66 strip CARRY: 695ch \"CARRY: the same audit's M3: viola-e2e (7\"",
+"pin :66 strip CARRY: 665ch \"CARRY: the same audit: 13 mutants were n\"",
+"pin :66 strip CARRY: 148ch \"CARRY: the same audit: the tests leak te\"",
+"pin :66 strip CARRY: 479ch \"CARRY: the Epoch 2b evolve diagnosis (`.\"",
+"pin :66 strip CARRY: 678ch \"CARRY: P5 of `refs/session-memory-option\"",
+"pin :66 strip CARRY: 1038ch \"CARRY: chunk 2026-09-27-browser-verdict-\"",
+"pin :66 strip CARRY: 1189ch \"CARRY: chunk 2026-09-29-sideloaded-conpt\"",
+"pin next markerless :68 holds CARRY:×4",
+"66 · 2026-10-02-epoch-2b-cleanup · strip 9 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 66,
+"marker": "2026-10-02-epoch-2b-cleanup",
+"blocks": 9,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-03T11:37:04Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-02-epoch-2b-cleanup",
+"--date",
+"2026-10-03",
+"--run-dir",
+".andromeda/runs/2026-10-03T07-46-03-wrap"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"pin :66 strip CARRY: 1133ch \"CARRY: the Epoch 2b boundary code audit \"",
+"pin :66 strip CARRY: 383ch \"CARRY: the same audit's M1, eight surviv\"",
+"pin :66 strip CARRY: 695ch \"CARRY: the same audit's M3: viola-e2e (7\"",
+"pin :66 strip CARRY: 665ch \"CARRY: the same audit: 13 mutants were n\"",
+"pin :66 strip CARRY: 148ch \"CARRY: the same audit: the tests leak te\"",
+"pin :66 strip CARRY: 479ch \"CARRY: the Epoch 2b evolve diagnosis (`.\"",
+"pin :66 strip CARRY: 678ch \"CARRY: P5 of `refs/session-memory-option\"",
+"pin :66 strip CARRY: 1038ch \"CARRY: chunk 2026-09-27-browser-verdict-\"",
+"pin :66 strip CARRY: 1189ch \"CARRY: chunk 2026-09-29-sideloaded-conpt\"",
+"pin next markerless :68 holds CARRY:×4",
+"66 · 2026-10-02-epoch-2b-cleanup · strip 9 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+".\\viola-0.1.0\\route-archive.md",
+".\\viola-0.1.0\\working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 66,
+"marker": "2026-10-02-epoch-2b-cleanup",
+"blocks": 9,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

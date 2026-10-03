@@ -1,0 +1,80 @@
+[
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "1550f3bc",
+"ts": "2026-10-03T07:53:20Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-03T07-46-03-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-03T07-46-03-wrap",
+"--marker",
+"2026-10-02-epoch-2b-cleanup"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"baseline e0fbc724 (pre-CI parent — the oldest of 1 pre-CI commit(s), e8489447)",
+"tempdir-removes · 0 rows (control fired) — a statement about this pattern, not the masters · control registries/contrac…",
+"tempdir-keep · 0 rows (control fired) — a statement about this pattern, not the masters · control registries/contracts/…",
+"tempdir-drop · new 0 · standing 8 · leaf 0 · curation 0 · base 0 · control test-plan.md:730 (prose)",
+"owner-gone · new 0 · standing 2 · leaf 2 · curation 0 · base 0 · control architecture.md:416 (prose)",
+".andromeda/test-plan.md:730 tempdir-drop standing … waits every wrapper; TempDir drop removes H and H2; the squatter li…",
+".andromeda/test-plan.md:828 tempdir-drop standing …**Cleanup:** Ctrl-C into the outer PTY, `child.wait()`, TempDir drop.",
+".andromeda/test-plan.md:875 tempdir-drop standing - **Cleanup:** harness `cleanup`; TempDir drop for H3.",
+".andromeda/test-plan.md:889 tempdir-drop standing …ops the `viola ui` child and calls `child.wait()`; then TempDir drop.",
+".andromeda/test-plan.md:902 tempdir-drop standing - **Cleanup:** TempDir drop.",
+".andromeda/test-plan.md:945 tempdir-drop standing - **Cleanup:** TempDir drop.",
+".andromeda/obs-plan.md:1044 tempdir-drop standing …eanup` nor an rstest `TempDir` drop deletes a home before G2, G4, th…",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:33 tempdir-drop standing @c18/3166 …up \"TempDir d…",
+".andromeda/architecture.md:416 owner-gone standing edited …set, only the dirs whose recorded owner process is gone (pid…",
+".andromeda/registries/contracts/test-plan/test-data-bootstrap.md:15 owner-gone standing edited …e dirs whose recorded o…",
+".claude/rules/verification-harness.md:43 owner-gone leaf … set) first removes only dirs whose recorded owner process is…",
+".claude/docs/tests-summary.md:20 owner-gone leaf …nly once its recorded owner process is gone, and on a failing test un…",
+"tempdir-removes · 0 rows (control fired) — a statement about this pattern, not the masters · control registries/contrac…",
+"tempdir-keep · 0 rows (control fired) — a statement about this pattern, not the masters · control registries/contracts/…",
+"tempdir-drop · new 0 · standing 8 · leaf 0 · curation 0 · base 0 · control test-plan.md:730 (prose)",
+"owner-gone · new 0 · standing 2 · leaf 2 · curation 0 · base 0 · control architecture.md:416 (prose)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "e0fbc724390a99ba95c369b5745cbecbeda27ccd",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), e8489447",
+"counts": {
+"tempdir-removes": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"tempdir-keep": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"tempdir-drop": {
+"new": 0,
+"standing": 8,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"owner-gone": {
+"new": 0,
+"standing": 2,
+"leaf": 2,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]

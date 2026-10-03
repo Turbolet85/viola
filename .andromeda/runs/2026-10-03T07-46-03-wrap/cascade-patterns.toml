@@ -1,0 +1,15 @@
+[[pattern]]
+id = "tempdir-removes"
+fixed = 'TempDir` drop removes per-test homes'
+
+[[pattern]]
+id = "tempdir-keep"
+fixed = 'TempDir::keep()'
+
+[[pattern]]
+id = "tempdir-drop"
+regex = '(?i)tempdir[` ]*drop'
+
+[[pattern]]
+id = "owner-gone"
+regex = 'owner process is gone|whose (recorded )?owner (process )?is gone|only dirs whose recorded owner'

@@ -52,3 +52,7 @@ Run on the overseer's word ("run the operator pass now"), after /implement run `
     error (the known positive);
   - with the fixed file copied in: exit 0 (`Checking viola`, `Checking viola-e2e`, `Finished`).
 - **Windows, local** (gate entries 1, 2, 7, 8): fmt, clippy, the frozen-stale case and the deadline lint, all green.
+- **Fix commit** `9e3b850`. **Entry 24:** pushed, `e848944..9e3b850 HEAD -> build/viola-0.1.0`, 0 ahead.
+- **Entry 25:** `ci.py conclusion --sha HEAD --wait 1800` (polled 11× over 311 s):
+  `9e3b85030d67 verdict: green · checks 15/15 · wall 290 s · runs ci#37107107417 completed/success`.
+  **The final HEAD run is ci#37107107417, green, and it is the acceptance leg** for the host-reds CARRY.
