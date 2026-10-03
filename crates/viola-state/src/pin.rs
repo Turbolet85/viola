@@ -278,19 +278,66 @@ mod tests {
         assert!(matches!(pin_exe(&home, &exe), Err(PinError::State(_))));
     }
 
+    /// `path` made unreadable to this user while it stays renamable (a rename over it needs only
+    /// the directory's rights): on Windows a deny-read-data ACE, on Unix mode 000. Undone on drop.
+    struct Unreadable(PathBuf);
+
+    #[cfg(windows)]
+    fn icacls(path: &Path, args: &[&str]) {
+        let root = std::env::var_os("SystemRoot").expect("SystemRoot");
+        let user = format!(
+            "{}\\{}",
+            std::env::var("USERDOMAIN").expect("USERDOMAIN"),
+            std::env::var("USERNAME").expect("USERNAME")
+        );
+        let ok =
+            std::process::Command::new(PathBuf::from(root).join("System32").join("icacls.exe"))
+                .arg(path)
+                .args(args.iter().map(|a| a.replace("<user>", &user)))
+                .stdout(std::process::Stdio::null())
+                .status()
+                .expect("icacls")
+                .success();
+        assert!(ok, "icacls {args:?}");
+    }
+
+    impl Unreadable {
+        fn set(path: &Path) -> Self {
+            #[cfg(windows)]
+            icacls(path, &["/deny", "<user>:(RD)"]);
+            #[cfg(unix)]
+            {
+                use std::os::unix::fs::PermissionsExt as _;
+                fs::set_permissions(path, fs::Permissions::from_mode(0o000)).expect("chmod");
+            }
+            assert!(fs::read(path).is_err(), "the copy is still readable");
+            Self(path.to_owned())
+        }
+    }
+
+    impl Drop for Unreadable {
+        fn drop(&mut self) {
+            #[cfg(windows)]
+            icacls(&self.0, &["/remove:d", "<user>"]);
+            #[cfg(unix)]
+            {
+                use std::os::unix::fs::PermissionsExt as _;
+                let _ = fs::set_permissions(&self.0, fs::Permissions::from_mode(0o600));
+            }
+        }
+    }
+
     /// A copy that exists but cannot be read is an error, never a missing copy to write over.
-    #[cfg(unix)]
     #[test]
-    fn pin_exe_refuses_an_unreadable_copy_and_leaves_it() {
-        use std::os::unix::fs::PermissionsExt as _;
+    fn pin_exe_refuses_a_copy_it_cannot_read_and_leaves_it() {
         let tmp = tempfile::tempdir().expect("tempdir");
         let home = tmp.path().join("home");
         let exe = exe_in(tmp.path());
         let pinned = pin_exe(&home, &exe).expect("first pin");
         fs::write(&pinned.path, b"abd").expect("tamper");
-        fs::set_permissions(&pinned.path, fs::Permissions::from_mode(0o000)).expect("chmod");
+        let denied = Unreadable::set(&pinned.path);
         assert!(matches!(pin_exe(&home, &exe), Err(PinError::State(_))));
-        fs::set_permissions(&pinned.path, fs::Permissions::from_mode(0o600)).expect("chmod");
+        drop(denied);
         assert_eq!(fs::read(&pinned.path).expect("left as found"), b"abd");
     }
 
@@ -349,6 +396,24 @@ mod tests {
             pin_companions(&pinned, "side", COMPANIONS),
             Err(PinError::HashMismatch)
         ));
+        assert_eq!(fs::read(&a).expect("left as found"), b"alphb");
+    }
+
+    /// A companion that exists but cannot be read is an error, never a missing one to write over.
+    #[cfg(windows)]
+    #[test]
+    fn pin_companions_refuses_a_companion_it_cannot_read_and_leaves_it() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let pinned = pinned_in(tmp.path());
+        drop(pin_companions(&pinned, "side", COMPANIONS).expect("first pin"));
+        let a = pinned.path.parent().expect("bin dir").join("side/a.dll");
+        fs::write(&a, b"alphb").expect("tamper one byte");
+        let denied = Unreadable::set(&a);
+        assert!(matches!(
+            pin_companions(&pinned, "side", COMPANIONS),
+            Err(PinError::State(_))
+        ));
+        drop(denied);
         assert_eq!(fs::read(&a).expect("left as found"), b"alphb");
     }
 

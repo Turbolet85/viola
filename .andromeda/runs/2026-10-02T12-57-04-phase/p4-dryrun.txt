@@ -1,0 +1,34 @@
+gate v1.5 · 018a3122
+shell <git-bash> (from $SHELL; -c, non-login)
+root D:\dev\projects\viola · marker 2026-10-02-epoch-2b-cleanup · entries 27
+logs %TEMP%\andromeda-gate\2026-10-02-epoch-2b-cleanup\run-20261002T132128Z · bound: GNU timeout
+delta docs 39
+prose L183-189: The harness runs every Rust suite (test-plan §3). M2's acceptance is the in-repo suite rea… (720 chars)
+  1 lint        not run — dry-run · cargo fmt --all --check
+  2 lint        not run — dry-run · cargo clippy --workspace --all-targets --features fake-age… (75 chars)
+  3 unit        not run — dry-run · bash scripts/agent-run.sh run --unit
+  4 unit        not run — dry-run · bash scripts/agent-run.sh run --unit --filter 'test(/searc… (115 chars)
+  5 unit        not run — dry-run · bash scripts/agent-run.sh run --unit --filter 'test(/refus… (111 chars)
+  6 unit        not run — dry-run · bash scripts/agent-run.sh run --unit --filter 'test(/throw… (95 chars)
+  7 integration not run — dry-run · bash scripts/agent-run.sh run --integration --filter 'bina… (140 chars)
+  8 integration not run — dry-run · bash scripts/agent-run.sh run --integration --filter 'bina… (134 chars)
+  9 integration not run — dry-run · bash scripts/agent-run.sh run --integration --filter 'pack… (87 chars)
+ 10 integration not run — dry-run · bash scripts/agent-run.sh run --integration --filter 'bina… (172 chars)
+ 11 integration not run — dry-run · bash scripts/agent-run.sh run
+ 12 probe       not run — dry-run · bash scripts/agent-run.sh run --mutants --file crates/viol… (114 chars)
+ 13 probe       not run — dry-run · bash scripts/agent-run.sh run --mutants --file crates/viol… (76 chars)
+ 14 probe       not run — dry-run · bash scripts/agent-run.sh run --mutants --file src/cmd/run… (61 chars)
+ 15 integration not run — dry-run · bash scripts/agent-run.sh run --coverage
+ 16 probe       not run — dry-run · bash scripts/agent-run.sh gate --require coverage,doctest
+ 17 probe       not run — dry-run · grep -c 'cargo metadata' .claude/docs/gotchas.md
+ 18 probe       not run — dry-run · git diff --quiet e0fbc72 -- scripts/wsl-provision.sh .gith… (103 chars)
+ 19 probe       not run — dry-run · bash scripts/release-check.sh --probe
+ 20 probe       not run — dry-run · cargo deny check
+ 21 probe       not run — dry-run · bash scripts/agent-run.sh pre-push
+ 22 smoke       not run — dry-run · bash scripts/agent-run.sh cleanup --session p-e2bc-smoke
+ 23 smoke       not run — dry-run · bash scripts/agent-run.sh boot --session p-e2bc-smoke --in… (72 chars)
+ 24 smoke       not run — dry-run · bash scripts/agent-run.sh cleanup --session p-e2bc-smoke
+ 25 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-pha… (103 chars)
+ 26 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (69 chars)
+ 27 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-pha… (127 chars)
+entries 27 · green 0 · red 0 · recorded 0 · timeout 0 · not-run 27

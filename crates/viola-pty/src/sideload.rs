@@ -118,12 +118,21 @@ mod tests {
     }
 
     /// The child half of the planting cases: a no-op in an ordinary run; spawned by one, it makes one
-    /// bare-name load and writes what it got to its report file.
+    /// bare-name load and writes what it got to its report file. The `search-restricted` case
+    /// instead reports the flag before and after the restriction in this fresh process.
     #[test]
     fn sideload_child_entry() {
         let (Ok(case), Some(report)) = (std::env::var(CASE), std::env::var_os(REPORT)) else {
             return;
         };
+        if case == "search-restricted" {
+            let before = search_restricted();
+            let took = restrict_dll_search();
+            let after = search_restricted();
+            std::fs::write(report, format!("before={before} took={took} after={after}"))
+                .expect("report");
+            return;
+        }
         if case == "restricted" {
             assert!(restrict_dll_search());
         }
@@ -192,6 +201,15 @@ mod tests {
                 assert!(same_file(&got, system), "{restricted}");
             }
         }
+    }
+
+    /// `search_restricted` reads the restriction's own outcome: unset in a fresh process, set once
+    /// `restrict_dll_search` took effect.
+    #[test]
+    fn search_restricted_reads_whether_the_restriction_took_effect() {
+        let dir = tempfile::tempdir().expect("tempdir");
+        let line = run_child("search-restricted", dir.path(), dir.path());
+        assert_eq!(line, "before=false took=true after=true");
     }
 
     #[test]

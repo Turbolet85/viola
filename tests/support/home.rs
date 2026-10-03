@@ -65,11 +65,32 @@ pub fn sweep_gone_owners(base: &Path) -> usize {
         if process_start(pid) == Some(started_at) {
             continue;
         }
-        if fs::remove_dir_all(&dir).is_ok() {
+        if remove_owned(&dir) {
             removed += 1;
         }
     }
     removed
+}
+
+/// Removes an owned dir with its owner record last. A removal that stops part-way (a file another
+/// process still holds open, which Windows refuses to delete) keeps the record, so a later sweep
+/// can reclaim the rest once that owner is gone; an ownerless remnant could never be reclaimed.
+/// Whether the dir is gone.
+pub fn remove_owned(dir: &Path) -> bool {
+    let mut whole = true;
+    for entry in fs::read_dir(dir).into_iter().flatten().flatten() {
+        if entry.file_name() == OWNER {
+            continue;
+        }
+        let path = entry.path();
+        let removed = if entry.file_type().is_ok_and(|t| t.is_dir()) {
+            fs::remove_dir_all(&path)
+        } else {
+            fs::remove_file(&path)
+        };
+        whole &= removed.is_ok();
+    }
+    whole && fs::remove_file(dir.join(OWNER)).is_ok() && fs::remove_dir(dir).is_ok()
 }
 
 /// Records this test process as the owner of `dir`.
@@ -126,10 +147,15 @@ impl Drop for TestHome {
             flag("AGENT_RUN_KEEP_FAILED"),
             std::thread::panicking(),
         );
-        if let (true, Some(dir)) = (keep, self.dir.take()) {
+        let Some(dir) = self.dir.take() else {
+            return;
+        };
+        let path = dir.keep();
+        if keep {
             // A kept home is no longer owned: no later sweep may take it.
-            let _ = fs::remove_file(dir.path().join(OWNER));
-            let _ = dir.keep();
+            let _ = fs::remove_file(path.join(OWNER));
+        } else {
+            remove_owned(&path);
         }
     }
 }

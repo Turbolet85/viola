@@ -55,11 +55,13 @@ fn status_and_logs_of_an_unknown_session_are_exit_2() {
     }
 }
 
+/// Flags no route entry will ever build stand in for an unbuilt selector, so this holds whichever
+/// selectors are built (a real one, once built, runs its arm here).
 #[test]
-fn unbuilt_selectors_and_unknown_commands_are_usage() {
+fn unknown_selectors_and_unknown_commands_are_usage() {
     for (args, cmd) in [
-        (vec!["run", "--e2e"], Value::from("run")),
-        (vec!["boot", "--ui"], Value::from("boot")),
+        (vec!["run", "--no-such-selector"], Value::from("run")),
+        (vec!["boot", "--no-such-flag"], Value::from("boot")),
         (vec!["bogus"], Value::Null),
         (vec![], Value::Null),
     ] {

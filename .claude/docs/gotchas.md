@@ -128,6 +128,11 @@ Rendered by `/andromeda-setup-project` on the first run and kept current by wrap
 **How to avoid:** `wsl.exe -d Ubuntu [--cd D] --exec /usr/bin/env -i HOME=… PATH=…` — argv verbatim, no inherited environment (`viola-harness pre-push` does exactly this).
 **References:** test-plan §3 Internal harness subcommands (`pre-push`); security-plan §Secret Management.
 
+## A dependency's source is not under `~/.cargo`
+**What breaks:** on this host `CARGO_HOME` sits on another drive (the registry is not under `~/.cargo`), so a path to a crate's source built from `~/.cargo/registry/src/…` or a guessed `CARGO_HOME` reads nothing, and a search over it reads as "not found".
+**How to avoid:** locate a crate's source through `cargo metadata --format-version 1`: the package's `manifest_path` is its `Cargo.toml`, and its parent is the source root at the exact version the lockfile resolved.
+**References:** Epoch 2b evolve diagnosis §L4 (`.andromeda/runs/2026-10-01T09-05-15-evolve-diagnose/proposals.md`).
+
 ## Related
 
 - For runtime-discovered learnings, see `.claude/docs/session-learnings.md` (curated by /andromeda-wrap-session)

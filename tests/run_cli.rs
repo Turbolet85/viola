@@ -593,3 +593,42 @@ fn run_creates_home_0700_and_role_file_0600(#[from(home)] tmp: TestHome) {
         0o600
     );
 }
+
+/// A wrapper terminated from outside (no Ctrl-C, no clean exit) takes its child with it: the
+/// child's process, by pid and start time, is gone within the bound (architecture [PTY]; P5).
+#[cfg(windows)]
+#[rstest]
+fn run_child_ends_when_its_wrapper_is_terminated(
+    #[from(support::home::booted_wrapper)] wrapper: support::home::Wrapper,
+) {
+    use support::home::{process_start, snapshot_data};
+    use windows_sys::Win32::Foundation::CloseHandle;
+    use windows_sys::Win32::System::Threading::{OpenProcess, PROCESS_TERMINATE, TerminateProcess};
+
+    let data = snapshot_data(&wrapper.instance_dir()).expect("snapshot");
+    let pid_of = |key: &str| {
+        data[key]
+            .as_u64()
+            .and_then(|p| u32::try_from(p).ok())
+            .expect("pid")
+    };
+    let (wrapper_pid, child_pid) = (pid_of("pid"), pid_of("child_pid"));
+    let child_started = process_start(child_pid).expect("the child runs");
+
+    // SAFETY: plain values cross; the handle is closed before it goes out of scope.
+    unsafe {
+        let handle = OpenProcess(PROCESS_TERMINATE, 0, wrapper_pid);
+        assert!(!handle.is_null(), "open the wrapper");
+        assert_ne!(TerminateProcess(handle, 1), 0, "terminate the wrapper");
+        CloseHandle(handle);
+    }
+
+    let watch = Watch::start("child");
+    let deadline = Instant::now() + WITHIN;
+    while process_start(child_pid) == Some(child_started) {
+        watch.note("child running");
+        watch.deadline_check(deadline, "the child outlived its wrapper");
+        std::thread::yield_now();
+    }
+    drop(wrapper);
+}

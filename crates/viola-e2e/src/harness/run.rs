@@ -607,8 +607,20 @@ mod test_support {
 
 #[cfg(test)]
 mod tests {
-    use super::test_support::{GOOD_LIB, flags, mini, run, scratch, suite};
+    use super::test_support::{GOOD_LIB, flags, git_repo, mini, run, scratch, suite};
     use super::*;
+
+    /// A committed throwaway repo holds git's read-only object files, and dropping it still removes
+    /// the dir: std's Windows `remove_dir_all` deletes read-only files, so a self-test that ends
+    /// leaves no repo in the temp dir (a run killed before the drop is what leaves one).
+    #[test]
+    fn throwaway_repo_leaves_no_dir_after_drop() {
+        let repo = git_repo();
+        let dir = repo.path().to_path_buf();
+        assert!(dir.join(".git").join("objects").is_dir());
+        drop(repo);
+        assert!(!dir.exists(), "the throwaway repo was left behind");
+    }
 
     #[test]
     fn archive_slots_number_up_and_keep_the_newest_ten() {

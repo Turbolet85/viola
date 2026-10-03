@@ -16,7 +16,7 @@ use serde_json::{Value, json};
 use support::fake::{self, FAKE, of_kind};
 use support::home::{
     StampedHome, TestHome, VIOLA, Wrapper, beat_age, booted_wrapper, home, process_start,
-    snapshot_data, stamped_home, sweep_gone_owners, write_owner,
+    remove_owned, snapshot_data, stamped_home, sweep_gone_owners, write_owner,
 };
 use support::piped::Piped;
 use viola_core::ViolaName;
@@ -457,4 +457,123 @@ fn fixture_sweep_removes_only_homes_whose_owner_is_gone(#[from(home)] tmp: TestH
     );
     assert!(!dead.exists());
     assert!(!reused.exists());
+}
+
+/// A file another process still holds stops a removal part-way, wherever it sits: here in a scratch
+/// dir listed after `owner.json`, where a plain recursive removal deletes the record before it
+/// meets the held file. The record stays, so the dir is never left ownerless, and once the file is
+/// released the next removal takes it whole.
+#[cfg(windows)]
+#[rstest]
+fn remove_owned_keeps_the_owner_record_while_a_file_is_held(#[from(home)] tmp: TestHome) {
+    use std::os::windows::fs::OpenOptionsExt as _;
+
+    let dir = tmp.scratch().join("owned");
+    fs::create_dir_all(dir.join("home")).expect("dir");
+    fs::create_dir_all(dir.join("sweep")).expect("scratch dir");
+    write_owner(&dir);
+    let held_path = dir.join("sweep").join("held.ndjson");
+    fs::write(&held_path, b"{}\n").expect("file");
+    // Read sharing only: no other opener may delete it while this handle lives.
+    let held = fs::OpenOptions::new()
+        .read(true)
+        .share_mode(0x1)
+        .open(&held_path)
+        .expect("held");
+
+    assert!(!remove_owned(&dir));
+    assert!(dir.join("owner.json").is_file(), "the record went first");
+    drop(held);
+    assert!(remove_owned(&dir));
+    assert!(!dir.exists());
+}
+
+/// A wrapper frozen under a debugger attach, the Windows form of `SIGSTOP`: every thread of the
+/// process stays suspended while its first debug event is unanswered. Detached on drop, so a failing
+/// test never leaves the wrapper frozen, and never killed: the attach is set not to kill on exit.
+#[cfg(windows)]
+struct Frozen(u32);
+
+#[cfg(windows)]
+impl Frozen {
+    fn attach(pid: u32) -> Self {
+        use windows_sys::Win32::Foundation::CloseHandle;
+        use windows_sys::Win32::System::Diagnostics::Debug::{
+            CREATE_PROCESS_DEBUG_EVENT, DEBUG_EVENT, DebugActiveProcess, DebugSetProcessKillOnExit,
+            WaitForDebugEvent,
+        };
+
+        // SAFETY: plain values cross; no pointer is kept.
+        assert_ne!(unsafe { DebugActiveProcess(pid) }, 0, "debugger attach");
+        let frozen = Self(pid);
+        // SAFETY: a flag value for this thread's debuggees.
+        assert_ne!(unsafe { DebugSetProcessKillOnExit(0) }, 0, "keep on exit");
+        let wait_ms = u32::try_from(support::watch::WITHIN.as_millis()).expect("ms");
+        // SAFETY: `event` is a writable DEBUG_EVENT for the call's duration.
+        let mut event: DEBUG_EVENT = unsafe { std::mem::zeroed() };
+        // SAFETY: as above; the event is read only after the call reported it written.
+        assert_ne!(
+            unsafe { WaitForDebugEvent(&mut event, wait_ms) },
+            0,
+            "first debug event"
+        );
+        assert_eq!(event.dwProcessId, pid);
+        assert_eq!(event.dwDebugEventCode, CREATE_PROCESS_DEBUG_EVENT);
+        // SAFETY: the code read above says this union member is the one written; the file handle
+        // is the debugger's to close.
+        unsafe {
+            let file = event.u.CreateProcessInfo.hFile;
+            if !file.is_null() {
+                CloseHandle(file);
+            }
+        }
+        frozen
+    }
+}
+
+#[cfg(windows)]
+impl Drop for Frozen {
+    fn drop(&mut self) {
+        // SAFETY: a plain pid; the same thread that attached detaches.
+        unsafe {
+            windows_sys::Win32::System::Diagnostics::Debug::DebugActiveProcessStop(self.0);
+        }
+    }
+}
+
+/// The Windows twin of `run_refuses_a_stale_name`: a wrapper whose pid and start time still match
+/// but whose beat is 60 s old is `stale`.
+#[cfg(windows)]
+#[rstest]
+fn run_refuses_a_frozen_wrapper_as_stale_on_windows(booted_wrapper: Wrapper) {
+    use std::time::SystemTime;
+
+    let dir = booted_wrapper.instance_dir();
+    let pid = snapshot_data(&dir).expect("snapshot")["pid"]
+        .as_u64()
+        .and_then(|p| u32::try_from(p).ok())
+        .expect("pid");
+    let frozen = Frozen::attach(pid);
+    fs::File::options()
+        .write(true)
+        .open(dir.join("heartbeat"))
+        .expect("heartbeat")
+        .set_modified(SystemTime::now() - Duration::from_secs(60))
+        .expect("back-date");
+
+    let out = run_refused(booted_wrapper.home());
+    drop(frozen);
+    assert_eq!(out.status.code(), Some(1));
+    assert!(out.stdout.is_empty(), "stdout: {} bytes", out.stdout.len());
+    let stderr = String::from_utf8_lossy(&out.stderr);
+    let stderr: Vec<&str> = stderr.lines().collect();
+    assert_eq!(
+        stderr,
+        [
+            "unable: builder is still running but not answering",
+            "hint: viola list shows it as stale; stop that process before starting builder again",
+        ]
+    );
+    assert!(refused_with(booted_wrapper.home(), "already-live"));
+    assert_eq!(booted_wrapper.stop().code(), Some(0));
 }
