@@ -28,4 +28,27 @@ Run on the overseer's word ("run the operator pass now"), after /implement run `
   file). Both were confirmed by `cmp` / `git diff --quiet`.
 
 ## Entries 24–25 — push and the CI read
-Recorded below once taken.
+- **Pre-CI commit** `e848944` (65 files). **Entry 24:** `git diff --quiet && git diff --cached --quiet && git push origin
+  HEAD`, exit 0: `e0fbc72..e848944 HEAD -> build/viola-0.1.0`.
+- **Entry 25:** `ci.py conclusion --sha HEAD --wait 1800`, which returned at the first failure (polled 2× over 33 s):
+  `e84894476d76 verdict: red · checks 15/15 · first-fail +23 s lint (macos-latest) · runs ci#37106821284 in_progress`.
+  - Failed 2: `lint (macos-latest)`, `lint (ubuntu-latest)`. 11 jobs were still running at the read.
+  - **Cause** (job 111156869351's log): `error: unused import: remove_owned --> tests/cli_instance_state.rs:19:5`. The import
+    is used only by the `#[cfg(windows)]` case `remove_owned_keeps_the_owner_record_while_a_file_is_held`, so
+    `-D warnings` fails it on every non-Windows target. Windows clippy (local, and gate entry 2) cannot see it, and the
+    pre-push's Linux leg runs tests, not clippy.
+  - This chunk's red. It is not fixed here: the overseer directed "report the CI verdict and stop".
+- **ci#37106821284, completed** (left to finish on the overseer's word, so one fix covers every red): conclusion
+  `failure`; 13 of 15 jobs green, including `test (windows-2025)`, `test (ubuntu-latest)` and `test (macos-latest)`. The two
+  red jobs are `lint (ubuntu-latest)` and `lint (macos-latest)`, each with the same single error, the unused `remove_owned`
+  import above. No other red.
+
+## Fix — folded into this chunk (overseer, 2026-10-03)
+- `tests/cli_instance_state.rs`: `remove_owned` leaves the top-level `use support::home::{…}` and is imported inside the
+  `#[cfg(windows)]` case that uses it.
+- **Linux clippy, local, two-sided** (WSL `Ubuntu` through `scripts/wsl-exec.sh`, the operator's launcher, in pre-push's
+  clone `~/viola-pre-push`, `cargo clippy --workspace --all-targets --features fake-agent -- -D warnings`):
+  - on `e848944`'s code: exit 101, `error: unused import: remove_owned --> tests/cli_instance_state.rs:19:5`, CI's exact
+    error (the known positive);
+  - with the fixed file copied in: exit 0 (`Checking viola`, `Checking viola-e2e`, `Finished`).
+- **Windows, local** (gate entries 1, 2, 7, 8): fmt, clippy, the frozen-stale case and the deadline lint, all green.

@@ -3302,5 +3302,551 @@
 "unparsed": 0,
 "widening_without_word": 0
 }
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-10-03T07:38:48Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-02-epoch-2b-cleanup/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-02T19-38-47-implement",
+"--marker",
+"2026-10-02-epoch-2b-cleanup",
+"--only",
+"1,2,7,8"
+],
+"cwd": "D:\\dev\\projects\\viola",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\viola · marker 2026-10-02-epoch-2b-cleanup · entries 25",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-epoch-2b-cleanup\\implement-2026-10-02T19-38-47 · bound: GNU timeout",
+"delta docs 1 · rust 1",
+"prose L209-211: The harness runs every Rust suite (test-plan §3). M2's acceptance is the in-repo suite rea… (298 chars)",
+"prose L213-215: This block holds no mutation entry (the founder's 2026-09-28 ruling: mutation lives at the… (343 chars)",
+"prose L217-220: No live leg runs as a gate. These evidence records are written by /implement's own steps, … (314 chars)",
+"prose L222-222: The boot smoke confirms the leak fixes leave a booted session's lifecycle intact.",
+"  1 lint        green · exit 0 · 0.61s · 0 B → 1.log · cargo fmt --all --check",
+"  2 lint        green · exit 0 · 4.26s · 122 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 unit        not run — excluded · bash scripts/agent-run.sh run --unit",
+"  4 unit        not run — excluded · bash scripts/agent-run.sh run --unit --filter 'test(/searc… (115 chars)",
+"  5 unit        not run — excluded · bash scripts/agent-run.sh run --unit --filter 'test(/refus… (111 chars)",
+"  6 unit        not run — excluded · bash scripts/agent-run.sh run --unit --filter 'test(/throw… (95 chars)",
+"  7 integration green · exit 0 · 61.37s · 1779 B → 7.log · bash scripts/agent-run.sh run --integration --filter 'bina… (140 chars)",
+"  8 integration green · exit 0 · 2.35s · 1722 B → 8.log · bash scripts/agent-run.sh run --integration --filter 'bina… (134 chars)",
+"  9 integration not run — excluded · bash scripts/agent-run.sh run --integration --filter 'pack… (87 chars)",
+" 10 integration not run — excluded · bash scripts/agent-run.sh run --integration --filter 'bina… (172 chars)",
+" 11 integration not run — excluded · bash scripts/agent-run.sh run",
+" 12 probe       not run — excluded · ! (git diff e0fbc72 -- '*.rs' .config/nextest.toml | grep … (102 chars)",
+" 13 integration not run — excluded · bash scripts/agent-run.sh run --coverage",
+" 14 probe       not run — excluded · bash scripts/agent-run.sh gate --require coverage,doctest",
+" 15 probe       not run — excluded · grep -c 'cargo metadata' .claude/docs/gotchas.md",
+" 16 probe       not run — excluded · git diff --quiet e0fbc72 -- scripts/wsl-provision.sh .gith… (103 chars)",
+" 17 probe       not run — excluded · bash scripts/release-check.sh --probe",
+" 18 probe       not run — excluded · cargo deny check",
+" 19 probe       not run — excluded · bash scripts/agent-run.sh pre-push",
+" 20 smoke       not run — excluded · bash scripts/agent-run.sh cleanup --session p-e2bc-smoke",
+" 21 smoke       not run — excluded · bash scripts/agent-run.sh boot --session p-e2bc-smoke --in… (72 chars)",
+" 22 smoke       not run — excluded · bash scripts/agent-run.sh cleanup --session p-e2bc-smoke",
+" 23 probe       not run — excluded · python -X utf8 C:/Users/turbo/.claude/skills/andromeda-pha… (103 chars)",
+" 24 probe       not run — excluded · git diff --quiet && git diff --cached --quiet && git push … (69 chars)",
+" 25 probe       not run — excluded · python -X utf8 C:/Users/turbo/.claude/skills/andromeda-pha… (127 chars)",
+"entries 25 · green 4 · red 0 · recorded 0 · timeout 0 · not-run 21"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-02-epoch-2b-cleanup",
+"plan": "D:\\dev\\projects\\viola\\viola-0.1.0\\chunks\\2026-10-02-epoch-2b-cleanup\\plan.md",
+"root": "D:\\dev\\projects\\viola",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-epoch-2b-cleanup\\implement-2026-10-02T19-38-47",
+"delta": {
+"rust": [
+"tests/cli_instance_state.rs"
+],
+"docs": [
+"viola-0.1.0/chunks/2026-10-02-epoch-2b-cleanup/evidence/operator-pass.md"
+]
+},
+"unmapped": [],
+"prose": [
+{
+"from": 209,
+"to": 211,
+"text": "The harness runs every Rust suite (test-plan §3). M2's acceptance is the in-repo suite reading green on this host. The host-reds CARRY's same-day-control method still decides whether a residual red belongs to this tree, until M2 retires it. CI's `test` job is the acceptance leg for the other OSes."
+},
+{
+"from": 213,
+"to": 215,
+"text": "This block holds no mutation entry (the founder's 2026-09-28 ruling: mutation lives at the boundary audit). M1's mutation witness is step 11's ONE-SHOT run at /implement, with its `caught.txt` counts written to `evidence/m1.md`. On every re-run, the property is guarded by the kill-test entries below (steps 7, 8 and 10), which mutate nothing."
+},
+{
+"from": 217,
+"to": 220,
+"text": "No live leg runs as a gate. These evidence records are written by /implement's own steps, not by a listed command, and the review reads them as records: - the M2 diagnosis, the leak before/after counts and the P5 legs (steps 1, 2, 5, 15); - the coverage numbers (step 16, from the `run --coverage` entry's output)."
+},
+{
+"from": 222,
+"to": 222,
+"text": "The boot smoke confirms the leak fixes leave a booted session's lifecycle intact."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-epoch-2b-cleanup\\implement-2026-10-02T19-38-47\\1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.61,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-epoch-2b-cleanup\\implement-2026-10-02T19-38-47\\2.log",
+"bytes": 122,
+"log_sha8": "853f23f7",
+"exit": 0,
+"seconds": 4.26,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/search_restricted_reads_whether_the_restriction_took_effect/)'",
+"run_sha8": "74e7222a",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/refuses_a_(copy|companion)_it_cannot_read_and_leaves_it/)'",
+"run_sha8": "8f621d82",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/throwaway_repo_leaves_no_dir_after_drop/)'",
+"run_sha8": "dd14510d",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(cli_instance_state) & test(/run_refuses_a_frozen_wrapper_as_stale_on_windows/)'",
+"run_sha8": "ce29bbee",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-epoch-2b-cleanup\\implement-2026-10-02T19-38-47\\7.log",
+"bytes": 1779,
+"log_sha8": "98ac6b30",
+"exit": 0,
+"seconds": 61.37,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(contract_lints) & test(/test_deadlines_sit_below_the_nextest_kill_line/)'",
+"run_sha8": "21f824d7",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-epoch-2b-cleanup\\implement-2026-10-02T19-38-47\\8.log",
+"bytes": 1722,
+"log_sha8": "10c8838a",
+"exit": 0,
+"seconds": 2.35,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'package(viola-e2e) & binary(cli)'",
+"run_sha8": "eca9035d",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(run_cli) | binary(hook_fail_open) | binary(cli_verify) | binary(cli_version_gate) | binary(cli_instance_state)'",
+"run_sha8": "70938a57",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run",
+"run_sha8": "21443cdf",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "! (git diff e0fbc72 -- '*.rs' .config/nextest.toml | grep -E '^\\+.*(#\\[ignore|retries *=|test\\.skip)')",
+"run_sha8": "3b05d2ed",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --coverage",
+"run_sha8": "cb977eb3",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "bash scripts/agent-run.sh gate --require coverage,doctest",
+"run_sha8": "b50e7edd",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "grep -c 'cargo metadata' .claude/docs/gotchas.md",
+"run_sha8": "c31f7c48",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "git diff --quiet e0fbc72 -- scripts/wsl-provision.sh .github/workflows/ci.yml scripts/g2-zero-panics.sh",
+"run_sha8": "7a7b869e",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "bash scripts/release-check.sh --probe",
+"run_sha8": "3b748abc",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-e2bc-smoke",
+"run_sha8": "10fcaa02",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-e2bc-smoke --instance builder",
+"run_sha8": "f209f8d4",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 22,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-e2bc-smoke",
+"run_sha8": "10fcaa02",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "python -X utf8 C:/Users/turbo/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "f8a39309",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 25,
+"role": "probe",
+"run": "python -X utf8 C:/Users/turbo/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "aadba3d7",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
 }
 ]

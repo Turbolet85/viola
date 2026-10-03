@@ -16,7 +16,7 @@ use serde_json::{Value, json};
 use support::fake::{self, FAKE, of_kind};
 use support::home::{
     StampedHome, TestHome, VIOLA, Wrapper, beat_age, booted_wrapper, home, process_start,
-    remove_owned, snapshot_data, stamped_home, sweep_gone_owners, write_owner,
+    snapshot_data, stamped_home, sweep_gone_owners, write_owner,
 };
 use support::piped::Piped;
 use viola_core::ViolaName;
@@ -467,6 +467,7 @@ fn fixture_sweep_removes_only_homes_whose_owner_is_gone(#[from(home)] tmp: TestH
 #[rstest]
 fn remove_owned_keeps_the_owner_record_while_a_file_is_held(#[from(home)] tmp: TestHome) {
     use std::os::windows::fs::OpenOptionsExt as _;
+    use support::home::remove_owned;
 
     let dir = tmp.scratch().join("owned");
     fs::create_dir_all(dir.join("home")).expect("dir");
