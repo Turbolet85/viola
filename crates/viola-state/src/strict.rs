@@ -128,7 +128,7 @@ mod unix {
 }
 
 #[cfg(windows)]
-mod win {
+pub(crate) mod win {
     use std::os::windows::ffi::OsStrExt as _;
     use std::path::Path;
     use std::ptr;
@@ -272,8 +272,14 @@ mod win {
         out
     }
 
+    /// The allow ACEs of `path`'s DACL (`None` when unreadable or NULL).
+    #[cfg(test)]
+    pub(crate) fn allows(path: &Path) -> Option<Vec<Allow>> {
+        owner_and_dacl(path).and_then(|(_, dacl)| dacl)
+    }
+
     /// The process token's user SID, as `S-1-…`.
-    fn user_sid() -> Option<String> {
+    pub(crate) fn user_sid() -> Option<String> {
         let mut token: HANDLE = ptr::null_mut();
         // SAFETY: the current-process pseudo-handle needs no close; `token` is a local out-pointer.
         if unsafe { OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &mut token) } == 0 {
