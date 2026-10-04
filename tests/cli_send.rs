@@ -351,7 +351,12 @@ fn send_after_a_confirmed_send_is_turn_running_until_turn_ended() {
         records[0]["data"],
         json!({"refusal": "not-delivered", "detail": "turn-running"})
     );
-    assert_eq!(prompts(&wrapper.receipt()).len(), 1, "nothing typed");
+    // The first prompt's receipt lands after its hook returns, which can be after the send's reply.
+    assert_eq!(
+        prompts_at_least(&wrapper.receipt(), 1).len(),
+        1,
+        "nothing typed"
+    );
 
     end_turn(&wrapper);
     let accepted = send(&home, &["builder"], &second);

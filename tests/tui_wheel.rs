@@ -263,11 +263,11 @@ fn path5_harness_turns_never_take_the_wheel(stamped_home: StampedHome) {
         refused.stdout,
         "{\"v\":1,\"refusal\":\"not-delivered\",\"detail\":\"turn-running\"}\n"
     );
-    assert_eq!(
-        of_kind(&fake::receipt(&receipt), "prompt").len(),
-        1,
-        "nothing typed"
-    );
+    // The harness prompt's receipt lands after its hook returns, which can be after its line.
+    let typed = fake::wait_for(&receipt, "the harness prompt's receipt", |l| {
+        !of_kind(l, "prompt").is_empty()
+    });
+    assert_eq!(of_kind(&typed, "prompt").len(), 1, "nothing typed");
     let after = events(&dir).split_off(lines.len());
     assert_eq!(after.len(), 1, "{after:?}");
     assert_eq!(after[0]["kind"], "send-refused");
