@@ -1,0 +1,270 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name IN ('pump','verified','check','merge_stamp') AND callee_kind = 'fn' AND (callee_file LIKE '%viola-pty/src/pump.rs' OR callee_file LIKE '%ledger.rs') ORDER BY file, line",
+"rows": 52,
+"result": [
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/verdicts().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 668
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/check_shim_resolution_needs_a_real_executable_that_answered().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 690
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/check_shim_resolution_needs_a_real_executable_that_answered().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 695
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/check_spine_hooks_needs_the_four_in_order_each_naming_itself().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 702
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/check_spine_hooks_needs_the_four_in_order_each_naming_itself().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 706
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/check_spine_hooks_needs_the_four_in_order_each_naming_itself().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 711
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/check_spine_hooks_needs_the_four_in_order_each_naming_itself().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 715
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/check_spine_hooks_needs_the_four_in_order_each_naming_itself().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 719
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/check_spine_hooks_needs_the_four_in_order_each_naming_itself().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 723
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/check_session_start_fields_fails_without_both_fields().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 735
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/check_session_start_fields_fails_without_both_fields().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 737
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/check_prompt_verbatim_needs_the_exact_prompt().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 747
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/check_prompt_verbatim_needs_the_exact_prompt().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 749
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/check_stop_message_needs_a_string().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 756
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/check_stop_message_needs_a_string().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 758
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/check_largest_hook_payload_holds_at_the_cap_and_fails_past_it().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 766
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/check_largest_hook_payload_holds_at_the_cap_and_fails_past_it().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 768
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/check_reads_the_first_capture_of_an_event().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 778
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/merge_stamp_writes_the_envelope_for_a_first_version().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 808
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/merge_stamp_writes_the_envelope_for_a_first_version().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 832
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/merge_stamp_keeps_unknown_versions_and_fields_and_replaces_its_own().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 847
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/merge_stamp_keeps_unknown_versions_and_fields_and_replaces_its_own().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 859
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/merge_stamp_replaces_bytes_of_the_wrong_shape_whole().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 868
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/merge_stamp_replaces_bytes_of_the_wrong_shape_whole().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 871
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/merge_stamp_fills_a_data_object_without_versions().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 877
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/merge_stamp_fills_a_data_object_without_versions().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 880
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/verified_needs_every_row_pass_under_that_version().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 886
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/verified_needs_every_row_pass_under_that_version().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 887
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/verified_needs_every_row_pass_under_that_version().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 888
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/verified_needs_every_row_pass_under_that_version().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 890
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/verified_needs_every_row_pass_under_that_version().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 891
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/verified_refuses_a_malformed_envelope().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 902
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/verified_reads_an_envelope_without_data_as_unverified().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 907
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 crate/",
+"file": "crates/viola-pty/src/lib.rs",
+"line": 20
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 pump/tests/pump_returns_on_the_handle_while_the_output_never_ends().",
+"file": "crates/viola-pty/src/pump.rs",
+"line": 186
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 pump/tests/pump_kills_the_child_when_a_worker_panics().",
+"file": "crates/viola-pty/src/pump.rs",
+"line": 226
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 pump/tests/pump_forwards_a_host_size_change_once().",
+"file": "crates/viola-pty/src/pump.rs",
+"line": 278
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 pump/tests/pump_forwards_a_resize_that_lands_before_its_first_look().",
+"file": "crates/viola-pty/src/pump.rs",
+"line": 325
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 pump/tests/pump_does_not_resize_while_the_size_is_unchanged().",
+"file": "crates/viola-pty/src/pump.rs",
+"line": 347
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 pump/tests/pump_waits_for_the_handle_after_the_output_ends().",
+"file": "crates/viola-pty/src/pump.rs",
+"line": 367
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 pump/tests/pump_copies_the_output_it_drains_after_exit().",
+"file": "crates/viola-pty/src/pump.rs",
+"line": 412
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 pump/tests/pump_keeps_the_child_input_open_after_its_own_input_ends().",
+"file": "crates/viola-pty/src/pump.rs",
+"line": 458
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 pump/tests/pump_does_not_look_at_the_size_before_its_first_period().",
+"file": "crates/viola-pty/src/pump.rs",
+"line": 493
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 pump/tests/pump_looks_at_the_size_once_per_period().",
+"file": "crates/viola-pty/src/pump.rs",
+"line": 517
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 pump/tests/pump_drains_output_that_arrives_after_the_exit().",
+"file": "crates/viola-pty/src/pump.rs",
+"line": 570
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/pump_child().",
+"file": "src/cmd/run.rs",
+"line": 418
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/verify/measure().",
+"file": "src/cmd/verify.rs",
+"line": 181
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/verify/check_step().",
+"file": "src/cmd/verify.rs",
+"line": 274
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/version_gate/",
+"file": "src/run/version_gate.rs",
+"line": 14
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/version_gate/stamps_verdict().",
+"file": "src/run/version_gate.rs",
+"line": 168
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/version_gate/tests/",
+"file": "src/run/version_gate.rs",
+"line": 178
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/version_gate/tests/stamp().",
+"file": "src/run/version_gate.rs",
+"line": 182
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

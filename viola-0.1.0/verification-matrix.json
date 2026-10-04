@@ -282,7 +282,8 @@
         "ref": null,
         "status": "planned"
       },
-      "chunk": null
+      "chunk": null,
+      "notes": "2026-10-04 (2026-10-04-readiness-gate-and-timing-constants, phase P5): not claimed. This chunk names four of the six values in one home each: the confirmation-window fallback, the readiness gate's quiet period and maximum wait (provisional built-ins in viola-agent-claude, unmeasured until the held signature/timing rows land at :82), and the spine deadline (`viola_core::SPINE_DEADLINE`, which the perf gate now reads). Tests drive the gate's deadlines from injected instants, and the feed takes the new `viola_core::Clock`. The acceptance still needs the dialog deadline (:78), the MCP `wait` default timeout (:76), and every MCP call completing below the client's tool-call timeout (:74/:76), none reachable here. The cap stays pooled."
     },
     {
       "id": "v1-22",

@@ -12,7 +12,7 @@ use tracing::instrument;
 use viola_agent_claude::{Refusal, StripPlan};
 use viola_channel::{ChannelError, Dispatch, ProtocolError, Server, Serving};
 use viola_core::obs::ObsProcess;
-use viola_core::{EventKind, ViolaName};
+use viola_core::{EventKind, SystemClock, ViolaName};
 use viola_pty::{HostTerminal, PortablePty, PumpEnd, Size, SpawnSpec};
 use viola_state::events::{EventLine, Source, append_event};
 use viola_state::fs::{FILE_MODE, create_private_dir, replace_private_shared};
@@ -22,6 +22,7 @@ use viola_state::pin::{PinError, Pinned, pin_exe};
 use viola_state::snapshot::{InstanceSnapshot, Wheel, read_snapshot, write_snapshot};
 
 use crate::run::ChildLaunch;
+use crate::run::gate::{self, Feed, Tee};
 use crate::run::version_gate::{Gate, version_gate};
 use crate::{human, obs, run};
 
@@ -416,12 +417,21 @@ fn pump_child(launched: Launched) -> anyhow::Result<ExitCode> {
     } = launched;
     #[cfg(feature = "fake-agent")]
     hold_pump_start();
+    let (feed, _feed_thread) = gate::start(SystemClock, size);
+    let sizes = feed.clone();
+    let mut host_size = move || {
+        let size = viola_pty::host_size();
+        if let Some(size) = size {
+            let _ = sizes.send(Feed::Size(size));
+        }
+        size
+    };
     let end = viola_pty::pump(
         &mut pty,
         Box::new(io::stdin()),
-        Box::new(io::stdout()),
+        Box::new(Tee::new(io::stdout(), feed)),
         size,
-        &mut viola_pty::host_size,
+        &mut host_size,
     );
     drop(terminal);
     match end? {

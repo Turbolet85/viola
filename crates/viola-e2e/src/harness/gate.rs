@@ -32,9 +32,6 @@ const JUNIT: [&str; 5] = [
     "playwright",
 ];
 
-/// test-plan §10: the provisional spine-hook deadline until architecture names the constant.
-pub const SPINE_DEADLINE_S: f64 = 1.0;
-
 /// A comma list of closed suite values; `None` when it is empty or names anything else.
 pub fn parse_require(list: &str) -> Option<Vec<String>> {
     let suites: Vec<String> = list.split(',').map(|s| s.trim().to_owned()).collect();
@@ -147,16 +144,17 @@ fn perf(artifacts: &Path, breaches: &mut Vec<Value>) {
         .filter(|n| n.starts_with("perf-") && n.ends_with(".json"))
         .collect();
     files.sort();
+    let bound = viola_core::SPINE_DEADLINE.as_secs_f64();
     for file in files {
         let max = read_json::<Value>(&artifacts.join(&file))
             .ok()
             .and_then(|v| v["results"][0]["max"].as_f64());
         match max {
-            Some(max) if max < SPINE_DEADLINE_S => {}
+            Some(max) if max < bound => {}
             Some(max) => breaches.push(breach(
                 "perf",
                 "perf",
-                format!("{file} max {max} >= {SPINE_DEADLINE_S}"),
+                format!("{file} max {max} >= {bound}"),
             )),
             None => breaches.push(breach("perf", "perf", format!("{file} unreadable"))),
         }

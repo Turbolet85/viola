@@ -462,6 +462,17 @@ mod test_support {
 
     use super::{Outcome, Selection, Workspace};
 
+    /// A throwaway repo's identity, and no detached `git maintenance` left writing into it while
+    /// its `TempDir` is removed.
+    const GIT_CONFIG: [&str; 6] = [
+        "-c",
+        "user.name=t",
+        "-c",
+        "user.email=t@example.com",
+        "-c",
+        "maintenance.auto=false",
+    ];
+
     pub(super) type Calls = Vec<Vec<String>>;
 
     /// The names `cargo llvm-cov` hands its tests. A nested cargo that inherits them builds the
@@ -518,7 +529,7 @@ mod test_support {
             let ok = Command::new("git")
                 .arg("-C")
                 .arg(dir)
-                .args(["-c", "user.name=t", "-c", "user.email=t@example.com"])
+                .args(GIT_CONFIG)
                 .args(args)
                 .output()
                 .expect("git")
@@ -568,7 +579,7 @@ mod test_support {
         let ok = Command::new("git")
             .arg("-C")
             .arg(root)
-            .args(["-c", "user.name=t", "-c", "user.email=t@example.com"])
+            .args(GIT_CONFIG)
             .args(["add", "-A"])
             .status()
             .expect("git add")
@@ -576,7 +587,7 @@ mod test_support {
             && Command::new("git")
                 .arg("-C")
                 .arg(root)
-                .args(["-c", "user.name=t", "-c", "user.email=t@example.com"])
+                .args(GIT_CONFIG)
                 .args(["commit", "-q", "-m", "mini"])
                 .status()
                 .expect("git commit")

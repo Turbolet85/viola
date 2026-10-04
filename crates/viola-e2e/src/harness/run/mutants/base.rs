@@ -256,7 +256,14 @@ mod tests {
                 let ok = Command::new("git")
                     .arg("-C")
                     .arg(dir)
-                    .args(["-c", "user.name=t", "-c", "user.email=t@example.com"])
+                    .args([
+                        "-c",
+                        "user.name=t",
+                        "-c",
+                        "user.email=t@example.com",
+                        "-c",
+                        "maintenance.auto=false",
+                    ])
                     .args(&args)
                     .output()
                     .expect("git")

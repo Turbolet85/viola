@@ -40,3 +40,10 @@ path = "fuzz_targets/hook_stdin.rs"
 test = false
 doc = false
 bench = false
+
+[[bin]]
+name = "vt100_feed"
+path = "fuzz_targets/vt100_feed.rs"
+test = false
+doc = false
+bench = false

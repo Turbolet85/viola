@@ -35,12 +35,12 @@ pub(crate) struct HookArgs {
     capture: Option<PathBuf>,
 }
 
-/// The hook's whole budget from its start. Provisional: below test-plan §10's 1.0 s spine gate
-/// until the product constant is named.
-const SPINE_DEADLINE: Duration = Duration::from_millis(750);
+/// The hook's whole budget from its start, kept below `viola_core::SPINE_DEADLINE`, the bound the
+/// perf gate holds every spine hook process to.
+const CONNECT_DEADLINE: Duration = Duration::from_millis(750);
 
 fn spine_deadline(started: Instant) -> Instant {
-    started + SPINE_DEADLINE
+    started + CONNECT_DEADLINE
 }
 
 /// The wrapped session this process belongs to.
@@ -285,6 +285,11 @@ mod tests {
             spine_deadline(start).saturating_duration_since(start),
             Duration::from_millis(750)
         );
+    }
+
+    #[test]
+    fn connect_deadline_is_below_the_spine_deadline() {
+        assert!(CONNECT_DEADLINE < viola_core::SPINE_DEADLINE);
     }
 
     #[test]

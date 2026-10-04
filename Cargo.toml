@@ -208,6 +208,9 @@ tracing = { version = "=0.1.44", default-features = false, features = ["attribut
 tracing-subscriber = { version = "=0.3.23", default-features = false, features = ["fmt", "json", "registry", "std"] }
 # No `toggle`: redaction can never be switched off at runtime (deny.toml bans it).
 veil = "=0.3.0"
+# The screen model (viola-agent-claude only). 0.16, never 0.15: 0.15 wrote unhandled escapes to
+# STDERR, which is `run`'s terminal.
+vt100 = "=0.16.2"
 windows-sys = { version = "=0.61.2", features = ["Win32_Foundation", "Win32_Security", "Win32_Security_Authorization", "Win32_Storage_FileSystem", "Win32_System_Console", "Win32_System_Diagnostics_Debug", "Win32_System_LibraryLoader", "Win32_System_Pipes", "Win32_System_Registry", "Win32_System_Threading"] }
 
 [workspace.lints.rust]

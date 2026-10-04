@@ -158,5 +158,45 @@
 "lines": 866,
 "bytes": 832163
 }
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-10-04T04:27:15Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-04T04-08-06-wrap",
+"--marker",
+"2026-10-04-windows-boundary-mutation-workflow"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"appended 1 record(s) · friction-log.ndjson lines 866→867 · bytes 832163→833176 · term lf",
+"ts 2026-10-04T04:27:08Z · clock 2026-10-04T04:27:15Z · bound 2026-10-04T04:24:02Z (line 866)",
+"ids 2026-10-04T04:27:08Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 866,
+"bytes": 832163,
+"terminator": "LF",
+"bound": "2026-10-04T04:24:02Z"
+},
+"after": {
+"lines": 867,
+"bytes": 833176
+}
 }
 ]

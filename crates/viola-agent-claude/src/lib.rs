@@ -3,6 +3,7 @@
 
 pub mod hook;
 pub mod ledger;
+pub mod screen;
 
 use std::ffi::{OsStr, OsString};
 use std::path::{Path, PathBuf};

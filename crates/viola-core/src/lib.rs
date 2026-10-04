@@ -1,3 +1,5 @@
+use std::time::{Duration, Instant};
+
 use nutype::nutype;
 
 pub mod obs;
@@ -7,6 +9,25 @@ pub const VERSION: &str = env!("CARGO_PKG_VERSION");
 
 /// The byte cap on every external reader (`Read::take`) and on a channel frame.
 pub const MAX_FRAME: u64 = 16 * 1024 * 1024;
+
+/// The bound every spine hook process meets, read by the perf gate (test-plan §10 Spine deadline).
+pub const SPINE_DEADLINE: Duration = Duration::from_secs(1);
+
+/// The injected time source: sync code takes its instants from here, so a test drives time
+/// without the wall clock (test-plan §8 Time).
+pub trait Clock: Send + Sync {
+    fn now(&self) -> Instant;
+}
+
+/// The production clock.
+#[derive(Debug, Clone, Copy, Default)]
+pub struct SystemClock;
+
+impl Clock for SystemClock {
+    fn now(&self) -> Instant {
+        Instant::now()
+    }
+}
 
 /// An instance name: ASCII `[a-z0-9-]`, 1–32 characters, starting with a letter
 /// (architecture §Conventions). The only way to build one is `ViolaName::try_new`,
@@ -166,6 +187,18 @@ mod tests {
     #[test]
     fn max_frame_is_sixteen_mib() {
         assert_eq!(MAX_FRAME, 16_777_216);
+    }
+
+    #[test]
+    fn spine_deadline_is_one_second() {
+        assert_eq!(SPINE_DEADLINE.as_millis(), 1000);
+    }
+
+    #[test]
+    fn system_clock_readings_never_go_backwards() {
+        let first = SystemClock.now();
+        let second = SystemClock.now();
+        assert!(second >= first);
     }
 
     #[test]

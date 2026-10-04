@@ -2,6 +2,7 @@
 //! R8 strip, where the child's program is looked up, and the version gate.
 
 mod env;
+pub(crate) mod gate;
 pub(crate) mod version_gate;
 
 use std::ffi::{OsStr, OsString};

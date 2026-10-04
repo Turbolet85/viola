@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-04T04:30:17Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-10-04-readiness-gate-and-timing-constants",
+"--expect-prefix",
+"Readiness gate and timing constants",
+"--record-file",
+".andromeda/runs/2026-10-04T04-28-47-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-10-04T04-28-47-phase"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:72 - [2026-10-04-readiness-gate-and-timing-constants]",
+"record master-route.md:40 - appended under `## viola-0.1.0`",
+"promoted 2026-10-04-readiness-gate-and-timing-constants - working-route:72 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/working-route.md",
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+}
+]
