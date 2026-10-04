@@ -257,20 +257,34 @@ fn path5_harness_turns_never_take_the_wheel(stamped_home: StampedHome) {
     wrapper.stop();
 }
 
-/// a11y-plan §4 P4 tui case (3): focus reports, an SGR mouse report and a host resize reach the
-/// child unchanged and never take the wheel. The size receipt is awaited before any key (the H2
-/// rule). On `windows-2025` this reading is CARRY §9's measurement of the inbox ConPTY outer
-/// terminal.
+/// a11y-plan §4 P4 tui case (3): focus reports, an SGR mouse report and a host resize never take
+/// the wheel, each step asked on its own. The mouse report reaches the child unchanged on every OS;
+/// the focus reports do on Unix, and on `windows-2025` the inbox ConPTY outer terminal swallows
+/// them (CARRY §9, measured by CI run ci#37226294797: the child's keys held the mouse report alone).
+/// A second mouse report is the read barrier after the focus reports: once its keys arrive, the
+/// wrapper has read whatever the terminal delivered before it. The size receipt is awaited before
+/// any key after the resize (the H2 rule).
 #[rstest]
 fn tui_focus_mouse_and_resize_never_take_the_wheel(stamped_home: StampedHome) {
+    const MOUSE: &[u8] = b"\x1b[<0;10;5M";
     let mut wrapper = boot(stamped_home, &[]);
     let home = wrapper.home().to_path_buf();
     let dir = wrapper.instance_dir();
     let receipt = wrapper.receipt();
-    let reports: &[u8] = b"\x1b[I\x1b[O\x1b[<0;10;5M";
+
+    wrapper.send(MOUSE);
+    wait_keys(&receipt, &dir, MOUSE.len(), "the mouse report");
+    assert_driver_holds(&home, &dir, "a mouse report");
+
     wrapper.send(b"\x1b[I");
     wrapper.send(b"\x1b[O");
-    wrapper.send(b"\x1b[<0;10;5M");
+    wrapper.send(MOUSE);
+    let focus: &[u8] = if cfg!(windows) { b"" } else { b"\x1b[I\x1b[O" };
+    let expected = [MOUSE, focus, MOUSE].concat();
+    let lines = wait_keys(&receipt, &dir, expected.len(), "the focus reports' barrier");
+    assert_eq!(keys(&lines), hex_of(&expected), "what reached the child");
+    assert_driver_holds(&home, &dir, "focus reports");
+
     wrapper.resize(Size {
         cols: 100,
         rows: 30,
@@ -279,25 +293,29 @@ fn tui_focus_mouse_and_resize_never_take_the_wheel(stamped_home: StampedHome) {
     fake::wait_for(&receipt, "the resized size receipt", |l| {
         of_kind(l, "size").contains(&&target)
     });
-    let lines = wait_keys(&receipt, &dir, reports.len(), "the focus and mouse bytes");
-    assert_eq!(keys(&lines), hex_of(reports), "reached the child unchanged");
-    // The reports sit in the child's prompt line, so a `send` could never be read back: an
-    // `answer` to no pending dialog asks the wheel instead, typing nothing (`human-typing` is
-    // checked ahead of `unknown-dialog`).
+    assert_driver_holds(&home, &dir, "a host resize");
+    assert_eq!(snapshot_data(&dir).expect("snapshot")["wheel"], "driver");
+    wrapper.stop();
+}
+
+/// The driver still holds the wheel after `step`. The reports sit in the child's prompt line, so a
+/// `send` could never be read back: an `answer` to no pending dialog asks the wheel instead, typing
+/// nothing (`human-typing` is checked ahead of `unknown-dialog`).
+fn assert_driver_holds(home: &Path, dir: &Path, step: &str) {
     let probe = viola(
-        &home,
+        home,
         &["answer", "builder", "999999", "--json"],
         "{\"behavior\": \"allow\"}",
         None,
     );
-    assert_eq!(probe.code, Some(13), "stdout: {}", probe.stdout);
     assert_eq!(
         probe.stdout,
-        "{\"v\":1,\"refusal\":\"not-delivered\",\"detail\":\"unknown-dialog\"}\n"
+        "{\"v\":1,\"refusal\":\"not-delivered\",\"detail\":\"unknown-dialog\"}\n",
+        "{step} took the wheel; wheel records {:?}",
+        wheel_records(dir)
     );
-    assert_eq!(wheel_records(&dir), [start_record()]);
-    assert_eq!(snapshot_data(&dir).expect("snapshot")["wheel"], "driver");
-    wrapper.stop();
+    assert_eq!(probe.code, Some(13));
+    assert_eq!(wheel_records(dir), [start_record()], "after {step}");
 }
 
 /// CARRY §8: `^Z` reaches the child as a key, and the key after it still does (on Windows a read

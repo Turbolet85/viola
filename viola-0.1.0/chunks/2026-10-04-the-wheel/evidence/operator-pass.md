@@ -31,3 +31,14 @@ conclusion read (leg=operator) as usual").
   Ctrl-C every 500 ms, and the wrapper's new exit-time wheel flush ran after the terminal left raw mode, so a
   repeated Ctrl-C was a SIGINT killing the wrapper during its profile write. The flush now runs before the terminal
   is restored (`src/cmd/run.rs`). Open for the wrap with this basis.
+- Entry 19: pushed `5c6101c` (the first fix commit).
+- Entry 20, CI run ci#37226294797 on `5c6101c`: `verdict: red`, 14/15 jobs green; macOS and Ubuntu green.
+  - CARRY §8 CLOSED: `tui_ctrl_z_reaches_the_child_and_later_keys_still_do` passed on `windows-2025`: `^Z` reaches
+    the child through viola's console reader, and the key after it does too.
+  - CARRY §9 MEASURED: `tui_focus_mouse_and_resize_never_take_the_wheel` timed out on `windows-2025` with the watch
+    report `keys [1b 5b 3c 30 3b 31 30 3b 35 4d] wheel records 2 receipt lines 16`. The child received the SGR mouse
+    report alone, so the inbox ConPTY outer terminal swallows `ESC[I` / `ESC[O`. And a `wheel` record beyond the
+    start one was appended, so one of the three inputs took the wheel on Windows; the reading cannot say which.
+  - Fold (test-side, a measurement): the case asks the wheel after each step — a mouse report alone; the focus
+    reports followed by a second mouse report as the read barrier; the resize — and expects the focus reports
+    swallowed on Windows. Pre-push green before the push.
