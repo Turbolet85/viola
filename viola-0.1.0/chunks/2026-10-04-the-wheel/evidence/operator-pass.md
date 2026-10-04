@@ -42,3 +42,16 @@ conclusion read (leg=operator) as usual").
   - Fold (test-side, a measurement): the case asks the wheel after each step — a mouse report alone; the focus
     reports followed by a second mouse report as the read barrier; the resize — and expects the focus reports
     swallowed on Windows. Pre-push green before the push.
+- Entry 19: pushed `126e921` (the second fix commit).
+- Entry 20, CI run ci#37226763168 on `126e921` (re-read with `ci.py conclusion --sha 126e921` after the host's
+  19:09Z reboot ended the background wait): `verdict: red`, 14/15 jobs green.
+  - `test (windows-2025)`: `tui_focus_mouse_and_resize_never_take_the_wheel` — `a mouse report took the wheel;
+    wheel records [start, {human, human-input}]`: the first step, an SGR mouse report alone, whose bytes reach the
+    child unchanged, moved the wheel. Two mechanisms fit and are not yet told apart: (a) the inbox ConPTY hands the
+    report to the wrapper's `ReadConsoleW` in pieces, a lone `ESC` first, which the classifier's lone-trailing-`ESC`
+    rule counts as the Esc key; (b) the sideloaded ConPTY's win32-input-mode request (`ESC[?9001h`, through the
+    wrapper's stdout) makes the outer console send each typed character as a `CSI … _` key sequence.
+  - Fold (a measurement, test-side): `crates/viola-pty/src/lib.rs` gains two real-PTY cases that report each
+    `host_stdin()` read of an SGR mouse report written into the platform PTY, plain and after `ESC[?9001h`, each
+    asserting one whole read; on `windows-2025` the reading (or the failure's child report) tells (a) from (b).
+    Pre-push green before the push.

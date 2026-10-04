@@ -651,6 +651,9 @@ mod tests {
                 std::thread::park();
             }
         }
+        if let Ok(mode @ ("reads" | "reads-win32")) = std::env::var(CHILD_MODE).as_deref() {
+            report_reads(&path, mode == "reads-win32");
+        }
         let mut stdin = io::stdin();
         let mut byte = [0u8; 1];
         stdin.read_exact(&mut byte).expect("first byte");
@@ -672,6 +675,41 @@ mod tests {
             &format!("restored={}", raw_before && line_input_on() == Some(true)),
         );
         std::process::exit(3);
+    }
+
+    /// An SGR mouse report, as a terminal sends it when mouse reporting is on.
+    const MOUSE: &[u8] = b"\x1b[<0;10;5M";
+
+    fn hex(bytes: &[u8]) -> String {
+        bytes
+            .iter()
+            .map(|b| format!("{b:02x}"))
+            .collect::<Vec<_>>()
+            .join(" ")
+    }
+
+    /// The `reads` child: with `win32`, first asks its terminal for win32-input-mode (the request
+    /// the sideloaded ConPTY makes of the console it runs in); then reports each read of
+    /// `host_stdin()` as hex, one line per read, until a mouse report's worth arrived, and exits 0.
+    fn report_reads(path: &std::path::Path, win32: bool) -> ! {
+        if win32 {
+            let mut out = io::stdout();
+            let _ = out.write_all(b"\x1b[?9001h").and_then(|()| out.flush());
+        }
+        report(path, "reading");
+        let mut input = host_stdin();
+        let mut buf = [0u8; 256];
+        let mut total = 0;
+        while total < MOUSE.len() {
+            match input.read(&mut buf) {
+                Ok(0) | Err(_) => break,
+                Ok(n) => {
+                    total += n;
+                    report(path, &format!("read {}", hex(&buf[..n])));
+                }
+            }
+        }
+        std::process::exit(0);
     }
 
     /// Reports every size change the child's terminal shows, read with no key: a lost key after a
@@ -900,6 +938,42 @@ mod tests {
             assert!(Instant::now() < deadline, "child never exited");
             std::thread::yield_now();
         }
+    }
+
+    /// The reads a raw child makes of a mouse report written into the platform PTY: the measurement
+    /// of how the terminal hands such a report to the wrapper (CARRY §9 on `windows-2025`).
+    fn mouse_report_reads(mode: &str) -> (Vec<String>, String) {
+        let mut child = spawn_child_entry(mode, Size::DEFAULT);
+        wait_line(&mut child, "reading");
+        child.writer.write_all(MOUSE).expect("mouse report");
+        child.writer.flush().expect("flush");
+        let deadline = Instant::now() + CHILD_WITHIN;
+        while matches!(child.pty.try_wait(), Ok(None)) {
+            if Instant::now() >= deadline {
+                child.report_dsr();
+                panic!("the child never read the report\n{}", child.reports());
+            }
+            std::thread::yield_now();
+        }
+        let got = std::fs::read_to_string(&child.report).unwrap_or_default();
+        let reads = got
+            .lines()
+            .filter(|l| l.starts_with("read "))
+            .map(str::to_owned)
+            .collect();
+        (reads, child.reports())
+    }
+
+    #[test]
+    fn console_read_of_a_mouse_report_is_one_whole_read() {
+        let (reads, reports) = mouse_report_reads("reads");
+        assert_eq!(reads, [format!("read {}", hex(MOUSE))], "{reports}");
+    }
+
+    #[test]
+    fn console_read_of_a_mouse_report_under_win32_input_mode_is_one_whole_read() {
+        let (reads, reports) = mouse_report_reads("reads-win32");
+        assert_eq!(reads, [format!("read {}", hex(MOUSE))], "{reports}");
     }
 
     const RESIZED: Size = Size {
