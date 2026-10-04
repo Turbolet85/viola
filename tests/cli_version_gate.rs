@@ -115,7 +115,11 @@ fn run_without_a_verified_stamp_degrades(
 /// path. The stand-in is a directory where the file should be: no stamps byte is hand-written.
 #[rstest]
 fn run_with_unreadable_stamps_logs_one_rejection(#[from(home)] home: TestHome) {
-    std::fs::create_dir_all(home.path().join("ledger").join("stamps.json")).expect("dir");
+    // viola's own creation first, so the home carries the DACL viola gives it (a home outside the
+    // Windows profile is protected at creation) and only the stand-in is wrong.
+    let ledger = home.path().join("ledger");
+    viola_state::fs::create_private_dir(&ledger).expect("ledger");
+    std::fs::create_dir(ledger.join("stamps.json")).expect("dir");
     let (snapshot, lines) = run_once(home);
     assert_eq!(snapshot["cli_verified"], false);
     let rejected: Vec<&Value> = lines

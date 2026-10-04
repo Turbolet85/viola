@@ -80,3 +80,12 @@
   2026-10-04-dialog-answers-by-dialog-id, founder live 2026-10-04 ~16:40Z); `:111` keeps the rest of its Windows set
   (the per-entry-point checks of home, instances, bin, plugin, ui and the trusted files)". Expected amendment:
   security-plan §Authentication & Authorization `~/.viola/` access control — the creation half landed.
+
+## CI read 3 — ci#37217684692 on `2484b77` (the DACL fix) — RED, one test
+- `verdict: red · checks 15/15 · first-fail +283 s test (windows-2025)`; the Windows job ran 1406, 1405 passed: the
+  measurement test, the new DACL witness, Path 4 and every stamped-home test green.
+- The one red: `cli_version_gate run_with_unreadable_stamps_logs_one_rejection` read `strict-modes-failed`, expected
+  `unreadable`. Its stand-in (`create_dir_all(home/ledger/stamps.json)`) created the HOME itself, outside viola, so on
+  the runner the home kept the workspace's inherited Users write ACEs and was refused before the read — the specified
+  outcome for a pre-existing unprotected home. Fix (test only): `viola_state::fs::create_private_dir` makes `ledger/`
+  first, then the directory is planted in it. Local: `cli_version_gate` 9/9, pre-push green, hygiene and scope clean.
