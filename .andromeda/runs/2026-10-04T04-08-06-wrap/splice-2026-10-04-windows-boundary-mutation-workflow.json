@@ -1,0 +1,197 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-10-04T04:20:09Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-04T04-08-06-wrap/architecture-entry.md",
+"--lines",
+"19",
+"--run-dir",
+".andromeda/runs/2026-10-04T04-08-06-wrap",
+"--marker",
+"2026-10-04-windows-boundary-mutation-workflow"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+19 at line 427 · lines 426→445 · bytes 70152→72568 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-04T04-08-06-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 426,
+"bytes": 70152,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 445,
+"bytes": 72568
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-10-04T04:20:09Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-04T04-08-06-wrap/test-plan-entry-1.md",
+"--lines",
+"11",
+"--run-dir",
+".andromeda/runs/2026-10-04T04-08-06-wrap",
+"--marker",
+"2026-10-04-windows-boundary-mutation-workflow"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+11 at line 422 · lines 421→432 · bytes 62971→64721 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-04T04-08-06-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 421,
+"bytes": 62971,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 432,
+"bytes": 64721
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-10-04T04:20:09Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-04T04-08-06-wrap/test-plan-entry-2.md",
+"--lines",
+"12",
+"--run-dir",
+".andromeda/runs/2026-10-04T04-08-06-wrap",
+"--marker",
+"2026-10-04-windows-boundary-mutation-workflow"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+12 at line 433 · lines 432→444 · bytes 64721→66215 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-04T04-08-06-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 432,
+"bytes": 64721,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 444,
+"bytes": 66215
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-10-04T04:20:09Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-04T04-08-06-wrap/security-plan-entry.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-10-04T04-08-06-wrap",
+"--marker",
+"2026-10-04-windows-boundary-mutation-workflow"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+10 at line 292 · lines 291→301 · bytes 43655→45041 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-04T04-08-06-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 291,
+"bytes": 43655,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 301,
+"bytes": 45041
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-10-04T04:20:10Z",
+"argv": [
+"append",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-04T04-08-06-wrap/obs-plan-entry.md",
+"--lines",
+"8",
+"--run-dir",
+".andromeda/runs/2026-10-04T04-08-06-wrap",
+"--marker",
+"2026-10-04-windows-boundary-mutation-workflow"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"append obs-plan-amendments.md:+8 at line 268 · lines 267→275 · bytes 33758→34562 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-04T04-08-06-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 267,
+"bytes": 33758,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 275,
+"bytes": 34562
+}
+}
+]

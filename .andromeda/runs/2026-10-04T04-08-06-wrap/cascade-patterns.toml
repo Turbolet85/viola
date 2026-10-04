@@ -1,0 +1,29 @@
+[[pattern]]
+id = "two-workflows"
+fixed = 'two workflows'
+
+[[pattern]]
+id = "neither-wf"
+regex = 'Neither (workflow|`ci\.yml`)'
+
+[[pattern]]
+id = "no-mut-job"
+regex = '(runs|run) no mutation job|no CI (mutation )?job|none in CI|no CI job runs mutation'
+ignore_case = true
+
+[[pattern]]
+id = "ci-nightly-pair"
+regex = 'ci\.yml`?, `?nightly\.yml`?\)'
+
+[[pattern]]
+id = "two-low"
+regex = '\(2 low'
+
+[[pattern]]
+id = "term-immediate"
+regex = 'terminate = .immediate'
+
+[[pattern]]
+id = "timeout-misgrade"
+regex = 'waits for the running tests|graded? Timeout'
+ignore_case = true

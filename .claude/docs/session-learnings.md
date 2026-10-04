@@ -8,6 +8,13 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-10-04 — Reading a `windows-mutants` dispatch while it runs
+`gh run view --job <id> --log` refuses until EVERY job of the run has finished ("run … is still in progress; logs will be available when it is complete"), so a finished job's log reads through `gh api repos/<owner>/<repo>/actions/jobs/<id>/logs --allow-escape-sequences` (without the flag it refuses the ANSI output), with the escapes stripped before grepping. Each job's harness document is its `{"v":1,"cmd":"run",…}` line, and the outcome lines carry every mutant's grade — read a MISSED line's cfg from source before calling it a survivor.
+
+A dispatched run joins its sha's checks: `ci.py conclusion --sha <sha>` after the dispatch reads the dispatch's six `mutants (…)` checks too (15 → 21 for this chunk's pre-CI commit), so the push's CI verdict must be read before the dispatch, and the dispatch's own verdict row with `--name mutants`.
+
+---
+
 ## 2026-10-04 — A push touching a workflow file needs the `workflow` OAuth scope
 GitHub refuses a push whose commits change `.github/workflows/*` when the pushing OAuth token lacks the `workflow` scope (`refusing to allow an OAuth App to create or update workflow … without workflow scope`), even for a comment-only edit, and nothing lands. The operator grants it with `gh auth refresh -h github.com -s workflow` (interactive, a browser step) and the push is re-fired unchanged; never route around it through another remote or credential. Check `gh auth status` lists `workflow` before an operator pass whose commit touches a workflow.
 

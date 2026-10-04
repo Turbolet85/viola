@@ -419,3 +419,26 @@
 - §10: the boundary tier scores a whole member with `run --mutants --package <member>`. A mutant the host cannot compile or reach is "not measured here; owed to {route entry}" by coordinate, never "equivalent", and `missed == 0` reads over the measurable set. On the Linux dev host every mutation run takes a NOCOW btrfs `TMPDIR` (the `/tmp` quota and the reflink exec-bit loss, as measured at the chunk's `evidence/m3.md`).
 **Why:** M3, a tested harness arm rather than a recipe (overseer, founder-delegated, at plan review). The not-measured vocabulary is the overseer's ruling. The `TMPDIR` rule is the overseer's direction.
 **Ref:** .andromeda/runs/2026-10-04T01-02-04-wrap/
+
+## 2026-10-04-windows-boundary-mutation-workflow — the mutants profile waits for running tests
+**Section:** §3 → Bootstrap phases (derive for route / setup-project) · §3 → Test data bootstrap (Cleanup)
+**Change:**
+- `[profile.mutants]` was `fail-fast = { max-fail = 1, terminate = "immediate" }`; now `{ max-fail = 1, terminate = "wait" }`. `slow-timeout` (5 s × 2; viola-e2e 15 s × 2) is unchanged.
+- New reason: the first failure stops scheduling and running tests finish, so their temp dirs and session guards drop. The slow-timeout kill bounds any hang below cargo-mutants' 20 s floor, so a caught mutant ends at the kill line and is never graded Timeout.
+- The retired reason was that a plain `fail-fast = true` let a caught mutant hang into a Timeout grade; it now reads as history, bounded by the slow-timeout kill.
+- Measured: 0 Timeout grades over 711 Linux viola-e2e and 508 Windows mutants; 170 vs 0 leftover temp dirs two-sided; after a full viola-e2e run, 38 `.tmp*` and 0 nested copies against 25 275 and 62. The 38 are 17 kill-path leftovers by design and 21 half-removed fixture git repos (a `terminate`-independent class). A full Linux viola-e2e run takes 78 m against 23 m, counts identical.
+- Cleanup: the killed-test example was "nextest `terminate = \"immediate\"`"; it now names the slow-timeout kill or a mutant-made kill, with `wait` letting every other running test finish.
+**Why:** a REVERSAL of the 2026-09-24 chunk-level locked choice, ratified by the overseer as operator (founder-delegated) on 2026-10-04 on the measured basis. It is the leak's mechanism fix, not a cleanup step. The 21-repo remainder is an `[inferred]` hypothesis owned by the next chunk.
+**Ref:** .andromeda/runs/2026-10-04T04-08-06-wrap/
+
+## 2026-10-04-windows-boundary-mutation-workflow — the Windows leg of the boundary audit
+**Section:** §9 CI Integration (Platform · Mutation row · the workflow / tool-pin paragraph · the concurrency note · Test report format `mutants.out`) · §10 Quality Gates (Mutation gate)
+**Change:**
+- Platform: `windows-mutants.yml` (dispatch-only) joins `ci.yml` and `nightly.yml`.
+- Mutation row: was "none in CI"; now no push/PR job or gate. The audit's Windows leg is `windows-mutants.yml` (`workflow_dispatch` only, no inputs, `mutants (<package>)` per package on `windows-2025`, `fail-fast: false`, 120 min) running `scripts/agent-run.ps1 run --mutants --package <member> --file …`, report-only, no cache or upload.
+- Workflow paragraph: three workflows. The new one's `tool: cargo-nextest@0.9.146,cargo-mutants@27.1.0` is asserted equal to the `test` job's line by `tests/contract_windows_mutation_scope.rs`.
+- Concurrency note: three workflows, zizmor pedantic `concurrency-limits` 2 low → 3 low.
+- `mutants.out` bullet: "no CI job runs mutation" → no push/PR job; the dispatch workflow uploads nothing.
+- §10: the audit measures `cfg(windows)` code by dispatching the workflow, verdict `package`, never a gate. Its jobs read red until the audit classifies compiled-out `#[cfg(unix)]` twins (19 of 25 misses in run 37174673472; 0 timeouts over 508).
+**Why:** founder ruling C2 (2026-10-04); the 2026-09-28 no-gate ruling stands.
+**Ref:** .andromeda/runs/2026-10-04T04-08-06-wrap/

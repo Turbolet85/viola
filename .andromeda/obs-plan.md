@@ -990,7 +990,7 @@ _[Standard: included. The Compliance Trace Fields subsection is omitted: securit
 
 _[ALL tiers]_
 
-**Platform:** GitHub Actions; the single push/PR workflow `.github/workflows/ci.yml` (beside the scheduled `nightly.yml`, which runs the weekly `cargo deny check advisories` and a `fuzz` job: 120 s per target on the `fuzz/rust-toolchain.toml` nightly, uploading `fuzz/artifacts/` on `failure()` only, see §8 item 6), native matrix `windows-2025` / `macos-latest` / `ubuntu-latest` (arch CI/CD Platform). No OTLP collector job.
+**Platform:** GitHub Actions; the single push/PR workflow `.github/workflows/ci.yml` (beside the scheduled `nightly.yml`, which runs the weekly `cargo deny check advisories` and a `fuzz` job: 120 s per target on the `fuzz/rust-toolchain.toml` nightly, uploading `fuzz/artifacts/` on `failure()` only, see §8 item 6, and the dispatch-only `windows-mutants.yml`, the boundary audit's Windows mutation leg, which uploads nothing), native matrix `windows-2025` / `macos-latest` / `ubuntu-latest` (arch CI/CD Platform). No OTLP collector job.
 
 **Telemetry artifact handling:**
 
@@ -1010,7 +1010,7 @@ _[ALL tiers]_
 | Unit tests | In-memory `Vec<u8>` writer tests parse emitted lines with serde_json against `schemas/diag-line.v1.json` (tests-owned bodies) | nextest JUnit |
 | Integration tests | `diagnostics/*.ndjson` from fake-agent runs. Their viola homes must live under `target/e2e-home/` (the directory layout is tests-owned), so G2, G4, the secret scan and the `diag-<os>` upload cover them. A `hook` panic exits 0, so a home outside that root would hide it. perf: hyperfine JSON with `max` assertions | uploaded artifacts + G2 / G4 + budget assertion exit codes |
 | E2E tests | `agent-run logs` / `status`; Playwright DOM-attribute reads; zero-`event:"panic"` gate G2 and schema gate G4 (below) | uploaded artifacts + gate exit codes |
-| Mutation | obs code (`obs_event!` call sites, `MillisUtc`, panic hook, TraceLayer closures) under cargo-mutants like product code | no CI job since 2026-09-28: `agent-run run --mutants` at the epoch boundary through `/andromeda-code-audit`, and on demand; a missed or timed-out obs-code mutant, or unviable outnumbering caught, is red at that run (test-plan §10 Mutation gate) |
+| Mutation | obs code (`obs_event!` call sites, `MillisUtc`, panic hook, TraceLayer closures) under cargo-mutants like product code | no push or pull-request job since 2026-09-28: `agent-run run --mutants` at the epoch boundary through `/andromeda-code-audit`, and on demand. The audit's Windows form is the dispatch-only, report-only `windows-mutants.yml` (`run --mutants --package <member> --file …` on `windows-2025`), which scored the `cfg(windows)` obs code in `src/panic_frames.rs` (9 of 9 caught, run 37174673472). A missed or timed-out obs-code mutant, or unviable outnumbering caught, is red at that run (test-plan §10 Mutation gate) |
 
 **Gate commands.** Each gate is its own `run:` step with `shell: bash` on all three OSes, and is copied verbatim into `ci.yml`:
 - **G1, bare `#[instrument]`.**

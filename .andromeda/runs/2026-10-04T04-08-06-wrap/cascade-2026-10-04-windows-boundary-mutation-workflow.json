@@ -1,0 +1,129 @@
+[
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "1550f3bc",
+"ts": "2026-10-04T04:17:11Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-04T04-08-06-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-04T04-08-06-wrap",
+"--marker",
+"2026-10-04-windows-boundary-mutation-workflow"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 3,
+"stdout": [
+"baseline 7aca5587 (pre-CI parent — the oldest of 1 pre-CI commit(s), 60c569b4)",
+"immediate-kill · control UNFIRED over the seven masters at 7aca5587"
+],
+"stderr": "control: immediate-kill never fired over the seven masters' pre-pass text (7aca5587) — a sweep runs a positive control or refuses; drop the pattern or control it by hand",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "1550f3bc",
+"ts": "2026-10-04T04:17:23Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-04T04-08-06-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-04T04-08-06-wrap",
+"--marker",
+"2026-10-04-windows-boundary-mutation-workflow"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"baseline 7aca5587 (pre-CI parent — the oldest of 1 pre-CI commit(s), 60c569b4)",
+"two-workflows · 0 rows (control fired) — a statement about this pattern, not the masters · control registries/contracts…",
+"neither-wf · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:1154 (pros…",
+"no-mut-job · new 1 · standing 3 · leaf 1 · curation 0 · base 0 · control architecture.md:379 (prose)",
+"ci-nightly-pair · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:1153 …",
+"two-low · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:344 (pros…",
+"term-immediate · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control registries/contracts/test-plan/bootstrap-p…",
+"timeout-misgrade · new 1 · standing 1 · leaf 0 · curation 1 · base 0 · control registries/contracts/test-plan/bootstrap…",
+".andromeda/architecture.md:379 no-mut-job new …yml` and `nightly.yml` run no mutation job, and the dispatch-only `windo…",
+".andromeda/security-plan.md:361 no-mut-job standing edited …e at all. `ci.yml` runs no mutation job. `run --mutants` (l…",
+".andromeda/registries/contracts/architecture/ci-cd-approach.md:5 no-mut-job standing edited @c2268/3483 …ml` runs no mu…",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:152 no-mut-job standing … job). No CI job gates `…",
+".claude/docs/workflow.md:10 no-mut-job leaf …doctest,playwright`. CI runs no mutation job (since 2026-09-28): mutation …",
+".andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md:14 term-immediate standing edited",
+".andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md:12 timeout-misgrade standing edited",
+".andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md:17 timeout-misgrade new …g…",
+".claude/rules/testing.md:57 timeout-misgrade curation … to the bound and is graded Timeout instead of caught, depending…",
+"two-workflows · 0 rows (control fired) — a statement about this pattern, not the masters · control registries/contracts…",
+"neither-wf · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:1154 (pros…",
+"no-mut-job · new 1 · standing 3 · leaf 1 · curation 0 · base 0 · control architecture.md:379 (prose)",
+"ci-nightly-pair · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:1153 …",
+"two-low · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:344 (pros…",
+"term-immediate · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control registries/contracts/test-plan/bootstrap-p…",
+"timeout-misgrade · new 1 · standing 1 · leaf 0 · curation 1 · base 0 · control registries/contracts/test-plan/bootstrap…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "7aca5587bf93302fc7f706ab026457dbc40ea1d5",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), 60c569b4",
+"counts": {
+"two-workflows": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"neither-wf": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"no-mut-job": {
+"new": 1,
+"standing": 3,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"ci-nightly-pair": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"two-low": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"term-immediate": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"timeout-misgrade": {
+"new": 1,
+"standing": 1,
+"leaf": 0,
+"curation": 1,
+"base": 0
+}
+}
+}
+}
+]

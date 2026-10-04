@@ -91,8 +91,10 @@ viola/
 │       │                       #   perf)/lint (+ module orphans), msrv, fuzz-replay, 3-OS release
 │       │                       #   (release-check), supply-chain (+ fuzz
 │       │                       #   lockfile audit, npm lockfile audit); the workflow env holds the NODE_PIN_* lines
-│       └── nightly.yml         # weekly schedule + workflow_dispatch: cargo deny check advisories (root + fuzz/Cargo.lock),
-│                               #   npm-advisories (npm-audit.sh --advisories-only) + fuzz time-box
+│       ├── nightly.yml         # weekly schedule + workflow_dispatch: cargo deny check advisories (root + fuzz/Cargo.lock),
+│       │                       #   npm-advisories (npm-audit.sh --advisories-only) + fuzz time-box
+│       └── windows-mutants.yml # workflow_dispatch only (no inputs), dispatched at the boundary audit, never a gate:
+│                               #   windows-2025 run --mutants --package over each package's cfg(windows) files
 ├── refs/                       # brief and prior-art survey (arch input)
 └── .andromeda/                 # pipeline runs and cache
 ```

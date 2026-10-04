@@ -1,0 +1,14 @@
+# Curation — 2026-10-04-windows-boundary-mutation-workflow
+
+CLAUDE.md ecosystem curated:
+  Tier 1 (CLAUDE.md USER:session-learnings):  none
+  Tier 2 (.claude/rules/*):                   + verification-harness.md: "Keep a mutation run's `TMPDIR` path short … `sun_path` …" (confidence 0.8)
+  Proof: `evidence/leak.md` attempt 1 — the 24-character subdir made `.../.tmpXXXXXX/viola-test-chan-<pid>-gone.sock` 116 B; cargo-mutants `FAILED Unmutated baseline`, `harness::cleanup::tests::unconnectable_is_true_only_once_nothing_listens` panicked `local socket name length exceeds capacity of sun_path`; attempt 2 in `lw` (97 B max) passed the baseline. Signals: verified by measurement +0.4 · specific technical detail +0.2 · no other durable home +0.2 (not amended into a master, not on the route).
+  Tier 3 (.claude/docs/session-learnings.md): + "Reading a `windows-mutants` dispatch while it runs" (confidence 0.9 / 0.8, two facts, one entry)
+  Proof: `gh run view --job 111354716308 --log` printed "run 37174673472 is still in progress; logs will be available when it is complete" while viola-state's job had finished; `gh api …/jobs/<id>/logs` refused with "the response contains terminal escape sequences; pass --allow-escape-sequences"; with the flag, six job logs read (`evidence/windows-dispatch.md`). `ci.py conclusion --sha HEAD --name mutants` read `checks 6/21` after the dispatch, against ci#37174418732's `checks 15/15` before it (`evidence/operator-pass.md`). Signals: verified by measurement +0.4 · repeated (six job fetches) +0.3 · specific technical detail +0.2; the CI-read facet: measured +0.4 · specific +0.2 · no other home +0.2.
+  Correction (cap-exempt): verification-harness.md 2026-09-24 entry — its tag "[corrected 2026-09-28: no CI `mutants` job exists]" is false since `windows-mutants.yml` (jobs `mutants (<package>)`); appended "[corrected 2026-10-04: … run `--package … --file …`, never `--in-diff`, so the rule stands]".
+  Proof: `.github/workflows/windows-mutants.yml` job `mutants (${{ matrix.package }})`; run 37174673472's six `mutants (…)` jobs.
+  Filters: 1 dup (cfg(unix) twins graded MISSED on Windows — verification-harness.md 2026-09-25) · 1 task-specific (a relative redirect path climbing out of a run dir) · 0 conflict · 0 deferred · rejected at confidence: the zizmor default persona's "N suppressed" count (0.6 exactly; the count now lives in security-plan / test-plan) · routed elsewhere: the fixture git-maintenance race (route :72, [inferred] HYPOTHESIS)
+  Recurrence: `recurrence-despite-learning: host-win32.md 2026-09-28 "it also refuses a heredoc redirected to a file"` — a `cat <<EOF >> evidence/operator-pass.md` append was blocked by the PreToolUse hook (→ handoff Deferred learnings)
+  No-other-home: "Keep a mutation run's TMPDIR path short (sun_path)"
+  CLAUDE.md size: 124/200 · T1 1.8 KB, 0 over 600 B

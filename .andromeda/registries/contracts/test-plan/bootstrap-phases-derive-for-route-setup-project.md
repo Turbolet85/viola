@@ -8,8 +8,13 @@ combine them, and setup-project may add stack-specific intermediate steps.
   - Install cargo-nextest 0.9.146 via taiki-e/install-action (SHA-pinned) in CI, or `cargo install --locked` locally.
   - Add `.config/nextest.toml` with:
     - `[profile.ci]`: `junit.path = "junit.xml"`, `retries = 0`, `slow-timeout = { period = "30s", terminate-after = 4 }`, `fail-fast = false`
-    - `[profile.mutants]`: `fail-fast = { max-fail = 1, terminate = "immediate" }`, `slow-timeout = { period = "5s", terminate-after = 2 }`, plus `[[profile.mutants.overrides]] filter = 'package(viola-e2e)'` with `slow-timeout = { period = "15s", terminate-after = 2 }`.
-      - A plain `fail-fast = true` waits for the running tests, so a caught mutant that hangs sibling tests outlives cargo-mutants' own timeout and is graded Timeout (measured 2026-09-24, auto timeout 108 s).
+    - `[profile.mutants]`: `fail-fast = { max-fail = 1, terminate = "wait" }`, `slow-timeout = { period = "5s", terminate-after = 2 }`, plus `[[profile.mutants.overrides]] filter = 'package(viola-e2e)'` with `slow-timeout = { period = "15s", terminate-after = 2 }`.
+      - The first failure stops scheduling and the tests already running finish, so their temp dirs and session guards drop. The slow-timeout kill bounds any hang among them below cargo-mutants' 20 s floor, so a caught mutant ends at most at the kill line (10 s; viola-e2e 30 s) and is never graded Timeout. As measured at chunk 2026-10-04-windows-boundary-mutation-workflow:
+        - 0 Timeout grades over 711 Linux viola-e2e mutants and 508 Windows mutants;
+        - in a two-sided witness, 170 leftover temp dirs under `terminate = "immediate"` against 0 under `wait`;
+        - after a full viola-e2e run, 38 `.tmp*` dirs and 0 nested copies, against 25 275 and 62 before. Of the 38, 17 come from tests nextest's slow-timeout or a mutant-made SIGKILL killed (by design), and 21 are half-removed throwaway git repos, a `terminate`-independent class.
+      - Each caught mutant now waits for its running tests, so a full Linux viola-e2e run took 78 m against 23 m under `immediate`, with identical counts.
+      - `immediate` had replaced a plain `fail-fast = true` on 2026-09-24, when a caught mutant that hung sibling tests outlived cargo-mutants' timeout and graded Timeout (auto timeout 108 s). The slow-timeout kill above now bounds that hang.
       - cargo-mutants 27.1.0 auto-sets its timeout to about `max(20 s, 5 × baseline test time)`. As measured at chunk 2026-09-24-observability-gates, that was 20 s on a 1 s root-package baseline and 110 s on a 21 s baseline with `viola-e2e` in the diff.
       - So every in-test wait a root-package mutant can reach, and the 10 s kill, stay below 20 s. At or above it, a hang grades Timeout instead of caught, as run `35995290314` showed.
       - The `viola-e2e` override keeps a 30 s kill because the harness's own tests wait out its 20 s boot deadline by design.
