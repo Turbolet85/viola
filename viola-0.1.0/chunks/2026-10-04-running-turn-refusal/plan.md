@@ -182,12 +182,12 @@ expect = ['exit 0', 'contains "ok":true']
 note = 'the default selector: every root suite'
 
 [[gate]]
-run = '''git grep -F -e '`:82`' -- tests src | wc -l'''
+run = '''{ git grep -F -e '`:82`' -- tests src || true; } | wc -l'''
 role = 'probe'
 env = []
 new = true
 expect = ['exit 0', 'last line 0']
-note = 'step 6 / 10: no test or source comment cites :82 for First live test (the renumber CARRY)'
+note = 'step 6 / 10: no test or source comment cites :82 for First live test (the renumber CARRY). Run corrected at the wrap, 2026-10-04, on the operator word (overseer, founder-delegated): the gate shell runs pipefail and git grep exits 1 on zero matches, so `|| true` makes the green state reachable; both atoms kept'
 baseline = 'red — last line 2 (tests/cli_answer.rs:9, tests/tui_wheel.rs:267 cite :82): the CARRY subject, which steps 6 and 10 write (P5, 2026-10-04)'
 
 [[gate]]
@@ -300,8 +300,11 @@ note = 'after the push and every fix push: the harness-turn, release and driver-
   - (per architecture §Established Decisions [Human Takeover / Wheel]; §Standard Contracts, Event `data` per kind; test-plan §6 Path 5)
 - (arch) **The turn's life**, in `src/run/send.rs` / `src/run/wheel.rs` literal-oracle unit tables run by the first unit
   entry:
-  - a `prompt-submitted` of origin `harness`, `human` or the claimed driver prompt makes the next `send` refuse
-    `turn-running` with zero pastes;
+  - a `prompt-submitted` of origin `harness` or the claimed driver prompt makes the next `send` refuse
+    `turn-running` with zero pastes; one of origin `human` marks the turn too, but it also moves the wheel to the
+    human first, so the next `send` reads `human-typing` (with zero pastes) — the earlier rung — and only the
+    `release` that returns the wheel, which clears the turn, makes it pass [amended at the wrap, 2026-10-04, on the
+    operator's directive (2), as measured: `send_a_prompt_of_any_origin_starts_a_turn::case_2_human`];
   - `turn-ended`, `session-start` and `session-end` each make it pass the rung, and `activity` does not;
   - a wheel-returning `release` clears the turn;
   - `release` on a driver-held wheel, `release {budget:true}`, a `release` carrying a string `from` and `pause` each

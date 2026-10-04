@@ -641,7 +641,7 @@ Skipped as not-instrumentable per obs-scope §1: `viola-core` (it supplies `ObsE
   - `send-issued{corr:<cursor>, from, text_bytes}`;
   - hook: `hook-invoked{hook_event:"user-prompt-submit", corr:null}`;
   - `send-confirmed{corr:<cursor>, confirmed, duration_ms}` (`confirmed:false` for `unconfirmable`);
-  - or `send-refused{corr:<cursor>, refusal, detail, side:"wrapper", wheel}` with `detail` ∈ `input-not-ready|no-prompt-submitted|turn-running`;
+  - or `send-refused{corr:<cursor>, refusal, detail, side:"wrapper", wheel}` with `detail` ∈ `input-not-ready|no-prompt-submitted|turn-running`. `turn-running` has two causes under the one closed detail and no new field: a running turn, or another `send` in flight. The running turn is in-memory wrapper state — marked by a `prompt-submitted` of any origin, ended by `turn-ended` / `session-start` / `session-end` or cleared by a `release` that returns the wheel — and writes no event, span or log line of its own. Either cause's refusal is this wrapper `send-refused` with no `cursor` (`corr` the end offset at refusal, D-28) and no `send-issued`, and the client exits 13;
   - client-side validation refusal: `send-refused{corr:null, refusal:"not-delivered", detail:"control-character", side:"client"}`, with a mirror line on the wrapper side if the frame reached it;
   - `channel-response{corr:<id>, conn, result_class, refusal, detail, duration_ms}` on both sides;
   - every wrapper `send-*` line (here and in Scenarios 5 and 6) also carries `conn` (or `srv_conn`) and `rpc_id`, so `(conn, rpc_id)` on the send line equals `(conn, corr)` on this call's `channel-*` lines (D-30). The client-side `send-refused{side:"client"}` carries neither.

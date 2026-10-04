@@ -1,0 +1,30 @@
+[
+{
+"tool": "inputs",
+"v": "1.0",
+"sha8": "faa48d4e",
+"ts": "2026-10-04T22:27:30Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-04-running-turn-refusal",
+"--run-dir",
+".andromeda/runs/2026-10-04T22-27-20-wrap",
+"--marker",
+"2026-10-04-running-turn-refusal"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"inputs: absent — no external input snapshotted"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 0,
+"unparsed": 0
+}
+}
+]

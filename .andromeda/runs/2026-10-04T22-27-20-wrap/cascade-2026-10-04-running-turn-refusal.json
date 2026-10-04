@@ -1,0 +1,155 @@
+[
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "9b5fafc7",
+"ts": "2026-10-04T22:34:12Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-04T22-27-20-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-04T22-27-20-wrap",
+"--marker",
+"2026-10-04-running-turn-refusal"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 2,
+"stdout": [],
+"stderr": "[[pattern]] #6 (turn-running-cause): `id` is 1-16 chars of A-Z a-z 0-9 _ . -",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "9b5fafc7",
+"ts": "2026-10-04T22:34:18Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-04T22-27-20-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-04T22-27-20-wrap",
+"--marker",
+"2026-10-04-running-turn-refusal"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 3,
+"stdout": [
+"baseline eb37914c (pre-CI parent — the oldest of 1 pre-CI commit(s), 93a5cbf4)",
+"harness-send-0 · control UNFIRED over the seven masters at eb37914c"
+],
+"stderr": "control: harness-send-0 never fired over the seven masters' pre-pass text (eb37914c) — a sweep runs a positive control or refuses; drop the pattern or control it by hand",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "9b5fafc7",
+"ts": "2026-10-04T22:34:29Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-04T22-27-20-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-04T22-27-20-wrap",
+"--marker",
+"2026-10-04-running-turn-refusal"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"baseline eb37914c (pre-CI parent — the oldest of 1 pre-CI commit(s), 93a5cbf4)",
+"no-turn-state · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:70 (…",
+"wheel-alone · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:70 (pr…",
+"is-to-clear · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:70 (pr…",
+"two-field-lock · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:70 …",
+"release-clears · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control architecture.md:70 (prose)",
+"tr-cause · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:136 (prose)",
+"exits-on-ctrl-c · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control test-plan.md:1077 (prose)",
+"four-negatives · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:661 (p…",
+".andromeda/architecture.md:70 release-clears new @c3710/7382 …n, and the `viola release` that returns the wheel clears …",
+".andromeda/architecture.md:136 tr-cause standing …ed`, `not-delivered`/`turn-running` (a turn running, or another `send…",
+".andromeda/test-plan.md:1077 exits-on-ctrl-c standing edited - It exits on `\\x03` or at stdin EOF. Before it exits it w…",
+".claude/rules/verification-harness.md:42 exits-on-ctrl-c leaf …gents --json` land with their consumers. Exits on `\\x03`.",
+"no-turn-state · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:70 (…",
+"wheel-alone · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:70 (pr…",
+"is-to-clear · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:70 (pr…",
+"two-field-lock · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:70 …",
+"release-clears · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control architecture.md:70 (prose)",
+"tr-cause · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:136 (prose)",
+"exits-on-ctrl-c · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control test-plan.md:1077 (prose)",
+"four-negatives · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:661 (p…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "eb37914c0c59255f50d2722033f28e4068470e09",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), 93a5cbf4",
+"counts": {
+"no-turn-state": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"wheel-alone": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"is-to-clear": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"two-field-lock": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"release-clears": {
+"new": 1,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"tr-cause": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"exits-on-ctrl-c": {
+"new": 0,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"four-negatives": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]

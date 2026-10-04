@@ -8,6 +8,11 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-10-04 — Naming the process behind a truncated coverage profile
+When `llvm-profdata merge` refuses a `.profraw` ("file header is corrupt") and no test home survived to name the dead process, the file itself can. A raw profile is header, data records, counters, then the names section last. A file cut short inside its names section (it is smaller than its siblings of the same binary signature, the `%m` hash in the file name, by less than the names size) keeps every counter. Parse the version-10 header (16 little-endian u64s), take each 64-byte data record's name hash and counter count, and match the name hashes (the low 64 bits of the MD5 of each mangled function name) against the names a complete sibling lists under `llvm-profdata show --all-functions`. The functions with nonzero counters name what the process was doing. Then compare the file's mtime with the archived JUnit test windows to find the test. Here, that showed a `viola hook` killed during its exit-time profile dump, not the wrapper the earlier hypothesis blamed.
+
+---
+
 ## 2026-10-04 — Reading a Windows CI red from the kept home's role log
 A red root test on `windows-2025` can be read back from its kept CI home (the `diag-<os>` artifact): the wrapper's `diagnostics/run-<name>.ndjson` identifies the failing test by its start time and channel-request sequence, and shows what the child did around the failing byte, such as a clean exit 0 tens of milliseconds after a typed `^Z` with no Ctrl-C and no channel call. That reading told the fake agent's own std console read apart from viola's reader before any fix was written. Read the role log first, then decide which process to change.
 

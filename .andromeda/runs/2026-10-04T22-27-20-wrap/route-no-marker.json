@@ -1,0 +1,30 @@
+[
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "b87a9ed0",
+"ts": "2026-10-04T22:38:19Z",
+"argv": [
+"route.py",
+"cursor",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-04T22-27-20-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"version viola-0.1.0 · dir present · master master-route.md",
+"version dir viola-0.1.0/ — at --root, beside .andromeda/, never inside it",
+"records 35 · complete 34 · pending 1 · 2026-10-04-running-turn-refusal · gated 0",
+"done 2026-10-04-the-wheel",
+"next working-route.md:84 · First live test and self-drive · markerless 31 of 66 entries",
+"half-promote 0 of 35 stamped lines vs 35 master records (anchored `{marker} · `, whole file)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

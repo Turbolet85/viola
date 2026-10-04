@@ -509,3 +509,25 @@
 **Change:** the one-Rust-test example: was `scripts/agent-run.sh run --e2e --filter 'test(/path2_send_confirms/)'`; now `run --integration --filter 'test(/path2_send_confirms/)'`, a whole root test file through `binary(<stem>)`. `--e2e` selects nothing yet: it is a usage error (exit 2) until the first E2E binary lands with its filterset.
 **Why:** measured this chunk — the plan's own gate written with `--e2e` exited 2 and was corrected to `--integration` before implement; `path2_send_confirms` is an integration-tier test.
 **Ref:** .andromeda/runs/2026-10-04T20-44-01-wrap/
+
+## 2026-10-04-running-turn-refusal — Path 5 and Path 2 span the running turn
+**Section:** §6 E2E → Scenario: Path 5 (As landed · step 8 · Verification signal) · Scenario: Path 2 (As landed)
+**Change:**
+- Path 5 step 8 boots the harness turn over the gated `fixtures/fake-scripts/path3.json`: a `send` while the harness turn runs, then its scripted `PostToolUse` and `Stop` released and a `send` after `turn-ended`.
+- Path 5 signal: was "the harness-injected turns log `prompt-submitted{origin:"harness"}` and no `wheel` record" alone; now also, during the turn, `send` exits 13 `{"v":1,"refusal":"not-delivered","detail":"turn-running"}`, nothing typed, one `send-refused{refusal, detail}` with no `cursor` and no `send-issued`, and `send` exits 0 after `turn-ended`; with no Stop a bare `release` leaves the turn (13) and `pause` then `release` clears it.
+- Path 5 As landed adds the harness-turn refusal and `tests/cli_wheel.rs` `path5_a_turn_left_running_is_cleared_by_pause_then_release`.
+- Path 2 As landed: `path2_send_confirms_with_cl1_events` boots over `path3.json` and ends its first send's turn before the second; `send_after_a_confirmed_send_is_turn_running_until_turn_ended` covers the driver's own turn (exit 13, the `[/ ] unable … turn-running` line + `hint: a turn is running; viola wait builder first`, then 0 after `turn-ended`).
+**Why:** a running turn now refuses `send`, so every test that sends twice must end the first turn with a scripted Stop (the fake agent's interactive submit fires none), and the closed hypothesis is witnessed on three CI OSes.
+**Ref:** .andromeda/runs/2026-10-04T22-27-20-wrap/
+
+## 2026-10-04-running-turn-refusal — the turn-running control negative
+**Section:** §5 CLI → `tests/cli_controls_not_disableable.rs`
+**Change:** was "four control negatives"; now five: ESC in `send` text → 13 `control-character`; `answer` on an unstamped home → 12; human wheel → `send` 10; a running turn → `send` 13 `turn-running`; a 0770 `--home` → 21. As landed, the turn-running row (`send` during a running harness turn → exit 13 under every `FAKE_AGENT_HOOK_PANIC` setting) joined with this chunk.
+**Why:** no setting may disable a control, and `turn-running` is now a control on a running turn, not only on a second send in flight.
+**Ref:** .andromeda/runs/2026-10-04T22-27-20-wrap/
+
+## 2026-10-04-running-turn-refusal — the fake agent quiesces its hooks before it exits
+**Section:** §7 Test Data & Fixtures → Fake agent
+**Change:** was "It exits on `\x03`."; now it exits on `\x03` or at stdin EOF and, before exiting, waits for a hook still running and starts no other — as measured at this chunk.
+**Why:** the agent is its PTY's session leader and its hooks sit in that terminal's foreground group, so its exit hung up an in-flight `viola hook` mid-exit: a truncated coverage profile, the `.profraw` WATCH's cause. Folded as a recorded widening on the overseer's founder-delegated word (provisional per the delegate rule); the WATCH closed on four consecutive green pre-push runs after the fix.
+**Ref:** .andromeda/runs/2026-10-04T22-27-20-wrap/

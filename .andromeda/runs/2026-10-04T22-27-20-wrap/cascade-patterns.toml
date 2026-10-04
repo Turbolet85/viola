@@ -1,0 +1,32 @@
+[[pattern]]
+id = "no-turn-state"
+fixed = 'no running-turn state'
+
+[[pattern]]
+id = "wheel-alone"
+fixed = 'returns the wheel alone'
+
+[[pattern]]
+id = "is-to-clear"
+fixed = 'is to clear the running-turn state'
+
+[[pattern]]
+id = "two-field-lock"
+fixed = 'holder and cause under one lock'
+
+[[pattern]]
+id = "release-clears"
+regex = 'release[^.\n]{0,60}(clears nothing|clear(s)? the running)'
+ignore_case = true
+
+[[pattern]]
+id = "tr-cause"
+regex = 'turn-running[^.\n]{0,80}(in flight|second .?send)'
+
+[[pattern]]
+id = "exits-on-ctrl-c"
+regex = 'xits on `\\x03`'
+
+[[pattern]]
+id = "four-negatives"
+fixed = 'four control negatives'
