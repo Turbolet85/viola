@@ -8,6 +8,11 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-10-04 — Reading a Windows CI red from the kept home's role log
+A red root test on `windows-2025` can be read back from its kept CI home (the `diag-<os>` artifact): the wrapper's `diagnostics/run-<name>.ndjson` identifies the failing test by its start time and channel-request sequence, and shows what the child did around the failing byte, such as a clean exit 0 tens of milliseconds after a typed `^Z` with no Ctrl-C and no channel call. That reading told the fake agent's own std console read apart from viola's reader before any fix was written. Read the role log first, then decide which process to change.
+
+---
+
 ## 2026-10-04 — A newly served channel method breaks the tests that pinned it unserved
 Before a chunk serves a method the wrapper used to answer `-32601`, grep the tests for that method's name beside `-32601` (or `MethodNotFound`): an older test that used the unserved method as a convenient request — here a debug-level log-content test that sent `send` because it reliably failed — keeps pinning the old answer, and a plan's "expect no change" list for that file misses it. Rewrite such a test to keep its own intent over the now-served path rather than switching it to another unserved method.
 

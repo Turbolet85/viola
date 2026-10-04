@@ -328,7 +328,7 @@ Span names below are internal `tracing` spans in `<area>.<operation>` snake_case
 
 - **Path:** Human takes the wheel, automation is refused, `release` returns it
 - **Surfaces involved:** cli (`run`, key input) + `events.ndjson` (`wheel`) → cli or ipc-internal (mcp) `send` refused → cli `release` → ipc-internal
-- **Must-trace spans:** `run.wheel_transition` › `channel.request(send)` refused › `channel.request(release)`. Log events: `send-refused` and `channel-request` / `channel-response` for `release`. `release-from-driver` is logged as its own event (Founder Direction 4), which is pending an enum extension (section 3, gap a).
+- **Must-trace spans:** `run.wheel_transition` › `channel.request(send)` refused › `pause.client` / `release.client` › `channel.request(pause|release)`. Log events: `send-refused` and `channel-request` / `channel-response` for `pause` and `release`. `release-from-driver` is logged as its own event (Founder Direction 4), admitted by `schemas/diag-line.v1.json`.
 - **Required log fields:** `event`, `process`, `instance`, `corr`, `refusal="human-typing"`, `detail` (null / `manual-pause`), `wheel` holder, `exit_code` (10). Typed keys never appear.
 - **Source:** tests excerpt, Critical Path 5; arch hint 5; creator must-work "Wheel take-over" and "R2 One wheel"
 
@@ -513,7 +513,7 @@ _[ALL tiers — high-level signal pyramid + agent-readable invariants]_
 - Every cross-surface call carries correlation through the tests `corr` field plus the additive `conn` discriminator (Section 3, Trace context propagation). W3C `traceparent` is not used in v1: no consumer exists and channel `params` declare no trace-context field.
 
 **Naming conventions** (upstream-context Obs-Relevant Conventions + obs-scope Section 4):
-- **Span naming:** `<area>.<operation>` in snake_case. `<area>` is one of `run`, `pty`, `channel`, `state`, `hook`, `statusline`, `send`, `wait`, `last`, `answer`, `cli`, `mcp`, `ui`. `cli.<verb>` names the dispatch span of a short-lived verb that has no dedicated client span (for example `cli.list`, `cli.verify`, `cli.plugin_install`). Examples: `run.version_gate`, `pty.paste_write`, `ui.sse_stream`, `last.client`. Span names are code-internal, not wire contract.
+- **Span naming:** `<area>.<operation>` in snake_case. `<area>` is one of `run`, `pty`, `channel`, `state`, `hook`, `statusline`, `send`, `wait`, `last`, `answer`, `pause`, `release`, `cli`, `mcp`, `ui`. `cli.<verb>` names the dispatch span of a short-lived verb that has no dedicated client span (for example `cli.list`, `cli.verify`, `cli.plugin_install`). Examples: `run.version_gate`, `pty.paste_write`, `ui.sse_stream`, `last.client`. Span names are code-internal, not wire contract.
 - **Event naming:** the `event` field is a closed kebab-case enum (the tests list plus the Section 12 extensions). It is compiled in viola-core as `ObsEvent` with a kebab-case `Display`.
 - **Metric naming:** derived metrics (jq-computed, never instruments) are named `viola.<area>.<measure>`, for example `viola.hook.duration_ms` (Section 5).
 - **Log fields:** snake_case field names. Enum values are kebab-case (arch JSON / enum naming). Instants are `*_at` in RFC 3339 UTC with milliseconds and `Z`. Durations are `duration_ms` as an integer.
@@ -570,7 +570,7 @@ _[ALL tiers]_
 **Span naming convention:** `<area>.<operation>` in snake_case (obs-scope §4). Names are static strings; instance names, dialog ids and paths never appear in a span name. Every span is declared with `#[instrument(skip_all, name = "...", fields(...))]` or `info_span!` with an explicit field allow-list, and the `err` / `ret` options are banned (Section 11).
 
 **Span kinds.** Recorded in this plan per span. In v1 they are not emitted; if the deferred tracing-opentelemetry bridge is adopted, they map to the `otel.kind` span field.
-- `CLIENT`: `send.client`, `wait.block`, `last.client`, `answer.client`, `channel.request` (client side), `statusline.shell_out`, `pty.spawn`.
+- `CLIENT`: `send.client`, `wait.block`, `last.client`, `answer.client`, `pause.client`, `release.client`, `channel.request` (client side), `statusline.shell_out`, `pty.spawn`.
 - `SERVER`: `channel.dispatch` (wrapper side of every `channel.request`), `ui.http_request`, `ui.sse_stream`, `mcp.tool_call`, `hook.handle`, `hook.statusline`.
 - `INTERNAL`: `run.*`, `state.*`, `hook.decision_emit`, `pty.paste_write`.
 
@@ -578,7 +578,7 @@ _[ALL tiers]_
 
 | Surface | Auto-instrumentation library | Manual instrumentation |
 |---------|------------------------------|------------------------|
-| cli (short-lived verbs) | none (clap 4.6.7 has no tracing integration) | A dispatch span per verb (`send.client`, `wait.block`, `answer.client`, `cli.<verb>`). `process-start` / `process-exit{exit_code, detail}` into `cli-<name>.ndjson` when an instance resolves (D-06). Client-side `send-refused{side:"client"}`. The full anyhow chain goes to `detail-cli.ndjson` only |
+| cli (short-lived verbs) | none (clap 4.6.7 has no tracing integration) | A dispatch span per verb (`send.client`, `wait.block`, `answer.client`, `pause.client`, `release.client`, `cli.<verb>`). `process-start` / `process-exit{exit_code, detail}` into `cli-<name>.ndjson` when an instance resolves (D-06). Client-side `send-refused{side:"client"}`. The full anyhow chain goes to `detail-cli.ndjson` only |
 | cli (`viola run`) | none (portable-pty 0.8.1 logs through `log`; its target is OFF and failures are captured at the seam, D-11) | Manual spans on the start sequence, `pty.*` seam, `channel.dispatch`, `run.readiness_gate` (vt100 has no tracing), `run.wheel_transition`, `run.budget_eval`, `state.*`. Child `process-start` / `process-exit` from the handle-wait thread |
 | cli (`viola hook`) | none | `hook.handle` › `channel.request` › `hook.decision_emit`. `hook-invoked` / `hook-decision` (except the hidden `--capture` arm: no obs init, no lines, §4 Edge flows). `std::panic::catch_unwind` around dispatch keeps exit 0. The writer falls back to `std::io::sink` on open failure |
 | ipc-internal (viola-channel) | none (interprocess 2.4.4 emits no `log`/`tracing`) | `channel.request` (client) / `channel.dispatch` (server) spans. `channel-request` / `channel-response` with `method`, `corr`, `conn`, `result_class`, `error_code`, `sender`. Never `params` or result bodies |
@@ -657,7 +657,7 @@ Skipped as not-instrumentable per obs-scope §1: `viola-core` (it supplies `ObsE
 - **Required log fields:** common fields plus:
   - `channel-request{corr:<id>, conn, method:"wait"|"last"}` on both sides, plus `after` / `timeout_ms` for method `wait` only and only as `u64` values;
   - `channel-response{corr:<id>, conn, result_class, duration_ms}` on both sides, plus `outcome` for method `wait` only: the waking kind (`turn-ended|question|permission|plan|session-end`) or `timed-out`, derived once in `viola-channel` from the result over the shared wake set; the client side alone also writes `instance-unreachable` when the reply never arrived (a closed or reset connection). A `last` response carries no `outcome`, and no result body reaches either line;
-  - client `process-exit{subject:"self", exit_code, detail}` at WARN, where exit 21 carries `detail:"instance-dead"` plus `during` ∈ `connect|call` (endpoint vanished mid-wait = `during:"call"`). `wait` / `last`, like `send`, use the liveness-only pre-check, so `strict-modes-failed` / `server-verify-failed` cannot occur on them until client-side server verification lands (the dated gap owned by Epoch 6, `:109` / `:111`).
+  - client `process-exit{subject:"self", exit_code, detail}` at WARN, where exit 21 carries `detail:"instance-dead"` plus `during` ∈ `connect|call` (endpoint vanished mid-wait = `during:"call"`). `wait` / `last`, like `send`, use the liveness-only pre-check, so `strict-modes-failed` / `server-verify-failed` cannot occur on them until client-side server verification lands (the dated gap owned by Epoch 6, `:111` / `:113`).
   - `last_assistant_message` never appears.
 - **Cleanup:** `wait.block` closes on the response or on the connection error. A mid-call disconnect is logged once, by the client.
 
@@ -679,13 +679,13 @@ Skipped as not-instrumentable per obs-scope §1: `viola-core` (it supplies `ObsE
 
 #### Scenario: Human takes the wheel, automation is refused, `release` returns it
 
-- **Surfaces involved:** cli (`run`, key input) + `events.ndjson` (`wheel`) → cli or ipc-internal (mcp) `send` refused → cli `release` → ipc-internal.
-- **Must-trace spans:** `run.wheel_transition` (INTERNAL) › `channel.dispatch(send)` refused › `channel.dispatch(release)`.
-- **Required span attributes:** `run.wheel_transition`: `wheel_from`, `wheel_to` (`human|driver`), `cause` (`human-key|manual-pause|release`). Never the typed keys.
+- **Surfaces involved:** cli (`run`, key input) + `events.ndjson` (`wheel`) → cli or ipc-internal (mcp) `send` refused → cli `pause` / `release` → ipc-internal.
+- **Must-trace spans:** `run.wheel_transition` (INTERNAL) › `channel.dispatch(send)` refused; `pause.client` / `release.client` (CLIENT) › `channel.request(pause|release)` → `channel.dispatch(pause|release)`, answered only after the move's `wheel` record lands (`-32603` if it did not).
+- **Required span attributes:** `run.wheel_transition`: `wheel_from`, `wheel_to` (`human|driver`), `cause` (`human-input|manual-pause|release`, `viola_core::WheelCause::as_str`) — a point-in-time span with a static name, opened once per wheel change on the wheel's worker thread. Never the typed keys.
 - **Required log fields:** common fields plus:
   - `send-refused{corr:<cursor>, refusal:"human-typing", detail:null|"manual-pause", wheel:"human", side:"wrapper"}`, with the client `process-exit{exit_code:10}`;
   - `channel-request` / `channel-response{method:"release"}`;
-  - when `release` arrives from a driver rather than the CLI, `release-from-driver{corr:<id>, conn, from, from_trust}` (D-01), never a generic `-32602` wrapper fault.
+  - when `release` carries a string `from` (CLI `viola release` forwards `VIOLA_NAME`, so a driver session's own `viola release` counts), one `release-from-driver{corr:<rpc id>, conn, from (only when a valid name), from_trust:"self-reported"}` at INFO (D-01), beside the `-32602` `"invalid params"` reply with `data: {"reason":"release-from-driver"}`; a `from` of another type, or a non-bool `budget`, is a plain `-32602` (`data: null`) with no such line, and a `release` on a driver-held wheel appends nothing.
 - **Cleanup:** `run.wheel_transition` is a point-in-time span. The `wheel` product event in `events.ndjson` is the audit record.
 
 #### Scenario: Budget governor
@@ -821,7 +821,7 @@ Template fields deliberately **not** emitted (D-12):
 | `hook-invoked` / `hook-decision` | `hook_event` (`session-start|user-prompt-submit|pre-tool-use|permission-request|stop|session-end|notification|post-tool-use|post-tool-use-failure|statusline`), `stdin_bytes`, `invoked_at`, `decision_emitted`, `deadline_hit`, `budget_written`, `detail`, `duration_ms` |
 | `http-request` | `method`, `path`, `route`, `status`, `problem`, `duration_ms`, `skipped` |
 | `panic` | `panic_location` (workspace-relative, or `<crate>-<ver>/src/...` for dependencies), `thread`. Payload and backtrace go to `detail-<process>.ndjson` only |
-| `release-from-driver` (D-01) | `conn`, `from`, `from_trust` |
+| `release-from-driver` (D-01) | `conn`, `from` (only when a valid `ViolaName`), `from_trust` (`self-reported`) |
 | `liveness-changed` (D-02) | `subject_instance`, `liveness_from`, `liveness_to`, `heartbeat_age_ms`, `pid_alive` |
 | `state-recovered` (D-03) | `detail` (`torn-line-healed|snapshot-replayed|snapshot-unsupported-v`), `file` (basename only), `offset`, `v_seen` |
 | `sse-opened` / `sse-closed` (D-04) | `last_event_id_present`, `last_event_id_valid`, `resume_instances`, `close_cause`, `events_sent`, `duration_ms` |

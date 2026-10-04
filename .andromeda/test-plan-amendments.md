@@ -494,3 +494,18 @@
 - `run --mutants` (both arms) was `--build-timeout-multiplier=5`; now `--build-timeout=400` through the shared `MUTANTS_PROGRESS`, a fixed floor of 5 × the largest measured 78 s baseline, because the multiplier conflicts with it and derives a sub-second bound from a sub-second baseline.
 **Why:** the dialog hook is now a registered event, so its latency row joins the gate; the build bound is the chunk's Red B fix.
 **Ref:** .andromeda/runs/2026-10-04T16-53-44-wrap/
+
+## 2026-10-04-the-wheel — Path 5 as landed; the human-wheel controls row
+**Section:** §6 E2E → Scenario: Path 5 (Surfaces involved) · §5 Integration → `tests/cli_controls_not_disableable.rs` · §3 → Log format
+**Change:**
+- Path 5: as landed, `tests/tui_wheel.rs` (the outer-PTY steps, the harness-turn case, the focus/mouse/resize case, the `^Z` case) and `tests/cli_wheel.rs` (`pause` / `release`, the `human-typing` refusals with detail `null` | `manual-pause`, hints without `release`, `release-from-driver` exit 20) cover tui, cli and the wrapper channel on all three CI OSes; on `windows-2025` the focus case asserts the platform fact (an injected mouse report takes the wheel, focus reports are swallowed), Unix the full assertion. The MCP `send` step and its refusal checks are owed to `:102`, the Playwright WHEEL cell to `:139`.
+- The controls table: was "the four verb negatives … join when `send` / `answer` land"; now the human-wheel negative (`send` exit 10) has joined, the rest still to join.
+- Log format: the `release-from-driver` corr rule names a `release` carrying a string `from` (another type is a plain `-32602`), matching obs-plan §3.
+**Why:** the chunk landed Path 5's CLI and outer-PTY halves; the Windows clause is the founder's live ruling F-W3, relayed by the overseer; the Log format line keeps the tests↔obs §3 bind.
+**Ref:** .andromeda/runs/2026-10-04T20-44-01-wrap/
+
+## 2026-10-04-the-wheel — the one-Rust-test example selects through --integration
+**Section:** §3 → 5-command implementation (Test selection)
+**Change:** the one-Rust-test example: was `scripts/agent-run.sh run --e2e --filter 'test(/path2_send_confirms/)'`; now `run --integration --filter 'test(/path2_send_confirms/)'`, a whole root test file through `binary(<stem>)`. `--e2e` selects nothing yet: it is a usage error (exit 2) until the first E2E binary lands with its filterset.
+**Why:** measured this chunk — the plan's own gate written with `--e2e` exited 2 and was corrected to `--integration` before implement; `path2_send_confirms` is an integration-tier test.
+**Ref:** .andromeda/runs/2026-10-04T20-44-01-wrap/

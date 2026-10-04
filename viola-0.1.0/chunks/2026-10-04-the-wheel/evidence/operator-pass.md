@@ -83,3 +83,25 @@ conclusion read (leg=operator) as usual").
     inbox ConPTY); route pin: a mouse report from a real Windows terminal is measured at `:82` live.
   - Local before the push: lint, the viola-pty and full unit entries, the outer-PTY entry, the default suite and
     pre-push green; the windows-target clippy clean.
+- Entry 19: pushed `79ec57c` (the F-W3 fold).
+- Entry 20, CI run ci#37232840791 on `79ec57c`: `verdict: green · checks 15/15`.
+
+## After the wrap's light gate (2026-10-04, wrap run 2026-10-04T20-44-01)
+- The wrap's light gate read entry 16 RED. The guard `! (git diff eb53a582c8dc -- '*.rs' … std::env::var …)` hit the
+  `+ … std::env::var(CHILD_MODE)` line `849588b` added to viola-pty's cfg(test) self-exec child for the `reads` /
+  `reads-win32` modes. This pass had re-run pre-push and CI after `849588b`, but not that probe.
+- Direction (the overseer, founder-delegated, through the operator): halt the wrap. Then move the new test-child modes
+  off the env read into argv, so the guard stays as written and uncorrected; keep every measurement assertion
+  unchanged; commit only the source fix; push; read CI.
+- Fix `ba36659`: `spawn_child_entry` passes the mode as one more `--exact` filter (it names no test), and the child
+  finds it in `std::env::args()`. 5 lines, in the test module only.
+- Local before the push: `cargo fmt --all --check` and the workspace clippy (`-D warnings`) green; the
+  `x86_64-pc-windows-msvc` viola-pty clippy clean; `run --unit --filter 'package(viola-pty)'` 38 passed, 0 failed —
+  `console_read_of_a_mouse_report_is_one_whole_read` and
+  `console_reads_under_win32_input_mode_are_the_platform_encoding` among them, so the argv mode reaches the child.
+  Entry 16 bare: exit 0, no output. `gate.py hygiene` clean (after two wrap run-dir files were cleaned). Pre-push
+  `"ok":true` at `linux-tests` (coverage 1453 passed, 0 failed; gate breaches none).
+- Entry 19: pushed `ba36659` (`git push origin HEAD`). The entry's `git diff --quiet && git diff --cached --quiet`
+  pre-condition was not run: by the direction, the wrap's uncommitted tree work stays out of the fix commit and rides
+  the wrap commit.
+- Entry 20, CI run ci#37235841342 on `ba36659`: `verdict: green · checks 15/15` (wall 308 s) — the final HEAD's run.

@@ -19,6 +19,7 @@ No viola crate. Tokio banned in its graph.
 ## Internal conventions
 - The seam is a trait the product defines, so consumers are tested with a mockall double whose reader never returns EOF while `wait()` returns an exit status.
 - `CreateProcessW` is called with `bInheritHandles = 0`: channel handles never leak into the child. Any replacement (the named candidate is portable-pty-psmux 0.9.7) must keep this.
+- `host_stdin()` is the host stdin the root bin hands the pump: on Windows with a console stdin, viola's own `ReadConsoleW` reader (UTF-16 → UTF-8, a split surrogate carried, every `0x1A` kept, a 0-unit read read again), because std's console stdin drops a trailing `0x1A` and ends input on a lone `^Z` (measured on windows-2025); elsewhere `std::io::stdin()`. The fake agent reads through it too.
 - The PTY byte stream is user content — never logged; spans log `pty_backend` (`viola_pty::pty_backend()`: `conpty-sideload` after a successful pre-load, else `conpty` on Windows, `openpty` elsewhere), `text_bytes`, `exit_source` (`handle-wait|kill-fallback`).
 
 ## Crate-specific gotchas

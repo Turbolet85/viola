@@ -1,0 +1,10 @@
+
+## 2026-10-04-the-wheel — the seventh dated gap: pause and release frames, and their validation
+**Section:** Authentication & Authorization → IPC client-side server verification · Driver-originated `release` · `~/.viola/` access control (strict-modes interim list) · Input Validation → Channel frames · CLI arguments / stdin · Own state files on read · Security Anti-Patterns → Authentication · Bootstrap phases → auth-scaffolding-baseline
+**Change:**
+- A seventh dated gap, until the Epoch 6 entries `:109` / `:111` land: CLI `viola pause` and `viola release` write their `pause` / `release` frame after the liveness-only pre-check (`live_endpoint`, else exit 21); neither checks server identity or the snapshot's strict-modes. Residual: a process squatting the endpoint could swallow a `pause` or answer a `release`. They borrow none of the six earlier gaps; the frame ban, the strict-modes interim list, the CLI arguments row and the Own state files exceptions name them.
+- Driver-originated `release`: was "`release` params are `{budget?}` only" and any `from` refused; now `{budget?, from?}`, a string `from` refused `-32602` "invalid params" `data: {"reason":"release-from-driver"}` (`ProtocolError::ReleaseFromDriver`) with one `release-from-driver` line (`from_trust:"self-reported"`), another type `-32602` `data: null`; CLI `viola release` forwards `VIOLA_NAME`, so a driver session's call exits 20.
+- Channel frames: a `pause` / `release` params clause (`pause`'s `from` per the `send` rule; `release`'s `budget` absent or a bool). CLI arguments: `<name>` through `ViolaName::try_new`, `from` from `VIOLA_NAME` only.
+- Bootstrap amendment 4 (`release-from-driver`): was "before the bin channel dispatch"; now landed.
+**Why:** the chunk serves the two wheel methods, a boundary widening: the founder's live ruling F-W1 (answered at `:80`'s P4, 2026-10-04, through the overseer's AskUserQuestion, the pause-swallow residual shown), relayed by the overseer; the operator recorded it at this wrap as that existing ruling, no new decision.
+**Ref:** .andromeda/runs/2026-10-04T20-44-01-wrap/

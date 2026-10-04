@@ -519,3 +519,29 @@
 **Why:** print mode raises no dialog hook, so no `viola verify` probe could record the dialog tier: the founder's live rulings R1 (relayed fixtures, rows to `:82`) and R2 (decisions on the six-row stamp, a boundary widening the operator ratified at this wrap as the founder's, relayed by the overseer, `:82` the closer); R3 pulled the creation half forward from `:111`.
 **Kept:** §Stack lists no test library, so insta is not added there.
 **Ref:** .andromeda/runs/2026-10-04T16-53-44-wrap/
+
+## 2026-10-04-the-wheel — the wheel as landed: the closed non-editing list and the Windows platform fact
+**Section:** Established Decisions → [Human Takeover / Wheel]
+**Change:**
+- Was "focus, mouse and resize sequences do not count"; now only a closed non-editing list never counts: focus reports (`CSI I` / `CSI O`), mouse reports (X10 `CSI M` + 3, SGR, urxvt) and terminal replies (DA1, DA2, CPR, DECRPM, kitty flags, OSC replies ending BEL or ST, DCS replies ending ST); a resize is no stdin byte. Every other byte takes the wheel, a sequence past 64 bytes of parameters or payload and a C0 inside a sequence included; a read ending on a lone ESC is the Esc key; sequences carry across reads. The stdin observer only observes and moves the wheel before a read holding an editing key returns.
+- Windows: the inbox ConPTY outer terminal swallows focus reports, and under the sideloaded ConPTY's win32-input-mode (`ESC[?9001h`) an injected mouse report arrives as win32 key-down records and takes the wheel — measured for injected bytes; a real Windows terminal's mouse report is not yet measured.
+- A human-filed `prompt-submitted` moves the wheel before its line is appended. The wheel lives in `src/run/wheel.rs` (holder + cause, one lock; the in-memory move synchronous, the `wheel` record, snapshot, span and dialog hand-back on its worker thread, flushed ≤ 2 s at exit before raw mode ends); every snapshot write goes through `src/run/snapshot.rs`. A `release` on a driver-held wheel changes nothing.
+- Was "the `viola release` that returns the wheel also clears the running-turn state"; now the clearing stays the intent, and as built no running-turn state exists beyond the in-flight `send` slot, so `release` returns the wheel alone.
+**Why:** the founder's live rulings F-W2 (the closed list, the CPR / Shift+F3 collision shown) and F-W3 ("pin the platform fact", the measured win32-input-mode mechanism shown, the error only ever favouring the human), 2026-10-04, relayed by the overseer; the move-before-append order is a CI-measured race. A real-terminal Windows mouse report is measured live at route `:82`.
+**Ref:** .andromeda/runs/2026-10-04T20-44-01-wrap/
+
+## 2026-10-04-the-wheel — pause and release served; release-from-driver landed
+**Section:** §Standard Contracts → Channel methods · Established Decisions → [MCP] · §Conventions → CLI exit codes (`1`) · §Occupied Resources → Filesystem (`diagnostics/`) · §Infrastructure Patterns → Project directory structure
+**Change:**
+- Channel methods: was `pause` `{}` and `release` `{budget?:bool}`; now `pause` `{from?}` → `{wheel:"human"}` and `release` `{budget?:bool, from?}` → `{wheel, budget_paused}`. A string `from` on `release` is `-32602` "invalid params" with `data: {"reason":"release-from-driver"}` plus one obs line; another `from` type or a non-bool `budget` (`null` included) is `-32602` `data: null`; `budget:true` leaves the wheel. Both reply only after their `wheel` record lands (`-32603` if not). The `from` readers add `pause`.
+- [MCP]: was "whether a wrapper should refuse a `release` whose `params` carry `from` is left to the security specialist"; now the wrapper refuses a string `from` (`release-from-driver`), so CLI `viola release` inside a wrapped session is refused — self-reported, a deterrent, not enforcement.
+- The `cli` role's verbs add `pause` and `release` (exit 1 on an internal error); `cli-<name>.ndjson` producers add `pause` / `release`.
+- Directory structure: `src/run/` adds `wheel.rs` and `snapshot.rs`; `human.rs` adds the `pause` / `release` lines and callers; viola-core adds `HumanTyping`, `WheelCause`; viola-pty adds `host_stdin()`.
+**Why:** the chunk served the two wheel methods (were `-32601`), the security plan's `release-from-driver` guard landing with them.
+**Ref:** .andromeda/runs/2026-10-04T20-44-01-wrap/
+
+## 2026-10-04-the-wheel — viola's own Windows console stdin reader
+**Section:** Established Decisions → [PTY] · §Stack → PTY layer
+**Change:** the host stdin handed to the pump is `viola_pty::host_stdin()`: on Windows with a console stdin, viola's own `ReadConsoleW` reader (no Ctrl-Z wakeup control; UTF-16 → UTF-8, a split surrogate carried, every `0x1A` kept, a 0-unit read read again); elsewhere, and for a redirected Windows stdin, `std::io::stdin()`. Callers: `run`'s pump and the fake agent. windows-sys's roles add the console input read.
+**Why:** std's console stdin drops a read's trailing `0x1A` and ends input on a lone `^Z` — source-read at the pinned toolchain and measured on `windows-2025`, where the first red was the fake agent's own std read, not viola's.
+**Ref:** .andromeda/runs/2026-10-04T20-44-01-wrap/

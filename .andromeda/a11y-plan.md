@@ -97,7 +97,7 @@ _Justification: web-spa carries about 11 assertable entities (inside Standard's 
   - **Reason:** The rendered content belongs to the vendor (`claude`) and is not traced. The assertion boundary is viola's wrapper:
     - viola writes zero bytes to the terminal except the child's output;
     - human keystrokes are never blocked, refused or delayed past the current atomic paste;
-    - focus, mouse and resize sequences pass through and do not count as human editing.
+    - focus, mouse and resize sequences and terminal replies (F-W2's closed list) pass through and do not count as human editing; every other byte does. On Windows the platform decides what arrives (F-W3): the ConPTY host swallows focus reports, and under win32-input-mode an injected mouse report reaches viola as typed keys and takes the wheel.
 
 **Not-assertable (no UI surface)**
 
@@ -318,7 +318,7 @@ _Justification: web-spa carries about 11 assertable entities (inside Standard's 
 - **Surfaces involved:** tui (boundary-only), cli (`pause`, `release`, `send` refused with `human-typing`) and web-spa (WHEEL column).
 - **Required ARIA roles:** web: `cell` for WHEEL, with the word `human` carrying the state. cli/tui: N/A (terminal).
 - **Required focus order:**
-  - tui: human keystrokes are never blocked or delayed, and focus/mouse/resize sequences are ignored for wheel purposes.
+  - tui: human keystrokes are never blocked or delayed, and focus/mouse/resize sequences and terminal replies are ignored for wheel purposes (on Windows an injected mouse report under win32-input-mode arrives as typed keys and takes the wheel, F-W3).
   - web: no focus change on a wheel change.
 - **Required WCAG SC coverage per tier:** SC 2.1.1 (the human keyboard path through the wrapper is never blocked), 1.4.1 (the word `human` in strong weight, not colour), 1.3.1. Also CLI output discipline: colour as a second cue only, and the refusal written to stderr as `unable … hint:` with a typed exit code.
 - **Source:**
@@ -570,7 +570,7 @@ Contracts: .andromeda/registries/a11y-plan-contracts.toml — ask registry.py co
 - **P4 — Human takes the wheel** (tui boundary + cli + web-spa).
   - **web:** `a11y-p4` asserts the WHEEL `cell` word `human` (`--fw-strong`), no focus change, and the axe verdict in the WHEEL `human` state (the Section 10 state `a11y-p4` owns).
   - **cli:** `send` refused with `human-typing` on stderr, with a typed exit code (assert_cmd).
-  - **tui:** three portable-pty outer-PTY nextest cases on all three OS legs, one per Section 1 boundary clause (Section 3 → Keyboard test harness → Tooling): (1) zero viola-originated bytes on the outer-PTY stream (byte for byte against an unwrapped fake-agent run on Linux/macOS; viola's own literals absent on Windows ConPTY); (2) human keystrokes delivered unblocked past the current atomic paste; (3) `\x1b[I`/`\x1b[O`, mouse and resize sequences do not move the wheel.
+  - **tui:** three portable-pty outer-PTY nextest cases on all three OS legs, one per Section 1 boundary clause (Section 3 → Keyboard test harness → Tooling): (1) zero viola-originated bytes on the outer-PTY stream (byte for byte against an unwrapped fake-agent run on Linux/macOS; viola's own literals absent on Windows ConPTY); (2) human keystrokes delivered unblocked past the current atomic paste; (3) `\x1b[I`/`\x1b[O`, mouse and resize sequences do not move the wheel — step-wise (the resize behind its size receipt, then the focus reports with a mouse report as their read barrier), the wheel probed by an `answer` to no pending dialog (exit 13 driver, 10 human); the full assertion on Linux and macOS, the platform fact on `windows-2025` (F-W3: focus reports swallowed, the injected mouse report takes the wheel), Section 3 → Keyboard test harness → Tooling.
   - **SCs:** 1.3.1, 1.4.1, 2.1.1 (boundary stand-in on tui).
 - **P5 — Degraded and access states** (web-spa).
   - **Roles:** state strips are `<p>` text in `main`; `status` announces `TAPE stopped`, the 401 access strip, and 503/404/405 strips that appear after first render. There is no `alert`.
@@ -987,7 +987,7 @@ _Scope: no `cognitive-accessibility` trigger fired (a11y-scope Sec 5), so there 
 - NEVER move focus programmatically on page load, SSE arrival, cock/revert, refusal, state strips, E4 resume or E5 recovery. Also never let tape trimming or re-rendering drop the focused `<summary>` (SC 2.4.3, 3.2.1).
 - NEVER add single-key shortcuts or a command palette (SC 2.1.4; design bans shortcuts).
 - NEVER use smooth scrolling for the `#tape-end` jump or auto-follow, and never auto-follow the focused `<summary>` out of the tape viewport (SC 2.2.2, 2.4.11).
-- NEVER block, refuse or delay a human keystroke in `viola run` past the current atomic paste, and never count focus / mouse / resize sequences as editing (P4).
+- NEVER block, refuse or delay a human keystroke in `viola run` past the current atomic paste, and never count focus / mouse / resize sequences or terminal replies as editing (P4) — a mouse report the Windows ConPTY already turned into win32 key-down records is typing (F-W3).
 
 ### Visual
 

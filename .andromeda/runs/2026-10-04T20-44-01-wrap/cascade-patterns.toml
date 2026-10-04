@@ -1,0 +1,88 @@
+# Cascade step-2 sweep — 2026-10-04-the-wheel. One pattern per retired claim of this pass (verbs and phrasings,
+# not only the compound it was named by).
+[[pattern]]
+id = "fmr-list"
+regex = 'focus ?[,/] ?mouse'
+ignore_case = true
+
+[[pattern]]
+id = "mouse-resize"
+regex = 'mouse,? and resize'
+ignore_case = true
+
+[[pattern]]
+id = "human-key"
+fixed = 'human-key'
+
+[[pattern]]
+id = "budget-only"
+regex = '\{budget\?(:bool)?\}'
+
+[[pattern]]
+id = "pause-empty"
+fixed = '`pause` `{}`'
+
+[[pattern]]
+id = "sixth-gap"
+regex = 'sixth'
+ignore_case = true
+
+[[pattern]]
+id = "verb-list"
+regex = '`answer`,? (and )?`verify`'
+
+[[pattern]]
+id = "turn-clear"
+regex = 'clears? the running-turn'
+
+[[pattern]]
+id = "sec-special"
+fixed = 'left to the security specialist'
+
+[[pattern]]
+id = "rfd-trigger"
+fixed = 'from a driver rather than'
+
+[[pattern]]
+id = "carry-from"
+regex = 'carr(y|ies) `from`'
+
+[[pattern]]
+id = "enum-gap"
+fixed = 'pending an enum extension'
+
+[[pattern]]
+id = "ctrl-z"
+regex = '\^Z|0x1A|ReadConsole|Ctrl-Z'
+
+[[pattern]]
+id = "client-spans"
+fixed = '`answer.client`'
+
+[[pattern]]
+id = "area-list"
+fixed = '`answer`, `cli`'
+
+[[pattern]]
+id = "four-verb"
+fixed = 'four verb negatives'
+
+[[pattern]]
+id = "amend4"
+fixed = 'before the `viola` bin channel dispatch'
+
+[[pattern]]
+id = "producers"
+fixed = '`last` and `answer` have producers'
+
+[[pattern]]
+id = "liveness"
+fixed = 'liveness-only'
+
+[[pattern]]
+id = "e2e-one"
+fixed = 'run --e2e --filter'
+
+[[pattern]]
+id = "from-readers"
+fixed = '(`send`, `wait`, `last`, `answer`)'

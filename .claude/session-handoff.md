@@ -1,53 +1,47 @@
 # Session Handoff
 
-**Last Updated:** 2026-10-04T17:20Z
-**Branch:** build/viola-0.1.0 · 0 ahead of origin/build/viola-0.1.0 as read at this wrap (the operator pass pushed `ca69e84`; this wrap's commit is pushed after this file is written)
-**Status:** clean
-**Last Commit:** 2026-10-04-dialog-answers-by-dialog-id — the wrap commit of dialog answers by dialog_id
+**Last Updated:** 2026-10-04T21:30Z
+**Branch:** build/viola-0.1.0 · 0 ahead of origin/build/viola-0.1.0 as read at this wrap's Setup (HEAD `79ec57c`, ci#37232840791 green 15/15); this wrap made no commit
+**Status:** tests-failing
+**Last Commit:** `79ec57c` — operator fix after CI run 37227518624 (F-W3 pinned); the wrap of 2026-10-04-the-wheel is HALTED at P7.1
 
 ## Position
-- Done: **2026-10-04-dialog-answers-by-dialog-id**.
-  - Question, permission and plan dialogs reach the wrapper through PreToolUse / PermissionRequest (`hook.dialog`),
-    each with a wrapper-assigned `dialog_id`, one pending at a time, and a 60 s PROVISIONAL deadline.
-  - `viola answer <name> <dialog_id>` answers a dialog. An unknown id exits 13; an unverified CLI exits 12. A plan
-    revise flows through the PermissionRequest repeat.
-  - `run`'s stamps read is strict now. A home created outside `%USERPROFILE%` gets the protected user + SYSTEM DACL.
-  - The dialog fixtures are relayed prototype captures (R1). Decisions flow on the six-row stamp until `:82` (R2).
-- Next: **The wheel** (`working-route.md:80`) → `/andromeda-phase`. It now also carries `answer`'s `human-typing`
-  slot and the `null` answer on a wheel move.
+- In flight: **2026-10-04-the-wheel** — master record still `pending`. The wrap
+  (`.andromeda/runs/2026-10-04T20-44-01-wrap/`) ran P1–P6 and halted at P7.1, the light gate.
+- **Light gate:** 16/20 green; 3 operator legs re-read from `evidence/operator-pass.md`. Entry 16 is **RED**.
+  - The guard is `! (git diff eb53a582c8dc -- '*.rs' … | grep -E '^\+.*(#\[ignore|retries *=|test\.skip|std::env::var)' | grep -v VIOLA_NAME)`.
+  - It hit `+ if let Ok(mode @ ("reads" | "reads-win32")) = std::env::var(CHILD_MODE)` in `crates/viola-pty/src/lib.rs`.
+  - That line came from the operator pass's `849588b`. `CHILD_MODE` is `PTY_SEAM_TEST_MODE`, the cfg(test)
+    self-exec child mode.
+- **Remedy (overseer, founder-delegated):** an operator pass moves the new test-child mode off the env read into
+  argv. The guard stays as written and is not corrected. Commit it as a fix, then run CI on all three OSes.
+- **Next:** resume this wrap at **P7.1** in run dir `2026-10-04T20-44-01-wrap` (its `resume.md`). Then the drift
+  gate, P7.3, the flip, the commit and the push.
+  - P7.3 is the `matrix.py refine` of v1-32 plus notes on v1-31 / v1-40; their payloads are staged in the run dir.
 
-## Work done
-- Code: `src/run/dialog.rs` (DialogSlot), `src/cmd/answer.rs`, `viola_agent_claude::dialog`, `viola_state::strict`,
-  `fs::create_private_dir`'s protected DACL, `hooks.json` 7→9, `DIALOG_DEADLINE`, a fifth perf row; tests `cli_answer`,
-  insta bodies, the relayed 2.1.287 fixtures.
-- CI: three Windows reds folded by the operator pass (`2080e3f`, `2484b77`, `ca69e84`) → ci#37218087331 green 15/15.
-
-## Drift resolved
-- **70 amendments, 2 escalation groups resolved** (architecture 29 · security-plan 13 · test-plan 21 · obs-plan 7 ·
-  layout-templates 1 · a11y-plan 1; 1 detector proposal rejected).
-  - E1, the sixth dated gap (`answer` / `hook.dialog` frames after the liveness-only / shape check), and E2, decisions
-    on the six-row stamp until `:82`: both recorded as the founder's live rulings (F1, R2), relayed by the overseer,
-    and ratified by the operator at this wrap.
-- Route pins: `:80` the `human-typing` slot · `:82` the S3/S7/S8/concurrency rows + re-probe + effect half (closing
-  R2), `v1-15`, the `permission` e2e + its `v1-30` wake, the question-by-PermissionRequest body · `:109` / `:111` the
-  sixth gap's owners · `:111` lost the creation half and `run`'s stamps read (premise-corrected).
+## Work done (uncommitted, in the tree)
+- P2: **37 amendments, 1 escalation resolved** — architecture 10 · security-plan 8 · obs-plan 9 · a11y-plan 5 ·
+  test-plan 4 · layout-templates 1. Sidecars are appended and the cascade swept.
+  - E1, the seventh dated gap F-W1, is recorded as the founder's live ruling on the operator's word.
+- P3: T2 1 (testing.md) · T3 1 · the `--e2e` one-test example corrected at its source (test-plan §3).
+- P5: **Running-turn refusal** minted at `working-route.md:82` (the founder's live ruling), ahead of First live test
+  (now `:84`).
+  - CARRY pins: `:84` (F-W3's real-terminal mouse report) and `:111` / `:113` (the seventh gap's owners).
+  - `:82` also carries a WATCH on the `.profraw` red and a CARRY for two test comments (`:82` → `:84`).
+  - Route citations ≥ `:82` were renumbered +2 across masters, leaves and the matrix: 71 sites
+    (`renumber-manifest.md`). Sidecars, archives and source were untouched.
+- P6: `state.yaml` session 40; this handoff.
 
 ## Notes
 - **Held widening (founder morning, 2026-10-05), still HELD:** the PTY typed-input `viola verify` probe, the live
-  recording, and the signature / quiet-period / max-wait ledger rows (`:82`).
-- **Epoch 3** stays unsplit (founder ruling 2026-09-29).
+  recording, and the signature / quiet-period / max-wait ledger rows (`:84`).
+- **Epoch 3** has 10 entries now and stays unsplit (founder ruling 2026-09-29, re-affirmed 2026-10-04).
 - **`host-win32.md`** still describes the retired Windows host; its replacement is an `/andromeda-setup-project`
   re-run, on the founder's timing.
-- **`claude` on the dev host:** mise installed 2.1.288; running sessions are on 2.1.287 (stamped, fixtures 2.1.287).
-  Stamping 2.1.288 is the operator's.
-- **Operator desk:** the stray recording home `~/.viola-record-20261004T142325Z` (founder desk queue);
-  `~/.viola-record-20261004T142437Z` (run 2's home) is left as it is.
-- **Code-graph:** `rust ok 3556/17037`, `ts ok 7/1`.
+- **`claude` on the dev host:** mise installed 2.1.288; running sessions are on 2.1.287. Stamping 2.1.288 is the operator's.
+- **Operator desk:** the stray recording home `~/.viola-record-20261004T142325Z` (founder desk queue).
 - **Deferred learnings** (carried): `recurrence-despite-learning: host-win32.md 2026-09-28` (the Bash guard and a
-  heredoc to a file — recurred again at this wrap); the "not measured here" vocabulary; PID 1 as the cleanup-deadline
-  target; the PTY master close needing no held clone; let a red CI run finish before folding its fix; the
-  doubled-backslash guard recurrence.
-- **Last failed command:** none.
-
-## Session End Status
-Completed normally at 2026-10-04 20:09:37
+  heredoc to a file — recurred twice more in this chunk's two windows); the "not measured here" vocabulary; PID 1 as
+  the cleanup-deadline target; the PTY master close needing no held clone; let a red CI run finish before folding its
+  fix; the doubled-backslash guard recurrence.
+- **Last failed command:** light gate entry 16 (`gate.py run`, log `/tmp/andromeda-gate/2026-10-04-the-wheel/wrap-2026-10-04T20-44-01/16.log`) — a red guard, not a command to retry; the remedy is the argv move above.
