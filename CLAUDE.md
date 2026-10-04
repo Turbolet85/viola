@@ -12,13 +12,13 @@ viola is a standalone, cross-platform (Windows first) bridge that lets one inter
 - `src/` — the `viola` bin: clap dispatch (`src/cmd/`), the `run` PTY pump, wheel and budget governor (`src/run/`)
 - `crates/` — the workspace library crates (`viola-core`, `-pty`, `-channel`, `-state`, `-agent-claude`, `-mcp`, `-ui`) + test-only `viola-e2e`
 - `plugin/` — `hooks.json`, `.mcp.json`, `plugin.json`, embedded via `include_str!` and written out by `viola run`
-- `fixtures/claude/<cli-version>/` — hook payloads recorded by `viola verify`, replayed by the fake agent in CI; `fixtures/fake-scripts/` — committed fake-agent turn scripts
+- `fixtures/claude/<cli-version>/` — hook payloads recorded by `viola verify` (plus relayed dialog captures, `RELAYED.md`), replayed by the fake agent in CI; `fixtures/fake-scripts/` — committed fake-agent turn scripts
 - `e2e-web/` — the Playwright browser suite (`run --browser` on all three CI OSes; test-side only, under the sha256-pinned Node v24.21.0; axe and the a11y lint land with the a11y chunks; the ts code-graph plane via its tracked `tsconfig.json`); `a11y/sr-pass/` — manual screen-reader pass records
 <!-- GENERATED:setup:overview end -->
 
 ## Modules
 <!-- GENERATED:setup:modules start -->
-- **`viola-core`** — normalised event kinds, `RefusalReason`, `ViolaName`, `Percent`, `v` constants, `validate_paste_text`, `MAX_FRAME`, `SPINE_DEADLINE`, the `Clock` seam, `obs_event!`
+- **`viola-core`** — normalised event kinds, `RefusalReason`, `ViolaName`, `Percent`, `v` constants, `validate_paste_text`, `MAX_FRAME`, `SPINE_DEADLINE`, `DIALOG_DEADLINE`, the `Clock` seam, `obs_event!`
 - **`viola-pty`** — PTY seam (spawn · read · write · resize · wait · kill) over portable-pty `=0.8.1`; `PasteHandle`, the child's input shared by the human copy and the one-write bracketed paste; knows no agent; Windows `sideload` (System32 DLL-search restriction + absolute-path pre-load of the vendored `conpty.dll`)
 - **`viola-channel`** — JSON-RPC 2.0 over ndjson on interprocess local sockets; sync client/server, Tokio client behind a feature
 - **`viola-state`** — ndjson logs, atomic snapshots, `.lock` siblings, the `events.ndjson` reader (torn-line healing owed to route `:85`), tailing, liveness, strict-modes
@@ -40,7 +40,7 @@ viola is a standalone, cross-platform (Windows first) bridge that lets one inter
 - Disk state: set 0700 dirs / 0600 files explicitly (never the umask); only the wrapper writes `snapshot.json`, only `viola verify` writes `ledger/stamps.json`; one `write` per ndjson line; never truncate `events.ndjson`.
 - stdout is reserved (`--json` results, the hook decision body, MCP frames, the child's screen): no `print!`/`eprintln!`/`dbg!` in product crates; log only via `obs_event!` under `#[instrument(skip_all, fields(..))]`.
 - Every Cargo profile keeps `panic = "unwind"`, and the custom panic hook is the first statement of `main` (a hook panic must still exit 0).
-- Tokio only in `viola-mcp` / `viola-ui`; no C-building crates; Claude-specific shapes only in `viola-agent-claude`, where each undocumented CLI behaviour is a capability-ledger row with a `viola verify` probe.
+- Tokio only in `viola-mcp` / `viola-ui`; no C-building crates; Claude-specific shapes only in `viola-agent-claude`, where each undocumented CLI behaviour is a capability-ledger row with a `viola verify` probe (one dated exception: the S3/S7/S8 dialog bodies ride the six-row stamp until route `:82`).
 <!-- GENERATED:setup:warnings end -->
 
 ## Where to Look

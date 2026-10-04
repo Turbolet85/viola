@@ -1,0 +1,288 @@
+[
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "9b5fafc7",
+"ts": "2026-10-04T17:10:47Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-04T16-53-44-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-04T16-53-44-wrap",
+"--marker",
+"2026-10-04-dialog-answers-by-dialog-id"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 2,
+"stdout": [],
+"stderr": "[[pattern]] #2 (dialog-chunk-later): `id` is 1-16 chars of A-Z a-z 0-9 _ . -",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "9b5fafc7",
+"ts": "2026-10-04T17:11:06Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-04T16-53-44-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-04T16-53-44-wrap",
+"--marker",
+"2026-10-04-dialog-answers-by-dialog-id"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"baseline c540254a (pre-CI parent — the oldest of 1 pre-CI commit(s), 7f1364f0)",
+"seven-events · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:362 (prose)",
+"dialog-later · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:99 (p…",
+"dialog-unserved · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:52…",
+"perf-four · new 0 · standing 0 · leaf 3 · curation 0 · base 0 · control architecture.md:418 (prose)",
+"v2183 · new 1 · standing 5 · leaf 2 · curation 0 · base 0 · control architecture.md:251 (fenced)",
+"timeout-mult · new 1 · standing 0 · leaf 1 · curation 0 · base 0 · control registries/contracts/test-plan/5-command-imp…",
+"verb-list · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:139 (prose)",
+"from-list · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:274 (pro…",
+"stamps-gap · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control security-plan.md:230 (prose)",
+"fixture-source · new 1 · standing 2 · leaf 3 · curation 0 · base 0 · control architecture.md:410 (prose)",
+"matcher-off · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:1060 (pro…",
+"deadline-open · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:69 (…",
+"s3-with-answers · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:91…",
+"dated-gaps · new 0 · standing 5 · leaf 2 · curation 0 · base 0 · control security-plan.md:205 (prose)",
+"permission-map · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control architecture.md:169 (prose)",
+"exactly-once · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control architecture.md:307 (prose)",
+"route-78 · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:52 (prose)",
+"strict-detail · new 6 · standing 6 · leaf 1 · curation 0 · base 0 · control design-system.md:779 (prose)",
+"stamp-gate · new 0 · standing 3 · leaf 0 · curation 0 · base 0 · control security-plan.md:210 (prose)",
+"perf-stamped · new 2 · standing 0 · leaf 0 · curation 0 · base 0 · control test-plan.md:1217 (prose)",
+".claude/docs/services/viola-agent-claude.md:23 seven-events leaf …le (as landed): `HookEvent` (7 registered events; `fr…",
+".claude/rules/verification-harness.md:45 perf-four leaf …rf-<pid>` session → four hyperfine rows → zero-panic check → c…",
+".claude/docs/obs-summary.md:31 perf-four leaf ×2 … --require perf` over four `perf-<hook>.json` rows (`pre-tool-use` un…",
+".claude/docs/tests-summary.md:44 perf-four leaf ×2 …30` via `run --perf` (four rows; `pre-tool-use` untimed until the d…",
+".andromeda/architecture.md:251 v2183 standing …\",\"data\":{\"versions\":{\"2.1.283\":{\"verified_at\":\"2026-09-28T15:14:02.311Z…",
+".andromeda/architecture.md:410 v2183 new …ne.rs`. Committed sets: `2.1.283` and `2.1.287`. `2.1.287` holds the four spi…",
+".andromeda/design-system.md:801 v2183 standing …e, a summary: `stamped 2.1.283  6 pass  0 fail`. The word `fail` is unc…",
+".andromeda/layout-templates.md:474 v2183 standing stamped 2.1.283  6 pass  0 fail                            <- last st…",
+".andromeda/layout-templates.md:478 v2183 standing stamped 2.1.283  4 pass  2 fail                            <- a faili…",
+".andromeda/test-plan.md:1084 v2183 standing edited …son` (today the sets `2.1.283` and `2.1.287`: the four spine `{Sess…",
+".claude/rules/verification-harness.md:43 v2183 leaf …st the fake agent at 2.1.283 over `fixtures/claude` → `booted_wrap…",
+".claude/docs/tests-summary.md:21 v2183 leaf ×2 … `DEFAULT_CLI_VERSION` 2.1.283 (the root `stamped_home` and harness `bo…",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:45 timeout-mult new @c2002/3594 …d `--build-timeo…",
+".claude/docs/commands.md:44 timeout-mult leaf … --caught --unviable --build-timeout-multiplier=5` — `run --mutants` (th…",
+".claude/docs/services/viola.md:30 verb-list leaf …`-` flag under `cli`: `send`, `wait`, `last`, `verify`) prints exactl…",
+".andromeda/security-plan.md:230 stamps-gap standing edited @c936/2433 … `2026-09-28`, stamps read); `viola run`'s versi…",
+".claude/rules/security.md:14 stamps-gap leaf …sions Log `2026-09-28`, stamps read): `run`'s version gate and `verify`'s…",
+".andromeda/test-plan.md:408 fixture-source standing …'s behaviour matches recorded `viola verify` fixtures, including f…",
+".andromeda/test-plan.md:438 fixture-source new …ntract | Fake agent vs recorded `viola verify` fixtures (the spine) and…",
+".andromeda/registries/contracts/architecture/project-directory-structure.md:78 fixture-source standing edited …s record…",
+"CLAUDE.md:15 fixture-source leaf …-version>/` — hook payloads recorded by `viola verify`, replayed by the fake agent in…",
+".claude/rules/verification-harness.md:46 fixture-source leaf …st not drift from recorded `viola verify` fixtures (contr…",
+".claude/docs/tests-summary.md:21 fixture-source leaf …ent>.<variant>.json` recorded by `viola verify`, runs absolute ex…",
+".andromeda/security-plan.md:205 dated-gaps standing edited mixed ×4 @c2000,2876,2898/4780 …**Second interim gap (the fo…",
+".andromeda/security-plan.md:205 dated-gaps @c+3580/4780",
+".andromeda/security-plan.md:207 dated-gaps standing edited @c1038/7024 …'s `endpoint`; interim gap, ratified: until the…",
+".andromeda/security-plan.md:230 dated-gaps standing edited ×2 @c1403,1766/2433 …). A fourth interim gap (the founder's …",
+".andromeda/security-plan.md:240 dated-gaps standing …/` folder: the third interim gap (§ `~/.viola/` access control, De…",
+".andromeda/security-plan.md:524 dated-gaps standing edited … same process. The dated exceptions, until the Epoch 6 entr…",
+".claude/docs/security-summary.md:18 dated-gaps leaf … until then ratified interim gaps: `hook`'s snapshot read, `run`'s…",
+".claude/docs/services/viola-state.md:22 dated-gaps leaf …ntil then, ratified interim gaps: `hook <event>`'s snapshot re…",
+".andromeda/architecture.md:169 permission-map standing edited   - PermissionRequest → `permission`, except a Permission…",
+".claude/rules/events.md:20 permission-map leaf …ExitPlanMode → `plan`; PermissionRequest → `permission`; Stop → `turn-e…",
+".andromeda/architecture.md:307 exactly-once standing edited …), so every dialog appears exactly once in the log; a matc…",
+".andromeda/a11y-plan.md:588 exactly-once standing …TY, `waiting: <name>` appears exactly once on stderr and the stream …",
+".claude/docs/tests-summary.md:27 route-78 leaf … `:102` / `:129` / `:139`, the dialog kinds' end-to-end witness to `:78`",
+".andromeda/architecture.md:253 strict-detail new …t-modes refusal is the same outcome, its detail `strict-modes-failed`.",
+".andromeda/architecture.md:401 strict-detail new …dger-stamps\", detail:\"strict-modes-failed\"}`. The rows themselves (pr…",
+".andromeda/security-plan.md:207 strict-detail new @c1737/7024 …-stamps\", detail:\"strict-modes-failed\"}`); a third, rati…",
+".andromeda/security-plan.md:235 strict-detail new …amps\"}` WARN (detail `strict-modes-failed` on a refusal) and `cli_ve…",
+".andromeda/design-system.md:779 strict-detail standing …: `instance-dead`, `strict-modes-failed`, `server-verify-failed…",
+".andromeda/obs-plan.md:532 strict-detail standing …Filesystem refusals (`strict-modes-failed`, `pinned-hash-mismatch`, …",
+".andromeda/obs-plan.md:660 strict-detail standing …s-only pre-check, so `strict-modes-failed` / `server-verify-failed` …",
+".andromeda/obs-plan.md:731 strict-detail new …nreadable\"|\"malformed\"|\"strict-modes-failed\", count}` in `run-<name>.ndjs…",
+".andromeda/obs-plan.md:832 strict-detail standing …t 21: `instance-dead`, `strict-modes-failed`, `server-verify-failed`.",
+".andromeda/obs-plan.md:834 strict-detail standing …rver-verify-failed`, `strict-modes-failed`, `unverified-cli`, `deadl…",
+".andromeda/obs-plan.md:835 strict-detail new …ored` (`state-entry`), `strict-modes-failed` (`ledger-stamps`: `run`'s ve…",
+".andromeda/obs-plan.md:837 strict-detail standing edited …fusals (Vector 7): `strict-modes-failed` (on `process-exit` e…",
+".claude/docs/obs-summary.md:68 strict-detail leaf …`; exit 21 `instance-dead|strict-modes-failed|server-verify-failed`).",
+".andromeda/security-plan.md:210 stamp-gate standing …rified-cli` gate: no non-`null` decision without a `viola verify` …",
+".andromeda/security-plan.md:604 stamp-gate standing edited mixed ×2 ….dialog` with a non-`null` decision unless `ledger…",
+".andromeda/security-plan.md:605 stamp-gate standing edited …ook.dialog` with a non-`null` decision unless `viola run`'s…",
+".andromeda/architecture.md:428 perf-stamped new … `gate --require perf` (obs-plan §9); the perf session boots unstamped.",
+".andromeda/obs-plan.md:1081 perf-stamped new …w required by name; the perf session boots unstamped, so `pre-tool-use` r…",
+"seven-events · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:362 (prose)",
+"dialog-later · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:99 (p…",
+"dialog-unserved · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:52…",
+"perf-four · new 0 · standing 0 · leaf 3 · curation 0 · base 0 · control architecture.md:418 (prose)",
+"v2183 · new 1 · standing 5 · leaf 2 · curation 0 · base 0 · control architecture.md:251 (fenced)",
+"timeout-mult · new 1 · standing 0 · leaf 1 · curation 0 · base 0 · control registries/contracts/test-plan/5-command-imp…",
+"verb-list · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:139 (prose)",
+"from-list · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:274 (pro…",
+"stamps-gap · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control security-plan.md:230 (prose)",
+"fixture-source · new 1 · standing 2 · leaf 3 · curation 0 · base 0 · control architecture.md:410 (prose)",
+"matcher-off · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:1060 (pro…",
+"deadline-open · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:69 (…",
+"s3-with-answers · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:91…",
+"dated-gaps · new 0 · standing 5 · leaf 2 · curation 0 · base 0 · control security-plan.md:205 (prose)",
+"permission-map · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control architecture.md:169 (prose)",
+"exactly-once · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control architecture.md:307 (prose)",
+"route-78 · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:52 (prose)",
+"strict-detail · new 6 · standing 6 · leaf 1 · curation 0 · base 0 · control design-system.md:779 (prose)",
+"stamp-gate · new 0 · standing 3 · leaf 0 · curation 0 · base 0 · control security-plan.md:210 (prose)",
+"perf-stamped · new 2 · standing 0 · leaf 0 · curation 0 · base 0 · control test-plan.md:1217 (prose)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "c540254a9e3648ced788217541bfff9d1c35f07c",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), 7f1364f0",
+"counts": {
+"seven-events": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"dialog-later": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"dialog-unserved": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"perf-four": {
+"new": 0,
+"standing": 0,
+"leaf": 3,
+"curation": 0,
+"base": 0
+},
+"v2183": {
+"new": 1,
+"standing": 5,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"timeout-mult": {
+"new": 1,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"verb-list": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"from-list": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"stamps-gap": {
+"new": 0,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"fixture-source": {
+"new": 1,
+"standing": 2,
+"leaf": 3,
+"curation": 0,
+"base": 0
+},
+"matcher-off": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"deadline-open": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"s3-with-answers": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"dated-gaps": {
+"new": 0,
+"standing": 5,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"permission-map": {
+"new": 0,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"exactly-once": {
+"new": 0,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"route-78": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"strict-detail": {
+"new": 6,
+"standing": 6,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"stamp-gate": {
+"new": 0,
+"standing": 3,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"perf-stamped": {
+"new": 2,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]

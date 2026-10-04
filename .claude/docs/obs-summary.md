@@ -28,7 +28,7 @@ The obs harness is **bound** to the test harness: tests owns the grepped fields 
 | Unlogged panics | 0 — every panic after init step 4 = exactly one `event:"panic"` line; `hook` still exits 0 | G2 over home-level role files |
 | Secret-scan hits | 0 (token, `Cookie`, `?t=`, `CLAUDE*`, canary in home-level files) | `secret-scan` step before any diagnostics-bearing upload (the admissible-by-content unscanned uploads are listed in obs-plan §8 item 6) |
 | Schema-conformance failures | 0 | G4 |
-| Hook latency | hyperfine `max` < 1.0 s (SessionEnd; spine provisional) — logger init = 1 open + appends | the per-OS `perf` job: `run --perf` with `VIOLA_NAME` / `VIOLA_DIR` set, `gate --require perf` over four `perf-<hook>.json` rows (`pre-tool-use` untimed until the dialog tier) |
+| Hook latency | hyperfine `max` < 1.0 s (SessionEnd; spine provisional) — logger init = 1 open + appends | the per-OS `perf` job: `run --perf` with `VIOLA_NAME` / `VIOLA_DIR` set, `gate --require perf` over five `perf-<hook>.json` rows (`pre-tool-use` included, on an unstamped perf session) |
 | Heartbeat flip | same process: 5.0 s live / 5.1 s stale; pid or start-time mismatch → gone at any age | `viola_state::liveness::classify` unit test (injected age) |
 
 ## Service identity tagging

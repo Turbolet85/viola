@@ -1,0 +1,108 @@
+[
+{
+"tool": "upgrade",
+"v": "1.3",
+"sha8": "529df4d4",
+"ts": "2026-10-04T16:56:31Z",
+"argv": [
+"detect",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-04T16-53-44-wrap",
+"--marker",
+"2026-10-04-dialog-answers-by-dialog-id"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"U01 · ok · setup · CLAUDE.md @imports block · 1 import line(s) = the template's",
+"U02 · ok · setup · .claude/settings.json hooks · write current · bash current · PostToolUse on the stdin prologue",
+"U03 · ok · setup · scripts/code-graph.py · code-graph-views.sql · code-graph-cookbook.md · lines behind: code-graph.py …",
+"U04 · noted · setup · .claude/rules/host-win32.md · 3 template line(s) missing above `## Session Additions` — regenerat…",
+"U05 · ok · setup · rustfmt.toml · rustfmt.toml present",
+"U06 · ok · setup · .gitattributes · .gitattributes carries `* text=auto eol=lf`",
+"U07 · ok · setup · .gitignore base ignores · every base ignore decided by the root .gitignore (depth 2 included)",
+"U08 · ok · hand · .andromeda/playbook.md seed rules · all 6 seed rules present by name or `seed:` tag",
+"U09 · ok · noted · .claude/docs/workflow.md · .claude/docs/workflow.md carries `it never commits`",
+"U10 · ok · noted · scripts/agent-run.sh ensure_fresh_artifacts hook · scripts/agent-run.sh carries `ensure_fresh_artifa…",
+"U11 · ok · setup · .andromeda/friction-log.ndjson · code-metrics.ndjson line endings · friction-log.ndjson LF · code-me…",
+"U12 · n/a · setup · .andromeda/residuals.md header · residuals.md absent (wrap lazy-creates it with the current header)",
+"U13 · ok · hand · .andromeda/{doc}-amendments.md entry form · 7 sidecars · every entry on the form",
+"U14 · ok · hand · working-route markerless introducers · 32 markerless entries · 0 introducers behind markup or after t…",
+"U35 · ok · hand · masters' logs + keyed contracts · ok: infra K, test K, test L, obs K, obs L, a11y K, a11y L, security…",
+"U36 · noted · noted · .claude/docs/{security,design,tests,obs,a11y}-summary.md header line · .claude/docs/security-summ…",
+"upgrade: for setup 0 · awaiting a door 0 · noted 2 (U04, U36) · INDETERMINATE 0 · 16 detectors of 35 registry entries"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"U01": {
+"state": "ok",
+"class": "setup"
+},
+"U02": {
+"state": "ok",
+"class": "setup"
+},
+"U03": {
+"state": "ok",
+"class": "setup"
+},
+"U04": {
+"state": "noted",
+"class": "setup"
+},
+"U05": {
+"state": "ok",
+"class": "setup"
+},
+"U06": {
+"state": "ok",
+"class": "setup"
+},
+"U07": {
+"state": "ok",
+"class": "setup"
+},
+"U08": {
+"state": "ok",
+"class": "hand"
+},
+"U09": {
+"state": "ok",
+"class": "noted"
+},
+"U10": {
+"state": "ok",
+"class": "noted"
+},
+"U11": {
+"state": "ok",
+"class": "setup"
+},
+"U12": {
+"state": "n/a",
+"class": "setup"
+},
+"U13": {
+"state": "ok",
+"class": "hand"
+},
+"U14": {
+"state": "ok",
+"class": "hand"
+},
+"U35": {
+"state": "ok",
+"class": "hand"
+},
+"U36": {
+"state": "noted",
+"class": "noted"
+}
+}
+}
+]

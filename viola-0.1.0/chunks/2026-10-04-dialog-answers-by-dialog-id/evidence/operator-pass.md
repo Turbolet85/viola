@@ -89,3 +89,11 @@
   the runner the home kept the workspace's inherited Users write ACEs and was refused before the read — the specified
   outcome for a pre-existing unprotected home. Fix (test only): `viola_state::fs::create_private_dir` makes `ledger/`
   first, then the directory is planted in it. Local: `cli_version_gate` 9/9, pre-push green, hygiene and scope clean.
+
+## CI read 4 — ci#37218087331 on `ca69e84` — GREEN (the final HEAD run)
+- `ci.py conclusion --sha HEAD --wait 1800`: `ca69e8462f17 verdict: green · checks 15/15 · wall 289 s · runs
+  ci#37218087331 completed/success`. Path 4 and v1-30 on three OSes, red A on ubuntu, red B on msrv, the Windows
+  strict-modes DACL arm and the protected-DACL creation on windows-2025 all green.
+- The pass's runs: ci#37213772796 (`7f1364f`, red: windows) → ci#37214281447 (`2080e3f`, red: measured) →
+  ci#37217684692 (`2484b77`, red: one test stand-in) → ci#37218087331 (`ca69e84`, green). Each run reads the whole
+  workflow on its sha, so the final run's green covers every subject an earlier run read red.

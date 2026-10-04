@@ -820,7 +820,7 @@ _Scope: no `cognitive-accessibility` trigger fired (a11y-scope Sec 5), so there 
   - There is no idle timer, no `meta refresh` and no auto-dismissing notice (layout: "no toast and no auto-dismissing notice").
   - The page never forces a reload.
 - **Implementation:** no timeout-extension component is needed, and none is researched or adopted. The v1.x brakes add no timer either.
-- **CLI:** `viola wait` returns `{timed_out:true}` only for a timeout the caller passes in. viola imposes no limit on a human, and there is no conformance claim for the terminal.
+- **CLI:** `viola wait` returns `{timed_out:true}` only for a timeout the caller passes in. A raised dialog takes a `viola answer` only within the dialog deadline (`DIALOG_DEADLINE`, 60 s PROVISIONAL, under the `hooks.json` `timeout` of 75 s); on expiry the hook exits 0 with no body, the dialog renders for the human in the `claude` TUI, and a later `answer` for it is refused `not-delivered` / `unknown-dialog` (exit 13) — the deadline bounds the driver, never the human. There is no conformance claim for the terminal.
 - **WCAG SC:** SC 2.2.1 Timing Adjustable (A). There is no surface to adjust, and this is asserted as follows:
   - axe `meta-refresh` (wcag2a tag) passes;
   - Playwright `context.cookies()` shows the session cookie with `expires === -1` (session scope, no timed expiry);

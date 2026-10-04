@@ -27,7 +27,7 @@ Path-scoped rules for viola's interfaces: the wrapper channel, the MCP tools, th
 ## CLI
 - Human text by default, `--json` for agents: one JSON document on stdout mirroring the channel result (`{"v":1,"ok":…}` / `{"v":1,"refusal":…,"detail":…}` / `{"v":1,"error":"instance-unreachable"|"wrapper-fault",…}`).
 - Exit codes: 0 ok · 1 internal / `run` start refusal · 2 usage (never from `viola hook`) · 10 human-typing · 11 budget-paused · 12 unverified-cli · 13 not-delivered · 14 unknown · 20 wrapper fault · 21 instance unreachable. `viola hook` always exits 0.
-- Prompt text only from stdin or `--file`; warn on a Git Bash rewritten-path argument; `ViolaName` arguments via `value_parser = parse_viola_name`; `--home`/`VIOLA_DIR` canonicalised and strict-modes-checked before any read (interim ratified exceptions until Epoch 6: `viola hook` shape-checks `VIOLA_DIR` only, and `run`'s version gate and `verify` read `ledger/stamps.json` before strict-modes — security-plan Decisions Log `2026-09-28`).
+- Prompt text only from stdin or `--file`; warn on a Git Bash rewritten-path argument; `ViolaName` arguments via `value_parser = parse_viola_name`; `--home`/`VIOLA_DIR` canonicalised and strict-modes-checked before any read (interim ratified exceptions until Epoch 6: `viola hook` shape-checks `VIOLA_DIR` only, and `verify` reads `ledger/stamps.json` before strict-modes — security-plan Decisions Log `2026-09-28`; `run`'s version gate reads it through `read_stamps_strict`).
 - The CLI adds `from` from its own `VIOLA_NAME` when set.
 
 ## MCP

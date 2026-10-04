@@ -72,7 +72,7 @@ Rendered by `/andromeda-setup-project` on the first run and kept current by wrap
 ## ExitPlanMode ignores PermissionRequest `allow`
 **What breaks:** approving a plan through a PermissionRequest `allow` leaves the dialog rendered (measured twice).
 **How to avoid:** approve a plan only through PreToolUse `permissionDecision: allow`; revise via PermissionRequest `deny` + a message saying what to change. Two identical revise messages in a row made the model stop re-presenting the plan.
-**References:** brief §4.1 S7; arch ledger rows; requirements v1-15.
+**References:** brief §4.1 S7; arch ledger rows (S7 has no row until route `:82`, the founder's dated gap); requirements v1-15.
 
 ## CLI-native modals bypass every hook
 **What breaks:** a paste typed while a CLI-native modal is up ("Teach auto mode…") is swallowed; the screen also lags the hooks.

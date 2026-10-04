@@ -475,3 +475,22 @@
 **Change:** Path 3 now records its landed half: `tests/cli_wait_last.rs` (`path3_wait_parks_until_turn_ended_then_last_reads_it`, `wait_after_a_send_cursor_returns_the_turn`, `last_survives_a_wrapper_restart`) over `fixtures/fake-scripts/path3.json`, and `tests/chaos_wait_vanish.rs`, cli + wrapper channel on all three CI OSes; the MCP steps owed to `:102`, `/api/sessions` to `:129`, the page STATUS to `:139`, the dialog kinds' end-to-end witness to `:78`.
 **Why:** the scenario named four surfaces with no landed or owed status, overstating what this chunk covered.
 **Ref:** .andromeda/runs/2026-10-04T10-29-04-wrap/
+
+## 2026-10-04-dialog-answers-by-dialog-id — relayed dialog fixtures, the 2.1.287 default, Paths 3 and 4 as landed
+**Section:** §2 Test Strategy (Contract row; the contract required-test line) · §6 Path 3 · Path 4 (surfaces, step 1) · §6 Security sweep → Windows `--home` outside `%USERPROFILE%` · §7 Fixture library · Recorded hook payloads · Fake agent (hook commands, modes) · Fixture hygiene · §3 → 5-command implementation (the root fixture chain)
+**Change:**
+- Fixture source was `viola verify` recordings only; now the spine is recorded and the dialog tier (`fixtures/claude/2.1.287/` `PreToolUse.*` / `PermissionRequest.*` for `ask-user-question` / `exit-plan-mode`, `RELAYED.md`) is relayed from the viola-lab prototype's live captures, `tool_input.plan` redacted, reviewed before commit, until `:82`'s re-probe; the contract suite checks both, the hygiene walk covers sets `2.1.283` and `2.1.287` and scripts `gated-turn` / `path3` / `path4`.
+- The default CLI version was 2.1.283; now 2.1.287 (`DEFAULT_CLI_VERSION`, `RECORDED_CLI_VERSION`, `stamped_home`, `Wrapper::boot`).
+- The fake agent's matchers were "not evaluated yet"; now `hook_commands(…, tool)` evaluates a group's `matcher` against `tool_name`.
+- Path 3: the `question` / `plan` end-to-end wake witness landed (was owed to `:78`); the `permission` one is owed to `:82`. Path 4 as landed: `tests/cli_answer.rs` over `path4.json` on three OSes (question with annotations, plan approve, plan revise via the PermissionRequest repeat, the question's repeat silent, a second concurrent dialog empty, `unknown-dialog` exit 13); `permission` unit / insta only, its e2e owed to `:82`; step 1 fixture names in the §2 form.
+- Security sweep: the Windows creation half landed (`create_private_dir`, unit both OSes + `tests/cli_version_gate.rs`), the `RUNNER_TEMP` negative owed to `:111`; a Windows DACL test homes under `target/e2e-home`, never `%TEMP%`.
+**Why:** print mode raises no dialog hook, so the founder ruled live for relayed fixtures (R1) and pulled the creation half forward (R3); the paths record what the chunk's tests cover.
+**Ref:** .andromeda/runs/2026-10-04T16-53-44-wrap/
+
+## 2026-10-04-dialog-answers-by-dialog-id — five perf rows on an unstamped session; the mutants build bound
+**Section:** §2 Test Strategy → Performance / Load · §10 Perf run rules (perf session, status) · Performance budgets (`pre-tool-use` row) · §3 → 5-command implementation (`run --perf`, `gate --require perf`, `run --mutants` and its `--package` arm)
+**Change:**
+- Perf was four timed rows with `pre-tool-use` "untimed until the dialog-tier chunk" on a stamped session (`stamp: true`); now five rows (`session-start`, `user-prompt-submit`, `stop`, `session-end`, `pre-tool-use`) on one unstamped session (`stamp: false`), so `pre-tool-use` times the unverified-CLI path; `gate --require perf` requires all five by name (`perf::ROWS`, re-exported as `run::PERF_ROWS`); the suite reads 7 passed on green (was 6).
+- `run --mutants` (both arms) was `--build-timeout-multiplier=5`; now `--build-timeout=400` through the shared `MUTANTS_PROGRESS`, a fixed floor of 5 × the largest measured 78 s baseline, because the multiplier conflicts with it and derives a sub-second bound from a sub-second baseline.
+**Why:** the dialog hook is now a registered event, so its latency row joins the gate; the build bound is the chunk's Red B fix.
+**Ref:** .andromeda/runs/2026-10-04T16-53-44-wrap/

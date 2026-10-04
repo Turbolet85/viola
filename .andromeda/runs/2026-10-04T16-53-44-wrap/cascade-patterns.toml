@@ -1,0 +1,94 @@
+# Cascade step-2 sweep — 2026-10-04-dialog-answers-by-dialog-id wrap. One pattern per retired claim (its verbs and
+# phrasings, not only its name).
+
+# hook events registered: seven → nine
+[[pattern]]
+id = 'seven-events'
+regex = '(seven non-dialog|HookEvent` \(7|7 events|seven (hook )?events)'
+ignore_case = true
+
+[[pattern]]
+id = 'dialog-later'
+regex = '(join with the dialog chunk|registered by the dialog chunk|with the dialog-tier chunk|until the dialog-tier chunk|dialog-tier chunk)'
+ignore_case = true
+
+# hook.dialog / answer not served
+[[pattern]]
+id = 'dialog-unserved'
+regex = '(no `hook\.dialog` is served|hook\.dialog` is (not )?served yet|`answer`[^.]{0,60}-32601|hook\.dialog`[^.]{0,60}-32601)'
+
+# pre-tool-use untimed / four perf rows
+[[pattern]]
+id = 'perf-four'
+regex = '(four (timed |hyperfine )?rows|all four required|four `perf-|pre-tool-use`[^.|]{0,40}untimed|pre-tool-use` is not timed|unknown event at HEAD)'
+ignore_case = true
+
+# fixture default version
+[[pattern]]
+id = 'v2183'
+fixed = '2.1.283'
+
+# mutants build bound
+[[pattern]]
+id = 'timeout-mult'
+fixed = 'build-timeout-multiplier'
+
+# catch-site / cli verb lists without answer
+[[pattern]]
+id = 'verb-list'
+regex = '`send`, `wait`(,| and) `last`( and|,) `verify`'
+
+[[pattern]]
+id = 'from-list'
+regex = '\(`send`, `wait`, `last`\)'
+
+# the run stamps-read gap
+[[pattern]]
+id = 'stamps-gap'
+regex = '(version gate[^.;]{0,160}(without|before any strict)|stamps read\)|stamps-read interim)'
+
+# fixture source: verify recordings only
+[[pattern]]
+id = 'fixture-source'
+regex = '(recorded by `viola verify`|first recorded set|Recorded `viola verify` fixtures|recorded `viola verify` fixtures)'
+
+[[pattern]]
+id = 'matcher-off'
+regex = 'matchers?`? (are|is) not evaluated'
+
+[[pattern]]
+id = 'deadline-open'
+regex = '(deadline is an open item|dialog deadline[^.]{0,60}open)'
+ignore_case = true
+
+[[pattern]]
+id = 's3-with-answers'
+regex = 'S3/S7/S8[^.;]{0,60}with dialog answers'
+
+[[pattern]]
+id = 'dated-gaps'
+regex = '(fifth dated gap|fourth dated gap|dated exceptions|interim gap)'
+
+[[pattern]]
+id = 'permission-map'
+fixed = 'PermissionRequest → `permission`'
+
+[[pattern]]
+id = 'exactly-once'
+regex = '(exactly once in the log|appears exactly once)'
+
+[[pattern]]
+id = 'route-78'
+regex = '(working-route\.md:78|`:78`)'
+
+[[pattern]]
+id = 'strict-detail'
+fixed = 'strict-modes-failed'
+
+[[pattern]]
+id = 'stamp-gate'
+regex = 'non-`null` decision'
+
+[[pattern]]
+id = 'perf-stamped'
+regex = '(stamp: true|perf session[^.]{0,80}stamped)'

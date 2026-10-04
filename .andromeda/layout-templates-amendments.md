@@ -38,3 +38,9 @@ History of amendments to `.andromeda/layout-templates.md`, one entry per amendme
 - wait/last join the verbs sharing the `unable` word column.
 **Why:** the lines the chunk shipped (the plan's lean: the layout form with the name, over the design line that omits it).
 **Ref:** .andromeda/runs/2026-10-04T10-29-04-wrap/
+
+## 2026-10-04-dialog-answers-by-dialog-id — the catch-site verb list gains answer
+**Section:** §Surface: cli → Component — Primary content block 2 (refusal lines)
+**Change:** a failed or panicked `cli` verb was `send`, `wait`, `last`, `verify`; now `send`, `wait`, `last`, `answer`, `verify` — each prints exactly `error: internal error` once from the one catch site, no hint.
+**Why:** the chunk added the `viola answer` verb, which exits 1 through the shared catch site.
+**Ref:** .andromeda/runs/2026-10-04T16-53-44-wrap/

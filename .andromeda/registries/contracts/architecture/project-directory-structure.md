@@ -18,13 +18,14 @@ viola/
 ├── src/                        # the `viola` bin: anyhow edge only
 │   ├── main.rs                 # clap 4.6.7 dispatch (Windows: the System32 DLL-search restriction is its second statement)
 │   ├── conpty.rs               # Windows x64: the embedded ConPTY companions and their four pins (the vendor script parses this text)
-│   ├── human.rs                # human-facing text: the refusal and internal-error stderr writers, the stdout result writer, `send`'s readback mirror (`[  ] open` / `[RB] read back` / `[/ ] unable` + its hints), the message-mode escaper and the `wait` / `last` lines, called by `run`, `verify`, `send`, `wait`, `last` and the `main` catch site
+│   ├── human.rs                # human-facing text: the refusal and internal-error stderr writers, the stdout result writer, `send`'s readback mirror (`[  ] open` / `[RB] read back` / `[/ ] unable` + its hints), the message-mode escaper, the `wait` / `last` lines and the `answer` line, called by `run`, `verify`, `send`, `wait`, `last`, `answer` and the `main` catch site
 │   ├── cmd/                    # one module per subcommand: run, send, wait, last, list,
 │   │                           #   answer, hook, mcp, ui, verify, pause, release, link, unlink, plugin;
 │   │                           #   client.rs (a helper, no subcommand): the channel client send / wait / last share
 │   ├── run/                    # PTY pump, wheel, budget governor; gate.rs: the pump-output tee + bounded vt100 feed + Gate;
 │   │                           #   send.rs: the wrapper's `send` method, the one-in-flight slot, the driver relabel;
-│   │                           #   wait.rs: the WaitFeed (Mutex + Condvar wake, newest turn, start rebuild), `wait` / `last`
+│   │                           #   wait.rs: the WaitFeed (Mutex + Condvar wake, newest turn, start rebuild), `wait` / `last`;
+│   │                           #   dialog.rs: the DialogSlot (one pending dialog, Condvar await, armed continuation)
 │   └── bin/viola-fake-agent.rs # test-only stand-in `claude` (feature `fake-agent`)
 ├── tests/                      # root integration tests (sync)
 │   ├── cmd/*.toml              # trycmd cases: human-mode expected output (snapbox redactions)
@@ -43,7 +44,8 @@ viola/
 │   │                           #   skips + counts torn / oversize lines; healing owed to route :85), tailing (with `ui`)
 │   ├── viola-agent-claude/     # hook parsing, dialog mapping, R8 strip, shim resolution,
 │   │                           #   capability ledger, the vt100 screen model (`screen`), statusline parsing
-│   │                           #   (+ proptest-regressions/, committed seeds)
+│   │                           #   (+ proptest-regressions/, committed seeds; src/snapshots/, the insta
+│   │                           #   snapshots of the dialog decision bodies)
 │   ├── viola-mcp/              # rmcp 3.4.1 stdio server, thin adapter over viola-channel
 │   ├── viola-ui/               # axum 0.8.9 GET routes + SSE, Host allowlist
 │   │   └── assets/             # embedded page: index.html, app.css (the single stylesheet); no JS build step
@@ -73,7 +75,7 @@ viola/
 │   ├── fuzz_targets/{viola_name,channel_frame,hook_stdin,vt100_feed,paste_text}.rs
 │   └── corpus/<target>/        # committed synthetic seeds
 ├── fixtures/
-│   ├── claude/<cli-version>/   # hook-payload fixtures recorded by `viola verify`
+│   ├── claude/<cli-version>/   # hook-payload fixtures recorded by `viola verify`, plus relayed dialog fixtures (RELAYED.md)
 │   └── fake-scripts/           # committed fake-agent turn scripts (synthetic)
 ├── e2e-web/                    # test-side Node only (Playwright; axe and the a11y lint land with the a11y chunks);
 │   │                           #   the ts code-graph plane
