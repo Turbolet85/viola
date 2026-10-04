@@ -76,12 +76,13 @@ pub fn trusted_sid(sid: &str, user: &str) -> bool {
     sid == user || TRUSTED_SIDS.contains(&sid)
 }
 
-/// One DACL entry as the Windows reader sees it: an allow ACE's trustee and access mask (an
-/// inherit-only ACE included, its generic bits unmapped).
+/// One DACL entry as the Windows reader sees it: an allow ACE's trustee, access mask (an
+/// inherit-only ACE included, its generic bits unmapped) and `AceFlags` (inheritance).
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Allow {
     pub sid: String,
     pub mask: u32,
+    pub flags: u8,
 }
 
 /// The owner is the user or Administrators; no allow ACE grants a write right to another SID. A
@@ -249,6 +250,7 @@ mod win {
             allows.push(Allow {
                 sid: sid_string(sid)?,
                 mask: allowed.Mask,
+                flags: header.AceFlags,
             });
         }
         Some(Some(allows))
@@ -325,6 +327,68 @@ mod win {
             let sid = user_sid().expect("sid");
             assert!(sid.starts_with("S-1-5-"), "{sid}");
         }
+
+        /// `INHERITED_ACE` in `AceFlags`.
+        const INHERITED: u8 = 0x10;
+
+        /// Every reading the verdict rests on, for one path: the verdict, owner, user, volume and
+        /// each allow ACE (SID, mask, flags, inherited, whether it carries a write right). SIDs and
+        /// codes only, never a path.
+        fn reading_of(label: &str, path: &Path) -> String {
+            let verdict = check(path);
+            let user = user_sid();
+            let persistent = persistent_acls(path);
+            let mut text = format!(
+                "{label}: verdict {verdict:?} user {user:?} persistent_acls {persistent:?}"
+            );
+            match owner_and_dacl(path) {
+                None => text.push_str(" owner/dacl unreadable"),
+                Some((owner, None)) => text.push_str(&format!(" owner {owner} dacl NULL")),
+                Some((owner, Some(aces))) => {
+                    text.push_str(&format!(" owner {owner} aces {}", aces.len()));
+                    for ace in aces {
+                        text.push_str(&format!(
+                            "\n    allow {} mask 0x{:08X} flags 0x{:02X} inherited {} write {} trusted {}",
+                            ace.sid,
+                            ace.mask,
+                            ace.flags,
+                            ace.flags & INHERITED != 0,
+                            ace.mask & super::super::WRITE_RIGHTS != 0,
+                            user.as_deref()
+                                .is_some_and(|u| super::super::trusted_sid(&ace.sid, u)),
+                        ));
+                    }
+                }
+            }
+            text
+        }
+
+        /// A home where the CI test homes live, under the workspace's `target/e2e-home` (outside
+        /// `%USERPROFILE%`): a ledger `viola verify` would write there must pass the check. A
+        /// refusal names the variant and every ACE of the ledger folder and the stamps file
+        /// (chunk 2026-10-04-dialog-answers-by-dialog-id, ci#37213772796 `test (windows-2025)`).
+        #[test]
+        fn check_stamps_of_a_home_under_the_workspace_target_passes() {
+            let base = Path::new(env!("CARGO_MANIFEST_DIR"))
+                .join("..")
+                .join("..")
+                .join("target")
+                .join("e2e-home");
+            std::fs::create_dir_all(&base).expect("e2e-home");
+            let tmp = tempfile::tempdir_in(&base).expect("tempdir");
+            let home = tmp.path().join("home");
+            crate::stamps::update_stamps(&home, |_| b"{}".to_vec()).expect("written");
+            let ledger = crate::stamps::ledger_dir(&home);
+            let got = super::super::check_stamps(&home);
+            assert_eq!(
+                got,
+                Ok(()),
+                "\n{}\n{}\nhome {}",
+                reading_of("ledger", &ledger),
+                reading_of("stamps", &ledger.join(super::super::STAMPS)),
+                reading_of("home", &home)
+            );
+        }
     }
 }
 
@@ -339,6 +403,7 @@ mod tests {
         Allow {
             sid: sid.to_owned(),
             mask,
+            flags: 0,
         }
     }
 

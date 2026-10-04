@@ -1866,5 +1866,70 @@
 "unparsed": 0,
 "widening_without_word": 0
 }
+},
+{
+"tool": "gate",
+"v": "1.8",
+"sha8": "af374e71",
+"ts": "2026-10-04T15:46:43Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-04-dialog-answers-by-dialog-id",
+"--run-dir",
+".andromeda/runs/2026-10-04T14-20-29-implement",
+"--marker",
+"2026-10-04-dialog-answers-by-dialog-id"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"root /home/turbolet/dev/projects/viola · base c540254a (the parent of the oldest pre-CI commit 7f1364f0) · lists new 8 · modify 29 · derived 4 · record 12",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"recorded companion crates/viola-agent-claude/Cargo.toml",
+"recorded companion crates/viola-state/Cargo.toml",
+"recorded companion schemas/diag-line.v1.json",
+"recorded in-intent tests/cli_version_gate.rs",
+"recorded companion crates/viola-state/src/liveness.rs",
+"recorded mechanical crates/viola-agent-claude/src/snapshots/*.snap ×6",
+"recorded companion src/cmd/send.rs",
+"recorded companion crates/viola-e2e/src/harness/gate.rs",
+"recorded companion tests/hook_fail_open.rs",
+"recorded companion crates/viola-channel/src/lib.rs",
+"recorded companion tests/channel_endpoint.rs",
+"recorded companion .github/workflows/windows-mutants.yml",
+"list viola-0.1.0/chunks/2026-10-04-dialog-answers-by-dialog-id/evidence/ (dir) ×0",
+"list fixtures/claude/2.1.287/*.default.json (derived by `viola verify --record`) ×4",
+"list fixtures/claude/2.1.287/PreToolUse.*.json (derived by `python3 viola-0.1.0/chunks/2026-10-04-dialog-answers-by-dialog-id/evidence/relay_fixtures.py`) ×2",
+"list fixtures/claude/2.1.287/PermissionRequest.*.json (derived by `python3 viola-0.1.0/chunks/2026-10-04-dialog-answers-by-dialog-id/evidence/relay_fixtures.py`) ×2",
+"list tests/snapshots/*.snap (derived by `cargo insta test`) ×0",
+"scope: clean — changed 59 · listed 42 · recorded 17 (companion 10 · mechanical 6 · in-intent 1 · widening 0) · absorbed 14 · excluded 74"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "/home/turbolet/dev/projects/viola",
+"base": "c540254a9e3648ced788217541bfff9d1c35f07c",
+"base_why": "the parent of the oldest pre-CI commit 7f1364f0",
+"counts": {
+"changed": 59,
+"listed": 42,
+"recorded": 17,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 14
+},
+"by_class": {
+"companion": 10,
+"mechanical": 6,
+"in-intent": 1,
+"widening": 0
+},
+"excluded": 74,
+"unparsed": 0,
+"widening_without_word": 0
+}
 }
 ]
