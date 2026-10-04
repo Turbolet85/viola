@@ -28,3 +28,19 @@ Results go below as the operator fires each one.
 - **Entry 22, `gate.py hygiene`:** `hygiene: clean — read 34 (runs 29 · evidence 5) · trails 11 not read · binary 0 not
   read by P1`, exit 0. Every P1/P2/P3 control fired on its synthetic known positive. Read on the uncommitted tree,
   before the pre-CI commit.
+- **Pre-CI commit:** `80b69cd` `chore(2026-10-03-mutation-scoring-completion): operator pre-CI commit, for the run this
+  chunk's verdict reads`. The tree was clean after it.
+- **Entry 23, the push:**
+  - First firing refused by the remote: `refusing to allow an OAuth App to create or update workflow
+    .github/workflows/ci.yml without workflow scope`. The credential lacked the scope; the commit touches `ci.yml`
+    (step 6's one-line comment). Nothing was pushed, and no other remote or credential was tried.
+  - The overseer granted the scope (`gh auth status` lists `repo`, `workflow`).
+  - Re-fired unchanged: `aa300a4..80b69cd HEAD -> build/viola-0.1.0`, exit 0, 0 ahead.
+- **Entry 24, `ci.py conclusion --sha HEAD --wait 1800`:**
+  - Output: `80b69cda643b verdict: green · checks 15/15 · wall 267 s · runs ci#37166444247 completed/success` (polled
+    10× over 279 s), exit 0.
+  - **Item 7's witness:** job `test (macos-latest)` (id 111330205294) concluded `success`. Its log reads
+    `PASS [ 0.086s] (612/955) viola-channel::channel_frames channel_frame_one_byte_over_is_refused_and_closed` and
+    `955 tests run: 955 passed, 0 skipped`.
+  - `test (ubuntu-latest)` and `test (windows-2025)` also concluded `success`.
+- **The final HEAD's run is ci#37166444247 on `80b69cd`.** No CI red, so nothing to fold.

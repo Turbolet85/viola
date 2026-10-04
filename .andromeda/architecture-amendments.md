@@ -408,3 +408,19 @@
 **Why:** std's `remove_dir_all` stops at the first entry it cannot delete, in listing order, so a scratch entry sorted after `owner.json` let a plain removal take the record first and leave an ownerless dir no sweep may take. The owner-record rule itself is unchanged (pid + start time only).
 **Kept:** the ownerless remnants that D:'s deadline-failing runs leave are not closed by this; their mechanism is not established and M2 owns them.
 **Ref:** .andromeda/runs/2026-10-03T07-46-03-wrap/
+
+## 2026-10-03-mutation-scoring-completion — pre-push native on the Linux host
+**Section:** §Stack and Technologies (CI/CD row, Browser e2e row) · §Infrastructure Patterns → CI/CD approach · §Infrastructure Patterns → Project directory structure · §Occupied Resources (CI workflow data lines, test-side install sites, `target/pre-push/`)
+**Change:**
+- Was: `pre-push` runs on the Windows dev host, drives a WSL2 `Ubuntu` clone (sync, tree-id check, 40 GiB cache), terminates the VM (`vm-release`), then runs `windows-tests` on the host with `CARGO_BUILD_JOBS=16`, refusing `pre-push-windows-only` elsewhere; provisioned by `scripts/wsl-provision.sh` (with an operator-only root `--install-deps`).
+- Now: `pre-push` runs on a Linux host only (`pre-push-linux-only`, exit 2, elsewhere), natively in the working tree (no clone, no sync). Every child is `/usr/bin/env -i HOME=<home> PATH=<home>/.cargo/bin:<home>/.local/viola-node/bin:/usr/local/bin:/usr/bin:/bin` from the repository root, `<home>` the passwd entry's field 6 read by two PATH-only probes (`tool-missing` `passwd-home` on failure). Stages `tools → linux-tests`; it installs nothing.
+- `scripts/wsl-exec.sh` and `scripts/wsl-provision.sh` leave the directory tree; `target/pre-push/` and `~/.cache/viola-provision/` leave Occupied Resources; the install sites live in the Linux host user's passwd home; `wsl-provision.sh` leaves the `NODE_PIN_*` parsers.
+- The CI/CD hyperfine clause and the jobs clause no longer cite the WSL provisioning; `run --mutants` lists the whole-member `--package <member>` form.
+**Why:** the dev host is Linux since 2026-10-03; the WSL clone was that host's filesystem bridge (overseer, founder-delegated, at plan review). No widening: only HOME and PATH cross, HOME from the passwd entry, never the harness's `$HOME` (shown to the founder at plan review).
+**Ref:** .andromeda/runs/2026-10-04T01-02-04-wrap/
+
+## 2026-10-03-mutation-scoring-completion — the mutation scratch dir on the Linux host
+**Section:** §Occupied Resources (`<repo parent>/viola-mutants-scratch/`)
+**Change:** The harness arm stays Windows-only (`HOST_SCRATCH = cfg!(windows)`), and its wipe now runs before every counted, scoped or package run (was "counted or scoped"). New: on the Linux dev host the same-named dir is the operator's `TMPDIR` for every mutation run, an environment fact rather than harness code, and it must be NOCOW (`chattr +C`). The reasons: cargo-mutants 27.1.0 copies the tree (`target/` included, ~14 GB) into the temp dir; `/tmp` there is a 32 GB `usrquota` tmpfs (a full viola-e2e run died at 460/709); and a COW btrfs reflink copy drops the exec bit of the prebuilt `viola-fake-agent`. The body carries this as measured at the chunk's `evidence/m3.md`. No document prints the path.
+**Why:** overseer direction (founder-delegated): every mutation run on this host takes `TMPDIR` on btrfs. The NOCOW requirement is the measured remedy for the reflink mode loss (`reflink 0.1.3` creates the clone with `create_new` and copies no mode).
+**Ref:** .andromeda/runs/2026-10-04T01-02-04-wrap/

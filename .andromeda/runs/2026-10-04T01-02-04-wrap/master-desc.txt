@@ -1,0 +1,1 @@
+Mutation scoring completion — viola-e2e scored by `run --mutants --package` (711 mutants, 0 missed over the measurable set, 2 owed to :70) and the twelve cfg(unix) mutants graded natively (9 caught, 3 unviable); pre-push native on the Linux host, the WSL tooling retired; the harness diff-prefix pin; the macOS channel_frames close race

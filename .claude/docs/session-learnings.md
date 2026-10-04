@@ -8,6 +8,11 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-10-04 — A push touching a workflow file needs the `workflow` OAuth scope
+GitHub refuses a push whose commits change `.github/workflows/*` when the pushing OAuth token lacks the `workflow` scope (`refusing to allow an OAuth App to create or update workflow … without workflow scope`), even for a comment-only edit, and nothing lands. The operator grants it with `gh auth refresh -h github.com -s workflow` (interactive, a browser step) and the push is re-fired unchanged; never route around it through another remote or credential. Check `gh auth status` lists `workflow` before an operator pass whose commit touches a workflow.
+
+---
+
 ## 2026-09-29 — Run-dir hygiene: the operator's disposition for phase-run CI copies
 When `gate.py hygiene` refuses files a phase run left in `.andromeda/runs/*-phase/` (copied CI logs, baseline trees), the operator's convention is: delete a copy nothing cites; in a copy an acceptance or the report cites, rewrite the host path roots and keep the line counts; and rename a plane-source control file (a `.rs` the code graph would index) to `.txt`, bytes kept. A plan entry that names the original file keeps that name; the report records the rename as a deviation. Applied at two consecutive chunks' operator passes.
 

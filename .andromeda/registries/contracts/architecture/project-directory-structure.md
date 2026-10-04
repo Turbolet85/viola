@@ -58,14 +58,8 @@ viola/
 │   ├── install-ripgrep.sh      # pinned, sha256-verified ripgrep 15.2.0 → target/tools/ripgrep
 │   ├── install-node.sh         # <os-key> <dest>: the official Node build at ci.yml's NODE_PIN_* (parsed from the
 │   │                           #   file text), sha256-verified, flattened into <dest> (+ --probe)
-│   ├── npm-audit.sh            # e2e-web lockfile: npm audit (every level) + registry.npmjs.org-only sources
-│   │                           #   → target/npm-audit/ (+ --advisories-only, --probe)
-│   ├── wsl-exec.sh             # operator aid only: [--cd DIR] CMD … through `wsl.exe -d Ubuntu --exec env -i` with the
-│   │                           #   distro's HOME and PATH (argv unconverted; --probe); no gate/harness/plan runs a command through it
-│   └── wsl-provision.sh        # in-distro WSL provisioning for `pre-push`: sha256-pinned rustup-init 1.29.1,
-│                               #   rust-toolchain.toml, `cargo install --locked` of ci.yml's test-job pins, the pinned
-│                               #   Node and the locked Playwright's Chromium (+ --check, --probe; --install-deps: uid 0,
-│                               #   operator-only)
+│   └── npm-audit.sh            # e2e-web lockfile: npm audit (every level) + registry.npmjs.org-only sources
+│                               #   → target/npm-audit/ (+ --advisories-only, --probe)
 ├── vendor/conpty/<version>/x64/ # the committed Microsoft conpty.dll + OpenConsole.exe (binary per .gitattributes)
 ├── .config/nextest.toml        # nextest profiles `ci` and `mutants`, `fixed-port` group
 ├── fuzz/                       # separate cargo-fuzz workspace (own Cargo.lock; excluded from the root)

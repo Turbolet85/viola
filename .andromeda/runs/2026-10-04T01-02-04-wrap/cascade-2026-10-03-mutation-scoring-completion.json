@@ -1,0 +1,407 @@
+[
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "1550f3bc",
+"ts": "2026-10-04T01:15:16Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-04T01-02-04-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-04T01-02-04-wrap",
+"--marker",
+"2026-10-03-mutation-scoring-completion"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 3,
+"stdout": [
+"baseline aa300a42 (pre-CI parent — the oldest of 1 pre-CI commit(s), 80b69cda)",
+"verbatim · control UNFIRED over the seven masters at aa300a42"
+],
+"stderr": "control: verbatim never fired over the seven masters' pre-pass text (aa300a42) — a sweep runs a positive control or refuses; drop the pattern or control it by hand",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "1550f3bc",
+"ts": "2026-10-04T01:15:35Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-04T01-02-04-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-04T01-02-04-wrap",
+"--marker",
+"2026-10-03-mutation-scoring-completion"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"baseline aa300a42 (pre-CI parent — the oldest of 1 pre-CI commit(s), 80b69cda)",
+"wsl · new 2 · standing 1 · leaf 13 · curation 1 · base 0 · control architecture.md:36 (prose)",
+"prewin · new 1 · standing 0 · leaf 2 · curation 0 · base 0 · control registries/contracts/architecture/ci-cd-approach.m…",
+"wintests · new 0 · standing 1 · leaf 2 · curation 0 · base 0 · control registries/contracts/architecture/ci-cd-approach…",
+"vmrel · new 0 · standing 1 · leaf 2 · curation 0 · base 0 · control registries/contracts/architecture/ci-cd-approach.md…",
+"tprepush · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:424 (prose)",
+"clone · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control security-plan.md:445 (prose)",
+"deps · new 0 · standing 2 · leaf 4 · curation 0 · base 0 · control architecture.md:36 (prose)",
+"sync · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control registries/contracts/test-plan/5-command-implementat…",
+"jobs · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control registries/contracts/architecture/ci-cd-approach.md:…",
+"pending · new 0 · standing 0 · leaf 0 · curation 0 · base 1 · control obs-plan.md:485 (prose)",
+"distro · new 1 · standing 0 · leaf 9 · curation 0 · base 0 · control architecture.md:403 (prose)",
+"linuxleg · new 0 · standing 2 · leaf 2 · curation 0 · base 0 · control architecture.md:37 (prose)",
+"arms · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:434 (prose)",
+"provision · new 2 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:403 (prose)",
+".andromeda/security-plan.md:337 wsl new ×2 … anything as uid 0; the WSL provisioner and its root `--install-deps` launc…",
+".andromeda/security-plan.md:445 wsl standing edited ×3 …ch exists: `scripts/wsl-exec.sh` and `scripts/wsl-provision.sh`…",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:165 wsl new ×2 … with the WSL gate by the mutatio…",
+".claude/rules/testing.md:72 wsl curation …ppy cannot see it (Linux clippy in pre-push's WSL clone can, before the push).",
+".claude/rules/security.md:35 wsl leaf ×7 - The WSL2 `pre-push` distro installs only CI's own pins (`scripts/wsl-provisi…",
+".claude/rules/verification-harness.md:24 wsl leaf ×4 …y` elsewhere) drives WSL2 `Ubuntu` only through `wsl.exe -d Ubunt…",
+".claude/docs/commands.md:12 wsl leaf ×2 - `wsl.exe -d Ubuntu -u root --exec /usr/bin/apt-get update` then `… apt-get in…",
+".claude/docs/commands.md:13 wsl leaf ×2 - `wsl.exe -d Ubuntu --cd /mnt/d/dev/projects/viola --exec /usr/bin/bash script…",
+".claude/docs/commands.md:14 wsl leaf ×2 - `wsl.exe -d Ubuntu -u root --cd /mnt/d/dev/projects/viola --exec /usr/bin/env…",
+".claude/docs/commands.md:36 wsl leaf ×4 …he working tree into the WSL2 `Ubuntu` clone `~/viola-pre-push` (tree ids must…",
+".claude/docs/commands.md:37 wsl leaf ×3 - `bash scripts/wsl-exec.sh [--cd DIR] CMD …` / `--probe` — operator aid only: …",
+".claude/docs/gotchas.md:126 wsl leaf ## `wsl.exe -- cmd` re-parses argv through the distro shell",
+".claude/docs/gotchas.md:127 wsl leaf **What breaks:** `wsl.exe -d Ubuntu -- cmd args` joins argv and hands it to the di…",
+".claude/docs/gotchas.md:128 wsl leaf **How to avoid:** `wsl.exe -d Ubuntu [--cd D] --exec /usr/bin/env -i HOME=… PATH=……",
+".claude/docs/security-summary.md:67 wsl leaf ×6 …g `2026-09-27`): every WSL call runs under `env -i` with HOME + PATH o…",
+".claude/docs/stack.md:32 wsl leaf ×3 … test job's suites inside WSL2 `Ubuntu` on the Windows dev host, provisioned by `…",
+".claude/docs/workflow.md:11 wsl leaf …rowser suite included, in WSL2 `Ubuntu`, then the windows coverage suites on the …",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:165 prewin new …n chunk: `pre-push-windows-only`,…",
+".claude/rules/verification-harness.md:24 prewin leaf …s host only; exit 2 `pre-push-windows-only` elsewhere) drives WSL…",
+".claude/docs/commands.md:36 prewin leaf … host only, else exit 2 `pre-push-windows-only`: the operator pass's local Lin…",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:165 wintests standing edited …se`, `windows-tests…",
+".claude/rules/verification-harness.md:24 wintests leaf ×3 …gate}`); the host `windows-tests` stage runs no browser suit…",
+".claude/docs/commands.md:36 wintests leaf …nux-tests · vm-release · windows-tests`, fail-fast, no mutation stage; every…",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:165 vmrel standing edited …che`, `vm-release`, `w…",
+".claude/rules/verification-harness.md:24 vmrel leaf …ache → linux-tests → vm-release → windows-tests` (`ok:true` when `…",
+".claude/docs/commands.md:36 vmrel leaf …c · cache · linux-tests · vm-release · windows-tests`, fail-fast, no mutation s…",
+".claude/rules/verification-harness.md:24 tprepush leaf …c scratch lives in `target/pre-push/`, outside `target/agent-ru…",
+".claude/docs/commands.md:36 clone leaf …he WSL2 `Ubuntu` clone `~/viola-pre-push` (tree ids must match), checks the Lin…",
+".andromeda/security-plan.md:337 deps standing edited …oner and its root `--install-deps` launch were retired with the W…",
+".andromeda/security-plan.md:445 deps standing edited …perator-only root `--install-deps`) were deleted with the WSL gat…",
+".claude/rules/security.md:35 deps leaf …root … wsl-provision.sh --install-deps <user home>`: OPERATOR-ONLY, never the g…",
+".claude/docs/commands.md:14 deps leaf …cripts/wsl-provision.sh --install-deps <distro user home>` — Chromium's system l…",
+".claude/docs/security-summary.md:67 deps leaf …t … wsl-provision.sh --install-deps <user home>` (Chromium's system libr…",
+".claude/docs/stack.md:32 deps leaf …stall, `wsl-provision.sh --install-deps`, ratified live 2026-09-27) — a pre-push fi…",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:165 sync new ×2 …s-only`, `sync-failed`, `sync-mi…",
+".claude/docs/commands.md:36 jobs leaf …ge,doctest` on the host (`CARGO_BUILD_JOBS=16`); stages `host · tools · sync · c…",
+".andromeda/playbook.md:40 pending base …md:485) says it keeps its pending wording and that §3, §6 and §12 win where the…",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:165 distro new …ails `wsl-distro-ubuntu`, `source…",
+".claude/rules/security.md:35 distro leaf ×2 - The WSL2 `pre-push` distro installs only CI's own pins (`scripts/wsl-prov…",
+".claude/rules/verification-harness.md:24 distro leaf ×2 …es argv through the distro shell) and never an inherited envir…",
+".claude/docs/commands.md:12 distro leaf …ld-essential` — the WSL2 distro's C toolchain for `pre-push` (root, no sudo; u…",
+".claude/docs/commands.md:13 distro leaf …angled) — provisions the distro for `pre-push`: sha256-pinned rustup-init 1.29…",
+".claude/docs/commands.md:14 distro leaf …ision.sh --install-deps <distro user home>` — Chromium's system libraries (uid…",
+".claude/docs/commands.md:37 distro leaf …usr/bin/env -i` with the distro's HOME and PATH, argv unconverted (`MSYS2_ARG_…",
+".claude/docs/gotchas.md:126 distro leaf ## `wsl.exe -- cmd` re-parses argv through the distro shell",
+".claude/docs/gotchas.md:127 distro leaf ×2 …rgv and hands it to the distro's shell, so `$…` expands (empty) and quoting…",
+".claude/docs/security-summary.md:67 distro leaf ×2 …` PATH gains only the distro-derived constant `<home>/.local/viola-…",
+".andromeda/obs-plan.md:1009 linuxleg standing …ripts/lint-probes.sh`, Linux leg (mechanism in §3 logger-stack-install);…",
+".andromeda/registries/contracts/obs-plan/bootstrap-phases-derive-for-route-setup-project.md:33 linuxleg standing … Linu…",
+".claude/docs/stack.md:33 linuxleg leaf … CI OSes and the pre-push Linux leg. The harness spawns `npm ci` and `node node…",
+".claude/docs/tests-summary.md:15 linuxleg leaf … OSes and the pre-push Linux leg, `run --browser` only; under the pinne…",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:56 arms standing markup …n the `counted` and `sco…",
+".andromeda/architecture.md:403 provision new …likewise per CI OS). No provisioning script exists; `pre-push`'s `tools` …",
+".andromeda/test-plan.md:1153 provision new @c2377/2568 … version source. No provisioning script remains. cargo-deny 0.2…",
+".claude/docs/commands.md:13 provision leaf …'s Chromium (npm ci in `~/.cache/viola-provision/e2e-web/`); never runs sudo",
+"wsl · new 2 · standing 1 · leaf 13 · curation 1 · base 0 · control architecture.md:36 (prose)",
+"prewin · new 1 · standing 0 · leaf 2 · curation 0 · base 0 · control registries/contracts/architecture/ci-cd-approach.m…",
+"wintests · new 0 · standing 1 · leaf 2 · curation 0 · base 0 · control registries/contracts/architecture/ci-cd-approach…",
+"vmrel · new 0 · standing 1 · leaf 2 · curation 0 · base 0 · control registries/contracts/architecture/ci-cd-approach.md…",
+"tprepush · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:424 (prose)",
+"clone · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control security-plan.md:445 (prose)",
+"deps · new 0 · standing 2 · leaf 4 · curation 0 · base 0 · control architecture.md:36 (prose)",
+"sync · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control registries/contracts/test-plan/5-command-implementat…",
+"jobs · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control registries/contracts/architecture/ci-cd-approach.md:…",
+"pending · new 0 · standing 0 · leaf 0 · curation 0 · base 1 · control obs-plan.md:485 (prose)",
+"distro · new 1 · standing 0 · leaf 9 · curation 0 · base 0 · control architecture.md:403 (prose)",
+"linuxleg · new 0 · standing 2 · leaf 2 · curation 0 · base 0 · control architecture.md:37 (prose)",
+"arms · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:434 (prose)",
+"provision · new 2 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:403 (prose)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "aa300a42d15ccabc9f5621ef7d64d917a45ad20d",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), 80b69cda",
+"counts": {
+"wsl": {
+"new": 2,
+"standing": 1,
+"leaf": 13,
+"curation": 1,
+"base": 0
+},
+"prewin": {
+"new": 1,
+"standing": 0,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"wintests": {
+"new": 0,
+"standing": 1,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"vmrel": {
+"new": 0,
+"standing": 1,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"tprepush": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"clone": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"deps": {
+"new": 0,
+"standing": 2,
+"leaf": 4,
+"curation": 0,
+"base": 0
+},
+"sync": {
+"new": 1,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"jobs": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"pending": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 1
+},
+"distro": {
+"new": 1,
+"standing": 0,
+"leaf": 9,
+"curation": 0,
+"base": 0
+},
+"linuxleg": {
+"new": 0,
+"standing": 2,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"arms": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"provision": {
+"new": 2,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+}
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "1550f3bc",
+"ts": "2026-10-04T01:18:21Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-04T01-02-04-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-04T01-02-04-wrap",
+"--marker",
+"2026-10-03-mutation-scoring-completion"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"baseline aa300a42 (pre-CI parent — the oldest of 1 pre-CI commit(s), 80b69cda)",
+"wsl · new 1 · standing 0 · leaf 0 · curation 1 · base 0 · control architecture.md:36 (prose)",
+"prewin · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control registries/contracts/architecture/ci-cd-approach.m…",
+"wintests · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control registries/contracts/architecture/ci-cd-approach…",
+"vmrel · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control registries/contracts/architecture/ci-cd-approach.md…",
+"tprepush · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:424 (pros…",
+"clone · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:445 (prose)",
+"deps · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:36 (prose)",
+"sync · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control registries/contracts/test-plan/5-command-implementat…",
+"jobs · 0 rows (control fired) — a statement about this pattern, not the masters · control registries/contracts/architec…",
+"pending · new 0 · standing 0 · leaf 0 · curation 0 · base 1 · control obs-plan.md:485 (prose)",
+"distro · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control architecture.md:403 (prose)",
+"linuxleg · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control architecture.md:37 (prose)",
+"arms · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:434 (prose)",
+"provision · new 3 · standing 0 · leaf 0 · curation 0 · base 0 · control architecture.md:403 (prose)",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:165 wsl new ×2 … with the WSL gate by the mutatio…",
+".claude/rules/testing.md:72 wsl curation …ppy cannot see it (Linux clippy in pre-push's WSL clone can, before the push).",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:165 prewin new …n chunk: `pre-push-windows-only`,…",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:165 wintests standing edited …se`, `windows-tests…",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:165 vmrel standing edited …che`, `vm-release`, `w…",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:165 sync new ×2 …s-only`, `sync-failed`, `sync-mi…",
+".andromeda/playbook.md:40 pending base …md:485) says it keeps its pending wording and that §3, §6 and §12 win where the…",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:165 distro new …ails `wsl-distro-ubuntu`, `source…",
+".andromeda/obs-plan.md:1009 linuxleg standing …ripts/lint-probes.sh`, Linux leg (mechanism in §3 logger-stack-install);…",
+".andromeda/registries/contracts/obs-plan/bootstrap-phases-derive-for-route-setup-project.md:33 linuxleg standing … Linu…",
+".andromeda/architecture.md:403 provision new …likewise per CI OS). No provisioning script exists; `pre-push`'s `tools` …",
+".andromeda/security-plan.md:337 provision new …thing as uid 0, and no provisioning script exists (§Secret Management, D…",
+".andromeda/test-plan.md:1153 provision new @c2377/2568 … version source. No provisioning script remains. cargo-deny 0.2…",
+"wsl · new 1 · standing 0 · leaf 0 · curation 1 · base 0 · control architecture.md:36 (prose)",
+"prewin · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control registries/contracts/architecture/ci-cd-approach.m…",
+"wintests · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control registries/contracts/architecture/ci-cd-approach…",
+"vmrel · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control registries/contracts/architecture/ci-cd-approach.md…",
+"tprepush · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:424 (pros…",
+"clone · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:445 (prose)",
+"deps · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:36 (prose)",
+"sync · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control registries/contracts/test-plan/5-command-implementat…",
+"jobs · 0 rows (control fired) — a statement about this pattern, not the masters · control registries/contracts/architec…",
+"pending · new 0 · standing 0 · leaf 0 · curation 0 · base 1 · control obs-plan.md:485 (prose)",
+"distro · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control architecture.md:403 (prose)",
+"linuxleg · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control architecture.md:37 (prose)",
+"arms · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:434 (prose)",
+"provision · new 3 · standing 0 · leaf 0 · curation 0 · base 0 · control architecture.md:403 (prose)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "aa300a42d15ccabc9f5621ef7d64d917a45ad20d",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), 80b69cda",
+"counts": {
+"wsl": {
+"new": 1,
+"standing": 0,
+"leaf": 0,
+"curation": 1,
+"base": 0
+},
+"prewin": {
+"new": 1,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"wintests": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"vmrel": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"tprepush": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"clone": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"deps": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"sync": {
+"new": 1,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"jobs": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"pending": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 1
+},
+"distro": {
+"new": 1,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"linuxleg": {
+"new": 0,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"arms": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"provision": {
+"new": 3,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]

@@ -8,7 +8,7 @@ _Extracted from architecture.md and project conventions by `/andromeda-setup-pro
 - **Main branch:** `main`
 - **Never force push** to main; the version branch is pushed at every wrap commit (the remote matches local HEAD on exit).
 - **PRs:** CI runs on push and PR (`ci.yml`; `nightly.yml` runs the weekly advisory checks — `cargo deny` and the npm lockfile's `npm-advisories` — and the 120 s-per-target fuzz time-box on `schedule` / `workflow_dispatch` from the default branch). Each OS's `test` job also runs the browser suite (`run --browser`) and gates `coverage,doctest,playwright`. CI runs no mutation job (since 2026-09-28): mutation testing runs at the epoch boundary through `/andromeda-code-audit`, and on demand through `agent-run run --mutants`. CI passes no `github.event` value. No `concurrency:` block, so no push's run is cancelled.
-- **Before the push:** the operator pass runs, in order: `bash scripts/agent-run.sh pre-push` on the uncommitted tree (the ubuntu test suites, the browser suite included, in WSL2 `Ubuntu`, then the windows coverage suites on the host; no mutation stage) → the pre-CI commit → the guarded push → the CI reads. A red `pre-push` stops the pass; CI's run on the pushed sha stays the verdict of record.
+- **Before the push:** the operator pass runs, in order: `bash scripts/agent-run.sh pre-push` on the uncommitted tree (the ubuntu test suites, the browser suite included, natively on the Linux dev host in the working tree; no mutation stage; the other OSes are CI's alone) → the pre-CI commit → the guarded push → the CI reads. A red `pre-push` stops the pass; CI's run on the pushed sha stays the verdict of record.
 
 ## Andromeda workflow
 

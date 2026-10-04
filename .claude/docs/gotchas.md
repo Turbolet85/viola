@@ -123,11 +123,6 @@ Rendered by `/andromeda-setup-project` on the first run and kept current by wrap
 **How to avoid (tests):** "stopped" means the endpoint is gone — a client connect reads NotFound (the harness `endpoint_gone` rule) — never the exit code alone: the root fixture's `Wrapper::stop` / `stop_keep` wait for it (`wait_endpoint_gone`).
 **References:** test-plan §10 Zero-flakiness budget; obs-plan §6 fail-open `detail` codes; chunk `2026-09-29-verify-stamped-test-homes-and-harness` research.md §Item 8.
 
-## `wsl.exe -- cmd` re-parses argv through the distro shell
-**What breaks:** `wsl.exe -d Ubuntu -- cmd args` joins argv and hands it to the distro's shell, so `$…` expands (empty) and quoting changes; the distro's default environment also carries the Windows PATH.
-**How to avoid:** `wsl.exe -d Ubuntu [--cd D] --exec /usr/bin/env -i HOME=… PATH=…` — argv verbatim, no inherited environment (`viola-harness pre-push` does exactly this).
-**References:** test-plan §3 Internal harness subcommands (`pre-push`); security-plan §Secret Management.
-
 ## A dependency's source is not under `~/.cargo`
 **What breaks:** on this host `CARGO_HOME` sits on another drive (the registry is not under `~/.cargo`), so a path to a crate's source built from `~/.cargo/registry/src/…` or a guessed `CARGO_HOME` reads nothing, and a search over it reads as "not found".
 **How to avoid:** locate a crate's source through `cargo metadata --format-version 1`: the package's `manifest_path` is its `Cargo.toml`, and its parent is the source root at the exact version the lockfile resolved.

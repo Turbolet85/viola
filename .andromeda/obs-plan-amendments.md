@@ -253,3 +253,15 @@
 **Change:** "neither harness `cleanup` nor a test home's drop deletes a home before G2, G4, the secret scan and the scan-gated uploads". Was "an rstest `TempDir` drop": a root test home now drops through `remove_owned`. The behaviour is unchanged: CI's `AGENT_RUN_KEEP_HOMES=1` keeps every home.
 **Why:** a cross-master citation of test-plan §3's test-data cleanup, which changed its removal mechanism this chunk.
 **Ref:** .andromeda/runs/2026-10-03T07-46-03-wrap/
+
+## 2026-10-03-mutation-scoring-completion — pre-push document and mutation scratch wording
+**Section:** §8 PII Scrubbing → Integration points, item 6 (the pre-push document bullet; the `mutants.out/` bullet)
+**Change:** The pre-push document carries no absolute path, only codes and counts. The gate runs natively on the Linux host in the working tree (no clone), so neither the repository root nor the passwd home reaches it, as `pre_push_document_carries_no_absolute_path` asserts; was "no Windows repository or home path, no Linux clone or home path (`~/viola-pre-push`)". The `mutants.out/` bullet: the harness scratch is Windows-host-only (`HOST_SCRATCH = cfg!(windows)`); on the Linux dev host the same-named dir is only the operator's NOCOW `TMPDIR`, printed by no document, and `mutants.out/` stays at the repository root.
+**Why:** the WSL clone retired with the Windows dev host; the no-path guarantee now names the native gate's paths at risk.
+**Ref:** .andromeda/runs/2026-10-04T01-02-04-wrap/
+
+## 2026-10-03-mutation-scoring-completion — §1 kept current
+**Section:** §1 Obs Scope Summary (its closing note)
+**Change:** Was "Section 1 is a verbatim copy of obs-scope.md and keeps its pending wording". Now §1 stays a labelled verbatim copy and is kept current: a proposal or a cascade hit inside it is judged like any body amendment. Until a wrap brings a difference current, §3, §6 and §12 win where they differ (the D-entries the note lists, unchanged).
+**Why:** the founder's ruling of 2026-10-04 (relayed by the overseer from V38): verbatim upstream copies are kept current. It supersedes the playbook's obs §1 and other-masters verbatim-copy rules, which are kept verbatim and marked superseded.
+**Ref:** .andromeda/runs/2026-10-04T01-02-04-wrap/

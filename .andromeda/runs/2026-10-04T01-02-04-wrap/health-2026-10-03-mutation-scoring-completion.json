@@ -1,0 +1,181 @@
+[
+{
+"tool": "health",
+"v": "1.0",
+"sha8": "a1bbe341",
+"ts": "2026-10-04T01:28:48Z",
+"argv": [
+"check",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-04T01-02-04-wrap",
+"--marker",
+"2026-10-03-mutation-scoring-completion"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"pre-flight · ✓ · CLAUDE.md at ./CLAUDE.md",
+"check 1 · ✓ · CLAUDE.md 124/200 lines · T1 1.8 KB · 0 of 8 bullets over 600 B (+0.0 KB)",
+"check 2 · ✓ · 20 markers · 10 starts · 0 orphan / mismatch / unclosed",
+"check 4 · ✓ · 9 rule files · frontmatter 7/7 parsed · always-loaded 2 (18.3 KB)",
+"  a11y.md 4.5 KB · paths 5 · 0 Session Additions, 0 over 1.5 KB",
+"  api.md 4.8 KB · paths 4 · 0 Session Additions, 0 over 1.5 KB",
+"  events.md 4.1 KB · paths 4 · 0 Session Additions, 0 over 1.5 KB",
+"  frontend.md 5.0 KB · paths 2 · 0 Session Additions, 0 over 1.5 KB",
+"  host-win32.md 9.3 KB · always loaded · 9 Session Additions, 0 over 1.5 KB",
+"  observability.md 5.1 KB · paths 4 · 1 Session Additions, 0 over 1.5 KB",
+"  security.md 9.0 KB · always loaded · 0 Session Additions, 0 over 1.5 KB",
+"  testing.md 13.6 KB · paths 8 · 23 Session Additions, 0 over 1.5 KB",
+"  verification-harness.md 14.5 KB · paths 6 · 7 Session Additions, 0 over 1.5 KB",
+"check 5 · ✓ · core docs 5/5",
+"check 8 · INDETERMINATE: 2/2 entries satisfied by the root .gitignore (fragment: unread)",
+"  INDETERMINATE: fragment arm — no --stack given (one of: go, node, python, rust)",
+"check 9 · ✓ · plans 6/6 by name · summaries 5/5 by name",
+"check 10 · ✓ · .andromeda/master-route.md present",
+"check 11 · ⚠ · seeded 2/2 · planes rust, ts · pipeline 4/4 · behind py 0 · sql 0 · cookbook 0",
+"  host tool scip-typescript not on PATH — npm i -g @sourcegraph/scip-typescript",
+"  python duckdb not importable — pip install -r scripts/requirements.txt",
+"  python protobuf not importable — pip install -r scripts/requirements.txt",
+"check 13 · INDETERMINATE: no --style given (architecture's Development Style)",
+"check 14 · ✓ · pointer table 17 entries (threshold 5)",
+"checks run: 7 ✓ / 1 ⚠ / 0 – · INDETERMINATE: 2 (renders ⚠) · the letter's hand reads: 3 · 6 · 7 · 12"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"claude_md": "CLAUDE.md",
+"check1": {
+"status": "✓",
+"lines": 124,
+"t1_bytes": 1838,
+"bullets": 8,
+"over": 0,
+"excess": 0
+},
+"check2": {
+"status": "✓",
+"markers": 20,
+"problems": []
+},
+"check4": {
+"status": "✓",
+"files": {
+"a11y.md": {
+"bytes": 4569,
+"frontmatter": "ok",
+"paths": true,
+"sa": 0,
+"sa_over": 0,
+"read_cap": false
+},
+"api.md": {
+"bytes": 4915,
+"frontmatter": "ok",
+"paths": true,
+"sa": 0,
+"sa_over": 0,
+"read_cap": false
+},
+"events.md": {
+"bytes": 4150,
+"frontmatter": "ok",
+"paths": true,
+"sa": 0,
+"sa_over": 0,
+"read_cap": false
+},
+"frontend.md": {
+"bytes": 5069,
+"frontmatter": "ok",
+"paths": true,
+"sa": 0,
+"sa_over": 0,
+"read_cap": false
+},
+"host-win32.md": {
+"bytes": 9561,
+"frontmatter": "absent",
+"paths": false,
+"sa": 9,
+"sa_over": 0,
+"read_cap": false
+},
+"observability.md": {
+"bytes": 5264,
+"frontmatter": "ok",
+"paths": true,
+"sa": 1,
+"sa_over": 0,
+"read_cap": false
+},
+"security.md": {
+"bytes": 9200,
+"frontmatter": "absent",
+"paths": false,
+"sa": 0,
+"sa_over": 0,
+"read_cap": false
+},
+"testing.md": {
+"bytes": 13930,
+"frontmatter": "ok",
+"paths": true,
+"sa": 23,
+"sa_over": 0,
+"read_cap": false
+},
+"verification-harness.md": {
+"bytes": 14841,
+"frontmatter": "ok",
+"paths": true,
+"sa": 7,
+"sa_over": 0,
+"read_cap": false
+}
+},
+"always_loaded_bytes": 18761
+},
+"check5": {
+"status": "✓",
+"missing": []
+},
+"check8": {
+"status": "INDETERMINATE:",
+"missing": [],
+"indeterminate": [],
+"stack": null
+},
+"check9": {
+"status": "✓",
+"missing": []
+},
+"check10": {
+"status": "✓",
+"present": true
+},
+"check11": {
+"status": "⚠",
+"planes": [
+"rust",
+"ts"
+],
+"currency": {
+"scripts/code-graph.py": 0,
+"scripts/code-graph-views.sql": 0,
+"scripts/code-graph-cookbook.md": 0
+}
+},
+"check13": {
+"status": "INDETERMINATE:"
+},
+"check14": {
+"status": "✓",
+"entries": 17
+}
+}
+}
+]

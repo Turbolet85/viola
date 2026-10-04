@@ -1,0 +1,55 @@
+[[pattern]]
+id = "wsl"
+regex = 'WSL|wsl\.exe|wsl-'
+
+[[pattern]]
+id = "prewin"
+fixed = 'pre-push-windows-only'
+
+[[pattern]]
+id = "wintests"
+fixed = 'windows-tests'
+
+[[pattern]]
+id = "vmrel"
+fixed = 'vm-release'
+
+[[pattern]]
+id = "tprepush"
+fixed = 'target/pre-push'
+
+[[pattern]]
+id = "clone"
+fixed = 'viola-pre-push'
+
+[[pattern]]
+id = "deps"
+fixed = 'install-deps'
+
+[[pattern]]
+id = "sync"
+regex = 'sync-mismatch|sync-failed'
+
+[[pattern]]
+id = "jobs"
+fixed = 'CARGO_BUILD_JOBS'
+
+[[pattern]]
+id = "pending"
+fixed = 'pending wording'
+
+[[pattern]]
+id = "distro"
+fixed = 'distro'
+
+[[pattern]]
+id = "linuxleg"
+fixed = 'Linux leg'
+
+[[pattern]]
+id = "arms"
+regex = 'counted or scoped|counted and scoped'
+
+[[pattern]]
+id = "provision"
+regex = 'provisioning|viola-provision'

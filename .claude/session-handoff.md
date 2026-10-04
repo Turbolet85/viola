@@ -1,48 +1,52 @@
 # Session Handoff
 
-**Last Updated:** 2026-10-03T22:18Z
-**Branch:** build/viola-0.1.0 · 0 ahead of origin/build/viola-0.1.0 as read at this wrap's Setup (this wrap's commit is pushed after this file is written)
+**Last Updated:** 2026-10-04T01:25Z
+**Branch:** build/viola-0.1.0 · 0 ahead of origin/build/viola-0.1.0 as read at this wrap's Setup (the pre-CI commit `80b69cd` was pushed in the operator pass; this wrap's commit is pushed after this file is written)
 **Status:** clean
-**Last Commit:** chore(route): operator-requested adaptation — 0-pending wrap (the Linux-host route adaptation)
+**Last Commit:** 2026-10-03-mutation-scoring-completion — the wrap commit of Mutation scoring completion
 
 ## Position
-- Done: no chunk. This was a 0-pending wrap carrying the overseer's relay `linux-route-adaptation.md` (items A–D;
-  C2 is the founder's ruling). The dev host is now Linux (Omarchy, btrfs) and the Viola pause is lifted.
-  - **M2 is closed:** the D: volume is gone, the witness set read 63/0 on Linux, and CI is green on `9e3b850` and
-    `d60f3d6`. Leak B and the in-repo coverage gate are closed with it. The TUI boundary cases stay as a CARRY on
-    :68, because the ConPTY cases are witnessed on CI only.
-- Next: **Mutation scoring completion** (working-route :68) → `/andromeda-phase`. It now holds:
-  - M3 (the viola-e2e mutants);
-  - the 12 `cfg(unix)` mutants, scored natively (the WSL leg and the `TMPDIR` question are retired);
-  - C3: the harness diff-prefix pin. 13 unit tests are red on this host until it lands;
-  - D: pre-push and the gate tools moved to the Linux host. The native stage keeps `env -i` HOME+PATH, and anything
-    wider goes to the founder live.
-- After it: the new **Windows boundary mutation workflow** entry (:70, the founder's C2 ruling).
+- Done: **2026-10-03-mutation-scoring-completion**:
+  - C3: the diff-prefix pin;
+  - M3: viola-e2e scored by the new `run --mutants --package <member>`, 711 mutants, missed 0 over the measurable set;
+  - the 12 `cfg(unix)` mutants graded natively (9 caught, 3 unviable);
+  - native Linux `pre-push`, with the WSL scripts deleted;
+  - the macOS `channel_frames` close race (`test (macos-latest)` green on ci#37166444247).
+- Next: **Windows boundary mutation workflow** (`working-route.md:70`) → `/andromeda-phase`. It now carries:
+  - the 34 coordinates owed by this chunk (2 viola-e2e `prepare` mutants and 32 `cfg(windows)` mutations);
+  - the mutation-run temp-dir leak as an `[inferred]` item with its own acceptance.
 
 ## Work done
-- The route tail was re-scoped (:68, :80, :85 rewritten; one entry inserted). The record is in
-  `.andromeda/runs/2026-10-03T22-10-25-wrap/adaptation-record.md`.
+- Harness:
+  - the `--package` arm;
+  - native `pre-push` (`env -i` HOME from the passwd entry + constant PATH, stages `tools → linux-tests`);
+  - eight kill tests: six in viola-e2e, two in viola-pty.
+- Evidence: `evidence/{c3,m3,cfg-unix,tui,operator-pass}.md`.
+- Every mutation run on this host takes `TMPDIR=<repo parent>/viola-mutants-scratch`, a NOCOW btrfs dir: `/tmp`'s quota
+  is too small, and a btrfs reflink copy drops the exec bit.
 
 ## Drift resolved
-- No spec body was edited. The bodies that name the WSL distro or the pre-push stages reconcile at :68's wrap,
-  through its D CARRY.
+- **28 amendments, 0 escalations:**
+  - architecture: §Stack, CI/CD, directory tree, Occupied Resources;
+  - security-plan: Development, Pinning, Anti-Patterns;
+  - test-plan: §2, §3 pre-push / run / closed enums, §9, §10;
+  - obs-plan: §8 item 6, §1 note.
+- **10 leaves re-derived.**
+- **Founder rulings carried:**
+  - verbatim upstream copies are kept current: playbook rules :40 and :44 superseded and kept, a new rule appended;
+  - the mutation-gate rule is curated into `testing.md`.
 
 ## Notes
-- **Founder calls pinned on the route:**
-  - :80: where the live proof runs. A real-CLI run on CI needs a Claude credential on a runner, and a Linux live run
-    would come before the Unix hardening.
-  - :85: the tab-close leg, now in a Linux terminal.
-- **`host-win32.md`** (always loaded) describes the retired Windows host. It is setup-rendered (U04), so its fate
-  belongs to an `/andromeda-setup-project` re-run.
-- **Code-graph:** no `.andromeda/cache/` on the fresh clone. Missing host tools: `scip-typescript`, and python
-  `duckdb`/`protobuf` (`pip install -r scripts/requirements.txt`). The next phase builds the cache cold.
-- **Installed `claude` is 2.1.287.** The only recorded fixture set is `fixtures/claude/2.1.283/`, so this CLI build
-  is unverified until `viola verify` runs against it.
-- **Deferred learnings** (max-3 cap, carried):
-  - PS5 BOM-less `.ps1` parsing (0.8; moot off Windows);
-  - let a red CI run finish before folding its fix (0.7);
-  - the doubled-backslash guard recurrence; the cross-drive `git worktree` move.
-- **Last failed command:** none.
-
-## Session End Status
-Completed normally at 2026-10-04 00:51:04
+- **`host-win32.md`** still describes the retired Windows host. It now carries one labelled Linux-host fact (the btrfs
+  reflink entry). Its replacement is an `/andromeda-setup-project` re-run, on the founder's timing (directive 5).
+- **Operator cleanup left on disk** (the permission layer refused the `rm`):
+  - `! rm -r /tmp/cargo-mutants-ws-*.tmp` (21 dirs, 325 MB);
+  - `! rm -rf ~/dev/projects/viola-mutants-scratch/{.tmp*,cargo-mutants-ws-*,rustdoctest*}` (~8 GB). Keep the dir
+    itself: it is NOCOW, and the next mutation run needs that attribute.
+- **Installed `claude` is 2.1.287.** Fixtures exist only for 2.1.283, so it stays unverified until `viola verify` runs.
+- **Deferred learnings** (max-3 cap):
+  - the "not measured here; owed to {route entry}" vocabulary (already in test-plan §10);
+  - PID 1 as the cleanup-deadline target that outlives SIGKILL (kill(2));
+  - a PTY master close hangs up a live child only when no reader/writer clone holds the master;
+  - carried from before: let a red CI run finish before folding its fix; the doubled-backslash guard recurrence.
+- **Last failed command:** none (the two `rm` calls were permission refusals, left to the operator above).
