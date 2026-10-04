@@ -33,7 +33,7 @@ fuzz_target!(|bytes: &[u8]| {
         if catch_unwind(AssertUnwindSafe(|| screen.feed(chunk, base))).is_err() {
             screen.poison();
             assert_eq!(
-                screen.verdict(&SIGS, base, base + Duration::from_secs(1)),
+                screen.verdict(Some(&SIGS), base, base + Duration::from_secs(1)),
                 GateStep::Done(Readiness::InputNotReady)
             );
         }

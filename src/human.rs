@@ -38,6 +38,69 @@ pub(crate) fn result(line: &str) {
     let _ = write_result(&mut io::stdout().lock(), line);
 }
 
+/// The readback mirror's word column: `unconfirmable`, the longest state word, sets it.
+const MIRROR_WORD: usize = 13;
+
+fn mirror_line(boxed: &str, word: &str, name: &str, rest: &str) -> String {
+    format!("{boxed} {word:<MIRROR_WORD$}  {name}  {rest}\n")
+}
+
+/// `[  ] open` with the issue time: the open box (layout-templates §Output structure — `viola
+/// send`). The caller writes it to stderr, and only when stdout is a terminal.
+pub(crate) fn write_send_open(out: &mut impl Write, name: &str, issued: &str) -> io::Result<()> {
+    out.write_all(mirror_line("[  ]", "open", name, &format!("issued {issued}")).as_bytes())
+}
+
+/// `[RB] read back` with the submit time and the cursor: the filled box, on stdout.
+pub(crate) fn write_read_back(
+    out: &mut impl Write,
+    name: &str,
+    submitted: &str,
+    cursor: u64,
+) -> io::Result<()> {
+    let rest = format!("{submitted}  cursor {cursor}");
+    out.write_all(mirror_line("[RB]", "read back", name, &rest).as_bytes())
+}
+
+/// `[/ ] unable` with the reason (and detail), then its `hint:` line when it has one, as ONE
+/// write: the hint is the last stderr line.
+pub(crate) fn write_send_unable(
+    out: &mut impl Write,
+    name: &str,
+    reason: &str,
+    hint: Option<&str>,
+) -> io::Result<()> {
+    let mut text = mirror_line("[/ ]", "unable", name, reason);
+    if let Some(hint) = hint {
+        text.push_str(&format!("hint: {hint}\n"));
+    }
+    out.write_all(text.as_bytes())
+}
+
+/// `error: wrapper fault  <code>`: a fault, so no hint.
+pub(crate) fn write_wrapper_fault(out: &mut impl Write, code: i64) -> io::Result<()> {
+    out.write_all(format!("error: wrapper fault  {code}\n").as_bytes())
+}
+
+/// The design-system cli pattern 2 hint for a `send` cause: a `not-delivered` detail, or
+/// `not-running` for exit 21. Never the sent text, a path or a pid.
+pub(crate) fn send_hint(name: &str, cause: &str) -> Option<String> {
+    Some(match cause {
+        "control-character" => {
+            "the text contains a control character (only LF, CR, TAB are allowed)".to_owned()
+        }
+        "input-not-ready" => {
+            format!("{name} was not ready for input; viola wait {name}, then send again")
+        }
+        "no-prompt-submitted" => {
+            format!("{name} did not submit the prompt; check it, then send again")
+        }
+        "turn-running" => format!("a turn is running; viola wait {name} first"),
+        "not-running" => format!("{name} is not running; viola list shows the live instances"),
+        _ => return None,
+    })
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -138,5 +201,102 @@ mod tests {
         assert_eq!(out.bytes, b"stamped 2.1.0  6 pass  0 fail\n");
         let err = write_result(&mut Broken, "x").expect_err("a broken writer fails");
         assert_eq!(err.kind(), io::ErrorKind::BrokenPipe);
+    }
+
+    fn one_write(f: impl FnOnce(&mut Recorder) -> io::Result<()>) -> String {
+        let mut out = Recorder::default();
+        f(&mut out).expect("write");
+        assert_eq!(out.calls, 1);
+        String::from_utf8(out.bytes).expect("utf-8")
+    }
+
+    #[test]
+    fn write_send_open_is_the_open_box_in_one_write() {
+        assert_eq!(
+            one_write(|o| write_send_open(o, "builder", "19:45:05.300Z")),
+            "[  ] open           builder  issued 19:45:05.300Z\n"
+        );
+    }
+
+    #[test]
+    fn write_read_back_is_the_filled_box_in_one_write() {
+        assert_eq!(
+            one_write(|o| write_read_back(o, "builder", "19:45:05.912Z", 48213)),
+            "[RB] read back      builder  19:45:05.912Z  cursor 48213\n"
+        );
+    }
+
+    #[test]
+    fn write_send_unable_puts_the_hint_last_in_one_write() {
+        let hint = send_hint("builder", "input-not-ready");
+        assert_eq!(
+            one_write(|o| write_send_unable(
+                o,
+                "builder",
+                "not-delivered  input-not-ready",
+                hint.as_deref()
+            )),
+            "[/ ] unable         builder  not-delivered  input-not-ready\n\
+             hint: builder was not ready for input; viola wait builder, then send again\n"
+        );
+        assert_eq!(
+            one_write(|o| write_send_unable(o, "builder", "unknown", None)),
+            "[/ ] unable         builder  unknown\n"
+        );
+    }
+
+    #[test]
+    fn write_send_mirror_words_line_up() {
+        let open = one_write(|o| write_send_open(o, "b", "t"));
+        let read = one_write(|o| write_read_back(o, "b", "t", 1));
+        let unable = one_write(|o| write_send_unable(o, "b", "r", None));
+        for line in [&open, &read, &unable] {
+            assert_eq!(line.find("  b  "), Some(18), "{line:?}");
+            assert!(line.is_ascii() && !line.contains('\x1b'), "{line:?}");
+        }
+    }
+
+    #[test]
+    fn write_wrapper_fault_is_the_code_and_no_hint() {
+        assert_eq!(
+            one_write(|o| write_wrapper_fault(o, -32603)),
+            "error: wrapper fault  -32603\n"
+        );
+    }
+
+    #[rstest]
+    #[case::control_character(
+        "control-character",
+        "the text contains a control character (only LF, CR, TAB are allowed)"
+    )]
+    #[case::input_not_ready(
+        "input-not-ready",
+        "builder was not ready for input; viola wait builder, then send again"
+    )]
+    #[case::no_prompt_submitted(
+        "no-prompt-submitted",
+        "builder did not submit the prompt; check it, then send again"
+    )]
+    #[case::turn_running("turn-running", "a turn is running; viola wait builder first")]
+    #[case::not_running(
+        "not-running",
+        "builder is not running; viola list shows the live instances"
+    )]
+    fn send_hint_is_the_design_string(#[case] cause: &str, #[case] hint: &str) {
+        assert_eq!(send_hint("builder", cause).as_deref(), Some(hint));
+    }
+
+    #[test]
+    fn send_hint_has_none_for_an_opaque_cause() {
+        assert_eq!(send_hint("builder", "unknown"), None);
+        assert_eq!(send_hint("builder", "unknown-dialog"), None);
+    }
+
+    #[test]
+    fn send_writers_return_the_writer_error() {
+        assert!(write_send_open(&mut Broken, "b", "t").is_err());
+        assert!(write_read_back(&mut Broken, "b", "t", 1).is_err());
+        assert!(write_send_unable(&mut Broken, "b", "r", None).is_err());
+        assert!(write_wrapper_fault(&mut Broken, 1).is_err());
     }
 }

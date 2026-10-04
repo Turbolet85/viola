@@ -1,5 +1,6 @@
 mod hook;
 mod run;
+mod send;
 mod verify;
 
 use std::path::PathBuf;
@@ -30,6 +31,8 @@ pub(crate) struct Cli {
 enum Command {
     /// Wrap a program as the named instance
     Run(run::RunArgs),
+    /// Type a prompt into the named instance and read it back; the text comes from stdin or --file
+    Send(send::SendArgs),
     /// Measure the local claude CLI against the capability ledger and stamp its version
     Verify(verify::VerifyArgs),
     /// Hand a Claude Code hook's payload to the wrapper (run by the plugin, never by a person)
@@ -57,6 +60,22 @@ pub(crate) fn dispatch(cli: Cli) -> Result<ExitCode, Failure> {
             run::run(&home, args).map_err(|error| Failure {
                 error,
                 sink: Some(sink),
+            })
+        }
+        Command::Send(args) => {
+            let home = resolve_home(cli.home)?;
+            let sink = DetailSink {
+                home: home.clone(),
+                instance: args.name.clone(),
+                process: ObsProcess::Cli,
+            };
+            send::send(&home, &args).map_err(|error| {
+                // `cli`'s one stderr line at a failure (obs-plan §7); the chain goes to the sink.
+                crate::human::internal_error();
+                Failure {
+                    error,
+                    sink: Some(sink),
+                }
             })
         }
         Command::Verify(args) => {

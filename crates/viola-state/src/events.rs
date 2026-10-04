@@ -67,6 +67,36 @@ pub fn append_event(instance_dir: &Path, line: &EventLine) -> Result<(), StateEr
     write_line(instance_dir, &bytes)
 }
 
+/// The `events.ndjson` length read under the lock: the byte offset the next line starts at, 0 when
+/// the log does not exist yet.
+pub fn end_offset(instance_dir: &Path) -> Result<u64, StateError> {
+    let lock = open_private_lock(&instance_dir.join(EVENTS_LOCK))?;
+    lock.lock()?;
+    current_len(instance_dir)
+}
+
+/// Appends the line `build` makes from the offset it will start at, under one lock hold, and
+/// returns that offset (a `send`'s `cursor`).
+pub fn append_event_at(
+    instance_dir: &Path,
+    build: impl FnOnce(u64) -> EventLine,
+) -> Result<u64, StateError> {
+    let lock = open_private_lock(&instance_dir.join(EVENTS_LOCK))?;
+    lock.lock()?;
+    let at = current_len(instance_dir)?;
+    let bytes = line_bytes(&build(at))?;
+    write_line(instance_dir, &bytes)?;
+    Ok(at)
+}
+
+fn current_len(instance_dir: &Path) -> Result<u64, StateError> {
+    match std::fs::metadata(instance_dir.join(EVENTS)) {
+        Ok(meta) => Ok(meta.len()),
+        Err(e) if e.kind() == std::io::ErrorKind::NotFound => Ok(0),
+        Err(e) => Err(e.into()),
+    }
+}
+
 /// `append_event` without waiting: `Ok(false)`, and nothing written, while another writer holds
 /// the lock (the SessionEnd hook's direct append, architecture [Hook Transport]).
 pub fn try_append_event(instance_dir: &Path, line: &EventLine) -> Result<bool, StateError> {
@@ -211,6 +241,75 @@ mod tests {
             at(),
         );
         assert!(try_append_event(&tmp.path().join("missing"), &line).is_err());
+    }
+
+    #[test]
+    fn events_end_offset_is_zero_before_the_log_exists() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        assert_eq!(end_offset(tmp.path()).expect("offset"), 0);
+    }
+
+    #[test]
+    fn events_append_at_returns_the_prior_length_and_the_line_carries_it() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let prior = b"{\"v\":1,\"kind\":\"earlier\"}\n".to_vec();
+        fs::write(tmp.path().join("events.ndjson"), &prior).expect("seed");
+        assert_eq!(end_offset(tmp.path()).expect("offset"), 25);
+        let at = append_event_at(tmp.path(), |l| {
+            EventLine::new(
+                &name(),
+                EventKind::SendIssued,
+                Source::Wrapper,
+                json!({"cursor": l}),
+                at(),
+            )
+        })
+        .expect("append");
+        assert_eq!(at, 25);
+        let bytes = fs::read(tmp.path().join("events.ndjson")).expect("read");
+        let record: Value = serde_json::from_slice(&bytes[25..]).expect("one line");
+        assert_eq!(record["kind"], json!("send-issued"));
+        assert_eq!(record["data"]["cursor"], json!(25));
+        assert_eq!(
+            end_offset(tmp.path()).expect("offset"),
+            u64::try_from(bytes.len()).expect("len")
+        );
+    }
+
+    #[test]
+    fn events_append_at_twice_returns_increasing_offsets() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let build = |l: u64| {
+            EventLine::new(
+                &name(),
+                EventKind::SendIssued,
+                Source::Wrapper,
+                json!({"cursor": l}),
+                at(),
+            )
+        };
+        let first = append_event_at(tmp.path(), build).expect("first");
+        let second = append_event_at(tmp.path(), build).expect("second");
+        assert_eq!(first, 0);
+        assert!(second > first);
+        let text = fs::read_to_string(tmp.path().join("events.ndjson")).expect("read");
+        let first_line = text.split_inclusive('\n').next().expect("first line");
+        assert_eq!(
+            second,
+            u64::try_from(first_line.len()).expect("len"),
+            "{text}"
+        );
+    }
+
+    #[test]
+    fn events_append_at_into_a_missing_dir_fails() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let missing = tmp.path().join("missing");
+        assert!(end_offset(&missing).is_err());
+        let result = append_event_at(&missing, |_| {
+            EventLine::new(&name(), EventKind::Wheel, Source::Wrapper, json!({}), at())
+        });
+        assert!(result.is_err());
     }
 
     #[test]

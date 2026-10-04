@@ -26,6 +26,22 @@ use crate::{ChannelError, ENDPOINT_KIND, PROTOCOL_V, ProtocolError};
 pub trait Dispatch: Send + Sync {
     /// The `result` member; `Err` is the protocol fault to answer with instead.
     fn dispatch(&self, method: &str, params: &Value) -> Result<Value, ProtocolError>;
+
+    /// `dispatch` with the request's id and connection labels, for a method whose own log lines
+    /// join on them; they correlate lines and are never identity (obs-plan D-10).
+    fn dispatch_call(&self, call: &Call<'_>) -> Result<Value, ProtocolError> {
+        self.dispatch(call.method, call.params)
+    }
+}
+
+/// One admitted request as `dispatch_call` sees it: `params` without `conn`, which travels apart.
+#[derive(Debug, Clone, Copy)]
+pub struct Call<'a> {
+    pub method: &'a str,
+    pub params: &'a Value,
+    pub id: Option<u64>,
+    pub conn: Option<&'a str>,
+    pub srv_conn: Option<&'a str>,
 }
 
 /// A bound endpoint, not yet accepting.
@@ -239,10 +255,15 @@ fn dispatched(
     if params.v > PROTOCOL_V {
         return Err(ProtocolError::UnsupportedVersion);
     }
-    catch_unwind(AssertUnwindSafe(|| {
-        dispatch.dispatch(&request.method, &request.params)
-    }))
-    .unwrap_or(Err(ProtocolError::Internal))
+    let call = Call {
+        method: &request.method,
+        params: &request.params,
+        id: request.id,
+        conn: peer.conn(),
+        srv_conn: peer.srv_conn(),
+    };
+    catch_unwind(AssertUnwindSafe(|| dispatch.dispatch_call(&call)))
+        .unwrap_or(Err(ProtocolError::Internal))
 }
 
 /// `detail` is one of the diag-line schema's closed `parse-rejected` codes.
@@ -443,7 +464,11 @@ impl Drop for ResponseLine<'_> {
         }
         match fault {
             Some(ProtocolError::Internal) => response_line!(ERROR),
-            Some(ProtocolError::InvalidRequest | ProtocolError::UnsupportedVersion) => {
+            Some(
+                ProtocolError::InvalidRequest
+                | ProtocolError::UnsupportedVersion
+                | ProtocolError::InvalidParams,
+            ) => {
                 response_line!(WARN)
             }
             _ => response_line!(INFO),
@@ -661,6 +686,63 @@ mod tests {
         assert_eq!(seen.as_slice(), [json!({"v": 1, "text": "t"})]);
         assert_eq!(got.event("channel-request")["conn"], "cli-1-2-3");
         assert_eq!(got.event("channel-response")["conn"], "cli-1-2-3");
+    }
+
+    type Seen = (String, Option<u64>, Option<String>, Option<String>);
+
+    /// What a method's own lines join on: the request id and the connection label.
+    #[derive(Default)]
+    struct Calls(std::sync::Mutex<Vec<Seen>>);
+
+    impl Dispatch for Calls {
+        fn dispatch(&self, _: &str, _: &Value) -> Result<Value, ProtocolError> {
+            Err(ProtocolError::Internal)
+        }
+
+        fn dispatch_call(&self, call: &Call<'_>) -> Result<Value, ProtocolError> {
+            assert!(call.params.get("conn").is_none());
+            self.0.lock().expect("calls").push((
+                call.method.to_owned(),
+                call.id,
+                call.conn.map(str::to_owned),
+                call.srv_conn.map(str::to_owned),
+            ));
+            Ok(json!({"ok": {}}))
+        }
+    }
+
+    #[test]
+    fn dispatch_call_sees_the_request_id_and_the_client_conn() {
+        let calls = Calls::default();
+        let line = r#"{"jsonrpc":"2.0","id":41,"method":"send","params":{"v":1,"conn":"cli-1-2-3","text":"t"}}"#;
+        let (reply, _) = capture(|| answer(line.as_bytes(), "srv-4", &calls));
+        assert_eq!(reply.expect("reply").frame["result"], json!({"ok": {}}));
+        let line = r#"{"jsonrpc":"2.0","id":42,"method":"send","params":{"v":1}}"#;
+        let _ = capture(|| answer(line.as_bytes(), "srv-4", &calls));
+        let seen = calls.0.lock().expect("calls");
+        let want: [Seen; 2] = [
+            (
+                "send".to_owned(),
+                Some(41),
+                Some("cli-1-2-3".to_owned()),
+                None,
+            ),
+            ("send".to_owned(), Some(42), None, Some("srv-4".to_owned())),
+        ];
+        assert_eq!(seen.as_slice(), want);
+    }
+
+    #[test]
+    fn dispatch_call_defaults_to_dispatch() {
+        let params = json!({"v": 1, "n": 3});
+        let call = Call {
+            method: "send",
+            params: &params,
+            id: Some(1),
+            conn: None,
+            srv_conn: Some("srv-1"),
+        };
+        assert_eq!(Echo.dispatch_call(&call), Ok(json!({"ok": {"echo": 3}})));
     }
 
     #[test]

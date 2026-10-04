@@ -19,7 +19,7 @@ pub use endpoint::{ENDPOINT_KIND, endpoint_name, endpoint_path, socket_dir};
 pub use frame::{
     Params, Request, error_response, ok_response, parse_request, read_frame, write_frame,
 };
-pub use server::{Dispatch, Server, Serving};
+pub use server::{Call, Dispatch, Server, Serving};
 
 /// The protocol version this build speaks; a request whose `params.v` is newer is refused.
 pub const PROTOCOL_V: u64 = 1;
@@ -46,13 +46,15 @@ pub enum ChannelError {
     NonUtf8Path,
 }
 
-/// The five JSON-RPC protocol faults; every other outcome, refusals included, travels in `result`.
+/// The five JSON-RPC protocol fault codes; every other outcome, refusals included, travels in
+/// `result`. `-32602` is a newer peer or params a method cannot take.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ProtocolError {
     Parse,
     InvalidRequest,
     MethodNotFound,
     UnsupportedVersion,
+    InvalidParams,
     Internal,
 }
 
@@ -62,7 +64,7 @@ impl ProtocolError {
             Self::Parse => -32700,
             Self::InvalidRequest => -32600,
             Self::MethodNotFound => -32601,
-            Self::UnsupportedVersion => -32602,
+            Self::UnsupportedVersion | Self::InvalidParams => -32602,
             Self::Internal => -32603,
         }
     }
@@ -73,6 +75,7 @@ impl ProtocolError {
             Self::InvalidRequest => "invalid request",
             Self::MethodNotFound => "method not found",
             Self::UnsupportedVersion => "unsupported protocol version",
+            Self::InvalidParams => "invalid params",
             Self::Internal => "internal error",
         }
     }
@@ -221,6 +224,10 @@ mod tests {
     #[case::version(
         ProtocolError::UnsupportedVersion,
         r#"{"code":-32602,"message":"unsupported protocol version","data":{"supported":1,"wrapper":"0.1.0"}}"#
+    )]
+    #[case::invalid_params(
+        ProtocolError::InvalidParams,
+        r#"{"code":-32602,"message":"invalid params","data":null}"#
     )]
     #[case::internal(
         ProtocolError::Internal,

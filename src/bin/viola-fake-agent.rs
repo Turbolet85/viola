@@ -18,6 +18,7 @@ use serde_json::{Value, json};
 const DEFAULT_CLI_VERSION: &str = "2.1.283";
 const PASTE_START: &[u8] = b"\x1b[200~";
 const PASTE_END: &[u8] = b"\x1b[201~";
+const WIDE_CHAR: &[u8] = b"\xe4\xb8\xad";
 const HARNESS_TURN: &str = "<task-notification>synthetic harness turn</task-notification>";
 /// The internal re-exec behind `--exit-no-eof`: a grandchild that holds the inherited stdout.
 const HOLD_STDOUT: &str = "--hold-stdout-internal";
@@ -50,6 +51,7 @@ struct Opts {
     local_command_mode: bool,
     inject_harness_turn: bool,
     exit_no_eof: bool,
+    vt100_panic_bytes: bool,
     hold_stdout: bool,
 }
 
@@ -74,6 +76,7 @@ impl Opts {
                 "--local-command-mode" => o.local_command_mode = true,
                 "--inject-harness-turn" => o.inject_harness_turn = true,
                 "--exit-no-eof" => o.exit_no_eof = true,
+                "--vt100-panic-bytes" => o.vt100_panic_bytes = true,
                 HOLD_STDOUT => o.hold_stdout = true,
                 _ => {}
             }
@@ -501,6 +504,13 @@ fn print_turn(agent: &Agent, prompt: &str) {
     println!("ok");
 }
 
+/// U+4E2D, a wide character, once on the terminal: at one column vt100 panics on it (the measured
+/// bytes behind the forced feed panic). Nothing new is receipted.
+fn write_panic_bytes() {
+    let mut out = std::io::stdout().lock();
+    let _ = out.write_all(WIDE_CHAR).and_then(|()| out.flush());
+}
+
 /// Reads stdin byte by byte until EOF or `\x03`.
 fn read_stdin(agent: &Agent) -> ExitCode {
     let mut input = Input::new();
@@ -555,6 +565,9 @@ fn main() -> ExitCode {
     // The `start` receipt below is written only once the mode is set.
     let _terminal = viola_pty::HostTerminal::enter();
     start_receipts(&agent);
+    if agent.opts.vt100_panic_bytes {
+        write_panic_bytes();
+    }
     watch_size(Arc::clone(&agent));
     // The real CLI fires SessionStart at launch; with no registered hook or no fixture, nothing runs.
     agent.fire("SessionStart", "default", None);
@@ -608,6 +621,7 @@ mod tests {
             "--local-command-mode",
             "--inject-harness-turn",
             "--exit-no-eof",
+            "--vt100-panic-bytes",
             "--version",
             "-p",
             "a prompt",
@@ -626,6 +640,7 @@ mod tests {
         assert_eq!(o.plugin_dir.as_deref(), Some(Path::new("p")));
         assert!(o.version && o.suppress_prompt_submit && o.local_command_mode);
         assert!(o.inject_harness_turn && o.exit_no_eof && !o.hold_stdout);
+        assert!(o.vt100_panic_bytes);
         assert!(Opts::parse(&args(&[HOLD_STDOUT])).hold_stdout);
     }
 
@@ -635,6 +650,7 @@ mod tests {
         assert_eq!(o.cli_version(), DEFAULT_CLI_VERSION);
         assert_eq!(o.version_answer(), "2.1.283 (Claude Code)");
         assert!(!o.version && !o.exit_no_eof && !o.suppress_prompt_submit);
+        assert!(!o.vt100_panic_bytes);
         assert!(o.print.is_none());
     }
 

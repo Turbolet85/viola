@@ -1,0 +1,49 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-10-04T06:34:48Z",
+"argv": [
+"implement",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-04-confirmed-send-with-cl-1-records",
+"--id",
+"v1-12",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-04T06-10-38-implement"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"implement v1-12 · status planned → implemented · ref tests/cli_send.rs::send_window_second_concurrent_send_is_refused_turn_running",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-12",
+"chunk": "2026-10-04-confirmed-send-with-cl-1-records",
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "On a booted wrapper whose fake agent never submits a prompt (`--suppress-prompt-submit`), a `viola send` A to one instan… (857 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-12",
+"chunk": "2026-10-04-confirmed-send-with-cl-1-records",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/cli_send.rs::send_window_second_concurrent_send_is_refused_turn_running",
+"acceptance": "On a booted wrapper whose fake agent never submits a prompt (`--suppress-prompt-submit`), a `viola send` A to one instan… (857 chars)",
+"notes_chars": 0
+}
+}
+]

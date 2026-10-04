@@ -27,3 +27,8 @@ slow-timeout = { period = "5s", terminate-after = 2 }
 [[profile.mutants.overrides]]
 filter = 'package(viola-e2e)'
 slow-timeout = { period = "15s", terminate-after = 2 }
+
+# A `send_window_` test waits out the product's own 10 s confirmation window by design.
+[[profile.mutants.overrides]]
+filter = 'test(/send_window_/)'
+slow-timeout = { period = "15s", terminate-after = 2 }

@@ -1,0 +1,507 @@
+[
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "e8ec5c11",
+"ts": "2026-10-04T05:47:27Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/architecture-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T05-41-59-phase",
+"--marker",
+"2026-10-04-confirmed-send-with-cl-1-records"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"bytes 76207 · whole-read bound 120000 · within",
+"entries 45 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 76207,
+"entries": 45,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "e8ec5c11",
+"ts": "2026-10-04T05:47:27Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T05-41-59-phase",
+"--marker",
+"2026-10-04-confirmed-send-with-cl-1-records"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"bytes 46404 · whole-read bound 120000 · within",
+"entries 32 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 46404,
+"entries": 32,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "e8ec5c11",
+"ts": "2026-10-04T05:47:27Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/design-system-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T05-41-59-phase",
+"--marker",
+"2026-10-04-confirmed-send-with-cl-1-records"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"bytes 6433 · whole-read bound 120000 · within",
+"entries 5 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 6433,
+"entries": 5,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "e8ec5c11",
+"ts": "2026-10-04T05:47:28Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/layout-templates-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T05-41-59-phase",
+"--marker",
+"2026-10-04-confirmed-send-with-cl-1-records"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"bytes 3564 · whole-read bound 120000 · within",
+"entries 3 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 3564,
+"entries": 3,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "e8ec5c11",
+"ts": "2026-10-04T05:47:28Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T05-41-59-phase",
+"--marker",
+"2026-10-04-confirmed-send-with-cl-1-records"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"bytes 68198 · whole-read bound 120000 · within",
+"entries 44 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 68198,
+"entries": 44,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "e8ec5c11",
+"ts": "2026-10-04T05:47:28Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T05-41-59-phase",
+"--marker",
+"2026-10-04-confirmed-send-with-cl-1-records"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"bytes 36054 · whole-read bound 120000 · within",
+"entries 31 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 36054,
+"entries": 31,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "e8ec5c11",
+"ts": "2026-10-04T05:47:28Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/a11y-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T05-41-59-phase",
+"--marker",
+"2026-10-04-confirmed-send-with-cl-1-records"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"bytes 10111 · whole-read bound 120000 · within",
+"entries 9 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 10111,
+"entries": 9,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "e8ec5c11",
+"ts": "2026-10-04T05:49:57Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/architecture-amendments.md",
+"--history",
+".andromeda/runs/2026-10-04T05-41-59-phase/arch-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T05-41-59-phase",
+"--marker",
+"2026-10-04-confirmed-send-with-cl-1-records"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"not a marker: **Kept** — history:2",
+"cites: 33 · resolved 33 · UNRESOLVED 0 · not a marker 1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 33,
+"UNRESOLVED": 0,
+"not a marker": 1,
+"cites": 33
+}
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "e8ec5c11",
+"ts": "2026-10-04T05:49:57Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--history",
+".andromeda/runs/2026-10-04T05-41-59-phase/security-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T05-41-59-phase",
+"--marker",
+"2026-10-04-confirmed-send-with-cl-1-records"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"cites: 22 · resolved 22 · UNRESOLVED 0 · not a marker 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 22,
+"UNRESOLVED": 0,
+"not a marker": 0,
+"cites": 22
+}
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "e8ec5c11",
+"ts": "2026-10-04T05:49:57Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/design-system-amendments.md",
+"--history",
+".andromeda/runs/2026-10-04T05-41-59-phase/design-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T05-41-59-phase",
+"--marker",
+"2026-10-04-confirmed-send-with-cl-1-records"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"cites: 3 · resolved 3 · UNRESOLVED 0 · not a marker 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 3,
+"UNRESOLVED": 0,
+"not a marker": 0,
+"cites": 3
+}
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "e8ec5c11",
+"ts": "2026-10-04T05:49:57Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/layout-templates-amendments.md",
+"--history",
+".andromeda/runs/2026-10-04T05-41-59-phase/layouts-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T05-41-59-phase",
+"--marker",
+"2026-10-04-confirmed-send-with-cl-1-records"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"UNRESOLVED: 2026-09-24 — history:4",
+"UNRESOLVED: 2026-09-24 — history:5",
+"UNRESOLVED: 2026-09-24 — history:6",
+"cites: 5 · resolved 2 · UNRESOLVED 3 · not a marker 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 2,
+"UNRESOLVED": 3,
+"not a marker": 0,
+"cites": 5
+}
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "e8ec5c11",
+"ts": "2026-10-04T05:49:57Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--history",
+".andromeda/runs/2026-10-04T05-41-59-phase/tests-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T05-41-59-phase",
+"--marker",
+"2026-10-04-confirmed-send-with-cl-1-records"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"cites: 30 · resolved 30 · UNRESOLVED 0 · not a marker 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 30,
+"UNRESOLVED": 0,
+"not a marker": 0,
+"cites": 30
+}
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "e8ec5c11",
+"ts": "2026-10-04T05:49:57Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--history",
+".andromeda/runs/2026-10-04T05-41-59-phase/obs-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T05-41-59-phase",
+"--marker",
+"2026-10-04-confirmed-send-with-cl-1-records"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"cites: 20 · resolved 20 · UNRESOLVED 0 · not a marker 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 20,
+"UNRESOLVED": 0,
+"not a marker": 0,
+"cites": 20
+}
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "e8ec5c11",
+"ts": "2026-10-04T05:49:57Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/a11y-plan-amendments.md",
+"--history",
+".andromeda/runs/2026-10-04T05-41-59-phase/a11y-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T05-41-59-phase",
+"--marker",
+"2026-10-04-confirmed-send-with-cl-1-records"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"cites: 6 · resolved 6 · UNRESOLVED 0 · not a marker 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 6,
+"UNRESOLVED": 0,
+"not a marker": 0,
+"cites": 6
+}
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "e8ec5c11",
+"ts": "2026-10-04T05:50:38Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/layout-templates-amendments.md",
+"--history",
+".andromeda/runs/2026-10-04T05-41-59-phase/layouts-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T05-41-59-phase",
+"--marker",
+"2026-10-04-confirmed-send-with-cl-1-records"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"cites: 2 · resolved 2 · UNRESOLVED 0 · not a marker 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 2,
+"UNRESOLVED": 0,
+"not a marker": 0,
+"cites": 2
+}
+}
+]

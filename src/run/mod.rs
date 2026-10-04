@@ -3,6 +3,7 @@
 
 mod env;
 pub(crate) mod gate;
+pub(crate) mod send;
 pub(crate) mod version_gate;
 
 use std::ffi::{OsStr, OsString};

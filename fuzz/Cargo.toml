@@ -47,3 +47,10 @@ path = "fuzz_targets/vt100_feed.rs"
 test = false
 doc = false
 bench = false
+
+[[bin]]
+name = "paste_text"
+path = "fuzz_targets/paste_text.rs"
+test = false
+doc = false
+bench = false

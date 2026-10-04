@@ -138,7 +138,8 @@
         "ref": null,
         "status": "planned"
       },
-      "chunk": null
+      "chunk": null,
+      "notes": "2026-10-04 (2026-10-04-confirmed-send-with-cl-1-records, phase P5): not claimed. This chunk adds the `send-issued{cursor, from?}` · `send-confirmed{cursor}` · `send-refused{refusal, detail, cursor?}` event kinds to `events.ndjson` and the client-side `send-refused{side:\"client\"}` line in `cli-<name>.ndjson`. The acceptance still needs \"these records never wake a waiting driver\" (no `wait` until :76) and \"the page and the tests read the same records\" (the page is :139). The cap stays pooled."
     },
     {
       "id": "v1-11",
@@ -160,11 +161,11 @@
       "observed_gap": "design pairs a send with \"the next driver `prompt-submitted`\" assuming at most one send in flight, but arch never serialises concurrent sends to one instance (XF X3).",
       "verification": {
         "method": "integration",
-        "acceptance": "Two concurrent sends to one instance never both get typed; the second is refused or ordered, and every read-back pairs with exactly the send that caused it.",
-        "ref": null,
-        "status": "planned"
+        "acceptance": "On a booted wrapper whose fake agent never submits a prompt (`--suppress-prompt-submit`), a `viola send` A to one instance and a concurrent `viola send` B to the same instance (issued after A's `send-issued` record lands in `events.ndjson`) leave exactly one prompt typed — one `prompt` line in the fake agent's receipt; B returns `not-delivered` / `turn-running` (exit 13) before any paste and writes no `send-issued` record of its own; A's outcome (`not-delivered` / `no-prompt-submitted`, exit 13, and its `send-refused` event) carries the `cursor` of A's own `send-issued` record. Witness: `send_window_second_concurrent_send_is_refused_turn_running` in `tests/cli_send.rs`, run by `bash scripts/agent-run.sh run --integration --filter 'test(/path2_send_confirms_with_cl1_events|send_window_|send_leading_slash|send_unreachable/)'` on all three CI OSes.",
+        "ref": "tests/cli_send.rs::send_window_second_concurrent_send_is_refused_turn_running",
+        "status": "implemented"
       },
-      "chunk": null
+      "chunk": "2026-10-04-confirmed-send-with-cl-1-records"
     },
     {
       "id": "v1-13",
@@ -388,7 +389,8 @@
         "ref": null,
         "status": "planned"
       },
-      "chunk": null
+      "chunk": null,
+      "notes": "2026-10-04 (2026-10-04-confirmed-send-with-cl-1-records, phase P5): not claimed. This chunk lands `viola send` typed as one bracketed paste + Enter, confirmed only by the matching `prompt-submitted`, with typed `not-delivered` details (`input-not-ready`, `no-prompt-submitted`, `turn-running`, `control-character`), the control-character refusal (never stripped) and the leading-slash usage error. The acceptance still needs: \"only when the input box is ready\" — no input-box signature row is compiled, so the gate reads poisoned / quiet only (P4 fork F1, partial gate); `unconfirmable` for a ledger-listed local command and `/clear` confirmed by its new-session post-condition — the local-command list and its typed probe ride the held typed-probe widening (P4 fork F2, owner :82 or the founder's ruling). The cap stays pooled."
     },
     {
       "id": "v1-30",

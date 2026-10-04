@@ -18,7 +18,7 @@ mod pump;
 #[cfg(windows)]
 pub mod sideload;
 
-pub use pump::{PumpEnd, pump};
+pub use pump::{PasteHandle, PumpEnd, pump, pump_with_paste};
 
 /// The pseudo-terminal this process uses: `conpty-sideload` once [`sideload::preload`] has
 /// succeeded, else kernel32's inbox `conpty` on Windows, `openpty` elsewhere.
@@ -84,6 +84,9 @@ pub enum PtyError {
     Wait(io::Error),
     Kill(io::Error),
     Load(Box<dyn std::error::Error + Send + Sync>),
+    /// A paste before the pump opened the child's input, or after it returned.
+    NoInput,
+    Write(io::Error),
 }
 
 impl fmt::Display for PtyError {
@@ -96,6 +99,8 @@ impl fmt::Display for PtyError {
             Self::Wait(_) => "pty wait failed",
             Self::Kill(_) => "pty kill failed",
             Self::Load(_) => "pty load failed",
+            Self::NoInput => "pty input not open",
+            Self::Write(_) => "pty write failed",
         })
     }
 }
@@ -106,7 +111,8 @@ impl std::error::Error for PtyError {
             Self::Open(e) | Self::Spawn(e) | Self::Handle(e) | Self::Resize(e) | Self::Load(e) => {
                 Some(e.as_ref())
             }
-            Self::Wait(e) | Self::Kill(e) => Some(e),
+            Self::Wait(e) | Self::Kill(e) | Self::Write(e) => Some(e),
+            Self::NoInput => None,
         }
     }
 }

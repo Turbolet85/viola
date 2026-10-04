@@ -1,0 +1,315 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'dispatch' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 7,
+"result": [
+{
+"caller": "rust-analyzer cargo viola-channel 0.1.0 server/dispatched().",
+"file": "crates/viola-channel/src/server.rs",
+"line": 242
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/tests/methods_answer_method_not_found_for_every_other_method().",
+"file": "src/cmd/run.rs",
+"line": 560
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/tests/methods_append_a_hook_event().",
+"file": "src/cmd/run.rs",
+"line": 574
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/tests/methods_take_every_hook_kind().",
+"file": "src/cmd/run.rs",
+"line": 598
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/tests/methods_refuse_an_event_that_fails_the_checks().",
+"file": "src/cmd/run.rs",
+"line": 617
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/tests/methods_report_an_append_that_failed_as_internal().",
+"file": "src/cmd/run.rs",
+"line": 628
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 main().",
+"file": "src/main.rs",
+"line": 59
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT callee, file, line FROM refs WHERE callee_name = 'Dispatch' ORDER BY file, line",
+"rows": 17,
+"result": [
+{
+"callee": "rust-analyzer cargo viola-channel 0.1.0 server/Dispatch#",
+"file": "crates/viola-channel/src/client.rs",
+"line": 240
+},
+{
+"callee": "rust-analyzer cargo viola-channel 0.1.0 server/Dispatch#",
+"file": "crates/viola-channel/src/client.rs",
+"line": 246
+},
+{
+"callee": "rust-analyzer cargo viola-channel 0.1.0 server/Dispatch#",
+"file": "crates/viola-channel/src/client.rs",
+"line": 332
+},
+{
+"callee": "rust-analyzer cargo viola-channel 0.1.0 server/Dispatch#",
+"file": "crates/viola-channel/src/lib.rs",
+"line": 21
+},
+{
+"callee": "rust-analyzer cargo viola-channel 0.1.0 server/Dispatch#",
+"file": "crates/viola-channel/src/server.rs",
+"line": 51
+},
+{
+"callee": "rust-analyzer cargo viola-channel 0.1.0 server/Dispatch#",
+"file": "crates/viola-channel/src/server.rs",
+"line": 145
+},
+{
+"callee": "rust-analyzer cargo viola-channel 0.1.0 server/Dispatch#",
+"file": "crates/viola-channel/src/server.rs",
+"line": 157
+},
+{
+"callee": "rust-analyzer cargo viola-channel 0.1.0 server/Dispatch#",
+"file": "crates/viola-channel/src/server.rs",
+"line": 181
+},
+{
+"callee": "rust-analyzer cargo viola-channel 0.1.0 server/Dispatch#",
+"file": "crates/viola-channel/src/server.rs",
+"line": 232
+},
+{
+"callee": "rust-analyzer cargo viola-channel 0.1.0 server/Dispatch#",
+"file": "crates/viola-channel/src/server.rs",
+"line": 465
+},
+{
+"callee": "rust-analyzer cargo viola-channel 0.1.0 server/Dispatch#",
+"file": "crates/viola-channel/src/server.rs",
+"line": 645
+},
+{
+"callee": "rust-analyzer cargo viola-channel 0.1.0 server/Dispatch#",
+"file": "crates/viola-channel/tests/channel_frames.rs",
+"line": 11
+},
+{
+"callee": "rust-analyzer cargo viola-channel 0.1.0 server/Dispatch#",
+"file": "crates/viola-channel/tests/channel_frames.rs",
+"line": 17
+},
+{
+"callee": "rust-analyzer cargo viola-channel 0.1.0 server/Dispatch#",
+"file": "src/cmd/run.rs",
+"line": 12
+},
+{
+"callee": "rust-analyzer cargo viola-channel 0.1.0 server/Dispatch#",
+"file": "src/cmd/run.rs",
+"line": 99
+},
+{
+"callee": "rust-analyzer cargo viola-channel 0.1.0 server/Dispatch#",
+"file": "tests/channel_endpoint.rs",
+"line": 23
+},
+{
+"callee": "rust-analyzer cargo viola-channel 0.1.0 server/Dispatch#",
+"file": "tests/channel_endpoint.rs",
+"line": 31
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'append_event' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 7,
+"result": [
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 events/tests/events_append_keeps_prior_bytes_and_writes_one_line().",
+"file": "crates/viola-state/src/events.rs",
+"line": 123
+},
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 events/tests/events_append_twice_adds_two_lines_in_order().",
+"file": "crates/viola-state/src/events.rs",
+"line": 153
+},
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 events/tests/events_append_from_a_hook_reads_source_hook().",
+"file": "crates/viola-state/src/events.rs",
+"line": 173
+},
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 events/tests/events_append_into_a_missing_dir_fails().",
+"file": "crates/viola-state/src/events.rs",
+"line": 219
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/",
+"file": "src/cmd/run.rs",
+"line": 16
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/impl#[Methods][Dispatch]dispatch().",
+"file": "src/cmd/run.rs",
+"line": 106
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/start_state().",
+"file": "src/cmd/run.rs",
+"line": 371
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'start' AND callee_kind = 'fn' AND callee_file LIKE '%src/run/gate.rs' ORDER BY file, line",
+"rows": 2,
+"result": [
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/pump_child().",
+"file": "src/cmd/run.rs",
+"line": 419
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/gate/tests/run_feed().",
+"file": "src/run/gate.rs",
+"line": 180
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'pump' AND callee_kind = 'fn' AND callee_crate = 'viola-pty' ORDER BY file, line",
+"rows": 13,
+"result": [
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 crate/",
+"file": "crates/viola-pty/src/lib.rs",
+"line": 20
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 pump/tests/pump_returns_on_the_handle_while_the_output_never_ends().",
+"file": "crates/viola-pty/src/pump.rs",
+"line": 186
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 pump/tests/pump_kills_the_child_when_a_worker_panics().",
+"file": "crates/viola-pty/src/pump.rs",
+"line": 226
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 pump/tests/pump_forwards_a_host_size_change_once().",
+"file": "crates/viola-pty/src/pump.rs",
+"line": 278
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 pump/tests/pump_forwards_a_resize_that_lands_before_its_first_look().",
+"file": "crates/viola-pty/src/pump.rs",
+"line": 325
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 pump/tests/pump_does_not_resize_while_the_size_is_unchanged().",
+"file": "crates/viola-pty/src/pump.rs",
+"line": 347
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 pump/tests/pump_waits_for_the_handle_after_the_output_ends().",
+"file": "crates/viola-pty/src/pump.rs",
+"line": 367
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 pump/tests/pump_copies_the_output_it_drains_after_exit().",
+"file": "crates/viola-pty/src/pump.rs",
+"line": 412
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 pump/tests/pump_keeps_the_child_input_open_after_its_own_input_ends().",
+"file": "crates/viola-pty/src/pump.rs",
+"line": 458
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 pump/tests/pump_does_not_look_at_the_size_before_its_first_period().",
+"file": "crates/viola-pty/src/pump.rs",
+"line": 493
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 pump/tests/pump_looks_at_the_size_once_per_period().",
+"file": "crates/viola-pty/src/pump.rs",
+"line": 517
+},
+{
+"caller": "rust-analyzer cargo viola-pty 0.1.0 pump/tests/pump_drains_output_that_arrives_after_the_exit().",
+"file": "crates/viola-pty/src/pump.rs",
+"line": 570
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/pump_child().",
+"file": "src/cmd/run.rs",
+"line": 428
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'request' AND callee_kind = 'fn' AND callee_file LIKE '%client.rs' ORDER BY file, line",
+"rows": 7,
+"result": [
+{
+"caller": "rust-analyzer cargo viola-channel 0.1.0 client/tests/client_stamps_the_envelope_and_counts_ids_per_connection().",
+"file": "crates/viola-channel/src/client.rs",
+"line": 269
+},
+{
+"caller": "rust-analyzer cargo viola-channel 0.1.0 client/tests/client_stamps_the_envelope_and_counts_ids_per_connection().",
+"file": "crates/viola-channel/src/client.rs",
+"line": 275
+},
+{
+"caller": "rust-analyzer cargo viola-channel 0.1.0 client/tests/client_and_server_log_the_call_under_one_conn_and_corr().",
+"file": "crates/viola-channel/src/client.rs",
+"line": 306
+},
+{
+"caller": "rust-analyzer cargo viola-channel 0.1.0 client/tests/client_notify_sends_one_unanswered_frame_and_keeps_the_connection().",
+"file": "crates/viola-channel/src/client.rs",
+"line": 359
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 channel_endpoint_answers_protocol_faults().",
+"file": "tests/channel_endpoint.rs",
+"line": 112
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 channel_wrapper_logs_each_call_with_corr_and_conn().",
+"file": "tests/channel_endpoint.rs",
+"line": 216
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 channel_debug_level_keeps_request_content_out_of_the_role_files().",
+"file": "tests/channel_endpoint.rs",
+"line": 302
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

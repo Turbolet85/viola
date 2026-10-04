@@ -1,9 +1,8 @@
 //! No setting disables a control (test-plan §5 CLI and env, Vector 6; security-plan §Security
 //! Anti-Patterns → Universal): each row sets a variable to a disabling-shaped value and re-runs the
 //! controls on its path, which must give the same verdict as without it. Interim shape: the rows
-//! cover the hook-path controls that exist today; the four verb negatives (`send` ESC, `answer`
-//! unstamped, the human wheel, a 0770 `--home`) and the completeness case join when `send` and
-//! `answer` land.
+//! cover the hook-path controls and `send`'s paste control; the other verb negatives (`answer`
+//! unstamped, the human wheel, a 0770 `--home`) and the completeness case join when `answer` lands.
 
 #[allow(dead_code)]
 mod support;
@@ -115,4 +114,64 @@ fn setting_does_not_disable_the_hook_path_controls(
     #[values(Control::OversizeStdin, Control::MalformedJson)] control: Control,
 ) {
     assert_control_holds(control, setting);
+}
+
+/// An ESC-bearing `viola send`, with `setting` over its environment or none: the client refuses it
+/// `not-delivered / control-character` (exit 13) before any frame, whatever the setting.
+fn assert_send_paste_control_holds(setting: Option<(&str, &str)>) {
+    let tmp = TestHome::new();
+    let mut command = Command::new(VIOLA);
+    command
+        .arg("--home")
+        .arg(tmp.path())
+        .args(["send", "builder"])
+        .env_remove("VIOLA_NAME")
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped());
+    if let Some((name, value)) = setting {
+        command.env(name, value);
+    }
+    let mut child = command.spawn().expect("viola send");
+    let mut input = child.stdin.take().expect("stdin");
+    input
+        .write_all(format!("{CANARY}\x1b[201~\rtyped").as_bytes())
+        .expect("stdin");
+    drop(input);
+    let out = child.wait_with_output().expect("viola send exits");
+
+    assert_eq!(out.status.code(), Some(13));
+    assert!(out.stdout.is_empty(), "stdout: {} bytes", out.stdout.len());
+    assert_eq!(
+        String::from_utf8_lossy(&out.stderr),
+        "[/ ] unable         builder  not-delivered  control-character\n\
+         hint: the text contains a control character (only LF, CR, TAB are allowed)\n"
+    );
+    let lines =
+        support::ndjson::read_lines(&tmp.path().join("diagnostics").join("cli-builder.ndjson"));
+    let refused = lines
+        .iter()
+        .find(|l| l["event"] == "send-refused")
+        .expect("a send-refused line");
+    assert_eq!(refused["side"], "client");
+    assert_eq!(refused["refusal"], "not-delivered");
+    assert_eq!(refused["detail"], "control-character");
+    assert!(refused.get("corr").is_none());
+    assert!(
+        !tmp.path()
+            .join("instances")
+            .join("builder")
+            .join("events.ndjson")
+            .exists()
+    );
+}
+
+#[rstest]
+#[case::no_setting(None)]
+#[case::hook_panic_seam_zero(Some(("FAKE_AGENT_HOOK_PANIC", "0")))]
+#[case::hook_panic_seam_false(Some(("FAKE_AGENT_HOOK_PANIC", "false")))]
+#[case::hook_panic_seam_off(Some(("FAKE_AGENT_HOOK_PANIC", "off")))]
+#[case::hook_panic_seam_empty(Some(("FAKE_AGENT_HOOK_PANIC", "")))]
+fn setting_does_not_disable_the_send_paste_control(#[case] setting: Option<(&str, &str)>) {
+    assert_send_paste_control_holds(setting);
 }

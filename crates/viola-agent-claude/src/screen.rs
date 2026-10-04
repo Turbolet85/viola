@@ -90,7 +90,15 @@ impl Screen {
         (self.rows, self.cols)
     }
 
-    pub fn verdict(&self, sigs: &Signatures, waiting_since: Instant, now: Instant) -> GateStep {
+    /// With `sigs` `None` (no compiled signature row) the gate is partial: a poisoned model and a
+    /// screen not quiet within the maximum wait still refuse, and a quiet screen is `Ready` without
+    /// any row read, so delivery confirmation decides the rest.
+    pub fn verdict(
+        &self,
+        sigs: Option<&Signatures>,
+        waiting_since: Instant,
+        now: Instant,
+    ) -> GateStep {
         let Some(parser) = &self.parser else {
             return GateStep::Done(Readiness::InputNotReady);
         };
@@ -100,6 +108,9 @@ impl Screen {
             }
             return GateStep::Wait;
         }
+        let Some(sigs) = sigs else {
+            return GateStep::Done(Readiness::Ready);
+        };
         let mut input_box = false;
         for row in parser.screen().rows(0, self.cols) {
             if sigs.modals.iter().any(|m| row.contains(m)) {
@@ -184,7 +195,49 @@ mod tests {
         let base = Instant::now();
         let now = base + ms(waited_ms);
         let screen = fed(b"> type here", now - ms(since_fed_ms));
-        assert_eq!(screen.verdict(&SIGS, base, now), expected);
+        assert_eq!(screen.verdict(Some(&SIGS), base, now), expected);
+    }
+
+    #[rstest]
+    #[case::quiet_exactly_at_the_period(300, 300, GateStep::Done(Readiness::Ready))]
+    #[case::one_ms_short_of_quiet(299, 299, GateStep::Wait)]
+    #[case::waited_exactly_the_maximum(299, 5000, GateStep::Done(Readiness::InputNotReady))]
+    #[case::one_ms_short_of_the_maximum(299, 4999, GateStep::Wait)]
+    #[case::quiet_after_the_maximum(300, 6000, GateStep::Done(Readiness::Ready))]
+    fn verdict_without_signatures_at_each_boundary(
+        #[case] since_fed_ms: u64,
+        #[case] waited_ms: u64,
+        #[case] expected: GateStep,
+    ) {
+        let base = Instant::now();
+        let now = base + ms(waited_ms);
+        let screen = fed(b"thinking", now - ms(since_fed_ms));
+        assert_eq!(screen.verdict(None, base, now), expected);
+    }
+
+    #[test]
+    fn verdict_without_signatures_reads_no_row() {
+        let base = Instant::now();
+        for bytes in [b"".as_slice(), b"Do you want to proceed?", b"> type here"] {
+            let screen = fed(bytes, base);
+            assert_eq!(
+                screen.verdict(None, base, base + ms(300)),
+                GateStep::Done(Readiness::Ready)
+            );
+        }
+    }
+
+    #[test]
+    fn verdict_without_signatures_poisoned_is_input_not_ready() {
+        let base = Instant::now();
+        let mut screen = fed(b"> type here", base);
+        screen.poison();
+        for now in [base, base + ms(300), base + ms(6000)] {
+            assert_eq!(
+                screen.verdict(None, base, now),
+                GateStep::Done(Readiness::InputNotReady)
+            );
+        }
     }
 
     #[rstest]
@@ -203,7 +256,7 @@ mod tests {
     fn verdict_reads_the_signatures(#[case] bytes: &[u8], #[case] expected: GateStep) {
         let base = Instant::now();
         let screen = fed(bytes, base);
-        assert_eq!(screen.verdict(&SIGS, base, base + ms(300)), expected);
+        assert_eq!(screen.verdict(Some(&SIGS), base, base + ms(300)), expected);
     }
 
     #[test]
@@ -213,11 +266,11 @@ mod tests {
         screen.poison();
         assert!(screen.is_poisoned());
         assert_eq!(
-            screen.verdict(&SIGS, base, base + ms(300)),
+            screen.verdict(Some(&SIGS), base, base + ms(300)),
             GateStep::Done(Readiness::InputNotReady)
         );
         assert_eq!(
-            screen.verdict(&SIGS, base, base),
+            screen.verdict(Some(&SIGS), base, base),
             GateStep::Done(Readiness::InputNotReady)
         );
     }
@@ -243,7 +296,7 @@ mod tests {
         assert_eq!(screen.last_fed, base + ms(10));
         screen.feed(b"> type here", base + ms(20));
         assert_eq!(
-            screen.verdict(&SIGS, base, base + ms(320)),
+            screen.verdict(Some(&SIGS), base, base + ms(320)),
             GateStep::Done(Readiness::Ready)
         );
     }
@@ -255,7 +308,7 @@ mod tests {
         screen.resize(30, 100, base);
         assert_eq!(screen.size(), (30, 100));
         assert_eq!(
-            screen.verdict(&SIGS, base, base + ms(300)),
+            screen.verdict(Some(&SIGS), base, base + ms(300)),
             GateStep::Done(Readiness::InputNotReady)
         );
     }
@@ -321,7 +374,7 @@ mod tests {
                     prop_assert_eq!(screen.last_fed, fed_before);
                     let late = at + ms(waited);
                     prop_assert_eq!(
-                        screen.verdict(&SIGS, base, late),
+                        screen.verdict(Some(&SIGS), base, late),
                         GateStep::Done(Readiness::InputNotReady)
                     );
                 }

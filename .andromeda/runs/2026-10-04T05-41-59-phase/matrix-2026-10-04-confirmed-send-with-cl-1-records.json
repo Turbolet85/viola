@@ -1,0 +1,207 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-10-04T06:08:46Z",
+"argv": [
+"coverage",
+"--dir",
+"viola-0.1.0",
+"--run-dir",
+".andromeda/runs/2026-10-04T05-41-59-phase",
+"--marker",
+"2026-10-04-confirmed-send-with-cl-1-records"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"verified 9/53 · deferred 0 · planned 44 · implemented 0 · unclaimed 44",
+"unclaimed: v1-01 v1-02 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-12 v1-13 v1-15 v1-16 v1-17 v1-18 v1-21",
+"          v1-22 v1-24 v1-26 v1-27 v1-29 v1-30 v1-31 v1-32 v1-33 v1-34 v1-35 v1-36 v1-37 v1-38 v1-39 v1-40",
+"          v1-41 v1-42 v1-44 v1-45 v1-46 v1-47 v1-48 v1-49 v1-50 v1-51 v1-52 v1-53",
+"claimed-unfinished: none",
+"done-test: NO — 44 not verified|deferred · unclaimed 44",
+"chunks referenced: 9 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-10-04T06:09:03Z",
+"argv": [
+"claim",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-12",
+"--chunk",
+"2026-10-04-confirmed-send-with-cl-1-records",
+"--acceptance-file",
+".andromeda/runs/2026-10-04T05-41-59-phase/acceptance-v1-12.md",
+"--method",
+"integration",
+"--run-dir",
+".andromeda/runs/2026-10-04T05-41-59-phase"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"claim v1-12 → chunk 2026-10-04-confirmed-send-with-cl-1-records (was null; status planned kept)",
+"acceptance: Two concurrent sends to one instance never both get typed; the second … (156 chars)",
+"         → On a booted wrapper whose fake agent never submits a prompt (`--suppre… (857 chars)",
+"method: integration → integration",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed",
+"pool: unclaimed 43 [v1-01 v1-02 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-15 v1-16 v1-17 v1-18 v1-21 v1-22 v1-24 v1-26 v1-27 v1-29 v1-30 v1-31 v1-32 v1-33 v1-34 v1-35 v1-36 v1-37 v1-38 v1-39 v1-40 v1-41 v1-42 v1-44 v1-45 v1-46 v1-47 v1-48 v1-49 v1-50 v1-51 v1-52 v1-53]"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-12",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "Two concurrent sends to one instance never both get typed; the second is refused or ordered, and every read-back pairs w… (156 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-12",
+"chunk": "2026-10-04-confirmed-send-with-cl-1-records",
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "On a booted wrapper whose fake agent never submits a prompt (`--suppress-prompt-submit`), a `viola send` A to one instan… (857 chars)",
+"notes_chars": 0
+}
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-10-04T06:09:03Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-29",
+"--text-file",
+".andromeda/runs/2026-10-04T05-41-59-phase/note-v1-29.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T05-41-59-phase",
+"--marker",
+"2026-10-04-confirmed-send-with-cl-1-records"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"note v1-29: +828 chars (total 828) · status planned · ref/acceptance untouched",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-29",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "A driver's text from stdin or a file is typed as one paste plus Enter only when the input box is ready and returns read … (614 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-29",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "A driver's text from stdin or a file is typed as one paste plus Enter only when the input box is ready and returns read … (614 chars)",
+"notes_chars": 828
+}
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-10-04T06:09:03Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-10",
+"--text-file",
+".andromeda/runs/2026-10-04T05-41-59-phase/note-v1-10.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T05-41-59-phase",
+"--marker",
+"2026-10-04-confirmed-send-with-cl-1-records"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"note v1-10: +495 chars (total 495) · status planned · ref/acceptance untouched",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-10",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "For every send a wrapper accepts, the instance's event log alone lets a reader recover both the issue and its outcome (r… (327 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-10",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "For every send a wrapper accepts, the instance's event log alone lets a reader recover both the issue and its outcome (r… (327 chars)",
+"notes_chars": 495
+}
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-10-04T06:09:03Z",
+"argv": [
+"audit",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-04-confirmed-send-with-cl-1-records",
+"--plan",
+"viola-0.1.0/chunks/2026-10-04-confirmed-send-with-cl-1-records/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T05-41-59-phase"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"claimed by 2026-10-04-confirmed-send-with-cl-1-records: 1 · ## Acceptance Criteria: line 364, 30 lines",
+"v1-12: cited in ## Acceptance Criteria (line 372)",
+"pool: unclaimed 43 [v1-01 v1-02 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-15 v1-16 v1-17 v1-18 v1-21 v1-22 v1-24 v1-26 v1-27 v1-29 v1-30 v1-31 v1-32 v1-33 v1-34 v1-35 v1-36 v1-37 v1-38 v1-39 v1-40 v1-41 v1-42 v1-44 v1-45 v1-46 v1-47 v1-48 v1-49 v1-50 v1-51 v1-52 v1-53]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

@@ -10,6 +10,8 @@ use rstest::fixture;
 use serde_json::{Value, json};
 use sysinfo::{Pid, ProcessStatus, ProcessesToUpdate, System};
 
+use viola_pty::Size;
+
 use super::fake;
 use super::outer_pty::{EXIT_WITHIN, OuterPty};
 use super::watch::{WITHIN, Watch};
@@ -121,6 +123,23 @@ impl TestHome {
         let dir = tempfile::Builder::new()
             .prefix("viola-test-")
             .tempdir_in(base)
+            .expect("tempdir");
+        write_owner(dir.path());
+        let home = dir.path().join("home");
+        Self {
+            dir: Some(dir),
+            home,
+        }
+    }
+
+    /// A home under the system temp dir, NOT under `target/e2e-home`: outside the CI scans (G2
+    /// zero-panics, G4 schema conformance, the secret scan) by construction. Only the forced
+    /// feed-panic chaos test takes it, because its contained panic writes a G2-counted line; it is
+    /// the second named carve-out to the test-data rule, beside `seed_conpty`.
+    pub fn outside_scan() -> Self {
+        let dir = tempfile::Builder::new()
+            .prefix("viola-chaos-")
+            .tempdir()
             .expect("tempdir");
         write_owner(dir.path());
         let home = dir.path().join("home");
@@ -288,6 +307,17 @@ impl Stopped {
 impl Wrapper {
     /// `script` is workspace-relative, resolved here the way the harness resolves it.
     pub fn boot(stamped: StampedHome, name: &str, script: Option<&str>, extra: &[&str]) -> Self {
+        Self::boot_sized(stamped, name, script, extra, Size::DEFAULT)
+    }
+
+    /// `boot` under an outer terminal of `size`.
+    pub fn boot_sized(
+        stamped: StampedHome,
+        name: &str,
+        script: Option<&str>,
+        extra: &[&str],
+        size: Size,
+    ) -> Self {
         let home = stamped.home.path().to_path_buf();
         let mut args: Vec<OsString> = vec!["--home".into(), home.clone().into()];
         args.extend(["run", name, "--"].map(OsString::from));
@@ -304,7 +334,7 @@ impl Wrapper {
         args.extend(extra.iter().map(OsString::from));
         let before = Starts::read(&home, name);
         seed_conpty(&home);
-        let pty = OuterPty::spawn(Path::new(VIOLA), &args, &[]);
+        let pty = OuterPty::spawn_sized(Path::new(VIOLA), &args, &[], size);
         let mut wrapper = Self {
             stamped,
             name: name.to_owned(),

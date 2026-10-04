@@ -49,6 +49,9 @@ pub enum EventKind {
     Activity,
     Wheel,
     BudgetGate,
+    SendIssued,
+    SendConfirmed,
+    SendRefused,
 }
 
 impl EventKind {
@@ -61,7 +64,75 @@ impl EventKind {
             Self::Activity => "activity",
             Self::Wheel => "wheel",
             Self::BudgetGate => "budget-gate",
+            Self::SendIssued => "send-issued",
+            Self::SendConfirmed => "send-confirmed",
+            Self::SendRefused => "send-refused",
         }
+    }
+}
+
+/// Why a request was refused: a normal outcome, never a protocol fault (architecture §Conventions).
+#[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum RefusalReason {
+    HumanTyping,
+    BudgetPaused,
+    UnverifiedCli,
+    NotDelivered,
+    #[serde(other)]
+    Unknown,
+}
+
+impl RefusalReason {
+    pub const fn as_str(self) -> &'static str {
+        match self {
+            Self::HumanTyping => "human-typing",
+            Self::BudgetPaused => "budget-paused",
+            Self::UnverifiedCli => "unverified-cli",
+            Self::NotDelivered => "not-delivered",
+            Self::Unknown => "unknown",
+        }
+    }
+}
+
+/// The closed `not-delivered` details of a `send`.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum NotDelivered {
+    InputNotReady,
+    NoPromptSubmitted,
+    TurnRunning,
+    UnknownDialog,
+    ControlCharacter,
+}
+
+impl NotDelivered {
+    pub const fn as_str(self) -> &'static str {
+        match self {
+            Self::InputNotReady => "input-not-ready",
+            Self::NoPromptSubmitted => "no-prompt-submitted",
+            Self::TurnRunning => "turn-running",
+            Self::UnknownDialog => "unknown-dialog",
+            Self::ControlCharacter => "control-character",
+        }
+    }
+}
+
+/// Paste text admits LF, CR and TAB; every other C0, DEL and C1 is refused, never stripped
+/// (security-plan §Input Validation, "Paste text").
+pub fn validate_paste_text(text: &str) -> Result<(), NotDelivered> {
+    if text.chars().any(is_refused_control) {
+        Err(NotDelivered::ControlCharacter)
+    } else {
+        Ok(())
+    }
+}
+
+fn is_refused_control(c: char) -> bool {
+    match c {
+        '\n' | '\r' | '\t' => false,
+        '\u{0}'..='\u{1f}' | '\u{7f}'..='\u{9f}' => true,
+        _ => false,
     }
 }
 
@@ -210,6 +281,121 @@ mod tests {
         assert_eq!(EventKind::Activity.as_str(), "activity");
         assert_eq!(EventKind::Wheel.as_str(), "wheel");
         assert_eq!(EventKind::BudgetGate.as_str(), "budget-gate");
+        assert_eq!(EventKind::SendIssued.as_str(), "send-issued");
+        assert_eq!(EventKind::SendConfirmed.as_str(), "send-confirmed");
+        assert_eq!(EventKind::SendRefused.as_str(), "send-refused");
+    }
+
+    #[test]
+    fn refusal_reason_round_trips_kebab_case() {
+        let table = [
+            (RefusalReason::HumanTyping, "human-typing"),
+            (RefusalReason::BudgetPaused, "budget-paused"),
+            (RefusalReason::UnverifiedCli, "unverified-cli"),
+            (RefusalReason::NotDelivered, "not-delivered"),
+            (RefusalReason::Unknown, "unknown"),
+        ];
+        for (reason, text) in table {
+            assert_eq!(reason.as_str(), text);
+            let json = serde_json::to_string(&reason).expect("serialize");
+            assert_eq!(json, format!("\"{text}\""));
+            let back: RefusalReason = serde_json::from_str(&json).expect("deserialize");
+            assert_eq!(back, reason);
+        }
+    }
+
+    #[test]
+    fn refusal_reason_unlisted_string_reads_unknown() {
+        let read: RefusalReason = serde_json::from_str("\"wheel-held\"").expect("deserialize");
+        assert_eq!(read, RefusalReason::Unknown);
+    }
+
+    #[test]
+    fn refusal_reason_not_delivered_details_round_trip_kebab_case() {
+        let table = [
+            (NotDelivered::InputNotReady, "input-not-ready"),
+            (NotDelivered::NoPromptSubmitted, "no-prompt-submitted"),
+            (NotDelivered::TurnRunning, "turn-running"),
+            (NotDelivered::UnknownDialog, "unknown-dialog"),
+            (NotDelivered::ControlCharacter, "control-character"),
+        ];
+        for (detail, text) in table {
+            assert_eq!(detail.as_str(), text);
+            let json = serde_json::to_string(&detail).expect("serialize");
+            assert_eq!(json, format!("\"{text}\""));
+            let back: NotDelivered = serde_json::from_str(&json).expect("deserialize");
+            assert_eq!(back, detail);
+        }
+    }
+
+    #[test]
+    fn paste_text_literal_table() {
+        for ok in ["\n", "\r", "\t", "é", "中", "🙂", "line one\nline two", ""] {
+            assert_eq!(validate_paste_text(ok), Ok(()), "{ok:?} must pass");
+        }
+        for bad in [
+            "\u{1b}",
+            "\u{0}",
+            "\u{7}",
+            "\u{7f}",
+            "\u{85}",
+            "\u{9f}",
+            "ok\u{1b}[201~",
+        ] {
+            assert_eq!(
+                validate_paste_text(bad),
+                Err(NotDelivered::ControlCharacter),
+                "{bad:?} must be refused"
+            );
+        }
+    }
+
+    #[test]
+    fn paste_text_boundaries_of_each_class() {
+        assert!(validate_paste_text("\u{1f}").is_err());
+        assert!(validate_paste_text(" ").is_ok());
+        assert!(validate_paste_text("~").is_ok());
+        assert!(validate_paste_text("\u{80}").is_err());
+        assert!(validate_paste_text("\u{a0}").is_ok());
+    }
+
+    fn refused_char() -> impl Strategy<Value = char> {
+        prop_oneof![
+            (0u32..=0x1f)
+                .prop_filter("allowed C0", |c| ![0x09, 0x0a, 0x0d].contains(c))
+                .prop_map(|c| char::from_u32(c).expect("C0")),
+            Just('\u{7f}'),
+            (0x80u32..=0x9f).prop_map(|c| char::from_u32(c).expect("C1")),
+        ]
+    }
+
+    fn allowed_char() -> impl Strategy<Value = char> {
+        any::<char>().prop_filter("refused control", |c| !is_refused_control(*c))
+    }
+
+    proptest! {
+        #![proptest_config(config())]
+
+        #[test]
+        fn paste_text_prop_refuses_any_injected_control(
+            text in any::<String>(),
+            bad in refused_char(),
+            at in any::<prop::sample::Index>(),
+        ) {
+            let mut chars: Vec<char> = text.chars().collect();
+            let i = at.index(chars.len() + 1);
+            chars.insert(i, bad);
+            let injected: String = chars.into_iter().collect();
+            prop_assert_eq!(validate_paste_text(&injected), Err(NotDelivered::ControlCharacter));
+        }
+
+        #[test]
+        fn paste_text_prop_passes_only_allowed_chars(
+            chars in prop::collection::vec(allowed_char(), 0..64),
+        ) {
+            let text: String = chars.into_iter().collect();
+            prop_assert_eq!(validate_paste_text(&text), Ok(()));
+        }
     }
 
     #[test]

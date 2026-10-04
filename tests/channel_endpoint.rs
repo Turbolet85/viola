@@ -284,8 +284,8 @@ fn channel_wrapper_logs_each_call_with_corr_and_conn(booted_wrapper: Wrapper) {
 }
 
 /// At `diagnostics_level: "debug"` a request's content never reaches a role file (obs-plan §8;
-/// verification-matrix v1-20): not in `params`, not in a peer's `conn` or `sender`, not in a
-/// frame that is not even JSON.
+/// verification-matrix v1-20): not in a confirmed `send`'s text (typed, hooked back and read back),
+/// not in a peer's `conn` or `sender`, not in a frame that is not even JSON.
 #[rstest]
 fn channel_debug_level_keeps_request_content_out_of_the_role_files(stamped_home: StampedHome) {
     fs::create_dir_all(stamped_home.home.path()).expect("home");
@@ -294,7 +294,13 @@ fn channel_debug_level_keeps_request_content_out_of_the_role_files(stamped_home:
         r#"{"v":1,"diagnostics_level":"debug"}"#,
     )
     .expect("config");
-    let wrapper = Wrapper::boot(stamped_home, "builder", None, &[]);
+    let fixtures = support::home::workspace_path("fixtures/claude");
+    let wrapper = Wrapper::boot(
+        stamped_home,
+        "builder",
+        None,
+        &["--fixtures", fixtures.to_str().expect("utf-8 path")],
+    );
     let snapshot = snapshot_data(&wrapper.instance_dir()).expect("snapshot");
     let endpoint = snapshot["endpoint"].as_str().expect("endpoint").to_owned();
 
@@ -302,7 +308,7 @@ fn channel_debug_level_keeps_request_content_out_of_the_role_files(stamped_home:
     let reply = client
         .request("send", params(json!({"text": CANARY})))
         .expect("reply");
-    assert_eq!(reply["error"]["code"], -32601);
+    assert!(reply["result"]["ok"]["cursor"].is_u64(), "{reply}");
     let mut stream = raw(&endpoint);
     let spoofed = format!(
         r#"{{"jsonrpc":"2.0","id":2,"method":"{CANARY}","params":{{"v":1,"conn":"{CANARY}","sender":"{CANARY}","from":"{CANARY}"}}}}"#
@@ -331,6 +337,11 @@ fn channel_debug_level_keeps_request_content_out_of_the_role_files(stamped_home:
     }
     assert!(scanned >= 1);
     let lines = role_lines(wrapper.home());
-    assert_eq!(of_event(&lines, "channel-request").len(), 2, "{lines:?}");
+    // The hooks' own `hook.event` notifications (SessionStart, the read-back prompt) aside.
+    let requests: Vec<&Value> = of_event(&lines, "channel-request")
+        .into_iter()
+        .filter(|l| l["method"] != "hook.event")
+        .collect();
+    assert_eq!(requests.len(), 2, "{lines:?}");
     assert_eq!(wrapper.stop().code(), Some(0));
 }

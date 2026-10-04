@@ -10,10 +10,10 @@ use chrono::Utc;
 use serde_json::{Value, json};
 use tracing::instrument;
 use viola_agent_claude::{Refusal, StripPlan};
-use viola_channel::{ChannelError, Dispatch, ProtocolError, Server, Serving};
+use viola_channel::{Call, ChannelError, Dispatch, ProtocolError, Server, Serving};
 use viola_core::obs::ObsProcess;
 use viola_core::{EventKind, SystemClock, ViolaName};
-use viola_pty::{HostTerminal, PortablePty, PumpEnd, Size, SpawnSpec};
+use viola_pty::{HostTerminal, PasteHandle, PortablePty, PumpEnd, Size, SpawnSpec};
 use viola_state::events::{EventLine, Source, append_event};
 use viola_state::fs::{FILE_MODE, create_private_dir, replace_private_shared};
 use viola_state::heartbeat::{Heartbeat, beat_age, touch_heartbeat};
@@ -22,7 +22,8 @@ use viola_state::pin::{PinError, Pinned, pin_exe};
 use viola_state::snapshot::{InstanceSnapshot, Wheel, read_snapshot, write_snapshot};
 
 use crate::run::ChildLaunch;
-use crate::run::gate::{self, Feed, Tee};
+use crate::run::gate::{self, Tee};
+use crate::run::send::{self, SendSlot};
 use crate::run::version_gate::{Gate, version_gate};
 use crate::{human, obs, run};
 
@@ -57,11 +58,12 @@ fn hold_pump_start() {
     }
 }
 
-/// The wrapper's answers: the `hook.event` notification appends its event; every other method is
-/// `-32601` until its chunk lands.
+/// The wrapper's answers: `send`, and the `hook.event` notification, which appends its event;
+/// every other method is `-32601` until its chunk lands.
 pub(crate) struct Methods {
     name: ViolaName,
     instance_dir: PathBuf,
+    send: Arc<SendSlot>,
 }
 
 /// The kinds a hook may hand the wrapper.
@@ -104,9 +106,17 @@ impl Dispatch for Methods {
         }
         // A notification is never answered: an event that fails the checks is simply not appended.
         if let Some(line) = self.hook_event_line(params) {
-            append_event(&self.instance_dir, &line).map_err(|_| ProtocolError::Internal)?;
+            send::append_hook_event(&self.send, &self.instance_dir, line)
+                .map_err(|_| ProtocolError::Internal)?;
         }
         Ok(Value::Null)
+    }
+
+    fn dispatch_call(&self, call: &Call<'_>) -> Result<Value, ProtocolError> {
+        if call.method == "send" {
+            return send::send(&self.send, &self.name, &self.instance_dir, call);
+        }
+        self.dispatch(call.method, call.params)
     }
 }
 
@@ -133,6 +143,7 @@ struct Launched {
     pty: PortablePty,
     terminal: Option<HostTerminal>,
     size: Size,
+    send: Arc<SendSlot>,
     _beat: Heartbeat,
     _serving: Serving,
 }
@@ -182,9 +193,11 @@ fn start(home: &Path, args: &RunArgs, persistent: &[String]) -> anyhow::Result<S
         refuse_squatted(&args.name);
         return Ok(refused("squatted-name"));
     };
+    let send = Arc::new(SendSlot::new(SystemClock));
     let serving = server.serve(Arc::new(Methods {
         name: args.name.clone(),
         instance_dir: instance_dir.clone(),
+        send: Arc::clone(&send),
     }));
     let (beat, snapshot) = start_state(&args.name, &instance_dir, &pinned, endpoint, gate)?;
     let launch = run::child_launch(
@@ -212,6 +225,7 @@ fn start(home: &Path, args: &RunArgs, persistent: &[String]) -> anyhow::Result<S
         pty,
         terminal,
         size,
+        send,
         _beat: beat,
         _serving: serving,
     })))
@@ -412,26 +426,31 @@ fn pump_child(launched: Launched) -> anyhow::Result<ExitCode> {
         mut pty,
         terminal,
         size,
+        send,
         _beat,
         _serving,
     } = launched;
     #[cfg(feature = "fake-agent")]
     hold_pump_start();
-    let (feed, _feed_thread) = gate::start(SystemClock, size);
+    let (feed, gate, _feed_thread) = gate::start(SystemClock, size);
+    let paste = PasteHandle::default();
+    let typed = paste.clone();
+    send.attach(Box::new(move |text| typed.paste(text)), gate);
     let sizes = feed.clone();
     let mut host_size = move || {
         let size = viola_pty::host_size();
         if let Some(size) = size {
-            let _ = sizes.send(Feed::Size(size));
+            sizes.size(size);
         }
         size
     };
-    let end = viola_pty::pump(
+    let end = viola_pty::pump_with_paste(
         &mut pty,
         Box::new(io::stdin()),
         Box::new(Tee::new(io::stdout(), feed)),
         size,
         &mut host_size,
+        &paste,
     );
     drop(terminal);
     match end? {
@@ -542,6 +561,7 @@ mod tests {
         Methods {
             name: ViolaName::try_new("builder".to_owned()).expect("valid"),
             instance_dir: instance_dir.to_path_buf(),
+            send: Arc::new(SendSlot::new(SystemClock)),
         }
     }
 
@@ -556,7 +576,7 @@ mod tests {
     #[test]
     fn methods_answer_method_not_found_for_every_other_method() {
         let tmp = tempfile::tempdir().expect("tempdir");
-        for method in ["send", "wait", "hook.dialog", "anything"] {
+        for method in ["wait", "hook.dialog", "anything"] {
             assert_eq!(
                 methods(tmp.path()).dispatch(method, &json!({"v": 1})),
                 Err(ProtocolError::MethodNotFound)

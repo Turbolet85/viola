@@ -1,9 +1,10 @@
 //! The pump: the child's input and output copied on two threads, host size changes forwarded, and
 //! the end read on the process handle.
 
-use std::io::{Read, Write};
+use std::io::{self, Read, Write};
 use std::panic::{AssertUnwindSafe, catch_unwind};
 use std::sync::mpsc::{self, Receiver, RecvTimeoutError, Sender};
+use std::sync::{Arc, Mutex, MutexGuard, PoisonError};
 use std::time::{Duration, Instant};
 
 use crate::{Exit, ExitSource, Pty, PtyError, Size};
@@ -52,6 +53,60 @@ fn copy(mut from: impl Read, mut to: impl Write) {
     }
 }
 
+type Input = Option<Box<dyn Write + Send>>;
+
+/// The child's input writer, shared by the human's copy thread and the wrapper's paste: one lock,
+/// so a paste is one contiguous byte run and a key that arrives during it waits for that paste
+/// only (architecture [Human Takeover / Wheel]).
+#[derive(Clone, Default)]
+pub struct PasteHandle(Arc<Mutex<Input>>);
+
+impl PasteHandle {
+    fn lock(&self) -> MutexGuard<'_, Input> {
+        // A writer that panicked mid-write already ended the pump; what is left is still a writer.
+        self.0.lock().unwrap_or_else(PoisonError::into_inner)
+    }
+
+    /// `text` as one bracketed paste + Enter, in one `write_all` + flush under the lock; `NoInput`
+    /// before the pump has opened the child's input or after it returned.
+    #[tracing::instrument(
+        skip_all,
+        name = "pty.paste_write",
+        fields(text_bytes = text.len(), paste_mode = "bracketed")
+    )]
+    pub fn paste(&self, text: &str) -> Result<(), PtyError> {
+        let mut bytes = Vec::with_capacity(text.len() + 13);
+        bytes.extend_from_slice(b"\x1b[200~");
+        bytes.extend_from_slice(text.as_bytes());
+        bytes.extend_from_slice(b"\x1b[201~\r");
+        let mut input = self.lock();
+        let writer = input.as_mut().ok_or(PtyError::NoInput)?;
+        writer
+            .write_all(&bytes)
+            .and_then(|()| writer.flush())
+            .map_err(PtyError::Write)
+    }
+}
+
+/// The human's side of the shared writer: each chunk is written and flushed under the lock.
+struct HumanInput(PasteHandle);
+
+impl Write for HumanInput {
+    fn write(&mut self, buf: &[u8]) -> io::Result<usize> {
+        let mut input = self.0.lock();
+        let writer = input
+            .as_mut()
+            .ok_or_else(|| io::Error::from(io::ErrorKind::BrokenPipe))?;
+        writer.write_all(buf)?;
+        writer.flush()?;
+        Ok(buf.len())
+    }
+
+    fn flush(&mut self) -> io::Result<()> {
+        Ok(())
+    }
+}
+
 /// Pumps `input` into the child and the child's output into `output`, forwards host size changes,
 /// and returns when the child exits (read on the handle) or a pump thread panics (the child is
 /// then killed). Each pump thread body runs inside `catch_unwind`. `spawned` is the size the PTY
@@ -64,20 +119,50 @@ pub fn pump(
     spawned: Size,
     host_size: &mut dyn FnMut() -> Option<Size>,
 ) -> Result<PumpEnd, PtyError> {
+    pump_with_paste(
+        pty,
+        input,
+        output,
+        spawned,
+        host_size,
+        &PasteHandle::default(),
+    )
+}
+
+/// [`pump`], with the child's input also reachable through `paste` while the pump runs.
+pub fn pump_with_paste(
+    pty: &mut dyn Pty,
+    input: Box<dyn Read + Send>,
+    output: Box<dyn Write + Send>,
+    spawned: Size,
+    host_size: &mut dyn FnMut() -> Option<Size>,
+    paste: &PasteHandle,
+) -> Result<PumpEnd, PtyError> {
     let reader = pty.reader()?;
-    let writer = pty.writer()?;
-    let (tx, rx) = mpsc::channel();
     // Closing ConPTY's input ends the child with a close event (measured: STATUS_CONTROL_C_EXIT
-    // once viola's own stdin hit EOF), so the writer is handed back, not dropped, at input EOF.
-    let (keep, _kept) = mpsc::channel::<Box<dyn Write + Send>>();
+    // once viola's own stdin hit EOF), so the writer stays in the handle past input EOF and is
+    // released only once the pump returns.
+    *paste.lock() = Some(pty.writer()?);
+    let end = pump_open(pty, reader, input, output, spawned, host_size, paste);
+    *paste.lock() = None;
+    end
+}
+
+fn pump_open(
+    pty: &mut dyn Pty,
+    reader: Box<dyn Read + Send>,
+    input: Box<dyn Read + Send>,
+    output: Box<dyn Write + Send>,
+    spawned: Size,
+    host_size: &mut dyn FnMut() -> Option<Size>,
+    paste: &PasteHandle,
+) -> Result<PumpEnd, PtyError> {
+    let (tx, rx) = mpsc::channel();
     spawn_worker(tx.clone(), Some(Worker::OutputDone), move || {
         copy(reader, output);
     });
-    spawn_worker(tx, None, move || {
-        let mut writer = writer;
-        copy(input, &mut writer);
-        let _ = keep.send(writer);
-    });
+    let human = HumanInput(paste.clone());
+    spawn_worker(tx, None, move || copy(input, human));
     let mut last = Some(spawned);
     let mut next_resize = Instant::now() + RESIZE_EVERY;
     let mut output_done = false;
@@ -577,5 +662,214 @@ mod tests {
         )
         .expect("pump");
         assert_eq!(out.lock().expect("lock").as_slice(), b"late");
+    }
+
+    type Writes = Arc<std::sync::Mutex<Vec<Vec<u8>>>>;
+
+    /// Records each `write` call's bytes when it returns; a write starting with the paste-start
+    /// sequence first announces itself, then holds until `release` is set.
+    struct Recorder {
+        writes: Writes,
+        paste_started: Sender<()>,
+        release: Arc<AtomicBool>,
+    }
+
+    impl Write for Recorder {
+        fn write(&mut self, b: &[u8]) -> io::Result<usize> {
+            if b.starts_with(b"\x1b[200~") {
+                let _ = self.paste_started.send(());
+                while !self.release.load(Ordering::SeqCst) {
+                    std::thread::yield_now();
+                }
+            }
+            self.writes.lock().expect("writes").push(b.to_vec());
+            Ok(b.len())
+        }
+        fn flush(&mut self) -> io::Result<()> {
+            Ok(())
+        }
+    }
+
+    /// Human input fed one chunk per message; `read_back` announces each chunk handed out.
+    struct Keys(Receiver<Vec<u8>>, Sender<()>);
+
+    impl Read for Keys {
+        fn read(&mut self, buf: &mut [u8]) -> io::Result<usize> {
+            let Ok(chunk) = self.0.recv() else {
+                return Ok(0);
+            };
+            buf[..chunk.len()].copy_from_slice(&chunk);
+            let _ = self.1.send(());
+            Ok(chunk.len())
+        }
+    }
+
+    struct Rig {
+        paste: PasteHandle,
+        writes: Writes,
+        paste_started: Receiver<()>,
+        release: Arc<AtomicBool>,
+        keys: Sender<Vec<u8>>,
+        key_read: Receiver<()>,
+        stop: Arc<AtomicBool>,
+        pump: std::thread::JoinHandle<PumpEnd>,
+    }
+
+    /// A pump over a recording writer, run on its own thread until `stop` is set.
+    fn rig() -> Rig {
+        let paste = PasteHandle::default();
+        let writes = Writes::default();
+        let (started_tx, paste_started) = mpsc::channel();
+        let release = Arc::new(AtomicBool::new(true));
+        let (keys, keys_rx) = mpsc::channel();
+        let (read_tx, key_read) = mpsc::channel();
+        let stop = Arc::new(AtomicBool::new(false));
+        let mut pty = MockPty::new();
+        pty.expect_reader().returning(|| Ok(Box::new(NeverEof)));
+        let recorder = std::sync::Mutex::new(Some(Recorder {
+            writes: Arc::clone(&writes),
+            paste_started: started_tx,
+            release: Arc::clone(&release),
+        }));
+        pty.expect_writer().returning(move || {
+            let recorder = recorder
+                .lock()
+                .expect("recorder")
+                .take()
+                .expect("one writer");
+            Ok(Box::new(recorder))
+        });
+        let stopped = Arc::clone(&stop);
+        pty.expect_try_wait()
+            .returning(move || Ok(stopped.load(Ordering::SeqCst).then_some(0)));
+        pty.expect_close().return_const(());
+        let handle = paste.clone();
+        let pump = std::thread::spawn(move || {
+            pump_with_paste(
+                &mut pty,
+                Box::new(Keys(keys_rx, read_tx)),
+                Box::new(io::sink()),
+                Size::DEFAULT,
+                &mut no_size,
+                &handle,
+            )
+            .expect("pump")
+        });
+        Rig {
+            paste,
+            writes,
+            paste_started,
+            release,
+            keys,
+            key_read,
+            stop,
+            pump,
+        }
+    }
+
+    impl Rig {
+        fn wait_for_writes(&self, n: usize) -> Vec<Vec<u8>> {
+            loop {
+                let writes = self.writes.lock().expect("writes").clone();
+                if writes.len() >= n {
+                    return writes;
+                }
+                std::thread::yield_now();
+            }
+        }
+
+        /// A paste once the pump has opened the child's input.
+        fn paste_when_open(&self, text: &str) {
+            paste_when_open(&self.paste, text);
+        }
+    }
+
+    fn paste_when_open(paste: &PasteHandle, text: &str) {
+        while matches!(paste.paste(text), Err(PtyError::NoInput)) {
+            std::thread::yield_now();
+        }
+    }
+
+    impl Rig {
+        fn finish(self) {
+            self.stop.store(true, Ordering::SeqCst);
+            drop(self.keys);
+            assert!(matches!(
+                self.pump.join().expect("pump"),
+                PumpEnd::Exited(_)
+            ));
+        }
+    }
+
+    #[test]
+    fn paste_is_one_contiguous_bracketed_write() {
+        let rig = rig();
+        rig.paste_when_open("line one\nline two");
+        let writes = rig.wait_for_writes(1);
+        assert_eq!(writes, [b"\x1b[200~line one\nline two\x1b[201~\r".to_vec()]);
+        rig.finish();
+    }
+
+    #[test]
+    fn paste_human_bytes_during_a_paste_land_wholly_after_it() {
+        let rig = rig();
+        rig.release.store(false, Ordering::SeqCst);
+        std::thread::scope(|s| {
+            let handle = rig.paste.clone();
+            let paste = s.spawn(move || paste_when_open(&handle, "canary-chain-value-5c1e"));
+            rig.paste_started.recv().expect("paste started");
+            rig.keys.send(b"k".to_vec()).expect("key");
+            rig.key_read.recv().expect("key read");
+            rig.release.store(true, Ordering::SeqCst);
+            paste.join().expect("paste");
+        });
+        let writes = rig.wait_for_writes(2);
+        assert_eq!(
+            writes,
+            [
+                b"\x1b[200~canary-chain-value-5c1e\x1b[201~\r".to_vec(),
+                b"k".to_vec()
+            ]
+        );
+        rig.finish();
+    }
+
+    #[test]
+    fn paste_before_the_pump_starts_is_refused() {
+        let paste = PasteHandle::default();
+        assert!(matches!(paste.paste("early"), Err(PtyError::NoInput)));
+    }
+
+    #[test]
+    fn paste_after_the_pump_returns_is_refused() {
+        let rig = rig();
+        rig.paste_when_open("x");
+        let paste = rig.paste.clone();
+        rig.finish();
+        assert!(matches!(paste.paste("late"), Err(PtyError::NoInput)));
+    }
+
+    #[test]
+    fn paste_human_keys_reach_the_child_through_the_shared_writer() {
+        let rig = rig();
+        rig.keys.send(b"typed".to_vec()).expect("key");
+        assert_eq!(rig.wait_for_writes(1), [b"typed".to_vec()]);
+        rig.finish();
+    }
+
+    #[test]
+    fn paste_a_failed_write_is_a_write_error() {
+        struct Broken;
+        impl Write for Broken {
+            fn write(&mut self, _: &[u8]) -> io::Result<usize> {
+                Err(io::Error::other("gone"))
+            }
+            fn flush(&mut self) -> io::Result<()> {
+                Ok(())
+            }
+        }
+        let paste = PasteHandle::default();
+        *paste.lock() = Some(Box::new(Broken));
+        assert!(matches!(paste.paste("x"), Err(PtyError::Write(_))));
     }
 }

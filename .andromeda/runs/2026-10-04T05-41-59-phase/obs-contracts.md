@@ -1,0 +1,12 @@
+# obs-plan.md ## 3. Observability Harness Contract — the keyed contracts, one row per key (U35): key · file · bytes · labels. Read one file whole when the chunk turns on its key; never the set.
+
+- Product mode — Normal vs Inverted (self-observing) · .andromeda/registries/contracts/obs-plan/product-mode-normal-vs-inverted-self-observing.md · 376 B · labels: Normal
+- OTel SDK init · .andromeda/registries/contracts/obs-plan/otel-sdk-init.md · 6169 B · labels: SDK packages, Init order, Init body sketch (≤ 5 lines)
+- Service identity · .andromeda/registries/contracts/obs-plan/service-identity.md · 1116 B · labels: service.name, service.version, deployment.environment, Resource attributes
+- Logging stack · .andromeda/registries/contracts/obs-plan/logging-stack.md · 7481 B · labels: Library, Format, Mandatory builder settings beyond the tests line, Sink, Agent-mode flag
+- Log format JSON schema · .andromeda/registries/contracts/obs-plan/log-format-json-schema.md · 8083 B · labels: Binding. Reproduced verbatim from test-plan.md §3 Test Harness Contract → Log format (re-synced in overseer fix pass 2, 2026-09-24, after test-plan amendments D-21 / 693e083 and fix pass 2, and again in fix pass 3 for Z7). Obs aligns to tests, not vice versa, Obs extensions, Accepted `event` values (tests amendment D-21), Not a product `event` value: `a11y-violation`, Accepted `process` value, Additive fields, Null encoding
+- Log file location · .andromeda/registries/contracts/obs-plan/log-file-location.md · 1631 B · labels: Path, Rotation
+- Snapshot / paste-to-AI integration · .andromeda/registries/contracts/obs-plan/snapshot-paste-to-ai-integration.md · 2693 B
+- Trace context propagation · .andromeda/registries/contracts/obs-plan/trace-context-propagation.md · 5270 B · labels: HTTP boundaries, gRPC boundaries, IPC boundaries, Claude Code → hook stdin, Internal async boundaries
+- Heartbeat ticks · .andromeda/registries/contracts/obs-plan/heartbeat-ticks.md · 1294 B · labels: Tick interval, Tick event format, Stall detection
+- Bootstrap phases (derive for route / setup-project) · .andromeda/registries/contracts/obs-plan/bootstrap-phases-derive-for-route-setup-project.md · 7206 B · labels: otel-sdk-install, logger-stack-install, service-identity-wire, log-format-schema-emit, trace-context-propagate-wire, heartbeat-tick-wire, pii-scrubbing-wire, obs-ci-gate-wire, Merged phase position, Ownership
