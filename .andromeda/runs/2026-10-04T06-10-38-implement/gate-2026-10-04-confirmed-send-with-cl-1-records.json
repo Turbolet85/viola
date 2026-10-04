@@ -3599,5 +3599,563 @@
 "unparsed": 0,
 "widening_without_word": 0
 }
+},
+{
+"tool": "gate",
+"v": "1.6",
+"sha8": "9419d56e",
+"ts": "2026-10-04T06:37:42Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-04-confirmed-send-with-cl-1-records/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T06-10-38-implement",
+"--marker",
+"2026-10-04-confirmed-send-with-cl-1-records",
+"--only",
+"1,15,24"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root /home/turbolet/dev/projects/viola · marker 2026-10-04-confirmed-send-with-cl-1-records · entries 27",
+"logs /tmp/andromeda-gate/2026-10-04-confirmed-send-with-cl-1-records/implement-2026-10-04T06-10-38 · bound: GNU timeout",
+"delta docs 1 · unmapped 2",
+"prose L169-169: No live leg runs here: `claude` is never driven, and the typed probe is held. `src/cmd/run… (522 chars)",
+"  1 lint        green · exit 0 · 0.39s · 0 B → 1.log · cargo fmt --all --check",
+"  2 lint        not run — excluded · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 unit        not run — excluded · bash scripts/agent-run.sh run --unit --filter 'test(/paste… (92 chars)",
+"  4 unit        not run — excluded · bash scripts/agent-run.sh run --unit --filter 'test(/run::… (74 chars)",
+"  5 unit        not run — excluded · bash scripts/agent-run.sh run --unit --filter 'test(/run::… (90 chars)",
+"  6 unit        not run — excluded · bash scripts/agent-run.sh run --unit --filter 'test(/cmd::… (135 chars)",
+"  7 unit        not run — excluded · bash scripts/agent-run.sh run --unit",
+"  8 integration not run — excluded · bash scripts/agent-run.sh run --integration --filter 'test… (147 chars)",
+"  9 integration not run — excluded · bash scripts/agent-run.sh run --integration --filter 'test… (114 chars)",
+" 10 integration not run — excluded · bash scripts/agent-run.sh run",
+" 11 smoke       not run — excluded · bash scripts/agent-run.sh cleanup --session p-send-smoke",
+" 12 smoke       not run — excluded · bash scripts/agent-run.sh boot --session p-send-smoke --in… (72 chars)",
+" 13 smoke       not run — excluded · bash scripts/agent-run.sh status --session p-send-smoke",
+" 14 smoke       not run — excluded · bash scripts/agent-run.sh cleanup --session p-send-smoke",
+" 15 integration green · exit 0 · 0.78s · 4731 B → 15.log · bash scripts/agent-run.sh run --fuzz-replay",
+" 16 probe       not run — excluded · cargo deny check",
+" 17 probe       not run — excluded · test -s scripts/sync-crates.txt && while read -r c; do car… (181 chars)",
+" 18 probe       not run — excluded · bash scripts/deny-probes.sh",
+" 19 probe       not run — excluded · cargo deny --manifest-path fuzz/Cargo.toml check advisorie… (67 chars)",
+" 20 probe       not run — excluded · git diff 51b533886b7c -- Cargo.toml deny.toml deny-sync.to… (112 chars)",
+" 21 probe       not run — excluded · git diff --quiet 51b533886b7c -- crates/viola-agent-claude… (128 chars)",
+" 22 probe       not run — excluded · ! (git diff 51b533886b7c -- '*.rs' .config/nextest.toml | … (144 chars)",
+" 23 probe       not run — excluded · grep -c 'sync_channel(FEED_CAPACITY)' src/run/gate.rs",
+" 24 probe       green · exit 0 · 32.85s · 135059 B → 24.log · bash scripts/agent-run.sh pre-push",
+" 25 probe       not run — excluded · python -X utf8 /home/turbolet/.claude/skills/andromeda-pha… (103 chars)",
+" 26 probe       not run — excluded · git diff --quiet && git diff --cached --quiet && git push … (69 chars)",
+" 27 probe       not run — excluded · python -X utf8 /home/turbolet/.claude/skills/andromeda-pha… (127 chars)",
+"entries 27 · green 3 · red 0 · recorded 0 · timeout 0 · not-run 24"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-04-confirmed-send-with-cl-1-records",
+"plan": "/home/turbolet/dev/projects/viola/viola-0.1.0/chunks/2026-10-04-confirmed-send-with-cl-1-records/plan.md",
+"root": "/home/turbolet/dev/projects/viola",
+"shell": "/usr/bin/bash",
+"out_dir": "/tmp/andromeda-gate/2026-10-04-confirmed-send-with-cl-1-records/implement-2026-10-04T06-10-38",
+"delta": {
+"docs": [
+"viola-0.1.0/chunks/2026-10-04-confirmed-send-with-cl-1-records/scope-record.md"
+]
+},
+"unmapped": [
+".gitattributes",
+"fuzz/corpus/paste_text/multi-line"
+],
+"prose": [
+{
+"from": 169,
+"to": 169,
+"text": "No live leg runs here: `claude` is never driven, and the typed probe is held. `src/cmd/run.rs` is on the boot path, so the block boots one harness session (`p-send-smoke`: pre-clean, boot, status, cleanup), as the prior chunk did. Path 2's run-level witness is the root integration tests above, on all three CI OSes; Windows is witnessed only by `windows-2025`. The `send_window_` tests each wait out the 10 s fallback window by design: the product's own deadline, the one E2E deadline the test plan admits (test-plan §2)."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-confirmed-send-with-cl-1-records/implement-2026-10-04T06-10-38/1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.39,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/paste_text|refusal_reason|event_kind/)'",
+"run_sha8": "a1478c22",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/run::send::tests::/)'",
+"run_sha8": "115ad883",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/run::gate::tests::|screen::tests::/)'",
+"run_sha8": "45d1f256",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/cmd::send::tests::|human::tests::|pump::tests::|events::tests::|server::tests::/)'",
+"run_sha8": "a236e967",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'test(/path2_send_confirms_with_cl1_events|send_window_|send_leading_slash|send_unreachable/)'",
+"run_sha8": "cf10d904",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'test(/^channel_paste_|chaos_feed_panic|send_paste_control/)'",
+"run_sha8": "88d1f29b",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run",
+"run_sha8": "21443cdf",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-send-smoke",
+"run_sha8": "ab86752d",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-send-smoke --instance builder",
+"run_sha8": "0f78324d",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-send-smoke",
+"run_sha8": "3650b783",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-send-smoke",
+"run_sha8": "ab86752d",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --fuzz-replay",
+"run_sha8": "003776f1",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"passed\":5"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-confirmed-send-with-cl-1-records/implement-2026-10-04T06-10-38/15.log",
+"bytes": 4731,
+"log_sha8": "39f5a92f",
+"exit": 0,
+"seconds": 0.78,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"contains '\"passed\":5' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "test -s scripts/sync-crates.txt && while read -r c; do cargo deny --config deny-sync.toml --manifest-path \"crates/$c/Cargo.toml\" check bans || exit 1; done < scripts/sync-crates.txt",
+"run_sha8": "59b56b20",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "bash scripts/deny-probes.sh",
+"run_sha8": "6ea4a0e7",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "cargo deny --manifest-path fuzz/Cargo.toml check advisories sources",
+"run_sha8": "5244df61",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "git diff 51b533886b7c -- Cargo.toml deny.toml deny-sync.toml | grep -cE '^\\+.*(skip|ignore|exceptions|allow *=)'",
+"run_sha8": "f01ece9c",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "git diff --quiet 51b533886b7c -- crates/viola-agent-claude/src/ledger.rs src/cmd/verify.rs src/main.rs scripts/g2-zero-panics.sh",
+"run_sha8": "460b2fa1",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "! (git diff 51b533886b7c -- '*.rs' .config/nextest.toml | grep -E '^\\+.*(#\\[ignore|retries *=|test\\.skip|std::env::var)' | grep -v 'VIOLA_NAME')",
+"run_sha8": "a2f77fb8",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "grep -c 'sync_channel(FEED_CAPACITY)' src/run/gate.rs",
+"run_sha8": "7f9480a3",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": "/tmp/andromeda-gate/2026-10-04-confirmed-send-with-cl-1-records/implement-2026-10-04T06-10-38/24.log",
+"bytes": 135059,
+"log_sha8": "8b362527",
+"exit": 0,
+"seconds": 32.85,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"contains '\"stage\":\"linux-tests\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 25,
+"role": "probe",
+"run": "python -X utf8 /home/turbolet/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "64780869",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 26,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 27,
+"role": "probe",
+"run": "python -X utf8 /home/turbolet/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "c0d185ab",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
 }
 ]

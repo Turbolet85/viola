@@ -2,3 +2,4 @@
 
 - `Cargo.lock` · mechanical · serves crates/viola-core/Cargo.toml · self
 - `fuzz/Cargo.lock` · mechanical · serves fuzz/Cargo.toml · self
+- `.gitattributes` · in-intent · serves fuzz/corpus/paste_text/ · self

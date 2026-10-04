@@ -2,3 +2,5 @@
 * text=auto eol=lf
 # The vendored ConPTY files are byte-identical to Microsoft's package: never a text conversion.
 vendor/conpty/** binary
+# Fuzz seeds are exact input bytes (a CRLF seed must stay CRLF): never a text conversion.
+fuzz/corpus/paste_text/** binary
