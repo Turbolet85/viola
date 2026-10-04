@@ -42,6 +42,17 @@ pub struct InstanceSnapshot {
     pub links: Vec<Value>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub child_pid: Option<u32>,
+    /// The dialog a `hook.dialog` is holding open for a driver's answer; the only source of a
+    /// session's `dialog_pending`, never rebuilt from the log (architecture §Standard Contracts).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub pending_dialog: Option<PendingDialog>,
+}
+
+/// `{dialog_id, kind}` of the one pending dialog.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct PendingDialog {
+    pub dialog_id: u64,
+    pub kind: String,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -107,6 +118,7 @@ mod tests {
             budget_paused: false,
             links: Vec::new(),
             child_pid,
+            pending_dialog: None,
         }
     }
 
@@ -207,6 +219,25 @@ mod tests {
         assert_eq!(snap.cli_version.as_deref(), Some("2.1.0"));
         assert_eq!(snap.endpoint.as_deref(), Some("e"));
         assert!(snap.links.is_empty() && snap.child_pid.is_none());
+        assert!(snap.pending_dialog.is_none());
+    }
+
+    #[test]
+    fn snapshot_pending_dialog_is_written_only_while_set() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let mut held = snapshot(5, Some(6));
+        held.pending_dialog = Some(PendingDialog {
+            dialog_id: 3,
+            kind: "plan".to_owned(),
+        });
+        write_snapshot(tmp.path(), &held).expect("held");
+        assert_eq!(
+            on_disk(tmp.path())["data"]["pending_dialog"],
+            json!({"dialog_id": 3, "kind": "plan"})
+        );
+        assert_eq!(read_snapshot(tmp.path()), Some(held));
+        write_snapshot(tmp.path(), &snapshot(5, Some(6))).expect("cleared");
+        assert!(on_disk(tmp.path())["data"].get("pending_dialog").is_none());
     }
 
     #[test]

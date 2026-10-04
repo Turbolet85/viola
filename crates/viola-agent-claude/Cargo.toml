@@ -20,6 +20,7 @@ thiserror.workspace = true
 vt100.workspace = true
 
 [dev-dependencies]
+insta.workspace = true
 proptest.workspace = true
 rstest.workspace = true
 tempfile.workspace = true

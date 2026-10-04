@@ -267,7 +267,7 @@ fn tui_child_output_passes_through_without_viola_bytes(#[from(home)] wrapped: Te
     assert_eq!(pty.wait_exit(EXIT_WITHIN), 0);
     let stream = pty.finish();
     assert!(
-        holds(&stream, "2.1.283 (Claude Code)"),
+        holds(&stream, "2.1.287 (Claude Code)"),
         "the child's output never reached the terminal"
     );
     assert_no_viola_bytes(&stream);

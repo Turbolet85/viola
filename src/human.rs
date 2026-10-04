@@ -162,6 +162,26 @@ pub(crate) fn write_no_message(out: &mut impl Write) -> io::Result<()> {
     out.write_all(b"no message\n")
 }
 
+/// `answered  <name>  dialog <id>`: an `answer` the wrapper took, on stdout.
+pub(crate) fn write_answered(out: &mut impl Write, name: &str, dialog_id: u64) -> io::Result<()> {
+    out.write_all(format!("answered  {name}  dialog {dialog_id}\n").as_bytes())
+}
+
+/// The design-system cli pattern 2 hint for an `answer` refusal: its reason, or for
+/// `not-delivered` its detail. Never the answer's text.
+pub(crate) fn answer_hint(reason: &str, detail: Option<&str>) -> Option<&'static str> {
+    match (reason, detail) {
+        ("unverified-cli", _) => Some("run viola verify for this CLI version"),
+        ("not-delivered", Some("unknown-dialog")) => {
+            Some("that dialog is not pending; viola list shows the current DIALOG")
+        }
+        ("not-delivered", Some("control-character")) => {
+            Some("the text contains a control character (only LF, CR, TAB are allowed)")
+        }
+        _ => None,
+    }
+}
+
 /// The design-system cli pattern 2 hint for a `send` cause: a `not-delivered` detail, or
 /// `not-running` for exit 21. Never the sent text, a path or a pid.
 pub(crate) fn send_hint(name: &str, cause: &str) -> Option<String> {
@@ -467,5 +487,37 @@ mod tests {
         assert!(write_read_back(&mut Broken, "b", "t", 1).is_err());
         assert!(write_send_unable(&mut Broken, "b", "r", None).is_err());
         assert!(write_wrapper_fault(&mut Broken, 1).is_err());
+        assert!(write_answered(&mut Broken, "b", 1).is_err());
+    }
+
+    #[test]
+    fn write_answered_is_one_line_naming_the_dialog() {
+        let mut out = Recorder::default();
+        write_answered(&mut out, "builder", 7).expect("written");
+        assert_eq!(out.bytes, b"answered  builder  dialog 7\n");
+        assert_eq!(out.calls, 1);
+    }
+
+    #[rstest]
+    #[case::unverified("unverified-cli", None, Some("run viola verify for this CLI version"))]
+    #[case::unknown_dialog(
+        "not-delivered",
+        Some("unknown-dialog"),
+        Some("that dialog is not pending; viola list shows the current DIALOG")
+    )]
+    #[case::control_character(
+        "not-delivered",
+        Some("control-character"),
+        Some("the text contains a control character (only LF, CR, TAB are allowed)")
+    )]
+    #[case::other_detail("not-delivered", Some("turn-running"), None)]
+    #[case::unknown("unknown", None, None)]
+    #[case::human_typing("human-typing", None, None)]
+    fn answer_hint_is_the_fixed_table(
+        #[case] reason: &str,
+        #[case] detail: Option<&str>,
+        #[case] hint: Option<&str>,
+    ) {
+        assert_eq!(answer_hint(reason, detail), hint);
     }
 }

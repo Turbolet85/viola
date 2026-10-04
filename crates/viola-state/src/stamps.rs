@@ -11,8 +11,9 @@ use viola_core::MAX_FRAME;
 
 use crate::StateError;
 use crate::fs::{FILE_MODE, create_private_dir, open_private_lock, replace_private};
+use crate::strict::{self, Refused};
 
-const STAMPS: &str = "stamps.json";
+pub(crate) const STAMPS: &str = "stamps.json";
 const STAMPS_LOCK: &str = "stamps.json.lock";
 
 /// `<home>/ledger`, which also holds `viola verify`'s probe dirs.
@@ -59,6 +60,23 @@ pub fn read_stamps(home: &Path) -> Result<Option<Vec<u8>>, StateError> {
         Some((_, true)) => Err(io::Error::from(io::ErrorKind::InvalidData).into()),
         Some((bytes, false)) => Ok(Some(bytes)),
     }
+}
+
+/// Why `run`'s stamps read did not return the stamps: fixed messages only.
+#[derive(Debug, thiserror::Error)]
+pub enum StampsReadError {
+    #[error("the capability stamps failed the strict-modes check")]
+    StrictModes(Refused),
+    #[error("the capability stamps could not be read")]
+    State(#[from] StateError),
+}
+
+/// [`read_stamps`] behind the strict-modes check of `ledger/` and the stamps file: a path another
+/// user could write is refused before a byte is read (security-plan §Security Anti-Patterns ›
+/// Universal: `run`'s read before any non-`null` dialog decision).
+pub fn read_stamps_strict(home: &Path) -> Result<Option<Vec<u8>>, StampsReadError> {
+    strict::check_stamps(home).map_err(StampsReadError::StrictModes)?;
+    Ok(read_stamps(home)?)
 }
 
 #[cfg(test)]
@@ -202,5 +220,50 @@ mod tests {
         assert_eq!(mode(&dir), 0o700);
         assert_eq!(mode(&dir.join("stamps.json")), 0o600);
         assert_eq!(mode(&dir.join("stamps.json.lock")), 0o600);
+    }
+
+    #[test]
+    fn read_stamps_strict_reads_stamps_viola_wrote_and_an_absent_file() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        assert!(matches!(read_stamps_strict(tmp.path()), Ok(None)));
+        update_stamps(tmp.path(), |_| b"stamped".to_vec()).expect("written");
+        assert_eq!(
+            read_stamps_strict(tmp.path()).expect("read"),
+            Some(b"stamped".to_vec())
+        );
+    }
+
+    /// A stamps file another user could write is refused before it is read, even with a stamp in
+    /// it.
+    #[cfg(unix)]
+    #[test]
+    fn read_stamps_strict_refuses_a_world_writable_stamps_file() {
+        use std::os::unix::fs::PermissionsExt as _;
+        let tmp = tempfile::tempdir().expect("tempdir");
+        update_stamps(tmp.path(), |_| b"stamped".to_vec()).expect("written");
+        let path = tmp.path().join("ledger").join("stamps.json");
+        fs::set_permissions(&path, fs::Permissions::from_mode(0o666)).expect("chmod");
+        let got = read_stamps_strict(tmp.path());
+        assert!(
+            matches!(got, Err(StampsReadError::StrictModes(Refused::Writable))),
+            "{got:?}"
+        );
+        assert!(
+            read_stamps(tmp.path()).is_ok(),
+            "the plain read still reads it"
+        );
+    }
+
+    #[test]
+    fn stamps_read_error_messages_are_fixed() {
+        assert_eq!(
+            StampsReadError::StrictModes(Refused::Writable).to_string(),
+            "the capability stamps failed the strict-modes check"
+        );
+        let io = StateError::Io(std::io::Error::other("C:/secret"));
+        assert_eq!(
+            StampsReadError::State(io).to_string(),
+            "the capability stamps could not be read"
+        );
     }
 }

@@ -77,6 +77,8 @@ pub const fn event_name(event: HookEvent) -> &'static str {
         HookEvent::Notification => "Notification",
         HookEvent::PostToolUse => "PostToolUse",
         HookEvent::PostToolUseFailure => "PostToolUseFailure",
+        HookEvent::PreToolUse => "PreToolUse",
+        HookEvent::PermissionRequest => "PermissionRequest",
     }
 }
 
@@ -601,6 +603,8 @@ mod tests {
                 "Notification",
                 "PostToolUse",
                 "PostToolUseFailure",
+                "PreToolUse",
+                "PermissionRequest",
             ]
         );
     }
@@ -610,7 +614,8 @@ mod tests {
     #[case::later("PostToolUseFailure.12.json", Some((HookEvent::PostToolUseFailure, 12)))]
     #[case::zero("Stop.0.json", None)]
     #[case::no_k("Stop.json", None)]
-    #[case::unknown_event("PreToolUse.1.json", None)]
+    #[case::dialog_event("PreToolUse.1.json", Some((HookEvent::PreToolUse, 1)))]
+    #[case::unknown_event("Statusline.1.json", None)]
     #[case::not_json("Stop.1.txt", None)]
     #[case::not_a_number("Stop.x.json", None)]
     #[case::kebab("session-start.1.json", None)]

@@ -19,7 +19,7 @@ use super::{
     read_json, session_record_path, valid_session_id, write_json,
 };
 
-pub const DEFAULT_CLI_VERSION: &str = "2.1.283";
+pub const DEFAULT_CLI_VERSION: &str = "2.1.287";
 const INSTANCE_DEADLINE: Duration = Duration::from_secs(20);
 const ABORT_DEADLINE: Duration = Duration::from_secs(20);
 

@@ -1,6 +1,7 @@
 //! What `viola run` must know about the `claude` CLI: which inherited variables carry the parent
 //! session's identity (the R8 strip) and how the npm shim resolves to the real executable.
 
+pub mod dialog;
 pub mod hook;
 pub mod ledger;
 pub mod screen;
@@ -161,6 +162,12 @@ pub enum AgentError {
     Malformed,
     #[error("the capability stamps are malformed")]
     StampsMalformed,
+    #[error("a dialog hook payload is not a hook event")]
+    NotAnEvent,
+    #[error("the dialog hook payload lacks a field it needs")]
+    DialogMalformed,
+    #[error("the dialog answer has the wrong shape")]
+    ResponseMalformed,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, thiserror::Error)]
@@ -508,8 +515,8 @@ mod tests {
         assert_eq!(got, Err(Refusal::NotFound));
     }
 
-    /// The rendered `hooks.json`, written out as the oracle: seven exec-form entries on the pinned
-    /// path, the spine and SessionEnd sync, the activity tier async, no dialog tier.
+    /// The rendered `hooks.json`, written out as the oracle: nine exec-form entries on the pinned
+    /// path, the spine, the dialog tier and SessionEnd sync, the activity tier async.
     const HOOKS_JSON: &str = r#"{
   "hooks": {
     "SessionStart": [
@@ -517,6 +524,12 @@ mod tests {
     ],
     "UserPromptSubmit": [
       {"hooks": [{"type": "command", "command": "C:/h/bin/0.1.0-0123456789abcdef/viola.exe", "args": ["hook", "user-prompt-submit"], "timeout": 5}]}
+    ],
+    "PreToolUse": [
+      {"matcher": "AskUserQuestion|ExitPlanMode", "hooks": [{"type": "command", "command": "C:/h/bin/0.1.0-0123456789abcdef/viola.exe", "args": ["hook", "pre-tool-use"], "timeout": 75}]}
+    ],
+    "PermissionRequest": [
+      {"hooks": [{"type": "command", "command": "C:/h/bin/0.1.0-0123456789abcdef/viola.exe", "args": ["hook", "permission-request"], "timeout": 75}]}
     ],
     "Stop": [
       {"hooks": [{"type": "command", "command": "C:/h/bin/0.1.0-0123456789abcdef/viola.exe", "args": ["hook", "stop"], "timeout": 5}]}
@@ -558,6 +571,32 @@ mod tests {
         assert!(!files[1].1.contains("\"command\": \"viola"));
         assert_eq!(files[2].1, "{\n  \"mcpServers\": {}\n}\n");
         assert_eq!(PLUGIN_DIR_FLAG, "--plugin-dir");
+    }
+
+    /// viola, never Claude Code, ends a dialog's wait: each dialog-tier hook's `timeout` outlasts
+    /// `DIALOG_DEADLINE` by at least 10 s (architecture [Hook Contract]).
+    #[test]
+    fn hooks_json_dialog_timeouts_outlast_the_dialog_deadline() {
+        let files = plugin_files("C:/h/viola.exe");
+        let doc: serde_json::Value = serde_json::from_str(&files[1].1).expect("json");
+        for event in ["PreToolUse", "PermissionRequest"] {
+            let timeout = doc["hooks"][event][0]["hooks"][0]["timeout"]
+                .as_u64()
+                .expect("a timeout");
+            let margin = std::time::Duration::from_secs(timeout)
+                .checked_sub(viola_core::DIALOG_DEADLINE)
+                .expect("past the deadline");
+            assert!(margin >= std::time::Duration::from_secs(10), "{event}");
+        }
+        assert_eq!(
+            doc["hooks"]["PreToolUse"][0]["matcher"],
+            "AskUserQuestion|ExitPlanMode"
+        );
+        assert!(
+            doc["hooks"]["PermissionRequest"][0]
+                .get("matcher")
+                .is_none()
+        );
     }
 
     #[test]

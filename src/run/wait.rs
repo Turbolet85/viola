@@ -15,6 +15,7 @@ use viola_core::{Clock, EventKind};
 use viola_state::StateError;
 use viola_state::events::{EventLine, LoggedLine, end_offset, read_from};
 
+use crate::run::dialog::highest_dialog_id;
 use crate::run::send::parse_from;
 
 /// How often a parked `wait` re-reads the clock against its deadline.
@@ -40,6 +41,8 @@ impl Turn {
 struct Feed {
     generation: u64,
     newest: Option<Turn>,
+    /// Where the held dialog's line starts: a `wait` without `after` begins there.
+    pending_start: Option<u64>,
 }
 
 /// What every appended hook line signals, and the newest turn.
@@ -80,22 +83,50 @@ impl WaitFeed {
         Ok(())
     }
 
-    /// The newest `turn-ended` the log already holds, read once at start.
-    pub(crate) fn rebuild(&self, instance_dir: &Path) -> Result<(), StateError> {
+    /// A dialog event, appended through `append` (which returns the offset the line starts at)
+    /// under the same lock hold as every hook line; a `held` dialog's start is kept until
+    /// [`WaitFeed::dialog_settled`], so a `wait` without `after` returns it.
+    pub(crate) fn appending_dialog(
+        &self,
+        held: bool,
+        append: impl FnOnce() -> Result<u64, StateError>,
+    ) -> Result<u64, StateError> {
+        let mut feed = self.feed();
+        let start = append()?;
+        feed.generation = feed.generation.wrapping_add(1);
+        if held {
+            feed.pending_start = Some(start);
+        }
+        self.appended.notify_all();
+        Ok(start)
+    }
+
+    /// The held dialog was answered or expired: a `wait` without `after` starts at the log's end
+    /// again.
+    pub(crate) fn dialog_settled(&self) {
+        self.feed().pending_start = None;
+    }
+
+    /// The newest `turn-ended` the log already holds, read once at start, in the same pass that
+    /// finds the highest `dialog_id` (returned, for the dialog counter).
+    pub(crate) fn rebuild(&self, instance_dir: &Path) -> Result<Option<u64>, StateError> {
         let mut newest = None;
+        let mut highest = None;
         for line in read_from(instance_dir, 0)? {
             let line = line?;
             if line.value["kind"] == EventKind::TurnEnded.as_str() {
                 let ts = line.value["ts"].as_str().unwrap_or_default();
                 newest = Some(Turn::of(&line.value["data"], ts));
             }
+            highest = highest_dialog_id(&line, highest);
         }
         self.feed().newest = newest;
-        Ok(())
+        Ok(highest)
     }
 
     /// `params` = `{after?, timeout_ms?, from?}`: the first driver-relevant line starting at or after
-    /// `after` (the log's end at the call when absent), at once when it is already logged.
+    /// `after` (when absent, the held dialog's line, else the log's end at the call), at once when it
+    /// is already logged.
     #[instrument(
         skip_all,
         name = "run.wait_dispatch",
@@ -107,7 +138,13 @@ impl WaitFeed {
         parse_from(params)?;
         let mut from = match after {
             Some(after) => after,
-            None => end_offset(instance_dir).map_err(|_| ProtocolError::Internal)?,
+            None => {
+                let feed = self.feed();
+                match feed.pending_start {
+                    Some(start) => start,
+                    None => end_offset(instance_dir).map_err(|_| ProtocolError::Internal)?,
+                }
+            }
         };
         let deadline = timeout_ms.and_then(|ms| deadline(self.clock.now(), ms));
         let span = tracing::Span::current();
@@ -576,7 +613,7 @@ mod tests {
         append(tmp.path(), &newest);
         append(tmp.path(), &line(EventKind::SessionEnd, json!({})));
         let feed = WaitFeed::new(JumpClock::new());
-        feed.rebuild(tmp.path()).expect("rebuilt");
+        assert_eq!(feed.rebuild(tmp.path()).expect("rebuilt"), None);
         assert_eq!(
             feed.last(&json!({"v": 1})),
             Ok(json!({"ok": {"last_assistant_message": "newest", "ts": newest.ts}}))
@@ -588,10 +625,75 @@ mod tests {
         let tmp = tempfile::tempdir().expect("tempdir");
         append(tmp.path(), &line(EventKind::Activity, json!({})));
         let feed = WaitFeed::new(JumpClock::new());
-        feed.rebuild(tmp.path()).expect("rebuilt");
+        assert_eq!(feed.rebuild(tmp.path()).expect("rebuilt"), None);
         assert_eq!(
             feed.last(&json!({"v": 1})).expect("answered")["ok"]["ts"],
             Value::Null
+        );
+    }
+
+    #[test]
+    fn rebuild_returns_the_highest_logged_dialog_id() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        append(
+            tmp.path(),
+            &line(EventKind::Plan, json!({"plan": "p", "dialog_id": 4})),
+        );
+        append(tmp.path(), &turn(json!("between")));
+        append(
+            tmp.path(),
+            &line(
+                EventKind::Question,
+                json!({"questions": [], "dialog_id": 2}),
+            ),
+        );
+        let feed = WaitFeed::new(JumpClock::new());
+        assert_eq!(feed.rebuild(tmp.path()).expect("rebuilt"), Some(4));
+    }
+
+    /// While a dialog is held a `wait` without `after` starts at its line, not the log's end; once
+    /// it settles, at the end again.
+    #[test]
+    fn wait_without_after_returns_the_held_dialog() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        append(tmp.path(), &turn(json!("earlier")));
+        let feed = WaitFeed::new(JumpClock::new());
+        let held = line(
+            EventKind::Permission,
+            json!({"tool": "Bash", "dialog_id": 1}),
+        );
+        let start = feed
+            .appending_dialog(true, || {
+                viola_state::events::append_event_at(tmp.path(), |_| held.clone())
+            })
+            .expect("appended");
+        let end = end_offset(tmp.path()).expect("end");
+        let params = json!({"v": 1, "timeout_ms": 3000});
+        let reply = feed.wait(tmp.path(), &params).expect("answered");
+        assert_eq!(reply["ok"]["event"]["kind"], "permission");
+        assert_eq!(reply["ok"]["cursor"], end);
+        assert!(start > 0 && start < end);
+        feed.dialog_settled();
+        assert_eq!(
+            feed.wait(tmp.path(), &params).expect("answered"),
+            json!({"ok": {"timed_out": true}})
+        );
+    }
+
+    /// A dialog left to the human (not held) never becomes the `after`-less start.
+    #[test]
+    fn wait_without_after_skips_a_dialog_that_is_not_held() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let feed = WaitFeed::new(JumpClock::new());
+        let left = line(EventKind::Plan, json!({"plan": "p", "dialog_id": 1}));
+        feed.appending_dialog(false, || {
+            viola_state::events::append_event_at(tmp.path(), |_| left.clone())
+        })
+        .expect("appended");
+        assert_eq!(
+            feed.wait(tmp.path(), &json!({"v": 1, "timeout_ms": 3000}))
+                .expect("answered"),
+            json!({"ok": {"timed_out": true}})
         );
     }
 

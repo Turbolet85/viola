@@ -359,7 +359,8 @@ mod tests {
                 pair("artifact-missing", "perf-session-start.json"),
                 pair("artifact-missing", "perf-user-prompt-submit.json"),
                 pair("artifact-missing", "perf-stop.json"),
-                pair("artifact-missing", "perf-session-end.json")
+                pair("artifact-missing", "perf-session-end.json"),
+                pair("artifact-missing", "perf-pre-tool-use.json")
             ]
         );
         let hook = |name: &str, max: f64| {
@@ -375,9 +376,13 @@ mod tests {
         let three = gate(d.path(), &req(&["perf"]));
         assert_eq!(
             gates(&three),
-            [pair("artifact-missing", "perf-session-end.json")]
+            [
+                pair("artifact-missing", "perf-session-end.json"),
+                pair("artifact-missing", "perf-pre-tool-use.json")
+            ]
         );
         hook("perf-session-end.json", 0.5);
+        hook("perf-pre-tool-use.json", 0.4);
         assert_eq!(gate(d.path(), &req(&["perf"])).code, 0);
         hook("perf-session-end.json", 1.0);
         fs::write(d.path().join("perf-zz.json"), "{}").expect("bad");

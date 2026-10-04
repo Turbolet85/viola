@@ -1,10 +1,12 @@
 //! `viola hook <event>` (hidden): the hook payload on stdin becomes one `hook.event` for the
-//! wrapper that owns the session. It fails open on every path: exit 0, nothing on stdout or stderr,
-//! and outside a wrapped session nothing written anywhere (architecture [Hook Contract]; obs-plan
-//! §4 E1). With `--capture <dir>` (the `viola verify` probe plugin) it only files the raw payload.
+//! wrapper that owns the session, or, for the dialog tier (`pre-tool-use` / `permission-request`),
+//! one `hook.dialog` whose answer it prints as the decision body. It fails open on every path: exit
+//! 0, nothing on stdout or stderr but a decision, and outside a wrapped session nothing written
+//! anywhere (architecture [Hook Contract]; obs-plan §4 E1). With `--capture <dir>` (the `viola
+//! verify` probe plugin) it only files the raw payload.
 
 use std::ffi::{OsStr, OsString};
-use std::io::Read;
+use std::io::{Read, Write};
 use std::path::{Path, PathBuf};
 use std::process::ExitCode;
 use std::time::{Duration, Instant};
@@ -12,11 +14,12 @@ use std::time::{Duration, Instant};
 use chrono::Utc;
 use serde_json::{Map, Value, json};
 use tracing::instrument;
+use viola_agent_claude::dialog::{Dialog, Response, classify, decision_body};
 use viola_agent_claude::hook::{HookEvent, Normalised};
 use viola_agent_claude::ledger::{capture_file_name, parse_capture_file_name};
-use viola_channel::Client;
+use viola_channel::{ChannelError, Client};
 use viola_core::obs::{ObsEvent, ObsProcess};
-use viola_core::{MAX_FRAME, ViolaName, obs_event};
+use viola_core::{DIALOG_DEADLINE, MAX_FRAME, ViolaName, obs_event};
 use viola_state::events::{EventLine, Source, try_append_event};
 use viola_state::fs::{FILE_MODE, replace_private};
 use viola_state::snapshot::read_snapshot;
@@ -41,6 +44,14 @@ const CONNECT_DEADLINE: Duration = Duration::from_millis(750);
 
 fn spine_deadline(started: Instant) -> Instant {
     started + CONNECT_DEADLINE
+}
+
+/// How long past `DIALOG_DEADLINE` a dialog hook still waits for the wrapper's reply.
+const REPLY_GRACE: Duration = Duration::from_secs(5);
+
+/// A dialog hook stops waiting here even if the wrapper never answers.
+fn dialog_deadline(started: Instant) -> Instant {
+    started + DIALOG_DEADLINE + REPLY_GRACE
 }
 
 /// The wrapped session this process belongs to.
@@ -98,6 +109,21 @@ pub(crate) fn hook(args: &HookArgs) -> Result<ExitCode, Failure> {
     #[cfg(feature = "fake-agent")]
     seam::panic_if_asked();
     let stdin = &mut std::io::stdin().lock();
+    if event.is_dialog() {
+        let deadlines = (spine_deadline(started), dialog_deadline(started));
+        let out = &mut std::io::stdout().lock();
+        return match handle_dialog(event, &instance, deadlines, stdin, out) {
+            Ok(()) => Ok(ExitCode::SUCCESS),
+            Err(error) => Err(Failure {
+                error,
+                sink: Some(DetailSink {
+                    home: instance.home,
+                    instance: instance.name,
+                    process: ObsProcess::Hook,
+                }),
+            }),
+        };
+    }
     match handle(event, &instance, spine_deadline(started), stdin) {
         Ok(detail) => {
             decided(event, detail, started);
@@ -149,6 +175,167 @@ fn handle(
         append_session_end(instance, normalised);
     }
     Ok(Some("channel-unreachable"))
+}
+
+/// What a `hook.dialog` came back with.
+#[derive(Debug, Clone, PartialEq)]
+enum Asked {
+    Replied {
+        dialog_id: u64,
+        response: Option<Value>,
+    },
+    Deadline,
+    Unreachable,
+}
+
+/// The dialog tier's body: the payload classified, one `hook.dialog` bounded by the dialog
+/// deadline, then the decision body as ONE write to `out`, or nothing. `hook-invoked` follows the
+/// reply with the true start instant (obs-plan D-07), then `hook-decision`.
+#[instrument(skip_all, name = "hook.handle", fields(hook_event = event.as_str()))]
+fn handle_dialog(
+    event: HookEvent,
+    instance: &Instance,
+    (connect_by, reply_by): (Instant, Instant),
+    stdin: &mut dyn Read,
+    out: &mut dyn Write,
+) -> anyhow::Result<()> {
+    let started = Instant::now();
+    let invoked_at = obs::timestamp(Utc::now());
+    let mut bytes = Vec::new();
+    stdin.take(MAX_FRAME + 1).read_to_end(&mut bytes)?;
+    let classified = if u64::try_from(bytes.len()).unwrap_or(u64::MAX) > MAX_FRAME {
+        Err(("oversize", "oversize-stdin"))
+    } else {
+        classify(event, &bytes).map_err(|_| ("malformed", "malformed-json"))
+    };
+    let dialog = match classified {
+        Ok(Some(dialog)) => dialog,
+        // A PreToolUse for a tool outside the matcher is not a dialog: no decision, no line.
+        Ok(None) => return Ok(()),
+        Err((reason, detail)) => {
+            reject_stdin(reason);
+            invoked(event, &invoked_at, None);
+            dialog_decided(event, &Asked::Unreachable, false, Some(detail), started);
+            return Ok(());
+        }
+    };
+    let asked = ask(instance, &dialog, connect_by, reply_by);
+    let body = body_of(&dialog, &asked);
+    let dialog_id = match &asked {
+        Asked::Replied { dialog_id, .. } => Some(*dialog_id),
+        Asked::Deadline | Asked::Unreachable => None,
+    };
+    invoked(event, &invoked_at, dialog_id);
+    if let Some(body) = &body {
+        out.write_all(body.as_bytes())?;
+        out.flush()?;
+    }
+    let detail = match asked {
+        Asked::Replied { .. } => None,
+        Asked::Deadline => Some("deadline"),
+        Asked::Unreachable => Some("channel-unreachable"),
+    };
+    dialog_decided(event, &asked, body.is_some(), detail, started);
+    Ok(())
+}
+
+/// One `hook.dialog` to the endpoint `snapshot.json` records: connected by `connect_by`, answered by
+/// `reply_by`. Until the server check lands (Epoch 6), the recorded endpoint is trusted as it
+/// stands (the sixth dated gap).
+fn ask(instance: &Instance, dialog: &Dialog, connect_by: Instant, reply_by: Instant) -> Asked {
+    let Some(endpoint) = read_snapshot(&instance.dir).and_then(|s| s.endpoint) else {
+        return Asked::Unreachable;
+    };
+    let Ok(client) = Client::connect_by(&endpoint, "hook", connect_by) else {
+        return Asked::Unreachable;
+    };
+    let mut params = Map::new();
+    params.insert("kind".to_owned(), dialog.kind.as_str().into());
+    params.insert("data".to_owned(), dialog.data.clone());
+    params.insert("hook_event".to_owned(), dialog.hook.as_str().into());
+    params.insert("tool".to_owned(), json!(dialog.tool.map(|t| t.name())));
+    params.insert("input".to_owned(), dialog.input.clone());
+    params.insert("continuation".to_owned(), dialog.continuation.into());
+    match client.request_until("hook.dialog", params, reply_by) {
+        Ok(reply) => replied(&reply),
+        Err(ChannelError::Deadline) => Asked::Deadline,
+        Err(_) => Asked::Unreachable,
+    }
+}
+
+/// `{"result":{"ok":{dialog_id, response}}}`; any other reply is no answer.
+fn replied(reply: &Value) -> Asked {
+    let ok = &reply["result"]["ok"];
+    let response = match &ok["response"] {
+        Value::Null => None,
+        Value::Object(_) => Some(ok["response"].clone()),
+        _ => return Asked::Unreachable,
+    };
+    match ok["dialog_id"].as_u64() {
+        Some(dialog_id) => Asked::Replied {
+            dialog_id,
+            response,
+        },
+        None => Asked::Unreachable,
+    }
+}
+
+/// The decision body an answer maps to; `None` for no answer or a response of the wrong shape.
+fn body_of(dialog: &Dialog, asked: &Asked) -> Option<String> {
+    let Asked::Replied {
+        response: Some(response),
+        ..
+    } = asked
+    else {
+        return None;
+    };
+    let response = Response::parse(response).ok()?;
+    decision_body(dialog.hook, &dialog.input, &response)
+}
+
+fn invoked(event: HookEvent, invoked_at: &str, dialog_id: Option<u64>) {
+    obs_event!(
+        INFO,
+        ObsEvent::HookInvoked,
+        corr = dialog_id,
+        hook_event = event.as_str(),
+        invoked_at = invoked_at,
+    );
+}
+
+fn dialog_decided(
+    event: HookEvent,
+    asked: &Asked,
+    emitted: bool,
+    detail: Option<&'static str>,
+    started: Instant,
+) {
+    let dialog_id = match asked {
+        Asked::Replied { dialog_id, .. } => Some(*dialog_id),
+        Asked::Deadline | Asked::Unreachable => None,
+    };
+    let deadline_hit = *asked == Asked::Deadline;
+    let duration_ms = u64::try_from(started.elapsed().as_millis()).unwrap_or(u64::MAX);
+    match detail {
+        Some(detail) => obs_event!(
+            WARN,
+            ObsEvent::HookDecision,
+            hook_event = event.as_str(),
+            decision_emitted = emitted,
+            deadline_hit = deadline_hit,
+            duration_ms = duration_ms,
+            detail = detail,
+        ),
+        None => obs_event!(
+            INFO,
+            ObsEvent::HookDecision,
+            corr = dialog_id,
+            hook_event = event.as_str(),
+            decision_emitted = emitted,
+            deadline_hit = deadline_hit,
+            duration_ms = duration_ms,
+        ),
+    }
 }
 
 /// The raw payload into the first free `<dir>/<Event>.<k>.json`, and nothing else: no `VIOLA_*`
@@ -401,6 +588,233 @@ mod tests {
         );
         assert!(!instance.dir.join("diagnostics").exists());
         assert!(!instance.dir.join("events.ndjson").exists());
+    }
+
+    #[test]
+    fn dialog_deadline_is_the_dialog_deadline_plus_the_reply_grace() {
+        let start = Instant::now();
+        assert_eq!(
+            dialog_deadline(start).saturating_duration_since(start),
+            viola_core::DIALOG_DEADLINE + Duration::from_secs(5)
+        );
+    }
+
+    /// The hook gives up before Claude Code would: below the 75 s `hooks.json` timeout.
+    #[test]
+    fn dialog_deadline_ends_before_the_hooks_json_timeout() {
+        assert!(viola_core::DIALOG_DEADLINE + REPLY_GRACE < Duration::from_secs(75));
+    }
+
+    const QUESTION: &str = r#"{"hook_event_name":"PreToolUse","tool_name":"AskUserQuestion","tool_input":{"questions":[{"question":"Which color?","options":[{"label":"red"}]}]}}"#;
+    const PLAN: &str =
+        r#"{"hook_event_name":"PreToolUse","tool_name":"ExitPlanMode","tool_input":{"plan":"p"}}"#;
+
+    /// The wrapper's side of `hook.dialog`, answered by `reply` after `hold`; the params it was
+    /// asked are kept.
+    struct Wrapperish {
+        reply: Value,
+        hold: Duration,
+        asked: std::sync::Mutex<Vec<Value>>,
+    }
+
+    impl viola_channel::Dispatch for Wrapperish {
+        fn dispatch(
+            &self,
+            method: &str,
+            params: &Value,
+        ) -> Result<Value, viola_channel::ProtocolError> {
+            assert_eq!(method, "hook.dialog");
+            self.asked.lock().expect("asked").push(params.clone());
+            std::thread::sleep(self.hold);
+            Ok(self.reply.clone())
+        }
+    }
+
+    /// An instance whose snapshot names an endpoint served by `dispatch`.
+    fn served(
+        root: &Path,
+        dispatch: std::sync::Arc<Wrapperish>,
+    ) -> (Instance, viola_channel::Serving) {
+        let instance = instance_in(root);
+        let endpoint = viola_channel::endpoint_path(&instance.name, &instance.home).expect("path");
+        if let Some(parent) = Path::new(&endpoint).parent() {
+            viola_state::fs::create_private_dir(parent).expect("socket dir");
+        }
+        let serving = viola_channel::Server::bind(&endpoint)
+            .expect("bound")
+            .serve(dispatch);
+        let snapshot = viola_state::snapshot::InstanceSnapshot {
+            endpoint: Some(endpoint),
+            pid: std::process::id(),
+            started_at: "s".to_owned(),
+            pinned_bin: "b".to_owned(),
+            cli_verified: true,
+            cli_version: None,
+            wheel: viola_state::snapshot::Wheel::Driver,
+            budget_paused: false,
+            links: Vec::new(),
+            child_pid: None,
+            pending_dialog: None,
+        };
+        viola_state::snapshot::write_snapshot(&instance.dir, &snapshot).expect("snapshot");
+        (instance, serving)
+    }
+
+    fn wrapperish(reply: Value, hold: Duration) -> std::sync::Arc<Wrapperish> {
+        std::sync::Arc::new(Wrapperish {
+            reply,
+            hold,
+            asked: std::sync::Mutex::new(Vec::new()),
+        })
+    }
+
+    fn dialog_out(
+        event: HookEvent,
+        instance: &Instance,
+        reply_by: Duration,
+        stdin: &str,
+    ) -> Vec<u8> {
+        let start = Instant::now();
+        let mut out = Vec::new();
+        handle_dialog(
+            event,
+            instance,
+            (spine_deadline(start), start + reply_by),
+            &mut stdin.as_bytes(),
+            &mut out,
+        )
+        .expect("handled");
+        out
+    }
+
+    /// An answered question prints its decision body, once, and the wrapper is asked with the
+    /// classified dialog.
+    #[test]
+    fn handle_dialog_prints_the_answer_s_decision_body() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let reply = json!({"jsonrpc": "2.0", "result": {"ok": {"dialog_id": 3,
+            "response": {"answers": {"Which color?": "red"}}}}});
+        let wrapper = wrapperish(reply["result"].clone(), Duration::ZERO);
+        let (instance, _serving) = served(tmp.path(), std::sync::Arc::clone(&wrapper));
+        let out = dialog_out(
+            HookEvent::PreToolUse,
+            &instance,
+            Duration::from_secs(5),
+            QUESTION,
+        );
+        let body: Value = serde_json::from_slice(&out).expect("one JSON body");
+        assert_eq!(
+            body["hookSpecificOutput"]["updatedInput"]["answers"],
+            json!({"Which color?": "red"})
+        );
+        let asked = wrapper.asked.lock().expect("asked");
+        assert_eq!(asked.len(), 1);
+        assert_eq!(asked[0]["kind"], "question");
+        assert_eq!(asked[0]["hook_event"], "pre-tool-use");
+        assert_eq!(asked[0]["tool"], "AskUserQuestion");
+        assert_eq!(asked[0]["continuation"], false);
+    }
+
+    #[rstest]
+    #[case::null_response(json!({"ok": {"dialog_id": 1, "response": null}}))]
+    #[case::revise_on_pre_tool_use(json!({"ok": {"dialog_id": 1, "response": {"behavior": "revise", "message": "m"}}}))]
+    #[case::wrong_shape(json!({"ok": {"dialog_id": 1, "response": {"behavior": "maybe"}}}))]
+    #[case::no_id(json!({"ok": {"response": {"behavior": "approve"}}}))]
+    #[case::refusal(json!({"refusal": "unverified-cli", "detail": null}))]
+    fn handle_dialog_prints_nothing_without_a_decision(#[case] reply: Value) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (instance, _serving) = served(tmp.path(), wrapperish(reply, Duration::ZERO));
+        let out = dialog_out(
+            HookEvent::PreToolUse,
+            &instance,
+            Duration::from_secs(5),
+            PLAN,
+        );
+        assert!(out.is_empty());
+    }
+
+    /// A wrapper that never answers in time: the hook stops at its own deadline, prints nothing.
+    #[test]
+    fn handle_dialog_stops_waiting_at_its_read_deadline() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let reply = json!({"ok": {"dialog_id": 1, "response": {"behavior": "approve"}}});
+        let (instance, _serving) = served(tmp.path(), wrapperish(reply, Duration::from_secs(3)));
+        let started = Instant::now();
+        let out = dialog_out(
+            HookEvent::PreToolUse,
+            &instance,
+            Duration::from_millis(200),
+            PLAN,
+        );
+        assert!(out.is_empty());
+        assert!(started.elapsed() < Duration::from_secs(2));
+    }
+
+    #[test]
+    fn ask_reads_the_three_outcomes() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let dialog = classify(HookEvent::PreToolUse, PLAN.as_bytes())
+            .expect("classified")
+            .expect("a dialog");
+        let start = Instant::now();
+        let bounds = (spine_deadline(start), start + Duration::from_millis(200));
+        let instance = instance_in(&tmp.path().join("no-endpoint"));
+        assert_eq!(
+            ask(&instance, &dialog, bounds.0, bounds.1),
+            Asked::Unreachable
+        );
+        let late = json!({"ok": {"dialog_id": 1, "response": null}});
+        let (instance, _serving) = served(tmp.path(), wrapperish(late, Duration::from_secs(3)));
+        assert_eq!(ask(&instance, &dialog, bounds.0, bounds.1), Asked::Deadline);
+    }
+
+    #[rstest]
+    #[case::not_json(b"not json".as_slice())]
+    #[case::no_tool(br#"{"tool_input": {}}"#.as_slice())]
+    #[case::outside_the_matcher(br#"{"tool_name": "Bash", "tool_input": {}}"#.as_slice())]
+    fn handle_dialog_unreadable_or_foreign_stdin_prints_nothing(#[case] stdin: &[u8]) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let instance = instance_in(tmp.path());
+        let start = Instant::now();
+        let mut out = Vec::new();
+        handle_dialog(
+            HookEvent::PreToolUse,
+            &instance,
+            (spine_deadline(start), dialog_deadline(start)),
+            &mut &stdin[..],
+            &mut out,
+        )
+        .expect("handled");
+        assert!(out.is_empty());
+    }
+
+    #[test]
+    fn handle_dialog_refuses_oversize_stdin_and_prints_nothing() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let instance = instance_in(tmp.path());
+        let cap = usize::try_from(MAX_FRAME).expect("fits");
+        let body = vec![b' '; cap + 1];
+        let start = Instant::now();
+        let mut out = Vec::new();
+        handle_dialog(
+            HookEvent::PermissionRequest,
+            &instance,
+            (spine_deadline(start), dialog_deadline(start)),
+            &mut &body[..],
+            &mut out,
+        )
+        .expect("handled");
+        assert!(out.is_empty());
+    }
+
+    #[rstest]
+    #[case::answered(json!({"result": {"ok": {"dialog_id": 4, "response": {"behavior": "allow"}}}}), Asked::Replied { dialog_id: 4, response: Some(json!({"behavior": "allow"})) })]
+    #[case::null(json!({"result": {"ok": {"dialog_id": 4, "response": null}}}), Asked::Replied { dialog_id: 4, response: None })]
+    #[case::response_not_object(json!({"result": {"ok": {"dialog_id": 4, "response": "allow"}}}), Asked::Unreachable)]
+    #[case::id_not_u64(json!({"result": {"ok": {"dialog_id": "4", "response": null}}}), Asked::Unreachable)]
+    #[case::fault(json!({"error": {"code": -32603}}), Asked::Unreachable)]
+    fn replied_reads_only_an_ok_with_an_id(#[case] reply: Value, #[case] asked: Asked) {
+        assert_eq!(replied(&reply), asked);
     }
 
     #[test]

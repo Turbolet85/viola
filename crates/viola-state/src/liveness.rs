@@ -87,6 +87,7 @@ mod tests {
             budget_paused: false,
             links: Vec::new(),
             child_pid: None,
+            pending_dialog: None,
         }
     }
 

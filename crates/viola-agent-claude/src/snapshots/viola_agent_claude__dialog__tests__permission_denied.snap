@@ -1,0 +1,5 @@
+---
+source: crates/viola-agent-claude/src/dialog.rs
+expression: "decision_body(HookEvent::PermissionRequest, &input, &deny).expect(\"a body\")"
+---
+{"hookSpecificOutput":{"hookEventName":"PermissionRequest","decision":{"behavior":"deny","message":"canary-chain-value-5c1e not that"}}}

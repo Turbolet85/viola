@@ -1,0 +1,5 @@
+---
+source: crates/viola-agent-claude/src/dialog.rs
+expression: "decision_body(HookEvent::PermissionRequest, &input, &allow).expect(\"a body\")"
+---
+{"hookSpecificOutput":{"hookEventName":"PermissionRequest","decision":{"behavior":"allow"}}}

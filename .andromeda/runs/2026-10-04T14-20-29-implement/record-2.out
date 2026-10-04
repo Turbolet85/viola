@@ -1,0 +1,7 @@
+[01/06] shim-resolution claude resolves to a real executable  pass
+[02/06] spine-hooks spine hooks fire through the plugin dir  pass
+[03/06] session-start-fields SessionStart carries session_id and source  pass
+[04/06] prompt-verbatim UserPromptSubmit carries the prompt as sent  pass
+[05/06] stop-message Stop carries last_assistant_message  pass
+[06/06] largest-hook-payload every hook payload fits the frame cap  pass
+stamped 2.1.287  6 pass  0 fail

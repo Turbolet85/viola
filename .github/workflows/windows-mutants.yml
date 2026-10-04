@@ -26,7 +26,7 @@ jobs:
           - package: viola-channel
             files: crates/viola-channel/src/client.rs crates/viola-channel/src/endpoint.rs crates/viola-channel/src/server.rs crates/viola-channel/src/server/win.rs crates/viola-channel/src/test_support.rs
           - package: viola-state
-            files: crates/viola-state/src/pin.rs crates/viola-state/src/fs.rs
+            files: crates/viola-state/src/pin.rs crates/viola-state/src/fs.rs crates/viola-state/src/strict.rs
           - package: viola-agent-claude
             files: crates/viola-agent-claude/src/lib.rs
           - package: viola

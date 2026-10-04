@@ -100,7 +100,7 @@
       "events_sent": { "$ref": "#/$defs/count" }, "duration_ms": { "$ref": "#/$defs/count" } } } },
     { "if": { "properties": { "event": { "const": "parse-rejected" } } }, "then": { "properties": {
       "parser": { "enum": ["claude-agents-json", "vt100-feed", "config-json", "ledger-stamps", "last-event-id", "hook-stdin", "channel-frame", "prompt-submitted", "paste-text", "state-entry"] },
-      "detail": { "enum": ["malformed", "unreadable", "oversize", "unknown-keys", "panicked", "control-character", "symlink-ignored"] },
+      "detail": { "enum": ["malformed", "unreadable", "oversize", "unknown-keys", "panicked", "control-character", "symlink-ignored", "strict-modes-failed"] },
       "count": { "$ref": "#/$defs/count" } } } },
 
     { "$comment": "corr is required wherever obs-plan §3 always defines it: dialog_id, the release request id.",

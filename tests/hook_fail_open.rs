@@ -177,7 +177,7 @@ fn stdin_bytes(stdin: Stdin) -> Vec<u8> {
 #[case::clap_version(&["hook", "--version"], Env::Instance, Stdin::Payload, None)]
 #[case::clap_missing_event(&["hook"], Env::Instance, Stdin::Payload, None)]
 #[case::clap_extra_argument(&["hook", "stop", "--bogus"], Env::Instance, Stdin::Payload, None)]
-#[case::unknown_event(&["hook", "pre-tool-use"], Env::Instance, Stdin::Payload, None)]
+#[case::unknown_event(&["hook", "statusline"], Env::Instance, Stdin::Payload, None)]
 #[case::unreachable_endpoint(&["hook", "stop"], Env::Stopped, Stdin::Payload, Some("channel-unreachable"))]
 #[case::no_snapshot(&["hook", "stop"], Env::Instance, Stdin::Payload, Some("channel-unreachable"))]
 #[case::name_absent(&["hook", "stop"], Env::DirOnly, Stdin::Payload, None)]
@@ -253,6 +253,70 @@ fn hook_fails_open_silently_within_the_spine_bound(
             .iter()
             .all(|l| l["process"] == "hook" && l["instance"] == "builder")
     );
+    assert!(!lines.iter().any(|l| l.to_string().contains(CANARY)));
+    assert!(violations("schemas/diag-line.v1.json", &lines).is_empty());
+}
+
+/// A dialog-tier payload: a question for PreToolUse, a Bash permission for PermissionRequest; the
+/// canary rides the content.
+fn dialog_payload(event: &str) -> Vec<u8> {
+    let payload = match event {
+        "pre-tool-use" => json!({"hook_event_name": "PreToolUse", "tool_name": "AskUserQuestion",
+            "tool_input": {"questions": [{"question": CANARY, "options": [{"label": "a"}]}]}}),
+        _ => json!({"hook_event_name": "PermissionRequest", "tool_name": "Bash",
+            "tool_input": {"command": CANARY}}),
+    };
+    payload.to_string().into_bytes()
+}
+
+/// The dialog tier fails open the same way (security-plan §Error Handling): exit 0, nothing on
+/// stdout or stderr, inside the spine bound when the wrapper is out of reach, and one
+/// `hook-decision` naming why no decision was emitted.
+#[rstest]
+#[case::question_wrapper_stopped("pre-tool-use", Env::Stopped, None, "channel-unreachable")]
+#[case::permission_no_snapshot("permission-request", Env::Instance, None, "channel-unreachable")]
+#[case::question_oversize("pre-tool-use", Env::Instance, Some(Stdin::Oversize), "oversize-stdin")]
+#[case::permission_malformed(
+    "permission-request",
+    Env::Instance,
+    Some(Stdin::Malformed),
+    "malformed-json"
+)]
+fn hook_dialog_tier_fails_open_silently(
+    #[case] event: &str,
+    #[case] env: Env,
+    #[case] stdin: Option<Stdin>,
+    #[case] detail: &str,
+) {
+    let stamped = StampedHome::unstamped(TestHome::new());
+    let stamped = match env {
+        Env::Stopped => {
+            let (stopped, stamped) = Wrapper::boot(stamped, "builder", None, &[]).stop_keep();
+            assert_eq!(stopped.code(), Some(0));
+            stamped
+        }
+        Env::Instance | Env::DirOnly | Env::InvalidName => stamped,
+    };
+    let home = stamped.home.path().to_path_buf();
+    let dir = home.join("instances").join("builder");
+    let bytes = stdin.map_or_else(|| dialog_payload(event), stdin_bytes);
+    let out = run_hook(&["hook", event], &instance_env("builder", &dir), bytes);
+    assert_eq!(out.code, Some(0));
+    assert!(out.stdout.is_empty(), "stdout: {} bytes", out.stdout.len());
+    assert!(out.stderr.is_empty(), "stderr: {} bytes", out.stderr.len());
+    assert!(out.took < SPINE_BOUND, "took {:?}", out.took);
+
+    let lines = role_lines(&home);
+    let decision = lines
+        .iter()
+        .find(|l| l["event"] == "hook-decision")
+        .expect("a hook-decision line");
+    assert_eq!(decision["hook_event"], event);
+    assert_eq!(decision["decision_emitted"], false);
+    assert_eq!(decision["deadline_hit"], false);
+    assert_eq!(decision["detail"], detail);
+    assert_eq!(decision["level"], "WARN");
+    assert!(lines.iter().any(|l| l["event"] == "hook-invoked"));
     assert!(!lines.iter().any(|l| l.to_string().contains(CANARY)));
     assert!(violations("schemas/diag-line.v1.json", &lines).is_empty());
 }

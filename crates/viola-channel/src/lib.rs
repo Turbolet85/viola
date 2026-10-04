@@ -42,6 +42,8 @@ pub enum ChannelError {
     Io(#[source] io::Error),
     #[error("channel peer closed the connection")]
     Closed,
+    #[error("channel reply did not arrive in time")]
+    Deadline,
     #[error("channel endpoint path is not UTF-8")]
     NonUtf8Path,
 }

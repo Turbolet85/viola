@@ -152,6 +152,28 @@ fn run_with_unreadable_stamps_logs_one_rejection(#[from(home)] home: TestHome) {
     );
 }
 
+/// A matching stamp in a stamps file another user could write is never read: `run` is unverified
+/// and logs one `strict-modes-failed` rejection (security-plan §Security Anti-Patterns › Universal).
+#[cfg(unix)]
+#[rstest]
+fn run_with_world_writable_stamps_is_unverified_whatever_they_hold(#[from(home)] home: TestHome) {
+    use std::os::unix::fs::PermissionsExt as _;
+    stamp(&home, RECORDED_CLI_VERSION, None);
+    let stamps = home.path().join("ledger").join("stamps.json");
+    std::fs::set_permissions(&stamps, std::fs::Permissions::from_mode(0o666)).expect("chmod");
+    let (snapshot, lines) = run_once(home);
+    assert_eq!(snapshot["cli_version"], RECORDED_CLI_VERSION);
+    assert_eq!(snapshot["cli_verified"], false);
+    assert_eq!(child_start(&lines)["cli_verified"], false);
+    let rejected: Vec<&Value> = lines
+        .iter()
+        .filter(|l| l["event"] == "parse-rejected")
+        .collect();
+    assert_eq!(rejected.len(), 1);
+    assert_eq!(rejected[0]["parser"], "ledger-stamps");
+    assert_eq!(rejected[0]["detail"], "strict-modes-failed");
+}
+
 /// Waits below the kill line for `done`, failing the test at the deadline.
 fn wait_until(what: &str, mut done: impl FnMut() -> bool) {
     let watch = Watch::start(what);

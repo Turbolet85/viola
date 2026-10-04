@@ -1,0 +1,55 @@
+[
+{
+"tool": "gate",
+"v": "1.6",
+"sha8": "9419d56e",
+"ts": "2026-10-04T11:54:37Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-04-dialog-answers-by-dialog-id",
+"--run-dir",
+".andromeda/runs/2026-10-04T11-49-28-implement",
+"--marker",
+"2026-10-04-dialog-answers-by-dialog-id"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"root /home/turbolet/dev/projects/viola · base HEAD (no pre-CI commit) · lists new 6 · modify 24 · derived 3 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"list viola-0.1.0/chunks/2026-10-04-dialog-answers-by-dialog-id/evidence/ (dir) ×0",
+"list fixtures/claude/*/PreToolUse.*.json (derived by `viola verify --record`) ×0",
+"list fixtures/claude/*/PermissionRequest.*.json (derived by `viola verify --record`) ×0",
+"list tests/snapshots/*.snap (derived by `cargo insta test`) ×0",
+"scope: clean — changed 2 · listed 2 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 51"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "/home/turbolet/dev/projects/viola",
+"base": "HEAD",
+"base_why": "no pre-CI commit",
+"counts": {
+"changed": 2,
+"listed": 2,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 51,
+"unparsed": 0,
+"widening_without_word": 0
+}
+}
+]

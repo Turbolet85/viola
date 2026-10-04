@@ -14,8 +14,15 @@ use super::super::cleanup::{Target, cleanup};
 use super::super::{Outcome, Workspace};
 use super::{Refusal, Runner, Suite};
 
-/// The four test-plan §10 rows that exist today; `pre-tool-use` joins with the dialog tier.
-pub const ROWS: [&str; 4] = ["session-start", "user-prompt-submit", "stop", "session-end"];
+/// The five test-plan §10 rows: the spine, and `pre-tool-use` on an unverified CLI, where
+/// `hook.dialog` is answered `null` at once.
+pub const ROWS: [&str; 5] = [
+    "session-start",
+    "user-prompt-submit",
+    "stop",
+    "session-end",
+    "pre-tool-use",
+];
 
 /// The perf build's own target dir (architecture §Occupied Resources).
 const TARGET_DIR: &str = "target/perf";
@@ -55,10 +62,13 @@ fn booted_home(doc: &Value) -> Result<PathBuf, String> {
     }
 }
 
-/// A synthetic payload per row: string fields only, so every sample takes the channel path and
-/// never a drift report; the tests-owned canary rides the content fields.
+/// A synthetic payload per row: string fields only (but the question's `tool_input`), so every
+/// sample takes the channel path and never a drift report; the tests-owned canary rides the content
+/// fields.
 fn payload(hook: &str) -> Value {
     match hook {
+        "pre-tool-use" => json!({"hook_event_name": "PreToolUse", "tool_name": "AskUserQuestion",
+            "tool_input": {"questions": [{"question": CANARY, "options": [{"label": CANARY}]}]}}),
         "session-start" => json!({"hook_event_name": "SessionStart", "session_id": CANARY,
                                   "source": "startup"}),
         "user-prompt-submit" => json!({"hook_event_name": "UserPromptSubmit",
@@ -163,7 +173,9 @@ pub(super) fn perf(
         }],
         cli_version: DEFAULT_CLI_VERSION.to_owned(),
         build: false,
-        stamp: true,
+        // Unverified: the `pre-tool-use` row's `hook.dialog` is answered `null` at once, and the
+        // spine rows' hook path reads no stamps.
+        stamp: false,
     });
     let home = match booted_home(&booted.doc) {
         Ok(home) => home,
@@ -342,7 +354,7 @@ mod tests {
             suite.artifact.as_deref(),
             Some("target/agent-run/artifacts")
         );
-        assert_eq!((suite.passed, suite.failed), (6, 0), "{:?}", suite.failures);
+        assert_eq!((suite.passed, suite.failed), (7, 0), "{:?}", suite.failures);
         assert!(
             !ws.artifacts().join("perf-stop.json").exists(),
             "stale export removed"
@@ -366,6 +378,7 @@ mod tests {
             ws.root.join("target").join("perf").join("release")
         );
         assert!(!opts.build);
+        assert!(!opts.stamp, "the perf session is unverified");
         assert_eq!(opts.instances.len(), 1);
         assert_eq!(opts.instances[0].name, "builder");
         assert_eq!(opts.session, format!("perf-{}", std::process::id()));
@@ -406,8 +419,15 @@ mod tests {
         for hook in ROWS {
             let body = payload(hook);
             let fields = body.as_object().expect("object");
-            assert!(fields.values().all(Value::is_string), "{hook}");
+            let strings = fields
+                .iter()
+                .filter(|(k, _)| k.as_str() != "tool_input")
+                .all(|(_, v)| v.is_string());
+            assert!(strings, "{hook}");
         }
+        let question = payload("pre-tool-use");
+        assert_eq!(question["tool_name"], "AskUserQuestion");
+        assert_eq!(question["tool_input"]["questions"][0]["question"], CANARY);
         assert_eq!(payload("session-start")["source"], "startup");
         assert_eq!(payload("user-prompt-submit")["prompt"], CANARY);
         assert_eq!(payload("stop")["last_assistant_message"], CANARY);
@@ -463,7 +483,7 @@ mod tests {
         let (result, _, _) = timed(&ws, &codes, &mut session);
         let suite = result.expect("a suite");
         assert_eq!(suite.failures, ["stop", "panic", "cleanup"]);
-        assert_eq!((suite.passed, suite.failed), (3, 3));
+        assert_eq!((suite.passed, suite.failed), (4, 3));
     }
 
     #[test]

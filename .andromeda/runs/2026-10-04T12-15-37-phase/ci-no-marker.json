@@ -1,0 +1,44 @@
+[
+{
+"tool": "ci",
+"v": "1.0",
+"sha8": "bf89b279",
+"ts": "2026-10-04T12:15:39Z",
+"argv": [
+"conclusion",
+"--sha",
+"c540254a9e3648ced788217541bfff9d1c35f07c",
+"--run-dir",
+".andromeda/runs/2026-10-04T12-15-37-phase"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"repo Turbolet85/viola (the push remote `origin`)",
+"c540254a9e36 verdict: red · checks 15/15 · first-fail +74 s msrv · wall 280 s · runs ci#37196414168 completed/failure",
+"runs: ci#37196414168 push completed/failure",
+"failed 2: msrv (failure) · test (ubuntu-latest) (failure)",
+"log: gh api repos/Turbolet85/viola/actions/jobs/111419122898/logs",
+"run failed: ci#37196414168 failure"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"repo": "Turbolet85/viola",
+"host": "github.com",
+"repo_source": "the push remote `origin`",
+"names": [],
+"shas": [
+{
+"sha": "c540254a9e3648ced788217541bfff9d1c35f07c",
+"word": "red",
+"polls": [
+"red"
+]
+}
+]
+}
+}
+]

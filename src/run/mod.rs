@@ -1,6 +1,7 @@
 //! The `run` wrapper's process side: its role lines, the persistent-environment read behind the
 //! R8 strip, where the child's program is looked up, and the version gate.
 
+pub(crate) mod dialog;
 mod env;
 pub(crate) mod gate;
 pub(crate) mod send;

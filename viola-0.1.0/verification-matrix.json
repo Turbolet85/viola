@@ -200,11 +200,12 @@
       "observed_gap": "plan revise arrives through PermissionRequest, which arch maps to kind `permission` with `allow`/`deny`; tests and the prototype answer `revise` (XF T9).",
       "verification": {
         "method": "e2e",
-        "acceptance": "A plan dialog raised by either hook is presented and answered as a plan (approve, or revise with a message); approval never depends on the ignored permission-request path; the mapping is a single ledger-backed rule.",
+        "acceptance": "In `tests/cli_answer.rs`, on all three CI OSes: a plan dialog raised by PreToolUse(`ExitPlanMode`) and one raised by PermissionRequest(`ExitPlanMode`) are each logged exactly once as kind `plan` and are answered by `viola answer` as `{behavior: approve|revise, message?}`. An approve emits PreToolUse `allow` (insta-pinned), and an approve on a PermissionRequest-raised plan emits no body, so approval never depends on the ignored permission-request path. A revise emits PermissionRequest `deny` + `message` (insta-pinned) with no second plan event. The classification and both decision bodies come from the one S7 ledger row (`plan-approve-revise`), whose post-condition passes in the 2.1.287 stamp.",
         "ref": null,
         "status": "planned"
       },
-      "chunk": null
+      "chunk": null,
+      "notes": "2026-10-04 (2026-10-04-dialog-answers-by-dialog-id, phase P5 revision): unclaimed. Its acceptance ends \"the classification and both decision bodies come from the one S7 ledger row (`plan-approve-revise`), whose post-condition passes in the 2.1.287 stamp\", and on 2.1.287 a print-mode turn raises no dialog hook (chunk evidence/print-mode-dialog-probe.md), so no `viola verify` probe can pass that row here. The founder ruled live (~14:08Z, relayed by the overseer): the S3 / S7 / S8 / concurrency rows and their re-probe go to working-route :82, and v1-15 is claimed at :82. This chunk lands the plan mechanism (PreToolUse approve, the PermissionRequest revise continuation) on relayed prototype captures without claiming; the acceptance text stands unweakened."
     },
     {
       "id": "v1-16",
@@ -217,7 +218,8 @@
         "ref": null,
         "status": "planned"
       },
-      "chunk": null
+      "chunk": null,
+      "notes": "2026-10-04 (2026-10-04-dialog-answers-by-dialog-id, phase P5): not claimed. The founder ruled live at P4 (2026-10-04) that permission suggestions are a deliberate v1 limit, so the permission answer stays `{behavior, message?}`. The acceptance's decisive artifact is the architecture's record of that omission, which only the wrap's amendment authors, so this chunk cannot reach `implemented` for it. The cap stays pooled for the wrap that records the limit."
     },
     {
       "id": "v1-17",
@@ -284,7 +286,7 @@
         "status": "planned"
       },
       "chunk": null,
-      "notes": "2026-10-04 (2026-10-04-readiness-gate-and-timing-constants, phase P5): not claimed. This chunk names four of the six values in one home each: the confirmation-window fallback, the readiness gate's quiet period and maximum wait (provisional built-ins in viola-agent-claude, unmeasured until the held signature/timing rows land at :82), and the spine deadline (`viola_core::SPINE_DEADLINE`, which the perf gate now reads). Tests drive the gate's deadlines from injected instants, and the feed takes the new `viola_core::Clock`. The acceptance still needs the dialog deadline (:78), the MCP `wait` default timeout (:76), and every MCP call completing below the client's tool-call timeout (:74/:76), none reachable here. The cap stays pooled."
+      "notes": "2026-10-04 (2026-10-04-readiness-gate-and-timing-constants, phase P5): not claimed. This chunk names four of the six values in one home each: the confirmation-window fallback, the readiness gate's quiet period and maximum wait (provisional built-ins in viola-agent-claude, unmeasured until the held signature/timing rows land at :82), and the spine deadline (`viola_core::SPINE_DEADLINE`, which the perf gate now reads). Tests drive the gate's deadlines from injected instants, and the feed takes the new `viola_core::Clock`. The acceptance still needs the dialog deadline (:78), the MCP `wait` default timeout (:76), and every MCP call completing below the client's tool-call timeout (:74/:76), none reachable here. The cap stays pooled.\n\n2026-10-04 (2026-10-04-dialog-answers-by-dialog-id, phase P5): not claimed. This chunk names the dialog deadline in one home, `viola_core::DIALOG_DEADLINE` = 60 s (PROVISIONAL, unmeasured; overseer, founder-delegated). It shares that home with the `hooks.json` dialog timeout of 75 s, unit-pinned, and drives expiry through the injected `Clock`. The acceptance still needs the MCP `wait` default timeout and every MCP call completing below the client's tool-call timeout (`:102`), neither reachable here. The cap stays pooled."
     },
     {
       "id": "v1-22",
@@ -417,7 +419,8 @@
         "ref": null,
         "status": "planned"
       },
-      "chunk": null
+      "chunk": null,
+      "notes": "2026-10-04 (2026-10-04-dialog-answers-by-dialog-id, phase P5): not claimed. This chunk proves at most one pending dialog logged once with its id, question / permission / plan answers by `dialog_id`, and that a second concurrent dialog, an unverified CLI or an expired deadline each leave the dialog to the human, with an unknown id refused `unknown-dialog`. Permission suggestions are a deliberate v1 limit (founder, P4). The \"human-held wheel leaves the dialog to the human\" clause needs the wheel, which no code moves at HEAD (`src/cmd/run.rs:378`), so it belongs to `:80`. The \"dialog never renders\" effect half is measured by `:82`'s live test. The cap stays pooled."
     },
     {
       "id": "v1-32",
@@ -457,7 +460,7 @@
         "status": "planned"
       },
       "chunk": null,
-      "notes": "2026-09-28 (2026-09-28-capability-ledger-and-viola-verify, phase P5): not claimed. The concretization fails for this chunk. The chunk is the head of a split ruled at its P4, and it proves six print-mode ledger rows (shim resolution, spine hooks, SessionStart fields, prompt verbatim, Stop message, largest hook payload), `viola verify` as the sole `stamps.json` writer with the step counter and `stamped` summary, scrubbed `--record`, and `run`'s `cli_verified` degrade. The acceptance also needs rows the print mode cannot reach, and each lands with the chunk that owns it:\n- the typed-input rows (long-paste wrapper, tag escaping, harness prefixes) → working-route :58/:68\n- the local-command rows → :60\n- the dialog rows, withholding every dialog answer on an unstamped version, and the `unverified-cli` driver refusal → :62\nThe cap stays pooled for the chunk that completes it."
+      "notes": "2026-09-28 (2026-09-28-capability-ledger-and-viola-verify, phase P5): not claimed. The concretization fails for this chunk. The chunk is the head of a split ruled at its P4, and it proves six print-mode ledger rows (shim resolution, spine hooks, SessionStart fields, prompt verbatim, Stop message, largest hook payload), `viola verify` as the sole `stamps.json` writer with the step counter and `stamped` summary, scrubbed `--record`, and `run`'s `cli_verified` degrade. The acceptance also needs rows the print mode cannot reach, and each lands with the chunk that owns it:\n- the typed-input rows (long-paste wrapper, tag escaping, harness prefixes) → working-route :58/:68\n- the local-command rows → :60\n- the dialog rows, withholding every dialog answer on an unstamped version, and the `unverified-cli` driver refusal → :62\nThe cap stays pooled for the chunk that completes it.\n\n2026-10-04 (2026-10-04-dialog-answers-by-dialog-id, phase P5): not claimed. This chunk lands the dialog ledger rows (S3, S7, S8, dialog concurrency) with a print-mode dialog probe and scrubbed tool-bearing fixtures recorded from 2.1.287 (founder-scoped hold, P4). It also lands the withholding of every dialog answer on an unstamped version, and `answer`'s `unverified-cli` refusal. The acceptance still needs the typed-input rows and the local-command rows, which stay held or owned at `:82`, so the cap stays pooled for the chunk that completes it."
     },
     {
       "id": "v1-35",

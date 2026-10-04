@@ -1,3 +1,4 @@
+mod answer;
 mod client;
 mod hook;
 mod last;
@@ -40,6 +41,8 @@ enum Command {
     Wait(wait::WaitArgs),
     /// Print the named instance's newest turn message
     Last(last::LastArgs),
+    /// Answer the named instance's pending dialog by its id; the response comes from stdin or --file
+    Answer(answer::AnswerArgs),
     /// Measure the local claude CLI against the capability ledger and stamp its version
     Verify(verify::VerifyArgs),
     /// Hand a Claude Code hook's payload to the wrapper (run by the plugin, never by a person)
@@ -83,6 +86,11 @@ pub(crate) fn dispatch(cli: Cli) -> Result<ExitCode, Failure> {
             let home = resolve_home(cli.home)?;
             let sink = cli_sink(&home, &args.name);
             last::last(&home, &args).map_err(|error| Failure { error, sink })
+        }
+        Command::Answer(args) => {
+            let home = resolve_home(cli.home)?;
+            let sink = cli_sink(&home, &args.name);
+            answer::answer(&home, &args).map_err(|error| Failure { error, sink })
         }
         Command::Verify(args) => {
             let home = resolve_home(cli.home)?;

@@ -1,8 +1,9 @@
 //! No setting disables a control (test-plan §5 CLI and env, Vector 6; security-plan §Security
 //! Anti-Patterns → Universal): each row sets a variable to a disabling-shaped value and re-runs the
 //! controls on its path, which must give the same verdict as without it. Interim shape: the rows
-//! cover the hook-path controls and `send`'s paste control; the other verb negatives (`answer`
-//! unstamped, the human wheel, a 0770 `--home`) and the completeness case join when `answer` lands.
+//! cover the hook-path controls, `send`'s paste control and `answer` on an unstamped CLI; the other
+//! verb negatives (the human wheel, a 0770 `--home`) and the completeness case join with their
+//! chunks.
 
 #[allow(dead_code)]
 mod support;
@@ -14,7 +15,7 @@ use std::process::{Command, Stdio};
 
 use rstest::rstest;
 use serde_json::{Value, json};
-use support::home::{TestHome, VIOLA};
+use support::home::{StampedHome, TestHome, VIOLA, Wrapper, workspace_path};
 
 const CANARY: &str = "canary-chain-value-5c1e";
 
@@ -174,4 +175,57 @@ fn assert_send_paste_control_holds(setting: Option<(&str, &str)>) {
 #[case::hook_panic_seam_empty(Some(("FAKE_AGENT_HOOK_PANIC", "")))]
 fn setting_does_not_disable_the_send_paste_control(#[case] setting: Option<(&str, &str)>) {
     assert_send_paste_control_holds(setting);
+}
+
+/// `viola answer` against a live wrapper on an unstamped home, with `setting` over its environment
+/// or none: refused `unverified-cli` (exit 12), whatever the setting.
+fn assert_answer_unstamped_control_holds(wrapper: &Wrapper, setting: Option<(&str, &str)>) {
+    let mut command = Command::new(VIOLA);
+    command
+        .arg("--home")
+        .arg(wrapper.home())
+        .args(["answer", "builder", "1", "--json"])
+        .env_remove("VIOLA_NAME")
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped());
+    if let Some((name, value)) = setting {
+        command.env(name, value);
+    }
+    let mut child = command.spawn().expect("viola answer");
+    let mut input = child.stdin.take().expect("stdin");
+    input
+        .write_all(format!("{{\"behavior\": \"deny\", \"message\": \"{CANARY}\"}}").as_bytes())
+        .expect("stdin");
+    drop(input);
+    let out = child.wait_with_output().expect("viola answer exits");
+
+    assert_eq!(out.status.code(), Some(12), "{setting:?}");
+    assert!(out.stderr.is_empty(), "stderr: {} bytes", out.stderr.len());
+    assert_eq!(
+        String::from_utf8_lossy(&out.stdout),
+        "{\"v\":1,\"refusal\":\"unverified-cli\",\"detail\":null}\n"
+    );
+}
+
+#[test]
+fn setting_does_not_disable_the_answer_unstamped_control() {
+    let fixtures = workspace_path("fixtures/claude");
+    let fixtures = fixtures.to_str().expect("utf-8 path");
+    let wrapper = Wrapper::boot(
+        StampedHome::unstamped(TestHome::new()),
+        "builder",
+        None,
+        &["--fixtures", fixtures],
+    );
+    for setting in [
+        None,
+        Some(("FAKE_AGENT_HOOK_PANIC", "0")),
+        Some(("FAKE_AGENT_HOOK_PANIC", "false")),
+        Some(("FAKE_AGENT_HOOK_PANIC", "off")),
+        Some(("FAKE_AGENT_HOOK_PANIC", "")),
+    ] {
+        assert_answer_unstamped_control_holds(&wrapper, setting);
+    }
+    wrapper.stop();
 }

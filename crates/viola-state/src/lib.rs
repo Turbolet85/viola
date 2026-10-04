@@ -10,6 +10,7 @@ pub mod liveness;
 pub mod pin;
 pub mod snapshot;
 pub mod stamps;
+pub mod strict;
 
 use chrono::{DateTime, SecondsFormat, Utc};
 

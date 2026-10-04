@@ -1,0 +1,11 @@
+{
+  "v": 1,
+  "steps": [
+    { "event": "PreToolUse", "variant": "ask-user-question", "gate": true },
+    { "event": "PermissionRequest", "variant": "ask-user-question", "gate": true },
+    { "event": "PreToolUse", "variant": "exit-plan-mode", "gate": true },
+    { "event": "PermissionRequest", "variant": "exit-plan-mode", "gate": true },
+    { "event": "PreToolUse", "variant": "exit-plan-mode", "gate": true },
+    { "event": "Stop", "variant": "default", "gate": true }
+  ]
+}

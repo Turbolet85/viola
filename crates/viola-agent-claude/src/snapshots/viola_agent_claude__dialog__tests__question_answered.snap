@@ -1,0 +1,5 @@
+---
+source: crates/viola-agent-claude/src/dialog.rs
+expression: "decision_body(HookEvent::PreToolUse, &input, &question(None)).expect(\"a body\")"
+---
+{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"allow","updatedInput":{"questions":[{"question":"Which color?"}],"answers":{"Which color?":"canary-chain-value-5c1e red"}}}}

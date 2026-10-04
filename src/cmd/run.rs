@@ -22,6 +22,7 @@ use viola_state::pin::{PinError, Pinned, pin_exe};
 use viola_state::snapshot::{InstanceSnapshot, Wheel, read_snapshot, write_snapshot};
 
 use crate::run::ChildLaunch;
+use crate::run::dialog::DialogSlot;
 use crate::run::gate::{self, Tee};
 use crate::run::send::{self, SendSlot};
 use crate::run::version_gate::{Gate, version_gate};
@@ -59,13 +60,14 @@ fn hold_pump_start() {
     }
 }
 
-/// The wrapper's answers: `send`, `wait`, `last`, and the `hook.event` notification, which appends
-/// its event; every other method is `-32601` until its chunk lands.
+/// The wrapper's answers: `send`, `wait`, `last`, `hook.dialog`, `answer`, and the `hook.event`
+/// notification, which appends its event; every other method is `-32601` until its chunk lands.
 pub(crate) struct Methods {
     name: ViolaName,
     instance_dir: PathBuf,
     send: Arc<SendSlot>,
     wait: Arc<WaitFeed>,
+    dialogs: Arc<DialogSlot>,
 }
 
 /// The kinds a hook may hand the wrapper.
@@ -119,6 +121,8 @@ impl Dispatch for Methods {
             "send" => send::send(&self.send, &self.name, &self.instance_dir, call),
             "wait" => self.wait.wait(&self.instance_dir, call.params),
             "last" => self.wait.last(call.params),
+            "hook.dialog" => self.dialogs.hook_dialog(call.params),
+            "answer" => self.dialogs.answer(call),
             _ => self.dispatch(call.method, call.params),
         }
     }
@@ -198,14 +202,24 @@ fn start(home: &Path, args: &RunArgs, persistent: &[String]) -> anyhow::Result<S
         return Ok(refused("squatted-name"));
     };
     let send = Arc::new(SendSlot::new(SystemClock));
-    // Rebuilt before the endpoint serves: the first `last` already sees the newest logged turn.
+    // Rebuilt before the endpoint serves: the first `last` already sees the newest logged turn, and
+    // the first dialog takes an id past every logged one.
     let wait = Arc::new(WaitFeed::new(SystemClock));
-    wait.rebuild(&instance_dir)?;
+    let highest_dialog = wait.rebuild(&instance_dir)?;
+    let dialogs = DialogSlot::new(
+        SystemClock,
+        gate.cli_verified,
+        args.name.clone(),
+        instance_dir.clone(),
+        Arc::clone(&wait),
+    );
+    dialogs.restore(highest_dialog);
     let serving = server.serve(Arc::new(Methods {
         name: args.name.clone(),
         instance_dir: instance_dir.clone(),
         send: Arc::clone(&send),
         wait,
+        dialogs: Arc::new(dialogs),
     }));
     let (beat, snapshot) = start_state(&args.name, &instance_dir, &pinned, endpoint, gate)?;
     let launch = run::child_launch(
@@ -379,6 +393,7 @@ fn start_state(
         budget_paused: false,
         links: Vec::new(),
         child_pid: None,
+        pending_dialog: None,
     };
     write_snapshot(instance_dir, &snapshot)?;
     touch_heartbeat(instance_dir)?;
@@ -566,11 +581,21 @@ mod tests {
     }
 
     fn methods(instance_dir: &Path) -> Methods {
+        let name = ViolaName::try_new("builder".to_owned()).expect("valid");
+        let wait = Arc::new(WaitFeed::new(SystemClock));
+        let dialogs = DialogSlot::new(
+            SystemClock,
+            false,
+            name.clone(),
+            instance_dir.to_path_buf(),
+            Arc::clone(&wait),
+        );
         Methods {
-            name: ViolaName::try_new("builder".to_owned()).expect("valid"),
+            name,
             instance_dir: instance_dir.to_path_buf(),
             send: Arc::new(SendSlot::new(SystemClock)),
-            wait: Arc::new(WaitFeed::new(SystemClock)),
+            wait,
+            dialogs: Arc::new(dialogs),
         }
     }
 
@@ -585,7 +610,7 @@ mod tests {
     #[test]
     fn methods_answer_method_not_found_for_every_other_method() {
         let tmp = tempfile::tempdir().expect("tempdir");
-        for method in ["answer", "hook.dialog", "anything"] {
+        for method in ["pause", "release", "link", "anything"] {
             assert_eq!(
                 methods(tmp.path()).dispatch(method, &json!({"v": 1})),
                 Err(ProtocolError::MethodNotFound)
@@ -632,6 +657,31 @@ mod tests {
             .dispatch_call(&call("wait", &json!({"v": 1, "after": 0})))
             .expect("answered");
         assert_eq!(woken["ok"]["event"]["kind"], "turn-ended");
+    }
+
+    /// `hook.dialog` and `answer` are the dialog slot's: on an unverified CLI a dialog is logged and
+    /// answered `null` at once, and an `answer` is refused `unverified-cli`.
+    #[test]
+    fn methods_route_hook_dialog_and_answer_to_the_dialog_slot() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let methods = methods(tmp.path());
+        let dialog = json!({"v": 1, "kind": "permission", "hook_event": "permission-request",
+            "data": {"tool": "Bash", "input": {}}});
+        assert_eq!(
+            methods.dispatch_call(&call("hook.dialog", &dialog)),
+            Ok(json!({"ok": {"dialog_id": 1, "response": null}}))
+        );
+        assert_eq!(events_in(tmp.path())[0]["kind"], "permission");
+        let answer = json!({"v": 1, "dialog_id": 1, "response": {"behavior": "allow"}});
+        assert_eq!(
+            methods.dispatch_call(&call("answer", &answer)),
+            Ok(json!({"refusal": "unverified-cli", "detail": null}))
+        );
+        // Neither is a notification: without an id they are not dispatched as one.
+        assert_eq!(
+            methods.dispatch("hook.dialog", &dialog),
+            Err(ProtocolError::MethodNotFound)
+        );
     }
 
     /// A valid `hook.event` becomes one `source:"hook"` line stamped by the wrapper.

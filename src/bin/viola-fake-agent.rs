@@ -15,7 +15,7 @@ use std::time::Duration;
 
 use serde_json::{Value, json};
 
-const DEFAULT_CLI_VERSION: &str = "2.1.283";
+const DEFAULT_CLI_VERSION: &str = "2.1.287";
 const PASTE_START: &[u8] = b"\x1b[200~";
 const PASTE_END: &[u8] = b"\x1b[201~";
 const WIDE_CHAR: &[u8] = b"\xe4\xb8\xad";
@@ -155,8 +155,19 @@ fn parse_script(text: &str) -> Option<Vec<Step>> {
         .collect()
 }
 
-/// The `command` + `args` of every `type: "command"` hook registered for `event`.
-fn hook_commands(hooks_json: &str, event: &str) -> Vec<(String, Vec<String>)> {
+/// Whether a group's `matcher` admits a payload's `tool_name`: an absent or empty matcher admits
+/// everything, a `|`-separated one only the names it lists. A payload with no `tool_name` (no
+/// recorded fixture of a non-tool event carries one) is never matched against.
+fn matcher_admits(matcher: Option<&str>, tool: Option<&str>) -> bool {
+    match (matcher.filter(|m| !m.is_empty()), tool) {
+        (Some(matcher), Some(tool)) => matcher.split('|').any(|name| name == tool),
+        _ => true,
+    }
+}
+
+/// The `command` + `args` of every `type: "command"` hook registered for `event` in a group whose
+/// matcher admits `tool`.
+fn hook_commands(hooks_json: &str, event: &str, tool: Option<&str>) -> Vec<(String, Vec<String>)> {
     let Ok(doc) = serde_json::from_str::<Value>(hooks_json) else {
         return Vec::new();
     };
@@ -165,6 +176,7 @@ fn hook_commands(hooks_json: &str, event: &str) -> Vec<(String, Vec<String>)> {
     };
     groups
         .iter()
+        .filter(|g| matcher_admits(g["matcher"].as_str(), tool))
         .filter_map(|g| g["hooks"].as_array())
         .flatten()
         .filter(|h| h["type"] == "command")
@@ -214,10 +226,9 @@ impl Agent {
             .plugin_dir
             .as_ref()
             .and_then(|d| fs::read_to_string(d.join("hooks").join("hooks.json")).ok());
-        let commands = hooks.map_or_else(Vec::new, |h| hook_commands(&h, event));
-        if commands.is_empty() {
+        let Some(hooks) = hooks.filter(|h| !hook_commands(h, event, None).is_empty()) else {
             return "no-hooks";
-        }
+        };
         let fixture = self.opts.fixtures.as_ref().and_then(|f| {
             fs::read(
                 f.join(self.opts.cli_version())
@@ -228,6 +239,10 @@ impl Agent {
         let Some(fixture) = fixture else {
             return "no-fixture";
         };
+        let tool = serde_json::from_slice::<Value>(&fixture)
+            .ok()
+            .and_then(|v| v["tool_name"].as_str().map(str::to_owned));
+        let commands = hook_commands(&hooks, event, tool.as_deref());
         let body = payload(fixture, prompt);
         for (command, args) in commands {
             self.run_hook(event, &command, &args, &body);
@@ -648,7 +663,7 @@ mod tests {
     fn opts_default_to_the_default_cli_version() {
         let o = Opts::parse(&[]);
         assert_eq!(o.cli_version(), DEFAULT_CLI_VERSION);
-        assert_eq!(o.version_answer(), "2.1.283 (Claude Code)");
+        assert_eq!(o.version_answer(), "2.1.287 (Claude Code)");
         assert!(!o.version && !o.exit_no_eof && !o.suppress_prompt_submit);
         assert!(!o.vt100_panic_bytes);
         assert!(o.print.is_none());
@@ -726,14 +741,40 @@ mod tests {
                     {"matcher":"m","hooks":[{"type":"command","command":"/c"}]}],
             "PreToolUse":[{"hooks":[{"type":"command","command":"/d"}]}]}}"#;
         assert_eq!(
-            hook_commands(doc, "Stop"),
+            hook_commands(doc, "Stop", None),
             [
                 ("/a".to_owned(), vec!["x".to_owned(), "y".to_owned()]),
                 ("/c".to_owned(), vec![])
             ]
         );
-        assert!(hook_commands(doc, "SessionEnd").is_empty());
-        assert!(hook_commands("not json", "Stop").is_empty());
+        assert!(hook_commands(doc, "SessionEnd", None).is_empty());
+        assert!(hook_commands("not json", "Stop", None).is_empty());
+    }
+
+    /// A group's matcher is read against a tool-bearing payload's `tool_name`, name by name.
+    #[test]
+    fn hook_commands_evaluate_the_matcher_against_the_tool() {
+        let doc = r#"{"hooks":{"PreToolUse":[
+            {"matcher":"AskUserQuestion|ExitPlanMode","hooks":[{"type":"command","command":"/dialog"}]},
+            {"matcher":"","hooks":[{"type":"command","command":"/empty"}]},
+            {"hooks":[{"type":"command","command":"/all"}]}]}}"#;
+        let commands = |tool| {
+            hook_commands(doc, "PreToolUse", tool)
+                .into_iter()
+                .map(|(c, _)| c)
+                .collect::<Vec<_>>()
+        };
+        assert_eq!(
+            commands(Some("ExitPlanMode")),
+            ["/dialog", "/empty", "/all"]
+        );
+        assert_eq!(
+            commands(Some("AskUserQuestion")),
+            ["/dialog", "/empty", "/all"]
+        );
+        assert_eq!(commands(Some("Bash")), ["/empty", "/all"]);
+        assert_eq!(commands(Some("Exit")), ["/empty", "/all"]);
+        assert_eq!(commands(None), ["/dialog", "/empty", "/all"]);
     }
 
     #[test]

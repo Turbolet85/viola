@@ -1,0 +1,299 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-10-04T11:47:46Z",
+"argv": [
+"coverage",
+"--dir",
+"viola-0.1.0",
+"--run-dir",
+".andromeda/runs/2026-10-04T10-52-40-phase",
+"--marker",
+"2026-10-04-dialog-answers-by-dialog-id"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"verified 11/53 · deferred 0 · planned 42 · implemented 0 · unclaimed 42",
+"unclaimed: v1-01 v1-02 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-15 v1-16 v1-17 v1-18 v1-21 v1-22",
+"          v1-24 v1-26 v1-27 v1-29 v1-31 v1-32 v1-33 v1-34 v1-35 v1-36 v1-37 v1-38 v1-39 v1-40 v1-41 v1-42",
+"          v1-44 v1-45 v1-46 v1-47 v1-48 v1-49 v1-50 v1-51 v1-52 v1-53",
+"claimed-unfinished: none",
+"done-test: NO — 42 not verified|deferred · unclaimed 42",
+"chunks referenced: 11 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-10-04T11:47:54Z",
+"argv": [
+"claim",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-15",
+"--chunk",
+"2026-10-04-dialog-answers-by-dialog-id",
+"--acceptance-file",
+".andromeda/runs/2026-10-04T10-52-40-phase/acceptance-v1-15.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T10-52-40-phase"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"claim v1-15 → chunk 2026-10-04-dialog-answers-by-dialog-id (was null; status planned kept)",
+"acceptance: A plan dialog raised by either hook is presented and answered as a pla… (215 chars)",
+"         → In `tests/cli_answer.rs`, on all three CI OSes: a plan dialog raised b… (700 chars)",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed",
+"pool: unclaimed 41 [v1-01 v1-02 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-16 v1-17 v1-18 v1-21 v1-22 v1-24 v1-26 v1-27 v1-29 v1-31 v1-32 v1-33 v1-34 v1-35 v1-36 v1-37 v1-38 v1-39 v1-40 v1-41 v1-42 v1-44 v1-45 v1-46 v1-47 v1-48 v1-49 v1-50 v1-51 v1-52 v1-53]"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-15",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "A plan dialog raised by either hook is presented and answered as a plan (approve, or revise with a message); approval ne… (215 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-15",
+"chunk": "2026-10-04-dialog-answers-by-dialog-id",
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "In `tests/cli_answer.rs`, on all three CI OSes: a plan dialog raised by PreToolUse(`ExitPlanMode`) and one raised by Per… (700 chars)",
+"notes_chars": 0
+}
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-10-04T11:47:54Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-16",
+"--text-file",
+".andromeda/runs/2026-10-04T10-52-40-phase/note-v1-16.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T10-52-40-phase",
+"--marker",
+"2026-10-04-dialog-answers-by-dialog-id"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"note v1-16: +457 chars (total 457) · status planned · ref/acceptance untouched",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-16",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "The architecture records whether a driver can pick an offered permission suggestion; if it can, the answer carries the c… (246 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-16",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "The architecture records whether a driver can pick an offered permission suggestion; if it can, the answer carries the c… (246 chars)",
+"notes_chars": 457
+}
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-10-04T11:47:54Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-21",
+"--text-file",
+".andromeda/runs/2026-10-04T10-52-40-phase/note-v1-21.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T10-52-40-phase",
+"--marker",
+"2026-10-04-dialog-answers-by-dialog-id"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"note v1-21: +526 chars (total 1266) · status planned · ref/acceptance untouched",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-21",
+"chunk": null,
+"status": "planned",
+"method": "unit",
+"ref": "null",
+"acceptance": "The send-confirmation window, spine-hook deadline, dialog deadline, readiness quiet period and maximum wait, and the MCP… (311 chars)",
+"notes_chars": 738
+},
+"after": {
+"id": "v1-21",
+"chunk": null,
+"status": "planned",
+"method": "unit",
+"ref": "null",
+"acceptance": "The send-confirmation window, spine-hook deadline, dialog deadline, readiness quiet period and maximum wait, and the MCP… (311 chars)",
+"notes_chars": 1266
+}
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-10-04T11:47:54Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-31",
+"--text-file",
+".andromeda/runs/2026-10-04T10-52-40-phase/note-v1-31.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T10-52-40-phase",
+"--marker",
+"2026-10-04-dialog-answers-by-dialog-id"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"note v1-31: +670 chars (total 670) · status planned · ref/acceptance untouched",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-31",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "At most one dialog is pending per instance and it appears once in the log with its id; a driver answers a question (opti… (480 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-31",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "At most one dialog is pending per instance and it appears once in the log with its id; a driver answers a question (opti… (480 chars)",
+"notes_chars": 670
+}
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-10-04T11:47:54Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-34",
+"--text-file",
+".andromeda/runs/2026-10-04T10-52-40-phase/note-v1-34.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T10-52-40-phase",
+"--marker",
+"2026-10-04-dialog-answers-by-dialog-id"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"note v1-34: +550 chars (total 1433) · status planned · ref/acceptance untouched",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-34",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "Each relied-on CLI behaviour is a versioned ledger row with a live probe and a post-condition; viola verify probes the l… (386 chars)",
+"notes_chars": 881
+},
+"after": {
+"id": "v1-34",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "Each relied-on CLI behaviour is a versioned ledger row with a live probe and a post-condition; viola verify probes the l… (386 chars)",
+"notes_chars": 1433
+}
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-10-04T11:47:54Z",
+"argv": [
+"audit",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-04-dialog-answers-by-dialog-id",
+"--plan",
+"viola-0.1.0/chunks/2026-10-04-dialog-answers-by-dialog-id/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T10-52-40-phase"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"claimed by 2026-10-04-dialog-answers-by-dialog-id: 1 · ## Acceptance Criteria: line 351, 15 lines",
+"v1-15: cited in ## Acceptance Criteria (line 356)",
+"  shape v1-15: method e2e · no interaction verb",
+"pool: unclaimed 41 [v1-01 v1-02 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-16 v1-17 v1-18 v1-21 v1-22 v1-24 v1-26 v1-27 v1-29 v1-31 v1-32 v1-33 v1-34 v1-35 v1-36 v1-37 v1-38 v1-39 v1-40 v1-41 v1-42 v1-44 v1-45 v1-46 v1-47 v1-48 v1-49 v1-50 v1-51 v1-52 v1-53]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

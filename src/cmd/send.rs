@@ -82,7 +82,7 @@ fn read_text(reader: impl Read) -> Option<String> {
 }
 
 /// The closed refusal → exit table (architecture §Conventions exit codes).
-fn exit_of(reason: RefusalReason) -> u8 {
+pub(super) fn exit_of(reason: RefusalReason) -> u8 {
     match reason {
         RefusalReason::HumanTyping => 10,
         RefusalReason::BudgetPaused => 11,
@@ -92,7 +92,7 @@ fn exit_of(reason: RefusalReason) -> u8 {
     }
 }
 
-fn reason_of(reason: &str) -> RefusalReason {
+pub(super) fn reason_of(reason: &str) -> RefusalReason {
     serde_json::from_value(Value::from(reason)).unwrap_or(RefusalReason::Unknown)
 }
 

@@ -13,7 +13,7 @@ use super::watch::{WITHIN, Watch};
 pub const FAKE: &str = env!("CARGO_BIN_EXE_viola-fake-agent");
 /// The CLI version the committed `fixtures/claude/` set was recorded at, and the fake agent's
 /// default answer: a test literal, never the fake agent's own constant.
-pub const RECORDED_CLI_VERSION: &str = "2.1.283";
+pub const RECORDED_CLI_VERSION: &str = "2.1.287";
 
 pub fn control_path(home: &Path, name: &str) -> PathBuf {
     home.join("fake").join(format!("{name}.control"))

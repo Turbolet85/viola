@@ -13,6 +13,11 @@ pub const MAX_FRAME: u64 = 16 * 1024 * 1024;
 /// The bound every spine hook process meets, read by the perf gate (test-plan §10 Spine deadline).
 pub const SPINE_DEADLINE: Duration = Duration::from_secs(1);
 
+/// How long the wrapper holds a pending dialog for a driver's answer before it leaves the dialog to
+/// the human; the embedded `hooks.json` dialog `timeout` exceeds it, so viola, never Claude Code, ends
+/// the wait (architecture [Hook Contract]). PROVISIONAL, unmeasured.
+pub const DIALOG_DEADLINE: Duration = Duration::from_secs(60);
+
 /// The injected time source: sync code takes its instants from here, so a test drives time
 /// without the wall clock (test-plan §8 Time).
 pub trait Clock: Send + Sync {
@@ -279,6 +284,11 @@ mod tests {
     #[test]
     fn spine_deadline_is_one_second() {
         assert_eq!(SPINE_DEADLINE.as_millis(), 1000);
+    }
+
+    #[test]
+    fn dialog_deadline_is_sixty_seconds() {
+        assert_eq!(DIALOG_DEADLINE.as_secs(), 60);
     }
 
     #[test]

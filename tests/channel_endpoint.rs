@@ -214,7 +214,7 @@ fn channel_wrapper_logs_each_call_with_corr_and_conn(booted_wrapper: Wrapper) {
 
     let mut client = Client::connect(&endpoint, "cli").expect("connect");
     let conn = client.conn().to_owned();
-    let reply = client.request("answer", Map::new()).expect("reply");
+    let reply = client.request("link", Map::new()).expect("reply");
     assert_eq!(reply["error"]["code"], -32601);
 
     let mut bare = raw(&endpoint);

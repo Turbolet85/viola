@@ -12,12 +12,11 @@ use std::time::{Duration, Instant};
 
 use tracing::field::Empty;
 use tracing::instrument;
+use viola_agent_claude::StripPlan;
 use viola_agent_claude::ledger::{parse_version, verified};
-use viola_agent_claude::{AgentError, StripPlan};
 use viola_core::obs::ObsEvent;
 use viola_core::{MAX_FRAME, obs_event};
-use viola_state::StateError;
-use viola_state::stamps::read_stamps;
+use viola_state::stamps::{StampsReadError, read_stamps_strict};
 
 /// The bound on a `--version` answer, `verify`'s and the gate's.
 pub(crate) const VERSION_DEADLINE: Duration = Duration::from_secs(5);
@@ -134,7 +133,7 @@ pub(crate) fn version_gate(home: &Path, program: &Path, cwd: &Path, strip: &Stri
     );
     let cli_version = answer.ok().and_then(|a| parse_version(&a.stdout));
     let cli_verified = cli_version.as_deref().is_some_and(|version| {
-        let (verified, detail) = stamps_verdict(read_stamps(home), version);
+        let (verified, detail) = stamps_verdict(read_stamps_strict(home), version);
         if let Some(detail) = detail {
             obs_event!(
                 WARN,
@@ -158,17 +157,19 @@ pub(crate) fn version_gate(home: &Path, program: &Path, cwd: &Path, strip: &Stri
 }
 
 /// The stamps read's verdict for `version`, with the `parse-rejected` detail code when the file
-/// could not be used: absent is simply unverified.
+/// could not be used: absent is simply unverified, and a ledger another user could write is never
+/// read at all (it fails closed, never open).
 pub(crate) fn stamps_verdict(
-    read: Result<Option<Vec<u8>>, StateError>,
+    read: Result<Option<Vec<u8>>, StampsReadError>,
     version: &str,
 ) -> (bool, Option<&'static str>) {
     match read {
         Ok(None) => (false, None),
-        Err(_) => (false, Some("unreadable")),
+        Err(StampsReadError::StrictModes(_)) => (false, Some("strict-modes-failed")),
+        Err(StampsReadError::State(_)) => (false, Some("unreadable")),
         Ok(Some(bytes)) => match verified(&bytes, version) {
             Ok(verified) => (verified, None),
-            Err(AgentError::StampsMalformed | AgentError::Malformed) => (false, Some("malformed")),
+            Err(_) => (false, Some("malformed")),
         },
     }
 }
@@ -186,10 +187,15 @@ mod tests {
     #[test]
     fn stamps_verdict_reads_every_arm() {
         assert_eq!(stamps_verdict(Ok(None), "2.1.0"), (false, None));
-        let io = StateError::Io(std::io::Error::other("C:/secret"));
+        let io = viola_state::StateError::Io(std::io::Error::other("C:/secret"));
         assert_eq!(
-            stamps_verdict(Err(io), "2.1.0"),
+            stamps_verdict(Err(StampsReadError::State(io)), "2.1.0"),
             (false, Some("unreadable"))
+        );
+        let refused = StampsReadError::StrictModes(viola_state::strict::Refused::Writable);
+        assert_eq!(
+            stamps_verdict(Err(refused), "2.1.0"),
+            (false, Some("strict-modes-failed"))
         );
         assert_eq!(
             stamps_verdict(Ok(Some(b"{not json".to_vec())), "2.1.0"),

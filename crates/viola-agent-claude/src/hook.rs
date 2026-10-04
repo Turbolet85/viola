@@ -8,7 +8,8 @@ use viola_core::EventKind;
 
 use crate::AgentError;
 
-/// The hook events this build registers, each by its `viola hook <event>` argument.
+/// The hook events this build registers, each by its `viola hook <event>` argument. The two
+/// dialog-tier events raise a dialog (`crate::dialog`), never a `hook.event`.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum HookEvent {
     SessionStart,
@@ -18,10 +19,12 @@ pub enum HookEvent {
     Notification,
     PostToolUse,
     PostToolUseFailure,
+    PreToolUse,
+    PermissionRequest,
 }
 
 impl HookEvent {
-    pub const ALL: [Self; 7] = [
+    pub const ALL: [Self; 9] = [
         Self::SessionStart,
         Self::UserPromptSubmit,
         Self::Stop,
@@ -29,6 +32,8 @@ impl HookEvent {
         Self::Notification,
         Self::PostToolUse,
         Self::PostToolUseFailure,
+        Self::PreToolUse,
+        Self::PermissionRequest,
     ];
 
     /// The kebab-case argument, equal to diag-line `$defs.hook_event`.
@@ -41,22 +46,32 @@ impl HookEvent {
             Self::Notification => "notification",
             Self::PostToolUse => "post-tool-use",
             Self::PostToolUseFailure => "post-tool-use-failure",
+            Self::PreToolUse => "pre-tool-use",
+            Self::PermissionRequest => "permission-request",
         }
+    }
+
+    /// The dialog tier: PreToolUse and PermissionRequest, sync, answered by a decision body.
+    pub const fn is_dialog(self) -> bool {
+        matches!(self, Self::PreToolUse | Self::PermissionRequest)
     }
 
     pub fn from_arg(arg: &str) -> Option<Self> {
         Self::ALL.into_iter().find(|event| event.as_str() == arg)
     }
 
-    pub const fn kind(self) -> EventKind {
+    /// The event kind a `hook.event` carries; `None` for the dialog tier, whose kind is the
+    /// dialog's (`crate::dialog::classify`).
+    pub const fn kind(self) -> Option<EventKind> {
         match self {
-            Self::SessionStart => EventKind::SessionStart,
-            Self::UserPromptSubmit => EventKind::PromptSubmitted,
-            Self::Stop => EventKind::TurnEnded,
-            Self::SessionEnd => EventKind::SessionEnd,
+            Self::SessionStart => Some(EventKind::SessionStart),
+            Self::UserPromptSubmit => Some(EventKind::PromptSubmitted),
+            Self::Stop => Some(EventKind::TurnEnded),
+            Self::SessionEnd => Some(EventKind::SessionEnd),
             Self::Notification | Self::PostToolUse | Self::PostToolUseFailure => {
-                EventKind::Activity
+                Some(EventKind::Activity)
             }
+            Self::PreToolUse | Self::PermissionRequest => None,
         }
     }
 }
@@ -94,15 +109,17 @@ const HARNESS_PREFIXES: [&str; 4] = [
     "<cross-session-message",
 ];
 
-/// Reads `bytes` as `event`'s payload. Only a payload that is not one JSON object is refused.
+/// Reads `bytes` as `event`'s payload. A payload that is not one JSON object is refused, and so is
+/// a dialog-tier event, which never becomes a `hook.event`.
 pub fn normalise(event: HookEvent, bytes: &[u8]) -> Result<Normalised, AgentError> {
+    let kind = event.kind().ok_or(AgentError::NotAnEvent)?;
     let mut payload: Value = serde_json::from_slice(bytes).map_err(|_| AgentError::Malformed)?;
     if !payload.is_object() {
         return Err(AgentError::Malformed);
     }
     let (known, drift) = known_fields(&mut payload);
     Ok(Normalised {
-        kind: event.kind(),
+        kind,
         data: data_of(event, known),
         drift,
     })
@@ -141,7 +158,7 @@ fn data_of(event: HookEvent, known: Known) -> Value {
             json!({"text": prompt_text(&raw), "origin": prompt_origin(&raw)})
         }
         HookEvent::Stop => json!({"last_assistant_message": known.last_assistant_message}),
-        HookEvent::SessionEnd => json!({}),
+        HookEvent::SessionEnd | HookEvent::PreToolUse | HookEvent::PermissionRequest => json!({}),
         HookEvent::Notification | HookEvent::PostToolUse | HookEvent::PostToolUseFailure => {
             match known.tool_name {
                 Some(tool) => json!({"tool": tool}),
@@ -246,36 +263,52 @@ mod tests {
                 "notification",
                 "post-tool-use",
                 "post-tool-use-failure",
+                "pre-tool-use",
+                "permission-request",
             ]
         );
         for event in HookEvent::ALL {
             assert_eq!(HookEvent::from_arg(event.as_str()), Some(event));
         }
-        for other in [
-            "pre-tool-use",
-            "permission-request",
-            "statusline",
-            "",
-            "Stop",
-        ] {
+        for other in ["statusline", "", "Stop", "PreToolUse"] {
             assert_eq!(HookEvent::from_arg(other), None, "{other}");
         }
     }
 
     #[test]
     fn hook_event_kinds_follow_the_map() {
-        let kinds: Vec<&str> = HookEvent::ALL.iter().map(|e| e.kind().as_str()).collect();
+        let kinds: Vec<Option<&str>> = HookEvent::ALL
+            .iter()
+            .map(|e| e.kind().map(EventKind::as_str))
+            .collect();
         assert_eq!(
             kinds,
             [
-                "session-start",
-                "prompt-submitted",
-                "turn-ended",
-                "session-end",
-                "activity",
-                "activity",
-                "activity",
+                Some("session-start"),
+                Some("prompt-submitted"),
+                Some("turn-ended"),
+                Some("session-end"),
+                Some("activity"),
+                Some("activity"),
+                Some("activity"),
+                None,
+                None,
             ]
+        );
+        let dialog: Vec<bool> = HookEvent::ALL.iter().map(|e| e.is_dialog()).collect();
+        assert_eq!(
+            dialog,
+            [false, false, false, false, false, false, false, true, true]
+        );
+    }
+
+    #[rstest]
+    #[case::pre_tool_use(HookEvent::PreToolUse)]
+    #[case::permission_request(HookEvent::PermissionRequest)]
+    fn normalise_refuses_a_dialog_event(#[case] event: HookEvent) {
+        assert_eq!(
+            normalise(event, br#"{"tool_name": "Bash"}"#),
+            Err(AgentError::NotAnEvent)
         );
     }
 
@@ -296,6 +329,18 @@ mod tests {
         assert_eq!(
             AgentError::Malformed.to_string(),
             "the hook payload is not one JSON object"
+        );
+        assert_eq!(
+            AgentError::NotAnEvent.to_string(),
+            "a dialog hook payload is not a hook event"
+        );
+        assert_eq!(
+            AgentError::DialogMalformed.to_string(),
+            "the dialog hook payload lacks a field it needs"
+        );
+        assert_eq!(
+            AgentError::ResponseMalformed.to_string(),
+            "the dialog answer has the wrong shape"
         );
     }
 
@@ -523,7 +568,11 @@ mod tests {
     }
 
     fn one_of_the_events() -> impl Strategy<Value = HookEvent> {
-        prop::sample::select(HookEvent::ALL.to_vec())
+        let spine: Vec<HookEvent> = HookEvent::ALL
+            .into_iter()
+            .filter(|e| !e.is_dialog())
+            .collect();
+        prop::sample::select(spine)
     }
 
     proptest! {

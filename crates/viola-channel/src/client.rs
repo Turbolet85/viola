@@ -99,6 +99,29 @@ impl Client {
         Ok(reply)
     }
 
+    /// [`Client::request`] bounded at `deadline`: the exchange runs on its own thread, and a reply
+    /// that has not arrived by then is `Deadline` (the thread is left to the process's exit). A
+    /// dialog hook's wait for the wrapper's answer stops here even if the wrapper never answers.
+    pub fn request_until(
+        mut self,
+        method: &'static str,
+        params: Map<String, Value>,
+        deadline: Instant,
+    ) -> Result<Value, ChannelError> {
+        let (tx, rx) = std::sync::mpsc::channel();
+        std::thread::Builder::new()
+            .name("channel-request".to_owned())
+            .spawn(move || {
+                let _ = tx.send(self.request(method, params));
+            })
+            .map_err(ChannelError::Io)?;
+        match rx.recv_timeout(deadline.saturating_duration_since(Instant::now())) {
+            Ok(reply) => reply,
+            Err(std::sync::mpsc::RecvTimeoutError::Timeout) => Err(ChannelError::Deadline),
+            Err(std::sync::mpsc::RecvTimeoutError::Disconnected) => Err(ChannelError::Closed),
+        }
+    }
+
     /// One id-less frame (`hook.event`): written whole, never answered, so nothing is read back.
     #[instrument(skip_all, name = "channel.request", fields(method = method, conn = self.conn.as_str()))]
     pub fn notify(
@@ -265,6 +288,10 @@ mod tests {
     impl Dispatch for Ids {
         fn dispatch(&self, method: &str, params: &Value) -> Result<Value, ProtocolError> {
             match method {
+                "hang" => {
+                    std::thread::sleep(std::time::Duration::from_secs(2));
+                    Ok(json!({"ok": {}}))
+                }
                 "wait" => Ok(
                     json!({"ok": {"event": {"kind": "turn-ended", "data": {}}, "cursor": 49102}}),
                 ),
@@ -297,6 +324,34 @@ mod tests {
         let second = client.request("frobnicate", Map::new()).expect("second");
         assert_eq!(second["id"], 2);
         assert_eq!(second["error"]["code"], -32601);
+    }
+
+    #[test]
+    fn client_request_until_returns_a_reply_that_arrives_in_time() {
+        let (_dir, endpoint, _serving) = served("until-ok");
+        let client = Client::connect(&endpoint, "hook").expect("connect");
+        let deadline = Instant::now() + std::time::Duration::from_secs(5);
+        let reply = client
+            .request_until("pause", Map::new(), deadline)
+            .expect("reply");
+        assert_eq!(reply["result"]["refusal"], "budget-paused");
+    }
+
+    /// A reply still owed at the deadline is `Deadline`, returned at the deadline, not when the
+    /// server finally answers.
+    #[test]
+    fn client_request_until_stops_waiting_at_the_deadline() {
+        let (_dir, endpoint, _serving) = served("until-late");
+        let client = Client::connect(&endpoint, "hook").expect("connect");
+        let started = Instant::now();
+        let deadline = started + std::time::Duration::from_millis(200);
+        let got = client.request_until("hang", Map::new(), deadline);
+        assert!(matches!(got, Err(ChannelError::Deadline)), "{got:?}");
+        assert!(started.elapsed() < std::time::Duration::from_millis(1500));
+        assert_eq!(
+            ChannelError::Deadline.to_string(),
+            "channel reply did not arrive in time"
+        );
     }
 
     #[test]

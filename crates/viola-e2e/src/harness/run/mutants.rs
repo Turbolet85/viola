@@ -17,8 +17,11 @@ pub use base::{
 };
 
 /// Every outcome printed as it lands, and each mutant's build bounded (cargo-mutants sets no build
-/// timeout by default), so a stalled run names the mutant it stalled on.
-const MUTANTS_PROGRESS: [&str; 3] = ["--caught", "--unviable", "--build-timeout-multiplier=5"];
+/// timeout by default), so a stalled run names the mutant it stalled on. The bound is absolute: a
+/// multiplier has no floor, so a sub-second baseline set it to 1 s and timed out a mutant's ordinary
+/// rebuild (ci#37196414168, `msrv`). 400 s is 5× the largest baseline build measured, 78 s
+/// (chunk 2026-10-04-dialog-answers-by-dialog-id, `evidence/red-b.md`).
+const MUTANTS_PROGRESS: [&str; 3] = ["--caught", "--unviable", "--build-timeout=400"];
 
 /// The mutation run's own target dir, relative to the tree cargo runs in: the root binaries are
 /// prebuilt into the repository's copy, and cargo-mutants' copied tree builds every test binary in
@@ -719,7 +722,7 @@ mod tests {
     #[test]
     fn run_mutants_prints_every_outcome_and_bounds_each_build() {
         let (mutants, _) = stub_run(&[], None, |_| {}).mutants.expect("ran");
-        for flag in ["--caught", "--unviable", "--build-timeout-multiplier=5"] {
+        for flag in ["--caught", "--unviable", "--build-timeout=400"] {
             assert!(mutants.contains(&flag.to_owned()), "{flag} in {mutants:?}");
         }
     }
@@ -833,7 +836,7 @@ mod tests {
                 "--copy-target=true",
                 "--caught",
                 "--unviable",
-                "--build-timeout-multiplier=5",
+                "--build-timeout=400",
             ]
         );
         assert!(!mutants.contains(&"--in-diff".to_owned()), "{mutants:?}");

@@ -67,9 +67,9 @@ fn records_after(instance_dir: &Path, from: u64) -> Vec<Value> {
     support::ndjson::complete_lines(&bytes[from..])
 }
 
-/// `viola --home <home> send <args…>` with `text` on stdin, started, not waited.
-fn spawn_send(home: &Path, args: &[&str], text: &str) -> Child {
-    let mut child = Command::new(VIOLA)
+/// `viola --home <home> send <args…>` with its stdin piped and nothing written yet.
+fn start_send(home: &Path, args: &[&str]) -> Child {
+    Command::new(VIOLA)
         .arg("--home")
         .arg(home)
         .arg("send")
@@ -79,10 +79,27 @@ fn spawn_send(home: &Path, args: &[&str], text: &str) -> Child {
         .stdout(Stdio::piped())
         .stderr(Stdio::piped())
         .spawn()
-        .expect("viola send");
-    let mut stdin = child.stdin.take().expect("stdin");
-    stdin.write_all(text.as_bytes()).expect("stdin");
-    drop(stdin);
+        .expect("viola send")
+}
+
+/// Writes `text` to the child's stdin and closes it.
+fn feed(child: &mut Child, text: &str) -> std::io::Result<()> {
+    child
+        .stdin
+        .take()
+        .expect("stdin")
+        .write_all(text.as_bytes())
+}
+
+/// `viola --home <home> send <args…>` with `text` on stdin, started, not waited. A child that
+/// exits before reading (a usage error) closes the pipe first, so `BrokenPipe` alone is tolerated:
+/// the caller's assertions on the exit still decide.
+fn spawn_send(home: &Path, args: &[&str], text: &str) -> Child {
+    let mut child = start_send(home, args);
+    match feed(&mut child, text) {
+        Err(e) if e.kind() != std::io::ErrorKind::BrokenPipe => panic!("stdin: {e}"),
+        _ => {}
+    }
     child
 }
 
@@ -318,6 +335,28 @@ fn send_leading_slash_argument_is_a_usage_error() {
     assert_eq!(end_offset(&dir), l, "events.ndjson gained bytes");
     assert!(prompts(&wrapper.receipt()).is_empty(), "a prompt was typed");
     wrapper.stop();
+}
+
+/// The window ci#37196414168 lost on ubuntu, forced open: the child has already exited on the usage
+/// error when its stdin is written, so the write always meets a closed pipe.
+#[test]
+fn send_leading_slash_argument_exits_before_its_stdin_is_written() {
+    let home = TestHome::new();
+    let mut child = start_send(home.path(), &["builder", "/clear"]);
+    let watch = Watch::start("exit");
+    let deadline = Instant::now() + WITHIN;
+    while child.try_wait().expect("try_wait").is_none() {
+        watch.deadline_check(deadline, "viola send never exited");
+        std::thread::yield_now();
+    }
+    let write = feed(&mut child, CANARY);
+    assert_eq!(
+        write.map_err(|e| e.kind()),
+        Err(std::io::ErrorKind::BrokenPipe)
+    );
+    let sent = finish(child);
+    assert_eq!(sent.code, Some(2));
+    assert!(sent.stdout.is_empty());
 }
 
 #[test]
