@@ -257,13 +257,14 @@ fn path5_harness_turns_never_take_the_wheel(stamped_home: StampedHome) {
     wrapper.stop();
 }
 
-/// a11y-plan §4 P4 tui case (3): focus reports, an SGR mouse report and a host resize never take
-/// the wheel, each step asked on its own. The mouse report reaches the child unchanged on every OS;
-/// the focus reports do on Unix, and on `windows-2025` the inbox ConPTY outer terminal swallows
-/// them (CARRY §9, measured by CI run ci#37226294797: the child's keys held the mouse report alone).
-/// A second mouse report is the read barrier after the focus reports: once its keys arrive, the
-/// wrapper has read whatever the terminal delivered before it. The size receipt is awaited before
-/// any key after the resize (the H2 rule).
+/// a11y-plan §4 P4 tui case (3), each step asked on its own. A host resize never takes the wheel
+/// (its size receipt is the barrier, and is awaited before any key: the H2 rule). Focus reports,
+/// then an SGR mouse report as their read barrier: on Unix both reach the child unchanged and
+/// neither takes the wheel. On `windows-2025` the inbox ConPTY outer terminal swallows the focus
+/// reports, and under the sideloaded ConPTY's win32-input-mode it hands the wrapper an injected
+/// mouse report as typed keys, which take the wheel — the error only ever favours the human (the
+/// founder's live ruling, 2026-10-04, on CARRY §9 as measured by CI run ci#37227518624; viola-pty
+/// pins the encoding). A mouse report from a real Windows terminal is measured live at `:82`.
 #[rstest]
 fn tui_focus_mouse_and_resize_never_take_the_wheel(stamped_home: StampedHome) {
     const MOUSE: &[u8] = b"\x1b[<0;10;5M";
@@ -271,19 +272,6 @@ fn tui_focus_mouse_and_resize_never_take_the_wheel(stamped_home: StampedHome) {
     let home = wrapper.home().to_path_buf();
     let dir = wrapper.instance_dir();
     let receipt = wrapper.receipt();
-
-    wrapper.send(MOUSE);
-    wait_keys(&receipt, &dir, MOUSE.len(), "the mouse report");
-    assert_driver_holds(&home, &dir, "a mouse report");
-
-    wrapper.send(b"\x1b[I");
-    wrapper.send(b"\x1b[O");
-    wrapper.send(MOUSE);
-    let focus: &[u8] = if cfg!(windows) { b"" } else { b"\x1b[I\x1b[O" };
-    let expected = [MOUSE, focus, MOUSE].concat();
-    let lines = wait_keys(&receipt, &dir, expected.len(), "the focus reports' barrier");
-    assert_eq!(keys(&lines), hex_of(&expected), "what reached the child");
-    assert_driver_holds(&home, &dir, "focus reports");
 
     wrapper.resize(Size {
         cols: 100,
@@ -294,7 +282,31 @@ fn tui_focus_mouse_and_resize_never_take_the_wheel(stamped_home: StampedHome) {
         of_kind(l, "size").contains(&&target)
     });
     assert_driver_holds(&home, &dir, "a host resize");
-    assert_eq!(snapshot_data(&dir).expect("snapshot")["wheel"], "driver");
+
+    wrapper.send(b"\x1b[I");
+    wrapper.send(b"\x1b[O");
+    wrapper.send(MOUSE);
+    let focus: &[u8] = if cfg!(windows) { b"" } else { b"\x1b[I\x1b[O" };
+    let expected = [focus, MOUSE].concat();
+    let lines = wait_keys(&receipt, &dir, expected.len(), "the focus reports' barrier");
+    assert_eq!(keys(&lines), hex_of(&expected), "what reached the child");
+    if cfg!(windows) {
+        let probe = viola(
+            &home,
+            &["answer", "builder", "999999", "--json"],
+            "{\"behavior\": \"allow\"}",
+            None,
+        );
+        assert_eq!(probe.code, Some(10), "stdout: {}", probe.stdout);
+        let taken = json!({"holder": "human", "cause": "human-input"});
+        wait_events(&dir, "the injected report's wheel record", |l| {
+            l.iter().any(|e| e["kind"] == "wheel" && e["data"] == taken)
+        });
+        assert_eq!(wheel_records(&dir), [start_record(), taken]);
+    } else {
+        assert_driver_holds(&home, &dir, "focus and mouse reports");
+        assert_eq!(snapshot_data(&dir).expect("snapshot")["wheel"], "driver");
+    }
     wrapper.stop();
 }
 

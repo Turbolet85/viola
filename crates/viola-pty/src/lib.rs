@@ -688,9 +688,54 @@ mod tests {
             .join(" ")
     }
 
+    /// Focus in, focus out: what a terminal sends when focus reporting is on.
+    const FOCUS: &[u8] = b"\x1b[I\x1b[O";
+
+    /// One win32-input-mode key record, `ESC [ Vk ; Sc ; Uc ; Kd ; Cs ; Rc _`, at the start of
+    /// `bytes`: its six fields and its length.
+    fn win32_record(bytes: &[u8]) -> Option<([u32; 6], usize)> {
+        let body = bytes.strip_prefix(b"\x1b[")?;
+        let end = body.iter().position(|b| *b == b'_')?;
+        let fields: Vec<u32> = std::str::from_utf8(&body[..end])
+            .ok()?
+            .split(';')
+            .map(|f| f.parse().ok())
+            .collect::<Option<_>>()?;
+        Some((fields.try_into().ok()?, end + 3))
+    }
+
+    /// What `bytes` type: each win32-input-mode key-down record as its character, every other byte
+    /// as itself.
+    fn typed(bytes: &[u8]) -> Vec<u8> {
+        let mut out = Vec::new();
+        let mut at = 0;
+        while at < bytes.len() {
+            if let Some((fields, len)) = win32_record(&bytes[at..]) {
+                if fields[3] == 1 {
+                    let c = char::from_u32(fields[2]).unwrap_or(char::REPLACEMENT_CHARACTER);
+                    out.extend_from_slice(c.encode_utf8(&mut [0u8; 4]).as_bytes());
+                }
+                at += len;
+            } else {
+                out.push(bytes[at]);
+                at += 1;
+            }
+        }
+        out
+    }
+
+    #[test]
+    fn typed_reads_win32_key_downs_as_their_characters() {
+        let keys = b"\x1b[0;0;104;1;0;1_\x1b[0;0;104;0;0;1_\x1b[72;35;105;1;0;1_";
+        assert_eq!(typed(keys), b"hi");
+        assert_eq!(typed(MOUSE), MOUSE, "a report is not a key record");
+        assert_eq!(typed(b"\x1b[0;0;104_"), b"\x1b[0;0;104_", "five fields");
+    }
+
     /// The `reads` child: with `win32`, first asks its terminal for win32-input-mode (the request
     /// the sideloaded ConPTY makes of the console it runs in); then reports each read of
-    /// `host_stdin()` as hex, one line per read, until a mouse report's worth arrived, and exits 0.
+    /// `host_stdin()` as hex, one line per read, until what was read types a mouse report, and
+    /// exits 0.
     fn report_reads(path: &std::path::Path, win32: bool) -> ! {
         if win32 {
             let mut out = io::stdout();
@@ -699,12 +744,12 @@ mod tests {
         report(path, "reading");
         let mut input = host_stdin();
         let mut buf = [0u8; 256];
-        let mut total = 0;
-        while total < MOUSE.len() {
+        let mut seen = Vec::new();
+        while !typed(&seen).ends_with(MOUSE) {
             match input.read(&mut buf) {
                 Ok(0) | Err(_) => break,
                 Ok(n) => {
-                    total += n;
+                    seen.extend_from_slice(&buf[..n]);
                     report(path, &format!("read {}", hex(&buf[..n])));
                 }
             }
@@ -940,12 +985,12 @@ mod tests {
         }
     }
 
-    /// The reads a raw child makes of a mouse report written into the platform PTY: the measurement
-    /// of how the terminal hands such a report to the wrapper (CARRY §9 on `windows-2025`).
-    fn mouse_report_reads(mode: &str) -> (Vec<String>, String) {
+    /// The reads a raw child makes of `input` written into the platform PTY: how the terminal hands
+    /// such input to the wrapper (CARRY §9, measured on `windows-2025` by CI run ci#37227518624).
+    fn reads_of(mode: &str, input: &[u8]) -> (Vec<String>, String) {
         let mut child = spawn_child_entry(mode, Size::DEFAULT);
         wait_line(&mut child, "reading");
-        child.writer.write_all(MOUSE).expect("mouse report");
+        child.writer.write_all(input).expect("input");
         child.writer.flush().expect("flush");
         let deadline = Instant::now() + CHILD_WITHIN;
         while matches!(child.pty.try_wait(), Ok(None)) {
@@ -964,16 +1009,42 @@ mod tests {
         (reads, child.reports())
     }
 
-    #[test]
-    fn console_read_of_a_mouse_report_is_one_whole_read() {
-        let (reads, reports) = mouse_report_reads("reads");
-        assert_eq!(reads, [format!("read {}", hex(MOUSE))], "{reports}");
+    /// The bytes behind `read <hex>` report lines, joined.
+    fn joined(reads: &[String]) -> Vec<u8> {
+        reads
+            .iter()
+            .flat_map(|r| r.trim_start_matches("read ").split(' '))
+            .map(|h| u8::from_str_radix(h, 16).expect("hex"))
+            .collect()
     }
 
     #[test]
-    fn console_read_of_a_mouse_report_under_win32_input_mode_is_one_whole_read() {
-        let (reads, reports) = mouse_report_reads("reads-win32");
+    fn console_read_of_a_mouse_report_is_one_whole_read() {
+        let (reads, reports) = reads_of("reads", MOUSE);
         assert_eq!(reads, [format!("read {}", hex(MOUSE))], "{reports}");
+    }
+
+    /// Under win32-input-mode (the sideloaded ConPTY's request), Windows' inbox ConPTY hands the
+    /// reader an injected mouse report as one key-down record per character, and the focus reports
+    /// not at all: typing, by the founder's live ruling (2026-10-04) the human's wheel. Elsewhere
+    /// the request means nothing and the bytes arrive unchanged.
+    #[test]
+    fn console_reads_under_win32_input_mode_are_the_platform_encoding() {
+        let input = [FOCUS, MOUSE].concat();
+        let (reads, reports) = reads_of("reads-win32", &input);
+        let raw = joined(&reads);
+        if cfg!(windows) {
+            let mut at = 0;
+            while at < raw.len() {
+                let (fields, len) = win32_record(&raw[at..])
+                    .unwrap_or_else(|| panic!("not a key record at {at}\n{reports}"));
+                assert_eq!([fields[0], fields[1]], [0, 0], "{reports}");
+                at += len;
+            }
+            assert_eq!(typed(&raw), MOUSE, "{reports}");
+        } else {
+            assert_eq!(raw, input, "{reports}");
+        }
     }
 
     const RESIZED: Size = Size {

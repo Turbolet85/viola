@@ -55,3 +55,31 @@ conclusion read (leg=operator) as usual").
     `host_stdin()` read of an SGR mouse report written into the platform PTY, plain and after `ESC[?9001h`, each
     asserting one whole read; on `windows-2025` the reading (or the failure's child report) tells (a) from (b).
     Pre-push green before the push.
+- Entry 19: pushed `849588b` (the measurement commit).
+- Entry 20, CI run ci#37227518624 on `849588b`: `verdict: red`, 14/15 jobs green.
+  - MEASURED (`windows-2025`, the inbox ConPTY): `console_read_of_a_mouse_report_is_one_whole_read` PASSED — plain,
+    the SGR mouse report reaches the reader as one whole read, so mechanism (a), a lone `ESC` read, is false.
+    `console_read_of_a_mouse_report_under_win32_input_mode_is_one_whole_read` FAILED with the reading: after
+    `ESC[?9001h` every character arrives as its own win32-input-mode key event `ESC[0;0;<Uc>;1;0;1_` (Vk 0, Sc 0,
+    Uc = the character, key-down, no modifiers, repeat 1), first ones read `27 91 60 48 59 49 48 59` (`ESC [ < 0 ; 1 0
+    ;`). Mechanism (b) holds: the sideloaded ConPTY's win32-input-mode request turns a mouse report written into the
+    outer ConPTY's input into ten typed keys before the wrapper reads it; F-W2's classifier rightly reads them as
+    typing, and the inner ConPTY decodes them back, so the child still sees the original bytes.
+  - `tui_focus_mouse_and_resize_never_take_the_wheel` red as before (`a mouse report took the wheel`).
+  - Not folded: the case's Windows acceptance meets a platform fact the plan did not foresee; the fold needs the
+    operator's word (a classifier that decodes win32-input-mode is new behaviour; an acceptance change is a spec
+    amendment).
+- RULING F-W3 — the founder's live ruling, 2026-10-04 (answered 20:34Z through the overseer's AskUserQuestion, the
+  measured win32-input-mode mechanism shown, and that the error only ever favours the human), relayed by the
+  overseer: "Pin the platform fact." Authority form: word: "Pin the platform fact" — the founder, 2026-10-04,
+  relayed by the overseer.
+  - Test-side fold (this pass): on Windows the outer-PTY case expects an injected mouse report to take the wheel
+    (`human` / `human-input`) and the focus reports to reach neither the child nor the wrapper; Unix keeps the full
+    assertion that focus and mouse reports and a host resize never take the wheel. `crates/viola-pty/src/lib.rs`
+    pins the encoding: plain, one whole read of the report; under `ESC[?9001h` on Windows, only win32 key-down
+    records (Vk 0, Sc 0) whose characters spell the report, the focus reports absent; elsewhere the bytes unchanged.
+  - For the wrap: a11y-plan §4 P4 tui case (3) and the v1-32 acceptance gain a Windows clause (an injected mouse
+    report arrives as typed keys under the sideloaded ConPTY and takes the wheel; focus reports are swallowed by the
+    inbox ConPTY); route pin: a mouse report from a real Windows terminal is measured at `:82` live.
+  - Local before the push: lint, the viola-pty and full unit entries, the outer-PTY entry, the default suite and
+    pre-push green; the windows-target clippy clean.
