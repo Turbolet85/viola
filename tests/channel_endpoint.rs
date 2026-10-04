@@ -214,13 +214,13 @@ fn channel_wrapper_logs_each_call_with_corr_and_conn(booted_wrapper: Wrapper) {
 
     let mut client = Client::connect(&endpoint, "cli").expect("connect");
     let conn = client.conn().to_owned();
-    let reply = client.request("last", Map::new()).expect("reply");
+    let reply = client.request("answer", Map::new()).expect("reply");
     assert_eq!(reply["error"]["code"], -32601);
 
     let mut bare = raw(&endpoint);
     let no_conn = exchange(
         &mut bare,
-        br#"{"jsonrpc":"2.0","id":7,"method":"wait","params":{"v":1,"sender":"0.1.0"}}
+        br#"{"jsonrpc":"2.0","id":7,"method":"pause","params":{"v":1,"sender":"0.1.0"}}
 "#,
     );
     assert_eq!(no_conn["id"], 7);
@@ -246,7 +246,7 @@ fn channel_wrapper_logs_each_call_with_corr_and_conn(booted_wrapper: Wrapper) {
     let n = srv_conn.strip_prefix("srv-").expect("srv-<n>");
     assert!(n.parse::<u64>().is_ok(), "{srv_conn}");
     assert!(srv.get("conn").is_none());
-    assert_eq!(srv["method"], "wait");
+    assert_eq!(srv["method"], "pause");
     assert_eq!(srv["error_code"], -32601);
     let rejected = of_event(&lines, "parse-rejected");
     assert!(

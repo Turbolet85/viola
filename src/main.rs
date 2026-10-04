@@ -79,13 +79,14 @@ fn main() -> ExitCode {
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum Role {
     Hook,
-    /// A human verb whose failure prints `error: internal error` (`verify`).
+    /// A verb whose failure prints `error: internal error` (`send`, `wait`, `last`, `verify`).
     Cli,
     Other,
 }
 
 /// The first argument that is neither the global `--home` nor its value names the role, so
-/// `viola --home <dir> hook stop` is still a `hook`.
+/// `viola --home <dir> hook stop` is still a `hook`. `run` and `hook` are named roles; any other
+/// verb is `cli` (obs-plan §7), and a flag in its place (`--help`) names no verb.
 fn role_of(args: impl IntoIterator<Item = OsString>) -> Role {
     let mut args = args.into_iter().skip(1);
     while let Some(arg) = args.next() {
@@ -94,10 +95,10 @@ fn role_of(args: impl IntoIterator<Item = OsString>) -> Role {
         } else if !arg.to_str().is_some_and(|a| a.starts_with("--home=")) {
             return if arg == "hook" {
                 Role::Hook
-            } else if arg == "verify" {
-                Role::Cli
-            } else {
+            } else if arg == "run" || arg.to_str().is_some_and(|a| a.starts_with('-')) {
                 Role::Other
+            } else {
+                Role::Cli
             };
         }
     }
@@ -319,6 +320,13 @@ mod tests {
     #[case::verify(&["verify", "--", "claude"], Role::Cli)]
     #[case::verify_after_home(&["--home=C:/h", "verify"], Role::Cli)]
     #[case::later_verify(&["run", "verify"], Role::Other)]
+    #[case::send(&["send", "builder"], Role::Cli)]
+    #[case::wait(&["wait", "builder", "--after", "7"], Role::Cli)]
+    #[case::last(&["last", "builder"], Role::Cli)]
+    #[case::send_after_home(&["--home", "C:/h", "send", "builder"], Role::Cli)]
+    #[case::wait_after_home(&["--home=C:/h", "wait", "builder"], Role::Cli)]
+    #[case::last_after_home(&["--home", "C:/h", "last", "builder"], Role::Cli)]
+    #[case::version(&["--version"], Role::Other)]
     fn role_of_skips_the_home_flag_and_its_value(#[case] args: &[&str], #[case] role: Role) {
         assert_eq!(role_of(argv(args)), role);
     }

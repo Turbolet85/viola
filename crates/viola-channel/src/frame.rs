@@ -54,7 +54,9 @@ pub struct Request {
 }
 
 /// The envelope fields every `params` carries, read tolerantly: unknown fields are skipped and a
-/// missing one is its default (architecture §Cross-cutting Mixed-version tolerance).
+/// missing one is its default (architecture §Cross-cutting Mixed-version tolerance). `from` is a
+/// method's own param, checked by the method (`-32602`, security-plan §Input Validation), so the
+/// envelope never reads it.
 #[derive(Debug, Default, Deserialize)]
 pub struct Params {
     #[serde(default)]
@@ -63,8 +65,6 @@ pub struct Params {
     pub sender: Option<String>,
     #[serde(default)]
     pub conn: Option<String>,
-    #[serde(default)]
-    pub from: Option<String>,
 }
 
 /// A line's request and its envelope, or the fault to answer it with and the id to answer, when
@@ -224,7 +224,19 @@ mod tests {
         assert_eq!(params.v, 1);
         assert_eq!(params.sender.as_deref(), Some("0.1.0"));
         assert_eq!(params.conn.as_deref(), Some("cli-1-2-3"));
-        assert_eq!(params.from.as_deref(), Some("overseer"));
+        assert_eq!(request.params["from"], "overseer");
+    }
+
+    /// A `from` of the wrong type is the method's `-32602` to give, never the envelope's `-32600`.
+    #[test]
+    fn parse_request_leaves_a_mistyped_from_to_the_method() {
+        for from in ["7", "[]", "{}", "true"] {
+            let line = format!(
+                r#"{{"jsonrpc":"2.0","id":1,"method":"last","params":{{"v":1,"from":{from}}}}}"#
+            );
+            let (request, _) = parsed(&line).expect("request");
+            assert!(!request.params["from"].is_string(), "{from}");
+        }
     }
 
     #[test]

@@ -399,11 +399,12 @@
       "observed_gap": "the prototype's `wait` exits on the next Stop (B §4.1 S5); there is no cursor-based contract.",
       "verification": {
         "method": "e2e",
-        "acceptance": "wait returns the first driver-relevant event at or after the given cursor, at once if already logged, and is never woken by activity, wheel, budget or send-record lines; it times out with a typed result and reports an unreachable instance when the wrapper vanishes; last returns the newest turn's final text; every send and wait result carries the cursor for the next call.",
-        "ref": null,
-        "status": "planned"
+        "acceptance": "wait returns the first driver-relevant event at or after the given cursor, at once if already logged, and is never woken by activity, wheel, budget-gate or send-record lines: end to end on all three CI OSes for turn-ended — path3_wait_parks_until_turn_ended_then_last_reads_it (a viola wait --after C stays parked across an activity line, returns turn-ended with cursor equal to that line's end offset, and the same --after is answered at once) and wait_after_a_send_cursor_returns_the_turn (a send ok cursor is a valid after); the full five-kind wake set (turn-ended, question, permission, plan, session-end) against every other kind, an unknown one included, by the run::wait::tests clock-driven unit table. It times out with {\"v\":1,\"ok\":{\"timed_out\":true}} at exit 0 (path3, --timeout-ms 500), and only once the injected clock passes timeout_ms (unit). It reports instance-unreachable, exit 21 {\"v\":1,\"error\":\"instance-unreachable\",\"detail\":null}, when the wrapper is killed while it is parked (chaos_wait_parked_wrapper_killed_exits_21, during:\"call\"). last returns the newest turn-ended's last_assistant_message and ts, null/null before any turn, unchanged across a wrapper restart (last_survives_a_wrapper_restart). Every send ok and wait event result carries the cursor for the next call. The dialog kinds' end-to-end wait witness is owed to working-route.md:78 (the operator's condition at this claim).",
+        "ref": "tests/cli_wait_last.rs::path3_wait_parks_until_turn_ended_then_last_reads_it + tests/cli_wait_last.rs::wait_after_a_send_cursor_returns_the_turn + tests/cli_wait_last.rs::last_survives_a_wrapper_restart + tests/chaos_wait_vanish.rs::chaos_wait_parked_wrapper_killed_exits_21 + src/run/wait.rs::tests (wake set, clock-driven timeout)",
+        "status": "implemented"
       },
-      "chunk": null
+      "chunk": "2026-10-04-wait-and-last",
+      "notes": "2026-10-04 (2026-10-04-wait-and-last, phase P5): claimed with the operator's accepted narrowing. question / permission / plan wake only at unit level here, because no dialog event can be produced before working-route.md:78. Condition of the claim: the wrap writes a route pin on :78 naming the end-to-end question/permission/plan wait witness for v1-30, as its owner."
     },
     {
       "id": "v1-31",

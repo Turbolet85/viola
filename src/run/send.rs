@@ -20,6 +20,7 @@ use viola_state::StateError;
 use viola_state::events::{EventLine, Source, append_event, append_event_at, end_offset};
 
 use crate::run::gate::Gate;
+use crate::run::wait::WaitFeed;
 
 /// How often the waiting handler re-reads the clock against the window.
 const STEP: Duration = Duration::from_millis(20);
@@ -124,11 +125,13 @@ impl SendSlot {
     }
 }
 
-/// Appends a hook's event. The in-flight send's own prompt, whatever origin the hook filed, is
-/// the driver's: the match keys on the normalised text, never on the hook's origin, and the
-/// waiting send settles only once the relabelled line is on disk.
+/// Appends a hook's event and signals the parked `wait`s once it is on disk. The in-flight send's
+/// own prompt, whatever origin the hook filed, is the driver's: the match keys on the normalised
+/// text, never on the hook's origin, and the waiting send settles only once the relabelled line is
+/// on disk.
 pub(crate) fn append_hook_event(
     slot: &SendSlot,
+    feed: &WaitFeed,
     instance_dir: &Path,
     mut line: EventLine,
 ) -> Result<(), StateError> {
@@ -142,6 +145,9 @@ pub(crate) fn append_hook_event(
     let appended = append_event(instance_dir, &line);
     if claimed {
         slot.settle(appended.is_ok().then(|| line.ts.clone()));
+    }
+    if appended.is_ok() {
+        feed.appended(&line);
     }
     appended
 }
@@ -179,14 +185,18 @@ fn parse(params: &Value) -> Result<(&str, Option<ViolaName>), ProtocolError> {
     let text = params["text"]
         .as_str()
         .ok_or(ProtocolError::InvalidParams)?;
-    let from = match params.get("from") {
-        None | Some(Value::Null) => None,
-        Some(Value::String(from)) => {
-            Some(ViolaName::try_new(from.clone()).map_err(|_| ProtocolError::InvalidParams)?)
-        }
-        Some(_) => return Err(ProtocolError::InvalidParams),
-    };
-    Ok((text, from))
+    Ok((text, parse_from(params)?))
+}
+
+/// `from`: absent, `null` or a valid name, self-reported; anything else is `-32602`.
+pub(crate) fn parse_from(params: &Value) -> Result<Option<ViolaName>, ProtocolError> {
+    match params.get("from") {
+        None | Some(Value::Null) => Ok(None),
+        Some(Value::String(from)) => ViolaName::try_new(from.clone())
+            .map(Some)
+            .map_err(|_| ProtocolError::InvalidParams),
+        Some(_) => Err(ProtocolError::InvalidParams),
+    }
 }
 
 /// The `send` method, in the documented refusal order.
@@ -452,6 +462,10 @@ mod tests {
         )
     }
 
+    fn feed() -> WaitFeed {
+        WaitFeed::new(FixedClock(Instant::now()))
+    }
+
     fn occupy(slot: &SendSlot) {
         *slot.flight() = Some(InFlight {
             text: "another send".to_owned(),
@@ -535,7 +549,7 @@ mod tests {
         let reply = std::thread::scope(|s| {
             let sending = s.spawn(|| send(&slot, &name(), tmp.path(), &call(&params, 3)));
             pasted.recv().expect("pasted");
-            append_hook_event(&slot, tmp.path(), prompt(CANARY, origin)).expect("hook");
+            append_hook_event(&slot, &feed(), tmp.path(), prompt(CANARY, origin)).expect("hook");
             sending.join().expect("send thread")
         })
         .expect("answered");
@@ -573,7 +587,13 @@ mod tests {
         let tmp = tempfile::tempdir().expect("tempdir");
         let slot = SendSlot::new(FixedClock(Instant::now()));
         occupy(&slot);
-        append_hook_event(&slot, tmp.path(), prompt("typed by the human", "human")).expect("hook");
+        append_hook_event(
+            &slot,
+            &feed(),
+            tmp.path(),
+            prompt("typed by the human", "human"),
+        )
+        .expect("hook");
         assert_eq!(
             events(tmp.path())[0]["data"],
             json!({"text": "typed by the human", "origin": "human"})
@@ -588,7 +608,13 @@ mod tests {
     fn send_no_prompt_while_nothing_is_in_flight_is_appended_unchanged() {
         let tmp = tempfile::tempdir().expect("tempdir");
         let slot = SendSlot::new(FixedClock(Instant::now()));
-        append_hook_event(&slot, tmp.path(), prompt("another send", "harness")).expect("hook");
+        append_hook_event(
+            &slot,
+            &feed(),
+            tmp.path(),
+            prompt("another send", "harness"),
+        )
+        .expect("hook");
         assert_eq!(events(tmp.path())[0]["data"]["origin"], "harness");
     }
 
@@ -605,7 +631,7 @@ mod tests {
         let params = json!({"v": 1, "text": "next"});
         let reply = send(&slot, &name(), tmp.path(), &call(&params, 1)).expect("answered");
         assert_eq!(reply["detail"], "turn-running");
-        append_hook_event(&slot, tmp.path(), prompt("decided", "human")).expect("hook");
+        append_hook_event(&slot, &feed(), tmp.path(), prompt("decided", "human")).expect("hook");
         assert_eq!(events(tmp.path())[1]["data"]["origin"], "human");
         assert!(slot.confirm(Instant::now()).is_none());
         assert!(
@@ -632,7 +658,7 @@ mod tests {
         let events = events(tmp.path());
         assert_eq!(events[1]["data"]["cursor"], 0);
         // A prompt after the window is no longer the send's.
-        append_hook_event(&slot, tmp.path(), prompt("hello", "human")).expect("hook");
+        append_hook_event(&slot, &feed(), tmp.path(), prompt("hello", "human")).expect("hook");
         assert_eq!(
             super::tests::events(tmp.path())[2]["data"]["origin"],
             "human"
@@ -652,7 +678,7 @@ mod tests {
             let sending = s.spawn(|| send(&slot, &name(), tmp.path(), &call(&first, 1)));
             pasted.recv().expect("pasted");
             let b = send(&slot, &name(), tmp.path(), &call(&second, 2));
-            append_hook_event(&slot, tmp.path(), prompt("first", "human")).expect("hook");
+            append_hook_event(&slot, &feed(), tmp.path(), prompt("first", "human")).expect("hook");
             (sending.join().expect("send thread"), b)
         });
         assert_eq!(
@@ -722,6 +748,35 @@ mod tests {
                 &call(&params, 1)
             ),
             Err(ProtocolError::Internal)
+        );
+    }
+
+    /// The appended line reaches the wait feed; a line that never landed does not.
+    #[test]
+    fn send_append_hook_event_signals_the_wait_feed_after_the_append() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let slot = SendSlot::new(FixedClock(Instant::now()));
+        let feed = feed();
+        let ended = |message: &str| {
+            EventLine::new(
+                &name(),
+                EventKind::TurnEnded,
+                Source::Hook,
+                json!({"last_assistant_message": message}),
+                Utc::now(),
+            )
+        };
+        let missing = tmp.path().join("missing");
+        assert!(append_hook_event(&slot, &feed, &missing, ended("lost")).is_err());
+        let none = json!({"ok": {"last_assistant_message": null, "ts": null}});
+        assert_eq!(feed.last(&json!({"v": 1})), Ok(none));
+        let landed = ended("landed");
+        let ts = landed.ts.clone();
+        append_hook_event(&slot, &feed, tmp.path(), landed).expect("hook");
+        assert_eq!(kinds(tmp.path()), ["turn-ended"]);
+        assert_eq!(
+            feed.last(&json!({"v": 1})),
+            Ok(json!({"ok": {"last_assistant_message": "landed", "ts": ts}}))
         );
     }
 

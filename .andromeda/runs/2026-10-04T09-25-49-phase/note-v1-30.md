@@ -1,0 +1,1 @@
+2026-10-04 (2026-10-04-wait-and-last, phase P5): claimed with the operator's accepted narrowing. question / permission / plan wake only at unit level here, because no dialog event can be produced before working-route.md:78. Condition of the claim: the wrap writes a route pin on :78 naming the end-to-end question/permission/plan wait witness for v1-30, as its owner.

@@ -5,6 +5,7 @@ mod env;
 pub(crate) mod gate;
 pub(crate) mod send;
 pub(crate) mod version_gate;
+pub(crate) mod wait;
 
 use std::ffi::{OsStr, OsString};
 use std::path::{Path, PathBuf};

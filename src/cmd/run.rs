@@ -25,6 +25,7 @@ use crate::run::ChildLaunch;
 use crate::run::gate::{self, Tee};
 use crate::run::send::{self, SendSlot};
 use crate::run::version_gate::{Gate, version_gate};
+use crate::run::wait::WaitFeed;
 use crate::{human, obs, run};
 
 #[derive(clap::Args)]
@@ -58,12 +59,13 @@ fn hold_pump_start() {
     }
 }
 
-/// The wrapper's answers: `send`, and the `hook.event` notification, which appends its event;
-/// every other method is `-32601` until its chunk lands.
+/// The wrapper's answers: `send`, `wait`, `last`, and the `hook.event` notification, which appends
+/// its event; every other method is `-32601` until its chunk lands.
 pub(crate) struct Methods {
     name: ViolaName,
     instance_dir: PathBuf,
     send: Arc<SendSlot>,
+    wait: Arc<WaitFeed>,
 }
 
 /// The kinds a hook may hand the wrapper.
@@ -106,17 +108,19 @@ impl Dispatch for Methods {
         }
         // A notification is never answered: an event that fails the checks is simply not appended.
         if let Some(line) = self.hook_event_line(params) {
-            send::append_hook_event(&self.send, &self.instance_dir, line)
+            send::append_hook_event(&self.send, &self.wait, &self.instance_dir, line)
                 .map_err(|_| ProtocolError::Internal)?;
         }
         Ok(Value::Null)
     }
 
     fn dispatch_call(&self, call: &Call<'_>) -> Result<Value, ProtocolError> {
-        if call.method == "send" {
-            return send::send(&self.send, &self.name, &self.instance_dir, call);
+        match call.method {
+            "send" => send::send(&self.send, &self.name, &self.instance_dir, call),
+            "wait" => self.wait.wait(&self.instance_dir, call.params),
+            "last" => self.wait.last(call.params),
+            _ => self.dispatch(call.method, call.params),
         }
-        self.dispatch(call.method, call.params)
     }
 }
 
@@ -194,10 +198,14 @@ fn start(home: &Path, args: &RunArgs, persistent: &[String]) -> anyhow::Result<S
         return Ok(refused("squatted-name"));
     };
     let send = Arc::new(SendSlot::new(SystemClock));
+    // Rebuilt before the endpoint serves: the first `last` already sees the newest logged turn.
+    let wait = Arc::new(WaitFeed::new(SystemClock));
+    wait.rebuild(&instance_dir)?;
     let serving = server.serve(Arc::new(Methods {
         name: args.name.clone(),
         instance_dir: instance_dir.clone(),
         send: Arc::clone(&send),
+        wait,
     }));
     let (beat, snapshot) = start_state(&args.name, &instance_dir, &pinned, endpoint, gate)?;
     let launch = run::child_launch(
@@ -562,6 +570,7 @@ mod tests {
             name: ViolaName::try_new("builder".to_owned()).expect("valid"),
             instance_dir: instance_dir.to_path_buf(),
             send: Arc::new(SendSlot::new(SystemClock)),
+            wait: Arc::new(WaitFeed::new(SystemClock)),
         }
     }
 
@@ -576,13 +585,53 @@ mod tests {
     #[test]
     fn methods_answer_method_not_found_for_every_other_method() {
         let tmp = tempfile::tempdir().expect("tempdir");
-        for method in ["wait", "hook.dialog", "anything"] {
+        for method in ["answer", "hook.dialog", "anything"] {
             assert_eq!(
                 methods(tmp.path()).dispatch(method, &json!({"v": 1})),
                 Err(ProtocolError::MethodNotFound)
             );
         }
         assert!(events_in(tmp.path()).is_empty());
+    }
+
+    fn call<'a>(method: &'a str, params: &'a Value) -> Call<'a> {
+        Call {
+            method,
+            params,
+            id: Some(1),
+            conn: None,
+            srv_conn: Some("srv-1"),
+        }
+    }
+
+    /// `wait` and `last` are answered by the wait feed, and a `hook.event` line reaches it.
+    #[test]
+    fn methods_route_wait_and_last_to_the_wait_feed() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let methods = methods(tmp.path());
+        let params = json!({"v": 1, "after": 0, "timeout_ms": 1});
+        assert_eq!(
+            methods.dispatch_call(&call("wait", &params)),
+            Ok(json!({"ok": {"timed_out": true}}))
+        );
+        let none = json!({"ok": {"last_assistant_message": null, "ts": null}});
+        assert_eq!(
+            methods.dispatch_call(&call("last", &json!({"v": 1}))),
+            Ok(none)
+        );
+        let event = json!({"v": 1, "event": {"kind": "turn-ended", "data": {"last_assistant_message": "done"}}});
+        methods
+            .dispatch_call(&call("hook.event", &event))
+            .expect("appended");
+        let last = methods
+            .dispatch_call(&call("last", &json!({"v": 1})))
+            .expect("answered");
+        assert_eq!(last["ok"]["last_assistant_message"], "done");
+        assert_eq!(last["ok"]["ts"], events_in(tmp.path())[0]["ts"]);
+        let woken = methods
+            .dispatch_call(&call("wait", &json!({"v": 1, "after": 0})))
+            .expect("answered");
+        assert_eq!(woken["ok"]["event"]["kind"], "turn-ended");
     }
 
     /// A valid `hook.event` becomes one `source:"hook"` line stamped by the wrapper.

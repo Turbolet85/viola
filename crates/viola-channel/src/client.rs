@@ -15,7 +15,7 @@ use viola_core::obs::ObsEvent;
 use viola_core::{VERSION, obs_event};
 
 use crate::frame::{read_frame, write_frame};
-use crate::server::{Class, ResponseLine, method_label};
+use crate::server::{Class, ResponseLine, method_label, wait_bounds, wait_outcome};
 use crate::{ChannelError, PROTOCOL_V, ProtocolError};
 
 /// This process's start instant in Unix-epoch milliseconds, taken once.
@@ -69,6 +69,8 @@ impl Client {
         params.insert("sender".to_owned(), VERSION.into());
         params.insert("conn".to_owned(), self.conn.clone().into());
         let label = method_label(method);
+        let frame = json!({"jsonrpc": "2.0", "id": id, "method": method, "params": params});
+        let (after, timeout_ms) = wait_bounds(label, &frame["params"]);
         obs_event!(
             INFO,
             ObsEvent::ChannelRequest,
@@ -77,14 +79,23 @@ impl Client {
             method = label,
             sender = VERSION,
             v = PROTOCOL_V,
+            after = after,
+            timeout_ms = timeout_ms,
         );
         let mut logged = ResponseLine::client(started, id, &self.conn, label);
-        let frame = json!({"jsonrpc": "2.0", "id": id, "method": method, "params": params});
         let mut writer = self.reader.get_ref();
-        write_frame(&mut writer, &frame)?;
-        let line = read_frame(&mut self.reader)?;
+        let exchanged =
+            write_frame(&mut writer, &frame).and_then(|()| read_frame(&mut self.reader));
+        let line = match exchanged {
+            Ok(line) => line,
+            Err(error) => {
+                logged.outcome = unreachable_outcome(label, &error);
+                return Err(error);
+            }
+        };
         let reply: Value = serde_json::from_slice(&line).map_err(ChannelError::Parse)?;
         logged.class = reply_class(&reply);
+        logged.outcome = wait_outcome(label, &reply["result"]);
         Ok(reply)
     }
 
@@ -110,6 +121,13 @@ impl Client {
         let mut writer = self.reader.get_ref();
         write_frame(&mut writer, &frame)
     }
+}
+
+/// A `wait` whose reply never arrived: the wrapper vanished under it (obs-plan §4 Scenario `wait` /
+/// `last` Cleanup).
+fn unreachable_outcome(method: Option<&str>, error: &ChannelError) -> Option<&'static str> {
+    let vanished = matches!(error, ChannelError::Closed | ChannelError::Io(_));
+    (method == Some("wait") && vanished).then_some("instance-unreachable")
 }
 
 /// How a reply reads: its fault when it is one of the five codes, else its result's class.
@@ -247,6 +265,9 @@ mod tests {
     impl Dispatch for Ids {
         fn dispatch(&self, method: &str, params: &Value) -> Result<Value, ProtocolError> {
             match method {
+                "wait" => Ok(
+                    json!({"ok": {"event": {"kind": "turn-ended", "data": {}}, "cursor": 49102}}),
+                ),
                 "last" => Ok(
                     json!({"ok": {"conn": params["conn"], "v": params["v"], "sender": params["sender"]}}),
                 ),
@@ -324,6 +345,57 @@ mod tests {
                 .iter()
                 .all(|r| r["sender"] == "0.1.0" && r["v"] == 1)
         );
+    }
+
+    /// A woken `wait` on both sides: the request carries `after` and `timeout_ms`, the response the
+    /// kind that woke it, joined by `conn` + `corr` (obs-plan §4 Scenario `wait` / `last`).
+    #[test]
+    fn client_and_server_log_a_woken_wait_with_its_bounds_and_outcome() {
+        let got = capture_global();
+        let (_dir, endpoint, _serving) = served("wait-logs");
+        let mut client = Client::connect(&endpoint, "cli").expect("connect");
+        let conn = client.conn().to_owned();
+        let mut params = Map::new();
+        params.insert("after".to_owned(), 48213.into());
+        params.insert("timeout_ms".to_owned(), 500.into());
+        let reply = client.request("wait", params).expect("reply");
+        assert_eq!(reply["result"]["ok"]["cursor"], 49102);
+        let requests = got.events("channel-request");
+        let responses = got.events("channel-response");
+        assert_eq!((requests.len(), responses.len()), (2, 2), "{}", got.text());
+        for line in requests.iter().chain(&responses) {
+            assert_eq!(line["corr"], 1);
+            assert_eq!(line["conn"], conn.as_str());
+            assert_eq!(line["method"], "wait");
+        }
+        assert!(
+            requests
+                .iter()
+                .all(|r| r["after"] == 48213 && r["timeout_ms"] == 500)
+        );
+        assert!(responses.iter().all(|r| r["outcome"] == "turn-ended"));
+    }
+
+    #[test]
+    fn unreachable_outcome_is_a_wait_whose_reply_never_came() {
+        let reset = || ChannelError::Io(io::Error::from(io::ErrorKind::ConnectionReset));
+        assert_eq!(
+            unreachable_outcome(Some("wait"), &ChannelError::Closed),
+            Some("instance-unreachable")
+        );
+        assert_eq!(
+            unreachable_outcome(Some("wait"), &reset()),
+            Some("instance-unreachable")
+        );
+        assert_eq!(
+            unreachable_outcome(Some("wait"), &ChannelError::Oversize),
+            None
+        );
+        assert_eq!(
+            unreachable_outcome(Some("last"), &ChannelError::Closed),
+            None
+        );
+        assert_eq!(unreachable_outcome(None, &reset()), None);
     }
 
     /// Every dispatched call, in order, as the wrapper's answer sees it.

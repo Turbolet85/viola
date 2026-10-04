@@ -1,0 +1,49 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-10-04T10:13:08Z",
+"argv": [
+"implement",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-04-wait-and-last",
+"--id",
+"v1-30",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-04T09-55-57-implement"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"implement v1-30 · status planned → implemented · ref tests/cli_wait_last.rs::path3_wait_parks_until_turn_ended_then_last_reads_it + t… (332 chars)",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-30",
+"chunk": "2026-10-04-wait-and-last",
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "wait returns the first driver-relevant event at or after the given cursor, at once if already logged, and is never woken… (1410 chars)",
+"notes_chars": 367
+},
+"after": {
+"id": "v1-30",
+"chunk": "2026-10-04-wait-and-last",
+"status": "implemented",
+"method": "e2e",
+"ref": "tests/cli_wait_last.rs::path3_wait_parks_until_turn_ended_then_last_reads_it + tests/cli_wait_last.rs::wait_after_a_send… (332 chars)",
+"acceptance": "wait returns the first driver-relevant event at or after the given cursor, at once if already logged, and is never woken… (1410 chars)",
+"notes_chars": 367
+}
+}
+]

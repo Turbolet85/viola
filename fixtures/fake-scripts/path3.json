@@ -1,0 +1,7 @@
+{
+  "v": 1,
+  "steps": [
+    { "event": "PostToolUse", "variant": "default", "gate": true },
+    { "event": "Stop", "variant": "default", "gate": true }
+  ]
+}

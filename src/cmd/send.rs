@@ -9,19 +9,16 @@ use std::fs::File;
 use std::io::{self, IsTerminal as _, Read, Write as _};
 use std::path::{Path, PathBuf};
 use std::process::ExitCode;
-use std::time::SystemTime;
 
 use chrono::Utc;
 use serde_json::{Map, Value, json};
 use tracing::instrument;
 use viola_channel::{ChannelError, Client};
-use viola_core::obs::{ObsEvent, ObsProcess};
+use viola_core::obs::ObsEvent;
 use viola_core::{MAX_FRAME, NotDelivered, RefusalReason, ViolaName, obs_event};
-use viola_state::heartbeat::beat_age;
-use viola_state::liveness::{Liveness, classify, same_process};
-use viola_state::snapshot::read_snapshot;
 
-use crate::{human, obs, run};
+use super::client::{self, Reply, clock_part, live_endpoint, own_name};
+use crate::{human, run};
 
 #[derive(clap::Args)]
 pub(crate) struct SendArgs {
@@ -40,7 +37,7 @@ pub(crate) struct SendArgs {
     text: Option<String>,
 }
 
-fn parse_name(raw: &str) -> Result<ViolaName, String> {
+pub(crate) fn parse_name(raw: &str) -> Result<ViolaName, String> {
     warn_if_rewritten(raw);
     ViolaName::try_new(raw.to_owned()).map_err(|_| "invalid instance name".to_owned())
 }
@@ -84,51 +81,6 @@ fn read_text(reader: impl Read) -> Option<String> {
     String::from_utf8(bytes).ok()
 }
 
-/// What the wrapper answered.
-#[derive(Debug, PartialEq)]
-enum Reply {
-    Ok(Value),
-    Refused {
-        reason: String,
-        detail: Option<String>,
-    },
-    /// The contract's `detail`: `{code, message, data}` (architecture §Standard Contracts, CLI
-    /// `--json` output).
-    Fault(Value),
-}
-
-fn reply_of(frame: &Value) -> Option<Reply> {
-    if let Some(error) = frame.get("error") {
-        return fault_detail(error).map(Reply::Fault);
-    }
-    let result = frame.get("result")?;
-    if let Some(ok) = result.get("ok") {
-        return Some(Reply::Ok(ok.clone()));
-    }
-    let reason = result.get("refusal")?.as_str()?.to_owned();
-    let detail = match result.get("detail") {
-        None | Some(Value::Null) => None,
-        Some(Value::String(detail)) => Some(detail.clone()),
-        Some(_) => return None,
-    };
-    Some(Reply::Refused { reason, detail })
-}
-
-/// A JSON-RPC `error` member as the wrapper-fault `detail`; `None` without an integer `code`.
-fn fault_detail(error: &Value) -> Option<Value> {
-    let code = error["code"].as_i64()?;
-    let message = error["message"].as_str().unwrap_or_default();
-    let data = match &error["data"] {
-        Value::Object(data) => Value::Object(data.clone()),
-        _ => Value::Null,
-    };
-    Some(json!({"code": code, "message": message, "data": data}))
-}
-
-fn fault_document(detail: &Value) -> Value {
-    json!({"v": 1, "error": "wrapper-fault", "detail": detail})
-}
-
 /// The closed refusal → exit table (architecture §Conventions exit codes).
 fn exit_of(reason: RefusalReason) -> u8 {
     match reason {
@@ -144,11 +96,6 @@ fn reason_of(reason: &str) -> RefusalReason {
     serde_json::from_value(Value::from(reason)).unwrap_or(RefusalReason::Unknown)
 }
 
-/// `HH:MM:SS.mmmZ` out of an RFC 3339 instant.
-fn clock_part(ts: &str) -> &str {
-    ts.split_once('T').map_or(ts, |(_, time)| time)
-}
-
 /// The verb's outputs: one `--json` document, or the mirror lines.
 struct Out<'a> {
     name: &'a str,
@@ -156,10 +103,6 @@ struct Out<'a> {
 }
 
 impl Out<'_> {
-    fn document(&self, doc: &Value) {
-        let _ = io::stdout().lock().write_all(format!("{doc}\n").as_bytes());
-    }
-
     fn open(&self) {
         if !self.json && io::stdout().is_terminal() {
             let issued = Utc::now().format("%H:%M:%S%.3fZ").to_string();
@@ -169,7 +112,7 @@ impl Out<'_> {
 
     fn read_back(&self, ok: &Value) {
         if self.json {
-            return self.document(&json!({"v": 1, "ok": ok}));
+            return client::document(&json!({"v": 1, "ok": ok}));
         }
         let submitted = ok["submitted_at"].as_str().unwrap_or_default();
         let cursor = ok["cursor"].as_u64().unwrap_or_default();
@@ -183,7 +126,7 @@ impl Out<'_> {
 
     fn unable(&self, reason: &str, detail: Option<&str>) {
         if self.json {
-            return self.document(&json!({"v": 1, "refusal": reason, "detail": detail}));
+            return client::document(&json!({"v": 1, "refusal": reason, "detail": detail}));
         }
         let shown = match detail {
             Some(detail) => format!("{reason}  {detail}"),
@@ -197,26 +140,17 @@ impl Out<'_> {
             human::write_send_unable(&mut io::stderr().lock(), self.name, &shown, hint.as_deref());
     }
 
-    fn unreachable(&self) {
-        if self.json {
-            return self
-                .document(&json!({"v": 1, "error": "instance-unreachable", "detail": null}));
-        }
-        let hint = human::send_hint(self.name, "not-running");
-        let _ = human::write_send_unable(
-            &mut io::stderr().lock(),
-            self.name,
-            "instance-unreachable",
-            hint.as_deref(),
-        );
-    }
-
-    fn fault(&self, detail: &Value) {
-        if self.json {
-            return self.document(&fault_document(detail));
-        }
-        let code = detail["code"].as_i64().unwrap_or_default();
-        let _ = human::write_wrapper_fault(&mut io::stderr().lock(), code);
+    /// Exit 21, its human form the bracketed mirror.
+    fn unreachable(&self, during: &'static str) -> u8 {
+        client::unreachable(self.json, during, || {
+            let hint = human::send_hint(self.name, "not-running");
+            let _ = human::write_send_unable(
+                &mut io::stderr().lock(),
+                self.name,
+                "instance-unreachable",
+                hint.as_deref(),
+            );
+        })
     }
 }
 
@@ -229,13 +163,7 @@ pub(crate) fn send(home: &Path, args: &SendArgs) -> anyhow::Result<ExitCode> {
         let _ = io::stderr().lock().write_all(UNUSABLE_TEXT.as_bytes());
         return Ok(ExitCode::from(2));
     };
-    let home = std::path::absolute(home)?;
-    let (level, rejection) = obs::read_diagnostics_level(&home);
-    obs::viola_obs_init(&home, ObsProcess::Cli, Some(args.name.clone()), level)?;
-    run::log_self_start();
-    if let Some(rejection) = rejection {
-        obs::log_config_rejection(rejection);
-    }
+    let home = client::start(home, &args.name)?;
     let out = Out {
         name: args.name.as_ref(),
         json: args.json,
@@ -253,7 +181,7 @@ fn deliver(home: &Path, text: &str, out: &Out<'_>) -> anyhow::Result<u8> {
     }
     let instance_dir = home.join("instances").join(out.name);
     let Some(endpoint) = live_endpoint(&instance_dir) else {
-        return Ok(unreachable(out, "connect"));
+        return Ok(out.unreachable("connect"));
     };
     let mut params = Map::new();
     params.insert("text".to_owned(), text.into());
@@ -261,13 +189,10 @@ fn deliver(home: &Path, text: &str, out: &Out<'_>) -> anyhow::Result<u8> {
         params.insert("from".to_owned(), from.as_ref().into());
     }
     out.open();
-    let frame = match request(&endpoint, params) {
-        Ok(frame) => frame,
-        Err(ChannelError::Connect(_)) => return Ok(unreachable(out, "connect")),
-        Err(ChannelError::Closed | ChannelError::Io(_)) => return Ok(unreachable(out, "call")),
-        Err(error) => return Err(error.into()),
+    let reply = match client::answer_of(request(&endpoint, params))? {
+        Ok(reply) => reply,
+        Err(during) => return Ok(out.unreachable(during)),
     };
-    let reply = reply_of(&frame).ok_or_else(|| anyhow::anyhow!("malformed send reply"))?;
     let code = match reply {
         Reply::Ok(ok) => {
             out.read_back(&ok);
@@ -277,31 +202,10 @@ fn deliver(home: &Path, text: &str, out: &Out<'_>) -> anyhow::Result<u8> {
             out.unable(&reason, detail.as_deref());
             exit_of(reason_of(&reason))
         }
-        Reply::Fault(detail) => {
-            out.fault(&detail);
-            run::log_self_exit(20, Some("wrapper-fault"));
-            return Ok(20);
-        }
+        Reply::Fault(detail) => return Ok(client::fault(out.json, &detail)),
     };
     run::log_self_exit(code, None);
     Ok(code)
-}
-
-/// The endpoint of a live instance: its snapshot names one, and its recorded pid + start time and
-/// heartbeat read `live`. Strict-modes and the server's identity are not checked here.
-fn live_endpoint(instance_dir: &Path) -> Option<String> {
-    let snapshot = read_snapshot(instance_dir)?;
-    let age = beat_age(instance_dir, SystemTime::now());
-    if classify(age, same_process(&snapshot)) != Liveness::Live {
-        return None;
-    }
-    snapshot.endpoint
-}
-
-/// The sender's own instance name, self-reported.
-fn own_name() -> Option<ViolaName> {
-    let raw = std::env::var_os("VIOLA_NAME")?.into_string().ok()?;
-    ViolaName::try_new(raw).ok()
 }
 
 #[instrument(skip_all, name = "send.client")]
@@ -317,20 +221,6 @@ fn refused_client_side(detail: NotDelivered) {
         refusal = RefusalReason::NotDelivered.as_str(),
         detail = detail.as_str(),
     );
-}
-
-fn unreachable(out: &Out<'_>, during: &'static str) -> u8 {
-    out.unreachable();
-    obs_event!(
-        ERROR,
-        ObsEvent::ProcessExit,
-        subject = "self",
-        exit_code = 21u8,
-        detail = "instance-dead",
-        during = during,
-        duration_ms = obs::duration_ms(),
-    );
-    21
 }
 
 #[cfg(test)]
@@ -375,61 +265,6 @@ mod tests {
     #[case::unlisted("wheel-held", 14)]
     fn exit_of_is_the_closed_table(#[case] reason: &str, #[case] exit: u8) {
         assert_eq!(exit_of(reason_of(reason)), exit);
-    }
-
-    #[rstest]
-    #[case::ok(
-        json!({"id": 1, "result": {"ok": {"submitted_at": "t", "cursor": 4}}}),
-        Some(Reply::Ok(json!({"submitted_at": "t", "cursor": 4})))
-    )]
-    #[case::refusal(
-        json!({"id": 1, "result": {"refusal": "not-delivered", "detail": "turn-running"}}),
-        Some(Reply::Refused { reason: "not-delivered".to_owned(), detail: Some("turn-running".to_owned()) })
-    )]
-    #[case::refusal_null_detail(
-        json!({"id": 1, "result": {"refusal": "human-typing", "detail": null}}),
-        Some(Reply::Refused { reason: "human-typing".to_owned(), detail: None })
-    )]
-    #[case::fault(
-        json!({"id": 1, "error": {"code": -32603, "message": "internal error", "data": null}}),
-        Some(Reply::Fault(json!({"code": -32603, "message": "internal error", "data": null})))
-    )]
-    #[case::fault_with_data(
-        json!({"id": 1, "error": {"code": -32602, "message": "unsupported protocol version", "data": {"supported": 1, "wrapper": "0.1.0"}}}),
-        Some(Reply::Fault(json!({"code": -32602, "message": "unsupported protocol version", "data": {"supported": 1, "wrapper": "0.1.0"}})))
-    )]
-    #[case::fault_without_message_or_object_data(
-        json!({"id": 1, "error": {"code": -32603, "data": [1]}}),
-        Some(Reply::Fault(json!({"code": -32603, "message": "", "data": null})))
-    )]
-    #[case::fault_without_code(json!({"id": 1, "error": {}}), None)]
-    #[case::no_result(json!({"id": 1}), None)]
-    #[case::refusal_not_string(json!({"id": 1, "result": {"refusal": 1}}), None)]
-    #[case::detail_not_string(json!({"id": 1, "result": {"refusal": "x", "detail": 2}}), None)]
-    fn reply_of_reads_the_three_shapes(#[case] frame: Value, #[case] want: Option<Reply>) {
-        assert_eq!(reply_of(&frame), want);
-    }
-
-    /// architecture §Standard Contracts, CLI `--json` output: exit 20's one document.
-    #[test]
-    fn fault_document_is_the_contract_shape() {
-        let detail = json!({"code": -32603, "message": "internal error", "data": null});
-        assert_eq!(
-            fault_document(&detail).to_string(),
-            r#"{"v":1,"error":"wrapper-fault","detail":{"code":-32603,"message":"internal error","data":null}}"#
-        );
-    }
-
-    #[test]
-    fn clock_part_is_the_time_of_day() {
-        assert_eq!(clock_part("2026-09-23T19:45:05.912Z"), "19:45:05.912Z");
-        assert_eq!(clock_part("no-t"), "no-t");
-    }
-
-    #[test]
-    fn live_endpoint_without_a_snapshot_is_none() {
-        let tmp = tempfile::tempdir().expect("tempdir");
-        assert_eq!(live_endpoint(tmp.path()), None);
     }
 
     #[test]

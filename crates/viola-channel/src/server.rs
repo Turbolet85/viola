@@ -15,7 +15,7 @@ use interprocess::local_socket::{
 use serde_json::Value;
 use tracing::instrument;
 use viola_core::obs::ObsEvent;
-use viola_core::obs_event;
+use viola_core::{EventKind, obs_event};
 
 use crate::frame::{
     Params, Request, error_response, ok_response, parse_request, read_frame, write_frame,
@@ -221,7 +221,7 @@ fn answer(line: &[u8], srv_conn: &str, dispatch: &dyn Dispatch) -> Option<Reply>
         reject_frame("malformed");
         return None;
     }
-    log_request(request.id, peer, method, &params);
+    log_request(request.id, peer, method, &params, &request.params);
     let Some(id) = request.id else {
         let _ = dispatched(dispatch, &request, &params, method, peer);
         return None;
@@ -230,6 +230,7 @@ fn answer(line: &[u8], srv_conn: &str, dispatch: &dyn Dispatch) -> Option<Reply>
     let frame = match dispatched(dispatch, &request, &params, method, peer) {
         Ok(result) => {
             logged.class = Class::of(&result);
+            logged.outcome = wait_outcome(method, &result);
             ok_response(id, result)
         }
         Err(fault) => {
@@ -371,7 +372,14 @@ pub(crate) fn method_label(method: &str) -> Option<&'static str> {
     METHODS.iter().find(|m| **m == method).copied()
 }
 
-fn log_request(corr: Option<u64>, peer: Peer<'_>, method: Option<&str>, params: &Params) {
+fn log_request(
+    corr: Option<u64>,
+    peer: Peer<'_>,
+    method: Option<&str>,
+    params: &Params,
+    fields: &Value,
+) {
+    let (after, timeout_ms) = wait_bounds(method, fields);
     obs_event!(
         INFO,
         ObsEvent::ChannelRequest,
@@ -381,7 +389,35 @@ fn log_request(corr: Option<u64>, peer: Peer<'_>, method: Option<&str>, params: 
         method = method,
         sender = params.sender.as_deref().and_then(version_label),
         v = params.v,
+        after = after,
+        timeout_ms = timeout_ms,
     );
+}
+
+/// A `wait`'s `after` and `timeout_ms`, each only when it is a `u64` (obs-plan §4 Scenario `wait`
+/// / `last`); no other method's params reach a line.
+pub(crate) fn wait_bounds(method: Option<&str>, params: &Value) -> (Option<u64>, Option<u64>) {
+    if method != Some("wait") {
+        return (None, None);
+    }
+    (params["after"].as_u64(), params["timeout_ms"].as_u64())
+}
+
+/// A `wait`'s outcome from its result: `timed-out`, or the wake kind it returned. Nothing else of
+/// the result reaches a line.
+pub(crate) fn wait_outcome(method: Option<&str>, result: &Value) -> Option<&'static str> {
+    if method != Some("wait") {
+        return None;
+    }
+    let ok = result.get("ok")?;
+    if ok["timed_out"] == true {
+        return Some("timed-out");
+    }
+    let kind = ok["event"]["kind"].as_str()?;
+    EventKind::WAIT_WAKE
+        .iter()
+        .map(|k| k.as_str())
+        .find(|k| *k == kind)
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -410,6 +446,8 @@ pub(crate) struct ResponseLine<'a> {
     peer: Peer<'a>,
     method: Option<&'static str>,
     pub(crate) class: Class,
+    /// `wait`'s outcome, from a closed list.
+    pub(crate) outcome: Option<&'static str>,
 }
 
 impl<'a> ResponseLine<'a> {
@@ -426,6 +464,7 @@ impl<'a> ResponseLine<'a> {
             peer,
             method,
             class: Class::Error(Some(ProtocolError::Internal)),
+            outcome: None,
         }
     }
 
@@ -458,6 +497,7 @@ impl Drop for ResponseLine<'_> {
                     method = self.method,
                     result_class = result_class,
                     error_code = fault.map(ProtocolError::code),
+                    outcome = self.outcome,
                     duration_ms = duration_ms,
                 )
             };
@@ -754,6 +794,96 @@ mod tests {
         assert_eq!(span["method"], "send");
         assert_eq!(span["conn"], "mcp-1-2-3");
         assert!(span.get("params").is_none());
+    }
+
+    /// Answers `wait` with the event kind its params name, or `timed_out` without one.
+    struct Waits;
+
+    impl Dispatch for Waits {
+        fn dispatch(&self, method: &str, params: &Value) -> Result<Value, ProtocolError> {
+            match (method, params["kind"].as_str()) {
+                ("wait" | "last", Some(kind)) => Ok(
+                    json!({"ok": {"event": {"kind": kind, "data": {"canary-chain-value-5c1e": 1}}, "cursor": 9}}),
+                ),
+                ("wait", None) => Ok(json!({"ok": {"timed_out": true}})),
+                _ => Err(ProtocolError::MethodNotFound),
+            }
+        }
+    }
+
+    fn wait_lines(line: &str) -> (Value, Value) {
+        let (_, got) = capture(|| answer(line.as_bytes(), "srv-2", &Waits));
+        assert!(!got.text().contains("canary"), "a result reached a line");
+        (got.event("channel-request"), got.event("channel-response"))
+    }
+
+    /// A woken `wait` logs its bounds on the request and the kind that woke it on the response.
+    #[test]
+    fn answer_wait_logs_after_timeout_and_the_woken_kind() {
+        let (request, response) = wait_lines(
+            r#"{"jsonrpc":"2.0","id":3,"method":"wait","params":{"v":1,"conn":"cli-1-2-3","after":48213,"timeout_ms":500,"kind":"turn-ended"}}"#,
+        );
+        assert_eq!(request["method"], "wait");
+        assert_eq!(request["after"], 48213);
+        assert_eq!(request["timeout_ms"], 500);
+        assert_eq!(response["outcome"], "turn-ended");
+        assert_eq!(response["result_class"], "ok");
+        assert_eq!(
+            (request["corr"].clone(), request["conn"].clone()),
+            (response["corr"].clone(), response["conn"].clone())
+        );
+    }
+
+    #[test]
+    fn answer_wait_timed_out_is_its_outcome_and_absent_bounds_stay_absent() {
+        let (request, response) =
+            wait_lines(r#"{"jsonrpc":"2.0","id":4,"method":"wait","params":{"v":1}}"#);
+        assert!(request.get("after").is_none());
+        assert!(request.get("timeout_ms").is_none());
+        assert_eq!(response["outcome"], "timed-out");
+    }
+
+    #[rstest]
+    #[case::not_a_wake_kind(r#"{"jsonrpc":"2.0","id":5,"method":"wait","params":{"v":1,"kind":"activity","after":"x","timeout_ms":-1}}"#)]
+    #[case::not_wait(r#"{"jsonrpc":"2.0","id":5,"method":"last","params":{"v":1,"kind":"turn-ended","after":4,"timeout_ms":4}}"#)]
+    fn answer_logs_no_outcome_or_bounds_outside_a_wait_result(#[case] line: &str) {
+        let (request, response) = wait_lines(line);
+        assert!(request.get("after").is_none(), "{request}");
+        assert!(request.get("timeout_ms").is_none(), "{request}");
+        assert!(response.get("outcome").is_none(), "{response}");
+    }
+
+    #[rstest]
+    #[case::turn_ended("turn-ended", Some("turn-ended"))]
+    #[case::question("question", Some("question"))]
+    #[case::permission("permission", Some("permission"))]
+    #[case::plan("plan", Some("plan"))]
+    #[case::session_end("session-end", Some("session-end"))]
+    #[case::activity("activity", None)]
+    #[case::content("canary-chain-value-5c1e", None)]
+    fn wait_outcome_is_a_wake_kind_or_nothing(#[case] kind: &str, #[case] want: Option<&str>) {
+        let result = json!({"ok": {"event": {"kind": kind}, "cursor": 1}});
+        assert_eq!(wait_outcome(Some("wait"), &result), want);
+        assert_eq!(wait_outcome(Some("send"), &result), None);
+        assert_eq!(wait_outcome(None, &result), None);
+    }
+
+    #[test]
+    fn wait_outcome_of_a_refusal_or_an_odd_result_is_nothing() {
+        let refusal = json!({"refusal": "unknown", "detail": null});
+        assert_eq!(wait_outcome(Some("wait"), &refusal), None);
+        let timed_out_text = json!({"ok": {"timed_out": "true"}});
+        assert_eq!(wait_outcome(Some("wait"), &timed_out_text), None);
+    }
+
+    #[test]
+    fn wait_bounds_are_u64s_of_a_wait_only() {
+        let params = json!({"after": 7, "timeout_ms": 30000});
+        assert_eq!(wait_bounds(Some("wait"), &params), (Some(7), Some(30000)));
+        assert_eq!(wait_bounds(Some("send"), &params), (None, None));
+        assert_eq!(wait_bounds(None, &params), (None, None));
+        let odd = json!({"after": -1, "timeout_ms": 1.5});
+        assert_eq!(wait_bounds(Some("wait"), &odd), (None, None));
     }
 
     #[rstest]

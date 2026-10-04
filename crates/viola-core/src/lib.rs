@@ -52,9 +52,22 @@ pub enum EventKind {
     SendIssued,
     SendConfirmed,
     SendRefused,
+    Question,
+    Permission,
+    Plan,
 }
 
 impl EventKind {
+    /// The kinds that end a `wait` (architecture §Standard Contracts); every other kind is
+    /// log-only.
+    pub const WAIT_WAKE: [Self; 5] = [
+        Self::TurnEnded,
+        Self::Question,
+        Self::Permission,
+        Self::Plan,
+        Self::SessionEnd,
+    ];
+
     pub const fn as_str(self) -> &'static str {
         match self {
             Self::SessionStart => "session-start",
@@ -67,6 +80,9 @@ impl EventKind {
             Self::SendIssued => "send-issued",
             Self::SendConfirmed => "send-confirmed",
             Self::SendRefused => "send-refused",
+            Self::Question => "question",
+            Self::Permission => "permission",
+            Self::Plan => "plan",
         }
     }
 }
@@ -284,6 +300,24 @@ mod tests {
         assert_eq!(EventKind::SendIssued.as_str(), "send-issued");
         assert_eq!(EventKind::SendConfirmed.as_str(), "send-confirmed");
         assert_eq!(EventKind::SendRefused.as_str(), "send-refused");
+        assert_eq!(EventKind::Question.as_str(), "question");
+        assert_eq!(EventKind::Permission.as_str(), "permission");
+        assert_eq!(EventKind::Plan.as_str(), "plan");
+    }
+
+    #[test]
+    fn event_kind_wait_wake_is_the_five_driver_relevant_kinds() {
+        let wake: Vec<&str> = EventKind::WAIT_WAKE.iter().map(|k| k.as_str()).collect();
+        assert_eq!(
+            wake,
+            [
+                "turn-ended",
+                "question",
+                "permission",
+                "plan",
+                "session-end"
+            ]
+        );
     }
 
     #[test]
