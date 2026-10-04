@@ -2,6 +2,7 @@
 //! verify` against the fake agent at each recorded `fixtures/claude/<version>/` passes every row,
 //! each literal row id once. The recorded sets are walked at run time, not by `#[files]`, and an
 //! empty walk fails.
+//! andromeda:walks-tree — it reads every set under `fixtures/claude/`, named or not.
 
 #[allow(dead_code)]
 mod support;

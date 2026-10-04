@@ -420,7 +420,7 @@
         "status": "planned"
       },
       "chunk": null,
-      "notes": "2026-10-04 (2026-10-04-dialog-answers-by-dialog-id, phase P5): not claimed. This chunk proves at most one pending dialog logged once with its id, question / permission / plan answers by `dialog_id`, and that a second concurrent dialog, an unverified CLI or an expired deadline each leave the dialog to the human, with an unknown id refused `unknown-dialog`. Permission suggestions are a deliberate v1 limit (founder, P4). The \"human-held wheel leaves the dialog to the human\" clause needs the wheel, which no code moves at HEAD (`src/cmd/run.rs:378`), so it belongs to `:80`. The \"dialog never renders\" effect half is measured by `:82`'s live test. The cap stays pooled."
+      "notes": "2026-10-04 (2026-10-04-dialog-answers-by-dialog-id, phase P5): not claimed. This chunk proves at most one pending dialog logged once with its id, question / permission / plan answers by `dialog_id`, and that a second concurrent dialog, an unverified CLI or an expired deadline each leave the dialog to the human, with an unknown id refused `unknown-dialog`. Permission suggestions are a deliberate v1 limit (founder, P4). The \"human-held wheel leaves the dialog to the human\" clause needs the wheel, which no code moves at HEAD (`src/cmd/run.rs:378`), so it belongs to `:80`. The \"dialog never renders\" effect half is measured by `:82`'s live test. The cap stays pooled.\n\n2026-10-04 (2026-10-04-the-wheel, phase P5): not claimed. This chunk lands the \"a human-held wheel leaves the dialog to the human\" clause: a `hook.dialog` under a human wheel is answered `null` at once, a dialog pending when the wheel moves is handed back at once, and `answer` is refused `human-typing` (`tests/cli_wheel.rs`). \"The dialog never renders\" stays `:82`'s live measurement, so the cap stays pooled."
     },
     {
       "id": "v1-32",
@@ -429,11 +429,11 @@
       "observed_gap": "the prototype took harness turns for human takes twice before a classifier was added (B §4.2 M2); the Pulse live test showed take / refuse / release working (B §6).",
       "verification": {
         "method": "e2e",
-        "acceptance": "Any human editing key since the last turn boundary moves the wheel to the human while focus, mouse and resize do not; human keys are never blocked beyond the current paste; a pending dialog is handed back at once; harness turns never flip the wheel; pause takes it without a keystroke and only a human release returns it; driver sends and answers are refused as human typing (manual pause after pause) and no driver-facing hint suggests release.",
-        "ref": null,
-        "status": "planned"
+        "acceptance": "In `tests/tui_wheel.rs` and `tests/cli_wheel.rs`, on all three CI OSes (the run id read by the operator pass's `ci.py conclusion` entry): a human editing key typed into `viola run`'s outer PTY appends one `wheel{holder:\"human\",cause:\"human-input\"}` record and the next `viola send --json` exits 10 `{\"refusal\":\"human-typing\",\"detail\":null}` while the typed bytes still reach the fake agent; focus reports, a mouse report and a host resize append no `wheel` record; a harness-injected turn logs `prompt-submitted{origin:\"harness\"}` and no `wheel` record; after `viola pause`, `send` and `answer` exit 10 with detail `manual-pause` and a dialog pending at the pause is answered `null` at once and leaves `pending_dialog`; `viola release` returns `{wheel:\"driver\",budget_paused:false}` and the next `send` exits 0; a `release` carrying `from` exits 20 with `-32602` `release-from-driver`; no human-mode refusal's last `hint:` line contains `release`.",
+        "ref": "tests/tui_wheel.rs::{path5_human_takes_the_wheel_and_release_returns_it, path5_harness_turns_never_take_the_wheel, tui_focus_mouse_and_resize_never_take_the_wheel} + tests/cli_wheel.rs::{path5_pause_refuses_send_and_answer_and_release_returns_the_wheel, path4_a_dialog_pending_at_a_pause_is_handed_back_to_the_human}",
+        "status": "implemented"
       },
-      "chunk": null
+      "chunk": "2026-10-04-the-wheel"
     },
     {
       "id": "v1-33",
@@ -540,7 +540,7 @@
         "status": "planned"
       },
       "chunk": null,
-      "notes": "2026-09-28 (2026-09-28-cli-output-tokens, phase P5): not claimed. This chunk makes clap's own help and usage output plain (the `color` feature is off, so no SGR on a terminal or under a forced-colour pipe) and routes `run`'s start refusals through one stderr writer. The acceptance still needs `wait`/`last`/`list` output escaping, the `waiting:` line and the colour spans beside their words, `verify` step lines, the `ui` launch line, and the `run` wheel and key behaviour. None of those verbs exists yet; the tokens, colour decision and escapers were carried to Confirmed send, wait and last, and The board: viola list."
+      "notes": "2026-09-28 (2026-09-28-cli-output-tokens, phase P5): not claimed. This chunk makes clap's own help and usage output plain (the `color` feature is off, so no SGR on a terminal or under a forced-colour pipe) and routes `run`'s start refusals through one stderr writer. The acceptance still needs `wait`/`last`/`list` output escaping, the `waiting:` line and the colour spans beside their words, `verify` step lines, the `ui` launch line, and the `run` wheel and key behaviour. None of those verbs exists yet; the tokens, colour decision and escapers were carried to Confirmed send, wait and last, and The board: viola list.\n\n2026-10-04 (2026-10-04-the-wheel, phase P5): not claimed. This chunk lands the \"focus, mouse and resize never move the wheel\" clause (`tests/tui_wheel.rs`, a11y-plan §3 case (3), all three OSes). Zero wrapper bytes, unblocked human keys during a driver send, grouped `--help`, `list` / `ui` output and the `waiting:` line remain, owned by `:100` and the board / ui entries, so the cap stays pooled."
     },
     {
       "id": "v1-41",

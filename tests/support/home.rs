@@ -388,6 +388,11 @@ impl Wrapper {
         self.pty.write(bytes);
     }
 
+    /// Resizes the host terminal the wrapper runs in.
+    pub fn resize(&mut self, size: Size) {
+        self.pty.resize(size);
+    }
+
     pub fn release(&self) {
         fake::release(&fake::control_path(self.home(), &self.name));
     }

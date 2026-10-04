@@ -167,10 +167,25 @@ pub(crate) fn write_answered(out: &mut impl Write, name: &str, dialog_id: u64) -
     out.write_all(format!("answered  {name}  dialog {dialog_id}\n").as_bytes())
 }
 
+/// `<name>  wheel human  manual-pause  I have control`: a `pause` the wrapper took, on stdout.
+pub(crate) fn write_paused(out: &mut impl Write, name: &str) -> io::Result<()> {
+    out.write_all(format!("{name}  wheel human  manual-pause  I have control\n").as_bytes())
+}
+
+/// `<name>  wheel <holder>  you have control`: a `release` the wrapper took, on stdout.
+pub(crate) fn write_released(out: &mut impl Write, name: &str, holder: &str) -> io::Result<()> {
+    out.write_all(format!("{name}  wheel {holder}  you have control\n").as_bytes())
+}
+
+/// The design-system cli pattern 2 hint for `human-typing`, whichever its detail. No hint names
+/// the verb that hands the wheel back: that is the human's alone.
+const HUMAN_TYPING_HINT: &str = "the human has the wheel; send again after the human hands it back";
+
 /// The design-system cli pattern 2 hint for an `answer` refusal: its reason, or for
 /// `not-delivered` its detail. Never the answer's text.
 pub(crate) fn answer_hint(reason: &str, detail: Option<&str>) -> Option<&'static str> {
     match (reason, detail) {
+        ("human-typing", _) => Some(HUMAN_TYPING_HINT),
         ("unverified-cli", _) => Some("run viola verify for this CLI version"),
         ("not-delivered", Some("unknown-dialog")) => {
             Some("that dialog is not pending; viola list shows the current DIALOG")
@@ -182,10 +197,11 @@ pub(crate) fn answer_hint(reason: &str, detail: Option<&str>) -> Option<&'static
     }
 }
 
-/// The design-system cli pattern 2 hint for a `send` cause: a `not-delivered` detail, or
-/// `not-running` for exit 21. Never the sent text, a path or a pid.
+/// The design-system cli pattern 2 hint for a `send` cause: a `not-delivered` detail, the
+/// `human-typing` reason, or `not-running` for exit 21. Never the sent text, a path or a pid.
 pub(crate) fn send_hint(name: &str, cause: &str) -> Option<String> {
     Some(match cause {
+        "human-typing" => HUMAN_TYPING_HINT.to_owned(),
         "control-character" => {
             "the text contains a control character (only LF, CR, TAB are allowed)".to_owned()
         }
@@ -382,6 +398,10 @@ mod tests {
         "not-running",
         "builder is not running; viola list shows the live instances"
     )]
+    #[case::human_typing(
+        "human-typing",
+        "the human has the wheel; send again after the human hands it back"
+    )]
     fn send_hint_is_the_design_string(#[case] cause: &str, #[case] hint: &str) {
         assert_eq!(send_hint("builder", cause).as_deref(), Some(hint));
     }
@@ -490,6 +510,51 @@ mod tests {
         assert!(write_answered(&mut Broken, "b", 1).is_err());
     }
 
+    /// No hint either table hands out names `release`: handing the wheel back is the human's verb.
+    #[test]
+    fn no_hint_names_release() {
+        let causes = [
+            "control-character",
+            "input-not-ready",
+            "no-prompt-submitted",
+            "turn-running",
+            "not-running",
+            "human-typing",
+            "unknown-dialog",
+            "manual-pause",
+            "unverified-cli",
+            "not-delivered",
+            "unknown",
+        ];
+        let mut hints: Vec<String> = causes
+            .iter()
+            .filter_map(|cause| send_hint("builder", cause))
+            .collect();
+        for reason in causes {
+            for detail in causes.iter().copied().map(Some).chain([None]) {
+                hints.extend(answer_hint(reason, detail).map(str::to_owned));
+            }
+        }
+        assert!(hints.len() >= 9, "{hints:?}");
+        for hint in hints {
+            assert!(!hint.contains("release"), "{hint}");
+        }
+    }
+
+    #[test]
+    fn wheel_verb_lines_are_the_design_lines_in_one_write() {
+        assert_eq!(
+            one_write(|o| write_paused(o, "builder")),
+            "builder  wheel human  manual-pause  I have control\n"
+        );
+        assert_eq!(
+            one_write(|o| write_released(o, "builder", "driver")),
+            "builder  wheel driver  you have control\n"
+        );
+        assert!(write_paused(&mut Broken, "b").is_err());
+        assert!(write_released(&mut Broken, "b", "driver").is_err());
+    }
+
     #[test]
     fn write_answered_is_one_line_naming_the_dialog() {
         let mut out = Recorder::default();
@@ -512,7 +577,16 @@ mod tests {
     )]
     #[case::other_detail("not-delivered", Some("turn-running"), None)]
     #[case::unknown("unknown", None, None)]
-    #[case::human_typing("human-typing", None, None)]
+    #[case::human_typing(
+        "human-typing",
+        None,
+        Some("the human has the wheel; send again after the human hands it back")
+    )]
+    #[case::manual_pause(
+        "human-typing",
+        Some("manual-pause"),
+        Some("the human has the wheel; send again after the human hands it back")
+    )]
     fn answer_hint_is_the_fixed_table(
         #[case] reason: &str,
         #[case] detail: Option<&str>,

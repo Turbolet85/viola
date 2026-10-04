@@ -12,21 +12,23 @@ use tracing::instrument;
 use viola_agent_claude::{Refusal, StripPlan};
 use viola_channel::{Call, ChannelError, Dispatch, ProtocolError, Server, Serving};
 use viola_core::obs::ObsProcess;
-use viola_core::{EventKind, SystemClock, ViolaName};
+use viola_core::{EventKind, SystemClock, ViolaName, WheelCause};
 use viola_pty::{HostTerminal, PasteHandle, PortablePty, PumpEnd, Size, SpawnSpec};
 use viola_state::events::{EventLine, Source, append_event};
 use viola_state::fs::{FILE_MODE, create_private_dir, replace_private_shared};
 use viola_state::heartbeat::{Heartbeat, beat_age, touch_heartbeat};
 use viola_state::liveness::{Liveness, classify, own_start, same_process};
 use viola_state::pin::{PinError, Pinned, pin_exe};
-use viola_state::snapshot::{InstanceSnapshot, Wheel, read_snapshot, write_snapshot};
+use viola_state::snapshot::{InstanceSnapshot, Wheel, read_snapshot};
 
 use crate::run::ChildLaunch;
 use crate::run::dialog::DialogSlot;
 use crate::run::gate::{self, Tee};
 use crate::run::send::{self, SendSlot};
+use crate::run::snapshot::Snapshots;
 use crate::run::version_gate::{Gate, version_gate};
 use crate::run::wait::WaitFeed;
+use crate::run::wheel::{Observed, Recorder, WheelSlot};
 use crate::{human, obs, run};
 
 #[derive(clap::Args)]
@@ -60,14 +62,16 @@ fn hold_pump_start() {
     }
 }
 
-/// The wrapper's answers: `send`, `wait`, `last`, `hook.dialog`, `answer`, and the `hook.event`
-/// notification, which appends its event; every other method is `-32601` until its chunk lands.
+/// The wrapper's answers: `send`, `wait`, `last`, `hook.dialog`, `answer`, `pause`, `release`, and
+/// the `hook.event` notification, which appends its event; every other method is `-32601` until its
+/// chunk lands.
 pub(crate) struct Methods {
     name: ViolaName,
     instance_dir: PathBuf,
     send: Arc<SendSlot>,
     wait: Arc<WaitFeed>,
     dialogs: Arc<DialogSlot>,
+    wheel: Arc<WheelSlot>,
 }
 
 /// The kinds a hook may hand the wrapper.
@@ -123,6 +127,8 @@ impl Dispatch for Methods {
             "last" => self.wait.last(call.params),
             "hook.dialog" => self.dialogs.hook_dialog(call.params),
             "answer" => self.dialogs.answer(call),
+            "pause" => self.wheel.pause(call),
+            "release" => self.wheel.release(call),
             _ => self.dispatch(call.method, call.params),
         }
     }
@@ -152,6 +158,7 @@ struct Launched {
     terminal: Option<HostTerminal>,
     size: Size,
     send: Arc<SendSlot>,
+    wheel: Arc<WheelSlot>,
     _beat: Heartbeat,
     _serving: Serving,
 }
@@ -201,27 +208,45 @@ fn start(home: &Path, args: &RunArgs, persistent: &[String]) -> anyhow::Result<S
         refuse_squatted(&args.name);
         return Ok(refused("squatted-name"));
     };
-    let send = Arc::new(SendSlot::new(SystemClock));
+    let wheel = Arc::new(WheelSlot::default());
+    let snapshots = Arc::new(Snapshots::new(instance_dir.clone()));
+    let send = Arc::new(SendSlot::new(SystemClock, Arc::clone(&wheel)));
     // Rebuilt before the endpoint serves: the first `last` already sees the newest logged turn, and
     // the first dialog takes an id past every logged one.
     let wait = Arc::new(WaitFeed::new(SystemClock));
     let highest_dialog = wait.rebuild(&instance_dir)?;
-    let dialogs = DialogSlot::new(
+    let dialogs = Arc::new(DialogSlot::new(
         SystemClock,
         gate.cli_verified,
         args.name.clone(),
         instance_dir.clone(),
         Arc::clone(&wait),
-    );
+        Arc::clone(&wheel),
+        Arc::clone(&snapshots),
+    ));
     dialogs.restore(highest_dialog);
+    wheel.record_with(Recorder {
+        name: args.name.clone(),
+        instance_dir: instance_dir.clone(),
+        snapshots: Arc::clone(&snapshots),
+        dialogs: Arc::clone(&dialogs),
+    });
     let serving = server.serve(Arc::new(Methods {
         name: args.name.clone(),
         instance_dir: instance_dir.clone(),
         send: Arc::clone(&send),
         wait,
-        dialogs: Arc::new(dialogs),
+        dialogs,
+        wheel: Arc::clone(&wheel),
     }));
-    let (beat, snapshot) = start_state(&args.name, &instance_dir, &pinned, endpoint, gate)?;
+    let (beat, snapshot) = start_state(
+        &args.name,
+        &instance_dir,
+        &snapshots,
+        &pinned,
+        endpoint,
+        gate,
+    )?;
     let launch = run::child_launch(
         &args.name,
         &instance_dir,
@@ -235,7 +260,7 @@ fn start(home: &Path, args: &RunArgs, persistent: &[String]) -> anyhow::Result<S
         cwd,
         launch,
         &strip,
-        &instance_dir,
+        &snapshots,
         snapshot,
         sideload_fallback,
     );
@@ -248,6 +273,7 @@ fn start(home: &Path, args: &RunArgs, persistent: &[String]) -> anyhow::Result<S
         terminal,
         size,
         send,
+        wheel,
         _beat: beat,
         _serving: serving,
     })))
@@ -376,6 +402,7 @@ fn bind_endpoint(name: &ViolaName, home: &Path) -> anyhow::Result<Option<(String
 fn start_state(
     name: &ViolaName,
     instance_dir: &Path,
+    snapshots: &Snapshots,
     pinned: &Pinned,
     endpoint: String,
     gate: Gate,
@@ -395,13 +422,13 @@ fn start_state(
         child_pid: None,
         pending_dialog: None,
     };
-    write_snapshot(instance_dir, &snapshot)?;
+    snapshots.init(snapshot.clone())?;
     touch_heartbeat(instance_dir)?;
     let beat = Heartbeat::start(instance_dir.to_path_buf());
     for (kind, data) in [
         (
             EventKind::Wheel,
-            json!({"holder": "driver", "cause": "start"}),
+            json!({"holder": Wheel::Driver.as_str(), "cause": WheelCause::Start.as_str()}),
         ),
         (EventKind::BudgetGate, json!({"paused": false})),
     ] {
@@ -417,7 +444,7 @@ fn spawn_child(
     cwd: PathBuf,
     launch: ChildLaunch,
     strip: &StripPlan,
-    instance_dir: &Path,
+    snapshots: &Snapshots,
     mut snapshot: InstanceSnapshot,
     sideload_fallback: Option<&'static str>,
 ) -> anyhow::Result<(PortablePty, Option<HostTerminal>, Size)> {
@@ -432,8 +459,9 @@ fn spawn_child(
     // Raw before the spawn: every key the human types from here on reaches the child as typed.
     let terminal = HostTerminal::enter();
     let pty = viola_pty::spawn(&spec)?;
-    snapshot.child_pid = viola_pty::Pty::child_pid(&pty);
-    write_snapshot(instance_dir, &snapshot)?;
+    let child_pid = viola_pty::Pty::child_pid(&pty);
+    snapshot.child_pid = child_pid;
+    snapshots.update(|s| s.child_pid = child_pid)?;
     run::log_child_start(
         snapshot.child_pid,
         strip,
@@ -450,6 +478,7 @@ fn pump_child(launched: Launched) -> anyhow::Result<ExitCode> {
         terminal,
         size,
         send,
+        wheel,
         _beat,
         _serving,
     } = launched;
@@ -469,13 +498,14 @@ fn pump_child(launched: Launched) -> anyhow::Result<ExitCode> {
     };
     let end = viola_pty::pump_with_paste(
         &mut pty,
-        Box::new(io::stdin()),
+        Box::new(Observed::new(viola_pty::host_stdin(), Arc::clone(&wheel))),
         Box::new(Tee::new(io::stdout(), feed)),
         size,
         &mut host_size,
         &paste,
     );
     drop(terminal);
+    wheel.flush();
     match end? {
         PumpEnd::Exited(exit) => {
             run::log_child_exit(exit);
@@ -583,19 +613,23 @@ mod tests {
     fn methods(instance_dir: &Path) -> Methods {
         let name = ViolaName::try_new("builder".to_owned()).expect("valid");
         let wait = Arc::new(WaitFeed::new(SystemClock));
+        let wheel = Arc::new(WheelSlot::default());
         let dialogs = DialogSlot::new(
             SystemClock,
             false,
             name.clone(),
             instance_dir.to_path_buf(),
             Arc::clone(&wait),
+            Arc::clone(&wheel),
+            Arc::new(Snapshots::new(instance_dir.to_path_buf())),
         );
         Methods {
             name,
             instance_dir: instance_dir.to_path_buf(),
-            send: Arc::new(SendSlot::new(SystemClock)),
+            send: Arc::new(SendSlot::new(SystemClock, Arc::clone(&wheel))),
             wait,
             dialogs: Arc::new(dialogs),
+            wheel,
         }
     }
 
@@ -610,7 +644,7 @@ mod tests {
     #[test]
     fn methods_answer_method_not_found_for_every_other_method() {
         let tmp = tempfile::tempdir().expect("tempdir");
-        for method in ["pause", "release", "link", "anything"] {
+        for method in ["link", "unlink", "anything"] {
             assert_eq!(
                 methods(tmp.path()).dispatch(method, &json!({"v": 1})),
                 Err(ProtocolError::MethodNotFound)
@@ -682,6 +716,126 @@ mod tests {
             methods.dispatch("hook.dialog", &dialog),
             Err(ProtocolError::MethodNotFound)
         );
+    }
+
+    /// Every line the calling thread emits, its fields as JSON.
+    #[derive(Clone, Default)]
+    struct Lines(Arc<Mutex<Vec<Value>>>);
+
+    impl<S: tracing::Subscriber> Layer<S> for Lines {
+        fn on_event(&self, event: &tracing::Event<'_>, _: Context<'_, S>) {
+            let mut fields = Fields::default();
+            event.record(&mut fields);
+            self.0.lock().expect("lines").push(Value::Object(fields.0));
+        }
+    }
+
+    fn capture_lines<R>(f: impl FnOnce() -> R) -> (R, Vec<Value>) {
+        let lines = Lines::default();
+        let subscriber = tracing_subscriber::registry().with(lines.clone());
+        let out = tracing::subscriber::with_default(subscriber, f);
+        let got = lines.0.lock().expect("lines").clone();
+        (out, got)
+    }
+
+    fn cli_call<'a>(method: &'a str, params: &'a Value) -> Call<'a> {
+        Call {
+            method,
+            params,
+            id: Some(4),
+            conn: Some("cli-1-2-3"),
+            srv_conn: Some("srv-1"),
+        }
+    }
+
+    /// `pause` takes the wheel for the human (`send` is then `human-typing` / `manual-pause`),
+    /// `release` with `budget: true` leaves it, and a plain `release` hands it back.
+    #[test]
+    fn methods_pause_and_release_move_the_wheel() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let methods = methods(tmp.path());
+        let pause = json!({"v": 1, "from": "overseer"});
+        assert_eq!(
+            methods.dispatch_call(&cli_call("pause", &pause)),
+            Ok(json!({"ok": {"wheel": "human"}}))
+        );
+        let send = json!({"v": 1, "text": "hello"});
+        assert_eq!(
+            methods.dispatch_call(&cli_call("send", &send)),
+            Ok(json!({"refusal": "human-typing", "detail": "manual-pause"}))
+        );
+        let budget = json!({"v": 1, "budget": true});
+        assert_eq!(
+            methods.dispatch_call(&cli_call("release", &budget)),
+            Ok(json!({"ok": {"wheel": "human", "budget_paused": false}}))
+        );
+        assert_eq!(methods.wheel.holder(), Wheel::Human);
+        let release = json!({"v": 1, "budget": false, "from": null});
+        assert_eq!(
+            methods.dispatch_call(&cli_call("release", &release)),
+            Ok(json!({"ok": {"wheel": "driver", "budget_paused": false}}))
+        );
+        assert_eq!(methods.wheel.holder(), Wheel::Driver);
+        assert_eq!(
+            methods.dispatch_call(&cli_call("send", &send)),
+            Ok(json!({"refusal": "not-delivered", "detail": "input-not-ready"}))
+        );
+    }
+
+    #[rstest::rstest]
+    #[case::pause_from_not_a_name("pause", json!({"v": 1, "from": "../x"}))]
+    #[case::pause_from_not_string("pause", json!({"v": 1, "from": 3}))]
+    #[case::release_from_not_string("release", json!({"v": 1, "from": 3}))]
+    #[case::release_budget_string("release", json!({"v": 1, "budget": "yes"}))]
+    #[case::release_budget_number("release", json!({"v": 1, "budget": 1}))]
+    #[case::release_budget_null("release", json!({"v": 1, "budget": null}))]
+    fn methods_wheel_params_they_cannot_take_are_invalid(
+        #[case] method: &str,
+        #[case] params: Value,
+    ) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let methods = methods(tmp.path());
+        assert_eq!(
+            methods.dispatch_call(&cli_call(method, &params)),
+            Err(ProtocolError::InvalidParams)
+        );
+        assert_eq!(methods.wheel.holder(), Wheel::Driver);
+    }
+
+    /// A `release` carrying a string `from` is a driver's: `-32602` `release-from-driver`, the
+    /// wheel unmoved, and one `release-from-driver` line (its `from` only when it is a name).
+    #[rstest::rstest]
+    #[case::a_name("overseer", Some("overseer"))]
+    #[case::not_a_name("Not A Name", None)]
+    fn methods_release_from_a_driver_is_refused_and_logged(
+        #[case] from: &str,
+        #[case] logged: Option<&str>,
+    ) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let methods = methods(tmp.path());
+        let none = json!({"v": 1});
+        methods
+            .dispatch_call(&cli_call("pause", &none))
+            .expect("paused");
+        let params = json!({"v": 1, "from": from, "budget": "ignored"});
+        let (reply, lines) = capture_lines(|| methods.dispatch_call(&cli_call("release", &params)));
+        assert_eq!(reply, Err(ProtocolError::ReleaseFromDriver));
+        assert_eq!(methods.wheel.holder(), Wheel::Human);
+        let refused: Vec<&Value> = lines
+            .iter()
+            .filter(|l| l["event"] == "release-from-driver")
+            .collect();
+        assert_eq!(refused.len(), 1, "{lines:?}");
+        let mut want = json!({"event": "release-from-driver", "message": "release-from-driver",
+            "corr": 4, "conn": "cli-1-2-3", "from_trust": "self-reported"});
+        if let Some(name) = logged {
+            want["from"] = json!(name);
+        }
+        let mut got = refused[0].clone();
+        for absent in ["process", "instance"] {
+            got.as_object_mut().expect("object").remove(absent);
+        }
+        assert_eq!(got, want);
     }
 
     /// A valid `hook.event` becomes one `source:"hook"` line stamped by the wrapper.

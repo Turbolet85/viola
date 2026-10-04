@@ -2,6 +2,7 @@
 //! script and every recorded `fixtures/claude/*/*.json` payload is scrubbed and schema-valid, and
 //! every rejection arm is proven on a planted input. The recorded set is walked at run time, not
 //! by `#[files]`, which refuses to compile over a glob that matches nothing.
+//! andromeda:walks-tree — it reads every file under `fixtures/`, named or not.
 
 #[allow(dead_code)]
 mod support;

@@ -2,6 +2,7 @@
 //! `fixtures/claude/<version>/` set, a print-mode turn fires the spine hooks in the recorded order
 //! and hands each hook exactly its recorded fixture's bytes. The recorded sets are walked at run
 //! time, not by `#[files]`, and an empty walk fails.
+//! andromeda:walks-tree — it reads every set under `fixtures/claude/`, named or not.
 
 #[allow(dead_code)]
 mod support;

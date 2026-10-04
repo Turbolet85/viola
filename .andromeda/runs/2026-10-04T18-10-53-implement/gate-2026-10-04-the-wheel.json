@@ -1,0 +1,3294 @@
+[
+{
+"tool": "gate",
+"v": "1.8",
+"sha8": "af374e71",
+"ts": "2026-10-04T18:28:07Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-04-the-wheel/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T18-10-53-implement",
+"--marker",
+"2026-10-04-the-wheel",
+"--only",
+"1,2,3,4,9,14,15,16"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root /home/turbolet/dev/projects/viola · marker 2026-10-04-the-wheel · entries 20",
+"logs /tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53 · bound: GNU timeout",
+"delta docs 43 · rust 24 · unmapped 1",
+"walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 68",
+"prose L205-205: The boot smoke runs as a minted session (cleanup, boot, status, cleanup). No live leg agai… (674 chars)",
+"  1 lint        green · exit 0 · 0.48s · 0 B → 1.log · cargo fmt --all --check",
+"  2 lint        green · exit 0 · 2.17s · 664 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 unit        green · exit 0 · 10.22s · 27456 B → 3.log · bash scripts/agent-run.sh run --unit --filter 'test(/run::… (211 chars)",
+"  4 unit        green · exit 0 · 2.19s · 22084 B → 4.log · bash scripts/agent-run.sh run --unit --filter 'package(vio… (113 chars)",
+"  5 unit        not run — excluded · bash scripts/agent-run.sh run --unit",
+"  6 integration not run — excluded · bash scripts/agent-run.sh run --integration --filter 'bina… (202 chars)",
+"  7 e2e         not run — excluded · bash scripts/agent-run.sh run --integration --filter 'bina… (260 chars)",
+"  8 integration not run — excluded · bash scripts/agent-run.sh run",
+"  9 probe       green · exit 0 · 0.01s · 2 B → 9.log · git grep -l -F -e 'andromeda:walks-tree' -- '*.rs' | wc -l",
+" 10 smoke       not run — excluded · bash scripts/agent-run.sh cleanup --session p-wheel-smoke",
+" 11 smoke       not run — excluded · bash scripts/agent-run.sh boot --session p-wheel-smoke --i… (73 chars)",
+" 12 smoke       not run — excluded · bash scripts/agent-run.sh status --session p-wheel-smoke",
+" 13 smoke       not run — excluded · bash scripts/agent-run.sh cleanup --session p-wheel-smoke",
+" 14 probe       green · exit 1 · 0.0s · 2 B → 14.log · git diff eb53a582c8dc -- Cargo.toml Cargo.lock deny.toml d… (123 chars)",
+" 15 probe       green · exit 0 · 0.0s · 0 B → 15.log · git diff --quiet eb53a582c8dc -- src/cmd/hook/seam.rs scri… (79 chars)",
+" 16 probe       green · exit 0 · 0.01s · 0 B → 16.log · ! (git diff eb53a582c8dc -- '*.rs' .config/nextest.toml | … (144 chars)",
+" 17 probe       not run — excluded · bash scripts/agent-run.sh pre-push",
+" 18 probe       not run — excluded · python -X utf8 /home/turbolet/.claude/skills/andromeda-pha… (103 chars)",
+" 19 probe       not run — excluded · git diff --quiet && git diff --cached --quiet && git push … (69 chars)",
+" 20 probe       not run — excluded · python -X utf8 /home/turbolet/.claude/skills/andromeda-pha… (127 chars)",
+"entries 20 · green 8 · red 0 · recorded 0 · timeout 0 · not-run 12"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-04-the-wheel",
+"plan": "/home/turbolet/dev/projects/viola/viola-0.1.0/chunks/2026-10-04-the-wheel/plan.md",
+"root": "/home/turbolet/dev/projects/viola",
+"shell": "/usr/bin/bash",
+"out_dir": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-04T16-53-44-wrap/evolve-2026-10-04-dialog-answers-by-dialog-id.json",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/a11y-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/a11y.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/acceptance-v1-32.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/arch-contracts.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/arch-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/arch.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/design-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/design.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/evolve-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/gate-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/gate-no-marker.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/layouts-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/layouts.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/master-record.txt",
+".andromeda/runs/2026-10-04T17-30-10-phase/matrix-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/note-v1-31.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/note-v1-40.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/obs-contracts.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/obs-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/obs.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/planlint-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/registry-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/route-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/route-no-marker.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/security-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/security.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/sidecar-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/tests-contracts.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/tests-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/tests.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/tree-query-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T18-10-53-implement/evolve-2026-10-04-the-wheel.json",
+"viola-0.1.0/chunks/2026-10-04-the-wheel/plan.md",
+"viola-0.1.0/chunks/2026-10-04-the-wheel/research.md",
+"viola-0.1.0/chunks/2026-10-04-the-wheel/scope-record.md",
+"viola-0.1.0/chunks/2026-10-04-the-wheel/scope.md"
+],
+"rust": [
+"crates/viola-channel/src/lib.rs",
+"crates/viola-channel/src/server.rs",
+"crates/viola-core/src/lib.rs",
+"crates/viola-pty/src/lib.rs",
+"crates/viola-state/src/snapshot.rs",
+"src/cmd/mod.rs",
+"src/cmd/run.rs",
+"src/cmd/send.rs",
+"src/human.rs",
+"src/run/dialog.rs",
+"src/run/mod.rs",
+"src/run/send.rs",
+"tests/channel_endpoint.rs",
+"tests/cli_controls_not_disableable.rs",
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs",
+"tests/support/home.rs",
+"src/cmd/pause.rs",
+"src/cmd/release.rs",
+"src/run/snapshot.rs",
+"src/run/wheel.rs",
+"tests/cli_wheel.rs",
+"tests/tui_wheel.rs"
+]
+},
+"unmapped": [
+"viola-0.1.0/verification-matrix.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 68,
+"problem": null
+},
+"prose": [
+{
+"from": 205,
+"to": 205,
+"text": "The boot smoke runs as a minted session (cleanup, boot, status, cleanup). No live leg against a real CLI. Every leg drives the fake agent through the harness, so there is no `round` probe. The Windows-only measurements (CARRY §8 `^Z`, CARRY §9 focus reports) cannot run on this Linux host. Their witness is the operator pass's CI read on `windows-2025` (`tests/tui_wheel.rs` runs on all three legs), and their red-before half rests on the source read named in research.md. Mutation is the epoch-boundary audit's (testing.md 2026-10-04). The walk-class witness is the header that every `gate.py run` of this block prints. The probe entry below counts the marks independently."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.48,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/2.log",
+"bytes": 664,
+"log_sha8": "cdc86fd3",
+"exit": 0,
+"seconds": 2.17,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/run::wheel::tests::|run::snapshot::tests::|run::send::tests::|run::dialog::tests::|cmd::run::tests::|human::tests::|cmd::send::tests::|cmd::answer::tests::/)'",
+"run_sha8": "d6b9da71",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/3.log",
+"bytes": 27456,
+"log_sha8": "73c1462c",
+"exit": 0,
+"seconds": 10.22,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'package(viola-core) | package(viola-channel) | package(viola-pty)'",
+"run_sha8": "7d684d7b",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/4.log",
+"bytes": 22084,
+"log_sha8": "19407f93",
+"exit": 0,
+"seconds": 2.19,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(cli_wheel) | binary(cli_controls_not_disableable) | binary(channel_endpoint) | binary(cli_answer) | binary(cli_send) | binary(cli_wait_last)'",
+"run_sha8": "a44ab5d3",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(tui_wheel) | binary(tui_passthrough) | binary(chaos_feed_panic) | binary(contract_diag_schema) | binary(contract_fixture_hygiene) | binary(contract_ledger_probes) | binary(contract_fake_agent_drift)'",
+"run_sha8": "46998c1b",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run",
+"run_sha8": "21443cdf",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "git grep -l -F -e 'andromeda:walks-tree' -- '*.rs' | wc -l",
+"run_sha8": "e03cb1d6",
+"expect": [
+"exit 0",
+"last line 3"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/9.log",
+"bytes": 2,
+"log_sha8": "1121cfcc",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓",
+"last line '3' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-wheel-smoke",
+"run_sha8": "ba75c2cc",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-wheel-smoke --instance builder",
+"run_sha8": "e1420f77",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-wheel-smoke",
+"run_sha8": "ef1b102b",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-wheel-smoke",
+"run_sha8": "ba75c2cc",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "git diff eb53a582c8dc -- Cargo.toml Cargo.lock deny.toml deny-sync.toml | grep -cE '^\\+.*(skip|ignore|exceptions|allow *=)'",
+"run_sha8": "8d5af42a",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/14.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.0,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "git diff --quiet eb53a582c8dc -- src/cmd/hook/seam.rs scripts/g2-zero-panics.sh",
+"run_sha8": "a7853c0e",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/15.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "! (git diff eb53a582c8dc -- '*.rs' .config/nextest.toml | grep -E '^\\+.*(#\\[ignore|retries *=|test\\.skip|std::env::var)' | grep -v 'VIOLA_NAME')",
+"run_sha8": "43a04484",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/16.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "python -X utf8 /home/turbolet/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "64780869",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "python -X utf8 /home/turbolet/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "c0d185ab",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.8",
+"sha8": "af374e71",
+"ts": "2026-10-04T18:28:47Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-04-the-wheel/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T18-10-53-implement",
+"--marker",
+"2026-10-04-the-wheel",
+"--only",
+"5,6,7"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root /home/turbolet/dev/projects/viola · marker 2026-10-04-the-wheel · entries 20",
+"logs /tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53 · bound: GNU timeout",
+"delta docs 44 · rust 24 · unmapped 1",
+"walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 69",
+"prose L205-205: The boot smoke runs as a minted session (cleanup, boot, status, cleanup). No live leg agai… (674 chars)",
+"  1 lint        not run — excluded · cargo fmt --all --check",
+"  2 lint        not run — excluded · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 unit        not run — excluded · bash scripts/agent-run.sh run --unit --filter 'test(/run::… (211 chars)",
+"  4 unit        not run — excluded · bash scripts/agent-run.sh run --unit --filter 'package(vio… (113 chars)",
+"  5 unit        green · exit 0 · 6.09s · 144919 B → 5.log · bash scripts/agent-run.sh run --unit",
+"  6 integration green · exit 0 · 11.9s · 6723 B → 6.log · bash scripts/agent-run.sh run --integration --filter 'bina… (202 chars)",
+"  7 e2e         red · exit 0 ✗ (exit 1) · exit 1 · 8.77s · 11650 B → 7.log · bash scripts/agent-run.sh run --integration --filter 'bina… (260 chars)",
+"  8 integration not run — excluded · bash scripts/agent-run.sh run",
+"  9 probe       not run — excluded · git grep -l -F -e 'andromeda:walks-tree' -- '*.rs' | wc -l",
+" 10 smoke       not run — excluded · bash scripts/agent-run.sh cleanup --session p-wheel-smoke",
+" 11 smoke       not run — excluded · bash scripts/agent-run.sh boot --session p-wheel-smoke --i… (73 chars)",
+" 12 smoke       not run — excluded · bash scripts/agent-run.sh status --session p-wheel-smoke",
+" 13 smoke       not run — excluded · bash scripts/agent-run.sh cleanup --session p-wheel-smoke",
+" 14 probe       not run — excluded · git diff eb53a582c8dc -- Cargo.toml Cargo.lock deny.toml d… (123 chars)",
+" 15 probe       not run — excluded · git diff --quiet eb53a582c8dc -- src/cmd/hook/seam.rs scri… (79 chars)",
+" 16 probe       not run — excluded · ! (git diff eb53a582c8dc -- '*.rs' .config/nextest.toml | … (144 chars)",
+" 17 probe       not run — excluded · bash scripts/agent-run.sh pre-push",
+" 18 probe       not run — excluded · python -X utf8 /home/turbolet/.claude/skills/andromeda-pha… (103 chars)",
+" 19 probe       not run — excluded · git diff --quiet && git diff --cached --quiet && git push … (69 chars)",
+" 20 probe       not run — excluded · python -X utf8 /home/turbolet/.claude/skills/andromeda-pha… (127 chars)",
+"entries 20 · green 2 · red 1 (7) · recorded 0 · timeout 0 · not-run 17"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-04-the-wheel",
+"plan": "/home/turbolet/dev/projects/viola/viola-0.1.0/chunks/2026-10-04-the-wheel/plan.md",
+"root": "/home/turbolet/dev/projects/viola",
+"shell": "/usr/bin/bash",
+"out_dir": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-04T16-53-44-wrap/evolve-2026-10-04-dialog-answers-by-dialog-id.json",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/a11y-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/a11y.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/acceptance-v1-32.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/arch-contracts.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/arch-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/arch.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/design-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/design.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/evolve-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/gate-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/gate-no-marker.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/layouts-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/layouts.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/master-record.txt",
+".andromeda/runs/2026-10-04T17-30-10-phase/matrix-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/note-v1-31.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/note-v1-40.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/obs-contracts.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/obs-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/obs.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/planlint-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/registry-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/route-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/route-no-marker.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/security-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/security.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/sidecar-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/tests-contracts.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/tests-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/tests.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/tree-query-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T18-10-53-implement/evolve-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T18-10-53-implement/gate-2026-10-04-the-wheel.json",
+"viola-0.1.0/chunks/2026-10-04-the-wheel/plan.md",
+"viola-0.1.0/chunks/2026-10-04-the-wheel/research.md",
+"viola-0.1.0/chunks/2026-10-04-the-wheel/scope-record.md",
+"viola-0.1.0/chunks/2026-10-04-the-wheel/scope.md"
+],
+"rust": [
+"crates/viola-channel/src/lib.rs",
+"crates/viola-channel/src/server.rs",
+"crates/viola-core/src/lib.rs",
+"crates/viola-pty/src/lib.rs",
+"crates/viola-state/src/snapshot.rs",
+"src/cmd/mod.rs",
+"src/cmd/run.rs",
+"src/cmd/send.rs",
+"src/human.rs",
+"src/run/dialog.rs",
+"src/run/mod.rs",
+"src/run/send.rs",
+"tests/channel_endpoint.rs",
+"tests/cli_controls_not_disableable.rs",
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs",
+"tests/support/home.rs",
+"src/cmd/pause.rs",
+"src/cmd/release.rs",
+"src/run/snapshot.rs",
+"src/run/wheel.rs",
+"tests/cli_wheel.rs",
+"tests/tui_wheel.rs"
+]
+},
+"unmapped": [
+"viola-0.1.0/verification-matrix.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 69,
+"problem": null
+},
+"prose": [
+{
+"from": 205,
+"to": 205,
+"text": "The boot smoke runs as a minted session (cleanup, boot, status, cleanup). No live leg against a real CLI. Every leg drives the fake agent through the harness, so there is no `round` probe. The Windows-only measurements (CARRY §8 `^Z`, CARRY §9 focus reports) cannot run on this Linux host. Their witness is the operator pass's CI read on `windows-2025` (`tests/tui_wheel.rs` runs on all three legs), and their red-before half rests on the source read named in research.md. Mutation is the epoch-boundary audit's (testing.md 2026-10-04). The walk-class witness is the header that every `gate.py run` of this block prints. The probe entry below counts the marks independently."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/run::wheel::tests::|run::snapshot::tests::|run::send::tests::|run::dialog::tests::|cmd::run::tests::|human::tests::|cmd::send::tests::|cmd::answer::tests::/)'",
+"run_sha8": "d6b9da71",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'package(viola-core) | package(viola-channel) | package(viola-pty)'",
+"run_sha8": "7d684d7b",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/5.log",
+"bytes": 144919,
+"log_sha8": "0f66a78b",
+"exit": 0,
+"seconds": 6.09,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(cli_wheel) | binary(cli_controls_not_disableable) | binary(channel_endpoint) | binary(cli_answer) | binary(cli_send) | binary(cli_wait_last)'",
+"run_sha8": "a44ab5d3",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/6.log",
+"bytes": 6723,
+"log_sha8": "ba400611",
+"exit": 0,
+"seconds": 11.9,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(tui_wheel) | binary(tui_passthrough) | binary(chaos_feed_panic) | binary(contract_diag_schema) | binary(contract_fixture_hygiene) | binary(contract_ledger_probes) | binary(contract_fake_agent_drift)'",
+"run_sha8": "46998c1b",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/7.log",
+"bytes": 11650,
+"log_sha8": "16c6d922",
+"exit": 1,
+"seconds": 8.77,
+"readings": [
+"exit 0 ✗ (exit 1)",
+"contains '\"ok\":true' ✗"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 1)"
+},
+{
+"n": 8,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run",
+"run_sha8": "21443cdf",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "git grep -l -F -e 'andromeda:walks-tree' -- '*.rs' | wc -l",
+"run_sha8": "e03cb1d6",
+"expect": [
+"exit 0",
+"last line 3"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-wheel-smoke",
+"run_sha8": "ba75c2cc",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-wheel-smoke --instance builder",
+"run_sha8": "e1420f77",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-wheel-smoke",
+"run_sha8": "ef1b102b",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-wheel-smoke",
+"run_sha8": "ba75c2cc",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "git diff eb53a582c8dc -- Cargo.toml Cargo.lock deny.toml deny-sync.toml | grep -cE '^\\+.*(skip|ignore|exceptions|allow *=)'",
+"run_sha8": "8d5af42a",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "git diff --quiet eb53a582c8dc -- src/cmd/hook/seam.rs scripts/g2-zero-panics.sh",
+"run_sha8": "a7853c0e",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "! (git diff eb53a582c8dc -- '*.rs' .config/nextest.toml | grep -E '^\\+.*(#\\[ignore|retries *=|test\\.skip|std::env::var)' | grep -v 'VIOLA_NAME')",
+"run_sha8": "43a04484",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "python -X utf8 /home/turbolet/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "64780869",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "python -X utf8 /home/turbolet/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "c0d185ab",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.8",
+"sha8": "af374e71",
+"ts": "2026-10-04T18:28:53Z",
+"argv": [
+"show",
+"--run-dir",
+".andromeda/runs/2026-10-04T18-10-53-implement",
+"--marker",
+"2026-10-04-the-wheel",
+"--n",
+"7"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"7 e2e red · exit 0 ✗ (exit 1)",
+"run (46998c1b): bash scripts/agent-run.sh run --integration --filter 'binary(tui_wheel) | binary(tui_passthrough) | binary(chaos_feed_panic) | binary(contract_diag_schema) | binary(contract_fixture_hygiene) | binary(contract_ledger_probes) | binary(contract_fake_agent_drift)'",
+"  exit 0 ✗ (exit 1)",
+"  contains '\"ok\":true' ✗",
+"log /tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/7.log · 11650 B · 16c6d922",
+"--- failing block from L78 ---",
+"        FAIL [   7.969s] (74/74) viola::tui_wheel tui_focus_mouse_and_resize_never_take_the_wheel",
+"  stdout ───",
+"",
+"    running 1 test",
+"    test tui_focus_mouse_and_resize_never_take_the_wheel ... FAILED",
+"",
+"    failures:",
+"",
+"    failures:",
+"        tui_focus_mouse_and_resize_never_take_the_wheel",
+"",
+"    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 3 filtered out; finished in 7.96s",
+"",
+"  stderr ───",
+"",
+"    thread 'tui_focus_mouse_and_resize_never_take_the_wheel' (2392006) panicked at tests/support/watch.rs:54:13:",
+"    viola never exited",
+"    watch report:",
+"    running",
+""
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "gate",
+"v": "1.8",
+"sha8": "af374e71",
+"ts": "2026-10-04T18:29:17Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-04-the-wheel/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T18-10-53-implement",
+"--marker",
+"2026-10-04-the-wheel",
+"--only",
+"1,2,7"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root /home/turbolet/dev/projects/viola · marker 2026-10-04-the-wheel · entries 20",
+"logs /tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53 · bound: GNU timeout",
+"delta docs 44 · rust 24 · unmapped 1",
+"walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 69",
+"prose L205-205: The boot smoke runs as a minted session (cleanup, boot, status, cleanup). No live leg agai… (674 chars)",
+"  1 lint        green · exit 0 · 0.49s · 0 B → 1.log · cargo fmt --all --check",
+"  2 lint        green · exit 0 · 0.3s · 134 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 unit        not run — excluded · bash scripts/agent-run.sh run --unit --filter 'test(/run::… (211 chars)",
+"  4 unit        not run — excluded · bash scripts/agent-run.sh run --unit --filter 'package(vio… (113 chars)",
+"  5 unit        not run — excluded · bash scripts/agent-run.sh run --unit",
+"  6 integration not run — excluded · bash scripts/agent-run.sh run --integration --filter 'bina… (202 chars)",
+"  7 e2e         green · exit 0 · 2.73s · 10947 B → 7.log · bash scripts/agent-run.sh run --integration --filter 'bina… (260 chars)",
+"  8 integration not run — excluded · bash scripts/agent-run.sh run",
+"  9 probe       not run — excluded · git grep -l -F -e 'andromeda:walks-tree' -- '*.rs' | wc -l",
+" 10 smoke       not run — excluded · bash scripts/agent-run.sh cleanup --session p-wheel-smoke",
+" 11 smoke       not run — excluded · bash scripts/agent-run.sh boot --session p-wheel-smoke --i… (73 chars)",
+" 12 smoke       not run — excluded · bash scripts/agent-run.sh status --session p-wheel-smoke",
+" 13 smoke       not run — excluded · bash scripts/agent-run.sh cleanup --session p-wheel-smoke",
+" 14 probe       not run — excluded · git diff eb53a582c8dc -- Cargo.toml Cargo.lock deny.toml d… (123 chars)",
+" 15 probe       not run — excluded · git diff --quiet eb53a582c8dc -- src/cmd/hook/seam.rs scri… (79 chars)",
+" 16 probe       not run — excluded · ! (git diff eb53a582c8dc -- '*.rs' .config/nextest.toml | … (144 chars)",
+" 17 probe       not run — excluded · bash scripts/agent-run.sh pre-push",
+" 18 probe       not run — excluded · python -X utf8 /home/turbolet/.claude/skills/andromeda-pha… (103 chars)",
+" 19 probe       not run — excluded · git diff --quiet && git diff --cached --quiet && git push … (69 chars)",
+" 20 probe       not run — excluded · python -X utf8 /home/turbolet/.claude/skills/andromeda-pha… (127 chars)",
+"entries 20 · green 3 · red 0 · recorded 0 · timeout 0 · not-run 17"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-04-the-wheel",
+"plan": "/home/turbolet/dev/projects/viola/viola-0.1.0/chunks/2026-10-04-the-wheel/plan.md",
+"root": "/home/turbolet/dev/projects/viola",
+"shell": "/usr/bin/bash",
+"out_dir": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-04T16-53-44-wrap/evolve-2026-10-04-dialog-answers-by-dialog-id.json",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/a11y-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/a11y.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/acceptance-v1-32.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/arch-contracts.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/arch-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/arch.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/design-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/design.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/evolve-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/gate-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/gate-no-marker.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/layouts-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/layouts.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/master-record.txt",
+".andromeda/runs/2026-10-04T17-30-10-phase/matrix-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/note-v1-31.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/note-v1-40.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/obs-contracts.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/obs-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/obs.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/planlint-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/registry-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/route-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/route-no-marker.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/security-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/security.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/sidecar-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/tests-contracts.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/tests-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/tests.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/tree-query-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T18-10-53-implement/evolve-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T18-10-53-implement/gate-2026-10-04-the-wheel.json",
+"viola-0.1.0/chunks/2026-10-04-the-wheel/plan.md",
+"viola-0.1.0/chunks/2026-10-04-the-wheel/research.md",
+"viola-0.1.0/chunks/2026-10-04-the-wheel/scope-record.md",
+"viola-0.1.0/chunks/2026-10-04-the-wheel/scope.md"
+],
+"rust": [
+"crates/viola-channel/src/lib.rs",
+"crates/viola-channel/src/server.rs",
+"crates/viola-core/src/lib.rs",
+"crates/viola-pty/src/lib.rs",
+"crates/viola-state/src/snapshot.rs",
+"src/cmd/mod.rs",
+"src/cmd/run.rs",
+"src/cmd/send.rs",
+"src/human.rs",
+"src/run/dialog.rs",
+"src/run/mod.rs",
+"src/run/send.rs",
+"tests/channel_endpoint.rs",
+"tests/cli_controls_not_disableable.rs",
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs",
+"tests/support/home.rs",
+"src/cmd/pause.rs",
+"src/cmd/release.rs",
+"src/run/snapshot.rs",
+"src/run/wheel.rs",
+"tests/cli_wheel.rs",
+"tests/tui_wheel.rs"
+]
+},
+"unmapped": [
+"viola-0.1.0/verification-matrix.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 69,
+"problem": null
+},
+"prose": [
+{
+"from": 205,
+"to": 205,
+"text": "The boot smoke runs as a minted session (cleanup, boot, status, cleanup). No live leg against a real CLI. Every leg drives the fake agent through the harness, so there is no `round` probe. The Windows-only measurements (CARRY §8 `^Z`, CARRY §9 focus reports) cannot run on this Linux host. Their witness is the operator pass's CI read on `windows-2025` (`tests/tui_wheel.rs` runs on all three legs), and their red-before half rests on the source read named in research.md. Mutation is the epoch-boundary audit's (testing.md 2026-10-04). The walk-class witness is the header that every `gate.py run` of this block prints. The probe entry below counts the marks independently."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.49,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/2.log",
+"bytes": 134,
+"log_sha8": "effdb0b3",
+"exit": 0,
+"seconds": 0.3,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/run::wheel::tests::|run::snapshot::tests::|run::send::tests::|run::dialog::tests::|cmd::run::tests::|human::tests::|cmd::send::tests::|cmd::answer::tests::/)'",
+"run_sha8": "d6b9da71",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'package(viola-core) | package(viola-channel) | package(viola-pty)'",
+"run_sha8": "7d684d7b",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(cli_wheel) | binary(cli_controls_not_disableable) | binary(channel_endpoint) | binary(cli_answer) | binary(cli_send) | binary(cli_wait_last)'",
+"run_sha8": "a44ab5d3",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(tui_wheel) | binary(tui_passthrough) | binary(chaos_feed_panic) | binary(contract_diag_schema) | binary(contract_fixture_hygiene) | binary(contract_ledger_probes) | binary(contract_fake_agent_drift)'",
+"run_sha8": "46998c1b",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/7.log",
+"bytes": 10947,
+"log_sha8": "bf4b6ba0",
+"exit": 0,
+"seconds": 2.73,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run",
+"run_sha8": "21443cdf",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "git grep -l -F -e 'andromeda:walks-tree' -- '*.rs' | wc -l",
+"run_sha8": "e03cb1d6",
+"expect": [
+"exit 0",
+"last line 3"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-wheel-smoke",
+"run_sha8": "ba75c2cc",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-wheel-smoke --instance builder",
+"run_sha8": "e1420f77",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-wheel-smoke",
+"run_sha8": "ef1b102b",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-wheel-smoke",
+"run_sha8": "ba75c2cc",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "git diff eb53a582c8dc -- Cargo.toml Cargo.lock deny.toml deny-sync.toml | grep -cE '^\\+.*(skip|ignore|exceptions|allow *=)'",
+"run_sha8": "8d5af42a",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "git diff --quiet eb53a582c8dc -- src/cmd/hook/seam.rs scripts/g2-zero-panics.sh",
+"run_sha8": "a7853c0e",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "! (git diff eb53a582c8dc -- '*.rs' .config/nextest.toml | grep -E '^\\+.*(#\\[ignore|retries *=|test\\.skip|std::env::var)' | grep -v 'VIOLA_NAME')",
+"run_sha8": "43a04484",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "python -X utf8 /home/turbolet/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "64780869",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "python -X utf8 /home/turbolet/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "c0d185ab",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.8",
+"sha8": "af374e71",
+"ts": "2026-10-04T18:35:54Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-04-the-wheel/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T18-10-53-implement",
+"--marker",
+"2026-10-04-the-wheel"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root /home/turbolet/dev/projects/viola · marker 2026-10-04-the-wheel · entries 20",
+"logs /tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53 · bound: GNU timeout",
+"delta docs 45 · rust 24 · unmapped 1",
+"walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 70",
+"prose L205-205: The boot smoke runs as a minted session (cleanup, boot, status, cleanup). No live leg agai… (674 chars)",
+"  1 lint        green · exit 0 · 0.5s · 0 B → 1.log · cargo fmt --all --check",
+"  2 lint        green · exit 0 · 0.84s · 188 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 unit        green · exit 0 · 2.81s · 26926 B → 3.log · bash scripts/agent-run.sh run --unit --filter 'test(/run::… (211 chars)",
+"  4 unit        green · exit 0 · 2.19s · 22084 B → 4.log · bash scripts/agent-run.sh run --unit --filter 'package(vio… (113 chars)",
+"  5 unit        green · exit 0 · 6.07s · 144919 B → 5.log · bash scripts/agent-run.sh run --unit",
+"  6 integration green · exit 0 · 11.8s · 6723 B → 6.log · bash scripts/agent-run.sh run --integration --filter 'bina… (202 chars)",
+"  7 e2e         green · exit 0 · 2.27s · 10885 B → 7.log · bash scripts/agent-run.sh run --integration --filter 'bina… (260 chars)",
+"  8 integration red · exit 0 ✗ (exit 1) · exit 1 · 30.53s · 178966 B → 8.log · bash scripts/agent-run.sh run",
+"  9 probe       green · exit 0 · 0.01s · 2 B → 9.log · git grep -l -F -e 'andromeda:walks-tree' -- '*.rs' | wc -l",
+" 10 smoke       green · exit 0 · 0.09s · 47 B → 10.log · bash scripts/agent-run.sh cleanup --session p-wheel-smoke",
+" 11 smoke       green · exit 0 · 2.36s · 881 B → 11.log · bash scripts/agent-run.sh boot --session p-wheel-smoke --i… (73 chars)",
+" 12 smoke       green · exit 0 · 0.09s · 216 B → 12.log · bash scripts/agent-run.sh status --session p-wheel-smoke",
+" 13 smoke       green · exit 0 · 0.29s · 178 B → 13.log · bash scripts/agent-run.sh cleanup --session p-wheel-smoke",
+" 14 probe       green · exit 1 · 0.01s · 2 B → 14.log · git diff eb53a582c8dc -- Cargo.toml Cargo.lock deny.toml d… (123 chars)",
+" 15 probe       green · exit 0 · 0.0s · 0 B → 15.log · git diff --quiet eb53a582c8dc -- src/cmd/hook/seam.rs scri… (79 chars)",
+" 16 probe       green · exit 0 · 0.01s · 0 B → 16.log · ! (git diff eb53a582c8dc -- '*.rs' .config/nextest.toml | … (144 chars)",
+" 17 probe       red · exit 0 ✗ (exit 1) · exit 1 · 34.02s · 182525 B → 17.log · bash scripts/agent-run.sh pre-push",
+" 18 probe       not run — leg operator (the letter drives it) · python -X utf8 /home/turbolet/.claude/skills/andromeda-pha… (103 chars)",
+" 19 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (69 chars)",
+" 20 probe       not run — leg operator (the letter drives it) · python -X utf8 /home/turbolet/.claude/skills/andromeda-pha… (127 chars)",
+"entries 20 · green 15 · red 2 (8,17) · recorded 0 · timeout 0 · not-run 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-04-the-wheel",
+"plan": "/home/turbolet/dev/projects/viola/viola-0.1.0/chunks/2026-10-04-the-wheel/plan.md",
+"root": "/home/turbolet/dev/projects/viola",
+"shell": "/usr/bin/bash",
+"out_dir": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-04T16-53-44-wrap/evolve-2026-10-04-dialog-answers-by-dialog-id.json",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/a11y-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/a11y.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/acceptance-v1-32.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/arch-contracts.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/arch-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/arch.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/design-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/design.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/evolve-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/gate-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/gate-no-marker.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/layouts-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/layouts.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/master-record.txt",
+".andromeda/runs/2026-10-04T17-30-10-phase/matrix-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/note-v1-31.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/note-v1-40.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/obs-contracts.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/obs-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/obs.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/planlint-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/registry-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/route-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/route-no-marker.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/security-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/security.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/sidecar-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/tests-contracts.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/tests-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/tests.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/tree-query-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T18-10-53-implement/evolve-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T18-10-53-implement/gate-2026-10-04-the-wheel.json",
+"viola-0.1.0/chunks/2026-10-04-the-wheel/evidence/red-before-green.md",
+"viola-0.1.0/chunks/2026-10-04-the-wheel/plan.md",
+"viola-0.1.0/chunks/2026-10-04-the-wheel/research.md",
+"viola-0.1.0/chunks/2026-10-04-the-wheel/scope-record.md",
+"viola-0.1.0/chunks/2026-10-04-the-wheel/scope.md"
+],
+"rust": [
+"crates/viola-channel/src/lib.rs",
+"crates/viola-channel/src/server.rs",
+"crates/viola-core/src/lib.rs",
+"crates/viola-pty/src/lib.rs",
+"crates/viola-state/src/snapshot.rs",
+"src/cmd/mod.rs",
+"src/cmd/run.rs",
+"src/cmd/send.rs",
+"src/human.rs",
+"src/run/dialog.rs",
+"src/run/mod.rs",
+"src/run/send.rs",
+"tests/channel_endpoint.rs",
+"tests/cli_controls_not_disableable.rs",
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs",
+"tests/support/home.rs",
+"src/cmd/pause.rs",
+"src/cmd/release.rs",
+"src/run/snapshot.rs",
+"src/run/wheel.rs",
+"tests/cli_wheel.rs",
+"tests/tui_wheel.rs"
+]
+},
+"unmapped": [
+"viola-0.1.0/verification-matrix.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 70,
+"problem": null
+},
+"prose": [
+{
+"from": 205,
+"to": 205,
+"text": "The boot smoke runs as a minted session (cleanup, boot, status, cleanup). No live leg against a real CLI. Every leg drives the fake agent through the harness, so there is no `round` probe. The Windows-only measurements (CARRY §8 `^Z`, CARRY §9 focus reports) cannot run on this Linux host. Their witness is the operator pass's CI read on `windows-2025` (`tests/tui_wheel.rs` runs on all three legs), and their red-before half rests on the source read named in research.md. Mutation is the epoch-boundary audit's (testing.md 2026-10-04). The walk-class witness is the header that every `gate.py run` of this block prints. The probe entry below counts the marks independently."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.5,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/2.log",
+"bytes": 188,
+"log_sha8": "b893135c",
+"exit": 0,
+"seconds": 0.84,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/run::wheel::tests::|run::snapshot::tests::|run::send::tests::|run::dialog::tests::|cmd::run::tests::|human::tests::|cmd::send::tests::|cmd::answer::tests::/)'",
+"run_sha8": "d6b9da71",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/3.log",
+"bytes": 26926,
+"log_sha8": "0525f823",
+"exit": 0,
+"seconds": 2.81,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'package(viola-core) | package(viola-channel) | package(viola-pty)'",
+"run_sha8": "7d684d7b",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/4.log",
+"bytes": 22084,
+"log_sha8": "f22040ef",
+"exit": 0,
+"seconds": 2.19,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/5.log",
+"bytes": 144919,
+"log_sha8": "934e26e4",
+"exit": 0,
+"seconds": 6.07,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(cli_wheel) | binary(cli_controls_not_disableable) | binary(channel_endpoint) | binary(cli_answer) | binary(cli_send) | binary(cli_wait_last)'",
+"run_sha8": "a44ab5d3",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/6.log",
+"bytes": 6723,
+"log_sha8": "2628c75d",
+"exit": 0,
+"seconds": 11.8,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(tui_wheel) | binary(tui_passthrough) | binary(chaos_feed_panic) | binary(contract_diag_schema) | binary(contract_fixture_hygiene) | binary(contract_ledger_probes) | binary(contract_fake_agent_drift)'",
+"run_sha8": "46998c1b",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/7.log",
+"bytes": 10885,
+"log_sha8": "484ac584",
+"exit": 0,
+"seconds": 2.27,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run",
+"run_sha8": "21443cdf",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/8.log",
+"bytes": 178966,
+"log_sha8": "61f62520",
+"exit": 1,
+"seconds": 30.53,
+"readings": [
+"exit 0 ✗ (exit 1)",
+"contains '\"ok\":true' ✗"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 1)"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "git grep -l -F -e 'andromeda:walks-tree' -- '*.rs' | wc -l",
+"run_sha8": "e03cb1d6",
+"expect": [
+"exit 0",
+"last line 3"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/9.log",
+"bytes": 2,
+"log_sha8": "1121cfcc",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓",
+"last line '3' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-wheel-smoke",
+"run_sha8": "ba75c2cc",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/10.log",
+"bytes": 47,
+"log_sha8": "91854d6e",
+"exit": 0,
+"seconds": 0.09,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-wheel-smoke --instance builder",
+"run_sha8": "e1420f77",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/11.log",
+"bytes": 881,
+"log_sha8": "95476f06",
+"exit": 0,
+"seconds": 2.36,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-wheel-smoke",
+"run_sha8": "ef1b102b",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/12.log",
+"bytes": 216,
+"log_sha8": "bd4bdb41",
+"exit": 0,
+"seconds": 0.09,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-wheel-smoke",
+"run_sha8": "ba75c2cc",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/13.log",
+"bytes": 178,
+"log_sha8": "5c72e8c1",
+"exit": 0,
+"seconds": 0.29,
+"readings": [
+"exit 0 ✓",
+"contains '\"processes_gone\":true' ✓",
+"contains '\"endpoint_gone\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "git diff eb53a582c8dc -- Cargo.toml Cargo.lock deny.toml deny-sync.toml | grep -cE '^\\+.*(skip|ignore|exceptions|allow *=)'",
+"run_sha8": "8d5af42a",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/14.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.01,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "git diff --quiet eb53a582c8dc -- src/cmd/hook/seam.rs scripts/g2-zero-panics.sh",
+"run_sha8": "a7853c0e",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/15.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "! (git diff eb53a582c8dc -- '*.rs' .config/nextest.toml | grep -E '^\\+.*(#\\[ignore|retries *=|test\\.skip|std::env::var)' | grep -v 'VIOLA_NAME')",
+"run_sha8": "43a04484",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/16.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/17.log",
+"bytes": 182525,
+"log_sha8": "356f5194",
+"exit": 1,
+"seconds": 34.02,
+"readings": [
+"exit 0 ✗ (exit 1)",
+"contains '\"ok\":true' ✗",
+"contains '\"stage\":\"linux-tests\"' ✓"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 1)"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "python -X utf8 /home/turbolet/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "64780869",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "python -X utf8 /home/turbolet/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "c0d185ab",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.8",
+"sha8": "af374e71",
+"ts": "2026-10-04T18:38:18Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-04-the-wheel/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T18-10-53-implement",
+"--marker",
+"2026-10-04-the-wheel",
+"--only",
+"1,2,3,5,6,7,8"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root /home/turbolet/dev/projects/viola · marker 2026-10-04-the-wheel · entries 20",
+"logs /tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53 · bound: GNU timeout",
+"delta docs 45 · rust 25 · unmapped 1",
+"walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 71",
+"prose L205-205: The boot smoke runs as a minted session (cleanup, boot, status, cleanup). No live leg agai… (674 chars)",
+"  1 lint        green · exit 0 · 0.48s · 0 B → 1.log · cargo fmt --all --check",
+"  2 lint        green · exit 0 · 0.95s · 134 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 unit        green · exit 0 · 3.5s · 27052 B → 3.log · bash scripts/agent-run.sh run --unit --filter 'test(/run::… (211 chars)",
+"  4 unit        not run — excluded · bash scripts/agent-run.sh run --unit --filter 'package(vio… (113 chars)",
+"  5 unit        green · exit 0 · 6.07s · 145047 B → 5.log · bash scripts/agent-run.sh run --unit",
+"  6 integration green · exit 0 · 11.9s · 6723 B → 6.log · bash scripts/agent-run.sh run --integration --filter 'bina… (202 chars)",
+"  7 e2e         green · exit 0 · 2.46s · 10885 B → 7.log · bash scripts/agent-run.sh run --integration --filter 'bina… (260 chars)",
+"  8 integration green · exit 0 · 30.55s · 177451 B → 8.log · bash scripts/agent-run.sh run",
+"  9 probe       not run — excluded · git grep -l -F -e 'andromeda:walks-tree' -- '*.rs' | wc -l",
+" 10 smoke       not run — excluded · bash scripts/agent-run.sh cleanup --session p-wheel-smoke",
+" 11 smoke       not run — excluded · bash scripts/agent-run.sh boot --session p-wheel-smoke --i… (73 chars)",
+" 12 smoke       not run — excluded · bash scripts/agent-run.sh status --session p-wheel-smoke",
+" 13 smoke       not run — excluded · bash scripts/agent-run.sh cleanup --session p-wheel-smoke",
+" 14 probe       not run — excluded · git diff eb53a582c8dc -- Cargo.toml Cargo.lock deny.toml d… (123 chars)",
+" 15 probe       not run — excluded · git diff --quiet eb53a582c8dc -- src/cmd/hook/seam.rs scri… (79 chars)",
+" 16 probe       not run — excluded · ! (git diff eb53a582c8dc -- '*.rs' .config/nextest.toml | … (144 chars)",
+" 17 probe       not run — excluded · bash scripts/agent-run.sh pre-push",
+" 18 probe       not run — excluded · python -X utf8 /home/turbolet/.claude/skills/andromeda-pha… (103 chars)",
+" 19 probe       not run — excluded · git diff --quiet && git diff --cached --quiet && git push … (69 chars)",
+" 20 probe       not run — excluded · python -X utf8 /home/turbolet/.claude/skills/andromeda-pha… (127 chars)",
+"entries 20 · green 7 · red 0 · recorded 0 · timeout 0 · not-run 13"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-04-the-wheel",
+"plan": "/home/turbolet/dev/projects/viola/viola-0.1.0/chunks/2026-10-04-the-wheel/plan.md",
+"root": "/home/turbolet/dev/projects/viola",
+"shell": "/usr/bin/bash",
+"out_dir": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-04T16-53-44-wrap/evolve-2026-10-04-dialog-answers-by-dialog-id.json",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/a11y-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/a11y.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/acceptance-v1-32.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/arch-contracts.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/arch-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/arch.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/design-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/design.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/evolve-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/gate-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/gate-no-marker.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/layouts-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/layouts.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/master-record.txt",
+".andromeda/runs/2026-10-04T17-30-10-phase/matrix-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/note-v1-31.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/note-v1-40.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/obs-contracts.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/obs-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/obs.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/planlint-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/registry-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/route-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/route-no-marker.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/security-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/security.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/sidecar-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/tests-contracts.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/tests-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/tests.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/tree-query-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T18-10-53-implement/evolve-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T18-10-53-implement/gate-2026-10-04-the-wheel.json",
+"viola-0.1.0/chunks/2026-10-04-the-wheel/evidence/red-before-green.md",
+"viola-0.1.0/chunks/2026-10-04-the-wheel/plan.md",
+"viola-0.1.0/chunks/2026-10-04-the-wheel/research.md",
+"viola-0.1.0/chunks/2026-10-04-the-wheel/scope-record.md",
+"viola-0.1.0/chunks/2026-10-04-the-wheel/scope.md"
+],
+"rust": [
+"crates/viola-channel/src/lib.rs",
+"crates/viola-channel/src/server.rs",
+"crates/viola-core/src/lib.rs",
+"crates/viola-pty/src/lib.rs",
+"crates/viola-state/src/snapshot.rs",
+"src/cmd/mod.rs",
+"src/cmd/run.rs",
+"src/cmd/send.rs",
+"src/human.rs",
+"src/run/dialog.rs",
+"src/run/mod.rs",
+"src/run/send.rs",
+"tests/channel_endpoint.rs",
+"tests/cli_controls_not_disableable.rs",
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs",
+"tests/hook_events.rs",
+"tests/support/home.rs",
+"src/cmd/pause.rs",
+"src/cmd/release.rs",
+"src/run/snapshot.rs",
+"src/run/wheel.rs",
+"tests/cli_wheel.rs",
+"tests/tui_wheel.rs"
+]
+},
+"unmapped": [
+"viola-0.1.0/verification-matrix.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 71,
+"problem": null
+},
+"prose": [
+{
+"from": 205,
+"to": 205,
+"text": "The boot smoke runs as a minted session (cleanup, boot, status, cleanup). No live leg against a real CLI. Every leg drives the fake agent through the harness, so there is no `round` probe. The Windows-only measurements (CARRY §8 `^Z`, CARRY §9 focus reports) cannot run on this Linux host. Their witness is the operator pass's CI read on `windows-2025` (`tests/tui_wheel.rs` runs on all three legs), and their red-before half rests on the source read named in research.md. Mutation is the epoch-boundary audit's (testing.md 2026-10-04). The walk-class witness is the header that every `gate.py run` of this block prints. The probe entry below counts the marks independently."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.48,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/2.log",
+"bytes": 134,
+"log_sha8": "0aaebe6a",
+"exit": 0,
+"seconds": 0.95,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/run::wheel::tests::|run::snapshot::tests::|run::send::tests::|run::dialog::tests::|cmd::run::tests::|human::tests::|cmd::send::tests::|cmd::answer::tests::/)'",
+"run_sha8": "d6b9da71",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/3.log",
+"bytes": 27052,
+"log_sha8": "0e0a89b4",
+"exit": 0,
+"seconds": 3.5,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'package(viola-core) | package(viola-channel) | package(viola-pty)'",
+"run_sha8": "7d684d7b",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/5.log",
+"bytes": 145047,
+"log_sha8": "21a2a86c",
+"exit": 0,
+"seconds": 6.07,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(cli_wheel) | binary(cli_controls_not_disableable) | binary(channel_endpoint) | binary(cli_answer) | binary(cli_send) | binary(cli_wait_last)'",
+"run_sha8": "a44ab5d3",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/6.log",
+"bytes": 6723,
+"log_sha8": "245f0cec",
+"exit": 0,
+"seconds": 11.9,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(tui_wheel) | binary(tui_passthrough) | binary(chaos_feed_panic) | binary(contract_diag_schema) | binary(contract_fixture_hygiene) | binary(contract_ledger_probes) | binary(contract_fake_agent_drift)'",
+"run_sha8": "46998c1b",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/7.log",
+"bytes": 10885,
+"log_sha8": "c88208c0",
+"exit": 0,
+"seconds": 2.46,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run",
+"run_sha8": "21443cdf",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/8.log",
+"bytes": 177451,
+"log_sha8": "1f05b0f4",
+"exit": 0,
+"seconds": 30.55,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "git grep -l -F -e 'andromeda:walks-tree' -- '*.rs' | wc -l",
+"run_sha8": "e03cb1d6",
+"expect": [
+"exit 0",
+"last line 3"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-wheel-smoke",
+"run_sha8": "ba75c2cc",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-wheel-smoke --instance builder",
+"run_sha8": "e1420f77",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-wheel-smoke",
+"run_sha8": "ef1b102b",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-wheel-smoke",
+"run_sha8": "ba75c2cc",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "git diff eb53a582c8dc -- Cargo.toml Cargo.lock deny.toml deny-sync.toml | grep -cE '^\\+.*(skip|ignore|exceptions|allow *=)'",
+"run_sha8": "8d5af42a",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "git diff --quiet eb53a582c8dc -- src/cmd/hook/seam.rs scripts/g2-zero-panics.sh",
+"run_sha8": "a7853c0e",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "! (git diff eb53a582c8dc -- '*.rs' .config/nextest.toml | grep -E '^\\+.*(#\\[ignore|retries *=|test\\.skip|std::env::var)' | grep -v 'VIOLA_NAME')",
+"run_sha8": "43a04484",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "python -X utf8 /home/turbolet/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "64780869",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "python -X utf8 /home/turbolet/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "c0d185ab",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.8",
+"sha8": "af374e71",
+"ts": "2026-10-04T18:40:11Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-04-the-wheel/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T18-10-53-implement",
+"--marker",
+"2026-10-04-the-wheel"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root /home/turbolet/dev/projects/viola · marker 2026-10-04-the-wheel · entries 20",
+"logs /tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53 · bound: GNU timeout",
+"delta docs 45 · rust 25 · unmapped 1",
+"walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 71",
+"prose L205-205: The boot smoke runs as a minted session (cleanup, boot, status, cleanup). No live leg agai… (674 chars)",
+"  1 lint        green · exit 0 · 0.62s · 0 B → 1.log · cargo fmt --all --check",
+"  2 lint        green · exit 0 · 0.21s · 72 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 unit        green · exit 0 · 1.91s · 26990 B → 3.log · bash scripts/agent-run.sh run --unit --filter 'test(/run::… (211 chars)",
+"  4 unit        green · exit 0 · 2.19s · 22084 B → 4.log · bash scripts/agent-run.sh run --unit --filter 'package(vio… (113 chars)",
+"  5 unit        green · exit 0 · 6.17s · 145047 B → 5.log · bash scripts/agent-run.sh run --unit",
+"  6 integration green · exit 0 · 13.57s · 6723 B → 6.log · bash scripts/agent-run.sh run --integration --filter 'bina… (202 chars)",
+"  7 e2e         green · exit 0 · 7.36s · 10885 B → 7.log · bash scripts/agent-run.sh run --integration --filter 'bina… (260 chars)",
+"  8 integration green · exit 0 · 33.18s · 177451 B → 8.log · bash scripts/agent-run.sh run",
+"  9 probe       green · exit 0 · 0.01s · 2 B → 9.log · git grep -l -F -e 'andromeda:walks-tree' -- '*.rs' | wc -l",
+" 10 smoke       green · exit 0 · 0.1s · 47 B → 10.log · bash scripts/agent-run.sh cleanup --session p-wheel-smoke",
+" 11 smoke       green · exit 0 · 1.38s · 351 B → 11.log · bash scripts/agent-run.sh boot --session p-wheel-smoke --i… (73 chars)",
+" 12 smoke       green · exit 0 · 0.09s · 216 B → 12.log · bash scripts/agent-run.sh status --session p-wheel-smoke",
+" 13 smoke       green · exit 0 · 0.3s · 178 B → 13.log · bash scripts/agent-run.sh cleanup --session p-wheel-smoke",
+" 14 probe       green · exit 1 · 0.01s · 2 B → 14.log · git diff eb53a582c8dc -- Cargo.toml Cargo.lock deny.toml d… (123 chars)",
+" 15 probe       green · exit 0 · 0.01s · 0 B → 15.log · git diff --quiet eb53a582c8dc -- src/cmd/hook/seam.rs scri… (79 chars)",
+" 16 probe       green · exit 0 · 0.01s · 0 B → 16.log · ! (git diff eb53a582c8dc -- '*.rs' .config/nextest.toml | … (144 chars)",
+" 17 probe       green · exit 0 · 38.1s · 179684 B → 17.log · bash scripts/agent-run.sh pre-push",
+" 18 probe       not run — leg operator (the letter drives it) · python -X utf8 /home/turbolet/.claude/skills/andromeda-pha… (103 chars)",
+" 19 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (69 chars)",
+" 20 probe       not run — leg operator (the letter drives it) · python -X utf8 /home/turbolet/.claude/skills/andromeda-pha… (127 chars)",
+"entries 20 · green 17 · red 0 · recorded 0 · timeout 0 · not-run 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-04-the-wheel",
+"plan": "/home/turbolet/dev/projects/viola/viola-0.1.0/chunks/2026-10-04-the-wheel/plan.md",
+"root": "/home/turbolet/dev/projects/viola",
+"shell": "/usr/bin/bash",
+"out_dir": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-04T16-53-44-wrap/evolve-2026-10-04-dialog-answers-by-dialog-id.json",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/a11y-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/a11y.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/acceptance-v1-32.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/arch-contracts.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/arch-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/arch.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/design-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/design.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/evolve-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/gate-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/gate-no-marker.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/layouts-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/layouts.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/master-record.txt",
+".andromeda/runs/2026-10-04T17-30-10-phase/matrix-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/note-v1-31.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/note-v1-40.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/obs-contracts.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/obs-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/obs.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/planlint-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/registry-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/route-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/route-no-marker.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/security-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/security.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/sidecar-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T17-30-10-phase/tests-contracts.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/tests-history.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/tests.md",
+".andromeda/runs/2026-10-04T17-30-10-phase/tree-query-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T18-10-53-implement/evolve-2026-10-04-the-wheel.json",
+".andromeda/runs/2026-10-04T18-10-53-implement/gate-2026-10-04-the-wheel.json",
+"viola-0.1.0/chunks/2026-10-04-the-wheel/evidence/red-before-green.md",
+"viola-0.1.0/chunks/2026-10-04-the-wheel/plan.md",
+"viola-0.1.0/chunks/2026-10-04-the-wheel/research.md",
+"viola-0.1.0/chunks/2026-10-04-the-wheel/scope-record.md",
+"viola-0.1.0/chunks/2026-10-04-the-wheel/scope.md"
+],
+"rust": [
+"crates/viola-channel/src/lib.rs",
+"crates/viola-channel/src/server.rs",
+"crates/viola-core/src/lib.rs",
+"crates/viola-pty/src/lib.rs",
+"crates/viola-state/src/snapshot.rs",
+"src/cmd/mod.rs",
+"src/cmd/run.rs",
+"src/cmd/send.rs",
+"src/human.rs",
+"src/run/dialog.rs",
+"src/run/mod.rs",
+"src/run/send.rs",
+"tests/channel_endpoint.rs",
+"tests/cli_controls_not_disableable.rs",
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs",
+"tests/hook_events.rs",
+"tests/support/home.rs",
+"src/cmd/pause.rs",
+"src/cmd/release.rs",
+"src/run/snapshot.rs",
+"src/run/wheel.rs",
+"tests/cli_wheel.rs",
+"tests/tui_wheel.rs"
+]
+},
+"unmapped": [
+"viola-0.1.0/verification-matrix.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 71,
+"problem": null
+},
+"prose": [
+{
+"from": 205,
+"to": 205,
+"text": "The boot smoke runs as a minted session (cleanup, boot, status, cleanup). No live leg against a real CLI. Every leg drives the fake agent through the harness, so there is no `round` probe. The Windows-only measurements (CARRY §8 `^Z`, CARRY §9 focus reports) cannot run on this Linux host. Their witness is the operator pass's CI read on `windows-2025` (`tests/tui_wheel.rs` runs on all three legs), and their red-before half rests on the source read named in research.md. Mutation is the epoch-boundary audit's (testing.md 2026-10-04). The walk-class witness is the header that every `gate.py run` of this block prints. The probe entry below counts the marks independently."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.62,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/2.log",
+"bytes": 72,
+"log_sha8": "fecede7c",
+"exit": 0,
+"seconds": 0.21,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/run::wheel::tests::|run::snapshot::tests::|run::send::tests::|run::dialog::tests::|cmd::run::tests::|human::tests::|cmd::send::tests::|cmd::answer::tests::/)'",
+"run_sha8": "d6b9da71",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/3.log",
+"bytes": 26990,
+"log_sha8": "fe720cd1",
+"exit": 0,
+"seconds": 1.91,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'package(viola-core) | package(viola-channel) | package(viola-pty)'",
+"run_sha8": "7d684d7b",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/4.log",
+"bytes": 22084,
+"log_sha8": "f7f710f6",
+"exit": 0,
+"seconds": 2.19,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/5.log",
+"bytes": 145047,
+"log_sha8": "76485e7b",
+"exit": 0,
+"seconds": 6.17,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(cli_wheel) | binary(cli_controls_not_disableable) | binary(channel_endpoint) | binary(cli_answer) | binary(cli_send) | binary(cli_wait_last)'",
+"run_sha8": "a44ab5d3",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/6.log",
+"bytes": 6723,
+"log_sha8": "20dfe3ae",
+"exit": 0,
+"seconds": 13.57,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(tui_wheel) | binary(tui_passthrough) | binary(chaos_feed_panic) | binary(contract_diag_schema) | binary(contract_fixture_hygiene) | binary(contract_ledger_probes) | binary(contract_fake_agent_drift)'",
+"run_sha8": "46998c1b",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/7.log",
+"bytes": 10885,
+"log_sha8": "2738742b",
+"exit": 0,
+"seconds": 7.36,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run",
+"run_sha8": "21443cdf",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/8.log",
+"bytes": 177451,
+"log_sha8": "841fb428",
+"exit": 0,
+"seconds": 33.18,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "git grep -l -F -e 'andromeda:walks-tree' -- '*.rs' | wc -l",
+"run_sha8": "e03cb1d6",
+"expect": [
+"exit 0",
+"last line 3"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/9.log",
+"bytes": 2,
+"log_sha8": "1121cfcc",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓",
+"last line '3' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-wheel-smoke",
+"run_sha8": "ba75c2cc",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/10.log",
+"bytes": 47,
+"log_sha8": "91854d6e",
+"exit": 0,
+"seconds": 0.1,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-wheel-smoke --instance builder",
+"run_sha8": "e1420f77",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/11.log",
+"bytes": 351,
+"log_sha8": "7204fe1c",
+"exit": 0,
+"seconds": 1.38,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-wheel-smoke",
+"run_sha8": "ef1b102b",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/12.log",
+"bytes": 216,
+"log_sha8": "55cd0f44",
+"exit": 0,
+"seconds": 0.09,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-wheel-smoke",
+"run_sha8": "ba75c2cc",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/13.log",
+"bytes": 178,
+"log_sha8": "5c72e8c1",
+"exit": 0,
+"seconds": 0.3,
+"readings": [
+"exit 0 ✓",
+"contains '\"processes_gone\":true' ✓",
+"contains '\"endpoint_gone\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "git diff eb53a582c8dc -- Cargo.toml Cargo.lock deny.toml deny-sync.toml | grep -cE '^\\+.*(skip|ignore|exceptions|allow *=)'",
+"run_sha8": "8d5af42a",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/14.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.01,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "git diff --quiet eb53a582c8dc -- src/cmd/hook/seam.rs scripts/g2-zero-panics.sh",
+"run_sha8": "a7853c0e",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/15.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "! (git diff eb53a582c8dc -- '*.rs' .config/nextest.toml | grep -E '^\\+.*(#\\[ignore|retries *=|test\\.skip|std::env::var)' | grep -v 'VIOLA_NAME')",
+"run_sha8": "43a04484",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/16.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": "/tmp/andromeda-gate/2026-10-04-the-wheel/implement-2026-10-04T18-10-53/17.log",
+"bytes": 179684,
+"log_sha8": "2146dc8a",
+"exit": 0,
+"seconds": 38.1,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"contains '\"stage\":\"linux-tests\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "python -X utf8 /home/turbolet/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "64780869",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "python -X utf8 /home/turbolet/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "c0d185ab",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.8",
+"sha8": "af374e71",
+"ts": "2026-10-04T18:40:59Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-04-the-wheel",
+"--run-dir",
+".andromeda/runs/2026-10-04T18-10-53-implement",
+"--marker",
+"2026-10-04-the-wheel"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"root /home/turbolet/dev/projects/viola · base HEAD (no pre-CI commit) · lists new 6 · modify 17 · derived 0 · record 3",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"recorded in-intent crates/viola-state/src/snapshot.rs",
+"recorded in-intent tests/support/home.rs",
+"recorded companion tests/hook_events.rs",
+"scope: clean — changed 25 · listed 22 · recorded 3 (companion 1 · mechanical 0 · in-intent 2 · widening 0) · absorbed 0 · excluded 47"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "/home/turbolet/dev/projects/viola",
+"base": "HEAD",
+"base_why": "no pre-CI commit",
+"counts": {
+"changed": 25,
+"listed": 22,
+"recorded": 3,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 1,
+"mechanical": 0,
+"in-intent": 2,
+"widening": 0
+},
+"excluded": 47,
+"unparsed": 0,
+"widening_without_word": 0
+}
+}
+]

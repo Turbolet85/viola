@@ -1,12 +1,14 @@
 //! The `run` wrapper's process side: its role lines, the persistent-environment read behind the
-//! R8 strip, where the child's program is looked up, and the version gate.
+//! R8 strip, where the child's program is looked up, the version gate, and the wheel.
 
 pub(crate) mod dialog;
 mod env;
 pub(crate) mod gate;
 pub(crate) mod send;
+pub(crate) mod snapshot;
 pub(crate) mod version_gate;
 pub(crate) mod wait;
+pub(crate) mod wheel;
 
 use std::ffi::{OsStr, OsString};
 use std::path::{Path, PathBuf};

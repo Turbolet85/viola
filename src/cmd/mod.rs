@@ -2,6 +2,8 @@ mod answer;
 mod client;
 mod hook;
 mod last;
+mod pause;
+mod release;
 mod run;
 mod send;
 mod verify;
@@ -43,6 +45,10 @@ enum Command {
     Last(last::LastArgs),
     /// Answer the named instance's pending dialog by its id; the response comes from stdin or --file
     Answer(answer::AnswerArgs),
+    /// Take the named instance's wheel for the human without a keystroke
+    Pause(pause::PauseArgs),
+    /// Hand the named instance's wheel back to the driver: the human's verb, refused to a driver
+    Release(release::ReleaseArgs),
     /// Measure the local claude CLI against the capability ledger and stamp its version
     Verify(verify::VerifyArgs),
     /// Hand a Claude Code hook's payload to the wrapper (run by the plugin, never by a person)
@@ -91,6 +97,16 @@ pub(crate) fn dispatch(cli: Cli) -> Result<ExitCode, Failure> {
             let home = resolve_home(cli.home)?;
             let sink = cli_sink(&home, &args.name);
             answer::answer(&home, &args).map_err(|error| Failure { error, sink })
+        }
+        Command::Pause(args) => {
+            let home = resolve_home(cli.home)?;
+            let sink = cli_sink(&home, &args.name);
+            pause::pause(&home, &args).map_err(|error| Failure { error, sink })
+        }
+        Command::Release(args) => {
+            let home = resolve_home(cli.home)?;
+            let sink = cli_sink(&home, &args.name);
+            release::release(&home, &args).map_err(|error| Failure { error, sink })
         }
         Command::Verify(args) => {
             let home = resolve_home(cli.home)?;

@@ -139,6 +139,43 @@ impl NotDelivered {
     }
 }
 
+/// The closed `human-typing` details besides `null` (a human key took the wheel): the wheel was
+/// taken by `viola pause`.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum HumanTyping {
+    ManualPause,
+}
+
+impl HumanTyping {
+    pub const fn as_str(self) -> &'static str {
+        match self {
+            Self::ManualPause => "manual-pause",
+        }
+    }
+}
+
+/// Why the wheel holder last changed: the `cause` of a `wheel` event.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum WheelCause {
+    Start,
+    HumanInput,
+    ManualPause,
+    Release,
+}
+
+impl WheelCause {
+    pub const fn as_str(self) -> &'static str {
+        match self {
+            Self::Start => "start",
+            Self::HumanInput => "human-input",
+            Self::ManualPause => "manual-pause",
+            Self::Release => "release",
+        }
+    }
+}
+
 /// Paste text admits LF, CR and TAB; every other C0, DEL and C1 is refused, never stripped
 /// (security-plan §Input Validation, "Paste text").
 pub fn validate_paste_text(text: &str) -> Result<(), NotDelivered> {
@@ -370,6 +407,35 @@ mod tests {
             let back: NotDelivered = serde_json::from_str(&json).expect("deserialize");
             assert_eq!(back, detail);
         }
+    }
+
+    #[test]
+    fn human_typing_details_round_trip_kebab_case() {
+        let detail = HumanTyping::ManualPause;
+        assert_eq!(detail.as_str(), "manual-pause");
+        let json = serde_json::to_string(&detail).expect("serialize");
+        assert_eq!(json, "\"manual-pause\"");
+        let back: HumanTyping = serde_json::from_str(&json).expect("deserialize");
+        assert_eq!(back, detail);
+        assert!(serde_json::from_str::<HumanTyping>("\"human-input\"").is_err());
+    }
+
+    #[test]
+    fn wheel_causes_round_trip_kebab_case() {
+        let table = [
+            (WheelCause::Start, "start"),
+            (WheelCause::HumanInput, "human-input"),
+            (WheelCause::ManualPause, "manual-pause"),
+            (WheelCause::Release, "release"),
+        ];
+        for (cause, text) in table {
+            assert_eq!(cause.as_str(), text);
+            let json = serde_json::to_string(&cause).expect("serialize");
+            assert_eq!(json, format!("\"{text}\""));
+            let back: WheelCause = serde_json::from_str(&json).expect("deserialize");
+            assert_eq!(back, cause);
+        }
+        assert!(serde_json::from_str::<WheelCause>("\"human-key\"").is_err());
     }
 
     #[test]

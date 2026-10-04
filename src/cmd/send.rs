@@ -132,10 +132,12 @@ impl Out<'_> {
             Some(detail) => format!("{reason}  {detail}"),
             None => reason.to_owned(),
         };
-        let hint = (reason == RefusalReason::NotDelivered.as_str())
-            .then_some(detail)
-            .flatten()
-            .and_then(|detail| human::send_hint(self.name, detail));
+        let cause = match detail {
+            Some(detail) if reason == RefusalReason::NotDelivered.as_str() => Some(detail),
+            _ if reason == RefusalReason::HumanTyping.as_str() => Some(reason),
+            _ => None,
+        };
+        let hint = cause.and_then(|cause| human::send_hint(self.name, cause));
         let _ =
             human::write_send_unable(&mut io::stderr().lock(), self.name, &shown, hint.as_deref());
     }

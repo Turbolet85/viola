@@ -1,9 +1,9 @@
 //! No setting disables a control (test-plan §5 CLI and env, Vector 6; security-plan §Security
 //! Anti-Patterns → Universal): each row sets a variable to a disabling-shaped value and re-runs the
 //! controls on its path, which must give the same verdict as without it. Interim shape: the rows
-//! cover the hook-path controls, `send`'s paste control and `answer` on an unstamped CLI; the other
-//! verb negatives (the human wheel, a 0770 `--home`) and the completeness case join with their
-//! chunks.
+//! cover the hook-path controls, `send`'s paste control, `answer` on an unstamped CLI and `send`
+//! under a human wheel; the other verb negative (a 0770 `--home`) and the completeness case join
+//! with their chunks.
 
 #[allow(dead_code)]
 mod support;
@@ -226,6 +226,64 @@ fn setting_does_not_disable_the_answer_unstamped_control() {
         Some(("FAKE_AGENT_HOOK_PANIC", "")),
     ] {
         assert_answer_unstamped_control_holds(&wrapper, setting);
+    }
+    wrapper.stop();
+}
+
+/// `viola send --json` while the human holds the wheel (`viola pause`), with `setting` over its
+/// environment or none: refused `human-typing` / `manual-pause` (exit 10), whatever the setting.
+fn assert_send_human_wheel_control_holds(wrapper: &Wrapper, setting: Option<(&str, &str)>) {
+    let mut command = Command::new(VIOLA);
+    command
+        .arg("--home")
+        .arg(wrapper.home())
+        .args(["send", "builder", "--json"])
+        .env_remove("VIOLA_NAME")
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped());
+    if let Some((name, value)) = setting {
+        command.env(name, value);
+    }
+    let mut child = command.spawn().expect("viola send");
+    let mut input = child.stdin.take().expect("stdin");
+    input.write_all(CANARY.as_bytes()).expect("stdin");
+    drop(input);
+    let out = child.wait_with_output().expect("viola send exits");
+
+    assert_eq!(out.status.code(), Some(10), "{setting:?}");
+    assert!(out.stderr.is_empty(), "stderr: {} bytes", out.stderr.len());
+    assert_eq!(
+        String::from_utf8_lossy(&out.stdout),
+        "{\"v\":1,\"refusal\":\"human-typing\",\"detail\":\"manual-pause\"}\n"
+    );
+}
+
+#[test]
+fn setting_does_not_disable_the_send_human_wheel_control() {
+    let wrapper = Wrapper::boot(
+        StampedHome::unstamped(TestHome::new()),
+        "builder",
+        None,
+        &[],
+    );
+    let paused = Command::new(VIOLA)
+        .arg("--home")
+        .arg(wrapper.home())
+        .args(["pause", "builder", "--json"])
+        .env_remove("VIOLA_NAME")
+        .stdin(Stdio::null())
+        .output()
+        .expect("viola pause");
+    assert_eq!(paused.status.code(), Some(0));
+    for setting in [
+        None,
+        Some(("FAKE_AGENT_HOOK_PANIC", "0")),
+        Some(("FAKE_AGENT_HOOK_PANIC", "false")),
+        Some(("FAKE_AGENT_HOOK_PANIC", "off")),
+        Some(("FAKE_AGENT_HOOK_PANIC", "")),
+    ] {
+        assert_send_human_wheel_control_holds(&wrapper, setting);
     }
     wrapper.stop();
 }

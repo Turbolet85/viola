@@ -57,6 +57,8 @@ pub enum ProtocolError {
     MethodNotFound,
     UnsupportedVersion,
     InvalidParams,
+    /// A `release` whose `params` carry `from`: only the human hands the wheel back.
+    ReleaseFromDriver,
     Internal,
 }
 
@@ -66,7 +68,7 @@ impl ProtocolError {
             Self::Parse => -32700,
             Self::InvalidRequest => -32600,
             Self::MethodNotFound => -32601,
-            Self::UnsupportedVersion | Self::InvalidParams => -32602,
+            Self::UnsupportedVersion | Self::InvalidParams | Self::ReleaseFromDriver => -32602,
             Self::Internal => -32603,
         }
     }
@@ -77,16 +79,18 @@ impl ProtocolError {
             Self::InvalidRequest => "invalid request",
             Self::MethodNotFound => "method not found",
             Self::UnsupportedVersion => "unsupported protocol version",
-            Self::InvalidParams => "invalid params",
+            Self::InvalidParams | Self::ReleaseFromDriver => "invalid params",
             Self::Internal => "internal error",
         }
     }
 
-    /// The `error` member. `data` is `{supported, wrapper}` for a newer peer and `null` for every
-    /// other fault: no other `data` is ever built.
+    /// The `error` member. `data` is `{supported, wrapper}` for a newer peer,
+    /// `{"reason":"release-from-driver"}` for a driver's `release`, and `null` for every other fault:
+    /// no other `data` is ever built.
     pub fn body(self) -> Value {
         let data = match self {
             Self::UnsupportedVersion => json!({"supported": PROTOCOL_V, "wrapper": VERSION}),
+            Self::ReleaseFromDriver => json!({"reason": "release-from-driver"}),
             _ => Value::Null,
         };
         json!({"code": self.code(), "message": self.message(), "data": data})
@@ -230,6 +234,10 @@ mod tests {
     #[case::invalid_params(
         ProtocolError::InvalidParams,
         r#"{"code":-32602,"message":"invalid params","data":null}"#
+    )]
+    #[case::release_from_driver(
+        ProtocolError::ReleaseFromDriver,
+        r#"{"code":-32602,"message":"invalid params","data":{"reason":"release-from-driver"}}"#
     )]
     #[case::internal(
         ProtocolError::Internal,

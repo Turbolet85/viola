@@ -1,8 +1,9 @@
 //! The wrapper's dialog slot (architecture §Standard Contracts `hook.dialog` / `answer`; [Message
 //! Broker / IPC]): every raised dialog is logged once, with a `dialog_id` that never repeats across
 //! restarts, before any reply. At most one is held pending for a driver's answer, until the answer
-//! arrives or `DIALOG_DEADLINE` passes on the injected clock; any other is left to the human (`null`
-//! at once). A PermissionRequest that repeats its PreToolUse's `tool_input` is the same dialog: it is
+//! arrives, `DIALOG_DEADLINE` passes on the injected clock, or the human takes the wheel; any other
+//! is left to the human (`null` at once), and so is every dialog raised while the human holds the
+//! wheel. A PermissionRequest that repeats its PreToolUse's `tool_input` is the same dialog: it is
 //! answered from that dialog's outcome and logs nothing. viola carries the driver's answer; it never
 //! picks one.
 
@@ -17,12 +18,16 @@ use viola_agent_claude::dialog::{DialogKind, DialogTool, Response, Verdict};
 use viola_agent_claude::hook::HookEvent;
 use viola_channel::{Call, ProtocolError};
 use viola_core::obs::ObsEvent;
-use viola_core::{Clock, DIALOG_DEADLINE, NotDelivered, RefusalReason, ViolaName, obs_event};
+use viola_core::{
+    Clock, DIALOG_DEADLINE, HumanTyping, NotDelivered, RefusalReason, ViolaName, obs_event,
+};
 use viola_state::events::{EventLine, LoggedLine, Source, append_event_at};
-use viola_state::snapshot::{PendingDialog, read_snapshot, write_snapshot};
+use viola_state::snapshot::{PendingDialog, Wheel};
 
 use crate::run::send::parse_from;
+use crate::run::snapshot::Snapshots;
 use crate::run::wait::WaitFeed;
+use crate::run::wheel::WheelSlot;
 
 /// How often a held dialog re-reads the clock against its deadline.
 const STEP: Duration = Duration::from_millis(20);
@@ -33,6 +38,8 @@ struct Pending {
     kind: DialogKind,
     raised: Instant,
     answer: Option<Response>,
+    /// The human took the wheel while it was held: it ends unanswered at once.
+    handed_back: bool,
 }
 
 /// What became of a dialog a PreToolUse raised, kept for the PermissionRequest that repeats it.
@@ -63,6 +70,8 @@ pub(crate) struct DialogSlot {
     name: ViolaName,
     instance_dir: PathBuf,
     feed: Arc<WaitFeed>,
+    wheel: Arc<WheelSlot>,
+    snapshots: Arc<Snapshots>,
     state: Mutex<State>,
     answered: Condvar,
 }
@@ -125,8 +134,8 @@ fn reply(dialog_id: u64, response: Option<&Response>) -> Value {
     json!({"ok": {"dialog_id": dialog_id, "response": response.map(Response::to_value)}})
 }
 
-fn refusal(reason: RefusalReason, detail: Option<NotDelivered>) -> Value {
-    json!({"refusal": reason.as_str(), "detail": detail.map(NotDelivered::as_str)})
+fn refusal(reason: RefusalReason, detail: Option<&'static str>) -> Value {
+    json!({"refusal": reason.as_str(), "detail": detail})
 }
 
 fn millis(d: Duration) -> u64 {
@@ -140,6 +149,8 @@ impl DialogSlot {
         name: ViolaName,
         instance_dir: PathBuf,
         feed: Arc<WaitFeed>,
+        wheel: Arc<WheelSlot>,
+        snapshots: Arc<Snapshots>,
     ) -> Self {
         Self {
             clock: Box::new(clock),
@@ -147,6 +158,8 @@ impl DialogSlot {
             name,
             instance_dir,
             feed,
+            wheel,
+            snapshots,
             state: Mutex::new(State {
                 next_id: 1,
                 ..State::default()
@@ -175,7 +188,10 @@ impl DialogSlot {
         }
         // A question first raised by PermissionRequest has no measured body: the human answers it.
         let unanswerable = raise.continuation && raise.kind == DialogKind::Question;
-        let hold = self.cli_verified && state.pending.is_none() && !unanswerable;
+        let hold = self.cli_verified
+            && state.pending.is_none()
+            && !unanswerable
+            && self.wheel.holder() == Wheel::Driver;
         let dialog_id = self.register(&mut state, &raise, hold)?;
         if raise.hook == HookEvent::PreToolUse
             && let Some(tool) = raise.tool
@@ -235,6 +251,7 @@ impl DialogSlot {
                 kind: raise.kind,
                 raised: self.clock.now(),
                 answer: None,
+                handed_back: false,
             });
             self.write_pending(Some(PendingDialog {
                 dialog_id,
@@ -244,8 +261,8 @@ impl DialogSlot {
         Ok(dialog_id)
     }
 
-    /// Held until an answer arrives or the deadline passes; either way the pending dialog is
-    /// cleared, and the PreToolUse arm learns the outcome.
+    /// Held until an answer arrives, the deadline passes or the dialog is handed back; each way the
+    /// pending dialog is cleared, and the PreToolUse arm learns the outcome.
     #[instrument(
         skip_all,
         name = "run.dialog_await",
@@ -253,12 +270,15 @@ impl DialogSlot {
     )]
     fn await_answer(&self, mut state: MutexGuard<'_, State>, dialog_id: u64) -> Value {
         let deadline = self.clock.now() + DIALOG_DEADLINE;
-        let answer = loop {
+        let (answer, deadline_hit) = loop {
             if let Some(answer) = state.pending.as_mut().and_then(|p| p.answer.take()) {
-                break Some(answer);
+                break (Some(answer), false);
+            }
+            if state.pending.as_ref().is_some_and(|p| p.handed_back) {
+                break (None, false);
             }
             if self.clock.now() >= deadline {
-                break None;
+                break (None, true);
             }
             state = self
                 .answered
@@ -266,7 +286,7 @@ impl DialogSlot {
                 .unwrap_or_else(PoisonError::into_inner)
                 .0;
         };
-        tracing::Span::current().record("deadline_hit", answer.is_none());
+        tracing::Span::current().record("deadline_hit", deadline_hit);
         state.pending = None;
         self.feed.dialog_settled();
         self.write_pending(None);
@@ -278,17 +298,22 @@ impl DialogSlot {
         reply(dialog_id, answer.as_ref())
     }
 
-    /// `snapshot.json` with `pending_dialog` set or cleared, through the wrapper's one writer; a
-    /// snapshot that cannot be read is left alone.
+    /// `snapshot.json` with `pending_dialog` set or cleared, through the wrapper's one snapshot
+    /// holder.
     fn write_pending(&self, pending: Option<PendingDialog>) {
-        if let Some(mut snapshot) = read_snapshot(&self.instance_dir) {
-            snapshot.pending_dialog = pending;
-            let _ = write_snapshot(&self.instance_dir, &snapshot);
+        let _ = self.snapshots.update(|s| s.pending_dialog = pending);
+    }
+
+    /// The human took the wheel: a held dialog ends unanswered at once, left to the human.
+    pub(crate) fn hand_back(&self) {
+        if let Some(pending) = self.state().pending.as_mut() {
+            pending.handed_back = true;
         }
+        self.answered.notify_all();
     }
 
     /// `answer` `{dialog_id, from?, response}` in the documented order: the params, the free text,
-    /// the stamp, the pending id, then the response's kind.
+    /// the wheel, the stamp, the pending id, then the response's kind.
     pub(crate) fn answer(&self, call: &Call<'_>) -> Result<Value, ProtocolError> {
         let params = call.params;
         let dialog_id = params["dialog_id"]
@@ -302,7 +327,13 @@ impl DialogSlot {
             .into_iter()
             .find_map(|t| viola_core::validate_paste_text(t).err())
         {
-            return Ok(refusal(RefusalReason::NotDelivered, Some(detail)));
+            return Ok(refusal(RefusalReason::NotDelivered, Some(detail.as_str())));
+        }
+        if let Some(detail) = self.wheel.human_typing() {
+            return Ok(refusal(
+                RefusalReason::HumanTyping,
+                detail.map(HumanTyping::as_str),
+            ));
         }
         if !self.cli_verified {
             return Ok(refusal(RefusalReason::UnverifiedCli, None));
@@ -315,7 +346,7 @@ impl DialogSlot {
         else {
             return Ok(refusal(
                 RefusalReason::NotDelivered,
-                Some(NotDelivered::UnknownDialog),
+                Some(NotDelivered::UnknownDialog.as_str()),
             ));
         };
         if response.kind() != pending.kind {
@@ -376,7 +407,9 @@ mod tests {
     use std::path::Path;
 
     use rstest::rstest;
-    use viola_state::snapshot::{InstanceSnapshot, Wheel};
+    use viola_state::snapshot::{InstanceSnapshot, read_snapshot};
+
+    use crate::run::wheel::Recorder;
 
     /// Every reading a second past the previous one: a held dialog expires within a minute of
     /// readings.
@@ -404,27 +437,47 @@ mod tests {
         ViolaName::try_new("builder".to_owned()).expect("valid")
     }
 
-    fn seed_snapshot(dir: &Path) {
-        let snapshot = InstanceSnapshot {
-            endpoint: None,
-            pid: 1,
-            started_at: "s".to_owned(),
-            pinned_bin: "b".to_owned(),
-            cli_verified: true,
-            cli_version: None,
-            wheel: Wheel::Driver,
-            budget_paused: false,
-            links: Vec::new(),
-            child_pid: Some(2),
-            pending_dialog: None,
-        };
-        write_snapshot(dir, &snapshot).expect("snapshot");
+    fn seeded_snapshots(dir: &Path) -> Arc<Snapshots> {
+        let snapshots = Arc::new(Snapshots::new(dir.to_path_buf()));
+        snapshots
+            .init(InstanceSnapshot {
+                endpoint: None,
+                pid: 1,
+                started_at: "s".to_owned(),
+                pinned_bin: "b".to_owned(),
+                cli_verified: true,
+                cli_version: None,
+                wheel: Wheel::Driver,
+                budget_paused: false,
+                links: Vec::new(),
+                child_pid: Some(2),
+                pending_dialog: None,
+            })
+            .expect("snapshot");
+        snapshots
+    }
+
+    fn slot_on(
+        dir: &Path,
+        clock: impl Clock + 'static,
+        verified: bool,
+        wheel: Arc<WheelSlot>,
+        snapshots: Arc<Snapshots>,
+    ) -> DialogSlot {
+        let feed = Arc::new(WaitFeed::new(JumpClock(Mutex::new(Instant::now()))));
+        DialogSlot::new(
+            clock,
+            verified,
+            name(),
+            dir.to_path_buf(),
+            feed,
+            wheel,
+            snapshots,
+        )
     }
 
     fn slot(dir: &Path, clock: impl Clock + 'static, verified: bool) -> DialogSlot {
-        seed_snapshot(dir);
-        let feed = Arc::new(WaitFeed::new(JumpClock(Mutex::new(Instant::now()))));
-        DialogSlot::new(clock, verified, name(), dir.to_path_buf(), feed)
+        slot_on(dir, clock, verified, Arc::default(), seeded_snapshots(dir))
     }
 
     fn events(dir: &Path) -> Vec<Value> {
@@ -803,19 +856,168 @@ mod tests {
     #[test]
     fn hook_dialog_append_that_failed_is_internal() {
         let tmp = tempfile::tempdir().expect("tempdir");
-        let feed = Arc::new(WaitFeed::new(FixedClock(Instant::now())));
-        let slot = DialogSlot::new(
+        let missing = tmp.path().join("missing");
+        let slot = slot_on(
+            &missing,
             FixedClock(Instant::now()),
             true,
-            name(),
-            tmp.path().join("missing"),
-            feed,
+            Arc::default(),
+            Arc::new(Snapshots::new(missing.clone())),
         );
         assert_eq!(
             slot.hook_dialog(&permission()),
             Err(ProtocolError::Internal)
         );
         assert!(slot.state().pending.is_none());
+    }
+
+    /// The human takes the wheel (a `pause`, recorded through the wheel's thread) while a dialog
+    /// is held: it is answered `null` at once, long before the deadline, `pending_dialog` leaves
+    /// the snapshot, and its PermissionRequest repeat is left to the human too.
+    #[test]
+    fn hook_dialog_held_is_handed_back_null_at_once_on_a_wheel_move() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let snapshots = seeded_snapshots(tmp.path());
+        let wheel = Arc::new(WheelSlot::default());
+        let slot = Arc::new(slot_on(
+            tmp.path(),
+            FixedClock(Instant::now()),
+            true,
+            Arc::clone(&wheel),
+            Arc::clone(&snapshots),
+        ));
+        wheel.record_with(Recorder {
+            name: name(),
+            instance_dir: tmp.path().to_path_buf(),
+            snapshots,
+            dialogs: Arc::clone(&slot),
+        });
+        std::thread::scope(|s| {
+            let raising = s.spawn(|| slot.hook_dialog(&plan("pre-tool-use", false)));
+            while slot.state().pending.is_none() {
+                std::thread::yield_now();
+            }
+            assert!(pending_on_disk(tmp.path()).is_some());
+            let none = json!({"v": 1});
+            let paused = wheel.pause(&Call {
+                method: "pause",
+                params: &none,
+                id: Some(1),
+                conn: None,
+                srv_conn: None,
+            });
+            assert_eq!(paused, Ok(json!({"ok": {"wheel": "human"}})));
+            let raised = raising.join().expect("thread");
+            assert_eq!(
+                raised,
+                Ok(json!({"ok": {"dialog_id": 1, "response": null}}))
+            );
+        });
+        assert!(slot.state().pending.is_none());
+        assert_eq!(pending_on_disk(tmp.path()), None);
+        assert_eq!(
+            slot.hook_dialog(&plan("permission-request", true)),
+            Ok(json!({"ok": {"dialog_id": 1, "response": null}}))
+        );
+        let kinds: Vec<Value> = events(tmp.path())
+            .iter()
+            .map(|e| e["kind"].clone())
+            .collect();
+        assert_eq!(kinds, ["plan", "wheel"]);
+    }
+
+    /// Under a human wheel a dialog is still logged once with its own id, and left to the human.
+    #[test]
+    fn hook_dialog_under_a_human_wheel_is_logged_once_and_null_at_once() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let wheel = Arc::new(WheelSlot::default());
+        wheel.human_input();
+        let slot = slot_on(
+            tmp.path(),
+            FixedClock(Instant::now()),
+            true,
+            wheel,
+            seeded_snapshots(tmp.path()),
+        );
+        assert_eq!(
+            slot.hook_dialog(&permission()),
+            Ok(json!({"ok": {"dialog_id": 1, "response": null}}))
+        );
+        assert!(slot.state().pending.is_none());
+        assert_eq!(pending_on_disk(tmp.path()), None);
+        let lines = events(tmp.path());
+        assert_eq!(lines.len(), 1);
+        assert_eq!(lines[0]["kind"], "permission");
+        assert_eq!(lines[0]["data"]["dialog_id"], 1);
+    }
+
+    /// A human wheel, taken by a key or (`paused`) by `viola pause`.
+    fn human_wheel(paused: bool) -> Arc<WheelSlot> {
+        let wheel = Arc::new(WheelSlot::default());
+        wheel.human_input();
+        if paused {
+            let none = json!({"v": 1});
+            wheel
+                .pause(&Call {
+                    method: "pause",
+                    params: &none,
+                    id: Some(1),
+                    conn: None,
+                    srv_conn: None,
+                })
+                .expect("paused");
+        }
+        wheel
+    }
+
+    /// The `answer` order under a human wheel, written out: control-character first, then
+    /// human-typing ahead of the stamp and of the pending id.
+    #[rstest]
+    #[case::control_character_before_human_typing(
+        true,
+        true,
+        json!({"v": 1, "dialog_id": 1, "response": {"behavior": "deny", "message": "a\u{1b}b"}}),
+        json!({"refusal": "not-delivered", "detail": "control-character"})
+    )]
+    #[case::human_typing_before_unverified(
+        false,
+        false,
+        json!({"v": 1, "dialog_id": 1, "response": {"behavior": "allow"}}),
+        json!({"refusal": "human-typing", "detail": null})
+    )]
+    #[case::manual_pause_before_unverified(
+        true,
+        false,
+        json!({"v": 1, "dialog_id": 1, "response": {"behavior": "allow"}}),
+        json!({"refusal": "human-typing", "detail": "manual-pause"})
+    )]
+    #[case::human_typing_before_unknown_dialog(
+        false,
+        true,
+        json!({"v": 1, "dialog_id": 9, "response": {"behavior": "allow"}}),
+        json!({"refusal": "human-typing", "detail": null})
+    )]
+    #[case::manual_pause_before_unknown_dialog(
+        true,
+        true,
+        json!({"v": 1, "dialog_id": 9, "response": {"behavior": "allow"}}),
+        json!({"refusal": "human-typing", "detail": "manual-pause"})
+    )]
+    fn answer_refusal_order_under_a_human_wheel(
+        #[case] paused: bool,
+        #[case] verified: bool,
+        #[case] params: Value,
+        #[case] expected: Value,
+    ) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let slot = slot_on(
+            tmp.path(),
+            FixedClock(Instant::now()),
+            verified,
+            human_wheel(paused),
+            seeded_snapshots(tmp.path()),
+        );
+        assert_eq!(slot.answer(&call(&params)), Ok(expected));
     }
 
     /// A parked `wait` with no `after` while a dialog is held returns that dialog at once.

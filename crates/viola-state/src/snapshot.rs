@@ -25,6 +25,15 @@ pub enum Wheel {
     Human,
 }
 
+impl Wheel {
+    pub const fn as_str(self) -> &'static str {
+        match self {
+            Self::Driver => "driver",
+            Self::Human => "human",
+        }
+    }
+}
+
 /// Fields arrive with their chunks and are additive; a reader skips the ones it does not know.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct InstanceSnapshot {
@@ -119,6 +128,14 @@ mod tests {
             links: Vec::new(),
             child_pid,
             pending_dialog: None,
+        }
+    }
+
+    #[test]
+    fn wheel_as_str_is_its_serde_value() {
+        for (wheel, text) in [(Wheel::Driver, "driver"), (Wheel::Human, "human")] {
+            assert_eq!(wheel.as_str(), text);
+            assert_eq!(serde_json::to_value(wheel).expect("serialize"), json!(text));
         }
     }
 

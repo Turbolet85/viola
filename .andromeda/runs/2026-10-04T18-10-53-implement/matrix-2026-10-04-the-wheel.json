@@ -1,0 +1,49 @@
+[
+{
+"tool": "matrix",
+"v": "1.3",
+"sha8": "951eb804",
+"ts": "2026-10-04T18:40:22Z",
+"argv": [
+"implement",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-04-the-wheel",
+"--id",
+"v1-32",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-04T18-10-53-implement"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"implement v1-32 · status planned → implemented · ref tests/tui_wheel.rs::{path5_human_takes_the_wheel_and_release_returns_it, path5_h… (316 chars)",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-32",
+"chunk": "2026-10-04-the-wheel",
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "In `tests/tui_wheel.rs` and `tests/cli_wheel.rs`, on all three CI OSes (the run id read by the operator pass's `ci.py co… (947 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-32",
+"chunk": "2026-10-04-the-wheel",
+"status": "implemented",
+"method": "e2e",
+"ref": "tests/tui_wheel.rs::{path5_human_takes_the_wheel_and_release_returns_it, path5_harness_turns_never_take_the_wheel, tui_f… (316 chars)",
+"acceptance": "In `tests/tui_wheel.rs` and `tests/cli_wheel.rs`, on all three CI OSes (the run id read by the operator pass's `ci.py co… (947 chars)",
+"notes_chars": 0
+}
+}
+]

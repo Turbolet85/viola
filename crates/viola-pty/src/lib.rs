@@ -348,6 +348,120 @@ impl Drop for HostTerminal {
     }
 }
 
+/// The wrapper's host stdin. On Windows, when it is a console, a reader that calls `ReadConsoleW`
+/// itself: std's console read drops a trailing `0x1A` from every read and turns a read of `^Z`
+/// alone into end of input (rust-lang/rust#38274), which would end the human's copy into the child.
+/// Anywhere else, a redirected Windows stdin included, `std::io::stdin()` unchanged.
+pub fn host_stdin() -> Box<dyn Read + Send> {
+    #[cfg(windows)]
+    if console::is_console() {
+        return Box::new(ConsoleInput::new(console::Console));
+    }
+    Box::new(io::stdin())
+}
+
+/// Where console text comes from: UTF-16 units, as `ReadConsoleW` hands them out.
+#[cfg_attr(not(windows), allow(dead_code))]
+trait Utf16Source {
+    /// Fills `buf` with at most `buf.len()` units; how many it wrote, zero included.
+    fn read_units(&mut self, buf: &mut [u16]) -> io::Result<usize>;
+}
+
+/// Console text as UTF-8 bytes: every unit kept (`0x1A` included), a high surrogate that ends one
+/// read carried to the next, and a successful read of no units read as no data, never as the end.
+#[cfg_attr(not(windows), allow(dead_code))]
+struct ConsoleInput<S> {
+    source: S,
+    carried: Option<u16>,
+    ready: Vec<u8>,
+}
+
+impl<S: Utf16Source> ConsoleInput<S> {
+    #[cfg_attr(not(windows), allow(dead_code))]
+    fn new(source: S) -> Self {
+        Self {
+            source,
+            carried: None,
+            ready: Vec::new(),
+        }
+    }
+}
+
+/// `units` after any carried high surrogate, as UTF-8 onto `out`; a trailing high surrogate is
+/// carried instead, and an unpaired surrogate becomes U+FFFD.
+#[cfg_attr(not(windows), allow(dead_code))]
+fn decode_units(carried: &mut Option<u16>, units: &[u16], out: &mut Vec<u8>) {
+    let mut all: Vec<u16> = carried
+        .take()
+        .into_iter()
+        .chain(units.iter().copied())
+        .collect();
+    if all.last().is_some_and(|u| (0xD800..=0xDBFF).contains(u)) {
+        *carried = all.pop();
+    }
+    for c in char::decode_utf16(all) {
+        let c = c.unwrap_or(char::REPLACEMENT_CHARACTER);
+        out.extend_from_slice(c.encode_utf8(&mut [0u8; 4]).as_bytes());
+    }
+}
+
+impl<S: Utf16Source> Read for ConsoleInput<S> {
+    fn read(&mut self, buf: &mut [u8]) -> io::Result<usize> {
+        if buf.is_empty() {
+            return Ok(0);
+        }
+        let mut units = [0u16; 1024];
+        while self.ready.is_empty() {
+            let n = self.source.read_units(&mut units)?;
+            decode_units(&mut self.carried, &units[..n], &mut self.ready);
+        }
+        let n = buf.len().min(self.ready.len());
+        buf[..n].copy_from_slice(&self.ready[..n]);
+        self.ready.drain(..n);
+        Ok(n)
+    }
+}
+
+#[cfg(windows)]
+mod console {
+    use std::io;
+
+    use windows_sys::Win32::System::Console::{
+        GetConsoleMode, GetStdHandle, ReadConsoleW, STD_INPUT_HANDLE,
+    };
+
+    pub(super) fn is_console() -> bool {
+        let mut mode = 0u32;
+        // SAFETY: reads this process's own stdin console mode into a local.
+        unsafe { GetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), &mut mode) != 0 }
+    }
+
+    /// The process's console input, read with no Ctrl-Z wakeup control.
+    pub(super) struct Console;
+
+    impl super::Utf16Source for Console {
+        fn read_units(&mut self, buf: &mut [u16]) -> io::Result<usize> {
+            let len = u32::try_from(buf.len()).unwrap_or(u32::MAX);
+            let mut read = 0u32;
+            // SAFETY: ReadConsoleW writes at most `len` units into `buf`, owned by the caller, and
+            // the count into a local; a null input control is documented as allowed.
+            let ok = unsafe {
+                ReadConsoleW(
+                    GetStdHandle(STD_INPUT_HANDLE),
+                    buf.as_mut_ptr().cast(),
+                    len,
+                    &mut read,
+                    std::ptr::null(),
+                )
+            };
+            if ok == 0 {
+                return Err(io::Error::last_os_error());
+            }
+            Ok(usize::try_from(read).unwrap_or_default())
+        }
+    }
+}
+
 /// The size of the terminal on this process's stdout, `None` when it is not one.
 pub fn host_size() -> Option<Size> {
     #[cfg(windows)]
@@ -421,6 +535,78 @@ mod tests {
         assert_eq!(nonzero_size(1, 1), Some(Size { cols: 1, rows: 1 }));
         assert_eq!(nonzero_size(0, 24), None);
         assert_eq!(nonzero_size(80, 0), None);
+    }
+
+    /// Hands out one scripted console read per call; panics when asked past its script.
+    struct Script(Vec<Vec<u16>>);
+
+    impl Utf16Source for Script {
+        fn read_units(&mut self, buf: &mut [u16]) -> io::Result<usize> {
+            assert!(!self.0.is_empty(), "read past the script");
+            let units = self.0.remove(0);
+            buf[..units.len()].copy_from_slice(&units);
+            Ok(units.len())
+        }
+    }
+
+    fn read_all(input: &mut impl Read, reads: usize) -> Vec<u8> {
+        let mut out = Vec::new();
+        let mut buf = [0u8; 64];
+        for _ in 0..reads {
+            let n = input.read(&mut buf).expect("read");
+            assert!(n > 0, "a console read never ends the input");
+            out.extend_from_slice(&buf[..n]);
+        }
+        out
+    }
+
+    /// `^Z` is a key like any other: alone, last in a read, or first; nothing is dropped.
+    #[test]
+    fn console_input_keeps_every_ctrl_z() {
+        let mut input = ConsoleInput::new(Script(vec![
+            vec![0x1a],
+            vec![u16::from(b'a'), 0x1a],
+            vec![0x1a, u16::from(b'k')],
+        ]));
+        assert_eq!(read_all(&mut input, 3), b"\x1aa\x1a\x1ak");
+    }
+
+    /// A read of no units is no data: the reader reads again rather than reporting the end.
+    #[test]
+    fn console_input_reads_again_after_an_empty_read() {
+        let mut input = ConsoleInput::new(Script(vec![vec![], vec![], vec![u16::from(b'k')]]));
+        assert_eq!(read_all(&mut input, 1), b"k");
+    }
+
+    /// A surrogate pair split across two reads is one character; an unpaired one is U+FFFD.
+    #[test]
+    fn console_input_joins_a_surrogate_pair_split_across_reads() {
+        let mut input = ConsoleInput::new(Script(vec![
+            vec![u16::from(b'a'), 0xD83D],
+            vec![0xDE42, u16::from(b'b')],
+            vec![0xDE42],
+            vec![0xD83D, u16::from(b'c')],
+        ]));
+        assert_eq!(
+            String::from_utf8(read_all(&mut input, 4)).expect("utf-8"),
+            "a\u{1F642}b\u{FFFD}\u{FFFD}c"
+        );
+    }
+
+    /// A long read is handed out across several smaller reads, in order; an empty buffer reads
+    /// nothing from the console.
+    #[test]
+    fn console_input_hands_out_a_long_read_in_order() {
+        let text: Vec<u16> = "é".repeat(40).encode_utf16().collect();
+        let mut input = ConsoleInput::new(Script(vec![text]));
+        assert_eq!(input.read(&mut []).expect("empty"), 0);
+        let mut out = Vec::new();
+        let mut buf = [0u8; 7];
+        while out.len() < 80 {
+            let n = input.read(&mut buf).expect("read");
+            out.extend_from_slice(&buf[..n]);
+        }
+        assert_eq!(String::from_utf8(out).expect("utf-8"), "é".repeat(40));
     }
 
     const CHILD_REPORT: &str = "PTY_SEAM_TEST_REPORT";

@@ -507,7 +507,8 @@ impl Drop for ResponseLine<'_> {
             Some(
                 ProtocolError::InvalidRequest
                 | ProtocolError::UnsupportedVersion
-                | ProtocolError::InvalidParams,
+                | ProtocolError::InvalidParams
+                | ProtocolError::ReleaseFromDriver,
             ) => {
                 response_line!(WARN)
             }
@@ -534,6 +535,7 @@ mod tests {
                 "send" => Ok(json!({"ok": {"echo": params["n"]}})),
                 "pause" => Ok(json!({"refusal": "human-typing", "detail": null})),
                 "wait" => panic!("dispatch panicked"),
+                "release" => Err(ProtocolError::ReleaseFromDriver),
                 _ => Err(ProtocolError::MethodNotFound),
             }
         }
@@ -665,6 +667,21 @@ mod tests {
         let response = got.event("channel-response");
         assert_eq!(response["error_code"], -32603);
         assert_eq!(response["level"], "ERROR");
+    }
+
+    /// A driver's `release` is a `-32602` whose `data` names why, logged at the `-32602` level.
+    #[test]
+    fn answer_release_from_driver_is_invalid_params_with_its_reason() {
+        let (reply, got) = reply_to(
+            r#"{"jsonrpc":"2.0","id":4,"method":"release","params":{"v":1,"from":"overseer"}}"#,
+        );
+        assert_eq!(
+            reply.expect("reply").frame["error"].to_string(),
+            r#"{"code":-32602,"message":"invalid params","data":{"reason":"release-from-driver"}}"#
+        );
+        let response = got.event("channel-response");
+        assert_eq!(response["error_code"], -32602);
+        assert_eq!(response["level"], "WARN");
     }
 
     #[rstest]

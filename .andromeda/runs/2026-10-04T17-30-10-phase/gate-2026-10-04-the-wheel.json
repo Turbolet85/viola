@@ -1,0 +1,32 @@
+[
+{
+"tool": "gate",
+"v": "1.8",
+"sha8": "af374e71",
+"ts": "2026-10-04T17:45:17Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"viola-0.1.0/chunks/2026-10-04-the-wheel/research.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T17-30-10-phase",
+"--marker",
+"2026-10-04-the-wheel"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 23 items (new 6 · modify 17 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 23,
+"unparsed": 0
+}
+}
+]

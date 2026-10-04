@@ -1,11 +1,11 @@
-//! The wrapper's `send` (architecture [Delivery Confirmation]): the text re-validated, one send in
-//! flight, the readiness gate, `send-issued` at the pre-paste cursor, one bracketed paste + Enter,
+//! The wrapper's `send` (architecture [Delivery Confirmation]): the text re-validated, the wheel,
+//! one send in flight, the readiness gate, `send-issued` at the pre-paste cursor, one bracketed paste + Enter,
 //! then confirmation after the fact — the matching `prompt-submitted`, relabelled `driver`, inside
 //! the window — or `not-delivered`. Each outcome is an `events.ndjson` record and a codes-only
 //! `send-*` line; the text reaches neither.
 
 use std::path::Path;
-use std::sync::{Condvar, Mutex, MutexGuard, OnceLock, PoisonError};
+use std::sync::{Arc, Condvar, Mutex, MutexGuard, OnceLock, PoisonError};
 use std::time::{Duration, Instant};
 
 use chrono::Utc;
@@ -14,13 +14,16 @@ use tracing::instrument;
 use viola_agent_claude::screen::{CONFIRM_WINDOW_FALLBACK, Readiness};
 use viola_channel::{Call, ProtocolError};
 use viola_core::obs::ObsEvent;
-use viola_core::{Clock, EventKind, NotDelivered, RefusalReason, ViolaName, obs_event};
+use viola_core::{
+    Clock, EventKind, HumanTyping, NotDelivered, RefusalReason, ViolaName, obs_event,
+};
 use viola_pty::PtyError;
 use viola_state::StateError;
 use viola_state::events::{EventLine, Source, append_event, append_event_at, end_offset};
 
 use crate::run::gate::Gate;
 use crate::run::wait::WaitFeed;
+use crate::run::wheel::WheelSlot;
 
 /// How often the waiting handler re-reads the clock against the window.
 const STEP: Duration = Duration::from_millis(20);
@@ -41,18 +44,21 @@ struct InFlight {
     state: Match,
 }
 
-/// The child's input and gate, set once the pump starts, and the one send in flight.
+/// The child's input and gate, set once the pump starts, the one send in flight, and the wheel it
+/// reads before typing.
 pub(crate) struct SendSlot {
     clock: Box<dyn Clock>,
+    wheel: Arc<WheelSlot>,
     io: OnceLock<(PasteFn, Gate)>,
     in_flight: Mutex<Option<InFlight>>,
     settled: Condvar,
 }
 
 impl SendSlot {
-    pub(crate) fn new(clock: impl Clock + 'static) -> Self {
+    pub(crate) fn new(clock: impl Clock + 'static, wheel: Arc<WheelSlot>) -> Self {
         Self {
             clock: Box::new(clock),
+            wheel,
             io: OnceLock::new(),
             in_flight: Mutex::new(None),
             settled: Condvar::new(),
@@ -128,7 +134,8 @@ impl SendSlot {
 /// Appends a hook's event through the wait feed, which signals the parked `wait`s. The in-flight send's
 /// own prompt, whatever origin the hook filed, is the driver's: the match keys on the normalised
 /// text, never on the hook's origin, and the waiting send settles only once the relabelled line is
-/// on disk.
+/// on disk. Any other prompt the hook filed `human` was typed by the human, who then holds the wheel;
+/// a `harness` prompt never moves it.
 pub(crate) fn append_hook_event(
     slot: &SendSlot,
     feed: &WaitFeed,
@@ -145,6 +152,10 @@ pub(crate) fn append_hook_event(
     let appended = feed.appending(&line, || append_event(instance_dir, &line));
     if claimed {
         slot.settle(appended.is_ok().then(|| line.ts.clone()));
+    }
+    let human = line.kind == EventKind::PromptSubmitted && line.data["origin"] == "human";
+    if appended.is_ok() && human {
+        slot.wheel.human_input();
     }
     appended
 }
@@ -171,6 +182,7 @@ impl Drop for Reserved<'_> {
 /// What a send's lines and records carry besides the outcome.
 struct Ctx<'a> {
     name: &'a ViolaName,
+    wheel: &'a WheelSlot,
     instance_dir: &'a Path,
     call: &'a Call<'a>,
     from: Option<ViolaName>,
@@ -206,19 +218,27 @@ pub(crate) fn send(
     let (text, from) = parse(call.params)?;
     let ctx = Ctx {
         name,
+        wheel: &slot.wheel,
         instance_dir,
         call,
         from,
         started: slot.clock.now(),
     };
     if let Err(detail) = viola_core::validate_paste_text(text) {
-        return ctx.refuse(None, detail);
+        return ctx.not_delivered(None, detail);
+    }
+    if let Some(detail) = slot.wheel.human_typing() {
+        return ctx.refuse(
+            None,
+            RefusalReason::HumanTyping,
+            detail.map(HumanTyping::as_str),
+        );
     }
     {
         let mut flight = slot.flight();
         if flight.is_some() {
             drop(flight);
-            return ctx.refuse(None, NotDelivered::TurnRunning);
+            return ctx.not_delivered(None, NotDelivered::TurnRunning);
         }
         *flight = Some(InFlight {
             text: text.to_owned(),
@@ -227,19 +247,19 @@ pub(crate) fn send(
     }
     let _reserved = Reserved(slot);
     let Some((paste, gate)) = slot.io.get() else {
-        return ctx.refuse(None, NotDelivered::InputNotReady);
+        return ctx.not_delivered(None, NotDelivered::InputNotReady);
     };
     let (readiness, _) = gate.wait_ready(slot.clock.as_ref(), slot.clock.now());
     if readiness != Readiness::Ready {
-        return ctx.refuse(None, NotDelivered::InputNotReady);
+        return ctx.not_delivered(None, NotDelivered::InputNotReady);
     }
     let cursor = ctx.issue(text.len())?;
     if paste(text).is_err() {
-        return ctx.refuse(Some(cursor), NotDelivered::InputNotReady);
+        return ctx.not_delivered(Some(cursor), NotDelivered::InputNotReady);
     }
     match slot.confirm(slot.clock.now()) {
         Some(submitted_at) => ctx.confirm(cursor, &submitted_at, slot.clock.now()),
-        None => ctx.refuse(Some(cursor), NotDelivered::NoPromptSubmitted),
+        None => ctx.not_delivered(Some(cursor), NotDelivered::NoPromptSubmitted),
     }
 }
 
@@ -314,11 +334,23 @@ impl Ctx<'_> {
         Ok(json!({"ok": {"submitted_at": submitted_at, "cursor": cursor}}))
     }
 
-    /// A `not-delivered` refusal: before `send-issued` (no cursor; the line's `corr` is the end
-    /// offset at refusal, obs-plan D-28) or after it (the send's own cursor).
-    fn refuse(&self, cursor: Option<u64>, detail: NotDelivered) -> Result<Value, ProtocolError> {
-        let refusal = RefusalReason::NotDelivered;
-        let mut data = json!({"refusal": refusal.as_str(), "detail": detail.as_str()});
+    fn not_delivered(
+        &self,
+        cursor: Option<u64>,
+        detail: NotDelivered,
+    ) -> Result<Value, ProtocolError> {
+        self.refuse(cursor, RefusalReason::NotDelivered, Some(detail.as_str()))
+    }
+
+    /// A refusal: before `send-issued` (no cursor; the line's `corr` is the end offset at refusal,
+    /// obs-plan D-28) or after it (the send's own cursor). Its line carries the wheel's holder.
+    fn refuse(
+        &self,
+        cursor: Option<u64>,
+        refusal: RefusalReason,
+        detail: Option<&'static str>,
+    ) -> Result<Value, ProtocolError> {
+        let mut data = json!({"refusal": refusal.as_str(), "detail": detail});
         if let Some(cursor) = cursor {
             data["cursor"] = json!(cursor);
         }
@@ -337,10 +369,11 @@ impl Ctx<'_> {
             from = self.sender(),
             from_trust = self.trust(),
             side = "wrapper",
+            wheel = self.wheel.holder().as_str(),
             refusal = refusal.as_str(),
-            detail = detail.as_str(),
+            detail = detail,
         );
-        Ok(json!({"refusal": refusal.as_str(), "detail": detail.as_str()}))
+        Ok(json!({"refusal": refusal.as_str(), "detail": detail}))
     }
 }
 
@@ -352,6 +385,7 @@ mod tests {
 
     use rstest::rstest;
     use viola_pty::Size;
+    use viola_state::snapshot::Wheel;
 
     use crate::run::gate;
 
@@ -473,47 +507,100 @@ mod tests {
     #[derive(Clone, Copy)]
     enum Setup {
         InFlightNoChild,
+        /// A human key took the wheel, and another send is in flight.
+        HumanInFlight,
+        /// `viola pause` took the wheel, and another send is in flight.
+        PausedInFlight,
         NoChild,
         Poisoned,
         Mute,
     }
 
-    /// The `send` order, written out: control-character ahead of everything, then the one in
-    /// flight, then the gate, then the window.
+    /// A wheel `viola pause` took.
+    fn paused(wheel: &WheelSlot) {
+        let none = json!({"v": 1});
+        wheel.pause(&call(&none, 1)).expect("paused");
+    }
+
+    /// The `send` order, written out: control-character ahead of everything, then the wheel, then
+    /// the one in flight, then the gate, then the window.
     #[rstest]
+    #[case::control_character_before_human_typing(
+        "x\u{1b}[201~",
+        Setup::PausedInFlight,
+        "not-delivered",
+        Some("control-character")
+    )]
     #[case::control_character_before_turn_running(
         "x\u{1b}[201~",
         Setup::InFlightNoChild,
-        "control-character"
+        "not-delivered",
+        Some("control-character")
     )]
-    #[case::turn_running_before_input_not_ready("hello", Setup::InFlightNoChild, "turn-running")]
-    #[case::input_not_ready_without_a_child("hello", Setup::NoChild, "input-not-ready")]
-    #[case::input_not_ready_on_a_poisoned_screen("hello", Setup::Poisoned, "input-not-ready")]
+    #[case::human_typing_before_turn_running("hello", Setup::HumanInFlight, "human-typing", None)]
+    #[case::manual_pause_before_turn_running(
+        "hello",
+        Setup::PausedInFlight,
+        "human-typing",
+        Some("manual-pause")
+    )]
+    #[case::turn_running_before_input_not_ready(
+        "hello",
+        Setup::InFlightNoChild,
+        "not-delivered",
+        Some("turn-running")
+    )]
+    #[case::input_not_ready_without_a_child(
+        "hello",
+        Setup::NoChild,
+        "not-delivered",
+        Some("input-not-ready")
+    )]
+    #[case::input_not_ready_on_a_poisoned_screen(
+        "hello",
+        Setup::Poisoned,
+        "not-delivered",
+        Some("input-not-ready")
+    )]
     #[case::no_prompt_submitted_when_the_window_expires(
         "hello",
         Setup::Mute,
-        "no-prompt-submitted"
+        "not-delivered",
+        Some("no-prompt-submitted")
     )]
-    fn send_refusal_order(#[case] text: &str, #[case] setup: Setup, #[case] detail: &str) {
+    fn send_refusal_order(
+        #[case] text: &str,
+        #[case] setup: Setup,
+        #[case] refusal: &str,
+        #[case] detail: Option<&str>,
+    ) {
         let tmp = tempfile::tempdir().expect("tempdir");
         let base = Instant::now();
-        let slot = SendSlot::new(JumpClock(Mutex::new(base)));
+        let slot = SendSlot::new(JumpClock(Mutex::new(base)), Arc::default());
         let (pastes, _pasted) = Pastes::new();
         match setup {
             Setup::InFlightNoChild => occupy(&slot),
+            Setup::HumanInFlight => {
+                slot.wheel.human_input();
+                occupy(&slot);
+            }
+            Setup::PausedInFlight => {
+                paused(&slot.wheel);
+                occupy(&slot);
+            }
             Setup::NoChild => {}
             Setup::Poisoned => slot.attach(pastes.paste_fn(), poisoned_gate(base)),
             Setup::Mute => slot.attach(pastes.paste_fn(), quiet_gate(base)),
         }
         let params = json!({"v": 1, "text": text});
         let reply = send(&slot, &name(), tmp.path(), &call(&params, 7)).expect("answered");
-        assert_eq!(reply, json!({"refusal": "not-delivered", "detail": detail}));
+        assert_eq!(reply, json!({"refusal": refusal, "detail": detail}));
         let events = events(tmp.path());
         let refused = events.last().expect("a send-refused record");
         assert_eq!(refused["kind"], "send-refused");
         assert_eq!(refused["source"], "wrapper");
-        assert_eq!(refused["data"]["refusal"], "not-delivered");
-        assert_eq!(refused["data"]["detail"], detail);
+        assert_eq!(refused["data"]["refusal"], refusal);
+        assert_eq!(refused["data"]["detail"], json!(detail));
         if matches!(setup, Setup::Mute) {
             assert_eq!(kinds(tmp.path()), ["send-issued", "send-refused"]);
             assert_eq!(refused["data"]["cursor"], 0);
@@ -523,7 +610,10 @@ mod tests {
             assert!(refused["data"].get("cursor").is_none());
             assert!(pastes.all().is_empty(), "nothing typed");
         }
-        if matches!(setup, Setup::InFlightNoChild) {
+        if matches!(
+            setup,
+            Setup::InFlightNoChild | Setup::HumanInFlight | Setup::PausedInFlight
+        ) {
             assert!(slot.flight().is_some(), "the other send keeps its slot");
         } else {
             assert!(slot.flight().is_none(), "the slot is free again");
@@ -534,7 +624,7 @@ mod tests {
     fn confirmed_with(origin: &str) {
         let tmp = tempfile::tempdir().expect("tempdir");
         let base = Instant::now();
-        let slot = SendSlot::new(FixedClock(base));
+        let slot = SendSlot::new(FixedClock(base), Arc::default());
         let (pastes, pasted) = Pastes::new();
         slot.attach(pastes.paste_fn(), quiet_gate(base));
         std::fs::write(
@@ -567,6 +657,7 @@ mod tests {
         );
         assert_eq!(pastes.all(), [CANARY]);
         assert!(slot.flight().is_none());
+        assert_eq!(slot.wheel.holder(), Wheel::Driver, "the send's own prompt");
     }
 
     #[test]
@@ -582,7 +673,7 @@ mod tests {
     #[test]
     fn send_a_different_prompt_is_appended_unchanged_and_claims_nothing() {
         let tmp = tempfile::tempdir().expect("tempdir");
-        let slot = SendSlot::new(FixedClock(Instant::now()));
+        let slot = SendSlot::new(FixedClock(Instant::now()), Arc::default());
         occupy(&slot);
         append_hook_event(
             &slot,
@@ -601,10 +692,26 @@ mod tests {
         ));
     }
 
+    /// An unsent prompt the hook filed `human` was typed by the human: the wheel is theirs. A
+    /// `harness` prompt, or one whose line never landed, moves nothing.
+    #[test]
+    fn send_an_unsent_human_prompt_takes_the_wheel_and_a_harness_one_does_not() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let slot = SendSlot::new(FixedClock(Instant::now()), Arc::default());
+        append_hook_event(&slot, &feed(), tmp.path(), prompt("injected", "harness")).expect("hook");
+        assert_eq!(slot.wheel.holder(), Wheel::Driver);
+        let missing = tmp.path().join("missing");
+        assert!(append_hook_event(&slot, &feed(), &missing, prompt("lost", "human")).is_err());
+        assert_eq!(slot.wheel.holder(), Wheel::Driver);
+        append_hook_event(&slot, &feed(), tmp.path(), prompt("typed", "human")).expect("hook");
+        assert_eq!(slot.wheel.holder(), Wheel::Human);
+        assert_eq!(slot.wheel.human_typing(), Some(None));
+    }
+
     #[test]
     fn send_no_prompt_while_nothing_is_in_flight_is_appended_unchanged() {
         let tmp = tempfile::tempdir().expect("tempdir");
-        let slot = SendSlot::new(FixedClock(Instant::now()));
+        let slot = SendSlot::new(FixedClock(Instant::now()), Arc::default());
         append_hook_event(
             &slot,
             &feed(),
@@ -620,7 +727,7 @@ mod tests {
     #[test]
     fn send_closed_send_keeps_the_slot_until_its_guard_drops() {
         let tmp = tempfile::tempdir().expect("tempdir");
-        let slot = SendSlot::new(FixedClock(Instant::now()));
+        let slot = SendSlot::new(FixedClock(Instant::now()), Arc::default());
         *slot.flight() = Some(InFlight {
             text: "decided".to_owned(),
             state: Match::Closed,
@@ -643,7 +750,7 @@ mod tests {
     fn send_window_expiry_is_no_prompt_submitted_with_the_cursor() {
         let tmp = tempfile::tempdir().expect("tempdir");
         let base = Instant::now();
-        let slot = SendSlot::new(JumpClock(Mutex::new(base)));
+        let slot = SendSlot::new(JumpClock(Mutex::new(base)), Arc::default());
         let (pastes, _pasted) = Pastes::new();
         slot.attach(pastes.paste_fn(), quiet_gate(base));
         let params = json!({"v": 1, "text": "hello"});
@@ -666,7 +773,7 @@ mod tests {
     fn send_second_while_one_is_in_flight_is_turn_running_and_types_nothing() {
         let tmp = tempfile::tempdir().expect("tempdir");
         let base = Instant::now();
-        let slot = SendSlot::new(FixedClock(base));
+        let slot = SendSlot::new(FixedClock(base), Arc::default());
         let (pastes, pasted) = Pastes::new();
         slot.attach(pastes.paste_fn(), quiet_gate(base));
         let first = json!({"v": 1, "text": "first"});
@@ -699,7 +806,7 @@ mod tests {
     fn send_a_failed_paste_is_input_not_ready_with_the_cursor() {
         let tmp = tempfile::tempdir().expect("tempdir");
         let base = Instant::now();
-        let slot = SendSlot::new(FixedClock(base));
+        let slot = SendSlot::new(FixedClock(base), Arc::default());
         slot.attach(Box::new(|_| Err(PtyError::NoInput)), quiet_gate(base));
         let params = json!({"v": 1, "text": "hello"});
         let reply = send(&slot, &name(), tmp.path(), &call(&params, 1)).expect("answered");
@@ -715,7 +822,7 @@ mod tests {
     #[case::from_not_string(json!({"v": 1, "text": "x", "from": 3}))]
     fn send_params_it_cannot_take_are_invalid_params(#[case] params: Value) {
         let tmp = tempfile::tempdir().expect("tempdir");
-        let slot = SendSlot::new(FixedClock(Instant::now()));
+        let slot = SendSlot::new(FixedClock(Instant::now()), Arc::default());
         assert_eq!(
             send(&slot, &name(), tmp.path(), &call(&params, 1)),
             Err(ProtocolError::InvalidParams)
@@ -726,7 +833,7 @@ mod tests {
     #[test]
     fn send_from_null_is_no_from() {
         let tmp = tempfile::tempdir().expect("tempdir");
-        let slot = SendSlot::new(FixedClock(Instant::now()));
+        let slot = SendSlot::new(FixedClock(Instant::now()), Arc::default());
         let params = json!({"v": 1, "text": "x", "from": null});
         let reply = send(&slot, &name(), tmp.path(), &call(&params, 1)).expect("answered");
         assert_eq!(reply["detail"], "input-not-ready");
@@ -735,7 +842,7 @@ mod tests {
     #[test]
     fn send_a_record_that_cannot_be_appended_is_internal() {
         let tmp = tempfile::tempdir().expect("tempdir");
-        let slot = SendSlot::new(FixedClock(Instant::now()));
+        let slot = SendSlot::new(FixedClock(Instant::now()), Arc::default());
         let params = json!({"v": 1, "text": "x"});
         assert_eq!(
             send(
@@ -752,7 +859,7 @@ mod tests {
     #[test]
     fn send_append_hook_event_signals_the_wait_feed_after_the_append() {
         let tmp = tempfile::tempdir().expect("tempdir");
-        let slot = SendSlot::new(FixedClock(Instant::now()));
+        let slot = SendSlot::new(FixedClock(Instant::now()), Arc::default());
         let feed = feed();
         let ended = |message: &str| {
             EventLine::new(
