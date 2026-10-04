@@ -1,0 +1,522 @@
+[
+{
+"tool": "gate",
+"v": "1.6",
+"sha8": "9419d56e",
+"ts": "2026-10-04T02:07:57Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-04-windows-boundary-mutation-workflow/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T02-02-33-implement",
+"--marker",
+"2026-10-04-windows-boundary-mutation-workflow"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root /home/turbolet/dev/projects/viola · marker 2026-10-04-windows-boundary-mutation-workflow · entries 18",
+"logs /tmp/andromeda-gate/2026-10-04-windows-boundary-mutation-workflow/implement-2026-10-04T02-02-33 · bound: GNU timeout",
+"delta docs 39 · rust 1 · unmapped 2",
+"prose L153-156: No boot path changes and no live leg runs this chunk. The mutation witnesses (step 5's Lin… (352 chars)",
+"  1 lint        green · exit 0 · 0.36s · 0 B → 1.log · cargo fmt --all --check",
+"  2 lint        green · exit 0 · 0.24s · 134 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 integration green · exit 0 · 0.97s · 2041 B → 3.log · bash scripts/agent-run.sh run --integration --filter 'bina… (94 chars)",
+"  4 integration green · exit 0 · 0.6s · 2137 B → 4.log · bash scripts/agent-run.sh run --integration --filter 'bina… (77 chars)",
+"  5 unit        green · exit 0 · 5.84s · 87730 B → 5.log · bash scripts/agent-run.sh run --unit",
+"  6 integration green · exit 0 · 28.57s · 115239 B → 6.log · bash scripts/agent-run.sh run",
+"  7 probe       green · exit 0 · 0.04s · 462 B → 7.log · zizmor .github/workflows/",
+"  8 probe       green · exit 0 · 0.0s · 0 B → 8.log · ! grep -nE 'secrets\\.|upload-artifact|rust-cache|concurren… (174 chars)",
+"  9 probe       green · exit 1 · 0.0s · 2 B → 9.log · test -f .github/workflows/windows-mutants.yml && grep -E '… (173 chars)",
+" 10 probe       green · exit 0 · 0.0s · 2 B → 10.log · grep -cE '^permissions: \\{\\}$|^      contents: read$|^    … (144 chars)",
+" 11 probe       green · exit 0 · 0.0s · 0 B → 11.log · git diff --quiet 7aca5587bf93 -- .github/workflows/ci.yml … (87 chars)",
+" 12 probe       green · exit 0 · 0.0s · 2 B → 12.log · grep -c 'fail-fast = { max-fail = 1, terminate = \"wait\" }'… (79 chars)",
+" 13 probe       green · exit 1 · 0.01s · 2 B → 13.log · git diff -U0 7aca5587bf93 -- .config/nextest.toml | grep -… (151 chars)",
+" 14 probe       green · exit 0 · 0.01s · 0 B → 14.log · ! (git diff 7aca5587bf93 -- '*.rs' .config/nextest.toml | … (107 chars)",
+" 15 probe       green · exit 0 · 32.14s · 116922 B → 15.log · bash scripts/agent-run.sh pre-push",
+" 16 probe       not run — leg operator (the letter drives it) · python -X utf8 /home/turbolet/.claude/skills/andromeda-pha… (103 chars)",
+" 17 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (69 chars)",
+" 18 probe       not run — leg operator (the letter drives it) · python -X utf8 /home/turbolet/.claude/skills/andromeda-pha… (127 chars)",
+"entries 18 · green 15 · red 0 · recorded 0 · timeout 0 · not-run 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-04-windows-boundary-mutation-workflow",
+"plan": "/home/turbolet/dev/projects/viola/viola-0.1.0/chunks/2026-10-04-windows-boundary-mutation-workflow/plan.md",
+"root": "/home/turbolet/dev/projects/viola",
+"shell": "/usr/bin/bash",
+"out_dir": "/tmp/andromeda-gate/2026-10-04-windows-boundary-mutation-workflow/implement-2026-10-04T02-02-33",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-04T01-02-04-wrap/evolve-2026-10-03-mutation-scoring-completion.json",
+".claude/docs/commands.md",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-04T01-32-13-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-04T01-32-13-phase/a11y.md",
+".andromeda/runs/2026-10-04T01-32-13-phase/arch-contracts.md",
+".andromeda/runs/2026-10-04T01-32-13-phase/arch-history.md",
+".andromeda/runs/2026-10-04T01-32-13-phase/arch.md",
+".andromeda/runs/2026-10-04T01-32-13-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-04T01-32-13-phase/design.md",
+".andromeda/runs/2026-10-04T01-32-13-phase/evolve-2026-10-04-windows-boundary-mutation-workflow.json",
+".andromeda/runs/2026-10-04T01-32-13-phase/gate-2026-10-04-windows-boundary-mutation-workflow.json",
+".andromeda/runs/2026-10-04T01-32-13-phase/layouts.md",
+".andromeda/runs/2026-10-04T01-32-13-phase/master-record.txt",
+".andromeda/runs/2026-10-04T01-32-13-phase/matrix-2026-10-04-windows-boundary-mutation-workflow.json",
+".andromeda/runs/2026-10-04T01-32-13-phase/obs-contracts.md",
+".andromeda/runs/2026-10-04T01-32-13-phase/obs-history.md",
+".andromeda/runs/2026-10-04T01-32-13-phase/obs.md",
+".andromeda/runs/2026-10-04T01-32-13-phase/p5-baseline.sh",
+".andromeda/runs/2026-10-04T01-32-13-phase/p5-controls/wf/bad.yml",
+".andromeda/runs/2026-10-04T01-32-13-phase/planlint-2026-10-04-windows-boundary-mutation-workflow.json",
+".andromeda/runs/2026-10-04T01-32-13-phase/registry-2026-10-04-windows-boundary-mutation-workflow.json",
+".andromeda/runs/2026-10-04T01-32-13-phase/route-2026-10-04-windows-boundary-mutation-workflow.json",
+".andromeda/runs/2026-10-04T01-32-13-phase/route-no-marker.json",
+".andromeda/runs/2026-10-04T01-32-13-phase/security-history.md",
+".andromeda/runs/2026-10-04T01-32-13-phase/security.md",
+".andromeda/runs/2026-10-04T01-32-13-phase/sidecar-2026-10-04-windows-boundary-mutation-workflow.json",
+".andromeda/runs/2026-10-04T01-32-13-phase/tests-contracts.md",
+".andromeda/runs/2026-10-04T01-32-13-phase/tests-history.md",
+".andromeda/runs/2026-10-04T01-32-13-phase/tests.md",
+".andromeda/runs/2026-10-04T01-32-13-phase/tree-query-2026-10-04-windows-boundary-mutation-workflow.json",
+".andromeda/runs/2026-10-04T02-02-33-implement/evolve-2026-10-04-windows-boundary-mutation-workflow.json",
+"viola-0.1.0/chunks/2026-10-04-windows-boundary-mutation-workflow/evidence/guard.md",
+"viola-0.1.0/chunks/2026-10-04-windows-boundary-mutation-workflow/plan.md",
+"viola-0.1.0/chunks/2026-10-04-windows-boundary-mutation-workflow/research.md",
+"viola-0.1.0/chunks/2026-10-04-windows-boundary-mutation-workflow/scope.md"
+],
+"rust": [
+"tests/contract_windows_mutation_scope.rs"
+]
+},
+"unmapped": [
+".config/nextest.toml",
+".github/workflows/windows-mutants.yml"
+],
+"prose": [
+{
+"from": 153,
+"to": 156,
+"text": "No boot path changes and no live leg runs this chunk. The mutation witnesses (step 5's Linux run, steps 8–9's dispatches) are one-off evidence, never `[[gate]]` entries (testing.md 2026-10-04; test-plan §10 Mutation gate). The implementing shell prepends `$HOME/.local/viola-node/bin` to `PATH` (operator directive) for the Node-bearing pre-push stage."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-windows-boundary-mutation-workflow/implement-2026-10-04T02-02-33/1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.36,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-windows-boundary-mutation-workflow/implement-2026-10-04T02-02-33/2.log",
+"bytes": 134,
+"log_sha8": "6f782a78",
+"exit": 0,
+"seconds": 0.24,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(contract_windows_mutation_scope)'",
+"run_sha8": "529859b3",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-windows-boundary-mutation-workflow/implement-2026-10-04T02-02-33/3.log",
+"bytes": 2041,
+"log_sha8": "5395c8d5",
+"exit": 0,
+"seconds": 0.97,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(contract_lints)'",
+"run_sha8": "0f04140c",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-windows-boundary-mutation-workflow/implement-2026-10-04T02-02-33/4.log",
+"bytes": 2137,
+"log_sha8": "9f98cd42",
+"exit": 0,
+"seconds": 0.6,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-windows-boundary-mutation-workflow/implement-2026-10-04T02-02-33/5.log",
+"bytes": 87730,
+"log_sha8": "7ff4d63f",
+"exit": 0,
+"seconds": 5.84,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run",
+"run_sha8": "21443cdf",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-windows-boundary-mutation-workflow/implement-2026-10-04T02-02-33/6.log",
+"bytes": 115239,
+"log_sha8": "1ffce5a5",
+"exit": 0,
+"seconds": 28.57,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "zizmor .github/workflows/",
+"run_sha8": "5dbe1a48",
+"expect": [
+"exit 0",
+"contains No findings to report"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-windows-boundary-mutation-workflow/implement-2026-10-04T02-02-33/7.log",
+"bytes": 462,
+"log_sha8": "327bbbb0",
+"exit": 0,
+"seconds": 0.04,
+"readings": [
+"exit 0 ✓",
+"contains 'No findings to report' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "! grep -nE 'secrets\\.|upload-artifact|rust-cache|concurrency:|^  (push|pull_request|schedule):|inputs:|needs:|persist-credentials: true' .github/workflows/windows-mutants.yml",
+"run_sha8": "0202e5dc",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-windows-boundary-mutation-workflow/implement-2026-10-04T02-02-33/8.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "test -f .github/workflows/windows-mutants.yml && grep -E '^[[:space:]]*- uses:|^[[:space:]]*uses:' .github/workflows/windows-mutants.yml | grep -cvE '@[0-9a-f]{40} # v[0-9]'",
+"run_sha8": "53a0cea3",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-windows-boundary-mutation-workflow/implement-2026-10-04T02-02-33/9.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.0,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "grep -cE '^permissions: \\{\\}$|^      contents: read$|^    runs-on: windows-2025$|^      fail-fast: false$' .github/workflows/windows-mutants.yml",
+"run_sha8": "79c55bfb",
+"expect": [
+"exit 0",
+"last line 4"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-windows-boundary-mutation-workflow/implement-2026-10-04T02-02-33/10.log",
+"bytes": 2,
+"log_sha8": "7de1555d",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '4' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "git diff --quiet 7aca5587bf93 -- .github/workflows/ci.yml .github/workflows/nightly.yml",
+"run_sha8": "ab183343",
+"expect": [
+"exit 0"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-windows-boundary-mutation-workflow/implement-2026-10-04T02-02-33/11.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "grep -c 'fail-fast = { max-fail = 1, terminate = \"wait\" }' .config/nextest.toml",
+"run_sha8": "39137bf7",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-windows-boundary-mutation-workflow/implement-2026-10-04T02-02-33/12.log",
+"bytes": 2,
+"log_sha8": "4355a46b",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '1' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "git diff -U0 7aca5587bf93 -- .config/nextest.toml | grep -E '^[-+][^-+#]' | grep -vcE 'fail-fast = \\{ max-fail = 1, terminate = \"(immediate|wait)\" \\}' ",
+"run_sha8": "e664daa5",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-windows-boundary-mutation-workflow/implement-2026-10-04T02-02-33/13.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.01,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "! (git diff 7aca5587bf93 -- '*.rs' .config/nextest.toml | grep -E '^\\+.*(#\\[ignore|retries *=|test\\.skip)')",
+"run_sha8": "ac0cd81b",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-windows-boundary-mutation-workflow/implement-2026-10-04T02-02-33/14.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": "/tmp/andromeda-gate/2026-10-04-windows-boundary-mutation-workflow/implement-2026-10-04T02-02-33/15.log",
+"bytes": 116922,
+"log_sha8": "a5a43ed6",
+"exit": 0,
+"seconds": 32.14,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"contains '\"stage\":\"linux-tests\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "python -X utf8 /home/turbolet/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "64780869",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "python -X utf8 /home/turbolet/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "c0d185ab",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.6",
+"sha8": "9419d56e",
+"ts": "2026-10-04T03:31:19Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-04-windows-boundary-mutation-workflow",
+"--run-dir",
+".andromeda/runs/2026-10-04T02-02-33-implement",
+"--marker",
+"2026-10-04-windows-boundary-mutation-workflow"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"root /home/turbolet/dev/projects/viola · base HEAD (no pre-CI commit) · lists new 2 · modify 6 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"scope: clean — changed 3 · listed 3 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 42"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "/home/turbolet/dev/projects/viola",
+"base": "HEAD",
+"base_why": "no pre-CI commit",
+"counts": {
+"changed": 3,
+"listed": 3,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 42,
+"unparsed": 0,
+"widening_without_word": 0
+}
+}
+]

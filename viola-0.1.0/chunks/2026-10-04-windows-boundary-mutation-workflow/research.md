@@ -1,0 +1,76 @@
+# Codebase Research — 2026-10-04-windows-boundary-mutation-workflow
+
+## Scope
+- **Depth:** deep · **Reads:** 16 · **Globs/Greps:** 14 · **Measurements:** 1 two-sided local witness (2 cargo-mutants runs) + 3 historical runner job logs
+- **Harness rules consulted:** `.claude/rules/verification-harness.md` — read in full (auto-loaded on `crates/viola-e2e/src/harness/run/mutants.rs`), 7 Session Additions applied (2026-09-24 `--in-diff` regeneration, 2026-09-25 host-excluded misses, 2026-09-26 verdict-not-counts, 2026-09-27 `test(=tests::name)`); `.claude/rules/testing.md` — read in full, 23 Session Additions applied (2026-09-24 wait/kill-line ordering, 2026-09-24 cfg(windows) body unkillable on Linux, 2026-09-27 crate-local security tests, 2026-09-28 never reshape to dodge mutants, 2026-10-04 no mutation `[[gate]]` entry)
+- **Platform issues consulted:** none — no runner-only bullet: the one CI read (`7aca558`, ci#37168195381) is green
+- **Code graph:** first derived-without-graph (system python: `import duckdb` → `ModuleNotFoundError`); at P4 the overseer named `~/.local/viola-venv` — 2 queries ran there (`db_state: fresh`, plane rust; trace `.andromeda/runs/2026-10-04T01-32-13-phase/tree-query-2026-10-04-windows-boundary-mutation-workflow.json`), §Graph impact below
+
+## Files inspected
+- `crates/viola-e2e/src/harness/run/mutants.rs` (1-460) — the boundary verb: `--package <member>` (`:141-146`, verdict `package`), `--file` (`:228-230`), root prebuild into `target/mutants` (`:217-225`), `NEXTEST_PROFILE=mutants` + `AGENT_RUN_KEEP_*=0` (`:236-240`), Windows scratch `TMP`/`TEMP`/`--output` (`:243-251`), verdict by counts (`mutants_suite`, `:46-65`); the two real-cargo-mutants self-tests `run_mutants_reports_survivors_of_an_untested_change` / `run_mutants_passes_when_the_change_is_tested` (`:389-430`, `cfg(not(target_os = "macos"))`) run a nested cargo-mutants over the throwaway `ws` crate.
+- `crates/viola-e2e/src/harness/run/mutants/scratch.rs` (1-80) — `HOST_SCRATCH = cfg!(windows)` (`:11`), `prepare` (`:47-60`; owed `:48:5`, `:54:8`), `wipe` (`:63-69`).
+- `.config/nextest.toml` (full) — `[profile.mutants]` `fail-fast = { max-fail = 1, terminate = "immediate" }` (`:21`), slow-timeout 5 s × 2 (`:22`), `package(viola-e2e)` 15 s × 2 (`:26-28`).
+- `.github/workflows/ci.yml` (1-60, 428-490) — setup recipe (`:30-41`: checkout SHA + `persist-credentials: false`, `rustup toolchain install`, install-action `tool: cargo-nextest@0.9.146,cargo-mutants@27.1.0,cargo-llvm-cov@0.9.1`), pwsh shim step form (`:53-58`), zizmor over the whole directory (`:477-481`).
+- `.github/workflows/nightly.yml` (1-40) — the dispatch precedent: `workflow_dispatch`, `permissions: {}`, job `contents: read`, no cache.
+- `crates/viola-e2e/src/harness/pre_push/linux.rs` (110-150, 220-260) — `ci_pins` parses ci.yml's test-job `tool:` line (`:126-128`) and a unit test pins it (`:227-240`): the single source of the cargo-mutants/nextest pins.
+- `tests/contract_lints.rs` (1-30, 113-260 by grep) — the root contract-test pattern: reads repo files from `CARGO_MANIFEST_DIR` (`:8-10`), parses `.config/nextest.toml`'s mutants kill lines (`:225-235`); reads only `slow-timeout`, never `fail-fast`.
+- `tests/support/home.rs` (155-200) — `seed_conpty` creates `target/conpty-seed/<key>` on demand from `vendor/conpty/…` (`:169-199`), so a mutation copy needs no seed step.
+- `scripts/agent-run.ps1` (1-30) — the pwsh shim; `cargo run -q -p viola-e2e --bin viola-harness`.
+- `Cargo.toml` (15-40) — root integration tests are declared `[[test]]` entries (`required-features = ["fake-agent"]` where needed); a new root test needs its own entry only if it needs the feature.
+- The 34 owed coordinates, each read at HEAD (`sed -n {line}p`): `crates/viola-pty/src/lib.rs` `:234` `:242` `:290` `:304` `:309` `:355`; `crates/viola-channel/src/client.rs` `:163` `:177` `:182` `:211` `:215`; `crates/viola-channel/src/server.rs` `:83` `:94`; `src/panic_frames.rs` `:37` `:50` `:55`; `crates/viola-e2e/src/harness/run/mutants/scratch.rs` `:48` `:54` — every site carries the named operator/body; last change to those files is `80b69cd` (`git log -1`), the tree the previous chunk measured.
+- Previous chunk evidence `evidence/m3.md` (55-98) and `evidence/cfg-unix.md` (full) — the 34 coordinates and the not-measurable `src/cmd/run.rs:318:5`.
+- The relay `../additional/viola-overseer/linux-route-adaptation.md` (full) — C2 wording.
+
+## Measured facts
+- **The leak mechanism, two-sided witness** (re-derived, not copied from the CARRY): the harness's own cargo-mutants argv (`mutants.rs:226-242`), `--package viola-e2e --features fake-agent --file crates/viola-e2e/src/harness/run/doctest.rs`, each side in a fresh NOCOW `TMPDIR` (`viola-mutants-scratch/p3-witness-{A,B}`), leftovers counted with `ls -A | grep -v '^mutants.out$' | wc -l`:
+  - A, profile as committed (`terminate = "immediate"`): 10 mutants, 10 caught, wall 59 s, **170 leftover `.tmp*` dirs**, 0 nested copies; each mutant `0s test`.
+  - B, the same with `--cargo-test-arg=--max-fail=1:wait` (argv confirmed in all 11 `mutants.out/log/*.log`: `nextest run … --max-fail=1:wait`, profile `mutants`): 10 mutants, 10 caught, wall 106 s, **0 leftovers**; each mutant `5s test`.
+  - So the equality the fix needs holds for THIS input: with `terminate = "wait"` the running tests finish and drop their `TempDir`s; with `immediate` they are killed first. Script: the session scratchpad `leak-witness.sh`; logs `leak-witness/{A,B}.log`, `summary.txt`.
+  - Not witnessed here: the nested `cargo-mutants-ws-*` half (0 on both sides — no doctest.rs mutant killed a run while a self-test was mid-flight). Its producer is the two self-tests at `mutants.rs:389-430`; under `wait` a running self-test completes and its cargo-mutants removes its copy. Owed: the CARRY's full-run witness.
+- **Leftover census from the last boundary run** (re-derived: `ls -A ~/dev/projects/viola-mutants-scratch | awk` by name class; `find -printf %T` by hour): 25 275 `.tmp*` + 62 `cargo-mutants-ws-*.tmp` + 24 `viola-resize-*.ndjson` + `viola-pty-watch` + `viola-root-watch` + 11 `rustdoctest*`; all `.tmp*` mtimes fall in 01:xx–02:xx local (UTC+2) = 23:xx–00:xx UTC, the window of `m3.md`'s runs 3–4 (23:26–00:16 UTC); `/tmp` holds 21 `cargo-mutants-ws-*` at 23:05–23:16 UTC (run 1, the `/tmp` run) and no `.tmp*` from the implement session's ordinary test runs (hours 02–03 local empty). The leak is a mutation-run phenomenon.
+- **Why `immediate` was chosen, and why it is no longer load-bearing:** it replaced `fail-fast = true` (2026-09-24, a caught mutant graded Timeout while running tests waited out); the 5 s × 2 / 15 s × 2 slow-timeout kill (2026-09-24-observability-gates) now bounds any post-failure tail below cargo-mutants' 20 s floor (viola-e2e: 30 s kill against an auto test timeout of 105 s in run B's baseline log, `Auto-set test timeout to 105s`). With `wait`, a caught mutant's run ends at max(remaining running tests) ≤ the kill line.
+- **Windows runner per-mutant cost** (the retired `mutants (windows-2025)` leg, `gh run view --job {id} --log`): job 109057229416 `247 mutants tested in 21m` (5.1 s/mutant, baseline 66 s build + 11 s test); 109017403827 `256 mutants tested in 33m` (7.7 s); 108660420086 `200 mutants tested in 42m` (12.6 s). That leg ran on windows-2025 with the same prebuild + `--copy-target=true` form, so disk and the path limit held there.
+- **Mutant counts** (`cargo mutants --list --package {p} [--file …] | wc -l`, no build): file-scoped to the files carrying a Windows gate — viola-pty 79 · viola-channel 126 · viola-state 70 · viola-agent-claude 40 · viola 131 · viola-e2e 116 = **562**; whole packages — 96 · 152 · 121 · 194 · 352 · 711 = **1 626**. At 5.1–12.6 s/mutant: file-scoped ≈ 48 min – 2 h; whole ≈ 2.3 – 5.7 h (one job's 6 h ceiling at risk; a per-package matrix keeps each job ≤ ~2.5 h).
+- **Windows-gated source inventory** (`git grep -c -E 'cfg\((all\(|any\()?windows|cfg!\(windows\)|target_os = "windows"' -- '*.rs'`, then `git grep -B1` on `mod x;` lines): `src/` files with a gate — `crates/viola-state/src/{pin,fs,snapshot}.rs`, `crates/viola-pty/src/lib.rs`, `src/cmd/run.rs`, `src/run/env.rs`, `src/panic_frames.rs`, `src/main.rs`, `crates/viola-channel/src/{client,endpoint,server,lib,test_support}.rs`, `crates/viola-agent-claude/src/lib.rs`, `crates/viola-e2e/src/harness/{cleanup.rs,run/mutants.rs,run/mutants/scratch.rs,run/browser.rs}`; plus three WHOLE-FILE Windows modules a per-file grep cannot see, gated at their `mod` line: `crates/viola-pty/src/sideload.rs` (`lib.rs:18-19`), `crates/viola-channel/src/server/win.rs` (`server.rs:454-455`), `src/conpty.rs` (`main.rs:3-4`, `cfg(all(windows, target_arch = "x86_64"))`). A scope guard keyed on a per-file grep alone would miss exactly the sideload DLL search and the pin pre-load — the scope's named targets.
+- **Package arm prerequisites:** every member carrying Windows code declares `fake-agent = []` (viola-pty, viola-channel, viola-state, viola-agent-claude, viola-e2e, root) — `awk` over each `[features]`; `package_member` (`mutants.rs:101-115`) accepts them.
+- **Default branch:** `gh repo view --json defaultBranchRef,visibility` → `build/viola-0.1.0 PUBLIC`: a workflow file pushed to the build branch is dispatchable (`gh workflow run {file} --ref build/viola-0.1.0`).
+- **zizmor:** local `zizmor 1.30.1` (the CI pin) over `.github/workflows/` → `No findings to report. Good job! (2 suppressed)`; ci.yml's gate globs the directory (`:481`), so a third file is covered with no ci.yml edit.
+- **No local Windows type-check:** `rustup target list --installed` → `x86_64-unknown-linux-gnu` only; a `cfg(windows)` kill test is first compiled on the runner (ci.yml `test (windows-2025)` / `lint`).
+
+## Graph impact
+- **prepare** (`callee_file LIKE '%mutants/scratch.rs'`, cookbook query 1) — 4 rows: `mutate @ crates/viola-e2e/src/harness/run/mutants.rs:207` and the test `prepare_empties_the_scratch_and_reports_what_it_held @ crates/viola-e2e/src/harness/run/mutants/scratch.rs:162`, `:171`, `:178` (editor lines = trace `line` + 1). Unchanged by this chunk unless `:48:5` / `:54:8` grade missed.
+- **The graph is built for the host cfg** (cookbook query 4 over `retry_busy, open_by, listen, raw_frames, module_of, terminate, sideload_outcome`): 4 rows — `client/open_by`, `server/listen`, `panic_frames/raw_frames`, `panic_frames/module_of`, each the unix twin this Linux host compiles; `retry_busy`, viola-pty `terminate` and `sideload_outcome` have no `symbol` row. So no graph query can answer impact inside a `cfg(windows)` item — a structural fact for this chunk (its kill tests, if any, are read by file), not an index gap.
+- Callers that matter, by reading: `scratch::prepare` ← `mutate` (`mutants.rs:207`) only; the nextest `mutants` profile is consumed by `mutate` (`:236`) and read by `tests/contract_lints.rs` (`:225-235`, slow-timeout only). No code pins `terminate = "immediate"` (`git grep -n 'terminate = \|max-fail\|"immediate"' -- ':!*.md' ':!.andromeda'` → `.config/nextest.toml:21` only); the spec text does (test-plan, `registries/contracts/test-plan/test-data-bootstrap.md`, `…/bootstrap-phases-derive-for-route-setup-project.md`) — wrap amendments.
+
+## Patterns detected
+- **Workflow shape** (`nightly.yml:1-30`, `ci.yml:18-58`): `permissions: {}` top, `contents: read` per job, checkout by SHA with `persist-credentials: false`, `rustup toolchain install`, install-action by SHA, Windows harness calls through `shell: pwsh` + `./scripts/agent-run.ps1 …` + `if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }`.
+- **Single-sourced tool pins** (`pre_push/linux.rs:115-128`): the cargo-nextest/cargo-mutants versions live on ci.yml's test-job `tool:` line; a second workflow repeating them needs an equality guard, or it becomes a second source.
+- **Repo-shape contract tests** (`tests/contract_lints.rs:8-30`): a root test reads repository files from `CARGO_MANIFEST_DIR` and asserts their shape with a tiny line parser — no YAML/TOML dependency.
+- **Verdict by counts, not exit** (`mutants.rs:30-65`): the run document's `suites[].failures` carries the missed/timeout lines (repo-relative `missed.txt` lines) and `mutants.tested`; the stdout JSON document is the auditor-readable result, with no artifact upload.
+
+## Conventions to follow
+- **Kill-line ordering** (testing.md 2026-09-24): in-test waits < nextest mutants kill (10 s; viola-e2e 30 s) < cargo-mutants floor (20 s) — unchanged by `wait`.
+- **Never reshape cfg(windows) code to dodge a mutant** (testing.md 2026-09-28; `m3.md:84-85`): a missed owed coordinate is killed by a Windows test, or recorded equivalent with its argument.
+- **A crate's security property needs a test inside that crate** (testing.md 2026-09-27): a missed viola-channel `listen`/`open_by` mutant is killed in viola-channel, not by a root test.
+- **cfg-scoped test imports** (testing.md 2026-10-03): a `cfg(windows)` test's imports live inside the cfg'd item.
+
+## New files to create
+- `.github/workflows/windows-mutants.yml` — the dispatch-only, non-blocking `windows-2025` workflow driving `scripts/agent-run.ps1 run --mutants --package <member> --file …`
+- `tests/contract_windows_mutation_scope.rs` — the guard: every Windows-gated source file (attribute or `mod`-line gate) is in the workflow's scope; the workflow's tool pins equal ci.yml's test-job line; triggers exactly `workflow_dispatch`
+
+## Files to modify
+- `.config/nextest.toml` — `[profile.mutants]` fail-fast `terminate = "wait"` and its comment (the leak mechanism)
+- `crates/viola-pty/src/lib.rs` — only if an owed viola-pty coordinate grades missed: its Windows kill test (inline `mod tests`)
+- `crates/viola-channel/src/client.rs` — only if an owed `client.rs` coordinate grades missed
+- `crates/viola-channel/src/server.rs` — only if an owed `server.rs` coordinate grades missed
+- `src/panic_frames.rs` — only if an owed `panic_frames.rs` coordinate grades missed
+- `crates/viola-e2e/src/harness/run/mutants/scratch.rs` — only if `:48:5` / `:54:8` grade missed
+
+## Open questions
+Resolved at P4 (overseer, founder-delegated, AskUserQuestion round 1): selection = gated files per package; job shape =
+per-package matrix, `fail-fast: false`. Refinement at P4: a Windows gate that sits only inside a file's `#[cfg(test)]`
+module does not bring the file in (`run/mutants.rs`, `viola-channel/src/lib.rs`, `viola-state/src/snapshot.rs`); the
+set is then 79 · 125 · 65 · 40 · 131 · 68 = 508 mutants (`cargo mutants --list --package {p} --file …`).
+- Selection form: the per-package FILE lists (562 mutants, ≈ 0.8–2 h) or WHOLE packages (1 626, ≈ 2.3–5.7 h, more host-excluded noise from shared bodies whose killing tests are `cfg(unix)`) → blocks: plan-decision (P4 fork).
+- Job shape: one sequential job (the founder's "one long runner job") or a per-package matrix with `fail-fast: false` (per-package logs, each job far under the 6 h ceiling) → blocks: plan-decision (decisive lean or fork at P4).
+- Survivors outside the 34 owed coordinates from the first dispatch (viola-state, viola-agent-claude, other Windows bodies): per C2 they are boundary-audit items for the Epoch 3 audit, not this chunk's kills → blocks: implementation-scope (the plan names the disposition, so the modify list stays the five owed files).

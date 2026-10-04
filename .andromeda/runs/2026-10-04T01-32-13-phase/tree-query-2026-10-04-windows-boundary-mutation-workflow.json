@@ -1,0 +1,62 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'prepare' AND callee_kind = 'fn' AND callee_file LIKE '%mutants/scratch.rs' ORDER BY file, line",
+"rows": 4,
+"result": [
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants/mutate().",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 206
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants/scratch/tests/prepare_empties_the_scratch_and_reports_what_it_held().",
+"file": "crates/viola-e2e/src/harness/run/mutants/scratch.rs",
+"line": 161
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants/scratch/tests/prepare_empties_the_scratch_and_reports_what_it_held().",
+"file": "crates/viola-e2e/src/harness/run/mutants/scratch.rs",
+"line": 170
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants/scratch/tests/prepare_empties_the_scratch_and_reports_what_it_held().",
+"file": "crates/viola-e2e/src/harness/run/mutants/scratch.rs",
+"line": 177
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT symbol, crate, kind, file FROM symbol WHERE name IN ('retry_busy','open_by','listen','raw_frames','module_of','terminate','sideload_outcome') AND kind = 'fn' ORDER BY file",
+"rows": 4,
+"result": [
+{
+"symbol": "rust-analyzer cargo viola-channel 0.1.0 client/open_by().",
+"crate": "viola-channel",
+"kind": "fn",
+"file": "crates/viola-channel/src/client.rs"
+},
+{
+"symbol": "rust-analyzer cargo viola-channel 0.1.0 server/listen().",
+"crate": "viola-channel",
+"kind": "fn",
+"file": "crates/viola-channel/src/server.rs"
+},
+{
+"symbol": "rust-analyzer cargo viola 0.1.0 panic_frames/raw_frames().",
+"crate": "viola",
+"kind": "fn",
+"file": "src/panic_frames.rs"
+},
+{
+"symbol": "rust-analyzer cargo viola 0.1.0 panic_frames/module_of().",
+"crate": "viola",
+"kind": "fn",
+"file": "src/panic_frames.rs"
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

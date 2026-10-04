@@ -50,3 +50,6 @@
   - a PTY master close hangs up a live child only when no reader/writer clone holds the master;
   - carried from before: let a red CI run finish before folding its fix; the doubled-backslash guard recurrence.
 - **Last failed command:** none (the two `rm` calls were permission refusals, left to the operator above).
+
+## Session End Status
+Completed normally at 2026-10-04 04:01:34

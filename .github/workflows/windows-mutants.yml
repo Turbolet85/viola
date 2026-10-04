@@ -1,0 +1,53 @@
+name: windows-mutants
+
+# The cfg(windows) mutation score (founder ruling C2, 2026-10-04): dispatched only during the
+# epoch-boundary audit, never a gate, never a dependency of ci.yml. Each job runs the harness's
+# boundary verb over one package's Windows-gated files; tests/contract_windows_mutation_scope.rs
+# keeps the lists complete and the tool pins equal to ci.yml's test job. Recipe:
+# .claude/docs/commands.md (run --mutants).
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  mutants:
+    name: mutants (${{ matrix.package }})
+    runs-on: windows-2025
+    permissions:
+      contents: read
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - package: viola-pty
+            files: crates/viola-pty/src/lib.rs crates/viola-pty/src/sideload.rs
+          - package: viola-channel
+            files: crates/viola-channel/src/client.rs crates/viola-channel/src/endpoint.rs crates/viola-channel/src/server.rs crates/viola-channel/src/server/win.rs crates/viola-channel/src/test_support.rs
+          - package: viola-state
+            files: crates/viola-state/src/pin.rs crates/viola-state/src/fs.rs
+          - package: viola-agent-claude
+            files: crates/viola-agent-claude/src/lib.rs
+          - package: viola
+            files: src/cmd/run.rs src/run/env.rs src/panic_frames.rs src/main.rs src/conpty.rs
+          - package: viola-e2e
+            files: crates/viola-e2e/src/harness/run/mutants/scratch.rs crates/viola-e2e/src/harness/cleanup.rs crates/viola-e2e/src/harness/run/browser.rs
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Toolchain (rust-toolchain.toml)
+        run: rustup toolchain install
+      - uses: taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5 # v2.87.19
+        with:
+          tool: cargo-nextest@0.9.146,cargo-mutants@27.1.0
+      - name: Mutants (pwsh shim)
+        shell: pwsh
+        env:
+          PACKAGE: ${{ matrix.package }}
+          FILES: ${{ matrix.files }}
+        run: |
+          $fileArgs = foreach ($file in $env:FILES -split ' ') { '--file'; $file }
+          ./scripts/agent-run.ps1 run --mutants --package $env:PACKAGE @fileArgs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
