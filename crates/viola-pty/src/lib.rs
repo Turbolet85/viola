@@ -651,7 +651,9 @@ mod tests {
                 std::thread::park();
             }
         }
-        if let Ok(mode @ ("reads" | "reads-win32")) = std::env::var(CHILD_MODE).as_deref() {
+        // The read modes ride argv: `spawn_child_entry` passes the mode as one more `--exact`
+        // filter, which names no test.
+        if let Some(mode) = std::env::args().find(|a| a == "reads" || a == "reads-win32") {
             report_reads(&path, mode == "reads-win32");
         }
         let mut stdin = io::stdin();
@@ -901,6 +903,7 @@ mod tests {
                 "--nocapture",
                 "--test-threads",
                 "1",
+                mode,
             ]
             .map(OsString::from)
             .to_vec(),
