@@ -1,0 +1,586 @@
+[
+{
+"sql": "SELECT caller, callee_name, file, line FROM calls WHERE callee_name IN ('append_hook_event','release','send','human_input','try_append_event') AND callee_kind = 'fn' ORDER BY callee_name, file, line",
+"rows": 96,
+"result": [
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/impl#[Methods][Dispatch]dispatch().",
+"callee_name": "append_hook_event",
+"file": "src/cmd/run.rs",
+"line": 116
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/send/tests/confirmed_with().",
+"callee_name": "append_hook_event",
+"file": "src/run/send.rs",
+"line": 639
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/send/tests/send_a_different_prompt_is_appended_unchanged_and_claims_nothing().",
+"callee_name": "append_hook_event",
+"file": "src/run/send.rs",
+"line": 678
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/send/tests/send_an_unsent_human_prompt_takes_the_wheel_before_its_line_and_a_harness_one_does_not().",
+"callee_name": "append_hook_event",
+"file": "src/run/send.rs",
+"line": 702
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/send/tests/send_an_unsent_human_prompt_takes_the_wheel_before_its_line_and_a_harness_one_does_not().",
+"callee_name": "append_hook_event",
+"file": "src/run/send.rs",
+"line": 705
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/send/tests/send_no_prompt_while_nothing_is_in_flight_is_appended_unchanged().",
+"callee_name": "append_hook_event",
+"file": "src/run/send.rs",
+"line": 714
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/send/tests/send_closed_send_keeps_the_slot_until_its_guard_drops().",
+"callee_name": "append_hook_event",
+"file": "src/run/send.rs",
+"line": 737
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/send/tests/send_window_expiry_is_no_prompt_submitted_with_the_cursor().",
+"callee_name": "append_hook_event",
+"file": "src/run/send.rs",
+"line": 764
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/send/tests/send_second_while_one_is_in_flight_is_turn_running_and_types_nothing().",
+"callee_name": "append_hook_event",
+"file": "src/run/send.rs",
+"line": 784
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/send/tests/send_append_hook_event_signals_the_wait_feed_after_the_append().",
+"callee_name": "append_hook_event",
+"file": "src/run/send.rs",
+"line": 873
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/send/tests/send_append_hook_event_signals_the_wait_feed_after_the_append().",
+"callee_name": "append_hook_event",
+"file": "src/run/send.rs",
+"line": 878
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/dialog/tests/hook_dialog_under_a_human_wheel_is_logged_once_and_null_at_once().",
+"callee_name": "human_input",
+"file": "src/run/dialog.rs",
+"line": 933
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/dialog/tests/human_wheel().",
+"callee_name": "human_input",
+"file": "src/run/dialog.rs",
+"line": 956
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/send/append_hook_event().",
+"callee_name": "human_input",
+"file": "src/run/send.rs",
+"line": 154
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/send/tests/send_refusal_order().",
+"callee_name": "human_input",
+"file": "src/run/send.rs",
+"line": 584
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/wheel/impl#[`Observed<R>`][Read]read().",
+"callee_name": "human_input",
+"file": "src/run/wheel.rs",
+"line": 281
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/wheel/tests/wheel_human_typing_reads_the_cause().",
+"callee_name": "human_input",
+"file": "src/run/wheel.rs",
+"line": 575
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/wheel/tests/wheel_flush_returns_once_every_queued_move_is_recorded().",
+"callee_name": "human_input",
+"file": "src/run/wheel.rs",
+"line": 699
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/wheel/tests/wheel_moves_are_recorded_in_order_with_the_snapshot().",
+"callee_name": "human_input",
+"file": "src/run/wheel.rs",
+"line": 714
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/wheel/tests/wheel_moves_are_recorded_in_order_with_the_snapshot().",
+"callee_name": "human_input",
+"file": "src/run/wheel.rs",
+"line": 715
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/wheel/tests/wheel_moves_are_recorded_in_order_with_the_snapshot().",
+"callee_name": "human_input",
+"file": "src/run/wheel.rs",
+"line": 724
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/dispatch().",
+"callee_name": "release",
+"file": "src/cmd/mod.rs",
+"line": 108
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/impl#[Methods][Dispatch]dispatch_call().",
+"callee_name": "release",
+"file": "src/cmd/run.rs",
+"line": 130
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/wheel/tests/wheel_moves_are_recorded_in_order_with_the_snapshot().",
+"callee_name": "release",
+"file": "src/run/wheel.rs",
+"line": 730
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 raise().",
+"callee_name": "release",
+"file": "tests/cli_answer.rs",
+"line": 236
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 path4_dialogs_are_logged_once_woken_and_answered_by_id().",
+"callee_name": "release",
+"file": "tests/cli_answer.rs",
+"line": 308
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 path4_dialogs_are_logged_once_woken_and_answered_by_id().",
+"callee_name": "release",
+"file": "tests/cli_answer.rs",
+"line": 334
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 path4_unstamped_dialogs_are_left_to_the_human_and_answers_refused().",
+"callee_name": "release",
+"file": "tests/cli_answer.rs",
+"line": 526
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 fake_agent_gated_steps_wait_for_control_lines().",
+"callee_name": "release",
+"file": "tests/cli_fake_agent.rs",
+"line": 472
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 fake_agent_gated_steps_wait_for_control_lines().",
+"callee_name": "release",
+"file": "tests/cli_fake_agent.rs",
+"line": 475
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 fake_agent_injected_harness_turn_is_a_gated_harness_prompt().",
+"callee_name": "release",
+"file": "tests/cli_fake_agent.rs",
+"line": 509
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 chain_boots_the_fake_agent_under_viola_with_a_gated_script().",
+"callee_name": "release",
+"file": "tests/cli_fake_agent.rs",
+"line": 606
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 chain_boots_the_fake_agent_under_viola_with_a_gated_script().",
+"callee_name": "release",
+"file": "tests/cli_fake_agent.rs",
+"line": 608
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 path3_wait_parks_until_turn_ended_then_last_reads_it().",
+"callee_name": "release",
+"file": "tests/cli_wait_last.rs",
+"line": 271
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 path3_wait_parks_until_turn_ended_then_last_reads_it().",
+"callee_name": "release",
+"file": "tests/cli_wait_last.rs",
+"line": 277
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 wait_after_a_send_cursor_returns_the_turn().",
+"callee_name": "release",
+"file": "tests/cli_wait_last.rs",
+"line": 354
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 wait_after_a_send_cursor_returns_the_turn().",
+"callee_name": "release",
+"file": "tests/cli_wait_last.rs",
+"line": 355
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 last_survives_a_wrapper_restart().",
+"callee_name": "release",
+"file": "tests/cli_wait_last.rs",
+"line": 369
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 last_survives_a_wrapper_restart().",
+"callee_name": "release",
+"file": "tests/cli_wait_last.rs",
+"line": 370
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 last_human_escapes_controls().",
+"callee_name": "release",
+"file": "tests/cli_wait_last.rs",
+"line": 404
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 last_human_escapes_controls().",
+"callee_name": "release",
+"file": "tests/cli_wait_last.rs",
+"line": 405
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 path4_a_dialog_pending_at_a_pause_is_handed_back_to_the_human().",
+"callee_name": "release",
+"file": "tests/cli_wheel.rs",
+"line": 262
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 support/home/impl#[Wrapper]release().",
+"callee_name": "release",
+"file": "tests/support/home.rs",
+"line": 396
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 path5_harness_turns_never_take_the_wheel().",
+"callee_name": "release",
+"file": "tests/tui_wheel.rs",
+"line": 244
+},
+{
+"caller": "rust-analyzer cargo viola-channel 0.1.0 channel_frame_up_to_the_bound_is_answered().",
+"callee_name": "send",
+"file": "crates/viola-channel/tests/channel_frames.rs",
+"line": 74
+},
+{
+"caller": "rust-analyzer cargo viola-channel 0.1.0 channel_frame_not_json_is_a_parse_error_and_the_connection_stays().",
+"callee_name": "send",
+"file": "crates/viola-channel/tests/channel_frames.rs",
+"line": 129
+},
+{
+"caller": "rust-analyzer cargo viola-channel 0.1.0 channel_frame_not_json_is_a_parse_error_and_the_connection_stays().",
+"callee_name": "send",
+"file": "crates/viola-channel/tests/channel_frames.rs",
+"line": 132
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/dispatch().",
+"callee_name": "send",
+"file": "src/cmd/mod.rs",
+"line": 83
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/impl#[Methods][Dispatch]dispatch_call().",
+"callee_name": "send",
+"file": "src/cmd/run.rs",
+"line": 124
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/send/tests/send_refusal_order().",
+"callee_name": "send",
+"file": "src/run/send.rs",
+"line": 596
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/send/tests/confirmed_with().",
+"callee_name": "send",
+"file": "src/run/send.rs",
+"line": 637
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/send/tests/send_closed_send_keeps_the_slot_until_its_guard_drops().",
+"callee_name": "send",
+"file": "src/run/send.rs",
+"line": 735
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/send/tests/send_window_expiry_is_no_prompt_submitted_with_the_cursor().",
+"callee_name": "send",
+"file": "src/run/send.rs",
+"line": 756
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/send/tests/send_second_while_one_is_in_flight_is_turn_running_and_types_nothing().",
+"callee_name": "send",
+"file": "src/run/send.rs",
+"line": 781
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/send/tests/send_second_while_one_is_in_flight_is_turn_running_and_types_nothing().",
+"callee_name": "send",
+"file": "src/run/send.rs",
+"line": 783
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/send/tests/send_a_failed_paste_is_input_not_ready_with_the_cursor().",
+"callee_name": "send",
+"file": "src/run/send.rs",
+"line": 811
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/send/tests/send_params_it_cannot_take_are_invalid_params().",
+"callee_name": "send",
+"file": "src/run/send.rs",
+"line": 826
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/send/tests/send_from_null_is_no_from().",
+"callee_name": "send",
+"file": "src/run/send.rs",
+"line": 837
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/send/tests/send_a_record_that_cannot_be_appended_is_internal().",
+"callee_name": "send",
+"file": "src/run/send.rs",
+"line": 847
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 chaos_feed_panic_refuses_send_and_keeps_passthrough().",
+"callee_name": "send",
+"file": "tests/chaos_feed_panic.rs",
+"line": 103
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 impl#[Direct]finish().",
+"callee_name": "send",
+"file": "tests/cli_fake_agent.rs",
+"line": 71
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 fake_agent_report_version_changes_only_the_version_answer().",
+"callee_name": "send",
+"file": "tests/cli_fake_agent.rs",
+"line": 173
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 fake_agent_bracketed_paste_and_cr_is_one_prompt().",
+"callee_name": "send",
+"file": "tests/cli_fake_agent.rs",
+"line": 263
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 fake_agent_typed_bytes_are_keys_byte_exact().",
+"callee_name": "send",
+"file": "tests/cli_fake_agent.rs",
+"line": 279
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 fake_agent_typed_bytes_are_keys_byte_exact().",
+"callee_name": "send",
+"file": "tests/cli_fake_agent.rs",
+"line": 280
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 fake_agent_cr_with_nothing_typed_submits_nothing().",
+"callee_name": "send",
+"file": "tests/cli_fake_agent.rs",
+"line": 299
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 fake_agent_fires_the_plugin_hook_with_the_prompt_in_the_payload().",
+"callee_name": "send",
+"file": "tests/cli_fake_agent.rs",
+"line": 310
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 fake_agent_hook_stdout_and_exit_are_receipted().",
+"callee_name": "send",
+"file": "tests/cli_fake_agent.rs",
+"line": 340
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 fake_agent_without_a_fixture_or_plugin_spawns_nothing().",
+"callee_name": "send",
+"file": "tests/cli_fake_agent.rs",
+"line": 355
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 fake_agent_without_a_fixture_or_plugin_spawns_nothing().",
+"callee_name": "send",
+"file": "tests/cli_fake_agent.rs",
+"line": 363
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 fake_agent_never_runs_a_non_absolute_hook_command().",
+"callee_name": "send",
+"file": "tests/cli_fake_agent.rs",
+"line": 389
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 fake_agent_suppress_prompt_submit_fires_nothing().",
+"callee_name": "send",
+"file": "tests/cli_fake_agent.rs",
+"line": 409
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 fake_agent_local_command_mode_skips_only_slash_prompts().",
+"callee_name": "send",
+"file": "tests/cli_fake_agent.rs",
+"line": 427
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 fake_agent_local_command_mode_skips_only_slash_prompts().",
+"callee_name": "send",
+"file": "tests/cli_fake_agent.rs",
+"line": 428
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 fake_agent_slash_prompt_fires_without_local_command_mode().",
+"callee_name": "send",
+"file": "tests/cli_fake_agent.rs",
+"line": 443
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 chain_boots_the_fake_agent_under_viola_with_a_gated_script().",
+"callee_name": "send",
+"file": "tests/cli_fake_agent.rs",
+"line": 610
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 path2_send_confirms_with_cl1_events().",
+"callee_name": "send",
+"file": "tests/cli_send.rs",
+"line": 157
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 path2_send_confirms_with_cl1_events().",
+"callee_name": "send",
+"file": "tests/cli_send.rs",
+"line": 215
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 send_window_no_prompt_submitted_refuses_and_logs().",
+"callee_name": "send",
+"file": "tests/cli_send.rs",
+"line": 240
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 send_window_second_concurrent_send_is_refused_turn_running().",
+"callee_name": "send",
+"file": "tests/cli_send.rs",
+"line": 272
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 send_window_local_command_is_not_presumed_delivered().",
+"callee_name": "send",
+"file": "tests/cli_send.rs",
+"line": 311
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 send_leading_slash_argument_is_a_usage_error().",
+"callee_name": "send",
+"file": "tests/cli_send.rs",
+"line": 330
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 send_unreachable_name_exits_21_not_running().",
+"callee_name": "send",
+"file": "tests/cli_send.rs",
+"line": 364
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 send_unreachable_name_exits_21_not_running().",
+"callee_name": "send",
+"file": "tests/cli_send.rs",
+"line": 372
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 path5_human_takes_the_wheel_and_release_returns_it().",
+"callee_name": "send",
+"file": "tests/tui_wheel.rs",
+"line": 164
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 path5_human_takes_the_wheel_and_release_returns_it().",
+"callee_name": "send",
+"file": "tests/tui_wheel.rs",
+"line": 177
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 tui_focus_mouse_and_resize_never_take_the_wheel().",
+"callee_name": "send",
+"file": "tests/tui_wheel.rs",
+"line": 285
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 tui_focus_mouse_and_resize_never_take_the_wheel().",
+"callee_name": "send",
+"file": "tests/tui_wheel.rs",
+"line": 286
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 tui_focus_mouse_and_resize_never_take_the_wheel().",
+"callee_name": "send",
+"file": "tests/tui_wheel.rs",
+"line": 287
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 tui_ctrl_z_reaches_the_child_and_later_keys_still_do().",
+"callee_name": "send",
+"file": "tests/tui_wheel.rs",
+"line": 339
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 tui_ctrl_z_reaches_the_child_and_later_keys_still_do().",
+"callee_name": "send",
+"file": "tests/tui_wheel.rs",
+"line": 341
+},
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 events/tests/events_try_append_writes_only_while_the_lock_is_free().",
+"callee_name": "try_append_event",
+"file": "crates/viola-state/src/events.rs",
+"line": 360
+},
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 events/tests/events_try_append_writes_only_while_the_lock_is_free().",
+"callee_name": "try_append_event",
+"file": "crates/viola-state/src/events.rs",
+"line": 363
+},
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 events/tests/events_try_append_into_a_missing_dir_fails().",
+"callee_name": "try_append_event",
+"file": "crates/viola-state/src/events.rs",
+"line": 379
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/hook/",
+"callee_name": "try_append_event",
+"file": "src/cmd/hook.rs",
+"line": 22
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/hook/append_session_end().",
+"callee_name": "try_append_event",
+"file": "src/cmd/hook.rs",
+"line": 421
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

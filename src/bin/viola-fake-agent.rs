@@ -10,7 +10,7 @@ use std::fs::{self, File, OpenOptions};
 use std::io::{Read as _, Write as _};
 use std::path::{Path, PathBuf};
 use std::process::{Command, ExitCode, Stdio};
-use std::sync::{Arc, Mutex};
+use std::sync::{Arc, Mutex, PoisonError};
 use std::time::Duration;
 
 use serde_json::{Value, json};
@@ -216,9 +216,26 @@ fn payload(fixture: Vec<u8>, prompt: Option<&str>) -> Vec<u8> {
 struct Agent {
     opts: Opts,
     receipt: Receipt,
+    /// Held for each hook's whole run; `true` once the agent is exiting.
+    hooks: Mutex<bool>,
 }
 
 impl Agent {
+    fn new(opts: Opts) -> Self {
+        Self {
+            receipt: Receipt::open(opts.receipt.as_deref()),
+            opts,
+            hooks: Mutex::new(false),
+        }
+    }
+
+    /// Before the agent exits: waits for a hook still running and starts no other. A hook is in
+    /// the terminal's foreground group, and the agent's exit as its session leader hangs that group
+    /// up, which would cut a hook off mid-exit (its coverage profile half written).
+    fn close_hooks(&self) {
+        *self.hooks.lock().unwrap_or_else(PoisonError::into_inner) = true;
+    }
+
     /// Fires `event`; the returned word is the prompt receipt's `submit` value.
     fn fire(&self, event: &str, variant: &str, prompt: Option<&str>) -> &'static str {
         let hooks = self
@@ -256,6 +273,10 @@ impl Agent {
                 "hook",
                 json!({"event": event, "command_absolute": false, "ran": false}),
             );
+            return;
+        }
+        let closed = self.hooks.lock().unwrap_or_else(PoisonError::into_inner);
+        if *closed {
             return;
         }
         let child = Command::new(command)
@@ -538,6 +559,7 @@ fn read_stdin(agent: &Agent) -> ExitCode {
                 Action::Key(b) => agent.receipt.write("key", json!({"hex": hex(&[b])})),
                 Action::Submit(bytes) => agent.submit(&bytes, "human"),
                 Action::Exit => {
+                    agent.close_hooks();
                     if agent.opts.exit_no_eof {
                         hold_inherited_stdout(agent.opts.receipt.as_deref());
                     }
@@ -546,6 +568,7 @@ fn read_stdin(agent: &Agent) -> ExitCode {
             }
         }
     }
+    agent.close_hooks();
     ExitCode::SUCCESS
 }
 
@@ -562,10 +585,7 @@ fn main() -> ExitCode {
         return ExitCode::SUCCESS;
     }
     if let Some(prompt) = opts.print.clone() {
-        let agent = Agent {
-            receipt: Receipt::open(opts.receipt.as_deref()),
-            opts,
-        };
+        let agent = Agent::new(opts);
         print_turn(&agent, &prompt);
         return ExitCode::SUCCESS;
     }
@@ -573,10 +593,7 @@ fn main() -> ExitCode {
         eprintln!("fake agent: unreadable script");
         return ExitCode::from(2);
     };
-    let agent = Arc::new(Agent {
-        receipt: Receipt::open(opts.receipt.as_deref()),
-        opts,
-    });
+    let agent = Arc::new(Agent::new(opts));
     // Raw like the real CLI: on a cooked terminal keys wait for Enter and `\x03` never arrives.
     // The `start` receipt below is written only once the mode is set.
     let _terminal = viola_pty::HostTerminal::enter();

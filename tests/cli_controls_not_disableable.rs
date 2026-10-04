@@ -2,7 +2,7 @@
 //! Anti-Patterns → Universal): each row sets a variable to a disabling-shaped value and re-runs the
 //! controls on its path, which must give the same verdict as without it. Interim shape: the rows
 //! cover the hook-path controls, `send`'s paste control, `answer` on an unstamped CLI and `send`
-//! under a human wheel; the other verb negative (a 0770 `--home`) and the completeness case join
+//! under a human wheel or during a running turn; the other verb negative (a 0770 `--home`) and the completeness case join
 //! with their chunks.
 
 #[allow(dead_code)]
@@ -12,10 +12,12 @@ use std::ffi::OsString;
 use std::io::Write as _;
 use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
+use std::time::Instant;
 
 use rstest::rstest;
 use serde_json::{Value, json};
 use support::home::{StampedHome, TestHome, VIOLA, Wrapper, workspace_path};
+use support::watch::{WITHIN, Watch};
 
 const CANARY: &str = "canary-chain-value-5c1e";
 
@@ -230,9 +232,14 @@ fn setting_does_not_disable_the_answer_unstamped_control() {
     wrapper.stop();
 }
 
-/// `viola send --json` while the human holds the wheel (`viola pause`), with `setting` over its
-/// environment or none: refused `human-typing` / `manual-pause` (exit 10), whatever the setting.
-fn assert_send_human_wheel_control_holds(wrapper: &Wrapper, setting: Option<(&str, &str)>) {
+/// `viola send --json` against a live wrapper, with `setting` over its environment or none: refused
+/// with exit `code` and the one document `refused`, whatever the setting.
+fn assert_send_control_holds(
+    wrapper: &Wrapper,
+    setting: Option<(&str, &str)>,
+    code: i32,
+    refused: &str,
+) {
     let mut command = Command::new(VIOLA);
     command
         .arg("--home")
@@ -251,12 +258,9 @@ fn assert_send_human_wheel_control_holds(wrapper: &Wrapper, setting: Option<(&st
     drop(input);
     let out = child.wait_with_output().expect("viola send exits");
 
-    assert_eq!(out.status.code(), Some(10), "{setting:?}");
+    assert_eq!(out.status.code(), Some(code), "{setting:?}");
     assert!(out.stderr.is_empty(), "stderr: {} bytes", out.stderr.len());
-    assert_eq!(
-        String::from_utf8_lossy(&out.stdout),
-        "{\"v\":1,\"refusal\":\"human-typing\",\"detail\":\"manual-pause\"}\n"
-    );
+    assert_eq!(String::from_utf8_lossy(&out.stdout), refused);
 }
 
 #[test]
@@ -283,7 +287,55 @@ fn setting_does_not_disable_the_send_human_wheel_control() {
         Some(("FAKE_AGENT_HOOK_PANIC", "off")),
         Some(("FAKE_AGENT_HOOK_PANIC", "")),
     ] {
-        assert_send_human_wheel_control_holds(&wrapper, setting);
+        assert_send_control_holds(
+            &wrapper,
+            setting,
+            10,
+            "{\"v\":1,\"refusal\":\"human-typing\",\"detail\":\"manual-pause\"}\n",
+        );
+    }
+    wrapper.stop();
+}
+
+/// `viola send --json` during a running harness turn (no Stop): refused `not-delivered` /
+/// `turn-running` (exit 13), whatever the setting.
+#[test]
+fn setting_does_not_disable_the_send_turn_running_control() {
+    let fixtures = workspace_path("fixtures/claude");
+    let fixtures = fixtures.to_str().expect("utf-8 path");
+    let wrapper = Wrapper::boot(
+        StampedHome::unstamped(TestHome::new()),
+        "builder",
+        None,
+        &["--fixtures", fixtures, "--inject-harness-turn"],
+    );
+    wrapper.release();
+    let events = wrapper.instance_dir().join("events.ndjson");
+    let watch = Watch::start("events");
+    let deadline = Instant::now() + WITHIN;
+    while !support::ndjson::read_lines(&events)
+        .iter()
+        .any(|l: &Value| l["kind"] == "prompt-submitted")
+    {
+        watch.deadline_check(
+            deadline,
+            "timed out waiting for the harness prompt-submitted",
+        );
+        std::thread::yield_now();
+    }
+    for setting in [
+        None,
+        Some(("FAKE_AGENT_HOOK_PANIC", "0")),
+        Some(("FAKE_AGENT_HOOK_PANIC", "false")),
+        Some(("FAKE_AGENT_HOOK_PANIC", "off")),
+        Some(("FAKE_AGENT_HOOK_PANIC", "")),
+    ] {
+        assert_send_control_holds(
+            &wrapper,
+            setting,
+            13,
+            "{\"v\":1,\"refusal\":\"not-delivered\",\"detail\":\"turn-running\"}\n",
+        );
     }
     wrapper.stop();
 }

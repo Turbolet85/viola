@@ -19,16 +19,19 @@ use support::home::{StampedHome, TestHome, VIOLA, Wrapper, workspace_path};
 use support::watch::{WITHIN, Watch};
 
 const CANARY: &str = "canary-chain-value-5c1e";
+/// A gated `PostToolUse`, then a gated `Stop`: the turn a confirmed send started, ended on cue.
+const PATH3: &str = "fixtures/fake-scripts/path3.json";
 
-/// A wrapper over the fake agent with the committed hook fixtures, its SessionStart record landed.
-fn boot(extra: &[&str]) -> Wrapper {
+/// A wrapper over the fake agent with the committed hook fixtures (and `script`), its SessionStart
+/// record landed.
+fn boot(script: Option<&str>, extra: &[&str]) -> Wrapper {
     let fixtures = workspace_path("fixtures/claude");
     let mut args = vec!["--fixtures", fixtures.to_str().expect("utf-8 path")];
     args.extend_from_slice(extra);
     let wrapper = Wrapper::boot(
         StampedHome::unstamped(TestHome::new()),
         "builder",
-        None,
+        script,
         &args,
     );
     wait_events(&wrapper.instance_dir(), "the session-start record", |l| {
@@ -147,9 +150,24 @@ fn is_ms_utc(ts: &str) -> bool {
         && chrono::DateTime::parse_from_rfc3339(ts).is_ok()
 }
 
+/// Releases `PATH3`'s two gated steps and waits for its `turn-ended`.
+fn end_turn(wrapper: &Wrapper) {
+    let ended = events(&wrapper.instance_dir())
+        .iter()
+        .filter(|e| e["kind"] == "turn-ended")
+        .count();
+    wrapper.release();
+    wrapper.release();
+    wait_events(
+        &wrapper.instance_dir(),
+        "the scripted Stop's turn-ended",
+        |l| l.iter().filter(|e| e["kind"] == "turn-ended").count() > ended,
+    );
+}
+
 #[test]
 fn path2_send_confirms_with_cl1_events() {
-    let wrapper = boot(&[]);
+    let wrapper = boot(Some(PATH3), &[]);
     let dir = wrapper.instance_dir();
     let home = wrapper.home().to_path_buf();
     let text = format!("{CANARY} step four\nline two\n\tindented");
@@ -211,6 +229,7 @@ fn path2_send_confirms_with_cl1_events() {
         );
     }
 
+    end_turn(&wrapper);
     // Human mode with stdout piped: the read-back line alone, no issue line.
     let l2 = end_offset(&dir);
     let human = send(&home, &["builder"], &format!("{CANARY} again"));
@@ -235,7 +254,7 @@ fn path2_send_confirms_with_cl1_events() {
 
 #[test]
 fn send_window_no_prompt_submitted_refuses_and_logs() {
-    let wrapper = boot(&["--suppress-prompt-submit"]);
+    let wrapper = boot(None, &["--suppress-prompt-submit"]);
     let dir = wrapper.instance_dir();
     let l = end_offset(&dir);
     let sent = send(wrapper.home(), &["builder"], &format!("{CANARY} unheard"));
@@ -262,7 +281,7 @@ fn send_window_no_prompt_submitted_refuses_and_logs() {
 /// verification-matrix v1-12: two concurrent sends to one instance, exactly one typed.
 #[test]
 fn send_window_second_concurrent_send_is_refused_turn_running() {
-    let wrapper = boot(&["--suppress-prompt-submit"]);
+    let wrapper = boot(None, &["--suppress-prompt-submit"]);
     let dir = wrapper.instance_dir();
     let l = end_offset(&dir);
     let first = spawn_send(wrapper.home(), &["builder"], &format!("{CANARY} first"));
@@ -305,10 +324,48 @@ fn send_window_second_concurrent_send_is_refused_turn_running() {
     wrapper.stop();
 }
 
+/// The driver's own confirmed prompt starts a turn: a next `send` is `turn-running` and types
+/// nothing until the turn's `turn-ended`, after which the same `send` is accepted.
+#[test]
+fn send_after_a_confirmed_send_is_turn_running_until_turn_ended() {
+    let wrapper = boot(Some(PATH3), &[]);
+    let dir = wrapper.instance_dir();
+    let home = wrapper.home().to_path_buf();
+    let first = send(&home, &["builder", "--json"], &format!("{CANARY} first"));
+    assert_eq!(first.code, Some(0), "stderr: {}", first.stderr);
+
+    let l = end_offset(&dir);
+    let second = format!("{CANARY} second");
+    let refused = send(&home, &["builder"], &second);
+    assert_eq!(refused.code, Some(13));
+    assert!(refused.stdout.is_empty());
+    assert_eq!(
+        refused.stderr,
+        "[/ ] unable         builder  not-delivered  turn-running\n\
+         hint: a turn is running; viola wait builder first\n"
+    );
+    let records = records_after(&dir, l);
+    assert_eq!(records.len(), 1, "{records:?}");
+    assert_eq!(records[0]["kind"], "send-refused");
+    assert_eq!(
+        records[0]["data"],
+        json!({"refusal": "not-delivered", "detail": "turn-running"})
+    );
+    assert_eq!(prompts(&wrapper.receipt()).len(), 1, "nothing typed");
+
+    end_turn(&wrapper);
+    let accepted = send(&home, &["builder"], &second);
+    assert_eq!(accepted.code, Some(0), "stderr: {}", accepted.stderr);
+    let typed = prompts_at_least(&wrapper.receipt(), 2);
+    assert_eq!(typed.len(), 2);
+    assert_eq!(typed[1]["text"], second.as_str());
+    wrapper.stop();
+}
+
 /// No local-command list is compiled: a local command is never presumed delivered.
 #[test]
 fn send_window_local_command_is_not_presumed_delivered() {
-    let wrapper = boot(&["--local-command-mode"]);
+    let wrapper = boot(None, &["--local-command-mode"]);
     let sent = send(wrapper.home(), &["builder", "--json"], "/clear");
     assert_eq!(sent.code, Some(13));
     assert_eq!(
@@ -324,7 +381,7 @@ fn send_window_local_command_is_not_presumed_delivered() {
 
 #[test]
 fn send_leading_slash_argument_is_a_usage_error() {
-    let wrapper = boot(&[]);
+    let wrapper = boot(None, &[]);
     let dir = wrapper.instance_dir();
     let l = end_offset(&dir);
     for args in [&["/clear"][..], &["builder", "/clear"][..]] {

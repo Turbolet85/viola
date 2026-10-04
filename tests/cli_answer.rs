@@ -6,7 +6,7 @@
 //! nothing and carries only a plan's revise. A second concurrent dialog, an unknown id and an
 //! unverified CLI are each left to the human. The dialog payloads are the relayed 2.1.287 captures
 //! (`fixtures/claude/2.1.287/RELAYED.md`); the canary rides only the answers and the driver's text.
-//! The `permission` kind's end-to-end case is owed to the live test (working-route `:82`).
+//! The `permission` kind's end-to-end case is owed to the live test (working-route `:84`).
 
 #[allow(dead_code)]
 mod support;

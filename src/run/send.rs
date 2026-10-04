@@ -135,7 +135,8 @@ impl SendSlot {
 /// own prompt, whatever origin the hook filed, is the driver's: the match keys on the normalised
 /// text, never on the hook's origin, and the waiting send settles only once the relabelled line is
 /// on disk. Any other prompt the hook filed `human` was typed by the human, who then holds the wheel;
-/// a `harness` prompt never moves it.
+/// a `harness` prompt never moves it. A prompt of any origin starts a turn; `turn-ended`,
+/// `session-start` and `session-end` end it.
 pub(crate) fn append_hook_event(
     slot: &SendSlot,
     feed: &WaitFeed,
@@ -148,6 +149,16 @@ pub(crate) fn append_hook_event(
             .is_some_and(|text| slot.claim(text));
     if claimed {
         line.data["origin"] = json!("driver");
+    }
+    // Before the line can be read, as the wheel below: a driver that read `turn-ended` is never
+    // refused by that turn. The turn is marked ahead of the human's wheel move, so a `release`
+    // between the two still clears it.
+    match line.kind {
+        EventKind::PromptSubmitted => slot.wheel.turn_started(),
+        EventKind::TurnEnded | EventKind::SessionStart | EventKind::SessionEnd => {
+            slot.wheel.turn_ended();
+        }
+        _ => {}
     }
     // Moved before the line can be read: whoever sees the human's prompt on disk already sees the
     // human's wheel, so a `release` made after it is never undone by it.
@@ -237,7 +248,7 @@ pub(crate) fn send(
     }
     {
         let mut flight = slot.flight();
-        if flight.is_some() {
+        if flight.is_some() || slot.wheel.turn_running() {
             drop(flight);
             return ctx.not_delivered(None, NotDelivered::TurnRunning);
         }
@@ -412,6 +423,23 @@ mod tests {
         }
     }
 
+    /// Fixed while `jumping` is false, a [`JumpClock`] while it is true: a send that must be
+    /// confirmed waits for its prompt, and one that must be refused can never park on its window.
+    struct SwitchClock {
+        now: Mutex<Instant>,
+        jumping: Arc<std::sync::atomic::AtomicBool>,
+    }
+
+    impl Clock for SwitchClock {
+        fn now(&self) -> Instant {
+            let mut now = self.now.lock().expect("clock");
+            if self.jumping.load(std::sync::atomic::Ordering::SeqCst) {
+                *now += Duration::from_secs(1);
+            }
+            *now
+        }
+    }
+
     fn name() -> ViolaName {
         ViolaName::try_new("builder".to_owned()).expect("valid")
     }
@@ -512,6 +540,12 @@ mod tests {
         HumanInFlight,
         /// `viola pause` took the wheel, and another send is in flight.
         PausedInFlight,
+        /// A turn is running, with no send in flight and no child.
+        TurnNoChild,
+        /// A human key took the wheel during a running turn.
+        HumanTurn,
+        /// `viola pause` took the wheel during a running turn.
+        PausedTurn,
         NoChild,
         Poisoned,
         Mute,
@@ -548,6 +582,25 @@ mod tests {
     #[case::turn_running_before_input_not_ready(
         "hello",
         Setup::InFlightNoChild,
+        "not-delivered",
+        Some("turn-running")
+    )]
+    #[case::control_character_before_a_running_turn(
+        "x\u{1b}[201~",
+        Setup::TurnNoChild,
+        "not-delivered",
+        Some("control-character")
+    )]
+    #[case::human_typing_before_a_running_turn("hello", Setup::HumanTurn, "human-typing", None)]
+    #[case::manual_pause_before_a_running_turn(
+        "hello",
+        Setup::PausedTurn,
+        "human-typing",
+        Some("manual-pause")
+    )]
+    #[case::a_running_turn_before_input_not_ready(
+        "hello",
+        Setup::TurnNoChild,
         "not-delivered",
         Some("turn-running")
     )]
@@ -588,6 +641,15 @@ mod tests {
             Setup::PausedInFlight => {
                 paused(&slot.wheel);
                 occupy(&slot);
+            }
+            Setup::TurnNoChild => slot.wheel.turn_started(),
+            Setup::HumanTurn => {
+                slot.wheel.turn_started();
+                slot.wheel.human_input();
+            }
+            Setup::PausedTurn => {
+                slot.wheel.turn_started();
+                paused(&slot.wheel);
             }
             Setup::NoChild => {}
             Setup::Poisoned => slot.attach(pastes.paste_fn(), poisoned_gate(base)),
@@ -882,6 +944,151 @@ mod tests {
             feed.last(&json!({"v": 1})),
             Ok(json!({"ok": {"last_assistant_message": "landed", "ts": ts}}))
         );
+    }
+
+    const HARNESS_TURN: &str = "<task-notification>synthetic harness turn</task-notification>";
+
+    fn hook_line(kind: EventKind, data: Value) -> EventLine {
+        EventLine::new(&name(), kind, Source::Hook, data, Utc::now())
+    }
+
+    /// A slot whose child takes every paste and never submits: a send past the turn's rung is
+    /// typed, then expires `no-prompt-submitted`.
+    fn mute_child() -> (SendSlot, Pastes) {
+        let base = Instant::now();
+        let slot = SendSlot::new(JumpClock(Mutex::new(base)), Arc::default());
+        let (pastes, _pasted) = Pastes::new();
+        slot.attach(pastes.paste_fn(), quiet_gate(base));
+        (slot, pastes)
+    }
+
+    /// Refused before `send-issued`: the last record is a `send-refused` with no cursor.
+    fn assert_refused_without_a_cursor(dir: &Path, detail: Option<&str>) {
+        let events = events(dir);
+        let refused = events.last().expect("a send-refused record");
+        assert_eq!(refused["kind"], "send-refused");
+        assert_eq!(refused["data"]["detail"], json!(detail));
+        assert!(refused["data"].get("cursor").is_none());
+    }
+
+    /// A prompt of any origin starts a turn. An unsent human prompt also takes the wheel, whose
+    /// rung comes first.
+    #[rstest]
+    #[case::harness(HARNESS_TURN, "harness", "not-delivered", Some("turn-running"))]
+    #[case::human("typed by the human", "human", "human-typing", None)]
+    fn send_a_prompt_of_any_origin_starts_a_turn(
+        #[case] text: &str,
+        #[case] origin: &str,
+        #[case] refusal: &str,
+        #[case] detail: Option<&str>,
+    ) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (slot, pastes) = mute_child();
+        append_hook_event(&slot, &feed(), tmp.path(), prompt(text, origin)).expect("hook");
+        assert!(slot.wheel.turn_running());
+        let params = json!({"v": 1, "text": "hello"});
+        let reply = send(&slot, &name(), tmp.path(), &call(&params, 1)).expect("answered");
+        assert_eq!(reply, json!({"refusal": refusal, "detail": detail}));
+        assert!(pastes.all().is_empty(), "nothing typed");
+        assert_refused_without_a_cursor(tmp.path(), detail);
+        assert_eq!(kinds(tmp.path()), ["prompt-submitted", "send-refused"]);
+    }
+
+    /// `turn-ended`, `session-start` and `session-end` end a turn; `activity` does not.
+    #[rstest]
+    #[case::turn_ended(EventKind::TurnEnded, json!({"last_assistant_message": "done"}), true)]
+    #[case::session_start(EventKind::SessionStart, json!({"cause": "clear"}), true)]
+    #[case::session_end(EventKind::SessionEnd, json!({}), true)]
+    #[case::activity(EventKind::Activity, json!({}), false)]
+    fn send_a_turn_end_lets_the_next_send_past_the_rung(
+        #[case] kind: EventKind,
+        #[case] data: Value,
+        #[case] ends: bool,
+    ) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (slot, pastes) = mute_child();
+        append_hook_event(&slot, &feed(), tmp.path(), prompt(HARNESS_TURN, "harness"))
+            .expect("hook");
+        append_hook_event(&slot, &feed(), tmp.path(), hook_line(kind, data)).expect("hook");
+        let params = json!({"v": 1, "text": "hello"});
+        let reply = send(&slot, &name(), tmp.path(), &call(&params, 1)).expect("answered");
+        if ends {
+            assert_eq!(
+                reply,
+                json!({"refusal": "not-delivered", "detail": "no-prompt-submitted"})
+            );
+            assert_eq!(pastes.all(), ["hello"]);
+        } else {
+            assert_eq!(
+                reply,
+                json!({"refusal": "not-delivered", "detail": "turn-running"})
+            );
+            assert!(pastes.all().is_empty(), "nothing typed");
+            assert_refused_without_a_cursor(tmp.path(), Some("turn-running"));
+        }
+    }
+
+    /// A send confirmed by the hook's report of its prompt.
+    fn confirmed(slot: &SendSlot, dir: &Path, pasted: &mpsc::Receiver<()>, text: &str) -> Value {
+        let params = json!({"v": 1, "text": text});
+        std::thread::scope(|s| {
+            let sending = s.spawn(|| send(slot, &name(), dir, &call(&params, 1)));
+            pasted.recv().expect("pasted");
+            append_hook_event(slot, &feed(), dir, prompt(text, "human")).expect("hook");
+            sending.join().expect("send thread")
+        })
+        .expect("answered")
+    }
+
+    /// The driver's own prompt starts a turn too: the next send is `turn-running` until its
+    /// `turn-ended`.
+    #[test]
+    fn send_after_a_confirmed_send_is_turn_running_until_turn_ended() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let base = Instant::now();
+        let jumping = Arc::new(std::sync::atomic::AtomicBool::new(false));
+        let clock = SwitchClock {
+            now: Mutex::new(base),
+            jumping: Arc::clone(&jumping),
+        };
+        let slot = SendSlot::new(clock, Arc::default());
+        let (pastes, pasted) = Pastes::new();
+        slot.attach(pastes.paste_fn(), quiet_gate(base));
+        assert_eq!(
+            confirmed(&slot, tmp.path(), &pasted, "first")["ok"]["cursor"],
+            0
+        );
+        let params = json!({"v": 1, "text": "second"});
+        jumping.store(true, std::sync::atomic::Ordering::SeqCst);
+        let reply = send(&slot, &name(), tmp.path(), &call(&params, 2)).expect("answered");
+        jumping.store(false, std::sync::atomic::Ordering::SeqCst);
+        assert_eq!(
+            reply,
+            json!({"refusal": "not-delivered", "detail": "turn-running"})
+        );
+        assert_refused_without_a_cursor(tmp.path(), Some("turn-running"));
+        assert_eq!(pastes.all(), ["first"]);
+        let ended = hook_line(
+            EventKind::TurnEnded,
+            json!({"last_assistant_message": "done"}),
+        );
+        append_hook_event(&slot, &feed(), tmp.path(), ended).expect("hook");
+        assert!(confirmed(&slot, tmp.path(), &pasted, "second")["ok"]["cursor"].is_u64());
+        assert_eq!(pastes.all(), ["first", "second"]);
+        assert_eq!(
+            kinds(tmp.path()),
+            [
+                "send-issued",
+                "prompt-submitted",
+                "send-confirmed",
+                "send-refused",
+                "turn-ended",
+                "send-issued",
+                "prompt-submitted",
+                "send-confirmed"
+            ]
+        );
+        assert_eq!(slot.wheel.holder(), Wheel::Driver);
     }
 
     #[test]

@@ -64,12 +64,20 @@ enum Job {
 /// How long the wrapper's exit waits for the moves still queued.
 const FLUSH_WITHIN: Duration = Duration::from_secs(2);
 
+/// Whether a turn is running, as the hook lines tell it; held in memory only.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum Turn {
+    Idle,
+    Running,
+}
+
 struct Held {
     holder: Wheel,
     cause: WheelCause,
+    turn: Turn,
 }
 
-/// One instance's wheel, starting with the driver.
+/// One instance's wheel, starting with the driver and no turn running.
 pub(crate) struct WheelSlot {
     held: Mutex<Held>,
     moves: OnceLock<Sender<Job>>,
@@ -81,6 +89,7 @@ impl Default for WheelSlot {
             held: Mutex::new(Held {
                 holder: Wheel::Driver,
                 cause: WheelCause::Start,
+                turn: Turn::Idle,
             }),
             moves: OnceLock::new(),
         }
@@ -118,14 +127,33 @@ impl WheelSlot {
         self.apply(Input::Human, false);
     }
 
+    /// A `prompt-submitted` of any origin.
+    pub(crate) fn turn_started(&self) {
+        self.held().turn = Turn::Running;
+    }
+
+    /// A `turn-ended`, `session-start` or `session-end`.
+    pub(crate) fn turn_ended(&self) {
+        self.held().turn = Turn::Idle;
+    }
+
+    pub(crate) fn turn_running(&self) -> bool {
+        self.held().turn == Turn::Running
+    }
+
     /// The move for `input`, made in memory; its record is queued under the same lock, so the
     /// records land in the order the moves were made. With `wait`, the receiver of its outcome.
+    /// The `release` that returns the wheel also clears the running turn: a user interrupt ends a
+    /// turn with no `turn-ended`.
     fn apply(&self, input: Input, wait: bool) -> Option<Receiver<bool>> {
         let mut held = self.held();
         let (to, cause) = next(held.holder, held.cause, input)?;
         let from = held.holder;
         held.holder = to;
         held.cause = cause;
+        if input == Input::Release {
+            held.turn = Turn::Idle;
+        }
         let moves = self.moves.get()?;
         let (done, outcome) = if wait {
             let (done, outcome) = mpsc::sync_channel(1);
@@ -580,6 +608,64 @@ mod tests {
         assert_eq!(wheel.human_typing(), Some(Some(HumanTyping::ManualPause)));
         wheel.apply(Input::Release, false);
         assert_eq!(wheel.human_typing(), None);
+    }
+
+    /// Only a `release` that returns the wheel clears a running turn; one the wheel ignores, a
+    /// budget release and a refused one leave it running.
+    #[rstest]
+    #[case::release_returning_the_wheel(
+        true,
+        json!({"v": 1}),
+        Ok(json!({"ok": {"wheel": "driver", "budget_paused": false}})),
+        false
+    )]
+    #[case::release_under_the_driver(
+        false,
+        json!({"v": 1}),
+        Ok(json!({"ok": {"wheel": "driver", "budget_paused": false}})),
+        true
+    )]
+    #[case::release_budget(
+        true,
+        json!({"v": 1, "budget": true}),
+        Ok(json!({"ok": {"wheel": "human", "budget_paused": false}})),
+        true
+    )]
+    #[case::release_from_a_driver(
+        true,
+        json!({"v": 1, "from": "overseer"}),
+        Err(ProtocolError::ReleaseFromDriver),
+        true
+    )]
+    fn wheel_only_a_release_returning_the_wheel_clears_the_turn(
+        #[case] human_held: bool,
+        #[case] params: Value,
+        #[case] reply: Result<Value, ProtocolError>,
+        #[case] running: bool,
+    ) {
+        let wheel = WheelSlot::default();
+        if human_held {
+            wheel.human_input();
+        }
+        wheel.turn_started();
+        assert_eq!(wheel.release(&call(&params)), reply);
+        assert_eq!(wheel.turn_running(), running);
+    }
+
+    #[test]
+    fn wheel_turn_is_marked_and_ended_and_a_pause_or_a_key_leaves_it() {
+        let wheel = WheelSlot::default();
+        assert!(!wheel.turn_running(), "a wrapper starts with no turn");
+        wheel.turn_started();
+        assert!(wheel.turn_running());
+        wheel.human_input();
+        assert_eq!(
+            wheel.pause(&call(&json!({"v": 1}))),
+            Ok(json!({"ok": {"wheel": "human"}}))
+        );
+        assert!(wheel.turn_running(), "neither a key nor a pause ends it");
+        wheel.turn_ended();
+        assert!(!wheel.turn_running());
     }
 
     /// Hands out one chunk per read.

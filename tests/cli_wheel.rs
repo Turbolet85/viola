@@ -251,6 +251,79 @@ fn path5_pause_refuses_send_and_answer_and_release_returns_the_wheel(stamped_hom
     wrapper.stop();
 }
 
+const REFUSED_TURN: &str = "{\"v\":1,\"refusal\":\"not-delivered\",\"detail\":\"turn-running\"}\n";
+
+/// A turn left running under a driver-held wheel (a harness turn with no Stop) refuses `send`
+/// `turn-running`. A bare `release` changes nothing; `pause` then `release` returns the wheel and
+/// clears the turn, so the next `send` is accepted.
+#[rstest]
+fn path5_a_turn_left_running_is_cleared_by_pause_then_release(stamped_home: StampedHome) {
+    let fx = fixtures_arg();
+    let wrapper = Wrapper::boot(
+        stamped_home,
+        "builder",
+        None,
+        &["--fixtures", &fx, "--inject-harness-turn"],
+    );
+    let home = wrapper.home().to_path_buf();
+    let dir = wrapper.instance_dir();
+    let text = format!("{CANARY} into a running turn");
+    wrapper.release();
+    wait_events(&dir, "the harness prompt-submitted", |l| {
+        l.iter().any(|e| e["kind"] == "prompt-submitted")
+    });
+
+    let refused = viola(&home, &["send", "builder", "--json"], &text, None);
+    assert_eq!(refused.code, Some(13), "stderr: {}", refused.stderr);
+    assert_eq!(refused.stdout, REFUSED_TURN);
+    assert!(refused.stderr.is_empty(), "--json carries no hint");
+
+    let released = viola(&home, &["release", "builder", "--json"], "", None);
+    assert_eq!(released.code, Some(0), "stderr: {}", released.stderr);
+    assert_eq!(
+        released.stdout,
+        "{\"v\":1,\"ok\":{\"wheel\":\"driver\",\"budget_paused\":false}}\n"
+    );
+    let still = viola(&home, &["send", "builder", "--json"], &text, None);
+    assert_eq!(
+        still.code,
+        Some(13),
+        "a release the wheel ignores clears nothing"
+    );
+    assert_eq!(still.stdout, REFUSED_TURN);
+
+    let paused = viola(&home, &["pause", "builder"], "", None);
+    assert_eq!(paused.code, Some(0), "stderr: {}", paused.stderr);
+    let released = viola(&home, &["release", "builder"], "", None);
+    assert_eq!(released.code, Some(0), "stderr: {}", released.stderr);
+    let sent = viola(&home, &["send", "builder", "--json"], &text, None);
+    assert_eq!(sent.code, Some(0), "stderr: {}", sent.stderr);
+
+    assert_eq!(
+        wheel_records(&dir),
+        [
+            json!({"holder": "driver", "cause": "start"}),
+            json!({"holder": "human", "cause": "manual-pause"}),
+            json!({"holder": "driver", "cause": "release"}),
+        ]
+    );
+    let refused: Vec<Value> = diagnostics(&home, "run-builder.ndjson")
+        .into_iter()
+        .filter(|l| l["event"] == "send-refused")
+        .collect();
+    assert_eq!(refused.len(), 2, "{refused:?}");
+    for line in &refused {
+        assert_eq!(line["side"], "wrapper");
+        assert_eq!(line["wheel"], "driver");
+        assert_eq!(line["refusal"], "not-delivered");
+        assert_eq!(line["detail"], "turn-running");
+        assert!(line["corr"].is_u64() && line["rpc_id"].is_u64(), "{line}");
+        assert!(line["conn"].is_string(), "{line}");
+    }
+    assert_logs_clean(&home);
+    wrapper.stop();
+}
+
 /// test-plan §6 Path 4 step 6: a dialog pending when the human takes the wheel is handed back at
 /// once (its hook prints nothing and exits 0, well before the deadline), `pending_dialog` leaves
 /// the snapshot, and an `answer` to it is refused `human-typing`.

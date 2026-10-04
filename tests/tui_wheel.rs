@@ -22,13 +22,15 @@ use support::watch::{WITHIN, Watch};
 use viola_pty::Size;
 
 const CANARY: &str = "canary-chain-value-5c1e";
+/// A gated `PostToolUse`, then a gated `Stop`.
+const PATH3: &str = "fixtures/fake-scripts/path3.json";
 
 /// A stamped wrapper over the committed hook fixtures, its SessionStart record landed.
-fn boot(stamped: StampedHome, extra: &[&str]) -> Wrapper {
+fn boot(stamped: StampedHome, script: Option<&str>, extra: &[&str]) -> Wrapper {
     let fixtures = workspace_path("fixtures/claude");
     let mut args = vec!["--fixtures", fixtures.to_str().expect("utf-8 path")];
     args.extend_from_slice(extra);
-    let wrapper = Wrapper::boot(stamped, "builder", None, &args);
+    let wrapper = Wrapper::boot(stamped, "builder", script, &args);
     wait_events(&wrapper.instance_dir(), "the session-start record", |l| {
         l.iter().any(|e| e["kind"] == "session-start")
     });
@@ -157,7 +159,7 @@ fn send_json(home: &Path) -> Ran {
 /// and a driver's `release` is refused.
 #[rstest]
 fn path5_human_takes_the_wheel_and_release_returns_it(stamped_home: StampedHome) {
-    let mut wrapper = boot(stamped_home, &[]);
+    let mut wrapper = boot(stamped_home, None, &[]);
     let home = wrapper.home().to_path_buf();
     let dir = wrapper.instance_dir();
     let receipt = wrapper.receipt();
@@ -237,11 +239,14 @@ fn path5_human_takes_the_wheel_and_release_returns_it(stamped_home: StampedHome)
 }
 
 /// test-plan §6 Path 5 step 8: a harness-injected turn is filed `harness` and never takes the wheel.
+/// While it runs, a driver's `send` is refused `turn-running` and nothing is typed; once its scripted
+/// Stop ends it, the same `send` is accepted.
 #[rstest]
 fn path5_harness_turns_never_take_the_wheel(stamped_home: StampedHome) {
-    let wrapper = boot(stamped_home, &["--inject-harness-turn"]);
+    let wrapper = boot(stamped_home, Some(PATH3), &["--inject-harness-turn"]);
     let home = wrapper.home().to_path_buf();
     let dir = wrapper.instance_dir();
+    let receipt = wrapper.receipt();
     wrapper.release();
     let lines = wait_events(&dir, "the harness prompt-submitted", |l| {
         l.iter().any(|e| e["kind"] == "prompt-submitted")
@@ -251,6 +256,31 @@ fn path5_harness_turns_never_take_the_wheel(stamped_home: StampedHome) {
         .find(|e| e["kind"] == "prompt-submitted")
         .expect("prompt-submitted");
     assert_eq!(prompt["data"]["origin"], "harness");
+
+    let refused = send_json(&home);
+    assert_eq!(refused.code, Some(13), "stderr: {}", refused.stderr);
+    assert_eq!(
+        refused.stdout,
+        "{\"v\":1,\"refusal\":\"not-delivered\",\"detail\":\"turn-running\"}\n"
+    );
+    assert_eq!(
+        of_kind(&fake::receipt(&receipt), "prompt").len(),
+        1,
+        "nothing typed"
+    );
+    let after = events(&dir).split_off(lines.len());
+    assert_eq!(after.len(), 1, "{after:?}");
+    assert_eq!(after[0]["kind"], "send-refused");
+    assert_eq!(
+        after[0]["data"],
+        json!({"refusal": "not-delivered", "detail": "turn-running"})
+    );
+
+    wrapper.release();
+    wrapper.release();
+    wait_events(&dir, "the scripted Stop's turn-ended", |l| {
+        l.iter().any(|e| e["kind"] == "turn-ended")
+    });
     let sent = send_json(&home);
     assert_eq!(sent.code, Some(0), "stderr: {}", sent.stderr);
     assert_eq!(wheel_records(&dir), [start_record()]);
@@ -264,11 +294,11 @@ fn path5_harness_turns_never_take_the_wheel(stamped_home: StampedHome) {
 /// reports, and under the sideloaded ConPTY's win32-input-mode it hands the wrapper an injected
 /// mouse report as typed keys, which take the wheel — the error only ever favours the human (the
 /// founder's live ruling, 2026-10-04, on CARRY §9 as measured by CI run ci#37227518624; viola-pty
-/// pins the encoding). A mouse report from a real Windows terminal is measured live at `:82`.
+/// pins the encoding). A mouse report from a real Windows terminal is measured live at `:84`.
 #[rstest]
 fn tui_focus_mouse_and_resize_never_take_the_wheel(stamped_home: StampedHome) {
     const MOUSE: &[u8] = b"\x1b[<0;10;5M";
-    let mut wrapper = boot(stamped_home, &[]);
+    let mut wrapper = boot(stamped_home, None, &[]);
     let home = wrapper.home().to_path_buf();
     let dir = wrapper.instance_dir();
     let receipt = wrapper.receipt();
@@ -334,7 +364,7 @@ fn assert_driver_holds(home: &Path, dir: &Path, step: &str) {
 /// of `^Z` alone must not end the human's copy). `^Z` is typing, so the wheel is the human's.
 #[rstest]
 fn tui_ctrl_z_reaches_the_child_and_later_keys_still_do(stamped_home: StampedHome) {
-    let mut wrapper = boot(stamped_home, &[]);
+    let mut wrapper = boot(stamped_home, None, &[]);
     let dir = wrapper.instance_dir();
     let receipt = wrapper.receipt();
     wrapper.send(b"\x1a");
