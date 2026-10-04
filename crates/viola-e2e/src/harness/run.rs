@@ -46,6 +46,8 @@ pub struct Selection {
     pub local_live: bool,
     /// `--file`: the mutation run scoped to these sources (the inner loop, never a verdict).
     pub files: Vec<String>,
+    /// `--package`: the mutation run over one whole member instead of the chunk diff.
+    pub package: Option<String>,
 }
 
 impl Selection {
@@ -131,6 +133,14 @@ pub fn run_with(
     }
     if sel.fuzz_replay && !FUZZ_HOST_SUPPORTED {
         let doc = json!({"v": 1, "cmd": "run", "ok": false, "reason": "fuzz-linux-only"});
+        return Outcome { doc, code: 2 };
+    }
+    if sel
+        .package
+        .as_deref()
+        .is_some_and(|member| !mutants::package_member(&ws.root, member))
+    {
+        let doc = json!({"v": 1, "cmd": "run", "ok": false, "reason": "package-refused"});
         return Outcome { doc, code: 2 };
     }
     let (mut suites, browser_refusal) = test_suites(ws, &sel, filter, runner);
@@ -307,7 +317,7 @@ fn tool_arms(
     let mut mutants_doc = None;
     let mut outcomes = None;
     if sel.mutants && refusal.is_none() {
-        match mutants::mutants(ws, chunk_base, &sel.files, runner) {
+        match mutants::mutants(ws, chunk_base, sel.package.as_deref(), &sel.files, runner) {
             Ok((suite, doc, read)) => {
                 suites.push(suite);
                 mutants_doc = Some(doc);

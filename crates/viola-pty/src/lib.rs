@@ -812,6 +812,61 @@ mod tests {
         wait_exit(&mut child);
     }
 
+    #[cfg(not(windows))]
+    #[test]
+    fn pty_backend_is_openpty_off_windows() {
+        assert_eq!(pty_backend(), "openpty");
+    }
+
+    /// Closing the master hangs up a live child's terminal: with no reader or writer clone holding
+    /// it open, the kernel sends the session SIGHUP and a child that would never exit ends.
+    #[cfg(unix)]
+    #[test]
+    fn close_hangs_up_a_live_child() {
+        let dir = tempfile::tempdir().expect("tempdir");
+        let (report, _) = report_paths();
+        let spec = SpawnSpec {
+            program: std::env::current_exe().expect("test binary"),
+            args: ["--exact", "tests::pty_child_entry", "--nocapture"]
+                .map(OsString::from)
+                .to_vec(),
+            cwd: dir.path().to_path_buf(),
+            env_set: vec![
+                (CHILD_REPORT.into(), report.clone().into()),
+                (CHILD_MODE.into(), "block".into()),
+            ],
+            env_remove: Vec::new(),
+            size: Size::DEFAULT,
+        };
+        let mut pty = spawn(&spec).expect("spawn");
+        let deadline = Instant::now() + CHILD_WITHIN;
+        while !std::fs::read_to_string(&report)
+            .unwrap_or_default()
+            .starts_with("start ")
+        {
+            if Instant::now() >= deadline {
+                let _ = pty.kill();
+                panic!("child never started");
+            }
+            std::thread::yield_now();
+        }
+        pty.close();
+        let exited = loop {
+            if pty.try_wait().expect("try_wait").is_some() {
+                break true;
+            }
+            if Instant::now() >= deadline {
+                break false;
+            }
+            std::thread::yield_now();
+        };
+        if !exited {
+            let _ = pty.kill();
+        }
+        let _ = std::fs::remove_file(&report);
+        assert!(exited, "the child outlived the master's close");
+    }
+
     #[cfg(windows)]
     #[test]
     fn terminate_ends_a_live_process_and_refuses_a_missing_one() {

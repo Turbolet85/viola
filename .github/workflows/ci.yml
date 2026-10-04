@@ -7,7 +7,7 @@ on:
 permissions: {}
 
 # The Node pin: the official release's SHASUMS256.txt values. scripts/install-node.sh parses these
-# lines (CI on every OS and the WSL pre-push provisioning), so this is their only home.
+# lines (CI on every OS and the native Linux pre-push gate host), so this is their only home.
 env:
   NODE_PIN_VERSION: "24.21.0"
   NODE_PIN_SHA256_LINUX_X64: "fd8e59d5a511510f6a298afb548f18c7d2b1be404d8b4a27d94fbe49f56cb2d6"

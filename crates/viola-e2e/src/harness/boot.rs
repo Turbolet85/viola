@@ -727,6 +727,40 @@ mod tests {
         assert_eq!(rec.name, "builder");
     }
 
+    /// The home is stamped only when `verify` both exits 0 and ends on a clean `stamped` line: a
+    /// stand-in `viola` script answers each pairing. A script, so Unix only.
+    #[cfg(unix)]
+    #[test]
+    fn stamp_needs_a_clean_exit_and_the_stamped_line() {
+        use std::os::unix::fs::PermissionsExt as _;
+        const STAMPED: &str = "stamped 2.1.283  6 pass  0 fail";
+        for (code, last, want) in [
+            (0, STAMPED, Ok(())),
+            (0, "stamped 2.1.283  4 pass  2 fail", Err(Some(0))),
+            (3, STAMPED, Err(Some(3))),
+        ] {
+            let tmp = tempfile::tempdir().expect("tempdir");
+            let bin_dir = tmp.path().join("bin");
+            fs::create_dir_all(&bin_dir).expect("mkdir");
+            let script = exe(&bin_dir, "viola");
+            fs::write(&script, format!("#!/bin/sh\necho '{last}'\nexit {code}\n")).expect("script");
+            fs::set_permissions(&script, fs::Permissions::from_mode(0o700)).expect("chmod");
+            let opts = BootOptions {
+                ws: Workspace {
+                    root: tmp.path().to_path_buf(),
+                },
+                bin_dir,
+                session: "s".to_owned(),
+                instances: vec![],
+                cli_version: "2.1.283".to_owned(),
+                build: false,
+                stamp: true,
+            };
+            let got = stamp(&opts, &tmp.path().join("home"), tmp.path());
+            assert_eq!(got, want, "exit {code}, last line {last:?}");
+        }
+    }
+
     #[test]
     fn session_path_puts_the_session_bin_first() {
         let bin = std::env::temp_dir().join("session-bin");

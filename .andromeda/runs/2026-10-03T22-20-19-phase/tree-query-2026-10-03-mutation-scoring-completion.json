@@ -1,0 +1,193 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'chunk_diff' AND callee_kind = 'fn' ORDER BY file, line;",
+"rows": 5,
+"result": [
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 26
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants/",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 14
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants/mutants().",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 108
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants/base/tests/chunk_diff_holds_tracked_edits_and_untracked_files().",
+"file": "crates/viola-e2e/src/harness/run/mutants/base.rs",
+"line": 390
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants/base/tests/chunk_diff_holds_tracked_edits_and_untracked_files().",
+"file": "crates/viola-e2e/src/harness/run/mutants/base.rs",
+"line": 394
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'diff_paths' AND callee_kind = 'fn' ORDER BY file, line;",
+"rows": 6,
+"result": [
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 26
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants/",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 14
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants/base/rust_delta().",
+"file": "crates/viola-e2e/src/harness/run/mutants/base.rs",
+"line": 167
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants/base/rust_paths().",
+"file": "crates/viola-e2e/src/harness/run/mutants/base.rs",
+"line": 173
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants/base/tests/rust_delta_classifies_diff_headers().",
+"file": "crates/viola-e2e/src/harness/run/mutants/base.rs",
+"line": 412
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants/base/tests/rust_delta_classifies_diff_headers().",
+"file": "crates/viola-e2e/src/harness/run/mutants/base.rs",
+"line": 415
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'pre_push_with' AND callee_kind = 'fn' ORDER BY file, line;",
+"rows": 3,
+"result": [
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/pre_push/pre_push().",
+"file": "crates/viola-e2e/src/harness/pre_push.rs",
+"line": 63
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/pre_push/tests/drive().",
+"file": "crates/viola-e2e/src/harness/pre_push.rs",
+"line": 410
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/pre_push/tests/pre_push_refuses_off_windows_host().",
+"file": "crates/viola-e2e/src/harness/pre_push.rs",
+"line": 517
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'stages' AND callee_kind = 'fn' ORDER BY file, line;",
+"rows": 1,
+"result": [
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/pre_push/pre_push_with().",
+"file": "crates/viola-e2e/src/harness/pre_push.rs",
+"line": 77
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'wsl_path' AND callee_kind = 'fn' ORDER BY file, line;",
+"rows": 3,
+"result": [
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/pre_push/",
+"file": "crates/viola-e2e/src/harness/pre_push.rs",
+"line": 19
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/pre_push/pre_push().",
+"file": "crates/viola-e2e/src/harness/pre_push.rs",
+"line": 63
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/pre_push/linux/tests/pre_push_wsl_path_maps_drive_paths().",
+"file": "crates/viola-e2e/src/harness/pre_push/linux.rs",
+"line": 456
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'bin_dir_from_exe' AND callee_kind = 'fn' ORDER BY file, line;",
+"rows": 8,
+"result": [
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/tests/bin_dir_from_test_exe_skips_deps().",
+"file": "crates/viola-e2e/src/harness/mod.rs",
+"line": 274
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/tests/bin_dir_from_test_exe_skips_deps().",
+"file": "crates/viola-e2e/src/harness/mod.rs",
+"line": 275
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/tests/process_id_kill_stops_a_child_and_wait_gone_sees_it().",
+"file": "crates/viola-e2e/src/harness/mod.rs",
+"line": 318
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/supervise/tests/fake_agent().",
+"file": "crates/viola-e2e/src/harness/supervise.rs",
+"line": 200
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 crate/",
+"file": "crates/viola-e2e/tests/cli.rs",
+"line": 8
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 booted().",
+"file": "crates/viola-e2e/tests/cli.rs",
+"line": 168
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 crate/",
+"file": "crates/viola-e2e/tests/harness_lifecycle.rs",
+"line": 11
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 bins().",
+"file": "crates/viola-e2e/tests/harness_lifecycle.rs",
+"line": 37
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'mutants' AND callee_kind = 'fn' ORDER BY file, line;",
+"rows": 1,
+"result": [
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/tool_arms().",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 309
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

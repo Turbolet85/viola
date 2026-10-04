@@ -1,5 +1,6 @@
 //! The mutation arm, kept for the epoch-boundary code audit (test-plan §3 `run` step 4).
 
+use std::ffi::OsString;
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
@@ -94,14 +95,55 @@ fn unmutated(verdict: &str, diff: &str, base: &str) -> (Suite, Value) {
 /// the run archive), when cargo-mutants ran.
 pub(super) type Mutated = (Suite, Value, Option<PathBuf>);
 
+/// A `--package` member cargo-mutants can scope to: `viola` (the root manifest) or `crates/<member>`,
+/// named in lowercase ASCII, digits, `-` and `_` only, whose manifest's `[features]` declares
+/// `fake-agent` (the run passes `--features fake-agent`).
+pub(super) fn package_member(root: &Path, member: &str) -> bool {
+    let named = !member.is_empty()
+        && member
+            .bytes()
+            .all(|b| b.is_ascii_lowercase() || b.is_ascii_digit() || b == b'-' || b == b'_');
+    if !named {
+        return false;
+    }
+    let manifest = if member == "viola" {
+        root.join("Cargo.toml")
+    } else {
+        root.join("crates").join(member).join("Cargo.toml")
+    };
+    fs::read_to_string(manifest).is_ok_and(|text| declares_fake_agent(&text))
+}
+
+fn declares_fake_agent(manifest: &str) -> bool {
+    let mut in_features = false;
+    manifest.lines().map(str::trim).any(|line| {
+        if line.starts_with('[') {
+            in_features = line == "[features]";
+            return false;
+        }
+        in_features
+            && line
+                .split_once('=')
+                .is_some_and(|(key, _)| key.trim() == "fake-agent")
+    })
+}
+
 /// `files` scopes the run to those sources (`--file`): an inner-loop filter whose verdict reads
-/// `scoped`.
+/// `scoped`. `package` mutates that whole member instead of the chunk diff (the boundary tier's
+/// form): no base, no `chunk.diff`, no classification, verdict `package`.
 pub(super) fn mutants(
     ws: &Workspace,
     chunk_base: Option<String>,
+    package: Option<&str>,
     files: &[String],
     runner: &mut Runner<'_>,
 ) -> Result<Mutated, String> {
+    if let Some(member) = package {
+        let head = ["--package", member, "--features", "fake-agent"].map(OsString::from);
+        let run = mutate(ws, &head, files, runner)?;
+        let doc = json!({"tested": run.tested, "verdict": "package", "package": member});
+        return Ok(run.into_mutated(doc, files));
+    }
     let diff_path = ws.agent_run().join("chunk.diff");
     let _ = fs::remove_file(&diff_path);
     let missing = || "base-missing".to_owned();
@@ -119,6 +161,49 @@ pub(super) fn mutants(
         doc["rust_files"] = json!(rust_files);
         return Ok((suite, doc, None));
     }
+    let mut head: Vec<OsString> = ["--workspace", "--features", "fake-agent", "--in-diff"]
+        .map(OsString::from)
+        .into();
+    head.push(diff_path.into_os_string());
+    let run = mutate(ws, &head, files, runner)?;
+    let verdict = if files.is_empty() {
+        "counted"
+    } else {
+        "scoped"
+    };
+    let doc = json!({"tested": run.tested, "verdict": verdict, "base": base});
+    Ok(run.into_mutated(doc, files))
+}
+
+/// One cargo-mutants run: its suite, how many mutants it tested, the `outcomes.json` it read and,
+/// on a Windows host, the bytes the scratch held before its wipe.
+struct Mutation {
+    suite: Suite,
+    tested: u64,
+    outcomes: PathBuf,
+    scratch_bytes: Option<u64>,
+}
+
+impl Mutation {
+    fn into_mutated(self, mut doc: Value, files: &[String]) -> Mutated {
+        if !files.is_empty() {
+            doc["files"] = json!(files);
+        }
+        if let Some(bytes) = self.scratch_bytes {
+            doc["scratch_bytes"] = json!(bytes);
+        }
+        (self.suite, doc, Some(self.outcomes))
+    }
+}
+
+/// The root prebuild, then `cargo mutants <head> [--file …]` with the run's fixed flags and
+/// environment, then its fresh `outcomes.json` read by counts (a stale one is deleted first).
+fn mutate(
+    ws: &Workspace,
+    head: &[OsString],
+    files: &[String],
+    runner: &mut Runner<'_>,
+) -> Result<Mutation, String> {
     let scratch = scratch::prepare(&ws.root)?;
     let out_dir = match &scratch {
         Some((dir, _)) => dir.join("mutants.out"),
@@ -126,7 +211,7 @@ pub(super) fn mutants(
     };
     let _ = fs::remove_file(out_dir.join("outcomes.json"));
 
-    // cargo-mutants builds only the packages a diff touches, but the harness tests spawn the root
+    // cargo-mutants builds only the packages it mutates, but the harness tests spawn the root
     // package's `viola` and `viola-fake-agent`: build them (root package only, so the running
     // `viola-harness` is never relinked) and copy `target/` into the scratch tree.
     let (built, _) = runner(
@@ -139,15 +224,7 @@ pub(super) fn mutants(
         return Err("build-failed".to_owned());
     }
     let mut cargo_mutants = Command::new("cargo");
-    cargo_mutants
-        .args([
-            "mutants",
-            "--workspace",
-            "--features",
-            "fake-agent",
-            "--in-diff",
-        ])
-        .arg(&diff_path);
+    cargo_mutants.arg("mutants").args(head);
     for file in files {
         cargo_mutants.arg("--file").arg(file);
     }
@@ -176,11 +253,6 @@ pub(super) fn mutants(
     if let Some(reason) = mutants_exit_reason(code) {
         return Err(reason);
     }
-    let verdict = if files.is_empty() {
-        "counted"
-    } else {
-        "scoped"
-    };
     let outcomes_path = out_dir.join("outcomes.json");
     let (suite, tested) = match read_json::<Value>(&outcomes_path) {
         Ok(outcomes) => {
@@ -197,14 +269,12 @@ pub(super) fn mutants(
             0,
         ),
     };
-    let mut doc = json!({"tested": tested, "verdict": verdict, "base": base});
-    if !files.is_empty() {
-        doc["files"] = json!(files);
-    }
-    if let Some((_, bytes)) = scratch {
-        doc["scratch_bytes"] = json!(bytes);
-    }
-    Ok((suite, doc, Some(outcomes_path)))
+    Ok(Mutation {
+        suite,
+        tested,
+        outcomes: outcomes_path,
+        scratch_bytes: scratch.map(|(_, bytes)| bytes),
+    })
 }
 
 #[cfg(test)]
@@ -690,6 +760,221 @@ mod tests {
             Some(seeded.to_string_lossy().into_owned())
         );
         assert_eq!(target(mutants).as_deref(), Some("target/mutants"));
+    }
+
+    type Calls = Vec<(Vec<String>, Env)>;
+
+    /// `run --mutants --package <member> [--file …]` over `mini` with no delta and no base, `before`
+    /// run on the workspace first, through a stand-in runner whose `cargo mutants` writes
+    /// `outcomes` (or nothing) where this host's run reads. Every call's args and env.
+    fn package_run(
+        member: &str,
+        files: &[&str],
+        outcomes: Option<&str>,
+        before: impl FnOnce(&Workspace),
+    ) -> (tempfile::TempDir, Workspace, Outcome, Calls) {
+        let (tmp, ws) = mini(GOOD_LIB);
+        before(&ws);
+        let out_dir = scratch_or_root(&ws).join("mutants.out");
+        let sel = Selection {
+            package: Some(member.to_owned()),
+            files: files.iter().map(|f| (*f).to_owned()).collect(),
+            ..flags(false, false, true, false)
+        };
+        let mut calls = Vec::new();
+        let out = run_with(&ws, sel, None, None, false, &mut |cmd: &mut Command| {
+            let args = args_of(cmd);
+            let mutating = has(&args, &["mutants"]);
+            calls.push((args, env_of(cmd)));
+            if mutating && let Some(text) = outcomes {
+                fs::create_dir_all(&out_dir).expect("mkdir");
+                fs::write(out_dir.join("outcomes.json"), text).expect("outcomes");
+                fs::write(
+                    out_dir.join("missed.txt"),
+                    "src/a.rs:2:5: replace b with 1\n",
+                )
+                .expect("missed");
+            }
+            (Some(if mutating { 2 } else { 0 }), String::new())
+        });
+        (tmp, ws, out, calls)
+    }
+
+    fn env_has(env: &Env, name: &str, value: &str) -> bool {
+        env.contains(&(name.to_owned(), Some(value.to_owned())))
+    }
+
+    #[test]
+    fn run_mutants_package_prebuilds_and_copies_the_target_with_no_diff() {
+        let (_tmp, ws, out, calls) = package_run("viola", &[], Some(CAUGHT), |_| {});
+        assert_eq!(out.code, 0, "{}", out.doc);
+        assert_eq!(calls.len(), 2, "{calls:?}");
+        let (build, build_env) = &calls[0];
+        assert_eq!(
+            build,
+            &["build", "--package", "viola", "--features", "fake-agent"]
+        );
+        let seeded = ws.root.join("target/mutants");
+        assert!(env_has(
+            build_env,
+            "CARGO_TARGET_DIR",
+            &seeded.to_string_lossy()
+        ));
+        let (mutants, env) = &calls[1];
+        assert_eq!(
+            mutants[..10],
+            [
+                "mutants",
+                "--package",
+                "viola",
+                "--features",
+                "fake-agent",
+                "--test-tool=nextest",
+                "--copy-target=true",
+                "--caught",
+                "--unviable",
+                "--build-timeout-multiplier=5",
+            ]
+        );
+        assert!(!mutants.contains(&"--in-diff".to_owned()), "{mutants:?}");
+        for (name, value) in [
+            ("CARGO_TARGET_DIR", "target/mutants"),
+            ("NEXTEST_PROFILE", "mutants"),
+            ("AGENT_RUN_KEEP_HOMES", "0"),
+            ("AGENT_RUN_KEEP_FAILED", "0"),
+        ] {
+            assert!(env_has(env, name, value), "{name}={value} in {env:?}");
+        }
+        assert!(!ws.agent_run().join("chunk.diff").exists());
+        assert!(out.doc["mutants"].get("base").is_none(), "{}", out.doc);
+    }
+
+    #[test]
+    fn run_mutants_package_reads_the_counts_as_verdict_package() {
+        let (_tmp, ws, out, _) = package_run("viola", &[], Some(OUTCOMES), plant_stale_outcomes);
+        assert_eq!(out.code, 1, "{}", out.doc);
+        assert_eq!(
+            out.doc["mutants"],
+            wiped_stale(json!({"tested": 4, "verdict": "package", "package": "viola"}))
+        );
+        let m = suite(&out.doc, "mutants");
+        assert_eq!(
+            (m["passed"].as_u64(), m["survived"].as_u64()),
+            (Some(1), Some(2))
+        );
+        assert_eq!(m["failures"][0], "src/a.rs:2:5: replace b with 1");
+        assert_eq!(out.doc["archived"], "target/run-archive/1");
+        let archived = ws.root.join("target/run-archive/1/outcomes.json");
+        assert_eq!(fs::read_to_string(archived).expect("archived"), OUTCOMES);
+
+        let (_tmp, _, clean, _) = package_run("viola", &[], Some(CAUGHT), |_| {});
+        assert_eq!(clean.code, 0, "{}", clean.doc);
+        assert_eq!(clean.doc["mutants"]["tested"], 1);
+        assert_eq!(clean.doc["mutants"]["verdict"], "package");
+
+        let (_tmp, _, stale, _) = package_run("viola", &[], None, plant_stale_outcomes);
+        assert_eq!(stale.code, 1, "{}", stale.doc);
+        assert_eq!(
+            suite(&stale.doc, "mutants")["failures"][0],
+            "outcomes-missing"
+        );
+        assert!(!carries_number(&stale.doc, 777), "{}", stale.doc);
+    }
+
+    #[test]
+    fn run_mutants_package_refuses_an_unknown_or_featureless_member() {
+        let members = |ws: &Workspace| {
+            for (name, manifest) in [
+                (
+                    "x",
+                    "[package]\nname = \"x\"\n\n[features]\nother = []\n\n\
+                     [dependencies]\nfake-agent = \"1\"\n",
+                ),
+                (
+                    "y",
+                    "[package]\nname = \"y\"\n\n[features]\nfake-agent = []\n",
+                ),
+            ] {
+                let dir = ws.root.join("crates").join(name);
+                fs::create_dir_all(&dir).expect("mkdir");
+                fs::write(dir.join("Cargo.toml"), manifest).expect("manifest");
+            }
+        };
+        for member in [
+            "nope",
+            "x",
+            "crates/y",
+            "../y",
+            "..",
+            "",
+            "Y",
+            "y\\",
+            "viola-e2e",
+        ] {
+            let (_tmp, _, out, calls) = package_run(member, &[], Some(CAUGHT), members);
+            assert_eq!(out.code, 2, "{member}: {}", out.doc);
+            assert_eq!(
+                out.doc,
+                json!({"v": 1, "cmd": "run", "ok": false, "reason": "package-refused"}),
+                "{member}"
+            );
+            assert!(calls.is_empty(), "{member}: {calls:?}");
+        }
+        let (_tmp, _, out, calls) = package_run("y", &[], Some(CAUGHT), members);
+        assert_eq!(out.code, 0, "{}", out.doc);
+        assert_eq!(out.doc["mutants"]["package"], "y");
+        assert!(has(&calls[1].0, &["mutants", "--package", "y"]));
+    }
+
+    #[test]
+    fn run_mutants_package_passes_each_file() {
+        let (_tmp, _, out, calls) =
+            package_run("viola", &["src/b.rs", "src/c.rs"], Some(CAUGHT), |_| {});
+        assert_eq!(out.code, 0, "{}", out.doc);
+        let (args, _) = &calls[1];
+        assert_eq!(args[5..9], ["--file", "src/b.rs", "--file", "src/c.rs"]);
+        assert_eq!(args[9], "--test-tool=nextest");
+        assert_eq!(out.doc["mutants"]["verdict"], "package");
+        assert_eq!(out.doc["mutants"]["files"], json!(["src/b.rs", "src/c.rs"]));
+        let (_tmp, _, whole, calls) = package_run("viola", &[], Some(CAUGHT), |_| {});
+        assert!(whole.doc["mutants"].get("files").is_none());
+        assert!(!calls[1].0.contains(&"--file".to_owned()));
+    }
+
+    #[test]
+    fn package_member_reads_the_name_and_the_manifest_features() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let root = tmp.path();
+        let featured = "[features]\nfake-agent = []\n";
+        for name in ["a-1_b", "A"] {
+            let dir = root.join("crates").join(name);
+            fs::create_dir_all(&dir).expect("mkdir");
+            fs::write(dir.join("Cargo.toml"), featured).expect("manifest");
+        }
+        assert!(package_member(root, "a-1_b"));
+        assert!(!package_member(root, "A"), "named outside the class");
+        assert!(!package_member(root, "viola"), "no root manifest");
+        fs::write(root.join("Cargo.toml"), featured).expect("root manifest");
+        assert!(package_member(root, "viola"));
+        assert!(!package_member(root, ""));
+        for (manifest, declared) in [
+            ("[features]\nfake-agent = []\n", true),
+            ("[package]\n\n[features]\n  fake-agent=[]  \n", true),
+            (
+                "[features]\nother = []\n[dependencies]\nfake-agent = \"1\"\n",
+                false,
+            ),
+            (
+                "[dependencies]\nfake-agent = \"1\"\n[features]\nother = []\n",
+                false,
+            ),
+            ("[features]\nfake-agent-x = []\n", false),
+            ("[features]\n# fake-agent\n", false),
+            ("[package.metadata.features]\nfake-agent = 1\n", false),
+            ("fake-agent = []\n", false),
+        ] {
+            assert_eq!(declares_fake_agent(manifest), declared, "{manifest:?}");
+        }
     }
 
     #[test]

@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 # Installs the official Node.js release build the browser suite runs on, at the version and sha256
 # pinned in ci.yml's workflow `env:` block. The pins are parsed from ci.yml's text, never read from the
-# environment and never restated here, so CI (every OS) and the WSL pre-push provisioning install one
-# Node. No toolchain Action is used; the sha256 check is the integrity gate.
+# environment and never restated here, so CI (every OS) and the native Linux pre-push gate host
+# (`~/.local/viola-node`) install one Node. No toolchain Action is used; the sha256 check is the
+# integrity gate.
 #   install-node.sh <linux-x64|darwin-arm64|win-x64> <dest-dir>
 #       prints `install-node: <bin dir>` (<dest-dir>/bin on unix, <dest-dir> on win-x64)
 #   install-node.sh --probe

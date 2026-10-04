@@ -100,6 +100,9 @@ struct RunArgs {
     /// Scopes the mutation run to this source (repeatable): the inner loop, never a verdict.
     #[arg(long = "file", requires = "mutants")]
     files: Vec<String>,
+    /// Mutates this whole member instead of the chunk diff (the boundary tier's form).
+    #[arg(long, requires = "mutants")]
+    package: Option<String>,
 }
 
 const COMMANDS: [&str; 10] = [
@@ -120,31 +123,46 @@ fn emit(outcome: Outcome) -> ExitCode {
     ExitCode::from(outcome.code)
 }
 
-/// No `--instance` boots the overseer + builder pair.
-fn boot_cmd(
+/// No `--instance` boots the overseer + builder pair; `--unstamped` skips the stamp. `None` when an
+/// instance does not parse.
+fn boot_options(
     ws: Workspace,
     session: String,
     instances: Vec<String>,
     cli_version: String,
-    stamp: bool,
-) -> ExitCode {
+    unstamped: bool,
+) -> Option<BootOptions> {
     let raw = if instances.is_empty() {
         vec!["overseer".to_owned(), "builder".to_owned()]
     } else {
         instances
     };
-    let Some(instances) = raw.iter().map(|r| InstanceSpec::parse(r)).collect() else {
-        return emit(Outcome::usage(Some("boot"), "invalid-instance"));
-    };
-    emit(boot(&BootOptions {
+    let instances = raw
+        .iter()
+        .map(|r| InstanceSpec::parse(r))
+        .collect::<Option<_>>()?;
+    Some(BootOptions {
         bin_dir: ws.harness_bins(),
         ws,
         session,
         instances,
         cli_version,
         build: true,
-        stamp,
-    }))
+        stamp: !unstamped,
+    })
+}
+
+fn boot_cmd(
+    ws: Workspace,
+    session: String,
+    instances: Vec<String>,
+    cli_version: String,
+    unstamped: bool,
+) -> ExitCode {
+    match boot_options(ws, session, instances, cli_version, unstamped) {
+        Some(opts) => emit(boot(&opts)),
+        None => emit(Outcome::usage(Some("boot"), "invalid-instance")),
+    }
 }
 
 fn run_cmd(ws: &Workspace, args: RunArgs) -> ExitCode {
@@ -158,6 +176,7 @@ fn run_cmd(ws: &Workspace, args: RunArgs) -> ExitCode {
         perf: args.perf,
         local_live: args.local_live,
         files: args.files,
+        package: args.package,
     };
     emit(run_with(
         ws,
@@ -220,7 +239,7 @@ fn main() -> ExitCode {
             instances,
             cli_version,
             unstamped,
-        } => boot_cmd(ws, session, instances, cli_version, !unstamped),
+        } => boot_cmd(ws, session, instances, cli_version, unstamped),
         Cmd::Run(args) => run_cmd(&ws, args),
         Cmd::Status { session } => emit(status(&ws, &session)),
         Cmd::Cleanup { session, all } => cleanup_cmd(&ws, session.as_deref(), all),
@@ -266,6 +285,15 @@ mod tests {
     }
 
     #[test]
+    fn run_package_needs_mutants() {
+        let args = run_args(&["--mutants", "--package", "viola-e2e"]).expect("parsed");
+        assert_eq!(args.package.as_deref(), Some("viola-e2e"));
+        assert!(run_args(&["--mutants"]).expect("parsed").package.is_none());
+        assert!(run_args(&["--unit", "--package", "viola-e2e"]).is_none());
+        assert!(run_args(&["--package", "viola-e2e"]).is_none());
+    }
+
+    #[test]
     fn run_perf_is_a_flag_of_its_own() {
         assert!(run_args(&["--perf"]).expect("parsed").perf);
         assert!(!run_args(&["--all"]).expect("parsed").perf);
@@ -288,5 +316,37 @@ mod tests {
         };
         assert!(!unstamped(&[]));
         assert!(unstamped(&["--unstamped"]));
+    }
+
+    fn boot_opts(argv: &[&str]) -> Option<BootOptions> {
+        let argv = ["viola-harness", "boot"].iter().chain(argv);
+        match Cli::try_parse_from(argv).expect("parsed").command {
+            Cmd::Boot {
+                session,
+                instances,
+                cli_version,
+                unstamped,
+            } => boot_options(
+                Workspace::from_build(),
+                session,
+                instances,
+                cli_version,
+                unstamped,
+            ),
+            _ => panic!("not boot"),
+        }
+    }
+
+    #[test]
+    fn boot_options_stamp_unless_unstamped_and_default_to_the_pair() {
+        let stamped = boot_opts(&[]).expect("options");
+        assert!(stamped.stamp && stamped.build);
+        let names: Vec<&str> = stamped.instances.iter().map(|i| i.name.as_str()).collect();
+        assert_eq!(names, ["overseer", "builder"]);
+        assert!(!boot_opts(&["--unstamped"]).expect("options").stamp);
+        let one = boot_opts(&["--instance", "builder:--mode x"]).expect("options");
+        assert_eq!(one.instances.len(), 1);
+        assert_eq!(one.instances[0].fake_args, ["--mode", "x"]);
+        assert!(boot_opts(&["--instance", "../x"]).is_none());
     }
 }

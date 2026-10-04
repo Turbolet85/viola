@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-03T22:22:18Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-10-03-mutation-scoring-completion",
+"--expect-prefix",
+"Mutation scoring completion",
+"--record-file",
+".andromeda/runs/2026-10-03T22-20-19-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-10-03T22-20-19-phase"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:68 - [2026-10-03-mutation-scoring-completion]",
+"record master-route.md:38 - appended under `## viola-0.1.0`",
+"promoted 2026-10-03-mutation-scoring-completion - working-route:68 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/working-route.md",
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+}
+]

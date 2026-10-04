@@ -287,6 +287,46 @@ mod tests {
         assert!(!ws.session_dir("s").join("stop.request").exists());
     }
 
+    /// A target that outlives its kill is given the whole deadline before it reads as not gone. PID 1
+    /// is that target: kill(2) delivers to it only the signals it has a handler for, so SIGKILL never
+    /// reaches it, whoever sends it.
+    #[cfg(target_os = "linux")]
+    #[test]
+    fn cleanup_waits_its_deadline_for_a_target_that_outlives_its_kill() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let ws = Workspace {
+            root: tmp.path().to_path_buf(),
+        };
+        let init = ProcessId::of(1).expect("pid 1");
+        let dead = ProcessId {
+            pid: std::process::id(),
+            started_at: 1,
+        };
+        let record = SessionRecord {
+            v: 1,
+            session: "s".to_owned(),
+            home: tmp.path().join("elsewhere").join("home"),
+            instances: vec![super::super::InstanceRecord {
+                name: "builder".to_owned(),
+                wrapper_pid: init.pid,
+                started_at: init.started_at,
+                child_pid: dead.pid,
+                child_started_at: dead.started_at,
+                fake_args: vec![],
+            }],
+            ui: None,
+            supervisor_pid: dead.pid,
+            supervisor_started_at: dead.started_at,
+            cookie_file: None,
+        };
+        let begun = Instant::now();
+        let report = cleanup_one(&ws, "s", &record, true);
+        let waited = begun.elapsed();
+        assert!(!report.processes_gone);
+        assert!(waited >= KILL_DEADLINE, "gave up after {waited:?}");
+        assert!(init.alive());
+    }
+
     #[test]
     fn cleanup_rejects_an_invalid_session_id() {
         let out = cleanup(&Workspace::from_build(), Target::Session("../x"), false);

@@ -304,6 +304,20 @@ mod tests {
         assert!(diag_lines(&tmp.path().join("missing"), &NONE).is_empty());
     }
 
+    /// A role file well past 1 MiB is read whole: the cap is 64 MiB, written as one literal here.
+    #[test]
+    fn files_in_reads_a_role_file_whole_below_the_cap() {
+        assert_eq!(MAX_FILE, 67_108_864);
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let line = format!("{{\"pad\":\"{}\"}}\n", "x".repeat(1000));
+        let text = line.repeat(2100);
+        fs::write(tmp.path().join("run-a.ndjson"), &text).expect("write");
+        let files = files_in(tmp.path(), |n| n.ends_with(".ndjson"));
+        assert_eq!(files.len(), 1);
+        assert_eq!(files[0].1.len(), text.len());
+        assert_eq!(diag_lines(tmp.path(), &NONE).len(), 2100);
+    }
+
     #[test]
     fn logs_for_an_unknown_session_is_exit_2() {
         let filter = Filter {

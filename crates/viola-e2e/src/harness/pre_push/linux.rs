@@ -1,78 +1,54 @@
-//! The distro side of `pre-push`: the WSL2 `Ubuntu` clone synced from the working tree, its tool
-//! pins, its build cache, and the ubuntu test job run inside it.
+//! The native side of `pre-push`: the tool pins and the ubuntu test job, run in the working tree on
+//! this Linux host through `env -i`, so only HOME and a constant PATH reach a child.
 
 use std::fs;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use std::process::Command;
-use std::time::Instant;
 
 use serde_json::{Value, json};
 
 use super::super::Workspace;
 use super::super::run::{Runner, fuzz_channel};
-use super::{CACHE_CAP_BYTES, DISTRO, Doc, Stop, WSL, ok, out};
+use super::{Doc, Stop, ok, out};
 
-const CLONE_DIR: &str = "viola-pre-push";
+const ENV: &str = "/usr/bin/env";
 
-/// Where `scripts/wsl-provision.sh` installs ci.yml's pinned Node, under the distro user's home.
+/// Where `scripts/install-node.sh` puts ci.yml's pinned Node, under the user's home.
 const NODE_BIN: &str = ".local/viola-node/bin";
 
-/// The distro side: its user's home and the clone under it. Never printed.
+/// The system dirs the passwd probes search: the home is what they read, so it is not yet known.
+const SYSTEM_PATH: &str = "PATH=/usr/bin:/bin";
+
+/// The user's home (from the passwd entry) and the repository root the children run in. Never
+/// printed.
 pub(super) struct Linux {
     home: String,
-    pub(super) clone: String,
+    root: PathBuf,
 }
 
 impl Linux {
-    pub(super) fn new(home: &str) -> Self {
+    pub(super) fn new(home: &str, root: &Path) -> Self {
         Self {
             home: home.to_owned(),
-            clone: format!("{home}/{CLONE_DIR}"),
+            root: root.to_path_buf(),
         }
     }
 
-    /// `--exec` passes argv verbatim (the `--` form re-parses it through the distro shell), and
-    /// `env -i` hands the child only HOME and a Linux PATH: the distro PATH carries the Windows one,
-    /// and nothing of this process's environment crosses. Every PATH component is a constant under
-    /// the distro home or a system dir.
-    fn cmd(&self, cd: Option<&str>, argv: &[&str]) -> Command {
-        let mut cmd = Command::new(WSL);
-        cmd.args(["-d", DISTRO]);
-        if let Some(dir) = cd {
-            cmd.args(["--cd", dir]);
-        }
-        cmd.args(["--exec", "/usr/bin/env", "-i"])
+    /// `env -i` hands the child only HOME and PATH, so nothing of this process's environment
+    /// crosses (no `CLAUDE*`, no `CARGO_*`, no `LLVM_PROFILE_FILE`). Every PATH component is a
+    /// constant under the passwd home or a system dir.
+    pub(super) fn cmd(&self, argv: &[&str]) -> Command {
+        let mut cmd = Command::new(ENV);
+        cmd.arg("-i")
             .arg(format!("HOME={}", self.home))
             .arg(format!(
                 "PATH={home}/.cargo/bin:{home}/{NODE_BIN}:/usr/local/bin:/usr/bin:/bin",
                 home = self.home
             ))
-            .args(argv);
+            .args(argv)
+            .current_dir(&self.root);
         cmd
     }
-
-    fn git(&self, args: &[&str]) -> Command {
-        let mut argv = vec!["git", "-C", self.clone.as_str()];
-        argv.extend_from_slice(args);
-        self.cmd(None, &argv)
-    }
-}
-
-/// A drive path as the distro mounts it (`D:\a\b` → `/mnt/d/a/b`); `None` for anything else.
-pub fn wsl_path(path: &Path) -> Option<String> {
-    let text = path.to_string_lossy();
-    let text = text.strip_prefix(r"\\?\").unwrap_or(&text);
-    let mut chars = text.chars();
-    let drive = chars.next().filter(char::is_ascii_alphabetic)?;
-    let rest = chars.as_str().strip_prefix(':')?;
-    if !(rest.is_empty() || rest.starts_with(['\\', '/'])) {
-        return None;
-    }
-    Some(format!(
-        "/mnt/{}{}",
-        drive.to_ascii_lowercase(),
-        rest.replace('\\', "/")
-    ))
 }
 
 /// The `name@version` pins on ci.yml's `test`-job tool line (the one that also installs
@@ -111,20 +87,35 @@ pub fn last_document(stdout: &str) -> Option<Value> {
         .filter(|doc| doc["cmd"].is_string())
 }
 
-/// The distro answers with its user's home, which doubles as its presence probe.
-pub(super) fn distro_home(runner: &mut Runner<'_>) -> Result<String, Stop> {
-    let mut cmd = Command::new(WSL);
-    cmd.args(["-d", DISTRO, "--exec", "/usr/bin/printenv", "HOME"]);
-    out(runner, cmd)
-        .map(|home| home.trim().to_owned())
+/// The passwd entry's home for this process's uid (`id -u`, then `getent passwd <uid>`, field 6),
+/// read with only a system PATH. The harness's own `$HOME` is never read for it: that would carry
+/// a host value across `env -i`.
+pub(super) fn passwd_home(runner: &mut Runner<'_>) -> Result<String, Stop> {
+    let missing = || Stop::new("tool-missing", "passwd-home");
+    let probe = |argv: &[&str]| {
+        let mut cmd = Command::new(ENV);
+        cmd.args(["-i", SYSTEM_PATH]).args(argv);
+        cmd
+    };
+    let uid = out(runner, probe(&["id", "-u"])).ok_or_else(missing)?;
+    let uid = uid.trim();
+    if uid.is_empty() || !uid.bytes().all(|b| b.is_ascii_digit()) {
+        return Err(missing());
+    }
+    let entry = out(runner, probe(&["getent", "passwd", uid])).ok_or_else(missing)?;
+    entry
+        .lines()
+        .next()
+        .and_then(|line| line.split(':').nth(5))
         .filter(|home| home.starts_with('/'))
-        .ok_or_else(|| Stop::new("tool-missing", "wsl-distro-ubuntu"))
+        .map(str::to_owned)
+        .ok_or_else(missing)
 }
 
 /// The C linker, then every tool at its pin: `rust-toolchain.toml`'s channel, ci.yml's test-job
 /// tool line and its Node pin, never a version written here.
 pub(super) fn tools(ws: &Workspace, linux: &Linux, runner: &mut Runner<'_>) -> Result<(), Stop> {
-    if out(runner, linux.cmd(None, &["cc", "--version"])).is_none() {
+    if out(runner, linux.cmd(&["cc", "--version"])).is_none() {
         return Err(Stop::new("tool-missing", "cc"));
     }
     let unreadable = || Stop::new("tool-pin-mismatch", "pins-unreadable");
@@ -144,7 +135,7 @@ pub(super) fn tools(ws: &Workspace, linux: &Linux, runner: &mut Runner<'_>) -> R
             Some(sub) => vec!["cargo", &toolchain, sub, "--version"],
             None => vec![name.as_str(), &toolchain, "--version"],
         };
-        let Some(text) = out(runner, linux.cmd(None, &argv)) else {
+        let Some(text) = out(runner, linux.cmd(&argv)) else {
             return Err(Stop::new("tool-missing", name));
         };
         let version = text
@@ -155,7 +146,7 @@ pub(super) fn tools(ws: &Workspace, linux: &Linux, runner: &mut Runner<'_>) -> R
             return Err(Stop::new("tool-pin-mismatch", name));
         }
     }
-    let Some(text) = out(runner, linux.cmd(None, &["node", "--version"])) else {
+    let Some(text) = out(runner, linux.cmd(&["node", "--version"])) else {
         return Err(Stop::new("tool-missing", "node"));
     };
     if text.trim() != format!("v{node}") {
@@ -164,107 +155,7 @@ pub(super) fn tools(ws: &Workspace, linux: &Linux, runner: &mut Runner<'_>) -> R
     Ok(())
 }
 
-/// The working tree as one binary patch through a temporary index (the real one is never touched),
-/// applied to the clone at the same HEAD; the clone's tree id must then equal the working tree's.
-pub(super) fn sync(
-    ws: &Workspace,
-    linux: &Linux,
-    to_linux: fn(&Path) -> Option<String>,
-    runner: &mut Runner<'_>,
-) -> Result<Value, Stop> {
-    let started = Instant::now();
-    let failed = |step: &str| Stop::new("sync-failed", step);
-    let src = to_linux(&ws.root).ok_or_else(|| failed("source-path"))?;
-    let dir = ws.root.join("target").join("pre-push");
-    fs::create_dir_all(&dir).map_err(|_| failed("patch"))?;
-    let index = dir.join("index");
-    let patch = dir.join("tree.patch");
-    let _ = fs::remove_file(&index);
-    let host = |args: &[&str]| {
-        let mut cmd = Command::new("git");
-        cmd.arg("-C")
-            .arg(&ws.root)
-            .args(["-c", "core.safecrlf=false"])
-            .args(args)
-            .env("GIT_INDEX_FILE", &index);
-        cmd
-    };
-    let head = out(runner, host(&["rev-parse", "HEAD"])).ok_or_else(|| failed("patch"))?;
-    let head = head.trim().to_owned();
-    let output = format!("--output={}", patch.display());
-    let steps: [&[&str]; 3] = [&["read-tree", "HEAD"], &["add", "-A"], &["write-tree"]];
-    let mut tree = String::new();
-    for args in steps {
-        tree = out(runner, host(args)).ok_or_else(|| failed("patch"))?;
-    }
-    let tree = tree.trim().to_owned();
-    let names = out(runner, host(&["diff", "--cached", "--name-only", "HEAD"]))
-        .ok_or_else(|| failed("patch"))?;
-    let files = names.lines().filter(|l| !l.trim().is_empty()).count();
-    let diff = [
-        "diff",
-        "--cached",
-        "--binary",
-        "--no-color",
-        "--no-ext-diff",
-        &output,
-        "HEAD",
-    ];
-    out(runner, host(&diff)).ok_or_else(|| failed("patch"))?;
-
-    if out(runner, linux.git(&["rev-parse", "--git-dir"])).is_none() {
-        let mut clone = linux.cmd(None, &["git", "clone", "-q", "--no-hardlinks", &src]);
-        clone.arg(&linux.clone);
-        out(runner, clone).ok_or_else(|| failed("clone"))?;
-    }
-    out(
-        runner,
-        linux.git(&["fetch", "-q", "--no-tags", &src, "HEAD"]),
-    )
-    .ok_or_else(|| failed("fetch"))?;
-    let fetched = out(runner, linux.git(&["rev-parse", "FETCH_HEAD"]));
-    if fetched.as_deref().map(str::trim) != Some(head.as_str()) {
-        return Err(failed("fetch"));
-    }
-    out(runner, linux.git(&["reset", "-q", "--hard", &head])).ok_or_else(|| failed("reset"))?;
-    out(runner, linux.git(&["clean", "-fdq"])).ok_or_else(|| failed("clean"))?;
-    if files > 0 {
-        let patch = to_linux(&patch).ok_or_else(|| failed("apply"))?;
-        out(runner, linux.git(&["apply", "--binary", &patch])).ok_or_else(|| failed("apply"))?;
-    }
-    out(runner, linux.git(&["add", "-A"])).ok_or_else(|| failed("apply"))?;
-    let synced = out(runner, linux.git(&["write-tree"])).ok_or_else(|| failed("apply"))?;
-    if synced.trim() != tree {
-        return Err(Stop::new("sync-mismatch", ""));
-    }
-    let ms = u64::try_from(started.elapsed().as_millis()).unwrap_or(u64::MAX);
-    Ok(json!({"head": head, "tree": tree, "files": files, "ms": ms}))
-}
-
-/// `du -sb` of a distro path; 0 when it is absent or unreadable.
-fn dir_bytes(linux: &Linux, runner: &mut Runner<'_>, path: &str) -> u64 {
-    out(runner, linux.cmd(None, &["du", "-sb", path]))
-        .and_then(|text| text.split_whitespace().next()?.parse().ok())
-        .unwrap_or(0)
-}
-
-pub(super) fn target_bytes(linux: &Linux, runner: &mut Runner<'_>) -> u64 {
-    dir_bytes(linux, runner, &format!("{}/target", linux.clone))
-}
-
-/// The clone's `target/` against its cap.
-pub(super) fn cache(linux: &Linux, runner: &mut Runner<'_>) -> Result<Value, Stop> {
-    let bytes = target_bytes(linux, runner);
-    let cleaned = bytes > CACHE_CAP_BYTES;
-    if cleaned {
-        let target = format!("{}/target", linux.clone);
-        out(runner, linux.cmd(None, &["rm", "-rf", &target]))
-            .ok_or_else(|| Stop::new("sync-failed", "cache"))?;
-    }
-    Ok(json!({"bytes": bytes, "cap": CACHE_CAP_BYTES, "cleaned": cleaned}))
-}
-
-/// One harness command inside the clone, read from its own stdout document.
+/// One harness command in the working tree, read from its own stdout document.
 pub(super) fn linux_harness(
     linux: &Linux,
     args: &[&str],
@@ -272,12 +163,12 @@ pub(super) fn linux_harness(
 ) -> Result<Value, Stop> {
     let mut argv = vec!["bash", "scripts/agent-run.sh"];
     argv.extend_from_slice(args);
-    let (_, stdout) = runner(&mut linux.cmd(Some(&linux.clone), &argv));
+    let (_, stdout) = runner(&mut linux.cmd(&argv));
     last_document(&stdout).ok_or_else(|| Stop::new("linux-document-unreadable", args[0]))
 }
 
-/// A Linux run or gate document reduced to codes and counts: the suites' `artifact` paths are the
-/// clone's absolute paths, and the user's home never reaches this document.
+/// A run or gate document reduced to codes and counts: the suites' `artifact` paths are absolute,
+/// and neither the home nor the repository path reaches this document.
 pub(super) fn summary(doc: &Value) -> Value {
     let mut out = json!({"ok": doc["ok"]});
     if let Some(reason) = doc["reason"].as_str() {
@@ -329,9 +220,7 @@ pub(super) fn linux_tests(
 
 #[cfg(test)]
 mod tests {
-    use std::path::PathBuf;
-
-    use super::super::tests::{Fake, HOME, drive, git_in, pinned, red_tests, same, stopped};
+    use super::super::tests::{CI_LINE, Fake, HOME, drive, pinned, red_tests, stopped};
     use super::*;
 
     #[test]
@@ -383,7 +272,7 @@ mod tests {
         let (_tmp, ws) = pinned();
         fs::write(
             ws.root.join(".github/workflows/ci.yml"),
-            super::super::tests::CI_LINE.replace("  NODE_PIN_VERSION", "    NODE_PIN_VERSION"),
+            CI_LINE.replace("  NODE_PIN_VERSION", "    NODE_PIN_VERSION"),
         )
         .expect("ci");
         let mut fake = Fake::new().green();
@@ -441,24 +330,6 @@ mod tests {
     }
 
     #[test]
-    fn pre_push_wsl_path_maps_drive_paths() {
-        let cases = [
-            (r"D:\dev\projects\viola", Some("/mnt/d/dev/projects/viola")),
-            ("c:/a/b", Some("/mnt/c/a/b")),
-            (r"\\?\E:\x", Some("/mnt/e/x")),
-            ("F:", Some("/mnt/f")),
-            ("D:x", None),
-            (r"\\server\share", None),
-            (r"rel\x", None),
-            ("/home/x", None),
-            ("", None),
-        ];
-        for (input, want) in cases {
-            assert_eq!(wsl_path(Path::new(input)).as_deref(), want, "{input}");
-        }
-    }
-
-    #[test]
     fn pre_push_last_document_takes_the_final_json_line() {
         let doc = last_document("warn\n{\"cmd\":\"run\",\"ok\":true}\n\n").expect("doc");
         assert_eq!(doc["ok"], true);
@@ -467,13 +338,44 @@ mod tests {
         assert_eq!(last_document(""), None);
     }
 
+    /// The home every launcher call carries is the passwd entry's field 6, read through `id -u`
+    /// and `getent passwd <uid>`; an unreadable entry stops at `tools`.
     #[test]
-    fn pre_push_distro_missing_is_tool_missing() {
-        let fake = Fake::new().on(&["printenv HOME"], 1, "");
-        let fake = stopped(fake, "tool-missing", Some("wsl-distro-ubuntu"), "tools");
-        assert_eq!(fake.calls.len(), 1);
-        let relative = Fake::new().on(&["printenv HOME"], 0, "home\n");
-        stopped(relative, "tool-missing", Some("wsl-distro-ubuntu"), "tools");
+    fn pre_push_home_reads_the_passwd_entry() {
+        let (_tmp, ws) = pinned();
+        let mut fake = Fake::new().green();
+        drive(&ws, &mut fake);
+        assert_eq!(fake.calls[0], format!("{ENV} -i {SYSTEM_PATH} id -u"));
+        assert_eq!(
+            fake.calls[1],
+            format!("{ENV} -i {SYSTEM_PATH} getent passwd 1000")
+        );
+        let home = format!(" HOME={HOME} ");
+        assert!(
+            fake.calls[2..].iter().all(|c| c.contains(&home)),
+            "{:?}",
+            fake.calls
+        );
+
+        for (id, entry, calls) in [
+            ((1, "1000\n"), (0, "x\n"), 1),
+            ((0, "\n"), (0, "x\n"), 1),
+            ((0, "10x0\n"), (0, "x\n"), 1),
+            ((0, "1000\n"), (2, ""), 2),
+            (
+                (0, "1000\n"),
+                (0, "tester:x:1000:1000::home/tester:/bin/bash\n"),
+                2,
+            ),
+            ((0, "1000\n"), (0, "tester:x:1000:1000:\n"), 2),
+        ] {
+            let fake =
+                Fake::new()
+                    .on(&["id -u"], id.0, id.1)
+                    .on(&["getent passwd"], entry.0, entry.1);
+            let fake = stopped(fake, "tool-missing", Some("passwd-home"), "tools");
+            assert_eq!(fake.calls.len(), calls, "{:?}", fake.calls);
+        }
     }
 
     #[test]
@@ -503,39 +405,6 @@ mod tests {
     }
 
     #[test]
-    fn pre_push_sync_mismatch_is_red() {
-        let fake = Fake::new().on(&["wsl.exe", "write-tree"], 0, "t2\n");
-        let fake = stopped(fake, "sync-mismatch", None, "sync");
-        assert!(!fake.calls.iter().any(|c| c.contains("du -sb")));
-    }
-
-    #[test]
-    fn pre_push_sync_fetch_of_another_head_is_red() {
-        let fake = Fake::new().on(&["rev-parse FETCH_HEAD"], 0, "h2\n");
-        stopped(fake, "sync-failed", Some("fetch"), "sync");
-    }
-
-    #[test]
-    fn pre_push_cache_over_cap_is_cleaned_and_reported() {
-        let over = format!("{}\t/x\n", CACHE_CAP_BYTES + 1);
-        let (_tmp, ws) = pinned();
-        let mut fake = red_tests().on(&["du -sb"], 0, &over).green();
-        let out = drive(&ws, &mut fake);
-        assert_eq!(out.doc["cache"]["cleaned"], true, "{}", out.doc);
-        assert_eq!(out.doc["cache"]["bytes"], CACHE_CAP_BYTES + 1);
-        assert_eq!(out.doc["cache"]["cap"], 42_949_672_960_u64, "40 GiB");
-        let rm = format!("rm -rf {HOME}/{CLONE_DIR}/target");
-        assert!(fake.calls.iter().any(|c| c.ends_with(&rm)));
-
-        let at = format!("{CACHE_CAP_BYTES}\t/x\n");
-        let mut fake = red_tests().on(&["du -sb"], 0, &at).green();
-        let out = drive(&ws, &mut fake);
-        assert_eq!(out.doc["cache"]["cleaned"], false);
-        assert_eq!(out.doc["cache"]["bytes_after"], CACHE_CAP_BYTES);
-        assert!(!fake.calls.iter().any(|c| c.ends_with(&rm)));
-    }
-
-    #[test]
     fn pre_push_linux_test_red_stops_at_linux_tests() {
         let (_tmp, ws) = pinned();
         let mut fake = red_tests().green();
@@ -548,12 +417,9 @@ mod tests {
             out.doc["linux"]["run"]["suites"][0]["failures"][0],
             "pre_push_planted_unix_red"
         );
+        assert!(out.doc["linux"].get("browser").is_none());
         assert!(out.doc["linux"].get("gate").is_none());
         assert!(!fake.calls.iter().any(|c| c.contains("--mutants")));
-        // The scripted working tree changes nothing, so there is no patch to apply.
-        assert_eq!(out.doc["sync"]["files"], 0);
-        assert!(!fake.calls.iter().any(|c| c.contains(" apply ")));
-        assert!(fake.calls.iter().any(|c| c.contains(" write-tree")));
     }
 
     #[test]
@@ -565,6 +431,7 @@ mod tests {
             .on(&["gate --require coverage,doctest"], 1, red)
             .green();
         let out = drive(&ws, &mut fake);
+        assert_eq!(out.code, 1);
         assert_eq!(out.doc["stage"], "linux-tests");
         assert_eq!(out.doc["linux"]["gate"]["breaches"][0]["gate"], "coverage");
         assert!(!fake.calls.iter().any(|c| c.contains("--mutants")));
@@ -581,122 +448,82 @@ mod tests {
         );
     }
 
+    /// Every call is `/usr/bin/env -i` followed only by `HOME=` and `PATH=` assignments: HOME is the
+    /// passwd home and every PATH component a constant under it or a system dir. The launcher's PATH
+    /// is exactly the former WSL shape (no venv, nothing else).
     #[test]
-    fn pre_push_every_wsl_call_uses_exec_and_a_clean_env() {
+    fn pre_push_every_native_call_carries_only_home_and_path() {
         let (_tmp, ws) = pinned();
-        let mut fake = red_tests().green();
-        drive(&ws, &mut fake);
-        let clean = format!("--exec /usr/bin/env -i HOME={HOME} PATH={HOME}/.cargo/bin:");
-        // The one call that runs nothing inside the distro: stopping it (`release_vm`).
-        let terminate = "wsl.exe --terminate Ubuntu";
-        let wsl: Vec<&String> = fake
-            .calls
-            .iter()
-            .filter(|c| c.starts_with(WSL) && *c != terminate)
-            .collect();
-        assert!(wsl.len() > 10, "{wsl:?}");
-        for call in wsl {
-            assert!(call.starts_with("wsl.exe -d Ubuntu "), "{call}");
-            assert!(!call.split(' ').any(|t| t == "--"), "{call}");
-            if !call.ends_with("printenv HOME") {
-                assert!(call.contains(&clean), "{call}");
+        let mut fake = Fake::new().green();
+        let out = drive(&ws, &mut fake);
+        assert_eq!(out.code, 0, "{}", out.doc);
+        assert!(fake.calls.len() > 10, "{:?}", fake.calls);
+        let system = ["/usr/local/bin", "/usr/bin", "/bin"];
+        let under_home = format!("{HOME}/");
+        for call in &fake.calls {
+            let rest = call
+                .strip_prefix(&format!("{ENV} -i "))
+                .unwrap_or_else(|| panic!("not an env -i launch: {call}"));
+            let assignments: Vec<(&str, &str)> = rest
+                .split(' ')
+                .map_while(|token| token.split_once('='))
+                .collect();
+            assert!(!assignments.is_empty(), "{call}");
+            for (name, value) in assignments {
+                match name {
+                    "HOME" => assert_eq!(value, HOME, "{call}"),
+                    "PATH" => {
+                        for dir in value.split(':') {
+                            assert!(
+                                dir.starts_with(&under_home) || system.contains(&dir),
+                                "{dir} in {call}"
+                            );
+                        }
+                    }
+                    other => panic!("{other} crosses env -i in {call}"),
+                }
             }
         }
+        let launcher = format!(
+            "{ENV} -i HOME={HOME} PATH={HOME}/.cargo/bin:{HOME}/.local/viola-node/bin:\
+             /usr/local/bin:/usr/bin:/bin bash scripts/agent-run.sh run --coverage"
+        );
+        assert!(fake.calls.contains(&launcher), "{:?}", fake.calls);
         assert_eq!(fake.claude_envs, 0);
     }
 
-    /// Runs the call natively: a WSL call loses its `wsl.exe -d Ubuntu [--cd D] --exec /usr/bin/env
-    /// -i HOME=… PATH=…` prefix and runs in D, so the sync's real git sequence runs on this host.
-    fn native(cmd: &mut Command) -> (Option<i32>, String) {
-        let program = cmd.get_program().to_string_lossy().into_owned();
-        let args: Vec<String> = cmd
-            .get_args()
-            .map(|a| a.to_string_lossy().into_owned())
-            .collect();
-        let mut real = if program == WSL {
-            let mut at = 2;
-            let mut cwd = None;
-            if args[at] == "--cd" {
-                cwd = Some(args[at + 1].clone());
-                at += 2;
-            }
-            assert_eq!(args[at..at + 3], ["--exec", "/usr/bin/env", "-i"]);
-            at += 5;
-            let mut real = Command::new(&args[at]);
-            real.args(&args[at + 1..]);
-            if let Some(dir) = cwd {
-                real.current_dir(dir);
-            }
-            real
-        } else {
-            let mut real = Command::new(&program);
-            real.args(&args);
-            for (key, value) in cmd.get_envs() {
-                if let Some(value) = value {
-                    real.env(key, value);
-                }
-            }
-            real
-        };
-        let out = real.output().expect("spawn");
-        (
-            out.status.code(),
-            String::from_utf8_lossy(&out.stdout).into_owned(),
-        )
-    }
-
+    /// Two-sided, a real launch: `/usr/bin/env` through the launcher, with a canary on the outer
+    /// `Command`, sees only HOME and PATH; the same launch without `-i` forwards the canary.
+    #[cfg(target_os = "linux")]
     #[test]
-    fn pre_push_sync_reproduces_a_dirty_tree() {
-        let (_tmp, ws) = pinned();
-        let src = ws.root.clone();
-        for (name, text) in [("a.rs", "a\n"), ("b.rs", "b\n"), ("c.rs", "c\n")] {
-            fs::write(src.join(name), text).expect("write");
-        }
-        fs::write(src.join(".gitignore"), "target/\nignored.txt\n").expect("ignore");
-        fs::write(src.join(".gitattributes"), "* text=auto eol=lf\n").expect("attributes");
-        git_in(&src, &["init", "-q"]);
-        git_in(&src, &["add", "-A"]);
-        git_in(&src, &["commit", "-q", "-m", "base"]);
-        fs::write(src.join("a.rs"), "a edited\n").expect("edit");
-        fs::write(src.join("new.rs"), "new\n").expect("new");
-        fs::remove_file(src.join("c.rs")).expect("delete");
-        fs::write(src.join("ignored.txt"), "local\n").expect("ignored");
+    fn pre_push_native_child_sees_only_home_and_path() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let linux = Linux::new(HOME, tmp.path());
+        let names = |cmd: &mut Command| -> Vec<String> {
+            let out = cmd
+                .env("CLAUDE_CANARY", "pre-push-canary")
+                .output()
+                .expect("env");
+            assert!(out.status.success());
+            String::from_utf8_lossy(&out.stdout)
+                .lines()
+                .filter_map(|l| l.split_once('=').map(|(name, _)| name.to_owned()))
+                .collect()
+        };
+        let mut subject = linux.cmd(&[ENV]);
+        let seen = names(&mut subject);
+        assert_eq!(seen, ["HOME", "PATH"]);
+        assert_eq!(seen.iter().filter(|n| n.starts_with("CLAUDE")).count(), 0);
 
-        let distro = tempfile::tempdir().expect("home");
-        let linux = Linux::new(&distro.path().to_string_lossy());
-        let clone = PathBuf::from(&linux.clone);
-        let synced = sync(&ws, &linux, same, &mut native).expect("first sync");
-        assert_eq!(synced["files"], 3);
+        let mut control = Command::new(subject.get_program());
+        control
+            .args(subject.get_args().filter(|a| a.to_str() != Some("-i")))
+            .current_dir(tmp.path());
+        let forwarded = names(&mut control);
         assert_eq!(
-            synced["head"],
-            git_in(&src, &["rev-parse", "HEAD"]).as_str()
-        );
-        assert_eq!(
-            fs::read_to_string(clone.join("a.rs")).expect("a"),
-            "a edited\n"
-        );
-        assert!(clone.join("new.rs").is_file());
-        assert!(!clone.join("c.rs").exists());
-        assert!(!clone.join("ignored.txt").exists());
-        git_in(&src, &["diff", "--cached", "--quiet"]);
-        let status = git_in(&src, &["status", "--porcelain"]);
-        assert!(
-            status.contains("M a.rs") && status.contains("?? new.rs"),
-            "{status}"
-        );
-
-        // A file the clone gained outside a sync (a test run's leftover) is never in its index, so
-        // only `clean` removes it; a synced file is dropped by `reset --hard` already.
-        fs::write(clone.join("stray.rs"), "stray\n").expect("stray");
-        fs::remove_file(src.join("new.rs")).expect("drop");
-        fs::write(src.join("b.rs"), "b edited\n").expect("edit");
-        let again = sync(&ws, &linux, same, &mut native).expect("second sync");
-        assert!(!clone.join("stray.rs").exists());
-        assert_eq!(again["files"], 3);
-        assert!(!clone.join("new.rs").exists());
-        assert_eq!(
-            fs::read_to_string(clone.join("b.rs")).expect("b"),
-            "b edited\n"
+            forwarded.iter().filter(|n| *n == "CLAUDE_CANARY").count(),
+            1,
+            "{forwarded:?}"
         );
     }
 }

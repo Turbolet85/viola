@@ -182,6 +182,39 @@ mod tests {
         }
     }
 
+    /// `wipe` creates an absent scratch and empties a present one.
+    #[test]
+    fn wipe_creates_an_absent_scratch_and_empties_a_present_one() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let scratch = tmp.path().join(SCRATCH_NAME);
+        wipe(&scratch).expect("absent");
+        assert!(scratch.is_dir(), "an absent scratch is created");
+        fs::create_dir_all(scratch.join("old")).expect("mkdir");
+        fs::write(scratch.join("old").join("copy"), [0u8; 5]).expect("write");
+        wipe(&scratch).expect("present");
+        assert!(scratch.is_dir());
+        assert_eq!(fs::read_dir(&scratch).expect("read").count(), 0);
+    }
+
+    /// A removal that fails for any reason but absence is the wipe's error: a subdir its owner
+    /// cannot write keeps its file, while the scratch itself is still there to re-create.
+    #[cfg(unix)]
+    #[test]
+    fn wipe_names_a_removal_that_failed() {
+        use std::os::unix::fs::PermissionsExt as _;
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let scratch = tmp.path().join(SCRATCH_NAME);
+        let locked = scratch.join("locked");
+        fs::create_dir_all(&locked).expect("mkdir");
+        fs::write(locked.join("held"), b"x").expect("write");
+        fs::set_permissions(&locked, fs::Permissions::from_mode(0o500)).expect("chmod");
+        let wiped = wipe(&scratch);
+        fs::set_permissions(&locked, fs::Permissions::from_mode(0o700)).expect("restore");
+        let err = wiped.expect_err("the removal failed");
+        assert_eq!(err.kind(), io::ErrorKind::PermissionDenied);
+        assert!(locked.join("held").is_file());
+    }
+
     #[cfg(windows)]
     #[test]
     fn prepare_refuses_a_repo_whose_scratch_is_an_ancestor() {

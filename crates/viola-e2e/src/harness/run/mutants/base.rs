@@ -118,12 +118,21 @@ fn pending_marker(line: &str) -> Option<&str> {
 }
 
 /// The chunk as the working tree holds it: tracked changes since the merge-base plus every
-/// untracked, non-ignored file (equal to `<base>...HEAD` once the chunk is committed).
+/// untracked, non-ignored file (equal to `<base>...HEAD` once the chunk is committed). The
+/// prefixes are pinned: `diff_paths` and cargo-mutants' `--in-diff` read `a/`/`b/` headers, which a
+/// user's `diff.mnemonicprefix` or `diff.noprefix` would otherwise rewrite.
 pub fn chunk_diff(repo: &Path, base: &str) -> Option<String> {
     let merge_base = git(repo, &["merge-base", base, "HEAD"])?;
     let mut diff = git(
         repo,
-        &["diff", "--no-color", "--no-ext-diff", merge_base.trim()],
+        &[
+            "diff",
+            "--no-color",
+            "--no-ext-diff",
+            "--src-prefix=a/",
+            "--dst-prefix=b/",
+            merge_base.trim(),
+        ],
     )?;
     let untracked = git(repo, &["ls-files", "--others", "--exclude-standard", "-z"])?;
     for file in untracked.split('\0').filter(|f| !f.is_empty()) {
@@ -134,6 +143,8 @@ pub fn chunk_diff(repo: &Path, base: &str) -> Option<String> {
                 "diff",
                 "--no-color",
                 "--no-ext-diff",
+                "--src-prefix=a/",
+                "--dst-prefix=b/",
                 "--no-index",
                 "--",
                 "/dev/null",
@@ -393,6 +404,35 @@ mod tests {
         assert!(diff.contains("+fn b() {}"));
         assert!(diff.contains("b.rs"));
         assert_eq!(chunk_diff(repo.path(), &"0".repeat(40)), None);
+    }
+
+    #[test]
+    fn chunk_diff_pins_its_prefixes_under_a_hostile_config() {
+        let cases: [(&str, Option<&str>); 3] = [
+            ("default", None),
+            ("mnemonicprefix", Some("diff.mnemonicprefix")),
+            ("noprefix", Some("diff.noprefix")),
+        ];
+        let mut failed: Vec<String> = Vec::new();
+        for (label, key) in cases {
+            let repo = git_repo();
+            if let Some(key) = key {
+                git(repo.path(), &["config", key, "true"]).expect("config");
+            }
+            fs::write(repo.path().join("a.rs"), "fn a() { let _x = 1; }\n").expect("write");
+            fs::write(repo.path().join("b.rs"), "fn b() {}\n").expect("write");
+            let diff = chunk_diff(repo.path(), "HEAD").expect("diff");
+            let headers: Vec<&str> = diff
+                .lines()
+                .filter(|l| l.starts_with("diff --git "))
+                .collect();
+            let pinned =
+                headers.len() == 2 && headers.iter().all(|h| h.starts_with("diff --git a/"));
+            if !pinned || rust_paths(&diff) != ["a.rs", "b.rs"] {
+                failed.push(format!("{label}: {headers:?}"));
+            }
+        }
+        assert!(failed.is_empty(), "{failed:#?}");
     }
 
     const RUST_DIFF: &str =
