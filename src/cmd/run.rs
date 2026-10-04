@@ -504,8 +504,10 @@ fn pump_child(launched: Launched) -> anyhow::Result<ExitCode> {
         &mut host_size,
         &paste,
     );
-    drop(terminal);
+    // Before the terminal leaves raw mode: a key pressed while the last moves are recorded is a
+    // byte, never a signal that ends the wrapper mid-exit.
     wheel.flush();
+    drop(terminal);
     match end? {
         PumpEnd::Exited(exit) => {
             run::log_child_exit(exit);

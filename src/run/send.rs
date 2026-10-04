@@ -149,13 +149,14 @@ pub(crate) fn append_hook_event(
     if claimed {
         line.data["origin"] = json!("driver");
     }
+    // Moved before the line can be read: whoever sees the human's prompt on disk already sees the
+    // human's wheel, so a `release` made after it is never undone by it.
+    if line.kind == EventKind::PromptSubmitted && line.data["origin"] == "human" {
+        slot.wheel.human_input();
+    }
     let appended = feed.appending(&line, || append_event(instance_dir, &line));
     if claimed {
         slot.settle(appended.is_ok().then(|| line.ts.clone()));
-    }
-    let human = line.kind == EventKind::PromptSubmitted && line.data["origin"] == "human";
-    if appended.is_ok() && human {
-        slot.wheel.human_input();
     }
     appended
 }
@@ -692,18 +693,17 @@ mod tests {
         ));
     }
 
-    /// An unsent prompt the hook filed `human` was typed by the human: the wheel is theirs. A
-    /// `harness` prompt, or one whose line never landed, moves nothing.
+    /// An unsent prompt the hook filed `human` was typed by the human: the wheel is theirs, moved
+    /// before its line is appended (a line that could not land still moved it). A `harness`
+    /// prompt moves nothing.
     #[test]
-    fn send_an_unsent_human_prompt_takes_the_wheel_and_a_harness_one_does_not() {
+    fn send_an_unsent_human_prompt_takes_the_wheel_before_its_line_and_a_harness_one_does_not() {
         let tmp = tempfile::tempdir().expect("tempdir");
         let slot = SendSlot::new(FixedClock(Instant::now()), Arc::default());
         append_hook_event(&slot, &feed(), tmp.path(), prompt("injected", "harness")).expect("hook");
         assert_eq!(slot.wheel.holder(), Wheel::Driver);
         let missing = tmp.path().join("missing");
         assert!(append_hook_event(&slot, &feed(), &missing, prompt("lost", "human")).is_err());
-        assert_eq!(slot.wheel.holder(), Wheel::Driver);
-        append_hook_event(&slot, &feed(), tmp.path(), prompt("typed", "human")).expect("hook");
         assert_eq!(slot.wheel.holder(), Wheel::Human);
         assert_eq!(slot.wheel.human_typing(), Some(None));
     }

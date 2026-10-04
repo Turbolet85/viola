@@ -526,10 +526,11 @@ fn write_panic_bytes() {
     let _ = out.write_all(WIDE_CHAR).and_then(|()| out.flush());
 }
 
-/// Reads stdin byte by byte until EOF or `\x03`.
+/// Reads stdin byte by byte until EOF or `\x03`. A Windows console is read the way the wrapper
+/// reads it: std's console read turns a `^Z` typed alone into end of input.
 fn read_stdin(agent: &Agent) -> ExitCode {
     let mut input = Input::new();
-    let mut stdin = std::io::stdin().lock();
+    let mut stdin = viola_pty::host_stdin();
     let mut byte = [0u8; 1];
     while let Ok(1) = stdin.read(&mut byte) {
         for action in input.feed(byte[0]) {

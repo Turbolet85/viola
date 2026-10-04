@@ -73,6 +73,29 @@ fn keys(lines: &[Value]) -> Vec<String> {
         .collect()
 }
 
+/// Waits for `count` key receipts; the watch report names each key that arrived (the test's own
+/// synthetic bytes) and how many `wheel` records the log holds, so a red names what the terminal
+/// delivered.
+fn wait_keys(receipt: &Path, dir: &Path, count: usize, what: &str) -> Vec<Value> {
+    let watch = Watch::start("keys");
+    let deadline = Instant::now() + WITHIN;
+    loop {
+        let lines = fake::receipt(receipt);
+        let typed = keys(&lines);
+        if typed.len() >= count {
+            return lines;
+        }
+        watch.note(&format!(
+            "keys [{}] wheel records {} receipt lines {}",
+            typed.join(" "),
+            wheel_records(dir).len(),
+            lines.len()
+        ));
+        watch.deadline_check(deadline, &format!("timed out waiting for {what}"));
+        std::thread::yield_now();
+    }
+}
+
 fn hex_of(bytes: &[u8]) -> Vec<String> {
     bytes.iter().map(|b| format!("{b:02x}")).collect()
 }
@@ -256,9 +279,7 @@ fn tui_focus_mouse_and_resize_never_take_the_wheel(stamped_home: StampedHome) {
     fake::wait_for(&receipt, "the resized size receipt", |l| {
         of_kind(l, "size").contains(&&target)
     });
-    let lines = fake::wait_for(&receipt, "the focus and mouse bytes", |l| {
-        keys(l).len() >= reports.len()
-    });
+    let lines = wait_keys(&receipt, &dir, reports.len(), "the focus and mouse bytes");
     assert_eq!(keys(&lines), hex_of(reports), "reached the child unchanged");
     // The reports sit in the child's prompt line, so a `send` could never be read back: an
     // `answer` to no pending dialog asks the wheel instead, typing nothing (`human-typing` is
@@ -287,9 +308,9 @@ fn tui_ctrl_z_reaches_the_child_and_later_keys_still_do(stamped_home: StampedHom
     let dir = wrapper.instance_dir();
     let receipt = wrapper.receipt();
     wrapper.send(b"\x1a");
-    fake::wait_for(&receipt, "the ^Z key", |l| !keys(l).is_empty());
+    wait_keys(&receipt, &dir, 1, "the ^Z key");
     wrapper.send(b"k");
-    let lines = fake::wait_for(&receipt, "the key after ^Z", |l| keys(l).len() >= 2);
+    let lines = wait_keys(&receipt, &dir, 2, "the key after ^Z");
     assert_eq!(keys(&lines), ["1a", "6b"]);
     let taken = json!({"holder": "human", "cause": "human-input"});
     wait_events(&dir, "the human-input wheel record", |l| {
