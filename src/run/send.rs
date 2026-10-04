@@ -125,7 +125,7 @@ impl SendSlot {
     }
 }
 
-/// Appends a hook's event and signals the parked `wait`s once it is on disk. The in-flight send's
+/// Appends a hook's event through the wait feed, which signals the parked `wait`s. The in-flight send's
 /// own prompt, whatever origin the hook filed, is the driver's: the match keys on the normalised
 /// text, never on the hook's origin, and the waiting send settles only once the relabelled line is
 /// on disk.
@@ -142,12 +142,9 @@ pub(crate) fn append_hook_event(
     if claimed {
         line.data["origin"] = json!("driver");
     }
-    let appended = append_event(instance_dir, &line);
+    let appended = feed.appending(&line, || append_event(instance_dir, &line));
     if claimed {
         slot.settle(appended.is_ok().then(|| line.ts.clone()));
-    }
-    if appended.is_ok() {
-        feed.appended(&line);
     }
     appended
 }

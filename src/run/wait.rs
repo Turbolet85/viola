@@ -62,14 +62,22 @@ impl WaitFeed {
         self.feed.lock().unwrap_or_else(PoisonError::into_inner)
     }
 
-    /// `line` is on disk: a parked `wait` re-scans, and a `turn-ended` becomes the newest turn.
-    pub(crate) fn appended(&self, line: &EventLine) {
+    /// Appends `line` through `append`; once it is on disk a parked `wait` re-scans and a
+    /// `turn-ended` becomes the newest turn. Both happen under the one lock hold the append runs
+    /// in, so a `last` asked by anyone who has seen the line on disk already returns it.
+    pub(crate) fn appending(
+        &self,
+        line: &EventLine,
+        append: impl FnOnce() -> Result<(), StateError>,
+    ) -> Result<(), StateError> {
         let mut feed = self.feed();
+        append()?;
         feed.generation = feed.generation.wrapping_add(1);
         if line.kind == EventKind::TurnEnded {
             feed.newest = Some(Turn::of(&line.data, &line.ts));
         }
         self.appended.notify_all();
+        Ok(())
     }
 
     /// The newest `turn-ended` the log already holds, read once at start.
@@ -264,6 +272,52 @@ mod tests {
         u64::try_from(bytes.len()).expect("len")
     }
 
+    /// `line` already on disk (or never written): the feed hears of it.
+    fn signal(feed: &WaitFeed, line: &EventLine) {
+        feed.appending(line, || Ok(())).expect("signalled");
+    }
+
+    /// The window between a line reaching disk and the feed hearing of it, held open: a `last`
+    /// asked by someone who saw the line on disk waits for the append and returns that turn.
+    #[test]
+    fn last_after_a_turn_on_disk_never_reads_the_turn_before_it() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let feed = WaitFeed::new(JumpClock::new());
+        let ended = turn(json!("on disk"));
+        let (written, on_disk) = mpsc::channel();
+        let (_release, hold) = mpsc::channel::<()>();
+        let (feed_ref, line, dir) = (&feed, &ended, tmp.path());
+        std::thread::scope(|s| {
+            s.spawn(move || {
+                feed_ref
+                    .appending(line, || {
+                        append_event(dir, line)?;
+                        let _ = written.send(());
+                        let _ = hold.recv_timeout(Duration::from_millis(300));
+                        Ok(())
+                    })
+                    .expect("appended");
+            });
+            on_disk.recv().expect("on disk");
+            assert!(end_offset(tmp.path()).expect("end") > 0);
+            let last = feed.last(&json!({"v": 1})).expect("answered");
+            assert_eq!(last["ok"]["last_assistant_message"], "on disk");
+        });
+    }
+
+    #[test]
+    fn appending_a_line_that_fails_signals_nothing() {
+        let feed = WaitFeed::new(JumpClock::new());
+        let ended = turn(json!("lost"));
+        let failed = feed.appending(&ended, || Err(std::io::Error::other("full").into()));
+        assert!(failed.is_err());
+        assert_eq!(feed.feed().generation, 0);
+        assert_eq!(
+            feed.last(&json!({"v": 1})).expect("answered")["ok"]["ts"],
+            Value::Null
+        );
+    }
+
     #[rstest]
     #[case::turn_ended("turn-ended")]
     #[case::question("question")]
@@ -394,7 +448,7 @@ mod tests {
                 parked.recv().expect("still parked");
             }
             assert!(result.try_recv().is_err(), "woke without a signal");
-            feed.appended(&ended);
+            signal(&feed, &ended);
             let reply = result
                 .recv_timeout(Duration::from_secs(5))
                 .expect("woken")
@@ -422,12 +476,12 @@ mod tests {
             parked.recv().expect("parked");
             let activity = line(EventKind::Activity, json!({}));
             append(tmp.path(), &activity);
-            feed.appended(&activity);
+            signal(&feed, &activity);
             parked.recv().expect("parked again");
             assert!(result.try_recv().is_err(), "an activity line woke it");
             let ended = turn(Value::Null);
             append(tmp.path(), &ended);
-            feed.appended(&ended);
+            signal(&feed, &ended);
             let reply = result
                 .recv_timeout(Duration::from_secs(5))
                 .expect("woken")
@@ -500,14 +554,14 @@ mod tests {
     fn last_after_a_signalled_turn_is_its_message_and_ts() {
         let feed = WaitFeed::new(JumpClock::new());
         let ended = turn(json!("the answer"));
-        feed.appended(&line(EventKind::Activity, json!({})));
-        feed.appended(&ended);
+        signal(&feed, &line(EventKind::Activity, json!({})));
+        signal(&feed, &ended);
         assert_eq!(
             feed.last(&json!({"v": 1})),
             Ok(json!({"ok": {"last_assistant_message": "the answer", "ts": ended.ts}}))
         );
         let silent = turn(Value::Null);
-        feed.appended(&silent);
+        signal(&feed, &silent);
         assert_eq!(
             feed.last(&json!({"v": 1})),
             Ok(json!({"ok": {"last_assistant_message": null, "ts": silent.ts}}))
