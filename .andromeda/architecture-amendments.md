@@ -443,3 +443,23 @@
 **Why:** founder ruling C2 (2026-10-04, relayed by the overseer) ships a dispatch-only, non-blocking Windows mutation leg while keeping the 2026-09-28 ruling: no chunk, pre-push or blocking CI mutation gate. Not a boundary widening: it adds no permission, secret, input class, upload or action pin.
 **Kept:** `ci.yml` and `nightly.yml` byte-unchanged; the push check count stays 15.
 **Ref:** .andromeda/runs/2026-10-04T04-08-06-wrap/
+
+## 2026-10-04-readiness-gate-and-timing-constants — the readiness gate as landed and its provisional timing values
+**Section:** §Stack and Technologies (Screen model row) · §Established Decisions [Screen Model], [Delivery Confirmation], [Hook Transport], [CLI Version Compatibility]
+**Change:**
+- Screen model row: vt100 runs on `run`'s feed thread, handed a copy of the pump's output after the human's write (was "on `run`'s pump thread").
+- [Screen Model]: the model is the pure `viola_agent_claude::screen::Screen`; `run` feeds it on its own feed thread (`src/run/gate.rs`) through a tee that writes the human's bytes first; each feed and resize runs under `catch_unwind`; a caught panic poisons the model until the host size changes and a poisoned model reads `input-not-ready`. Was "the quiet period and the gate's maximum wait are open items, held as ledger rows"; now `QUIET_PERIOD` = 300 ms and `GATE_MAX_WAIT` = 5 s are compiled built-ins, PROVISIONAL and not measured; the signature format (`Signatures { input_box, modals }`, two compiled literal lists, row-contains matching) is PROVISIONAL; the signature, quiet-period and maximum-wait ledger rows are HELD, owed to the first live test or the founder's ruling; the verdict's first consumer is confirmed `send`. "Signatures live in the capability ledger" now reads "once those held rows land".
+- [Delivery Confirmation]: the built-in fallback window was "value: open item"; now `CONFIRM_WINDOW_FALLBACK` = 10 s in `viola_agent_claude::screen`, PROVISIONAL and not measured.
+- [Hook Transport]: the spine deadline is the product constant `viola_core::SPINE_DEADLINE` = 1 s, the bound the perf gate reads; the hook's 750 ms connect deadline is the crate-private `CONNECT_DEADLINE` (provisional), asserted below it (was the hook-local `SPINE_DEADLINE` = 750 ms with the naming open); SessionEnd's connect deadline reads `CONNECT_DEADLINE`.
+- [CLI Version Compatibility]: the screen signatures, with the quiet-period and maximum-wait values, are HELD past the readiness gate (was "land with the readiness gate").
+**Why:** the chunk landed the gate's mechanism and named its timing constants; the overseer's directions keep the held widening (the PTY typed-input probe, the live 2.1.287 recording, the signature and timing rows) held and record the three values and the signature format as provisional.
+**Ref:** .andromeda/runs/2026-10-04T05-25-03-wrap/
+
+## 2026-10-04-readiness-gate-and-timing-constants — vt100 in viola-agent-claude, the new modules and the fourth fuzz target
+**Section:** §Infrastructure Patterns → crate-dependency-direction, project-directory-structure · §Occupied Resources (`fuzz/`)
+**Change:**
+- crate-dependency-direction: `viola-agent-claude` depends, as landed, on vt100 `=0.16.2` (the pure `screen` module); its vt100 line reads "`run`'s feed thread feeds it a copy of the pump output" (was "`run`'s pump feeds it bytes"); the closing sentence no longer lists vt100 as arriving later.
+- project-directory-structure: `src/run/` names `gate.rs` (the pump-output tee + vt100 feed thread); `viola-core/` lists `SPINE_DEADLINE`, `Clock` / `SystemClock`; `viola-agent-claude/` names the vt100 screen model (`screen`) in place of "screen signatures"; `fuzz_targets/` adds `vt100_feed`.
+- `fuzz/` row: targets `viola_name`, `channel_frame`, `hook_stdin` and `vt100_feed`; `vt100_feed` has 6 synthetic seeds.
+**Why:** vt100 0.16.2 entered the graph through `viola-agent-claude` only, and the chunk added `src/run/gate.rs`, the `screen` module, the two viola-core items and the `vt100_feed` target.
+**Ref:** .andromeda/runs/2026-10-04T05-25-03-wrap/

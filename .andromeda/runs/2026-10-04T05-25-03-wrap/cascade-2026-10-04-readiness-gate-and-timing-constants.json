@@ -1,0 +1,136 @@
+[
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "1550f3bc",
+"ts": "2026-10-04T05:33:07Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-04T05-25-03-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-04T05-25-03-wrap",
+"--marker",
+"2026-10-04-readiness-gate-and-timing-constants"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"baseline 5bcb0a0c (pre-CI parent — the oldest of 1 pre-CI commit(s), afef92f8)",
+"spine-s · 0 rows (control fired) — a statement about this pattern, not the masters · control registries/contracts/test-…",
+"spine-750 · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:64 (pros…",
+"spine-prov · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:1220 (pros…",
+"spine-naming · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · case-variants +1 · control architecture.md:64 (prose)",
+"pump-thread · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:18 (prose)",
+"open-items · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:48 (pro…",
+"sig-with-gate · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:91 (…",
+"not-proc-panic · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:915 (pr…",
+"vt100-arrive · 0 rows (control fired) — a statement about this pattern, not the masters · control registries/contracts/…",
+"fuzz-3list · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control test-plan.md:434 (prose)",
+"term-indep · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control registries/contracts/test-plan/bootstrap-phase…",
+".andromeda/architecture.md:102 spine-naming standing …nt is substituted by naming its executable after `--` (`viola run…",
+".andromeda/test-plan.md:524 spine-naming standing …est]`, each assertion naming its label), so no manifest edge is adde…",
+".claude/docs/stack.md:14 pump-thread leaf …ness and modal detection on `run`'s pump thread. Never used to read content |",
+".andromeda/registries/contracts/architecture/project-directory-structure.md:68 fuzz-3list new …a_name,channel_frame,hoo…",
+".andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md:15 term-indep standing edited",
+"spine-s · 0 rows (control fired) — a statement about this pattern, not the masters · control registries/contracts/test-…",
+"spine-750 · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:64 (pros…",
+"spine-prov · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:1220 (pros…",
+"spine-naming · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · case-variants +1 · control architecture.md:64 (prose)",
+"pump-thread · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:18 (prose)",
+"open-items · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:48 (pro…",
+"sig-with-gate · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:91 (…",
+"not-proc-panic · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:915 (pr…",
+"vt100-arrive · 0 rows (control fired) — a statement about this pattern, not the masters · control registries/contracts/…",
+"fuzz-3list · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control test-plan.md:434 (prose)",
+"term-indep · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control registries/contracts/test-plan/bootstrap-phase…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "5bcb0a0cc584e784f99865872b3f2f5995c1db50",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), afef92f8",
+"counts": {
+"spine-s": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"spine-750": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"spine-prov": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"spine-naming": {
+"new": 0,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"pump-thread": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"open-items": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"sig-with-gate": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"not-proc-panic": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"vt100-arrive": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"fuzz-3list": {
+"new": 1,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"term-indep": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]

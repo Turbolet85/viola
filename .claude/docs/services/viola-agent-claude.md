@@ -8,7 +8,7 @@ The only crate that knows Claude Code. It parses hook payloads tolerantly and ma
 ## Key integrations
 
 ### Consumes from
-As landed: `viola-core`, serde, serde_json, serde_path_to_error `=0.1.20` (the `hook` module's drift reports → instance detail file only) and thiserror (`IDENTITY_FLOOR`, `plan_strip`, `resolve_program`, `Refusal`, and the pure `ledger` module); dev-deps proptest, rstest. No `viola-state` dependency (the ledger chunk kept the crate pure; stamps I/O stays in `viola-state` + the root bin). Planned: vt100 0.16.2 (fed bytes by `run`'s pump, always under `catch_unwind`).
+As landed: `viola-core`, serde, serde_json, serde_path_to_error `=0.1.20` (the `hook` module's drift reports → instance detail file only) thiserror (`IDENTITY_FLOOR`, `plan_strip`, `resolve_program`, `Refusal`, and the pure `ledger` module) and vt100 `=0.16.2` (the pure `screen` module: `Screen`, its `verdict` → `ready` / `input-not-ready` / wait, `Signatures`, and the PROVISIONAL `QUIET_PERIOD` 300 ms / `GATE_MAX_WAIT` 5 s / `CONFIRM_WINDOW_FALLBACK` 10 s); dev-deps proptest, rstest. No `viola-state` dependency (the ledger chunk kept the crate pure; stamps I/O stays in `viola-state` + the root bin). `run`'s feed thread (`src/run/gate.rs`) feeds `screen` a copy of the pump output, always under `catch_unwind`; the signature and timing ledger rows are held.
 
 ### Publishes to
 `hook` (decision bodies), the wrapper (normalised events, readiness verdicts, version gate), `list` / `mcp` / `ui` (`claude agents --json` rows), `viola verify` (probes, fixture recorder).

@@ -1,0 +1,8 @@
+CLAUDE.md ecosystem curated:
+  Tier 1 (CLAUDE.md USER:session-learnings):  none
+  Tier 2 (.claude/rules/*):                   + testing.md: "To witness a fixture-level leak two-sided, first loop the fixture's own tests in a fresh short TMPDIR per side (control = the fix reverted in a copy of the tree) before reaching for a full mutation run — a synthetic scratch probe of the suspected mechanism can read 0 where the fixture's own code path reproduces it." (confidence 1.0)
+    Proof: chunk 2026-10-04-readiness-gate-and-timing-constants evidence/carry4.md — the `Pass` tests × 200 rounds per side read control 4 and 5, fix 0 and 0 on an idle host, where research M5's scratch probe (`gitrace.py`, 300 repos, both arms) read 0 / 0 / 0 / 0; the overseer confirmed the approach ("the cheaper CARRY 4 witness was the right call"). Signals: verified by measurement +0.4 · explicit operator endorsement +0.4 · specific technical detail +0.2.
+  Tier 3 (.claude/docs/session-learnings.md): none
+  Filters: 0 dup · 3 task-specific / one-off (a plan's named call sites missed one — sweep hazard, single event; `$CLAUDE_SCRATCH` unset in the Bash shell — one-off; the Bash guard's deny-glob refusal after a `cd` into the cargo registry — one-off) · 0 conflict · 0 deferred
+  Rejected at exactly 0.6 (lean default; both now carried by this wrap's P2 amendments, so no-other-home cannot fire): fixture throwaway repos run git with `maintenance.auto=false` (test-plan §3 → bootstrap-phases key); a libfuzzer-sys target over a catch_unwind'd parser installs a silent panic hook (test-plan §6 cargo-fuzz paragraph).
+  CLAUDE.md size: 124/200 · T1 1.8 KB, 0 over 600 B

@@ -299,3 +299,9 @@
 - Event-payload bullet: no workflow reads a `github.event` value; `ci.yml` runs no mutation job; the workflow's `--package` arm reads no base.
 **Why:** founder ruling C2 (2026-10-04). Not a boundary widening: no permission, secret, input class, upload or action pin is added.
 **Ref:** .andromeda/runs/2026-10-04T04-08-06-wrap/
+
+## 2026-10-04-readiness-gate-and-timing-constants — the vt100 degrade as landed on the PTY output row
+**Section:** §Input Validation (PTY output bytes (vt100) row)
+**Change:** the row keeps its rule (feed vt100 through `catch_unwind`; passthrough continues) and now states the landed degrade: a tee on `run`'s pump output writes the human's bytes first and hands a copy to a feed thread, which runs every feed and resize under the catch; a caught panic poisons the screen model until the host size changes, with one `parse-rejected{parser:"vt100-feed", detail:"panicked"}` line per poisoning and no screen text; a poisoned model reads `input-not-ready`, which confirmed `send` reports as `not-delivered`/`input-not-ready`. vt100 0.16.2 panics are reachable at real small sizes (a 24×1 screen + a wide character; 1×1 `?u`; 1×2 `abc`); `viola_pty::host_size` never yields a zero size. Open: the tee → feed queue is an unbounded `std::sync::mpsc`, owed a bound ("bound every input") by confirmed `send`. Where-column: `src/run/gate.rs` tee + feed thread; the `screen` model.
+**Why:** the readiness-gate chunk landed the feed; the panic sizes are measured; the overseer routed the queue's bound to confirmed `send`. Not a boundary widening: the feed reads the same PTY output bytes the row already governs.
+**Ref:** .andromeda/runs/2026-10-04T05-25-03-wrap/

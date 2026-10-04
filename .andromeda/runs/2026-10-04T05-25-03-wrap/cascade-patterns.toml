@@ -1,0 +1,43 @@
+[[pattern]]
+id = "spine-s"
+fixed = 'SPINE_DEADLINE_S'
+
+[[pattern]]
+id = "spine-750"
+regex = 'SPINE_DEADLINE[^0-9]{0,40}750'
+
+[[pattern]]
+id = "spine-prov"
+regex = 'provisional `?1\.0 ?s'
+
+[[pattern]]
+id = "spine-naming"
+regex = 'naming (it|the product constant)'
+
+[[pattern]]
+id = "pump-thread"
+regex = 'pump thread'
+
+[[pattern]]
+id = "open-items"
+regex = '(quiet period|maximum wait|fallback window)[^.]{0,120}open item'
+
+[[pattern]]
+id = "sig-with-gate"
+regex = 'signatures?[^.;]{0,40}with the readiness gate'
+
+[[pattern]]
+id = "not-proc-panic"
+fixed = 'not a process panic'
+
+[[pattern]]
+id = "vt100-arrive"
+regex = 'vt100[^.]{0,80}arrive'
+
+[[pattern]]
+id = "fuzz-3list"
+regex = 'channel_frame[^.]{0,80}hook_stdin[^.]{0,60}(have joined|then the remaining|\})'
+
+[[pattern]]
+id = "term-indep"
+fixed = 'terminate`-independent'

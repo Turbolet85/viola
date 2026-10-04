@@ -21,7 +21,7 @@ viola/
 │   ├── human.rs                # human-facing text: the refusal and internal-error stderr writers and the stdout result writer, called by `run` and `verify`
 │   ├── cmd/                    # one module per subcommand: run, send, wait, last, list,
 │   │                           #   answer, hook, mcp, ui, verify, pause, release, link, unlink, plugin
-│   ├── run/                    # PTY pump, wheel, budget governor, readiness gate wiring
+│   ├── run/                    # PTY pump, wheel, budget governor; gate.rs: the pump-output tee + vt100 feed thread
 │   └── bin/viola-fake-agent.rs # test-only stand-in `claude` (feature `fake-agent`)
 ├── tests/                      # root integration tests (sync)
 │   ├── cmd/*.toml              # trycmd cases: human-mode expected output (snapbox redactions)
@@ -29,14 +29,15 @@ viola/
 │   └── support/                # the sync root fixture chain + fixture-hygiene checker
 ├── schemas/                    # JSON schemas: fake-script.v1.json and claude-fixture.v1.json (test-side), diag-line/diag-detail.v1.json (obs line contracts)
 ├── crates/
-│   ├── viola-core/             # normalised events, RefusalReason, ViolaName, Percent, `v` constants
+│   ├── viola-core/             # normalised events, RefusalReason, ViolaName, Percent, `v` constants,
+│   │                           #   SPINE_DEADLINE, Clock / SystemClock
 │   │                           #   (+ proptest-regressions/, committed seeds)
 │   ├── viola-pty/              # pty seam over portable-pty =0.8.1 (+ windows-sys kill fallback; HostTerminal raw mode: windows-sys Console / libc termios;
 │   │                           #   `sideload` (Windows): the System32 DLL-search restriction + the absolute-path conpty.dll pre-load)
 │   ├── viola-channel/          # JSON-RPC 2.0 ndjson over interprocess local sockets
 │   ├── viola-state/            # ndjson logs, atomic snapshots, File::lock, torn-line healing, tailing
 │   ├── viola-agent-claude/     # hook parsing, dialog mapping, R8 strip, shim resolution,
-│   │                           #   capability ledger, screen signatures, statusline parsing
+│   │                           #   capability ledger, the vt100 screen model (`screen`), statusline parsing
 │   │                           #   (+ proptest-regressions/, committed seeds)
 │   ├── viola-mcp/              # rmcp 3.4.1 stdio server, thin adapter over viola-channel
 │   ├── viola-ui/               # axum 0.8.9 GET routes + SSE, Host allowlist
@@ -64,7 +65,7 @@ viola/
 ├── .config/nextest.toml        # nextest profiles `ci` and `mutants`, `fixed-port` group
 ├── fuzz/                       # separate cargo-fuzz workspace (own Cargo.lock; excluded from the root)
 │   ├── rust-toolchain.toml     # channel = "nightly-2026-09-20" (fuzz only)
-│   ├── fuzz_targets/{viola_name,channel_frame,hook_stdin}.rs
+│   ├── fuzz_targets/{viola_name,channel_frame,hook_stdin,vt100_feed}.rs
 │   └── corpus/<target>/        # committed synthetic seeds
 ├── fixtures/
 │   ├── claude/<cli-version>/   # hook-payload fixtures recorded by `viola verify`

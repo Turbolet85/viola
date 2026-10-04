@@ -43,7 +43,7 @@ The root package also declares `[[bin]] viola-fake-agent` (`required-features = 
 ## Testing this crate
 - **Unit tests:** `cargo nextest run -p viola`
 - **Integration / E2E:** `scripts/agent-run.sh run --integration` / `--e2e`
-- **Perf:** `scripts/agent-run.sh run --perf` then `gate --require perf` (hyperfine over the real `target/perf` `viola hook` per row, `max < 1.0 s`; the per-OS CI `perf` job)
+- **Perf:** `scripts/agent-run.sh run --perf` then `gate --require perf` (hyperfine over the real `target/perf` `viola hook` per row, `max <` `viola_core::SPINE_DEADLINE` (1.0 s); the per-OS CI `perf` job)
 - **Forced panic:** the `fake-agent` seam `src/cmd/hook/seam.rs` (`FAKE_AGENT_HOOK_PANIC=1`) drives `hook_fail_open.rs`'s forced-panic and over-4 KiB concurrent cases
 
 ## References
