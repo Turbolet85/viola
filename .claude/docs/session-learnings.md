@@ -8,6 +8,11 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-10-04 — A newly served channel method breaks the tests that pinned it unserved
+Before a chunk serves a method the wrapper used to answer `-32601`, grep the tests for that method's name beside `-32601` (or `MethodNotFound`): an older test that used the unserved method as a convenient request — here a debug-level log-content test that sent `send` because it reliably failed — keeps pinning the old answer, and a plan's "expect no change" list for that file misses it. Rewrite such a test to keep its own intent over the now-served path rather than switching it to another unserved method.
+
+---
+
 ## 2026-10-04 — Reading a `windows-mutants` dispatch while it runs
 `gh run view --job <id> --log` refuses until EVERY job of the run has finished ("run … is still in progress; logs will be available when it is complete"), so a finished job's log reads through `gh api repos/<owner>/<repo>/actions/jobs/<id>/logs --allow-escape-sequences` (without the flag it refuses the ANSI output), with the escapes stripped before grepping. Each job's harness document is its `{"v":1,"cmd":"run",…}` line, and the outcome lines carry every mutant's grade — read a MISSED line's cfg from source before calling it a survivor.
 

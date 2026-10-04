@@ -18,10 +18,11 @@ viola/
 ├── src/                        # the `viola` bin: anyhow edge only
 │   ├── main.rs                 # clap 4.6.7 dispatch (Windows: the System32 DLL-search restriction is its second statement)
 │   ├── conpty.rs               # Windows x64: the embedded ConPTY companions and their four pins (the vendor script parses this text)
-│   ├── human.rs                # human-facing text: the refusal and internal-error stderr writers and the stdout result writer, called by `run` and `verify`
+│   ├── human.rs                # human-facing text: the refusal and internal-error stderr writers, the stdout result writer, and `send`'s readback mirror (`[  ] open` / `[RB] read back` / `[/ ] unable` + its hints), called by `run`, `verify` and `send`
 │   ├── cmd/                    # one module per subcommand: run, send, wait, last, list,
 │   │                           #   answer, hook, mcp, ui, verify, pause, release, link, unlink, plugin
-│   ├── run/                    # PTY pump, wheel, budget governor; gate.rs: the pump-output tee + vt100 feed thread
+│   ├── run/                    # PTY pump, wheel, budget governor; gate.rs: the pump-output tee + bounded vt100 feed + Gate;
+│   │                           #   send.rs: the wrapper's `send` method, the one-in-flight slot, the driver relabel
 │   └── bin/viola-fake-agent.rs # test-only stand-in `claude` (feature `fake-agent`)
 ├── tests/                      # root integration tests (sync)
 │   ├── cmd/*.toml              # trycmd cases: human-mode expected output (snapbox redactions)
@@ -29,10 +30,11 @@ viola/
 │   └── support/                # the sync root fixture chain + fixture-hygiene checker
 ├── schemas/                    # JSON schemas: fake-script.v1.json and claude-fixture.v1.json (test-side), diag-line/diag-detail.v1.json (obs line contracts)
 ├── crates/
-│   ├── viola-core/             # normalised events, RefusalReason, ViolaName, Percent, `v` constants,
+│   ├── viola-core/             # normalised events, RefusalReason + NotDelivered, validate_paste_text, ViolaName, Percent, `v` constants,
 │   │                           #   SPINE_DEADLINE, Clock / SystemClock
 │   │                           #   (+ proptest-regressions/, committed seeds)
 │   ├── viola-pty/              # pty seam over portable-pty =0.8.1 (+ windows-sys kill fallback; HostTerminal raw mode: windows-sys Console / libc termios;
+│   │                           #   PasteHandle: the child's input writer shared by the human copy and the one-write bracketed paste;
 │   │                           #   `sideload` (Windows): the System32 DLL-search restriction + the absolute-path conpty.dll pre-load)
 │   ├── viola-channel/          # JSON-RPC 2.0 ndjson over interprocess local sockets
 │   ├── viola-state/            # ndjson logs, atomic snapshots, File::lock, torn-line healing, tailing
@@ -65,7 +67,7 @@ viola/
 ├── .config/nextest.toml        # nextest profiles `ci` and `mutants`, `fixed-port` group
 ├── fuzz/                       # separate cargo-fuzz workspace (own Cargo.lock; excluded from the root)
 │   ├── rust-toolchain.toml     # channel = "nightly-2026-09-20" (fuzz only)
-│   ├── fuzz_targets/{viola_name,channel_frame,hook_stdin,vt100_feed}.rs
+│   ├── fuzz_targets/{viola_name,channel_frame,hook_stdin,vt100_feed,paste_text}.rs
 │   └── corpus/<target>/        # committed synthetic seeds
 ├── fixtures/
 │   ├── claude/<cli-version>/   # hook-payload fixtures recorded by `viola verify`

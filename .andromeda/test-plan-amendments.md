@@ -453,3 +453,19 @@
 - §3 → bootstrap-phases: the 21 half-removed fixture repos' cause is the detached `git maintenance run --auto` each fixture commit spawned; fixture repos run git with `-c maintenance.auto=false`. Measured on the `Pass` tests (4 and 5 per 200 rounds without, 0 and 0 with); the full mutation run under the fix is not measured.
 **Why:** the readiness-gate chunk named the spine constant, landed the vt100 property and target, and carried CARRY 4's two-sided witness.
 **Ref:** .andromeda/runs/2026-10-04T05-25-03-wrap/
+
+## 2026-10-04-confirmed-send-with-cl-1-records — Path 2 as landed; paste_text joins the fuzz targets
+**Section:** §1 Test Scope Summary (the confirmed-`send` path) · §2 Test pyramid (Property-based row) · §6 Scenario Path 2 (Surfaces; the `local` and Playwright bullets) · §6 Property suite · §7 Fake agent (Modes) · §3 → `5-command-implementation`
+**Change:**
+- Path 2 as landed: `path2_send_confirms_with_cl1_events` covers cli, the wrapper channel and the receipt on three OSes; MCP `send` is owed to `:102`, SSE to `:131`, the web half and Playwright to `:139`.
+- `local` was exit 0 `{confirmed:false, detail:"unconfirmable", cursor}`; now exit 13 `not-delivered`/`no-prompt-submitted` while no local-command row is compiled, never presumed delivered; `unconfirmable` (and the Playwright local line's `data-rb="unconfirmable"`) is owed to `:82`. §1's "a local command yields `unconfirmable`" says the same.
+- Fuzz targets: `paste_text` joins (`validate_paste_text` against a per-char oracle over lossy UTF-8; 8 synthetic seeds, byte-exact under `.gitattributes`); the `validate_paste_text` property landed at 512 cases.
+- Fake agent: `--vt100-panic-bytes` was "lands with confirmed `send`'s chaos case"; now built (after its `start` receipt it writes `e4 b8 ad` once and receipts nothing new).
+**Why:** what confirmed `send` landed; the `local` outcome follows F2, the overseer's hold of the local-command rows with the typed probe.
+**Ref:** .andromeda/runs/2026-10-04T06-44-39-wrap/
+
+## 2026-10-04-confirmed-send-with-cl-1-records — the second test-data carve-out: the chaos home (F4)
+**Section:** §5 Integration (Setup / teardown lifecycle) · §3 → `test-data-bootstrap` (Mechanism; Cleanup) · §7 Test Data (Test data lifecycle, CI)
+**Change:** homes were under `target/e2e-home` with one carve-out (`seed_conpty`); now a second: `tests/chaos_feed_panic.rs` alone boots in `TestHome::outside_scan()`, a `viola-chaos-*` home under the system temp dir, because its forced vt100 feed panic writes a G2-counted `event:"panic"` line. That home is outside G2 (zero panics), G4 (schema conformance) and the secret scan; the test asserts its panic line and its `parse-rejected{vt100-feed, panicked}` line present itself.
+**Why:** the founder's ruling, live, 2026-10-04, relayed by the overseer, naming all three scans.
+**Ref:** .andromeda/runs/2026-10-04T06-44-39-wrap/

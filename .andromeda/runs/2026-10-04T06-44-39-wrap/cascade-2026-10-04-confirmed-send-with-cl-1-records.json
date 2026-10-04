@@ -1,0 +1,241 @@
+[
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "1550f3bc",
+"ts": "2026-10-04T08:52:23Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-04T06-44-39-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-04T06-44-39-wrap",
+"--marker",
+"2026-10-04-confirmed-send-with-cl-1-records"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"baseline 51b53388 (pre-CI parent — the oldest of 1 pre-CI commit(s), a6abfc2f)",
+"fallback-only · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:48 (prose)",
+"unbounded-feed · new 0 · standing 6 · leaf 2 · curation 0 · base 0 · control security-plan.md:224 (prose)",
+"paste-coreerror · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:2…",
+"local-unconfirm · new 2 · standing 5 · leaf 1 · curation 0 · base 0 · control architecture.md:136 (prose)",
+"fuzz-four · new 1 · standing 4 · leaf 0 · curation 0 · base 0 · control architecture.md:413 (prose)",
+"panic-bytes-owed · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control test-plan.md:1076 (prose)",
+"first-consumer · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:48 …",
+"one-dated-exc · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control security-plan.md:524 (prose)",
+"g2-question · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:915 (prose)",
+"every-home · new 0 · standing 3 · leaf 0 · curation 0 · base 0 · case-variants +2 · control architecture.md:416 (prose)",
+"panicked-only · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:915 (pro…",
+"kinds-list · new 0 · standing 1 · leaf 2 · curation 0 · base 0 · control architecture.md:163 (prose)",
+"nd-details · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:133 (prose)",
+"v-rejected · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control obs-plan.md:472 (prose)",
+"exit-set · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:648 (prose)",
+"human-callers · 0 rows (control fired) — a statement about this pattern, not the masters · control registries/contracts…",
+"core-deps · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control registries/contracts/architecture/crate-depende…",
+"hook-origin · new 0 · standing 3 · leaf 0 · curation 0 · base 0 · control architecture.md:285 (prose)",
+"send-order · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:136 (pr…",
+".andromeda/architecture.md:48 fallback-only standing edited @c2601/2656 …F1 reading of \"falls back to delivery confirma…",
+".andromeda/security-plan.md:224 unbounded-feed standing edited …it of 128 (never `unbounded_depth`). **Version:** the `…",
+".andromeda/security-plan.md:281 unbounded-feed standing ….ndjson` retention, unbounded growth of the file can exhaust l…",
+".andromeda/security-plan.md:539 unbounded-feed standing - NEVER enable serde_json's `unbounded_depth` feature.",
+".andromeda/obs-plan.md:1137 unbounded-feed standing …p derived metrics by unbounded keys (`path`, `corr`, `conn`, `pid`…",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:43 unbounded-feed standing @c1725/2256 …n unbound…",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:45 unbounded-feed standing @c1889/3312 …s unbound…",
+"CLAUDE.md:39 unbounded-feed leaf - Bound every input: names only via `ViolaName::try_new` before a path join; `Read::ta…",
+".claude/rules/security.md:25 unbounded-feed leaf …y external reader; serde_json default depth (never `unbounded_depth`).",
+".andromeda/architecture.md:136 local-unconfirm standing edited …\":false,\"detail\":\"unconfirmable\"}`), for a ledger-liste…",
+".andromeda/design-system.md:755 local-unconfirm standing [  ] unconfirmable  builder  local command, no measured post-c…",
+".andromeda/layout-templates.md:351 local-unconfirm standing …s a refusal; `[  ] unconfirmable …` on stdout with exit 0 …",
+".andromeda/layout-templates.md:419 local-unconfirm standing [  ] unconfirmable  builder  local command, no measured pos…",
+".andromeda/test-plan.md:233 local-unconfirm standing edited …used` is logged. A local command yields `unconfirmable` on…",
+".andromeda/test-plan.md:749 local-unconfirm new …nfirmed:false, detail:\"unconfirmable\", cursor}` is owed to `:82`, whic…",
+".andromeda/test-plan.md:750 local-unconfirm new …line reaches `data-rb=\"unconfirmable\"` once `:82` lands the local-comm…",
+".claude/docs/tests-summary.md:26 local-unconfirm leaf …13 + `send-refused`; local command → `unconfirmable`; readback `…",
+".andromeda/architecture.md:417 fuzz-four standing edited mixed ×2 …channel_frame`, `hook_stdin`, `vt100_feed` and `past…",
+".andromeda/test-plan.md:434 fuzz-four new …nnel's ndjson framing), `hook_stdin` (the `viola hook` stdin parser) `vt100_…",
+".andromeda/test-plan.md:1028 fuzz-four standing edited … synthetic seeds), `hook_stdin` (the `viola hook` stdin parser,…",
+".andromeda/registries/contracts/architecture/project-directory-structure.md:70 fuzz-four standing edited …ame,hook_stdi…",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:52 fuzz-four standing …seeds; `hook_stdin`: 10 sy…",
+".claude/rules/verification-harness.md:42 panic-bytes-owed leaf …port-version`. `--vt100-panic-bytes`, `statusline-echo`…",
+".andromeda/security-plan.md:524 one-dated-exc standing edited …by the overseer); no other frame or process may borrow e…",
+".claude/rules/security.md:14 one-dated-exc leaf ×2 … only, recorded gap). One dated exception, ratified by the founder …",
+".andromeda/architecture.md:420 every-home standing edited …never under `CI`): every harness and test home but the one `…",
+".andromeda/obs-plan.md:1011 every-home standing edited …t runs. Their viola homes must live under `target/e2e-home/` (t…",
+".andromeda/obs-plan.md:1044 every-home standing edited … harness lifecycle; every viola home under `target/e2e-home/` b…",
+".andromeda/architecture.md:163 kinds-list standing edited … `link`, `unlink`, `wheel`, `budget-gate`, `send-issued`, `s…",
+".claude/rules/events.md:16 kinds-list leaf …ity`, `link`, `unlink`, `wheel`, `budget-gate` (+ the CL-1 send issue/outco…",
+".claude/rules/events.md:17 kinds-list leaf …ssion-end`; `activity`, `wheel`, `budget-gate` and the send records are log…",
+".andromeda/architecture.md:133 nd-details standing edited …rompt-submitted` · `turn-running` · `unknown-dialog` · `cont…",
+".andromeda/obs-plan.md:472 v-rejected standing edited   - Higher-`v` rejections (-32602; the code also carries `send`'s…",
+".andromeda/obs-plan.md:773 v-rejected standing edited ×2 …unknown` fallback / higher-`v` rejections | `viola.compat.unk…",
+".andromeda/registries/contracts/architecture/crate-dependency-direction.md:2 core-deps standing edited …ty: nutype (`Vi…",
+".andromeda/architecture.md:285 hook-origin standing edited …t` is a string and `origin` is `harness` · `human`) and app…",
+".andromeda/architecture.md:291 hook-origin standing edited …nt text directly. `origin` is `driver` · `human` · `harness…",
+".andromeda/security-plan.md:224 hook-origin standing edited …t` is a string and `origin` is `harness` · `human`; an inv…",
+"fallback-only · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:48 (prose)",
+"unbounded-feed · new 0 · standing 6 · leaf 2 · curation 0 · base 0 · control security-plan.md:224 (prose)",
+"paste-coreerror · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:2…",
+"local-unconfirm · new 2 · standing 5 · leaf 1 · curation 0 · base 0 · control architecture.md:136 (prose)",
+"fuzz-four · new 1 · standing 4 · leaf 0 · curation 0 · base 0 · control architecture.md:413 (prose)",
+"panic-bytes-owed · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control test-plan.md:1076 (prose)",
+"first-consumer · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:48 …",
+"one-dated-exc · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control security-plan.md:524 (prose)",
+"g2-question · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:915 (prose)",
+"every-home · new 0 · standing 3 · leaf 0 · curation 0 · base 0 · case-variants +2 · control architecture.md:416 (prose)",
+"panicked-only · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:915 (pro…",
+"kinds-list · new 0 · standing 1 · leaf 2 · curation 0 · base 0 · control architecture.md:163 (prose)",
+"nd-details · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:133 (prose)",
+"v-rejected · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control obs-plan.md:472 (prose)",
+"exit-set · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:648 (prose)",
+"human-callers · 0 rows (control fired) — a statement about this pattern, not the masters · control registries/contracts…",
+"core-deps · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control registries/contracts/architecture/crate-depende…",
+"hook-origin · new 0 · standing 3 · leaf 0 · curation 0 · base 0 · control architecture.md:285 (prose)",
+"send-order · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:136 (pr…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "51b533886b7c011f54d9bb31971467f7416b7140",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), a6abfc2f",
+"counts": {
+"fallback-only": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"unbounded-feed": {
+"new": 0,
+"standing": 6,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"paste-coreerror": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"local-unconfirm": {
+"new": 2,
+"standing": 5,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"fuzz-four": {
+"new": 1,
+"standing": 4,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"panic-bytes-owed": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"first-consumer": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"one-dated-exc": {
+"new": 0,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"g2-question": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"every-home": {
+"new": 0,
+"standing": 3,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"panicked-only": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"kinds-list": {
+"new": 0,
+"standing": 1,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"nd-details": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"v-rejected": {
+"new": 0,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"exit-set": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"human-callers": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"core-deps": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"hook-origin": {
+"new": 0,
+"standing": 3,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"send-order": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]

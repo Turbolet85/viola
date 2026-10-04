@@ -1,5 +1,5 @@
 **Crate dependency direction** (enforced by manifests)
-- `viola-core` depends on no viola crate. Third-party: nutype (`ViolaName`, `Percent`).
+- `viola-core` depends on no viola crate. Third-party: nutype (`ViolaName`, `Percent`) and serde (`derive`, for the kebab-case `RefusalReason` / `NotDelivered`), with the dev-dependency serde_json.
 - `viola-pty` depends on no viola crate and knows no agent. Third-party (as landed): portable-pty, tracing (the `pty.spawn` span), windows-sys (Windows only), libc (Unix only; termios raw mode and the terminal size). No thiserror ([Error Handling]).
 - `viola-channel` → `viola-core`, interprocess, serde, serde_json, thiserror, tracing, veil, windows-sys (Windows only: the SQOS client open adopted by `Stream::try_from`, and the listener DACL through `Win32_Security_Authorization`), libc (Unix only: the uid for the socket directory). As landed it is sync and tokio-free, with a sync client and server; the Tokio client arrives behind the `tokio` feature with `viola-mcp`.
 - `viola-state` → `viola-core`, chrono, serde, serde_json, sha2 (the pinned-copy key and re-hash), sysinfo (the pid + start-time liveness check, shared by CLI `list`, `mcp` and `ui`), tempfile (the one `persist` helper), thiserror, tracing, and notify with tailing.

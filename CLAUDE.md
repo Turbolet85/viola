@@ -19,7 +19,7 @@ viola is a standalone, cross-platform (Windows first) bridge that lets one inter
 ## Modules
 <!-- GENERATED:setup:modules start -->
 - **`viola-core`** — normalised event kinds, `RefusalReason`, `ViolaName`, `Percent`, `v` constants, `validate_paste_text`, `MAX_FRAME`, `SPINE_DEADLINE`, the `Clock` seam, `obs_event!`
-- **`viola-pty`** — PTY seam (spawn · read · write · resize · wait · kill) over portable-pty `=0.8.1`; knows no agent; Windows `sideload` (System32 DLL-search restriction + absolute-path pre-load of the vendored `conpty.dll`)
+- **`viola-pty`** — PTY seam (spawn · read · write · resize · wait · kill) over portable-pty `=0.8.1`; `PasteHandle`, the child's input shared by the human copy and the one-write bracketed paste; knows no agent; Windows `sideload` (System32 DLL-search restriction + absolute-path pre-load of the vendored `conpty.dll`)
 - **`viola-channel`** — JSON-RPC 2.0 over ndjson on interprocess local sockets; sync client/server, Tokio client behind a feature
 - **`viola-state`** — ndjson logs, atomic snapshots, `.lock` siblings, torn-line healing, tailing, liveness, strict-modes
 - **`viola-agent-claude`** — the only crate that knows Claude: hook parsing, dialog mapping, R8 strip, shim resolution, capability ledger, the vt100 screen model and readiness verdict

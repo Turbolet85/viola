@@ -1,0 +1,11 @@
+## 2026-10-04-confirmed-send-with-cl-1-records — confirmed send: kinds, refusals, exits, the relabel
+**Section:** §Conventions (normalised event kinds; `RefusalReason` details; the `send` refusal order; CLI exits `1` and `2`) · §Standard Contracts (`hook.event`; Event `data` per kind; the wrapper-appended kinds) · [Delivery Confirmation] · [Human Takeover / Wheel] · [Screen Model] · Design Philosophy
+**Change:**
+- Event kinds gain `send-issued` `{cursor, from?}` · `send-confirmed` `{cursor}` · `send-refused` `{refusal, detail, cursor?}` (`cursor` absent before `send-issued`), wrapper-appended, log-only.
+- `not-delivered` details gain `control-character`. The `send` order was `human-typing` → `budget-paused` → `turn-running` → gate → confirmation; now `control-character` first (`validate_paste_text`, CLI and wrapper), `turn-running` also for a second send in flight, `input-not-ready` also with no child, and a paste failing after `send-issued` is `input-not-ready` with its cursor.
+- `prompt-submitted.origin` `driver` is set only by the wrapper: a prompt whose text equals the in-flight send's exactly (any hook origin) is appended `driver`, then settles the send with that line's `ts`.
+- [Delivery Confirmation]: no local-command row is compiled, so a local command, `/clear` included, ends `not-delivered` until those rows land.
+- [Screen Model]: was "on unverified builds the gate falls back to delivery confirmation only"; now the gate is partial while no signature row is compiled (every build): poisoned or not quiet by the maximum wait refuses, quiet is ready with no row read. The tee → feed queue is `sync_channel(256)` + `try_send`; a dropped copy poisons like a panic (one `oversize` line per episode, a size message carrying the drop count). Design Philosophy names the partial gate.
+- Exit 1 gains `viola send`'s `Err` path (the `Send` arm prints `error: internal error`) and its open panic path (no stderr line: `src/main.rs` files only `verify` as `cli`); exit 2 gains over-cap or non-UTF-8 `send` text.
+**Why:** the first driving verb landed. The partial gate is the overseer's F1 reading; one-in-flight = `turn-running` was the P4 lean, reviewed at P5. Not a widening here: the boundary crossing is the security-plan's F3 entry.
+**Ref:** .andromeda/runs/2026-10-04T06-44-39-wrap/

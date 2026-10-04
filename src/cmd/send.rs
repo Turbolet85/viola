@@ -92,12 +92,14 @@ enum Reply {
         reason: String,
         detail: Option<String>,
     },
-    Fault(i64),
+    /// The contract's `detail`: `{code, message, data}` (architecture §Standard Contracts, CLI
+    /// `--json` output).
+    Fault(Value),
 }
 
 fn reply_of(frame: &Value) -> Option<Reply> {
     if let Some(error) = frame.get("error") {
-        return error["code"].as_i64().map(Reply::Fault);
+        return fault_detail(error).map(Reply::Fault);
     }
     let result = frame.get("result")?;
     if let Some(ok) = result.get("ok") {
@@ -110,6 +112,21 @@ fn reply_of(frame: &Value) -> Option<Reply> {
         Some(_) => return None,
     };
     Some(Reply::Refused { reason, detail })
+}
+
+/// A JSON-RPC `error` member as the wrapper-fault `detail`; `None` without an integer `code`.
+fn fault_detail(error: &Value) -> Option<Value> {
+    let code = error["code"].as_i64()?;
+    let message = error["message"].as_str().unwrap_or_default();
+    let data = match &error["data"] {
+        Value::Object(data) => Value::Object(data.clone()),
+        _ => Value::Null,
+    };
+    Some(json!({"code": code, "message": message, "data": data}))
+}
+
+fn fault_document(detail: &Value) -> Value {
+    json!({"v": 1, "error": "wrapper-fault", "detail": detail})
 }
 
 /// The closed refusal → exit table (architecture §Conventions exit codes).
@@ -194,10 +211,11 @@ impl Out<'_> {
         );
     }
 
-    fn fault(&self, code: i64) {
+    fn fault(&self, detail: &Value) {
         if self.json {
-            return self.document(&json!({"v": 1, "error": "wrapper-fault", "code": code}));
+            return self.document(&fault_document(detail));
         }
+        let code = detail["code"].as_i64().unwrap_or_default();
         let _ = human::write_wrapper_fault(&mut io::stderr().lock(), code);
     }
 }
@@ -259,8 +277,8 @@ fn deliver(home: &Path, text: &str, out: &Out<'_>) -> anyhow::Result<u8> {
             out.unable(&reason, detail.as_deref());
             exit_of(reason_of(&reason))
         }
-        Reply::Fault(code) => {
-            out.fault(code);
+        Reply::Fault(detail) => {
+            out.fault(&detail);
             run::log_self_exit(20, Some("wrapper-fault"));
             return Ok(20);
         }
@@ -372,13 +390,34 @@ mod tests {
         json!({"id": 1, "result": {"refusal": "human-typing", "detail": null}}),
         Some(Reply::Refused { reason: "human-typing".to_owned(), detail: None })
     )]
-    #[case::fault(json!({"id": 1, "error": {"code": -32603}}), Some(Reply::Fault(-32603)))]
+    #[case::fault(
+        json!({"id": 1, "error": {"code": -32603, "message": "internal error", "data": null}}),
+        Some(Reply::Fault(json!({"code": -32603, "message": "internal error", "data": null})))
+    )]
+    #[case::fault_with_data(
+        json!({"id": 1, "error": {"code": -32602, "message": "unsupported protocol version", "data": {"supported": 1, "wrapper": "0.1.0"}}}),
+        Some(Reply::Fault(json!({"code": -32602, "message": "unsupported protocol version", "data": {"supported": 1, "wrapper": "0.1.0"}})))
+    )]
+    #[case::fault_without_message_or_object_data(
+        json!({"id": 1, "error": {"code": -32603, "data": [1]}}),
+        Some(Reply::Fault(json!({"code": -32603, "message": "", "data": null})))
+    )]
     #[case::fault_without_code(json!({"id": 1, "error": {}}), None)]
     #[case::no_result(json!({"id": 1}), None)]
     #[case::refusal_not_string(json!({"id": 1, "result": {"refusal": 1}}), None)]
     #[case::detail_not_string(json!({"id": 1, "result": {"refusal": "x", "detail": 2}}), None)]
     fn reply_of_reads_the_three_shapes(#[case] frame: Value, #[case] want: Option<Reply>) {
         assert_eq!(reply_of(&frame), want);
+    }
+
+    /// architecture §Standard Contracts, CLI `--json` output: exit 20's one document.
+    #[test]
+    fn fault_document_is_the_contract_shape() {
+        let detail = json!({"code": -32603, "message": "internal error", "data": null});
+        assert_eq!(
+            fault_document(&detail).to_string(),
+            r#"{"v":1,"error":"wrapper-fault","detail":{"code":-32603,"message":"internal error","data":null}}"#
+        );
     }
 
     #[test]

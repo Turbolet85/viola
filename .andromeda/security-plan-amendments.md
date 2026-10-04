@@ -305,3 +305,22 @@
 **Change:** the row keeps its rule (feed vt100 through `catch_unwind`; passthrough continues) and now states the landed degrade: a tee on `run`'s pump output writes the human's bytes first and hands a copy to a feed thread, which runs every feed and resize under the catch; a caught panic poisons the screen model until the host size changes, with one `parse-rejected{parser:"vt100-feed", detail:"panicked"}` line per poisoning and no screen text; a poisoned model reads `input-not-ready`, which confirmed `send` reports as `not-delivered`/`input-not-ready`. vt100 0.16.2 panics are reachable at real small sizes (a 24×1 screen + a wide character; 1×1 `?u`; 1×2 `abc`); `viola_pty::host_size` never yields a zero size. Open: the tee → feed queue is an unbounded `std::sync::mpsc`, owed a bound ("bound every input") by confirmed `send`. Where-column: `src/run/gate.rs` tee + feed thread; the `screen` model.
 **Why:** the readiness-gate chunk landed the feed; the panic sizes are measured; the overseer routed the queue's bound to confirmed `send`. Not a boundary widening: the feed reads the same PTY output bytes the row already governs.
 **Ref:** .andromeda/runs/2026-10-04T05-25-03-wrap/
+
+## 2026-10-04-confirmed-send-with-cl-1-records — send's input validation as landed; the feed bound closed
+**Section:** §Input Validation (rows: Paste text · Channel frames · CLI arguments / stdin · PTY output bytes (vt100); Constants)
+**Change:**
+- Paste text: `validate_paste_text(&str)` was `-> Result<(), CoreError>`; now `-> Result<(), NotDelivered>`. It runs in `viola send` (exit 13 before any frame, a client `send-refused` line) and again first in the wrapper's `send`; the paste is one bracketed `write_all` through `viola-pty`'s `PasteHandle` (was "the `run` pump's paste writer").
+- Channel frames: `send` params — `text` a string, `from` absent, `null` or a `ViolaName` — else `-32602` `"invalid params"`, `data: null`, before the paste check.
+- CLI arguments / stdin and Constants: `viola send`'s stdin / `--file` text joins the `MAX_FRAME` consumers (`take(MAX_FRAME + 1)`; over the cap or non-UTF-8 → exit 2; a second positional is a usage error).
+- PTY output bytes: was "Open: the tee → feed queue is an unbounded `std::sync::mpsc`, owed a bound"; now `sync_channel(FEED_CAPACITY)`, 256 messages (≤ 2 MiB), `try_send` after the human's write, a dropped copy poisoning the model (one `parse-rejected{vt100-feed, oversize}` per episode) until a size change; the model behind a mutex shared with the gate, the catch inside the lock.
+**Why:** confirmed `send` is the bound's owner (the readiness-gate chunk's routing) and the paste surface's first consumer. Not a widening: every check the rows mandate is present.
+**Ref:** .andromeda/runs/2026-10-04T06-44-39-wrap/
+
+## 2026-10-04-confirmed-send-with-cl-1-records — the fourth dated gap: viola send before server verification (F3)
+**Section:** §Authentication & Authorization (IPC client-side server verification; `~/.viola/` access control) · §Input Validation (CLI arguments / stdin; Own state files on read) · §Security Anti-Patterns → Authentication
+**Change:**
+- A fourth dated interim gap, until the Epoch 6 entries "Server verification before any frame" and "Home and code-bearing file integrity" (`:109` / `:111` remove it): CLI `viola send` writes its `send` frame after a liveness-only pre-check — the snapshot's pid + start time alive, the heartbeat live, an `endpoint` present, else exit 21 — and checks neither the serving process's identity nor the strict-modes of the snapshot it reads. The residual is a same-user process squatting a stale endpoint name; the pipe DACL and the 0700 socket directory still apply. It does not borrow the `hook.event` exception.
+- The server-verification ban had one dated exception (`hook.event`); now two, and no other frame or process may borrow either.
+- `send` is served by the wrapper (it answered `-32601` before this chunk), under the channel row's controls and this gap.
+**Why:** a boundary widening, shown at P4 and held; ratified by the founder live on 2026-10-04, relayed by the overseer.
+**Ref:** .andromeda/runs/2026-10-04T06-44-39-wrap/

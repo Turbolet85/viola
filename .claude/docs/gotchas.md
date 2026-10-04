@@ -76,12 +76,12 @@ Rendered by `/andromeda-setup-project` on the first run and kept current by wrap
 
 ## CLI-native modals bypass every hook
 **What breaks:** a paste typed while a CLI-native modal is up ("Teach auto mode…") is swallowed; the screen also lags the hooks.
-**How to avoid:** the vt100 readiness gate (quiet period + input-box signature + no modal signature) before any send; every send confirmed after the fact; otherwise `not-delivered` / `input-not-ready`.
+**How to avoid:** the vt100 readiness gate (quiet period + input-box signature + no modal signature) before any send — partial while no signature row is compiled (a poisoned model or a screen not quiet within 5 s refuses; no row is read); every send confirmed after the fact; otherwise `not-delivered` / `input-not-ready`.
 **References:** arch [Screen Model], [Delivery Confirmation].
 
 ## Local commands fire no UserPromptSubmit
 **What breaks:** `/remote-control` (and other built-in local commands) never produce `prompt-submitted`, so a naive confirmation reports `not-delivered`.
-**How to avoid:** the ledger lists local commands with their post-condition (`/clear` → SessionStart `clear` + new `session_id`) or "none" → `ok` with `confirmed:false, detail:"unconfirmable"`. Skills are not local commands.
+**How to avoid:** the ledger lists local commands with their post-condition (`/clear` → SessionStart `clear` + new `session_id`) or "none" → `ok` with `confirmed:false, detail:"unconfirmable"`. No local-command row is compiled yet, so today a local command ends `not-delivered` / `no-prompt-submitted`, never `ok`. Skills are not local commands.
 **References:** arch [Delivery Confirmation], [CLI Version Compatibility].
 
 ## Long pastes arrive wrapped and escaped

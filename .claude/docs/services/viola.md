@@ -34,7 +34,8 @@ The root package also declares `[[bin]] viola-fake-agent` (`required-features = 
 
 ## Entry points for modification
 - **Dispatch:** `src/main.rs`, `src/cmd/<subcommand>.rs`
-- **Wrapper:** `src/run/` (pump, wheel, governor, gate wiring)
+- **Wrapper:** `src/run/` (pump, wheel, governor, gate wiring; `gate.rs` the bounded feed + `Gate`; `send.rs` the `send` method, one in flight, the driver relabel)
+- **Send verb:** `src/cmd/send.rs` (stdin / `--file` under `take(MAX_FRAME + 1)`, client paste check, the liveness pre-check, the readback mirror via `src/human.rs`, `--json`)
 - **Obs init / panic hook / detail writer:** `viola::obs`
 - **Verify / version gate / panic frames:** `src/cmd/verify.rs`, `src/run/version_gate.rs`, `src/panic_frames.rs`
 - **Fake agent:** `src/bin/viola-fake-agent.rs` (incl. the `-p/--print` mode `verify` drives)

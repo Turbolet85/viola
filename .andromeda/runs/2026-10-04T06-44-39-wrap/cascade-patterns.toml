@@ -1,0 +1,80 @@
+# The retired claims of this pass, by wording AND by mechanism (amendment-flow §Cascade step 2).
+[[pattern]]
+id = "fallback-only"
+regex = '(falls?|fall) back to (delivery )?confirmation'
+ignore_case = true
+
+[[pattern]]
+id = "unbounded-feed"
+regex = 'unbounded|bound every input|owed a bound'
+ignore_case = true
+
+[[pattern]]
+id = "paste-coreerror"
+regex = 'validate_paste_text[^|]{0,40}CoreError|paste writer'
+
+[[pattern]]
+id = "local-unconfirm"
+regex = 'local command[^.]{0,60}unconfirmable|unconfirmable[^.]{0,80}local'
+ignore_case = true
+
+[[pattern]]
+id = "fuzz-four"
+regex = 'hook_stdin[^.]{0,80}vt100_feed'
+
+[[pattern]]
+id = "panic-bytes-owed"
+regex = 'vt100-panic-bytes[^.]{0,60}(land|owed|consumer)'
+
+[[pattern]]
+id = "first-consumer"
+regex = 'first consumer is confirmed|verdict.s first consumer'
+
+[[pattern]]
+id = "one-dated-exc"
+regex = 'one dated exception|only interim gap|no other frame or process may borrow'
+ignore_case = true
+
+[[pattern]]
+id = "g2-question"
+regex = 'G2 counts the contained|G2 question|not witnessed at run level'
+
+[[pattern]]
+id = "every-home"
+regex = 'every (harness and test|viola) home|homes? (must )?live under (the workspace.s )?`target/e2e-home'
+
+[[pattern]]
+id = "panicked-only"
+regex = 'exactly one `parse-rejected\{parser:"vt100-feed", detail:"panicked"'
+
+[[pattern]]
+id = "kinds-list"
+regex = '`wheel`, `budget-gate`'
+
+[[pattern]]
+id = "nd-details"
+regex = '`turn-running` · `unknown-dialog`'
+
+[[pattern]]
+id = "v-rejected"
+regex = 'v_rejected|[Hh]igher-`v` rejections'
+
+[[pattern]]
+id = "exit-set"
+regex = '0 / 10 / 11 / 13 / 14 / 20 / 21'
+
+[[pattern]]
+id = "human-callers"
+regex = 'called by `run` and `verify`'
+
+[[pattern]]
+id = "core-deps"
+regex = 'nutype \(`ViolaName`, `Percent`\)'
+
+[[pattern]]
+id = "hook-origin"
+regex = '`origin` is `harness` · `human`|origin` (is|∈) `driver` · `human` · `harness`'
+
+[[pattern]]
+id = "send-order"
+regex = 'For `send`: `human-typing`'

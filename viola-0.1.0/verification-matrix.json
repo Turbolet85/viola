@@ -163,7 +163,7 @@
         "method": "integration",
         "acceptance": "On a booted wrapper whose fake agent never submits a prompt (`--suppress-prompt-submit`), a `viola send` A to one instance and a concurrent `viola send` B to the same instance (issued after A's `send-issued` record lands in `events.ndjson`) leave exactly one prompt typed — one `prompt` line in the fake agent's receipt; B returns `not-delivered` / `turn-running` (exit 13) before any paste and writes no `send-issued` record of its own; A's outcome (`not-delivered` / `no-prompt-submitted`, exit 13, and its `send-refused` event) carries the `cursor` of A's own `send-issued` record. Witness: `send_window_second_concurrent_send_is_refused_turn_running` in `tests/cli_send.rs`, run by `bash scripts/agent-run.sh run --integration --filter 'test(/path2_send_confirms_with_cl1_events|send_window_|send_leading_slash|send_unreachable/)'` on all three CI OSes.",
         "ref": "tests/cli_send.rs::send_window_second_concurrent_send_is_refused_turn_running",
-        "status": "implemented"
+        "status": "verified"
       },
       "chunk": "2026-10-04-confirmed-send-with-cl-1-records"
     },
