@@ -2425,5 +2425,54 @@
 }
 ]
 }
+},
+{
+"tool": "gate",
+"v": "1.6",
+"sha8": "9419d56e",
+"ts": "2026-10-04T10:28:24Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-04-wait-and-last",
+"--run-dir",
+".andromeda/runs/2026-10-04T09-55-57-implement",
+"--marker",
+"2026-10-04-wait-and-last"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"root /home/turbolet/dev/projects/viola · base bcff692e (the parent of the oldest pre-CI commit db15b2ba) · lists new 7 · modify 12 · derived 0 · record 1",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"recorded in-intent crates/viola-channel/src/frame.rs",
+"scope: clean — changed 20 · listed 19 · recorded 1 (companion 0 · mechanical 0 · in-intent 1 · widening 0) · absorbed 0 · excluded 63"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "/home/turbolet/dev/projects/viola",
+"base": "bcff692e42492088ca3712b6efaceccb75fff6a3",
+"base_why": "the parent of the oldest pre-CI commit db15b2ba",
+"counts": {
+"changed": 20,
+"listed": 19,
+"recorded": 1,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 1,
+"widening": 0
+},
+"excluded": 63,
+"unparsed": 0,
+"widening_without_word": 0
+}
 }
 ]

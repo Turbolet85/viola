@@ -1,0 +1,67 @@
+[[pattern]]
+id = "send-arm"
+regex = 'Send. dispatch arm'
+
+[[pattern]]
+id = "verify-only-cli"
+regex = 'only .verify. (under|as) .*cli|files only .verify.|panic(ked)? inside .viola send.'
+
+[[pattern]]
+id = "verify-internal"
+regex = 'panicked .verify. prints'
+
+[[pattern]]
+id = "last-empty"
+fixed = '`last` `{}`'
+
+[[pattern]]
+id = "wait-params"
+fixed = '{after?, timeout_ms?}'
+
+[[pattern]]
+id = "producers"
+fixed = '`run`, `hook` and `verify` have producers'
+
+[[pattern]]
+id = "borrow-either"
+fixed = 'may borrow either'
+
+[[pattern]]
+id = "send-gap"
+regex = 'viola send. (reads|writes) .(snapshot|its .send. frame)'
+
+[[pattern]]
+id = "heal"
+regex = 'heal(s|ing)? (a )?torn|torn-line heal'
+
+[[pattern]]
+id = "wait-last-after"
+regex = 'method:"wait"\|"last", after'
+
+[[pattern]]
+id = "wait-detail3"
+regex = 'instance-dead\|strict-modes-failed\|server-verify-failed'
+
+[[pattern]]
+id = "line-cap"
+fixed = 'replay and tail read each ndjson line'
+
+[[pattern]]
+id = "human-callers"
+fixed = 'called by `run`, `verify` and `send`'
+
+[[pattern]]
+id = "send-served"
+regex = 'served by the wrapper as of'
+
+[[pattern]]
+id = "fourth-gap"
+regex = '[Ff]ourth (interim|dated|exception)|[Ss]econd interim gap'
+
+[[pattern]]
+id = "wake-polls"
+regex = 'nothing polls|re-?scan|generation'
+
+[[pattern]]
+id = "envelope-from"
+regex = 'from.{0,60}-32600|-32600.{0,60}from'

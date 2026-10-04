@@ -782,11 +782,12 @@ hint: builder did not submit the prompt; check it, then send again
 
 **3. `viola wait` / `viola last`**
 - `wait` prints one static `waiting: builder` line on stderr (TTY only), then one result line on stdout:
-  - `turn-ended  builder  19:44:10.221Z  cursor 49102`
-  - `question  builder  dialog 7  cursor 49310` (`DIALOG` is not coloured here: this is a result, not the board)
+  - `turn-ended  builder  19:44:10.221Z  cursor 49102`; `session-end` and every other non-dialog kind take the same `<kind>  <name>  <time>  cursor <n>` form
+  - `question  builder  dialog 7  cursor 49310` (`DIALOG` is not coloured here: this is a result, not the board); `dialog unknown` when the event carries no `dialog_id`
   - `timed out  builder  30000 ms`
 - There is no spinner and no elapsed-time counter.
 - `last` prints `last  builder  turn-ended 19:44:10.221Z` on stderr (TTY only), then the message text on stdout with C0/C1 escaped, or `no message` on stderr for `null`.
+- Message mode, the escaper both verbs share: over decoded characters every control character (C0, DEL, C1) except `\n` and `\t` prints as `\xHH` text, two uppercase hex digits (ESC → `\x1B`, CR → `\x0D`, DEL → `\x7F`, U+009B → `\x9B`); nothing is stripped. `--json` output stays serde-escaped.
 
 **4. Wheel, link and gate verbs** (the phraseology is the design)
 - `viola pause builder` → `builder  wheel human  manual-pause  I have control`

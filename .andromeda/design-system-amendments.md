@@ -46,3 +46,9 @@
 **Why:** founder ruling of 2026-09-30, relayed by the overseer: 0.2.0 renders the session hierarchy as a node graph, which a build-less Lit page does not fit. Standing rule: relaxing any CSP directive or a ban is a boundary widening the founder rules live at the frontend-toolchain entry.
 **Kept:** every CSP directive and every ban (Lit API names swapped for their React sink counterparts, a narrowing); `viola-*` names and selectors as component names.
 **Ref:** .andromeda/runs/2026-10-01T12-19-55-wrap/
+
+## 2026-10-04-wait-and-last — cli pattern 3: session-end line and message mode
+**Section:** Surface: cli → Component Patterns 3 (`viola wait` / `viola last`)
+**Change:** The result lines gain `session-end` (every non-dialog kind takes the `turn-ended` form) and `dialog unknown` for an event without a `dialog_id`; message mode is spelled out: every control character but `\n` and `\t` prints as `\xHH`, two uppercase hex digits, never stripped; `--json` stays serde-escaped.
+**Why:** CARRY 1's escaper landed with its live consumer, `last`; the `session-end` result line had no form.
+**Ref:** .andromeda/runs/2026-10-04T10-29-04-wrap/

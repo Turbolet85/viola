@@ -18,11 +18,13 @@ viola/
 ├── src/                        # the `viola` bin: anyhow edge only
 │   ├── main.rs                 # clap 4.6.7 dispatch (Windows: the System32 DLL-search restriction is its second statement)
 │   ├── conpty.rs               # Windows x64: the embedded ConPTY companions and their four pins (the vendor script parses this text)
-│   ├── human.rs                # human-facing text: the refusal and internal-error stderr writers, the stdout result writer, and `send`'s readback mirror (`[  ] open` / `[RB] read back` / `[/ ] unable` + its hints), called by `run`, `verify` and `send`
+│   ├── human.rs                # human-facing text: the refusal and internal-error stderr writers, the stdout result writer, `send`'s readback mirror (`[  ] open` / `[RB] read back` / `[/ ] unable` + its hints), the message-mode escaper and the `wait` / `last` lines, called by `run`, `verify`, `send`, `wait`, `last` and the `main` catch site
 │   ├── cmd/                    # one module per subcommand: run, send, wait, last, list,
-│   │                           #   answer, hook, mcp, ui, verify, pause, release, link, unlink, plugin
+│   │                           #   answer, hook, mcp, ui, verify, pause, release, link, unlink, plugin;
+│   │                           #   client.rs (a helper, no subcommand): the channel client send / wait / last share
 │   ├── run/                    # PTY pump, wheel, budget governor; gate.rs: the pump-output tee + bounded vt100 feed + Gate;
-│   │                           #   send.rs: the wrapper's `send` method, the one-in-flight slot, the driver relabel
+│   │                           #   send.rs: the wrapper's `send` method, the one-in-flight slot, the driver relabel;
+│   │                           #   wait.rs: the WaitFeed (Mutex + Condvar wake, newest turn, start rebuild), `wait` / `last`
 │   └── bin/viola-fake-agent.rs # test-only stand-in `claude` (feature `fake-agent`)
 ├── tests/                      # root integration tests (sync)
 │   ├── cmd/*.toml              # trycmd cases: human-mode expected output (snapbox redactions)
@@ -37,7 +39,8 @@ viola/
 │   │                           #   PasteHandle: the child's input writer shared by the human copy and the one-write bracketed paste;
 │   │                           #   `sideload` (Windows): the System32 DLL-search restriction + the absolute-path conpty.dll pre-load)
 │   ├── viola-channel/          # JSON-RPC 2.0 ndjson over interprocess local sockets
-│   ├── viola-state/            # ndjson logs, atomic snapshots, File::lock, torn-line healing, tailing
+│   ├── viola-state/            # ndjson logs, atomic snapshots, File::lock, the events reader (`events::read_from`:
+│   │                           #   skips + counts torn / oversize lines; healing owed to route :85), tailing (with `ui`)
 │   ├── viola-agent-claude/     # hook parsing, dialog mapping, R8 strip, shim resolution,
 │   │                           #   capability ledger, the vt100 screen model (`screen`), statusline parsing
 │   │                           #   (+ proptest-regressions/, committed seeds)

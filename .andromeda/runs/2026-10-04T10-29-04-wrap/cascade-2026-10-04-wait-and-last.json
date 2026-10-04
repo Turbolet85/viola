@@ -1,0 +1,206 @@
+[
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "1550f3bc",
+"ts": "2026-10-04T10:38:51Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-04T10-29-04-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-04T10-29-04-wrap",
+"--marker",
+"2026-10-04-wait-and-last"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"baseline bcff692e (pre-CI parent — the oldest of 1 pre-CI commit(s), db15b2ba)",
+"send-arm · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:139 (pros…",
+"verify-only-cli · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:13…",
+"verify-internal · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:13…",
+"last-empty · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:277 (pr…",
+"wait-params · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:276 (p…",
+"producers · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:398 (pro…",
+"borrow-either · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:524…",
+"send-gap · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control security-plan.md:207 (prose)",
+"heal · new 0 · standing 4 · leaf 3 · curation 0 · base 0 · case-variants +1 · control architecture.md:50 (prose)",
+"wait-last-after · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:658 (p…",
+"wait-detail3 · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control obs-plan.md:660 (prose)",
+"line-cap · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control security-plan.md:235 (prose)",
+"human-callers · 0 rows (control fired) — a statement about this pattern, not the masters · control registries/contracts…",
+"send-served · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control security-plan.md:205 (prose)",
+"fourth-gap · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control security-plan.md:205 (prose)",
+"wake-polls · new 1 · standing 3 · leaf 0 · curation 0 · base 0 · control architecture.md:52 (prose)",
+"envelope-from · new 2 · standing 1 · leaf 0 · curation 0 · base 0 · control security-plan.md:506 (prose, markup)",
+".andromeda/security-plan.md:207 send-gap standing edited @c1946/6492 … the overseer: `viola send` reads `snapshot.json`…",
+".andromeda/security-plan.md:230 send-gap standing edited @c1556/2166 …le integrity\": `viola send` reads `snapshot.json`…",
+".andromeda/architecture.md:50 heal standing edited …`write` call. Readers heal a torn last line. As landed, the one rea…",
+".andromeda/test-plan.md:47 heal standing …ck` on `.lock` siblings, torn-line healing, tailing, pid + start-time livenes…",
+".andromeda/obs-plan.md:71 heal standing …ic snapshots, `File::lock`, torn-line healing, notify tailing, sysinfo liveness",
+".andromeda/obs-plan.md:278 heal standing … live→stale transitions, torn-line healing, snapshot replay recovery, the SSE…",
+"CLAUDE.md:24 heal leaf …son logs, atomic snapshots, `.lock` siblings, torn-line healing, tailing, liveness, strict-modes",
+".claude/rules/events.md:34 heal leaf - Readers heal a torn last line and count it; unknown kinds and fields are skipped…",
+".claude/docs/services/viola-state.md:6 heal leaf …s (opened for write), torn-line healing, notify 8.2.0 tailing, livene…",
+".claude/docs/obs-summary.md:68 wait-detail3 leaf …rnal-error`; exit 21 `instance-dead|strict-modes-failed|server-verify…",
+".andromeda/security-plan.md:235 line-cap standing edited …t`) | **Line cap:** replay and tail read each ndjson line wit…",
+".andromeda/security-plan.md:205 send-served standing edited mixed ×2 @c2692,3408/3836 …`send` is served by the wrapper …",
+".andromeda/security-plan.md:205 fourth-gap standing edited @c1993/3836 …026-09-28`). **Second interim gap (the founder'…",
+".andromeda/security-plan.md:230 fourth-gap standing edited @c1360/2166 …` (exit 13). A fourth interim gap (the founder'…",
+".andromeda/architecture.md:52 wake-polls standing edited @c323/3206 … that event, so nothing polls and a driver parked …",
+".andromeda/architecture.md:276 wake-polls new ×4 …eed`): one `Mutex` (a generation counter + the newest turn) and one `…",
+".andromeda/design-system.md:846 wake-polls standing …safe\" choices across generations.** The readback box and the cocke…",
+".andromeda/obs-plan.md:552 wake-polls standing identity + snapshot generation]_",
+".andromeda/architecture.md:274-275 envelope-from new wrap …ata: null`, never `-32600`. - `send` `{text, from?}` → `{sub…",
+".andromeda/security-plan.md:224 envelope-from new …param, so a mistyped `from` reaches the method's `-32602`, never an …",
+".andromeda/security-plan.md:506 envelope-from standing markup …aults, including `-32600` for frames over `MAX_FRAME` an…",
+"send-arm · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:139 (pros…",
+"verify-only-cli · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:13…",
+"verify-internal · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:13…",
+"last-empty · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:277 (pr…",
+"wait-params · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:276 (p…",
+"producers · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:398 (pro…",
+"borrow-either · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:524…",
+"send-gap · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control security-plan.md:207 (prose)",
+"heal · new 0 · standing 4 · leaf 3 · curation 0 · base 0 · case-variants +1 · control architecture.md:50 (prose)",
+"wait-last-after · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:658 (p…",
+"wait-detail3 · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control obs-plan.md:660 (prose)",
+"line-cap · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control security-plan.md:235 (prose)",
+"human-callers · 0 rows (control fired) — a statement about this pattern, not the masters · control registries/contracts…",
+"send-served · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control security-plan.md:205 (prose)",
+"fourth-gap · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control security-plan.md:205 (prose)",
+"wake-polls · new 1 · standing 3 · leaf 0 · curation 0 · base 0 · control architecture.md:52 (prose)",
+"envelope-from · new 2 · standing 1 · leaf 0 · curation 0 · base 0 · control security-plan.md:506 (prose, markup)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "bcff692e42492088ca3712b6efaceccb75fff6a3",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), db15b2ba",
+"counts": {
+"send-arm": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"verify-only-cli": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"verify-internal": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"last-empty": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"wait-params": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"producers": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"borrow-either": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"send-gap": {
+"new": 0,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"heal": {
+"new": 0,
+"standing": 4,
+"leaf": 3,
+"curation": 0,
+"base": 0
+},
+"wait-last-after": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"wait-detail3": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"line-cap": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"human-callers": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"send-served": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"fourth-gap": {
+"new": 0,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"wake-polls": {
+"new": 1,
+"standing": 3,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"envelope-from": {
+"new": 2,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]

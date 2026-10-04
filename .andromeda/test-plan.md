@@ -754,7 +754,7 @@ Skipped as "untestable" per test-scope Sec 1:
 
 #### Scenario: Path 3 — `wait` / `last` event-driven readback (§6 live flow)
 
-- **Surfaces involved:** cli, ipc-internal (channel + MCP `wait`/`last`), api-service, web-spa
+- **Surfaces involved:** cli, ipc-internal (channel + MCP `wait`/`last`), api-service, web-spa. As landed (chunk 2026-10-04-wait-and-last), `tests/cli_wait_last.rs` covers cli and ipc-internal (the wrapper channel) on all three CI OSes, over the gated fake script `fixtures/fake-scripts/path3.json` (a gated `PostToolUse`, then a gated `Stop`): `path3_wait_parks_until_turn_ended_then_last_reads_it`, `wait_after_a_send_cursor_returns_the_turn` and `last_survives_a_wrapper_restart`; the vanished-wrapper half is `tests/chaos_wait_vanish.rs` `chaos_wait_parked_wrapper_killed_exits_21`. The MCP `wait` / `last` steps and their verification are owed to `:102`, the `/api/sessions` STATUS transition to `:129`, the Playwright STATUS cell to `:139`, and the end-to-end `question` / `permission` / `plan` wake witness to `:78` (those kinds wake at unit level today).
 - **Steps:**
   1. Boot `overseer` and `builder`. The builder fake script is: on a prompt, fire PostToolUse (activity), then Stop with `last_assistant_message:"done: <prompt>"`, gated on a control line the test writes to the fake agent's control file, so the test orders the events deterministically.
   2. Run `viola send builder --json` as overseer to get cursor C. Spawn `viola wait builder --after C --json --timeout-ms 30000` with std::process.

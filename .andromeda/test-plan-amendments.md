@@ -469,3 +469,9 @@
 **Change:** homes were under `target/e2e-home` with one carve-out (`seed_conpty`); now a second: `tests/chaos_feed_panic.rs` alone boots in `TestHome::outside_scan()`, a `viola-chaos-*` home under the system temp dir, because its forced vt100 feed panic writes a G2-counted `event:"panic"` line. That home is outside G2 (zero panics), G4 (schema conformance) and the secret scan; the test asserts its panic line and its `parse-rejected{vt100-feed, panicked}` line present itself.
 **Why:** the founder's ruling, live, 2026-10-04, relayed by the overseer, naming all three scans.
 **Ref:** .andromeda/runs/2026-10-04T06-44-39-wrap/
+
+## 2026-10-04-wait-and-last — Path 3 as landed
+**Section:** §6 E2E Test Strategy → Scenario: Path 3 — `wait` / `last` (Surfaces involved)
+**Change:** Path 3 now records its landed half: `tests/cli_wait_last.rs` (`path3_wait_parks_until_turn_ended_then_last_reads_it`, `wait_after_a_send_cursor_returns_the_turn`, `last_survives_a_wrapper_restart`) over `fixtures/fake-scripts/path3.json`, and `tests/chaos_wait_vanish.rs`, cli + wrapper channel on all three CI OSes; the MCP steps owed to `:102`, `/api/sessions` to `:129`, the page STATUS to `:139`, the dialog kinds' end-to-end witness to `:78`.
+**Why:** the scenario named four surfaces with no landed or owed status, overstating what this chunk covered.
+**Ref:** .andromeda/runs/2026-10-04T10-29-04-wrap/

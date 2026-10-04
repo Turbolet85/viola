@@ -17,7 +17,7 @@ Every workspace crate and the root bin: event kinds (kebab-case wire values), `R
 None beyond the workspace-shared third-party crates; tokio is banned in its graph (the sole-root `deny-sync.toml` ban; `viola-core` is listed in `scripts/sync-crates.txt`).
 
 ## Internal conventions
-- New event kinds and refusal details are added ONLY here, never with Claude-specific names; `detail` values are kebab-case strings from a closed set per reason.
+- New event kinds and refusal details are added ONLY here, never with Claude-specific names; `detail` values are kebab-case strings from a closed set per reason. `EventKind` holds 13 kinds, the dialog kinds `question` / `permission` / `plan` among them; `EventKind::WAIT_WAKE` is the one wake set (`turn-ended`, `question`, `permission`, `plan`, `session-end`) the wrapper's `wait` and the channel's `outcome` both read.
 - `validate_paste_text(&str) -> Result<(), NotDelivered>` checks decoded `char`s: LF/CR/TAB allowed; every other C0, DEL and C1 → `not-delivered` / `control-character`. Called by the CLI (and MCP when it lands) client side and again by the wrapper (authoritative). `RefusalReason` and the closed `not-delivered` details `NotDelivered` are kebab-case serde enums with `as_str`; `EventKind` carries the three `send-*` kinds.
 - `ViolaName`: `[a-z0-9-]`, 1–32 chars, starts with a letter; every `instances/<name>` join and every clap/MCP/channel/SSE name goes through `ViolaName::try_new`.
 - `ObsEvent` variants equal the `event` enum in `schemas/diag-line.v1.json` (a tests-owned check asserts it); `a11y-violation` is not a variant.

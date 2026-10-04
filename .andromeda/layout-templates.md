@@ -350,7 +350,7 @@ One token vocabulary (`color-*`, `space-*`, `radius-*`, the typography roles) se
 1. The issue line `[  ] open …`, on stderr and only on a TTY. It is printed when the request goes to the wrapper.
 2. The outcome line: `[RB] read back …` on stdout with exit 0 when the matching `prompt-submitted` confirms the send; `[/ ] unable …` on stderr with exit 13 (or 10/11/12/14) when the wrapper returns a refusal; `[  ] unconfirmable …` on stdout with exit 0 for an unmeasured local command.
 
-The word half of the box (`unable` plus `reason  detail`) is also the first-word column of every other verb's refusal line (`viola answer`, `viola pause`, `viola release`). So the struck-box vocabulary is shared, while the glyph itself belongs to `send`. Under `--json` the mirror is replaced by the typed `ok` / `refusal` document. The supporting attention element, the amber `DIALOG` word, appears only in `viola list`.
+The word half of the box (`unable` plus `reason  detail`) is also the first-word column of every other verb's refusal line (`viola answer`, `viola pause`, `viola release`, and `viola wait` / `viola last` for exit 21). So the struck-box vocabulary is shared, while the glyph itself belongs to `send`. Under `--json` the mirror is replaced by the typed `ok` / `refusal` document. The supporting attention element, the amber `DIALOG` word, appears only in `viola list`.
 
 ### Primary screens (commands)
 
@@ -430,15 +430,20 @@ The word column is padded so `open`, `read back`, `unable` and `unconfirmable` l
 $ viola wait builder --after 48213
 waiting: builder                                          <- stderr, TTY only, printed once
 turn-ended  builder  19:44:10.221Z  cursor 49102          <- stdout
+session-end  builder  19:52:03.118Z  cursor 50117         <- stdout (every non-dialog kind takes the turn-ended form)
 question  builder  dialog 7  cursor 49310                 <- stdout (DIALOG is not coloured: this is a result, not the board)
 timed out  builder  30000 ms                              <- stdout
 
 $ viola last builder
 last  builder  turn-ended 19:44:10.221Z                   <- stderr, TTY only
 41 passed, 0 failed                                       <- stdout, C0/C1 escaped; `no message` on stderr for null
+
+$ viola wait builder                                      (no live instance: exit 21)
+unable  builder  instance-unreachable                     <- stderr
+hint: builder is not running; viola list shows the live instances   <- stderr, the last line
 ```
 
-There is no spinner and no elapsed-time counter.
+There is no spinner and no elapsed-time counter. `waiting:` is printed only when stderr is a terminal and `--json` is not set. A dialog line whose event carries no `dialog_id` reads `dialog unknown`. Under `--json` each verb prints exactly one document on stdout (`{"v":1,"ok":…}`, or the exit-21 / wrapper-fault document) and nothing on stderr. A failure or a caught panic prints `error: internal error` once, exit 1, no hint (Primary content block 2).
 
 ### Output structure — wheel, handoff and dialog verbs
 
@@ -539,8 +544,8 @@ hint: viola list                                          <- stderr, the last li
 
 ### Component — Primary content block 2: refusal lines and the `unable` column
 
-- **Line form (stderr):** `unable  <name>  <reason>  <detail>`, fields separated by two spaces. `viola send` pads `unable` into the mirror's word column after `[/ ]`. The fixed-message exceptions are the exit-1 start refusals of `viola run` (`unable: <name> is already live` and its sibling causes, listed in design-system cli pattern 2) and `viola verify`'s exit-1 refusals, each an `unable: <text>` line and its own `hint:` line with no name, path or pid: `the claude CLI was not found` / `install Claude Code or put it on PATH`; `the claude CLI is a .cmd or .bat script` / `pass the real executable, not a .cmd or .bat shim`; `the CLI version could not be read` / `run claude --version to check the install`; `a recorded payload still holds a path or a username` / `record with a viola home under your user home`; plus run's pinned-copy refusal. A failed or panicked `verify` prints exactly `error: internal error`, with no hint.
-- **Hint line:** directly under each refusal, `hint: <one plain instruction>`, keyed by reason (or by reason · detail). Exit 21 and exit 1 each have several causes, and every cause gets its own hint, so an agent can tell the causes apart from the last stderr line (design-system cli pattern 2). The exit-1 start refusal `unable: <name> is already live` takes `hint: viola list`. There is no hint for the opaque `unknown` refusal, for `wrapper fault` or for `internal error`. A hint never quotes the sent text or any upstream text, and never names a path or a pid.
+- **Line form (stderr):** `unable  <name>  <reason>  <detail>`, fields separated by two spaces. `viola send` pads `unable` into the mirror's word column after `[/ ]`. The fixed-message exceptions are the exit-1 start refusals of `viola run` (`unable: <name> is already live` and its sibling causes, listed in design-system cli pattern 2) and `viola verify`'s exit-1 refusals, each an `unable: <text>` line and its own `hint:` line with no name, path or pid: `the claude CLI was not found` / `install Claude Code or put it on PATH`; `the claude CLI is a .cmd or .bat script` / `pass the real executable, not a .cmd or .bat shim`; `the CLI version could not be read` / `run claude --version to check the install`; `a recorded payload still holds a path or a username` / `record with a viola home under your user home`; plus run's pinned-copy refusal. A failed or panicked `cli` verb (`send`, `wait`, `last`, `verify`) prints exactly `error: internal error` once, from the one catch site, with no hint (for `wait` / `last` exit 1 also covers a refusal reply, an unparseable reply or any other channel error).
+- **Hint line:** directly under each refusal, `hint: <one plain instruction>`, keyed by reason (or by reason · detail). Exit 21 and exit 1 each have several causes, and every cause gets its own hint, so an agent can tell the causes apart from the last stderr line (design-system cli pattern 2). The exit-1 start refusal `unable: <name> is already live` takes `hint: viola list`. `wait` / `last`'s exit 21 `unable  <name>  instance-unreachable` takes `hint: <name> is not running; viola list shows the live instances` (`viola send`'s exit 21 keeps its `[/ ] unable` mirror with the same hint). There is no hint for the opaque `unknown` refusal, for `wrapper fault` or for `internal error`. A hint never quotes the sent text or any upstream text, and never names a path or a pid.
 - **Exit codes as the typed tail:** 10 `human-typing`, 11 `budget-paused`, 12 `unverified-cli`, 13 `not-delivered`, 14 `unknown`, 20 wrapper fault (`error: wrapper fault  <code>`), 21 `unable  instance-unreachable`. Under `--json` the same outcome is one document on stdout, with no stderr line and no hint text. The machine view carries the cause as a detail code once arch names those codes; until then it keeps arch's shape (`"detail":null` for exit 21).
 - **Streams:** results go to stdout. `waiting:`, the issue line, refusals, hints, errors and the `viola ui` launch line go to stderr. The two are never mixed.
 

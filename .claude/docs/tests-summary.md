@@ -24,7 +24,7 @@ The harness is the agent-driven verification surface. `scripts/agent-run.{sh,ps1
 
 - **Path 1 — `run` start sequence** — event order `wheel{start}` → `budget-gate` → `session-start` (the third with "Hooks to normalised events"); duplicate / squatted / tampered-exe starts exit 1; plugin files rewritten with absolute pinned paths
 - **Path 2 — confirmed `send` + CL-1 records** — `cursor` = pre-paste offset, `send-issued` then `prompt-submitted{driver}`; `no-prompt-submitted` → exit 13 + `send-refused`; a second send in flight → exit 13 `turn-running`; local command → `not-delivered` until `:82` lands the local-command rows, then `unconfirmable`; MCP / SSE / web halves owed to `:102` / `:131` / `:139`; readback `open → read`
-- **Path 3 — `wait` / `last`** — wakes only on driver-relevant kinds, returns already-logged events at once, typed timeout, exit 21 on a vanished wrapper
+- **Path 3 — `wait` / `last`** — wakes only on driver-relevant kinds, returns already-logged events at once, typed timeout, exit 21 on a vanished wrapper; as landed, the cli + wrapper-channel half (`tests/cli_wait_last.rs`, `tests/chaos_wait_vanish.rs`) on all three CI OSes, the MCP / `/api/sessions` / page-STATUS steps owed to `:102` / `:129` / `:139`, the dialog kinds' end-to-end witness to `:78`
 - **Path 4 — dialog → `answer`** — insta-pinned decision bodies (S3/S7/S8), one pending dialog, `unknown-dialog`, no decision without stamp + wheel `driver`
 - **Path 5 — the wheel** — human key → `human-typing` (exit 10), `pause` → `manual-pause`, `release` back, `release` with `from` → exit 20, harness turns never flip it
 - **Path 6 — budget governor** — 90/85 thresholds, exit 11, per-instance `release --budget` override, statusline pass-through
