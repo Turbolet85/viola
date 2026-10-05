@@ -238,5 +238,45 @@
 "lines": 1028,
 "bytes": 997551
 }
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "e257956a",
+"ts": "2026-10-04T22:52:55Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-04T22-27-20-wrap",
+"--marker",
+"2026-10-04-running-turn-refusal"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"appended 1 record(s) · friction-log.ndjson lines 1028→1029 · bytes 997551→998956 · term lf",
+"ts 2026-10-04T22:52:46Z · clock 2026-10-04T22:52:55Z · bound 2026-10-04T22:41:04Z (line 1028)",
+"ids 2026-10-04T22:52:46Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 1028,
+"bytes": 997551,
+"terminator": "LF",
+"bound": "2026-10-04T22:41:04Z"
+},
+"after": {
+"lines": 1029,
+"bytes": 998956
+}
 }
 ]

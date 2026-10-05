@@ -1,54 +1,48 @@
 # Session Handoff
 
-**Last Updated:** 2026-10-04T22:38Z
-**Branch:** build/viola-0.1.0 · 0 ahead of origin/build/viola-0.1.0 as read after the operator fix `334ee7f` was pushed (the wrap commit pushes after this file)
+**Last Updated:** 2026-10-05T00:14Z
+**Branch:** build/viola-0.1.0 · 0 ahead of origin/build/viola-0.1.0 as read at this wrap's Setup (the adaptation commit pushes after this file)
 **Status:** clean
-**Last Commit:** 2026-10-04-running-turn-refusal — the running-turn refusal (the wrap commit, after the operator fix `334ee7f`)
+**Last Commit:** no chunk wrapped — `chore(route): operator-requested adaptation — 0-pending wrap` (split `:84`, R-S2)
 
 ## Position
-- Done: **2026-10-04-running-turn-refusal**.
-  - A `prompt-submitted` of any origin marks a turn running. `turn-ended` / `session-start` / `session-end` end it.
-  - Meanwhile `send` is refused `turn-running`, with nothing typed.
-  - Only a wheel-returning `release` clears it. Recovery under a driver-held wheel is `pause` then `release`.
-- Next: **First live test and self-drive** (`working-route.md:84`) → `/andromeda-phase`.
+- Done: **2026-10-04-running-turn-refusal** (last complete). This session ran a 0-pending route adaptation only.
+- Next: **Real-CLI verify probes** (`working-route.md:84`, minted this wrap) → `/andromeda-phase`.
+  - After it comes **First live test and self-drive** (`:86`), the last entry of Epoch 3. Epoch 3 now has 11 entries
+    and stays unsplit.
 
 ## Work done
-- Code: the running-turn state in `WheelSlot` and the rung in `send` (`src/run/{wheel,send}.rs`), plus witnesses in
-  `tui_wheel`, `cli_wheel`, `cli_send` and `cli_controls_not_disableable`.
-- The fake agent now quiesces its hooks before exiting (`src/bin/viola-fake-agent.rs`). This was a widening on the
-  overseer's founder-delegated word.
-- CI green 15/15 at `93a5cbf` (ci#37239689446) and at the final code `334ee7f` (ci#37241137053).
+- Relay `split84-route-adaptation.md`, founder rulings R-S1 / R-S2 / R-S3, applied through a four-item dialogue. The
+  overseer gave every answer, each the recommended option.
+- The old `:84` (11 CARRYs) is now (A) `:84` Real-CLI verify probes (9 CARRYs, incl. a stamp-2.1.288 CARRY) and (B)
+  `:86` First live test and self-drive (6 CARRYs).
+- Route citations were renumbered by manifest: 46 rewritten, 28 kept at `:84`, 3 excluded; sidecars, archive and
+  source files kept their bytes. Record: `.andromeda/runs/2026-10-05T00-09-13-wrap/`.
 
 ## Drift resolved
-- 10 amendments, 0 escalations: architecture 2 · test-plan 7 · obs-plan 1.
-  - Architecture: the [Human Takeover / Wheel] "as built, no running-turn state" clause is retired.
-  - test-plan: Path 5 / Path 2 / §5 controls / §7 fake-agent exit.
-  - obs-plan: §4 `turn-running`'s two causes.
-- The plan's "turn's life" acceptance line is amended as measured (operator directive 2): a human-origin turn reads
-  `human-typing` first.
-- `.profraw` WATCH CLOSED (directive 3).
-  - Cause: the fake agent's PTY-session-leader exit hung up an in-flight `viola hook`.
-  - Fixed; 4 green pre-push runs in a row after the fix.
-- Residual recorded (directive 4, `.andromeda/residuals.md`): a turn starting during the readiness gate's wait
-  (≤ 5 s) is not refused.
+- 1 amendment, 0 escalations: architecture `:48` / `:49` / `:80` / `:91`.
+  - HELD → ratified (R-S2). The owner of the signature/timing, local-command, prefix and R8 rows is now
+    "Real-CLI verify probes".
+  - Leaf re-derived: `security-summary.md:70`.
+- The decision-effect half is split. (A) gets the decision taking effect, through the re-probe. (B) gets "the dialog
+  never renders", which is v1-31, measured live.
 
 ## Notes
-- **Held widening (founder morning, 2026-10-05), still HELD:** the PTY typed-input `viola verify` probe, the live
-  recording, and the signature / quiet-period / max-wait ledger rows (`:84`).
-- **Epoch 3** has 10 entries and stays unsplit (founder ruling 2026-09-29, re-affirmed 2026-10-04).
-- **Upgrade U02** (`.claude/settings.json` hooks · bash pre-cd) and the `host-win32.md` regenerate are founder-timed:
-  `/andromeda-setup-project`.
-- **`claude` on the dev host:** mise installed 2.1.288; running sessions are on 2.1.287. Stamping 2.1.288 is the operator's.
+- **The held widening is RATIFIED** (founder, live, 2026-10-05 ~00:00Z, R-S2, relayed by the overseer):
+  - What: a PTY-driven typed-input `viola verify` probe against the live installed `claude`.
+  - Limits: local on the dev host only, with no Claude credential on a CI runner. It stamps the version it runs.
+  - It is owned by `:84`.
+- **The live proof's host** (B, `:86`) stays the founder's call at its phase. The relay's "this Linux host now" gloss
+  overreached, per the overseer's correction at this wrap.
+- **R-S3:** Upgrade U02 (`.claude/settings.json` hooks · bash pre-cd) and the `host-win32.md` regenerate run at the
+  Epoch 3 boundary, with the boundary ritual (`/andromeda-setup-project`).
+- **`claude` on the dev host:** mise installed 2.1.288 (2026-10-04 14:19Z), and running sessions are on 2.1.287.
+  Stamping 2.1.288 is now a CARRY on `:84`.
 - **Operator desk:** the stray recording home `~/.viola-record-20261004T142325Z` (founder desk queue).
-- **Deferred learnings** (carried, plus two new recurrence-despite-learning entries):
-  - `recurrence-despite-learning: host-win32.md` — the zero-is-healthy count probe. The plan's `git grep … | wc -l`
-    gate with `exit 0` is red on its satisfied subject under the gate shell's pipefail.
-  - `recurrence-despite-learning: testing.md` — bounded mutant-reachable waits. A new unit test's remove-the-guard
-    control parked on a fixed-clock confirm window (120 s TIMEOUT) before the rework.
-  - Carried: `recurrence-despite-learning: host-win32.md 2026-09-28` (the Bash guard and a heredoc to a file); the
-    "not measured here" vocabulary; PID 1 as the cleanup-deadline target; the PTY master close needing no held clone;
-    let a red CI run finish before folding its fix; the doubled-backslash guard recurrence.
-- **Last failed command:** none. The wrap's first light gate read two reds; both were folded on the overseer's
-  founder-delegated word, and the re-run read 17/17 (`evidence/light-gate-fix.md`).
-  - A receipt-count race in the two new turn witnesses → operator fix `334ee7f`, red-before-green on a forced hold.
-  - The `:82` probe's pipefail defect → a dated plan correction, with discrimination shown.
+- **Deferred learnings** (carried):
+  - `recurrence-despite-learning: host-win32.md` — the zero-is-healthy count probe under pipefail.
+  - `recurrence-despite-learning: testing.md` — bounded mutant-reachable waits.
+  - Also carried: `recurrence-despite-learning: host-win32.md 2026-09-28` (the Bash guard and a heredoc to a file);
+    the "not measured here" vocabulary; PID 1 as the cleanup-deadline target; the PTY master close needing no held
+    clone; let a red CI run finish before folding its fix; the doubled-backslash guard recurrence.
+- **Last failed command:** none.

@@ -1,0 +1,124 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "eaf523a6",
+"ts": "2026-10-05T00:10:42Z",
+"argv": [
+"delete",
+"--file",
+"viola-0.1.0/working-route.md",
+"--line",
+"84",
+"--expect-prefix",
+"First live test and self-drive — real-CLI verify, overseer drives",
+"--run-dir",
+".andromeda/runs/2026-10-05T00-09-13-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"delete working-route.md:-1 at line 84 · lines 149→148 · bytes 40133→33092 · term lf",
+"removed: First live test and self-drive — real-CLI verify, overseer drives a builder th",
+"last line now: Version done-check — every gate green on three OSes, masters agree, fix-pass i"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/working-route.md"
+],
+"before": {
+"lines": 149,
+"bytes": 40133,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 148,
+"bytes": 33092
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "eaf523a6",
+"ts": "2026-10-05T00:10:42Z",
+"argv": [
+"append",
+"--file",
+"viola-0.1.0/working-route.md",
+"--payload-file",
+".andromeda/runs/2026-10-05T00-09-13-wrap/route-split-payload.txt",
+"--lines",
+"3",
+"--after-line",
+"83",
+"--expect-last-prefix",
+"   ↓",
+"--run-dir",
+".andromeda/runs/2026-10-05T00-09-13-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"append working-route.md:+3 at line 84 · lines 148→151 · bytes 33092→42302 · term lf",
+"last line now: Version done-check — every gate green on three OSes, masters agree, fix-pass i"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/working-route.md"
+],
+"before": {
+"lines": 148,
+"bytes": 33092,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 151,
+"bytes": 42302
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "eaf523a6",
+"ts": "2026-10-05T00:13:13Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-05T00-09-13-wrap/architecture-entry.md",
+"--lines",
+"11",
+"--run-dir",
+".andromeda/runs/2026-10-05T00-09-13-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+11 at line 559 · lines 558→569 · bytes 94330→96810 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-05T00-09-13-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 558,
+"bytes": 94330,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 569,
+"bytes": 96810
+}
+}
+]

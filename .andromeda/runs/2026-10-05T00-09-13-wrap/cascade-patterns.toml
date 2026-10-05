@@ -1,0 +1,33 @@
+# R-S2 (the held widening ratified) + R-S1 (the split of "First live test and self-drive"): the retired owner
+# and the retired HELD status, by name and by the claim's own phrasing.
+[[pattern]]
+id = "founder-or"
+fixed = "entry or the founder's ruling"
+
+[[pattern]]
+id = "held-past"
+regex = '(?i)\bHELD past the readiness gate'
+
+[[pattern]]
+id = "held-rows"
+regex = '(?i)\bheld (rows|with the typed probe)'
+
+[[pattern]]
+id = "flt-owner"
+regex = '(?i)(owed to|with|until|measured by|at) the first live test'
+
+[[pattern]]
+id = "flt-measures"
+regex = '(?i)first live test measures'
+
+[[pattern]]
+id = "lc-confirmed"
+fixed = "local-command rows with confirmed send"
+
+[[pattern]]
+id = "typed-probe"
+regex = '(?i)typed[- ](input )?probe'
+
+[[pattern]]
+id = "flt-name"
+regex = '(?i)First live test and self-drive'
