@@ -216,7 +216,7 @@
         "method": "e2e",
         "acceptance": "The architecture records that a driver cannot pick an offered permission suggestion: `.andromeda/architecture.md:280` (§Standard Contracts `answer`, the `permission` response `{behavior:\"allow\"|\"deny\", message?}` — \"no suggestion slot: an offered `permission_suggestions` entry cannot be picked, a deliberate v1 limit (the founder's live ruling, 2026-10-04)\"). So the \"if it can\" branch is closed by that ruling and the omission is recorded. End to end on all three CI OSes, `tests/cli_answer.rs::path4_permission_is_logged_once_woken_and_answered_by_id` answers a replayed ordinary-tool PermissionRequest (`fixtures/claude/2.1.287/PermissionRequest.permission-1.json`) with `{\"behavior\":\"allow\",\"updatedPermissions\":[{\"type\":\"addRules\"}],\"suggestion\":0}`; `viola answer` exits 0 and the hook emits exactly `{\"hookSpecificOutput\":{\"hookEventName\":\"PermissionRequest\",\"decision\":{\"behavior\":\"allow\"}}}` at exit 0 with empty stderr — no suggestion or `updatedPermissions` reaches the driven CLI.",
         "ref": "tests/cli_answer.rs::path4_permission_is_logged_once_woken_and_answered_by_id",
-        "status": "implemented"
+        "status": "verified"
       },
       "chunk": "2026-10-05-permission-end-to-end",
       "notes": "2026-10-04 (2026-10-04-dialog-answers-by-dialog-id, phase P5): not claimed. The founder ruled live at P4 (2026-10-04) that permission suggestions are a deliberate v1 limit, so the permission answer stays `{behavior, message?}`. The acceptance's decisive artifact is the architecture's record of that omission, which only the wrap's amendment authors, so this chunk cannot reach `implemented` for it. The cap stays pooled for the wrap that records the limit."
@@ -406,7 +406,7 @@
         "status": "verified"
       },
       "chunk": "2026-10-04-wait-and-last",
-      "notes": "2026-10-04 (2026-10-04-wait-and-last, phase P5): claimed with the operator's accepted narrowing. question / permission / plan wake only at unit level here, because no dialog event can be produced before working-route.md:78. Condition of the claim: the wrap writes a route pin on :78 naming the end-to-end question/permission/plan wait witness for v1-30, as its owner."
+      "notes": "2026-10-04 (2026-10-04-wait-and-last, phase P5): claimed with the operator's accepted narrowing. question / permission / plan wake only at unit level here, because no dialog event can be produced before working-route.md:78. Condition of the claim: the wrap writes a route pin on :78 naming the end-to-end question/permission/plan wait witness for v1-30, as its owner.\n\n2026-10-05 (2026-10-05-permission-end-to-end, wrap P7.3, the plan's ledger-note entry, carried on the operator's directive (3) at this wrap): the acceptance's clause \"the dialog kinds' end-to-end wait witness is owed to working-route.md:78\" is met. `question` and `plan` are in `tests/cli_answer.rs::path4_dialogs_are_logged_once_woken_and_answered_by_id` (chunk 2026-10-04-dialog-answers-by-dialog-id), `permission` is in `tests/cli_answer.rs::path4_permission_is_logged_once_woken_and_answered_by_id` (a parked `wait` woken by each `permission`, the PostToolUse `activity` line between them waking none), green on windows-2025, macos-latest and ubuntu-latest (ci#37333536319). The cap stays `verified` under its original claim; status, ref and acceptance untouched."
     },
     {
       "id": "v1-31",

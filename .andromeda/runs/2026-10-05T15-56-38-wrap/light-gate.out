@@ -1,0 +1,27 @@
+gate v1.10 · a74d389d
+shell /usr/bin/bash (from $SHELL; -c, non-login)
+root . · marker 2026-10-05-permission-end-to-end · entries 19
+logs $TMPDIR/andromeda-gate/2026-10-05-permission-end-to-end/wrap-2026-10-05T15-56-38 · bound: GNU timeout
+delta docs 33
+walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 33
+prose L124-126: No live leg: zero `claude` sessions, so no `round` / `live` entries. The harness smoke boo… (347 chars)
+  1 lint        green · exit 0 · 0.55s · 0 B → 1.log · cargo fmt --all --check
+  2 lint        green · exit 0 · 0.15s · 72 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)
+  3 unit        green · exit 0 · 1.88s · 12024 B → 3.log · bash scripts/agent-run.sh run --unit --filter 'test(/dialo… (71 chars)
+  4 unit        green · exit 0 · 6.19s · 160629 B → 4.log · bash scripts/agent-run.sh run --unit
+  5 integration green · exit 0 · 6.56s · 8592 B → 5.log · bash scripts/agent-run.sh run --integration --filter 'bina… (144 chars)
+  6 integration green · exit 0 · 3.67s · 1861 B → 6.log · bash scripts/agent-run.sh run --integration --filter 'test… (167 chars)
+  7 integration green · exit 0 · 44.04s · 198874 B → 7.log · bash scripts/agent-run.sh run
+  8 smoke       green · exit 0 · 0.12s · 47 B → 8.log · bash scripts/agent-run.sh cleanup --session p-permission-s… (62 chars)
+  9 smoke       green · exit 0 · 3.34s · 294 B → 9.log · bash scripts/agent-run.sh boot --session p-permission-smok… (78 chars)
+ 10 smoke       green · exit 0 · 0.23s · 216 B → 10.log · bash scripts/agent-run.sh status --session p-permission-sm… (61 chars)
+ 11 smoke       green · exit 0 · 0.44s · 183 B → 11.log · bash scripts/agent-run.sh cleanup --session p-permission-s… (62 chars)
+ 12 probe       green · exit 0 · 0.01s · 2 B → 12.log · grep -cE 'TIMEOUT \[4[0-9]\.[0-9]+s\]' viola-0.1.0/chunks/… (129 chars)
+ 13 probe       green · exit 0 · 0.01s · 0 B → 13.log · git diff --quiet 2bd08e949138 -- tests/cli_verify.rs .conf… (254 chars)
+ 14 probe       green · exit 1 · 0.01s · 2 B → 14.log · git diff 2bd08e949138 -- crates/viola-agent-claude/src/dia… (139 chars)
+ 15 probe       green · exit 0 · 0.02s · 0 B → 15.log · ! (git diff 2bd08e949138 -- '*.rs' | grep -E '^\+.*(#\[ign… (114 chars)
+ 16 probe       green · exit 0 · 49.99s · 201063 B → 16.log · bash scripts/agent-run.sh pre-push
+ 17 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (90 chars)
+ 18 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (69 chars)
+ 19 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (114 chars)
+entries 19 · green 16 · red 0 · recorded 0 · timeout 0 · not-run 3

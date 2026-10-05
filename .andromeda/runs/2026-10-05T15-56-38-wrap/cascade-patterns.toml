@@ -1,0 +1,35 @@
+[[pattern]]
+id = "pee-name"
+fixed = 'Permission end to end'
+
+[[pattern]]
+id = "unit-insta"
+fixed = 'unit / insta only'
+
+[[pattern]]
+id = "unit-level"
+fixed = 'stays unit-level'
+
+[[pattern]]
+id = "e2e-owed"
+regex = 'end-to-end (case|witness) owed'
+
+[[pattern]]
+id = "perm-owed"
+regex = '`permission` (kind|wake)[^.]{0,80}(unit|owed)'
+
+[[pattern]]
+id = "q-first-pr"
+fixed = 'first raised by PermissionRequest'
+
+[[pattern]]
+id = "null-list"
+fixed = 'another dialog already pending'
+
+[[pattern]]
+id = "script-set"
+fixed = 'gated-turn,path3,path4'
+
+[[pattern]]
+id = "prompt2-step"
+fixed = 'On prompt 2'

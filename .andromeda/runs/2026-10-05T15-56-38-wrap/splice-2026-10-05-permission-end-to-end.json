@@ -1,0 +1,121 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "e9ac70c7",
+"ts": "2026-10-05T16:03:22Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-05T15-56-38-wrap/architecture-entry.md",
+"--lines",
+"9",
+"--run-dir",
+".andromeda/runs/2026-10-05T15-56-38-wrap",
+"--marker",
+"2026-10-05-permission-end-to-end"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+9 at line 620 · lines 619→628 · bytes 106264→108011 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-05T15-56-38-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 619,
+"bytes": 106264,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 628,
+"bytes": 108011
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "e9ac70c7",
+"ts": "2026-10-05T16:03:22Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-05T15-56-38-wrap/test-plan-entry.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-10-05T15-56-38-wrap",
+"--marker",
+"2026-10-05-permission-end-to-end"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+10 at line 558 · lines 557→567 · bytes 84767→86461 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-05T15-56-38-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 557,
+"bytes": 84767,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 567,
+"bytes": 86461
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "e9ac70c7",
+"ts": "2026-10-05T16:04:53Z",
+"argv": [
+"append",
+"--file",
+".andromeda/residuals.md",
+"--payload-file",
+".andromeda/runs/2026-10-05T15-56-38-wrap/residual.txt",
+"--lines",
+"1",
+"--if-absent-prefix",
+"2026-10-05-permission-end-to-end · open · ",
+"--run-dir",
+".andromeda/runs/2026-10-05T15-56-38-wrap",
+"--marker",
+"2026-10-05-permission-end-to-end"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"append residuals.md:+1 at line 9 · lines 8→9 · bytes 1072→1876 · term lf",
+"last line now: 2026-10-05-permission-end-to-end · open · a `question` first raised by Permiss"
+],
+"stderr": null,
+"wrote": [
+".andromeda/residuals.md"
+],
+"before": {
+"lines": 8,
+"bytes": 1072,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 9,
+"bytes": 1876
+}
+}
+]

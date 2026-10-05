@@ -1,0 +1,43 @@
+[
+{
+"tool": "inputs",
+"v": "1.0",
+"sha8": "d30b83fd",
+"ts": "2026-10-05T15:56:46Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-05-permission-end-to-end",
+"--run-dir",
+".andromeda/runs/2026-10-05T15-56-38-wrap",
+"--marker",
+"2026-10-05-permission-end-to-end"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, /andromeda-phase invocation args, 2026-10-05T15:00Z (overseer-decided fold)",
+"I1 cited scope.md:24 · scope.md:96 · research.md:9 · plan.md:9 · plan.md:32 · plan.md:326 · plan.md:327 · plan.md:375",
+"UNPARSED: inputs#I2 — no entry (scope.md:69)",
+"inputs: 1 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 1,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 1
+}
+}
+]
