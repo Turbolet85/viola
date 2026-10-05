@@ -14,12 +14,6 @@ slow-timeout = { period = "30s", terminate-after = 4 }
 [profile.ci.junit]
 path = "junit.xml"
 
-# TEMPORARY measurement (CI round 2, the overseer's decision 2026-10-05): show the `verify-timing`
-# lines `tests/support/verify.rs` prints for each verify, in the binaries that drive it.
-[[profile.ci.overrides]]
-filter = 'binary(channel_endpoint) | binary(cli_answer) | binary(cli_fake_agent) | binary(cli_instance_state) | binary(cli_send) | binary(cli_verify) | binary(cli_version_gate) | binary(cli_wheel) | binary(conpty_sideload) | binary(contract_fake_agent_drift) | binary(contract_ledger_probes) | binary(tui_wheel)'
-success-output = "immediate"
-
 # The first failure stops scheduling, and the tests already running finish, so their temp dirs and
 # session guards drop (an immediate kill leaked one per killed test). A mutant that hangs a test must
 # still end as a failed (caught) test, not a cargo-mutants timeout: cargo-mutants' auto timeout floors
