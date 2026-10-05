@@ -4,7 +4,7 @@
 
 use std::ffi::OsString;
 use std::io::Read;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use std::process::{Child, Command, Stdio};
 use std::sync::mpsc;
 use std::time::{Duration, Instant};
@@ -365,12 +365,62 @@ fn verify_with(
     }
     args.push("--trusted-root".into());
     args.push(workspace_path("").into());
+    // TEMPORARY measurement (CI round 2, the overseer's decision 2026-10-05): a receipt for the
+    // hook count, placed before `after` so a test's own `--receipt` wins.
+    let own = home
+        .parent()
+        .map(|p| p.join("verify-timing-receipt.ndjson"));
+    if let Some(own) = &own {
+        args.push("--receipt".into());
+        args.push(own.into());
+    }
     args.extend(after.iter().map(OsString::from));
-    viola(&args, env)
+    let receipt = after
+        .iter()
+        .position(|a| *a == "--receipt")
+        .and_then(|i| after.get(i + 1))
+        .map(PathBuf::from)
+        .or(own);
+    let hooks_before = receipt.as_deref().map_or(0, hook_count);
+    let procs = viola_procs();
+    let started = std::time::Instant::now();
+    let ran = viola(&args, env);
+    let hooks = receipt.as_deref().map_or(0, hook_count) - hooks_before;
+    report_timing(started.elapsed(), hooks, procs, dialogs);
+    ran
 }
 
-/// `verify` with no screen flag for the fake agent: both interactive runs wait out the gate's
-/// maximum (about 11 s in all), so, like a `send_window_` test, it has no test-side bound and the
+/// TEMPORARY measurement: the receipt's `hook` lines.
+fn hook_count(receipt: &Path) -> usize {
+    super::fake::of_kind(&super::fake::receipt(receipt), "hook").len()
+}
+
+/// TEMPORARY measurement: the `viola` processes alive now (Linux only), a contention signal.
+fn viola_procs() -> Option<usize> {
+    let dir = std::fs::read_dir("/proc").ok()?;
+    Some(
+        dir.flatten()
+            .filter(|e| {
+                std::fs::read_to_string(e.path().join("comm"))
+                    .is_ok_and(|c| c.trim_end() == "viola")
+            })
+            .count(),
+    )
+}
+
+/// TEMPORARY measurement: one line per verify, shown by the `ci` profile's success-output override.
+#[allow(clippy::print_stderr)]
+fn report_timing(wall: Duration, hooks: usize, procs: Option<usize>, dialogs: bool) {
+    let test = std::thread::current().name().unwrap_or("?").to_owned();
+    eprintln!(
+        "verify-timing test={test} wall_ms={} hooks={hooks} viola_procs_at_start={} dialogs={dialogs}",
+        wall.as_millis(),
+        procs.map_or_else(|| "unmeasured".to_owned(), |n| n.to_string())
+    );
+}
+
+/// `verify` with no screen flag for the fake agent: the four interactive runs wait out the gate's
+/// maximum (about 21 s in all), so, like a `send_window_` test, it has no test-side bound and the
 /// nextest `verify_window_` override is its kill.
 pub fn verify_without_screens(home: &Path, fixtures: &Path, version: &str, before: &[&str]) -> Ran {
     viola_unbounded(&verify_args(home, fixtures, version, before), &[])
