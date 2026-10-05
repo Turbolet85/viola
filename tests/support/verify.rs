@@ -332,7 +332,9 @@ fn spawn_viola(
 /// `viola --home <home> verify <before> -- <fake> --cli-version <version> --fixtures <fixtures>
 /// --screens --turn-stop --dialogs --trusted-root <workspace root> <after>`: the fake agent replays
 /// the recorded screens and dialogs, and verify's trusted runs start under the cwd, the workspace
-/// root.
+/// root. Every verify-driven test is in the `verify_window_` class: verify's four interactive runs
+/// make a designed floor (seven 300 ms settles, about 2.1 s on the ubuntu coverage leg), so the call
+/// has no test-side bound and the nextest per-test kill for verify-driven binaries is its bound.
 pub fn verify(
     home: &Path,
     fixtures: &Path,
@@ -366,7 +368,7 @@ fn verify_with(
     args.push("--trusted-root".into());
     args.push(workspace_path("").into());
     args.extend(after.iter().map(OsString::from));
-    viola(&args, env)
+    viola_unbounded(&args, env)
 }
 
 /// `verify` with no screen flag for the fake agent: the four interactive runs wait out the gate's

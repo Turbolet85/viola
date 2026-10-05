@@ -11,7 +11,7 @@ round into this chunk, and read each round with ci.py."
 | 0 | `43e6245` | the operator pre-CI commit | **red** · 15/15 · `test (ubuntu-latest)` failed (`operator-pass.md`) |
 | 1 | `4179973` | option 1: Run C / Run D settle after their last Stop before the kill (`run-kill-settle.md`, red before green) | green · 15/15 · wall 374 s · ci#37318179233 |
 | 2 | `9629757` | option 2, timing-only: one `verify-timing` line per verify (wall ms, hook-process count, `viola` processes alive at its start), shown by a temporary `ci`-profile success-output override | green · 15/15 · wall 369 s · ci#37319370056 |
-| 3 | (below) | the measurement reverted | (below) |
+| 3 | `74e719b` | the measurement reverted (code identical to round 1) | **red** · 15/15 · `test (ubuntu-latest)`: `cli_verify verify_a_complete_set_prints_fourteen_steps_and_stamps_every_row` FAIL at 7.005 s (`viola never exited`, the 7 s bound); no corrupt profile; Windows and macOS green · ci#37320693487 |
 
 ## Round 2's measurement (read from each `test` job's log; 54 / 58 / 54 verify calls)
 | leg | verify calls | wall ms median | p90 | max | 29 hooks (dialog replay) median | 17 hooks (no replay) median |
@@ -35,3 +35,23 @@ round into this chunk, and read each round with ci.py."
   tail in one run, and one case crossed the unchanged 7 s test bound. The worst verify since is 5.2 s (macOS, round 2).
 - **Not done, per the decision's order:** no contention was measured, so no nextest group was added (removing a cause
   the measurement does not show would be a change without a basis). The bound stays.
+
+## Round 3, and the cause across all five ubuntu runs (each run's JUnit, the coverage leg)
+| run | untouched tests' summed time | their median ratio to pre-chunk | their p90 ratio | `cli_verify` median (common tests) | verdict |
+|---|---|---|---|---|---|
+| pre-chunk `75198e5` | 91.0 s | 1.00 | 1.00 | 0.99 s | green |
+| round 0 `43e6245` | 117.6 s | 1.00 | **2.46** | 2.26 s | red (7.16 s) |
+| round 1 `4179973` | 101.8 s | 1.00 | 1.08 | 2.14 s | green |
+| round 2 `9629757` | 101.8 s | 1.00 | 1.31 | 2.08 s | green |
+| round 3 `74e719b` | 128.3 s | 1.00 | **3.09** | 3.02 s | red (7.005 s) |
+
+("Untouched" = the 83 tests that drive no verify and took over 0.2 s before the chunk.)
+
+- **Cause, as measured:** both reds fall in runs with a runner-wide slow tail (the untouched tests' p90 at 2.5-3x their
+  pre-chunk time, the median unmoved), and only there does a verify test cross the 7 s bound. This chunk doubled
+  verify's fixed floor by design (seven 300 ms settles over four interactive runs: about 1.0 s → 2.1 s median on ubuntu),
+  so a 2.5-3x tail now reaches the unchanged bound, where the pre-chunk floor (about 3 s under the same tail) never did.
+  Hook count and concurrency inside the tests do not drive it (round 2).
+- **Not done:** no nextest group (no contention measured); the bound stays (the decision). Removing slow work now means
+  changing verify's own design (for example running Run C and Run D side by side, or fewer settles), which is beyond
+  the decision's words: it goes back to the overseer.

@@ -14,6 +14,22 @@ slow-timeout = { period = "30s", terminate-after = 4 }
 [profile.ci.junit]
 path = "junit.xml"
 
+# The `verify_window_` class (the overseer's decision, founder-delegated, 2026-10-05): a test that
+# drives `viola verify` has no test-side bound on that call, and this per-test kill is its bound.
+# Verify's four interactive runs make a designed floor (seven 300 ms settles: about 2.1 s median on
+# the ubuntu coverage leg, measured); the kill is sized from that floor plus a 3x runner tail.
+# The first matching override wins: a `verify_window_` test waits out the gate's 5 s maximum four
+# times by design (about 21 s), so it comes first.
+[[profile.ci.overrides]]
+filter = 'test(/verify_window_/)'
+slow-timeout = { period = "15s", terminate-after = 3 }
+
+# Every binary that drives verify, directly or through the stamped-home fixture (its longest other
+# test, a `send_window_` one, read 11.25 s on the slowest measured run): a 20 s kill.
+[[profile.ci.overrides]]
+filter = 'binary(channel_endpoint) | binary(cli_answer) | binary(cli_fake_agent) | binary(cli_instance_state) | binary(cli_send) | binary(cli_verify) | binary(cli_version_gate) | binary(cli_wheel) | binary(conpty_sideload) | binary(contract_fake_agent_drift) | binary(contract_ledger_probes) | binary(tui_wheel)'
+slow-timeout = { period = "10s", terminate-after = 2 }
+
 # The first failure stops scheduling, and the tests already running finish, so their temp dirs and
 # session guards drop (an immediate kill leaked one per killed test). A mutant that hangs a test must
 # still end as a failed (caught) test, not a cargo-mutants timeout: cargo-mutants' auto timeout floors
