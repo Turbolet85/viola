@@ -33,7 +33,8 @@ slow-timeout = { period = "15s", terminate-after = 2 }
 filter = 'test(/send_window_/)'
 slow-timeout = { period = "15s", terminate-after = 2 }
 
-# A `verify_window_` test waits out the gate's 5 s maximum wait twice by design (no screen replayed).
+# A `verify_window_` test waits out the gate's 5 s maximum wait four times by design (no screen
+# replayed: the untrusted, trusted, dialog and plan runs), about 21 s, below this 30 s kill.
 [[profile.mutants.overrides]]
 filter = 'test(/verify_window_/)'
 slow-timeout = { period = "15s", terminate-after = 2 }

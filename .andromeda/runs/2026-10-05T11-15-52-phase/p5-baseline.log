@@ -1,0 +1,32 @@
+gate v1.10 · 302aba4b
+shell /usr/bin/bash (from $SHELL; -c, non-login)
+root . · marker 2026-10-05-dialog-rows-and-re-probe · entries 23
+logs $TMPDIR/andromeda-gate/2026-10-05-dialog-rows-and-re-probe/phase-2026-10-05T11-15-52 · bound: GNU timeout
+delta docs 42 · unmapped 5
+walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 47
+prose L228-233: `/implement` runs the entries below in order. The `leg = 'live'` entries spend founder-cap… (597 chars)
+  1 lint        not run — excluded · cargo fmt --all --check
+  2 lint        not run — excluded · cargo clippy --workspace --all-targets --features fake-age… (75 chars)
+  3 unit        green · exit 0 · 1.92s · 39026 B → 3.log · bash scripts/agent-run.sh run --unit --filter 'test(/ledge… (176 chars)
+  4 unit        not run — excluded · bash scripts/agent-run.sh run --unit
+  5 probe       not run — excluded · claude --version
+  6 build       not run — excluded · h="target/e2e-home/viola-record-$(date -u +%Y%m%dT%H%M%SZ)… (259 chars)
+  7 build       not run — excluded · h="target/e2e-home/viola-record-$(date -u +%Y%m%dT%H%M%SZ)… (259 chars)
+  8 probe       not run — excluded · git diff --quiet 75198e53b918 -- fixtures/claude/2.1.287/S… (707 chars)
+  9 integration green · exit 0 · 12.53s · 17748 B → 9.log · bash scripts/agent-run.sh run --integration --filter 'bina… (273 chars)
+ 10 integration not run — excluded · bash scripts/agent-run.sh run
+ 11 smoke       green · exit 0 · 0.08s · 47 B → 11.log · bash scripts/agent-run.sh cleanup --session p-dialog-smoke
+ 12 smoke       green · exit 0 · 1.52s · 290 B → 12.log · bash scripts/agent-run.sh boot --session p-dialog-smoke --… (74 chars)
+ 13 smoke       green · exit 0 · 0.08s · 216 B → 13.log · bash scripts/agent-run.sh status --session p-dialog-smoke
+ 14 smoke       green · exit 0 · 0.29s · 179 B → 14.log · bash scripts/agent-run.sh cleanup --session p-dialog-smoke
+ 15 probe       not run — excluded · CI=true bash scripts/agent-run.sh run --local-live
+ 16 probe       not run — excluded · git diff --quiet 75198e53b918 -- src/cmd/hook/seam.rs scri… (193 chars)
+ 17 probe       not run — excluded · ! (git diff 75198e53b918 -- '*.rs' .config/nextest.toml | … (144 chars)
+ 18 probe       not run — excluded · git diff 75198e53b918 -- src/cmd/hook.rs | grep -cE '^\+.*… (105 chars)
+ 19 probe       not run — excluded · git diff 75198e53b918 -- Cargo.toml Cargo.lock deny.toml d… (123 chars)
+ 20 probe       not run — excluded · bash scripts/agent-run.sh pre-push
+ 21 probe       not run — excluded · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (90 chars)
+ 22 probe       not run — excluded · git diff --quiet && git diff --cached --quiet && git push … (69 chars)
+ 23 probe       not run — excluded · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (114 chars)
+entries 23 · green 6 · red 0 · recorded 0 · timeout 0 · not-run 17
+gate exit 0

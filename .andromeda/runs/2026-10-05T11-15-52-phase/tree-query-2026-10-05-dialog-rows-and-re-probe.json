@@ -1,0 +1,646 @@
+[
+{
+"sql": "SELECT callee_name, caller_name, file, line FROM calls WHERE callee_name IN ('verified','check','capture_plugin_files','decision_body','merge_stamp','classify','measure','capture') AND callee_kind = 'fn' AND callee_crate IN ('viola-agent-claude','viola') ORDER BY callee_name, file, line",
+"rows": 106,
+"result": [
+{
+"callee_name": "capture",
+"caller_name": "clean_captures",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 856
+},
+{
+"callee_name": "capture",
+"caller_name": "clean_captures",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 860
+},
+{
+"callee_name": "capture",
+"caller_name": "clean_captures",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 864
+},
+{
+"callee_name": "capture",
+"caller_name": "clean_captures",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 868
+},
+{
+"callee_name": "capture",
+"caller_name": "check_spine_hooks_needs_the_four_in_order_each_naming_itself",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 957
+},
+{
+"callee_name": "capture",
+"caller_name": "check_spine_hooks_needs_the_four_in_order_each_naming_itself",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 965
+},
+{
+"callee_name": "capture",
+"caller_name": "check_session_start_fields_fails_without_both_fields",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 977
+},
+{
+"callee_name": "capture",
+"caller_name": "check_prompt_verbatim_needs_the_exact_prompt",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 986
+},
+{
+"callee_name": "capture",
+"caller_name": "check_stop_message_needs_a_string",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 998
+},
+{
+"callee_name": "capture",
+"caller_name": "check_reads_the_first_capture_of_an_event",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1017
+},
+{
+"callee_name": "capture",
+"caller_name": "hook",
+"file": "src/cmd/hook.rs",
+"line": 89
+},
+{
+"callee_name": "capture",
+"caller_name": "capture_files_each_payload_under_the_next_free_k",
+"file": "src/cmd/hook.rs",
+"line": 822
+},
+{
+"callee_name": "capture",
+"caller_name": "capture_files_each_payload_under_the_next_free_k",
+"file": "src/cmd/hook.rs",
+"line": 830
+},
+{
+"callee_name": "capture",
+"caller_name": "capture_files_each_payload_under_the_next_free_k",
+"file": "src/cmd/hook.rs",
+"line": 836
+},
+{
+"callee_name": "capture",
+"caller_name": "capture_keeps_one_byte_past_the_cap",
+"file": "src/cmd/hook.rs",
+"line": 845
+},
+{
+"callee_name": "capture",
+"caller_name": "capture_refuses_a_bad_dir_or_stdin_and_writes_nothing",
+"file": "src/cmd/hook.rs",
+"line": 861
+},
+{
+"callee_name": "capture",
+"caller_name": "capture_refuses_a_bad_dir_or_stdin_and_writes_nothing",
+"file": "src/cmd/hook.rs",
+"line": 865
+},
+{
+"callee_name": "capture",
+"caller_name": "capture_refuses_a_bad_dir_or_stdin_and_writes_nothing",
+"file": "src/cmd/hook.rs",
+"line": 870
+},
+{
+"callee_name": "capture",
+"caller_name": "capture_refuses_a_bad_dir_or_stdin_and_writes_nothing",
+"file": "src/cmd/hook.rs",
+"line": 874
+},
+{
+"callee_name": "capture",
+"caller_name": "capture_refuses_a_bad_dir_or_stdin_and_writes_nothing",
+"file": "src/cmd/hook.rs",
+"line": 877
+},
+{
+"callee_name": "capture",
+"caller_name": "panic_detail_line",
+"file": "src/main.rs",
+"line": 191
+},
+{
+"callee_name": "capture",
+"caller_name": "capture_names_this_binary_for_its_own_frames",
+"file": "src/panic_frames.rs",
+"line": 112
+},
+{
+"callee_name": "capture_plugin_files",
+"caller_name": "capture_plugin_files_register_the_spine_on_the_pinned_path",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 779
+},
+{
+"callee_name": "capture_plugin_files",
+"caller_name": "capture_plugin_files_escape_a_path_as_json",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 795
+},
+{
+"callee_name": "capture_plugin_files",
+"caller_name": "create",
+"file": "src/cmd/verify.rs",
+"line": 242
+},
+{
+"callee_name": "check",
+"caller_name": "verdicts",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 910
+},
+{
+"callee_name": "check",
+"caller_name": "check_shim_resolution_needs_a_real_executable_that_answered",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 933
+},
+{
+"callee_name": "check",
+"caller_name": "check_shim_resolution_needs_a_real_executable_that_answered",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 938
+},
+{
+"callee_name": "check",
+"caller_name": "check_spine_hooks_needs_the_four_in_order_each_naming_itself",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 945
+},
+{
+"callee_name": "check",
+"caller_name": "check_spine_hooks_needs_the_four_in_order_each_naming_itself",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 949
+},
+{
+"callee_name": "check",
+"caller_name": "check_spine_hooks_needs_the_four_in_order_each_naming_itself",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 954
+},
+{
+"callee_name": "check",
+"caller_name": "check_spine_hooks_needs_the_four_in_order_each_naming_itself",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 958
+},
+{
+"callee_name": "check",
+"caller_name": "check_spine_hooks_needs_the_four_in_order_each_naming_itself",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 962
+},
+{
+"callee_name": "check",
+"caller_name": "check_spine_hooks_needs_the_four_in_order_each_naming_itself",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 966
+},
+{
+"callee_name": "check",
+"caller_name": "check_session_start_fields_fails_without_both_fields",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 978
+},
+{
+"callee_name": "check",
+"caller_name": "check_session_start_fields_fails_without_both_fields",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 980
+},
+{
+"callee_name": "check",
+"caller_name": "check_prompt_verbatim_needs_the_exact_prompt",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 990
+},
+{
+"callee_name": "check",
+"caller_name": "check_prompt_verbatim_needs_the_exact_prompt",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 992
+},
+{
+"callee_name": "check",
+"caller_name": "check_stop_message_needs_a_string",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 999
+},
+{
+"callee_name": "check",
+"caller_name": "check_stop_message_needs_a_string",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1001
+},
+{
+"callee_name": "check",
+"caller_name": "check_largest_hook_payload_holds_at_the_cap_and_fails_past_it",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1009
+},
+{
+"callee_name": "check",
+"caller_name": "check_largest_hook_payload_holds_at_the_cap_and_fails_past_it",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1011
+},
+{
+"callee_name": "check",
+"caller_name": "check_reads_the_first_capture_of_an_event",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1021
+},
+{
+"callee_name": "check",
+"caller_name": "typed_check",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1283
+},
+{
+"callee_name": "check",
+"caller_name": "check_step",
+"file": "src/cmd/verify.rs",
+"line": 309
+},
+{
+"callee_name": "check",
+"caller_name": "crate",
+"file": "tests/cli_verify.rs",
+"line": 17
+},
+{
+"callee_name": "check",
+"caller_name": "verify_record_writes_four_scrubbed_fixtures_and_three_screens",
+"file": "tests/cli_verify.rs",
+"line": 474
+},
+{
+"callee_name": "check",
+"caller_name": "crate",
+"file": "tests/contract_fixture_hygiene.rs",
+"line": 15
+},
+{
+"callee_name": "check",
+"caller_name": "claude_fixtures_pass_hygiene",
+"file": "tests/contract_fixture_hygiene.rs",
+"line": 79
+},
+{
+"callee_name": "check",
+"caller_name": "claude_fixture_scrubbed_payload_is_clean",
+"file": "tests/contract_fixture_hygiene.rs",
+"line": 282
+},
+{
+"callee_name": "check",
+"caller_name": "planted_claude_absolute_path_is_rejected",
+"file": "tests/contract_fixture_hygiene.rs",
+"line": 291
+},
+{
+"callee_name": "check",
+"caller_name": "planted_claude_username_is_rejected",
+"file": "tests/contract_fixture_hygiene.rs",
+"line": 302
+},
+{
+"callee_name": "check",
+"caller_name": "planted_claude_schema_violation_is_rejected",
+"file": "tests/contract_fixture_hygiene.rs",
+"line": 314
+},
+{
+"callee_name": "check",
+"caller_name": "fake_script_passes_hygiene",
+"file": "tests/contract_fixture_hygiene.rs",
+"line": 324
+},
+{
+"callee_name": "check",
+"caller_name": "planted_absolute_path_is_rejected",
+"file": "tests/contract_fixture_hygiene.rs",
+"line": 345
+},
+{
+"callee_name": "check",
+"caller_name": "planted_absolute_path_in_a_key_is_rejected",
+"file": "tests/contract_fixture_hygiene.rs",
+"line": 354
+},
+{
+"callee_name": "check",
+"caller_name": "planted_username_is_rejected_placeholder_is_not",
+"file": "tests/contract_fixture_hygiene.rs",
+"line": 363
+},
+{
+"callee_name": "check",
+"caller_name": "planted_username_is_rejected_placeholder_is_not",
+"file": "tests/contract_fixture_hygiene.rs",
+"line": 371
+},
+{
+"callee_name": "check",
+"caller_name": "planted_username_is_rejected_placeholder_is_not",
+"file": "tests/contract_fixture_hygiene.rs",
+"line": 375
+},
+{
+"callee_name": "check",
+"caller_name": "planted_username_is_rejected_placeholder_is_not",
+"file": "tests/contract_fixture_hygiene.rs",
+"line": 379
+},
+{
+"callee_name": "check",
+"caller_name": "planted_schema_violation_is_rejected",
+"file": "tests/contract_fixture_hygiene.rs",
+"line": 391
+},
+{
+"callee_name": "check",
+"caller_name": "non_json_is_a_schema_violation_and_unknown_fields_are_tolerated",
+"file": "tests/contract_fixture_hygiene.rs",
+"line": 399
+},
+{
+"callee_name": "check",
+"caller_name": "non_json_is_a_schema_violation_and_unknown_fields_are_tolerated",
+"file": "tests/contract_fixture_hygiene.rs",
+"line": 405
+},
+{
+"callee_name": "classify",
+"caller_name": "classified",
+"file": "crates/viola-agent-claude/src/dialog.rs",
+"line": 411
+},
+{
+"callee_name": "classify",
+"caller_name": "classify_an_ordinary_permission_request_is_a_permission",
+"file": "crates/viola-agent-claude/src/dialog.rs",
+"line": 475
+},
+{
+"callee_name": "classify",
+"caller_name": "classify_a_pre_tool_use_outside_the_matcher_is_no_dialog",
+"file": "crates/viola-agent-claude/src/dialog.rs",
+"line": 491
+},
+{
+"callee_name": "classify",
+"caller_name": "classify_refuses_a_payload_it_cannot_read",
+"file": "crates/viola-agent-claude/src/dialog.rs",
+"line": 512
+},
+{
+"callee_name": "classify",
+"caller_name": "classify_a_question_without_header_or_multi_select_reads_null_and_false",
+"file": "crates/viola-agent-claude/src/dialog.rs",
+"line": 518
+},
+{
+"callee_name": "classify",
+"caller_name": "hook",
+"file": "src/cmd/hook.rs",
+"line": 16
+},
+{
+"callee_name": "classify",
+"caller_name": "handle_dialog",
+"file": "src/cmd/hook.rs",
+"line": 208
+},
+{
+"callee_name": "classify",
+"caller_name": "ask_reads_the_three_outcomes",
+"file": "src/cmd/hook.rs",
+"line": 755
+},
+{
+"callee_name": "decision_body",
+"caller_name": "body",
+"file": "crates/viola-agent-claude/src/dialog.rs",
+"line": 620
+},
+{
+"callee_name": "decision_body",
+"caller_name": "decision_body_question_on_pre_tool_use_is_allow_with_the_answers",
+"file": "crates/viola-agent-claude/src/dialog.rs",
+"line": 628
+},
+{
+"callee_name": "decision_body",
+"caller_name": "decision_body_question_on_pre_tool_use_is_allow_with_the_answers",
+"file": "crates/viola-agent-claude/src/dialog.rs",
+"line": 634
+},
+{
+"callee_name": "decision_body",
+"caller_name": "decision_body_plan_approve_is_pre_tool_use_allow_only",
+"file": "crates/viola-agent-claude/src/dialog.rs",
+"line": 648
+},
+{
+"callee_name": "decision_body",
+"caller_name": "decision_body_plan_approve_is_pre_tool_use_allow_only",
+"file": "crates/viola-agent-claude/src/dialog.rs",
+"line": 651
+},
+{
+"callee_name": "decision_body",
+"caller_name": "decision_body_plan_revise_is_permission_request_deny_with_the_message",
+"file": "crates/viola-agent-claude/src/dialog.rs",
+"line": 665
+},
+{
+"callee_name": "decision_body",
+"caller_name": "decision_body_plan_revise_is_permission_request_deny_with_the_message",
+"file": "crates/viola-agent-claude/src/dialog.rs",
+"line": 667
+},
+{
+"callee_name": "decision_body",
+"caller_name": "decision_body_permission_allow_and_deny",
+"file": "crates/viola-agent-claude/src/dialog.rs",
+"line": 684
+},
+{
+"callee_name": "decision_body",
+"caller_name": "decision_body_permission_allow_and_deny",
+"file": "crates/viola-agent-claude/src/dialog.rs",
+"line": 691
+},
+{
+"callee_name": "decision_body",
+"caller_name": "decision_body_permission_allow_and_deny",
+"file": "crates/viola-agent-claude/src/dialog.rs",
+"line": 693
+},
+{
+"callee_name": "decision_body",
+"caller_name": "decision_body_question_on_permission_request_is_no_decision",
+"file": "crates/viola-agent-claude/src/dialog.rs",
+"line": 700
+},
+{
+"callee_name": "decision_body",
+"caller_name": "hook",
+"file": "src/cmd/hook.rs",
+"line": 16
+},
+{
+"callee_name": "decision_body",
+"caller_name": "body_of",
+"file": "src/cmd/hook.rs",
+"line": 292
+},
+{
+"callee_name": "measure",
+"caller_name": "verify",
+"file": "src/cmd/verify.rs",
+"line": 63
+},
+{
+"callee_name": "measure",
+"caller_name": "measure",
+"file": "src/cmd/verify.rs",
+"line": 183
+},
+{
+"callee_name": "merge_stamp",
+"caller_name": "merge_stamp_writes_the_envelope_for_a_first_version",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1051
+},
+{
+"callee_name": "merge_stamp",
+"caller_name": "merge_stamp_keeps_unknown_versions_and_fields_and_replaces_its_own",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1099
+},
+{
+"callee_name": "merge_stamp",
+"caller_name": "merge_stamp_replaces_bytes_of_the_wrong_shape_whole",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1133
+},
+{
+"callee_name": "merge_stamp",
+"caller_name": "merge_stamp_fills_a_data_object_without_versions",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1149
+},
+{
+"callee_name": "merge_stamp",
+"caller_name": "verified_needs_every_row_pass_under_that_version",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1165
+},
+{
+"callee_name": "merge_stamp",
+"caller_name": "verified_needs_every_row_pass_under_that_version",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1169
+},
+{
+"callee_name": "merge_stamp",
+"caller_name": "measure",
+"file": "src/cmd/verify.rs",
+"line": 201
+},
+{
+"callee_name": "merge_stamp",
+"caller_name": "tests",
+"file": "src/run/version_gate.rs",
+"line": 179
+},
+{
+"callee_name": "merge_stamp",
+"caller_name": "stamp",
+"file": "src/run/version_gate.rs",
+"line": 183
+},
+{
+"callee_name": "verified",
+"caller_name": "merge_stamp_writes_the_envelope_for_a_first_version",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1084
+},
+{
+"callee_name": "verified",
+"caller_name": "merge_stamp_keeps_unknown_versions_and_fields_and_replaces_its_own",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1124
+},
+{
+"callee_name": "verified",
+"caller_name": "merge_stamp_replaces_bytes_of_the_wrong_shape_whole",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1143
+},
+{
+"callee_name": "verified",
+"caller_name": "merge_stamp_fills_a_data_object_without_versions",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1159
+},
+{
+"callee_name": "verified",
+"caller_name": "verified_needs_every_row_pass_under_that_version",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1166
+},
+{
+"callee_name": "verified",
+"caller_name": "verified_needs_every_row_pass_under_that_version",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1167
+},
+{
+"callee_name": "verified",
+"caller_name": "verified_needs_every_row_pass_under_that_version",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1170
+},
+{
+"callee_name": "verified",
+"caller_name": "verified_refuses_a_malformed_envelope",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1181
+},
+{
+"callee_name": "verified",
+"caller_name": "verified_reads_an_envelope_without_data_as_unverified",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1186
+},
+{
+"callee_name": "verified",
+"caller_name": "version_gate",
+"file": "src/run/version_gate.rs",
+"line": 15
+},
+{
+"callee_name": "verified",
+"caller_name": "stamps_verdict",
+"file": "src/run/version_gate.rs",
+"line": 169
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

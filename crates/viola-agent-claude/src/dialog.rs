@@ -331,8 +331,10 @@ fn strings<'a>(value: &'a Value, out: &mut Vec<&'a str>) {
 /// (the hook prints nothing):
 /// - question on PreToolUse → `allow` + `updatedInput` = the input plus `answers` and any
 ///   `annotations` (S3, S8);
-/// - plan approve on PreToolUse → `allow` alone; a PermissionRequest `allow` is ignored for
-///   `ExitPlanMode`, so an approve there is no decision (S7);
+/// - plan approve on PreToolUse → `allow` + `updatedInput` = the input, unchanged: a bare `allow`
+///   does not satisfy the plan dialog, which the CLI then raises as a PermissionRequest (measured on
+///   2.1.288); a PermissionRequest `allow` is ignored for `ExitPlanMode`, so an approve there is no
+///   decision (S7);
 /// - plan revise on PermissionRequest → `deny` + `message`; on PreToolUse no decision (S7);
 /// - permission on PermissionRequest → `allow` / `deny` + `message`;
 /// - a question on PermissionRequest → no decision (its body is unmeasured).
@@ -358,7 +360,9 @@ pub fn decision_body(hook: HookEvent, input: &Value, response: &Response) -> Opt
                 behavior: Verdict::Approve,
                 ..
             },
-        ) => pre_tool_use_allow(None),
+        ) => pre_tool_use_allow(Some(Value::Object(
+            input.as_object().cloned().unwrap_or_default(),
+        ))),
         (
             HookEvent::PermissionRequest,
             Response::Plan {
@@ -641,17 +645,21 @@ mod tests {
     }
 
     #[test]
-    fn decision_body_plan_approve_is_pre_tool_use_allow_only() {
+    fn decision_body_plan_approve_is_pre_tool_use_allow_with_the_input_unchanged() {
         let approve = Response::parse(&json!({"behavior": "approve"})).expect("plan");
         let input = json!({"plan": "p", "planFilePath": "f"});
         insta::assert_snapshot!(
             "plan_approved",
             decision_body(HookEvent::PreToolUse, &input, &approve).expect("a body")
         );
+        let got = body(HookEvent::PreToolUse, &input, &approve).expect("a body");
+        assert_eq!(got["hookSpecificOutput"]["updatedInput"], input);
         assert_eq!(
             decision_body(HookEvent::PermissionRequest, &input, &approve),
             None
         );
+        let bare = body(HookEvent::PreToolUse, &Value::Null, &approve).expect("a body");
+        assert_eq!(bare["hookSpecificOutput"]["updatedInput"], json!({}));
     }
 
     #[test]

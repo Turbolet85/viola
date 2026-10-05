@@ -1,7 +1,8 @@
 //! `viola verify` against the fake agent (test-plan §5 CLI, §7 Fake agent; design-system §Surface:
-//! cli Component Patterns 5; layout-templates §Output structure `viola verify`): the ten step lines
+//! cli Component Patterns 5; layout-templates §Output structure `viola verify`): the fourteen step lines
 //! and the `stamped` summary, the stamps it alone writes, the refusals, the `cli` catch-site line,
-//! the two interactive runs and their dirs, `--record`'s scrub and screens, the help text, and the
+//! the four interactive runs and their dirs, `--record`'s scrub, screens and dialog variants, the
+//! dialog tier's failure without a replay, the help text, and the
 //! hook verb's capture arm. Every oracle is a literal.
 
 #[allow(dead_code)]
@@ -22,19 +23,23 @@ use support::verify::{
     write_spine_set,
 };
 
-const STEPS_PASS: [&str; 10] = [
-    "[01/10] shim-resolution claude resolves to a real executable  pass",
-    "[02/10] spine-hooks spine hooks fire through the plugin dir  pass",
-    "[03/10] session-start-fields SessionStart carries session_id and source  pass",
-    "[04/10] prompt-verbatim UserPromptSubmit carries the prompt as sent  pass",
-    "[05/10] stop-message Stop carries last_assistant_message  pass",
-    "[06/10] largest-hook-payload every hook payload fits the frame cap  pass",
-    "[07/10] modal-signature an untrusted start shows a compiled modal literal  pass",
-    "[08/10] input-box-signature a trusted start shows a compiled input-box literal and no modal  pass",
-    "[09/10] quiet-period the screen settles within the gate's maximum wait  pass",
-    "[10/10] confirm-window the typed prompt reaches UserPromptSubmit within the window  pass",
+const STEPS_PASS: [&str; 14] = [
+    "[01/14] shim-resolution claude resolves to a real executable  pass",
+    "[02/14] spine-hooks spine hooks fire through the plugin dir  pass",
+    "[03/14] session-start-fields SessionStart carries session_id and source  pass",
+    "[04/14] prompt-verbatim UserPromptSubmit carries the prompt as sent  pass",
+    "[05/14] stop-message Stop carries last_assistant_message  pass",
+    "[06/14] largest-hook-payload every hook payload fits the frame cap  pass",
+    "[07/14] modal-signature an untrusted start shows a compiled modal literal  pass",
+    "[08/14] input-box-signature a trusted start shows a compiled input-box literal and no modal  pass",
+    "[09/14] quiet-period the screen settles within the gate's maximum wait  pass",
+    "[10/14] confirm-window the typed prompt reaches UserPromptSubmit within the window  pass",
+    "[11/14] question-answer a question answered through PreToolUse takes effect  pass",
+    "[12/14] plan-approve-revise a plan revise and approve each take effect  pass",
+    "[13/14] question-notes free text and notes reach the question  pass",
+    "[14/14] dialog-concurrency two parallel questions each raise a dialog  pass",
 ];
-const ROW_IDS: [&str; 10] = [
+const ROW_IDS: [&str; 14] = [
     "shim-resolution",
     "spine-hooks",
     "session-start-fields",
@@ -45,6 +50,10 @@ const ROW_IDS: [&str; 10] = [
     "input-box-signature",
     "quiet-period",
     "confirm-window",
+    "question-answer",
+    "plan-approve-revise",
+    "question-notes",
+    "dialog-concurrency",
 ];
 const SCREENS: [&str; 3] = ["Screen.modal.json", "Screen.ready.json", "Screen.turn.json"];
 const INTERNAL_ERROR: &str = "error: internal error\n";
@@ -77,12 +86,12 @@ fn fixtures(home: &TestHome) -> PathBuf {
 }
 
 #[rstest]
-fn verify_a_complete_set_prints_ten_steps_and_stamps_every_row(#[from(home)] home: TestHome) {
+fn verify_a_complete_set_prints_fourteen_steps_and_stamps_every_row(#[from(home)] home: TestHome) {
     write_spine_set(&fixtures(&home), "2.1.0", None);
     let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &[], &[]);
     assert_eq!(ran.code, Some(0), "stdout {}", ran.stdout_text());
     let mut expected = STEPS_PASS.join("\n");
-    expected.push_str("\nstamped 2.1.0  10 pass  0 fail\n");
+    expected.push_str("\nstamped 2.1.0  14 pass  0 fail\n");
     assert_eq!(ran.stdout_text(), expected);
     assert!(ran.stderr.is_empty(), "stderr {}", ran.stderr_text());
     assert_plain(&ran.stdout);
@@ -103,6 +112,11 @@ fn verify_a_complete_set_prints_ten_steps_and_stamps_every_row(#[from(home)] hom
         ["SessionStart", "UserPromptSubmit", "Stop", "SessionEnd"]
     );
     assert!(measured.values().all(|v| v.as_u64().is_some_and(|b| b > 0)));
+    // The fake agent replays the two parallel calls one after the other, as the live CLI ran them.
+    assert_eq!(
+        entry["measured"]["dialog_probe"]["parallel_both_before_first_post"],
+        false
+    );
     let text = fs::read_to_string(ledger(home.path()).join("stamps.json")).expect("stamps");
     assert!(!text.contains(CANARY), "payload content reached the stamps");
     assert!(ledger(home.path()).join("stamps.json.lock").is_file());
@@ -124,8 +138,9 @@ fn verify_a_complete_set_prints_ten_steps_and_stamps_every_row(#[from(home)] hom
 }
 
 /// The trusted run's turn would wait out the probe deadline for a Stop that never comes, so the
-/// fake agent's trust root is moved off the cwd: its trusted run starts at the trust dialog and is
-/// killed with no key, which fails the three rows a turn measures.
+/// fake agent's trust root is moved off the cwd: its trusted, dialog and plan runs start at the
+/// trust dialog and are killed with no key, which fails the three rows a turn measures and the four
+/// dialog rows.
 #[rstest]
 fn verify_a_set_without_stop_fails_its_rows_and_still_stamps(#[from(home)] home: TestHome) {
     write_spine_set(&fixtures(&home), "2.1.0", Some("Stop"));
@@ -139,16 +154,20 @@ fn verify_a_set_without_stop_fails_its_rows_and_still_stamps(#[from(home)] home:
         lines,
         [
             STEPS_PASS[0],
-            "[02/10] spine-hooks spine hooks fire through the plugin dir  fail",
+            "[02/14] spine-hooks spine hooks fire through the plugin dir  fail",
             STEPS_PASS[2],
             STEPS_PASS[3],
-            "[05/10] stop-message Stop carries last_assistant_message  fail",
+            "[05/14] stop-message Stop carries last_assistant_message  fail",
             STEPS_PASS[5],
             STEPS_PASS[6],
-            "[08/10] input-box-signature a trusted start shows a compiled input-box literal and no modal  fail",
-            "[09/10] quiet-period the screen settles within the gate's maximum wait  fail",
-            "[10/10] confirm-window the typed prompt reaches UserPromptSubmit within the window  fail",
-            "stamped 2.1.0  5 pass  5 fail",
+            "[08/14] input-box-signature a trusted start shows a compiled input-box literal and no modal  fail",
+            "[09/14] quiet-period the screen settles within the gate's maximum wait  fail",
+            "[10/14] confirm-window the typed prompt reaches UserPromptSubmit within the window  fail",
+            "[11/14] question-answer a question answered through PreToolUse takes effect  fail",
+            "[12/14] plan-approve-revise a plan revise and approve each take effect  fail",
+            "[13/14] question-notes free text and notes reach the question  fail",
+            "[14/14] dialog-concurrency two parallel questions each raise a dialog  fail",
+            "stamped 2.1.0  5 pass  9 fail",
         ]
     );
     assert!(ran.stderr.is_empty());
@@ -218,9 +237,12 @@ fn verify_a_batch_script_refuses(#[from(home)] home: TestHome) {
     );
 }
 
-/// Every child runs under the R8 strip: no `env` receipt (the print-mode child and both interactive
-/// runs) lists a stripped name, and the hooks fired are the print turn's four and the trusted run's
-/// three (SessionStart, UserPromptSubmit, Stop); the untrusted run fires none.
+/// Every child runs under the R8 strip: no `env` receipt (the print-mode child and the four
+/// interactive runs) lists a stripped name, and every hook fired ran and exited 0: the print turn's
+/// four, the trusted run's three (SessionStart, UserPromptSubmit, Stop), the dialog run's fifteen
+/// (SessionStart, then per prompt UserPromptSubmit, its dialog events and Stop) and the plan run's
+/// seven; the untrusted run fires none. The dialog and plan runs are each ended by a kill once
+/// their last Stop is captured, which may land before the fake agent receipts that Stop's hook.
 #[rstest]
 fn verify_runs_the_probe_under_the_identity_strip(#[from(home)] home: TestHome) {
     write_spine_set(&fixtures(&home), "2.1.0", None);
@@ -235,7 +257,7 @@ fn verify_runs_the_probe_under_the_identity_strip(#[from(home)] home: TestHome) 
     assert_eq!(ran.code, Some(0));
     let lines = fake::receipt(&receipt);
     let envs = of_kind(&lines, "env");
-    assert_eq!(envs.len(), 3);
+    assert_eq!(envs.len(), 5);
     for env in envs {
         let names: Vec<&str> = env["names"]
             .as_array()
@@ -250,7 +272,7 @@ fn verify_runs_the_probe_under_the_identity_strip(#[from(home)] home: TestHome) 
         );
     }
     let hooks = of_kind(&lines, "hook");
-    assert_eq!(hooks.len(), 7);
+    assert!((27..=29).contains(&hooks.len()), "{} hooks", hooks.len());
     assert!(
         hooks
             .iter()
@@ -285,7 +307,7 @@ fn verify_dispatch_error_keeps_the_chain_in_the_detail_file(#[from(home)] home: 
     assert_eq!(ran.stderr_text(), INTERNAL_ERROR);
     assert!(
         ran.stdout_text()
-            .ends_with("stamped 2.1.0  10 pass  0 fail\n")
+            .ends_with("stamped 2.1.0  14 pass  0 fail\n")
     );
 
     let role_path = home.path().join("diagnostics").join("cli-verifier.ndjson");
@@ -309,6 +331,10 @@ fn verify_dispatch_error_keeps_the_chain_in_the_detail_file(#[from(home)] home: 
             ("process-exit", "version-probe", ""),
             ("process-start", "verify-probe", ""),
             ("process-exit", "verify-probe", ""),
+            ("process-start", "verify-pty-probe", ""),
+            ("process-exit", "verify-pty-probe", ""),
+            ("process-start", "verify-pty-probe", ""),
+            ("process-exit", "verify-pty-probe", ""),
             ("process-start", "verify-pty-probe", ""),
             ("process-exit", "verify-pty-probe", ""),
             ("process-start", "verify-pty-probe", ""),
@@ -356,16 +382,16 @@ fn verify_with_an_instance_logs_its_start_and_exit(#[from(home)] home: TestHome)
 }
 
 /// Each spawn `verify` makes is logged as a pair (obs-plan §6 Child / shell spawns): the `--version`
-/// read as `version-probe`, the print-mode probe as `verify-probe`, and each interactive run as
-/// `verify-pty-probe`, between its own start and exit.
+/// read as `version-probe`, the print-mode probe as `verify-probe`, and each of the four interactive
+/// runs as `verify-pty-probe`, between its own start and exit: six pairs.
 #[rstest]
-fn verify_with_an_instance_logs_both_spawn_pairs(#[from(home)] home: TestHome) {
+fn verify_with_an_instance_logs_its_six_spawn_pairs(#[from(home)] home: TestHome) {
     write_spine_set(&fixtures(&home), "2.1.0", None);
     let env = [("VIOLA_NAME", OsString::from("verifier"))];
     let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &[], &env);
     assert_eq!(ran.code, Some(0));
     let mut expected = STEPS_PASS.join("\n");
-    expected.push_str("\nstamped 2.1.0  10 pass  0 fail\n");
+    expected.push_str("\nstamped 2.1.0  14 pass  0 fail\n");
     assert_eq!(ran.stdout_text(), expected, "stdout is unchanged");
     assert!(ran.stderr.is_empty());
     let role =
@@ -391,6 +417,10 @@ fn verify_with_an_instance_logs_both_spawn_pairs(#[from(home)] home: TestHome) {
             ("process-exit", "verify-pty-probe"),
             ("process-start", "verify-pty-probe"),
             ("process-exit", "verify-pty-probe"),
+            ("process-start", "verify-pty-probe"),
+            ("process-exit", "verify-pty-probe"),
+            ("process-start", "verify-pty-probe"),
+            ("process-exit", "verify-pty-probe"),
             ("process-exit", "self"),
         ]
     );
@@ -398,7 +428,9 @@ fn verify_with_an_instance_logs_both_spawn_pairs(#[from(home)] home: TestHome) {
         assert_eq!(exit["child_exit_status"], 0);
         assert!(exit["duration_ms"].is_u64());
     }
-    assert!(role[6]["duration_ms"].is_u64(), "the killed run's exit");
+    for killed in [&role[6], &role[10], &role[12]] {
+        assert!(killed["duration_ms"].is_u64(), "a killed run's exit");
+    }
     let validator =
         jsonschema::validator_for(&load_schema(&workspace_path("schemas/diag-line.v1.json")))
             .expect("valid schema");
@@ -428,6 +460,18 @@ fn personal_set(fixtures: &Path, user_home: &Path, user: &str, extra: Option<&st
         fake::write_fixture(fixtures, "2.1.0", event, "default", &body);
     }
     write_screen_set(fixtures, "2.1.0");
+    for (event, variant, mut body) in support::verify::dialog_set() {
+        body["cwd"] = json!(user_home.join("work").to_string_lossy());
+        body["transcript_path"] = json!(
+            user_home
+                .join(".claude")
+                .join("projects")
+                .join(format!("C--Users-{user}--work"))
+                .join("s.jsonl")
+                .to_string_lossy()
+        );
+        fake::write_fixture(fixtures, "2.1.0", event, variant, &body);
+    }
 }
 
 fn user_of(user_home: &Path) -> String {
@@ -439,7 +483,9 @@ fn user_of(user_home: &Path) -> String {
 }
 
 #[rstest]
-fn verify_record_writes_four_scrubbed_fixtures_and_three_screens(#[from(home)] home: TestHome) {
+fn verify_record_writes_the_scrubbed_spine_dialog_variants_and_screens(
+    #[from(home)] home: TestHome,
+) {
     let user_home = std::env::home_dir().expect("a user home");
     let user = user_of(&user_home);
     personal_set(&fixtures(&home), &user_home, &user, None);
@@ -460,6 +506,18 @@ fn verify_record_writes_four_scrubbed_fixtures_and_three_screens(#[from(home)] h
     assert_eq!(
         names,
         [
+            "PermissionRequest.permission-1.json",
+            "PermissionRequest.plan-1.json",
+            "PostToolUse.parallel-1.json",
+            "PostToolUse.parallel-2.json",
+            "PostToolUse.permission-1.json",
+            "PostToolUse.plan-2.json",
+            "PostToolUse.questions-1.json",
+            "PreToolUse.parallel-1.json",
+            "PreToolUse.parallel-2.json",
+            "PreToolUse.plan-1.json",
+            "PreToolUse.plan-2.json",
+            "PreToolUse.questions-1.json",
             "Screen.modal.json",
             "Screen.ready.json",
             "Screen.turn.json",
@@ -518,7 +576,7 @@ fn verify_record_refuses_a_path_outside_the_home(#[from(home)] home: TestHome) {
     assert!(!record.exists(), "a refused recording writes nothing");
     assert!(
         ran.stdout_text()
-            .ends_with("stamped 2.1.0  10 pass  0 fail\n")
+            .ends_with("stamped 2.1.0  14 pass  0 fail\n")
     );
     assert_eq!(
         stamps(home.path())["data"]["versions"]["2.1.0"]["rows"]["spine-hooks"],
@@ -634,12 +692,12 @@ fn verify_record_refuses_a_dirty_kept_row(
     );
     assert!(
         ran.stdout_text()
-            .ends_with("stamped 2.1.0  10 pass  0 fail\n")
+            .ends_with("stamped 2.1.0  14 pass  0 fail\n")
     );
 }
 
-/// The receipt's `cwd` of each fake-agent start: the print probe's, the untrusted run's, the
-/// trusted run's.
+/// The receipt's `cwd` of each fake-agent start: the print probe's, then the untrusted, trusted,
+/// dialog and plan runs'.
 fn cwds(receipt: &Path) -> Vec<PathBuf> {
     of_kind(&fake::receipt(receipt), "cwd")
         .iter()
@@ -651,8 +709,9 @@ fn canonical(path: &Path) -> PathBuf {
     fs::canonicalize(path).expect("canonical")
 }
 
-/// Run A's dir is a fresh `viola-verify-*` dir under the OS temp dir and Run B's is
-/// `<cwd>/.viola-verify-<pid>/`; after a passing run and after a failing one, neither is left.
+/// Run A's dir is a fresh `viola-verify-*` dir under the OS temp dir, Run B's is
+/// `<cwd>/.viola-verify-<pid>/`, and Run C's and Run D's carry `-dialogs` and `-plan`; after a
+/// passing run and after a failing one, none is left.
 #[rstest]
 #[case::passing(false)]
 #[case::failing(true)]
@@ -681,7 +740,7 @@ fn verify_leaves_neither_run_dir_behind(#[from(home)] home: TestHome, #[case] fa
         ran.stdout_text()
     );
     let cwds = cwds(&receipt);
-    assert_eq!(cwds.len(), 3);
+    assert_eq!(cwds.len(), 5);
     for cwd in &cwds {
         assert!(!cwd.exists(), "{} outlived the run", cwd.display());
     }
@@ -697,16 +756,21 @@ fn verify_leaves_neither_run_dir_behind(#[from(home)] home: TestHome, #[case] fa
         canonical(&tmp)
     );
     let trusted = &cwds[2];
-    assert!(
-        trusted
-            .file_name()
+    let name = |p: &Path| {
+        p.file_name()
             .and_then(|n| n.to_str())
-            .is_some_and(|n| n.starts_with(".viola-verify-"))
-    );
-    assert_eq!(
-        canonical(trusted.parent().expect("parent")),
-        canonical(&std::env::current_dir().expect("cwd"))
-    );
+            .unwrap_or("")
+            .to_owned()
+    };
+    assert!(name(trusted).starts_with(".viola-verify-"));
+    assert_eq!(name(&cwds[3]), format!("{}-dialogs", name(trusted)));
+    assert_eq!(name(&cwds[4]), format!("{}-plan", name(trusted)));
+    for run in &cwds[2..] {
+        assert_eq!(
+            canonical(run.parent().expect("parent")),
+            canonical(&std::env::current_dir().expect("cwd"))
+        );
+    }
     assert_eq!(fs::read_dir(&tmp).expect("temp dir").count(), 0);
 }
 
@@ -728,10 +792,10 @@ fn verify_help_names_the_trusted_folder_and_the_external_import_blocker() {
     assert!(!flat.contains("/home/") && !flat.contains(":\\"));
 }
 
-/// Without `--screens` the fake agent shows nothing: each interactive run waits out the gate's
-/// 5 s maximum, and the four rows they measure fail while the six print-mode rows pass.
+/// Without `--screens` the fake agent shows nothing: each of the four interactive runs waits out the
+/// gate's 5 s maximum, and the eight rows they measure fail while the six print-mode rows pass.
 #[rstest]
-fn verify_window_without_screens_fails_the_four_new_rows(#[from(home)] home: TestHome) {
+fn verify_window_without_screens_fails_every_interactive_row(#[from(home)] home: TestHome) {
     write_spine_set(&fixtures(&home), "2.1.0", None);
     let ran = verify_without_screens(home.path(), &fixtures(&home), "2.1.0", &[]);
     assert_eq!(ran.code, Some(1));
@@ -741,13 +805,86 @@ fn verify_window_without_screens_fails_the_four_new_rows(#[from(home)] home: Tes
     for line in &STEPS_PASS[6..] {
         expected.push(line.replace("  pass", "  fail"));
     }
-    expected.push("stamped 2.1.0  6 pass  4 fail".to_owned());
+    expected.push("stamped 2.1.0  6 pass  8 fail".to_owned());
     assert_eq!(lines, expected);
     let rows = &stamps(home.path())["data"]["versions"]["2.1.0"]["rows"];
     for id in &ROW_IDS[6..] {
         assert_eq!(rows[*id], "fail", "{id}");
     }
     assert_eq!(probes_left(home.path()), 0);
+}
+
+/// Without the dialog replay the dialog and plan runs see turns that raise no dialog: the ten spine
+/// and screen rows pass, the four dialog rows fail, the stamp is written and verify exits 1 with
+/// nothing on stderr. The version is then unverified (R2).
+#[rstest]
+fn verify_without_the_dialog_replay_fails_the_four_dialog_rows(#[from(home)] home: TestHome) {
+    write_spine_set(&fixtures(&home), "2.1.0", None);
+    let ran = support::verify::verify_without_dialogs(home.path(), &fixtures(&home), "2.1.0");
+    assert_eq!(ran.code, Some(1));
+    assert!(ran.stderr.is_empty(), "stderr {}", ran.stderr_text());
+    let mut expected: Vec<String> = STEPS_PASS[..10].iter().map(|l| (*l).to_owned()).collect();
+    for line in &STEPS_PASS[10..] {
+        expected.push(line.replace("  pass", "  fail"));
+    }
+    expected.push("stamped 2.1.0  10 pass  4 fail".to_owned());
+    let stdout = ran.stdout_text();
+    assert_eq!(stdout.lines().collect::<Vec<_>>(), expected);
+    assert_plain(&ran.stdout);
+    let rows = &stamps(home.path())["data"]["versions"]["2.1.0"]["rows"];
+    for id in &ROW_IDS[..10] {
+        assert_eq!(rows[*id], "pass", "{id}");
+    }
+    for id in &ROW_IDS[10..] {
+        assert_eq!(rows[*id], "fail", "{id}");
+    }
+    let entry = &stamps(home.path())["data"]["versions"]["2.1.0"];
+    assert!(entry["measured"]["dialog_probe"]["parallel_both_before_first_post"].is_null());
+    assert_eq!(probes_left(home.path()), 0);
+}
+
+/// A path nested inside a dialog payload's `tool_input` survives the scrub: the whole recording is
+/// refused, naming the variant file and the check, never the path.
+#[rstest]
+fn verify_record_refuses_a_nested_path_in_a_dialog_payload(#[from(home)] home: TestHome) {
+    write_spine_set(&fixtures(&home), "2.1.0", None);
+    let dirty = support::verify::tool_payload(
+        "PreToolUse",
+        "AskUserQuestion",
+        Some("toolu_q1"),
+        json!({"tool_input": {"questions": [
+            {"question": "Probe color?", "options": [{"label": "red"}], "description": "/home/elsewhere-5c1e/x"},
+            {"question": "Probe size?", "options": [{"label": "small"}]},
+        ]}}),
+    );
+    fake::write_fixture(
+        &fixtures(&home),
+        "2.1.0",
+        "PreToolUse",
+        "questions-1",
+        &dirty,
+    );
+    let record = home.scratch().join("rec");
+    let record_arg = record.to_str().expect("utf-8").to_owned();
+    let ran = verify(
+        home.path(),
+        &fixtures(&home),
+        "2.1.0",
+        &["--record", &record_arg],
+        &[],
+        &[],
+    );
+    assert_eq!(ran.code, Some(1));
+    assert_eq!(
+        ran.stderr_text(),
+        "unable: a recorded fixture is not clean: PreToolUse.questions-1.json absolute-path\n\
+         hint: record with a viola home under your user home\n"
+    );
+    assert!(!record.exists(), "a refused recording writes nothing");
+    assert!(
+        ran.stdout_text()
+            .ends_with("stamped 2.1.0  14 pass  0 fail\n")
+    );
 }
 
 fn hook_capture(dir: &Path, stdin: &[u8]) -> Ran {

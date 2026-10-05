@@ -321,6 +321,69 @@ fn hook_dialog_tier_fails_open_silently(
     assert!(violations("schemas/diag-line.v1.json", &lines).is_empty());
 }
 
+/// `viola verify`'s answering capture arm (the founder's ruling, 2026-10-05): `hook <event> --capture
+/// <dir> --answers <dir>` exits 0 with nothing on stderr on every input, prints a body only for a
+/// mapped answer, and writes nothing but the capture: no role file, no detail file. `--answers`
+/// without `--capture` is the ordinary hook outside a wrapped session: nothing at all.
+#[rstest]
+#[case::mapped("question-first-option", None, true)]
+#[case::unknown_id("maybe", None, false)]
+#[case::no_answer_file("", None, false)]
+#[case::malformed_payload("question-first-option", Some(Stdin::Malformed), false)]
+#[case::oversize_payload("question-first-option", Some(Stdin::Oversize), false)]
+fn hook_capture_arm_answers_only_a_mapped_answer_and_fails_open(
+    #[case] answer: &str,
+    #[case] stdin: Option<Stdin>,
+    #[case] printed: bool,
+) {
+    let tmp = TestHome::new();
+    let (captures, answers) = (
+        tmp.scratch().join("captures"),
+        tmp.scratch().join("answers"),
+    );
+    std::fs::create_dir_all(&captures).expect("captures");
+    std::fs::create_dir_all(&answers).expect("answers");
+    if !answer.is_empty() {
+        std::fs::write(answers.join("PreToolUse.1"), answer).expect("answer file");
+    }
+    let (captures_arg, answers_arg) = (
+        captures.to_str().expect("utf-8").to_owned(),
+        answers.to_str().expect("utf-8").to_owned(),
+    );
+    let args = [
+        "hook",
+        "pre-tool-use",
+        "--capture",
+        &captures_arg,
+        "--answers",
+        &answers_arg,
+    ];
+    let bytes = stdin.map_or_else(|| dialog_payload("pre-tool-use"), stdin_bytes);
+    let out = run_hook(&args, &[], bytes);
+    assert_eq!(out.code, Some(0));
+    assert!(out.stderr.is_empty(), "stderr: {} bytes", out.stderr.len());
+    if printed {
+        let body: Value = serde_json::from_slice(&out.stdout).expect("one JSON body");
+        assert_eq!(
+            body["hookSpecificOutput"]["updatedInput"]["answers"],
+            json!({CANARY: "a"})
+        );
+    } else {
+        assert!(out.stdout.is_empty(), "stdout: {} bytes", out.stdout.len());
+    }
+    assert_eq!(files_under(&captures).len(), 1, "the capture, and only it");
+    assert!(!tmp.path().exists(), "the arm writes no home");
+
+    let plain = run_hook(
+        &["hook", "pre-tool-use", "--answers", &answers_arg],
+        &[],
+        dialog_payload("pre-tool-use"),
+    );
+    assert_eq!(plain.code, Some(0));
+    assert!(plain.stdout.is_empty() && plain.stderr.is_empty());
+    assert_eq!(files_under(&captures).len(), 1);
+}
+
 /// A panic after the sink holds the instance still fails open (security-plan §Error Handling): it
 /// leaves one payload-free role line and one detail line over 4 KiB carrying the payload and the
 /// backtrace (obs-plan §7). The seam fires before stdin is read, so nothing holds the canary.

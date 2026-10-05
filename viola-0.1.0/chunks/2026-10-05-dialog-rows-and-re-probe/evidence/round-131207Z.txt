@@ -1,0 +1,4 @@
+  5 probe       green · exit 0 · 0.01s · 22 B → 5.log · claude --version
+  6 build       green · exit 0 · 35.25s · 1101 B → 6.log · h="target/e2e-home/viola-record-$(date -u +%Y%m%dT%H%M%SZ)… (259 chars)
+  7 build       green · exit 0 · 36.1s · 1101 B → 7.log · h="target/e2e-home/viola-record-$(date -u +%Y%m%dT%H%M%SZ)… (259 chars)
+round: COMPLETE · legs fired 2/2 · entries 23 · green 3 · red 0 · recorded 0 · timeout 0 · indeterminate 0 · not-run 20

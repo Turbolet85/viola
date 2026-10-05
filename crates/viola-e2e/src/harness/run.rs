@@ -330,7 +330,7 @@ fn tool_arms(
 }
 
 /// The capability-ledger rows `viola verify` prints, as literals: the live run checks each once.
-const LEDGER_ROWS: [&str; 10] = [
+const LEDGER_ROWS: [&str; 14] = [
     "shim-resolution",
     "spine-hooks",
     "session-start-fields",
@@ -341,6 +341,10 @@ const LEDGER_ROWS: [&str; 10] = [
     "input-box-signature",
     "quiet-period",
     "confirm-window",
+    "question-answer",
+    "plan-approve-revise",
+    "question-notes",
+    "dialog-concurrency",
 ];
 
 /// Suite `local-live`: the harness build, then one `viola verify` against the real `claude` (the
@@ -899,17 +903,21 @@ mod tests {
         assert_eq!(suite(&out.doc, "doctest")["failed"], 1);
     }
 
-    const LIVE_PASS: &str = "[01/10] shim-resolution claude resolves  pass\n\
-        [02/10] spine-hooks spine hooks fire  pass\n\
-        [03/10] session-start-fields fields  pass\n\
-        [04/10] prompt-verbatim prompt  pass\n\
-        [05/10] stop-message message  pass\n\
-        [06/10] largest-hook-payload payload  pass\n\
-        [07/10] modal-signature modal  pass\n\
-        [08/10] input-box-signature input box  pass\n\
-        [09/10] quiet-period quiet  pass\n\
-        [10/10] confirm-window window  pass\n\
-        stamped 2.1.288  10 pass  0 fail\n";
+    const LIVE_PASS: &str = "[01/14] shim-resolution claude resolves  pass\n\
+        [02/14] spine-hooks spine hooks fire  pass\n\
+        [03/14] session-start-fields fields  pass\n\
+        [04/14] prompt-verbatim prompt  pass\n\
+        [05/14] stop-message message  pass\n\
+        [06/14] largest-hook-payload payload  pass\n\
+        [07/14] modal-signature modal  pass\n\
+        [08/14] input-box-signature input box  pass\n\
+        [09/14] quiet-period quiet  pass\n\
+        [10/14] confirm-window window  pass\n\
+        [11/14] question-answer question  pass\n\
+        [12/14] plan-approve-revise plan  pass\n\
+        [13/14] question-notes notes  pass\n\
+        [14/14] dialog-concurrency concurrency  pass\n\
+        stamped 2.1.288  14 pass  0 fail\n";
 
     fn live_only() -> Selection {
         Selection {
@@ -979,10 +987,11 @@ mod tests {
 
     #[test]
     fn run_local_live_names_a_missing_or_doubled_row() {
-        let missing = LIVE_PASS.replace("[05/10] stop-message message  pass\n", "");
+        let missing = LIVE_PASS.replace("[05/14] stop-message message  pass\n", "");
         let doubled = LIVE_PASS.replace("stop-message", "prompt-verbatim");
         let failing = LIVE_PASS.replace("stop-message message  pass", "stop-message message  fail");
-        for stdout in [missing, doubled, failing] {
+        let no_dialog_row = LIVE_PASS.replace("[13/14] question-notes notes  pass\n", "");
+        for stdout in [missing, doubled, failing, no_dialog_row] {
             let (out, _) = live_run(Some(0), &stdout, false);
             assert_eq!(out.code, 1);
             assert_eq!(suite(&out.doc, "local-live")["failures"][0], "row-missing");

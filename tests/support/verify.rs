@@ -35,13 +35,162 @@ pub fn spine_payload(event: &str) -> Value {
     body
 }
 
-/// `<fixtures>/<version>/<Event>.default.json` for every spine event but `skip`, and the three
-/// screens a clean pair of interactive runs records.
+/// `<fixtures>/<version>/<Event>.default.json` for every spine event but `skip`, the three screens a
+/// clean pair of interactive runs records, and the dialog set.
 pub fn write_spine_set(fixtures: &Path, version: &str, skip: Option<&str>) {
     for event in SPINE.into_iter().filter(|e| Some(*e) != skip) {
         write_fixture(fixtures, version, event, "default", &spine_payload(event));
     }
     write_screen_set(fixtures, version);
+    write_dialog_set(fixtures, version);
+}
+
+/// The answers the probe's compiled answers put into the questions' PostToolUse: test literals,
+/// never the product's constants.
+pub const FREE_TEXT: &str = "viola probe free text";
+pub const NOTE: &str = "viola probe note";
+
+fn two_questions() -> Value {
+    json!({"questions": [
+        {"question": "Probe color?", "options": [{"label": "red"}, {"label": "blue"}]},
+        {"question": "Probe size?", "options": [{"label": "small"}, {"label": "large"}]},
+    ]})
+}
+
+fn one_question(text: &str) -> Value {
+    json!({"questions": [{"question": text, "options": [{"label": "yes"}, {"label": "no"}]}]})
+}
+
+/// One synthetic tool payload: the event, tool and id, and `extra`'s fields.
+pub fn tool_payload(event: &str, tool: &str, id: Option<&str>, extra: Value) -> Value {
+    let mut body = json!({"hook_event_name": event, "tool_name": tool, "session_id": "s-verify-1",
+        "note": CANARY});
+    if let Some(id) = id {
+        body["tool_use_id"] = json!(id);
+    }
+    if let (Some(body), Value::Object(extra)) = (body.as_object_mut(), extra) {
+        body.extend(extra);
+    }
+    body
+}
+
+/// The twelve dialog variants a clean dialog run and plan run record, the shapes of the live
+/// 2.1.288 probe: `questions-1`, `parallel-1`, `parallel-2`, `permission-1`, `plan-1`, `plan-2`.
+pub fn dialog_set() -> Vec<(&'static str, &'static str, Value)> {
+    let ask = "AskUserQuestion";
+    let plan = "ExitPlanMode";
+    let answered = json!({"tool_input": two_questions(), "tool_response": {
+        "questions": two_questions()["questions"],
+        "answers": {"Probe color?": "red", "Probe size?": FREE_TEXT},
+        "annotations": {"Probe color?": {"notes": NOTE}},
+    }});
+    let reply =
+        |q: &str| json!({"tool_input": one_question(q), "tool_response": {"answers": {q: "yes"}}});
+    let bash = json!({"tool_input": {"command": "touch viola-probe-permission"}});
+    vec![
+        (
+            "PreToolUse",
+            "questions-1",
+            tool_payload(
+                "PreToolUse",
+                ask,
+                Some("toolu_q1"),
+                json!({"tool_input": two_questions()}),
+            ),
+        ),
+        (
+            "PostToolUse",
+            "questions-1",
+            tool_payload("PostToolUse", ask, Some("toolu_q1"), answered),
+        ),
+        (
+            "PreToolUse",
+            "parallel-1",
+            tool_payload(
+                "PreToolUse",
+                ask,
+                Some("toolu_p1"),
+                json!({"tool_input": one_question("Probe left?")}),
+            ),
+        ),
+        (
+            "PostToolUse",
+            "parallel-1",
+            tool_payload("PostToolUse", ask, Some("toolu_p1"), reply("Probe left?")),
+        ),
+        (
+            "PreToolUse",
+            "parallel-2",
+            tool_payload(
+                "PreToolUse",
+                ask,
+                Some("toolu_p2"),
+                json!({"tool_input": one_question("Probe right?")}),
+            ),
+        ),
+        (
+            "PostToolUse",
+            "parallel-2",
+            tool_payload("PostToolUse", ask, Some("toolu_p2"), reply("Probe right?")),
+        ),
+        (
+            "PermissionRequest",
+            "permission-1",
+            tool_payload("PermissionRequest", "Bash", None, bash.clone()),
+        ),
+        (
+            "PostToolUse",
+            "permission-1",
+            tool_payload("PostToolUse", "Bash", Some("toolu_b1"), bash),
+        ),
+        (
+            "PreToolUse",
+            "plan-1",
+            tool_payload(
+                "PreToolUse",
+                plan,
+                Some("toolu_e1"),
+                json!({"tool_input": {"plan": "step one"}}),
+            ),
+        ),
+        (
+            "PermissionRequest",
+            "plan-1",
+            tool_payload(
+                "PermissionRequest",
+                plan,
+                None,
+                json!({"tool_input": {"plan": "step one"}}),
+            ),
+        ),
+        (
+            "PreToolUse",
+            "plan-2",
+            tool_payload(
+                "PreToolUse",
+                plan,
+                Some("toolu_e2"),
+                json!({"tool_input": {"plan": "steps one and two"}}),
+            ),
+        ),
+        (
+            "PostToolUse",
+            "plan-2",
+            tool_payload(
+                "PostToolUse",
+                plan,
+                Some("toolu_e2"),
+                json!({"tool_response": {"plan": "steps one and two"}}),
+            ),
+        ),
+    ]
+}
+
+/// `<fixtures>/<version>/<Event>.<variant>.json` for every [`dialog_set`] entry.
+pub fn write_dialog_set(fixtures: &Path, version: &str) {
+    for (event, variant, body) in dialog_set() {
+        write_fixture(fixtures, version, event, variant, &body);
+    }
 }
 
 /// 24 rows, every one `""` but `at`'s.
@@ -181,8 +330,9 @@ fn spawn_viola(
 }
 
 /// `viola --home <home> verify <before> -- <fake> --cli-version <version> --fixtures <fixtures>
-/// --screens --turn-stop --trusted-root <workspace root> <after>`: the fake agent replays the
-/// recorded screens, and verify's trusted run starts in the cwd, the workspace root.
+/// --screens --turn-stop --dialogs --trusted-root <workspace root> <after>`: the fake agent replays
+/// the recorded screens and dialogs, and verify's trusted runs start under the cwd, the workspace
+/// root.
 pub fn verify(
     home: &Path,
     fixtures: &Path,
@@ -191,8 +341,29 @@ pub fn verify(
     after: &[&str],
     env: &[(&str, OsString)],
 ) -> Ran {
+    verify_with(home, fixtures, version, before, after, env, true)
+}
+
+/// `verify` with no dialog replay: the dialog and plan runs see turns that raise no dialog.
+pub fn verify_without_dialogs(home: &Path, fixtures: &Path, version: &str) -> Ran {
+    verify_with(home, fixtures, version, &[], &[], &[], false)
+}
+
+fn verify_with(
+    home: &Path,
+    fixtures: &Path,
+    version: &str,
+    before: &[&str],
+    after: &[&str],
+    env: &[(&str, OsString)],
+    dialogs: bool,
+) -> Ran {
     let mut args = verify_args(home, fixtures, version, before);
-    args.extend(["--screens", "--turn-stop", "--trusted-root"].map(OsString::from));
+    args.extend(["--screens", "--turn-stop"].map(OsString::from));
+    if dialogs {
+        args.push("--dialogs".into());
+    }
+    args.push("--trusted-root".into());
     args.push(workspace_path("").into());
     args.extend(after.iter().map(OsString::from));
     viola(&args, env)

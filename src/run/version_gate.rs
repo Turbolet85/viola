@@ -187,6 +187,7 @@ mod tests {
             &results,
             &[],
             &TypedRun::default(),
+            None,
             "2026-09-28T10:00:00.000Z",
         )
     }
@@ -220,6 +221,64 @@ mod tests {
             stamps_verdict(Ok(Some(stamp("2.1.0", false))), "2.1.0"),
             (false, None)
         );
+    }
+
+    fn stamp_of(results: &[(LedgerRow, bool)]) -> Vec<u8> {
+        merge_stamp(
+            None,
+            "2.1.0",
+            results,
+            &[],
+            &TypedRun::default(),
+            None,
+            "2026-10-05T12:00:00.000Z",
+        )
+    }
+
+    /// The verdict needs the dialog rows (R2 closed): a stamp written before they landed (the ten
+    /// spine and screen rows) and one whose dialog row failed both leave the version unverified;
+    /// all fourteen passing verifies it.
+    #[test]
+    fn stamps_verdict_needs_the_dialog_rows() {
+        let ten = [
+            LedgerRow::ShimResolution,
+            LedgerRow::SpineHooks,
+            LedgerRow::SessionStartFields,
+            LedgerRow::PromptVerbatim,
+            LedgerRow::StopMessage,
+            LedgerRow::LargestHookPayload,
+            LedgerRow::ModalSignature,
+            LedgerRow::InputBoxSignature,
+            LedgerRow::QuietPeriod,
+            LedgerRow::ConfirmWindow,
+        ];
+        let spine: Vec<(LedgerRow, bool)> = ten.iter().map(|r| (*r, true)).collect();
+        assert_eq!(
+            stamps_verdict(Ok(Some(stamp_of(&spine))), "2.1.0"),
+            (false, None)
+        );
+        let dialogs = [
+            LedgerRow::QuestionAnswer,
+            LedgerRow::PlanApproveRevise,
+            LedgerRow::QuestionNotes,
+            LedgerRow::DialogConcurrency,
+        ];
+        let mut all = spine.clone();
+        all.extend(dialogs.iter().map(|r| (*r, true)));
+        assert_eq!(
+            stamps_verdict(Ok(Some(stamp_of(&all))), "2.1.0"),
+            (true, None)
+        );
+        for failing in dialogs {
+            let rows: Vec<(LedgerRow, bool)> =
+                all.iter().map(|(r, p)| (*r, *p && *r != failing)).collect();
+            assert_eq!(
+                stamps_verdict(Ok(Some(stamp_of(&rows))), "2.1.0"),
+                (false, None),
+                "{}",
+                failing.id()
+            );
+        }
     }
 
     /// The test binary lists its tests and exits: its stdout comes back whole.

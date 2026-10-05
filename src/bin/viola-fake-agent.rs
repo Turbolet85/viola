@@ -14,6 +14,7 @@ use std::sync::{Arc, Mutex, PoisonError};
 use std::time::Duration;
 
 use serde_json::{Value, json};
+use viola_agent_claude::ledger::dialog_stem;
 
 const DEFAULT_CLI_VERSION: &str = "2.1.287";
 const PASTE_START: &[u8] = b"\x1b[200~";
@@ -56,6 +57,7 @@ struct Opts {
     trusted_root: Option<PathBuf>,
     screens: bool,
     turn_stop: bool,
+    dialogs: bool,
 }
 
 impl Opts {
@@ -83,6 +85,7 @@ impl Opts {
                 "--trusted-root" => o.trusted_root = value().map(PathBuf::from),
                 "--screens" => o.screens = true,
                 "--turn-stop" => o.turn_stop = true,
+                "--dialogs" => o.dialogs = true,
                 HOLD_STDOUT => o.hold_stdout = true,
                 _ => {}
             }
@@ -268,6 +271,13 @@ fn payload(fixture: Vec<u8>, prompt: Option<&str>) -> Vec<u8> {
     }
 }
 
+/// What firing one event did.
+enum Fired {
+    NoHooks,
+    NoFixture,
+    Ran { answered: bool },
+}
+
 struct Agent {
     opts: Opts,
     receipt: Receipt,
@@ -293,46 +303,79 @@ impl Agent {
 
     /// Fires `event`; the returned word is the prompt receipt's `submit` value.
     fn fire(&self, event: &str, variant: &str, prompt: Option<&str>) -> &'static str {
+        match self.fire_answered(event, variant, prompt) {
+            Fired::NoHooks => "no-hooks",
+            Fired::NoFixture => "no-fixture",
+            Fired::Ran { .. } => "fired",
+        }
+    }
+
+    /// `<fixtures>/<cli version>/<event>.<variant>.json`, when it exists.
+    fn fixture(&self, event: &str, variant: &str) -> Option<Vec<u8>> {
+        let dir = self.opts.fixtures.as_ref()?.join(self.opts.cli_version());
+        fs::read(dir.join(format!("{event}.{variant}.json"))).ok()
+    }
+
+    /// Fires `event` and reports whether any hook it ran printed something: a dialog's decision.
+    fn fire_answered(&self, event: &str, variant: &str, prompt: Option<&str>) -> Fired {
         let hooks = self
             .opts
             .plugin_dir
             .as_ref()
             .and_then(|d| fs::read_to_string(d.join("hooks").join("hooks.json")).ok());
         let Some(hooks) = hooks.filter(|h| !hook_commands(h, event, None).is_empty()) else {
-            return "no-hooks";
+            return Fired::NoHooks;
         };
-        let fixture = self.opts.fixtures.as_ref().and_then(|f| {
-            fs::read(
-                f.join(self.opts.cli_version())
-                    .join(format!("{event}.{variant}.json")),
-            )
-            .ok()
-        });
-        let Some(fixture) = fixture else {
-            return "no-fixture";
+        let Some(fixture) = self.fixture(event, variant) else {
+            return Fired::NoFixture;
         };
         let tool = serde_json::from_slice::<Value>(&fixture)
             .ok()
             .and_then(|v| v["tool_name"].as_str().map(str::to_owned));
         let commands = hook_commands(&hooks, event, tool.as_deref());
         let body = payload(fixture, prompt);
+        let mut answered = false;
         for (command, args) in commands {
-            self.run_hook(event, &command, &args, &body);
+            answered |= self.run_hook(event, &command, &args, &body);
         }
-        "fired"
+        Fired::Ran { answered }
     }
 
-    fn run_hook(&self, event: &str, command: &str, args: &[String], body: &[u8]) {
+    /// `--dialogs`: each recorded call of the prompt's `<stem>-<n>` variants in claim order. Its
+    /// PreToolUse fires first; with no decision, its PermissionRequest; a decision from either fires
+    /// its PostToolUse. A call with neither a PreToolUse nor a PermissionRequest fixture ends the turn.
+    fn replay_dialogs(&self, stem: &str) {
+        for n in 1.. {
+            let variant = format!("{stem}-{n}");
+            let has = |event: &str| self.fixture(event, &variant).is_some();
+            if !has("PreToolUse") && !has("PermissionRequest") {
+                break;
+            }
+            let decided = |event: &str| {
+                has(event)
+                    && matches!(
+                        self.fire_answered(event, &variant, None),
+                        Fired::Ran { answered: true }
+                    )
+            };
+            if decided("PreToolUse") || decided("PermissionRequest") {
+                self.fire("PostToolUse", &variant, None);
+            }
+        }
+    }
+
+    /// Runs one hook; `true` when it printed anything on stdout.
+    fn run_hook(&self, event: &str, command: &str, args: &[String], body: &[u8]) -> bool {
         if !Path::new(command).is_absolute() {
             self.receipt.write(
                 "hook",
                 json!({"event": event, "command_absolute": false, "ran": false}),
             );
-            return;
+            return false;
         }
         let closed = self.hooks.lock().unwrap_or_else(PoisonError::into_inner);
         if *closed {
-            return;
+            return false;
         }
         let child = Command::new(command)
             .args(args)
@@ -346,19 +389,26 @@ impl Agent {
             }
             c.wait_with_output()
         });
-        let fields = match output {
-            Ok(out) => json!({
-                "event": event,
-                "command_absolute": true,
-                "ran": true,
-                "exit_code": out.status.code(),
-                "stderr_len": out.stderr.len(),
-                "stdout_hex": hex(&out.stdout),
-                "stdin_hex": hex(body),
-            }),
-            Err(_) => json!({"event": event, "command_absolute": true, "ran": false}),
+        let (fields, printed) = match output {
+            Ok(out) => (
+                json!({
+                    "event": event,
+                    "command_absolute": true,
+                    "ran": true,
+                    "exit_code": out.status.code(),
+                    "stderr_len": out.stderr.len(),
+                    "stdout_hex": hex(&out.stdout),
+                    "stdin_hex": hex(body),
+                }),
+                !out.stdout.is_empty(),
+            ),
+            Err(_) => (
+                json!({"event": event, "command_absolute": true, "ran": false}),
+                false,
+            ),
         };
         self.receipt.write("hook", fields);
+        printed
     }
 
     fn submit(&self, bytes: &[u8], origin: &str) {
@@ -369,6 +419,9 @@ impl Agent {
             "local-command"
         } else {
             let fired = self.fire("UserPromptSubmit", "default", Some(&text));
+            if let Some(stem) = dialog_stem(&text).filter(|_| self.opts.dialogs) {
+                self.replay_dialogs(stem);
+            }
             if self.opts.turn_stop {
                 self.fire("Stop", "default", None);
                 write_screen(&self.opts, "turn");
@@ -727,6 +780,7 @@ mod tests {
             "t",
             "--screens",
             "--turn-stop",
+            "--dialogs",
             "--version",
             "-p",
             "a prompt",
@@ -747,7 +801,7 @@ mod tests {
         assert!(o.inject_harness_turn && o.exit_no_eof && !o.hold_stdout);
         assert!(o.vt100_panic_bytes);
         assert_eq!(o.trusted_root.as_deref(), Some(Path::new("t")));
-        assert!(o.screens && o.turn_stop);
+        assert!(o.screens && o.turn_stop && o.dialogs);
         assert!(Opts::parse(&args(&[HOLD_STDOUT])).hold_stdout);
     }
 
@@ -759,7 +813,7 @@ mod tests {
         assert!(!o.version && !o.exit_no_eof && !o.suppress_prompt_submit);
         assert!(!o.vt100_panic_bytes);
         assert!(o.print.is_none());
-        assert!(!o.screens && !o.turn_stop && o.trusted_root.is_none());
+        assert!(!o.screens && !o.turn_stop && !o.dialogs && o.trusted_root.is_none());
         assert!(!o.trusted(), "no root: every cwd is untrusted");
     }
 

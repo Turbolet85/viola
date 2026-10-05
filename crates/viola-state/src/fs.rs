@@ -211,6 +211,16 @@ pub fn open_private_append(path: &Path) -> io::Result<File> {
     Ok(file)
 }
 
+/// A new file opened for write, created 0600 on Unix; an existing name fails with `AlreadyExists`, so
+/// of two creators of one name exactly one wins.
+pub fn create_private_new(path: &Path) -> io::Result<File> {
+    let mut options = OpenOptions::new();
+    options.write(true).create_new(true);
+    #[cfg(unix)]
+    std::os::unix::fs::OpenOptionsExt::mode(&mut options, FILE_MODE);
+    options.open(path)
+}
+
 /// A `.lock` sibling, 0600 on Unix, opened for write because Windows refuses an exclusive lock on
 /// an append-only handle.
 pub fn open_private_lock(path: &Path) -> io::Result<File> {
@@ -295,6 +305,24 @@ mod tests {
         let fresh = tmp.path().join("fresh");
         replace_private_shared(&fresh, b"new", FILE_MODE).expect("written");
         assert_eq!(fs::read(&fresh).expect("read"), b"new");
+    }
+
+    #[test]
+    fn create_private_new_creates_once_and_refuses_an_existing_name() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let path = tmp.path().join("claim");
+        let mut file = create_private_new(&path).expect("created");
+        file.write_all(b"first").expect("write");
+        drop(file);
+        let again = create_private_new(&path).expect_err("an existing name");
+        assert_eq!(again.kind(), io::ErrorKind::AlreadyExists);
+        assert_eq!(fs::read(&path).expect("read"), b"first");
+        #[cfg(unix)]
+        {
+            use std::os::unix::fs::PermissionsExt as _;
+            let mode = fs::metadata(&path).expect("meta").permissions().mode();
+            assert_eq!(mode & 0o777, FILE_MODE);
+        }
     }
 
     /// Windows refuses to replace a read-only file: the stand-in for a target another start holds.

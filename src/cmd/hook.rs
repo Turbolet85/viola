@@ -16,12 +16,14 @@ use serde_json::{Map, Value, json};
 use tracing::instrument;
 use viola_agent_claude::dialog::{Dialog, Response, classify, decision_body};
 use viola_agent_claude::hook::{HookEvent, Normalised};
-use viola_agent_claude::ledger::{capture_file_name, parse_capture_file_name};
+use viola_agent_claude::ledger::{
+    ProbeAnswer, answer_file_name, capture_file_name, parse_capture_file_name, probe_body,
+};
 use viola_channel::{ChannelError, Client};
 use viola_core::obs::{ObsEvent, ObsProcess};
 use viola_core::{DIALOG_DEADLINE, MAX_FRAME, ViolaName, obs_event};
 use viola_state::events::{EventLine, Source, try_append_event};
-use viola_state::fs::{FILE_MODE, replace_private};
+use viola_state::fs::{FILE_MODE, create_private_new, replace_private};
 use viola_state::snapshot::read_snapshot;
 
 use super::Failure;
@@ -36,6 +38,9 @@ pub(crate) struct HookArgs {
     /// File the raw payload into this directory and do nothing else
     #[arg(long, hide = true, value_name = "DIR")]
     capture: Option<PathBuf>,
+    /// With --capture: print this dialog event's compiled answer, read from this directory
+    #[arg(long, hide = true, value_name = "DIR")]
+    answers: Option<PathBuf>,
 }
 
 /// The hook's whole budget from its start, kept below `viola_core::SPINE_DEADLINE`, the bound the
@@ -87,7 +92,10 @@ pub(crate) fn hook(args: &HookArgs) -> Result<ExitCode, Failure> {
         return Ok(ExitCode::SUCCESS);
     };
     if let Some(dir) = &args.capture {
-        capture(event, dir, &mut std::io::stdin().lock());
+        let filed = capture(event, dir, &mut std::io::stdin().lock());
+        if let (Some(filed), Some(answers)) = (filed, &args.answers) {
+            answer(event, dir, answers, &filed, &mut std::io::stdout().lock());
+        }
         return Ok(ExitCode::SUCCESS);
     }
     let instance = instance_of(
@@ -338,18 +346,82 @@ fn dialog_decided(
     }
 }
 
+/// One filed capture: the `k` it claimed and the bytes as read.
+#[derive(Debug)]
+struct Filed {
+    k: u32,
+    bytes: Vec<u8>,
+}
+
 /// The raw payload into the first free `<dir>/<Event>.<k>.json`, and nothing else: no `VIOLA_*`
 /// read, no log, no channel. `dir` must be an absolute, existing directory; every failure writes
 /// nothing.
-fn capture(event: HookEvent, dir: &Path, stdin: &mut dyn Read) -> Option<PathBuf> {
+fn capture(event: HookEvent, dir: &Path, stdin: &mut dyn Read) -> Option<Filed> {
     if !dir.is_absolute() || !dir.is_dir() {
         return None;
     }
     let mut bytes = Vec::new();
     stdin.take(MAX_FRAME + 1).read_to_end(&mut bytes).ok()?;
-    let path = dir.join(capture_file_name(event, free_k(dir)?));
+    file_from(event, dir, bytes, free_k(dir)?)
+}
+
+/// `bytes` filed under the first `<dir>/<Event>.<k>.json` from `start` on that this call creates
+/// itself: a name another capture holds moves the claim to the next `k`, so two concurrent captures
+/// never share one, and the claim order is the order the names sort in. The bytes then replace the
+/// empty claim.
+fn file_from(event: HookEvent, dir: &Path, bytes: Vec<u8>, start: u32) -> Option<Filed> {
+    let mut k = start;
+    let path = loop {
+        let path = dir.join(capture_file_name(event, k));
+        match create_private_new(&path) {
+            Ok(_) => break path,
+            Err(e) if e.kind() == std::io::ErrorKind::AlreadyExists => k = k.checked_add(1)?,
+            Err(_) => return None,
+        }
+    };
     replace_private(&path, &bytes, FILE_MODE).ok()?;
-    Some(path)
+    Some(Filed { k, bytes })
+}
+
+/// The bound on an answer file: a `ProbeAnswer` id is shorter.
+const ANSWER_CAP: u64 = 64;
+
+/// `viola verify`'s answering probe (the founder's ruling, 2026-10-05): for a dialog event, the
+/// answer `<answers>/<Event>.<j>` names (`j` this event's ordinal in claim order) becomes the body
+/// the product's own mapping builds over the filed payload, printed as one write. No answers file,
+/// an unknown id, a payload the answer cannot map, a relative `answers` or a failed read or write
+/// prints nothing.
+fn answer(event: HookEvent, captures: &Path, answers: &Path, filed: &Filed, out: &mut dyn Write) {
+    if !event.is_dialog() || !answers.is_absolute() {
+        return;
+    }
+    let Some(j) = ordinal(captures, event, filed.k) else {
+        return;
+    };
+    let Ok(file) = std::fs::File::open(answers.join(answer_file_name(event, j))) else {
+        return;
+    };
+    let mut id = String::new();
+    if file.take(ANSWER_CAP).read_to_string(&mut id).is_err() {
+        return;
+    }
+    let Some(body) =
+        ProbeAnswer::from_id(&id).and_then(|answer| probe_body(event, &filed.bytes, answer))
+    else {
+        return;
+    };
+    let _ = out.write_all(body.as_bytes()).and_then(|()| out.flush());
+}
+
+/// How many captures of `event` in `dir` hold a `k` no greater than `k`.
+fn ordinal(dir: &Path, event: HookEvent, k: u32) -> Option<u32> {
+    let n = std::fs::read_dir(dir)
+        .ok()?
+        .flatten()
+        .filter_map(|e| parse_capture_file_name(e.file_name().to_str()?))
+        .filter(|(e, own)| *e == event && *own <= k)
+        .count();
+    u32::try_from(n).ok()
 }
 
 /// The first `k` no capture of any event holds, so the names sort in arrival order. `n` captures
@@ -817,10 +889,201 @@ mod tests {
         assert_eq!(replied(&reply), asked);
     }
 
+    /// Two captures that both read the same free `k` before either claims it: the race forced open,
+    /// never sampled. Both payloads stay, under `k` and `k + 1`.
+    #[test]
+    fn capture_two_claims_racing_for_one_k_keep_both_payloads() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let k = free_k(tmp.path()).expect("a free k");
+        let again = free_k(tmp.path()).expect("the same free k");
+        assert_eq!((k, again), (1, 1));
+        let first = file_from(HookEvent::PreToolUse, tmp.path(), b"first".to_vec(), k)
+            .expect("the first claim");
+        let second = file_from(HookEvent::PreToolUse, tmp.path(), b"second".to_vec(), again)
+            .expect("the second claim");
+        assert_eq!((first.k, second.k), (1, 2));
+        assert_eq!(
+            fs::read(tmp.path().join("PreToolUse.1.json")).expect("k"),
+            b"first"
+        );
+        assert_eq!(
+            fs::read(tmp.path().join("PreToolUse.2.json")).expect("k + 1"),
+            b"second"
+        );
+        assert_eq!(second.bytes, b"second");
+    }
+
+    const TWO_QUESTIONS: &str = r#"{"tool_name":"AskUserQuestion","tool_input":{"questions":[{"question":"Probe color?","options":[{"label":"red"},{"label":"blue"}]},{"question":"Probe size?","options":[{"label":"small"}]}]}}"#;
+
+    /// A captures dir and an answers dir under one temp dir, the answers written as the table gives.
+    fn answering(answers: &[(&str, &str)]) -> (tempfile::TempDir, PathBuf, PathBuf) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (captures, dir) = (tmp.path().join("captures"), tmp.path().join("answers"));
+        fs::create_dir(&captures).expect("captures");
+        fs::create_dir(&dir).expect("answers");
+        for (name, id) in answers {
+            fs::write(dir.join(name), id).expect("answer");
+        }
+        (tmp, captures, dir)
+    }
+
+    fn answered(event: HookEvent, captures: &Path, answers: &Path, stdin: &str) -> Vec<u8> {
+        let filed = capture(event, captures, &mut stdin.as_bytes()).expect("filed");
+        let mut out = Vec::new();
+        answer(event, captures, answers, &filed, &mut out);
+        out
+    }
+
+    #[test]
+    fn answer_prints_the_product_body_for_the_ordinal_s_answer() {
+        let (_tmp, captures, answers) = answering(&[
+            ("PreToolUse.1", "questions-first-and-free-text"),
+            ("PreToolUse.2", "question-first-option"),
+        ]);
+        let first = answered(HookEvent::PreToolUse, &captures, &answers, TWO_QUESTIONS);
+        let body: Value = serde_json::from_slice(&first).expect("one body");
+        let updated = &body["hookSpecificOutput"]["updatedInput"];
+        assert_eq!(
+            updated["answers"],
+            json!({"Probe color?": "red", "Probe size?": "viola probe free text"})
+        );
+        assert_eq!(
+            updated["annotations"],
+            json!({"Probe color?": {"notes": "viola probe note"}})
+        );
+        let second = answered(HookEvent::PreToolUse, &captures, &answers, TWO_QUESTIONS);
+        let body: Value = serde_json::from_slice(&second).expect("one body");
+        assert_eq!(
+            body["hookSpecificOutput"]["updatedInput"]["answers"],
+            json!({"Probe color?": "red", "Probe size?": "small"})
+        );
+        assert!(
+            answered(HookEvent::PreToolUse, &captures, &answers, TWO_QUESTIONS).is_empty(),
+            "a third PreToolUse has no answer"
+        );
+    }
+
+    /// The ordinal counts only this event's captures: a PermissionRequest between two PreToolUse
+    /// does not move the second PreToolUse's answer.
+    #[test]
+    fn answer_counts_only_this_event_s_captures() {
+        let (_tmp, captures, answers) = answering(&[
+            ("PreToolUse.2", "plan-approve"),
+            ("PermissionRequest.1", "plan-revise"),
+        ]);
+        let plan = r#"{"tool_name":"ExitPlanMode","tool_input":{"plan":"p","planFilePath":"f"}}"#;
+        assert!(answered(HookEvent::PreToolUse, &captures, &answers, plan).is_empty());
+        let revised = answered(HookEvent::PermissionRequest, &captures, &answers, plan);
+        assert_eq!(
+            serde_json::from_slice::<Value>(&revised).expect("body")["hookSpecificOutput"]["decision"]
+                ["behavior"],
+            "deny"
+        );
+        let approved = answered(HookEvent::PreToolUse, &captures, &answers, plan);
+        assert_eq!(
+            serde_json::from_slice::<Value>(&approved).expect("body")["hookSpecificOutput"]["updatedInput"],
+            json!({"plan": "p", "planFilePath": "f"})
+        );
+        assert_eq!(ordinal(&captures, HookEvent::PreToolUse, 3), Some(2));
+        assert_eq!(ordinal(&captures, HookEvent::PreToolUse, 2), Some(1));
+        assert_eq!(ordinal(&captures, HookEvent::PermissionRequest, 3), Some(1));
+        assert_eq!(ordinal(&captures.join("missing"), HookEvent::Stop, 1), None);
+    }
+
+    #[rstest]
+    #[case::unknown_id(HookEvent::PreToolUse, "PreToolUse.1", "maybe", TWO_QUESTIONS)]
+    #[case::id_with_a_newline(
+        HookEvent::PreToolUse,
+        "PreToolUse.1",
+        "question-first-option\n",
+        TWO_QUESTIONS
+    )]
+    #[case::no_file_for_the_ordinal(
+        HookEvent::PreToolUse,
+        "PreToolUse.2",
+        "question-first-option",
+        TWO_QUESTIONS
+    )]
+    #[case::unmappable_payload(
+        HookEvent::PreToolUse,
+        "PreToolUse.1",
+        "question-first-option",
+        r#"{"tool_input":{}}"#
+    )]
+    #[case::payload_not_json(
+        HookEvent::PreToolUse,
+        "PreToolUse.1",
+        "question-first-option",
+        "not json"
+    )]
+    #[case::wrong_event_for_the_answer(
+        HookEvent::PermissionRequest,
+        "PermissionRequest.1",
+        "question-first-option",
+        TWO_QUESTIONS
+    )]
+    #[case::spine_event(HookEvent::Stop, "Stop.1", "permit-allow", TWO_QUESTIONS)]
+    fn answer_prints_nothing_without_a_mapped_answer(
+        #[case] event: HookEvent,
+        #[case] name: &str,
+        #[case] id: &str,
+        #[case] stdin: &str,
+    ) {
+        let (_tmp, captures, answers) = answering(&[(name, id)]);
+        assert!(answered(event, &captures, &answers, stdin).is_empty());
+    }
+
+    #[test]
+    fn answer_reads_no_relative_answers_dir_and_no_oversize_file() {
+        let (_tmp, captures, answers) = answering(&[
+            ("PreToolUse.1", "question-first-option"),
+            ("PreToolUse.2", "question-first-option"),
+        ]);
+        let relative = Path::new("viola-answers-relative-5c1e");
+        assert!(answered(HookEvent::PreToolUse, &captures, relative, TWO_QUESTIONS).is_empty());
+        let (_tmp2, captures2, answers2) = answering(&[]);
+        let padded = format!("question-first-option{}", " ".repeat(64));
+        fs::write(answers2.join("PreToolUse.1"), padded).expect("oversize answer");
+        assert!(answered(HookEvent::PreToolUse, &captures2, &answers2, TWO_QUESTIONS).is_empty());
+        assert!(!answered(HookEvent::PreToolUse, &captures, &answers, TWO_QUESTIONS).is_empty());
+    }
+
+    /// A failing write is swallowed: the hook still has nothing to report.
+    #[test]
+    fn answer_swallows_a_failed_write() {
+        struct Closed;
+        impl Write for Closed {
+            fn write(&mut self, _: &[u8]) -> std::io::Result<usize> {
+                Err(std::io::Error::other("closed"))
+            }
+            fn flush(&mut self) -> std::io::Result<()> {
+                Ok(())
+            }
+        }
+        let (_tmp, captures, answers) = answering(&[("PreToolUse.1", "question-first-option")]);
+        let filed = capture(
+            HookEvent::PreToolUse,
+            &captures,
+            &mut TWO_QUESTIONS.as_bytes(),
+        )
+        .expect("filed");
+        answer(
+            HookEvent::PreToolUse,
+            &captures,
+            &answers,
+            &filed,
+            &mut Closed,
+        );
+    }
+
+    fn captured_path(event: HookEvent, dir: &Path, stdin: &[u8]) -> Option<PathBuf> {
+        capture(event, dir, &mut &stdin[..]).map(|f| dir.join(capture_file_name(event, f.k)))
+    }
+
     #[test]
     fn capture_files_each_payload_under_the_next_free_k() {
         let tmp = tempfile::tempdir().expect("tempdir");
-        let first = capture(HookEvent::SessionStart, tmp.path(), &mut &b"{\"a\":1}"[..]);
+        let first = captured_path(HookEvent::SessionStart, tmp.path(), b"{\"a\":1}");
         assert_eq!(first, Some(tmp.path().join("SessionStart.1.json")));
         assert_eq!(
             fs::read(tmp.path().join("SessionStart.1.json")).expect("capture"),
@@ -828,14 +1091,14 @@ mod tests {
         );
         fs::write(tmp.path().join("notes.txt"), b"x").expect("unrelated file");
         fs::write(tmp.path().join("Stop.3.json"), b"x").expect("a later k");
-        let second = capture(HookEvent::Stop, tmp.path(), &mut &b"not json"[..]);
+        let second = captured_path(HookEvent::Stop, tmp.path(), b"not json");
         assert_eq!(second, Some(tmp.path().join("Stop.2.json")));
         assert_eq!(
             fs::read(tmp.path().join("Stop.2.json")).expect("raw"),
             b"not json"
         );
-        let third = capture(HookEvent::Stop, tmp.path(), &mut &b""[..]);
-        assert_eq!(third, Some(tmp.path().join("Stop.4.json")));
+        let third = capture(HookEvent::Stop, tmp.path(), &mut &b""[..]).expect("filed");
+        assert_eq!(third.k, 4);
     }
 
     #[test]
@@ -843,7 +1106,7 @@ mod tests {
         let tmp = tempfile::tempdir().expect("tempdir");
         let cap = usize::try_from(MAX_FRAME).expect("fits");
         let body = vec![b' '; cap + 5];
-        let path = capture(HookEvent::Stop, tmp.path(), &mut &body[..]).expect("written");
+        let path = captured_path(HookEvent::Stop, tmp.path(), &body).expect("written");
         assert_eq!(fs::metadata(path).expect("meta").len(), MAX_FRAME + 1);
     }
 
@@ -859,23 +1122,20 @@ mod tests {
     fn capture_refuses_a_bad_dir_or_stdin_and_writes_nothing() {
         let tmp = tempfile::tempdir().expect("tempdir");
         let relative = Path::new("viola-capture-relative-5c1e");
-        assert_eq!(capture(HookEvent::Stop, relative, &mut &b"{}"[..]), None);
+        assert_eq!(captured_path(HookEvent::Stop, relative, b"{}"), None);
         assert!(!relative.exists());
         // A relative dir that exists is refused too: only an absolute path is taken.
-        assert_eq!(
-            capture(HookEvent::Stop, Path::new("."), &mut &b"{}"[..]),
-            None
-        );
+        assert_eq!(captured_path(HookEvent::Stop, Path::new("."), b"{}"), None);
         assert!(!Path::new("Stop.1.json").exists());
         let missing = tmp.path().join("missing");
-        assert_eq!(capture(HookEvent::Stop, &missing, &mut &b"{}"[..]), None);
+        assert_eq!(captured_path(HookEvent::Stop, &missing, b"{}"), None);
         assert!(!missing.exists());
         let file = tmp.path().join("file");
         fs::write(&file, b"x").expect("a file where the dir should be");
-        assert_eq!(capture(HookEvent::Stop, &file, &mut &b"{}"[..]), None);
+        assert_eq!(captured_path(HookEvent::Stop, &file, b"{}"), None);
         let dir = tmp.path().join("dir");
         fs::create_dir(&dir).expect("dir");
-        assert_eq!(capture(HookEvent::Stop, &dir, &mut Failing), None);
+        assert!(capture(HookEvent::Stop, &dir, &mut Failing).is_none());
         assert_eq!(fs::read_dir(&dir).expect("dir").count(), 0);
     }
 

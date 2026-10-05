@@ -287,6 +287,30 @@ pub fn stamped_home(home: TestHome, fake_agent_path: PathBuf) -> StampedHome {
     }
 }
 
+/// A home whose stamp fails the dialog rows: `viola verify` against the fake agent over the
+/// committed set with no dialog replay, so the spine and screen rows pass and the four dialog rows
+/// fail (`10 pass  4 fail`, exit 1). `stamped` stays false: the version is not verified.
+pub fn dialogless_home(home: TestHome) -> StampedHome {
+    let ran = super::verify::verify_without_dialogs(
+        home.path(),
+        &workspace_path("fixtures/claude"),
+        fake::RECORDED_CLI_VERSION,
+    );
+    let stdout = String::from_utf8_lossy(&ran.stdout);
+    let last = stdout.lines().last().unwrap_or_default();
+    let expected = format!("stamped {}  10 pass  4 fail", fake::RECORDED_CLI_VERSION);
+    assert!(
+        ran.code == Some(1) && last == expected,
+        "viola verify did not stamp the dialog rows failed: exit {:?}, last line {last:?}",
+        ran.code
+    );
+    StampedHome {
+        home,
+        fake: PathBuf::from(fake::FAKE),
+        stamped: false,
+    }
+}
+
 /// `viola run <name> -- <fake agent> --control … --receipt …` under an outer PTY, the way a
 /// human's terminal hosts it.
 pub struct Wrapper {

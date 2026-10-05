@@ -4,12 +4,14 @@
 //! `viola verify` run writes; and the scrub a recorded payload passes before it becomes a fixture.
 //! Pure: no I/O. Upstream text is content, compared or copied, never interpreted.
 
+use std::collections::BTreeMap;
 use std::time::Duration;
 
 use serde_json::{Map, Value, json};
 use viola_core::MAX_FRAME;
 
 use crate::AgentError;
+use crate::dialog::{Permit, Response, Verdict, decision_body};
 use crate::hook::HookEvent;
 use crate::screen::{CONFIRM_WINDOW_FALLBACK, GATE_MAX_WAIT, SIGNATURES};
 
@@ -26,10 +28,14 @@ pub enum LedgerRow {
     InputBoxSignature,
     QuietPeriod,
     ConfirmWindow,
+    QuestionAnswer,
+    PlanApproveRevise,
+    QuestionNotes,
+    DialogConcurrency,
 }
 
 impl LedgerRow {
-    pub const ALL: [Self; 10] = [
+    pub const ALL: [Self; 14] = [
         Self::ShimResolution,
         Self::SpineHooks,
         Self::SessionStartFields,
@@ -40,6 +46,10 @@ impl LedgerRow {
         Self::InputBoxSignature,
         Self::QuietPeriod,
         Self::ConfirmWindow,
+        Self::QuestionAnswer,
+        Self::PlanApproveRevise,
+        Self::QuestionNotes,
+        Self::DialogConcurrency,
     ];
 
     /// The kebab-case id, the key under a stamped version's `rows`.
@@ -55,6 +65,10 @@ impl LedgerRow {
             Self::InputBoxSignature => "input-box-signature",
             Self::QuietPeriod => "quiet-period",
             Self::ConfirmWindow => "confirm-window",
+            Self::QuestionAnswer => "question-answer",
+            Self::PlanApproveRevise => "plan-approve-revise",
+            Self::QuestionNotes => "question-notes",
+            Self::DialogConcurrency => "dialog-concurrency",
         }
     }
 
@@ -73,12 +87,206 @@ impl LedgerRow {
             }
             Self::QuietPeriod => "the screen settles within the gate's maximum wait",
             Self::ConfirmWindow => "the typed prompt reaches UserPromptSubmit within the window",
+            Self::QuestionAnswer => "a question answered through PreToolUse takes effect",
+            Self::PlanApproveRevise => "a plan revise and approve each take effect",
+            Self::QuestionNotes => "free text and notes reach the question",
+            Self::DialogConcurrency => "two parallel questions each raise a dialog",
         }
     }
 }
 
 /// The probe's synthetic prompt: ASCII, no tag characters.
 pub const PROBE_PROMPT: &str = "viola verify probe: reply with the single word ok";
+
+/// The dialog run's first prompt: one AskUserQuestion call carrying two questions.
+pub const DIALOG_PROMPT_QUESTIONS: &str = "viola verify probe: call the AskUserQuestion tool exactly \
+     once, with two questions in that one call. Question 1 is Probe color? with the options red and \
+     blue. Question 2 is Probe size? with the options small and large. After the answers come back, \
+     reply with the single word ok.";
+/// The dialog run's second prompt: two AskUserQuestion calls in one message.
+pub const DIALOG_PROMPT_PARALLEL: &str = "viola verify probe: in one single message, make two \
+     AskUserQuestion tool calls in parallel, each call with one question. The first call asks Probe \
+     left? with the options yes and no. The second call asks Probe right? with the options yes and \
+     no. After both answers come back, reply with the single word ok.";
+/// The dialog run's third prompt: one ordinary tool call the session's `ask` rule holds.
+pub const DIALOG_PROMPT_PERMISSION: &str = "viola verify probe: run exactly this shell command with \
+     the Bash tool, nothing else: touch viola-probe-permission. Then reply with the single word ok.";
+/// The plan run's prompt, in plan mode.
+pub const PLAN_PROMPT: &str = "viola verify probe: make a plan only, do not run anything. The plan \
+     has one step: reply with the word done. Present the plan with the ExitPlanMode tool. If the plan \
+     is sent back, revise it once as asked and present it again with ExitPlanMode.";
+
+/// The dialog run's `--settings`: a session-scoped `ask` rule, which outranks a user `allow`.
+pub const DIALOG_SETTINGS: &str =
+    r#"{"permissions":{"ask":["Bash(touch viola-probe-permission)"]}}"#;
+
+/// The plan run's `--settings`: the CLI's plan file goes into `plans_dir`, inside the run's own dir.
+pub fn plan_settings(plans_dir: &str) -> String {
+    json!({ "plansDirectory": plans_dir }).to_string()
+}
+
+/// The free text, note and revise message the probe answers with: ASCII, no tag characters.
+pub const PROBE_FREE_TEXT: &str = "viola probe free text";
+pub const PROBE_NOTE: &str = "viola probe note";
+pub const PROBE_REVISE: &str =
+    "viola probe revise: add one more step to the plan, then present it again with ExitPlanMode";
+
+/// The two interactive runs that raise dialogs: Run C (questions and a permission), Run D (a plan).
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum DialogRun {
+    Questions,
+    Plan,
+}
+
+/// Each dialog prompt, its run and the stem its recorded variants carry, in paste order.
+pub const DIALOG_TURNS: [(DialogRun, &str, &str); 4] = [
+    (DialogRun::Questions, DIALOG_PROMPT_QUESTIONS, "questions"),
+    (DialogRun::Questions, DIALOG_PROMPT_PARALLEL, "parallel"),
+    (DialogRun::Questions, DIALOG_PROMPT_PERMISSION, "permission"),
+    (DialogRun::Plan, PLAN_PROMPT, "plan"),
+];
+
+/// The variant stem of a compiled dialog prompt; any other text has none.
+pub fn dialog_stem(prompt: &str) -> Option<&'static str> {
+    DIALOG_TURNS
+        .iter()
+        .find(|(_, p, _)| *p == prompt)
+        .map(|(_, _, stem)| *stem)
+}
+
+/// The answer the probe's capture hook gives one dialog event.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ProbeAnswer {
+    QuestionsFirstAndFreeText,
+    QuestionFirstOption,
+    PlanRevise,
+    PlanApprove,
+    PermitAllow,
+}
+
+impl ProbeAnswer {
+    pub const ALL: [Self; 5] = [
+        Self::QuestionsFirstAndFreeText,
+        Self::QuestionFirstOption,
+        Self::PlanRevise,
+        Self::PlanApprove,
+        Self::PermitAllow,
+    ];
+
+    pub const fn id(self) -> &'static str {
+        match self {
+            Self::QuestionsFirstAndFreeText => "questions-first-and-free-text",
+            Self::QuestionFirstOption => "question-first-option",
+            Self::PlanRevise => "plan-revise",
+            Self::PlanApprove => "plan-approve",
+            Self::PermitAllow => "permit-allow",
+        }
+    }
+
+    pub fn from_id(id: &str) -> Option<Self> {
+        Self::ALL.into_iter().find(|a| a.id() == id)
+    }
+}
+
+/// Which answer goes to which dialog event: (run, event, ordinal of that event in the run). Run D's
+/// first PreToolUse is left unanswered, so the CLI raises the plan's PermissionRequest.
+pub const PROBE_ANSWERS: [(DialogRun, HookEvent, u32, ProbeAnswer); 6] = [
+    (
+        DialogRun::Questions,
+        HookEvent::PreToolUse,
+        1,
+        ProbeAnswer::QuestionsFirstAndFreeText,
+    ),
+    (
+        DialogRun::Questions,
+        HookEvent::PreToolUse,
+        2,
+        ProbeAnswer::QuestionFirstOption,
+    ),
+    (
+        DialogRun::Questions,
+        HookEvent::PreToolUse,
+        3,
+        ProbeAnswer::QuestionFirstOption,
+    ),
+    (
+        DialogRun::Questions,
+        HookEvent::PermissionRequest,
+        1,
+        ProbeAnswer::PermitAllow,
+    ),
+    (
+        DialogRun::Plan,
+        HookEvent::PermissionRequest,
+        1,
+        ProbeAnswer::PlanRevise,
+    ),
+    (
+        DialogRun::Plan,
+        HookEvent::PreToolUse,
+        2,
+        ProbeAnswer::PlanApprove,
+    ),
+];
+
+/// `<Event>.<ordinal>`: an answer file's name in a run's answers dir.
+pub fn answer_file_name(event: HookEvent, ordinal: u32) -> String {
+    format!("{}.{ordinal}", event_name(event))
+}
+
+/// The body the product's own mapping (`dialog::decision_body`) gives `answer` over a captured
+/// `payload`, keyed by the payload's own question texts; `None` when the payload does not carry what
+/// the answer needs.
+pub fn probe_body(event: HookEvent, payload: &[u8], answer: ProbeAnswer) -> Option<String> {
+    let payload: Value = serde_json::from_slice(payload).ok()?;
+    let input = payload.get("tool_input")?;
+    let response = match answer {
+        ProbeAnswer::QuestionsFirstAndFreeText | ProbeAnswer::QuestionFirstOption => {
+            question_response(input, answer == ProbeAnswer::QuestionsFirstAndFreeText)?
+        }
+        ProbeAnswer::PlanRevise => Response::Plan {
+            behavior: Verdict::Revise,
+            message: Some(PROBE_REVISE.to_owned()),
+        },
+        ProbeAnswer::PlanApprove => Response::Plan {
+            behavior: Verdict::Approve,
+            message: None,
+        },
+        ProbeAnswer::PermitAllow => Response::Permission {
+            behavior: Permit::Allow,
+            message: None,
+        },
+    };
+    decision_body(event, input, &response)
+}
+
+/// Every question's first option; with `free_text`, the second question's answer is the free text
+/// and the first question carries the note.
+fn question_response(input: &Value, free_text: bool) -> Option<Response> {
+    let questions = input["questions"].as_array()?;
+    let mut answers = BTreeMap::new();
+    for (i, question) in questions.iter().enumerate() {
+        let text = question["question"].as_str()?;
+        let value = if free_text && i == 1 {
+            PROBE_FREE_TEXT
+        } else {
+            question["options"][0]["label"].as_str()?
+        };
+        answers.insert(text.to_owned(), value.to_owned());
+    }
+    let annotations = if free_text {
+        let first = questions.first()?["question"].as_str()?;
+        let mut map = Map::new();
+        map.insert(first.to_owned(), json!({ "notes": PROBE_NOTE }));
+        Some(map)
+    } else {
+        None
+    };
+    Some(Response::Question {
+        answers,
+        annotations,
+    })
+}
 
 /// The spine events the capture plugin registers, in the order one print-mode turn fires them.
 pub const CAPTURE_EVENTS: [HookEvent; 4] = [
@@ -114,12 +322,24 @@ pub fn parse_version(stdout: &[u8]) -> Option<String> {
     (fields.len() == 3 && fields.iter().all(decimal)).then(|| version.to_owned())
 }
 
-/// The probe's plugin folder, each file as `(relative path, content)`: every spine event runs
+/// The tools whose PreToolUse the dialog plugin registers: the two that raise a dialog.
+pub const DIALOG_MATCHER: &str = "AskUserQuestion|ExitPlanMode";
+
+/// Which events a probe plugin registers: the spine alone (the print probe, Run B), or the spine and
+/// the dialog tier, whose two dialog events also answer from `answers_dir_fwd` (Run C, Run D).
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ProbePlugin<'a> {
+    Spine,
+    Dialog { answers_dir_fwd: &'a str },
+}
+
+/// The probe's plugin folder, each file as `(relative path, content)`: every registered event runs
 /// `<pinned viola> hook <event> --capture <capture dir>` in exec form, the shape the run plugin
-/// takes.
+/// takes; a dialog plugin's PreToolUse and PermissionRequest add `--answers <answers dir>`.
 pub fn capture_plugin_files(
     pinned_bin_fwd: &str,
     capture_dir_fwd: &str,
+    kind: ProbePlugin<'_>,
 ) -> [(&'static str, String); 2] {
     let plugin = json!({
         "name": "viola-verify-probe",
@@ -127,16 +347,33 @@ pub fn capture_plugin_files(
         "description": "viola verify: records the probe's raw hook payloads",
     });
     let mut hooks = Map::new();
-    for event in CAPTURE_EVENTS {
+    let dialog = [
+        HookEvent::PreToolUse,
+        HookEvent::PermissionRequest,
+        HookEvent::PostToolUse,
+    ];
+    let events = match kind {
+        ProbePlugin::Spine => &dialog[..0],
+        ProbePlugin::Dialog { .. } => &dialog[..],
+    };
+    for event in CAPTURE_EVENTS.iter().chain(events).copied() {
+        let mut args = vec!["hook", event.as_str(), "--capture", capture_dir_fwd];
+        if let (ProbePlugin::Dialog { answers_dir_fwd }, true) = (kind, event.is_dialog()) {
+            args.extend(["--answers", answers_dir_fwd]);
+        }
         let mut hook = json!({
             "type": "command",
             "command": pinned_bin_fwd,
-            "args": ["hook", event.as_str(), "--capture", capture_dir_fwd],
+            "args": args,
         });
         if event != HookEvent::SessionEnd {
             hook["timeout"] = json!(5);
         }
-        hooks.insert(event_name(event).to_owned(), json!([{"hooks": [hook]}]));
+        let mut group = json!({"hooks": [hook]});
+        if event == HookEvent::PreToolUse {
+            group = json!({"matcher": DIALOG_MATCHER, "hooks": [hook]});
+        }
+        hooks.insert(event_name(event).to_owned(), json!([group]));
     }
     [
         (".claude-plugin/plugin.json", pretty(&plugin)),
@@ -180,6 +417,14 @@ impl Capture {
             payload: serde_json::from_slice(bytes).ok(),
         }
     }
+
+    fn field(&self, name: &str) -> Option<&str> {
+        self.payload.as_ref()?.get(name)?.as_str()
+    }
+
+    fn is(&self, event: HookEvent, tool: &str) -> bool {
+        self.event == event && self.field("tool_name") == Some(tool)
+    }
 }
 
 /// What one probe measured: the resolved program, whether it answered `--version`, and the
@@ -213,11 +458,143 @@ pub struct TypedRun {
     pub max_turn_gap_ms: Option<u64>,
 }
 
+/// The captures of the two dialog runs, each in claim order: Run C's and Run D's.
+#[derive(Debug, Clone, Default, PartialEq)]
+pub struct DialogRuns {
+    pub questions: Vec<Capture>,
+    pub plan: Vec<Capture>,
+}
+
 /// Every measurement one `viola verify` run makes.
 #[derive(Debug, Clone, PartialEq)]
 pub struct Probes {
     pub print: ProbeRun,
     pub typed: TypedRun,
+    pub dialogs: DialogRuns,
+}
+
+const ASK: &str = "AskUserQuestion";
+const PLAN: &str = "ExitPlanMode";
+
+/// The captures after the UserPromptSubmit that carries `prompt`, up to the next UserPromptSubmit;
+/// empty when no capture carries it.
+fn turn<'a>(captures: &'a [Capture], prompt: &str) -> &'a [Capture] {
+    let is_prompt = |c: &Capture| c.event == HookEvent::UserPromptSubmit;
+    let Some(start) = captures
+        .iter()
+        .position(|c| is_prompt(c) && c.field("prompt") == Some(prompt))
+    else {
+        return &[];
+    };
+    let rest = &captures[start + 1..];
+    let end = rest.iter().position(is_prompt).unwrap_or(rest.len());
+    &rest[..end]
+}
+
+/// The questions turn's first AskUserQuestion PreToolUse input and the `tool_response` of the
+/// PostToolUse carrying its `tool_use_id`.
+fn answered_question(questions: &[Capture]) -> Option<(&Value, &Value)> {
+    let turn = turn(questions, DIALOG_PROMPT_QUESTIONS);
+    let pre = turn.iter().find(|c| c.is(HookEvent::PreToolUse, ASK))?;
+    let id = pre.field("tool_use_id")?;
+    let post = turn
+        .iter()
+        .find(|c| c.is(HookEvent::PostToolUse, ASK) && c.field("tool_use_id") == Some(id))?;
+    Some((
+        &pre.payload.as_ref()?["tool_input"],
+        &post.payload.as_ref()?["tool_response"],
+    ))
+}
+
+/// The answered question's first label took effect, and no AskUserQuestion reached a
+/// PermissionRequest anywhere in the run.
+fn question_answered(questions: &[Capture]) -> bool {
+    let took = answered_question(questions).is_some_and(|(input, response)| {
+        let first = &input["questions"][0];
+        let text = first["question"].as_str();
+        let label = first["options"][0]["label"].as_str();
+        text.zip(label)
+            .is_some_and(|(text, label)| response["answers"][text] == label)
+    });
+    took && !questions
+        .iter()
+        .any(|c| c.is(HookEvent::PermissionRequest, ASK))
+}
+
+/// The second question's answer is the free text and the first question carries the note.
+fn notes_reached(questions: &[Capture]) -> bool {
+    answered_question(questions).is_some_and(|(input, response)| {
+        let first = input["questions"][0]["question"].as_str();
+        let second = input["questions"][1]["question"].as_str();
+        first.zip(second).is_some_and(|(first, second)| {
+            response["answers"][second] == PROBE_FREE_TEXT
+                && response["annotations"][first]["notes"] == PROBE_NOTE
+        })
+    })
+}
+
+/// Run D's ExitPlanMode captures read PreToolUse, PermissionRequest (the revise), PreToolUse (the
+/// re-plan), then the PostToolUse of the re-plan's call and no PermissionRequest after it.
+fn plan_took_effect(plan: &[Capture]) -> bool {
+    let calls: Vec<&Capture> = plan
+        .iter()
+        .filter(|c| c.field("tool_name") == Some(PLAN))
+        .collect();
+    let [first, revised, again, rest @ ..] = calls.as_slice() else {
+        return false;
+    };
+    let approved = again.field("tool_use_id").is_some_and(|id| {
+        rest.iter()
+            .any(|c| c.event == HookEvent::PostToolUse && c.field("tool_use_id") == Some(id))
+    });
+    first.event == HookEvent::PreToolUse
+        && revised.event == HookEvent::PermissionRequest
+        && again.event == HookEvent::PreToolUse
+        && approved
+        && !rest.iter().any(|c| c.event == HookEvent::PermissionRequest)
+}
+
+/// The parallel turn's AskUserQuestion PreToolUse ids, in claim order; `None` when one has no id.
+fn parallel_calls(questions: &[Capture]) -> Option<Vec<&str>> {
+    turn(questions, DIALOG_PROMPT_PARALLEL)
+        .iter()
+        .filter(|c| c.is(HookEvent::PreToolUse, ASK))
+        .map(|c| c.field("tool_use_id"))
+        .collect()
+}
+
+/// Exactly two parallel calls with distinct ids, each followed by its own PostToolUse.
+fn both_parallel_answered(questions: &[Capture]) -> bool {
+    let turn = turn(questions, DIALOG_PROMPT_PARALLEL);
+    parallel_calls(questions).is_some_and(|ids| {
+        ids.len() == 2
+            && ids[0] != ids[1]
+            && ids.iter().all(|id| {
+                turn.iter().any(|c| {
+                    c.is(HookEvent::PostToolUse, ASK) && c.field("tool_use_id") == Some(*id)
+                })
+            })
+    })
+}
+
+/// Whether both parallel PreToolUse captures were claimed before either PostToolUse; `None` when the
+/// turn did not hold exactly two.
+pub fn parallel_both_before_first_post(questions: &[Capture]) -> Option<bool> {
+    let turn = turn(questions, DIALOG_PROMPT_PARALLEL);
+    let pres: Vec<usize> = turn
+        .iter()
+        .enumerate()
+        .filter(|(_, c)| c.is(HookEvent::PreToolUse, ASK))
+        .map(|(i, _)| i)
+        .collect();
+    if pres.len() != 2 {
+        return None;
+    }
+    let first_post = turn
+        .iter()
+        .position(|c| c.is(HookEvent::PostToolUse, ASK))
+        .unwrap_or(turn.len());
+    Some(pres.iter().all(|i| *i < first_post))
 }
 
 fn any_row(rows: Option<&Vec<String>>, literals: &[&str]) -> bool {
@@ -258,6 +635,10 @@ pub fn check(row: LedgerRow, probes: &Probes) -> bool {
                 && within(typed.turn_settle_ms, GATE_MAX_WAIT)
         }
         LedgerRow::ConfirmWindow => within(typed.prompt_latency_ms, CONFIRM_WINDOW_FALLBACK),
+        LedgerRow::QuestionAnswer => question_answered(&probes.dialogs.questions),
+        LedgerRow::PlanApproveRevise => plan_took_effect(&probes.dialogs.plan),
+        LedgerRow::QuestionNotes => notes_reached(&probes.dialogs.questions),
+        LedgerRow::DialogConcurrency => both_parallel_answered(&probes.dialogs.questions),
     }
 }
 
@@ -299,7 +680,8 @@ fn stamp_shape_ok(doc: &Map<String, Value>) -> bool {
 }
 
 /// The stamps with `version`'s entry replaced by this run's rows and measurements (the largest hook
-/// payloads and the typed probe's timings); every other
+/// payloads, the typed probe's timings, and whether the two parallel questions were both open
+/// before either was answered); every other
 /// version and every unknown field is kept. Existing bytes of the wrong shape are replaced whole.
 pub fn merge_stamp(
     existing: Option<&[u8]>,
@@ -307,6 +689,7 @@ pub fn merge_stamp(
     results: &[(LedgerRow, bool)],
     largest: &[(HookEvent, usize)],
     typed: &TypedRun,
+    parallel_both_before_first_post: Option<bool>,
     written_at: &str,
 ) -> Vec<u8> {
     let mut doc = match existing.and_then(|b| serde_json::from_slice(b).ok()) {
@@ -337,6 +720,9 @@ pub fn merge_stamp(
                 "prompt_latency_ms": typed.prompt_latency_ms,
                 "max_turn_gap_ms": typed.max_turn_gap_ms,
             },
+            "dialog_probe": {
+                "parallel_both_before_first_post": parallel_both_before_first_post,
+            },
         },
     });
     doc.insert("v".to_owned(), json!(1));
@@ -350,6 +736,53 @@ pub fn merge_stamp(
         }
     }
     Value::Object(doc).to_string().into_bytes()
+}
+
+/// Each dialog run's captures named for `--record`: `<stem>-<n>`, `n` counting the turn's tool calls
+/// in claim order. A PreToolUse opens a call; a PermissionRequest joins the latest call of its tool,
+/// else opens one; a PostToolUse joins the call of its `tool_use_id`, else the latest id-less call
+/// of its tool, else is not recorded. Only the first capture of each event and variant is kept.
+pub fn dialog_variants(dialogs: &DialogRuns) -> Vec<(String, &Capture)> {
+    let mut out: Vec<(String, &Capture)> = Vec::new();
+    for (run, prompt, stem) in DIALOG_TURNS {
+        let captures = match run {
+            DialogRun::Questions => &dialogs.questions,
+            DialogRun::Plan => &dialogs.plan,
+        };
+        let mut calls: Vec<(Option<&str>, Option<&str>)> = Vec::new();
+        for capture in turn(captures, prompt) {
+            let tool = capture.field("tool_name");
+            let id = capture.field("tool_use_id");
+            let call = match capture.event {
+                HookEvent::PreToolUse => {
+                    calls.push((tool, id));
+                    Some(calls.len())
+                }
+                HookEvent::PermissionRequest => match calls.iter().rposition(|(t, _)| *t == tool) {
+                    Some(i) => Some(i + 1),
+                    None => {
+                        calls.push((tool, None));
+                        Some(calls.len())
+                    }
+                },
+                HookEvent::PostToolUse => calls
+                    .iter()
+                    .position(|(_, i)| id.is_some() && *i == id)
+                    .or_else(|| calls.iter().rposition(|(t, i)| *t == tool && i.is_none()))
+                    .map(|i| i + 1),
+                _ => None,
+            };
+            let Some(n) = call else { continue };
+            let variant = format!("{stem}-{n}");
+            if !out
+                .iter()
+                .any(|(v, c)| *v == variant && c.event == capture.event)
+            {
+                out.push((variant, capture));
+            }
+        }
+    }
+    out
 }
 
 /// `true` only when every [`LedgerRow`] reads `"pass"` under `version`. Bytes that are not a `v:1`
@@ -631,7 +1064,7 @@ mod tests {
     use rstest::rstest;
 
     #[test]
-    fn ledger_rows_are_the_ten_measured_behaviours_in_order() {
+    fn ledger_rows_are_the_fourteen_measured_behaviours_in_order() {
         let ids: Vec<&str> = LedgerRow::ALL.iter().map(|r| r.id()).collect();
         assert_eq!(
             ids,
@@ -646,6 +1079,10 @@ mod tests {
                 "input-box-signature",
                 "quiet-period",
                 "confirm-window",
+                "question-answer",
+                "plan-approve-revise",
+                "question-notes",
+                "dialog-concurrency",
             ]
         );
         let words: Vec<&str> = LedgerRow::ALL.iter().map(|r| r.words()).collect();
@@ -662,6 +1099,10 @@ mod tests {
                 "a trusted start shows a compiled input-box literal and no modal",
                 "the screen settles within the gate's maximum wait",
                 "the typed prompt reaches UserPromptSubmit within the window",
+                "a question answered through PreToolUse takes effect",
+                "a plan revise and approve each take effect",
+                "free text and notes reach the question",
+                "two parallel questions each raise a dialog",
             ]
         );
         assert!(words.iter().all(|w| w.is_ascii()));
@@ -780,6 +1221,7 @@ mod tests {
         let files = capture_plugin_files(
             "C:/h/bin/0.1.0-0123456789abcdef/viola.exe",
             "C:/h/ledger/probes/7/captures",
+            ProbePlugin::Spine,
         );
         assert_eq!(files[0].0, ".claude-plugin/plugin.json");
         assert_eq!(
@@ -793,7 +1235,7 @@ mod tests {
 
     #[test]
     fn capture_plugin_files_escape_a_path_as_json() {
-        let files = capture_plugin_files("C:/a \"q\"/viola.exe", "C:/c");
+        let files = capture_plugin_files("C:/a \"q\"/viola.exe", "C:/c", ProbePlugin::Spine);
         let doc: Value = serde_json::from_str(&files[1].1).expect("json");
         assert_eq!(
             doc["hooks"]["Stop"][0]["hooks"][0]["command"],
@@ -902,6 +1344,7 @@ mod tests {
         Probes {
             print: run.clone(),
             typed: clean_typed(),
+            dialogs: clean_dialogs(),
         }
     }
 
@@ -922,7 +1365,7 @@ mod tests {
 
     #[test]
     fn check_passes_every_row_on_a_clean_probe() {
-        assert_eq!(verdicts(&clean_run()), [true; 10]);
+        assert_eq!(verdicts(&clean_run()), [true; 14]);
     }
 
     #[test]
@@ -1055,6 +1498,7 @@ mod tests {
             &all_pass(),
             &[(HookEvent::SessionStart, 120), (HookEvent::Stop, 90)],
             &clean_typed(),
+            Some(false),
             "2026-09-28T10:00:00.000Z",
         );
         assert_eq!(
@@ -1071,6 +1515,8 @@ mod tests {
                         "stop-message": "pass", "largest-hook-payload": "pass",
                         "modal-signature": "pass", "input-box-signature": "pass",
                         "quiet-period": "pass", "confirm-window": "pass",
+                        "question-answer": "pass", "plan-approve-revise": "pass",
+                        "question-notes": "pass", "dialog-concurrency": "pass",
                     },
                     "measured": {
                         "largest_hook_payload": {"SessionStart": 120, "Stop": 90},
@@ -1078,6 +1524,7 @@ mod tests {
                             "ready_settle_ms": 1084, "turn_settle_ms": 314,
                             "prompt_latency_ms": 31, "max_turn_gap_ms": 224,
                         },
+                        "dialog_probe": {"parallel_both_before_first_post": false},
                     },
                 }}},
             })
@@ -1103,6 +1550,7 @@ mod tests {
             &results,
             &[],
             &TypedRun::default(),
+            None,
             "new",
         );
         let d = doc(&bytes);
@@ -1120,7 +1568,7 @@ mod tests {
             json!({"largest_hook_payload": {}, "typed_probe": {
                 "ready_settle_ms": null, "turn_settle_ms": null,
                 "prompt_latency_ms": null, "max_turn_gap_ms": null,
-            }})
+            }, "dialog_probe": {"parallel_both_before_first_post": null}})
         );
         assert_eq!(verified(&bytes, "2.1.0"), Ok(false));
     }
@@ -1137,6 +1585,7 @@ mod tests {
             &all_pass(),
             &[],
             &TypedRun::default(),
+            None,
             "t",
         );
         let d = doc(&bytes);
@@ -1153,6 +1602,7 @@ mod tests {
             &all_pass(),
             &[],
             &TypedRun::default(),
+            None,
             "t",
         );
         let d = doc(&bytes);
@@ -1163,11 +1613,27 @@ mod tests {
     #[test]
     fn verified_needs_every_row_pass_under_that_version() {
         let mut results = all_pass();
-        let full = merge_stamp(None, "2.1.0", &results, &[], &TypedRun::default(), "t");
+        let full = merge_stamp(
+            None,
+            "2.1.0",
+            &results,
+            &[],
+            &TypedRun::default(),
+            None,
+            "t",
+        );
         assert_eq!(verified(&full, "2.1.0"), Ok(true));
         assert_eq!(verified(&full, "3.0.0"), Ok(false));
         results.pop();
-        let short = merge_stamp(None, "2.1.0", &results, &[], &TypedRun::default(), "t");
+        let short = merge_stamp(
+            None,
+            "2.1.0",
+            &results,
+            &[],
+            &TypedRun::default(),
+            None,
+            "t",
+        );
         assert_eq!(verified(&short, "2.1.0"), Ok(false), "a missing row");
     }
 
@@ -1286,6 +1752,7 @@ mod tests {
             &Probes {
                 print: clean_run(),
                 typed,
+                dialogs: clean_dialogs(),
             },
         )
     }
@@ -1304,7 +1771,8 @@ mod tests {
         assert_eq!(
             six,
             [
-                true, true, true, true, true, true, false, false, false, false
+                true, true, true, true, true, true, false, false, false, false, true, true, true,
+                true
             ]
         );
     }
@@ -1565,5 +2033,603 @@ mod tests {
     #[case::none("ctx 23% 45k/200k", false)]
     fn has_email_reads_local_at_domain_dot_tld(#[case] text: &str, #[case] expected: bool) {
         assert_eq!(has_email(text), expected);
+    }
+
+    /// A captured tool event: `tool_name`, an optional `tool_use_id`, and `extra`'s fields.
+    fn tool(event: HookEvent, name: &str, id: Option<&str>, extra: Value) -> Capture {
+        let mut payload = json!({"tool_name": name});
+        if let Some(id) = id {
+            payload["tool_use_id"] = json!(id);
+        }
+        if let (Some(payload), Value::Object(extra)) = (payload.as_object_mut(), extra) {
+            payload.extend(extra);
+        }
+        capture(event, payload)
+    }
+
+    fn prompted(prompt: &str) -> Capture {
+        capture(HookEvent::UserPromptSubmit, json!({"prompt": prompt}))
+    }
+
+    fn two_questions() -> Value {
+        json!({"questions": [
+            {"question": "Probe color?", "options": [{"label": "red"}, {"label": "blue"}]},
+            {"question": "Probe size?", "options": [{"label": "small"}, {"label": "large"}]},
+        ]})
+    }
+
+    fn one_question(text: &str) -> Value {
+        json!({"questions": [{"question": text, "options": [{"label": "yes"}, {"label": "no"}]}]})
+    }
+
+    const PRE: HookEvent = HookEvent::PreToolUse;
+    const PR: HookEvent = HookEvent::PermissionRequest;
+    const POST: HookEvent = HookEvent::PostToolUse;
+
+    /// The dialog and plan runs as the live 2.1.288 probe recorded them, in claim order (structure
+    /// of `evidence/step0-dialog-shapes.md`).
+    fn clean_dialogs() -> DialogRuns {
+        let stop = capture(HookEvent::Stop, json!({"last_assistant_message": "ok"}));
+        let answered = json!({
+            "tool_input": two_questions(),
+            "tool_response": {
+                "questions": two_questions()["questions"],
+                "answers": {"Probe color?": "red", "Probe size?": PROBE_FREE_TEXT},
+                "annotations": {"Probe color?": {"notes": PROBE_NOTE}},
+            },
+        });
+        let reply = |q: &str| json!({"tool_response": {"answers": {q: "yes"}}});
+        DialogRuns {
+            questions: vec![
+                capture(HookEvent::SessionStart, json!({"source": "startup"})),
+                prompted(DIALOG_PROMPT_QUESTIONS),
+                tool(
+                    PRE,
+                    "AskUserQuestion",
+                    Some("q1"),
+                    json!({"tool_input": two_questions()}),
+                ),
+                tool(POST, "AskUserQuestion", Some("q1"), answered),
+                stop.clone(),
+                prompted(DIALOG_PROMPT_PARALLEL),
+                tool(
+                    PRE,
+                    "AskUserQuestion",
+                    Some("p1"),
+                    json!({"tool_input": one_question("Probe left?")}),
+                ),
+                tool(POST, "AskUserQuestion", Some("p1"), reply("Probe left?")),
+                tool(
+                    PRE,
+                    "AskUserQuestion",
+                    Some("p2"),
+                    json!({"tool_input": one_question("Probe right?")}),
+                ),
+                tool(POST, "AskUserQuestion", Some("p2"), reply("Probe right?")),
+                stop.clone(),
+                prompted(DIALOG_PROMPT_PERMISSION),
+                tool(
+                    PR,
+                    "Bash",
+                    None,
+                    json!({"tool_input": {"command": "touch viola-probe-permission"}}),
+                ),
+                tool(POST, "Bash", Some("b1"), json!({})),
+                stop,
+            ],
+            plan: vec![
+                prompted(PLAN_PROMPT),
+                tool(POST, "Write", Some("w1"), json!({})),
+                tool(
+                    PRE,
+                    "ExitPlanMode",
+                    Some("e1"),
+                    json!({"tool_input": {"plan": "p"}}),
+                ),
+                tool(
+                    PR,
+                    "ExitPlanMode",
+                    None,
+                    json!({"tool_input": {"plan": "p"}}),
+                ),
+                tool(POST, "Write", Some("w2"), json!({})),
+                tool(
+                    PRE,
+                    "ExitPlanMode",
+                    Some("e2"),
+                    json!({"tool_input": {"plan": "p2"}}),
+                ),
+                tool(POST, "ExitPlanMode", Some("e2"), json!({})),
+            ],
+        }
+    }
+
+    const DIALOG_ROWS: [LedgerRow; 4] = [
+        LedgerRow::QuestionAnswer,
+        LedgerRow::PlanApproveRevise,
+        LedgerRow::QuestionNotes,
+        LedgerRow::DialogConcurrency,
+    ];
+
+    fn dialog_check(row: LedgerRow, dialogs: DialogRuns) -> bool {
+        check(
+            row,
+            &Probes {
+                print: clean_run(),
+                typed: clean_typed(),
+                dialogs,
+            },
+        )
+    }
+
+    #[test]
+    fn check_dialog_rows_pass_on_the_recorded_shape() {
+        for row in DIALOG_ROWS {
+            assert!(dialog_check(row, clean_dialogs()), "{}", row.id());
+        }
+    }
+
+    /// Absence is never a pass: no run, or runs whose turns raised no dialog, fail all four.
+    #[test]
+    fn check_dialog_rows_fail_when_no_dialog_was_raised() {
+        let stop = || capture(HookEvent::Stop, json!({}));
+        let silent = DialogRuns {
+            questions: vec![
+                prompted(DIALOG_PROMPT_QUESTIONS),
+                stop(),
+                prompted(DIALOG_PROMPT_PARALLEL),
+                stop(),
+                prompted(DIALOG_PROMPT_PERMISSION),
+                stop(),
+            ],
+            plan: vec![prompted(PLAN_PROMPT), stop()],
+        };
+        for dialogs in [DialogRuns::default(), silent] {
+            for row in DIALOG_ROWS {
+                assert!(!dialog_check(row, dialogs.clone()), "{}", row.id());
+            }
+        }
+    }
+
+    fn with_questions(edit: impl FnOnce(&mut Vec<Capture>)) -> DialogRuns {
+        let mut dialogs = clean_dialogs();
+        edit(&mut dialogs.questions);
+        dialogs
+    }
+
+    fn with_plan(edit: impl FnOnce(&mut Vec<Capture>)) -> DialogRuns {
+        let mut dialogs = clean_dialogs();
+        edit(&mut dialogs.plan);
+        dialogs
+    }
+
+    fn post_response(answers: Value, annotations: Value) -> Capture {
+        tool(
+            POST,
+            "AskUserQuestion",
+            Some("q1"),
+            json!({"tool_response": {"answers": answers, "annotations": annotations}}),
+        )
+    }
+
+    #[test]
+    fn check_question_answer_needs_the_label_its_own_post_and_no_permission_request() {
+        let notes = json!({"Probe color?": {"notes": PROBE_NOTE}});
+        let wrong_label = with_questions(|q| {
+            q[3] = post_response(
+                json!({"Probe color?": "blue", "Probe size?": PROBE_FREE_TEXT}),
+                notes,
+            );
+        });
+        assert!(!dialog_check(LedgerRow::QuestionAnswer, wrong_label));
+        let other_id = with_questions(|q| {
+            q[3] = tool(POST, "AskUserQuestion", Some("q9"), json!({}));
+        });
+        assert!(!dialog_check(LedgerRow::QuestionAnswer, other_id));
+        let raised = with_questions(|q| {
+            q.push(tool(PR, "AskUserQuestion", None, json!({})));
+        });
+        assert!(!dialog_check(LedgerRow::QuestionAnswer, raised));
+        let first_option_only = with_questions(|q| {
+            q[3] = post_response(json!({"Probe color?": "red"}), json!({}));
+        });
+        assert!(dialog_check(LedgerRow::QuestionAnswer, first_option_only));
+    }
+
+    #[test]
+    fn check_question_notes_needs_the_free_text_and_the_note() {
+        let notes = json!({"Probe color?": {"notes": PROBE_NOTE}});
+        let no_free_text = with_questions(|q| {
+            q[3] = post_response(
+                json!({"Probe color?": "red", "Probe size?": "small"}),
+                notes.clone(),
+            );
+        });
+        assert!(!dialog_check(LedgerRow::QuestionNotes, no_free_text));
+        let no_note = with_questions(|q| {
+            q[3] = post_response(
+                json!({"Probe color?": "red", "Probe size?": PROBE_FREE_TEXT}),
+                json!({"Probe color?": {"notes": "other"}}),
+            );
+        });
+        assert!(!dialog_check(LedgerRow::QuestionNotes, no_note));
+        let one = with_questions(|q| {
+            q[2] = tool(
+                PRE,
+                "AskUserQuestion",
+                Some("q1"),
+                json!({"tool_input": one_question("Probe color?")}),
+            );
+        });
+        assert!(!dialog_check(LedgerRow::QuestionNotes, one));
+    }
+
+    #[test]
+    fn check_plan_approve_revise_reads_the_revise_the_re_plan_and_the_approve() {
+        assert!(!dialog_check(
+            LedgerRow::PlanApproveRevise,
+            with_plan(|p| p.push(tool(PR, "ExitPlanMode", None, json!({}))))
+        ));
+        let approve_not_taken = with_plan(|p| {
+            p[6] = tool(PR, "ExitPlanMode", None, json!({}));
+        });
+        assert!(!dialog_check(
+            LedgerRow::PlanApproveRevise,
+            approve_not_taken
+        ));
+        let no_revise = with_plan(|p| {
+            p.remove(3);
+        });
+        assert!(!dialog_check(LedgerRow::PlanApproveRevise, no_revise));
+        let other_call = with_plan(|p| {
+            p[6] = tool(POST, "ExitPlanMode", Some("e1"), json!({}));
+        });
+        assert!(!dialog_check(LedgerRow::PlanApproveRevise, other_call));
+        let starts_with_a_request = with_plan(|p| {
+            p.swap(2, 3);
+        });
+        assert!(!dialog_check(
+            LedgerRow::PlanApproveRevise,
+            starts_with_a_request
+        ));
+        let re_plan_missing = with_plan(|p| {
+            p[5] = tool(POST, "ExitPlanMode", Some("e2"), json!({}));
+        });
+        assert!(!dialog_check(LedgerRow::PlanApproveRevise, re_plan_missing));
+    }
+
+    #[test]
+    fn check_dialog_concurrency_needs_two_distinct_calls_each_answered() {
+        let one = with_questions(|q| {
+            q.drain(8..10);
+        });
+        assert!(!dialog_check(LedgerRow::DialogConcurrency, one));
+        let same_id = with_questions(|q| {
+            q[8] = tool(PRE, "AskUserQuestion", Some("p1"), json!({}));
+            q[9] = tool(POST, "AskUserQuestion", Some("p1"), json!({}));
+        });
+        assert!(!dialog_check(LedgerRow::DialogConcurrency, same_id));
+        let unanswered = with_questions(|q| {
+            q.remove(9);
+        });
+        assert!(!dialog_check(LedgerRow::DialogConcurrency, unanswered));
+        let three = with_questions(|q| {
+            q.insert(10, tool(PRE, "AskUserQuestion", Some("p3"), json!({})));
+            q.insert(11, tool(POST, "AskUserQuestion", Some("p3"), json!({})));
+        });
+        assert!(!dialog_check(LedgerRow::DialogConcurrency, three));
+        let no_id = with_questions(|q| {
+            q[8] = tool(PRE, "AskUserQuestion", None, json!({}));
+        });
+        assert!(!dialog_check(LedgerRow::DialogConcurrency, no_id));
+    }
+
+    #[test]
+    fn parallel_both_before_first_post_reads_the_claim_order() {
+        assert_eq!(
+            parallel_both_before_first_post(&clean_dialogs().questions),
+            Some(false)
+        );
+        let open_together = with_questions(|q| q.swap(7, 8)).questions;
+        assert_eq!(parallel_both_before_first_post(&open_together), Some(true));
+        let unanswered = with_questions(|q| {
+            q.remove(9);
+            q.remove(7);
+        })
+        .questions;
+        assert_eq!(parallel_both_before_first_post(&unanswered), Some(true));
+        let one = with_questions(|q| {
+            q.drain(8..10);
+        })
+        .questions;
+        assert_eq!(parallel_both_before_first_post(&one), None);
+        assert_eq!(parallel_both_before_first_post(&[]), None);
+    }
+
+    #[test]
+    fn dialog_variants_name_each_call_of_each_turn() {
+        let dialogs = clean_dialogs();
+        let names: Vec<String> = dialog_variants(&dialogs)
+            .iter()
+            .map(|(variant, c)| format!("{}.{variant}", event_name(c.event)))
+            .collect();
+        assert_eq!(
+            names,
+            [
+                "PreToolUse.questions-1",
+                "PostToolUse.questions-1",
+                "PreToolUse.parallel-1",
+                "PostToolUse.parallel-1",
+                "PreToolUse.parallel-2",
+                "PostToolUse.parallel-2",
+                "PermissionRequest.permission-1",
+                "PostToolUse.permission-1",
+                "PreToolUse.plan-1",
+                "PermissionRequest.plan-1",
+                "PreToolUse.plan-2",
+                "PostToolUse.plan-2",
+            ]
+        );
+        let posts: Vec<Option<&str>> = dialog_variants(&dialogs)
+            .iter()
+            .filter(|(_, c)| c.event == POST)
+            .map(|(_, c)| c.field("tool_use_id"))
+            .collect();
+        assert_eq!(
+            posts,
+            [Some("q1"), Some("p1"), Some("p2"), Some("b1"), Some("e2")]
+        );
+        assert!(dialog_variants(&DialogRuns::default()).is_empty());
+    }
+
+    /// A second capture of one event and variant is not recorded: the first stands.
+    #[test]
+    fn dialog_variants_keep_the_first_capture_of_a_variant() {
+        let mut dialogs = clean_dialogs();
+        dialogs.questions.insert(
+            4,
+            tool(POST, "AskUserQuestion", Some("q1"), json!({"n": 2})),
+        );
+        let kept: Vec<&Capture> = dialog_variants(&dialogs)
+            .into_iter()
+            .filter(|(v, c)| v == "questions-1" && c.event == POST)
+            .map(|(_, c)| c)
+            .collect();
+        assert_eq!(kept.len(), 1);
+        assert!(
+            kept[0]
+                .payload
+                .as_ref()
+                .is_some_and(|p| p.get("n").is_none())
+        );
+    }
+
+    #[test]
+    fn dialog_prompts_are_fixed_ascii_without_tags_each_with_its_stem() {
+        for (run, prompt, stem) in DIALOG_TURNS {
+            assert!(prompt.is_ascii() && !prompt.contains('<') && !prompt.contains('>'));
+            assert!(prompt.starts_with("viola verify probe: "));
+            assert_eq!(dialog_stem(prompt), Some(stem));
+            assert_eq!(run == DialogRun::Plan, stem == "plan");
+        }
+        let stems: Vec<&str> = DIALOG_TURNS.iter().map(|t| t.2).collect();
+        assert_eq!(stems, ["questions", "parallel", "permission", "plan"]);
+        assert!(DIALOG_PROMPT_PERMISSION.contains("touch viola-probe-permission"));
+        assert_eq!(dialog_stem(PROBE_PROMPT), None);
+        assert_eq!(dialog_stem(""), None);
+        for text in [PROBE_FREE_TEXT, PROBE_NOTE, PROBE_REVISE] {
+            assert!(text.is_ascii() && !text.contains('<'));
+        }
+    }
+
+    #[test]
+    fn dialog_settings_are_the_ask_rule_and_the_plans_directory() {
+        assert_eq!(
+            serde_json::from_str::<Value>(DIALOG_SETTINGS).expect("json"),
+            json!({"permissions": {"ask": ["Bash(touch viola-probe-permission)"]}})
+        );
+        assert_eq!(
+            serde_json::from_str::<Value>(&plan_settings("C:\\w \"x\"/plans")).expect("json"),
+            json!({"plansDirectory": "C:\\w \"x\"/plans"})
+        );
+    }
+
+    #[test]
+    fn probe_answers_are_the_compiled_table() {
+        let ids: Vec<&str> = ProbeAnswer::ALL.iter().map(|a| a.id()).collect();
+        assert_eq!(
+            ids,
+            [
+                "questions-first-and-free-text",
+                "question-first-option",
+                "plan-revise",
+                "plan-approve",
+                "permit-allow"
+            ]
+        );
+        for answer in ProbeAnswer::ALL {
+            assert_eq!(ProbeAnswer::from_id(answer.id()), Some(answer));
+        }
+        assert_eq!(ProbeAnswer::from_id("plan-approve\n"), None);
+        let table: Vec<String> = PROBE_ANSWERS
+            .iter()
+            .map(|(run, event, j, answer)| {
+                format!(
+                    "{run:?} {} {} {}",
+                    answer_file_name(*event, *j),
+                    answer.id(),
+                    j
+                )
+            })
+            .collect();
+        assert_eq!(
+            table,
+            [
+                "Questions PreToolUse.1 questions-first-and-free-text 1",
+                "Questions PreToolUse.2 question-first-option 2",
+                "Questions PreToolUse.3 question-first-option 3",
+                "Questions PermissionRequest.1 permit-allow 1",
+                "Plan PermissionRequest.1 plan-revise 1",
+                "Plan PreToolUse.2 plan-approve 2",
+            ]
+        );
+    }
+
+    fn body_of(event: HookEvent, payload: &Value, answer: ProbeAnswer) -> Option<Value> {
+        probe_body(event, payload.to_string().as_bytes(), answer)
+            .map(|b| serde_json::from_str(&b).expect("a JSON body"))
+    }
+
+    #[test]
+    fn probe_body_builds_each_answer_through_the_product_mapping() {
+        let asked = json!({"tool_name": "AskUserQuestion", "tool_input": two_questions()});
+        let first = body_of(PRE, &asked, ProbeAnswer::QuestionsFirstAndFreeText).expect("a body");
+        let updated = &first["hookSpecificOutput"]["updatedInput"];
+        assert_eq!(updated["questions"], two_questions()["questions"]);
+        assert_eq!(
+            updated["answers"],
+            json!({"Probe color?": "red", "Probe size?": PROBE_FREE_TEXT})
+        );
+        assert_eq!(
+            updated["annotations"],
+            json!({"Probe color?": {"notes": PROBE_NOTE}})
+        );
+        let option = body_of(PRE, &asked, ProbeAnswer::QuestionFirstOption).expect("a body");
+        let updated = &option["hookSpecificOutput"]["updatedInput"];
+        assert_eq!(
+            updated["answers"],
+            json!({"Probe color?": "red", "Probe size?": "small"})
+        );
+        assert!(updated.get("annotations").is_none());
+
+        let plan =
+            json!({"tool_name": "ExitPlanMode", "tool_input": {"plan": "p", "planFilePath": "f"}});
+        let revise = body_of(PR, &plan, ProbeAnswer::PlanRevise).expect("a body");
+        assert_eq!(
+            revise["hookSpecificOutput"]["decision"],
+            json!({"behavior": "deny", "message": PROBE_REVISE})
+        );
+        let approve = body_of(PRE, &plan, ProbeAnswer::PlanApprove).expect("a body");
+        assert_eq!(
+            approve["hookSpecificOutput"],
+            json!({"hookEventName": "PreToolUse", "permissionDecision": "allow",
+                "updatedInput": {"plan": "p", "planFilePath": "f"}})
+        );
+        let bash = json!({"tool_name": "Bash", "tool_input": {"command": "touch x"}});
+        let allow = body_of(PR, &bash, ProbeAnswer::PermitAllow).expect("a body");
+        assert_eq!(
+            allow["hookSpecificOutput"]["decision"],
+            json!({"behavior": "allow"})
+        );
+    }
+
+    #[test]
+    fn probe_body_with_one_question_answers_it_and_notes_it() {
+        let asked = json!({"tool_input": one_question("Probe left?")});
+        let got = body_of(PRE, &asked, ProbeAnswer::QuestionsFirstAndFreeText).expect("a body");
+        let updated = &got["hookSpecificOutput"]["updatedInput"];
+        assert_eq!(updated["answers"], json!({"Probe left?": "yes"}));
+        assert_eq!(
+            updated["annotations"],
+            json!({"Probe left?": {"notes": PROBE_NOTE}})
+        );
+    }
+
+    #[rstest]
+    #[case::not_json(PRE, None, ProbeAnswer::QuestionFirstOption)]
+    #[case::no_tool_input(PRE, Some(json!({"tool_name": "AskUserQuestion"})), ProbeAnswer::QuestionFirstOption)]
+    #[case::no_questions(PRE, Some(json!({"tool_input": {}})), ProbeAnswer::QuestionFirstOption)]
+    #[case::question_not_string(PRE, Some(json!({"tool_input": {"questions": [{"question": 1, "options": [{"label": "a"}]}]}})), ProbeAnswer::QuestionFirstOption)]
+    #[case::no_option(PRE, Some(json!({"tool_input": {"questions": [{"question": "q", "options": []}]}})), ProbeAnswer::QuestionFirstOption)]
+    #[case::no_first_question(PRE, Some(json!({"tool_input": {"questions": []}})), ProbeAnswer::QuestionsFirstAndFreeText)]
+    #[case::revise_on_pre_tool_use(PRE, Some(json!({"tool_input": {"plan": "p"}})), ProbeAnswer::PlanRevise)]
+    #[case::approve_on_permission_request(PR, Some(json!({"tool_input": {"plan": "p"}})), ProbeAnswer::PlanApprove)]
+    #[case::allow_on_pre_tool_use(PRE, Some(json!({"tool_input": {}})), ProbeAnswer::PermitAllow)]
+    fn probe_body_is_none_where_the_answer_cannot_map(
+        #[case] event: HookEvent,
+        #[case] payload: Option<Value>,
+        #[case] answer: ProbeAnswer,
+    ) {
+        let bytes = payload.map_or_else(|| b"not json".to_vec(), |p| p.to_string().into_bytes());
+        assert_eq!(probe_body(event, &bytes, answer), None);
+    }
+
+    #[test]
+    fn probe_body_with_no_questions_answers_nothing_by_first_option() {
+        let asked = json!({"tool_input": {"questions": []}});
+        assert_eq!(
+            body_of(PRE, &asked, ProbeAnswer::QuestionFirstOption)
+                .map(|b| { b["hookSpecificOutput"]["updatedInput"]["answers"].clone() }),
+            Some(json!({}))
+        );
+    }
+
+    #[test]
+    fn capture_plugin_files_for_the_dialog_tier_add_the_three_events_and_the_answers() {
+        let files = capture_plugin_files(
+            "C:/h/viola.exe",
+            "C:/h/c",
+            ProbePlugin::Dialog {
+                answers_dir_fwd: "C:/h/a",
+            },
+        );
+        let doc: Value = serde_json::from_str(&files[1].1).expect("json");
+        let events: Vec<&str> = doc["hooks"]
+            .as_object()
+            .expect("hooks")
+            .keys()
+            .map(String::as_str)
+            .collect();
+        assert_eq!(
+            events,
+            [
+                "SessionStart",
+                "UserPromptSubmit",
+                "Stop",
+                "SessionEnd",
+                "PreToolUse",
+                "PermissionRequest",
+                "PostToolUse"
+            ]
+        );
+        let group = |event: &str| doc["hooks"][event][0].clone();
+        let args = |event: &str| group(event)["hooks"][0]["args"].clone();
+        assert_eq!(
+            args("PreToolUse"),
+            json!([
+                "hook",
+                "pre-tool-use",
+                "--capture",
+                "C:/h/c",
+                "--answers",
+                "C:/h/a"
+            ])
+        );
+        assert_eq!(
+            group("PreToolUse")["matcher"],
+            "AskUserQuestion|ExitPlanMode"
+        );
+        assert_eq!(
+            args("PermissionRequest"),
+            json!([
+                "hook",
+                "permission-request",
+                "--capture",
+                "C:/h/c",
+                "--answers",
+                "C:/h/a"
+            ])
+        );
+        assert!(group("PermissionRequest").get("matcher").is_none());
+        assert_eq!(
+            args("PostToolUse"),
+            json!(["hook", "post-tool-use", "--capture", "C:/h/c"])
+        );
+        assert_eq!(args("Stop"), json!(["hook", "stop", "--capture", "C:/h/c"]));
+        assert_eq!(group("PostToolUse")["hooks"][0]["timeout"], 5);
+        assert!(group("SessionEnd")["hooks"][0].get("timeout").is_none());
+        assert_eq!(group("PreToolUse")["hooks"][0]["command"], "C:/h/viola.exe");
+        let spine = capture_plugin_files("C:/h/viola.exe", "C:/h/c", ProbePlugin::Spine);
+        assert!(!spine[1].1.contains("--answers") && !spine[1].1.contains("PreToolUse"));
     }
 }

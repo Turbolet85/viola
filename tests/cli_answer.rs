@@ -344,15 +344,19 @@ fn path4_dialogs_are_logged_once_woken_and_answered_by_id(stamped_home: StampedH
     );
     assert_eq!(of_event_kind(&events(&dir), "plan").len(), 1);
 
-    // A plan approved through PreToolUse: `allow` alone.
+    // A plan approved through PreToolUse: `allow` with the tool's own input, unchanged, as
+    // `updatedInput` (a bare `allow` leaves the plan dialog up, measured on 2.1.288).
     let approved_id = raise(&wrapper, "plan", 2);
     let reply = answer(&home, approved_id, &json!({"behavior": "approve"}));
     assert_eq!(reply.code, Some(0), "stderr: {}", reply.stderr);
     let hooks = hooks_at_least(&receipt, 6);
     assert_eq!(hooks[5]["event"], "PreToolUse");
+    let body: Value = serde_json::from_str(&clean_stdout(&hooks[5])).expect("one JSON body");
+    let plan_input = relayed("PreToolUse.exit-plan-mode.json")["tool_input"].clone();
     assert_eq!(
-        clean_stdout(&hooks[5]),
-        "{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"permissionDecision\":\"allow\"}}"
+        body,
+        json!({"hookSpecificOutput": {"hookEventName": "PreToolUse",
+            "permissionDecision": "allow", "updatedInput": plan_input}})
     );
 
     // Ids rise; an id that is not pending is refused.
@@ -448,6 +452,91 @@ fn run_hook(wrapper: &Wrapper, event: &str, payload: &Value) -> Ran {
     Running(Some(child)).finish()
 }
 
+/// `viola hook <event>` started by the test with `payload` on stdin, left running: a dialog hook
+/// waits for its answer.
+fn spawn_hook(wrapper: &Wrapper, event: &str, payload: &Value) -> Running {
+    let mut command = Command::new(VIOLA);
+    command
+        .args(["hook", event])
+        .env("VIOLA_NAME", "builder")
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped());
+    for (key, value) in hook_env(wrapper) {
+        command.env(key, value);
+    }
+    let mut child = command.spawn().expect("viola hook");
+    let mut pipe = child.stdin.take().expect("stdin");
+    pipe.write_all(payload.to_string().as_bytes())
+        .expect("stdin");
+    drop(pipe);
+    Running(Some(child))
+}
+
+/// `verification-matrix.json#v1-15`: a plan first raised by PermissionRequest(`ExitPlanMode`), with
+/// no PreToolUse before it, is logged once as a `plan`. An approve there emits no body, so approval
+/// never rides the ignored permission path; a revise emits `deny` + `message` and no second plan
+/// event. The PreToolUse-raised plan's approve and revise are `path4_dialogs_are_…`'s.
+#[rstest]
+fn path4_a_plan_first_raised_by_permission_request_is_answered_as_a_plan(
+    stamped_home: StampedHome,
+) {
+    let wrapper = boot(stamped_home);
+    let home = wrapper.home().to_path_buf();
+    let dir = wrapper.instance_dir();
+    let plan_id = |nth: usize| {
+        let lines = wait_events(&dir, "the plan line", |l| {
+            of_event_kind(l, "plan").len() >= nth
+        });
+        of_event_kind(&lines, "plan")[nth - 1]["data"]["dialog_id"]
+            .as_u64()
+            .expect("a dialog_id")
+    };
+
+    let raised = relayed("PermissionRequest.exit-plan-mode.json");
+    let hook = spawn_hook(&wrapper, "permission-request", &raised);
+    let approved = plan_id(1);
+    let reply = answer(&home, approved, &json!({"behavior": "approve"}));
+    assert_eq!(reply.code, Some(0), "stderr: {}", reply.stderr);
+    let ran = hook.finish();
+    assert_eq!(ran.code, Some(0));
+    assert_eq!(
+        ran.stdout, "",
+        "an approve on the permission path emits no body"
+    );
+    assert!(ran.stderr.is_empty());
+
+    let mut again = raised.clone();
+    again["tool_input"]["plan"] = json!("a second plan, raised by PermissionRequest");
+    let hook = spawn_hook(&wrapper, "permission-request", &again);
+    let revised = plan_id(2);
+    assert!(approved < revised);
+    let message = format!("{CANARY} split the step");
+    let reply = answer(
+        &home,
+        revised,
+        &json!({"behavior": "revise", "message": message}),
+    );
+    assert_eq!(reply.code, Some(0), "stderr: {}", reply.stderr);
+    let ran = hook.finish();
+    assert_eq!(ran.code, Some(0));
+    let body: Value = serde_json::from_str(&ran.stdout).expect("one JSON body");
+    assert_eq!(
+        body,
+        json!({"hookSpecificOutput": {"hookEventName": "PermissionRequest",
+            "decision": {"behavior": "deny", "message": message}}})
+    );
+    let lines = events(&dir);
+    assert_eq!(
+        of_event_kind(&lines, "plan").len(),
+        2,
+        "one plan event per raise"
+    );
+    assert!(of_event_kind(&lines, "permission").is_empty());
+    assert_logs_clean(&home);
+    wrapper.stop();
+}
+
 /// While one dialog is held, a second is logged with its own id and left to the human at once:
 /// its hook prints nothing.
 #[rstest]
@@ -530,6 +619,37 @@ fn path4_unstamped_dialogs_are_left_to_the_human_and_answers_refused() {
     for hook in &hooks {
         assert_eq!(stdout_of(hook), "", "a body without a stamp: {hook}");
     }
+    assert_logs_clean(&home);
+    wrapper.stop();
+}
+
+/// R2 closed (test-plan §6 Path 4 step 6): a home whose stamp passes the ten spine and screen rows
+/// but fails the four dialog rows leaves the version unverified. `run` records `cli_verified:false`,
+/// the dialog is logged and answered `null` (the hook prints nothing), and `answer` is refused
+/// `unverified-cli` at exit 12. The fourteen-row home's body is `path4_dialogs_are_…`'s.
+#[test]
+fn path4_a_stamp_failing_the_dialog_rows_leaves_dialogs_to_the_human() {
+    let wrapper = boot(support::home::dialogless_home(TestHome::new()));
+    let home = wrapper.home().to_path_buf();
+    let snapshot = support::home::snapshot_data(&wrapper.instance_dir()).expect("a snapshot");
+    assert_eq!(snapshot["cli_verified"], false);
+    assert_eq!(snapshot["cli_version"], fake::RECORDED_CLI_VERSION);
+    let id = raise(&wrapper, "question", 1);
+    let refused = spawn(
+        &home,
+        &["answer", "builder", &id.to_string(), "--json"],
+        Some(&json!({"answers": {"q": CANARY}}).to_string()),
+        None,
+    )
+    .finish();
+    assert_eq!(refused.code, Some(12));
+    assert_eq!(
+        refused.stdout,
+        "{\"v\":1,\"refusal\":\"unverified-cli\",\"detail\":null}\n"
+    );
+    let hooks = hooks_at_least(&wrapper.receipt(), 2);
+    assert_eq!(hooks[1]["event"], "PreToolUse");
+    assert_eq!(stdout_of(&hooks[1]), "", "a body on a dialog-row failure");
     assert_logs_clean(&home);
     wrapper.stop();
 }

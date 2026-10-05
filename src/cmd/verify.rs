@@ -1,6 +1,7 @@
 //! `viola verify [--record <dir>] [-- <program> [args…]]`: measures the capability ledger against
 //! the local `claude` (or the program after `--`) with one print-mode probe through a capture
-//! plugin and two interactive PTY runs (`typed`), prints one step line per row and the `stamped`
+//! plugin and four interactive PTY runs (`typed`: untrusted, trusted, dialogs, plan — the last two
+//! answered by their own capture hook), prints one step line per row and the `stamped`
 //! summary on stdout, and writes the stamps as their only writer (security-plan §Data Protection;
 //! architecture [CLI Version Compatibility]). With `--record`, a clean run's payloads become
 //! scrubbed fixtures and its screens signature-only `Screen.<phase>.json` fixtures.
@@ -19,7 +20,8 @@ use chrono::Utc;
 use tracing::instrument;
 use viola_agent_claude::hook::HookEvent;
 use viola_agent_claude::ledger::{
-    self, Capture, LedgerRow, PROBE_PROMPT, ProbeRun, Probes, TypedRun,
+    self, Capture, DialogRun, DialogRuns, LedgerRow, PROBE_ANSWERS, PROBE_PROMPT, ProbePlugin,
+    ProbeRun, Probes, TypedRun,
 };
 use viola_agent_claude::{CASE_INSENSITIVE, PLUGIN_DIR_FLAG, Refusal, StripPlan};
 use viola_core::obs::{ObsEvent, ObsProcess};
@@ -180,7 +182,8 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<u8> {
         captures: read_captures(&probe.captures()),
     };
     let clock: Arc<dyn Clock> = Arc::new(SystemClock);
-    let typed_captures = probe.typed().join("captures");
+    let [trusted, questions, plan] = [probe.typed(), probe.questions(), probe.plan()]
+        .map(|root| (root.join("plugin"), root.join("captures")));
     let typed = typed::measure(
         &clock,
         &typed::Inputs {
@@ -188,12 +191,21 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<u8> {
             program_args: &program_args,
             cwd: &cwd,
             strip: &strip,
-            plugin: &probe.typed().join("plugin"),
-            captures: &typed_captures,
+            trusted: dirs(&trusted),
+            questions: dirs(&questions),
+            plan: dirs(&plan),
         },
     )?;
+    let dialogs = DialogRuns {
+        questions: read_captures(&questions.1),
+        plan: read_captures(&plan.1),
+    };
     drop(probe);
-    let probes = Probes { print, typed };
+    let probes = Probes {
+        print,
+        typed,
+        dialogs,
+    };
 
     let results = check_rows(&probes);
     let written_at = obs::timestamp(Utc::now());
@@ -205,6 +217,7 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<u8> {
             &results,
             &largest,
             &probes.typed,
+            ledger::parallel_both_before_first_post(&probes.dialogs.questions),
             &written_at,
         )
     })?;
@@ -223,10 +236,22 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<u8> {
 }
 
 /// `<home>/ledger/probes/<pid>/` (0700) with the capture plugin in `plugin/` and an empty
-/// `captures/`, and the same pair under `typed/` for the trusted interactive run; removed whole
-/// when dropped, on every exit path.
+/// `captures/`, the same pair under `typed/` for the trusted interactive run, and under
+/// `questions/` and `plan/` a dialog plugin, its captures and its `answers/` (written from the
+/// compiled answer table) for the dialog and plan runs; removed whole when dropped, on every exit
+/// path.
 struct ProbeDir {
     dir: PathBuf,
+}
+
+/// A run's `(plugin, captures)` pair as the runs take it.
+fn dirs((plugin, captures): &(PathBuf, PathBuf)) -> typed::RunDirs<'_> {
+    typed::RunDirs { plugin, captures }
+}
+
+/// `path` with forward slashes, the form the plugin's `hooks.json` carries.
+fn fwd(path: &Path) -> String {
+    path.to_string_lossy().replace('\\', "/")
 }
 
 impl ProbeDir {
@@ -237,20 +262,33 @@ impl ProbeDir {
         let _ = std::fs::remove_dir_all(&dir);
         let probe = Self { dir };
         for root in [probe.dir.clone(), probe.typed()] {
-            let captures = root.join("captures");
-            create_private_dir(&captures)?;
-            let captures_fwd = captures.to_string_lossy().replace('\\', "/");
-            for (rel, content) in ledger::capture_plugin_files(pinned_bin_fwd, &captures_fwd) {
-                let path = root.join("plugin").join(rel);
-                create_private_dir(path.parent().unwrap_or(&root))?;
-                replace_private(&path, content.as_bytes(), FILE_MODE)?;
+            write_plugin(&root, pinned_bin_fwd, None)?;
+        }
+        for (root, run) in [
+            (probe.questions(), DialogRun::Questions),
+            (probe.plan(), DialogRun::Plan),
+        ] {
+            let answers = root.join("answers");
+            create_private_dir(&answers)?;
+            for (_, event, ordinal, answer) in PROBE_ANSWERS.iter().filter(|a| a.0 == run) {
+                let path = answers.join(ledger::answer_file_name(*event, *ordinal));
+                replace_private(&path, answer.id().as_bytes(), FILE_MODE)?;
             }
+            write_plugin(&root, pinned_bin_fwd, Some(&fwd(&answers)))?;
         }
         Ok(probe)
     }
 
     fn typed(&self) -> PathBuf {
         self.dir.join("typed")
+    }
+
+    fn questions(&self) -> PathBuf {
+        self.dir.join("questions")
+    }
+
+    fn plan(&self) -> PathBuf {
+        self.dir.join("plan")
     }
 
     fn plugin(&self) -> PathBuf {
@@ -266,6 +304,22 @@ impl Drop for ProbeDir {
     fn drop(&mut self) {
         let _ = std::fs::remove_dir_all(&self.dir);
     }
+}
+
+/// `<root>/captures/` and `<root>/plugin/`: a spine plugin, or with `answers` a dialog plugin.
+fn write_plugin(root: &Path, pinned_bin_fwd: &str, answers: Option<&str>) -> anyhow::Result<()> {
+    let captures = root.join("captures");
+    create_private_dir(&captures)?;
+    let kind = match answers {
+        Some(answers_dir_fwd) => ProbePlugin::Dialog { answers_dir_fwd },
+        None => ProbePlugin::Spine,
+    };
+    for (rel, content) in ledger::capture_plugin_files(pinned_bin_fwd, &fwd(&captures), kind) {
+        let path = root.join("plugin").join(rel);
+        create_private_dir(path.parent().unwrap_or(root))?;
+        replace_private(&path, content.as_bytes(), FILE_MODE)?;
+    }
+    Ok(())
 }
 
 /// Every `<Event>.<k>.json` in `dir`, in `k` order (arrival order), each read through the frame
@@ -323,10 +377,12 @@ fn step_line(n: usize, total: usize, row: LedgerRow, pass: bool) -> String {
 }
 
 /// The first capture of each spine event, scrubbed of the user's home and name, written as
-/// `<dir>/<version>/<Event>.default.json`, and each recorded screen as `Screen.<phase>.json` holding
-/// only its signature rows. One payload that stays unclean after the scrub, or one screen whose kept
-/// rows or their seams hold a path, the username or an email, refuses the whole recording before any
-/// file is written; the refusal names the file and the check, never the content.
+/// `<dir>/<version>/<Event>.default.json`; each dialog run's captures the same way as
+/// `<Event>.<variant>.json` (`ledger::dialog_variants`); and each recorded screen as
+/// `Screen.<phase>.json` holding only its signature rows. One payload that stays unclean after the
+/// scrub, or one screen whose kept rows or their seams hold a path, the username or an email,
+/// refuses the whole recording before any file is written; the refusal names the file and the
+/// check, never the content.
 fn record(dir: &Path, version: &str, probes: &Probes) -> anyhow::Result<u8> {
     let user_home = std::env::home_dir().unwrap_or_default();
     let home = user_home.to_string_lossy().into_owned();
@@ -334,14 +390,22 @@ fn record(dir: &Path, version: &str, probes: &Probes) -> anyhow::Result<u8> {
         .file_name()
         .map(|n| n.to_string_lossy().into_owned())
         .unwrap_or_default();
-    let mut files = Vec::new();
+    let mut payloads: Vec<(String, &Capture)> = Vec::new();
     for event in ledger::CAPTURE_EVENTS {
-        let first = probes.print.captures.iter().find(|c| c.event == event);
-        let Some(payload) = first.and_then(|c| c.payload.as_ref()) else {
+        if let Some(first) = probes.print.captures.iter().find(|c| c.event == event) {
+            payloads.push((format!("{}.default.json", ledger::event_name(event)), first));
+        }
+    }
+    for (variant, capture) in ledger::dialog_variants(&probes.dialogs) {
+        let name = format!("{}.{variant}.json", ledger::event_name(capture.event));
+        payloads.push((name, capture));
+    }
+    let mut files = Vec::new();
+    for (name, capture) in payloads {
+        let Some(payload) = capture.payload.as_ref() else {
             continue;
         };
         let scrubbed = ledger::scrub(payload, &home, &user, CASE_INSENSITIVE);
-        let name = format!("{}.default.json", ledger::event_name(event));
         if let Some(why) = ledger::unclean(&scrubbed, &user) {
             return Ok(refuse_recording(&format!("{name} {}", why.code())));
         }
@@ -399,12 +463,20 @@ mod tests {
     #[test]
     fn step_line_is_the_counter_the_row_and_the_verdict() {
         assert_eq!(
-            step_line(1, 10, LedgerRow::ShimResolution, true),
-            "[01/10] shim-resolution claude resolves to a real executable  pass"
+            step_line(1, 14, LedgerRow::ShimResolution, true),
+            "[01/14] shim-resolution claude resolves to a real executable  pass"
         );
         assert_eq!(
-            step_line(6, 10, LedgerRow::LargestHookPayload, false),
-            "[06/10] largest-hook-payload every hook payload fits the frame cap  fail"
+            step_line(6, 14, LedgerRow::LargestHookPayload, false),
+            "[06/14] largest-hook-payload every hook payload fits the frame cap  fail"
+        );
+        assert_eq!(
+            step_line(12, 14, LedgerRow::PlanApproveRevise, false),
+            "[12/14] plan-approve-revise a plan revise and approve each take effect  fail"
+        );
+        assert_eq!(
+            step_line(14, 14, LedgerRow::DialogConcurrency, true),
+            "[14/14] dialog-concurrency two parallel questions each raise a dialog  pass"
         );
     }
 

@@ -1,7 +1,9 @@
 //! The fake agent's drift contract (test-plan §6 Contract suite, §7 Fake agent): for every recorded
 //! `fixtures/claude/<version>/` set, a print-mode turn fires the spine hooks in the recorded order
-//! and hands each hook exactly its recorded fixture's bytes. The recorded sets are walked at run
-//! time, not by `#[files]`, and an empty walk fails.
+//! and hands each hook exactly its recorded fixture's bytes; and every set recorded with its dialog
+//! tier replays that tier, through `viola verify` against `--dialogs`, byte for byte and in the
+//! recorded order. The recorded sets are walked at run time, not by `#[files]`, and an empty walk
+//! fails.
 //! andromeda:walks-tree — it reads every set under `fixtures/claude/`, named or not.
 
 #[allow(dead_code)]
@@ -147,6 +149,163 @@ fn fake_agent_print_turn_matches_every_recorded_set() {
             "{version}: drift"
         );
     }
+}
+
+/// The dialog-tier hook events, as test literals.
+const DIALOG_EVENTS: [&str; 3] = ["PreToolUse", "PermissionRequest", "PostToolUse"];
+/// The dialog prompts' variant stems in paste order, as test literals.
+const DIALOG_STEMS: [&str; 4] = ["questions", "parallel", "permission", "plan"];
+
+/// A set's recorded dialog variants in replay order: per stem, per call `n`, its PreToolUse,
+/// PermissionRequest and PostToolUse fixtures as recorded; a call with neither of the first two
+/// ends its stem.
+fn dialog_replay(set: &Path) -> Vec<(String, Vec<u8>)> {
+    let mut out = Vec::new();
+    for stem in DIALOG_STEMS {
+        for n in 1.. {
+            let read = |event: &str| fs::read(set.join(format!("{event}.{stem}-{n}.json"))).ok();
+            if read("PreToolUse").is_none() && read("PermissionRequest").is_none() {
+                break;
+            }
+            for event in DIALOG_EVENTS {
+                if let Some(bytes) = read(event) {
+                    out.push((format!("{event}.{stem}-{n}"), bytes));
+                }
+            }
+        }
+    }
+    out
+}
+
+/// What drifted between a receipt's dialog-tier `hook` lines and the set's recorded replay: each
+/// position whose event or stdin bytes differ, then `count` when the lengths differ.
+fn dialog_drift(set: &Path, receipt: &[Value]) -> Vec<String> {
+    let expected = dialog_replay(set);
+    let sent: Vec<(String, Vec<u8>)> = of_kind(receipt, "hook")
+        .iter()
+        .filter(|h| DIALOG_EVENTS.iter().any(|e| h["event"] == *e))
+        .map(|h| {
+            let event = h["event"].as_str().unwrap_or_default().to_owned();
+            (
+                event,
+                h["stdin_hex"].as_str().map(unhex).unwrap_or_default(),
+            )
+        })
+        .collect();
+    let mut drifted: Vec<String> = expected
+        .iter()
+        .zip(&sent)
+        .filter(|((name, bytes), (event, got))| {
+            !name.starts_with(&format!("{event}.")) || got != bytes
+        })
+        .map(|((name, _), _)| name.clone())
+        .collect();
+    if expected.len() != sent.len() {
+        drifted.push("count".to_owned());
+    }
+    drifted
+}
+
+/// Every set recorded with its dialog tier replays it byte for byte: `viola verify` against the
+/// fake agent's `--dialogs` hands each dialog hook exactly its recorded variant's bytes, in the
+/// recorded order. A set without dialog variants (the drift-only spine set) is not compared.
+#[test]
+fn fake_agent_dialog_replay_matches_every_recorded_dialog_set() {
+    let root = workspace_path("fixtures/claude");
+    let mut compared = 0;
+    for version in recorded_versions(&root) {
+        if dialog_replay(&root.join(&version)).is_empty() {
+            continue;
+        }
+        let home = TestHome::new();
+        let receipt = home.scratch().join("receipt.ndjson");
+        let receipt_arg = receipt.to_str().expect("utf-8").to_owned();
+        let ran = support::verify::verify(
+            home.path(),
+            &root,
+            &version,
+            &[],
+            &["--receipt", &receipt_arg],
+            &[],
+        );
+        assert_eq!(
+            ran.code,
+            Some(0),
+            "{version}: verify exit\n{}",
+            ran.stdout_text()
+        );
+        let lines = fake::receipt(&receipt);
+        assert_eq!(
+            dialog_drift(&root.join(&version), &lines),
+            Vec::<String>::new(),
+            "{version}: dialog drift"
+        );
+        compared += 1;
+    }
+    assert!(compared >= 2, "dialog sets compared: {compared}");
+}
+
+/// The synthetic dialog set in a scratch fixture dir.
+fn synthetic_dialog_set(home: &TestHome) -> std::path::PathBuf {
+    let fixtures = home.scratch().join("fixtures");
+    support::verify::write_dialog_set(&fixtures, "9.9.9");
+    fixtures.join("9.9.9")
+}
+
+fn receipt_of_replay(set: &Path) -> Vec<Value> {
+    dialog_replay(set)
+        .iter()
+        .map(|(name, bytes)| {
+            let event = name.split('.').next().unwrap_or_default();
+            json!({"v": 1, "kind": "hook", "event": event, "stdin_hex": hex(bytes)})
+        })
+        .collect()
+}
+
+#[test]
+fn dialog_replay_reads_each_call_s_events_in_order() {
+    let home = TestHome::new();
+    let set = synthetic_dialog_set(&home);
+    let names: Vec<String> = dialog_replay(&set).into_iter().map(|(n, _)| n).collect();
+    assert_eq!(
+        names,
+        [
+            "PreToolUse.questions-1",
+            "PostToolUse.questions-1",
+            "PreToolUse.parallel-1",
+            "PostToolUse.parallel-1",
+            "PreToolUse.parallel-2",
+            "PostToolUse.parallel-2",
+            "PermissionRequest.permission-1",
+            "PostToolUse.permission-1",
+            "PreToolUse.plan-1",
+            "PermissionRequest.plan-1",
+            "PreToolUse.plan-2",
+            "PostToolUse.plan-2",
+        ]
+    );
+    assert_eq!(
+        dialog_drift(&set, &receipt_of_replay(&set)),
+        Vec::<String>::new()
+    );
+}
+
+#[test]
+fn dialog_drift_names_a_changed_byte_a_wrong_event_and_a_short_replay() {
+    let home = TestHome::new();
+    let set = synthetic_dialog_set(&home);
+    let mut receipt = receipt_of_replay(&set);
+    let mut bytes = unhex(receipt[3]["stdin_hex"].as_str().expect("hex"));
+    let last = bytes.len() - 1;
+    bytes[last] ^= 0x01;
+    receipt[3]["stdin_hex"] = json!(hex(&bytes));
+    receipt[6]["event"] = json!("PreToolUse");
+    assert_eq!(
+        dialog_drift(&set, &receipt),
+        ["PostToolUse.parallel-1", "PermissionRequest.permission-1"]
+    );
+    receipt.truncate(5);
+    assert!(dialog_drift(&set, &receipt).contains(&"count".to_owned()));
 }
 
 #[test]

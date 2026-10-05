@@ -2,4 +2,4 @@
 source: crates/viola-agent-claude/src/dialog.rs
 expression: "decision_body(HookEvent::PreToolUse, &input, &approve).expect(\"a body\")"
 ---
-{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"allow"}}
+{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"allow","updatedInput":{"plan":"p","planFilePath":"f"}}}

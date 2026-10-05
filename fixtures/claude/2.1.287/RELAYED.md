@@ -40,3 +40,15 @@ kept, and the two `tool_input` values stay equal. The question pair is relayed u
 | `PermissionRequest.ask-user-question.json` | — | `ecc4fa94135dbe96a8db358d526aea8765494addd57c6ae124ec79637428727f` |
 
 No test reads plan text content: the tests compare a plan dialog's `data.plan` only with the fixture's own value.
+
+## Superseded (2026-10-05, chunk 2026-10-05-dialog-rows-and-re-probe)
+`viola verify`'s own dialog re-probe recorded this version's dialog tier (Run C and Run D, each dialog answered by the
+probe's capture hook with the product's own decision body; `stamped 2.1.287  14 pass  0 fail`). The recorded files are the
+measured truth; the relayed four stay only for Path 4's existing cases (`fixtures/fake-scripts/path4.json`).
+
+| relayed file | recorded counterpart |
+|---|---|
+| `PreToolUse.ask-user-question.json` | `PreToolUse.questions-1.json` (and the one-question calls `PreToolUse.parallel-1.json`, `PreToolUse.parallel-2.json`) |
+| `PermissionRequest.ask-user-question.json` | none: a hook-answered AskUserQuestion raises no PermissionRequest (each answered question went straight to its own PostToolUse, `PostToolUse.questions-1.json`) |
+| `PreToolUse.exit-plan-mode.json` | `PreToolUse.plan-1.json` (the unanswered first plan) and `PreToolUse.plan-2.json` (the re-plan after the revise) |
+| `PermissionRequest.exit-plan-mode.json` | `PermissionRequest.plan-1.json` (answered `deny` + `message`, the revise) |

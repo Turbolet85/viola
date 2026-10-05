@@ -294,6 +294,73 @@ fn planted_claude_absolute_path_is_rejected(#[case] extra: Value) {
     );
 }
 
+/// A recorded dialog payload carries upstream text deep inside `tool_input`: a path there is found
+/// however deep it sits.
+#[test]
+fn planted_dialog_payload_with_a_nested_path_is_rejected() {
+    let bytes = json!({"hook_event_name": "PreToolUse", "tool_name": "AskUserQuestion",
+        "tool_input": {"questions": [{"question": "Probe color?",
+            "options": [{"label": "red", "description": "see /home/plantuser/notes"}]}]}})
+    .to_string()
+    .into_bytes();
+    assert_eq!(
+        check(&bytes, &claude_schema(), None),
+        Err(Violation::AbsolutePath)
+    );
+}
+
+/// Every set recorded with its dialog tier holds the twelve variants, each walked by
+/// `claude_fixtures_pass_hygiene`: the walk reaches the dialog classes.
+#[test]
+fn claude_dialog_variants_are_walked_for_every_dialog_set() {
+    let walked: Vec<PathBuf> = claude_fixtures(&workspace_path("fixtures/claude"));
+    // `<Event>.<stem>-<digits>.json`: the relayed `exit-plan-mode` names are not variants.
+    let variant = |p: &PathBuf| {
+        p.file_name().and_then(|n| n.to_str()).is_some_and(|n| {
+            let middle = n.split('.').nth(1).unwrap_or_default();
+            middle.rsplit_once('-').is_some_and(|(stem, k)| {
+                ["questions", "parallel", "permission", "plan"].contains(&stem)
+                    && !k.is_empty()
+                    && k.bytes().all(|b| b.is_ascii_digit())
+            })
+        })
+    };
+    let mut sets: Vec<&Path> = walked
+        .iter()
+        .filter(|p| variant(p))
+        .filter_map(|p| p.parent())
+        .collect();
+    sets.dedup();
+    assert!(sets.len() >= 2, "dialog sets walked: {}", sets.len());
+    for set in sets {
+        let mut names: Vec<String> = walked
+            .iter()
+            .filter(|p| p.parent() == Some(set) && variant(p))
+            .filter_map(|p| p.file_name()?.to_str().map(str::to_owned))
+            .collect();
+        names.sort();
+        assert_eq!(
+            names,
+            [
+                "PermissionRequest.permission-1.json",
+                "PermissionRequest.plan-1.json",
+                "PostToolUse.parallel-1.json",
+                "PostToolUse.parallel-2.json",
+                "PostToolUse.permission-1.json",
+                "PostToolUse.plan-2.json",
+                "PostToolUse.questions-1.json",
+                "PreToolUse.parallel-1.json",
+                "PreToolUse.parallel-2.json",
+                "PreToolUse.plan-1.json",
+                "PreToolUse.plan-2.json",
+                "PreToolUse.questions-1.json",
+            ],
+            "{}",
+            set.display()
+        );
+    }
+}
+
 #[test]
 fn planted_claude_username_is_rejected() {
     let bytes = claude_payload(

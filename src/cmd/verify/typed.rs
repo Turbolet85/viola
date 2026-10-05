@@ -1,9 +1,13 @@
-//! `viola verify`'s two interactive runs of the CLI under a PTY at a fixed 80×24 (architecture
-//! [Screen Model]). The untrusted run starts in a fresh dir under the OS temp dir, records its first
-//! settled screen (`modal`) and is ended by a kill. The trusted run starts in `<cwd>/.viola-verify-
-//! <pid>/`, records its settled input box (`ready`), types the probe prompt as one bracketed paste,
-//! times the turn and records its end (`turn`). Neither run ever types into a CLI-native dialog:
-//! the untrusted run's input is empty, and a trusted start that shows a modal is killed.
+//! `viola verify`'s four interactive runs of the CLI under a PTY at a fixed 80×24 (architecture
+//! [Screen Model]). The untrusted run (A) starts in a fresh dir under the OS temp dir, records its
+//! first settled screen (`modal`) and is ended by a kill. The trusted run (B) starts in
+//! `<cwd>/.viola-verify-<pid>/`, records its settled input box (`ready`), types the probe prompt as
+//! one bracketed paste, times the turn and records its end (`turn`). The dialog run (C, in
+//! `<cwd>/.viola-verify-<pid>-dialogs/`) pastes the three dialog prompts, each after the previous
+//! turn's Stop; the plan run (D, in `<cwd>/.viola-verify-<pid>-plan/`, plan mode) pastes the plan
+//! prompt. In C and D the probe's capture hook answers each dialog (the founder's ruling,
+//! 2026-10-05); both are ended by a kill. No run ever types into a dialog: the untrusted run's input
+//! is empty, a trusted start that shows a modal is killed, and only prompts are pasted.
 
 use std::ffi::OsString;
 use std::io::{self, Read, Write};
@@ -15,7 +19,10 @@ use std::thread::JoinHandle;
 use std::time::{Duration, Instant};
 
 use viola_agent_claude::hook::HookEvent;
-use viola_agent_claude::ledger::{self, PROBE_PROMPT, TypedRun};
+use viola_agent_claude::ledger::{
+    self, DIALOG_PROMPT_PARALLEL, DIALOG_PROMPT_PERMISSION, DIALOG_PROMPT_QUESTIONS,
+    DIALOG_SETTINGS, PLAN_PROMPT, PROBE_PROMPT, TypedRun,
+};
 use viola_agent_claude::screen::{GATE_MAX_WAIT, QUIET_PERIOD, SIGNATURES, Screen};
 use viola_agent_claude::{PLUGIN_DIR_FLAG, StripPlan};
 use viola_core::obs::ObsEvent;
@@ -31,18 +38,26 @@ const CTRL_C: &[u8] = b"\x03";
 /// The pause before a second Ctrl-C: the CLI's first one only arms its exit.
 const CTRL_C_AGAIN: Duration = Duration::from_millis(500);
 
-/// What both runs need from `verify`: the resolved CLI and its leading arguments, verify's cwd,
-/// the R8 strip, and the trusted run's capture plugin and capture dir.
+/// One run's capture plugin and capture dir.
+pub(super) struct RunDirs<'a> {
+    pub(super) plugin: &'a Path,
+    pub(super) captures: &'a Path,
+}
+
+/// What the runs need from `verify`: the resolved CLI and its leading arguments, verify's cwd, the
+/// R8 strip, and the trusted, dialog and plan runs' plugins and capture dirs.
 pub(super) struct Inputs<'a> {
     pub(super) program: &'a Path,
     pub(super) program_args: &'a [OsString],
     pub(super) cwd: &'a Path,
     pub(super) strip: &'a StripPlan,
-    pub(super) plugin: &'a Path,
-    pub(super) captures: &'a Path,
+    pub(super) trusted: RunDirs<'a>,
+    pub(super) questions: RunDirs<'a>,
+    pub(super) plan: RunDirs<'a>,
 }
 
-/// The untrusted run, then the trusted run; every dir either run used is gone on return.
+/// The four runs in order; every dir any run used is gone on return. Run C and Run D leave only
+/// their captures, which `verify` reads.
 pub(super) fn measure(clock: &Arc<dyn Clock>, inputs: &Inputs<'_>) -> anyhow::Result<TypedRun> {
     let mut typed = TypedRun::default();
     let mut args = inputs.program_args.to_vec();
@@ -60,9 +75,23 @@ pub(super) fn measure(clock: &Arc<dyn Clock>, inputs: &Inputs<'_>) -> anyhow::Re
     run.end_by_kill();
     drop(untrusted);
 
-    let trusted = TrustedDir::create(inputs.cwd)?;
+    trusted_run(clock, inputs, &args, &mut typed)?;
+    dialog_run(clock, inputs, &args)?;
+    plan_run(clock, inputs, &args)?;
+    Ok(typed)
+}
+
+/// Run B: the settled input box, one typed turn, then Ctrl-C.
+fn trusted_run(
+    clock: &Arc<dyn Clock>,
+    inputs: &Inputs<'_>,
+    args: &[OsString],
+    typed: &mut TypedRun,
+) -> anyhow::Result<()> {
+    let trusted = TrustedDir::create(inputs.cwd, "")?;
+    let mut args = args.to_vec();
     args.push(PLUGIN_DIR_FLAG.into());
-    args.push(inputs.plugin.as_os_str().to_owned());
+    args.push(inputs.trusted.plugin.as_os_str().to_owned());
     let (keys, pipe) = mpsc::channel();
     let run = Run::spawn(
         clock,
@@ -78,13 +107,106 @@ pub(super) fn measure(clock: &Arc<dyn Clock>, inputs: &Inputs<'_>) -> anyhow::Re
     typed.ready = ready.and_then(|s| s.rows);
     if !input_box_up(typed.ready.as_deref()) {
         run.end_by_kill();
-        return Ok(typed);
+        return Ok(());
     }
-    turn(&run, inputs.captures, &mut typed);
+    turn(&run, inputs.trusted.captures, typed);
     run.end_by_ctrl_c(&keys);
     drop(keys);
     drop(trusted);
-    Ok(typed)
+    Ok(())
+}
+
+/// Run C: the three dialog prompts, each pasted once the previous turn's Stop is captured, under the
+/// session `ask` rule; ended by a kill.
+fn dialog_run(
+    clock: &Arc<dyn Clock>,
+    inputs: &Inputs<'_>,
+    args: &[OsString],
+) -> anyhow::Result<()> {
+    let dir = TrustedDir::create(inputs.cwd, "-dialogs")?;
+    let mut args = args.to_vec();
+    args.extend(["--settings", DIALOG_SETTINGS, PLUGIN_DIR_FLAG].map(OsString::from));
+    args.push(inputs.questions.plugin.as_os_str().to_owned());
+    let (keys, pipe) = mpsc::channel::<Vec<u8>>();
+    let run = Run::spawn(clock, inputs, &args, &dir.0, Box::new(KeyPipe::new(pipe)))?;
+    if run.input_box_settles() {
+        let captures = inputs.questions.captures;
+        for prompt in [
+            DIALOG_PROMPT_QUESTIONS,
+            DIALOG_PROMPT_PARALLEL,
+            DIALOG_PROMPT_PERMISSION,
+        ] {
+            let stops = count_of(captures, HookEvent::Stop);
+            if run.paste.paste(prompt).is_err() {
+                break;
+            }
+            let until = clock.now() + PROBE_DEADLINE;
+            if !wait_for(clock.as_ref(), until, || {
+                count_of(captures, HookEvent::Stop) > stops
+            }) {
+                break;
+            }
+        }
+    }
+    run.end_by_kill();
+    drop(keys);
+    drop(dir);
+    Ok(())
+}
+
+/// Run D: plan mode, the plan prompt, until the turn's Stop is captured (after the plan's
+/// PostToolUse, which the rows read); the CLI's plan file goes into the run's own `plans/`; ended by
+/// a kill.
+fn plan_run(clock: &Arc<dyn Clock>, inputs: &Inputs<'_>, args: &[OsString]) -> anyhow::Result<()> {
+    let dir = TrustedDir::create(inputs.cwd, "-plan")?;
+    let plans = dir.0.join("plans");
+    create_private_dir(&plans)?;
+    let mut args = args.to_vec();
+    args.extend(["--permission-mode", "plan", "--settings"].map(OsString::from));
+    args.push(ledger::plan_settings(&plans.to_string_lossy()).into());
+    args.push(PLUGIN_DIR_FLAG.into());
+    args.push(inputs.plan.plugin.as_os_str().to_owned());
+    let (keys, pipe) = mpsc::channel::<Vec<u8>>();
+    let run = Run::spawn(clock, inputs, &args, &dir.0, Box::new(KeyPipe::new(pipe)))?;
+    if run.input_box_settles() && run.paste.paste(PLAN_PROMPT).is_ok() {
+        let until = clock.now() + PROBE_DEADLINE;
+        wait_for(clock.as_ref(), until, || {
+            count_of(inputs.plan.captures, HookEvent::Stop) > 0
+        });
+    }
+    run.end_by_kill();
+    drop(keys);
+    drop(dir);
+    Ok(())
+}
+
+/// Whether `done` held before `until`, polled every `POLL`.
+fn wait_for(clock: &dyn Clock, until: Instant, mut done: impl FnMut() -> bool) -> bool {
+    loop {
+        if done() {
+            return true;
+        }
+        if clock.now() >= until {
+            return false;
+        }
+        std::thread::sleep(POLL);
+    }
+}
+
+/// How many captures of `event` `dir` holds, by name.
+fn count_of(dir: &Path, event: HookEvent) -> usize {
+    std::fs::read_dir(dir)
+        .into_iter()
+        .flatten()
+        .flatten()
+        .filter(|entry| {
+            entry
+                .file_name()
+                .to_str()
+                .and_then(ledger::parse_capture_file_name)
+                .is_some_and(|(e, _)| e == event)
+        })
+        .count()
 }
 
 /// An input-box literal on some row and no modal literal on any: the only screen typed into.
@@ -151,25 +273,15 @@ fn wait_capture(
 }
 
 fn captured(dir: &Path, event: HookEvent) -> bool {
-    std::fs::read_dir(dir)
-        .into_iter()
-        .flatten()
-        .flatten()
-        .any(|entry| {
-            entry
-                .file_name()
-                .to_str()
-                .and_then(ledger::parse_capture_file_name)
-                .is_some_and(|(e, _)| e == event)
-        })
+    count_of(dir, event) > 0
 }
 
-/// `<cwd>/.viola-verify-<pid>/` (0700), removed whole when dropped, on every exit path.
+/// `<cwd>/.viola-verify-<pid><suffix>/` (0700), removed whole when dropped, on every exit path.
 struct TrustedDir(PathBuf);
 
 impl TrustedDir {
-    fn create(cwd: &Path) -> io::Result<Self> {
-        let dir = cwd.join(format!(".viola-verify-{}", std::process::id()));
+    fn create(cwd: &Path, suffix: &str) -> io::Result<Self> {
+        let dir = cwd.join(format!(".viola-verify-{}{suffix}", std::process::id()));
         let _ = std::fs::remove_dir_all(&dir);
         let guard = Self(dir);
         create_private_dir(&guard.0)?;
@@ -414,6 +526,12 @@ impl Run {
         }
     }
 
+    /// Whether the start settles on the input box with no modal: the only screen pasted into.
+    fn input_box_settles(&self) -> bool {
+        let ready = self.settle(self.spawned_at);
+        input_box_up(ready.and_then(|s| s.rows).as_deref())
+    }
+
     fn kill(&self) {
         let _ = self
             .pty
@@ -601,12 +719,18 @@ mod tests {
     #[test]
     fn trusted_dir_is_private_and_removed_on_drop() {
         let tmp = tempfile::tempdir().expect("tempdir");
-        let dir = TrustedDir::create(tmp.path()).expect("dir");
+        let dir = TrustedDir::create(tmp.path(), "").expect("dir");
         let path = dir.0.clone();
         assert_eq!(
             path,
             tmp.path()
                 .join(format!(".viola-verify-{}", std::process::id()))
+        );
+        let plan = TrustedDir::create(tmp.path(), "-plan").expect("plan dir");
+        assert_eq!(
+            plan.0,
+            tmp.path()
+                .join(format!(".viola-verify-{}-plan", std::process::id()))
         );
         std::fs::write(path.join("left"), b"x").expect("a file");
         #[cfg(unix)]
