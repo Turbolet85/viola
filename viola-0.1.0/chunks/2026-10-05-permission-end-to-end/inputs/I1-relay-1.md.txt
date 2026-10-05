@@ -1,0 +1,3 @@
+Operator directive at the /andromeda-phase invocation, 2026-10-05 (session after the 2026-10-05-dialog-rows-and-re-probe wrap), verbatim:
+
+:88 "Permission end to end". Fold one [inferred] item, overseer-decided: amend the .claude/rules/testing.md 2026-09-28 entry ("a timing red is never fixed by raising a bound") with the designed-floor exception the :86 verify_window_ class used. A bound may move only for a floor measured across runs as designed, and only with a planted-hang control proving a hang is still killed. Live claude: the founder cap has 3 of 16 left; plan zero live sessions if you can, and name any you need. Epoch 3 stays unsplit.

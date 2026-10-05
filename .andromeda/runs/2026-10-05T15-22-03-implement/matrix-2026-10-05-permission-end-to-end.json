@@ -1,0 +1,49 @@
+[
+{
+"tool": "matrix",
+"v": "1.3",
+"sha8": "cd774c8a",
+"ts": "2026-10-05T15:29:39Z",
+"argv": [
+"implement",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-05-permission-end-to-end",
+"--id",
+"v1-16",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-05T15-22-03-implement"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"implement v1-16 · status planned → implemented · ref tests/cli_answer.rs::path4_permission_is_logged_once_woken_and_answered_by_id",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-16",
+"chunk": "2026-10-05-permission-end-to-end",
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "The architecture records that a driver cannot pick an offered permission suggestion: `.andromeda/architecture.md:280` (§… (993 chars)",
+"notes_chars": 457
+},
+"after": {
+"id": "v1-16",
+"chunk": "2026-10-05-permission-end-to-end",
+"status": "implemented",
+"method": "e2e",
+"ref": "tests/cli_answer.rs::path4_permission_is_logged_once_woken_and_answered_by_id",
+"acceptance": "The architecture records that a driver cannot pick an offered permission suggestion: `.andromeda/architecture.md:280` (§… (993 chars)",
+"notes_chars": 457
+}
+}
+]

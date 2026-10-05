@@ -1,0 +1,10 @@
+{
+  "v": 1,
+  "steps": [
+    { "event": "PermissionRequest", "variant": "permission-1", "gate": true },
+    { "event": "PostToolUse", "variant": "permission-1", "gate": true },
+    { "event": "PermissionRequest", "variant": "permission-1", "gate": true },
+    { "event": "PermissionRequest", "variant": "ask-user-question", "gate": true },
+    { "event": "Stop", "variant": "default", "gate": true }
+  ]
+}

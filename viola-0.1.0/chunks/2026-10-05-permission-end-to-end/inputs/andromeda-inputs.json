@@ -1,0 +1,20 @@
+[
+  {
+    "id": "I1",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the operator, /andromeda-phase invocation args, 2026-10-05T15:00Z (overseer-decided fold)",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "ea6c3a88854ab8eed1809737d9ca7f2fe5f838f509816149e595814bc3290bf6",
+    "copy": "I1-relay-1.md.txt",
+    "link": false,
+    "read_at": "2026-10-05T15:01:39Z",
+    "step": "phase:P1",
+    "why": "operator directive: fold the testing.md designed-floor amendment (overseer-decided), plan zero live sessions (founder cap 3 of 16 left), Epoch 3 unsplit"
+  }
+]

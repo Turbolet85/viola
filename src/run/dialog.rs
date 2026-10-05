@@ -186,7 +186,8 @@ impl DialogSlot {
         {
             return Ok(answer);
         }
-        // A question first raised by PermissionRequest has no measured body: the human answers it.
+        // A question first raised by PermissionRequest: its `allow` + `updatedInput` body is read only
+        // statically (2.1.288, 2.1.287) and has no ledger row, so the human answers it.
         let unanswerable = raise.continuation && raise.kind == DialogKind::Question;
         let hold = self.cli_verified
             && state.pending.is_none()
@@ -722,7 +723,7 @@ mod tests {
     }
 
     /// A question first raised by PermissionRequest is logged and left to the human, even on a
-    /// stamped CLI: its body is unmeasured.
+    /// stamped CLI: its body has no ledger row (read only statically on 2.1.288 / 2.1.287).
     #[test]
     fn continuation_raised_as_a_question_is_null_at_once() {
         let tmp = tempfile::tempdir().expect("tempdir");

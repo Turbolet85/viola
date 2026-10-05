@@ -214,11 +214,11 @@
       "observed_gap": "the brief measured a permission dialog's options as allow · allow plus suggestion n · deny, and R7 says a permission answer includes a suggestion (B:203-205, B:109-114); arch's permission answer is `{behavior, message?}` with no suggestion slot (A:267) (XF I1).",
       "verification": {
         "method": "e2e",
-        "acceptance": "The architecture records whether a driver can pick an offered permission suggestion; if it can, the answer carries the choice and the chosen suggestion takes effect in the driven session; if not, the omission is recorded as a deliberate v1 limit.",
-        "ref": null,
-        "status": "planned"
+        "acceptance": "The architecture records that a driver cannot pick an offered permission suggestion: `.andromeda/architecture.md:280` (§Standard Contracts `answer`, the `permission` response `{behavior:\"allow\"|\"deny\", message?}` — \"no suggestion slot: an offered `permission_suggestions` entry cannot be picked, a deliberate v1 limit (the founder's live ruling, 2026-10-04)\"). So the \"if it can\" branch is closed by that ruling and the omission is recorded. End to end on all three CI OSes, `tests/cli_answer.rs::path4_permission_is_logged_once_woken_and_answered_by_id` answers a replayed ordinary-tool PermissionRequest (`fixtures/claude/2.1.287/PermissionRequest.permission-1.json`) with `{\"behavior\":\"allow\",\"updatedPermissions\":[{\"type\":\"addRules\"}],\"suggestion\":0}`; `viola answer` exits 0 and the hook emits exactly `{\"hookSpecificOutput\":{\"hookEventName\":\"PermissionRequest\",\"decision\":{\"behavior\":\"allow\"}}}` at exit 0 with empty stderr — no suggestion or `updatedPermissions` reaches the driven CLI.",
+        "ref": "tests/cli_answer.rs::path4_permission_is_logged_once_woken_and_answered_by_id",
+        "status": "implemented"
       },
-      "chunk": null,
+      "chunk": "2026-10-05-permission-end-to-end",
       "notes": "2026-10-04 (2026-10-04-dialog-answers-by-dialog-id, phase P5): not claimed. The founder ruled live at P4 (2026-10-04) that permission suggestions are a deliberate v1 limit, so the permission answer stays `{behavior, message?}`. The acceptance's decisive artifact is the architecture's record of that omission, which only the wrap's amendment authors, so this chunk cannot reach `implemented` for it. The cap stays pooled for the wrap that records the limit."
     },
     {

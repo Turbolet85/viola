@@ -337,7 +337,8 @@ fn strings<'a>(value: &'a Value, out: &mut Vec<&'a str>) {
 ///   decision (S7);
 /// - plan revise on PermissionRequest → `deny` + `message`; on PreToolUse no decision (S7);
 /// - permission on PermissionRequest → `allow` / `deny` + `message`;
-/// - a question on PermissionRequest → no decision (its body is unmeasured).
+/// - a question on PermissionRequest → no decision: 2.1.288 and 2.1.287 would take an `allow` with
+///   `updatedInput` there (read statically), but that body has no ledger row, so the human answers.
 pub fn decision_body(hook: HookEvent, input: &Value, response: &Response) -> Option<String> {
     let body = match (hook, response) {
         (

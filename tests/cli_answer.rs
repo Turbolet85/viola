@@ -1,12 +1,15 @@
 //! Critical Path 4, its cli + wrapper channel half (test-plan §6 Path 4; architecture §Standard
-//! Contracts `hook.dialog` / `answer`): a `question` and a `plan` raised through the dialog-tier
-//! hooks are each logged once with a wrapper-assigned `dialog_id`, wake a parked `viola wait`, and
-//! are answered by id with `viola answer`; the hook prints the decision body the answer maps to
-//! (S3 / S7 / S8). The PermissionRequest that repeats a PreToolUse is the same dialog: it logs
-//! nothing and carries only a plan's revise. A second concurrent dialog, an unknown id and an
-//! unverified CLI are each left to the human. The dialog payloads are the relayed 2.1.287 captures
-//! (`fixtures/claude/2.1.287/RELAYED.md`); the canary rides only the answers and the driver's text.
-//! The `permission` kind's end-to-end case is owed to the live test (working-route `:84`).
+//! Contracts `hook.dialog` / `answer`): a `question`, a `plan` and a `permission` raised through the
+//! dialog-tier hooks are each logged once with a wrapper-assigned `dialog_id`, wake a parked
+//! `viola wait`, and are answered by id with `viola answer`; the hook prints the decision body the
+//! answer maps to (S3 / S7 / S8). The PermissionRequest that repeats a PreToolUse is the same
+//! dialog: it logs nothing and carries only a plan's revise. A second concurrent dialog, an unknown
+//! id, an unverified CLI and a question first raised by PermissionRequest are each left to the
+//! human. The `question` / `plan` cases replay the relayed 2.1.287 captures
+//! (`fixtures/claude/2.1.287/RELAYED.md`, superseded but kept); the `permission` cases replay the
+//! `viola verify` Run C recordings `PermissionRequest.permission-1.json` /
+//! `PostToolUse.permission-1.json` ("Permission end to end", working-route `:88`). The canary rides
+//! only the answers and the driver's text.
 
 #[allow(dead_code)]
 mod support;
@@ -25,6 +28,7 @@ use support::watch::{WITHIN, Watch};
 
 const CANARY: &str = "canary-chain-value-5c1e";
 const PATH4: &str = "fixtures/fake-scripts/path4.json";
+const PATH4_PERMISSION: &str = "fixtures/fake-scripts/path4-permission.json";
 
 fn fixtures_arg() -> String {
     workspace_path("fixtures/claude")
@@ -33,18 +37,23 @@ fn fixtures_arg() -> String {
         .to_owned()
 }
 
-/// A relayed 2.1.287 fixture, as the fake agent replays it.
-fn relayed(name: &str) -> Value {
+/// A fixture of the stamped CLI version (relayed or recorded), as the fake agent replays it.
+fn fixture(name: &str) -> Value {
     let path = workspace_path("fixtures/claude")
         .join(fake::RECORDED_CLI_VERSION)
         .join(name);
-    serde_json::from_slice(&std::fs::read(path).expect("relayed fixture")).expect("json")
+    serde_json::from_slice(&std::fs::read(path).expect("fixture")).expect("json")
 }
 
 /// A wrapper over the Path 4 script, its SessionStart record landed.
 fn boot(stamped: StampedHome) -> Wrapper {
+    boot_over(stamped, PATH4)
+}
+
+/// A wrapper over the gated `script`, its SessionStart record landed.
+fn boot_over(stamped: StampedHome, script: &str) -> Wrapper {
     let fx = fixtures_arg();
-    let wrapper = Wrapper::boot(stamped, "builder", Some(PATH4), &["--fixtures", &fx]);
+    let wrapper = Wrapper::boot(stamped, "builder", Some(script), &["--fixtures", &fx]);
     wait_events(&wrapper.instance_dir(), "the session-start record", |l| {
         l.iter().any(|e| e["kind"] == "session-start")
     });
@@ -275,7 +284,7 @@ fn path4_dialogs_are_logged_once_woken_and_answered_by_id(stamped_home: StampedH
     assert_eq!(doc["ok"]["cursor"], end);
 
     // The question is answered with free text and a note (S3, S8).
-    let tool_input = relayed("PreToolUse.ask-user-question.json")["tool_input"].clone();
+    let tool_input = fixture("PreToolUse.ask-user-question.json")["tool_input"].clone();
     let asked = tool_input["questions"][0]["question"]
         .as_str()
         .expect("a question")
@@ -352,7 +361,7 @@ fn path4_dialogs_are_logged_once_woken_and_answered_by_id(stamped_home: StampedH
     let hooks = hooks_at_least(&receipt, 6);
     assert_eq!(hooks[5]["event"], "PreToolUse");
     let body: Value = serde_json::from_str(&clean_stdout(&hooks[5])).expect("one JSON body");
-    let plan_input = relayed("PreToolUse.exit-plan-mode.json")["tool_input"].clone();
+    let plan_input = fixture("PreToolUse.exit-plan-mode.json")["tool_input"].clone();
     assert_eq!(
         body,
         json!({"hookSpecificOutput": {"hookEventName": "PreToolUse",
@@ -427,6 +436,245 @@ fn path4_dialogs_are_logged_once_woken_and_answered_by_id(stamped_home: StampedH
     wrapper.stop();
 }
 
+/// test-plan §6 Path 4, the `permission` kind: an ordinary-tool PermissionRequest answered `allow`
+/// (its suggestion fields never reach the CLI, `v1-16`) and `deny` + `message`; the PostToolUse
+/// `activity` line wakes no `wait`; a question first raised by PermissionRequest is left to the
+/// human. The `v1-30` dialog-kind wait witness for `permission`.
+#[rstest]
+fn path4_permission_is_logged_once_woken_and_answered_by_id(stamped_home: StampedHome) {
+    let wrapper = boot_over(stamped_home, PATH4_PERMISSION);
+    let home = wrapper.home().to_path_buf();
+    let dir = wrapper.instance_dir();
+    let receipt = wrapper.receipt();
+    let raised = fixture("PermissionRequest.permission-1.json");
+
+    // A parked `wait` wakes on the permission, its line uncoloured.
+    let parked = spawn(&home, &["wait", "builder"], None, None);
+    wait_request_logged(&home, "wait", 1);
+    let allowed_id = raise(&wrapper, "permission", 1);
+    let woken = parked.finish();
+    assert_eq!(woken.code, Some(0), "stderr: {}", woken.stderr);
+    let end = line_end_of(&dir, allowed_id);
+    assert_eq!(
+        woken.stdout,
+        format!("permission  builder  dialog {allowed_id}  cursor {end}\n")
+    );
+    assert!(!woken.stdout.contains('\x1b'));
+
+    // A `wait` without `--after` while the dialog is pending returns it at once.
+    let pending = spawn(&home, &["wait", "builder", "--json"], None, None).finish();
+    assert_eq!(pending.code, Some(0), "stderr: {}", pending.stderr);
+    let doc: Value = serde_json::from_str(&pending.stdout).expect("one JSON document");
+    assert_eq!(doc["ok"]["event"]["kind"], "permission");
+    assert_eq!(doc["ok"]["event"]["data"]["dialog_id"], allowed_id);
+    assert_eq!(doc["ok"]["event"]["data"]["tool"], "Bash");
+    assert_eq!(doc["ok"]["event"]["data"]["input"], raised["tool_input"]);
+    assert_eq!(doc["ok"]["cursor"], end);
+
+    // `allow` with suggestion fields: the body carries the behaviour alone.
+    let reply = answer(
+        &home,
+        allowed_id,
+        &json!({"behavior": "allow", "updatedPermissions": [{"type": "addRules"}],
+            "suggestion": 0}),
+    );
+    assert_eq!(reply.code, Some(0), "stderr: {}", reply.stderr);
+    assert_eq!(
+        reply.stdout,
+        format!("answered  builder  dialog {allowed_id}\n")
+    );
+    assert!(reply.stderr.is_empty());
+    let hooks = hooks_at_least(&receipt, 2);
+    assert_eq!(hooks[1]["event"], "PermissionRequest");
+    assert_eq!(
+        clean_stdout(&hooks[1]),
+        "{\"hookSpecificOutput\":{\"hookEventName\":\"PermissionRequest\",\
+         \"decision\":{\"behavior\":\"allow\"}}}"
+    );
+
+    // The PostToolUse `activity` line wakes no parked `wait`; the next permission does.
+    let parked = spawn(
+        &home,
+        &["wait", "builder", "--after", &end.to_string()],
+        None,
+        None,
+    );
+    wait_request_logged(&home, "wait", 3);
+    wrapper.release();
+    wait_events(&dir, "the activity line", |l| {
+        !of_event_kind(l, "activity").is_empty()
+    });
+    let denied_id = raise(&wrapper, "permission", 2);
+    let woken = parked.finish();
+    assert_eq!(woken.code, Some(0), "stderr: {}", woken.stderr);
+    let end = line_end_of(&dir, denied_id);
+    assert_eq!(
+        woken.stdout,
+        format!("permission  builder  dialog {denied_id}  cursor {end}\n")
+    );
+    let message = format!("{CANARY} not in this directory");
+    let reply = answer(
+        &home,
+        denied_id,
+        &json!({"behavior": "deny", "message": message}),
+    );
+    assert_eq!(reply.code, Some(0), "stderr: {}", reply.stderr);
+    assert_eq!(
+        reply.stdout,
+        format!("answered  builder  dialog {denied_id}\n")
+    );
+    let hooks = hooks_at_least(&receipt, 4);
+    assert_eq!(hooks[2]["event"], "PostToolUse");
+    assert_eq!(hooks[3]["event"], "PermissionRequest");
+    assert_eq!(
+        clean_stdout(&hooks[3]),
+        format!(
+            "{{\"hookSpecificOutput\":{{\"hookEventName\":\"PermissionRequest\",\
+             \"decision\":{{\"behavior\":\"deny\",\"message\":\"{message}\"}}}}}}"
+        )
+    );
+
+    // A question first raised by PermissionRequest is logged once and answered `null` at once:
+    // the hook prints nothing and a late answer finds no pending dialog.
+    let question_id = raise(&wrapper, "question", 1);
+    let hooks = hooks_at_least(&receipt, 5);
+    assert_eq!(hooks[4]["event"], "PermissionRequest");
+    assert_eq!(clean_stdout(&hooks[4]), "");
+    let asked = &fixture("PermissionRequest.ask-user-question.json")["tool_input"]["questions"][0]
+        ["question"];
+    let lines = events(&dir);
+    let questions = of_event_kind(&lines, "question");
+    assert_eq!(questions.len(), 1);
+    assert_eq!(&questions[0]["data"]["questions"][0]["question"], asked);
+    let late = spawn(
+        &home,
+        &["answer", "builder", &question_id.to_string(), "--json"],
+        Some(&json!({"answers": {"q": CANARY}}).to_string()),
+        None,
+    )
+    .finish();
+    assert_eq!(late.code, Some(13));
+    assert_eq!(
+        late.stdout,
+        "{\"v\":1,\"refusal\":\"not-delivered\",\"detail\":\"unknown-dialog\"}\n"
+    );
+    assert!(late.stderr.is_empty());
+    assert!(allowed_id < denied_id && denied_id < question_id);
+
+    // Each dialog event once, from the hook, its data the dialog's; one `activity` line.
+    let lines = events(&dir);
+    let dialogs: Vec<&Value> = lines
+        .iter()
+        .filter(|l| matches!(l["kind"].as_str(), Some("question" | "permission" | "plan")))
+        .collect();
+    let kinds: Vec<&str> = dialogs.iter().filter_map(|l| l["kind"].as_str()).collect();
+    assert_eq!(kinds, ["permission", "permission", "question"]);
+    for line in &dialogs {
+        assert_eq!(line["source"], "hook");
+        assert!(line["data"].get("tool_input").is_none());
+        assert!(line["data"].get("session_id").is_none());
+    }
+    assert_eq!(of_event_kind(&lines, "activity").len(), 1);
+
+    // The logs: one `dialog-raised` per dialog, one `dialog-answered` per answer, every wait woken
+    // by a permission, the hook's pair joined on the same `corr`.
+    let run = diagnostics(&home, "run-builder.ndjson");
+    let raised: Vec<&Value> = run
+        .iter()
+        .filter(|l| l["event"] == "dialog-raised")
+        .collect();
+    let ids: Vec<u64> = raised.iter().filter_map(|l| l["corr"].as_u64()).collect();
+    assert_eq!(ids, [allowed_id, denied_id, question_id]);
+    let raised_kinds: Vec<&str> = raised
+        .iter()
+        .filter_map(|l| l["dialog_kind"].as_str())
+        .collect();
+    assert_eq!(raised_kinds, ["permission", "permission", "question"]);
+    for line in &raised {
+        assert_eq!(line["hook_event"], "permission-request");
+    }
+    let answered: Vec<&Value> = run
+        .iter()
+        .filter(|l| l["event"] == "dialog-answered")
+        .collect();
+    let answered_ids: Vec<u64> = answered.iter().filter_map(|l| l["corr"].as_u64()).collect();
+    assert_eq!(answered_ids, [allowed_id, denied_id]);
+    for line in &answered {
+        assert_eq!(line["from"], "overseer");
+        assert_eq!(line["from_trust"], "self-reported");
+    }
+    let waits: Vec<&Value> = run
+        .iter()
+        .filter(|l| l["event"] == "channel-request" && l["method"] == "wait")
+        .collect();
+    assert_eq!(waits.len(), 3);
+    for request in waits {
+        let response = run
+            .iter()
+            .find(|l| {
+                l["event"] == "channel-response"
+                    && l["conn"] == request["conn"]
+                    && l["corr"] == request["corr"]
+            })
+            .expect("a joined wait response");
+        assert_eq!(response["outcome"], "permission");
+    }
+    let hook_lines = diagnostics(&home, "hook-builder.ndjson");
+    for id in [allowed_id, denied_id, question_id] {
+        for event in ["hook-invoked", "hook-decision"] {
+            assert!(
+                hook_lines
+                    .iter()
+                    .any(|l| l["event"] == event && l["corr"] == id),
+                "no {event} for dialog {id}"
+            );
+        }
+    }
+    for (id, emitted) in [(allowed_id, true), (denied_id, true), (question_id, false)] {
+        let decision = hook_lines
+            .iter()
+            .find(|l| l["event"] == "hook-decision" && l["corr"] == id)
+            .expect("a hook-decision");
+        assert_eq!(decision["decision_emitted"], emitted, "dialog {id}");
+    }
+    assert_logs_clean(&home);
+    wrapper.stop();
+}
+
+/// test-plan §6 Path 7 on the `permission` kind: an unverified CLI logs the permission, the hook
+/// prints nothing, and an `allow` is refused `unverified-cli` (exit 12). No body without a stamp.
+#[test]
+fn path4_unstamped_permission_is_left_to_the_human_and_its_allow_refused() {
+    let wrapper = boot_over(StampedHome::unstamped(TestHome::new()), PATH4_PERMISSION);
+    let home = wrapper.home().to_path_buf();
+    let receipt = wrapper.receipt();
+    let id = raise(&wrapper, "permission", 1);
+    let hooks = hooks_at_least(&receipt, 2);
+    assert_eq!(hooks[1]["event"], "PermissionRequest");
+    assert_eq!(clean_stdout(&hooks[1]), "");
+    let refused = spawn(
+        &home,
+        &["answer", "builder", &id.to_string(), "--json"],
+        Some("{\"behavior\": \"allow\"}"),
+        None,
+    )
+    .finish();
+    assert_eq!(refused.code, Some(12));
+    assert_eq!(
+        refused.stdout,
+        "{\"v\":1,\"refusal\":\"unverified-cli\",\"detail\":null}\n"
+    );
+    for _ in 0..3 {
+        wrapper.release();
+    }
+    let hooks = hooks_at_least(&receipt, 5);
+    for hook in &hooks {
+        assert_eq!(stdout_of(hook), "", "a body without a stamp: {hook}");
+    }
+    assert_logs_clean(&home);
+    wrapper.stop();
+}
+
 /// The hook's own environment, as `viola run` set it in the child.
 fn hook_env(wrapper: &Wrapper) -> [(&'static str, PathBuf); 1] {
     [("VIOLA_DIR", wrapper.instance_dir())]
@@ -493,7 +741,7 @@ fn path4_a_plan_first_raised_by_permission_request_is_answered_as_a_plan(
             .expect("a dialog_id")
     };
 
-    let raised = relayed("PermissionRequest.exit-plan-mode.json");
+    let raised = fixture("PermissionRequest.exit-plan-mode.json");
     let hook = spawn_hook(&wrapper, "permission-request", &raised);
     let approved = plan_id(1);
     let reply = answer(&home, approved, &json!({"behavior": "approve"}));
@@ -547,7 +795,7 @@ fn path4_second_concurrent_dialog_is_left_to_the_human(stamped_home: StampedHome
     let second = run_hook(
         &wrapper,
         "pre-tool-use",
-        &relayed("PreToolUse.exit-plan-mode.json"),
+        &fixture("PreToolUse.exit-plan-mode.json"),
     );
     assert_eq!(second.code, Some(0));
     assert!(second.stdout.is_empty());
@@ -565,7 +813,7 @@ fn path4_second_concurrent_dialog_is_left_to_the_human(stamped_home: StampedHome
     .finish();
     assert_eq!(late.code, Some(13));
     // The held one still takes its answer.
-    let tool_input = relayed("PreToolUse.ask-user-question.json")["tool_input"].clone();
+    let tool_input = fixture("PreToolUse.ask-user-question.json")["tool_input"].clone();
     let asked = tool_input["questions"][0]["question"].as_str().expect("q");
     let reply = answer(&home, first, &json!({"answers": {asked: CANARY}}));
     assert_eq!(reply.code, Some(0), "stderr: {}", reply.stderr);

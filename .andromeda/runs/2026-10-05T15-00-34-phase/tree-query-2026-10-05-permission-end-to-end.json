@@ -1,0 +1,198 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'decision_body' AND callee_kind = 'fn' ORDER BY file, line;",
+"rows": 15,
+"result": [
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 dialog/tests/body().",
+"file": "crates/viola-agent-claude/src/dialog.rs",
+"line": 624
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 dialog/tests/decision_body_question_on_pre_tool_use_is_allow_with_the_answers().",
+"file": "crates/viola-agent-claude/src/dialog.rs",
+"line": 632
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 dialog/tests/decision_body_question_on_pre_tool_use_is_allow_with_the_answers().",
+"file": "crates/viola-agent-claude/src/dialog.rs",
+"line": 638
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 dialog/tests/decision_body_plan_approve_is_pre_tool_use_allow_with_the_input_unchanged().",
+"file": "crates/viola-agent-claude/src/dialog.rs",
+"line": 652
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 dialog/tests/decision_body_plan_approve_is_pre_tool_use_allow_with_the_input_unchanged().",
+"file": "crates/viola-agent-claude/src/dialog.rs",
+"line": 657
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 dialog/tests/decision_body_plan_revise_is_permission_request_deny_with_the_message().",
+"file": "crates/viola-agent-claude/src/dialog.rs",
+"line": 673
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 dialog/tests/decision_body_plan_revise_is_permission_request_deny_with_the_message().",
+"file": "crates/viola-agent-claude/src/dialog.rs",
+"line": 675
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 dialog/tests/decision_body_permission_allow_and_deny().",
+"file": "crates/viola-agent-claude/src/dialog.rs",
+"line": 692
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 dialog/tests/decision_body_permission_allow_and_deny().",
+"file": "crates/viola-agent-claude/src/dialog.rs",
+"line": 699
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 dialog/tests/decision_body_permission_allow_and_deny().",
+"file": "crates/viola-agent-claude/src/dialog.rs",
+"line": 701
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 dialog/tests/decision_body_question_on_permission_request_is_no_decision().",
+"file": "crates/viola-agent-claude/src/dialog.rs",
+"line": 708
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 13
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/probe_body().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 259
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/hook/",
+"file": "src/cmd/hook.rs",
+"line": 16
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/hook/body_of().",
+"file": "src/cmd/hook.rs",
+"line": 300
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'hook_dialog' AND callee_kind = 'fn' ORDER BY file, line;",
+"rows": 21,
+"result": [
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/impl#[Methods][Dispatch]dispatch_call().",
+"file": "src/cmd/run.rs",
+"line": 127
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/dialog/tests/raise_and_answer().",
+"file": "src/run/dialog.rs",
+"line": 531
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/dialog/tests/hook_dialog_on_an_unverified_cli_logs_it_and_replies_null_at_once().",
+"file": "src/run/dialog.rs",
+"line": 550
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/dialog/tests/hook_dialog_while_another_is_pending_is_logged_and_null().",
+"file": "src/run/dialog.rs",
+"line": 597
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/dialog/tests/hook_dialog_while_another_is_pending_is_logged_and_null().",
+"file": "src/run/dialog.rs",
+"line": 601
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/dialog/tests/hook_dialog_expires_at_the_deadline_on_the_injected_clock().",
+"file": "src/run/dialog.rs",
+"line": 628
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/dialog/tests/continuation_of_a_revised_plan_carries_the_revise_and_logs_nothing().",
+"file": "src/run/dialog.rs",
+"line": 653
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/dialog/tests/continuation_of_any_other_outcome_is_null_and_logs_nothing().",
+"file": "src/run/dialog.rs",
+"line": 674
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/dialog/tests/continuation_of_an_unanswered_dialog_is_null_and_logs_nothing().",
+"file": "src/run/dialog.rs",
+"line": 684
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/dialog/tests/continuation_of_an_unanswered_dialog_is_null_and_logs_nothing().",
+"file": "src/run/dialog.rs",
+"line": 687
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/dialog/tests/continuation_without_a_matching_arm_is_raised_and_logged_once().",
+"file": "src/run/dialog.rs",
+"line": 699
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/dialog/tests/continuation_without_a_matching_arm_is_raised_and_logged_once().",
+"file": "src/run/dialog.rs",
+"line": 704
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/dialog/tests/continuation_raised_as_a_question_is_null_at_once().",
+"file": "src/run/dialog.rs",
+"line": 730
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/dialog/tests/restore_continues_past_the_highest_logged_id().",
+"file": "src/run/dialog.rs",
+"line": 742
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/dialog/tests/answer_of_the_wrong_kind_is_invalid_params().",
+"file": "src/run/dialog.rs",
+"line": 822
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/dialog/tests/hook_dialog_params_it_cannot_take_are_invalid_and_log_nothing().",
+"file": "src/run/dialog.rs",
+"line": 851
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/dialog/tests/hook_dialog_append_that_failed_is_internal().",
+"file": "src/run/dialog.rs",
+"line": 867
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/dialog/tests/hook_dialog_held_is_handed_back_null_at_once_on_a_wheel_move().",
+"file": "src/run/dialog.rs",
+"line": 895
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/dialog/tests/hook_dialog_held_is_handed_back_null_at_once_on_a_wheel_move().",
+"file": "src/run/dialog.rs",
+"line": 918
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/dialog/tests/hook_dialog_under_a_human_wheel_is_logged_once_and_null_at_once().",
+"file": "src/run/dialog.rs",
+"line": 942
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/dialog/tests/a_held_dialog_is_returned_by_a_wait_without_after().",
+"file": "src/run/dialog.rs",
+"line": 1029
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]
