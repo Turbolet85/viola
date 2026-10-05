@@ -53,6 +53,9 @@ struct Opts {
     exit_no_eof: bool,
     vt100_panic_bytes: bool,
     hold_stdout: bool,
+    trusted_root: Option<PathBuf>,
+    screens: bool,
+    turn_stop: bool,
 }
 
 impl Opts {
@@ -77,6 +80,9 @@ impl Opts {
                 "--inject-harness-turn" => o.inject_harness_turn = true,
                 "--exit-no-eof" => o.exit_no_eof = true,
                 "--vt100-panic-bytes" => o.vt100_panic_bytes = true,
+                "--trusted-root" => o.trusted_root = value().map(PathBuf::from),
+                "--screens" => o.screens = true,
+                "--turn-stop" => o.turn_stop = true,
                 HOLD_STDOUT => o.hold_stdout = true,
                 _ => {}
             }
@@ -91,6 +97,55 @@ impl Opts {
     fn version_answer(&self) -> String {
         let v = self.report_version.as_deref().unwrap_or(self.cli_version());
         format!("{v} (Claude Code)")
+    }
+
+    /// The cwd is trusted when it or an ancestor is `--trusted-root`, the way the real CLI walks up
+    /// to a trusted project; without the option every cwd is untrusted.
+    fn trusted(&self) -> bool {
+        let cwd = std::env::current_dir().unwrap_or_default();
+        self.trusted_root
+            .as_deref()
+            .is_some_and(|root| under_root(&cwd, root))
+    }
+
+    /// `<fixtures>/<cli version>/Screen.<phase>.json`'s rows, when it exists and parses.
+    fn screen(&self, phase: &str) -> Option<Vec<String>> {
+        let path = self
+            .fixtures
+            .as_ref()?
+            .join(self.cli_version())
+            .join(format!("Screen.{phase}.json"));
+        let doc: Value = serde_json::from_slice(&fs::read(path).ok()?).ok()?;
+        doc["rows"]
+            .as_array()?
+            .iter()
+            .map(|r| r.as_str().map(str::to_owned))
+            .collect()
+    }
+}
+
+/// `cwd` or one of its ancestors is `root`, both canonicalized; an unreadable path is never under.
+fn under_root(cwd: &Path, root: &Path) -> bool {
+    match (fs::canonicalize(cwd), fs::canonicalize(root)) {
+        (Ok(cwd), Ok(root)) => cwd.ancestors().any(|a| a == root),
+        _ => false,
+    }
+}
+
+/// A recorded screen as a terminal shows it: a clear, then the rows joined by CRLF.
+fn render_screen(rows: &[String]) -> Vec<u8> {
+    let mut bytes = b"\x1b[2J\x1b[H".to_vec();
+    bytes.extend_from_slice(rows.join("\r\n").as_bytes());
+    bytes
+}
+
+/// The recorded screen for `phase` on the terminal; a missing fixture writes nothing.
+fn write_screen(opts: &Opts, phase: &str) {
+    if let Some(rows) = opts.screen(phase) {
+        let mut out = std::io::stdout().lock();
+        let _ = out
+            .write_all(&render_screen(&rows))
+            .and_then(|()| out.flush());
     }
 }
 
@@ -313,7 +368,12 @@ impl Agent {
         } else if self.opts.local_command_mode && text.starts_with('/') {
             "local-command"
         } else {
-            self.fire("UserPromptSubmit", "default", Some(&text))
+            let fired = self.fire("UserPromptSubmit", "default", Some(&text));
+            if self.opts.turn_stop {
+                self.fire("Stop", "default", None);
+                write_screen(&self.opts, "turn");
+            }
+            fired
         };
         self.receipt.write(
             "prompt",
@@ -602,8 +662,16 @@ fn main() -> ExitCode {
         write_panic_bytes();
     }
     watch_size(Arc::clone(&agent));
+    // With `--screens` an untrusted cwd shows the trust dialog, and the real CLI fires no hook
+    // before trust.
+    let trusted = !agent.opts.screens || agent.opts.trusted();
+    if agent.opts.screens {
+        write_screen(&agent.opts, if trusted { "ready" } else { "modal" });
+    }
     // The real CLI fires SessionStart at launch; with no registered hook or no fixture, nothing runs.
-    agent.fire("SessionStart", "default", None);
+    if trusted {
+        agent.fire("SessionStart", "default", None);
+    }
     if !steps.is_empty() {
         let runner = Arc::clone(&agent);
         std::thread::spawn(move || runner.run_steps(&steps));
@@ -655,6 +723,10 @@ mod tests {
             "--inject-harness-turn",
             "--exit-no-eof",
             "--vt100-panic-bytes",
+            "--trusted-root",
+            "t",
+            "--screens",
+            "--turn-stop",
             "--version",
             "-p",
             "a prompt",
@@ -674,6 +746,8 @@ mod tests {
         assert!(o.version && o.suppress_prompt_submit && o.local_command_mode);
         assert!(o.inject_harness_turn && o.exit_no_eof && !o.hold_stdout);
         assert!(o.vt100_panic_bytes);
+        assert_eq!(o.trusted_root.as_deref(), Some(Path::new("t")));
+        assert!(o.screens && o.turn_stop);
         assert!(Opts::parse(&args(&[HOLD_STDOUT])).hold_stdout);
     }
 
@@ -685,6 +759,51 @@ mod tests {
         assert!(!o.version && !o.exit_no_eof && !o.suppress_prompt_submit);
         assert!(!o.vt100_panic_bytes);
         assert!(o.print.is_none());
+        assert!(!o.screens && !o.turn_stop && o.trusted_root.is_none());
+        assert!(!o.trusted(), "no root: every cwd is untrusted");
+    }
+
+    #[test]
+    fn under_root_walks_up_from_the_cwd() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let deep = tmp.path().join("a").join("b");
+        fs::create_dir_all(&deep).expect("dirs");
+        assert!(under_root(&deep, tmp.path()));
+        assert!(under_root(&deep, &deep));
+        assert!(under_root(&deep, &tmp.path().join("a").join("..")));
+        assert!(!under_root(tmp.path(), &deep));
+        assert!(!under_root(&deep, &tmp.path().join("missing")));
+        assert!(!under_root(&tmp.path().join("missing"), tmp.path()));
+    }
+
+    #[test]
+    fn screen_reads_the_versioned_fixture_rows() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let dir = tmp.path().join("3.0.0");
+        fs::create_dir_all(&dir).expect("dir");
+        fs::write(
+            dir.join("Screen.ready.json"),
+            r#"{"screen_phase":"ready","cols":80,"rows":["","a b"]}"#,
+        )
+        .expect("fixture");
+        fs::write(dir.join("Screen.turn.json"), r#"{"rows":[1]}"#).expect("bad");
+        let o = Opts::parse(&args(&[
+            "--cli-version",
+            "3.0.0",
+            "--fixtures",
+            tmp.path().to_str().expect("utf-8"),
+        ]));
+        assert_eq!(
+            o.screen("ready"),
+            Some(vec![String::new(), "a b".to_owned()])
+        );
+        assert_eq!(o.screen("turn"), None);
+        assert_eq!(o.screen("modal"), None);
+        assert_eq!(Opts::parse(&[]).screen("ready"), None);
+        assert_eq!(
+            render_screen(&["x".to_owned(), "y".to_owned()]),
+            b"\x1b[2J\x1b[Hx\r\ny"
+        );
     }
 
     #[test]

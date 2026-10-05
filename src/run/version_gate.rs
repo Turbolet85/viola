@@ -177,11 +177,18 @@ pub(crate) fn stamps_verdict(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use viola_agent_claude::ledger::{LedgerRow, merge_stamp};
+    use viola_agent_claude::ledger::{LedgerRow, TypedRun, merge_stamp};
 
     fn stamp(version: &str, pass: bool) -> Vec<u8> {
         let results: Vec<(LedgerRow, bool)> = LedgerRow::ALL.iter().map(|r| (*r, pass)).collect();
-        merge_stamp(None, version, &results, &[], "2026-09-28T10:00:00.000Z")
+        merge_stamp(
+            None,
+            version,
+            &results,
+            &[],
+            &TypedRun::default(),
+            "2026-09-28T10:00:00.000Z",
+        )
     }
 
     #[test]

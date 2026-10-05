@@ -4,11 +4,14 @@
 //! `viola verify` run writes; and the scrub a recorded payload passes before it becomes a fixture.
 //! Pure: no I/O. Upstream text is content, compared or copied, never interpreted.
 
+use std::time::Duration;
+
 use serde_json::{Map, Value, json};
 use viola_core::MAX_FRAME;
 
 use crate::AgentError;
 use crate::hook::HookEvent;
+use crate::screen::{CONFIRM_WINDOW_FALLBACK, GATE_MAX_WAIT, SIGNATURES};
 
 /// One measured behaviour, in the order `viola verify` checks and prints it.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -19,16 +22,24 @@ pub enum LedgerRow {
     PromptVerbatim,
     StopMessage,
     LargestHookPayload,
+    ModalSignature,
+    InputBoxSignature,
+    QuietPeriod,
+    ConfirmWindow,
 }
 
 impl LedgerRow {
-    pub const ALL: [Self; 6] = [
+    pub const ALL: [Self; 10] = [
         Self::ShimResolution,
         Self::SpineHooks,
         Self::SessionStartFields,
         Self::PromptVerbatim,
         Self::StopMessage,
         Self::LargestHookPayload,
+        Self::ModalSignature,
+        Self::InputBoxSignature,
+        Self::QuietPeriod,
+        Self::ConfirmWindow,
     ];
 
     /// The kebab-case id, the key under a stamped version's `rows`.
@@ -40,6 +51,10 @@ impl LedgerRow {
             Self::PromptVerbatim => "prompt-verbatim",
             Self::StopMessage => "stop-message",
             Self::LargestHookPayload => "largest-hook-payload",
+            Self::ModalSignature => "modal-signature",
+            Self::InputBoxSignature => "input-box-signature",
+            Self::QuietPeriod => "quiet-period",
+            Self::ConfirmWindow => "confirm-window",
         }
     }
 
@@ -52,6 +67,12 @@ impl LedgerRow {
             Self::PromptVerbatim => "UserPromptSubmit carries the prompt as sent",
             Self::StopMessage => "Stop carries last_assistant_message",
             Self::LargestHookPayload => "every hook payload fits the frame cap",
+            Self::ModalSignature => "an untrusted start shows a compiled modal literal",
+            Self::InputBoxSignature => {
+                "a trusted start shows a compiled input-box literal and no modal"
+            }
+            Self::QuietPeriod => "the screen settles within the gate's maximum wait",
+            Self::ConfirmWindow => "the typed prompt reaches UserPromptSubmit within the window",
         }
     }
 }
@@ -179,8 +200,42 @@ impl ProbeRun {
     }
 }
 
-/// `row`'s post-condition over `run`.
-pub fn check(row: LedgerRow, run: &ProbeRun) -> bool {
+/// What the two interactive runs measured: the recorded row text of the `modal` screen (the
+/// untrusted run) and of the `ready` and `turn` screens (the trusted run), and the timings in ms.
+#[derive(Debug, Clone, Default, PartialEq, Eq)]
+pub struct TypedRun {
+    pub modal: Option<Vec<String>>,
+    pub ready: Option<Vec<String>>,
+    pub turn: Option<Vec<String>>,
+    pub ready_settle_ms: Option<u64>,
+    pub turn_settle_ms: Option<u64>,
+    pub prompt_latency_ms: Option<u64>,
+    pub max_turn_gap_ms: Option<u64>,
+}
+
+/// Every measurement one `viola verify` run makes.
+#[derive(Debug, Clone, PartialEq)]
+pub struct Probes {
+    pub print: ProbeRun,
+    pub typed: TypedRun,
+}
+
+fn any_row(rows: Option<&Vec<String>>, literals: &[&str]) -> bool {
+    rows.is_some_and(|rows| rows.iter().any(|r| literals.iter().any(|l| r.contains(l))))
+}
+
+/// An input-box literal on some row and no modal literal on any.
+fn input_box_ready(rows: Option<&Vec<String>>) -> bool {
+    any_row(rows, SIGNATURES.input_box) && !any_row(rows, SIGNATURES.modals)
+}
+
+fn within(ms: Option<u64>, bound: Duration) -> bool {
+    ms.is_some_and(|ms| u128::from(ms) <= bound.as_millis())
+}
+
+/// `row`'s post-condition over the probes.
+pub fn check(row: LedgerRow, probes: &Probes) -> bool {
+    let (run, typed) = (&probes.print, &probes.typed);
     match row {
         LedgerRow::ShimResolution => !run.program_is_script && run.version_answered,
         LedgerRow::SpineHooks => spine_in_order(&run.captures),
@@ -194,6 +249,15 @@ pub fn check(row: LedgerRow, run: &ProbeRun) -> bool {
             .first(HookEvent::Stop)
             .is_some_and(|p| p["last_assistant_message"].is_string()),
         LedgerRow::LargestHookPayload => run.captures.iter().all(|c| fits_frame(c.bytes)),
+        LedgerRow::ModalSignature => any_row(typed.modal.as_ref(), SIGNATURES.modals),
+        LedgerRow::InputBoxSignature => {
+            input_box_ready(typed.ready.as_ref()) && input_box_ready(typed.turn.as_ref())
+        }
+        LedgerRow::QuietPeriod => {
+            within(typed.ready_settle_ms, GATE_MAX_WAIT)
+                && within(typed.turn_settle_ms, GATE_MAX_WAIT)
+        }
+        LedgerRow::ConfirmWindow => within(typed.prompt_latency_ms, CONFIRM_WINDOW_FALLBACK),
     }
 }
 
@@ -234,13 +298,15 @@ fn stamp_shape_ok(doc: &Map<String, Value>) -> bool {
     }
 }
 
-/// The stamps with `version`'s entry replaced by this run's rows and measurements; every other
+/// The stamps with `version`'s entry replaced by this run's rows and measurements (the largest hook
+/// payloads and the typed probe's timings); every other
 /// version and every unknown field is kept. Existing bytes of the wrong shape are replaced whole.
 pub fn merge_stamp(
     existing: Option<&[u8]>,
     version: &str,
     results: &[(LedgerRow, bool)],
     largest: &[(HookEvent, usize)],
+    typed: &TypedRun,
     written_at: &str,
 ) -> Vec<u8> {
     let mut doc = match existing.and_then(|b| serde_json::from_slice(b).ok()) {
@@ -263,7 +329,15 @@ pub fn merge_stamp(
     let entry = json!({
         "verified_at": written_at,
         "rows": rows,
-        "measured": {"largest_hook_payload": measured},
+        "measured": {
+            "largest_hook_payload": measured,
+            "typed_probe": {
+                "ready_settle_ms": typed.ready_settle_ms,
+                "turn_settle_ms": typed.turn_settle_ms,
+                "prompt_latency_ms": typed.prompt_latency_ms,
+                "max_turn_gap_ms": typed.max_turn_gap_ms,
+            },
+        },
     });
     doc.insert("v".to_owned(), json!(1));
     doc.insert("written_at".to_owned(), json!(written_at));
@@ -377,14 +451,47 @@ fn replace_word(text: &str, word: &str, with: &str) -> String {
     out
 }
 
-/// No string or key of `value` holds a drive-letter path, a `/home/`, `/Users/` or `\Users\`
-/// path, or `user` as a whole word: the checks the committed-fixture hygiene walk applies.
-pub fn is_clean(value: &Value, user: &str) -> bool {
+/// Why a recorded text is not clean: a closed code, never the text itself.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Unclean {
+    HomePath,
+    AbsolutePath,
+    Username,
+    Email,
+}
+
+impl Unclean {
+    pub const fn code(self) -> &'static str {
+        match self {
+            Self::HomePath => "home-path",
+            Self::AbsolutePath => "absolute-path",
+            Self::Username => "username",
+            Self::Email => "email",
+        }
+    }
+}
+
+/// The first string or key of `value` holding a drive-letter path, a `/home/`, `/Users/` or
+/// `\Users\` path, or `user` as a whole word: the checks the committed-fixture hygiene walk applies.
+pub fn unclean(value: &Value, user: &str) -> Option<Unclean> {
     let mut texts = Vec::new();
     strings(value, &mut texts);
-    texts
-        .iter()
-        .all(|s| !has_absolute_path(s) && !has_user_word(s, user))
+    texts.iter().find_map(|s| text_fault(s, user))
+}
+
+/// No string or key of `value` is [`unclean`].
+pub fn is_clean(value: &Value, user: &str) -> bool {
+    unclean(value, user).is_none()
+}
+
+fn text_fault(text: &str, user: &str) -> Option<Unclean> {
+    if has_absolute_path(text) {
+        Some(Unclean::AbsolutePath)
+    } else if has_user_word(text, user) {
+        Some(Unclean::Username)
+    } else {
+        None
+    }
 }
 
 fn strings<'a>(value: &'a Value, out: &mut Vec<&'a str>) {
@@ -422,13 +529,109 @@ fn has_user_word(text: &str, user: &str) -> bool {
     })
 }
 
+/// `rows` with every row that holds no [`SIGNATURES`] literal written `""`: what a recorded
+/// `Screen.<phase>.json` keeps.
+pub fn signature_rows(rows: &[String]) -> Vec<String> {
+    rows.iter()
+        .map(|r| {
+            if SIGNATURES.holds_any(r) {
+                r.clone()
+            } else {
+                String::new()
+            }
+        })
+        .collect()
+}
+
+/// Where a screen first fails its check: the kept row, whether its seam with a live neighbour (not
+/// the row alone) holds it, and why.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct ScreenFault {
+    pub row: usize,
+    pub seam: bool,
+    pub why: Unclean,
+}
+
+/// The first kept (non-empty) row that, alone or at its seam with the live row above or below it,
+/// holds the home (what the scrub would rewrite), anything [`unclean`] refuses, or an email-shaped
+/// token. `kept` is `signature_rows(live_rows)`.
+pub fn screen_fault(
+    live_rows: &[String],
+    kept: &[String],
+    home: &str,
+    user: &str,
+) -> Option<ScreenFault> {
+    for (i, row) in kept.iter().enumerate() {
+        if row.is_empty() {
+            continue;
+        }
+        let mut texts = vec![(false, row.clone())];
+        if let Some(above) = i.checked_sub(1).and_then(|j| live_rows.get(j)) {
+            texts.push((true, seam(above, row)));
+        }
+        if let Some(below) = live_rows.get(i + 1) {
+            texts.push((true, seam(row, below)));
+        }
+        for (seam, text) in texts {
+            if let Some(why) = screen_text_fault(&text, home, user) {
+                return Some(ScreenFault { row: i, seam, why });
+            }
+        }
+    }
+    None
+}
+
+/// No kept row or seam of the screen has a [`screen_fault`].
+pub fn screen_is_clean(live_rows: &[String], kept: &[String], home: &str, user: &str) -> bool {
+    screen_fault(live_rows, kept, home, user).is_none()
+}
+
+fn screen_text_fault(text: &str, home: &str, user: &str) -> Option<Unclean> {
+    if scrub_text(text, home, "", crate::CASE_INSENSITIVE) != text {
+        return Some(Unclean::HomePath);
+    }
+    text_fault(text, user).or_else(|| has_email(text).then_some(Unclean::Email))
+}
+
+fn is_seam_char(c: char) -> bool {
+    c == ' ' || ('\u{2500}'..='\u{257f}').contains(&c)
+}
+
+/// `upper` then `lower` joined with spaces and box-drawing characters trimmed at the join.
+fn seam(upper: &str, lower: &str) -> String {
+    format!(
+        "{}{}",
+        upper.trim_end_matches(is_seam_char),
+        lower.trim_start_matches(is_seam_char)
+    )
+}
+
+fn is_local_char(c: char) -> bool {
+    c.is_ascii_alphanumeric() || "._%+-".contains(c)
+}
+
+/// `local@domain.tld`: a local part, then a domain holding a dot followed by two or more letters.
+fn has_email(text: &str) -> bool {
+    text.match_indices('@').any(|(at, _)| {
+        let local = text[..at].chars().next_back().is_some_and(is_local_char);
+        let domain: String = text[at + 1..]
+            .chars()
+            .take_while(|c| c.is_ascii_alphanumeric() || *c == '.' || *c == '-')
+            .collect();
+        let tld = domain.rsplit_once('.').is_some_and(|(host, tld)| {
+            !host.is_empty() && tld.len() >= 2 && tld.chars().all(|c| c.is_ascii_alphabetic())
+        });
+        local && tld
+    })
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
     use rstest::rstest;
 
     #[test]
-    fn ledger_rows_are_the_six_measured_behaviours_in_order() {
+    fn ledger_rows_are_the_ten_measured_behaviours_in_order() {
         let ids: Vec<&str> = LedgerRow::ALL.iter().map(|r| r.id()).collect();
         assert_eq!(
             ids,
@@ -439,6 +642,10 @@ mod tests {
                 "prompt-verbatim",
                 "stop-message",
                 "largest-hook-payload",
+                "modal-signature",
+                "input-box-signature",
+                "quiet-period",
+                "confirm-window",
             ]
         );
         let words: Vec<&str> = LedgerRow::ALL.iter().map(|r| r.words()).collect();
@@ -451,6 +658,10 @@ mod tests {
                 "UserPromptSubmit carries the prompt as sent",
                 "Stop carries last_assistant_message",
                 "every hook payload fits the frame cap",
+                "an untrusted start shows a compiled modal literal",
+                "a trusted start shows a compiled input-box literal and no modal",
+                "the screen settles within the gate's maximum wait",
+                "the typed prompt reaches UserPromptSubmit within the window",
             ]
         );
         assert!(words.iter().all(|w| w.is_ascii()));
@@ -670,8 +881,35 @@ mod tests {
         }
     }
 
+    /// A clean trusted and untrusted pair of interactive runs.
+    fn clean_typed() -> TypedRun {
+        TypedRun {
+            modal: Some(rows(&["", " ❯ No, exit", "   Yes, I trust this folder"])),
+            ready: Some(rows(&["❯ Try it", "  ⏸ manual mode on · ← for agents"])),
+            turn: Some(rows(&["● ok", "  ⏸ manual mode on · ← for agents"])),
+            ready_settle_ms: Some(1084),
+            turn_settle_ms: Some(314),
+            prompt_latency_ms: Some(31),
+            max_turn_gap_ms: Some(224),
+        }
+    }
+
+    fn rows(list: &[&str]) -> Vec<String> {
+        list.iter().map(|r| (*r).to_owned()).collect()
+    }
+
+    fn probes(run: &ProbeRun) -> Probes {
+        Probes {
+            print: run.clone(),
+            typed: clean_typed(),
+        }
+    }
+
     fn verdicts(run: &ProbeRun) -> Vec<bool> {
-        LedgerRow::ALL.iter().map(|row| check(*row, run)).collect()
+        LedgerRow::ALL
+            .iter()
+            .map(|row| check(*row, &probes(run)))
+            .collect()
     }
 
     #[test]
@@ -684,7 +922,7 @@ mod tests {
 
     #[test]
     fn check_passes_every_row_on_a_clean_probe() {
-        assert_eq!(verdicts(&clean_run()), [true; 6]);
+        assert_eq!(verdicts(&clean_run()), [true; 10]);
     }
 
     #[test]
@@ -693,40 +931,40 @@ mod tests {
             program_is_script: true,
             ..clean_run()
         };
-        assert!(!check(LedgerRow::ShimResolution, &script));
+        assert!(!check(LedgerRow::ShimResolution, &probes(&script)));
         let silent = ProbeRun {
             version_answered: false,
             ..clean_run()
         };
-        assert!(!check(LedgerRow::ShimResolution, &silent));
+        assert!(!check(LedgerRow::ShimResolution, &probes(&silent)));
     }
 
     #[test]
     fn check_spine_hooks_needs_the_four_in_order_each_naming_itself() {
         let mut missing = clean_run();
         missing.captures.remove(2);
-        assert!(!check(LedgerRow::SpineHooks, &missing));
+        assert!(!check(LedgerRow::SpineHooks, &probes(&missing)));
 
         let mut swapped = clean_run();
         swapped.captures.swap(1, 2);
-        assert!(!check(LedgerRow::SpineHooks, &swapped));
+        assert!(!check(LedgerRow::SpineHooks, &probes(&swapped)));
 
         let mut doubled = clean_run();
         let again = doubled.captures[3].clone();
         doubled.captures.push(again);
-        assert!(!check(LedgerRow::SpineHooks, &doubled));
+        assert!(!check(LedgerRow::SpineHooks, &probes(&doubled)));
 
         let mut misnamed = clean_run();
         misnamed.captures[0] = capture(HookEvent::SessionStart, json!({"hook_event_name": "Stop"}));
-        assert!(!check(LedgerRow::SpineHooks, &misnamed));
+        assert!(!check(LedgerRow::SpineHooks, &probes(&misnamed)));
 
         let mut unparsed = clean_run();
         unparsed.captures[3] = Capture::read(HookEvent::SessionEnd, b"not json");
-        assert!(!check(LedgerRow::SpineHooks, &unparsed));
+        assert!(!check(LedgerRow::SpineHooks, &probes(&unparsed)));
 
         let mut not_object = clean_run();
         not_object.captures[3] = capture(HookEvent::SessionEnd, json!(["SessionEnd"]));
-        assert!(!check(LedgerRow::SpineHooks, &not_object));
+        assert!(!check(LedgerRow::SpineHooks, &probes(&not_object)));
     }
 
     #[rstest]
@@ -738,9 +976,9 @@ mod tests {
     fn check_session_start_fields_fails_without_both_fields(#[case] payload: Value) {
         let mut run = clean_run();
         run.captures[0] = capture(HookEvent::SessionStart, payload);
-        assert!(!check(LedgerRow::SessionStartFields, &run));
+        assert!(!check(LedgerRow::SessionStartFields, &probes(&run)));
         run.captures.remove(0);
-        assert!(!check(LedgerRow::SessionStartFields, &run));
+        assert!(!check(LedgerRow::SessionStartFields, &probes(&run)));
     }
 
     #[test]
@@ -750,18 +988,18 @@ mod tests {
             HookEvent::UserPromptSubmit,
             json!({"prompt": format!("{PROBE_PROMPT} ")}),
         );
-        assert!(!check(LedgerRow::PromptVerbatim, &run));
+        assert!(!check(LedgerRow::PromptVerbatim, &probes(&run)));
         run.captures.remove(1);
-        assert!(!check(LedgerRow::PromptVerbatim, &run));
+        assert!(!check(LedgerRow::PromptVerbatim, &probes(&run)));
     }
 
     #[test]
     fn check_stop_message_needs_a_string() {
         let mut run = clean_run();
         run.captures[2] = capture(HookEvent::Stop, json!({"last_assistant_message": null}));
-        assert!(!check(LedgerRow::StopMessage, &run));
+        assert!(!check(LedgerRow::StopMessage, &probes(&run)));
         run.captures.remove(2);
-        assert!(!check(LedgerRow::StopMessage, &run));
+        assert!(!check(LedgerRow::StopMessage, &probes(&run)));
     }
 
     #[test]
@@ -769,9 +1007,9 @@ mod tests {
         let cap = usize::try_from(MAX_FRAME).expect("fits");
         let mut run = clean_run();
         run.captures[1].bytes = cap;
-        assert!(check(LedgerRow::LargestHookPayload, &run));
+        assert!(check(LedgerRow::LargestHookPayload, &probes(&run)));
         run.captures[1].bytes = cap + 1;
-        assert!(!check(LedgerRow::LargestHookPayload, &run));
+        assert!(!check(LedgerRow::LargestHookPayload, &probes(&run)));
     }
 
     #[test]
@@ -781,7 +1019,7 @@ mod tests {
             HookEvent::Stop,
             json!({"last_assistant_message": 1}),
         ));
-        assert!(check(LedgerRow::StopMessage, &run));
+        assert!(check(LedgerRow::StopMessage, &probes(&run)));
     }
 
     #[test]
@@ -816,6 +1054,7 @@ mod tests {
             "2.1.0",
             &all_pass(),
             &[(HookEvent::SessionStart, 120), (HookEvent::Stop, 90)],
+            &clean_typed(),
             "2026-09-28T10:00:00.000Z",
         );
         assert_eq!(
@@ -830,8 +1069,16 @@ mod tests {
                         "shim-resolution": "pass", "spine-hooks": "pass",
                         "session-start-fields": "pass", "prompt-verbatim": "pass",
                         "stop-message": "pass", "largest-hook-payload": "pass",
+                        "modal-signature": "pass", "input-box-signature": "pass",
+                        "quiet-period": "pass", "confirm-window": "pass",
                     },
-                    "measured": {"largest_hook_payload": {"SessionStart": 120, "Stop": 90}},
+                    "measured": {
+                        "largest_hook_payload": {"SessionStart": 120, "Stop": 90},
+                        "typed_probe": {
+                            "ready_settle_ms": 1084, "turn_settle_ms": 314,
+                            "prompt_latency_ms": 31, "max_turn_gap_ms": 224,
+                        },
+                    },
                 }}},
             })
         );
@@ -850,7 +1097,14 @@ mod tests {
         .to_string();
         let mut results = all_pass();
         results[4].1 = false;
-        let bytes = merge_stamp(Some(existing.as_bytes()), "2.1.0", &results, &[], "new");
+        let bytes = merge_stamp(
+            Some(existing.as_bytes()),
+            "2.1.0",
+            &results,
+            &[],
+            &TypedRun::default(),
+            "new",
+        );
         let d = doc(&bytes);
         assert_eq!(d["later"], true);
         assert_eq!(d["written_at"], "new");
@@ -861,7 +1115,13 @@ mod tests {
         assert_eq!(own["rows"]["stop-message"], "fail");
         assert_eq!(own["rows"]["spine-hooks"], "pass");
         assert!(own.get("extra").is_none());
-        assert_eq!(own["measured"], json!({"largest_hook_payload": {}}));
+        assert_eq!(
+            own["measured"],
+            json!({"largest_hook_payload": {}, "typed_probe": {
+                "ready_settle_ms": null, "turn_settle_ms": null,
+                "prompt_latency_ms": null, "max_turn_gap_ms": null,
+            }})
+        );
         assert_eq!(verified(&bytes, "2.1.0"), Ok(false));
     }
 
@@ -871,7 +1131,14 @@ mod tests {
     #[case::data_not_object(br#"{"v":1,"data":[1]}"#.as_slice())]
     #[case::versions_not_object(br#"{"v":1,"data":{"versions":1},"keep":1}"#.as_slice())]
     fn merge_stamp_replaces_bytes_of_the_wrong_shape_whole(#[case] existing: &[u8]) {
-        let bytes = merge_stamp(Some(existing), "2.1.0", &all_pass(), &[], "t");
+        let bytes = merge_stamp(
+            Some(existing),
+            "2.1.0",
+            &all_pass(),
+            &[],
+            &TypedRun::default(),
+            "t",
+        );
         let d = doc(&bytes);
         assert!(d.get("keep").is_none());
         assert_eq!(verified(&bytes, "2.1.0"), Ok(true));
@@ -880,7 +1147,14 @@ mod tests {
     #[test]
     fn merge_stamp_fills_a_data_object_without_versions() {
         let existing = br#"{"v":1,"data":{"note":1}}"#;
-        let bytes = merge_stamp(Some(existing), "2.1.0", &all_pass(), &[], "t");
+        let bytes = merge_stamp(
+            Some(existing),
+            "2.1.0",
+            &all_pass(),
+            &[],
+            &TypedRun::default(),
+            "t",
+        );
         let d = doc(&bytes);
         assert_eq!(d["data"]["note"], 1);
         assert_eq!(verified(&bytes, "2.1.0"), Ok(true));
@@ -889,11 +1163,11 @@ mod tests {
     #[test]
     fn verified_needs_every_row_pass_under_that_version() {
         let mut results = all_pass();
-        let full = merge_stamp(None, "2.1.0", &results, &[], "t");
+        let full = merge_stamp(None, "2.1.0", &results, &[], &TypedRun::default(), "t");
         assert_eq!(verified(&full, "2.1.0"), Ok(true));
         assert_eq!(verified(&full, "3.0.0"), Ok(false));
         results.pop();
-        let short = merge_stamp(None, "2.1.0", &results, &[], "t");
+        let short = merge_stamp(None, "2.1.0", &results, &[], &TypedRun::default(), "t");
         assert_eq!(verified(&short, "2.1.0"), Ok(false), "a missing row");
     }
 
@@ -1004,5 +1278,292 @@ mod tests {
     fn is_clean_ignores_an_empty_or_placeholder_user() {
         assert!(is_clean(&json!("plantuser"), ""));
         assert!(is_clean(&json!("<user>"), "<user>"));
+    }
+
+    fn typed_check(row: LedgerRow, typed: TypedRun) -> bool {
+        check(
+            row,
+            &Probes {
+                print: clean_run(),
+                typed,
+            },
+        )
+    }
+
+    #[test]
+    fn check_typed_rows_fail_without_a_measurement() {
+        for row in [
+            LedgerRow::ModalSignature,
+            LedgerRow::InputBoxSignature,
+            LedgerRow::QuietPeriod,
+            LedgerRow::ConfirmWindow,
+        ] {
+            assert!(!typed_check(row, TypedRun::default()), "{}", row.id());
+        }
+        let six = verdicts_with(TypedRun::default());
+        assert_eq!(
+            six,
+            [
+                true, true, true, true, true, true, false, false, false, false
+            ]
+        );
+    }
+
+    fn verdicts_with(typed: TypedRun) -> Vec<bool> {
+        LedgerRow::ALL
+            .iter()
+            .map(|row| typed_check(*row, typed.clone()))
+            .collect()
+    }
+
+    #[rstest]
+    #[case::trust("   Yes, I trust this folder", true)]
+    #[case::imports("   Yes, allow external imports", true)]
+    #[case::input_box_only("  ← for agents", false)]
+    #[case::cancel_only(" ❯ No, exit", false)]
+    fn check_modal_signature_needs_a_modal_literal(#[case] row: &str, #[case] expected: bool) {
+        let typed = TypedRun {
+            modal: Some(rows(&["", row])),
+            ..clean_typed()
+        };
+        assert_eq!(typed_check(LedgerRow::ModalSignature, typed), expected);
+    }
+
+    #[test]
+    fn check_input_box_signature_needs_both_screens_without_a_modal() {
+        assert!(typed_check(LedgerRow::InputBoxSignature, clean_typed()));
+        let no_turn = TypedRun {
+            turn: None,
+            ..clean_typed()
+        };
+        assert!(!typed_check(LedgerRow::InputBoxSignature, no_turn));
+        let turn_without = TypedRun {
+            turn: Some(rows(&["● ok"])),
+            ..clean_typed()
+        };
+        assert!(!typed_check(LedgerRow::InputBoxSignature, turn_without));
+        let ready_without = TypedRun {
+            ready: Some(rows(&["❯ Try it"])),
+            ..clean_typed()
+        };
+        assert!(!typed_check(LedgerRow::InputBoxSignature, ready_without));
+        for modal in [
+            "   Yes, allow external imports",
+            "   Yes, I trust this folder",
+        ] {
+            let ready_modal = TypedRun {
+                ready: Some(rows(&[modal, "  ← for agents"])),
+                ..clean_typed()
+            };
+            assert!(
+                !typed_check(LedgerRow::InputBoxSignature, ready_modal),
+                "{modal}"
+            );
+            let turn_modal = TypedRun {
+                turn: Some(rows(&["  ← for agents", modal])),
+                ..clean_typed()
+            };
+            assert!(
+                !typed_check(LedgerRow::InputBoxSignature, turn_modal),
+                "{modal}"
+            );
+        }
+    }
+
+    #[rstest]
+    #[case::both_at_the_bound(Some(5000), Some(5000), true)]
+    #[case::ready_past(Some(5001), Some(10), false)]
+    #[case::turn_past(Some(10), Some(5001), false)]
+    #[case::ready_missing(None, Some(10), false)]
+    #[case::turn_missing(Some(10), None, false)]
+    fn check_quiet_period_bounds_both_settles(
+        #[case] ready: Option<u64>,
+        #[case] turn: Option<u64>,
+        #[case] expected: bool,
+    ) {
+        let typed = TypedRun {
+            ready_settle_ms: ready,
+            turn_settle_ms: turn,
+            ..clean_typed()
+        };
+        assert_eq!(typed_check(LedgerRow::QuietPeriod, typed), expected);
+    }
+
+    #[rstest]
+    #[case::at_the_window(Some(10_000), true)]
+    #[case::past_the_window(Some(10_001), false)]
+    #[case::zero(Some(0), true)]
+    #[case::missing(None, false)]
+    fn check_confirm_window_bounds_the_latency(#[case] ms: Option<u64>, #[case] expected: bool) {
+        let typed = TypedRun {
+            prompt_latency_ms: ms,
+            ..clean_typed()
+        };
+        assert_eq!(typed_check(LedgerRow::ConfirmWindow, typed), expected);
+    }
+
+    #[test]
+    fn signature_rows_keep_only_literal_rows() {
+        let live = rows(&[
+            " Accessing workspace:",
+            " /home/plantuser/work",
+            " ❯ No, exit",
+            "   Yes, I trust this folder",
+            "  ⏸ manual mode on · ← for agents",
+            "   Yes, allow external imports",
+        ]);
+        assert_eq!(
+            signature_rows(&live),
+            rows(&[
+                "",
+                "",
+                "",
+                "   Yes, I trust this folder",
+                "  ⏸ manual mode on · ← for agents",
+                "   Yes, allow external imports",
+            ])
+        );
+    }
+
+    fn clean(live: &[&str]) -> bool {
+        let live = rows(live);
+        screen_is_clean(
+            &live,
+            &signature_rows(&live),
+            "/home/plantuser",
+            "plantuser",
+        )
+    }
+
+    #[test]
+    fn screen_is_clean_passes_a_measured_screen() {
+        assert!(clean(&[
+            " ▝▝   ▝▝   ~/dev/projects/viola/.viola-verify-7",
+            "────────────────────────",
+            "  ctx ? · Haiku 4.5",
+            "  ⏸ manual mode on · ← for agents",
+        ]));
+        assert!(clean(&[
+            " /home/plantuser/work/a-long-path",
+            " ❯ No, exit",
+            "   Yes, I trust this folder",
+            " Enter to confirm · Esc to cancel",
+        ]));
+    }
+
+    #[rstest]
+    #[case::home_path(&["  ← for agents /home/plantuser/w"])]
+    #[case::other_home(&["  ← for agents /home/other/w"])]
+    #[case::username(&["  ← for agents · plantuser"])]
+    #[case::email(&["  ← for agents · a.b@example.com"])]
+    #[case::user_split_above(&[" /x/plant", "user ← for agents"])]
+    #[case::user_split_below(&["  ← for agents plant", "user/x"])]
+    #[case::user_split_over_box_drawing(&["  ← for agents plant ──", "── user"])]
+    #[case::email_split_below(&["  ← for agents a.b@", "example.com"])]
+    fn screen_is_clean_refuses_a_kept_row_or_seam(#[case] live: &[&str]) {
+        assert!(!clean(live));
+    }
+
+    #[test]
+    fn screen_is_clean_reads_no_dropped_row_alone() {
+        assert!(clean(&[
+            " /home/plantuser/work",
+            "",
+            "  ← for agents",
+            "",
+            " a.b@example.com",
+        ]));
+    }
+
+    #[test]
+    fn unclean_names_the_first_check_that_fails() {
+        assert_eq!(Unclean::HomePath.code(), "home-path");
+        assert_eq!(Unclean::AbsolutePath.code(), "absolute-path");
+        assert_eq!(Unclean::Username.code(), "username");
+        assert_eq!(Unclean::Email.code(), "email");
+        assert_eq!(
+            unclean(&json!({"a": "ok", "b": "/home/other/x"}), "plantuser"),
+            Some(Unclean::AbsolutePath)
+        );
+        assert_eq!(
+            unclean(&json!(["by plantuser"]), "plantuser"),
+            Some(Unclean::Username)
+        );
+        assert_eq!(
+            unclean(&json!({"plantuser": 1}), "plantuser"),
+            Some(Unclean::Username)
+        );
+        assert_eq!(unclean(&json!({"a": "~/x"}), "plantuser"), None);
+    }
+
+    fn fault(live: &[&str]) -> Option<ScreenFault> {
+        let live = rows(live);
+        screen_fault(&live, &signature_rows(&live), "/srv/plantuser", "plantuser")
+    }
+
+    #[test]
+    fn screen_fault_names_the_row_the_seam_and_the_check() {
+        assert_eq!(fault(&["x", "  ← for agents"]), None);
+        assert_eq!(
+            fault(&["x", "  ← for agents /srv/plantuser/w"]),
+            Some(ScreenFault {
+                row: 1,
+                seam: false,
+                why: Unclean::HomePath
+            })
+        );
+        assert_eq!(
+            fault(&["  ← for agents /home/other/w"]),
+            Some(ScreenFault {
+                row: 0,
+                seam: false,
+                why: Unclean::AbsolutePath
+            })
+        );
+        assert_eq!(
+            fault(&["x", "y", "  ← for agents by plantuser"]),
+            Some(ScreenFault {
+                row: 2,
+                seam: false,
+                why: Unclean::Username
+            })
+        );
+        assert_eq!(
+            fault(&["  ← for agents a@example.com"]),
+            Some(ScreenFault {
+                row: 0,
+                seam: false,
+                why: Unclean::Email
+            })
+        );
+        assert_eq!(
+            fault(&["ctx plant", "user ← for agents"]),
+            Some(ScreenFault {
+                row: 1,
+                seam: true,
+                why: Unclean::Username
+            })
+        );
+        assert_eq!(
+            fault(&["  ← for agents a@", "example.com"]),
+            Some(ScreenFault {
+                row: 0,
+                seam: true,
+                why: Unclean::Email
+            })
+        );
+    }
+
+    #[rstest]
+    #[case::plain("a@example.com", true)]
+    #[case::dotted("x.y+z@mail.example.co", true)]
+    #[case::no_tld("a@localhost", false)]
+    #[case::numeric_tld("a@1.2", false)]
+    #[case::one_letter_tld("a@b.c", false)]
+    #[case::no_local("@example.com", false)]
+    #[case::no_host("a@.com", false)]
+    #[case::none("ctx 23% 45k/200k", false)]
+    fn has_email_reads_local_at_domain_dot_tld(#[case] text: &str, #[case] expected: bool) {
+        assert_eq!(has_email(text), expected);
     }
 }

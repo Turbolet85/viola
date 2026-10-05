@@ -1,0 +1,42 @@
+[
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "e257956a",
+"ts": "2026-10-05T08:42:42Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"4",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-05T08-35-32-implement",
+"--marker",
+"2026-10-05-real-cli-verify-probes"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"appended 4 record(s) · friction-log.ndjson lines 1052→1056 · bytes 1021660→1024917 · term lf",
+"ts 2026-10-05T08:42:29Z · clock 2026-10-05T08:42:42Z · bound 2026-10-05T08:34:58Z (line 1052)",
+"ids 2026-10-05T08:42:29Z-a … 2026-10-05T08:42:29Z-d (4)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 1052,
+"bytes": 1021660,
+"terminator": "LF",
+"bound": "2026-10-05T08:34:58Z"
+},
+"after": {
+"lines": 1056,
+"bytes": 1024917
+}
+}
+]

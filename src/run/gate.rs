@@ -13,7 +13,7 @@ use std::thread::JoinHandle;
 use std::time::{Duration, Instant};
 
 use tracing::instrument;
-use viola_agent_claude::screen::{GateStep, Readiness, Screen};
+use viola_agent_claude::screen::{GateStep, Readiness, Screen, Signatures};
 use viola_core::obs::ObsEvent;
 use viola_core::{Clock, obs_event};
 use viola_pty::Size;
@@ -87,6 +87,8 @@ fn parse_rejected(detail: &'static str) {
 struct Shared {
     model: Mutex<Model>,
     drops: AtomicU64,
+    /// `Some` on a verified CLI version: the full gate. `None`: the partial gate.
+    sigs: Option<&'static Signatures>,
 }
 
 impl Shared {
@@ -146,8 +148,8 @@ pub(crate) struct Gate {
 }
 
 impl Gate {
-    /// Re-reads the partial verdict every `STEP` until it is done; the bool is whether the model
-    /// is poisoned by a vt100 panic.
+    /// Re-reads the verdict every `STEP` until it is done; the bool is whether the model is
+    /// poisoned by a vt100 panic.
     #[instrument(
         skip_all,
         name = "run.readiness_gate",
@@ -162,7 +164,9 @@ impl Gate {
             let (step, panicked) = {
                 let mut model = self.shared.model();
                 model.catch_up(self.shared.drops.load(Ordering::SeqCst));
-                let step = model.screen.verdict(None, waiting_since, clock.now());
+                let step = model
+                    .screen
+                    .verdict(self.shared.sigs, waiting_since, clock.now());
                 (step, model.panicked)
             };
             if let GateStep::Done(readiness) = step {
@@ -177,7 +181,12 @@ impl Gate {
 }
 
 /// Spawns the feed thread at the child's spawned size; it ends when every `Feeder` is dropped.
-pub(crate) fn start<C: Clock + 'static>(clock: C, size: Size) -> (Feeder, Gate, JoinHandle<()>) {
+/// `sigs` is the compiled signature set on a verified CLI version, `None` on an unverified one.
+pub(crate) fn start<C: Clock + 'static>(
+    clock: C,
+    size: Size,
+    sigs: Option<&'static Signatures>,
+) -> (Feeder, Gate, JoinHandle<()>) {
     let (tx, rx) = mpsc::sync_channel(FEED_CAPACITY);
     let shared = Arc::new(Shared {
         model: Mutex::new(Model {
@@ -187,6 +196,7 @@ pub(crate) fn start<C: Clock + 'static>(clock: C, size: Size) -> (Feeder, Gate, 
             seen: 0,
         }),
         drops: AtomicU64::new(0),
+        sigs,
     });
     let fed = Arc::clone(&shared);
     let thread = std::thread::spawn(move || {
@@ -271,6 +281,7 @@ mod tests {
         let shared = Arc::new(Shared {
             model: Mutex::new(model(Size::DEFAULT, Instant::now())),
             drops: AtomicU64::new(0),
+            sigs: None,
         });
         (Feeder { tx, shared }, rx)
     }
@@ -324,7 +335,7 @@ mod tests {
     /// what the queue cannot take is counted as dropped.
     #[test]
     fn tee_a_full_queue_never_blocks_the_passthrough() {
-        let (feeder, gate, thread) = start(FixedClock(Instant::now()), Size::DEFAULT);
+        let (feeder, gate, thread) = start(FixedClock(Instant::now()), Size::DEFAULT, None);
         let held = gate.shared.model();
         let mut tee = Tee::new(Vec::new(), feeder);
         let mut expected = Vec::new();
@@ -403,7 +414,7 @@ mod tests {
     }
 
     fn run_feed(size: Size, messages: Vec<Feed>) {
-        let (feeder, _gate, thread) = start(FixedClock(Instant::now()), size);
+        let (feeder, _gate, thread) = start(FixedClock(Instant::now()), size, None);
         for message in messages {
             feeder.tx.send(message).expect("feed thread alive");
         }
@@ -480,7 +491,7 @@ mod tests {
     }
 
     fn gate_at(screen_fed_at: Instant, bytes: &[u8]) -> Gate {
-        let (feeder, gate, thread) = start(FixedClock(screen_fed_at), Size::DEFAULT);
+        let (feeder, gate, thread) = start(FixedClock(screen_fed_at), Size::DEFAULT, None);
         feeder
             .tx
             .send(Feed::Bytes(bytes.to_vec()))
@@ -488,6 +499,72 @@ mod tests {
         drop(feeder);
         thread.join().expect("the feed thread never panics");
         gate
+    }
+
+    fn verified_gate_at(screen_fed_at: Instant, rows: &[&str]) -> Gate {
+        let (feeder, gate, thread) = start(
+            FixedClock(screen_fed_at),
+            Size::DEFAULT,
+            Some(&viola_agent_claude::screen::SIGNATURES),
+        );
+        let bytes = rows.join("\r\n").into_bytes();
+        feeder
+            .tx
+            .send(Feed::Bytes(bytes))
+            .expect("feed thread alive");
+        drop(feeder);
+        thread.join().expect("the feed thread never panics");
+        gate
+    }
+
+    #[test]
+    fn wait_ready_verified_over_the_trust_dialog_is_input_not_ready() {
+        let base = Instant::now();
+        let gate = verified_gate_at(
+            base,
+            &[
+                " ❯ No, exit",
+                "   Yes, I trust this folder",
+                "  ← for agents",
+            ],
+        );
+        let clock = FixedClock(base + Duration::from_millis(300));
+        assert_eq!(
+            gate.wait_ready(&clock, base),
+            (Readiness::InputNotReady, false)
+        );
+    }
+
+    #[test]
+    fn wait_ready_verified_over_the_external_imports_dialog_is_input_not_ready() {
+        let base = Instant::now();
+        let gate = verified_gate_at(
+            base,
+            &[
+                " ❯ No, disable external imports",
+                "   Yes, allow external imports",
+                "  ← for agents",
+            ],
+        );
+        let clock = FixedClock(base + Duration::from_millis(300));
+        assert_eq!(
+            gate.wait_ready(&clock, base),
+            (Readiness::InputNotReady, false)
+        );
+    }
+
+    #[test]
+    fn wait_ready_verified_over_the_input_box_is_ready() {
+        let base = Instant::now();
+        let gate = verified_gate_at(base, &["❯ ", "  ⏸ manual mode on · ← for agents"]);
+        let clock = FixedClock(base + Duration::from_millis(300));
+        assert_eq!(gate.wait_ready(&clock, base), (Readiness::Ready, false));
+        let blank = verified_gate_at(base, &["thinking"]);
+        assert_eq!(
+            blank.wait_ready(&clock, base),
+            (Readiness::InputNotReady, false),
+            "a verified gate reads the rows; the partial gate would be ready"
+        );
     }
 
     #[test]
@@ -525,7 +602,7 @@ mod tests {
     #[test]
     fn wait_ready_after_a_feed_panic_is_input_not_ready_and_says_so() {
         let base = Instant::now();
-        let (feeder, gate, thread) = start(FixedClock(base), Size { cols: 1, rows: 24 });
+        let (feeder, gate, thread) = start(FixedClock(base), Size { cols: 1, rows: 24 }, None);
         feeder
             .tx
             .send(Feed::Bytes(WIDE.to_vec()))

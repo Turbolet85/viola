@@ -1,0 +1,38 @@
+[
+  {
+    "id": "I1",
+    "kind": "relay",
+    "repo": null,
+    "path": "../additional/viola-overseer/split84-route-adaptation.md",
+    "form": "copy",
+    "state": "no-repo",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "03a334394345cddb0468feabda7b094ae15a6205f752ddd42f405508475d1117",
+    "copy": "I1-split84-route-adaptation.md.txt",
+    "link": false,
+    "read_at": "2026-10-05T00:19:16Z",
+    "step": "phase:P1",
+    "why": "R-S1/R-S2/R-S3 founder rulings and the overseer partition that minted this entry"
+  },
+  {
+    "id": "I2",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: operator, /andromeda-phase invocation arguments, 2026-10-05 ~00:16Z",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "ce47614b9d727ef151e3a64e85e147ffc93145701653d4710f7e897eae9de48b",
+    "copy": "I2-relay-1.md.txt",
+    "link": false,
+    "read_at": "2026-10-05T00:19:20Z",
+    "step": "phase:P1",
+    "why": "operator directive: size to one builder window, split card at P4 if not, count live claude runs"
+  }
+]

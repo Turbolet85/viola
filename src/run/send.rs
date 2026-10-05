@@ -446,8 +446,11 @@ mod tests {
 
     /// A gate whose screen went quiet a second before `base`.
     fn quiet_gate(base: Instant) -> Gate {
-        let (feeder, gate, thread) =
-            gate::start(FixedClock(base - Duration::from_secs(1)), Size::DEFAULT);
+        let (feeder, gate, thread) = gate::start(
+            FixedClock(base - Duration::from_secs(1)),
+            Size::DEFAULT,
+            None,
+        );
         drop(feeder);
         thread.join().expect("feed thread");
         gate
@@ -455,7 +458,8 @@ mod tests {
 
     /// A gate poisoned by a vt100 panic (a wide character at one column).
     fn poisoned_gate(base: Instant) -> Gate {
-        let (feeder, gate, thread) = gate::start(FixedClock(base), Size { cols: 1, rows: 24 });
+        let (feeder, gate, thread) =
+            gate::start(FixedClock(base), Size { cols: 1, rows: 24 }, None);
         let mut tee = gate::Tee::new(Vec::new(), feeder);
         std::io::Write::write_all(&mut tee, b"\xe4\xb8\xad").expect("write");
         drop(tee);

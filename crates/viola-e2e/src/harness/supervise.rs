@@ -47,8 +47,9 @@ fn spawn_in_pty(
     Ok((pty, input))
 }
 
-/// The fake agent replays the recorded set under `fixtures` (test-plan §3 `boot` step 5), so its
-/// start fires the plugin's SessionStart hook.
+/// The fake agent replays the recorded set under `fixtures` (test-plan §3 `boot` step 5), its
+/// screens included over a trusted cwd (the supervisor's own), so its start shows the input box and
+/// fires the plugin's SessionStart hook.
 fn spawn_wrapper(
     spec: &SuperviseSpec,
     fixtures: &Path,
@@ -61,6 +62,12 @@ fn spawn_wrapper(
     args.extend(["--cli-version", &spec.cli_version].map(OsString::from));
     args.push("--fixtures".into());
     args.push(fixtures.into());
+    args.extend(["--screens", "--trusted-root"].map(OsString::from));
+    args.push(
+        std::env::current_dir()
+            .unwrap_or_else(|_| std::env::temp_dir())
+            .into(),
+    );
     args.extend(fake_args.iter().map(OsString::from));
     let env = vec![("PATH".into(), session_path(&spec.session_bin))];
     let (pty, input) = spawn_in_pty(&exe(&spec.bin_dir, "viola"), args, env)?;

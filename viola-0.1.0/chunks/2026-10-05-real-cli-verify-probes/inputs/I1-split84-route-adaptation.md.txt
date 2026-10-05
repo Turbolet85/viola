@@ -1,0 +1,52 @@
+# Route adaptation relay — split `:84` (2026-10-05, from the Viola overseer)
+
+For a 0-pending `/andromeda-wrap-session` at HEAD `ed2edde` (CI ci#37241676960 green 15/15). Three parts,
+per the operator scheme: the context correction, the items for disposition, the anchors.
+
+## 1. Context — founder rulings, LIVE, 2026-10-05 ~00:00Z (via the overseer's AskUserQuestion)
+
+- **R-S1: split `:84` "First live test and self-drive" into two entries.** Measured basis: the line carries 11 CARRY
+  blocks (7041 bytes), and `:78`, with a lighter load, ran its builder to 86.7 % (and `:80` to 63.3 %). It would not fit
+  one window (guide: chunk-size check before take-up). Epoch 3 grows to 11 entries and stays UNSPLIT (founder
+  2026-09-29, re-affirmed 2026-10-04).
+- **R-S2: the HELD WIDENING is RATIFIED.** `viola verify` may gain a PTY-driven typed-input probe that runs the LIVE
+  installed `claude` on this Linux host (2.1.288 at 2026-10-04 14:19Z; stamp the version it runs). That is its
+  first PTY child, plus the capture arm's caller, the screen recording and the signature / quiet-period / max-wait
+  ledger rows. It runs LOCALLY on the dev host only: no Claude credential on a CI runner. This is the founder's own
+  live word: record it as such wherever the held widening is cited ("HELD", "offered for the morning of 2026-10-05").
+- **R-S3 (note only, no route change):** the U02 setup upgrade and the `host-win32.md` regenerate run at the Epoch 3
+  boundary, with the boundary ritual.
+
+## 2. Items for DISPOSITION (route-resolve, recommended-first; never pre-placed)
+
+The overseer's recommended partition. Each CARRY now on `:84` goes to exactly one of the two entries:
+
+- **(A) NEW, ahead of `:84`: "Real-CLI verify probes": the typed-input PTY probe and the ledger rows it unlocks.**
+  Recommended contents:
+  - the held-widening CARRY (the PTY typed-input probe, the recording, the screen-signature / timing rows; the gate's
+    provisional 300 ms / 5 s / 10 s and the two-literal-list signature format leave PROVISIONAL);
+  - the local-command ledger rows and `send`'s `unconfirmable` outcome plus its mirror writer (v1-29's owed clauses);
+  - the S3 / S7 / S8 / dialog-concurrency rows with their own `viola verify` re-probe and the decision-effect half.
+    Landing them closes the six-row-stamp dated gap R2. Then v1-15's claim, the `permission` end-to-end case, its
+    v1-30 wake, and the PermissionRequest body for a question;
+  - the long-paste wrapper, tag-escaping and harness-prefix ledger rows (including the cross-session-message
+    prefix, measured on a real cross-session `UserPromptSubmit`), and the R8 identity-floor row;
+  - stamping the installed 2.1.288 (owed since 2026-10-04 14:19Z).
+- **(B) STAYS `:84`: "First live test and self-drive".** The overseer drives a builder through viola, the founder takes
+  the wheel, and the overseer drops the prototype. Recommended to keep:
+  - where the live proof runs (the linux-route-adaptation B CARRY, verbatim: the founder's live call when (B) phases; R-S2 rules on (A)'s probes only — corrected 2026-10-05 00:10Z after the builder's route-resolve card caught the overreach);
+  - the Windows-only live items that need a Windows host or runner: H2's key loss after a resize, the DA1
+    no-terminal stall, and a real Windows terminal's mouse report (F-W3);
+  - "the dialog never renders" (v1-31);
+  - the Epoch 3 boundary audit's 25 Windows-dispatch survivors CARRY (it is for the audit that follows the epoch's
+    last entry, so it stays with the last entry).
+- Anything the dialogue finds that fits neither goes to (B), or comes back to the overseer as a card.
+
+## 3. Anchors (fix what stays first)
+
+- `:84` keeps its title and stays the LAST entry of Epoch 3, ahead of the boundary ritual.
+- (A) is minted directly before `:84`. Its insertion shifts later lines, so renumber as at the `:80` wrap: route
+  citations only, verified by manifest. The sidecars, archives and source files keep their bytes. A source comment
+  that cites a moved line becomes a CARRY on the entry that next touches it.
+- Name and placement inside (A) and (B) are the dialogue's. The overseer verifies each card against the artifacts
+  before answering.

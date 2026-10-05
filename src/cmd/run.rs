@@ -157,6 +157,8 @@ struct Launched {
     pty: PortablePty,
     terminal: Option<HostTerminal>,
     size: Size,
+    /// The version gate's reading: the readiness gate reads the compiled signatures only then.
+    cli_verified: bool,
     send: Arc<SendSlot>,
     wheel: Arc<WheelSlot>,
     _beat: Heartbeat,
@@ -204,6 +206,7 @@ fn start(home: &Path, args: &RunArgs, persistent: &[String]) -> anyhow::Result<S
     let sideload_fallback = None;
     let strip = viola_agent_claude::plan_strip(std::env::vars_os().map(|(k, _)| k), persistent);
     let gate = version_gate(&home, &program, &cwd, &strip);
+    let cli_verified = gate.cli_verified;
     let Some((endpoint, server)) = bind_endpoint(&args.name, &home)? else {
         refuse_squatted(&args.name);
         return Ok(refused("squatted-name"));
@@ -272,6 +275,7 @@ fn start(home: &Path, args: &RunArgs, persistent: &[String]) -> anyhow::Result<S
         pty,
         terminal,
         size,
+        cli_verified,
         send,
         wheel,
         _beat: beat,
@@ -477,6 +481,7 @@ fn pump_child(launched: Launched) -> anyhow::Result<ExitCode> {
         mut pty,
         terminal,
         size,
+        cli_verified,
         send,
         wheel,
         _beat,
@@ -484,7 +489,8 @@ fn pump_child(launched: Launched) -> anyhow::Result<ExitCode> {
     } = launched;
     #[cfg(feature = "fake-agent")]
     hold_pump_start();
-    let (feed, gate, _feed_thread) = gate::start(SystemClock, size);
+    let sigs = cli_verified.then_some(&viola_agent_claude::screen::SIGNATURES);
+    let (feed, gate, _feed_thread) = gate::start(SystemClock, size, sigs);
     let paste = PasteHandle::default();
     let typed = paste.clone();
     send.attach(Box::new(move |text| typed.paste(text)), gate);

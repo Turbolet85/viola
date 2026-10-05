@@ -1,0 +1,32 @@
+gate v1.9 · fb1f9172
+shell /usr/bin/bash (from $SHELL; -c, non-login)
+root /home/turbolet/dev/projects/viola · marker 2026-10-05-real-cli-verify-probes · entries 24
+logs $TMPDIR/andromeda-gate/2026-10-05-real-cli-verify-probes/phase-2026-10-05T09-09-05 · bound: GNU timeout
+delta docs 70 · unmapped 5
+walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 75
+prose L294-306: The non-live gates run against the fake agent on every OS. The two record entries are the … (1300 chars)
+  1 lint        not run — excluded · cargo fmt --all --check
+  2 lint        not run — excluded · cargo clippy --workspace --all-targets --features fake-age… (75 chars)
+  3 unit        not run — excluded · bash scripts/agent-run.sh run --unit --filter 'test(/ledge… (142 chars)
+  4 unit        not run — excluded · bash scripts/agent-run.sh run --unit
+  5 probe       red · exit 0 ✗ (exit 1) · exit 1 · 0.0s · 0 B → 5.log · git check-ignore -q --no-index .viola-verify-4242/
+  6 probe       not run — excluded · claude --version
+  7 build       not run — excluded · h="target/e2e-home/viola-record-$(date -u +%Y%m%dT%H%M%SZ)… (292 chars)
+  8 build       not run — excluded · h="target/e2e-home/viola-record-$(date -u +%Y%m%dT%H%M%SZ)… (263 chars)
+  9 probe       green · exit 0 · 0.0s · 0 B → 9.log · git diff --quiet caae9eca9e4d -- fixtures/claude/2.1.287/S… (525 chars)
+ 10 integration not run — excluded · bash scripts/agent-run.sh run --integration --filter 'bina… (248 chars)
+ 11 integration not run — excluded · bash scripts/agent-run.sh run
+ 12 smoke       not run — excluded · bash scripts/agent-run.sh cleanup --session p-typed-smoke
+ 13 smoke       not run — excluded · bash scripts/agent-run.sh boot --session p-typed-smoke --i… (73 chars)
+ 14 smoke       not run — excluded · bash scripts/agent-run.sh status --session p-typed-smoke
+ 15 smoke       not run — excluded · bash scripts/agent-run.sh cleanup --session p-typed-smoke
+ 16 probe       not run — excluded · CI=true bash scripts/agent-run.sh run --local-live
+ 17 probe       green · exit 0 · 0.01s · 2 B → 17.log · { git grep -nE 'env::var(_os)?\("CI"\)' -- src crates/viol… (126 chars)
+ 18 probe       green · exit 0 · 0.0s · 0 B → 18.log · git diff --quiet caae9eca9e4d -- src/cmd/hook/seam.rs scri… (165 chars)
+ 19 probe       green · exit 0 · 0.01s · 0 B → 19.log · ! (git diff caae9eca9e4d -- '*.rs' .config/nextest.toml | … (144 chars)
+ 20 probe       green · exit 1 · 0.0s · 2 B → 20.log · git diff caae9eca9e4d -- Cargo.toml Cargo.lock deny.toml d… (123 chars)
+ 21 probe       not run — excluded · bash scripts/agent-run.sh pre-push
+ 22 probe       not run — excluded · python -X utf8 ~/.claude/skills/andromeda-pha… (103 chars)
+ 23 probe       not run — excluded · git diff --quiet && git diff --cached --quiet && git push … (69 chars)
+ 24 probe       not run — excluded · python -X utf8 ~/.claude/skills/andromeda-pha… (127 chars)
+entries 24 · green 5 · red 1 (5) · recorded 0 · timeout 0 · not-run 18

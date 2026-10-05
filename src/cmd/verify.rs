@@ -1,23 +1,29 @@
 //! `viola verify [--record <dir>] [-- <program> [args…]]`: measures the capability ledger against
 //! the local `claude` (or the program after `--`) with one print-mode probe through a capture
-//! plugin, prints one step line per row and the `stamped` summary on stdout, and writes the stamps
-//! as their only writer (security-plan §Data Protection; architecture [CLI Version
-//! Compatibility]). With `--record`, a clean run's payloads become scrubbed fixtures.
+//! plugin and two interactive PTY runs (`typed`), prints one step line per row and the `stamped`
+//! summary on stdout, and writes the stamps as their only writer (security-plan §Data Protection;
+//! architecture [CLI Version Compatibility]). With `--record`, a clean run's payloads become
+//! scrubbed fixtures and its screens signature-only `Screen.<phase>.json` fixtures.
+
+mod typed;
 
 use std::ffi::OsString;
 use std::fs::File;
 use std::io::Read as _;
 use std::path::{Path, PathBuf};
 use std::process::ExitCode;
+use std::sync::Arc;
 use std::time::{Duration, Instant};
 
 use chrono::Utc;
 use tracing::instrument;
 use viola_agent_claude::hook::HookEvent;
-use viola_agent_claude::ledger::{self, Capture, LedgerRow, PROBE_PROMPT, ProbeRun};
+use viola_agent_claude::ledger::{
+    self, Capture, LedgerRow, PROBE_PROMPT, ProbeRun, Probes, TypedRun,
+};
 use viola_agent_claude::{CASE_INSENSITIVE, PLUGIN_DIR_FLAG, Refusal, StripPlan};
 use viola_core::obs::{ObsEvent, ObsProcess};
-use viola_core::{MAX_FRAME, ViolaName, obs_event};
+use viola_core::{Clock, MAX_FRAME, SystemClock, ViolaName, obs_event};
 use viola_state::fs::{FILE_MODE, create_private_dir, replace_private};
 use viola_state::pin::{PinError, pin_exe};
 use viola_state::stamps::{ledger_dir, update_stamps};
@@ -155,7 +161,7 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<u8> {
     };
 
     let probe = ProbeDir::create(home, &pinned.path_fwd)?;
-    let mut probe_args = program_args;
+    let mut probe_args = program_args.clone();
     probe_args
         .extend(["-p", PROBE_PROMPT, "--model", "haiku", PLUGIN_DIR_FLAG].map(OsString::from));
     probe_args.push(probe.plugin().into_os_string());
@@ -168,18 +174,39 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<u8> {
         &strip,
         PROBE_DEADLINE,
     )?;
-    let probe_run = ProbeRun {
+    let print = ProbeRun {
         program_is_script: viola_agent_claude::is_script(&program),
         version_answered: true,
         captures: read_captures(&probe.captures()),
     };
+    let clock: Arc<dyn Clock> = Arc::new(SystemClock);
+    let typed_captures = probe.typed().join("captures");
+    let typed = typed::measure(
+        &clock,
+        &typed::Inputs {
+            program: &program,
+            program_args: &program_args,
+            cwd: &cwd,
+            strip: &strip,
+            plugin: &probe.typed().join("plugin"),
+            captures: &typed_captures,
+        },
+    )?;
     drop(probe);
+    let probes = Probes { print, typed };
 
-    let results = check_rows(&probe_run);
+    let results = check_rows(&probes);
     let written_at = obs::timestamp(Utc::now());
-    let largest = ledger::largest(&probe_run.captures);
+    let largest = ledger::largest(&probes.print.captures);
     update_stamps(home, |existing| {
-        ledger::merge_stamp(existing, &version, &results, &largest, &written_at)
+        ledger::merge_stamp(
+            existing,
+            &version,
+            &results,
+            &largest,
+            &probes.typed,
+            &written_at,
+        )
     })?;
     let failed = results.iter().filter(|(_, pass)| !pass).count();
     human::result(&format!(
@@ -190,13 +217,14 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<u8> {
         return Ok(1);
     }
     match &args.record {
-        Some(dir) => record(dir, &version, &probe_run.captures),
+        Some(dir) => record(dir, &version, &probes),
         None => Ok(0),
     }
 }
 
 /// `<home>/ledger/probes/<pid>/` (0700) with the capture plugin in `plugin/` and an empty
-/// `captures/`; removed whole when dropped, on every exit path.
+/// `captures/`, and the same pair under `typed/` for the trusted interactive run; removed whole
+/// when dropped, on every exit path.
 struct ProbeDir {
     dir: PathBuf,
 }
@@ -208,14 +236,21 @@ impl ProbeDir {
             .join(std::process::id().to_string());
         let _ = std::fs::remove_dir_all(&dir);
         let probe = Self { dir };
-        create_private_dir(&probe.captures())?;
-        let captures_fwd = probe.captures().to_string_lossy().replace('\\', "/");
-        for (rel, content) in ledger::capture_plugin_files(pinned_bin_fwd, &captures_fwd) {
-            let path = probe.plugin().join(rel);
-            create_private_dir(path.parent().unwrap_or(&probe.dir))?;
-            replace_private(&path, content.as_bytes(), FILE_MODE)?;
+        for root in [probe.dir.clone(), probe.typed()] {
+            let captures = root.join("captures");
+            create_private_dir(&captures)?;
+            let captures_fwd = captures.to_string_lossy().replace('\\', "/");
+            for (rel, content) in ledger::capture_plugin_files(pinned_bin_fwd, &captures_fwd) {
+                let path = root.join("plugin").join(rel);
+                create_private_dir(path.parent().unwrap_or(&root))?;
+                replace_private(&path, content.as_bytes(), FILE_MODE)?;
+            }
         }
         Ok(probe)
+    }
+
+    fn typed(&self) -> PathBuf {
+        self.dir.join("typed")
     }
 
     fn plugin(&self) -> PathBuf {
@@ -261,18 +296,18 @@ fn read_captures(dir: &Path) -> Vec<Capture> {
 }
 
 /// Every row checked in order, its step line printed as it is checked.
-fn check_rows(probe_run: &ProbeRun) -> Vec<(LedgerRow, bool)> {
+fn check_rows(probes: &Probes) -> Vec<(LedgerRow, bool)> {
     let total = LedgerRow::ALL.len();
     LedgerRow::ALL
         .iter()
         .enumerate()
-        .map(|(i, row)| (*row, check_step(i + 1, total, *row, probe_run)))
+        .map(|(i, row)| (*row, check_step(i + 1, total, *row, probes)))
         .collect()
 }
 
 #[instrument(skip_all, name = "cli.verify_step", fields(row = row.id()))]
-fn check_step(n: usize, total: usize, row: LedgerRow, probe_run: &ProbeRun) -> bool {
-    let pass = ledger::check(row, probe_run);
+fn check_step(n: usize, total: usize, row: LedgerRow, probes: &Probes) -> bool {
+    let pass = ledger::check(row, probes);
     human::result(&step_line(n, total, row, pass));
     pass
 }
@@ -288,9 +323,11 @@ fn step_line(n: usize, total: usize, row: LedgerRow, pass: bool) -> String {
 }
 
 /// The first capture of each spine event, scrubbed of the user's home and name, written as
-/// `<dir>/<version>/<Event>.default.json`. One payload that stays unclean after the scrub refuses
-/// the whole recording before any file is written.
-fn record(dir: &Path, version: &str, captures: &[Capture]) -> anyhow::Result<u8> {
+/// `<dir>/<version>/<Event>.default.json`, and each recorded screen as `Screen.<phase>.json` holding
+/// only its signature rows. One payload that stays unclean after the scrub, or one screen whose kept
+/// rows or their seams hold a path, the username or an email, refuses the whole recording before any
+/// file is written; the refusal names the file and the check, never the content.
+fn record(dir: &Path, version: &str, probes: &Probes) -> anyhow::Result<u8> {
     let user_home = std::env::home_dir().unwrap_or_default();
     let home = user_home.to_string_lossy().into_owned();
     let user = user_home
@@ -299,29 +336,58 @@ fn record(dir: &Path, version: &str, captures: &[Capture]) -> anyhow::Result<u8>
         .unwrap_or_default();
     let mut files = Vec::new();
     for event in ledger::CAPTURE_EVENTS {
-        let first = captures.iter().find(|c| c.event == event);
+        let first = probes.print.captures.iter().find(|c| c.event == event);
         let Some(payload) = first.and_then(|c| c.payload.as_ref()) else {
             continue;
         };
         let scrubbed = ledger::scrub(payload, &home, &user, CASE_INSENSITIVE);
-        if !ledger::is_clean(&scrubbed, &user) {
-            human::refuse(
-                "a recorded payload still holds a path or a username",
-                "record with a viola home under your user home",
-            );
-            return Ok(1);
+        let name = format!("{}.default.json", ledger::event_name(event));
+        if let Some(why) = ledger::unclean(&scrubbed, &user) {
+            return Ok(refuse_recording(&format!("{name} {}", why.code())));
         }
-        files.push((event, scrubbed));
+        files.push((name, scrubbed));
+    }
+    for (phase, rows) in screens(&probes.typed) {
+        let kept = ledger::signature_rows(rows);
+        let name = format!("Screen.{phase}.json");
+        if let Some(fault) = ledger::screen_fault(rows, &kept, &home, &user) {
+            let at = if fault.seam { " seam" } else { "" };
+            let named = format!("{name} row {}{at} {}", fault.row, fault.why.code());
+            return Ok(refuse_recording(&named));
+        }
+        let screen = serde_json::json!({"screen_phase": phase, "cols": 80, "rows": kept});
+        files.push((name, screen));
     }
     let out = dir.join(version);
     std::fs::create_dir_all(&out)?;
-    for (event, payload) in files {
-        let mut text = payload.to_string();
+    for (name, doc) in files {
+        let mut text = doc.to_string();
         text.push('\n');
-        let name = format!("{}.default.json", ledger::event_name(event));
         std::fs::write(out.join(name), text)?;
     }
     Ok(0)
+}
+
+/// `named` is the refused file and its check code (a screen's: its row index, `seam` when the row's
+/// join with a live neighbour holds it), never the content that failed.
+fn refuse_recording(named: &str) -> u8 {
+    human::refuse(
+        &format!("a recorded fixture is not clean: {named}"),
+        "record with a viola home under your user home",
+    );
+    1
+}
+
+/// The recorded screens by phase; a phase the run never reached is absent.
+fn screens(typed: &TypedRun) -> Vec<(&'static str, &[String])> {
+    [
+        ("modal", &typed.modal),
+        ("ready", &typed.ready),
+        ("turn", &typed.turn),
+    ]
+    .into_iter()
+    .filter_map(|(phase, rows)| rows.as_deref().map(|rows| (phase, rows)))
+    .collect()
 }
 
 #[cfg(test)]
@@ -333,12 +399,12 @@ mod tests {
     #[test]
     fn step_line_is_the_counter_the_row_and_the_verdict() {
         assert_eq!(
-            step_line(1, 6, LedgerRow::ShimResolution, true),
-            "[01/06] shim-resolution claude resolves to a real executable  pass"
+            step_line(1, 10, LedgerRow::ShimResolution, true),
+            "[01/10] shim-resolution claude resolves to a real executable  pass"
         );
         assert_eq!(
-            step_line(6, 6, LedgerRow::LargestHookPayload, false),
-            "[06/06] largest-hook-payload every hook payload fits the frame cap  fail"
+            step_line(6, 10, LedgerRow::LargestHookPayload, false),
+            "[06/10] largest-hook-payload every hook payload fits the frame cap  fail"
         );
     }
 

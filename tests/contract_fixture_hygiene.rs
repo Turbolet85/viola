@@ -1,6 +1,6 @@
 //! The fixture scrub-and-schema walk (test-plan §7 Fixture hygiene): every committed scenario
-//! script and every recorded `fixtures/claude/*/*.json` payload is scrubbed and schema-valid, and
-//! every rejection arm is proven on a planted input. The recorded set is walked at run time, not
+//! script, every recorded `fixtures/claude/*/*.json` payload and every recorded `Screen.*.json` is
+//! scrubbed and schema-valid, and every rejection arm is proven on a planted input. The recorded set is walked at run time, not
 //! by `#[files]`, which refuses to compile over a glob that matches nothing.
 //! andromeda:walks-tree — it reads every file under `fixtures/`, named or not.
 
@@ -24,8 +24,34 @@ fn claude_schema() -> Value {
     load_schema(&workspace_path("schemas/claude-fixture.v1.json"))
 }
 
-/// `<root>/*/*.json`, sorted: the recorded set, one dir per CLI version.
+fn screen_schema() -> Value {
+    load_schema(&workspace_path("schemas/claude-screen.v1.json"))
+}
+
+fn is_screen(path: &Path) -> bool {
+    path.file_name()
+        .and_then(|n| n.to_str())
+        .is_some_and(|n| n.starts_with("Screen."))
+}
+
+/// `<root>/*/*.json` but the screens, sorted: the recorded hook payloads.
 fn claude_fixtures(root: &Path) -> Vec<PathBuf> {
+    recorded(root)
+        .into_iter()
+        .filter(|p| !is_screen(p))
+        .collect()
+}
+
+/// `<root>/*/Screen.*.json`, sorted: the recorded screens.
+fn screen_fixtures(root: &Path) -> Vec<PathBuf> {
+    recorded(root)
+        .into_iter()
+        .filter(|p| is_screen(p))
+        .collect()
+}
+
+/// `<root>/*/*.json`, sorted: the recorded set, one dir per CLI version.
+fn recorded(root: &Path) -> Vec<PathBuf> {
     let mut found: Vec<PathBuf> = std::fs::read_dir(root)
         .into_iter()
         .flatten()
@@ -66,6 +92,7 @@ fn claude_fixtures_walks_every_version_dir_and_only_json_files() {
         ("2.1.0/Stop.default.json", "{}"),
         ("2.1.0/notes.txt", "x"),
         ("9.9.9/SessionStart.default.json", "{}"),
+        ("9.9.9/Screen.ready.json", "{}"),
         ("top.json", "{}"),
     ] {
         let path = tmp.path().join(rel);
@@ -85,7 +112,159 @@ fn claude_fixtures_walks_every_version_dir_and_only_json_files() {
         names,
         ["2.1.0/Stop.default.json", "9.9.9/SessionStart.default.json"]
     );
+    assert_eq!(
+        screen_fixtures(tmp.path()),
+        [tmp.path().join("9.9.9").join("Screen.ready.json")]
+    );
     assert!(claude_fixtures(&tmp.path().join("missing")).is_empty());
+}
+
+/// The compiled signature literals, as test literals: the input box and the two modals.
+const SIGNATURE_LITERALS: [&str; 3] = [
+    "for agents",
+    "Yes, I trust this folder",
+    "Yes, allow external imports",
+];
+
+#[derive(Debug, PartialEq, Eq)]
+enum ScreenViolation {
+    Schema,
+    NotASignatureRow,
+    Path,
+    Username,
+    Email,
+}
+
+fn has_email(text: &str) -> bool {
+    text.match_indices('@').any(|(at, _)| {
+        let local = text[..at]
+            .chars()
+            .next_back()
+            .is_some_and(|c| c.is_ascii_alphanumeric() || "._%+-".contains(c));
+        let domain: String = text[at + 1..]
+            .chars()
+            .take_while(|c| c.is_ascii_alphanumeric() || *c == '.' || *c == '-')
+            .collect();
+        let tld = domain.rsplit_once('.').is_some_and(|(host, tld)| {
+            !host.is_empty() && tld.len() >= 2 && tld.chars().all(|c| c.is_ascii_alphabetic())
+        });
+        local && tld
+    })
+}
+
+fn seam_char(c: char) -> bool {
+    c == ' ' || ('\u{2500}'..='\u{257f}').contains(&c)
+}
+
+/// A screen fixture: schema-valid, every non-empty row a signature row, and no path, username or
+/// email in a row or across the seam of two adjacent rows.
+fn check_screen(bytes: &[u8], user: Option<&str>) -> Result<(), ScreenViolation> {
+    let doc: Value = serde_json::from_slice(bytes).map_err(|_| ScreenViolation::Schema)?;
+    let validator = jsonschema::validator_for(&screen_schema()).expect("valid schema");
+    if !validator.is_valid(&doc) {
+        return Err(ScreenViolation::Schema);
+    }
+    let rows: Vec<&str> = doc["rows"]
+        .as_array()
+        .expect("rows")
+        .iter()
+        .filter_map(Value::as_str)
+        .collect();
+    let mut texts: Vec<String> = Vec::new();
+    for (i, row) in rows.iter().enumerate() {
+        if row.is_empty() {
+            continue;
+        }
+        if !SIGNATURE_LITERALS.iter().any(|l| row.contains(l)) {
+            return Err(ScreenViolation::NotASignatureRow);
+        }
+        texts.push((*row).to_owned());
+        if let Some(next) = rows.get(i + 1).filter(|n| !n.is_empty()) {
+            texts.push(format!(
+                "{}{}",
+                row.trim_end_matches(seam_char),
+                next.trim_start_matches(seam_char)
+            ));
+        }
+    }
+    for text in &texts {
+        if has_absolute_path(text) {
+            return Err(ScreenViolation::Path);
+        }
+        if user.is_some_and(|u| has_username(text, u)) {
+            return Err(ScreenViolation::Username);
+        }
+        if has_email(text) {
+            return Err(ScreenViolation::Email);
+        }
+    }
+    Ok(())
+}
+
+#[test]
+fn claude_screens_pass_hygiene() {
+    let user = host_user();
+    let screens = screen_fixtures(&workspace_path("fixtures/claude"));
+    assert!(!screens.is_empty(), "no recorded screen");
+    for path in screens {
+        let bytes = std::fs::read(&path).expect("screen");
+        assert_eq!(
+            check_screen(&bytes, user.as_deref()),
+            Ok(()),
+            "{}",
+            path.display()
+        );
+    }
+}
+
+fn screen(rows: &[(usize, &str)]) -> Vec<u8> {
+    let mut all = vec![String::new(); 24];
+    for (i, row) in rows {
+        all[*i] = (*row).to_owned();
+    }
+    json!({"screen_phase": "ready", "cols": 80, "rows": all})
+        .to_string()
+        .into_bytes()
+}
+
+#[test]
+fn planted_clean_screen_passes() {
+    let bytes = screen(&[
+        (9, "   Yes, I trust this folder"),
+        (23, "  ⏸ manual mode on · ← for agents"),
+    ]);
+    assert_eq!(check_screen(&bytes, Some("plantuser")), Ok(()));
+}
+
+#[rstest]
+#[case::home_path(&[(23, "  ← for agents /home/plantuser/x")], ScreenViolation::Path)]
+#[case::username(&[(23, "  ← for agents by plantuser")], ScreenViolation::Username)]
+#[case::email(&[(23, "  ← for agents a.b@example.com")], ScreenViolation::Email)]
+#[case::username_split_at_a_seam(
+    &[(22, "   Yes, I trust this folder plant"), (23, "user ── ← for agents")],
+    ScreenViolation::Username
+)]
+#[case::not_a_signature_row(&[(3, "  ~/work"), (23, "  ← for agents")], ScreenViolation::NotASignatureRow)]
+fn planted_dirty_screen_is_rejected(
+    #[case] rows: &[(usize, &str)],
+    #[case] expected: ScreenViolation,
+) {
+    assert_eq!(
+        check_screen(&screen(rows), Some("plantuser")),
+        Err(expected)
+    );
+}
+
+#[rstest]
+#[case::short(json!({"screen_phase": "ready", "cols": 80, "rows": vec![""; 23]}))]
+#[case::wide(json!({"screen_phase": "ready", "cols": 120, "rows": vec![""; 24]}))]
+#[case::phase(json!({"screen_phase": "start", "cols": 80, "rows": vec![""; 24]}))]
+#[case::row_not_string(json!({"screen_phase": "ready", "cols": 80, "rows": vec![1; 24]}))]
+fn planted_screen_schema_violation_is_rejected(#[case] doc: Value) {
+    assert_eq!(
+        check_screen(doc.to_string().as_bytes(), None),
+        Err(ScreenViolation::Schema)
+    );
 }
 
 fn claude_payload(extra: &Value) -> Vec<u8> {

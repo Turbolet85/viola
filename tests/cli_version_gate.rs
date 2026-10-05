@@ -22,10 +22,19 @@ use support::watch::{WITHIN, Watch};
 
 /// Stamps `home` for `version` through `viola verify` against the fake agent; `skip` leaves one
 /// spine fixture out, so that row fails.
+/// A set with `skip` left out stamps a failing row. Its trusted interactive run would wait out the
+/// probe deadline for a Stop that never comes, so the fake agent's trust root is moved off the cwd:
+/// that run starts at the trust dialog and is killed with no key.
 fn stamp(home: &TestHome, version: &str, skip: Option<&str>) {
     let fixtures = home.scratch().join(format!("fixtures-{version}"));
     write_spine_set(&fixtures, version, skip);
-    let ran = verify(home.path(), &fixtures, version, &[], &[], &[]);
+    let elsewhere = home.scratch().to_str().expect("utf-8").to_owned();
+    let after: &[&str] = if skip.is_some() {
+        &["--trusted-root", elsewhere.as_str()]
+    } else {
+        &[]
+    };
+    let ran = verify(home.path(), &fixtures, version, &[], after, &[]);
     let expected = if skip.is_some() { Some(1) } else { Some(0) };
     assert_eq!(ran.code, expected, "verify: {}", ran.stdout_text());
 }

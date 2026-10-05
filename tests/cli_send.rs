@@ -13,9 +13,10 @@ use std::path::Path;
 use std::process::{Child, Command, Stdio};
 use std::time::Instant;
 
+use rstest::rstest;
 use serde_json::{Value, json};
 use support::fake::{self, of_kind};
-use support::home::{StampedHome, TestHome, VIOLA, Wrapper, workspace_path};
+use support::home::{StampedHome, TestHome, VIOLA, Wrapper, stamped_home, workspace_path};
 use support::watch::{WITHIN, Watch};
 
 const CANARY: &str = "canary-chain-value-5c1e";
@@ -449,4 +450,37 @@ fn send_unreachable_name_exits_21_not_running() {
     assert!(exits.iter().all(|e| e["exit_code"] == 21
         && e["detail"] == "instance-dead"
         && e["during"] == "connect"));
+}
+
+/// The full readiness gate on a verified CLI: a stamped wrapper whose agent shows the recorded
+/// trust dialog (no trusted root, so no hook fires) refuses a send `input-not-ready` and types
+/// nothing. With no SessionStart, only the boot's own readiness is awaited.
+#[rstest]
+fn send_on_a_verified_cli_refuses_while_the_trust_dialog_is_up(stamped_home: StampedHome) {
+    let fixtures = workspace_path("fixtures/claude");
+    let fixtures = fixtures.to_str().expect("utf-8 path");
+    let wrapper = Wrapper::boot_untrusted(stamped_home, "builder", None, &["--fixtures", fixtures]);
+    let sent = send(wrapper.home(), &["builder", "--json"], CANARY);
+    assert_eq!(sent.code, Some(13));
+    assert_eq!(
+        serde_json::from_str::<Value>(&sent.stdout).expect("one JSON document"),
+        json!({"v": 1, "refusal": "not-delivered", "detail": "input-not-ready"})
+    );
+    let events = events(&wrapper.instance_dir());
+    assert!(!events.iter().any(|e| e["kind"] == "send-issued"));
+    assert!(!events.iter().any(|e| e["kind"] == "session-start"));
+    let refused: Vec<&Value> = events
+        .iter()
+        .filter(|e| e["kind"] == "send-refused")
+        .collect();
+    assert_eq!(refused.len(), 1);
+    assert_eq!(
+        refused[0]["data"],
+        json!({"refusal": "not-delivered", "detail": "input-not-ready"})
+    );
+    let receipt = fake::receipt(&wrapper.receipt());
+    assert!(of_kind(&receipt, "prompt").is_empty());
+    assert!(of_kind(&receipt, "key").is_empty(), "nothing was typed");
+    assert!(of_kind(&receipt, "hook").is_empty(), "no hook before trust");
+    wrapper.stop();
 }

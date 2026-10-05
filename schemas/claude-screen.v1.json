@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://viola.local/schemas/claude-screen.v1.json",
+  "title": "viola recorded claude screen fixture",
+  "description": "One fixtures/claude/<cli-version>/Screen.<phase>.json: a settled 80x24 screen viola verify's interactive runs recorded, each row's rendered text, and every row that holds no compiled signature literal written as an empty string (test-plan §7 Fixture hygiene).",
+  "type": "object",
+  "required": ["screen_phase", "cols", "rows"],
+  "properties": {
+    "screen_phase": { "enum": ["modal", "ready", "turn"] },
+    "cols": { "const": 80 },
+    "rows": { "type": "array", "items": { "type": "string" }, "minItems": 24, "maxItems": 24 }
+  }
+}

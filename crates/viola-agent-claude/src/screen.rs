@@ -1,18 +1,20 @@
 //! The pre-send readiness gate's screen model (architecture [Screen Model]): the child's output fed
 //! into vt100, and a closed verdict over the quiet period, the maximum wait and the input-box and
-//! modal signatures. Pure: every instant is a parameter, and no row text leaves `verdict`.
+//! modal signatures. Pure: every instant is a parameter. Row text leaves only through `rows`, which
+//! `viola verify` alone reads to record a screen.
 
 use std::time::{Duration, Instant};
 
-/// How long the screen must show no new byte before the signatures are read. A provisional
-/// built-in, not measured; the per-version ledger value lands with the signature rows.
+/// How long the screen must show no new byte before the signatures are read. A compiled value that
+/// the stamped `quiet-period` row validates per CLI version; `run` reads no number from the stamps.
 pub const QUIET_PERIOD: Duration = Duration::from_millis(300);
 
-/// How long the gate waits for a quiet screen before it gives up. Provisional, as `QUIET_PERIOD`.
+/// How long the gate waits for a quiet screen before it gives up. Compiled, and validated per CLI
+/// version by the `quiet-period` row, as `QUIET_PERIOD`.
 pub const GATE_MAX_WAIT: Duration = Duration::from_secs(5);
 
-/// The delivery-confirmation window used when the ledger has no value for the CLI build
-/// (architecture [Delivery Confirmation]). Provisional, as `QUIET_PERIOD`.
+/// The delivery-confirmation window (architecture [Delivery Confirmation]). Compiled, and validated
+/// per CLI version by the `confirm-window` row.
 pub const CONFIRM_WINDOW_FALLBACK: Duration = Duration::from_secs(10);
 
 /// Compiled screen signatures, never built from screen or upstream text: a ready screen has a row
@@ -21,6 +23,23 @@ pub const CONFIRM_WINDOW_FALLBACK: Duration = Duration::from_secs(10);
 pub struct Signatures {
     pub input_box: &'static [&'static str],
     pub modals: &'static [&'static str],
+}
+
+/// The measured literals (`viola verify`'s screen probe): the input box's footer hint, and the
+/// confirm labels of the workspace trust dialog and the external CLAUDE.md imports dialog.
+pub const SIGNATURES: Signatures = Signatures {
+    input_box: &["for agents"],
+    modals: &["Yes, I trust this folder", "Yes, allow external imports"],
+};
+
+impl Signatures {
+    /// Whether `row` holds any of the literals.
+    pub fn holds_any(&self, row: &str) -> bool {
+        self.input_box
+            .iter()
+            .chain(self.modals)
+            .any(|s| row.contains(s))
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -88,6 +107,13 @@ impl Screen {
     /// `(rows, cols)` as last built.
     pub fn size(&self) -> (u16, u16) {
         (self.rows, self.cols)
+    }
+
+    /// Every row's text, top to bottom; `None` once poisoned.
+    pub fn rows(&self) -> Option<Vec<String>> {
+        self.parser
+            .as_ref()
+            .map(|p| p.screen().rows(0, self.cols).collect())
     }
 
     /// With `sigs` `None` (no compiled signature row) the gate is partial: a poisoned model and a
@@ -320,6 +346,104 @@ mod tests {
         screen.feed(b"> type here", base + ms(100));
         assert_eq!(screen.last_fed, base + ms(100));
         assert_eq!(screen.size(), (24, 80));
+    }
+
+    #[test]
+    fn signatures_are_the_measured_literals() {
+        assert_eq!(SIGNATURES.input_box, ["for agents"]);
+        assert_eq!(
+            SIGNATURES.modals,
+            ["Yes, I trust this folder", "Yes, allow external imports"]
+        );
+    }
+
+    #[rstest]
+    #[case::input_box("  ⏸ manual mode on · ← for agents", true)]
+    #[case::trust("   Yes, I trust this folder", true)]
+    #[case::imports("   Yes, allow external imports", true)]
+    #[case::cancel("❯ No, exit", false)]
+    #[case::empty("", false)]
+    fn holds_any_reads_both_lists(#[case] row: &str, #[case] expected: bool) {
+        assert_eq!(SIGNATURES.holds_any(row), expected);
+    }
+
+    #[test]
+    fn rows_reads_every_row_and_nothing_once_poisoned() {
+        let base = Instant::now();
+        let mut screen = Screen::new(3, 10, base);
+        screen.feed(b"ab\r\ncd", base);
+        assert_eq!(
+            screen.rows(),
+            Some(vec!["ab".to_owned(), "cd".to_owned(), String::new()])
+        );
+        screen.poison();
+        assert_eq!(screen.rows(), None);
+    }
+
+    /// A recorded screen as the fake agent writes it: a clear, then the rows joined by CRLF.
+    fn rendered(rows: &[String]) -> Vec<u8> {
+        let mut bytes = b"\x1b[2J\x1b[H".to_vec();
+        bytes.extend_from_slice(rows.join("\r\n").as_bytes());
+        bytes
+    }
+
+    fn verdict_over(rows: &[String]) -> GateStep {
+        let base = Instant::now();
+        let screen = fed(&rendered(rows), base);
+        screen.verdict(Some(&SIGNATURES), base, base + ms(300))
+    }
+
+    /// Every committed `Screen.<phase>.json`: a `modal` screen refuses, a `ready` or `turn` one is
+    /// ready. Each phase is found at least once.
+    #[test]
+    fn verdict_over_each_recorded_screen_fixture() {
+        let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../fixtures/claude");
+        let mut seen = Vec::new();
+        for version in std::fs::read_dir(&root).expect("fixtures").flatten() {
+            for phase in ["modal", "ready", "turn"] {
+                let path = version.path().join(format!("Screen.{phase}.json"));
+                let Ok(bytes) = std::fs::read(&path) else {
+                    continue;
+                };
+                let doc: serde_json::Value = serde_json::from_slice(&bytes).expect("json");
+                let rows: Vec<String> = doc["rows"]
+                    .as_array()
+                    .expect("rows")
+                    .iter()
+                    .map(|r| r.as_str().expect("a row").to_owned())
+                    .collect();
+                let expected = if phase == "modal" {
+                    Readiness::InputNotReady
+                } else {
+                    Readiness::Ready
+                };
+                assert_eq!(
+                    verdict_over(&rows),
+                    GateStep::Done(expected),
+                    "{}",
+                    path.display()
+                );
+                seen.push(phase);
+            }
+        }
+        for phase in ["modal", "ready", "turn"] {
+            assert!(seen.contains(&phase), "no recorded {phase} screen");
+        }
+    }
+
+    #[test]
+    fn verdict_external_imports_beside_the_input_box_is_input_not_ready() {
+        let rows = [
+            " Allow external CLAUDE.md file imports?".to_owned(),
+            " ❯ No, disable external imports".to_owned(),
+            "   Yes, allow external imports".to_owned(),
+            "  ⏸ manual mode on · ← for agents".to_owned(),
+        ];
+        assert_eq!(
+            verdict_over(&rows),
+            GateStep::Done(Readiness::InputNotReady)
+        );
+        assert_eq!(verdict_over(&rows[3..]), GateStep::Done(Readiness::Ready));
     }
 
     #[derive(Debug, Clone)]

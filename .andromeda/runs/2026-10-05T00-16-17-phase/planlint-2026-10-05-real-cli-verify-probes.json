@@ -1,0 +1,262 @@
+[
+{
+"tool": "planlint",
+"v": "1.6",
+"sha8": "bf918458",
+"ts": "2026-10-05T06:18:12Z",
+"argv": [
+"check",
+"--plan",
+"viola-0.1.0/chunks/2026-10-05-real-cli-verify-probes/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-05T00-16-17-phase",
+"--marker",
+"2026-10-05-real-cli-verify-probes"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"fence: unread · plan: viola-0.1.0/chunks/2026-10-05-real-cli-verify-probes/plan.md · research: viola-0.1.0/chunks/2026-…",
+"UNPARSED: Expected newline or end of document after a statement (at line 38, column 128) — check 4 (0) is gate.py's",
+"check 9 · CI-outcome reads: INDETERMINATE: fence unread · Platform issues consulted: none · `none. No runner-only bull…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: INDETERMINATE: fence unread · Harness rules consulted: filled · ``.claude/rules/ve…`",
+"check 4 (5) · leg entries with a content atom: INDETERMINATE: fence unread",
+"check 4 (13) · operator CI-outcome reads: INDETERMINATE: fence unread",
+"check 4 (14) · base-less git change reads: INDETERMINATE: fence unread",
+"check 2 · ledger-note entries (matrix#): 0",
+"check 5 · placeholders outside code: 0",
+"hits: 0 — each resolved by its check's resolution (validation.md 2 · 5 · 9 · 4 (5) · 4 (13) · 4 (14)); 0 is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": null,
+"operator": 0,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": null,
+"hit": false
+},
+"atom": null,
+"tool": null,
+"base": null,
+"check2": {
+"entries": 23,
+"tokens": 0,
+"hits": []
+},
+"check5": {
+"hits": []
+},
+"hits": 0
+}
+},
+{
+"tool": "planlint",
+"v": "1.6",
+"sha8": "bf918458",
+"ts": "2026-10-05T06:18:29Z",
+"argv": [
+"check",
+"--plan",
+"viola-0.1.0/chunks/2026-10-05-real-cli-verify-probes/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-05T00-16-17-phase",
+"--marker",
+"2026-10-05-real-cli-verify-probes"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"fence: 24 entries · plan: viola-0.1.0/chunks/2026-10-05-real-cli-verify-probes/plan.md · research: viola-0.1.0/chunks/2…",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: none · `none. No runner-only bulle…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 3 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md`, re…`",
+"check 4 (5) · leg entries with a content atom: 6 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"check 4 (14) · base-less git change reads outside the operator and round legs: 0",
+"check 2 · ledger-note entries (matrix#): 0",
+"check 5 · placeholders outside code: 0",
+"hits: 0 — each resolved by its check's resolution (validation.md 2 · 5 · 9 · 4 (5) · 4 (13) · 4 (14)); 0 is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 3,
+"hit": false
+},
+"atom": {
+"atomed": 6,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"base": {
+"operator": 3,
+"reads": []
+},
+"check2": {
+"entries": 23,
+"tokens": 0,
+"hits": []
+},
+"check5": {
+"hits": []
+},
+"hits": 0
+}
+},
+{
+"tool": "planlint",
+"v": "1.6",
+"sha8": "bf918458",
+"ts": "2026-10-05T06:21:00Z",
+"argv": [
+"check",
+"--plan",
+"viola-0.1.0/chunks/2026-10-05-real-cli-verify-probes/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-05T00-16-17-phase",
+"--marker",
+"2026-10-05-real-cli-verify-probes"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"fence: 24 entries · plan: viola-0.1.0/chunks/2026-10-05-real-cli-verify-probes/plan.md · research: viola-0.1.0/chunks/2…",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: none · `none. No runner-only bulle…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 3 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md`, re…`",
+"check 4 (5) · leg entries with a content atom: 6 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"check 4 (14) · base-less git change reads outside the operator and round legs: 0",
+"check 2 · ledger-note entries (matrix#): 0",
+"check 5 · placeholders outside code: 0",
+"hits: 0 — each resolved by its check's resolution (validation.md 2 · 5 · 9 · 4 (5) · 4 (13) · 4 (14)); 0 is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 3,
+"hit": false
+},
+"atom": {
+"atomed": 6,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"base": {
+"operator": 3,
+"reads": []
+},
+"check2": {
+"entries": 23,
+"tokens": 0,
+"hits": []
+},
+"check5": {
+"hits": []
+},
+"hits": 0
+}
+},
+{
+"tool": "planlint",
+"v": "1.6",
+"sha8": "bf918458",
+"ts": "2026-10-05T06:21:54Z",
+"argv": [
+"check",
+"--plan",
+"viola-0.1.0/chunks/2026-10-05-real-cli-verify-probes/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-05T00-16-17-phase",
+"--marker",
+"2026-10-05-real-cli-verify-probes"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"fence: 24 entries · plan: viola-0.1.0/chunks/2026-10-05-real-cli-verify-probes/plan.md · research: viola-0.1.0/chunks/2…",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: none · `none. No runner-only bulle…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 3 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md`, re…`",
+"check 4 (5) · leg entries with a content atom: 6 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"check 4 (14) · base-less git change reads outside the operator and round legs: 0",
+"check 2 · ledger-note entries (matrix#): 0",
+"check 5 · placeholders outside code: 0",
+"hits: 0 — each resolved by its check's resolution (validation.md 2 · 5 · 9 · 4 (5) · 4 (13) · 4 (14)); 0 is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 3,
+"hit": false
+},
+"atom": {
+"atomed": 6,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"base": {
+"operator": 3,
+"reads": []
+},
+"check2": {
+"entries": 23,
+"tokens": 0,
+"hits": []
+},
+"check5": {
+"hits": []
+},
+"hits": 0
+}
+}
+]

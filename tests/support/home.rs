@@ -318,6 +318,30 @@ impl Wrapper {
         extra: &[&str],
         size: Size,
     ) -> Self {
+        Self::boot_with(stamped, name, script, extra, size, true)
+    }
+
+    /// `boot` with the fake agent's cwd untrusted: it shows the recorded trust dialog and fires no
+    /// hook (the full gate's witness).
+    pub fn boot_untrusted(
+        stamped: StampedHome,
+        name: &str,
+        script: Option<&str>,
+        extra: &[&str],
+    ) -> Self {
+        Self::boot_with(stamped, name, script, extra, Size::DEFAULT, false)
+    }
+
+    /// Every boot replays the recorded screens (`--screens`); the fake agent's cwd, this test's
+    /// own, is trusted unless `trusted` is false.
+    fn boot_with(
+        stamped: StampedHome,
+        name: &str,
+        script: Option<&str>,
+        extra: &[&str],
+        size: Size,
+        trusted: bool,
+    ) -> Self {
         let home = stamped.home.path().to_path_buf();
         let mut args: Vec<OsString> = vec!["--home".into(), home.clone().into()];
         args.extend(["run", name, "--"].map(OsString::from));
@@ -331,6 +355,11 @@ impl Wrapper {
             args.push(workspace_path(script).into());
         }
         args.extend(["--cli-version", fake::RECORDED_CLI_VERSION].map(OsString::from));
+        args.push("--screens".into());
+        if trusted {
+            args.push("--trusted-root".into());
+            args.push(std::env::current_dir().expect("cwd").into());
+        }
         args.extend(extra.iter().map(OsString::from));
         let before = Starts::read(&home, name);
         seed_conpty(&home);

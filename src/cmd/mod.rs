@@ -50,6 +50,10 @@ enum Command {
     /// Hand the named instance's wheel back to the driver: the human's verb, refused to a driver
     Release(release::ReleaseArgs),
     /// Measure the local claude CLI against the capability ledger and stamp its version
+    ///
+    /// Run it from a folder you trust in Claude Code: the input-box probe runs in a subfolder there,
+    /// which inherits that trust. An unapproved external CLAUDE.md import blocks the probe: its
+    /// dialog shows in the subfolder, and verify never answers it.
     Verify(verify::VerifyArgs),
     /// Hand a Claude Code hook's payload to the wrapper (run by the plugin, never by a person)
     #[command(hide = true)]

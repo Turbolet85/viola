@@ -182,8 +182,9 @@ fn start(opts: &BootOptions) -> Result<Outcome, HarnessError> {
     ))
 }
 
-/// Boot step 4: `viola verify -- <session claude> --cli-version <v> --fixtures <recorded set>`,
-/// the one way a home is stamped. Its stdout is read for the verdict line only, never copied into
+/// Boot step 4: `viola verify -- <session claude> --cli-version <v> --fixtures <recorded set>
+/// --screens --turn-stop --trusted-root <ws root>`, the one way a home is stamped: verify's trusted
+/// interactive run starts in the harness's cwd, the workspace root. Its stdout is read for the verdict line only, never copied into
 /// the document; the exit code on failure.
 fn stamp(opts: &BootOptions, home: &Path, session_bin: &Path) -> Result<(), Option<i32>> {
     let out = Command::new(exe(&opts.bin_dir, "viola"))
@@ -193,6 +194,8 @@ fn stamp(opts: &BootOptions, home: &Path, session_bin: &Path) -> Result<(), Opti
         .arg(exe(session_bin, "claude"))
         .args(["--cli-version", &opts.cli_version, "--fixtures"])
         .arg(opts.ws.root.join("fixtures").join("claude"))
+        .args(["--screens", "--turn-stop", "--trusted-root"])
+        .arg(&opts.ws.root)
         .env("PATH", session_path(session_bin))
         .stdin(Stdio::null())
         .stderr(Stdio::null())

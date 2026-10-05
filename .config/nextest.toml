@@ -32,3 +32,8 @@ slow-timeout = { period = "15s", terminate-after = 2 }
 [[profile.mutants.overrides]]
 filter = 'test(/send_window_/)'
 slow-timeout = { period = "15s", terminate-after = 2 }
+
+# A `verify_window_` test waits out the gate's 5 s maximum wait twice by design (no screen replayed).
+[[profile.mutants.overrides]]
+filter = 'test(/verify_window_/)'
+slow-timeout = { period = "15s", terminate-after = 2 }

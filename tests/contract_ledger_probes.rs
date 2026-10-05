@@ -1,7 +1,8 @@
-//! The capability-ledger probes over every committed fixture set (test-plan §5 CLI): `viola
-//! verify` against the fake agent at each recorded `fixtures/claude/<version>/` passes every row,
-//! each literal row id once. The recorded sets are walked at run time, not by `#[files]`, and an
-//! empty walk fails.
+//! The capability-ledger probes over the committed fixture sets (test-plan §5 CLI): `viola verify`
+//! against the fake agent at each stamped `fixtures/claude/<version>/` passes every row, each literal
+//! row id once. Every recorded set is on exactly one literal list: stamped, or kept for the byte-drift
+//! contract only. The recorded sets are walked at run time, not by `#[files]`, and an empty walk
+//! fails.
 //! andromeda:walks-tree — it reads every set under `fixtures/claude/`, named or not.
 
 #[allow(dead_code)]
@@ -12,14 +13,22 @@ use std::path::Path;
 use support::home::{TestHome, workspace_path};
 use support::verify::verify;
 
-const ROW_IDS: [&str; 6] = [
+const ROW_IDS: [&str; 10] = [
     "shim-resolution",
     "spine-hooks",
     "session-start-fields",
     "prompt-verbatim",
     "stop-message",
     "largest-hook-payload",
+    "modal-signature",
+    "input-box-signature",
+    "quiet-period",
+    "confirm-window",
 ];
+/// The sets recorded whole (spine and screens): each stamps every row.
+const STAMPED: [&str; 2] = ["2.1.287", "2.1.288"];
+/// A set kept only for the byte-drift contract: it carries no screen, so it is never stamped.
+const DRIFT_ONLY: [&str; 1] = ["2.1.283"];
 
 /// The recorded CLI versions under `root`, sorted: one dir per version.
 fn recorded_versions(root: &Path) -> Vec<String> {
@@ -35,11 +44,26 @@ fn recorded_versions(root: &Path) -> Vec<String> {
 }
 
 #[test]
-fn contract_ledger_probes_pass_over_every_recorded_set() {
-    let root = workspace_path("fixtures/claude");
-    let versions = recorded_versions(&root);
-    assert!(!versions.is_empty(), "no recorded fixture set to probe");
+fn contract_ledger_probes_every_recorded_set_is_on_exactly_one_list() {
+    let versions = recorded_versions(&workspace_path("fixtures/claude"));
+    assert!(!versions.is_empty(), "no recorded fixture set");
     for version in &versions {
+        let lists = usize::from(STAMPED.contains(&version.as_str()))
+            + usize::from(DRIFT_ONLY.contains(&version.as_str()));
+        assert_eq!(lists, 1, "{version} is on {lists} lists");
+    }
+    for listed in STAMPED.iter().chain(&DRIFT_ONLY) {
+        assert!(
+            versions.iter().any(|v| v == listed),
+            "{listed} is not recorded"
+        );
+    }
+}
+
+#[test]
+fn contract_ledger_probes_pass_over_every_stamped_set() {
+    let root = workspace_path("fixtures/claude");
+    for version in STAMPED {
         let home = TestHome::new();
         let ran = verify(home.path(), &root, version, &[], &[], &[]);
         let stdout = ran.stdout_text();
@@ -67,6 +91,6 @@ fn contract_ledger_probes_pass_over_every_recorded_set() {
                 "{version}: {id} did not pass"
             );
         }
-        assert_eq!(*last, format!("stamped {version}  6 pass  0 fail"));
+        assert_eq!(*last, format!("stamped {version}  10 pass  0 fail"));
     }
 }

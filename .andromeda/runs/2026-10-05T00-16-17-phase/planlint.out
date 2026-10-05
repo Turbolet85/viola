@@ -1,0 +1,12 @@
+planlint v1.6 · bf918458
+fence: unread · plan: viola-0.1.0/chunks/2026-10-05-real-cli-verify-probes/plan.md · research: viola-0.1.0/chunks/2026-…
+UNPARSED: Expected newline or end of document after a statement (at line 38, column 128) — check 4 (0) is gate.py's
+check 9 · CI-outcome reads: INDETERMINATE: fence unread · Platform issues consulted: none · `none. No runner-only bull…`
+check 9 · runner-only scope bullet: not read — the letter's
+check 4 (5) · leg = 'live' entries: INDETERMINATE: fence unread · Harness rules consulted: filled · ``.claude/rules/ve…`
+check 4 (5) · leg entries with a content atom: INDETERMINATE: fence unread
+check 4 (13) · operator CI-outcome reads: INDETERMINATE: fence unread
+check 4 (14) · base-less git change reads: INDETERMINATE: fence unread
+check 2 · ledger-note entries (matrix#): 0
+check 5 · placeholders outside code: 0
+hits: 0 — each resolved by its check's resolution (validation.md 2 · 5 · 9 · 4 (5) · 4 (13) · 4 (14)); 0 is not a pass

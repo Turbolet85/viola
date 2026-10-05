@@ -330,13 +330,17 @@ fn tool_arms(
 }
 
 /// The capability-ledger rows `viola verify` prints, as literals: the live run checks each once.
-const LEDGER_ROWS: [&str; 6] = [
+const LEDGER_ROWS: [&str; 10] = [
     "shim-resolution",
     "spine-hooks",
     "session-start-fields",
     "prompt-verbatim",
     "stop-message",
     "largest-hook-payload",
+    "modal-signature",
+    "input-box-signature",
+    "quiet-period",
+    "confirm-window",
 ];
 
 /// Suite `local-live`: the harness build, then one `viola verify` against the real `claude` (the
@@ -895,13 +899,17 @@ mod tests {
         assert_eq!(suite(&out.doc, "doctest")["failed"], 1);
     }
 
-    const LIVE_PASS: &str = "[01/06] shim-resolution claude resolves  pass\n\
-        [02/06] spine-hooks spine hooks fire  pass\n\
-        [03/06] session-start-fields fields  pass\n\
-        [04/06] prompt-verbatim prompt  pass\n\
-        [05/06] stop-message message  pass\n\
-        [06/06] largest-hook-payload payload  pass\n\
-        stamped 2.1.283  6 pass  0 fail\n";
+    const LIVE_PASS: &str = "[01/10] shim-resolution claude resolves  pass\n\
+        [02/10] spine-hooks spine hooks fire  pass\n\
+        [03/10] session-start-fields fields  pass\n\
+        [04/10] prompt-verbatim prompt  pass\n\
+        [05/10] stop-message message  pass\n\
+        [06/10] largest-hook-payload payload  pass\n\
+        [07/10] modal-signature modal  pass\n\
+        [08/10] input-box-signature input box  pass\n\
+        [09/10] quiet-period quiet  pass\n\
+        [10/10] confirm-window window  pass\n\
+        stamped 2.1.288  10 pass  0 fail\n";
 
     fn live_only() -> Selection {
         Selection {
@@ -971,7 +979,7 @@ mod tests {
 
     #[test]
     fn run_local_live_names_a_missing_or_doubled_row() {
-        let missing = LIVE_PASS.replace("[05/06] stop-message message  pass\n", "");
+        let missing = LIVE_PASS.replace("[05/10] stop-message message  pass\n", "");
         let doubled = LIVE_PASS.replace("stop-message", "prompt-verbatim");
         let failing = LIVE_PASS.replace("stop-message message  pass", "stop-message message  fail");
         for stdout in [missing, doubled, failing] {

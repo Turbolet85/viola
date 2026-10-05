@@ -197,10 +197,11 @@ fn diag_line_schema_confines_corr_to_its_events() {
     assert!(!validator.is_valid(&with_corr));
 }
 
-/// `viola verify`'s print-mode probe is its own spawn subject; a subject outside the catalog is
-/// still refused.
+/// `viola verify`'s print-mode probe and its two interactive PTY runs are spawn subjects of their
+/// own; a subject outside the catalog is still refused.
 #[rstest]
 #[case::verify_probe("verify-probe", true)]
+#[case::verify_pty_probe("verify-pty-probe", true)]
 #[case::version_probe("version-probe", true)]
 #[case::unknown("probe", false)]
 fn diag_line_schema_takes_only_catalogued_spawn_subjects(

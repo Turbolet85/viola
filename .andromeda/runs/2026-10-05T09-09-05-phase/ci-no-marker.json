@@ -1,0 +1,50 @@
+[
+{
+"tool": "ci",
+"v": "1.0",
+"sha8": "7198b2c0",
+"ts": "2026-10-05T09:09:11Z",
+"argv": [
+"conclusion",
+"--sha",
+"caae9eca9e4daae24d67e2618e9e9d16c15d66aa",
+"--sha",
+"ed2edde1a4b1acca87b341867fac6f93e60194e7",
+"--run-dir",
+".andromeda/runs/2026-10-05T09-09-05-phase"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"repo Turbolet85/viola (the push remote `origin`)",
+"caae9eca9e4d verdict: green · checks 15/15 · wall 250 s · runs ci#37246734079 completed/success",
+"ed2edde1a4b1 verdict: green · checks 15/15 · wall 339 s · runs ci#37241676960 completed/success"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"repo": "Turbolet85/viola",
+"host": "github.com",
+"repo_source": "the push remote `origin`",
+"names": [],
+"shas": [
+{
+"sha": "caae9eca9e4daae24d67e2618e9e9d16c15d66aa",
+"word": "green",
+"polls": [
+"green"
+]
+},
+{
+"sha": "ed2edde1a4b1acca87b341867fac6f93e60194e7",
+"word": "green",
+"polls": [
+"green"
+]
+}
+]
+}
+}
+]

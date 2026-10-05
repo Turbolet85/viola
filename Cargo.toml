@@ -128,6 +128,7 @@ anyhow.workspace = true
 chrono.workspace = true
 clap.workspace = true
 serde_json.workspace = true
+tempfile.workspace = true
 tracing.workspace = true
 tracing-subscriber.workspace = true
 

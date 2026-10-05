@@ -1,0 +1,13 @@
+planlint v1.7 · a4017b01
+fence: 24 entries · plan: viola-0.1.0/chunks/2026-10-05-real-cli-verify-probes/plan.md · research: viola-0.1.0/chunks/2…
+check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: none · `none. No runner-only bulle…`
+check 9 · runner-only scope bullet: not read — the letter's
+check 4 (5) · leg = 'live' entries: 2 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md`, re…`
+check 4 (5) · leg entries with a content atom: 5 · note without `atom from`: 0
+check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0
+check 4 (14) · base-less git change reads outside the operator and round legs: 0
+check 4 (15) · grep → wc -l counts asserting exit 0 and last line 0: 0
+check 4 (16) · guards whose exclusions leave a new file in: 0 of 0 with an exclusion
+check 2 · ledger-note entries (matrix#): 0
+check 5 · placeholders outside code: 0
+hits: 0 — each resolved by its check's resolution (validation.md 2 · 5 · 9 · 4 (5) · 4 (13)–(16)); 0 is not a pass

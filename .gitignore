@@ -14,6 +14,9 @@ __pycache__/
 # Rust build output (covers target/e2e-home/, target/agent-run/, fuzz/target/ and any nested target/)
 target/
 
+# viola verify's trusted probe dir in its cwd, left behind only when a verify is killed mid-run
+/.viola-verify-*/
+
 # rustfmt backups
 **/*.rs.bk
 

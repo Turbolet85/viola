@@ -1,0 +1,141 @@
+[
+{
+"tool": "inputs",
+"v": "1.0",
+"sha8": "faa48d4e",
+"ts": "2026-10-05T00:19:16Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-05-real-cli-verify-probes",
+"--source",
+"/home/turbolet/dev/projects/additional/viola-overseer/split84-route-adaptation.md",
+"--kind",
+"relay",
+"--why",
+"R-S1/R-S2/R-S3 founder rulings and the overseer partition that minted this entry",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-10-05T00-16-17-phase",
+"--marker",
+"2026-10-05-real-cli-verify-probes"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/split84-route-adaptation.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-split84-route-adaptation.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/split84-route-adaptation.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "03a334394345cddb0468feabda7b094ae15a6205f752ddd42f405508475d1117",
+"copy": "I1-split84-route-adaptation.md.txt",
+"link": false,
+"read_at": "2026-10-05T00:19:16Z",
+"step": "phase:P1",
+"why": "R-S1/R-S2/R-S3 founder rulings and the overseer partition that minted this entry"
+}
+},
+{
+"tool": "inputs",
+"v": "1.0",
+"sha8": "faa48d4e",
+"ts": "2026-10-05T00:19:16Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-05-real-cli-verify-probes",
+"--message-file",
+".andromeda/runs/2026-10-05T00-16-17-phase/relay-1.md",
+"--kind",
+"relay",
+"--why",
+"operator directive: size to one builder window, split card at P4 if not, count live claude runs",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-10-05T00-16-17-phase",
+"--marker",
+"2026-10-05-real-cli-verify-probes"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 2,
+"stdout": [],
+"stderr": "--message-file needs --origin (who sent it, when)",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "inputs",
+"v": "1.0",
+"sha8": "faa48d4e",
+"ts": "2026-10-05T00:19:20Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-05-real-cli-verify-probes",
+"--message-file",
+".andromeda/runs/2026-10-05T00-16-17-phase/relay-1.md",
+"--origin",
+"operator, /andromeda-phase invocation arguments, 2026-10-05 ~00:16Z",
+"--kind",
+"relay",
+"--why",
+"operator directive: size to one builder window, split card at P4 if not, count live claude runs",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-10-05T00-16-17-phase",
+"--marker",
+"2026-10-05-real-cli-verify-probes"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: operator, /andromeda-phase invocation arguments, 2026-10-05 ~00:16Z",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: operator, /andromeda-phase invocation arguments, 2026-10-05 ~00:16Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "ce47614b9d727ef151e3a64e85e147ffc93145701653d4710f7e897eae9de48b",
+"copy": "I2-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-05T00:19:20Z",
+"step": "phase:P1",
+"why": "operator directive: size to one builder window, split card at P4 if not, count live claude runs"
+}
+}
+]
