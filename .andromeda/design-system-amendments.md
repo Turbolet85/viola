@@ -60,3 +60,9 @@
 - Exit 1: the fixed `a recorded payload still holds a path or a username` became the named `a recorded fixture is not clean: <file> <code>` (a screen: `<file> row <n>[ seam] <code>`; closed codes; never the content).
 **Why:** the chunk landed four ledger rows and the help paragraph; the named refusal is the founder's live ruling at this wrap.
 **Ref:** .andromeda/runs/2026-10-05T10-37-44-wrap/
+
+## 2026-10-05-dialog-rows-and-re-probe — verify's step counter at fourteen rows
+**Section:** §Surface: cli Component Patterns (`verify`)
+**Change:** the counter reads `[01/14]` (was `[01/10]`), the summary `stamped 2.1.288  14 pass  0 fail`; the four dialog rows named with their words (`question-answer` · `plan-approve-revise` · `question-notes` · `dialog-concurrency`).
+**Why:** the chunk landed the dialog rows; the pattern (static appended lines, uncoloured `fail`) is unchanged.
+**Ref:** .andromeda/runs/2026-10-05T14-27-34-wrap/

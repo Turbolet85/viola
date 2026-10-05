@@ -1,67 +1,55 @@
 # Session Handoff
 
-**Last Updated:** 2026-10-05T11:06Z
+**Last Updated:** 2026-10-05T14:49Z
 **Branch:** build/viola-0.1.0 · 0 ahead of origin/build/viola-0.1.0 as read at this wrap's Setup (the wrap commit pushes after this file)
 **Status:** clean
-**Last Commit:** 2026-10-05-real-cli-verify-probes — the wrap commit (typed-input PTY verify probe, ten ledger rows, 2.1.288 stamped)
+**Last Commit:** 2026-10-05-dialog-rows-and-re-probe — the wrap commit (fourteen ledger rows, verify Runs C/D, the hook answers)
 
 ## Position
-- Done: **2026-10-05-real-cli-verify-probes**. Built W1 + W5 of the founder's three-way split:
-  - the typed-input PTY `viola verify` probe: Run A untrusted, Run B trusted, never a key into a CLI dialog;
-  - compiled screen signatures and timing rows, so the ledger has ten rows and the full gate runs on a verified CLI;
-  - the installed `claude` 2.1.288 stamped `10 pass  0 fail`.
-- Next: **Dialog rows and re-probe** (`working-route.md:86`, minted this wrap) → `/andromeda-phase`.
-  - Then **Local-command and paste-framing rows** (`:88`), then **First live test and self-drive** (`:90`). Epoch 3
-    now has 13 entries and stays one epoch (the founder's split ruling).
-  - `:86` carries a founder crossing (research M7). The capture arm answers nothing, so "the decision takes effect"
-    needs an answering probe hook or the probe keying the rendered dialog. Both are beyond R-S2's words and against
-    "never type into a CLI dialog" as worded, so they are a widening for the founder to rule at that phase.
+- Done: **2026-10-05-dialog-rows-and-re-probe**:
+  - the S3/S7/S8 and dialog-concurrency ledger rows (14 in all);
+  - verify's Run C (dialogs) and Run D (plan), answered by the capture arm's `--answers` body, never a key;
+  - both installed CLIs stamped `14 pass  0 fail`; R2's dated gap closed.
+- Next: **Permission end to end** (`working-route.md:88`, minted this wrap on the founder's split ruling) →
+  `/andromeda-phase`.
+  - It carries W3d (the `permission` Path 4 case + `v1-30`, over the recorded `PermissionRequest.permission-1.json`;
+    the PermissionRequest body for a `question` raised there first) and W6 (the `tests/cli_answer.rs:9` reword).
+  - Then **Local-command and paste-framing rows** (`:90`), then **First live test and self-drive** (`:92`).
+  - Epoch 3 has 14 entries and stays one epoch (the founder's ruling).
+  - Live sessions: the founder's cap of 16 left 3 spare; they are his to grant.
 
 ## Work done
-- The wrap resumed after P1, which ran in the prior window. It then ran:
-  - P2: 7 detectors, 44 proposals plus 7 raised and 3 sweep folds, 3 escalations resolved;
-  - P3 through P7: curation, the code-graph read, route-resolve, state and handoff, then the gates.
-- Record: `.andromeda/runs/2026-10-05T10-37-44-wrap/`.
+- The wrap resumed after P1 (prior window) and ran P2–P7. Record: `.andromeda/runs/2026-10-05T14-27-34-wrap/`.
+- The CI verdict at the final HEAD `c914216` was green twice (ci#37322552375).
 
 ## Drift resolved
-- The masters were amended across architecture, security-plan, test-plan, obs-plan, layout-templates and
-  design-system (a11y-plan was unchanged: §4 P6 is generic). The facts carried:
-  - screen signatures compiled and validated per version;
-  - ten ledger rows (`/10`);
-  - verify's two interactive runs and their four spawn pairs (`verify-pty-probe`);
-  - the screen fixture class and `claude-screen.v1.json`;
-  - the named `--record` refusal;
-  - the owners re-pointed from `:84` to the two new entries.
-- Three escalations were resolved at P2:
-  - E1, the PTY probe crossing and its two dirs: ratified as the founder's live rulings (R-S2, "two runs, never
-    accept", the two dirs), relayed by the overseer;
-  - E2, the Run B transcript residual and the dev-host external-imports answer: accepted and recorded on the
-    overseer's word;
-  - E3, the named refusal: the founder ruled live at this wrap.
-- Route citations renumbered by manifest: old ≥ `:86` → +4, 51 occurrences in 12 files.
+- P2 fanned out to seven detectors and got 46 proposals:
+  - 42 applied;
+  - 4 rejected for citing source lines the report lacks; their facts were re-raised;
+  - 4 orchestrator raises (security R2, design-system `/14`, layout-templates, the probe-dir roots);
+  - 2 sweep folds (arch S7 approve form, test-plan permission owner).
+- The masters amended: architecture (+3 key files), security-plan, test-plan (+2 key files), obs-plan,
+  design-system and layout-templates; the cascade re-derived CLAUDE.md, two rules and seven docs leaves.
+- E1 (the boundary widenings: the `--answers` stdout body, Run C's `touch`, Run D's `plansDirectory`, the +2
+  transcripts) was ratified by the operator as the founder's live rulings (M7 = A, STOP 7), relayed by the overseer.
 
 ## Notes
-- **R-S3:** Upgrade U02 (`.claude/settings.json` hooks · bash pre-cd) and the `host-win32.md` regenerate run at the
-  Epoch 3 boundary, with the boundary ritual (`/andromeda-setup-project`).
-- **`claude` on the dev host:** 2.1.288 is stamped (W5). Running sessions are still on 2.1.287.
-  - The repo-root external-imports flags read "No" (`~/.claude.json`, set by the overseer on the founder's ruling,
-    with a backup).
-  - Five Run B transcripts sit under `~/.claude/projects/` (the accepted residual).
-- **`local-live`'s live firing at ten rows** is a CARRY on `:90`.
-- **Operator desk:** the stray recording home `~/.viola-record-20261004T142325Z` (founder desk queue).
-- **Deferred learnings** (carried):
-  - `recurrence-despite-learning: session-learnings.md 2026-09-29` (gate.py hygiene reads `/home/<x>/` in prose). It
-    recurred in this chunk's operator-pass evidence: describe such a path, never spell it.
-  - `recurrence-despite-learning: host-win32.md` — the zero-is-healthy count probe under pipefail.
-  - `recurrence-despite-learning: testing.md` — bounded mutant-reachable waits.
-  - Also carried:
-    - `recurrence-despite-learning: host-win32.md 2026-09-28` (the Bash guard and a heredoc to a file);
-    - the "not measured here" vocabulary;
-    - PID 1 as the cleanup-deadline target;
-    - the PTY master close needing no held clone;
-    - let a red CI run finish before folding its fix;
-    - the doubled-backslash guard recurrence.
+- **Curation conflict (your review):** `testing.md` 2026-09-28 says "a timing red is never fixed by raising a timeout
+  or a test bound". This chunk's `verify_window_` class is a per-test kill sized from a measured designed floor (the
+  overseer's founder-delegated decision). Decide whether that entry gains a "designed floor" carve-out.
+- **Deferred learnings:**
+  - `recurrence-despite-learning: host-win32.md 2026-09-25` (`pkill -f` self-match, this chunk);
+  - `recurrence-despite-learning: host-win32.md 2026-09-28/29` (a heredoc to a file refused, this chunk);
+  - carried: `session-learnings.md 2026-09-29` (gate.py hygiene reads `/home/<x>/` in prose), `host-win32.md`
+    (zero-is-healthy count probe), `testing.md` (bounded mutant-reachable waits), `host-win32.md 2026-09-28`
+    (the Bash guard and a heredoc to a file), the "not measured here" vocabulary, PID 1 as the cleanup-deadline
+    target, the PTY master close needing no held clone, let a red CI run finish before folding its fix, the
+    doubled-backslash guard recurrence.
+- **Operator desk (the founder's word: leave them):**
+  - step 0's Run D plan file under `~/.claude/plans/` (`viola-verify-probe-make-greedy-island.md`);
+  - the empty gitignored `.viola-verify-2095228/` at the repo root;
+  - the stray recording home `~/.viola-record-20261004T142325Z`;
+  - the Run B/C/D transcripts under `~/.claude/projects/` (the accepted residual).
+- **R-S3:** Upgrade U02 and the `host-win32.md` regenerate run at the Epoch 3 boundary
+  (`/andromeda-setup-project`).
 - **Last failed command:** none.
-
-## Session End Status
-Completed normally at 2026-10-05 13:47:31

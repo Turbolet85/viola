@@ -12,6 +12,8 @@ round into this chunk, and read each round with ci.py."
 | 1 | `4179973` | option 1: Run C / Run D settle after their last Stop before the kill (`run-kill-settle.md`, red before green) | green · 15/15 · wall 374 s · ci#37318179233 |
 | 2 | `9629757` | option 2, timing-only: one `verify-timing` line per verify (wall ms, hook-process count, `viola` processes alive at its start), shown by a temporary `ci`-profile success-output override | green · 15/15 · wall 369 s · ci#37319370056 |
 | 3 | `74e719b` | the measurement reverted (code identical to round 1) | **red** · 15/15 · `test (ubuntu-latest)`: `cli_verify verify_a_complete_set_prints_fourteen_steps_and_stamps_every_row` FAIL at 7.005 s (`viola never exited`, the 7 s bound); no corrupt profile; Windows and macOS green · ci#37320693487 |
+| 4 | `c914216` | the verify-driven tests join the `verify_window_` class: no test-side bound on the verify call, a `ci` per-test kill of 20 s for the twelve verify-driven binaries, 45 s for `verify_window_` tests (`verify-window-class.md`; the overseer's reversal of "not option 3", recorded there) | green · 15/15 · wall 363 s · ci#37322552375 attempt 1 |
+| 4b | `c914216` | the same commit re-run (`gh run rerun`), the second read the decision asked for | green · 15/15 · wall 486 s · ci#37322552375 attempt 2; ubuntu's slowest verify-driven test 6.74 s (two verifies), under the 20 s kill |
 
 ## Round 2's measurement (read from each `test` job's log; 54 / 58 / 54 verify calls)
 | leg | verify calls | wall ms median | p90 | max | 29 hooks (dialog replay) median | 17 hooks (no replay) median |

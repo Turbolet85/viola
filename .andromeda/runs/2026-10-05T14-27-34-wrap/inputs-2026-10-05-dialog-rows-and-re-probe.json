@@ -1,0 +1,46 @@
+[
+{
+"tool": "inputs",
+"v": "1.0",
+"sha8": "faa48d4e",
+"ts": "2026-10-05T14:27:52Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-05-dialog-rows-and-re-probe",
+"--run-dir",
+".andromeda/runs/2026-10-05T14-27-34-wrap",
+"--marker",
+"2026-10-05-dialog-rows-and-re-probe"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-05 ~11:16Z",
+"I1 cited scope.md:30 · research.md:12 · plan.md:468",
+"I2 n/a — a message has no live source · copy message · message: the orchestrator's structure-only census of the viola-lab prototype logs (~/.viola/sessions, interactive 2.1.287), phase P3, 2026-10-05 ~11:40Z",
+"I2 cited scope.md:119 · scope.md:138 · research.md:13 · research.md:40 · research.md:57 · plan.md:28 · plan.md:468",
+"I3 n/a — a message has no live source · copy message · message: the founder, live, via the overseer's AskUserQuestion at this chunk's P4, relayed by the operator, 2026-10-05",
+"I3 cited scope.md:39 · research.md:147 · research.md:159 · plan.md:9 · plan.md:23 · plan.md:138 · plan.md:431 · plan.md:435 · plan.md:468 · plan.md:472 · plan.md:493 · plan.md:498 · plan.md:521",
+"inputs: 3 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]

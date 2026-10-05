@@ -1,0 +1,127 @@
+[
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "699f7ef0",
+"ts": "2026-10-05T14:51:26Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-10-05-dialog-rows-and-re-probe",
+"--run-dir",
+".andromeda/runs/2026-10-05T14-27-34-wrap",
+"--desc-file",
+".andromeda/runs/2026-10-05T14-27-34-wrap/master-desc.txt"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"flip master-route.md:47 - 2026-10-05-dialog-rows-and-re-probe pending -> complete - desc REWRITTEN from --desc-file"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "699f7ef0",
+"ts": "2026-10-05T14:51:26Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-05-dialog-rows-and-re-probe",
+"--date",
+"2026-10-05",
+"--run-dir",
+".andromeda/runs/2026-10-05T14-27-34-wrap",
+"--dry-run"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"pin :86 strip CARRY: 382ch \"CARRY: minted at the 2026-10-05-real-cli\"",
+"pin :86 strip CARRY: 840ch \"CARRY: chunk 2026-10-04-dialog-answers-b\"",
+"pin :86 strip CARRY: 383ch \"CARRY: chunk 2026-10-04-dialog-answers-b\"",
+"pin :86 strip CARRY: 554ch \"CARRY: chunk 2026-10-05-real-cli-verify-\"",
+"pin :86 strip CARRY: 228ch \"CARRY: the 2026-10-05 0-pending wrap: `t\"",
+"pin next markerless :88 holds CARRY:×3",
+"86 · 2026-10-05-dialog-rows-and-re-probe · strip 5 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 86,
+"marker": "2026-10-05-dialog-rows-and-re-probe",
+"blocks": 5,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "699f7ef0",
+"ts": "2026-10-05T14:51:30Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-05-dialog-rows-and-re-probe",
+"--date",
+"2026-10-05",
+"--run-dir",
+".andromeda/runs/2026-10-05T14-27-34-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"pin :86 strip CARRY: 382ch \"CARRY: minted at the 2026-10-05-real-cli\"",
+"pin :86 strip CARRY: 840ch \"CARRY: chunk 2026-10-04-dialog-answers-b\"",
+"pin :86 strip CARRY: 383ch \"CARRY: chunk 2026-10-04-dialog-answers-b\"",
+"pin :86 strip CARRY: 554ch \"CARRY: chunk 2026-10-05-real-cli-verify-\"",
+"pin :86 strip CARRY: 228ch \"CARRY: the 2026-10-05 0-pending wrap: `t\"",
+"pin next markerless :88 holds CARRY:×3",
+"86 · 2026-10-05-dialog-rows-and-re-probe · strip 5 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/route-archive.md",
+"./viola-0.1.0/working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 86,
+"marker": "2026-10-05-dialog-rows-and-re-probe",
+"blocks": 5,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

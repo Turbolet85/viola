@@ -592,3 +592,28 @@
 **Why:** the chunk landed these resources. The named refusal is the founder's live ruling at this wrap (through the overseer's AskUserQuestion, the closed code set shown). The dirs and the no-key rule are his 2026-10-05 live rulings, relayed by the overseer and ratified at this wrap.
 **Kept:** the stamps-envelope example keeps `2.1.283` as an illustrative key.
 **Ref:** .andromeda/runs/2026-10-05T10-37-44-wrap/
+
+## 2026-10-05-dialog-rows-and-re-probe — fourteen ledger rows, Runs C and D, the hook answers
+**Section:** §Stack (Screen model) · [Hook Contract] · [CLI Version Compatibility] (S7 row, body) · [Plugin Scope] · Cross-cutting → Capability ledger
+**Change:**
+- [CLI Version Compatibility]: ten rows → fourteen (`question-answer` · `plan-approve-revise` · `question-notes` · `dialog-concurrency`); `Probes { print, typed, dialogs }`; a run that raised no dialog fails its rows. verify drives four interactive PTY runs (was two): Run C in `<cwd>/.viola-verify-<pid>-dialogs/` (`--model haiku --settings <DIALOG_SETTINGS>`, three dialog prompts, its one `allow` running `touch viola-probe-permission` in its own dir) and Run D in `-plan/` (`--permission-mode plan`, `plansDirectory` a 0700 `plans/` inside its dir, none under `~/.claude/plans`, measured on 2.1.288 and 2.1.287); their dialogs answered only by the probe hook, settled after the last Stop, ended by a kill. `--record` also writes `<Event>.<stem>-<n>.json` variants. The R2 dated gap (decisions on the ten-row stamp, per "2026-10-05-real-cli-verify-probes — screen signatures compiled, ten ledger rows, verify's interactive runs") is closed; the `permission` kind's end to end is owed to "Permission end to end". CI adds `--dialogs`.
+- S7 row: was "approves only through PreToolUse"; now as `allow` + `updatedInput` = the tool's own input, unchanged (a bare `allow` left the plan dialog up on live 2.1.288).
+- [Hook Contract]: the capture arm claims `<PascalEvent>.<k>.json` exclusively (`create_private_new`, the next `k` on `AlreadyExists`, was "the first free `k`") and gains the hidden `--answers <DIR>`: a dialog event's ordinal selects a `take(64)` closed `ProbeAnswer` id and `probe_body` prints one `decision_body` to stdout (was "always empty stdout").
+- [Plugin Scope]: five transient children (was three); Runs B, C, D leave transcripts (+2 per verify).
+- §Stack, Cross-cutting: four runs; the dialog bodies gated by their own rows (the dated exception removed).
+**Why:** the chunk landed the dialog rows and their re-probe. The `--answers` body, the `touch` and the +2 transcripts are the founder's live M7 = A ruling; the echoed-input approve and `plansDirectory` his STOP 7 ruling (both 2026-10-05, relayed by the overseer, ratified by the operator at this wrap as his). The free-`k` naming was measured racy.
+**Ref:** .andromeda/runs/2026-10-05T14-27-34-wrap/
+
+## 2026-10-05-dialog-rows-and-re-probe — registry rows for Runs C and D, the dialog variants and the answers flag
+**Section:** §Standard Contracts → Ledger stamps envelope · §Occupied Resources (Binary · Claude Code integration names · `diagnostics/` · `ledger/stamps.json` · `ledger/probes/<pid>/` · probe dirs · Repository) · §Infrastructure Patterns → CI/CD approach · Project directory structure · Crate dependency direction
+**Change:**
+- Envelope and `ledger/stamps.json`: `measured` also holds `dialog_probe {parallel_both_before_first_post}` (bool or null, additive, no `v` bump); `run` reads no field of it.
+- `diagnostics/`: six spawn pairs (was four), `verify-pty-probe` ×4.
+- `ledger/probes/<pid>/`: adds `questions/` and `plan/` roots, each with `plugin/`, `captures/`, `answers/`.
+- Probe dirs: four (was two), adding `-dialogs/` and `-plan/` (with `plans/`).
+- Binary: hidden `--answers <DIR>` beside `--capture` (was "empty stdout"); the fake agent's argv options three → five (`--dialogs`, `--stop-receipt-hold-ms`, capped at 1 000 ms).
+- Integration names: the dialog-kind probe plugin (PreToolUse matcher `AskUserQuestion|ExitPlanMode`, PermissionRequest, PostToolUse, `--answers`); four interactive children with their flags.
+- Repository: the `<Event>.<stem>-<n>.json` variant class (12 per version), 2.1.287 / 2.1.288 stamped at fourteen rows (was ten); the relayed set superseded and kept, `RELAYED.md` dated "Superseded".
+- Contracts: CI `--dialogs`, four typed runs, fourteen rows; the tree's `typed.rs` and fixtures comments; the ledger module lists fourteen rows and `probe_body` / `ProbeAnswer` / `dialog_variants`.
+**Why:** the chunk landed these resources; the answers flag and Runs C/D are the founder's live rulings of 2026-10-05 (M7 = A, STOP 7), relayed by the overseer and ratified by the operator at this wrap as his.
+**Ref:** .andromeda/runs/2026-10-05T14-27-34-wrap/

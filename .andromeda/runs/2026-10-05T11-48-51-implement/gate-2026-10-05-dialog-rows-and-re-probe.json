@@ -5405,5 +5405,60 @@
 }
 ]
 }
+},
+{
+"tool": "gate",
+"v": "1.10",
+"sha8": "302aba4b",
+"ts": "2026-10-05T14:26:50Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-05-dialog-rows-and-re-probe",
+"--run-dir",
+".andromeda/runs/2026-10-05T11-48-51-implement",
+"--marker",
+"2026-10-05-dialog-rows-and-re-probe"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"root . · base 75198e53 (the parent of the oldest pre-CI commit 43e6245f) · lists new 1 · modify 21 · derived 2 · record 2",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"recorded in-intent tests/hook_fail_open.rs",
+"recorded companion .config/nextest.toml",
+"list fixtures/claude/2.1.288/*.json (derived by `viola verify --record`) ×12",
+"list fixtures/claude/2.1.287/*.json (derived by `viola verify --record`) ×12",
+"list viola-0.1.0/chunks/2026-10-05-dialog-rows-and-re-probe/evidence/ (dir) ×0",
+"list crates/viola-agent-claude/src/snapshots/ (dir) ×1",
+"list tests/support/ (dir) ×2",
+"scope: clean — changed 45 · listed 43 · recorded 2 (companion 1 · mechanical 0 · in-intent 1 · widening 0) · absorbed 27 · excluded 63"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "/home/turbolet/dev/projects/viola",
+"base": "75198e53b91806ad94c4962ee732919c84873012",
+"base_why": "the parent of the oldest pre-CI commit 43e6245f",
+"counts": {
+"changed": 45,
+"listed": 43,
+"recorded": 2,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 27
+},
+"by_class": {
+"companion": 1,
+"mechanical": 0,
+"in-intent": 1,
+"widening": 0
+},
+"excluded": 63,
+"unparsed": 0,
+"widening_without_word": 0
+}
 }
 ]

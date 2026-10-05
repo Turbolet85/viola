@@ -468,20 +468,23 @@ hint: that dialog is not pending; viola list shows the current DIALOG
 
 ```
 $ viola verify
-[01/10] shim-resolution claude resolves to a real executable  pass
+[01/14] shim-resolution claude resolves to a real executable  pass
 ...
-[06/10] largest-hook-payload every hook payload fits the frame cap  pass
-[07/10] modal-signature an untrusted start shows a compiled modal literal  pass
+[06/14] largest-hook-payload every hook payload fits the frame cap  pass
+[07/14] modal-signature an untrusted start shows a compiled modal literal  pass
 ...
-[10/10] confirm-window the typed prompt reaches UserPromptSubmit within the window  pass
-stamped 2.1.288  10 pass  0 fail                           <- last stdout line; `fail` is never coloured
+[10/14] confirm-window the typed prompt reaches UserPromptSubmit within the window  pass
+[11/14] question-answer a question answered through PreToolUse takes effect  pass
+...
+[14/14] dialog-concurrency two parallel questions each raise a dialog  pass
+stamped 2.1.288  14 pass  0 fail                           <- last stdout line; `fail` is never coloured
 
 $ viola verify
 ...
-stamped 2.1.288  8 pass  2 fail                            <- a failing row: exit 1, the stamp still written
+stamped 2.1.288  12 pass  2 fail                           <- a failing row: exit 1, the stamp still written
 ```
 
-Usage: `viola verify [--record <DIR>] [-- <program> [args…]]` (program default `claude`). One stdout step line per ledger row, `[NN/MM] <row id> <row words>  pass|fail`, in ledger order (`shim-resolution` · `spine-hooks` · `session-start-fields` · `prompt-verbatim` · `stop-message` · `largest-hook-payload` · `modal-signature` · `input-box-signature` · `quiet-period` · `confirm-window`; `MM` is 10 today and grows as owning chunks land their rows), then the `stamped <ver>  <n> pass  <m> fail` summary as the last stdout line. Exit 0 when every row passes, 1 on a failing row or a refusal (the `unable:`/`hint:` pairs, Primary content block 2). `--record` adds no human line. Plain ASCII, no colour. Each step line is appended once, with no progress bar and no redraw. `viola verify --help` adds one static ASCII paragraph naming no path: run it from a folder you trust in Claude Code (the input-box probe runs in a subfolder there, which inherits that trust), and an unapproved external CLAUDE.md import blocks the probe (its dialog shows in the subfolder, and verify never answers it).
+Usage: `viola verify [--record <DIR>] [-- <program> [args…]]` (program default `claude`). One stdout step line per ledger row, `[NN/MM] <row id> <row words>  pass|fail`, in ledger order (`shim-resolution` · `spine-hooks` · `session-start-fields` · `prompt-verbatim` · `stop-message` · `largest-hook-payload` · `modal-signature` · `input-box-signature` · `quiet-period` · `confirm-window` · `question-answer` · `plan-approve-revise` · `question-notes` · `dialog-concurrency`; `MM` is 14 today and grows as owning chunks land their rows), then the `stamped <ver>  <n> pass  <m> fail` summary as the last stdout line. Exit 0 when every row passes, 1 on a failing row or a refusal (the `unable:`/`hint:` pairs, Primary content block 2). `--record` adds no human line. Plain ASCII, no colour. Each step line is appended once, with no progress bar and no redraw. `viola verify --help` adds one static ASCII paragraph naming no path: run it from a folder you trust in Claude Code (the input-box probe runs in a subfolder there, which inherits that trust), and an unapproved external CLAUDE.md import blocks the probe (its dialog shows in the subfolder, and verify never answers it).
 
 ### Output structure — `viola --help`
 

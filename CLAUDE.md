@@ -12,7 +12,7 @@ viola is a standalone, cross-platform (Windows first) bridge that lets one inter
 - `src/` — the `viola` bin: clap dispatch (`src/cmd/`), the `run` PTY pump, wheel and budget governor (`src/run/`)
 - `crates/` — the workspace library crates (`viola-core`, `-pty`, `-channel`, `-state`, `-agent-claude`, `-mcp`, `-ui`) + test-only `viola-e2e`
 - `plugin/` — `hooks.json`, `.mcp.json`, `plugin.json`, embedded via `include_str!` and written out by `viola run`
-- `fixtures/claude/<cli-version>/` — hook payloads and signature-only `Screen.<phase>.json` screens recorded by `viola verify` (plus relayed dialog captures, `RELAYED.md`), replayed by the fake agent in CI; `fixtures/fake-scripts/` — committed fake-agent turn scripts
+- `fixtures/claude/<cli-version>/` — hook payloads and signature-only `Screen.<phase>.json` screens and `<Event>.<stem>-<n>.json` dialog variants recorded by `viola verify` (plus the superseded relayed dialog captures, `RELAYED.md`), replayed by the fake agent in CI; `fixtures/fake-scripts/` — committed fake-agent turn scripts
 - `e2e-web/` — the Playwright browser suite (`run --browser` on all three CI OSes; test-side only, under the sha256-pinned Node v24.21.0; axe and the a11y lint land with the a11y chunks; the ts code-graph plane via its tracked `tsconfig.json`); `a11y/sr-pass/` — manual screen-reader pass records
 <!-- GENERATED:setup:overview end -->
 
@@ -40,7 +40,7 @@ viola is a standalone, cross-platform (Windows first) bridge that lets one inter
 - Disk state: set 0700 dirs / 0600 files explicitly (never the umask); only the wrapper writes `snapshot.json`, only `viola verify` writes `ledger/stamps.json`; one `write` per ndjson line; never truncate `events.ndjson`.
 - stdout is reserved (`--json` results, the hook decision body, MCP frames, the child's screen): no `print!`/`eprintln!`/`dbg!` in product crates; log only via `obs_event!` under `#[instrument(skip_all, fields(..))]`.
 - Every Cargo profile keeps `panic = "unwind"`, and the custom panic hook is the first statement of `main` (a hook panic must still exit 0).
-- Tokio only in `viola-mcp` / `viola-ui`; no C-building crates; Claude-specific shapes only in `viola-agent-claude`, where each undocumented CLI behaviour is a capability-ledger row with a `viola verify` probe (one dated exception: the S3/S7/S8 dialog bodies ride the ten-row stamp until the route entry "Dialog rows and re-probe").
+- Tokio only in `viola-mcp` / `viola-ui`; no C-building crates; Claude-specific shapes only in `viola-agent-claude`, where each undocumented CLI behaviour is a capability-ledger row with a `viola verify` probe (the S3/S7/S8 dialog bodies included: fourteen rows gate `cli_verified`).
 <!-- GENERATED:setup:warnings end -->
 
 ## Where to Look

@@ -1,0 +1,53 @@
+# Cascade sweep patterns — wrap 2026-10-05T14-27-34, chunk 2026-10-05-dialog-rows-and-re-probe.
+# Derived from every amendment of this pass: each retired claim by its wording AND its mechanism's verbs.
+
+[[pattern]]
+id = "ten-rows"
+regex = '\bten (ledger )?rows?\b|ten-row|\bten literal|\bten `\[NN|at ten rows'
+ignore_case = true
+
+[[pattern]]
+id = "slash-ten"
+regex = '/10\]|/10`|`/10\b|counter `/10|\b10 pass\b|\b8 pass\b'
+
+[[pattern]]
+id = "two-runs"
+regex = 'two interactive|both interactive|both typed runs|neither run|two runs|Run A, then Run B|both dirs|the two dirs'
+ignore_case = true
+
+[[pattern]]
+id = "spawn-count"
+regex = 'four spawn pairs|four child spawns|four spawns|four `verify` spawn'
+
+[[pattern]]
+id = "dialog-owner"
+fixed = 'Dialog rows and re-probe'
+
+[[pattern]]
+id = "dated-gap"
+regex = 'dated (gap|exception)|ride the ten|ten-row stamp|ten-row `cli_verified`'
+ignore_case = true
+
+[[pattern]]
+id = "relayed"
+regex = 'relayed dialog|RELAYED\.md|relay script|relayed from the viola-lab'
+
+[[pattern]]
+id = "capture-out"
+regex = 'empty stdout|first free|raw, unparsed|raw and unparsed|stays silent|only output is the raw'
+
+[[pattern]]
+id = "s7-approve"
+regex = 'approve(s)? only (via|through) PreToolUse|plan approve as PreToolUse allow|PreToolUse allow\b'
+
+[[pattern]]
+id = "fake-argv"
+regex = 'three argv options'
+
+[[pattern]]
+id = "verify-window"
+regex = 'two `GATE_MAX_WAIT`s|~11 s verify window|verify_window_'
+
+[[pattern]]
+id = "permission-e2e"
+regex = 'no recorded fixture yet|permission` wake|`permission` kind'

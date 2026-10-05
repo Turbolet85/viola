@@ -380,3 +380,13 @@
 - the named refusal: his live ruling at this wrap, through the overseer's AskUserQuestion, with the closed code set and the no-content rule shown;
 - the residual and the flag edit: accepted at this wrap on the overseer's word, relayed by the operator — the founder saw the class at his trust ruling, and the edit was his amended live ruling (~09:05Z).
 **Ref:** .andromeda/runs/2026-10-05T10-37-44-wrap/
+
+## 2026-10-05-dialog-rows-and-re-probe — the capture arm answers, Runs C and D, R2 closed
+**Section:** Threat Model Summary → child spawning (`viola verify`) · §Input Validation (Hook stdin capture arm · CLI arguments · Constants) · §Data Protection (probe captures · interactive probe dirs · Accepted risk) · §Error Handling → Internal logging (`hook`) · §Security Anti-Patterns → Universal
+**Change:**
+- Capture arm: was "raw, unparsed, to the first free `k` … always exits 0 with empty stdout and stderr"; now it claims `<PascalEvent>.<k>.json` exclusively (`viola_state::fs::create_private_new`, the next `k` on `AlreadyExists`, then `replace_private` over its claim), and the hidden `--answers <DIR>` (inert without `--capture`) reads `<DIR>/<Event>.<j>` through `take(64)` into a closed `ProbeAnswer` id; `ledger::probe_body` shape-checks the payload and builds the body only through `dialog::decision_body`; one stdout write; nothing on any failure; stderr empty, exit 0. CLI arguments and Error Handling restate it.
+- Threat Model and Constants: verify spawns four interactive children (was two); Run C (`-dialogs/`, an `ask` rule; its one `allow` runs `touch viola-probe-permission` in its own dir) and Run D (`-plan/`, `--permission-mode plan`, `plansDirectory` a 0700 `plans/` inside it); `MAX_FRAME` caps all four outputs. No byte typed into any dialog.
+- Data Protection: four 0700 probe dirs; the `questions/` / `plan/` roots with `answers/`; no plan file under `~/.claude/plans` (measured, 17 → 17); the accepted transcripts residual covers Runs B, C, D (+2 per verify).
+- Anti-Patterns: R2's dated gap retired — a stamp holds fourteen rows (`/14`, was ten / `/10`), so `10 pass  4 fail` records `cli_verified:false` and `answer` exits 12.
+**Why:** boundary widenings — the founder's live rulings of 2026-10-05, each answered after the widening was shown: M7 = A (the hook answers, the one `touch`, the +2 transcripts) and STOP 7 (the Run D re-run, `plansDirectory`), relayed by the overseer; the operator ratified them as the founder's at this wrap, making no new decision. The free-`k` claim was measured racy.
+**Ref:** .andromeda/runs/2026-10-05T14-27-34-wrap/

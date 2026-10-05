@@ -36,3 +36,11 @@ included) and the live round read COMPLETE (`round-131207Z.txt`).
   the fake agent's own docs record.
 - **Open:** the red stays open. The fix is not chosen here: raising the test bound is against the testing rule for a
   timing red; the options go to the operator.
+
+## The CI rounds that followed (`ci-rounds.md`)
+Round 1 (`4179973`, the settle before the Run C / Run D kill) green; round 2 (`9629757`, timing-only measurement) green;
+round 3 (`74e719b`, the measurement reverted) red on a runner-wide slow tail; round 4 (`c914216`, the verify-driven tests in
+the `verify_window_` class) green, and green again on its re-run (attempt 2): **read twice green**, as the decision asked.
+- **The HYPOTHESIS above, settled:** its hook-count contention half is NOT supported (round 2's measurement); its
+  corrupt-profile half matched the mechanism round 1 removed (no corrupt profile in any later round). The timing red's
+  measured cause is the designed verify floor meeting runner-wide slow tails (`ci-rounds.md`).

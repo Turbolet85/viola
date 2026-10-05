@@ -22,7 +22,7 @@ viola/
 │   ├── cmd/                    # one module per subcommand: run, send, wait, last, list,
 │   │                           #   answer, hook, mcp, ui, verify, pause, release, link, unlink, plugin;
 │   │                           #   client.rs (a helper, no subcommand): the channel client send / wait / last share;
-│   │                           #   verify/typed.rs: verify's two interactive PTY runs (Run A untrusted, Run B trusted),
+│   │                           #   verify/typed.rs: verify's four interactive PTY runs (Run A untrusted, Run B trusted, Run C dialogs, Run D plan),
 │   │                           #   the settle rule and the signature-only screen recording
 │   ├── run/                    # PTY pump, wheel, budget governor; gate.rs: the pump-output tee + bounded vt100 feed + Gate;
 │   │                           #   send.rs: the wrapper's `send` method, the one-in-flight slot, the driver relabel;
@@ -80,7 +80,7 @@ viola/
 │   ├── fuzz_targets/{viola_name,channel_frame,hook_stdin,vt100_feed,paste_text}.rs
 │   └── corpus/<target>/        # committed synthetic seeds
 ├── fixtures/
-│   ├── claude/<cli-version>/   # hook-payload fixtures and signature-only Screen.<phase>.json screens recorded by `viola verify`, plus relayed dialog fixtures (RELAYED.md)
+│   ├── claude/<cli-version>/   # hook-payload fixtures and signature-only Screen.<phase>.json screens and <Event>.<stem>-<n>.json dialog variants recorded by `viola verify`, plus superseded relayed dialog fixtures (RELAYED.md)
 │   └── fake-scripts/           # committed fake-agent turn scripts (synthetic)
 ├── e2e-web/                    # test-side Node only (Playwright; axe and the a11y lint land with the a11y chunks);
 │   │                           #   the ts code-graph plane

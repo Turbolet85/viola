@@ -1,0 +1,318 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "eaf523a6",
+"ts": "2026-10-05T14:45:57Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-05T14-27-34-wrap/architecture-entry.md",
+"--lines",
+"11",
+"--run-dir",
+".andromeda/runs/2026-10-05T14-27-34-wrap",
+"--marker",
+"2026-10-05-dialog-rows-and-re-probe"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+11 at line 595 · lines 594→605 · bytes 101885→104337 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-05T14-27-34-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 594,
+"bytes": 101885,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 605,
+"bytes": 104337
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "eaf523a6",
+"ts": "2026-10-05T14:45:57Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-05T14-27-34-wrap/architecture-entry-2.md",
+"--lines",
+"14",
+"--run-dir",
+".andromeda/runs/2026-10-05T14-27-34-wrap",
+"--marker",
+"2026-10-05-dialog-rows-and-re-probe"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+14 at line 606 · lines 605→619 · bytes 104337→106264 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-05T14-27-34-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 605,
+"bytes": 104337,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 619,
+"bytes": 106264
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "eaf523a6",
+"ts": "2026-10-05T14:45:57Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-05T14-27-34-wrap/security-plan-entry.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-10-05T14-27-34-wrap",
+"--marker",
+"2026-10-05-dialog-rows-and-re-probe"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+10 at line 383 · lines 382→392 · bytes 60357→62565 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-05T14-27-34-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 382,
+"bytes": 60357,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 392,
+"bytes": 62565
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "eaf523a6",
+"ts": "2026-10-05T14:45:57Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-05T14-27-34-wrap/test-plan-entry.md",
+"--lines",
+"11",
+"--run-dir",
+".andromeda/runs/2026-10-05T14-27-34-wrap",
+"--marker",
+"2026-10-05-dialog-rows-and-re-probe"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+11 at line 547 · lines 546→557 · bytes 82582→84767 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-05T14-27-34-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 546,
+"bytes": 82582,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 557,
+"bytes": 84767
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "eaf523a6",
+"ts": "2026-10-05T14:45:57Z",
+"argv": [
+"append",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-05T14-27-34-wrap/obs-plan-entry.md",
+"--lines",
+"9",
+"--run-dir",
+".andromeda/runs/2026-10-05T14-27-34-wrap",
+"--marker",
+"2026-10-05-dialog-rows-and-re-probe"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"append obs-plan-amendments.md:+9 at line 344 · lines 343→352 · bytes 44358→45352 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-05T14-27-34-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 343,
+"bytes": 44358,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 352,
+"bytes": 45352
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "eaf523a6",
+"ts": "2026-10-05T14:45:57Z",
+"argv": [
+"append",
+"--file",
+".andromeda/design-system-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-05T14-27-34-wrap/design-system-entry.md",
+"--lines",
+"6",
+"--run-dir",
+".andromeda/runs/2026-10-05T14-27-34-wrap",
+"--marker",
+"2026-10-05-dialog-rows-and-re-probe"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"append design-system-amendments.md:+6 at line 63 · lines 62→68 · bytes 7941→8484 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-05T14-27-34-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/design-system-amendments.md"
+],
+"before": {
+"lines": 62,
+"bytes": 7941,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 68,
+"bytes": 8484
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "eaf523a6",
+"ts": "2026-10-05T14:45:57Z",
+"argv": [
+"append",
+"--file",
+".andromeda/layout-templates-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-05T14-27-34-wrap/layout-templates-entry.md",
+"--lines",
+"7",
+"--run-dir",
+".andromeda/runs/2026-10-05T14-27-34-wrap",
+"--marker",
+"2026-10-05-dialog-rows-and-re-probe"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"append layout-templates-amendments.md:+7 at line 62 · lines 61→68 · bytes 6865→7595 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-05T14-27-34-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/layout-templates-amendments.md"
+],
+"before": {
+"lines": 61,
+"bytes": 6865,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 68,
+"bytes": 7595
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "eaf523a6",
+"ts": "2026-10-05T14:48:24Z",
+"argv": [
+"append",
+"--file",
+"viola-0.1.0/working-route.md",
+"--payload-file",
+".andromeda/runs/2026-10-05T14-27-34-wrap/mint-permission.txt",
+"--lines",
+"2",
+"--after-line",
+"87",
+"--expect-last-prefix",
+"   ↓",
+"--run-dir",
+".andromeda/runs/2026-10-05T14-27-34-wrap",
+"--marker",
+"2026-10-05-dialog-rows-and-re-probe"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"append working-route.md:+2 at line 88 · lines 155→157 · bytes 43707→45243 · term lf",
+"last line now: Version done-check — every gate green on three OSes, masters agree, fix-pass i"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/working-route.md"
+],
+"before": {
+"lines": 155,
+"bytes": 43707,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 157,
+"bytes": 45243
+}
+}
+]
