@@ -25,6 +25,8 @@ const HARNESS_TURN: &str = "<task-notification>synthetic harness turn</task-noti
 const HOLD_STDOUT: &str = "--hold-stdout-internal";
 const HOLD_FOR: Duration = Duration::from_secs(10);
 const CONTROL_POLL: Duration = Duration::from_millis(10);
+/// `--stop-receipt-hold-ms` is capped: a test-only hold that forces a window open, never a delay.
+const STOP_RECEIPT_HOLD_CAP_MS: u64 = 1000;
 const REGISTERED_EVENTS: [&str; 9] = [
     "SessionStart",
     "UserPromptSubmit",
@@ -58,6 +60,7 @@ struct Opts {
     screens: bool,
     turn_stop: bool,
     dialogs: bool,
+    stop_receipt_hold: Option<Duration>,
 }
 
 impl Opts {
@@ -86,6 +89,11 @@ impl Opts {
                 "--screens" => o.screens = true,
                 "--turn-stop" => o.turn_stop = true,
                 "--dialogs" => o.dialogs = true,
+                "--stop-receipt-hold-ms" => {
+                    o.stop_receipt_hold = value()
+                        .and_then(|v| v.parse::<u64>().ok())
+                        .map(|ms| Duration::from_millis(ms.min(STOP_RECEIPT_HOLD_CAP_MS)));
+                }
                 HOLD_STDOUT => o.hold_stdout = true,
                 _ => {}
             }
@@ -407,6 +415,9 @@ impl Agent {
                 false,
             ),
         };
+        if let Some(hold) = self.opts.stop_receipt_hold.filter(|_| event == "Stop") {
+            std::thread::sleep(hold);
+        }
         self.receipt.write("hook", fields);
         printed
     }
@@ -781,6 +792,8 @@ mod tests {
             "--screens",
             "--turn-stop",
             "--dialogs",
+            "--stop-receipt-hold-ms",
+            "5000",
             "--version",
             "-p",
             "a prompt",
@@ -802,6 +815,11 @@ mod tests {
         assert!(o.vt100_panic_bytes);
         assert_eq!(o.trusted_root.as_deref(), Some(Path::new("t")));
         assert!(o.screens && o.turn_stop && o.dialogs);
+        assert_eq!(
+            o.stop_receipt_hold,
+            Some(Duration::from_millis(1000)),
+            "capped"
+        );
         assert!(Opts::parse(&args(&[HOLD_STDOUT])).hold_stdout);
     }
 
@@ -814,6 +832,15 @@ mod tests {
         assert!(!o.vt100_panic_bytes);
         assert!(o.print.is_none());
         assert!(!o.screens && !o.turn_stop && !o.dialogs && o.trusted_root.is_none());
+        assert_eq!(o.stop_receipt_hold, None);
+        assert_eq!(
+            Opts::parse(&args(&["--stop-receipt-hold-ms", "100"])).stop_receipt_hold,
+            Some(Duration::from_millis(100))
+        );
+        assert_eq!(
+            Opts::parse(&args(&["--stop-receipt-hold-ms", "x"])).stop_receipt_hold,
+            None
+        );
         assert!(!o.trusted(), "no root: every cwd is untrusted");
     }
 

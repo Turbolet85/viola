@@ -117,7 +117,8 @@ fn trusted_run(
 }
 
 /// Run C: the three dialog prompts, each pasted once the previous turn's Stop is captured, under the
-/// session `ask` rule; ended by a kill.
+/// session `ask` rule; once the last Stop is captured the screen settles (as Run B's turn does), so
+/// the kill never hangs up a Stop hook still exiting.
 fn dialog_run(
     clock: &Arc<dyn Clock>,
     inputs: &Inputs<'_>,
@@ -141,10 +142,14 @@ fn dialog_run(
                 break;
             }
             let until = clock.now() + PROBE_DEADLINE;
-            if !wait_for(clock.as_ref(), until, || {
+            let stopped = wait_for(clock.as_ref(), until, || {
                 count_of(captures, HookEvent::Stop) > stops
-            }) {
+            });
+            let Some(stopped) = stopped else {
                 break;
+            };
+            if prompt == DIALOG_PROMPT_PERMISSION {
+                run.settle(stopped);
             }
         }
     }
@@ -155,8 +160,8 @@ fn dialog_run(
 }
 
 /// Run D: plan mode, the plan prompt, until the turn's Stop is captured (after the plan's
-/// PostToolUse, which the rows read); the CLI's plan file goes into the run's own `plans/`; ended by
-/// a kill.
+/// PostToolUse, which the rows read) and the screen settles after it; the CLI's plan file goes into
+/// the run's own `plans/`; ended by a kill.
 fn plan_run(clock: &Arc<dyn Clock>, inputs: &Inputs<'_>, args: &[OsString]) -> anyhow::Result<()> {
     let dir = TrustedDir::create(inputs.cwd, "-plan")?;
     let plans = dir.0.join("plans");
@@ -170,9 +175,12 @@ fn plan_run(clock: &Arc<dyn Clock>, inputs: &Inputs<'_>, args: &[OsString]) -> a
     let run = Run::spawn(clock, inputs, &args, &dir.0, Box::new(KeyPipe::new(pipe)))?;
     if run.input_box_settles() && run.paste.paste(PLAN_PROMPT).is_ok() {
         let until = clock.now() + PROBE_DEADLINE;
-        wait_for(clock.as_ref(), until, || {
+        let stopped = wait_for(clock.as_ref(), until, || {
             count_of(inputs.plan.captures, HookEvent::Stop) > 0
         });
+        if let Some(stopped) = stopped {
+            run.settle(stopped);
+        }
     }
     run.end_by_kill();
     drop(keys);
@@ -180,14 +188,15 @@ fn plan_run(clock: &Arc<dyn Clock>, inputs: &Inputs<'_>, args: &[OsString]) -> a
     Ok(())
 }
 
-/// Whether `done` held before `until`, polled every `POLL`.
-fn wait_for(clock: &dyn Clock, until: Instant, mut done: impl FnMut() -> bool) -> bool {
+/// The instant `done` was first seen to hold, polled every `POLL`; `None` once `until` passed.
+fn wait_for(clock: &dyn Clock, until: Instant, mut done: impl FnMut() -> bool) -> Option<Instant> {
     loop {
+        let now = clock.now();
         if done() {
-            return true;
+            return Some(now);
         }
-        if clock.now() >= until {
-            return false;
+        if now >= until {
+            return None;
         }
         std::thread::sleep(POLL);
     }

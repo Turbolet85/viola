@@ -241,8 +241,8 @@ fn verify_a_batch_script_refuses(#[from(home)] home: TestHome) {
 /// interactive runs) lists a stripped name, and every hook fired ran and exited 0: the print turn's
 /// four, the trusted run's three (SessionStart, UserPromptSubmit, Stop), the dialog run's fifteen
 /// (SessionStart, then per prompt UserPromptSubmit, its dialog events and Stop) and the plan run's
-/// seven; the untrusted run fires none. The dialog and plan runs are each ended by a kill once
-/// their last Stop is captured, which may land before the fake agent receipts that Stop's hook.
+/// seven; the untrusted run fires none: twenty-nine. The dialog and plan runs are killed only once
+/// the screen settled after their last Stop, so every hook is receipted.
 #[rstest]
 fn verify_runs_the_probe_under_the_identity_strip(#[from(home)] home: TestHome) {
     write_spine_set(&fixtures(&home), "2.1.0", None);
@@ -272,7 +272,7 @@ fn verify_runs_the_probe_under_the_identity_strip(#[from(home)] home: TestHome) 
         );
     }
     let hooks = of_kind(&lines, "hook");
-    assert!((27..=29).contains(&hooks.len()), "{} hooks", hooks.len());
+    assert_eq!(hooks.len(), 29);
     assert!(
         hooks
             .iter()
@@ -812,6 +812,37 @@ fn verify_window_without_screens_fails_every_interactive_row(#[from(home)] home:
         assert_eq!(rows[*id], "fail", "{id}");
     }
     assert_eq!(probes_left(home.path()), 0);
+}
+
+/// Run C and Run D are killed only once their last Stop hook has returned (the screen settled after
+/// it, as Run B does): with the fake agent holding each Stop hook's receipt 100 ms past the hook's
+/// exit, a window forced open and never sampled, every Stop of the six turns is receipted. A kill at
+/// the instant the Stop capture appears would hang up that hook mid-exit (a truncated coverage
+/// profile) and lose its receipt.
+#[rstest]
+fn verify_kills_the_dialog_and_plan_runs_only_after_their_last_stop_hook(
+    #[from(home)] home: TestHome,
+) {
+    write_spine_set(&fixtures(&home), "2.1.0", None);
+    let receipt = home.scratch().join("receipt.ndjson");
+    let receipt_arg = receipt.to_str().expect("utf-8").to_owned();
+    let after = [
+        "--receipt",
+        receipt_arg.as_str(),
+        "--stop-receipt-hold-ms",
+        "100",
+    ];
+    let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &after, &[]);
+    assert_eq!(ran.code, Some(0), "stdout {}", ran.stdout_text());
+    let lines = fake::receipt(&receipt);
+    let stops = of_kind(&lines, "hook")
+        .iter()
+        .filter(|h| h["event"] == "Stop")
+        .count();
+    assert_eq!(
+        stops, 6,
+        "the print turn's, Run B's, Run C's three and Run D's Stop hooks"
+    );
 }
 
 /// Without the dialog replay the dialog and plan runs see turns that raise no dialog: the ten spine
