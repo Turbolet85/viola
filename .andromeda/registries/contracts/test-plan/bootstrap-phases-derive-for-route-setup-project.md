@@ -8,7 +8,7 @@ combine them, and setup-project may add stack-specific intermediate steps.
   - Install cargo-nextest 0.9.146 via taiki-e/install-action (SHA-pinned) in CI, or `cargo install --locked` locally.
   - Add `.config/nextest.toml` with:
     - `[profile.ci]`: `junit.path = "junit.xml"`, `retries = 0`, `slow-timeout = { period = "30s", terminate-after = 4 }`, `fail-fast = false`
-    - `[profile.mutants]`: `fail-fast = { max-fail = 1, terminate = "wait" }`, `slow-timeout = { period = "5s", terminate-after = 2 }`, plus `[[profile.mutants.overrides]] filter = 'package(viola-e2e)'` with `slow-timeout = { period = "15s", terminate-after = 2 }`.
+    - `[profile.mutants]`: `fail-fast = { max-fail = 1, terminate = "wait" }`, `slow-timeout = { period = "5s", terminate-after = 2 }`, plus three `[[profile.mutants.overrides]]` at `slow-timeout = { period = "15s", terminate-after = 2 }`: `filter = 'package(viola-e2e)'`, `filter = 'test(/send_window_/)'` and `filter = 'test(/verify_window_/)'`. The last covers the ~11 s verify window cases (two `GATE_MAX_WAIT`s), which carry no test-side deadline after the `send_window_` precedent.
       - The first failure stops scheduling and the tests already running finish, so their temp dirs and session guards drop. The slow-timeout kill bounds any hang among them below cargo-mutants' 20 s floor, so a caught mutant ends at most at the kill line (10 s; viola-e2e 30 s) and is never graded Timeout. As measured at chunk 2026-10-04-windows-boundary-mutation-workflow:
         - 0 Timeout grades over 711 Linux viola-e2e mutants and 508 Windows mutants;
         - in a two-sided witness, 170 leftover temp dirs under `terminate = "immediate"` against 0 under `wait`;

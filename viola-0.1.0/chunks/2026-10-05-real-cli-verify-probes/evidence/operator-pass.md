@@ -14,3 +14,18 @@ the ci.py conclusion read (leg=operator)"), after the block read 18 green, 0 red
   lines were reworded, the planted path and the cause's `…/home/ledger/…` described rather than spelled.
 - **Final read:** exit 0, `hygiene: clean — read 77 (runs 68 · evidence 5 · inputs 4)`. Atoms `exit 0` ✓ ·
   `contains hygiene: clean` ✓.
+
+## The pre-CI commit and entry 23 — the push
+- `012fc50` `chore(2026-10-05-real-cli-verify-probes): operator pre-CI commit, for the run this chunk's verdict reads`
+  (the whole tree, after hygiene read clean again).
+- Entry 23: `git diff --quiet && git diff --cached --quiet && git push origin HEAD` → exit 0,
+  `caae9ec..012fc50  HEAD -> build/viola-0.1.0`.
+
+## Entry 24 — the CI conclusion
+- `ci.py conclusion --sha HEAD --wait 1800` → exit 0: `012fc5089498 verdict: green · checks 15/15 · wall 422 s · runs
+  ci#37296910661 completed/success` (polled 15× over 436 s). Atoms `exit 0` ✓ · `contains verdict: green` ✓.
+- **The CI read covers:**
+  - the ten-row stamp and the screen replay;
+  - the trust-root fake and the full gate;
+  - all three OSes, Windows ConPTY included.
+

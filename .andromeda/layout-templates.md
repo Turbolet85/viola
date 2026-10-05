@@ -468,17 +468,20 @@ hint: that dialog is not pending; viola list shows the current DIALOG
 
 ```
 $ viola verify
-[01/06] shim-resolution claude resolves to a real executable  pass
+[01/10] shim-resolution claude resolves to a real executable  pass
 ...
-[06/06] largest-hook-payload every hook payload fits the frame cap  pass
-stamped 2.1.283  6 pass  0 fail                            <- last stdout line; `fail` is never coloured
+[06/10] largest-hook-payload every hook payload fits the frame cap  pass
+[07/10] modal-signature an untrusted start shows a compiled modal literal  pass
+...
+[10/10] confirm-window the typed prompt reaches UserPromptSubmit within the window  pass
+stamped 2.1.288  10 pass  0 fail                           <- last stdout line; `fail` is never coloured
 
 $ viola verify
 ...
-stamped 2.1.283  4 pass  2 fail                            <- a failing row: exit 1, the stamp still written
+stamped 2.1.288  8 pass  2 fail                            <- a failing row: exit 1, the stamp still written
 ```
 
-Usage: `viola verify [--record <DIR>] [-- <program> [args…]]` (program default `claude`). One stdout step line per ledger row, `[NN/MM] <row id> <row words>  pass|fail`, in ledger order (`shim-resolution` · `spine-hooks` · `session-start-fields` · `prompt-verbatim` · `stop-message` · `largest-hook-payload` today; `MM` grows as owning chunks land their rows), then the `stamped <ver>  <n> pass  <m> fail` summary as the last stdout line. Exit 0 when every row passes, 1 on a failing row or a refusal (the `unable:`/`hint:` pairs, Primary content block 2). `--record` adds no human line. Plain ASCII, no colour. Each step line is appended once, with no progress bar and no redraw.
+Usage: `viola verify [--record <DIR>] [-- <program> [args…]]` (program default `claude`). One stdout step line per ledger row, `[NN/MM] <row id> <row words>  pass|fail`, in ledger order (`shim-resolution` · `spine-hooks` · `session-start-fields` · `prompt-verbatim` · `stop-message` · `largest-hook-payload` · `modal-signature` · `input-box-signature` · `quiet-period` · `confirm-window`; `MM` is 10 today and grows as owning chunks land their rows), then the `stamped <ver>  <n> pass  <m> fail` summary as the last stdout line. Exit 0 when every row passes, 1 on a failing row or a refusal (the `unable:`/`hint:` pairs, Primary content block 2). `--record` adds no human line. Plain ASCII, no colour. Each step line is appended once, with no progress bar and no redraw. `viola verify --help` adds one static ASCII paragraph naming no path: run it from a folder you trust in Claude Code (the input-box probe runs in a subfolder there, which inherits that trust), and an unapproved external CLAUDE.md import blocks the probe (its dialog shows in the subfolder, and verify never answers it).
 
 ### Output structure — `viola --help`
 
@@ -544,7 +547,7 @@ hint: viola list                                          <- stderr, the last li
 
 ### Component — Primary content block 2: refusal lines and the `unable` column
 
-- **Line form (stderr):** `unable  <name>  <reason>  <detail>`, fields separated by two spaces. `viola send` pads `unable` into the mirror's word column after `[/ ]`. The fixed-message exceptions are the exit-1 start refusals of `viola run` (`unable: <name> is already live` and its sibling causes, listed in design-system cli pattern 2) and `viola verify`'s exit-1 refusals, each an `unable: <text>` line and its own `hint:` line with no name, path or pid: `the claude CLI was not found` / `install Claude Code or put it on PATH`; `the claude CLI is a .cmd or .bat script` / `pass the real executable, not a .cmd or .bat shim`; `the CLI version could not be read` / `run claude --version to check the install`; `a recorded payload still holds a path or a username` / `record with a viola home under your user home`; plus run's pinned-copy refusal. A failed or panicked `cli` verb (`send`, `wait`, `last`, `answer`, `pause`, `release`, `verify`) prints exactly `error: internal error` once, from the one catch site, with no hint (for `wait` / `last` exit 1 also covers a refusal reply, an unparseable reply or any other channel error).
+- **Line form (stderr):** `unable  <name>  <reason>  <detail>`, fields separated by two spaces. `viola send` pads `unable` into the mirror's word column after `[/ ]`. The fixed-message exceptions are the exit-1 start refusals of `viola run` (`unable: <name> is already live` and its sibling causes, listed in design-system cli pattern 2) and `viola verify`'s exit-1 refusals, each an `unable: <text>` line and its own `hint:` line with no name, path or pid: `the claude CLI was not found` / `install Claude Code or put it on PATH`; `the claude CLI is a .cmd or .bat script` / `pass the real executable, not a .cmd or .bat shim`; `the CLI version could not be read` / `run claude --version to check the install`; `a recorded fixture is not clean: <file> <code>` (a screen fixture: `<file> row <n>[ seam] <code>`; codes `home-path` · `absolute-path` · `username` · `email`; it names the fixture file and the check, never the content) / `record with a viola home under your user home`; plus run's pinned-copy refusal. A failed or panicked `cli` verb (`send`, `wait`, `last`, `answer`, `pause`, `release`, `verify`) prints exactly `error: internal error` once, from the one catch site, with no hint (for `wait` / `last` exit 1 also covers a refusal reply, an unparseable reply or any other channel error).
 - **Hint line:** directly under each refusal, `hint: <one plain instruction>`, keyed by reason (or by reason · detail). Exit 21 and exit 1 each have several causes, and every cause gets its own hint, so an agent can tell the causes apart from the last stderr line (design-system cli pattern 2). The exit-1 start refusal `unable: <name> is already live` takes `hint: viola list`. `wait` / `last`'s exit 21 `unable  <name>  instance-unreachable` takes `hint: <name> is not running; viola list shows the live instances` (`viola send`'s exit 21 keeps its `[/ ] unable` mirror with the same hint). There is no hint for the opaque `unknown` refusal, for `wrapper fault` or for `internal error`. A hint never quotes the sent text or any upstream text, and never names a path or a pid.
 - **Exit codes as the typed tail:** 10 `human-typing`, 11 `budget-paused`, 12 `unverified-cli`, 13 `not-delivered`, 14 `unknown`, 20 wrapper fault (`error: wrapper fault  <code>`), 21 `unable  instance-unreachable`. Under `--json` the same outcome is one document on stdout, with no stderr line and no hint text. The machine view carries the cause as a detail code once arch names those codes; until then it keeps arch's shape (`"detail":null` for exit 21).
 - **Streams:** results go to stdout. `waiting:`, the issue line, refusals, hints, errors and the `viola ui` launch line go to stderr. The two are never mixed.

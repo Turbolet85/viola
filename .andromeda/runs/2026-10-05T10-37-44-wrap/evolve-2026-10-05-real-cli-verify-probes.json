@@ -1,0 +1,190 @@
+[
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "e257956a",
+"ts": "2026-10-05T10:40:26Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-05T10-37-44-wrap",
+"--marker",
+"2026-10-05-real-cli-verify-probes"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"appended 1 record(s) · friction-log.ndjson lines 1070→1071 · bytes 1038496→1039825 · term lf",
+"ts 2026-10-05T10:40:17Z · clock 2026-10-05T10:40:26Z · bound 2026-10-05T10:27:54Z (line 1070)",
+"ids 2026-10-05T10:40:17Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 1070,
+"bytes": 1038496,
+"terminator": "LF",
+"bound": "2026-10-05T10:27:54Z"
+},
+"after": {
+"lines": 1071,
+"bytes": 1039825
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "e257956a",
+"ts": "2026-10-05T11:00:19Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"4",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-05T10-37-44-wrap",
+"--marker",
+"2026-10-05-real-cli-verify-probes"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"appended 4 record(s) · friction-log.ndjson lines 1071→1075 · bytes 1039825→1043791 · term lf",
+"ts 2026-10-05T11:00:00Z · clock 2026-10-05T11:00:19Z · bound 2026-10-05T10:40:17Z (line 1071)",
+"ids 2026-10-05T11:00:00Z-a … 2026-10-05T11:00:00Z-d (4)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 1071,
+"bytes": 1039825,
+"terminator": "LF",
+"bound": "2026-10-05T10:40:17Z"
+},
+"after": {
+"lines": 1075,
+"bytes": 1043791
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "e257956a",
+"ts": "2026-10-05T11:01:20Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-05T10-37-44-wrap",
+"--marker",
+"2026-10-05-real-cli-verify-probes"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 3,
+"stdout": [
+"REFUSED ts: 2026-10-05T11:08:00Z · 2026-10-05T11:08:00Z-a … 2026-10-05T11:08:00Z-c (3) — later than the clock 2026-10-05T11:01:20Z"
+],
+"stderr": "refused — nothing written: 3 of 3 record(s) out of time; re-read `date -u`, re-letter the ids, re-fire",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "e257956a",
+"ts": "2026-10-05T11:01:28Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-05T10-37-44-wrap",
+"--marker",
+"2026-10-05-real-cli-verify-probes"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"appended 3 record(s) · friction-log.ndjson lines 1075→1078 · bytes 1043791→1045757 · term lf",
+"ts 2026-10-05T11:01:20Z · clock 2026-10-05T11:01:28Z · bound 2026-10-05T11:00:00Z (line 1075)",
+"ids 2026-10-05T11:01:20Z-a … 2026-10-05T11:01:20Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 1075,
+"bytes": 1043791,
+"terminator": "LF",
+"bound": "2026-10-05T11:00:00Z"
+},
+"after": {
+"lines": 1078,
+"bytes": 1045757
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "e257956a",
+"ts": "2026-10-05T11:04:53Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-05T10-37-44-wrap",
+"--marker",
+"2026-10-05-real-cli-verify-probes"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"appended 3 record(s) · friction-log.ndjson lines 1078→1081 · bytes 1045757→1048173 · term lf",
+"ts 2026-10-05T11:04:44Z · clock 2026-10-05T11:04:53Z · bound 2026-10-05T11:01:20Z (line 1078)",
+"ids 2026-10-05T11:04:44Z-a … 2026-10-05T11:04:44Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 1078,
+"bytes": 1045757,
+"terminator": "LF",
+"bound": "2026-10-05T11:01:20Z"
+},
+"after": {
+"lines": 1081,
+"bytes": 1048173
+}
+}
+]

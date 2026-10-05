@@ -1,0 +1,422 @@
+[
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "9b5fafc7",
+"ts": "2026-10-05T10:56:06Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-05T10-37-44-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-05T10-37-44-wrap",
+"--marker",
+"2026-10-05-real-cli-verify-probes"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"baseline caae9eca (pre-CI parent — the oldest of 1 pre-CI commit(s), 012fc508)",
+"six-row · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:91 (prose)",
+"slash06 · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control security-plan.md:604 (prose)",
+"six-pass · 0 rows (control fired) — a statement about this pattern, not the masters · control design-system.md:801 (pro…",
+"route84 · new 0 · standing 7 · leaf 8 · curation 0 · base 0 · control architecture.md:91 (prose)",
+"real-cli-entry · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:48 (prose)",
+"fixed-refusal · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control architecture.md:139 (prose)",
+"provisional · new 2 · standing 7 · leaf 5 · curation 0 · base 0 · control architecture.md:48 (prose)",
+"v2.1.283 · new 1 · standing 3 · leaf 1 · curation 0 · base 0 · control architecture.md:251 (fenced)",
+"subject-enum · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:815 (pros…",
+"two-spawns · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:399 (prose)",
+"print-only-ci · new 0 · standing 2 · leaf 2 · curation 0 · base 0 · control architecture.md:91 (prose)",
+"unbuilt-sigs · new 0 · standing 1 · leaf 3 · curation 0 · base 0 · control architecture.md:4 (prose)",
+"one-exception · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:100 …",
+"never-content · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:18 (prose)",
+"cli-verify-12 · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:653 (pr…",
+"window-open · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:49 (pr…",
+"CLAUDE.md:43 six-row leaf …e (one dated exception: the S3/S7/S8 dialog bodies ride the six-row stamp until route `:84`).",
+".claude/docs/commands.md:25 slash06 leaf …x ledger rows, print `[NN/06]` step lines + the `stamped <ver>  <n> pass  <m>…",
+".andromeda/test-plan.md:233 route84 standing …ocal-command rows land (`:84`); until then it is `not-delivered`, never p…",
+".andromeda/test-plan.md:408 route84 standing …e dialog captures stay relayed until `working-route.md:84`'s own re-probe.",
+".andromeda/test-plan.md:749 route84 standing …nfirmable\", cursor}` is owed to `:84`, which lands the local-command rows.",
+".andromeda/test-plan.md:750 route84 standing …b=\"unconfirmable\"` once `:84` lands the local-command rows (the web half …",
+".andromeda/test-plan.md:757 route84 standing … `permission` wake stays unit-level, its end-to-end witness owed to `:84`.",
+".andromeda/test-plan.md:779 route84 standing …end-to-end case owed to `:84` (from a recorded ordinary-tool PermissionRe…",
+".andromeda/test-plan.md:781 route84 standing … ordinary tool (owed to `:84`, no recorded fixture yet). On prompt 3, `Pr…",
+"CLAUDE.md:43 route84 leaf …e (one dated exception: the S3/S7/S8 dialog bodies ride the six-row stamp until route `:84`).",
+".claude/docs/gotchas.md:75 route84 leaf …(S7 has no row until route `:84`, the founder's dated gap); requirements v1-15.",
+".claude/docs/security-summary.md:38 route84 leaf …tes the stamps. Until `:84` the stamp holds only the six spine rows, …",
+".claude/docs/services/viola-agent-claude.md:23 route84 leaf …c/snapshots/`); no ledger row backs them until route `:84`.",
+".claude/docs/tests-summary.md:21 route84 leaf …s, `RELAYED.md`, until `:84`'s re-probe), runs absolute exec-form hooks …",
+".claude/docs/tests-summary.md:26 route84 leaf … `not-delivered` until `:84` lands the local-command rows, then `unconfi…",
+".claude/docs/tests-summary.md:27 route84 leaf …o-end wake witness landed with Path 4, the `permission` one owed to `:84`",
+".claude/docs/tests-summary.md:28 route84 leaf … only (its e2e owed to `:84`), the MCP / api / web steps owed to their s…",
+".claude/docs/security-summary.md:70 real-cli-entry leaf …surement until the \"Real-CLI verify probes\" route entry measur…",
+".andromeda/security-plan.md:280 fixed-refusal new …. It was the fixed `a recorded payload still holds a path or a usern…",
+".andromeda/architecture.md:48 provisional new @c1468/3794 …claude`, no longer provisional: their values are unchanged a…",
+".andromeda/architecture.md:49 provisional new @c352/3072 …n`. It is no longer provisional: the per-version `confirm-win…",
+".andromeda/architecture.md:64 provisional standing …T_DEADLINE` = 750 ms (provisional), asserted below `SPINE_DEADLINE`…",
+".andromeda/architecture.md:65 provisional standing …hannel under the same provisional 750 ms `CONNECT_DEADLINE`, else a…",
+".andromeda/architecture.md:69 provisional standing …LOG_DEADLINE` = 60 s (PROVISIONAL), beside `SPINE_DEADLINE`; the ho…",
+".andromeda/test-plan.md:1220 provisional standing …is the crate-private, provisional `CONNECT_DEADLINE` = 750 ms in the…",
+".andromeda/obs-plan.md:419 provisional standing …nverified CLI must stay under the spine deadline (provisionally 1.0 s).",
+".andromeda/obs-plan.md:1081 provisional standing ×2 …alue is tests-owned (provisionally 1.0 s; the hook's own provision…",
+".andromeda/a11y-plan.md:823 provisional standing …IALOG_DEADLINE`, 60 s PROVISIONAL, under the `hooks.json` `timeout` o…",
+".claude/docs/obs-summary.md:31 provisional leaf …0 s (SessionEnd; spine provisional) — logger init = 1 open + appends |…",
+".claude/docs/services/viola-agent-claude.md:11 provisional leaf …atures`, and the PROVISIONAL `QUIET_PERIOD` 300 ms / `…",
+".claude/docs/services/viola-core.md:6 provisional leaf …LOG_DEADLINE` (60 s PROVISIONAL, the dialog hooks' wait, below …",
+".claude/docs/tests-summary.md:44 provisional leaf …nnect deadline is the provisional 750 ms `CONNECT_DEADLINE`, asserte…",
+".claude/docs/tests-summary.md:61 provisional leaf …lt-in fallback is the provisional `CONFIRM_WINDOW_FALLBACK` = 10 s, …",
+".andromeda/architecture.md:251 v2.1.283 standing …,\"data\":{\"versions\":{\"2.1.283\":{\"verified_at\":\"2026-09-28T15:14:02.31…",
+".andromeda/architecture.md:412 v2.1.283 standing edited mixed ×2 …Committed sets: `2.1.283`, `2.1.287` and `2.1.288`. `…",
+".andromeda/test-plan.md:663 v2.1.283 new …ver>  10 pass  0 fail`. `2.1.283` is drift-only. The stamped and drift-only l…",
+".andromeda/test-plan.md:1084 v2.1.283 standing edited …ads (today the sets `2.1.283`, `2.1.287` and `2.1.288`: the four…",
+".claude/docs/tests-summary.md:21 v2.1.283 leaf …laude/*/*.json` (sets `2.1.283` and `2.1.287`, the relayed dialog fixtu…",
+".claude/docs/services/viola.md:31 two-spawns leaf - `verify`'s two child spawns are each logged as a `process-start`/`p…",
+".andromeda/architecture.md:91 print-only-ci standing edited ×2 @c1230,3971/4171 …irst drives ONE print-mode probe, `<pr…",
+".andromeda/test-plan.md:653 print-only-ci standing edited …sserts against the fake agent's print mode and its `--screen…",
+".claude/docs/commands.md:25 print-only-ci leaf …ram> [args…]]` — drive one print-mode probe (Haiku) against the CLI (de…",
+".claude/docs/services/viola.md:6 print-only-ci leaf …rify.rs`) drives the one print-mode probe, checks the ledger rows,…",
+".andromeda/test-plan.md:510 unbuilt-sigs standing …ctor whose surface is not built yet (`boot --ui`, `run --e2e`, …) is…",
+".claude/docs/commands.md:5 unbuilt-sigs leaf …ater chunk. Commands for surfaces not built yet are the planned contract._",
+".claude/docs/gotchas.md:79 unbuilt-sigs leaf …ny send — partial while no signature row is compiled (a poisoned model or…",
+".claude/docs/services/viola-agent-claude.md:11 unbuilt-sigs leaf …ction call while no signature row is compiled, is the…",
+".claude/docs/stack.md:14 never-content leaf … of the pump's output after the human's write. Never used to read content |",
+"six-row · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:91 (prose)",
+"slash06 · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control security-plan.md:604 (prose)",
+"six-pass · 0 rows (control fired) — a statement about this pattern, not the masters · control design-system.md:801 (pro…",
+"route84 · new 0 · standing 7 · leaf 8 · curation 0 · base 0 · control architecture.md:91 (prose)",
+"real-cli-entry · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:48 (prose)",
+"fixed-refusal · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control architecture.md:139 (prose)",
+"provisional · new 2 · standing 7 · leaf 5 · curation 0 · base 0 · control architecture.md:48 (prose)",
+"v2.1.283 · new 1 · standing 3 · leaf 1 · curation 0 · base 0 · control architecture.md:251 (fenced)",
+"subject-enum · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:815 (pros…",
+"two-spawns · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:399 (prose)",
+"print-only-ci · new 0 · standing 2 · leaf 2 · curation 0 · base 0 · control architecture.md:91 (prose)",
+"unbuilt-sigs · new 0 · standing 1 · leaf 3 · curation 0 · base 0 · control architecture.md:4 (prose)",
+"one-exception · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:100 …",
+"never-content · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:18 (prose)",
+"cli-verify-12 · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:653 (pr…",
+"window-open · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:49 (pr…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "caae9eca9e4daae24d67e2618e9e9d16c15d66aa",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), 012fc508",
+"counts": {
+"six-row": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"slash06": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"six-pass": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"route84": {
+"new": 0,
+"standing": 7,
+"leaf": 8,
+"curation": 0,
+"base": 0
+},
+"real-cli-entry": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"fixed-refusal": {
+"new": 1,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"provisional": {
+"new": 2,
+"standing": 7,
+"leaf": 5,
+"curation": 0,
+"base": 0
+},
+"v2.1.283": {
+"new": 1,
+"standing": 3,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"subject-enum": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"two-spawns": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"print-only-ci": {
+"new": 0,
+"standing": 2,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"unbuilt-sigs": {
+"new": 0,
+"standing": 1,
+"leaf": 3,
+"curation": 0,
+"base": 0
+},
+"one-exception": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"never-content": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"cli-verify-12": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"window-open": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "9b5fafc7",
+"ts": "2026-10-05T10:58:15Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-05T10-37-44-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-05T10-37-44-wrap",
+"--marker",
+"2026-10-05-real-cli-verify-probes"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"baseline caae9eca (pre-CI parent — the oldest of 1 pre-CI commit(s), 012fc508)",
+"six-row · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:91 (prose)",
+"slash06 · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:604 (pros…",
+"six-pass · 0 rows (control fired) — a statement about this pattern, not the masters · control design-system.md:801 (pro…",
+"route84 · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:91 (prose)",
+"real-cli-entry · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:48 …",
+"fixed-refusal · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control architecture.md:139 (prose)",
+"provisional · new 2 · standing 7 · leaf 3 · curation 0 · base 0 · control architecture.md:48 (prose)",
+"v2.1.283 · new 1 · standing 3 · leaf 1 · curation 0 · base 0 · control architecture.md:251 (fenced)",
+"subject-enum · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:815 (pros…",
+"two-spawns · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:399 (pr…",
+"print-only-ci · new 0 · standing 2 · leaf 2 · curation 0 · base 0 · control architecture.md:91 (prose)",
+"unbuilt-sigs · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control architecture.md:4 (prose)",
+"one-exception · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:100 …",
+"never-content · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:18 (…",
+"cli-verify-12 · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:653 (pr…",
+"window-open · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:49 (pr…",
+".andromeda/security-plan.md:280 fixed-refusal new …. It was the fixed `a recorded payload still holds a path or a usern…",
+".andromeda/architecture.md:48 provisional new @c1468/3794 …claude`, no longer provisional: their values are unchanged a…",
+".andromeda/architecture.md:49 provisional new @c352/3072 …n`. It is no longer provisional: the per-version `confirm-win…",
+".andromeda/architecture.md:64 provisional standing …T_DEADLINE` = 750 ms (provisional), asserted below `SPINE_DEADLINE`…",
+".andromeda/architecture.md:65 provisional standing …hannel under the same provisional 750 ms `CONNECT_DEADLINE`, else a…",
+".andromeda/architecture.md:69 provisional standing …LOG_DEADLINE` = 60 s (PROVISIONAL), beside `SPINE_DEADLINE`; the ho…",
+".andromeda/test-plan.md:1220 provisional standing …is the crate-private, provisional `CONNECT_DEADLINE` = 750 ms in the…",
+".andromeda/obs-plan.md:419 provisional standing …nverified CLI must stay under the spine deadline (provisionally 1.0 s).",
+".andromeda/obs-plan.md:1081 provisional standing ×2 …alue is tests-owned (provisionally 1.0 s; the hook's own provision…",
+".andromeda/a11y-plan.md:823 provisional standing …IALOG_DEADLINE`, 60 s PROVISIONAL, under the `hooks.json` `timeout` o…",
+".claude/docs/obs-summary.md:31 provisional leaf …0 s (SessionEnd; spine provisional) — logger init = 1 open + appends |…",
+".claude/docs/services/viola-core.md:6 provisional leaf …LOG_DEADLINE` (60 s PROVISIONAL, the dialog hooks' wait, below …",
+".claude/docs/tests-summary.md:44 provisional leaf …nnect deadline is the provisional 750 ms `CONNECT_DEADLINE`, asserte…",
+".andromeda/architecture.md:251 v2.1.283 standing …,\"data\":{\"versions\":{\"2.1.283\":{\"verified_at\":\"2026-09-28T15:14:02.31…",
+".andromeda/architecture.md:412 v2.1.283 standing edited mixed ×2 …Committed sets: `2.1.283`, `2.1.287` and `2.1.288`. `…",
+".andromeda/test-plan.md:663 v2.1.283 new …ver>  10 pass  0 fail`. `2.1.283` is drift-only. The stamped and drift-only l…",
+".andromeda/test-plan.md:1084 v2.1.283 standing edited …ads (today the sets `2.1.283`, `2.1.287` and `2.1.288`: the four…",
+".claude/docs/tests-summary.md:21 v2.1.283 leaf ×2 …aude/*/*.json` (sets `2.1.283`, `2.1.287` and `2.1.288`, the relayed…",
+".andromeda/architecture.md:91 print-only-ci standing edited ×2 @c1230,3971/4171 …irst drives ONE print-mode probe, `<pr…",
+".andromeda/test-plan.md:653 print-only-ci standing edited …sserts against the fake agent's print mode and its `--screen…",
+".claude/docs/commands.md:25 print-only-ci leaf …ram> [args…]]` — drive one print-mode probe (Haiku) and two interactive…",
+".claude/docs/services/viola.md:6 print-only-ci leaf …rify.rs`) drives the one print-mode probe and then the two interac…",
+".andromeda/test-plan.md:510 unbuilt-sigs standing …ctor whose surface is not built yet (`boot --ui`, `run --e2e`, …) is…",
+".claude/docs/commands.md:5 unbuilt-sigs leaf …ater chunk. Commands for surfaces not built yet are the planned contract._",
+"six-row · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:91 (prose)",
+"slash06 · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:604 (pros…",
+"six-pass · 0 rows (control fired) — a statement about this pattern, not the masters · control design-system.md:801 (pro…",
+"route84 · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:91 (prose)",
+"real-cli-entry · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:48 …",
+"fixed-refusal · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control architecture.md:139 (prose)",
+"provisional · new 2 · standing 7 · leaf 3 · curation 0 · base 0 · control architecture.md:48 (prose)",
+"v2.1.283 · new 1 · standing 3 · leaf 1 · curation 0 · base 0 · control architecture.md:251 (fenced)",
+"subject-enum · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:815 (pros…",
+"two-spawns · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:399 (pr…",
+"print-only-ci · new 0 · standing 2 · leaf 2 · curation 0 · base 0 · control architecture.md:91 (prose)",
+"unbuilt-sigs · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control architecture.md:4 (prose)",
+"one-exception · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:100 …",
+"never-content · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:18 (…",
+"cli-verify-12 · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:653 (pr…",
+"window-open · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:49 (pr…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "caae9eca9e4daae24d67e2618e9e9d16c15d66aa",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), 012fc508",
+"counts": {
+"six-row": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"slash06": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"six-pass": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"route84": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"real-cli-entry": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"fixed-refusal": {
+"new": 1,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"provisional": {
+"new": 2,
+"standing": 7,
+"leaf": 3,
+"curation": 0,
+"base": 0
+},
+"v2.1.283": {
+"new": 1,
+"standing": 3,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"subject-enum": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"two-spawns": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"print-only-ci": {
+"new": 0,
+"standing": 2,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"unbuilt-sigs": {
+"new": 0,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"one-exception": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"never-content": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"cli-verify-12": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"window-open": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]

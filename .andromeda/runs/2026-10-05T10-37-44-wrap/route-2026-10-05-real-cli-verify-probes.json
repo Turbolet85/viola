@@ -1,0 +1,135 @@
+[
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "b87a9ed0",
+"ts": "2026-10-05T11:07:45Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-10-05-real-cli-verify-probes",
+"--desc-file",
+".andromeda/runs/2026-10-05T10-37-44-wrap/master-desc.txt",
+"--run-dir",
+".andromeda/runs/2026-10-05T10-37-44-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"flip master-route.md:46 - 2026-10-05-real-cli-verify-probes pending -> complete - desc REWRITTEN from --desc-file"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "b87a9ed0",
+"ts": "2026-10-05T11:07:49Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-05-real-cli-verify-probes",
+"--date",
+"2026-10-05",
+"--run-dir",
+".andromeda/runs/2026-10-05T10-37-44-wrap",
+"--dry-run"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"pin :84 strip CARRY: 458ch \"CARRY: minted at the 2026-10-05 0-pendin\"",
+"pin :84 strip CARRY: 192ch \"CARRY: chunk 2026-09-28-capability-ledge\"",
+"pin :84 strip CARRY: 948ch \"CARRY: chunk 2026-09-29-fake-agent-drift\"",
+"pin :84 strip CARRY: 823ch \"CARRY: chunk 2026-10-04-readiness-gate-a\"",
+"pin :84 strip CARRY: 614ch \"CARRY: chunk 2026-10-04-confirmed-send-w\"",
+"pin :84 strip CARRY: 817ch \"CARRY: chunk 2026-10-04-dialog-answers-b\"",
+"pin :84 strip CARRY: 383ch \"CARRY: chunk 2026-10-04-dialog-answers-b\"",
+"pin :84 strip CARRY: 287ch \"CARRY: relay `split84-route-adaptation.m\"",
+"pin :84 strip CARRY: 256ch \"CARRY: the 2026-10-05 0-pending wrap: `t\"",
+"pin next markerless :86 holds CARRY:×5",
+"84 · 2026-10-05-real-cli-verify-probes · strip 9 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 84,
+"marker": "2026-10-05-real-cli-verify-probes",
+"blocks": 9,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "b87a9ed0",
+"ts": "2026-10-05T11:07:54Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-05-real-cli-verify-probes",
+"--date",
+"2026-10-05",
+"--run-dir",
+".andromeda/runs/2026-10-05T10-37-44-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"pin :84 strip CARRY: 458ch \"CARRY: minted at the 2026-10-05 0-pendin\"",
+"pin :84 strip CARRY: 192ch \"CARRY: chunk 2026-09-28-capability-ledge\"",
+"pin :84 strip CARRY: 948ch \"CARRY: chunk 2026-09-29-fake-agent-drift\"",
+"pin :84 strip CARRY: 823ch \"CARRY: chunk 2026-10-04-readiness-gate-a\"",
+"pin :84 strip CARRY: 614ch \"CARRY: chunk 2026-10-04-confirmed-send-w\"",
+"pin :84 strip CARRY: 817ch \"CARRY: chunk 2026-10-04-dialog-answers-b\"",
+"pin :84 strip CARRY: 383ch \"CARRY: chunk 2026-10-04-dialog-answers-b\"",
+"pin :84 strip CARRY: 287ch \"CARRY: relay `split84-route-adaptation.m\"",
+"pin :84 strip CARRY: 256ch \"CARRY: the 2026-10-05 0-pending wrap: `t\"",
+"pin next markerless :86 holds CARRY:×5",
+"84 · 2026-10-05-real-cli-verify-probes · strip 9 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/route-archive.md",
+"./viola-0.1.0/working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 84,
+"marker": "2026-10-05-real-cli-verify-probes",
+"blocks": 9,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

@@ -332,3 +332,12 @@
 **Change:** the wrapper `send-refused` bullet keeps `detail` ∈ `input-not-ready|no-prompt-submitted|turn-running` and now states `turn-running`'s two causes under the one closed detail, with no new field: a running turn, or another `send` in flight. The running turn is in-memory wrapper state (marked by a `prompt-submitted` of any origin, ended by `turn-ended` / `session-start` / `session-end`, cleared by a wheel-returning `release`) that writes no event, span or log line of its own; either cause's refusal is the existing `send-refused` with no `cursor` (`corr` the end offset, D-28), no `send-issued`, client exit 13.
 **Why:** the chunk widened the cause behind an existing detail and reused the one emitter, so the must-trace scenario names the cause without changing the schema.
 **Ref:** .andromeda/runs/2026-10-04T22-27-20-wrap/
+
+## 2026-10-05-real-cli-verify-probes — verify-pty-probe: four verify spawn pairs
+**Section:** §4 Edge flows → `verify` (spawns, CI) · §6 event table → `process-start` · §6 Child / shell spawns (subject set, schema)
+**Change:**
+- `verify` logs four child spawn pairs between its own start and exit (was two): `version-probe`, `verify-probe` (the print probe), then one `verify-pty-probe` pair per interactive PTY run (Run A, Run B). Each `process-exit` carries `child_exit_status` and `duration_ms`, and no line holds row text, a prompt or a path.
+- `subject` (the event table, the child-spawn set, `schemas/diag-line.v1.json` `$defs.subject.enum`) gains `verify-pty-probe`.
+- In CI, verify drives the fake agent's print mode plus its two interactive runs (`--screens --turn-stop --trusted-root`).
+**Why:** the chunk added verify's two interactive PTY runs, instrumented at the call site like the other two spawns.
+**Ref:** .andromeda/runs/2026-10-05T10-37-44-wrap/

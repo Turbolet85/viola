@@ -1,0 +1,63 @@
+[[pattern]]
+id = "six-row"
+regex = '(?i)six(-| )rows?|six spine ledger|six literal row'
+
+[[pattern]]
+id = "slash06"
+regex = '/06\b'
+
+[[pattern]]
+id = "six-pass"
+regex = '\b6 pass\b'
+
+[[pattern]]
+id = "route84"
+regex = '(working-route\.md)?`?:84\b'
+
+[[pattern]]
+id = "real-cli-entry"
+fixed = 'Real-CLI verify probes'
+
+[[pattern]]
+id = "fixed-refusal"
+fixed = 'recorded payload still holds'
+
+[[pattern]]
+id = "provisional"
+regex = '(?i)provisional'
+
+[[pattern]]
+id = "v2.1.283"
+fixed = '2.1.283'
+
+[[pattern]]
+id = "subject-enum"
+regex = 'verify-probe\|agents-probe'
+
+[[pattern]]
+id = "two-spawns"
+regex = '(?i)two (child )?spawn'
+
+[[pattern]]
+id = "print-only-ci"
+regex = "(?i)fake agent's (-p/--print |print )mode|single probe|ONE print-mode probe"
+
+[[pattern]]
+id = "unbuilt-sigs"
+regex = '(?i)no signature set|not built yet|every build today|no signature row is compiled'
+
+[[pattern]]
+id = "one-exception"
+regex = '(?i)one exception is `?viola verify'
+
+[[pattern]]
+id = "never-content"
+regex = '(?i)never used to read content'
+
+[[pattern]]
+id = "cli-verify-12"
+regex = 'cli_verify\.rs`? \(12 cases\)'
+
+[[pattern]]
+id = "window-open"
+regex = '(?i)confirmation window is an open item|window arrive with their rows'

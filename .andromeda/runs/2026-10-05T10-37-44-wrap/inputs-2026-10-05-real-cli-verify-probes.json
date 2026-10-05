@@ -1,0 +1,44 @@
+[
+{
+"tool": "inputs",
+"v": "1.0",
+"sha8": "faa48d4e",
+"ts": "2026-10-05T10:37:55Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-05-real-cli-verify-probes",
+"--run-dir",
+".andromeda/runs/2026-10-05T10-37-44-wrap",
+"--marker",
+"2026-10-05-real-cli-verify-probes"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/split84-route-adaptation.md",
+"I1 cited scope.md:15 · scope.md:20 · research.md:24 · plan.md:553",
+"I2 n/a — a message has no live source · copy message · message: operator, /andromeda-phase invocation arguments, 2026-10-05 ~00:16Z",
+"I2 cited scope.md:22 · research.md:25 · plan.md:554",
+"inputs: 2 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]

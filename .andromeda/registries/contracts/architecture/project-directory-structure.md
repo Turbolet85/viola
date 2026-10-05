@@ -21,7 +21,9 @@ viola/
 │   ├── human.rs                # human-facing text: the refusal and internal-error stderr writers, the stdout result writer, `send`'s readback mirror (`[  ] open` / `[RB] read back` / `[/ ] unable` + its hints), the message-mode escaper, the `wait` / `last` lines, the `answer` line and the `pause` / `release` lines, called by `run`, `verify`, `send`, `wait`, `last`, `answer`, `pause`, `release` and the `main` catch site
 │   ├── cmd/                    # one module per subcommand: run, send, wait, last, list,
 │   │                           #   answer, hook, mcp, ui, verify, pause, release, link, unlink, plugin;
-│   │                           #   client.rs (a helper, no subcommand): the channel client send / wait / last share
+│   │                           #   client.rs (a helper, no subcommand): the channel client send / wait / last share;
+│   │                           #   verify/typed.rs: verify's two interactive PTY runs (Run A untrusted, Run B trusted),
+│   │                           #   the settle rule and the signature-only screen recording
 │   ├── run/                    # PTY pump, wheel, budget governor; gate.rs: the pump-output tee + bounded vt100 feed + Gate;
 │   │                           #   send.rs: the wrapper's `send` method, the one-in-flight slot, the driver relabel;
 │   │                           #   wait.rs: the WaitFeed (Mutex + Condvar wake, newest turn, start rebuild), `wait` / `last`;
@@ -33,7 +35,7 @@ viola/
 │   ├── cmd/*.toml              # trycmd cases: human-mode expected output (snapbox redactions)
 │   ├── snapshots/              # insta snapshots (check mode only)
 │   └── support/                # the sync root fixture chain + fixture-hygiene checker
-├── schemas/                    # JSON schemas: fake-script.v1.json and claude-fixture.v1.json (test-side), diag-line/diag-detail.v1.json (obs line contracts)
+├── schemas/                    # JSON schemas: fake-script.v1.json, claude-fixture.v1.json and claude-screen.v1.json (test-side), diag-line/diag-detail.v1.json (obs line contracts)
 ├── crates/
 │   ├── viola-core/             # normalised events, RefusalReason + NotDelivered, HumanTyping, WheelCause, validate_paste_text, ViolaName, Percent, `v` constants,
 │   │                           #   SPINE_DEADLINE, Clock / SystemClock
@@ -44,7 +46,7 @@ viola/
 │   │                           #   `sideload` (Windows): the System32 DLL-search restriction + the absolute-path conpty.dll pre-load)
 │   ├── viola-channel/          # JSON-RPC 2.0 ndjson over interprocess local sockets
 │   ├── viola-state/            # ndjson logs, atomic snapshots, File::lock, the events reader (`events::read_from`:
-│   │                           #   skips + counts torn / oversize lines; healing owed to route :89), tailing (with `ui`)
+│   │                           #   skips + counts torn / oversize lines; healing owed to route :93), tailing (with `ui`)
 │   ├── viola-agent-claude/     # hook parsing, dialog mapping, R8 strip, shim resolution,
 │   │                           #   capability ledger, the vt100 screen model (`screen`), statusline parsing
 │   │                           #   (+ proptest-regressions/, committed seeds; src/snapshots/, the insta
@@ -78,7 +80,7 @@ viola/
 │   ├── fuzz_targets/{viola_name,channel_frame,hook_stdin,vt100_feed,paste_text}.rs
 │   └── corpus/<target>/        # committed synthetic seeds
 ├── fixtures/
-│   ├── claude/<cli-version>/   # hook-payload fixtures recorded by `viola verify`, plus relayed dialog fixtures (RELAYED.md)
+│   ├── claude/<cli-version>/   # hook-payload fixtures and signature-only Screen.<phase>.json screens recorded by `viola verify`, plus relayed dialog fixtures (RELAYED.md)
 │   └── fake-scripts/           # committed fake-agent turn scripts (synthetic)
 ├── e2e-web/                    # test-side Node only (Playwright; axe and the a11y lint land with the a11y chunks);
 │   │                           #   the ts code-graph plane
