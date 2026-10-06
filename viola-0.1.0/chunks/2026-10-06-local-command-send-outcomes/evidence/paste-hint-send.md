@@ -53,8 +53,11 @@ Each case's length is mostly its stamp: a whole `viola verify` against the fake 
 same runs (`verify_pastes_no_local_command_once_the_tag_turn_screen_shows_a_modal`). The `no_hint` case is the
 stamp, the boot and two sends.
 
+On the three CI runners (ci#37546848541, the pre-CI commit `8e66926`, the 3 000 ms hold): `hint` 7.793 s on
+ubuntu-latest, 7.693 s on macos-latest, 7.714 s on windows-2025; `no_hint` 5.137 s, 5.140 s, 5.015 s
+(`operator-pass.md` has the table).
+
 ## What is not measured
 - The real CLI. The hint window on 2.1.287 was measured once (8.0 s from the paste, 6.5 s after the Stop;
   the prior chunk's `evidence/rehearsal-shapes.md`); no `send` was run in it against a live session, and none is
   here (inputs#I1).
-- The three CI runners. The lengths above are this host's.

@@ -704,5 +704,644 @@
 "unparsed": 0,
 "widening_without_word": 0
 }
+},
+{
+"tool": "gate",
+"v": "1.11",
+"sha8": "0aca1113",
+"ts": "2026-10-06T23:38:09Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-06-local-command-send-outcomes",
+"--run-dir",
+".andromeda/runs/2026-10-06T23-06-47-implement",
+"--marker",
+"2026-10-06-local-command-send-outcomes"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"root . · base 11c77f7c (the parent of the oldest pre-CI commit 8e669267) · lists new 1 · modify 11 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"list viola-0.1.0/chunks/2026-10-06-local-command-send-outcomes/evidence/ (dir) ×0",
+"scope: clean — changed 10 · listed 10 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 56"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "/home/turbolet/dev/projects/viola",
+"base": "11c77f7c934993e107a312f7d7ffa75932e4402f",
+"base_why": "the parent of the oldest pre-CI commit 8e669267",
+"counts": {
+"changed": 10,
+"listed": 10,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 56,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.11",
+"sha8": "0aca1113",
+"ts": "2026-10-06T23:38:09Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-10-06T23-06-47-implement",
+"--marker",
+"2026-10-06-local-command-send-outcomes"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust, ts · base 11c77f7c (the parent of the oldest pre-CI commit 8e669267)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P2 · P3 rust · P3 ts — each fired on its synthetic known positive",
+"hygiene: clean — read 48 (runs 40 · evidence 4 · inputs 4) · trails 14 not read · copies 2 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "/home/turbolet/dev/projects/viola",
+"case": "exact",
+"planes": [
+"rust",
+"ts"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 40,
+"evidence": 4,
+"inputs": 4,
+"trails": 14,
+"copies": 2,
+"kept": 0,
+"binary": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.11",
+"sha8": "0aca1113",
+"ts": "2026-10-06T23:41:09Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-06-local-command-send-outcomes/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-06T23-06-47-implement",
+"--marker",
+"2026-10-06-local-command-send-outcomes",
+"--only",
+"1,2,7,21"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-06-local-command-send-outcomes · entries 24",
+"logs $TMPDIR/andromeda-gate/2026-10-06-local-command-send-outcomes/implement-2026-10-06T23-06-47 · bound: GNU timeout",
+"delta docs 3 · rust 1",
+"walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 4",
+"prose L181-182: No live leg: the chunk drives no real `claude` (inputs#I1), so the block holds no `live` o… (206 chars)",
+"prose L184-188: Two controls mutate source and revert, so they are one-shot runs at implement and not entr… (528 chars)",
+"prose L190-193: Five builders share this host (inputs#I1). A red whose shape is a stalled start, where eve… (438 chars)",
+"  1 lint        green · exit 0 · 0.66s · 0 B → 1.log · cargo fmt --all --check",
+"  2 lint        green · exit 0 · 1.96s · 134 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 unit        not run — excluded · bash scripts/agent-run.sh run --unit",
+"  4 unit        not run — excluded · bash scripts/agent-run.sh run --unit --filter 'test(/send_… (75 chars)",
+"  5 unit        not run — excluded · bash scripts/agent-run.sh run --unit --filter 'test(/send_… (74 chars)",
+"  6 unit        not run — excluded · bash scripts/agent-run.sh run --unit --filter 'test(/write… (67 chars)",
+"  7 integration green · exit 0 · 13.18s · 2214 B → 7.log · bash scripts/agent-run.sh run --integration --filter 'test… (275 chars)",
+"  8 integration not run — excluded · bash scripts/agent-run.sh run --integration --filter 'test… (106 chars)",
+"  9 integration not run — excluded · bash scripts/agent-run.sh run --integration --filter 'test… (207 chars)",
+" 10 integration not run — excluded · bash scripts/agent-run.sh run --integration --filter 'bina… (225 chars)",
+" 11 probe       not run — excluded · git diff --quiet 11c77f7c9349 -- crates/viola-agent-claude… (152 chars)",
+" 12 probe       not run — excluded · grep -c 'LOCAL_COMMANDS' src/run/send.rs",
+" 13 probe       not run — excluded · grep -rnE 'read_stamps|stamps\\.json' src/run/send.rs src/c… (68 chars)",
+" 14 probe       not run — excluded · ! (git diff 11c77f7c9349 -- tests crates/viola-e2e | grep … (171 chars)",
+" 15 probe       not run — excluded · grep -rn 'seven 300 ms' .config/nextest.toml tests/support… (68 chars)",
+" 16 integration not run — excluded · bash scripts/agent-run.sh run",
+" 17 smoke       not run — excluded · bash scripts/agent-run.sh cleanup --session p-send-smoke",
+" 18 smoke       not run — excluded · bash scripts/agent-run.sh boot --session p-send-smoke --in… (72 chars)",
+" 19 smoke       not run — excluded · bash scripts/agent-run.sh status --session p-send-smoke",
+" 20 smoke       not run — excluded · bash scripts/agent-run.sh cleanup --session p-send-smoke",
+" 21 probe       green · exit 0 · 79.55s · 207989 B → 21.log · bash scripts/agent-run.sh pre-push",
+" 22 probe       not run — excluded · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (90 chars)",
+" 23 probe       not run — excluded · git diff --quiet && git diff --cached --quiet && git push … (69 chars)",
+" 24 probe       not run — excluded · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (114 chars)",
+"entries 24 · green 4 · red 0 · recorded 0 · timeout 0 · not-run 20"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-06-local-command-send-outcomes",
+"plan": "/home/turbolet/dev/projects/viola/viola-0.1.0/chunks/2026-10-06-local-command-send-outcomes/plan.md",
+"root": "/home/turbolet/dev/projects/viola",
+"shell": "/usr/bin/bash",
+"out_dir": "/tmp/andromeda-gate/2026-10-06-local-command-send-outcomes/implement-2026-10-06T23-06-47",
+"delta": {
+"docs": [
+".andromeda/runs/2026-10-06T23-06-47-implement/gate-2026-10-06-local-command-send-outcomes.json",
+"viola-0.1.0/chunks/2026-10-06-local-command-send-outcomes/evidence/operator-pass.md",
+"viola-0.1.0/chunks/2026-10-06-local-command-send-outcomes/evidence/paste-hint-send.md"
+],
+"rust": [
+"tests/cli_send.rs"
+]
+},
+"unmapped": [],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 4,
+"problem": null
+},
+"prose": [
+{
+"from": 181,
+"to": 182,
+"text": "No live leg: the chunk drives no real `claude` (inputs#I1), so the block holds no `live` or `round` entry and no liveness probe. The harness smoke boots the fake agent on the seventeen-row stamp, unchanged."
+},
+{
+"from": 184,
+"to": 188,
+"text": "Two controls mutate source and revert, so they are one-shot runs at implement and not entries: step 9's remove-the-guard run (`evidence/local-command-guard-control.md`) and step 7's run with the warning's calls neutralised (`evidence/rewritten-path-warning-control.md`). On every re-run the named entries for their cases and the guard on `src/cmd/verify/typed.rs` hold the same properties. The three files under `evidence/` are records implement writes (step 11), not artifacts an entry produces, so no entry carries `artifact`."
+},
+{
+"from": 190,
+"to": 193,
+"text": "Five builders share this host (inputs#I1). A red whose shape is a stalled start, where every test that spawns a process stalls by one common amount while tests that spawn nothing pass in milliseconds and no assertion fails on a value, is re-read once no other build runs before it is treated as real; the red entry's log is read before the re-run overwrites it (`.claude/rules/verification-harness.md`, 2026-09-29 as extended 2026-10-06)."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-06-local-command-send-outcomes/implement-2026-10-06T23-06-47/1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.66,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-06-local-command-send-outcomes/implement-2026-10-06T23-06-47/2.log",
+"bytes": 134,
+"log_sha8": "13e20065",
+"exit": 0,
+"seconds": 1.96,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/send_local_command_/)'",
+"run_sha8": "d632d901",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"suite\":\"nextest-unit\",\"passed\":13,\"failed\":0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/send_refusal_order/)'",
+"run_sha8": "b3298a92",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"suite\":\"nextest-unit\",\"passed\":15,\"failed\":0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/write_send_/)'",
+"run_sha8": "96d7bcf9",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"suite\":\"nextest-unit\",\"passed\":4,\"failed\":0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'test(/send_window_local_command_is_not_presumed_delivered|send_clear_on_a_verified_cli_is_confirmed_by_its_new_session|send_window_slash_text_off_the_list_is_not_delivered|send_rewritten_path_argument_draws_the_warning/)'",
+"run_sha8": "b14875a5",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"suite\":\"nextest-integration\",\"passed\":4,\"failed\":0"
+],
+"log": "/tmp/andromeda-gate/2026-10-06-local-command-send-outcomes/implement-2026-10-06T23-06-47/7.log",
+"bytes": 2214,
+"log_sha8": "6cea5c2f",
+"exit": 0,
+"seconds": 13.18,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"contains '\"suite\":\"nextest-integration\",\"passed\":4,\"failed\":0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'test(/send_under_the_paste_hint_on_a_verified_cli/)'",
+"run_sha8": "6c6ccb23",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"suite\":\"nextest-integration\",\"passed\":2,\"failed\":0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'test(/verify_pastes_no_local_command_once_the_tag_turn_screen_shows_a_modal|fake_agent_tag_turn_screen_draws_the_named_screen_after_the_tag_turn_alone/)'",
+"run_sha8": "3495d804",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"suite\":\"nextest-integration\",\"passed\":2,\"failed\":0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(cli_send) | binary(cli_verify) | binary(cli_fake_agent) | binary(cli_controls_not_disableable) | binary(contract_fake_agent_drift) | binary(contract_ledger_probes)'",
+"run_sha8": "60a23f43",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "git diff --quiet 11c77f7c9349 -- crates/viola-agent-claude/src/screen.rs src/run/gate.rs crates/viola-agent-claude/src/ledger.rs src/cmd/verify/typed.rs",
+"run_sha8": "59e9857f",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "grep -c 'LOCAL_COMMANDS' src/run/send.rs",
+"run_sha8": "3b22eab4",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "grep -rnE 'read_stamps|stamps\\.json' src/run/send.rs src/cmd/send.rs",
+"run_sha8": "54af9426",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "! (git diff 11c77f7c9349 -- tests crates/viola-e2e | grep -E '^\\+.*(#\\[ignore|thread::sleep)') && ! (git diff 11c77f7c9349 -- src crates | grep -E '^\\+.*env::var(_os)?\\(')",
+"run_sha8": "bfd0b3e3",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "grep -rn 'seven 300 ms' .config/nextest.toml tests/support/verify.rs",
+"run_sha8": "f0242e68",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run",
+"run_sha8": "21443cdf",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-send-smoke",
+"run_sha8": "ab86752d",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-send-smoke --instance builder",
+"run_sha8": "0f78324d",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-send-smoke",
+"run_sha8": "3650b783",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-send-smoke",
+"run_sha8": "ab86752d",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": "/tmp/andromeda-gate/2026-10-06-local-command-send-outcomes/implement-2026-10-06T23-06-47/21.log",
+"bytes": 207989,
+"log_sha8": "482c21b8",
+"exit": 0,
+"seconds": 79.55,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"contains '\"stage\":\"linux-tests\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "python -X utf8 /home/turbolet/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "64780869",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "python -X utf8 /home/turbolet/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "c0d185ab",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
 }
 ]

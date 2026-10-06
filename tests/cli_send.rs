@@ -393,31 +393,38 @@ fn send_after_a_confirmed_send_is_turn_running_until_turn_ended() {
 
 /// A listed local command is never presumed delivered and never refused. On a CLI version with no
 /// passing stamp nothing is measured for it, so `/clear` and `/remote-control` are each typed once
-/// and answered `unconfirmable` at once: an `ok` with exit 0, recorded and logged as
-/// `send-confirmed` with `confirmed:false`, the command's text in no role log line.
+/// and answered `unconfirmable` at once: exit 0 and the one `ok` document under `--json`, recorded
+/// and logged as `send-confirmed` with `confirmed:false`, the command's text in no role log line.
+/// In human mode the same outcome is the open box on stdout.
 #[test]
 fn send_window_local_command_is_not_presumed_delivered() {
     let wrapper = boot(None, &["--local-command-mode"]);
     let dir = wrapper.instance_dir();
     let home = wrapper.home().to_path_buf();
-    let l = end_offset(&dir);
-    let sent = send(&home, &["builder", "--json"], "/clear");
-    assert_eq!(sent.code, Some(0), "stdout: {}", sent.stdout);
-    assert!(sent.stderr.is_empty(), "--json writes nothing on stderr");
-    assert_eq!(sent.stdout.lines().count(), 1, "one JSON document");
-    assert_eq!(
-        serde_json::from_str::<Value>(&sent.stdout).expect("one JSON document"),
-        json!({"v": 1, "ok": {"confirmed": false, "detail": "unconfirmable", "cursor": l}})
-    );
-    let records = records_after(&dir, l);
-    let kinds: Vec<&Value> = records.iter().map(|r| &r["kind"]).collect();
-    assert_eq!(kinds, ["send-issued", "send-confirmed"]);
-    assert_eq!(records[1]["data"], json!({"cursor": l, "confirmed": false}));
-    let typed = prompts_at_least(&wrapper.receipt(), 1);
-    assert_eq!(typed.len(), 1);
-    assert_eq!(typed[0]["submit"], "local-command");
+    let mut cursors = Vec::new();
+    for (n, command) in ["/clear", "/remote-control"].into_iter().enumerate() {
+        let l = end_offset(&dir);
+        let sent = send(&home, &["builder", "--json"], command);
+        assert_eq!(sent.code, Some(0), "{command} stdout: {}", sent.stdout);
+        assert!(sent.stderr.is_empty(), "--json writes nothing on stderr");
+        assert_eq!(sent.stdout.lines().count(), 1, "one JSON document");
+        assert_eq!(
+            serde_json::from_str::<Value>(&sent.stdout).expect("one JSON document"),
+            json!({"v": 1, "ok": {"confirmed": false, "detail": "unconfirmable", "cursor": l}}),
+            "{command}"
+        );
+        let records = records_after(&dir, l);
+        let kinds: Vec<&Value> = records.iter().map(|r| &r["kind"]).collect();
+        assert_eq!(kinds, ["send-issued", "send-confirmed"], "{command}");
+        assert_eq!(records[1]["data"], json!({"cursor": l, "confirmed": false}));
+        let typed = prompts_at_least(&wrapper.receipt(), n + 1);
+        assert_eq!(typed.len(), n + 1, "{command} typed once");
+        assert_eq!(typed[n]["text"], command);
+        assert_eq!(typed[n]["submit"], "local-command");
+        cursors.push(l);
+    }
 
-    let l2 = end_offset(&dir);
+    cursors.push(end_offset(&dir));
     let human = send(&home, &["builder"], "/remote-control");
     assert_eq!(human.code, Some(0), "stderr: {}", human.stderr);
     assert_eq!(
@@ -428,7 +435,7 @@ fn send_window_local_command_is_not_presumed_delivered() {
 
     let role_file = home.join("diagnostics").join("run-builder.ndjson");
     let role = support::ndjson::read_lines(&role_file);
-    for cursor in [l, l2] {
+    for cursor in cursors {
         let of = |event: &str| -> Vec<&Value> {
             role.iter()
                 .filter(|r| r["event"] == event && r["corr"] == cursor)
