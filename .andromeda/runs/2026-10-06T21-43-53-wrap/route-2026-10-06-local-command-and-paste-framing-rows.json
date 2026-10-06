@@ -1,0 +1,125 @@
+[
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "699f7ef0",
+"ts": "2026-10-06T22:23:28Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-10-06-local-command-and-paste-framing-rows",
+"--desc-file",
+".andromeda/runs/2026-10-06T21-43-53-wrap/master-desc.txt",
+"--run-dir",
+".andromeda/runs/2026-10-06T21-43-53-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"flip master-route.md:49 - 2026-10-06-local-command-and-paste-framing-rows pending -> complete - desc REWRITTEN from --desc-file"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "699f7ef0",
+"ts": "2026-10-06T22:23:28Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-06-local-command-and-paste-framing-rows",
+"--date",
+"2026-10-06",
+"--run-dir",
+".andromeda/runs/2026-10-06T21-43-53-wrap",
+"--dry-run"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"pin :90 strip CARRY: 286ch \"CARRY: minted at the 2026-10-05-real-cli\"",
+"pin :90 strip CARRY: 801ch \"CARRY: chunk 2026-10-04-confirmed-send-w\"",
+"pin :90 strip CARRY: 192ch \"CARRY: chunk 2026-09-28-capability-ledge\"",
+"pin :90 strip CARRY: 1329ch \"CARRY: chunk 2026-09-29-fake-agent-drift\"",
+"pin next markerless :92 holds CARRY:×3 · PREREQ:×1 · WATCH:×1",
+"90 · 2026-10-06-local-command-and-paste-framing-rows · strip 4 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 90,
+"marker": "2026-10-06-local-command-and-paste-framing-rows",
+"blocks": 4,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "699f7ef0",
+"ts": "2026-10-06T22:23:35Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-06-local-command-and-paste-framing-rows",
+"--date",
+"2026-10-06",
+"--run-dir",
+".andromeda/runs/2026-10-06T21-43-53-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"pin :90 strip CARRY: 286ch \"CARRY: minted at the 2026-10-05-real-cli\"",
+"pin :90 strip CARRY: 801ch \"CARRY: chunk 2026-10-04-confirmed-send-w\"",
+"pin :90 strip CARRY: 192ch \"CARRY: chunk 2026-09-28-capability-ledge\"",
+"pin :90 strip CARRY: 1329ch \"CARRY: chunk 2026-09-29-fake-agent-drift\"",
+"pin next markerless :92 holds CARRY:×3 · PREREQ:×1 · WATCH:×1",
+"90 · 2026-10-06-local-command-and-paste-framing-rows · strip 4 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/route-archive.md",
+"./viola-0.1.0/working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 90,
+"marker": "2026-10-06-local-command-and-paste-framing-rows",
+"blocks": 4,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

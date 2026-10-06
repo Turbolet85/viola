@@ -1,0 +1,54 @@
+[
+{
+"tool": "inputs",
+"v": "1.0",
+"sha8": "d30b83fd",
+"ts": "2026-10-06T21:44:01Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-06-local-command-and-paste-framing-rows",
+"--run-dir",
+".andromeda/runs/2026-10-06T21-43-53-wrap",
+"--marker",
+"2026-10-06-local-command-and-paste-framing-rows"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase arguments, 2026-10-06 ~19:18Z",
+"I1 cited scope.md:23 · scope.md:191 · scope.md:207 · scope.md:222 · research.md:11 · plan.md:638",
+"I2 n/a — a message has no live source · copy message · message: the P4 founder card answers, the founder live and the overseer founder-delegated, relayed by the operator, 2026-10-06 ~19:38Z",
+"I2 cited scope.md:30 · scope.md:137 · scope.md:187 · research.md:13 · research.md:149 · research.md:391 · plan.md:19 · plan.md:44 · plan.md:410 (in fence) · plan.md:638 · plan.md:684 · plan.md:689 · plan.md:692 · plan.md:699 · plan.md:766",
+"I3 n/a — a message has no live source · copy message · message: the operator, the P5 review of this plan, 2026-10-06",
+"I3 cited plan.md:125 · plan.md:351 (in fence) · plan.md:567 · plan.md:639",
+"I4 n/a — a message has no live source · copy message · message: the overseer, founder-delegated, the /andromeda-phase revision arguments, 2026-10-06 ~20:05Z",
+"I4 cited scope.md:42 · scope.md:94 · research.md:16 · research.md:78 · research.md:193 · research.md:218 · research.md:398 · plan.md:8 · plan.md:24 · plan.md:54 · plan.md:410 (in fence) · plan.md:640 · plan.md:657 · plan.md:667 · plan.md:680 · plan.md:684 · plan.md:772",
+"I5 n/a — a message has no live source · copy message · message: the overseer, founder-delegated, the P5 word on the revised plan, 2026-10-06",
+"I5 cited plan.md:661 · plan.md:773",
+"I6 n/a — a message has no live source · copy message · message: the founder live, 2026-10-06T20:49Z, relayed by the overseer as the /andromeda-phase second revision arguments",
+"I6 cited scope.md:52 · scope.md:61 · scope.md:87 · research.md:20 · research.md:245 · research.md:273 · research.md:286 · research.md:396 · plan.md:10 · plan.md:39 · plan.md:42 · plan.md:207 · plan.md:235 · plan.md:283 · plan.md:418 (in fence) · plan.md:512 (in fence) · plan.md:582 · plan.md:589 · plan.md:593 · plan.md:597 · plan.md:641 · plan.md:643 · plan.md:652 · plan.md:669 · plan.md:671 · plan.md:673 · plan.md:723 · plan.md:725 · plan.md:730",
+"I7 n/a — a message has no live source · copy message · message: the overseer, founder-delegated, the P5 word on the second revised plan, 2026-10-06",
+"I7 cited plan.md:653",
+"inputs: 7 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 7 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 7,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 7
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]

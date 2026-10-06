@@ -1,0 +1,74 @@
+# Cascade step 2 sweep — the retired wording and mechanisms of this pass's amendments
+# (chunk 2026-10-06-local-command-and-paste-framing-rows).
+
+[[pattern]]
+id = "fourteen"
+regex = '[Ff]ourteen'
+
+[[pattern]]
+id = "n14"
+regex = '/14\]|14 pass|`/14`|\[&str; 14\]|is 14 today'
+
+[[pattern]]
+id = "12pass"
+fixed = '12 pass'
+
+[[pattern]]
+id = "ends-kept"
+fixed = 'byte for byte'
+
+[[pattern]]
+id = "no-lc-row"
+regex = '[Nn]o local-command row'
+
+[[pattern]]
+id = "old-owner"
+fixed = 'Local-command and paste-framing rows'
+
+[[pattern]]
+id = "one-paste"
+fixed = 'one bracketed paste'
+
+[[pattern]]
+id = "five-argv"
+fixed = 'five argv options'
+
+[[pattern]]
+id = "dialogs-flag"
+fixed = '--dialogs'
+
+[[pattern]]
+id = "v288"
+fixed = '2.1.288'
+
+[[pattern]]
+id = "seven-settles"
+fixed = 'seven 300 ms'
+
+[[pattern]]
+id = "spine-dialog"
+regex = 'the spine and the dialog|spine fixtures and dialog variants'
+
+[[pattern]]
+id = "15th"
+fixed = '15th row'
+
+[[pattern]]
+id = "escape-claim"
+fixed = 'backslash after'
+
+[[pattern]]
+id = "wrap-threshold"
+fixed = 'paste-wrap'
+
+[[pattern]]
+id = "transcript"
+fixed = 'session transcript'
+
+[[pattern]]
+id = "drift-only"
+fixed = 'drift-only'
+
+[[pattern]]
+id = "lc-rows-land"
+regex = 'local-command rows|local-command row lands'
