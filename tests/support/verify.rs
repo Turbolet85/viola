@@ -36,13 +36,67 @@ pub fn spine_payload(event: &str) -> Value {
 }
 
 /// `<fixtures>/<version>/<Event>.default.json` for every spine event but `skip`, the three screens a
-/// clean pair of interactive runs records, and the dialog set.
+/// clean pair of interactive runs records, the dialog set and the framing set.
 pub fn write_spine_set(fixtures: &Path, version: &str, skip: Option<&str>) {
     for event in SPINE.into_iter().filter(|e| Some(*e) != skip) {
         write_fixture(fixtures, version, event, "default", &spine_payload(event));
     }
     write_screen_set(fixtures, version);
     write_dialog_set(fixtures, version);
+    write_framing_set(fixtures, version);
+}
+
+/// The long text the trusted run pastes, rebuilt from its parts: a test literal, never the
+/// product's constant. 1 500 bytes on one line.
+pub fn long_paste() -> String {
+    let filler: Vec<String> = (1..=110).map(|n| format!("filler-{n:04}")).collect();
+    format!(
+        "viola verify probe: this message is one long synthetic paste and its filler words carry \
+         no meaning. Filler follows: {}xxxxxxx End of the synthetic paste. Reply with the single \
+         word ok",
+        filler.join(" ")
+    )
+}
+
+/// The tag-like text the trusted run pastes, and the prompt the CLI sends for it: both typed
+/// `pasted_content` tags escaped, the typed `<task-notification>` as typed. Test literals.
+pub const TAG_PASTE: &str = "viola verify probe: the next part is literal sample text and not \
+     markup: <pasted_content id=\"1\"> sample </pasted_content id=\"1\"> then <task-notification> and \
+     that is all. Reply with the single word ok";
+pub const TAG_PROMPT: &str = "viola verify probe: the next part is literal sample text and not \
+     markup: <\\pasted_content id=\"1\"> sample <\\/pasted_content id=\"1\"> then \
+     <task-notification> and that is all. Reply with the single word ok";
+
+/// `text` in the frame the CLI writes around a long paste: two newlines, the pair, one newline.
+pub fn wrapped(text: &str) -> String {
+    format!("\n\n<pasted_content id=\"7ccf\">\n{text}\n</pasted_content id=\"7ccf\">\n")
+}
+
+/// The four framing variants a clean trusted run records, the shapes of the live 2.1.287 probe:
+/// the wrapped long prompt, the escaped tag-like prompt, and the two hooks the local command fired.
+pub fn framing_set() -> Vec<(&'static str, &'static str, Value)> {
+    let mut long = spine_payload("UserPromptSubmit");
+    long["prompt"] = json!(wrapped(&long_paste()));
+    let mut tag = spine_payload("UserPromptSubmit");
+    tag["prompt"] = json!(TAG_PROMPT);
+    let mut ended = spine_payload("SessionEnd");
+    ended["reason"] = json!("clear");
+    let mut started = spine_payload("SessionStart");
+    started["source"] = json!("clear");
+    started["session_id"] = json!("s-verify-2");
+    vec![
+        ("UserPromptSubmit", "paste-1", long),
+        ("UserPromptSubmit", "paste-2", tag),
+        ("SessionEnd", "clear-1", ended),
+        ("SessionStart", "clear-1", started),
+    ]
+}
+
+/// `<fixtures>/<version>/<Event>.<variant>.json` for every [`framing_set`] entry.
+pub fn write_framing_set(fixtures: &Path, version: &str) {
+    for (event, variant, body) in framing_set() {
+        write_fixture(fixtures, version, event, variant, &body);
+    }
 }
 
 /// The answers the probe's compiled answers put into the questions' PostToolUse: test literals,
@@ -330,9 +384,9 @@ fn spawn_viola(
 }
 
 /// `viola --home <home> verify <before> -- <fake> --cli-version <version> --fixtures <fixtures>
-/// --screens --turn-stop --dialogs --trusted-root <workspace root> <after>`: the fake agent replays
-/// the recorded screens and dialogs, and verify's trusted runs start under the cwd, the workspace
-/// root. Every verify-driven test is in the `verify_window_` class: verify's four interactive runs
+/// --screens --turn-stop --dialogs --framing --trusted-root <workspace root> <after>`: the fake agent
+/// replays the recorded screens, dialogs and framing shapes, and verify's trusted runs start under
+/// the cwd, the workspace root. Every verify-driven test is in the `verify_window_` class: verify's four interactive runs
 /// make a designed floor (seven 300 ms settles, about 2.1 s on the ubuntu coverage leg), so the call
 /// has no test-side bound and the nextest per-test kill for verify-driven binaries is its bound.
 pub fn verify(
@@ -343,12 +397,26 @@ pub fn verify(
     after: &[&str],
     env: &[(&str, OsString)],
 ) -> Ran {
-    verify_with(home, fixtures, version, before, after, env, true)
+    verify_with(
+        home,
+        fixtures,
+        version,
+        before,
+        after,
+        env,
+        &["--dialogs", "--framing"],
+    )
 }
 
 /// `verify` with no dialog replay: the dialog and plan runs see turns that raise no dialog.
 pub fn verify_without_dialogs(home: &Path, fixtures: &Path, version: &str) -> Ran {
-    verify_with(home, fixtures, version, &[], &[], &[], false)
+    verify_with(home, fixtures, version, &[], &[], &[], &["--framing"])
+}
+
+/// `verify` with no framing replay: the fake agent echoes the trusted run's three added pastes as
+/// typed, the local command among them.
+pub fn verify_without_framing(home: &Path, fixtures: &Path, version: &str, after: &[&str]) -> Ran {
+    verify_with(home, fixtures, version, &[], after, &[], &["--dialogs"])
 }
 
 fn verify_with(
@@ -358,13 +426,11 @@ fn verify_with(
     before: &[&str],
     after: &[&str],
     env: &[(&str, OsString)],
-    dialogs: bool,
+    replays: &[&str],
 ) -> Ran {
     let mut args = verify_args(home, fixtures, version, before);
     args.extend(["--screens", "--turn-stop"].map(OsString::from));
-    if dialogs {
-        args.push("--dialogs".into());
-    }
+    args.extend(replays.iter().map(OsString::from));
     args.push("--trusted-root".into());
     args.push(workspace_path("").into());
     args.extend(after.iter().map(OsString::from));

@@ -1,0 +1,3 @@
+The /andromeda-phase arguments of the revision run (2026-10-06, after /andromeda-implement's STOP 3 at step 0), verbatim:
+
+revise the pending chunk 2026-10-06-local-command-and-paste-framing-rows. Overseer, founder-delegated, on your STOP 3 (checked: step0-prompts.json long/prompt is two newlines, the pair, one newline; send.rs claim is exact equality): fold the fix here. The unwrap consumes the CLI framing newlines around a pair, bounded to what step 0 measured, and a fake-agent case replays the recorded wrapped shape through send, red at HEAD and green after. Narrow the send-strand guard only as far as that needs. Correct the hook.rs:171 comment to the measured mid-text reading. Step 0 is not re-run: its captures are the evidence. The cap stays 8, 1 used.

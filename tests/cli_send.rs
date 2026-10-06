@@ -484,3 +484,68 @@ fn send_on_a_verified_cli_refuses_while_the_trust_dialog_is_up(stamped_home: Sta
     assert!(of_kind(&receipt, "hook").is_empty(), "no hook before trust");
     wrapper.stop();
 }
+
+/// The CLI wraps a long paste in its own pair and frames it with newlines (measured on 2.1.287, the
+/// recorded `paste-1` variant). With `--framing` the fake agent answers the sent long text with that
+/// recorded prompt, its bytes unchanged, and the send is still confirmed: the wrapper's normalised
+/// text is the text as sent (test-plan §6 Path 2, step 3).
+#[test]
+fn send_long_text_wrapped_by_the_cli_is_confirmed() {
+    let recorded = std::fs::read(workspace_path(
+        "fixtures/claude/2.1.287/UserPromptSubmit.paste-1.json",
+    ))
+    .expect("the recorded paste-1 variant");
+    let payload: Value = serde_json::from_slice(&recorded).expect("the variant is JSON");
+    let prompt = payload["prompt"].as_str().expect("a recorded prompt");
+    // The frame as a test literal: two newlines, the open tag, a newline; then a newline, the close
+    // tag repeating the id, a newline.
+    let (id, body) = prompt
+        .strip_prefix("\n\n<pasted_content id=\"")
+        .and_then(|rest| rest.split_once("\">\n"))
+        .expect("the recorded prompt opens with the frame");
+    let text = body
+        .strip_suffix(&format!("\n</pasted_content id=\"{id}\">\n"))
+        .expect("the recorded prompt closes with the frame");
+    assert_eq!(text.len(), 1500, "the long text as pasted");
+    assert!(!text.contains('\n'));
+
+    let wrapper = boot(None, &["--framing"]);
+    let dir = wrapper.instance_dir();
+    let l = end_offset(&dir);
+    let sent = send(wrapper.home(), &["builder", "--json"], text);
+    assert_eq!(sent.code, Some(0), "stdout: {}", sent.stdout);
+    assert!(sent.stderr.is_empty(), "--json writes nothing on stderr");
+    let doc: Value = serde_json::from_str(&sent.stdout).expect("one JSON document");
+    assert_eq!(doc["v"], 1);
+    assert_eq!(doc["ok"]["cursor"], l);
+
+    let records = wait_events(&dir, "the send's three records", |_| {
+        records_after(&dir, l).len() >= 3
+    });
+    assert!(!records.is_empty());
+    let records = records_after(&dir, l);
+    let kinds: Vec<&Value> = records.iter().map(|r| &r["kind"]).collect();
+    assert_eq!(kinds, ["send-issued", "prompt-submitted", "send-confirmed"]);
+    assert_eq!(
+        records[1]["data"],
+        json!({"text": text, "origin": "driver"})
+    );
+    assert_eq!(records[2]["data"], json!({"cursor": l}));
+
+    let typed = prompts_at_least(&wrapper.receipt(), 1);
+    assert_eq!(typed.len(), 1, "exactly one prompt typed");
+    assert_eq!(typed[0]["text"], text);
+    assert_eq!(typed[0]["submit"], "fired");
+    let receipt = fake::receipt(&wrapper.receipt());
+    let offered: Vec<Vec<u8>> = of_kind(&receipt, "hook")
+        .into_iter()
+        .filter(|h| h["event"] == "UserPromptSubmit")
+        .filter_map(|h| h["stdin_hex"].as_str().map(fake::unhex))
+        .collect();
+    assert_eq!(
+        offered,
+        [recorded],
+        "the hook was offered the recorded wrapped prompt, not an echo"
+    );
+    wrapper.stop();
+}

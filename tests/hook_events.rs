@@ -278,7 +278,7 @@ fn hook_prompts_arrive_normalised_with_their_origin() {
                 "\n\n<pasted_content id=\"2f85\">\nA paste {CANARY}\n</pasted_content id=\"2f85\">\n"
             ),
             "human",
-            format!("\n\nA paste {CANARY}\n"),
+            format!("A paste {CANARY}"),
         ),
         (
             "typed",

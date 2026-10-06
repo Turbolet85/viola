@@ -361,6 +361,50 @@ fn claude_dialog_variants_are_walked_for_every_dialog_set() {
     }
 }
 
+/// Every set recorded with its framing variants holds the four, each walked by
+/// `claude_fixtures_pass_hygiene`: the walk reaches the paste and local-command classes.
+#[test]
+fn claude_framing_variants_are_walked_for_every_framing_set() {
+    let walked: Vec<PathBuf> = claude_fixtures(&workspace_path("fixtures/claude"));
+    // `<Event>.<stem>-<digits>.json` with a framing stem.
+    let variant = |p: &PathBuf| {
+        p.file_name().and_then(|n| n.to_str()).is_some_and(|n| {
+            let middle = n.split('.').nth(1).unwrap_or_default();
+            middle.rsplit_once('-').is_some_and(|(stem, k)| {
+                ["paste", "clear"].contains(&stem)
+                    && !k.is_empty()
+                    && k.bytes().all(|b| b.is_ascii_digit())
+            })
+        })
+    };
+    let mut sets: Vec<&Path> = walked
+        .iter()
+        .filter(|p| variant(p))
+        .filter_map(|p| p.parent())
+        .collect();
+    sets.dedup();
+    assert!(!sets.is_empty(), "no framing set walked");
+    for set in sets {
+        let mut names: Vec<String> = walked
+            .iter()
+            .filter(|p| p.parent() == Some(set) && variant(p))
+            .filter_map(|p| p.file_name()?.to_str().map(str::to_owned))
+            .collect();
+        names.sort();
+        assert_eq!(
+            names,
+            [
+                "SessionEnd.clear-1.json",
+                "SessionStart.clear-1.json",
+                "UserPromptSubmit.paste-1.json",
+                "UserPromptSubmit.paste-2.json",
+            ],
+            "{}",
+            set.display()
+        );
+    }
+}
+
 #[test]
 fn planted_claude_username_is_rejected() {
     let bytes = claude_payload(

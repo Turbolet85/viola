@@ -200,12 +200,13 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<u8> {
         questions: read_captures(&questions.1),
         plan: read_captures(&plan.1),
     };
-    drop(probe);
     let probes = Probes {
         print,
         typed,
+        trusted: read_captures(&trusted.1),
         dialogs,
     };
+    drop(probe);
 
     let results = check_rows(&probes);
     let written_at = obs::timestamp(Utc::now());
@@ -378,7 +379,8 @@ fn step_line(n: usize, total: usize, row: LedgerRow, pass: bool) -> String {
 
 /// The first capture of each spine event, scrubbed of the user's home and name, written as
 /// `<dir>/<version>/<Event>.default.json`; each dialog run's captures the same way as
-/// `<Event>.<variant>.json` (`ledger::dialog_variants`); and each recorded screen as
+/// `<Event>.<variant>.json` (`ledger::dialog_variants`), and so the trusted run's two paste prompts
+/// and the hooks its local command fired (`ledger::framing_variants`); and each recorded screen as
 /// `Screen.<phase>.json` holding only its signature rows. One payload that stays unclean after the
 /// scrub, or one screen whose kept rows or their seams hold a path, the username or an email,
 /// refuses the whole recording before any file is written; the refusal names the file and the
@@ -397,6 +399,10 @@ fn record(dir: &Path, version: &str, probes: &Probes) -> anyhow::Result<u8> {
         }
     }
     for (variant, capture) in ledger::dialog_variants(&probes.dialogs) {
+        let name = format!("{}.{variant}.json", ledger::event_name(capture.event));
+        payloads.push((name, capture));
+    }
+    for (variant, capture) in ledger::framing_variants(&probes.trusted) {
         let name = format!("{}.{variant}.json", ledger::event_name(capture.event));
         payloads.push((name, capture));
     }
@@ -463,21 +469,31 @@ mod tests {
     #[test]
     fn step_line_is_the_counter_the_row_and_the_verdict() {
         assert_eq!(
-            step_line(1, 14, LedgerRow::ShimResolution, true),
-            "[01/14] shim-resolution claude resolves to a real executable  pass"
+            step_line(1, 17, LedgerRow::ShimResolution, true),
+            "[01/17] shim-resolution claude resolves to a real executable  pass"
         );
         assert_eq!(
-            step_line(6, 14, LedgerRow::LargestHookPayload, false),
-            "[06/14] largest-hook-payload every hook payload fits the frame cap  fail"
+            step_line(6, 17, LedgerRow::LargestHookPayload, false),
+            "[06/17] largest-hook-payload every hook payload fits the frame cap  fail"
         );
         assert_eq!(
-            step_line(12, 14, LedgerRow::PlanApproveRevise, false),
-            "[12/14] plan-approve-revise a plan revise and approve each take effect  fail"
+            step_line(12, 17, LedgerRow::PlanApproveRevise, false),
+            "[12/17] plan-approve-revise a plan revise and approve each take effect  fail"
         );
         assert_eq!(
-            step_line(14, 14, LedgerRow::DialogConcurrency, true),
-            "[14/14] dialog-concurrency two parallel questions each raise a dialog  pass"
+            step_line(14, 17, LedgerRow::DialogConcurrency, true),
+            "[14/17] dialog-concurrency two parallel questions each raise a dialog  pass"
         );
+        assert_eq!(
+            step_line(15, 17, LedgerRow::LongPasteWrapper, true),
+            "[15/17] long-paste-wrapper a long paste unwraps to the text as pasted  pass"
+        );
+        assert_eq!(
+            step_line(16, 17, LedgerRow::TagEscaping, false),
+            "[16/17] tag-escaping tag-like text un-escapes to the text as pasted  fail"
+        );
+        let last = step_line(17, 17, LedgerRow::LocalCommandClear, true);
+        assert!(last.starts_with("[17/17] local-command-clear ") && last.ends_with("  pass"));
     }
 
     #[test]

@@ -2,7 +2,7 @@
 //! `fixtures/claude/<version>/` set, a print-mode turn fires the spine hooks in the recorded order
 //! and hands each hook exactly its recorded fixture's bytes; and every set recorded with its dialog
 //! tier replays that tier, through `viola verify` against `--dialogs`, byte for byte and in the
-//! recorded order. The recorded sets are walked at run time, not by `#[files]`, and an empty walk
+//! recorded order, and so does every set recorded with its framing variants, against `--framing`. The recorded sets are walked at run time, not by `#[files]`, and an empty walk
 //! fails.
 //! andromeda:walks-tree — it reads every set under `fixtures/claude/`, named or not.
 
@@ -217,24 +217,16 @@ fn fake_agent_dialog_replay_matches_every_recorded_dialog_set() {
         if dialog_replay(&root.join(&version)).is_empty() {
             continue;
         }
-        let home = TestHome::new();
-        let receipt = home.scratch().join("receipt.ndjson");
-        let receipt_arg = receipt.to_str().expect("utf-8").to_owned();
-        let ran = support::verify::verify(
-            home.path(),
-            &root,
-            &version,
-            &[],
-            &["--receipt", &receipt_arg],
-            &[],
-        );
+        // A set recorded before the framing variants replays its dialogs with the framing pastes
+        // echoed: its local-command row fails, so verify exits 1 with the dialog tier still replayed.
+        let framed = !framing_replay(&root.join(&version)).is_empty();
+        let (lines, ran) = verify_receipt(&root, &version, framed);
         assert_eq!(
             ran.code,
-            Some(0),
+            Some(if framed { 0 } else { 1 }),
             "{version}: verify exit\n{}",
             ran.stdout_text()
         );
-        let lines = fake::receipt(&receipt);
         assert_eq!(
             dialog_drift(&root.join(&version), &lines),
             Vec::<String>::new(),
@@ -243,6 +235,148 @@ fn fake_agent_dialog_replay_matches_every_recorded_dialog_set() {
         compared += 1;
     }
     assert!(compared >= 2, "dialog sets compared: {compared}");
+}
+
+/// `viola verify` over the recorded `version` against the fake agent, with the framing replay or
+/// without it: the fake agent's receipt and the run.
+fn verify_receipt(root: &Path, version: &str, framed: bool) -> (Vec<Value>, support::verify::Ran) {
+    let home = TestHome::new();
+    let receipt = home.scratch().join("receipt.ndjson");
+    let receipt_arg = receipt.to_str().expect("utf-8").to_owned();
+    let after = ["--receipt", receipt_arg.as_str()];
+    let ran = if framed {
+        support::verify::verify(home.path(), root, version, &[], &after, &[])
+    } else {
+        support::verify::verify_without_framing(home.path(), root, version, &after)
+    };
+    (fake::receipt(&receipt), ran)
+}
+
+/// The framing variants in replay order, as test literals: the long and the tag-like prompts, then
+/// the two hooks the local command fired.
+const FRAMING_VARIANTS: [(&str, &str); 4] = [
+    ("UserPromptSubmit", "paste-1"),
+    ("UserPromptSubmit", "paste-2"),
+    ("SessionEnd", "clear-1"),
+    ("SessionStart", "clear-1"),
+];
+
+/// A set's recorded framing variants in replay order, each with its bytes; empty for a set
+/// recorded before them.
+fn framing_replay(set: &Path) -> Vec<(String, Vec<u8>)> {
+    FRAMING_VARIANTS
+        .iter()
+        .filter_map(|(event, variant)| {
+            let bytes = fs::read(set.join(format!("{event}.{variant}.json"))).ok()?;
+            Some((format!("{event}.{variant}"), bytes))
+        })
+        .collect()
+}
+
+/// What drifted between a receipt's `hook` lines and the set's recorded framing replay: each
+/// variant no hook of its event was offered byte for byte exactly once, then `order` when the
+/// variants were not offered in the recorded order.
+fn framing_drift(set: &Path, receipt: &[Value]) -> Vec<String> {
+    let hooks = of_kind(receipt, "hook");
+    let mut drifted = Vec::new();
+    let mut at = Vec::new();
+    for (name, bytes) in framing_replay(set) {
+        let event = name.split('.').next().unwrap_or_default();
+        let found: Vec<usize> = hooks
+            .iter()
+            .enumerate()
+            .filter(|(_, h)| h["event"] == event)
+            .filter(|(_, h)| h["stdin_hex"].as_str().map(unhex).as_ref() == Some(&bytes))
+            .map(|(i, _)| i)
+            .collect();
+        match found.as_slice() {
+            [one] => at.push(*one),
+            _ => drifted.push(name),
+        }
+    }
+    if !at.is_sorted() {
+        drifted.push("order".to_owned());
+    }
+    drifted
+}
+
+/// Every set recorded with its framing variants replays them byte for byte: `viola verify` against
+/// the fake agent's `--framing` hands the trusted run's hooks exactly the recorded bytes, in the
+/// recorded order. A set without them is not compared.
+#[test]
+fn fake_agent_framing_replay_matches_every_recorded_framing_set() {
+    let root = workspace_path("fixtures/claude");
+    let mut compared = 0;
+    for version in recorded_versions(&root) {
+        let set = root.join(&version);
+        let recorded = framing_replay(&set);
+        if recorded.is_empty() {
+            continue;
+        }
+        assert_eq!(
+            recorded.len(),
+            FRAMING_VARIANTS.len(),
+            "{version}: a partial framing set"
+        );
+        let (lines, ran) = verify_receipt(&root, &version, true);
+        assert_eq!(
+            ran.code,
+            Some(0),
+            "{version}: verify exit\n{}",
+            ran.stdout_text()
+        );
+        assert_eq!(
+            framing_drift(&set, &lines),
+            Vec::<String>::new(),
+            "{version}: framing drift"
+        );
+        compared += 1;
+    }
+    assert!(compared >= 1, "framing sets compared: {compared}");
+}
+
+/// A receipt as the synthetic framing set implies it, one `hook` line per variant in replay order.
+fn receipt_of_framing(set: &Path) -> Vec<Value> {
+    framing_replay(set)
+        .iter()
+        .map(|(name, bytes)| {
+            let event = name.split('.').next().unwrap_or_default();
+            json!({"v": 1, "kind": "hook", "event": event, "stdin_hex": hex(bytes)})
+        })
+        .collect()
+}
+
+#[test]
+fn framing_drift_names_a_changed_byte_a_doubled_variant_and_a_swapped_order() {
+    let home = TestHome::new();
+    let fixtures = home.scratch().join("fixtures");
+    support::verify::write_framing_set(&fixtures, "9.9.9");
+    let set = fixtures.join("9.9.9");
+    let clean = receipt_of_framing(&set);
+    assert_eq!(framing_drift(&set, &clean), Vec::<String>::new());
+
+    let mut changed = clean.clone();
+    let mut bytes = unhex(changed[1]["stdin_hex"].as_str().expect("hex"));
+    let last = bytes.len() - 1;
+    bytes[last] ^= 0x01;
+    changed[1]["stdin_hex"] = json!(hex(&bytes));
+    assert_eq!(framing_drift(&set, &changed), ["UserPromptSubmit.paste-2"]);
+
+    let mut doubled = clean.clone();
+    doubled.push(clean[3].clone());
+    assert_eq!(framing_drift(&set, &doubled), ["SessionStart.clear-1"]);
+
+    let mut swapped = clean.clone();
+    swapped.swap(2, 3);
+    assert_eq!(framing_drift(&set, &swapped), ["order"]);
+
+    let mut wrong_event = clean;
+    wrong_event[0]["event"] = json!("Stop");
+    assert_eq!(
+        framing_drift(&set, &wrong_event),
+        ["UserPromptSubmit.paste-1"]
+    );
+    assert!(framing_replay(&home.scratch().join("missing")).is_empty());
 }
 
 /// The synthetic dialog set in a scratch fixture dir.

@@ -1,0 +1,3 @@
+The operator's directive at this take-up, the `/andromeda-phase` arguments, verbatim (2026-10-06, received ~19:18Z):
+
+:90 "Local-command and paste-framing rows". Measured today: the installed claude is now 2.1.289 (mise latest, this session runs it; 2.1.288 and 2.1.287 stay installed), so say which version the typed probes hit and what that does to the stamped rows. Live claude: the founder cap has 3 of 16 left; plan inside those 3 if the rows allow, and bring any larger need to P4 as a founder card with the count priced per row. Size the chunk against one builder window. Epoch 3 stays unsplit.

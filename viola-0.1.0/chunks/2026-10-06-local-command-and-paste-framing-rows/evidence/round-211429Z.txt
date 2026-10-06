@@ -1,0 +1,29 @@
+  1 lint        not run — excluded · cargo fmt --all --check
+  2 lint        not run — excluded · cargo clippy --workspace --all-targets --features fake-age… (75 chars)
+  3 unit        not run — excluded · bash scripts/agent-run.sh run --unit
+  4 unit        not run — excluded · bash scripts/agent-run.sh run --unit --filter 'test(/check… (212 chars)
+  5 unit        not run — excluded · bash scripts/agent-run.sh run --unit --filter 'test(/promp… (103 chars)
+  6 unit        not run — excluded · bash scripts/agent-run.sh run --unit --filter 'test(/box_w… (65 chars)
+  7 integration not run — excluded · bash scripts/agent-run.sh run --integration --filter 'test… (122 chars)
+  8 probe       green · exit 0 · 0.01s · 22 B → 8.log · "$HOME/.local/share/mise/installs/claude/2.1.287/claude" -… (66 chars)
+  9 build       green · exit 0 · 47.76s · 1335 B → 9.log · h="target/e2e-home/viola-record-$(date -u +%Y%m%dT%H%M%SZ)… (312 chars)
+ 10 probe       not run — excluded · test -z "$(git diff --name-only --diff-filter=MD 2fbc9545b… (82 chars)
+ 11 probe       not run — excluded · git diff --quiet 2fbc9545bee9 -- src/run/send.rs src/cmd/s… (191 chars)
+ 12 probe       not run — excluded · git diff --quiet 2fbc9545bee9 -- crates/viola-agent-claude… (72 chars)
+ 13 unit        not run — excluded · bash scripts/agent-run.sh run --unit --filter 'test(/settl… (64 chars)
+ 14 probe       not run — excluded · grep -rnE '/(clear|remote-control)' src/run src/cmd/verify… (84 chars)
+ 15 probe       not run — excluded · ! (git diff 2fbc9545bee9 -- tests crates/viola-e2e | grep … (171 chars)
+ 16 integration not run — excluded · bash scripts/agent-run.sh run --integration --filter 'bina… (202 chars)
+ 17 integration not run — excluded · bash scripts/agent-run.sh run --integration --filter 'test… (157 chars)
+ 18 integration not run — excluded · bash scripts/agent-run.sh run --integration --filter 'test… (109 chars)
+ 19 integration not run — excluded · bash scripts/agent-run.sh run
+ 20 smoke       not run — excluded · bash scripts/agent-run.sh cleanup --session p-rows-smoke
+ 21 smoke       not run — excluded · bash scripts/agent-run.sh boot --session p-rows-smoke --in… (72 chars)
+ 22 smoke       not run — excluded · bash scripts/agent-run.sh status --session p-rows-smoke
+ 23 smoke       not run — excluded · bash scripts/agent-run.sh cleanup --session p-rows-smoke
+ 24 probe       not run — excluded · n=$(grep -cE '^\| [0-9]+ \|' viola-0.1.0/chunks/2026-10-06… (142 chars)
+ 25 probe       not run — excluded · bash scripts/agent-run.sh pre-push
+ 26 probe       not run — excluded · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (90 chars)
+ 27 probe       not run — excluded · git diff --quiet && git diff --cached --quiet && git push … (69 chars)
+ 28 probe       not run — excluded · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (114 chars)
+round: COMPLETE · legs fired 1/1 · entries 28 · green 2 · red 0 · recorded 0 · timeout 0 · indeterminate 0 · not-run 26

@@ -1,8 +1,8 @@
 //! `viola verify` against the fake agent (test-plan §5 CLI, §7 Fake agent; design-system §Surface:
-//! cli Component Patterns 5; layout-templates §Output structure `viola verify`): the fourteen step lines
+//! cli Component Patterns 5; layout-templates §Output structure `viola verify`): the seventeen step lines
 //! and the `stamped` summary, the stamps it alone writes, the refusals, the `cli` catch-site line,
-//! the four interactive runs and their dirs, `--record`'s scrub, screens and dialog variants, the
-//! dialog tier's failure without a replay, the help text, and the
+//! the four interactive runs and their dirs, `--record`'s scrub, screens, dialog and framing
+//! variants, the dialog tier's and the local-command row's failure without a replay, the help text, and the
 //! hook verb's capture arm. Every oracle is a literal.
 
 #[allow(dead_code)]
@@ -19,27 +19,30 @@ use support::home::{TestHome, home, workspace_path};
 use support::hygiene::{check, has_username, load_schema};
 use support::verify::{
     CANARY, INPUT_BOX_ROW, Ran, TRUST_ROW, screen_rows, spine_payload, verify,
-    verify_without_screens, viola, viola_with_stdin, write_screen, write_screen_set,
-    write_spine_set,
+    verify_without_framing, verify_without_screens, viola, viola_with_stdin, write_screen,
+    write_screen_set, write_spine_set,
 };
 
-const STEPS_PASS: [&str; 14] = [
-    "[01/14] shim-resolution claude resolves to a real executable  pass",
-    "[02/14] spine-hooks spine hooks fire through the plugin dir  pass",
-    "[03/14] session-start-fields SessionStart carries session_id and source  pass",
-    "[04/14] prompt-verbatim UserPromptSubmit carries the prompt as sent  pass",
-    "[05/14] stop-message Stop carries last_assistant_message  pass",
-    "[06/14] largest-hook-payload every hook payload fits the frame cap  pass",
-    "[07/14] modal-signature an untrusted start shows a compiled modal literal  pass",
-    "[08/14] input-box-signature a trusted start shows a compiled input-box literal and no modal  pass",
-    "[09/14] quiet-period the screen settles within the gate's maximum wait  pass",
-    "[10/14] confirm-window the typed prompt reaches UserPromptSubmit within the window  pass",
-    "[11/14] question-answer a question answered through PreToolUse takes effect  pass",
-    "[12/14] plan-approve-revise a plan revise and approve each take effect  pass",
-    "[13/14] question-notes free text and notes reach the question  pass",
-    "[14/14] dialog-concurrency two parallel questions each raise a dialog  pass",
+const STEPS_PASS: [&str; 17] = [
+    "[01/17] shim-resolution claude resolves to a real executable  pass",
+    "[02/17] spine-hooks spine hooks fire through the plugin dir  pass",
+    "[03/17] session-start-fields SessionStart carries session_id and source  pass",
+    "[04/17] prompt-verbatim UserPromptSubmit carries the prompt as sent  pass",
+    "[05/17] stop-message Stop carries last_assistant_message  pass",
+    "[06/17] largest-hook-payload every hook payload fits the frame cap  pass",
+    "[07/17] modal-signature an untrusted start shows a compiled modal literal  pass",
+    "[08/17] input-box-signature a trusted start shows a compiled input-box literal and no modal  pass",
+    "[09/17] quiet-period the screen settles within the gate's maximum wait  pass",
+    "[10/17] confirm-window the typed prompt reaches UserPromptSubmit within the window  pass",
+    "[11/17] question-answer a question answered through PreToolUse takes effect  pass",
+    "[12/17] plan-approve-revise a plan revise and approve each take effect  pass",
+    "[13/17] question-notes free text and notes reach the question  pass",
+    "[14/17] dialog-concurrency two parallel questions each raise a dialog  pass",
+    "[15/17] long-paste-wrapper a long paste unwraps to the text as pasted  pass",
+    "[16/17] tag-escaping tag-like text un-escapes to the text as pasted  pass",
+    "[17/17] local-command-clear /clear starts a new session and submits no prompt  pass",
 ];
-const ROW_IDS: [&str; 14] = [
+const ROW_IDS: [&str; 17] = [
     "shim-resolution",
     "spine-hooks",
     "session-start-fields",
@@ -54,6 +57,9 @@ const ROW_IDS: [&str; 14] = [
     "plan-approve-revise",
     "question-notes",
     "dialog-concurrency",
+    "long-paste-wrapper",
+    "tag-escaping",
+    "local-command-clear",
 ];
 const SCREENS: [&str; 3] = ["Screen.modal.json", "Screen.ready.json", "Screen.turn.json"];
 const INTERNAL_ERROR: &str = "error: internal error\n";
@@ -86,12 +92,12 @@ fn fixtures(home: &TestHome) -> PathBuf {
 }
 
 #[rstest]
-fn verify_a_complete_set_prints_fourteen_steps_and_stamps_every_row(#[from(home)] home: TestHome) {
+fn verify_a_complete_set_prints_seventeen_steps_and_stamps_every_row(#[from(home)] home: TestHome) {
     write_spine_set(&fixtures(&home), "2.1.0", None);
     let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &[], &[]);
     assert_eq!(ran.code, Some(0), "stdout {}", ran.stdout_text());
     let mut expected = STEPS_PASS.join("\n");
-    expected.push_str("\nstamped 2.1.0  14 pass  0 fail\n");
+    expected.push_str("\nstamped 2.1.0  17 pass  0 fail\n");
     assert_eq!(ran.stdout_text(), expected);
     assert!(ran.stderr.is_empty(), "stderr {}", ran.stderr_text());
     assert_plain(&ran.stdout);
@@ -139,8 +145,8 @@ fn verify_a_complete_set_prints_fourteen_steps_and_stamps_every_row(#[from(home)
 
 /// The trusted run's turn would wait out the probe deadline for a Stop that never comes, so the
 /// fake agent's trust root is moved off the cwd: its trusted, dialog and plan runs start at the
-/// trust dialog and are killed with no key, which fails the three rows a turn measures and the four
-/// dialog rows.
+/// trust dialog and are killed with no key, which fails the three rows a turn measures, the four
+/// dialog rows and the three framing rows.
 #[rstest]
 fn verify_a_set_without_stop_fails_its_rows_and_still_stamps(#[from(home)] home: TestHome) {
     write_spine_set(&fixtures(&home), "2.1.0", Some("Stop"));
@@ -154,20 +160,23 @@ fn verify_a_set_without_stop_fails_its_rows_and_still_stamps(#[from(home)] home:
         lines,
         [
             STEPS_PASS[0],
-            "[02/14] spine-hooks spine hooks fire through the plugin dir  fail",
+            "[02/17] spine-hooks spine hooks fire through the plugin dir  fail",
             STEPS_PASS[2],
             STEPS_PASS[3],
-            "[05/14] stop-message Stop carries last_assistant_message  fail",
+            "[05/17] stop-message Stop carries last_assistant_message  fail",
             STEPS_PASS[5],
             STEPS_PASS[6],
-            "[08/14] input-box-signature a trusted start shows a compiled input-box literal and no modal  fail",
-            "[09/14] quiet-period the screen settles within the gate's maximum wait  fail",
-            "[10/14] confirm-window the typed prompt reaches UserPromptSubmit within the window  fail",
-            "[11/14] question-answer a question answered through PreToolUse takes effect  fail",
-            "[12/14] plan-approve-revise a plan revise and approve each take effect  fail",
-            "[13/14] question-notes free text and notes reach the question  fail",
-            "[14/14] dialog-concurrency two parallel questions each raise a dialog  fail",
-            "stamped 2.1.0  5 pass  9 fail",
+            "[08/17] input-box-signature a trusted start shows a compiled input-box literal and no modal  fail",
+            "[09/17] quiet-period the screen settles within the gate's maximum wait  fail",
+            "[10/17] confirm-window the typed prompt reaches UserPromptSubmit within the window  fail",
+            "[11/17] question-answer a question answered through PreToolUse takes effect  fail",
+            "[12/17] plan-approve-revise a plan revise and approve each take effect  fail",
+            "[13/17] question-notes free text and notes reach the question  fail",
+            "[14/17] dialog-concurrency two parallel questions each raise a dialog  fail",
+            "[15/17] long-paste-wrapper a long paste unwraps to the text as pasted  fail",
+            "[16/17] tag-escaping tag-like text un-escapes to the text as pasted  fail",
+            "[17/17] local-command-clear /clear starts a new session and submits no prompt  fail",
+            "stamped 2.1.0  5 pass  12 fail",
         ]
     );
     assert!(ran.stderr.is_empty());
@@ -239,9 +248,10 @@ fn verify_a_batch_script_refuses(#[from(home)] home: TestHome) {
 
 /// Every child runs under the R8 strip: no `env` receipt (the print-mode child and the four
 /// interactive runs) lists a stripped name, and every hook fired ran and exited 0: the print turn's
-/// four, the trusted run's three (SessionStart, UserPromptSubmit, Stop), the dialog run's fifteen
-/// (SessionStart, then per prompt UserPromptSubmit, its dialog events and Stop) and the plan run's
-/// seven; the untrusted run fires none: twenty-nine. The dialog and plan runs are killed only once
+/// four, the trusted run's nine (SessionStart, UserPromptSubmit and Stop, the two paste turns'
+/// UserPromptSubmit and Stop each, then the local command's SessionEnd and SessionStart), the dialog
+/// run's fifteen (SessionStart, then per prompt UserPromptSubmit, its dialog events and Stop) and the
+/// plan run's seven; the untrusted run fires none: thirty-five. The dialog and plan runs are killed only once
 /// the screen settled after their last Stop, so every hook is receipted.
 #[rstest]
 fn verify_runs_the_probe_under_the_identity_strip(#[from(home)] home: TestHome) {
@@ -272,7 +282,7 @@ fn verify_runs_the_probe_under_the_identity_strip(#[from(home)] home: TestHome) 
         );
     }
     let hooks = of_kind(&lines, "hook");
-    assert_eq!(hooks.len(), 29);
+    assert_eq!(hooks.len(), 35);
     assert!(
         hooks
             .iter()
@@ -307,7 +317,7 @@ fn verify_dispatch_error_keeps_the_chain_in_the_detail_file(#[from(home)] home: 
     assert_eq!(ran.stderr_text(), INTERNAL_ERROR);
     assert!(
         ran.stdout_text()
-            .ends_with("stamped 2.1.0  14 pass  0 fail\n")
+            .ends_with("stamped 2.1.0  17 pass  0 fail\n")
     );
 
     let role_path = home.path().join("diagnostics").join("cli-verifier.ndjson");
@@ -391,7 +401,7 @@ fn verify_with_an_instance_logs_its_six_spawn_pairs(#[from(home)] home: TestHome
     let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &[], &env);
     assert_eq!(ran.code, Some(0));
     let mut expected = STEPS_PASS.join("\n");
-    expected.push_str("\nstamped 2.1.0  14 pass  0 fail\n");
+    expected.push_str("\nstamped 2.1.0  17 pass  0 fail\n");
     assert_eq!(ran.stdout_text(), expected, "stdout is unchanged");
     assert!(ran.stderr.is_empty());
     let role =
@@ -460,7 +470,10 @@ fn personal_set(fixtures: &Path, user_home: &Path, user: &str, extra: Option<&st
         fake::write_fixture(fixtures, "2.1.0", event, "default", &body);
     }
     write_screen_set(fixtures, "2.1.0");
-    for (event, variant, mut body) in support::verify::dialog_set() {
+    let variants = support::verify::dialog_set()
+        .into_iter()
+        .chain(support::verify::framing_set());
+    for (event, variant, mut body) in variants {
         body["cwd"] = json!(user_home.join("work").to_string_lossy());
         body["transcript_path"] = json!(
             user_home
@@ -483,9 +496,7 @@ fn user_of(user_home: &Path) -> String {
 }
 
 #[rstest]
-fn verify_record_writes_the_scrubbed_spine_dialog_variants_and_screens(
-    #[from(home)] home: TestHome,
-) {
+fn verify_record_writes_the_scrubbed_spine_variants_and_screens(#[from(home)] home: TestHome) {
     let user_home = std::env::home_dir().expect("a user home");
     let user = user_of(&user_home);
     personal_set(&fixtures(&home), &user_home, &user, None);
@@ -521,10 +532,14 @@ fn verify_record_writes_the_scrubbed_spine_dialog_variants_and_screens(
             "Screen.modal.json",
             "Screen.ready.json",
             "Screen.turn.json",
+            "SessionEnd.clear-1.json",
             "SessionEnd.default.json",
+            "SessionStart.clear-1.json",
             "SessionStart.default.json",
             "Stop.default.json",
             "UserPromptSubmit.default.json",
+            "UserPromptSubmit.paste-1.json",
+            "UserPromptSubmit.paste-2.json",
         ]
     );
     let schema = load_schema(&workspace_path("schemas/claude-fixture.v1.json"));
@@ -550,6 +565,22 @@ fn verify_record_writes_the_scrubbed_spine_dialog_variants_and_screens(
         prompt["prompt"],
         "viola verify probe: reply with the single word ok"
     );
+    // The recorded variants keep the prompt and the fields the fake agent replayed, unscrubbed.
+    let read = |name: &str| -> Value {
+        serde_json::from_slice(&fs::read(dir.join(name)).expect("read")).expect("json")
+    };
+    assert_eq!(
+        read("UserPromptSubmit.paste-1.json")["prompt"],
+        support::verify::wrapped(&support::verify::long_paste())
+    );
+    assert_eq!(
+        read("UserPromptSubmit.paste-2.json")["prompt"],
+        support::verify::TAG_PROMPT
+    );
+    assert_eq!(read("SessionEnd.clear-1.json")["reason"], "clear");
+    let started = read("SessionStart.clear-1.json");
+    assert_eq!(started["source"], "clear");
+    assert_eq!(started["session_id"], "s-verify-2");
 }
 
 #[rstest]
@@ -576,7 +607,7 @@ fn verify_record_refuses_a_path_outside_the_home(#[from(home)] home: TestHome) {
     assert!(!record.exists(), "a refused recording writes nothing");
     assert!(
         ran.stdout_text()
-            .ends_with("stamped 2.1.0  14 pass  0 fail\n")
+            .ends_with("stamped 2.1.0  17 pass  0 fail\n")
     );
     assert_eq!(
         stamps(home.path())["data"]["versions"]["2.1.0"]["rows"]["spine-hooks"],
@@ -692,7 +723,7 @@ fn verify_record_refuses_a_dirty_kept_row(
     );
     assert!(
         ran.stdout_text()
-            .ends_with("stamped 2.1.0  14 pass  0 fail\n")
+            .ends_with("stamped 2.1.0  17 pass  0 fail\n")
     );
 }
 
@@ -793,7 +824,7 @@ fn verify_help_names_the_trusted_folder_and_the_external_import_blocker() {
 }
 
 /// Without `--screens` the fake agent shows nothing: each of the four interactive runs waits out the
-/// gate's 5 s maximum, and the eight rows they measure fail while the six print-mode rows pass.
+/// gate's 5 s maximum, and the eleven rows they measure fail while the six print-mode rows pass.
 #[rstest]
 fn verify_window_without_screens_fails_every_interactive_row(#[from(home)] home: TestHome) {
     write_spine_set(&fixtures(&home), "2.1.0", None);
@@ -805,7 +836,7 @@ fn verify_window_without_screens_fails_every_interactive_row(#[from(home)] home:
     for line in &STEPS_PASS[6..] {
         expected.push(line.replace("  pass", "  fail"));
     }
-    expected.push("stamped 2.1.0  6 pass  8 fail".to_owned());
+    expected.push("stamped 2.1.0  6 pass  11 fail".to_owned());
     assert_eq!(lines, expected);
     let rows = &stamps(home.path())["data"]["versions"]["2.1.0"]["rows"];
     for id in &ROW_IDS[6..] {
@@ -816,7 +847,7 @@ fn verify_window_without_screens_fails_every_interactive_row(#[from(home)] home:
 
 /// Run C and Run D are killed only once their last Stop hook has returned (the screen settled after
 /// it, as Run B does): with the fake agent holding each Stop hook's receipt 100 ms past the hook's
-/// exit, a window forced open and never sampled, every Stop of the six turns is receipted. A kill at
+/// exit, a window forced open and never sampled, every Stop of the eight turns is receipted. A kill at
 /// the instant the Stop capture appears would hang up that hook mid-exit (a truncated coverage
 /// profile) and lose its receipt.
 #[rstest]
@@ -840,14 +871,14 @@ fn verify_kills_the_dialog_and_plan_runs_only_after_their_last_stop_hook(
         .filter(|h| h["event"] == "Stop")
         .count();
     assert_eq!(
-        stops, 6,
-        "the print turn's, Run B's, Run C's three and Run D's Stop hooks"
+        stops, 8,
+        "the print turn's, Run B's three, Run C's three and Run D's Stop hooks"
     );
 }
 
 /// Without the dialog replay the dialog and plan runs see turns that raise no dialog: the ten spine
-/// and screen rows pass, the four dialog rows fail, the stamp is written and verify exits 1 with
-/// nothing on stderr. The version is then unverified (R2).
+/// and screen rows and the three framing rows pass, the four dialog rows fail, the stamp is written
+/// and verify exits 1 with nothing on stderr. The version is then unverified (R2).
 #[rstest]
 fn verify_without_the_dialog_replay_fails_the_four_dialog_rows(#[from(home)] home: TestHome) {
     write_spine_set(&fixtures(&home), "2.1.0", None);
@@ -855,10 +886,11 @@ fn verify_without_the_dialog_replay_fails_the_four_dialog_rows(#[from(home)] hom
     assert_eq!(ran.code, Some(1));
     assert!(ran.stderr.is_empty(), "stderr {}", ran.stderr_text());
     let mut expected: Vec<String> = STEPS_PASS[..10].iter().map(|l| (*l).to_owned()).collect();
-    for line in &STEPS_PASS[10..] {
+    for line in &STEPS_PASS[10..14] {
         expected.push(line.replace("  pass", "  fail"));
     }
-    expected.push("stamped 2.1.0  10 pass  4 fail".to_owned());
+    expected.extend(STEPS_PASS[14..].iter().map(|l| (*l).to_owned()));
+    expected.push("stamped 2.1.0  13 pass  4 fail".to_owned());
     let stdout = ran.stdout_text();
     assert_eq!(stdout.lines().collect::<Vec<_>>(), expected);
     assert_plain(&ran.stdout);
@@ -866,11 +898,140 @@ fn verify_without_the_dialog_replay_fails_the_four_dialog_rows(#[from(home)] hom
     for id in &ROW_IDS[..10] {
         assert_eq!(rows[*id], "pass", "{id}");
     }
-    for id in &ROW_IDS[10..] {
+    for id in &ROW_IDS[10..14] {
         assert_eq!(rows[*id], "fail", "{id}");
+    }
+    for id in &ROW_IDS[14..] {
+        assert_eq!(rows[*id], "pass", "{id}");
     }
     let entry = &stamps(home.path())["data"]["versions"]["2.1.0"];
     assert!(entry["measured"]["dialog_probe"]["parallel_both_before_first_post"].is_null());
+    assert_eq!(probes_left(home.path()), 0);
+}
+
+/// Without the framing replay the fake agent echoes each added paste as typed: the two paste rows
+/// pass on the echo, and the local command, echoed as a prompt with no new session, fails its row
+/// alone. Every paste still went into the trusted run, in order, and the run fired no hook for the
+/// command but its echo.
+#[rstest]
+fn verify_without_framing_fails_only_the_clear_row(#[from(home)] home: TestHome) {
+    write_spine_set(&fixtures(&home), "2.1.0", None);
+    let receipt = home.scratch().join("receipt.ndjson");
+    let receipt_arg = receipt.to_str().expect("utf-8").to_owned();
+    let after = ["--receipt", receipt_arg.as_str()];
+    let ran = verify_without_framing(home.path(), &fixtures(&home), "2.1.0", &after);
+    assert_eq!(ran.code, Some(1), "stdout {}", ran.stdout_text());
+    assert!(ran.stderr.is_empty(), "stderr {}", ran.stderr_text());
+    let mut expected: Vec<String> = STEPS_PASS[..16].iter().map(|l| (*l).to_owned()).collect();
+    expected.push(STEPS_PASS[16].replace("  pass", "  fail"));
+    expected.push("stamped 2.1.0  16 pass  1 fail".to_owned());
+    let stdout = ran.stdout_text();
+    assert_eq!(stdout.lines().collect::<Vec<_>>(), expected);
+    assert_plain(&ran.stdout);
+    let rows = &stamps(home.path())["data"]["versions"]["2.1.0"]["rows"];
+    for id in &ROW_IDS[..16] {
+        assert_eq!(rows[*id], "pass", "{id}");
+    }
+    assert_eq!(rows["local-command-clear"], "fail");
+    // The trusted run is the third start; its prompts are the probe prompt and the three pastes.
+    let lines = fake::receipt(&receipt);
+    let starts: Vec<usize> = lines
+        .iter()
+        .enumerate()
+        .filter(|(_, l)| l["kind"] == "start")
+        .map(|(i, _)| i)
+        .collect();
+    assert_eq!(starts.len(), 5);
+    let typed: Vec<&str> = lines[starts[2]..starts[3]]
+        .iter()
+        .filter(|l| l["kind"] == "prompt")
+        .filter_map(|l| l["text"].as_str())
+        .collect();
+    assert_eq!(
+        typed,
+        [
+            "viola verify probe: reply with the single word ok",
+            support::verify::long_paste().as_str(),
+            support::verify::TAG_PASTE,
+            "/clear",
+        ]
+    );
+    assert_eq!(probes_left(home.path()), 0);
+}
+
+/// The trusted run pastes only into a settled input box with no modal: when the screen after its
+/// first turn shows a modal literal beside the input box, none of the three added texts is pasted
+/// and their rows fail.
+#[rstest]
+fn verify_pastes_nothing_more_once_the_turn_screen_shows_a_modal(#[from(home)] home: TestHome) {
+    write_spine_set(&fixtures(&home), "2.1.0", None);
+    let modal = screen_rows(&[(9, TRUST_ROW), (23, INPUT_BOX_ROW)]);
+    write_screen(&fixtures(&home), "2.1.0", "turn", &modal);
+    let receipt = home.scratch().join("receipt.ndjson");
+    let receipt_arg = receipt.to_str().expect("utf-8").to_owned();
+    let after = ["--receipt", receipt_arg.as_str()];
+    let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &after, &[]);
+    assert_eq!(ran.code, Some(1), "stdout {}", ran.stdout_text());
+    let rows = &stamps(home.path())["data"]["versions"]["2.1.0"]["rows"];
+    for id in &ROW_IDS[14..] {
+        assert_eq!(rows[*id], "fail", "{id}");
+    }
+    assert_eq!(rows["input-box-signature"], "fail");
+    let lines = fake::receipt(&receipt);
+    let starts: Vec<usize> = lines
+        .iter()
+        .enumerate()
+        .filter(|(_, l)| l["kind"] == "start")
+        .map(|(i, _)| i)
+        .collect();
+    assert_eq!(starts.len(), 5);
+    let typed: Vec<&str> = lines[starts[2]..starts[3]]
+        .iter()
+        .filter(|l| l["kind"] == "prompt")
+        .filter_map(|l| l["text"].as_str())
+        .collect();
+    assert_eq!(typed, ["viola verify probe: reply with the single word ok"]);
+}
+
+/// After a long paste the real CLI shows a paste hint in the input-box literal's place for longer
+/// than the gate's 5 s maximum (8 s from the paste on 2.1.287, measured). With the fake agent
+/// holding a cleared screen for 6 s after the long turn's Stop, a window forced open and never
+/// sampled, the trusted run waits for the input box to come back, pastes the tag-like text and the
+/// local command, and every row passes.
+#[rstest]
+fn verify_window_paste_hint_past_the_gate_maximum_still_stamps(#[from(home)] home: TestHome) {
+    write_spine_set(&fixtures(&home), "2.1.0", None);
+    let receipt = home.scratch().join("receipt.ndjson");
+    let receipt_arg = receipt.to_str().expect("utf-8").to_owned();
+    let after = ["--receipt", receipt_arg.as_str(), "--paste-hint-ms", "6000"];
+    let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &after, &[]);
+    assert_eq!(ran.code, Some(0), "stdout {}", ran.stdout_text());
+    let mut expected = STEPS_PASS.join("\n");
+    expected.push_str("\nstamped 2.1.0  17 pass  0 fail\n");
+    assert_eq!(ran.stdout_text(), expected);
+    assert!(ran.stderr.is_empty(), "stderr {}", ran.stderr_text());
+    let lines = fake::receipt(&receipt);
+    let starts: Vec<usize> = lines
+        .iter()
+        .enumerate()
+        .filter(|(_, l)| l["kind"] == "start")
+        .map(|(i, _)| i)
+        .collect();
+    assert_eq!(starts.len(), 5);
+    let typed: Vec<&str> = lines[starts[2]..starts[3]]
+        .iter()
+        .filter(|l| l["kind"] == "prompt")
+        .filter_map(|l| l["text"].as_str())
+        .collect();
+    assert_eq!(
+        typed,
+        [
+            "viola verify probe: reply with the single word ok",
+            support::verify::long_paste().as_str(),
+            support::verify::TAG_PASTE,
+            "/clear",
+        ]
+    );
     assert_eq!(probes_left(home.path()), 0);
 }
 
@@ -914,7 +1075,7 @@ fn verify_record_refuses_a_nested_path_in_a_dialog_payload(#[from(home)] home: T
     assert!(!record.exists(), "a refused recording writes nothing");
     assert!(
         ran.stdout_text()
-            .ends_with("stamped 2.1.0  14 pass  0 fail\n")
+            .ends_with("stamped 2.1.0  17 pass  0 fail\n")
     );
 }
 

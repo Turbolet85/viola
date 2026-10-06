@@ -4,3 +4,4 @@
 #
 # It is recommended to check this file in to source control so that
 # everyone who runs the test benefits from these saved cases.
+cc 42da5b2469d432905b2e358446cd5cd1bc48103986595b08459e6747619376d4 # shrinks to text = "", id = "A", lead = ("", "")

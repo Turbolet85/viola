@@ -445,6 +445,149 @@ fn fake_agent_slash_prompt_fires_without_local_command_mode() {
     assert_eq!(prompts(&agent.finish())[0]["submit"], "fired");
 }
 
+/// `<scratch>/spine-plugin` registering the fake agent's `--version` (it exits 0) for each spine
+/// event.
+fn spine_plugin(tmp: &TestHome) -> PathBuf {
+    let plugin = tmp.scratch().join("spine-plugin");
+    let hooks = plugin.join("hooks");
+    std::fs::create_dir_all(&hooks).expect("hooks dir");
+    let mut registered = serde_json::Map::new();
+    for event in support::verify::SPINE {
+        registered.insert(
+            event.to_owned(),
+            json!([{"hooks": [{"type": "command", "command": FAKE, "args": ["--version"]}]}]),
+        );
+    }
+    std::fs::write(
+        hooks.join("hooks.json"),
+        json!({"hooks": registered}).to_string(),
+    )
+    .expect("hooks.json");
+    plugin
+}
+
+/// Each `hook` line's event and the bytes its hook was offered, in receipt order.
+fn offered(lines: &[Value]) -> Vec<(String, Vec<u8>)> {
+    of_kind(lines, "hook")
+        .iter()
+        .map(|h| {
+            (
+                h["event"].as_str().expect("event").to_owned(),
+                h["stdin_hex"].as_str().map(unhex).expect("stdin_hex"),
+            )
+        })
+        .collect()
+}
+
+/// With `--framing` a compiled paste text replays its recorded variant with the bytes unchanged,
+/// and the local command fires its recorded SessionEnd and SessionStart and no UserPromptSubmit;
+/// any other text is echoed as before. Without the option every text is echoed as typed, and a set
+/// that lacks a variant fires nothing for it.
+#[test]
+fn fake_agent_framing_replays_the_recorded_shapes() {
+    let tmp = TestHome::new();
+    let plugin = spine_plugin(&tmp);
+    let fx = tmp.scratch().join("fixtures");
+    let version = fake::RECORDED_CLI_VERSION;
+    support::verify::write_spine_set(&fx, version, None);
+    let read = |name: &str| std::fs::read(fx.join(version).join(name)).expect("fixture");
+    let long = support::verify::long_paste();
+    let base = [
+        "--plugin-dir",
+        path_str(&plugin),
+        "--fixtures",
+        path_str(&fx),
+    ];
+
+    let mut args = base.to_vec();
+    args.extend(["--framing", "--turn-stop"]);
+    let mut agent = Direct::spawn(&tmp, &args, &[]);
+    agent.send(&paste(&long));
+    agent.send(&paste(support::verify::TAG_PASTE));
+    agent.send(&paste("/clear"));
+    agent.send(&paste("hello"));
+    let lines = agent.finish();
+    let mut echoed: Value =
+        serde_json::from_slice(&read("UserPromptSubmit.default.json")).expect("json");
+    echoed["prompt"] = json!("hello");
+    assert_eq!(
+        offered(&lines),
+        [
+            ("SessionStart".to_owned(), read("SessionStart.default.json")),
+            (
+                "UserPromptSubmit".to_owned(),
+                read("UserPromptSubmit.paste-1.json")
+            ),
+            ("Stop".to_owned(), read("Stop.default.json")),
+            (
+                "UserPromptSubmit".to_owned(),
+                read("UserPromptSubmit.paste-2.json")
+            ),
+            ("Stop".to_owned(), read("Stop.default.json")),
+            ("SessionEnd".to_owned(), read("SessionEnd.clear-1.json")),
+            ("SessionStart".to_owned(), read("SessionStart.clear-1.json")),
+            (
+                "UserPromptSubmit".to_owned(),
+                echoed.to_string().into_bytes()
+            ),
+            ("Stop".to_owned(), read("Stop.default.json")),
+        ]
+    );
+    let submits: Vec<&str> = prompts(&lines)
+        .iter()
+        .filter_map(|p| p["submit"].as_str())
+        .collect();
+    assert_eq!(submits, ["fired", "fired", "fired", "fired"]);
+    assert_eq!(prompts(&lines)[0]["text"], long.as_str());
+
+    let plain = TestHome::new();
+    let mut agent = Direct::spawn(&plain, &base, &[]);
+    agent.send(&paste(&long));
+    agent.send(&paste("/clear"));
+    let lines = agent.finish();
+    let sent: Vec<(String, Value)> = offered(&lines)
+        .into_iter()
+        .map(|(event, bytes)| (event, serde_json::from_slice(&bytes).expect("json")))
+        .collect();
+    let events: Vec<&str> = sent.iter().map(|(e, _)| e.as_str()).collect();
+    assert_eq!(
+        events,
+        ["SessionStart", "UserPromptSubmit", "UserPromptSubmit"]
+    );
+    assert_eq!(sent[1].1["prompt"], long.as_str());
+    assert_eq!(sent[2].1["prompt"], "/clear");
+
+    let bare = TestHome::new();
+    let spine_only = bare.scratch().join("fixtures");
+    for event in support::verify::SPINE {
+        fake::write_fixture(
+            &spine_only,
+            version,
+            event,
+            "default",
+            &support::verify::spine_payload(event),
+        );
+    }
+    let lacking = [
+        "--plugin-dir",
+        path_str(&plugin),
+        "--fixtures",
+        path_str(&spine_only),
+        "--framing",
+    ];
+    let mut agent = Direct::spawn(&bare, &lacking, &[]);
+    agent.send(&paste(&long));
+    agent.send(&paste("/clear"));
+    let lines = agent.finish();
+    let events: Vec<String> = offered(&lines).into_iter().map(|(e, _)| e).collect();
+    assert_eq!(events, ["SessionStart"]);
+    let submits: Vec<&str> = prompts(&lines)
+        .iter()
+        .filter_map(|p| p["submit"].as_str())
+        .collect();
+    assert_eq!(submits, ["no-fixture", "no-fixture"]);
+}
+
 fn steps(lines: &[Value]) -> Vec<(u64, String)> {
     of_kind(lines, "step")
         .iter()

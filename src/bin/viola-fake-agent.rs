@@ -14,7 +14,9 @@ use std::sync::{Arc, Mutex, PoisonError};
 use std::time::Duration;
 
 use serde_json::{Value, json};
-use viola_agent_claude::ledger::dialog_stem;
+use viola_agent_claude::ledger::{
+    PROBE_LOCAL_COMMAND, PROBE_LONG_PASTE, dialog_stem, framing_stem,
+};
 
 const DEFAULT_CLI_VERSION: &str = "2.1.287";
 const PASTE_START: &[u8] = b"\x1b[200~";
@@ -27,6 +29,8 @@ const HOLD_FOR: Duration = Duration::from_secs(10);
 const CONTROL_POLL: Duration = Duration::from_millis(10);
 /// `--stop-receipt-hold-ms` is capped: a test-only hold that forces a window open, never a delay.
 const STOP_RECEIPT_HOLD_CAP_MS: u64 = 1000;
+/// `--paste-hint-ms` is capped: a test-only hold that forces the window after a long paste open.
+const PASTE_HINT_CAP_MS: u64 = 8000;
 const REGISTERED_EVENTS: [&str; 9] = [
     "SessionStart",
     "UserPromptSubmit",
@@ -60,7 +64,9 @@ struct Opts {
     screens: bool,
     turn_stop: bool,
     dialogs: bool,
+    framing: bool,
     stop_receipt_hold: Option<Duration>,
+    paste_hint: Option<Duration>,
 }
 
 impl Opts {
@@ -89,10 +95,16 @@ impl Opts {
                 "--screens" => o.screens = true,
                 "--turn-stop" => o.turn_stop = true,
                 "--dialogs" => o.dialogs = true,
+                "--framing" => o.framing = true,
                 "--stop-receipt-hold-ms" => {
                     o.stop_receipt_hold = value()
                         .and_then(|v| v.parse::<u64>().ok())
                         .map(|ms| Duration::from_millis(ms.min(STOP_RECEIPT_HOLD_CAP_MS)));
+                }
+                "--paste-hint-ms" => {
+                    o.paste_hint = value()
+                        .and_then(|v| v.parse::<u64>().ok())
+                        .map(|ms| Duration::from_millis(ms.min(PASTE_HINT_CAP_MS)));
                 }
                 HOLD_STDOUT => o.hold_stdout = true,
                 _ => {}
@@ -150,13 +162,17 @@ fn render_screen(rows: &[String]) -> Vec<u8> {
     bytes
 }
 
+fn draw(rows: &[String]) {
+    let mut out = std::io::stdout().lock();
+    let _ = out
+        .write_all(&render_screen(rows))
+        .and_then(|()| out.flush());
+}
+
 /// The recorded screen for `phase` on the terminal; a missing fixture writes nothing.
 fn write_screen(opts: &Opts, phase: &str) {
     if let Some(rows) = opts.screen(phase) {
-        let mut out = std::io::stdout().lock();
-        let _ = out
-            .write_all(&render_screen(&rows))
-            .and_then(|()| out.flush());
+        draw(&rows);
     }
 }
 
@@ -422,19 +438,39 @@ impl Agent {
         printed
     }
 
+    /// With `--framing`, a text that is one of the verify probe's compiled pastes replays its recorded
+    /// variant: a paste text fires that variant's UserPromptSubmit with its bytes unchanged (the
+    /// recorded prompt, not the typed text), and the probed local command fires its recorded
+    /// SessionEnd and SessionStart and no UserPromptSubmit. A set without a variant fires nothing
+    /// for it. With `--paste-hint-ms` beside it, the long text's turn ends on a cleared screen and the
+    /// `turn` screen is drawn only after the hold: the real CLI shows a paste hint in the input-box
+    /// literal's place for seconds after a long paste.
     fn submit(&self, bytes: &[u8], origin: &str) {
         let text = String::from_utf8_lossy(bytes);
+        let framing = framing_stem(&text).filter(|_| self.opts.framing);
+        let local = framing.filter(|stem| framing_stem(PROBE_LOCAL_COMMAND) == Some(*stem));
         let submit = if self.opts.suppress_prompt_submit {
             "suppressed"
         } else if self.opts.local_command_mode && text.starts_with('/') {
             "local-command"
+        } else if let Some(stem) = local {
+            self.fire("SessionEnd", stem, None);
+            self.fire("SessionStart", stem, None)
         } else {
-            let fired = self.fire("UserPromptSubmit", "default", Some(&text));
+            let fired = match framing {
+                Some(stem) => self.fire("UserPromptSubmit", stem, None),
+                None => self.fire("UserPromptSubmit", "default", Some(&text)),
+            };
             if let Some(stem) = dialog_stem(&text).filter(|_| self.opts.dialogs) {
                 self.replay_dialogs(stem);
             }
             if self.opts.turn_stop {
                 self.fire("Stop", "default", None);
+                let long = framing.is_some() && framing == framing_stem(PROBE_LONG_PASTE);
+                if let Some(hold) = self.opts.paste_hint.filter(|_| long) {
+                    draw(&[]);
+                    std::thread::sleep(hold);
+                }
                 write_screen(&self.opts, "turn");
             }
             fired
@@ -792,8 +828,11 @@ mod tests {
             "--screens",
             "--turn-stop",
             "--dialogs",
+            "--framing",
             "--stop-receipt-hold-ms",
             "5000",
+            "--paste-hint-ms",
+            "9000",
             "--version",
             "-p",
             "a prompt",
@@ -814,12 +853,13 @@ mod tests {
         assert!(o.inject_harness_turn && o.exit_no_eof && !o.hold_stdout);
         assert!(o.vt100_panic_bytes);
         assert_eq!(o.trusted_root.as_deref(), Some(Path::new("t")));
-        assert!(o.screens && o.turn_stop && o.dialogs);
+        assert!(o.screens && o.turn_stop && o.dialogs && o.framing);
         assert_eq!(
             o.stop_receipt_hold,
             Some(Duration::from_millis(1000)),
             "capped"
         );
+        assert_eq!(o.paste_hint, Some(Duration::from_millis(8000)), "capped");
         assert!(Opts::parse(&args(&[HOLD_STDOUT])).hold_stdout);
     }
 
@@ -832,6 +872,7 @@ mod tests {
         assert!(!o.vt100_panic_bytes);
         assert!(o.print.is_none());
         assert!(!o.screens && !o.turn_stop && !o.dialogs && o.trusted_root.is_none());
+        assert!(!o.framing);
         assert_eq!(o.stop_receipt_hold, None);
         assert_eq!(
             Opts::parse(&args(&["--stop-receipt-hold-ms", "100"])).stop_receipt_hold,
@@ -839,6 +880,15 @@ mod tests {
         );
         assert_eq!(
             Opts::parse(&args(&["--stop-receipt-hold-ms", "x"])).stop_receipt_hold,
+            None
+        );
+        assert_eq!(o.paste_hint, None);
+        assert_eq!(
+            Opts::parse(&args(&["--paste-hint-ms", "6000"])).paste_hint,
+            Some(Duration::from_millis(6000))
+        );
+        assert_eq!(
+            Opts::parse(&args(&["--paste-hint-ms", "x"])).paste_hint,
             None
         );
         assert!(!o.trusted(), "no root: every cwd is untrusted");

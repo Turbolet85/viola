@@ -1,0 +1,3 @@
+The operator's P5 review of this chunk's plan (2026-10-06, after the review card was shown), verbatim:
+
+review. One addition, then I will say yes: the three new check arms get named failing unit cases in ledger.rs, in the form of check_dialog_rows_fail_when_no_dialog_was_raised (:2174), and an acceptance line naming them. Paste arms: a capture whose prompt does not normalise to the compiled text reads fail, and no capture reads fail. Clear arm: no clear SessionStart, the same session_id as the first, and a UserPromptSubmit carrying the command each read fail. Reason: without --framing the two paste rows pass on the echo, so only a failing case shows each arm reads its capture. Everything else stands as written.

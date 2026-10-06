@@ -2,7 +2,8 @@
 //! [Screen Model]). The untrusted run (A) starts in a fresh dir under the OS temp dir, records its
 //! first settled screen (`modal`) and is ended by a kill. The trusted run (B) starts in
 //! `<cwd>/.viola-verify-<pid>/`, records its settled input box (`ready`), types the probe prompt as
-//! one bracketed paste, times the turn and records its end (`turn`). The dialog run (C, in
+//! one bracketed paste, times the turn and records its end (`turn`), then pastes the long text, the
+//! tag-like text and the probed local command, each into the settled input box. The dialog run (C, in
 //! `<cwd>/.viola-verify-<pid>-dialogs/`) pastes the three dialog prompts, each after the previous
 //! turn's Stop; the plan run (D, in `<cwd>/.viola-verify-<pid>-plan/`, plan mode) pastes the plan
 //! prompt. In C and D the probe's capture hook answers each dialog (the founder's ruling,
@@ -21,7 +22,8 @@ use std::time::{Duration, Instant};
 use viola_agent_claude::hook::HookEvent;
 use viola_agent_claude::ledger::{
     self, DIALOG_PROMPT_PARALLEL, DIALOG_PROMPT_PERMISSION, DIALOG_PROMPT_QUESTIONS,
-    DIALOG_SETTINGS, PLAN_PROMPT, PROBE_PROMPT, TypedRun,
+    DIALOG_SETTINGS, PLAN_PROMPT, PROBE_LOCAL_COMMAND, PROBE_LONG_PASTE, PROBE_PROMPT,
+    PROBE_TAG_PASTE, TypedRun,
 };
 use viola_agent_claude::screen::{GATE_MAX_WAIT, QUIET_PERIOD, SIGNATURES, Screen};
 use viola_agent_claude::{PLUGIN_DIR_FLAG, StripPlan};
@@ -81,7 +83,7 @@ pub(super) fn measure(clock: &Arc<dyn Clock>, inputs: &Inputs<'_>) -> anyhow::Re
     Ok(typed)
 }
 
-/// Run B: the settled input box, one typed turn, then Ctrl-C.
+/// Run B: the settled input box, one typed turn, the three framing pastes, then Ctrl-C.
 fn trusted_run(
     clock: &Arc<dyn Clock>,
     inputs: &Inputs<'_>,
@@ -110,6 +112,7 @@ fn trusted_run(
         return Ok(());
     }
     turn(&run, inputs.trusted.captures, typed);
+    framing_turns(&run, inputs.trusted.captures, typed.turn.clone());
     run.end_by_ctrl_c(&keys);
     drop(keys);
     drop(trusted);
@@ -243,6 +246,49 @@ fn turn(run: &Run, captures: &Path, typed: &mut TypedRun) {
     if let Some(settled) = run.settle(stopped) {
         typed.turn_settle_ms = Some(ms(settled.at.saturating_duration_since(stopped)));
         typed.turn = settled.rows;
+    }
+}
+
+/// Run B's three added pastes, each only into the settled input box the turn before it left
+/// (`rows`, first the `turn` screen): the long text and the tag-like text, each until one more
+/// UserPromptSubmit and one more Stop are captured and the input box is back (`Run::box_wait`),
+/// then the probed local command until a new SessionStart or a new UserPromptSubmit is captured
+/// and the screen settles. The first wait that fails ends them.
+fn framing_turns(run: &Run, captures: &Path, mut rows: Option<Vec<String>>) {
+    let clock = run.clock.as_ref();
+    let count = |event| count_of(captures, event);
+    for text in [PROBE_LONG_PASTE, PROBE_TAG_PASTE] {
+        if !input_box_up(rows.as_deref()) {
+            return;
+        }
+        let prompts = count(HookEvent::UserPromptSubmit);
+        let stops = count(HookEvent::Stop);
+        if run.paste.paste(text).is_err() {
+            return;
+        }
+        let until = clock.now() + PROBE_DEADLINE;
+        let stopped = wait_for(clock, until, || {
+            count(HookEvent::UserPromptSubmit) > prompts && count(HookEvent::Stop) > stops
+        });
+        let Some(stopped) = stopped else {
+            return;
+        };
+        rows = run.box_wait(stopped);
+    }
+    if !input_box_up(rows.as_deref()) {
+        return;
+    }
+    let starts = count(HookEvent::SessionStart);
+    let prompts = count(HookEvent::UserPromptSubmit);
+    if run.paste.paste(PROBE_LOCAL_COMMAND).is_err() {
+        return;
+    }
+    let until = clock.now() + PROBE_DEADLINE;
+    let answered = wait_for(clock, until, || {
+        count(HookEvent::SessionStart) > starts || count(HookEvent::UserPromptSubmit) > prompts
+    });
+    if let Some(answered) = answered {
+        run.settle(answered);
     }
 }
 
@@ -451,6 +497,31 @@ fn settled(feed: &Feed, from: Instant, now: Instant) -> Option<Settled> {
     }
 }
 
+/// The wait after one of Run B's added turns, from its Stop (`from`): quiet for `QUIET_PERIOD` with
+/// a literal on screen ends it with the rows, and a poisoned screen ends it at once without rows. A
+/// quiet screen with no literal keeps waiting, past `GATE_MAX_WAIT`: after a long paste the CLI
+/// shows a paste hint in the input-box literal's place for seconds (architecture [CLI Version
+/// Compatibility]).
+fn box_wait(feed: &Feed, from: Instant, now: Instant) -> Option<Settled> {
+    if feed.screen.is_poisoned() {
+        return Some(Settled {
+            at: now,
+            rows: None,
+        });
+    }
+    let quiet_at = feed.last_fed.max(from) + QUIET_PERIOD;
+    if now < quiet_at {
+        return None;
+    }
+    let rows = feed.screen.rows()?;
+    rows.iter()
+        .any(|r| SIGNATURES.holds_any(r))
+        .then_some(Settled {
+            at: quiet_at,
+            rows: Some(rows),
+        })
+}
+
 /// One child under the PTY, its pump on its own thread.
 struct Run {
     clock: Arc<dyn Clock>,
@@ -527,6 +598,22 @@ impl Run {
             let now = self.clock.now();
             if let Some(done) = settled(&self.feed(), from, now) {
                 return Some(done);
+            }
+            if now >= until {
+                return None;
+            }
+            std::thread::sleep(POLL);
+        }
+    }
+
+    /// The rows once a literal is back on a quiet screen after an added turn's Stop (`from`);
+    /// `None` when the screen is poisoned or shows none within `PROBE_DEADLINE`.
+    fn box_wait(&self, from: Instant) -> Option<Vec<String>> {
+        let until = from + PROBE_DEADLINE;
+        loop {
+            let now = self.clock.now();
+            if let Some(done) = box_wait(&self.feed(), from, now) {
+                return done.rows;
             }
             if now >= until {
                 return None;
@@ -682,6 +769,50 @@ mod tests {
                 .at,
             t + ms_(1300)
         );
+    }
+
+    #[test]
+    fn box_wait_keeps_waiting_past_the_gate_maximum_without_a_literal() {
+        let t = Instant::now();
+        let f = feed(b"paste again to expand", t + ms_(100));
+        for at in [400, 5000, 5300, 60_000, 119_999] {
+            assert!(box_wait(&f, t, t + ms_(at)).is_none(), "{at}");
+        }
+        assert!(
+            settled(&f, t, t + ms_(5000)).is_some(),
+            "the settle gives up on the same screen at the maximum"
+        );
+    }
+
+    #[test]
+    fn box_wait_ends_on_a_quiet_literal_with_its_rows() {
+        let t = Instant::now();
+        for literal in ["← for agents", "Yes, I trust this folder"] {
+            let f = feed(literal.as_bytes(), t + ms_(6000));
+            assert!(box_wait(&f, t, t + ms_(6299)).is_none(), "{literal}");
+            let got = box_wait(&f, t, t + ms_(6300)).expect("ended");
+            assert_eq!(got.at, t + ms_(6300), "{literal}");
+            assert!(got.rows.expect("rows")[0].contains(literal), "{literal}");
+        }
+        let early = feed("← for agents".as_bytes(), t);
+        assert!(box_wait(&early, t + ms_(1000), t + ms_(1299)).is_none());
+        assert_eq!(
+            box_wait(&early, t + ms_(1000), t + ms_(1300))
+                .expect("ended")
+                .at,
+            t + ms_(1300),
+            "quiet counts from the later of the last output and the Stop"
+        );
+    }
+
+    #[test]
+    fn box_wait_ends_at_once_on_a_poisoned_screen() {
+        let t = Instant::now();
+        let mut f = feed("← for agents".as_bytes(), t + ms_(100));
+        f.screen.poison();
+        let got = box_wait(&f, t, t + ms_(101)).expect("ended");
+        assert_eq!(got.at, t + ms_(101));
+        assert!(got.rows.is_none());
     }
 
     #[test]

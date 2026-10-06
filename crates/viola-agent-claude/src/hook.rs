@@ -169,10 +169,11 @@ fn data_of(event: HookEvent, known: Known) -> Value {
 }
 
 /// `harness` when the prompt as the CLI sent it starts with a harness prefix, matched on the raw
-/// start with no trim. A tag the user typed arrives escaped (`<\task-notification>`), so it never
-/// classifies — with one exception: the cross-session message is itself injected escaped
-/// (`<\cross-session-message`, measured F115 on andromeda-worker, founder-ratified 2026-09-29), so
-/// a human who types that tag at a prompt's start is filed harness too.
+/// start with no trim. Measured on 2.1.287: the CLI escapes a typed `pasted_content` tag
+/// (`<\pasted_content`), and a typed `<task-notification>` in the middle of a prompt arrives as
+/// typed; the start-of-prompt position is not measured. The cross-session message is itself
+/// injected escaped (`<\cross-session-message`, measured F115 on andromeda-worker, founder-ratified
+/// 2026-09-29), so a human who types that tag at a prompt's start is filed harness too.
 fn prompt_origin(raw: &str) -> &'static str {
     if HARNESS_PREFIXES.iter().any(|p| raw.starts_with(p)) {
         "harness"
@@ -184,14 +185,17 @@ fn prompt_origin(raw: &str) -> &'static str {
 /// The CLI's long-paste pairs unwrapped, then the typed tag escaping reversed: in that order, a
 /// pair the user typed (escaped) is never taken for the CLI's own (architecture.md
 /// [CLI Version Compatibility], the paste-wrapper and tag-escaping rows).
-fn prompt_text(raw: &str) -> String {
+pub(crate) fn prompt_text(raw: &str) -> String {
     unescape_tags(&unwrap_pastes(raw))
 }
 
 const PASTE_OPEN: &str = "<pasted_content id=\"";
 
-/// Each `<pasted_content id="X">\n…\n</pasted_content id="X">` becomes its inner text; everything
-/// outside a pair, and an open tag with no matching close, is kept byte for byte.
+/// Each `<pasted_content id="X">\n…\n</pasted_content id="X">` becomes its inner text, and the
+/// frame the CLI writes around its own pair goes with it: the two newlines directly before the
+/// open tag and the one directly after the close. A third newline before, a second after and a
+/// lone one before stay, and so does everything else outside a pair; an open tag with no matching
+/// close removes nothing (architecture.md [CLI Version Compatibility], the long-paste wrapper).
 fn unwrap_pastes(text: &str) -> String {
     let mut out = String::with_capacity(text.len());
     let mut rest = text;
@@ -199,9 +203,10 @@ fn unwrap_pastes(text: &str) -> String {
         let after = &rest[start + PASTE_OPEN.len()..];
         match paste_pair(after) {
             Some((inner, tail)) => {
-                out.push_str(&rest[..start]);
+                let lead = &rest[..start];
+                out.push_str(lead.strip_suffix("\n\n").unwrap_or(lead));
                 out.push_str(inner);
-                rest = tail;
+                rest = tail.strip_prefix('\n').unwrap_or(tail);
             }
             None => {
                 out.push_str(&rest[..start + PASTE_OPEN.len()]);
@@ -489,7 +494,7 @@ mod tests {
     #[rstest]
     #[case::cli_pair(
         "\n\n<pasted_content id=\"2f85\">\nA paste\n</pasted_content id=\"2f85\">\n",
-        "\n\nA paste\n"
+        "A paste"
     )]
     #[case::two_pairs(
         "a<pasted_content id=\"1\">\nx\n</pasted_content id=\"1\">b<pasted_content id=\"2\">\ny\n</pasted_content id=\"2\">c",
@@ -520,6 +525,47 @@ mod tests {
     #[case::backslash_kept("<\\1 and <\\\\ and <\\", "<\\1 and <\\\\ and <\\")]
     #[case::plain("no tags \u{e9}", "no tags \u{e9}")]
     fn prompt_text_unwraps_the_cli_pair_then_unescapes(#[case] raw: &str, #[case] text: &str) {
+        assert_eq!(prompt_text(raw), text);
+        let got = read(HookEvent::UserPromptSubmit, &json!({"prompt": raw}));
+        assert_eq!(got.data["text"], text);
+    }
+
+    /// The frame the CLI writes around a long paste, as measured on 2.1.287: two newlines before
+    /// the open tag and one after the close. Only that much goes, and only around a matched pair.
+    #[rstest]
+    #[case::measured_long(
+        "\n\n<pasted_content id=\"7ccf\">\nA long paste\n</pasted_content id=\"7ccf\">\n",
+        "A long paste"
+    )]
+    #[case::measured_tag(
+        "viola verify probe: the next part is literal sample text and not markup: <\\pasted_content id=\"1\"> sample <\\/pasted_content id=\"1\"> then <task-notification> and that is all. Reply with the single word ok",
+        "viola verify probe: the next part is literal sample text and not markup: <pasted_content id=\"1\"> sample </pasted_content id=\"1\"> then <task-notification> and that is all. Reply with the single word ok"
+    )]
+    #[case::third_newline_before_stays(
+        "\n\n\n<pasted_content id=\"7ccf\">\nA long paste\n</pasted_content id=\"7ccf\">\n",
+        "\nA long paste"
+    )]
+    #[case::second_newline_after_stays(
+        "\n\n<pasted_content id=\"7ccf\">\nA long paste\n</pasted_content id=\"7ccf\">\n\n",
+        "A long paste\n"
+    )]
+    #[case::one_newline_before_stays(
+        "\n<pasted_content id=\"7ccf\">\nA long paste\n</pasted_content id=\"7ccf\">\n",
+        "\nA long paste"
+    )]
+    #[case::text_then_framed_pair(
+        "note:\n\n<pasted_content id=\"7ccf\">\nA long paste\n</pasted_content id=\"7ccf\">\n",
+        "note:A long paste"
+    )]
+    #[case::two_framed_pairs(
+        "\n\n<pasted_content id=\"7ccf\">\none\n</pasted_content id=\"7ccf\">\n\n\n<pasted_content id=\"2f85\">\ntwo\n</pasted_content id=\"2f85\">\n",
+        "onetwo"
+    )]
+    #[case::unmatched_open_keeps_its_newlines(
+        "\n\n<pasted_content id=\"7ccf\">\n",
+        "\n\n<pasted_content id=\"7ccf\">\n"
+    )]
+    fn prompt_text_drops_the_cli_framing_around_a_pair(#[case] raw: &str, #[case] text: &str) {
         assert_eq!(prompt_text(raw), text);
         let got = read(HookEvent::UserPromptSubmit, &json!({"prompt": raw}));
         assert_eq!(got.data["text"], text);
@@ -646,18 +692,20 @@ mod tests {
             prop_assert!(start.drift.is_empty() && submitted.drift.is_empty());
         }
 
-        /// Escape the typed text as the CLI does, wrap it in the CLI's pair, normalise: the typed
-        /// text comes back, typed pairs included.
+        /// Escape the typed text as the CLI does, wrap it in the CLI's pair with one newline after
+        /// the close, normalise: the typed text comes back, typed pairs included, behind the lead
+        /// less its two framing newlines.
         #[test]
         fn prompt_text_prop_round_trips_a_wrapped_paste(
             text in typed_text(),
             id in "[a-zA-Z0-9]{1,8}",
-            lead in prop::sample::select(vec!["", "\n\n", "note: "]),
+            lead in prop::sample::select(vec![("", ""), ("\n\n", ""), ("note: ", "note: "), ("\n", "\n")]),
         ) {
+            let (lead, kept) = lead;
             let open = String::from("<pasted_content id=\"") + &id + "\">\n";
             let close = String::from("\n</pasted_content id=\"") + &id + "\">";
             let wire = String::from(lead) + &open + &cli_escape(&text) + &close + "\n";
-            let expected = String::from(lead) + &text + "\n";
+            let expected = String::from(kept) + &text;
             prop_assert_eq!(prompt_text(&wire), expected);
         }
     }

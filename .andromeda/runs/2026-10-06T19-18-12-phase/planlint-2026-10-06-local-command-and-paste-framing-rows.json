@@ -1,0 +1,713 @@
+[
+{
+"tool": "planlint",
+"v": "1.7",
+"sha8": "6c135dc6",
+"ts": "2026-10-06T19:44:51Z",
+"argv": [
+"check",
+"--plan",
+"viola-0.1.0/chunks/2026-10-06-local-command-and-paste-framing-rows/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-06T19-18-12-phase",
+"--marker",
+"2026-10-06-local-command-and-paste-framing-rows"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"fence: 21 entries · plan: viola-0.1.0/chunks/2026-10-06-local-command-and-paste-framing-rows/plan.md · research: viola-…",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: none · `none — no runner-only bull…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 1 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md` — r…`",
+"check 4 (5) · leg entries with a content atom: 4 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"check 4 (14) · base-less git change reads outside the operator and round legs: 0",
+"check 4 (15) · grep → wc -l counts asserting exit 0 and last line 0: 0",
+"check 4 (16) · guards whose exclusions leave a new file in: 0 of 0 with an exclusion",
+"check 2 · ledger-note entries (matrix#): 0",
+"check 5 · placeholders outside code: 0",
+"hits: 0 — each resolved by its check's resolution (validation.md 2 · 5 · 9 · 4 (5) · 4 (13)–(16)); 0 is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 1,
+"hit": false
+},
+"atom": {
+"atomed": 4,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"base": {
+"operator": 3,
+"reads": []
+},
+"count": {
+"hits": [],
+"unsplit": []
+},
+"newfiles": {
+"operator": 3,
+"guards": 0,
+"hits": [],
+"abstain": []
+},
+"check2": {
+"entries": 21,
+"tokens": 0,
+"hits": []
+},
+"check5": {
+"hits": []
+},
+"hits": 0
+}
+},
+{
+"tool": "planlint",
+"v": "1.7",
+"sha8": "6c135dc6",
+"ts": "2026-10-06T19:47:30Z",
+"argv": [
+"check",
+"--plan",
+"viola-0.1.0/chunks/2026-10-06-local-command-and-paste-framing-rows/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-06T19-18-12-phase",
+"--marker",
+"2026-10-06-local-command-and-paste-framing-rows"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"fence: 21 entries · plan: viola-0.1.0/chunks/2026-10-06-local-command-and-paste-framing-rows/plan.md · research: viola-…",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: none · `none — no runner-only bull…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 1 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md` — r…`",
+"check 4 (5) · leg entries with a content atom: 4 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"check 4 (14) · base-less git change reads outside the operator and round legs: 0",
+"check 4 (15) · grep → wc -l counts asserting exit 0 and last line 0: 0",
+"check 4 (16) · guards whose exclusions leave a new file in: 0 of 0 with an exclusion",
+"check 2 · ledger-note entries (matrix#): 0",
+"check 5 · placeholders outside code: 0",
+"hits: 0 — each resolved by its check's resolution (validation.md 2 · 5 · 9 · 4 (5) · 4 (13)–(16)); 0 is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 1,
+"hit": false
+},
+"atom": {
+"atomed": 4,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"base": {
+"operator": 3,
+"reads": []
+},
+"count": {
+"hits": [],
+"unsplit": []
+},
+"newfiles": {
+"operator": 3,
+"guards": 0,
+"hits": [],
+"abstain": []
+},
+"check2": {
+"entries": 21,
+"tokens": 0,
+"hits": []
+},
+"check5": {
+"hits": []
+},
+"hits": 0
+}
+},
+{
+"tool": "planlint",
+"v": "1.7",
+"sha8": "6c135dc6",
+"ts": "2026-10-06T19:49:45Z",
+"argv": [
+"check",
+"--plan",
+"viola-0.1.0/chunks/2026-10-06-local-command-and-paste-framing-rows/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-06T19-18-12-phase",
+"--marker",
+"2026-10-06-local-command-and-paste-framing-rows"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"fence: 22 entries · plan: viola-0.1.0/chunks/2026-10-06-local-command-and-paste-framing-rows/plan.md · research: viola-…",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: none · `none — no runner-only bull…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 1 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md` — r…`",
+"check 4 (5) · leg entries with a content atom: 4 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"check 4 (14) · base-less git change reads outside the operator and round legs: 0",
+"check 4 (15) · grep → wc -l counts asserting exit 0 and last line 0: 0",
+"check 4 (16) · guards whose exclusions leave a new file in: 0 of 0 with an exclusion",
+"check 2 · ledger-note entries (matrix#): 0",
+"check 5 · placeholders outside code: 0",
+"hits: 0 — each resolved by its check's resolution (validation.md 2 · 5 · 9 · 4 (5) · 4 (13)–(16)); 0 is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 1,
+"hit": false
+},
+"atom": {
+"atomed": 4,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"base": {
+"operator": 3,
+"reads": []
+},
+"count": {
+"hits": [],
+"unsplit": []
+},
+"newfiles": {
+"operator": 3,
+"guards": 0,
+"hits": [],
+"abstain": []
+},
+"check2": {
+"entries": 21,
+"tokens": 0,
+"hits": []
+},
+"check5": {
+"hits": []
+},
+"hits": 0
+}
+},
+{
+"tool": "planlint",
+"v": "1.7",
+"sha8": "6c135dc6",
+"ts": "2026-10-06T20:14:19Z",
+"argv": [
+"check",
+"--plan",
+"viola-0.1.0/chunks/2026-10-06-local-command-and-paste-framing-rows/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-06T19-18-12-phase",
+"--marker",
+"2026-10-06-local-command-and-paste-framing-rows"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"fence: 24 entries · plan: viola-0.1.0/chunks/2026-10-06-local-command-and-paste-framing-rows/plan.md · research: viola-…",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: none · `none — no runner-only bull…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 1 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md` — r…`",
+"check 4 (5) · leg entries with a content atom: 4 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"check 4 (14) · base-less git change reads outside the operator and round legs: 0",
+"check 4 (15) · grep → wc -l counts asserting exit 0 and last line 0: 0",
+"check 4 (16) · guards whose exclusions leave a new file in: 0 of 0 with an exclusion",
+"check 2 · ledger-note entries (matrix#): 0",
+"check 5 · placeholders outside code: 0",
+"hits: 0 — each resolved by its check's resolution (validation.md 2 · 5 · 9 · 4 (5) · 4 (13)–(16)); 0 is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 1,
+"hit": false
+},
+"atom": {
+"atomed": 4,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"base": {
+"operator": 3,
+"reads": []
+},
+"count": {
+"hits": [],
+"unsplit": []
+},
+"newfiles": {
+"operator": 3,
+"guards": 0,
+"hits": [],
+"abstain": []
+},
+"check2": {
+"entries": 28,
+"tokens": 0,
+"hits": []
+},
+"check5": {
+"hits": []
+},
+"hits": 0
+}
+},
+{
+"tool": "planlint",
+"v": "1.7",
+"sha8": "6c135dc6",
+"ts": "2026-10-06T20:15:32Z",
+"argv": [
+"check",
+"--plan",
+"viola-0.1.0/chunks/2026-10-06-local-command-and-paste-framing-rows/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-06T19-18-12-phase",
+"--marker",
+"2026-10-06-local-command-and-paste-framing-rows"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"fence: 24 entries · plan: viola-0.1.0/chunks/2026-10-06-local-command-and-paste-framing-rows/plan.md · research: viola-…",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: none · `none — no runner-only bull…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 1 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md` — r…`",
+"check 4 (5) · leg entries with a content atom: 4 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"check 4 (14) · base-less git change reads outside the operator and round legs: 0",
+"check 4 (15) · grep → wc -l counts asserting exit 0 and last line 0: 0",
+"check 4 (16) · guards whose exclusions leave a new file in: 0 of 0 with an exclusion",
+"check 2 · ledger-note entries (matrix#): 0",
+"check 5 · placeholders outside code: 0",
+"hits: 0 — each resolved by its check's resolution (validation.md 2 · 5 · 9 · 4 (5) · 4 (13)–(16)); 0 is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 1,
+"hit": false
+},
+"atom": {
+"atomed": 4,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"base": {
+"operator": 3,
+"reads": []
+},
+"count": {
+"hits": [],
+"unsplit": []
+},
+"newfiles": {
+"operator": 3,
+"guards": 0,
+"hits": [],
+"abstain": []
+},
+"check2": {
+"entries": 28,
+"tokens": 0,
+"hits": []
+},
+"check5": {
+"hits": []
+},
+"hits": 0
+}
+},
+{
+"tool": "planlint",
+"v": "1.7",
+"sha8": "6c135dc6",
+"ts": "2026-10-06T20:17:33Z",
+"argv": [
+"check",
+"--plan",
+"viola-0.1.0/chunks/2026-10-06-local-command-and-paste-framing-rows/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-06T19-18-12-phase",
+"--marker",
+"2026-10-06-local-command-and-paste-framing-rows"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"fence: 24 entries · plan: viola-0.1.0/chunks/2026-10-06-local-command-and-paste-framing-rows/plan.md · research: viola-…",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: none · `none — no runner-only bull…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 1 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md` — r…`",
+"check 4 (5) · leg entries with a content atom: 4 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"check 4 (14) · base-less git change reads outside the operator and round legs: 0",
+"check 4 (15) · grep → wc -l counts asserting exit 0 and last line 0: 0",
+"check 4 (16) · guards whose exclusions leave a new file in: 0 of 0 with an exclusion",
+"check 2 · ledger-note entries (matrix#): 0",
+"check 5 · placeholders outside code: 0",
+"hits: 0 — each resolved by its check's resolution (validation.md 2 · 5 · 9 · 4 (5) · 4 (13)–(16)); 0 is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 1,
+"hit": false
+},
+"atom": {
+"atomed": 4,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"base": {
+"operator": 3,
+"reads": []
+},
+"count": {
+"hits": [],
+"unsplit": []
+},
+"newfiles": {
+"operator": 3,
+"guards": 0,
+"hits": [],
+"abstain": []
+},
+"check2": {
+"entries": 29,
+"tokens": 0,
+"hits": []
+},
+"check5": {
+"hits": []
+},
+"hits": 0
+}
+},
+{
+"tool": "planlint",
+"v": "1.7",
+"sha8": "6c135dc6",
+"ts": "2026-10-06T20:55:58Z",
+"argv": [
+"check",
+"--plan",
+"viola-0.1.0/chunks/2026-10-06-local-command-and-paste-framing-rows/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-06T19-18-12-phase",
+"--marker",
+"2026-10-06-local-command-and-paste-framing-rows"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"fence: 26 entries · plan: viola-0.1.0/chunks/2026-10-06-local-command-and-paste-framing-rows/plan.md · research: viola-…",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: none · `none — no runner-only bull…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 1 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md` — r…`",
+"check 4 (5) · leg entries with a content atom: 4 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"check 4 (14) · base-less git change reads outside the operator and round legs: 0",
+"check 4 (15) · grep → wc -l counts asserting exit 0 and last line 0: 0",
+"check 4 (16) · guards whose exclusions leave a new file in: 0 of 0 with an exclusion",
+"check 2 · ledger-note entries (matrix#): 0",
+"check 5 · placeholders outside code: 0",
+"hits: 0 — each resolved by its check's resolution (validation.md 2 · 5 · 9 · 4 (5) · 4 (13)–(16)); 0 is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 1,
+"hit": false
+},
+"atom": {
+"atomed": 4,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"base": {
+"operator": 3,
+"reads": []
+},
+"count": {
+"hits": [],
+"unsplit": []
+},
+"newfiles": {
+"operator": 3,
+"guards": 0,
+"hits": [],
+"abstain": []
+},
+"check2": {
+"entries": 40,
+"tokens": 0,
+"hits": []
+},
+"check5": {
+"hits": []
+},
+"hits": 0
+}
+},
+{
+"tool": "planlint",
+"v": "1.7",
+"sha8": "6c135dc6",
+"ts": "2026-10-06T20:57:04Z",
+"argv": [
+"check",
+"--plan",
+"viola-0.1.0/chunks/2026-10-06-local-command-and-paste-framing-rows/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-06T19-18-12-phase",
+"--marker",
+"2026-10-06-local-command-and-paste-framing-rows"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"fence: 28 entries · plan: viola-0.1.0/chunks/2026-10-06-local-command-and-paste-framing-rows/plan.md · research: viola-…",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: none · `none — no runner-only bull…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 1 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md` — r…`",
+"check 4 (5) · leg entries with a content atom: 4 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"check 4 (14) · base-less git change reads outside the operator and round legs: 0",
+"check 4 (15) · grep → wc -l counts asserting exit 0 and last line 0: 0",
+"check 4 (16) · guards whose exclusions leave a new file in: 0 of 0 with an exclusion",
+"check 2 · ledger-note entries (matrix#): 0",
+"check 5 · placeholders outside code: 0",
+"hits: 0 — each resolved by its check's resolution (validation.md 2 · 5 · 9 · 4 (5) · 4 (13)–(16)); 0 is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 1,
+"hit": false
+},
+"atom": {
+"atomed": 4,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"base": {
+"operator": 3,
+"reads": []
+},
+"count": {
+"hits": [],
+"unsplit": []
+},
+"newfiles": {
+"operator": 3,
+"guards": 0,
+"hits": [],
+"abstain": []
+},
+"check2": {
+"entries": 40,
+"tokens": 0,
+"hits": []
+},
+"check5": {
+"hits": []
+},
+"hits": 0
+}
+},
+{
+"tool": "planlint",
+"v": "1.7",
+"sha8": "6c135dc6",
+"ts": "2026-10-06T20:58:38Z",
+"argv": [
+"check",
+"--plan",
+"viola-0.1.0/chunks/2026-10-06-local-command-and-paste-framing-rows/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-06T19-18-12-phase",
+"--marker",
+"2026-10-06-local-command-and-paste-framing-rows"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"fence: 28 entries · plan: viola-0.1.0/chunks/2026-10-06-local-command-and-paste-framing-rows/plan.md · research: viola-…",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: none · `none — no runner-only bull…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 1 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md` — r…`",
+"check 4 (5) · leg entries with a content atom: 4 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"check 4 (14) · base-less git change reads outside the operator and round legs: 0",
+"check 4 (15) · grep → wc -l counts asserting exit 0 and last line 0: 0",
+"check 4 (16) · guards whose exclusions leave a new file in: 0 of 0 with an exclusion",
+"check 2 · ledger-note entries (matrix#): 0",
+"check 5 · placeholders outside code: 0",
+"hits: 0 — each resolved by its check's resolution (validation.md 2 · 5 · 9 · 4 (5) · 4 (13)–(16)); 0 is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 1,
+"hit": false
+},
+"atom": {
+"atomed": 4,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"base": {
+"operator": 3,
+"reads": []
+},
+"count": {
+"hits": [],
+"unsplit": []
+},
+"newfiles": {
+"operator": 3,
+"guards": 0,
+"hits": [],
+"abstain": []
+},
+"check2": {
+"entries": 40,
+"tokens": 0,
+"hits": []
+},
+"check5": {
+"hits": []
+},
+"hits": 0
+}
+}
+]
