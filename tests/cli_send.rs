@@ -1,9 +1,10 @@
 //! Critical Path 2 over the CLI and the fake agent's receipt (test-plan §6 Path 2; architecture
 //! [Delivery Confirmation]): `viola send` types the text as one bracketed paste, the wrapper reads
 //! it back through the matching `prompt-submitted`, relabelled `driver`, and every outcome is a CL-1
-//! record. A send is never presumed delivered: a mute agent, a local command and a second send in
-//! flight are each `not-delivered`. The `send_window_` cases wait out the product's 10 s
-//! confirmation window by design.
+//! record. A send is never presumed delivered: a mute agent, a slash text off the compiled list and
+//! a second send in flight are each `not-delivered`. A listed local command is confirmed by its
+//! measured post-condition or answered `unconfirmable`. The `send_window_` cases wait out the
+//! product's 10 s confirmation window by design.
 
 #[allow(dead_code)]
 mod support;
@@ -26,19 +27,41 @@ const PATH3: &str = "fixtures/fake-scripts/path3.json";
 /// A wrapper over the fake agent with the committed hook fixtures (and `script`), its SessionStart
 /// record landed.
 fn boot(script: Option<&str>, extra: &[&str]) -> Wrapper {
+    boot_on(StampedHome::unstamped(TestHome::new()), script, extra)
+}
+
+/// `boot` on `stamped`: a home `viola verify` stamped makes the fake agent's version a verified CLI.
+fn boot_on(stamped: StampedHome, script: Option<&str>, extra: &[&str]) -> Wrapper {
     let fixtures = workspace_path("fixtures/claude");
     let mut args = vec!["--fixtures", fixtures.to_str().expect("utf-8 path")];
     args.extend_from_slice(extra);
-    let wrapper = Wrapper::boot(
-        StampedHome::unstamped(TestHome::new()),
-        "builder",
-        script,
-        &args,
-    );
+    let wrapper = Wrapper::boot(stamped, "builder", script, &args);
     wait_events(&wrapper.instance_dir(), "the session-start record", |l| {
         l.iter().any(|e| e["kind"] == "session-start")
     });
     wrapper
+}
+
+/// The recorded `paste-1` variant's bytes, and the long text it wraps. The frame is a test literal:
+/// two newlines, the open tag, a newline; then a newline, the close tag repeating the id, a newline.
+fn recorded_long_paste() -> (Vec<u8>, String) {
+    let recorded = std::fs::read(workspace_path(
+        "fixtures/claude/2.1.287/UserPromptSubmit.paste-1.json",
+    ))
+    .expect("the recorded paste-1 variant");
+    let payload: Value = serde_json::from_slice(&recorded).expect("the variant is JSON");
+    let prompt = payload["prompt"].as_str().expect("a recorded prompt");
+    let (id, body) = prompt
+        .strip_prefix("\n\n<pasted_content id=\"")
+        .and_then(|rest| rest.split_once("\">\n"))
+        .expect("the recorded prompt opens with the frame");
+    let text = body
+        .strip_suffix(&format!("\n</pasted_content id=\"{id}\">\n"))
+        .expect("the recorded prompt closes with the frame");
+    assert_eq!(text.len(), 1500, "the long text as pasted");
+    assert!(!text.contains('\n'));
+    let text = text.to_owned();
+    (recorded, text)
 }
 
 fn events(instance_dir: &Path) -> Vec<Value> {
@@ -368,11 +391,118 @@ fn send_after_a_confirmed_send_is_turn_running_until_turn_ended() {
     wrapper.stop();
 }
 
-/// No local-command list is compiled: a local command is never presumed delivered.
+/// A listed local command is never presumed delivered and never refused. On a CLI version with no
+/// passing stamp nothing is measured for it, so `/clear` and `/remote-control` are each typed once
+/// and answered `unconfirmable` at once: an `ok` with exit 0, recorded and logged as
+/// `send-confirmed` with `confirmed:false`, the command's text in no role log line.
 #[test]
 fn send_window_local_command_is_not_presumed_delivered() {
     let wrapper = boot(None, &["--local-command-mode"]);
-    let sent = send(wrapper.home(), &["builder", "--json"], "/clear");
+    let dir = wrapper.instance_dir();
+    let home = wrapper.home().to_path_buf();
+    let l = end_offset(&dir);
+    let sent = send(&home, &["builder", "--json"], "/clear");
+    assert_eq!(sent.code, Some(0), "stdout: {}", sent.stdout);
+    assert!(sent.stderr.is_empty(), "--json writes nothing on stderr");
+    assert_eq!(sent.stdout.lines().count(), 1, "one JSON document");
+    assert_eq!(
+        serde_json::from_str::<Value>(&sent.stdout).expect("one JSON document"),
+        json!({"v": 1, "ok": {"confirmed": false, "detail": "unconfirmable", "cursor": l}})
+    );
+    let records = records_after(&dir, l);
+    let kinds: Vec<&Value> = records.iter().map(|r| &r["kind"]).collect();
+    assert_eq!(kinds, ["send-issued", "send-confirmed"]);
+    assert_eq!(records[1]["data"], json!({"cursor": l, "confirmed": false}));
+    let typed = prompts_at_least(&wrapper.receipt(), 1);
+    assert_eq!(typed.len(), 1);
+    assert_eq!(typed[0]["submit"], "local-command");
+
+    let l2 = end_offset(&dir);
+    let human = send(&home, &["builder"], "/remote-control");
+    assert_eq!(human.code, Some(0), "stderr: {}", human.stderr);
+    assert_eq!(
+        human.stdout,
+        "[  ] unconfirmable  builder  local command, no measured post-condition\n"
+    );
+    assert!(human.stderr.is_empty(), "{}", human.stderr);
+
+    let role_file = home.join("diagnostics").join("run-builder.ndjson");
+    let role = support::ndjson::read_lines(&role_file);
+    for cursor in [l, l2] {
+        let of = |event: &str| -> Vec<&Value> {
+            role.iter()
+                .filter(|r| r["event"] == event && r["corr"] == cursor)
+                .collect()
+        };
+        assert_eq!(of("send-issued").len(), 1, "cursor {cursor}");
+        let confirmed = of("send-confirmed");
+        assert_eq!(confirmed.len(), 1, "cursor {cursor}");
+        assert_eq!(confirmed[0]["confirmed"], false);
+    }
+    assert!(!role.iter().any(|r| r["event"] == "send-refused"));
+    let logged = std::fs::read(&role_file).expect("role file");
+    let logged = String::from_utf8_lossy(&logged);
+    for command in ["/clear", "/remote-control"] {
+        assert!(
+            !logged.contains(command),
+            "the role log holds the sent text"
+        );
+    }
+    wrapper.stop();
+}
+
+/// `/clear` on a verified CLI is confirmed by its measured post-condition (test-plan §6 Path 2).
+/// With `--framing` the fake agent answers it with the recorded SessionEnd and SessionStart and no
+/// prompt; the new session's id differs from the boot's, and the send reads back like any other.
+#[rstest]
+fn send_clear_on_a_verified_cli_is_confirmed_by_its_new_session(stamped_home: StampedHome) {
+    let wrapper = boot_on(stamped_home, None, &["--framing"]);
+    let dir = wrapper.instance_dir();
+    let l = end_offset(&dir);
+    let sent = send(wrapper.home(), &["builder"], "/clear");
+    assert_eq!(sent.code, Some(0), "stderr: {}", sent.stderr);
+    assert!(sent.stderr.is_empty(), "{}", sent.stderr);
+    let lines: Vec<&str> = sent.stdout.lines().collect();
+    assert_eq!(lines.len(), 1, "{}", sent.stdout);
+    assert!(
+        lines[0].starts_with("[RB] read back      builder  "),
+        "{}",
+        lines[0]
+    );
+    assert!(lines[0].ends_with(&format!("  cursor {l}")), "{}", lines[0]);
+
+    let records = records_after(&dir, l);
+    let kinds: Vec<&Value> = records.iter().map(|r| &r["kind"]).collect();
+    assert_eq!(
+        kinds,
+        [
+            "send-issued",
+            "session-end",
+            "session-start",
+            "send-confirmed"
+        ]
+    );
+    assert_eq!(
+        records[2]["data"],
+        json!({"cause": "clear", "agent_session_id": "d5d38bc2-fcb5-44d3-b336-6a62b90b7c39"})
+    );
+    assert_eq!(records[3]["data"], json!({"cursor": l}));
+    let typed = prompts_at_least(&wrapper.receipt(), 1);
+    assert_eq!(typed.len(), 1, "typed once");
+    assert_eq!(typed[0]["text"], "/clear");
+    wrapper.stop();
+}
+
+/// The decision reads the compiled list, never a leading slash: a slash text that is not on it is
+/// an ordinary send, and with no prompt reported it is `not-delivered` once the window expires.
+#[test]
+fn send_window_slash_text_off_the_list_is_not_delivered() {
+    let wrapper = boot(None, &["--local-command-mode"]);
+    let sent = send(
+        wrapper.home(),
+        &["builder", "--json"],
+        "/not-a-local-command",
+    );
     assert_eq!(sent.code, Some(13));
     assert_eq!(
         serde_json::from_str::<Value>(&sent.stdout).expect("one JSON document"),
@@ -383,6 +513,90 @@ fn send_window_local_command_is_not_presumed_delivered() {
     assert_eq!(typed.len(), 1);
     assert_eq!(typed[0]["submit"], "local-command");
     wrapper.stop();
+}
+
+/// Git Bash rewrites a leading-slash argument into a path under its install before viola sees it
+/// (`/clear` arrives as `C:/Program Files/Git/clear`). In either argument position the rewritten
+/// path draws the warning ahead of the usage error. No wrapper runs: the argument never reaches one.
+#[test]
+fn send_rewritten_path_argument_draws_the_warning() {
+    let home = TestHome::new();
+    let rewritten = "C:/Program Files/Git/clear";
+    for args in [&[rewritten][..], &["builder", rewritten][..]] {
+        let sent = send(home.path(), args, CANARY);
+        assert_eq!(sent.code, Some(2), "{args:?}");
+        assert!(sent.stdout.is_empty(), "{args:?}");
+        assert_eq!(
+            sent.stderr.lines().next(),
+            Some("warning: argument looks like a Git Bash rewritten path"),
+            "{args:?}"
+        );
+    }
+}
+
+/// The readiness-gate reading, measured end to end. After a long paste the real CLI shows a paste
+/// hint where the input-box literal was (6.5 s after the turn's Stop on 2.1.287, measured). `hint`
+/// forces that window open with the fake agent's capped hold, and `no_hint` is the same sequence
+/// without it: under the hint a verified wrapper refuses the next send `input-not-ready` and types
+/// nothing, and without it the send is delivered. The hold only has to outlast the second send's
+/// gate verdict (the screen quiet for 300 ms), and the whole case stays under the nextest `mutants`
+/// kill.
+#[rstest]
+#[case::hint(&["--paste-hint-ms", "3000"], false)]
+#[case::no_hint(&[], true)]
+fn send_under_the_paste_hint_on_a_verified_cli(
+    stamped_home: StampedHome,
+    #[case] hold: &[&str],
+    #[case] delivered: bool,
+) {
+    let mut extra = vec!["--framing", "--turn-stop"];
+    extra.extend_from_slice(hold);
+    let wrapper = boot_on(stamped_home, None, &extra);
+    let dir = wrapper.instance_dir();
+    let home = wrapper.home().to_path_buf();
+    let receipt = wrapper.receipt();
+    let (_, long) = recorded_long_paste();
+    let first = send(&home, &["builder", "--json"], &long);
+    assert_eq!(first.code, Some(0), "stdout: {}", first.stdout);
+    wait_events(&dir, "the long turn's turn-ended", |l| {
+        l.iter().any(|e| e["kind"] == "turn-ended")
+    });
+    // The agent draws its next screen once the Stop hook has returned, which its receipt line marks.
+    fake::wait_for(&receipt, "the Stop hook's receipt", |l| {
+        of_kind(l, "hook").iter().any(|h| h["event"] == "Stop")
+    });
+
+    let l = end_offset(&dir);
+    let second = format!("{CANARY} after the long paste");
+    let sent = send(&home, &["builder", "--json"], &second);
+    let doc: Value = serde_json::from_str(&sent.stdout).expect("one JSON document");
+    if delivered {
+        assert_eq!(sent.code, Some(0), "stdout: {}", sent.stdout);
+        assert_eq!(doc["ok"]["cursor"], l);
+        let typed = prompts_at_least(&receipt, 2);
+        assert_eq!(typed.len(), 2);
+        assert_eq!(typed[1]["text"], second.as_str());
+        wrapper.stop();
+    } else {
+        assert_eq!(sent.code, Some(13), "stdout: {}", sent.stdout);
+        assert_eq!(
+            doc,
+            json!({"v": 1, "refusal": "not-delivered", "detail": "input-not-ready"})
+        );
+        let records = records_after(&dir, l);
+        assert_eq!(records.len(), 1, "{records:?}");
+        assert_eq!(records[0]["kind"], "send-refused");
+        assert_eq!(
+            records[0]["data"],
+            json!({"refusal": "not-delivered", "detail": "input-not-ready"})
+        );
+        // The agent reads its stdin again only after the hold, so the stop returns after it.
+        let (_, kept) = wrapper.stop_keep();
+        let typed = prompts(&receipt);
+        assert_eq!(typed.len(), 1, "nothing more was typed");
+        assert_eq!(typed[0]["text"], long.as_str());
+        drop(kept);
+    }
 }
 
 #[test]
@@ -491,23 +705,8 @@ fn send_on_a_verified_cli_refuses_while_the_trust_dialog_is_up(stamped_home: Sta
 /// text is the text as sent (test-plan §6 Path 2, step 3).
 #[test]
 fn send_long_text_wrapped_by_the_cli_is_confirmed() {
-    let recorded = std::fs::read(workspace_path(
-        "fixtures/claude/2.1.287/UserPromptSubmit.paste-1.json",
-    ))
-    .expect("the recorded paste-1 variant");
-    let payload: Value = serde_json::from_slice(&recorded).expect("the variant is JSON");
-    let prompt = payload["prompt"].as_str().expect("a recorded prompt");
-    // The frame as a test literal: two newlines, the open tag, a newline; then a newline, the close
-    // tag repeating the id, a newline.
-    let (id, body) = prompt
-        .strip_prefix("\n\n<pasted_content id=\"")
-        .and_then(|rest| rest.split_once("\">\n"))
-        .expect("the recorded prompt opens with the frame");
-    let text = body
-        .strip_suffix(&format!("\n</pasted_content id=\"{id}\">\n"))
-        .expect("the recorded prompt closes with the frame");
-    assert_eq!(text.len(), 1500, "the long text as pasted");
-    assert!(!text.contains('\n'));
+    let (recorded, text) = recorded_long_paste();
+    let text = text.as_str();
 
     let wrapper = boot(None, &["--framing"]);
     let dir = wrapper.instance_dir();

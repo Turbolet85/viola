@@ -124,6 +124,15 @@ impl Out<'_> {
         );
     }
 
+    /// An `ok` whose `confirmed` is `false`: the same document as any `ok`, or the open box that
+    /// is never filled.
+    fn unconfirmable(&self, ok: &Value) {
+        if self.json {
+            return client::document(&json!({"v": 1, "ok": ok}));
+        }
+        let _ = human::write_send_unconfirmable(&mut io::stdout().lock(), self.name);
+    }
+
     fn unable(&self, reason: &str, detail: Option<&str>) {
         if self.json {
             return client::document(&json!({"v": 1, "refusal": reason, "detail": detail}));
@@ -197,7 +206,11 @@ fn deliver(home: &Path, text: &str, out: &Out<'_>) -> anyhow::Result<u8> {
     };
     let code = match reply {
         Reply::Ok(ok) => {
-            out.read_back(&ok);
+            if ok["confirmed"] == false {
+                out.unconfirmable(&ok);
+            } else {
+                out.read_back(&ok);
+            }
             0
         }
         Reply::Refused { reason, detail } => {

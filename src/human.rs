@@ -61,6 +61,13 @@ pub(crate) fn write_read_back(
     out.write_all(mirror_line("[RB]", "read back", name, &rest).as_bytes())
 }
 
+/// `[  ] unconfirmable` with its one fixed note: the open box, on stdout, never filled. No time, no
+/// cursor, no hint.
+pub(crate) fn write_send_unconfirmable(out: &mut impl Write, name: &str) -> io::Result<()> {
+    let note = "local command, no measured post-condition";
+    out.write_all(mirror_line("[  ]", "unconfirmable", name, note).as_bytes())
+}
+
 /// `[/ ] unable` with the reason (and detail), then its `hint:` line when it has one, as ONE
 /// write: the hint is the last stderr line.
 pub(crate) fn write_send_unable(
@@ -343,6 +350,14 @@ mod tests {
     }
 
     #[test]
+    fn write_send_unconfirmable_is_the_open_box_and_the_fixed_note_in_one_write() {
+        assert_eq!(
+            one_write(|o| write_send_unconfirmable(o, "builder")),
+            "[  ] unconfirmable  builder  local command, no measured post-condition\n"
+        );
+    }
+
+    #[test]
     fn write_send_unable_puts_the_hint_last_in_one_write() {
         let hint = send_hint("builder", "input-not-ready");
         assert_eq!(
@@ -366,7 +381,8 @@ mod tests {
         let open = one_write(|o| write_send_open(o, "b", "t"));
         let read = one_write(|o| write_read_back(o, "b", "t", 1));
         let unable = one_write(|o| write_send_unable(o, "b", "r", None));
-        for line in [&open, &read, &unable] {
+        let unconfirmable = one_write(|o| write_send_unconfirmable(o, "b"));
+        for line in [&open, &read, &unable, &unconfirmable] {
             assert_eq!(line.find("  b  "), Some(18), "{line:?}");
             assert!(line.is_ascii() && !line.contains('\x1b'), "{line:?}");
         }
@@ -506,6 +522,7 @@ mod tests {
         assert!(write_send_open(&mut Broken, "b", "t").is_err());
         assert!(write_read_back(&mut Broken, "b", "t", 1).is_err());
         assert!(write_send_unable(&mut Broken, "b", "r", None).is_err());
+        assert!(write_send_unconfirmable(&mut Broken, "b").is_err());
         assert!(write_wrapper_fault(&mut Broken, 1).is_err());
         assert!(write_answered(&mut Broken, "b", 1).is_err());
     }

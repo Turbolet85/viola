@@ -1,0 +1,75 @@
+[
+{
+"tool": "matrix",
+"v": "1.3",
+"sha8": "cd774c8a",
+"ts": "2026-10-06T23:26:31Z",
+"argv": [
+"show",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-06-local-command-send-outcomes",
+"--run-dir",
+".andromeda/runs/2026-10-06T23-06-47-implement"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"claimed by 2026-10-06-local-command-send-outcomes: 1",
+"v1-29 · e2e · planned · ref null · chunk 2026-10-06-local-command-send-outcomes · A driver's text from stdin or a file is typed as one bracketed paste plu… (2334 chars)",
+"pool: unclaimed 38 [v1-01 v1-02 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-17 v1-18 v1-21 v1-22 v1-24 v1-26 v1-27 v1-31 v1-33 v1-34 v1-35 v1-36 v1-37 v1-38 v1-39 v1-40 v1-41 v1-42 v1-44 v1-45 v1-46 v1-47 v1-48 v1-49 v1-50 v1-51 v1-52 v1-53]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.3",
+"sha8": "cd774c8a",
+"ts": "2026-10-06T23:27:25Z",
+"argv": [
+"implement",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-06-local-command-send-outcomes",
+"--id",
+"v1-29",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-06T23-06-47-implement"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"implement v1-29 · status planned → implemented · ref tests/cli_send.rs::send_window_local_command_is_not_presumed_delivered + tests/c… (1252 chars)",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-29",
+"chunk": "2026-10-06-local-command-send-outcomes",
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "A driver's text from stdin or a file is typed as one bracketed paste plus Enter and returns read back only when the matc… (2334 chars)",
+"notes_chars": 3522
+},
+"after": {
+"id": "v1-29",
+"chunk": "2026-10-06-local-command-send-outcomes",
+"status": "implemented",
+"method": "e2e",
+"ref": "tests/cli_send.rs::send_window_local_command_is_not_presumed_delivered + tests/cli_send.rs::send_clear_on_a_verified_cli… (1252 chars)",
+"acceptance": "A driver's text from stdin or a file is typed as one bracketed paste plus Enter and returns read back only when the matc… (2334 chars)",
+"notes_chars": 3522
+}
+}
+]

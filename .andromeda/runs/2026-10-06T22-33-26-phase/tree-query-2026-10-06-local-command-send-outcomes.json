@@ -1,0 +1,414 @@
+[
+{
+"sql": "SELECT caller_name, file, line FROM calls WHERE callee_name = 'append_hook_event' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 16,
+"result": [
+{
+"caller_name": "dispatch",
+"file": "src/cmd/run.rs",
+"line": 116
+},
+{
+"caller_name": "confirmed_with",
+"file": "src/run/send.rs",
+"line": 705
+},
+{
+"caller_name": "send_a_different_prompt_is_appended_unchanged_and_claims_nothing",
+"file": "src/run/send.rs",
+"line": 744
+},
+{
+"caller_name": "send_an_unsent_human_prompt_takes_the_wheel_before_its_line_and_a_harness_one_does_not",
+"file": "src/run/send.rs",
+"line": 768
+},
+{
+"caller_name": "send_an_unsent_human_prompt_takes_the_wheel_before_its_line_and_a_harness_one_does_not",
+"file": "src/run/send.rs",
+"line": 771
+},
+{
+"caller_name": "send_no_prompt_while_nothing_is_in_flight_is_appended_unchanged",
+"file": "src/run/send.rs",
+"line": 780
+},
+{
+"caller_name": "send_closed_send_keeps_the_slot_until_its_guard_drops",
+"file": "src/run/send.rs",
+"line": 803
+},
+{
+"caller_name": "send_window_expiry_is_no_prompt_submitted_with_the_cursor",
+"file": "src/run/send.rs",
+"line": 830
+},
+{
+"caller_name": "send_second_while_one_is_in_flight_is_turn_running_and_types_nothing",
+"file": "src/run/send.rs",
+"line": 850
+},
+{
+"caller_name": "send_append_hook_event_signals_the_wait_feed_after_the_append",
+"file": "src/run/send.rs",
+"line": 939
+},
+{
+"caller_name": "send_append_hook_event_signals_the_wait_feed_after_the_append",
+"file": "src/run/send.rs",
+"line": 944
+},
+{
+"caller_name": "send_a_prompt_of_any_origin_starts_a_turn",
+"file": "src/run/send.rs",
+"line": 990
+},
+{
+"caller_name": "send_a_turn_end_lets_the_next_send_past_the_rung",
+"file": "src/run/send.rs",
+"line": 1013
+},
+{
+"caller_name": "send_a_turn_end_lets_the_next_send_past_the_rung",
+"file": "src/run/send.rs",
+"line": 1015
+},
+{
+"caller_name": "confirmed",
+"file": "src/run/send.rs",
+"line": 1040
+},
+{
+"caller_name": "send_after_a_confirmed_send_is_turn_running_until_turn_ended",
+"file": "src/run/send.rs",
+"line": 1078
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller_name, file, line FROM calls WHERE callee_name = 'new' AND callee_kind = 'fn' AND callee_file LIKE '%src/run/send.rs' ORDER BY file, line",
+"rows": 23,
+"result": [
+{
+"caller_name": "start",
+"file": "src/cmd/run.rs",
+"line": 215
+},
+{
+"caller_name": "methods",
+"file": "src/cmd/run.rs",
+"line": 636
+},
+{
+"caller_name": "send_refusal_order",
+"file": "src/run/send.rs",
+"line": 636
+},
+{
+"caller_name": "send_refusal_order",
+"file": "src/run/send.rs",
+"line": 637
+},
+{
+"caller_name": "confirmed_with",
+"file": "src/run/send.rs",
+"line": 693
+},
+{
+"caller_name": "confirmed_with",
+"file": "src/run/send.rs",
+"line": 694
+},
+{
+"caller_name": "send_a_different_prompt_is_appended_unchanged_and_claims_nothing",
+"file": "src/run/send.rs",
+"line": 742
+},
+{
+"caller_name": "send_an_unsent_human_prompt_takes_the_wheel_before_its_line_and_a_harness_one_does_not",
+"file": "src/run/send.rs",
+"line": 767
+},
+{
+"caller_name": "send_no_prompt_while_nothing_is_in_flight_is_appended_unchanged",
+"file": "src/run/send.rs",
+"line": 779
+},
+{
+"caller_name": "send_closed_send_keeps_the_slot_until_its_guard_drops",
+"file": "src/run/send.rs",
+"line": 795
+},
+{
+"caller_name": "send_window_expiry_is_no_prompt_submitted_with_the_cursor",
+"file": "src/run/send.rs",
+"line": 818
+},
+{
+"caller_name": "send_window_expiry_is_no_prompt_submitted_with_the_cursor",
+"file": "src/run/send.rs",
+"line": 819
+},
+{
+"caller_name": "send_second_while_one_is_in_flight_is_turn_running_and_types_nothing",
+"file": "src/run/send.rs",
+"line": 841
+},
+{
+"caller_name": "send_second_while_one_is_in_flight_is_turn_running_and_types_nothing",
+"file": "src/run/send.rs",
+"line": 842
+},
+{
+"caller_name": "send_a_failed_paste_is_input_not_ready_with_the_cursor",
+"file": "src/run/send.rs",
+"line": 874
+},
+{
+"caller_name": "send_params_it_cannot_take_are_invalid_params",
+"file": "src/run/send.rs",
+"line": 890
+},
+{
+"caller_name": "send_from_null_is_no_from",
+"file": "src/run/send.rs",
+"line": 901
+},
+{
+"caller_name": "send_a_record_that_cannot_be_appended_is_internal",
+"file": "src/run/send.rs",
+"line": 910
+},
+{
+"caller_name": "send_append_hook_event_signals_the_wait_feed_after_the_append",
+"file": "src/run/send.rs",
+"line": 927
+},
+{
+"caller_name": "mute_child",
+"file": "src/run/send.rs",
+"line": 962
+},
+{
+"caller_name": "mute_child",
+"file": "src/run/send.rs",
+"line": 963
+},
+{
+"caller_name": "send_after_a_confirmed_send_is_turn_running_until_turn_ended",
+"file": "src/run/send.rs",
+"line": 1057
+},
+{
+"caller_name": "send_after_a_confirmed_send_is_turn_running_until_turn_ended",
+"file": "src/run/send.rs",
+"line": 1058
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller_name, file, line FROM calls WHERE callee_name = 'send' AND callee_kind = 'fn' AND callee_file LIKE '%src/run/send.rs' ORDER BY file, line",
+"rows": 15,
+"result": [
+{
+"caller_name": "dispatch_call",
+"file": "src/cmd/run.rs",
+"line": 124
+},
+{
+"caller_name": "send_refusal_order",
+"file": "src/run/send.rs",
+"line": 662
+},
+{
+"caller_name": "confirmed_with",
+"file": "src/run/send.rs",
+"line": 703
+},
+{
+"caller_name": "send_closed_send_keeps_the_slot_until_its_guard_drops",
+"file": "src/run/send.rs",
+"line": 801
+},
+{
+"caller_name": "send_window_expiry_is_no_prompt_submitted_with_the_cursor",
+"file": "src/run/send.rs",
+"line": 822
+},
+{
+"caller_name": "send_second_while_one_is_in_flight_is_turn_running_and_types_nothing",
+"file": "src/run/send.rs",
+"line": 847
+},
+{
+"caller_name": "send_second_while_one_is_in_flight_is_turn_running_and_types_nothing",
+"file": "src/run/send.rs",
+"line": 849
+},
+{
+"caller_name": "send_a_failed_paste_is_input_not_ready_with_the_cursor",
+"file": "src/run/send.rs",
+"line": 877
+},
+{
+"caller_name": "send_params_it_cannot_take_are_invalid_params",
+"file": "src/run/send.rs",
+"line": 892
+},
+{
+"caller_name": "send_from_null_is_no_from",
+"file": "src/run/send.rs",
+"line": 903
+},
+{
+"caller_name": "send_a_record_that_cannot_be_appended_is_internal",
+"file": "src/run/send.rs",
+"line": 913
+},
+{
+"caller_name": "send_a_prompt_of_any_origin_starts_a_turn",
+"file": "src/run/send.rs",
+"line": 993
+},
+{
+"caller_name": "send_a_turn_end_lets_the_next_send_past_the_rung",
+"file": "src/run/send.rs",
+"line": 1017
+},
+{
+"caller_name": "confirmed",
+"file": "src/run/send.rs",
+"line": 1038
+},
+{
+"caller_name": "send_after_a_confirmed_send_is_turn_running_until_turn_ended",
+"file": "src/run/send.rs",
+"line": 1066
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller_name, file, line FROM calls WHERE callee_name IN ('read_back','write_read_back','mirror_line','write_send_unable','exit_of','reason_of') AND callee_kind = 'fn' ORDER BY callee_name, file, line",
+"rows": 22,
+"result": [
+{
+"caller_name": "answer",
+"file": "src/cmd/answer.rs",
+"line": 20
+},
+{
+"caller_name": "deliver",
+"file": "src/cmd/answer.rs",
+"line": 133
+},
+{
+"caller_name": "deliver",
+"file": "src/cmd/send.rs",
+"line": 204
+},
+{
+"caller_name": "exit_of_is_the_closed_table",
+"file": "src/cmd/send.rs",
+"line": 268
+},
+{
+"caller_name": "write_send_open",
+"file": "src/human.rs",
+"line": 49
+},
+{
+"caller_name": "write_read_back",
+"file": "src/human.rs",
+"line": 60
+},
+{
+"caller_name": "write_send_unable",
+"file": "src/human.rs",
+"line": 71
+},
+{
+"caller_name": "deliver",
+"file": "src/cmd/send.rs",
+"line": 199
+},
+{
+"caller_name": "answer",
+"file": "src/cmd/answer.rs",
+"line": 20
+},
+{
+"caller_name": "deliver",
+"file": "src/cmd/answer.rs",
+"line": 133
+},
+{
+"caller_name": "deliver",
+"file": "src/cmd/send.rs",
+"line": 204
+},
+{
+"caller_name": "exit_of_is_the_closed_table",
+"file": "src/cmd/send.rs",
+"line": 268
+},
+{
+"caller_name": "read_back",
+"file": "src/cmd/send.rs",
+"line": 118
+},
+{
+"caller_name": "write_read_back_is_the_filled_box_in_one_write",
+"file": "src/human.rs",
+"line": 339
+},
+{
+"caller_name": "write_send_mirror_words_line_up",
+"file": "src/human.rs",
+"line": 366
+},
+{
+"caller_name": "send_writers_return_the_writer_error",
+"file": "src/human.rs",
+"line": 506
+},
+{
+"caller_name": "unable",
+"file": "src/cmd/send.rs",
+"line": 141
+},
+{
+"caller_name": "unreachable",
+"file": "src/cmd/send.rs",
+"line": 148
+},
+{
+"caller_name": "write_send_unable_puts_the_hint_last_in_one_write",
+"file": "src/human.rs",
+"line": 348
+},
+{
+"caller_name": "write_send_unable_puts_the_hint_last_in_one_write",
+"file": "src/human.rs",
+"line": 358
+},
+{
+"caller_name": "write_send_mirror_words_line_up",
+"file": "src/human.rs",
+"line": 367
+},
+{
+"caller_name": "send_writers_return_the_writer_error",
+"file": "src/human.rs",
+"line": 507
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

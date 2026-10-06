@@ -387,8 +387,11 @@ fn spawn_viola(
 /// --screens --turn-stop --dialogs --framing --trusted-root <workspace root> <after>`: the fake agent
 /// replays the recorded screens, dialogs and framing shapes, and verify's trusted runs start under
 /// the cwd, the workspace root. Every verify-driven test is in the `verify_window_` class: verify's four interactive runs
-/// make a designed floor (seven 300 ms settles, about 2.1 s on the ubuntu coverage leg), so the call
-/// has no test-side bound and the nextest per-test kill for verify-driven binaries is its bound.
+/// make a designed floor (ten 300 ms settles since chunk
+/// 2026-10-06-local-command-and-paste-framing-rows; the kill was sized when they were seven, about
+/// 2.1 s on the ubuntu coverage leg, and the longest verify-driven test read 9.98 s under it in
+/// ci#37534758441), so the call has no test-side bound and the nextest per-test kill for
+/// verify-driven binaries is its bound.
 pub fn verify(
     home: &Path,
     fixtures: &Path,

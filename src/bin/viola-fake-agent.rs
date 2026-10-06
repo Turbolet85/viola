@@ -15,7 +15,7 @@ use std::time::Duration;
 
 use serde_json::{Value, json};
 use viola_agent_claude::ledger::{
-    PROBE_LOCAL_COMMAND, PROBE_LONG_PASTE, dialog_stem, framing_stem,
+    PROBE_LOCAL_COMMAND, PROBE_LONG_PASTE, PROBE_TAG_PASTE, dialog_stem, framing_stem,
 };
 
 const DEFAULT_CLI_VERSION: &str = "2.1.287";
@@ -67,6 +67,7 @@ struct Opts {
     framing: bool,
     stop_receipt_hold: Option<Duration>,
     paste_hint: Option<Duration>,
+    tag_turn_screen: Option<String>,
 }
 
 impl Opts {
@@ -106,6 +107,7 @@ impl Opts {
                         .and_then(|v| v.parse::<u64>().ok())
                         .map(|ms| Duration::from_millis(ms.min(PASTE_HINT_CAP_MS)));
                 }
+                "--tag-turn-screen" => o.tag_turn_screen = value(),
                 HOLD_STDOUT => o.hold_stdout = true,
                 _ => {}
             }
@@ -444,7 +446,8 @@ impl Agent {
     /// SessionEnd and SessionStart and no UserPromptSubmit. A set without a variant fires nothing
     /// for it. With `--paste-hint-ms` beside it, the long text's turn ends on a cleared screen and the
     /// `turn` screen is drawn only after the hold: the real CLI shows a paste hint in the input-box
-    /// literal's place for seconds after a long paste.
+    /// literal's place for seconds after a long paste. With `--tag-turn-screen <phase>` beside it,
+    /// the tag-like text's turn, and no other, ends on that phase's screen in place of `turn`.
     fn submit(&self, bytes: &[u8], origin: &str) {
         let text = String::from_utf8_lossy(bytes);
         let framing = framing_stem(&text).filter(|_| self.opts.framing);
@@ -471,7 +474,9 @@ impl Agent {
                     draw(&[]);
                     std::thread::sleep(hold);
                 }
-                write_screen(&self.opts, "turn");
+                let tag = framing.is_some() && framing == framing_stem(PROBE_TAG_PASTE);
+                let named = self.opts.tag_turn_screen.as_deref().filter(|_| tag);
+                write_screen(&self.opts, named.unwrap_or("turn"));
             }
             fired
         };
@@ -833,6 +838,8 @@ mod tests {
             "5000",
             "--paste-hint-ms",
             "9000",
+            "--tag-turn-screen",
+            "tagged",
             "--version",
             "-p",
             "a prompt",
@@ -860,6 +867,7 @@ mod tests {
             "capped"
         );
         assert_eq!(o.paste_hint, Some(Duration::from_millis(8000)), "capped");
+        assert_eq!(o.tag_turn_screen.as_deref(), Some("tagged"));
         assert!(Opts::parse(&args(&[HOLD_STDOUT])).hold_stdout);
     }
 
@@ -889,6 +897,11 @@ mod tests {
         );
         assert_eq!(
             Opts::parse(&args(&["--paste-hint-ms", "x"])).paste_hint,
+            None
+        );
+        assert_eq!(o.tag_turn_screen, None);
+        assert_eq!(
+            Opts::parse(&args(&["--tag-turn-screen"])).tag_turn_screen,
             None
         );
         assert!(!o.trusted(), "no root: every cwd is untrusted");

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "I1",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the operator, in the /andromeda-phase invocation, 2026-10-06T22:33Z",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "fa6ed4bf9b13290cb1fdc58449b73a8c41c74033ca52a8645656ca6bda074f33",
+    "copy": "I1-relay-1.md.txt",
+    "link": false,
+    "read_at": "2026-10-06T22:34:25Z",
+    "step": "phase:P1",
+    "why": "no live claude session, plan zero; the readiness-gate CARRY goes to P4 as a priced card and nothing about the 5 s maximum or send under the hint is decided before it; a stalled-start baseline red is re-read with no other build running; one builder window; Epoch 3 stays one epoch"
+  },
+  {
+    "id": "I2",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the overseer, founder-delegated, unattended, answering the P4 readiness-gate card, 2026-10-06T22:55Z",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "cde108d72b885a3829bc4032072e59679a53282e2c0ec9b9a70bbcfbf181b203",
+    "copy": "I2-relay-2.md.txt",
+    "link": false,
+    "read_at": "2026-10-06T22:52:55Z",
+    "step": "phase:P3",
+    "why": "option B: the gate stays as it is and the reading is measured under the fake agent with the paste-hint hold; C, D and typing under the hint are the founder to decide, not decided here; the input-not-ready hint finding is carried to First live test and self-drive with the measured reading"
+  }
+]

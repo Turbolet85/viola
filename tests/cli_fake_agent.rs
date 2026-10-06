@@ -5,6 +5,7 @@
 #[allow(dead_code)]
 mod support;
 
+use std::ffi::OsString;
 use std::io::Write as _;
 use std::path::{Path, PathBuf};
 use std::process::{Child, ChildStdin, Command, ExitStatus, Stdio};
@@ -18,6 +19,7 @@ use support::fake::{self, FAKE, of_kind, unhex};
 use support::home::{
     StampedHome, TestHome, VIOLA, Wrapper, home, keep_decision, stamped_home, workspace_path,
 };
+use support::outer_pty::{EXIT_WITHIN, OuterPty};
 use support::piped::Piped;
 
 const SENTINEL: &str = "sentinel-value-7f3a-never-logged";
@@ -586,6 +588,57 @@ fn fake_agent_framing_replays_the_recorded_shapes() {
         .filter_map(|p| p["submit"].as_str())
         .collect();
     assert_eq!(submits, ["no-fixture", "no-fixture"]);
+}
+
+/// `--tag-turn-screen <phase>`: under `--framing --turn-stop` the tag-like text's turn ends on the
+/// named screen of the set, and every other turn on `turn`. Read from the receipt's prompts and
+/// from what the agent drew on this test's own terminal, where each screen is one marker row.
+#[test]
+fn fake_agent_tag_turn_screen_draws_the_named_screen_after_the_tag_turn_alone() {
+    const TURN: &str = "turn-screen-5c1e";
+    const TAGGED: &str = "tagged-screen-5c1e";
+    let tmp = TestHome::new();
+    let fx = tmp.scratch().join("fixtures");
+    let version = fake::RECORDED_CLI_VERSION;
+    support::verify::write_screen(&fx, version, "turn", &[TURN.to_owned()]);
+    support::verify::write_screen(&fx, version, "tagged", &[TAGGED.to_owned()]);
+    let receipt = tmp.scratch().join("agent.receipt.ndjson");
+    let args = [
+        "--receipt",
+        path_str(&receipt),
+        "--fixtures",
+        path_str(&fx),
+        "--framing",
+        "--turn-stop",
+        "--tag-turn-screen",
+        "tagged",
+    ]
+    .map(OsString::from);
+    let mut pty = OuterPty::spawn(Path::new(FAKE), &args, &[]);
+    fake::wait_for(&receipt, "start line", |l| !of_kind(l, "start").is_empty());
+    let long = support::verify::long_paste();
+    let texts = [long.as_str(), support::verify::TAG_PASTE, "hello"];
+    for (n, text) in texts.iter().enumerate() {
+        pty.write(&paste(text));
+        // A prompt is receipted after its turn's screen is drawn.
+        fake::wait_for(&receipt, "the prompt's receipt", |l| prompts(l).len() > n);
+    }
+    pty.write(b"\x03");
+    assert_eq!(pty.wait_exit(EXIT_WITHIN), 0);
+    let lines = fake::receipt(&receipt);
+    let typed: Vec<&str> = prompts(&lines)
+        .iter()
+        .filter_map(|p| p["text"].as_str())
+        .collect();
+    assert_eq!(typed, texts);
+    let drawn = String::from_utf8_lossy(&pty.finish()).into_owned();
+    let mut screens: Vec<(usize, &str)> = [TURN, TAGGED]
+        .iter()
+        .flat_map(|marker| drawn.match_indices(marker))
+        .collect();
+    screens.sort_unstable();
+    let order: Vec<&str> = screens.into_iter().map(|(_, marker)| marker).collect();
+    assert_eq!(order, [TURN, TAGGED, TURN], "{drawn:?}");
 }
 
 fn steps(lines: &[Value]) -> Vec<(u64, String)> {

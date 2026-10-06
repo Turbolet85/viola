@@ -16,8 +16,10 @@ path = "junit.xml"
 
 # The `verify_window_` class (the overseer's decision, founder-delegated, 2026-10-05): a test that
 # drives `viola verify` has no test-side bound on that call, and this per-test kill is its bound.
-# Verify's four interactive runs make a designed floor (seven 300 ms settles: about 2.1 s median on
-# the ubuntu coverage leg, measured); the kill is sized from that floor plus a 3x runner tail.
+# Verify's four interactive runs make a designed floor: ten 300 ms settles since chunk
+# 2026-10-06-local-command-and-paste-framing-rows. The kill was sized when they were seven (about
+# 2.1 s median on the ubuntu coverage leg, measured) from that floor plus a 3x runner tail; the
+# longest verify-driven test read 9.98 s under it in ci#37534758441.
 # The first matching override wins: a `verify_window_` test waits out the gate's 5 s maximum four
 # times by design (about 21 s), so it comes first.
 [[profile.ci.overrides]]

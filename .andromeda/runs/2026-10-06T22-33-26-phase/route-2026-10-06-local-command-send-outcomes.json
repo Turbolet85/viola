@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "699f7ef0",
+"ts": "2026-10-06T22:35:33Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-10-06-local-command-send-outcomes",
+"--expect-prefix",
+"Local-command send outcomes",
+"--record-file",
+".andromeda/runs/2026-10-06T22-33-26-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-10-06T22-33-26-phase"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:92 - [2026-10-06-local-command-send-outcomes]",
+"record master-route.md:50 - appended under `## viola-0.1.0`",
+"promoted 2026-10-06-local-command-send-outcomes - working-route:92 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/working-route.md",
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+}
+]

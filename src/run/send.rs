@@ -1,8 +1,10 @@
 //! The wrapper's `send` (architecture [Delivery Confirmation]): the text re-validated, the wheel,
 //! one send in flight, the readiness gate, `send-issued` at the pre-paste cursor, one bracketed paste + Enter,
 //! then confirmation after the fact — the matching `prompt-submitted`, relabelled `driver`, inside
-//! the window — or `not-delivered`. Each outcome is an `events.ndjson` record and a codes-only
-//! `send-*` line; the text reaches neither.
+//! the window — or `not-delivered`. A text that is exactly a compiled local command fires no
+//! prompt: one with a post-condition measured on this CLI version is confirmed by it inside the
+//! same window, any other is `unconfirmable` at once. Each outcome is an `events.ndjson` record
+//! and a codes-only `send-*` line; the text reaches neither.
 
 use std::path::Path;
 use std::sync::{Arc, Condvar, Mutex, MutexGuard, OnceLock, PoisonError};
@@ -11,6 +13,7 @@ use std::time::{Duration, Instant};
 use chrono::Utc;
 use serde_json::{Value, json};
 use tracing::instrument;
+use viola_agent_claude::ledger::{LOCAL_COMMANDS, PostCondition};
 use viola_agent_claude::screen::{CONFIRM_WINDOW_FALLBACK, Readiness};
 use viola_channel::{Call, ProtocolError};
 use viola_core::obs::ObsEvent;
@@ -39,28 +42,65 @@ enum Match {
     Closed,
 }
 
+/// What confirms a send (architecture [Delivery Confirmation]).
+#[derive(Clone, Copy)]
+enum Confirms {
+    /// Its `prompt-submitted`, matched on the text.
+    Prompt,
+    /// A listed local command's post-condition, measured on this CLI version.
+    Post(PostCondition),
+    /// Nothing: a listed local command with no post-condition, or none measured on this version.
+    Nothing,
+}
+
+/// The compiled list read by the exact text as sent: no trim, no case folding, never a leading
+/// slash.
+fn classify(text: &str, cli_verified: bool) -> Confirms {
+    match LOCAL_COMMANDS.iter().find(|(command, _)| *command == text) {
+        None => Confirms::Prompt,
+        Some((_, Some(post))) if cli_verified => Confirms::Post(*post),
+        Some(_) => Confirms::Nothing,
+    }
+}
+
 struct InFlight {
     text: String,
+    confirms: Confirms,
     state: Match,
 }
 
-/// The child's input and gate, set once the pump starts, the one send in flight, and the wheel it
-/// reads before typing.
+/// What the sends and the hook tap share under one lock.
+#[derive(Default)]
+struct Flight {
+    send: Option<InFlight>,
+    /// The `agent_session_id` of the last `session-start` the tap took: `None` before the first,
+    /// and when that line carried none.
+    session: Option<String>,
+}
+
+/// The child's input and gate, set once the pump starts, the one send in flight, the wheel it
+/// reads before typing, and the version gate's reading.
 pub(crate) struct SendSlot {
     clock: Box<dyn Clock>,
+    cli_verified: bool,
     wheel: Arc<WheelSlot>,
     io: OnceLock<(PasteFn, Gate)>,
-    in_flight: Mutex<Option<InFlight>>,
+    flight: Mutex<Flight>,
     settled: Condvar,
 }
 
 impl SendSlot {
-    pub(crate) fn new(clock: impl Clock + 'static, wheel: Arc<WheelSlot>) -> Self {
+    pub(crate) fn new(
+        clock: impl Clock + 'static,
+        cli_verified: bool,
+        wheel: Arc<WheelSlot>,
+    ) -> Self {
         Self {
             clock: Box::new(clock),
+            cli_verified,
             wheel,
             io: OnceLock::new(),
-            in_flight: Mutex::new(None),
+            flight: Mutex::default(),
             settled: Condvar::new(),
         }
     }
@@ -70,18 +110,20 @@ impl SendSlot {
         let _ = self.io.set((paste, gate));
     }
 
-    fn flight(&self) -> MutexGuard<'_, Option<InFlight>> {
-        self.in_flight
-            .lock()
-            .unwrap_or_else(PoisonError::into_inner)
+    fn flight(&self) -> MutexGuard<'_, Flight> {
+        self.flight.lock().unwrap_or_else(PoisonError::into_inner)
     }
 
     /// Whether a prompt with `text` is the in-flight send's: it is then claimed, and only
-    /// [`SendSlot::settle`] resolves it.
+    /// [`SendSlot::settle`] resolves it. A send that waits for a post-condition, or for nothing,
+    /// is never a prompt's.
     pub(crate) fn claim(&self, text: &str) -> bool {
         let mut flight = self.flight();
-        match flight.as_mut() {
-            Some(f) if matches!(f.state, Match::Waiting) && f.text == text => {
+        match flight.send.as_mut() {
+            Some(f)
+                if matches!((f.confirms, &f.state), (Confirms::Prompt, Match::Waiting))
+                    && f.text == text =>
+            {
                 f.state = Match::Claimed;
                 true
             }
@@ -89,10 +131,37 @@ impl SendSlot {
         }
     }
 
-    /// The claimed prompt's line was appended at `ts`, or (`None`) was not, and the send waits on.
+    /// A `session-start` about to be appended, its `data` read as fields that may be absent or
+    /// `null`. Its id is the remembered one from here on, whatever its cause. The line is the
+    /// in-flight send's when that send waits for a new session, the cause is `clear`, and the id
+    /// is a string that differs from the one remembered before: it is then claimed, as by
+    /// [`SendSlot::claim`].
+    fn session_started(&self, data: &Value) -> bool {
+        let id = data["agent_session_id"].as_str();
+        let mut flight = self.flight();
+        let new = id.is_some_and(|id| flight.session.as_deref() != Some(id));
+        flight.session = id.map(str::to_owned);
+        match flight.send.as_mut() {
+            Some(f)
+                if new
+                    && data["cause"] == "clear"
+                    && matches!(
+                        (f.confirms, &f.state),
+                        (Confirms::Post(PostCondition::NewSession), Match::Waiting)
+                    ) =>
+            {
+                f.state = Match::Claimed;
+                true
+            }
+            _ => false,
+        }
+    }
+
+    /// The claimed line was appended at `ts`, or (`None`) was not, and the send waits on.
     pub(crate) fn settle(&self, ts: Option<String>) {
         let mut flight = self.flight();
         if let Some(f) = flight
+            .send
             .as_mut()
             .filter(|f| matches!(f.state, Match::Claimed))
         {
@@ -102,21 +171,21 @@ impl SendSlot {
     }
 
     /// The window: `Some(submitted_at)` on a match, `None` once it expires unclaimed. The send is
-    /// closed under the same lock, so a prompt after the expiry is never claimed; the slot itself
+    /// closed under the same lock, so a line after the expiry is never claimed; the slot itself
     /// is emptied only by the send's `Reserved` guard, once its outcome is recorded.
     #[instrument(skip_all, name = "run.confirm_window", fields(window_ms = window_ms()))]
     fn confirm(&self, opened: Instant) -> Option<String> {
         let deadline = opened + CONFIRM_WINDOW_FALLBACK;
         let mut flight = self.flight();
         loop {
-            match flight.as_ref().map(|f| &f.state) {
+            match flight.send.as_ref().map(|f| &f.state) {
                 Some(Match::Confirmed(ts)) => {
                     let ts = ts.clone();
-                    close(&mut flight);
+                    close(&mut flight.send);
                     return Some(ts);
                 }
                 Some(Match::Waiting) if self.clock.now() >= deadline => {
-                    close(&mut flight);
+                    close(&mut flight.send);
                     return None;
                 }
                 None | Some(Match::Closed) => return None,
@@ -136,20 +205,23 @@ impl SendSlot {
 /// text, never on the hook's origin, and the waiting send settles only once the relabelled line is
 /// on disk. Any other prompt the hook filed `human` was typed by the human, who then holds the wheel;
 /// a `harness` prompt never moves it. A prompt of any origin starts a turn; `turn-ended`,
-/// `session-start` and `session-end` end it.
+/// `session-start` and `session-end` end it. A `session-start` that is the in-flight send's
+/// post-condition is claimed and settled the same way, its line appended unchanged.
 pub(crate) fn append_hook_event(
     slot: &SendSlot,
     feed: &WaitFeed,
     instance_dir: &Path,
     mut line: EventLine,
 ) -> Result<(), StateError> {
-    let claimed = line.kind == EventKind::PromptSubmitted
+    let prompt = line.kind == EventKind::PromptSubmitted
         && line.data["text"]
             .as_str()
             .is_some_and(|text| slot.claim(text));
-    if claimed {
+    if prompt {
         line.data["origin"] = json!("driver");
     }
+    let claimed =
+        prompt || (line.kind == EventKind::SessionStart && slot.session_started(&line.data));
     // Before the line can be read, as the wheel below: a driver that read `turn-ended` is never
     // refused by that turn. The turn is marked ahead of the human's wheel move, so a `release`
     // between the two still clears it.
@@ -187,7 +259,7 @@ struct Reserved<'a>(&'a SendSlot);
 
 impl Drop for Reserved<'_> {
     fn drop(&mut self) {
-        *self.0.flight() = None;
+        self.0.flight().send = None;
     }
 }
 
@@ -246,14 +318,16 @@ pub(crate) fn send(
             detail.map(HumanTyping::as_str),
         );
     }
+    let confirms = classify(text, slot.cli_verified);
     {
         let mut flight = slot.flight();
-        if flight.is_some() || slot.wheel.turn_running() {
+        if flight.send.is_some() || slot.wheel.turn_running() {
             drop(flight);
             return ctx.not_delivered(None, NotDelivered::TurnRunning);
         }
-        *flight = Some(InFlight {
+        flight.send = Some(InFlight {
             text: text.to_owned(),
+            confirms,
             state: Match::Waiting,
         });
     }
@@ -268,6 +342,9 @@ pub(crate) fn send(
     let cursor = ctx.issue(text.len())?;
     if paste(text).is_err() {
         return ctx.not_delivered(Some(cursor), NotDelivered::InputNotReady);
+    }
+    if matches!(confirms, Confirms::Nothing) {
+        return ctx.unconfirmable(cursor, slot.clock.now());
     }
     match slot.confirm(slot.clock.now()) {
         Some(submitted_at) => ctx.confirm(cursor, &submitted_at, slot.clock.now()),
@@ -329,6 +406,20 @@ impl Ctx<'_> {
         now: Instant,
     ) -> Result<Value, ProtocolError> {
         self.record(EventKind::SendConfirmed, json!({"cursor": cursor}))?;
+        self.log_confirmed(cursor, true, now);
+        Ok(json!({"ok": {"submitted_at": submitted_at, "cursor": cursor}}))
+    }
+
+    /// A listed local command nothing can confirm: typed, then recorded and answered at once, with
+    /// no window. An `ok`, never a refusal.
+    fn unconfirmable(&self, cursor: u64, now: Instant) -> Result<Value, ProtocolError> {
+        let data = json!({"cursor": cursor, "confirmed": false});
+        self.record(EventKind::SendConfirmed, data)?;
+        self.log_confirmed(cursor, false, now);
+        Ok(json!({"ok": {"confirmed": false, "detail": "unconfirmable", "cursor": cursor}}))
+    }
+
+    fn log_confirmed(&self, cursor: u64, confirmed: bool, now: Instant) {
         let duration_ms = u64::try_from(now.saturating_duration_since(self.started).as_millis())
             .unwrap_or(u64::MAX);
         obs_event!(
@@ -340,10 +431,9 @@ impl Ctx<'_> {
             srv_conn = self.call.srv_conn,
             from = self.sender(),
             from_trust = self.trust(),
-            confirmed = true,
+            confirmed = confirmed,
             duration_ms = duration_ms,
         );
-        Ok(json!({"ok": {"submitted_at": submitted_at, "cursor": cursor}}))
     }
 
     fn not_delivered(
@@ -531,8 +621,9 @@ mod tests {
     }
 
     fn occupy(slot: &SendSlot) {
-        *slot.flight() = Some(InFlight {
+        slot.flight().send = Some(InFlight {
             text: "another send".to_owned(),
+            confirms: Confirms::Prompt,
             state: Match::Waiting,
         });
     }
@@ -626,6 +717,19 @@ mod tests {
         "not-delivered",
         Some("no-prompt-submitted")
     )]
+    #[case::local_command_under_the_human_wheel("/clear", Setup::HumanTurn, "human-typing", None)]
+    #[case::local_command_during_a_running_turn(
+        "/clear",
+        Setup::TurnNoChild,
+        "not-delivered",
+        Some("turn-running")
+    )]
+    #[case::local_command_on_a_poisoned_screen(
+        "/clear",
+        Setup::Poisoned,
+        "not-delivered",
+        Some("input-not-ready")
+    )]
     fn send_refusal_order(
         #[case] text: &str,
         #[case] setup: Setup,
@@ -634,7 +738,7 @@ mod tests {
     ) {
         let tmp = tempfile::tempdir().expect("tempdir");
         let base = Instant::now();
-        let slot = SendSlot::new(JumpClock(Mutex::new(base)), Arc::default());
+        let slot = SendSlot::new(JumpClock(Mutex::new(base)), true, Arc::default());
         let (pastes, _pasted) = Pastes::new();
         match setup {
             Setup::InFlightNoChild => occupy(&slot),
@@ -681,9 +785,12 @@ mod tests {
             setup,
             Setup::InFlightNoChild | Setup::HumanInFlight | Setup::PausedInFlight
         ) {
-            assert!(slot.flight().is_some(), "the other send keeps its slot");
+            assert!(
+                slot.flight().send.is_some(),
+                "the other send keeps its slot"
+            );
         } else {
-            assert!(slot.flight().is_none(), "the slot is free again");
+            assert!(slot.flight().send.is_none(), "the slot is free again");
         }
     }
 
@@ -691,7 +798,7 @@ mod tests {
     fn confirmed_with(origin: &str) {
         let tmp = tempfile::tempdir().expect("tempdir");
         let base = Instant::now();
-        let slot = SendSlot::new(FixedClock(base), Arc::default());
+        let slot = SendSlot::new(FixedClock(base), false, Arc::default());
         let (pastes, pasted) = Pastes::new();
         slot.attach(pastes.paste_fn(), quiet_gate(base));
         std::fs::write(
@@ -723,7 +830,7 @@ mod tests {
             json!({"ok": {"submitted_at": events[2]["ts"], "cursor": 19}})
         );
         assert_eq!(pastes.all(), [CANARY]);
-        assert!(slot.flight().is_none());
+        assert!(slot.flight().send.is_none());
         assert_eq!(slot.wheel.holder(), Wheel::Driver, "the send's own prompt");
     }
 
@@ -740,7 +847,7 @@ mod tests {
     #[test]
     fn send_a_different_prompt_is_appended_unchanged_and_claims_nothing() {
         let tmp = tempfile::tempdir().expect("tempdir");
-        let slot = SendSlot::new(FixedClock(Instant::now()), Arc::default());
+        let slot = SendSlot::new(FixedClock(Instant::now()), false, Arc::default());
         occupy(&slot);
         append_hook_event(
             &slot,
@@ -754,7 +861,7 @@ mod tests {
             json!({"text": "typed by the human", "origin": "human"})
         );
         assert!(matches!(
-            slot.flight().as_ref().map(|f| &f.state),
+            slot.flight().send.as_ref().map(|f| &f.state),
             Some(Match::Waiting)
         ));
     }
@@ -765,7 +872,7 @@ mod tests {
     #[test]
     fn send_an_unsent_human_prompt_takes_the_wheel_before_its_line_and_a_harness_one_does_not() {
         let tmp = tempfile::tempdir().expect("tempdir");
-        let slot = SendSlot::new(FixedClock(Instant::now()), Arc::default());
+        let slot = SendSlot::new(FixedClock(Instant::now()), false, Arc::default());
         append_hook_event(&slot, &feed(), tmp.path(), prompt("injected", "harness")).expect("hook");
         assert_eq!(slot.wheel.holder(), Wheel::Driver);
         let missing = tmp.path().join("missing");
@@ -777,7 +884,7 @@ mod tests {
     #[test]
     fn send_no_prompt_while_nothing_is_in_flight_is_appended_unchanged() {
         let tmp = tempfile::tempdir().expect("tempdir");
-        let slot = SendSlot::new(FixedClock(Instant::now()), Arc::default());
+        let slot = SendSlot::new(FixedClock(Instant::now()), false, Arc::default());
         append_hook_event(
             &slot,
             &feed(),
@@ -793,9 +900,10 @@ mod tests {
     #[test]
     fn send_closed_send_keeps_the_slot_until_its_guard_drops() {
         let tmp = tempfile::tempdir().expect("tempdir");
-        let slot = SendSlot::new(FixedClock(Instant::now()), Arc::default());
-        *slot.flight() = Some(InFlight {
+        let slot = SendSlot::new(FixedClock(Instant::now()), false, Arc::default());
+        slot.flight().send = Some(InFlight {
             text: "decided".to_owned(),
+            confirms: Confirms::Prompt,
             state: Match::Closed,
         });
         let params = json!({"v": 1, "text": "next"});
@@ -805,18 +913,18 @@ mod tests {
         assert_eq!(events(tmp.path())[1]["data"]["origin"], "human");
         assert!(slot.confirm(Instant::now()).is_none());
         assert!(
-            slot.flight().is_some(),
+            slot.flight().send.is_some(),
             "only the send's own guard frees it"
         );
         drop(Reserved(&slot));
-        assert!(slot.flight().is_none());
+        assert!(slot.flight().send.is_none());
     }
 
     #[test]
     fn send_window_expiry_is_no_prompt_submitted_with_the_cursor() {
         let tmp = tempfile::tempdir().expect("tempdir");
         let base = Instant::now();
-        let slot = SendSlot::new(JumpClock(Mutex::new(base)), Arc::default());
+        let slot = SendSlot::new(JumpClock(Mutex::new(base)), false, Arc::default());
         let (pastes, _pasted) = Pastes::new();
         slot.attach(pastes.paste_fn(), quiet_gate(base));
         let params = json!({"v": 1, "text": "hello"});
@@ -839,7 +947,7 @@ mod tests {
     fn send_second_while_one_is_in_flight_is_turn_running_and_types_nothing() {
         let tmp = tempfile::tempdir().expect("tempdir");
         let base = Instant::now();
-        let slot = SendSlot::new(FixedClock(base), Arc::default());
+        let slot = SendSlot::new(FixedClock(base), false, Arc::default());
         let (pastes, pasted) = Pastes::new();
         slot.attach(pastes.paste_fn(), quiet_gate(base));
         let first = json!({"v": 1, "text": "first"});
@@ -872,13 +980,13 @@ mod tests {
     fn send_a_failed_paste_is_input_not_ready_with_the_cursor() {
         let tmp = tempfile::tempdir().expect("tempdir");
         let base = Instant::now();
-        let slot = SendSlot::new(FixedClock(base), Arc::default());
+        let slot = SendSlot::new(FixedClock(base), false, Arc::default());
         slot.attach(Box::new(|_| Err(PtyError::NoInput)), quiet_gate(base));
         let params = json!({"v": 1, "text": "hello"});
         let reply = send(&slot, &name(), tmp.path(), &call(&params, 1)).expect("answered");
         assert_eq!(reply["detail"], "input-not-ready");
         assert_eq!(events(tmp.path())[1]["data"]["cursor"], 0);
-        assert!(slot.flight().is_none());
+        assert!(slot.flight().send.is_none());
     }
 
     #[rstest]
@@ -888,7 +996,7 @@ mod tests {
     #[case::from_not_string(json!({"v": 1, "text": "x", "from": 3}))]
     fn send_params_it_cannot_take_are_invalid_params(#[case] params: Value) {
         let tmp = tempfile::tempdir().expect("tempdir");
-        let slot = SendSlot::new(FixedClock(Instant::now()), Arc::default());
+        let slot = SendSlot::new(FixedClock(Instant::now()), false, Arc::default());
         assert_eq!(
             send(&slot, &name(), tmp.path(), &call(&params, 1)),
             Err(ProtocolError::InvalidParams)
@@ -899,7 +1007,7 @@ mod tests {
     #[test]
     fn send_from_null_is_no_from() {
         let tmp = tempfile::tempdir().expect("tempdir");
-        let slot = SendSlot::new(FixedClock(Instant::now()), Arc::default());
+        let slot = SendSlot::new(FixedClock(Instant::now()), false, Arc::default());
         let params = json!({"v": 1, "text": "x", "from": null});
         let reply = send(&slot, &name(), tmp.path(), &call(&params, 1)).expect("answered");
         assert_eq!(reply["detail"], "input-not-ready");
@@ -908,7 +1016,7 @@ mod tests {
     #[test]
     fn send_a_record_that_cannot_be_appended_is_internal() {
         let tmp = tempfile::tempdir().expect("tempdir");
-        let slot = SendSlot::new(FixedClock(Instant::now()), Arc::default());
+        let slot = SendSlot::new(FixedClock(Instant::now()), false, Arc::default());
         let params = json!({"v": 1, "text": "x"});
         assert_eq!(
             send(
@@ -925,7 +1033,7 @@ mod tests {
     #[test]
     fn send_append_hook_event_signals_the_wait_feed_after_the_append() {
         let tmp = tempfile::tempdir().expect("tempdir");
-        let slot = SendSlot::new(FixedClock(Instant::now()), Arc::default());
+        let slot = SendSlot::new(FixedClock(Instant::now()), false, Arc::default());
         let feed = feed();
         let ended = |message: &str| {
             EventLine::new(
@@ -960,7 +1068,7 @@ mod tests {
     /// typed, then expires `no-prompt-submitted`.
     fn mute_child() -> (SendSlot, Pastes) {
         let base = Instant::now();
-        let slot = SendSlot::new(JumpClock(Mutex::new(base)), Arc::default());
+        let slot = SendSlot::new(JumpClock(Mutex::new(base)), false, Arc::default());
         let (pastes, _pasted) = Pastes::new();
         slot.attach(pastes.paste_fn(), quiet_gate(base));
         (slot, pastes)
@@ -1055,7 +1163,7 @@ mod tests {
             now: Mutex::new(base),
             jumping: Arc::clone(&jumping),
         };
-        let slot = SendSlot::new(clock, Arc::default());
+        let slot = SendSlot::new(clock, false, Arc::default());
         let (pastes, pasted) = Pastes::new();
         slot.attach(pastes.paste_fn(), quiet_gate(base));
         assert_eq!(
@@ -1093,6 +1201,182 @@ mod tests {
             ]
         );
         assert_eq!(slot.wheel.holder(), Wheel::Driver);
+    }
+
+    /// A listed command nothing can confirm is typed and answered at once. The clock never moves,
+    /// so a wait on the window would hang the case.
+    #[rstest]
+    #[case::no_post_condition_on_a_verified_version("/remote-control", true)]
+    #[case::no_post_condition_on_an_unverified_version("/remote-control", false)]
+    #[case::post_condition_not_measured_on_this_version("/clear", false)]
+    fn send_local_command_without_a_measured_post_condition_is_unconfirmable(
+        #[case] text: &str,
+        #[case] verified: bool,
+    ) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let base = Instant::now();
+        let slot = SendSlot::new(FixedClock(base), verified, Arc::default());
+        let (pastes, _pasted) = Pastes::new();
+        slot.attach(pastes.paste_fn(), quiet_gate(base));
+        let params = json!({"v": 1, "text": text});
+        let reply = send(&slot, &name(), tmp.path(), &call(&params, 1)).expect("answered");
+        assert_eq!(
+            reply,
+            json!({"ok": {"confirmed": false, "detail": "unconfirmable", "cursor": 0}})
+        );
+        assert_eq!(kinds(tmp.path()), ["send-issued", "send-confirmed"]);
+        assert_eq!(
+            events(tmp.path())[1]["data"],
+            json!({"cursor": 0, "confirmed": false})
+        );
+        assert_eq!(pastes.all(), [text]);
+        assert!(slot.flight().send.is_none(), "the slot is free again");
+    }
+
+    /// `/clear` on a verified version waits for its post-condition: a `session-start` with cause
+    /// `clear` and an id the tap had not seen confirms it, and that line's `ts` is the send's.
+    #[test]
+    fn send_local_command_clear_is_confirmed_by_a_new_session() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let base = Instant::now();
+        let slot = SendSlot::new(FixedClock(base), true, Arc::default());
+        let (pastes, pasted) = Pastes::new();
+        slot.attach(pastes.paste_fn(), quiet_gate(base));
+        let params = json!({"v": 1, "text": "/clear"});
+        let started = json!({"cause": "clear", "agent_session_id": "session-two"});
+        let reply = std::thread::scope(|s| {
+            let sending = s.spawn(|| send(&slot, &name(), tmp.path(), &call(&params, 1)));
+            pasted.recv().expect("pasted");
+            let line = hook_line(EventKind::SessionStart, started.clone());
+            append_hook_event(&slot, &feed(), tmp.path(), line).expect("hook");
+            sending.join().expect("send thread")
+        })
+        .expect("answered");
+        let events = events(tmp.path());
+        assert_eq!(
+            kinds(tmp.path()),
+            ["send-issued", "session-start", "send-confirmed"]
+        );
+        assert_eq!(events[1]["data"], started);
+        assert_eq!(events[2]["data"], json!({"cursor": 0}));
+        assert_eq!(
+            reply,
+            json!({"ok": {"submitted_at": events[1]["ts"], "cursor": 0}})
+        );
+        assert_eq!(pastes.all(), ["/clear"]);
+        assert!(slot.flight().send.is_none(), "the slot is free again");
+    }
+
+    /// Only a `clear` whose id is a string the tap had not seen is the post-condition. Any other
+    /// `session-start` is appended unchanged while the send waits, and the send then expires.
+    #[rstest]
+    #[case::clear_with_the_remembered_id("clear", json!("session-one"))]
+    #[case::startup_with_a_new_id("startup", json!("session-two"))]
+    #[case::clear_with_a_null_id("clear", Value::Null)]
+    fn send_local_command_clear_is_not_confirmed_by_another_session_start(
+        #[case] cause: &str,
+        #[case] id: Value,
+    ) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let base = Instant::now();
+        let jumping = Arc::new(std::sync::atomic::AtomicBool::new(false));
+        let clock = SwitchClock {
+            now: Mutex::new(base),
+            jumping: Arc::clone(&jumping),
+        };
+        let slot = SendSlot::new(clock, true, Arc::default());
+        let (pastes, pasted) = Pastes::new();
+        slot.attach(pastes.paste_fn(), quiet_gate(base));
+        let boot = json!({"cause": "startup", "agent_session_id": "session-one"});
+        let boot = hook_line(EventKind::SessionStart, boot);
+        append_hook_event(&slot, &feed(), tmp.path(), boot).expect("hook");
+        let cursor = std::fs::metadata(tmp.path().join("events.ndjson"))
+            .expect("events")
+            .len();
+        let params = json!({"v": 1, "text": "/clear"});
+        let other = json!({"cause": cause, "agent_session_id": id});
+        let reply = std::thread::scope(|s| {
+            let sending = s.spawn(|| send(&slot, &name(), tmp.path(), &call(&params, 1)));
+            pasted.recv().expect("pasted");
+            let line = hook_line(EventKind::SessionStart, other.clone());
+            append_hook_event(&slot, &feed(), tmp.path(), line).expect("hook");
+            jumping.store(true, std::sync::atomic::Ordering::SeqCst);
+            sending.join().expect("send thread")
+        })
+        .expect("answered");
+        assert_eq!(
+            reply,
+            json!({"refusal": "not-delivered", "detail": "no-prompt-submitted"})
+        );
+        let events = events(tmp.path());
+        assert_eq!(
+            kinds(tmp.path()),
+            [
+                "session-start",
+                "send-issued",
+                "session-start",
+                "send-refused"
+            ]
+        );
+        assert_eq!(events[2]["data"], other);
+        assert_eq!(
+            events[3]["data"],
+            json!({"refusal": "not-delivered", "detail": "no-prompt-submitted", "cursor": cursor})
+        );
+        assert_eq!(pastes.all(), ["/clear"]);
+        assert!(slot.flight().send.is_none(), "the slot is free again");
+    }
+
+    #[test]
+    fn send_local_command_window_expiry_is_no_prompt_submitted_with_the_cursor() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let base = Instant::now();
+        let slot = SendSlot::new(JumpClock(Mutex::new(base)), true, Arc::default());
+        let (pastes, _pasted) = Pastes::new();
+        slot.attach(pastes.paste_fn(), quiet_gate(base));
+        let params = json!({"v": 1, "text": "/clear"});
+        let reply = send(&slot, &name(), tmp.path(), &call(&params, 1)).expect("answered");
+        assert_eq!(
+            reply,
+            json!({"refusal": "not-delivered", "detail": "no-prompt-submitted"})
+        );
+        assert_eq!(kinds(tmp.path()), ["send-issued", "send-refused"]);
+        assert_eq!(
+            events(tmp.path())[1]["data"],
+            json!({"refusal": "not-delivered", "detail": "no-prompt-submitted", "cursor": 0})
+        );
+        assert_eq!(pastes.all(), ["/clear"]);
+        assert!(slot.flight().send.is_none(), "the slot is free again");
+    }
+
+    /// The decision is the compiled list read by the exact text. On a version where the listed
+    /// `/clear` is `unconfirmable` at once, each of these is an ordinary send: typed, and with no
+    /// prompt expired at the window.
+    #[rstest]
+    #[case::a_trailing_space("/clear ")]
+    #[case::a_trailing_newline("/clear\n")]
+    #[case::a_leading_space(" /clear")]
+    #[case::another_case("/CLEAR")]
+    #[case::a_slash_text_off_the_list("/andromeda-arch")]
+    fn send_local_command_decision_is_exact_text_never_a_leading_slash(#[case] text: &str) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let base = Instant::now();
+        let slot = SendSlot::new(JumpClock(Mutex::new(base)), false, Arc::default());
+        let (pastes, _pasted) = Pastes::new();
+        slot.attach(pastes.paste_fn(), quiet_gate(base));
+        let params = json!({"v": 1, "text": text});
+        let reply = send(&slot, &name(), tmp.path(), &call(&params, 1)).expect("answered");
+        assert_eq!(
+            reply,
+            json!({"refusal": "not-delivered", "detail": "no-prompt-submitted"})
+        );
+        assert_eq!(kinds(tmp.path()), ["send-issued", "send-refused"]);
+        assert_eq!(
+            events(tmp.path())[1]["data"],
+            json!({"refusal": "not-delivered", "detail": "no-prompt-submitted", "cursor": 0})
+        );
+        assert_eq!(pastes.all(), [text]);
+        assert!(slot.flight().send.is_none(), "the slot is free again");
     }
 
     #[test]

@@ -213,7 +213,7 @@ fn start(home: &Path, args: &RunArgs, persistent: &[String]) -> anyhow::Result<S
     };
     let wheel = Arc::new(WheelSlot::default());
     let snapshots = Arc::new(Snapshots::new(instance_dir.clone()));
-    let send = Arc::new(SendSlot::new(SystemClock, Arc::clone(&wheel)));
+    let send = Arc::new(SendSlot::new(SystemClock, cli_verified, Arc::clone(&wheel)));
     // Rebuilt before the endpoint serves: the first `last` already sees the newest logged turn, and
     // the first dialog takes an id past every logged one.
     let wait = Arc::new(WaitFeed::new(SystemClock));
@@ -634,7 +634,7 @@ mod tests {
         Methods {
             name,
             instance_dir: instance_dir.to_path_buf(),
-            send: Arc::new(SendSlot::new(SystemClock, Arc::clone(&wheel))),
+            send: Arc::new(SendSlot::new(SystemClock, false, Arc::clone(&wheel))),
             wait,
             dialogs: Arc::new(dialogs),
             wheel,
