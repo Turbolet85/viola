@@ -373,3 +373,12 @@
 **Why:** over a linked scope the old start point found nothing, so a local G2 would read its fail-closed `empty scope`; measured at this chunk with a session booted on the backing, the old start point printed 0 files and the new one 3. The retention bound is the obs side of the tests↔obs bind (tests' `logs` Retention window carries the same fact). Trap: this host's `find` does not descend a start point that is a link without the slash.
 **Kept:** "Retention is the lifetime of the session home" stands, here and in §1's copy: the amendment bounds a kept home's life on one host. `--probe` and CI's steps are unchanged.
 **Ref:** .andromeda/runs/2026-10-07T08-21-13-wrap/
+## 2026-10-07-live-rows-and-paste-shapes-on-the-dev-host — E2's floor sentence: the verb corrected, the Linux reading pointed to
+**Section:** §4 Span / Trace Coverage → Edge flows → E2 (the R8 strip sub-bullet)
+**Change:**
+- The strip "always removes the 11 names of the identity floor `IDENTITY_FLOOR`, measured on the Windows host, whatever the persistent set says". Was "always keeps the 11-name identity floor".
+- A differing Linux dev-host reading on `claude` 2.1.287 stands beside that origin and moves nothing; its home is architecture §Occupied Resources → Environment variables.
+- "there is no compile-time list of known names" now reads "beyond the floor there is no compile-time list of known names".
+- The logged fields (`env_stripped_count`, `env_stripped_known`, `env_kept`, names only) are unchanged.
+**Why:** the old verb read opposite to architecture and security-plan, which both say a floor name is removed whatever the persistent set says; the sentence was being amended for the Linux reading, so the cross-master contradiction was closed in the same edit.
+**Ref:** .andromeda/runs/2026-10-07T10-53-41-wrap/

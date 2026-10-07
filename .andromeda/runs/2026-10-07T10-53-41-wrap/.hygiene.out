@@ -1,0 +1,4 @@
+gate v1.11 · 1e911c8f
+root . · case exact · planes rust, ts · base e7e5bf75 (the parent of the oldest pre-CI commit 33d20843)
+control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P2 · P3 rust · P3 ts — each fired on its synthetic known positive
+hygiene: clean — read 139 (runs 119 · evidence 12 · inputs 8) · trails 23 not read · copies 6 not read by P1 — 0 host paths kept · binary 0 not read by P1

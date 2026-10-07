@@ -1,0 +1,112 @@
+# Cascade step-2 sweep — 2026-10-07-live-rows-and-paste-shapes-on-the-dev-host.
+# Derived from every amendment of this pass, after the last one was applied: the retired wording and the
+# retired mechanism's own phrasing, each spanning all seven masters and the key files.
+
+# the pair's frame: "one (directly) after the close tag", the stay-list
+[[pattern]]
+id = "frame-after"
+fixed = 'after the close'
+
+[[pattern]]
+id = "second-after"
+fixed = 'a second after'
+
+# the paste id
+[[pattern]]
+id = "id-per-paste"
+fixed = 'differs per paste'
+
+# the cross-session form: relayed, escaped, injected
+[[pattern]]
+id = "not-yet-meas"
+fixed = 'not yet measured'
+
+[[pattern]]
+id = "cli-injects"
+fixed = 'the CLI injects'
+
+[[pattern]]
+id = "arrives-escaped"
+fixed = 'arrives escaped'
+
+[[pattern]]
+id = "cross-session"
+fixed = 'cross-session'
+
+# the typed tag at a prompt's start; the three paste shapes
+[[pattern]]
+id = "unmeasured"
+regex = '[Uu]nmeasured'
+
+[[pattern]]
+id = "task-notif"
+fixed = 'task-notification'
+
+# what was owed to this chunk
+[[pattern]]
+id = "owed-entry"
+fixed = 'Live rows and paste shapes'
+
+# the hint: no live send, the open decision, the advice, the fake-agent-only reading
+[[pattern]]
+id = "hint-footer"
+fixed = 'paste again to expand'
+
+[[pattern]]
+id = "fake-only"
+fixed = 'under the fake agent only'
+
+[[pattern]]
+id = "decision-open"
+regex = 'decision and is open|is the founder.s decision'
+
+[[pattern]]
+id = "hint-advice"
+fixed = 'then send again'
+
+[[pattern]]
+id = "gate-max"
+fixed = 'GATE_MAX_WAIT'
+
+# delivery confirmation: the claim's own verbs
+[[pattern]]
+id = "is-pasted-text"
+fixed = 'is the pasted text'
+
+[[pattern]]
+id = "never-move"
+fixed = 'never move'
+
+[[pattern]]
+id = "every-send"
+regex = '[Ee]very `?send`? is confirmed'
+
+[[pattern]]
+id = "no-prompt-sub"
+fixed = 'no-prompt-submitted'
+
+# the identity floor's origin and the obs sentence's verb
+[[pattern]]
+id = "floor-origin"
+regex = 'measured on the Windows host|measured on a wrapped host'
+
+[[pattern]]
+id = "floor-name"
+regex = 'IDENTITY_FLOOR|identity floor|11-name|11 names'
+
+[[pattern]]
+id = "always-keeps"
+fixed = 'always keeps'
+
+[[pattern]]
+id = "hook-env-names"
+regex = 'CLAUDE_PLUGIN_ROOT|CLAUDE_PLUGIN_DATA|CLAUDE_ENV_FILE|CLAUDE_PROJECT_DIR'
+
+# the row list and the case list
+[[pattern]]
+id = "row-list"
+regex = 'dialog-concurrency`\)|seventeen literal row ids|fourteen'
+
+[[pattern]]
+id = "case-list"
+regex = 'eight labelled cases|wrapped-paste property|live_shape'

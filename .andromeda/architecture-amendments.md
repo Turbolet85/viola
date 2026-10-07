@@ -691,3 +691,57 @@
 **Why:** a start's pinned copy stalled behind other builders' writes on the shared volume; measured in a natural window at this chunk, five 52 MB writes at once read a 10.999 s median there and 0.285 s at most through the link, the verify-driven binary green in the same window. The creation and removal outside the working directory is a boundary widening, ratified by the founder, 2026-10-07T07:25Z, live, after it was shown to him in those terms, relayed by the overseer. Standing rule for later chunks: a stalled-start red is a finding about the backing, reported and never re-run for green.
 **Kept:** the path statement (every home but the chaos one under `target/e2e-home`) holds by path; `replace_private`'s `sync_all()` and CI's homes on the runner's disk are unchanged. `target/e2e-home.disk/` (the pre-link entries) is not registered: it is a leftover the operator owns.
 **Ref:** .andromeda/runs/2026-10-07T08-21-13-wrap/
+## 2026-10-07-live-rows-and-paste-shapes-on-the-dev-host — the long-paste frame as measured beside typed text and between two pairs
+**Section:** §Established Decisions → [CLI Version Compatibility] (the long-paste wrapper) · [Delivery Confirmation] (the normalisation parenthetical) · §Standard Contracts → `prompt-submitted` (the frame parenthetical) · §Cross-cutting Patterns → Capability ledger (the ruled limit)
+**Change:**
+- The frame: two newlines before the open tag; after the close tag one newline at the prompt's end, two when typed text follows, three in all between two adjacent pairs. Was "two before and one after".
+- `hook::unwrap_pastes` removes the two before, the one after, and a second after the close when text follows that is not the next pair's own two-newline frame. A third newline before, a second after at the prompt's end and a lone one before stay. Was "a second after … stay[s]" without the condition.
+- The id is 4 hex characters, one for every pair of a session (the two pairs of one prompt included), different between sessions. Was "differs per paste".
+- A pasted text's own last newline never reaches the hook: a wrapped text ending in a newline gets none added before the close tag (the static reading, now measured), and an unwrapped text loses it too.
+- The frame beside typed text and between two pairs is compiled on one measurement (2.1.287) and held by `hook.rs` unit cases only; no `viola verify` run types those shapes, so the `long-paste-wrapper` row re-validates only the lone-paste frame. No probe is owed for them: a shape no `send` relies on needs no probe, and §Cross-cutting Patterns → Capability ledger carries that limit.
+- "Unmeasured" now names only a long or a repeated text pasted under the paste hint. The wrap threshold and the feature flag stay read statically.
+**Why:** three live shapes were measured on `claude` 2.1.287 and the paste-then-typed one falsified the base unwrap, which this chunk fixed inside `unwrap_pastes`. The probe gap was escalated at this wrap; the overseer directed it recorded and brought as a route card, since a new Run B paste is a widening and an accepted limit is a ruling on the ledger rule, both the founder's; he ruled the limit at that card (live, 2026-10-07T11:37Z, relayed by the overseer).
+**Kept:** the exact-match claim and the unwrap's "nothing wider" rule.
+**Ref:** .andromeda/runs/2026-10-07T10-53-41-wrap/
+## 2026-10-07-live-rows-and-paste-shapes-on-the-dev-host — the cross-session form and the typed task-notification as measured
+**Section:** §Established Decisions → [CLI Version Compatibility] (Harness prompt prefixes · Tag escaping) · [Human Takeover / Wheel] (the `HARNESS_PREFIXES` parenthetical and the side-effect sentence)
+**Change:**
+- On 2.1.287 on the Linux dev host a real cross-session message reaches UserPromptSubmit unescaped, `<cross-session-message from="…" from-name="…" from-mode="…">`, a newline, the text, a newline and `</cross-session-message>`, and the plain prefix files it `harness`. Was "the two cross-session forms rest on a relayed measurement, not yet measured in this repository" and "the escaped form is the one the CLI injects".
+- The escaped form rests on the relayed measurement alone; it was not seen and its prefix stays compiled. The four compiled prefixes are unchanged.
+- A `<task-notification>` typed at the very start of a prompt arrives as typed, so a human who types it first is filed `harness`. Was "the start-of-prompt position … is unmeasured". The wheel entry states it as measured, not as a new ratification.
+- On PATH `claude` (the builder's own CLI, counts only) the `<agent-message from=` and `<task-notification>` forms reach the hook starting at the tag, with no preface.
+- The readings came from a scratch probe, not a `viola verify` probe: the harness-prefix ledger row stays owed.
+**Why:** one fixed synthetic peer message into a scratch 2.1.287 session, and one typed paste, measured both; the forward reference to this chunk is spent.
+**Kept:** the founder's 2026-09-29 ratification of the escaped prefix and its side effect on a human who types that tag.
+**Ref:** .andromeda/runs/2026-10-07T10-53-41-wrap/
+## 2026-10-07-live-rows-and-paste-shapes-on-the-dev-host — a send whose text ends in a newline is delivered and not claimed
+**Section:** §Established Decisions → [Delivery Confirmation] · [Human Takeover / Wheel] (the "never move it" parenthetical) · §Standard Contracts → `prompt-submitted` (the "`text` is the pasted text" clause)
+**Change:**
+- [Delivery Confirmation] carries one measured exception to "every `send` is confirmed", unfixed: the CLI drops a pasted text's last newline before UserPromptSubmit, wrapped or not, so for a sent text whose last byte is a newline `prompt-submitted`'s `text` is one byte short and the exact match fails. The text is delivered and runs a turn, its prompt is filed `human` and moves the wheel (`cause` `human-input`), and the send ends `not-delivered` / `no-prompt-submitted` when the window closes.
+- `prompt-submitted`: `text` for a text that ended in a newline is one byte short of it and does not match the sent text.
+- [Human Takeover / Wheel]: an in-flight send whose text ends in a newline is not relabelled, so its own prompt moves the wheel to the human.
+- No remedy is built; it is carried on the working route.
+**Why:** measured end to end on 2.1.287 on a verified and an unverified home. It was escalated at this wrap as a qualification of a locked decision; the overseer directed that all three sections say what the product does today, measured and unfixed, with the remedy left to its route card.
+**Kept:** the exact-match claim itself: no trim was added.
+**Ref:** .andromeda/runs/2026-10-07T10-53-41-wrap/
+## 2026-10-07-live-rows-and-paste-shapes-on-the-dev-host — the paste hint measured on the live CLI, and the founder's decision
+**Section:** §Established Decisions → [CLI Version Compatibility] (the `viola verify` paragraph: the paste-hint passage)
+**Change:**
+- What `send` does with the hint screen is measured on the real CLI as well as under the fake agent: on a verified CLI a `send` issued while the hint stands ends `not-delivered` / `input-not-ready` with nothing typed, 0.63 s after it was issued. Was "measured end to end under the fake agent only" and "no `send` was run in the real CLI's hint window".
+- The hint is a timer of 8.0 s from the last long paste (nine timings, 8.000 s to 8.023 s; a second long paste restarts it, a short one does not), 3.8 s to 7.0 s of it after the turn's Stop.
+- A no-cursor `viola wait` issued in the window woke on nothing and ran to its deadline; `wait --after` the earlier cursor returns at once, inside the window. The `input-not-ready` hint line's advice does not lead out of it.
+- On an unverified CLI the partial gate typed a short text under the hint and the CLI submitted and confirmed it. A long or a repeated text under the hint is unmeasured.
+- What `send` should do is decided: on a verified CLI the gate waits for the input box on a quiet screen with no literal, and the bound rises to 8.5 s. Was "the founder's decision and is open".
+- It is not built: the gate, `GATE_MAX_WAIT`, the hint line and the fake agent's 8 000 ms hold cap stay as they are until the route entry that builds it lands.
+**Why:** two hint runs on `claude` 2.1.287 gave the numbers; the founder chose on a priced card (his own live answer of 2026-10-07T10:29Z, relayed by the overseer), having been told the price: one by-path re-verify of 5 live starts, `send`'s longest block 18.5 s, the fake agent's hold cap to raise, no human keystroke delayed.
+**Kept:** Run B's own measured sentence (8.0 s from the paste, 6.5 s after that turn's Stop) and its wait rule.
+**Ref:** .andromeda/runs/2026-10-07T10-53-41-wrap/
+## 2026-10-07-live-rows-and-paste-shapes-on-the-dev-host — the identity floor's Linux reading, two hook-process names, and the two rows still owed
+**Section:** §Occupied Resources → Environment variables (the R8 line; the provided-by-Claude-Code line) · §Established Decisions → [CLI Version Compatibility] (the `viola verify` paragraph: the owed rows)
+**Change:**
+- Two Linux dev-host readings stand beside the floor's Windows origin, names only. The tool environment PATH `claude` 2.1.289 hands a session: 10 `CLAUDE*` names, all on the floor (`CLAUDE_CODE_BRIDGE_SESSION_ID` absent). The environment 2.1.287 hands a hook, in a child started with every inherited `CLAUDE*` name removed: 12 names, eight of the eleven (absent `CLAUDE_CODE_BRIDGE_SESSION_ID`, `CLAUDE_CODE_EXECPATH`, `CLAUDE_EFFORT`) and four outside them (`CLAUDE_ENV_FILE`, `CLAUDE_PLUGIN_DATA`, `CLAUDE_PLUGIN_ROOT`, `CLAUDE_PROJECT_DIR`).
+- The floor stays the eleven: the four are not identity names. The prefix rule already removes those four whenever they are inherited outside the persistent set.
+- `CLAUDE_ENV_FILE` and `CLAUDE_PROJECT_DIR` are registered beside `CLAUDE_PLUGIN_ROOT` and `CLAUDE_PLUGIN_DATA` as names a 2.1.287 hook process was handed; viola reads none of the four.
+- The harness prefixes and the R8 identity floor were measured by a scratch probe and landed no row: both rows stay owed, with no route entry minted for them. Was "owed to 'Live rows and paste shapes on the dev host'".
+**Why:** the scratch hook's names-only list was the founder's own live answer of 2026-10-07T09:43Z (relayed by the overseer), as was "measure here, rows next". The floor's ruling is the founder's own (live, 2026-10-07T11:37Z, relayed by the overseer), given on a route card of this wrap.
+**Ref:** .andromeda/runs/2026-10-07T10-53-41-wrap/

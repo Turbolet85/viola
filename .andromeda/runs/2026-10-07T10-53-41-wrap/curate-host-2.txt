@@ -1,0 +1,1 @@
+- 2026-10-07: A backgrounded command's output file ends with the harness's own exit line, never the command's last line, so a wait that tests the file's last line for a summary runs to its bound: match the summary anywhere in the file, or wait on the completion notice.

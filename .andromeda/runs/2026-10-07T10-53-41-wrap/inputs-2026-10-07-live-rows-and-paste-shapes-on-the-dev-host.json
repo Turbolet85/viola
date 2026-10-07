@@ -1,0 +1,52 @@
+[
+{
+"tool": "inputs",
+"v": "1.0",
+"sha8": "0404fdd3",
+"ts": "2026-10-07T10:53:51Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+"--run-dir",
+".andromeda/runs/2026-10-07T10-53-41-wrap",
+"--marker",
+"2026-10-07-live-rows-and-paste-shapes-on-the-dev-host"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, in the /andromeda-phase invocation of this session, 2026-10-07T08:49Z",
+"I1 cited scope.md:24 · scope.md:156 · scope.md:227 · research.md:14 · plan.md:414",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/d94-route-adaptation.md",
+"I2 cited scope.md:17 · scope.md:190 · scope.md:233 · research.md:16 · research.md:206 · plan.md:13 · plan.md:367 · plan.md:386 · plan.md:414 · plan.md:420",
+"I3 n/a — a message has no live source · copy message · message: the answers to the P4 founder card of this session: cards 1 to 3 the founder, live, 2026-10-07T09:43Z, relayed by the overseer; card 4 the overseer, a technical fork",
+"I3 cited scope.md:31 · scope.md:168 · research.md:17 · research.md:289 · plan.md:15 · plan.md:21 · plan.md:54 · plan.md:87 · plan.md:117 · plan.md:186 · plan.md:363 · plan.md:380 · plan.md:414 · plan.md:433",
+"I4 n/a — a message has no live source · copy message · message: the overseer, with the approval word at the P5 review of this session, 2026-10-07",
+"I4 cited scope.md:45 · plan.md:145 · plan.md:162",
+"I5 n/a — a message has no live source · copy message · message: the overseer, answering this run AskUserQuestion on the three scratch homes at implement, 2026-10-07",
+"I5 UNCITED",
+"I6 n/a — a message has no live source · copy message · message: the founder, live, 2026-10-07T10:29Z, relayed by the overseer through this run AskUserQuestion at implement",
+"I6 UNCITED",
+"inputs: 6 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 5 · uncited 2 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 6,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 5
+},
+"uncited": 2,
+"unparsed": 0
+}
+}
+]

@@ -1,0 +1,1 @@
+- 2026-10-07: A removal the permission layer denied is never done through another tool (no script, no re-spelled `rm`): move a scratch home this builder made by its full name into `target/e2e-home.disk/`, read back that `target/e2e-home` no longer holds it, and record where it stands; its deletion is the founder's at the desk (the overseer's direction).

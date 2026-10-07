@@ -1,0 +1,1 @@
+- 2026-10-07: A product command a live round starts from the bridge-wrapped builder session runs with `VIOLA_NAME`, `VIOLA_DIR` and `VIOLA_BIN` removed and `--home` given, or it files itself under the bridge's instance; a `viola run` meant to record the session's own `CLAUDE*` names keeps those names, because the strip's own start line is the reading.
