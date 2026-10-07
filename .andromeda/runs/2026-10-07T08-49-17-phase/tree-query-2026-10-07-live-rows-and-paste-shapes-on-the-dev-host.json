@@ -1,0 +1,221 @@
+[
+{
+"sql": "SELECT caller_name, file, line FROM calls WHERE callee_name = 'prompt_text' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 6,
+"result": [
+{
+"caller_name": "data_of",
+"file": "crates/viola-agent-claude/src/hook.rs",
+"line": 157
+},
+{
+"caller_name": "prompt_text_unwraps_the_cli_pair_then_unescapes",
+"file": "crates/viola-agent-claude/src/hook.rs",
+"line": 527
+},
+{
+"caller_name": "prompt_text_drops_the_cli_framing_around_a_pair",
+"file": "crates/viola-agent-claude/src/hook.rs",
+"line": 568
+},
+{
+"caller_name": "prompt_text_prop_round_trips_a_wrapped_paste",
+"file": "crates/viola-agent-claude/src/hook.rs",
+"line": 708
+},
+{
+"caller_name": "ledger",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 14
+},
+{
+"caller_name": "pasted",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 677
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller_name, file, line FROM calls WHERE callee_name IN ('unwrap_pastes','prompt_origin','plan_strip','framing_variants','local_live','live_rows_pass') AND callee_kind = 'fn' ORDER BY callee_name, file, line",
+"rows": 13,
+"result": [
+{
+"caller_name": "framing_variants_name_the_two_prompts_and_the_hooks_the_local_command_fired",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 2494
+},
+{
+"caller_name": "framing_variants_name_the_two_prompts_and_the_hooks_the_local_command_fired",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 2518
+},
+{
+"caller_name": "framing_variants_name_the_two_prompts_and_the_hooks_the_local_command_fired",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 2526
+},
+{
+"caller_name": "framing_variants_name_the_two_prompts_and_the_hooks_the_local_command_fired",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 2528
+},
+{
+"caller_name": "record",
+"file": "src/cmd/verify.rs",
+"line": 404
+},
+{
+"caller_name": "local_live",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 386
+},
+{
+"caller_name": "run_with",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 150
+},
+{
+"caller_name": "plan_strip_is_empty_without_claude_names",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 343
+},
+{
+"caller_name": "plan_strip_on_this_host_removes_identity_and_keeps_a_persistent_name",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 350
+},
+{
+"caller_name": "start",
+"file": "src/cmd/run.rs",
+"line": 206
+},
+{
+"caller_name": "measure",
+"file": "src/cmd/verify.rs",
+"line": 144
+},
+{
+"caller_name": "data_of",
+"file": "crates/viola-agent-claude/src/hook.rs",
+"line": 157
+},
+{
+"caller_name": "prompt_text",
+"file": "crates/viola-agent-claude/src/hook.rs",
+"line": 188
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT callee_name, file, line FROM refs WHERE callee_name IN ('IDENTITY_FLOOR','HARNESS_PREFIXES','LEDGER_ROWS','GATE_MAX_WAIT','TrustedDir') ORDER BY callee_name, file, line",
+"rows": 20,
+"result": [
+{
+"callee_name": "GATE_MAX_WAIT",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 15
+},
+{
+"callee_name": "GATE_MAX_WAIT",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 759
+},
+{
+"callee_name": "GATE_MAX_WAIT",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 760
+},
+{
+"callee_name": "GATE_MAX_WAIT",
+"file": "crates/viola-agent-claude/src/screen.rs",
+"line": 131
+},
+{
+"callee_name": "GATE_MAX_WAIT",
+"file": "crates/viola-agent-claude/src/screen.rs",
+"line": 183
+},
+{
+"callee_name": "GATE_MAX_WAIT",
+"file": "src/cmd/verify/typed.rs",
+"line": 27
+},
+{
+"callee_name": "GATE_MAX_WAIT",
+"file": "src/cmd/verify/typed.rs",
+"line": 486
+},
+{
+"callee_name": "HARNESS_PREFIXES",
+"file": "crates/viola-agent-claude/src/hook.rs",
+"line": 177
+},
+{
+"callee_name": "IDENTITY_FLOOR",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 101
+},
+{
+"callee_name": "IDENTITY_FLOOR",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 360
+},
+{
+"callee_name": "IDENTITY_FLOOR",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 361
+},
+{
+"callee_name": "IDENTITY_FLOOR",
+"file": "crates/viola-agent-claude/src/lib.rs",
+"line": 362
+},
+{
+"callee_name": "LEDGER_ROWS",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 404
+},
+{
+"callee_name": "TrustedDir",
+"file": "src/cmd/verify/typed.rs",
+"line": 92
+},
+{
+"callee_name": "TrustedDir",
+"file": "src/cmd/verify/typed.rs",
+"line": 129
+},
+{
+"callee_name": "TrustedDir",
+"file": "src/cmd/verify/typed.rs",
+"line": 168
+},
+{
+"callee_name": "TrustedDir",
+"file": "src/cmd/verify/typed.rs",
+"line": 336
+},
+{
+"callee_name": "TrustedDir",
+"file": "src/cmd/verify/typed.rs",
+"line": 346
+},
+{
+"callee_name": "TrustedDir",
+"file": "src/cmd/verify/typed.rs",
+"line": 861
+},
+{
+"callee_name": "TrustedDir",
+"file": "src/cmd/verify/typed.rs",
+"line": 868
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

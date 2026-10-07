@@ -1,0 +1,75 @@
+# Route adaptation relay — split `:94` (2026-10-07, from the Viola overseer)
+
+For a 0-pending `/andromeda-wrap-session` at HEAD `af179a9` (CI ci#37550551341 green 15/15). Three parts, per the
+operator scheme: the context correction, the items for disposition, the anchors.
+
+## 1. Context — founder rulings, LIVE, 2026-10-07T05:43Z (via the overseer's AskUserQuestion, each option priced)
+
+- **R-L1: the first live test runs on this Linux dev host, and `verification-matrix.json#v1-33`'s acceptance is
+  re-worded to that host.** Its acceptance says "on the founder's Windows host"; the dev host has been Linux since
+  2026-10-03 and no interactive Windows host exists. Windows live behaviour stays proven on the CI runner under the fake
+  agent until a Windows machine exists. This is the founder's own word on a requirement: change it through the wrap's
+  own door for a requirement changed mid-version, never by a hand edit, and record it as his.
+- **R-L2: split `working-route.md:94` "First live test and self-drive" into three.** Measured basis: the line carries
+  11 CARRY blocks (8392 bytes, `sed -n 94p | wc -c` at `af179a9`), and the last two chunks each took a whole phase + implement + wrap cycle with implement
+  ending near 50 % of the builder window (`:90` 51.7 %, `:92` 48.9 %). Epoch 3 stays ONE epoch.
+- **R-L3: the live rows are measured and recorded on 2.1.287, named by path.** Live-session caps: **10** for the new
+  rows entry, **8** for the self-drive entry. PATH `claude` (2.1.289 today) stays unstamped.
+- **R-L4: what `send` does while the paste hint stands is NOT decided.** The rows entry times the hint a second time
+  on the live CLI and brings the founder a card with the numbers; nothing about the gate changes before that card.
+
+## 2. Items for DISPOSITION (route-resolve, recommended-first; never pre-placed)
+
+The overseer's recommended partition. Each CARRY now on `:94` goes to exactly one place:
+
+- **(B) NEW, ahead of `:94`: live rows and paste shapes on the dev host** (unattended, cap 10, 2.1.287 by path).
+  Recommended contents:
+  - the harness-prefix row with its cross-session measurement and the R8 identity-floor row (the
+    2026-10-06-local-command-and-paste-framing-rows re-home CARRY, whole, with its measured and unmeasured readings);
+  - the three unmeasured paste shapes (a wrapped paste beside typed text, two wrapped pastes in one prompt, a pasted
+    text ending in a newline) from the "PATH `claude` is 2.1.289" CARRY; that CARRY's version half is answered by R-L3;
+  - the readiness-gate CARRY of 2026-10-06-local-command-send-outcomes, whole: the `send` run in the real CLI's hint
+    window, the `viola wait` hint finding, and the founder's open choice, which R-L4 turns into this entry's card;
+  - the probe dirs a runner kill leaves behind.
+- **(A) STAYS the last Epoch 3 entry: "First live test and self-drive"** (founder-attended, cap 8, on the Linux dev
+  host by R-L1). Recommended to keep:
+  - the line itself and `v1-33` as re-worded;
+  - `run --local-live`, its row count following whatever (B) lands;
+  - "a decided dialog never renders" (`v1-31`'s last clause);
+  - the Epoch 3 boundary audit's CARRY (the 25 Windows-dispatch survivors), which follows the epoch's last entry;
+  - the `linux-route-adaptation.md` B CARRY is ANSWERED by R-L1: reword it to the ruling, or retire it with the ruling
+    named.
+- **(C) the three Windows-only live items leave Epoch 3**: H2's real-`claude` key loss after a resize, the DA1
+  no-terminal stall, and a real Windows terminal's mouse report (F-W3). None can run without an interactive Windows
+  host. Recommended: one entry in Epoch 7, blocked on that host.
+- **(D) "Linux live confirmation" (Epoch 7, `working-route.md:132`) may be overtaken.** It assumed a separate Linux
+  laptop; by R-L1 the first live test itself now runs on Linux. Present it for disposition: keep as it is, fold what
+  it still owes into (A), or re-point it as the home of (C).
+
+## 3. Anchors (what stays fixed; the rest is the dialogue)
+
+- (B) is the next entry; (A) follows it and stays the LAST entry of Epoch 3.
+- Nothing of (C) stays in Epoch 3.
+- No capability is claimed or weakened by this wrap; `v1-33`'s text changes only as R-L1 says.
+
+## 4. Item (E), added 2026-10-07T05:49Z — test homes off the contended volume (a route item for disposition, the overseer's)
+
+Not a founder ruling: an instance item the overseer adds to this same adaptation, on a measurement relayed by overseer1
+(its F167; evidence in andromedaV3 `andromeda-overseer/docs/design-slots/F167-host-contention-2026-10-07/plan.md`).
+
+- **Verified here, at `af179a9`:** a test start copies the running exe into its home — `pin_exe`
+  (`crates/viola-state/src/pin.rs:70-83`) through the private replace that ends in `sync_all()`
+  (`crates/viola-state/src/fs.rs:267`); `target/debug/viola` is 52 118 312 B; `TestHome::new` puts every home
+  under `<workspace>/target/e2e-home` (`tests/support/home.rs:104-127`), on the btrfs volume every builder shares;
+  the host's `vm.dirty_bytes` is 268 435 456.
+- **Relayed, measured by overseer1 inside two natural links of another builder on 2026-10-07 (not re-run here):** one
+  50 MB write alone waited 13.0 s (0.006 s on a quiet host); 25 at once took 14.7 s with no fsync at all, so removing
+  `sync_all()` would not remove the stall; the same 25 on tmpfs in the same seconds took 0.48 s. The reds of the
+  `:90` wrap read ~18 s against nextest's 20 s kill.
+- **hypothesis:** backing `target/e2e-home` with tmpfs on the dev host (the path unchanged, so the CI artifact globs
+  and the homes-live-under-the-workspace statement hold; CI keeps the real fsync) ends the stalled-start reds.
+- **For disposition, recommended-first:** (1) its own small entry at the head, AHEAD of (B), with no live session, so
+  (B)'s capped live round never meets a contended gate; (2) an `[inferred]` item inside (B); (3) a WATCH only, keeping
+  the quiet re-run as the lever. How the backing is done (a mount the founder runs once, a link, a harness option) is
+  the entry's own research; a mount needs the founder at the desk.
+- Anchor change if (1) is taken: this entry is next, then (B), then (A).

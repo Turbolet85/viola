@@ -1,0 +1,31 @@
+gate v1.11 · 1e911c8f
+shell /usr/bin/bash (from $SHELL; -c, non-login)
+root . · marker 2026-10-07-live-rows-and-paste-shapes-on-the-dev-host · entries 20
+logs $TMPDIR/andromeda-gate/2026-10-07-live-rows-and-paste-shapes-on-the-dev-host/run-20261007T095516Z · bound: GNU timeout
+delta docs 73 · unmapped 6
+walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 79
+prose L213-218: No `live` or `round` entry: the three live sessions are driven by scratch drivers outside … (616 chars)
+prose L220-222: One control mutates source and reverts, so it is a one-shot run at implement and not an en… (266 chars)
+prose L224-225: The harness smoke boots the fake agent; G2 and G4 are read over its home between `status` … (219 chars)
+prose L227-227: A red whose shape is a stalled start is a finding about the backing (STOP 7).
+  1 lint        not run — dry-run · cargo fmt --all --check
+  2 lint        not run — dry-run · cargo clippy --workspace --all-targets --features fake-age… (75 chars)
+  3 unit        not run — dry-run · bash scripts/agent-run.sh run --unit
+  4 unit        not run — dry-run · bash scripts/agent-run.sh run --unit --filter 'test(/live_… (66 chars)
+  5 integration not run — dry-run · bash scripts/agent-run.sh run
+  6 probe       not run — dry-run · git diff --quiet e7e5bf75db8a -- src crates/viola-core cra… (398 chars)
+  7 probe       not run — dry-run · jq -e -s 'map(select(.kind == "start")) as $s | ($s | leng… (424 chars)
+  8 probe       not run — dry-run · jq -e -s '[.[] | select(.kind == "shape") | .id] | unique … (308 chars)
+  9 probe       not run — dry-run · jq -e -s 'any(.[]; .kind == "cross-session" and (.outcome … (357 chars)
+ 10 probe       not run — dry-run · jq -e -s '([.[] | select(.kind == "hint-timing")] | length… (460 chars)
+ 11 smoke       not run — dry-run · bash scripts/agent-run.sh cleanup --session p-live-smoke
+ 12 smoke       not run — dry-run · bash scripts/agent-run.sh boot --session p-live-smoke --in… (72 chars)
+ 13 smoke       not run — dry-run · bash scripts/agent-run.sh status --session p-live-smoke
+ 14 probe       not run — dry-run · bash scripts/g2-zero-panics.sh
+ 15 probe       not run — dry-run · bash scripts/agent-run.sh schema-check
+ 16 smoke       not run — dry-run · bash scripts/agent-run.sh cleanup --session p-live-smoke
+ 17 probe       not run — dry-run · bash scripts/agent-run.sh pre-push
+ 18 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (90 chars)
+ 19 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (69 chars)
+ 20 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (114 chars)
+entries 20 · green 0 · red 0 · recorded 0 · timeout 0 · not-run 20

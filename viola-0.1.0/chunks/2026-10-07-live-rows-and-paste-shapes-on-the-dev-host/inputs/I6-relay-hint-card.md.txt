@@ -1,0 +1,9 @@
+The answer to this run's hint card (AskUserQuestion, one question, 2026-10-07, at implement), verbatim, as it arrived in the session:
+
+Question: "Founder's card (R-L4): what should `viola send` do while the CLI's paste hint stands? Measured on claude 2.1.287, 3 live starts: after a long paste the footer shows `paste again to expand` in place of the input-box literal for 8.0 s from the paste (9 timings, 8.000-8.023 s); 3.8 to 7.0 s of that falls after the turn's Stop. On a verified home a send issued in that window is refused `input-not-ready` after 0.63 s with nothing typed, and the hint line's advice (`viola wait <name>, then send again`) does not work: a no-cursor wait woke on nothing and ran its full 20 s. On an unstamped home the same short send was typed under the hint and the CLI submitted and confirmed it, twice. Nothing is built from your answer in this chunk; the remedy becomes a route entry at the wrap. Which remedy?"
+
+Chosen: "A longer bound"
+
+Notes: "The founder's own live answer at 2026-10-07T10:29Z, through the overseer's AskUserQuestion, with the nine timings and every option priced in front of him. His choice, in the card's terms: options 1 and 2 TOGETHER — the gate waits for the input box on a quiet literal-less verified screen, and the bound rises to 8.5 s so all nine measured windows are covered. He was told the price: one by-path re-verify (5 live starts), send's longest block 18.5 s, the fake agent's 8 000 ms hold cap to raise, no human keystroke delayed. Relayed by the overseer; record it as his. Nothing is built from it here: it is a route entry at the wrap."
+
+The options as shown, by label: "Wait for the input box" · "A longer bound" · "Type under the hint" · "Stay as it is". Each option's full text is in the chunk's evidence/hint-card-answer.md.

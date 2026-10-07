@@ -1,0 +1,5 @@
+{"kind": "hint-timing"}
+{"kind": "send-in-window", "home": "verified", "cli_verified": true}
+{"kind": "send-in-window", "home": "unstamped", "cli_verified": false}
+{"kind": "wait-in-window", "after": false}
+{"kind": "card", "answered": true}

@@ -1,0 +1,265 @@
+[
+{
+"tool": "inputs",
+"v": "1.0",
+"sha8": "0404fdd3",
+"ts": "2026-10-07T08:51:23Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+"--message-file",
+".andromeda/runs/2026-10-07T08-49-17-phase/relay-1.md",
+"--origin",
+"the operator, in the /andromeda-phase invocation of this session, 2026-10-07T08:49Z",
+"--kind",
+"relay",
+"--why",
+"the directive at this take-up: 2.1.287 by path, live cap 10 for the whole chunk, R-L4 card before any gate change, a widening probe path goes to P4 as a priced founder card, size against one builder window, a split is the founder word",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-10-07T08-49-17-phase",
+"--marker",
+"2026-10-07-live-rows-and-paste-shapes-on-the-dev-host"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy message · message: the operator, in the /andromeda-phase invocation of this session, 2026-10-07T08:49Z",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, in the /andromeda-phase invocation of this session, 2026-10-07T08:49Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "299ea94aab7b25c8d990af2aaf8c36278b594c8a786bafcdede74f333d1f8be9",
+"copy": "I1-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-07T08:51:23Z",
+"step": "phase:P1",
+"why": "the directive at this take-up: 2.1.287 by path, live cap 10 for the whole chunk, R-L4 card before any gate change, a widening probe path goes to P4 as a priced founder card, size against one builder window, a split is the founder word"
+}
+},
+{
+"tool": "inputs",
+"v": "1.0",
+"sha8": "0404fdd3",
+"ts": "2026-10-07T08:51:23Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+"--source",
+"../additional/viola-overseer/d94-route-adaptation.md",
+"--kind",
+"relay",
+"--why",
+"founder rulings R-L2, R-L3 and R-L4 (live, 2026-10-07T05:43Z) and the partition that made this entry",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-10-07T08-49-17-phase",
+"--marker",
+"2026-10-07-live-rows-and-paste-shapes-on-the-dev-host"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy no-repo · ../additional/viola-overseer/d94-route-adaptation.md",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-d94-route-adaptation.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/d94-route-adaptation.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "4a7796ccd5ed2bcfb51002dec3500c7d51b7930a352c5a9d6bd1a85cd6f44292",
+"copy": "I2-d94-route-adaptation.md.txt",
+"link": false,
+"read_at": "2026-10-07T08:51:23Z",
+"step": "phase:P1",
+"why": "founder rulings R-L2, R-L3 and R-L4 (live, 2026-10-07T05:43Z) and the partition that made this entry"
+}
+},
+{
+"tool": "inputs",
+"v": "1.0",
+"sha8": "0404fdd3",
+"ts": "2026-10-07T09:47:39Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+"--message-file",
+".andromeda/runs/2026-10-07T08-49-17-phase/relay-2.md",
+"--origin",
+"the answers to the P4 founder card of this session: cards 1 to 3 the founder, live, 2026-10-07T09:43Z, relayed by the overseer; card 4 the overseer, a technical fork",
+"--kind",
+"relay",
+"--why",
+"the P4 answers: one synthetic peer message into the scratch 2.1.287 session; the scratch hook lists CLAUDE names; measure here, rows next, no entry minted; the hint home is a byte copy of the standing verify-written stamp home",
+"--step",
+"phase:P3",
+"--run-dir",
+".andromeda/runs/2026-10-07T08-49-17-phase",
+"--marker",
+"2026-10-07-live-rows-and-paste-shapes-on-the-dev-host"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: the answers to the P4 founder card of this session: cards 1 to 3 the founder, live, 2026-10-07T09:43Z, relayed by the overseer; card 4 the overseer, a technical fork",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: the answers to the P4 founder card of this session: cards 1 to 3 the founder, live, 2026-10-07T09:43Z, relayed by the overseer; card 4 the overseer, a technical fork",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "69bf4ce84c16222c7ac84a42b5c93d5b133693f3dc38f32b928c41fa8a28e292",
+"copy": "I3-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-07T09:47:39Z",
+"step": "phase:P3",
+"why": "the P4 answers: one synthetic peer message into the scratch 2.1.287 session; the scratch hook lists CLAUDE names; measure here, rows next, no entry minted; the hint home is a byte copy of the standing verify-written stamp home"
+}
+},
+{
+"tool": "inputs",
+"v": "1.0",
+"sha8": "0404fdd3",
+"ts": "2026-10-07T09:53:46Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+"--run-dir",
+".andromeda/runs/2026-10-07T08-49-17-phase",
+"--marker",
+"2026-10-07-live-rows-and-paste-shapes-on-the-dev-host"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, in the /andromeda-phase invocation of this session, 2026-10-07T08:49Z",
+"I1 cited scope.md:24 · scope.md:152 · scope.md:223 · research.md:14 · plan.md:410",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/d94-route-adaptation.md",
+"I2 cited scope.md:17 · scope.md:186 · scope.md:229 · research.md:16 · research.md:206 · plan.md:13 · plan.md:363 · plan.md:382 · plan.md:410 · plan.md:416",
+"I3 n/a — a message has no live source · copy message · message: the answers to the P4 founder card of this session: cards 1 to 3 the founder, live, 2026-10-07T09:43Z, relayed by the overseer; card 4 the overseer, a technical fork",
+"I3 cited scope.md:31 · scope.md:164 · research.md:17 · research.md:289 · plan.md:15 · plan.md:21 · plan.md:54 · plan.md:87 · plan.md:117 · plan.md:182 · plan.md:359 · plan.md:376 · plan.md:410 · plan.md:429",
+"inputs: 3 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.0",
+"sha8": "0404fdd3",
+"ts": "2026-10-07T09:54:54Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+"--message-file",
+".andromeda/runs/2026-10-07T08-49-17-phase/p5-review.md",
+"--origin",
+"the overseer, with the approval word at the P5 review of this session, 2026-10-07",
+"--kind",
+"relay",
+"--why",
+"the P5 review: the three leans and the four additions stand; the unstamped-home run is a reading of what the product already does on an unverified CLI and no new widening, said so in the evidence; the hint card reaches the founder through the overseer, who returns his words",
+"--step",
+"phase:P3",
+"--run-dir",
+".andromeda/runs/2026-10-07T08-49-17-phase",
+"--marker",
+"2026-10-07-live-rows-and-paste-shapes-on-the-dev-host"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy message · message: the overseer, with the approval word at the P5 review of this session, 2026-10-07",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-p5-review.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer, with the approval word at the P5 review of this session, 2026-10-07",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "e844968912722ea0712f56ab0b1a6043b428ce20297e4ccff852304a0beb5bb1",
+"copy": "I4-p5-review.md.txt",
+"link": false,
+"read_at": "2026-10-07T09:54:54Z",
+"step": "phase:P3",
+"why": "the P5 review: the three leans and the four additions stand; the unstamped-home run is a reading of what the product already does on an unverified CLI and no new widening, said so in the evidence; the hint card reaches the founder through the overseer, who returns his words"
+}
+}
+]

@@ -1,0 +1,68 @@
+[
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "1f4f95b3",
+"ts": "2026-10-07T08:52:55Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+"--expect-prefix",
+"Live rows and paste shapes on the dev host",
+"--record-file",
+".andromeda/runs/2026-10-07T08-49-17-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-10-07T08-49-17-phase",
+"--dry-run"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"dry-run - would stamp viola-0.1.0/working-route.md:96 and append 1 record",
+"  entry  -> [2026-10-07-live-rows-and-paste-shapes-on-the-dev-host] Live rows and paste shap… (4929 chars)",
+"  record -> 2026-10-07-live-rows-and-paste-shapes-on-the-dev-host · pending · Live rows and … (303 chars)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "1f4f95b3",
+"ts": "2026-10-07T08:53:01Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+"--expect-prefix",
+"Live rows and paste shapes on the dev host",
+"--record-file",
+".andromeda/runs/2026-10-07T08-49-17-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-10-07T08-49-17-phase"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:96 - [2026-10-07-live-rows-and-paste-shapes-on-the-dev-host]",
+"record master-route.md:52 - appended under `## viola-0.1.0`",
+"promoted 2026-10-07-live-rows-and-paste-shapes-on-the-dev-host - working-route:96 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/working-route.md",
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+}
+]
