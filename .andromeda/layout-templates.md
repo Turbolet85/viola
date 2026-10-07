@@ -348,7 +348,7 @@ One token vocabulary (`color-*`, `space-*`, `radius-*`, the typography roles) se
 
 **Signature placement:** the readback mirror `[RB]` / `[  ]` / `[/ ]` is the first column of `viola send` output, in two components:
 1. The issue line `[  ] open …`, on stderr and only on a TTY. It is printed when the request goes to the wrapper.
-2. The outcome line: `[RB] read back …` on stdout with exit 0 when the matching `prompt-submitted` confirms the send; `[/ ] unable …` on stderr with exit 13 (or 10/11/12/14) when the wrapper returns a refusal; `[  ] unconfirmable …` on stdout with exit 0 for an unmeasured local command.
+2. The outcome line: `[RB] read back …` on stdout with exit 0 when the send is confirmed, by the matching `prompt-submitted` or, for `/clear` on a verified CLI version, by its new-session post-condition (a `session-start` with cause `clear` and a new session id); `[/ ] unable …` on stderr with exit 13 (or 10/11/12/14) when the wrapper returns a refusal; `[  ] unconfirmable …` on stdout with exit 0 for an unmeasured local command.
 
 The word half of the box (`unable` plus `reason  detail`) is also the first-word column of every other verb's refusal line (`viola answer`, `viola pause`, `viola release`, and `viola wait` / `viola last` for exit 21). So the struck-box vocabulary is shared, while the glyph itself belongs to `send`. Under `--json` the mirror is replaced by the typed `ok` / `refusal` document. The supporting attention element, the amber `DIALOG` word, appears only in `viola list`.
 

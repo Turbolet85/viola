@@ -1,0 +1,55 @@
+# Cascade sweep patterns — 2026-10-06-local-command-send-outcomes wrap.
+# Derived from every amendment of the pass (A1-A8, L1, T1-T7, O1-O8, E9) before the first sweep.
+
+[[pattern]]
+id = 'not-consume'
+fixed = 'does not consume'
+
+[[pattern]]
+id = 'owed-entry'
+fixed = 'Local-command send outcomes'
+
+[[pattern]]
+id = 'local-nd'
+regex = 'local command[^.]{0,120}not-delivered'
+ignore_case = true
+
+[[pattern]]
+id = 'seven-argv'
+fixed = 'seven argv'
+
+[[pattern]]
+id = 'paste-hint-opt'
+fixed = '--paste-hint-ms'
+
+[[pattern]]
+id = 'sc-cursor'
+regex = 'send-confirmed`:? `\{cursor\}`'
+
+[[pattern]]
+id = 'matching-ps'
+fixed = 'matching `prompt-submitted`'
+
+[[pattern]]
+id = 'ups-hook'
+regex = 'hook_event:"user-prompt-submit"|`hook` (UserPromptSubmit|user-prompt-submit)|`hook-invoked` \(UserPromptSubmit'
+
+[[pattern]]
+id = 'confirm-win'
+fixed = 'confirm_window'
+
+[[pattern]]
+id = 'confirm-ms'
+fixed = 'send.confirm_ms'
+
+[[pattern]]
+id = 'mirror-list'
+fixed = '[RB] read back` / `[/ ] unable'
+
+[[pattern]]
+id = 'driver-relabel'
+fixed = 'the driver relabel'
+
+[[pattern]]
+id = 'turn-modal'
+fixed = 'turn screen shows a modal'

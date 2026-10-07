@@ -1,0 +1,10 @@
+## 2026-10-06-local-command-send-outcomes — the paste-hint reading, the fake agent's eighth option, the mirror's fourth line
+**Section:** §Established Decisions [CLI Version Compatibility] (after "unchanged by this") · §Occupied Resources → Binary, subcommands and exit codes (`viola-fake-agent`) · §Infrastructure Patterns → Project directory structure (the `human.rs` and `send.rs` lines)
+**Change:**
+- [CLI Version Compatibility] gains the reading as measured under the fake agent only: on a verified CLI a `send` issued while the fake agent holds the paste hint (a quiet cleared screen with no compiled literal) ends `not-delivered` / `input-not-ready` with nothing typed, and the same sequence without the hold is delivered. No `send` was run in the real CLI's hint window. What `send` should do while the hint stands is recorded as the founder's open decision.
+- The fake agent has eight argv options (was seven): `--tag-turn-screen <phase>` draws `Screen.<phase>` of the set after the turn of the compiled tag-like paste, and after no other turn, in place of `Screen.turn`, with `--framing` and `--turn-stop`; a missing file draws nothing.
+- The `human.rs` line lists four mirror lines (was three): `[  ] unconfirmable` with its one fixed note joins `[  ] open`, `[RB] read back`, `[/ ] unable`.
+- The `send.rs` line names the remembered session id, the local-command decision over `LOCAL_COMMANDS` and the `session-start` post-condition claim.
+**Why:** the chunk measured the readiness-gate reading under the fake agent with the gate unchanged (the P4 card's answer, option B — delegate the overseer, 2026-10-06), added the option for the control of the guard before verify's local-command paste, and added the unconfirmable mirror writer. The open decision is the overseer's disposition at this wrap, relayed by the operator, 2026-10-06: nothing about `send` under the hint is decided here.
+**Kept:** `GATE_MAX_WAIT`, `QUIET_PERIOD` and the readiness verdict are unchanged; the 5 s maximum plays no part in this reading, since a quiet screen with no literal is refused at its first quiet instant.
+**Ref:** .andromeda/runs/2026-10-06T23-49-33-wrap/

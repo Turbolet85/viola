@@ -309,8 +309,8 @@ Span names below are internal `tracing` spans in `<area>.<operation>` snake_case
 - **Source:** tests excerpt, Critical Path 1; arch Critical paths hint 1; Founder Direction 4
 
 - **Path:** Confirmed `send` (CL-1) from driver to readback
-- **Surfaces involved:** cli or ipc-internal (mcp) → ipc-internal (channel) → cli (`run`, PTY paste) → cli (`hook` UserPromptSubmit) → `events.ndjson` → web-spa (readback)
-- **Must-trace spans:** `send.client` (cli/mcp) › `channel.request` › `run.readiness_gate` (vt100) › `pty.paste_write` › `run.confirm_window`. Log events: `channel-request`, then `send-issued`, then `hook-invoked` (UserPromptSubmit), then `send-confirmed` or `send-refused`, then `channel-response`.
+- **Surfaces involved:** cli or ipc-internal (mcp) → ipc-internal (channel) → cli (`run`, PTY paste) → cli (`hook` UserPromptSubmit; `hook` SessionStart for a `/clear` confirmed by its new session; no hook for an unconfirmable send) → `events.ndjson` → web-spa (readback)
+- **Must-trace spans:** `send.client` (cli/mcp) › `channel.request` › `run.readiness_gate` (vt100) › `pty.paste_write` › `run.confirm_window` (not opened for an unconfirmable send). Log events: `channel-request`, then `send-issued`, then `hook-invoked` (UserPromptSubmit, or SessionStart for a `/clear` confirmed by its new session; none awaited for an unconfirmable send), then `send-confirmed` or `send-refused`, then `channel-response`.
 - **Required log fields:** `event`, `process`, `instance`, `corr` (the JSON-RPC `id` on channel lines; the send `cursor` on send lines), `from` (self-reported, not an identity), `confirmed`, `refusal`, `detail` (`input-not-ready` / `no-prompt-submitted` / `control-character` / `turn-running`), `duration_ms`. Sent text never appears.
 - **Source:** tests excerpt, Critical Path 2; arch hint 2; design excerpt, Readback (send → readback latency span); Founder Direction 5; creator must-work "First live test"
 
@@ -628,8 +628,8 @@ Skipped as not-instrumentable per obs-scope §1: `viola-core` (it supplies `ObsE
 
 #### Scenario: Confirmed `send` (CL-1) from driver to readback
 
-- **Surfaces involved:** cli (`send`) or ipc-internal (mcp) → ipc-internal (channel) → cli (`run`, PTY paste) → cli (`hook` user-prompt-submit) → `events.ndjson` → web-spa (readback).
-- **Must-trace spans:** `send.client` (CLIENT; `cli` or `mcp.tool_call`) › `channel.request` (CLIENT) → `channel.dispatch` (SERVER, `run`) › `run.readiness_gate` › `pty.paste_write` › `run.confirm_window`. In the hook process: `hook.handle` › `channel.request(hook.event)`.
+- **Surfaces involved:** cli (`send`) or ipc-internal (mcp) → ipc-internal (channel) → cli (`run`, PTY paste) → cli (`hook` user-prompt-submit; `hook` session-start for a `/clear` confirmed by its new session; no hook for an unconfirmable send) → `events.ndjson` → web-spa (readback).
+- **Must-trace spans:** `send.client` (CLIENT; `cli` or `mcp.tool_call`) › `channel.request` (CLIENT) → `channel.dispatch` (SERVER, `run`) › `run.readiness_gate` › `pty.paste_write` › `run.confirm_window`. An unconfirmable send ends at `pty.paste_write` and opens no `run.confirm_window`. In the hook process: `hook.handle` › `channel.request(hook.event)`, the user-prompt-submit hook for an ordinary send and the session-start hook for a `/clear` confirmed by its new session.
 - **Required span attributes:**
   - `channel.request` / `channel.dispatch`: `method="send"`, `conn`;
   - `run.readiness_gate`: `outcome` (`ready|input-not-ready`), `vt100_panicked` (bool);
@@ -639,13 +639,13 @@ Skipped as not-instrumentable per obs-scope §1: `viola-core` (it supplies `ObsE
 - **Required log fields:** common fields plus:
   - `channel-request{corr:<id>, conn, method, from, from_trust:"self-reported", sender}`;
   - `send-issued{corr:<cursor>, from, text_bytes}`;
-  - hook: `hook-invoked{hook_event:"user-prompt-submit", corr:null}`;
+  - hook: `hook-invoked{hook_event:"user-prompt-submit", corr:null}` for an ordinary send; `hook-invoked{hook_event:"session-start", corr:null}` for a `/clear` confirmed by its new session (as landed, `src/cmd/hook.rs`: every hook invocation logs `hook-invoked` with its own `hook_event`; the line was not read on this path); an unconfirmable send waits for no hook line;
   - `send-confirmed{corr:<cursor>, confirmed, duration_ms}` (`confirmed:false` for `unconfirmable`);
   - or `send-refused{corr:<cursor>, refusal, detail, side:"wrapper", wheel}` with `detail` ∈ `input-not-ready|no-prompt-submitted|turn-running`. `turn-running` has two causes under the one closed detail and no new field: a running turn, or another `send` in flight. The running turn is in-memory wrapper state — marked by a `prompt-submitted` of any origin, ended by `turn-ended` / `session-start` / `session-end` or cleared by a `release` that returns the wheel — and writes no event, span or log line of its own. Either cause's refusal is this wrapper `send-refused` with no `cursor` (`corr` the end offset at refusal, D-28) and no `send-issued`, and the client exits 13;
   - client-side validation refusal: `send-refused{corr:null, refusal:"not-delivered", detail:"control-character", side:"client"}`, with a mirror line on the wrapper side if the frame reached it;
   - `channel-response{corr:<id>, conn, result_class, refusal, detail, duration_ms}` on both sides;
   - every wrapper `send-*` line (here and in Scenarios 5 and 6) also carries `conn` (or `srv_conn`) and `rpc_id`, so `(conn, rpc_id)` on the send line equals `(conn, corr)` on this call's `channel-*` lines (D-30). The client-side `send-refused{side:"client"}` carries neither.
-- **Cleanup:** `run.confirm_window` closes on the matching `prompt-submitted{origin:"driver"}` or window expiry. `channel-response` is emitted from a `Drop` guard in `channel.dispatch`, so an early return or error still logs it. `send.client` closes with `process-exit{subject:"self", exit_code}` (0 / 10 / 11 / 12 / 13 / 14 / 20 / 21, or 1 `internal-error` on a reply with neither a parseable `result` nor an `error.code`); exit 20 carries `detail:"wrapper-fault"`, and exit 21 `detail:"instance-dead"` with `during` `connect` (no live snapshot, or the connect failed) or `call` (the connection lost after it).
+- **Cleanup:** `run.confirm_window` closes on the confirmation its send waits for, or on window expiry. For an ordinary send that is the matching `prompt-submitted{origin:"driver"}`. For a listed local command with a new-session post-condition on a verified CLI (`/clear`) it is the `session-start` whose `cause` is `clear` and whose `agent_session_id` is a string that differs from the id the send slot remembers; that send waits for its post-condition only, and no `prompt-submitted` claims it. Expiry is `send-refused{detail:"no-prompt-submitted"}` for either (no new detail). An unconfirmable send (a listed command with no post-condition, or any listed command on an unverified CLI) opens no `run.confirm_window`. `channel-response` is emitted from a `Drop` guard in `channel.dispatch`, so an early return or error still logs it. `send.client` closes with `process-exit{subject:"self", exit_code}` (0 / 10 / 11 / 12 / 13 / 14 / 20 / 21, or 1 `internal-error` on a reply with neither a parseable `result` nor an `error.code`); exit 20 carries `detail:"wrapper-fault"`, and exit 21 `detail:"instance-dead"` with `during` `connect` (no live snapshot, or the connect failed) or `call` (the connection lost after it).
 
 #### Scenario: `wait` / `last` event-driven readback
 
@@ -760,7 +760,7 @@ _[Standard: included. There is no in-process metrics pipeline. Every metric is d
 |-----------|-----------|------|------|----------------------|
 | Hook latency per `hook_event` (Scenario 4/6; perf trigger) | `viola.hook.duration_ms` ← `hook-decision.duration_ms` | histogram | ms | raw samples; gate = hyperfine `max` |
 | Channel call latency per `method` | `viola.channel.duration_ms` ← `channel-response.duration_ms` | histogram | ms | raw samples |
-| Send → readback latency (design readback states `open` → `read back`) | `viola.send.confirm_ms` ← `send-confirmed.duration_ms` | histogram | ms | raw samples |
+| Send → readback latency (design readback states `open` → `read back`) | `viola.send.confirm_ms` ← `duration_ms` of the `send-confirmed` lines whose `confirmed` is not `false` (an unconfirmable send's line carries `duration_ms` too, but it had no confirmation window and is no readback) | histogram | ms | raw samples |
 | Send terminal state (design readback words `read back` / `unable` / `unconfirmable`) | `viola.send.outcome` ← count of `send-confirmed{confirmed}` / `send-refused{refusal,detail,side}` | counter | 1 | n/a |
 | `wait` outcome (design CLI `viola wait`) | `viola.wait.outcome` ← `channel-response{method:"wait"}.outcome` | counter | 1 | n/a |
 | HTTP request latency per `route` | `viola.ui.http.duration_ms` ← `http-request.duration_ms` | histogram | ms | raw samples |

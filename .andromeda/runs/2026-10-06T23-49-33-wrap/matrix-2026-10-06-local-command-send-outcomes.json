@@ -1,0 +1,99 @@
+[
+{
+"tool": "matrix",
+"v": "1.3",
+"sha8": "cd774c8a",
+"ts": "2026-10-07T00:09:47Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-06-local-command-send-outcomes",
+"--run-dir",
+".andromeda/runs/2026-10-06T23-49-33-wrap",
+"--dry-run"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"claimed by 2026-10-06-local-command-send-outcomes: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v1-29 → verified — A driver's text from stdin or a file is typed as one bracketed paste plus Enter … (2334 chars)",
+"dry-run: nothing written",
+"version: verified 15/53"
+],
+"stderr": null,
+"wrote": [],
+"before": [
+{
+"id": "v1-29",
+"chunk": "2026-10-06-local-command-send-outcomes",
+"status": "implemented",
+"method": "e2e",
+"ref": "tests/cli_send.rs::send_window_local_command_is_not_presumed_delivered + tests/cli_send.rs::send_clear_on_a_verified_cli… (1252 chars)",
+"acceptance": "A driver's text from stdin or a file is typed as one bracketed paste plus Enter and returns read back only when the matc… (2334 chars)",
+"notes_chars": 3522
+}
+],
+"after": [
+{
+"id": "v1-29",
+"chunk": "2026-10-06-local-command-send-outcomes",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/cli_send.rs::send_window_local_command_is_not_presumed_delivered + tests/cli_send.rs::send_clear_on_a_verified_cli… (1252 chars)",
+"acceptance": "A driver's text from stdin or a file is typed as one bracketed paste plus Enter and returns read back only when the matc… (2334 chars)",
+"notes_chars": 3522
+}
+]
+},
+{
+"tool": "matrix",
+"v": "1.3",
+"sha8": "cd774c8a",
+"ts": "2026-10-07T00:09:47Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-06-local-command-send-outcomes",
+"--run-dir",
+".andromeda/runs/2026-10-06T23-49-33-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"claimed by 2026-10-06-local-command-send-outcomes: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v1-29 → verified — A driver's text from stdin or a file is typed as one bracketed paste plus Enter … (2334 chars)",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed",
+"version: verified 15/53"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": [
+{
+"id": "v1-29",
+"chunk": "2026-10-06-local-command-send-outcomes",
+"status": "implemented",
+"method": "e2e",
+"ref": "tests/cli_send.rs::send_window_local_command_is_not_presumed_delivered + tests/cli_send.rs::send_clear_on_a_verified_cli… (1252 chars)",
+"acceptance": "A driver's text from stdin or a file is typed as one bracketed paste plus Enter and returns read back only when the matc… (2334 chars)",
+"notes_chars": 3522
+}
+],
+"after": [
+{
+"id": "v1-29",
+"chunk": "2026-10-06-local-command-send-outcomes",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/cli_send.rs::send_window_local_command_is_not_presumed_delivered + tests/cli_send.rs::send_clear_on_a_verified_cli… (1252 chars)",
+"acceptance": "A driver's text from stdin or a file is typed as one bracketed paste plus Enter and returns read back only when the matc… (2334 chars)",
+"notes_chars": 3522
+}
+]
+}
+]

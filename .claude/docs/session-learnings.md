@@ -46,7 +46,7 @@ A plan gate's `artifact` key is judged by the named path's own mtime. `agent-run
 ---
 
 ## 2026-09-29 — gate.py hygiene reads `/home/<x>/` in prose as a POSIX user home
-The run-dir hygiene read (`gate.py hygiene`, P1) matches the POSIX form `/home/{user}/…` anywhere in a committed run dir or chunk evidence, including a repo-relative path to a kept test home written as `…/viola-test-X/home/instances/builder/…`, and refuses the file. In evidence prose, name such a file by its parts ("the builder instance's `detail-run.ndjson` in the kept home `viola-test-X`, under `ci/diag-windows-2025/`") rather than as a slash path through `home/`.
+The run-dir hygiene read (`gate.py hygiene`, P1) matches the POSIX form `/home/{user}/…` anywhere in a committed run dir or chunk evidence, including a repo-relative path to a kept test home written as `…/viola-test-X/home/instances/builder/…`, and refuses the file. In evidence prose, name such a file by its parts ("the builder instance's `detail-run.ndjson` in the kept home `viola-test-X`, under `ci/diag-windows-2025/`") rather than as a slash path through `home/`. Extended 2026-10-06: the same read takes a quoted Windows drive path for a host path, a test's own literal included (the Git-for-Windows rewritten form of a leading-slash argument), so an evidence record describes such a literal by its parts instead of spelling it.
 
 ---
 

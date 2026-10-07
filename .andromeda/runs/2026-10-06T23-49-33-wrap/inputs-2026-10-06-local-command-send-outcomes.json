@@ -1,0 +1,44 @@
+[
+{
+"tool": "inputs",
+"v": "1.0",
+"sha8": "d30b83fd",
+"ts": "2026-10-06T23:49:40Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-06-local-command-send-outcomes",
+"--run-dir",
+".andromeda/runs/2026-10-06T23-49-33-wrap",
+"--marker",
+"2026-10-06-local-command-send-outcomes"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, in the /andromeda-phase invocation, 2026-10-06T22:33Z",
+"I1 cited scope.md:20 · scope.md:46 · scope.md:81 · scope.md:135 · scope.md:143 · scope.md:152 · research.md:13 · plan.md:24 · plan.md:181 · plan.md:190 · plan.md:447 · plan.md:470",
+"I2 n/a — a message has no live source · copy message · message: the overseer, founder-delegated, unattended, answering the P4 readiness-gate card, 2026-10-06T22:55Z",
+"I2 cited scope.md:19 · scope.md:101 · research.md:16 · research.md:265 · plan.md:21 · plan.md:245 (in fence) · plan.md:267 (in fence) · plan.md:425 · plan.md:447 · plan.md:467 · plan.md:469 · plan.md:499",
+"inputs: 2 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]

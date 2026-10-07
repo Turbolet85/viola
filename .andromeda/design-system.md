@@ -8,7 +8,7 @@
 - **Flight-progress strip.** One strip per `viola run` instance. The fields are fixed, in the order NAME · LIVE · STATUS · WHEEL · DIALOG · CLI. The name cell is set at callsign weight. A field with no reading prints `unknown`.
 - **Strip bay and racks with labelled separators.** Every session keeps a stable slot and nothing is re-sorted.
 - **Cocked strip.** `dialog_pending` is the strip pushed a finger-width out of line, with an arrival-holder amber band.
-- **Readback.** A send counts only once the matching `prompt-submitted` reads it back. Otherwise it is "unable" plus a typed reason.
+- **Readback.** A send counts only once the matching `prompt-submitted` reads it back or, for `/clear`, once its measured post-condition (a new session) does. Otherwise it is "unable" plus a typed reason.
 - **Handoff / transfer of control, and the tower voice recorder.** `driver → driven` transfer markers, and the ndjson tape played in order with `skipped` counts kept where they happened.
 - **Strip holder (plastic boot).** Wrapped instances sit in a holder. Unwrapped sessions are bare strips: another facility's traffic, visible but never a `target`.
 - **Coasting track.** `stale` liveness. The strip is dimmed to lamp-off, never deleted, and keeps its slot.
@@ -20,7 +20,7 @@
 
 **Signature element:** **The readback box.** It is a fixed-width, 1px-ruled square cell at the far right of every send line in `<viola-event-feed>` and of every outbound transfer marker once a send on that link has been seen. It has three drawn states, and each state is printed as a word too:
 - **`open`:** a buff outline on anthracite.
-- **`RB` / `read back`:** filled solid buff, with `RB` in graphite. It fills instantly when the matching `prompt-submitted` lands.
+- **`RB` / `read back`:** filled solid buff, with `RB` in graphite. It fills instantly when the matching `prompt-submitted` lands, or for `/clear` when its `session-start` with cause `clear` does.
 - **`unable`:** the outline plus one 1px `/` strike, with the typed reason in the next cell.
 
 A fourth printed word, `unconfirmable`, reuses the open drawing and is never filled. `turn-ended` never fills the box. The CLI mirrors the box as `[RB]` / `[  ]` / `[/ ]`.
@@ -847,7 +847,7 @@ hint: builder did not submit the prompt; check it, then send again
 
 ### Rejected Defaults (from exploration)
 - **Traffic-light status dots** (green `live`, yellow `busy`, red `stale`). Rejected because a strip prints its status word in a fixed column. `stale` is a coasting track (lamp-off), not red, and the bay's only colour state is the cocked strip's amber beside its `DIALOG` word.
-- **Optimistic "Sending…" spinner, then a green "Sent ✓" or a toast.** Rejected because a clearance does not count until it is read back. The readback box stays `open` until the matching `prompt-submitted`, then fills instantly or is struck with `unable` plus the typed reason. There is no green, no toast and no presumption.
+- **Optimistic "Sending…" spinner, then a green "Sent ✓" or a toast.** Rejected because a clearance does not count until it is read back. The readback box stays `open` until the matching `prompt-submitted` (for `/clear`, its new-session post-condition), then fills instantly or is struck with `unable` plus the typed reason. There is no green, no toast and no presumption.
 - **A node-graph canvas of sessions and arrows.** Rejected because handoffs are transfer markers between strips in the bay (`→ builder since …` in departure blue). The strips keep their rack slots and the page stays text.
 - **Auto-sorting "needs input" or recent sessions to the top.** Rejected because a controller cocks a strip in place. Re-ranking breaks the founder's "where builder lives" memory, and the cock (12px offset plus amber band) already says "needs you".
 - **A chat-transcript feed** (bubbles, avatars, Markdown-rendered replies, code blocks). Rejected because the feed is the tower tape: one fixed-column line per event, sends paired with their readback, all text as plain text. The security plan also bans Markdown-to-HTML and `innerHTML`.

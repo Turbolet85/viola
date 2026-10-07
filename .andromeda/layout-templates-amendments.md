@@ -71,3 +71,9 @@ History of amendments to `.andromeda/layout-templates.md`, one entry per amendme
 **Change:** the six shown counters read `/17` (was `/14`); three lines follow `[14/17] dialog-concurrency`: `[15/17] long-paste-wrapper a long paste unwraps to the text as pasted`, `[16/17] tag-escaping tag-like text un-escapes to the text as pasted`, `[17/17] local-command-clear /clear starts a new session and submits no prompt`; the passing summary reads `stamped 2.1.287  17 pass  0 fail` (was `stamped 2.1.288  14 pass  0 fail`); the failing example reads `stamped 2.1.287  15 pass  2 fail` (was `12 pass  2 fail`); the ledger-order list gains `long-paste-wrapper` · `tag-escaping` · `local-command-clear`; `MM` is 17 today (was 14).
 **Why:** the chunk landed three ledger rows; the examples name 2.1.287, the one stamped set, and the failing example is the chunk's own first record round.
 **Ref:** .andromeda/runs/2026-10-06T21-43-53-wrap/
+## 2026-10-06-local-command-send-outcomes — the read-back line's second trigger
+**Section:** §Surface: cli → Signature placement (item 2, the outcome line)
+**Change:** was "`[RB] read back …` on stdout with exit 0 when the matching `prompt-submitted` confirms the send"; now it prints when the send is confirmed, by the matching `prompt-submitted` or, for `/clear` on a verified CLI version, by its new-session post-condition (a `session-start` with cause `clear` and a new session id). The `unable` and `unconfirmable` clauses are unchanged.
+**Why:** the chunk made `send` confirm `/clear` by its post-condition; the web statements of the same trigger already carried it.
+**Kept:** the `viola send` wireframe's `clear.txt` example ending `not-delivered  input-not-ready` stays: the refusal rungs apply to a listed command as to any text.
+**Ref:** .andromeda/runs/2026-10-06T23-49-33-wrap/

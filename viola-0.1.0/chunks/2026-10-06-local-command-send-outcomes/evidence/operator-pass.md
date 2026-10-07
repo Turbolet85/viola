@@ -80,7 +80,17 @@ pre-push, one fix commit, the push and the ci.py conclusion read (leg=operator)"
 - The host was not quiet for that run: load average 107.61 at its start and 100.85 at its end, another build
   running. Nothing read red, so no stalled-start re-read was needed; `pre-push` took 79.55 s where it took 43 s on
   the quiet host. The watch item was not seen: a third green reading.
-- Hygiene before the commit, the commit, the push and the CI read: below.
+- Entry 22, hygiene, 2026-10-06T23:41:29Z: exit 0, `hygiene: clean — read 3 (runs 1 · evidence 2 · inputs 0)`.
+- The fix commit, 2026-10-06T23:41:33Z: `690aefa` `test(2026-10-06-local-command-send-outcomes): operator fix on
+  the operator's word, /remote-control read under --json end to end` (4 files: the test, the two evidence records
+  the first CI read had updated, the gate trail).
+- Entry 23: `git diff --quiet && git diff --cached --quiet && git push origin HEAD` → exit 0,
+  `8e66926..690aefa  HEAD -> build/viola-0.1.0`.
+- Entry 24: `ci.py conclusion --sha HEAD --wait 1800` → exit 0: `690aefa0ef8a verdict: green · checks 15/15 ·
+  wall 387 s · runs ci#37547948274 completed/success` (polled 14× over 403 s, 2026-10-06T23:41:38Z to
+  23:48:21Z). Atoms: `exit 0` ✓, `contains verdict: green` ✓. This is the run of the chunk's final HEAD.
+- The extended case on the three `test` legs of ci#37547948274: ubuntu-latest 0.656 s (`1662 passed`),
+  macos-latest 0.682 s (`1658 passed`), windows-2025 0.542 s (`1697 passed`).
 
 ## Not done here
 - The wrap: the flip, the amendments and the chunk commit are `/andromeda-wrap-session`'s.

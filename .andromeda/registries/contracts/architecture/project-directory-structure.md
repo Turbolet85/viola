@@ -18,14 +18,14 @@ viola/
 ├── src/                        # the `viola` bin: anyhow edge only
 │   ├── main.rs                 # clap 4.6.7 dispatch (Windows: the System32 DLL-search restriction is its second statement)
 │   ├── conpty.rs               # Windows x64: the embedded ConPTY companions and their four pins (the vendor script parses this text)
-│   ├── human.rs                # human-facing text: the refusal and internal-error stderr writers, the stdout result writer, `send`'s readback mirror (`[  ] open` / `[RB] read back` / `[/ ] unable` + its hints), the message-mode escaper, the `wait` / `last` lines, the `answer` line and the `pause` / `release` lines, called by `run`, `verify`, `send`, `wait`, `last`, `answer`, `pause`, `release` and the `main` catch site
+│   ├── human.rs                # human-facing text: the refusal and internal-error stderr writers, the stdout result writer, `send`'s readback mirror (`[  ] open` / `[RB] read back` / `[  ] unconfirmable` with its one fixed note / `[/ ] unable` + its hints), the message-mode escaper, the `wait` / `last` lines, the `answer` line and the `pause` / `release` lines, called by `run`, `verify`, `send`, `wait`, `last`, `answer`, `pause`, `release` and the `main` catch site
 │   ├── cmd/                    # one module per subcommand: run, send, wait, last, list,
 │   │                           #   answer, hook, mcp, ui, verify, pause, release, link, unlink, plugin;
 │   │                           #   client.rs (a helper, no subcommand): the channel client send / wait / last share;
 │   │                           #   verify/typed.rs: verify's four interactive PTY runs (Run A untrusted, Run B trusted, Run C dialogs, Run D plan),
 │   │                           #   the settle rule, Run B's wait for the input box after an added turn, and the signature-only screen recording
 │   ├── run/                    # PTY pump, wheel, budget governor; gate.rs: the pump-output tee + bounded vt100 feed + Gate;
-│   │                           #   send.rs: the wrapper's `send` method, the one-in-flight slot, the driver relabel;
+│   │                           #   send.rs: the wrapper's `send` method, the one-in-flight slot with the remembered session id, the local-command decision over `LOCAL_COMMANDS`, the driver relabel and the `session-start` post-condition claim;
 │   │                           #   wait.rs: the WaitFeed (Mutex + Condvar wake, newest turn, start rebuild), `wait` / `last`;
 │   │                           #   dialog.rs: the DialogSlot (one pending dialog, Condvar await, armed continuation);
 │   │                           #   wheel.rs: the WheelSlot (holder + cause, one lock), its record worker, the stdin observer + classifier;

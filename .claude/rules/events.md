@@ -13,7 +13,7 @@ Path-scoped rules for viola's event log and state: the normalised event kinds, t
 ## Event line
 - `{"v":1,"ts":"<RFC3339 ms Z>","instance":"<ViolaName>","kind":"<kind>","source":"hook|wrapper|cli","data":{}}` — one complete object + `\n` per single `write` call; multi-line text travels as an escaped string.
 - `data` is kind-specific and uses only viola's normalised fields; it never embeds a raw Claude payload.
-- Normalised kinds live only in `viola-core`, never with Claude-specific names: `session-start`, `turn-ended`, `prompt-submitted`, `question`, `permission`, `plan`, `session-end`, `activity`, `link`, `unlink`, `wheel`, `budget-gate`, `send-issued` `{cursor, from?}`, `send-confirmed` `{cursor}`, `send-refused` `{refusal, detail, cursor?}` (the CL-1 send records, `source: wrapper`; `cursor` absent for a refusal before `send-issued`).
+- Normalised kinds live only in `viola-core`, never with Claude-specific names: `session-start`, `turn-ended`, `prompt-submitted`, `question`, `permission`, `plan`, `session-end`, `activity`, `link`, `unlink`, `wheel`, `budget-gate`, `send-issued` `{cursor, from?}`, `send-confirmed` `{cursor, confirmed?}` (`confirmed:false` only for an unconfirmable send), `send-refused` `{refusal, detail, cursor?}` (the CL-1 send records, `source: wrapper`; `cursor` absent for a refusal before `send-issued`).
 - `wait` wakes only on `turn-ended`, `question`, `permission`, `plan`, `session-end`; `activity`, `wheel`, `budget-gate` and the send records are log-only.
 
 ## Hook → kind map (only in `viola-agent-claude`)

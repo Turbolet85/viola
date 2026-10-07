@@ -1,0 +1,186 @@
+[
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "43eb863f",
+"ts": "2026-10-07T00:00:29Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-06T23-49-33-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-06T23-49-33-wrap",
+"--marker",
+"2026-10-06-local-command-send-outcomes"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"baseline 11c77f7c (pre-CI parent — the oldest of 1 pre-CI commit(s), 8e669267)",
+"not-consume · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:49 (prose)",
+"owed-entry · new 0 · standing 0 · leaf 2 · curation 0 · base 0 · control architecture.md:49 (prose)",
+"local-nd · new 0 · standing 1 · leaf 3 · curation 0 · base 0 · control architecture.md:4 (prose)",
+"seven-argv · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:355 (pr…",
+"paste-hint-opt · new 0 · standing 3 · leaf 2 · curation 0 · base 0 · control architecture.md:355 (prose)",
+"sc-cursor · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:303 (prose)",
+"matching-ps · new 0 · standing 9 · leaf 1 · curation 0 · base 0 · control architecture.md:4 (prose)",
+"ups-hook · new 0 · standing 5 · leaf 0 · curation 0 · base 0 · control obs-plan.md:312 (prose)",
+"confirm-win · new 0 · standing 5 · leaf 0 · curation 0 · base 0 · case-variants +3 · control obs-plan.md:313 (prose)",
+"confirm-ms · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control obs-plan.md:763 (prose)",
+"mirror-list · 0 rows (control fired) — a statement about this pattern, not the masters · control registries/contracts/a…",
+"driver-relabel · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control registries/contracts/architecture/project-…",
+"turn-modal · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:654 (prose)",
+".claude/docs/gotchas.md:84 not-consume leaf …and-clear`), but `send` does not consume them until \"Local-command send ou…",
+".claude/docs/gotchas.md:84 owed-entry leaf …not consume them until \"Local-command send outcomes\" lands, so today a loca…",
+".claude/docs/tests-summary.md:26 owed-entry leaf …not-delivered` until \"Local-command send outcomes\" makes `send` consu…",
+".andromeda/architecture.md:4 local-nd standing …t-submitted` or, for a local command on the ledger, its measured post-c…",
+".claude/docs/gotchas.md:83 local-nd leaf …rol` (and other built-in local commands) never produce `prompt-submitted`, so…",
+".claude/docs/gotchas.md:84 local-nd leaf …comes\" lands, so today a local command still ends `not-delivered` / `no-promp…",
+".claude/docs/tests-summary.md:26 local-nd leaf …he driver's own turn); local command → `not-delivered` until \"Local-com…",
+".andromeda/architecture.md:355 paste-hint-opt standing edited @c1510/2060 …ow open) and `--paste-hint-ms <ms>` (capped …",
+".andromeda/test-plan.md:654 paste-hint-opt standing edited …ong paste's Stop (`--paste-hint-ms`) and still stamps, the …",
+".andromeda/test-plan.md:1077 paste-hint-opt standing edited @c2223/3692 … printed) and `--paste-hint-ms <ms>` (capped a…",
+".claude/rules/verification-harness.md:42 paste-hint-opt leaf …d test-only hold `--paste-hint-ms` (8 s at most: a cleare…",
+".claude/docs/tests-summary.md:21 paste-hint-opt leaf @c1110/2473 …or a race test; `--paste-hint-ms`, 8 s, holds a clear…",
+".claude/rules/events.md:16 sc-cursor leaf …ued` `{cursor, from?}`, `send-confirmed` `{cursor}`, `send-refused` `{refusa…",
+".andromeda/architecture.md:4 matching-ps standing …med after the fact (a matching `prompt-submitted` or, for a local co…",
+".andromeda/architecture.md:49 matching-ps standing edited @c63/5209 …firmed.** If no matching `prompt-submitted` arrive…",
+".andromeda/design-system.md:11 matching-ps standing edited …unts only once the matching `prompt-submitted` reads it bac…",
+".andromeda/design-system.md:23 matching-ps standing edited …instantly when the matching `prompt-submitted` lands, or fo…",
+".andromeda/design-system.md:149 matching-ps standing | Readback::read (matching `prompt-submitted`, or ledger post-cond…",
+".andromeda/design-system.md:850 matching-ps standing edited …s `open` until the matching `prompt-submitted` (for `/clea…",
+".andromeda/layout-templates.md:50 matching-ps standing … instantly when the matching `prompt-submitted` with origin `dr…",
+".andromeda/layout-templates.md:221 matching-ps standing …the same frame. The matching `prompt-submitted` does not get i…",
+".andromeda/layout-templates.md:351 matching-ps standing edited …confirmed, by the matching `prompt-submitted` or, for `…",
+".claude/docs/design-summary.md:7 matching-ps leaf …tays `open` until the matching `prompt-submitted` reads it back. Mis…",
+".andromeda/obs-plan.md:312 ups-hook standing edited …`, PTY paste) → cli (`hook` UserPromptSubmit; `hook` SessionStart …",
+".andromeda/obs-plan.md:313 ups-hook standing edited … `send-issued`, then `hook-invoked` (UserPromptSubmit, or SessionS…",
+".andromeda/obs-plan.md:631 ups-hook standing edited …`, PTY paste) → cli (`hook` user-prompt-submit; `hook` session-sta…",
+".andromeda/obs-plan.md:642 ups-hook standing edited … hook: `hook-invoked{hook_event:\"user-prompt-submit\", corr:null}` …",
+".andromeda/registries/contracts/obs-plan/snapshot-paste-to-ai-integration.md:13 ups-hook standing edited …ked{hook_even…",
+".andromeda/obs-plan.md:313 confirm-win standing edited …paste_write` › `run.confirm_window` (not opened for an unconfir…",
+".andromeda/obs-plan.md:632 confirm-win standing edited mixed ×2 …te_write` › `run.confirm_window`. An unconfirmable sen…",
+".andromeda/obs-plan.md:637 confirm-win standing   - `run.confirm_window`: `window_ms`.",
+".andromeda/obs-plan.md:648 confirm-win standing edited mixed ×2 …*Cleanup:** `run.confirm_window` closes on the confirm…",
+".andromeda/registries/contracts/obs-plan/snapshot-paste-to-ai-integration.md:13 confirm-win standing edited mixed ×2 …c…",
+".andromeda/obs-plan.md:763 confirm-ms standing edited …read back`) | `viola.send.confirm_ms` ← `duration_ms` of the `se…",
+".andromeda/registries/contracts/architecture/project-directory-structure.md:28 driver-relabel standing edited …, the dr…",
+".claude/docs/services/viola.md:37 driver-relabel leaf …thod, one in flight, the driver relabel, the hook-event append; …",
+".andromeda/test-plan.md:654 turn-modal standing edited …thing more once its turn screen shows a modal, and pasting no l…",
+"not-consume · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:49 (prose)",
+"owed-entry · new 0 · standing 0 · leaf 2 · curation 0 · base 0 · control architecture.md:49 (prose)",
+"local-nd · new 0 · standing 1 · leaf 3 · curation 0 · base 0 · control architecture.md:4 (prose)",
+"seven-argv · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:355 (pr…",
+"paste-hint-opt · new 0 · standing 3 · leaf 2 · curation 0 · base 0 · control architecture.md:355 (prose)",
+"sc-cursor · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:303 (prose)",
+"matching-ps · new 0 · standing 9 · leaf 1 · curation 0 · base 0 · control architecture.md:4 (prose)",
+"ups-hook · new 0 · standing 5 · leaf 0 · curation 0 · base 0 · control obs-plan.md:312 (prose)",
+"confirm-win · new 0 · standing 5 · leaf 0 · curation 0 · base 0 · case-variants +3 · control obs-plan.md:313 (prose)",
+"confirm-ms · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control obs-plan.md:763 (prose)",
+"mirror-list · 0 rows (control fired) — a statement about this pattern, not the masters · control registries/contracts/a…",
+"driver-relabel · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control registries/contracts/architecture/project-…",
+"turn-modal · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:654 (prose)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "11c77f7c934993e107a312f7d7ffa75932e4402f",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), 8e669267",
+"counts": {
+"not-consume": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"owed-entry": {
+"new": 0,
+"standing": 0,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"local-nd": {
+"new": 0,
+"standing": 1,
+"leaf": 3,
+"curation": 0,
+"base": 0
+},
+"seven-argv": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"paste-hint-opt": {
+"new": 0,
+"standing": 3,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"sc-cursor": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"matching-ps": {
+"new": 0,
+"standing": 9,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"ups-hook": {
+"new": 0,
+"standing": 5,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"confirm-win": {
+"new": 0,
+"standing": 5,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"confirm-ms": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"mirror-list": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"driver-relabel": {
+"new": 0,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"turn-modal": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]
