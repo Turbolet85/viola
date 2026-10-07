@@ -60,7 +60,7 @@ For the enforcement bullets (secrets, trust boundary, validation, dependencies, 
 ## Critical decisions
 
 - Windows pipe SDDL = user SID + SYSTEM only; the logon SID is rejected — a same-user driver in another logon session (SSH, scheduled task) must still connect.
-- `validate_paste_text` allows LF/CR/TAB (multi-line relays are normal), rejects the rest — reject, never strip (stripping would break exact-match confirmation).
+- `validate_paste_text` allows LF/CR/TAB (multi-line relays are normal), rejects the rest — reject, never strip a refused character. The one removal is of an allowed character: after validation `send` types the text without its trailing LF characters, and the exact match, the local-command list, `text_bytes` and the paste read that typed text (the founder's ruling, 2026-10-07T15:21Z).
 - `MAX_FRAME` stays 16 MiB, checked against the ledger's measured largest hook payload.
 - A driver's `release` is refused as an affordance guard, not enforcement (same-user processes are trusted in v1).
 - GUI cookie is per-port (`viola_<port>`) with no `Max-Age`; cross-port cookie exposure accepted as residual.

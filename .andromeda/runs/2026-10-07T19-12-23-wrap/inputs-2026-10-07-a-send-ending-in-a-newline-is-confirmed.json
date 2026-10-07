@@ -1,0 +1,60 @@
+[
+{
+"tool": "inputs",
+"v": "1.0",
+"sha8": "b268d503",
+"ts": "2026-10-07T19:12:46Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+"--run-dir",
+".andromeda/runs/2026-10-07T19-12-23-wrap",
+"--marker",
+"2026-10-07-a-send-ending-in-a-newline-is-confirmed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator in this session, the /andromeda-phase invocation, 2026-10-07T13:36Z",
+"I1 cited scope.md:22 · scope.md:62 · scope.md:129 · scope.md:190 · scope.md:199 · research.md:18 · plan.md:26 · plan.md:31 · plan.md:158 · plan.md:400",
+"I2 n/a — a message has no live source · copy message · message: the operator in this session (the overseer, provisional for the founder), the P4 card answers, 2026-10-07T13:58Z",
+"I2 cited scope.md:47 · scope.md:162 · research.md:20 · plan.md:19 · plan.md:386 · plan.md:400 · plan.md:415 · plan.md:419 · plan.md:427 · plan.md:451 · plan.md:486",
+"I3 n/a — a message has no live source · copy message · message: the operator in this session (the overseer), the P5 review, 2026-10-07",
+"I3 cited research.md:22 · plan.md:179 · plan.md:400",
+"I4 n/a — a message has no live source · copy message · message: the operator, with the /andromeda-implement invocation, 2026-10-07T14:15Z",
+"I4 cited research.md:24 · plan.md:401 · plan.md:444 · plan.md:445",
+"I5 n/a — a message has no live source · copy message · message: the overseer, on the step 7 card asked at implement P1, 2026-10-07T14:30Z",
+"I5 cited scope.md:168 · research.md:27 · research.md:148 · research.md:185 · plan.md:28 · plan.md:108 · plan.md:402 · plan.md:432 · plan.md:448",
+"I6 n/a — a message has no live source · copy message · message: the overseer, on the census card asked at implement P2, 2026-10-07T14:37Z",
+"I6 cited scope.md:188 · research.md:29 · research.md:186 · plan.md:194 · plan.md:402 · plan.md:438",
+"I7 n/a — a message has no live source · copy message · message: the operator in this session (the overseer), the /andromeda-phase revision invocation, 2026-10-07T14:40Z",
+"I7 cited scope.md:174 · scope.md:179 · research.md:4 · research.md:31 · research.md:147 · research.md:186 · plan.md:8 · plan.md:87 · plan.md:171 · plan.md:402 · plan.md:406 · plan.md:436",
+"I8 n/a — a message has no live source · copy message · message: the operator in this session (the overseer), the word at the revision's P5 review, 2026-10-07T14:50Z",
+"I8 cited scope.md:182 · plan.md:11 · plan.md:96 · plan.md:97 · plan.md:120 · plan.md:172 · plan.md:403 · plan.md:406",
+"I9 n/a — a message has no live source · copy message · message: the operator, with the /andromeda-implement re-entry invocation, 2026-10-07T15:11Z",
+"I9 UNCITED",
+"I10 n/a — a message has no live source · copy message · message: the operator in this session (the overseer), a note during the operator pass, received 2026-10-07T15:22Z after the pre-CI commit 0093ffe was pushed",
+"I10 cited plan.md:474",
+"inputs: 10 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 10 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 10,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 10
+},
+"uncited": 1,
+"unparsed": 0
+}
+}
+]

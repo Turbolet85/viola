@@ -1,0 +1,58 @@
+# The pattern set of this pass, derived from every amendment's OLD wording and the retired mechanism's phrasing.
+
+[[pattern]]
+id = "byte-short"
+fixed = 'one byte short'
+
+[[pattern]]
+id = "last-newline"
+regex = 'last newline|ends? in a newline|ended in a newline|ending in a newline|trailing newline|trailing LF'
+
+[[pattern]]
+id = "exception"
+regex = 'measured exception|unfixed|No remedy is built'
+
+[[pattern]]
+id = "mechanism"
+regex = 'filed `human` and moves|is not relabelled|exact match fails|does not match the sent text'
+
+[[pattern]]
+id = "sent-text"
+regex = 'the sent text|text as sent|as it was sent'
+
+[[pattern]]
+id = "exact-match"
+regex = 'exact text equality|exact-text match|exactly equals the in-flight|exact match'
+
+[[pattern]]
+id = "no-trim"
+fixed = 'no trim'
+
+[[pattern]]
+id = "never-strip"
+regex = 'don.t strip|never strip|stripping would'
+ignore_case = true
+
+[[pattern]]
+id = "fn-count"
+regex = 'five functions|13 cases'
+
+[[pattern]]
+id = "intact"
+fixed = 'newlines intact'
+
+[[pattern]]
+id = "text-bytes"
+fixed = 'text_bytes'
+
+[[pattern]]
+id = "profile"
+regex = 'corrupt-header|profraw|llvm-profdata'
+
+[[pattern]]
+id = "pty-write"
+fixed = 'write of text from stdin'
+
+[[pattern]]
+id = "start-test"
+regex = 'scripts/npm-audit\.sh|npm-audit\.sh  '

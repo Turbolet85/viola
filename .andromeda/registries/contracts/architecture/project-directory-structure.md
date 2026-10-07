@@ -71,8 +71,11 @@ viola/
 │   ├── install-ripgrep.sh      # pinned, sha256-verified ripgrep 15.2.0 → target/tools/ripgrep
 │   ├── install-node.sh         # <os-key> <dest>: the official Node build at ci.yml's NODE_PIN_* (parsed from the
 │   │                           #   file text), sha256-verified, flattened into <dest> (+ --probe)
-│   └── npm-audit.sh            # e2e-web lockfile: npm audit (every level) + registry.npmjs.org-only sources
-│                               #   → target/npm-audit/ (+ --advisories-only, --probe)
+│   ├── npm-audit.sh            # e2e-web lockfile: npm audit (every level) + registry.npmjs.org-only sources
+│   │                           #   → target/npm-audit/ (+ --advisories-only, --probe)
+│   └── profraw-census.sh       # <runs> <workers> [<name>]: dev-host witness, the start test N times on the
+│                               #   instrumented root-bin test binary, each run's profiles counted
+│                               #   → target/profraw-census/ (no CI job, pre-push stage or harness command)
 ├── vendor/conpty/<version>/x64/ # the committed Microsoft conpty.dll + OpenConsole.exe (binary per .gitattributes)
 ├── .config/nextest.toml        # nextest profiles `ci` and `mutants`, `fixed-port` group
 ├── fuzz/                       # separate cargo-fuzz workspace (own Cargo.lock; excluded from the root)

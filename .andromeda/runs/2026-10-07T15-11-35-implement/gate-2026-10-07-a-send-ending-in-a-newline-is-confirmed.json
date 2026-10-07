@@ -3001,5 +3001,101 @@
 "unparsed": 0,
 "widening_without_word": 0
 }
+},
+{
+"tool": "gate",
+"v": "1.12",
+"sha8": "8357110d",
+"ts": "2026-10-07T15:40:20Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+"--run-dir",
+".andromeda/runs/2026-10-07T15-11-35-implement",
+"--marker",
+"2026-10-07-a-send-ending-in-a-newline-is-confirmed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base 9f2bebe5 (the parent of the oldest pre-CI commit 0093ffe0) · lists new 2 · modify 4 · derived 0 · record 1",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"record: listed — src/cmd/run.rs",
+"list viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/evidence/ (dir) ×0",
+"scope: clean — changed 5 · listed 5 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 111"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "9f2bebe5102b8df1053b4b5c26225d1f6352f0e4",
+"base_why": "the parent of the oldest pre-CI commit 0093ffe0",
+"counts": {
+"changed": 5,
+"listed": 5,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 111,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.12",
+"sha8": "8357110d",
+"ts": "2026-10-07T15:40:21Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-10-07T15-11-35-implement",
+"--marker",
+"2026-10-07-a-send-ending-in-a-newline-is-confirmed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust, ts · base 9f2bebe5 (the parent of the oldest pre-CI commit 0093ffe0)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P2 · P3 rust · P3 ts — each fired on its synthetic known positive",
+"hygiene: clean — read 103 (runs 86 · evidence 5 · inputs 12) · trails 23 not read · copies 10 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust",
+"ts"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 86,
+"evidence": 5,
+"inputs": 12,
+"trails": 23,
+"copies": 10,
+"kept": 0,
+"binary": 0
+},
+"indeterminate": 0
+}
 }
 ]

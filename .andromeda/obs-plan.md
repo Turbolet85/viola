@@ -633,12 +633,12 @@ Skipped as not-instrumentable per obs-scope §1: `viola-core` (it supplies `ObsE
 - **Required span attributes:**
   - `channel.request` / `channel.dispatch`: `method="send"`, `conn`;
   - `run.readiness_gate`: `outcome` (`ready|input-not-ready`), `vt100_panicked` (bool);
-  - `pty.paste_write`: `text_bytes`, `paste_mode="bracketed"`;
+  - `pty.paste_write`: `text_bytes` (the length of the typed text: the sent text without its trailing LF characters), `paste_mode="bracketed"`;
   - `run.confirm_window`: `window_ms`.
   - Never text.
 - **Required log fields:** common fields plus:
   - `channel-request{corr:<id>, conn, method, from, from_trust:"self-reported", sender}`;
-  - `send-issued{corr:<cursor>, from, text_bytes}`;
+  - `send-issued{corr:<cursor>, from, text_bytes}`, `text_bytes` the same typed-text length as on the span;
   - hook: `hook-invoked{hook_event:"user-prompt-submit", corr:null}` for an ordinary send; `hook-invoked{hook_event:"session-start", corr:null}` for a `/clear` confirmed by its new session (as landed, `src/cmd/hook.rs`: every hook invocation logs `hook-invoked` with its own `hook_event`; the line was not read on this path); an unconfirmable send waits for no hook line;
   - `send-confirmed{corr:<cursor>, confirmed, duration_ms}` (`confirmed:false` for `unconfirmable`; `duration_ms` runs from the send's arrival, the readiness gate's wait included);
   - or `send-refused{corr:<cursor>, refusal, detail, side:"wrapper", wheel}` with `detail` ∈ `input-not-ready|no-prompt-submitted|turn-running`. `turn-running` has two causes under the one closed detail and no new field: a running turn, or another `send` in flight. The running turn is in-memory wrapper state — marked by a `prompt-submitted` of any origin, ended by `turn-ended` / `session-start` / `session-end` or cleared by a `release` that returns the wheel — and writes no event, span or log line of its own. Either cause's refusal is this wrapper `send-refused` with no `cursor` (`corr` the end offset at refusal, D-28) and no `send-issued`, and the client exits 13;
@@ -816,7 +816,7 @@ Template fields deliberately **not** emitted (D-12):
 | `process-exit` | `subject`, `exit_code` (self), `child_exit_status` (child/probes), `shell_exit_status` (statusline), `exit_source` (`handle-wait|kill-fallback`), `detail`, `during` (`connect|call`), `duration_ms` |
 | `channel-request` | `method`, `conn` / `srv_conn`, `from`, `from_trust`, `sender`, `v`, `after`, `timeout_ms` |
 | `channel-response` | `method`, `conn` / `srv_conn`, `result_class` (`ok|refusal|error`), `refusal`, `detail`, `error_code` (`-32700|-32600|-32601|-32602|-32603`), `outcome`, `duration_ms` |
-| `send-issued` / `send-confirmed` / `send-refused` | `from`, `from_trust`, `text_bytes`, `confirmed`, `refusal`, `detail`, `side` (`client|wrapper`), `wheel`, `window`, `used_percentage`, `resets_at`, `paused`, `duration_ms`, `conn` / `srv_conn` and `rpc_id` (wrapper side only: the originating `send` request's connection and JSON-RPC `id`, D-30) |
+| `send-issued` / `send-confirmed` / `send-refused` | `from`, `from_trust`, `text_bytes` (the typed text's length: the sent text without its trailing LF characters), `confirmed`, `refusal`, `detail`, `side` (`client|wrapper`), `wheel`, `window`, `used_percentage`, `resets_at`, `paused`, `duration_ms`, `conn` / `srv_conn` and `rpc_id` (wrapper side only: the originating `send` request's connection and JSON-RPC `id`, D-30) |
 | `dialog-raised` / `dialog-answered` | `dialog_kind`, `hook_event`, `from`, `from_trust`, `deadline_hit`, `duration_ms` |
 | `hook-invoked` / `hook-decision` | `hook_event` (`session-start|user-prompt-submit|pre-tool-use|permission-request|stop|session-end|notification|post-tool-use|post-tool-use-failure|statusline`), `stdin_bytes`, `invoked_at`, `decision_emitted`, `deadline_hit`, `budget_written`, `detail`, `duration_ms` |
 | `http-request` | `method`, `path`, `route`, `status`, `problem`, `duration_ms`, `skipped` |

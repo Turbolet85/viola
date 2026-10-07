@@ -22,7 +22,7 @@ Universal security requirements for viola. Apply to all files. This rule file ha
 
 ## Input validation
 - Shared validators live in `viola-core`; the wrapper re-runs them (client checks and schemars schemas are advisory).
-- `validate_paste_text` over decoded `char`s: allow LF/CR/TAB, refuse every other C0, DEL and C1 with `not-delivered` / `control-character` — reject, never strip.
+- `validate_paste_text` over decoded `char`s: allow LF/CR/TAB, refuse every other C0, DEL and C1 with `not-delivered` / `control-character` — reject, never strip a refused character. After validation the wrapper's `send` types the text without its trailing LF characters (`viola_agent_claude::hook::typed_text`; nothing else is removed), and the exact match, the local-command list, `text_bytes` and the paste read that typed text.
 - `Read::take(MAX_FRAME)` (16 MiB) before `read_line` / `read_to_end` on every external reader; serde_json default depth (never `unbounded_depth`).
 - `Last-Event-ID`: parse every pair with `ViolaName::try_new` + `u64`; any bad pair drops the whole header.
 

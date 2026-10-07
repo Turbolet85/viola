@@ -1,0 +1,119 @@
+[
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "1b5a5c62",
+"ts": "2026-10-07T19:38:51Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+"--run-dir",
+".andromeda/runs/2026-10-07T19-12-23-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"flip master-route.md:54 - 2026-10-07-a-send-ending-in-a-newline-is-confirmed pending -> complete"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "1b5a5c62",
+"ts": "2026-10-07T19:38:51Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+"--date",
+"2026-10-07",
+"--run-dir",
+".andromeda/runs/2026-10-07T19-12-23-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :100 strip CARRY: 318ch \"CARRY: the overseer's disposition at the\"",
+"pin :100 strip CARRY: 1002ch \"CARRY: measured at that chunk on `claude\"",
+"pin next markerless :102 holds CARRY:×7 · WATCH:×1",
+"100 · 2026-10-07-a-send-ending-in-a-newline-is-confirmed · strip 2 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 100,
+"marker": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+"blocks": 2,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "1b5a5c62",
+"ts": "2026-10-07T19:38:56Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+"--date",
+"2026-10-07",
+"--run-dir",
+".andromeda/runs/2026-10-07T19-12-23-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :100 strip CARRY: 318ch \"CARRY: the overseer's disposition at the\"",
+"pin :100 strip CARRY: 1002ch \"CARRY: measured at that chunk on `claude\"",
+"pin next markerless :102 holds CARRY:×7 · WATCH:×1",
+"100 · 2026-10-07-a-send-ending-in-a-newline-is-confirmed · strip 2 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/route-archive.md",
+"./viola-0.1.0/working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 100,
+"marker": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+"blocks": 2,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]
