@@ -1,0 +1,455 @@
+[
+{
+"sql": "SELECT callee_name, file, line FROM refs WHERE callee_name IN ('GATE_MAX_WAIT','QUIET_PERIOD','PASTE_HINT_CAP_MS','CONFIRM_WINDOW_FALLBACK') ORDER BY callee_name, file, line",
+"rows": 19,
+"result": [
+{
+"callee_name": "CONFIRM_WINDOW_FALLBACK",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 15
+},
+{
+"callee_name": "CONFIRM_WINDOW_FALLBACK",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 762
+},
+{
+"callee_name": "CONFIRM_WINDOW_FALLBACK",
+"file": "crates/viola-agent-claude/src/screen.rs",
+"line": 184
+},
+{
+"callee_name": "CONFIRM_WINDOW_FALLBACK",
+"file": "src/run/send.rs",
+"line": 16
+},
+{
+"callee_name": "CONFIRM_WINDOW_FALLBACK",
+"file": "src/run/send.rs",
+"line": 177
+},
+{
+"callee_name": "CONFIRM_WINDOW_FALLBACK",
+"file": "src/run/send.rs",
+"line": 253
+},
+{
+"callee_name": "GATE_MAX_WAIT",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 15
+},
+{
+"callee_name": "GATE_MAX_WAIT",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 759
+},
+{
+"callee_name": "GATE_MAX_WAIT",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 760
+},
+{
+"callee_name": "GATE_MAX_WAIT",
+"file": "crates/viola-agent-claude/src/screen.rs",
+"line": 131
+},
+{
+"callee_name": "GATE_MAX_WAIT",
+"file": "crates/viola-agent-claude/src/screen.rs",
+"line": 183
+},
+{
+"callee_name": "GATE_MAX_WAIT",
+"file": "src/cmd/verify/typed.rs",
+"line": 27
+},
+{
+"callee_name": "GATE_MAX_WAIT",
+"file": "src/cmd/verify/typed.rs",
+"line": 486
+},
+{
+"callee_name": "PASTE_HINT_CAP_MS",
+"file": "src/bin/viola-fake-agent.rs",
+"line": 107
+},
+{
+"callee_name": "QUIET_PERIOD",
+"file": "crates/viola-agent-claude/src/screen.rs",
+"line": 130
+},
+{
+"callee_name": "QUIET_PERIOD",
+"file": "crates/viola-agent-claude/src/screen.rs",
+"line": 182
+},
+{
+"callee_name": "QUIET_PERIOD",
+"file": "src/cmd/verify/typed.rs",
+"line": 27
+},
+{
+"callee_name": "QUIET_PERIOD",
+"file": "src/cmd/verify/typed.rs",
+"line": 478
+},
+{
+"callee_name": "QUIET_PERIOD",
+"file": "src/cmd/verify/typed.rs",
+"line": 511
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller_name, callee_name, file, line FROM calls WHERE callee_name IN ('verdict','wait_ready','settled','box_wait','send_hint') AND callee_kind = 'fn' ORDER BY callee_name, file, line",
+"rows": 57,
+"result": [
+{
+"caller_name": "framing_turns",
+"callee_name": "box_wait",
+"file": "src/cmd/verify/typed.rs",
+"line": 275
+},
+{
+"caller_name": "box_wait",
+"callee_name": "box_wait",
+"file": "src/cmd/verify/typed.rs",
+"line": 614
+},
+{
+"caller_name": "box_wait_keeps_waiting_past_the_gate_maximum_without_a_literal",
+"callee_name": "box_wait",
+"file": "src/cmd/verify/typed.rs",
+"line": 778
+},
+{
+"caller_name": "box_wait_ends_on_a_quiet_literal_with_its_rows",
+"callee_name": "box_wait",
+"file": "src/cmd/verify/typed.rs",
+"line": 791
+},
+{
+"caller_name": "box_wait_ends_on_a_quiet_literal_with_its_rows",
+"callee_name": "box_wait",
+"file": "src/cmd/verify/typed.rs",
+"line": 792
+},
+{
+"caller_name": "box_wait_ends_on_a_quiet_literal_with_its_rows",
+"callee_name": "box_wait",
+"file": "src/cmd/verify/typed.rs",
+"line": 797
+},
+{
+"caller_name": "box_wait_ends_on_a_quiet_literal_with_its_rows",
+"callee_name": "box_wait",
+"file": "src/cmd/verify/typed.rs",
+"line": 799
+},
+{
+"caller_name": "box_wait_ends_at_once_on_a_poisoned_screen",
+"callee_name": "box_wait",
+"file": "src/cmd/verify/typed.rs",
+"line": 812
+},
+{
+"caller_name": "unable_unreachable",
+"callee_name": "send_hint",
+"file": "src/cmd/client.rs",
+"line": 153
+},
+{
+"caller_name": "unable",
+"callee_name": "send_hint",
+"file": "src/cmd/send.rs",
+"line": 148
+},
+{
+"caller_name": "unreachable",
+"callee_name": "send_hint",
+"file": "src/cmd/send.rs",
+"line": 156
+},
+{
+"caller_name": "write_send_unable_puts_the_hint_last_in_one_write",
+"callee_name": "send_hint",
+"file": "src/human.rs",
+"line": 361
+},
+{
+"caller_name": "send_hint_is_the_design_string",
+"callee_name": "send_hint",
+"file": "src/human.rs",
+"line": 421
+},
+{
+"caller_name": "send_hint_has_none_for_an_opaque_cause",
+"callee_name": "send_hint",
+"file": "src/human.rs",
+"line": 426
+},
+{
+"caller_name": "send_hint_has_none_for_an_opaque_cause",
+"callee_name": "send_hint",
+"file": "src/human.rs",
+"line": 427
+},
+{
+"caller_name": "write_unable_puts_the_hint_last_in_one_write",
+"callee_name": "send_hint",
+"file": "src/human.rs",
+"line": 447
+},
+{
+"caller_name": "no_hint_names_release",
+"callee_name": "send_hint",
+"file": "src/human.rs",
+"line": 547
+},
+{
+"caller_name": "settle",
+"callee_name": "settled",
+"file": "src/cmd/verify/typed.rs",
+"line": 598
+},
+{
+"caller_name": "settled_with_a_literal_settles_at_the_quiet_instant",
+"callee_name": "settled",
+"file": "src/cmd/verify/typed.rs",
+"line": 739
+},
+{
+"caller_name": "settled_with_a_literal_settles_at_the_quiet_instant",
+"callee_name": "settled",
+"file": "src/cmd/verify/typed.rs",
+"line": 740
+},
+{
+"caller_name": "settled_without_a_literal_waits_out_the_maximum",
+"callee_name": "settled",
+"file": "src/cmd/verify/typed.rs",
+"line": 749
+},
+{
+"caller_name": "settled_without_a_literal_waits_out_the_maximum",
+"callee_name": "settled",
+"file": "src/cmd/verify/typed.rs",
+"line": 750
+},
+{
+"caller_name": "settled_without_a_literal_waits_out_the_maximum",
+"callee_name": "settled",
+"file": "src/cmd/verify/typed.rs",
+"line": 753
+},
+{
+"caller_name": "settled_without_a_literal_waits_out_the_maximum",
+"callee_name": "settled",
+"file": "src/cmd/verify/typed.rs",
+"line": 755
+},
+{
+"caller_name": "settled_counts_quiet_from_the_later_of_the_output_and_the_start",
+"callee_name": "settled",
+"file": "src/cmd/verify/typed.rs",
+"line": 764
+},
+{
+"caller_name": "settled_counts_quiet_from_the_later_of_the_output_and_the_start",
+"callee_name": "settled",
+"file": "src/cmd/verify/typed.rs",
+"line": 766
+},
+{
+"caller_name": "box_wait_keeps_waiting_past_the_gate_maximum_without_a_literal",
+"callee_name": "settled",
+"file": "src/cmd/verify/typed.rs",
+"line": 781
+},
+{
+"caller_name": "feed_past_the_frame_cap_poisons_and_settles_without_rows",
+"callee_name": "settled",
+"file": "src/cmd/verify/typed.rs",
+"line": 827
+},
+{
+"caller_name": "pause",
+"callee_name": "settled",
+"file": "src/run/wheel.rs",
+"line": 188
+},
+{
+"caller_name": "release",
+"callee_name": "settled",
+"file": "src/run/wheel.rs",
+"line": 206
+},
+{
+"caller_name": "verdict_at_each_boundary",
+"callee_name": "verdict",
+"file": "crates/viola-agent-claude/src/screen.rs",
+"line": 223
+},
+{
+"caller_name": "verdict_without_signatures_at_each_boundary",
+"callee_name": "verdict",
+"file": "crates/viola-agent-claude/src/screen.rs",
+"line": 240
+},
+{
+"caller_name": "verdict_without_signatures_reads_no_row",
+"callee_name": "verdict",
+"file": "crates/viola-agent-claude/src/screen.rs",
+"line": 249
+},
+{
+"caller_name": "verdict_without_signatures_poisoned_is_input_not_ready",
+"callee_name": "verdict",
+"file": "crates/viola-agent-claude/src/screen.rs",
+"line": 262
+},
+{
+"caller_name": "verdict_reads_the_signatures",
+"callee_name": "verdict",
+"file": "crates/viola-agent-claude/src/screen.rs",
+"line": 284
+},
+{
+"caller_name": "verdict_poisoned_is_input_not_ready",
+"callee_name": "verdict",
+"file": "crates/viola-agent-claude/src/screen.rs",
+"line": 294
+},
+{
+"caller_name": "verdict_poisoned_is_input_not_ready",
+"callee_name": "verdict",
+"file": "crates/viola-agent-claude/src/screen.rs",
+"line": 298
+},
+{
+"caller_name": "resize_after_poison_clears_it",
+"callee_name": "verdict",
+"file": "crates/viola-agent-claude/src/screen.rs",
+"line": 324
+},
+{
+"caller_name": "resize_starts_a_blank_screen",
+"callee_name": "verdict",
+"file": "crates/viola-agent-claude/src/screen.rs",
+"line": 336
+},
+{
+"caller_name": "verdict_over",
+"callee_name": "verdict",
+"file": "crates/viola-agent-claude/src/screen.rs",
+"line": 392
+},
+{
+"caller_name": "feed_prop_a_caught_panic_poisons_until_resize",
+"callee_name": "verdict",
+"file": "crates/viola-agent-claude/src/screen.rs",
+"line": 500
+},
+{
+"caller_name": "wait_ready",
+"callee_name": "verdict",
+"file": "src/run/gate.rs",
+"line": 168
+},
+{
+"caller_name": "start",
+"callee_name": "wait_ready",
+"file": "crates/viola-e2e/src/harness/boot.rs",
+"line": 153
+},
+{
+"caller_name": "readiness_reports_a_wrapper_that_already_exited",
+"callee_name": "wait_ready",
+"file": "crates/viola-e2e/src/harness/boot.rs",
+"line": 705
+},
+{
+"caller_name": "wait_ready_times_out_with_the_missing_checks",
+"callee_name": "wait_ready",
+"file": "crates/viola-e2e/src/harness/boot.rs",
+"line": 715
+},
+{
+"caller_name": "wait_ready_returns_a_ready_instance",
+"callee_name": "wait_ready",
+"file": "crates/viola-e2e/src/harness/boot.rs",
+"line": 735
+},
+{
+"caller_name": "wait_ready_verified_over_the_trust_dialog_is_input_not_ready",
+"callee_name": "wait_ready",
+"file": "src/run/gate.rs",
+"line": 532
+},
+{
+"caller_name": "wait_ready_verified_over_the_external_imports_dialog_is_input_not_ready",
+"callee_name": "wait_ready",
+"file": "src/run/gate.rs",
+"line": 550
+},
+{
+"caller_name": "wait_ready_verified_over_the_input_box_is_ready",
+"callee_name": "wait_ready",
+"file": "src/run/gate.rs",
+"line": 560
+},
+{
+"caller_name": "wait_ready_verified_over_the_input_box_is_ready",
+"callee_name": "wait_ready",
+"file": "src/run/gate.rs",
+"line": 563
+},
+{
+"caller_name": "wait_ready_quiet_screen_is_ready",
+"callee_name": "wait_ready",
+"file": "src/run/gate.rs",
+"line": 574
+},
+{
+"caller_name": "wait_ready_never_quiet_by_the_maximum_wait_is_input_not_ready",
+"callee_name": "wait_ready",
+"file": "src/run/gate.rs",
+"line": 583
+},
+{
+"caller_name": "wait_ready_waits_until_quiet",
+"callee_name": "wait_ready",
+"file": "src/run/gate.rs",
+"line": 593
+},
+{
+"caller_name": "wait_ready_after_a_feed_panic_is_input_not_ready_and_says_so",
+"callee_name": "wait_ready",
+"file": "src/run/gate.rs",
+"line": 613
+},
+{
+"caller_name": "wait_ready_counts_drops_the_feed_thread_has_not_seen",
+"callee_name": "wait_ready",
+"file": "src/run/gate.rs",
+"line": 625
+},
+{
+"caller_name": "send",
+"callee_name": "wait_ready",
+"file": "src/run/send.rs",
+"line": 337
+},
+{
+"caller_name": "boot_with",
+"callee_name": "wait_ready",
+"file": "tests/support/home.rs",
+"line": 428
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

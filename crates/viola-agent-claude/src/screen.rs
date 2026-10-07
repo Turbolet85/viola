@@ -9,9 +9,11 @@ use std::time::{Duration, Instant};
 /// the stamped `quiet-period` row validates per CLI version; `run` reads no number from the stamps.
 pub const QUIET_PERIOD: Duration = Duration::from_millis(300);
 
-/// How long the gate waits for a quiet screen before it gives up. Compiled, and validated per CLI
-/// version by the `quiet-period` row, as `QUIET_PERIOD`.
-pub const GATE_MAX_WAIT: Duration = Duration::from_secs(5);
+/// How long the gate waits for a quiet screen, and on a verified CLI for the input box, before it
+/// gives up. It covers the paste hint the CLI shows in the input box's place for 8.0 s after a long
+/// paste (measured on 2.1.287). Compiled, and validated per CLI version by the `quiet-period` row,
+/// as `QUIET_PERIOD`.
+pub const GATE_MAX_WAIT: Duration = Duration::from_millis(8500);
 
 /// The delivery-confirmation window (architecture [Delivery Confirmation]). Compiled, and validated
 /// per CLI version by the `confirm-window` row.
@@ -118,7 +120,8 @@ impl Screen {
 
     /// With `sigs` `None` (no compiled signature row) the gate is partial: a poisoned model and a
     /// screen not quiet within the maximum wait still refuse, and a quiet screen is `Ready` without
-    /// any row read, so delivery confirmation decides the rest.
+    /// any row read, so delivery confirmation decides the rest. With signatures a modal row refuses
+    /// at once, and a quiet screen with no input-box row waits for one until the maximum wait.
     pub fn verdict(
         &self,
         sigs: Option<&Signatures>,
@@ -146,6 +149,8 @@ impl Screen {
         }
         if input_box {
             GateStep::Done(Readiness::Ready)
+        } else if now.saturating_duration_since(waiting_since) < GATE_MAX_WAIT {
+            GateStep::Wait
         } else {
             GateStep::Done(Readiness::InputNotReady)
         }
@@ -181,7 +186,7 @@ mod tests {
     #[test]
     fn gate_constants_hold_their_literal_values() {
         assert_eq!(QUIET_PERIOD, Duration::from_millis(300));
-        assert_eq!(GATE_MAX_WAIT, Duration::from_secs(5));
+        assert_eq!(GATE_MAX_WAIT, Duration::from_millis(8500));
         assert_eq!(CONFIRM_WINDOW_FALLBACK, Duration::from_secs(10));
     }
 
@@ -210,9 +215,9 @@ mod tests {
     #[rstest]
     #[case::quiet_exactly_at_the_period(300, 300, GateStep::Done(Readiness::Ready))]
     #[case::one_ms_short_of_quiet(299, 299, GateStep::Wait)]
-    #[case::waited_exactly_the_maximum(299, 5000, GateStep::Done(Readiness::InputNotReady))]
-    #[case::one_ms_short_of_the_maximum(299, 4999, GateStep::Wait)]
-    #[case::quiet_after_the_maximum(300, 6000, GateStep::Done(Readiness::Ready))]
+    #[case::waited_exactly_the_maximum(299, 8500, GateStep::Done(Readiness::InputNotReady))]
+    #[case::one_ms_short_of_the_maximum(299, 8499, GateStep::Wait)]
+    #[case::quiet_after_the_maximum(300, 9000, GateStep::Done(Readiness::Ready))]
     fn verdict_at_each_boundary(
         #[case] since_fed_ms: u64,
         #[case] waited_ms: u64,
@@ -227,9 +232,9 @@ mod tests {
     #[rstest]
     #[case::quiet_exactly_at_the_period(300, 300, GateStep::Done(Readiness::Ready))]
     #[case::one_ms_short_of_quiet(299, 299, GateStep::Wait)]
-    #[case::waited_exactly_the_maximum(299, 5000, GateStep::Done(Readiness::InputNotReady))]
-    #[case::one_ms_short_of_the_maximum(299, 4999, GateStep::Wait)]
-    #[case::quiet_after_the_maximum(300, 6000, GateStep::Done(Readiness::Ready))]
+    #[case::waited_exactly_the_maximum(299, 8500, GateStep::Done(Readiness::InputNotReady))]
+    #[case::one_ms_short_of_the_maximum(299, 8499, GateStep::Wait)]
+    #[case::quiet_after_the_maximum(300, 9000, GateStep::Done(Readiness::Ready))]
     fn verdict_without_signatures_at_each_boundary(
         #[case] since_fed_ms: u64,
         #[case] waited_ms: u64,
@@ -268,8 +273,8 @@ mod tests {
 
     #[rstest]
     #[case::input_box_present(b"\x1b[3;1H> type here".as_slice(), GateStep::Done(Readiness::Ready))]
-    #[case::input_box_absent(b"thinking".as_slice(), GateStep::Done(Readiness::InputNotReady))]
-    #[case::empty_screen(b"".as_slice(), GateStep::Done(Readiness::InputNotReady))]
+    #[case::input_box_absent(b"thinking".as_slice(), GateStep::Wait)]
+    #[case::empty_screen(b"".as_slice(), GateStep::Wait)]
     #[case::modal_above_the_input_box(
         b"Do you want to proceed?\r\n> type here".as_slice(),
         GateStep::Done(Readiness::InputNotReady)
@@ -283,6 +288,55 @@ mod tests {
         let base = Instant::now();
         let screen = fed(bytes, base);
         assert_eq!(screen.verdict(Some(&SIGS), base, base + ms(300)), expected);
+    }
+
+    #[rstest]
+    #[case::at_the_first_quiet_instant(300, GateStep::Wait)]
+    #[case::one_ms_short_of_the_maximum(8499, GateStep::Wait)]
+    #[case::waited_exactly_the_maximum(8500, GateStep::Done(Readiness::InputNotReady))]
+    #[case::past_the_maximum(9000, GateStep::Done(Readiness::InputNotReady))]
+    fn verdict_verified_without_a_literal_waits_for_the_input_box(
+        #[case] waited_ms: u64,
+        #[case] expected: GateStep,
+    ) {
+        let base = Instant::now();
+        let screen = fed(b"paste again to expand", base);
+        assert_eq!(
+            screen.verdict(Some(&SIGS), base, base + ms(waited_ms)),
+            expected
+        );
+    }
+
+    #[rstest]
+    #[case::one_ms_short_of_quiet(6299, GateStep::Wait)]
+    #[case::quiet_exactly_at_the_period(6300, GateStep::Done(Readiness::Ready))]
+    fn verdict_verified_waits_for_the_input_box_and_is_ready_once_it_is_quiet(
+        #[case] waited_ms: u64,
+        #[case] expected: GateStep,
+    ) {
+        let base = Instant::now();
+        let mut screen = fed(b"paste again to expand", base);
+        screen.feed(b"\x1b[2J\x1b[H> type here", base + ms(6000));
+        assert_eq!(
+            screen.verdict(Some(&SIGS), base, base + ms(waited_ms)),
+            expected
+        );
+    }
+
+    #[test]
+    fn verdict_verified_modal_or_poisoned_never_waits_for_the_input_box() {
+        let base = Instant::now();
+        let modal = fed(b"Do you want to proceed?", base);
+        assert_eq!(
+            modal.verdict(Some(&SIGS), base, base + ms(300)),
+            GateStep::Done(Readiness::InputNotReady)
+        );
+        let mut poisoned = fed(b"paste again to expand", base);
+        poisoned.poison();
+        assert_eq!(
+            poisoned.verdict(Some(&SIGS), base, base),
+            GateStep::Done(Readiness::InputNotReady)
+        );
     }
 
     #[test]
@@ -335,7 +389,7 @@ mod tests {
         assert_eq!(screen.size(), (30, 100));
         assert_eq!(
             screen.verdict(Some(&SIGS), base, base + ms(300)),
-            GateStep::Done(Readiness::InputNotReady)
+            GateStep::Wait
         );
     }
 

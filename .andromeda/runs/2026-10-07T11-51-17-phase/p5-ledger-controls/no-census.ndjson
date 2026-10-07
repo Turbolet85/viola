@@ -1,0 +1,6 @@
+{"kind": "start", "run": "print", "cli": "2.1.287"}
+{"kind": "start", "run": "A", "cli": "2.1.287"}
+{"kind": "start", "run": "B", "cli": "2.1.287"}
+{"kind": "start", "run": "C", "cli": "2.1.287"}
+{"kind": "start", "run": "D", "cli": "2.1.287"}
+{"kind": "round", "fired": 1, "exit": 0, "last_line": "stamped 2.1.287  17 pass  0 fail"}

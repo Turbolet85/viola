@@ -441,7 +441,7 @@ fn verify_with(
 }
 
 /// `verify` with no screen flag for the fake agent: the four interactive runs wait out the gate's
-/// maximum (about 21 s in all), so, like a `send_window_` test, it has no test-side bound and the
+/// 8.5 s maximum (about 35 s in all), so, like a `send_window_` test, it has no test-side bound and the
 /// nextest `verify_window_` override is its kill.
 pub fn verify_without_screens(home: &Path, fixtures: &Path, version: &str, before: &[&str]) -> Ran {
     viola_unbounded(&verify_args(home, fixtures, version, before), &[])

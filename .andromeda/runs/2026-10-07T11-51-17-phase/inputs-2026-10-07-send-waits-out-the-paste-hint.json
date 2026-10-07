@@ -1,0 +1,113 @@
+[
+{
+"tool": "inputs",
+"v": "1.0",
+"sha8": "0404fdd3",
+"ts": "2026-10-07T11:52:22Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-07-send-waits-out-the-paste-hint",
+"--message-file",
+".andromeda/runs/2026-10-07T11-51-17-phase/relay-1.md",
+"--origin",
+"the operator (the overseer), the /andromeda-phase invocation arguments, 2026-10-07T11:51Z",
+"--kind",
+"relay",
+"--why",
+"the take-up directive: the founder is away, forks go to the overseer, a new boundary widening is held, a red re-verify round is not retried, one builder window",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-10-07T11-51-17-phase",
+"--marker",
+"2026-10-07-send-waits-out-the-paste-hint"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy message · message: the operator (the overseer), the /andromeda-phase invocation arguments, 2026-10-07T11:51Z",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator (the overseer), the /andromeda-phase invocation arguments, 2026-10-07T11:51Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "5bf1e6b0e0a82e737ab318df4a15ad8f0531becc2bff08cdc835c0356fb4972a",
+"copy": "I1-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-07T11:52:22Z",
+"step": "phase:P1",
+"why": "the take-up directive: the founder is away, forks go to the overseer, a new boundary widening is held, a red re-verify round is not retried, one builder window"
+}
+},
+{
+"tool": "inputs",
+"v": "1.0",
+"sha8": "0404fdd3",
+"ts": "2026-10-07T12:10:18Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-07-send-waits-out-the-paste-hint",
+"--message-file",
+".andromeda/runs/2026-10-07T11-51-17-phase/relay-2.md",
+"--origin",
+"the overseer, the answers to the P4 fork round through AskUserQuestion, 2026-10-07T12:10Z",
+"--kind",
+"relay",
+"--why",
+"the four P4 forks answered: both rungs read again after the wait, both verify-window kills moved in proportion with a planted-hang control, the refusal at the bound proved at the unit layer with the cap at 10 000 ms, the hint line left as it is",
+"--step",
+"phase:P3",
+"--run-dir",
+".andromeda/runs/2026-10-07T11-51-17-phase",
+"--marker",
+"2026-10-07-send-waits-out-the-paste-hint"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: the overseer, the answers to the P4 fork round through AskUserQuestion, 2026-10-07T12:10Z",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer, the answers to the P4 fork round through AskUserQuestion, 2026-10-07T12:10Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "e99421891771e85102a9440ce41932e38b4591916eb11eb24a8625f6490d154a",
+"copy": "I2-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-07T12:10:18Z",
+"step": "phase:P3",
+"why": "the four P4 forks answered: both rungs read again after the wait, both verify-window kills moved in proportion with a planted-hang control, the refusal at the bound proved at the unit layer with the cap at 10 000 ms, the hint line left as it is"
+}
+}
+]

@@ -824,7 +824,7 @@ fn verify_help_names_the_trusted_folder_and_the_external_import_blocker() {
 }
 
 /// Without `--screens` the fake agent shows nothing: each of the four interactive runs waits out the
-/// gate's 5 s maximum, and the eleven rows they measure fail while the six print-mode rows pass.
+/// gate's 8.5 s maximum, and the eleven rows they measure fail while the six print-mode rows pass.
 #[rstest]
 fn verify_window_without_screens_fails_every_interactive_row(#[from(home)] home: TestHome) {
     write_spine_set(&fixtures(&home), "2.1.0", None);
@@ -1048,17 +1048,17 @@ fn verify_pastes_no_local_command_once_the_tag_turn_screen_shows_a_modal(
     assert_eq!(probes_left(home.path()), 0);
 }
 
-/// After a long paste the real CLI shows a paste hint in the input-box literal's place for longer
-/// than the gate's 5 s maximum (8 s from the paste on 2.1.287, measured). With the fake agent
-/// holding a cleared screen for 6 s after the long turn's Stop, a window forced open and never
-/// sampled, the trusted run waits for the input box to come back, pastes the tag-like text and the
-/// local command, and every row passes.
+/// After a long paste the real CLI shows a paste hint in the input-box literal's place (8.0 s from
+/// the paste on 2.1.287, measured). With the fake agent holding a cleared screen for 9 s after the
+/// long turn's Stop, past the gate's 8.5 s maximum, a window forced open and never sampled, the
+/// trusted run waits for the input box to come back, pastes the tag-like text and the local
+/// command, and every row passes.
 #[rstest]
 fn verify_window_paste_hint_past_the_gate_maximum_still_stamps(#[from(home)] home: TestHome) {
     write_spine_set(&fixtures(&home), "2.1.0", None);
     let receipt = home.scratch().join("receipt.ndjson");
     let receipt_arg = receipt.to_str().expect("utf-8").to_owned();
-    let after = ["--receipt", receipt_arg.as_str(), "--paste-hint-ms", "6000"];
+    let after = ["--receipt", receipt_arg.as_str(), "--paste-hint-ms", "9000"];
     let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &after, &[]);
     assert_eq!(ran.code, Some(0), "stdout {}", ran.stdout_text());
     let mut expected = STEPS_PASS.join("\n");

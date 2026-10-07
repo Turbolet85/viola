@@ -292,7 +292,10 @@ pub(crate) fn parse_from(params: &Value) -> Result<Option<ViolaName>, ProtocolEr
     }
 }
 
-/// The `send` method, in the documented refusal order.
+/// The `send` method, in the documented refusal order. The wheel and the running turn are read
+/// twice, in that order both times: at arrival, and again once the gate's wait has ended, because
+/// that wait can run to `GATE_MAX_WAIT`. A human key or a turn that started during it refuses with
+/// nothing typed.
 pub(crate) fn send(
     slot: &SendSlot,
     name: &ViolaName,
@@ -338,6 +341,16 @@ pub(crate) fn send(
     let (readiness, _) = gate.wait_ready(slot.clock.as_ref(), slot.clock.now());
     if readiness != Readiness::Ready {
         return ctx.not_delivered(None, NotDelivered::InputNotReady);
+    }
+    if let Some(detail) = slot.wheel.human_typing() {
+        return ctx.refuse(
+            None,
+            RefusalReason::HumanTyping,
+            detail.map(HumanTyping::as_str),
+        );
+    }
+    if slot.wheel.turn_running() {
+        return ctx.not_delivered(None, NotDelivered::TurnRunning);
     }
     let cursor = ctx.issue(text.len())?;
     if paste(text).is_err() {
@@ -486,6 +499,7 @@ mod tests {
     use std::sync::mpsc;
 
     use rstest::rstest;
+    use viola_agent_claude::screen::SIGNATURES;
     use viola_pty::Size;
     use viola_state::snapshot::Wheel;
 
@@ -544,6 +558,38 @@ mod tests {
         drop(feeder);
         thread.join().expect("feed thread");
         gate
+    }
+
+    /// A verified gate whose screen was fed `rows` at `fed_at`.
+    fn verified_gate(fed_at: Instant, rows: &[&str]) -> Gate {
+        let (feeder, gate, thread) =
+            gate::start(FixedClock(fed_at), Size::DEFAULT, Some(&SIGNATURES));
+        let mut tee = gate::Tee::new(Vec::new(), feeder);
+        std::io::Write::write_all(&mut tee, rows.join("\r\n").as_bytes()).expect("write");
+        drop(tee);
+        thread.join().expect("feed thread");
+        gate
+    }
+
+    /// A [`JumpClock`] the test keeps a handle on. The first reading at or past `at` first runs
+    /// `during`: what happens while the gate waits.
+    struct WaitClock {
+        now: Arc<Mutex<Instant>>,
+        at: Instant,
+        during: Mutex<Option<Box<dyn FnOnce() + Send>>>,
+    }
+
+    impl Clock for WaitClock {
+        fn now(&self) -> Instant {
+            let mut now = self.now.lock().expect("clock");
+            *now += Duration::from_secs(1);
+            if *now >= self.at
+                && let Some(during) = self.during.lock().expect("during").take()
+            {
+                during();
+            }
+            *now
+        }
     }
 
     /// A gate poisoned by a vt100 panic (a wide character at one column).
@@ -1376,6 +1422,102 @@ mod tests {
             json!({"refusal": "not-delivered", "detail": "no-prompt-submitted", "cursor": 0})
         );
         assert_eq!(pastes.all(), [text]);
+        assert!(slot.flight().send.is_none(), "the slot is free again");
+    }
+
+    /// A send to a verified wrapper whose input box goes quiet 3.3 s past `base`. The send reads
+    /// its clock at 1 s (its start) and 2 s (the gate's start), then the gate reads it at 3 s,
+    /// still waiting, where `during` runs, and at 4 s, ready. The reply, the instance dir and the
+    /// pastes.
+    fn sent_after_the_gate_wait(
+        during: impl FnOnce(&WheelSlot) + Send + 'static,
+    ) -> (Value, tempfile::TempDir, Pastes) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let base = Instant::now();
+        let wheel: Arc<WheelSlot> = Arc::default();
+        let moved = Arc::clone(&wheel);
+        let now = Arc::new(Mutex::new(base));
+        let clock = WaitClock {
+            now: Arc::clone(&now),
+            at: base + Duration::from_secs(3),
+            during: Mutex::new(Some(Box::new(move || during(&moved)))),
+        };
+        let slot = SendSlot::new(clock, true, wheel);
+        let (pastes, _pasted) = Pastes::new();
+        let gate = verified_gate(
+            base + Duration::from_secs(3),
+            &["❯ ", "  ⏸ manual mode on · ← for agents"],
+        );
+        slot.attach(pastes.paste_fn(), gate);
+        let params = json!({"v": 1, "text": "hello"});
+        let reply = send(&slot, &name(), tmp.path(), &call(&params, 1)).expect("answered");
+        assert_eq!(
+            *now.lock().expect("clock"),
+            base + Duration::from_secs(4),
+            "one waiting step, then ready"
+        );
+        assert!(slot.flight().send.is_none(), "the slot is free again");
+        (reply, tmp, pastes)
+    }
+
+    #[test]
+    fn send_a_human_key_after_the_gate_wait_is_human_typing() {
+        let (reply, tmp, pastes) = sent_after_the_gate_wait(WheelSlot::human_input);
+        assert_eq!(reply, json!({"refusal": "human-typing", "detail": null}));
+        assert_eq!(kinds(tmp.path()), ["send-refused"]);
+        assert_refused_without_a_cursor(tmp.path(), None);
+        assert!(pastes.all().is_empty(), "nothing typed");
+    }
+
+    #[test]
+    fn send_a_turn_started_after_the_gate_wait_is_turn_running() {
+        let (reply, tmp, pastes) = sent_after_the_gate_wait(WheelSlot::turn_started);
+        assert_eq!(
+            reply,
+            json!({"refusal": "not-delivered", "detail": "turn-running"})
+        );
+        assert_eq!(kinds(tmp.path()), ["send-refused"]);
+        assert_refused_without_a_cursor(tmp.path(), Some("turn-running"));
+        assert!(pastes.all().is_empty(), "nothing typed");
+    }
+
+    #[test]
+    fn send_after_the_gate_wait_human_typing_comes_before_turn_running() {
+        let (reply, tmp, pastes) = sent_after_the_gate_wait(|wheel| {
+            wheel.turn_started();
+            wheel.human_input();
+        });
+        assert_eq!(reply, json!({"refusal": "human-typing", "detail": null}));
+        assert_eq!(kinds(tmp.path()), ["send-refused"]);
+        assert!(pastes.all().is_empty(), "nothing typed");
+    }
+
+    /// A verified screen that stays quiet with no input box: the gate starts at the clock's 2 s
+    /// and refuses at 11 s, its first one-second step at or past 8.5 s of waiting.
+    #[test]
+    fn send_on_a_verified_screen_without_a_literal_waits_for_the_input_box_to_the_bound() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let base = Instant::now();
+        let now = Arc::new(Mutex::new(base));
+        let clock = WaitClock {
+            now: Arc::clone(&now),
+            at: base,
+            during: Mutex::new(None),
+        };
+        let slot = SendSlot::new(clock, true, Arc::default());
+        let (pastes, _pasted) = Pastes::new();
+        let gate = verified_gate(base - Duration::from_secs(1), &["paste again to expand"]);
+        slot.attach(pastes.paste_fn(), gate);
+        let params = json!({"v": 1, "text": "hello"});
+        let reply = send(&slot, &name(), tmp.path(), &call(&params, 1)).expect("answered");
+        assert_eq!(
+            reply,
+            json!({"refusal": "not-delivered", "detail": "input-not-ready"})
+        );
+        assert_eq!(*now.lock().expect("clock"), base + Duration::from_secs(11));
+        assert_eq!(kinds(tmp.path()), ["send-refused"]);
+        assert_refused_without_a_cursor(tmp.path(), Some("input-not-ready"));
+        assert!(pastes.all().is_empty(), "nothing typed");
         assert!(slot.flight().send.is_none(), "the slot is free again");
     }
 

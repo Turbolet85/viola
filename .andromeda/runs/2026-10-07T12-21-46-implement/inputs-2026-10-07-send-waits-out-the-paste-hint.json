@@ -1,0 +1,57 @@
+[
+{
+"tool": "inputs",
+"v": "1.0",
+"sha8": "0404fdd3",
+"ts": "2026-10-07T12:22:19Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-07-send-waits-out-the-paste-hint",
+"--message-file",
+".andromeda/runs/2026-10-07T12-21-46-implement/relay-1.md",
+"--origin",
+"the operator (the overseer), the /andromeda-implement invocation arguments, 2026-10-07T12:22Z",
+"--kind",
+"relay",
+"--why",
+"the build directive: the live cap is the one by-path re-verify fired once with each start ledgered before it, the operator pass runs with the ci.py read, a red round or a product fix after the round returns through the overseer, a stalled-start red is never re-run for green",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-10-07T12-21-46-implement",
+"--marker",
+"2026-10-07-send-waits-out-the-paste-hint"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: the operator (the overseer), the /andromeda-implement invocation arguments, 2026-10-07T12:22Z",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator (the overseer), the /andromeda-implement invocation arguments, 2026-10-07T12:22Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "3c0e142f5a013579b3951ef4b7b6723a7f5c82cc14f85dc7f43d8f4badfaa3c2",
+"copy": "I3-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-07T12:22:19Z",
+"step": "implement",
+"why": "the build directive: the live cap is the one by-path re-verify fired once with each start ledgered before it, the operator pass runs with the ci.py read, a red round or a product fix after the round returns through the overseer, a stalled-start red is never re-run for green"
+}
+}
+]

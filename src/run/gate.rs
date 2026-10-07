@@ -559,11 +559,23 @@ mod tests {
         let gate = verified_gate_at(base, &["❯ ", "  ⏸ manual mode on · ← for agents"]);
         let clock = FixedClock(base + Duration::from_millis(300));
         assert_eq!(gate.wait_ready(&clock, base), (Readiness::Ready, false));
-        let blank = verified_gate_at(base, &["thinking"]);
+    }
+
+    /// A verified gate reads the rows, where the partial gate would be ready: with no input box it
+    /// waits out the maximum, refused at the first one-second step at or past 8.5 s.
+    #[test]
+    fn wait_ready_verified_waits_for_the_input_box_until_the_bound() {
+        let base = Instant::now();
+        let gate = verified_gate_at(base, &["thinking"]);
+        let clock = SteppingClock(Mutex::new(base));
         assert_eq!(
-            blank.wait_ready(&clock, base),
-            (Readiness::InputNotReady, false),
-            "a verified gate reads the rows; the partial gate would be ready"
+            gate.wait_ready(&clock, base),
+            (Readiness::InputNotReady, false)
+        );
+        assert_eq!(
+            *clock.0.lock().expect("clock"),
+            base + Duration::from_secs(9),
+            "eight waiting steps, then the bound"
         );
     }
 
@@ -578,8 +590,8 @@ mod tests {
     #[test]
     fn wait_ready_never_quiet_by_the_maximum_wait_is_input_not_ready() {
         let base = Instant::now();
-        let gate = gate_at(base + Duration::from_secs(5), b"thinking");
-        let clock = FixedClock(base + Duration::from_secs(5));
+        let gate = gate_at(base + Duration::from_millis(8500), b"thinking");
+        let clock = FixedClock(base + Duration::from_millis(8500));
         assert_eq!(
             gate.wait_ready(&clock, base),
             (Readiness::InputNotReady, false)

@@ -30,7 +30,8 @@ const CONTROL_POLL: Duration = Duration::from_millis(10);
 /// `--stop-receipt-hold-ms` is capped: a test-only hold that forces a window open, never a delay.
 const STOP_RECEIPT_HOLD_CAP_MS: u64 = 1000;
 /// `--paste-hint-ms` is capped: a test-only hold that forces the window after a long paste open.
-const PASTE_HINT_CAP_MS: u64 = 8000;
+/// The cap sits above the gate's 8.5 s maximum wait, which `viola verify`'s hint case holds past.
+const PASTE_HINT_CAP_MS: u64 = 10_000;
 const REGISTERED_EVENTS: [&str; 9] = [
     "SessionStart",
     "UserPromptSubmit",
@@ -837,7 +838,7 @@ mod tests {
             "--stop-receipt-hold-ms",
             "5000",
             "--paste-hint-ms",
-            "9000",
+            "11000",
             "--tag-turn-screen",
             "tagged",
             "--version",
@@ -866,7 +867,7 @@ mod tests {
             Some(Duration::from_millis(1000)),
             "capped"
         );
-        assert_eq!(o.paste_hint, Some(Duration::from_millis(8000)), "capped");
+        assert_eq!(o.paste_hint, Some(Duration::from_millis(10_000)), "capped");
         assert_eq!(o.tag_turn_screen.as_deref(), Some("tagged"));
         assert!(Opts::parse(&args(&[HOLD_STDOUT])).hold_stdout);
     }

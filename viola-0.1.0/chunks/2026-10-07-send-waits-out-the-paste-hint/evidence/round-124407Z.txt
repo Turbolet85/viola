@@ -1,0 +1,22 @@
+  1 lint        not run — excluded · cargo fmt --all --check
+  2 lint        not run — excluded · cargo clippy --workspace --all-targets --features fake-age… (75 chars)
+  3 unit        not run — excluded · bash scripts/agent-run.sh run --unit
+  4 unit        not run — excluded · bash scripts/agent-run.sh run --unit --filter 'test(/waits… (99 chars)
+  5 integration not run — excluded · bash scripts/agent-run.sh run
+  6 integration not run — excluded · bash scripts/agent-run.sh run --integration --filter 'test… (95 chars)
+  7 probe       not run — excluded · git diff --quiet 56e67bb33e63 -- src/human.rs src/cmd/send… (469 chars)
+  8 probe       not run — excluded · grep -A1 "filter = 'test(/verify_window_/)'" .config/nexte… (230 chars)
+  9 probe       not run — excluded · jq -e -s '([.[] | select(.kind == "start")] | length) == 5… (386 chars)
+ 10 smoke       not run — excluded · bash scripts/agent-run.sh cleanup --session p-hint-smoke
+ 11 smoke       not run — excluded · bash scripts/agent-run.sh boot --session p-hint-smoke --in… (72 chars)
+ 12 smoke       not run — excluded · bash scripts/agent-run.sh status --session p-hint-smoke
+ 13 probe       not run — excluded · bash scripts/g2-zero-panics.sh
+ 14 probe       not run — excluded · bash scripts/agent-run.sh schema-check
+ 15 smoke       not run — excluded · bash scripts/agent-run.sh cleanup --session p-hint-smoke
+ 16 probe       not run — excluded · bash scripts/agent-run.sh pre-push
+ 17 probe       green · exit 0 · 0.06s · 22 B → 17.log · "$HOME/.local/share/mise/installs/claude/2.1.287/claude" -… (66 chars)
+ 18 e2e         green · exit 0 · 46.29s · 1335 B → 18.log · h="target/e2e-home/viola-reverify-$(date -u +%Y%m%dT%H%M%S… (230 chars)
+ 19 probe       not run — excluded · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (90 chars)
+ 20 probe       not run — excluded · git diff --quiet && git diff --cached --quiet && git push … (69 chars)
+ 21 probe       not run — excluded · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (114 chars)
+round: COMPLETE · legs fired 1/1 · entries 21 · green 2 · red 0 · recorded 0 · timeout 0 · indeterminate 0 · not-run 19

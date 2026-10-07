@@ -747,14 +747,14 @@ mod tests {
     fn settled_without_a_literal_waits_out_the_maximum() {
         let t = Instant::now();
         let f = feed(b"thinking", t + ms_(100));
-        assert!(settled(&f, t, t + ms_(4999)).is_none());
-        let got = settled(&f, t, t + ms_(5000)).expect("settled");
-        assert_eq!(got.at, t + ms_(5000));
-        let late = feed(b"thinking", t + ms_(4900));
-        assert!(settled(&late, t, t + ms_(5100)).is_none());
+        assert!(settled(&f, t, t + ms_(8499)).is_none());
+        let got = settled(&f, t, t + ms_(8500)).expect("settled");
+        assert_eq!(got.at, t + ms_(8500));
+        let late = feed(b"thinking", t + ms_(8400));
+        assert!(settled(&late, t, t + ms_(8600)).is_none());
         assert_eq!(
-            settled(&late, t, t + ms_(5200)).expect("late").at,
-            t + ms_(5200)
+            settled(&late, t, t + ms_(8700)).expect("late").at,
+            t + ms_(8700)
         );
     }
 
@@ -775,11 +775,11 @@ mod tests {
     fn box_wait_keeps_waiting_past_the_gate_maximum_without_a_literal() {
         let t = Instant::now();
         let f = feed(b"paste again to expand", t + ms_(100));
-        for at in [400, 5000, 5300, 60_000, 119_999] {
+        for at in [400, 5000, 5300, 8500, 8800, 60_000, 119_999] {
             assert!(box_wait(&f, t, t + ms_(at)).is_none(), "{at}");
         }
         assert!(
-            settled(&f, t, t + ms_(5000)).is_some(),
+            settled(&f, t, t + ms_(8500)).is_some(),
             "the settle gives up on the same screen at the maximum"
         );
     }
@@ -825,7 +825,7 @@ mod tests {
         assert_eq!(f.chunks.len(), 2);
         f.take(b"z", t + ms_(2));
         assert_eq!(f.last_fed, t + ms_(2));
-        let got = settled(&f, t, t + ms_(6000)).expect("settled");
+        let got = settled(&f, t, t + ms_(9000)).expect("settled");
         assert!(got.rows.is_none());
     }
 

@@ -20,11 +20,11 @@ path = "junit.xml"
 # 2026-10-06-local-command-and-paste-framing-rows. The kill was sized when they were seven (about
 # 2.1 s median on the ubuntu coverage leg, measured) from that floor plus a 3x runner tail; the
 # longest verify-driven test read 9.98 s under it in ci#37534758441.
-# The first matching override wins: a `verify_window_` test waits out the gate's 5 s maximum four
-# times by design (about 21 s), so it comes first.
+# The first matching override wins: a `verify_window_` test waits out the gate's 8.5 s maximum four
+# times by design (about 35 s), so it comes first, under a 60 s kill.
 [[profile.ci.overrides]]
 filter = 'test(/verify_window_/)'
-slow-timeout = { period = "15s", terminate-after = 3 }
+slow-timeout = { period = "20s", terminate-after = 3 }
 
 # Every binary that drives verify, directly or through the stamped-home fixture (its longest other
 # test, a `send_window_` one, read 11.25 s on the slowest measured run): a 20 s kill.
@@ -51,8 +51,8 @@ slow-timeout = { period = "15s", terminate-after = 2 }
 filter = 'test(/send_window_/)'
 slow-timeout = { period = "15s", terminate-after = 2 }
 
-# A `verify_window_` test waits out the gate's 5 s maximum wait four times by design (no screen
-# replayed: the untrusted, trusted, dialog and plan runs), about 21 s, below this 30 s kill.
+# A `verify_window_` test waits out the gate's 8.5 s maximum wait four times by design (no screen
+# replayed: the untrusted, trusted, dialog and plan runs), about 35 s, below this 45 s kill.
 [[profile.mutants.overrides]]
 filter = 'test(/verify_window_/)'
-slow-timeout = { period = "15s", terminate-after = 2 }
+slow-timeout = { period = "15s", terminate-after = 3 }

@@ -1,0 +1,3 @@
+The operator's directive at this take-up, verbatim, as it arrived in the session as the arguments of the `/andromeda-phase` invocation (2026-10-07, after the orientation dashboard of this session):
+
+:98 "Send waits out the paste hint". The founder ruling and its price are in the entry first CARRY: the gate waits on a quiet literal-less verified screen, the bound 8.5 s, one by-path re-verify of 2.1.287 (5 live starts) and no more without him. He is away until late evening: bring technical forks to me; a fork that is his I answer provisionally and list for him; a NEW boundary widening is not answered, it is held, so plan around needing none. A red re-verify round is not retried: stop and report. Size the chunk against one builder window.

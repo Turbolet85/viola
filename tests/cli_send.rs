@@ -542,20 +542,16 @@ fn send_rewritten_path_argument_draws_the_warning() {
 }
 
 /// The readiness-gate reading, measured end to end. After a long paste the real CLI shows a paste
-/// hint where the input-box literal was (6.5 s after the turn's Stop on 2.1.287, measured). `hint`
-/// forces that window open with the fake agent's capped hold, and `no_hint` is the same sequence
-/// without it: under the hint a verified wrapper refuses the next send `input-not-ready` and types
-/// nothing, and without it the send is delivered. The hold only has to outlast the second send's
-/// gate verdict (the screen quiet for 300 ms), and the whole case stays under the nextest `mutants`
-/// kill.
+/// hint where the input-box literal was (8.0 s from the paste on 2.1.287, measured). `hint` forces
+/// that window open with the fake agent's capped hold, and `no_hint` is the same sequence without
+/// it: under the hint a verified wrapper keeps the next send waiting in the gate and delivers it
+/// once the input box is back, and without it the send is delivered at once. The hold outlasts the
+/// second send's first quiet reading (the screen quiet for 300 ms) and ends inside the gate's
+/// maximum wait, and the whole case stays under the nextest `mutants` kill.
 #[rstest]
-#[case::hint(&["--paste-hint-ms", "3000"], false)]
-#[case::no_hint(&[], true)]
-fn send_under_the_paste_hint_on_a_verified_cli(
-    stamped_home: StampedHome,
-    #[case] hold: &[&str],
-    #[case] delivered: bool,
-) {
+#[case::hint(&["--paste-hint-ms", "3000"])]
+#[case::no_hint(&[])]
+fn send_under_the_paste_hint_on_a_verified_cli(stamped_home: StampedHome, #[case] hold: &[&str]) {
     let mut extra = vec!["--framing", "--turn-stop"];
     extra.extend_from_slice(hold);
     let wrapper = boot_on(stamped_home, None, &extra);
@@ -576,34 +572,101 @@ fn send_under_the_paste_hint_on_a_verified_cli(
     let l = end_offset(&dir);
     let second = format!("{CANARY} after the long paste");
     let sent = send(&home, &["builder", "--json"], &second);
+    assert_eq!(sent.code, Some(0), "stdout: {}", sent.stdout);
     let doc: Value = serde_json::from_str(&sent.stdout).expect("one JSON document");
-    if delivered {
-        assert_eq!(sent.code, Some(0), "stdout: {}", sent.stdout);
-        assert_eq!(doc["ok"]["cursor"], l);
-        let typed = prompts_at_least(&receipt, 2);
-        assert_eq!(typed.len(), 2);
-        assert_eq!(typed[1]["text"], second.as_str());
-        wrapper.stop();
-    } else {
-        assert_eq!(sent.code, Some(13), "stdout: {}", sent.stdout);
-        assert_eq!(
-            doc,
-            json!({"v": 1, "refusal": "not-delivered", "detail": "input-not-ready"})
-        );
-        let records = records_after(&dir, l);
-        assert_eq!(records.len(), 1, "{records:?}");
-        assert_eq!(records[0]["kind"], "send-refused");
-        assert_eq!(
-            records[0]["data"],
-            json!({"refusal": "not-delivered", "detail": "input-not-ready"})
-        );
-        // The agent reads its stdin again only after the hold, so the stop returns after it.
-        let (_, kept) = wrapper.stop_keep();
-        let typed = prompts(&receipt);
-        assert_eq!(typed.len(), 1, "nothing more was typed");
-        assert_eq!(typed[0]["text"], long.as_str());
-        drop(kept);
+    assert_eq!(doc["ok"]["cursor"], l);
+    let typed = prompts_at_least(&receipt, 2);
+    assert_eq!(typed.len(), 2);
+    assert_eq!(typed[1]["text"], second.as_str());
+    let records = records_after(&dir, l);
+    assert!(
+        !records.iter().any(|r| r["kind"] == "send-refused"),
+        "{records:?}"
+    );
+    wrapper.stop();
+}
+
+/// Waits until the wrapper logged `count` `channel-request`s for `send`.
+fn wait_send_requests(home: &Path, count: usize) {
+    let role = home.join("diagnostics").join("run-builder.ndjson");
+    let watch = Watch::start("request");
+    let deadline = Instant::now() + WITHIN;
+    loop {
+        let n = support::ndjson::read_lines(&role)
+            .iter()
+            .filter(|l| l["event"] == "channel-request" && l["method"] == "send")
+            .count();
+        if n >= count {
+            return;
+        }
+        watch.note(&format!("send requests {n}"));
+        watch.deadline_check(deadline, "the send request never reached the wrapper");
+        std::thread::yield_now();
     }
+}
+
+/// The human always wins through the gate's wait (a11y-plan §3 Keyboard test harness). A verified
+/// send waits in the gate under the held hint; a key written into the outer terminal takes the
+/// wheel at once, and the send, which reads the wheel again after its wait, is refused
+/// `human-typing` with nothing typed. The key itself reaches the child. Sequenced on the wrapper's
+/// `channel-request` line and on the `wheel` record, never on a timer.
+#[rstest]
+fn send_under_the_paste_hint_a_human_key_during_the_gate_wait_wins(stamped_home: StampedHome) {
+    let extra = ["--framing", "--turn-stop", "--paste-hint-ms", "3000"];
+    let mut wrapper = boot_on(stamped_home, None, &extra);
+    let dir = wrapper.instance_dir();
+    let home = wrapper.home().to_path_buf();
+    let receipt = wrapper.receipt();
+    let (_, long) = recorded_long_paste();
+    let first = send(&home, &["builder", "--json"], &long);
+    assert_eq!(first.code, Some(0), "stdout: {}", first.stdout);
+    wait_events(&dir, "the long turn's turn-ended", |l| {
+        l.iter().any(|e| e["kind"] == "turn-ended")
+    });
+    fake::wait_for(&receipt, "the Stop hook's receipt", |l| {
+        of_kind(l, "hook").iter().any(|h| h["event"] == "Stop")
+    });
+
+    let l = end_offset(&dir);
+    let waiting = spawn_send(
+        &home,
+        &["builder", "--json"],
+        &format!("{CANARY} under the hint"),
+    );
+    wait_send_requests(&home, 2);
+    wrapper.send(b"k");
+    let taken = json!({"holder": "human", "cause": "human-input"});
+    wait_events(&dir, "the human-input wheel record", |lines| {
+        lines
+            .iter()
+            .any(|e| e["kind"] == "wheel" && e["data"] == taken)
+    });
+    let sent = finish(waiting);
+    assert_eq!(sent.code, Some(10), "stdout: {}", sent.stdout);
+    assert_eq!(
+        sent.stdout,
+        "{\"v\":1,\"refusal\":\"human-typing\",\"detail\":null}\n"
+    );
+
+    let records = records_after(&dir, l);
+    let kinds: Vec<&Value> = records.iter().map(|r| &r["kind"]).collect();
+    assert_eq!(kinds, ["wheel", "send-refused"], "{records:?}");
+    assert_eq!(records[0]["data"], taken);
+    assert_eq!(
+        records[1]["data"],
+        json!({"refusal": "human-typing", "detail": null})
+    );
+    // The agent reads its stdin again only after the hold: the key's receipt lands then, after the
+    // Enter that submitted the long text.
+    let lines = fake::wait_for(&receipt, "the key's receipt", |l| {
+        of_kind(l, "key").iter().any(|k| k["hex"] == "6b")
+    });
+    let keys: Vec<&Value> = of_kind(&lines, "key").iter().map(|k| &k["hex"]).collect();
+    assert_eq!(keys, ["0d", "6b"]);
+    let typed = prompts(&receipt);
+    assert_eq!(typed.len(), 1, "nothing more was typed");
+    assert_eq!(typed[0]["text"], long.as_str());
+    wrapper.stop();
 }
 
 #[test]

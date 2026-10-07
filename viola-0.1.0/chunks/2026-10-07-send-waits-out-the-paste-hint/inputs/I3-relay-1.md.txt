@@ -1,0 +1,3 @@
+The operator's directive at this build, verbatim, as it arrived in the session as the arguments of the `/andromeda-implement` invocation (2026-10-07, after the orientation dashboard of this session):
+
+2026-10-07-send-waits-out-the-paste-hint. Live cap 5: the one by-path re-verify of the 2.1.287 binary, fired once, each start ledgered before it with the UTC time read from the clock. Run the operator pass with the ci.py conclusion read (leg=operator) as usual. A red round (STOP 1) or a product fix after the round (STOP 6) stops the chunk and returns through me: the founder is away and it waits for him. A stalled-start red is read against the backing and the host record, never re-run for green.

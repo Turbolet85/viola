@@ -2009,9 +2009,9 @@ mod tests {
     }
 
     #[rstest]
-    #[case::both_at_the_bound(Some(5000), Some(5000), true)]
-    #[case::ready_past(Some(5001), Some(10), false)]
-    #[case::turn_past(Some(10), Some(5001), false)]
+    #[case::both_at_the_bound(Some(8500), Some(8500), true)]
+    #[case::ready_past(Some(8501), Some(10), false)]
+    #[case::turn_past(Some(10), Some(8501), false)]
     #[case::ready_missing(None, Some(10), false)]
     #[case::turn_missing(Some(10), None, false)]
     fn check_quiet_period_bounds_both_settles(
