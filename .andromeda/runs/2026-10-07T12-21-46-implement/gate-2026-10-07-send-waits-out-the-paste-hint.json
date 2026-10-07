@@ -3667,5 +3667,55 @@
 "unparsed": 0,
 "widening_without_word": 0
 }
+},
+{
+"tool": "gate",
+"v": "1.11",
+"sha8": "1e911c8f",
+"ts": "2026-10-07T12:56:31Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-07-send-waits-out-the-paste-hint",
+"--run-dir",
+".andromeda/runs/2026-10-07T12-21-46-implement",
+"--marker",
+"2026-10-07-send-waits-out-the-paste-hint"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"root . · base 56e67bb3 (the parent of the oldest pre-CI commit e574e738) · lists new 1 · modify 10 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"list viola-0.1.0/chunks/2026-10-07-send-waits-out-the-paste-hint/evidence/ (dir) ×0",
+"scope: clean — changed 10 · listed 10 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 79"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "/home/turbolet/dev/projects/viola",
+"base": "56e67bb33e63590a8aa9a2e739700ff0606207ba",
+"base_why": "the parent of the oldest pre-CI commit e574e738",
+"counts": {
+"changed": 10,
+"listed": 10,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 79,
+"unparsed": 0,
+"widening_without_word": 0
+}
 }
 ]

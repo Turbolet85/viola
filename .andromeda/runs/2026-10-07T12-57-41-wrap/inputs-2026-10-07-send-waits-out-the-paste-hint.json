@@ -1,0 +1,46 @@
+[
+{
+"tool": "inputs",
+"v": "1.0",
+"sha8": "0404fdd3",
+"ts": "2026-10-07T12:57:51Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-07-send-waits-out-the-paste-hint",
+"--run-dir",
+".andromeda/runs/2026-10-07T12-57-41-wrap",
+"--marker",
+"2026-10-07-send-waits-out-the-paste-hint"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator (the overseer), the /andromeda-phase invocation arguments, 2026-10-07T11:51Z",
+"I1 cited scope.md:24 · scope.md:97 · scope.md:130 · scope.md:144 · research.md:18 · plan.md:23 · plan.md:30 · plan.md:32 · plan.md:409 · plan.md:419 · plan.md:431",
+"I2 n/a — a message has no live source · copy message · message: the overseer, the answers to the P4 fork round through AskUserQuestion, 2026-10-07T12:10Z",
+"I2 cited scope.md:61 · scope.md:68 · scope.md:79 · scope.md:90 · research.md:20 · research.md:182 · plan.md:19 · plan.md:118 · plan.md:409 · plan.md:422 · plan.md:424 · plan.md:426 · plan.md:452",
+"I3 n/a — a message has no live source · copy message · message: the operator (the overseer), the /andromeda-implement invocation arguments, 2026-10-07T12:22Z",
+"I3 UNCITED",
+"inputs: 3 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 1,
+"unparsed": 0
+}
+}
+]

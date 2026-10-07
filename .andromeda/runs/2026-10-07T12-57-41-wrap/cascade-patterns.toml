@@ -1,0 +1,70 @@
+# The pattern set of this pass, derived from every amendment's OLD wording and the retired mechanism's phrasing.
+
+[[pattern]]
+id = "gate-5s"
+regex = '`GATE_MAX_WAIT` = 5 s|`GATE_MAX_WAIT`, 5 s|5 s maximum'
+
+[[pattern]]
+id = "gate-near-5s"
+regex = '(gate|maximum wait|readiness)[^\n]{0,80}\b5 s\b|\b5 s\b[^\n]{0,80}(gate.s|maximum wait)'
+
+[[pattern]]
+id = "max-wait-name"
+fixed = 'GATE_MAX_WAIT'
+
+[[pattern]]
+id = "not-built"
+fixed = 'It is not built'
+
+[[pattern]]
+id = "residual"
+regex = 'starts during the readiness gate|decides at the send.s arrival|a recorded residual'
+
+[[pattern]]
+id = "either-check"
+regex = 'either check fails|then requires the version-stamped input-box signature'
+
+[[pattern]]
+id = "unchanged-by"
+fixed = 'is unchanged by this'
+
+[[pattern]]
+id = "refused-fast"
+regex = '0\.63 s|ends `not-delivered` / `input-not-ready` with nothing typed|reads `not-delivered`/`input-not-ready` with nothing typed'
+
+[[pattern]]
+id = "cap-8000"
+regex = '8 000 ms|8000 ms|8 s at most'
+
+[[pattern]]
+id = "kills"
+regex = '45 s kill|30 s kill|about 21 s|21 s\b'
+
+[[pattern]]
+id = "hold-6s"
+regex = '6 s past a long paste|for 6 s after a long paste|about 10 s\)'
+
+[[pattern]]
+id = "order"
+regex = 'turn-running → input-not-ready|then the readiness gate \(`input-not-ready`'
+
+[[pattern]]
+id = "verdict-2"
+fixed = '(ready / `input-not-ready`)'
+
+[[pattern]]
+id = "hint"
+regex = 'paste hint|paste-hint|paste again to expand'
+ignore_case = true
+
+[[pattern]]
+id = "blocks"
+fixed = 'blocks for at most'
+
+[[pattern]]
+id = "confirm-ms"
+fixed = 'confirm_ms'
+
+[[pattern]]
+id = "unblocked"
+regex = 'delivered unblocked|keystrokes during a driver'

@@ -76,7 +76,7 @@ Rendered by `/andromeda-setup-project` on the first run and kept current by wrap
 
 ## CLI-native modals bypass every hook
 **What breaks:** a paste typed while a CLI-native modal is up ("Teach auto mode…") is swallowed; the screen also lags the hooks.
-**How to avoid:** the vt100 readiness gate (quiet period + input-box signature + no modal signature) before any send — the full gate on the compiled `SIGNATURES` only on a verified CLI version, partial otherwise (a poisoned model or a screen not quiet within 5 s refuses; no row is read); every send confirmed after the fact; otherwise `not-delivered` / `input-not-ready`.
+**How to avoid:** the vt100 readiness gate (quiet period + input-box signature + no modal signature) before any send — the full gate on the compiled `SIGNATURES` only on a verified CLI version (a modal refuses at once; a quiet screen with no input box, as under the CLI's 8.0 s paste hint, waits up to 8.5 s for one), partial otherwise (a poisoned model or a screen not quiet within 8.5 s refuses; no row is read); every send confirmed after the fact; otherwise `not-delivered` / `input-not-ready`.
 **References:** arch [Screen Model], [Delivery Confirmation].
 
 ## Local commands fire no UserPromptSubmit

@@ -1,0 +1,238 @@
+[
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "b56ded6b",
+"ts": "2026-10-07T13:10:15Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-07T12-57-41-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-07T12-57-41-wrap",
+"--marker",
+"2026-10-07-send-waits-out-the-paste-hint"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"baseline 56e67bb3 (pre-CI parent — the oldest of 1 pre-CI commit(s), e574e738)",
+"gate-5s · new 1 · standing 2 · leaf 0 · curation 0 · base 0 · control architecture.md:48 (prose)",
+"gate-near-5s · new 8 · standing 1 · leaf 1 · curation 0 · base 0 · case-variants +1 · control architecture.md:48 (prose)",
+"max-wait-name · new 3 · standing 3 · leaf 1 · curation 0 · base 0 · control architecture.md:48 (prose)",
+"not-built · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:91 (pros…",
+"residual · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:70 (prose)",
+"either-check · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:48 (p…",
+"unchanged-by · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:91 (p…",
+"refused-fast · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control architecture.md:91 (prose)",
+"cap-8000 · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:91 (prose)",
+"kills · new 1 · standing 2 · leaf 0 · curation 0 · base 0 · control registries/contracts/test-plan/bootstrap-phases-der…",
+"hold-6s · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:654 (prose)",
+"order · new 0 · standing 2 · leaf 1 · curation 0 · base 0 · control architecture.md:136 (prose)",
+"verdict-2 · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:566 (prose)",
+"hint · new 5 · standing 7 · leaf 4 · curation 0 · base 0 · control architecture.md:81 (prose)",
+"blocks · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:49 (prose)",
+"confirm-ms · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control obs-plan.md:763 (prose)",
+"unblocked · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control a11y-plan.md:573 (prose)",
+".andromeda/test-plan.md:654 gate-5s new … Stop, past the gate's 8.5 s maximum (`--paste-hint-ms`) and still stamps, the…",
+".andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md:10 gate-5s standing edited",
+".andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md:11 gate-5s standing edited",
+".andromeda/architecture.md:48 gate-near-5s new ×2 @c1408,1619/4560 …300 ms) and the maximum wait (`GATE_MAX_WAIT` = 8.5…",
+".andromeda/architecture.md:49 gate-near-5s new @c618/6039 …ks for at most the readiness gate's maximum wait, plus the a…",
+".andromeda/architecture.md:70 gate-near-5s new @c5229/8421 …and again once the readiness gate's wait (up to `GATE_MAX_W…",
+".andromeda/architecture.md:91 gate-near-5s new @c5631/10362 …a verified CLI the gate waits for the input box on a quiet…",
+".andromeda/security-plan.md:244 gate-near-5s standing …on` reads of `run`'s gate and `viola verify`, stdout and stderr …",
+".andromeda/test-plan.md:654 gate-near-5s new … paste's Stop, past the gate's 8.5 s maximum (`--paste-hint-ms`) and stil…",
+".andromeda/a11y-plan.md:823 gate-near-5s new …rified CLI waits in the readiness gate for the input box for at most `GAT…",
+".andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md:10 gate-near-5s new … gate…",
+".andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md:11 gate-near-5s new … gate…",
+".claude/docs/services/viola.md:20 gate-near-5s leaf …strip plan → version gate (`run::version_gate`: `--version` with n…",
+".andromeda/architecture.md:48 max-wait-name standing edited mixed ×3 @c1423,1598/4560 …um wait (`GATE_MAX_WAIT` = 8.5 s…",
+".andromeda/architecture.md:48 max-wait-name @c+3130/4560",
+".andromeda/architecture.md:70 max-wait-name standing edited @c5259/8421 …s wait (up to `GATE_MAX_WAIT`, 8.5 s) has retu…",
+".andromeda/architecture.md:91 max-wait-name standing edited mixed ×3 @c2932,3284/10362 …ant past `GATE_MAX_WAIT`, with …",
+".andromeda/architecture.md:91 max-wait-name @c+3803/10362",
+".andromeda/test-plan.md:566 max-wait-name new …x literal waits until `GATE_MAX_WAIT` (8 500 ms, pinned by a unit case) …",
+".andromeda/obs-plan.md:763 max-wait-name new …, up to architecture's `GATE_MAX_WAIT`, ahead of the window (as read in `…",
+".andromeda/a11y-plan.md:823 max-wait-name new …input box for at most `GATE_MAX_WAIT` (8.5 s, architecture [Screen Model…",
+".claude/docs/services/viola-agent-claude.md:11 max-wait-name leaf …ERIOD` 300 ms / `GATE_MAX_WAIT` 5 s / `CONFIRM_WINDO…",
+".andromeda/architecture.md:70 residual standing edited @c6610/8421 …e turn marked — a recorded residual; its child is e…",
+".andromeda/architecture.md:91 refused-fast new ×2 @c4083,4467/10362 …lasts the bound ends `not-delivered` / `input-not-…",
+".claude/rules/verification-harness.md:42 cap-8000 leaf … `--paste-hint-ms` (8 s at most: a cleared screen after the lon…",
+".andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md:11 kills new ×2 …a 45 s ki…",
+".andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md:18 kills standing …a 21 s …",
+".andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md:20 kills standing …a 30 s …",
+".andromeda/architecture.md:136 order standing edited …r `send` in flight), then the readiness gate (`input-not-ready`, …",
+".andromeda/test-plan.md:588 order standing edited …ing → budget-paused → turn-running → input-not-ready → no-prompt-sub…",
+".claude/rules/api.md:23 order leaf …n-typing → budget-paused → turn-running → input-not-ready → no-prompt-submitted; `a…",
+".andromeda/architecture.md:48 hint new ×2 @c1682,1814/4560 …send-waits-out-the-paste-hint raised it on the founder's li…",
+".andromeda/architecture.md:70 hint new @c5549/8421 …07-send-waits-out-the-paste-hint, listed for the founder as a fact;…",
+".andromeda/architecture.md:81 hint standing @c2912/2930 …: a long or a repeated text pasted while the paste hint stands.",
+".andromeda/architecture.md:91 hint standing edited mixed ×5 @c3441,3897,4709,5597/10362 …r reads `paste again to expand…",
+".andromeda/architecture.md:91 hint @c+5850/10362",
+".andromeda/architecture.md:355 hint standing edited @c1512/2061 …dow open) and `--paste-hint-ms <ms>` (capped at 10 000…",
+".andromeda/test-plan.md:654 hint standing edited …e's 8.5 s maximum (`--paste-hint-ms`) and still stamps, the stderr `u…",
+".andromeda/test-plan.md:750 hint standing edited … fake agent holds the paste hint (the gate waits out the 3 000 ms hol…",
+".andromeda/test-plan.md:1077 hint standing edited ×2 @c2225,2456/3693 …rinted) and `--paste-hint-ms <ms>` (capped at 10…",
+".andromeda/obs-plan.md:763 hint new …6-10-07-send-waits-out-the-paste-hint, not changed there) | histogram | ms | raw s…",
+".andromeda/registries/contracts/a11y-plan/keyboard-test-harness.md:8 hint new @c458/3690 … agent's paste-hint hold: the…",
+".andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md:10 hint new …the-paste-hin…",
+".andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md:11 hint standing edited mixed ×2",
+".claude/rules/verification-harness.md:42 hint leaf …ped test-only hold `--paste-hint-ms` (8 s at most: a cleared screen…",
+".claude/docs/services/viola.md:6 hint leaf …_wait`: 2.1.287 shows a paste hint in the input-box literal's place for 8.0…",
+".claude/docs/tests-summary.md:21 hint leaf @c1112/2595 …for a race test; `--paste-hint-ms`, 8 s, holds a cleared screen…",
+".claude/docs/tests-summary.md:26 hint leaf … under the fake agent's paste-hint hold a send on a verified CLI is `input-…",
+".andromeda/architecture.md:49 blocks standing edited @c595/6039 …he stamp. `send` blocks for at most the readiness gate…",
+".andromeda/obs-plan.md:763 confirm-ms standing edited …back`) | `viola.send.confirm_ms` ← `duration_ms` of the `send-co…",
+".andromeda/a11y-plan.md:573 unblocked standing edited …(2) human keystrokes delivered unblocked past the current atomic…",
+".andromeda/registries/contracts/a11y-plan/keyboard-test-harness.md:8 unblocked standing edited ×2 @c238/3690 …n keystro…",
+".andromeda/registries/contracts/a11y-plan/keyboard-test-harness.md:8 unblocked @c+293/3690",
+"gate-5s · new 1 · standing 2 · leaf 0 · curation 0 · base 0 · control architecture.md:48 (prose)",
+"gate-near-5s · new 8 · standing 1 · leaf 1 · curation 0 · base 0 · case-variants +1 · control architecture.md:48 (prose)",
+"max-wait-name · new 3 · standing 3 · leaf 1 · curation 0 · base 0 · control architecture.md:48 (prose)",
+"not-built · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:91 (pros…",
+"residual · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:70 (prose)",
+"either-check · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:48 (p…",
+"unchanged-by · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:91 (p…",
+"refused-fast · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control architecture.md:91 (prose)",
+"cap-8000 · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:91 (prose)",
+"kills · new 1 · standing 2 · leaf 0 · curation 0 · base 0 · control registries/contracts/test-plan/bootstrap-phases-der…",
+"hold-6s · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:654 (prose)",
+"order · new 0 · standing 2 · leaf 1 · curation 0 · base 0 · control architecture.md:136 (prose)",
+"verdict-2 · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:566 (prose)",
+"hint · new 5 · standing 7 · leaf 4 · curation 0 · base 0 · control architecture.md:81 (prose)",
+"blocks · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:49 (prose)",
+"confirm-ms · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control obs-plan.md:763 (prose)",
+"unblocked · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control a11y-plan.md:573 (prose)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "56e67bb33e63590a8aa9a2e739700ff0606207ba",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), e574e738",
+"counts": {
+"gate-5s": {
+"new": 1,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"gate-near-5s": {
+"new": 8,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"max-wait-name": {
+"new": 3,
+"standing": 3,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"not-built": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"residual": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"either-check": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"unchanged-by": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"refused-fast": {
+"new": 1,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"cap-8000": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"kills": {
+"new": 1,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"hold-6s": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"order": {
+"new": 0,
+"standing": 2,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"verdict-2": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"hint": {
+"new": 5,
+"standing": 7,
+"leaf": 4,
+"curation": 0,
+"base": 0
+},
+"blocks": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"confirm-ms": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"unblocked": {
+"new": 0,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]
