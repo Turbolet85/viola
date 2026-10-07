@@ -1,0 +1,52 @@
+[
+{
+"tool": "inputs",
+"v": "1.0",
+"sha8": "0404fdd3",
+"ts": "2026-10-07T08:21:24Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-07-test-homes-off-the-contended-volume",
+"--run-dir",
+".andromeda/runs/2026-10-07T08-21-13-wrap",
+"--marker",
+"2026-10-07-test-homes-off-the-contended-volume"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-07T06:13Z",
+"I1 cited scope.md:13 · scope.md:19 · scope.md:49 · scope.md:87 · research.md:12 · plan.md:107 · plan.md:191 · plan.md:406 · plan.md:415",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/d94-route-adaptation.md",
+"I2 cited scope.md:17 · research.md:13 · plan.md:406",
+"I3 unchanged · pointer committed@1ed4a6ab · ../additional/andromedaV3:andromeda-overseer/docs/design-slots/F167-host-contention-2026-10-07/plan.md",
+"I3 cited scope.md:73 · scope.md:82 · scope.md:91 · research.md:14 · research.md:143 · research.md:150 · plan.md:14 · plan.md:99 · plan.md:406 · plan.md:429",
+"I4 unchanged · pointer committed@1ed4a6ab · ../additional/andromedaV3:andromeda-overseer/docs/design-slots/F167-host-contention-2026-10-07/start_probe.py",
+"I4 cited scope.md:26 · scope.md:56 · research.md:15 · research.md:138 · plan.md:137 · plan.md:407",
+"I5 unchanged · pointer committed@1ed4a6ab · ../additional/andromedaV3:andromeda-overseer/docs/design-slots/F167-host-contention-2026-10-07/window_watch.py",
+"I5 cited research.md:16 · research.md:138 · plan.md:138 · plan.md:407 · plan.md:445",
+"I6 n/a — a message has no live source · copy message · message: the overseer, this session AskUserQuestion, 2026-10-07T07:27Z; question 1 carries the founder live answer of 2026-10-07T07:25Z as relayed",
+"I6 cited scope.md:28 · scope.md:42 · scope.md:51 · research.md:17 · research.md:218 · research.md:221 · plan.md:22 · plan.md:31 · plan.md:34 · plan.md:168 · plan.md:407 · plan.md:412 · plan.md:414 · plan.md:433 · plan.md:466",
+"inputs: 6 entries — unchanged 4 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 6,
+"counts": {
+"unchanged": 4,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]

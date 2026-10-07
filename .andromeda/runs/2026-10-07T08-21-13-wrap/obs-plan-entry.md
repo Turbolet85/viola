@@ -1,0 +1,8 @@
+## 2026-10-07-test-homes-off-the-contended-volume — G2's start point descends a linked scope, and a kept home's diagnostics on the dev host
+**Section:** §9 CI Integration → Gate commands (the G2 snippet, both `find` lines and its comment) · §3 → Log file location (Rotation)
+**Change:**
+- G2: both `find` start points read `target/e2e-home/`. Was `find target/e2e-home -path …`; now `find target/e2e-home/ -path …`, as `scripts/g2-zero-panics.sh` `count_panics` reads `"$scope/"`. The comment says the trailing slash makes a scope that is a link to a directory descended; on a real directory the walk is the same, and a missing scope still reads empty. The jq filter is unchanged.
+- Log file location: on the Linux dev host the test homes' root `target/e2e-home` is a link to an owner-only tmpfs directory, so a home kept for a red reading (`AGENT_RUN_KEEP_HOMES=1`, `AGENT_RUN_KEEP_FAILED=1`) holds its diagnostics in memory: they end at a reboot, and `/tmp` ages out what is untouched for ten days. The path `<home>/diagnostics/…` is unchanged; CI retention is unchanged.
+**Why:** over a linked scope the old start point found nothing, so a local G2 would read its fail-closed `empty scope`; measured at this chunk with a session booted on the backing, the old start point printed 0 files and the new one 3. The retention bound is the obs side of the tests↔obs bind (tests' `logs` Retention window carries the same fact). Trap: this host's `find` does not descend a start point that is a link without the slash.
+**Kept:** "Retention is the lifetime of the session home" stands, here and in §1's copy: the amendment bounds a kept home's life on one host. `--probe` and CI's steps are unchanged.
+**Ref:** .andromeda/runs/2026-10-07T08-21-13-wrap/

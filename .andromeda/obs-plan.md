@@ -1029,9 +1029,9 @@ _[ALL tiers]_
 ```sh
 # G1: whole workspace from its root (root bin `viola` + crates/* + tests/ + fuzz/); target/ is skipped through .gitignore
 set +e; rg -n -U --pcre2 --type rust '#\[(tracing::)?instrument\b(?!\(\s*skip_all\b)' .; test $? -eq 1
-# G2: first fail if no home-level role file exists (an empty scope would pass vacuously); `awk 1` ends every file's last line with a newline; -R + fromjson? skip a torn line (not a panic record) instead of failing with jq exit 2
-test -n "$(find target/e2e-home -path '*/diagnostics/*.ndjson' ! -name 'detail-*' -print -quit)"
-find target/e2e-home -path '*/diagnostics/*.ndjson' ! -name 'detail-*' -exec awk 1 {} + | jq -R -n -e --arg seam src/cmd/hook/seam.rs '[inputs|fromjson?|select(.event=="panic")|select(((.panic_location|type)=="string" and (.panic_location|test(":[0-9]+$")) and ((.panic_location|sub(":[0-9]+$";""))==$seam))|not)]|length==0'
+# G2: first fail if no home-level role file exists (an empty scope would pass vacuously); the start point ends in a slash, so a scope that is a link to a directory is descended (the Linux dev host's `target/e2e-home`; on a real directory the walk is the same); `awk 1` ends every file's last line with a newline; -R + fromjson? skip a torn line (not a panic record) instead of failing with jq exit 2
+test -n "$(find target/e2e-home/ -path '*/diagnostics/*.ndjson' ! -name 'detail-*' -print -quit)"
+find target/e2e-home/ -path '*/diagnostics/*.ndjson' ! -name 'detail-*' -exec awk 1 {} + | jq -R -n -e --arg seam src/cmd/hook/seam.rs '[inputs|fromjson?|select(.event=="panic")|select(((.panic_location|type)=="string" and (.panic_location|test(":[0-9]+$")) and ((.panic_location|sub(":[0-9]+$";""))==$seam))|not)]|length==0'
 # G3: no abort panic strategy (profile `panic` key, `-C panic` rustflag, CARGO_PROFILE_*_PANIC env) in Cargo.toml, cargo config or workflows (§7); default regex engine; only rg exit 1 passes
 set +e; rg -n --hidden -g 'Cargo.toml' -g 'config.toml' -g '*.yml' -g '*.yaml' "(panic|_PANIC)\s*[:=]\s*[\"']?abort" .; test $? -eq 1
 ```

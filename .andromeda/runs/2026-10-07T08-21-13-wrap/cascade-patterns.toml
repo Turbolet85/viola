@@ -1,0 +1,39 @@
+# Cascade sweep patterns, derived from every amendment of this pass (A1, A2, S1, T1 to T7, O1 to O3).
+# Two candidate patterns had no pre-pass hit in the masters or the registries, so the tool would refuse them
+# for want of a control, and they are swept by hand over the leaves instead (cascade-dispositions.md):
+# `create_dir_all` and `cargo clean`.
+
+# O1, O2: the retired G2 start point (no trailing slash).
+[[pattern]]
+id = "g2-find"
+fixed = 'find target/e2e-home -path'
+
+# A1, A2, S1, T1 to T7, O3: every statement of where the homes live, by the path token itself.
+[[pattern]]
+id = "e2e-home"
+fixed = 'e2e-home'
+
+# A1, S1, T3, T6: the removals that now reach through the link.
+[[pattern]]
+id = "remove-owned"
+fixed = 'remove_owned'
+
+# T4, T6, O3, A2: a kept home's lifetime.
+[[pattern]]
+id = "keep-failed"
+fixed = 'AGENT_RUN_KEEP_FAILED'
+
+# T4, O3: the retention claim in its own words.
+[[pattern]]
+id = "home-lifetime"
+fixed = 'lifetime of the session home'
+
+# T1, T5, T7: the base the homes are created in.
+[[pattern]]
+id = "tempdir-in"
+fixed = 'tempdir_in'
+
+# A1, S1: the boundary the widening crosses, in the masters' phrasings.
+[[pattern]]
+id = "outside-ws"
+regex = 'outside the (workspace|working directory|repository)'

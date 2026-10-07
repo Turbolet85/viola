@@ -72,7 +72,7 @@ _The workspace, `rust-toolchain.toml`, `.config/nextest.toml`, `viola-harness` a
 - G1 and G3 need `rg` on `PATH`: `PATH="$PWD/target/tools/ripgrep/bin:$PATH"` after `scripts/install-ripgrep.sh`.
 - G4 schema conformance against `schemas/diag-line.v1.json` / `schemas/diag-detail.v1.json`: `bash scripts/agent-run.sh schema-check`.
 - Secret scan before any diagnostics-bearing upload: `bash scripts/agent-run.sh secret-scan` (`id: secret-scan`). The hit report goes to `target/secret-scan/hits.json`. The unscanned uploads (nightly `fuzz/artifacts/`, the `supply-chain` reports) are admissible only by content, per obs-plan §8 item 6.
-- Locally, G2, G4 and the scan need kept homes. Clear `target/e2e-home` first (the scan reads every home left there). A local `run --mutants` `chunk.diff` in `target/agent-run/` needs no clearing: the scan skips exactly that file. Then run `AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --integration`.
+- Locally, G2, G4 and the scan need kept homes. Clear the homes under `target/e2e-home/` first (the scan reads every home left there; on the Linux dev host that path is a link to a tmpfs directory, so remove its entries, never the link). A local `run --mutants` `chunk.diff` in `target/agent-run/` needs no clearing: the scan skips exactly that file. Then run `AGENT_RUN_KEEP_HOMES=1 bash scripts/agent-run.sh run --integration`.
 
 ## Build & Deploy
 - `bash scripts/release-check.sh [--probe]` — release build `cargo build --release --locked --bin viola` (fake agent excluded: feature off), judged from its own artifact records: last line `release-check: viola only`; an artifact built with the test-only `test-support` or `fake-agent` feature fails it (the probe's `release-check probes: 5/5 refused, control clean`). CI job `release`, all 3 OS. Locally, pass `CARGO_TARGET_DIR=target/release-check` to keep it off a shared `target/release/`
@@ -88,6 +88,6 @@ _The workspace, `rust-toolchain.toml`, `.config/nextest.toml`, `viola-harness` a
 - `gh run view --json jobs` / `gh run download` — read CI results and artifacts
 
 ## Troubleshooting
-- `cargo clean` — clean build artifacts (also removes `target/e2e-home/` and `target/agent-run/`)
+- `cargo clean` — clean build artifacts (also removes `target/e2e-home/` and `target/agent-run/`; on the Linux dev host `target/e2e-home` is a link to the tmpfs backing, so re-make it afterwards with `ln -s /tmp/viola-e2e-home-<uid> target/e2e-home`, or the next start puts a plain directory back on the shared volume with no signal)
 - `scripts/agent-run.sh cleanup --all` — tear down every harness session
 - `scripts/agent-run.sh logs --instance <name> | jq -c 'select(.record.level=="ERROR")'` — errors for one instance

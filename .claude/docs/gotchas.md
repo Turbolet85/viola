@@ -128,6 +128,12 @@ Rendered by `/andromeda-setup-project` on the first run and kept current by wrap
 **How to avoid:** locate a crate's source through `cargo metadata --format-version 1`: the package's `manifest_path` is its `Cargo.toml`, and its parent is the source root at the exact version the lockfile resolved.
 **References:** Epoch 2b evolve diagnosis §L4 (`.andromeda/runs/2026-10-01T09-05-15-evolve-diagnose/proposals.md`).
 
+## `cargo clean` removes the dev host's test-home link
+**What breaks:** on the Linux dev host `target/e2e-home` is a link to an owner-only tmpfs directory, so a start's pinned copy does not wait behind other builders' writes. `cargo clean` removes the link with `target/`, and the next start makes a plain directory on the shared volume with no signal: the stalled-start reds can return.
+**How to avoid:** after a `cargo clean`, re-make the link from the repository root: `ln -s /tmp/viola-e2e-home-<uid> target/e2e-home` (the keepers make the target). `test -L target/e2e-home && findmnt -n -o FSTYPE -T target/e2e-home/` reads `tmpfs` when it is in force. `find` over the link needs a trailing slash on the start point.
+**Fix if broken:** a stalled-start red is first a question about the backing: read that check before anything else, and report it; never re-run for a green.
+**References:** arch §Occupied Resources (Repository, Filesystem); test-plan §3 Test data bootstrap; chunk 2026-10-07-test-homes-off-the-contended-volume `evidence/backing.md`.
+
 ## Related
 
 - For runtime-discovered learnings, see `.claude/docs/session-learnings.md` (curated by /andromeda-wrap-session)
