@@ -1,0 +1,212 @@
+[
+{
+"tool": "inputs",
+"v": "1.0",
+"sha8": "0404fdd3",
+"ts": "2026-10-07T13:37:49Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+"--message-file",
+".andromeda/runs/2026-10-07T13-36-31-phase/relay-1.md",
+"--origin",
+"the operator in this session, the /andromeda-phase invocation, 2026-10-07T13:36Z",
+"--kind",
+"relay",
+"--why",
+"zero live starts; the CI red on 9f2bebe folded as its own item with its own acceptance and witness; a founder remedy card is answered provisionally and listed; a widening is held",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-10-07T13-36-31-phase",
+"--marker",
+"2026-10-07-a-send-ending-in-a-newline-is-confirmed"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy message · message: the operator in this session, the /andromeda-phase invocation, 2026-10-07T13:36Z",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator in this session, the /andromeda-phase invocation, 2026-10-07T13:36Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "cec51b4c5635b18d3a35c1939d5ee65207837f9ca0365db90685fe1397b0752b",
+"copy": "I1-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-07T13:37:49Z",
+"step": "phase:P1",
+"why": "zero live starts; the CI red on 9f2bebe folded as its own item with its own acceptance and witness; a founder remedy card is answered provisionally and listed; a widening is held"
+}
+},
+{
+"tool": "inputs",
+"v": "1.0",
+"sha8": "0404fdd3",
+"ts": "2026-10-07T14:00:32Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+"--message-file",
+".andromeda/runs/2026-10-07T13-36-31-phase/relay-2.md",
+"--origin",
+"the operator in this session (the overseer, provisional for the founder), the P4 card answers, 2026-10-07T13:58Z",
+"--kind",
+"relay",
+"--why",
+"the remedy is strip before paste, every trailing LF, provisional and listed for the founder; the red is closed here with its limit stated and no new member in a CI upload",
+"--step",
+"phase:P3",
+"--run-dir",
+".andromeda/runs/2026-10-07T13-36-31-phase",
+"--marker",
+"2026-10-07-a-send-ending-in-a-newline-is-confirmed"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: the operator in this session (the overseer, provisional for the founder), the P4 card answers, 2026-10-07T13:58Z",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator in this session (the overseer, provisional for the founder), the P4 card answers, 2026-10-07T13:58Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "9801e6b4445b21e664f8e809ffc7213f26c8b37533943c0337589fb8a4c4b852",
+"copy": "I2-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-07T14:00:32Z",
+"step": "phase:P3",
+"why": "the remedy is strip before paste, every trailing LF, provisional and listed for the founder; the red is closed here with its limit stated and no new member in a CI upload"
+}
+},
+{
+"tool": "inputs",
+"v": "1.0",
+"sha8": "0404fdd3",
+"ts": "2026-10-07T14:11:55Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+"--message-file",
+".andromeda/runs/2026-10-07T13-36-31-phase/relay-3.md",
+"--origin",
+"the operator in this session (the overseer), the P5 review, 2026-10-07",
+"--kind",
+"relay",
+"--why",
+"the two filter entries assert their passed counts; the census runs on a host four other builders share, so its wall time is stated and each run is announced",
+"--step",
+"phase:P3",
+"--run-dir",
+".andromeda/runs/2026-10-07T13-36-31-phase",
+"--marker",
+"2026-10-07-a-send-ending-in-a-newline-is-confirmed"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: the operator in this session (the overseer), the P5 review, 2026-10-07",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-3.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator in this session (the overseer), the P5 review, 2026-10-07",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "444b6c4ec239853cd1f73377c28d0e4b15348ae90a79becb6b75e8a2a17f44c9",
+"copy": "I3-relay-3.md.txt",
+"link": false,
+"read_at": "2026-10-07T14:11:55Z",
+"step": "phase:P3",
+"why": "the two filter entries assert their passed counts; the census runs on a host four other builders share, so its wall time is stated and each run is announced"
+}
+},
+{
+"tool": "inputs",
+"v": "1.0",
+"sha8": "0404fdd3",
+"ts": "2026-10-07T14:11:56Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+"--run-dir",
+".andromeda/runs/2026-10-07T13-36-31-phase",
+"--marker",
+"2026-10-07-a-send-ending-in-a-newline-is-confirmed"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator in this session, the /andromeda-phase invocation, 2026-10-07T13:36Z",
+"I1 cited scope.md:22 · scope.md:62 · scope.md:129 · scope.md:162 · scope.md:171 · research.md:14 · plan.md:22 · plan.md:27 · plan.md:143 · plan.md:373",
+"I2 n/a — a message has no live source · copy message · message: the operator in this session (the overseer, provisional for the founder), the P4 card answers, 2026-10-07T13:58Z",
+"I2 cited scope.md:47 · scope.md:158 · research.md:16 · research.md:147 · plan.md:15 · plan.md:360 · plan.md:373 · plan.md:381 · plan.md:385 · plan.md:393 · plan.md:403 · plan.md:438",
+"I3 n/a — a message has no live source · copy message · message: the operator in this session (the overseer), the P5 review, 2026-10-07",
+"I3 cited research.md:18 · plan.md:158 · plan.md:373",
+"inputs: 3 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]

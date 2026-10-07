@@ -191,6 +191,19 @@ pub(crate) fn prompt_text(raw: &str) -> String {
     unescape_tags(&unwrap_pastes(raw))
 }
 
+/// A sent text as `send` types it: without its trailing LF characters, and with nothing else
+/// removed (no CR, TAB or space, no newline that is not at the very end). Measured on 2.1.287, on
+/// a verified and an unverified home: the CLI drops a pasted text's last newline before
+/// UserPromptSubmit, so a text typed with it comes back one byte short of the text `send` matches
+/// (chunk 2026-10-07-live-rows-and-paste-shapes-on-the-dev-host: `evidence/hint-window.md` step 7,
+/// `scratch-session.md`, `live-shape-red-green.md`). The width is every trailing LF, so the typed
+/// text never ends in one and what the CLI does with two is not leaned on. PROVISIONAL: the
+/// overseer's delegate answer of 2026-10-07, the founder's to confirm or overturn
+/// (architecture.md [Delivery Confirmation]).
+pub fn typed_text(text: &str) -> &str {
+    text.trim_end_matches('\n')
+}
+
 const PASTE_OPEN: &str = "<pasted_content id=\"";
 /// What follows a close tag's own newline when the next pair comes at once.
 const NEXT_FRAME: &str = "\n\n<pasted_content id=\"";
@@ -638,6 +651,24 @@ mod tests {
         assert_eq!(prompt_text(&raw), text);
         let got = read(HookEvent::UserPromptSubmit, &json!({"prompt": raw}));
         assert_eq!(got.data["text"], text.as_str());
+    }
+
+    /// Only the LF characters at the very end go; every other byte stays where it is.
+    #[rstest]
+    #[case::one("x\n", "x")]
+    #[case::three("x\n\n\n", "x")]
+    #[case::a_cr_before_it_stays("x\r\n", "x\r")]
+    #[case::only_newlines("\n\n", "")]
+    #[case::an_inner_newline("x\ny", "x\ny")]
+    #[case::a_space_after_it("x\n ", "x\n ")]
+    #[case::a_tab_after_it("x\n\t", "x\n\t")]
+    #[case::none("x", "x")]
+    #[case::empty("", "")]
+    fn typed_text_drops_every_trailing_newline_and_nothing_else(
+        #[case] sent: &str,
+        #[case] typed: &str,
+    ) {
+        assert_eq!(super::typed_text(sent), typed);
     }
 
     /// Two harness-prefix readings on 2.1.287: a `<task-notification>` typed at a prompt's very

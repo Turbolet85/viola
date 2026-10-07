@@ -923,13 +923,16 @@ mod tests {
     /// One in-process start through the spawn (obs-plan §4 Scenario 1): every step's span, in the
     /// documented order, under `run.start`, with its required fields; then the seam's own spans.
     /// The home is outside `target/e2e-home`: its pinned copy is this test binary, not `viola`.
+    /// The child is a host program, never this test binary. The wrapper's plugin flag comes first
+    /// in a child's arguments, libtest refuses it and exits by itself, and under coverage a kill
+    /// that lands in that exit's profile write leaves a profile `llvm-profdata` refuses. `whoami`
+    /// refuses the flag too, and writes no profile (test-plan §10 Zero-flakiness budget).
     #[test]
     fn start_opens_the_scenario_one_spans_under_run_start() {
         let tmp = tempfile::tempdir().expect("tempdir");
-        let exe = std::env::current_exe().expect("test exe");
         let args = RunArgs {
             name: ViolaName::try_new("builder".to_owned()).expect("valid"),
-            program: vec![exe.into_os_string(), OsString::from("--list")],
+            program: vec![OsString::from("whoami")],
         };
         let (started, spans) = capture_spans(|| start(&tmp.path().join("home"), &args, &[]));
         let Started::Launched(mut launched) = started.expect("started") else {

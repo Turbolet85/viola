@@ -1,0 +1,1 @@
+{"v":1,"cmd":"run","ok":true,"suites":[{"suite":"nextest-unit","passed":1,"failed":0,"skipped":0,"survived":0,"artifact":"/home/turbolet/dev/projects/viola/target/agent-run/artifacts/junit-nextest-unit.xml","failures":[]},{"suite":"doctest","passed":0,"failed":0,"skipped":0,"survived":0,"artifact":null,"failures":[]}],"archived":"target/run-archive/727"}

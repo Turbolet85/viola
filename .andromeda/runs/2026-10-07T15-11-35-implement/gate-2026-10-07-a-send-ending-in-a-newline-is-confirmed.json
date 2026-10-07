@@ -1,0 +1,1932 @@
+[
+{
+"tool": "gate",
+"v": "1.12",
+"sha8": "8357110d",
+"ts": "2026-10-07T15:15:08Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-07T15-11-35-implement",
+"--marker",
+"2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+"--only",
+"1,2,3,4,5,6,7,8,9,10,11,12,13,14,15"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-07-a-send-ending-in-a-newline-is-confirmed · entries 20",
+"logs $TMPDIR/andromeda-gate/2026-10-07-a-send-ending-in-a-newline-is-confirmed/implement-2026-10-07T15-11-35 · bound: GNU timeout",
+"delta docs 95 · python 1 · rust 4 · unmapped 12",
+"walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 112",
+"prose L154-156: The gates are the standing lint, unit and default-selection entries, two filter entries th… (299 chars)",
+"prose L158-159: No live leg: the chunk starts no `claude` process (`inputs#I1`). What stays unmeasured on … (183 chars)",
+"prose L161-164: Three red-first readings were one-shot runs at implement and not entries, because each nee… (354 chars)",
+"prose L166-176: The census script is an instrument this chunk builds, so its two known-verdict controls ar… (1111 chars)",
+"prose L178-184: The census loads the host. `4800 48` runs 48 workers at once on a 32-core host that four o… (621 chars)",
+"prose L186-190: The census entry stands after `pre-push`, whose coverage run rebuilds the instrumented bin… (561 chars)",
+"prose L192-192: The preservation guard names the base commit, because the operator pass's pre-CI commit mo… (114 chars)",
+"prose L194-194: No push goes out while an entry of this block is red by its own letter (`inputs#I6`).",
+"  1 lint        green · exit 0 · 0.61s · 0 B → 1.log · cargo fmt --all --check",
+"  2 lint        green · exit 0 · 0.17s · 72 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 unit        green · exit 0 · 6.44s · 171443 B → 3.log · bash scripts/agent-run.sh run --unit",
+"  4 unit        green · exit 0 · 0.85s · 3897 B → 4.log · bash scripts/agent-run.sh run --unit --filter 'test(/trail… (72 chars)",
+"  5 integration green · exit 0 · 48.5s · 212562 B → 5.log · bash scripts/agent-run.sh run",
+"  6 integration green · exit 0 · 1.1s · 1884 B → 6.log · bash scripts/agent-run.sh run --integration --filter 'test… (81 chars)",
+"  7 probe       green · exit 1 · 0.0s · 2 B → 7.log · grep -c '\"--list\"' src/cmd/run.rs",
+"  8 probe       green · exit 0 · 0.01s · 0 B → 8.log · git diff --quiet 9f2bebe5102b -- src/bin src/human.rs src/… (386 chars)",
+"  9 smoke       green · exit 0 · 0.09s · 47 B → 9.log · bash scripts/agent-run.sh cleanup --session p-newline-smok… (59 chars)",
+" 10 smoke       green · exit 0 · 3.77s · 291 B → 10.log · bash scripts/agent-run.sh boot --session p-newline-smoke -… (75 chars)",
+" 11 smoke       green · exit 0 · 0.09s · 216 B → 11.log · bash scripts/agent-run.sh status --session p-newline-smoke",
+" 12 probe       green · exit 0 · 0.01s · 10 B → 12.log · bash scripts/g2-zero-panics.sh",
+" 13 probe       green · exit 0 · 0.11s · 104 B → 13.log · bash scripts/agent-run.sh schema-check",
+" 14 smoke       green · exit 0 · 0.31s · 180 B → 14.log · bash scripts/agent-run.sh cleanup --session p-newline-smok… (59 chars)",
+" 15 probe       green · exit 0 · 55.51s · 214961 B → 15.log · bash scripts/agent-run.sh pre-push",
+" 16 probe       not run — excluded · bash scripts/profraw-census.sh 4800 48",
+" 17 probe       not run — excluded · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (90 chars)",
+" 18 probe       not run — excluded · git diff --quiet && git diff --cached --quiet && git push … (69 chars)",
+" 19 probe       not run — excluded · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (114 chars)",
+" 20 probe       not run — excluded · gh api \"repos/{owner}/{repo}/actions/runs?head_sha=$(git r… (144 chars)",
+"entries 20 · green 15 · red 0 · recorded 0 · timeout 0 · not-run 5"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+"plan": "./viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-07-a-send-ending-in-a-newline-is-confirmed/implement-2026-10-07T15-11-35",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-07T12-57-41-wrap/evolve-2026-10-07-send-waits-out-the-paste-hint.json",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-07T12-57-41-wrap/health-2026-10-07-send-waits-out-the-paste-hint.json",
+".andromeda/runs/2026-10-07T13-36-31-phase/.cites-a11y.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.cites-arch.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.cites-design.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.cites-layouts.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.cites-obs.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.cites-security.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.cites-tests.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.dryrun.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.dryrun2.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.dryrun3.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.planlint.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.planlint2.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.planlint3.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.reg-a11y.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.reg-arch.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.reg-obs.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.reg-tests.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.sidecar-a11y.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.sidecar-arch.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.sidecar-design.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.sidecar-layouts.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.sidecar-obs.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.sidecar-security.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.sidecar-tests.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/a11y-history.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/a11y.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/arch-contracts.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/arch-history-index.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/arch-history.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/arch.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-07T13-36-31-phase/design-history.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/design.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/evolve-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T13-36-31-phase/gate-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T13-36-31-phase/inputs-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T13-36-31-phase/layouts-history.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/layouts.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/master-record.txt",
+".andromeda/runs/2026-10-07T13-36-31-phase/matrix-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T13-36-31-phase/obs-contracts.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/obs-history.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/obs.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/p4-run-attempt.txt",
+".andromeda/runs/2026-10-07T13-36-31-phase/p5-baseline-integration.err",
+".andromeda/runs/2026-10-07T13-36-31-phase/p5-baseline-integration.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/p5-baseline-unit.err",
+".andromeda/runs/2026-10-07T13-36-31-phase/p5-baseline-unit.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/p5-word.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/pins.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/planlint-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T13-36-31-phase/registry-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T13-36-31-phase/relay-1.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/relay-2.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/relay-3.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/route-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T13-36-31-phase/route-no-marker.json",
+".andromeda/runs/2026-10-07T13-36-31-phase/security-history.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/security.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/sidecar-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T13-36-31-phase/tests-contracts.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/tests-history.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/tests.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/tree-query-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T14-15-59-implement/evolve-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T14-15-59-implement/gate-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T14-15-59-implement/inputs-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T14-15-59-implement/relay-1.md",
+".andromeda/runs/2026-10-07T14-15-59-implement/relay-2.md",
+".andromeda/runs/2026-10-07T14-15-59-implement/relay-3.md",
+".andromeda/runs/2026-10-07T14-40-18-phase/evolve-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T14-40-18-phase/gate-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T14-40-18-phase/inputs-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T14-40-18-phase/matrix-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T14-40-18-phase/p5-baseline-census.out",
+".andromeda/runs/2026-10-07T14-40-18-phase/planlint-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T14-40-18-phase/relay-1.md",
+".andromeda/runs/2026-10-07T14-40-18-phase/relay-2.md",
+".andromeda/runs/2026-10-07T15-11-35-implement/evolve-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T15-11-35-implement/inputs-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T15-11-35-implement/relay-1.md",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/evidence/ci-attempt-1.md",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/evidence/newline-red-green.md",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/evidence/profraw-red-green.md",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/plan.md",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/research.md",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/scope-record.md",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/scope.md"
+],
+"rust": [
+"crates/viola-agent-claude/src/hook.rs",
+"src/cmd/run.rs",
+"src/run/send.rs",
+"tests/cli_send.rs"
+],
+"python": [
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/evidence/guards/read-attempt1.py"
+]
+},
+"unmapped": [
+"scripts/profraw-census.sh",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/inputs/.gitattributes",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/inputs/I1-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/inputs/I2-relay-2.md.txt",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/inputs/I3-relay-3.md.txt",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/inputs/I4-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/inputs/I5-relay-2.md.txt",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/inputs/I6-relay-3.md.txt",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/inputs/I7-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/inputs/I8-relay-2.md.txt",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/inputs/I9-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/inputs/andromeda-inputs.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 112,
+"problem": null
+},
+"prose": [
+{
+"from": 154,
+"to": 156,
+"text": "The gates are the standing lint, unit and default-selection entries, two filter entries that select only this chunk's new cases, two census reads, the preservation guard, the harness smoke with G2 and G4 over its home, the native `pre-push`, the profile census, and the operator's push and CI reads."
+},
+{
+"from": 158,
+"to": 159,
+"text": "No live leg: the chunk starts no `claude` process (`inputs#I1`). What stays unmeasured on a live CLI is in the Implementation notes and is carried to \"First live test and self-drive\"."
+},
+{
+"from": 161,
+"to": 164,
+"text": "Three red-first readings were one-shot runs at implement and not entries, because each needs the tree in a state the finished chunk no longer has: step 3's cases before step 2, step 4's case before step 2, and step 6's census on the untouched test. Their records are in `evidence/`. No mutation entry is listed (the mutation run is the epoch boundary's)."
+},
+{
+"from": 166,
+"to": 176,
+"text": "The census script is an instrument this chunk builds, so its two known-verdict controls are one-shot runs at implement, read into `evidence/profraw-red-green.md` before its graded use. The must-fail reading is step 6's census on the untouched test, read through the script under the two-a-run rule it then held. The must-pass reading is `bash scripts/profraw-census.sh 48 1` after step 6's remaining part, on the instrumented binary `pre-push` has built, 48 runs one at a time, which must end `runs 48 · passed 48 · profiles 48 · third 0 · short 0`. The untouched test is not rebuilt (`inputs#I7`), so the revised rule gets its own failing side as a planted control (`inputs#I8`, step 8): one census run given one extra profile file and one given a short file, each of which must read exit 1, with `third 1 · short 0` and with `third 1 · short 1`. The plants are gone after the runs and their removal is checked. All of these are one-shot runs and not entries: the planted control writes files into a census directory before the script runs, and an entry is one statement the wrap's light gate re-runs verbatim."
+},
+{
+"from": 178,
+"to": 184,
+"text": "The census loads the host. `4800 48` runs 48 workers at once on a 32-core host that four other builders share (the operator's word at the review, `inputs#I3`), for about 2.5 minutes: 4 800 runs at 48 workers took 136.6 s (measured at implement, `evidence/profraw-red-green.md`). Before each census run, at any size and by whoever fires it (implement, the operator pass, the wrap's light gate), one line is written to the operator saying that it starts and for how long. It is a notice, not a question: the run follows it without waiting for an answer. The script's own first line of output names the runs and the workers."
+},
+{
+"from": 186,
+"to": 190,
+"text": "The census entry stands after `pre-push`, whose coverage run rebuilds the instrumented binary it reads. Its profile path is an assignment inside its own script, not in the `pre-push` launcher. Implement fires the block up to and including `pre-push`, then the must-pass control, then the planted control, then the census entry, so the controls are read before the graded use. A census red that is not of the `third` or `short` shape (a run that failed, a profile count that is not one a run) is a finding and is recorded as read; it is never re-run for a green."
+},
+{
+"from": 192,
+"to": 192,
+"text": "The preservation guard names the base commit, because the operator pass's pre-CI commit moves HEAD onto the chunk."
+},
+{
+"from": 194,
+"to": 194,
+"text": "No push goes out while an entry of this block is red by its own letter (`inputs#I6`)."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-07-a-send-ending-in-a-newline-is-confirmed/implement-2026-10-07T15-11-35/1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.61,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-07-a-send-ending-in-a-newline-is-confirmed/implement-2026-10-07T15-11-35/2.log",
+"bytes": 72,
+"log_sha8": "c92508a2",
+"exit": 0,
+"seconds": 0.17,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-07-a-send-ending-in-a-newline-is-confirmed/implement-2026-10-07T15-11-35/3.log",
+"bytes": 171443,
+"log_sha8": "add3999d",
+"exit": 0,
+"seconds": 6.44,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/trailing_newline/)'",
+"run_sha8": "1c5b5273",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"suite\":\"nextest-unit\",\"passed\":16,\"failed\":0"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-07-a-send-ending-in-a-newline-is-confirmed/implement-2026-10-07T15-11-35/4.log",
+"bytes": 3897,
+"log_sha8": "7e34e61e",
+"exit": 0,
+"seconds": 0.85,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"contains '\"suite\":\"nextest-unit\",\"passed\":16,\"failed\":0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run",
+"run_sha8": "21443cdf",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-07-a-send-ending-in-a-newline-is-confirmed/implement-2026-10-07T15-11-35/5.log",
+"bytes": 212562,
+"log_sha8": "2c2fafe0",
+"exit": 0,
+"seconds": 48.5,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'test(/ending_in_newlines/)'",
+"run_sha8": "4cbdcb32",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"suite\":\"nextest-integration\",\"passed\":2,\"failed\":0"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-07-a-send-ending-in-a-newline-is-confirmed/implement-2026-10-07T15-11-35/6.log",
+"bytes": 1884,
+"log_sha8": "aff773b6",
+"exit": 0,
+"seconds": 1.1,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"contains '\"suite\":\"nextest-integration\",\"passed\":2,\"failed\":0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "grep -c '\"--list\"' src/cmd/run.rs",
+"run_sha8": "711b9d59",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-07-a-send-ending-in-a-newline-is-confirmed/implement-2026-10-07T15-11-35/7.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.0,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "git diff --quiet 9f2bebe5102b -- src/bin src/human.rs src/cmd/send.rs src/cmd/hook.rs src/run/wheel.rs src/run/gate.rs src/run/wait.rs src/run/dialog.rs crates/viola-core crates/viola-pty crates/viola-channel crates/viola-state crates/viola-e2e crates/viola-agent-claude/src/ledger.rs crates/viola-agent-claude/src/screen.rs fixtures schemas plugin .github .config Cargo.toml Cargo.lock",
+"run_sha8": "cc2579d9",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-07-a-send-ending-in-a-newline-is-confirmed/implement-2026-10-07T15-11-35/8.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-newline-smoke",
+"run_sha8": "5f600848",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-07-a-send-ending-in-a-newline-is-confirmed/implement-2026-10-07T15-11-35/9.log",
+"bytes": 47,
+"log_sha8": "91854d6e",
+"exit": 0,
+"seconds": 0.09,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-newline-smoke --instance builder",
+"run_sha8": "418f472f",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-07-a-send-ending-in-a-newline-is-confirmed/implement-2026-10-07T15-11-35/10.log",
+"bytes": 291,
+"log_sha8": "6731efc3",
+"exit": 0,
+"seconds": 3.77,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-newline-smoke",
+"run_sha8": "8c2c0b6d",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-07-a-send-ending-in-a-newline-is-confirmed/implement-2026-10-07T15-11-35/11.log",
+"bytes": 216,
+"log_sha8": "1947d82e",
+"exit": 0,
+"seconds": 0.09,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "bash scripts/g2-zero-panics.sh",
+"run_sha8": "b1637f71",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-07-a-send-ending-in-a-newline-is-confirmed/implement-2026-10-07T15-11-35/12.log",
+"bytes": 10,
+"log_sha8": "6736cedd",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-07-a-send-ending-in-a-newline-is-confirmed/implement-2026-10-07T15-11-35/13.log",
+"bytes": 104,
+"log_sha8": "6c651e9d",
+"exit": 0,
+"seconds": 0.11,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-newline-smoke",
+"run_sha8": "5f600848",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-07-a-send-ending-in-a-newline-is-confirmed/implement-2026-10-07T15-11-35/14.log",
+"bytes": 180,
+"log_sha8": "9fe071e5",
+"exit": 0,
+"seconds": 0.31,
+"readings": [
+"exit 0 ✓",
+"contains '\"processes_gone\":true' ✓",
+"contains '\"endpoint_gone\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-07-a-send-ending-in-a-newline-is-confirmed/implement-2026-10-07T15-11-35/15.log",
+"bytes": 214961,
+"log_sha8": "142122d8",
+"exit": 0,
+"seconds": 55.51,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"contains '\"stage\":\"linux-tests\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "bash scripts/profraw-census.sh 4800 48",
+"run_sha8": "98812070",
+"expect": [
+"exit 0",
+"last line profraw-census: runs 4800 · passed 4800 · profiles 4800 · third 0 · short 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "64780869",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "c0d185ab",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "gh api \"repos/{owner}/{repo}/actions/runs?head_sha=$(git rev-parse HEAD)\" --jq '[.workflow_runs[] | select(.name == \"ci\") | .run_attempt] | max'",
+"run_sha8": "29eb3545",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.12",
+"sha8": "8357110d",
+"ts": "2026-10-07T15:18:03Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-07T15-11-35-implement",
+"--marker",
+"2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+"--entry",
+"16"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-07-a-send-ending-in-a-newline-is-confirmed · entries 20",
+"logs $TMPDIR/andromeda-gate/2026-10-07-a-send-ending-in-a-newline-is-confirmed/implement-2026-10-07T15-11-35 · bound: GNU timeout",
+"delta docs 96 · python 1 · rust 4 · unmapped 12",
+"walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 113",
+"prose L154-156: The gates are the standing lint, unit and default-selection entries, two filter entries th… (299 chars)",
+"prose L158-159: No live leg: the chunk starts no `claude` process (`inputs#I1`). What stays unmeasured on … (183 chars)",
+"prose L161-164: Three red-first readings were one-shot runs at implement and not entries, because each nee… (354 chars)",
+"prose L166-176: The census script is an instrument this chunk builds, so its two known-verdict controls ar… (1111 chars)",
+"prose L178-184: The census loads the host. `4800 48` runs 48 workers at once on a 32-core host that four o… (621 chars)",
+"prose L186-190: The census entry stands after `pre-push`, whose coverage run rebuilds the instrumented bin… (561 chars)",
+"prose L192-192: The preservation guard names the base commit, because the operator pass's pre-CI commit mo… (114 chars)",
+"prose L194-194: No push goes out while an entry of this block is red by its own letter (`inputs#I6`).",
+"  1 lint        not run — excluded · cargo fmt --all --check",
+"  2 lint        not run — excluded · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 unit        not run — excluded · bash scripts/agent-run.sh run --unit",
+"  4 unit        not run — excluded · bash scripts/agent-run.sh run --unit --filter 'test(/trail… (72 chars)",
+"  5 integration not run — excluded · bash scripts/agent-run.sh run",
+"  6 integration not run — excluded · bash scripts/agent-run.sh run --integration --filter 'test… (81 chars)",
+"  7 probe       not run — excluded · grep -c '\"--list\"' src/cmd/run.rs",
+"  8 probe       not run — excluded · git diff --quiet 9f2bebe5102b -- src/bin src/human.rs src/… (386 chars)",
+"  9 smoke       not run — excluded · bash scripts/agent-run.sh cleanup --session p-newline-smok… (59 chars)",
+" 10 smoke       not run — excluded · bash scripts/agent-run.sh boot --session p-newline-smoke -… (75 chars)",
+" 11 smoke       not run — excluded · bash scripts/agent-run.sh status --session p-newline-smoke",
+" 12 probe       not run — excluded · bash scripts/g2-zero-panics.sh",
+" 13 probe       not run — excluded · bash scripts/agent-run.sh schema-check",
+" 14 smoke       not run — excluded · bash scripts/agent-run.sh cleanup --session p-newline-smok… (59 chars)",
+" 15 probe       not run — excluded · bash scripts/agent-run.sh pre-push",
+" 16 probe       green · exit 0 · 132.76s · 120 B → 16.log · bash scripts/profraw-census.sh 4800 48",
+" 17 probe       not run — excluded · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (90 chars)",
+" 18 probe       not run — excluded · git diff --quiet && git diff --cached --quiet && git push … (69 chars)",
+" 19 probe       not run — excluded · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (114 chars)",
+" 20 probe       not run — excluded · gh api \"repos/{owner}/{repo}/actions/runs?head_sha=$(git r… (144 chars)",
+"entries 20 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 19"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+"plan": "./viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-07-a-send-ending-in-a-newline-is-confirmed/implement-2026-10-07T15-11-35",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-07T12-57-41-wrap/evolve-2026-10-07-send-waits-out-the-paste-hint.json",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-07T12-57-41-wrap/health-2026-10-07-send-waits-out-the-paste-hint.json",
+".andromeda/runs/2026-10-07T13-36-31-phase/.cites-a11y.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.cites-arch.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.cites-design.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.cites-layouts.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.cites-obs.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.cites-security.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.cites-tests.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.dryrun.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.dryrun2.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.dryrun3.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.planlint.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.planlint2.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.planlint3.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.reg-a11y.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.reg-arch.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.reg-obs.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.reg-tests.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.sidecar-a11y.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.sidecar-arch.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.sidecar-design.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.sidecar-layouts.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.sidecar-obs.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.sidecar-security.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.sidecar-tests.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/a11y-history.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/a11y.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/arch-contracts.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/arch-history-index.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/arch-history.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/arch.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-07T13-36-31-phase/design-history.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/design.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/evolve-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T13-36-31-phase/gate-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T13-36-31-phase/inputs-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T13-36-31-phase/layouts-history.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/layouts.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/master-record.txt",
+".andromeda/runs/2026-10-07T13-36-31-phase/matrix-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T13-36-31-phase/obs-contracts.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/obs-history.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/obs.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/p4-run-attempt.txt",
+".andromeda/runs/2026-10-07T13-36-31-phase/p5-baseline-integration.err",
+".andromeda/runs/2026-10-07T13-36-31-phase/p5-baseline-integration.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/p5-baseline-unit.err",
+".andromeda/runs/2026-10-07T13-36-31-phase/p5-baseline-unit.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/p5-word.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/pins.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/planlint-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T13-36-31-phase/registry-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T13-36-31-phase/relay-1.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/relay-2.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/relay-3.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/route-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T13-36-31-phase/route-no-marker.json",
+".andromeda/runs/2026-10-07T13-36-31-phase/security-history.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/security.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/sidecar-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T13-36-31-phase/tests-contracts.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/tests-history.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/tests.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/tree-query-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T14-15-59-implement/evolve-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T14-15-59-implement/gate-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T14-15-59-implement/inputs-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T14-15-59-implement/relay-1.md",
+".andromeda/runs/2026-10-07T14-15-59-implement/relay-2.md",
+".andromeda/runs/2026-10-07T14-15-59-implement/relay-3.md",
+".andromeda/runs/2026-10-07T14-40-18-phase/evolve-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T14-40-18-phase/gate-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T14-40-18-phase/inputs-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T14-40-18-phase/matrix-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T14-40-18-phase/p5-baseline-census.out",
+".andromeda/runs/2026-10-07T14-40-18-phase/planlint-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T14-40-18-phase/relay-1.md",
+".andromeda/runs/2026-10-07T14-40-18-phase/relay-2.md",
+".andromeda/runs/2026-10-07T15-11-35-implement/evolve-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T15-11-35-implement/gate-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T15-11-35-implement/inputs-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T15-11-35-implement/relay-1.md",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/evidence/ci-attempt-1.md",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/evidence/newline-red-green.md",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/evidence/profraw-red-green.md",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/plan.md",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/research.md",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/scope-record.md",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/scope.md"
+],
+"rust": [
+"crates/viola-agent-claude/src/hook.rs",
+"src/cmd/run.rs",
+"src/run/send.rs",
+"tests/cli_send.rs"
+],
+"python": [
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/evidence/guards/read-attempt1.py"
+]
+},
+"unmapped": [
+"scripts/profraw-census.sh",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/inputs/.gitattributes",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/inputs/I1-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/inputs/I2-relay-2.md.txt",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/inputs/I3-relay-3.md.txt",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/inputs/I4-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/inputs/I5-relay-2.md.txt",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/inputs/I6-relay-3.md.txt",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/inputs/I7-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/inputs/I8-relay-2.md.txt",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/inputs/I9-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/inputs/andromeda-inputs.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 113,
+"problem": null
+},
+"prose": [
+{
+"from": 154,
+"to": 156,
+"text": "The gates are the standing lint, unit and default-selection entries, two filter entries that select only this chunk's new cases, two census reads, the preservation guard, the harness smoke with G2 and G4 over its home, the native `pre-push`, the profile census, and the operator's push and CI reads."
+},
+{
+"from": 158,
+"to": 159,
+"text": "No live leg: the chunk starts no `claude` process (`inputs#I1`). What stays unmeasured on a live CLI is in the Implementation notes and is carried to \"First live test and self-drive\"."
+},
+{
+"from": 161,
+"to": 164,
+"text": "Three red-first readings were one-shot runs at implement and not entries, because each needs the tree in a state the finished chunk no longer has: step 3's cases before step 2, step 4's case before step 2, and step 6's census on the untouched test. Their records are in `evidence/`. No mutation entry is listed (the mutation run is the epoch boundary's)."
+},
+{
+"from": 166,
+"to": 176,
+"text": "The census script is an instrument this chunk builds, so its two known-verdict controls are one-shot runs at implement, read into `evidence/profraw-red-green.md` before its graded use. The must-fail reading is step 6's census on the untouched test, read through the script under the two-a-run rule it then held. The must-pass reading is `bash scripts/profraw-census.sh 48 1` after step 6's remaining part, on the instrumented binary `pre-push` has built, 48 runs one at a time, which must end `runs 48 · passed 48 · profiles 48 · third 0 · short 0`. The untouched test is not rebuilt (`inputs#I7`), so the revised rule gets its own failing side as a planted control (`inputs#I8`, step 8): one census run given one extra profile file and one given a short file, each of which must read exit 1, with `third 1 · short 0` and with `third 1 · short 1`. The plants are gone after the runs and their removal is checked. All of these are one-shot runs and not entries: the planted control writes files into a census directory before the script runs, and an entry is one statement the wrap's light gate re-runs verbatim."
+},
+{
+"from": 178,
+"to": 184,
+"text": "The census loads the host. `4800 48` runs 48 workers at once on a 32-core host that four other builders share (the operator's word at the review, `inputs#I3`), for about 2.5 minutes: 4 800 runs at 48 workers took 136.6 s (measured at implement, `evidence/profraw-red-green.md`). Before each census run, at any size and by whoever fires it (implement, the operator pass, the wrap's light gate), one line is written to the operator saying that it starts and for how long. It is a notice, not a question: the run follows it without waiting for an answer. The script's own first line of output names the runs and the workers."
+},
+{
+"from": 186,
+"to": 190,
+"text": "The census entry stands after `pre-push`, whose coverage run rebuilds the instrumented binary it reads. Its profile path is an assignment inside its own script, not in the `pre-push` launcher. Implement fires the block up to and including `pre-push`, then the must-pass control, then the planted control, then the census entry, so the controls are read before the graded use. A census red that is not of the `third` or `short` shape (a run that failed, a profile count that is not one a run) is a finding and is recorded as read; it is never re-run for a green."
+},
+{
+"from": 192,
+"to": 192,
+"text": "The preservation guard names the base commit, because the operator pass's pre-CI commit moves HEAD onto the chunk."
+},
+{
+"from": 194,
+"to": 194,
+"text": "No push goes out while an entry of this block is red by its own letter (`inputs#I6`)."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/trailing_newline/)'",
+"run_sha8": "1c5b5273",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"suite\":\"nextest-unit\",\"passed\":16,\"failed\":0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run",
+"run_sha8": "21443cdf",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'test(/ending_in_newlines/)'",
+"run_sha8": "4cbdcb32",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"suite\":\"nextest-integration\",\"passed\":2,\"failed\":0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "grep -c '\"--list\"' src/cmd/run.rs",
+"run_sha8": "711b9d59",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "git diff --quiet 9f2bebe5102b -- src/bin src/human.rs src/cmd/send.rs src/cmd/hook.rs src/run/wheel.rs src/run/gate.rs src/run/wait.rs src/run/dialog.rs crates/viola-core crates/viola-pty crates/viola-channel crates/viola-state crates/viola-e2e crates/viola-agent-claude/src/ledger.rs crates/viola-agent-claude/src/screen.rs fixtures schemas plugin .github .config Cargo.toml Cargo.lock",
+"run_sha8": "cc2579d9",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-newline-smoke",
+"run_sha8": "5f600848",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-newline-smoke --instance builder",
+"run_sha8": "418f472f",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-newline-smoke",
+"run_sha8": "8c2c0b6d",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "bash scripts/g2-zero-panics.sh",
+"run_sha8": "b1637f71",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-newline-smoke",
+"run_sha8": "5f600848",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "bash scripts/profraw-census.sh 4800 48",
+"run_sha8": "98812070",
+"expect": [
+"exit 0",
+"last line profraw-census: runs 4800 · passed 4800 · profiles 4800 · third 0 · short 0"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-07-a-send-ending-in-a-newline-is-confirmed/implement-2026-10-07T15-11-35/16.log",
+"bytes": 120,
+"log_sha8": "c068ccc7",
+"exit": 0,
+"seconds": 132.76,
+"readings": [
+"exit 0 ✓",
+"last line 'profraw-census: runs 4800 · passed 4800 · profiles 4800 · third 0 · short 0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "64780869",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "c0d185ab",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "gh api \"repos/{owner}/{repo}/actions/runs?head_sha=$(git rev-parse HEAD)\" --jq '[.workflow_runs[] | select(.name == \"ci\") | .run_attempt] | max'",
+"run_sha8": "29eb3545",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.12",
+"sha8": "8357110d",
+"ts": "2026-10-07T15:19:15Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+"--run-dir",
+".andromeda/runs/2026-10-07T15-11-35-implement",
+"--marker",
+"2026-10-07-a-send-ending-in-a-newline-is-confirmed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base HEAD (no pre-CI commit) · lists new 2 · modify 4 · derived 0 · record 1",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"record: listed — src/cmd/run.rs",
+"list viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/evidence/ (dir) ×0",
+"scope: clean — changed 5 · listed 5 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 108"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "HEAD",
+"base_why": "no pre-CI commit",
+"counts": {
+"changed": 5,
+"listed": 5,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 108,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.12",
+"sha8": "8357110d",
+"ts": "2026-10-07T15:20:41Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-07T15-11-35-implement",
+"--marker",
+"2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+"--entry",
+"15"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-07-a-send-ending-in-a-newline-is-confirmed · entries 20",
+"logs $TMPDIR/andromeda-gate/2026-10-07-a-send-ending-in-a-newline-is-confirmed/implement-2026-10-07T15-11-35 · bound: GNU timeout",
+"delta docs 96 · python 1 · rust 4 · unmapped 12",
+"walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 113",
+"prose L154-156: The gates are the standing lint, unit and default-selection entries, two filter entries th… (299 chars)",
+"prose L158-159: No live leg: the chunk starts no `claude` process (`inputs#I1`). What stays unmeasured on … (183 chars)",
+"prose L161-164: Three red-first readings were one-shot runs at implement and not entries, because each nee… (354 chars)",
+"prose L166-176: The census script is an instrument this chunk builds, so its two known-verdict controls ar… (1111 chars)",
+"prose L178-184: The census loads the host. `4800 48` runs 48 workers at once on a 32-core host that four o… (621 chars)",
+"prose L186-190: The census entry stands after `pre-push`, whose coverage run rebuilds the instrumented bin… (561 chars)",
+"prose L192-192: The preservation guard names the base commit, because the operator pass's pre-CI commit mo… (114 chars)",
+"prose L194-194: No push goes out while an entry of this block is red by its own letter (`inputs#I6`).",
+"  1 lint        not run — excluded · cargo fmt --all --check",
+"  2 lint        not run — excluded · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 unit        not run — excluded · bash scripts/agent-run.sh run --unit",
+"  4 unit        not run — excluded · bash scripts/agent-run.sh run --unit --filter 'test(/trail… (72 chars)",
+"  5 integration not run — excluded · bash scripts/agent-run.sh run",
+"  6 integration not run — excluded · bash scripts/agent-run.sh run --integration --filter 'test… (81 chars)",
+"  7 probe       not run — excluded · grep -c '\"--list\"' src/cmd/run.rs",
+"  8 probe       not run — excluded · git diff --quiet 9f2bebe5102b -- src/bin src/human.rs src/… (386 chars)",
+"  9 smoke       not run — excluded · bash scripts/agent-run.sh cleanup --session p-newline-smok… (59 chars)",
+" 10 smoke       not run — excluded · bash scripts/agent-run.sh boot --session p-newline-smoke -… (75 chars)",
+" 11 smoke       not run — excluded · bash scripts/agent-run.sh status --session p-newline-smoke",
+" 12 probe       not run — excluded · bash scripts/g2-zero-panics.sh",
+" 13 probe       not run — excluded · bash scripts/agent-run.sh schema-check",
+" 14 smoke       not run — excluded · bash scripts/agent-run.sh cleanup --session p-newline-smok… (59 chars)",
+" 15 probe       green · exit 0 · 56.06s · 214961 B → 15.log · bash scripts/agent-run.sh pre-push",
+" 16 probe       not run — excluded · bash scripts/profraw-census.sh 4800 48",
+" 17 probe       not run — excluded · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (90 chars)",
+" 18 probe       not run — excluded · git diff --quiet && git diff --cached --quiet && git push … (69 chars)",
+" 19 probe       not run — excluded · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (114 chars)",
+" 20 probe       not run — excluded · gh api \"repos/{owner}/{repo}/actions/runs?head_sha=$(git r… (144 chars)",
+"entries 20 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 19"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+"plan": "./viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-07-a-send-ending-in-a-newline-is-confirmed/implement-2026-10-07T15-11-35",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-07T12-57-41-wrap/evolve-2026-10-07-send-waits-out-the-paste-hint.json",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-07T12-57-41-wrap/health-2026-10-07-send-waits-out-the-paste-hint.json",
+".andromeda/runs/2026-10-07T13-36-31-phase/.cites-a11y.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.cites-arch.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.cites-design.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.cites-layouts.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.cites-obs.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.cites-security.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.cites-tests.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.dryrun.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.dryrun2.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.dryrun3.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.planlint.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.planlint2.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.planlint3.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.reg-a11y.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.reg-arch.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.reg-obs.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.reg-tests.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.sidecar-a11y.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.sidecar-arch.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.sidecar-design.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.sidecar-layouts.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.sidecar-obs.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.sidecar-security.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/.sidecar-tests.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/a11y-history.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/a11y.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/arch-contracts.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/arch-history-index.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/arch-history.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/arch.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-07T13-36-31-phase/design-history.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/design.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/evolve-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T13-36-31-phase/gate-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T13-36-31-phase/inputs-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T13-36-31-phase/layouts-history.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/layouts.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/master-record.txt",
+".andromeda/runs/2026-10-07T13-36-31-phase/matrix-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T13-36-31-phase/obs-contracts.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/obs-history.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/obs.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/p4-run-attempt.txt",
+".andromeda/runs/2026-10-07T13-36-31-phase/p5-baseline-integration.err",
+".andromeda/runs/2026-10-07T13-36-31-phase/p5-baseline-integration.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/p5-baseline-unit.err",
+".andromeda/runs/2026-10-07T13-36-31-phase/p5-baseline-unit.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/p5-word.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/pins.out",
+".andromeda/runs/2026-10-07T13-36-31-phase/planlint-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T13-36-31-phase/registry-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T13-36-31-phase/relay-1.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/relay-2.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/relay-3.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/route-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T13-36-31-phase/route-no-marker.json",
+".andromeda/runs/2026-10-07T13-36-31-phase/security-history.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/security.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/sidecar-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T13-36-31-phase/tests-contracts.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/tests-history.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/tests.md",
+".andromeda/runs/2026-10-07T13-36-31-phase/tree-query-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T14-15-59-implement/evolve-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T14-15-59-implement/gate-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T14-15-59-implement/inputs-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T14-15-59-implement/relay-1.md",
+".andromeda/runs/2026-10-07T14-15-59-implement/relay-2.md",
+".andromeda/runs/2026-10-07T14-15-59-implement/relay-3.md",
+".andromeda/runs/2026-10-07T14-40-18-phase/evolve-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T14-40-18-phase/gate-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T14-40-18-phase/inputs-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T14-40-18-phase/matrix-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T14-40-18-phase/p5-baseline-census.out",
+".andromeda/runs/2026-10-07T14-40-18-phase/planlint-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T14-40-18-phase/relay-1.md",
+".andromeda/runs/2026-10-07T14-40-18-phase/relay-2.md",
+".andromeda/runs/2026-10-07T15-11-35-implement/evolve-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T15-11-35-implement/gate-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T15-11-35-implement/inputs-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".andromeda/runs/2026-10-07T15-11-35-implement/relay-1.md",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/evidence/ci-attempt-1.md",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/evidence/newline-red-green.md",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/evidence/profraw-red-green.md",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/plan.md",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/research.md",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/scope-record.md",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/scope.md"
+],
+"rust": [
+"crates/viola-agent-claude/src/hook.rs",
+"src/cmd/run.rs",
+"src/run/send.rs",
+"tests/cli_send.rs"
+],
+"python": [
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/evidence/guards/read-attempt1.py"
+]
+},
+"unmapped": [
+"scripts/profraw-census.sh",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/inputs/.gitattributes",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/inputs/I1-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/inputs/I2-relay-2.md.txt",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/inputs/I3-relay-3.md.txt",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/inputs/I4-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/inputs/I5-relay-2.md.txt",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/inputs/I6-relay-3.md.txt",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/inputs/I7-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/inputs/I8-relay-2.md.txt",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/inputs/I9-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/inputs/andromeda-inputs.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 113,
+"problem": null
+},
+"prose": [
+{
+"from": 154,
+"to": 156,
+"text": "The gates are the standing lint, unit and default-selection entries, two filter entries that select only this chunk's new cases, two census reads, the preservation guard, the harness smoke with G2 and G4 over its home, the native `pre-push`, the profile census, and the operator's push and CI reads."
+},
+{
+"from": 158,
+"to": 159,
+"text": "No live leg: the chunk starts no `claude` process (`inputs#I1`). What stays unmeasured on a live CLI is in the Implementation notes and is carried to \"First live test and self-drive\"."
+},
+{
+"from": 161,
+"to": 164,
+"text": "Three red-first readings were one-shot runs at implement and not entries, because each needs the tree in a state the finished chunk no longer has: step 3's cases before step 2, step 4's case before step 2, and step 6's census on the untouched test. Their records are in `evidence/`. No mutation entry is listed (the mutation run is the epoch boundary's)."
+},
+{
+"from": 166,
+"to": 176,
+"text": "The census script is an instrument this chunk builds, so its two known-verdict controls are one-shot runs at implement, read into `evidence/profraw-red-green.md` before its graded use. The must-fail reading is step 6's census on the untouched test, read through the script under the two-a-run rule it then held. The must-pass reading is `bash scripts/profraw-census.sh 48 1` after step 6's remaining part, on the instrumented binary `pre-push` has built, 48 runs one at a time, which must end `runs 48 · passed 48 · profiles 48 · third 0 · short 0`. The untouched test is not rebuilt (`inputs#I7`), so the revised rule gets its own failing side as a planted control (`inputs#I8`, step 8): one census run given one extra profile file and one given a short file, each of which must read exit 1, with `third 1 · short 0` and with `third 1 · short 1`. The plants are gone after the runs and their removal is checked. All of these are one-shot runs and not entries: the planted control writes files into a census directory before the script runs, and an entry is one statement the wrap's light gate re-runs verbatim."
+},
+{
+"from": 178,
+"to": 184,
+"text": "The census loads the host. `4800 48` runs 48 workers at once on a 32-core host that four other builders share (the operator's word at the review, `inputs#I3`), for about 2.5 minutes: 4 800 runs at 48 workers took 136.6 s (measured at implement, `evidence/profraw-red-green.md`). Before each census run, at any size and by whoever fires it (implement, the operator pass, the wrap's light gate), one line is written to the operator saying that it starts and for how long. It is a notice, not a question: the run follows it without waiting for an answer. The script's own first line of output names the runs and the workers."
+},
+{
+"from": 186,
+"to": 190,
+"text": "The census entry stands after `pre-push`, whose coverage run rebuilds the instrumented binary it reads. Its profile path is an assignment inside its own script, not in the `pre-push` launcher. Implement fires the block up to and including `pre-push`, then the must-pass control, then the planted control, then the census entry, so the controls are read before the graded use. A census red that is not of the `third` or `short` shape (a run that failed, a profile count that is not one a run) is a finding and is recorded as read; it is never re-run for a green."
+},
+{
+"from": 192,
+"to": 192,
+"text": "The preservation guard names the base commit, because the operator pass's pre-CI commit moves HEAD onto the chunk."
+},
+{
+"from": 194,
+"to": 194,
+"text": "No push goes out while an entry of this block is red by its own letter (`inputs#I6`)."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/trailing_newline/)'",
+"run_sha8": "1c5b5273",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"suite\":\"nextest-unit\",\"passed\":16,\"failed\":0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run",
+"run_sha8": "21443cdf",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'test(/ending_in_newlines/)'",
+"run_sha8": "4cbdcb32",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"suite\":\"nextest-integration\",\"passed\":2,\"failed\":0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "grep -c '\"--list\"' src/cmd/run.rs",
+"run_sha8": "711b9d59",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "git diff --quiet 9f2bebe5102b -- src/bin src/human.rs src/cmd/send.rs src/cmd/hook.rs src/run/wheel.rs src/run/gate.rs src/run/wait.rs src/run/dialog.rs crates/viola-core crates/viola-pty crates/viola-channel crates/viola-state crates/viola-e2e crates/viola-agent-claude/src/ledger.rs crates/viola-agent-claude/src/screen.rs fixtures schemas plugin .github .config Cargo.toml Cargo.lock",
+"run_sha8": "cc2579d9",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-newline-smoke",
+"run_sha8": "5f600848",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-newline-smoke --instance builder",
+"run_sha8": "418f472f",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-newline-smoke",
+"run_sha8": "8c2c0b6d",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "bash scripts/g2-zero-panics.sh",
+"run_sha8": "b1637f71",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-newline-smoke",
+"run_sha8": "5f600848",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-07-a-send-ending-in-a-newline-is-confirmed/implement-2026-10-07T15-11-35/15.log",
+"bytes": 214961,
+"log_sha8": "d5226236",
+"exit": 0,
+"seconds": 56.06,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"contains '\"stage\":\"linux-tests\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "bash scripts/profraw-census.sh 4800 48",
+"run_sha8": "98812070",
+"expect": [
+"exit 0",
+"last line profraw-census: runs 4800 · passed 4800 · profiles 4800 · third 0 · short 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "64780869",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "c0d185ab",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "gh api \"repos/{owner}/{repo}/actions/runs?head_sha=$(git rev-parse HEAD)\" --jq '[.workflow_runs[] | select(.name == \"ci\") | .run_attempt] | max'",
+"run_sha8": "29eb3545",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.12",
+"sha8": "8357110d",
+"ts": "2026-10-07T15:21:06Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+"--run-dir",
+".andromeda/runs/2026-10-07T15-11-35-implement",
+"--marker",
+"2026-10-07-a-send-ending-in-a-newline-is-confirmed"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base HEAD (no pre-CI commit) · lists new 2 · modify 4 · derived 0 · record 1",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"record: listed — src/cmd/run.rs",
+"list viola-0.1.0/chunks/2026-10-07-a-send-ending-in-a-newline-is-confirmed/evidence/ (dir) ×0",
+"scope: clean — changed 5 · listed 5 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 109"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "HEAD",
+"base_why": "no pre-CI commit",
+"counts": {
+"changed": 5,
+"listed": 5,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 109,
+"unparsed": 0,
+"widening_without_word": 0
+}
+}
+]

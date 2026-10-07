@@ -1,0 +1,148 @@
+[
+{
+"sql": "SELECT caller_name, callee_name, file, line FROM calls WHERE callee_name IN ('claim','append_hook_event','settle','start') AND callee_kind = 'fn' AND callee_file LIKE '%src/run/send.rs' ORDER BY callee_name, file, line",
+"rows": 21,
+"result": [
+{
+"caller_name": "dispatch",
+"callee_name": "append_hook_event",
+"file": "src/cmd/run.rs",
+"line": 116
+},
+{
+"caller_name": "confirmed_with",
+"callee_name": "append_hook_event",
+"file": "src/run/send.rs",
+"line": 858
+},
+{
+"caller_name": "send_a_different_prompt_is_appended_unchanged_and_claims_nothing",
+"callee_name": "append_hook_event",
+"file": "src/run/send.rs",
+"line": 897
+},
+{
+"caller_name": "send_an_unsent_human_prompt_takes_the_wheel_before_its_line_and_a_harness_one_does_not",
+"callee_name": "append_hook_event",
+"file": "src/run/send.rs",
+"line": 921
+},
+{
+"caller_name": "send_an_unsent_human_prompt_takes_the_wheel_before_its_line_and_a_harness_one_does_not",
+"callee_name": "append_hook_event",
+"file": "src/run/send.rs",
+"line": 924
+},
+{
+"caller_name": "send_no_prompt_while_nothing_is_in_flight_is_appended_unchanged",
+"callee_name": "append_hook_event",
+"file": "src/run/send.rs",
+"line": 933
+},
+{
+"caller_name": "send_closed_send_keeps_the_slot_until_its_guard_drops",
+"callee_name": "append_hook_event",
+"file": "src/run/send.rs",
+"line": 957
+},
+{
+"caller_name": "send_window_expiry_is_no_prompt_submitted_with_the_cursor",
+"callee_name": "append_hook_event",
+"file": "src/run/send.rs",
+"line": 984
+},
+{
+"caller_name": "send_second_while_one_is_in_flight_is_turn_running_and_types_nothing",
+"callee_name": "append_hook_event",
+"file": "src/run/send.rs",
+"line": 1004
+},
+{
+"caller_name": "send_append_hook_event_signals_the_wait_feed_after_the_append",
+"callee_name": "append_hook_event",
+"file": "src/run/send.rs",
+"line": 1093
+},
+{
+"caller_name": "send_append_hook_event_signals_the_wait_feed_after_the_append",
+"callee_name": "append_hook_event",
+"file": "src/run/send.rs",
+"line": 1098
+},
+{
+"caller_name": "send_a_prompt_of_any_origin_starts_a_turn",
+"callee_name": "append_hook_event",
+"file": "src/run/send.rs",
+"line": 1144
+},
+{
+"caller_name": "send_a_turn_end_lets_the_next_send_past_the_rung",
+"callee_name": "append_hook_event",
+"file": "src/run/send.rs",
+"line": 1167
+},
+{
+"caller_name": "send_a_turn_end_lets_the_next_send_past_the_rung",
+"callee_name": "append_hook_event",
+"file": "src/run/send.rs",
+"line": 1169
+},
+{
+"caller_name": "confirmed",
+"callee_name": "append_hook_event",
+"file": "src/run/send.rs",
+"line": 1194
+},
+{
+"caller_name": "send_after_a_confirmed_send_is_turn_running_until_turn_ended",
+"callee_name": "append_hook_event",
+"file": "src/run/send.rs",
+"line": 1232
+},
+{
+"caller_name": "send_local_command_clear_is_confirmed_by_a_new_session",
+"callee_name": "append_hook_event",
+"file": "src/run/send.rs",
+"line": 1296
+},
+{
+"caller_name": "send_local_command_clear_is_not_confirmed_by_another_session_start",
+"callee_name": "append_hook_event",
+"file": "src/run/send.rs",
+"line": 1337
+},
+{
+"caller_name": "send_local_command_clear_is_not_confirmed_by_another_session_start",
+"callee_name": "append_hook_event",
+"file": "src/run/send.rs",
+"line": 1347
+},
+{
+"caller_name": "append_hook_event",
+"callee_name": "claim",
+"file": "src/run/send.rs",
+"line": 218
+},
+{
+"caller_name": "append_hook_event",
+"callee_name": "settle",
+"file": "src/run/send.rs",
+"line": 241
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT from_crate, to_crate FROM crate_edges WHERE (from_crate = 'viola' AND to_crate = 'viola-agent-claude') OR to_crate = 'viola' ORDER BY 1,2",
+"rows": 1,
+"result": [
+{
+"from_crate": "viola",
+"to_crate": "viola-agent-claude"
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

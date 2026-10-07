@@ -1,0 +1,122 @@
+[
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "d8c8c8b2",
+"ts": "2026-10-07T14:43:23Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-07T14-40-18-phase",
+"--marker",
+"2026-10-07-a-send-ending-in-a-newline-is-confirmed"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"appended 2 record(s) · friction-log.ndjson lines 1343→1345 · bytes 1323560→1325393 · term lf",
+"ts 2026-10-07T14:43:23Z · clock 2026-10-07T14:43:23Z · bound 2026-10-07T14:38:43Z (line 1343)",
+"ids 2026-10-07T14:43:23Z-a … 2026-10-07T14:43:23Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 1343,
+"bytes": 1323560,
+"terminator": "LF",
+"bound": "2026-10-07T14:38:43Z"
+},
+"after": {
+"lines": 1345,
+"bytes": 1325393
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "d8c8c8b2",
+"ts": "2026-10-07T14:46:13Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-07T14-40-18-phase",
+"--marker",
+"2026-10-07-a-send-ending-in-a-newline-is-confirmed"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"appended 2 record(s) · friction-log.ndjson lines 1345→1347 · bytes 1325393→1326974 · term lf",
+"ts 2026-10-07T14:46:13Z · clock 2026-10-07T14:46:13Z · bound 2026-10-07T14:43:23Z (line 1345)",
+"ids 2026-10-07T14:46:13Z-a … 2026-10-07T14:46:13Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 1345,
+"bytes": 1325393,
+"terminator": "LF",
+"bound": "2026-10-07T14:43:23Z"
+},
+"after": {
+"lines": 1347,
+"bytes": 1326974
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "d8c8c8b2",
+"ts": "2026-10-07T14:51:54Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-07T14-40-18-phase",
+"--marker",
+"2026-10-07-a-send-ending-in-a-newline-is-confirmed"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"appended 1 record(s) · friction-log.ndjson lines 1347→1348 · bytes 1326974→1328220 · term lf",
+"ts 2026-10-07T14:51:54Z · clock 2026-10-07T14:51:54Z · bound 2026-10-07T14:46:13Z (line 1347)",
+"ids 2026-10-07T14:51:54Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 1347,
+"bytes": 1326974,
+"terminator": "LF",
+"bound": "2026-10-07T14:46:13Z"
+},
+"after": {
+"lines": 1348,
+"bytes": 1328220
+}
+}
+]

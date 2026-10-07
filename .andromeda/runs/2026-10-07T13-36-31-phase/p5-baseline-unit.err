@@ -1,0 +1,44 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+────────────
+ Nextest run ID 587b439a-03de-458f-b351-b409f7592606 with nextest profile: ci
+    Starting 1 test across 9 binaries (1354 tests and 38 binaries skipped)
+        PASS [   0.189s] (1/1) viola::bin/viola run::send::tests::send_local_command_decision_is_exact_text_never_a_leading_slash::case_2_a_trailing_newline
+────────────
+     Summary [   0.191s] 1 test run: 1 passed, 1354 skipped
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.06s
+   Doc-tests viola_agent_claude
+   Doc-tests viola_channel
+   Doc-tests viola_core
+   Doc-tests viola_e2e
+   Doc-tests viola_pty
+   Doc-tests viola_state
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

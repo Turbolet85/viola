@@ -1,0 +1,11 @@
+The revision's P5 baseline of the changed census entry, on the tree as the stopped implement run left it
+(the script under the two-a-run rule, the instrumented binary built from the fixed test).
+
+run: bash scripts/profraw-census.sh 4800 48
+start 2026-10-07T14:45:59Z load 0.93 3.07 7.17
+profraw-census: runs 4800 · workers 48
+profraw-census: runs 4800 · passed 4800 · profiles 4800 · third 0 · short 0
+census-exit=1
+wall 134.0 s
+end 2026-10-07T14:48:13Z load 48.45 21.93 13.65
+tally (sort | uniq -c over the per-worker tallies): 4800 runs, each passed, each one profile of 129512 B

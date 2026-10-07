@@ -1,0 +1,34 @@
+gate v1.11 · 1e911c8f
+shell /usr/bin/bash (from $SHELL; -c, non-login)
+root . · marker 2026-10-07-a-send-ending-in-a-newline-is-confirmed · entries 20
+logs $TMPDIR/andromeda-gate/2026-10-07-a-send-ending-in-a-newline-is-confirmed/run-20261007T141155Z · bound: GNU timeout
+delta docs 71 · unmapped 5
+walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 76
+prose L139-141: The gates are the standing lint, unit and default-selection entries, two filter entries th… (299 chars)
+prose L143-144: No live leg: the chunk starts no `claude` process (`inputs#I1`). What stays unmeasured on … (183 chars)
+prose L146-149: Three red-first readings are one-shot runs at implement and not entries, because each need… (386 chars)
+prose L151-155: The census script is an instrument this chunk builds, so its two known-verdict controls ar… (475 chars)
+prose L157-163: The census loads the host. `4800 48` runs 48 workers at once on a 32-core host that four o… (616 chars)
+prose L165-168: The census entry stands after `pre-push`, whose coverage run rebuilds the instrumented bin… (378 chars)
+prose L170-170: The preservation guard names the base commit, because the operator pass's pre-CI commit mo… (114 chars)
+  1 lint        not run — dry-run · cargo fmt --all --check
+  2 lint        not run — dry-run · cargo clippy --workspace --all-targets --features fake-age… (75 chars)
+  3 unit        not run — dry-run · bash scripts/agent-run.sh run --unit
+  4 unit        not run — dry-run · bash scripts/agent-run.sh run --unit --filter 'test(/trail… (72 chars)
+  5 integration not run — dry-run · bash scripts/agent-run.sh run
+  6 integration not run — dry-run · bash scripts/agent-run.sh run --integration --filter 'test… (81 chars)
+  7 probe       not run — dry-run · grep -c '"--list"' src/cmd/run.rs
+  8 probe       not run — dry-run · git diff --quiet 9f2bebe5102b -- src/bin src/human.rs src/… (386 chars)
+  9 smoke       not run — dry-run · bash scripts/agent-run.sh cleanup --session p-newline-smok… (59 chars)
+ 10 smoke       not run — dry-run · bash scripts/agent-run.sh boot --session p-newline-smoke -… (75 chars)
+ 11 smoke       not run — dry-run · bash scripts/agent-run.sh status --session p-newline-smoke
+ 12 probe       not run — dry-run · bash scripts/g2-zero-panics.sh
+ 13 probe       not run — dry-run · bash scripts/agent-run.sh schema-check
+ 14 smoke       not run — dry-run · bash scripts/agent-run.sh cleanup --session p-newline-smok… (59 chars)
+ 15 probe       not run — dry-run · bash scripts/agent-run.sh pre-push
+ 16 probe       not run — dry-run · bash scripts/profraw-census.sh 4800 48
+ 17 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (90 chars)
+ 18 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (69 chars)
+ 19 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (114 chars)
+ 20 probe       not run — leg operator (the letter drives it) · gh api "repos/{owner}/{repo}/actions/runs?head_sha=$(git r… (144 chars)
+entries 20 · green 0 · red 0 · recorded 0 · timeout 0 · not-run 20

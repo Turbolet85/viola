@@ -276,6 +276,89 @@ fn path2_send_confirms_with_cl1_events() {
     wrapper.stop();
 }
 
+/// A text ending in newlines is typed without them and confirmed (architecture [Delivery
+/// Confirmation]). The fake agent echoes what it is typed, so the exit code and the records are a
+/// floor: the receipt's bytes and the prompt's `text` are what tell the typed text from the sent one.
+/// The wheel stays with the driver, so the next send is typed too.
+#[rstest]
+#[case::one("\n")]
+#[case::two("\n\n")]
+fn send_text_ending_in_newlines_is_typed_without_them_and_confirmed(#[case] tail: &str) {
+    let wrapper = boot(Some(PATH3), &[]);
+    let dir = wrapper.instance_dir();
+    let home = wrapper.home().to_path_buf();
+    let typed = format!("{CANARY} ends in newlines\nline two");
+    let l = end_offset(&dir);
+
+    let sent = send(&home, &["builder", "--json"], &format!("{typed}{tail}"));
+    assert_eq!(sent.code, Some(0), "stderr: {}", sent.stderr);
+    assert!(sent.stderr.is_empty(), "--json writes nothing on stderr");
+    assert_eq!(sent.stdout.lines().count(), 1, "one JSON document");
+    let doc: Value = serde_json::from_str(&sent.stdout).expect("one JSON document");
+    assert_eq!(doc["v"], 1);
+    assert_eq!(doc["ok"]["cursor"], l);
+    let submitted_at = doc["ok"]["submitted_at"].as_str().expect("submitted_at");
+    assert!(is_ms_utc(submitted_at), "{submitted_at}");
+
+    let prompts = prompts_at_least(&wrapper.receipt(), 1);
+    assert_eq!(prompts.len(), 1, "exactly one prompt typed");
+    let hex = prompts[0]["hex"].as_str().expect("the typed bytes");
+    assert!(!hex.ends_with("0a"), "a newline was typed last: {hex}");
+    assert_eq!(fake::unhex(hex), typed.as_bytes());
+    assert_eq!(prompts[0]["text"], typed.as_str());
+
+    let records = records_after(&dir, l);
+    let kinds: Vec<&Value> = records.iter().map(|r| &r["kind"]).collect();
+    assert_eq!(kinds, ["send-issued", "prompt-submitted", "send-confirmed"]);
+    assert_eq!(
+        records[1]["data"],
+        json!({"text": typed, "origin": "driver"})
+    );
+    assert_eq!(records[1]["ts"], submitted_at);
+
+    let role = support::ndjson::read_lines(&home.join("diagnostics").join("run-builder.ndjson"));
+    let issued: Vec<&Value> = role
+        .iter()
+        .filter(|r| r["event"] == "send-issued")
+        .collect();
+    assert_eq!(issued.len(), 1, "one send-issued line");
+    assert_eq!(issued[0]["text_bytes"], typed.len());
+    for file in ["run-builder.ndjson", "cli-builder.ndjson"] {
+        let bytes = std::fs::read(home.join("diagnostics").join(file)).expect("role file");
+        assert!(
+            !String::from_utf8_lossy(&bytes).contains(CANARY),
+            "{file} holds the sent text"
+        );
+    }
+
+    end_turn(&wrapper);
+    // Human mode, the same ending: not refused `human-typing`, the read-back line alone.
+    let l2 = end_offset(&dir);
+    assert!(
+        records_after(&dir, l).iter().all(|r| r["kind"] != "wheel"),
+        "the wheel never moved"
+    );
+    let again = format!("{CANARY} again");
+    let human = send(&home, &["builder"], &format!("{again}{tail}"));
+    assert_eq!(human.code, Some(0), "stderr: {}", human.stderr);
+    assert!(human.stderr.is_empty(), "{}", human.stderr);
+    let lines: Vec<&str> = human.stdout.lines().collect();
+    assert_eq!(lines.len(), 1);
+    let prefix = "[RB] read back      builder  ";
+    assert!(lines[0].starts_with(prefix), "{}", lines[0]);
+    assert!(
+        lines[0].ends_with(&format!("  cursor {l2}")),
+        "{}",
+        lines[0]
+    );
+    let time = &lines[0][prefix.len()..prefix.len() + 13];
+    assert!(time.ends_with('Z') && time.as_bytes()[8] == b'.', "{time}");
+    let prompts = prompts_at_least(&wrapper.receipt(), 2);
+    assert_eq!(prompts.len(), 2);
+    assert_eq!(prompts[1]["text"], again.as_str());
+    wrapper.stop();
+}
+
 #[test]
 fn send_window_no_prompt_submitted_refuses_and_logs() {
     let wrapper = boot(None, &["--suppress-prompt-submit"]);

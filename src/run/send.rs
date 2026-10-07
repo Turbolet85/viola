@@ -1,10 +1,13 @@
 //! The wrapper's `send` (architecture [Delivery Confirmation]): the text re-validated, the wheel,
 //! one send in flight, the readiness gate, `send-issued` at the pre-paste cursor, one bracketed paste + Enter,
 //! then confirmation after the fact — the matching `prompt-submitted`, relabelled `driver`, inside
-//! the window — or `not-delivered`. A text that is exactly a compiled local command fires no
-//! prompt: one with a post-condition measured on this CLI version is confirmed by it inside the
-//! same window, any other is `unconfirmable` at once. Each outcome is an `events.ndjson` record
-//! and a codes-only `send-*` line; the text reaches neither.
+//! the window — or `not-delivered`. The text is validated as received and typed without its
+//! trailing newlines (`typed_text`; PROVISIONAL, the founder's to confirm or overturn): the list,
+//! the paste, `text_bytes` and the exact match all read that one typed text. A text that is
+//! exactly a compiled local command fires no prompt: one with a post-condition measured on this
+//! CLI version is confirmed by it inside the same window, any other is `unconfirmable` at once.
+//! Each outcome is an `events.ndjson` record and a codes-only `send-*` line; the text reaches
+//! neither.
 
 use std::path::Path;
 use std::sync::{Arc, Condvar, Mutex, MutexGuard, OnceLock, PoisonError};
@@ -13,6 +16,7 @@ use std::time::{Duration, Instant};
 use chrono::Utc;
 use serde_json::{Value, json};
 use tracing::instrument;
+use viola_agent_claude::hook::typed_text;
 use viola_agent_claude::ledger::{LOCAL_COMMANDS, PostCondition};
 use viola_agent_claude::screen::{CONFIRM_WINDOW_FALLBACK, Readiness};
 use viola_channel::{Call, ProtocolError};
@@ -53,7 +57,7 @@ enum Confirms {
     Nothing,
 }
 
-/// The compiled list read by the exact text as sent: no trim, no case folding, never a leading
+/// The compiled list read by the exact typed text: no trim, no case folding, never a leading
 /// slash.
 fn classify(text: &str, cli_verified: bool) -> Confirms {
     match LOCAL_COMMANDS.iter().find(|(command, _)| *command == text) {
@@ -314,6 +318,7 @@ pub(crate) fn send(
     if let Err(detail) = viola_core::validate_paste_text(text) {
         return ctx.not_delivered(None, detail);
     }
+    let text = typed_text(text);
     if let Some(detail) = slot.wheel.human_typing() {
         return ctx.refuse(
             None,
@@ -541,6 +546,18 @@ mod tests {
                 *now += Duration::from_secs(1);
             }
             *now
+        }
+    }
+
+    impl SwitchClock {
+        /// The clock standing still at `base`, and its switch.
+        fn at(base: Instant) -> (Self, Arc<std::sync::atomic::AtomicBool>) {
+            let jumping = Arc::new(std::sync::atomic::AtomicBool::new(false));
+            let clock = Self {
+                now: Mutex::new(base),
+                jumping: Arc::clone(&jumping),
+            };
+            (clock, jumping)
         }
     }
 
@@ -842,9 +859,17 @@ mod tests {
 
     /// A send whose prompt the hook reports back: the waiting handler wakes on it.
     fn confirmed_with(origin: &str) {
+        confirmed_as(CANARY, CANARY, origin);
+    }
+
+    /// A send of `sent` that types `typed`, the text the hook then reports under `origin`. The
+    /// clock stands still until that prompt is on disk and jumps after it: a send its prompt did
+    /// not confirm expires, and never parks the case.
+    fn confirmed_as(sent: &str, typed: &str, origin: &str) {
         let tmp = tempfile::tempdir().expect("tempdir");
         let base = Instant::now();
-        let slot = SendSlot::new(FixedClock(base), false, Arc::default());
+        let (clock, jumping) = SwitchClock::at(base);
+        let slot = SendSlot::new(clock, false, Arc::default());
         let (pastes, pasted) = Pastes::new();
         slot.attach(pastes.paste_fn(), quiet_gate(base));
         std::fs::write(
@@ -852,15 +877,17 @@ mod tests {
             b"{\"kind\":\"earlier\"}\n",
         )
         .expect("seed");
-        let params = json!({"v": 1, "text": CANARY, "from": "overseer"});
+        let params = json!({"v": 1, "text": sent, "from": "overseer"});
         let reply = std::thread::scope(|s| {
             let sending = s.spawn(|| send(&slot, &name(), tmp.path(), &call(&params, 3)));
             pasted.recv().expect("pasted");
-            append_hook_event(&slot, &feed(), tmp.path(), prompt(CANARY, origin)).expect("hook");
+            append_hook_event(&slot, &feed(), tmp.path(), prompt(typed, origin)).expect("hook");
+            jumping.store(true, std::sync::atomic::Ordering::SeqCst);
             sending.join().expect("send thread")
         })
         .expect("answered");
         let events = events(tmp.path());
+        assert_eq!(pastes.all(), [typed]);
         assert_eq!(
             kinds(tmp.path())[1..],
             ["send-issued", "prompt-submitted", "send-confirmed"]
@@ -868,14 +895,13 @@ mod tests {
         assert_eq!(events[1]["data"], json!({"cursor": 19, "from": "overseer"}));
         assert_eq!(
             events[2]["data"],
-            json!({"text": CANARY, "origin": "driver"})
+            json!({"text": typed, "origin": "driver"})
         );
         assert_eq!(events[3]["data"], json!({"cursor": 19}));
         assert_eq!(
             reply,
             json!({"ok": {"submitted_at": events[2]["ts"], "cursor": 19}})
         );
-        assert_eq!(pastes.all(), [CANARY]);
         assert!(slot.flight().send.is_none());
         assert_eq!(slot.wheel.holder(), Wheel::Driver, "the send's own prompt");
     }
@@ -888,6 +914,75 @@ mod tests {
     #[test]
     fn send_harness_filed_prompt_with_the_in_flight_text_is_relabelled_driver() {
         confirmed_with("harness");
+    }
+
+    /// A text ending in newlines is typed without them, and the prompt the hook reports for the
+    /// typed text is the send's own: confirmed, the wheel left with the driver.
+    #[rstest]
+    #[case::one("\n")]
+    #[case::two("\n\n")]
+    fn send_trailing_newlines_are_not_typed_and_the_send_is_confirmed(#[case] tail: &str) {
+        confirmed_as(&format!("{CANARY}{tail}"), CANARY, "human");
+    }
+
+    /// A refused character is refused whatever follows it: the text is validated as received.
+    #[test]
+    fn send_a_refused_character_before_a_trailing_newline_is_control_character() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (slot, pastes) = mute_child();
+        let params = json!({"v": 1, "text": "x\u{1b}[201~\n"});
+        let reply = send(&slot, &name(), tmp.path(), &call(&params, 1)).expect("answered");
+        assert_eq!(
+            reply,
+            json!({"refusal": "not-delivered", "detail": "control-character"})
+        );
+        assert!(pastes.all().is_empty(), "nothing typed");
+        assert_eq!(kinds(tmp.path()), ["send-refused"]);
+        assert_refused_without_a_cursor(tmp.path(), Some("control-character"));
+    }
+
+    /// The claim has no tolerance. While a text that ended in a newline is in flight, a prompt
+    /// that still carries the newline is not the typed text: it is appended as the hook filed it,
+    /// the human it names takes the wheel, and the send waits on to its window.
+    #[test]
+    fn send_a_prompt_that_keeps_the_trailing_newline_claims_nothing() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let base = Instant::now();
+        let (clock, jumping) = SwitchClock::at(base);
+        let slot = SendSlot::new(clock, false, Arc::default());
+        let (pastes, pasted) = Pastes::new();
+        slot.attach(pastes.paste_fn(), quiet_gate(base));
+        let sent = format!("{CANARY}\n");
+        let params = json!({"v": 1, "text": sent});
+        let (filed, waiting, reply) = std::thread::scope(|s| {
+            let sending = s.spawn(|| send(&slot, &name(), tmp.path(), &call(&params, 1)));
+            pasted.recv().expect("pasted");
+            let appended = append_hook_event(&slot, &feed(), tmp.path(), prompt(&sent, "human"));
+            let filed = events(tmp.path()).last().cloned();
+            let waiting = matches!(
+                slot.flight().send.as_ref().map(|f| &f.state),
+                Some(Match::Waiting)
+            );
+            jumping.store(true, std::sync::atomic::Ordering::SeqCst);
+            let reply = sending.join().expect("send thread");
+            appended.expect("hook");
+            (filed, waiting, reply)
+        });
+        assert_eq!(pastes.all(), [CANARY]);
+        assert_eq!(
+            filed.expect("the prompt's line")["data"],
+            json!({"text": sent, "origin": "human"})
+        );
+        assert!(waiting, "the send still waits for its own prompt");
+        assert_eq!(
+            reply.expect("answered"),
+            json!({"refusal": "not-delivered", "detail": "no-prompt-submitted"})
+        );
+        assert_eq!(
+            kinds(tmp.path()),
+            ["send-issued", "prompt-submitted", "send-refused"]
+        );
+        assert_eq!(slot.wheel.holder(), Wheel::Human);
     }
 
     #[test]
@@ -1400,7 +1495,6 @@ mod tests {
     /// prompt expired at the window.
     #[rstest]
     #[case::a_trailing_space("/clear ")]
-    #[case::a_trailing_newline("/clear\n")]
     #[case::a_leading_space(" /clear")]
     #[case::another_case("/CLEAR")]
     #[case::a_slash_text_off_the_list("/andromeda-arch")]
@@ -1423,6 +1517,82 @@ mod tests {
         );
         assert_eq!(pastes.all(), [text]);
         assert!(slot.flight().send.is_none(), "the slot is free again");
+    }
+
+    /// The list is read by the typed text, so `/clear` and a newline is the listed command. On a
+    /// version where `/clear` is `unconfirmable`, it is typed as `/clear` and answered at once.
+    #[test]
+    fn send_local_command_decision_reads_the_text_without_its_trailing_newline() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let base = Instant::now();
+        let slot = SendSlot::new(JumpClock(Mutex::new(base)), false, Arc::default());
+        let (pastes, _pasted) = Pastes::new();
+        slot.attach(pastes.paste_fn(), quiet_gate(base));
+        let params = json!({"v": 1, "text": "/clear\n"});
+        let reply = send(&slot, &name(), tmp.path(), &call(&params, 1)).expect("answered");
+        assert_eq!(pastes.all(), ["/clear"]);
+        assert_eq!(
+            reply,
+            json!({"ok": {"confirmed": false, "detail": "unconfirmable", "cursor": 0}})
+        );
+        assert_eq!(kinds(tmp.path()), ["send-issued", "send-confirmed"]);
+        assert_eq!(
+            events(tmp.path())[1]["data"],
+            json!({"cursor": 0, "confirmed": false})
+        );
+    }
+
+    /// The listed command with no post-condition, followed by a newline, on a verified version:
+    /// typed as the command and answered `unconfirmable` at once.
+    #[test]
+    fn send_local_command_without_a_post_condition_and_a_trailing_newline_is_unconfirmable() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let base = Instant::now();
+        let slot = SendSlot::new(JumpClock(Mutex::new(base)), true, Arc::default());
+        let (pastes, _pasted) = Pastes::new();
+        slot.attach(pastes.paste_fn(), quiet_gate(base));
+        let params = json!({"v": 1, "text": "/remote-control\n"});
+        let reply = send(&slot, &name(), tmp.path(), &call(&params, 1)).expect("answered");
+        assert_eq!(pastes.all(), ["/remote-control"]);
+        assert_eq!(
+            reply,
+            json!({"ok": {"confirmed": false, "detail": "unconfirmable", "cursor": 0}})
+        );
+        assert_eq!(kinds(tmp.path()), ["send-issued", "send-confirmed"]);
+    }
+
+    /// `/clear` and a newline on a verified version is `/clear`: typed as the command, then
+    /// confirmed by its post-condition as `send_local_command_clear_is_confirmed_by_a_new_session`
+    /// is. The clock jumps once the new session is on disk, so a send it did not confirm expires.
+    #[test]
+    fn send_local_command_clear_with_a_trailing_newline_is_confirmed_by_a_new_session() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let base = Instant::now();
+        let (clock, jumping) = SwitchClock::at(base);
+        let slot = SendSlot::new(clock, true, Arc::default());
+        let (pastes, pasted) = Pastes::new();
+        slot.attach(pastes.paste_fn(), quiet_gate(base));
+        let params = json!({"v": 1, "text": "/clear\n"});
+        let started = json!({"cause": "clear", "agent_session_id": "session-two"});
+        let reply = std::thread::scope(|s| {
+            let sending = s.spawn(|| send(&slot, &name(), tmp.path(), &call(&params, 1)));
+            pasted.recv().expect("pasted");
+            let line = hook_line(EventKind::SessionStart, started.clone());
+            append_hook_event(&slot, &feed(), tmp.path(), line).expect("hook");
+            jumping.store(true, std::sync::atomic::Ordering::SeqCst);
+            sending.join().expect("send thread")
+        })
+        .expect("answered");
+        let events = events(tmp.path());
+        assert_eq!(pastes.all(), ["/clear"]);
+        assert_eq!(
+            kinds(tmp.path()),
+            ["send-issued", "session-start", "send-confirmed"]
+        );
+        assert_eq!(
+            reply,
+            json!({"ok": {"submitted_at": events[1]["ts"], "cursor": 0}})
+        );
     }
 
     /// A send to a verified wrapper whose input box goes quiet 3.3 s past `base`. The send reads
