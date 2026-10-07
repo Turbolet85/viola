@@ -154,10 +154,24 @@ Both readings are the predicted ones. The size rule's own reading is `short 1` a
 
 The predicted reading was that line. Measured: that line, with exit 0.
 
+## After the rewording of the remedy (inputs#I10) — the census read again on the rebuilt binary
+The operator's note of 15:22Z changed two doc comments (`hook.rs`, `send.rs`), so the block was read again:
+entries 1 to 15 green in one call of the gate tool (15:23:07Z to 15:25:12Z; coverage 1712/1712), and `pre-push`
+wrote the instrumented binary again at 15:24:25Z.
+- The must-pass control, 15:25:24Z to 15:25:36Z, `bash scripts/profraw-census.sh 48 1`: **exit 0**, wall 12.3 s,
+  load average 6.82 at the start. Last line: `profraw-census: runs 48 · passed 48 · profiles 48 · third 0 ·
+  short 0`; the tally: 48 lines `1 1 129512`.
+- The census entry (gate entry 16, `--entry 16`), 15:25:44Z to 15:28:02Z, `bash scripts/profraw-census.sh 4800
+  48`: **green, exit 0**, 138.47 s by the tool's clock, load average 5.65 at the start and 50.24 at the end.
+  Last line: `profraw-census: runs 4800 · passed 4800 · profiles 4800 · third 0 · short 0`; the tally: 4 800
+  lines `1 1 129512`; no `.profraw` left.
+- The planted control was not read again: the script has not changed since its two readings, and the control
+  reads the script's rule on planted files, not the binary.
+
 ## What the readings establish
 - On the untouched test, 4 800 loaded runs: 3 truncated third profiles (step 6). The mechanism is measured.
-- On the fixed test, 48 runs one at a time and 4 800 runs at 48 workers, the second read twice (the revision's
-  baseline and gate entry 16): no child profile at all, one whole profile of 129 512 B a run.
+- On the fixed test, 48 runs one at a time and 4 800 runs at 48 workers, the second read three times (the
+  revision's baseline and gate entry 16 twice): no child profile at all, one whole profile of 129 512 B a run.
 - The revised rule fails when it should: one extra whole file reads `third 1`, one short file reads `short 1`,
   each exit 1.
 - Not measured: the fixed test on Windows and macOS, before CI.

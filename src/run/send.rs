@@ -2,7 +2,7 @@
 //! one send in flight, the readiness gate, `send-issued` at the pre-paste cursor, one bracketed paste + Enter,
 //! then confirmation after the fact — the matching `prompt-submitted`, relabelled `driver`, inside
 //! the window — or `not-delivered`. The text is validated as received and typed without its
-//! trailing newlines (`typed_text`; PROVISIONAL, the founder's to confirm or overturn): the list,
+//! trailing newlines (`typed_text`; the founder's ruling of 2026-10-07T15:21Z): the list,
 //! the paste, `text_bytes` and the exact match all read that one typed text. A text that is
 //! exactly a compiled local command fires no prompt: one with a post-condition measured on this
 //! CLI version is confirmed by it inside the same window, any other is `unconfirmable` at once.

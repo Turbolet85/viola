@@ -3,8 +3,10 @@
 Times are `date -u`, 2026-10-07. Every run is the harness command as the plan lists it, on the Linux dev host,
 under the fake agent. No `claude` process was started (inputs#I1, inputs#I4).
 
-The remedy these cases prove is PROVISIONAL: the overseer's delegate answer of 2026-10-07 on the P4 card
-(inputs#I2), the founder's to confirm or overturn. `send` validates the text as received and types it without
+The remedy these cases prove is the founder's ruling: he confirmed it live at 2026-10-07T15:21Z through the
+overseer's dialog, every option and the `/clear` consequence shown to him (relayed by the overseer,
+inputs#I10). It was first the overseer's delegate answer of 2026-10-07 on the P4 card (inputs#I2), given while
+the founder was away, and the readings below were taken under that answer. `send` validates the text as received and types it without
 its trailing LF characters; the list, the paste, `text_bytes` and the exact claim read that one typed text.
 
 ## The tree at the red readings

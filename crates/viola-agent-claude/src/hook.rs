@@ -197,9 +197,8 @@ pub(crate) fn prompt_text(raw: &str) -> String {
 /// UserPromptSubmit, so a text typed with it comes back one byte short of the text `send` matches
 /// (chunk 2026-10-07-live-rows-and-paste-shapes-on-the-dev-host: `evidence/hint-window.md` step 7,
 /// `scratch-session.md`, `live-shape-red-green.md`). The width is every trailing LF, so the typed
-/// text never ends in one and what the CLI does with two is not leaned on. PROVISIONAL: the
-/// overseer's delegate answer of 2026-10-07, the founder's to confirm or overturn
-/// (architecture.md [Delivery Confirmation]).
+/// text never ends in one and what the CLI does with two is not leaned on. The founder's ruling,
+/// live, 2026-10-07T15:21Z, every option shown to him (architecture.md [Delivery Confirmation]).
 pub fn typed_text(text: &str) -> &str {
     text.trim_end_matches('\n')
 }

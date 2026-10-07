@@ -471,17 +471,18 @@ note = 'after the CI read: the green was read on the first attempt of the run on
   chunk: whether they had this cause is not measurable now.
 - Expected amendments (wrap): architecture §Established Decisions → [Delivery Confirmation] — the exception
   sentence goes; `send` types the text without its trailing LF and the match is exact on the typed text;
-  provisional, the overseer's delegate answer of 2026-10-07, the founder's to confirm or overturn.
+  the founder's ruling, live, 2026-10-07T15:21Z, relayed by the overseer (`inputs#I10`); first the overseer's
+  delegate answer of 2026-10-07.
 - Expected amendments (wrap): architecture §Established Decisions → [Human Takeover / Wheel] — the exception
-  sentence goes; the same provisional wording.
+  sentence goes; the same ruling.
 - Expected amendments (wrap): architecture §Standard Contracts → Event `data` per kind, `prompt-submitted` —
-  `text` is the prompt as typed; the exception sentence goes; provisional.
+  `text` is the prompt as typed; the exception sentence goes; the same ruling.
 - Expected amendments (wrap): architecture §Established Decisions → [CLI Version Compatibility], the long-paste
   wrapper row — the measurement stays; no `send` relies on it after this build.
 - Expected amendments (wrap): architecture §Occupied Resources → Repository — `scripts/profraw-census.sh` and
   `target/profraw-census/`.
 - Expected amendments (wrap): security-plan §Input Validation (Paste text row) and §Security Anti-Patterns →
-  Input — trailing LF is removed after validation, the one exception to "never strip"; provisional; if the wrap's
+  Input — trailing LF is removed after validation, the one exception to "never strip"; the same ruling; if the wrap's
   judge escalates the ban's amendment it is held for the founder (`inputs#I2`).
 - Expected amendments (wrap): test-plan §4 What unit tests cover → root bin, §6 Scenario: Path 2 and §10 Coverage
   thresholds → Stack adjustments — the matcher bullet and Path 2 read the typed text; the corrupt-profile
