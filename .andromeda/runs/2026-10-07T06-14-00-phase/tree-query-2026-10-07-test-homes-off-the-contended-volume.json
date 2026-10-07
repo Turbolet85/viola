@@ -1,0 +1,571 @@
+[
+{
+"sql": "SELECT caller_name, file, line FROM calls WHERE callee_name = 'e2e_home' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 12,
+"result": [
+{
+"caller_name": "start",
+"file": "crates/viola-e2e/src/harness/boot.rs",
+"line": 127
+},
+{
+"caller_name": "start",
+"file": "crates/viola-e2e/src/harness/boot.rs",
+"line": 130
+},
+{
+"caller_name": "remove_session_home",
+"file": "crates/viola-e2e/src/harness/cleanup.rs",
+"line": 163
+},
+{
+"caller_name": "remove_session_home_refuses_paths_outside_e2e_home",
+"file": "crates/viola-e2e/src/harness/cleanup.rs",
+"line": 343
+},
+{
+"caller_name": "remove_session_home_removes_a_boot_created_parent",
+"file": "crates/viola-e2e/src/harness/cleanup.rs",
+"line": 351
+},
+{
+"caller_name": "remove_session_home_removes_a_boot_created_parent",
+"file": "crates/viola-e2e/src/harness/cleanup.rs",
+"line": 354
+},
+{
+"caller_name": "workspace_root_holds_the_root_manifest",
+"file": "crates/viola-e2e/src/harness/mod.rs",
+"line": 298
+},
+{
+"caller_name": "local_live",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 370
+},
+{
+"caller_name": "schema_check",
+"file": "crates/viola-e2e/src/harness/schema_check.rs",
+"line": 81
+},
+{
+"caller_name": "of",
+"file": "crates/viola-e2e/src/harness/secret_scan.rs",
+"line": 49
+},
+{
+"caller_name": "run_local_live_under_ci_is_refused",
+"file": "crates/viola-e2e/tests/cli.rs",
+"line": 94
+},
+{
+"caller_name": "harness_session_boots_reports_logs_and_tears_down",
+"file": "crates/viola-e2e/tests/harness_lifecycle.rs",
+"line": 125
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller_name, file, line FROM calls WHERE callee_name = 'workspace_path' AND callee_kind = 'fn' AND callee_file LIKE '%tests/support/home.rs' ORDER BY file, line",
+"rows": 67,
+"result": [
+{
+"caller_name": "channel_wrapper_logs_each_call_with_corr_and_conn",
+"file": "tests/channel_endpoint.rs",
+"line": 263
+},
+{
+"caller_name": "channel_debug_level_keeps_request_content_out_of_the_role_files",
+"file": "tests/channel_endpoint.rs",
+"line": 296
+},
+{
+"caller_name": "crate",
+"file": "tests/channel_paste_validation.rs",
+"line": 12
+},
+{
+"caller_name": "boot",
+"file": "tests/channel_paste_validation.rs",
+"line": 18
+},
+{
+"caller_name": "crate",
+"file": "tests/chaos_feed_panic.rs",
+"line": 18
+},
+{
+"caller_name": "chaos_feed_panic_refuses_send_and_keeps_passthrough",
+"file": "tests/chaos_feed_panic.rs",
+"line": 44
+},
+{
+"caller_name": "crate",
+"file": "tests/chaos_wait_vanish.rs",
+"line": 11
+},
+{
+"caller_name": "chaos_wait_parked_wrapper_killed_exits_21",
+"file": "tests/chaos_wait_vanish.rs",
+"line": 46
+},
+{
+"caller_name": "crate",
+"file": "tests/cli_answer.rs",
+"line": 24
+},
+{
+"caller_name": "fixtures_arg",
+"file": "tests/cli_answer.rs",
+"line": 33
+},
+{
+"caller_name": "fixture",
+"file": "tests/cli_answer.rs",
+"line": 41
+},
+{
+"caller_name": "assert_logs_clean",
+"file": "tests/cli_answer.rs",
+"line": 226
+},
+{
+"caller_name": "crate",
+"file": "tests/cli_controls_not_disableable.rs",
+"line": 18
+},
+{
+"caller_name": "setting_does_not_disable_the_answer_unstamped_control",
+"file": "tests/cli_controls_not_disableable.rs",
+"line": 214
+},
+{
+"caller_name": "setting_does_not_disable_the_send_turn_running_control",
+"file": "tests/cli_controls_not_disableable.rs",
+"line": 303
+},
+{
+"caller_name": "crate",
+"file": "tests/cli_fake_agent.rs",
+"line": 19
+},
+{
+"caller_name": "fake_agent_gated_steps_wait_for_control_lines",
+"file": "tests/cli_fake_agent.rs",
+"line": 659
+},
+{
+"caller_name": "chain_boots_the_fake_agent_under_viola_with_a_gated_script",
+"file": "tests/cli_fake_agent.rs",
+"line": 788
+},
+{
+"caller_name": "crate",
+"file": "tests/cli_send.rs",
+"line": 19
+},
+{
+"caller_name": "boot_on",
+"file": "tests/cli_send.rs",
+"line": 34
+},
+{
+"caller_name": "recorded_long_paste",
+"file": "tests/cli_send.rs",
+"line": 47
+},
+{
+"caller_name": "send_on_a_verified_cli_refuses_while_the_trust_dialog_is_up",
+"file": "tests/cli_send.rs",
+"line": 680
+},
+{
+"caller_name": "crate",
+"file": "tests/cli_verify.rs",
+"line": 17
+},
+{
+"caller_name": "verify_with_an_instance_logs_its_six_spawn_pairs",
+"file": "tests/cli_verify.rs",
+"line": 444
+},
+{
+"caller_name": "verify_record_writes_the_scrubbed_spine_variants_and_screens",
+"file": "tests/cli_verify.rs",
+"line": 544
+},
+{
+"caller_name": "verify_record_screens_keep_only_signature_rows",
+"file": "tests/cli_verify.rs",
+"line": 642
+},
+{
+"caller_name": "crate",
+"file": "tests/cli_wait_last.rs",
+"line": 18
+},
+{
+"caller_name": "assert_logs_clean",
+"file": "tests/cli_wait_last.rs",
+"line": 211
+},
+{
+"caller_name": "crate",
+"file": "tests/cli_wheel.rs",
+"line": 17
+},
+{
+"caller_name": "fixtures_arg",
+"file": "tests/cli_wheel.rs",
+"line": 26
+},
+{
+"caller_name": "assert_logs_clean",
+"file": "tests/cli_wheel.rs",
+"line": 119
+},
+{
+"caller_name": "crate",
+"file": "tests/contract_diag_schema.rs",
+"line": 13
+},
+{
+"caller_name": "line_schema",
+"file": "tests/contract_diag_schema.rs",
+"line": 42
+},
+{
+"caller_name": "detail_schema",
+"file": "tests/contract_diag_schema.rs",
+"line": 46
+},
+{
+"caller_name": "crate",
+"file": "tests/contract_fake_agent_drift.rs",
+"line": 17
+},
+{
+"caller_name": "fake_agent_print_turn_matches_every_recorded_set",
+"file": "tests/contract_fake_agent_drift.rs",
+"line": 100
+},
+{
+"caller_name": "fake_agent_dialog_replay_matches_every_recorded_dialog_set",
+"file": "tests/contract_fake_agent_drift.rs",
+"line": 213
+},
+{
+"caller_name": "fake_agent_framing_replay_matches_every_recorded_framing_set",
+"file": "tests/contract_fake_agent_drift.rs",
+"line": 307
+},
+{
+"caller_name": "drift_is_empty_for_the_recorded_set_in_spine_order",
+"file": "tests/contract_fake_agent_drift.rs",
+"line": 446
+},
+{
+"caller_name": "drift_names_a_swapped_order",
+"file": "tests/contract_fake_agent_drift.rs",
+"line": 454
+},
+{
+"caller_name": "drift_names_the_event_whose_fixture_differs_by_one_byte",
+"file": "tests/contract_fake_agent_drift.rs",
+"line": 466
+},
+{
+"caller_name": "crate",
+"file": "tests/contract_fixture_hygiene.rs",
+"line": 13
+},
+{
+"caller_name": "script_schema",
+"file": "tests/contract_fixture_hygiene.rs",
+"line": 19
+},
+{
+"caller_name": "claude_schema",
+"file": "tests/contract_fixture_hygiene.rs",
+"line": 23
+},
+{
+"caller_name": "screen_schema",
+"file": "tests/contract_fixture_hygiene.rs",
+"line": 27
+},
+{
+"caller_name": "claude_fixtures_pass_hygiene",
+"file": "tests/contract_fixture_hygiene.rs",
+"line": 76
+},
+{
+"caller_name": "claude_screens_pass_hygiene",
+"file": "tests/contract_fixture_hygiene.rs",
+"line": 206
+},
+{
+"caller_name": "claude_dialog_variants_are_walked_for_every_dialog_set",
+"file": "tests/contract_fixture_hygiene.rs",
+"line": 315
+},
+{
+"caller_name": "claude_framing_variants_are_walked_for_every_framing_set",
+"file": "tests/contract_fixture_hygiene.rs",
+"line": 367
+},
+{
+"caller_name": "crate",
+"file": "tests/contract_ledger_probes.rs",
+"line": 12
+},
+{
+"caller_name": "contract_ledger_probes_every_recorded_set_is_on_exactly_one_list",
+"file": "tests/contract_ledger_probes.rs",
+"line": 55
+},
+{
+"caller_name": "contract_ledger_probes_pass_over_every_stamped_set",
+"file": "tests/contract_ledger_probes.rs",
+"line": 72
+},
+{
+"caller_name": "crate",
+"file": "tests/hook_events.rs",
+"line": 19
+},
+{
+"caller_name": "assert_hook_logs_valid",
+"file": "tests/hook_events.rs",
+"line": 83
+},
+{
+"caller_name": "crate",
+"file": "tests/hook_fail_open.rs",
+"line": 18
+},
+{
+"caller_name": "violations",
+"file": "tests/hook_fail_open.rs",
+"line": 125
+},
+{
+"caller_name": "run_internal_error_routes_the_chain_to_the_detail_file",
+"file": "tests/run_cli.rs",
+"line": 427
+},
+{
+"caller_name": "new",
+"file": "tests/support/home.rs",
+"line": 117
+},
+{
+"caller_name": "seed_conpty",
+"file": "tests/support/home.rs",
+"line": 200
+},
+{
+"caller_name": "seed_conpty",
+"file": "tests/support/home.rs",
+"line": 205
+},
+{
+"caller_name": "stamped_home",
+"file": "tests/support/home.rs",
+"line": 267
+},
+{
+"caller_name": "dialogless_home",
+"file": "tests/support/home.rs",
+"line": 295
+},
+{
+"caller_name": "boot_with",
+"file": "tests/support/home.rs",
+"line": 378
+},
+{
+"caller_name": "verify",
+"file": "tests/support/verify.rs",
+"line": 14
+},
+{
+"caller_name": "verify_with",
+"file": "tests/support/verify.rs",
+"line": 437
+},
+{
+"caller_name": "crate",
+"file": "tests/tui_wheel.rs",
+"line": 19
+},
+{
+"caller_name": "boot",
+"file": "tests/tui_wheel.rs",
+"line": 29
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller_name, file, line FROM calls WHERE callee_name IN ('sweep_gone_owners','remove_owned','pin_exe','replace_private_shared') AND callee_kind = 'fn' ORDER BY callee_name, file, line",
+"rows": 30,
+"result": [
+{
+"caller_name": "pin_exe_copies_then_refuses_a_tampered_copy",
+"file": "crates/viola-state/src/pin.rs",
+"line": 213
+},
+{
+"caller_name": "pin_exe_copies_then_refuses_a_tampered_copy",
+"file": "crates/viola-state/src/pin.rs",
+"line": 236
+},
+{
+"caller_name": "pin_exe_copies_then_refuses_a_tampered_copy",
+"file": "crates/viola-state/src/pin.rs",
+"line": 239
+},
+{
+"caller_name": "pin_exe_copies_then_refuses_a_tampered_copy",
+"file": "crates/viola-state/src/pin.rs",
+"line": 243
+},
+{
+"caller_name": "pin_exe_hashes_a_copy_longer_than_one_read",
+"file": "crates/viola-state/src/pin.rs",
+"line": 254
+},
+{
+"caller_name": "pin_exe_hashes_a_copy_longer_than_one_read",
+"file": "crates/viola-state/src/pin.rs",
+"line": 256
+},
+{
+"caller_name": "pin_exe_hashes_a_copy_longer_than_one_read",
+"file": "crates/viola-state/src/pin.rs",
+"line": 260
+},
+{
+"caller_name": "pin_exe_reports_an_unreadable_source_or_copy",
+"file": "crates/viola-state/src/pin.rs",
+"line": 268
+},
+{
+"caller_name": "pin_exe_reports_an_unreadable_source_or_copy",
+"file": "crates/viola-state/src/pin.rs",
+"line": 277
+},
+{
+"caller_name": "pin_exe_refuses_a_copy_it_cannot_read_and_leaves_it",
+"file": "crates/viola-state/src/pin.rs",
+"line": 335
+},
+{
+"caller_name": "pin_exe_refuses_a_copy_it_cannot_read_and_leaves_it",
+"file": "crates/viola-state/src/pin.rs",
+"line": 338
+},
+{
+"caller_name": "tests",
+"file": "crates/viola-state/src/pin.rs",
+"line": 359
+},
+{
+"caller_name": "run",
+"file": "src/cmd/run.rs",
+"line": 20
+},
+{
+"caller_name": "pin_and_plugin",
+"file": "src/cmd/run.rs",
+"line": 315
+},
+{
+"caller_name": "verify",
+"file": "src/cmd/verify.rs",
+"line": 29
+},
+{
+"caller_name": "measure",
+"file": "src/cmd/verify.rs",
+"line": 132
+},
+{
+"caller_name": "crate",
+"file": "tests/cli_instance_state.rs",
+"line": 469
+},
+{
+"caller_name": "sweep_gone_owners",
+"file": "tests/support/home.rs",
+"line": 69
+},
+{
+"caller_name": "drop",
+"file": "tests/support/home.rs",
+"line": 176
+},
+{
+"caller_name": "replace_private_shared_fails_unless_the_bytes_are_already_there",
+"file": "crates/viola-state/src/fs.rs",
+"line": 303
+},
+{
+"caller_name": "replace_private_shared_fails_unless_the_bytes_are_already_there",
+"file": "crates/viola-state/src/fs.rs",
+"line": 305
+},
+{
+"caller_name": "tests",
+"file": "crates/viola-state/src/fs.rs",
+"line": 344
+},
+{
+"caller_name": "pin",
+"file": "crates/viola-state/src/pin.rs",
+"line": 12
+},
+{
+"caller_name": "pin_exe",
+"file": "crates/viola-state/src/pin.rs",
+"line": 81
+},
+{
+"caller_name": "pin",
+"file": "crates/viola-state/src/pin.rs",
+"line": 171
+},
+{
+"caller_name": "run",
+"file": "src/cmd/run.rs",
+"line": 17
+},
+{
+"caller_name": "pin_and_plugin",
+"file": "src/cmd/run.rs",
+"line": 328
+},
+{
+"caller_name": "crate",
+"file": "tests/cli_instance_state.rs",
+"line": 18
+},
+{
+"caller_name": "fixture_sweep_removes_only_homes_whose_owner_is_gone",
+"file": "tests/cli_instance_state.rs",
+"line": 448
+},
+{
+"caller_name": "new",
+"file": "tests/support/home.rs",
+"line": 120
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

@@ -85,6 +85,43 @@ impl Workspace {
         self.root.join("target").join("e2e-home")
     }
 
+    /// Prepares `e2e_home` before a home is created under it. A plain base is created as a
+    /// directory. On Unix a base that is a link is a host's own backing (test-plan §5 Setup /
+    /// teardown lifecycle): its target must be absolute, is made again with mode 0700 when it is
+    /// gone (a reboot clears a tmpfs one), and is refused unless it is a real directory with no
+    /// group or other bit. Nothing is removed and no `home` is created.
+    pub fn ensure_e2e_home(&self) -> io::Result<()> {
+        let base = self.e2e_home();
+        #[cfg(unix)]
+        {
+            use std::os::unix::fs::{DirBuilderExt as _, PermissionsExt as _};
+            if fs::symlink_metadata(&base).is_ok_and(|m| m.file_type().is_symlink()) {
+                let refused =
+                    |check: &'static str| io::Error::new(io::ErrorKind::InvalidInput, check);
+                let target = fs::read_link(&base)?;
+                if !target.is_absolute() {
+                    return Err(refused("e2e-home backing: the link's target is relative"));
+                }
+                // A target that is there answers already-exists and stays as it is: the read
+                // below is the verdict either way.
+                let _ = fs::DirBuilder::new().mode(0o700).create(&target);
+                let meta = fs::symlink_metadata(&target)?;
+                if !meta.is_dir() {
+                    return Err(refused(
+                        "e2e-home backing: the link's target is not a real directory",
+                    ));
+                }
+                if meta.permissions().mode() & 0o077 != 0 {
+                    return Err(refused(
+                        "e2e-home backing: the link's target is not owner-only",
+                    ));
+                }
+                return Ok(());
+            }
+        }
+        fs::create_dir_all(base)
+    }
+
     /// The harness builds and tests in its own target dir: `viola-harness` itself runs from
     /// `target/debug`, and Windows cannot relink a running executable.
     pub fn cargo_target(&self) -> PathBuf {
@@ -298,6 +335,137 @@ mod tests {
         assert_eq!(ws.artifacts(), ws.root.join("target/agent-run/artifacts"));
         assert_eq!(ws.e2e_home(), ws.root.join("target/e2e-home"));
         assert_eq!(ws.harness_bins(), ws.root.join("target/harness/debug"));
+    }
+
+    #[test]
+    fn e2e_home_backing_plain_base_is_created_and_kept() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let ws = Workspace {
+            root: tmp.path().to_path_buf(),
+        };
+        ws.ensure_e2e_home().expect("created");
+        assert!(ws.e2e_home().is_dir());
+        fs::write(ws.e2e_home().join("kept"), "x").expect("entry");
+        ws.ensure_e2e_home().expect("kept");
+        assert_eq!(
+            fs::read(ws.e2e_home().join("kept")).expect("entry kept"),
+            b"x"
+        );
+    }
+
+    /// A workspace under a temp dir whose `target/` exists and whose `e2e-home` is a link to
+    /// `target`, taken relative to the temp dir when it is relative.
+    #[cfg(unix)]
+    fn linked(target: &str) -> (tempfile::TempDir, Workspace, PathBuf) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let ws = Workspace {
+            root: tmp.path().to_path_buf(),
+        };
+        fs::create_dir(tmp.path().join("target")).expect("target dir");
+        let target = tmp.path().join(target);
+        std::os::unix::fs::symlink(&target, ws.e2e_home()).expect("link");
+        (tmp, ws, target)
+    }
+
+    /// A directory with exactly `mode`, whatever the umask.
+    #[cfg(unix)]
+    fn dir_with_mode(path: &Path, mode: u32) {
+        use std::os::unix::fs::PermissionsExt as _;
+        fs::create_dir(path).expect("dir");
+        fs::set_permissions(path, fs::Permissions::from_mode(mode)).expect("mode");
+    }
+
+    #[cfg(unix)]
+    fn mode_of(path: &Path) -> u32 {
+        use std::os::unix::fs::PermissionsExt as _;
+        fs::symlink_metadata(path)
+            .expect("metadata")
+            .permissions()
+            .mode()
+            & 0o7777
+    }
+
+    #[cfg(unix)]
+    fn refusal(ws: &Workspace) -> String {
+        ws.ensure_e2e_home().expect_err("refused").to_string()
+    }
+
+    /// A reboot clears a tmpfs backing: the next start makes the link's target again, owner-only.
+    #[cfg(unix)]
+    #[test]
+    fn e2e_home_backing_gone_target_is_made_again_owner_only() {
+        let (_tmp, ws, target) = linked("backing");
+        ws.ensure_e2e_home().expect("made again");
+        assert!(
+            fs::symlink_metadata(&target)
+                .expect("the target is back")
+                .is_dir()
+        );
+        assert_eq!(mode_of(&target), 0o700);
+        assert!(
+            fs::symlink_metadata(ws.e2e_home())
+                .expect("the base")
+                .file_type()
+                .is_symlink(),
+            "the link was replaced"
+        );
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn e2e_home_backing_owner_only_target_is_kept_untouched() {
+        let (_tmp, ws, target) = linked("backing");
+        dir_with_mode(&target, 0o700);
+        fs::write(target.join("kept"), "x").expect("entry");
+        ws.ensure_e2e_home().expect("kept");
+        assert_eq!(fs::read(target.join("kept")).expect("entry kept"), b"x");
+        assert_eq!(mode_of(&target), 0o700);
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn e2e_home_backing_group_or_other_bit_is_refused() {
+        for mode in [0o750, 0o705] {
+            let (_tmp, ws, target) = linked("backing");
+            dir_with_mode(&target, mode);
+            assert_eq!(
+                refusal(&ws),
+                "e2e-home backing: the link's target is not owner-only",
+                "{mode:o}"
+            );
+            assert_eq!(mode_of(&target), mode, "the refused target was changed");
+        }
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn e2e_home_backing_target_that_is_a_link_is_refused() {
+        let (tmp, ws, middle) = linked("middle");
+        let real = tmp.path().join("real");
+        dir_with_mode(&real, 0o700);
+        std::os::unix::fs::symlink(&real, &middle).expect("middle link");
+        assert_eq!(
+            refusal(&ws),
+            "e2e-home backing: the link's target is not a real directory"
+        );
+    }
+
+    /// The relative target resolves to an owner-only directory, so only its being relative
+    /// refuses it.
+    #[cfg(unix)]
+    #[test]
+    fn e2e_home_backing_relative_target_is_refused() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let ws = Workspace {
+            root: tmp.path().to_path_buf(),
+        };
+        dir_with_mode(&tmp.path().join("target"), 0o700);
+        dir_with_mode(&tmp.path().join("target").join("backing"), 0o700);
+        std::os::unix::fs::symlink("backing", ws.e2e_home()).expect("link");
+        assert_eq!(
+            refusal(&ws),
+            "e2e-home backing: the link's target is relative"
+        );
     }
 
     #[test]

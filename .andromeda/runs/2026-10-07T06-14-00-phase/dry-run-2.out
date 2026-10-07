@@ -1,0 +1,32 @@
+gate v1.11 · 1e911c8f
+shell /usr/bin/bash (from $SHELL; -c, non-login)
+root . · marker 2026-10-07-test-homes-off-the-contended-volume · entries 20
+logs $TMPDIR/andromeda-gate/2026-10-07-test-homes-off-the-contended-volume/run-20261007T073642Z · bound: GNU timeout
+delta docs 46 · unmapped 5
+walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 51
+prose L189-191: No live leg: the chunk drives no real `claude` (inputs#I1), so the block holds no `live` o… (252 chars)
+prose L193-197: The contended reading's producer is step 8's one-off driver. It waits on another builder's… (493 chars)
+prose L199-203: One control mutates source and reverts, so it is a one-shot run at implement and not an en… (535 chars)
+prose L205-205: That entry reads the host: it is green only where the link is in force, which is this dev … (95 chars)
+prose L207-209: Five builders share this host. A red whose shape is a stalled start is, from this chunk on… (305 chars)
+  1 lint        not run — dry-run · cargo fmt --all --check
+  2 lint        not run — dry-run · cargo clippy --workspace --all-targets --features fake-age… (75 chars)
+  3 unit        not run — dry-run · bash scripts/agent-run.sh run --unit
+  4 unit        not run — dry-run · bash scripts/agent-run.sh run --unit --filter 'test(/e2e_h… (73 chars)
+  5 integration not run — dry-run · bash scripts/agent-run.sh run --integration --filter 'test… (81 chars)
+  6 probe       not run — dry-run · bash scripts/g2-zero-panics.sh --probe
+  7 probe       not run — dry-run · test -L target/e2e-home && findmnt -n -o FSTYPE -T target/… (67 chars)
+  8 probe       not run — dry-run · git diff --quiet b329083e0266 -- src crates/viola-core cra… (323 chars)
+  9 smoke       not run — dry-run · bash scripts/agent-run.sh cleanup --session p-homes-smoke
+ 10 smoke       not run — dry-run · bash scripts/agent-run.sh boot --session p-homes-smoke --i… (73 chars)
+ 11 smoke       not run — dry-run · bash scripts/agent-run.sh status --session p-homes-smoke
+ 12 probe       not run — dry-run · bash scripts/g2-zero-panics.sh
+ 13 probe       not run — dry-run · bash scripts/agent-run.sh schema-check
+ 14 smoke       not run — dry-run · bash scripts/agent-run.sh cleanup --session p-homes-smoke
+ 15 integration not run — dry-run · bash scripts/agent-run.sh run --integration --filter 'bina… (73 chars)
+ 16 probe       not run — dry-run · bash scripts/agent-run.sh pre-push
+ 17 probe       not run — dry-run · jq -e -s 'map(select(.kind == "reading" and .control_write… (272 chars)
+ 18 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (90 chars)
+ 19 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (69 chars)
+ 20 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (114 chars)
+entries 20 · green 0 · red 0 · recorded 0 · timeout 0 · not-run 20

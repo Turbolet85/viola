@@ -1,0 +1,193 @@
+#!/usr/bin/env python3
+"""The contended reading's driver (step 8): one line per natural window of another builder's link.
+
+A window opens when Dirty + Writeback stand at or above TRIGGER_MB on two consecutive one-second reads
+while a build process of another project is alive and this repository has none (the trigger of the F167
+window watcher). At the open it starts three things in the same second and waits for all three:
+  1. the control: the F167 start probe on the shared volume, where the homes were;
+  2. the backing: the same probe through the link;
+  3. the suite: the verify-driven test binary, through the harness.
+It appends one line per window to --out: numbers and project names only, never a path, never the suite's
+document. It ends at the first window whose control write median reads STALL_S or more, after
+--max-windows, or after --duration seconds, and then removes the control directory.
+
+Usage: contended_driver.py --repo R --probe start_probe.py --payload FILE --out FILE.ndjson
+           --scratch DIR [--duration 3600] [--max-windows 3] [--force-open]
+--force-open is the driver's own control: the trigger is taken as open at once, one window, and --out
+must then be a scratch file.
+"""
+import argparse
+import json
+import os
+import shutil
+import signal
+import subprocess
+import sys
+import threading
+import time
+
+BUILD = ("cargo", "rustc", "cc", "ld", "collect2", "rust-lld", "cargo-nextest", "clippy-driver")
+TRIGGER_MB = 100
+STALL_S = 7.0
+COOLDOWN_S = 30
+PROBE_N = 5
+SUITE_TIMEOUT_S = 900
+SUITE = ["bash", "scripts/agent-run.sh", "run", "--integration", "--filter", "binary(cli_verify)"]
+
+
+def dirty_mb():
+    total = 0
+    with open("/proc/meminfo") as f:
+        for line in f:
+            key, rest = line.split(":", 1)
+            if key in ("Dirty", "Writeback"):
+                total += int(rest.split()[0])
+    return total // 1024
+
+
+def builds(projects_dir, own):
+    """Build processes alive now, as (this repository's count, {other project: count})."""
+    mine, others = 0, {}
+    for pid in os.listdir("/proc"):
+        if not pid.isdigit():
+            continue
+        try:
+            with open(f"/proc/{pid}/stat") as f:
+                stat = f.read()
+            comm = stat[stat.find("(") + 1:stat.rfind(")")]
+            if not (comm in BUILD or comm.startswith("rustc")):
+                continue
+            cwd = os.readlink(f"/proc/{pid}/cwd")
+        except OSError:
+            continue
+        if cwd.startswith(projects_dir):
+            parts = cwd[len(projects_dir):].split("/")
+            name = parts[1] if parts[0] == "additional" and len(parts) > 1 else parts[0]
+        else:
+            name = "other"
+        if name == own:
+            mine += 1
+        else:
+            others[name] = others.get(name, 0) + 1
+    return mine, others
+
+
+def probe(argv, result, key):
+    try:
+        res = subprocess.run(argv, capture_output=True, text=True, timeout=600)
+        line = res.stdout.strip().splitlines()[-1] if res.stdout.strip() else ""
+        result[key] = json.loads(line) if line.startswith("{") else None
+    except (subprocess.TimeoutExpired, ValueError):
+        result[key] = None
+
+
+def suite(repo, scratch, result):
+    t0 = time.monotonic()
+    doc_path, err_path = os.path.join(scratch, "suite-doc.json"), os.path.join(scratch, "suite-err.txt")
+    with open(doc_path, "wb") as out, open(err_path, "wb") as err:
+        child = subprocess.Popen(SUITE, cwd=repo, stdout=out, stderr=err, start_new_session=True)
+        try:
+            child.wait(timeout=SUITE_TIMEOUT_S)
+        except subprocess.TimeoutExpired:
+            os.killpg(child.pid, signal.SIGTERM)
+            try:
+                child.wait(timeout=10)
+            except subprocess.TimeoutExpired:
+                os.killpg(child.pid, signal.SIGKILL)
+                child.wait()
+    result["suite_wall_s"] = round(time.monotonic() - t0, 1)
+    passed = failed = None
+    try:
+        with open(doc_path, encoding="utf-8") as f:
+            doc = json.load(f)
+        for s in doc.get("suites", []):
+            if s.get("suite") == "nextest-integration":
+                passed, failed = s.get("passed"), s.get("failed")
+    except (OSError, ValueError):
+        pass
+    result["suite_passed"], result["suite_failed"] = passed, failed
+
+
+def window(a, others, dirty, forced):
+    t_open = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+    control_dir = os.path.join(a.repo, "target", "contended-control")
+    backing_dir = os.path.join(a.repo, "target", "e2e-home")
+    base = [sys.executable, a.probe]
+    tail = ["--payload", a.payload, "--n", str(PROBE_N), "--rounds", "1"]
+    got = {}
+    threads = [
+        threading.Thread(target=probe, args=(base + [control_dir] + tail, got, "control")),
+        threading.Thread(target=probe, args=(base + [backing_dir] + tail, got, "backing")),
+        threading.Thread(target=suite, args=(a.repo, a.scratch, got)),
+    ]
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join()
+    control, backing = got.get("control"), got.get("backing")
+    line = {
+        "kind": "reading" if control and backing else "probe-failed",
+        "t_open": t_open,
+        "dirty_mb": dirty,
+        "other_builds": others,
+        "control_write_med_s": control["write"]["med"] if control else None,
+        "control_write_max_s": control["write"]["max"] if control else None,
+        "backing_total_max_s": backing["total"]["max"] if backing else None,
+        "suite_passed": got.get("suite_passed"),
+        "suite_failed": got.get("suite_failed"),
+        "suite_wall_s": got.get("suite_wall_s"),
+    }
+    if forced:
+        line["forced"] = True
+    return line
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--repo", required=True)
+    ap.add_argument("--probe", required=True)
+    ap.add_argument("--payload", required=True)
+    ap.add_argument("--out", required=True)
+    ap.add_argument("--scratch", required=True)
+    ap.add_argument("--duration", type=float, default=3600)
+    ap.add_argument("--max-windows", type=int, default=3)
+    ap.add_argument("--force-open", action="store_true")
+    a = ap.parse_args()
+    a.repo = os.path.abspath(a.repo)
+    projects_dir = os.path.dirname(a.repo) + "/"
+    own = os.path.basename(a.repo)
+    end = time.monotonic() + a.duration
+    windows, streak, ended = 0, 0, "cap"
+    try:
+        while time.monotonic() < end:
+            if windows >= a.max_windows:
+                ended = "max-windows"
+                break
+            mine, others = builds(projects_dir, own)
+            dirty = dirty_mb()
+            if a.force_open:
+                streak = 2
+            else:
+                streak = streak + 1 if (dirty >= TRIGGER_MB and others and mine == 0) else 0
+            if streak < 2:
+                time.sleep(1.0)
+                continue
+            line = window(a, others, dirty, a.force_open)
+            with open(a.out, "a", encoding="utf-8", newline="\n") as out:
+                out.write(json.dumps(line, separators=(",", ":"), sort_keys=False) + "\n")
+            windows, streak = windows + 1, 0
+            med = line["control_write_med_s"]
+            if med is not None and med >= STALL_S:
+                ended = "contended"
+                break
+            if a.force_open:
+                ended = "forced"
+                break
+            time.sleep(COOLDOWN_S)
+    finally:
+        shutil.rmtree(os.path.join(a.repo, "target", "contended-control"), ignore_errors=True)
+    print(f"contended_driver: {windows} window(s); ended {ended} at {time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}")
+
+
+if __name__ == "__main__":
+    main()

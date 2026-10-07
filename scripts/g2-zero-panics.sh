@@ -17,10 +17,10 @@ fi
 # Prints the count of non-exempt panic lines in the role files under $1. Returns 2 when the scope holds no role file.
 count_panics() {
   local scope=$1
-  if [ -z "$(find "$scope" -path '*/diagnostics/*.ndjson' ! -name 'detail-*' -print -quit 2>/dev/null)" ]; then
+  if [ -z "$(find "$scope/" -path '*/diagnostics/*.ndjson' ! -name 'detail-*' -print -quit 2>/dev/null)" ]; then
     return 2
   fi
-  find "$scope" -path '*/diagnostics/*.ndjson' ! -name 'detail-*' -exec awk 1 {} + \
+  find "$scope/" -path '*/diagnostics/*.ndjson' ! -name 'detail-*' -exec awk 1 {} + \
     | jq -R -n --arg seam "$seam_file" '
         def exempt:
           (.panic_location | type) == "string"

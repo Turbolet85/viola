@@ -15,8 +15,8 @@ use rstest::rstest;
 use serde_json::{Value, json};
 use support::fake::{self, FAKE, of_kind};
 use support::home::{
-    StampedHome, TestHome, VIOLA, Wrapper, beat_age, booted_wrapper, home, process_start,
-    snapshot_data, stamped_home, sweep_gone_owners, write_owner,
+    StampedHome, TestHome, VIOLA, Wrapper, beat_age, booted_wrapper, home, prepare_home_base,
+    process_start, snapshot_data, stamped_home, sweep_gone_owners, write_owner,
 };
 use support::piped::Piped;
 use viola_core::ViolaName;
@@ -457,6 +457,132 @@ fn fixture_sweep_removes_only_homes_whose_owner_is_gone(#[from(home)] tmp: TestH
     );
     assert!(!dead.exists());
     assert!(!reused.exists());
+}
+
+/// A plain home base is a directory the fixture creates and then leaves alone.
+#[test]
+fn home_base_backing_plain_base_is_created_and_kept() {
+    let tmp = tempfile::tempdir().expect("tempdir");
+    let base = tmp.path().join("target").join("e2e-home");
+    prepare_home_base(&base);
+    assert!(base.is_dir());
+    fs::write(base.join("kept"), "x").expect("entry");
+    prepare_home_base(&base);
+    assert_eq!(fs::read(base.join("kept")).expect("entry kept"), b"x");
+}
+
+/// The message `prepare_home_base` refuses `base` with.
+#[cfg(unix)]
+fn backing_refusal(base: &Path) -> String {
+    let payload = std::panic::catch_unwind(|| prepare_home_base(base)).expect_err("refused");
+    payload
+        .downcast_ref::<&str>()
+        .map(|s| (*s).to_owned())
+        .or_else(|| payload.downcast_ref::<String>().cloned())
+        .expect("a panic message")
+}
+
+/// A directory with exactly `mode`, whatever the umask.
+#[cfg(unix)]
+fn dir_with_mode(path: &Path, mode: u32) {
+    use std::os::unix::fs::PermissionsExt as _;
+    fs::create_dir(path).expect("dir");
+    fs::set_permissions(path, fs::Permissions::from_mode(mode)).expect("mode");
+}
+
+#[cfg(unix)]
+fn mode_of(path: &Path) -> u32 {
+    use std::os::unix::fs::PermissionsExt as _;
+    fs::symlink_metadata(path)
+        .expect("metadata")
+        .permissions()
+        .mode()
+        & 0o7777
+}
+
+/// A reboot clears a tmpfs backing: the next start makes the link's target again, owner-only.
+#[cfg(unix)]
+#[test]
+fn home_base_backing_gone_target_is_made_again_owner_only() {
+    let tmp = tempfile::tempdir().expect("tempdir");
+    let (target, base) = (tmp.path().join("backing"), tmp.path().join("e2e-home"));
+    std::os::unix::fs::symlink(&target, &base).expect("link");
+    prepare_home_base(&base);
+    assert!(
+        fs::symlink_metadata(&target)
+            .expect("the target is back")
+            .is_dir()
+    );
+    assert_eq!(mode_of(&target), 0o700);
+    assert!(
+        fs::symlink_metadata(&base)
+            .expect("the base")
+            .file_type()
+            .is_symlink(),
+        "the link was replaced"
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn home_base_backing_owner_only_target_is_kept_untouched() {
+    let tmp = tempfile::tempdir().expect("tempdir");
+    let (target, base) = (tmp.path().join("backing"), tmp.path().join("e2e-home"));
+    dir_with_mode(&target, 0o700);
+    fs::write(target.join("kept"), "x").expect("entry");
+    std::os::unix::fs::symlink(&target, &base).expect("link");
+    prepare_home_base(&base);
+    assert_eq!(fs::read(target.join("kept")).expect("entry kept"), b"x");
+    assert_eq!(mode_of(&target), 0o700);
+}
+
+#[cfg(unix)]
+#[test]
+fn home_base_backing_group_or_other_bit_is_refused() {
+    for mode in [0o750, 0o705] {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (target, base) = (tmp.path().join("backing"), tmp.path().join("e2e-home"));
+        dir_with_mode(&target, mode);
+        std::os::unix::fs::symlink(&target, &base).expect("link");
+        assert_eq!(
+            backing_refusal(&base),
+            "e2e-home backing: the link's target is not owner-only",
+            "{mode:o}"
+        );
+        assert_eq!(mode_of(&target), mode, "the refused target was changed");
+    }
+}
+
+#[cfg(unix)]
+#[test]
+fn home_base_backing_target_that_is_a_link_is_refused() {
+    let tmp = tempfile::tempdir().expect("tempdir");
+    let (real, middle, base) = (
+        tmp.path().join("real"),
+        tmp.path().join("middle"),
+        tmp.path().join("e2e-home"),
+    );
+    dir_with_mode(&real, 0o700);
+    std::os::unix::fs::symlink(&real, &middle).expect("middle link");
+    std::os::unix::fs::symlink(&middle, &base).expect("link");
+    assert_eq!(
+        backing_refusal(&base),
+        "e2e-home backing: the link's target is not a real directory"
+    );
+}
+
+/// The relative target resolves to an owner-only directory, so only its being relative refuses it.
+#[cfg(unix)]
+#[test]
+fn home_base_backing_relative_target_is_refused() {
+    let tmp = tempfile::tempdir().expect("tempdir");
+    dir_with_mode(&tmp.path().join("backing"), 0o700);
+    let base = tmp.path().join("e2e-home");
+    std::os::unix::fs::symlink("backing", &base).expect("link");
+    assert_eq!(
+        backing_refusal(&base),
+        "e2e-home backing: the link's target is relative"
+    );
 }
 
 /// A file another process still holds stops a removal part-way, wherever it sits: here in a scratch

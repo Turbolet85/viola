@@ -125,7 +125,7 @@ fn start(opts: &BootOptions) -> Result<Outcome, HarnessError> {
         exe(&session_bin, "claude"),
     )?;
 
-    fs::create_dir_all(opts.ws.e2e_home())?;
+    opts.ws.ensure_e2e_home()?;
     let parent = tempfile::Builder::new()
         .prefix("viola-session-")
         .tempdir_in(opts.ws.e2e_home())?

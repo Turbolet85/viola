@@ -103,6 +103,39 @@ pub fn write_owner(dir: &Path) {
     fs::write(dir.join(OWNER), record.to_string()).expect("owner record");
 }
 
+/// Prepares the base every test home is created under. A plain base is created as a directory. On
+/// Unix a base that is a link is a host's own backing (test-plan §5 Setup / teardown lifecycle): its
+/// target must be absolute, is made again with mode 0700 when it is gone (a reboot clears a tmpfs
+/// one), and is refused unless it is a real directory with no group or other bit. Nothing is
+/// removed and no `home` is created.
+pub fn prepare_home_base(base: &Path) {
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::{DirBuilderExt as _, PermissionsExt as _};
+        if fs::symlink_metadata(base).is_ok_and(|m| m.file_type().is_symlink()) {
+            let target = fs::read_link(base).expect("e2e-home link");
+            assert!(
+                target.is_absolute(),
+                "e2e-home backing: the link's target is relative"
+            );
+            // A target that is there answers already-exists and stays as it is: the read below is
+            // the verdict either way.
+            let _ = fs::DirBuilder::new().mode(0o700).create(&target);
+            let meta = fs::symlink_metadata(&target).expect("e2e-home backing");
+            assert!(
+                meta.is_dir(),
+                "e2e-home backing: the link's target is not a real directory"
+            );
+            assert!(
+                meta.permissions().mode() & 0o077 == 0,
+                "e2e-home backing: the link's target is not owner-only"
+            );
+            return;
+        }
+    }
+    fs::create_dir_all(base).expect("e2e-home");
+}
+
 /// `<workspace>/target/e2e-home/viola-test-*/` with the home at `home/`, which is never created
 /// here: viola creates it with its own modes.
 pub struct TestHome {
@@ -116,7 +149,7 @@ impl TestHome {
     /// homes are being kept.
     pub fn new() -> Self {
         let base = workspace_path("target/e2e-home");
-        fs::create_dir_all(&base).expect("e2e-home");
+        prepare_home_base(&base);
         if !flag("AGENT_RUN_KEEP_HOMES") && !flag("AGENT_RUN_KEEP_FAILED") {
             sweep_gone_owners(&base);
         }

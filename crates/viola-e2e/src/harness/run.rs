@@ -367,6 +367,11 @@ fn local_live(ws: &Workspace, runner: &mut Runner<'_>) -> Suite {
         suite.failures.push("build".to_owned());
         return suite;
     }
+    if ws.ensure_e2e_home().is_err() {
+        suite.failed = 1;
+        suite.failures.push("verify-exit-none".to_owned());
+        return suite;
+    }
     let home = ws
         .e2e_home()
         .join(format!("viola-live-{}", std::process::id()))
@@ -1022,6 +1027,38 @@ mod tests {
         );
         assert_eq!(calls, 1, "no verify after a failed build");
         assert_eq!(suite(&out.doc, "local-live")["failures"][0], "build");
+    }
+
+    /// A base the keeper refuses (a link whose target carries a group bit) stops the suite after
+    /// the build: the verify is never started.
+    #[cfg(unix)]
+    #[test]
+    fn e2e_home_backing_local_live_refused_base_fails_before_the_verify() {
+        use std::os::unix::fs::PermissionsExt as _;
+        let (tmp, ws) = scratch();
+        let target = tmp.path().join("backing");
+        fs::create_dir(&target).expect("backing");
+        fs::set_permissions(&target, fs::Permissions::from_mode(0o750)).expect("mode");
+        fs::create_dir(tmp.path().join("target")).expect("target dir");
+        std::os::unix::fs::symlink(&target, ws.e2e_home()).expect("link");
+        let mut calls = 0;
+        let out = run_with(
+            &ws,
+            live_only(),
+            None,
+            None,
+            false,
+            &mut |_: &mut Command| {
+                calls += 1;
+                (Some(0), LIVE_PASS.to_owned())
+            },
+        );
+        assert_eq!(calls, 1, "the build, and no verify on a refused base");
+        assert_eq!(out.code, 1);
+        assert_eq!(
+            suite(&out.doc, "local-live")["failures"][0],
+            "verify-exit-none"
+        );
     }
 
     #[test]
