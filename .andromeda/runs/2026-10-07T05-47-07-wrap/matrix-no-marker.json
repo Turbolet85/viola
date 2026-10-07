@@ -1,0 +1,95 @@
+[
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "8d842833",
+"ts": "2026-10-07T06:01:21Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-33",
+"--text-file",
+".andromeda/runs/2026-10-07T05-47-07-wrap/note-v1-33.md",
+"--run-dir",
+".andromeda/runs/2026-10-07T05-47-07-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"note v1-33: +743 chars (total 743) · status planned · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v1-33",
+"chunk": null,
+"status": "planned",
+"method": "manual",
+"ref": "null",
+"acceptance": "With the product binary on the founder's Windows host, an overseer session sends a pipeline skill to a builder session, … (318 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-33",
+"chunk": null,
+"status": "planned",
+"method": "manual",
+"ref": "null",
+"acceptance": "With the product binary on the founder's Windows host, an overseer session sends a pipeline skill to a builder session, … (318 chars)",
+"notes_chars": 743
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "8d842833",
+"ts": "2026-10-07T06:01:21Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-33",
+"--text-file",
+".andromeda/runs/2026-10-07T05-47-07-wrap/note-v1-33.md",
+"--run-dir",
+".andromeda/runs/2026-10-07T05-47-07-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": "/home/turbolet/dev/projects/viola",
+"exit": 0,
+"stdout": [
+"note v1-33: +743 chars (total 743) · status planned · ref/acceptance untouched",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-33",
+"chunk": null,
+"status": "planned",
+"method": "manual",
+"ref": "null",
+"acceptance": "With the product binary on the founder's Windows host, an overseer session sends a pipeline skill to a builder session, … (318 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v1-33",
+"chunk": null,
+"status": "planned",
+"method": "manual",
+"ref": "null",
+"acceptance": "With the product binary on the founder's Windows host, an overseer session sends a pipeline skill to a builder session, … (318 chars)",
+"notes_chars": 743
+}
+}
+]

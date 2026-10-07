@@ -1,0 +1,43 @@
+# The 2026-10-07 0-pending wrap: "First live test and self-drive" split three ways (R-L2), its Windows-only live
+# items moved to "Windows-only live measurements" (Epoch 7), its rows / shapes / hint-window items moved to
+# "Live rows and paste shapes on the dev host". The retired owner by its name and phrasings, and each moved item
+# by the claim's own words.
+[[pattern]]
+id = "flt"
+regex = '(?i)first live test'
+
+[[pattern]]
+id = "live-test"
+regex = '(?i)\blive test\b'
+
+[[pattern]]
+id = "measured-live"
+regex = '(?i)measured live'
+
+[[pattern]]
+id = "hint-window"
+regex = '(?i)hint window'
+
+[[pattern]]
+id = "key-resize"
+regex = '(?i)key typed right after a resize'
+
+[[pattern]]
+id = "win-host"
+regex = '(?i)windows host'
+
+[[pattern]]
+id = "da1"
+regex = '\bDA1\b'
+
+[[pattern]]
+id = "real-terminal"
+regex = '(?i)real Windows terminal'
+
+[[pattern]]
+id = "cross-session"
+regex = '(?i)cross-session UserPromptSubmit'
+
+[[pattern]]
+id = "id-floor"
+regex = '(?i)identity floor'

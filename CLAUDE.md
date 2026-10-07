@@ -21,7 +21,7 @@ viola is a standalone, cross-platform (Windows first) bridge that lets one inter
 - **`viola-core`** — normalised event kinds, `RefusalReason`, `ViolaName`, `Percent`, `v` constants, `validate_paste_text`, `MAX_FRAME`, `SPINE_DEADLINE`, `DIALOG_DEADLINE`, the `Clock` seam, `obs_event!`
 - **`viola-pty`** — PTY seam (spawn · read · write · resize · wait · kill) over portable-pty `=0.8.1`; `PasteHandle`, the child's input shared by the human copy and the one-write bracketed paste; `host_stdin` (Windows: viola's own console reader, `^Z` kept); knows no agent; Windows `sideload` (System32 DLL-search restriction + absolute-path pre-load of the vendored `conpty.dll`)
 - **`viola-channel`** — JSON-RPC 2.0 over ndjson on interprocess local sockets; sync client/server, Tokio client behind a feature
-- **`viola-state`** — ndjson logs, atomic snapshots, `.lock` siblings, the `events.ndjson` reader (torn-line healing owed to route `:93`), tailing, liveness, strict-modes
+- **`viola-state`** — ndjson logs, atomic snapshots, `.lock` siblings, the `events.ndjson` reader (torn-line healing owed to route `:101`), tailing, liveness, strict-modes
 - **`viola-agent-claude`** — the only crate that knows Claude: hook parsing, dialog mapping, R8 strip, shim resolution, capability ledger, the vt100 screen model and readiness verdict
 - **`viola-mcp`** — rmcp 3.4.1 stdio server, tools `send · wait · last · answer · list` (Tokio)
 - **`viola-ui`** — axum 0.8.9 GET routes + SSE on 127.0.0.1, Host allowlist, cookie gate, embedded React + TypeScript page (its toolchain lands with the frontend-toolchain chunk) (Tokio)
