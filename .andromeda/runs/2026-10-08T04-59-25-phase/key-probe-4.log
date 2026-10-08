@@ -1,0 +1,19 @@
+05:23:16.268Z dpms at start: HDMI-A-1=False DP-2=False
+05:23:17.240Z dpms on: HDMI-A-1=True DP-2=True
+05:23:17.241Z probe home target/e2e-home/viola-keyprobe-20261008T052316Z/home (not yet existing)
+05:23:17.258Z before: active window class overseer.viola-overseer
+05:23:17.264Z workspace switch: ok 
+05:23:17.782Z active workspace 9, empty
+05:23:17.795Z exec: ok 
+05:23:17.901Z events lines at start: 3
+05:23:17.935Z probe window found, class viola.keyprobe, workspace 9
+05:23:17.951Z probe window mapped (read before any focus or key): True
+05:23:17.953Z wheel records at window discovery: 1
+05:23:19.473Z the new window took focus by itself: active class overseer.viola-overseer, address matches probe: no
+05:23:19.479Z focus dispatch on the probe window by address: ok 
+05:23:20.297Z after the focus dispatch: active class overseer.viola-overseer, address matches probe: no
+05:23:20.300Z wheel records after focus, before any key: 1
+05:23:20.316Z ABORT guard: active window is not the probe window (class overseer.viola-overseer); no key typed
+05:23:20.840Z restore workspace 7 on the second monitor: ok 
+05:23:20.848Z DPMS off: ok 
+05:23:21.700Z end state: dpms HDMI-A-1=False DP-2=False · active window class overseer.viola-overseer · probe windows 0

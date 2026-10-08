@@ -1,0 +1,13 @@
+Answer to this revision's AskUserQuestion on the closed list (header "Closed list"), verbatim as it arrived in the session, 2026-10-08, after 07:52Z.
+
+The question: Boundary widening (playbook pattern): which terminal replies join the wheel's closed non-editing list (F-W2) in src/run/wheel.rs? This needs the founder's own word, given after seeing these exact grammars. Which set?
+
+The options as shown:
+- "All seven, as directed (Recommended)": Every reply shape measured as typing on foot joins, each by exact grammar. Research finding: claude 2.1.287's own reply parser names only two of them (997 and 6;h;w t), so five are added for replies this CLI never asks for; they cover a later CLI version or another program asking. None of the seven is a human key encoding: no key ends in n, t or m, and the nearest keys (n, t, m, Alt+letter, kitty key events) stay typing, each pinned by a negative control.
+  Its preview: Added to is_reply, exact and no wider: CSI 0 n (DSR status, the value 0 only); CSI ? 997 ; 1|2 n (colour scheme, dark | light); CSI 4 ; n ; n t (window size, pixels); CSI 6 ; n ; n t (cell size); CSI 8 ; n ; n t (text area, cells); CSI 48 ; n ; n ; n ; n t (in-band resize); CSI > 4 ; n m (modifyOtherKeys reply). Still typing (negative controls): n, t, m; ESC n, ESC t, ESC m; CSI 110 u, CSI 116;5 u, CSI 109 u; CSI 1 n, CSI ? 997;3 n, CSI 997;1 n; CSI 4;675 t, CSI 9;45;210 t, CSI ? 8;45;210 t; CSI 48;45;210;675 t, CSI 4;1 m, CSI > 5;1 m. Not added: CSI 3 n, CSI ? r;c R (foot does not send it), APC strings, any wider 'final n/t/m' rule.
+- "Only the two this CLI draws": The narrowest widening that lets start 7 pass on this host: only the two replies claude 2.1.287 has a parser for and foot actually writes. The other five measured shapes stay typing; a later CLI version that asks for one of them loses the wheel at its start again and needs another ruling.
+  Its preview: Added: CSI ? 997 ; 1|2 n; CSI 6 ; n ; n t. Stay typing, as today: CSI 0 n; CSI 4 ; n ; n t; CSI 8 ; n ; n t; CSI 48 ; n ; n ; n ; n t; CSI > 4 ; n m.
+
+Chosen: "All seven, as directed (Recommended)"
+
+Notes, verbatim: The founder himself, live in the overseer dialog, at the time of this note (2026-10-08), after seeing the seven exact grammars as a numbered list - CSI 0 n; CSI ? 997;1|2 n; CSI 4;h;w t; CSI 6;h;w t; CSI 8;r;c t; CSI 48;r;c;h;w t; CSI > 4;n m - and both options with their prices, the narrow one (only 997 and 6;h;w t) included. He was told that five of the seven are not asked for by claude 2.1.287 and join for a later CLI or another program, and that the nearest human keys stay typing, each pinned by a negative control.

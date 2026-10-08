@@ -1,0 +1,110 @@
+[
+{
+"tool": "inputs",
+"v": "1.0",
+"sha8": "8bb004ac",
+"ts": "2026-10-08T06:29:01Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-102-focus-measurements.md",
+"--kind",
+"relay",
+"--why",
+"the overseer measured 06:26Z-06:28Z that the focus dispatcher moves the workspace and the cursor but never the focused window, for an existing window too and with DPMS on; step 0 needs another lever or S1",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-10-08T06-28-55-implement",
+"--marker",
+"2026-10-08-first-live-test-and-self-drive"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I10 · copy no-repo · ../additional/viola-overseer/relay-102-focus-measurements.md",
+"cite: inputs#I10"
+],
+"stderr": null,
+"wrote": [
+"inputs/I10-relay-102-focus-measurements.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I10",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-102-focus-measurements.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "e591d0023d98ea604221837269aa1edd0ffcf760df17cc1d1265e7f816aef915",
+"copy": "I10-relay-102-focus-measurements.md.txt",
+"link": false,
+"read_at": "2026-10-08T06:29:01Z",
+"step": "implement",
+"why": "the overseer measured 06:26Z-06:28Z that the focus dispatcher moves the workspace and the cursor but never the focused window, for an existing window too and with DPMS on; step 0 needs another lever or S1"
+}
+},
+{
+"tool": "inputs",
+"v": "1.0",
+"sha8": "8bb004ac",
+"ts": "2026-10-08T06:36:28Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive",
+"--message-file",
+".andromeda/runs/2026-10-08T06-28-55-implement/answer-step-0.md",
+"--origin",
+"the operator, relayed by the overseer, 2026-10-08 after 06:36Z, in answer to this run AskUserQuestion on step 0",
+"--kind",
+"relay",
+"--why",
+"steps 1 to 3 now, stop before step 4; no lever past the lock, no key, no live start, no compositor of the chunk own until the founder word comes back",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-10-08T06-28-55-implement",
+"--marker",
+"2026-10-08-first-live-test-and-self-drive"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I11 · copy message · message: the operator, relayed by the overseer, 2026-10-08 after 06:36Z, in answer to this run AskUserQuestion on step 0",
+"cite: inputs#I11"
+],
+"stderr": null,
+"wrote": [
+"inputs/I11-answer-step-0.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I11",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, relayed by the overseer, 2026-10-08 after 06:36Z, in answer to this run AskUserQuestion on step 0",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "583178ea24c2908cd667a2e1d0c6b64f7608625202cbf0d3261ef9840ef64fca",
+"copy": "I11-answer-step-0.md.txt",
+"link": false,
+"read_at": "2026-10-08T06:36:28Z",
+"step": "implement",
+"why": "steps 1 to 3 now, stop before step 4; no lever past the lock, no key, no live start, no compositor of the chunk own until the founder word comes back"
+}
+}
+]

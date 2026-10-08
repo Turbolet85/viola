@@ -1,0 +1,12 @@
+Answer to this revision's AskUserQuestion on the compositor fork (header "Compositor"), verbatim as it arrived in the session, 2026-10-08, after 06:54Z.
+
+The question: The revision's measurement is in (evidence/comp-probe.md). Nested Hyprland: the key probe PASSED under the fake agent (wtype x -> wheel human/human-input, receipt 78, send exit 10; every hyprctl on the own instance). But its window on the locked desktop read as activity, the shell ran its wake, and 4 s later the desktop shell that HOLDS THE LOCK lost its Wayland connection, exited 255 and was relaunched; it re-took the lock in 2.2 s (lock-stranded: recovering, secure=true). Headless Hyprland (no desktop window) aborts at start, twice (CBackend::create failed). This is the playbook's Boundary widening class, so it is the founder's own word. Which way does the plan go?
+
+The options as shown:
+- "Nested, price accepted": The plan uses the nested form with ONE compositor start for all live work (the fake-agent probe, the live run, the readings session). Price: that start wakes the locked desktop's screens and may end and relaunch the lock-holding shell again (1 of 1 nested runs; the shell re-locks by itself, the compositor's own lock state is not read).
+- "Stop: back to the founder": No further start of the own compositor. Steps 1 to 3 stand; the takeover and the live work wait for the founder at the desk. The chunk stays pending with its plan unapproved.
+- "Another headless compositor": A compositor that runs with no parent (cage, sway or weston) is installed at the desk, which needs sudo and so the founder; then no window ever lands on the locked desktop. I re-measure under the fake agent before any plan.
+
+Chosen: "Nested, price accepted"
+
+Notes, verbatim: The founder himself, live in the overseer dialog, 2026-10-08 (answer read at the time of this note), the three options and their prices shown: the nested form with ONE compositor start for all live work; he was told the start wakes the screens of the locked desktop and may end and relaunch the lock-holding shell again (1 of 1 nested runs; it re-took the lock in 2.2 s, secure=true by its own journal; hyprctl locked read true from the overseer at 06:54Z; the state inside those 2.2 s was not read). Add to the plan: read the desktop lock (the shell answer and hyprctl locked on the desktop instance, a READ only) right after the nested start and at the end of the live work, and record both; if either reads unlocked, stop at once and tell me.

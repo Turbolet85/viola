@@ -1,0 +1,776 @@
+[
+{
+"tool": "gate",
+"v": "1.12",
+"sha8": "bdf1c88a",
+"ts": "2026-10-08T06:37:30Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-08T06-28-55-implement",
+"--marker",
+"2026-10-08-first-live-test-and-self-drive"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-08-first-live-test-and-self-drive · entries 23",
+"logs $TMPDIR/andromeda-gate/2026-10-08-first-live-test-and-self-drive/implement-2026-10-08T06-28-55 · bound: GNU timeout",
+"delta docs 115 · rust 1 · unmapped 15",
+"walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 131",
+"prose L195-198: The gates are the standing lint, unit and default-selection entries, two census reads of t… (358 chars)",
+"prose L200-206: The live round is fired once, by /implement, through `gate.py run --live-legs`; the wrap n… (692 chars)",
+"prose L208-209: The pin-first reading of step 1 is a one-shot run at implement, recorded in `evidence/`, n… (164 chars)",
+"prose L211-213: The live entry clears the prototype's `VIOLA_NAME`, `VIOLA_DIR` and `VIOLA_BIN` from the h… (284 chars)",
+"prose L215-217: No mutation entry is listed (the mutation run is the epoch boundary's). The preservation g… (258 chars)",
+"  1 lint        green · exit 0 · 0.58s · 0 B → 1.log · cargo fmt --all --check",
+"  2 lint        green · exit 0 · 1.01s · 134 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 unit        green · exit 0 · 7.38s · 171505 B → 3.log · bash scripts/agent-run.sh run --unit",
+"  4 probe       green · exit 1 · 0.0s · 2 B → 4.log · grep -c 'was not ready for input; viola wait' src/human.rs",
+"  5 probe       green · exit 0 · 0.0s · 2 B → 5.log · grep -c 'was not ready for input; send again, and if it re… (110 chars)",
+"  6 integration green · exit 0 · 48.53s · 212562 B → 6.log · bash scripts/agent-run.sh run",
+"  7 probe       green · exit 0 · 0.01s · 0 B → 7.log · git diff --quiet 0dafa09a2a6f -- src/bin src/cmd src/run s… (204 chars)",
+"  8 smoke       green · exit 0 · 0.09s · 47 B → 8.log · bash scripts/agent-run.sh cleanup --session p-firstlive-sm… (61 chars)",
+"  9 smoke       green · exit 0 · 4.28s · 355 B → 9.log · bash scripts/agent-run.sh boot --session p-firstlive-smoke… (77 chars)",
+" 10 smoke       green · exit 0 · 0.09s · 216 B → 10.log · bash scripts/agent-run.sh status --session p-firstlive-smo… (60 chars)",
+" 11 probe       green · exit 0 · 0.01s · 10 B → 11.log · bash scripts/g2-zero-panics.sh",
+" 12 probe       green · exit 0 · 0.11s · 104 B → 12.log · bash scripts/agent-run.sh schema-check",
+" 13 smoke       green · exit 0 · 0.3s · 182 B → 13.log · bash scripts/agent-run.sh cleanup --session p-firstlive-sm… (61 chars)",
+" 14 probe       green · exit 0 · 55.7s · 214961 B → 14.log · bash scripts/agent-run.sh pre-push",
+" 15 build       green · exit 0 · 7.39s · 3347 B → 15.log · CARGO_TARGET_DIR=target/release-check bash scripts/release… (67 chars)",
+" 16 probe       not run — leg round (the letter drives it) · \"$HOME/.local/share/mise/installs/claude/2.1.287/claude\" -… (66 chars)",
+" 17 e2e         not run — leg live (the letter drives it) · env -u VIOLA_NAME -u VIOLA_DIR -u VIOLA_BIN PATH=\"$HOME/.l… (147 chars)",
+" 18 probe       red · exit 0 ✗ (exit 2) · exit 2 · 0.0s · 155 B → 18.log · jq -e -s '([.[] | select(.kind == \"start\")]) as $s | ($s |… (779 chars)",
+" 19 probe       red · exit 0 ✗ (exit 2) · exit 2 · 0.0s · 150 B → 19.log · jq -e -s '([.[] | select(.kind == \"step\") | .id] | unique … (1315 chars)",
+" 20 probe       red · exit 0 ✗ (exit 2) · exit 2 · 0.0s · 155 B → 20.log · jq -e -s '([.[] | select(.kind == \"reading\") | .id] | uniq… (695 chars)",
+" 21 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (90 chars)",
+" 22 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (69 chars)",
+" 23 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (114 chars)",
+"entries 23 · green 15 · red 3 (18,19,20) · recorded 0 · timeout 0 · not-run 5"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-08-first-live-test-and-self-drive",
+"plan": "./viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-08-first-live-test-and-self-drive/implement-2026-10-08T06-28-55",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-07T19-12-23-wrap/evolve-2026-10-07-a-send-ending-in-a-newline-is-confirmed.json",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-08T04-59-25-phase/.cites-a11y.txt",
+".andromeda/runs/2026-10-08T04-59-25-phase/.cites-arch.txt",
+".andromeda/runs/2026-10-08T04-59-25-phase/.cites-design.txt",
+".andromeda/runs/2026-10-08T04-59-25-phase/.cites-layouts.txt",
+".andromeda/runs/2026-10-08T04-59-25-phase/.cites-obs.txt",
+".andromeda/runs/2026-10-08T04-59-25-phase/.cites-security.txt",
+".andromeda/runs/2026-10-08T04-59-25-phase/.cites-tests.txt",
+".andromeda/runs/2026-10-08T04-59-25-phase/.dry-run.txt",
+".andromeda/runs/2026-10-08T04-59-25-phase/.planlint.txt",
+".andromeda/runs/2026-10-08T04-59-25-phase/.render-a11y.txt",
+".andromeda/runs/2026-10-08T04-59-25-phase/.render-arch.txt",
+".andromeda/runs/2026-10-08T04-59-25-phase/.render-obs.txt",
+".andromeda/runs/2026-10-08T04-59-25-phase/.render-tests.txt",
+".andromeda/runs/2026-10-08T04-59-25-phase/.summary-a11y.txt",
+".andromeda/runs/2026-10-08T04-59-25-phase/.summary-arch.txt",
+".andromeda/runs/2026-10-08T04-59-25-phase/.summary-design.txt",
+".andromeda/runs/2026-10-08T04-59-25-phase/.summary-layouts.txt",
+".andromeda/runs/2026-10-08T04-59-25-phase/.summary-obs.txt",
+".andromeda/runs/2026-10-08T04-59-25-phase/.summary-security.txt",
+".andromeda/runs/2026-10-08T04-59-25-phase/.summary-tests.txt",
+".andromeda/runs/2026-10-08T04-59-25-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-08T04-59-25-phase/a11y-history.md",
+".andromeda/runs/2026-10-08T04-59-25-phase/a11y.md",
+".andromeda/runs/2026-10-08T04-59-25-phase/acceptance-v1-31.md",
+".andromeda/runs/2026-10-08T04-59-25-phase/arch-contracts.md",
+".andromeda/runs/2026-10-08T04-59-25-phase/arch-history-index.md",
+".andromeda/runs/2026-10-08T04-59-25-phase/arch-history.md",
+".andromeda/runs/2026-10-08T04-59-25-phase/arch.md",
+".andromeda/runs/2026-10-08T04-59-25-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-08T04-59-25-phase/design-history.md",
+".andromeda/runs/2026-10-08T04-59-25-phase/design.md",
+".andromeda/runs/2026-10-08T04-59-25-phase/evolve-2026-10-08-first-live-test-and-self-drive.json",
+".andromeda/runs/2026-10-08T04-59-25-phase/gate-2026-10-08-first-live-test-and-self-drive.json",
+".andromeda/runs/2026-10-08T04-59-25-phase/inputs-2026-10-08-first-live-test-and-self-drive.json",
+".andromeda/runs/2026-10-08T04-59-25-phase/key-probe-1.log",
+".andromeda/runs/2026-10-08T04-59-25-phase/key-probe-2.log",
+".andromeda/runs/2026-10-08T04-59-25-phase/key-probe-3.log",
+".andromeda/runs/2026-10-08T04-59-25-phase/key-probe-4.log",
+".andromeda/runs/2026-10-08T04-59-25-phase/key-probe.sh",
+".andromeda/runs/2026-10-08T04-59-25-phase/layouts-history.md",
+".andromeda/runs/2026-10-08T04-59-25-phase/layouts.md",
+".andromeda/runs/2026-10-08T04-59-25-phase/master-record.txt",
+".andromeda/runs/2026-10-08T04-59-25-phase/matrix-2026-10-08-first-live-test-and-self-drive.json",
+".andromeda/runs/2026-10-08T04-59-25-phase/note-v1-31.md",
+".andromeda/runs/2026-10-08T04-59-25-phase/note-v1-33.md",
+".andromeda/runs/2026-10-08T04-59-25-phase/obs-contracts.md",
+".andromeda/runs/2026-10-08T04-59-25-phase/obs-history.md",
+".andromeda/runs/2026-10-08T04-59-25-phase/obs.md",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-approval.md",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/ledger-pass.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/live-readings-an-unknown-outcome-word.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/live-readings-four-fidelity-readings.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/live-readings-four-readings.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/live-readings-hint-send-not-measured.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/live-readings-owed-missing.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/live-run-a-key-during-a-dialog.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/live-run-a-wheel-record-during-a-dialog.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/live-run-clear-without-a-new-session.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/live-run-decision-past-the-deadline.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/live-run-dpms-off-at-the-key.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/live-run-focus-took-the-wheel.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/live-run-hint-names-release.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/live-run-no-clear.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/live-run-no-plan-dialog-step.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/live-run-no-takeover.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/live-run-permission-answered-allow.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/live-run-plan-dialog-not-raised.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/live-run-question-step-of-another-kind.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/live-run-send-not-refused.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/live-run-skill-not-confirmed.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/live-run-takeover-by-manual-pause.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/live-run-unverified.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/live-sessions-a-2.1.289-start.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/live-sessions-a-probe-dir-left.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/live-sessions-dpms-off-at-the-key.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/live-sessions-five-starts.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/live-sessions-focus-moved-the-wheel.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/live-sessions-key-into-another-window.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/live-sessions-key-probe-after-a-start.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/live-sessions-live-run-on-the-harness-build.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/live-sessions-nine-starts.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/live-sessions-no-key-probe.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/live-sessions-round-fired-twice.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/live-sessions-round-on-2.1.289.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/live-sessions-round-red.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/readings-pass.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/run-pass.ndjson",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-controls/verdicts.txt",
+".andromeda/runs/2026-10-08T04-59-25-phase/p5-review.md",
+".andromeda/runs/2026-10-08T04-59-25-phase/planlint-2026-10-08-first-live-test-and-self-drive.json",
+".andromeda/runs/2026-10-08T04-59-25-phase/registry-2026-10-08-first-live-test-and-self-drive.json",
+".andromeda/runs/2026-10-08T04-59-25-phase/relay-1.md",
+".andromeda/runs/2026-10-08T04-59-25-phase/relay-2.md",
+".andromeda/runs/2026-10-08T04-59-25-phase/relay-3.md",
+".andromeda/runs/2026-10-08T04-59-25-phase/relay-4.md",
+".andromeda/runs/2026-10-08T04-59-25-phase/relay-5.md",
+".andromeda/runs/2026-10-08T04-59-25-phase/route-2026-10-08-first-live-test-and-self-drive.json",
+".andromeda/runs/2026-10-08T04-59-25-phase/route-no-marker.json",
+".andromeda/runs/2026-10-08T04-59-25-phase/security-history.md",
+".andromeda/runs/2026-10-08T04-59-25-phase/security.md",
+".andromeda/runs/2026-10-08T04-59-25-phase/sidecar-2026-10-08-first-live-test-and-self-drive.json",
+".andromeda/runs/2026-10-08T04-59-25-phase/tests-contracts.md",
+".andromeda/runs/2026-10-08T04-59-25-phase/tests-history.md",
+".andromeda/runs/2026-10-08T04-59-25-phase/tests.md",
+".andromeda/runs/2026-10-08T04-59-25-phase/tree-query-2026-10-08-first-live-test-and-self-drive.json",
+".andromeda/runs/2026-10-08T06-28-55-implement/inputs-2026-10-08-first-live-test-and-self-drive.json",
+"viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/evidence/key-probe.md",
+"viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/plan.md",
+"viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/research.md",
+"viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/scope.md"
+],
+"rust": [
+"src/human.rs"
+]
+},
+"unmapped": [
+"viola-0.1.0/verification-matrix.json",
+"viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/evidence/focus-diag.log",
+"viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/evidence/focus-diag.sh",
+"viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/inputs/.gitattributes",
+"viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/inputs/I1-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/inputs/I10-relay-102-focus-measurements.md.txt",
+"viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/inputs/I2-d94-route-adaptation.md.txt",
+"viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/inputs/I3-relay-2.md.txt",
+"viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/inputs/I4-relay-3.md.txt",
+"viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/inputs/I5-driving-guide.md.txt",
+"viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/inputs/I6-relay-4.md.txt",
+"viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/inputs/I7-relay-5.md.txt",
+"viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/inputs/I8-p5-review.md.txt",
+"viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/inputs/I9-p5-approval.md.txt",
+"viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/inputs/andromeda-inputs.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 131,
+"problem": null
+},
+"prose": [
+{
+"from": 195,
+"to": 198,
+"text": "The gates are the standing lint, unit and default-selection entries, two census reads of the hint line, the preservation guard, the harness smoke with G2 and G4, the native `pre-push`, the product build, the live round (its non-priming probe and the one `run --local-live` firing), three readers of the evidence ledgers, and the operator's push and CI reads."
+},
+{
+"from": 200,
+"to": 206,
+"text": "The live round is fired once, by /implement, through `gate.py run --live-legs`; the wrap never re-runs it and re-verifies it from `evidence/`. Step 0's key probe and the live sessions of steps 6 to 9 are driven by /implement by hand, step by step, and are not entries: each needs a window on the desktop and a guard read at the moment of the key. Their verdicts are the three reader entries, which the wrap's light gate re-runs over the committed ledgers. Each reader is red until its step has written its record. The evidence files the criteria name are written by /implement from those hand-driven steps and from the live entry's printed document, so no entry carries one as its `artifact`."
+},
+{
+"from": 208,
+"to": 209,
+"text": "The pin-first reading of step 1 is a one-shot run at implement, recorded in `evidence/`, not an entry: it needs the tree with the pins changed and the producer not."
+},
+{
+"from": 211,
+"to": 213,
+"text": "The live entry clears the prototype's `VIOLA_NAME`, `VIOLA_DIR` and `VIOLA_BIN` from the harness's environment, as the by-path re-verify of chunk 2026-10-07-send-waits-out-the-paste-hint did. `CI` is not set in this session (research M2); under it the entry would refuse `live-in-ci`."
+},
+{
+"from": 215,
+"to": 217,
+"text": "No mutation entry is listed (the mutation run is the epoch boundary's). The preservation guard names the base commit, because the operator pass's pre-CI commit moves HEAD onto the chunk. No push goes out while an entry of this block is red by its own letter."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-08-first-live-test-and-self-drive/implement-2026-10-08T06-28-55/1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.58,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-08-first-live-test-and-self-drive/implement-2026-10-08T06-28-55/2.log",
+"bytes": 134,
+"log_sha8": "c0356f3e",
+"exit": 0,
+"seconds": 1.01,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-first-live-test-and-self-drive/implement-2026-10-08T06-28-55/3.log",
+"bytes": 171505,
+"log_sha8": "8d89ec83",
+"exit": 0,
+"seconds": 7.38,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "probe",
+"run": "grep -c 'was not ready for input; viola wait' src/human.rs",
+"run_sha8": "0da5da60",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-first-live-test-and-self-drive/implement-2026-10-08T06-28-55/4.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.0,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "probe",
+"run": "grep -c 'was not ready for input; send again, and if it repeats a human must look at the session' src/human.rs",
+"run_sha8": "2d23c6a8",
+"expect": [
+"exit 0",
+"last line 3"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-first-live-test-and-self-drive/implement-2026-10-08T06-28-55/5.log",
+"bytes": 2,
+"log_sha8": "1121cfcc",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '3' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run",
+"run_sha8": "21443cdf",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-first-live-test-and-self-drive/implement-2026-10-08T06-28-55/6.log",
+"bytes": 212562,
+"log_sha8": "183ee7ec",
+"exit": 0,
+"seconds": 48.53,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "git diff --quiet 0dafa09a2a6f -- src/bin src/cmd src/run src/main.rs src/obs.rs src/conpty.rs src/panic_frames.rs crates fixtures schemas plugin scripts tests .github .config e2e-web Cargo.toml Cargo.lock",
+"run_sha8": "ef3f795e",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-08-first-live-test-and-self-drive/implement-2026-10-08T06-28-55/7.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-firstlive-smoke",
+"run_sha8": "e21845ac",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-first-live-test-and-self-drive/implement-2026-10-08T06-28-55/8.log",
+"bytes": 47,
+"log_sha8": "91854d6e",
+"exit": 0,
+"seconds": 0.09,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-firstlive-smoke --instance builder",
+"run_sha8": "2fbf7a67",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-first-live-test-and-self-drive/implement-2026-10-08T06-28-55/9.log",
+"bytes": 355,
+"log_sha8": "8d23d3e5",
+"exit": 0,
+"seconds": 4.28,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-firstlive-smoke",
+"run_sha8": "1e55c414",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-first-live-test-and-self-drive/implement-2026-10-08T06-28-55/10.log",
+"bytes": 216,
+"log_sha8": "465e7c43",
+"exit": 0,
+"seconds": 0.09,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "bash scripts/g2-zero-panics.sh",
+"run_sha8": "b1637f71",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-08-first-live-test-and-self-drive/implement-2026-10-08T06-28-55/11.log",
+"bytes": 10,
+"log_sha8": "6736cedd",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-first-live-test-and-self-drive/implement-2026-10-08T06-28-55/12.log",
+"bytes": 104,
+"log_sha8": "ef14a11f",
+"exit": 0,
+"seconds": 0.11,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-firstlive-smoke",
+"run_sha8": "e21845ac",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-first-live-test-and-self-drive/implement-2026-10-08T06-28-55/13.log",
+"bytes": 182,
+"log_sha8": "03d8987f",
+"exit": 0,
+"seconds": 0.3,
+"readings": [
+"exit 0 ✓",
+"contains '\"processes_gone\":true' ✓",
+"contains '\"endpoint_gone\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-first-live-test-and-self-drive/implement-2026-10-08T06-28-55/14.log",
+"bytes": 214961,
+"log_sha8": "12c8ddf0",
+"exit": 0,
+"seconds": 55.7,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"contains '\"stage\":\"linux-tests\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "build",
+"run": "CARGO_TARGET_DIR=target/release-check bash scripts/release-check.sh",
+"run_sha8": "f6aea256",
+"expect": [
+"exit 0",
+"last line release-check: viola only"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-first-live-test-and-self-drive/implement-2026-10-08T06-28-55/15.log",
+"bytes": 3347,
+"log_sha8": "7a45e377",
+"exit": 0,
+"seconds": 7.39,
+"readings": [
+"exit 0 ✓",
+"last line 'release-check: viola only' ✓",
+"artifact fresh (target/release-check/release/viola)"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "\"$HOME/.local/share/mise/installs/claude/2.1.287/claude\" --version",
+"run_sha8": "f74b31bd",
+"expect": [
+"exit 0",
+"contains 2.1.287 (Claude Code)"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg round (the letter drives it)"
+},
+{
+"n": 17,
+"role": "e2e",
+"run": "env -u VIOLA_NAME -u VIOLA_DIR -u VIOLA_BIN PATH=\"$HOME/.local/share/mise/installs/claude/2.1.287:$PATH\" bash scripts/agent-run.sh run --local-live",
+"run_sha8": "2ee9637d",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"suite\":\"local-live\",\"passed\":1,\"failed\":0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg live (the letter drives it)"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "jq -e -s '([.[] | select(.kind == \"start\")]) as $s | ($s | length) >= 6 and ($s | length) <= 8 and ($s | all(.[]; .cli == \"2.1.287\")) and ([.[] | select(.kind == \"round\")] | length) == 1 and all(.[] | select(.kind == \"round\"); .fired == 1 and .stamped == \"2.1.287\" and .pass == 17 and .fail == 0) and any(.[]; .kind == \"key-probe\" and .typed_into == \"probe\" and .wheel_cause == \"human-input\" and .focus_wheel_delta == 0 and .dpms_at_key == true and .send_exit == 10 and .live_starts_before == 0) and any(.[]; .kind == \"start\" and .session == \"live-run\" and .build == \"release-check\") and ([.[] | select(.kind == \"census\" and .when == \"after\")] | length >= 2 and all(.[]; .own_left == 0))' viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/evidence/live-sessions.ndjson",
+"run_sha8": "533ec515",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-08-first-live-test-and-self-drive/implement-2026-10-08T06-28-55/18.log",
+"bytes": 155,
+"log_sha8": "443b23b2",
+"exit": 2,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✗ (exit 2)"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 2)"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "jq -e -s '([.[] | select(.kind == \"step\") | .id] | unique | contains([\"clear\",\"dialog-permission\",\"dialog-plan\",\"dialog-question\",\"last-read\",\"review-answered\",\"skill-2\",\"skill-sent\",\"takeover\",\"turn-ended\"])) and any(.[]; .id == \"snapshot\" and .cli_version == \"2.1.287\" and .cli_verified == true) and all(.[] | select(.id == \"skill-sent\" or .id == \"review-answered\" or .id == \"skill-2\"); .exit == 0 and .confirmed == true) and any(.[]; .id == \"clear\" and .exit == 0 and .confirmed == true and .new_session == true) and all(.[] | select(.id == \"dialog-question\" or .id == \"dialog-permission\" or .id == \"dialog-plan\"); .raised == true and .answer_exit == 0 and .decision_emitted == true and .deadline_hit == false and .wheel_records == 0 and .keys_typed == 0 and .turn_ended == true) and any(.[]; .id == \"dialog-question\" and .kind_raised == \"question\") and any(.[]; .id == \"dialog-permission\" and .kind_raised == \"permission\" and .behavior == \"deny\") and any(.[]; .id == \"dialog-plan\" and .kind_raised == \"plan\") and any(.[]; .id == \"takeover\" and .wheel_after_focus == 0 and .dpms_at_key == true and .holder == \"human\" and .cause == \"human-input\" and .send_exit == 10 and .hint_names_release == false and .send_issued == false)' viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/evidence/live-run.ndjson",
+"run_sha8": "e24ea4ba",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-08-first-live-test-and-self-drive/implement-2026-10-08T06-28-55/19.log",
+"bytes": 150,
+"log_sha8": "91a8c669",
+"exit": 2,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✗ (exit 2)"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 2)"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "jq -e -s '([.[] | select(.kind == \"reading\") | .id] | unique | contains([\"clear-then-newline\",\"ends-in-newlines\",\"only-newlines\",\"send-under-hint\",\"trailing-cr\"])) and all(.[] | select(.kind == \"reading\"); .outcome == \"measured\" or (.outcome == \"not-measured\" and (.owed | type) == \"string\")) and all(.[] | select(.kind == \"reading\" and (.id == \"send-under-hint\" or .id == \"ends-in-newlines\" or .id == \"clear-then-newline\")); .outcome == \"measured\") and ([.[] | select(.kind == \"fidelity\") | .id] | unique | contains([\"child-fds\",\"claude-child-start\",\"endpoint-kind\",\"session-end-order\",\"start-order\"]))' viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/evidence/live-readings.ndjson",
+"run_sha8": "afd753b4",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-08-first-live-test-and-self-drive/implement-2026-10-08T06-28-55/20.log",
+"bytes": 155,
+"log_sha8": "b88635dc",
+"exit": 2,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✗ (exit 2)"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 2)"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "2377245a",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.12",
+"sha8": "bdf1c88a",
+"ts": "2026-10-08T06:37:49Z",
+"argv": [
+"show",
+"--run-dir",
+".andromeda/runs/2026-10-08T06-28-55-implement",
+"--marker",
+"2026-10-08-first-live-test-and-self-drive",
+"--n",
+"15",
+"--tail",
+"6"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"15 build green",
+"run (f6aea256): CARGO_TARGET_DIR=target/release-check bash scripts/release-check.sh",
+"  exit 0 ✓",
+"  last line 'release-check: viola only' ✓",
+"  artifact fresh (target/release-check/release/viola)",
+"log $TMPDIR/andromeda-gate/2026-10-08-first-live-test-and-self-drive/implement-2026-10-08T06-28-55/15.log · 3347 B · 7a45e377",
+"--- no anchored failure; last 6 non-empty lines ---",
+"   Compiling viola-state v0.1.0 (./crates/viola-state)",
+"   Compiling viola-agent-claude v0.1.0 (./crates/viola-agent-claude)",
+"   Compiling viola-channel v0.1.0 (./crates/viola-channel)",
+"   Compiling viola v0.1.0 (.)",
+"    Finished `release` profile [optimized] target(s) in 7.33s",
+"release-check: viola only"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "gate",
+"v": "1.12",
+"sha8": "bdf1c88a",
+"ts": "2026-10-08T06:45:08Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive",
+"--run-dir",
+".andromeda/runs/2026-10-08T06-28-55-implement",
+"--marker",
+"2026-10-08-first-live-test-and-self-drive"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base HEAD (no pre-CI commit) · lists new 1 · modify 1 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"list viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/evidence/ (dir) ×0",
+"scope: clean — changed 1 · listed 1 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 135"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "HEAD",
+"base_why": "no pre-CI commit",
+"counts": {
+"changed": 1,
+"listed": 1,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 135,
+"unparsed": 0,
+"widening_without_word": 0
+}
+}
+]

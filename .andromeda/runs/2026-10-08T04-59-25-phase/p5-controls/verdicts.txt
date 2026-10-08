@@ -1,0 +1,41 @@
+live-sessions: baseline (as written, record absent) exit 2
+live-sessions: pass file exit 0
+live-sessions: five-starts exit 1
+live-sessions: nine-starts exit 1
+live-sessions: a-2.1.289-start exit 1
+live-sessions: round-red exit 1
+live-sessions: round-on-2.1.289 exit 1
+live-sessions: round-fired-twice exit 1
+live-sessions: no-key-probe exit 1
+live-sessions: key-into-another-window exit 1
+live-sessions: key-probe-after-a-start exit 1
+live-sessions: focus-moved-the-wheel exit 1
+live-sessions: dpms-off-at-the-key exit 1
+live-sessions: live-run-on-the-harness-build exit 1
+live-sessions: a-probe-dir-left exit 1
+live-run: baseline (as written, record absent) exit 2
+live-run: pass file exit 0
+live-run: no-takeover exit 1
+live-run: no-clear exit 1
+live-run: unverified exit 1
+live-run: skill-not-confirmed exit 1
+live-run: clear-without-a-new-session exit 1
+live-run: no-plan-dialog-step exit 1
+live-run: plan-dialog-not-raised exit 1
+live-run: permission-answered-allow exit 1
+live-run: question-step-of-another-kind exit 1
+live-run: decision-past-the-deadline exit 1
+live-run: a-wheel-record-during-a-dialog exit 1
+live-run: a-key-during-a-dialog exit 1
+live-run: focus-took-the-wheel exit 1
+live-run: dpms-off-at-the-key exit 1
+live-run: send-not-refused exit 1
+live-run: hint-names-release exit 1
+live-run: takeover-by-manual-pause exit 1
+live-readings: baseline (as written, record absent) exit 2
+live-readings: pass file exit 0
+live-readings: four-readings exit 1
+live-readings: hint-send-not-measured exit 1
+live-readings: owed-missing exit 1
+live-readings: an-unknown-outcome-word exit 1
+live-readings: four-fidelity-readings exit 1

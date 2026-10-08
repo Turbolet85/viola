@@ -1,0 +1,4 @@
+{"kind":"step","id":"snapshot","session":"start-6","at":"2026-10-08T07:28:41Z","cli_version":"2.1.287","cli_verified":true,"build":"release-check","cols":210,"rows":45,"font_size":8,"start_records":["wheel:start","budget-gate","wheel:human-input","session-start:startup"],"wheel_at_snapshot":"human","modal":false}
+{"kind":"step","id":"wheel-at-start","session":"start-6","at":"2026-10-08T07:28:41.176Z","holder":"human","cause":"human-input","ms_after_child_start":237,"ms_before_session_start":360,"keys_typed":0,"key_calls":0}
+{"kind":"step","id":"skill-sent","session":"start-6","at":"2026-10-08T07:30:29.540Z","exit":10,"confirmed":false,"refusal":"human-typing","records":["send-refused"],"send_issued":false,"hint_lines":1,"hint_names_release":false,"typed":0}
+{"kind":"step","id":"close","session":"start-6","at":"2026-10-08T07:32:36.9Z","wrapper_gone_s":0.14,"child_gone_s":0.52,"session_end_line_s":0.14,"session_end_before_child_gone":true,"records":["session-end"]}

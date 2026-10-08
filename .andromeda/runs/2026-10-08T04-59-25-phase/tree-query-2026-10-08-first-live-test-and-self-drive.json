@@ -1,0 +1,151 @@
+[
+{
+"sql": "SELECT caller_name, file, line FROM calls WHERE callee_name = 'send_hint' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 9,
+"result": [
+{
+"caller_name": "unable_unreachable",
+"file": "src/cmd/client.rs",
+"line": 153
+},
+{
+"caller_name": "unable",
+"file": "src/cmd/send.rs",
+"line": 148
+},
+{
+"caller_name": "unreachable",
+"file": "src/cmd/send.rs",
+"line": 156
+},
+{
+"caller_name": "write_send_unable_puts_the_hint_last_in_one_write",
+"file": "src/human.rs",
+"line": 361
+},
+{
+"caller_name": "send_hint_is_the_design_string",
+"file": "src/human.rs",
+"line": 421
+},
+{
+"caller_name": "send_hint_has_none_for_an_opaque_cause",
+"file": "src/human.rs",
+"line": 426
+},
+{
+"caller_name": "send_hint_has_none_for_an_opaque_cause",
+"file": "src/human.rs",
+"line": 427
+},
+{
+"caller_name": "write_unable_puts_the_hint_last_in_one_write",
+"file": "src/human.rs",
+"line": 447
+},
+{
+"caller_name": "no_hint_names_release",
+"file": "src/human.rs",
+"line": 547
+}
+],
+"db_state": "regenerated",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller_name, file, line FROM calls WHERE callee_name = 'local_live' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 1,
+"result": [
+{
+"caller_name": "run_with",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 150
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller_name, file, line FROM calls WHERE callee_name = 'human_input' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 15,
+"result": [
+{
+"caller_name": "hook_dialog_under_a_human_wheel_is_logged_once_and_null_at_once",
+"file": "src/run/dialog.rs",
+"line": 934
+},
+{
+"caller_name": "human_wheel",
+"file": "src/run/dialog.rs",
+"line": 957
+},
+{
+"caller_name": "append_hook_event",
+"file": "src/run/send.rs",
+"line": 241
+},
+{
+"caller_name": "send_refusal_order",
+"file": "src/run/send.rs",
+"line": 808
+},
+{
+"caller_name": "send_refusal_order",
+"file": "src/run/send.rs",
+"line": 818
+},
+{
+"caller_name": "send_a_human_key_after_the_gate_wait_is_human_typing",
+"file": "src/run/send.rs",
+"line": 1634
+},
+{
+"caller_name": "send_after_the_gate_wait_human_typing_comes_before_turn_running",
+"file": "src/run/send.rs",
+"line": 1657
+},
+{
+"caller_name": "read",
+"file": "src/run/wheel.rs",
+"line": 309
+},
+{
+"caller_name": "wheel_human_typing_reads_the_cause",
+"file": "src/run/wheel.rs",
+"line": 603
+},
+{
+"caller_name": "wheel_only_a_release_returning_the_wheel_clears_the_turn",
+"file": "src/run/wheel.rs",
+"line": 647
+},
+{
+"caller_name": "wheel_turn_is_marked_and_ended_and_a_pause_or_a_key_leaves_it",
+"file": "src/run/wheel.rs",
+"line": 660
+},
+{
+"caller_name": "wheel_flush_returns_once_every_queued_move_is_recorded",
+"file": "src/run/wheel.rs",
+"line": 785
+},
+{
+"caller_name": "wheel_moves_are_recorded_in_order_with_the_snapshot",
+"file": "src/run/wheel.rs",
+"line": 800
+},
+{
+"caller_name": "wheel_moves_are_recorded_in_order_with_the_snapshot",
+"file": "src/run/wheel.rs",
+"line": 801
+},
+{
+"caller_name": "wheel_moves_are_recorded_in_order_with_the_snapshot",
+"file": "src/run/wheel.rs",
+"line": 810
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

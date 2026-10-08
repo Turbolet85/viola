@@ -1,0 +1,57 @@
+[
+{
+"tool": "inputs",
+"v": "1.0",
+"sha8": "8bb004ac",
+"ts": "2026-10-08T07:32:20Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive",
+"--message-file",
+".andromeda/runs/2026-10-08T07-13-39-implement/answer-live-stop.md",
+"--origin",
+"the operator, in this session, 2026-10-08, before 07:32:09Z (an AskUserQuestion answer)",
+"--kind",
+"relay",
+"--why",
+"the stop of the live work: close the live session, measure which terminal reply the classifier takes for typing, read the lock, keep the own compositor up with no window, a 3 hour bound to the next live start",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-10-08T07-13-39-implement",
+"--marker",
+"2026-10-08-first-live-test-and-self-drive"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I15 · copy message · message: the operator, in this session, 2026-10-08, before 07:32:09Z (an AskUserQuestion answer)",
+"cite: inputs#I15"
+],
+"stderr": null,
+"wrote": [
+"inputs/I15-answer-live-stop.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I15",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, in this session, 2026-10-08, before 07:32:09Z (an AskUserQuestion answer)",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "fbf92cfb11cb78253953faa9d5f7578b1173dd1f02d7413ca871a3db11b43fc3",
+"copy": "I15-answer-live-stop.md.txt",
+"link": false,
+"read_at": "2026-10-08T07:32:20Z",
+"step": "implement",
+"why": "the stop of the live work: close the live session, measure which terminal reply the classifier takes for typing, read the lock, keep the own compositor up with no window, a 3 hour bound to the next live start"
+}
+}
+]

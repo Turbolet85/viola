@@ -1,0 +1,42 @@
+[
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "d7ef3462",
+"ts": "2026-10-08T07:41:42Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"6",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-08T07-13-39-implement",
+"--marker",
+"2026-10-08-first-live-test-and-self-drive"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"appended 6 record(s) · friction-log.ndjson lines 1398→1404 · bytes 1382706→1390279 · term lf",
+"ts 2026-10-08T07:41:13Z · clock 2026-10-08T07:41:42Z · bound 2026-10-08T07:12:24Z (line 1398)",
+"ids 2026-10-08T07:41:13Z-a … 2026-10-08T07:41:13Z-f (6)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 1398,
+"bytes": 1382706,
+"terminator": "LF",
+"bound": "2026-10-08T07:12:24Z"
+},
+"after": {
+"lines": 1404,
+"bytes": 1390279
+}
+}
+]

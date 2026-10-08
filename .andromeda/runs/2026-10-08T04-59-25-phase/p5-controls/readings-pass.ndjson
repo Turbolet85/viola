@@ -1,0 +1,10 @@
+{"kind":"reading","id":"send-under-hint","outcome":"measured","exit":0}
+{"kind":"reading","id":"ends-in-newlines","outcome":"measured","exit":0}
+{"kind":"reading","id":"clear-then-newline","outcome":"measured","exit":0}
+{"kind":"reading","id":"only-newlines","outcome":"not-measured","owed":"First live test and self-drive, carried"}
+{"kind":"reading","id":"trailing-cr","outcome":"measured","exit":13}
+{"kind":"fidelity","id":"start-order"}
+{"kind":"fidelity","id":"claude-child-start"}
+{"kind":"fidelity","id":"endpoint-kind"}
+{"kind":"fidelity","id":"child-fds"}
+{"kind":"fidelity","id":"session-end-order"}

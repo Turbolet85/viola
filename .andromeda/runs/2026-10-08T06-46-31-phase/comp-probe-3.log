@@ -1,0 +1,11 @@
+06:53:02.765Z desktop before: shell-locked=true sd-env=c61ed39ca6b0 hypr-dirs=1 wayland-sockets=1 compositors=1
+06:53:02.770Z probe home target/e2e-home/viola-keyprobe-20261008T065302Z/home (not yet existing) · private runtime dir $XDG_RUNTIME_DIR/vcomp
+06:53:02.771Z own compositor started, mode headless (no WAYLAND_DISPLAY, no session bus, seat backend forced to an absent seatd)
+.andromeda/runs/2026-10-08T06-46-31-phase/comp-probe.sh: line 115: 3899946 Aborted                    (core dumped) env -i HOME="$HOME" PATH="$PATH" USER="$USER" LANG="${LANG:-C.UTF-8}" XDG_RUNTIME_DIR="$CRT" LIBSEAT_BACKEND=seatd HYPRLAND_NO_SD_VARS=1 HYPRLAND_NO_SD_NOTIFY=1 HYPRLAND_NO_RT=1 HYPRLAND_NO_CRASHREPORTER=1 Hyprland --config "$CFG" > "$BASE/compositor.out" 2>&1
+06:53:02.875Z ABORT the own compositor gave no control socket (alive: no)
+DEBUG ]: Creating the Error Overlay!
+terminate called after throwing an instance of 'std::runtime_error'
+  what():  CBackend::create() failed!
+06:53:02.880Z foot gone: yes · wrapper gone: yes
+06:53:02.883Z own compositor gone: yes
+06:53:02.961Z desktop after:  shell-locked=true sd-env=c61ed39ca6b0 hypr-dirs=1 wayland-sockets=1 compositors=1

@@ -1,0 +1,12 @@
+{"kind":"compositor","event":"start","n":1,"own_instance":true,"desktop_lock_shell":true,"desktop_lock_compositor":true,"shell_first_answer":"no-answer","shell_relaunched":true}
+{"kind":"key-probe","typed_into":"probe","compositor":"own","own_instance":true,"guard":true,"wheel_cause":"human-input","focus_wheel_delta":0,"send_exit":10,"live_starts_before":0,"cols":97,"rows":49,"font_size":8}
+{"kind":"census","when":"before","own_left":0}
+{"kind":"start","n":1,"session":"verify","cli":"2.1.287","build":"harness"}
+{"kind":"start","n":2,"session":"verify","cli":"2.1.287","build":"harness"}
+{"kind":"start","n":3,"session":"verify","cli":"2.1.287","build":"harness"}
+{"kind":"start","n":4,"session":"verify","cli":"2.1.287","build":"harness"}
+{"kind":"start","n":5,"session":"verify","cli":"2.1.287","build":"harness"}
+{"kind":"round","fired":1,"home":"viola-live-1","stamped":"2.1.287","pass":17,"fail":0}
+{"kind":"census","when":"after","own_left":0}
+{"kind":"census","when":"after","own_left":0}
+{"kind":"compositor","event":"end","desktop_lock_shell":true,"desktop_lock_compositor":true,"shell_first_answer":"true","shell_relaunched":false,"own_left":0}

@@ -1,0 +1,43 @@
+# Focus on this desktop — the overseer's measurements for step 0 (2026-10-08, 06:26Z–06:28Z)
+
+Every line is measured from the overseer's own session with `hyprctl` unless it says hypothesis. Nothing was
+typed anywhere; only focus was dispatched, between two plain (not viola-wrapped) overseer windows, and restored.
+
+## What was measured
+
+- **The focus dispatcher does not move the focused WINDOW for an existing window either.**
+  `hyprctl dispatch 'hl.dsp.focus({ window = "address:<overseer1's window>" })'` answered `ok`; monitor `DP-2`
+  switched from workspace 4 to workspace 3 and became the focused monitor; the cursor warped from `1280, 733`
+  to `2722, 253`; and `hyprctl activewindow` still read `overseer.viola-overseer` on workspace 4, a workspace no
+  longer shown. So the stuck focus is not about a NEW window, the second monitor, an empty workspace or foot.
+- **Two witnesses agree.** `hyprctl clients -j` `focusHistoryID` stayed `0` on `overseer.viola-overseer` (1 on
+  `viola.viola-builder`) before and after the dispatch — the same as `activewindow`.
+- **DPMS is not the cause.** The same run with `hl.dsp.dpms("on")` first (both monitors `dpmsStatus` true): the
+  same result. (With DPMS off `DP-2` reports 640 x 480; with it on the session windows read 1261 x 1390.)
+- **Monitor focus and window focus are decoupled right now.** Before any dispatch, `HDMI-A-1` (workspace 7,
+  empty) read `focused: true` while the active window was on `DP-2`.
+- **No other spelling exists.** `hl.dsp.window.focus(...)` and `hl.dsp.focus_window(...)`: `attempt to call a nil
+  value`. `hl.dsp.focus({ window = "class:overseer.overseer1" })`: `ok`, active window unchanged.
+- **The window carries no pin.** `hyprctl getprop address:<viola-overseer> stay_focused` → `false`; `no_focus` →
+  `false`; `pinned` false, `fullscreen` 0, not grouped, `inhibitingIdle` false. No locker process, `LockedHint=no`.
+  Layers: only `omarchy-background` and `omarchy-bar` on each monitor. Submap `default`.
+- **Options:** `input:follow_mouse` 1 · `input:mouse_refocus` true · `cursor:no_warps` false ·
+  `misc:focus_on_activate` true.
+- **Running:** `fcitx5` (an input method), pid 1850.
+- **The pair's own launcher uses the same form** and discards its output: `vstart.sh:91` and `:101`
+  (`hl.dsp.focus({ window = "address:…" })`), so its working was never read.
+
+## Not measured
+
+- Why. Hypotheses only: a keyboard grab held for the focused window (the input method, or a popup); focus changes
+  being deferred while no physical input has arrived since the screens went off; a held pointer button.
+- Whether a key typed by `wtype` now lands in the window `activewindow` names, or in the window under the warped
+  cursor. Do not test that with the session windows: `activewindow` names the overseer's own window.
+
+## What follows for step 0
+
+- A guard that reads `activewindow` is still right: while it names any window but the probe's, no key is typed.
+- Trying more focus dispatches on the same form is measured as useless. A different lever is needed — for
+  example a window that asks for activation itself, a real pointer event over the probe window, or ending
+  whatever holds the grab — or S1.
+- `DP-2` switches workspace on a window focus dispatch: after any attempt, put it back on workspace 4.

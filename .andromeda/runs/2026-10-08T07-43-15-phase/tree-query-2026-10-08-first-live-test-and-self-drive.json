@@ -1,0 +1,184 @@
+[
+{
+"sql": "SELECT caller_name, callee_name, file, line FROM calls WHERE callee_name IN ('is_reply','feed','step','abort','human_input') AND callee_kind = 'fn' AND callee_file = 'src/run/wheel.rs' ORDER BY callee_name, file, line",
+"rows": 29,
+"result": [
+{
+"caller_name": "step",
+"callee_name": "abort",
+"file": "src/run/wheel.rs",
+"line": 433
+},
+{
+"caller_name": "step",
+"callee_name": "abort",
+"file": "src/run/wheel.rs",
+"line": 452
+},
+{
+"caller_name": "step",
+"callee_name": "abort",
+"file": "src/run/wheel.rs",
+"line": 457
+},
+{
+"caller_name": "read",
+"callee_name": "feed",
+"file": "src/run/wheel.rs",
+"line": 308
+},
+{
+"caller_name": "classifier_typing_is_editing",
+"callee_name": "feed",
+"file": "src/run/wheel.rs",
+"line": 559
+},
+{
+"caller_name": "classifier_every_listed_reply_is_not_editing_whole_and_split",
+"callee_name": "feed",
+"file": "src/run/wheel.rs",
+"line": 565
+},
+{
+"caller_name": "classifier_every_listed_reply_is_not_editing_whole_and_split",
+"callee_name": "feed",
+"file": "src/run/wheel.rs",
+"line": 569
+},
+{
+"caller_name": "classifier_every_listed_reply_is_not_editing_whole_and_split",
+"callee_name": "feed",
+"file": "src/run/wheel.rs",
+"line": 570
+},
+{
+"caller_name": "classifier_every_listed_reply_is_not_editing_whole_and_split",
+"callee_name": "feed",
+"file": "src/run/wheel.rs",
+"line": 574
+},
+{
+"caller_name": "classifier_every_listed_reply_is_not_editing_whole_and_split",
+"callee_name": "feed",
+"file": "src/run/wheel.rs",
+"line": 575
+},
+{
+"caller_name": "hook_dialog_under_a_human_wheel_is_logged_once_and_null_at_once",
+"callee_name": "human_input",
+"file": "src/run/dialog.rs",
+"line": 934
+},
+{
+"caller_name": "human_wheel",
+"callee_name": "human_input",
+"file": "src/run/dialog.rs",
+"line": 957
+},
+{
+"caller_name": "append_hook_event",
+"callee_name": "human_input",
+"file": "src/run/send.rs",
+"line": 241
+},
+{
+"caller_name": "send_refusal_order",
+"callee_name": "human_input",
+"file": "src/run/send.rs",
+"line": 808
+},
+{
+"caller_name": "send_refusal_order",
+"callee_name": "human_input",
+"file": "src/run/send.rs",
+"line": 818
+},
+{
+"caller_name": "send_a_human_key_after_the_gate_wait_is_human_typing",
+"callee_name": "human_input",
+"file": "src/run/send.rs",
+"line": 1634
+},
+{
+"caller_name": "send_after_the_gate_wait_human_typing_comes_before_turn_running",
+"callee_name": "human_input",
+"file": "src/run/send.rs",
+"line": 1657
+},
+{
+"caller_name": "read",
+"callee_name": "human_input",
+"file": "src/run/wheel.rs",
+"line": 309
+},
+{
+"caller_name": "wheel_human_typing_reads_the_cause",
+"callee_name": "human_input",
+"file": "src/run/wheel.rs",
+"line": 603
+},
+{
+"caller_name": "wheel_only_a_release_returning_the_wheel_clears_the_turn",
+"callee_name": "human_input",
+"file": "src/run/wheel.rs",
+"line": 647
+},
+{
+"caller_name": "wheel_turn_is_marked_and_ended_and_a_pause_or_a_key_leaves_it",
+"callee_name": "human_input",
+"file": "src/run/wheel.rs",
+"line": 660
+},
+{
+"caller_name": "wheel_flush_returns_once_every_queued_move_is_recorded",
+"callee_name": "human_input",
+"file": "src/run/wheel.rs",
+"line": 785
+},
+{
+"caller_name": "wheel_moves_are_recorded_in_order_with_the_snapshot",
+"callee_name": "human_input",
+"file": "src/run/wheel.rs",
+"line": 800
+},
+{
+"caller_name": "wheel_moves_are_recorded_in_order_with_the_snapshot",
+"callee_name": "human_input",
+"file": "src/run/wheel.rs",
+"line": 801
+},
+{
+"caller_name": "wheel_moves_are_recorded_in_order_with_the_snapshot",
+"callee_name": "human_input",
+"file": "src/run/wheel.rs",
+"line": 810
+},
+{
+"caller_name": "step",
+"callee_name": "is_reply",
+"file": "src/run/wheel.rs",
+"line": 429
+},
+{
+"caller_name": "feed",
+"callee_name": "step",
+"file": "src/run/wheel.rs",
+"line": 362
+},
+{
+"caller_name": "abort",
+"callee_name": "step",
+"file": "src/run/wheel.rs",
+"line": 380
+},
+{
+"caller_name": "step",
+"callee_name": "step",
+"file": "src/run/wheel.rs",
+"line": 465
+}
+],
+"db_state": "regenerated",
+"plane": "rust"
+}
+]

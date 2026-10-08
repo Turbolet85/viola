@@ -213,7 +213,9 @@ pub(crate) fn send_hint(name: &str, cause: &str) -> Option<String> {
             "the text contains a control character (only LF, CR, TAB are allowed)".to_owned()
         }
         "input-not-ready" => {
-            format!("{name} was not ready for input; viola wait {name}, then send again")
+            format!(
+                "{name} was not ready for input; send again, and if it repeats a human must look at the session"
+            )
         }
         "no-prompt-submitted" => {
             format!("{name} did not submit the prompt; check it, then send again")
@@ -368,7 +370,7 @@ mod tests {
                 hint.as_deref()
             )),
             "[/ ] unable         builder  not-delivered  input-not-ready\n\
-             hint: builder was not ready for input; viola wait builder, then send again\n"
+             hint: builder was not ready for input; send again, and if it repeats a human must look at the session\n"
         );
         assert_eq!(
             one_write(|o| write_send_unable(o, "builder", "unknown", None)),
@@ -403,7 +405,7 @@ mod tests {
     )]
     #[case::input_not_ready(
         "input-not-ready",
-        "builder was not ready for input; viola wait builder, then send again"
+        "builder was not ready for input; send again, and if it repeats a human must look at the session"
     )]
     #[case::no_prompt_submitted(
         "no-prompt-submitted",

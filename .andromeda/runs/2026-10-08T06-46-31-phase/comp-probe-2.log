@@ -1,0 +1,30 @@
+06:51:50.737Z desktop before: shell-locked=true sd-env=c61ed39ca6b0 hypr-dirs=1 wayland-sockets=1 compositors=1
+06:51:50.751Z probe home target/e2e-home/viola-keyprobe-20261008T065150Z/home (not yet existing) · private runtime dir $XDG_RUNTIME_DIR/vcomp
+06:51:50.752Z own compositor started, mode nested (one client window of the desktop compositor; no session bus, seat backend forced to an absent seatd)
+06:51:50.958Z own instance up: signature differs from the desktop's: yes · control socket in the private runtime dir
+06:51:50.961Z wayland socket: $XDG_RUNTIME_DIR/vcomp/wayland-1
+WARN ]: WARNING: Hyprland is being launched without start-hyprland. This is highly advised against.
+06:51:51.132Z version: Hyprland 0.56.2 built from branch v0.56.2 at commit efb50993
+06:51:51.149Z monitors: WAYLAND-1:621x688:dpms=True
+06:51:51.171Z own instance locked: false · windows: 0
+06:51:51.172Z foot started on the own compositor (a declared environment: no CLAUDE and no VIOLA name)
+06:51:51.293Z events lines at start: 3 · kinds: wheel budget-gate session-start
+06:51:51.344Z probe window listed on the own instance: class viola.keyprobe · mapped True · size [269, 302]
+06:51:51.347Z wheel records at window discovery: 1
+06:51:52.865Z the window took focus by itself: active class viola.keyprobe, address matches probe: yes
+06:51:52.868Z wheel records with the window focused, before any key: 1 (delta 0)
+06:51:52.914Z wtype x sent to the own compositor: exit 0 (guard passed: its active window is the probe, it holds 1 window, it is not locked)
+06:51:52.918Z wheel records after the key: 2
+  wheel {"cause": "start", "holder": "driver"}
+  event budget-gate
+  event session-start
+  wheel {"cause": "human-input", "holder": "human"}
+  receipt key 78
+06:51:52.955Z driver send after the key: exit 10 · stderr: [/ ] unable         keyprobe  human-typing|hint: the human has the wheel; send again after the human hands it back|
+06:51:52.958Z send-issued records: 0 · wheel records: 2
+06:51:52.959Z home kept at target/e2e-home/viola-keyprobe-20261008T065150Z (tmpfs behind the link)
+06:51:52.961Z TERM sent to the probe's own foot process
+06:51:53.385Z foot gone: yes · wrapper gone: yes
+06:51:53.388Z TERM sent to the own compositor (its runtime dir read from its environment first)
+06:51:53.493Z own compositor gone: yes
+06:51:55.086Z desktop after:  shell-locked=[31m ERROR[97m quickshell.ipc[0m: Socket Error QLocalSocket::PeerClosedError[31m ERROR[97m quickshell.ipc[0m: Error occurred while waiting for response. sd-env=c61ed39ca6b0 hypr-dirs=1 wayland-sockets=1 compositors=1

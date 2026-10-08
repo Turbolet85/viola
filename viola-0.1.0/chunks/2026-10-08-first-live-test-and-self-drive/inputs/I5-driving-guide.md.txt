@@ -1,0 +1,172 @@
+# Driving the builder with the viola prototype
+
+How this overseer operates a builder session through the viola prototype. It is written for the next window
+after a `/clear` or a compact. Conventions only: where the work stands lives in `.claude/session-handoff.md`.
+
+## The pieces
+
+- **Binary:** `~/dev/projects/additional/viola-lab/prototype/target/debug/viola` (Linux since 2026-10-03). It is not on PATH:
+  set `V=$HOME/dev/projects/additional/viola-lab/prototype/target/debug/viola`.
+- **Plugin:** `~/dev/projects/additional/viola-lab/prototype/plugin`, passed with `--plugin-dir`.
+- **State:** `~/.viola/sessions/<name>/`. Since 2026-10-04 (V53), `vstart.sh` moves a dead session's folder to `~/.viola/archive/{name}-{UTC}/` before a relaunch, because `viola run` deletes it (`run.rs:37`). Old event history lives there. It holds `events.ndjson` (every hook event and viola action),
+  `status`, `wheel` (present while the human holds it), `dialogs/`, `sent/`, `out.raw` (the raw terminal).
+- **The builder session:** named `viola-builder`, cwd `~/dev/projects/viola`, started by the founder.
+- **Screen check:** `sh scr.sh [name] [bytes]` in this folder prints the ANSI-stripped tail of `out.raw`.
+  Use it to catch CLI-native modals the hooks never report.
+
+## Starting a builder
+
+The overseer cannot launch it itself: the permission classifier denies spawning a new Claude session
+("Create Unsafe Agents"). The founder runs one short line:
+
+    ~/dev/projects/additional/viola-overseer/vb.sh
+
+`vb.sh` wraps andromedaV3's `docs/tools/vstart.sh`: it opens a new terminal window titled viola-builder running
+`viola run viola-builder … -- claude …` in `~/dev/projects/viola` (`--dry-run` prints the command; `vbr.sh <id>` resumes).
+A first launch in a folder shows Claude's CLI trust menu, which no hook sees: the founder answers it once, by hand. Hand the founder only short lines: a long path wraps in the
+terminal and breaks. Check with `$V list` that the state is `idle` and the wheel is `viola`.
+
+## The loop
+
+1. **Before sending,** run `$V list` (state `idle`, wheel `viola`). After any surprise, check `sh scr.sh`
+   too: an idle status does not prove the input box is ready.
+2. **Send:** `$V send viola-builder '<text>'`. (On the old Windows host, Git Bash needed `MSYS_NO_PATHCONV=1` before a `/skill` text; Linux does not.)
+3. **Wait:** `$V wait viola-builder --timeout 3000` with `run_in_background: true`. The harness wakes you
+   when it exits. Read its output file. The first line names what happened: `turn-end` (the final text
+   follows), `question`, `permission`, `plan`, `exited` or `timeout`.
+4. **Answer:** a plain-text prompt at a turn end gets a `send`. A multi-question dialog takes ALL its answers in ONE call, in order:
+   `$V answer viola-builder 'Label 1' --note '…' 'Label 2' --note '…'`. Separate calls are refused (`1 answer(s) given`). A dialog gets `$V answer viola-builder
+   <label|text> [--note …]`, `allow` / `allow <n>` / `deny <msg>`, or `approve` / `revise <what>`.
+5. **After a send,** confirm delivery: the last lines of `events.ndjson` must show a `UserPromptSubmit`
+   with your text. `viola:typed` alone proves nothing.
+6. **Background-research turns** end with "research is running". Just `wait` again. The harness
+   re-wakes the builder when its agent returns.
+7. **Long autonomous stretches** (iteration loops, research): run `sh waitm.sh viola-builder` in the
+   background instead of a bare `wait`. It skips short progress-only turn ends and returns on a dialog, a
+   question, a long turn end, or completion. It prints how many turns it skipped.
+
+## Waiter lifetime (Linux host, 2026-10-04)
+
+The harness stops a background `waitm.sh` at its background time limit (killed after ~10–30 min, measured twice). A long run therefore needs the 30-min heartbeat to restart the waiter. Measured 2026-10-04 ~15:10Z: the stop is the background Bash call's own `timeout`, which defaults to 1 800 000 ms (30 min). Start the waiter with `timeout: 7200000` (2 h, the maximum) so a long implement keeps its waiter. Nothing is lost: the builder's events stay in `events.ndjson`, and `$V wait` reads the current state.
+
+## Clears and dialogs (2026-10-04, from overseer1)
+
+- **Clear through the shared tool:** `bash ~/dev/projects/additional/andromedaV3/andromeda-overseer/docs/worker/clear-worker.sh viola-builder --then '<skill line>'`. It proves the clear took, then sends, in one call. Never chain a send after a clear with `;` (PC16).
+- **Since ~01:58Z on 2026-10-04 (PC20 binary), an unanswered dialog is HELD, not dropped to the CLI menu.** After 3500 s viola denies it with "No answer from the driver … end your turn and wait"; the event is `viola:dialog-held` and `viola wait` reports `held`. Send the answer afterwards as a plain PROMPT; a late `viola answer` is refused. The old binary is at `viola-lab/backups/viola-pre-PC20-f058e74e.bin`. First hold, measured 2026-10-04 13:16Z (2.1.287): the PreToolUse(AskUserQuestion) hold was followed by a PermissionRequest for the same tool, which viola also denied with the hold message. The builder ended its turn cleanly ("paused before P4 on one fork that needs the founder's live answer"), and the answer, sent as a plain prompt, resumed it. A founder AskUserQuestion on the overseer side can outlast the 58-min hold.
+- (Superseded by the line above for the held case.) **Dialog fallback is 3500 s now** (the session's `config.json`; vstart.sh for new starts). A dialog held past the CLI's 3600 s hook cap degrades to the CLI menu. Never answer a degraded menu by digits (PC20: an answer landed inverted). Hold a founder question with free text.
+
+## Known pitfalls, measured 2026-09-23 (CLI 2.1.280)
+
+- **CLI-native modals bypass every hook.** "Teach auto mode about your environment?" appeared after a
+  Stop, the status read `idle`, and a `send` answered the modal (it picked Yes and opened
+  `/auto-mode-setup`). viola can only paste + Enter, and Enter would press the modal's default. Ask the
+  founder to press Esc in the builder window. Esc alone does not take the wheel.
+- **Harness-injected prompts** (`<agent-message from=…`, `<task-notification>`) fire `UserPromptSubmit`.
+  Fixed in the prototype: they log `viola:harness-prompt` and never take the wheel.
+- **The CLI wraps a long paste in `<pasted_content id=…>`** (981 bytes wrapped, 749 not), and escapes
+  tag-like text a user typed (`<pasted_content` arrives as `<\pasted_content`). Both are normalized in the
+  prototype. The model still treats wrapped text as the user's own (measured).
+- **Local commands** (`/remote-control`, and probably `/clear`) fire no `UserPromptSubmit`. The send's
+  record stays in `sent/`, so delete it (`rm ~/.viola/sessions/<name>/sent/*.txt`) once the command has
+  visibly taken effect (check with `scr.sh`).
+- **At a dialog, the builder's transcript lags** (measured 2026-09-24, CLI 2.1.280): the text printed just
+  before an `AskUserQuestion` is not in `~/.claude/projects/-home-turbolet-dev-projects-viola/<session>.jsonl` (Windows-era key then) while the
+  dialog is pending. It appeared only after the dialog was answered, which cost one "Edit first" round. Never
+  conclude "not shown" from the jsonl. `waitm.sh` returning on a `question` or `plan` prints the screen's last
+  4000 chars after the dialog (`[screen before the dialog]`); by hand, `sh scr.sh viola-builder 60000 4000`.
+  Otherwise ask with a note that carries a question, not a claim.
+- **Other overseers run `waitm.sh` too** (pc-overseer, for pulse-builder and conductor-builder, measured 2026-09-29). Never count `waitm.sh` processes, and never kill one by count: this instance killed pc-overseer's waiter that way at 07:29. Check your own waiter with `kill -0 "$(cat .waitm-viola-builder.pid)"`, and read `/proc/<pid>/cmdline` before killing anything.
+- **Tag-like text in a send** (measured 2026-09-27 23:48): the CLI escapes a typed `<pasted_content` as
+  `<\pasted_content` and `</pasted_content` as `<\/pasted_content`. Until the 2026-09-28 prototype fix (un-escape
+  before strip), such a send took the wheel as `human`. The builder also read the escaped form as the CLI's own
+  wrapper, so describe tags in words, or point to a file that holds them.
+- **If the wheel reads `human` unexpectedly:** find the prompt that moved it with
+  `grep '"viola:wheel"' events.ndjson`. If the founder did not type it, it is a prototype defect: fix it,
+  then `$V release viola-builder`. Never release while the founder is actually typing.
+
+## Rebuilding the prototype under a running session
+
+On Linux a running binary can be replaced in place (cargo writes a new inode), so `cargo build` and `cargo test`. The wrapper keeps the old binary. New hook processes pick up the new
+one through PATH. If the e2e tests fail instantly with "path not found", the cached test binaries predate
+a move: `touch tests/e2e.rs examples/*.rs` and test again. Baseline: 5 unit tests + 7 e2e tests, all green.
+
+## Answering policy
+
+- **Answer from the brief** (`~/dev/projects/viola/refs/viola-brief.md`): its DECIDED items, its
+  PROPOSED items, and anything that follows from an answer already given. Accept a recommendation only after
+  checking it against the brief and the prior answers.
+- **Bring the founder** (AskUserQuestion, recommended-first) anything the brief does not settle and that
+  is theirs: scope, trajectory, naming, anything irreversible (brief Appendix A). The builder waits:
+  dialogs hold for 1200 s, and plain-text prompts hold indefinitely.
+- **Fold measured facts into the answers:** what the prototype and today's session proved, marked as
+  measured, with the date and the CLI version.
+- **Provenance:** answers typed by this overseer are "overseer (founder-delegated)". A founder ruling is
+  recorded as the founder's. Arch's dialogue log already carries this for the arch run.
+- **Keep sends short where possible.** Over roughly 800 bytes the CLI wraps the paste. That is harmless
+  now, but short sends are easier to verify.
+
+## Between pipeline skills (founder-ruled 2026-09-23)
+
+When a greenfield skill finishes (its master is in `.andromeda/`, its `project.yaml` key is added, and the
+next-skill footer is printed), verify those artifacts, then send `/clear`, then the next skill:
+arch → security → design → tests → obs → a11y → route → setup-project. Never clear in the middle of a
+skill. After `/clear`, confirm that the builder answers and that `SessionStart` shows `source: clear` in
+the events. That is also the first live measurement of the /clear post-condition.
+
+## The chunk loop's clear points (founder-ruled 2026-09-27, calibrate as data comes in)
+
+A chunk runs as: new-session → phase → **/clear** → new-session → implement (with the operator pass and the CI read) → wrap.
+Before sending the wrap, read the builder's context (`ctx NN%` in `sh scr.sh viola-builder 4000`):
+
+- **≤ 60 %:** send the wrap whole, with the note "the 85 % and 90 % context alarms are expected: finish the wrap; stop only
+  at 95 %".
+- **> 60 %:** send the wrap with "run P1 only, write the run dir's resume point naming P2 next, and stop"; then /clear →
+  new-session → `/andromeda-wrap-session resume in <run dir>`.
+
+Measured on 2026-09-27 over 20 builder sessions (`python3 ctxskills.py ~/.claude/projects/-home-turbolet-dev-projects-viola`; the Windows-era readings were under the old key):
+phase ends at ~37 %; implement ends at ~50 % on Epoch 1 chunks and 60–74 % on Epoch 2's larger ones; a warm wrap costs
+~22 % on average (max 29 %), and ~34 % on a chunk with ~45 amendments. After every wrap, add its start and end to the
+calibration log below.
+
+Calibration log (wrap start → end, warm unless marked):
+- 2026-09-27 epoch-2-cleanup: wrap start 58 % → whole, finished without a pause.
+- 2026-09-27 browser-verdict-reachability: wrap start 39 % → whole, no pause.
+- 2026-09-27 wrapper-channel: implement 9.2 → 90.1 % (81 %: four operator-pass fix loops, two host memory kills); wrap start 90 % → P1 only, then /clear.
+- 2026-10-04 wait-and-last: implement → 48.5 % (one macOS CI red fix loop); wrap start 48.5 % → whole, no pause.
+- 2026-10-04 dialog-answers-by-dialog-id: phase + revision + implement in one context (two STOPs and rulings, four CI rounds) → 86.7 %; wrap start 86.7 % → P1 only, then /clear.
+- 2026-10-04 the-wheel: phase → clear → implement (five CI rounds, two Windows measurements, a reboot resume) → 63.3 %; wrap start 63.3 % → P1 only, then /clear.
+- 2026-10-06 local-command-and-paste-framing-rows: implement from step 11 + the operator pass → 51.7 %; wrap start 51.7 % → whole (52 proposals over six docs, two cards, four whole-block gate runs under host contention); the 85 % alarm fired at the last step (853k tokens). A whole wrap from 52 % with ~50 amendments does not fit under 85 %: at that amendment count take P1-only from ~50 %.
+- 2026-10-06 local-command-send-outcomes: implement + the operator pass + one fix commit → 48.9 %; wrap start 48.9 % → whole, 25 amendments, no card, a quiet host → 73.5 % (24.6 %), no pause.
+- 2026-10-07 test-homes-off-the-contended-volume: implement + the operator pass → 32.0 %; wrap start 32.0 % → whole, 13 amendments, no card → 58.1 % (26.1 %), no pause.
+- 2026-10-07 live-rows-and-paste-shapes-on-the-dev-host: implement + the operator pass → 51.1 %; wrap start 51.1 % → whole, 22 amendments, two P2 escalations and four route cards → 80.2 % (29.1 %), no pause.
+- 2026-10-07 send-waits-out-the-paste-hint: implement + the operator pass → 43.2 %; wrap start 43.2 % → whole, 21 amendments, no card → 70.7 % (27.5 %), no pause.
+- 2026-10-07 a-send-ending-in-a-newline-is-confirmed: implement + the operator pass → 29.1 %, then the CLI's idle compact (V70) reset it; wrap start 10.3 % (the compact summary, COLD) → whole, 23 amendments, no card → 44.2 % (33.9 %), no pause.
+
+- The implement send always ends with the operator pass, or the builder stops at "Next: the operator pass" and waits (V62): `/andromeda-implement <marker>. <live-session line>. Run the operator pass with the ci.py conclusion read (leg=operator) as usual.`
+- At every phase P5, the operator CI read must be the T14 tool call (`ci.py conclusion --sha HEAD --wait S`, leg=operator), never a copied jq/poller.
+  Cross-check with `sh ciwatch.sh <run-id>`, which exits on the first failed job.
+- Send directives as ONE line. Any send with newlines arrives wrapped in `<pasted_content>`, whatever its size (measured at
+  609 B on 2026-09-27), and the builder treats a wrapped block as relayed text rather than the operator's own words. It
+  refused to act on one that claimed a founder ratification, and asked for a confirmation typed outside the paste. A
+  single line of 663 B arrived unwrapped. A skill starts only when its `/command` is the first text of an UNWRAPPED
+  prompt; a wrapped command does not fire, and the model may not start the skill for it. So a skill send is one line:
+  `/andromeda-… <directive on the same line>` (740 B arrived fine; a single line of 808 B arrived WRAPPED, 2026-09-27
+  23:16). Keep a skill send under 740 B, and put what does not fit into a FILE the line names (a relay in this folder, as `d94-route-adaptation.md` was). Never a second send after the skill has started: it lands while the builder reads `busy`, viola waits 120 s and exits 1 ("busy, not at a turn boundary"), and the directive is not in the builder's context when the skill begins (measured by escher-overseer 2026-10-07, its ES17, relayed by overseer1).
+
+## A gate red where no assertion failed on a value (a stall, a timeout, a kill)
+
+Read the host's own record BEFORE any re-run (overseer1's standing host record, founder-ruled 2026-10-07, running since 2026-10-07T11:35:05Z and started by `up.sh` at every host start):
+
+    python3 ~/dev/projects/additional/andromedaV3/andromeda-overseer/docs/tools/hostwatch.py read --trail <gate trail> --for viola
+
+or `read --last 15`, or `read --from <UTC> --to <UTC>`; `status` says whether it runs. One verdict: CONTENDED (8 s or more with tasks stalled on IO for half the interval), QUIET or NO RECORD; with `--for viola`, Viola's own link is not counted. It records and prevents nothing. The test homes are on tmpfs since 2026-10-07 (`target/e2e-home` is a link), so what remains exposed on the shared volume is cargo's own `target/` and the coverage profiles. A QUIET stalled-start red is a finding about the backing: stop and report, never re-run for green.
+
+## Our own window
+
+Read only the final artifacts a skill promotes (founder-ruled 2026-09-23). Run-dir drafts, iteration
+snapshots and changelog lines stay unread, and the turn-end text is enough to follow progress.
+
+At every skill boundary, before the builder's `/clear`, update `.claude/session-handoff.md`: where the
+chain stands, decisions taken, findings not yet in the brief, and whether the builder is running. The
+`ctx-alarm` hook fires at 85/90/95 %. At 85 %, finish the step, write the handoff, and tell the founder.
+The `/clear` of this window is the founder's.

@@ -1,0 +1,49 @@
+[
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bd649850",
+"ts": "2026-10-08T08:56:07Z",
+"argv": [
+"implement",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-08-first-live-test-and-self-drive",
+"--id",
+"v1-31",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-08T08-32-34-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"implement v1-31 · status planned → implemented · ref viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/evidence/live-run.n… (579 chars)",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-31",
+"chunk": "2026-10-08-first-live-test-and-self-drive",
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "At most one dialog is pending per instance and it appears once in the log with its id; a driver answers a question (opti… (1938 chars)",
+"notes_chars": 2503
+},
+"after": {
+"id": "v1-31",
+"chunk": "2026-10-08-first-live-test-and-self-drive",
+"status": "implemented",
+"method": "e2e",
+"ref": "viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/evidence/live-run.ndjson::dialog-question, ::dialog-permiss… (579 chars)",
+"acceptance": "At most one dialog is pending per instance and it appears once in the log with its id; a driver answers a question (opti… (1938 chars)",
+"notes_chars": 2503
+}
+}
+]

@@ -1,0 +1,11 @@
+05:18:41.218Z probe home target/e2e-home/viola-keyprobe-20261008T051841Z/home (not yet existing)
+05:18:41.236Z before: active window class overseer.viola-overseer
+05:18:41.241Z workspace switch: ok 
+05:18:41.759Z active workspace 9, empty
+05:18:41.771Z exec: ok 
+05:18:41.979Z events lines at start: 3
+05:18:42.012Z probe window found, class viola.keyprobe, workspace 9
+05:18:42.015Z wheel records at window discovery: 1
+05:18:43.533Z the new window took focus by itself: active class overseer.viola-overseer, address matches probe: no
+05:18:43.536Z wheel records after focus, before any key: 1
+05:18:43.552Z ABORT guard: active window is not the probe window (class overseer.viola-overseer); no key typed

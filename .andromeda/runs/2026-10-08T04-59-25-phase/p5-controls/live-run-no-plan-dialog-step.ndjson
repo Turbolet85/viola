@@ -1,0 +1,10 @@
+{"kind":"step","id":"snapshot","cli_version":"2.1.287","cli_verified":true}
+{"kind":"step","id":"skill-sent","exit":0,"confirmed":true}
+{"kind":"step","id":"turn-ended","exit":0}
+{"kind":"step","id":"last-read","exit":0,"non_empty":true}
+{"kind":"step","id":"review-answered","exit":0,"confirmed":true}
+{"kind":"step","id":"clear","exit":0,"confirmed":true,"new_session":true}
+{"kind":"step","id":"skill-2","exit":0,"confirmed":true}
+{"kind":"step","id":"dialog-question","raised":true,"kind_raised":"question","answer_exit":0,"decision_emitted":true,"deadline_hit":false,"wheel_records":0,"keys_typed":0,"turn_ended":true}
+{"kind":"step","id":"dialog-permission","raised":true,"kind_raised":"permission","behavior":"deny","answer_exit":0,"decision_emitted":true,"deadline_hit":false,"wheel_records":0,"keys_typed":0,"turn_ended":true}
+{"kind":"step","id":"takeover","wheel_after_focus":0,"dpms_at_key":true,"holder":"human","cause":"human-input","send_exit":10,"hint_names_release":false,"send_issued":false}

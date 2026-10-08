@@ -471,7 +471,10 @@ impl Classifier {
 }
 
 /// F-W2's closed list after `CSI`: focus (`I`/`O`), mouse (SGR `<…M|m`, urxvt `n;n;n M`), DA1
-/// (`?…c`), DA2 (`>…c`), CPR (`n;n R`), DECRPM (`?n;n $ y`) and the kitty flags reply (`?n u`).
+/// (`?…c`), DA2 (`>…c`), CPR (`n;n R`), DECRPM (`?n;n $ y`), the kitty flags reply (`?n u`), the
+/// DSR status (`0 n`), the colour scheme (`?997;1|2 n`), the window size (`4;n;n t`), the cell
+/// size (`6;n;n t`), the text area (`8;n;n t`), the in-band resize (`48;n;n;n;n t`) and the
+/// modifyOtherKeys reply (`>4;n m`).
 fn is_reply(params: &[u8], fin: u8) -> bool {
     let (prefix, rest) = match params.split_first() {
         Some((&prefix @ (b'?' | b'>' | b'<'), rest)) => (Some(prefix), rest),
@@ -493,12 +496,19 @@ fn is_reply(params: &[u8], fin: u8) -> bool {
     let numeric = numbers
         .split(|b| *b == b';')
         .all(|f| !f.is_empty() && f.iter().all(u8::is_ascii_digit));
+    let first = numbers.split(|b| *b == b';').next().unwrap_or_default();
     match (prefix, inter, fin) {
         (None, [], b'I' | b'O') => fields == 0,
         (Some(b'<'), [], b'M' | b'm') | (None, [], b'M') => fields == 3 && numeric,
         (Some(b'?' | b'>'), [], b'c') => fields == 0 || numeric,
         (None, [], b'R') | (Some(b'?'), [b'$'], b'y') => fields == 2 && numeric,
         (Some(b'?'), [], b'u') => fields == 1 && numeric,
+        (None, [], b'n') => numbers == b"0",
+        (Some(b'?'), [], b'n') => numbers == b"997;1" || numbers == b"997;2",
+        (None, [], b't') => {
+            numeric && matches!((first, fields), (b"4" | b"6" | b"8", 3) | (b"48", 5))
+        }
+        (Some(b'>'), [], b'm') => fields == 2 && numeric && first == b"4",
         _ => false,
     }
 }
@@ -515,7 +525,7 @@ mod tests {
     use crate::run::wait::WaitFeed;
 
     /// The founder's closed list (F-W2), written out: none of these is typing.
-    const REPLIES: [&[u8]; 15] = [
+    const REPLIES: [&[u8]; 23] = [
         b"\x1b[I",
         b"\x1b[O",
         b"\x1b[M\x20\x21\x21",
@@ -531,6 +541,14 @@ mod tests {
         b"\x1b]11;rgb:0000/0000/0000\x1b\\",
         b"\x1bP1$r0m\x1b\\",
         b"\x1bP>|xterm(388)\x1b\\",
+        b"\x1b[0n",
+        b"\x1b[?997;1n",
+        b"\x1b[4;675;1260t",
+        b"\x1b[6;15;6t",
+        b"\x1b[8;45;210t",
+        b"\x1b[48;45;210;675;1260t",
+        b"\x1b[>4;1m",
+        b"\x1b[?997;2n",
     ];
 
     #[rstest]
@@ -556,8 +574,48 @@ mod tests {
     #[case::enter_inside_osc(b"\x1b]11;x\r".as_slice())]
     #[case::osc_cut_by_another_escape(b"\x1b]11;x\x1b[I".as_slice())]
     #[case::reply_then_a_key(b"\x1b[Ia".as_slice())]
+    #[case::letter_n(b"n".as_slice())]
+    #[case::letter_t(b"t".as_slice())]
+    #[case::letter_m(b"m".as_slice())]
+    #[case::alt_n(b"\x1bn".as_slice())]
+    #[case::alt_t(b"\x1bt".as_slice())]
+    #[case::alt_m(b"\x1bm".as_slice())]
+    #[case::kitty_key_n(b"\x1b[110u".as_slice())]
+    #[case::kitty_key_ctrl_t(b"\x1b[116;5u".as_slice())]
+    #[case::kitty_key_m(b"\x1b[109u".as_slice())]
+    #[case::dsr_status_of_one(b"\x1b[1n".as_slice())]
+    #[case::dsr_status_of_three(b"\x1b[3n".as_slice())]
+    #[case::dsr_status_without_a_field(b"\x1b[n".as_slice())]
+    #[case::dsr_status_with_two_fields(b"\x1b[0;0n".as_slice())]
+    #[case::colour_scheme_without_question(b"\x1b[997;1n".as_slice())]
+    #[case::colour_scheme_of_996(b"\x1b[?996;1n".as_slice())]
+    #[case::colour_scheme_of_a_third_value(b"\x1b[?997;3n".as_slice())]
+    #[case::colour_scheme_with_one_field(b"\x1b[?997n".as_slice())]
+    #[case::window_size_with_two_fields(b"\x1b[4;675t".as_slice())]
+    #[case::window_report_of_nine(b"\x1b[9;45;210t".as_slice())]
+    #[case::text_area_with_question(b"\x1b[?8;45;210t".as_slice())]
+    #[case::text_area_with_four_fields(b"\x1b[8;45;210;1t".as_slice())]
+    #[case::in_band_resize_with_four_fields(b"\x1b[48;45;210;675t".as_slice())]
+    #[case::in_band_resize_of_49(b"\x1b[49;45;210;675;1260t".as_slice())]
+    #[case::sgr_attributes(b"\x1b[4;1m".as_slice())]
+    #[case::modify_other_keys_of_five(b"\x1b[>5;1m".as_slice())]
+    #[case::modify_other_keys_with_one_field(b"\x1b[>4m".as_slice())]
+    #[case::modify_other_keys_with_question(b"\x1b[?4;1m".as_slice())]
     fn classifier_typing_is_editing(#[case] bytes: &[u8]) {
         assert!(Classifier::default().feed(bytes), "{bytes:?}");
+    }
+
+    #[rstest]
+    #[case::dsr_status(b"\x1b[0n".as_slice())]
+    #[case::colour_scheme_dark(b"\x1b[?997;1n".as_slice())]
+    #[case::window_size(b"\x1b[4;675;1260t".as_slice())]
+    #[case::cell_size(b"\x1b[6;15;6t".as_slice())]
+    #[case::text_area(b"\x1b[8;45;210t".as_slice())]
+    #[case::in_band_resize(b"\x1b[48;45;210;675;1260t".as_slice())]
+    #[case::modify_other_keys(b"\x1b[>4;1m".as_slice())]
+    #[case::colour_scheme_light(b"\x1b[?997;2n".as_slice())]
+    fn classifier_terminal_reply_is_not_editing(#[case] bytes: &[u8]) {
+        assert!(!Classifier::default().feed(bytes), "{bytes:?}");
     }
 
     #[test]

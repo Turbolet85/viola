@@ -1,0 +1,4 @@
+05:18:21.314Z probe home target/e2e-home/viola-keyprobe-20261008T051821Z/home (not yet existing)
+05:18:21.333Z before: active window class overseer.viola-overseer
+05:18:21.338Z workspace switch: ok 
+05:18:21.857Z ABORT workspace 9 is not empty (active class overseer.viola-overseer); nothing launched

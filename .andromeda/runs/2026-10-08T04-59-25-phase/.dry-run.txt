@@ -1,0 +1,35 @@
+gate v1.12 · 8357110d
+shell /usr/bin/bash (from $SHELL; -c, non-login)
+root . · marker 2026-10-08-first-live-test-and-self-drive · entries 23
+logs $TMPDIR/andromeda-gate/2026-10-08-first-live-test-and-self-drive/run-20261008T062209Z · bound: GNU timeout
+delta docs 108 · unmapped 10
+walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 118
+prose L195-198: The gates are the standing lint, unit and default-selection entries, two census reads of t… (358 chars)
+prose L200-206: The live round is fired once, by /implement, through `gate.py run --live-legs`; the wrap n… (692 chars)
+prose L208-209: The pin-first reading of step 1 is a one-shot run at implement, recorded in `evidence/`, n… (164 chars)
+prose L211-213: The live entry clears the prototype's `VIOLA_NAME`, `VIOLA_DIR` and `VIOLA_BIN` from the h… (284 chars)
+prose L215-217: No mutation entry is listed (the mutation run is the epoch boundary's). The preservation g… (258 chars)
+  1 lint        not run — dry-run · cargo fmt --all --check
+  2 lint        not run — dry-run · cargo clippy --workspace --all-targets --features fake-age… (75 chars)
+  3 unit        not run — dry-run · bash scripts/agent-run.sh run --unit
+  4 probe       not run — dry-run · grep -c 'was not ready for input; viola wait' src/human.rs
+  5 probe       not run — dry-run · grep -c 'was not ready for input; send again, and if it re… (110 chars)
+  6 integration not run — dry-run · bash scripts/agent-run.sh run
+  7 probe       not run — dry-run · git diff --quiet 0dafa09a2a6f -- src/bin src/cmd src/run s… (204 chars)
+  8 smoke       not run — dry-run · bash scripts/agent-run.sh cleanup --session p-firstlive-sm… (61 chars)
+  9 smoke       not run — dry-run · bash scripts/agent-run.sh boot --session p-firstlive-smoke… (77 chars)
+ 10 smoke       not run — dry-run · bash scripts/agent-run.sh status --session p-firstlive-smo… (60 chars)
+ 11 probe       not run — dry-run · bash scripts/g2-zero-panics.sh
+ 12 probe       not run — dry-run · bash scripts/agent-run.sh schema-check
+ 13 smoke       not run — dry-run · bash scripts/agent-run.sh cleanup --session p-firstlive-sm… (61 chars)
+ 14 probe       not run — dry-run · bash scripts/agent-run.sh pre-push
+ 15 build       not run — dry-run · CARGO_TARGET_DIR=target/release-check bash scripts/release… (67 chars)
+ 16 probe       not run — leg round (the letter drives it) · "$HOME/.local/share/mise/installs/claude/2.1.287/claude" -… (66 chars)
+ 17 e2e         not run — leg live (the letter drives it) · env -u VIOLA_NAME -u VIOLA_DIR -u VIOLA_BIN PATH="$HOME/.l… (147 chars)
+ 18 probe       not run — dry-run · jq -e -s '([.[] | select(.kind == "start")]) as $s | ($s |… (779 chars)
+ 19 probe       not run — dry-run · jq -e -s '([.[] | select(.kind == "step") | .id] | unique … (1315 chars)
+ 20 probe       not run — dry-run · jq -e -s '([.[] | select(.kind == "reading") | .id] | uniq… (695 chars)
+ 21 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (90 chars)
+ 22 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (69 chars)
+ 23 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (114 chars)
+entries 23 · green 0 · red 0 · recorded 0 · timeout 0 · not-run 23
