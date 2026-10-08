@@ -1,0 +1,133 @@
+[
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "4cd6b692",
+"ts": "2026-10-08T09:38:26Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-10-08-first-live-test-and-self-drive",
+"--desc-file",
+".andromeda/runs/2026-10-08T09-10-03-wrap/master-desc.txt",
+"--run-dir",
+".andromeda/runs/2026-10-08T09-10-03-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"flip master-route.md:55 - 2026-10-08-first-live-test-and-self-drive pending -> complete - desc REWRITTEN from --desc-file"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "4cd6b692",
+"ts": "2026-10-08T09:38:26Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-08-first-live-test-and-self-drive",
+"--date",
+"2026-10-08",
+"--run-dir",
+".andromeda/runs/2026-10-08T09-10-03-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :102 strip CARRY: 1222ch \"CARRY: founder rulings R-L1 and R-L3 (li\"",
+"pin :102 strip CARRY: 966ch \"CARRY: chunk 2026-10-04-windows-boundary\"",
+"pin :102 strip CARRY: 519ch \"CARRY: split from \"Real-CLI verify probe\"",
+"pin :102 strip CARRY: 870ch \"CARRY: chunk 2026-10-05-real-cli-verify-\"",
+"pin :102 strip CARRY: 888ch \"CARRY: chunk 2026-10-07-test-homes-off-t\"",
+"pin :102 strip CARRY: 671ch \"CARRY: chunk 2026-10-07-send-waits-out-t\"",
+"pin :102 strip CARRY: 615ch \"CARRY: chunk 2026-10-07-a-send-ending-in\"",
+"pin :102 strip WATCH: 397ch 0/3 since 2026-10-07-a-send-ending-in-a-newline-is-confirmed \"WATCH: a raw coverage profile…",
+"pin next markerless :105 holds CARRY:×6",
+"102 · 2026-10-08-first-live-test-and-self-drive · strip 8 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 102,
+"marker": "2026-10-08-first-live-test-and-self-drive",
+"blocks": 8,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "4cd6b692",
+"ts": "2026-10-08T09:38:42Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-08-first-live-test-and-self-drive",
+"--date",
+"2026-10-08",
+"--run-dir",
+".andromeda/runs/2026-10-08T09-10-03-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :102 strip CARRY: 1222ch \"CARRY: founder rulings R-L1 and R-L3 (li\"",
+"pin :102 strip CARRY: 966ch \"CARRY: chunk 2026-10-04-windows-boundary\"",
+"pin :102 strip CARRY: 519ch \"CARRY: split from \"Real-CLI verify probe\"",
+"pin :102 strip CARRY: 870ch \"CARRY: chunk 2026-10-05-real-cli-verify-\"",
+"pin :102 strip CARRY: 888ch \"CARRY: chunk 2026-10-07-test-homes-off-t\"",
+"pin :102 strip CARRY: 671ch \"CARRY: chunk 2026-10-07-send-waits-out-t\"",
+"pin :102 strip CARRY: 615ch \"CARRY: chunk 2026-10-07-a-send-ending-in\"",
+"pin :102 strip WATCH: 397ch 0/3 since 2026-10-07-a-send-ending-in-a-newline-is-confirmed \"WATCH: a raw coverage profile…",
+"pin next markerless :105 holds CARRY:×6",
+"102 · 2026-10-08-first-live-test-and-self-drive · strip 8 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/route-archive.md",
+"./viola-0.1.0/working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 102,
+"marker": "2026-10-08-first-live-test-and-self-drive",
+"blocks": 8,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

@@ -41,7 +41,7 @@ _Extracted from `.andromeda/architecture.md` §Conventions by `/andromeda-setup-
 - Human text by default, `--json` for agents; the CLI adds `from` from its own `VIOLA_NAME`.
 
 ## Configuration
-- Precedence: CLI flags > `<viola home>/config.json` > built-in defaults. Home resolution: `--home` → grandparent of `VIOLA_DIR` → `~/.viola/`.
+- Precedence: CLI flags > `<viola home>/config.json` > built-in defaults. Home resolution: `--home` → grandparent of `VIOLA_DIR` → `~/.viola/` (as landed, the CLI verbs take `--home`, else the default, and only `hook` takes the `VIOLA_DIR` step; that step for the CLI verbs is owed to the route entry "CLI machine contract").
 - `config.json` is parsed tolerantly (unknown keys skipped and counted) and carries `v`; keys: budget thresholds (`Percent`, defaults five_hour 90 / seven_day 85), GUI port (47319), `diagnostics_level` (obs D-15).
 
 ## Logging

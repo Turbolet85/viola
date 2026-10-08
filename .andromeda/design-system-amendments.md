@@ -76,3 +76,8 @@
 **Change:** three sentences named the matching `prompt-submitted` as the only thing that fills the box; each now names `/clear`'s measured post-condition beside it (a new session: a `session-start` with cause `clear`). The `Readback::read` row and the web component's state sources already carried the trigger; the CLI component pattern states none. No new word: a post-condition-confirmed `/clear` prints `[RB] read back`, and the unconfirmable line uses the existing word and the open box.
 **Why:** the chunk made `send` confirm `/clear` by its post-condition, so the prompt is no longer the sole confirmer.
 **Ref:** .andromeda/runs/2026-10-06T23-49-33-wrap/
+## 2026-10-08-first-live-test-and-self-drive — the `input-not-ready` hint text
+**Section:** §Surface: cli → Component Patterns → 2 (`viola send`), the `not-delivered · input-not-ready` bullet
+**Change:** the hint reads `<name> was not ready for input; send again, and if it repeats a human must look at the session` (was: `<name> was not ready for input; viola wait <name>, then send again`). No other hint, exit code or refusal moved.
+**Why:** the founder's wording, chosen among three shown at the chunk's planning: in none of the refusal's causes is a turn running, so a `viola wait` woke on nothing.
+**Ref:** .andromeda/runs/2026-10-08T09-10-03-wrap/

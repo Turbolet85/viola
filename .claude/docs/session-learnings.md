@@ -8,6 +8,16 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-10-08 — A master names a planted literal by its home, never as `path:N`
+A probe script may plant a real path and line as a synthetic case (the G2 probe plants a panic at a line of a real source file). Written into a spec master as `path:N`, that literal has the shape of a citation of the tree: the wrap's citation sweep follows it as the code moves and would re-point it, so the master would then misstate what the probe plants. The operator ruled at the first sweep: such a case is named by the script that holds it ("a panic located in another file, at the line the script plants"), and the ground truth stays in the script. The same holds for any literal a test or probe plants: cite its home, not a line of the tree.
+
+---
+
+## 2026-10-08 — The CLI's `plansDirectory` did not move a live session's plan file
+A live `claude` 2.1.287 session started by `viola run` with `--settings` carrying `plansDirectory` (a 0700 directory beside the test home, behind the `target/e2e-home` link) wrote its plan file to the CLI's default plans directory in the user's home; the named directory stayed empty. Why the key was not honoured is not measured (hypothesis: the CLI wants the directory inside the session's working directory, as `viola verify`'s Run D has it). Until it is measured, a live session that enters plan mode leaves one CLI-written plan file in the user's home: count it among the session's residue, and do not write "nothing lands under the user's CLI directory" for such a run. viola itself writes nothing there.
+
+---
+
 ## 2026-10-07 — A tool that runs cargo while its own exe runs uses a separate CARGO_TARGET_DIR
 - 2026-09-24: A running `.exe` cannot be relinked on Windows (`os error 5`), and a workspace-wide cargo build/test re-fingerprints a package's bins even with identical features — any tool that runs cargo on this workspace while one of its own exes is running (the harness, a live supervisor or wrapper) uses a separate `CARGO_TARGET_DIR`.
 

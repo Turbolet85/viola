@@ -41,3 +41,28 @@ CLI's plan file landed in its default directory, not in the `plans/` beside the 
   evidence and inputs, the six run dirs and the bookkeeping the tree carried. 0 ahead of the upstream before it.
 - The commit, the push (entry 24) and the CI read (entry 25) are recorded below after they are made; that part
   of this file rides the next commit.
+
+## The pre-CI commit and entry 24 — the push, 08:59:27Z to 08:59:34Z
+- Hygiene read a last time right before the commit: `hygiene: clean`, read 268, the same counts.
+- `b9a20fe` `chore(2026-10-08-first-live-test-and-self-drive): operator pre-CI commit, for the run this chunk's
+  verdict reads` at 08:59:27Z (the whole tree, 278 files).
+- Entry 24: `git diff --quiet && git diff --cached --quiet && git push origin HEAD` → exit 0 at 08:59:34Z,
+  `0dafa09..b9a20fe  HEAD -> build/viola-0.1.0`; 0 ahead of the upstream after it.
+
+## Entry 25 — the CI read, 08:59:36Z to 09:07:26Z
+- `python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait
+  1800` → exit 0: `b9a20fed9b36 verdict: green · checks 15/15 · wall 465 s · runs ci#37753551312
+  completed/success`, polled 16 times over 466 s. Atoms: `exit 0` ✓, `contains verdict: green` ✓.
+- `run_attempt`, read from the run itself (`gh api …/actions/runs/37753551312`): **1**. Event `push`, head
+  `b9a20fed9b36`, started 08:59:36Z, completed 09:07:25Z, conclusion `success`. The final sha is green on its
+  first attempt.
+- Its fifteen jobs, each `success`: `lint`, `test`, `release` and `perf` on `windows-2025`, `macos-latest` and
+  `ubuntu-latest`; `supply-chain`, `msrv`, `fuzz-replay`.
+- For the wrap's tally of the coverage-profile watch: the `test (ubuntu-latest)` job of this run is one more
+  green run of its subject, and so are the three local `pre-push` runs of this session (coverage 1747/1747
+  each). No red of it was met.
+
+## After the pass
+- No fix commit was made: `b9a20fe` is the final sha of the pass.
+- The tree after it carries two files for the next commit: this record's last three sections and the CI read's
+  trail in the run dir. No source file is among them.

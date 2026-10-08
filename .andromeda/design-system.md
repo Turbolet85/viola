@@ -761,7 +761,7 @@ hint: builder did not submit the prompt; check it, then send again
   - `unverified-cli`: `run viola verify for this CLI version`
   - `not-delivered · turn-running`: `a turn is running; viola wait <name> first`
   - `not-delivered · control-character`: `the text contains a control character (only LF, CR, TAB are allowed)`
-  - `not-delivered · input-not-ready`: `<name> was not ready for input; viola wait <name>, then send again`
+  - `not-delivered · input-not-ready`: `<name> was not ready for input; send again, and if it repeats a human must look at the session`
   - `not-delivered · no-prompt-submitted`: `<name> did not submit the prompt; check it, then send again` (the sample above)
   - `not-delivered · unknown-dialog`: `that dialog is not pending; viola list shows the current DIALOG`
   - `instance-unreachable` (exit 21) has one hint per cause, because the code is shared (T4):

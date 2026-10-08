@@ -134,7 +134,7 @@ _Justification: web-spa carries about 11 assertable entities (inside Standard's 
     - **Constraint on Lighthouse and pa11y:** Overseer Direction 1 says "no second browser stack". [resolved: both attach only through a second automation client, so both are dropped — Section 3 → A11y testing tool pick; Decisions Log D-A11Y-05.]
     - **Other reach inside the same driver:** role-based locators, the `document.title` assertion, and forced-colors / reduced-motion media emulation (design excerpt, Focus ring tokens → forced-colors fallback; Motion tokens → reduced-motion override).
   - **Manual verification (supplemental):**
-    - NVDA with Edge/Chrome on Windows, the live-supported target (arch excerpt, Surfaces → Platforms; design excerpt, Surfaces → "Edge/Chrome first").
+    - NVDA with Edge/Chrome on Windows, the first target (arch excerpt, Surfaces → Platforms; design excerpt, Surfaces → "Edge/Chrome first").
     - VoiceOver with Safari on macOS.
     - Orca with Firefox/Chromium on Linux.
     - A Windows forced-colors pass.

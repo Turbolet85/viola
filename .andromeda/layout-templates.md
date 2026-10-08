@@ -412,7 +412,7 @@ $ viola send builder < step4.txt
 $ viola send builder < clear.txt
 [  ] open           builder  issued 19:44:31.007Z
 [/ ] unable         builder  not-delivered  input-not-ready       <- stderr, exit 13 (SIGNATURE: struck)
-hint: builder was not ready for input; viola wait builder, then send again   <- stderr, the last line
+hint: builder was not ready for input; send again, and if it repeats a human must look at the session   <- stderr, the last line
 
 $ viola send builder < remote.txt
 [  ] open           builder  issued 19:46:12.001Z

@@ -21,7 +21,7 @@ viola is a standalone, cross-platform (Windows first) bridge that lets one inter
 - **`viola-core`** — normalised event kinds, `RefusalReason`, `ViolaName`, `Percent`, `v` constants, `validate_paste_text`, `MAX_FRAME`, `SPINE_DEADLINE`, `DIALOG_DEADLINE`, the `Clock` seam, `obs_event!`
 - **`viola-pty`** — PTY seam (spawn · read · write · resize · wait · kill) over portable-pty `=0.8.1`; `PasteHandle`, the child's input shared by the human copy and the one-write bracketed paste; `host_stdin` (Windows: viola's own console reader, `^Z` kept); knows no agent; Windows `sideload` (System32 DLL-search restriction + absolute-path pre-load of the vendored `conpty.dll`)
 - **`viola-channel`** — JSON-RPC 2.0 over ndjson on interprocess local sockets; sync client/server, Tokio client behind a feature
-- **`viola-state`** — ndjson logs, atomic snapshots, `.lock` siblings, the `events.ndjson` reader (torn-line healing owed to route `:101`), tailing, liveness, strict-modes
+- **`viola-state`** — ndjson logs, atomic snapshots, `.lock` siblings, the `events.ndjson` reader (torn-line healing owed to route `:105`), tailing, liveness, strict-modes
 - **`viola-agent-claude`** — the only crate that knows Claude: hook parsing, dialog mapping, R8 strip, shim resolution, capability ledger, the vt100 screen model and readiness verdict
 - **`viola-mcp`** — rmcp 3.4.1 stdio server, tools `send · wait · last · answer · list` (Tokio)
 - **`viola-ui`** — axum 0.8.9 GET routes + SSE on 127.0.0.1, Host allowlist, cookie gate, embedded React + TypeScript page (its toolchain lands with the frontend-toolchain chunk) (Tokio)
@@ -82,7 +82,7 @@ Branching: one long-lived build branch per version (`build/viola-X.Y.Z`); main i
 <!-- GENERATED:setup:architecture start -->
 viola is mechanism, not policy: it carries typed input, answers dialogs when told to, logs everything and holds the wheel, but never decides what to answer — driver-side policy (Andromeda's decision rights included) stays outside the binary. Every behaviour of the `claude` CLI it relies on is a measured, version-stamped capability-ledger row; on an unverified CLI build viola degrades to transport-only and every send is confirmed after the fact (`prompt-submitted` read-back or a ledger post-condition), never presumed.
 
-There is no daemon: each `viola run` owns one local-socket endpoint (named pipe / per-user Unix socket), every other verb is a separate process, and the shared truth is the disk — ndjson append logs and atomic snapshots that survive a crash on either side. It is a modular monolith: one binary around compiler-enforced crates (`pty · channel · state · agent-claude · mcp · ui` around `core`), built and CI-tested on Windows, macOS and Linux from the first commit, with Windows the live-supported target.
+There is no daemon: each `viola run` owns one local-socket endpoint (named pipe / per-user Unix socket), every other verb is a separate process, and the shared truth is the disk — ndjson append logs and atomic snapshots that survive a crash on either side. It is a modular monolith: one binary around compiler-enforced crates (`pty · channel · state · agent-claude · mcp · ui` around `core`), built and CI-tested on Windows, macOS and Linux from the first commit, with Windows the first target (the first live run was on the Linux dev host).
 
 **Primary source:** `.andromeda/architecture.md` (the pointer table's row — not imported; read explicitly where a step needs it).
 <!-- GENERATED:setup:architecture end -->

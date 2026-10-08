@@ -1,0 +1,69 @@
+# The cascade sweep's pattern set, derived from every amendment of this pass before the first grep.
+
+[[pattern]]
+id = "hint-old"
+fixed = 'viola wait <name>, then send again'
+
+[[pattern]]
+id = "hint-old-b"
+fixed = 'viola wait builder, then send again'
+
+[[pattern]]
+id = "hint-advice"
+regex = 'input-not-ready[^.]{0,160}(viola wait|unchanged|open for the founder)'
+
+[[pattern]]
+id = "hint-open"
+regex = 'hint (line|wording)[^.]{0,120}(open|still open|unchanged)'
+
+[[pattern]]
+id = "list-closed"
+regex = 'DA1, DA2, CPR, DECRPM|DECRPM `CSI \? n;n \$ y`, kitty flags'
+
+[[pattern]]
+id = "list-replies"
+regex = '[Tt]erminal repl(y|ies)'
+
+[[pattern]]
+id = "f-w2"
+fixed = 'F-W2'
+
+[[pattern]]
+id = "owed-live"
+regex = 'owed to "First live test|owed to .First live test|First live test and self-drive'
+
+[[pattern]]
+id = "unmeasured-live"
+regex = '[Uu]nmeasured on a live CLI|unmeasured since the build|live proof is owed|proved at the unit layer only'
+
+[[pattern]]
+id = "trailing"
+regex = 'trailing CR|only newlines|ending in newlines'
+
+[[pattern]]
+id = "win-live"
+regex = 'live-supported target|Windows live'
+
+[[pattern]]
+id = "viola-dir-step"
+regex = 'grandparent of `VIOLA_DIR`|VIOLA_DIR[^.]{0,80}(every CLI verb|nested CLI)'
+
+[[pattern]]
+id = "local-live"
+regex = 'local-live'
+
+[[pattern]]
+id = "default-all"
+regex = 'default (selection )?is `--all`'
+
+[[pattern]]
+id = "real-cli-local"
+regex = '[Ll]ocal[- ]only[^.]{0,60}(viola verify|--local-live)|real CLI is local-only'
+
+[[pattern]]
+id = "probe-literal"
+regex = 'hook\.rs:9|panic located in another file'
+
+[[pattern]]
+id = "route-101"
+regex = 'working-route\.md`?:10[15]|route `:101`|`:101`'

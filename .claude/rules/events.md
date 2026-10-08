@@ -31,7 +31,7 @@ Path-scoped rules for viola's event log and state: the normalised event kinds, t
 - Heartbeat touched every 1 s. A snapshot pid that is dead, or alive with another start time, is `gone` whatever the beat; otherwise a beat ≤ 5 s old is `live`, an older or absent one `stale`. Never a bare pid.
 
 ## Parsing
-- Readers heal a torn last line and count it (as landed, the one reader `events::read_from` skips it unreturned and unrewritten; healing lands with route `:101`); unknown kinds and fields are skipped and counted (`skipped`), never fatal. External payloads parse tolerantly (`#[serde(default)]`, `Option<T>`, no `deny_unknown_fields`), with serde_path_to_error drift reports going to the instance detail file only.
+- Readers heal a torn last line and count it (as landed, the one reader `events::read_from` skips it unreturned and unrewritten; healing lands with route `:105`); unknown kinds and fields are skipped and counted (`skipped`), never fatal. External payloads parse tolerantly (`#[serde(default)]`, `Option<T>`, no `deny_unknown_fields`), with serde_path_to_error drift reports going to the instance detail file only.
 - Lock files are separate siblings (`<name>.lock`): append + exclusive lock fails on Windows.
 - Timestamps via chrono `to_rfc3339_opts(SecondsFormat::Millis, true)`; malformed external values become `"unknown"`, never an error. JSON fields snake_case, enum values kebab-case.
 

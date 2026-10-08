@@ -1,0 +1,146 @@
+[
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bd649850",
+"ts": "2026-10-08T09:38:11Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-08-first-live-test-and-self-drive",
+"--run-dir",
+".andromeda/runs/2026-10-08T09-10-03-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-10-08-first-live-test-and-self-drive: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v1-31 → verified — At most one dialog is pending per instance and it appears once in the log with i… (1938 chars)",
+"dry-run: nothing written",
+"version: verified 16/53"
+],
+"stderr": null,
+"wrote": [],
+"before": [
+{
+"id": "v1-31",
+"chunk": "2026-10-08-first-live-test-and-self-drive",
+"status": "implemented",
+"method": "e2e",
+"ref": "viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/evidence/live-run.ndjson::dialog-question, ::dialog-permiss… (579 chars)",
+"acceptance": "At most one dialog is pending per instance and it appears once in the log with its id; a driver answers a question (opti… (1938 chars)",
+"notes_chars": 2503
+}
+],
+"after": [
+{
+"id": "v1-31",
+"chunk": "2026-10-08-first-live-test-and-self-drive",
+"status": "verified",
+"method": "e2e",
+"ref": "viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/evidence/live-run.ndjson::dialog-question, ::dialog-permiss… (579 chars)",
+"acceptance": "At most one dialog is pending per instance and it appears once in the log with its id; a driver answers a question (opti… (1938 chars)",
+"notes_chars": 2503
+}
+]
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bd649850",
+"ts": "2026-10-08T09:38:11Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-08-first-live-test-and-self-drive",
+"--run-dir",
+".andromeda/runs/2026-10-08T09-10-03-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-10-08-first-live-test-and-self-drive: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v1-31 → verified — At most one dialog is pending per instance and it appears once in the log with i… (1938 chars)",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed",
+"version: verified 16/53"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": [
+{
+"id": "v1-31",
+"chunk": "2026-10-08-first-live-test-and-self-drive",
+"status": "implemented",
+"method": "e2e",
+"ref": "viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/evidence/live-run.ndjson::dialog-question, ::dialog-permiss… (579 chars)",
+"acceptance": "At most one dialog is pending per instance and it appears once in the log with its id; a driver answers a question (opti… (1938 chars)",
+"notes_chars": 2503
+}
+],
+"after": [
+{
+"id": "v1-31",
+"chunk": "2026-10-08-first-live-test-and-self-drive",
+"status": "verified",
+"method": "e2e",
+"ref": "viola-0.1.0/chunks/2026-10-08-first-live-test-and-self-drive/evidence/live-run.ndjson::dialog-question, ::dialog-permiss… (579 chars)",
+"acceptance": "At most one dialog is pending per instance and it appears once in the log with its id; a driver answers a question (opti… (1938 chars)",
+"notes_chars": 2503
+}
+]
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bd649850",
+"ts": "2026-10-08T09:38:11Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-32",
+"--text-file",
+".andromeda/runs/2026-10-08T09-10-03-wrap/note-v1-32.md",
+"--run-dir",
+".andromeda/runs/2026-10-08T09-10-03-wrap",
+"--marker",
+"2026-10-08-first-live-test-and-self-drive"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-32: +934 chars (total 2757) · status verified · ref/acceptance untouched",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-32",
+"chunk": "2026-10-04-the-wheel",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/tui_wheel.rs::{path5_human_takes_the_wheel_and_release_returns_it, path5_harness_turns_never_take_the_wheel, tui_f… (316 chars)",
+"acceptance": "In `tests/tui_wheel.rs` and `tests/cli_wheel.rs`, on all three CI OSes (the run id read by the operator pass's `ci.py co… (1279 chars)",
+"notes_chars": 1821
+},
+"after": {
+"id": "v1-32",
+"chunk": "2026-10-04-the-wheel",
+"status": "verified",
+"method": "e2e",
+"ref": "tests/tui_wheel.rs::{path5_human_takes_the_wheel_and_release_returns_it, path5_harness_turns_never_take_the_wheel, tui_f… (316 chars)",
+"acceptance": "In `tests/tui_wheel.rs` and `tests/cli_wheel.rs`, on all three CI OSes (the run id read by the operator pass's `ci.py co… (1279 chars)",
+"notes_chars": 2757
+}
+}
+]
