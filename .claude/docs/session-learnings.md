@@ -8,6 +8,26 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-10-07 — A tool that runs cargo while its own exe runs uses a separate CARGO_TARGET_DIR
+- 2026-09-24: A running `.exe` cannot be relinked on Windows (`os error 5`), and a workspace-wide cargo build/test re-fingerprints a package's bins even with identical features — any tool that runs cargo on this workspace while one of its own exes is running (the harness, a live supervisor or wrapper) uses a separate `CARGO_TARGET_DIR`.
+
+---
+
+## 2026-10-07 — Git Bash parameter expansion deletes forward slashes: normalise separators with tr
+- 2026-09-24: Under Git Bash `${var//\\//}` deletes forward slashes instead of mapping backslashes to them — normalise path separators with `tr '\\' '/'`.
+
+---
+
+## 2026-10-07 — A path a native Windows tool reads is written as pwd -W
+- 2026-09-24: Git Bash `pwd` prints `/d/...`, which a native Windows tool reads as `D:\d\...`; write any path a native tool will read (a Cargo manifest `path =`, `$GITHUB_PATH`) as `pwd -W`, falling back to `pwd` off Windows.
+
+---
+
+## 2026-10-07 — Probe a tool with type: a gate's non-login bash holds no shell function
+- 2026-09-27: In the interactive Git Bash `rg` is a shell function, so `command -v rg` answers yes while a gate's non-login bash has no `rg` at all — probe a tool with `type`, and put a pinned tool on PATH inside the command that needs it.
+
+---
+
 ## 2026-10-04 — Naming the process behind a truncated coverage profile
 When `llvm-profdata merge` refuses a `.profraw` ("file header is corrupt") and no test home survived to name the dead process, the file itself can. A raw profile is header, data records, counters, then the names section last. A file cut short inside its names section (it is smaller than its siblings of the same binary signature, the `%m` hash in the file name, by less than the names size) keeps every counter. Parse the version-10 header (16 little-endian u64s), take each 64-byte data record's name hash and counter count, and match the name hashes (the low 64 bits of the MD5 of each mangled function name) against the names a complete sibling lists under `llvm-profdata show --all-functions`. The functions with nonzero counters name what the process was doing. Then compare the file's mtime with the archived JUnit test windows to find the test. Here, that showed a `viola hook` killed during its exit-time profile dump, not the wrapper the earlier hypothesis blamed. Extended 2026-10-07: the method needs the refused file itself, and a CI run keeps none (the harness upload takes `target/agent-run/`, the profiles sit in `target/llvm-cov-target/`), so for a red read from a CI run the writer cannot be named this way: measure the mechanism on the dev host instead, and state the writer's identity as not proven.
 

@@ -1,0 +1,4 @@
+# Dropped by the host re-seed — .claude/rules/host-win32.md, verbatim
+
+- 2026-09-24: Stopping a Monitor/background task leaves its `tail.exe`/`grep.exe` running and holding their files open, which blocks renames of that directory (cargo-mutants' `mutants.out` → `.old`): watch tool output with a handle-free poll (`cat` per interval), never `tail -F`, and stop leftovers by verified pid. Extended 2026-09-26: the session's rust-analyzer holds a repo-root `mutants.out` the same way and restarts after every edit. [corrected 2026-09-27: `run --mutants` on this host now writes `mutants.out` to the host mutation scratch beside the repository, so rust-analyzer need not be stopped first — three pre-pushes and two scoped runs ran with it running]
+- 2026-09-25: Stop a process by its exact `ExecutablePath` (`Get-CimInstance Win32_Process`), never by a command-line substring: the stopping shell's own command line carries the substring, so it gets killed too.

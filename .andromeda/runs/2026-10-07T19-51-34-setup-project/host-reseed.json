@@ -1,0 +1,18 @@
+{
+  "leaf_md5": "3a7d7ee5fd4397db346ae6d134cac067",
+  "date": "2026-10-07",
+  "entries": [
+    {"n": 1, "lines": [90, 90], "to": "learnings", "title": "A tool that runs cargo while its own exe runs uses a separate CARGO_TARGET_DIR", "why": "mixed: the relink refusal is Windows-only, the rule still binds the windows-2025 CI leg; the harness rule's body already carries the target/harness form, so the rule-file route would duplicate it"},
+    {"n": 2, "lines": [91, 91], "to": "drop", "why": "old host only: tail.exe / grep.exe holding files open and blocking a rename is Windows handle semantics, and its correction describes the Windows host's mutation scratch"},
+    {"n": 3, "lines": [92, 92], "to": "keep", "why": "live on any host (grep prints no file prefix for a one-file glob), 196 B"},
+    {"n": 4, "lines": [93, 93], "to": "learnings", "title": "Git Bash parameter expansion deletes forward slashes: normalise separators with tr", "why": "mixed: names Git Bash, and the repository's scripts still run under Git Bash on the windows-2025 CI leg"},
+    {"n": 5, "lines": [94, 94], "to": "learnings", "title": "A path a native Windows tool reads is written as pwd -W", "why": "mixed: names Git Bash and native Windows tools, live in ci.yml and two scripts that run on the windows-2025 CI leg"},
+    {"n": 6, "lines": [95, 95], "to": "drop", "why": "old host only: a PowerShell Get-CimInstance recipe; the linux leaf's template carries this host's form of the rule (pgrep -f / pkill -f self-match)"},
+    {"n": 7, "lines": [96, 96], "to": "learnings", "title": "Probe a tool with type: a gate's non-login bash holds no shell function", "why": "mixed: names the interactive Git Bash, the directive (probe with type, PATH inside the command) is live on any host"},
+    {"n": 8, "lines": [97, 97], "to": "keep", "why": "live on this host (the doubled-backslash and heredoc-to-a-file refusals were met again at the last chunk), names no host, 545 B"},
+    {"n": 9, "lines": [98, 98], "to": ".claude/rules/verification-harness.md", "why": "a mutation leg recipe (harness driver class): its sibling TMPDIR rule already stands in that file's Session Additions; 493 B; carries the Linux dev host fact with the Windows one"},
+    {"n": 10, "lines": [99, 99], "to": "keep", "why": "a Linux dev host fact, live, 279 B"},
+    {"n": 11, "lines": [100, 100], "to": "keep", "why": "live on any host (a denied removal is not rerouted), 355 B"},
+    {"n": 12, "lines": [101, 101], "to": "keep", "why": "live on any host (a backgrounded command's output file), 269 B"}
+  ]
+}
