@@ -1,0 +1,199 @@
+[
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "d45f2ad1",
+"ts": "2026-10-09T18:23:58Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"./viola-0.1.0/chunks/2026-10-09-inner-cr-and-crlf-in-a-sent-text",
+"--message-file",
+"./.andromeda/runs/2026-10-09T18-22-18-phase/relay-1.md",
+"--origin",
+"the operator, the arguments of the /andromeda-phase invocation, 2026-10-09 (before 18:22Z)",
+"--kind",
+"relay",
+"--why",
+"the founder cap of 2 live claude starts on 2.1.287 by path for this chunk (one planned after-change confirmation, one spare; the before-change readings not re-taken), the rig named, the gate-entry rule, the one-window size and the P4 card rule",
+"--step",
+"phase:P1",
+"--run-dir",
+"./.andromeda/runs/2026-10-09T18-22-18-phase",
+"--marker",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy message · message: the operator, the arguments of the /andromeda-phase invocation, 2026-10-09 (before 18:22Z)",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, the arguments of the /andromeda-phase invocation, 2026-10-09 (before 18:22Z)",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "1ad3d2bfd28fba135867685d2dbeed400138a1719d76f1da1b9361bcf95bf1af",
+"copy": "I1-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-09T18:23:58Z",
+"step": "phase:P1",
+"why": "the founder cap of 2 live claude starts on 2.1.287 by path for this chunk (one planned after-change confirmation, one spare; the before-change readings not re-taken), the rig named, the gate-entry rule, the one-window size and the P4 card rule"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "d45f2ad1",
+"ts": "2026-10-09T18:40:19Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-09-inner-cr-and-crlf-in-a-sent-text",
+"--message-file",
+".andromeda/runs/2026-10-09T18-22-18-phase/relay-2.md",
+"--origin",
+"the overseer, in the P4 dialog of this phase session, 2026-10-09",
+"--kind",
+"relay",
+"--why",
+"the P4 card on the unmeasured inner LF, answered: a live control reading in the planned start, no ledger row, nothing widened, nothing ruled on the reach of v1-34, the row stays owed beside its two",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-10-09T18-22-18-phase",
+"--marker",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: the overseer, in the P4 dialog of this phase session, 2026-10-09",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer, in the P4 dialog of this phase session, 2026-10-09",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "249eeb69b14ef164ad96c01be090373faec8febb6e96824ed804581182b84e4c",
+"copy": "I2-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-09T18:40:19Z",
+"step": "phase:P4",
+"why": "the P4 card on the unmeasured inner LF, answered: a live control reading in the planned start, no ledger row, nothing widened, nothing ruled on the reach of v1-34, the row stays owed beside its two"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "d45f2ad1",
+"ts": "2026-10-09T18:47:23Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-09-inner-cr-and-crlf-in-a-sent-text",
+"--run-dir",
+".andromeda/runs/2026-10-09T18-22-18-phase",
+"--marker",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the arguments of the /andromeda-phase invocation, 2026-10-09 (before 18:22Z)",
+"I1 cited scope.md:8 · scope.md:87 · scope.md:119 · scope.md:158 · research.md:16 · plan.md:10 · plan.md:138 · plan.md:211 · plan.md:428 · plan.md:448 · plan.md:469",
+"I2 n/a — a message has no live source · copy message · message: the overseer, in the P4 dialog of this phase session, 2026-10-09",
+"I2 cited scope.md:58 · scope.md:156 · research.md:18 · research.md:172 · plan.md:26 · plan.md:150 · plan.md:188 · plan.md:428 · plan.md:433 · plan.md:448 · plan.md:466 · plan.md:494 · plan.md:510",
+"UNPARSED: inputs#I9 — no entry (scope.md:22)",
+"UNPARSED: inputs#I10 — no entry (scope.md:23)",
+"inputs: 2 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 2"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 2
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "d45f2ad1",
+"ts": "2026-10-09T18:47:50Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-09-inner-cr-and-crlf-in-a-sent-text",
+"--run-dir",
+".andromeda/runs/2026-10-09T18-22-18-phase",
+"--marker",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the arguments of the /andromeda-phase invocation, 2026-10-09 (before 18:22Z)",
+"I1 cited scope.md:8 · scope.md:88 · scope.md:120 · scope.md:159 · research.md:16 · plan.md:10 · plan.md:138 · plan.md:211 · plan.md:428 · plan.md:448 · plan.md:470",
+"I2 n/a — a message has no live source · copy message · message: the overseer, in the P4 dialog of this phase session, 2026-10-09",
+"I2 cited scope.md:59 · scope.md:157 · research.md:18 · research.md:172 · plan.md:26 · plan.md:150 · plan.md:188 · plan.md:428 · plan.md:433 · plan.md:448 · plan.md:467 · plan.md:495 · plan.md:511",
+"inputs: 2 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]

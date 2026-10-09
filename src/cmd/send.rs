@@ -319,6 +319,12 @@ mod tests {
     #[case::a_tab_is_content("\t", None)]
     #[case::a_refused_character_then_a_crlf("\u{1b}\r\n", Some(NotDelivered::ControlCharacter))]
     #[case::a_refused_character_alone("\u{7f}", Some(NotDelivered::ControlCharacter))]
+    #[case::an_inner_cr_is_content("x\ry", None)]
+    #[case::crs_and_an_lf_with_a_cr_last("\r\r\n\r", Some(NotDelivered::EmptyText))]
+    #[case::a_refused_character_beside_an_inner_crlf(
+        "x\r\ny\u{1b}",
+        Some(NotDelivered::ControlCharacter)
+    )]
     fn refusal_of_reads_a_refused_character_before_an_empty_text(
         #[case] text: &str,
         #[case] refusal: Option<NotDelivered>,

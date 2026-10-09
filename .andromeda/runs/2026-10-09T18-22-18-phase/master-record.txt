@@ -1,0 +1,1 @@
+2026-10-09-inner-cr-and-crlf-in-a-sent-text · pending · Inner CR and CRLF in a sent text — a CR or a CRLF inside a driver's text is typed as the LF the CLI submits, so the send is confirmed and the driver keeps the wheel · → viola-0.1.0/chunks/2026-10-09-inner-cr-and-crlf-in-a-sent-text/

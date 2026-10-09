@@ -1,10 +1,11 @@
 //! The wrapper's `send` (architecture [Delivery Confirmation]): the text re-validated, the wheel,
 //! one send in flight, the readiness gate, `send-issued` at the pre-paste cursor, one bracketed paste + Enter,
 //! then confirmation after the fact — the matching `prompt-submitted`, relabelled `driver`, inside
-//! the window — or `not-delivered`. The text is validated as received and typed without its
-//! trailing CR and LF characters (`typed_text`; the founder's rulings of 2026-10-07T15:21Z and
-//! 2026-10-09): the list, the paste, `text_bytes` and the exact match all read that one typed
-//! text, and a typed text with nothing in it is refused `empty-text` before the wheel is read. A text that is
+//! the window — or `not-delivered`. The text is validated as received and typed with every CR LF
+//! pair and every other CR as one LF and without its trailing CR and LF characters (`typed_text`;
+//! the founder's rulings of 2026-10-07T15:21Z, 2026-10-09 and 2026-10-09T16:51Z): the list, the
+//! paste, `text_bytes` and the exact match all read that one typed text, which holds no CR,
+//! and a typed text with nothing in it is refused `empty-text` before the wheel is read. A text that is
 //! exactly a compiled local command fires no prompt: one with a post-condition measured on this
 //! CLI version is confirmed by it inside the same window, any other is `unconfirmable` at once.
 //! Each outcome is an `events.ndjson` record and a codes-only `send-*` line; the text reaches
@@ -320,7 +321,8 @@ pub(crate) fn send(
     if let Err(detail) = viola_core::validate_paste_text(text) {
         return ctx.not_delivered(None, detail);
     }
-    let text = typed_text(text);
+    let typed = typed_text(text);
+    let text: &str = &typed;
     if text.is_empty() {
         return ctx.not_delivered(None, NotDelivered::EmptyText);
     }
@@ -759,6 +761,12 @@ mod tests {
         "not-delivered",
         Some("empty-text")
     )]
+    #[case::control_character_beside_an_inner_crlf(
+        "x\r\ny\u{1b}",
+        Setup::NoChild,
+        "not-delivered",
+        Some("control-character")
+    )]
     #[case::control_character_before_human_typing(
         "x\u{1b}[201~",
         Setup::PausedInFlight,
@@ -971,6 +979,85 @@ mod tests {
         confirmed_as(&format!("{CANARY}{tail}"), CANARY, "human");
     }
 
+    /// A CR or a CR LF inside a text is typed as one LF, and the prompt the hook reports for the
+    /// typed text is the send's own: one paste of the typed text, the prompt relabelled `driver`,
+    /// the send confirmed, the wheel left with the driver.
+    #[rstest]
+    #[case::one_crlf_inside(
+        "canary-chain-value-5c1e\r\nsecond line",
+        "canary-chain-value-5c1e\nsecond line"
+    )]
+    #[case::one_lone_cr_inside(
+        "canary-chain-value-5c1e\rsecond line",
+        "canary-chain-value-5c1e\nsecond line"
+    )]
+    #[case::two_crs_in_a_row(
+        "canary-chain-value-5c1e\r\rsecond line",
+        "canary-chain-value-5c1e\n\nsecond line"
+    )]
+    #[case::an_lf_before_a_cr(
+        "canary-chain-value-5c1e\n\rsecond line",
+        "canary-chain-value-5c1e\n\nsecond line"
+    )]
+    #[case::crlf_on_every_line_with_a_crlf_ending(
+        "canary-chain-value-5c1e\r\nsecond line\r\nthird line\r\n",
+        "canary-chain-value-5c1e\nsecond line\nthird line"
+    )]
+    fn send_text_whose_inner_cr_is_one_lf_is_typed_and_confirmed(
+        #[case] sent: &str,
+        #[case] typed: &str,
+    ) {
+        confirmed_as(sent, typed, "human");
+    }
+
+    /// The claim has no tolerance on the submitted side. While a text with an inner CR is in
+    /// flight, typed with an LF there, a prompt that still holds the CR is not the typed text: it
+    /// is appended as the hook filed it, the human it names takes the wheel, and the send waits on
+    /// to its window.
+    #[rstest]
+    #[case::a_crlf_inside("canary-chain-value-5c1e\r\nsecond line")]
+    #[case::a_lone_cr_inside("canary-chain-value-5c1e\rsecond line")]
+    fn send_a_prompt_that_keeps_the_cr_while_its_inner_cr_is_one_lf_claims_nothing(
+        #[case] sent: &str,
+    ) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let base = Instant::now();
+        let (clock, jumping) = SwitchClock::at(base);
+        let slot = SendSlot::new(clock, false, Arc::default());
+        let (pastes, pasted) = Pastes::new();
+        slot.attach(pastes.paste_fn(), quiet_gate(base));
+        let params = json!({"v": 1, "text": sent});
+        let (filed, waiting, reply) = std::thread::scope(|s| {
+            let sending = s.spawn(|| send(&slot, &name(), tmp.path(), &call(&params, 1)));
+            pasted.recv().expect("pasted");
+            let appended = append_hook_event(&slot, &feed(), tmp.path(), prompt(sent, "human"));
+            let filed = events(tmp.path()).last().cloned();
+            let waiting = matches!(
+                slot.flight().send.as_ref().map(|f| &f.state),
+                Some(Match::Waiting)
+            );
+            jumping.store(true, std::sync::atomic::Ordering::SeqCst);
+            let reply = sending.join().expect("send thread");
+            appended.expect("hook");
+            (filed, waiting, reply)
+        });
+        assert_eq!(pastes.all(), ["canary-chain-value-5c1e\nsecond line"]);
+        assert_eq!(
+            filed.expect("the prompt's line")["data"],
+            json!({"text": sent, "origin": "human"})
+        );
+        assert!(waiting, "the send still waits for its own prompt");
+        assert_eq!(
+            reply.expect("answered"),
+            json!({"refusal": "not-delivered", "detail": "no-prompt-submitted"})
+        );
+        assert_eq!(
+            kinds(tmp.path()),
+            ["send-issued", "prompt-submitted", "send-refused"]
+        );
+        assert_eq!(slot.wheel.holder(), Wheel::Human);
+    }
+
     /// A typed text with nothing in it is refused first after `control-character`: before the
     /// wheel, the slot and the child are read. Nothing is reserved, issued or typed, and the
     /// refusal's record holds no cursor. The child here takes every paste, so a text that got
@@ -980,6 +1067,7 @@ mod tests {
     #[case::one_lf("\n")]
     #[case::one_crlf("\r\n")]
     #[case::two_crs("\r\r")]
+    #[case::a_crlf_then_a_cr("\r\n\r")]
     fn send_empty_text_is_refused_first_after_control_character(#[case] text: &str) {
         let tmp = tempfile::tempdir().expect("tempdir");
         let (slot, pastes) = mute_child();

@@ -1,0 +1,62 @@
+[
+{
+"tool": "gate",
+"v": "1.13",
+"sha8": "3718c868",
+"ts": "2026-10-09T18:38:32Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"viola-0.1.0/chunks/2026-10-09-inner-cr-and-crlf-in-a-sent-text/research.md",
+"--run-dir",
+".andromeda/runs/2026-10-09T18-22-18-phase",
+"--marker",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 4 items (new 0 · modify 4 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 4,
+"unparsed": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.13",
+"sha8": "3718c868",
+"ts": "2026-10-09T18:47:51Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"viola-0.1.0/chunks/2026-10-09-inner-cr-and-crlf-in-a-sent-text/research.md",
+"--run-dir",
+".andromeda/runs/2026-10-09T18-22-18-phase",
+"--marker",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 4 items (new 0 · modify 4 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 4,
+"unparsed": 0
+}
+}
+]

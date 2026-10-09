@@ -1,0 +1,57 @@
+[
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "d45f2ad1",
+"ts": "2026-10-09T19:17:53Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-09-inner-cr-and-crlf-in-a-sent-text",
+"--message-file",
+".andromeda/runs/2026-10-09T19-17-41-phase/relay-1.md",
+"--origin",
+"the operator, the phase invocation of the revision, 2026-10-09",
+"--kind",
+"relay",
+"--why",
+"implement stopped on its plan: the revision takes tests/channel_paste_validation.rs out of the preservation guard and into the files to modify with the companion edit as its step, and step 12 reads the loaded sections equal with the file-hash difference recorded as not explained; the live readings and the rehearsal stand, no start is made, the re-entry fires the whole block and runs the operator pass",
+"--step",
+"phase:P3",
+"--run-dir",
+".andromeda/runs/2026-10-09T19-17-41-phase",
+"--marker",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I5 · copy message · message: the operator, the phase invocation of the revision, 2026-10-09",
+"cite: inputs#I5"
+],
+"stderr": null,
+"wrote": [
+"inputs/I5-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I5",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, the phase invocation of the revision, 2026-10-09",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "b9cf2358d2ddb433ba140c826cb24d60215e6ab423636712da3a970d9d4a560f",
+"copy": "I5-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-09T19:17:53Z",
+"step": "phase:P3",
+"why": "implement stopped on its plan: the revision takes tests/channel_paste_validation.rs out of the preservation guard and into the files to modify with the companion edit as its step, and step 12 reads the loaded sections equal with the file-hash difference recorded as not explained; the live readings and the rehearsal stand, no start is made, the re-entry fires the whole block and runs the operator pass"
+}
+}
+]

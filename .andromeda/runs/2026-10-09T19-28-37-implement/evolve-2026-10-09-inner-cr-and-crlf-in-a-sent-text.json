@@ -1,0 +1,42 @@
+[
+{
+"tool": "evolve",
+"v": "1.1",
+"sha8": "9d4071c3",
+"ts": "2026-10-09T19:29:50Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-09T19-28-37-implement",
+"--marker",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"appended 1 record(s) · friction-log.ndjson lines 1506→1507 · bytes 1500648→1501550 · term lf",
+"ts 2026-10-09T19:29:43Z · clock 2026-10-09T19:29:50Z · bound 2026-10-09T19:27:29Z (line 1506)",
+"ids 2026-10-09T19:29:43Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 1506,
+"bytes": 1500648,
+"terminator": "LF",
+"bound": "2026-10-09T19:27:29Z"
+},
+"after": {
+"lines": 1507,
+"bytes": 1501550
+}
+}
+]

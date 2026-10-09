@@ -1,0 +1,57 @@
+[
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "d45f2ad1",
+"ts": "2026-10-09T19:29:28Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-09-inner-cr-and-crlf-in-a-sent-text",
+"--message-file",
+".andromeda/runs/2026-10-09T19-28-37-implement/relay-1.md",
+"--origin",
+"the operator, the implement invocation of the re-entry, 2026-10-09",
+"--kind",
+"relay",
+"--why",
+"the re-entry at step 12 of the revised plan: the section reading, the whole block fired, then the operator pass driven by the implementer with the ci.py conclusion read and the attempt number read from the run; no live start; a red where no assertion failed on a value is read against the backing and hostwatch.py first, never re-run for green",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-10-09T19-28-37-implement",
+"--marker",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I6 · copy message · message: the operator, the implement invocation of the re-entry, 2026-10-09",
+"cite: inputs#I6"
+],
+"stderr": null,
+"wrote": [
+"inputs/I6-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I6",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, the implement invocation of the re-entry, 2026-10-09",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "750472c60ddd45a5306d7388e3bfe4ae7cc5eaad620087ab59a80657bd6db63f",
+"copy": "I6-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-09T19:29:28Z",
+"step": "implement",
+"why": "the re-entry at step 12 of the revised plan: the section reading, the whole block fired, then the operator pass driven by the implementer with the ci.py conclusion read and the attempt number read from the run; no live start; a red where no assertion failed on a value is read against the backing and hostwatch.py first, never re-run for green"
+}
+}
+]

@@ -2,6 +2,8 @@
 //! event (architecture §Conventions Hook → kind map; §Standard Contracts Event `data` per kind).
 //! Upstream text is content: it is copied into `data` field by field, never interpreted.
 
+use std::borrow::Cow;
+
 use serde::Deserialize;
 use serde_json::{Value, json};
 use viola_core::EventKind;
@@ -191,9 +193,11 @@ pub(crate) fn prompt_text(raw: &str) -> String {
     unescape_tags(&unwrap_pastes(raw))
 }
 
-/// A sent text as `send` types it: without its trailing CR and LF characters, every one of them in
-/// any order, and with nothing else removed (no TAB or space, no CR or LF that is not at the very
-/// end). Measured on 2.1.287: the CLI drops a pasted text's newline ending before
+/// A sent text as `send` types it: every CR LF pair as one LF, every other CR as one LF, and
+/// without its trailing CR and LF characters, every one of them in any order. It holds no CR, and
+/// nothing else changes (no TAB or space goes, and no LF that is not at the very end).
+///
+/// The ending. Measured on 2.1.287: the CLI drops a pasted text's newline ending before
 /// UserPromptSubmit, so a text typed with it comes back short of the text `send` matches. One LF,
 /// on a verified and an unverified home (chunk
 /// 2026-10-07-live-rows-and-paste-shapes-on-the-dev-host: `evidence/hint-window.md` step 7,
@@ -201,11 +205,25 @@ pub(crate) fn prompt_text(raw: &str) -> String {
 /// 2026-10-08-first-live-test-and-self-drive: `evidence/live-readings.ndjson`, `trailing-cr`); one
 /// CRLF and two CRs (chunk 2026-10-09-epoch-3-cleanup: `evidence/live-readings.ndjson`,
 /// `trailing-crlf` and `trailing-cr-cr`). The width is every trailing CR and LF, so the typed text
-/// never ends in one and what the CLI does with a longer run is not leaned on. The founder's
-/// rulings, live: 2026-10-07T15:21Z for LF and 2026-10-09 for CR and CRLF, the options shown to
-/// him each time (architecture.md [Delivery Confirmation]).
-pub fn typed_text(text: &str) -> &str {
-    text.trim_end_matches(['\r', '\n'])
+/// never ends in one and what the CLI does with a longer run is not leaned on.
+///
+/// Inside the text. Measured on 2.1.287 before the rule (chunk 2026-10-09-epoch-3-cleanup:
+/// `evidence/live-readings.ndjson`, `after-inner-crlf` and `after-inner-cr`): the CLI submits a
+/// pasted text's inner CR LF as one LF and its lone inner CR as one LF, so a text typed with the
+/// CR comes back unequal to the text `send` matches. The typed text carries that LF itself: no
+/// `send` types a CR, and none leans on what the CLI does with one. Confirmed with the rule (chunk
+/// 2026-10-09-inner-cr-and-crlf-in-a-sent-text, the same file: `rule-inner-crlf`, `rule-inner-cr`,
+/// `rule-inner-cr-cr`, `rule-inner-lf-cr`, `rule-crlf-lines`, and `rule-inner-lf` for a typed LF).
+/// The founder's rulings, live, the options shown each time: 2026-10-07T15:21Z for a trailing LF,
+/// 2026-10-09 for a trailing CR, 2026-10-09T16:51Z, relayed, for a CR inside (architecture.md
+/// [Delivery Confirmation]).
+pub fn typed_text(text: &str) -> Cow<'_, str> {
+    let text = text.trim_end_matches(['\r', '\n']);
+    if text.contains('\r') {
+        Cow::Owned(text.replace("\r\n", "\n").replace('\r', "\n"))
+    } else {
+        Cow::Borrowed(text)
+    }
 }
 
 const PASTE_OPEN: &str = "<pasted_content id=\"";
@@ -657,9 +675,9 @@ mod tests {
         assert_eq!(got.data["text"], text.as_str());
     }
 
-    /// Only the CR and LF characters at the very end go, every one of them in any order; every
-    /// other byte stays where it is. The `measured` labels name the chunk whose live reading on
-    /// 2.1.287 found the CLI submitting that ending's text without it.
+    /// The CR and LF characters at the very end go, every one of them in any order; an LF, a TAB
+    /// or a space that is not at the very end stays where it is. The `measured` labels name the
+    /// chunk whose live reading on 2.1.287 found the CLI submitting that ending's text without it.
     #[rstest]
     #[case::one("x\n", "x")]
     #[case::three("x\n\n\n", "x")]
@@ -671,18 +689,41 @@ mod tests {
     #[case::only_newlines("\n\n", "")]
     #[case::only_crs_and_lfs("\r\n\r\r\n", "")]
     #[case::an_inner_newline("x\ny", "x\ny")]
-    #[case::an_inner_cr("x\ry", "x\ry")]
-    #[case::an_inner_crlf("x\r\ny", "x\r\ny")]
     #[case::a_space_after_it("x\n ", "x\n ")]
     #[case::a_tab_after_it("x\n\t", "x\n\t")]
-    #[case::a_tab_after_a_crlf("x\r\n\t", "x\r\n\t")]
     #[case::none("x", "x")]
     #[case::empty("", "")]
-    fn typed_text_drops_every_trailing_newline_and_nothing_else(
-        #[case] sent: &str,
-        #[case] typed: &str,
-    ) {
+    fn typed_text_drops_every_trailing_newline(#[case] sent: &str, #[case] typed: &str) {
         assert_eq!(super::typed_text(sent), typed);
+    }
+
+    /// A CR LF pair inside the text is one LF and every other CR is one LF, wherever it stands;
+    /// an LF before a CR is not a pair, so it stays beside that CR's LF. The `measured` labels
+    /// name the chunk whose live reading on 2.1.287 found the CLI submitting that shape as one LF.
+    #[rstest]
+    #[case::one_crlf_inside_measured_2026_10_09_epoch_3_cleanup("x\r\ny", "x\ny")]
+    #[case::one_lone_cr_inside_measured_2026_10_09_epoch_3_cleanup("x\ry", "x\ny")]
+    #[case::two_crs_in_a_row("x\r\ry", "x\n\ny")]
+    #[case::an_lf_before_a_cr("x\n\ry", "x\n\ny")]
+    #[case::a_cr_before_a_crlf("x\r\r\ny", "x\n\ny")]
+    #[case::crlf_on_every_line_with_a_crlf_ending("a\r\nb\r\nc\r\n", "a\nb\nc")]
+    #[case::a_tab_after_a_crlf("x\r\n\t", "x\n\t")]
+    #[case::a_cr_as_the_first_character("\rx", "\nx")]
+    #[case::an_inner_cr_with_a_trailing_cr("x\ry\r", "x\ny")]
+    #[case::no_cr("x\ny z", "x\ny z")]
+    fn typed_text_every_inner_cr_is_one_lf(#[case] sent: &str, #[case] typed: &str) {
+        assert_eq!(super::typed_text(sent), typed);
+    }
+
+    /// A text with no CR left inside it once its ending is gone is typed as a slice of the
+    /// received text; only a text with an inner CR is copied.
+    #[test]
+    fn typed_text_copies_only_a_text_with_an_inner_cr() {
+        assert!(matches!(
+            super::typed_text("x\ny\r\n"),
+            Cow::Borrowed("x\ny")
+        ));
+        assert!(matches!(super::typed_text("x\ry"), Cow::Owned(_)));
     }
 
     /// Two harness-prefix readings on 2.1.287: a `<task-notification>` typed at a prompt's very
@@ -740,6 +781,38 @@ mod tests {
             Just("<task-notification>".to_owned()),
         ];
         prop::collection::vec(piece, 0..12).prop_map(|pieces| pieces.concat())
+    }
+
+    /// A received text built from the pieces that matter to the typed text: short words, TAB,
+    /// LF, CR and CR LF.
+    fn received_text() -> impl Strategy<Value = String> {
+        let piece = prop_oneof![
+            "[a-z ]{0,4}",
+            Just("\t".to_owned()),
+            Just("\n".to_owned()),
+            Just("\r".to_owned()),
+            Just("\r\n".to_owned()),
+        ];
+        prop::collection::vec(piece, 0..12).prop_map(|pieces| pieces.concat())
+    }
+
+    /// The typed text's rule as the test's own walk over the received characters: a CR is an LF,
+    /// an LF right after a CR is that CR's own and adds nothing, and the LFs left at the end go.
+    fn every_cr_as_one_lf(received: &str) -> String {
+        let mut out = String::with_capacity(received.len());
+        let mut after_cr = false;
+        for c in received.chars() {
+            match c {
+                '\r' => out.push('\n'),
+                '\n' if after_cr => {}
+                other => out.push(other),
+            }
+            after_cr = c == '\r';
+        }
+        while out.ends_with('\n') {
+            out.pop();
+        }
+        out
     }
 
     fn one_of_the_events() -> impl Strategy<Value = HookEvent> {
@@ -819,6 +892,23 @@ mod tests {
             let submitted = normalise(HookEvent::UserPromptSubmit, bytes.as_bytes()).expect("object");
             prop_assert_eq!(&submitted.data["text"], &json!(prompt));
             prop_assert!(start.drift.is_empty() && submitted.drift.is_empty());
+        }
+
+        /// The typed text holds no CR and no LF ending, holds nothing the received text did not
+        /// hold except an LF, equals the walk's reading, and passes the paste validation whenever
+        /// the received text does.
+        #[test]
+        fn typed_text_prop_holds_no_cr_and_every_inner_cr_is_one_lf(received in received_text()) {
+            let typed = super::typed_text(&received);
+            let typed: &str = &typed;
+            prop_assert!(!typed.contains('\r'));
+            prop_assert!(!typed.ends_with('\n'));
+            prop_assert!(typed.chars().all(|c| c == '\n' || received.contains(c)));
+            let walked = every_cr_as_one_lf(&received);
+            prop_assert_eq!(typed, walked.as_str());
+            if viola_core::validate_paste_text(&received).is_ok() {
+                prop_assert!(viola_core::validate_paste_text(typed).is_ok());
+            }
         }
 
         /// Escape the typed text as the CLI does, wrap it in the CLI's pair with one newline after

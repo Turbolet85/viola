@@ -365,6 +365,124 @@ fn send_text_ending_in_newlines_is_typed_without_them_and_confirmed(#[case] tail
     wrapper.stop();
 }
 
+/// A text with a CR or a CR LF inside it is typed with one LF there and confirmed (architecture
+/// [Delivery Confirmation]). The fake agent echoes what it is typed, so the exit code and the
+/// records are a floor: the receipt's bytes, which hold no CR, and the prompt's `text` are what
+/// tell the typed text from the sent one. The wheel stays with the driver, so the next send is
+/// typed too.
+#[rstest]
+#[case::one_crlf_inside(
+    format!("{CANARY} inner cr\r\nline two"),
+    format!("{CANARY} inner cr\nline two"),
+    41
+)]
+#[case::one_lone_cr_inside(
+    format!("{CANARY} inner cr\rline two"),
+    format!("{CANARY} inner cr\nline two"),
+    41
+)]
+#[case::crlf_on_every_line_with_a_crlf_ending(
+    format!("{CANARY} inner cr\r\nline two\r\nline three\r\n"),
+    format!("{CANARY} inner cr\nline two\nline three"),
+    52
+)]
+fn send_text_whose_inner_cr_is_one_lf_is_typed_with_lf_and_confirmed(
+    #[case] sent: String,
+    #[case] typed: String,
+    #[case] text_bytes: u64,
+) {
+    let wrapper = boot(Some(PATH3), &[]);
+    let dir = wrapper.instance_dir();
+    let home = wrapper.home().to_path_buf();
+    let l = end_offset(&dir);
+
+    let json_mode = send(&home, &["builder", "--json"], &sent);
+    assert_eq!(json_mode.code, Some(0), "stderr: {}", json_mode.stderr);
+    assert!(
+        json_mode.stderr.is_empty(),
+        "--json writes nothing on stderr"
+    );
+    assert_eq!(json_mode.stdout.lines().count(), 1, "one JSON document");
+    let doc: Value = serde_json::from_str(&json_mode.stdout).expect("one JSON document");
+    assert_eq!(doc["v"], 1);
+    assert_eq!(doc["ok"]["cursor"], l);
+    let submitted_at = doc["ok"]["submitted_at"].as_str().expect("submitted_at");
+    assert!(is_ms_utc(submitted_at), "{submitted_at}");
+
+    let prompts = prompts_at_least(&wrapper.receipt(), 1);
+    assert_eq!(prompts.len(), 1, "exactly one prompt typed");
+    let hex = prompts[0]["hex"].as_str().expect("the typed bytes");
+    let bytes = fake::unhex(hex);
+    assert!(!bytes.contains(&b'\r'), "a CR was typed: {hex}");
+    assert_eq!(bytes, typed.as_bytes());
+    assert_eq!(prompts[0]["text"], typed.as_str());
+
+    let records = records_after(&dir, l);
+    let kinds: Vec<&Value> = records.iter().map(|r| &r["kind"]).collect();
+    assert_eq!(kinds, ["send-issued", "prompt-submitted", "send-confirmed"]);
+    assert_eq!(
+        records[1]["data"],
+        json!({"text": typed, "origin": "driver"})
+    );
+    assert_eq!(records[1]["ts"], submitted_at);
+
+    let role = support::ndjson::read_lines(&home.join("diagnostics").join("run-builder.ndjson"));
+    let line = |event: &str| -> Value {
+        let found: Vec<&Value> = role.iter().filter(|r| r["event"] == event).collect();
+        assert_eq!(found.len(), 1, "one {event} line");
+        found[0].clone()
+    };
+    let (issued, confirmed) = (line("send-issued"), line("send-confirmed"));
+    assert_eq!(issued["text_bytes"], text_bytes);
+    assert_eq!(issued["corr"], l);
+    assert_eq!(confirmed["corr"], l);
+    assert_eq!(confirmed["confirmed"], true);
+    for file in ["run-builder.ndjson", "cli-builder.ndjson"] {
+        let bytes = std::fs::read(home.join("diagnostics").join(file)).expect("role file");
+        assert!(
+            !String::from_utf8_lossy(&bytes).contains(CANARY),
+            "{file} holds the sent text"
+        );
+    }
+
+    end_turn(&wrapper);
+    // Human mode, another inner CR: not refused `human-typing`, the read-back line alone.
+    let l2 = end_offset(&dir);
+    assert!(
+        records_after(&dir, l)
+            .iter()
+            .all(|r| r["kind"] != "wheel" && r["kind"] != "send-refused"),
+        "the wheel never moved and nothing was refused"
+    );
+    let human = send(
+        &home,
+        &["builder"],
+        &format!("{CANARY} again\r\nline two\rline three"),
+    );
+    assert_eq!(human.code, Some(0), "stderr: {}", human.stderr);
+    assert!(human.stderr.is_empty(), "{}", human.stderr);
+    let lines: Vec<&str> = human.stdout.lines().collect();
+    assert_eq!(lines.len(), 1);
+    let prefix = "[RB] read back      builder  ";
+    assert!(lines[0].starts_with(prefix), "{}", lines[0]);
+    assert!(
+        lines[0].ends_with(&format!("  cursor {l2}")),
+        "{}",
+        lines[0]
+    );
+    let prompts = prompts_at_least(&wrapper.receipt(), 2);
+    assert_eq!(prompts.len(), 2);
+    assert_eq!(
+        prompts[1]["text"],
+        format!("{CANARY} again\nline two\nline three").as_str()
+    );
+    assert!(
+        !fake::unhex(prompts[1]["hex"].as_str().expect("the typed bytes")).contains(&b'\r'),
+        "a CR was typed by the second send"
+    );
+    wrapper.stop();
+}
+
 /// A text with nothing left to type is refused at once by the client, before any frame
 /// (architecture §Conventions, Error handling schema): exit 13, the struck mirror line and its
 /// hint in human mode, one refusal document with `--json`. The wrapper is live and never hears of

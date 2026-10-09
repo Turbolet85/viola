@@ -1,0 +1,100 @@
+[
+{
+"sql": "SELECT callee, caller_name, file, line FROM calls WHERE callee_name = 'typed_text' AND callee_kind = 'fn' ORDER BY file, line;",
+"rows": 6,
+"result": [
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 hook/typed_text().",
+"caller_name": "typed_text_drops_every_trailing_newline_and_nothing_else",
+"file": "crates/viola-agent-claude/src/hook.rs",
+"line": 684
+},
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 hook/tests/typed_text().",
+"caller_name": "prompt_text_prop_round_trips_a_wrapped_paste",
+"file": "crates/viola-agent-claude/src/hook.rs",
+"line": 828
+},
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 hook/typed_text().",
+"caller_name": "send",
+"file": "src/cmd/send.rs",
+"line": 16
+},
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 hook/typed_text().",
+"caller_name": "refusal_of",
+"file": "src/cmd/send.rs",
+"line": 193
+},
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 hook/typed_text().",
+"caller_name": "send",
+"file": "src/run/send.rs",
+"line": 19
+},
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 hook/typed_text().",
+"caller_name": "send",
+"file": "src/run/send.rs",
+"line": 322
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT callee, file, line FROM refs WHERE callee_name = 'typed_text' ORDER BY file, line;",
+"rows": 6,
+"result": [
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 hook/typed_text().",
+"file": "crates/viola-agent-claude/src/hook.rs",
+"line": 684
+},
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 hook/tests/typed_text().",
+"file": "crates/viola-agent-claude/src/hook.rs",
+"line": 828
+},
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 hook/typed_text().",
+"file": "src/cmd/send.rs",
+"line": 16
+},
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 hook/typed_text().",
+"file": "src/cmd/send.rs",
+"line": 193
+},
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 hook/typed_text().",
+"file": "src/run/send.rs",
+"line": 19
+},
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 hook/typed_text().",
+"file": "src/run/send.rs",
+"line": 322
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT from_crate, to_crate FROM crate_edges WHERE to_crate = 'viola-agent-claude' OR from_crate = 'viola-agent-claude';",
+"rows": 2,
+"result": [
+{
+"from_crate": "viola",
+"to_crate": "viola-agent-claude"
+},
+{
+"from_crate": "viola-agent-claude",
+"to_crate": "viola-core"
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

@@ -1,8 +1,9 @@
 //! The wrapper re-runs the paste validator (security-plan §Input Validation, "Paste text"; test-plan
 //! §5 Wrapper channel): a raw channel client that skips `viola send`'s own check still gets each
 //! control class refused `not-delivered / control-character`, with nothing typed and no
-//! `send-issued`; LF, CR, TAB and multibyte text are typed whole. A text with nothing left to type
-//! is refused `not-delivered / empty-text` by the wrapper the same way.
+//! `send-issued`; LF, CR, TAB and multibyte text are accepted, typed whole but for an inner CR,
+//! which is typed as one LF (architecture [Delivery Confirmation]). A text with nothing left to
+//! type is refused `not-delivered / empty-text` by the wrapper the same way.
 
 #[allow(dead_code)]
 mod support;
@@ -153,6 +154,7 @@ fn channel_paste_accepts_lf_cr_tab_and_multibyte() {
     let wrapper = boot();
     let dir = wrapper.instance_dir();
     let text = format!("{CANARY}\nline\rcarriage\ttab é 中 🙂");
+    let typed = format!("{CANARY}\nline\ncarriage\ttab é 中 🙂");
     let reply = request(&dir, &text);
     assert!(reply["result"]["ok"]["cursor"].is_u64(), "{reply}");
     // The agent receipts its prompt once the hook returns, which can be after the reply.
@@ -161,7 +163,7 @@ fn channel_paste_accepts_lf_cr_tab_and_multibyte() {
     });
     let prompts = of_kind(&receipt, "prompt");
     assert_eq!(prompts.len(), 1);
-    assert_eq!(prompts[0]["text"], text.as_str());
+    assert_eq!(prompts[0]["text"], typed.as_str());
     assert_eq!(prompts[0]["bare_esc"], false);
     wrapper.stop();
 }

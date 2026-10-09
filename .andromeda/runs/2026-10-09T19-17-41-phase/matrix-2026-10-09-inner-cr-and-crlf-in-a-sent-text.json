@@ -1,0 +1,59 @@
+[
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bd649850",
+"ts": "2026-10-09T19:26:22Z",
+"argv": [
+"coverage",
+"--dir",
+"viola-0.1.0",
+"--run-dir",
+".andromeda/runs/2026-10-09T19-17-41-phase",
+"--marker",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"verified 16/53 · deferred 0 · planned 37 · implemented 0 · unclaimed 37",
+"unclaimed: v1-01 v1-02 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-17 v1-18 v1-21 v1-22 v1-24 v1-26",
+"          v1-27 v1-33 v1-34 v1-35 v1-36 v1-37 v1-38 v1-39 v1-40 v1-41 v1-42 v1-44 v1-45 v1-46 v1-47 v1-48",
+"          v1-49 v1-50 v1-51 v1-52 v1-53",
+"claimed-unfinished: none",
+"done-test: NO — 37 not verified|deferred · unclaimed 37",
+"chunks referenced: 16 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bd649850",
+"ts": "2026-10-09T19:26:22Z",
+"argv": [
+"audit",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text",
+"--plan",
+"viola-0.1.0/chunks/2026-10-09-inner-cr-and-crlf-in-a-sent-text/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-09T19-17-41-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-10-09-inner-cr-and-crlf-in-a-sent-text: 0 · ## Acceptance Criteria: line 459, 68 lines",
+"pool: unclaimed 37 [v1-01 v1-02 v1-03 v1-04 v1-05 v1-07 v1-09 v1-10 v1-11 v1-13 v1-17 v1-18 v1-21 v1-22 v1-24 v1-26 v1-27 v1-33 v1-34 v1-35 v1-36 v1-37 v1-38 v1-39 v1-40 v1-41 v1-42 v1-44 v1-45 v1-46 v1-47 v1-48 v1-49 v1-50 v1-51 v1-52 v1-53]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]
