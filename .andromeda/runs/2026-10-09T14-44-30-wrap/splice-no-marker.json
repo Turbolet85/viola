@@ -1,0 +1,41 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1bc626dd",
+"ts": "2026-10-09T14:57:27Z",
+"argv": [
+"append",
+"--file",
+".andromeda/a11y-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-09T14-44-30-wrap/a11y-plan-entry.md",
+"--lines",
+"5",
+"--run-dir",
+".andromeda/runs/2026-10-09T14-44-30-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append a11y-plan-amendments.md:+5 at line 107 · lines 106→111 · bytes 16039→17214 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-09T14-44-30-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/a11y-plan-amendments.md"
+],
+"before": {
+"lines": 106,
+"bytes": 16039,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 111,
+"bytes": 17214
+}
+}
+]

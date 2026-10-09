@@ -1,0 +1,804 @@
+{
+ "unit": "viola",
+ "unit_state": "complete 1047/1047",
+ "score": 99.33,
+ "score_formula": "caught/(caught+missed)",
+ "counts": {
+  "mutants": 1047,
+  "caught": 886,
+  "missed": 6,
+  "not_measured": 9,
+  "timeout": 0,
+  "unviable": 146
+ },
+ "tool_totals": {
+  "total_mutants": 1047,
+  "caught": 886,
+  "missed": 15,
+  "timeout": 0,
+  "unviable": 146,
+  "success": 0
+ },
+ "timing": {
+  "scope": "unit",
+  "planned": 1047,
+  "tested": 1047,
+  "wall_s": 16623,
+  "jobs": 1,
+  "cap_s": 22798
+ },
+ "start_time": "2026-10-08T11:02:00.433806082Z",
+ "end_time": "2026-10-08T15:39:03.618213797Z",
+ "baseline": {
+  "summary": "Success",
+  "phases": [
+   [
+    "Build",
+    14.394091823
+   ],
+   [
+    "Test",
+    38.766923641
+   ]
+  ]
+ },
+ "host": "x86_64-unknown-linux-gnu",
+ "survivors": [
+  [
+   "src/bin/viola-fake-agent.rs:328:9",
+   "replace Agent::close_hooks with ()"
+  ],
+  [
+   "src/bin/viola-fake-agent.rs:437:74",
+   "replace == with != in Agent::run_hook"
+  ],
+  [
+   "src/bin/viola-fake-agent.rs:473:46",
+   "replace && with || in Agent::submit"
+  ],
+  [
+   "src/bin/viola-fake-agent.rs:473:57",
+   "replace == with != in Agent::submit"
+  ],
+  [
+   "src/cmd/mod.rs:133:5",
+   "replace cli_sink -> Option<DetailSink> with None"
+  ],
+  [
+   "src/cmd/hook.rs:214:72",
+   "replace > with >= in handle_dialog"
+  ]
+ ],
+ "not_measured": [
+  [
+   "src/panic_frames.rs:37:5",
+   "replace raw_frames -> Vec<usize> with vec![]",
+   "cfg(windows)"
+  ],
+  [
+   "src/panic_frames.rs:37:5",
+   "replace raw_frames -> Vec<usize> with vec![0]",
+   "cfg(windows)"
+  ],
+  [
+   "src/panic_frames.rs:37:5",
+   "replace raw_frames -> Vec<usize> with vec![1]",
+   "cfg(windows)"
+  ],
+  [
+   "src/panic_frames.rs:50:5",
+   "replace module_of -> Option<(String, usize)> with None",
+   "cfg(windows)"
+  ],
+  [
+   "src/panic_frames.rs:50:5",
+   "replace module_of -> Option<(String, usize)> with Some((String::new(), 0))",
+   "cfg(windows)"
+  ],
+  [
+   "src/panic_frames.rs:50:5",
+   "replace module_of -> Option<(String, usize)> with Some((String::new(), 1))",
+   "cfg(windows)"
+  ],
+  [
+   "src/panic_frames.rs:50:5",
+   "replace module_of -> Option<(String, usize)> with Some((\"xyzzy\".into(), 0))",
+   "cfg(windows)"
+  ],
+  [
+   "src/panic_frames.rs:50:5",
+   "replace module_of -> Option<(String, usize)> with Some((\"xyzzy\".into(), 1))",
+   "cfg(windows)"
+  ],
+  [
+   "src/panic_frames.rs:55:79",
+   "replace == with != in module_of",
+   "cfg(windows)"
+  ]
+ ],
+ "timeouts": [],
+ "unviable_sites": [
+  [
+   "src/bin/viola-fake-agent.rs:187:9",
+   "replace Receipt::open -> Self with Default::default()"
+  ],
+  [
+   "src/bin/viola-fake-agent.rs:224:5",
+   "replace parse_script -> Option<Vec<Step>> with Some(vec![Default::default()])"
+  ],
+  [
+   "src/bin/viola-fake-agent.rs:348:9",
+   "replace Agent::fire_answered -> Fired with Default::default()"
+  ],
+  [
+   "src/bin/viola-fake-agent.rs:591:9",
+   "replace Input::feed -> Vec<Action> with vec![Default::default()]"
+  ],
+  [
+   "src/bin/viola-fake-agent.rs:621:9",
+   "replace Input::plain -> Vec<Action> with vec![Default::default()]"
+  ],
+  [
+   "src/bin/viola-fake-agent.rs:655:5",
+   "replace script_steps -> Option<Vec<Step>> with Some(vec![Default::default()])"
+  ],
+  [
+   "src/main.rs:91:5",
+   "replace role_of -> Role with Default::default()"
+  ],
+  [
+   "src/cmd/mod.rs:133:5",
+   "replace cli_sink -> Option<DetailSink> with Some(Default::default())"
+  ],
+  [
+   "src/obs.rs:44:5",
+   "replace open_private_append -> io::Result<File> with Ok(Default::default())"
+  ],
+  [
+   "src/obs.rs:75:5",
+   "replace open_role_file -> io::Result<Arc<File>> with Ok(Arc::new(Default::default()))"
+  ],
+  [
+   "src/obs.rs:171:5",
+   "replace read_diagnostics_level -> (Level, Option<ConfigRejection>) with (Default::default(), None)"
+  ],
+  [
+   "src/obs.rs:171:5",
+   "replace read_diagnostics_level -> (Level, Option<ConfigRejection>) with (Default::default(), Some(Default::default()))"
+  ],
+  [
+   "src/obs.rs:183:5",
+   "replace parse_diagnostics_level -> (Level, Option<ConfigRejection>) with (Default::default(), None)"
+  ],
+  [
+   "src/obs.rs:183:5",
+   "replace parse_diagnostics_level -> (Level, Option<ConfigRejection>) with (Default::default(), Some(Default::default()))"
+  ],
+  [
+   "src/run/mod.rs:110:5",
+   "replace child_launch -> ChildLaunch with Default::default()"
+  ],
+  [
+   "src/cmd/answer.rs:46:5",
+   "replace read_response -> Option<Response> with Some(Default::default())"
+  ],
+  [
+   "src/cmd/answer.rs:48:27",
+   "replace > with < in read_response"
+  ],
+  [
+   "src/cmd/client.rs:46:5",
+   "replace reply_of -> Option<Reply> with Some(Default::default())"
+  ],
+  [
+   "src/cmd/client.rs:83:5",
+   "replace answer_of -> anyhow::Result<Result<Reply, &'static str>> with Ok(Ok(Default::default()))"
+  ],
+  [
+   "src/cmd/client.rs:106:5",
+   "replace own_name -> Option<ViolaName> with Some(Default::default())"
+  ],
+  [
+   "src/cmd/hook.rs:51:5",
+   "replace spine_deadline -> Instant with Default::default()"
+  ],
+  [
+   "src/cmd/hook.rs:51:13",
+   "replace + with * in spine_deadline"
+  ],
+  [
+   "src/cmd/hook.rs:59:5",
+   "replace dialog_deadline -> Instant with Default::default()"
+  ],
+  [
+   "src/cmd/hook.rs:59:31",
+   "replace + with * in dialog_deadline"
+  ],
+  [
+   "src/cmd/hook.rs:59:13",
+   "replace + with * in dialog_deadline"
+  ],
+  [
+   "src/cmd/hook.rs:73:5",
+   "replace instance_of -> Option<Instance> with Some(Default::default())"
+  ],
+  [
+   "src/cmd/hook.rs:254:5",
+   "replace ask -> Asked with Default::default()"
+  ],
+  [
+   "src/cmd/hook.rs:276:5",
+   "replace replied -> Asked with Default::default()"
+  ],
+  [
+   "src/cmd/hook.rs:360:5",
+   "replace capture -> Option<Filed> with Some(Default::default())"
+  ],
+  [
+   "src/cmd/hook.rs:373:5",
+   "replace file_from -> Option<Filed> with Some(Default::default())"
+  ],
+  [
+   "src/cmd/last.rs:65:9",
+   "replace && with || in show"
+  ],
+  [
+   "src/cmd/run.rs:45:5",
+   "replace parse_name -> Result<ViolaName, String> with Ok(Default::default())"
+  ],
+  [
+   "src/cmd/run.rs:90:9",
+   "replace Methods::hook_event_line -> Option<EventLine> with Some(Default::default())"
+  ],
+  [
+   "src/cmd/run.rs:178:5",
+   "replace start -> anyhow::Result<Started> with Ok(Default::default())"
+  ],
+  [
+   "src/cmd/run.rs:287:5",
+   "replace refused -> Started with Default::default()"
+  ],
+  [
+   "src/cmd/run.rs:294:5",
+   "replace collision_check -> Option<Started> with Some(Default::default())"
+  ],
+  [
+   "src/cmd/run.rs:315:5",
+   "replace pin_and_plugin -> anyhow::Result<Option<(Pinned, PathBuf)>> with Ok(Some((Default::default(), Default::default())))"
+  ],
+  [
+   "src/cmd/run.rs:392:5",
+   "replace bind_endpoint -> anyhow::Result<Option<(String, Server)>> with Ok(Some((String::new(), Default::default())))"
+  ],
+  [
+   "src/cmd/run.rs:392:5",
+   "replace bind_endpoint -> anyhow::Result<Option<(String, Server)>> with Ok(Some((\"xyzzy\".into(), Default::default())))"
+  ],
+  [
+   "src/cmd/run.rs:414:5",
+   "replace start_state -> anyhow::Result<(Heartbeat, InstanceSnapshot)> with Ok((Default::default(), Default::default()))"
+  ],
+  [
+   "src/cmd/run.rs:455:5",
+   "replace spawn_child -> anyhow::Result<(PortablePty, Option<HostTerminal>, Size)> with Ok((Default::default(), None, Default::default()))"
+  ],
+  [
+   "src/cmd/run.rs:455:5",
+   "replace spawn_child -> anyhow::Result<(PortablePty, Option<HostTerminal>, Size)> with Ok((Default::default(), Some(Default::default()), Default::default()))"
+  ],
+  [
+   "src/cmd/send.rs:41:5",
+   "replace parse_name -> Result<ViolaName, String> with Ok(Default::default())"
+  ],
+  [
+   "src/cmd/send.rs:78:27",
+   "replace > with < in read_text"
+  ],
+  [
+   "src/cmd/send.rs:96:5",
+   "replace reason_of -> RefusalReason with Default::default()"
+  ],
+  [
+   "src/cmd/verify.rs:225:52",
+   "delete ! in measure"
+  ],
+  [
+   "src/cmd/verify.rs:250:5",
+   "replace dirs -> typed::RunDirs<'_> with Default::default()"
+  ],
+  [
+   "src/cmd/verify.rs:260:9",
+   "replace ProbeDir::create -> anyhow::Result<Self> with Ok(Default::default())"
+  ],
+  [
+   "src/cmd/verify.rs:329:5",
+   "replace read_captures -> Vec<Capture> with vec![Default::default()]"
+  ],
+  [
+   "src/cmd/verify.rs:355:5",
+   "replace check_rows -> Vec<(LedgerRow, bool)> with vec![(Default::default(), true)]"
+  ],
+  [
+   "src/cmd/verify.rs:355:5",
+   "replace check_rows -> Vec<(LedgerRow, bool)> with vec![(Default::default(), false)]"
+  ],
+  [
+   "src/run/dialog.rs:93:9",
+   "replace Raise::parse -> Result<Self, ProtocolError> with Ok(Default::default())"
+  ],
+  [
+   "src/run/dialog.rs:172:9",
+   "replace DialogSlot::state -> MutexGuard<'_, State> with MutexGuard::new()"
+  ],
+  [
+   "src/run/dialog.rs:172:9",
+   "replace DialogSlot::state -> MutexGuard<'_, State> with MutexGuard::from_iter([Default::default()])"
+  ],
+  [
+   "src/run/dialog.rs:172:9",
+   "replace DialogSlot::state -> MutexGuard<'_, State> with MutexGuard::new(Default::default())"
+  ],
+  [
+   "src/run/dialog.rs:172:9",
+   "replace DialogSlot::state -> MutexGuard<'_, State> with MutexGuard::from(Default::default())"
+  ],
+  [
+   "src/run/dialog.rs:185:13",
+   "replace && with || in DialogSlot::hook_dialog"
+  ],
+  [
+   "src/run/dialog.rs:198:13",
+   "replace && with || in DialogSlot::hook_dialog"
+  ],
+  [
+   "src/run/dialog.rs:273:41",
+   "replace + with * in DialogSlot::await_answer"
+  ],
+  [
+   "src/run/env.rs:20:5",
+   "replace persistent_names -> (Vec<String>, Option<ConfigRejection>) with (vec![], Some(Default::default()))"
+  ],
+  [
+   "src/run/env.rs:20:5",
+   "replace persistent_names -> (Vec<String>, Option<ConfigRejection>) with (vec![String::new()], Some(Default::default()))"
+  ],
+  [
+   "src/run/env.rs:20:5",
+   "replace persistent_names -> (Vec<String>, Option<ConfigRejection>) with (vec![\"xyzzy\".into()], Some(Default::default()))"
+  ],
+  [
+   "src/run/env.rs:32:5",
+   "replace read_env_keep -> (Vec<String>, Option<ConfigRejection>) with (vec![], Some(Default::default()))"
+  ],
+  [
+   "src/run/env.rs:32:5",
+   "replace read_env_keep -> (Vec<String>, Option<ConfigRejection>) with (vec![String::new()], Some(Default::default()))"
+  ],
+  [
+   "src/run/env.rs:32:5",
+   "replace read_env_keep -> (Vec<String>, Option<ConfigRejection>) with (vec![\"xyzzy\".into()], Some(Default::default()))"
+  ],
+  [
+   "src/run/env.rs:44:5",
+   "replace parse_env_keep -> (Vec<String>, Option<ConfigRejection>) with (vec![], Some(Default::default()))"
+  ],
+  [
+   "src/run/env.rs:44:5",
+   "replace parse_env_keep -> (Vec<String>, Option<ConfigRejection>) with (vec![String::new()], Some(Default::default()))"
+  ],
+  [
+   "src/run/env.rs:44:5",
+   "replace parse_env_keep -> (Vec<String>, Option<ConfigRejection>) with (vec![\"xyzzy\".into()], Some(Default::default()))"
+  ],
+  [
+   "src/run/gate.rs:96:9",
+   "replace Shared::model -> MutexGuard<'_, Model> with MutexGuard::new()"
+  ],
+  [
+   "src/run/gate.rs:96:9",
+   "replace Shared::model -> MutexGuard<'_, Model> with MutexGuard::from_iter([Default::default()])"
+  ],
+  [
+   "src/run/gate.rs:96:9",
+   "replace Shared::model -> MutexGuard<'_, Model> with MutexGuard::new(Default::default())"
+  ],
+  [
+   "src/run/gate.rs:96:9",
+   "replace Shared::model -> MutexGuard<'_, Model> with MutexGuard::from(Default::default())"
+  ],
+  [
+   "src/run/gate.rs:163:9",
+   "replace Gate::wait_ready -> (Readiness, bool) with (Default::default(), true)"
+  ],
+  [
+   "src/run/gate.rs:163:9",
+   "replace Gate::wait_ready -> (Readiness, bool) with (Default::default(), false)"
+  ],
+  [
+   "src/run/gate.rs:190:5",
+   "replace start -> (Feeder, Gate, JoinHandle<()>) with (Default::default(), Default::default(), JoinHandle::new())"
+  ],
+  [
+   "src/run/gate.rs:190:5",
+   "replace start -> (Feeder, Gate, JoinHandle<()>) with (Default::default(), Default::default(), JoinHandle::from_iter([()]))"
+  ],
+  [
+   "src/run/gate.rs:190:5",
+   "replace start -> (Feeder, Gate, JoinHandle<()>) with (Default::default(), Default::default(), JoinHandle::new(()))"
+  ],
+  [
+   "src/run/gate.rs:190:5",
+   "replace start -> (Feeder, Gate, JoinHandle<()>) with (Default::default(), Default::default(), JoinHandle::from(()))"
+  ],
+  [
+   "src/run/send.rs:63:5",
+   "replace classify -> Confirms with Default::default()"
+  ],
+  [
+   "src/run/send.rs:118:9",
+   "replace SendSlot::flight -> MutexGuard<'_, Flight> with MutexGuard::new()"
+  ],
+  [
+   "src/run/send.rs:118:9",
+   "replace SendSlot::flight -> MutexGuard<'_, Flight> with MutexGuard::from_iter([Default::default()])"
+  ],
+  [
+   "src/run/send.rs:118:9",
+   "replace SendSlot::flight -> MutexGuard<'_, Flight> with MutexGuard::new(Default::default())"
+  ],
+  [
+   "src/run/send.rs:118:9",
+   "replace SendSlot::flight -> MutexGuard<'_, Flight> with MutexGuard::from(Default::default())"
+  ],
+  [
+   "src/run/send.rs:182:31",
+   "replace + with * in SendSlot::confirm"
+  ],
+  [
+   "src/run/send.rs:282:5",
+   "replace parse -> Result<(&str, Option<ViolaName>), ProtocolError> with Ok((\"\", Some(Default::default())))"
+  ],
+  [
+   "src/run/send.rs:282:5",
+   "replace parse -> Result<(&str, Option<ViolaName>), ProtocolError> with Ok((\"xyzzy\", Some(Default::default())))"
+  ],
+  [
+   "src/run/send.rs:290:5",
+   "replace parse_from -> Result<Option<ViolaName>, ProtocolError> with Ok(Some(Default::default()))"
+  ],
+  [
+   "src/run/snapshot.rs:25:9",
+   "replace Snapshots::current -> MutexGuard<'_, Option<InstanceSnapshot>> with MutexGuard::new()"
+  ],
+  [
+   "src/run/snapshot.rs:25:9",
+   "replace Snapshots::current -> MutexGuard<'_, Option<InstanceSnapshot>> with MutexGuard::from_iter([None])"
+  ],
+  [
+   "src/run/snapshot.rs:25:9",
+   "replace Snapshots::current -> MutexGuard<'_, Option<InstanceSnapshot>> with MutexGuard::new(None)"
+  ],
+  [
+   "src/run/snapshot.rs:25:9",
+   "replace Snapshots::current -> MutexGuard<'_, Option<InstanceSnapshot>> with MutexGuard::from(None)"
+  ],
+  [
+   "src/run/snapshot.rs:25:9",
+   "replace Snapshots::current -> MutexGuard<'_, Option<InstanceSnapshot>> with MutexGuard::from_iter([Some(Default::default())])"
+  ],
+  [
+   "src/run/snapshot.rs:25:9",
+   "replace Snapshots::current -> MutexGuard<'_, Option<InstanceSnapshot>> with MutexGuard::new(Some(Default::default()))"
+  ],
+  [
+   "src/run/snapshot.rs:25:9",
+   "replace Snapshots::current -> MutexGuard<'_, Option<InstanceSnapshot>> with MutexGuard::from(Some(Default::default()))"
+  ],
+  [
+   "src/run/version_gate.rs:58:32",
+   "replace + with * in run_bounded"
+  ],
+  [
+   "src/run/wait.rs:33:9",
+   "replace Turn::of -> Self with Default::default()"
+  ],
+  [
+   "src/run/wait.rs:65:9",
+   "replace WaitFeed::feed -> MutexGuard<'_, Feed> with MutexGuard::new()"
+  ],
+  [
+   "src/run/wait.rs:65:9",
+   "replace WaitFeed::feed -> MutexGuard<'_, Feed> with MutexGuard::from_iter([Default::default()])"
+  ],
+  [
+   "src/run/wait.rs:65:9",
+   "replace WaitFeed::feed -> MutexGuard<'_, Feed> with MutexGuard::new(Default::default())"
+  ],
+  [
+   "src/run/wait.rs:65:9",
+   "replace WaitFeed::feed -> MutexGuard<'_, Feed> with MutexGuard::from(Default::default())"
+  ],
+  [
+   "src/run/wait.rs:191:5",
+   "replace deadline -> Option<Instant> with Some(Default::default())"
+  ],
+  [
+   "src/run/wait.rs:197:5",
+   "replace scan -> Result<Option<LoggedLine>, ProtocolError> with Ok(Some(Default::default()))"
+  ],
+  [
+   "src/run/wheel.rs:40:5",
+   "replace next -> Option<(Wheel, WheelCause)> with Some((Default::default(), Default::default()))"
+  ],
+  [
+   "src/run/wheel.rs:101:9",
+   "replace WheelSlot::held -> MutexGuard<'_, Held> with MutexGuard::new()"
+  ],
+  [
+   "src/run/wheel.rs:101:9",
+   "replace WheelSlot::held -> MutexGuard<'_, Held> with MutexGuard::from_iter([Default::default()])"
+  ],
+  [
+   "src/run/wheel.rs:101:9",
+   "replace WheelSlot::held -> MutexGuard<'_, Held> with MutexGuard::new(Default::default())"
+  ],
+  [
+   "src/run/wheel.rs:101:9",
+   "replace WheelSlot::held -> MutexGuard<'_, Held> with MutexGuard::from(Default::default())"
+  ],
+  [
+   "src/run/wheel.rs:105:9",
+   "replace WheelSlot::holder -> Wheel with Default::default()"
+  ],
+  [
+   "src/run/wheel.rs:111:9",
+   "replace WheelSlot::human_typing -> Option<Option<HumanTyping>> with Some(Some(Default::default()))"
+  ],
+  [
+   "src/run/wheel.rs:149:9",
+   "replace WheelSlot::apply -> Option<Receiver<bool>> with Some(Receiver::new())"
+  ],
+  [
+   "src/run/wheel.rs:149:9",
+   "replace WheelSlot::apply -> Option<Receiver<bool>> with Some(Receiver::from_iter([true]))"
+  ],
+  [
+   "src/run/wheel.rs:149:9",
+   "replace WheelSlot::apply -> Option<Receiver<bool>> with Some(Receiver::new(true))"
+  ],
+  [
+   "src/run/wheel.rs:149:9",
+   "replace WheelSlot::apply -> Option<Receiver<bool>> with Some(Receiver::from(true))"
+  ],
+  [
+   "src/run/wheel.rs:149:9",
+   "replace WheelSlot::apply -> Option<Receiver<bool>> with Some(Receiver::from_iter([false]))"
+  ],
+  [
+   "src/run/wheel.rs:149:9",
+   "replace WheelSlot::apply -> Option<Receiver<bool>> with Some(Receiver::new(false))"
+  ],
+  [
+   "src/run/wheel.rs:149:9",
+   "replace WheelSlot::apply -> Option<Receiver<bool>> with Some(Receiver::from(false))"
+  ],
+  [
+   "src/cmd/verify/typed.rs:147:37",
+   "replace + with * in dialog_run"
+  ],
+  [
+   "src/cmd/verify/typed.rs:180:33",
+   "replace + with * in plan_run"
+  ],
+  [
+   "src/cmd/verify/typed.rs:196:5",
+   "replace wait_for -> Option<Instant> with Some(Default::default())"
+  ],
+  [
+   "src/cmd/verify/typed.rs:239:24",
+   "replace + with * in turn"
+  ],
+  [
+   "src/cmd/verify/typed.rs:269:33",
+   "replace + with * in framing_turns"
+  ],
+  [
+   "src/cmd/verify/typed.rs:286:29",
+   "replace + with * in framing_turns"
+  ],
+  [
+   "src/cmd/verify/typed.rs:318:5",
+   "replace wait_capture -> Option<Instant> with Some(Default::default())"
+  ],
+  [
+   "src/cmd/verify/typed.rs:339:9",
+   "replace TrustedDir::create -> io::Result<Self> with Ok(Default::default())"
+  ],
+  [
+   "src/cmd/verify/typed.rs:389:9",
+   "replace SharedPty::lock -> MutexGuard<'_, PortablePty> with MutexGuard::new()"
+  ],
+  [
+   "src/cmd/verify/typed.rs:389:9",
+   "replace SharedPty::lock -> MutexGuard<'_, PortablePty> with MutexGuard::from_iter([Default::default()])"
+  ],
+  [
+   "src/cmd/verify/typed.rs:389:9",
+   "replace SharedPty::lock -> MutexGuard<'_, PortablePty> with MutexGuard::new(Default::default())"
+  ],
+  [
+   "src/cmd/verify/typed.rs:389:9",
+   "replace SharedPty::lock -> MutexGuard<'_, PortablePty> with MutexGuard::from(Default::default())"
+  ],
+  [
+   "src/cmd/verify/typed.rs:395:9",
+   "replace <impl Pty for SharedPty>::reader -> Result<Box<dyn Read +Send>, PtyError> with Ok(Box::new(Default::default()))"
+  ],
+  [
+   "src/cmd/verify/typed.rs:399:9",
+   "replace <impl Pty for SharedPty>::writer -> Result<Box<dyn Write +Send>, PtyError> with Ok(Box::new(Default::default()))"
+  ],
+  [
+   "src/cmd/verify/typed.rs:479:5",
+   "replace settled -> Option<Settled> with Some(Default::default())"
+  ],
+  [
+   "src/cmd/verify/typed.rs:479:44",
+   "replace + with * in settled"
+  ],
+  [
+   "src/cmd/verify/typed.rs:487:23",
+   "replace + with * in settled"
+  ],
+  [
+   "src/cmd/verify/typed.rs:506:5",
+   "replace box_wait -> Option<Settled> with Some(Default::default())"
+  ],
+  [
+   "src/cmd/verify/typed.rs:512:44",
+   "replace + with * in box_wait"
+  ],
+  [
+   "src/cmd/verify/typed.rs:544:9",
+   "replace Run::spawn -> anyhow::Result<Self> with Ok(Default::default())"
+  ],
+  [
+   "src/cmd/verify/typed.rs:591:9",
+   "replace Run::feed -> MutexGuard<'_, Feed> with MutexGuard::new()"
+  ],
+  [
+   "src/cmd/verify/typed.rs:591:9",
+   "replace Run::feed -> MutexGuard<'_, Feed> with MutexGuard::from_iter([Default::default()])"
+  ],
+  [
+   "src/cmd/verify/typed.rs:591:9",
+   "replace Run::feed -> MutexGuard<'_, Feed> with MutexGuard::new(Default::default())"
+  ],
+  [
+   "src/cmd/verify/typed.rs:591:9",
+   "replace Run::feed -> MutexGuard<'_, Feed> with MutexGuard::from(Default::default())"
+  ],
+  [
+   "src/cmd/verify/typed.rs:596:9",
+   "replace Run::settle -> Option<Settled> with Some(Default::default())"
+  ],
+  [
+   "src/cmd/verify/typed.rs:596:26",
+   "replace + with * in Run::settle"
+  ],
+  [
+   "src/cmd/verify/typed.rs:612:26",
+   "replace + with * in Run::box_wait"
+  ],
+  [
+   "src/cmd/verify/typed.rs:648:45",
+   "replace + with * in Run::end_by_ctrl_c"
+  ],
+  [
+   "src/cmd/verify/typed.rs:651:45",
+   "replace + with * in Run::end_by_ctrl_c"
+  ],
+  [
+   "src/cmd/verify/typed.rs:671:53",
+   "replace + with * in Run::finish"
+  ]
+ ],
+ "command": "cargo mutants --package viola --features fake-agent --test-tool=nextest --copy-target=true --caught --unviable --build-timeout=400 --output .andromeda/runs/2026-10-08T10-08-51-code-audit/mutants-viola",
+ "env": "every VIOLA_* and CLAUDE* name unset; TMPDIR=/home/turbolet/dev/projects/viola-mutants-scratch/e3 NEXTEST_PROFILE=mutants AGENT_RUN_KEEP_HOMES=0 AGENT_RUN_KEEP_FAILED=0 CARGO_TARGET_DIR=target/mutants",
+ "carry": {
+  "copies": {
+   "/home/turbolet/dev/projects/viola-mutants-scratch/e3/cargo-mutants-viola-dWKXk7.tmp": {
+    "seen": "2026-10-08T11:03:15Z",
+    "islink": true,
+    "readlink": "/tmp/viola-e2e-home-1000",
+    "isdir_nofollow": false,
+    "mode": "0o120777"
+   }
+  },
+  "backing": {},
+  "homes_min": 18,
+  "homes_max": 56,
+  "tmp_used_min": 11374882816,
+  "tmp_used_max": 14834941952,
+  "scratch_residue_after_exit": [
+   ".tmp9P7h23",
+   ".tmpFRZYPn",
+   ".tmpL0IaV4",
+   ".tmpPPhAzi",
+   ".tmpWwK2Le",
+   ".tmpoiRT1w",
+   ".tmptlNQ7E",
+   "viola-chaos-JG3AJJ",
+   "viola-resize-2126311.ndjson",
+   "viola-resize-2126329.ndjson",
+   "viola-resize-2134782.ndjson",
+   "viola-resize-2134857.ndjson",
+   "viola-resize-2143224.ndjson",
+   "viola-resize-2143272.ndjson",
+   "viola-root-watch",
+   "viola-verify-0IvBh8",
+   "viola-verify-0RtIpb",
+   "viola-verify-0yI4YN",
+   "viola-verify-128fgt",
+   "viola-verify-1KkIA1",
+   "viola-verify-3wLnFS",
+   "viola-verify-4JD5Ub",
+   "viola-verify-5lMXxB",
+   "viola-verify-89LMeo",
+   "viola-verify-8eaSBm",
+   "viola-verify-9YTwob",
+   "viola-verify-APJkxv",
+   "viola-verify-Acug2t",
+   "viola-verify-BDsKko",
+   "viola-verify-Cp6QJJ",
+   "viola-verify-EJZask",
+   "viola-verify-EU5FyY",
+   "viola-verify-FBMN1h",
+   "viola-verify-FD7qCq",
+   "viola-verify-HItmy4",
+   "viola-verify-ILpKKr",
+   "viola-verify-Izy3zm",
+   "viola-verify-JP8KhX",
+   "viola-verify-Jy2Ttl",
+   "viola-verify-L1xco9",
+   "viola-verify-MytlMc",
+   "viola-verify-Nj6y89",
+   "viola-verify-P4CjsR",
+   "viola-verify-PyzBUo",
+   "viola-verify-QGpsh6",
+   "viola-verify-RhPF2n",
+   "viola-verify-TOX0mh",
+   "viola-verify-U6Uizc",
+   "viola-verify-UDBtBZ",
+   "viola-verify-VM5orZ",
+   "viola-verify-Vs4YkZ",
+   "viola-verify-WD361g",
+   "viola-verify-X21oZm",
+   "viola-verify-XCGqEw",
+   "viola-verify-XkUf4V",
+   "viola-verify-YbniaX",
+   "viola-verify-YgLBx0",
+   "viola-verify-aHRNw4",
+   "viola-verify-b02dFR",
+   "viola-verify-c83wHg",
+   "viola-verify-crrnoe",
+   "viola-verify-eX5Xe8",
+   "viola-verify-f7IPC5",
+   "viola-verify-gzIAv2",
+   "viola-verify-h7Tjio",
+   "viola-verify-hQxEMY",
+   "viola-verify-kenv7W",
+   "viola-verify-n0pteK",
+   "viola-verify-ogGSW8",
+   "viola-verify-oijnIl",
+   "viola-verify-pyAP8C",
+   "viola-verify-qe9dnx",
+   "viola-verify-rwA8FE",
+   "viola-verify-u5Epy7",
+   "viola-verify-vQNd5l",
+   "viola-verify-wDViX0",
+   "viola-verify-yK9qEP",
+   "viola-verify-zHZkgH"
+  ]
+ }
+}

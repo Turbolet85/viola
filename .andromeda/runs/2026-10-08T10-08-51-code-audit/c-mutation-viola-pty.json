@@ -1,0 +1,290 @@
+{
+ "unit": "viola-pty",
+ "unit_state": "complete 115/115",
+ "score": 100.0,
+ "score_formula": "caught/(caught+missed)",
+ "counts": {
+  "mutants": 115,
+  "caught": 67,
+  "missed": 0,
+  "not_measured": 25,
+  "timeout": 0,
+  "unviable": 23
+ },
+ "tool_totals": {
+  "total_mutants": 115,
+  "caught": 67,
+  "missed": 25,
+  "timeout": 0,
+  "unviable": 23,
+  "success": 0
+ },
+ "timing": {
+  "scope": "unit",
+  "planned": 115,
+  "tested": 115,
+  "wall_s": 449,
+  "jobs": 1,
+  "cap_s": 1800
+ },
+ "start_time": "2026-10-08T10:18:22.47711464Z",
+ "end_time": "2026-10-08T10:25:51.826836155Z",
+ "baseline": {
+  "summary": "Success",
+  "phases": [
+   [
+    "Build",
+    4.057974092
+   ],
+   [
+    "Test",
+    1.703660589
+   ]
+  ]
+ },
+ "host": "x86_64-unknown-linux-gnu",
+ "survivors": [],
+ "not_measured": [
+  [
+   "crates/viola-pty/src/lib.rs:240:5",
+   "replace terminate -> bool with true",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:240:5",
+   "replace terminate -> bool with false",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:248:46",
+   "replace != with == in terminate",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:296:9",
+   "replace HostTerminal::enter -> Option<Self> with None",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:296:9",
+   "replace HostTerminal::enter -> Option<Self> with Some(Default::default())",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:310:59",
+   "replace && with || in HostTerminal::enter",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:310:54",
+   "replace != with == in HostTerminal::enter",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:310:95",
+   "replace != with == in HostTerminal::enter",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:315:10",
+   "delete ! in HostTerminal::enter",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:434:9",
+   "replace console::is_console -> bool with true",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:434:9",
+   "replace console::is_console -> bool with false",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:436:76",
+   "replace != with == in console::is_console",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:444:13",
+   "replace console::<impl super::Utf16Source for Console>::read_units -> io::Result<usize> with Ok(0)",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:444:13",
+   "replace console::<impl super::Utf16Source for Console>::read_units -> io::Result<usize> with Ok(1)",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:457:19",
+   "replace == with != in console::<impl super::Utf16Source for Console>::read_units",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:475:87",
+   "replace == with != in host_size",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/sideload.rs:25:5",
+   "replace restrict_dll_search -> bool with true",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/sideload.rs:25:5",
+   "replace restrict_dll_search -> bool with false",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/sideload.rs:25:86",
+   "replace != with == in restrict_dll_search",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/sideload.rs:34:5",
+   "replace search_restricted -> bool with true",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/sideload.rs:34:5",
+   "replace search_restricted -> bool with false",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/sideload.rs:41:5",
+   "replace preload -> Result<(), PtyError> with Ok(())",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/sideload.rs:41:8",
+   "delete ! in preload",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/sideload.rs:58:5",
+   "replace preloaded -> bool with true",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/sideload.rs:58:5",
+   "replace preloaded -> bool with false",
+   "cfg(windows)"
+  ]
+ ],
+ "timeouts": [],
+ "unviable_sites": [
+  [
+   "crates/viola-pty/src/lib.rs:110:9",
+   "replace <impl std::error::Error for PtyError>::source -> Option<&(dyn std::error::Error +'static)> with Some(Box::leak(Box::new(Default::default())))"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:145:5",
+   "replace spawn -> Result<PortablePty, PtyError> with Ok(Default::default())"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:178:5",
+   "replace closed -> PtyError with Default::default()"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:183:9",
+   "replace PortablePty::master -> Result<&(dyn MasterPty +Send), PtyError> with Ok(Box::leak(Box::new(Default::default())))"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:189:9",
+   "replace <impl Pty for PortablePty>::reader -> Result<Box<dyn Read +Send>, PtyError> with Ok(Box::new(Default::default()))"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:195:9",
+   "replace <impl Pty for PortablePty>::writer -> Result<Box<dyn Write +Send>, PtyError> with Ok(Box::new(Default::default()))"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:274:5",
+   "replace size_from_window -> Option<Size> with Some(Default::default())"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:281:5",
+   "replace nonzero_size -> Option<Size> with Some(Default::default())"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:321:9",
+   "replace HostTerminal::enter -> Option<Self> with Some(Default::default())"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:356:5",
+   "replace host_stdin -> Box<dyn Read +Send> with Box::new(Default::default())"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:467:5",
+   "replace host_size -> Option<Size> with Some(Default::default())"
+  ],
+  [
+   "crates/viola-pty/src/pump.rs:67:9",
+   "replace PasteHandle::lock -> MutexGuard<'_, Input> with MutexGuard::new()"
+  ],
+  [
+   "crates/viola-pty/src/pump.rs:67:9",
+   "replace PasteHandle::lock -> MutexGuard<'_, Input> with MutexGuard::from_iter([Default::default()])"
+  ],
+  [
+   "crates/viola-pty/src/pump.rs:67:9",
+   "replace PasteHandle::lock -> MutexGuard<'_, Input> with MutexGuard::new(Default::default())"
+  ],
+  [
+   "crates/viola-pty/src/pump.rs:67:9",
+   "replace PasteHandle::lock -> MutexGuard<'_, Input> with MutexGuard::from(Default::default())"
+  ],
+  [
+   "crates/viola-pty/src/pump.rs:122:5",
+   "replace pump -> Result<PumpEnd, PtyError> with Ok(Default::default())"
+  ],
+  [
+   "crates/viola-pty/src/pump.rs:141:5",
+   "replace pump_with_paste -> Result<PumpEnd, PtyError> with Ok(Default::default())"
+  ],
+  [
+   "crates/viola-pty/src/pump.rs:160:5",
+   "replace pump_open -> Result<PumpEnd, PtyError> with Ok(Default::default())"
+  ],
+  [
+   "crates/viola-pty/src/pump.rs:167:42",
+   "replace + with * in pump_open"
+  ],
+  [
+   "crates/viola-pty/src/pump.rs:187:42",
+   "replace + with * in pump_open"
+  ],
+  [
+   "crates/viola-pty/src/pump.rs:198:35",
+   "replace + with * in drain"
+  ],
+  [
+   "crates/viola-pty/src/pump.rs:208:5",
+   "replace kill_and_reap -> Result<Exit, PtyError> with Ok(Default::default())"
+  ],
+  [
+   "crates/viola-pty/src/pump.rs:209:35",
+   "replace + with * in kill_and_reap"
+  ]
+ ],
+ "command": "cargo mutants --package viola-pty --features fake-agent --test-tool=nextest --copy-target=true --caught --unviable --build-timeout=400 --output .andromeda/runs/2026-10-08T10-08-51-code-audit/mutants-viola-pty",
+ "env": "every VIOLA_* and CLAUDE* name unset; TMPDIR=/home/turbolet/dev/projects/viola-mutants-scratch/e3 NEXTEST_PROFILE=mutants AGENT_RUN_KEEP_HOMES=0 AGENT_RUN_KEEP_FAILED=0 CARGO_TARGET_DIR=target/mutants",
+ "carry": {
+  "copies": {
+   "/home/turbolet/dev/projects/viola-mutants-scratch/e3/cargo-mutants-viola-2VQYSM.tmp": {
+    "seen": "2026-10-08T10:19:52Z",
+    "islink": true,
+    "readlink": "/tmp/viola-e2e-home-1000",
+    "isdir_nofollow": false,
+    "mode": "0o120777"
+   }
+  },
+  "backing": {},
+  "homes_min": 18,
+  "homes_max": 18,
+  "tmp_used_min": 10642411520,
+  "tmp_used_max": 11028230144,
+  "scratch_residue_after_exit": [
+   "viola-pty-watch"
+  ]
+ }
+}

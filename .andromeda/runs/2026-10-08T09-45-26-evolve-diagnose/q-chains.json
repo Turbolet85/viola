@@ -1,0 +1,3027 @@
+{
+ "target_epoch": "Epoch 3 — Windows slice II: driving verbs and live proof",
+ "heuristics": "anchor on input.* friction or consumed quality thin/wrong/missing; join the latest earlier step record of the same chunk whose produced[] names the artifact; no transitive chains, no scoring",
+ "input_type_to_artifact": {
+  "input.plan-step-ambiguous": "plan",
+  "input.research-thin": "research",
+  "input.research-files-wrong": "research",
+  "input.report-insufficient": "report",
+  "input.implement-outcome-unsettled": "implement-outcome",
+  "input.handoff-git-mismatch": "handoff",
+  "input.extract-signal-gap": "extracts",
+  "input.conventions-gap": "research",
+  "input.carry-context-gap": "working-route",
+  "input.out-of-pipeline-source": "working-route",
+  "input.spec-source-gap": null,
+  "input.outcome-unclear": "working-route"
+ },
+ "input_type_note": "quality 'via-input-type' marks an anchor whose step record graded no artifact thin/wrong/missing; its artifact is the one the input.* type names",
+ "anchors": [
+  {
+   "chunk": null,
+   "consumer": "new-session/orientation",
+   "consumer_id": "2026-09-29T13:29:24Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "handoff",
+   "quality": "thin",
+   "note": "Status clean / Next -> phase predate the 13:00Z phase run for 2026-09-29-fake-agent-drift-contract; tree carries that phase's uncommitted output (master pending, chunk dir, matrix json)",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": null
+  },
+  {
+   "chunk": null,
+   "consumer": "new-session/orientation",
+   "consumer_id": "2026-10-02T12:56:10Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "handoff",
+   "quality": "via-input-type",
+   "note": "handoff Status reads clean while git shows the handoff itself modified: a 3-line 'Session End Status: Completed normally at 2026-10-02 14:54:39' block appended after the wrap commit (a session-end hook write, not a wrap bookkeeping rewrite)",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-02T12:56:10Z-b",
+     "type": "input.handoff-git-mismatch",
+     "what": "handoff Status reads clean while git shows the handoff itself modified: a 3-line 'Session End Status: Completed normally at 2026-10-02 14:54:39' block appended after the wrap commit (a session-end hook write, not a wrap bookkeeping rewrite)"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": null
+  },
+  {
+   "chunk": "2026-10-02-epoch-2b-cleanup",
+   "consumer": "phase/validate",
+   "consumer_id": "2026-10-02T19:34:01Z-a",
+   "consumer_outcome": "ok-degraded",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "shipped three cargo-mutants [[gate]] entries against the 2026-09-28 no-mutation-in-chunk-gates ruling; removed at review (28 -> 25 entries)",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "phase/plan",
+   "producer_id": "2026-10-02T13:21:40Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "unresolved-questions",
+    "designed-dialogue:m2-rename-aside",
+    "designed-dialogue:leftover-removal-owner",
+    "authority-resolved:P6 lean to never-planned flags over moving the witness into the parser tests"
+   ],
+   "producer_note": "17 steps, 27 gate entries, 14 criteria; M2 cause and the resize/drop reproduction stay implementation-scope; 0 capabilities claimable (v1-07 needs other parser surfaces, v1-45 is Epoch 6's)",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-02-epoch-2b-cleanup",
+   "consumer": "implement/code",
+   "consumer_id": "2026-10-03T04:04:41Z-a",
+   "consumer_outcome": "halted-resolved",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "step 4 premise (git read-only objects keep TempDir dirs) falsified by measurement; step 5's held-file reading not reproducible",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "phase/validate",
+   "producer_id": "2026-10-02T19:34:01Z-a",
+   "producer_outcome": "ok-degraded",
+   "producer_signals": [
+    "baseline-m2-reproduced",
+    "baseline-audit-grading-not-reproduced"
+   ],
+   "producer_note": "M2 witness set red 39/62 at baseline; resize/drop survivors read caught in the narrowed run",
+   "producer_frictions": [
+    {
+     "id": "2026-10-02T19:34:01Z-b",
+     "type": "contract.mechanical-check"
+    },
+    {
+     "id": "2026-10-02T19:34:01Z-c",
+     "type": null
+    },
+    {
+     "id": "2026-10-02T19:34:01Z-d",
+     "type": "contract.mechanical-check"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-10-02-epoch-2b-cleanup",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-10-03T07:48:59Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "implement-outcome",
+   "quality": "thin",
+   "note": "superseded by the operator pass: CI read red on lint, folded as 9e3b850, then green",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-03T07:48:59Z-b",
+     "type": "input.implement-outcome-unsettled",
+     "what": "the operator pass ran after implement: CI on the pre-CI commit read lint red (an unused cfg(windows)-only import), folded as a fix commit; the final HEAD's green CI run is the outcome basis"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "implement/smoke",
+   "producer_id": "2026-10-03T06:04:15Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "surfaced"
+   ],
+   "producer_note": null,
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-02-epoch-2b-cleanup",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-10-03T07:48:59Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "step 4 premise falsified; expected amendment 3 (m1-* dirs) superseded by where the runs had to run",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-03T07:48:59Z-b",
+     "type": "input.implement-outcome-unsettled",
+     "what": "the operator pass ran after implement: CI on the pre-CI commit read lint red (an unused cfg(windows)-only import), folded as a fix commit; the final HEAD's green CI run is the outcome basis"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "phase/validate",
+   "producer_id": "2026-10-02T19:34:01Z-a",
+   "producer_outcome": "ok-degraded",
+   "producer_signals": [
+    "baseline-m2-reproduced",
+    "baseline-audit-grading-not-reproduced"
+   ],
+   "producer_note": "M2 witness set red 39/62 at baseline; resize/drop survivors read caught in the narrowed run",
+   "producer_frictions": [
+    {
+     "id": "2026-10-02T19:34:01Z-b",
+     "type": "contract.mechanical-check"
+    },
+    {
+     "id": "2026-10-02T19:34:01Z-c",
+     "type": null
+    },
+    {
+     "id": "2026-10-02T19:34:01Z-d",
+     "type": "contract.mechanical-check"
+    }
+   ]
+  },
+  {
+   "chunk": null,
+   "consumer": "new-session/orientation",
+   "consumer_id": "2026-10-03T21:39:51Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "handoff",
+   "quality": "thin",
+   "note": "Notes are Windows/D:-premised (pause for the D: fix, M2 volume cause, WSL leg); the host moved to Linux after the wrap",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": null
+  },
+  {
+   "chunk": "2026-10-03-mutation-scoring-completion",
+   "consumer": "phase/take-up",
+   "consumer_id": "2026-10-03T22:22:25Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "working-route",
+   "quality": "via-input-type",
+   "note": "three CARRYs on :68 cite relay linux-route-adaptation.md for measured witnesses (25/13 vs 38/0; Linux TUI 5/0) but the relay is not in the repo; folded as [inferred] hypotheses",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-03T22:22:25Z-b",
+     "type": "input.out-of-pipeline-source",
+     "what": "three CARRYs on :68 cite relay linux-route-adaptation.md for measured witnesses (25/13 vs 38/0; Linux TUI 5/0) but the relay is not in the repo; folded as [inferred] hypotheses"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": null
+  },
+  {
+   "chunk": "2026-10-03-mutation-scoring-completion",
+   "consumer": "phase/validate",
+   "consumer_id": "2026-10-03T22:50:28Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "passed P4 self-check but owed 4 (4) artifact, 4 (6) one-shot prose and a coverage-regex guard, check 9 platform search, and carried 4 mutation gate entries the founder rule bans",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "phase/plan",
+   "producer_id": "2026-10-03T22:44:27Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "authority-resolved:tests-extract rstest yielded to test-plan history (viola-e2e has no dev-deps)",
+    "designed-dialogue:M3 form (harness arm vs recipe)",
+    "designed-dialogue:pre-push in place vs native clone",
+    "designed-dialogue:env -i HOME source (escalate pattern Boundary widening shown; no widening chosen)",
+    "plan-oversize"
+   ],
+   "producer_note": "512 lines (guide 150-400), 12 acceptance criteria, 27 gates; fence parses, planlint 0 hits; a git prefix-pin control run at P4 verified the C3 mechanism on git 2.55.0",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-03-mutation-scoring-completion",
+   "consumer": "implement/code",
+   "consumer_id": "2026-10-03T23:02:17Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "plan",
+   "quality": "via-input-type",
+   "note": "plan step 5 asks that every runner call be /usr/bin/env -i HOME=… PATH=…, but the passwd probes that produce HOME cannot carry it; the probes carry PATH (system dirs) only",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-03T23:02:17Z-b",
+     "type": "input.plan-step-ambiguous",
+     "what": "plan step 5 asks that every runner call be /usr/bin/env -i HOME=… PATH=…, but the passwd probes that produce HOME cannot carry it; the probes carry PATH (system dirs) only"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "phase/validate",
+   "producer_id": "2026-10-03T22:50:28Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "baseline-caught-token-proxy"
+   ],
+   "producer_note": "check 4 (9)'s baseline read the ci.yml no-mutation-job probe red on two comment lines; narrowed to non-comment lines and re-baselined with a positive and a comment control",
+   "producer_frictions": [
+    {
+     "id": "2026-10-03T22:50:28Z-b",
+     "type": "contract.mechanical-check"
+    },
+    {
+     "id": "2026-10-03T22:50:28Z-c",
+     "type": "contract.mechanical-check"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-10-03-mutation-scoring-completion",
+   "consumer": "implement/fix-loop",
+   "consumer_id": "2026-10-04T00:32:34Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "research",
+   "quality": "thin",
+   "note": "the measured M3 B form ran its copy on /tmp tmpfs, which hid both the quota and the btrfs reflink exec-bit loss",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "phase/research",
+   "producer_id": "2026-10-03T22:38:49Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "unresolved-questions"
+   ],
+   "producer_note": "3 plan-decision questions to P4; 5 host measurements, two of them two-sided",
+   "producer_frictions": [
+    {
+     "id": "2026-10-03T22:38:49Z-b",
+     "type": "contract.instrument-validity"
+    },
+    {
+     "id": "2026-10-03T22:38:49Z-c",
+     "type": null
+    }
+   ]
+  },
+  {
+   "chunk": "2026-10-03-mutation-scoring-completion",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-10-04T01:20:42Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "report",
+   "quality": "thin",
+   "note": "the pre-push closed reasons/details retired with sync were absent; the test-plan detector inferred them, and the orchestrator confirmed them in code and extended the report before validation",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-04T01:20:42Z-b",
+     "type": "input.report-insufficient",
+     "what": "the report said sync was removed but did not list the closed pre-push reasons and details retired with it; a detector inferred them from code-shaped reasoning, the orchestrator confirmed them by grep and added the list to the report's Changes"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "wrap-session/report",
+   "producer_id": "2026-10-04T01:04:49Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [],
+   "producer_note": "every Changes family filled from session knowledge; 0 reconstructed",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-04-windows-boundary-mutation-workflow",
+   "consumer": "phase/take-up",
+   "consumer_id": "2026-10-04T01:33:58Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "working-route",
+   "quality": "via-input-type",
+   "note": "CARRY 1 names the relay `linux-route-adaptation.md` by bare filename; it lives outside the repo (../additional/viola-overseer/), found by a find over the projects dir",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-04T01:33:58Z-b",
+     "type": "input.out-of-pipeline-source",
+     "what": "CARRY 1 names the relay `linux-route-adaptation.md` by bare filename; it lives outside the repo (../additional/viola-overseer/), found by a find over the projects dir"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": null
+  },
+  {
+   "chunk": "2026-10-04-windows-boundary-mutation-workflow",
+   "consumer": "phase/plan",
+   "consumer_id": "2026-10-04T01:57:32Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "research",
+   "quality": "thin",
+   "note": "its gated-file inventory counted Windows gates that sit only inside #[cfg(test)] modules (562 vs 508); refined at P4 and research.md amended",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-04T01:57:32Z-b",
+     "type": "input.research-thin",
+     "what": "research's Windows-gate inventory took every gate occurrence, including gates only inside #[cfg(test)] modules (run/mutants.rs, viola-channel lib.rs, viola-state snapshot.rs); P4 refined the rule and recounted 508 mutants"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "phase/research",
+   "producer_id": "2026-10-04T01:50:29Z-a",
+   "producer_outcome": "ok-degraded",
+   "producer_signals": [
+    "derived-without-graph",
+    "unresolved-questions"
+   ],
+   "producer_note": "3 open questions (selection form, job shape, non-owed survivors); a two-sided local leak witness A 170 / B 0 leftovers; Windows per-mutant cost read from 3 retired runner job logs",
+   "producer_frictions": [
+    {
+     "id": "2026-10-04T01:50:29Z-b",
+     "type": "tooling.graph-unavailable"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-10-04-windows-boundary-mutation-workflow",
+   "consumer": "implement/code",
+   "consumer_id": "2026-10-04T02:06:22Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "plan",
+   "quality": "via-input-type",
+   "note": "plan step 2's mod-line rule did not say whether modules declared inside a whole-file Windows module are gated too; implemented transitive propagation with a synthetic known positive and carried it to the report as a deviation",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-04T02:06:22Z-b",
+     "type": "input.plan-step-ambiguous",
+     "what": "plan step 2's mod-line rule did not say whether modules declared inside a whole-file Windows module are gated too; implemented transitive propagation with a synthetic known positive and carried it to the report as a deviation"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "phase/validate",
+   "producer_id": "2026-10-04T02:01:02Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "baseline-control-caught-vacuity"
+   ],
+   "producer_note": "the known-positive pass showed the uses-pinned probe green on an absent file; test -f added",
+   "producer_frictions": [
+    {
+     "id": "2026-10-04T02:01:02Z-b",
+     "type": "contract.mechanical-check"
+    },
+    {
+     "id": "2026-10-04T02:01:02Z-c",
+     "type": "contract.mechanical-check"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-10-04-windows-boundary-mutation-workflow",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-10-04T04:10:35Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "implement-outcome",
+   "quality": "thin",
+   "note": "superseded by the operator pass (dispatch grades) and the overseer's leak disposition",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-04T04:10:35Z-b",
+     "type": "input.implement-outcome-unsettled",
+     "what": "implement's surfaced report was followed by the overseer's disposition (leak accepted, :72 owner) and the operator pass (dispatch grading the 34); the outcome basis is the operator pass's evidence files"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "implement/smoke",
+   "producer_id": "2026-10-04T03:31:03Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "surfaced"
+   ],
+   "producer_note": "gates 15/15 green; the leak acceptance (0 .tmp* after a full viola-e2e boundary run) read 38: 17 nextest kills by design, 21 partial throwaway git repos from a terminate-independent mechanism",
+   "producer_frictions": [
+    {
+     "id": "2026-10-04T03:31:03Z-b",
+     "type": "contract.premise-falsified"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-10-04-windows-boundary-mutation-workflow",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-10-04T04:20:25Z-a",
+   "consumer_outcome": "halted-resolved",
+   "artifact": "drift-base",
+   "quality": "thin",
+   "note": "no security/obs detector covers CI workflow facts; check 5 raised 5 expected amendments",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": null
+  },
+  {
+   "chunk": "2026-10-04-readiness-gate-and-timing-constants",
+   "consumer": "implement/code",
+   "consumer_id": "2026-10-04T05:06:21Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "plan",
+   "quality": "via-input-type",
+   "note": "step 11 named init_repo and Pass::commit; run.rs test_support::mini carries two more throwaway-repo git calls with the same identity list; the edit script's count assertion caught it",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-04T05:06:21Z-b",
+     "type": "input.plan-step-ambiguous",
+     "what": "step 11 named init_repo and Pass::commit; run.rs test_support::mini carries two more throwaway-repo git calls with the same identity list; the edit script's count assertion caught it"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "phase/plan",
+   "producer_id": "2026-10-04T04:54:04Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:carry1-signature-rows-held",
+    "designed-dialogue:carry2-in-process-witness",
+    "authority-resolved:extract-seam-advice-yielded-to-measured-panic-bytes"
+   ],
+   "producer_note": "436 lines, 21 gate entries, 10 criteria, 0 caps claimable; libfuzzer-sys abort-hook premise left unmeasured on this host, owed as a remove-the-guard pair at implement",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-04-confirmed-send-with-cl-1-records",
+   "consumer": "phase/plan",
+   "consumer_id": "2026-10-04T06:05:10Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "research",
+   "quality": "thin",
+   "note": "missed .config/nextest.toml (mutants 10 s kill vs the 10 s window) and tests/support/home.rs (sized boot, out-of-scan home); both added at synthesis",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-04T06:05:10Z-b",
+     "type": "input.research-thin",
+     "what": "synthesis found two files the steps need outside research's lists: .config/nextest.toml (the mutants profile kills a root test at 10 s, equal to CONFIRM_WINDOW_FALLBACK) and tests/support/home.rs (a sized boot and the F4 out-of-scan home); research.md lists amended and re-parsed"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "phase/research",
+   "producer_id": "2026-10-04T05:56:59Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "unresolved-questions"
+   ],
+   "producer_note": "3 open plan-decision questions (F1 gate without signatures, F2 local-command list, F3 server verification); F4 G2 carried in scope",
+   "producer_frictions": [
+    {
+     "id": "2026-10-04T05:56:59Z-b",
+     "type": "tooling.graph-unavailable"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-10-04-confirmed-send-with-cl-1-records",
+   "consumer": "implement/code",
+   "consumer_id": "2026-10-04T06:27:45Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "plan",
+   "quality": "via-input-type",
+   "note": "three plan details underdetermined the change and were settled in the impl, to surface in the report: the -32602 fault for bad send params (ProtocolError::InvalidParams added), the Git Bash warning placed in clap value parsers (main.rs frozen), and the claim/settle two-phase that keeps prompt-submitted ahead of send-confirmed under the lock-order note",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-04T06:27:45Z-c",
+     "type": "input.plan-step-ambiguous",
+     "what": "three plan details underdetermined the change and were settled in the impl, to surface in the report: the -32602 fault for bad send params (ProtocolError::InvalidParams added), the Git Bash warning placed in clap value parsers (main.rs frozen), and the claim/settle two-phase that keeps prompt-submitted ahead of send-confirmed under the lock-order note"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "phase/plan",
+   "producer_id": "2026-10-04T06:05:10Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:F1 partial gate",
+    "designed-dialogue:F2 local-command hold",
+    "designed-dialogue:F3 verification gap",
+    "designed-dialogue:F4 G2 home",
+    "authority-resolved:testing.md test-data rule yielded to the F4 ruling, recorded as a carve-out and founder-visible item"
+   ],
+   "producer_note": "439 lines, 27 gate entries, 9 criteria, 1 cap (v1-12); 4 forks asked in one round, all recommended options taken; planlint 0 hits",
+   "producer_frictions": [
+    {
+     "id": "2026-10-04T06:05:10Z-b",
+     "type": "input.research-thin"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-10-04-confirmed-send-with-cl-1-records",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-10-04T06:47:16Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "implement-outcome",
+   "quality": "thin",
+   "note": "superseded by the operator pass, which folded a red (the CRLF fuzz seed) after implement's green",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-04T06:47:16Z-b",
+     "type": "input.implement-outcome-unsettled",
+     "what": "a step ran after implement: the operator pass met and folded a red (text=auto stripped the multi-line fuzz seed's CRLF) in fix commit 306c4ae; the outcome basis is the pass's final HEAD and ci#37183365088"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "implement/smoke",
+   "producer_id": "2026-10-04T06:35:29Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "green"
+   ],
+   "producer_note": null,
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-04-wait-and-last",
+   "consumer": "phase/distill",
+   "consumer_id": "2026-10-04T09:34:59Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "sidecar:design-system",
+   "quality": "thin",
+   "note": "3 relevant entries; the cli rationale (T3/T4/T5) lives only in the U35 archive",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": null
+  },
+  {
+   "chunk": "2026-10-04-wait-and-last",
+   "consumer": "phase/distill",
+   "consumer_id": "2026-10-04T09:34:59Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "sidecar:layout-templates",
+   "quality": "thin",
+   "note": "2 relevant entries; rationale in the U35 archive",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": null
+  },
+  {
+   "chunk": "2026-10-04-wait-and-last",
+   "consumer": "phase/plan",
+   "consumer_id": "2026-10-04T09:50:37Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "research",
+   "quality": "thin",
+   "note": "missed that viola-core EventKind lacks question/permission/plan and the per-OS wrapper-kill precedent; both found at P4 and folded back into research.md (E9, E10)",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-04T09:50:37Z-b",
+     "type": "input.research-thin",
+     "what": "synthesis needed two facts research had not read: EventKind has no dialog variants (crates/viola-core/src/lib.rs:44-55) and the cross-OS wrapper-kill precedent (tests/run_cli.rs:606, tests/cli_instance_state.rs:208); research.md amended at P4 with two touchpoints"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "phase/research",
+   "producer_id": "2026-10-04T09:42:00Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "unresolved-questions"
+   ],
+   "producer_note": "2 open questions (security pre-check fork, obs outcome site); companion pin tests/channel_endpoint.rs:211 found by a name sweep, not the graph (a test pinning a method name is no call)",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-04-wait-and-last",
+   "consumer": "implement/code",
+   "consumer_id": "2026-10-04T10:08:48Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "plan",
+   "quality": "via-input-type",
+   "note": "plan step 8 says role_of returns Cli for every other first word, but the existing literal row --help -> Other would then flip; kept flags (a leading '-') as Other so the existing oracle stands, surfaced as a deviation",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-04T10:08:48Z-b",
+     "type": "input.plan-step-ambiguous",
+     "what": "plan step 8 says role_of returns Cli for every other first word, but the existing literal row --help -> Other would then flip; kept flags (a leading '-') as Other so the existing oracle stands, surfaced as a deviation"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "phase/plan",
+   "producer_id": "2026-10-04T09:50:37Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:fifth-interim-gap-founder-live",
+    "designed-dialogue:cli-panic-witness-form",
+    "authority-resolved:layouts exit-21 line over design's nameless line",
+    "authority-resolved:obs-plan §7 role rule over enumerating verbs"
+   ],
+   "producer_note": "339 lines, 13 steps, 10 criteria, v1-30 to claim; 7 decisive leans stated; planlint 0 hits; one guard entry narrowed after drafting (tests/support/home.rs dropped)",
+   "producer_frictions": [
+    {
+     "id": "2026-10-04T09:50:37Z-b",
+     "type": "input.research-thin"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-10-04-wait-and-last",
+   "consumer": "implement/fix-loop",
+   "consumer_id": "2026-10-04T10:13:15Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "research",
+   "quality": "thin",
+   "note": "did not name the frame.rs envelope typing of from, which pre-empts the method's -32602",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "phase/research",
+   "producer_id": "2026-10-04T09:42:00Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "unresolved-questions"
+   ],
+   "producer_note": "2 open questions (security pre-check fork, obs outcome site); companion pin tests/channel_endpoint.rs:211 found by a name sweep, not the graph (a test pinning a method name is no call)",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-04-wait-and-last",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-10-04T10:31:42Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "implement-outcome",
+   "quality": "thin",
+   "note": "superseded by the operator pass: a macOS CI red folded as 3de125f after implement's green report",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-04T10:31:42Z-b",
+     "type": "input.implement-outcome-unsettled",
+     "what": "implement reported green; the operator pass's first CI run went red on macOS (last read the previous turn) and its fold 3de125f changed src/run/wait.rs and send.rs, so the final HEAD's CI run and evidence/operator-pass.md stood in as the outcome basis"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "implement/smoke",
+   "producer_id": "2026-10-04T10:14:02Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "green"
+   ],
+   "producer_note": null,
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-04-dialog-answers-by-dialog-id",
+   "consumer": "implement/code",
+   "consumer_id": "2026-10-04T11:54:44Z-a",
+   "consumer_outcome": "soft-exit",
+   "artifact": "plan",
+   "quality": "wrong",
+   "note": "steps 5/7 rest on a print-mode dialog probe; measured: 2.1.287 print mode exposes neither AskUserQuestion nor ExitPlanMode, so the plan's own STOP clause fired after steps 1-2",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "phase/validate",
+   "producer_id": "2026-10-04T11:47:58Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "mechanism-reach-caught-wording",
+    "baseline-controls-fired"
+   ],
+   "producer_note": "13 green baselines, 1 vacuous red (cli_answer absent), 4 inline-guard controls fired; review prompt issued as text, one yes with the overseer's artifact check",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-04-dialog-answers-by-dialog-id",
+   "consumer": "implement/code",
+   "consumer_id": "2026-10-04T14:49:33Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "research",
+   "quality": "thin",
+   "note": "lists missed the channel lib.rs error variant, viola-state/agent-claude manifests, liveness.rs and hook_fail_open.rs pins; all recorded as companions",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-04T14:49:33Z-b",
+     "type": "input.research-files-wrong",
+     "what": "research lists omitted five files the change needed (viola-channel lib.rs for ChannelError::Deadline, two manifests, liveness.rs snapshot literal, hook_fail_open.rs pinning pre-tool-use as unknown) and named tests/hook_events.rs for a re-pin it did not need"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "phase/research",
+   "producer_id": "2026-10-04T14:12:39Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "graph-not-applicable"
+   ],
+   "producer_note": "revision added no symbol the first pass's graph trace lacked; the new subjects are fixtures, a schema and an external capture store",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-04-dialog-answers-by-dialog-id",
+   "consumer": "implement/fix-loop",
+   "consumer_id": "2026-10-04T15:36:14Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "research",
+   "quality": "thin",
+   "note": "two companions the red run surfaced were in neither list: the windows-mutants workflow scope and the channel_endpoint unknown-method probe",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "phase/research",
+   "producer_id": "2026-10-04T14:12:39Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "graph-not-applicable"
+   ],
+   "producer_note": "revision added no symbol the first pass's graph trace lacked; the new subjects are fixtures, a schema and an external capture store",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-04-dialog-answers-by-dialog-id",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-10-04T16:55:25Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "implement-outcome",
+   "quality": "thin",
+   "note": "implement P4 reported green before the operator pass; the pass then found a Windows red and landed three fix commits, one founder-ruled widening",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "implement/smoke",
+   "producer_id": "2026-10-04T15:36:33Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "green"
+   ],
+   "producer_note": null,
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-04-dialog-answers-by-dialog-id",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-10-04T17:16:27Z-a",
+   "consumer_outcome": "halted-resolved",
+   "artifact": "report",
+   "quality": "thin",
+   "note": "carried every Change the 68 proposals rested on; did not carry the perf suite's green count (6->7) or name RECORDED_CLI_VERSION, so the orchestrator re-read perf.rs:357 and the plan",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-04T17:16:27Z-d",
+     "type": "input.report-insufficient",
+     "what": "report Counts moved perf rows 4->5 but not the perf suite's green count (6 passed -> 7) the test-plan key states; re-derived from perf.rs:357"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "wrap-session/report",
+   "producer_id": "2026-10-04T16:55:25Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [],
+   "producer_note": "Expected-amendments lines carry per-master grep hit counts; one owed amendment (obs-plan strict-modes-failed) not in the plan's list",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-04-dialog-answers-by-dialog-id",
+   "consumer": "wrap-session/curation",
+   "consumer_id": "2026-10-04T17:17:58Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "conversation",
+   "quality": "thin",
+   "note": "resumed window: the P1 window's conversation is gone, so only this window and the report's Decisions & corrections were scanned",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "implement/smoke",
+   "producer_id": "2026-10-04T15:36:33Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "recorded-not-rerun"
+   ],
+   "producer_note": "the plan's minted boot-status-cleanup smoke ran as P2 entries 15-18",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-04-the-wheel",
+   "consumer": "phase/research",
+   "consumer_id": "2026-10-04T17:46:16Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "extracts",
+   "quality": "thin",
+   "note": "a11y/design/layouts assigned the outer-PTY cases (1)(2) and --help grouping to this chunk though :100 owns them; arch read CL-1's send-refused wheel as an event-data amendment, it is a process-log field the schema already admits",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "phase/distill",
+   "producer_id": "2026-10-04T17:37:35Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "binding-unilateral",
+    "path-check-exact"
+   ],
+   "producer_note": "7/7 valid first try, 0 no-coverage; obs flagged the span cause spelling human-key (obs-plan §4) vs human-input (arch :299) — carried to synthesis; both path checks printed exactly the named A lines, index/head unchanged",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-04-the-wheel",
+   "consumer": "phase/validate",
+   "consumer_id": "2026-10-04T18:09:05Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "two gate entries were defects found at P5: a run --e2e selector the harness lacks (baseline exit 2) and a test() filter over crate names that selects nothing; one probe dropped as a false-match risk; obs G4/secret-scan criteria re-pointed to the CI read",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "phase/plan",
+   "producer_id": "2026-10-04T18:04:42Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:pause-release-dated-gap",
+    "designed-dialogue:terminal-replies-editing",
+    "authority-resolved:obs-plan §4 human-key yielded to arch §Standard Contracts human-input",
+    "authority-resolved:extracts' outer-PTY (1)(2)/help ownership yielded to working-route :100"
+   ],
+   "producer_note": "425 lines, 16 acceptance criteria, 21 gate entries; both forks were boundary-widening class and answered as the founder's live rulings F-W1/F-W2 relayed by the overseer; fence dry-run parsed, planlint 0 hits",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-04-the-wheel",
+   "consumer": "implement/code",
+   "consumer_id": "2026-10-04T18:27:23Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "plan",
+   "quality": "via-input-type",
+   "note": "step 5.2 lists release -> driver/release without saying whether a release on a wheel the driver already holds records a cause change; implemented as no change, to surface in the report",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-04T18:27:23Z-c",
+     "type": "input.plan-step-ambiguous",
+     "what": "step 5.2 lists release -> driver/release without saying whether a release on a wheel the driver already holds records a cause change; implemented as no change, to surface in the report"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "phase/plan",
+   "producer_id": "2026-10-04T18:04:42Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:pause-release-dated-gap",
+    "designed-dialogue:terminal-replies-editing",
+    "authority-resolved:obs-plan §4 human-key yielded to arch §Standard Contracts human-input",
+    "authority-resolved:extracts' outer-PTY (1)(2)/help ownership yielded to working-route :100"
+   ],
+   "producer_note": "425 lines, 16 acceptance criteria, 21 gate entries; both forks were boundary-widening class and answered as the founder's live rulings F-W1/F-W2 relayed by the overseer; fence dry-run parsed, planlint 0 hits",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-04-the-wheel",
+   "consumer": "implement/fix-loop",
+   "consumer_id": "2026-10-04T18:40:24Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "research",
+   "quality": "thin",
+   "note": "the 25-writer sweep covered keys before a send; the stop's Ctrl-C taking the wheel in tests/hook_events.rs was outside it",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "phase/research",
+   "producer_id": "2026-10-04T17:46:16Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "unresolved-questions"
+   ],
+   "producer_note": "3 open questions to P4: terminal-reply classification, pause/release dated gap, unowned prompt-submitted→turn-ended state",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-04-the-wheel",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-10-04T20:46:04Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "implement-outcome",
+   "quality": "thin",
+   "note": "implement's green P4 report was superseded by the operator pass: four CI reds measured and folded (a product race, a test-side child reader, F-W3's platform fact)",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-04T20:46:04Z-b",
+     "type": "input.implement-outcome-unsettled",
+     "what": "the operator pass ran after implement's green report and folded four CI reds; the outcome basis is evidence/operator-pass.md and ci#37232840791 on 79ec57c, not implement's report"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "implement/smoke",
+   "producer_id": "2026-10-04T18:40:53Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "green"
+   ],
+   "producer_note": null,
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-04-the-wheel",
+   "consumer": "wrap-session/curation",
+   "consumer_id": "2026-10-04T21:01:48Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "conversation",
+   "quality": "thin",
+   "note": "a resumed window: the implement and operator-pass conversation is gone; resume.md carried its candidates",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "implement/smoke",
+   "producer_id": "2026-10-04T18:40:53Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "recorded-not-rerun"
+   ],
+   "producer_note": "boot-path changed (the stdin observer in the pump); the plan's smoke entries 10-13 ran as P2 gates on the final tree; census found no process of this run alive",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-04-running-turn-refusal",
+   "consumer": "implement/code",
+   "consumer_id": "2026-10-04T22:05:32Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "plan",
+   "quality": "via-input-type",
+   "note": "plan step 5 and the turn's-life acceptance require a human-origin prompt to make the next send refuse turn-running, unreachable because the human-typing rung precedes it and the only wheel return clears the turn",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-04T22:05:32Z-b",
+     "type": "input.plan-step-ambiguous",
+     "what": "plan step 5 and the turn's-life acceptance require a human-origin prompt to make the next send refuse turn-running, unreachable because the human-typing rung precedes it and the only wheel return clears the turn"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "phase/plan",
+   "producer_id": "2026-10-04T21:55:48Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "authority-resolved:extract-open-question->architecture.md:70 text"
+   ],
+   "producer_note": "403 lines, 14 criteria, 20 gates; 0 matrix claims (v1-29 note owed at P5); 4 leans stated, none asked; planlint 0 hits",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-04-running-turn-refusal",
+   "consumer": "implement/fix-loop",
+   "consumer_id": "2026-10-04T22:18:54Z-a",
+   "consumer_outcome": "halted-resolved",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "entry 8's `exit 0` atom cannot hold on the green state: git grep exits 1 on zero matches under the gate shell's pipefail",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "phase/plan",
+   "producer_id": "2026-10-04T21:55:48Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "authority-resolved:extract-open-question->architecture.md:70 text"
+   ],
+   "producer_note": "403 lines, 14 criteria, 20 gates; 0 matrix claims (v1-29 note owed at P5); 4 leans stated, none asked; planlint 0 hits",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-04-running-turn-refusal",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-10-04T22:29:48Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "step-5 human-origin oracle unreachable; entry 8 expect atom unreachable on green",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "phase/plan",
+   "producer_id": "2026-10-04T21:55:48Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "authority-resolved:extract-open-question->architecture.md:70 text"
+   ],
+   "producer_note": "403 lines, 14 criteria, 20 gates; 0 matrix claims (v1-29 note owed at P5); 4 leans stated, none asked; planlint 0 hits",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-04-running-turn-refusal",
+   "consumer": "wrap-session/gates",
+   "consumer_id": "2026-10-04T22:41:04Z-a",
+   "consumer_outcome": "halted-resolved",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "entry 8's exit atom unreachable on its green subject",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "phase/plan",
+   "producer_id": "2026-10-04T21:55:48Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "authority-resolved:extract-open-question->architecture.md:70 text"
+   ],
+   "producer_note": "403 lines, 14 criteria, 20 gates; 0 matrix claims (v1-29 note owed at P5); 4 leans stated, none asked; planlint 0 hits",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-05-real-cli-verify-probes",
+   "consumer": "phase/plan",
+   "consumer_id": "2026-10-05T06:18:34Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "research",
+   "quality": "thin",
+   "note": "missed the 2.1.288 --help facts (trust dialog interactive-only, --no-session-persistence print-only) and that contract_ledger_probes stamps every recorded set; found by 9 P4 reads",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-05T06:18:34Z-c",
+     "type": "input.research-thin",
+     "what": "P3 research did not read how contract_ledger_probes walks recorded sets nor the installed claude versions; at P4 the grown ledger proved unstampable on the 2.1.283/2.1.287 sets, costing a fork round and 3 reads"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "phase/research",
+   "producer_id": "2026-10-05T00:29:31Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "unresolved-questions"
+   ],
+   "producer_note": "3 open questions (split, W3 decision crossing, W4 cross-session trigger) — all plan-decision",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-05-real-cli-verify-probes",
+   "consumer": "implement/code",
+   "consumer_id": "2026-10-05T06:32:48Z-a",
+   "consumer_outcome": "soft-exit",
+   "artifact": "plan",
+   "quality": "wrong",
+   "note": "step 0 STOP 2 fired: the 2.1.288 trust dialog focuses 'No, exit', so one accept key exits; step 3 phase 1 and the modal-signature check rest on premises the live run and the CLI bundle falsify",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "phase/validate",
+   "producer_id": "2026-10-05T06:22:20Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "baseline-controls-fired"
+   ],
+   "producer_note": "11 new non-leg entries baselined green; 5 guard controls each fired on a minted or historical positive",
+   "producer_frictions": [
+    {
+     "id": "2026-10-05T06:22:20Z-b",
+     "type": "contract.mechanical-check"
+    },
+    {
+     "id": "2026-10-05T06:22:20Z-c",
+     "type": "contract.mechanical-check"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-10-05-real-cli-verify-probes",
+   "consumer": "implement/code",
+   "consumer_id": "2026-10-05T06:32:48Z-a",
+   "consumer_outcome": "soft-exit",
+   "artifact": "research",
+   "quality": "thin",
+   "note": "no measurement of the trust dialog's key handling or of trust inheritance from a trusted ancestor (the repo); the record and local-live homes sit under it",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "phase/research",
+   "producer_id": "2026-10-05T00:29:31Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "unresolved-questions"
+   ],
+   "producer_note": "3 open questions (split, W3 decision crossing, W4 cross-session trigger) — all plan-decision",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-05-real-cli-verify-probes",
+   "consumer": "phase/validate",
+   "consumer_id": "2026-10-05T08:33:46Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "scope",
+   "quality": "thin",
+   "note": "val-1 intent-incomplete: scope still carried the superseded one-key trust ruling; amended with a Revision 2 section citing relay-3 and relay-4",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "phase/validate",
+   "producer_id": "2026-10-05T06:22:20Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "intent-incomplete"
+   ],
+   "producer_note": "val-1: --no-session-persistence is print-only (premise-corrected) and the founder trust-accept ruling plus the overseer old-sets/timing rulings folded",
+   "producer_frictions": [
+    {
+     "id": "2026-10-05T06:22:20Z-b",
+     "type": "contract.mechanical-check"
+    },
+    {
+     "id": "2026-10-05T06:22:20Z-c",
+     "type": "contract.mechanical-check"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-10-05-real-cli-verify-probes",
+   "consumer": "implement/code",
+   "consumer_id": "2026-10-05T08:42:29Z-a",
+   "consumer_outcome": "soft-exit",
+   "artifact": "research",
+   "quality": "wrong",
+   "note": "M13/M15: 'every dir under the repo starts with no dialog' — true for the trust dialog only; a subdir cwd shows the external CLAUDE.md imports dialog",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "phase/research",
+   "producer_id": "2026-10-05T08:26:36Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "revision",
+    "lists-rewritten"
+   ],
+   "producer_note": "M12-M18 added from step-0 evidence and the CLI binaries' strings; the file lists rewritten to the post-split, post-revision write set (the take-up lists still named W2/W3 files)",
+   "producer_frictions": []
+  },
+  {
+   "chunk": null,
+   "consumer": "new-session/orientation",
+   "consumer_id": "2026-10-05T09:17:39Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "handoff",
+   "quality": "thin",
+   "note": "Position Next names /andromeda-phase for :84; three phase runs since the wrap made it a master pending record — a wrap-time fact, phase does not rewrite the handoff",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": null
+  },
+  {
+   "chunk": "2026-10-05-real-cli-verify-probes",
+   "consumer": "implement/code",
+   "consumer_id": "2026-10-05T09:39:17Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "plan",
+   "quality": "via-input-type",
+   "note": "plan steps underdetermined or conflicted at 6 points: &dyn Clock vs a pump-thread sink, the no-screens case vs the 7 s bound, the Stop-less case vs a PROBE_DEADLINE turn wait, row text out of Screen, screen_is_clean 'after scrub' semantics, merge_stamp literals vs typed_probe",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-05T09:39:17Z-b",
+     "type": "input.plan-step-ambiguous",
+     "what": "plan steps underdetermined or conflicted at 6 points: &dyn Clock vs a pump-thread sink, the no-screens case vs the 7 s bound, the Stop-less case vs a PROBE_DEADLINE turn wait, row text out of Screen, screen_is_clean 'after scrub' semantics, merge_stamp literals vs typed_probe"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "phase/plan",
+   "producer_id": "2026-10-05T09:14:05Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "fence-unchanged",
+    "rulings-folded"
+   ],
+   "producer_note": "revision 3: STOP 0 precondition added, all six STOPs kept, Run B only at step 0, cap 12 with 11 counted; planlint 0 hits, dry-run 24 entries; six cheap baselines reproduced",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-05-real-cli-verify-probes",
+   "consumer": "implement/fix-loop",
+   "consumer_id": "2026-10-05T09:45:14Z-a",
+   "consumer_outcome": "soft-exit",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "the record entry refuses with one fixed message for any payload or screen, so a red names no class; the plan's 'fire after the non-live gates are green' cannot hold (the fixture-reading gates need the recording)",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "phase/plan",
+   "producer_id": "2026-10-05T09:14:05Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "fence-unchanged",
+    "rulings-folded"
+   ],
+   "producer_note": "revision 3: STOP 0 precondition added, all six STOPs kept, Run B only at step 0, cap 12 with 11 counted; planlint 0 hits, dry-run 24 entries; six cheap baselines reproduced",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-05-real-cli-verify-probes",
+   "consumer": "implement/fix-loop",
+   "consumer_id": "2026-10-05T10:27:54Z-a",
+   "consumer_outcome": "halted-resolved",
+   "artifact": "plan",
+   "quality": "wrong",
+   "note": "record entries 7/8 passed --home \"$h/home\"; the /home/ component survives the scrub and the hygiene check refuses it (product as designed); corrected by the overseer, driven by hand with $h/vhome",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "phase/plan",
+   "producer_id": "2026-10-05T09:14:05Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "fence-unchanged",
+    "rulings-folded"
+   ],
+   "producer_note": "revision 3: STOP 0 precondition added, all six STOPs kept, Run B only at step 0, cap 12 with 11 counted; planlint 0 hits, dry-run 24 entries; six cheap baselines reproduced",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-05-real-cli-verify-probes",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-10-05T10:40:17Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "implement-outcome",
+   "quality": "thin",
+   "note": "implement's first P4 outcome (stuck at entry 7) was superseded by two operator rulings, the named-refusal widening and the vhome plan correction; the final green + operator pass is the basis",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "implement/smoke",
+   "producer_id": "2026-10-05T10:27:54Z-c",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "green"
+   ],
+   "producer_note": null,
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-05-real-cli-verify-probes",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-10-05T10:40:17Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "record entries 7/8's --home \"$h/home\" disproved by measurement; the live-before-gates order could not hold",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "phase/plan",
+   "producer_id": "2026-10-05T09:14:05Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "fence-unchanged",
+    "rulings-folded"
+   ],
+   "producer_note": "revision 3: STOP 0 precondition added, all six STOPs kept, Run B only at step 0, cap 12 with 11 counted; planlint 0 hits, dry-run 24 entries; six cheap baselines reproduced",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-05-real-cli-verify-probes",
+   "consumer": "wrap-session/curation",
+   "consumer_id": "2026-10-05T11:01:20Z-a",
+   "consumer_outcome": "ok-degraded",
+   "artifact": "conversation",
+   "quality": "thin",
+   "note": "resumed wrap: the implementing window is gone; candidates came from report Decisions & corrections and resume-point.md only",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "implement/smoke",
+   "producer_id": "2026-10-05T10:27:54Z-c",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "recorded-not-rerun"
+   ],
+   "producer_note": null,
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-05-dialog-rows-and-re-probe",
+   "consumer": "implement/code",
+   "consumer_id": "2026-10-05T13:08:03Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "research",
+   "quality": "thin",
+   "note": "Files to modify omitted tests/hook_fail_open.rs, which the plan's gate filter and an acceptance name",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-05T13:08:03Z-b",
+     "type": "input.research-files-wrong",
+     "what": "tests/hook_fail_open.rs is gated by entry 9's binary filter and cited by an acceptance (the capture arm fail-open) but absent from research's Files to modify; recorded in-intent"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "phase/research",
+   "producer_id": "2026-10-05T11:31:17Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "unresolved-questions"
+   ],
+   "producer_note": "15 measured facts with no live session (binary static reads of 2.1.288, prototype hook-log census, host settings); 3 open questions to P4 (M7+cap card, sizing, verdict shape); lists parsed 23 items",
+   "producer_frictions": [
+    {
+     "id": "2026-10-05T11:31:17Z-b",
+     "type": "tooling.host-shell"
+    },
+    {
+     "id": "2026-10-05T11:31:17Z-c",
+     "type": null
+    }
+   ]
+  },
+  {
+   "chunk": "2026-10-05-dialog-rows-and-re-probe",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-10-05T14:30:10Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "implement-outcome",
+   "quality": "thin",
+   "note": "implement's P4 reported CI red and stuck; four operator CI rounds and two overseer decisions followed, the final basis is evidence/ci-rounds.md at c914216 green twice",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-05T14:30:10Z-b",
+     "type": "input.implement-outcome-unsettled",
+     "what": "implement's P4 outcome (CI red, stuck on a fix choice) was superseded by the operator pass's four CI rounds (the settle fix, a timing-only measurement, its revert, the verify_window_ class); the outcome basis is evidence/ci-rounds.md and operator-pass.md at c914216"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "implement/smoke",
+   "producer_id": "2026-10-05T13:21:27Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "green"
+   ],
+   "producer_note": null,
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-05-dialog-rows-and-re-probe",
+   "consumer": "wrap-session/curation",
+   "consumer_id": "2026-10-05T14:47:29Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "conversation",
+   "quality": "thin",
+   "note": "the window that ran implement and P1 is gone; this window held the P2 work only",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "implement/smoke",
+   "producer_id": "2026-10-05T13:21:27Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "recorded-not-rerun"
+   ],
+   "producer_note": "the plan's harness smoke (entries 11-14) ran green at P2 on the final tree; not re-driven",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-05-permission-end-to-end",
+   "consumer": "phase/distill",
+   "consumer_id": "2026-10-05T15:08:44Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "sidecar:test-plan",
+   "quality": "thin",
+   "note": "whole, 27; one item states no planted-hang control was recorded, falsified by the prior chunk's evidence/verify-window-class.md",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": null
+  },
+  {
+   "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+   "consumer": "phase/take-up",
+   "consumer_id": "2026-10-06T19:20:37Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "working-route",
+   "quality": "via-input-type",
+   "note": "CARRY 4 cites research M10 of chunk 2026-10-05-real-cli-verify-probes as the measurement that a cross-session prompt needs a second session; that research.md names M10 only as moved with W4 (lines 58 and 218), so the measurement text is not at the coordinate and the claim was folded as an inferred bullet",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-06T19:20:37Z-b",
+     "type": "input.carry-context-gap",
+     "what": "CARRY 4 cites research M10 of chunk 2026-10-05-real-cli-verify-probes as the measurement that a cross-session prompt needs a second session; that research.md names M10 only as moved with W4 (lines 58 and 218), so the measurement text is not at the coordinate and the claim was folded as an inferred bullet"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": null
+  },
+  {
+   "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+   "consumer": "phase/research",
+   "consumer_id": "2026-10-06T19:34:51Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "extracts",
+   "quality": "via-input-type",
+   "note": "the tests extract listed the fake agent emitting the paste-wrap form past the fixture threshold as an existing pattern to follow; the fake agent source holds no paste wrapper at all, so the signal pointed at plan target text and the replay is new work",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-06T19:34:51Z-b",
+     "type": "input.extract-signal-gap",
+     "what": "the tests extract listed the fake agent emitting the paste-wrap form past the fixture threshold as an existing pattern to follow; the fake agent source holds no paste wrapper at all, so the signal pointed at plan target text and the replay is new work"
+    },
+    {
+     "id": "2026-10-06T19:34:51Z-c",
+     "type": "input.extract-signal-gap",
+     "what": "the security history named a census gate that keeps the cross-session tag literal in hook.rs alone and warned a new literal elsewhere turns it red; a grep over scripts, tests and the workflows found no such standing gate, only the literal itself in one file"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "phase/distill",
+   "producer_id": "2026-10-06T19:28:26Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "binding-unilateral",
+    "receipt-count-mismatch"
+   ],
+   "producer_note": "7 of 7 with coverage, 0 no-coverage, both path checks exact, 0 entities, raw equals saved, no twin; check C found no contradiction; the tests history receipt said items 31 where the file holds 30 items and the cite check counted 30",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+   "consumer": "implement/code",
+   "consumer_id": "2026-10-06T20:02:31Z-a",
+   "consumer_outcome": "soft-exit",
+   "artifact": "research",
+   "quality": "thin",
+   "note": "M3 states the rows add probes and checks, not normalisation code; the wrapped prompt shape that claim rests on was not measured before step 0",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-06T20:02:31Z-c",
+     "type": "input.plan-step-ambiguous",
+     "what": "step 0 names two forms for the session end (the earlier chunk step 0 ended by kill, Run B ends by Ctrl-C) and no line count for the long text; chose Ctrl-C into the settled input box and one line, both named in the report"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "phase/research",
+   "producer_id": "2026-10-06T19:34:51Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "unresolved-questions"
+   ],
+   "producer_note": "3 open questions, all plan-decision; the file lists hold both strands of a pending split fork; gate.py scope lists parsed 23 items",
+   "producer_frictions": [
+    {
+     "id": "2026-10-06T19:34:51Z-b",
+     "type": "input.extract-signal-gap"
+    },
+    {
+     "id": "2026-10-06T19:34:51Z-c",
+     "type": "input.extract-signal-gap"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+   "consumer": "implement/code",
+   "consumer_id": "2026-10-06T20:02:31Z-a",
+   "consumer_outcome": "soft-exit",
+   "artifact": "plan",
+   "quality": "via-input-type",
+   "note": "step 0 names two forms for the session end (the earlier chunk step 0 ended by kill, Run B ends by Ctrl-C) and no line count for the long text; chose Ctrl-C into the settled input box and one line, both named in the report",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-06T20:02:31Z-c",
+     "type": "input.plan-step-ambiguous",
+     "what": "step 0 names two forms for the session end (the earlier chunk step 0 ended by kill, Run B ends by Ctrl-C) and no line count for the long text; chose Ctrl-C into the settled input box and one line, both named in the report"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "phase/validate",
+   "producer_id": "2026-10-06T19:50:32Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "baseline-controls-reproduced"
+   ],
+   "producer_note": "the review prompt was issued as text both times; one review round added three named unit cases, one acceptance line and one gate entry, then the word was yes",
+   "producer_frictions": [
+    {
+     "id": "2026-10-06T19:50:32Z-b",
+     "type": "contract.mechanical-check"
+    },
+    {
+     "id": "2026-10-06T19:50:32Z-c",
+     "type": "contract.mechanical-check"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+   "consumer": "implement/code",
+   "consumer_id": "2026-10-06T20:35:24Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "4 points settled by reading: settles between Run B's added pastes; the fake agent's receipt word and Stop for a lacking variant; the dialog-drift contract over a set now drift-only; a step-7 unit literal that gate entry 10's grep would hit",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-06T20:35:24Z-b",
+     "type": "input.research-files-wrong",
+     "what": "research's Files to modify omitted src/run/version_gate.rs: its unit test stamps_verdict_needs_the_dialog_rows expects a stamp of the fourteen older rows to read verified, so it went red on the first unit run after the row set grew; edited and recorded as a companion"
+    },
+    {
+     "id": "2026-10-06T20:35:24Z-c",
+     "type": "input.plan-step-ambiguous",
+     "what": "step 8 says a set without the framing variants is not compared, and step 7 moves 2.1.288 to the drift-only list, but the existing dialog-replay contract runs verify over every dialog set and asserts exit 0: with seventeen rows 2.1.288 can no longer exit 0, and with the framing option it would wait out the probe deadline; the test now runs such a set without the option and expects exit 1"
+    },
+    {
+     "id": "2026-10-06T20:35:24Z-d",
+     "type": "input.plan-step-ambiguous",
+     "what": "step 7 asks for the unit literals of src/cmd/verify.rs at seventeen rows, and gate entry 10 greps that file for a local-command literal: the seventeenth step line's words hold one, so the unit test asserts that line by its counter, id and verdict and leaves its words to the ledger's own test"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "phase/plan",
+   "producer_id": "2026-10-06T20:15:32Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "authority-resolved:architecture long-paste bullet (keeps the ends byte for byte) yielded to Delivery Confirmation (text as sent) on inputs#I4",
+    "gates-24",
+    "baselines-written-4"
+   ],
+   "producer_note": "revision of a pending chunk plan: step 0 recorded as done, the unwrap fix and the wrapped send case added, the send-strand guard narrowed to additions-only on the test file",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+   "consumer": "implement/code",
+   "consumer_id": "2026-10-06T20:35:24Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "research",
+   "quality": "thin",
+   "note": "the two lists missed src/run/version_gate.rs, whose unit test pins the row set",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-06T20:35:24Z-b",
+     "type": "input.research-files-wrong",
+     "what": "research's Files to modify omitted src/run/version_gate.rs: its unit test stamps_verdict_needs_the_dialog_rows expects a stamp of the fourteen older rows to read verified, so it went red on the first unit run after the row set grew; edited and recorded as a companion"
+    },
+    {
+     "id": "2026-10-06T20:35:24Z-c",
+     "type": "input.plan-step-ambiguous",
+     "what": "step 8 says a set without the framing variants is not compared, and step 7 moves 2.1.288 to the drift-only list, but the existing dialog-replay contract runs verify over every dialog set and asserts exit 0: with seventeen rows 2.1.288 can no longer exit 0, and with the framing option it would wait out the probe deadline; the test now runs such a set without the option and expects exit 1"
+    },
+    {
+     "id": "2026-10-06T20:35:24Z-d",
+     "type": "input.plan-step-ambiguous",
+     "what": "step 7 asks for the unit literals of src/cmd/verify.rs at seventeen rows, and gate entry 10 greps that file for a local-command literal: the seventeenth step line's words hold one, so the unit test asserts that line by its counter, id and verdict and leaves its words to the ledger's own test"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "phase/research",
+   "producer_id": "2026-10-06T20:09:42Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "revision-section-added",
+    "lists-parsed"
+   ],
+   "producer_note": "M10 added; lists 22 items (modify 16 to 19)",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+   "consumer": "implement/fix-loop",
+   "consumer_id": "2026-10-06T20:41:30Z-a",
+   "consumer_outcome": "soft-exit",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "the Test Commands ran as written for the 12 entries fired; step 3 says the run pastes only into a settled input box and step 0's record did not carry the 5.8 s the box took to settle after the long-paste turn",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "phase/plan",
+   "producer_id": "2026-10-06T20:15:32Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "authority-resolved:architecture long-paste bullet (keeps the ends byte for byte) yielded to Delivery Confirmation (text as sent) on inputs#I4",
+    "gates-24",
+    "baselines-written-4"
+   ],
+   "producer_note": "revision of a pending chunk plan: step 0 recorded as done, the unwrap fix and the wrapped send case added, the send-strand guard narrowed to additions-only on the test file",
+   "producer_frictions": []
+  },
+  {
+   "chunk": null,
+   "consumer": "new-session/orientation",
+   "consumer_id": "2026-10-06T21:00:32Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "handoff",
+   "quality": "thin",
+   "note": "wrap-owned, dated 2026-10-05: Next names the pending chunk as a phase take-up and carries nothing of its in-flight state (two plan revisions, steps 1-8 in the tree, the live cap); that state came from the operator's invocation argument and was confirmed in plan.md Metadata",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": null
+  },
+  {
+   "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-10-06T22:04:50Z-a",
+   "consumer_outcome": "halted-resolved",
+   "artifact": "report",
+   "quality": "thin",
+   "note": "two facts were corrected from detector notes: the layout site list (9 sites on 9 lines, not a 471-484 range) and the missing count of verify's quiet waits, seven to ten",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-06T22:04:50Z-c",
+     "type": "input.report-insufficient",
+     "what": "the report's Counts missed that verify's quiet waits moved from seven to ten and gave the layout sites as a line range holding 8 of the 9; both surfaced in detector commentary outside any proposal and were corrected in the report after the fan-out"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "wrap-session/report",
+   "producer_id": "2026-10-06T21:47:49Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "reconstructed"
+   ],
+   "producer_note": "Symbols and Counts for steps 1-8 were rebuilt from the diff against the pre-CI commit's parent and a sweep of the seven masters and the registries (19 patterns); the host grep refused a bounded-repeat context pattern, so the site finder went through a scratch python script",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-06-local-command-send-outcomes",
+   "consumer": "phase/distill",
+   "consumer_id": "2026-10-06T22:44:09Z-a",
+   "consumer_outcome": "ok",
+   "artifact": null,
+   "quality": "via-input-type",
+   "note": "four extracts (arch, tests, design, layouts) report the masters silent on three verdicts this chunk must produce: the events.ndjson record of an unconfirmable send, the outcome when a listed command's measured post-condition does not arrive in the window, and the source of submitted_at for a post-condition-confirmed send; each is carried to P4 as a contract point",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-06T22:44:09Z-b",
+     "type": "input.spec-source-gap",
+     "what": "four extracts (arch, tests, design, layouts) report the masters silent on three verdicts this chunk must produce: the events.ndjson record of an unconfirmable send, the outcome when a listed command's measured post-condition does not arrive in the window, and the source of submitted_at for a post-condition-confirmed send; each is carried to P4 as a contract point"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": null
+  },
+  {
+   "chunk": null,
+   "consumer": "new-session/orientation",
+   "consumer_id": "2026-10-06T23:05:53Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "handoff",
+   "quality": "thin",
+   "note": "written at the 22:06Z wrap; Position Next still names /andromeda-phase for a chunk the same-day phase has since promoted to pending; the cursor and the phase run dir carried the position",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": null
+  },
+  {
+   "chunk": "2026-10-06-local-command-send-outcomes",
+   "consumer": "implement/code",
+   "consumer_id": "2026-10-06T23:23:25Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "plan",
+   "quality": "via-input-type",
+   "note": "step 7 fixed the hint case's hold at 6000 ms and sized it against the 20 s CI kill only; the case has no window prefix, so the mutants profile kills it at 10 s and it measured 10.549 s; the same step's wait (the turn-ended record alone) left the order of the Stop hook's exit and the cleared screen open, and a wait on the Stop hook's receipt line was added",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-06T23:23:25Z-b",
+     "type": "input.plan-step-ambiguous",
+     "what": "step 7 fixed the hint case's hold at 6000 ms and sized it against the 20 s CI kill only; the case has no window prefix, so the mutants profile kills it at 10 s and it measured 10.549 s; the same step's wait (the turn-ended record alone) left the order of the Stop hook's exit and the cleared screen open, and a wait on the Stop hook's receipt line was added"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "phase/plan",
+   "producer_id": "2026-10-06T22:58:47Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:readiness-gate-card",
+    "authority-resolved:events-record-form-to-matrix-v1-10-and-obs-plan",
+    "authority-resolved:missed-post-condition-detail-to-existing-closed-value"
+   ],
+   "producer_note": "1 question in 1 round, the card the take-up directive required; answered option B by the overseer as delegate, snapped as inputs I2; 24 gate entries, 11 new; dry-run and planlint 0 hits",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-06-local-command-send-outcomes",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-10-07T00:03:32Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "report",
+   "quality": "thin",
+   "note": "one Counts bullet misstated a master line (test-plan 1077 carries the option count) and expected amendment 9 named a section whose claim sites were three other lines; both corrected in the pass",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-07T00:03:32Z-b",
+     "type": "input.report-insufficient",
+     "what": "the report's Counts bullet said test-plan 1077 names the fake agent's options without a count, from a grep hit read as a clipped line; the test-plan detector read the line and it says seven argv options; and the report located expected amendment 9 by its section name, 2 hits, while the claim it retires stood at three other design-system lines the design detector found"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "wrap-session/report",
+   "producer_id": "2026-10-06T23:52:31Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [],
+   "producer_note": null,
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-07-test-homes-off-the-contended-volume",
+   "consumer": "phase/validate",
+   "consumer_id": "2026-10-07T07:38:33Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "scope",
+   "quality": "thin",
+   "note": "it did not name the widening or the decided backing until validation-1 amended it",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "phase/research",
+   "producer_id": "2026-10-07T06:30:32Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "premise-corrected"
+   ],
+   "producer_note": "1 of 10 premises corrected (product code naming e2e-home is tests and a comment); the hypothesis bullet kept its marker with what P3 did and did not establish",
+   "producer_frictions": []
+  },
+  {
+   "chunk": null,
+   "consumer": "new-session/orientation",
+   "consumer_id": "2026-10-07T07:40:09Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "handoff",
+   "quality": "thin",
+   "note": "Position Next names /andromeda-phase for working-route.md:94; the phase ran after the wrap wrote the file, and the cursor reads that chunk pending",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-07T07:40:09Z-b",
+     "type": "input.handoff-git-mismatch",
+     "what": "The handoff's Position half (Next: working-route.md:94 to /andromeda-phase) disagreed with the derived route (that entry promoted, one master pending record, plan.md present): the wrap-owned handoff was written at 06:03Z, the phase ran after it and does not rewrite the handoff, and the session was cleared between phase and implement. Status clean with an uncommitted phase promote in the tree (master-route, working-route, chunk folder, run dir) is the same lag. The cursor and the operator's own word agreed; no interpretation was needed."
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": null
+  },
+  {
+   "chunk": "2026-10-07-test-homes-off-the-contended-volume",
+   "consumer": "implement/code",
+   "consumer_id": "2026-10-07T07:48:25Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "steps 0 to 5 executed; step 3 names a call-site swap its own cases cannot reach, step 5 a process-name check that cannot read empty on this host",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-07T07:48:25Z-b",
+     "type": "input.plan-step-ambiguous",
+     "what": "Plan step 3 (replace the keeper call at its call site with the bare create_dir_all, run case 2 red) conflicts with steps 1 and 2 (each case over its own temp dir with a link made by the test, so it calls the keeper and never the call site): the call-site swap cannot turn case 2 red. Resolved by switching the link arm off inside each keeper; not surfaced before acting, recorded in the evidence file."
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "phase/plan",
+   "producer_id": "2026-10-07T07:33:13Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:backing",
+    "designed-dialogue:proof-red-side",
+    "authority-resolved:the security extract's canonical-home pricing yielded to research's read of the code"
+   ],
+   "producer_note": "one round, two questions, both the operator's to make: the first named the Boundary widening pattern and came back as the founder's live word relayed by the overseer, the second as the overseer's; 14 gate entries, 15 criteria, 0 caps; dry-run parsed and planlint read 0 hits on the first pass",
+   "producer_frictions": [
+    {
+     "id": "2026-10-07T07:33:13Z-b",
+     "type": null
+    }
+   ]
+  },
+  {
+   "chunk": "2026-10-07-test-homes-off-the-contended-volume",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-10-07T08:34:21Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "drift-base",
+   "quality": "thin",
+   "note": "13 proposals, and by the detectors' own words 6 of them (security 1, obs 3, and the arch pair by class) violate none of their doc's invariants: they are the plan's expected amendments read from the report and filed under the nearest detector",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": null
+  },
+  {
+   "chunk": "2026-10-07-test-homes-off-the-contended-volume",
+   "consumer": "wrap-session/route-resolve",
+   "consumer_id": "2026-10-07T08:37:13Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "working-route",
+   "quality": "via-input-type",
+   "note": "The chunk's plan folds a watch (the pre-push coverage merge) and its report records three green runs of it, but no WATCH annotation stands anywhere on the route: the pin had retired at the previous chunk's wrap on its third green run. Whether a watch had to migrate took a grep of the route, the previous report's watches line, the route archive and the route's history.",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-07T08:37:13Z-b",
+     "type": "input.outcome-unclear",
+     "what": "The chunk's plan folds a watch (the pre-push coverage merge) and its report records three green runs of it, but no WATCH annotation stands anywhere on the route: the pin had retired at the previous chunk's wrap on its third green run. Whether a watch had to migrate took a grep of the route, the previous report's watches line, the route archive and the route's history."
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "phase/take-up",
+   "producer_id": "2026-10-07T06:15:50Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [],
+   "producer_note": "line 94 stamped; promote exit 0, no collision suffix",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+   "consumer": "implement/code",
+   "consumer_id": "2026-10-07T10:30:18Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "plan",
+   "quality": "via-input-type",
+   "note": "the STOP list's header (a STOP ends the live work before another start) against STOP 5, which the plan evaluates at step 7 after every live round; the falsifying shapes were known after start 1, and the live rounds went on in plan order",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-07T10:30:18Z-b",
+     "type": "input.plan-step-ambiguous",
+     "what": "the STOP list's header (a STOP ends the live work before another start) against STOP 5, which the plan evaluates at step 7 after every live round; the falsifying shapes were known after start 1, and the live rounds went on in plan order"
+    },
+    {
+     "id": "2026-10-07T10:30:18Z-c",
+     "type": "input.plan-step-ambiguous",
+     "what": "step 4 says every verb with --json while the layouts acceptance asks for the live refusal's lines as printed; resolved by one added human-mode send in the window"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "phase/plan",
+   "producer_id": "2026-10-07T09:51:37Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:probe-paths",
+    "designed-dialogue:chunk-shape",
+    "designed-dialogue:hint-home",
+    "authority-resolved:the arch extract's no-mechanism reading yielded to the security extract's ruled child-start line for the PATH names"
+   ],
+   "producer_note": "one round of four questions, all the user's call: two boundary widenings the take-up directive sent to the founder, the split (the founder's word), the operator-desk stamp home; 460 lines against the 150 to 400 guide, flagged for the review; 13 acceptance criteria; 8 graph citations, 0 soft; no capability claimed",
+   "producer_frictions": [
+    {
+     "id": "2026-10-07T09:51:37Z-b",
+     "type": "retry.synthesis-rework"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-10-07T11:10:34Z-a",
+   "consumer_outcome": "halted-resolved",
+   "artifact": "report",
+   "quality": "thin",
+   "note": "its site list for the cross-session claim missed architecture.md:70, a restatement with none of the swept wording; the architecture detector found it",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-07T11:10:34Z-b",
+     "type": "input.report-insufficient",
+     "what": "the report's sweep for the cross-session claim was keyed on its wording and missed a restatement at architecture.md:70 ('the escaped form is the one the CLI injects'); the detector's own read found it"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "wrap-session/report",
+   "producer_id": "2026-10-07T10:57:21Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [],
+   "producer_note": "nine spec claims listed as disproved or newly measured; a measurements block added under Changes because the detectors need the readings and no stock bullet holds a measuring chunk's facts",
+   "producer_frictions": [
+    {
+     "id": "2026-10-07T10:57:21Z-b",
+     "type": "contract.detector-fact-gap"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-10-07-send-waits-out-the-paste-hint",
+   "consumer": "implement/code",
+   "consumer_id": "2026-10-07T12:28:55Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "plan",
+   "quality": "via-input-type",
+   "note": "plan step 4 asks for cases where the wheel or a turn moves while a verified gate waits, without saying how the wait is produced; a feed during the wait cannot be joined because wait_ready reads the clock under the model lock, so the cases wait on the not-quiet arm with the input box already on screen; carried to the P4 report",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-07T12:28:55Z-b",
+     "type": "input.plan-step-ambiguous",
+     "what": "plan step 4 asks for cases where the wheel or a turn moves while a verified gate waits, without saying how the wait is produced; a feed during the wait cannot be joined because wait_ready reads the clock under the model lock, so the cases wait on the not-quiet arm with the input box already on screen; carried to the P4 report"
+    },
+    {
+     "id": "2026-10-07T12:28:55Z-c",
+     "type": "input.conventions-gap",
+     "what": "the fake agent receipts the Enter that submits a prompt as a key line of its own; neither plan step 10 nor research said so, and the keystroke case's first run read red on its receipt oracle while every product assertion held"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "phase/validate",
+   "producer_id": "2026-10-07T12:19:07Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "baselines-written"
+   ],
+   "producer_note": "five new non-leg entries baselined on the untouched tree: four red as expected, the preservation guard green with its control red; the ledger reader's nine hand-minted controls read two pass and seven fail as designed; review prompt issued as text, answered with a single yes",
+   "producer_frictions": [
+    {
+     "id": "2026-10-07T12:19:07Z-b",
+     "type": "contract.mechanical-check"
+    },
+    {
+     "id": "2026-10-07T12:19:07Z-c",
+     "type": "contract.mechanical-check"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-10-07-send-waits-out-the-paste-hint",
+   "consumer": "implement/code",
+   "consumer_id": "2026-10-07T12:28:55Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "research",
+   "quality": "via-input-type",
+   "note": "the fake agent receipts the Enter that submits a prompt as a key line of its own; neither plan step 10 nor research said so, and the keystroke case's first run read red on its receipt oracle while every product assertion held",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-07T12:28:55Z-b",
+     "type": "input.plan-step-ambiguous",
+     "what": "plan step 4 asks for cases where the wheel or a turn moves while a verified gate waits, without saying how the wait is produced; a feed during the wait cannot be joined because wait_ready reads the clock under the model lock, so the cases wait on the not-quiet arm with the input box already on screen; carried to the P4 report"
+    },
+    {
+     "id": "2026-10-07T12:28:55Z-c",
+     "type": "input.conventions-gap",
+     "what": "the fake agent receipts the Enter that submits a prompt as a key line of its own; neither plan step 10 nor research said so, and the keystroke case's first run read red on its receipt oracle while every product assertion held"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "phase/research",
+   "producer_id": "2026-10-07T12:08:01Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "unresolved-questions"
+   ],
+   "producer_note": "3 open questions, all plan-decision; scope lists parsed 12 items; two modify entries are conditional on a fork",
+   "producer_frictions": [
+    {
+     "id": "2026-10-07T12:08:01Z-b",
+     "type": "contract.narrow-basis-claim"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-10-07-send-waits-out-the-paste-hint",
+   "consumer": "implement/fix-loop",
+   "consumer_id": "2026-10-07T12:46:39Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "research",
+   "quality": "thin",
+   "note": "the sweep of cases that turn by the constant missed one in a listed file (typed.rs, a settle read at 6000 ms on a poisoned screen)",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "phase/research",
+   "producer_id": "2026-10-07T12:08:01Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "unresolved-questions"
+   ],
+   "producer_note": "3 open questions, all plan-decision; scope lists parsed 12 items; two modify entries are conditional on a fork",
+   "producer_frictions": [
+    {
+     "id": "2026-10-07T12:08:01Z-b",
+     "type": "contract.narrow-basis-claim"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+   "consumer": "phase/take-up",
+   "consumer_id": "2026-10-07T13:39:16Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "ci-verdict",
+   "quality": "thin",
+   "note": "the one sha read green 15/15 on the run's latest attempt; attempt 1's red on the same sha reached the take-up through the operator's word and a per-attempt read",
+   "consumed_signals": [
+    "verdict-folded-on-word"
+   ],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": null
+  },
+  {
+   "chunk": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+   "consumer": "phase/validate",
+   "consumer_id": "2026-10-07T14:12:33Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "no check failed or warned, but check 4 (9)'s name grep found an existing unit case the remedy turns, which research's sweep and the plan had missed; step 3 was amended before the prompt",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "phase/plan",
+   "producer_id": "2026-10-07T14:05:59Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:remedy-shape",
+    "designed-dialogue:strip-width",
+    "designed-dialogue:red-closure"
+   ],
+   "producer_note": "401 lines, 9 steps, 20 gate entries, 15 acceptance criteria; the fence parsed at the first dry-run and planlint read 0 hits; one playbook escalate pattern was named on the card for the unchosen tolerant-claim option",
+   "producer_frictions": [
+    {
+     "id": "2026-10-07T14:05:59Z-b",
+     "type": null
+    }
+   ]
+  },
+  {
+   "chunk": null,
+   "consumer": "new-session/orientation",
+   "consumer_id": "2026-10-07T14:15:11Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "handoff",
+   "quality": "thin",
+   "note": "Position reads 0 pending and Next :100 to phase; the route holds that entry as the one pending record since the phase that ran after the wrap. Status clean was written before the wrap commit's CI ran: attempt 1 red, attempt 2 green",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-07T14:15:11Z-b",
+     "type": "input.handoff-git-mismatch",
+     "what": "The handoff Position (43 complete, 0 pending, Next :100 to phase) disagreed with the derived cursor (pending 1, the :100 chunk; next markerless :102): a phase ran after the wrap and the handoff is the wrap's to write. The tree carried the promotion uncommitted (master-route, working-route, the chunk dir, the phase run dir), which is wider than the lone-bookkeeping shape the contract names. Read from the cursor and the route diff."
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": null
+  },
+  {
+   "chunk": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+   "consumer": "implement/code",
+   "consumer_id": "2026-10-07T14:34:57Z-a",
+   "consumer_outcome": "halted-resolved",
+   "artifact": "plan",
+   "quality": "wrong",
+   "note": "step 7's child-entry design cannot be entered through start; its rejected-approach reason describes the standalone binary, not the wrapper's child",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "phase/plan",
+   "producer_id": "2026-10-07T14:05:59Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:remedy-shape",
+    "designed-dialogue:strip-width",
+    "designed-dialogue:red-closure"
+   ],
+   "producer_note": "401 lines, 9 steps, 20 gate entries, 15 acceptance criteria; the fence parsed at the first dry-run and planlint read 0 hits; one playbook escalate pattern was named on the card for the unchosen tolerant-claim option",
+   "producer_frictions": [
+    {
+     "id": "2026-10-07T14:05:59Z-b",
+     "type": null
+    }
+   ]
+  },
+  {
+   "chunk": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+   "consumer": "implement/code",
+   "consumer_id": "2026-10-07T14:34:57Z-a",
+   "consumer_outcome": "halted-resolved",
+   "artifact": "research",
+   "quality": "wrong",
+   "note": "both lists exact (4 modified, 2 new, 0 outside); the P4 line 'a child's arguments are the test's to give' misses the wrapper's plugin flag ahead of them",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "phase/research",
+   "producer_id": "2026-10-07T13:56:05Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "unresolved-questions"
+   ],
+   "producer_note": "2 open questions, both plan-decision; file lists parsed 6 items at the first fire",
+   "producer_frictions": [
+    {
+     "id": "2026-10-07T13:56:05Z-b",
+     "type": "contract.premise-falsified"
+    },
+    {
+     "id": "2026-10-07T13:56:05Z-c",
+     "type": null
+    }
+   ]
+  },
+  {
+   "chunk": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+   "consumer": "implement/fix-loop",
+   "consumer_id": "2026-10-07T14:38:43Z-a",
+   "consumer_outcome": "soft-exit",
+   "artifact": "plan",
+   "quality": "wrong",
+   "note": "entries 1 to 15 ran as written and read green; entry 16's atom (profiles 9600) and the script's two-a-run rule describe the test binary as the program, the design that cannot be built",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "phase/plan",
+   "producer_id": "2026-10-07T14:05:59Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:remedy-shape",
+    "designed-dialogue:strip-width",
+    "designed-dialogue:red-closure"
+   ],
+   "producer_note": "401 lines, 9 steps, 20 gate entries, 15 acceptance criteria; the fence parsed at the first dry-run and planlint read 0 hits; one playbook escalate pattern was named on the card for the unchosen tolerant-claim option",
+   "producer_frictions": [
+    {
+     "id": "2026-10-07T14:05:59Z-b",
+     "type": null
+    }
+   ]
+  },
+  {
+   "chunk": null,
+   "consumer": "new-session/orientation",
+   "consumer_id": "2026-10-07T15:10:14Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "handoff",
+   "quality": "wrong",
+   "note": "Position reads 0 pending and Next → /andromeda-phase for an entry the master holds pending and the tree holds half built; the Notes were usable",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-07T15:10:14Z-b",
+     "type": "input.handoff-git-mismatch",
+     "what": "The handoff (written at the 13:15Z wrap) reads Status clean, 0 pending and Next → /andromeda-phase; the master holds 1 pending record for that entry and the tree holds four modified source files, one untracked script and three untracked run dirs of a phase, an implement and a phase revision run since. Where the chunk stands was read from the two later run dirs' relays, the revised plan's Metadata and the operator's invocation text, not from the handoff."
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": null
+  },
+  {
+   "chunk": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+   "consumer": "implement/code",
+   "consumer_id": "2026-10-07T15:12:49Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "plan",
+   "quality": "via-input-type",
+   "note": "Step 6's rule for the census directory's name is a character class that the words dot and dot-dot satisfy; the step does not say whether they are names. They were refused (exit 2) and the choice is carried to the P4 report as a detail the plan did not state.",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-07T15:12:49Z-b",
+     "type": "input.plan-step-ambiguous",
+     "what": "Step 6's rule for the census directory's name is a character class that the words dot and dot-dot satisfy; the step does not say whether they are names. They were refused (exit 2) and the choice is carried to the P4 report as a detail the plan did not state."
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "phase/validate",
+   "producer_id": "2026-10-07T14:51:54Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "review-added-control",
+    "checks-rerun-after-fold",
+    "review-prompt-as-text"
+   ],
+   "producer_note": "the word was yes with one addition, a planted failing-side control for the revised census rule; folded, the whole check set re-run, then the approval recorded. The fold gives the script an optional directory-name word, a mechanism the operator had not seen when the word was given",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-10-07T19:17:53Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "conversation",
+   "quality": "thin",
+   "note": "compacted before the wrap; the operator directed a read from disk",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [
+    {
+     "artifact": "operator-pass",
+     "quality": "ok",
+     "signals": [
+      "fixed",
+      "commits:2",
+      "red:0"
+     ],
+     "note": "the second commit is a rewording on an operator note, not a fix of a red"
+    }
+   ],
+   "producer": "implement/smoke",
+   "producer_id": "2026-10-07T15:19:01Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "recorded-not-rerun"
+   ],
+   "producer_note": "the plan lists the smoke as boot, status and cleanup entries, which ran green at P2; P3 did not drive them again",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-10-07T19:17:53Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "implement-outcome",
+   "quality": "thin",
+   "note": "the P4 report stood but mis-stated one count: nine census directories, eleven on disk",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [
+    {
+     "artifact": "operator-pass",
+     "quality": "ok",
+     "signals": [
+      "fixed",
+      "commits:2",
+      "red:0"
+     ],
+     "note": "the second commit is a rewording on an operator note, not a fix of a red"
+    }
+   ],
+   "producer": "implement/fix-loop",
+   "producer_id": "2026-10-07T15:39:29Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "green"
+   ],
+   "producer_note": null,
+   "producer_frictions": [
+    {
+     "id": "2026-10-07T15:39:29Z-b",
+     "type": "tooling.host-shell"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-10-07T19:30:10Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "report",
+   "quality": "via-input-type",
+   "note": "The report named the sixteen unit cases by filter and count and only two of the seven send cases by name; the test-plan detector's section 4 proposal needed the names and took them from source.",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-07T19:30:10Z-c",
+     "type": "input.report-insufficient",
+     "what": "The report named the sixteen unit cases by filter and count and only two of the seven send cases by name; the test-plan detector's section 4 proposal needed the names and took them from source."
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "wrap-session/report",
+   "producer_id": "2026-10-07T19:17:53Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "reconstructed"
+   ],
+   "producer_note": "every Changes family rebuilt from the diff, the evidence files and the chunk's fifteen implement records",
+   "producer_frictions": [
+    {
+     "id": "2026-10-07T19:17:53Z-b",
+     "type": "recall.change-reconstruction"
+    },
+    {
+     "id": "2026-10-07T19:17:53Z-c",
+     "type": "contract.narrow-basis-claim"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+   "consumer": "wrap-session/curation",
+   "consumer_id": "2026-10-07T19:32:55Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "conversation",
+   "quality": "thin",
+   "note": "the part before the compaction was read through its summary",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "implement/smoke",
+   "producer_id": "2026-10-07T15:19:01Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "recorded-not-rerun"
+   ],
+   "producer_note": "the plan lists the smoke as boot, status and cleanup entries, which ran green at P2; P3 did not drive them again",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-08-first-live-test-and-self-drive",
+   "consumer": "phase/take-up",
+   "consumer_id": "2026-10-08T05:04:00Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "working-route",
+   "quality": "via-input-type",
+   "note": "the first CARRY's last clause says this run stands as the Linux live confirmation that checks the fake agent's Unix fidelity, without naming what is compared; the retired entry's text is in route-archive.md and was left to P3 as an inferred bullet",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-08T05:04:00Z-b",
+     "type": "input.carry-context-gap",
+     "what": "the first CARRY's last clause says this run stands as the Linux live confirmation that checks the fake agent's Unix fidelity, without naming what is compared; the retired entry's text is in route-archive.md and was left to P3 as an inferred bullet"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": null
+  },
+  {
+   "chunk": "2026-10-08-first-live-test-and-self-drive",
+   "consumer": "phase/plan",
+   "consumer_id": "2026-10-08T06:14:27Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "research",
+   "quality": "via-input-type",
+   "note": "the plan needed a second read-only pipeline skill for the clears-between-skills step; research had not listed the installed skills, and the documentation skill the project CLAUDE.md names is not installed on this host, found by one directory listing at synthesis; the same skill is sent twice instead",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-08T06:14:27Z-b",
+     "type": "input.research-thin",
+     "what": "the plan needed a second read-only pipeline skill for the clears-between-skills step; research had not listed the installed skills, and the documentation skill the project CLAUDE.md names is not installed on this host, found by one directory listing at synthesis; the same skill is sent twice instead"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "phase/research",
+   "producer_id": "2026-10-08T05:28:57Z-a",
+   "producer_outcome": "ok-degraded",
+   "producer_signals": [
+    "unresolved-questions",
+    "measurement-not-taken",
+    "scope-lists-parsed"
+   ],
+   "producer_note": "3 open questions for P4; the compositor-key measurement the founder ruling assigned to this step was not obtained; two read-only explorers returned the repository facts and the prototype gap list with file and line",
+   "producer_frictions": [
+    {
+     "id": "2026-10-08T05:28:57Z-b",
+     "type": null
+    },
+    {
+     "id": "2026-10-08T05:28:57Z-c",
+     "type": "contract.instrument-validity"
+    },
+    {
+     "id": "2026-10-08T05:28:57Z-d",
+     "type": null
+    }
+   ]
+  },
+  {
+   "chunk": "2026-10-08-first-live-test-and-self-drive",
+   "consumer": "implement/code",
+   "consumer_id": "2026-10-08T06:36:48Z-a",
+   "consumer_outcome": "ok-degraded",
+   "artifact": "research",
+   "quality": "thin",
+   "note": "both lists right (src/human.rs exists, evidence/ new); M1 recorded no locker process and never read the compositor lock state",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "phase/research",
+   "producer_id": "2026-10-08T05:28:57Z-a",
+   "producer_outcome": "ok-degraded",
+   "producer_signals": [
+    "unresolved-questions",
+    "measurement-not-taken",
+    "scope-lists-parsed"
+   ],
+   "producer_note": "3 open questions for P4; the compositor-key measurement the founder ruling assigned to this step was not obtained; two read-only explorers returned the repository facts and the prototype gap list with file and line",
+   "producer_frictions": [
+    {
+     "id": "2026-10-08T05:28:57Z-b",
+     "type": null
+    },
+    {
+     "id": "2026-10-08T05:28:57Z-c",
+     "type": "contract.instrument-validity"
+    },
+    {
+     "id": "2026-10-08T05:28:57Z-d",
+     "type": null
+    }
+   ]
+  },
+  {
+   "chunk": "2026-10-08-first-live-test-and-self-drive",
+   "consumer": "implement/code",
+   "consumer_id": "2026-10-08T07:41:13Z-a",
+   "consumer_outcome": "soft-exit",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "steps 0 to 5 ran as written; step 6 assumed a live CLI in a real terminal leaves the wheel with the driver, and no stop rule covered a wheel taken at the start by a terminal reply",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-08T07:41:13Z-b",
+     "type": "input.plan-step-ambiguous",
+     "what": "step 6 read the live start by lines 1 to 3 of the event log and had no arm for a wheel record of cause human-input between budget-gate and session-start; the stop was put to the operator as a question"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "phase/plan",
+   "producer_id": "2026-10-08T07:09:42Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:compositor-form",
+    "revision-by-anchored-edits",
+    "size-over-band"
+   ],
+   "producer_note": "the one fork (nested, headless or stop) was the founder own call under the Boundary widening pattern, asked before synthesis and counted at the research step; unchanged gate entries kept byte for byte with their baselines, the two readers changed and baselined with 46 known-verdict controls; 490 prose lines against the 150 to 400 band; 2 frame citations, 0 soft",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-08-first-live-test-and-self-drive",
+   "consumer": "implement/code",
+   "consumer_id": "2026-10-08T07:41:13Z-a",
+   "consumer_outcome": "soft-exit",
+   "artifact": "research",
+   "quality": "thin",
+   "note": "both lists right (scope read clean, 0 record lines); M1r measured the key under the fake agent only, which sends no terminal query; the 25-item gap list of M9 was not kept item by item and was re-derived",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-08T07:41:13Z-b",
+     "type": "input.plan-step-ambiguous",
+     "what": "step 6 read the live start by lines 1 to 3 of the event log and had no arm for a wheel record of cause human-input between budget-gate and session-start; the stop was put to the operator as a question"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "phase/research",
+   "producer_id": "2026-10-08T07:04:06Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "revision-premise-closure",
+    "measured-under-fake-agent"
+   ],
+   "producer_note": "M1r added: the session lock as the cause, the own-compositor measurement (headless aborts twice, nested passes the key probe), the 26x14 terminal the nested child saw; lists parse, 0 open questions",
+   "producer_frictions": [
+    {
+     "id": "2026-10-08T07:04:06Z-b",
+     "type": null
+    }
+   ]
+  },
+  {
+   "chunk": "2026-10-08-first-live-test-and-self-drive",
+   "consumer": "implement/fix-loop",
+   "consumer_id": "2026-10-08T07:41:13Z-d",
+   "consumer_outcome": "soft-exit",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "23 entries ran as written; entry 15's artifact key reads STALE on a re-fired block when cargo has nothing to rebuild; the three reader entries are red by design until the live work writes their records",
+   "consumed_signals": [],
+   "consumer_input_frictions": [],
+   "operator_pass_entry": [],
+   "producer": "phase/plan",
+   "producer_id": "2026-10-08T07:09:42Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:compositor-form",
+    "revision-by-anchored-edits",
+    "size-over-band"
+   ],
+   "producer_note": "the one fork (nested, headless or stop) was the founder own call under the Boundary widening pattern, asked before synthesis and counted at the research step; unchanged gate entries kept byte for byte with their baselines, the two readers changed and baselined with 46 known-verdict controls; 490 prose lines against the 150 to 400 band; 2 frame citations, 0 soft",
+   "producer_frictions": []
+  },
+  {
+   "chunk": "2026-10-08-first-live-test-and-self-drive",
+   "consumer": "implement/code",
+   "consumer_id": "2026-10-08T08:56:11Z-a",
+   "consumer_outcome": "ok",
+   "artifact": "plan",
+   "quality": "via-input-type",
+   "note": "plan step 5c gives evidence/key-probe-own.sh the key as a second argument; the standing script took the font size alone and typed a fixed key, so it was extended before the step could run",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-08T08:56:11Z-b",
+     "type": "input.plan-step-ambiguous",
+     "what": "plan step 5c gives evidence/key-probe-own.sh the key as a second argument; the standing script took the font size alone and typed a fixed key, so it was extended before the step could run"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "phase/plan",
+   "producer_id": "2026-10-08T08:28:44Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:the closed list's widening, seven shapes against the two this CLI draws"
+   ],
+   "producer_note": "a second revision edited in place: steps 5a to 5c inserted, start 7 and start 8 renumbered, two reader entries added, the guard and the build entry changed; 844 lines, 176 of them the fence",
+   "producer_frictions": [
+    {
+     "id": "2026-10-08T08:28:44Z-b",
+     "type": "retry.synthesis-rework"
+    }
+   ]
+  },
+  {
+   "chunk": "2026-10-08-first-live-test-and-self-drive",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-10-08T09:30:39Z-a",
+   "consumer_outcome": "halted-resolved",
+   "artifact": "report",
+   "quality": "thin",
+   "note": "its disproved-claims bullet on the VIOLA_DIR step did not name the route entry that owns the step, and seven proposals in three docs proposed dropping or escalating it",
+   "consumed_signals": [],
+   "consumer_input_frictions": [
+    {
+     "id": "2026-10-08T09:30:39Z-c",
+     "type": "input.report-insufficient",
+     "what": "the report listed the VIOLA_DIR home-resolution step as a claim disproved by a code read without naming the standing route CARRY that owns building it; three detectors returned seven proposals to drop or escalate the step, five were rejected and two applied in part as an as-landed clause"
+    }
+   ],
+   "operator_pass_entry": [],
+   "producer": "wrap-session/report",
+   "producer_id": "2026-10-08T09:13:58Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "reconstructed",
+    "new-text-generated",
+    "new-text-rows:1"
+   ],
+   "producer_note": "one family reconstructed: the deviations of the two implement runs that ended in other sessions",
+   "producer_frictions": []
+  }
+ ],
+ "shapes": [
+  {
+   "producer": "phase/plan",
+   "artifact": "plan",
+   "consumer": "implement/code",
+   "anchors": 13,
+   "chunks": [
+    "2026-10-04-confirmed-send-with-cl-1-records",
+    "2026-10-04-readiness-gate-and-timing-constants",
+    "2026-10-04-running-turn-refusal",
+    "2026-10-04-the-wheel",
+    "2026-10-04-wait-and-last",
+    "2026-10-05-real-cli-verify-probes",
+    "2026-10-06-local-command-and-paste-framing-rows",
+    "2026-10-06-local-command-send-outcomes",
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+    "2026-10-07-test-homes-off-the-contended-volume",
+    "2026-10-08-first-live-test-and-self-drive"
+   ],
+   "n_chunks": 12,
+   "formally_ok_but_signalled": 13,
+   "candidate": true
+  },
+  {
+   "producer": "phase/validate",
+   "artifact": "plan",
+   "consumer": "implement/code",
+   "anchors": 8,
+   "chunks": [
+    "2026-10-02-epoch-2b-cleanup",
+    "2026-10-03-mutation-scoring-completion",
+    "2026-10-04-dialog-answers-by-dialog-id",
+    "2026-10-04-windows-boundary-mutation-workflow",
+    "2026-10-05-real-cli-verify-probes",
+    "2026-10-06-local-command-and-paste-framing-rows",
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "2026-10-07-send-waits-out-the-paste-hint"
+   ],
+   "n_chunks": 8,
+   "formally_ok_but_signalled": 7,
+   "candidate": true
+  },
+  {
+   "producer": "implement/smoke",
+   "artifact": "implement-outcome",
+   "consumer": "wrap-session/report",
+   "anchors": 8,
+   "chunks": [
+    "2026-10-02-epoch-2b-cleanup",
+    "2026-10-04-confirmed-send-with-cl-1-records",
+    "2026-10-04-dialog-answers-by-dialog-id",
+    "2026-10-04-the-wheel",
+    "2026-10-04-wait-and-last",
+    "2026-10-04-windows-boundary-mutation-workflow",
+    "2026-10-05-dialog-rows-and-re-probe",
+    "2026-10-05-real-cli-verify-probes"
+   ],
+   "n_chunks": 8,
+   "formally_ok_but_signalled": 8,
+   "candidate": true
+  },
+  {
+   "producer": "phase/research",
+   "artifact": "research",
+   "consumer": "implement/code",
+   "anchors": 10,
+   "chunks": [
+    "2026-10-04-dialog-answers-by-dialog-id",
+    "2026-10-05-dialog-rows-and-re-probe",
+    "2026-10-05-real-cli-verify-probes",
+    "2026-10-06-local-command-and-paste-framing-rows",
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "2026-10-07-send-waits-out-the-paste-hint",
+    "2026-10-08-first-live-test-and-self-drive"
+   ],
+   "n_chunks": 7,
+   "formally_ok_but_signalled": 9,
+   "candidate": true
+  },
+  {
+   "producer": "wrap-session/report",
+   "artifact": "report",
+   "consumer": "wrap-session/reconcile",
+   "anchors": 7,
+   "chunks": [
+    "2026-10-03-mutation-scoring-completion",
+    "2026-10-04-dialog-answers-by-dialog-id",
+    "2026-10-06-local-command-and-paste-framing-rows",
+    "2026-10-06-local-command-send-outcomes",
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+    "2026-10-08-first-live-test-and-self-drive"
+   ],
+   "n_chunks": 7,
+   "formally_ok_but_signalled": 3,
+   "candidate": true
+  },
+  {
+   "producer": "phase/plan",
+   "artifact": "plan",
+   "consumer": "implement/fix-loop",
+   "anchors": 6,
+   "chunks": [
+    "2026-10-04-running-turn-refusal",
+    "2026-10-05-real-cli-verify-probes",
+    "2026-10-06-local-command-and-paste-framing-rows",
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "2026-10-08-first-live-test-and-self-drive"
+   ],
+   "n_chunks": 5,
+   "formally_ok_but_signalled": 6,
+   "candidate": true
+  },
+  {
+   "producer": "phase/research",
+   "artifact": "research",
+   "consumer": "implement/fix-loop",
+   "anchors": 5,
+   "chunks": [
+    "2026-10-03-mutation-scoring-completion",
+    "2026-10-04-dialog-answers-by-dialog-id",
+    "2026-10-04-the-wheel",
+    "2026-10-04-wait-and-last",
+    "2026-10-07-send-waits-out-the-paste-hint"
+   ],
+   "n_chunks": 5,
+   "formally_ok_but_signalled": 5,
+   "candidate": true
+  },
+  {
+   "producer": "phase/research",
+   "artifact": "research",
+   "consumer": "phase/plan",
+   "anchors": 5,
+   "chunks": [
+    "2026-10-04-confirmed-send-with-cl-1-records",
+    "2026-10-04-wait-and-last",
+    "2026-10-04-windows-boundary-mutation-workflow",
+    "2026-10-05-real-cli-verify-probes",
+    "2026-10-08-first-live-test-and-self-drive"
+   ],
+   "n_chunks": 5,
+   "formally_ok_but_signalled": 3,
+   "candidate": true
+  },
+  {
+   "producer": "implement/smoke",
+   "artifact": "conversation",
+   "consumer": "wrap-session/curation",
+   "anchors": 5,
+   "chunks": [
+    "2026-10-04-dialog-answers-by-dialog-id",
+    "2026-10-04-the-wheel",
+    "2026-10-05-dialog-rows-and-re-probe",
+    "2026-10-05-real-cli-verify-probes",
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed"
+   ],
+   "n_chunks": 5,
+   "formally_ok_but_signalled": 5,
+   "candidate": true
+  },
+  {
+   "producer": "phase/plan",
+   "artifact": "plan",
+   "consumer": "phase/validate",
+   "anchors": 4,
+   "chunks": [
+    "2026-10-02-epoch-2b-cleanup",
+    "2026-10-03-mutation-scoring-completion",
+    "2026-10-04-the-wheel",
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed"
+   ],
+   "n_chunks": 4,
+   "formally_ok_but_signalled": 4,
+   "candidate": true
+  },
+  {
+   "producer": "phase/distill",
+   "artifact": "extracts",
+   "consumer": "phase/research",
+   "anchors": 2,
+   "chunks": [
+    "2026-10-04-the-wheel",
+    "2026-10-06-local-command-and-paste-framing-rows"
+   ],
+   "n_chunks": 2,
+   "formally_ok_but_signalled": 2,
+   "candidate": true
+  },
+  {
+   "producer": "phase/plan",
+   "artifact": "plan",
+   "consumer": "wrap-session/report",
+   "anchors": 2,
+   "chunks": [
+    "2026-10-04-running-turn-refusal",
+    "2026-10-05-real-cli-verify-probes"
+   ],
+   "n_chunks": 2,
+   "formally_ok_but_signalled": 2,
+   "candidate": true
+  },
+  {
+   "producer": "phase/validate",
+   "artifact": "plan",
+   "consumer": "wrap-session/report",
+   "anchors": 1,
+   "chunks": [
+    "2026-10-02-epoch-2b-cleanup"
+   ],
+   "n_chunks": 1,
+   "formally_ok_but_signalled": 0,
+   "candidate": false
+  },
+  {
+   "producer": "phase/plan",
+   "artifact": "plan",
+   "consumer": "wrap-session/gates",
+   "anchors": 1,
+   "chunks": [
+    "2026-10-04-running-turn-refusal"
+   ],
+   "n_chunks": 1,
+   "formally_ok_but_signalled": 1,
+   "candidate": false
+  },
+  {
+   "producer": "phase/validate",
+   "artifact": "scope",
+   "consumer": "phase/validate",
+   "anchors": 1,
+   "chunks": [
+    "2026-10-05-real-cli-verify-probes"
+   ],
+   "n_chunks": 1,
+   "formally_ok_but_signalled": 1,
+   "candidate": false
+  },
+  {
+   "producer": "phase/research",
+   "artifact": "scope",
+   "consumer": "phase/validate",
+   "anchors": 1,
+   "chunks": [
+    "2026-10-07-test-homes-off-the-contended-volume"
+   ],
+   "n_chunks": 1,
+   "formally_ok_but_signalled": 1,
+   "candidate": false
+  },
+  {
+   "producer": "phase/take-up",
+   "artifact": "working-route",
+   "consumer": "wrap-session/route-resolve",
+   "anchors": 1,
+   "chunks": [
+    "2026-10-07-test-homes-off-the-contended-volume"
+   ],
+   "n_chunks": 1,
+   "formally_ok_but_signalled": 0,
+   "candidate": false
+  },
+  {
+   "producer": "implement/smoke",
+   "artifact": "conversation",
+   "consumer": "wrap-session/report",
+   "anchors": 1,
+   "chunks": [
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed"
+   ],
+   "n_chunks": 1,
+   "formally_ok_but_signalled": 1,
+   "candidate": false
+  },
+  {
+   "producer": "implement/fix-loop",
+   "artifact": "implement-outcome",
+   "consumer": "wrap-session/report",
+   "anchors": 1,
+   "chunks": [
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed"
+   ],
+   "n_chunks": 1,
+   "formally_ok_but_signalled": 1,
+   "candidate": false
+  }
+ ],
+ "unjoined_anchors": 20,
+ "produced_vocabulary": {
+  "new-session/orientation -> conversation": 52,
+  "wrap-session/route-resolve -> working-route": 22,
+  "phase/take-up -> scope": 19,
+  "phase/take-up -> master-route": 19,
+  "phase/take-up -> working-route": 19,
+  "phase/distill -> extracts": 19,
+  "phase/research -> research": 26,
+  "phase/research -> scope": 25,
+  "phase/plan -> plan": 27,
+  "phase/validate -> scope": 17,
+  "phase/validate -> matrix": 26,
+  "phase/validate -> plan": 8,
+  "implement/code -> source": 26,
+  "implement/fix-loop -> source": 24,
+  "implement/fix-loop -> matrix": 23,
+  "implement/fix-loop -> implement-outcome": 25,
+  "implement/smoke -> conversation": 22,
+  "implement/smoke -> implement-outcome": 22,
+  "wrap-session/report -> report": 19,
+  "wrap-session/reconcile -> spec:architecture": 19,
+  "wrap-session/reconcile -> spec:test-plan": 16,
+  "wrap-session/reconcile -> spec:obs-plan": 15,
+  "wrap-session/reconcile -> sidecar:architecture": 13,
+  "wrap-session/reconcile -> sidecar:test-plan": 12,
+  "wrap-session/reconcile -> sidecar:obs-plan": 11,
+  "wrap-session/curation -> conversation": 19,
+  "wrap-session/gates -> matrix": 18,
+  "wrap-session/gates -> master-route": 19,
+  "wrap-session/gates -> git-state": 21,
+  "phase/take-up -> ci-verdict": 2,
+  "wrap-session/reconcile -> spec:security-plan": 13,
+  "wrap-session/reconcile -> sidecar:security-plan": 9,
+  "implement/code -> evidence/fuzz-override.md": 1,
+  "implement/fix-loop -> evidence/carry4.md": 1,
+  "wrap-session/reconcile -> fanout-results": 2,
+  "wrap-session/reconcile -> sidecar:layout-templates": 3,
+  "wrap-session/reconcile -> sidecar:design-system": 2,
+  "wrap-session/reconcile -> spec:layout-templates": 5,
+  "wrap-session/reconcile -> spec:a11y-plan": 4,
+  "wrap-session/reconcile -> sidecar:a11y-plan": 2,
+  "wrap-session/reconcile -> cascade-sweep": 2,
+  "implement/code -> evidence": 4,
+  "wrap-session/reconcile -> spec:design-system": 3,
+  "wrap-session/reconcile -> leaf:tests-summary": 1,
+  "implement/fix-loop -> evidence": 1,
+  "wrap-session/reconcile -> leaves": 1,
+  "implement/fix-loop -> product-build": 1,
+  "implement/fix-loop -> live-run": 1,
+  "wrap-session/reconcile -> sidecar": 1,
+  "wrap-session/reconcile -> cascade": 1,
+  "wrap-session/gates -> sidecars": 1,
+  "wrap-session/gates -> code-graph": 1
+ },
+ "consumed_vocabulary": {
+  "new-session/orientation <- health-inputs [ok]": 52,
+  "new-session/orientation <- handoff [thin]": 7,
+  "new-session/orientation <- state [ok]": 52,
+  "new-session/orientation <- master-route [ok]": 52,
+  "new-session/orientation <- working-route [ok]": 52,
+  "new-session/orientation <- matrix [ok]": 52,
+  "new-session/orientation <- git-state [ok]": 52,
+  "new-session/orientation <- handoff [ok]": 44,
+  "wrap-session/route-resolve <- working-route [ok]": 22,
+  "phase/take-up <- working-entry [ok]": 19,
+  "phase/take-up <- handoff [ok]": 19,
+  "phase/take-up <- master-route [ok]": 19,
+  "phase/take-up <- working-route [ok]": 19,
+  "phase/take-up <- ci-verdict [ok]": 18,
+  "phase/distill <- spec:architecture [ok]": 19,
+  "phase/distill <- spec:security-plan [ok]": 19,
+  "phase/distill <- spec:design-system [ok]": 19,
+  "phase/distill <- spec:layout-templates [ok]": 19,
+  "phase/distill <- spec:test-plan [ok]": 19,
+  "phase/distill <- spec:obs-plan [ok]": 19,
+  "phase/distill <- spec:a11y-plan [ok]": 19,
+  "phase/distill <- sidecar:architecture [ok]": 19,
+  "phase/distill <- sidecar:security-plan [ok]": 19,
+  "phase/distill <- sidecar:design-system [ok]": 15,
+  "phase/distill <- sidecar:layout-templates [ok]": 15,
+  "phase/distill <- sidecar:test-plan [ok]": 18,
+  "phase/distill <- sidecar:obs-plan [ok]": 19,
+  "phase/distill <- sidecar:a11y-plan [ok]": 18,
+  "phase/distill <- scope [ok]": 19,
+  "phase/research <- extracts [ok]": 23,
+  "phase/research <- cookbook [ok]": 20,
+  "phase/research <- tree-db [ok]": 20,
+  "phase/research <- source [ok]": 26,
+  "phase/plan <- extracts [ok]": 24,
+  "phase/plan <- research [ok]": 23,
+  "phase/plan <- scope [ok]": 27,
+  "phase/validate <- plan [thin]": 4,
+  "phase/validate <- scope [ok]": 25,
+  "phase/validate <- matrix [ok]": 27,
+  "implement/code <- plan [thin]": 4,
+  "implement/code <- research [ok]": 19,
+  "implement/code <- scope [ok]": 28,
+  "implement/code <- source [ok]": 27,
+  "implement/fix-loop <- plan [ok]": 19,
+  "implement/fix-loop <- research [ok]": 19,
+  "implement/fix-loop <- tests [ok]": 25,
+  "implement/fix-loop <- source [ok]": 25,
+  "implement/smoke <- agent-harness [ok]": 20,
+  "implement/smoke <- plan [ok]": 22,
+  "wrap-session/report <- conversation [ok]": 18,
+  "wrap-session/report <- implement-outcome [thin]": 9,
+  "wrap-session/report <- operator-directive [ok]": 18,
+  "wrap-session/report <- git-state [ok]": 19,
+  "wrap-session/report <- plan [thin]": 3,
+  "wrap-session/reconcile <- report [ok]": 13,
+  "wrap-session/reconcile <- spec:architecture [ok]": 19,
+  "wrap-session/reconcile <- spec:security-plan [ok]": 19,
+  "wrap-session/reconcile <- spec:design-system [ok]": 19,
+  "wrap-session/reconcile <- spec:layout-templates [ok]": 19,
+  "wrap-session/reconcile <- spec:test-plan [ok]": 19,
+  "wrap-session/reconcile <- spec:obs-plan [ok]": 19,
+  "wrap-session/reconcile <- spec:a11y-plan [ok]": 19,
+  "wrap-session/reconcile <- drift-base [ok]": 17,
+  "wrap-session/reconcile <- wrap-playbook [ok]": 19,
+  "wrap-session/curation <- conversation [ok]": 14,
+  "wrap-session/curation <- report [ok]": 19,
+  "wrap-session/route-resolve <- report [ok]": 19,
+  "wrap-session/gates <- plan [ok]": 20,
+  "wrap-session/gates <- matrix [ok]": 20,
+  "wrap-session/gates <- master-route [ok]": 20,
+  "implement/code <- plan [ok]": 21,
+  "implement/fix-loop <- research [thin]": 5,
+  "wrap-session/report <- implement-outcome [ok]": 10,
+  "wrap-session/report <- plan [ok]": 16,
+  "wrap-session/reconcile <- report [thin]": 6,
+  "phase/plan <- research [thin]": 4,
+  "phase/validate <- plan [ok]": 23,
+  "wrap-session/reconcile <- drift-base [thin]": 2,
+  "phase/distill <- sidecar:design-system [thin]": 1,
+  "phase/distill <- sidecar:layout-templates [thin]": 1,
+  "implement/code <- plan [wrong]": 3,
+  "implement/code <- research [thin]": 7,
+  "wrap-session/curation <- conversation [thin]": 5,
+  "phase/research <- extracts [thin]": 1,
+  "implement/fix-loop <- plan [thin]": 4,
+  "wrap-session/gates <- plan [thin]": 1,
+  "phase/validate <- scope [thin]": 2,
+  "implement/code <- research [wrong]": 2,
+  "implement/fix-loop <- plan [wrong]": 2,
+  "phase/distill <- sidecar:test-plan [thin]": 1,
+  "wrap-session/report <- operator-pass [ok]": 3,
+  "phase/take-up <- ci-verdict [thin]": 1,
+  "new-session/orientation <- handoff [wrong]": 1,
+  "wrap-session/report <- conversation [thin]": 1
+ }
+}

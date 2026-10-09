@@ -1,0 +1,61 @@
+{
+ "hotspots": [
+  [
+   "src/bin/viola-fake-agent.rs",
+   160.0
+  ],
+  [
+   "src/run/send.rs",
+   121.0
+  ],
+  [
+   "crates/viola-agent-claude/src/ledger.rs",
+   95.0
+  ],
+  [
+   "crates/viola-e2e/src/harness/boot.rs",
+   78.0
+  ],
+  [
+   "crates/viola-e2e/src/harness/run.rs",
+   77.0
+  ],
+  [
+   "tests/support/home.rs",
+   63.0
+  ],
+  [
+   "tests/contract_fixture_hygiene.rs",
+   60.0
+  ],
+  [
+   "src/cmd/verify/typed.rs",
+   55.0
+  ],
+  [
+   "src/cmd/verify.rs",
+   51.0
+  ],
+  [
+   "crates/viola-agent-claude/src/screen.rs",
+   48.0
+  ]
+ ],
+ "commits": {
+  "src/run/send.rs": 11,
+  "src/bin/viola-fake-agent.rs": 10,
+  "tests/cli_send.rs": 10,
+  "src/cmd/run.rs": 9,
+  "tests/support/verify.rs": 8,
+  "crates/viola-e2e/src/harness/run.rs": 7,
+  "tests/support/home.rs": 7,
+  "crates/viola-e2e/src/harness/boot.rs": 6,
+  "crates/viola-pty/src/lib.rs": 6,
+  "src/cmd/send.rs": 6,
+  "src/human.rs": 6,
+  "tests/tui_wheel.rs": 6,
+  "tests/cli_verify.rs": 6,
+  "crates/viola-core/src/lib.rs": 5,
+  "src/run/mod.rs": 5
+ }
+}

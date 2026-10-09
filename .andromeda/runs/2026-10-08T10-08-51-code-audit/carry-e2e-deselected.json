@@ -1,0 +1,130 @@
+{
+ "label": "viola-e2e-deselected",
+ "report_only": true,
+ "driver_state": "exited-incomplete",
+ "exit_code": 1,
+ "listed": 718,
+ "tested": 165,
+ "complete": false,
+ "files_whole": [
+  "crates/viola-e2e/src/bin/viola-harness.rs",
+  "crates/viola-e2e/src/harness/boot.rs",
+  "crates/viola-e2e/src/harness/cleanup.rs",
+  "crates/viola-e2e/src/harness/mod.rs"
+ ],
+ "files_partial": [],
+ "counts": {
+  "caught": 139,
+  "missed": 0,
+  "not_measured": 0,
+  "timeout": 0,
+  "unviable": 26
+ },
+ "wall_s": 1314,
+ "started": "2026-10-08T15:39:30Z",
+ "ended": "2026-10-08T16:01:24Z",
+ "baseline": {
+  "summary": "Success",
+  "argv": [
+   "run",
+   "--verbose",
+   "--package=viola-e2e@0.1.0",
+   "--features=fake-agent",
+   "-E",
+   "not test(=boot_with_an_unknown_cli_version_is_verify_failed)"
+  ],
+  "phases": [
+   [
+    "Build",
+    11.2
+   ],
+   [
+    "Test",
+    20.8
+   ]
+  ]
+ },
+ "survivors": [],
+ "not_measured": [],
+ "timeouts": [],
+ "keeper": [
+  [
+   "crates/viola-e2e/src/harness/mod.rs:94:9: replace Workspace::ensure_e2e_home -> io::Result<()> with Ok(())",
+   "caught"
+  ],
+  [
+   "crates/viola-e2e/src/harness/mod.rs:102:20: delete ! in Workspace::ensure_e2e_home",
+   "caught"
+  ],
+  [
+   "crates/viola-e2e/src/harness/mod.rs:109:20: delete ! in Workspace::ensure_e2e_home",
+   "caught"
+  ],
+  [
+   "crates/viola-e2e/src/harness/mod.rs:114:54: replace != with == in Workspace::ensure_e2e_home",
+   "caught"
+  ],
+  [
+   "crates/viola-e2e/src/harness/mod.rs:114:46: replace & with | in Workspace::ensure_e2e_home",
+   "caught"
+  ],
+  [
+   "crates/viola-e2e/src/harness/mod.rs:114:46: replace & with ^ in Workspace::ensure_e2e_home",
+   "caught"
+  ]
+ ],
+ "carry1": [
+  [
+   "crates/viola-e2e/src/harness/cleanup.rs:106:35: replace + with - in cleanup_one",
+   "caught"
+  ],
+  [
+   "crates/viola-e2e/src/harness/cleanup.rs:140:9: delete ! in unconnectable",
+   "caught"
+  ]
+ ],
+ "command": "cargo mutants --package viola-e2e --features fake-agent --test-tool=nextest --copy-target=true --caught --unviable --build-timeout=400 --output .andromeda/runs/2026-10-08T10-08-51-code-audit/mutants-viola-e2e-deselected -- -E not test(=boot_with_an_unknown_cli_version_is_verify_failed)",
+ "env": "every VIOLA_* and CLAUDE* name unset; TMPDIR=/home/turbolet/dev/projects/viola-mutants-scratch/e3 NEXTEST_PROFILE=mutants AGENT_RUN_KEEP_HOMES=0 AGENT_RUN_KEEP_FAILED=0 CARGO_TARGET_DIR=target/mutants",
+ "carry": {
+  "copies": {
+   "/home/turbolet/dev/projects/viola-mutants-scratch/e3/cargo-mutants-viola-XWWsYL.tmp": {
+    "seen": "2026-10-08T15:41:00Z",
+    "islink": true,
+    "readlink": "/tmp/viola-e2e-home-1000",
+    "isdir_nofollow": false,
+    "mode": "0o120777"
+   }
+  },
+  "backing": {
+   "cargo-mutants-viola-XWWsYL.tmp/crates/viola-e2e/backing": {
+    "seen": "2026-10-08T15:45:15Z",
+    "mode": "0o40700",
+    "entries": 0,
+    "log_line": "caught   crates/viola-e2e/src/harness/mod.rs:109:20: delete ! in Workspace::ensure_e2e_home in 1s build + 5s test"
+   }
+  },
+  "homes_min": 35,
+  "homes_max": 55,
+  "tmp_used_min": 13697314816,
+  "tmp_used_max": 14534082560,
+  "scratch_residue_after_exit": [
+   ".tmp0v6tEq",
+   ".tmp3E4Akb",
+   ".tmp3vWTpE",
+   ".tmpCH1ME1",
+   ".tmpKVjwtd",
+   ".tmpQSHtBc",
+   ".tmpQgMGif",
+   ".tmpXs6h3R",
+   ".tmpfN9I1Q",
+   ".tmphpfVfR",
+   ".tmpkaxxku",
+   ".tmpnAf1S6",
+   ".tmpoiQA3L",
+   ".tmpqFBXkG",
+   ".tmpqcsmMN",
+   ".tmptrlJr6",
+   ".tmpu02kjq"
+  ]
+ }
+}

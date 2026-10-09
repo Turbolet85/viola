@@ -1,0 +1,2621 @@
+{
+ "target_epoch": "Epoch 3 — Windows slice II: driving verbs and live proof",
+ "friction_records_after_retraction_filter": 335,
+ "weight_formula": "1 + iterations + retries + reformulations + 2*dialogue_rounds + 3*halted + 3*soft_exit, summed over the group",
+ "threshold": "n >= 3, or n >= 2 where at least two cases carry halted/soft_exit impact",
+ "step_runs": {
+  "new-session/orientation": 52,
+  "wrap-session/route-resolve": 22,
+  "phase/take-up": 19,
+  "phase/distill": 19,
+  "phase/research": 26,
+  "phase/plan": 27,
+  "phase/validate": 27,
+  "implement/code": 28,
+  "implement/fix-loop": 25,
+  "implement/smoke": 22,
+  "wrap-session/report": 19,
+  "wrap-session/reconcile": 19,
+  "wrap-session/curation": 19,
+  "wrap-session/gates": 21
+ },
+ "groups_by_skill_step_type": [
+  {
+   "key": "phase/validate/contract.mechanical-check",
+   "n": 30,
+   "weight": 64,
+   "impact": {
+    "iterations": 16,
+    "retries": 4,
+    "dialogue_rounds": 7,
+    "extra_reads": 11
+   },
+   "halting_cases": 0,
+   "rate": 1.111,
+   "step_runs": 27,
+   "chunks": [
+    "2026-10-02-epoch-2b-cleanup",
+    "2026-10-03-mutation-scoring-completion",
+    "2026-10-04-confirmed-send-with-cl-1-records",
+    "2026-10-04-dialog-answers-by-dialog-id",
+    "2026-10-04-readiness-gate-and-timing-constants",
+    "2026-10-04-the-wheel",
+    "2026-10-04-windows-boundary-mutation-workflow",
+    "2026-10-05-dialog-rows-and-re-probe",
+    "2026-10-05-real-cli-verify-probes",
+    "2026-10-06-local-command-and-paste-framing-rows",
+    "2026-10-06-local-command-send-outcomes",
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+    "2026-10-07-send-waits-out-the-paste-hint",
+    "2026-10-07-test-homes-off-the-contended-volume",
+    "2026-10-08-first-live-test-and-self-drive"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-02T19:34:01Z-b",
+    "2026-10-02T19:34:01Z-d",
+    "2026-10-03T22:50:28Z-b",
+    "2026-10-03T22:50:28Z-c",
+    "2026-10-04T02:01:02Z-b",
+    "2026-10-04T02:01:02Z-c",
+    "2026-10-04T04:57:44Z-b",
+    "2026-10-04T04:57:44Z-c",
+    "2026-10-04T06:09:12Z-b",
+    "2026-10-04T06:09:12Z-c",
+    "2026-10-04T14:20:02Z-b",
+    "2026-10-04T18:09:05Z-b",
+    "2026-10-04T18:09:05Z-c",
+    "2026-10-05T06:22:20Z-b",
+    "2026-10-05T06:22:20Z-c",
+    "2026-10-05T08:33:46Z-b",
+    "2026-10-05T09:16:30Z-b",
+    "2026-10-05T11:46:53Z-b",
+    "2026-10-05T11:46:53Z-c",
+    "2026-10-05T11:46:53Z-d",
+    "2026-10-06T19:50:32Z-b",
+    "2026-10-06T19:50:32Z-c",
+    "2026-10-06T23:04:21Z-b",
+    "2026-10-07T07:38:33Z-b",
+    "2026-10-07T09:55:23Z-b",
+    "2026-10-07T12:19:07Z-b",
+    "2026-10-07T12:19:07Z-c",
+    "2026-10-07T14:12:33Z-b",
+    "2026-10-08T06:23:46Z-b",
+    "2026-10-08T08:30:01Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "implement/code/input.plan-step-ambiguous",
+   "n": 19,
+   "weight": 37,
+   "impact": {
+    "retries": 1,
+    "reformulations": 12,
+    "dialogue_rounds": 1,
+    "extra_reads": 7,
+    "soft_exit": 1
+   },
+   "halting_cases": 1,
+   "rate": 0.679,
+   "step_runs": 28,
+   "chunks": [
+    "2026-10-03-mutation-scoring-completion",
+    "2026-10-04-confirmed-send-with-cl-1-records",
+    "2026-10-04-readiness-gate-and-timing-constants",
+    "2026-10-04-running-turn-refusal",
+    "2026-10-04-the-wheel",
+    "2026-10-04-wait-and-last",
+    "2026-10-04-windows-boundary-mutation-workflow",
+    "2026-10-05-real-cli-verify-probes",
+    "2026-10-06-local-command-and-paste-framing-rows",
+    "2026-10-06-local-command-send-outcomes",
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+    "2026-10-07-send-waits-out-the-paste-hint",
+    "2026-10-07-test-homes-off-the-contended-volume",
+    "2026-10-08-first-live-test-and-self-drive"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-03T23:02:17Z-b",
+    "2026-10-04T02:06:22Z-b",
+    "2026-10-04T05:06:21Z-b",
+    "2026-10-04T06:27:45Z-c",
+    "2026-10-04T10:08:48Z-b",
+    "2026-10-04T18:27:23Z-c",
+    "2026-10-04T22:05:32Z-b",
+    "2026-10-05T09:39:17Z-b",
+    "2026-10-06T20:02:31Z-c",
+    "2026-10-06T20:35:24Z-c",
+    "2026-10-06T20:35:24Z-d",
+    "2026-10-06T23:23:25Z-b",
+    "2026-10-07T07:48:25Z-b",
+    "2026-10-07T10:30:18Z-b",
+    "2026-10-07T10:30:18Z-c",
+    "2026-10-07T12:28:55Z-b",
+    "2026-10-07T15:12:49Z-b",
+    "2026-10-08T07:41:13Z-b",
+    "2026-10-08T08:56:11Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "wrap-session/curation/recall.corpus-recurrence",
+   "n": 18,
+   "weight": 39,
+   "impact": {
+    "iterations": 1,
+    "retries": 15,
+    "reformulations": 1,
+    "dialogue_rounds": 2,
+    "extra_reads": 1,
+    "deferred": 3
+   },
+   "halting_cases": 0,
+   "rate": 0.947,
+   "step_runs": 19,
+   "chunks": [
+    "2026-10-03-mutation-scoring-completion",
+    "2026-10-04-confirmed-send-with-cl-1-records",
+    "2026-10-04-dialog-answers-by-dialog-id",
+    "2026-10-04-running-turn-refusal",
+    "2026-10-04-windows-boundary-mutation-workflow",
+    "2026-10-05-dialog-rows-and-re-probe",
+    "2026-10-05-real-cli-verify-probes",
+    "2026-10-06-local-command-and-paste-framing-rows",
+    "2026-10-06-local-command-send-outcomes",
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+    "2026-10-07-send-waits-out-the-paste-hint",
+    "2026-10-07-test-homes-off-the-contended-volume",
+    "2026-10-08-first-live-test-and-self-drive"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-04T01:22:46Z-d",
+    "2026-10-04T04:22:08Z-b",
+    "2026-10-04T08:56:53Z-b",
+    "2026-10-04T17:17:58Z-b",
+    "2026-10-04T22:37:37Z-b",
+    "2026-10-04T22:37:37Z-c",
+    "2026-10-05T11:01:20Z-b",
+    "2026-10-05T14:47:29Z-b",
+    "2026-10-06T22:04:50Z-b",
+    "2026-10-07T00:05:14Z-c",
+    "2026-10-07T00:05:14Z-d",
+    "2026-10-07T08:35:54Z-c",
+    "2026-10-07T08:35:54Z-d",
+    "2026-10-07T08:35:54Z-e",
+    "2026-10-07T11:11:38Z-b",
+    "2026-10-07T13:14:51Z-c",
+    "2026-10-07T19:32:55Z-d",
+    "2026-10-08T09:31:57Z-c"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "wrap-session/reconcile/contract.in-pass-correction",
+   "n": 16,
+   "weight": 36,
+   "impact": {
+    "iterations": 6,
+    "retries": 12,
+    "reformulations": 2,
+    "extra_reads": 1
+   },
+   "halting_cases": 0,
+   "rate": 0.842,
+   "step_runs": 19,
+   "chunks": [
+    "2026-10-02-epoch-2b-cleanup",
+    "2026-10-03-mutation-scoring-completion",
+    "2026-10-04-confirmed-send-with-cl-1-records",
+    "2026-10-04-dialog-answers-by-dialog-id",
+    "2026-10-04-readiness-gate-and-timing-constants",
+    "2026-10-04-running-turn-refusal",
+    "2026-10-04-windows-boundary-mutation-workflow",
+    "2026-10-05-dialog-rows-and-re-probe",
+    "2026-10-05-real-cli-verify-probes",
+    "2026-10-06-local-command-and-paste-framing-rows",
+    "2026-10-06-local-command-send-outcomes",
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "2026-10-07-send-waits-out-the-paste-hint",
+    "2026-10-07-test-homes-off-the-contended-volume",
+    "2026-10-08-first-live-test-and-self-drive"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-03T07:54:56Z-c",
+    "2026-10-04T01:20:42Z-e",
+    "2026-10-04T04:20:25Z-c",
+    "2026-10-04T04:20:25Z-d",
+    "2026-10-04T05:35:33Z-b",
+    "2026-10-04T08:55:41Z-d",
+    "2026-10-04T17:16:27Z-e",
+    "2026-10-04T22:36:36Z-b",
+    "2026-10-05T11:00:00Z-d",
+    "2026-10-05T14:46:12Z-d",
+    "2026-10-06T22:04:50Z-d",
+    "2026-10-07T00:03:32Z-c",
+    "2026-10-07T08:34:21Z-c",
+    "2026-10-07T13:13:11Z-d",
+    "2026-10-07T19:30:10Z-d",
+    "2026-10-08T09:30:39Z-d"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "implement/code/UNTYPED",
+   "n": 15,
+   "weight": 30,
+   "impact": {
+    "retries": 13,
+    "dialogue_rounds": 1,
+    "extra_reads": 5
+   },
+   "halting_cases": 0,
+   "rate": 0.536,
+   "step_runs": 28,
+   "chunks": [
+    "2026-10-02-epoch-2b-cleanup",
+    "2026-10-04-dialog-answers-by-dialog-id",
+    "2026-10-04-readiness-gate-and-timing-constants",
+    "2026-10-05-dialog-rows-and-re-probe",
+    "2026-10-05-real-cli-verify-probes",
+    "2026-10-06-local-command-and-paste-framing-rows",
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-03T04:04:41Z-d",
+    "2026-10-04T05:06:21Z-c",
+    "2026-10-04T05:06:21Z-d",
+    "2026-10-04T14:49:33Z-c",
+    "2026-10-05T08:42:29Z-c",
+    "2026-10-05T08:42:29Z-d",
+    "2026-10-05T11:59:55Z-c",
+    "2026-10-05T11:59:55Z-d",
+    "2026-10-05T11:59:55Z-e",
+    "2026-10-05T13:08:03Z-c",
+    "2026-10-06T21:12:21Z-b",
+    "2026-10-07T10:30:18Z-g",
+    "2026-10-07T14:34:57Z-c",
+    "2026-10-07T14:34:57Z-d",
+    "2026-10-07T14:34:57Z-e"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "phase/research/UNTYPED",
+   "n": 10,
+   "weight": 26,
+   "impact": {
+    "retries": 12,
+    "dialogue_rounds": 2,
+    "extra_reads": 4,
+    "deferred": 1
+   },
+   "halting_cases": 0,
+   "rate": 0.385,
+   "step_runs": 26,
+   "chunks": [
+    "2026-10-02-epoch-2b-cleanup",
+    "2026-10-03-mutation-scoring-completion",
+    "2026-10-05-dialog-rows-and-re-probe",
+    "2026-10-05-permission-end-to-end",
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "2026-10-08-first-live-test-and-self-drive"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-02T13:16:18Z-b",
+    "2026-10-03T22:38:49Z-c",
+    "2026-10-05T11:31:17Z-c",
+    "2026-10-05T15:13:17Z-b",
+    "2026-10-07T13:56:05Z-c",
+    "2026-10-07T14:43:23Z-b",
+    "2026-10-08T05:28:57Z-b",
+    "2026-10-08T05:28:57Z-d",
+    "2026-10-08T07:04:06Z-b",
+    "2026-10-08T07:50:08Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "wrap-session/curation/ambiguity.filter-borderline",
+   "n": 10,
+   "weight": 12,
+   "impact": {
+    "iterations": 1,
+    "reformulations": 1,
+    "deferred": 6
+   },
+   "halting_cases": 0,
+   "rate": 0.526,
+   "step_runs": 19,
+   "chunks": [
+    "2026-10-02-epoch-2b-cleanup",
+    "2026-10-03-mutation-scoring-completion",
+    "2026-10-04-dialog-answers-by-dialog-id",
+    "2026-10-05-dialog-rows-and-re-probe",
+    "2026-10-05-real-cli-verify-probes",
+    "2026-10-06-local-command-send-outcomes",
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "2026-10-07-send-waits-out-the-paste-hint",
+    "2026-10-07-test-homes-off-the-contended-volume",
+    "2026-10-08-first-live-test-and-self-drive"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-03T07:56:53Z-b",
+    "2026-10-04T01:22:46Z-b",
+    "2026-10-04T17:17:58Z-c",
+    "2026-10-05T11:01:20Z-c",
+    "2026-10-05T14:47:29Z-c",
+    "2026-10-07T00:05:14Z-b",
+    "2026-10-07T08:35:54Z-b",
+    "2026-10-07T13:14:51Z-b",
+    "2026-10-07T19:32:55Z-b",
+    "2026-10-08T09:31:57Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "implement/fix-loop/UNTYPED",
+   "n": 9,
+   "weight": 20,
+   "impact": {
+    "iterations": 2,
+    "retries": 3,
+    "dialogue_rounds": 3,
+    "extra_reads": 2
+   },
+   "halting_cases": 0,
+   "rate": 0.36,
+   "step_runs": 25,
+   "chunks": [
+    "2026-10-03-mutation-scoring-completion",
+    "2026-10-04-running-turn-refusal",
+    "2026-10-04-the-wheel",
+    "2026-10-04-windows-boundary-mutation-workflow",
+    "2026-10-05-dialog-rows-and-re-probe",
+    "2026-10-06-local-command-and-paste-framing-rows",
+    "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-04T00:32:34Z-e",
+    "2026-10-04T00:32:34Z-f",
+    "2026-10-04T02:10:29Z-c",
+    "2026-10-04T18:40:24Z-c",
+    "2026-10-04T22:18:54Z-d",
+    "2026-10-05T13:20:49Z-c",
+    "2026-10-05T13:20:49Z-d",
+    "2026-10-06T21:30:37Z-c",
+    "2026-10-07T10:41:20Z-c"
+   ],
+   "retractors": [
+    "2026-10-05T13:20:49Z-c"
+   ]
+  },
+  {
+   "key": "wrap-session/reconcile/contract.cascade-miss",
+   "n": 9,
+   "weight": 12,
+   "impact": {
+    "iterations": 3,
+    "extra_reads": 12
+   },
+   "halting_cases": 0,
+   "rate": 0.474,
+   "step_runs": 19,
+   "chunks": [
+    "2026-10-02-epoch-2b-cleanup",
+    "2026-10-03-mutation-scoring-completion",
+    "2026-10-04-confirmed-send-with-cl-1-records",
+    "2026-10-04-dialog-answers-by-dialog-id",
+    "2026-10-05-dialog-rows-and-re-probe",
+    "2026-10-05-real-cli-verify-probes",
+    "2026-10-07-send-waits-out-the-paste-hint"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-03T07:54:56Z-b",
+    "2026-10-04T01:20:42Z-c",
+    "2026-10-04T01:20:42Z-d",
+    "2026-10-04T08:55:41Z-c",
+    "2026-10-04T17:16:27Z-c",
+    "2026-10-05T11:00:00Z-b",
+    "2026-10-05T11:00:00Z-c",
+    "2026-10-05T14:46:12Z-c",
+    "2026-10-07T13:13:11Z-c"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "implement/code/contract.premise-falsified",
+   "n": 8,
+   "weight": 39,
+   "impact": {
+    "iterations": 1,
+    "reformulations": 1,
+    "dialogue_rounds": 1,
+    "extra_reads": 6,
+    "halted": 4,
+    "soft_exit": 5
+   },
+   "halting_cases": 5,
+   "rate": 0.286,
+   "step_runs": 28,
+   "chunks": [
+    "2026-10-02-epoch-2b-cleanup",
+    "2026-10-04-dialog-answers-by-dialog-id",
+    "2026-10-05-dialog-rows-and-re-probe",
+    "2026-10-05-permission-end-to-end",
+    "2026-10-05-real-cli-verify-probes",
+    "2026-10-06-local-command-and-paste-framing-rows",
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-03T04:04:41Z-b",
+    "2026-10-04T11:54:44Z-b",
+    "2026-10-05T06:32:48Z-b",
+    "2026-10-05T08:42:29Z-b",
+    "2026-10-05T11:59:55Z-b",
+    "2026-10-05T15:27:29Z-b",
+    "2026-10-06T20:02:31Z-b",
+    "2026-10-07T14:34:57Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "implement/fix-loop/contract.test-expectation",
+   "n": 8,
+   "weight": 20,
+   "impact": {
+    "iterations": 12
+   },
+   "halting_cases": 0,
+   "rate": 0.32,
+   "step_runs": 25,
+   "chunks": [
+    "2026-10-04-confirmed-send-with-cl-1-records",
+    "2026-10-04-dialog-answers-by-dialog-id",
+    "2026-10-04-the-wheel",
+    "2026-10-04-wait-and-last",
+    "2026-10-05-dialog-rows-and-re-probe",
+    "2026-10-05-real-cli-verify-probes",
+    "2026-10-07-send-waits-out-the-paste-hint"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-04T06:34:51Z-b",
+    "2026-10-04T10:13:15Z-c",
+    "2026-10-04T15:36:14Z-b",
+    "2026-10-04T18:40:24Z-b",
+    "2026-10-05T09:45:14Z-c",
+    "2026-10-05T10:27:54Z-b",
+    "2026-10-05T13:20:49Z-b",
+    "2026-10-07T12:46:39Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "implement/code/tooling.hook-friction",
+   "n": 8,
+   "weight": 17,
+   "impact": {
+    "retries": 9
+   },
+   "halting_cases": 0,
+   "rate": 0.286,
+   "step_runs": 28,
+   "chunks": [
+    "2026-10-04-confirmed-send-with-cl-1-records",
+    "2026-10-04-the-wheel",
+    "2026-10-05-real-cli-verify-probes",
+    "2026-10-06-local-command-send-outcomes",
+    "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+    "2026-10-07-test-homes-off-the-contended-volume",
+    "2026-10-08-first-live-test-and-self-drive"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-04T06:27:45Z-b",
+    "2026-10-04T18:27:23Z-b",
+    "2026-10-05T09:39:17Z-c",
+    "2026-10-06T23:23:25Z-c",
+    "2026-10-07T07:48:25Z-d",
+    "2026-10-07T10:30:18Z-e",
+    "2026-10-08T07:41:13Z-c",
+    "2026-10-08T08:56:11Z-c"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "implement/fix-loop/contract.spec-reality-gap",
+   "n": 7,
+   "weight": 21,
+   "impact": {
+    "iterations": 1,
+    "dialogue_rounds": 2,
+    "soft_exit": 3,
+    "deferred": 1
+   },
+   "halting_cases": 3,
+   "rate": 0.28,
+   "step_runs": 25,
+   "chunks": [
+    "2026-10-03-mutation-scoring-completion",
+    "2026-10-04-wait-and-last",
+    "2026-10-06-local-command-and-paste-framing-rows",
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+    "2026-10-08-first-live-test-and-self-drive"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-04T00:32:34Z-d",
+    "2026-10-04T10:13:15Z-b",
+    "2026-10-06T20:41:30Z-b",
+    "2026-10-07T10:41:20Z-b",
+    "2026-10-07T14:38:43Z-c",
+    "2026-10-08T07:41:13Z-e",
+    "2026-10-08T08:56:11Z-e"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "wrap-session/reconcile/contract.false-positive-proposal",
+   "n": 7,
+   "weight": 20,
+   "impact": {
+    "iterations": 1,
+    "reformulations": 12
+   },
+   "halting_cases": 0,
+   "rate": 0.368,
+   "step_runs": 19,
+   "chunks": [
+    "2026-10-04-dialog-answers-by-dialog-id",
+    "2026-10-04-the-wheel",
+    "2026-10-04-wait-and-last",
+    "2026-10-04-windows-boundary-mutation-workflow",
+    "2026-10-05-dialog-rows-and-re-probe",
+    "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+    "2026-10-07-test-homes-off-the-contended-volume"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-04T04:20:25Z-b",
+    "2026-10-04T10:41:11Z-b",
+    "2026-10-04T17:16:27Z-b",
+    "2026-10-04T20:59:31Z-b",
+    "2026-10-05T14:46:12Z-b",
+    "2026-10-07T08:34:21Z-b",
+    "2026-10-07T11:10:34Z-c"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "phase/plan/retry.synthesis-rework",
+   "n": 7,
+   "weight": 16,
+   "impact": {
+    "iterations": 8,
+    "retries": 1
+   },
+   "halting_cases": 0,
+   "rate": 0.259,
+   "step_runs": 27,
+   "chunks": [
+    "2026-10-04-windows-boundary-mutation-workflow",
+    "2026-10-05-real-cli-verify-probes",
+    "2026-10-06-local-command-and-paste-framing-rows",
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+    "2026-10-07-send-waits-out-the-paste-hint",
+    "2026-10-08-first-live-test-and-self-drive"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-04T01:57:32Z-c",
+    "2026-10-05T06:18:34Z-d",
+    "2026-10-06T20:57:18Z-b",
+    "2026-10-07T09:51:37Z-b",
+    "2026-10-07T12:15:34Z-b",
+    "2026-10-07T14:46:13Z-b",
+    "2026-10-08T08:28:44Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "wrap-session/reconcile/input.report-insufficient",
+   "n": 7,
+   "weight": 8,
+   "impact": {
+    "reformulations": 1,
+    "extra_reads": 9
+   },
+   "halting_cases": 0,
+   "rate": 0.368,
+   "step_runs": 19,
+   "chunks": [
+    "2026-10-03-mutation-scoring-completion",
+    "2026-10-04-dialog-answers-by-dialog-id",
+    "2026-10-06-local-command-and-paste-framing-rows",
+    "2026-10-06-local-command-send-outcomes",
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+    "2026-10-08-first-live-test-and-self-drive"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-04T01:20:42Z-b",
+    "2026-10-04T17:16:27Z-d",
+    "2026-10-06T22:04:50Z-c",
+    "2026-10-07T00:03:32Z-b",
+    "2026-10-07T11:10:34Z-b",
+    "2026-10-07T19:30:10Z-c",
+    "2026-10-08T09:30:39Z-c"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "wrap-session/report/input.implement-outcome-unsettled",
+   "n": 6,
+   "weight": 7,
+   "impact": {
+    "iterations": 1,
+    "extra_reads": 3
+   },
+   "halting_cases": 0,
+   "rate": 0.316,
+   "step_runs": 19,
+   "chunks": [
+    "2026-10-02-epoch-2b-cleanup",
+    "2026-10-04-confirmed-send-with-cl-1-records",
+    "2026-10-04-the-wheel",
+    "2026-10-04-wait-and-last",
+    "2026-10-04-windows-boundary-mutation-workflow",
+    "2026-10-05-dialog-rows-and-re-probe"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-03T07:48:59Z-b",
+    "2026-10-04T04:10:35Z-b",
+    "2026-10-04T06:47:16Z-b",
+    "2026-10-04T10:31:42Z-b",
+    "2026-10-04T20:46:04Z-b",
+    "2026-10-05T14:30:10Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "phase/plan/input.research-thin",
+   "n": 5,
+   "weight": 9,
+   "impact": {
+    "iterations": 2,
+    "dialogue_rounds": 1,
+    "extra_reads": 11
+   },
+   "halting_cases": 0,
+   "rate": 0.185,
+   "step_runs": 27,
+   "chunks": [
+    "2026-10-04-confirmed-send-with-cl-1-records",
+    "2026-10-04-wait-and-last",
+    "2026-10-04-windows-boundary-mutation-workflow",
+    "2026-10-05-real-cli-verify-probes",
+    "2026-10-08-first-live-test-and-self-drive"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-04T01:57:32Z-b",
+    "2026-10-04T06:05:10Z-b",
+    "2026-10-04T09:50:37Z-b",
+    "2026-10-05T06:18:34Z-c",
+    "2026-10-08T06:14:27Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "wrap-session/route-resolve/contract.carry-no-owner",
+   "n": 5,
+   "weight": 8,
+   "impact": {
+    "reformulations": 1,
+    "dialogue_rounds": 1,
+    "extra_reads": 2
+   },
+   "halting_cases": 0,
+   "rate": 0.227,
+   "step_runs": 22,
+   "chunks": [
+    "2026-10-03-mutation-scoring-completion",
+    "2026-10-04-confirmed-send-with-cl-1-records",
+    "2026-10-04-windows-boundary-mutation-workflow",
+    "2026-10-08-first-live-test-and-self-drive",
+    "None"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-01T12:36:15Z-d",
+    "2026-10-04T01:25:23Z-b",
+    "2026-10-04T04:24:02Z-b",
+    "2026-10-04T08:58:39Z-b",
+    "2026-10-08T09:34:08Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "wrap-session/route-resolve/contract.no-sanctioned-channel",
+   "n": 5,
+   "weight": 7,
+   "impact": {
+    "dialogue_rounds": 1,
+    "extra_reads": 7
+   },
+   "halting_cases": 0,
+   "rate": 0.227,
+   "step_runs": 22,
+   "chunks": [
+    "2026-10-05-real-cli-verify-probes",
+    "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+    "2026-10-08-first-live-test-and-self-drive",
+    "None"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-01T12:36:15Z-e",
+    "2026-10-05T11:04:44Z-b",
+    "2026-10-07T06:01:45Z-b",
+    "2026-10-07T11:39:56Z-c",
+    "2026-10-08T09:34:08Z-c"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "wrap-session/reconcile/contract.proposal-format",
+   "n": 4,
+   "weight": 24,
+   "impact": {
+    "reformulations": 20
+   },
+   "halting_cases": 0,
+   "rate": 0.211,
+   "step_runs": 19,
+   "chunks": [
+    "2026-10-06-local-command-and-paste-framing-rows",
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+    "2026-10-07-send-waits-out-the-paste-hint"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-06T22:04:50Z-b",
+    "2026-10-07T11:10:34Z-e",
+    "2026-10-07T13:13:11Z-b",
+    "2026-10-07T19:30:10Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "implement/fix-loop/tooling.result-not-run-stable",
+   "n": 4,
+   "weight": 16,
+   "impact": {
+    "iterations": 5,
+    "retries": 5,
+    "dialogue_rounds": 1,
+    "extra_reads": 15
+   },
+   "halting_cases": 0,
+   "rate": 0.16,
+   "step_runs": 25,
+   "chunks": [
+    "2026-10-02-epoch-2b-cleanup",
+    "2026-10-04-running-turn-refusal",
+    "2026-10-05-dialog-rows-and-re-probe",
+    "2026-10-06-local-command-and-paste-framing-rows"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-03T06:03:49Z-c",
+    "2026-10-04T22:18:54Z-b",
+    "2026-10-05T14:26:27Z-a",
+    "2026-10-06T21:30:37Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "phase/plan/UNTYPED",
+   "n": 4,
+   "weight": 12,
+   "impact": {
+    "iterations": 2,
+    "retries": 1,
+    "dialogue_rounds": 1,
+    "halted": 1
+   },
+   "halting_cases": 1,
+   "rate": 0.148,
+   "step_runs": 27,
+   "chunks": [
+    "2026-10-05-dialog-rows-and-re-probe",
+    "2026-10-05-real-cli-verify-probes",
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "2026-10-07-test-homes-off-the-contended-volume"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-05T08:31:09Z-b",
+    "2026-10-05T11:42:17Z-b",
+    "2026-10-07T07:33:13Z-b",
+    "2026-10-07T14:05:59Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "implement/fix-loop/tooling.environmental",
+   "n": 4,
+   "weight": 9,
+   "impact": {
+    "retries": 3,
+    "dialogue_rounds": 1
+   },
+   "halting_cases": 0,
+   "rate": 0.16,
+   "step_runs": 25,
+   "chunks": [
+    "2026-10-02-epoch-2b-cleanup",
+    "2026-10-03-mutation-scoring-completion",
+    "2026-10-04-windows-boundary-mutation-workflow"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-03T06:03:49Z-d",
+    "2026-10-04T00:32:34Z-b",
+    "2026-10-04T00:32:34Z-c",
+    "2026-10-04T02:10:29Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "new-session/orientation/input.handoff-git-mismatch",
+   "n": 4,
+   "weight": 4,
+   "impact": {
+    "extra_reads": 7
+   },
+   "halting_cases": 0,
+   "rate": 0.077,
+   "step_runs": 52,
+   "chunks": [
+    "None"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-02T12:56:10Z-b",
+    "2026-10-07T07:40:09Z-b",
+    "2026-10-07T14:15:11Z-b",
+    "2026-10-07T15:10:14Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "new-session/orientation/UNTYPED",
+   "n": 4,
+   "weight": 4,
+   "impact": {
+    "extra_reads": 6
+   },
+   "halting_cases": 0,
+   "rate": 0.077,
+   "step_runs": 52,
+   "chunks": [
+    "None"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-03T21:39:51Z-b",
+    "2026-10-07T05:46:11Z-b",
+    "2026-10-07T13:34:35Z-b",
+    "2026-10-08T04:58:30Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "wrap-session/gates/tooling.result-not-run-stable",
+   "n": 3,
+   "weight": 17,
+   "impact": {
+    "retries": 3,
+    "dialogue_rounds": 1,
+    "halted": 3
+   },
+   "halting_cases": 3,
+   "rate": 0.143,
+   "step_runs": 21,
+   "chunks": [
+    "2026-10-02-epoch-2b-cleanup",
+    "2026-10-04-running-turn-refusal",
+    "2026-10-06-local-command-and-paste-framing-rows"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-03T11:45:42Z-b",
+    "2026-10-04T22:41:04Z-b",
+    "2026-10-06T22:24:12Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "wrap-session/route-resolve/ambiguity.trajectory-halt",
+   "n": 3,
+   "weight": 12,
+   "impact": {
+    "dialogue_rounds": 3,
+    "halted": 1
+   },
+   "halting_cases": 1,
+   "rate": 0.136,
+   "step_runs": 22,
+   "chunks": [
+    "2026-10-04-the-wheel",
+    "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+    "None"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-03T22:17:30Z-b",
+    "2026-10-04T21:11:43Z-b",
+    "2026-10-07T11:39:56Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "phase/research/contract.narrow-basis-claim",
+   "n": 3,
+   "weight": 6,
+   "impact": {
+    "retries": 3,
+    "extra_reads": 1
+   },
+   "halting_cases": 0,
+   "rate": 0.115,
+   "step_runs": 26,
+   "chunks": [
+    "2026-10-06-local-command-send-outcomes",
+    "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+    "2026-10-07-send-waits-out-the-paste-hint"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-06T22:51:16Z-b",
+    "2026-10-07T09:07:21Z-c",
+    "2026-10-07T12:08:01Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "implement/code/tooling.host-shell",
+   "n": 3,
+   "weight": 5,
+   "impact": {
+    "retries": 2
+   },
+   "halting_cases": 0,
+   "rate": 0.107,
+   "step_runs": 28,
+   "chunks": [
+    "2026-10-02-epoch-2b-cleanup",
+    "2026-10-06-local-command-send-outcomes",
+    "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-03T04:04:41Z-c",
+    "2026-10-06T23:23:25Z-d",
+    "2026-10-07T10:30:18Z-f"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "wrap-session/reconcile/UNTYPED",
+   "n": 3,
+   "weight": 5,
+   "impact": {
+    "retries": 2,
+    "extra_reads": 3
+   },
+   "halting_cases": 0,
+   "rate": 0.158,
+   "step_runs": 19,
+   "chunks": [
+    "2026-10-02-epoch-2b-cleanup",
+    "2026-10-04-running-turn-refusal",
+    "2026-10-04-windows-boundary-mutation-workflow"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-03T07:54:56Z-d",
+    "2026-10-04T04:20:25Z-e",
+    "2026-10-04T22:36:36Z-c"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "wrap-session/gates/UNTYPED",
+   "n": 3,
+   "weight": 5,
+   "impact": {
+    "retries": 2
+   },
+   "halting_cases": 0,
+   "rate": 0.143,
+   "step_runs": 21,
+   "chunks": [
+    "2026-10-02-epoch-2b-cleanup",
+    "2026-10-04-the-wheel",
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-03T11:45:42Z-c",
+    "2026-10-04T21:31:09Z-b",
+    "2026-10-07T19:39:31Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "wrap-session/route-resolve/UNTYPED",
+   "n": 3,
+   "weight": 5,
+   "impact": {
+    "retries": 2
+   },
+   "halting_cases": 0,
+   "rate": 0.136,
+   "step_runs": 22,
+   "chunks": [
+    "2026-10-04-the-wheel",
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "None"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-03T22:17:30Z-d",
+    "2026-10-04T21:11:43Z-c",
+    "2026-10-07T19:32:55Z-f"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "phase/take-up/UNTYPED",
+   "n": 3,
+   "weight": 5,
+   "impact": {
+    "retries": 2,
+    "extra_reads": 1
+   },
+   "halting_cases": 0,
+   "rate": 0.158,
+   "step_runs": 19,
+   "chunks": [
+    "2026-10-03-mutation-scoring-completion",
+    "2026-10-05-real-cli-verify-probes",
+    "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-03T22:22:25Z-c",
+    "2026-10-05T00:20:30Z-b",
+    "2026-10-07T08:53:01Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "implement/code/input.research-files-wrong",
+   "n": 3,
+   "weight": 4,
+   "impact": {
+    "retries": 1,
+    "extra_reads": 5
+   },
+   "halting_cases": 0,
+   "rate": 0.107,
+   "step_runs": 28,
+   "chunks": [
+    "2026-10-04-dialog-answers-by-dialog-id",
+    "2026-10-05-dialog-rows-and-re-probe",
+    "2026-10-06-local-command-and-paste-framing-rows"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-04T14:49:33Z-b",
+    "2026-10-05T13:08:03Z-b",
+    "2026-10-06T20:35:24Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "implement/fix-loop/contract.instrument-validity",
+   "n": 3,
+   "weight": 4,
+   "impact": {
+    "retries": 1,
+    "extra_reads": 3
+   },
+   "halting_cases": 0,
+   "rate": 0.12,
+   "step_runs": 25,
+   "chunks": [
+    "2026-10-04-running-turn-refusal",
+    "2026-10-05-dialog-rows-and-re-probe",
+    "2026-10-05-real-cli-verify-probes"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-04T22:18:54Z-c",
+    "2026-10-05T09:45:14Z-b",
+    "2026-10-05T14:26:27Z-c"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "wrap-session/curation/ambiguity.tier-routing",
+   "n": 3,
+   "weight": 3,
+   "impact": {},
+   "halting_cases": 0,
+   "rate": 0.158,
+   "step_runs": 19,
+   "chunks": [
+    "2026-10-03-mutation-scoring-completion",
+    "2026-10-04-windows-boundary-mutation-workflow",
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-04T01:22:46Z-c",
+    "2026-10-04T04:22:08Z-c",
+    "2026-10-07T19:32:55Z-c"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "wrap-session/u35-door/contract.skill-reference-drift",
+   "n": 2,
+   "weight": 11,
+   "impact": {
+    "retries": 3,
+    "dialogue_rounds": 3
+   },
+   "halting_cases": 0,
+   "rate": null,
+   "step_runs": null,
+   "chunks": [
+    "None"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-09-29T15:26:07Z-a",
+    "2026-09-29T15:26:07Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "wrap-session/gates/tooling.light-gate-red",
+   "n": 2,
+   "weight": 9,
+   "impact": {
+    "dialogue_rounds": 2,
+    "halted": 1
+   },
+   "halting_cases": 1,
+   "rate": 0.095,
+   "step_runs": 21,
+   "chunks": [
+    "2026-10-04-running-turn-refusal",
+    "2026-10-04-the-wheel"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-04T21:19:16Z-b",
+    "2026-10-04T22:41:04Z-c"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "phase/validate/UNTYPED",
+   "n": 2,
+   "weight": 6,
+   "impact": {
+    "retries": 2,
+    "dialogue_rounds": 1
+   },
+   "halting_cases": 0,
+   "rate": 0.074,
+   "step_runs": 27,
+   "chunks": [
+    "2026-10-02-epoch-2b-cleanup",
+    "2026-10-08-first-live-test-and-self-drive"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-02T19:34:01Z-c",
+    "2026-10-08T06:23:46Z-c"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "wrap-session/reconcile/ambiguity.playbook-no-match",
+   "n": 2,
+   "weight": 6,
+   "impact": {
+    "dialogue_rounds": 2
+   },
+   "halting_cases": 0,
+   "rate": 0.105,
+   "step_runs": 19,
+   "chunks": [
+    "2026-10-04-confirmed-send-with-cl-1-records",
+    "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-04T08:55:41Z-b",
+    "2026-10-07T11:10:34Z-d"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "phase/distill/retry.distiller-respawn",
+   "n": 2,
+   "weight": 5,
+   "impact": {
+    "retries": 3
+   },
+   "halting_cases": 0,
+   "rate": 0.105,
+   "step_runs": 19,
+   "chunks": [
+    "2026-10-04-confirmed-send-with-cl-1-records",
+    "2026-10-04-wait-and-last"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-04T05:50:49Z-b",
+    "2026-10-04T09:34:59Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "phase/research/contract.instrument-validity",
+   "n": 2,
+   "weight": 4,
+   "impact": {
+    "retries": 2
+   },
+   "halting_cases": 0,
+   "rate": 0.077,
+   "step_runs": 26,
+   "chunks": [
+    "2026-10-03-mutation-scoring-completion",
+    "2026-10-08-first-live-test-and-self-drive"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-03T22:38:49Z-b",
+    "2026-10-08T05:28:57Z-c"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "phase/take-up/contract.skill-reference-drift",
+   "n": 2,
+   "weight": 4,
+   "impact": {
+    "retries": 2
+   },
+   "halting_cases": 0,
+   "rate": 0.105,
+   "step_runs": 19,
+   "chunks": [
+    "2026-10-05-dialog-rows-and-re-probe",
+    "2026-10-05-permission-end-to-end"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-05T11:18:10Z-b",
+    "2026-10-05T15:02:49Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "implement/fix-loop/contract.narrow-basis-claim",
+   "n": 2,
+   "weight": 4,
+   "impact": {
+    "dialogue_rounds": 1,
+    "extra_reads": 3
+   },
+   "halting_cases": 0,
+   "rate": 0.08,
+   "step_runs": 25,
+   "chunks": [
+    "2026-10-06-local-command-and-paste-framing-rows",
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-06T20:41:30Z-c",
+    "2026-10-07T14:38:43Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "new-session/orientation/contract.schema-assumed",
+   "n": 2,
+   "weight": 4,
+   "impact": {
+    "retries": 2,
+    "extra_reads": 2
+   },
+   "halting_cases": 0,
+   "rate": 0.038,
+   "step_runs": 52,
+   "chunks": [
+    "None"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-06T21:00:32Z-b",
+    "2026-10-06T23:05:53Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "implement/fix-loop/tooling.host-shell",
+   "n": 2,
+   "weight": 4,
+   "impact": {
+    "retries": 2
+   },
+   "halting_cases": 0,
+   "rate": 0.08,
+   "step_runs": 25,
+   "chunks": [
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "2026-10-07-send-waits-out-the-paste-hint"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-07T12:46:39Z-c",
+    "2026-10-07T15:39:29Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "phase/research/tooling.graph-unavailable",
+   "n": 2,
+   "weight": 3,
+   "impact": {
+    "retries": 1,
+    "extra_reads": 5
+   },
+   "halting_cases": 0,
+   "rate": 0.077,
+   "step_runs": 26,
+   "chunks": [
+    "2026-10-04-confirmed-send-with-cl-1-records",
+    "2026-10-04-windows-boundary-mutation-workflow"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-04T01:50:29Z-b",
+    "2026-10-04T05:56:59Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "wrap-session/report/contract.narrow-basis-claim",
+   "n": 2,
+   "weight": 3,
+   "impact": {
+    "reformulations": 1,
+    "extra_reads": 1
+   },
+   "halting_cases": 0,
+   "rate": 0.105,
+   "step_runs": 19,
+   "chunks": [
+    "2026-10-04-readiness-gate-and-timing-constants",
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-04T05:27:22Z-b",
+    "2026-10-07T19:17:53Z-c"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "implement/fix-loop/contract.premise-falsified",
+   "n": 2,
+   "weight": 3,
+   "impact": {
+    "iterations": 1,
+    "extra_reads": 2
+   },
+   "halting_cases": 0,
+   "rate": 0.08,
+   "step_runs": 25,
+   "chunks": [
+    "2026-10-05-dialog-rows-and-re-probe",
+    "2026-10-08-first-live-test-and-self-drive"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-05T14:26:27Z-b",
+    "2026-10-08T08:56:11Z-f"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "wrap-session/route-resolve/contract.premise-falsified",
+   "n": 2,
+   "weight": 2,
+   "impact": {
+    "extra_reads": 1
+   },
+   "halting_cases": 0,
+   "rate": 0.091,
+   "step_runs": 22,
+   "chunks": [
+    "None"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-01T12:36:15Z-c",
+    "2026-10-03T22:17:30Z-c"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "phase/take-up/input.out-of-pipeline-source",
+   "n": 2,
+   "weight": 2,
+   "impact": {
+    "extra_reads": 3
+   },
+   "halting_cases": 0,
+   "rate": 0.105,
+   "step_runs": 19,
+   "chunks": [
+    "2026-10-03-mutation-scoring-completion",
+    "2026-10-04-windows-boundary-mutation-workflow"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-03T22:22:25Z-b",
+    "2026-10-04T01:33:58Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "phase/take-up/input.carry-context-gap",
+   "n": 2,
+   "weight": 2,
+   "impact": {
+    "extra_reads": 1,
+    "deferred": 1
+   },
+   "halting_cases": 0,
+   "rate": 0.105,
+   "step_runs": 19,
+   "chunks": [
+    "2026-10-06-local-command-and-paste-framing-rows",
+    "2026-10-08-first-live-test-and-self-drive"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-06T19:20:37Z-b",
+    "2026-10-08T05:04:00Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "phase/research/input.extract-signal-gap",
+   "n": 2,
+   "weight": 2,
+   "impact": {
+    "extra_reads": 2
+   },
+   "halting_cases": 0,
+   "rate": 0.077,
+   "step_runs": 26,
+   "chunks": [
+    "2026-10-06-local-command-and-paste-framing-rows"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-06T19:34:51Z-b",
+    "2026-10-06T19:34:51Z-c"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "wrap-session/report/contract.detector-fact-gap",
+   "n": 2,
+   "weight": 2,
+   "impact": {},
+   "halting_cases": 0,
+   "rate": 0.105,
+   "step_runs": 19,
+   "chunks": [
+    "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+    "2026-10-07-test-homes-off-the-contended-volume"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-07T08:23:43Z-b",
+    "2026-10-07T10:57:21Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "phase/research/contract.premise-falsified",
+   "n": 2,
+   "weight": 2,
+   "impact": {
+    "extra_reads": 10
+   },
+   "halting_cases": 0,
+   "rate": 0.077,
+   "step_runs": 26,
+   "chunks": [
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-07T09:07:21Z-b",
+    "2026-10-07T13:56:05Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "wrap-session/reconcile/contract.structural-blind-spot",
+   "n": 1,
+   "weight": 6,
+   "impact": {
+    "dialogue_rounds": 1,
+    "extra_reads": 3,
+    "halted": 1
+   },
+   "halting_cases": 1,
+   "rate": 0.053,
+   "step_runs": 19,
+   "chunks": [
+    "2026-10-08-first-live-test-and-self-drive"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-08T09:30:39Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "implement/fix-loop/contract.vacuous-check-found",
+   "n": 1,
+   "weight": 3,
+   "impact": {
+    "iterations": 2
+   },
+   "halting_cases": 0,
+   "rate": 0.04,
+   "step_runs": 25,
+   "chunks": [
+    "2026-10-02-epoch-2b-cleanup"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-03T06:03:49Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "phase/plan/contract.premise-falsified",
+   "n": 1,
+   "weight": 3,
+   "impact": {
+    "dialogue_rounds": 1,
+    "extra_reads": 2
+   },
+   "halting_cases": 0,
+   "rate": 0.037,
+   "step_runs": 27,
+   "chunks": [
+    "2026-10-05-real-cli-verify-probes"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-05T06:18:34Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "phase/research/tooling.host-shell",
+   "n": 1,
+   "weight": 3,
+   "impact": {
+    "retries": 2
+   },
+   "halting_cases": 0,
+   "rate": 0.038,
+   "step_runs": 26,
+   "chunks": [
+    "2026-10-05-dialog-rows-and-re-probe"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-05T11:31:17Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "wrap-session/route-resolve/contract.structural-blind-spot",
+   "n": 1,
+   "weight": 3,
+   "impact": {
+    "dialogue_rounds": 1,
+    "extra_reads": 2
+   },
+   "halting_cases": 0,
+   "rate": 0.045,
+   "step_runs": 22,
+   "chunks": [
+    "None"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-07T06:01:45Z-c"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "implement/code/contract.skill-reference-drift",
+   "n": 1,
+   "weight": 3,
+   "impact": {
+    "retries": 2
+   },
+   "halting_cases": 0,
+   "rate": 0.036,
+   "step_runs": 28,
+   "chunks": [
+    "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-07T10:30:18Z-d"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "implement/code/contract.narrow-basis-claim",
+   "n": 1,
+   "weight": 3,
+   "impact": {
+    "dialogue_rounds": 1,
+    "extra_reads": 9
+   },
+   "halting_cases": 0,
+   "rate": 0.036,
+   "step_runs": 28,
+   "chunks": [
+    "2026-10-08-first-live-test-and-self-drive"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-08T06:36:48Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "implement/fix-loop/contract.token-proxy-check",
+   "n": 1,
+   "weight": 3,
+   "impact": {
+    "iterations": 1,
+    "retries": 1
+   },
+   "halting_cases": 0,
+   "rate": 0.04,
+   "step_runs": 25,
+   "chunks": [
+    "2026-10-08-first-live-test-and-self-drive"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-08T07:41:13Z-f"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "wrap-session/route-resolve/contract.grammar-irregularity",
+   "n": 1,
+   "weight": 2,
+   "impact": {
+    "retries": 1
+   },
+   "halting_cases": 0,
+   "rate": 0.045,
+   "step_runs": 22,
+   "chunks": [
+    "None"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-01T12:36:15Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "wrap-session/curation/UNTYPED",
+   "n": 1,
+   "weight": 2,
+   "impact": {
+    "retries": 1
+   },
+   "halting_cases": 0,
+   "rate": 0.053,
+   "step_runs": 19,
+   "chunks": [
+    "2026-10-02-epoch-2b-cleanup"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-03T07:56:53Z-c"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "phase/distill/contract.token-proxy-check",
+   "n": 1,
+   "weight": 2,
+   "impact": {
+    "retries": 1
+   },
+   "halting_cases": 0,
+   "rate": 0.053,
+   "step_runs": 19,
+   "chunks": [
+    "2026-10-03-mutation-scoring-completion"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-03T22:28:46Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "wrap-session/reconcile/recall.corpus-recurrence",
+   "n": 1,
+   "weight": 2,
+   "impact": {
+    "retries": 1
+   },
+   "halting_cases": 0,
+   "rate": 0.053,
+   "step_runs": 19,
+   "chunks": [
+    "2026-10-04-the-wheel"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-04T20:59:31Z-c"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "wrap-session/reconcile/tooling.host-shell",
+   "n": 1,
+   "weight": 2,
+   "impact": {
+    "retries": 1
+   },
+   "halting_cases": 0,
+   "rate": 0.053,
+   "step_runs": 19,
+   "chunks": [
+    "2026-10-04-running-turn-refusal"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-04T22:36:42Z-a"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "wrap-session/route-resolve/tooling.long-line-edit",
+   "n": 1,
+   "weight": 2,
+   "impact": {
+    "retries": 1
+   },
+   "halting_cases": 0,
+   "rate": 0.045,
+   "step_runs": 22,
+   "chunks": [
+    "2026-10-05-real-cli-verify-probes"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-05T11:04:44Z-c"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "new-session/orientation/tooling.host-shell",
+   "n": 1,
+   "weight": 2,
+   "impact": {
+    "retries": 1,
+    "extra_reads": 1
+   },
+   "halting_cases": 0,
+   "rate": 0.019,
+   "step_runs": 52,
+   "chunks": [
+    "None"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-06T20:18:55Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "phase/validate/contract.matrix-claim",
+   "n": 1,
+   "weight": 2,
+   "impact": {
+    "iterations": 1,
+    "extra_reads": 2
+   },
+   "halting_cases": 0,
+   "rate": 0.037,
+   "step_runs": 27,
+   "chunks": [
+    "2026-10-06-local-command-send-outcomes"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-06T23:04:21Z-c"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "wrap-session/route-resolve/tooling.host-shell",
+   "n": 1,
+   "weight": 2,
+   "impact": {
+    "retries": 1
+   },
+   "halting_cases": 0,
+   "rate": 0.045,
+   "step_runs": 22,
+   "chunks": [
+    "None"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-07T06:01:45Z-d"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "implement/code/contract.token-proxy-check",
+   "n": 1,
+   "weight": 2,
+   "impact": {
+    "reformulations": 1,
+    "extra_reads": 1
+   },
+   "halting_cases": 0,
+   "rate": 0.036,
+   "step_runs": 28,
+   "chunks": [
+    "2026-10-07-test-homes-off-the-contended-volume"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-07T07:48:25Z-c"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "implement/code/input.conventions-gap",
+   "n": 1,
+   "weight": 2,
+   "impact": {
+    "retries": 1,
+    "extra_reads": 1
+   },
+   "halting_cases": 0,
+   "rate": 0.036,
+   "step_runs": 28,
+   "chunks": [
+    "2026-10-07-send-waits-out-the-paste-hint"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-07T12:28:55Z-c"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "phase/distill/tooling.host-shell",
+   "n": 1,
+   "weight": 2,
+   "impact": {
+    "retries": 1
+   },
+   "halting_cases": 0,
+   "rate": 0.053,
+   "step_runs": 19,
+   "chunks": [
+    "2026-10-08-first-live-test-and-self-drive"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-08T05:12:25Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "implement/smoke/contract.premise-falsified",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "extra_reads": 12
+   },
+   "halting_cases": 0,
+   "rate": 0.045,
+   "step_runs": 22,
+   "chunks": [
+    "2026-10-04-windows-boundary-mutation-workflow"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-04T03:31:03Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "phase/validate/contract.skill-reference-drift",
+   "n": 1,
+   "weight": 1,
+   "impact": {},
+   "halting_cases": 0,
+   "rate": 0.037,
+   "step_runs": 27,
+   "chunks": [
+    "2026-10-04-dialog-answers-by-dialog-id"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-04T14:20:02Z-c"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "new-session/orientation/tooling.output-cap-overflow",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "extra_reads": 3
+   },
+   "halting_cases": 0,
+   "rate": 0.019,
+   "step_runs": 52,
+   "chunks": [
+    "None"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-04T18:10:21Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "implement/fix-loop/contract.skill-reference-drift",
+   "n": 1,
+   "weight": 1,
+   "impact": {},
+   "halting_cases": 0,
+   "rate": 0.04,
+   "step_runs": 25,
+   "chunks": [
+    "2026-10-04-running-turn-refusal"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-04T22:18:54Z-e"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "phase/distill/contract.binding-contradiction",
+   "n": 1,
+   "weight": 1,
+   "impact": {},
+   "halting_cases": 0,
+   "rate": 0.053,
+   "step_runs": 19,
+   "chunks": [
+    "2026-10-05-real-cli-verify-probes"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-05T00:26:25Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "phase/distill/contract.narrow-basis-claim",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "extra_reads": 1
+   },
+   "halting_cases": 0,
+   "rate": 0.053,
+   "step_runs": 19,
+   "chunks": [
+    "2026-10-05-permission-end-to-end"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-05T15:08:44Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "new-session/orientation/contract.skill-reference-drift",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "extra_reads": 2
+   },
+   "halting_cases": 0,
+   "rate": 0.019,
+   "step_runs": 52,
+   "chunks": [
+    "None"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-06T22:32:34Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "phase/distill/input.spec-source-gap",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "extra_reads": 2
+   },
+   "halting_cases": 0,
+   "rate": 0.053,
+   "step_runs": 19,
+   "chunks": [
+    "2026-10-06-local-command-send-outcomes"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-06T22:44:09Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "wrap-session/route-resolve/input.outcome-unclear",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "extra_reads": 2
+   },
+   "halting_cases": 0,
+   "rate": 0.045,
+   "step_runs": 22,
+   "chunks": [
+    "2026-10-07-test-homes-off-the-contended-volume"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-07T08:37:13Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "phase/take-up/contract.structural-blind-spot",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "extra_reads": 2
+   },
+   "halting_cases": 0,
+   "rate": 0.053,
+   "step_runs": 19,
+   "chunks": [
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-07T13:39:16Z-b"
+   ],
+   "retractors": []
+  },
+  {
+   "key": "wrap-session/report/recall.change-reconstruction",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "extra_reads": 8
+   },
+   "halting_cases": 0,
+   "rate": 0.053,
+   "step_runs": 19,
+   "chunks": [
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-07T19:17:53Z-b"
+   ],
+   "retractors": []
+  }
+ ],
+ "cross_step_groups_universal_and_recall": [
+  {
+   "key": "*/*/recall.corpus-recurrence",
+   "n": 19,
+   "weight": 41,
+   "impact": {
+    "iterations": 1,
+    "retries": 16,
+    "reformulations": 1,
+    "dialogue_rounds": 2,
+    "extra_reads": 1,
+    "deferred": 3
+   },
+   "halting_cases": 0,
+   "rate": null,
+   "step_runs": null,
+   "chunks": [
+    "2026-10-03-mutation-scoring-completion",
+    "2026-10-04-confirmed-send-with-cl-1-records",
+    "2026-10-04-dialog-answers-by-dialog-id",
+    "2026-10-04-running-turn-refusal",
+    "2026-10-04-the-wheel",
+    "2026-10-04-windows-boundary-mutation-workflow",
+    "2026-10-05-dialog-rows-and-re-probe",
+    "2026-10-05-real-cli-verify-probes",
+    "2026-10-06-local-command-and-paste-framing-rows",
+    "2026-10-06-local-command-send-outcomes",
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+    "2026-10-07-send-waits-out-the-paste-hint",
+    "2026-10-07-test-homes-off-the-contended-volume",
+    "2026-10-08-first-live-test-and-self-drive"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-04T01:22:46Z-d",
+    "2026-10-04T04:22:08Z-b",
+    "2026-10-04T08:56:53Z-b",
+    "2026-10-04T17:17:58Z-b",
+    "2026-10-04T20:59:31Z-c",
+    "2026-10-04T22:37:37Z-b",
+    "2026-10-04T22:37:37Z-c",
+    "2026-10-05T11:01:20Z-b",
+    "2026-10-05T14:47:29Z-b",
+    "2026-10-06T22:04:50Z-b",
+    "2026-10-07T00:05:14Z-c",
+    "2026-10-07T00:05:14Z-d",
+    "2026-10-07T08:35:54Z-c",
+    "2026-10-07T08:35:54Z-d",
+    "2026-10-07T08:35:54Z-e",
+    "2026-10-07T11:11:38Z-b",
+    "2026-10-07T13:14:51Z-c",
+    "2026-10-07T19:32:55Z-d",
+    "2026-10-08T09:31:57Z-c"
+   ],
+   "retractors": [],
+   "by_step": {
+    "wrap-session/curation": 18,
+    "wrap-session/reconcile": 1
+   }
+  },
+  {
+   "key": "*/*/contract.premise-falsified",
+   "n": 16,
+   "weight": 50,
+   "impact": {
+    "iterations": 2,
+    "reformulations": 1,
+    "dialogue_rounds": 2,
+    "extra_reads": 33,
+    "halted": 4,
+    "soft_exit": 5
+   },
+   "halting_cases": 5,
+   "rate": null,
+   "step_runs": null,
+   "chunks": [
+    "2026-10-02-epoch-2b-cleanup",
+    "2026-10-04-dialog-answers-by-dialog-id",
+    "2026-10-04-windows-boundary-mutation-workflow",
+    "2026-10-05-dialog-rows-and-re-probe",
+    "2026-10-05-permission-end-to-end",
+    "2026-10-05-real-cli-verify-probes",
+    "2026-10-06-local-command-and-paste-framing-rows",
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+    "2026-10-08-first-live-test-and-self-drive",
+    "None"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-01T12:36:15Z-c",
+    "2026-10-03T04:04:41Z-b",
+    "2026-10-03T22:17:30Z-c",
+    "2026-10-04T03:31:03Z-b",
+    "2026-10-04T11:54:44Z-b",
+    "2026-10-05T06:18:34Z-b",
+    "2026-10-05T06:32:48Z-b",
+    "2026-10-05T08:42:29Z-b",
+    "2026-10-05T11:59:55Z-b",
+    "2026-10-05T14:26:27Z-b",
+    "2026-10-05T15:27:29Z-b",
+    "2026-10-06T20:02:31Z-b",
+    "2026-10-07T09:07:21Z-b",
+    "2026-10-07T13:56:05Z-b",
+    "2026-10-07T14:34:57Z-b",
+    "2026-10-08T08:56:11Z-f"
+   ],
+   "retractors": [],
+   "by_step": {
+    "wrap-session/route-resolve": 2,
+    "implement/code": 8,
+    "implement/smoke": 1,
+    "phase/plan": 1,
+    "implement/fix-loop": 2,
+    "phase/research": 2
+   }
+  },
+  {
+   "key": "*/*/tooling.host-shell",
+   "n": 10,
+   "weight": 20,
+   "impact": {
+    "retries": 10,
+    "extra_reads": 1
+   },
+   "halting_cases": 0,
+   "rate": null,
+   "step_runs": null,
+   "chunks": [
+    "2026-10-02-epoch-2b-cleanup",
+    "2026-10-04-running-turn-refusal",
+    "2026-10-05-dialog-rows-and-re-probe",
+    "2026-10-06-local-command-send-outcomes",
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+    "2026-10-07-send-waits-out-the-paste-hint",
+    "2026-10-08-first-live-test-and-self-drive",
+    "None"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-03T04:04:41Z-c",
+    "2026-10-04T22:36:42Z-a",
+    "2026-10-05T11:31:17Z-b",
+    "2026-10-06T20:18:55Z-b",
+    "2026-10-06T23:23:25Z-d",
+    "2026-10-07T06:01:45Z-d",
+    "2026-10-07T10:30:18Z-f",
+    "2026-10-07T12:46:39Z-c",
+    "2026-10-07T15:39:29Z-b",
+    "2026-10-08T05:12:25Z-b"
+   ],
+   "retractors": [],
+   "by_step": {
+    "implement/code": 3,
+    "wrap-session/reconcile": 1,
+    "phase/research": 1,
+    "new-session/orientation": 1,
+    "wrap-session/route-resolve": 1,
+    "implement/fix-loop": 2,
+    "phase/distill": 1
+   }
+  },
+  {
+   "key": "*/*/contract.narrow-basis-claim",
+   "n": 9,
+   "weight": 17,
+   "impact": {
+    "retries": 3,
+    "reformulations": 1,
+    "dialogue_rounds": 2,
+    "extra_reads": 15
+   },
+   "halting_cases": 0,
+   "rate": null,
+   "step_runs": null,
+   "chunks": [
+    "2026-10-04-readiness-gate-and-timing-constants",
+    "2026-10-05-permission-end-to-end",
+    "2026-10-06-local-command-and-paste-framing-rows",
+    "2026-10-06-local-command-send-outcomes",
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+    "2026-10-07-send-waits-out-the-paste-hint",
+    "2026-10-08-first-live-test-and-self-drive"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-04T05:27:22Z-b",
+    "2026-10-05T15:08:44Z-b",
+    "2026-10-06T20:41:30Z-c",
+    "2026-10-06T22:51:16Z-b",
+    "2026-10-07T09:07:21Z-c",
+    "2026-10-07T12:08:01Z-b",
+    "2026-10-07T14:38:43Z-b",
+    "2026-10-07T19:17:53Z-c",
+    "2026-10-08T06:36:48Z-b"
+   ],
+   "retractors": [],
+   "by_step": {
+    "wrap-session/report": 2,
+    "phase/distill": 1,
+    "implement/fix-loop": 2,
+    "phase/research": 3,
+    "implement/code": 1
+   }
+  },
+  {
+   "key": "*/*/contract.skill-reference-drift",
+   "n": 8,
+   "weight": 21,
+   "impact": {
+    "retries": 7,
+    "dialogue_rounds": 3,
+    "extra_reads": 2
+   },
+   "halting_cases": 0,
+   "rate": null,
+   "step_runs": null,
+   "chunks": [
+    "2026-10-04-dialog-answers-by-dialog-id",
+    "2026-10-04-running-turn-refusal",
+    "2026-10-05-dialog-rows-and-re-probe",
+    "2026-10-05-permission-end-to-end",
+    "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+    "None"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-09-29T15:26:07Z-a",
+    "2026-09-29T15:26:07Z-b",
+    "2026-10-04T14:20:02Z-c",
+    "2026-10-04T22:18:54Z-e",
+    "2026-10-05T11:18:10Z-b",
+    "2026-10-05T15:02:49Z-b",
+    "2026-10-06T22:32:34Z-b",
+    "2026-10-07T10:30:18Z-d"
+   ],
+   "retractors": [],
+   "by_step": {
+    "wrap-session/u35-door": 2,
+    "phase/validate": 1,
+    "implement/fix-loop": 1,
+    "phase/take-up": 2,
+    "new-session/orientation": 1,
+    "implement/code": 1
+   }
+  },
+  {
+   "key": "*/*/contract.structural-blind-spot",
+   "n": 3,
+   "weight": 10,
+   "impact": {
+    "dialogue_rounds": 2,
+    "extra_reads": 7,
+    "halted": 1
+   },
+   "halting_cases": 1,
+   "rate": null,
+   "step_runs": null,
+   "chunks": [
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "2026-10-08-first-live-test-and-self-drive",
+    "None"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-07T06:01:45Z-c",
+    "2026-10-07T13:39:16Z-b",
+    "2026-10-08T09:30:39Z-b"
+   ],
+   "retractors": [],
+   "by_step": {
+    "wrap-session/route-resolve": 1,
+    "phase/take-up": 1,
+    "wrap-session/reconcile": 1
+   }
+  },
+  {
+   "key": "*/*/contract.token-proxy-check",
+   "n": 3,
+   "weight": 7,
+   "impact": {
+    "iterations": 1,
+    "retries": 2,
+    "reformulations": 1,
+    "extra_reads": 1
+   },
+   "halting_cases": 0,
+   "rate": null,
+   "step_runs": null,
+   "chunks": [
+    "2026-10-03-mutation-scoring-completion",
+    "2026-10-07-test-homes-off-the-contended-volume",
+    "2026-10-08-first-live-test-and-self-drive"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-10-03T22:28:46Z-b",
+    "2026-10-07T07:48:25Z-c",
+    "2026-10-08T07:41:13Z-f"
+   ],
+   "retractors": [],
+   "by_step": {
+    "phase/distill": 1,
+    "implement/code": 1,
+    "implement/fix-loop": 1
+   }
+  },
+  {
+   "key": "*/*/contract.grammar-irregularity",
+   "n": 1,
+   "weight": 2,
+   "impact": {
+    "retries": 1
+   },
+   "halting_cases": 0,
+   "rate": null,
+   "step_runs": null,
+   "chunks": [
+    "None"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-01T12:36:15Z-b"
+   ],
+   "retractors": [],
+   "by_step": {
+    "wrap-session/route-resolve": 1
+   },
+   "sites": {
+    "viola-0.1.0/working-route.md:66": 1
+   }
+  },
+  {
+   "key": "*/*/tooling.output-cap-overflow",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "extra_reads": 3
+   },
+   "halting_cases": 0,
+   "rate": null,
+   "step_runs": null,
+   "chunks": [
+    "None"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-04T18:10:21Z-b"
+   ],
+   "retractors": [],
+   "by_step": {
+    "new-session/orientation": 1
+   }
+  },
+  {
+   "key": "*/*/recall.change-reconstruction",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "extra_reads": 8
+   },
+   "halting_cases": 0,
+   "rate": null,
+   "step_runs": null,
+   "chunks": [
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-10-07T19:17:53Z-b"
+   ],
+   "retractors": [],
+   "by_step": {
+    "wrap-session/report": 1
+   }
+  }
+ ],
+ "type_totals": {
+  "contract.skill-reference-drift": 8,
+  "contract.grammar-irregularity": 1,
+  "contract.premise-falsified": 16,
+  "contract.carry-no-owner": 5,
+  "contract.no-sanctioned-channel": 5,
+  "input.handoff-git-mismatch": 4,
+  "UNTYPED": 56,
+  "contract.mechanical-check": 30,
+  "tooling.host-shell": 10,
+  "contract.vacuous-check-found": 1,
+  "tooling.result-not-run-stable": 7,
+  "tooling.environmental": 4,
+  "input.implement-outcome-unsettled": 6,
+  "contract.cascade-miss": 9,
+  "contract.in-pass-correction": 16,
+  "ambiguity.filter-borderline": 10,
+  "ambiguity.trajectory-halt": 3,
+  "input.out-of-pipeline-source": 2,
+  "contract.token-proxy-check": 3,
+  "contract.instrument-validity": 5,
+  "input.plan-step-ambiguous": 19,
+  "contract.spec-reality-gap": 7,
+  "input.report-insufficient": 7,
+  "ambiguity.tier-routing": 3,
+  "recall.corpus-recurrence": 19,
+  "tooling.graph-unavailable": 2,
+  "input.research-thin": 5,
+  "retry.synthesis-rework": 7,
+  "contract.false-positive-proposal": 7,
+  "contract.narrow-basis-claim": 9,
+  "retry.distiller-respawn": 2,
+  "tooling.hook-friction": 8,
+  "contract.test-expectation": 8,
+  "ambiguity.playbook-no-match": 2,
+  "input.research-files-wrong": 3,
+  "tooling.output-cap-overflow": 1,
+  "untyped": 1,
+  "tooling.light-gate-red": 2,
+  "contract.binding-contradiction": 1,
+  "tooling.long-line-edit": 1,
+  "input.carry-context-gap": 2,
+  "input.extract-signal-gap": 2,
+  "contract.schema-assumed": 2,
+  "contract.proposal-format": 4,
+  "input.spec-source-gap": 1,
+  "contract.matrix-claim": 1,
+  "contract.structural-blind-spot": 3,
+  "contract.detector-fact-gap": 2,
+  "input.outcome-unclear": 1,
+  "input.conventions-gap": 1,
+  "recall.change-reconstruction": 1
+ }
+}

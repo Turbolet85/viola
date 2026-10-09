@@ -1,0 +1,66 @@
+{
+ "by_file": [
+  [
+   "tests/cli_verify.rs",
+   363
+  ],
+  [
+   "tests/cli_answer.rs",
+   336
+  ],
+  [
+   "src/run/send.rs",
+   254
+  ],
+  [
+   "tests/cli_send.rs",
+   198
+  ],
+  [
+   "tests/cli_wheel.rs",
+   188
+  ],
+  [
+   "tests/hook_fail_open.rs",
+   170
+  ],
+  [
+   "tests/tui_wheel.rs",
+   150
+  ],
+  [
+   "tests/cli_controls_not_disableable.rs",
+   122
+  ],
+  [
+   "tests/cli_wait_last.rs",
+   94
+  ],
+  [
+   "src/run/dialog.rs",
+   93
+  ],
+  [
+   "tests/cli_instance_state.rs",
+   82
+  ],
+  [
+   "crates/viola-pty/src/pump.rs",
+   68
+  ],
+  [
+   "tests/contract_fixture_hygiene.rs",
+   59
+  ],
+  [
+   "crates/viola-agent-claude/src/screen.rs",
+   53
+  ],
+  [
+   "src/cmd/last.rs",
+   51
+  ]
+ ],
+ "same_file_pairs": 104,
+ "pairs": 189
+}

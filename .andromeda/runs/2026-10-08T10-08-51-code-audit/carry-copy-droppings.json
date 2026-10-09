@@ -1,0 +1,177 @@
+{
+ "copy": "cargo-mutants-viola-XWWsYL.tmp",
+ "read": "2026-10-08T15:47:06Z",
+ "untracked_at_root": [
+  {
+   "path": ".viola-verify-2095228",
+   "mode": "0o40755",
+   "dir": true,
+   "entries": 0,
+   "mtime": "2026-10-08T15:40:50Z"
+  },
+  {
+   "path": ".viola-verify-965892-dialogs",
+   "mode": "0o40755",
+   "dir": true,
+   "entries": 0,
+   "mtime": "2026-10-08T15:40:50Z"
+  },
+  {
+   "path": ".viola-verify-966253-dialogs",
+   "mode": "0o40755",
+   "dir": true,
+   "entries": 0,
+   "mtime": "2026-10-08T15:40:50Z"
+  },
+  {
+   "path": ".viola-verify-966289-plan",
+   "mode": "0o40755",
+   "dir": true,
+   "entries": 1,
+   "mtime": "2026-10-08T15:40:50Z"
+  },
+  {
+   "path": ".viola-verify-966381-plan",
+   "mode": "0o40755",
+   "dir": true,
+   "entries": 1,
+   "mtime": "2026-10-08T15:40:50Z"
+  },
+  {
+   "path": ".viola-verify-966390-plan",
+   "mode": "0o40755",
+   "dir": true,
+   "entries": 1,
+   "mtime": "2026-10-08T15:40:50Z"
+  },
+  {
+   "path": ".viola-verify-966441-dialogs",
+   "mode": "0o40755",
+   "dir": true,
+   "entries": 0,
+   "mtime": "2026-10-08T15:40:50Z"
+  },
+  {
+   "path": ".viola-verify-966492-dialogs",
+   "mode": "0o40755",
+   "dir": true,
+   "entries": 0,
+   "mtime": "2026-10-08T15:40:50Z"
+  },
+  {
+   "path": ".viola-verify-966540-plan",
+   "mode": "0o40755",
+   "dir": true,
+   "entries": 1,
+   "mtime": "2026-10-08T15:40:50Z"
+  },
+  {
+   "path": ".viola-verify-966569-plan",
+   "mode": "0o40755",
+   "dir": true,
+   "entries": 1,
+   "mtime": "2026-10-08T15:40:50Z"
+  },
+  {
+   "path": ".viola-verify-966809-plan",
+   "mode": "0o40755",
+   "dir": true,
+   "entries": 1,
+   "mtime": "2026-10-08T15:40:50Z"
+  },
+  {
+   "path": "target",
+   "mode": "0o40755",
+   "dir": true,
+   "entries": 23,
+   "mtime": "2026-10-08T15:45:47Z"
+  },
+  {
+   "path": "viola-0.2.0-incubator",
+   "mode": "0o40755",
+   "dir": true,
+   "entries": 5,
+   "mtime": "2026-10-08T15:40:50Z"
+  }
+ ],
+ "untracked_in_crates_viola_e2e": [
+  {
+   "path": "crates/viola-e2e/.viola-verify-2676638-plan",
+   "mode": "0o40755",
+   "dir": true,
+   "entries": 1,
+   "mtime": "2026-10-08T15:39:30Z"
+  },
+  {
+   "path": "crates/viola-e2e/.x",
+   "mode": "0o40755",
+   "dir": true,
+   "entries": 1,
+   "mtime": "2026-10-08T15:44:31Z"
+  },
+  {
+   "path": "crates/viola-e2e/a",
+   "mode": "0o40755",
+   "dir": true,
+   "entries": 1,
+   "mtime": "2026-10-08T15:44:31Z"
+  },
+  {
+   "path": "crates/viola-e2e/b",
+   "mode": "0o40755",
+   "dir": true,
+   "entries": 1,
+   "mtime": "2026-10-08T15:44:31Z"
+  },
+  {
+   "path": "crates/viola-e2e/backing",
+   "mode": "0o40700",
+   "dir": true,
+   "entries": 0,
+   "mtime": "2026-10-08T15:45:03Z"
+  },
+  {
+   "path": "crates/viola-e2e/c",
+   "mode": "0o40755",
+   "dir": true,
+   "entries": 0,
+   "mtime": "2026-10-08T15:44:31Z"
+  },
+  {
+   "path": "crates/viola-e2e/junit-coverage.xml",
+   "mode": "0o100644",
+   "dir": false,
+   "entries": null,
+   "mtime": "2026-10-08T15:44:43Z"
+  },
+  {
+   "path": "crates/viola-e2e/junit-playwright.xml",
+   "mode": "0o100644",
+   "dir": false,
+   "entries": null,
+   "mtime": "2026-10-08T15:44:43Z"
+  },
+  {
+   "path": "crates/viola-e2e/run-summary.json",
+   "mode": "0o100644",
+   "dir": false,
+   "entries": null,
+   "mtime": "2026-10-08T15:44:43Z"
+  },
+  {
+   "path": "crates/viola-e2e/s",
+   "mode": "0o40755",
+   "dir": true,
+   "entries": 0,
+   "mtime": "2026-10-08T15:44:36Z"
+  },
+  {
+   "path": "crates/viola-e2e/viola-session-D3FTnh",
+   "mode": "0o40755",
+   "dir": true,
+   "entries": 1,
+   "mtime": "2026-10-08T15:44:50Z"
+  }
+ ],
+ "untracked_in_crates": []
+}

@@ -1,0 +1,65 @@
+{
+ "unused_deps": [
+  [
+   "viola-fuzz (fuzz/Cargo.toml, own workspace)",
+   "arbitrary"
+  ]
+ ],
+ "zero_ref_candidates": 0,
+ "top": [],
+ "classing": {
+  "raw": 1277,
+  "tests_segment_excluded": 1235,
+  "fp_classes": {
+   "trait-impl method (dispatch)": 31,
+   "entry point": 3,
+   "test-only helper (test crate / test-support)": 3
+  },
+  "residual_reviewed_fp": [
+   [
+    "Pty#child_pid().",
+    "fn",
+    "crates/viola-pty/src/lib.rs:130",
+    "trait method reached by dispatch: a trait DECLARATION called as viola_pty::Pty::child_pid(&pty) at src/cmd/run.rs:466"
+   ],
+   [
+    "events/kind_str().",
+    "fn",
+    "crates/viola-state/src/events.rs:39",
+    "derive/attr-invoked: #[serde(serialize_with = \"kind_str\")] at crates/viola-state/src/events.rs:34"
+   ],
+   [
+    "StateError#Encode#",
+    "type",
+    "crates/viola-state/src/lib.rs:22",
+    "derive/attr-invoked: a thiserror #[from] variant (crates/viola-state/src/lib.rs:23)"
+   ],
+   [
+    "cmd/send/SendArgs#text.",
+    "term",
+    "src/cmd/send.rs:36",
+    "derive/attr-invoked: a clap #[arg(hide = true, value_parser = refuse_text_argument)] field the derive fills and nothing reads by design (#[allow(dead_code)], src/cmd/send.rs:35-37)"
+   ],
+   [
+    "human/MIRROR_WORD.",
+    "term",
+    "src/human.rs:40",
+    "inline format-string capture: {word:<MIRROR_WORD$} at src/human.rs:44, no occurrence emitted by the indexer"
+   ]
+  ]
+ },
+ "machete_tail": [
+  "If you believe cargo-machete has detected an unused dependency incorrectly,",
+  "you can add the dependency to the list of dependencies to ignore in the",
+  "`[package.metadata.cargo-machete]` section of the appropriate Cargo.toml.",
+  "For example:",
+  "",
+  "[package.metadata.cargo-machete]",
+  "ignored = [\"prost\"]",
+  "",
+  "You can also try running it with the `--with-metadata` flag for better accuracy,",
+  "though this may modify your Cargo.lock files.",
+  "",
+  "Done!"
+ ]
+}

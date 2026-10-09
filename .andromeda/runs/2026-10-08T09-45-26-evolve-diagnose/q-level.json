@@ -1,0 +1,2788 @@
+{
+ "target_epoch": "Epoch 3 — Windows slice II: driving verbs and live proof",
+ "problem_facts": 217,
+ "by_solution": {
+  "overridden": 41,
+  "unresolved": 9,
+  "workaround": 142,
+  "removed-cause": 9,
+  "prohibition": 4,
+  "deferred": 12
+ },
+ "by_nature": {
+  "process": 136,
+  "environment": 57,
+  "resources": 8,
+  "product-logic": 16
+ },
+ "pass_a": {
+  "method": "every workaround / prohibition / removed-cause fact read and clustered by the obstacle or convention it routes around; each fact in at most one theme",
+  "threshold": "n >= 3 in-epoch, or n >= 2 recurring from an earlier epoch",
+  "themes": [
+   {
+    "key": "L1",
+    "signature": "band-aid",
+    "title": "the project's Bash guard refuses a command shape and the content is rerouted",
+    "n": 15,
+    "solutions": {
+     "workaround": 14,
+     "prohibition": 1
+    },
+    "natures": {
+     "environment": 13,
+     "process": 2
+    },
+    "chunks": [
+     "2026-10-02-epoch-2b-cleanup",
+     "2026-10-04-confirmed-send-with-cl-1-records",
+     "2026-10-04-dialog-answers-by-dialog-id",
+     "2026-10-04-readiness-gate-and-timing-constants",
+     "2026-10-04-the-wheel",
+     "2026-10-05-dialog-rows-and-re-probe",
+     "2026-10-05-real-cli-verify-probes",
+     "2026-10-06-local-command-and-paste-framing-rows",
+     "2026-10-06-local-command-send-outcomes",
+     "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+     "2026-10-08-first-live-test-and-self-drive"
+    ],
+    "hypothesis": "The refused shapes (a heredoc with a file target, a doubled backslash, a `cd` that moves the cwd) are written by habit in every skill; the rule lives in a project rule file and the refusal in a project hook. The cause appears to sit above the project, in how the agent writes files from the shell; the fixes so far sit in this project. Keyword counts by epoch for the heredoc alone: friction 0, 0, 8, 22; problem-facts 1, 3, 4, 12.",
+    "proposal_direction": "A pipeline-level home: the remedy inside the guard's refusal text; the fact in setup's host rule template so a new project starts with it; and a capture rule that a hook-caught refusal is one signal, not a friction record per type (see the proposal on `recall.corpus-recurrence`).",
+    "facts": [
+     {
+      "id": "2026-10-02T13:16:18Z-a#0",
+      "chunk": "2026-10-02-epoch-2b-cleanup",
+      "skill": "phase",
+      "step": "research",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "two read-only probe commands refused by the Bash guard for a doubled backslash (a path rewrite and a PowerShell regex); rerun without it / moved into Write-tool script files"
+     },
+     {
+      "id": "2026-10-03T22:17:30Z-a#0",
+      "chunk": null,
+      "skill": "wrap-session",
+      "step": "route-resolve",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "a file-targeted cat heredoc for a scratch sweep script was refused by the project Bash guard; the script went through the Write tool"
+     },
+     {
+      "id": "2026-10-04T05:06:21Z-a#0",
+      "chunk": "2026-10-04-readiness-gate-and-timing-constants",
+      "skill": "implement",
+      "step": "code",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "a Bash guard refused `cd <cargo registry>/vt100-0.16.2/src; grep parser.rs` (deny rule ./secrets/** names that relative file); re-ran with absolute paths"
+     },
+     {
+      "id": "2026-10-04T06:27:45Z-a#0",
+      "chunk": "2026-10-04-confirmed-send-with-cl-1-records",
+      "skill": "implement",
+      "step": "code",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the Bash guard refused two heredoc-to-file commands (fuzz/Cargo.toml append, a scratchpad edit script); the edits went through the Edit tool instead"
+     },
+     {
+      "id": "2026-10-04T11:54:44Z-a#2",
+      "chunk": "2026-10-04-dialog-answers-by-dialog-id",
+      "skill": "implement",
+      "step": "code",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "the Bash guard refused a cat heredoc to a file for the scratch plugin; the files were written with the Write tool"
+     },
+     {
+      "id": "2026-10-04T17:16:27Z-a#0",
+      "chunk": "2026-10-04-dialog-answers-by-dialog-id",
+      "skill": "wrap-session",
+      "step": "reconcile",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "a cat heredoc appending to fanout-results.md was blocked by the project's Bash guard; the text went in through the Edit tool"
+     },
+     {
+      "id": "2026-10-04T20:59:31Z-a#0",
+      "chunk": "2026-10-04-the-wheel",
+      "skill": "wrap-session",
+      "step": "reconcile",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "the Bash guard refused a cat heredoc appending E1's resolution to fanout-results.md; the append went through the Edit tool"
+     },
+     {
+      "id": "2026-10-05T08:42:29Z-a#0",
+      "chunk": "2026-10-05-real-cli-verify-probes",
+      "skill": "implement",
+      "step": "code",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "the Bash guard refused a cat heredoc to a scratch file; the script went through the Write tool"
+     },
+     {
+      "id": "2026-10-05T09:39:17Z-a#2",
+      "chunk": "2026-10-05-real-cli-verify-probes",
+      "skill": "implement",
+      "step": "code",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "Bash guard refused a heredoc to a schema file inside a compound call; split into a python edit and a Write-tool file"
+     },
+     {
+      "id": "2026-10-06T20:35:24Z-a#1",
+      "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+      "skill": "implement",
+      "step": "code",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "the Bash guard refused a cat heredoc with a file target for a scratch script; the script was written with the Write tool and run by path"
+     },
+     {
+      "id": "2026-10-06T23:04:21Z-a#0",
+      "chunk": "2026-10-06-local-command-send-outcomes",
+      "skill": "phase",
+      "step": "validate",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "a cat heredoc redirected to a scratchpad file was refused by the Bash guard hook; the patch scripts were written with the Write tool and run by path"
+     },
+     {
+      "id": "2026-10-06T23:23:25Z-a#1",
+      "chunk": "2026-10-06-local-command-send-outcomes",
+      "skill": "implement",
+      "step": "code",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "the Bash guard refused a heredoc redirected to a scratchpad file; the script was written with the Write tool and run by path"
+     },
+     {
+      "id": "2026-10-07T13:56:05Z-a#2",
+      "chunk": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+      "skill": "phase",
+      "step": "research",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "a cat heredoc with a file target was refused by the Bash guard; the scratch scripts went through the Write tool"
+     },
+     {
+      "id": "2026-10-08T05:12:25Z-a#0",
+      "chunk": "2026-10-08-first-live-test-and-self-drive",
+      "skill": "phase",
+      "step": "distill",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "the validation probe opened with a cd into the run dir and the Bash guard refused it as moving the session cwd; the probe was re-run with absolute paths"
+     },
+     {
+      "id": "2026-10-05T13:08:03Z-a#1",
+      "chunk": "2026-10-05-dialog-rows-and-re-probe",
+      "skill": "implement",
+      "step": "code",
+      "nature": "process",
+      "solution": "prohibition",
+      "note": "the Bash guard refused a heredoc to an evidence file; appended through the Edit tool"
+     }
+    ],
+    "related_facts": []
+   },
+   {
+    "key": "L2",
+    "signature": "band-aid",
+    "title": "multi-site edits go through an asserted replace script instead of the Edit tool",
+    "n": 12,
+    "solutions": {
+     "workaround": 12
+    },
+    "natures": {
+     "process": 12
+    },
+    "chunks": [
+     "2026-10-04-the-wheel",
+     "2026-10-05-real-cli-verify-probes",
+     "2026-10-06-local-command-and-paste-framing-rows",
+     "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+     "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+     "2026-10-08-first-live-test-and-self-drive"
+    ],
+    "hypothesis": "The letters name an anchored Edit per site. On multi-KB single-line files and on batches of tens of anchors the sessions wrote their own scripts (each anchor asserted to match once, terminators kept) at six different steps. The convention appears not to fit the artifact shape the pipeline itself produces (long entry lines, long master lines); the fix is re-authored per session. A keyword read of problem-facts by epoch: 0, 0, 1, 13.",
+    "proposal_direction": "A sanctioned batch form: a `splice.py` verb taking a list of (anchor, replacement) pairs, each asserted once, with the read-back the scripts already do by hand.",
+    "facts": [
+     {
+      "id": "2026-10-04T18:27:23Z-a#0",
+      "chunk": "2026-10-04-the-wheel",
+      "skill": "implement",
+      "step": "code",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "multi-hunk edits to dialog.rs, send.rs, cmd/run.rs, human.rs applied by asserted python replace scripts run from the scratchpad instead of the Edit tool; every target was read first"
+     },
+     {
+      "id": "2026-10-05T11:00:00Z-a#0",
+      "chunk": "2026-10-05-real-cli-verify-probes",
+      "skill": "wrap-session",
+      "step": "reconcile",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "multi-site body, contract and leaf edits applied by python byte-mode replace scripts (assert count==1 per anchor) instead of one Edit-tool call per anchor, to batch ~60 anchored replacements"
+     },
+     {
+      "id": "2026-10-06T20:35:24Z-a#0",
+      "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+      "skill": "implement",
+      "step": "code",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "bulk anchored replacements across test files went through scratchpad python scripts (each anchor asserted to match exactly once, newline preserved) instead of one Edit call per site; two scripts stopped on an anchor of mine that did not match and were re-run after the anchor was corrected"
+     },
+     {
+      "id": "2026-10-06T20:57:18Z-a#1",
+      "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+      "skill": "phase",
+      "step": "plan",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the plan's point edits went through one scratchpad python script with each anchor asserted to match once, instead of one Edit call per site"
+     },
+     {
+      "id": "2026-10-06T21:12:21Z-a#0",
+      "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+      "skill": "implement",
+      "step": "code",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the fake agent's eight edits went in as one python write by path with unique-anchor asserts and newline kept, not through the Edit tool; no obstacle forced it, and the read-back was git diff --stat and cargo fmt --check only"
+     },
+     {
+      "id": "2026-10-06T22:04:50Z-a#0",
+      "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+      "skill": "wrap-session",
+      "step": "reconcile",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the body edits went in as scripted batches of anchored replacements (each anchor asserted to match once, terminators kept) instead of one Edit per site: 21 sites sit on multi-KB lines of one master"
+     },
+     {
+      "id": "2026-10-07T06:01:45Z-a#0",
+      "chunk": null,
+      "skill": "wrap-session",
+      "step": "route-resolve",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the write table names an anchored Edit for inserting an entry; the three head lines and the blocked entry were composed from the old line's own bytes by a scratchpad script and landed with splice delete and append, because the moved freight is multi-KB and an Edit would have had it retyped"
+     },
+     {
+      "id": "2026-10-07T09:51:37Z-a#0",
+      "chunk": "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+      "skill": "phase",
+      "step": "plan",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "four same-shaped fence fixes were made by one python script with asserted unique anchors in binary mode, not by anchored Edits; the P4 answers were snapshotted with --step phase:P3, the tool taking no P4 value"
+     },
+     {
+      "id": "2026-10-07T19:32:55Z-a#0",
+      "chunk": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+      "skill": "wrap-session",
+      "step": "curation",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the Tier 2 entry was appended by a binary-mode python append with a byte read-back, not by an anchored Edit as the guide names; the append point was the file's last line"
+     },
+     {
+      "id": "2026-10-08T09:13:58Z-a#0",
+      "chunk": "2026-10-08-first-live-test-and-self-drive",
+      "skill": "wrap-session",
+      "step": "report",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "five figures of the report were corrected right after the write by one scripted replace run from the shell, not by the Edit tool; the paste of the generated section followed the corrections"
+     },
+     {
+      "id": "2026-10-08T09:30:39Z-a#1",
+      "chunk": "2026-10-08-first-live-test-and-self-drive",
+      "skill": "wrap-session",
+      "step": "reconcile",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "several single-site body and leaf edits were applied by a scripted replace that asserts one match per site, not by the Edit tool; the detectors' returns were taken from their transcripts by script rather than copied by hand"
+     },
+     {
+      "id": "2026-10-08T09:34:08Z-a#0",
+      "chunk": "2026-10-08-first-live-test-and-self-drive",
+      "skill": "wrap-session",
+      "step": "route-resolve",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the five blocks were appended to three multi-KB entry lines by one script that asserts every other line byte-identical, not by anchored Edits; the two audit blocks were copied from the frozen line by that script, not retyped"
+     }
+    ],
+    "related_facts": []
+   },
+   {
+    "key": "L3",
+    "signature": "band-aid",
+    "title": "a tool's listing read through a pipe or a filter, against the run-bare rule",
+    "n": 12,
+    "solutions": {
+     "workaround": 12
+    },
+    "natures": {
+     "process": 12
+    },
+    "chunks": [
+     "2026-10-04-dialog-answers-by-dialog-id",
+     "2026-10-04-running-turn-refusal",
+     "2026-10-04-the-wheel",
+     "2026-10-04-wait-and-last",
+     "2026-10-05-real-cli-verify-probes",
+     "2026-10-06-local-command-send-outcomes",
+     "2026-10-07-send-waits-out-the-paste-hint",
+     "2026-10-08-first-live-test-and-self-drive"
+    ],
+    "hypothesis": "The rule says every call runs bare; the sessions clipped or filtered `sidecar.py summary` and `cites`, `route.py pins`, planlint, the code-graph query and gate listings across the epoch, one record giving the reason: to keep seven listings out of the window. The rule protects the verdict line; what is routed around is the listing's size. A keyword read of problem-facts by epoch: 1, 2, 3, 11.",
+    "proposal_direction": "A verdict-only mode on the listing tools (the trail already holds the listing whole), so the bare call and the short call are the same call.",
+    "facts": [
+     {
+      "id": "2026-10-04T09:34:59Z-a#0",
+      "chunk": "2026-10-04-wait-and-last",
+      "skill": "phase",
+      "step": "distill",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "sidecar.py summary output piped through head -3 against the bare-call rule; the within/OVER verdict line was inside the 3 lines shown"
+     },
+     {
+      "id": "2026-10-04T11:00:38Z-a#0",
+      "chunk": "2026-10-04-dialog-answers-by-dialog-id",
+      "skill": "phase",
+      "step": "distill",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "two tool calls ran through a pipe against the 'every call runs bare' rule: sidecar.py summary piped to head -3 and sidecar.py cites piped to tail -n +2 to trim the stamp line; verdict lines were fully visible, nothing hidden, but the documented bare form was not used"
+     },
+     {
+      "id": "2026-10-04T11:07:02Z-a#1",
+      "chunk": "2026-10-04-dialog-answers-by-dialog-id",
+      "skill": "phase",
+      "step": "research",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the graph query's JSON stdout was filtered with grep -v | head rather than read whole from the trace; the authoritative row count (99) was then read from the trace file"
+     },
+     {
+      "id": "2026-10-04T17:46:16Z-a#0",
+      "chunk": "2026-10-04-the-wheel",
+      "skill": "phase",
+      "step": "research",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "piped the code-graph query's stdout through tail -80 against the cookbook's never-clip rule; recovered the full 136-row result from the trace file tree-query-2026-10-04-the-wheel.json, the authority"
+     },
+     {
+      "id": "2026-10-04T21:45:48Z-a#0",
+      "chunk": "2026-10-04-running-turn-refusal",
+      "skill": "phase",
+      "step": "distill",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "sidecar.py summary piped through | head -3 against the run-bare rule; verdict lines intact"
+     },
+     {
+      "id": "2026-10-04T21:58:57Z-a#1",
+      "chunk": "2026-10-04-running-turn-refusal",
+      "skill": "phase",
+      "step": "validate",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "planlint piped through | tail -1 once against the run-bare rule; the full listing was re-read bare after the review edit"
+     },
+     {
+      "id": "2026-10-05T00:26:25Z-a#0",
+      "chunk": "2026-10-05-real-cli-verify-probes",
+      "skill": "phase",
+      "step": "distill",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "piped the seven sidecar.py summary calls through | head -3 despite the every-call-runs-bare rule; the within/OVER verdict line was still visible, no re-run"
+     },
+     {
+      "id": "2026-10-06T22:35:47Z-a#1",
+      "chunk": "2026-10-06-local-command-send-outcomes",
+      "skill": "phase",
+      "step": "take-up",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "route.py pins was read through a grep filter keeping the header, line 92's rows and abstention words, where the letter says every call runs bare; the 58-row listing had already been read bare in this session"
+     },
+     {
+      "id": "2026-10-06T22:44:09Z-a#0",
+      "chunk": "2026-10-06-local-command-send-outcomes",
+      "skill": "phase",
+      "step": "distill",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the seven sidecar.py cites calls were read through a grep keeping the stamp, the UNRESOLVED and not-a-marker rows and the summary line, where the tools are meant to run bare; the trails hold the full listings"
+     },
+     {
+      "id": "2026-10-07T11:53:34Z-a#0",
+      "chunk": "2026-10-07-send-waits-out-the-paste-hint",
+      "skill": "phase",
+      "step": "take-up",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the completeness listing route.py pins was run through a grep for the entry's own rows, against the run-bare rule; the full listing had been read bare at orientation and the trail holds it"
+     },
+     {
+      "id": "2026-10-07T12:00:48Z-a#0",
+      "chunk": "2026-10-07-send-waits-out-the-paste-hint",
+      "skill": "phase",
+      "step": "distill",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the four registry renders and the seven sidecar cites calls had their output redirected to dot-files in the run dir and only their verdict lines read back through grep, against the run-bare rule; done to keep seven listings out of the window, every trail is in the run dir"
+     },
+     {
+      "id": "2026-10-08T08:56:11Z-d#0",
+      "chunk": "2026-10-08-first-live-test-and-self-drive",
+      "skill": "implement",
+      "step": "fix-loop",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "two targeted gate calls had their listing filtered through grep or a file instead of being run bare; the trail holds each listing whole"
+     }
+    ],
+    "related_facts": []
+   },
+   {
+    "key": "L4",
+    "signature": "band-aid",
+    "title": "`inputs.py snap` has no form for the input met",
+    "n": 8,
+    "solutions": {
+     "workaround": 8
+    },
+    "natures": {
+     "product-logic": 2,
+     "process": 5,
+     "resources": 1
+    },
+    "chunks": [
+     "2026-10-04-dialog-answers-by-dialog-id",
+     "2026-10-05-dialog-rows-and-re-probe",
+     "2026-10-05-real-cli-verify-probes",
+     "2026-10-06-local-command-and-paste-framing-rows",
+     "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+     "2026-10-07-send-waits-out-the-paste-hint",
+     "2026-10-08-first-live-test-and-self-drive"
+    ],
+    "hypothesis": "Two obstacles under one tool. An answer that arrives at P4 has no step value (`phase:P4` is refused), so it is snapped as P3 or cited from the run dir: 3 facts in 3 chunks, a fourth inside an L2 fact. A source outside the repository that holds private text, or a binary over 1 MiB, cannot be snapshotted, so a counts-only or structure-only document stands in: 5 facts. A third obstacle, no amend verb for a mistyped origin label, sits in L14.",
+    "proposal_direction": "A `phase:P4` step value; and a stated form for a source that may not be copied (a hash-and-extract record), which the sessions have been inventing each time.",
+    "facts": [
+     {
+      "id": "2026-10-04T14:12:39Z-a#1",
+      "chunk": "2026-10-04-dialog-answers-by-dialog-id",
+      "skill": "phase",
+      "step": "research",
+      "nature": "product-logic",
+      "solution": "workaround",
+      "note": "read the external prototype capture store (~/.viola/sessions) through two scratch readers kept in the run dir, to measure pairing and choose relayed fixtures"
+     },
+     {
+      "id": "2026-10-05T06:18:34Z-a#0",
+      "chunk": "2026-10-05-real-cli-verify-probes",
+      "skill": "phase",
+      "step": "plan",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "inputs.py snap refuses --step phase:P4, so the founder's live split ruling arriving at P4 is cited from the run dir relay-2.md and the plan Provenance instead of an inputs#I3 snapshot"
+     },
+     {
+      "id": "2026-10-05T11:31:17Z-a#0",
+      "chunk": "2026-10-05-dialog-rows-and-re-probe",
+      "skill": "phase",
+      "step": "research",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the prototype's hook logs (~/.viola/sessions) hold private content of other repositories, so inputs.py snap was given a structure-only census document via --message-file instead of --source on the logs (a verbatim copy into this public repo is barred)"
+     },
+     {
+      "id": "2026-10-06T19:45:38Z-a#0",
+      "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+      "skill": "phase",
+      "step": "plan",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the card answers were snapped with step phase:P3 because inputs.py has no P4 step value"
+     },
+     {
+      "id": "2026-10-06T19:45:38Z-a#1",
+      "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+      "skill": "phase",
+      "step": "plan",
+      "nature": "product-logic",
+      "solution": "workaround",
+      "note": "the relayed driver log outside the repository was not snapped as a source because it holds prompt text; its claim was re-derived by a counts-only scratchpad script and cited through the relay snapshot"
+     },
+     {
+      "id": "2026-10-07T09:07:21Z-a#0",
+      "chunk": "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+      "skill": "phase",
+      "step": "research",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the driver log read at P3 is outside the repository and was not snapshotted into inputs/: it holds prompt text, so the reading is counts only with the script's logic stated, re-run at implement"
+     },
+     {
+      "id": "2026-10-07T12:15:34Z-a#0",
+      "chunk": "2026-10-07-send-waits-out-the-paste-hint",
+      "skill": "phase",
+      "step": "plan",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the fork answers were snapshotted as an input with --step phase:P3 although they arrived at P4: the snap tool's closed step list has no P4 value"
+     },
+     {
+      "id": "2026-10-08T07:50:08Z-a#0",
+      "chunk": "2026-10-08-first-live-test-and-self-drive",
+      "skill": "phase",
+      "step": "research",
+      "nature": "resources",
+      "solution": "workaround",
+      "note": "the operator's hypothesis source (fixtures) held no query bytes, so the CLI's own reply parser was read from its 244 MB binary by a regex scan; inputs.py snap refuses a binary source over 1 MiB, so the read is recorded in the run dir with the binary's sha256 instead of a snapshot"
+     }
+    ],
+    "related_facts": []
+   },
+   {
+    "key": "L5",
+    "signature": "band-aid",
+    "title": "the host grep refuses or outruns a bounded-context read; a scratch python scanner stands in",
+    "n": 7,
+    "solutions": {
+     "workaround": 7
+    },
+    "natures": {
+     "environment": 6,
+     "resources": 1
+    },
+    "chunks": [
+     "2026-10-04-dialog-answers-by-dialog-id",
+     "2026-10-05-dialog-rows-and-re-probe",
+     "2026-10-05-permission-end-to-end",
+     "2026-10-05-real-cli-verify-probes",
+     "2026-10-06-local-command-and-paste-framing-rows"
+    ],
+    "hypothesis": "The Bash tool's `grep` is an embedded ugrep that refuses a bounded repetition and prints nothing. Every case is new to this epoch (the host changed on 2026-10-03) and each was met by a fresh scratch script. An environment fact of the harness, absorbed one session at a time.",
+    "proposal_direction": "The fact in setup's host rule template, with the remedy (`command grep`, or a scanner by path); see the proposal on `tooling.host-shell`.",
+    "facts": [
+     {
+      "id": "2026-10-04T17:16:27Z-a#1",
+      "chunk": "2026-10-04-dialog-answers-by-dialog-id",
+      "skill": "wrap-session",
+      "step": "reconcile",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "grep -o with a 250-char context window failed on the host grep (ugrep complexity limit); used a scratchpad python context printer"
+     },
+     {
+      "id": "2026-10-05T08:42:29Z-a#1",
+      "chunk": "2026-10-05-real-cli-verify-probes",
+      "skill": "implement",
+      "step": "code",
+      "nature": "resources",
+      "solution": "workaround",
+      "note": "grep -a with a 300-char window over the 2.1.288 binary exceeded the 120 s call bound and was backgrounded; replaced by an mmap find script"
+     },
+     {
+      "id": "2026-10-05T11:59:55Z-a#0",
+      "chunk": "2026-10-05-dialog-rows-and-re-probe",
+      "skill": "implement",
+      "step": "code",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "ugrep over the 245 MB CLI binary with a 700-char prefix regex timed out at 120 s; read the same site with a python byte slice"
+     },
+     {
+      "id": "2026-10-05T14:46:12Z-a#0",
+      "chunk": "2026-10-05-dialog-rows-and-re-probe",
+      "skill": "wrap-session",
+      "step": "reconcile",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "the host grep is ugrep and refused a bounded-context regex (complexity limit); the site scan ran through a scratchpad python script instead"
+     },
+     {
+      "id": "2026-10-05T15:13:17Z-a#0",
+      "chunk": "2026-10-05-permission-end-to-end",
+      "skill": "phase",
+      "step": "research",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "grep on this host is ugrep, which refused a bounded-context regex over the 245 MB CLI binary ('exceeds complexity limits'); the static bundle read went through a scratchpad python byte-search script instead"
+     },
+     {
+      "id": "2026-10-06T20:18:55Z-a#0",
+      "chunk": null,
+      "skill": "new-session",
+      "step": "orientation",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "a bounded-repeat context grep over plan.md for the live-session cap was refused by the host grep (ugrep, exceeds complexity limits); the cap was read from the chunk's evidence/live-sessions.md instead"
+     },
+     {
+      "id": "2026-10-06T21:47:49Z-a#0",
+      "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+      "skill": "wrap-session",
+      "step": "report",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "grep -E on this host is ugrep and refused the context-window pattern as exceeding complexity limits; sites were located by a scratch python script run by path"
+     }
+    ],
+    "related_facts": []
+   },
+   {
+    "key": "L6",
+    "signature": "band-aid",
+    "title": "the wait on P2's background batches is filled with reads that belong to P3",
+    "n": 6,
+    "solutions": {
+     "workaround": 6
+    },
+    "natures": {
+     "process": 6
+    },
+    "chunks": [
+     "2026-10-06-local-command-and-paste-framing-rows",
+     "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+     "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+     "2026-10-07-send-waits-out-the-paste-hint",
+     "2026-10-07-test-homes-off-the-contended-volume",
+     "2026-10-08-first-live-test-and-self-drive"
+    ],
+    "hypothesis": "In 6 chunks, all from 2026-10-06 on, the session read code and evidence while the distillers ran, ahead of the extracts the letter orders first; nothing was written between the snapshots. The letter's order is routed around for wall time. One fact adds two read-only sub-agents inside a step the letter calls orchestrator-direct.",
+    "proposal_direction": "Say in the phase letter whether read-only P3 reads may run during the P2 wait, and under what bound; today each session records it as a deviation.",
+    "facts": [
+     {
+      "id": "2026-10-06T19:28:26Z-a#0",
+      "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+      "skill": "phase",
+      "step": "distill",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the two batch waits were filled with read-only code reads that belong to P3 (verify.rs, ledger.rs, hook.rs, two name greps), made before codebase-research.md was read; nothing was written between either snapshot pair"
+     },
+     {
+      "id": "2026-10-07T06:24:41Z-a#0",
+      "chunk": "2026-10-07-test-homes-off-the-contended-volume",
+      "skill": "phase",
+      "step": "distill",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the waits on the two background batches were filled with read-only code and evidence reads that belong to P3; nothing was written between either snapshot pair"
+     },
+     {
+      "id": "2026-10-07T09:01:15Z-a#0",
+      "chunk": "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+      "skill": "phase",
+      "step": "distill",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the two batch waits were filled with read-only research reads that belong to P3 and P4 (product sources, the earlier evidence, a static read of the 2.1.287 binary, the peer listing, the P3 and P4 references); nothing was written between the snapshots and the work is recorded at P3"
+     },
+     {
+      "id": "2026-10-07T12:08:01Z-a#0",
+      "chunk": "2026-10-07-send-waits-out-the-paste-hint",
+      "skill": "phase",
+      "step": "research",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the read-only file reads research needed were started while P2's distillers and history agents ran, ahead of the extracts, to use the wait; the graph queries, the premise closure and research.md came after P2's validation"
+     },
+     {
+      "id": "2026-10-07T13:47:54Z-a#0",
+      "chunk": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+      "skill": "phase",
+      "step": "distill",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the two batch waits were filled with research-class read-only work outside the tree, ahead of the research step: the folded red's three CI artifacts fetched to the scratchpad and joined by pid and JUnit window"
+     },
+     {
+      "id": "2026-10-08T05:28:57Z-a#3",
+      "chunk": "2026-10-08-first-live-test-and-self-drive",
+      "skill": "phase",
+      "step": "research",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "P3 is orchestrator-direct by the letter; two read-only Explore agents were given the repository-facts and gap-list reads to keep the window for synthesis, and read-only code reads began during the stage 2 wait"
+     }
+    ],
+    "related_facts": []
+   },
+   {
+    "key": "L7",
+    "signature": "band-aid",
+    "title": "the code graph's host tools were off the default path on the new Linux host",
+    "n": 6,
+    "solutions": {
+     "workaround": 6
+    },
+    "natures": {
+     "environment": 6
+    },
+    "chunks": [
+     "2026-10-03-mutation-scoring-completion",
+     "2026-10-04-confirmed-send-with-cl-1-records",
+     "2026-10-04-readiness-gate-and-timing-constants",
+     "2026-10-04-windows-boundary-mutation-workflow"
+    ],
+    "hypothesis": "From 2026-10-03 to 2026-10-05 the python modules the code graph needs were not importable on the host python; each session found a venv, built one in its scratchpad, or derived without the graph. No fact follows 2026-10-05.",
+    "proposal_direction": "None further is evident: the records stop. The window between a host change and the next setup run is where the cost fell (see also `ambiguity.tier-routing`).",
+    "facts": [
+     {
+      "id": "2026-10-03T22:38:49Z-a#0",
+      "chunk": "2026-10-03-mutation-scoring-completion",
+      "skill": "phase",
+      "step": "research",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "code-graph host tools (scip-typescript, duckdb, protobuf) sit off the default PATH on the new Linux host; refresh ran with ~/.local/viola-node/bin and ~/.local/viola-venv/bin prepended, per the operator"
+     },
+     {
+      "id": "2026-10-04T01:50:29Z-a#0",
+      "chunk": "2026-10-04-windows-boundary-mutation-workflow",
+      "skill": "phase",
+      "step": "research",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "code-graph unavailable: python duckdb not importable on this host; impact derived from targeted reads and git grep instead of code-graph.py queries"
+     },
+     {
+      "id": "2026-10-04T01:57:32Z-a#0",
+      "chunk": "2026-10-04-windows-boundary-mutation-workflow",
+      "skill": "phase",
+      "step": "plan",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "code-graph queried at P4 through ~/.local/viola-venv on the overseer's direction after P3 had closed derived-without-graph; research.md graph section amended"
+     },
+     {
+      "id": "2026-10-04T04:46:40Z-a#0",
+      "chunk": "2026-10-04-readiness-gate-and-timing-constants",
+      "skill": "phase",
+      "step": "research",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "system python has no duckdb; the code-graph query ran under ~/.local/viola-venv/bin/python, as the previous chunk did"
+     },
+     {
+      "id": "2026-10-04T05:56:59Z-a#0",
+      "chunk": "2026-10-04-confirmed-send-with-cl-1-records",
+      "skill": "phase",
+      "step": "research",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "code-graph.py failed: duckdb not importable on the host python (health check 11 WARN); installed scripts/requirements.txt into a session-scratchpad venv and ran the queries through it"
+     },
+     {
+      "id": "2026-10-05T06:23:28Z-a#0",
+      "chunk": null,
+      "skill": "new-session",
+      "step": "orientation",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "check 12 parse probe: python yaml module absent on the host; state.yaml judged from its verbatim Setup read (schema_version 3 + the three lean keys only)"
+     }
+    ],
+    "related_facts": []
+   },
+   {
+    "key": "L8",
+    "signature": "band-aid",
+    "title": "the host filesystem under mutation and suite runs",
+    "n": 6,
+    "solutions": {
+     "workaround": 5,
+     "removed-cause": 1
+    },
+    "natures": {
+     "environment": 5,
+     "resources": 1
+    },
+    "chunks": [
+     "2026-10-02-epoch-2b-cleanup",
+     "2026-10-03-mutation-scoring-completion",
+     "2026-10-04-windows-boundary-mutation-workflow"
+    ],
+    "hypothesis": "Three chunks, 2026-10-02 to 2026-10-04: latency and free space on the Windows volume, then reflink and path-length limits on btrfs. Each was worked around in the chunk (a copy on another volume, a NOCOW scratch, a short directory name).",
+    "proposal_direction": "None at the pipeline level is evident: the host was replaced and the facts were curated. Listed because the count is at threshold.",
+    "facts": [
+     {
+      "id": "2026-10-03T04:04:41Z-a#1",
+      "chunk": "2026-10-02-epoch-2b-cleanup",
+      "skill": "implement",
+      "step": "code",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "D: metadata ops cost 75-500 ms; code drafted, compiled and unit-run in a C: copy of the tree, then ported byte-exact to the repo"
+     },
+     {
+      "id": "2026-10-03T04:04:41Z-a#2",
+      "chunk": "2026-10-02-epoch-2b-cleanup",
+      "skill": "implement",
+      "step": "code",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "step 11 M1 runs ran from C: copies with --in-place: in-repo baselines fail on D: (M2) and the plan form hit LNK1104 (path length) in the deep scratch copy"
+     },
+     {
+      "id": "2026-10-03T06:03:49Z-a#0",
+      "chunk": "2026-10-02-epoch-2b-cleanup",
+      "skill": "implement",
+      "step": "fix-loop",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "in-repo coverage and suite red on M2; the same commands taken on a byte-equal C: copy for the audit correction numbers (97.59/97.67/97.50), the D: reds recorded with basis"
+     },
+     {
+      "id": "2026-10-04T00:32:34Z-a#1",
+      "chunk": "2026-10-03-mutation-scoring-completion",
+      "skill": "implement",
+      "step": "fix-loop",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "cargo-mutants 27.1.0 reflink path (reflink 0.1.3 create_new, no mode copy) drops the exec bit on btrfs, so the baseline broke with EACCES on the copied viola-fake-agent; scratch marked NOCOW (chattr +C) so reflink fails and fs::copy keeps modes"
+     },
+     {
+      "id": "2026-10-04T02:10:29Z-a#0",
+      "chunk": "2026-10-04-windows-boundary-mutation-workflow",
+      "skill": "implement",
+      "step": "fix-loop",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "step-5 leak witness baseline failed (unconnectable_is_true_only_once_nothing_listens: socket path 116 B over sun_path) because the chosen TMPDIR subdir name was long; re-ran in a short-named fresh NOCOW subdir (lw), baseline ok"
+     },
+     {
+      "id": "2026-10-03T04:04:41Z-a#0",
+      "chunk": "2026-10-02-epoch-2b-cleanup",
+      "skill": "implement",
+      "step": "code",
+      "nature": "resources",
+      "solution": "removed-cause",
+      "note": "D: fell below the operator's 40 GB guard mid-M2; stopped and reported; the operator ran cargo clean (151 GB free) and the step resumed"
+     }
+    ],
+    "related_facts": []
+   },
+   {
+    "key": "L9",
+    "signature": "band-aid",
+    "title": "the permission layer denies a removal of the session's own scratch",
+    "n": 4,
+    "solutions": {
+     "workaround": 4
+    },
+    "natures": {
+     "environment": 3,
+     "process": 1
+    },
+    "chunks": [
+     "2026-10-03-mutation-scoring-completion",
+     "2026-10-04-readiness-gate-and-timing-constants",
+     "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+     "2026-10-08-first-live-test-and-self-drive"
+    ],
+    "hypothesis": "A compound call carrying `rm` is denied whole, and a plain `rm -r` of an own-made directory is denied too; the sessions dropped the removal, left the directory for the operator (3 deferred facts) or moved it aside on the overseer's word (1 overridden). The cause is the permission configuration; the handling is per chunk and the leftovers accumulate on the operator's desk. No record in the ledger closes any of the three deferrals.",
+    "proposal_direction": "One sanctioned removal path: the harness's own cleanup verb scoped to directories the run created, or a permission rule for named scratch roots. Which is the founder's choice; the records only show that neither exists.",
+    "facts": [
+     {
+      "id": "2026-10-03T22:38:49Z-a#1",
+      "chunk": "2026-10-03-mutation-scoring-completion",
+      "skill": "phase",
+      "step": "research",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "a compound measurement call carrying rm -rf of scratch output dirs was refused by the permission layer; re-run as a scratchpad script writing fresh dirs, no rm"
+     },
+     {
+      "id": "2026-10-04T04:57:44Z-a#0",
+      "chunk": "2026-10-04-readiness-gate-and-timing-constants",
+      "skill": "phase",
+      "step": "validate",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "a compound control command with rm -r was denied by the permission layer; the controls re-ran as granular calls in the scratchpad with no removal"
+     },
+     {
+      "id": "2026-10-07T14:05:59Z-a#0",
+      "chunk": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+      "skill": "phase",
+      "step": "plan",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "a compound call carrying a removal of a scratch directory was denied whole by the permission layer; the removal was dropped, not rerouted, and the reads re-fired as two calls"
+     },
+     {
+      "id": "2026-10-08T06:44:48Z-a#1",
+      "chunk": "2026-10-08-first-live-test-and-self-drive",
+      "skill": "implement",
+      "step": "fix-loop",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "a check of the product binary outside the plan (a send to a name that does not exist, exit 21) created a scratch home on the tmpfs; its removal was denied by the permission layer and the dir was moved by name into target/e2e-home.disk, per the standing rule"
+     }
+    ],
+    "related_facts": [
+     {
+      "id": "2026-10-04T00:32:34Z-a#2",
+      "chunk": "2026-10-03-mutation-scoring-completion",
+      "skill": "implement",
+      "step": "fix-loop",
+      "nature": "environment",
+      "solution": "deferred",
+      "note": "rm -r of the 21 leaked /tmp/cargo-mutants-ws-*.tmp dirs (325 MB) was refused by the permission layer; left for the operator"
+     },
+     {
+      "id": "2026-10-04T14:49:33Z-a#3",
+      "chunk": "2026-10-04-dialog-answers-by-dialog-id",
+      "skill": "implement",
+      "step": "code",
+      "nature": "environment",
+      "solution": "deferred",
+      "note": "rm of fixtures/claude/2.1.288 and the stray recording home was refused by the permission layer; removal handed to the operator"
+     },
+     {
+      "id": "2026-10-06T21:30:37Z-a#2",
+      "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+      "skill": "implement",
+      "step": "fix-loop",
+      "nature": "environment",
+      "solution": "deferred",
+      "note": "a test home kept by this run's AGENT_RUN_KEEP_FAILED red reading stays under target/e2e-home: its rm was refused by the permission layer and was not retried; reported for the operator"
+     },
+     {
+      "id": "2026-10-07T10:30:18Z-a#0",
+      "chunk": "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+      "skill": "implement",
+      "step": "code",
+      "nature": "environment",
+      "solution": "overridden",
+      "note": "a plain rm -r of an own-made scratch home under the target/e2e-home link was denied by the permission layer; asked, and the overseer directed a mv of the three homes into target/e2e-home.disk instead of the plan's removal"
+     }
+    ]
+   },
+   {
+    "key": "L10",
+    "signature": "band-aid",
+    "title": "the approval word arrives carrying directions, and the plan is edited after it",
+    "n": 4,
+    "solutions": {
+     "workaround": 4
+    },
+    "natures": {
+     "process": 4
+    },
+    "chunks": [
+     "2026-10-04-readiness-gate-and-timing-constants",
+     "2026-10-06-local-command-and-paste-framing-rows",
+     "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+     "2026-10-07-test-homes-off-the-contended-volume"
+    ],
+    "hypothesis": "P5 models the word as a yes. In 6 chunks the yes came with a direction, a ruling or an added control; the plan was edited after the word and the mechanical set re-run, with the edited plan not presented again. The letter's shape is routed around each time.",
+    "proposal_direction": "A designed arm for a yes with folds: what is re-run, what is re-presented, and where the fold is recorded.",
+    "facts": [
+     {
+      "id": "2026-10-04T04:57:44Z-a#1",
+      "chunk": "2026-10-04-readiness-gate-and-timing-constants",
+      "skill": "phase",
+      "step": "validate",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "after the yes, matrix.py audit listed the plan's matrix#v1-21 ledger-note line as wrap input although P5 had written the note; the line was reworded post-word and the checks re-run, not re-presented"
+     },
+     {
+      "id": "2026-10-06T20:58:39Z-a#0",
+      "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+      "skill": "phase",
+      "step": "validate",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the review word was snapshotted as an input and cited by one provenance line added to the plan after the word, as the first revision did; the fence dry-run and the lint were re-run after it, the baselines were not"
+     },
+     {
+      "id": "2026-10-07T07:38:33Z-a#0",
+      "chunk": "2026-10-07-test-homes-off-the-contended-volume",
+      "skill": "phase",
+      "step": "validate",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the approval word arrived with two directions in one message; they were folded into plan.md after the word, the whole mechanical set re-run on the folded plan, and only then the first matrix call with the run dir fired"
+     },
+     {
+      "id": "2026-10-07T14:12:33Z-a#0",
+      "chunk": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+      "skill": "phase",
+      "step": "validate",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "after the review added a count atom to the unit filter entry, its baseline was rewritten by reading the new atom over the recorded output of the baseline run already made, not by a second run of the entry"
+     }
+    ],
+    "related_facts": [
+     {
+      "id": "2026-10-04T21:58:57Z-a#2",
+      "chunk": "2026-10-04-running-turn-refusal",
+      "skill": "phase",
+      "step": "validate",
+      "nature": "process",
+      "solution": "overridden",
+      "note": "the operator's yes carried a directive: record lean 2's readiness-gate window (up to 5 s) as the wrap residual; folded into plan.md Expected amendments, then the mechanical set was re-run"
+     },
+     {
+      "id": "2026-10-05T09:16:30Z-a#0",
+      "chunk": "2026-10-05-real-cli-verify-probes",
+      "skill": "phase",
+      "step": "validate",
+      "nature": "process",
+      "solution": "overridden",
+      "note": "the word arrived with an amended founder ruling (the overseer set the external-imports flags instead of a hand answer); plan, scope and research edited at the review and the whole mechanical set re-run before the word was taken"
+     }
+    ]
+   },
+   {
+    "key": "L11",
+    "signature": "band-aid",
+    "title": "raw outputs carrying host paths are moved out of the run dir before the commit",
+    "n": 3,
+    "solutions": {
+     "workaround": 2,
+     "removed-cause": 1
+    },
+    "natures": {
+     "process": 3
+    },
+    "chunks": [
+     "2026-10-04-dialog-answers-by-dialog-id",
+     "2026-10-05-permission-end-to-end",
+     "2026-10-08-first-live-test-and-self-drive"
+    ],
+    "hypothesis": "Boot JSON, test logs and helper scripts written into a run dir carry absolute host paths, which the hygiene gate refuses at the commit; each session moved them to the scratchpad. Typed correlates: two reconcile corrections of raw twins, one recall record, one plan entry whose `--home` path the check refused.",
+    "proposal_direction": "Name in the letters where a raw capture goes (outside the committed run dir by default), so the move is not discovered at the gate.",
+    "facts": [
+     {
+      "id": "2026-10-04T17:23:50Z-a#0",
+      "chunk": "2026-10-04-dialog-answers-by-dialog-id",
+      "skill": "wrap-session",
+      "step": "gates",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "hygiene refused a run-dir helper script carrying a host path outside the repo; it moved to the session scratchpad before the commit"
+     },
+     {
+      "id": "2026-10-05T15:30:13Z-a#0",
+      "chunk": "2026-10-05-permission-end-to-end",
+      "skill": "implement",
+      "step": "smoke",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "raw boot JSON and F1 nextest logs written into the run dir carried absolute host paths; moved to the session scratchpad before hygiene, the facts kept in evidence and the report"
+     },
+     {
+      "id": "2026-10-08T08:56:11Z-d#1",
+      "chunk": "2026-10-08-first-live-test-and-self-drive",
+      "skill": "implement",
+      "step": "fix-loop",
+      "nature": "process",
+      "solution": "removed-cause",
+      "note": "raw outputs of one-shot runs (the pin-first unit run, probe logs, a reader listing) were first written into the run dir, then moved to the private directory outside the tree so the committed run dir holds no raw report"
+     }
+    ],
+    "related_facts": []
+   },
+   {
+    "key": "L12",
+    "signature": "band-aid",
+    "title": "a call or a child process outlives its bound",
+    "n": 3,
+    "solutions": {
+     "workaround": 3
+    },
+    "natures": {
+     "environment": 2,
+     "process": 1
+    },
+    "chunks": [
+     "2026-10-02-epoch-2b-cleanup",
+     "2026-10-04-dialog-answers-by-dialog-id"
+    ],
+    "hypothesis": "A gate entry's timeout left its process running; an untimed call held a compound past the bound; a control run killed at its bound left a mutated line in the source. The untyped cluster U3 holds eight more.",
+    "proposal_direction": "See U3. For the gate tool specifically: killing the entry's process group on timeout.",
+    "facts": [
+     {
+      "id": "2026-10-02T19:34:01Z-a#2",
+      "chunk": "2026-10-02-epoch-2b-cleanup",
+      "skill": "phase",
+      "step": "validate",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "gate.py timeout on a 3600 s cargo-mutants entry left its process running; killed by exact pid with taskkill, entries re-narrowed with --re"
+     },
+     {
+      "id": "2026-10-03T22:17:30Z-a#1",
+      "chunk": null,
+      "skill": "wrap-session",
+      "step": "route-resolve",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "an untimed gh run list inside a compound probe held the call past 120 s; re-run alone under timeout 40, returned at once"
+     },
+     {
+      "id": "2026-10-04T15:36:14Z-a#0",
+      "chunk": "2026-10-04-dialog-answers-by-dialog-id",
+      "skill": "implement",
+      "step": "fix-loop",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the first remove-the-guard run used the default nextest profile; a neutralised continuation held a dialog forever, the run was killed at its time bound before the script restored the file; the leftover line was restored by hand and the controls re-run under the mutants profile kill line"
+     }
+    ],
+    "related_facts": []
+   },
+   {
+    "key": "L13",
+    "signature": "band-aid",
+    "title": "a plan step is replaced by another implementation at implement",
+    "n": 15,
+    "solutions": {
+     "workaround": 14,
+     "prohibition": 1
+    },
+    "natures": {
+     "product-logic": 8,
+     "process": 6,
+     "environment": 1
+    },
+    "chunks": [
+     "2026-10-02-epoch-2b-cleanup",
+     "2026-10-03-mutation-scoring-completion",
+     "2026-10-04-confirmed-send-with-cl-1-records",
+     "2026-10-04-dialog-answers-by-dialog-id",
+     "2026-10-04-readiness-gate-and-timing-constants",
+     "2026-10-04-running-turn-refusal",
+     "2026-10-05-dialog-rows-and-re-probe",
+     "2026-10-05-permission-end-to-end",
+     "2026-10-05-real-cli-verify-probes",
+     "2026-10-06-local-command-send-outcomes",
+     "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+     "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+     "2026-10-07-test-homes-off-the-contended-volume"
+    ],
+    "hypothesis": "A step could not be built or measured as written and the implementer built something else, recorded in evidence or the report. Seven of the 15 facts carry nature process or environment, the rest product-logic. This is the problem-fact side of `input.plan-step-ambiguous` and `contract.premise-falsified`: the cause is in the plan, the fix lands at implement.",
+    "proposal_direction": "See those two proposals and chains X1 and X2.",
+    "facts": [
+     {
+      "id": "2026-10-03T04:04:41Z-a#3",
+      "chunk": "2026-10-02-epoch-2b-cleanup",
+      "skill": "implement",
+      "step": "code",
+      "nature": "product-logic",
+      "solution": "workaround",
+      "note": "plan step 4's Throwaway guard omitted after its premise was falsified; witness test kept over plain TempDir; surfaced for the wrap"
+     },
+     {
+      "id": "2026-10-03T23:02:17Z-a#0",
+      "chunk": "2026-10-03-mutation-scoring-completion",
+      "skill": "implement",
+      "step": "code",
+      "nature": "product-logic",
+      "solution": "workaround",
+      "note": "the passwd probes (id -u, getent passwd) run as env -i PATH=/usr/bin:/bin with no HOME, because HOME is what they read; narrower than the launcher's HOME+PATH, asserted by the every-call test, surfaced in the report"
+     },
+     {
+      "id": "2026-10-04T05:06:21Z-a#1",
+      "chunk": "2026-10-04-readiness-gate-and-timing-constants",
+      "skill": "implement",
+      "step": "code",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "step 11's two named sites widened to all three run.rs throwaway git arg lists through one GIT_CONFIG const (mini() commits too), keeping the run.rs:1 probe"
+     },
+     {
+      "id": "2026-10-04T06:27:45Z-a#1",
+      "chunk": "2026-10-04-confirmed-send-with-cl-1-records",
+      "skill": "implement",
+      "step": "code",
+      "nature": "product-logic",
+      "solution": "workaround",
+      "note": "src/main.rs role_of files send as Role::Other, so main prints no cli internal-error line for it; with main.rs under the held-boundary guard, the send dispatch arm prints that line itself"
+     },
+     {
+      "id": "2026-10-04T11:54:44Z-a#0",
+      "chunk": "2026-10-04-dialog-answers-by-dialog-id",
+      "skill": "implement",
+      "step": "code",
+      "nature": "product-logic",
+      "solution": "workaround",
+      "note": "red B basis: the plan named target/run-archive plus the reproduction; the archive held no outcomes.json and the reproduction read 0 s, so the committed evidence of earlier workspace mutation runs (max 78 s baseline) was read too and N=400 set from it"
+     },
+     {
+      "id": "2026-10-04T14:49:33Z-a#2",
+      "chunk": "2026-10-04-dialog-answers-by-dialog-id",
+      "skill": "implement",
+      "step": "code",
+      "nature": "product-logic",
+      "solution": "workaround",
+      "note": "plan named parse-rejected detail strict-modes; the closed schema enum admits it nowhere, so the catalog spelling strict-modes-failed was added to parse-rejected's detail enum (companion, expected obs-plan amendment)"
+     },
+     {
+      "id": "2026-10-04T22:05:32Z-a#0",
+      "chunk": "2026-10-04-running-turn-refusal",
+      "skill": "implement",
+      "step": "code",
+      "nature": "product-logic",
+      "solution": "workaround",
+      "note": "plan step 5 says a human-origin prompt-submitted makes the next send refuse turn-running; an unsent human prompt moves the wheel first, so the send reads human-typing and only release (which clears the turn) returns it: the case asserts the turn state read plus the human-typing rung instead"
+     },
+     {
+      "id": "2026-10-05T09:39:17Z-a#1",
+      "chunk": "2026-10-05-real-cli-verify-probes",
+      "skill": "implement",
+      "step": "code",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the plan's 'without --screens' verify case needs ~11 s against the 7 s test bound: made a verify_window_ test with a 20 s bound and a mutants-profile override, the send_window_ precedent"
+     },
+     {
+      "id": "2026-10-05T13:08:03Z-a#0",
+      "chunk": "2026-10-05-dialog-rows-and-re-probe",
+      "skill": "implement",
+      "step": "code",
+      "nature": "product-logic",
+      "solution": "workaround",
+      "note": "Run D waits for its turn's Stop, not the plan's PostToolUse as step 5 words it: ending on the PostToolUse raced the fake agent's receipt line, which would make the receipt counts and the dialog drift contract flaky"
+     },
+     {
+      "id": "2026-10-05T15:27:29Z-a#0",
+      "chunk": "2026-10-05-permission-end-to-end",
+      "skill": "implement",
+      "step": "code",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "F1's planned nextest command lacks --features fake-agent, which the cli_verify target requires; ran it with the feature added and recorded the form in evidence"
+     },
+     {
+      "id": "2026-10-06T23:23:25Z-a#0",
+      "chunk": "2026-10-06-local-command-send-outcomes",
+      "skill": "implement",
+      "step": "code",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the plan's --paste-hint-ms 6000 made the hint case 10.549 s, over the 10 s kill of the nextest mutants profile it runs under without a window prefix; the hold was shortened to 3000 ms (7.437 s), no bound moved"
+     },
+     {
+      "id": "2026-10-07T07:48:25Z-a#0",
+      "chunk": "2026-10-07-test-homes-off-the-contended-volume",
+      "skill": "implement",
+      "step": "code",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "step 3 asks for the keeper call swapped at its call site and case 2 read red, but the cases call the keeper directly over their own temp dirs; the guard was removed inside each keeper (link arm off) instead and that is recorded in evidence/keeper-control.md"
+     },
+     {
+      "id": "2026-10-07T07:48:25Z-a#1",
+      "chunk": "2026-10-07-test-homes-off-the-contended-volume",
+      "skill": "implement",
+      "step": "code",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "step 5's quiet check (pgrep -x viola empty) read 9 processes, all another tree's viola build the overseer pair runs on; read by executable path instead (this repo 0, other trees 9) and recorded in evidence/backing.md"
+     },
+     {
+      "id": "2026-10-07T10:30:18Z-a#1",
+      "chunk": "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+      "skill": "implement",
+      "step": "code",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the plan's hint sequence runs every verb with --json while its layouts acceptance needs the refusal's human lines as printed; one human-mode send was added right after the refused one on the verified home"
+     },
+     {
+      "id": "2026-10-07T15:12:49Z-a#0",
+      "chunk": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+      "skill": "implement",
+      "step": "code",
+      "nature": "product-logic",
+      "solution": "prohibition",
+      "note": "the name rule of step 6 (one path segment of letters, digits, dot, underscore, hyphen) admits the two words dot and dot-dot by its letter, which would aim the census directory at target/profraw-census itself or at target; the script refuses both as usage errors beside the character class"
+     }
+    ],
+    "related_facts": []
+   },
+   {
+    "key": "L14",
+    "signature": "removed-cause",
+    "title": "a time typed ahead of the clock (the cause removed, and back again)",
+    "n": 3,
+    "solutions": {
+     "workaround": 1,
+     "removed-cause": 2
+    },
+    "natures": {
+     "process": 3
+    },
+    "chunks": [
+     "2026-10-06-local-command-and-paste-framing-rows",
+     "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+     "2026-10-08-first-live-test-and-self-drive"
+    ],
+    "hypothesis": "The stamp hook refuses the write and the time is re-read from the clock; the same act returns in the next session. With U2's seven untyped records and four typed ones, 11 friction records in 6 chunks, none before this epoch.",
+    "proposal_direction": "An observation, per the signature: the hook removes each instance and the habit persists. See U2.",
+    "facts": [
+     {
+      "id": "2026-10-07T14:34:57Z-a#1",
+      "chunk": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+      "skill": "implement",
+      "step": "code",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "an inputs origin label was typed ten minutes ahead of the clock; inputs.py has no amend verb, so the label was corrected by an anchored edit of the manifest and inputs verify read clean"
+     },
+     {
+      "id": "2026-10-06T20:15:32Z-a#0",
+      "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+      "skill": "phase",
+      "step": "plan",
+      "nature": "process",
+      "solution": "removed-cause",
+      "note": "the Revised stamp was typed as an estimated time five minutes ahead of the clock; the stamp-ahead hook refused the write result and the stamp was replaced with a date -u reading"
+     },
+     {
+      "id": "2026-10-08T06:23:46Z-a#0",
+      "chunk": "2026-10-08-first-live-test-and-self-drive",
+      "skill": "phase",
+      "step": "validate",
+      "nature": "process",
+      "solution": "removed-cause",
+      "note": "two baseline strings were written with a time four minutes ahead of the clock, for a control re-run not yet made; the stamp hook refused them, the controls were re-run and the read time written"
+     }
+    ],
+    "related_facts": []
+   },
+   {
+    "key": "L15",
+    "signature": "removed-cause",
+    "title": "the cause removed sat in a file outside research's lists",
+    "n": 3,
+    "solutions": {
+     "removed-cause": 3
+    },
+    "natures": {
+     "product-logic": 2,
+     "process": 1
+    },
+    "chunks": [
+     "2026-10-04-running-turn-refusal",
+     "2026-10-04-the-wheel",
+     "2026-10-04-wait-and-last"
+    ],
+    "hypothesis": "Three fix-loop runs closed a red by changing a file research had not listed (an envelope type, a wrapper flush, the fake agent's exit).",
+    "proposal_direction": "An observation: see chain X7 (research to fix-loop) and the pin-sweep direction.",
+    "facts": [
+     {
+      "id": "2026-10-04T10:13:15Z-a#0",
+      "chunk": "2026-10-04-wait-and-last",
+      "skill": "implement",
+      "step": "fix-loop",
+      "nature": "product-logic",
+      "solution": "removed-cause",
+      "note": "crates/viola-channel/src/frame.rs (outside research's lists): the envelope Params typed from as Option<String>, so a non-string from was -32600 before any method ran, against security-plan §Input Validation (Channel frames row: -32602); dropped the unread field, recorded in-intent in scope-record.md"
+     },
+     {
+      "id": "2026-10-04T18:40:24Z-a#0",
+      "chunk": "2026-10-04-the-wheel",
+      "skill": "implement",
+      "step": "fix-loop",
+      "nature": "product-logic",
+      "solution": "removed-cause",
+      "note": "tests/hook_events.rs (outside research's lists, companion line recorded) pinned event counts the wheel now changes: a human-filed prompt and the stop's Ctrl-C each take the wheel; the Ctrl-C record could be lost at exit, so the wrapper now flushes the wheel's queued moves before it exits"
+     },
+     {
+      "id": "2026-10-04T22:18:54Z-a#0",
+      "chunk": "2026-10-04-running-turn-refusal",
+      "skill": "implement",
+      "step": "fix-loop",
+      "nature": "process",
+      "solution": "removed-cause",
+      "note": "the folded .profraw WATCH recurred in pre-push 1; cause traced to the fake agent's session-leader exit hanging up an in-flight hook; src/bin/viola-fake-agent.rs fixed outside research's lists on the overseer's founder-delegated word (T3 widening), then 3 consecutive green pre-push"
+     }
+    ],
+    "related_facts": []
+   },
+   {
+    "key": "L16",
+    "signature": "band-aid",
+    "title": "an apostrophe inside a TOML literal string breaks a gate fence or a pattern file",
+    "n": 2,
+    "solutions": {
+     "workaround": 2
+    },
+    "natures": {
+     "process": 2
+    },
+    "chunks": [
+     "2026-10-04-running-turn-refusal"
+    ],
+    "hypothesis": "n = 2 here, recurring from earlier epochs (a removed-cause fact at 2026-09-26T19:50:03Z-a and an untyped record at 2026-09-29T12:40:29Z-e); two typed records of this epoch carry it as well (`retry.synthesis-rework`, `contract.mechanical-check`). The form is the pipeline's (the gate fence, the cascade pattern file); the breakage is met per chunk.",
+    "proposal_direction": "One line in the gate-fence and pattern-file templates on quoting; or a dry-run message that names the apostrophe.",
+    "facts": [
+     {
+      "id": "2026-10-04T21:55:48Z-a#0",
+      "chunk": "2026-10-04-running-turn-refusal",
+      "skill": "phase",
+      "step": "plan",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "six run strings first written as TOML basic strings, converted to literal strings by a Write-tool python script after the template's always-literal rule was re-read"
+     },
+     {
+      "id": "2026-10-04T21:58:57Z-a#0",
+      "chunk": "2026-10-04-running-turn-refusal",
+      "skill": "phase",
+      "step": "validate",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "an apostrophe in a TOML literal baseline string (CARRY's) broke the fence; caught by a grep before the dry-run, reworded"
+     }
+    ],
+    "related_facts": []
+   },
+   {
+    "key": "T-comp",
+    "signature": "listed",
+    "title": "the compositor build on the dev host (one chunk)",
+    "n": 4,
+    "solutions": {
+     "workaround": 4
+    },
+    "natures": {
+     "environment": 4
+    },
+    "chunks": [
+     "2026-10-08-first-live-test-and-self-drive"
+    ],
+    "hypothesis": "Four environment workarounds inside the first live test: a dispatch form refused, a stub file's read denied, a keyword verb refused, a headless start aborting. One chunk, one subject.",
+    "proposal_direction": "",
+    "facts": [
+     {
+      "id": "2026-10-08T05:28:57Z-a#1",
+      "chunk": "2026-10-08-first-live-test-and-self-drive",
+      "skill": "phase",
+      "step": "research",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "this Hyprland build reads dispatch as Lua and refused the classic exec form; the forms in the installed default config and the dispatcher's own error text were used instead"
+     },
+     {
+      "id": "2026-10-08T05:28:57Z-a#2",
+      "chunk": "2026-10-08-first-live-test-and-self-drive",
+      "skill": "phase",
+      "step": "research",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "the permission layer refused a read of the installed Lua API stub file; the read was not retried by another tool and the probe went on with forms already seen"
+     },
+     {
+      "id": "2026-10-08T06:36:48Z-a#2",
+      "chunk": "2026-10-08-first-live-test-and-self-drive",
+      "skill": "implement",
+      "step": "code",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "hyprctl keyword is refused under the Lua config parser; the debug log option was set through hyprctl eval hl.config instead, which changed the value and still produced no compositor log lines; the option was put back"
+     },
+     {
+      "id": "2026-10-08T07:04:06Z-a#0",
+      "chunk": "2026-10-08-first-live-test-and-self-drive",
+      "skill": "phase",
+      "step": "research",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "the headless form of the own compositor aborts at backend creation on this build, so the nested form was measured instead; two crash records were left in the coredump store"
+     }
+    ],
+    "related_facts": []
+   },
+   {
+    "key": "T-order",
+    "signature": "listed",
+    "title": "a plan's step or gate order adjusted at run time",
+    "n": 4,
+    "solutions": {
+     "workaround": 4
+    },
+    "natures": {
+     "process": 4
+    },
+    "chunks": [
+     "2026-10-04-dialog-answers-by-dialog-id",
+     "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+     "2026-10-07-test-homes-off-the-contended-volume",
+     "2026-10-08-first-live-test-and-self-drive"
+    ],
+    "hypothesis": "Four facts in four chunks, each for its own reason (a parallel review, a count needed early, a control's timing, compositor uptime); read as not one obstacle.",
+    "proposal_direction": "",
+    "facts": [
+     {
+      "id": "2026-10-04T14:49:33Z-a#0",
+      "chunk": "2026-10-04-dialog-answers-by-dialog-id",
+      "skill": "implement",
+      "step": "code",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "plan step 8 (relay) fired before steps 3-7 so the overseer could review the fixtures in parallel; order only"
+     },
+     {
+      "id": "2026-10-07T07:33:13Z-a#0",
+      "chunk": "2026-10-07-test-homes-off-the-contended-volume",
+      "skill": "phase",
+      "step": "plan",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the verify binary was run once on the quiet host during P4 to read its test count for a gate atom, ahead of P5's baseline of the same entry"
+     },
+     {
+      "id": "2026-10-07T14:38:43Z-a#1",
+      "chunk": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+      "skill": "implement",
+      "step": "fix-loop",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the block was fired as --only 1..15 rather than whole, so the plan's 48-run must-pass control could be read after pre-push's rebuild and before entry 16"
+     },
+     {
+      "id": "2026-10-08T07:41:13Z-a#0",
+      "chunk": "2026-10-08-first-live-test-and-self-drive",
+      "skill": "implement",
+      "step": "code",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the standing gate block was fired before step 0, not after it as the step order reads, so the one compositor start stood for less time and no gate load ran beside timed live steps"
+     }
+    ],
+    "related_facts": []
+   },
+   {
+    "key": "T-renumber",
+    "signature": "below",
+    "title": "route line citations renumbered by a scratch script after an insertion",
+    "n": 2,
+    "solutions": {
+     "workaround": 2
+    },
+    "natures": {
+     "process": 2
+    },
+    "chunks": [
+     "2026-10-05-real-cli-verify-probes"
+    ],
+    "hypothesis": "n = 2, no earlier fact; three typed or untyped records of the epoch name the same gap, and the epoch's last wrap ran a citation sweep.",
+    "proposal_direction": "",
+    "facts": [
+     {
+      "id": "2026-10-05T11:04:44Z-a#0",
+      "chunk": "2026-10-05-real-cli-verify-probes",
+      "skill": "wrap-session",
+      "step": "route-resolve",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "route-coordinate renumber after an insertion has no pipeline verb; done by a scratchpad listing script + an offset-asserted replace script with a manifest in the run dir, as at the 2026-10-05T00-09-13 wrap"
+     },
+     {
+      "id": "2026-10-07T06:01:45Z-a#1",
+      "chunk": null,
+      "skill": "wrap-session",
+      "step": "route-resolve",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "no pipeline tool renumbers route line citations; a scratchpad python write did it in binary mode with each position asserted before and every untouched line compared after, as the previous split wrap did"
+     }
+    ],
+    "related_facts": []
+   },
+   {
+    "key": "T-toolsdir",
+    "signature": "below",
+    "title": "`tools_dir` carried as a shell variable, not the literal substitution",
+    "n": 2,
+    "solutions": {
+     "workaround": 2
+    },
+    "natures": {
+     "process": 2
+    },
+    "chunks": [
+     "2026-10-06-local-command-send-outcomes"
+    ],
+    "hypothesis": "n = 2.",
+    "proposal_direction": "",
+    "facts": [
+     {
+      "id": "2026-10-06T22:32:34Z-a#0",
+      "chunk": null,
+      "skill": "new-session",
+      "step": "orientation",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the tool calls carried tools_dir as a shell variable set at the head of each call instead of the literal substitution the Setup step names; every call resolved and printed its stamp"
+     },
+     {
+      "id": "2026-10-06T22:35:47Z-a#0",
+      "chunk": "2026-10-06-local-command-send-outcomes",
+      "skill": "phase",
+      "step": "take-up",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "three tool calls carried tools_dir as a shell variable set at the head of the call instead of the literal substitution Setup names; each printed its stamp and verdict"
+     }
+    ],
+    "related_facts": []
+   },
+   {
+    "key": "T-stale",
+    "signature": "below",
+    "title": "the gate's artifact atom read STALE on a re-entered run",
+    "n": 2,
+    "solutions": {
+     "workaround": 2
+    },
+    "natures": {
+     "process": 2
+    },
+    "chunks": [
+     "2026-10-08-first-live-test-and-self-drive"
+    ],
+    "hypothesis": "n = 2; see the proposal on `contract.token-proxy-check`.",
+    "proposal_direction": "",
+    "facts": [
+     {
+      "id": "2026-10-08T07:41:13Z-d#0",
+      "chunk": "2026-10-08-first-live-test-and-self-drive",
+      "skill": "implement",
+      "step": "fix-loop",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "entry 15 red on artifact STALE with exit 0 and its last line held: the product package's cached build was cleared with cargo clean -p viola in target/release-check and the entry re-run alone, green, the binary's hash unchanged"
+     },
+     {
+      "id": "2026-10-08T08:28:44Z-a#0",
+      "chunk": "2026-10-08-first-live-test-and-self-drive",
+      "skill": "phase",
+      "step": "plan",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the release-check entry was changed to clear the package cache first, because its artifact atom read STALE on a re-fired block at the stopped run; found at implement, fixed in the plan here"
+     }
+    ],
+    "related_facts": []
+   }
+  ],
+  "unthemed": [
+   {
+    "id": "2026-10-03T22:17:30Z-a#2",
+    "chunk": null,
+    "skill": "wrap-session",
+    "step": "route-resolve",
+    "nature": "process",
+    "solution": "prohibition",
+    "note": "operator direction wrote a guard into :68 freight: the native pre-push stage keeps env -i HOME+PATH, anything wider halts for the founder live"
+   },
+   {
+    "id": "2026-10-03T22:28:46Z-a#0",
+    "chunk": "2026-10-03-mutation-scoring-completion",
+    "skill": "phase",
+    "step": "distill",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "the operator's CI-red fold (scope item 7, viola-channel macOS close race) arrived while stage 2 ran; scope was amended after both batches, so no extract saw item 7 — carried into P4 straight from scope rather than re-spawning a distiller"
+   },
+   {
+    "id": "2026-10-04T09:42:00Z-a#0",
+    "chunk": "2026-10-04-wait-and-last",
+    "skill": "phase",
+    "step": "research",
+    "nature": "environment",
+    "solution": "workaround",
+    "note": "target/debug/viola predates send (built 00:31, exit 2 unrecognized subcommand); the E4 probe used target/harness/debug/viola built 09:00Z from the bcff692 tree instead"
+   },
+   {
+    "id": "2026-10-04T11:07:02Z-a#0",
+    "chunk": "2026-10-04-dialog-answers-by-dialog-id",
+    "skill": "phase",
+    "step": "research",
+    "nature": "environment",
+    "solution": "workaround",
+    "note": "gh api …/jobs/{id}/logs refused to write the log (terminal escape sequences); used gh run view --job {id} --log to a scratchpad file instead"
+   },
+   {
+    "id": "2026-10-04T11:54:44Z-a#1",
+    "chunk": "2026-10-04-dialog-answers-by-dialog-id",
+    "skill": "implement",
+    "step": "code",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "ran three throwaway print-mode claude probes with a scratch capture plugin to measure the plan's STOP premise before writing the dialog tier; no product probe or recording leg was fired"
+   },
+   {
+    "id": "2026-10-04T17:16:27Z-a#2",
+    "chunk": "2026-10-04-dialog-answers-by-dialog-id",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "three counts the report does not carry (perf suite 7 passed, PERF_ROWS re-export, MUTANTS_PROGRESS arms) confirmed by reading crates/viola-e2e source before applying"
+   },
+   {
+    "id": "2026-10-04T21:01:48Z-a#0",
+    "chunk": "2026-10-04-the-wheel",
+    "skill": "wrap-session",
+    "step": "curation",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "the --e2e correction was a master claim, so a P2 amendment was raised after P2 closed; the cascade sweep was re-run after it so the sweep still postdates the last amendment"
+   },
+   {
+    "id": "2026-10-04T21:31:09Z-a#0",
+    "chunk": "2026-10-04-the-wheel",
+    "skill": "wrap-session",
+    "step": "gates",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "the committed handoff carried the P7.1 halt's tests-failing status (P6 ran before the halt); rewritten after the commit as uncommitted expected-transient bookkeeping rather than an amend past a push"
+   },
+   {
+    "id": "2026-10-04T21:45:48Z-a#1",
+    "chunk": "2026-10-04-running-turn-refusal",
+    "skill": "phase",
+    "step": "distill",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "history-agent prompts carried one appended line naming the project root (relative sidecar path) — not sent strictly verbatim"
+   },
+   {
+    "id": "2026-10-04T21:51:33Z-a#0",
+    "chunk": "2026-10-04-running-turn-refusal",
+    "skill": "phase",
+    "step": "research",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "14 file:line citations in research.md were off by 1-5 lines from memory of sed offsets; corrected by a scripted anchored replace after a grep -n re-check"
+   },
+   {
+    "id": "2026-10-04T22:52:46Z-a#0",
+    "chunk": "2026-10-04-running-turn-refusal",
+    "skill": "wrap-session",
+    "step": "gates",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "the operator fix 334ee7f was pushed with plain `git push origin HEAD` instead of plan entry 19's guarded form: its `git diff --quiet` refuses while the wrap's own artifacts sit uncommitted for the wrap commit; the source tree was verified clean before the push"
+   },
+   {
+    "id": "2026-10-05T09:39:17Z-a#0",
+    "chunk": "2026-10-05-real-cli-verify-probes",
+    "skill": "implement",
+    "step": "code",
+    "nature": "process",
+    "solution": "prohibition",
+    "note": "step-0 scratch probe: the no-key kill widened from 'trust' text to any trust/external-imports/dialog-footer text before session 4 (probe1 read 'trust' only)"
+   },
+   {
+    "id": "2026-10-05T09:45:14Z-a#1",
+    "chunk": "2026-10-05-real-cli-verify-probes",
+    "skill": "implement",
+    "step": "fix-loop",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "two pre-check test cases rewired (a Stop-less set's trusted turn waits PROBE_DEADLINE; a TMPDIR inside the workspace is trusted by the fake) before the live round"
+   },
+   {
+    "id": "2026-10-05T11:31:17Z-a#1",
+    "chunk": "2026-10-05-dialog-rows-and-re-probe",
+    "skill": "phase",
+    "step": "research",
+    "nature": "environment",
+    "solution": "workaround",
+    "note": "no live claude session is allowed before the founder's cap, so 2.1.288 behaviour was read statically from the installed binary with a scratch byte scanner; every such fact is labelled static in research M6"
+   },
+   {
+    "id": "2026-10-05T11:59:55Z-a#1",
+    "chunk": "2026-10-05-dialog-rows-and-re-probe",
+    "skill": "implement",
+    "step": "code",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "ended Run D at the STOP by SIGINT to the python driver (its cleanup killed the child and removed the dir) instead of waiting out the driver's 240 s bound with the plan dialog up"
+   },
+   {
+    "id": "2026-10-05T13:20:49Z-a#0",
+    "chunk": "2026-10-05-dialog-rows-and-re-probe",
+    "skill": "implement",
+    "step": "fix-loop",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "a cli_answer.rs case for v1-15 (a plan first raised by PermissionRequest) was added while the full block ran; the buffered run was stopped and the whole block re-run on the final tree"
+   },
+   {
+    "id": "2026-10-06T20:09:42Z-a#1",
+    "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+    "skill": "phase",
+    "step": "research",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "P2 was not re-run for the revision: the seven extracts of the first pass were kept and the tests extract plus four architecture lines and the test-plan Path 2 steps were read directly"
+   },
+   {
+    "id": "2026-10-06T21:12:21Z-a#1",
+    "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+    "skill": "implement",
+    "step": "code",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "the red was run a second time with AGENT_RUN_KEEP_FAILED=1: the case fails at its first assertion, the exit code, so the receipt that shows what the trusted run typed is gone with the test home unless the home is kept"
+   },
+   {
+    "id": "2026-10-06T21:30:37Z-a#1",
+    "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+    "skill": "implement",
+    "step": "fix-loop",
+    "nature": "process",
+    "solution": "removed-cause",
+    "note": "the 20 s kills of entry 16 left 21 empty verify probe dirs at the repository root, found by the P4 census and removed with rmdir; the operator-desk dir was not touched"
+   },
+   {
+    "id": "2026-10-06T22:06:42Z-a#0",
+    "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+    "skill": "wrap-session",
+    "step": "route-resolve",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "the route card of this step was put to the operator in the same question as the reconcile escalation, before this phase's own analysis ran, to save a second halt; the earlier reconcile and curation checkpoints were appended in one second, so ids 2026-10-06T22:04:50Z-a and -b each name two records"
+   },
+   {
+    "id": "2026-10-06T22:51:16Z-a#0",
+    "chunk": "2026-10-06-local-command-send-outcomes",
+    "skill": "phase",
+    "step": "research",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "a one-line python probe of the diag-line schema's top-level properties printed an empty object because the send fields sit under allOf; the fields were read from a grep of the schema file instead"
+   },
+   {
+    "id": "2026-10-07T00:03:32Z-a#0",
+    "chunk": "2026-10-06-local-command-send-outcomes",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "the hook-side log line a detector could not base on the report was to be read from a kept test home; none is kept on the host, so its basis was read from src/cmd/hook.rs and the body says as landed, not measured on this path"
+   },
+   {
+    "id": "2026-10-07T11:39:56Z-a#0",
+    "chunk": "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+    "skill": "wrap-session",
+    "step": "route-resolve",
+    "nature": "process",
+    "solution": "removed-cause",
+    "note": "two of the four route cards were founder rulings that settled sentences P2 had written as open; the two masters, four sentences of this pass's own sidecar entries and two leaves were brought to the rulings before the commit, outside P2's own order"
+   },
+   {
+    "id": "2026-10-07T12:19:07Z-a#0",
+    "chunk": "2026-10-07-send-waits-out-the-paste-hint",
+    "skill": "phase",
+    "step": "validate",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "the kill-line probe's passing control was a scratch copy of the nextest config made in the session scratchpad, not in the run dir; only its verdict is in the plan's baseline line"
+   },
+   {
+    "id": "2026-10-07T13:13:11Z-a#0",
+    "chunk": "2026-10-07-send-waits-out-the-paste-hint",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "the offset reads for check 4 went through two scratch scripts (a per-line slice and a regex window lister) written for the report sweep, not through cascade.py window and splice.py summary; the lines read ran to 9545 chars and every disposition cites its window"
+   },
+   {
+    "id": "2026-10-07T13:39:16Z-a#0",
+    "chunk": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "skill": "phase",
+    "step": "take-up",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "Setup 5a's tool reads a run's latest attempt, so the red attempt was read with the provider CLI's per-attempt view beside the documented call"
+   },
+   {
+    "id": "2026-10-07T13:56:05Z-a#0",
+    "chunk": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "skill": "phase",
+    "step": "research",
+    "nature": "resources",
+    "solution": "workaround",
+    "note": "the refused profile was not uploaded, so the method the directive named could not run; the writer was narrowed by a pid join over the diagnostics artifact and a JUnit window join, then the mechanism was reproduced"
+   },
+   {
+    "id": "2026-10-07T13:56:05Z-a#1",
+    "chunk": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "skill": "phase",
+    "step": "research",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "research ran the last pre-push's instrumented test binary on one test 1 240 times with the profile path pointed at the scratchpad, a measurement beyond reads, to verify the mechanism's equality at HEAD"
+   },
+   {
+    "id": "2026-10-07T19:39:31Z-a#0",
+    "chunk": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "skill": "wrap-session",
+    "step": "gates",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "this checkpoint's playbook was read while the light gate was still running in the background, before the step had completed, against the reading-order rule; the gate's run was already fired and its verdict is the tool's"
+   },
+   {
+    "id": "2026-10-08T04:58:30Z-a#0",
+    "chunk": null,
+    "skill": "new-session",
+    "step": "orientation",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "route.py epoch prints the epoch header clipped with an ellipsis, so the byte-exact epoch text this record needs was read from working-route.md line 65 directly"
+   },
+   {
+    "id": "2026-10-08T07:41:13Z-a#3",
+    "chunk": "2026-10-08-first-live-test-and-self-drive",
+    "skill": "implement",
+    "step": "code",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "start 6's step lines went to live-run-start6.ndjson, a file of its own, and live-run.ndjson was not created, so a retried run's reader ledger starts clean"
+   },
+   {
+    "id": "2026-10-08T07:50:08Z-a#1",
+    "chunk": "2026-10-08-first-live-test-and-self-drive",
+    "skill": "phase",
+    "step": "research",
+    "nature": "process",
+    "solution": "workaround",
+    "note": "research ran a three-window reply probe on the standing compositor (no live start, no key) for the one parser type the implement run's battery had not sent; its scripts live in the phase run dir"
+   }
+  ]
+ },
+ "pass_b": {
+  "override": {
+   "key": "L17",
+   "title": "phase Setup's pending guard, against an operator-directed revision of the pending chunk",
+   "facts": [
+    {
+     "id": "2026-10-04T14:12:39Z-a#0",
+     "chunk": "2026-10-04-dialog-answers-by-dialog-id",
+     "skill": "phase",
+     "step": "research",
+     "nature": "process",
+     "solution": "overridden",
+     "note": "phase Setup's pending guard would HALT (matrix trail present); the operator directed a revision of the pending chunk, run as P3-P5 on the intact promotion, P1/P2 not re-run"
+    },
+    {
+     "id": "2026-10-05T08:26:36Z-a#0",
+     "chunk": "2026-10-05-real-cli-verify-probes",
+     "skill": "phase",
+     "step": "research",
+     "nature": "process",
+     "solution": "overridden",
+     "note": "operator directive revised the already-pending chunk: the Setup pending-guard HALT was not applied, P1 promote and P2 fan-out were skipped (promotion and extracts kept), and P3-P5 re-run in a new run dir"
+    },
+    {
+     "id": "2026-10-06T20:09:42Z-a#0",
+     "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+     "skill": "phase",
+     "step": "research",
+     "nature": "process",
+     "solution": "overridden",
+     "note": "Setup 3 pending guard reads HALT for a promoted unwrapped chunk; the operator arguments (overseer, founder-delegated, inputs#I4) directed a revision of that chunk, so P1 was skipped, the prior phase run dir reused and the work entered at P3"
+    },
+    {
+     "id": "2026-10-06T20:57:18Z-a#0",
+     "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+     "skill": "phase",
+     "step": "plan",
+     "nature": "process",
+     "solution": "overridden",
+     "note": "the letter's Setup guard halts on a pending chunk unless P5 is resumable; on the operator's direction this run revised the pending chunk instead, as a P4 re-synthesis in the chunk's existing phase run dir with no promotion and no P2 fan-out, as the first revision did"
+    }
+   ],
+   "hypothesis": "Four overridden facts in three chunks (2026-10-04 to 2026-10-06): the letter halts on a promoted, unwrapped chunk; the operator directed a revision instead, run as P3 to P5 on the intact promotion. Five chunks of the epoch ran phase more than once (coverage); the two latest carry no override fact, which reads as the letter having gained the arm or as the fact not being recorded, and the ledger does not say which.",
+   "proposal_direction": "The rule halts on a state the operator keeps entering on purpose. If the letter now has a revision arm, nothing remains; if not, the arm is the direction."
+  },
+  "overridden_all": [
+   {
+    "id": "2026-10-02T12:59:46Z-a#0",
+    "chunk": "2026-10-02-epoch-2b-cleanup",
+    "skill": "phase",
+    "step": "take-up",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "the operator took the overseer-pre-named split of M3 + the WSL leg out of the taken-up entry at P1; owed to a new entry minted at this chunk's wrap"
+   },
+   {
+    "id": "2026-10-02T19:34:01Z-a#0",
+    "chunk": "2026-10-02-epoch-2b-cleanup",
+    "skill": "phase",
+    "step": "validate",
+    "nature": "resources",
+    "solution": "overridden",
+    "note": "overseer stopped the whole-file mutation baselines (2.5 h and 83 min in-tree); viola-state and root baselines recorded blocked-by-M2, taken at implement after the M2 fix"
+   },
+   {
+    "id": "2026-10-02T19:34:01Z-a#1",
+    "chunk": "2026-10-02-epoch-2b-cleanup",
+    "skill": "phase",
+    "step": "validate",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "overseer review removed the three mutation entries from the gate block (founder 2026-09-28 ruling); step 11 became a one-off witness"
+   },
+   {
+    "id": "2026-10-03T11:45:42Z-a#0",
+    "chunk": "2026-10-02-epoch-2b-cleanup",
+    "skill": "wrap-session",
+    "step": "gates",
+    "nature": "environment",
+    "solution": "overridden",
+    "note": "light gate red on D: (M2 class) incl. two entries green at implement, pre-push timed out at 5400 s; the overseer ruled them M2 class with owner the :68 CARRY and no HEAD-on-D: control (the founder paused Viola so D: can be fixed)"
+   },
+   {
+    "id": "2026-10-03T22:50:28Z-a#0",
+    "chunk": "2026-10-03-mutation-scoring-completion",
+    "skill": "phase",
+    "step": "validate",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "the operator's review removed the 4 mutation [[gate]] entries (founder rule 2026-09-28: no mutation entries in a chunk gate block), the same correction as at the epoch-2b-cleanup chunk; they became one-off evidence witnesses, 28 gates to 24"
+   },
+   {
+    "id": "2026-10-04T00:32:34Z-a#0",
+    "chunk": "2026-10-03-mutation-scoring-completion",
+    "skill": "implement",
+    "step": "fix-loop",
+    "nature": "environment",
+    "solution": "overridden",
+    "note": "M3 run 1 died at 460/709 on the /tmp tmpfs usrquota; overseer directed TMPDIR on btrfs for every mutation run, the died unit re-run in full, partial outcomes never merged"
+   },
+   {
+    "id": "2026-10-04T00:32:34Z-a#3",
+    "chunk": "2026-10-03-mutation-scoring-completion",
+    "skill": "implement",
+    "step": "fix-loop",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "the two Windows-only scratch.rs prepare mutants, first recorded equivalent, were re-dispositioned by the overseer as not measured here, owed to :70; missed==0 reads over the measurable set"
+   },
+   {
+    "id": "2026-10-04T05:15:54Z-a#0",
+    "chunk": "2026-10-04-readiness-gate-and-timing-constants",
+    "skill": "implement",
+    "step": "fix-loop",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "plan step 12 placed the CARRY 4 two-sided witness in the operator pass; the operator's invocation directed mutation-run TMPDIR handling, so implement ran the economy witness itself in two working-tree copies (control = step 11 reverted) instead of the two 78-min runs"
+   },
+   {
+    "id": "2026-10-04T08:55:41Z-a#0",
+    "chunk": "2026-10-04-confirmed-send-with-cl-1-records",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "the wrap folded a source change (src/cmd/send.rs wrapper-fault --json to the arch contract's detail object) on the overseer's founder-delegated E3 resolution; the wrap otherwise never touches source"
+   },
+   {
+    "id": "2026-10-04T14:12:39Z-a#0",
+    "chunk": "2026-10-04-dialog-answers-by-dialog-id",
+    "skill": "phase",
+    "step": "research",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "phase Setup's pending guard would HALT (matrix trail present); the operator directed a revision of the pending chunk, run as P3-P5 on the intact promotion, P1/P2 not re-run"
+   },
+   {
+    "id": "2026-10-04T14:17:01Z-a#0",
+    "chunk": "2026-10-04-dialog-answers-by-dialog-id",
+    "skill": "phase",
+    "step": "plan",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "the plan's Constraints rejected hand-sourced tool-bearing fixtures; the founder ruled live that relayed prototype captures replace the dialog probe, so the Constraint line was rewritten to the relay script"
+   },
+   {
+    "id": "2026-10-04T14:20:02Z-a#0",
+    "chunk": "2026-10-04-dialog-answers-by-dialog-id",
+    "skill": "phase",
+    "step": "validate",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "unclaim is the wrap valve per the matrix contract; run at phase P5 on the operator's yes carrying the founder ruling that v1-15 is claimed at :82"
+   },
+   {
+    "id": "2026-10-04T14:49:33Z-a#1",
+    "chunk": "2026-10-04-dialog-answers-by-dialog-id",
+    "skill": "implement",
+    "step": "code",
+    "nature": "environment",
+    "solution": "overridden",
+    "note": "mise moved claude to 2.1.288 mid-chunk; the spine recording read stamped 2.1.288; operator ruled option 1: re-record against the pinned 2.1.287 binary (run text gains -- <path>)"
+   },
+   {
+    "id": "2026-10-04T14:49:33Z-a#4",
+    "chunk": "2026-10-04-dialog-answers-by-dialog-id",
+    "skill": "implement",
+    "step": "code",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "overseer review rejected the plan pair as private text in a public repo; the relay script gained an in-script redaction of tool_input.plan and was re-fired"
+   },
+   {
+    "id": "2026-10-04T20:59:31Z-a#1",
+    "chunk": "2026-10-04-the-wheel",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "the plan's expected amendment asked for a security-plan Decisions Log entry; amendment-flow Apply step 1 forbids a new Decisions Log entry, so the sidecar entry carries the record"
+   },
+   {
+    "id": "2026-10-04T21:58:57Z-a#2",
+    "chunk": "2026-10-04-running-turn-refusal",
+    "skill": "phase",
+    "step": "validate",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "the operator's yes carried a directive: record lean 2's readiness-gate window (up to 5 s) as the wrap residual; folded into plan.md Expected amendments, then the mechanical set was re-run"
+   },
+   {
+    "id": "2026-10-05T06:18:34Z-a#1",
+    "chunk": "2026-10-05-real-cli-verify-probes",
+    "skill": "phase",
+    "step": "plan",
+    "nature": "environment",
+    "solution": "overridden",
+    "note": "the first AskUserQuestion (the split card) was released unanswered after 58 min by the viola hook this session's driver answers through; the operator relayed the founder's answer as text and the phase continued from P4"
+   },
+   {
+    "id": "2026-10-05T08:26:36Z-a#0",
+    "chunk": "2026-10-05-real-cli-verify-probes",
+    "skill": "phase",
+    "step": "research",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "operator directive revised the already-pending chunk: the Setup pending-guard HALT was not applied, P1 promote and P2 fan-out were skipped (promotion and extracts kept), and P3-P5 re-run in a new run dir"
+   },
+   {
+    "id": "2026-10-05T09:16:30Z-a#0",
+    "chunk": "2026-10-05-real-cli-verify-probes",
+    "skill": "phase",
+    "step": "validate",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "the word arrived with an amended founder ruling (the overseer set the external-imports flags instead of a hand answer); plan, scope and research edited at the review and the whole mechanical set re-run before the word was taken"
+   },
+   {
+    "id": "2026-10-05T10:27:54Z-a#0",
+    "chunk": "2026-10-05-real-cli-verify-probes",
+    "skill": "implement",
+    "step": "fix-loop",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "the operator approved a named --record refusal (file + check code) after an unattributable live red; it named SessionStart.default.json absolute-path on the next round"
+   },
+   {
+    "id": "2026-10-05T10:27:54Z-a#1",
+    "chunk": "2026-10-05-real-cli-verify-probes",
+    "skill": "implement",
+    "step": "fix-loop",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "entries 7 and 8 driven by hand with --home \"$h/vhome\" (the overseer's dated plan correction) instead of the plan's $h/home"
+   },
+   {
+    "id": "2026-10-05T10:27:54Z-a#2",
+    "chunk": "2026-10-05-real-cli-verify-probes",
+    "skill": "implement",
+    "step": "fix-loop",
+    "nature": "resources",
+    "solution": "overridden",
+    "note": "the live cap raised twice by the founder (12→15→18) after two STOPs"
+   },
+   {
+    "id": "2026-10-05T10:40:17Z-a#0",
+    "chunk": "2026-10-05-real-cli-verify-probes",
+    "skill": "wrap-session",
+    "step": "report",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "the operator directed a P1-only wrap at 61.5 % context with a resume point naming P2"
+   },
+   {
+    "id": "2026-10-06T20:09:42Z-a#0",
+    "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+    "skill": "phase",
+    "step": "research",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "Setup 3 pending guard reads HALT for a promoted unwrapped chunk; the operator arguments (overseer, founder-delegated, inputs#I4) directed a revision of that chunk, so P1 was skipped, the prior phase run dir reused and the work entered at P3"
+   },
+   {
+    "id": "2026-10-06T20:57:18Z-a#0",
+    "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+    "skill": "phase",
+    "step": "plan",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "the letter's Setup guard halts on a pending chunk unless P5 is resumable; on the operator's direction this run revised the pending chunk instead, as a P4 re-synthesis in the chunk's existing phase run dir with no promotion and no P2 fan-out, as the first revision did"
+   },
+   {
+    "id": "2026-10-06T22:24:12Z-a#0",
+    "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+    "skill": "wrap-session",
+    "step": "gates",
+    "nature": "environment",
+    "solution": "overridden",
+    "note": "three whole-block runs each read one red on a different entry while another builder session's cargo wrote 10.8, 23.0 and 11.6 GB to the same volume; the wrap halted for the operator, who had the other builders held for one window, and the fourth run read 23 green of 23"
+   },
+   {
+    "id": "2026-10-07T05:46:11Z-a#0",
+    "chunk": null,
+    "skill": "new-session",
+    "step": "orientation",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "the ladder's rung 4 names /andromeda-phase for working-route.md:94; the operator's invocation stated the next act as a 0-pending /andromeda-wrap-session adapting the route on four founder rulings, so the dashboard reports both and leads with the operator's; no artifact for the four rulings was found on disk (no file newer than the wrap but the handoff)"
+   },
+   {
+    "id": "2026-10-07T08:34:21Z-a#0",
+    "chunk": "2026-10-07-test-homes-off-the-contended-volume",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "four proposals carry the never-routine boundary-widening class, which escalates and halts; no halt was taken at this wrap because the founder's answer was given live after this widening was shown to him (the chunk's inputs I6) and the overseer's disposition with the wrap invocation names that answer as the ratification of these amendments"
+   },
+   {
+    "id": "2026-10-07T10:30:18Z-a#0",
+    "chunk": "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+    "skill": "implement",
+    "step": "code",
+    "nature": "environment",
+    "solution": "overridden",
+    "note": "a plain rm -r of an own-made scratch home under the target/e2e-home link was denied by the permission layer; asked, and the overseer directed a mv of the three homes into target/e2e-home.disk instead of the plan's removal"
+   },
+   {
+    "id": "2026-10-07T14:34:57Z-a#0",
+    "chunk": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "skill": "implement",
+    "step": "code",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "step 7's planned child (the test binary at a child-entry test) is unbuildable: the wrapper's --plugin-dir comes first and libtest exits 101. Asked on one card; the overseer chose an uninstrumented host child, recorded in scope-record.md"
+   },
+   {
+    "id": "2026-10-07T14:38:43Z-a#0",
+    "chunk": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "skill": "implement",
+    "step": "fix-loop",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "the operator stopped the run for a plan revision before entry 16 and the operator pass: no push goes out with a gate entry red by its own letter"
+   },
+   {
+    "id": "2026-10-07T15:39:29Z-a#0",
+    "chunk": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "skill": "implement",
+    "step": "fix-loop",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "an operator note asking for a rewording before the pre-CI commit arrived after that commit was pushed; the rewording went in as a fix commit on top, its push held until the first run's Windows leg had ended, and the final sha became the fix commit"
+   },
+   {
+    "id": "2026-10-07T15:39:29Z-a#1",
+    "chunk": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "skill": "implement",
+    "step": "fix-loop",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "the note named the plan's expected-amendment lines; plan.md is a file implement's letter says it never modifies, and four lines of it were edited on the operator's word, recorded in the pass record and the report"
+   },
+   {
+    "id": "2026-10-07T19:30:10Z-a#0",
+    "chunk": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "three security-plan proposals carried escalate severity; the pass did not halt on them because the operator's wrap directive said the amendment is not held and the founder's ruling was on record after the options were shown; resolved and applied with both words named in the sidecar"
+   },
+   {
+    "id": "2026-10-08T05:04:00Z-a#0",
+    "chunk": "2026-10-08-first-live-test-and-self-drive",
+    "skill": "phase",
+    "step": "take-up",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "a founder ruling relayed in an operator note arrived after the promote call had exited 0: founder not at the keyboard, the wheel takeover by a compositor-typed key, v1-33 re-worded on the typing; scope.md was amended after the promotion by five anchored edits and the note snapshotted as inputs I3"
+   },
+   {
+    "id": "2026-10-08T05:28:57Z-a#4",
+    "chunk": "2026-10-08-first-live-test-and-self-drive",
+    "skill": "phase",
+    "step": "research",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "the operator set the probe guard mid-phase and, after the block, directed the DPMS test and the step 0 fallback through one dialogue round"
+   },
+   {
+    "id": "2026-10-08T06:36:48Z-a#1",
+    "chunk": "2026-10-08-first-live-test-and-self-drive",
+    "skill": "implement",
+    "step": "code",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "the operator answered the step 0 question (inputs#I11): steps 1 to 3 now, stop before step 4, the lock question is with the founder; the plan orders step 0 first"
+   },
+   {
+    "id": "2026-10-08T07:04:06Z-a#1",
+    "chunk": "2026-10-08-first-live-test-and-self-drive",
+    "skill": "phase",
+    "step": "research",
+    "nature": "environment",
+    "solution": "overridden",
+    "note": "the nested start woke the locked desktop and was followed by the lock-holding shell exiting and relaunching; surfaced as a Boundary widening fork, the founder accepted it for one start and added a lock read after the start and at the end"
+   },
+   {
+    "id": "2026-10-08T07:41:13Z-a#2",
+    "chunk": "2026-10-08-first-live-test-and-self-drive",
+    "skill": "implement",
+    "step": "code",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "the operator ruled at the stop (inputs#I15): close the session, measure which reply is read as typing, keep the own compositor up with no window for a plan revision, a 3 hour bound; the plan's step 9a at a stop was not taken"
+   },
+   {
+    "id": "2026-10-08T07:41:13Z-d#2",
+    "chunk": "2026-10-08-first-live-test-and-self-drive",
+    "skill": "implement",
+    "step": "fix-loop",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "the operator added a measurement the plan did not hold: 23 reply-probe windows on the own compositor, the product build over a script child, no live start and no key"
+   },
+   {
+    "id": "2026-10-08T09:30:39Z-a#0",
+    "chunk": "2026-10-08-first-live-test-and-self-drive",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "nature": "process",
+    "solution": "overridden",
+    "note": "the first citation sweep: on the operator's word a master sentence was reworded before the sweep's write, which reorders the step, so that a planted literal was not re-pointed"
+   }
+  ],
+  "chronic_degrade": [
+   {
+    "type": "tooling.hook-friction",
+    "reading": "three epochs running, no halt in any; the rate per 100 step records rose from 0.9 to 2.3 and held",
+    "per_epoch": [
+     {
+      "epoch": "Epoch 1 - Foundation",
+      "n": 0,
+      "halting": 0,
+      "step_records": 111,
+      "per_100_step_records": 0.0
+     },
+     {
+      "epoch": "Epoch 2 - Windows slice I: wrapper, events, ledger",
+      "n": 1,
+      "halting": 0,
+      "step_records": 114,
+      "per_100_step_records": 0.9
+     },
+     {
+      "epoch": "Epoch 2b - Windows slice I b: events and ledger",
+      "n": 4,
+      "halting": 0,
+      "step_records": 171,
+      "per_100_step_records": 2.3
+     },
+     {
+      "epoch": "Epoch 3 - Windows slice II: driving verbs and live proof",
+      "n": 8,
+      "halting": 0,
+      "step_records": 345,
+      "per_100_step_records": 2.3
+     },
+     {
+      "epoch": "Epoch 4 - Session state & governance",
+      "n": 0,
+      "halting": 0,
+      "step_records": 6,
+      "per_100_step_records": 0.0
+     }
+    ]
+   },
+   {
+    "type": "tooling.host-shell",
+    "reading": "all four epochs, no halt in any; 10 cases in this epoch after 1, 3 and 1",
+    "per_epoch": [
+     {
+      "epoch": "Epoch 1 - Foundation",
+      "n": 1,
+      "halting": 0,
+      "step_records": 111,
+      "per_100_step_records": 0.9
+     },
+     {
+      "epoch": "Epoch 2 - Windows slice I: wrapper, events, ledger",
+      "n": 3,
+      "halting": 0,
+      "step_records": 114,
+      "per_100_step_records": 2.6
+     },
+     {
+      "epoch": "Epoch 2b - Windows slice I b: events and ledger",
+      "n": 1,
+      "halting": 0,
+      "step_records": 171,
+      "per_100_step_records": 0.6
+     },
+     {
+      "epoch": "Epoch 3 - Windows slice II: driving verbs and live proof",
+      "n": 10,
+      "halting": 0,
+      "step_records": 345,
+      "per_100_step_records": 2.9
+     },
+     {
+      "epoch": "Epoch 4 - Session state & governance",
+      "n": 0,
+      "halting": 0,
+      "step_records": 6,
+      "per_100_step_records": 0.0
+     }
+    ]
+   },
+   {
+    "type": "tooling.environmental",
+    "reading": "three epochs, no halt in any",
+    "per_epoch": [
+     {
+      "epoch": "Epoch 1 - Foundation",
+      "n": 0,
+      "halting": 0,
+      "step_records": 111,
+      "per_100_step_records": 0.0
+     },
+     {
+      "epoch": "Epoch 2 - Windows slice I: wrapper, events, ledger",
+      "n": 3,
+      "halting": 0,
+      "step_records": 114,
+      "per_100_step_records": 2.6
+     },
+     {
+      "epoch": "Epoch 2b - Windows slice I b: events and ledger",
+      "n": 2,
+      "halting": 0,
+      "step_records": 171,
+      "per_100_step_records": 1.2
+     },
+     {
+      "epoch": "Epoch 3 - Windows slice II: driving verbs and live proof",
+      "n": 4,
+      "halting": 0,
+      "step_records": 345,
+      "per_100_step_records": 1.2
+     },
+     {
+      "epoch": "Epoch 4 - Session state & governance",
+      "n": 0,
+      "halting": 0,
+      "step_records": 6,
+      "per_100_step_records": 0.0
+     }
+    ]
+   },
+   {
+    "type": "tooling.result-not-run-stable",
+    "reading": "all four epochs; the first halts are this epoch's three at the wrap gate; none recorded after 2026-10-06",
+    "per_epoch": [
+     {
+      "epoch": "Epoch 1 - Foundation",
+      "n": 1,
+      "halting": 0,
+      "step_records": 111,
+      "per_100_step_records": 0.9
+     },
+     {
+      "epoch": "Epoch 2 - Windows slice I: wrapper, events, ledger",
+      "n": 5,
+      "halting": 0,
+      "step_records": 114,
+      "per_100_step_records": 4.4
+     },
+     {
+      "epoch": "Epoch 2b - Windows slice I b: events and ledger",
+      "n": 2,
+      "halting": 0,
+      "step_records": 171,
+      "per_100_step_records": 1.2
+     },
+     {
+      "epoch": "Epoch 3 - Windows slice II: driving verbs and live proof",
+      "n": 7,
+      "halting": 3,
+      "step_records": 345,
+      "per_100_step_records": 2.0
+     },
+     {
+      "epoch": "Epoch 4 - Session state & governance",
+      "n": 0,
+      "halting": 0,
+      "step_records": 6,
+      "per_100_step_records": 0.0
+     }
+    ]
+   }
+  ],
+  "ok_degraded_by_epoch": [
+   {
+    "epoch": "Epoch 1 - Foundation",
+    "ok_degraded": 3,
+    "step_records": 111
+   },
+   {
+    "epoch": "Epoch 2 - Windows slice I: wrapper, events, ledger",
+    "ok_degraded": 3,
+    "step_records": 114
+   },
+   {
+    "epoch": "Epoch 2b - Windows slice I b: events and ledger",
+    "ok_degraded": 4,
+    "step_records": 171
+   },
+   {
+    "epoch": "Epoch 3 - Windows slice II: driving verbs and live proof",
+    "ok_degraded": 6,
+    "step_records": 345
+   },
+   {
+    "epoch": "Epoch 4 - Session state & governance",
+    "ok_degraded": 0,
+    "step_records": 6
+   }
+  ],
+  "deferred": {
+   "facts": [
+    {
+     "id": "2026-10-03T22:17:30Z-a#3",
+     "chunk": null,
+     "skill": "wrap-session",
+     "step": "route-resolve",
+     "nature": "process",
+     "solution": "deferred",
+     "note": "spec bodies naming WSL/pre-push stages left to :68's wrap (0-pending path applies no drift-derived amendment); host-win32.md routed to an /andromeda-setup-project re-run via the handoff"
+    },
+    {
+     "id": "2026-10-04T00:32:34Z-a#2",
+     "chunk": "2026-10-03-mutation-scoring-completion",
+     "skill": "implement",
+     "step": "fix-loop",
+     "nature": "environment",
+     "solution": "deferred",
+     "note": "rm -r of the 21 leaked /tmp/cargo-mutants-ws-*.tmp dirs (325 MB) was refused by the permission layer; left for the operator"
+    },
+    {
+     "id": "2026-10-04T14:49:33Z-a#3",
+     "chunk": "2026-10-04-dialog-answers-by-dialog-id",
+     "skill": "implement",
+     "step": "code",
+     "nature": "environment",
+     "solution": "deferred",
+     "note": "rm of fixtures/claude/2.1.288 and the stray recording home was refused by the permission layer; removal handed to the operator"
+    },
+    {
+     "id": "2026-10-04T16:55:25Z-a#0",
+     "chunk": "2026-10-04-dialog-answers-by-dialog-id",
+     "skill": "wrap-session",
+     "step": "report",
+     "nature": "resources",
+     "solution": "deferred",
+     "note": "context at 86.7%: the operator directed P1 only, P2-P7 resume in a fresh window from the run dir's resume point"
+    },
+    {
+     "id": "2026-10-04T18:27:23Z-a#1",
+     "chunk": "2026-10-04-the-wheel",
+     "skill": "implement",
+     "step": "code",
+     "nature": "product-logic",
+     "solution": "deferred",
+     "note": "source read predicts the Windows ^Z case red at the fake agent (its stdin is std's console read, which strips 0x1A); left for the windows-2025 CI measurement per the operator's measure-first word"
+    },
+    {
+     "id": "2026-10-04T21:19:16Z-a#0",
+     "chunk": "2026-10-04-the-wheel",
+     "skill": "wrap-session",
+     "step": "gates",
+     "nature": "product-logic",
+     "solution": "deferred",
+     "note": "light gate entry 16 red: the operator pass's 849588b added a std::env::var(CHILD_MODE) read in viola-pty's cfg(test) self-exec child; remedy (argv, guard unchanged) handed to an operator pass, wrap resumes at P7.1"
+    },
+    {
+     "id": "2026-10-06T20:41:30Z-a#1",
+     "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+     "skill": "implement",
+     "step": "fix-loop",
+     "nature": "process",
+     "solution": "deferred",
+     "note": "gate entries 12-19 and 21 were not fired: each boots a home stamped over the committed 2.1.287 set, which lacks the framing variants; they wait on the founder's decision about a second round"
+    },
+    {
+     "id": "2026-10-06T21:30:37Z-a#2",
+     "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+     "skill": "implement",
+     "step": "fix-loop",
+     "nature": "environment",
+     "solution": "deferred",
+     "note": "a test home kept by this run's AGENT_RUN_KEEP_FAILED red reading stays under target/e2e-home: its rm was refused by the permission layer and was not retried; reported for the operator"
+    },
+    {
+     "id": "2026-10-06T22:24:12Z-a#1",
+     "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+     "skill": "wrap-session",
+     "step": "gates",
+     "nature": "process",
+     "solution": "deferred",
+     "note": "the truncated-profile red of pre-push is pinned as a WATCH on the next markerless entry, 0 green runs so far; its mechanism is a hypothesis"
+    },
+    {
+     "id": "2026-10-08T05:28:57Z-a#0",
+     "chunk": "2026-10-08-first-live-test-and-self-drive",
+     "skill": "phase",
+     "step": "research",
+     "nature": "environment",
+     "solution": "deferred",
+     "note": "the fake-agent key probe could not move keyboard focus off the overseer window in four guarded runs, DPMS on and the window mapped in the last; on the operator's word it becomes implement step 0"
+    },
+    {
+     "id": "2026-10-08T07:41:13Z-d#1",
+     "chunk": "2026-10-08-first-live-test-and-self-drive",
+     "skill": "implement",
+     "step": "fix-loop",
+     "nature": "product-logic",
+     "solution": "deferred",
+     "note": "the fix of the stdin classifier is in src/run/wheel.rs, under the chunk's preservation guard: on the operator's word it is a plan revision through phase, in this chunk, with its own red-green case"
+    },
+    {
+     "id": "2026-10-08T08:28:44Z-a#1",
+     "chunk": "2026-10-08-first-live-test-and-self-drive",
+     "skill": "phase",
+     "step": "plan",
+     "nature": "process",
+     "solution": "deferred",
+     "note": "the founder's answer to the one question took about 32 minutes of a 3 hour bound on the standing compositor; the plan carries the bound as a stop rule (S9)"
+    }
+   ],
+   "reading": "every note names where the deferral went; three removals left for the operator have no closing record in the ledger; the signature does not fire"
+  },
+  "unresolved": [
+   {
+    "id": "2026-10-02T12:59:46Z-a#1",
+    "chunk": "2026-10-02-epoch-2b-cleanup",
+    "skill": "phase",
+    "step": "take-up",
+    "nature": "process",
+    "solution": "unresolved",
+    "note": "the take-up evolve playbook was read in the same parallel batch as the master-record write, before the promote call ran, against the checkpoint reading order; the promote itself was mechanical and unaffected"
+   },
+   {
+    "id": "2026-10-04T22:18:54Z-a#1",
+    "chunk": "2026-10-04-running-turn-refusal",
+    "skill": "implement",
+    "step": "fix-loop",
+    "nature": "process",
+    "solution": "unresolved",
+    "note": "plan entry 8 reads red on its green subject (pipefail + git grep exit 1); recorded for the wrap, plan not edited"
+   },
+   {
+    "id": "2026-10-05T09:45:14Z-a#0",
+    "chunk": "2026-10-05-real-cli-verify-probes",
+    "skill": "implement",
+    "step": "fix-loop",
+    "nature": "resources",
+    "solution": "unresolved",
+    "note": "the live cap (12) leaves 5 after entry 7; entry 7's re-run (3) plus entry 8 (3) is 13: STOP surfaced for the operator, entry 8 not fired"
+   },
+   {
+    "id": "2026-10-06T20:41:30Z-a#0",
+    "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+    "skill": "implement",
+    "step": "fix-loop",
+    "nature": "process",
+    "solution": "unresolved",
+    "note": "the record round on 2.1.287 was red: Run B pasted the probe prompt and the long text and then nothing, because its settle after the long-paste turn returned rows without the input-box literal; not retried, reported to the founder"
+   },
+   {
+    "id": "2026-10-06T21:30:37Z-a#0",
+    "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+    "skill": "implement",
+    "step": "fix-loop",
+    "nature": "environment",
+    "solution": "unresolved",
+    "note": "entries 16 and 18 read red in the first full block: every process-spawning test stalled about 18 s while another builder session's project linked 10.6 GB and 5.2 GB onto the same btrfs volume inside exactly those windows; no fix was possible in this tree, the same entries read green three times with no such write, and the exposure stays for the wrap to place"
+   },
+   {
+    "id": "2026-10-07T08:40:12Z-a#0",
+    "chunk": "2026-10-07-test-homes-off-the-contended-volume",
+    "skill": "wrap-session",
+    "step": "gates",
+    "nature": "process",
+    "solution": "unresolved",
+    "note": "this checkpoint's playbook was read while the light gate was still running, before the step it observes had completed, against the reading-order rule; the gate, the flip and the commit were already determined by the letter and ran as written"
+   },
+   {
+    "id": "2026-10-08T06:36:48Z-a#0",
+    "chunk": "2026-10-08-first-live-test-and-self-drive",
+    "skill": "implement",
+    "step": "code",
+    "nature": "environment",
+    "solution": "unresolved",
+    "note": "step 0: the desktop session is locked (hyprctl locked true, the shell lock held since 2026-10-07T19:39:15Z), so no window takes keyboard focus; no lever was taken past the lock, no key typed, 0 live starts; evidence/key-probe.md"
+   },
+   {
+    "id": "2026-10-08T06:44:48Z-a#0",
+    "chunk": "2026-10-08-first-live-test-and-self-drive",
+    "skill": "implement",
+    "step": "fix-loop",
+    "nature": "environment",
+    "solution": "unresolved",
+    "note": "the live round and the live run were not fired: step 0 cannot pass while the session is locked, and the lock question is with the founder"
+   },
+   {
+    "id": "2026-10-08T07:41:13Z-a#1",
+    "chunk": "2026-10-08-first-live-test-and-self-drive",
+    "skill": "implement",
+    "step": "code",
+    "nature": "product-logic",
+    "solution": "unresolved",
+    "note": "start 6 lost the wheel 237 ms after the child started (wheel human/human-input, no key typed): foot answers the CLI's queries on stdin and seven reply shapes are outside the classifier's closed list; the first send was refused exit 10 and steps 6 to 9 were not reached"
+   }
+  ]
+ }
+}

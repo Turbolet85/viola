@@ -1,0 +1,5 @@
+## 2026-10-09-t14-44-30-wrap — the real Windows terminal's mouse report cited by its route entry's title
+**Section:** §3 → Keyboard test harness (Tooling, the tui outer-PTY case)
+**Change:** the sentence that says where a real Windows terminal's mouse report is measured live names the working-route entry by its title, "Windows-only live measurements"; was the bare route number `:140`, which no longer named that entry's line (the entry stood at `:144` when this wrap began and stands at `:148` after its two head insertions). Nothing else in the contract moved: the injected report's reading (ci#37227518624) and the three boundary assertions are as they were.
+**Why:** a bare route number is not a citation the sweep follows, so every insertion above the entry stales it, and a title moves with nothing. The operator chose it in this wrap's route-adaptation dialogue (item 8 of the overseer's relay), from three options shown: by title, by the new number, or left. A precedent for the next bare route number met in master text, not a standing rule: the other bare numbers read at this wrap were left as they stand.
+**Ref:** .andromeda/runs/2026-10-09T14-44-30-wrap/

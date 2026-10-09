@@ -1,0 +1,32 @@
+# The three readings of the viola-e2e baseline timeout (F1), each the raw lines of its own log.
+
+## 1. this host, the unmutated baseline of `cargo mutants --package viola-e2e` (mutants-viola-e2e/mutants.out/log/baseline.log)
+START [         ] (212/258) viola-e2e::harness_lifecycle boot_with_an_unknown_cli_version_is_verify_failed
+SLOW [> 15.000s] (───────) viola-e2e::harness_lifecycle boot_with_an_unknown_cli_version_is_verify_failed
+TERMINATING [> 30.000s] (───────) viola-e2e::harness_lifecycle boot_with_an_unknown_cli_version_is_verify_failed
+TIMEOUT [  30.003s] (258/258) viola-e2e::harness_lifecycle boot_with_an_unknown_cli_version_is_verify_failed
+Summary [  30.433s] 258 tests run: 257 passed (1 slow), 1 timed out, 0 skipped
+TIMEOUT [  30.003s] (258/258) viola-e2e::harness_lifecycle boot_with_an_unknown_cli_version_is_verify_failed
+error: test run failed
+
+## 2. this host, the coverage command, profile ci (cov.log)
+SLOW [> 30.000s] (─────────) viola-e2e::harness_lifecycle boot_with_an_unknown_cli_version_is_verify_failed
+PASS [  34.477s] (1747/1747) viola-e2e::harness_lifecycle boot_with_an_unknown_cli_version_is_verify_failed
+Summary [  43.461s] 1747 tests run: 1747 passed (5 slow), 0 skipped
+
+## 3. the Windows runner, job mutants (viola-e2e) 113260250076 of run 37761947926
+2026-10-08T10:16:57.5075464Z        START [         ] (232/250) viola-e2e::harness_lifecycle boot_with_an_unknown_cli_version_is_verify_failed
+2026-10-08T10:16:57.5125095Z         SLOW [> 15.000s] (───────) viola-e2e::harness_lifecycle boot_with_an_unknown_cli_version_is_verify_failed
+2026-10-08T10:16:57.5127603Z  TERMINATING [> 30.000s] (───────) viola-e2e::harness_lifecycle boot_with_an_unknown_cli_version_is_verify_failed
+2026-10-08T10:16:57.5128625Z      TIMEOUT [  30.009s] (250/250) viola-e2e::harness_lifecycle boot_with_an_unknown_cli_version_is_verify_failed
+2026-10-08T10:16:57.5130279Z      Summary [  43.985s] 250 tests run: 249 passed (1 slow), 1 timed out, 0 skipped
+2026-10-08T10:16:57.5130852Z      TIMEOUT [  30.009s] (250/250) viola-e2e::harness_lifecycle boot_with_an_unknown_cli_version_is_verify_failed
+2026-10-08T10:16:57.5131847Z ERROR cargo test failed in an unmutated tree, so no mutants were tested
+
+## the report-only run with the test deselected, its baseline (mutants-viola-e2e-deselected/.../baseline.log)
+Summary [  20.638s] 257 tests run: 257 passed (1 slow), 1 skipped
+
+## the Windows `mutants (viola)` job 113260249970: baseline and the cancel
+2026-10-08T10:15:33.9411572Z Found 140 mutants to test
+2026-10-08T10:19:25.8351221Z ok       Unmutated baseline in 123s build + 104s test
+2026-10-08T12:12:58.5605603Z ##[error]The operation was canceled.

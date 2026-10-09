@@ -1,0 +1,433 @@
+{
+ "run": 37761947926,
+ "sha": "e304994ae0413c5cf5bf679a5b3d19abded0e472",
+ "jobs": {
+  "pty": {
+   "unit": "viola-pty",
+   "found": 89,
+   "graded": 89,
+   "tally": {
+    "caught": 70,
+    "unviable": 11,
+    "MISSED": 8
+   },
+   "harness_ok": false,
+   "harness_reason": null,
+   "linux_outcomes_complete": true
+  },
+  "channel": {
+   "unit": "viola-channel",
+   "found": 148,
+   "graded": 148,
+   "tally": {
+    "unviable": 17,
+    "caught": 127,
+    "MISSED": 4
+   },
+   "harness_ok": false,
+   "harness_reason": null,
+   "linux_outcomes_complete": true
+  },
+  "state": {
+   "unit": "viola-state",
+   "found": 159,
+   "graded": 159,
+   "tally": {
+    "MISSED": 18,
+    "caught": 130,
+    "unviable": 11
+   },
+   "harness_ok": false,
+   "harness_reason": null,
+   "linux_outcomes_complete": true
+  },
+  "agent-claude": {
+   "unit": "viola-agent-claude",
+   "found": 40,
+   "graded": 40,
+   "tally": {
+    "caught": 36,
+    "unviable": 4
+   },
+   "harness_ok": true,
+   "harness_reason": null,
+   "linux_outcomes_complete": true
+  },
+  "viola": {
+   "unit": "viola",
+   "found": 140,
+   "graded": 125,
+   "tally": {
+    "caught": 88,
+    "unviable": 24,
+    "MISSED": 13
+   },
+   "harness_ok": null,
+   "harness_reason": null,
+   "linux_outcomes_complete": true
+  },
+  "e2e": {
+   "unit": "viola-e2e",
+   "found": 68,
+   "graded": 0,
+   "tally": {},
+   "harness_ok": false,
+   "harness_reason": "mutants-exit-4",
+   "linux_outcomes_complete": false
+  }
+ },
+ "missed_total": 43,
+ "classes": {
+  "cfg twin: the Windows build excludes the span": 24,
+  "Windows-only body, missed on Windows": 11,
+  "shared body: missed on Windows, caught on Linux": 3,
+  "shared body: missed on both hosts": 1,
+  "excluded on both hosts": 4
+ },
+ "rows": [
+  {
+   "job": "pty",
+   "site": "crates/viola-pty/src/lib.rs:321:9",
+   "mutation": "replace HostTerminal::enter -> Option<Self> with None",
+   "windows_cover": "cfg(unix)",
+   "linux": "caught",
+   "class": "cfg twin: the Windows build excludes the span"
+  },
+  {
+   "job": "pty",
+   "site": "crates/viola-pty/src/lib.rs:321:9",
+   "mutation": "replace HostTerminal::enter -> Option<Self> with Some(Default::default())",
+   "windows_cover": "cfg(unix)",
+   "linux": "unviable",
+   "class": "cfg twin: the Windows build excludes the span"
+  },
+  {
+   "job": "pty",
+   "site": "crates/viola-pty/src/lib.rs:323:64",
+   "mutation": "replace != with == in HostTerminal::enter",
+   "windows_cover": "cfg(unix)",
+   "linux": "caught",
+   "class": "cfg twin: the Windows build excludes the span"
+  },
+  {
+   "job": "pty",
+   "site": "crates/viola-pty/src/lib.rs:328:71",
+   "mutation": "replace == with != in HostTerminal::enter",
+   "windows_cover": "cfg(unix)",
+   "linux": "caught",
+   "class": "cfg twin: the Windows build excludes the span"
+  },
+  {
+   "job": "pty",
+   "site": "crates/viola-pty/src/lib.rs:434:9",
+   "mutation": "replace console::is_console -> bool with true",
+   "windows_cover": null,
+   "linux": "not measured on Linux: cfg(windows)",
+   "class": "Windows-only body, missed on Windows"
+  },
+  {
+   "job": "pty",
+   "site": "crates/viola-pty/src/lib.rs:434:9",
+   "mutation": "replace console::is_console -> bool with false",
+   "windows_cover": null,
+   "linux": "not measured on Linux: cfg(windows)",
+   "class": "Windows-only body, missed on Windows"
+  },
+  {
+   "job": "pty",
+   "site": "crates/viola-pty/src/lib.rs:436:76",
+   "mutation": "replace != with == in console::is_console",
+   "windows_cover": null,
+   "linux": "not measured on Linux: cfg(windows)",
+   "class": "Windows-only body, missed on Windows"
+  },
+  {
+   "job": "pty",
+   "site": "crates/viola-pty/src/lib.rs:487:76",
+   "mutation": "replace != with == in host_size",
+   "windows_cover": "cfg(unix)",
+   "linux": "caught",
+   "class": "cfg twin: the Windows build excludes the span"
+  },
+  {
+   "job": "channel",
+   "site": "crates/viola-channel/src/client.rs:272:5",
+   "mutation": "replace open_by -> io::Result<Stream> with Ok(Default::default())",
+   "windows_cover": "cfg(unix)",
+   "linux": "unviable",
+   "class": "cfg twin: the Windows build excludes the span"
+  },
+  {
+   "job": "channel",
+   "site": "crates/viola-channel/src/endpoint.rs:76:5",
+   "mutation": "replace host_socket_dir -> PathBuf with Default::default()",
+   "windows_cover": "cfg(unix)",
+   "linux": "caught",
+   "class": "cfg twin: the Windows build excludes the span"
+  },
+  {
+   "job": "channel",
+   "site": "crates/viola-channel/src/server.rs:91:9",
+   "mutation": "replace <impl Drop for Guard>::drop with ()",
+   "windows_cover": "cfg(unix)",
+   "linux": "caught",
+   "class": "cfg twin: the Windows build excludes the span"
+  },
+  {
+   "job": "channel",
+   "site": "crates/viola-channel/src/server.rs:124:5",
+   "mutation": "replace listen -> Result<(Listener, Guard), ChannelError> with Ok((Default::default(), Default::default()))",
+   "windows_cover": "cfg(unix)",
+   "linux": "unviable",
+   "class": "cfg twin: the Windows build excludes the span"
+  },
+  {
+   "job": "state",
+   "site": "crates/viola-state/src/fs.rs:18:5",
+   "mutation": "replace restrict -> io::Result<()> with Ok(())",
+   "windows_cover": null,
+   "linux": "caught",
+   "class": "shared body: missed on Windows, caught on Linux"
+  },
+  {
+   "job": "state",
+   "site": "crates/viola-state/src/fs.rs:161:47",
+   "mutation": "replace | with ^ in win::protect",
+   "windows_cover": null,
+   "linux": "not measured on Linux: cfg(windows)",
+   "class": "Windows-only body, missed on Windows"
+  },
+  {
+   "job": "state",
+   "site": "crates/viola-state/src/fs.rs:187:13",
+   "mutation": "replace || with && in win::dacl_of",
+   "windows_cover": null,
+   "linux": "not measured on Linux: cfg(windows)",
+   "class": "Windows-only body, missed on Windows"
+  },
+  {
+   "job": "state",
+   "site": "crates/viola-state/src/fs.rs:186:13",
+   "mutation": "replace || with && in win::dacl_of",
+   "windows_cover": null,
+   "linux": "not measured on Linux: cfg(windows)",
+   "class": "Windows-only body, missed on Windows"
+  },
+  {
+   "job": "state",
+   "site": "crates/viola-state/src/strict.rs:30:5",
+   "mutation": "replace check_stamps -> Result<(), Refused> with Ok(())",
+   "windows_cover": null,
+   "linux": "caught",
+   "class": "shared body: missed on Windows, caught on Linux"
+  },
+  {
+   "job": "state",
+   "site": "crates/viola-state/src/strict.rs:34:23",
+   "mutation": "replace match guard e.kind() == io::ErrorKind::NotFound with true in check_stamps",
+   "windows_cover": null,
+   "linux": "missed",
+   "class": "shared body: missed on both hosts"
+  },
+  {
+   "job": "state",
+   "site": "crates/viola-state/src/strict.rs:43:5",
+   "mutation": "replace check_path -> Result<(), Refused> with Ok(())",
+   "windows_cover": null,
+   "linux": "caught",
+   "class": "shared body: missed on Windows, caught on Linux"
+  },
+  {
+   "job": "state",
+   "site": "crates/viola-state/src/strict.rs:120:9",
+   "mutation": "replace unix::reading -> io::Result<(u32, u32)> with Ok((0, 0))",
+   "windows_cover": "cfg(unix)",
+   "linux": "caught",
+   "class": "cfg twin: the Windows build excludes the span"
+  },
+  {
+   "job": "state",
+   "site": "crates/viola-state/src/strict.rs:120:9",
+   "mutation": "replace unix::reading -> io::Result<(u32, u32)> with Ok((0, 1))",
+   "windows_cover": "cfg(unix)",
+   "linux": "caught",
+   "class": "cfg twin: the Windows build excludes the span"
+  },
+  {
+   "job": "state",
+   "site": "crates/viola-state/src/strict.rs:120:9",
+   "mutation": "replace unix::reading -> io::Result<(u32, u32)> with Ok((1, 0))",
+   "windows_cover": "cfg(unix)",
+   "linux": "caught",
+   "class": "cfg twin: the Windows build excludes the span"
+  },
+  {
+   "job": "state",
+   "site": "crates/viola-state/src/strict.rs:120:9",
+   "mutation": "replace unix::reading -> io::Result<(u32, u32)> with Ok((1, 1))",
+   "windows_cover": "cfg(unix)",
+   "linux": "caught",
+   "class": "cfg twin: the Windows build excludes the span"
+  },
+  {
+   "job": "state",
+   "site": "crates/viola-state/src/strict.rs:126:9",
+   "mutation": "replace unix::euid -> u32 with 0",
+   "windows_cover": "cfg(unix)",
+   "linux": "caught",
+   "class": "cfg twin: the Windows build excludes the span"
+  },
+  {
+   "job": "state",
+   "site": "crates/viola-state/src/strict.rs:126:9",
+   "mutation": "replace unix::euid -> u32 with 1",
+   "windows_cover": "cfg(unix)",
+   "linux": "caught",
+   "class": "cfg twin: the Windows build excludes the span"
+  },
+  {
+   "job": "state",
+   "site": "crates/viola-state/src/strict.rs:163:9",
+   "mutation": "replace win::check -> Result<(), Refused> with Ok(())",
+   "windows_cover": null,
+   "linux": "not measured on Linux: cfg(windows)",
+   "class": "Windows-only body, missed on Windows"
+  },
+  {
+   "job": "state",
+   "site": "crates/viola-state/src/strict.rs:170:9",
+   "mutation": "replace win::persistent_acls -> Option<bool> with Some(true)",
+   "windows_cover": null,
+   "linux": "not measured on Linux: cfg(windows)",
+   "class": "Windows-only body, missed on Windows"
+  },
+  {
+   "job": "state",
+   "site": "crates/viola-state/src/strict.rs:192:37",
+   "mutation": "replace & with | in win::persistent_acls",
+   "windows_cover": null,
+   "linux": "not measured on Linux: cfg(windows)",
+   "class": "Windows-only body, missed on Windows"
+  },
+  {
+   "job": "state",
+   "site": "crates/viola-state/src/strict.rs:192:37",
+   "mutation": "replace & with ^ in win::persistent_acls",
+   "windows_cover": null,
+   "linux": "not measured on Linux: cfg(windows)",
+   "class": "Windows-only body, missed on Windows"
+  },
+  {
+   "job": "state",
+   "site": "crates/viola-state/src/strict.rs:207:44",
+   "mutation": "replace | with ^ in win::owner_and_dacl",
+   "windows_cover": null,
+   "linux": "not measured on Linux: cfg(windows)",
+   "class": "Windows-only body, missed on Windows"
+  },
+  {
+   "job": "viola",
+   "site": "src/panic_frames.rs:69:5",
+   "mutation": "replace raw_frames -> Vec<usize> with vec![]",
+   "windows_cover": "cfg(unix)",
+   "linux": "caught",
+   "class": "cfg twin: the Windows build excludes the span"
+  },
+  {
+   "job": "viola",
+   "site": "src/panic_frames.rs:69:5",
+   "mutation": "replace raw_frames -> Vec<usize> with vec![0]",
+   "windows_cover": "cfg(unix)",
+   "linux": "caught",
+   "class": "cfg twin: the Windows build excludes the span"
+  },
+  {
+   "job": "viola",
+   "site": "src/panic_frames.rs:69:5",
+   "mutation": "replace raw_frames -> Vec<usize> with vec![1]",
+   "windows_cover": "cfg(unix)",
+   "linux": "caught",
+   "class": "cfg twin: the Windows build excludes the span"
+  },
+  {
+   "job": "viola",
+   "site": "src/panic_frames.rs:80:5",
+   "mutation": "replace module_of -> Option<(String, usize)> with None",
+   "windows_cover": "cfg(unix)",
+   "linux": "caught",
+   "class": "cfg twin: the Windows build excludes the span"
+  },
+  {
+   "job": "viola",
+   "site": "src/panic_frames.rs:80:5",
+   "mutation": "replace module_of -> Option<(String, usize)> with Some((String::new(), 0))",
+   "windows_cover": "cfg(unix)",
+   "linux": "caught",
+   "class": "cfg twin: the Windows build excludes the span"
+  },
+  {
+   "job": "viola",
+   "site": "src/panic_frames.rs:80:5",
+   "mutation": "replace module_of -> Option<(String, usize)> with Some((String::new(), 1))",
+   "windows_cover": "cfg(unix)",
+   "linux": "caught",
+   "class": "cfg twin: the Windows build excludes the span"
+  },
+  {
+   "job": "viola",
+   "site": "src/panic_frames.rs:80:5",
+   "mutation": "replace module_of -> Option<(String, usize)> with Some((\"xyzzy\".into(), 0))",
+   "windows_cover": "cfg(unix)",
+   "linux": "caught",
+   "class": "cfg twin: the Windows build excludes the span"
+  },
+  {
+   "job": "viola",
+   "site": "src/panic_frames.rs:80:5",
+   "mutation": "replace module_of -> Option<(String, usize)> with Some((\"xyzzy\".into(), 1))",
+   "windows_cover": "cfg(unix)",
+   "linux": "caught",
+   "class": "cfg twin: the Windows build excludes the span"
+  },
+  {
+   "job": "viola",
+   "site": "src/panic_frames.rs:82:77",
+   "mutation": "replace == with != in module_of",
+   "windows_cover": "cfg(unix)",
+   "linux": "caught",
+   "class": "cfg twin: the Windows build excludes the span"
+  },
+  {
+   "job": "viola",
+   "site": "src/cmd/run.rs:385:5",
+   "mutation": "replace sideload_outcome -> (&'static str, Option<viola_state::pin::HeldCompanions>) with (\"\", None)",
+   "windows_cover": "cfg(all(windows, not(target_arch = \"x86_64\")))",
+   "linux": "not measured on Linux: cfg(all(windows, not(target_arch = \"x86_64\")))",
+   "class": "excluded on both hosts"
+  },
+  {
+   "job": "viola",
+   "site": "src/cmd/run.rs:385:5",
+   "mutation": "replace sideload_outcome -> (&'static str, Option<viola_state::pin::HeldCompanions>) with (\"\", Some(Default::default()))",
+   "windows_cover": "cfg(all(windows, not(target_arch = \"x86_64\")))",
+   "linux": "not measured on Linux: cfg(all(windows, not(target_arch = \"x86_64\")))",
+   "class": "excluded on both hosts"
+  },
+  {
+   "job": "viola",
+   "site": "src/cmd/run.rs:385:5",
+   "mutation": "replace sideload_outcome -> (&'static str, Option<viola_state::pin::HeldCompanions>) with (\"xyzzy\", None)",
+   "windows_cover": "cfg(all(windows, not(target_arch = \"x86_64\")))",
+   "linux": "not measured on Linux: cfg(all(windows, not(target_arch = \"x86_64\")))",
+   "class": "excluded on both hosts"
+  },
+  {
+   "job": "viola",
+   "site": "src/cmd/run.rs:385:5",
+   "mutation": "replace sideload_outcome -> (&'static str, Option<viola_state::pin::HeldCompanions>) with (\"xyzzy\", Some(Default::default()))",
+   "windows_cover": "cfg(all(windows, not(target_arch = \"x86_64\")))",
+   "linux": "not measured on Linux: cfg(all(windows, not(target_arch = \"x86_64\")))",
+   "class": "excluded on both hosts"
+  }
+ ]
+}

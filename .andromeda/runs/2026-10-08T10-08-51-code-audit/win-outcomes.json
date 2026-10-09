@@ -1,0 +1,2476 @@
+{
+"pty": {
+"found": "Found 89 mutants to test",
+"tally": {
+"caught": 70,
+"unviable": 11,
+"MISSED": 8
+},
+"outcome_lines": 89,
+"unique_names": 89,
+"first_ts": "2026-10-08T10:12:37.8548267Z",
+"last_ts": "2026-10-08T10:25:08.1604707Z",
+"doc": {
+"v": 1,
+"cmd": "run",
+"ok": false,
+"suites": [
+{
+"suite": "mutants",
+"passed": 70,
+"failed": 8,
+"skipped": 0,
+"survived": 8,
+"artifact": "mutants.out/outcomes.json",
+"failures": [
+"crates/viola-pty/src/lib.rs:321:9: replace HostTerminal::enter -> Option<Self> with None",
+"crates/viola-pty/src/lib.rs:321:9: replace HostTerminal::enter -> Option<Self> with Some(Default::default())",
+"crates/viola-pty/src/lib.rs:323:64: replace != with == in HostTerminal::enter",
+"crates/viola-pty/src/lib.rs:328:71: replace == with != in HostTerminal::enter",
+"crates/viola-pty/src/lib.rs:434:9: replace console::is_console -> bool with true",
+"crates/viola-pty/src/lib.rs:434:9: replace console::is_console -> bool with false",
+"crates/viola-pty/src/lib.rs:436:76: replace != with == in console::is_console",
+"crates/viola-pty/src/lib.rs:487:76: replace != with == in host_size"
+]
+}
+],
+"mutants": {
+"tested": 89,
+"verdict": "package",
+"package": "viola-pty",
+"files": [
+"crates/viola-pty/src/lib.rs",
+"crates/viola-pty/src/sideload.rs"
+],
+"scratch_bytes": 0
+},
+"archived": "target/run-archive/1"
+},
+"rows": [
+[
+"caught",
+"crates/viola-pty/src/lib.rs:26:5: replace pty_backend -> &'static str with \"\""
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:26:5: replace pty_backend -> &'static str with \"xyzzy\""
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:62:9: replace ExitSource::as_str -> &'static str with \"\""
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:62:9: replace ExitSource::as_str -> &'static str with \"xyzzy\""
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:94:9: replace <impl fmt::Display for PtyError>::fmt -> fmt::Result with Ok(Default::default())"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:110:9: replace <impl std::error::Error for PtyError>::source -> Option<&(dyn std::error::Error +'static)> with None"
+],
+[
+"unviable",
+"crates/viola-pty/src/lib.rs:110:9: replace <impl std::error::Error for PtyError>::source -> Option<&(dyn std::error::Error +'static)> with Some(Box::leak(Box::new(Default::default())))"
+],
+[
+"unviable",
+"crates/viola-pty/src/lib.rs:145:5: replace spawn -> Result<PortablePty, PtyError> with Ok(Default::default())"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:169:5: replace pty_size -> PtySize with Default::default()"
+],
+[
+"unviable",
+"crates/viola-pty/src/lib.rs:178:5: replace closed -> PtyError with Default::default()"
+],
+[
+"unviable",
+"crates/viola-pty/src/lib.rs:183:9: replace PortablePty::master -> Result<&(dyn MasterPty +Send), PtyError> with Ok(Box::leak(Box::new(Default::default())))"
+],
+[
+"unviable",
+"crates/viola-pty/src/lib.rs:189:9: replace <impl Pty for PortablePty>::reader -> Result<Box<dyn Read +Send>, PtyError> with Ok(Box::new(Default::default()))"
+],
+[
+"unviable",
+"crates/viola-pty/src/lib.rs:195:9: replace <impl Pty for PortablePty>::writer -> Result<Box<dyn Write +Send>, PtyError> with Ok(Box::new(Default::default()))"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:202:9: replace <impl Pty for PortablePty>::resize -> Result<(), PtyError> with Ok(())"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:208:9: replace <impl Pty for PortablePty>::try_wait -> Result<Option<u32>, PtyError> with Ok(None)"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:208:9: replace <impl Pty for PortablePty>::try_wait -> Result<Option<u32>, PtyError> with Ok(Some(0))"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:208:9: replace <impl Pty for PortablePty>::try_wait -> Result<Option<u32>, PtyError> with Ok(Some(1))"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:216:9: replace <impl Pty for PortablePty>::kill -> Result<(), PtyError> with Ok(())"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:229:9: replace <impl Pty for PortablePty>::close with ()"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:233:9: replace <impl Pty for PortablePty>::child_pid -> Option<u32> with None"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:233:9: replace <impl Pty for PortablePty>::child_pid -> Option<u32> with Some(0)"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:233:9: replace <impl Pty for PortablePty>::child_pid -> Option<u32> with Some(1)"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:240:5: replace terminate -> bool with true"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:240:5: replace terminate -> bool with false"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:248:46: replace != with == in terminate"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:264:5: replace raw_input_mode -> u32 with 0"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:264:5: replace raw_input_mode -> u32 with 1"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:264:28: replace | with & in raw_input_mode"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:264:28: replace | with ^ in raw_input_mode"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:264:11: replace & with | in raw_input_mode"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:264:11: replace & with ^ in raw_input_mode"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:264:13: delete ! in raw_input_mode"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:269:5: replace vt_output_mode -> u32 with 0"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:269:5: replace vt_output_mode -> u32 with 1"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:269:10: replace | with & in vt_output_mode"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:269:10: replace | with ^ in vt_output_mode"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:274:5: replace size_from_window -> Option<Size> with None"
+],
+[
+"unviable",
+"crates/viola-pty/src/lib.rs:274:5: replace size_from_window -> Option<Size> with Some(Default::default())"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:274:65: replace + with - in size_from_window"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:274:65: replace + with * in size_from_window"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:274:47: replace - with + in size_from_window"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:274:47: replace - with / in size_from_window"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:275:65: replace + with - in size_from_window"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:275:65: replace + with * in size_from_window"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:275:48: replace - with + in size_from_window"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:275:48: replace - with / in size_from_window"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:281:5: replace nonzero_size -> Option<Size> with None"
+],
+[
+"unviable",
+"crates/viola-pty/src/lib.rs:281:5: replace nonzero_size -> Option<Size> with Some(Default::default())"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:281:15: replace && with || in nonzero_size"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:281:11: replace > with == in nonzero_size"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:281:11: replace > with < in nonzero_size"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:281:11: replace > with >= in nonzero_size"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:281:23: replace > with == in nonzero_size"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:281:23: replace > with < in nonzero_size"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:281:23: replace > with >= in nonzero_size"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:296:9: replace HostTerminal::enter -> Option<Self> with None"
+],
+[
+"unviable",
+"crates/viola-pty/src/lib.rs:296:9: replace HostTerminal::enter -> Option<Self> with Some(Default::default())"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:310:59: replace && with || in HostTerminal::enter"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:310:54: replace != with == in HostTerminal::enter"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:310:95: replace != with == in HostTerminal::enter"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:315:10: delete ! in HostTerminal::enter"
+],
+[
+"MISSED",
+"crates/viola-pty/src/lib.rs:321:9: replace HostTerminal::enter -> Option<Self> with None"
+],
+[
+"MISSED",
+"crates/viola-pty/src/lib.rs:321:9: replace HostTerminal::enter -> Option<Self> with Some(Default::default())"
+],
+[
+"MISSED",
+"crates/viola-pty/src/lib.rs:323:64: replace != with == in HostTerminal::enter"
+],
+[
+"MISSED",
+"crates/viola-pty/src/lib.rs:328:71: replace == with != in HostTerminal::enter"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:336:9: replace <impl Drop for HostTerminal>::drop with ()"
+],
+[
+"unviable",
+"crates/viola-pty/src/lib.rs:356:5: replace host_stdin -> Box<dyn Read +Send> with Box::new(Default::default())"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:394:5: replace decode_units with ()"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:410:9: replace <impl Read for ConsoleInput<S>>::read -> io::Result<usize> with Ok(0)"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:410:9: replace <impl Read for ConsoleInput<S>>::read -> io::Result<usize> with Ok(1)"
+],
+[
+"MISSED",
+"crates/viola-pty/src/lib.rs:434:9: replace console::is_console -> bool with true"
+],
+[
+"MISSED",
+"crates/viola-pty/src/lib.rs:434:9: replace console::is_console -> bool with false"
+],
+[
+"MISSED",
+"crates/viola-pty/src/lib.rs:436:76: replace != with == in console::is_console"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:444:13: replace console::<impl super::Utf16Source for Console>::read_units -> io::Result<usize> with Ok(0)"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:444:13: replace console::<impl super::Utf16Source for Console>::read_units -> io::Result<usize> with Ok(1)"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:457:19: replace == with != in console::<impl super::Utf16Source for Console>::read_units"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:467:5: replace host_size -> Option<Size> with None"
+],
+[
+"unviable",
+"crates/viola-pty/src/lib.rs:467:5: replace host_size -> Option<Size> with Some(Default::default())"
+],
+[
+"caught",
+"crates/viola-pty/src/lib.rs:475:87: replace == with != in host_size"
+],
+[
+"MISSED",
+"crates/viola-pty/src/lib.rs:487:76: replace != with == in host_size"
+],
+[
+"caught",
+"crates/viola-pty/src/sideload.rs:25:5: replace restrict_dll_search -> bool with true"
+],
+[
+"caught",
+"crates/viola-pty/src/sideload.rs:25:5: replace restrict_dll_search -> bool with false"
+],
+[
+"caught",
+"crates/viola-pty/src/sideload.rs:25:86: replace != with == in restrict_dll_search"
+],
+[
+"caught",
+"crates/viola-pty/src/sideload.rs:34:5: replace search_restricted -> bool with true"
+],
+[
+"caught",
+"crates/viola-pty/src/sideload.rs:34:5: replace search_restricted -> bool with false"
+],
+[
+"caught",
+"crates/viola-pty/src/sideload.rs:41:5: replace preload -> Result<(), PtyError> with Ok(())"
+],
+[
+"caught",
+"crates/viola-pty/src/sideload.rs:41:8: delete ! in preload"
+],
+[
+"caught",
+"crates/viola-pty/src/sideload.rs:58:5: replace preloaded -> bool with true"
+],
+[
+"caught",
+"crates/viola-pty/src/sideload.rs:58:5: replace preloaded -> bool with false"
+]
+]
+},
+"channel": {
+"found": "Found 148 mutants to test",
+"tally": {
+"unviable": 17,
+"caught": 127,
+"MISSED": 4
+},
+"outcome_lines": 148,
+"unique_names": 148,
+"first_ts": "2026-10-08T10:12:36.7955677Z",
+"last_ts": "2026-10-08T10:21:54.1718516Z",
+"doc": {
+"v": 1,
+"cmd": "run",
+"ok": false,
+"suites": [
+{
+"suite": "mutants",
+"passed": 127,
+"failed": 4,
+"skipped": 0,
+"survived": 4,
+"artifact": "mutants.out/outcomes.json",
+"failures": [
+"crates/viola-channel/src/client.rs:272:5: replace open_by -> io::Result<Stream> with Ok(Default::default())",
+"crates/viola-channel/src/endpoint.rs:76:5: replace host_socket_dir -> PathBuf with Default::default()",
+"crates/viola-channel/src/server.rs:91:9: replace <impl Drop for Guard>::drop with ()",
+"crates/viola-channel/src/server.rs:124:5: replace listen -> Result<(Listener, Guard), ChannelError> with Ok((Default::default(), Default::default()))"
+]
+}
+],
+"mutants": {
+"tested": 148,
+"verdict": "package",
+"package": "viola-channel",
+"files": [
+"crates/viola-channel/src/client.rs",
+"crates/viola-channel/src/endpoint.rs",
+"crates/viola-channel/src/server.rs",
+"crates/viola-channel/src/server/win.rs",
+"crates/viola-channel/src/test_support.rs"
+],
+"scratch_bytes": 0
+},
+"archived": "target/run-archive/1"
+},
+"rows": [
+[
+"unviable",
+"crates/viola-channel/src/client.rs:34:9: replace Client::connect -> Result<Self, ChannelError> with Ok(Default::default())"
+],
+[
+"unviable",
+"crates/viola-channel/src/client.rs:43:9: replace Client::connect_by -> Result<Self, ChannelError> with Ok(Default::default())"
+],
+[
+"caught",
+"crates/viola-channel/src/client.rs:44:61: replace + with - in Client::connect_by"
+],
+[
+"caught",
+"crates/viola-channel/src/client.rs:44:61: replace + with * in Client::connect_by"
+],
+[
+"caught",
+"crates/viola-channel/src/client.rs:55:9: replace Client::conn -> &str with \"\""
+],
+[
+"caught",
+"crates/viola-channel/src/client.rs:55:9: replace Client::conn -> &str with \"xyzzy\""
+],
+[
+"caught",
+"crates/viola-channel/src/client.rs:65:9: replace Client::request -> Result<Value, ChannelError> with Ok(Default::default())"
+],
+[
+"caught",
+"crates/viola-channel/src/client.rs:67:22: replace += with -= in Client::request"
+],
+[
+"caught",
+"crates/viola-channel/src/client.rs:67:22: replace += with *= in Client::request"
+],
+[
+"caught",
+"crates/viola-channel/src/client.rs:111:9: replace Client::request_until -> Result<Value, ChannelError> with Ok(Default::default())"
+],
+[
+"caught",
+"crates/viola-channel/src/client.rs:132:9: replace Client::notify -> Result<(), ChannelError> with Ok(())"
+],
+[
+"caught",
+"crates/viola-channel/src/client.rs:152:5: replace unreachable_outcome -> Option<&'static str> with None"
+],
+[
+"caught",
+"crates/viola-channel/src/client.rs:152:5: replace unreachable_outcome -> Option<&'static str> with Some(\"\")"
+],
+[
+"caught",
+"crates/viola-channel/src/client.rs:152:5: replace unreachable_outcome -> Option<&'static str> with Some(\"xyzzy\")"
+],
+[
+"caught",
+"crates/viola-channel/src/client.rs:153:29: replace && with || in unreachable_outcome"
+],
+[
+"caught",
+"crates/viola-channel/src/client.rs:153:13: replace == with != in unreachable_outcome"
+],
+[
+"unviable",
+"crates/viola-channel/src/client.rs:158:5: replace reply_class -> Class with Default::default()"
+],
+[
+"caught",
+"crates/viola-channel/src/client.rs:165:5: replace fault_of -> Option<ProtocolError> with None"
+],
+[
+"unviable",
+"crates/viola-channel/src/client.rs:165:5: replace fault_of -> Option<ProtocolError> with Some(Default::default())"
+],
+[
+"caught",
+"crates/viola-channel/src/client.rs:173:32: replace == with != in fault_of"
+],
+[
+"caught",
+"crates/viola-channel/src/client.rs:177:5: replace t0_ms -> u128 with 0"
+],
+[
+"caught",
+"crates/viola-channel/src/client.rs:177:5: replace t0_ms -> u128 with 1"
+],
+[
+"caught",
+"crates/viola-channel/src/client.rs:204:5: replace retry_busy -> bool with true"
+],
+[
+"caught",
+"crates/viola-channel/src/client.rs:204:5: replace retry_busy -> bool with false"
+],
+[
+"caught",
+"crates/viola-channel/src/client.rs:204:45: replace && with || in retry_busy"
+],
+[
+"caught",
+"crates/viola-channel/src/client.rs:204:26: replace == with != in retry_busy"
+],
+[
+"caught",
+"crates/viola-channel/src/client.rs:204:52: replace < with == in retry_busy"
+],
+[
+"caught",
+"crates/viola-channel/src/client.rs:204:52: replace < with > in retry_busy"
+],
+[
+"caught",
+"crates/viola-channel/src/client.rs:204:52: replace < with <= in retry_busy"
+],
+[
+"unviable",
+"crates/viola-channel/src/client.rs:212:5: replace busy_deadline -> Instant with Default::default()"
+],
+[
+"caught",
+"crates/viola-channel/src/client.rs:212:11: replace + with - in busy_deadline"
+],
+[
+"unviable",
+"crates/viola-channel/src/client.rs:212:11: replace + with * in busy_deadline"
+],
+[
+"unviable",
+"crates/viola-channel/src/client.rs:218:5: replace open -> io::Result<Stream> with Ok(Default::default())"
+],
+[
+"unviable",
+"crates/viola-channel/src/client.rs:223:5: replace open_by -> io::Result<Stream> with Ok(Default::default())"
+],
+[
+"caught",
+"crates/viola-channel/src/client.rs:252:19: replace != with == in open_by"
+],
+[
+"caught",
+"crates/viola-channel/src/client.rs:256:12: delete ! in open_by"
+],
+[
+"MISSED",
+"crates/viola-channel/src/client.rs:272:5: replace open_by -> io::Result<Stream> with Ok(Default::default())"
+],
+[
+"caught",
+"crates/viola-channel/src/endpoint.rs:24:5: replace fnv1a -> u64 with 0"
+],
+[
+"caught",
+"crates/viola-channel/src/endpoint.rs:24:5: replace fnv1a -> u64 with 1"
+],
+[
+"caught",
+"crates/viola-channel/src/endpoint.rs:25:15: replace ^ with | in fnv1a"
+],
+[
+"caught",
+"crates/viola-channel/src/endpoint.rs:25:15: replace ^ with & in fnv1a"
+],
+[
+"caught",
+"crates/viola-channel/src/endpoint.rs:32:5: replace endpoint_name -> Result<String, ChannelError> with Ok(String::new())"
+],
+[
+"caught",
+"crates/viola-channel/src/endpoint.rs:32:5: replace endpoint_name -> Result<String, ChannelError> with Ok(\"xyzzy\".into())"
+],
+[
+"caught",
+"crates/viola-channel/src/endpoint.rs:42:5: replace socket_dir -> PathBuf with Default::default()"
+],
+[
+"caught",
+"crates/viola-channel/src/endpoint.rs:43:9: delete match arm (false, Some(xdg), _) in socket_dir"
+],
+[
+"caught",
+"crates/viola-channel/src/endpoint.rs:44:9: delete match arm (true, _, Some(tmpdir)) in socket_dir"
+],
+[
+"caught",
+"crates/viola-channel/src/endpoint.rs:50:5: replace absolute -> Option<&OsStr> with None"
+],
+[
+"unviable",
+"crates/viola-channel/src/endpoint.rs:50:5: replace absolute -> Option<&OsStr> with Some(Box::leak(Box::new(Default::default())))"
+],
+[
+"caught",
+"crates/viola-channel/src/endpoint.rs:50:51: replace == with != in absolute"
+],
+[
+"caught",
+"crates/viola-channel/src/endpoint.rs:56:5: replace endpoint_path -> Result<String, ChannelError> with Ok(String::new())"
+],
+[
+"caught",
+"crates/viola-channel/src/endpoint.rs:56:5: replace endpoint_path -> Result<String, ChannelError> with Ok(\"xyzzy\".into())"
+],
+[
+"MISSED",
+"crates/viola-channel/src/endpoint.rs:76:5: replace host_socket_dir -> PathBuf with Default::default()"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:33:9: replace Dispatch::dispatch_call -> Result<Value, ProtocolError> with Ok(Default::default())"
+],
+[
+"unviable",
+"crates/viola-channel/src/server.rs:63:9: replace Server::bind -> Result<Self, ChannelError> with Ok(Default::default())"
+],
+[
+"unviable",
+"crates/viola-channel/src/server.rs:69:9: replace Server::serve -> Serving with Default::default()"
+],
+[
+"MISSED",
+"crates/viola-channel/src/server.rs:91:9: replace <impl Drop for Guard>::drop with ()"
+],
+[
+"unviable",
+"crates/viola-channel/src/server.rs:99:5: replace listen -> Result<(Listener, Guard), ChannelError> with Ok((Default::default(), Default::default()))"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:110:25: replace == with != in listen"
+],
+[
+"MISSED",
+"crates/viola-channel/src/server.rs:124:5: replace listen -> Result<(Listener, Guard), ChannelError> with Ok((Default::default(), Default::default()))"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:163:5: replace accept_loop with ()"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:175:5: replace serve_conn with ()"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:186:60: replace || with && in serve_conn"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:199:5: replace answer -> Option<Reply> with None"
+],
+[
+"unviable",
+"crates/viola-channel/src/server.rs:199:5: replace answer -> Option<Reply> with Some(Default::default())"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:220:29: replace && with || in answer"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:220:39: replace != with == in answer"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:242:29: replace == with != in answer"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:256:5: replace dispatched -> Result<Value, ProtocolError> with Ok(Default::default())"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:256:17: replace > with == in dispatched"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:256:17: replace > with < in dispatched"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:256:17: replace > with >= in dispatched"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:272:5: replace reject_frame with ()"
+],
+[
+"unviable",
+"crates/viola-channel/src/server.rs:282:5: replace refuse_oversize -> Reply with Default::default()"
+],
+[
+"unviable",
+"crates/viola-channel/src/server.rs:301:9: replace Peer<'a>::of -> Self with Default::default()"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:308:9: replace Peer<'a>::conn -> Option<&'a str> with None"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:308:9: replace Peer<'a>::conn -> Option<&'a str> with Some(\"\")"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:308:9: replace Peer<'a>::conn -> Option<&'a str> with Some(\"xyzzy\")"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:315:9: replace Peer<'a>::srv_conn -> Option<&'a str> with None"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:315:9: replace Peer<'a>::srv_conn -> Option<&'a str> with Some(\"\")"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:315:9: replace Peer<'a>::srv_conn -> Option<&'a str> with Some(\"xyzzy\")"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:322:9: replace Peer<'a>::label -> &'a str with \"\""
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:322:9: replace Peer<'a>::label -> &'a str with \"xyzzy\""
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:331:5: replace is_conn -> bool with true"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:331:5: replace is_conn -> bool with false"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:338:9: replace && with || in is_conn"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:337:9: replace && with || in is_conn"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:336:9: replace && with || in is_conn"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:335:9: replace && with || in is_conn"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:334:16: replace <= with > in is_conn"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:335:12: delete ! in is_conn"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:337:26: replace == with != in is_conn"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:340:36: replace && with || in is_conn"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:340:22: delete ! in is_conn"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:346:5: replace version_label -> Option<&str> with None"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:346:5: replace version_label -> Option<&str> with Some(\"\")"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:346:5: replace version_label -> Option<&str> with Some(\"xyzzy\")"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:348:9: replace && with || in version_label"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:347:26: replace == with != in version_label"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:350:49: replace && with || in version_label"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:372:5: replace method_label -> Option<&'static str> with None"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:372:5: replace method_label -> Option<&'static str> with Some(\"\")"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:372:5: replace method_label -> Option<&'static str> with Some(\"xyzzy\")"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:372:33: replace == with != in method_label"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:382:5: replace log_request with ()"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:400:5: replace wait_bounds -> (Option<u64>, Option<u64>) with (None, None)"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:400:5: replace wait_bounds -> (Option<u64>, Option<u64>) with (None, Some(0))"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:400:5: replace wait_bounds -> (Option<u64>, Option<u64>) with (None, Some(1))"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:400:5: replace wait_bounds -> (Option<u64>, Option<u64>) with (Some(0), None)"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:400:5: replace wait_bounds -> (Option<u64>, Option<u64>) with (Some(0), Some(0))"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:400:5: replace wait_bounds -> (Option<u64>, Option<u64>) with (Some(0), Some(1))"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:400:5: replace wait_bounds -> (Option<u64>, Option<u64>) with (Some(1), None)"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:400:5: replace wait_bounds -> (Option<u64>, Option<u64>) with (Some(1), Some(0))"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:400:5: replace wait_bounds -> (Option<u64>, Option<u64>) with (Some(1), Some(1))"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:400:15: replace != with == in wait_bounds"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:409:5: replace wait_outcome -> Option<&'static str> with None"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:409:5: replace wait_outcome -> Option<&'static str> with Some(\"\")"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:409:5: replace wait_outcome -> Option<&'static str> with Some(\"xyzzy\")"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:409:15: replace != with == in wait_outcome"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:413:24: replace == with != in wait_outcome"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:420:22: replace == with != in wait_outcome"
+],
+[
+"unviable",
+"crates/viola-channel/src/server.rs:434:9: replace Class::of -> Self with Default::default()"
+],
+[
+"unviable",
+"crates/viola-channel/src/server.rs:477:9: replace ResponseLine<'a>::client -> Self with Default::default()"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:483:9: replace <impl Drop for ResponseLine<'_>>::drop with ()"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:506:13: delete match arm Some(ProtocolError::Internal) in <impl Drop for ResponseLine<'_>>::drop"
+],
+[
+"caught",
+"crates/viola-channel/src/server.rs:507:13: delete match arm Some(ProtocolError::InvalidRequest | ProtocolError::UnsupportedVersion | ProtocolError::InvalidParams | ProtocolError::ReleaseFromDriver,) in <impl Drop for ResponseLine<'_>>::drop"
+],
+[
+"caught",
+"crates/viola-channel/src/test_support.rs:15:9: replace <impl Visit for JsonFields>::record_debug with ()"
+],
+[
+"caught",
+"crates/viola-channel/src/test_support.rs:19:9: replace <impl Visit for JsonFields>::record_str with ()"
+],
+[
+"caught",
+"crates/viola-channel/src/test_support.rs:22:9: replace <impl Visit for JsonFields>::record_u64 with ()"
+],
+[
+"caught",
+"crates/viola-channel/src/test_support.rs:25:9: replace <impl Visit for JsonFields>::record_i64 with ()"
+],
+[
+"caught",
+"crates/viola-channel/src/test_support.rs:28:9: replace <impl Visit for JsonFields>::record_bool with ()"
+],
+[
+"caught",
+"crates/viola-channel/src/test_support.rs:66:9: replace win::canonical_sddl -> String with String::new()"
+],
+[
+"caught",
+"crates/viola-channel/src/test_support.rs:66:9: replace win::canonical_sddl -> String with \"xyzzy\".into()"
+],
+[
+"caught",
+"crates/viola-channel/src/test_support.rs:93:9: replace win::user_sid -> String with String::new()"
+],
+[
+"caught",
+"crates/viola-channel/src/test_support.rs:93:9: replace win::user_sid -> String with \"xyzzy\".into()"
+],
+[
+"caught",
+"crates/viola-channel/src/test_support.rs:116:9: replace win::dacl_of -> String with String::new()"
+],
+[
+"caught",
+"crates/viola-channel/src/test_support.rs:116:9: replace win::dacl_of -> String with \"xyzzy\".into()"
+],
+[
+"caught",
+"crates/viola-channel/src/server/win.rs:21:5: replace owner_only_sddl -> String with String::new()"
+],
+[
+"caught",
+"crates/viola-channel/src/server/win.rs:21:5: replace owner_only_sddl -> String with \"xyzzy\".into()"
+],
+[
+"caught",
+"crates/viola-channel/src/server/win.rs:25:5: replace owner_only_descriptor -> io::Result<SecurityDescriptor> with Ok(Default::default())"
+],
+[
+"caught",
+"crates/viola-channel/src/server/win.rs:30:5: replace user_sid -> io::Result<String> with Ok(String::new())"
+],
+[
+"caught",
+"crates/viola-channel/src/server/win.rs:30:5: replace user_sid -> io::Result<String> with Ok(\"xyzzy\".into())"
+],
+[
+"caught",
+"crates/viola-channel/src/server/win.rs:32:82: replace == with != in user_sid"
+],
+[
+"caught",
+"crates/viola-channel/src/server/win.rs:42:5: replace token_user_sid -> io::Result<String> with Ok(String::new())"
+],
+[
+"caught",
+"crates/viola-channel/src/server/win.rs:42:5: replace token_user_sid -> io::Result<String> with Ok(\"xyzzy\".into())"
+],
+[
+"caught",
+"crates/viola-channel/src/server/win.rs:50:15: replace == with != in token_user_sid"
+],
+[
+"caught",
+"crates/viola-channel/src/server/win.rs:57:68: replace == with != in token_user_sid"
+],
+[
+"caught",
+"crates/viola-channel/src/server/win.rs:77:5: replace from_sddl -> io::Result<SecurityDescriptor> with Ok(Default::default())"
+],
+[
+"caught",
+"crates/viola-channel/src/server/win.rs:88:18: replace == with != in from_sddl"
+]
+]
+},
+"state": {
+"found": "Found 159 mutants to test",
+"tally": {
+"MISSED": 18,
+"caught": 130,
+"unviable": 11
+},
+"outcome_lines": 159,
+"unique_names": 159,
+"first_ts": "2026-10-08T10:12:36.9750293Z",
+"last_ts": "2026-10-08T10:28:12.3428149Z",
+"doc": {
+"v": 1,
+"cmd": "run",
+"ok": false,
+"suites": [
+{
+"suite": "mutants",
+"passed": 130,
+"failed": 18,
+"skipped": 0,
+"survived": 18,
+"artifact": "mutants.out/outcomes.json",
+"failures": [
+"crates/viola-state/src/fs.rs:18:5: replace restrict -> io::Result<()> with Ok(())",
+"crates/viola-state/src/fs.rs:161:47: replace | with ^ in win::protect",
+"crates/viola-state/src/fs.rs:187:13: replace || with && in win::dacl_of",
+"crates/viola-state/src/fs.rs:186:13: replace || with && in win::dacl_of",
+"crates/viola-state/src/strict.rs:30:5: replace check_stamps -> Result<(), Refused> with Ok(())",
+"crates/viola-state/src/strict.rs:34:23: replace match guard e.kind() == io::ErrorKind::NotFound with true in check_stamps",
+"crates/viola-state/src/strict.rs:43:5: replace check_path -> Result<(), Refused> with Ok(())",
+"crates/viola-state/src/strict.rs:120:9: replace unix::reading -> io::Result<(u32, u32)> with Ok((0, 0))",
+"crates/viola-state/src/strict.rs:120:9: replace unix::reading -> io::Result<(u32, u32)> with Ok((0, 1))",
+"crates/viola-state/src/strict.rs:120:9: replace unix::reading -> io::Result<(u32, u32)> with Ok((1, 0))",
+"crates/viola-state/src/strict.rs:120:9: replace unix::reading -> io::Result<(u32, u32)> with Ok((1, 1))",
+"crates/viola-state/src/strict.rs:126:9: replace unix::euid -> u32 with 0",
+"crates/viola-state/src/strict.rs:126:9: replace unix::euid -> u32 with 1",
+"crates/viola-state/src/strict.rs:163:9: replace win::check -> Result<(), Refused> with Ok(())",
+"crates/viola-state/src/strict.rs:170:9: replace win::persistent_acls -> Option<bool> with Some(true)",
+"crates/viola-state/src/strict.rs:192:37: replace & with | in win::persistent_acls",
+"crates/viola-state/src/strict.rs:192:37: replace & with ^ in win::persistent_acls",
+"crates/viola-state/src/strict.rs:207:44: replace | with ^ in win::owner_and_dacl"
+]
+}
+],
+"mutants": {
+"tested": 159,
+"verdict": "package",
+"package": "viola-state",
+"files": [
+"crates/viola-state/src/pin.rs",
+"crates/viola-state/src/fs.rs",
+"crates/viola-state/src/strict.rs"
+],
+"scratch_bytes": 0
+},
+"archived": "target/run-archive/1"
+},
+"rows": [
+[
+"MISSED",
+"crates/viola-state/src/fs.rs:18:5: replace restrict -> io::Result<()> with Ok(())"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:36:5: replace create_private_dir -> io::Result<()> with Ok(())"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:38:51: replace && with || in create_private_dir"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:38:25: delete ! in create_private_dir"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:38:54: delete ! in create_private_dir"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:65:5: replace outside_profile -> bool with true"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:65:5: replace outside_profile -> bool with false"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:67:5: delete ! in outside_profile"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:70:29: replace == with != in outside_profile"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:95:9: replace win::wide -> Vec<u16> with vec![]"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:95:9: replace win::wide -> Vec<u16> with vec![0]"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:95:9: replace win::wide -> Vec<u16> with vec![1]"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:101:9: replace win::protected_sddl -> String with String::new()"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:101:9: replace win::protected_sddl -> String with \"xyzzy\".into()"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:106:9: replace win::profile_dir -> io::Result<PathBuf> with Ok(Default::default())"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:108:86: replace == with != in win::profile_dir"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:120:19: replace == with != in win::profile_dir"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:123:46: replace == with != in win::profile_dir"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:130:9: replace win::protect_outside_profile -> io::Result<()> with Ok(())"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:138:9: replace win::protect -> io::Result<()> with Ok(())"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:150:17: replace == with != in win::protect"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:161:47: replace | with & in win::protect"
+],
+[
+"MISSED",
+"crates/viola-state/src/fs.rs:161:47: replace | with ^ in win::protect"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:168:23: replace == with != in win::protect"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:182:9: replace win::dacl_of -> io::Result<*mut ACL> with Ok(Default::default())"
+],
+[
+"MISSED",
+"crates/viola-state/src/fs.rs:187:13: replace || with && in win::dacl_of"
+],
+[
+"MISSED",
+"crates/viola-state/src/fs.rs:186:13: replace || with && in win::dacl_of"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:185:94: replace == with != in win::dacl_of"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:186:24: replace == with != in win::dacl_of"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:197:5: replace created_or_present -> io::Result<()> with Ok(())"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:198:19: replace match guard e.kind() != io::ErrorKind::AlreadyExists with true in created_or_present"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:198:19: replace match guard e.kind() != io::ErrorKind::AlreadyExists with false in created_or_present"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:198:28: replace != with == in created_or_present"
+],
+[
+"unviable",
+"crates/viola-state/src/fs.rs:205:5: replace open_private_append -> io::Result<File> with Ok(Default::default())"
+],
+[
+"unviable",
+"crates/viola-state/src/fs.rs:217:5: replace create_private_new -> io::Result<File> with Ok(Default::default())"
+],
+[
+"unviable",
+"crates/viola-state/src/fs.rs:227:5: replace open_private_lock -> io::Result<File> with Ok(Default::default())"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:247:5: replace retry_replace -> bool with true"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:247:5: replace retry_replace -> bool with false"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:247:21: replace && with || in retry_replace"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:247:37: replace == with != in retry_replace"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:253:5: replace replace_private -> Result<(), StateError> with Ok(())"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:263:5: replace replace_private_with -> Result<(), StateError> with Ok(())"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:270:18: replace += with -= in replace_private_with"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:270:18: replace += with *= in replace_private_with"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:274:20: replace match guard attempts < REPLACE_ATTEMPTS && retry_replace(e.error.raw_os_error(), HOST_IS_WINDOWS) with true in replace_private_with"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:274:20: replace match guard attempts < REPLACE_ATTEMPTS && retry_replace(e.error.raw_os_error(), HOST_IS_WINDOWS) with false in replace_private_with"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:275:21: replace && with || in replace_private_with"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:274:29: replace < with == in replace_private_with"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:274:29: replace < with > in replace_private_with"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:274:29: replace < with <= in replace_private_with"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:289:5: replace replace_private_shared -> Result<(), StateError> with Ok(())"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:290:19: replace match guard fs::read(path).ok().as_deref() != Some(bytes) with true in replace_private_shared"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:290:19: replace match guard fs::read(path).ok().as_deref() != Some(bytes) with false in replace_private_shared"
+],
+[
+"caught",
+"crates/viola-state/src/fs.rs:290:50: replace != with == in replace_private_shared"
+],
+[
+"unviable",
+"crates/viola-state/src/pin.rs:27:9: replace <impl From<io::Error> for PinError>::from -> Self with Default::default()"
+],
+[
+"caught",
+"crates/viola-state/src/pin.rs:42:5: replace hex16 -> String with String::new()"
+],
+[
+"caught",
+"crates/viola-state/src/pin.rs:42:5: replace hex16 -> String with \"xyzzy\".into()"
+],
+[
+"caught",
+"crates/viola-state/src/pin.rs:47:5: replace content_key -> String with String::new()"
+],
+[
+"caught",
+"crates/viola-state/src/pin.rs:47:5: replace content_key -> String with \"xyzzy\".into()"
+],
+[
+"caught",
+"crates/viola-state/src/pin.rs:53:5: replace digest -> io::Result<Vec<u8>> with Ok(vec![])"
+],
+[
+"caught",
+"crates/viola-state/src/pin.rs:53:5: replace digest -> io::Result<Vec<u8>> with Ok(vec![0])"
+],
+[
+"caught",
+"crates/viola-state/src/pin.rs:53:5: replace digest -> io::Result<Vec<u8>> with Ok(vec![1])"
+],
+[
+"caught",
+"crates/viola-state/src/pin.rs:57:14: replace == with != in digest"
+],
+[
+"caught",
+"crates/viola-state/src/pin.rs:66:5: replace file_key -> io::Result<String> with Ok(String::new())"
+],
+[
+"caught",
+"crates/viola-state/src/pin.rs:66:5: replace file_key -> io::Result<String> with Ok(\"xyzzy\".into())"
+],
+[
+"unviable",
+"crates/viola-state/src/pin.rs:72:5: replace pin_exe -> Result<Pinned, PinError> with Ok(Default::default())"
+],
+[
+"caught",
+"crates/viola-state/src/pin.rs:79:22: replace match guard found == hash with true in pin_exe"
+],
+[
+"caught",
+"crates/viola-state/src/pin.rs:79:22: replace match guard found == hash with false in pin_exe"
+],
+[
+"caught",
+"crates/viola-state/src/pin.rs:81:19: replace match guard e.kind() == io::ErrorKind::NotFound with true in pin_exe"
+],
+[
+"caught",
+"crates/viola-state/src/pin.rs:81:19: replace match guard e.kind() == io::ErrorKind::NotFound with false in pin_exe"
+],
+[
+"caught",
+"crates/viola-state/src/pin.rs:79:28: replace == with != in pin_exe"
+],
+[
+"caught",
+"crates/viola-state/src/pin.rs:81:28: replace == with != in pin_exe"
+],
+[
+"caught",
+"crates/viola-state/src/pin.rs:126:5: replace retry_open -> bool with true"
+],
+[
+"caught",
+"crates/viola-state/src/pin.rs:126:5: replace retry_open -> bool with false"
+],
+[
+"caught",
+"crates/viola-state/src/pin.rs:126:33: replace && with || in retry_open"
+],
+[
+"caught",
+"crates/viola-state/src/pin.rs:126:14: replace < with == in retry_open"
+],
+[
+"caught",
+"crates/viola-state/src/pin.rs:126:14: replace < with > in retry_open"
+],
+[
+"caught",
+"crates/viola-state/src/pin.rs:126:14: replace < with <= in retry_open"
+],
+[
+"caught",
+"crates/viola-state/src/pin.rs:126:49: replace == with != in retry_open"
+],
+[
+"unviable",
+"crates/viola-state/src/pin.rs:131:5: replace open_held -> io::Result<File> with Ok(Default::default())"
+],
+[
+"unviable",
+"crates/viola-state/src/pin.rs:140:5: replace open_held_waiting -> io::Result<File> with Ok(Default::default())"
+],
+[
+"caught",
+"crates/viola-state/src/pin.rs:142:18: replace += with -= in open_held_waiting"
+],
+[
+"caught",
+"crates/viola-state/src/pin.rs:142:18: replace += with *= in open_held_waiting"
+],
+[
+"caught",
+"crates/viola-state/src/pin.rs:144:23: replace match guard retry_open(e.raw_os_error(), attempts) with true in open_held_waiting"
+],
+[
+"caught",
+"crates/viola-state/src/pin.rs:144:23: replace match guard retry_open(e.raw_os_error(), attempts) with false in open_held_waiting"
+],
+[
+"unviable",
+"crates/viola-state/src/pin.rs:159:5: replace pin_companions -> Result<HeldCompanions, PinError> with Ok(Default::default())"
+],
+[
+"caught",
+"crates/viola-state/src/pin.rs:171:23: replace match guard e.kind() == io::ErrorKind::NotFound with true in pin_companions"
+],
+[
+"caught",
+"crates/viola-state/src/pin.rs:171:23: replace match guard e.kind() == io::ErrorKind::NotFound with false in pin_companions"
+],
+[
+"caught",
+"crates/viola-state/src/pin.rs:171:32: replace == with != in pin_companions"
+],
+[
+"caught",
+"crates/viola-state/src/pin.rs:178:18: replace != with == in pin_companions"
+],
+[
+"MISSED",
+"crates/viola-state/src/strict.rs:30:5: replace check_stamps -> Result<(), Refused> with Ok(())"
+],
+[
+"MISSED",
+"crates/viola-state/src/strict.rs:34:23: replace match guard e.kind() == io::ErrorKind::NotFound with true in check_stamps"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:34:23: replace match guard e.kind() == io::ErrorKind::NotFound with false in check_stamps"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:34:32: replace == with != in check_stamps"
+],
+[
+"MISSED",
+"crates/viola-state/src/strict.rs:43:5: replace check_path -> Result<(), Refused> with Ok(())"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:56:5: replace unix_verdict -> Result<(), Refused> with Ok(())"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:56:12: replace != with == in unix_verdict"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:59:21: replace != with == in unix_verdict"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:59:13: replace & with | in unix_verdict"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:59:13: replace & with ^ in unix_verdict"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:76:5: replace trusted_sid -> bool with true"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:76:5: replace trusted_sid -> bool with false"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:76:17: replace || with && in trusted_sid"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:76:9: replace == with != in trusted_sid"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:96:5: replace windows_verdict -> Result<(), Refused> with Ok(())"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:96:8: delete ! in windows_verdict"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:99:22: replace && with || in windows_verdict"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:99:14: replace != with == in windows_verdict"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:99:31: replace != with == in windows_verdict"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:105:49: replace && with || in windows_verdict"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:105:44: replace != with == in windows_verdict"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:105:29: replace & with | in windows_verdict"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:105:29: replace & with ^ in windows_verdict"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:105:52: delete ! in windows_verdict"
+],
+[
+"MISSED",
+"crates/viola-state/src/strict.rs:120:9: replace unix::reading -> io::Result<(u32, u32)> with Ok((0, 0))"
+],
+[
+"MISSED",
+"crates/viola-state/src/strict.rs:120:9: replace unix::reading -> io::Result<(u32, u32)> with Ok((0, 1))"
+],
+[
+"MISSED",
+"crates/viola-state/src/strict.rs:120:9: replace unix::reading -> io::Result<(u32, u32)> with Ok((1, 0))"
+],
+[
+"MISSED",
+"crates/viola-state/src/strict.rs:120:9: replace unix::reading -> io::Result<(u32, u32)> with Ok((1, 1))"
+],
+[
+"MISSED",
+"crates/viola-state/src/strict.rs:126:9: replace unix::euid -> u32 with 0"
+],
+[
+"MISSED",
+"crates/viola-state/src/strict.rs:126:9: replace unix::euid -> u32 with 1"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:159:9: replace win::wide -> Vec<u16> with vec![]"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:159:9: replace win::wide -> Vec<u16> with vec![0]"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:159:9: replace win::wide -> Vec<u16> with vec![1]"
+],
+[
+"MISSED",
+"crates/viola-state/src/strict.rs:163:9: replace win::check -> Result<(), Refused> with Ok(())"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:170:9: replace win::persistent_acls -> Option<bool> with None"
+],
+[
+"MISSED",
+"crates/viola-state/src/strict.rs:170:9: replace win::persistent_acls -> Option<bool> with Some(true)"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:170:9: replace win::persistent_acls -> Option<bool> with Some(false)"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:174:81: replace == with != in win::persistent_acls"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:192:15: replace != with == in win::persistent_acls"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:192:55: replace != with == in win::persistent_acls"
+],
+[
+"MISSED",
+"crates/viola-state/src/strict.rs:192:37: replace & with | in win::persistent_acls"
+],
+[
+"MISSED",
+"crates/viola-state/src/strict.rs:192:37: replace & with ^ in win::persistent_acls"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:197:9: replace win::owner_and_dacl -> Option<(String, Option<Vec<Allow>>)> with None"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:197:9: replace win::owner_and_dacl -> Option<(String, Option<Vec<Allow>>)> with Some((String::new(), None))"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:197:9: replace win::owner_and_dacl -> Option<(String, Option<Vec<Allow>>)> with Some((String::new(), Some(vec![])))"
+],
+[
+"unviable",
+"crates/viola-state/src/strict.rs:197:9: replace win::owner_and_dacl -> Option<(String, Option<Vec<Allow>>)> with Some((String::new(), Some(vec![Default::default()])))"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:197:9: replace win::owner_and_dacl -> Option<(String, Option<Vec<Allow>>)> with Some((\"xyzzy\".into(), None))"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:197:9: replace win::owner_and_dacl -> Option<(String, Option<Vec<Allow>>)> with Some((\"xyzzy\".into(), Some(vec![])))"
+],
+[
+"unviable",
+"crates/viola-state/src/strict.rs:197:9: replace win::owner_and_dacl -> Option<(String, Option<Vec<Allow>>)> with Some((\"xyzzy\".into(), Some(vec![Default::default()])))"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:207:44: replace | with & in win::owner_and_dacl"
+],
+[
+"MISSED",
+"crates/viola-state/src/strict.rs:207:44: replace | with ^ in win::owner_and_dacl"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:215:19: replace != with == in win::owner_and_dacl"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:222:13: delete match arm Some((owner, Some(aces))) in win::owner_and_dacl"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:229:9: replace win::aces -> Option<Option<Vec<Allow>>> with None"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:229:9: replace win::aces -> Option<Option<Vec<Allow>>> with Some(None)"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:229:9: replace win::aces -> Option<Option<Vec<Allow>>> with Some(Some(vec![]))"
+],
+[
+"unviable",
+"crates/viola-state/src/strict.rs:229:9: replace win::aces -> Option<Option<Vec<Allow>>> with Some(Some(vec![Default::default()]))"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:238:53: replace == with != in win::aces"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:243:31: replace != with == in win::aces"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:260:9: replace win::sid_string -> Option<String> with None"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:260:9: replace win::sid_string -> Option<String> with Some(String::new())"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:260:9: replace win::sid_string -> Option<String> with Some(\"xyzzy\".into())"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:263:62: replace == with != in win::sid_string"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:267:65: replace != with == in win::sid_string"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:283:9: replace win::user_sid -> Option<String> with None"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:283:9: replace win::user_sid -> Option<String> with Some(String::new())"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:283:9: replace win::user_sid -> Option<String> with Some(\"xyzzy\".into())"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:285:86: replace == with != in win::user_sid"
+],
+[
+"caught",
+"crates/viola-state/src/strict.rs:297:27: replace != with == in win::user_sid"
+]
+]
+},
+"agent-claude": {
+"found": "Found 40 mutants to test",
+"tally": {
+"caught": 36,
+"unviable": 4
+},
+"outcome_lines": 40,
+"unique_names": 40,
+"first_ts": "2026-10-08T10:12:37.1680178Z",
+"last_ts": "2026-10-08T10:18:56.2729241Z",
+"doc": {
+"v": 1,
+"cmd": "run",
+"ok": true,
+"suites": [
+{
+"suite": "mutants",
+"passed": 36,
+"failed": 0,
+"skipped": 0,
+"survived": 0,
+"artifact": "mutants.out/outcomes.json",
+"failures": []
+}
+],
+"mutants": {
+"tested": 40,
+"verdict": "package",
+"package": "viola-agent-claude",
+"files": [
+"crates/viola-agent-claude/src/lib.rs"
+],
+"scratch_bytes": 0
+},
+"archived": "target/run-archive/1"
+},
+"rows": [
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:50:9: replace StripPlan::count -> usize with 0"
+],
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:50:9: replace StripPlan::count -> usize with 1"
+],
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:55:9: replace StripPlan::removed_names -> String with String::new()"
+],
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:55:9: replace StripPlan::removed_names -> String with \"xyzzy\".into()"
+],
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:59:9: replace StripPlan::kept_names -> String with String::new()"
+],
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:59:9: replace StripPlan::kept_names -> String with \"xyzzy\".into()"
+],
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:64:5: replace joined -> String with String::new()"
+],
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:64:5: replace joined -> String with \"xyzzy\".into()"
+],
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:70:5: replace key -> String with String::new()"
+],
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:70:5: replace key -> String with \"xyzzy\".into()"
+],
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:83:5: replace plan_strip -> StripPlan with Default::default()"
+],
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:91:5: replace plan_strip_with -> StripPlan with Default::default()"
+],
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:99:12: delete ! in plan_strip_with"
+],
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:103:19: replace && with || in plan_strip_with"
+],
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:103:12: delete ! in plan_strip_with"
+],
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:147:5: replace render -> String with String::new()"
+],
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:147:5: replace render -> String with \"xyzzy\".into()"
+],
+[
+"unviable",
+"crates/viola-agent-claude/src/lib.rs:154:5: replace plugin_files -> [(&'static str, String); 3] with [(\"\", String::new()); 3]"
+],
+[
+"unviable",
+"crates/viola-agent-claude/src/lib.rs:154:5: replace plugin_files -> [(&'static str, String); 3] with [(\"\", \"xyzzy\".into()); 3]"
+],
+[
+"unviable",
+"crates/viola-agent-claude/src/lib.rs:154:5: replace plugin_files -> [(&'static str, String); 3] with [(\"xyzzy\", String::new()); 3]"
+],
+[
+"unviable",
+"crates/viola-agent-claude/src/lib.rs:154:5: replace plugin_files -> [(&'static str, String); 3] with [(\"xyzzy\", \"xyzzy\".into()); 3]"
+],
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:203:5: replace resolve_program -> Result<PathBuf, Refusal> with Ok(Default::default())"
+],
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:204:40: replace || with && in resolve_program"
+],
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:204:70: replace > with == in resolve_program"
+],
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:204:70: replace > with < in resolve_program"
+],
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:204:70: replace > with >= in resolve_program"
+],
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:209:24: replace || with && in resolve_program"
+],
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:209:8: delete ! in resolve_program"
+],
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:209:27: delete ! in resolve_program"
+],
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:219:25: replace match guard stem_is_claude && is_file(&target) with true in resolve_program"
+],
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:219:25: replace match guard stem_is_claude && is_file(&target) with false in resolve_program"
+],
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:219:40: replace && with || in resolve_program"
+],
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:226:5: replace is_script -> bool with true"
+],
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:226:5: replace is_script -> bool with false"
+],
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:227:56: replace || with && in is_script"
+],
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:235:5: replace find_on_path -> Option<PathBuf> with None"
+],
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:235:5: replace find_on_path -> Option<PathBuf> with Some(Default::default())"
+],
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:236:51: replace || with && in find_on_path"
+],
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:236:35: delete ! in find_on_path"
+],
+[
+"caught",
+"crates/viola-agent-claude/src/lib.rs:244:25: delete ! in find_on_path"
+]
+]
+},
+"viola": {
+"found": "Found 140 mutants to test",
+"tally": {
+"caught": 88,
+"unviable": 24,
+"MISSED": 13
+},
+"outcome_lines": 125,
+"unique_names": 125,
+"first_ts": "2026-10-08T10:12:37.7202841Z",
+"last_ts": "2026-10-08T12:13:01.6105273Z",
+"doc": null,
+"rows": [
+[
+"caught",
+"src/main.rs:39:5: replace set_panic_sink with ()"
+],
+[
+"caught",
+"src/main.rs:48:5: replace main -> ExitCode with Default::default()"
+],
+[
+"caught",
+"src/main.rs:57:23: replace match guard role == Role::Hook with true in main"
+],
+[
+"caught",
+"src/main.rs:57:23: replace match guard role == Role::Hook with false in main"
+],
+[
+"caught",
+"src/main.rs:57:28: replace == with != in main"
+],
+[
+"unviable",
+"src/main.rs:91:5: replace role_of -> Role with Default::default()"
+],
+[
+"caught",
+"src/main.rs:93:16: replace == with != in role_of"
+],
+[
+"caught",
+"src/main.rs:95:19: delete ! in role_of"
+],
+[
+"caught",
+"src/main.rs:96:27: replace == with != in role_of"
+],
+[
+"caught",
+"src/main.rs:98:36: replace || with && in role_of"
+],
+[
+"caught",
+"src/main.rs:98:27: replace == with != in role_of"
+],
+[
+"caught",
+"src/main.rs:121:5: replace exit_code -> ExitCode with Default::default()"
+],
+[
+"caught",
+"src/main.rs:133:5: replace prints_internal_error -> bool with true"
+],
+[
+"caught",
+"src/main.rs:133:5: replace prints_internal_error -> bool with false"
+],
+[
+"caught",
+"src/main.rs:133:23: replace && with || in prints_internal_error"
+],
+[
+"caught",
+"src/main.rs:133:10: replace == with != in prints_internal_error"
+],
+[
+"caught",
+"src/main.rs:140:5: replace viola_panic_hook with ()"
+],
+[
+"caught",
+"src/main.rs:162:5: replace write_panic_lines with ()"
+],
+[
+"caught",
+"src/main.rs:192:5: replace panic_detail_line -> String with String::new()"
+],
+[
+"caught",
+"src/main.rs:192:5: replace panic_detail_line -> String with \"xyzzy\".into()"
+],
+[
+"caught",
+"src/main.rs:219:5: replace panic_line -> String with String::new()"
+],
+[
+"caught",
+"src/main.rs:219:5: replace panic_line -> String with \"xyzzy\".into()"
+],
+[
+"caught",
+"src/main.rs:240:5: replace panic_location -> String with String::new()"
+],
+[
+"caught",
+"src/main.rs:240:5: replace panic_location -> String with \"xyzzy\".into()"
+],
+[
+"caught",
+"src/main.rs:243:13: delete match arm Component::Normal(p) in panic_location"
+],
+[
+"caught",
+"src/main.rs:247:8: delete ! in panic_location"
+],
+[
+"caught",
+"src/main.rs:251:22: replace match guard src > 0 with true in panic_location"
+],
+[
+"caught",
+"src/main.rs:251:22: replace match guard src > 0 with false in panic_location"
+],
+[
+"caught",
+"src/main.rs:250:39: replace == with != in panic_location"
+],
+[
+"caught",
+"src/main.rs:251:26: replace > with == in panic_location"
+],
+[
+"caught",
+"src/main.rs:251:26: replace > with < in panic_location"
+],
+[
+"caught",
+"src/main.rs:251:26: replace > with >= in panic_location"
+],
+[
+"caught",
+"src/main.rs:251:43: replace - with + in panic_location"
+],
+[
+"caught",
+"src/main.rs:251:43: replace - with / in panic_location"
+],
+[
+"caught",
+"src/panic_frames.rs:13:5: replace render -> String with String::new()"
+],
+[
+"caught",
+"src/panic_frames.rs:13:5: replace render -> String with \"xyzzy\".into()"
+],
+[
+"caught",
+"src/panic_frames.rs:24:5: replace capture -> Vec<String> with vec![]"
+],
+[
+"caught",
+"src/panic_frames.rs:24:5: replace capture -> Vec<String> with vec![String::new()]"
+],
+[
+"caught",
+"src/panic_frames.rs:24:5: replace capture -> Vec<String> with vec![\"xyzzy\".into()]"
+],
+[
+"caught",
+"src/panic_frames.rs:37:5: replace raw_frames -> Vec<usize> with vec![]"
+],
+[
+"caught",
+"src/panic_frames.rs:37:5: replace raw_frames -> Vec<usize> with vec![0]"
+],
+[
+"caught",
+"src/panic_frames.rs:37:5: replace raw_frames -> Vec<usize> with vec![1]"
+],
+[
+"caught",
+"src/panic_frames.rs:50:5: replace module_of -> Option<(String, usize)> with None"
+],
+[
+"caught",
+"src/panic_frames.rs:50:5: replace module_of -> Option<(String, usize)> with Some((String::new(), 0))"
+],
+[
+"caught",
+"src/panic_frames.rs:50:5: replace module_of -> Option<(String, usize)> with Some((String::new(), 1))"
+],
+[
+"caught",
+"src/panic_frames.rs:50:5: replace module_of -> Option<(String, usize)> with Some((\"xyzzy\".into(), 0))"
+],
+[
+"caught",
+"src/panic_frames.rs:50:5: replace module_of -> Option<(String, usize)> with Some((\"xyzzy\".into(), 1))"
+],
+[
+"caught",
+"src/panic_frames.rs:55:79: replace == with != in module_of"
+],
+[
+"MISSED",
+"src/panic_frames.rs:69:5: replace raw_frames -> Vec<usize> with vec![]"
+],
+[
+"MISSED",
+"src/panic_frames.rs:69:5: replace raw_frames -> Vec<usize> with vec![0]"
+],
+[
+"MISSED",
+"src/panic_frames.rs:69:5: replace raw_frames -> Vec<usize> with vec![1]"
+],
+[
+"MISSED",
+"src/panic_frames.rs:80:5: replace module_of -> Option<(String, usize)> with None"
+],
+[
+"MISSED",
+"src/panic_frames.rs:80:5: replace module_of -> Option<(String, usize)> with Some((String::new(), 0))"
+],
+[
+"MISSED",
+"src/panic_frames.rs:80:5: replace module_of -> Option<(String, usize)> with Some((String::new(), 1))"
+],
+[
+"MISSED",
+"src/panic_frames.rs:80:5: replace module_of -> Option<(String, usize)> with Some((\"xyzzy\".into(), 0))"
+],
+[
+"MISSED",
+"src/panic_frames.rs:80:5: replace module_of -> Option<(String, usize)> with Some((\"xyzzy\".into(), 1))"
+],
+[
+"MISSED",
+"src/panic_frames.rs:82:77: replace == with != in module_of"
+],
+[
+"unviable",
+"src/cmd/run.rs:45:5: replace parse_name -> Result<ViolaName, String> with Ok(Default::default())"
+],
+[
+"caught",
+"src/cmd/run.rs:49:5: replace name_str -> &str with \"\""
+],
+[
+"caught",
+"src/cmd/run.rs:49:5: replace name_str -> &str with \"xyzzy\""
+],
+[
+"caught",
+"src/cmd/run.rs:57:5: replace hold_pump_start with ()"
+],
+[
+"caught",
+"src/cmd/run.rs:90:9: replace Methods::hook_event_line -> Option<EventLine> with None"
+],
+[
+"unviable",
+"src/cmd/run.rs:90:9: replace Methods::hook_event_line -> Option<EventLine> with Some(Default::default())"
+],
+[
+"caught",
+"src/cmd/run.rs:93:46: replace == with != in Methods::hook_event_line"
+],
+[
+"caught",
+"src/cmd/run.rs:96:13: replace && with || in Methods::hook_event_line"
+],
+[
+"caught",
+"src/cmd/run.rs:97:47: replace && with || in Methods::hook_event_line"
+],
+[
+"caught",
+"src/cmd/run.rs:97:17: replace == with != in Methods::hook_event_line"
+],
+[
+"caught",
+"src/cmd/run.rs:97:50: delete ! in Methods::hook_event_line"
+],
+[
+"caught",
+"src/cmd/run.rs:112:9: replace <impl Dispatch for Methods>::dispatch -> Result<Value, ProtocolError> with Ok(Default::default())"
+],
+[
+"caught",
+"src/cmd/run.rs:112:19: replace != with == in <impl Dispatch for Methods>::dispatch"
+],
+[
+"caught",
+"src/cmd/run.rs:124:9: replace <impl Dispatch for Methods>::dispatch_call -> Result<Value, ProtocolError> with Ok(Default::default())"
+],
+[
+"caught",
+"src/cmd/run.rs:125:13: delete match arm \"send\" in <impl Dispatch for Methods>::dispatch_call"
+],
+[
+"caught",
+"src/cmd/run.rs:126:13: delete match arm \"wait\" in <impl Dispatch for Methods>::dispatch_call"
+],
+[
+"caught",
+"src/cmd/run.rs:127:13: delete match arm \"last\" in <impl Dispatch for Methods>::dispatch_call"
+],
+[
+"caught",
+"src/cmd/run.rs:128:13: delete match arm \"hook.dialog\" in <impl Dispatch for Methods>::dispatch_call"
+],
+[
+"caught",
+"src/cmd/run.rs:129:13: delete match arm \"answer\" in <impl Dispatch for Methods>::dispatch_call"
+],
+[
+"caught",
+"src/cmd/run.rs:130:13: delete match arm \"pause\" in <impl Dispatch for Methods>::dispatch_call"
+],
+[
+"caught",
+"src/cmd/run.rs:131:13: delete match arm \"release\" in <impl Dispatch for Methods>::dispatch_call"
+],
+[
+"caught",
+"src/cmd/run.rs:138:5: replace run -> anyhow::Result<ExitCode> with Ok(Default::default())"
+],
+[
+"unviable",
+"src/cmd/run.rs:178:5: replace start -> anyhow::Result<Started> with Ok(Default::default())"
+],
+[
+"unviable",
+"src/cmd/run.rs:287:5: replace refused -> Started with Default::default()"
+],
+[
+"caught",
+"src/cmd/run.rs:294:5: replace collision_check -> Option<Started> with None"
+],
+[
+"unviable",
+"src/cmd/run.rs:294:5: replace collision_check -> Option<Started> with Some(Default::default())"
+],
+[
+"caught",
+"src/cmd/run.rs:315:5: replace pin_and_plugin -> anyhow::Result<Option<(Pinned, PathBuf)>> with Ok(None)"
+],
+[
+"unviable",
+"src/cmd/run.rs:315:5: replace pin_and_plugin -> anyhow::Result<Option<(Pinned, PathBuf)>> with Ok(Some((Default::default(), Default::default())))"
+],
+[
+"unviable",
+"src/cmd/run.rs:355:5: replace conpty_sideload -> Sideload with Default::default()"
+],
+[
+"caught",
+"src/cmd/run.rs:363:28: replace != with == in conpty_sideload"
+],
+[
+"caught",
+"src/cmd/run.rs:371:5: replace sideload_outcome -> (&'static str, Option<viola_state::pin::HeldCompanions>) with (\"\", None)"
+],
+[
+"unviable",
+"src/cmd/run.rs:371:5: replace sideload_outcome -> (&'static str, Option<viola_state::pin::HeldCompanions>) with (\"\", Some(Default::default()))"
+],
+[
+"caught",
+"src/cmd/run.rs:371:5: replace sideload_outcome -> (&'static str, Option<viola_state::pin::HeldCompanions>) with (\"xyzzy\", None)"
+],
+[
+"unviable",
+"src/cmd/run.rs:371:5: replace sideload_outcome -> (&'static str, Option<viola_state::pin::HeldCompanions>) with (\"xyzzy\", Some(Default::default()))"
+],
+[
+"MISSED",
+"src/cmd/run.rs:385:5: replace sideload_outcome -> (&'static str, Option<viola_state::pin::HeldCompanions>) with (\"\", None)"
+],
+[
+"MISSED",
+"src/cmd/run.rs:385:5: replace sideload_outcome -> (&'static str, Option<viola_state::pin::HeldCompanions>) with (\"\", Some(Default::default()))"
+],
+[
+"MISSED",
+"src/cmd/run.rs:385:5: replace sideload_outcome -> (&'static str, Option<viola_state::pin::HeldCompanions>) with (\"xyzzy\", None)"
+],
+[
+"MISSED",
+"src/cmd/run.rs:385:5: replace sideload_outcome -> (&'static str, Option<viola_state::pin::HeldCompanions>) with (\"xyzzy\", Some(Default::default()))"
+],
+[
+"caught",
+"src/cmd/run.rs:392:5: replace bind_endpoint -> anyhow::Result<Option<(String, Server)>> with Ok(None)"
+],
+[
+"unviable",
+"src/cmd/run.rs:392:5: replace bind_endpoint -> anyhow::Result<Option<(String, Server)>> with Ok(Some((String::new(), Default::default())))"
+],
+[
+"unviable",
+"src/cmd/run.rs:392:5: replace bind_endpoint -> anyhow::Result<Option<(String, Server)>> with Ok(Some((\"xyzzy\".into(), Default::default())))"
+],
+[
+"unviable",
+"src/cmd/run.rs:414:5: replace start_state -> anyhow::Result<(Heartbeat, InstanceSnapshot)> with Ok((Default::default(), Default::default()))"
+],
+[
+"unviable",
+"src/cmd/run.rs:455:5: replace spawn_child -> anyhow::Result<(PortablePty, Option<HostTerminal>, Size)> with Ok((Default::default(), None, Default::default()))"
+],
+[
+"unviable",
+"src/cmd/run.rs:455:5: replace spawn_child -> anyhow::Result<(PortablePty, Option<HostTerminal>, Size)> with Ok((Default::default(), Some(Default::default()), Default::default()))"
+],
+[
+"caught",
+"src/cmd/run.rs:480:5: replace pump_child -> anyhow::Result<ExitCode> with Ok(Default::default())"
+],
+[
+"caught",
+"src/cmd/run.rs:532:5: replace refuse_batch_script with ()"
+],
+[
+"caught",
+"src/cmd/run.rs:540:5: replace refuse_live with ()"
+],
+[
+"caught",
+"src/cmd/run.rs:545:5: replace refuse_stale with ()"
+],
+[
+"caught",
+"src/cmd/run.rs:553:5: replace refuse_tampered_pin with ()"
+],
+[
+"caught",
+"src/cmd/run.rs:561:5: replace refuse_squatted with ()"
+],
+[
+"caught",
+"src/run/env.rs:20:5: replace persistent_names -> (Vec<String>, Option<ConfigRejection>) with (vec![], None)"
+],
+[
+"unviable",
+"src/run/env.rs:20:5: replace persistent_names -> (Vec<String>, Option<ConfigRejection>) with (vec![], Some(Default::default()))"
+],
+[
+"caught",
+"src/run/env.rs:20:5: replace persistent_names -> (Vec<String>, Option<ConfigRejection>) with (vec![String::new()], None)"
+],
+[
+"unviable",
+"src/run/env.rs:20:5: replace persistent_names -> (Vec<String>, Option<ConfigRejection>) with (vec![String::new()], Some(Default::default()))"
+],
+[
+"caught",
+"src/run/env.rs:20:5: replace persistent_names -> (Vec<String>, Option<ConfigRejection>) with (vec![\"xyzzy\".into()], None)"
+],
+[
+"unviable",
+"src/run/env.rs:20:5: replace persistent_names -> (Vec<String>, Option<ConfigRejection>) with (vec![\"xyzzy\".into()], Some(Default::default()))"
+],
+[
+"caught",
+"src/run/env.rs:32:5: replace read_env_keep -> (Vec<String>, Option<ConfigRejection>) with (vec![], None)"
+],
+[
+"unviable",
+"src/run/env.rs:32:5: replace read_env_keep -> (Vec<String>, Option<ConfigRejection>) with (vec![], Some(Default::default()))"
+],
+[
+"caught",
+"src/run/env.rs:32:5: replace read_env_keep -> (Vec<String>, Option<ConfigRejection>) with (vec![String::new()], None)"
+],
+[
+"unviable",
+"src/run/env.rs:32:5: replace read_env_keep -> (Vec<String>, Option<ConfigRejection>) with (vec![String::new()], Some(Default::default()))"
+],
+[
+"caught",
+"src/run/env.rs:32:5: replace read_env_keep -> (Vec<String>, Option<ConfigRejection>) with (vec![\"xyzzy\".into()], None)"
+],
+[
+"unviable",
+"src/run/env.rs:32:5: replace read_env_keep -> (Vec<String>, Option<ConfigRejection>) with (vec![\"xyzzy\".into()], Some(Default::default()))"
+],
+[
+"caught",
+"src/run/env.rs:44:5: replace parse_env_keep -> (Vec<String>, Option<ConfigRejection>) with (vec![], None)"
+],
+[
+"unviable",
+"src/run/env.rs:44:5: replace parse_env_keep -> (Vec<String>, Option<ConfigRejection>) with (vec![], Some(Default::default()))"
+],
+[
+"caught",
+"src/run/env.rs:44:5: replace parse_env_keep -> (Vec<String>, Option<ConfigRejection>) with (vec![String::new()], None)"
+],
+[
+"unviable",
+"src/run/env.rs:44:5: replace parse_env_keep -> (Vec<String>, Option<ConfigRejection>) with (vec![String::new()], Some(Default::default()))"
+],
+[
+"caught",
+"src/run/env.rs:44:5: replace parse_env_keep -> (Vec<String>, Option<ConfigRejection>) with (vec![\"xyzzy\".into()], None)"
+],
+[
+"unviable",
+"src/run/env.rs:44:5: replace parse_env_keep -> (Vec<String>, Option<ConfigRejection>) with (vec![\"xyzzy\".into()], Some(Default::default()))"
+]
+]
+},
+"e2e": {
+"found": "Found 68 mutants to test",
+"tally": {},
+"outcome_lines": 0,
+"unique_names": 0,
+"first_ts": "2026-10-08T10:12:37.2014137Z",
+"last_ts": "2026-10-08T10:17:00.9413359Z",
+"doc": {
+"v": 1,
+"cmd": "run",
+"ok": false,
+"reason": "mutants-exit-4",
+"suites": []
+},
+"rows": []
+}
+}

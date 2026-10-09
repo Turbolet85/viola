@@ -1,0 +1,38 @@
+{
+ "raw": 1277,
+ "stage1_tests_excluded": 1235,
+ "after_stage1": 42,
+ "fp_classes": {
+  "trait-impl method (dispatch)": 31,
+  "entry point": 3,
+  "test-only helper (test crate / test-support)": 3
+ },
+ "residual_before_review": 5,
+ "residual": [
+  [
+   "Pty#child_pid().",
+   "fn",
+   "crates/viola-pty/src/lib.rs:130"
+  ],
+  [
+   "events/kind_str().",
+   "fn",
+   "crates/viola-state/src/events.rs:39"
+  ],
+  [
+   "StateError#Encode#",
+   "type",
+   "crates/viola-state/src/lib.rs:22"
+  ],
+  [
+   "cmd/send/SendArgs#text.",
+   "term",
+   "src/cmd/send.rs:36"
+  ],
+  [
+   "human/MIRROR_WORD.",
+   "term",
+   "src/human.rs:40"
+  ]
+ ]
+}

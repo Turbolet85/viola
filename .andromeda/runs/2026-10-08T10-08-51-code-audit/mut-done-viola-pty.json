@@ -1,0 +1,58 @@
+{
+ "unit": "viola-pty",
+ "state": "complete",
+ "exit_code": 2,
+ "planned": 115,
+ "listed": 115,
+ "tested": 115,
+ "wall_s": 449,
+ "driver_elapsed_s": 449,
+ "cap_s": 1800,
+ "resized": false,
+ "live_at_floor": null,
+ "jobs": 1,
+ "scope": "unit",
+ "started": "2026-10-08T10:18:22Z",
+ "ended": "2026-10-08T10:25:51Z",
+ "command": "cargo mutants --package viola-pty --features fake-agent --test-tool=nextest --copy-target=true --caught --unviable --build-timeout=400 --output .andromeda/runs/2026-10-08T10-08-51-code-audit/mutants-viola-pty",
+ "env": "every VIOLA_* and CLAUDE* name unset; TMPDIR=/home/turbolet/dev/projects/viola-mutants-scratch/e3 NEXTEST_PROFILE=mutants AGENT_RUN_KEEP_HOMES=0 AGENT_RUN_KEEP_FAILED=0 CARGO_TARGET_DIR=target/mutants",
+ "counts_tool": {
+  "caught": 67,
+  "missed": 25,
+  "timeout": 0,
+  "unviable": 23,
+  "success": 0
+ },
+ "baseline_outcome": {
+  "summary": "Success",
+  "phases": [
+   [
+    "Build",
+    4.057974092
+   ],
+   [
+    "Test",
+    1.703660589
+   ]
+  ]
+ },
+ "carry": {
+  "copies": {
+   "/home/turbolet/dev/projects/viola-mutants-scratch/e3/cargo-mutants-viola-2VQYSM.tmp": {
+    "seen": "2026-10-08T10:19:52Z",
+    "islink": true,
+    "readlink": "/tmp/viola-e2e-home-1000",
+    "isdir_nofollow": false,
+    "mode": "0o120777"
+   }
+  },
+  "backing": {},
+  "homes_min": 18,
+  "homes_max": 18,
+  "tmp_used_min": 10642411520,
+  "tmp_used_max": 11028230144,
+  "scratch_residue_after_exit": [
+   "viola-pty-watch"
+  ]
+ }
+}

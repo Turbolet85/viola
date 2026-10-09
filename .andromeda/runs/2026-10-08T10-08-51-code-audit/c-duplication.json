@@ -1,0 +1,73 @@
+{
+ "pct": 3.13,
+ "duplicated_lines": 1668,
+ "total_lines": 53261,
+ "clones": 189,
+ "top": [
+  [
+   "tests/cli_answer.rs:134",
+   "tests/cli_wait_last.rs:132",
+   29
+  ],
+  [
+   "tests/cli_answer.rs:56",
+   "tests/tui_wheel.rs:33",
+   27
+  ],
+  [
+   "tests/cli_verify.rs:979",
+   "tests/cli_verify.rs:1067",
+   27
+  ],
+  [
+   "tests/cli_answer.rs:56",
+   "tests/cli_wheel.rs:36",
+   26
+  ],
+  [
+   "tests/cli_wheel.rs:68",
+   "tests/tui_wheel.rs:102",
+   25
+  ],
+  [
+   "tests/cli_verify.rs:979",
+   "tests/cli_verify.rs:1026",
+   24
+  ],
+  [
+   "crates/viola-core/src/obs.rs:175",
+   "tests/contract_diag_schema.rs:20",
+   21
+  ],
+  [
+   "tests/cli_wheel.rs:92",
+   "tests/tui_wheel.rs:125",
+   21
+  ],
+  [
+   "crates/viola-e2e/src/harness/mod.rs:367",
+   "tests/cli_instance_state.rs:482",
+   20
+  ],
+  [
+   "tests/hook_fail_open.rs:465",
+   "tests/hook_fail_open.rs:536",
+   20
+  ]
+ ],
+ "split": {
+  "src": {
+   "pairs": 73,
+   "lines": 622
+  },
+  "test": {
+   "pairs": 103,
+   "lines": 1095
+  },
+  "mixed": {
+   "pairs": 13,
+   "lines": 140
+  }
+ },
+ "sources": 122
+}

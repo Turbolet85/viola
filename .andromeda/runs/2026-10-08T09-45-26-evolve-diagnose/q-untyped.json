@@ -1,0 +1,852 @@
+{
+ "target_epoch": "Epoch 3 — Windows slice II: driving verbs and live proof",
+ "untyped_records": 57,
+ "threshold": "F-4: n >= 3 in-epoch, or n >= 2 recurring from an earlier epoch",
+ "method": "clustered by hand from the `what` lines; every untyped record sits in exactly one cluster",
+ "clusters": [
+  {
+   "key": "U1",
+   "title": "a rule the loaded corpus states, met again outside curation",
+   "candidate": true,
+   "n": 7,
+   "proposed_type": "recall.corpus-recurrence, valid at every step (it is in the curation and reconcile lists only)",
+   "draft_criteria": "A rule a loaded rule file already states was met again at this step: name the file and the entry's date, and what refused or caught the act; one record per rule per step.",
+   "note": "The same event is typed `tooling.hook-friction` at implement/code and `recall.corpus-recurrence` at the wrap; at research, plan, fix-loop and orientation no listed type fits.",
+   "steps": {
+    "phase/research": 2,
+    "implement/code": 2,
+    "implement/fix-loop": 1,
+    "new-session/orientation": 1,
+    "phase/plan": 1
+   },
+   "chunks": [
+    "2026-10-02-epoch-2b-cleanup",
+    "2026-10-05-dialog-rows-and-re-probe",
+    "2026-10-05-real-cli-verify-probes",
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed"
+   ],
+   "records": [
+    {
+     "id": "2026-10-02T13:16:18Z-b",
+     "chunk": "2026-10-02-epoch-2b-cleanup",
+     "skill": "phase",
+     "step": "research",
+     "what": "the doubled-backslash Bash-guard refusal recurred twice in one research step despite host-win32.md Session Additions 2026-09-28 (extended twice) stating it; both rerouted to script files",
+     "impact": {
+      "retries": 2
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-05T08:42:29Z-c",
+     "chunk": "2026-10-05-real-cli-verify-probes",
+     "skill": "implement",
+     "step": "code",
+     "what": "a cat heredoc to a scratch file was refused by the project's Bash guard (the recorded 2026-09-28 learning recurred); redone through the Write tool",
+     "impact": {
+      "retries": 1
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-05T11:59:55Z-c",
+     "chunk": "2026-10-05-dialog-rows-and-re-probe",
+     "skill": "implement",
+     "step": "code",
+     "what": "pkill -f with a pattern from the target's command line matched the calling shell's own command line and killed it (exit 144): a recurrence of host-win32.md 2026-09-25 (stop by exact identity, never a command-line substring)",
+     "impact": {
+      "retries": 1
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-05T13:20:49Z-c",
+     "chunk": "2026-10-05-dialog-rows-and-re-probe",
+     "skill": "implement",
+     "step": "fix-loop",
+     "what": "a heredoc redirected to an evidence file was refused by the Bash guard (recurrence of host-win32.md 2026-09-28/29); appended through the Edit tool",
+     "impact": {
+      "retries": 1
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-07T05:46:11Z-b",
+     "chunk": null,
+     "skill": "new-session",
+     "step": "orientation",
+     "what": "a read-only probe chain ended on an ls over a glob with no match, so the whole Bash call returned exit 2 with its output intact; the host rule for a zero-is-healthy probe (suffix it, or end the chain elsewhere) was in context",
+     "impact": {
+      "retries": 0,
+      "extra_reads": 0
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-07T13:56:05Z-c",
+     "chunk": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+     "skill": "phase",
+     "step": "research",
+     "what": "a scratch script written with a cat heredoc redirected to a file was refused by the Bash guard, a refusal the project's host rule file already records; one call was lost and the script was re-authored through the Write tool",
+     "impact": {
+      "retries": 1
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-07T14:05:59Z-b",
+     "chunk": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+     "skill": "phase",
+     "step": "plan",
+     "what": "a compound research call that included a removal beside five reads and a timed measurement was denied whole by the permission layer, a shape the project's host rule file already records; one call was lost",
+     "impact": {
+      "retries": 1
+     },
+     "evidence": null
+    }
+   ]
+  },
+  {
+   "key": "U2",
+   "title": "a time written from estimate, ahead of the clock",
+   "candidate": true,
+   "n": 7,
+   "proposed_type": "contract.estimated-stamp (cross-step)",
+   "draft_criteria": "A time was written into an artifact (a stamp, a baseline string, an origin label, a record's `ts`) from estimate instead of `date -u`: record the artifact, the lead in minutes and what caught it (the stamp hook, a tool refusal, a re-read).",
+   "note": "Eleven friction records of the epoch name this event under eight (skill, step, type) keys; none in earlier epochs. Three problem-facts carry it too (L14).",
+   "steps": {
+    "phase/research": 2,
+    "phase/plan": 2,
+    "phase/take-up": 1,
+    "implement/code": 1,
+    "phase/validate": 1
+   },
+   "chunks": [
+    "2026-10-05-dialog-rows-and-re-probe",
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+    "2026-10-07-test-homes-off-the-contended-volume",
+    "2026-10-08-first-live-test-and-self-drive"
+   ],
+   "records": [
+    {
+     "id": "2026-10-05T11:31:17Z-c",
+     "chunk": "2026-10-05-dialog-rows-and-re-probe",
+     "skill": "phase",
+     "step": "research",
+     "what": "two hand-typed times ran ahead of the clock: the inputs#I2 snapshot's --origin says '~11:40Z' though the census ran ~11:28Z (snapshots are never edited in place, so it stands), and this checkpoint's first append was refused REFUSED ts (later than the clock) and re-fired from date -u",
+     "impact": {
+      "retries": 1
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-05T11:42:17Z-b",
+     "chunk": "2026-10-05-dialog-rows-and-re-probe",
+     "skill": "phase",
+     "step": "plan",
+     "what": "a third hand-typed time ran ahead of the clock: plan.md Metadata 'Generated 2026-10-05T11:50Z' written at ~11:41Z, corrected in place before P5",
+     "impact": {
+      "iterations": 1
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-07T07:33:13Z-b",
+     "chunk": "2026-10-07-test-homes-off-the-contended-volume",
+     "skill": "phase",
+     "step": "plan",
+     "what": "plan.md's Generated stamp was written as an estimate 7 minutes ahead of the clock; the stamp-ahead PostToolUse hook refused the write's result and the stamp was corrected from date -u",
+     "impact": {
+      "iterations": 1
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-07T08:53:01Z-b",
+     "chunk": "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+     "skill": "phase",
+     "step": "take-up",
+     "what": "scope.md was written with a measurement time estimated two minutes ahead of the clock and a 5/5 split of ten probe dirs counted by eye; the stamp hook refused the time, the re-run read the clock and counted 4 and 6, and both were corrected before the promotion. The handoff carries the same defect as a deferred learning from the previous wrap.",
+     "impact": {
+      "retries": 1
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-07T14:34:57Z-d",
+     "chunk": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+     "skill": "implement",
+     "step": "code",
+     "what": "A time typed into an inputs origin label read ten minutes ahead of date -u (the label is hand-typed, the tool stamps read_at beside it). Corrected in the manifest by hand.",
+     "impact": {
+      "retries": 1
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-07T14:43:23Z-b",
+     "chunk": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+     "skill": "phase",
+     "step": "research",
+     "what": "A time was typed into research.md from estimate, two minutes ahead of date -u; the PostToolUse stamp-ahead hook refused the write and the stamp was corrected from the clock. The second estimated time of this session (the first was an inputs origin label at implement).",
+     "impact": {
+      "retries": 1
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-08T06:23:46Z-c",
+     "chunk": "2026-10-08-first-live-test-and-self-drive",
+     "skill": "phase",
+     "step": "validate",
+     "what": "a time was written into two baseline strings ahead of the clock, estimated for a re-run not yet made; the handoff lists this as a deferred learning met twice before, and it was met again; a hook caught it at the edit",
+     "impact": {
+      "retries": 1
+     },
+     "evidence": null
+    }
+   ]
+  },
+  {
+   "key": "U3",
+   "title": "a Bash call that outlived its bound or its caller",
+   "candidate": true,
+   "n": 8,
+   "proposed_type": "tooling.call-lifecycle (cross-step)",
+   "draft_criteria": "A call ran past the Bash bound and was moved to the background, left a child running after a timeout, was stopped through the wrong pid, or was waited on by a loop that could not end: record the mechanism and how the process was found and stopped.",
+   "note": "The costliest case left a cargo-mutants process beside later gate entries for about two hours. Three problem-facts are the same class (L12).",
+   "steps": {
+    "phase/validate": 1,
+    "wrap-session/route-resolve": 1,
+    "implement/code": 4,
+    "implement/fix-loop": 2
+   },
+   "chunks": [
+    "2026-10-02-epoch-2b-cleanup",
+    "2026-10-04-dialog-answers-by-dialog-id",
+    "2026-10-05-dialog-rows-and-re-probe",
+    "2026-10-05-real-cli-verify-probes",
+    "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host"
+   ],
+   "records": [
+    {
+     "id": "2026-10-02T19:34:01Z-c",
+     "chunk": "2026-10-02-epoch-2b-cleanup",
+     "skill": "phase",
+     "step": "validate",
+     "what": "a gate.py entry timeout (3600 s) left the cargo-mutants process running; the next entries ran beside the orphan, one unmutated baseline failed at the 10 s kill, and about 2 h of baseline time was spent before the overseer measured it",
+     "impact": {
+      "retries": 1,
+      "dialogue_rounds": 1
+     },
+     "evidence": ".andromeda/runs/2026-10-02T12-57-04-phase/"
+    },
+    {
+     "id": "2026-10-03T22:17:30Z-d",
+     "chunk": null,
+     "skill": "wrap-session",
+     "step": "route-resolve",
+     "what": "a compound probe with an untimed gh run list ran past the 120 s Bash limit and was backgrounded and stopped; the same gh call alone under timeout 40 returned at once (cause not established)",
+     "impact": {
+      "retries": 1
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-04T14:49:33Z-c",
+     "chunk": "2026-10-04-dialog-answers-by-dialog-id",
+     "skill": "implement",
+     "step": "code",
+     "what": "a trailing cat >> /dev/null in an edit command read stdin forever; the call was backgrounded at its 120 s bound and stopped by TaskStop; the python edits before it had landed",
+     "impact": {
+      "retries": 1
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-05T08:42:29Z-d",
+     "chunk": "2026-10-05-real-cli-verify-probes",
+     "skill": "implement",
+     "step": "code",
+     "what": "a grep -a context scan over the ~200 MB claude binary ran past the Bash call bound and was backgrounded; an mmap find script answered in seconds",
+     "impact": {
+      "retries": 1
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-05T11:59:55Z-d",
+     "chunk": "2026-10-05-dialog-rows-and-re-probe",
+     "skill": "implement",
+     "step": "code",
+     "what": "pgrep -f | head -1 named the backgrounded call's bash wrapper, not the python driver; SIGINT went to the wrapper and left driver and child running until a second, pid-exact SIGINT",
+     "impact": {
+      "retries": 1
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-05T11:59:55Z-e",
+     "chunk": "2026-10-05-dialog-rows-and-re-probe",
+     "skill": "implement",
+     "step": "code",
+     "what": "a backgrounded ugrep that the Bash tool moved to the background at its 120 s bound kept running after the call was abandoned; found by the census and stopped by its exact pid",
+     "impact": {
+      "retries": 0
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-05T13:20:49Z-d",
+     "chunk": "2026-10-05-dialog-rows-and-re-probe",
+     "skill": "implement",
+     "step": "fix-loop",
+     "what": "a backgrounded wait loop picked its target with ls -t | head -1 over the task dir, which can name its own output file and never end; stopped with TaskStop before it read anything",
+     "impact": {
+      "retries": 1
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-07T10:41:20Z-c",
+     "chunk": "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+     "skill": "implement",
+     "step": "fix-loop",
+     "what": "a bounded foreground wait on the backgrounded gate block watched for the summary as the output file's last line; the harness appends its own exit line after it, so the wait ran its full 570 s over a block that had ended in about 95 s",
+     "impact": {
+      "retries": 0
+     },
+     "evidence": null
+    }
+   ]
+  },
+  {
+   "key": "U4",
+   "title": "a host or third-party tool behaviour, outside the fix loop",
+   "candidate": true,
+   "n": 7,
+   "proposed_type": "tooling.environmental, valid at research, code and gates (it is in fix-loop's list only)",
+   "draft_criteria": "A host or third-party tool's behaviour (a filesystem, a path-length limit, a CLI's flag or default, a compositor build, a permission classifier) broke a command that was correct as written: name the mechanism, not the command.",
+   "note": "Four of the seven are at research.",
+   "steps": {
+    "implement/code": 2,
+    "wrap-session/gates": 1,
+    "phase/research": 4
+   },
+   "chunks": [
+    "2026-10-02-epoch-2b-cleanup",
+    "2026-10-03-mutation-scoring-completion",
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "2026-10-08-first-live-test-and-self-drive"
+   ],
+   "records": [
+    {
+     "id": "2026-10-03T04:04:41Z-d",
+     "chunk": "2026-10-02-epoch-2b-cleanup",
+     "skill": "implement",
+     "step": "code",
+     "what": "cargo-mutants' tree copy under a deep TMP path failed every baseline build with LNK1104 (Windows path length) in 5-8 s; five runs re-taken with --in-place in the disposable copy",
+     "impact": {
+      "retries": 1
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-03T11:45:42Z-c",
+     "chunk": "2026-10-02-epoch-2b-cleanup",
+     "skill": "wrap-session",
+     "step": "gates",
+     "what": "gate.py hygiene exited 3 once at P7.3c with a git ls-files read timed out after 60 s on the D: volume; the immediate re-run read clean",
+     "impact": {
+      "retries": 1
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-03T22:38:49Z-c",
+     "chunk": "2026-10-03-mutation-scoring-completion",
+     "skill": "phase",
+     "step": "research",
+     "what": "a cargo mutants --list over member-crate files without --workspace listed only the root package's files, silently dropping viola-pty and viola-channel; re-run with --workspace",
+     "impact": {
+      "retries": 1
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-07T14:34:57Z-e",
+     "chunk": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+     "skill": "implement",
+     "step": "code",
+     "what": "gh api on a job's logs refused to write the response, redirected to a file, until --allow-escape-sequences was passed: exit 1 and a 0-byte file twice.",
+     "impact": {
+      "retries": 2
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-08T05:28:57Z-b",
+     "chunk": "2026-10-08-first-live-test-and-self-drive",
+     "skill": "phase",
+     "step": "research",
+     "what": "a measurement a founder ruling assigned to this step (does a compositor-typed key move the wheel) was attempted four times over the fake agent and never taken: the classic dispatch form was refused, then a new window on an empty workspace never took keyboard focus, with DPMS on and the window mapped in the last run; the guard typed nothing; deferred to implement step 0 on the operator's word",
+     "impact": {
+      "retries": 3,
+      "dialogue_rounds": 1,
+      "deferred": 1
+     },
+     "evidence": "research.md M1"
+    },
+    {
+     "id": "2026-10-08T05:28:57Z-d",
+     "chunk": "2026-10-08-first-live-test-and-self-drive",
+     "skill": "phase",
+     "step": "research",
+     "what": "a grep of the installed compositor API stub file was refused by the permission classifier with no reason given, in the middle of a probe the operator had authorised; the signatures were taken from the default config and from the dispatcher's own error text instead",
+     "impact": {
+      "extra_reads": 2
+     },
+     "evidence": "research.md M1"
+    },
+    {
+     "id": "2026-10-08T07:04:06Z-b",
+     "chunk": "2026-10-08-first-live-test-and-self-drive",
+     "skill": "phase",
+     "step": "research",
+     "what": "A second compositor instance started with no parent aborted at CBackend::create twice with no reason in its output or log; the only working form opens a client window on the locked desktop, whose idle monitor reads it as activity and wakes the screens, after which the desktop shell lost its Wayland connection and was relaunched. The side effect was found from the shell journal after the passing run, not predicted before it.",
+     "impact": {
+      "retries": 1,
+      "dialogue_rounds": 1
+     },
+     "evidence": ".andromeda/runs/2026-10-08T06-46-31-phase/comp-probe-2.log"
+    }
+   ]
+  },
+  {
+   "key": "U5",
+   "title": "the letter or its tool has no arm for the case met",
+   "candidate": true,
+   "n": 6,
+   "proposed_type": "contract.no-sanctioned-channel, valid at every step (it is in route-resolve's list only)",
+   "draft_criteria": "The step needed a write, a rung, a form or a verdict the letter or its tool has no arm for (no writer on this path, no rung for this state, no form for this source): record the state class and what was done instead.",
+   "note": "Five typed cases at route-resolve are the same class (the proposal on that group).",
+   "steps": {
+    "wrap-session/reconcile": 1,
+    "wrap-session/gates": 1,
+    "implement/fix-loop": 1,
+    "new-session/orientation": 1,
+    "wrap-session/route-resolve": 1,
+    "phase/research": 1
+   },
+   "chunks": [
+    "2026-10-04-the-wheel",
+    "2026-10-04-windows-boundary-mutation-workflow",
+    "2026-10-06-local-command-and-paste-framing-rows",
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "2026-10-08-first-live-test-and-self-drive"
+   ],
+   "records": [
+    {
+     "id": "2026-10-04T04:20:25Z-e",
+     "chunk": "2026-10-04-windows-boundary-mutation-workflow",
+     "skill": "wrap-session",
+     "step": "reconcile",
+     "what": "security-plan and obs-plan detectors (input/auth/deps; instrumentation/stack/pii) have no invariant covering CI workflow counts or the mutation-in-CI wording, so both returned [] while 5 plan-listed expected amendments sat in their masters; Validate check 5 raised all 5",
+     "impact": {
+      "extra_reads": 2
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-04T21:31:09Z-b",
+     "chunk": "2026-10-04-the-wheel",
+     "skill": "wrap-session",
+     "step": "gates",
+     "what": "a resumed P7 has no step that re-writes the P6 handoff: the halt wrote tests-failing, the resumed commit carried it, and the true clean state could only land as an uncommitted post-commit rewrite",
+     "impact": {
+      "retries": 1
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-06T21:30:37Z-c",
+     "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+     "skill": "implement",
+     "step": "fix-loop",
+     "what": "the gate tool files one log per entry number per run dir, so the targeted re-run of the two red entries overwrote their red logs; the failing blocks survive only as what was read through show and grep before the re-run, and the cause hunt that followed had to work from those excerpts",
+     "impact": {
+      "extra_reads": 2
+     },
+     "evidence": "viola-0.1.0/chunks/2026-10-06-local-command-and-paste-framing-rows/evidence/block-reds-host-contention.md"
+    },
+    {
+     "id": "2026-10-07T13:34:35Z-b",
+     "chunk": null,
+     "skill": "new-session",
+     "step": "orientation",
+     "what": "the invocation args reported the wrapped commit's CI run red on attempt 1 and green on a re-run of the same commit; the priority ladder has no rung for an open red on a complete record with 0 pending, so the suggestion stayed rung 4 with the red surfaced as open under the project's own rule, after five reads off the letter (two run views, the failed log, a prior-record search, the run's artifact list)",
+     "impact": {
+      "extra_reads": 5
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-07T19:32:55Z-f",
+     "chunk": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+     "skill": "wrap-session",
+     "step": "route-resolve",
+     "what": "The watch row's trigger names a red with no cause found or a fix by reasoning; this chunk's red has a measured mechanism and an unprovable writer, a case between the two. A watch was pinned on the reading that the link from the mechanism to that run is inference.",
+     "impact": {
+      "dialogue_rounds": 0
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-08T07:50:08Z-b",
+     "chunk": "2026-10-08-first-live-test-and-self-drive",
+     "skill": "phase",
+     "step": "research",
+     "what": "a fact the plan turns on lives in an installed binary the inputs tool cannot snapshot (binary, over 1 MiB): the external-input rule had no form for it, and the record is a run-dir extract with a hash",
+     "impact": {
+      "extra_reads": 2
+     },
+     "evidence": null
+    }
+   ]
+  },
+  {
+   "key": "U6",
+   "title": "a command failed on where it ran, not on what it ran",
+   "candidate": true,
+   "n": 3,
+   "proposed_type": "tooling.path-anchoring, or a named arm of the universal tooling.host-shell",
+   "draft_criteria": "A command failed on its anchor: a relative path after the cwd moved, an unset variable inside a path, a deny rule matched by a relative spelling; record the anchor that was missing.",
+   "note": "At the F-4 floor (n = 3), two of the three in one checkpoint; the universal `tooling.host-shell` may already be read to cover it.",
+   "steps": {
+    "implement/fix-loop": 1,
+    "implement/code": 2
+   },
+   "chunks": [
+    "2026-10-04-readiness-gate-and-timing-constants",
+    "2026-10-04-windows-boundary-mutation-workflow"
+   ],
+   "records": [
+    {
+     "id": "2026-10-04T02:10:29Z-c",
+     "chunk": "2026-10-04-windows-boundary-mutation-workflow",
+     "skill": "implement",
+     "step": "fix-loop",
+     "what": "first backgrounded gate call died before the tool ran: the scratch redirect was written as a relative path climbing out of the run dir, which bash could not open; re-fired with the absolute path",
+     "impact": {
+      "retries": 1
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-04T05:06:21Z-c",
+     "chunk": "2026-10-04-readiness-gate-and-timing-constants",
+     "skill": "implement",
+     "step": "code",
+     "what": "a cargo check redirect targeted $CLAUDE_SCRATCH, which is unset in the Bash tool's shell, so it wrote to /chk.log and was denied; re-ran with the literal scratchpad path",
+     "impact": {
+      "retries": 1
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-04T05:06:21Z-d",
+     "chunk": "2026-10-04-readiness-gate-and-timing-constants",
+     "skill": "implement",
+     "step": "code",
+     "what": "the Bash permission guard refused a read-only grep of vt100's parser.rs after a cd into the cargo registry, matching it against the deny rule ./secrets/**; absolute paths passed",
+     "impact": {
+      "retries": 1
+     },
+     "evidence": null
+    }
+   ]
+  },
+  {
+   "key": "U7",
+   "title": "a pipeline tool refused a call its reference gives, or enforced a bound its reference omits",
+   "candidate": true,
+   "n": 2,
+   "proposed_type": "contract.skill-reference-drift, with the refusal named in its criteria line",
+   "draft_criteria": "Also this type: a pipeline tool refuses the call form its reference gives, or enforces a bound its reference does not state (a pattern id's length, a required companion flag); record the reference site and the tool's printed refusal.",
+   "note": "n = 2 in the epoch, recurring from earlier epochs: `cascade.py`'s 16-character pattern id was recorded untyped at 2026-09-27T01:12:11Z-b, 2026-09-27T12:54:15Z-e and 2026-09-29T12:40:29Z-e, and once more here inside a typed `contract.in-pass-correction` record.",
+   "steps": {
+    "wrap-session/reconcile": 1,
+    "phase/take-up": 1
+   },
+   "chunks": [
+    "2026-10-04-running-turn-refusal",
+    "2026-10-05-real-cli-verify-probes"
+   ],
+   "records": [
+    {
+     "id": "2026-10-04T22:36:36Z-c",
+     "chunk": "2026-10-04-running-turn-refusal",
+     "skill": "wrap-session",
+     "step": "reconcile",
+     "what": "cascade.py sweep refused the pattern file (exit 2) for an 18-char id  (limit 16), then (exit 3) for a regex pattern whose control never fired; renamed and dropped, re-run clean",
+     "impact": {
+      "retries": 2
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-05T00:20:30Z-b",
+     "chunk": "2026-10-05-real-cli-verify-probes",
+     "skill": "phase",
+     "step": "take-up",
+     "what": "inputs.py snap --message-file exited 2 '--message-file needs --origin'; promotion.md §External inputs names --message-file but not --origin, re-fired with it",
+     "impact": {
+      "retries": 1
+     },
+     "evidence": null
+    }
+   ]
+  },
+  {
+   "key": "below-bridge",
+   "title": "the driving bridge delivered a stale prompt or left a dialog unanswered",
+   "candidate": false,
+   "n": 2,
+   "proposed_type": null,
+   "draft_criteria": null,
+   "note": "n = 2, no earlier untyped record found by a keyword lookback; emerging, watch next epoch.",
+   "steps": {
+    "implement/fix-loop": 1,
+    "phase/plan": 1
+   },
+   "chunks": [
+    "2026-10-03-mutation-scoring-completion",
+    "2026-10-05-real-cli-verify-probes"
+   ],
+   "records": [
+    {
+     "id": "2026-10-04T00:32:34Z-f",
+     "chunk": "2026-10-03-mutation-scoring-completion",
+     "skill": "implement",
+     "step": "fix-loop",
+     "what": "a stale /andromeda-phase P3 prompt arrived twice mid-implement as UserPromptSubmit 230 ms after a Stop hook with a background task running and no viola:typed before it (overseer measured from viola events); both were declined and the overseer confirmed",
+     "impact": {
+      "dialogue_rounds": 2
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-05T08:31:09Z-b",
+     "chunk": "2026-10-05-real-cli-verify-probes",
+     "skill": "phase",
+     "step": "plan",
+     "what": "the P4 AskUserQuestion (two boundary-widening placements), held by viola's dialog hook, got no driver answer within 58 min and returned an error; the turn ended and the operator relayed the founder's answer in a new turn",
+     "impact": {
+      "dialogue_rounds": 1,
+      "halted": 1
+     },
+     "evidence": ".andromeda/runs/2026-10-05T07-05-09-phase/relay-4.md"
+    }
+   ]
+  },
+  {
+   "key": "single",
+   "title": "single untyped records",
+   "candidate": false,
+   "n": 15,
+   "proposed_type": null,
+   "draft_criteria": null,
+   "note": "",
+   "steps": {
+    "wrap-session/reconcile": 1,
+    "wrap-session/curation": 1,
+    "new-session/orientation": 2,
+    "phase/take-up": 1,
+    "implement/fix-loop": 3,
+    "wrap-session/route-resolve": 1,
+    "implement/code": 4,
+    "phase/research": 1,
+    "wrap-session/gates": 1
+   },
+   "chunks": [
+    "2026-10-02-epoch-2b-cleanup",
+    "2026-10-03-mutation-scoring-completion",
+    "2026-10-04-running-turn-refusal",
+    "2026-10-04-the-wheel",
+    "2026-10-05-dialog-rows-and-re-probe",
+    "2026-10-05-permission-end-to-end",
+    "2026-10-06-local-command-and-paste-framing-rows",
+    "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+    "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host"
+   ],
+   "records": [
+    {
+     "id": "2026-10-03T07:54:56Z-d",
+     "chunk": "2026-10-02-epoch-2b-cleanup",
+     "skill": "wrap-session",
+     "step": "reconcile",
+     "what": "tests-summary.md's header says wrap-session does not modify it while the cascade table names a plan's summary as a re-derived leaf; resolved by the file's history (earlier chunk commits re-derive it)",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-03T07:56:53Z-c",
+     "chunk": "2026-10-02-epoch-2b-cleanup",
+     "skill": "wrap-session",
+     "step": "curation",
+     "what": "the first dedup probe (a for-loop of grep -l -i -F piped to tr) printed no file for any term, a known positive included; a single grep -c on a known positive exposed it and a direct grep -o re-ran the dedup",
+     "impact": {
+      "retries": 1
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-03T21:39:51Z-b",
+     "chunk": null,
+     "skill": "new-session",
+     "step": "orientation",
+     "what": "Host moved Windows->Linux between wrap and session start: the route head (Mutation scoring completion, WSL leg), the M2 open red (D: volume) and the founder pause on D: all rest on a host that no longer exists; the ladder still points at /andromeda-phase",
+     "impact": {
+      "extra_reads": 0
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-03T22:22:25Z-c",
+     "chunk": "2026-10-03-mutation-scoring-completion",
+     "skill": "phase",
+     "step": "take-up",
+     "what": "the CARRY's re-judge target was cited by line (:131) in the adaptation record; the same wrap's :70 insert shifted it to :133, so the line read a different entry and a title grep re-located it",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-04T00:32:34Z-e",
+     "chunk": "2026-10-03-mutation-scoring-completion",
+     "skill": "implement",
+     "step": "fix-loop",
+     "what": "a host-unmeasurable mutant was first recorded as equivalent; the overseer corrected the vocabulary to not measured here, owed to the named route entry (:70)",
+     "impact": {
+      "dialogue_rounds": 1
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-04T18:40:24Z-c",
+     "chunk": "2026-10-04-the-wheel",
+     "skill": "implement",
+     "step": "fix-loop",
+     "what": "the default suite and pre-push went red on three tests/hook_events.rs cases (event counts 10 vs 9, 3 vs 2, a count wait reached before the last prompt) that the plan's gate selection for the chunk did not include; found only by the full-suite entries",
+     "impact": {
+      "iterations": 1
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-04T21:11:43Z-c",
+     "chunk": "2026-10-04-the-wheel",
+     "skill": "wrap-session",
+     "step": "route-resolve",
+     "what": "the minted entry's splice payload carried a 4-space arrow line where the route's 56 arrows are 3-space; caught by an arrow-variant count after the insert and fixed with one anchored Edit",
+     "impact": {
+      "retries": 1
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-04T22:18:54Z-d",
+     "chunk": "2026-10-04-running-turn-refusal",
+     "skill": "implement",
+     "step": "fix-loop",
+     "what": "the remove-the-guard control turned a new unit test into a 120 s nextest TIMEOUT (a wrongly pasted send parked on its fixed-clock confirm window), a mutant graded timeout not caught; reworked with a clock that jumps only during the refused send",
+     "impact": {
+      "iterations": 1
+     },
+     "evidence": "viola-0.1.0/chunks/2026-10-04-running-turn-refusal/evidence/controls.md"
+    },
+    {
+     "id": "2026-10-05T13:08:03Z-c",
+     "chunk": "2026-10-05-dialog-rows-and-re-probe",
+     "skill": "implement",
+     "step": "code",
+     "what": "a scripted test edit asserted 7 merge_stamp call sites where 6 took the pattern (a 7th is the definition); the script writes only at its end, so nothing landed and it re-ran with the corrected count",
+     "impact": {
+      "retries": 1
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-05T15:13:17Z-b",
+     "chunk": "2026-10-05-permission-end-to-end",
+     "skill": "phase",
+     "step": "research",
+     "what": "the host grep (ugrep) refused two context-window regexes over the CLI binary with 'exceeds complexity limits'; recovered by a python byte-search script in the scratchpad",
+     "impact": {
+      "retries": 2
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-06T21:12:21Z-b",
+     "chunk": "2026-10-06-local-command-and-paste-framing-rows",
+     "skill": "implement",
+     "step": "code",
+     "what": "step 11 asks for a scratch probe in step 0's form, but the form on disk is prose in evidence; the driver, hook script and helper themselves sat in an earlier session's scratch dir under the OS temp dir, found by listing sibling session dirs and re-authored from there for the one non-repeatable live session",
+     "impact": {
+      "extra_reads": 5
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-07T10:30:18Z-g",
+     "chunk": "2026-10-07-live-rows-and-paste-shapes-on-the-dev-host",
+     "skill": "implement",
+     "step": "code",
+     "what": "a permission denial of rm -r on an own-made dir cost one question to the overseer before the gates; the plan's step 5 names the removal and no way to make it",
+     "impact": {
+      "dialogue_rounds": 1
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-07T14:34:57Z-c",
+     "chunk": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+     "skill": "implement",
+     "step": "code",
+     "what": "The plan names the new function typed_text; hook.rs's test module already holds a proptest strategy of that name, which shadows it there. The first compile of the table failed on it; the table calls super::typed_text.",
+     "impact": {
+      "retries": 1
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-07T19:39:31Z-b",
+     "chunk": "2026-10-07-a-send-ending-in-a-newline-is-confirmed",
+     "skill": "wrap-session",
+     "step": "gates",
+     "what": "The gates playbook was opened in the same call that fired the backgrounded light gate, so it was read before the step's outcome existed; the wait had no other read-only work queued.",
+     "impact": {
+      "extra_reads": 0
+     },
+     "evidence": null
+    },
+    {
+     "id": "2026-10-08T04:58:30Z-b",
+     "chunk": null,
+     "skill": "new-session",
+     "step": "orientation",
+     "what": "the handoff's R-S3 note still schedules Upgrade U02 and the host-win32.md regenerate for the Epoch 3 boundary, while the post-wrap setup-project commit 0dafa09 already ran U02 and U04 and replaced host-win32.md with host-linux.md; setup did not touch the handoff, and one git show was read to settle it",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": "git show --stat 0dafa09"
+    }
+   ]
+  }
+ ]
+}

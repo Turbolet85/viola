@@ -1,0 +1,32 @@
+{
+ "dir": "~/dev/projects/viola-mutants-scratch/e3",
+ "entries": 112,
+ "human": "244M",
+ "copies": [],
+ "kinds": [
+  [
+   "viola-verify",
+   63
+  ],
+  [
+   ".tmp*",
+   40
+  ],
+  [
+   "viola-resize",
+   6
+  ],
+  [
+   "viola-chaos",
+   1
+  ],
+  [
+   "viola-pty",
+   1
+  ],
+  [
+   "viola-root",
+   1
+  ]
+ ]
+}

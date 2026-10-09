@@ -1,0 +1,307 @@
+{
+ "unit": "viola-channel",
+ "unit_state": "complete 176/176",
+ "score": 100.0,
+ "score_formula": "caught/(caught+missed)",
+ "counts": {
+  "mutants": 176,
+  "caught": 128,
+  "missed": 0,
+  "not_measured": 31,
+  "timeout": 0,
+  "unviable": 17
+ },
+ "tool_totals": {
+  "total_mutants": 176,
+  "caught": 128,
+  "missed": 31,
+  "timeout": 0,
+  "unviable": 17,
+  "success": 0
+ },
+ "timing": {
+  "scope": "unit",
+  "planned": 176,
+  "tested": 176,
+  "wall_s": 271,
+  "jobs": 1,
+  "cap_s": 1800
+ },
+ "start_time": "2026-10-08T10:25:51.923943381Z",
+ "end_time": "2026-10-08T10:30:23.00356703Z",
+ "baseline": {
+  "summary": "Success",
+  "phases": [
+   [
+    "Build",
+    5.761607175
+   ],
+   [
+    "Test",
+    0.402537909
+   ]
+  ]
+ },
+ "host": "x86_64-unknown-linux-gnu",
+ "survivors": [],
+ "not_measured": [
+  [
+   "crates/viola-channel/src/client.rs:204:5",
+   "replace retry_busy -> bool with true",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/client.rs:204:5",
+   "replace retry_busy -> bool with false",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/client.rs:204:45",
+   "replace && with || in retry_busy",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/client.rs:204:26",
+   "replace == with != in retry_busy",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/client.rs:204:52",
+   "replace < with == in retry_busy",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/client.rs:204:52",
+   "replace < with > in retry_busy",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/client.rs:204:52",
+   "replace < with <= in retry_busy",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/client.rs:218:5",
+   "replace open -> io::Result<Stream> with Ok(Default::default())",
+   "cfg(all(windows, test))"
+  ],
+  [
+   "crates/viola-channel/src/client.rs:223:5",
+   "replace open_by -> io::Result<Stream> with Ok(Default::default())",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/client.rs:252:19",
+   "replace != with == in open_by",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/client.rs:256:12",
+   "delete ! in open_by",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/server.rs:99:5",
+   "replace listen -> Result<(Listener, Guard), ChannelError> with Ok((Default::default(), Default::default()))",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/server.rs:110:25",
+   "replace == with != in listen",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/test_support.rs:66:9",
+   "replace win::canonical_sddl -> String with String::new()",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/test_support.rs:66:9",
+   "replace win::canonical_sddl -> String with \"xyzzy\".into()",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/test_support.rs:93:9",
+   "replace win::user_sid -> String with String::new()",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/test_support.rs:93:9",
+   "replace win::user_sid -> String with \"xyzzy\".into()",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/test_support.rs:116:9",
+   "replace win::dacl_of -> String with String::new()",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/test_support.rs:116:9",
+   "replace win::dacl_of -> String with \"xyzzy\".into()",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/server/win.rs:21:5",
+   "replace owner_only_sddl -> String with String::new()",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/server/win.rs:21:5",
+   "replace owner_only_sddl -> String with \"xyzzy\".into()",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/server/win.rs:25:5",
+   "replace owner_only_descriptor -> io::Result<SecurityDescriptor> with Ok(Default::default())",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/server/win.rs:30:5",
+   "replace user_sid -> io::Result<String> with Ok(String::new())",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/server/win.rs:30:5",
+   "replace user_sid -> io::Result<String> with Ok(\"xyzzy\".into())",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/server/win.rs:32:82",
+   "replace == with != in user_sid",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/server/win.rs:42:5",
+   "replace token_user_sid -> io::Result<String> with Ok(String::new())",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/server/win.rs:42:5",
+   "replace token_user_sid -> io::Result<String> with Ok(\"xyzzy\".into())",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/server/win.rs:50:15",
+   "replace == with != in token_user_sid",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/server/win.rs:57:68",
+   "replace == with != in token_user_sid",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/server/win.rs:77:5",
+   "replace from_sddl -> io::Result<SecurityDescriptor> with Ok(Default::default())",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-channel/src/server/win.rs:88:18",
+   "replace == with != in from_sddl",
+   "cfg(windows)"
+  ]
+ ],
+ "timeouts": [],
+ "unviable_sites": [
+  [
+   "crates/viola-channel/src/client.rs:34:9",
+   "replace Client::connect -> Result<Self, ChannelError> with Ok(Default::default())"
+  ],
+  [
+   "crates/viola-channel/src/client.rs:43:9",
+   "replace Client::connect_by -> Result<Self, ChannelError> with Ok(Default::default())"
+  ],
+  [
+   "crates/viola-channel/src/client.rs:158:5",
+   "replace reply_class -> Class with Default::default()"
+  ],
+  [
+   "crates/viola-channel/src/client.rs:165:5",
+   "replace fault_of -> Option<ProtocolError> with Some(Default::default())"
+  ],
+  [
+   "crates/viola-channel/src/client.rs:212:5",
+   "replace busy_deadline -> Instant with Default::default()"
+  ],
+  [
+   "crates/viola-channel/src/client.rs:212:11",
+   "replace + with * in busy_deadline"
+  ],
+  [
+   "crates/viola-channel/src/client.rs:272:5",
+   "replace open_by -> io::Result<Stream> with Ok(Default::default())"
+  ],
+  [
+   "crates/viola-channel/src/endpoint.rs:50:5",
+   "replace absolute -> Option<&OsStr> with Some(Box::leak(Box::new(Default::default())))"
+  ],
+  [
+   "crates/viola-channel/src/frame.rs:73:5",
+   "replace parse_request -> Result<(Request, Params), (Option<u64>, ProtocolError)> with Ok((Default::default(), Default::default()))"
+  ],
+  [
+   "crates/viola-channel/src/server.rs:63:9",
+   "replace Server::bind -> Result<Self, ChannelError> with Ok(Default::default())"
+  ],
+  [
+   "crates/viola-channel/src/server.rs:69:9",
+   "replace Server::serve -> Serving with Default::default()"
+  ],
+  [
+   "crates/viola-channel/src/server.rs:124:5",
+   "replace listen -> Result<(Listener, Guard), ChannelError> with Ok((Default::default(), Default::default()))"
+  ],
+  [
+   "crates/viola-channel/src/server.rs:199:5",
+   "replace answer -> Option<Reply> with Some(Default::default())"
+  ],
+  [
+   "crates/viola-channel/src/server.rs:282:5",
+   "replace refuse_oversize -> Reply with Default::default()"
+  ],
+  [
+   "crates/viola-channel/src/server.rs:301:9",
+   "replace Peer<'a>::of -> Self with Default::default()"
+  ],
+  [
+   "crates/viola-channel/src/server.rs:434:9",
+   "replace Class::of -> Self with Default::default()"
+  ],
+  [
+   "crates/viola-channel/src/server.rs:477:9",
+   "replace ResponseLine<'a>::client -> Self with Default::default()"
+  ]
+ ],
+ "command": "cargo mutants --package viola-channel --features fake-agent --test-tool=nextest --copy-target=true --caught --unviable --build-timeout=400 --output .andromeda/runs/2026-10-08T10-08-51-code-audit/mutants-viola-channel",
+ "env": "every VIOLA_* and CLAUDE* name unset; TMPDIR=/home/turbolet/dev/projects/viola-mutants-scratch/e3 NEXTEST_PROFILE=mutants AGENT_RUN_KEEP_HOMES=0 AGENT_RUN_KEEP_FAILED=0 CARGO_TARGET_DIR=target/mutants",
+ "carry": {
+  "copies": {
+   "/home/turbolet/dev/projects/viola-mutants-scratch/e3/cargo-mutants-viola-sNq0XN.tmp": {
+    "seen": "2026-10-08T10:27:06Z",
+    "islink": true,
+    "readlink": "/tmp/viola-e2e-home-1000",
+    "isdir_nofollow": false,
+    "mode": "0o120777"
+   }
+  },
+  "backing": {},
+  "homes_min": 18,
+  "homes_max": 18,
+  "tmp_used_min": 11028234240,
+  "tmp_used_max": 11261452288,
+  "scratch_residue_after_exit": [
+   ".tmpJ7SXIC",
+   ".tmpRk1aYx",
+   ".tmpWGyk4y",
+   ".tmpXCSaW8",
+   ".tmpZZKdjr",
+   ".tmpZesMz9",
+   ".tmpeY761F",
+   ".tmpehDWEj",
+   ".tmpkWFy0Z",
+   ".tmpmbttq3",
+   ".tmppY7mmK",
+   ".tmpwfyyju"
+  ]
+ }
+}

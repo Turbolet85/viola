@@ -1,0 +1,78 @@
+{
+ "unit": "viola-core",
+ "unit_state": "complete 46/46",
+ "score": 100.0,
+ "score_formula": "caught/(caught+missed)",
+ "counts": {
+  "mutants": 46,
+  "caught": 44,
+  "missed": 0,
+  "not_measured": 0,
+  "timeout": 0,
+  "unviable": 2
+ },
+ "tool_totals": {
+  "total_mutants": 46,
+  "caught": 44,
+  "missed": 0,
+  "timeout": 0,
+  "unviable": 2,
+  "success": 0
+ },
+ "timing": {
+  "scope": "unit",
+  "planned": 46,
+  "tested": 46,
+  "wall_s": 126,
+  "jobs": 1,
+  "cap_s": 1800
+ },
+ "start_time": "2026-10-08T10:16:06.454251212Z",
+ "end_time": "2026-10-08T10:18:12.97242438Z",
+ "baseline": {
+  "summary": "Success",
+  "phases": [
+   [
+    "Build",
+    4.5585782219999995
+   ],
+   [
+    "Test",
+    0.251183769
+   ]
+  ]
+ },
+ "host": "x86_64-unknown-linux-gnu",
+ "survivors": [],
+ "not_measured": [],
+ "timeouts": [],
+ "unviable_sites": [
+  [
+   "crates/viola-core/src/lib.rs:33:9",
+   "replace <impl Clock for SystemClock>::now -> Instant with Default::default()"
+  ],
+  [
+   "crates/viola-core/src/obs.rs:133:5",
+   "replace ctx -> Option<&'static ProcessCtx> with Some(Box::leak(Box::new(Default::default())))"
+  ]
+ ],
+ "command": "cargo mutants --package viola-core --test-tool=nextest --copy-target=true --caught --unviable --build-timeout=400 --output .andromeda/runs/2026-10-08T10-08-51-code-audit/mutants-viola-core",
+ "env": "every VIOLA_* and CLAUDE* name unset; TMPDIR=/home/turbolet/dev/projects/viola-mutants-scratch/e3 NEXTEST_PROFILE=mutants AGENT_RUN_KEEP_HOMES=0 AGENT_RUN_KEEP_FAILED=0 CARGO_TARGET_DIR=target/mutants",
+ "carry": {
+  "copies": {
+   "/home/turbolet/dev/projects/viola-mutants-scratch/e3/cargo-mutants-viola-tcqd8s.tmp": {
+    "seen": "2026-10-08T10:17:36Z",
+    "islink": true,
+    "readlink": "/tmp/viola-e2e-home-1000",
+    "isdir_nofollow": false,
+    "mode": "0o120777"
+   }
+  },
+  "backing": {},
+  "homes_min": 18,
+  "homes_max": 18,
+  "tmp_used_min": 10642374656,
+  "tmp_used_max": 10642534400,
+  "scratch_residue_after_exit": []
+ }
+}

@@ -1,0 +1,155 @@
+{
+ "cycles": 0,
+ "cycle_paths": [],
+ "fan_in_top": [
+  [
+   "rust-analyzer cargo viola 0.1.0 crate/",
+   187
+  ],
+  [
+   "rust-analyzer cargo viola-agent-claude 0.1.0 hook/HookEvent#",
+   149
+  ],
+  [
+   "rust-analyzer cargo viola 0.1.0 support/home/TestHome#",
+   131
+  ],
+  [
+   "rust-analyzer cargo viola-e2e 0.1.0 harness/Workspace#",
+   122
+  ],
+  [
+   "rust-analyzer cargo viola-core 0.1.0 __nutype_ViolaName__/ViolaName#",
+   97
+  ],
+  [
+   "rust-analyzer cargo viola-e2e 0.1.0 harness/Outcome#doc.",
+   93
+  ],
+  [
+   "rust-analyzer cargo viola-pty 0.1.0 Size#",
+   86
+  ],
+  [
+   "rust-analyzer cargo viola-e2e 0.1.0 harness/Outcome#code.",
+   83
+  ],
+  [
+   "rust-analyzer cargo viola 0.1.0 support/home/impl#[TestHome]path().",
+   78
+  ],
+  [
+   "rust-analyzer cargo viola-e2e 0.1.0 harness/Workspace#root.",
+   77
+  ],
+  [
+   "rust-analyzer cargo viola 0.1.0 support/fake/",
+   74
+  ],
+  [
+   "rust-analyzer cargo viola-channel 0.1.0 ProtocolError#",
+   74
+  ],
+  [
+   "rust-analyzer cargo viola-core 0.1.0 EventKind#",
+   65
+  ],
+  [
+   "rust-analyzer cargo viola 0.1.0 support/",
+   59
+  ],
+  [
+   "rust-analyzer cargo viola-channel 0.1.0 crate/",
+   58
+  ],
+  [
+   "rust-analyzer cargo viola 0.1.0 support/home/impl#[TestHome]scratch().",
+   57
+  ],
+  [
+   "rust-analyzer cargo viola 0.1.0 support/home/home#",
+   57
+  ],
+  [
+   "rust-analyzer cargo viola-e2e 0.1.0 harness/Outcome#",
+   57
+  ],
+  [
+   "rust-analyzer cargo viola 0.1.0 support/fake/of_kind().",
+   55
+  ],
+  [
+   "rust-analyzer cargo viola 0.1.0 support/home/impl#[TestHome]new().",
+   55
+  ]
+ ],
+ "fan_out": [
+  [
+   "viola",
+   5
+  ],
+  [
+   "viola-e2e",
+   3
+  ],
+  [
+   "viola-state",
+   1
+  ],
+  [
+   "viola-agent-claude",
+   1
+  ],
+  [
+   "viola-channel",
+   1
+  ]
+ ],
+ "cross_unit_edges": 11,
+ "edge_list": [
+  [
+   "viola",
+   "viola-agent-claude"
+  ],
+  [
+   "viola",
+   "viola-channel"
+  ],
+  [
+   "viola",
+   "viola-core"
+  ],
+  [
+   "viola",
+   "viola-pty"
+  ],
+  [
+   "viola",
+   "viola-state"
+  ],
+  [
+   "viola-agent-claude",
+   "viola-core"
+  ],
+  [
+   "viola-channel",
+   "viola-core"
+  ],
+  [
+   "viola-e2e",
+   "viola-channel"
+  ],
+  [
+   "viola-e2e",
+   "viola-core"
+  ],
+  [
+   "viola-e2e",
+   "viola-pty"
+  ],
+  [
+   "viola-state",
+   "viola-core"
+  ]
+ ]
+}

@@ -1,0 +1,16 @@
+# The 2026-10-09 0-pending wrap, one amendment: the a11y keyboard-test-harness key file names the
+# working-route entry by its title instead of a bare line number.
+
+[[pattern]]
+id = "route140"
+fixed = 'route `:140`'
+
+[[pattern]]
+id = "real-win-term"
+fixed = 'real Windows terminal'
+ignore_case = true
+
+[[pattern]]
+id = "measured-live-at"
+regex = 'measured live at'
+ignore_case = true

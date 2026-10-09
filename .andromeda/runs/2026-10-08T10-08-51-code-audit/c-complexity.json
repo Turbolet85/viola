@@ -1,0 +1,65 @@
+{
+ "functions": 4374,
+ "cyclomatic_p50": 1.0,
+ "cyclomatic_p90": 5.0,
+ "cognitive_p50": 0.0,
+ "cognitive_p90": 2.0,
+ "over_ceiling": 4,
+ "max": {
+  "fn": "sgr_attributes",
+  "file": "tests/cli_output_plain.rs:36",
+  "val": 23.0
+ },
+ "top": [
+  {
+   "fn": "sgr_attributes",
+   "file": "tests/cli_output_plain.rs:36",
+   "value": 23.0
+  },
+  {
+   "fn": "dialog_variants",
+   "file": "crates/viola-agent-claude/src/ledger.rs:874",
+   "value": 19.0
+  },
+  {
+   "fn": "record",
+   "file": "src/cmd/verify.rs:388",
+   "value": 17.0
+  },
+  {
+   "fn": "submit",
+   "file": "src/bin/viola-fake-agent.rs:452",
+   "value": 16.0
+  },
+  {
+   "fn": "scan_file",
+   "file": "crates/viola-e2e/src/harness/secret_scan.rs:116",
+   "value": 15.0
+  },
+  {
+   "fn": "check_screen",
+   "file": "tests/contract_fixture_hygiene.rs:161",
+   "value": 15.0
+  },
+  {
+   "fn": "step",
+   "file": "src/run/wheel.rs:385",
+   "value": 14.0
+  },
+  {
+   "fn": "dialog_replay",
+   "file": "tests/contract_fake_agent_drift.rs:162",
+   "value": 14.0
+  },
+  {
+   "fn": "readiness",
+   "file": "crates/viola-e2e/src/harness/boot.rs:355",
+   "value": 13.0
+  },
+  {
+   "fn": "check_tree",
+   "file": "crates/viola-e2e/src/harness/schema_check.rs:85",
+   "value": 13.0
+  }
+ ]
+}

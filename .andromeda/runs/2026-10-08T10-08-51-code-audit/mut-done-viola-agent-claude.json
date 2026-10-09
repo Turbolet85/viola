@@ -1,0 +1,56 @@
+{
+ "unit": "viola-agent-claude",
+ "state": "complete",
+ "exit_code": 2,
+ "planned": 462,
+ "listed": 462,
+ "tested": 462,
+ "wall_s": 644,
+ "driver_elapsed_s": 644,
+ "cap_s": 1800,
+ "resized": false,
+ "live_at_floor": null,
+ "jobs": 1,
+ "scope": "unit",
+ "started": "2026-10-08T10:49:16Z",
+ "ended": "2026-10-08T11:00:00Z",
+ "command": "cargo mutants --package viola-agent-claude --features fake-agent --test-tool=nextest --copy-target=true --caught --unviable --build-timeout=400 --output .andromeda/runs/2026-10-08T10-08-51-code-audit/mutants-viola-agent-claude",
+ "env": "every VIOLA_* and CLAUDE* name unset; TMPDIR=/home/turbolet/dev/projects/viola-mutants-scratch/e3 NEXTEST_PROFILE=mutants AGENT_RUN_KEEP_HOMES=0 AGENT_RUN_KEEP_FAILED=0 CARGO_TARGET_DIR=target/mutants",
+ "counts_tool": {
+  "caught": 420,
+  "missed": 6,
+  "timeout": 0,
+  "unviable": 36,
+  "success": 0
+ },
+ "baseline_outcome": {
+  "summary": "Success",
+  "phases": [
+   [
+    "Build",
+    6.462702205
+   ],
+   [
+    "Test",
+    0.502175104
+   ]
+  ]
+ },
+ "carry": {
+  "copies": {
+   "/home/turbolet/dev/projects/viola-mutants-scratch/e3/cargo-mutants-viola-Li4S9h.tmp": {
+    "seen": "2026-10-08T10:50:46Z",
+    "islink": true,
+    "readlink": "/tmp/viola-e2e-home-1000",
+    "isdir_nofollow": false,
+    "mode": "0o120777"
+   }
+  },
+  "backing": {},
+  "homes_min": 18,
+  "homes_max": 18,
+  "tmp_used_min": 11374260224,
+  "tmp_used_max": 11374362624,
+  "scratch_residue_after_exit": []
+ }
+}

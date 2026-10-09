@@ -1,0 +1,30 @@
+{
+ "line": 98.12,
+ "branch": null,
+ "lines": [
+  14876,
+  15161
+ ],
+ "functions": [
+  1982,
+  2025,
+  97.88
+ ],
+ "regions": [
+  28207,
+  28860,
+  97.74
+ ],
+ "branches_count": 0,
+ "files": 50,
+ "exit": 0,
+ "started": "2026-10-08T10:12:59Z",
+ "ended": "2026-10-08T10:13:52Z",
+ "tests": {
+  "wall_s": 43.461,
+  "run": 1747,
+  "passed": 1747,
+  "slow": 5,
+  "skipped": 0
+ }
+}
