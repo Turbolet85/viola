@@ -40,6 +40,14 @@ slow-timeout = { period = "10s", terminate-after = 2 }
 fail-fast = { max-fail = 1, terminate = "wait" }
 slow-timeout = { period = "5s", terminate-after = 2 }
 
+# A `verify_window_` test waits out the gate's 8.5 s maximum wait four times by design (no screen
+# replayed: the untrusted, trusted, dialog and plan runs), about 35 s, below this 45 s kill.
+# It stands first because the first matching override wins: a harness test of the class also
+# matches `package(viola-e2e)` below, and would otherwise take that 30 s kill, under its own wait.
+[[profile.mutants.overrides]]
+filter = 'test(/verify_window_/)'
+slow-timeout = { period = "15s", terminate-after = 3 }
+
 # The harness's own tests wait out its 20 s boot deadline by design. When a diff touches the harness,
 # its baseline runs past 20 s, so cargo-mutants' auto timeout scales well above this 30 s kill.
 [[profile.mutants.overrides]]
@@ -50,9 +58,3 @@ slow-timeout = { period = "15s", terminate-after = 2 }
 [[profile.mutants.overrides]]
 filter = 'test(/send_window_/)'
 slow-timeout = { period = "15s", terminate-after = 2 }
-
-# A `verify_window_` test waits out the gate's 8.5 s maximum wait four times by design (no screen
-# replayed: the untrusted, trusted, dialog and plan runs), about 35 s, below this 45 s kill.
-[[profile.mutants.overrides]]
-filter = 'test(/verify_window_/)'
-slow-timeout = { period = "15s", terminate-after = 3 }

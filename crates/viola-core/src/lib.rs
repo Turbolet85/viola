@@ -125,6 +125,7 @@ pub enum NotDelivered {
     TurnRunning,
     UnknownDialog,
     ControlCharacter,
+    EmptyText,
 }
 
 impl NotDelivered {
@@ -135,6 +136,7 @@ impl NotDelivered {
             Self::TurnRunning => "turn-running",
             Self::UnknownDialog => "unknown-dialog",
             Self::ControlCharacter => "control-character",
+            Self::EmptyText => "empty-text",
         }
     }
 }
@@ -399,6 +401,7 @@ mod tests {
             (NotDelivered::TurnRunning, "turn-running"),
             (NotDelivered::UnknownDialog, "unknown-dialog"),
             (NotDelivered::ControlCharacter, "control-character"),
+            (NotDelivered::EmptyText, "empty-text"),
         ];
         for (detail, text) in table {
             assert_eq!(detail.as_str(), text);

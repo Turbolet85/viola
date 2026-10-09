@@ -11,16 +11,26 @@ fn workspace() -> PathBuf {
 
 /// The body of a `[name]` table: the lines after its header, up to the next header.
 fn table(manifest: &str, name: &str) -> Option<Vec<String>> {
+    tables(manifest, name).into_iter().next()
+}
+
+/// The body of every `[name]` table, in file order: an array of tables repeats its header.
+fn tables(manifest: &str, name: &str) -> Vec<Vec<String>> {
     let header = format!("[{name}]");
-    let mut lines = manifest.lines().skip_while(|l| l.trim() != header);
-    lines.next()?;
-    Some(
-        lines
-            .take_while(|l| !l.trim_start().starts_with('['))
-            .map(|l| l.trim().to_owned())
-            .filter(|l| !l.is_empty() && !l.starts_with('#'))
-            .collect(),
-    )
+    let lines: Vec<&str> = manifest.lines().collect();
+    lines
+        .iter()
+        .enumerate()
+        .filter(|(_, l)| l.trim() == header)
+        .map(|(at, _)| {
+            lines[at + 1..]
+                .iter()
+                .take_while(|l| !l.trim_start().starts_with('['))
+                .map(|l| l.trim().to_owned())
+                .filter(|l| !l.is_empty() && !l.starts_with('#'))
+                .collect()
+        })
+        .collect()
 }
 
 fn inherits_workspace_lints(manifest: &str) -> bool {
@@ -99,6 +109,12 @@ fn table_reads_the_body_up_to_the_next_header() {
         Some(vec!["workspace = true".to_owned()])
     );
     assert_eq!(table(text, "missing"), None);
+    let repeated = "[[o]]\nf = 1\n# note\n[[o]]\nf = 2\n[p]\nf = 3\n[[o]]\n";
+    assert_eq!(
+        tables(repeated, "[o]"),
+        vec![vec!["f = 1".to_owned()], vec!["f = 2".to_owned()], vec![]]
+    );
+    assert_eq!(table(repeated, "[o]"), Some(vec!["f = 1".to_owned()]));
     assert!(inherits_workspace_lints(text));
     assert!(!inherits_workspace_lints("[lints]\nworkspace = false\n"));
     assert!(!inherits_workspace_lints(
@@ -109,6 +125,10 @@ fn table_reads_the_body_up_to_the_next_header() {
 /// cargo-mutants' auto timeout floors here: a wait at or above it grades a hang Timeout. Seconds,
 /// not a `Duration` constant, so the lint never reads it as a test deadline.
 const MUTANTS_FLOOR_SECS: u64 = 20;
+
+const MUTANTS_OVERRIDES: &str = "[profile.mutants.overrides]";
+const E2E_FILTER: &str = "filter = 'package(viola-e2e)'";
+const VERIFY_WINDOW_FILTER: &str = "filter = 'test(/verify_window_/)'";
 
 /// `period` × `terminate-after` of a table's
 /// `slow-timeout = { period = "<n>s", terminate-after = <n> }` line.
@@ -225,14 +245,12 @@ fn test_deadlines_sit_below_the_nextest_kill_line() {
     let nextest = read(&root.join(".config").join("nextest.toml"));
     let mutants = kill_line(&table(&nextest, "profile.mutants").expect("[profile.mutants]"))
         .expect("the mutants kill line");
-    let e2e_body = table(&nextest, "[profile.mutants.overrides]").expect("the mutants override");
-    assert!(
-        e2e_body
-            .iter()
-            .any(|l| l == "filter = 'package(viola-e2e)'"),
-        "{e2e_body:?}"
-    );
-    let e2e = kill_line(&e2e_body).expect("the viola-e2e kill line");
+    let overrides = tables(&nextest, MUTANTS_OVERRIDES);
+    let e2e_body = overrides
+        .iter()
+        .find(|body| body.iter().any(|l| l == E2E_FILTER))
+        .unwrap_or_else(|| panic!("no {E2E_FILTER} among {overrides:?}"));
+    let e2e = kill_line(e2e_body).expect("the viola-e2e kill line");
 
     let mut files = Vec::new();
     rs_files(&root.join("tests"), &root, &mut files);
@@ -251,6 +269,36 @@ fn test_deadlines_sit_below_the_nextest_kill_line() {
     assert!(!deadlines.is_empty(), "no test-side deadline found");
     let kill_of = |package: &str| if package == "viola-e2e" { e2e } else { mutants };
     assert_eq!(past_the_line(&deadlines, kill_of), Vec::<String>::new());
+}
+
+/// The position of the override carrying `filter` among `overrides`, in file order.
+fn override_at(overrides: &[Vec<String>], filter: &str) -> Option<usize> {
+    overrides
+        .iter()
+        .position(|body| body.iter().any(|l| l == filter))
+}
+
+/// nextest applies the first override that matches a test. A harness test of the `verify_window_`
+/// class matches `package(viola-e2e)` too, so in the `mutants` profile the class's override stands
+/// first: such a test takes the class's kill, above its designed wait, not the package's.
+#[test]
+fn mutants_verify_window_override_stands_before_the_harness_package_override() {
+    let nextest = read(&workspace().join(".config").join("nextest.toml"));
+    let overrides = tables(&nextest, MUTANTS_OVERRIDES);
+    let class = override_at(&overrides, VERIFY_WINDOW_FILTER).expect("the verify_window_ override");
+    let package = override_at(&overrides, E2E_FILTER).expect("the viola-e2e override");
+    assert!(class < package, "{overrides:?}");
+    assert!(
+        kill_line(&overrides[class]) > kill_line(&overrides[package]),
+        "{overrides:?}"
+    );
+
+    let swapped =
+        "[[o]]\nfilter = 'package(viola-e2e)'\n[[o]]\nfilter = 'test(/verify_window_/)'\n";
+    let swapped = tables(swapped, "[o]");
+    assert_eq!(override_at(&swapped, E2E_FILTER), Some(0));
+    assert_eq!(override_at(&swapped, VERIFY_WINDOW_FILTER), Some(1));
+    assert_eq!(override_at(&swapped, "filter = 'none'"), None);
 }
 
 /// The check fires on a deadline at the kill line or at the floor and passes one below both, and

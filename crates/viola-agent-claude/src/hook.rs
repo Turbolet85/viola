@@ -191,16 +191,21 @@ pub(crate) fn prompt_text(raw: &str) -> String {
     unescape_tags(&unwrap_pastes(raw))
 }
 
-/// A sent text as `send` types it: without its trailing LF characters, and with nothing else
-/// removed (no CR, TAB or space, no newline that is not at the very end). Measured on 2.1.287, on
-/// a verified and an unverified home: the CLI drops a pasted text's last newline before
-/// UserPromptSubmit, so a text typed with it comes back one byte short of the text `send` matches
-/// (chunk 2026-10-07-live-rows-and-paste-shapes-on-the-dev-host: `evidence/hint-window.md` step 7,
-/// `scratch-session.md`, `live-shape-red-green.md`). The width is every trailing LF, so the typed
-/// text never ends in one and what the CLI does with two is not leaned on. The founder's ruling,
-/// live, 2026-10-07T15:21Z, every option shown to him (architecture.md [Delivery Confirmation]).
+/// A sent text as `send` types it: without its trailing CR and LF characters, every one of them in
+/// any order, and with nothing else removed (no TAB or space, no CR or LF that is not at the very
+/// end). Measured on 2.1.287: the CLI drops a pasted text's newline ending before
+/// UserPromptSubmit, so a text typed with it comes back short of the text `send` matches. One LF,
+/// on a verified and an unverified home (chunk
+/// 2026-10-07-live-rows-and-paste-shapes-on-the-dev-host: `evidence/hint-window.md` step 7,
+/// `scratch-session.md`, `live-shape-red-green.md`); one CR (chunk
+/// 2026-10-08-first-live-test-and-self-drive: `evidence/live-readings.ndjson`, `trailing-cr`); one
+/// CRLF and two CRs (chunk 2026-10-09-epoch-3-cleanup: `evidence/live-readings.ndjson`,
+/// `trailing-crlf` and `trailing-cr-cr`). The width is every trailing CR and LF, so the typed text
+/// never ends in one and what the CLI does with a longer run is not leaned on. The founder's
+/// rulings, live: 2026-10-07T15:21Z for LF and 2026-10-09 for CR and CRLF, the options shown to
+/// him each time (architecture.md [Delivery Confirmation]).
 pub fn typed_text(text: &str) -> &str {
-    text.trim_end_matches('\n')
+    text.trim_end_matches(['\r', '\n'])
 }
 
 const PASTE_OPEN: &str = "<pasted_content id=\"";
@@ -652,15 +657,25 @@ mod tests {
         assert_eq!(got.data["text"], text.as_str());
     }
 
-    /// Only the LF characters at the very end go; every other byte stays where it is.
+    /// Only the CR and LF characters at the very end go, every one of them in any order; every
+    /// other byte stays where it is. The `measured` labels name the chunk whose live reading on
+    /// 2.1.287 found the CLI submitting that ending's text without it.
     #[rstest]
     #[case::one("x\n", "x")]
     #[case::three("x\n\n\n", "x")]
-    #[case::a_cr_before_it_stays("x\r\n", "x\r")]
+    #[case::one_cr_measured_2026_10_08_first_live_test_and_self_drive("x\r", "x")]
+    #[case::one_crlf_measured_2026_10_09_epoch_3_cleanup("x\r\n", "x")]
+    #[case::two_crs_measured_2026_10_09_epoch_3_cleanup("x\r\r", "x")]
+    #[case::crlf_twice("x\r\n\r\n", "x")]
+    #[case::an_lf_before_a_cr("x\n\r", "x")]
     #[case::only_newlines("\n\n", "")]
+    #[case::only_crs_and_lfs("\r\n\r\r\n", "")]
     #[case::an_inner_newline("x\ny", "x\ny")]
+    #[case::an_inner_cr("x\ry", "x\ry")]
+    #[case::an_inner_crlf("x\r\ny", "x\r\ny")]
     #[case::a_space_after_it("x\n ", "x\n ")]
     #[case::a_tab_after_it("x\n\t", "x\n\t")]
+    #[case::a_tab_after_a_crlf("x\r\n\t", "x\r\n\t")]
     #[case::none("x", "x")]
     #[case::empty("", "")]
     fn typed_text_drops_every_trailing_newline_and_nothing_else(

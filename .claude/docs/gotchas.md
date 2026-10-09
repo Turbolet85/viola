@@ -134,6 +134,12 @@ Rendered by `/andromeda-setup-project` on the first run and kept current by wrap
 **Fix if broken:** a stalled-start red is first a question about the backing: read that check before anything else, and report it; never re-run for a green.
 **References:** arch §Occupied Resources (Repository, Filesystem); test-plan §3 Test data bootstrap; chunk 2026-10-07-test-homes-off-the-contended-volume `evidence/backing.md`.
 
+## The `mutants` profile kills a root test at 10 s
+**What breaks:** under the nextest `mutants` profile a root test is killed at 10 s (5 s × 2), which equals `CONFIRM_WINDOW_FALLBACK`; a harness test (`package(viola-e2e)`) at 30 s. A test that waits out a designed floor (the product's 10 s confirmation window; verify's four waits of the gate's 8.5 s maximum, about 34.5 s) passes under profile `ci` and is killed there, and a mutation run then ends before any mutant is graded. The first matching override wins, so a class override listed after a broader filter that also matches the test never applies.
+**How to avoid:** a test that waits out a designed floor carries `send_window_` or `verify_window_` in its name (30 s and 45 s under `mutants`), and the `verify_window_` override stands ahead of `package(viola-e2e)`; `tests/contract_lints.rs` pins that order. Size any other new root case against the 10 s kill, not CI's 20 s.
+**Fix if broken:** measure the floor first; rename the test into its class. A kill line moves only for a floor that is by design, with a planted-hang control, both readings recorded.
+**References:** test-plan §3 Bootstrap phases `test-runner-install`, §10 Mutation gate; `.config/nextest.toml`; `.claude/rules/testing.md` 2026-09-24 (extended 2026-10-06), 2026-09-28 (extended 2026-10-05); chunk 2026-10-09-epoch-3-cleanup `evidence/e2e-floor.md`, `evidence/planted-hang.md`.
+
 ## Related
 
 - For runtime-discovered learnings, see `.claude/docs/session-learnings.md` (curated by /andromeda-wrap-session)

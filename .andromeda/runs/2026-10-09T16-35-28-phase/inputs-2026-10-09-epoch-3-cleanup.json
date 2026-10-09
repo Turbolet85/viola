@@ -1,0 +1,57 @@
+[
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "d45f2ad1",
+"ts": "2026-10-09T16:35:51Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-09-epoch-3-cleanup",
+"--message-file",
+".andromeda/runs/2026-10-09T16-35-28-phase/relay-1.md",
+"--origin",
+"the operator, in the /andromeda-phase invocation of the revision, 2026-10-09T16:35Z",
+"--kind",
+"relay",
+"--why",
+"implement stopped on its plan: the artifact key leaves gate entries 22 and 23, and one lone-inner-CR reading is added as start 4 of 5 on the new build, with no behaviour change",
+"--step",
+"phase:P3",
+"--run-dir",
+".andromeda/runs/2026-10-09T16-35-28-phase",
+"--marker",
+"2026-10-09-epoch-3-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I7 · copy message · message: the operator, in the /andromeda-phase invocation of the revision, 2026-10-09T16:35Z",
+"cite: inputs#I7"
+],
+"stderr": null,
+"wrote": [
+"inputs/I7-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I7",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, in the /andromeda-phase invocation of the revision, 2026-10-09T16:35Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "c8c02d3be400c6f8670943da443de84457b25440c351651dfa26976e5495779e",
+"copy": "I7-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-09T16:35:51Z",
+"step": "phase:P3",
+"why": "implement stopped on its plan: the artifact key leaves gate entries 22 and 23, and one lone-inner-CR reading is added as start 4 of 5 on the new build, with no behaviour change"
+}
+}
+]

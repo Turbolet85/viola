@@ -1,0 +1,92 @@
+[
+{
+"tool": "gate",
+"v": "1.13",
+"sha8": "3718c868",
+"ts": "2026-10-09T15:23:05Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"viola-0.1.0/chunks/2026-10-09-epoch-3-cleanup/research.md",
+"--run-dir",
+".andromeda/runs/2026-10-09T15-03-42-phase",
+"--marker",
+"2026-10-09-epoch-3-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 36 items (new 3 · modify 33 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 36,
+"unparsed": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.13",
+"sha8": "3718c868",
+"ts": "2026-10-09T15:29:18Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"viola-0.1.0/chunks/2026-10-09-epoch-3-cleanup/research.md",
+"--run-dir",
+".andromeda/runs/2026-10-09T15-03-42-phase",
+"--marker",
+"2026-10-09-epoch-3-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 14 items (new 2 · modify 12 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 14,
+"unparsed": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.13",
+"sha8": "3718c868",
+"ts": "2026-10-09T15:42:38Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"viola-0.1.0/chunks/2026-10-09-epoch-3-cleanup/research.md",
+"--run-dir",
+".andromeda/runs/2026-10-09T15-03-42-phase",
+"--marker",
+"2026-10-09-epoch-3-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 14 items (new 2 · modify 12 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 14,
+"unparsed": 0
+}
+}
+]

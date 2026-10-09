@@ -1,7 +1,8 @@
 //! The wrapper re-runs the paste validator (security-plan §Input Validation, "Paste text"; test-plan
 //! §5 Wrapper channel): a raw channel client that skips `viola send`'s own check still gets each
 //! control class refused `not-delivered / control-character`, with nothing typed and no
-//! `send-issued`; LF, CR, TAB and multibyte text are typed whole.
+//! `send-issued`; LF, CR, TAB and multibyte text are typed whole. A text with nothing left to type
+//! is refused `not-delivered / empty-text` by the wrapper the same way.
 
 #[allow(dead_code)]
 mod support;
@@ -86,6 +87,64 @@ fn channel_paste_refuses_each_control_class() {
         && l["detail"] == "control-character"
         && l["corr"].is_u64()
         && l["rpc_id"] == 1));
+    wrapper.stop();
+}
+
+/// A raw client that skips `viola send`'s own check: the wrapper refuses a text whose typed text is
+/// empty by itself, before anything is issued or typed. The inputs hold no content, so they carry
+/// no canary.
+#[test]
+fn send_empty_text_straight_to_the_wrapper_is_refused() {
+    let wrapper = boot();
+    let dir = wrapper.instance_dir();
+    let texts = ["", "\n", "\r\n"];
+    for text in texts {
+        let reply = request(&dir, text);
+        assert_eq!(
+            reply["result"],
+            json!({"refusal": "not-delivered", "detail": "empty-text"}),
+            "{text:?}"
+        );
+    }
+    let events = events(&dir);
+    assert!(!events.iter().any(|e| e["kind"] == "send-issued"));
+    let refused: Vec<&Value> = events
+        .iter()
+        .filter(|e| e["kind"] == "send-refused")
+        .collect();
+    assert_eq!(refused.len(), texts.len());
+    for record in refused {
+        assert_eq!(
+            record["data"],
+            json!({"refusal": "not-delivered", "detail": "empty-text"}),
+            "no cursor: refused before send-issued"
+        );
+    }
+    let receipt = fake::receipt(&wrapper.receipt());
+    assert!(of_kind(&receipt, "prompt").is_empty(), "a prompt was typed");
+    let role = support::ndjson::read_lines(
+        &wrapper
+            .home()
+            .join("diagnostics")
+            .join("run-builder.ndjson"),
+    );
+    let lines: Vec<&Value> = role
+        .iter()
+        .filter(|l| l["event"] == "send-refused")
+        .collect();
+    assert_eq!(
+        lines.len(),
+        texts.len(),
+        "one wrapper line for each request"
+    );
+    for line in lines {
+        assert_eq!(line["side"], "wrapper");
+        assert_eq!(line["refusal"], "not-delivered");
+        assert_eq!(line["detail"], "empty-text");
+        assert!(line["corr"].is_u64(), "{line}");
+        assert!(line["conn"].is_string(), "{line}");
+        assert_eq!(line["rpc_id"], 1);
+    }
     wrapper.stop();
 }
 

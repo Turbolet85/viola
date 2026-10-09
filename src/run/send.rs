@@ -2,8 +2,9 @@
 //! one send in flight, the readiness gate, `send-issued` at the pre-paste cursor, one bracketed paste + Enter,
 //! then confirmation after the fact — the matching `prompt-submitted`, relabelled `driver`, inside
 //! the window — or `not-delivered`. The text is validated as received and typed without its
-//! trailing newlines (`typed_text`; the founder's ruling of 2026-10-07T15:21Z): the list,
-//! the paste, `text_bytes` and the exact match all read that one typed text. A text that is
+//! trailing CR and LF characters (`typed_text`; the founder's rulings of 2026-10-07T15:21Z and
+//! 2026-10-09): the list, the paste, `text_bytes` and the exact match all read that one typed
+//! text, and a typed text with nothing in it is refused `empty-text` before the wheel is read. A text that is
 //! exactly a compiled local command fires no prompt: one with a post-condition measured on this
 //! CLI version is confirmed by it inside the same window, any other is `unconfirmable` at once.
 //! Each outcome is an `events.ndjson` record and a codes-only `send-*` line; the text reaches
@@ -296,10 +297,11 @@ pub(crate) fn parse_from(params: &Value) -> Result<Option<ViolaName>, ProtocolEr
     }
 }
 
-/// The `send` method, in the documented refusal order. The wheel and the running turn are read
-/// twice, in that order both times: at arrival, and again once the gate's wait has ended, because
-/// that wait can run to `GATE_MAX_WAIT`. A human key or a turn that started during it refuses with
-/// nothing typed.
+/// The `send` method, in the documented refusal order. The text's own refusals come first, a
+/// refused character and then an empty typed text, before anything of the session is read. The
+/// wheel and the running turn are read twice, in that order both times: at arrival, and again
+/// once the gate's wait has ended, because that wait can run to `GATE_MAX_WAIT`. A human key or a
+/// turn that started during it refuses with nothing typed.
 pub(crate) fn send(
     slot: &SendSlot,
     name: &ViolaName,
@@ -319,6 +321,9 @@ pub(crate) fn send(
         return ctx.not_delivered(None, detail);
     }
     let text = typed_text(text);
+    if text.is_empty() {
+        return ctx.not_delivered(None, NotDelivered::EmptyText);
+    }
     if let Some(detail) = slot.wheel.human_typing() {
         return ctx.refuse(
             None,
@@ -715,9 +720,45 @@ mod tests {
         wheel.pause(&call(&none, 1)).expect("paused");
     }
 
-    /// The `send` order, written out: control-character ahead of everything, then the wheel, then
-    /// the one in flight, then the gate, then the window.
+    /// The `send` order, written out: control-character ahead of everything, then an empty typed
+    /// text, then the wheel, then the one in flight, then the gate, then the window.
     #[rstest]
+    #[case::control_character_before_empty_text(
+        "\u{1b}\r\n",
+        Setup::NoChild,
+        "not-delivered",
+        Some("control-character")
+    )]
+    #[case::empty_text_before_human_typing(
+        "\r\n",
+        Setup::HumanInFlight,
+        "not-delivered",
+        Some("empty-text")
+    )]
+    #[case::empty_text_before_manual_pause(
+        "\n",
+        Setup::PausedTurn,
+        "not-delivered",
+        Some("empty-text")
+    )]
+    #[case::empty_text_before_turn_running(
+        "",
+        Setup::InFlightNoChild,
+        "not-delivered",
+        Some("empty-text")
+    )]
+    #[case::empty_text_before_a_running_turn(
+        "\r\r",
+        Setup::TurnNoChild,
+        "not-delivered",
+        Some("empty-text")
+    )]
+    #[case::empty_text_before_input_not_ready(
+        "\n\r",
+        Setup::Poisoned,
+        "not-delivered",
+        Some("empty-text")
+    )]
     #[case::control_character_before_human_typing(
         "x\u{1b}[201~",
         Setup::PausedInFlight,
@@ -916,21 +957,97 @@ mod tests {
         confirmed_with("harness");
     }
 
-    /// A text ending in newlines is typed without them, and the prompt the hook reports for the
-    /// typed text is the send's own: confirmed, the wheel left with the driver.
+    /// A text ending in CR and LF characters is typed without them, and the prompt the hook
+    /// reports for the typed text is the send's own: confirmed, the wheel left with the driver.
     #[rstest]
     #[case::one("\n")]
     #[case::two("\n\n")]
+    #[case::one_cr("\r")]
+    #[case::one_crlf("\r\n")]
+    #[case::two_crs("\r\r")]
+    #[case::crlf_twice("\r\n\r\n")]
+    #[case::an_lf_before_a_cr("\n\r")]
     fn send_trailing_newlines_are_not_typed_and_the_send_is_confirmed(#[case] tail: &str) {
         confirmed_as(&format!("{CANARY}{tail}"), CANARY, "human");
     }
 
-    /// A refused character is refused whatever follows it: the text is validated as received.
-    #[test]
-    fn send_a_refused_character_before_a_trailing_newline_is_control_character() {
+    /// A typed text with nothing in it is refused first after `control-character`: before the
+    /// wheel, the slot and the child are read. Nothing is reserved, issued or typed, and the
+    /// refusal's record holds no cursor. The child here takes every paste, so a text that got
+    /// past the rung would be typed.
+    #[rstest]
+    #[case::the_empty_text("")]
+    #[case::one_lf("\n")]
+    #[case::one_crlf("\r\n")]
+    #[case::two_crs("\r\r")]
+    fn send_empty_text_is_refused_first_after_control_character(#[case] text: &str) {
         let tmp = tempfile::tempdir().expect("tempdir");
         let (slot, pastes) = mute_child();
-        let params = json!({"v": 1, "text": "x\u{1b}[201~\n"});
+        let params = json!({"v": 1, "text": text});
+        let reply = send(&slot, &name(), tmp.path(), &call(&params, 1)).expect("answered");
+        assert_eq!(
+            reply,
+            json!({"refusal": "not-delivered", "detail": "empty-text"})
+        );
+        assert!(pastes.all().is_empty(), "nothing typed");
+        assert_eq!(kinds(tmp.path()), ["send-refused"], "no send-issued");
+        assert_refused_without_a_cursor(tmp.path(), Some("empty-text"));
+        assert_eq!(
+            events(tmp.path())[0]["data"],
+            json!({"refusal": "not-delivered", "detail": "empty-text"})
+        );
+        assert!(slot.flight().send.is_none(), "nothing reserved");
+        assert_eq!(slot.wheel.holder(), Wheel::Driver);
+        assert!(!slot.wheel.turn_running());
+    }
+
+    /// The rung stands ahead of the wheel: under a human wheel the refusal is still `empty-text`,
+    /// and the wheel stays where the human put it.
+    #[test]
+    fn send_empty_text_under_a_human_wheel_is_still_empty_text() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (slot, pastes) = mute_child();
+        slot.wheel.human_input();
+        let params = json!({"v": 1, "text": "\r\n"});
+        let reply = send(&slot, &name(), tmp.path(), &call(&params, 1)).expect("answered");
+        assert_eq!(
+            reply,
+            json!({"refusal": "not-delivered", "detail": "empty-text"})
+        );
+        assert!(pastes.all().is_empty(), "nothing typed");
+        assert_eq!(kinds(tmp.path()), ["send-refused"]);
+        assert_refused_without_a_cursor(tmp.path(), Some("empty-text"));
+        assert_eq!(slot.wheel.holder(), Wheel::Human, "the wheel is not moved");
+    }
+
+    /// The rung stands ahead of the running turn too, and leaves the turn running.
+    #[test]
+    fn send_empty_text_while_a_turn_runs_is_still_empty_text() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (slot, pastes) = mute_child();
+        slot.wheel.turn_started();
+        let params = json!({"v": 1, "text": "\n"});
+        let reply = send(&slot, &name(), tmp.path(), &call(&params, 1)).expect("answered");
+        assert_eq!(
+            reply,
+            json!({"refusal": "not-delivered", "detail": "empty-text"})
+        );
+        assert!(pastes.all().is_empty(), "nothing typed");
+        assert_eq!(kinds(tmp.path()), ["send-refused"]);
+        assert_refused_without_a_cursor(tmp.path(), Some("empty-text"));
+        assert!(slot.wheel.turn_running(), "the turn still runs");
+        assert_eq!(slot.wheel.holder(), Wheel::Driver);
+    }
+
+    /// A refused character is refused whatever follows it: the text is validated as received.
+    #[rstest]
+    #[case::lf("\n")]
+    #[case::cr("\r")]
+    #[case::crlf("\r\n")]
+    fn send_a_refused_character_before_a_trailing_newline_is_control_character(#[case] tail: &str) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (slot, pastes) = mute_child();
+        let params = json!({"v": 1, "text": format!("x\u{1b}[201~{tail}")});
         let reply = send(&slot, &name(), tmp.path(), &call(&params, 1)).expect("answered");
         assert_eq!(
             reply,
@@ -944,15 +1061,18 @@ mod tests {
     /// The claim has no tolerance. While a text that ended in a newline is in flight, a prompt
     /// that still carries the newline is not the typed text: it is appended as the hook filed it,
     /// the human it names takes the wheel, and the send waits on to its window.
-    #[test]
-    fn send_a_prompt_that_keeps_the_trailing_newline_claims_nothing() {
+    #[rstest]
+    #[case::lf("\n")]
+    #[case::cr("\r")]
+    #[case::crlf("\r\n")]
+    fn send_a_prompt_that_keeps_the_trailing_newline_claims_nothing(#[case] tail: &str) {
         let tmp = tempfile::tempdir().expect("tempdir");
         let base = Instant::now();
         let (clock, jumping) = SwitchClock::at(base);
         let slot = SendSlot::new(clock, false, Arc::default());
         let (pastes, pasted) = Pastes::new();
         slot.attach(pastes.paste_fn(), quiet_gate(base));
-        let sent = format!("{CANARY}\n");
+        let sent = format!("{CANARY}{tail}");
         let params = json!({"v": 1, "text": sent});
         let (filed, waiting, reply) = std::thread::scope(|s| {
             let sending = s.spawn(|| send(&slot, &name(), tmp.path(), &call(&params, 1)));
@@ -1519,16 +1639,20 @@ mod tests {
         assert!(slot.flight().send.is_none(), "the slot is free again");
     }
 
-    /// The list is read by the typed text, so `/clear` and a newline is the listed command. On a
-    /// version where `/clear` is `unconfirmable`, it is typed as `/clear` and answered at once.
-    #[test]
-    fn send_local_command_decision_reads_the_text_without_its_trailing_newline() {
+    /// The list is read by the typed text, so `/clear` and a newline ending is the listed command.
+    /// On a version where `/clear` is `unconfirmable`, it is typed as `/clear` and answered at
+    /// once.
+    #[rstest]
+    #[case::lf("\n")]
+    #[case::cr("\r")]
+    #[case::crlf("\r\n")]
+    fn send_local_command_decision_reads_the_text_without_its_trailing_newline(#[case] tail: &str) {
         let tmp = tempfile::tempdir().expect("tempdir");
         let base = Instant::now();
         let slot = SendSlot::new(JumpClock(Mutex::new(base)), false, Arc::default());
         let (pastes, _pasted) = Pastes::new();
         slot.attach(pastes.paste_fn(), quiet_gate(base));
-        let params = json!({"v": 1, "text": "/clear\n"});
+        let params = json!({"v": 1, "text": format!("/clear{tail}")});
         let reply = send(&slot, &name(), tmp.path(), &call(&params, 1)).expect("answered");
         assert_eq!(pastes.all(), ["/clear"]);
         assert_eq!(
@@ -1542,16 +1666,21 @@ mod tests {
         );
     }
 
-    /// The listed command with no post-condition, followed by a newline, on a verified version:
-    /// typed as the command and answered `unconfirmable` at once.
-    #[test]
-    fn send_local_command_without_a_post_condition_and_a_trailing_newline_is_unconfirmable() {
+    /// The listed command with no post-condition, followed by a newline ending, on a verified
+    /// version: typed as the command and answered `unconfirmable` at once.
+    #[rstest]
+    #[case::lf("\n")]
+    #[case::cr("\r")]
+    #[case::crlf("\r\n")]
+    fn send_local_command_without_a_post_condition_and_a_trailing_newline_is_unconfirmable(
+        #[case] tail: &str,
+    ) {
         let tmp = tempfile::tempdir().expect("tempdir");
         let base = Instant::now();
         let slot = SendSlot::new(JumpClock(Mutex::new(base)), true, Arc::default());
         let (pastes, _pasted) = Pastes::new();
         slot.attach(pastes.paste_fn(), quiet_gate(base));
-        let params = json!({"v": 1, "text": "/remote-control\n"});
+        let params = json!({"v": 1, "text": format!("/remote-control{tail}")});
         let reply = send(&slot, &name(), tmp.path(), &call(&params, 1)).expect("answered");
         assert_eq!(pastes.all(), ["/remote-control"]);
         assert_eq!(
@@ -1561,18 +1690,24 @@ mod tests {
         assert_eq!(kinds(tmp.path()), ["send-issued", "send-confirmed"]);
     }
 
-    /// `/clear` and a newline on a verified version is `/clear`: typed as the command, then
-    /// confirmed by its post-condition as `send_local_command_clear_is_confirmed_by_a_new_session`
-    /// is. The clock jumps once the new session is on disk, so a send it did not confirm expires.
-    #[test]
-    fn send_local_command_clear_with_a_trailing_newline_is_confirmed_by_a_new_session() {
+    /// `/clear` and a newline ending (LF, CR or CRLF) on a verified version is `/clear`: typed as
+    /// the command, then confirmed by its post-condition as
+    /// `send_local_command_clear_is_confirmed_by_a_new_session` is. The clock jumps once the new
+    /// session is on disk, so a send it did not confirm expires.
+    #[rstest]
+    #[case::lf("\n")]
+    #[case::cr("\r")]
+    #[case::crlf("\r\n")]
+    fn send_local_command_clear_with_a_trailing_newline_is_confirmed_by_a_new_session(
+        #[case] tail: &str,
+    ) {
         let tmp = tempfile::tempdir().expect("tempdir");
         let base = Instant::now();
         let (clock, jumping) = SwitchClock::at(base);
         let slot = SendSlot::new(clock, true, Arc::default());
         let (pastes, pasted) = Pastes::new();
         slot.attach(pastes.paste_fn(), quiet_gate(base));
-        let params = json!({"v": 1, "text": "/clear\n"});
+        let params = json!({"v": 1, "text": format!("/clear{tail}")});
         let started = json!({"cause": "clear", "agent_session_id": "session-two"});
         let reply = std::thread::scope(|s| {
             let sending = s.spawn(|| send(&slot, &name(), tmp.path(), &call(&params, 1)));

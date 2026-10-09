@@ -212,6 +212,10 @@ pub(crate) fn send_hint(name: &str, cause: &str) -> Option<String> {
         "control-character" => {
             "the text contains a control character (only LF, CR, TAB are allowed)".to_owned()
         }
+        "empty-text" => {
+            "the text is empty once its trailing newlines are removed; send a text with content"
+                .to_owned()
+        }
         "input-not-ready" => {
             format!(
                 "{name} was not ready for input; send again, and if it repeats a human must look at the session"
@@ -372,6 +376,17 @@ mod tests {
             "[/ ] unable         builder  not-delivered  input-not-ready\n\
              hint: builder was not ready for input; send again, and if it repeats a human must look at the session\n"
         );
+        let hint = send_hint("builder", "empty-text");
+        assert_eq!(
+            one_write(|o| write_send_unable(
+                o,
+                "builder",
+                "not-delivered  empty-text",
+                hint.as_deref()
+            )),
+            "[/ ] unable         builder  not-delivered  empty-text\n\
+             hint: the text is empty once its trailing newlines are removed; send a text with content\n"
+        );
         assert_eq!(
             one_write(|o| write_send_unable(o, "builder", "unknown", None)),
             "[/ ] unable         builder  unknown\n"
@@ -402,6 +417,10 @@ mod tests {
     #[case::control_character(
         "control-character",
         "the text contains a control character (only LF, CR, TAB are allowed)"
+    )]
+    #[case::empty_text(
+        "empty-text",
+        "the text is empty once its trailing newlines are removed; send a text with content"
     )]
     #[case::input_not_ready(
         "input-not-ready",
@@ -534,6 +553,7 @@ mod tests {
     fn no_hint_names_release() {
         let causes = [
             "control-character",
+            "empty-text",
             "input-not-ready",
             "no-prompt-submitted",
             "turn-running",

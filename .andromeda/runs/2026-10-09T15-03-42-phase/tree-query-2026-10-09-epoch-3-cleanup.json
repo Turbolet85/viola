@@ -1,0 +1,477 @@
+[
+{
+"sql": "SELECT callee_name, caller_name, file, line + 1 AS editor_line FROM calls WHERE callee_name IN ('typed_text','validate_paste_text','dialog_variants','cli_sink','replace_private_shared','check_stamps','both_parallel_answered','parallel_both_before_first_post','clear_start','has_email','is_local_char','close_hooks','send_hint','read_capped','current_len','read_within') AND callee_kind = 'fn' ORDER BY callee_name, file, line",
+"rows": 71,
+"result": [
+{
+"callee_name": "both_parallel_answered",
+"caller_name": "check",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"editor_line": 767
+},
+{
+"callee_name": "check_stamps",
+"caller_name": "read_stamps_strict",
+"file": "crates/viola-state/src/stamps.rs",
+"editor_line": 78
+},
+{
+"callee_name": "check_stamps",
+"caller_name": "check_stamps_of_a_home_without_a_ledger_passes",
+"file": "crates/viola-state/src/strict.rs",
+"editor_line": 524
+},
+{
+"callee_name": "check_stamps",
+"caller_name": "check_stamps_of_a_home_viola_wrote_passes",
+"file": "crates/viola-state/src/strict.rs",
+"editor_line": 533
+},
+{
+"callee_name": "check_stamps",
+"caller_name": "check_stamps_refuses_a_widened_mode",
+"file": "crates/viola-state/src/strict.rs",
+"editor_line": 556
+},
+{
+"callee_name": "clear_start",
+"caller_name": "local_command_cleared",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"editor_line": 699
+},
+{
+"callee_name": "clear_start",
+"caller_name": "framing_variants",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"editor_line": 718
+},
+{
+"callee_name": "cli_sink",
+"caller_name": "dispatch",
+"file": "src/cmd/mod.rs",
+"editor_line": 87
+},
+{
+"callee_name": "cli_sink",
+"caller_name": "dispatch",
+"file": "src/cmd/mod.rs",
+"editor_line": 92
+},
+{
+"callee_name": "cli_sink",
+"caller_name": "dispatch",
+"file": "src/cmd/mod.rs",
+"editor_line": 97
+},
+{
+"callee_name": "cli_sink",
+"caller_name": "dispatch",
+"file": "src/cmd/mod.rs",
+"editor_line": 102
+},
+{
+"callee_name": "cli_sink",
+"caller_name": "dispatch",
+"file": "src/cmd/mod.rs",
+"editor_line": 107
+},
+{
+"callee_name": "cli_sink",
+"caller_name": "dispatch",
+"file": "src/cmd/mod.rs",
+"editor_line": 112
+},
+{
+"callee_name": "close_hooks",
+"caller_name": "read_stdin",
+"file": "src/bin/viola-fake-agent.rs",
+"editor_line": 728
+},
+{
+"callee_name": "close_hooks",
+"caller_name": "read_stdin",
+"file": "src/bin/viola-fake-agent.rs",
+"editor_line": 737
+},
+{
+"callee_name": "current_len",
+"caller_name": "end_offset",
+"file": "crates/viola-state/src/events.rs",
+"editor_line": 76
+},
+{
+"callee_name": "current_len",
+"caller_name": "append_event_at",
+"file": "crates/viola-state/src/events.rs",
+"editor_line": 87
+},
+{
+"callee_name": "dialog_variants",
+"caller_name": "dialog_variants_name_each_call_of_each_turn",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"editor_line": 2741
+},
+{
+"callee_name": "dialog_variants",
+"caller_name": "dialog_variants_name_each_call_of_each_turn",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"editor_line": 2762
+},
+{
+"callee_name": "dialog_variants",
+"caller_name": "dialog_variants_name_each_call_of_each_turn",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"editor_line": 2771
+},
+{
+"callee_name": "dialog_variants",
+"caller_name": "dialog_variants_keep_the_first_capture_of_a_variant",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"editor_line": 2782
+},
+{
+"callee_name": "dialog_variants",
+"caller_name": "record",
+"file": "src/cmd/verify.rs",
+"editor_line": 401
+},
+{
+"callee_name": "has_email",
+"caller_name": "screen_text_fault",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"editor_line": 1155
+},
+{
+"callee_name": "has_email",
+"caller_name": "has_email_reads_local_at_domain_dot_tld",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"editor_line": 2205
+},
+{
+"callee_name": "has_email",
+"caller_name": "check_screen",
+"file": "tests/contract_fixture_hygiene.rs",
+"editor_line": 197
+},
+{
+"callee_name": "is_local_char",
+"caller_name": "has_email",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"editor_line": 1178
+},
+{
+"callee_name": "parallel_both_before_first_post",
+"caller_name": "parallel_both_before_first_post_reads_the_claim_order",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"editor_line": 2719
+},
+{
+"callee_name": "parallel_both_before_first_post",
+"caller_name": "parallel_both_before_first_post_reads_the_claim_order",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"editor_line": 2723
+},
+{
+"callee_name": "parallel_both_before_first_post",
+"caller_name": "parallel_both_before_first_post_reads_the_claim_order",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"editor_line": 2729
+},
+{
+"callee_name": "parallel_both_before_first_post",
+"caller_name": "parallel_both_before_first_post_reads_the_claim_order",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"editor_line": 2734
+},
+{
+"callee_name": "parallel_both_before_first_post",
+"caller_name": "parallel_both_before_first_post_reads_the_claim_order",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"editor_line": 2735
+},
+{
+"callee_name": "parallel_both_before_first_post",
+"caller_name": "measure",
+"file": "src/cmd/verify.rs",
+"editor_line": 221
+},
+{
+"callee_name": "read_capped",
+"caller_name": "update_stamps",
+"file": "crates/viola-state/src/stamps.rs",
+"editor_line": 49
+},
+{
+"callee_name": "read_capped",
+"caller_name": "read_stamps",
+"file": "crates/viola-state/src/stamps.rs",
+"editor_line": 58
+},
+{
+"callee_name": "read_within",
+"caller_name": "read_from",
+"file": "crates/viola-state/src/events.rs",
+"editor_line": 137
+},
+{
+"callee_name": "read_within",
+"caller_name": "read",
+"file": "crates/viola-state/src/events.rs",
+"editor_line": 462
+},
+{
+"callee_name": "replace_private_shared",
+"caller_name": "replace_private_shared_fails_unless_the_bytes_are_already_there",
+"file": "crates/viola-state/src/fs.rs",
+"editor_line": 304
+},
+{
+"callee_name": "replace_private_shared",
+"caller_name": "replace_private_shared_fails_unless_the_bytes_are_already_there",
+"file": "crates/viola-state/src/fs.rs",
+"editor_line": 306
+},
+{
+"callee_name": "replace_private_shared",
+"caller_name": "tests",
+"file": "crates/viola-state/src/fs.rs",
+"editor_line": 345
+},
+{
+"callee_name": "replace_private_shared",
+"caller_name": "pin",
+"file": "crates/viola-state/src/pin.rs",
+"editor_line": 13
+},
+{
+"callee_name": "replace_private_shared",
+"caller_name": "pin_exe",
+"file": "crates/viola-state/src/pin.rs",
+"editor_line": 82
+},
+{
+"callee_name": "replace_private_shared",
+"caller_name": "pin",
+"file": "crates/viola-state/src/pin.rs",
+"editor_line": 172
+},
+{
+"callee_name": "replace_private_shared",
+"caller_name": "run",
+"file": "src/cmd/run.rs",
+"editor_line": 18
+},
+{
+"callee_name": "replace_private_shared",
+"caller_name": "pin_and_plugin",
+"file": "src/cmd/run.rs",
+"editor_line": 329
+},
+{
+"callee_name": "send_hint",
+"caller_name": "unable_unreachable",
+"file": "src/cmd/client.rs",
+"editor_line": 154
+},
+{
+"callee_name": "send_hint",
+"caller_name": "unable",
+"file": "src/cmd/send.rs",
+"editor_line": 149
+},
+{
+"callee_name": "send_hint",
+"caller_name": "unreachable",
+"file": "src/cmd/send.rs",
+"editor_line": 157
+},
+{
+"callee_name": "send_hint",
+"caller_name": "write_send_unable_puts_the_hint_last_in_one_write",
+"file": "src/human.rs",
+"editor_line": 364
+},
+{
+"callee_name": "send_hint",
+"caller_name": "send_hint_is_the_design_string",
+"file": "src/human.rs",
+"editor_line": 424
+},
+{
+"callee_name": "send_hint",
+"caller_name": "send_hint_has_none_for_an_opaque_cause",
+"file": "src/human.rs",
+"editor_line": 429
+},
+{
+"callee_name": "send_hint",
+"caller_name": "send_hint_has_none_for_an_opaque_cause",
+"file": "src/human.rs",
+"editor_line": 430
+},
+{
+"callee_name": "send_hint",
+"caller_name": "write_unable_puts_the_hint_last_in_one_write",
+"file": "src/human.rs",
+"editor_line": 450
+},
+{
+"callee_name": "send_hint",
+"caller_name": "no_hint_names_release",
+"file": "src/human.rs",
+"editor_line": 550
+},
+{
+"callee_name": "typed_text",
+"caller_name": "typed_text_drops_every_trailing_newline_and_nothing_else",
+"file": "crates/viola-agent-claude/src/hook.rs",
+"editor_line": 670
+},
+{
+"callee_name": "typed_text",
+"caller_name": "prompt_text_prop_round_trips_a_wrapped_paste",
+"file": "crates/viola-agent-claude/src/hook.rs",
+"editor_line": 814
+},
+{
+"callee_name": "typed_text",
+"caller_name": "send",
+"file": "src/run/send.rs",
+"editor_line": 19
+},
+{
+"callee_name": "typed_text",
+"caller_name": "send",
+"file": "src/run/send.rs",
+"editor_line": 321
+},
+{
+"callee_name": "validate_paste_text",
+"caller_name": "paste_text_literal_table",
+"file": "crates/viola-core/src/lib.rs",
+"editor_line": 444
+},
+{
+"callee_name": "validate_paste_text",
+"caller_name": "paste_text_literal_table",
+"file": "crates/viola-core/src/lib.rs",
+"editor_line": 456
+},
+{
+"callee_name": "validate_paste_text",
+"caller_name": "paste_text_boundaries_of_each_class",
+"file": "crates/viola-core/src/lib.rs",
+"editor_line": 465
+},
+{
+"callee_name": "validate_paste_text",
+"caller_name": "paste_text_boundaries_of_each_class",
+"file": "crates/viola-core/src/lib.rs",
+"editor_line": 466
+},
+{
+"callee_name": "validate_paste_text",
+"caller_name": "paste_text_boundaries_of_each_class",
+"file": "crates/viola-core/src/lib.rs",
+"editor_line": 467
+},
+{
+"callee_name": "validate_paste_text",
+"caller_name": "paste_text_boundaries_of_each_class",
+"file": "crates/viola-core/src/lib.rs",
+"editor_line": 468
+},
+{
+"callee_name": "validate_paste_text",
+"caller_name": "paste_text_boundaries_of_each_class",
+"file": "crates/viola-core/src/lib.rs",
+"editor_line": 469
+},
+{
+"callee_name": "validate_paste_text",
+"caller_name": "paste_text_prop_passes_only_allowed_chars",
+"file": "crates/viola-core/src/lib.rs",
+"editor_line": 499
+},
+{
+"callee_name": "validate_paste_text",
+"caller_name": "paste_text_prop_passes_only_allowed_chars",
+"file": "crates/viola-core/src/lib.rs",
+"editor_line": 507
+},
+{
+"callee_name": "validate_paste_text",
+"caller_name": "deliver",
+"file": "src/cmd/answer.rs",
+"editor_line": 105
+},
+{
+"callee_name": "validate_paste_text",
+"caller_name": "a_control_character_anywhere_in_the_response_is_found",
+"file": "src/cmd/answer.rs",
+"editor_line": 188
+},
+{
+"callee_name": "validate_paste_text",
+"caller_name": "deliver",
+"file": "src/cmd/send.rs",
+"editor_line": 187
+},
+{
+"callee_name": "validate_paste_text",
+"caller_name": "answer",
+"file": "src/run/dialog.rs",
+"editor_line": 329
+},
+{
+"callee_name": "validate_paste_text",
+"caller_name": "send",
+"file": "src/run/send.rs",
+"editor_line": 318
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller_name, file, line + 1 AS editor_line FROM calls WHERE callee_name = 'record' AND callee_kind = 'fn' AND callee_file LIKE '%src/cmd/verify.rs' ORDER BY file, line",
+"rows": 1,
+"result": [
+{
+"caller_name": "measure",
+"file": "src/cmd/verify.rs",
+"editor_line": 234
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT file, COUNT(*) AS sites FROM refs WHERE callee_name = 'NotDelivered' AND callee_kind = 'type' GROUP BY 1 ORDER BY 2 DESC, 1",
+"rows": 5,
+"result": [
+{
+"file": "crates/viola-core/src/lib.rs",
+"sites": 13
+},
+{
+"file": "src/run/send.rs",
+"sites": 9
+},
+{
+"file": "src/cmd/send.rs",
+"sites": 6
+},
+{
+"file": "src/run/dialog.rs",
+"sites": 4
+},
+{
+"file": "src/cmd/answer.rs",
+"sites": 1
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

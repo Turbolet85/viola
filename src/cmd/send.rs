@@ -1,7 +1,8 @@
 //! `viola send <name> [--file <PATH>] [--json]`: the driver's text, from stdin or `--file`, typed
 //! into the named instance as one bracketed paste and confirmed by the wrapper after the fact
-//! (architecture [Delivery Confirmation]). The text is checked here first (client checks are
-//! advisory; the wrapper re-runs them), the instance must be live by its snapshot pid + start time
+//! (architecture [Delivery Confirmation]). The text is checked here first, for a refused character
+//! and then for a typed text with nothing in it (client checks are advisory; the wrapper re-runs
+//! them), the instance must be live by its snapshot pid + start time
 //! and heartbeat, then one `send` request; the reply is the readback mirror or one `--json`
 //! document, and a typed exit code.
 
@@ -13,6 +14,7 @@ use std::process::ExitCode;
 use chrono::Utc;
 use serde_json::{Map, Value, json};
 use tracing::instrument;
+use viola_agent_claude::hook::typed_text;
 use viola_channel::{ChannelError, Client};
 use viola_core::obs::ObsEvent;
 use viola_core::{MAX_FRAME, NotDelivered, RefusalReason, ViolaName, obs_event};
@@ -183,8 +185,19 @@ pub(crate) fn send(home: &Path, args: &SendArgs) -> anyhow::Result<ExitCode> {
     Ok(ExitCode::from(code))
 }
 
-fn deliver(home: &Path, text: &str, out: &Out<'_>) -> anyhow::Result<u8> {
+/// The text's own refusals, decided before any frame and in the wrapper's order: a refused
+/// character, then a typed text with nothing in it.
+fn refusal_of(text: &str) -> Option<NotDelivered> {
     if let Err(detail) = viola_core::validate_paste_text(text) {
+        return Some(detail);
+    }
+    typed_text(text)
+        .is_empty()
+        .then_some(NotDelivered::EmptyText)
+}
+
+fn deliver(home: &Path, text: &str, out: &Out<'_>) -> anyhow::Result<u8> {
+    if let Some(detail) = refusal_of(text) {
         refused_client_side(detail);
         out.unable(RefusalReason::NotDelivered.as_str(), Some(detail.as_str()));
         run::log_self_exit(13, None);
@@ -280,6 +293,37 @@ mod tests {
     #[case::unlisted("wheel-held", 14)]
     fn exit_of_is_the_closed_table(#[case] reason: &str, #[case] exit: u8) {
         assert_eq!(exit_of(reason_of(reason)), exit);
+    }
+
+    /// The home holds no instance, so a text that reached the endpoint read would end 21: exit 13
+    /// is the refusal made before any frame.
+    #[rstest]
+    #[case::the_empty_text("")]
+    #[case::one_lf("\n")]
+    #[case::one_crlf("\r\n")]
+    fn deliver_empty_text_is_refused_before_any_frame(#[case] text: &str) {
+        let home = tempfile::tempdir().expect("tempdir");
+        let out = Out {
+            name: "builder",
+            json: true,
+        };
+        assert_eq!(refusal_of(text), Some(NotDelivered::EmptyText));
+        assert_eq!(deliver(home.path(), text, &out).expect("decided"), 13);
+        assert_eq!(deliver(home.path(), "x\r\n", &out).expect("decided"), 21);
+    }
+
+    #[rstest]
+    #[case::content("x", None)]
+    #[case::content_then_a_crlf("x\r\n", None)]
+    #[case::an_inner_newline_alone_is_content("\nx", None)]
+    #[case::a_tab_is_content("\t", None)]
+    #[case::a_refused_character_then_a_crlf("\u{1b}\r\n", Some(NotDelivered::ControlCharacter))]
+    #[case::a_refused_character_alone("\u{7f}", Some(NotDelivered::ControlCharacter))]
+    fn refusal_of_reads_a_refused_character_before_an_empty_text(
+        #[case] text: &str,
+        #[case] refusal: Option<NotDelivered>,
+    ) {
+        assert_eq!(refusal_of(text), refusal);
     }
 
     #[test]

@@ -262,7 +262,7 @@ fn boot_that_never_gets_ready_times_out_and_stops_its_supervisor() {
 /// exits 1, and boot stops there, before any supervisor. The workspace is a scratch root, so its
 /// session dir and home go with it.
 #[test]
-fn boot_with_an_unknown_cli_version_is_verify_failed() {
+fn verify_window_boot_with_an_unknown_cli_version_is_verify_failed() {
     let session = session_id("unverified");
     let scratch = tempfile::tempdir().expect("tempdir");
     let opts = BootOptions {

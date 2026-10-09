@@ -276,13 +276,16 @@ fn path2_send_confirms_with_cl1_events() {
     wrapper.stop();
 }
 
-/// A text ending in newlines is typed without them and confirmed (architecture [Delivery
-/// Confirmation]). The fake agent echoes what it is typed, so the exit code and the records are a
-/// floor: the receipt's bytes and the prompt's `text` are what tell the typed text from the sent one.
-/// The wheel stays with the driver, so the next send is typed too.
+/// A text ending in newlines (LF, CR, CRLF, several of them) is typed without them and confirmed
+/// (architecture [Delivery Confirmation]). The fake agent echoes what it is typed, so the exit code
+/// and the records are a floor: the receipt's bytes and the prompt's `text` are what tell the typed
+/// text from the sent one. The wheel stays with the driver, so the next send is typed too.
 #[rstest]
 #[case::one("\n")]
 #[case::two("\n\n")]
+#[case::one_cr("\r")]
+#[case::one_crlf("\r\n")]
+#[case::two_crs("\r\r")]
 fn send_text_ending_in_newlines_is_typed_without_them_and_confirmed(#[case] tail: &str) {
     let wrapper = boot(Some(PATH3), &[]);
     let dir = wrapper.instance_dir();
@@ -303,7 +306,10 @@ fn send_text_ending_in_newlines_is_typed_without_them_and_confirmed(#[case] tail
     let prompts = prompts_at_least(&wrapper.receipt(), 1);
     assert_eq!(prompts.len(), 1, "exactly one prompt typed");
     let hex = prompts[0]["hex"].as_str().expect("the typed bytes");
-    assert!(!hex.ends_with("0a"), "a newline was typed last: {hex}");
+    assert!(
+        !hex.ends_with("0a") && !hex.ends_with("0d"),
+        "a newline was typed last: {hex}"
+    );
     assert_eq!(fake::unhex(hex), typed.as_bytes());
     assert_eq!(prompts[0]["text"], typed.as_str());
 
@@ -356,6 +362,79 @@ fn send_text_ending_in_newlines_is_typed_without_them_and_confirmed(#[case] tail
     let prompts = prompts_at_least(&wrapper.receipt(), 2);
     assert_eq!(prompts.len(), 2);
     assert_eq!(prompts[1]["text"], again.as_str());
+    wrapper.stop();
+}
+
+/// A text with nothing left to type is refused at once by the client, before any frame
+/// (architecture §Conventions, Error handling schema): exit 13, the struck mirror line and its
+/// hint in human mode, one refusal document with `--json`. The wrapper is live and never hears of
+/// it: no record, no wrapper line, nothing typed. The inputs hold no content, so they carry no
+/// canary.
+#[rstest]
+#[case::the_empty_text("")]
+#[case::one_lf("\n")]
+#[case::one_crlf("\r\n")]
+fn send_empty_text_is_refused_at_once(#[case] text: &str) {
+    let wrapper = boot(None, &[]);
+    let dir = wrapper.instance_dir();
+    let home = wrapper.home().to_path_buf();
+    let l = end_offset(&dir);
+
+    let human = send(&home, &["builder"], text);
+    assert_eq!(human.code, Some(13), "stderr: {}", human.stderr);
+    assert!(human.stdout.is_empty(), "{}", human.stdout);
+    assert_eq!(
+        human.stderr,
+        "[/ ] unable         builder  not-delivered  empty-text\n\
+         hint: the text is empty once its trailing newlines are removed; send a text with content\n"
+    );
+    assert!(!human.stderr.contains('\x1b'), "an SGR byte on stderr");
+
+    let json_mode = send(&home, &["builder", "--json"], text);
+    assert_eq!(json_mode.code, Some(13), "stderr: {}", json_mode.stderr);
+    assert!(json_mode.stderr.is_empty(), "{}", json_mode.stderr);
+    assert!(!json_mode.stdout.contains('\x1b'), "an SGR byte on stdout");
+    assert_eq!(json_mode.stdout.lines().count(), 1, "one JSON document");
+    let doc: Value = serde_json::from_str(&json_mode.stdout).expect("one JSON document");
+    assert_eq!(
+        doc,
+        json!({"v": 1, "refusal": "not-delivered", "detail": "empty-text"})
+    );
+
+    assert_eq!(
+        end_offset(&dir),
+        l,
+        "no record: no frame reached the wrapper"
+    );
+    assert!(prompts(&wrapper.receipt()).is_empty(), "a prompt was typed");
+    let diagnostics = home.join("diagnostics");
+    let client = support::ndjson::read_lines(&diagnostics.join("cli-builder.ndjson"));
+    let refused: Vec<&Value> = client
+        .iter()
+        .filter(|r| r["event"] == "send-refused")
+        .collect();
+    assert_eq!(
+        refused.len(),
+        2,
+        "one client line for each of the two sends"
+    );
+    for line in refused {
+        assert_eq!(line["side"], "client");
+        assert_eq!(line["refusal"], "not-delivered");
+        assert_eq!(line["detail"], "empty-text");
+    }
+    let exits: Vec<&Value> = client
+        .iter()
+        .filter(|r| r["event"] == "process-exit")
+        .collect();
+    assert_eq!(exits.len(), 2);
+    assert!(exits.iter().all(|r| r["exit_code"] == 13), "{exits:?}");
+    let run = support::ndjson::read_lines(&diagnostics.join("run-builder.ndjson"));
+    assert!(
+        run.iter()
+            .all(|r| r["event"] != "send-issued" && r["event"] != "send-refused"),
+        "the wrapper logged a send"
+    );
     wrapper.stop();
 }
 

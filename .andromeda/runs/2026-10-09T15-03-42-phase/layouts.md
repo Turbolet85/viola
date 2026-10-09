@@ -1,0 +1,37 @@
+# layouts extract
+
+## Relevance
+partial — the chunk builds no surface and places no component; only scope §6 (the trailing CR / CRLF strip and the newline-only refusal with its new detail) changes what the cli surface prints, and scope §1, §2 and §5 refactor or test code behind cli output whose form must not move. The web-spa surface is a downstream reader of the new refusal detail, not edited here.
+
+## Constraints
+- A refusal carrying the new detail prints in the fixed line form on stderr, two-space separated, and `viola send` pads its `unable` into the mirror's word column after the struck box (per layout-templates §Surface: cli — Component — Primary content block 2: refusal lines and the `unable` column).
+- Every refusal cause takes its own `hint:` line keyed by reason or by reason · detail, placed directly under the refusal as the last stderr line; a hint never quotes the sent text or any upstream text and never names a path or a pid (per layout-templates §Surface: cli — Component — Primary content block 2: refusal lines and the `unable` column). The new detail is a new cause, so the section requires a hint for it; whether the code keys hints by detail today, and which reason the new detail rides, is research's question.
+- The typed exit code is the tail of the refusal and follows its reason; under `--json` the outcome is one document on stdout with no stderr line, no glyph and no hint text (per layout-templates §Surface: cli — Component — Primary content block 2: refusal lines and the `unable` column).
+- The `viola send` mirror is two appended lines: the TTY-only issue line on stderr printed when the request goes to the wrapper, then the outcome line under it, column for column, never redrawn (per layout-templates §Surface: cli — Signature placement). The section specifies the struck outcome for a refusal the wrapper returns; it gives no form for a refusal decided in the client before any request is sent. If scope §6's "refused at once" is decided client-side, whether an issue line precedes the struck line is not covered by the plan and is a P4 decision, not an extraction.
+- A text ending in CR or CRLF that the ruling makes confirmable takes the filled outcome line on stdout with exit 0, confirmed by the matching `prompt-submitted`, never by `turn-ended` (per layout-templates §Surface: cli — Signature placement).
+- The human columns and words are a stable contract because LLM drivers read them; a new field goes into `--json` first, and a new human column is a design change (per layout-templates §Surface: cli — IA notes). A new detail word fills the existing detail field and adds no column.
+- `viola verify` keeps one appended stdout step line per ledger row in ledger order and the `stamped` summary as the last stdout line, plain ASCII, no redraw (per layout-templates §Surface: cli — Output structure — `viola verify`). Scope §2 splits `record` in `src/cmd/verify.rs` with no behaviour change; whether `record` sits on the path that prints these lines is research's question.
+
+## Patterns to follow
+- The struck `send` outcome with its hint under it, as drawn for the `not-delivered` / `input-not-ready` case, is the template for the newline-only refusal's two stderr lines (per layout-templates §Surface: cli — Output structure — `viola send`).
+- One reason carrying several details, each with its own hint wording, as `viola answer`'s `not-delivered` / `unknown-dialog` pair shows (per layout-templates §Surface: cli — Output structure — wheel, handoff and dialog verbs).
+- The mirror's layout order — box, one space, padded state word, two-space gutter, NAME, outcome fields — holds for every outcome, the new one included (per layout-templates §Surface: cli — Component — Hero / signature output line (the `viola send` readback mirror)).
+- The web readback's `refused` word cell and the expanded tape line's body print the same reason and detail words the CLI prints, with `·` on the web where the CLI uses ` - ` inside a field (per layout-templates §Surface: cli — IA notes, Multi-surface coordination; §Surface: web-spa — Component — Hero / signature section).
+
+## Anti-patterns to avoid
+- A hint that names `viola release`: the refusals that carry hints reach drivers (per layout-templates §Surface: cli — Component — Primary navigation (verb structure)).
+- A hint or refusal line that echoes the refused text — for a newline-only text this includes any rendering of its newlines (per layout-templates §Surface: cli — Component — Primary content block 2: refusal lines and the `unable` column).
+- Colour, a spinner, a tick or a terminator word on the mirror, or a refusal on stdout mixed with results (per layout-templates §Surface: cli — Component — Hero / signature output line (the `viola send` readback mirror); §Surface: cli — Component — Footer / terminator).
+
+## Contract bindings
+- layouts ↔ architecture §Conventions: the refusal reason / detail closed list and the exit-code table are architecture's; the cli refusal line and the `--json` refusal document print them and add none of their own. The new detail's name is a contract change there first (scope §6, P4).
+- layouts ↔ security-plan §Input Validation: the typed-text sentence the ruling changes decides which sends reach the filled outcome and which the struck one; the layout fixes only how each prints.
+- layouts ↔ design-system (cli pattern 2): the per-cause hint list is design-system's; layout-templates §Surface: cli — Component — Primary content block 2 defers the cause list to it, so a new hint is worded against that pattern.
+- layouts ↔ tests: scope §1 lifts scaffolding out of `tests/cli_send.rs`, `tests/cli_answer.rs`, `tests/cli_wheel.rs`, `tests/cli_wait_last.rs` and `tests/cli_verify.rs`, and scope §2 names `tests/cli_output_plain.rs`; these pin the human output forms above, so the lift moves no asserted line, column or stream.
+- layouts ↔ obs / a11y (web-spa, read-only here): a CL-1 `send-refused` record feeds the web box's struck state, its word cell and the polite refusal announcement (layout-templates §Surface: web-spa — Component — Hero / signature section; a11y-plan D-A11Y-06 for the mechanics). Whether the page prints a detail it does not know verbatim or from a closed list is research's question.
+
+## Acceptance criteria contributions
+- (layouts) A newline-only `viola send` on a TTY ends with the struck outcome line in the mirror's columns carrying the new detail, its `hint:` line as the last stderr line, nothing on stdout, and the typed exit of its reason (per layout-templates §Surface: cli — Output structure — `viola send`; §Surface: cli — Component — Primary content block 2: refusal lines and the `unable` column).
+- (layouts) The same send under `--json` prints exactly one refusal document on stdout, with no stderr line, no glyph and no hint text (per layout-templates §Surface: cli — Component — Hero / signature output line (the `viola send` readback mirror)).
+- (layouts) A text ending in CR, and one ending in CRLF, once confirmed, prints the filled outcome line on stdout with exit 0 and no refusal or hint line (per layout-templates §Surface: cli — Signature placement).
+- (layouts) After the `record` split and the scaffolding lift, `viola verify` still prints its step lines in ledger order with the `stamped` summary as the last stdout line, and no existing cli output assertion changes text, column or stream (per layout-templates §Surface: cli — Output structure — `viola verify`; §Surface: cli — IA notes).

@@ -1,0 +1,99 @@
+[
+{
+"tool": "ci",
+"v": "1.1",
+"sha8": "71405e44",
+"ts": "2026-10-09T15:04:06Z",
+"argv": [
+"conclusion",
+"--sha",
+"59e791e9d321ff37e0ad45245633801b78020f1c",
+"--sha",
+"fe4f47fbd4300ae060428b146f01fab94c5c46e6",
+"--sha",
+"e304994ae0413c5cf5bf679a5b3d19abded0e472",
+"--run-dir",
+"./.andromeda/runs/2026-10-09T15-03-42-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"repo Turbolet85/viola (the push remote `origin`)",
+"59e791e9d321 verdict: in progress · checks 15/15 · runs ci#37948581286 in_progress/-",
+"fe4f47fbd430 verdict: green · checks 15/15 · wall 442 s · runs ci#37945992768 completed/success",
+"e304994ae041 verdict: red · checks 21/21 · first-fail +2277 s mutants (viola-e2e) · wall 9238 s · runs windows-mutants#…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"repo": "Turbolet85/viola",
+"host": "github.com",
+"repo_source": "the push remote `origin`",
+"names": [],
+"shas": [
+{
+"sha": "59e791e9d321ff37e0ad45245633801b78020f1c",
+"word": "in progress",
+"polls": [
+"in progress"
+]
+},
+{
+"sha": "fe4f47fbd4300ae060428b146f01fab94c5c46e6",
+"word": "green",
+"polls": [
+"green"
+]
+},
+{
+"sha": "e304994ae0413c5cf5bf679a5b3d19abded0e472",
+"word": "red",
+"polls": [
+"red"
+]
+}
+]
+}
+},
+{
+"tool": "ci",
+"v": "1.1",
+"sha8": "71405e44",
+"ts": "2026-10-09T15:20:22Z",
+"argv": [
+"conclusion",
+"--sha",
+"59e791e9d321ff37e0ad45245633801b78020f1c",
+"--run-dir",
+".andromeda/runs/2026-10-09T15-03-42-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"repo Turbolet85/viola (the push remote `origin`)",
+"59e791e9d321 verdict: green · checks 15/15 · wall 418 s · runs ci#37948581286 completed/success",
+"runs: ci#37948581286 push completed/success"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"repo": "Turbolet85/viola",
+"host": "github.com",
+"repo_source": "the push remote `origin`",
+"names": [],
+"shas": [
+{
+"sha": "59e791e9d321ff37e0ad45245633801b78020f1c",
+"word": "green",
+"polls": [
+"green"
+]
+}
+]
+}
+}
+]

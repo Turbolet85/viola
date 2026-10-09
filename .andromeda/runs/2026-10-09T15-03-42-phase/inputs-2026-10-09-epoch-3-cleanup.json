@@ -1,0 +1,221 @@
+[
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "d45f2ad1",
+"ts": "2026-10-09T15:05:22Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"./viola-0.1.0/chunks/2026-10-09-epoch-3-cleanup",
+"--message-file",
+"./.andromeda/runs/2026-10-09T15-03-42-phase/relay-1.md",
+"--origin",
+"the operator, in the /andromeda-phase invocation, 2026-10-09",
+"--kind",
+"relay",
+"--why",
+"the founder cap of 5 live claude starts on 2.1.287 by path; the viola-e2e kill form brought as a fork; the two stale Epoch 6 citations folded as an inferred item; a priced split card at P4 if the five CARRYs do not fit one builder window",
+"--step",
+"phase:P1",
+"--run-dir",
+"./.andromeda/runs/2026-10-09T15-03-42-phase",
+"--marker",
+"2026-10-09-epoch-3-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy message · message: the operator, in the /andromeda-phase invocation, 2026-10-09",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, in the /andromeda-phase invocation, 2026-10-09",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "9c502fb86efecf6cecaf6e96ef7133014089d5797995f8e1c622e78221ecbb81",
+"copy": "I1-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-09T15:05:22Z",
+"step": "phase:P1",
+"why": "the founder cap of 5 live claude starts on 2.1.287 by path; the viola-e2e kill form brought as a fork; the two stale Epoch 6 citations folded as an inferred item; a priced split card at P4 if the five CARRYs do not fit one builder window"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "d45f2ad1",
+"ts": "2026-10-09T15:05:22Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"./viola-0.1.0/chunks/2026-10-09-epoch-3-cleanup",
+"--source",
+"~/dev/projects/additional/andromedaV3/andromeda-overseer/docs/tools/hostwatch.py",
+"--kind",
+"sibling",
+"--why",
+"the host-pressure reader verification-harness.md is owed: its path outside this repository and its read and status verbs",
+"--step",
+"phase:P1",
+"--run-dir",
+"./.andromeda/runs/2026-10-09T15-03-42-phase",
+"--marker",
+"2026-10-09-epoch-3-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · pointer committed · ../additional/andromedaV3:andromeda-overseer/docs/tools/hostwatch.py",
+"commit 7d315d4e · ref main · upstream pushed",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "sibling",
+"repo": "../additional/andromedaV3",
+"path": "andromeda-overseer/docs/tools/hostwatch.py",
+"form": "pointer",
+"state": "committed",
+"commit": "7d315d4ed210e63b7ef1b09d534570a4d8cce8a0",
+"ref": "main",
+"upstream": "pushed",
+"claimed": null,
+"sha256": "5823aef8857879c989b9a73e2b42119b53dfe407f51fca8668b57305d627c032",
+"copy": null,
+"link": false,
+"read_at": "2026-10-09T15:05:22Z",
+"step": "phase:P1",
+"why": "the host-pressure reader verification-harness.md is owed: its path outside this repository and its read and status verbs"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "d45f2ad1",
+"ts": "2026-10-09T15:28:08Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-09-epoch-3-cleanup",
+"--message-file",
+".andromeda/runs/2026-10-09T15-03-42-phase/relay-2.md",
+"--origin",
+"the operator, in the P4 fork dialog, 2026-10-09; answers 1 and 3 carry the founder word relayed from the overseer dialog of 2026-10-09T15:27:46Z",
+"--kind",
+"relay",
+"--why",
+"the split in two is the founder word; the kill takes the verify_window_ name; the new detail is empty-text for any text with nothing to type, the empty text included, with the hint as shown, its rung beside control-character the overseer answer; the citation item reaches every stale site found",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-10-09T15-03-42-phase",
+"--marker",
+"2026-10-09-epoch-3-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: the operator, in the P4 fork dialog, 2026-10-09; answers 1 and 3 carry the founder word relayed from the overseer dialog of 2026-10-09T15:27:46Z",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, in the P4 fork dialog, 2026-10-09; answers 1 and 3 carry the founder word relayed from the overseer dialog of 2026-10-09T15:27:46Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "1535336b56743fd2e07166fb19ee65be05a440b30297c8c259b86c7ae71e878d",
+"copy": "I3-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-09T15:28:08Z",
+"step": "phase:P4",
+"why": "the split in two is the founder word; the kill takes the verify_window_ name; the new detail is empty-text for any text with nothing to type, the empty text included, with the hint as shown, its rung beside control-character the overseer answer; the citation item reaches every stale site found"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "d45f2ad1",
+"ts": "2026-10-09T15:41:04Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-09-epoch-3-cleanup",
+"--message-file",
+".andromeda/runs/2026-10-09T15-03-42-phase/relay-3.md",
+"--origin",
+"the operator, at the P5 review, 2026-10-09",
+"--kind",
+"relay",
+"--why",
+"the live sessions run headless on a plain pty the rig opens itself, with no compositor and no window, rehearsed under the fake agent before any live start; a rehearsal that cannot hold a session stops the live work, and a compositor start is not the builder to make",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-10-09T15-03-42-phase",
+"--marker",
+"2026-10-09-epoch-3-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy message · message: the operator, at the P5 review, 2026-10-09",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-relay-3.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, at the P5 review, 2026-10-09",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "737ba292c3cd7bac617bf70936be01a4f0d8a90bce22c9e502b270e00cc700d9",
+"copy": "I4-relay-3.md.txt",
+"link": false,
+"read_at": "2026-10-09T15:41:04Z",
+"step": "phase:P5",
+"why": "the live sessions run headless on a plain pty the rig opens itself, with no compositor and no window, rehearsed under the fake agent before any live start; a rehearsal that cannot hold a session stops the live work, and a compositor start is not the builder to make"
+}
+}
+]
