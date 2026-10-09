@@ -1,0 +1,58 @@
+[
+{
+"tool": "upgrade",
+"v": "1.8",
+"sha8": "30b07c54",
+"ts": "2026-10-09T21:17:50Z",
+"argv": [
+"apply",
+"--root",
+".",
+"--id",
+"U04",
+"--regenerate",
+"--run-dir",
+".andromeda/runs/2026-10-09T21-16-09-setup-project",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"U04: would refresh .claude/rules/host-linux.md above `## Session Additions` (50 → 47 lines); 6 line(s) below it byte-identical"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "upgrade",
+"v": "1.8",
+"sha8": "30b07c54",
+"ts": "2026-10-09T21:17:56Z",
+"argv": [
+"apply",
+"--root",
+".",
+"--id",
+"U04",
+"--regenerate",
+"--run-dir",
+".andromeda/runs/2026-10-09T21-16-09-setup-project"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"wrote d7d286a7b374d3c2bbd564ab3a770169  .claude/backup/host-linux.md.pre-setup-2026-10-09T21-16-09-setup-project",
+"wrote d9fdc1447929d06a0ce7f77fa1343345  .claude/rules/host-linux.md",
+"U04: .claude/rules/host-linux.md refreshed above `## Session Additions` (50 → 47 lines, the file's own terminator); 6 line(s) below it byte-identical — read back"
+],
+"stderr": null,
+"wrote": [
+"./.claude/backup/host-linux.md.pre-setup-2026-10-09T21-16-09-setup-project",
+"./.claude/rules/host-linux.md"
+],
+"before": null,
+"after": null
+}
+]
