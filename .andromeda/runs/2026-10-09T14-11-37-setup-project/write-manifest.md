@@ -1,0 +1,2 @@
+24b344c42d36d8fc848a970a6ad48d68  .claude/backup/CLAUDE.md.pre-setup-2026-10-09T14-11-37
+b38b4654d35b445626135fb014fddfa1  CLAUDE.md

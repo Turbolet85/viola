@@ -48,7 +48,7 @@ viola is a standalone, cross-platform (Windows first) bridge that lets one inter
 | Topic | Source |
 |---|---|
 | Architecture decisions | `.andromeda/architecture.md` §Established Decisions |
-| Directory tree · resource registry (ports, pipes, files, env vars) | `.andromeda/architecture.md` §Infrastructure Patterns / §Occupied Resources |
+| Directory tree · resource registry (ports, pipes, files, env vars) | `.andromeda/architecture.md` §Infrastructure Patterns (keyed: `.andromeda/registries/architecture-contracts.toml`, one file per key) / §Occupied Resources |
 | Wire contracts (channel frames, event line, snapshots, GUI HTTP, SSE) | `.andromeda/architecture.md` §Standard Contracts |
 | Refusals, exit codes, naming, timestamps | `.andromeda/architecture.md` §Conventions |
 | Code map / impact (symbols · callers · crate deps) | `.andromeda/cache/{plane}/tree.db` — one DB per indexed language plane; query via `scripts/code-graph.py query <run_dir> <marker> "<sql>" [plane]` (plane needed only when several are detected); schema + templates in `scripts/code-graph-cookbook.md` |
@@ -56,10 +56,10 @@ viola is a standalone, cross-platform (Windows first) bridge that lets one inter
 | NEVER-log floor · error sanitization | `.andromeda/security-plan.md` §Bootstrap phases (`logging-redaction-wire`) / §Error Handling |
 | Design tokens (8 hex values, type, spacing, motion) | `.andromeda/design-system.md` §Color Palette / §Typography / §Surface: web-spa Tokens |
 | Web and CLI layouts | `.andromeda/layout-templates.md` |
-| Test harness (5 commands, log format) | `.andromeda/test-plan.md` §3 |
+| Test harness (5 commands, log format) | `.andromeda/test-plan.md` §3 (keyed: `.andromeda/registries/test-plan-contracts.toml`, one file per key) |
 | Critical-path scenarios · quality gates | `.andromeda/test-plan.md` §6 / §10 |
-| Obs pipeline · event catalog · CI gates | `.andromeda/obs-plan.md` §3 / §6 / §9 |
-| A11y harness · per-SC map · ARIA catalog | `.andromeda/a11y-plan.md` §3 / §4 |
+| Obs pipeline · event catalog · CI gates | `.andromeda/obs-plan.md` §3 (keyed: `.andromeda/registries/obs-plan-contracts.toml`) / §6 / §9 |
+| A11y harness · per-SC map · ARIA catalog | `.andromeda/a11y-plan.md` §3 (keyed: `.andromeda/registries/a11y-plan-contracts.toml`) / §4 |
 | Build route | `.andromeda/master-route.md` (cursor = last `complete` marker); the active `viola-X.Y.Z/` (highest version dir) holds the working route, matrix and chunk folders |
 | Session state | `.claude/session-handoff.md`, `.andromeda/state.yaml` |
 | Drift detectors · amendment playbook | `.andromeda/drift-base.md` / `.andromeda/playbook.md` |
