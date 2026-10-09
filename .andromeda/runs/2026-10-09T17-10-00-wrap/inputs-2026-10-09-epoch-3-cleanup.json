@@ -1,0 +1,168 @@
+[
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "d45f2ad1",
+"ts": "2026-10-09T17:10:22Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-09-epoch-3-cleanup",
+"--message-file",
+".andromeda/runs/2026-10-09T17-10-00-wrap/relay-1.md",
+"--origin",
+"the operator, in the /andromeda-wrap-session invocation, 2026-10-09; item three carries the founder ruling of 2026-10-09T16:51Z from the overseer dialog, relayed",
+"--kind",
+"relay",
+"--why",
+"three things for route-resolve: the split-off entry minted at the head ahead of Windows mutation grade; the stale bare route numbers cited by title at every site found; the founder ruling of 2026-10-09T16:51Z that send types a CR or a CRLF inside a text as the LF the CLI submits, so such a send is confirmed, its placement presented as a route-resolve item",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-09T17-10-00-wrap",
+"--marker",
+"2026-10-09-epoch-3-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I9 · copy message · message: the operator, in the /andromeda-wrap-session invocation, 2026-10-09; item three carries the founder ruling of 2026-10-09T16:51Z from the overseer dialog, relayed",
+"cite: inputs#I9"
+],
+"stderr": null,
+"wrote": [
+"inputs/I9-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I9",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, in the /andromeda-wrap-session invocation, 2026-10-09; item three carries the founder ruling of 2026-10-09T16:51Z from the overseer dialog, relayed",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "2267000c7fed86a7c5779aba6938a2c40ee39a7a2eb84a7bb1e35b731b26b175",
+"copy": "I9-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-09T17:10:22Z",
+"step": "wrap",
+"why": "three things for route-resolve: the split-off entry minted at the head ahead of Windows mutation grade; the stale bare route numbers cited by title at every site found; the founder ruling of 2026-10-09T16:51Z that send types a CR or a CRLF inside a text as the LF the CLI submits, so such a send is confirmed, its placement presented as a route-resolve item"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "d45f2ad1",
+"ts": "2026-10-09T17:10:22Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-09-epoch-3-cleanup",
+"--run-dir",
+".andromeda/runs/2026-10-09T17-10-00-wrap",
+"--marker",
+"2026-10-09-epoch-3-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, in the /andromeda-phase invocation, 2026-10-09",
+"I1 cited scope.md:9 · scope.md:80 · scope.md:152 · scope.md:226 · scope.md:261 · research.md:20 · research.md:159 · plan.md:22 · plan.md:522 · plan.md:559",
+"I2 unchanged · pointer committed@7d315d4e · ../additional/andromedaV3:andromeda-overseer/docs/tools/hostwatch.py",
+"I2 cited scope.md:219 · research.md:21 · research.md:77 · research.md:164 · plan.md:196 · plan.md:528 · plan.md:559",
+"I3 n/a — a message has no live source · copy message · message: the operator, in the P4 fork dialog, 2026-10-09; answers 1 and 3 carry the founder word relayed from the overseer dialog of 2026-10-09T15:27:46Z",
+"I3 cited scope.md:18 · scope.md:30 · scope.md:52 · scope.md:66 · scope.md:94 · scope.md:97 · scope.md:113 · scope.md:169 · scope.md:243 · research.md:25 · research.md:185 · research.md:266 · plan.md:9 · plan.md:21 · plan.md:28 · plan.md:155 · plan.md:535 · plan.md:537 · plan.md:559 · plan.md:574",
+"I4 n/a — a message has no live source · copy message · message: the operator, at the P5 review, 2026-10-09",
+"I4 cited scope.md:182 · research.md:23 · research.md:71 · plan.md:58 · plan.md:242 · plan.md:522 · plan.md:560 · plan.md:581 · plan.md:589",
+"I5 n/a — a message has no live source · copy message · message: the operator, in the /andromeda-implement invocation, 2026-10-09",
+"I5 cited plan.md:562",
+"I6 n/a — a message has no live source · copy message · message: the operator, in the implement P2 dialog, 2026-10-09",
+"I6 cited plan.md:562",
+"I7 n/a — a message has no live source · copy message · message: the operator, in the /andromeda-phase invocation of the revision, 2026-10-09T16:35Z",
+"I7 cited scope.md:188 · research.md:27 · research.md:179 · research.md:197 · plan.md:10 · plan.md:24 · plan.md:37 · plan.md:206 · plan.md:444 (in fence) · plan.md:452 (in fence) · plan.md:522 · plan.md:561 · plan.md:601",
+"I8 n/a — a message has no live source · copy message · message: the operator, in the /andromeda-implement invocation of the re-entry, 2026-10-09",
+"I8 UNCITED",
+"I9 n/a — a message has no live source · copy message · message: the operator, in the /andromeda-wrap-session invocation, 2026-10-09; item three carries the founder ruling of 2026-10-09T16:51Z from the overseer dialog, relayed",
+"I9 UNCITED",
+"inputs: 9 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 8 · uncited 2 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 9,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 8
+},
+"uncited": 2,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "d45f2ad1",
+"ts": "2026-10-09T17:35:14Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-09-epoch-3-cleanup",
+"--message-file",
+".andromeda/runs/2026-10-09T17-10-00-wrap/relay-2.md",
+"--origin",
+"the operator, in the wrap P5 route-resolve dialog, 2026-10-09",
+"--kind",
+"relay",
+"--why",
+"the placement of the founder ruling of 2026-10-09T16:51Z on an inner CR or CRLF: its own entry at the head of the route, ahead of the split-off cleanup entry and of Windows mutation grade",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-09T17-10-00-wrap",
+"--marker",
+"2026-10-09-epoch-3-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I10 · copy message · message: the operator, in the wrap P5 route-resolve dialog, 2026-10-09",
+"cite: inputs#I10"
+],
+"stderr": null,
+"wrote": [
+"inputs/I10-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I10",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, in the wrap P5 route-resolve dialog, 2026-10-09",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "501163a2837dae4586795a046f538107045e534fb76478a158fc54e4b31d03f9",
+"copy": "I10-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-09T17:35:14Z",
+"step": "wrap",
+"why": "the placement of the founder ruling of 2026-10-09T16:51Z on an inner CR or CRLF: its own entry at the head of the route, ahead of the split-off cleanup entry and of Windows mutation grade"
+}
+}
+]

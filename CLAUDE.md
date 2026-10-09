@@ -21,7 +21,7 @@ viola is a standalone, cross-platform (Windows first) bridge that lets one inter
 - **`viola-core`** — normalised event kinds, `RefusalReason`, `ViolaName`, `Percent`, `v` constants, `validate_paste_text`, `MAX_FRAME`, `SPINE_DEADLINE`, `DIALOG_DEADLINE`, the `Clock` seam, `obs_event!`
 - **`viola-pty`** — PTY seam (spawn · read · write · resize · wait · kill) over portable-pty `=0.8.1`; `PasteHandle`, the child's input shared by the human copy and the one-write bracketed paste; `host_stdin` (Windows: viola's own console reader, `^Z` kept); knows no agent; Windows `sideload` (System32 DLL-search restriction + absolute-path pre-load of the vendored `conpty.dll`)
 - **`viola-channel`** — JSON-RPC 2.0 over ndjson on interprocess local sockets; sync client/server, Tokio client behind a feature
-- **`viola-state`** — ndjson logs, atomic snapshots, `.lock` siblings, the `events.ndjson` reader (torn-line healing owed to route `:109`), tailing, liveness, strict-modes
+- **`viola-state`** — ndjson logs, atomic snapshots, `.lock` siblings, the `events.ndjson` reader (torn-line healing owed to the route entry "Self-healing state"), tailing, liveness, strict-modes
 - **`viola-agent-claude`** — the only crate that knows Claude: hook parsing, dialog mapping, R8 strip, shim resolution, capability ledger, the vt100 screen model and readiness verdict
 - **`viola-mcp`** — rmcp 3.4.1 stdio server, tools `send · wait · last · answer · list` (Tokio)
 - **`viola-ui`** — axum 0.8.9 GET routes + SSE on 127.0.0.1, Host allowlist, cookie gate, embedded React + TypeScript page (its toolchain lands with the frontend-toolchain chunk) (Tokio)
@@ -36,7 +36,7 @@ viola is a standalone, cross-platform (Windows first) bridge that lets one inter
 - NEVER-log floor: the GUI token, launch URL, `?t=`, `Cookie` and R8-stripped `CLAUDE*` values reach no log, diagnostic, event, snapshot or fixture; user content goes only to `instances/<name>/diagnostics/detail-*.ndjson`.
 - External errors (CLI `--json`, MCP `isError`, Problem Details, channel `error.data`) carry codes and fixed messages only: no absolute paths, no upstream text, no anyhow chain holding a serde source.
 - No `config.json` key, `VIOLA_*` env var or CLI flag may disable a control or widen redaction; env vars are not a configuration channel (no `RUST_LOG`, `EnvFilter` or `OTEL_*`).
-- Bound every input: names only via `ViolaName::try_new` before a path join; `Read::take(MAX_FRAME)` on every external reader; closed enums for decisions; paste text rejects C0 (except LF/CR/TAB), DEL and C1, and never strips a refused character (`send` types a validated text without its trailing LF).
+- Bound every input: names only via `ViolaName::try_new` before a path join; `Read::take(MAX_FRAME)` on every external reader; closed enums for decisions; paste text rejects C0 (except LF/CR/TAB), DEL and C1, and never strips a refused character (`send` types a validated text without its trailing CR and LF, and refuses an empty typed text as `empty-text`).
 - Disk state: set 0700 dirs / 0600 files explicitly (never the umask); only the wrapper writes `snapshot.json`, only `viola verify` writes `ledger/stamps.json`; one `write` per ndjson line; never truncate `events.ndjson`.
 - stdout is reserved (`--json` results, the hook decision body, MCP frames, the child's screen): no `print!`/`eprintln!`/`dbg!` in product crates; log only via `obs_event!` under `#[instrument(skip_all, fields(..))]`.
 - Every Cargo profile keeps `panic = "unwind"`, and the custom panic hook is the first statement of `main` (a hook panic must still exit 0).
@@ -121,4 +121,5 @@ _This section is curated by `/wrap-session`. It accumulates universal (Tier 1) r
 - A claim that reaches a wrap only through a relayed direction, with no artifact on disk behind it, is carried as a labelled HYPOTHESIS on the route, never written into a spec master as fact.
 - A red stays open until its cause is known: a green re-run never closes it, and a red met during a chunk folds into that chunk even outside its diff.
 - A tool call refused with no verdict by the permission classifier is a transient outage, not a gate to route around: fill the wait with read-only work and retry the same call.
+- A master, a key file or a leaf names a working-route entry by its title, never by a bare route line number: the number goes stale at every insertion ahead of the entry, and the citation sweep reads no bare number.
 <!-- USER:session-learnings end -->

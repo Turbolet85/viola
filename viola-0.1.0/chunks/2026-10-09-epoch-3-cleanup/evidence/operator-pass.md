@@ -56,3 +56,25 @@ reported not delivered and takes the wheel (`live-readings.ndjson`, `after-inner
   tree carried (94 files). 0 ahead of the upstream before it.
 - The commit, the push (entry 26) and the CI read (entry 27) are recorded below after they are made; that part
   of this file rides the next commit.
+
+## The pre-CI commit and entry 26 — the push, 17:01:20Z to 17:01:26Z
+- Hygiene read a last time right before the commit (17:01:15Z): `hygiene: clean`, read 73, the same counts.
+- `211da16` `chore(2026-10-09-epoch-3-cleanup): operator pre-CI commit, for the run this chunk's verdict reads`
+  at 17:01:20Z (the whole tree, 94 files).
+- Entry 26: `git diff --quiet && git diff --cached --quiet && git push origin HEAD` → exit 0 at 17:01:26Z,
+  `59e791e..211da16  HEAD -> build/viola-0.1.0`; 0 ahead of the upstream after it. No force push.
+
+## Entry 27 — the CI read, 17:01:32Z to 17:08:50Z
+- `python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait
+  1800` → exit 0: `211da169f2db verdict: green · checks 15/15 · wall 416 s · runs ci#37963309241
+  completed/success`, polled 15 times over 437 s. Atoms: `exit 0` ✓, `contains verdict: green` ✓.
+- `run_attempt`, read from the run itself (`gh api …/actions/runs/37963309241`): **1**. Event `push`, head
+  `211da169f2db`, started 17:01:28Z, last updated 17:08:27Z, conclusion `success`. It is the only run on the sha
+  (`gh run list --commit`). The final sha is green on its first attempt.
+- Its fifteen jobs, each `success` at attempt 1: `lint`, `test`, `release` and `perf` on `windows-2025`,
+  `macos-latest` and `ubuntu-latest`; `supply-chain`, `msrv`, `fuzz-replay`.
+
+## After the pass
+- No fix commit was made: `211da16` is the final sha of the pass.
+- The tree after it carries one file for the next commit: this record's last sections, written after the commit.
+  No source file is among them.

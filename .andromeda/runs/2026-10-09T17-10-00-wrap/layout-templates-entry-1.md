@@ -1,0 +1,6 @@
+## 2026-10-09-epoch-3-cleanup — refusals `viola send` decides before any request
+**Section:** §Surface: cli › Signature placement (item 2); §Surface: cli › Component — Primary content block 2: refusal lines and the `unable` column
+**Change:** block 2 gains a bullet: `viola send` refuses two texts itself before any frame, one holding a refused character (`not-delivered  control-character`) and one whose typed text is empty (`not-delivered  empty-text`); each takes the `[/ ] unable` line on stderr with exit 13 and its hint as the last stderr line, and one document under `--json`; the wrapper makes the same two refusals for a frame sent straight to it. The signature sentence reads: the struck line prints when the wrapper returns a refusal, or with exit 13 when the client itself refuses the text before any frame (was: only "when the wrapper returns a refusal").
+**Why:** the chunk added the `empty-text` refusal on the client side. The `control-character` client refusal predates it and the sentence had never named it.
+**Kept:** no new wireframe: the existing struck form carries the shape. Whether the issue line prints on a client-side refusal is not stated: nothing measured it.
+**Ref:** .andromeda/runs/2026-10-09T17-10-00-wrap/

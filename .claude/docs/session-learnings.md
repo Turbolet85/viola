@@ -71,7 +71,7 @@ When `gate.py hygiene` refuses files a phase run left in `.andromeda/runs/*-phas
 ---
 
 ## 2026-09-29 — A gate's freshness check must name a file, never a directory
-A plan gate's `artifact` key is judged by the named path's own mtime. `agent-run.sh run` overwrites its JUnit reports in place, and on NTFS overwriting a file does not move its directory's mtime, so an `artifact` naming `target/agent-run/artifacts/` reads STALE on every run while the run's files are fresh. Name a file the entry writes on every run (for the default `run`, `target/agent-run/artifacts/junit-nextest-integration.xml`), never the directory that holds it; a freshness red on a directory is an instrument defect to retarget, not a standing red to accept.
+A plan gate's `artifact` key is judged by the named path's own mtime. `agent-run.sh run` overwrites its JUnit reports in place, and on NTFS overwriting a file does not move its directory's mtime, so an `artifact` naming `target/agent-run/artifacts/` reads STALE on every run while the run's files are fresh. Name a file the entry writes on every run (for the default `run`, `target/agent-run/artifacts/junit-nextest-integration.xml`), never the directory that holds it; a freshness red on a directory is an instrument defect to retarget, not a standing red to accept. Extended 2026-10-09: the key belongs only on an entry that writes the file itself; an entry that only reads a file an earlier hand-driven step wrote takes no `artifact` key, because the freshness bound is the entry's own start and a reader reads STALE at every firing with its own exit green.
 
 ---
 

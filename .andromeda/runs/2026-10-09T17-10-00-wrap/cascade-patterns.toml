@@ -1,0 +1,75 @@
+[[pattern]]
+id = "trailing-lf"
+fixed = 'trailing LF'
+
+[[pattern]]
+id = "not-a-cr"
+fixed = 'not a CR'
+
+[[pattern]]
+id = "only-newlines"
+fixed = 'only newlines'
+
+[[pattern]]
+id = "one-cr"
+fixed = 'ending in one CR'
+
+[[pattern]]
+id = "trailing-cr"
+fixed = 'trailing-CR'
+
+[[pattern]]
+id = "typed-empty"
+fixed = 'typed as an empty text'
+
+[[pattern]]
+id = "ends-newline"
+regex = 'ends? in a newline|ended in LF|one or more LF'
+
+[[pattern]]
+id = "by-newlines"
+regex = 'followed by (a )?newlines?'
+
+[[pattern]]
+id = "ctrl-char"
+fixed = 'control-character'
+
+[[pattern]]
+id = "only-caller"
+fixed = 'only product caller'
+
+[[pattern]]
+id = "nine-cases"
+fixed = 'nine labelled cases'
+
+[[pattern]]
+id = "two-cases"
+fixed = 'holds two cases'
+
+[[pattern]]
+id = "verify-window"
+fixed = 'verify_window_'
+
+[[pattern]]
+id = "pkg-e2e"
+fixed = 'package(viola-e2e)'
+
+[[pattern]]
+id = "e2e-30s"
+fixed = 'viola-e2e 30 s'
+
+[[pattern]]
+id = "wrapper-refuses"
+fixed = 'when the wrapper returns a refusal'
+
+[[pattern]]
+id = "route-125-127"
+regex = '`:12[57]`'
+
+[[pattern]]
+id = "route-109"
+fixed = ':109'
+
+[[pattern]]
+id = "route-93"
+fixed = 'route :93'

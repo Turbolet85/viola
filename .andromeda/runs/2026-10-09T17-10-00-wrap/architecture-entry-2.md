@@ -1,0 +1,6 @@
+## 2026-10-09-epoch-3-cleanup — an empty typed text is refused `empty-text`
+**Section:** §Established Decisions › [Delivery Confirmation]; §Conventions › Error handling schema
+**Change:** the closed `not-delivered` detail set gains `empty-text`, its sixth value (was five, ending at `control-character`). A text whose typed text is empty, the empty text or a text of only CR and LF characters, is refused `not-delivered` / `empty-text`, exit 13, and is never issued: by the client before any frame and by the wrapper directly after the typed text is taken and before the first wheel read, with nothing reserved, issued or typed, no cursor, and the wheel and the running-turn state not read. The `send` refusal order reads `control-character`, then `empty-text`, then `human-typing` and the rest as before; a text that also holds a refused character is still `control-character`. Was: "A text of only newlines is typed as an empty text", and such a text was issued and waited out the window.
+**Why:** the founder's ruling of 2026-10-09 (the name, the condition and the hint; relayed by the operator); the rung is the overseer's answer.
+**Kept:** `validate_paste_text` is unchanged and `answer` has no such refusal. No exit code, channel method or `v` moves.
+**Ref:** .andromeda/runs/2026-10-09T17-10-00-wrap/

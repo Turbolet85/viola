@@ -46,7 +46,7 @@ viola/
 │   │                           #   `sideload` (Windows): the System32 DLL-search restriction + the absolute-path conpty.dll pre-load)
 │   ├── viola-channel/          # JSON-RPC 2.0 ndjson over interprocess local sockets
 │   ├── viola-state/            # ndjson logs, atomic snapshots, File::lock, the events reader (`events::read_from`:
-│   │                           #   skips + counts torn / oversize lines; healing owed to route :93), tailing (with `ui`)
+│   │                           #   skips + counts torn / oversize lines; healing owed to the route entry "Self-healing state"), tailing (with `ui`)
 │   ├── viola-agent-claude/     # hook parsing, dialog mapping, R8 strip, shim resolution,
 │   │                           #   capability ledger, the vt100 screen model (`screen`), statusline parsing
 │   │                           #   (+ proptest-regressions/, committed seeds; src/snapshots/, the insta

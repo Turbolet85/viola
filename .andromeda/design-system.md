@@ -163,6 +163,7 @@ The domain status rows below are authoritative. This table only summarises them,
 | RefusalDetail::turn-running | #1E2124 | #E6D8AE | #E6D8AE | `not-delivered · turn-running` |
 | RefusalDetail::unknown-dialog | #1E2124 | #E6D8AE | #E6D8AE | `not-delivered · unknown-dialog` |
 | RefusalDetail::control-character (security plan) | #1E2124 | #E6D8AE | #E6D8AE | `not-delivered · control-character` |
+| RefusalDetail::empty-text | #1E2124 | #E6D8AE | #E6D8AE | `not-delivered · empty-text` |
 | EventKind::session-start | #1E2124 | none | #E6D8AE | Tape line `session-start` + cause word |
 | EventKind::prompt-submitted | #1E2124 | none | #E6D8AE (#9C9278 if harness) | Folded into the open send line when it is the matching driver prompt. Otherwise its own line `prompt · <origin>` + text. |
 | EventKind::turn-ended | #1E2124 | none | #E6D8AE | `turn-ended` + first line of `last_assistant_message` as plain text, or `no message` for `null`. Never fills a readback box. |
@@ -761,6 +762,7 @@ hint: builder did not submit the prompt; check it, then send again
   - `unverified-cli`: `run viola verify for this CLI version`
   - `not-delivered · turn-running`: `a turn is running; viola wait <name> first`
   - `not-delivered · control-character`: `the text contains a control character (only LF, CR, TAB are allowed)`
+  - `not-delivered · empty-text`: `the text is empty once its trailing newlines are removed; send a text with content`
   - `not-delivered · input-not-ready`: `<name> was not ready for input; send again, and if it repeats a human must look at the session`
   - `not-delivered · no-prompt-submitted`: `<name> did not submit the prompt; check it, then send again` (the sample above)
   - `not-delivered · unknown-dialog`: `that dialog is not pending; viola list shows the current DIALOG`
@@ -817,7 +819,7 @@ hint: builder did not submit the prompt; check it, then send again
 | 10 | `unable  human-typing` (+ `manual-pause`) | `{"v":1,"refusal":"human-typing","detail":…}` |
 | 11 | `unable  budget-paused  five-hour` / `seven-day` | refusal object |
 | 12 | `unable  unverified-cli` | refusal object |
-| 13 | `unable  not-delivered  input-not-ready` / `no-prompt-submitted` / `turn-running` / `unknown-dialog` / `control-character` | refusal object |
+| 13 | `unable  not-delivered  input-not-ready` / `no-prompt-submitted` / `turn-running` / `unknown-dialog` / `control-character` / `empty-text` | refusal object |
 | 14 | `unable  unknown  <detail as opaque text>` | refusal object |
 | 20 | `error: wrapper fault  <code>` | `{"v":1,"error":"wrapper-fault","detail":{…}}` |
 | 21 | `unable  instance-unreachable` (no detail; the name is the omitted `<name>` field, as in every row), then the cause's hint (not running / unwrapped / strict-modes / server verification) | `{"v":1,"error":"instance-unreachable","detail":null}` (a per-cause `detail` code awaits an arch amendment) |

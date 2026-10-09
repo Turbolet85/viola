@@ -1,0 +1,6 @@
+## 2026-10-09-epoch-3-cleanup — the `empty-text` detail and the `text_bytes` wording
+**Section:** §1 › Critical paths › Confirmed `send` (Required log fields), Telemetry triggers › Vector 2; §4 › Scenario: Confirmed `send` (Required span attributes, Required log fields); §6 › Additive field catalog, `detail` code catalog
+**Change:** the refusal details gain `empty-text`, an empty typed text on `send`, in the §6 catalog and the §1 list. The validation-refusal line reads `detail:"control-character"|"empty-text"`, one line per deciding side: the client before any frame, the wrapper with `corr`, `conn` and `rpc_id`, no `send-issued`, never the text. `text_bytes` is the length of the sent text without its trailing CR and LF characters at both of its sites (was: without its trailing LF characters).
+**Why:** the chunk added the refusal and widened the strip. The value adds no field, and `send-refused.detail` is an open string in `diag-line.v1.json`, so no schema moved.
+**Kept:** `parse-rejected`'s own `control-character` detail is a different catalog and is untouched. The key file's `corr` rule for sends refused before `send-issued` is test-plan's verbatim block and is left as it stands.
+**Ref:** .andromeda/runs/2026-10-09T17-10-00-wrap/
