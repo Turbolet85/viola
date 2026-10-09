@@ -1,0 +1,218 @@
+[
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "d45f2ad1",
+"ts": "2026-10-09T20:50:44Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-09-inner-cr-and-crlf-in-a-sent-text",
+"--message-file",
+".andromeda/runs/2026-10-09T20-50-14-wrap/relay-1.md",
+"--origin",
+"the operator, the wrap invocation, 2026-10-09T20:50Z",
+"--kind",
+"relay",
+"--why",
+"the wrap directive: the CLAUDE.md Key commands line, no epoch boundary inside Epoch 4 (the founder word of 2026-10-09), the two route-resolve items to ask",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-09T20-50-14-wrap",
+"--marker",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I7 · copy message · message: the operator, the wrap invocation, 2026-10-09T20:50Z",
+"cite: inputs#I7"
+],
+"stderr": null,
+"wrote": [
+"inputs/I7-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I7",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, the wrap invocation, 2026-10-09T20:50Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "ea28e7aadeaa4ea90df1801d170f7ead673f0c8deac94e128926a40ba7d211f7",
+"copy": "I7-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-09T20:50:44Z",
+"step": "wrap",
+"why": "the wrap directive: the CLAUDE.md Key commands line, no epoch boundary inside Epoch 4 (the founder word of 2026-10-09), the two route-resolve items to ask"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "d45f2ad1",
+"ts": "2026-10-09T20:50:50Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-09-inner-cr-and-crlf-in-a-sent-text",
+"--run-dir",
+".andromeda/runs/2026-10-09T20-50-14-wrap",
+"--marker",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the arguments of the /andromeda-phase invocation, 2026-10-09 (before 18:22Z)",
+"I1 cited scope.md:8 · scope.md:88 · scope.md:131 · scope.md:184 · research.md:22 · plan.md:11 · plan.md:183 · plan.md:286 · plan.md:515 · plan.md:543 · plan.md:573",
+"I2 n/a — a message has no live source · copy message · message: the overseer, in the P4 dialog of this phase session, 2026-10-09",
+"I2 cited scope.md:59 · scope.md:182 · research.md:24 · research.md:165 · research.md:245 · plan.md:33 · plan.md:195 · plan.md:515 · plan.md:525 · plan.md:543 · plan.md:570 · plan.md:609 · plan.md:628",
+"I3 n/a — a message has no live source · copy message · message: the operator, the implement invocation, 2026-10-09",
+"I3 cited research.md:26 · plan.md:247 · plan.md:544",
+"I4 n/a — a message has no live source · copy message · message: the answer given in the implementing session question dialog, 2026-10-09",
+"I4 cited research.md:27 · plan.md:13 · plan.md:545",
+"I5 n/a — a message has no live source · copy message · message: the operator, the phase invocation of the revision, 2026-10-09",
+"I5 cited scope.md:112 · scope.md:154 · scope.md:159 · scope.md:185 · research.md:3 · research.md:29 · research.md:152 · research.md:153 · plan.md:8 · plan.md:13 · plan.md:144 · plan.md:181 · plan.md:213 · plan.md:247 · plan.md:520 · plan.md:545 · plan.md:558 · plan.md:577 · plan.md:579 · plan.md:586",
+"I6 n/a — a message has no live source · copy message · message: the operator, the implement invocation of the re-entry, 2026-10-09",
+"I6 UNCITED",
+"I7 n/a — a message has no live source · copy message · message: the operator, the wrap invocation, 2026-10-09T20:50Z",
+"I7 UNCITED",
+"inputs: 7 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 7 · uncited 2 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 7,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 7
+},
+"uncited": 2,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "d45f2ad1",
+"ts": "2026-10-09T20:58:53Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-09-inner-cr-and-crlf-in-a-sent-text",
+"--message-file",
+".andromeda/runs/2026-10-09T20-50-14-wrap/relay-2.md",
+"--origin",
+"the answers in this wrap question dialog, 2026-10-09T20:58Z; the first carries the founder word, live in the overseer dialog, relayed",
+"--kind",
+"relay",
+"--why",
+"the route placement of the owed v1-34 row (a new entry at the head of Epoch 5) and the owner of the unexplained file-hash difference (a CARRY on Home and code-bearing file integrity)",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-09T20-50-14-wrap",
+"--marker",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I8 · copy message · message: the answers in this wrap question dialog, 2026-10-09T20:58Z; the first carries the founder word, live in the overseer dialog, relayed",
+"cite: inputs#I8"
+],
+"stderr": null,
+"wrote": [
+"inputs/I8-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I8",
+"kind": "relay",
+"repo": null,
+"path": "message: the answers in this wrap question dialog, 2026-10-09T20:58Z; the first carries the founder word, live in the overseer dialog, relayed",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "2cc05f439057d56d793bf63ad234e2053e011a501befb3700c0549c5de5acc79",
+"copy": "I8-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-09T20:58:53Z",
+"step": "wrap",
+"why": "the route placement of the owed v1-34 row (a new entry at the head of Epoch 5) and the owner of the unexplained file-hash difference (a CARRY on Home and code-bearing file integrity)"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "d45f2ad1",
+"ts": "2026-10-09T21:11:42Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-09-inner-cr-and-crlf-in-a-sent-text",
+"--run-dir",
+".andromeda/runs/2026-10-09T20-50-14-wrap",
+"--marker",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the arguments of the /andromeda-phase invocation, 2026-10-09 (before 18:22Z)",
+"I1 cited scope.md:8 · scope.md:88 · scope.md:131 · scope.md:184 · research.md:22 · plan.md:11 · plan.md:183 · plan.md:286 · plan.md:515 · plan.md:543 · plan.md:573",
+"I2 n/a — a message has no live source · copy message · message: the overseer, in the P4 dialog of this phase session, 2026-10-09",
+"I2 cited scope.md:59 · scope.md:182 · research.md:24 · research.md:165 · research.md:245 · plan.md:33 · plan.md:195 · plan.md:515 · plan.md:525 · plan.md:543 · plan.md:570 · plan.md:609 · plan.md:628 · report.md:34 · report.md:77",
+"I3 n/a — a message has no live source · copy message · message: the operator, the implement invocation, 2026-10-09",
+"I3 cited research.md:26 · plan.md:247 · plan.md:544 · report.md:70",
+"I4 n/a — a message has no live source · copy message · message: the answer given in the implementing session question dialog, 2026-10-09",
+"I4 cited research.md:27 · plan.md:13 · plan.md:545",
+"I5 n/a — a message has no live source · copy message · message: the operator, the phase invocation of the revision, 2026-10-09",
+"I5 cited scope.md:112 · scope.md:154 · scope.md:159 · scope.md:185 · research.md:3 · research.md:29 · research.md:152 · research.md:153 · plan.md:8 · plan.md:13 · plan.md:144 · plan.md:181 · plan.md:213 · plan.md:247 · plan.md:520 · plan.md:545 · plan.md:558 · plan.md:577 · plan.md:579 · plan.md:586 · report.md:51 · report.md:65 · report.md:70 · report.md:78",
+"I6 n/a — a message has no live source · copy message · message: the operator, the implement invocation of the re-entry, 2026-10-09",
+"I6 cited report.md:42 · report.md:70 · report.md:79",
+"I7 n/a — a message has no live source · copy message · message: the operator, the wrap invocation, 2026-10-09T20:50Z",
+"I7 cited report.md:43 · report.md:60 · report.md:80",
+"I8 n/a — a message has no live source · copy message · message: the answers in this wrap question dialog, 2026-10-09T20:58Z; the first carries the founder word, live in the overseer dialog, relayed",
+"I8 cited report.md:44",
+"inputs: 8 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 8 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 8,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 8
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]

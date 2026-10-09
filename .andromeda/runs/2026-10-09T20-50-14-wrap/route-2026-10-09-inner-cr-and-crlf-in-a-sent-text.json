@@ -1,0 +1,117 @@
+[
+{
+"tool": "route",
+"v": "1.7",
+"sha8": "470db3a8",
+"ts": "2026-10-09T21:11:09Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text",
+"--run-dir",
+".andromeda/runs/2026-10-09T20-50-14-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"flip master-route.md:57 - 2026-10-09-inner-cr-and-crlf-in-a-sent-text pending -> complete"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.7",
+"sha8": "470db3a8",
+"ts": "2026-10-09T21:11:09Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text",
+"--date",
+"2026-10-09",
+"--run-dir",
+".andromeda/runs/2026-10-09T20-50-14-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :107 strip CARRY: 1901ch \"CARRY: the founder's ruling, 2026-10-09T\"",
+"pin next markerless :109 holds CARRY:×3",
+"107 · 2026-10-09-inner-cr-and-crlf-in-a-sent-text · strip 1 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 107,
+"marker": "2026-10-09-inner-cr-and-crlf-in-a-sent-text",
+"blocks": 1,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.7",
+"sha8": "470db3a8",
+"ts": "2026-10-09T21:11:18Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text",
+"--date",
+"2026-10-09",
+"--run-dir",
+".andromeda/runs/2026-10-09T20-50-14-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :107 strip CARRY: 1901ch \"CARRY: the founder's ruling, 2026-10-09T\"",
+"pin next markerless :109 holds CARRY:×3",
+"107 · 2026-10-09-inner-cr-and-crlf-in-a-sent-text · strip 1 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/route-archive.md",
+"./viola-0.1.0/working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 107,
+"marker": "2026-10-09-inner-cr-and-crlf-in-a-sent-text",
+"blocks": 1,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

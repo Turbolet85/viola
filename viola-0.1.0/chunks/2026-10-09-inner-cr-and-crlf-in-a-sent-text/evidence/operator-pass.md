@@ -54,3 +54,27 @@ The host, read before the block (`hostwatch.py read --last 15 --for viola`, 19:1
   the upstream before it; the remote branch head read live (`git ls-remote`) at `3c5e012b9a43`.
 - The commit, the push (entry 22) and the CI read (entry 23) are recorded below after they are made; that part of
   this file rides the next commit.
+
+## The pre-CI commit and entry 22 — the push, 19:34:39Z to 19:34:47Z
+- Hygiene read a last time right before the commit (19:34:39Z): `hygiene: clean`, read 74, the same counts.
+- `308099b` `chore(2026-10-09-inner-cr-and-crlf-in-a-sent-text): operator pre-CI commit, for the run this chunk's
+  verdict reads` at 19:34:39Z (the whole tree, 88 files).
+- Entry 22: `git diff --quiet && git diff --cached --quiet && git push origin HEAD` → exit 0 at 19:34:47Z,
+  `3c5e012..308099b  HEAD -> build/viola-0.1.0`; 0 ahead of the upstream after it, the remote branch head read
+  live at `308099b92f96`. No force push.
+
+## Entry 23 — the CI read, 19:34:51Z to 19:47:17Z
+- `python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait
+  1800` → exit 0: `308099b92f96 verdict: green · checks 15/15 · wall 717 s · runs ci#37981185305
+  completed/success`, polled 25 times over 746 s. Atoms: `exit 0` ✓, `contains verdict: green` ✓.
+- `run_attempt`, read from the run itself (`gh api …/actions/runs/37981185305`): **1**. Event `push`, head
+  `308099b92f96`, started 19:34:49Z, last updated 19:46:50Z, conclusion `success`. It is the only run on the sha
+  (`gh run list --commit`, by the full sha). The final sha is green on its first attempt.
+- Its fifteen jobs, each `success` at attempt 1: `lint`, `test`, `release` and `perf` on `windows-2025`,
+  `macos-latest` and `ubuntu-latest`; `supply-chain`, `msrv`, `fuzz-replay`.
+- The run's wall read 717 s; the last chunk's read 416 s. Which job took the longer time was not read.
+
+## After the pass
+- No fix commit was made: `308099b` is the final sha of the pass.
+- The tree after it carries, for the next commit: this record's last sections, written after the commit, and the
+  run dir's trails and ledger lines written after it. No source file is among them.

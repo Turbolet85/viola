@@ -1,0 +1,329 @@
+[
+{
+"tool": "cites",
+"v": "1.3",
+"sha8": "3f3a888b",
+"ts": "2026-10-09T20:50:50Z",
+"argv": [
+"added",
+"--out",
+".andromeda/runs/2026-10-09T20-50-14-wrap/new-text.md",
+"--run-dir",
+".andromeda/runs/2026-10-09T20-50-14-wrap",
+"--marker",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 3c5e012b — the parent of the oldest pre-CI commit 308099b9",
+"crates/viola-agent-claude/src/hook.rs — added 108 line(s) in 8 range(s)",
+"src/cmd/send.rs — added 6 line(s) in 1 range(s)",
+"src/run/send.rs — added 93 line(s) in 5 range(s)",
+"tests/channel_paste_validation.rs — added 5 line(s) in 3 range(s)",
+"tests/cli_send.rs — added 118 line(s) in 1 range(s)",
+"new text: 5 file(s) · 0 new · 18 added range(s) · 330 line(s) · 17 block(s) → .andromeda/runs/2026-10-09T20-50-14-wrap/new-text.md (32 lines) · written"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-10-09T20-50-14-wrap/new-text.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"base": "3c5e012b9a4305a953d49873610eff5586349b2a",
+"counts": {
+"files": 5,
+"new": 0,
+"ranges": 18,
+"lines": 330,
+"blocks": 17
+},
+"out": ".andromeda/runs/2026-10-09T20-50-14-wrap/new-text.md",
+"state": "written",
+"lines": 32
+}
+},
+{
+"tool": "cites",
+"v": "1.3",
+"sha8": "3f3a888b",
+"ts": "2026-10-09T20:53:36Z",
+"argv": [
+"apply",
+"--dry-run",
+"--run-dir",
+".andromeda/runs/2026-10-09T20-50-14-wrap",
+"--marker",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 3c5e012b — the previous sweep (2026-10-09T17-10-00-wrap)",
+"sites 37 (bare \":digits\" 466) over 69 file(s) · unmoved 33 · moved 0 · stretched 0 · changed 0",
+"out-of-range 0 · unresolved 4 · new 0 · repointed 0 · hand 0 · held 0 · INDETERMINATE 0 · listed, not written 0",
+"unresolved 4: their rows are `map`'s — another repository's file is never touched",
+"dry-run: 0 citation(s) in 0 file(s) — nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"mode": "sweep",
+"base": "3c5e012b9a4305a953d49873610eff5586349b2a",
+"counts": {
+"unmoved": 33,
+"moved": 0,
+"stretched": 0,
+"changed": 0,
+"out-of-range": 0,
+"unresolved": 4,
+"new": 0,
+"repointed": 0,
+"hand": 0,
+"INDETERMINATE": 0,
+"held": 0,
+"listed": 0
+},
+"rows": [
+{
+"class": "unresolved",
+"file": ".andromeda/test-plan.md",
+"line": 1083,
+"col": 253,
+"path": "rstest_macros-0.27.0/src/parse/rstest/files.rs",
+"now": "635",
+"base": "635",
+"to": null,
+"write": false,
+"listed": null,
+"detail": "no such file here at 3c5e012b",
+"text": "",
+"sha": [],
+"citing": "e5f18e7350f2",
+"nth": 0,
+"since": null
+},
+{
+"class": "unresolved",
+"file": ".andromeda/obs-plan.md",
+"line": 1023,
+"col": 462,
+"path": "x/src/cmd/hook/seam.rs",
+"now": "3",
+"base": "3",
+"to": null,
+"write": false,
+"listed": null,
+"detail": "no such file here at 3c5e012b",
+"text": "",
+"sha": [],
+"citing": "198eb6627f50",
+"nth": 0,
+"since": null
+},
+{
+"class": "unresolved",
+"file": ".andromeda/obs-plan.md",
+"line": 1023,
+"col": 492,
+"path": "seam.rs.bak",
+"now": "3",
+"base": "3",
+"to": null,
+"write": false,
+"listed": null,
+"detail": "no such file here at 3c5e012b",
+"text": "",
+"sha": [],
+"citing": "198eb6627f50",
+"nth": 1,
+"since": null
+},
+{
+"class": "unresolved",
+"file": ".andromeda/obs-plan.md",
+"line": 1023,
+"col": 511,
+"path": "seam.rsx",
+"now": "3",
+"base": "3",
+"to": null,
+"write": false,
+"listed": null,
+"detail": "no such file here at 3c5e012b",
+"text": "",
+"sha": [],
+"citing": "198eb6627f50",
+"nth": 2,
+"since": null
+}
+],
+"applied": false
+}
+},
+{
+"tool": "cites",
+"v": "1.3",
+"sha8": "3f3a888b",
+"ts": "2026-10-09T20:53:44Z",
+"argv": [
+"apply",
+"--run-dir",
+".andromeda/runs/2026-10-09T20-50-14-wrap",
+"--marker",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 3c5e012b — the previous sweep (2026-10-09T17-10-00-wrap)",
+"sites 37 (bare \":digits\" 466) over 69 file(s) · unmoved 33 · moved 0 · stretched 0 · changed 0",
+"out-of-range 0 · unresolved 4 · new 0 · repointed 0 · hand 0 · held 0 · INDETERMINATE 0 · listed, not written 0",
+"unresolved 4: their rows are `map`'s — another repository's file is never touched",
+"re-pointed 0 citation(s) in 0 file(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"mode": "sweep",
+"base": "3c5e012b9a4305a953d49873610eff5586349b2a",
+"counts": {
+"unmoved": 33,
+"moved": 0,
+"stretched": 0,
+"changed": 0,
+"out-of-range": 0,
+"unresolved": 4,
+"new": 0,
+"repointed": 0,
+"hand": 0,
+"INDETERMINATE": 0,
+"held": 0,
+"listed": 0
+},
+"rows": [
+{
+"class": "unresolved",
+"file": ".andromeda/test-plan.md",
+"line": 1083,
+"col": 253,
+"path": "rstest_macros-0.27.0/src/parse/rstest/files.rs",
+"now": "635",
+"base": "635",
+"to": null,
+"write": false,
+"listed": null,
+"detail": "no such file here at 3c5e012b",
+"text": "",
+"sha": [],
+"citing": "e5f18e7350f2",
+"nth": 0,
+"since": null
+},
+{
+"class": "unresolved",
+"file": ".andromeda/obs-plan.md",
+"line": 1023,
+"col": 462,
+"path": "x/src/cmd/hook/seam.rs",
+"now": "3",
+"base": "3",
+"to": null,
+"write": false,
+"listed": null,
+"detail": "no such file here at 3c5e012b",
+"text": "",
+"sha": [],
+"citing": "198eb6627f50",
+"nth": 0,
+"since": null
+},
+{
+"class": "unresolved",
+"file": ".andromeda/obs-plan.md",
+"line": 1023,
+"col": 492,
+"path": "seam.rs.bak",
+"now": "3",
+"base": "3",
+"to": null,
+"write": false,
+"listed": null,
+"detail": "no such file here at 3c5e012b",
+"text": "",
+"sha": [],
+"citing": "198eb6627f50",
+"nth": 1,
+"since": null
+},
+{
+"class": "unresolved",
+"file": ".andromeda/obs-plan.md",
+"line": 1023,
+"col": 511,
+"path": "seam.rsx",
+"now": "3",
+"base": "3",
+"to": null,
+"write": false,
+"listed": null,
+"detail": "no such file here at 3c5e012b",
+"text": "",
+"sha": [],
+"citing": "198eb6627f50",
+"nth": 2,
+"since": null
+}
+],
+"applied": true
+}
+},
+{
+"tool": "cites",
+"v": "1.3",
+"sha8": "3f3a888b",
+"ts": "2026-10-09T21:08:42Z",
+"argv": [
+"added",
+"--out",
+".andromeda/runs/2026-10-09T20-50-14-wrap/new-text.md",
+"--run-dir",
+".andromeda/runs/2026-10-09T20-50-14-wrap",
+"--marker",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 3c5e012b — the parent of the oldest pre-CI commit 308099b9",
+"crates/viola-agent-claude/src/hook.rs — added 108 line(s) in 8 range(s)",
+"src/cmd/send.rs — added 6 line(s) in 1 range(s)",
+"src/run/send.rs — added 93 line(s) in 5 range(s)",
+"tests/channel_paste_validation.rs — added 5 line(s) in 3 range(s)",
+"tests/cli_send.rs — added 118 line(s) in 1 range(s)",
+"new text: 5 file(s) · 0 new · 18 added range(s) · 330 line(s) · 17 block(s) → .andromeda/runs/2026-10-09T20-50-14-wrap/new-text.md (32 lines) · unchanged"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"base": "3c5e012b9a4305a953d49873610eff5586349b2a",
+"counts": {
+"files": 5,
+"new": 0,
+"ranges": 18,
+"lines": 330,
+"blocks": 17
+},
+"out": ".andromeda/runs/2026-10-09T20-50-14-wrap/new-text.md",
+"state": "unchanged",
+"lines": 32
+}
+}
+]

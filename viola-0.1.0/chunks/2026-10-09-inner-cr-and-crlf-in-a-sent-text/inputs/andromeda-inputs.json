@@ -106,5 +106,41 @@
     "read_at": "2026-10-09T19:29:28Z",
     "step": "implement",
     "why": "the re-entry at step 12 of the revised plan: the section reading, the whole block fired, then the operator pass driven by the implementer with the ci.py conclusion read and the attempt number read from the run; no live start; a red where no assertion failed on a value is read against the backing and hostwatch.py first, never re-run for green"
+  },
+  {
+    "id": "I7",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the operator, the wrap invocation, 2026-10-09T20:50Z",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "ea28e7aadeaa4ea90df1801d170f7ead673f0c8deac94e128926a40ba7d211f7",
+    "copy": "I7-relay-1.md.txt",
+    "link": false,
+    "read_at": "2026-10-09T20:50:44Z",
+    "step": "wrap",
+    "why": "the wrap directive: the CLAUDE.md Key commands line, no epoch boundary inside Epoch 4 (the founder word of 2026-10-09), the two route-resolve items to ask"
+  },
+  {
+    "id": "I8",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the answers in this wrap question dialog, 2026-10-09T20:58Z; the first carries the founder word, live in the overseer dialog, relayed",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "2cc05f439057d56d793bf63ad234e2053e011a501befb3700c0549c5de5acc79",
+    "copy": "I8-relay-2.md.txt",
+    "link": false,
+    "read_at": "2026-10-09T20:58:53Z",
+    "step": "wrap",
+    "why": "the route placement of the owed v1-34 row (a new entry at the head of Epoch 5) and the owner of the unexplained file-hash difference (a CARRY on Home and code-bearing file integrity)"
   }
 ]

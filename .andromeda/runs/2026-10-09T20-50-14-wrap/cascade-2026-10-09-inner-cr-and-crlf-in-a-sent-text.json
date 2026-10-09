@@ -1,0 +1,218 @@
+[
+{
+"tool": "cascade",
+"v": "1.2",
+"sha8": "89172b3d",
+"ts": "2026-10-09T21:02:04Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-09T20-50-14-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-09T20-50-14-wrap",
+"--marker",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline 3c5e012b (pre-CI parent — the oldest of 1 pre-CI commit(s), 308099b9)",
+"trailing-only · new 8 · standing 2 · leaf 7 · curation 0 · base 0 · control architecture.md:49 (prose)",
+"nothing-else · new 0 · standing 6 · leaf 0 · curation 0 · base 0 · control architecture.md:49 (prose)",
+"not-at-end · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:49 (prose)",
+"ending-only · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:49 (pr…",
+"not-covered · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:49 (pr…",
+"not-confirmable · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:750 (…",
+"no-fix · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:49 (prose)",
+"carried-route · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:49 (prose)",
+"inner-cr · new 9 · standing 2 · leaf 2 · curation 0 · base 0 · control architecture.md:49 (prose)",
+"seventeen-cases · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:565 (…",
+"trailing-drop · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control security-plan.md:543 (prose)",
+"typed-text-fn · new 0 · standing 3 · leaf 3 · curation 0 · base 0 · control architecture.md:49 (prose)",
+"inner-newlines · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:238 (p…",
+"one-removal · 0 rows (control fired) — a statement about this pattern, not the masters · case-variants +1 · control sec…",
+"still-holds-cr · new 2 · standing 0 · leaf 0 · curation 0 · base 0 · control architecture.md:49 (prose)",
+".andromeda/architecture.md:49 trailing-only new ×2 @c978,1848/12607 … as one LF, and without its trailing CR and LF cha…",
+".andromeda/architecture.md:136 trailing-only new …ther CR as one LF and without its trailing CR and LF characters ([Del…",
+".andromeda/architecture.md:286 trailing-only new …her CR as one LF, and without its trailing CR and LF characters; any …",
+".andromeda/architecture.md:292 trailing-only new …ther CR as one LF and without its trailing CR and LF characters ([Del…",
+".andromeda/security-plan.md:73 trailing-only new …ide it as one LF, and without its trailing CR and LF characters (Esta…",
+".andromeda/security-plan.md:74 trailing-only new …ther CR as one LF and without its trailing CR and LF characters, by e…",
+".andromeda/test-plan.md:233 trailing-only new …other CR as one LF and without its trailing CR and LF characters, every …",
+".andromeda/test-plan.md:582 trailing-only standing edited @c162/2350 …R as one LF and without its trailing CR and LF ch…",
+".andromeda/obs-plan.md:636 trailing-only new …other CR as one LF, and without its trailing CR and LF characters), `past…",
+".andromeda/obs-plan.md:819 trailing-only standing edited …r CR as one LF, and without its trailing CR and LF characters…",
+"CLAUDE.md:39 trailing-only leaf …end` types a validated text without its trailing CR and LF, and refuses an empty typed…",
+".claude/rules/events.md:20 trailing-only leaf …ed text, the sent text without its trailing CR and LF characters); PreTo…",
+".claude/rules/security.md:25 trailing-only leaf … `send` types the text without its trailing CR and LF characters (`vio…",
+".claude/docs/gotchas.md:84 trailing-only leaf …ed text (the sent text without its trailing CR and LF characters; nothin…",
+".claude/docs/security-summary.md:63 trailing-only leaf …end` types the text without its trailing CR and LF characters, …",
+".claude/docs/services/viola-agent-claude.md:24 trailing-only leaf @c1626/2251 … a sent text without its trailing CR and…",
+".claude/docs/services/viola.md:37 trailing-only leaf …eived and then typed without its trailing CR and LF (`typed_text`…",
+".andromeda/architecture.md:49 nothing-else standing edited @c2686/12607 …t holds no CR, and nothing else changes, not a…",
+".andromeda/security-plan.md:226 nothing-else standing edited @c1222/4164 … holds no CR, and nothing else changes, not a…",
+".andromeda/design-system.md:847 nothing-else standing ×2 …ns `dialog_pending` and nothing else. Blue means handoff and …",
+".andromeda/layout-templates.md:578 nothing-else standing …G` on both surfaces and nothing else. `stale` is lamp-off ink…",
+".andromeda/test-plan.md:233 nothing-else standing edited …d text holds no CR, and nothing else changes), and that typed…",
+".andromeda/test-plan.md:565 nothing-else standing edited …ed text holds no CR and nothing else changes (not a TAB or a …",
+".claude/docs/services/viola-agent-claude.md:24 not-at-end leaf @c1751/2251 …a space, or a CR or LF that is not at the v…",
+".claude/docs/tests-summary.md:26 carried-route leaf @c2100/2729 … it, no fix yet, carried on the working route); under …",
+".andromeda/architecture.md:49 inner-cr standing edited mixed ×13 @c2177,2382,5848/12607 …eanup; a CR or a CR LF inside …",
+".andromeda/architecture.md:49 inner-cr @c+5883,6283,6303,6508,6839,7010,7032,7215,7234,7251/12607",
+".andromeda/architecture.md:70 inner-cr new ×3 @c3512,3799,3838/9892 …se text holds a CR or a CR LF inside is typed with…",
+".andromeda/architecture.md:292 inner-cr new …F characters, or held a CR or a CR LF inside, `text` is the text as typed,…",
+".andromeda/architecture.md:462 inner-cr new …ost at chunk 2026-10-09-inner-cr-and-crlf-in-a-sent-text, `evidence/live-r…",
+".andromeda/security-plan.md:226 inner-cr new ×3 @c866,2083,2273/4164 … typed text, an inner CR as one LF and the traili…",
+".andromeda/test-plan.md:233 inner-cr new ×3 … CR or CRLF, or holds a CR or a CR LF inside, is confirmed like any other …",
+".andromeda/test-plan.md:238 inner-cr new …nner LFs intact and each inner CR or CR LF as one LF, no CR, no trailing LF a…",
+".andromeda/test-plan.md:565 inner-cr new ×2 … which chunk 2026-10-09-inner-cr-and-crlf-in-a-sent-text removed the three…",
+".andromeda/test-plan.md:582 inner-cr new ×3 @c897,1007,1499/2350 …mmand cases. The inner-CR cases (two tests in `src/ru…",
+".andromeda/test-plan.md:638 inner-cr new ×3 … a text with LF, a lone inner CR, TAB and multi-byte characters sent over …",
+".andromeda/test-plan.md:750 inner-cr standing edited mixed ×10 @c3090,3125,3737,3987/5031 …26-10-09-inner-cr-and-crlf-i…",
+".andromeda/test-plan.md:750 inner-cr @c+4009,4182,4201,4218,4732,4752/5031",
+".claude/rules/security.md:25 inner-cr leaf …else is removed, not an inner CR or LF), and the exact match, the local-com…",
+".claude/docs/tests-summary.md:26 inner-cr leaf ×3 @c1886,2040,2060/2729 …mpty-text`); a CR or a CR LF inside a text is …",
+".andromeda/security-plan.md:543 trailing-drop new …a text as one LF, and dropping its trailing CR and LF characters, of…",
+".andromeda/architecture.md:49 typed-text-fn standing edited ×2 @c2551,3868/12607 …aude::hook::typed_text`: every CR LF …",
+".andromeda/security-plan.md:226 typed-text-fn standing edited @c1087/4164 …claude::hook::typed_text`: every CR LF pair …",
+".andromeda/test-plan.md:565 typed-text-fn standing edited mixed ×5 …sent-text rule `typed_text`: every CR LF pair is on…",
+".claude/rules/security.md:25 typed-text-fn leaf …la_agent_claude::hook::typed_text`; nothing else is removed, not an in…",
+".claude/docs/services/viola-agent-claude.md:24 typed-text-fn leaf @c1588/2251 …es on this: `typed_text(text)` returns a…",
+".claude/docs/services/viola.md:37 typed-text-fn leaf …trailing CR and LF (`typed_text`, the one text the list, the matc…",
+".andromeda/architecture.md:49 still-holds-cr new @c5985/12607 …F, the typed text still held the CR, the exact match fai…",
+".andromeda/test-plan.md:582 still-holds-cr new @c1380/2350 …ide: a prompt that still holds the CR claims nothing, so th…",
+"trailing-only · new 8 · standing 2 · leaf 7 · curation 0 · base 0 · control architecture.md:49 (prose)",
+"nothing-else · new 0 · standing 6 · leaf 0 · curation 0 · base 0 · control architecture.md:49 (prose)",
+"not-at-end · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:49 (prose)",
+"ending-only · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:49 (pr…",
+"not-covered · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:49 (pr…",
+"not-confirmable · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:750 (…",
+"no-fix · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:49 (prose)",
+"carried-route · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:49 (prose)",
+"inner-cr · new 9 · standing 2 · leaf 2 · curation 0 · base 0 · control architecture.md:49 (prose)",
+"seventeen-cases · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:565 (…",
+"trailing-drop · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control security-plan.md:543 (prose)",
+"typed-text-fn · new 0 · standing 3 · leaf 3 · curation 0 · base 0 · control architecture.md:49 (prose)",
+"inner-newlines · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:238 (p…",
+"one-removal · 0 rows (control fired) — a statement about this pattern, not the masters · case-variants +1 · control sec…",
+"still-holds-cr · new 2 · standing 0 · leaf 0 · curation 0 · base 0 · control architecture.md:49 (prose)",
+"total (15 patterns) · 47 rows over 14 files",
+"per class · new 20/4 · standing 13/6 · leaf 14/8 · curation 0/0 · base 0/0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "3c5e012b9a4305a953d49873610eff5586349b2a",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), 308099b9",
+"counts": {
+"trailing-only": {
+"new": 8,
+"standing": 2,
+"leaf": 7,
+"curation": 0,
+"base": 0
+},
+"nothing-else": {
+"new": 0,
+"standing": 6,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"not-at-end": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"ending-only": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"not-covered": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"not-confirmable": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"no-fix": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"carried-route": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"inner-cr": {
+"new": 9,
+"standing": 2,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"seventeen-cases": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"trailing-drop": {
+"new": 1,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"typed-text-fn": {
+"new": 0,
+"standing": 3,
+"leaf": 3,
+"curation": 0,
+"base": 0
+},
+"inner-newlines": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"one-removal": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"still-holds-cr": {
+"new": 2,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]

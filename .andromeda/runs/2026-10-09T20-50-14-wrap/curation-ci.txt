@@ -1,0 +1,1 @@
+- 2026-10-09: `gh run list --commit` takes the full 40-character sha: given an abbreviated one it prints an empty list with exit 0 while a run exists on that commit, which reads as "no run". Pass `$(git rev-parse HEAD)`, and never read an empty list from a short sha as an absence.

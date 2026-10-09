@@ -1,0 +1,34 @@
+[
+{
+"tool": "route",
+"v": "1.7",
+"sha8": "470db3a8",
+"ts": "2026-10-09T21:07:21Z",
+"argv": [
+"route.py",
+"epoch",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-09T20-50-14-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"working-route.md · 9 epoch headers · 80 entries · freeze state joined to 47 master records",
+"10 · Epoch 1 — Foundation · entries 8 · markerless 0 · frozen complete 8 · pending 0",
+"27 · Epoch 2 — Windows slice I: wrapper, events,… · entries 7 · markerless 0 · frozen complete 7 · pending 0",
+"42 · Epoch 2b — Windows slice I b: events and le… · entries 11 · markerless 0 · frozen complete 11 · pending 0",
+"65 · Epoch 3 — Windows slice II: driving verbs a… · entries 19 · markerless 0 · frozen complete 19 · pending 0",
+"104 · Epoch 4 — Session state & governance · entries 10 · markerless 8 · frozen complete 1 · pending 1",
+"125 · Epoch 5 — Driver surface · entries 5 · markerless 5 · frozen complete 0 · pending 0",
+"136 · Epoch 6 — Security hardening · entries 6 · markerless 6 · frozen complete 0 · pending 0",
+"149 · Epoch 7 — Cross-OS completion · entries 3 · markerless 3 · frozen complete 0 · pending 0",
+"156 · Epoch 8 — Web UI, polish & ship · entries 11 · markerless 11 · frozen complete 0 · pending 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

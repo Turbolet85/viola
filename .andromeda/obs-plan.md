@@ -633,7 +633,7 @@ Skipped as not-instrumentable per obs-scope §1: `viola-core` (it supplies `ObsE
 - **Required span attributes:**
   - `channel.request` / `channel.dispatch`: `method="send"`, `conn`;
   - `run.readiness_gate`: `outcome` (`ready|input-not-ready`), `vt100_panicked` (bool);
-  - `pty.paste_write`: `text_bytes` (the length of the typed text: the sent text without its trailing CR and LF characters), `paste_mode="bracketed"`;
+  - `pty.paste_write`: `text_bytes` (the length of the typed text: the sent text with every CR LF pair and every other CR as one LF, and without its trailing CR and LF characters), `paste_mode="bracketed"`;
   - `run.confirm_window`: `window_ms`.
   - Never text.
 - **Required log fields:** common fields plus:
@@ -816,7 +816,7 @@ Template fields deliberately **not** emitted (D-12):
 | `process-exit` | `subject`, `exit_code` (self), `child_exit_status` (child/probes), `shell_exit_status` (statusline), `exit_source` (`handle-wait|kill-fallback`), `detail`, `during` (`connect|call`), `duration_ms` |
 | `channel-request` | `method`, `conn` / `srv_conn`, `from`, `from_trust`, `sender`, `v`, `after`, `timeout_ms` |
 | `channel-response` | `method`, `conn` / `srv_conn`, `result_class` (`ok|refusal|error`), `refusal`, `detail`, `error_code` (`-32700|-32600|-32601|-32602|-32603`), `outcome`, `duration_ms` |
-| `send-issued` / `send-confirmed` / `send-refused` | `from`, `from_trust`, `text_bytes` (the typed text's length: the sent text without its trailing CR and LF characters), `confirmed`, `refusal`, `detail`, `side` (`client|wrapper`), `wheel`, `window`, `used_percentage`, `resets_at`, `paused`, `duration_ms`, `conn` / `srv_conn` and `rpc_id` (wrapper side only: the originating `send` request's connection and JSON-RPC `id`, D-30) |
+| `send-issued` / `send-confirmed` / `send-refused` | `from`, `from_trust`, `text_bytes` (the typed text's length: the sent text with every CR LF pair and every other CR as one LF, and without its trailing CR and LF characters), `confirmed`, `refusal`, `detail`, `side` (`client|wrapper`), `wheel`, `window`, `used_percentage`, `resets_at`, `paused`, `duration_ms`, `conn` / `srv_conn` and `rpc_id` (wrapper side only: the originating `send` request's connection and JSON-RPC `id`, D-30) |
 | `dialog-raised` / `dialog-answered` | `dialog_kind`, `hook_event`, `from`, `from_trust`, `deadline_hit`, `duration_ms` |
 | `hook-invoked` / `hook-decision` | `hook_event` (`session-start|user-prompt-submit|pre-tool-use|permission-request|stop|session-end|notification|post-tool-use|post-tool-use-failure|statusline`), `stdin_bytes`, `invoked_at`, `decision_emitted`, `deadline_hit`, `budget_written`, `detail`, `duration_ms` |
 | `http-request` | `method`, `path`, `route`, `status`, `problem`, `duration_ms`, `skipped` |

@@ -36,11 +36,11 @@ viola is a standalone, cross-platform (Windows first) bridge that lets one inter
 - NEVER-log floor: the GUI token, launch URL, `?t=`, `Cookie` and R8-stripped `CLAUDE*` values reach no log, diagnostic, event, snapshot or fixture; user content goes only to `instances/<name>/diagnostics/detail-*.ndjson`.
 - External errors (CLI `--json`, MCP `isError`, Problem Details, channel `error.data`) carry codes and fixed messages only: no absolute paths, no upstream text, no anyhow chain holding a serde source.
 - No `config.json` key, `VIOLA_*` env var or CLI flag may disable a control or widen redaction; env vars are not a configuration channel (no `RUST_LOG`, `EnvFilter` or `OTEL_*`).
-- Bound every input: names only via `ViolaName::try_new` before a path join; `Read::take(MAX_FRAME)` on every external reader; closed enums for decisions; paste text rejects C0 (except LF/CR/TAB), DEL and C1, and never strips a refused character (`send` types a validated text without its trailing CR and LF, and refuses an empty typed text as `empty-text`).
+- Bound every input: names only via `ViolaName::try_new` before a path join; `Read::take(MAX_FRAME)` on every external reader; closed enums for decisions; paste text rejects C0 (except LF/CR/TAB), DEL and C1, and never strips a refused character (`send` types a validated text with every inner CR or CR LF as one LF and without its trailing CR and LF, and refuses an empty typed text as `empty-text`).
 - Disk state: set 0700 dirs / 0600 files explicitly (never the umask); only the wrapper writes `snapshot.json`, only `viola verify` writes `ledger/stamps.json`; one `write` per ndjson line; never truncate `events.ndjson`.
 - stdout is reserved (`--json` results, the hook decision body, MCP frames, the child's screen): no `print!`/`eprintln!`/`dbg!` in product crates; log only via `obs_event!` under `#[instrument(skip_all, fields(..))]`.
 - Every Cargo profile keeps `panic = "unwind"`, and the custom panic hook is the first statement of `main` (a hook panic must still exit 0).
-- Tokio only in `viola-mcp` / `viola-ui`; no C-building crates; Claude-specific shapes only in `viola-agent-claude`, where each undocumented CLI behaviour is a capability-ledger row with a `viola verify` probe (the S3/S7/S8 dialog bodies and the paste-framing and `/clear` rows included: seventeen rows gate `cli_verified`; one ruled limit: a shape no `send` relies on needs no probe).
+- Tokio only in `viola-mcp` / `viola-ui`; no C-building crates; Claude-specific shapes only in `viola-agent-claude`, where each undocumented CLI behaviour is a capability-ledger row with a `viola verify` probe (the S3/S7/S8 dialog bodies and the paste-framing and `/clear` rows included: seventeen rows gate `cli_verified`; one ruled limit: a shape no `send` relies on needs no probe; one relied-on shape, an LF typed inside a paste, has no row yet, owed on the route entry "Paste newline ledger row").
 <!-- GENERATED:setup:warnings end -->
 
 ## Where to Look
@@ -68,7 +68,7 @@ viola is a standalone, cross-platform (Windows first) bridge that lets one inter
 
 ## Workflow
 <!-- GENERATED:setup:workflow start -->
-**Key commands** (the workspace lands with the first chunk; until then they have nothing to act on):
+**Key commands:**
 - `scripts/agent-run.sh <boot|run|status|cleanup|logs>` (`scripts/agent-run.ps1` on PowerShell) — the headless harness; one JSON document + typed exit per command
 - `cargo fmt --all --check` — format gate
 - `cargo clippy --workspace --all-targets --features fake-agent -- -D warnings` — lint gate

@@ -1,0 +1,808 @@
+[
+{
+"tool": "gate",
+"v": "1.13",
+"sha8": "3718c868",
+"ts": "2026-10-09T20:50:44Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-09-inner-cr-and-crlf-in-a-sent-text",
+"--run-dir",
+".andromeda/runs/2026-10-09T20-50-14-wrap",
+"--marker",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base 3c5e012b (the parent of the oldest pre-CI commit 308099b9) · lists new 0 · modify 5 · derived 0 · record 1",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"record: listed — tests/channel_paste_validation.rs",
+"scope: clean — changed 5 · listed 5 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 84"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "3c5e012b9a4305a953d49873610eff5586349b2a",
+"base_why": "the parent of the oldest pre-CI commit 308099b9",
+"counts": {
+"changed": 5,
+"listed": 5,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 84,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.13",
+"sha8": "3718c868",
+"ts": "2026-10-09T21:10:46Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-09-inner-cr-and-crlf-in-a-sent-text/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-09T20-50-14-wrap",
+"--marker",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-09-inner-cr-and-crlf-in-a-sent-text · entries 23",
+"logs $TMPDIR/andromeda-gate/2026-10-09-inner-cr-and-crlf-in-a-sent-text/wrap-2026-10-09T20-50-14 · bound: GNU timeout",
+"delta docs 53 · unmapped 3",
+"walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 56",
+"prose L277-280: The gates are the standing lint, unit and default-selection entries; two filter entries th… (376 chars)",
+"prose L282-286: No entry is a live leg. The live readings are this chunk's own local measurement (test-pla… (511 chars)",
+"prose L288-291: Step 4's red reading and step 7's green one are a one-shot pair in `evidence/red-green.md`… (410 chars)",
+"prose L293-296: The preservation guard names the base commit, because the operator pass's pre-CI commit mo… (346 chars)",
+"prose L298-300: Step 12's reading of the loaded sections is no entry and has no listed producer: it compar… (337 chars)",
+"  1 lint        green · exit 0 · 0.65s · 0 B → 1.log · cargo fmt --all --check",
+"  2 lint        green · exit 0 · 0.19s · 72 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 unit        green · exit 0 · 6.67s · 185836 B → 3.log · bash scripts/agent-run.sh run --unit",
+"  4 unit        green · exit 0 · 0.92s · 4246 B → 4.log · bash scripts/agent-run.sh run --unit --filter 'test(/cr_is… (68 chars)",
+"  5 integration green · exit 0 · 49.01s · 228389 B → 5.log · bash scripts/agent-run.sh run",
+"  6 integration green · exit 0 · 1.21s · 2072 B → 6.log · bash scripts/agent-run.sh run --integration --filter 'test… (75 chars)",
+"  7 probe       green · exit 0 · 0.01s · 0 B → 7.log · git diff --quiet 3c5e012b9a43 -- src/bin src/human.rs src/… (517 chars)",
+"  8 probe       green · exit 0 · 0.02s · 33 B → 8.log · python3 viola-0.1.0/chunks/2026-10-09-inner-cr-and-crlf-in… (101 chars)",
+"  9 build       green · exit 0 · 2.4s · 185 B → 9.log · CARGO_TARGET_DIR=target/release-check cargo clean --releas… (139 chars)",
+" 10 smoke       green · exit 0 · 0.12s · 47 B → 10.log · bash scripts/agent-run.sh cleanup --session p-icr-smoke",
+" 11 smoke       green · exit 0 · 3.84s · 283 B → 11.log · bash scripts/agent-run.sh boot --session p-icr-smoke --ins… (71 chars)",
+" 12 smoke       green · exit 0 · 0.11s · 214 B → 12.log · bash scripts/agent-run.sh status --session p-icr-smoke",
+" 13 probe       green · exit 0 · 0.03s · 10 B → 13.log · bash scripts/g2-zero-panics.sh",
+" 14 probe       green · exit 0 · 0.31s · 108 B → 14.log · bash scripts/agent-run.sh schema-check",
+" 15 smoke       green · exit 0 · 0.33s · 176 B → 15.log · bash scripts/agent-run.sh cleanup --session p-icr-smoke",
+" 16 probe       green · exit 0 · 0.08s · 22 B → 16.log · \"$HOME/.local/share/mise/installs/claude/2.1.287/claude\" -… (66 chars)",
+" 17 probe       green · exit 0 · 0.0s · 5 B → 17.log · jq -e -s '([.[] | select(.kind == \"reading\")]) as $r | all… (451 chars)",
+" 18 probe       green · exit 0 · 0.0s · 5 B → 18.log · jq -e -s '([.[] | select(.kind == \"start\")]) as $s | ($s |… (378 chars)",
+" 19 probe       green · exit 0 · 0.01s · 5 B → 19.log · jq -e -s '([.[] | select(.kind == \"reading\")]) as $r | all… (390 chars)",
+" 20 probe       green · exit 0 · 57.84s · 230810 B → 20.log · bash scripts/agent-run.sh pre-push",
+" 21 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (90 chars)",
+" 22 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (69 chars)",
+" 23 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (114 chars)",
+"entries 23 · green 20 · red 0 · recorded 0 · timeout 0 · not-run 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-09-inner-cr-and-crlf-in-a-sent-text",
+"plan": "./viola-0.1.0/chunks/2026-10-09-inner-cr-and-crlf-in-a-sent-text/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-09-inner-cr-and-crlf-in-a-sent-text/wrap-2026-10-09T20-50-14",
+"delta": {
+"docs": [
+".andromeda/architecture-amendments.md",
+".andromeda/architecture.md",
+".andromeda/friction-log.ndjson",
+".andromeda/obs-plan-amendments.md",
+".andromeda/obs-plan.md",
+".andromeda/runs/2026-10-09T19-28-37-implement/evolve-2026-10-09-inner-cr-and-crlf-in-a-sent-text.json",
+".andromeda/runs/2026-10-09T19-28-37-implement/gate-2026-10-09-inner-cr-and-crlf-in-a-sent-text.json",
+".andromeda/security-plan-amendments.md",
+".andromeda/security-plan.md",
+".andromeda/state.yaml",
+".andromeda/test-plan-amendments.md",
+".andromeda/test-plan.md",
+".claude/docs/gotchas.md",
+".claude/docs/security-summary.md",
+".claude/docs/services/viola-agent-claude.md",
+".claude/docs/services/viola.md",
+".claude/docs/tests-summary.md",
+".claude/rules/ci.md",
+".claude/rules/events.md",
+".claude/rules/security.md",
+".claude/rules/verification-harness.md",
+".claude/session-handoff.md",
+"CLAUDE.md",
+"viola-0.1.0/chunks/2026-10-09-inner-cr-and-crlf-in-a-sent-text/evidence/operator-pass.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-09T20-50-14-wrap/a11y-plan-contracts.md",
+".andromeda/runs/2026-10-09T20-50-14-wrap/architecture-contracts.md",
+".andromeda/runs/2026-10-09T20-50-14-wrap/architecture-entry.md",
+".andromeda/runs/2026-10-09T20-50-14-wrap/cascade-2026-10-09-inner-cr-and-crlf-in-a-sent-text.json",
+".andromeda/runs/2026-10-09T20-50-14-wrap/cascade-dispositions.md",
+".andromeda/runs/2026-10-09T20-50-14-wrap/cascade-patterns.toml",
+".andromeda/runs/2026-10-09T20-50-14-wrap/citation-dispositions.md",
+".andromeda/runs/2026-10-09T20-50-14-wrap/cites-2026-10-09-inner-cr-and-crlf-in-a-sent-text.json",
+".andromeda/runs/2026-10-09T20-50-14-wrap/curation-ci.txt",
+".andromeda/runs/2026-10-09T20-50-14-wrap/curation-harness.txt",
+".andromeda/runs/2026-10-09T20-50-14-wrap/curation.md",
+".andromeda/runs/2026-10-09T20-50-14-wrap/evolve-2026-10-09-inner-cr-and-crlf-in-a-sent-text.json",
+".andromeda/runs/2026-10-09T20-50-14-wrap/fanout-results.md",
+".andromeda/runs/2026-10-09T20-50-14-wrap/gate-2026-10-09-inner-cr-and-crlf-in-a-sent-text.json",
+".andromeda/runs/2026-10-09T20-50-14-wrap/inputs-2026-10-09-inner-cr-and-crlf-in-a-sent-text.json",
+".andromeda/runs/2026-10-09T20-50-14-wrap/new-text.md",
+".andromeda/runs/2026-10-09T20-50-14-wrap/obs-plan-contracts.md",
+".andromeda/runs/2026-10-09T20-50-14-wrap/obs-plan-entry.md",
+".andromeda/runs/2026-10-09T20-50-14-wrap/registry-2026-10-09-inner-cr-and-crlf-in-a-sent-text.json",
+".andromeda/runs/2026-10-09T20-50-14-wrap/relay-1.md",
+".andromeda/runs/2026-10-09T20-50-14-wrap/relay-2.md",
+".andromeda/runs/2026-10-09T20-50-14-wrap/route-entry.txt",
+".andromeda/runs/2026-10-09T20-50-14-wrap/route-no-marker.json",
+".andromeda/runs/2026-10-09T20-50-14-wrap/security-plan-entry.md",
+".andromeda/runs/2026-10-09T20-50-14-wrap/splice-2026-10-09-inner-cr-and-crlf-in-a-sent-text.json",
+".andromeda/runs/2026-10-09T20-50-14-wrap/test-plan-contracts.md",
+".andromeda/runs/2026-10-09T20-50-14-wrap/test-plan-entry.md",
+"viola-0.1.0/chunks/2026-10-09-inner-cr-and-crlf-in-a-sent-text/report.md"
+]
+},
+"unmapped": [
+"viola-0.1.0/chunks/2026-10-09-inner-cr-and-crlf-in-a-sent-text/inputs/andromeda-inputs.json",
+"viola-0.1.0/chunks/2026-10-09-inner-cr-and-crlf-in-a-sent-text/inputs/I7-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-09-inner-cr-and-crlf-in-a-sent-text/inputs/I8-relay-2.md.txt"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 56,
+"problem": null
+},
+"prose": [
+{
+"from": 277,
+"to": 280,
+"text": "The gates are the standing lint, unit and default-selection entries; two filter entries that select only this chunk's new cases; the preservation guard; the reader's selftest; the product build; the harness smoke with G2 and G4 over its home; the by-path probe; three readers of the records the steps leave; the native `pre-push`; and the operator's hygiene, push and CI read."
+},
+{
+"from": 282,
+"to": 286,
+"text": "No entry is a live leg. The live readings are this chunk's own local measurement (test-plan §11 Test Strategy): steps 9 and 10 drove them through the headless rig in `evidence/`, by hand, so they are not one statement a reader could re-run. The by-path probe is non-priming (no API call) and is an ordinary probe. The three readers assert the records the steps left. None carries an `artifact` key: a reader writes nothing, and the files' producer is the hand-driven rig, which is no listed entry (`inputs#I1`)."
+},
+{
+"from": 288,
+"to": 291,
+"text": "Step 4's red reading and step 7's green one are a one-shot pair in `evidence/red-green.md`; the two listed filter entries guard the same cases on re-run. The reader's known-verdict controls are its listed `selftest` (both sides of the equality) and the rehearsal reader (the whole rig, must pass under the fake agent on the changed build). No mutation entry is listed: the mutation run is the epoch boundary's."
+},
+{
+"from": 293,
+"to": 296,
+"text": "The preservation guard names the base commit, because the operator pass's pre-CI commit moves HEAD onto the chunk. It is the one entry the revision changed: `tests/channel_paste_validation.rs` is out of its read, and its baseline was run again on the tree as the stopped run left it. Every other entry is carried over unchanged with its baseline."
+},
+{
+"from": 298,
+"to": 300,
+"text": "Step 12's reading of the loaded sections is no entry and has no listed producer: it compares the rebuilt file with a copy that stands only in the live home, on a tmpfs, and the wrap's light gate re-runs entries verbatim on a host where that copy may be gone. It is a hand reading at step 12, recorded in `evidence/live-preconditions.md`."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-09-inner-cr-and-crlf-in-a-sent-text/wrap-2026-10-09T20-50-14/1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.65,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-09-inner-cr-and-crlf-in-a-sent-text/wrap-2026-10-09T20-50-14/2.log",
+"bytes": 72,
+"log_sha8": "22e0df98",
+"exit": 0,
+"seconds": 0.19,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-09-inner-cr-and-crlf-in-a-sent-text/wrap-2026-10-09T20-50-14/3.log",
+"bytes": 185836,
+"log_sha8": "daa30aa3",
+"exit": 0,
+"seconds": 6.67,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/cr_is_one_lf/)'",
+"run_sha8": "6ff69a30",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-09-inner-cr-and-crlf-in-a-sent-text/wrap-2026-10-09T20-50-14/4.log",
+"bytes": 4246,
+"log_sha8": "31cebdc3",
+"exit": 0,
+"seconds": 0.92,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run",
+"run_sha8": "21443cdf",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-09-inner-cr-and-crlf-in-a-sent-text/wrap-2026-10-09T20-50-14/5.log",
+"bytes": 228389,
+"log_sha8": "7282054e",
+"exit": 0,
+"seconds": 49.01,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'test(/cr_is_one_lf/)'",
+"run_sha8": "6c5308ac",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-09-inner-cr-and-crlf-in-a-sent-text/wrap-2026-10-09T20-50-14/6.log",
+"bytes": 2072,
+"log_sha8": "6feddf20",
+"exit": 0,
+"seconds": 1.21,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "git diff --quiet 3c5e012b9a43 -- src/bin src/human.rs src/run/wheel.rs src/run/gate.rs src/run/wait.rs src/run/dialog.rs src/cmd/answer.rs src/cmd/hook.rs src/cmd/hook src/cmd/verify.rs src/cmd/verify crates/viola-core crates/viola-pty crates/viola-channel crates/viola-state crates/viola-e2e crates/viola-agent-claude/src/ledger.rs crates/viola-agent-claude/src/screen.rs crates/viola-agent-claude/src/dialog.rs tests/cli_controls_not_disableable.rs fixtures schemas plugin fuzz .github .config Cargo.toml Cargo.lock",
+"run_sha8": "fd172d1c",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-09-inner-cr-and-crlf-in-a-sent-text/wrap-2026-10-09T20-50-14/7.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "python3 viola-0.1.0/chunks/2026-10-09-inner-cr-and-crlf-in-a-sent-text/evidence/live-read.py selftest",
+"run_sha8": "3aef9de2",
+"expect": [
+"exit 0",
+"contains 0 mismatches"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-09-inner-cr-and-crlf-in-a-sent-text/wrap-2026-10-09T20-50-14/8.log",
+"bytes": 33,
+"log_sha8": "833f46f3",
+"exit": 0,
+"seconds": 0.02,
+"readings": [
+"exit 0 ✓",
+"contains '0 mismatches' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "build",
+"run": "CARGO_TARGET_DIR=target/release-check cargo clean --release -p viola && CARGO_TARGET_DIR=target/release-check bash scripts/release-check.sh",
+"run_sha8": "93cb9c8c",
+"expect": [
+"exit 0",
+"last line release-check: viola only"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-09-inner-cr-and-crlf-in-a-sent-text/wrap-2026-10-09T20-50-14/9.log",
+"bytes": 185,
+"log_sha8": "c4385465",
+"exit": 0,
+"seconds": 2.4,
+"readings": [
+"exit 0 ✓",
+"last line 'release-check: viola only' ✓",
+"artifact fresh (target/release-check/release/viola)"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-icr-smoke",
+"run_sha8": "ee76610b",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-09-inner-cr-and-crlf-in-a-sent-text/wrap-2026-10-09T20-50-14/10.log",
+"bytes": 47,
+"log_sha8": "91854d6e",
+"exit": 0,
+"seconds": 0.12,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-icr-smoke --instance builder",
+"run_sha8": "e5397390",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-09-inner-cr-and-crlf-in-a-sent-text/wrap-2026-10-09T20-50-14/11.log",
+"bytes": 283,
+"log_sha8": "ee79e9d1",
+"exit": 0,
+"seconds": 3.84,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-icr-smoke",
+"run_sha8": "96e73156",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-09-inner-cr-and-crlf-in-a-sent-text/wrap-2026-10-09T20-50-14/12.log",
+"bytes": 214,
+"log_sha8": "f32ee617",
+"exit": 0,
+"seconds": 0.11,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "bash scripts/g2-zero-panics.sh",
+"run_sha8": "b1637f71",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-09-inner-cr-and-crlf-in-a-sent-text/wrap-2026-10-09T20-50-14/13.log",
+"bytes": 10,
+"log_sha8": "6736cedd",
+"exit": 0,
+"seconds": 0.03,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-09-inner-cr-and-crlf-in-a-sent-text/wrap-2026-10-09T20-50-14/14.log",
+"bytes": 108,
+"log_sha8": "a341901e",
+"exit": 0,
+"seconds": 0.31,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-icr-smoke",
+"run_sha8": "ee76610b",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-09-inner-cr-and-crlf-in-a-sent-text/wrap-2026-10-09T20-50-14/15.log",
+"bytes": 176,
+"log_sha8": "b82c2546",
+"exit": 0,
+"seconds": 0.33,
+"readings": [
+"exit 0 ✓",
+"contains '\"processes_gone\":true' ✓",
+"contains '\"endpoint_gone\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "\"$HOME/.local/share/mise/installs/claude/2.1.287/claude\" --version",
+"run_sha8": "f74b31bd",
+"expect": [
+"exit 0",
+"contains 2.1.287 (Claude Code)"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-09-inner-cr-and-crlf-in-a-sent-text/wrap-2026-10-09T20-50-14/16.log",
+"bytes": 22,
+"log_sha8": "4dab52a3",
+"exit": 0,
+"seconds": 0.08,
+"readings": [
+"exit 0 ✓",
+"contains '2.1.287 (Claude Code)' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "jq -e -s '([.[] | select(.kind == \"reading\")]) as $r | all((\"rule-inner-lf\",\"rule-inner-crlf\",\"rule-inner-cr\",\"rule-inner-cr-cr\",\"rule-inner-lf-cr\",\"rule-crlf-lines\"); . as $id | any($r[]; .id == $id and .confirmed == true and .prompt_origin == \"driver\" and .wheel_records == 0 and .prompt_cr_count == 0 and .prompt_equals_sent_under_the_rule == true))' viola-0.1.0/chunks/2026-10-09-inner-cr-and-crlf-in-a-sent-text/evidence/rehearsal-readings.ndjson",
+"run_sha8": "497a294b",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-09-inner-cr-and-crlf-in-a-sent-text/wrap-2026-10-09T20-50-14/17.log",
+"bytes": 5,
+"log_sha8": "a17fcf0a",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "jq -e -s '([.[] | select(.kind == \"start\")]) as $s | ($s | length) >= 1 and ($s | length) <= 2 and ($s | all(.[]; .cli == \"2.1.287\" and .host == \"pty\" and .cap == 2)) and any(.[]; .kind == \"rehearsal\" and .agent == \"fake\" and .held == true) and (any(.[]; .kind == \"compositor\") | not)' viola-0.1.0/chunks/2026-10-09-inner-cr-and-crlf-in-a-sent-text/evidence/live-sessions.ndjson",
+"run_sha8": "eebcb776",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-09-inner-cr-and-crlf-in-a-sent-text/wrap-2026-10-09T20-50-14/18.log",
+"bytes": 5,
+"log_sha8": "a17fcf0a",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "jq -e -s '([.[] | select(.kind == \"reading\")]) as $r | all((\"rule-inner-lf\",\"rule-inner-crlf\",\"rule-inner-cr\"); . as $id | any($r[]; .id == $id and .confirmed == true and .prompt_origin == \"driver\" and .wheel_records == 0 and .prompt_cr_count == 0 and .prompt_equals_sent_under_the_rule == true))' viola-0.1.0/chunks/2026-10-09-inner-cr-and-crlf-in-a-sent-text/evidence/live-readings.ndjson",
+"run_sha8": "c89c1859",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-09-inner-cr-and-crlf-in-a-sent-text/wrap-2026-10-09T20-50-14/19.log",
+"bytes": 5,
+"log_sha8": "a17fcf0a",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-09-inner-cr-and-crlf-in-a-sent-text/wrap-2026-10-09T20-50-14/20.log",
+"bytes": 230810,
+"log_sha8": "80ddeab3",
+"exit": 0,
+"seconds": 57.84,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"contains '\"stage\":\"linux-tests\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "2377245a",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.13",
+"sha8": "3718c868",
+"ts": "2026-10-09T21:10:58Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-10-09T20-50-14-wrap",
+"--marker",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust, ts · base 3c5e012b (the parent of the oldest pre-CI commit 308099b9)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust · P3 ts — each fired on its synthetic known positive",
+"hygiene: clean — read 104 (runs 81 · evidence 13 · inputs 10) · trails 34 not read · copies 8 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust",
+"ts"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 81,
+"evidence": 13,
+"inputs": 10,
+"trails": 34,
+"copies": 8,
+"kept": 0,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.13",
+"sha8": "3718c868",
+"ts": "2026-10-09T21:10:59Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-09-inner-cr-and-crlf-in-a-sent-text",
+"--run-dir",
+".andromeda/runs/2026-10-09T20-50-14-wrap",
+"--marker",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base 3c5e012b (the parent of the oldest pre-CI commit 308099b9) · lists new 0 · modify 5 · derived 0 · record 1",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"record: listed — tests/channel_paste_validation.rs",
+"scope: clean — changed 5 · listed 5 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 133"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "3c5e012b9a4305a953d49873610eff5586349b2a",
+"base_why": "the parent of the oldest pre-CI commit 308099b9",
+"counts": {
+"changed": 5,
+"listed": 5,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 133,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.13",
+"sha8": "3718c868",
+"ts": "2026-10-09T21:11:18Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-10-09T20-50-14-wrap",
+"--marker",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust, ts · base 3c5e012b (the parent of the oldest pre-CI commit 308099b9)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust · P3 ts — each fired on its synthetic known positive",
+"hygiene: clean — read 106 (runs 83 · evidence 13 · inputs 10) · trails 35 not read · copies 8 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust",
+"ts"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 83,
+"evidence": 13,
+"inputs": 10,
+"trails": 35,
+"copies": 8,
+"kept": 0,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+}
+]

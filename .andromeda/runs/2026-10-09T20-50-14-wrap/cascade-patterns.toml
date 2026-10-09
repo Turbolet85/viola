@@ -1,0 +1,62 @@
+[[pattern]]
+id = 'trailing-only'
+fixed = 'without its trailing CR and LF'
+
+[[pattern]]
+id = 'nothing-else'
+fixed = 'and nothing else'
+
+[[pattern]]
+id = 'not-at-end'
+fixed = 'CR or LF that is not at the very end'
+
+[[pattern]]
+id = 'ending-only'
+fixed = 'covers the ending only'
+
+[[pattern]]
+id = 'not-covered'
+fixed = 'not covered by the strip'
+
+[[pattern]]
+id = 'not-confirmable'
+fixed = 'is not confirmable'
+
+[[pattern]]
+id = 'no-fix'
+regex = 'no fix (for the inner case |has )?landed'
+ignore_case = true
+
+[[pattern]]
+id = 'carried-route'
+fixed = 'carried on the working route'
+
+[[pattern]]
+id = 'inner-cr'
+regex = 'inner CR|CR or a CR ?LF inside|inner-cr|inner CRLF'
+ignore_case = true
+
+[[pattern]]
+id = 'seventeen-cases'
+fixed = 'seventeen labelled cases'
+
+[[pattern]]
+id = 'trailing-drop'
+regex = '(drop|dropp|remov|strip)\w* (the |its |every )?trailing'
+ignore_case = true
+
+[[pattern]]
+id = 'typed-text-fn'
+fixed = 'typed_text'
+
+[[pattern]]
+id = 'inner-newlines'
+fixed = 'inner newlines intact'
+
+[[pattern]]
+id = 'one-removal'
+fixed = 'the one removal'
+
+[[pattern]]
+id = 'still-holds-cr'
+regex = 'still h(olds|eld) the CR'

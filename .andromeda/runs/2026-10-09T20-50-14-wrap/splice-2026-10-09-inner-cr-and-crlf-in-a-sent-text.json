@@ -1,0 +1,318 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1bc626dd",
+"ts": "2026-10-09T20:53:09Z",
+"argv": [
+"append",
+"--file",
+"viola-0.1.0/chunks/2026-10-09-inner-cr-and-crlf-in-a-sent-text/report.md",
+"--payload-file",
+".andromeda/runs/2026-10-09T20-50-14-wrap/new-text.md",
+"--lines",
+"32",
+"--if-absent-prefix",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-10-09T20-50-14-wrap",
+"--marker",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append report.md:+32 at line 138 · lines 137→169 · bytes 24596→26393 · term lf",
+"last line now:   - 479-482 «assert!(»"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/chunks/2026-10-09-inner-cr-and-crlf-in-a-sent-text/report.md"
+],
+"before": {
+"lines": 137,
+"bytes": 24596,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 169,
+"bytes": 26393
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1bc626dd",
+"ts": "2026-10-09T21:04:43Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-09T20-50-14-wrap/architecture-entry.md",
+"--lines",
+"7",
+"--run-dir",
+".andromeda/runs/2026-10-09T20-50-14-wrap",
+"--marker",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+7 at line 803 · lines 802→809 · bytes 146387→149119 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-09T20-50-14-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 802,
+"bytes": 146387,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 809,
+"bytes": 149119
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1bc626dd",
+"ts": "2026-10-09T21:04:43Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-09T20-50-14-wrap/security-plan-entry.md",
+"--lines",
+"7",
+"--run-dir",
+".andromeda/runs/2026-10-09T20-50-14-wrap",
+"--marker",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+7 at line 445 · lines 444→451 · bytes 74918→76940 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-09T20-50-14-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 444,
+"bytes": 74918,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 451,
+"bytes": 76940
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1bc626dd",
+"ts": "2026-10-09T21:04:44Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-09T20-50-14-wrap/test-plan-entry.md",
+"--lines",
+"7",
+"--run-dir",
+".andromeda/runs/2026-10-09T20-50-14-wrap",
+"--marker",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+7 at line 676 · lines 675→682 · bytes 108741→110972 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-09T20-50-14-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 675,
+"bytes": 108741,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 682,
+"bytes": 110972
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1bc626dd",
+"ts": "2026-10-09T21:04:44Z",
+"argv": [
+"append",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-09T20-50-14-wrap/obs-plan-entry.md",
+"--lines",
+"6",
+"--run-dir",
+".andromeda/runs/2026-10-09T20-50-14-wrap",
+"--marker",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append obs-plan-amendments.md:+6 at line 413 · lines 412→418 · bytes 55781→56711 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-09T20-50-14-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 412,
+"bytes": 55781,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 418,
+"bytes": 56711
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1bc626dd",
+"ts": "2026-10-09T21:06:03Z",
+"argv": [
+"append",
+"--file",
+".claude/rules/ci.md",
+"--payload-file",
+".andromeda/runs/2026-10-09T20-50-14-wrap/curation-ci.txt",
+"--lines",
+"1",
+"--run-dir",
+".andromeda/runs/2026-10-09T20-50-14-wrap",
+"--marker",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append ci.md:+1 at line 32 · lines 31→32 · bytes 3132→3414 · term lf",
+"last line now: - 2026-10-09: `gh run list --commit` takes the full 40-character sha: given an a"
+],
+"stderr": null,
+"wrote": [
+".claude/rules/ci.md"
+],
+"before": {
+"lines": 31,
+"bytes": 3132,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 32,
+"bytes": 3414
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1bc626dd",
+"ts": "2026-10-09T21:06:03Z",
+"argv": [
+"append",
+"--file",
+".claude/rules/verification-harness.md",
+"--payload-file",
+".andromeda/runs/2026-10-09T20-50-14-wrap/curation-harness.txt",
+"--lines",
+"1",
+"--run-dir",
+".andromeda/runs/2026-10-09T20-50-14-wrap",
+"--marker",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append verification-harness.md:+1 at line 66 · lines 65→66 · bytes 19545→20332 · term lf",
+"last line now: - 2026-10-09: A build's file hash is not a proof that two builds load the same c"
+],
+"stderr": null,
+"wrote": [
+".claude/rules/verification-harness.md"
+],
+"before": {
+"lines": 65,
+"bytes": 19545,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 66,
+"bytes": 20332
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1bc626dd",
+"ts": "2026-10-09T21:07:21Z",
+"argv": [
+"append",
+"--file",
+"viola-0.1.0/working-route.md",
+"--payload-file",
+".andromeda/runs/2026-10-09T20-50-14-wrap/route-entry.txt",
+"--lines",
+"2",
+"--after-line",
+"125",
+"--run-dir",
+".andromeda/runs/2026-10-09T20-50-14-wrap",
+"--marker",
+"2026-10-09-inner-cr-and-crlf-in-a-sent-text"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append working-route.md:+2 at line 126 · lines 175→177 · bytes 51302→52932 · term lf",
+"last line now: Version done-check — every gate green on three OSes, masters agree, fix-pass i"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/working-route.md"
+],
+"before": {
+"lines": 175,
+"bytes": 51302,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 177,
+"bytes": 52932
+}
+}
+]
