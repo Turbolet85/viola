@@ -1,0 +1,26 @@
+gate v1.14 · e8e4a72c
+shell /usr/bin/bash (from $SHELL; -c, non-login)
+root . · marker 2026-10-10-viola-revive · entries 16
+logs $TMPDIR/andromeda-gate/2026-10-10-viola-revive/run-20261010T130330Z · bound: GNU timeout
+delta docs 61 · unmapped 6
+walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 67
+prose L266-268: The gates are the standing lint and unit entries; one unit filter and one integration filt… (328 chars)
+prose L270-273: No mutation entry, no witness run and no workflow dispatch is listed (`inputs#I1`). No ent… (386 chars)
+prose L275-278: The smoke boots an ordinary `viola run` session: it reads the changed start path and the f… (334 chars)
+  1 lint        not run — dry-run · cargo fmt --all --check
+  2 lint        not run — dry-run · cargo clippy --workspace --all-targets --features fake-age… (75 chars)
+  3 unit        not run — dry-run · bash scripts/agent-run.sh run --unit
+  4 unit        not run — dry-run · bash scripts/agent-run.sh run --unit --filter 'test(/snaps… (155 chars)
+  5 integration not run — dry-run · bash scripts/agent-run.sh run --integration --filter 'bina… (144 chars)
+  6 probe       not run — dry-run · git diff --quiet 00c73fda87ef -- crates/viola-channel crat… (503 chars)
+  7 smoke       not run — dry-run · bash scripts/agent-run.sh cleanup --session p-rev-smoke
+  8 smoke       not run — dry-run · bash scripts/agent-run.sh boot --session p-rev-smoke --ins… (71 chars)
+  9 smoke       not run — dry-run · bash scripts/agent-run.sh status --session p-rev-smoke
+ 10 probe       not run — dry-run · bash scripts/g2-zero-panics.sh
+ 11 probe       not run — dry-run · bash scripts/agent-run.sh schema-check
+ 12 smoke       not run — dry-run · bash scripts/agent-run.sh cleanup --session p-rev-smoke
+ 13 probe       not run — dry-run · bash scripts/agent-run.sh pre-push
+ 14 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (90 chars)
+ 15 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (69 chars)
+ 16 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (114 chars)
+entries 16 · green 0 · red 0 · recorded 0 · timeout 0 · not-run 16

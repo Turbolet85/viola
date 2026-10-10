@@ -72,6 +72,45 @@ pub fn replay(instance_dir: &Path) -> Result<Replayed, StateError> {
     Ok(replayed)
 }
 
+/// One logged session: a `session-start` line that carries an id.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct SessionLink {
+    pub ts: String,
+    /// The cause as logged; `unknown` when the line holds none.
+    pub cause: String,
+    pub agent_session_id: String,
+}
+
+/// The logged sessions in log order, and what the pass stepped over.
+#[derive(Debug, Clone, Default, PartialEq, Eq)]
+pub struct SessionChain {
+    pub links: Vec<SessionLink>,
+    pub skipped: Skipped,
+}
+
+/// One pass over the whole log: a link per `session-start` line whose id is a string. Read-only,
+/// and it logs nothing.
+pub fn session_chain(instance_dir: &Path) -> Result<SessionChain, StateError> {
+    let mut chain = SessionChain::default();
+    let mut lines = read_from(instance_dir, 0)?;
+    for line in lines.by_ref() {
+        let line = line?;
+        if line.value["kind"].as_str() != Some(EventKind::SessionStart.as_str()) {
+            continue;
+        }
+        let data = &line.value["data"];
+        if let Some(id) = data["agent_session_id"].as_str() {
+            chain.links.push(SessionLink {
+                ts: line.value["ts"].as_str().unwrap_or("unknown").to_owned(),
+                cause: data["cause"].as_str().unwrap_or("unknown").to_owned(),
+                agent_session_id: id.to_owned(),
+            });
+        }
+    }
+    chain.skipped = lines.skipped();
+    Ok(chain)
+}
+
 fn holder(value: &Value) -> Option<Wheel> {
     [Wheel::Driver, Wheel::Human]
         .into_iter()
@@ -145,6 +184,7 @@ mod tests {
             links: Vec::new(),
             child_pid: None,
             pending_dialog: None,
+            cwd: None,
         }
     }
 
@@ -405,5 +445,149 @@ mod tests {
         let (recovered, lines) = capture(|| read_snapshot_or_replay(tmp.path()));
         assert!(recovered.is_err());
         assert_eq!(lines, Vec::<Value>::new());
+    }
+
+    fn link(cause: &str, id: &str) -> SessionLink {
+        SessionLink {
+            ts: "2026-09-27T01:02:03.000Z".to_owned(),
+            cause: cause.to_owned(),
+            agent_session_id: id.to_owned(),
+        }
+    }
+
+    #[test]
+    fn session_chain_of_an_empty_or_an_absent_log_holds_no_link() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        assert_eq!(
+            session_chain(tmp.path()).expect("absent"),
+            SessionChain::default()
+        );
+        fs::write(tmp.path().join("events.ndjson"), b"").expect("seed");
+        assert_eq!(
+            session_chain(tmp.path()).expect("empty"),
+            SessionChain {
+                links: Vec::new(),
+                skipped: NONE_SKIPPED,
+            }
+        );
+    }
+
+    /// A start, a `/clear` and a resume of the first session, with the other kinds between them.
+    #[test]
+    fn session_chain_holds_every_logged_session_in_log_order_with_its_cause() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        full_log(tmp.path());
+        log(
+            tmp.path(),
+            &[(
+                EventKind::SessionStart,
+                json!({"cause": "resume", "agent_session_id": "s-1"}),
+            )],
+        );
+        let (chain, lines) = capture(|| session_chain(tmp.path()));
+        assert_eq!(
+            chain.expect("chain"),
+            SessionChain {
+                links: vec![
+                    link("startup", "s-1"),
+                    link("clear", "s-2"),
+                    link("resume", "s-1"),
+                ],
+                skipped: NONE_SKIPPED,
+            }
+        );
+        assert_eq!(lines, Vec::<Value>::new());
+    }
+
+    #[test]
+    fn session_chain_holds_no_link_for_a_session_start_whose_id_is_null() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        log(
+            tmp.path(),
+            &[
+                (
+                    EventKind::SessionStart,
+                    json!({"cause": "startup", "agent_session_id": null}),
+                ),
+                (
+                    EventKind::SessionStart,
+                    json!({"cause": "resume", "agent_session_id": "s-1"}),
+                ),
+                (
+                    EventKind::SessionStart,
+                    json!({"cause": "clear", "agent_session_id": 7}),
+                ),
+            ],
+        );
+        assert_eq!(
+            session_chain(tmp.path()).expect("chain").links,
+            [link("resume", "s-1")]
+        );
+    }
+
+    /// A line no writer of this build made: no `ts`, and a `cause` that is no string.
+    #[test]
+    fn session_chain_reads_a_missing_ts_and_a_cause_that_is_no_string_as_unknown() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        fs::write(
+            tmp.path().join("events.ndjson"),
+            concat!(
+                r#"{"v":1,"instance":"builder","kind":"session-start","source":"hook","data":{"agent_session_id":"s-9"}}"#,
+                "\n",
+                r#"{"v":1,"ts":"t","instance":"builder","kind":"session-start","source":"hook","data":{"cause":3,"agent_session_id":"s-10"}}"#,
+                "\n",
+            ),
+        )
+        .expect("seed");
+        assert_eq!(
+            session_chain(tmp.path()).expect("chain").links,
+            [
+                SessionLink {
+                    ts: "unknown".to_owned(),
+                    cause: "unknown".to_owned(),
+                    agent_session_id: "s-9".to_owned(),
+                },
+                SessionLink {
+                    ts: "t".to_owned(),
+                    cause: "unknown".to_owned(),
+                    agent_session_id: "s-10".to_owned(),
+                },
+            ]
+        );
+    }
+
+    #[test]
+    fn session_chain_counts_a_torn_last_line_and_an_unknown_kind_and_links_neither() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        log(
+            tmp.path(),
+            &[(
+                EventKind::SessionStart,
+                json!({"cause": "startup", "agent_session_id": "s-1"}),
+            )],
+        );
+        let mut bytes = fs::read(tmp.path().join("events.ndjson")).expect("read");
+        bytes.extend_from_slice(
+            b"{\"kind\":\"later-kind\",\"data\":{\"agent_session_id\":\"s-7\"}}\n{\"kind\":\"session-start\",\"data\":{\"agent_session_id\":\"s-8\"",
+        );
+        fs::write(tmp.path().join("events.ndjson"), bytes).expect("seed");
+        assert_eq!(
+            session_chain(tmp.path()).expect("chain"),
+            SessionChain {
+                links: vec![link("startup", "s-1")],
+                skipped: Skipped {
+                    unknown_kinds: 1,
+                    unknown_fields: 0,
+                    torn_lines: 1,
+                },
+            }
+        );
+    }
+
+    #[test]
+    fn session_chain_of_a_log_that_cannot_be_read_is_an_error() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        fs::create_dir(tmp.path().join("events.ndjson")).expect("a dir in its place");
+        assert!(session_chain(tmp.path()).is_err());
     }
 }

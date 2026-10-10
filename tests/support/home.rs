@@ -375,7 +375,7 @@ impl Wrapper {
         extra: &[&str],
         size: Size,
     ) -> Self {
-        Self::boot_with(stamped, name, script, extra, size, true)
+        Self::boot_with(stamped, name, script, extra, size, true, None)
     }
 
     /// `boot` with the fake agent's cwd untrusted: it shows the recorded trust dialog and fires no
@@ -386,11 +386,51 @@ impl Wrapper {
         script: Option<&str>,
         extra: &[&str],
     ) -> Self {
-        Self::boot_with(stamped, name, script, extra, Size::DEFAULT, false)
+        Self::boot_with(stamped, name, script, extra, Size::DEFAULT, false, None)
     }
 
-    /// Every boot replays the recorded screens (`--screens`); the fake agent's cwd, this test's
-    /// own, is trusted unless `trusted` is false.
+    /// `boot` typed in `dir`, which is the fake agent's cwd and its trusted root.
+    pub fn boot_in(stamped: StampedHome, name: &str, dir: &Path, extra: &[&str]) -> Self {
+        Self::boot_with(stamped, name, None, extra, Size::DEFAULT, true, Some(dir))
+    }
+
+    /// `viola revive <name> <flags…> -- <the fake agent's flags>` typed in `dir`, with the fake
+    /// agent as `claude` first on the child's `PATH`; ready as a boot is. `recorded` is the
+    /// directory the first life recorded: the revived child's cwd, so its trusted root.
+    pub fn revive(
+        stamped: StampedHome,
+        name: &str,
+        dir: &Path,
+        recorded: &Path,
+        flags: &[&str],
+    ) -> Self {
+        let home = stamped.home.path().to_path_buf();
+        let scratch = stamped.home.scratch().to_path_buf();
+        let mut args: Vec<OsString> = vec!["--home".into(), home.clone().into()];
+        args.extend(["revive", name].map(OsString::from));
+        args.extend(flags.iter().map(OsString::from));
+        args.push("--".into());
+        args.extend(revived_agent_flags(&home, name, recorded));
+        let path = path_with(&claude_dir(&scratch));
+        let before = Starts::read(&home, name);
+        let pty = OuterPty::spawn_in(
+            Path::new(VIOLA),
+            &args,
+            &[("PATH", &path)],
+            Size::DEFAULT,
+            dir,
+        );
+        let mut wrapper = Self {
+            stamped,
+            name: name.to_owned(),
+            pty,
+        };
+        wrapper.wait_ready(&before);
+        wrapper
+    }
+
+    /// Every boot replays the recorded screens (`--screens`); the fake agent's cwd is trusted
+    /// unless `trusted` is false. It is this test's own cwd, or `dir` when one is given.
     fn boot_with(
         stamped: StampedHome,
         name: &str,
@@ -398,7 +438,9 @@ impl Wrapper {
         extra: &[&str],
         size: Size,
         trusted: bool,
+        dir: Option<&Path>,
     ) -> Self {
+        let cwd = dir.map_or_else(|| std::env::current_dir().expect("cwd"), Path::to_path_buf);
         let home = stamped.home.path().to_path_buf();
         let mut args: Vec<OsString> = vec!["--home".into(), home.clone().into()];
         args.extend(["run", name, "--"].map(OsString::from));
@@ -415,12 +457,12 @@ impl Wrapper {
         args.push("--screens".into());
         if trusted {
             args.push("--trusted-root".into());
-            args.push(std::env::current_dir().expect("cwd").into());
+            args.push(cwd.clone().into());
         }
         args.extend(extra.iter().map(OsString::from));
         let before = Starts::read(&home, name);
         seed_conpty(&home);
-        let pty = OuterPty::spawn_sized(Path::new(VIOLA), &args, &[], size);
+        let pty = OuterPty::spawn_in(Path::new(VIOLA), &args, &[], size, &cwd);
         let mut wrapper = Self {
             stamped,
             name: name.to_owned(),
@@ -510,6 +552,113 @@ impl Wrapper {
         }
         (Stopped(Some(code)), stamped)
     }
+
+    /// What the outer terminal has shown so far.
+    pub fn shown(&self) -> Vec<u8> {
+        self.pty.shown()
+    }
+
+    /// Kills the wrapper this test booted: no Ctrl-C and no clean exit. Its own exit first, then
+    /// the child it recorded gone by pid and start time, then its endpoint answering no one. The
+    /// home comes back for a revive.
+    pub fn kill(self) -> StampedHome {
+        let data = snapshot_data(&self.instance_dir()).expect("the snapshot");
+        let child_pid = data["child_pid"]
+            .as_u64()
+            .and_then(|pid| u32::try_from(pid).ok())
+            .expect("the recorded child");
+        let child_started = process_start(child_pid).expect("the child runs");
+        let endpoint = data["endpoint"].as_str().expect("the endpoint").to_owned();
+        let Self {
+            stamped, mut pty, ..
+        } = self;
+        pty.kill();
+        pty.wait_exit(EXIT_WITHIN);
+        let watch = Watch::start("child");
+        let deadline = Instant::now() + WITHIN;
+        while process_start(child_pid) == Some(child_started) {
+            watch.note("child running");
+            watch.deadline_check(deadline, "the child outlived its killed wrapper");
+            std::thread::yield_now();
+        }
+        wait_endpoint(&endpoint, "kill", holder_gone, |_| {});
+        stamped
+    }
+}
+
+/// The fake agent as `claude` (`claude.exe` on Windows) in `<scratch>/claude-bin/`, linked where
+/// the volume allows it and copied where not. A revive looks its program up by name, so every
+/// test that types `viola revive` puts this directory first on its child's `PATH`: the name never
+/// reaches the host's own CLI.
+pub fn claude_dir(scratch: &Path) -> PathBuf {
+    let dir = scratch.join("claude-bin");
+    let claude = dir.join(format!("claude{}", std::env::consts::EXE_SUFFIX));
+    if !claude.is_file() {
+        fs::create_dir_all(&dir).expect("claude dir");
+        if fs::hard_link(fake::FAKE, &claude).is_err() {
+            fs::copy(fake::FAKE, &claude).expect("claude copy");
+        }
+    }
+    dir
+}
+
+/// This process's `PATH` with `dir` first, for one child (`Command::env`, never `set_var`).
+pub fn path_with(dir: &Path) -> String {
+    let inherited = std::env::var_os("PATH").unwrap_or_default();
+    let dirs = std::iter::once(dir.to_path_buf()).chain(std::env::split_paths(&inherited));
+    std::env::join_paths(dirs)
+        .expect("PATH")
+        .into_string()
+        .expect("utf-8 PATH")
+}
+
+/// The fake agent's own flags for a revived child, typed after `--`: a revive replays no launch,
+/// so nothing else carries them. The control file is a fresh one (the first life's releases are
+/// not replayed); the receipt is the first life's, so a second `start` line is a second start.
+pub fn revived_agent_flags(home: &Path, name: &str, trusted_root: &Path) -> Vec<OsString> {
+    let control = home.join("fake").join(format!("{name}.revived.control"));
+    let mut flags: Vec<OsString> = vec!["--control".into(), control.into()];
+    flags.push("--receipt".into());
+    flags.push(fake::receipt_path(home, name).into());
+    flags.push("--fixtures".into());
+    flags.push(workspace_path("fixtures/claude").into());
+    flags.extend(["--cli-version", fake::RECORDED_CLI_VERSION, "--screens"].map(OsString::from));
+    flags.push("--trusted-root".into());
+    flags.push(trusted_root.into());
+    flags
+}
+
+/// `viola --home <home> revive <args…>` outside any terminal, typed in `dir`, both streams piped
+/// and the fake agent as `claude` first on its `PATH`. The caller starts it and reads its exit.
+pub fn revive_command(home: &TestHome, dir: &Path, args: &[&str]) -> std::process::Command {
+    let mut command = std::process::Command::new(VIOLA);
+    command
+        .arg("--home")
+        .arg(home.path())
+        .arg("revive")
+        .args(args)
+        .current_dir(dir)
+        .env("PATH", path_with(&claude_dir(home.scratch())))
+        .stdin(std::process::Stdio::null())
+        .stdout(std::process::Stdio::piped())
+        .stderr(std::process::Stdio::piped());
+    command
+}
+
+/// No process holds `endpoint` any more, whatever its holder's end was. A killed wrapper removes
+/// nothing: on Unix its socket file stays, and a connect to it is refused; on Windows the pipe
+/// goes with the process, as after a clean stop.
+pub fn holder_gone(endpoint: &str) -> bool {
+    #[cfg(windows)]
+    {
+        unconnectable(endpoint)
+    }
+    #[cfg(unix)]
+    {
+        use std::io::ErrorKind::{ConnectionRefused, NotFound};
+        std::os::unix::net::UnixStream::connect(endpoint)
+            .is_err_and(|e| matches!(e.kind(), ConnectionRefused | NotFound))
+    }
 }
 
 /// The endpoint is gone for a client (the harness `endpoint_gone` rule,
@@ -531,11 +680,21 @@ pub fn unconnectable(endpoint: &str) -> bool {
 
 /// Polls until `endpoint` is unconnectable, handing each reading to `observe` (`true` = still
 /// reachable); fails at `WITHIN` with the watch report.
-pub fn wait_endpoint_gone(endpoint: &str, label: &str, mut observe: impl FnMut(bool)) {
+pub fn wait_endpoint_gone(endpoint: &str, label: &str, observe: impl FnMut(bool)) {
+    wait_endpoint(endpoint, label, unconnectable, observe);
+}
+
+/// `wait_endpoint_gone` under the rule `gone` gives for an endpoint no client can reach.
+fn wait_endpoint(
+    endpoint: &str,
+    label: &str,
+    gone: fn(&str) -> bool,
+    mut observe: impl FnMut(bool),
+) {
     let watch = Watch::start(label);
     let deadline = Instant::now() + WITHIN;
     loop {
-        let reachable = !unconnectable(endpoint);
+        let reachable = !gone(endpoint);
         observe(reachable);
         if !reachable {
             return;

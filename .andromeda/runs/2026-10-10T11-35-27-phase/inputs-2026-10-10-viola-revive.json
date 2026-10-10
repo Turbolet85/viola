@@ -1,0 +1,313 @@
+[
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T11:37:34Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-viola-revive",
+"--message-file",
+".andromeda/runs/2026-10-10T11-35-27-phase/relay-1.md",
+"--origin",
+"the operator, the /andromeda-phase invocation, 2026-10-10",
+"--kind",
+"relay",
+"--why",
+"take-up direction: no mutation run, witness run or workflow dispatch; a live claude start needs the founder cap and none is given, so the fake agent rehearses and the live measurement steps P4, P6, P7, P12 are planned as a step that waits for his number, their count stated at the review card, on the headless pty rig; the wheel-at-human question is the founder and goes on the review card with each option priced; the operator CI read is the ci.py conclusion call; a cut is proposed at the card if the entry does not fit one window",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-10-10T11-35-27-phase",
+"--marker",
+"2026-10-10-viola-revive"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-10",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, the /andromeda-phase invocation, 2026-10-10",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "3f45a7734a0c23a68913191d996b67e469d86baca616f94c445056aded84bb34",
+"copy": "I1-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-10T11:37:34Z",
+"step": "phase:P1",
+"why": "take-up direction: no mutation run, witness run or workflow dispatch; a live claude start needs the founder cap and none is given, so the fake agent rehearses and the live measurement steps P4, P6, P7, P12 are planned as a step that waits for his number, their count stated at the review card, on the headless pty rig; the wheel-at-human question is the founder and goes on the review card with each option priced; the operator CI read is the ci.py conclusion call; a cut is proposed at the card if the entry does not fit one window"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T11:37:34Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-viola-revive",
+"--source",
+"~/.claude/projects/~-dev-projects-viola/memory/tests-kill-only-own-processes.md",
+"--kind",
+"memory",
+"--why",
+"the operator, 2026-10-10: no planned test sends a kill at a process the test did not start",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-10-10T11-35-27-phase",
+"--marker",
+"2026-10-10-viola-revive"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy no-repo · ~/.claude/projects/~-dev-projects-viola/memory/tests-kill-only-own-processes.md",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-tests-kill-only-own-processes.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "memory",
+"repo": null,
+"path": "~/.claude/projects/~-dev-projects-viola/memory/tests-kill-only-own-processes.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "d1a8e7de6cfa4ecb259af30790db5dde825017dfc8cc177f3f9ceb7f15d0ee5c",
+"copy": "I2-tests-kill-only-own-processes.md.txt",
+"link": false,
+"read_at": "2026-10-10T11:37:34Z",
+"step": "phase:P1",
+"why": "the operator, 2026-10-10: no planned test sends a kill at a process the test did not start"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T12:55:37Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-viola-revive",
+"--message-file",
+".andromeda/runs/2026-10-10T11-35-27-phase/relay-2.md",
+"--origin",
+"the operator, in the session after the P4 fork round, 2026-10-10; answers 1 and 3 the founder live in the overseer dialog, read at 2026-10-10T12:53:09Z",
+"--kind",
+"relay",
+"--why",
+"the three P4 forks answered: (1) the founder: land revive with no ledger row, the wrap records --resume as a relied-on shape with no row owed on a route entry; (2) the operator: the fake agent sets source and session_id under --resume, test-plan 7 amended at the wrap; (3) the founder: the recorded cwd as the child spawn directory is ratified as a widening, built with the strict-modes check before the value is used, recorded at the wrap as his, the overseer as relay",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-10-10T11-35-27-phase",
+"--marker",
+"2026-10-10-viola-revive"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: the operator, in the session after the P4 fork round, 2026-10-10; answers 1 and 3 the founder live in the overseer dialog, read at 2026-10-10T12:53:09Z",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, in the session after the P4 fork round, 2026-10-10; answers 1 and 3 the founder live in the overseer dialog, read at 2026-10-10T12:53:09Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "4777452d8527d764d2187c7b4cd054eaedca66b4f942383fd7ccd780ffee336e",
+"copy": "I3-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-10T12:55:37Z",
+"step": "phase:P4",
+"why": "the three P4 forks answered: (1) the founder: land revive with no ledger row, the wrap records --resume as a relied-on shape with no row owed on a route entry; (2) the operator: the fake agent sets source and session_id under --resume, test-plan 7 amended at the wrap; (3) the founder: the recorded cwd as the child spawn directory is ratified as a widening, built with the strict-modes check before the value is used, recorded at the wrap as his, the overseer as relay"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T13:03:13Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-viola-revive",
+"--message-file",
+".andromeda/runs/2026-10-10T11-35-27-phase/relay-3.md",
+"--origin",
+"the operator, at the P5 review, 2026-10-10",
+"--kind",
+"relay",
+"--why",
+"the P5 review: the plan stands and the five leans of card point 5 are confirmed; card points 1 to 4 (the session-live cut, the live-start number, the wheel at a revived start, the hint wording) are with the founder, his answers due before the implement send, a plan-changing one as a revision; one stop rule added: a coverage merge broken in pre-push by the kill of the instrumented wrapper is stopped on and reported, the case never excluded from coverage; card point 7 goes to the wrap route step",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-10-10T11-35-27-phase",
+"--marker",
+"2026-10-10-viola-revive"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy message · message: the operator, at the P5 review, 2026-10-10",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-relay-3.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, at the P5 review, 2026-10-10",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "2c8aa9559728dba0e8ab0fa38abaff802d3e01e4635f4e15927acca594ce4fd8",
+"copy": "I4-relay-3.md.txt",
+"link": false,
+"read_at": "2026-10-10T13:03:13Z",
+"step": "phase:P5",
+"why": "the P5 review: the plan stands and the five leans of card point 5 are confirmed; card points 1 to 4 (the session-live cut, the live-start number, the wheel at a revived start, the hint wording) are with the founder, his answers due before the implement send, a plan-changing one as a revision; one stop rule added: a coverage merge broken in pre-push by the kill of the instrumented wrapper is stopped on and reported, the case never excluded from coverage; card point 7 goes to the wrap route step"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T13:03:30Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-viola-revive",
+"--run-dir",
+".andromeda/runs/2026-10-10T11-35-27-phase",
+"--marker",
+"2026-10-10-viola-revive"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-10",
+"I1 cited scope.md:9 · scope.md:141 · scope.md:194 · scope.md:205 · research.md:11 · plan.md:226 · plan.md:268 · plan.md:270 · plan.md:469",
+"I2 unchanged · copy no-repo · ~/.claude/projects/~-dev-projects-viola/memory/tests-kill-only-own-processes.md",
+"I2 cited scope.md:124 · research.md:13 · plan.md:444 · plan.md:469 · plan.md:502",
+"I3 n/a — a message has no live source · copy message · message: the operator, in the session after the P4 fork round, 2026-10-10; answers 1 and 3 the founder live in the overseer dialog, read at 2026-10-10T12:53:09Z",
+"I3 cited scope.md:78 · scope.md:130 · scope.md:186 · research.md:13 · research.md:180 · plan.md:25 · plan.md:89 · plan.md:469 · plan.md:488 · plan.md:490 · plan.md:536 · plan.md:541 · plan.md:546",
+"I4 n/a — a message has no live source · copy message · message: the operator, at the P5 review, 2026-10-10",
+"I4 cited scope.md:82 · plan.md:215 · plan.md:470 · plan.md:504",
+"inputs: 4 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 4,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T14:17:48Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-viola-revive",
+"--run-dir",
+".andromeda/runs/2026-10-10T11-35-27-phase",
+"--marker",
+"2026-10-10-viola-revive"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-10",
+"I1 cited scope.md:9 · scope.md:141 · scope.md:194 · scope.md:205 · research.md:11 · plan.md:226 · plan.md:268 · plan.md:270 · plan.md:469",
+"I2 unchanged · copy no-repo · ~/.claude/projects/~-dev-projects-viola/memory/tests-kill-only-own-processes.md",
+"I2 cited scope.md:124 · research.md:13 · plan.md:444 · plan.md:469 · plan.md:502",
+"I3 n/a — a message has no live source · copy message · message: the operator, in the session after the P4 fork round, 2026-10-10; answers 1 and 3 the founder live in the overseer dialog, read at 2026-10-10T12:53:09Z",
+"I3 cited scope.md:78 · scope.md:130 · scope.md:186 · research.md:13 · research.md:180 · plan.md:25 · plan.md:89 · plan.md:469 · plan.md:488 · plan.md:490 · plan.md:536 · plan.md:541 · plan.md:546",
+"I4 n/a — a message has no live source · copy message · message: the operator, at the P5 review, 2026-10-10",
+"I4 cited plan.md:215 · plan.md:470 · plan.md:504",
+"inputs: 4 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 4,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]

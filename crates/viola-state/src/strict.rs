@@ -5,8 +5,10 @@
 //! tested on every OS; only the readers are per OS.
 
 use std::io;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 
+use crate::events::EVENTS;
+use crate::snapshot::SNAPSHOT;
 use crate::stamps::{STAMPS, ledger_dir};
 
 /// Why a path failed the check: fixed messages only (security-plan §Error Handling).
@@ -28,9 +30,28 @@ pub enum Refused {
 /// entry written by another user between the checks would land through it.
 pub fn check_stamps(home: &Path) -> Result<(), Refused> {
     let dir = ledger_dir(home);
-    for path in [dir.clone(), dir.join(STAMPS)] {
-        match std::fs::symlink_metadata(&path) {
-            Ok(_) => check_path(&path)?,
+    check_existing(&[dir.clone(), dir.join(STAMPS)])
+}
+
+/// The home, `instances/`, the instance directory, its `snapshot.json` and its `events.ndjson`,
+/// each that exists, a folder before what it holds: the check a process runs before it uses a
+/// value read from either file.
+pub fn check_instance(home: &Path, instance_dir: &Path) -> Result<(), Refused> {
+    check_existing(&[
+        home.to_path_buf(),
+        home.join("instances"),
+        instance_dir.to_path_buf(),
+        instance_dir.join(SNAPSHOT),
+        instance_dir.join(EVENTS),
+    ])
+}
+
+/// Each path that exists, in order; an absent one is skipped, and one that cannot be statted is
+/// refused.
+fn check_existing(paths: &[PathBuf]) -> Result<(), Refused> {
+    for path in paths {
+        match std::fs::symlink_metadata(path) {
+            Ok(_) => check_path(path)?,
             Err(e) if e.kind() == io::ErrorKind::NotFound => {}
             Err(_) => return Err(Refused::Unreadable),
         }
@@ -690,5 +711,96 @@ mod tests {
         };
         std::fs::set_permissions(&path, std::fs::Permissions::from_mode(mode)).expect("chmod");
         assert_eq!(check_stamps(&home), Err(refused));
+    }
+
+    /// A home and an instance laid down by the crate's own writers: the directory, a snapshot and
+    /// one event line.
+    fn instance_viola_wrote(root: &Path) -> (PathBuf, PathBuf) {
+        use crate::events::{EventLine, Source, append_event};
+        use crate::snapshot::{InstanceSnapshot, Wheel, write_snapshot};
+        let home = root.join("home");
+        let instance_dir = home.join("instances").join("builder");
+        crate::fs::create_private_dir(&instance_dir).expect("the instance dir");
+        let snapshot = InstanceSnapshot {
+            endpoint: None,
+            pid: 1,
+            started_at: "s".to_owned(),
+            pinned_bin: "b".to_owned(),
+            cli_verified: false,
+            cli_version: None,
+            wheel: Wheel::Driver,
+            budget_paused: false,
+            links: Vec::new(),
+            child_pid: None,
+            pending_dialog: None,
+            cwd: None,
+        };
+        write_snapshot(&instance_dir, &snapshot).expect("the snapshot");
+        let name = viola_core::ViolaName::try_new("builder".to_owned()).expect("valid");
+        let line = EventLine::new(
+            &name,
+            viola_core::EventKind::BudgetGate,
+            Source::Wrapper,
+            serde_json::json!({"paused": false}),
+            chrono::Utc::now(),
+        );
+        append_event(&instance_dir, &line).expect("the log");
+        (home, instance_dir)
+    }
+
+    #[test]
+    fn strict_instance_of_a_tree_viola_wrote_passes() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (home, instance_dir) = instance_viola_wrote(tmp.path());
+        assert!(instance_dir.join(SNAPSHOT).is_file() && instance_dir.join(EVENTS).is_file());
+        assert_eq!(check_instance(&home, &instance_dir), Ok(()));
+    }
+
+    #[test]
+    fn strict_instance_of_a_home_with_no_instance_directory_passes() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = tmp.path().join("home");
+        let instance_dir = home.join("instances").join("builder");
+        assert_eq!(check_instance(&home, &instance_dir), Ok(()));
+        crate::fs::create_private_dir(&home).expect("the home");
+        assert_eq!(check_instance(&home, &instance_dir), Ok(()));
+    }
+
+    /// Only an absent path is skipped: a home that cannot be statted refuses, and so does an
+    /// instance directory that cannot be under a home that passes.
+    #[test]
+    fn strict_instance_of_a_path_that_cannot_be_statted_is_unreadable() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (home, _) = instance_viola_wrote(tmp.path());
+        assert_eq!(
+            check_instance(Path::new("home\0dir"), Path::new("absent")),
+            Err(Refused::Unreadable)
+        );
+        assert_eq!(
+            check_instance(&home, Path::new("instance\0dir")),
+            Err(Refused::Unreadable)
+        );
+    }
+
+    #[cfg(unix)]
+    #[rstest]
+    #[case::home_group_writable("home", 0o770)]
+    #[case::instances_world_writable("instances", 0o707)]
+    #[case::instance_dir_group_writable("instance", 0o770)]
+    #[case::snapshot_group_writable("snapshot", 0o620)]
+    #[case::events_world_writable("events", 0o606)]
+    fn strict_instance_refuses_a_widened_mode(#[case] which: &str, #[case] mode: u32) {
+        use std::os::unix::fs::PermissionsExt as _;
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (home, instance_dir) = instance_viola_wrote(tmp.path());
+        let path = match which {
+            "home" => home.clone(),
+            "instances" => home.join("instances"),
+            "instance" => instance_dir.clone(),
+            "snapshot" => instance_dir.join(SNAPSHOT),
+            _ => instance_dir.join(EVENTS),
+        };
+        std::fs::set_permissions(&path, std::fs::Permissions::from_mode(mode)).expect("chmod");
+        assert_eq!(check_instance(&home, &instance_dir), Err(Refused::Writable));
     }
 }

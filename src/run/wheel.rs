@@ -789,6 +789,7 @@ mod tests {
                 links: Vec::new(),
                 child_pid: None,
                 pending_dialog: None,
+                cwd: None,
             })
             .expect("snapshot");
         let wheel = Arc::new(WheelSlot::default());

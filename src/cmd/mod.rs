@@ -4,6 +4,7 @@ mod hook;
 mod last;
 mod pause;
 mod release;
+mod revive;
 mod run;
 mod send;
 mod verify;
@@ -37,6 +38,8 @@ pub(crate) struct Cli {
 enum Command {
     /// Wrap a program as the named instance
     Run(run::RunArgs),
+    /// Restart a dead instance in this terminal, resuming its newest logged session
+    Revive(revive::ReviveArgs),
     /// Type a prompt into the named instance and read it back; the text comes from stdin or --file
     Send(send::SendArgs),
     /// Wait for the named instance's next turn end, dialog or session end at or after a cursor
@@ -78,6 +81,19 @@ pub(crate) fn dispatch(cli: Cli) -> Result<ExitCode, Failure> {
                 process: ObsProcess::Run,
             };
             run::run(&home, args).map_err(|error| Failure {
+                error,
+                sink: Some(sink),
+            })
+        }
+        // A revived instance is a wrapper: its chain goes where `run`'s does.
+        Command::Revive(args) => {
+            let home = resolve_home(cli.home)?;
+            let sink = DetailSink {
+                home: home.clone(),
+                instance: args.name.clone(),
+                process: ObsProcess::Run,
+            };
+            revive::revive(&home, args).map_err(|error| Failure {
                 error,
                 sink: Some(sink),
             })

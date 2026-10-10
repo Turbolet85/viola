@@ -55,6 +55,10 @@ pub struct InstanceSnapshot {
     /// session's `dialog_pending`, never rebuilt from the log (architecture §Standard Contracts).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub pending_dialog: Option<PendingDialog>,
+    /// The directory the wrapper's child was spawned in. No event carries it, so the log replay
+    /// never yields one (architecture §Standard Contracts, Instance snapshot).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub cwd: Option<String>,
 }
 
 /// `{dialog_id, kind}` of the one pending dialog.
@@ -170,6 +174,7 @@ mod tests {
             links: Vec::new(),
             child_pid,
             pending_dialog: None,
+            cwd: None,
         }
     }
 
@@ -297,6 +302,40 @@ mod tests {
         assert_eq!(read_snapshot(tmp.path()), Some(held));
         write_snapshot(tmp.path(), &snapshot(5, Some(6))).expect("cleared");
         assert!(on_disk(tmp.path())["data"].get("pending_dialog").is_none());
+    }
+
+    #[test]
+    fn snapshot_cwd_is_written_under_v_1_and_reads_back() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let mut held = snapshot(5, Some(6));
+        held.cwd = Some("/work/project".to_owned());
+        write_snapshot(tmp.path(), &held).expect("write");
+        let disk = on_disk(tmp.path());
+        assert_eq!(disk["v"], 1);
+        assert_eq!(disk["data"]["cwd"], "/work/project");
+        assert_eq!(read_snapshot(tmp.path()), Some(held));
+        write_snapshot(tmp.path(), &snapshot(5, Some(6))).expect("without");
+        assert!(on_disk(tmp.path())["data"].get("cwd").is_none());
+    }
+
+    #[rstest]
+    #[case::no_cwd_key(
+        r#"{"v":1,"written_at":"x","writer":"w","data":{"pid":7,"started_at":"s","pinned_bin":"b","cli_verified":true,"wheel":"driver","budget_paused":false}}"#,
+        None
+    )]
+    #[case::an_unknown_key_beside_cwd(
+        r#"{"v":1,"written_at":"x","writer":"w","data":{"pid":7,"started_at":"s","pinned_bin":"b","cli_verified":true,"wheel":"driver","budget_paused":false,"cwd":"/work/project","later":1}}"#,
+        Some("/work/project")
+    )]
+    fn snapshot_cwd_reads_as_absent_without_its_key_and_beside_an_unknown_one(
+        #[case] bytes: &str,
+        #[case] cwd: Option<&str>,
+    ) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        seed(tmp.path(), bytes);
+        let snap = read_snapshot(tmp.path()).expect("parsed");
+        assert_eq!(snap.pid, 7);
+        assert_eq!(snap.cwd.as_deref(), cwd);
     }
 
     #[test]

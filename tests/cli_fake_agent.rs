@@ -481,6 +481,67 @@ fn offered(lines: &[Value]) -> Vec<(String, Vec<u8>)> {
         .collect()
 }
 
+/// The SessionStart bytes the fake agent offers its hook at launch over the committed set, and that
+/// set's recorded payload.
+fn launch_session_start(extra: &[&str]) -> (Vec<u8>, Vec<u8>) {
+    let tmp = TestHome::new();
+    let plugin = spine_plugin(&tmp);
+    let committed = workspace_path("fixtures/claude");
+    let mut args = vec![
+        "--plugin-dir",
+        path_str(&plugin),
+        "--fixtures",
+        path_str(&committed),
+    ];
+    args.extend_from_slice(extra);
+    let lines = Direct::spawn(&tmp, &args, &[]).finish();
+    let (event, offered) = offered(&lines).into_iter().next().expect("a hook ran");
+    assert_eq!(event, "SessionStart");
+    let recorded = std::fs::read(
+        committed
+            .join(fake::RECORDED_CLI_VERSION)
+            .join("SessionStart.default.json"),
+    )
+    .expect("the recorded payload");
+    (offered, recorded)
+}
+
+/// The recorded payload with its `source` and `session_id` set, its trailing newline kept.
+fn resumed(recorded: &[u8], session_id: &str) -> Vec<u8> {
+    let mut payload: Value = serde_json::from_slice(recorded).expect("json");
+    assert_eq!(payload["source"], "startup");
+    payload["source"] = json!("resume");
+    payload["session_id"] = json!(session_id);
+    let mut bytes = payload.to_string().into_bytes();
+    bytes.push(b'\n');
+    bytes
+}
+
+/// `--resume <id>`: the SessionStart fired at launch is the recorded payload with `source`
+/// `resume` and the given id, every other byte as recorded. Without the option it is the recorded
+/// bytes.
+#[test]
+fn fake_agent_resume_reports_the_given_session_on_the_recorded_session_start() {
+    let id = "11111111-2222-4333-8444-555555555555";
+    let (offered, recorded) = launch_session_start(&["--resume", id]);
+    assert_eq!(offered, resumed(&recorded, id));
+    assert!(recorded.ends_with(b"\n") && !recorded.windows(id.len()).any(|w| w == id.as_bytes()));
+    let (plain, recorded) = launch_session_start(&[]);
+    assert_eq!(plain, recorded);
+}
+
+/// `--fork-session` beside `--resume`: the session reported is the compiled fork id, which no
+/// committed fixture holds; alone it changes nothing.
+#[test]
+fn fake_agent_fork_session_reports_the_compiled_fork_id() {
+    let fork = "0f0e0d0c-0b0a-4908-8706-050403020100";
+    let asked = "11111111-2222-4333-8444-555555555555";
+    let (offered, recorded) = launch_session_start(&["--resume", asked, "--fork-session"]);
+    assert_eq!(offered, resumed(&recorded, fork));
+    let (alone, recorded) = launch_session_start(&["--fork-session"]);
+    assert_eq!(alone, recorded);
+}
+
 /// With `--framing` a compiled paste text replays its recorded variant with the bytes unchanged,
 /// and the local command fires its recorded SessionEnd and SessionStart and no UserPromptSubmit;
 /// any other text is echoed as before. Without the option every text is echoed as typed, and a set

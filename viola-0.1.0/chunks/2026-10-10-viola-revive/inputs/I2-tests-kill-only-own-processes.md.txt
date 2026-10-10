@@ -1,0 +1,15 @@
+---
+name: tests-kill-only-own-processes
+description: "viola — a planned test never sends a kill at a process it did not start (no pid 4, no system process)"
+metadata:
+  node_type: memory
+  type: feedback
+  originSessionId: 677d99c7-0754-41d5-8e09-c6c7c242358e
+  modified: 2026-10-10T02:43:42.429Z
+---
+
+In viola, no test I plan or write sends a kill at a process the test does not own. The operator said this at the P5 review of chunk 2026-10-10-windows-mutation-grade (2026-10-10), rejecting a planned Windows case that targeted pid 4 (the System process) as "a target its kill cannot end".
+
+**Why:** the operator's words: "no test sends a kill at a process it does not own". My interpretation: a test acting on a host process outside its own tree is a safety line, whatever the OS guarantees about the kill failing.
+
+**How to apply:** when a mutant or a property needs "a target that outlives its kill", first look for a process the test starts itself; if none can work, restate the expression by a rule `testing.md` names (e.g. the decision as a plain function tested on every OS); if neither works, record the mutant as not closed and say so. The existing Linux case that targets PID 1 (`cleanup_waits_its_deadline_for_a_target_that_outlives_its_kill`) was explicitly left as it is in that chunk; do not copy its shape into new tests, and do not edit it without being asked.

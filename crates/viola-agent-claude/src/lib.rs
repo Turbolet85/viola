@@ -112,6 +112,38 @@ fn plan_strip_with(
 /// The flag that hands the per-start plugin folder to the `claude` child.
 pub const PLUGIN_DIR_FLAG: &str = "--plugin-dir";
 
+/// The program a revived instance runs, looked up by name when it is revived.
+pub const PROGRAM: &str = "claude";
+
+/// The flag that reopens a session by its id.
+pub const RESUME_FLAG: &str = "--resume";
+
+/// Beside [`RESUME_FLAG`]: the resumed session continues under a new id.
+pub const FORK_SESSION_FLAG: &str = "--fork-session";
+
+/// Whether `id` has a session id's shape: 36 characters, a hyphen at offsets 8, 13, 18 and 23, an
+/// ASCII hex digit of either case everywhere else. Nothing else reaches the child's arguments.
+pub fn is_session_id(id: &str) -> bool {
+    id.len() == 36
+        && id.bytes().enumerate().all(|(at, byte)| {
+            if matches!(at, 8 | 13 | 18 | 23) {
+                byte == b'-'
+            } else {
+                byte.is_ascii_hexdigit()
+            }
+        })
+}
+
+/// The child's arguments that resume `id`: the flag, the id as one element of its own, then the
+/// fork flag when forking.
+pub fn resume_args(id: &str, fork: bool) -> Vec<OsString> {
+    let mut args = vec![OsString::from(RESUME_FLAG), OsString::from(id)];
+    if fork {
+        args.push(OsString::from(FORK_SESSION_FLAG));
+    }
+    args
+}
+
 const VERSION: &str = env!("CARGO_PKG_VERSION");
 const VERSION_TOKEN: &str = "@@VIOLA_VERSION@@";
 const BIN_TOKEN: &str = "@@VIOLA_BIN@@";
@@ -606,6 +638,51 @@ mod tests {
             render(template, "C:/h/bin/0.1.0-0123456789abcdef/viola.exe"),
             r#"{"command":"C:/h/bin/0.1.0-0123456789abcdef/viola.exe","args":["hook"],"v":"0.1.0"}"#
         );
+    }
+
+    #[rstest::rstest]
+    #[case::a_fixture_id("c0f0cc23-690b-45dd-bbfb-06d6cfd44942", true)]
+    #[case::upper_case_hex("C0F0CC23-690B-45DD-BBFB-06D6CFD44942", true)]
+    #[case::all_zero("00000000-0000-0000-0000-000000000000", true)]
+    #[case::test_data_form("s-1", false)]
+    #[case::empty("", false)]
+    #[case::thirty_five("c0f0cc23-690b-45dd-bbfb-06d6cfd4494", false)]
+    #[case::thirty_seven("c0f0cc23-690b-45dd-bbfb-06d6cfd449420", false)]
+    #[case::a_letter_past_f("g0f0cc23-690b-45dd-bbfb-06d6cfd44942", false)]
+    #[case::a_hyphen_one_early("c0f0cc2-3690b-45dd-bbfb-06d6cfd44942", false)]
+    #[case::no_first_hyphen("c0f0cc23a690b-45dd-bbfb-06d6cfd44942", false)]
+    #[case::no_second_hyphen("c0f0cc23-690ba45dd-bbfb-06d6cfd44942", false)]
+    #[case::no_third_hyphen("c0f0cc23-690b-45ddabbfb-06d6cfd44942", false)]
+    #[case::no_fourth_hyphen("c0f0cc23-690b-45dd-bbfba06d6cfd44942", false)]
+    #[case::a_hyphen_for_a_digit("c0f0cc23-690b-45dd-bbfb-06d6cfd4494-", false)]
+    #[case::a_leading_space(" c0f0cc23-690b-45dd-bbfb-06d6cfd4494", false)]
+    #[case::a_trailing_space("c0f0cc23-690b-45dd-bbfb-06d6cfd4494 ", false)]
+    #[case::a_control_character("c0f0cc23-690b-45dd-bbfb-06d6cfd4494\n", false)]
+    #[case::an_option_word("--dangerously-skip-permissions-00000", false)]
+    #[case::a_two_byte_character("c0f0cc23-690b-45dd-bbfb-06d6cfd449\u{e9}", false)]
+    fn session_id_shape_is_thirty_six_hex_characters_with_four_hyphens(
+        #[case] id: &str,
+        #[case] accepted: bool,
+    ) {
+        assert_eq!(is_session_id(id), accepted);
+    }
+
+    #[test]
+    fn resume_args_are_the_flag_the_id_and_the_fork_flag_when_forking() {
+        let id = "c0f0cc23-690b-45dd-bbfb-06d6cfd44942";
+        assert_eq!(
+            resume_args(id, false),
+            [OsString::from("--resume"), OsString::from(id)]
+        );
+        assert_eq!(
+            resume_args(id, true),
+            [
+                OsString::from("--resume"),
+                OsString::from(id),
+                OsString::from("--fork-session"),
+            ]
+        );
+        assert_eq!(PROGRAM, "claude");
     }
 
     #[test]

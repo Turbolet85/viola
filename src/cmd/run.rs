@@ -134,9 +134,40 @@ impl Dispatch for Methods {
     }
 }
 
+/// What a start launches. `run` builds it from its own arguments and the directory it is typed
+/// in; `revive` from a dead instance's record.
+pub(super) struct Launch {
+    pub(super) name: ViolaName,
+    /// The program word, looked up from the starting process's own `PATH` and current directory.
+    pub(super) program: OsString,
+    /// The child's arguments, after the wrapper's plugin flag.
+    pub(super) args: Vec<OsString>,
+    /// Where the child is spawned, and nothing else: the program is never looked up there.
+    pub(super) spawn_dir: PathBuf,
+}
+
 pub(crate) fn run(home: &Path, args: RunArgs) -> anyhow::Result<ExitCode> {
+    let persistent = open_wrapper_log(home, &args.name)?;
+    let mut words = args.program.into_iter();
+    let launch = Launch {
+        name: args.name,
+        program: words
+            .next()
+            .expect("clap requires at least one program word"),
+        args: words.collect(),
+        spawn_dir: std::env::current_dir()?,
+    };
+    match start(home, &launch, &persistent)? {
+        Started::Launched(launched) => pump_child(*launched),
+        Started::Refused(code) => Ok(code),
+    }
+}
+
+/// The wrapper's process log with its own start line, then the persistent environment's names:
+/// what a wrapper does before its start order.
+pub(super) fn open_wrapper_log(home: &Path, name: &ViolaName) -> anyhow::Result<Vec<String>> {
     let (level, rejection) = obs::read_diagnostics_level(home);
-    obs::viola_obs_init(home, ObsProcess::Run, Some(args.name.clone()), level)?;
+    obs::viola_obs_init(home, ObsProcess::Run, Some(name.clone()), level)?;
     run::log_self_start();
     if let Some(rejection) = rejection {
         obs::log_config_rejection(rejection);
@@ -145,15 +176,12 @@ pub(crate) fn run(home: &Path, args: RunArgs) -> anyhow::Result<ExitCode> {
     if let Some(rejection) = keep_rejection {
         obs::log_config_rejection(rejection);
     }
-    match start(home, &args, &persistent)? {
-        Started::Launched(launched) => pump_child(*launched),
-        Started::Refused(code) => Ok(code),
-    }
+    Ok(persistent)
 }
 
 /// Everything the pump needs, and the guards that must outlive it: the heartbeat thread and the
 /// served endpoint.
-struct Launched {
+pub(super) struct Launched {
     pty: PortablePty,
     terminal: Option<HostTerminal>,
     size: Size,
@@ -165,7 +193,7 @@ struct Launched {
     _serving: Serving,
 }
 
-enum Started {
+pub(super) enum Started {
     Launched(Box<Launched>),
     Refused(ExitCode),
 }
@@ -173,25 +201,26 @@ enum Started {
 /// The documented start order (architecture §Established Decisions [Session Liveness]): program
 /// resolution, collision check, pinned copy + plugin folder, the version gate, endpoint bind, first
 /// snapshot + heartbeat, start events, then the spawn.
-#[instrument(skip_all, name = "run.start", fields(instance = name_str(&args.name)))]
-fn start(home: &Path, args: &RunArgs, persistent: &[String]) -> anyhow::Result<Started> {
-    let (program, program_args) = args
-        .program
-        .split_first()
-        .expect("clap requires at least one program word");
+#[instrument(skip_all, name = "run.start", fields(instance = name_str(&launch.name)))]
+pub(super) fn start(
+    home: &Path,
+    launch: &Launch,
+    persistent: &[String],
+) -> anyhow::Result<Started> {
+    let name = &launch.name;
     let cwd = std::env::current_dir()?;
-    let program = match run::resolve_program(program, &cwd) {
+    let program = match run::resolve_program(&launch.program, &cwd) {
         Ok(program) => program,
         Err(Refusal::BatchScriptChild) => {
-            refuse_batch_script(&args.name);
+            refuse_batch_script(name);
             return Ok(refused("batch-script-child"));
         }
         Err(Refusal::NotFound) => return Ok(refused("internal-error")),
     };
 
     let home = std::path::absolute(home)?;
-    let instance_dir = home.join("instances").join(name_str(&args.name));
-    if let Some(refusal) = collision_check(&args.name, &instance_dir) {
+    let instance_dir = home.join("instances").join(name_str(name));
+    if let Some(refusal) = collision_check(name, &instance_dir) {
         return Ok(refusal);
     }
     let Some((pinned, plugin_dir)) = pin_and_plugin(&home)? else {
@@ -207,8 +236,8 @@ fn start(home: &Path, args: &RunArgs, persistent: &[String]) -> anyhow::Result<S
     let strip = viola_agent_claude::plan_strip(std::env::vars_os().map(|(k, _)| k), persistent);
     let gate = version_gate(&home, &program, &cwd, &strip);
     let cli_verified = gate.cli_verified;
-    let Some((endpoint, server)) = bind_endpoint(&args.name, &home)? else {
-        refuse_squatted(&args.name);
+    let Some((endpoint, server)) = bind_endpoint(name, &home)? else {
+        refuse_squatted(name);
         return Ok(refused("squatted-name"));
     };
     let wheel = Arc::new(WheelSlot::default());
@@ -221,7 +250,7 @@ fn start(home: &Path, args: &RunArgs, persistent: &[String]) -> anyhow::Result<S
     let dialogs = Arc::new(DialogSlot::new(
         SystemClock,
         gate.cli_verified,
-        args.name.clone(),
+        name.clone(),
         instance_dir.clone(),
         Arc::clone(&wait),
         Arc::clone(&wheel),
@@ -229,13 +258,13 @@ fn start(home: &Path, args: &RunArgs, persistent: &[String]) -> anyhow::Result<S
     ));
     dialogs.restore(highest_dialog);
     wheel.record_with(Recorder {
-        name: args.name.clone(),
+        name: name.clone(),
         instance_dir: instance_dir.clone(),
         snapshots: Arc::clone(&snapshots),
         dialogs: Arc::clone(&dialogs),
     });
     let serving = server.serve(Arc::new(Methods {
-        name: args.name.clone(),
+        name: name.clone(),
         instance_dir: instance_dir.clone(),
         send: Arc::clone(&send),
         wait,
@@ -243,25 +272,26 @@ fn start(home: &Path, args: &RunArgs, persistent: &[String]) -> anyhow::Result<S
         wheel: Arc::clone(&wheel),
     }));
     let (beat, snapshot) = start_state(
-        &args.name,
+        name,
         &instance_dir,
         &snapshots,
         &pinned,
         endpoint,
         gate,
+        &launch.spawn_dir,
     )?;
-    let launch = run::child_launch(
-        &args.name,
+    let child = run::child_launch(
+        name,
         &instance_dir,
         &pinned,
         &plugin_dir,
         std::env::var_os("PATH"),
-        program_args,
+        &launch.args,
     );
     let spawned = spawn_child(
         program,
-        cwd,
-        launch,
+        launch.spawn_dir.clone(),
+        child,
         &strip,
         &snapshots,
         snapshot,
@@ -283,14 +313,14 @@ fn start(home: &Path, args: &RunArgs, persistent: &[String]) -> anyhow::Result<S
     })))
 }
 
-fn refused(detail: &'static str) -> Started {
+pub(super) fn refused(detail: &'static str) -> Started {
     run::log_self_exit(1, Some(detail));
     Started::Refused(ExitCode::from(1))
 }
 
 /// A `live` or `stale` name refuses before anything is written; a `gone` one is taken over.
 #[instrument(skip_all, name = "run.collision_check", fields(outcome = tracing::field::Empty))]
-fn collision_check(name: &ViolaName, instance_dir: &Path) -> Option<Started> {
+pub(super) fn collision_check(name: &ViolaName, instance_dir: &Path) -> Option<Started> {
     let taken = read_snapshot(instance_dir).map(|snapshot| {
         let age = beat_age(instance_dir, SystemTime::now());
         classify(age, same_process(&snapshot))
@@ -401,8 +431,9 @@ fn bind_endpoint(name: &ViolaName, home: &Path) -> anyhow::Result<Option<(String
     }
 }
 
-/// The first snapshot (with the endpoint and the version gate's reading), the heartbeat and its
-/// thread, then the two start events; the returned guard keeps the heartbeat running.
+/// The first snapshot (with the endpoint, the version gate's reading and the child's spawn
+/// directory when it is valid UTF-8), the heartbeat and its thread, then the two start events; the
+/// returned guard keeps the heartbeat running.
 fn start_state(
     name: &ViolaName,
     instance_dir: &Path,
@@ -410,6 +441,7 @@ fn start_state(
     pinned: &Pinned,
     endpoint: String,
     gate: Gate,
+    spawn_dir: &Path,
 ) -> anyhow::Result<(Heartbeat, InstanceSnapshot)> {
     create_private_dir(instance_dir)?;
     let pid = std::process::id();
@@ -425,6 +457,7 @@ fn start_state(
         links: Vec::new(),
         child_pid: None,
         pending_dialog: None,
+        cwd: spawn_dir.to_str().map(str::to_owned),
     };
     snapshots.init(snapshot.clone())?;
     touch_heartbeat(instance_dir)?;
@@ -476,7 +509,7 @@ fn spawn_child(
     Ok((pty, terminal, spec.size))
 }
 
-fn pump_child(launched: Launched) -> anyhow::Result<ExitCode> {
+pub(super) fn pump_child(launched: Launched) -> anyhow::Result<ExitCode> {
     let Launched {
         mut pty,
         terminal,
@@ -912,6 +945,70 @@ mod tests {
         );
     }
 
+    /// The first snapshot `start_state` writes for a child spawned in `spawn_dir`, read back from
+    /// the instance directory.
+    fn first_snapshot(instance_dir: &Path, spawn_dir: &Path) -> InstanceSnapshot {
+        let name = ViolaName::try_new("builder".to_owned()).expect("valid");
+        let pinned = Pinned {
+            key: "k".to_owned(),
+            path: PathBuf::from("bin").join("k").join("viola"),
+            path_fwd: "bin/k/viola".to_owned(),
+        };
+        let gate = Gate {
+            cli_version: None,
+            cli_verified: false,
+        };
+        let snapshots = Snapshots::new(instance_dir.to_path_buf());
+        let (_beat, returned) = start_state(
+            &name,
+            instance_dir,
+            &snapshots,
+            &pinned,
+            "endpoint".to_owned(),
+            gate,
+            spawn_dir,
+        )
+        .expect("the start state");
+        assert_eq!(read_snapshot(instance_dir), Some(returned.clone()));
+        returned
+    }
+
+    /// The first snapshot records where the child is spawned, and the two start events stand as
+    /// they were: the wheel starts with the driver.
+    #[test]
+    fn snapshot_cwd_of_a_start_is_the_spawn_directory() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let instance_dir = tmp.path().join("instance");
+        let spawn_dir = tmp.path().join("work dir");
+        let snapshot = first_snapshot(&instance_dir, &spawn_dir);
+        assert_eq!(
+            snapshot.cwd,
+            Some(spawn_dir.to_str().expect("utf-8").to_owned())
+        );
+        let events = events_in(&instance_dir);
+        let read: Vec<(&Value, &Value)> = events.iter().map(|e| (&e["kind"], &e["data"])).collect();
+        assert_eq!(
+            read,
+            [
+                (
+                    &json!("wheel"),
+                    &json!({"holder": "driver", "cause": "start"})
+                ),
+                (&json!("budget-gate"), &json!({"paused": false})),
+            ]
+        );
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn snapshot_cwd_of_a_start_in_a_directory_that_is_not_utf8_is_absent() {
+        use std::os::unix::ffi::OsStrExt as _;
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let spawn_dir = tmp.path().join(std::ffi::OsStr::from_bytes(b"work-\xff"));
+        let snapshot = first_snapshot(&tmp.path().join("instance"), &spawn_dir);
+        assert_eq!(snapshot.cwd, None);
+    }
+
     fn field<'a>(spans: &'a [Value], name: &str) -> &'a Value {
         spans
             .iter()
@@ -930,11 +1027,13 @@ mod tests {
     #[test]
     fn start_opens_the_scenario_one_spans_under_run_start() {
         let tmp = tempfile::tempdir().expect("tempdir");
-        let args = RunArgs {
+        let launch = Launch {
             name: ViolaName::try_new("builder".to_owned()).expect("valid"),
-            program: vec![OsString::from("whoami")],
+            program: OsString::from("whoami"),
+            args: Vec::new(),
+            spawn_dir: std::env::current_dir().expect("cwd"),
         };
-        let (started, spans) = capture_spans(|| start(&tmp.path().join("home"), &args, &[]));
+        let (started, spans) = capture_spans(|| start(&tmp.path().join("home"), &launch, &[]));
         let Started::Launched(mut launched) = started.expect("started") else {
             panic!("the start was refused");
         };

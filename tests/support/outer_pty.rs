@@ -97,6 +97,16 @@ impl OuterPty {
         self.pty.resize(size).expect("outer resize");
     }
 
+    /// Kills the child this PTY spawned, through the seam's own kill; `wait_exit` reads its exit.
+    pub fn kill(&mut self) {
+        self.pty.kill().expect("outer kill");
+    }
+
+    /// What the master has produced so far; the PTY stays open.
+    pub fn shown(&self) -> Vec<u8> {
+        self.output.lock().expect("output").clone()
+    }
+
     pub fn try_wait(&mut self) -> Option<u32> {
         if self.exit.is_none() {
             self.exit = self.pty.try_wait().expect("try_wait");

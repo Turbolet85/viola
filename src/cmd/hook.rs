@@ -727,6 +727,7 @@ mod tests {
             links: Vec::new(),
             child_pid: None,
             pending_dialog: None,
+            cwd: None,
         };
         viola_state::snapshot::write_snapshot(&instance.dir, &snapshot).expect("snapshot");
         (instance, serving)

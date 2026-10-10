@@ -79,7 +79,7 @@
       "subject": { "$ref": "#/$defs/subject" }, "exit_code": { "type": "integer" },
       "child_exit_status": { "type": "integer" }, "shell_exit_status": { "type": "integer" },
       "exit_source": { "enum": ["handle-wait", "kill-fallback"] },
-      "detail": { "enum": ["already-live", "squatted-name", "pinned-hash-mismatch", "batch-script-child", "internal-error", "instance-dead", "strict-modes-failed", "server-verify-failed", "wrapper-fault"] },
+      "detail": { "enum": ["already-live", "squatted-name", "pinned-hash-mismatch", "batch-script-child", "internal-error", "instance-dead", "strict-modes-failed", "server-verify-failed", "wrapper-fault", "cwd-missing", "no-session"] },
       "during": { "enum": ["connect", "call"] }, "duration_ms": { "$ref": "#/$defs/count" } } } },
     { "if": { "properties": { "event": { "const": "http-request" } } }, "then": { "properties": {
       "method": { "type": "string" }, "path": { "type": "string" }, "route": { "type": "string" },

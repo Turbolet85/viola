@@ -10,7 +10,10 @@ use chrono::Utc;
 use serde_json::{Value, json};
 use viola_core::{EventKind, ViolaName};
 use viola_state::events::{EventLine, Skipped, Source, append_event};
-use viola_state::replay::{Recovered, ReplayCause, Replayed, read_snapshot_or_replay};
+use viola_state::replay::{
+    Recovered, ReplayCause, Replayed, SessionChain, SessionLink, read_snapshot_or_replay,
+    session_chain,
+};
 use viola_state::snapshot::{
     InstanceSnapshot, SnapshotRead, Wheel, read_snapshot_classified, write_snapshot,
 };
@@ -28,6 +31,15 @@ fn snapshot() -> InstanceSnapshot {
         links: Vec::new(),
         child_pid: Some(42),
         pending_dialog: None,
+        cwd: Some("work/project".to_owned()),
+    }
+}
+
+/// The recorded directory a recovery yields: a snapshot's own, and none from a replay.
+fn cwd_of(recovered: &Recovered) -> Option<&str> {
+    match recovered {
+        Recovered::Snapshot(snapshot) => snapshot.cwd.as_deref(),
+        Recovered::Absent | Recovered::Replayed { .. } => None,
     }
 }
 
@@ -169,5 +181,57 @@ fn state_replay_a_snapshot_of_v_99_is_replayed_with_the_v_it_saw_and_left_untouc
             state: replayed(),
         }
     );
+    assert_eq!(on_disk(tmp.path()), before);
+}
+
+/// The recorded directory lives in the snapshot alone: a replay over a snapshot cut short yields
+/// none, and writes no file to make one.
+#[test]
+fn state_replay_a_snapshot_cut_short_yields_no_cwd_and_is_left_untouched() {
+    let tmp = written();
+    let present = read_snapshot_or_replay(tmp.path()).expect("recovered");
+    assert_eq!(cwd_of(&present), Some("work/project"));
+    let path = tmp.path().join("snapshot.json");
+    let whole = fs::metadata(&path).expect("the snapshot").len();
+    OpenOptions::new()
+        .write(true)
+        .open(&path)
+        .expect("the snapshot")
+        .set_len(whole / 2)
+        .expect("shorten");
+    let before = on_disk(tmp.path());
+
+    let replayed = read_snapshot_or_replay(tmp.path()).expect("recovered");
+    assert!(
+        matches!(replayed, Recovered::Replayed { .. }),
+        "{replayed:?}"
+    );
+    assert_eq!(cwd_of(&replayed), None);
+    assert_eq!(on_disk(tmp.path()), before);
+}
+
+#[test]
+fn state_replay_the_session_chain_of_a_two_session_log_is_both_in_order() {
+    let tmp = written();
+    let before = on_disk(tmp.path());
+    let SessionChain { links, skipped } = session_chain(tmp.path()).expect("chain");
+    let read: Vec<(&str, &str)> = links
+        .iter()
+        .map(
+            |SessionLink {
+                 cause,
+                 agent_session_id,
+                 ..
+             }| (cause.as_str(), agent_session_id.as_str()),
+        )
+        .collect();
+    assert_eq!(read, [("startup", "s-first"), ("clear", "s-second")]);
+    assert!(
+        links
+            .iter()
+            .all(|link| link.ts.len() == 24 && link.ts.ends_with('Z')),
+        "{links:?}"
+    );
+    assert_eq!(skipped, replayed().skipped);
     assert_eq!(on_disk(tmp.path()), before);
 }

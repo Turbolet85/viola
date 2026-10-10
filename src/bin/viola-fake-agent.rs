@@ -32,6 +32,8 @@ const STOP_RECEIPT_HOLD_CAP_MS: u64 = 1000;
 /// `--paste-hint-ms` is capped: a test-only hold that forces the window after a long paste open.
 /// The cap sits above the gate's 8.5 s maximum wait, which `viola verify`'s hint case holds past.
 const PASTE_HINT_CAP_MS: u64 = 10_000;
+/// The session a `--resume` with `--fork-session` reports: an id no recorded fixture holds.
+const FORK_SESSION_ID: &str = "0f0e0d0c-0b0a-4908-8706-050403020100";
 const REGISTERED_EVENTS: [&str; 9] = [
     "SessionStart",
     "UserPromptSubmit",
@@ -69,6 +71,8 @@ struct Opts {
     stop_receipt_hold: Option<Duration>,
     paste_hint: Option<Duration>,
     tag_turn_screen: Option<String>,
+    resume: Option<String>,
+    fork_session: bool,
 }
 
 impl Opts {
@@ -109,6 +113,8 @@ impl Opts {
                         .map(|ms| Duration::from_millis(ms.min(PASTE_HINT_CAP_MS)));
                 }
                 "--tag-turn-screen" => o.tag_turn_screen = value(),
+                "--resume" => o.resume = value(),
+                "--fork-session" => o.fork_session = true,
                 HOLD_STDOUT => o.hold_stdout = true,
                 _ => {}
             }
@@ -132,6 +138,20 @@ impl Opts {
         self.trusted_root
             .as_deref()
             .is_some_and(|root| under_root(&cwd, root))
+    }
+
+    /// What `--resume <id>` sets on the SessionStart fired at launch: the source, and the id it was
+    /// given, or with `--fork-session` beside it the compiled fork id. Nothing without the option.
+    fn resume_fields(&self) -> Vec<(&'static str, &str)> {
+        let Some(id) = self.resume.as_deref() else {
+            return Vec::new();
+        };
+        let id = if self.fork_session {
+            FORK_SESSION_ID
+        } else {
+            id
+        };
+        vec![("source", "resume"), ("session_id", id)]
     }
 
     /// `<fixtures>/<cli version>/Screen.<phase>.json`'s rows, when it exists and parses.
@@ -281,13 +301,19 @@ fn hook_commands(hooks_json: &str, event: &str, tool: Option<&str>) -> Vec<(Stri
         .collect()
 }
 
-/// For `UserPromptSubmit` the documented `prompt` field carries the prompt; nothing else is built.
-/// The fixture's trailing newline stays, so the recorded prompt yields the recorded bytes.
-fn payload(fixture: Vec<u8>, prompt: Option<&str>) -> Vec<u8> {
-    let Some(prompt) = prompt else { return fixture };
+/// The fixture with the fields its caller names set: the documented `prompt` for
+/// `UserPromptSubmit`, `source` and `session_id` for a resumed SessionStart. Nothing else is built,
+/// and with no field named the fixture is returned as recorded. The fixture's trailing newline
+/// stays, so the recorded prompt yields the recorded bytes.
+fn payload(fixture: Vec<u8>, set: &[(&str, &str)]) -> Vec<u8> {
+    if set.is_empty() {
+        return fixture;
+    }
     match serde_json::from_slice::<Value>(&fixture) {
         Ok(Value::Object(mut obj)) => {
-            obj.insert("prompt".to_owned(), json!(prompt));
+            for (key, value) in set {
+                obj.insert((*key).to_owned(), json!(value));
+            }
             let mut bytes = Value::Object(obj).to_string().into_bytes();
             if fixture.ends_with(b"\n") {
                 bytes.push(b'\n');
@@ -329,8 +355,8 @@ impl Agent {
     }
 
     /// Fires `event`; the returned word is the prompt receipt's `submit` value.
-    fn fire(&self, event: &str, variant: &str, prompt: Option<&str>) -> &'static str {
-        match self.fire_answered(event, variant, prompt) {
+    fn fire(&self, event: &str, variant: &str, set: &[(&str, &str)]) -> &'static str {
+        match self.fire_answered(event, variant, set) {
             Fired::NoHooks => "no-hooks",
             Fired::NoFixture => "no-fixture",
             Fired::Ran { .. } => "fired",
@@ -344,7 +370,7 @@ impl Agent {
     }
 
     /// Fires `event` and reports whether any hook it ran printed something: a dialog's decision.
-    fn fire_answered(&self, event: &str, variant: &str, prompt: Option<&str>) -> Fired {
+    fn fire_answered(&self, event: &str, variant: &str, set: &[(&str, &str)]) -> Fired {
         let hooks = self
             .opts
             .plugin_dir
@@ -360,7 +386,7 @@ impl Agent {
             .ok()
             .and_then(|v| v["tool_name"].as_str().map(str::to_owned));
         let commands = hook_commands(&hooks, event, tool.as_deref());
-        let body = payload(fixture, prompt);
+        let body = payload(fixture, set);
         let mut answered = false;
         for (command, args) in commands {
             answered |= self.run_hook(event, &command, &args, &body);
@@ -381,12 +407,12 @@ impl Agent {
             let decided = |event: &str| {
                 has(event)
                     && matches!(
-                        self.fire_answered(event, &variant, None),
+                        self.fire_answered(event, &variant, &[]),
                         Fired::Ran { answered: true }
                     )
             };
             if decided("PreToolUse") || decided("PermissionRequest") {
-                self.fire("PostToolUse", &variant, None);
+                self.fire("PostToolUse", &variant, &[]);
             }
         }
     }
@@ -458,12 +484,12 @@ impl Agent {
         } else if self.opts.local_command_mode && text.starts_with('/') {
             "local-command"
         } else if let Some(stem) = local {
-            self.fire("SessionEnd", stem, None);
-            self.fire("SessionStart", stem, None)
+            self.fire("SessionEnd", stem, &[]);
+            self.fire("SessionStart", stem, &[])
         } else {
             let fired = match framing {
-                Some(stem) => self.fire("UserPromptSubmit", stem, None),
-                None => self.fire("UserPromptSubmit", "default", Some(&text)),
+                Some(stem) => self.fire("UserPromptSubmit", stem, &[]),
+                None => self.fire("UserPromptSubmit", "default", &[("prompt", &text)]),
             };
             if let Some(stem) = dialog_stem(&text).filter(|_| self.opts.dialogs) {
                 self.replay_dialogs(stem);
@@ -489,7 +515,7 @@ impl Agent {
     /// a cleared screen after the long paste, then the turn's screen (`--tag-turn-screen`'s after the
     /// tag-like paste alone). `framing` is the turn's framing stem, when it replayed one.
     fn end_turn(&self, framing: Option<&str>) {
-        self.fire("Stop", "default", None);
+        self.fire("Stop", "default", &[]);
         // `framing_stem(PROBE_LONG_PASTE)` is a compiled text's stem, always `Some`, so the equality
         // alone says this turn replayed the long paste.
         let long = framing == framing_stem(PROBE_LONG_PASTE);
@@ -532,7 +558,7 @@ impl Agent {
             if step.harness {
                 self.submit(HARNESS_TURN.as_bytes(), "harness");
             } else {
-                self.fire(&step.event, &step.variant, None);
+                self.fire(&step.event, &step.variant, &[]);
             }
         }
     }
@@ -708,10 +734,10 @@ fn watch_size(agent: Arc<Agent>) {
 /// one reply line. It never enters raw mode and never reads stdin.
 fn print_turn(agent: &Agent, prompt: &str) {
     start_receipts(agent);
-    agent.fire("SessionStart", "default", None);
-    agent.fire("UserPromptSubmit", "default", Some(prompt));
-    agent.fire("Stop", "default", None);
-    agent.fire("SessionEnd", "default", None);
+    agent.fire("SessionStart", "default", &[]);
+    agent.fire("UserPromptSubmit", "default", &[("prompt", prompt)]);
+    agent.fire("Stop", "default", &[]);
+    agent.fire("SessionEnd", "default", &[]);
     println!("ok");
 }
 
@@ -785,7 +811,7 @@ fn main() -> ExitCode {
     }
     // The real CLI fires SessionStart at launch; with no registered hook or no fixture, nothing runs.
     if trusted {
-        agent.fire("SessionStart", "default", None);
+        agent.fire("SessionStart", "default", &agent.opts.resume_fields());
     }
     if !steps.is_empty() {
         let runner = Arc::clone(&agent);
@@ -851,6 +877,9 @@ mod tests {
             "11000",
             "--tag-turn-screen",
             "tagged",
+            "--resume",
+            "c0f0cc23-690b-45dd-bbfb-06d6cfd44942",
+            "--fork-session",
             "--version",
             "-p",
             "a prompt",
@@ -879,6 +908,11 @@ mod tests {
         );
         assert_eq!(o.paste_hint, Some(Duration::from_millis(10_000)), "capped");
         assert_eq!(o.tag_turn_screen.as_deref(), Some("tagged"));
+        assert_eq!(
+            o.resume.as_deref(),
+            Some("c0f0cc23-690b-45dd-bbfb-06d6cfd44942")
+        );
+        assert!(o.fork_session);
         assert!(Opts::parse(&args(&[HOLD_STDOUT])).hold_stdout);
     }
 
@@ -915,6 +949,8 @@ mod tests {
             Opts::parse(&args(&["--tag-turn-screen"])).tag_turn_screen,
             None
         );
+        assert!(o.resume.is_none() && !o.fork_session);
+        assert_eq!(Opts::parse(&args(&["--resume"])).resume, None);
         assert!(!o.trusted(), "no root: every cwd is untrusted");
     }
 
@@ -1073,18 +1109,98 @@ mod tests {
     fn payload_sets_only_the_prompt_field() {
         let fixture = br#"{"prompt":"old","session_id":"s"}"#.to_vec();
         let out: Value =
-            serde_json::from_slice(&payload(fixture.clone(), Some("new"))).expect("json");
+            serde_json::from_slice(&payload(fixture.clone(), &[("prompt", "new")])).expect("json");
         assert_eq!(out, json!({"prompt": "new", "session_id": "s"}));
-        assert_eq!(payload(fixture.clone(), None), fixture);
-        assert_eq!(payload(b"[1]".to_vec(), Some("new")), b"[1]");
+        assert_eq!(payload(fixture.clone(), &[]), fixture);
+        assert_eq!(payload(b"[1]".to_vec(), &[("prompt", "new")]), b"[1]");
         assert_eq!(
-            payload(b"{\"prompt\":\"old\"}\n".to_vec(), Some("new")),
+            payload(b"{\"prompt\":\"old\"}\n".to_vec(), &[("prompt", "new")]),
             b"{\"prompt\":\"new\"}\n"
         );
         assert_eq!(
-            payload(b"{\"prompt\":\"old\"}".to_vec(), Some("new")),
+            payload(b"{\"prompt\":\"old\"}".to_vec(), &[("prompt", "new")]),
             b"{\"prompt\":\"new\"}"
         );
+    }
+
+    /// The recorded default SessionStart of the default set, as committed.
+    fn recorded_session_start() -> Vec<u8> {
+        let path = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("fixtures")
+            .join("claude")
+            .join(DEFAULT_CLI_VERSION)
+            .join("SessionStart.default.json");
+        fs::read(path).expect("the recorded SessionStart")
+    }
+
+    #[test]
+    fn fake_resume_sets_the_source_and_the_given_id_on_the_recorded_session_start() {
+        let fixture = recorded_session_start();
+        let id = "11111111-2222-4333-8444-555555555555";
+        let opts = Opts::parse(&args(&["--resume", id]));
+        assert_eq!(
+            opts.resume_fields(),
+            [("source", "resume"), ("session_id", id)]
+        );
+        let out = payload(fixture.clone(), &opts.resume_fields());
+        assert!(fixture.ends_with(b"\n") && out.ends_with(b"\n"));
+        assert_eq!(out.iter().filter(|b| **b == b'\n').count(), 1);
+        let mut want: Value = serde_json::from_slice(&fixture).expect("the fixture");
+        assert_eq!(want["source"], "startup");
+        assert_eq!(want["session_id"], "c0f0cc23-690b-45dd-bbfb-06d6cfd44942");
+        want["source"] = json!("resume");
+        want["session_id"] = json!(id);
+        let got: Value = serde_json::from_slice(&out).expect("json");
+        assert_eq!(got, want);
+        let keys = |v: &Value| {
+            v.as_object()
+                .expect("object")
+                .keys()
+                .cloned()
+                .collect::<Vec<_>>()
+        };
+        assert_eq!(
+            keys(&got),
+            [
+                "session_id",
+                "transcript_path",
+                "cwd",
+                "hook_event_name",
+                "source"
+            ]
+        );
+    }
+
+    #[test]
+    fn fake_resume_with_fork_session_reports_the_compiled_fork_id() {
+        let opts = Opts::parse(&args(&[
+            "--resume",
+            "11111111-2222-4333-8444-555555555555",
+            "--fork-session",
+        ]));
+        assert_eq!(
+            opts.resume_fields(),
+            [
+                ("source", "resume"),
+                ("session_id", "0f0e0d0c-0b0a-4908-8706-050403020100")
+            ]
+        );
+        let out: Value =
+            serde_json::from_slice(&payload(recorded_session_start(), &opts.resume_fields()))
+                .expect("json");
+        assert_eq!(out["session_id"], "0f0e0d0c-0b0a-4908-8706-050403020100");
+        assert_eq!(out["source"], "resume");
+    }
+
+    /// Without `--resume` nothing is set, `--fork-session` alone included: the recorded bytes.
+    #[test]
+    fn fake_resume_absent_leaves_the_recorded_bytes() {
+        let fixture = recorded_session_start();
+        for list in [&[][..], &["--fork-session"][..]] {
+            let opts = Opts::parse(&args(list));
+            assert!(opts.resume_fields().is_empty(), "{list:?}");
+            assert_eq!(payload(fixture.clone(), &opts.resume_fields()), fixture);
+        }
     }
 
     #[test]

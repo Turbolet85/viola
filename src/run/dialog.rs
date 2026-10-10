@@ -453,6 +453,7 @@ mod tests {
                 links: Vec::new(),
                 child_pid: Some(2),
                 pending_dialog: None,
+                cwd: None,
             })
             .expect("snapshot");
         snapshots
