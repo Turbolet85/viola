@@ -1,0 +1,12 @@
+use std::time::{Duration, Instant};
+
+const KILL_DEADLINE: Duration = Duration::from_secs(5);
+
+pub fn kill_deadline(now: Instant) -> Instant {
+    now + KILL_DEADLINE
+}
+
+pub fn inline() -> bool {
+    let deadline = Instant::now() + KILL_DEADLINE;
+    deadline > Instant::now()
+}

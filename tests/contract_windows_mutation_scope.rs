@@ -178,6 +178,31 @@ fn workflow_scope(yml: &str) -> Vec<(String, String)> {
     out
 }
 
+/// Every way the matrix items' `label:` lines fail to name one job each: the job is
+/// `mutants (<label>)`, and several items may share a package.
+fn label_problems(yml: &str) -> Vec<String> {
+    let lines = || yml.lines().map(str::trim);
+    let items = lines().filter(|l| l.starts_with("- package:")).count();
+    let labels: Vec<&str> = lines()
+        .filter_map(|l| l.strip_prefix("label:"))
+        .map(str::trim)
+        .collect();
+    let mut problems = Vec::new();
+    if labels.len() != items {
+        problems.push(format!("{} labels for {items} items", labels.len()));
+    }
+    let mut seen = BTreeSet::new();
+    for label in labels {
+        if !seen.insert(label) {
+            problems.push(format!("labelled twice: {label}"));
+        }
+    }
+    if !lines().any(|l| l == "name: mutants (${{ matrix.label }})") {
+        problems.push("the job is not named by its label".to_owned());
+    }
+    problems
+}
+
 /// Every way the gated set and the workflow's list disagree.
 fn scope_problems(
     gated: &BTreeSet<String>,
@@ -316,6 +341,37 @@ fn windows_gated_sources_equal_the_workflow_scope_both_ways() {
     let listed = workflow_scope(&workflow("windows-mutants.yml"));
     assert!(!listed.is_empty(), "the workflow lists no file");
     let problems = scope_problems(&windows_gated(&sources), &listed, &known);
+    assert!(problems.is_empty(), "{problems:#?}");
+}
+
+#[test]
+fn workflow_job_labels_are_distinct_one_per_item() {
+    let named = "    name: mutants (${{ matrix.label }})\n";
+    let item = |package: &str, label: &str| {
+        format!(
+            "          - package: {package}\n            label: {label}\n            files: x\n"
+        )
+    };
+    let two = format!(
+        "{named}{}{}",
+        item("demo", "demo-a"),
+        item("demo", "demo-b")
+    );
+    assert!(label_problems(&two).is_empty(), "one package, two jobs");
+    let twice = format!("{named}{}{}", item("demo", "demo"), item("other", "demo"));
+    assert_eq!(label_problems(&twice), ["labelled twice: demo"]);
+    let unlabelled = format!(
+        "{named}{}          - package: other\n",
+        item("demo", "demo")
+    );
+    assert_eq!(label_problems(&unlabelled), ["1 labels for 2 items"]);
+    let by_package = two.replace("matrix.label", "matrix.package");
+    assert_eq!(
+        label_problems(&by_package),
+        ["the job is not named by its label"]
+    );
+
+    let problems = label_problems(&workflow("windows-mutants.yml"));
     assert!(problems.is_empty(), "{problems:#?}");
 }
 

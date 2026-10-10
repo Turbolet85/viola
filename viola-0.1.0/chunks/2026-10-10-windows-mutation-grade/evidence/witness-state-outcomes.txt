@@ -1,0 +1,25 @@
+Found 22 mutants to test
+ok       Unmutated baseline in 5s build + 3s test
+caught   crates/viola-state/src/fs.rs:19:5: replace restrict -> io::Result<()> with Ok(()) in 0s build + 3s test
+MISSED   crates/viola-state/src/fs.rs:142:9: replace win::protect -> io::Result<()> with Ok(()) in 0s build + 3s test
+MISSED   crates/viola-state/src/fs.rs:149:9: replace win::set_dacl -> io::Result<()> with Ok(()) in 0s build + 3s test
+MISSED   crates/viola-state/src/fs.rs:194:9: replace win::dacl_of -> io::Result<*mut ACL> with Ok(Default::default()) in 0s build + 3s test
+MISSED   crates/viola-state/src/fs.rs:198:13: replace || with && in win::dacl_of in 0s build + 3s test
+MISSED   crates/viola-state/src/fs.rs:197:94: replace == with != in win::dacl_of in 0s build + 3s test
+caught   crates/viola-state/src/strict.rs:84:5: replace volume_keeps_acls -> bool with true in 0s build + 3s test
+caught   crates/viola-state/src/strict.rs:84:5: replace volume_keeps_acls -> bool with false in 0s build + 3s test
+caught   crates/viola-state/src/strict.rs:84:29: replace != with == in volume_keeps_acls in 0s build + 3s test
+caught   crates/viola-state/src/strict.rs:84:11: replace & with | in volume_keeps_acls in 0s build + 3s test
+caught   crates/viola-state/src/strict.rs:84:11: replace & with ^ in volume_keeps_acls in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:179:9: replace win::persistent_acls -> Option<bool> with None in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:179:9: replace win::persistent_acls -> Option<bool> with Some(true) in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:179:9: replace win::persistent_acls -> Option<bool> with Some(false) in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:201:15: replace != with == in win::persistent_acls in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:206:9: replace win::owner_and_dacl -> Option<(String, Option<Vec<Allow>>)> with None in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:206:9: replace win::owner_and_dacl -> Option<(String, Option<Vec<Allow>>)> with Some((String::new(), None)) in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:206:9: replace win::owner_and_dacl -> Option<(String, Option<Vec<Allow>>)> with Some((String::new(), Some(vec![]))) in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:206:9: replace win::owner_and_dacl -> Option<(String, Option<Vec<Allow>>)> with Some((String::new(), Some(vec![Default::default()]))) in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:206:9: replace win::owner_and_dacl -> Option<(String, Option<Vec<Allow>>)> with Some(("xyzzy".into(), None)) in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:206:9: replace win::owner_and_dacl -> Option<(String, Option<Vec<Allow>>)> with Some(("xyzzy".into(), Some(vec![]))) in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:206:9: replace win::owner_and_dacl -> Option<(String, Option<Vec<Allow>>)> with Some(("xyzzy".into(), Some(vec![Default::default()]))) in 0s build + 3s test
+22 mutants tested in 3m: 16 missed, 6 caught

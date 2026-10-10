@@ -1,0 +1,92 @@
+Found 89 mutants to test
+ok       Unmutated baseline in 4s build + 1s test
+caught   crates/viola-pty/src/lib.rs:26:5: replace pty_backend -> &'static str with "" in 0s build + 1s test
+caught   crates/viola-pty/src/lib.rs:26:5: replace pty_backend -> &'static str with "xyzzy" in 0s build + 1s test
+caught   crates/viola-pty/src/lib.rs:62:9: replace ExitSource::as_str -> &'static str with "" in 0s build + 1s test
+caught   crates/viola-pty/src/lib.rs:62:9: replace ExitSource::as_str -> &'static str with "xyzzy" in 0s build + 1s test
+caught   crates/viola-pty/src/lib.rs:94:9: replace <impl fmt::Display for PtyError>::fmt -> fmt::Result with Ok(Default::default()) in 0s build + 1s test
+caught   crates/viola-pty/src/lib.rs:110:9: replace <impl std::error::Error for PtyError>::source -> Option<&(dyn std::error::Error +'static)> with None in 0s build + 1s test
+unviable crates/viola-pty/src/lib.rs:110:9: replace <impl std::error::Error for PtyError>::source -> Option<&(dyn std::error::Error +'static)> with Some(Box::leak(Box::new(Default::default()))) in 0s build
+unviable crates/viola-pty/src/lib.rs:145:5: replace spawn -> Result<PortablePty, PtyError> with Ok(Default::default()) in 0s build
+caught   crates/viola-pty/src/lib.rs:169:5: replace pty_size -> PtySize with Default::default() in 0s build + 7s test
+unviable crates/viola-pty/src/lib.rs:178:5: replace closed -> PtyError with Default::default() in 0s build
+unviable crates/viola-pty/src/lib.rs:183:9: replace PortablePty::master -> Result<&(dyn MasterPty +Send), PtyError> with Ok(Box::leak(Box::new(Default::default()))) in 0s build
+unviable crates/viola-pty/src/lib.rs:189:9: replace <impl Pty for PortablePty>::reader -> Result<Box<dyn Read +Send>, PtyError> with Ok(Box::new(Default::default())) in 0s build
+unviable crates/viola-pty/src/lib.rs:195:9: replace <impl Pty for PortablePty>::writer -> Result<Box<dyn Write +Send>, PtyError> with Ok(Box::new(Default::default())) in 0s build
+caught   crates/viola-pty/src/lib.rs:202:9: replace <impl Pty for PortablePty>::resize -> Result<(), PtyError> with Ok(()) in 0s build + 7s test
+caught   crates/viola-pty/src/lib.rs:208:9: replace <impl Pty for PortablePty>::try_wait -> Result<Option<u32>, PtyError> with Ok(None) in 0s build + 7s test
+caught   crates/viola-pty/src/lib.rs:208:9: replace <impl Pty for PortablePty>::try_wait -> Result<Option<u32>, PtyError> with Ok(Some(0)) in 0s build + 1s test
+caught   crates/viola-pty/src/lib.rs:208:9: replace <impl Pty for PortablePty>::try_wait -> Result<Option<u32>, PtyError> with Ok(Some(1)) in 0s build + 1s test
+caught   crates/viola-pty/src/lib.rs:216:9: replace <impl Pty for PortablePty>::kill -> Result<(), PtyError> with Ok(()) in 0s build + 7s test
+caught   crates/viola-pty/src/lib.rs:229:9: replace <impl Pty for PortablePty>::close with () in 0s build + 7s test
+caught   crates/viola-pty/src/lib.rs:233:9: replace <impl Pty for PortablePty>::child_pid -> Option<u32> with None in 0s build + 1s test
+caught   crates/viola-pty/src/lib.rs:233:9: replace <impl Pty for PortablePty>::child_pid -> Option<u32> with Some(0) in 0s build + 7s test
+caught   crates/viola-pty/src/lib.rs:233:9: replace <impl Pty for PortablePty>::child_pid -> Option<u32> with Some(1) in 0s build + 7s test
+MISSED   crates/viola-pty/src/lib.rs:240:5: replace terminate -> bool with true in 0s build + 1s test
+MISSED   crates/viola-pty/src/lib.rs:240:5: replace terminate -> bool with false in 0s build + 1s test
+MISSED   crates/viola-pty/src/lib.rs:248:46: replace != with == in terminate in 0s build + 1s test
+caught   crates/viola-pty/src/lib.rs:264:5: replace raw_input_mode -> u32 with 0 in 0s build + 1s test
+caught   crates/viola-pty/src/lib.rs:264:5: replace raw_input_mode -> u32 with 1 in 0s build + 1s test
+caught   crates/viola-pty/src/lib.rs:264:28: replace | with & in raw_input_mode in 0s build + 1s test
+caught   crates/viola-pty/src/lib.rs:264:28: replace | with ^ in raw_input_mode in 0s build + 1s test
+caught   crates/viola-pty/src/lib.rs:264:11: replace & with | in raw_input_mode in 0s build + 1s test
+caught   crates/viola-pty/src/lib.rs:264:11: replace & with ^ in raw_input_mode in 0s build + 1s test
+caught   crates/viola-pty/src/lib.rs:264:13: delete ! in raw_input_mode in 0s build + 1s test
+caught   crates/viola-pty/src/lib.rs:269:5: replace vt_output_mode -> u32 with 0 in 0s build + 1s test
+caught   crates/viola-pty/src/lib.rs:269:5: replace vt_output_mode -> u32 with 1 in 0s build + 1s test
+caught   crates/viola-pty/src/lib.rs:269:10: replace | with & in vt_output_mode in 0s build + 1s test
+caught   crates/viola-pty/src/lib.rs:269:10: replace | with ^ in vt_output_mode in 0s build + 1s test
+caught   crates/viola-pty/src/lib.rs:274:5: replace size_from_window -> Option<Size> with None in 0s build + 1s test
+unviable crates/viola-pty/src/lib.rs:274:5: replace size_from_window -> Option<Size> with Some(Default::default()) in 0s build
+caught   crates/viola-pty/src/lib.rs:274:65: replace + with - in size_from_window in 0s build + 1s test
+caught   crates/viola-pty/src/lib.rs:274:65: replace + with * in size_from_window in 0s build + 1s test
+caught   crates/viola-pty/src/lib.rs:274:47: replace - with + in size_from_window in 0s build + 1s test
+caught   crates/viola-pty/src/lib.rs:274:47: replace - with / in size_from_window in 0s build + 1s test
+caught   crates/viola-pty/src/lib.rs:275:65: replace + with - in size_from_window in 0s build + 1s test
+caught   crates/viola-pty/src/lib.rs:275:65: replace + with * in size_from_window in 0s build + 1s test
+caught   crates/viola-pty/src/lib.rs:275:48: replace - with + in size_from_window in 0s build + 1s test
+caught   crates/viola-pty/src/lib.rs:275:48: replace - with / in size_from_window in 0s build + 1s test
+caught   crates/viola-pty/src/lib.rs:281:5: replace nonzero_size -> Option<Size> with None in 0s build + 7s test
+unviable crates/viola-pty/src/lib.rs:281:5: replace nonzero_size -> Option<Size> with Some(Default::default()) in 0s build
+caught   crates/viola-pty/src/lib.rs:281:15: replace && with || in nonzero_size in 0s build + 1s test
+caught   crates/viola-pty/src/lib.rs:281:11: replace > with == in nonzero_size in 0s build + 7s test
+caught   crates/viola-pty/src/lib.rs:281:11: replace > with < in nonzero_size in 0s build + 7s test
+caught   crates/viola-pty/src/lib.rs:281:11: replace > with >= in nonzero_size in 0s build + 1s test
+caught   crates/viola-pty/src/lib.rs:281:23: replace > with == in nonzero_size in 0s build + 7s test
+caught   crates/viola-pty/src/lib.rs:281:23: replace > with < in nonzero_size in 0s build + 7s test
+caught   crates/viola-pty/src/lib.rs:281:23: replace > with >= in nonzero_size in 0s build + 1s test
+MISSED   crates/viola-pty/src/lib.rs:296:9: replace HostTerminal::enter -> Option<Self> with None in 0s build + 1s test
+MISSED   crates/viola-pty/src/lib.rs:296:9: replace HostTerminal::enter -> Option<Self> with Some(Default::default()) in 0s build + 1s test
+MISSED   crates/viola-pty/src/lib.rs:310:59: replace && with || in HostTerminal::enter in 0s build + 1s test
+MISSED   crates/viola-pty/src/lib.rs:310:54: replace != with == in HostTerminal::enter in 0s build + 1s test
+MISSED   crates/viola-pty/src/lib.rs:310:95: replace != with == in HostTerminal::enter in 0s build + 1s test
+MISSED   crates/viola-pty/src/lib.rs:315:10: delete ! in HostTerminal::enter in 0s build + 1s test
+caught   crates/viola-pty/src/lib.rs:321:9: replace HostTerminal::enter -> Option<Self> with None in 0s build + 7s test
+unviable crates/viola-pty/src/lib.rs:321:9: replace HostTerminal::enter -> Option<Self> with Some(Default::default()) in 0s build
+caught   crates/viola-pty/src/lib.rs:323:64: replace != with == in HostTerminal::enter in 0s build + 7s test
+caught   crates/viola-pty/src/lib.rs:328:71: replace == with != in HostTerminal::enter in 0s build + 7s test
+caught   crates/viola-pty/src/lib.rs:336:9: replace <impl Drop for HostTerminal>::drop with () in 0s build + 7s test
+unviable crates/viola-pty/src/lib.rs:356:5: replace host_stdin -> Box<dyn Read +Send> with Box::new(Default::default()) in 0s build
+caught   crates/viola-pty/src/lib.rs:394:5: replace decode_units with () in 0s build + 1s test
+caught   crates/viola-pty/src/lib.rs:410:9: replace <impl Read for ConsoleInput<S>>::read -> io::Result<usize> with Ok(0) in 0s build + 10s test
+caught   crates/viola-pty/src/lib.rs:410:9: replace <impl Read for ConsoleInput<S>>::read -> io::Result<usize> with Ok(1) in 0s build + 1s test
+MISSED   crates/viola-pty/src/lib.rs:434:9: replace console::is_console -> bool with true in 0s build + 1s test
+MISSED   crates/viola-pty/src/lib.rs:434:9: replace console::is_console -> bool with false in 0s build + 1s test
+MISSED   crates/viola-pty/src/lib.rs:436:76: replace != with == in console::is_console in 0s build + 1s test
+MISSED   crates/viola-pty/src/lib.rs:444:13: replace console::<impl super::Utf16Source for Console>::read_units -> io::Result<usize> with Ok(0) in 0s build + 1s test
+MISSED   crates/viola-pty/src/lib.rs:444:13: replace console::<impl super::Utf16Source for Console>::read_units -> io::Result<usize> with Ok(1) in 0s build + 1s test
+MISSED   crates/viola-pty/src/lib.rs:457:19: replace == with != in console::<impl super::Utf16Source for Console>::read_units in 0s build + 1s test
+caught   crates/viola-pty/src/lib.rs:467:5: replace host_size -> Option<Size> with None in 0s build + 7s test
+unviable crates/viola-pty/src/lib.rs:467:5: replace host_size -> Option<Size> with Some(Default::default()) in 0s build
+MISSED   crates/viola-pty/src/lib.rs:475:87: replace == with != in host_size in 0s build + 1s test
+caught   crates/viola-pty/src/lib.rs:487:76: replace != with == in host_size in 0s build + 7s test
+MISSED   crates/viola-pty/src/sideload.rs:25:5: replace restrict_dll_search -> bool with true in 0s build + 1s test
+MISSED   crates/viola-pty/src/sideload.rs:25:5: replace restrict_dll_search -> bool with false in 0s build + 1s test
+MISSED   crates/viola-pty/src/sideload.rs:25:86: replace != with == in restrict_dll_search in 0s build + 1s test
+MISSED   crates/viola-pty/src/sideload.rs:34:5: replace search_restricted -> bool with true in 0s build + 1s test
+MISSED   crates/viola-pty/src/sideload.rs:34:5: replace search_restricted -> bool with false in 0s build + 1s test
+MISSED   crates/viola-pty/src/sideload.rs:41:5: replace preload -> Result<(), PtyError> with Ok(()) in 0s build + 1s test
+MISSED   crates/viola-pty/src/sideload.rs:41:8: delete ! in preload in 0s build + 1s test
+MISSED   crates/viola-pty/src/sideload.rs:58:5: replace preloaded -> bool with true in 0s build + 1s test
+MISSED   crates/viola-pty/src/sideload.rs:58:5: replace preloaded -> bool with false in 0s build + 1s test
+89 mutants tested in 6m: 25 missed, 53 caught, 11 unviable

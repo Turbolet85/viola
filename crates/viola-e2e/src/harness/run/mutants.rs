@@ -10,6 +10,7 @@ use serde_json::{Value, json};
 use super::{Runner, Suite, Workspace, read_json};
 
 mod base;
+mod host;
 mod scratch;
 
 pub use base::{
@@ -43,14 +44,21 @@ fn count(outcomes: &Value, key: &str) -> u64 {
     outcomes[key].as_u64().unwrap_or(0)
 }
 
-/// `passed` = caught; `survived` = missed + timeout. Unviable alone is never red, but a run with more
+/// `passed` = caught; `survived` = missed + timeout, less the `host_excluded` missed mutants this
+/// host never compiled, which `tested` still counts. Unviable alone is never red, but a run with more
 /// unviable than caught mutants tested almost nothing: its builds failed (measured on the windows CI
 /// leg of run 36118112104, a leaked process holding a binary: 8 caught, 135 unviable), so it is red.
-pub fn mutants_suite(outcomes: &Value, mut failures: Vec<String>) -> (Suite, u64) {
+pub fn mutants_suite(
+    outcomes: &Value,
+    host_excluded: u64,
+    mut failures: Vec<String>,
+) -> (Suite, u64) {
     let caught = count(outcomes, "caught");
     let unviable = count(outcomes, "unviable");
-    let survived = count(outcomes, "missed") + count(outcomes, "timeout");
-    let tested = caught + survived + unviable;
+    let missed = count(outcomes, "missed");
+    let timeout = count(outcomes, "timeout");
+    let survived = missed.saturating_sub(host_excluded) + timeout;
+    let tested = caught + missed + timeout + unviable;
     let swamped = unviable > caught;
     if swamped {
         failures.push("unviable-exceeds-caught".to_owned());
@@ -178,12 +186,14 @@ pub(super) fn mutants(
     Ok(run.into_mutated(doc, files))
 }
 
-/// One cargo-mutants run: its suite, how many mutants it tested, the `outcomes.json` it read and,
-/// on a Windows host, the bytes the scratch held before its wipe.
+/// One cargo-mutants run: its suite, how many mutants it tested, the `outcomes.json` it read, the
+/// missed mutants left out because this host never compiled them and, on a Windows host, the bytes
+/// the scratch held before its wipe.
 struct Mutation {
     suite: Suite,
     tested: u64,
     outcomes: PathBuf,
+    host_excluded: Vec<host::Excluded>,
     scratch_bytes: Option<u64>,
 }
 
@@ -195,12 +205,16 @@ impl Mutation {
         if let Some(bytes) = self.scratch_bytes {
             doc["scratch_bytes"] = json!(bytes);
         }
+        if !self.host_excluded.is_empty() {
+            doc["host_excluded"] = json!(self.host_excluded);
+        }
         (self.suite, doc, Some(self.outcomes))
     }
 }
 
 /// The root prebuild, then `cargo mutants <head> [--file …]` with the run's fixed flags and
-/// environment, then its fresh `outcomes.json` read by counts (a stale one is deleted first).
+/// environment, then its fresh `outcomes.json` read by record and by counts (a stale one is
+/// deleted first): a missed mutant in a span this host never compiled leaves the survivors.
 fn mutate(
     ws: &Workspace,
     head: &[OsString],
@@ -257,11 +271,15 @@ fn mutate(
         return Err(reason);
     }
     let outcomes_path = out_dir.join("outcomes.json");
-    let (suite, tested) = match read_json::<Value>(&outcomes_path) {
+    let (suite, tested, host_excluded) = match read_json::<Value>(&outcomes_path) {
         Ok(outcomes) => {
+            let excluded = host::excluded_missed(&ws.root, &outcomes, host::HOST);
             let mut failures = listed(&out_dir.join("missed.txt"));
+            failures.retain(|name| !excluded.iter().any(|e| e.name == *name));
             failures.extend(listed(&out_dir.join("timeout.txt")));
-            mutants_suite(&outcomes, failures)
+            let left_out = u64::try_from(excluded.len()).unwrap_or(u64::MAX);
+            let (suite, tested) = mutants_suite(&outcomes, left_out, failures);
+            (suite, tested, excluded)
         }
         Err(_) => (
             Suite {
@@ -270,12 +288,14 @@ fn mutate(
                 ..Suite::named("mutants")
             },
             0,
+            Vec::new(),
         ),
     };
     Ok(Mutation {
         suite,
         tested,
         outcomes: outcomes_path,
+        host_excluded,
         scratch_bytes: scratch.map(|(_, bytes)| bytes),
     })
 }
@@ -336,24 +356,46 @@ mod tests {
     #[test]
     fn mutants_suite_counts_missed_and_timeout_as_survivors() {
         let outcomes = json!({"caught": 7, "missed": 2, "timeout": 1, "unviable": 3});
-        let (s, tested) = mutants_suite(&outcomes, vec!["m".to_owned()]);
+        let (s, tested) = mutants_suite(&outcomes, 0, vec!["m".to_owned()]);
         assert_eq!((s.passed, s.failed, s.survived, tested), (7, 3, 3, 13));
         assert!(!s.green());
-        let (clean, n) = mutants_suite(&json!({"caught": 4, "unviable": 2}), vec![]);
+        let (clean, n) = mutants_suite(&json!({"caught": 4, "unviable": 2}), 0, vec![]);
         assert!(clean.green());
         assert_eq!(n, 6);
         assert_eq!(clean.artifact.as_deref(), Some("mutants.out/outcomes.json"));
     }
 
+    /// A missed mutant the host never compiled leaves the survivors and stays among the tested; a
+    /// timeout is a survivor whatever was left out.
+    #[test]
+    fn mutants_suite_leaves_host_excluded_missed_out_of_the_survivors() {
+        let outcomes = json!({"caught": 7, "missed": 2, "timeout": 1, "unviable": 3});
+        let (s, tested) = mutants_suite(&outcomes, 1, vec!["m".to_owned()]);
+        assert_eq!((s.passed, s.failed, s.survived, tested), (7, 2, 2, 13));
+        let (s, tested) = mutants_suite(&outcomes, 2, vec![]);
+        assert_eq!((s.passed, s.failed, s.survived, tested), (7, 1, 1, 13));
+        assert!(!s.green(), "the timeout still survives");
+        let missed_only = json!({"caught": 3, "missed": 2, "unviable": 4});
+        let (s, tested) = mutants_suite(&missed_only, 2, vec![]);
+        assert_eq!((s.passed, s.failed, s.survived, tested), (3, 1, 0, 9));
+        assert_eq!(
+            s.failures,
+            vec!["unviable-exceeds-caught"],
+            "judged as before"
+        );
+        let (s, _) = mutants_suite(&json!({"caught": 3, "missed": 2}), 2, vec![]);
+        assert!(s.green());
+    }
+
     #[test]
     fn mutants_suite_is_red_when_unviable_outnumbers_caught() {
         let swamp = json!({"caught": 8, "missed": 0, "timeout": 0, "unviable": 135});
-        let (s, tested) = mutants_suite(&swamp, vec![]);
+        let (s, tested) = mutants_suite(&swamp, 0, vec![]);
         assert_eq!((s.passed, s.failed, s.survived, tested), (8, 1, 0, 143));
         assert_eq!(s.failures, vec!["unviable-exceeds-caught"]);
         assert!(!s.green());
         let even = json!({"caught": 3, "unviable": 3});
-        let (s, _) = mutants_suite(&even, vec![]);
+        let (s, _) = mutants_suite(&even, 0, vec![]);
         assert!(s.green(), "equal counts are not a swamp");
         assert!(s.failures.is_empty());
     }
@@ -792,15 +834,138 @@ mod tests {
             if mutating && let Some(text) = outcomes {
                 fs::create_dir_all(&out_dir).expect("mkdir");
                 fs::write(out_dir.join("outcomes.json"), text).expect("outcomes");
-                fs::write(
-                    out_dir.join("missed.txt"),
-                    "src/a.rs:2:5: replace b with 1\n",
-                )
-                .expect("missed");
+                fs::write(out_dir.join("missed.txt"), missed_lines(text)).expect("missed");
             }
             (Some(if mutating { 2 } else { 0 }), String::new())
         });
         (tmp, ws, out, calls)
+    }
+
+    /// The `missed.txt` cargo-mutants writes beside `outcomes`: one line per missed record, its
+    /// name.
+    fn missed_lines(outcomes: &str) -> String {
+        let doc: Value = serde_json::from_str(outcomes).expect("outcomes");
+        doc["outcomes"]
+            .as_array()
+            .into_iter()
+            .flatten()
+            .filter(|record| record["summary"] == "MissedMutant")
+            .filter_map(|record| record["scenario"]["Mutant"]["name"].as_str())
+            .map(|name| format!("{name}\n"))
+            .collect()
+    }
+
+    /// Three functions, one per answer the host gives on every OS the suite runs on: a predicate
+    /// that is false, one that is true and one it cannot decide.
+    const GATED: &str = "#[cfg(target_os = \"none\")]\nfn never() -> u32 {\n    1\n}\n\
+        #[cfg(any(unix, windows))]\nfn always() -> u32 {\n    2\n}\n\
+        #[cfg(feature = \"x\")]\nfn maybe() -> u32 {\n    3\n}\n";
+
+    /// An outcome record of a mutant of the literal on `line` of `src/gated.rs`.
+    fn gated(line: u64, replacement: &str, summary: &str) -> Value {
+        json!({
+            "scenario": {"Mutant": {
+                "name": format!("src/gated.rs:{line}:5: replace literal with {replacement}"),
+                "file": "src/gated.rs",
+                "span": {"start": {"line": line, "column": 5}, "end": {"line": line, "column": 6}},
+            }},
+            "summary": summary,
+        })
+    }
+
+    /// `run --mutants --package viola` over `mini` holding `GATED`, its `cargo mutants` a stand-in
+    /// that leaves `records` with the counts cargo-mutants would write for them.
+    fn gated_run(records: &[Value]) -> (Workspace, Outcome, tempfile::TempDir) {
+        let tally = |summary: &str| records.iter().filter(|r| r["summary"] == summary).count();
+        let outcomes = json!({
+            "outcomes": records,
+            "caught": tally("CaughtMutant"),
+            "missed": tally("MissedMutant"),
+            "timeout": tally("Timeout"),
+            "unviable": tally("Unviable"),
+        });
+        let (tmp, ws, out, _) = package_run("viola", &[], Some(&outcomes.to_string()), |ws| {
+            fs::write(ws.root.join("src").join("gated.rs"), GATED).expect("write");
+        });
+        (ws, out, tmp)
+    }
+
+    /// Every string anywhere in `doc`.
+    fn strings(doc: &Value, out: &mut Vec<String>) {
+        match doc {
+            Value::String(s) => out.push(s.clone()),
+            Value::Array(items) => items.iter().for_each(|v| strings(v, out)),
+            Value::Object(fields) => fields.values().for_each(|v| strings(v, out)),
+            _ => {}
+        }
+    }
+
+    /// A missed mutant in a span this host never compiled leaves the survivors, the failures and
+    /// the verdict, and the document names it with its predicate; it still counts as tested.
+    #[test]
+    fn run_mutants_leaves_out_a_missed_mutant_the_host_never_compiled() {
+        let records = [gated(3, "0", "MissedMutant"), gated(7, "0", "CaughtMutant")];
+        let (ws, out, _tmp) = gated_run(&records);
+        assert_eq!(out.code, 0, "{}", out.doc);
+        let m = suite(&out.doc, "mutants");
+        assert_eq!(
+            (m["passed"].as_u64(), m["survived"].as_u64()),
+            (Some(1), Some(0))
+        );
+        assert_eq!(m["failures"], json!([]));
+        assert_eq!(out.doc["mutants"]["tested"], 2);
+        assert_eq!(out.doc["mutants"]["verdict"], "package");
+        assert_eq!(
+            out.doc["mutants"]["host_excluded"],
+            json!([{
+                "name": "src/gated.rs:3:5: replace literal with 0",
+                "cfg": "target_os = \"none\"",
+            }])
+        );
+        let mut texts = Vec::new();
+        strings(&out.doc, &mut texts);
+        let root = ws.root.to_string_lossy().into_owned();
+        for text in texts {
+            assert!(!Path::new(&text).is_absolute(), "{text}");
+            assert!(!text.contains(&root), "{text}");
+        }
+    }
+
+    /// Only a missed mutant under a predicate proven false leaves: one under a true or an unknown
+    /// predicate stays red, and a caught, timed-out or unviable one is never left out.
+    #[test]
+    fn run_mutants_keeps_every_mutant_it_cannot_prove_host_excluded() {
+        let records = [
+            gated(3, "0", "MissedMutant"),
+            gated(7, "0", "MissedMutant"),
+            gated(11, "0", "MissedMutant"),
+            gated(3, "1", "CaughtMutant"),
+            gated(3, "2", "Timeout"),
+            gated(3, "3", "Unviable"),
+        ];
+        let (_ws, out, _tmp) = gated_run(&records);
+        assert_eq!(out.code, 1, "{}", out.doc);
+        let m = suite(&out.doc, "mutants");
+        assert_eq!(
+            (m["passed"].as_u64(), m["survived"].as_u64()),
+            (Some(1), Some(3)),
+            "two missed and the timeout"
+        );
+        assert_eq!(
+            m["failures"],
+            json!([
+                "src/gated.rs:7:5: replace literal with 0",
+                "src/gated.rs:11:5: replace literal with 0",
+            ])
+        );
+        assert_eq!(out.doc["mutants"]["tested"], 6);
+        assert_eq!(
+            out.doc["mutants"]["host_excluded"],
+            json!([{
+                "name": "src/gated.rs:3:5: replace literal with 0",
+                "cfg": "target_os = \"none\"",
+            }])
+        );
     }
 
     fn env_has(env: &Env, name: &str, value: &str) -> bool {

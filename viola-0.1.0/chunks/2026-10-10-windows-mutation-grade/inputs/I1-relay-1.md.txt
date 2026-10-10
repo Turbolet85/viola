@@ -1,0 +1,3 @@
+The operator's invocation of `/andromeda-phase`, 2026-10-10, verbatim (the arguments after the command name):
+
+Windows mutation grade. No live claude session: plan zero. The proof loop is the Windows runner: name how many workflow dispatches the plan needs and their wall time, and what is provable on this Linux host first. The code-graph script changed at 781563c: report what its first refresh reads (duration, counts, and whether the all-features index fell back). A gate entry that only reads a record takes no artifact key; a preservation guard lists no file a step edits. Size the chunk against one builder window. The founder is away tonight: a split or a boundary widening is not answered but held, so plan around needing neither, and bring technical forks to me.

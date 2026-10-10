@@ -1,0 +1,152 @@
+[
+{
+"tool": "gate",
+"v": "1.13",
+"sha8": "3718c868",
+"ts": "2026-10-10T02:22:41Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"./viola-0.1.0/chunks/2026-10-10-windows-mutation-grade/research.md",
+"--run-dir",
+"./.andromeda/runs/2026-10-10T02-04-59-phase",
+"--marker",
+"2026-10-10-windows-mutation-grade"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 12 items (new 2 · modify 10 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 12,
+"unparsed": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.13",
+"sha8": "3718c868",
+"ts": "2026-10-10T02:28:36Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"./viola-0.1.0/chunks/2026-10-10-windows-mutation-grade/research.md",
+"--run-dir",
+"./.andromeda/runs/2026-10-10T02-04-59-phase",
+"--marker",
+"2026-10-10-windows-mutation-grade"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 13 items (new 2 · modify 11 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 13,
+"unparsed": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.13",
+"sha8": "3718c868",
+"ts": "2026-10-10T02:33:51Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"viola-0.1.0/chunks/2026-10-10-windows-mutation-grade/research.md",
+"--run-dir",
+".andromeda/runs/2026-10-10T02-04-59-phase",
+"--marker",
+"2026-10-10-windows-mutation-grade"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 13 items (new 2 · modify 11 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 13,
+"unparsed": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.13",
+"sha8": "3718c868",
+"ts": "2026-10-10T02:41:15Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"viola-0.1.0/chunks/2026-10-10-windows-mutation-grade/research.md",
+"--run-dir",
+".andromeda/runs/2026-10-10T02-04-59-phase",
+"--marker",
+"2026-10-10-windows-mutation-grade"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 13 items (new 2 · modify 11 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 13,
+"unparsed": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.13",
+"sha8": "3718c868",
+"ts": "2026-10-10T02:41:42Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"viola-0.1.0/chunks/2026-10-10-windows-mutation-grade/research.md",
+"--run-dir",
+".andromeda/runs/2026-10-10T02-04-59-phase",
+"--marker",
+"2026-10-10-windows-mutation-grade"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 13 items (new 2 · modify 11 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 13,
+"unparsed": 0
+}
+}
+]

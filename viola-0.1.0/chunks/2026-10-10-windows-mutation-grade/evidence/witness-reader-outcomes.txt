@@ -1,0 +1,97 @@
+Found 94 mutants to test
+ok       Unmutated baseline in 11s build + 35s test
+unviable crates/viola-e2e/src/harness/cleanup.rs:90:5: replace cleanup_one -> Report with Default::default() in 0s build
+unviable crates/viola-e2e/src/harness/cleanup.rs:130:5: replace kill_deadline -> Instant with Default::default() in 0s build
+caught   crates/viola-e2e/src/harness/cleanup.rs:130:9: replace + with - in kill_deadline in 1s build + 0s test
+unviable crates/viola-e2e/src/harness/cleanup.rs:130:9: replace + with * in kill_deadline in 0s build
+caught   crates/viola-e2e/src/harness/run/mutants.rs:56:5: replace mutants_suite -> (Suite, u64) with (Default::default(), 0) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:56:5: replace mutants_suite -> (Suite, u64) with (Default::default(), 1) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:60:57: replace + with - in mutants_suite in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:60:57: replace + with * in mutants_suite in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:61:44: replace + with - in mutants_suite in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:61:44: replace + with * in mutants_suite in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:61:34: replace + with - in mutants_suite in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:61:34: replace + with * in mutants_suite in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:61:25: replace + with - in mutants_suite in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:61:25: replace + with * in mutants_suite in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:202:9: replace Mutation::into_mutated -> Mutated with Default::default() in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:208:12: delete ! in Mutation::into_mutated in 1s build + 5s test
+unviable crates/viola-e2e/src/harness/run/mutants.rs:224:5: replace mutate -> Result<Mutation, String> with Ok(Default::default()) in 0s build
+caught   crates/viola-e2e/src/harness/run/mutants.rs:278:36: delete ! in mutate in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:278:68: replace == with != in mutate in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:49:5: replace excluded_missed -> Vec<Excluded> with vec![] in 1s build + 5s test
+unviable crates/viola-e2e/src/harness/run/mutants/host.rs:49:5: replace excluded_missed -> Vec<Excluded> with vec![Default::default()] in 0s build
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:53:44: replace == with != in excluded_missed in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:71:5: replace position -> Option<Position> with None in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:71:5: replace position -> Option<Position> with Some(Default::default()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:79:5: replace false_cfg -> Option<String> with None in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:79:5: replace false_cfg -> Option<String> with Some(String::new()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:79:5: replace false_cfg -> Option<String> with Some("xyzzy".into()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:80:8: delete ! in false_cfg in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:88:5: replace read -> Option<syn::File> with None in 1s build + 5s test
+unviable crates/viola-e2e/src/harness/run/mutants/host.rs:88:5: replace read -> Option<syn::File> with Some(Default::default()) in 0s build
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:95:5: replace declared_false -> Option<String> with None in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:95:5: replace declared_false -> Option<String> with Some(String::new()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:95:5: replace declared_false -> Option<String> with Some("xyzzy".into()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:108:14: delete ! in declared_false in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:124:5: replace module_of -> Option<(String, PathBuf)> with None in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:124:5: replace module_of -> Option<(String, PathBuf)> with Some((String::new(), Default::default())) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:124:5: replace module_of -> Option<(String, PathBuf)> with Some(("xyzzy".into(), Default::default())) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:127:9: delete match arm "lib" | "main" in module_of in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:128:9: delete match arm "mod" in module_of in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:138:5: replace declarations -> Vec<Range> with vec![] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:138:5: replace declarations -> Vec<Range> with vec![Default::default()] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:153:9: replace <impl Visit<'ast> for Declarations<'_>>::visit_item_mod with () in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:153:35: replace && with || in <impl Visit<'ast> for Declarations<'_>>::visit_item_mod in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:153:49: replace == with != in <impl Visit<'ast> for Declarations<'_>>::visit_item_mod in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:161:5: replace range -> Range with Default::default() in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:167:5: replace false_cover -> Option<String> with None in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:167:5: replace false_cover -> Option<String> with Some(String::new()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:167:5: replace false_cover -> Option<String> with Some("xyzzy".into()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:184:9: replace Cover::note with () in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:184:33: replace && with || in Cover::note in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:193:5: replace holds -> bool with true in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:193:5: replace holds -> bool with false in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:193:22: replace && with || in holds in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:193:12: replace <= with > in holds in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:193:32: replace <= with > in holds in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:201:9: replace <impl Visit<'ast> for Cover>::visit_item_fn with () in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:206:9: replace <impl Visit<'ast> for Cover>::visit_item_impl with () in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:211:9: replace <impl Visit<'ast> for Cover>::visit_item_mod with () in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:216:9: replace <impl Visit<'ast> for Cover>::visit_item_const with () in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:221:9: replace <impl Visit<'ast> for Cover>::visit_item_static with () in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:226:9: replace <impl Visit<'ast> for Cover>::visit_impl_item_fn with () in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:231:9: replace <impl Visit<'ast> for Cover>::visit_local with () in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:236:9: replace <impl Visit<'ast> for Cover>::visit_expr_block with () in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:241:9: replace <impl Visit<'ast> for Cover>::visit_expr_call with () in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:246:9: replace <impl Visit<'ast> for Cover>::visit_expr_for_loop with () in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:251:9: replace <impl Visit<'ast> for Cover>::visit_expr_if with () in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:256:9: replace <impl Visit<'ast> for Cover>::visit_expr_method_call with () in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:261:9: replace <impl Visit<'ast> for Cover>::visit_expr_tuple with () in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:266:9: replace <impl Visit<'ast> for Cover>::visit_expr_unsafe with () in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:274:5: replace false_predicate -> Option<String> with None in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:274:5: replace false_predicate -> Option<String> with Some(String::new()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:274:5: replace false_predicate -> Option<String> with Some("xyzzy".into()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:274:8: delete ! in false_predicate in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:278:26: replace != with == in false_predicate in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:287:5: replace eval -> Option<bool> with None in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:287:5: replace eval -> Option<bool> with Some(true) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:287:5: replace eval -> Option<bool> with Some(false) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:288:26: replace match guard p.is_ident("unix") with true in eval in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:288:26: replace match guard p.is_ident("unix") with false in eval in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:289:26: replace match guard p.is_ident("windows") with true in eval in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:289:26: replace match guard p.is_ident("windows") with false in eval in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:288:65: replace == with != in eval in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:289:68: replace == with != in eval in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:308:23: replace == with != in eval in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:317:21: delete match arm [v] in eval in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:317:38: delete ! in eval in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:332:5: replace all -> Option<bool> with None in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:332:5: replace all -> Option<bool> with Some(true) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:332:5: replace all -> Option<bool> with Some(false) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:334:40: replace == with != in all in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:342:5: replace any -> Option<bool> with None in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:342:5: replace any -> Option<bool> with Some(true) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:342:5: replace any -> Option<bool> with Some(false) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/host.rs:344:40: replace == with != in any in 1s build + 5s test
+94 mutants tested in 12m: 88 caught, 6 unviable

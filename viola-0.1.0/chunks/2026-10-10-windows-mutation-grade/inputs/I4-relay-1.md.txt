@@ -1,0 +1,3 @@
+The operator's invocation of `/andromeda-implement`, 2026-10-10, verbatim (the arguments after the command name):
+
+2026-10-10-windows-mutation-grade. No live claude session. Steps 1 to 10, then stop at step 11: nothing dispatches windows-mutants.yml and the last gate entry is not driven until the founder word reaches you through me. The Linux witness runs are one-shot measurements: journal each in the run dir before its wait and re-read it from disk at its return. A red where no assertion failed on a value is read against the backing and hostwatch.py first, never re-run for green. Run the operator pass up to the ordinary CI read (ci.py conclusion, leg=operator), reading the attempt number.

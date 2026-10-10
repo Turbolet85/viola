@@ -1050,6 +1050,130 @@ mod tests {
         }
     }
 
+    /// Whether `report` comes to hold the exact line `want`. `exited` is read before the report,
+    /// so a child that wrote the line and then exited still passes, and one that exited without
+    /// it fails at once instead of at the deadline.
+    fn shows_line(report: &std::path::Path, want: &str, mut exited: impl FnMut() -> bool) -> bool {
+        let deadline = Instant::now() + CHILD_WITHIN;
+        loop {
+            let over = exited() || Instant::now() >= deadline;
+            let got = std::fs::read_to_string(report).unwrap_or_default();
+            if got.lines().any(|line| line == want) {
+                return true;
+            }
+            if over {
+                return false;
+            }
+            std::thread::yield_now();
+        }
+    }
+
+    fn read_lines(report: &std::path::Path) -> Vec<String> {
+        std::fs::read_to_string(report)
+            .unwrap_or_default()
+            .lines()
+            .filter(|l| l.starts_with("read "))
+            .map(str::to_owned)
+            .collect()
+    }
+
+    /// A `^Z` typed at a console is a key like any other: `host_stdin` hands it on as a byte and
+    /// goes on to the next read. std's console reader takes a read of `^Z` alone for the end of
+    /// input, so a child reading through it would stop here.
+    #[test]
+    fn console_read_keeps_a_ctrl_z_and_goes_on_to_the_next_read() {
+        let mut child = spawn_child_entry("reads", Size::DEFAULT);
+        let report = child.report.clone();
+        let shows = |child: &mut Child, want: &str| {
+            let shown = shows_line(&report, want, || !matches!(child.pty.try_wait(), Ok(None)));
+            assert!(
+                shown,
+                "child report never showed {want:?}\n{}",
+                child.reports()
+            );
+        };
+        shows(&mut child, "reading");
+        child.writer.write_all(b"\x1a").expect("ctrl-z");
+        child.writer.flush().expect("flush");
+        shows(&mut child, "read 1a");
+        child.writer.write_all(MOUSE).expect("report");
+        child.writer.flush().expect("flush");
+        assert_eq!(wait_exit(&mut child), 0, "{}", child.reports());
+        let reads = read_lines(&report);
+        assert_eq!(reads[0], "read 1a", "{}", child.reports());
+        assert_eq!(joined(&reads[1..]), MOUSE, "{}", child.reports());
+    }
+
+    /// The `reads` child with a pipe for its stdin; a child still running is stopped on drop.
+    struct Piped {
+        child: std::process::Child,
+        report: std::path::PathBuf,
+    }
+
+    impl Drop for Piped {
+        fn drop(&mut self) {
+            if matches!(self.child.try_wait(), Ok(None)) {
+                let _ = self.child.kill();
+            }
+            let _ = self.child.wait();
+            if !std::thread::panicking() {
+                let _ = std::fs::remove_file(&self.report);
+            }
+        }
+    }
+
+    /// A stdin that is not a console is read through `std::io::stdin()`: the child reports the
+    /// bytes written into its pipe. A console read of a pipe fails, and the child would report
+    /// nothing.
+    #[test]
+    fn piped_stdin_is_read_as_the_bytes_written_to_it() {
+        let (report, _) = report_paths();
+        let child = std::process::Command::new(std::env::current_exe().expect("test binary"))
+            .args([
+                "--exact",
+                "tests::pty_child_entry",
+                "--nocapture",
+                "--test-threads",
+                "1",
+                "reads",
+            ])
+            .env(CHILD_REPORT, &report)
+            .env(CHILD_MODE, "reads")
+            .stdin(std::process::Stdio::piped())
+            .stdout(std::process::Stdio::null())
+            .stderr(std::process::Stdio::null())
+            .spawn()
+            .expect("spawn");
+        let mut piped = Piped { child, report };
+        let whole = |p: &Piped| std::fs::read_to_string(&p.report).unwrap_or_default();
+        let reading = shows_line(&piped.report.clone(), "reading", || {
+            !matches!(piped.child.try_wait(), Ok(None))
+        });
+        assert!(reading, "the child never read\n{}", whole(&piped));
+        let mut stdin = piped.child.stdin.take().expect("stdin");
+        stdin.write_all(MOUSE).expect("input");
+        stdin.flush().expect("flush");
+        let deadline = Instant::now() + CHILD_WITHIN;
+        let status = loop {
+            if let Some(status) = piped.child.try_wait().expect("try_wait") {
+                break status;
+            }
+            assert!(
+                Instant::now() < deadline,
+                "child never exited\n{}",
+                whole(&piped)
+            );
+            std::thread::yield_now();
+        };
+        assert!(status.success(), "{status:?}\n{}", whole(&piped));
+        assert_eq!(
+            joined(&read_lines(&piped.report)),
+            MOUSE,
+            "{}",
+            whole(&piped)
+        );
+    }
+
     const RESIZED: Size = Size {
         cols: 120,
         rows: 40,

@@ -13,18 +13,18 @@ use crate::StateError;
 pub const DIR_MODE: u32 = 0o700;
 pub const FILE_MODE: u32 = 0o600;
 
-/// Sets `mode` on `path` on Unix; nothing elsewhere.
+/// Sets `mode` on `path`.
+#[cfg(unix)]
 fn restrict(path: &Path, mode: u32) -> io::Result<()> {
-    #[cfg(unix)]
-    {
-        use std::os::unix::fs::PermissionsExt as _;
-        fs::set_permissions(path, fs::Permissions::from_mode(mode))
-    }
-    #[cfg(not(unix))]
-    {
-        let _ = (path, mode);
-        Ok(())
-    }
+    use std::os::unix::fs::PermissionsExt as _;
+    fs::set_permissions(path, fs::Permissions::from_mode(mode))
+}
+
+/// Off Unix a mode sets nothing: the DACL is the control there. A function of its own, since a
+/// body that is only `Ok(())` holds nothing a test could tell from its replacement.
+#[cfg(not(unix))]
+fn restrict(_path: &Path, _mode: u32) -> io::Result<()> {
+    Ok(())
 }
 
 /// Creates `path` and its missing parents one component at a time, each created 0700 and then set
@@ -71,7 +71,7 @@ pub fn outside_profile(dir: &Path, profile: &Path) -> bool {
 }
 
 #[cfg(windows)]
-mod win {
+pub(crate) mod win {
     use std::io;
     use std::os::windows::ffi::OsStrExt as _;
     use std::path::{Path, PathBuf};
@@ -83,13 +83,17 @@ mod win {
         SetNamedSecurityInfoW,
     };
     use windows_sys::Win32::Security::{
-        ACL, DACL_SECURITY_INFORMATION, GetSecurityDescriptorDacl,
-        PROTECTED_DACL_SECURITY_INFORMATION, PSECURITY_DESCRIPTOR, TOKEN_QUERY,
+        ACL, GetSecurityDescriptorDacl, PSECURITY_DESCRIPTOR, TOKEN_QUERY,
     };
     use windows_sys::Win32::System::Threading::{GetCurrentProcess, OpenProcessToken};
     use windows_sys::Win32::UI::Shell::GetUserProfileDirectoryW;
 
     use super::outside_profile;
+
+    /// What `set_dacl` sets: `DACL_SECURITY_INFORMATION` (0x4) and
+    /// `PROTECTED_DACL_SECURITY_INFORMATION` (0x8000_0000), written as one value (the Windows test
+    /// pins it to the names).
+    pub(super) const PROTECTED_DACL: u32 = 0x8000_0004;
 
     fn wide(text: &std::ffi::OsStr) -> Vec<u16> {
         text.encode_wide().chain(Some(0)).collect()
@@ -136,7 +140,13 @@ mod win {
 
     fn protect(dir: &Path) -> io::Result<()> {
         let user = crate::strict::win::user_sid().ok_or_else(io::Error::last_os_error)?;
-        let sddl = wide(std::ffi::OsStr::new(&protected_sddl(&user)));
+        set_dacl(dir, &protected_sddl(&user))
+    }
+
+    /// Sets the DACL `sddl` describes on `path`, protected from inheritance; the owner, group and
+    /// SACL stay as they are. An SDDL that carries no DACL is refused and sets nothing.
+    pub(crate) fn set_dacl(path: &Path, sddl: &str) -> io::Result<()> {
+        let sddl = wide(std::ffi::OsStr::new(sddl));
         let mut sd: PSECURITY_DESCRIPTOR = ptr::null_mut();
         // SAFETY: `sddl` is NUL-terminated; `sd` is LocalAlloc'd by the call and freed below.
         let made = unsafe {
@@ -151,14 +161,14 @@ mod win {
             return Err(io::Error::last_os_error());
         }
         let set = dacl_of(sd).and_then(|dacl| {
-            let name = wide(dir.as_os_str());
+            let name = wide(path.as_os_str());
             // SAFETY: `name` is NUL-terminated; `dacl` points into `sd`, still live; no owner, group
             // or SACL is set.
             let status = unsafe {
                 SetNamedSecurityInfoW(
                     name.as_ptr(),
                     SE_FILE_OBJECT,
-                    DACL_SECURITY_INFORMATION | PROTECTED_DACL_SECURITY_INFORMATION,
+                    PROTECTED_DACL,
                     ptr::null_mut(),
                     ptr::null_mut(),
                     dacl,
@@ -178,12 +188,13 @@ mod win {
         set
     }
 
+    /// The descriptor's DACL. A descriptor that carries none leaves `dacl` as it was set here, null,
+    /// which a NULL DACL reads as too: one test refuses both.
     fn dacl_of(sd: PSECURITY_DESCRIPTOR) -> io::Result<*mut ACL> {
         let (mut present, mut defaulted) = (0, 0);
         let mut dacl: *mut ACL = ptr::null_mut();
         // SAFETY: `sd` is a valid descriptor; the out-pointers are locals.
         if unsafe { GetSecurityDescriptorDacl(sd, &mut present, &mut dacl, &mut defaulted) } == 0
-            || present == 0
             || dacl.is_null()
         {
             return Err(io::Error::from(io::ErrorKind::InvalidData));
@@ -481,19 +492,58 @@ mod tests {
         assert!(at("/c"));
     }
 
-    /// A home outside the profile folder, created under the workspace's `target/e2e-home` the way
-    /// the tests' homes are: its topmost created folder carries exactly the protected user + SYSTEM
-    /// DACL, nothing inherited, and the strict-modes check passes on it and on what it holds.
+    /// A fresh dir under the workspace's `target/e2e-home`, where the tests' homes live: outside
+    /// the profile folder, so a home created in it gets the protected DACL.
     #[cfg(windows)]
-    #[test]
-    fn create_private_dir_outside_the_profile_sets_the_protected_owner_only_dacl() {
+    fn e2e_tempdir() -> tempfile::TempDir {
         let base = Path::new(env!("CARGO_MANIFEST_DIR"))
             .join("..")
             .join("..")
             .join("target")
             .join("e2e-home");
         fs::create_dir_all(&base).expect("e2e-home");
-        let tmp = tempfile::tempdir_in(&base).expect("tempdir");
+        tempfile::tempdir_in(&base).expect("tempdir")
+    }
+
+    #[cfg(windows)]
+    #[test]
+    fn protected_dacl_is_the_named_flags() {
+        use windows_sys::Win32::Security::{
+            DACL_SECURITY_INFORMATION, PROTECTED_DACL_SECURITY_INFORMATION,
+        };
+        assert_eq!(
+            win::PROTECTED_DACL,
+            DACL_SECURITY_INFORMATION | PROTECTED_DACL_SECURITY_INFORMATION
+        );
+    }
+
+    /// An SDDL naming only an owner converts to a descriptor with no DACL: nothing is set and the
+    /// folder keeps the DACL it had. The protected SDDL, which carries one, is set.
+    #[cfg(windows)]
+    #[test]
+    fn set_dacl_refuses_an_sddl_that_carries_no_dacl() {
+        let tmp = e2e_tempdir();
+        let home = tmp.path().join("home");
+        create_private_dir(&home).expect("created");
+        let before = crate::strict::win::allows(&home).expect("a readable DACL");
+        let refused = win::set_dacl(&home, "O:SY").expect_err("no DACL to set");
+        assert_eq!(refused.kind(), io::ErrorKind::InvalidData);
+        assert_eq!(
+            crate::strict::win::allows(&home),
+            Some(before),
+            "the folder's DACL is as it was"
+        );
+        let user = crate::strict::win::user_sid().expect("user sid");
+        win::set_dacl(&home, &win::protected_sddl(&user)).expect("an SDDL that carries a DACL");
+    }
+
+    /// A home outside the profile folder, created under the workspace's `target/e2e-home` the way
+    /// the tests' homes are: its topmost created folder carries exactly the protected user + SYSTEM
+    /// DACL, nothing inherited, and the strict-modes check passes on it and on what it holds.
+    #[cfg(windows)]
+    #[test]
+    fn create_private_dir_outside_the_profile_sets_the_protected_owner_only_dacl() {
+        let tmp = e2e_tempdir();
         let home = tmp.path().join("home");
         create_private_dir(&home.join("ledger")).expect("created");
         let user = crate::strict::win::user_sid().expect("user sid");

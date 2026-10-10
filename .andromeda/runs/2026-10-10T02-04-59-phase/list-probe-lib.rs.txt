@@ -1,0 +1,33 @@
+use std::io;
+use std::path::Path;
+
+#[cfg(unix)]
+pub fn restrict(path: &Path, mode: u32) -> io::Result<()> {
+    use std::os::unix::fs::PermissionsExt as _;
+    std::fs::set_permissions(path, std::fs::Permissions::from_mode(mode))
+}
+
+#[cfg(not(unix))]
+pub fn restrict(_: &Path, _: u32) -> io::Result<()> {
+    Ok(())
+}
+
+pub fn shared(path: &Path, mode: u32) -> io::Result<()> {
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::PermissionsExt as _;
+        std::fs::set_permissions(path, std::fs::Permissions::from_mode(mode))
+    }
+    #[cfg(not(unix))]
+    {
+        let _ = (path, mode);
+        Ok(())
+    }
+}
+
+pub const BOTH: u32 = 0x1 | 0x4;
+pub const LIT: u32 = 0x5;
+
+pub fn persistent(flags: u32) -> bool {
+    flags & 0x8 != 0
+}

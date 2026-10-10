@@ -1,0 +1,256 @@
+[
+{
+"sql": "SELECT callee_name, caller_name, file, line + 1 AS editor_line FROM calls WHERE callee_kind = 'fn' AND ((callee_name IN ('check_stamps','check_path','restrict','persistent_acls','owner_and_dacl','protect','dacl_of','read_stamps_strict','windows_verdict') AND callee_file LIKE '%viola-state/src/%') OR (callee_name IN ('is_console','host_stdin') AND callee_file LIKE '%viola-pty/src/lib.rs') OR (callee_name IN ('mutants_suite','mutate','mutants','prepare','cleanup_one') AND callee_file LIKE '%viola-e2e/src/harness/%')) ORDER BY callee_name, file, line",
+"rows": 41,
+"result": [
+{
+"callee_name": "check_path",
+"caller_name": "check_stamps",
+"file": "crates/viola-state/src/strict.rs",
+"editor_line": 33
+},
+{
+"callee_name": "check_stamps",
+"caller_name": "read_stamps_strict",
+"file": "crates/viola-state/src/stamps.rs",
+"editor_line": 78
+},
+{
+"callee_name": "check_stamps",
+"caller_name": "check_stamps_of_a_home_without_a_ledger_passes",
+"file": "crates/viola-state/src/strict.rs",
+"editor_line": 524
+},
+{
+"callee_name": "check_stamps",
+"caller_name": "check_stamps_of_a_path_that_cannot_be_statted_is_unreadable",
+"file": "crates/viola-state/src/strict.rs",
+"editor_line": 532
+},
+{
+"callee_name": "check_stamps",
+"caller_name": "check_stamps_of_a_home_viola_wrote_passes",
+"file": "crates/viola-state/src/strict.rs",
+"editor_line": 543
+},
+{
+"callee_name": "check_stamps",
+"caller_name": "check_stamps_refuses_a_widened_mode",
+"file": "crates/viola-state/src/strict.rs",
+"editor_line": 566
+},
+{
+"callee_name": "cleanup_one",
+"caller_name": "cleanup",
+"file": "crates/viola-e2e/src/harness/cleanup.rs",
+"editor_line": 45
+},
+{
+"callee_name": "cleanup_one",
+"caller_name": "cleanup_waits_its_deadline_for_a_target_that_outlives_its_kill",
+"file": "crates/viola-e2e/src/harness/cleanup.rs",
+"editor_line": 323
+},
+{
+"callee_name": "host_stdin",
+"caller_name": "report_reads",
+"file": "crates/viola-pty/src/lib.rs",
+"editor_line": 747
+},
+{
+"callee_name": "host_stdin",
+"caller_name": "read_stdin",
+"file": "src/bin/viola-fake-agent.rs",
+"editor_line": 729
+},
+{
+"callee_name": "host_stdin",
+"caller_name": "pump_child",
+"file": "src/cmd/run.rs",
+"editor_line": 507
+},
+{
+"callee_name": "mutants",
+"caller_name": "tool_arms",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"editor_line": 320
+},
+{
+"callee_name": "mutants_suite",
+"caller_name": "run",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"editor_line": 27
+},
+{
+"callee_name": "mutants_suite",
+"caller_name": "mutate",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"editor_line": 264
+},
+{
+"callee_name": "mutants_suite",
+"caller_name": "mutants_suite_counts_missed_and_timeout_as_survivors",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"editor_line": 339
+},
+{
+"callee_name": "mutants_suite",
+"caller_name": "mutants_suite_counts_missed_and_timeout_as_survivors",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"editor_line": 342
+},
+{
+"callee_name": "mutants_suite",
+"caller_name": "mutants_suite_is_red_when_unviable_outnumbers_caught",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"editor_line": 351
+},
+{
+"callee_name": "mutants_suite",
+"caller_name": "mutants_suite_is_red_when_unviable_outnumbers_caught",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"editor_line": 356
+},
+{
+"callee_name": "mutate",
+"caller_name": "mutants",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"editor_line": 146
+},
+{
+"callee_name": "mutate",
+"caller_name": "mutants",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"editor_line": 171
+},
+{
+"callee_name": "prepare",
+"caller_name": "mutate",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"editor_line": 210
+},
+{
+"callee_name": "prepare",
+"caller_name": "prepare_empties_the_scratch_and_reports_what_it_held",
+"file": "crates/viola-e2e/src/harness/run/mutants/scratch.rs",
+"editor_line": 162
+},
+{
+"callee_name": "prepare",
+"caller_name": "prepare_empties_the_scratch_and_reports_what_it_held",
+"file": "crates/viola-e2e/src/harness/run/mutants/scratch.rs",
+"editor_line": 171
+},
+{
+"callee_name": "prepare",
+"caller_name": "prepare_empties_the_scratch_and_reports_what_it_held",
+"file": "crates/viola-e2e/src/harness/run/mutants/scratch.rs",
+"editor_line": 178
+},
+{
+"callee_name": "read_stamps_strict",
+"caller_name": "read_stamps_strict_reads_stamps_viola_wrote_and_an_absent_file",
+"file": "crates/viola-state/src/stamps.rs",
+"editor_line": 235
+},
+{
+"callee_name": "read_stamps_strict",
+"caller_name": "read_stamps_strict_reads_stamps_viola_wrote_and_an_absent_file",
+"file": "crates/viola-state/src/stamps.rs",
+"editor_line": 238
+},
+{
+"callee_name": "read_stamps_strict",
+"caller_name": "read_stamps_strict_refuses_a_world_writable_stamps_file",
+"file": "crates/viola-state/src/stamps.rs",
+"editor_line": 253
+},
+{
+"callee_name": "read_stamps_strict",
+"caller_name": "version_gate",
+"file": "src/run/version_gate.rs",
+"editor_line": 19
+},
+{
+"callee_name": "read_stamps_strict",
+"caller_name": "version_gate",
+"file": "src/run/version_gate.rs",
+"editor_line": 136
+},
+{
+"callee_name": "restrict",
+"caller_name": "create_private_dir",
+"file": "crates/viola-state/src/fs.rs",
+"editor_line": 51
+},
+{
+"callee_name": "restrict",
+"caller_name": "create_private_dir",
+"file": "crates/viola-state/src/fs.rs",
+"editor_line": 59
+},
+{
+"callee_name": "restrict",
+"caller_name": "open_private_append",
+"file": "crates/viola-state/src/fs.rs",
+"editor_line": 210
+},
+{
+"callee_name": "restrict",
+"caller_name": "open_private_lock",
+"file": "crates/viola-state/src/fs.rs",
+"editor_line": 232
+},
+{
+"callee_name": "restrict",
+"caller_name": "replace_private_with",
+"file": "crates/viola-state/src/fs.rs",
+"editor_line": 265
+},
+{
+"callee_name": "windows_verdict",
+"caller_name": "strict",
+"file": "crates/viola-state/src/strict.rs",
+"editor_line": 166
+},
+{
+"callee_name": "windows_verdict",
+"caller_name": "windows_verdict_takes_the_profile_inheritance",
+"file": "crates/viola-state/src/strict.rs",
+"editor_line": 454
+},
+{
+"callee_name": "windows_verdict",
+"caller_name": "windows_verdict_takes_the_profile_inheritance",
+"file": "crates/viola-state/src/strict.rs",
+"editor_line": 456
+},
+{
+"callee_name": "windows_verdict",
+"caller_name": "windows_verdict_refuses_any_write_right_to_another_sid",
+"file": "crates/viola-state/src/strict.rs",
+"editor_line": 475
+},
+{
+"callee_name": "windows_verdict",
+"caller_name": "windows_verdict_refuses_a_foreign_owner_a_null_dacl_and_a_fat_volume",
+"file": "crates/viola-state/src/strict.rs",
+"editor_line": 484
+},
+{
+"callee_name": "windows_verdict",
+"caller_name": "windows_verdict_refuses_a_foreign_owner_a_null_dacl_and_a_fat_volume",
+"file": "crates/viola-state/src/strict.rs",
+"editor_line": 488
+},
+{
+"callee_name": "windows_verdict",
+"caller_name": "windows_verdict_refuses_a_foreign_owner_a_null_dacl_and_a_fat_volume",
+"file": "crates/viola-state/src/strict.rs",
+"editor_line": 492
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

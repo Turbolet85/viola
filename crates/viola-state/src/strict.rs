@@ -76,6 +76,14 @@ pub fn trusted_sid(sid: &str, user: &str) -> bool {
     sid == user || TRUSTED_SIDS.contains(&sid)
 }
 
+/// `FILE_PERSISTENT_ACLS` among a volume's flags.
+const PERSISTENT_ACLS: u32 = 0x8;
+
+/// Whether a volume with these flags keeps ACLs (the flags `GetVolumeInformationW` reads).
+pub fn volume_keeps_acls(flags: u32) -> bool {
+    flags & PERSISTENT_ACLS != 0
+}
+
 /// One DACL entry as the Windows reader sees it: an allow ACE's trustee, access mask (an
 /// inherit-only ACE included, its generic bits unmapped) and `AceFlags` (inheritance).
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -138,22 +146,23 @@ pub(crate) mod win {
         ConvertSidToStringSidW, GetNamedSecurityInfoW, SE_FILE_OBJECT,
     };
     use windows_sys::Win32::Security::{
-        ACCESS_ALLOWED_ACE, ACE_HEADER, ACL, DACL_SECURITY_INFORMATION, GetAce,
-        GetTokenInformation, OWNER_SECURITY_INFORMATION, PSECURITY_DESCRIPTOR, PSID, TOKEN_QUERY,
-        TOKEN_USER, TokenUser,
+        ACCESS_ALLOWED_ACE, ACE_HEADER, ACL, GetAce, GetTokenInformation, PSECURITY_DESCRIPTOR,
+        PSID, TOKEN_QUERY, TOKEN_USER, TokenUser,
     };
     use windows_sys::Win32::Storage::FileSystem::{GetVolumeInformationW, GetVolumePathNameW};
     use windows_sys::Win32::System::Threading::{GetCurrentProcess, OpenProcessToken};
     use windows_sys::core::PWSTR;
 
-    use super::{Allow, Refused, windows_verdict};
+    use super::{Allow, Refused, volume_keeps_acls, windows_verdict};
 
     /// `ACCESS_ALLOWED_ACE_TYPE`: the one ACE type that grants (its windows-sys home,
     /// `Win32_System_SystemServices`, is a feature this workspace does not enable).
     const ACCESS_ALLOWED: u8 = 0;
 
-    /// `FILE_PERSISTENT_ACLS`, from the same module.
-    const PERSISTENT_ACLS: u32 = 0x8;
+    /// What `owner_and_dacl` reads: `OWNER_SECURITY_INFORMATION` (0x1) and
+    /// `DACL_SECURITY_INFORMATION` (0x4), written as one value (the Windows test pins it to the
+    /// names).
+    const OWNER_AND_DACL: u32 = 0x5;
 
     fn wide(path: &Path) -> Vec<u16> {
         path.as_os_str().encode_wide().chain(Some(0)).collect()
@@ -189,7 +198,7 @@ pub(crate) mod win {
                 0,
             )
         };
-        (read != 0).then_some(flags & PERSISTENT_ACLS != 0)
+        (read != 0).then_some(volume_keeps_acls(flags))
     }
 
     /// The owner SID and the allow ACEs (`None` for a NULL DACL).
@@ -204,7 +213,7 @@ pub(crate) mod win {
             GetNamedSecurityInfoW(
                 name.as_ptr(),
                 SE_FILE_OBJECT,
-                OWNER_SECURITY_INFORMATION | DACL_SECURITY_INFORMATION,
+                OWNER_AND_DACL,
                 &mut owner,
                 ptr::null_mut(),
                 &mut dacl,
@@ -329,6 +338,31 @@ pub(crate) mod win {
         }
 
         #[test]
+        fn owner_and_dacl_is_the_named_flags() {
+            use windows_sys::Win32::Security::{
+                DACL_SECURITY_INFORMATION, OWNER_SECURITY_INFORMATION,
+            };
+            assert_eq!(
+                OWNER_AND_DACL,
+                OWNER_SECURITY_INFORMATION | DACL_SECURITY_INFORMATION
+            );
+        }
+
+        /// A drive letter no volume is mounted on: its flags cannot be read, so the reader has no
+        /// answer and the check refuses the path as unreadable rather than assuming ACLs.
+        #[test]
+        fn persistent_acls_of_a_volume_that_cannot_be_read_is_none() {
+            let unmounted = ('D'..='Z')
+                .rev()
+                .map(|letter| format!(r"{letter}:\"))
+                .find(|root| !Path::new(root).exists())
+                .expect("a drive letter with no volume");
+            let path = Path::new(&unmounted).join("viola").join("ledger");
+            assert_eq!(persistent_acls(&path), None, "{unmounted}");
+            assert_eq!(check(&path), Err(Refused::Unreadable), "{unmounted}");
+        }
+
+        #[test]
         fn user_sid_is_a_user_sid() {
             let sid = user_sid().expect("sid");
             assert!(sid.starts_with("S-1-5-"), "{sid}");
@@ -375,6 +409,18 @@ pub(crate) mod win {
         /// (chunk 2026-10-04-dialog-answers-by-dialog-id, ci#37213772796 `test (windows-2025)`).
         #[test]
         fn check_stamps_of_a_home_under_the_workspace_target_passes() {
+            let (_tmp, home) = home_viola_wrote();
+            assert_eq!(
+                super::super::check_stamps(&home),
+                Ok(()),
+                "{}",
+                readings(&home)
+            );
+        }
+
+        /// A home with a ledger and a stamps file viola wrote, under the workspace's
+        /// `target/e2e-home`.
+        fn home_viola_wrote() -> (tempfile::TempDir, std::path::PathBuf) {
             let base = Path::new(env!("CARGO_MANIFEST_DIR"))
                 .join("..")
                 .join("..")
@@ -384,15 +430,84 @@ pub(crate) mod win {
             let tmp = tempfile::tempdir_in(&base).expect("tempdir");
             let home = tmp.path().join("home");
             crate::stamps::update_stamps(&home, |_| b"{}".to_vec()).expect("written");
-            let ledger = crate::stamps::ledger_dir(&home);
-            let got = super::super::check_stamps(&home);
-            assert_eq!(
-                got,
-                Ok(()),
+            (tmp, home)
+        }
+
+        fn readings(home: &Path) -> String {
+            let ledger = crate::stamps::ledger_dir(home);
+            format!(
                 "\n{}\n{}\nhome {}",
                 reading_of("ledger", &ledger),
                 reading_of("stamps", &ledger.join(super::super::STAMPS)),
-                reading_of("home", &home)
+                reading_of("home", home)
+            )
+        }
+
+        /// A protected DACL that keeps the user's and SYSTEM's full access, inherited below it as
+        /// `inherit` says, and lets Everyone write data (`FILE_WRITE_DATA`, 0x2) on this one
+        /// object. The user's access stays whole, so the home is still removable.
+        fn everyone_may_write(inherit: &str) -> String {
+            let user = user_sid().expect("user sid");
+            format!("D:P(A;{inherit};FA;;;{user})(A;{inherit};FA;;;SY)(A;;0x2;;;WD)")
+        }
+
+        /// The ledger folder alone is widened: the check refuses the folder, and so the home.
+        #[test]
+        fn check_stamps_refuses_a_ledger_folder_everyone_may_write() {
+            let (_tmp, home) = home_viola_wrote();
+            let ledger = crate::stamps::ledger_dir(&home);
+            assert_eq!(
+                super::super::check_stamps(&home),
+                Ok(()),
+                "{}",
+                readings(&home)
+            );
+            crate::fs::win::set_dacl(&ledger, &everyone_may_write("OICI")).expect("widened");
+            assert_eq!(
+                super::super::check_path(&ledger),
+                Err(Refused::Writable),
+                "{}",
+                readings(&home)
+            );
+            assert_eq!(
+                super::super::check_stamps(&home),
+                Err(Refused::Writable),
+                "{}",
+                readings(&home)
+            );
+        }
+
+        /// The stamps file alone is widened: its folder still passes, the file is refused, and so
+        /// is the home, whose check goes on from the folder to the file.
+        #[test]
+        fn check_stamps_refuses_a_stamps_file_everyone_may_write() {
+            let (_tmp, home) = home_viola_wrote();
+            let ledger = crate::stamps::ledger_dir(&home);
+            let stamps = ledger.join(super::super::STAMPS);
+            assert_eq!(
+                super::super::check_stamps(&home),
+                Ok(()),
+                "{}",
+                readings(&home)
+            );
+            crate::fs::win::set_dacl(&stamps, &everyone_may_write("")).expect("widened");
+            assert_eq!(
+                super::super::check_path(&ledger),
+                Ok(()),
+                "{}",
+                readings(&home)
+            );
+            assert_eq!(
+                super::super::check_path(&stamps),
+                Err(Refused::Writable),
+                "{}",
+                readings(&home)
+            );
+            assert_eq!(
+                super::super::check_stamps(&home),
+                Err(Refused::Writable),
+                "{}",
+                readings(&home)
             );
         }
     }
@@ -492,6 +607,17 @@ mod tests {
             windows_verdict(USER, USER, Some(&dacl), false),
             Err(Refused::NoPersistentAcls)
         );
+    }
+
+    /// `FILE_PERSISTENT_ACLS` is 0x8, whatever else the volume's flags hold.
+    #[rstest]
+    #[case::the_bit_alone(0x8, true)]
+    #[case::the_bit_among_others(0x00C7_00FF, true)]
+    #[case::other_bits_without_it(0x0002_0206, false)]
+    #[case::every_other_bit(!0x8, false)]
+    #[case::no_bit(0, false)]
+    fn volume_keeps_acls_reads_the_persistent_acls_bit(#[case] flags: u32, #[case] keeps: bool) {
+        assert_eq!(volume_keeps_acls(flags), keeps);
     }
 
     #[test]

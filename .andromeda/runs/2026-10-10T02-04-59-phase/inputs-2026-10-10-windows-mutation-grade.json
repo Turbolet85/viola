@@ -1,0 +1,212 @@
+[
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "d45f2ad1",
+"ts": "2026-10-10T02:06:57Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"./viola-0.1.0/chunks/2026-10-10-windows-mutation-grade",
+"--message-file",
+"./.andromeda/runs/2026-10-10T02-04-59-phase/relay-1.md",
+"--origin",
+"the operator, the /andromeda-phase invocation, 2026-10-10",
+"--kind",
+"relay",
+"--why",
+"take-up direction: zero live claude sessions, the Windows runner as the proof loop with its dispatches counted, no split and no boundary widening tonight, technical forks to the operator",
+"--step",
+"phase:P1",
+"--run-dir",
+"./.andromeda/runs/2026-10-10T02-04-59-phase",
+"--marker",
+"2026-10-10-windows-mutation-grade"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-10",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, the /andromeda-phase invocation, 2026-10-10",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "c31a3c23c4c8b45c8423ee4b91010427660626eee748d5df87809ac0492af29f",
+"copy": "I1-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-10T02:06:57Z",
+"step": "phase:P1",
+"why": "take-up direction: zero live claude sessions, the Windows runner as the proof loop with its dispatches counted, no split and no boundary widening tonight, technical forks to the operator"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "d45f2ad1",
+"ts": "2026-10-10T02:28:16Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"./viola-0.1.0/chunks/2026-10-10-windows-mutation-grade",
+"--message-file",
+"./.andromeda/runs/2026-10-10T02-04-59-phase/relay-2.md",
+"--origin",
+"the operator, the P4 fork dialog, 2026-10-10",
+"--kind",
+"relay",
+"--why",
+"three forks settled: the viola job split per file, restrict as two cfg-gated functions with the testing.md line amended at the wrap as a named exception, the retired syn reader revived",
+"--step",
+"phase:P4",
+"--run-dir",
+"./.andromeda/runs/2026-10-10T02-04-59-phase",
+"--marker",
+"2026-10-10-windows-mutation-grade"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: the operator, the P4 fork dialog, 2026-10-10",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, the P4 fork dialog, 2026-10-10",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "b2f6e4cd3308690537dc9a1ceaa209d9474e31a3e464fcccba8515c3ebe5b287",
+"copy": "I2-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-10T02:28:16Z",
+"step": "phase:P4",
+"why": "three forks settled: the viola job split per file, restrict as two cfg-gated functions with the testing.md line amended at the wrap as a named exception, the retired syn reader revived"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "d45f2ad1",
+"ts": "2026-10-10T02:38:35Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"./viola-0.1.0/chunks/2026-10-10-windows-mutation-grade",
+"--message-file",
+"./.andromeda/runs/2026-10-10T02-04-59-phase/relay-3.md",
+"--origin",
+"the operator, the P5 review, 2026-10-10",
+"--kind",
+"relay",
+"--why",
+"two directions: no test kills a process it does not own, so the kill-deadline mutant is separated by an own process or restated by a named rule or recorded not closed; founder ruling C2 stands, so the plan stops before any dispatch and amends no master sentence about it",
+"--step",
+"phase:P5",
+"--run-dir",
+"./.andromeda/runs/2026-10-10T02-04-59-phase",
+"--marker",
+"2026-10-10-windows-mutation-grade"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: the operator, the P5 review, 2026-10-10",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-3.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, the P5 review, 2026-10-10",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "94fc2a54eeb92417fb894c158042439baa1cd818b422f91a13be648df7193528",
+"copy": "I3-relay-3.md.txt",
+"link": false,
+"read_at": "2026-10-10T02:38:35Z",
+"step": "phase:P5",
+"why": "two directions: no test kills a process it does not own, so the kill-deadline mutant is separated by an own process or restated by a named rule or recorded not closed; founder ruling C2 stands, so the plan stops before any dispatch and amends no master sentence about it"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "d45f2ad1",
+"ts": "2026-10-10T02:41:16Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-windows-mutation-grade",
+"--run-dir",
+".andromeda/runs/2026-10-10T02-04-59-phase",
+"--marker",
+"2026-10-10-windows-mutation-grade"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-10",
+"I1 cited scope.md:9 · scope.md:185 · scope.md:186 · research.md:14 · plan.md:31 · plan.md:166 · plan.md:425 · plan.md:447",
+"I2 n/a — a message has no live source · copy message · message: the operator, the P4 fork dialog, 2026-10-10",
+"I2 cited scope.md:18 · research.md:16 · research.md:195 · plan.md:26 · plan.md:28 · plan.md:55 · plan.md:425 · plan.md:448 · plan.md:449 · plan.md:498",
+"I3 n/a — a message has no live source · copy message · message: the operator, the P5 review, 2026-10-10",
+"I3 cited scope.md:26 · scope.md:151 · scope.md:172 · scope.md:174 · scope.md:215 · research.md:16 · research.md:132 · plan.md:9 · plan.md:14 · plan.md:75 · plan.md:171 · plan.md:250 (in fence) · plan.md:353 (in fence) · plan.md:391 · plan.md:396 · plan.md:425 · plan.md:438 · plan.md:440 · plan.md:488 · plan.md:503",
+"inputs: 3 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]

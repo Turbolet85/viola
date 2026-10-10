@@ -103,7 +103,7 @@ fn cleanup_one(ws: &Workspace, id: &str, record: &SessionRecord, keep_homes: boo
             killed.push(name.clone());
         }
     }
-    let deadline = Instant::now() + KILL_DEADLINE;
+    let deadline = kill_deadline(Instant::now());
     let processes_gone = targets.iter().all(|(_, id)| id.wait_gone(deadline));
     let endpoint_gone = record.instances.iter().all(|inst| {
         let recorded = snapshot_endpoint(&instance_dir(&record.home, &inst.name));
@@ -123,6 +123,11 @@ fn cleanup_one(ws: &Workspace, id: &str, record: &SessionRecord, keep_homes: boo
         home_removed,
         killed,
     }
+}
+
+/// Until when a target killed at `now` is waited on before it reads as not gone.
+fn kill_deadline(now: Instant) -> Instant {
+    now + KILL_DEADLINE
 }
 
 /// The endpoint is gone for a client (test-plan §3 `cleanup` step 4): on Windows a viola-client
@@ -325,6 +330,15 @@ mod tests {
         assert!(!report.processes_gone);
         assert!(waited >= KILL_DEADLINE, "gave up after {waited:?}");
         assert!(init.alive());
+    }
+
+    #[test]
+    fn kill_deadline_lies_five_seconds_after_the_instant_it_is_given() {
+        let now = Instant::now();
+        assert_eq!(
+            kill_deadline(now).checked_duration_since(now),
+            Some(Duration::from_secs(5))
+        );
     }
 
     #[test]

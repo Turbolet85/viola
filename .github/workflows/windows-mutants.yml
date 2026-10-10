@@ -12,7 +12,7 @@ permissions: {}
 
 jobs:
   mutants:
-    name: mutants (${{ matrix.package }})
+    name: mutants (${{ matrix.label }})
     runs-on: windows-2025
     permissions:
       contents: read
@@ -22,16 +22,31 @@ jobs:
       matrix:
         include:
           - package: viola-pty
+            label: viola-pty
             files: crates/viola-pty/src/lib.rs crates/viola-pty/src/sideload.rs
           - package: viola-channel
+            label: viola-channel
             files: crates/viola-channel/src/client.rs crates/viola-channel/src/endpoint.rs crates/viola-channel/src/server.rs crates/viola-channel/src/server/win.rs crates/viola-channel/src/test_support.rs
           - package: viola-state
+            label: viola-state
             files: crates/viola-state/src/pin.rs crates/viola-state/src/fs.rs crates/viola-state/src/strict.rs
           - package: viola-agent-claude
+            label: viola-agent-claude
             files: crates/viola-agent-claude/src/lib.rs
           - package: viola
-            files: src/cmd/run.rs src/run/env.rs src/panic_frames.rs src/main.rs src/conpty.rs
+            label: viola-cmd-run
+            files: src/cmd/run.rs
+          - package: viola
+            label: viola-main
+            files: src/main.rs src/conpty.rs
+          - package: viola
+            label: viola-run-env
+            files: src/run/env.rs
+          - package: viola
+            label: viola-panic-frames
+            files: src/panic_frames.rs
           - package: viola-e2e
+            label: viola-e2e
             files: crates/viola-e2e/src/harness/run/mutants/scratch.rs crates/viola-e2e/src/harness/cleanup.rs crates/viola-e2e/src/harness/run/browser.rs
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
