@@ -1,0 +1,250 @@
+[
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T19:55:53Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-statusline-pass-through",
+"--run-dir",
+".andromeda/runs/2026-10-10T19-55-42-wrap",
+"--marker",
+"2026-10-10-statusline-pass-through"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-10",
+"I1 cited scope.md:10 · scope.md:102 · scope.md:132 · scope.md:190 · scope.md:240 · research.md:28 · plan.md:23 · plan.md:46 · plan.md:272 · plan.md:338 · plan.md:340 · plan.md:588 · plan.md:604",
+"I2 unchanged · copy no-repo · ~/.claude/projects/~-dev-projects-viola/memory/founder-rulings-stand-until-his-word.md",
+"I2 cited scope.md:21 · research.md:30 · plan.md:23 · plan.md:35",
+"I3 n/a — a message has no live source · copy message · message: the operator, the answers to the P4 fork round, 2026-10-10",
+"I3 cited scope.md:80 · scope.md:212 · research.md:31 · plan.md:23 · plan.md:27 · plan.md:36 · plan.md:47 · plan.md:116 · plan.md:554 · plan.md:563 · plan.md:606",
+"I4 n/a — a message has no live source · copy message · message: the operator, the /andromeda-implement invocation, 2026-10-10: the founder words relayed verbatim from the overseer dialogs read 17:31:33Z and 18:46:32Z",
+"I4 UNCITED",
+"inputs: 4 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 4,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 1,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T19:59:01Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-statusline-pass-through",
+"--run-dir",
+".andromeda/runs/2026-10-10T19-55-42-wrap",
+"--marker",
+"2026-10-10-statusline-pass-through"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-10",
+"I1 cited scope.md:10 · scope.md:102 · scope.md:132 · scope.md:190 · scope.md:240 · research.md:28 · plan.md:23 · plan.md:46 · plan.md:272 · plan.md:338 · plan.md:340 · plan.md:588 · plan.md:604",
+"I2 unchanged · copy no-repo · ~/.claude/projects/~-dev-projects-viola/memory/founder-rulings-stand-until-his-word.md",
+"I2 cited scope.md:21 · research.md:30 · plan.md:23 · plan.md:35",
+"I3 n/a — a message has no live source · copy message · message: the operator, the answers to the P4 fork round, 2026-10-10",
+"I3 cited scope.md:80 · scope.md:212 · research.md:31 · plan.md:23 · plan.md:27 · plan.md:36 · plan.md:47 · plan.md:116 · plan.md:554 · plan.md:563 · plan.md:606",
+"I4 n/a — a message has no live source · copy message · message: the operator, the /andromeda-implement invocation, 2026-10-10: the founder words relayed verbatim from the overseer dialogs read 17:31:33Z and 18:46:32Z",
+"I4 cited report.md:101 · report.md:142 · report.md:148 · report.md:210",
+"inputs: 4 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 4,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T20:03:08Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-statusline-pass-through",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-statusline-directions.md",
+"--kind",
+"relay",
+"--why",
+"the operator directions for this wrap, six numbered items: one card for the answered widenings, the founder ratification of the revive session id, the revive check-order CARRY on Budget governor, the --settings sentence, the rows owed, the rest to first consumers",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-10T19-55-42-wrap",
+"--marker",
+"2026-10-10-statusline-pass-through"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I5 · copy no-repo · ../additional/viola-overseer/wrap-statusline-directions.md",
+"cite: inputs#I5"
+],
+"stderr": null,
+"wrote": [
+"inputs/I5-wrap-statusline-directions.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I5",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-statusline-directions.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "fd2de679b12c5c47392e4a3cd8d81a01bd608d2358d4a5a88c8b97f83b957f65",
+"copy": "I5-wrap-statusline-directions.md.txt",
+"link": false,
+"read_at": "2026-10-10T20:03:08Z",
+"step": "wrap",
+"why": "the operator directions for this wrap, six numbered items: one card for the answered widenings, the founder ratification of the revive session id, the revive check-order CARRY on Budget governor, the --settings sentence, the rows owed, the rest to first consumers"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T20:03:14Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-statusline-pass-through",
+"--run-dir",
+".andromeda/runs/2026-10-10T19-55-42-wrap",
+"--marker",
+"2026-10-10-statusline-pass-through"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-10",
+"I1 cited scope.md:10 · scope.md:102 · scope.md:132 · scope.md:190 · scope.md:240 · research.md:28 · plan.md:23 · plan.md:46 · plan.md:272 · plan.md:338 · plan.md:340 · plan.md:588 · plan.md:604",
+"I2 unchanged · copy no-repo · ~/.claude/projects/~-dev-projects-viola/memory/founder-rulings-stand-until-his-word.md",
+"I2 cited scope.md:21 · research.md:30 · plan.md:23 · plan.md:35",
+"I3 n/a — a message has no live source · copy message · message: the operator, the answers to the P4 fork round, 2026-10-10",
+"I3 cited scope.md:80 · scope.md:212 · research.md:31 · plan.md:23 · plan.md:27 · plan.md:36 · plan.md:47 · plan.md:116 · plan.md:554 · plan.md:563 · plan.md:606",
+"I4 n/a — a message has no live source · copy message · message: the operator, the /andromeda-implement invocation, 2026-10-10: the founder words relayed verbatim from the overseer dialogs read 17:31:33Z and 18:46:32Z",
+"I4 cited report.md:101 · report.md:142 · report.md:148 · report.md:210",
+"I5 unchanged · copy no-repo · ../additional/viola-overseer/wrap-statusline-directions.md",
+"I5 UNCITED",
+"inputs: 5 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 5,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 1,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T20:17:03Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-statusline-pass-through",
+"--message-file",
+".andromeda/runs/2026-10-10T19-55-42-wrap/relay-1.md",
+"--origin",
+"the operator, the answers at the wrap Phase 2 halt, 2026-10-10",
+"--kind",
+"relay",
+"--why",
+"the operator confirm of the one card (W1, W2, W3, the revive session id) with the playbook rule, and three route and obs answers",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-10T19-55-42-wrap",
+"--marker",
+"2026-10-10-statusline-pass-through"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I6 · copy message · message: the operator, the answers at the wrap Phase 2 halt, 2026-10-10",
+"cite: inputs#I6"
+],
+"stderr": null,
+"wrote": [
+"inputs/I6-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I6",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, the answers at the wrap Phase 2 halt, 2026-10-10",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "50370431e9809b99674f0d21cb67ee808820f1d60ad619b4c6f85435ec5761d7",
+"copy": "I6-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-10T20:17:03Z",
+"step": "wrap",
+"why": "the operator confirm of the one card (W1, W2, W3, the revive session id) with the playbook rule, and three route and obs answers"
+}
+}
+]

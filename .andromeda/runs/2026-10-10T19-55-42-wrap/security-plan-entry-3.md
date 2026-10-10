@@ -1,0 +1,10 @@
+
+## 2026-10-10-statusline-pass-through — revive: the session id ratified, its arguments, its log before its check, the fifth snapshot reader
+**Section:** §Input Validation (Session id as a child argv value; Own state files on read) · §Threat Model Summary (Attack surface: Child process spawning and PATH resolution) · §Authentication & Authorization (`~/.viola/` access control: the entry-point list)
+**Change:**
+- Session id row: "**Not ratified** … his word is owed, and no ratification is recorded here" is now "**Ratified**": the logged session id as the value of `--resume` on a revived child's command line is a crossing the founder ratified (was recorded and not ratified, per "2026-10-10-viola-revive — the revived child: the recorded cwd ratified, the session id on its argv recorded and not ratified"; that entry's cwd half stands). The Threat Model's revive bullet says the same (was "the founder's word on it as a crossing is owed").
+- The revive bullet's child arguments: `--plugin-dir <dir>`, then `--settings <instance dir>/settings.json` when the start wrote an override, then `--resume <id>`, `--fork-session`, the words after `--` (was no `--settings`).
+- Entry-point list, `revive`: its start arm opens the wrapper log before the instance check, and opening a log sets an existing home to 0700, so there the check cannot refuse a home for a group- or other-writable mode. Written as read in source, not measured on `revive`.
+- Own state files row: five other snapshot readers still call `read_snapshot` (was four): `src/cmd/hook/statusline.rs` joins. The rule: `read_snapshot(` under `src/`, outside test modules.
+**Why:** the founder ratified the session id live on 2026-10-10, shown to him as a crossing with two options (ratify it, or allow only an id the human types), relayed verbatim by the overseer; the operator confirmed the card at this wrap, 2026-10-10. `revive` starts through `run`'s `start`, which writes the override, so its child takes the flag too. The log-before-check order is owed to the working-route entry "Budget governor" (the operator's direction at this wrap).
+**Ref:** .andromeda/runs/2026-10-10T19-55-42-wrap/

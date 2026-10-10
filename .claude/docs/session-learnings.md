@@ -8,6 +8,11 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-10-10 — An acceptance sentence of the form "X nowhere else in product code" is checked over the tree
+A plan's acceptance criterion that says a literal or a definition lives in one place "and nowhere else in product code" is a claim about the whole tree. A chunk's diff can add no second site and the sentence can still be false, because a site that predates the chunk, or one under the plan's own preservation guard, already holds it. Assert such a sentence with a search over the product tree when the plan is written and again when the report is authored. When a site the chunk may not touch already holds the literal, write the criterion as what the chunk adds ("this chunk adds no second product site") and carry the old site to its owner on the route.
+
+---
+
 ## 2026-10-08 — A master names a planted literal by its home, never as `path:N`
 A probe script may plant a real path and line as a synthetic case (the G2 probe plants a panic at a line of a real source file). Written into a spec master as `path:N`, that literal has the shape of a citation of the tree: the wrap's citation sweep follows it as the code moves and would re-point it, so the master would then misstate what the probe plants. The operator ruled at the first sweep: such a case is named by the script that holds it ("a panic located in another file, at the line the script plants"), and the ground truth stays in the script. The same holds for any literal a test or probe plants: cite its home, not a line of the tree.
 

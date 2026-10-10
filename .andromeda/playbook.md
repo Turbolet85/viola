@@ -57,6 +57,10 @@ becomes a new rule here. Format owned by /andromeda-wrap-session (`references/am
   verdict: routine
   note: first read the sidecar entry that wrote the count, so the rule it was taken by is known and not guessed. Then amend EVERY site that holds the count, in one apply, to the new count with its rule named beside it (the pattern or the named list that produces it). Never move the number alone, and never amend one site of several. A count whose rule cannot be recovered is not routine: escalate it. Tier 1 already says a count written into a master carries its rule; this rule is the amendment side of it. Proposed at the 2026-10-09-epoch-3-cleanup-ii wrap (its `fanout-results.md`, T4 and O1: "the 9 root waits" was a named list no wrap had re-taken). Appended 2026-10-10 by the 2026-10-10-windows-mutation-grade wrap, on the operator's word (`inputs#I6`).
 
+- pattern: Boundary widening the founder already answered — a proposal, sweep hit or wrap step records a widening of the "Boundary widening" class whose founder answer is on disk from before the wrap (given at planning or at implement, after that widening was shown to him).
+  verdict: escalate
+  note: the founder's ruling of 2026-10-10, relayed through the main overseer. The wrap halts all the same. It shows ONE card that cites his recorded word for each widening and lists the proposals each covers, and takes one confirm. It never resolves them with no halt and never re-argues them. The confirm is the operator's check that each cited word matches what the founder said; the ratification stays the founder's recorded word, written in the owning sidecar as his with the relay named (the "what ratifies it" rule above). Appended 2026-10-10 by the 2026-10-10-statusline-pass-through wrap, on the operator's word (that chunk's `inputs#I5` item 1 and `inputs#I6`).
+
 _(more grow from escalations + resolved cases — the first five above were harvested from live projects that
 derived them separately, the sixth is the never-routine class; anything genuinely project-specific still starts
 here empty.)_

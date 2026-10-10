@@ -19,7 +19,7 @@ _Extracted from `.andromeda/architecture.md` §Conventions by `/andromeda-setup-
 - Endpoint name: `viola-<h12>`, the first 12 hex chars of FNV-1a 64 over `ViolaName` + `\0` + absolute viola home — hand-written in `viola-channel` (never `DefaultHasher`, not stable across Rust releases); recorded in the snapshot.
 - Timestamps: `ts` on every event/frame, `*_at` for other instants; RFC 3339 UTC with ms and `Z` (`to_rfc3339_opts(SecondsFormat::Millis, true)`).
 - Optional fields: `Option<T>` + `#[serde(default, skip_serializing_if = "Option::is_none")]`; missing and `null` read the same.
-- Unparseable external values become `"unknown"`, never an error. Percentages are the `Percent` newtype (0–100, JSON number).
+- Unparseable external values become `"unknown"`, never an error. Percentages are the `Percent` newtype (0–100, JSON number); an external budget reading's `used_percentage` is a `Reading<f64>` instead, kept from 0 to 100 and otherwise `"unknown"`.
 - ndjson: one complete object + `\n` per single `write`; multi-line text as an escaped string.
 
 ## Wire formats

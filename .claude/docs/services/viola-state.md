@@ -27,7 +27,7 @@ Tokio banned in its graph; tailing and liveness are sync (shared by `list`, `mcp
 - `events.ndjson` is never truncated or rotated (offsets are cursors); instance dirs are reused and appended to.
 - Readers: over-long lines (> `MAX_FRAME`) count as `torn_lines`; unknown kinds/fields are counted in `skipped`; a reader never writes (the next append heals a torn last line). A snapshot with an unsupported `v` or a parse failure → replay (`state-recovered`) through `replay::read_snapshot_or_replay`, which no reader calls yet; the replay writes no file and replays `links` empty until the link kinds land.
 - Tailing only `instances/<name>/events.ndjson` where `<name>` passes `ViolaName::try_new`; symlinks ignored (`parse-rejected{parser:"state-entry", detail:"symlink-ignored"}`).
-- Only the instance's wrapper writes its snapshot; only `viola verify` writes stamps; only `hook statusline` writes `budget.json` (under its lock, last-writer-wins).
+- Only the instance's wrapper writes its snapshot; only `viola verify` writes stamps; only `hook statusline` writes `budget.json` (under its lock, last-writer-wins): `budget::write_budget` replaces it whole through `replace_private` at 0600 as `{"v":1,"five_hour","seven_day","read_at"}`, and only when the payload held a `rate_limits` object. The snapshot holds an optional `statusline_command`; `SnapshotRead::Present` and `replay::Recovered::Snapshot` hold a `Box<InstanceSnapshot>`.
 
 ## Crate-specific gotchas
 - Append + exclusive lock on the same file fails on Windows — lock the sibling.

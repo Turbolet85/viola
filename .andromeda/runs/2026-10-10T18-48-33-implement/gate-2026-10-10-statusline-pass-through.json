@@ -2622,5 +2622,54 @@
 }
 ]
 }
+},
+{
+"tool": "gate",
+"v": "1.14",
+"sha8": "e8e4a72c",
+"ts": "2026-10-10T19:54:23Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-statusline-pass-through",
+"--run-dir",
+".andromeda/runs/2026-10-10T18-48-33-implement",
+"--marker",
+"2026-10-10-statusline-pass-through"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base 4d77eacd (the parent of the oldest pre-CI commit 58f87207) · lists new 7 · modify 28 · derived 0 · record 1",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"recorded mechanical fuzz/Cargo.lock",
+"scope: clean — changed 36 · listed 35 · recorded 1 (companion 0 · mechanical 1 · in-intent 0 · widening 0) · absorbed 0 · excluded 67"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "4d77eacd14d645a5e2c59de47840017803fcb13c",
+"base_why": "the parent of the oldest pre-CI commit 58f87207",
+"counts": {
+"changed": 36,
+"listed": 35,
+"recorded": 1,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 1,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 67,
+"unparsed": 0,
+"widening_without_word": 0
+}
 }
 ]

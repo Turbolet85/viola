@@ -27,7 +27,7 @@ _The workspace, `rust-toolchain.toml`, `.config/nextest.toml`, `viola-harness` a
 - Stamps file: `ledger/stamps.json` in the Ledger stamps envelope `{"v":1,"written_at","writer":"verify","data":{"versions":{"<ver>":{"verified_at","rows":{…},"measured":{…}}}}}` (arch §Standard Contracts); a version is verified only when every row reads `pass`
 
 ## Harness (the agent's 5 commands — `scripts/agent-run.sh` / `scripts/agent-run.ps1`)
-- `boot [--session <id>] [--instance <name>[:<args>]]... [--ui] [--unstamped] [--cli-version <ver>] [--agents-mode recorded|oversize|malformed] [--statusline-echo]` — build, create a home, stamp via `viola verify` against the fake agent, start wrappers (+ UI), wait for readiness
+- `boot [--session <id>] [--instance <name>[:<args>]]... [--ui] [--unstamped] [--cli-version <ver>] [--agents-mode recorded|oversize|malformed] [--statusline-echo]` — build, create a home, stamp via `viola verify` against the fake agent, start wrappers (+ UI), wait for readiness (`--statusline-echo` is not built; it is owed to the route entry "Budget governor")
 - `run [--unit|--integration|--e2e|--browser|--mutants|--coverage|--perf|--fuzz-replay|--all] [--filter <nextest-filterset>] [--file <path>]... [--package <member>] [--local-live]` — invoke suites; one JSON summary. No selector or `--all` runs unit + integration; `--mutants` runs only when named (the epoch-boundary audit's arm)
 - `status [--session <id>]` — `viola list --json` + `/ready` + `/api/sessions`, with `api_sessions_equal_list`
 - `cleanup [--session <id>|--all]` — graceful stop, endpoint/port/url-file checks, home removal (idempotent)

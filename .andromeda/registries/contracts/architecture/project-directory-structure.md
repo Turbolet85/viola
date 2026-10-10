@@ -22,6 +22,7 @@ viola/
 │   ├── cmd/                    # one module per subcommand: run, revive, send, wait, last, list,
 │   │                           #   answer, hook, mcp, ui, verify, pause, release, link, unlink, plugin;
 │   │                           #   revive.rs: the four-reading preflight and the `--list` rows; its child shapes come from `viola-agent-claude`;
+│   │                           #   hook/statusline.rs: the `hook statusline` arm (the instance check, the `budget.json` write, the bounded shell-out);
 │   │                           #   client.rs (a helper, no subcommand): the channel client send / wait / last share;
 │   │                           #   verify/typed.rs: verify's four interactive PTY runs (Run A untrusted, Run B trusted, Run C dialogs, Run D plan),
 │   │                           #   the settle rule, Run B's wait for the input box after an added turn, and the signature-only screen recording
@@ -39,7 +40,7 @@ viola/
 ├── schemas/                    # JSON schemas: fake-script.v1.json, claude-fixture.v1.json and claude-screen.v1.json (test-side), diag-line/diag-detail.v1.json (obs line contracts)
 ├── crates/
 │   ├── viola-core/             # normalised events, RefusalReason + NotDelivered, HumanTyping, WheelCause, validate_paste_text, ViolaName, Percent, `v` constants,
-│   │                           #   SPINE_DEADLINE, Clock / SystemClock
+│   │                           #   SPINE_DEADLINE, Clock / SystemClock, the budget reading (`Reading`, `BudgetWindow`, `BudgetReading`)
 │   │                           #   (+ proptest-regressions/, committed seeds)
 │   ├── viola-pty/              # pty seam over portable-pty =0.8.1 (+ windows-sys kill fallback; HostTerminal raw mode: windows-sys Console / libc termios;
 │   │                           #   PasteHandle: the child's input writer shared by the human copy and the one-write bracketed paste;
@@ -49,10 +50,12 @@ viola/
 │   ├── viola-state/            # ndjson logs (the append heals a torn last line), atomic snapshots, File::lock, the events
 │   │                           #   reader (`events::read_from`: counts unknown kinds, unknown fields and torn lines), the
 │   │                           #   classified snapshot read, the log replay and the session chain (`replay.rs`; read by `viola revive`),
-│   │                           #   the instance strict-modes check (`strict::check_instance`), tailing (with `ui`)
+│   │                           #   the instance strict-modes check (`strict::check_instance`), the budget reading's write
+│   │                           #   (`budget.rs`: `write_budget`), tailing (with `ui`)
 │   │                           #   (+ tests/, the crate-level suite: `state_events.rs`, `state_replay.rs`)
 │   ├── viola-agent-claude/     # hook parsing, dialog mapping, R8 strip, shim resolution,
-│   │                           #   capability ledger, the vt100 screen model (`screen`), statusline parsing
+│   │                           #   capability ledger, the vt100 screen model (`screen`), the pure `statusline` module
+│   │                           #   (the payload reading, the settings reader, the override document, the shell argv)
 │   │                           #   (+ proptest-regressions/, committed seeds; src/snapshots/, the insta
 │   │                           #   snapshots of the dialog decision bodies)
 │   ├── viola-mcp/              # rmcp 3.4.1 stdio server, thin adapter over viola-channel

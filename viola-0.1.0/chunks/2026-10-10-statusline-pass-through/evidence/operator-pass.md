@@ -215,3 +215,76 @@ Read before the fix commit:
 
   Entry 5 read 107 of 107. The eleven `binary(hook_statusline)` cases passed here; the five that start from a
   stamped home took 3.7 s each.
+- Hygiene before the fix commit, 19:42:06Z: `hygiene: clean — read 2 (runs 1 · evidence 1 · inputs 0) · trails 1
+  not read · copies 0 not read by P1 — 0 host paths kept · binary 0 not read by P1` (base HEAD, the pre-CI
+  commit: the gate trail and this file).
+- This bullet and everything below it was written after the fix commit; it rides the next commit.
+
+## The fix commit and its push, 19:42:15Z to 19:42:17Z
+
+- `67ab367` `fix(2026-10-10-statusline-pass-through): operator fix after CI run 38080061631, the every-OS
+  hook_statusline cases start from a stamped home and two unix-only helpers are cfg(unix)` at 19:42:15Z: three
+  files, `tests/hook_statusline.rs`, the gate trail and this record. `git status --short` read empty after it.
+- Entry 16 again, through the gate tool with no run dir, 19:42:15Z to 19:42:17Z:
+
+  ```
+  operator entry 16 · history tripwire: git
+   16 probe       green · exit 0 · 1.51s · 90 B → 16.log · history moved: refs/remotes/origin/HEAD 58f87207→67ab3677; refs/remotes/origin/build/viola-0.1.0 58f87207→67ab3677 · git diff --quiet && git diff --cached --quiet && git push … (69 chars)
+  entries 17 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 16
+  ```
+
+  A fast-forward from `58f87207` to `67ab3677`. No local branch, tag or stash moved. No force push. After it: 0
+  ahead of the upstream; the remote branch head read live at `67ab3677cacf`.
+
+## Step 5 again — entry 17, the CI read on the final sha (fired as written), 19:42:22Z to 19:52:42Z: green
+
+- `python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait
+  1800` → exit 0: `67ab3677cacf verdict: green · checks 15/15 · wall 616 s · runs ci#38080855246
+  completed/success`, polled 21 times over 620 s. Atoms: `exit 0` ✓, `contains verdict: green` ✓.
+- `run_attempt`, read from the run itself (`gh api …/actions/runs/38080855246`): **1**. Event `push`, head
+  `67ab3677cacf`, started 19:42:19Z, last updated 19:52:39Z, conclusion `success`. It is the only run on the sha
+  (`gh run list --commit`, by the full sha). The sha is green on its first attempt.
+- Its fifteen jobs, each `success`: `lint`, `test`, `release` and `perf` on `windows-2025`, `macos-latest` and
+  `ubuntu-latest`; `supply-chain`, `msrv`, `fuzz-replay`.
+- The three `test` jobs' own summaries, read from their logs (`gh api …/jobs/<id>/logs
+  --allow-escape-sequences`, escapes stripped): `windows-2025` 2169 tests run, 2169 passed; `macos-latest` 2159
+  run, 2159 passed; `ubuntu-latest` 2163 run, 2163 passed; none skipped, and no `FAIL`, `TIMEOUT`, `LEAK`,
+  `SIGKILL` or `ABORT` status line in any of the three. Before this chunk they read 2023, 1998 and 2002
+  (`0fad11c`): 146 more on Windows, 161 more on each Unix runner. The five tests each runner marks slow are the
+  standing `_window_` ones; none is this chunk's.
+- This chunk's cases, counted as `PASS` lines in each of the three logs:
+
+  | cases | `windows-2025` | `macos-latest` | `ubuntu-latest` |
+  |---|---|---|---|
+  | `viola::hook_statusline` | 7 | 11 | 11 |
+  | `viola::cli_instance_state`, the five new cases | 4 | 5 | 5 |
+  | `viola::tui_passthrough`, the statusline-bearing start | 1 | 1 | 1 |
+  | `viola::cli_fake_agent`, the two option cases and the mode case | 3 | 3 | 3 |
+  | `viola-state::state_replay` | 5 | 5 | 5 |
+  | inline cases carrying one of the unit filter's five tokens | 130 | 140 | 140 |
+
+  The four `hook_statusline` cases Windows lacks are the `cfg(unix)` ones (the pass-through, the payload with
+  no `rate_limits`, the failing command, the group-writable home); the `cli_instance_state` case it lacks is
+  the end-to-end `path6_…`; the ten token lines it lacks are `cfg(unix)` unit cases (the arm's shell-out and
+  link cases, the budget file's modes).
+- **The three cases that were red on `windows-2025` passed there**, each from a stamped home, in 4.1 to 4.3 s,
+  under the binary's 20 s kill. With them the arm's whole course is read on Windows: a reading written to
+  `budget.json` with a command recorded and none run, both rejections with their `parse-rejected` line, and a
+  process log holding neither the command nor the payload.
+- In each `test` job the steps `G2 zero panics`, `G4 schema conformance`, `Secret scan` and `Gate verdict`
+  concluded `success`: `g2: clean` on all three; the G4 documents read `windows-2025` 292 files, 2637 lines,
+  `macos-latest` and `ubuntu-latest` 300 files, 2730 lines each, 0 torn and no failure on any. CI keeps its
+  test homes, so these are the reads over the lines the new cases wrote. Whether each kept home was among the
+  files a step read was not read: no job's artifact was opened.
+
+## After the pass
+
+- One fix commit was made: `67ab367` is the final sha of the pass, local and remote. `58f8720` read red and is
+  not the sha the verdict stands on.
+- Entry 16 was fired twice (the pre-CI commit, the fix commit) and entry 17 twice (red, then green). Entry 15
+  was fired once as written and re-read before each commit.
+- The tree after the pass carries, for the next commit: this record's sections written after the fix commit
+  and the friction ledger's lines. No source file is among them.
+- Not measured in the pass: the DACL of a fixture-booted home on `windows-2025` (the cause above is read from
+  the fixture's source and from which cases passed, not from the ACL); any mutation score of the new code (no
+  mutation run is part of a chunk, `inputs#I1`).

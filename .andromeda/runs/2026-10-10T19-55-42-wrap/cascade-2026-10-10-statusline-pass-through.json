@@ -1,0 +1,677 @@
+[
+{
+"tool": "cascade",
+"v": "1.2",
+"sha8": "fe426974",
+"ts": "2026-10-10T20:24:23Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-10T19-55-42-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-10T19-55-42-wrap",
+"--marker",
+"2026-10-10-statusline-pass-through"
+],
+"cwd": ".",
+"exit": 2,
+"stdout": [],
+"stderr": "[[pattern]] #23 (through-unchanged): `id` is 1-16 chars of A-Z a-z 0-9 _ . -",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.2",
+"sha8": "fe426974",
+"ts": "2026-10-10T20:24:47Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-10T19-55-42-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-10T19-55-42-wrap",
+"--marker",
+"2026-10-10-statusline-pass-through"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline 4d77eacd (pre-CI parent — the oldest of 1 pre-CI commit(s), 58f87207)",
+"effective · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:324 (pro…",
+"same-shell · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:324 (pr…",
+"override-mech · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:79 (prose)",
+"owed-word · new 0 · standing 0 · leaf 2 · curation 0 · base 0 · control architecture.md:365 (prose)",
+"ten-options · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:356 (prose)",
+"seeds-10 · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control architecture.md:422 (prose)",
+"four-readers · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:247 (prose)",
+"twelve-bins · 0 rows (control fired) — a statement about this pattern, not the masters · control registries/contracts/t…",
+"open-question · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:546 (prose)",
+"unresolved · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control registries/contracts/test-plan/5-command-imple…",
+"joins-with · 0 rows (control fired) — a statement about this pattern, not the masters · case-variants +4 · control test…",
+"two-shapes · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:463 (prose)",
+"rewrite-any-os · new 3 · standing 1 · leaf 1 · curation 0 · base 0 · case-variants +1 · control security-plan.md:275 (p…",
+"decision-body · new 0 · standing 3 · leaf 0 · curation 0 · base 0 · control architecture.md:466 (prose)",
+"child-exit · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control obs-plan.md:705 (prose)",
+"statusline-rows · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:91…",
+"once-written · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:93 (p…",
+"one-reader · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:401 (pr…",
+"lands-with · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:1071 (pros…",
+"utc-only · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:230 (pro…",
+"before-check · new 1 · standing 1 · leaf 0 · curation 0 · base 0 · control registries/contracts/obs-plan/otel-sdk-init.…",
+"arg-order · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control security-plan.md:128 (prose)",
+"through · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control test-plan.md:70 (prose)",
+"percent · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control architecture.md:184 (prose)",
+"old-totals · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control registries/contracts/a11y-plan/a11y-testing-to…",
+"shell-claim · new 1 · standing 7 · leaf 1 · curation 0 · base 0 · control architecture.md:324 (prose)",
+"source-claim · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:72 (prose)",
+"every-start · new 2 · standing 3 · leaf 0 · curation 1 · base 0 · case-variants +3 · control architecture.md:396 (prose)",
+".andromeda/architecture.md:79 override-mech standing edited …ate_limits.*`, the settings-override mechanism, and the sh…",
+".claude/rules/security.md:28 owed-word leaf ×2 …crossing the founder's word is still owed on: no ratification is record…",
+".claude/docs/security-summary.md:67 owed-word leaf ×2 …sume`; the founder's word on that second crossing is owed and no…",
+".claude/docs/tests-summary.md:21 ten-options leaf @c2648/2929 …d>`, the ninth of ten argv options, the launch SessionSt…",
+".andromeda/test-plan.md:1040 seeds-10 new …e` (7 synthetic seeds), `hook_stdin` (the `viola hook` stdin parser and, sin…",
+".andromeda/security-plan.md:241 four-readers standing edited @c1770/3370 …ing else. The four other snapshot readers (`s…",
+".andromeda/test-plan.md:546 open-question standing …hich backs E2 and the §12 open question. After the `viola-channel` …",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:4 unresolved standing edited …ason:\"statusline-so…",
+"CLAUDE.md:43 two-shapes leaf …d` relies on needs no probe; two relied-on shapes have no row yet, an LF typed inside a p…",
+".andromeda/security-plan.md:417 rewrite-any-os standing edited mixed ×2 …`viola-state`: rewrite `plugin/<version>-<hash…",
+".andromeda/test-plan.md:229 rewrite-any-os new …nel\" on); `plugin/` is rewritten, and on Unix the instance's `settings.…",
+".andromeda/test-plan.md:349 rewrite-any-os new     - `plugin/` rewritten on start, and on Unix the instance's `settings…",
+".andromeda/test-plan.md:733 rewrite-any-os new …s. On Unix the restart rewrites the instance's `settings.json` whole at…",
+".claude/docs/security-summary.md:18 rewrite-any-os leaf …; plugin files and `settings.json` rewritten each start; singl…",
+".andromeda/architecture.md:473 decision-body standing …els.** `hook` writes only its decision body to stdout and nothin…",
+".andromeda/obs-plan.md:182 decision-body standing edited …oth. stdout carries only the decision body for `viola hook <e…",
+".andromeda/obs-plan.md:555 decision-body standing edited - `hook` writes only its decision body to stdout and nothing t…",
+".andromeda/obs-plan.md:707 child-exit standing edited …tatusline.shell_out` closes on child exit or at the bound `STATU…",
+".andromeda/registries/contracts/obs-plan/otel-sdk-init.md:16 before-check standing ×2 @c532/2057 …pened before that che…",
+".andromeda/registries/contracts/obs-plan/otel-sdk-init.md:16 before-check @c+573/2057",
+".andromeda/registries/contracts/obs-plan/otel-sdk-init.md:24 before-check new …refused home gets no diagnostics line\" d…",
+".claude/docs/services/viola.md:21 arg-order leaf …TH`, child arguments `--plugin-dir <dir>`, `--resume <id>`, `--fork-s…",
+".andromeda/test-plan.md:70 through standing edited …t) before passing the statusline through (the pass-through on Unix …",
+".andromeda/test-plan.md:273 through standing edited …nd passes the user's statusline stdout through unchanged (on Unix …",
+".andromeda/architecture.md:184 percent standing edited - **Percentages:** `Percent` newtype, 0–100, serialised as a JSO…",
+".claude/docs/conventions.md:22 percent leaf …never an error. Percentages are the `Percent` newtype (0–100, JSON number).",
+".andromeda/registries/contracts/a11y-plan/a11y-testing-tool-pick.md:13 old-totals standing …0.8.1` (2023-03-13) while 0…",
+".andromeda/architecture.md:328 shell-claim standing edited ….rs`). This is the only shell-out in viola, a boundary wide…",
+".andromeda/security-plan.md:34 shell-claim standing ×2 …VIOLA_DIR` and runs through a shell. This is the only shell-out…",
+".andromeda/security-plan.md:100 shell-claim standing …from `snapshot.json` through a shell. That snapshot is found thro…",
+".andromeda/security-plan.md:131 shell-claim standing @c127/2937 …ect spawn (never through a shell) under the R8 strip a…",
+".andromeda/security-plan.md:248 shell-claim new ×2 …viola. It remains the only shell-out. **Ratified:** a user-written …",
+".andromeda/security-plan.md:599 shell-claim standing …usline_command` is the only shell-out, and NEVER add a second one.",
+".andromeda/test-plan.md:1073 shell-claim standing edited …h its `args`, never through a shell or a PATH lookup. A non-a…",
+".andromeda/obs-plan.md:126 shell-claim standing …dard Contracts (`viola hook statusline`, \"the only shell-out in viola\")",
+"CLAUDE.md:35 shell-claim leaf … `statusline_command` is the only shell-out; spawn children directly, never through sh/b…",
+".andromeda/architecture.md:72 source-claim standing edited @c1950/2086 …e set low. The user's global statusline config …",
+".andromeda/architecture.md:372 every-start new ×2 …un` rewrites it whole at every start, a revived start included, thro…",
+".andromeda/architecture.md:401 every-start standing …d never overwritten; at every start each is held with `FILE_SHARE_…",
+".andromeda/architecture.md:408 every-start new …. `viola run` reads it at every start through `take(MAX_FRAME)`, and wh…",
+".andromeda/security-plan.md:278 every-start standing edited mixed ×2 …writes it whole at every start, a revived start i…",
+".andromeda/security-plan.md:417 every-start standing edited … before the write) at every start, never reusing an existi…",
+".claude/rules/testing.md:77 every-start curation …rol` file from byte 0 at every start, so a test that restarts a wrapp…",
+"effective · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:324 (pro…",
+"same-shell · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:324 (pr…",
+"override-mech · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:79 (prose)",
+"owed-word · new 0 · standing 0 · leaf 2 · curation 0 · base 0 · control architecture.md:365 (prose)",
+"ten-options · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:356 (prose)",
+"seeds-10 · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control architecture.md:422 (prose)",
+"four-readers · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:247 (prose)",
+"twelve-bins · 0 rows (control fired) — a statement about this pattern, not the masters · control registries/contracts/t…",
+"open-question · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:546 (prose)",
+"unresolved · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control registries/contracts/test-plan/5-command-imple…",
+"joins-with · 0 rows (control fired) — a statement about this pattern, not the masters · case-variants +4 · control test…",
+"two-shapes · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:463 (prose)",
+"rewrite-any-os · new 3 · standing 1 · leaf 1 · curation 0 · base 0 · case-variants +1 · control security-plan.md:275 (p…",
+"decision-body · new 0 · standing 3 · leaf 0 · curation 0 · base 0 · control architecture.md:466 (prose)",
+"child-exit · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control obs-plan.md:705 (prose)",
+"statusline-rows · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:91…",
+"once-written · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:93 (p…",
+"one-reader · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:401 (pr…",
+"lands-with · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:1071 (pros…",
+"utc-only · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:230 (pro…",
+"before-check · new 1 · standing 1 · leaf 0 · curation 0 · base 0 · control registries/contracts/obs-plan/otel-sdk-init.…",
+"arg-order · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control security-plan.md:128 (prose)",
+"through · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control test-plan.md:70 (prose)",
+"percent · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control architecture.md:184 (prose)",
+"old-totals · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control registries/contracts/a11y-plan/a11y-testing-to…",
+"shell-claim · new 1 · standing 7 · leaf 1 · curation 0 · base 0 · control architecture.md:324 (prose)",
+"source-claim · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:72 (prose)",
+"every-start · new 2 · standing 3 · leaf 0 · curation 1 · base 0 · case-variants +3 · control architecture.md:396 (prose)",
+"total (28 patterns) · 42 rows over 14 files",
+"per class · new 8/4 · standing 25/7 · leaf 8/6 · curation 1/1 · base 0/0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "4d77eacd14d645a5e2c59de47840017803fcb13c",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), 58f87207",
+"counts": {
+"effective": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"same-shell": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"override-mech": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"owed-word": {
+"new": 0,
+"standing": 0,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"ten-options": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"seeds-10": {
+"new": 1,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"four-readers": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"twelve-bins": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"open-question": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"unresolved": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"joins-with": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"two-shapes": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"rewrite-any-os": {
+"new": 3,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"decision-body": {
+"new": 0,
+"standing": 3,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"child-exit": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"statusline-rows": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"once-written": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"one-reader": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"lands-with": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"utc-only": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"before-check": {
+"new": 1,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"arg-order": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"through": {
+"new": 0,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"percent": {
+"new": 0,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"old-totals": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"shell-claim": {
+"new": 1,
+"standing": 7,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"source-claim": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"every-start": {
+"new": 2,
+"standing": 3,
+"leaf": 0,
+"curation": 1,
+"base": 0
+}
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.2",
+"sha8": "fe426974",
+"ts": "2026-10-10T20:25:36Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-10T19-55-42-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-10T19-55-42-wrap",
+"--marker",
+"2026-10-10-statusline-pass-through"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline 4d77eacd (pre-CI parent — the oldest of 1 pre-CI commit(s), 58f87207)",
+"effective · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:324 (pro…",
+"same-shell · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:324 (pr…",
+"override-mech · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:79 (prose)",
+"owed-word · new 0 · standing 0 · leaf 2 · curation 0 · base 0 · control architecture.md:365 (prose)",
+"ten-options · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:356 (prose)",
+"seeds-10 · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control architecture.md:422 (prose)",
+"four-readers · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:247 (…",
+"twelve-bins · 0 rows (control fired) — a statement about this pattern, not the masters · control registries/contracts/t…",
+"open-question · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:546 (prose)",
+"unresolved · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control registries/contracts/test-plan/5-command-imple…",
+"joins-with · 0 rows (control fired) — a statement about this pattern, not the masters · case-variants +4 · control test…",
+"two-shapes · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:463 (prose)",
+"rewrite-any-os · new 3 · standing 1 · leaf 1 · curation 0 · base 0 · case-variants +1 · control security-plan.md:275 (p…",
+"decision-body · new 0 · standing 3 · leaf 0 · curation 0 · base 0 · control architecture.md:466 (prose)",
+"child-exit · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control obs-plan.md:705 (prose)",
+"statusline-rows · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:91…",
+"once-written · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:93 (p…",
+"one-reader · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:401 (pr…",
+"lands-with · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:1071 (pros…",
+"utc-only · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:230 (pro…",
+"before-check · new 1 · standing 1 · leaf 0 · curation 0 · base 0 · control registries/contracts/obs-plan/otel-sdk-init.…",
+"arg-order · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control security-plan.md:128 (prose)",
+"through · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control test-plan.md:70 (prose)",
+"percent · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control architecture.md:184 (prose)",
+"old-totals · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control registries/contracts/a11y-plan/a11y-testing-to…",
+"shell-claim · new 1 · standing 7 · leaf 1 · curation 0 · base 0 · control architecture.md:324 (prose)",
+"source-claim · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:72 (prose)",
+"every-start · new 2 · standing 3 · leaf 0 · curation 1 · base 0 · case-variants +3 · control architecture.md:396 (prose)",
+".andromeda/architecture.md:79 override-mech standing edited …ate_limits.*`, the settings-override mechanism, and the sh…",
+".claude/rules/security.md:28 owed-word leaf ×2 …crossing the founder's word is still owed on: no ratification is record…",
+".claude/docs/security-summary.md:67 owed-word leaf ×2 …sume`; the founder's word on that second crossing is owed and no…",
+".claude/docs/tests-summary.md:21 ten-options leaf @c2648/2929 …d>`, the ninth of ten argv options, the launch SessionSt…",
+".andromeda/test-plan.md:1040 seeds-10 new …e` (7 synthetic seeds), `hook_stdin` (the `viola hook` stdin parser and, sin…",
+".andromeda/test-plan.md:546 open-question standing …hich backs E2 and the §12 open question. After the `viola-channel` …",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:4 unresolved standing edited …ason:\"statusline-so…",
+"CLAUDE.md:43 two-shapes leaf …d` relies on needs no probe; two relied-on shapes have no row yet, an LF typed inside a p…",
+".andromeda/security-plan.md:417 rewrite-any-os standing edited mixed ×2 …`viola-state`: rewrite `plugin/<version>-<hash…",
+".andromeda/test-plan.md:229 rewrite-any-os new …nel\" on); `plugin/` is rewritten, and on Unix the instance's `settings.…",
+".andromeda/test-plan.md:349 rewrite-any-os new     - `plugin/` rewritten on start, and on Unix the instance's `settings…",
+".andromeda/test-plan.md:733 rewrite-any-os new …s. On Unix the restart rewrites the instance's `settings.json` whole at…",
+".claude/docs/security-summary.md:18 rewrite-any-os leaf …; plugin files and `settings.json` rewritten each start; singl…",
+".andromeda/architecture.md:473 decision-body standing edited ….** `hook` writes only its decision body to stdout and no…",
+".andromeda/obs-plan.md:182 decision-body standing edited …oth. stdout carries only the decision body for `viola hook <e…",
+".andromeda/obs-plan.md:555 decision-body standing edited - `hook` writes only its decision body to stdout and nothing t…",
+".andromeda/obs-plan.md:707 child-exit standing edited …tatusline.shell_out` closes on child exit or at the bound `STATU…",
+".andromeda/registries/contracts/obs-plan/otel-sdk-init.md:16 before-check standing ×2 @c532/2057 …pened before that che…",
+".andromeda/registries/contracts/obs-plan/otel-sdk-init.md:16 before-check @c+573/2057",
+".andromeda/registries/contracts/obs-plan/otel-sdk-init.md:24 before-check new …refused home gets no diagnostics line\" d…",
+".claude/docs/services/viola.md:21 arg-order leaf …TH`, child arguments `--plugin-dir <dir>`, `--resume <id>`, `--fork-s…",
+".andromeda/test-plan.md:70 through standing edited …t) before passing the statusline through (the pass-through on Unix …",
+".andromeda/test-plan.md:273 through standing edited …nd passes the user's statusline stdout through unchanged (on Unix …",
+".andromeda/architecture.md:184 percent standing edited - **Percentages:** `Percent` newtype, 0–100, serialised as a JSO…",
+".claude/docs/conventions.md:22 percent leaf …never an error. Percentages are the `Percent` newtype (0–100, JSON number).",
+".andromeda/registries/contracts/a11y-plan/a11y-testing-tool-pick.md:13 old-totals standing …0.8.1` (2023-03-13) while 0…",
+".andromeda/architecture.md:328 shell-claim standing edited ….rs`). This is the only shell-out in viola, a boundary wide…",
+".andromeda/security-plan.md:34 shell-claim standing ×2 …VIOLA_DIR` and runs through a shell. This is the only shell-out…",
+".andromeda/security-plan.md:100 shell-claim standing …from `snapshot.json` through a shell. That snapshot is found thro…",
+".andromeda/security-plan.md:131 shell-claim standing @c127/2937 …ect spawn (never through a shell) under the R8 strip a…",
+".andromeda/security-plan.md:248 shell-claim new ×2 …viola. It remains the only shell-out. **Ratified:** a user-written …",
+".andromeda/security-plan.md:599 shell-claim standing …usline_command` is the only shell-out, and NEVER add a second one.",
+".andromeda/test-plan.md:1073 shell-claim standing edited …h its `args`, never through a shell or a PATH lookup. A non-a…",
+".andromeda/obs-plan.md:126 shell-claim standing …dard Contracts (`viola hook statusline`, \"the only shell-out in viola\")",
+"CLAUDE.md:35 shell-claim leaf … `statusline_command` is the only shell-out; spawn children directly, never through sh/b…",
+".andromeda/architecture.md:72 source-claim standing edited @c1950/2086 …e set low. The user's global statusline config …",
+".andromeda/architecture.md:372 every-start new ×2 …un` rewrites it whole at every start, a revived start included, thro…",
+".andromeda/architecture.md:401 every-start standing …d never overwritten; at every start each is held with `FILE_SHARE_…",
+".andromeda/architecture.md:408 every-start new …. `viola run` reads it at every start through `take(MAX_FRAME)`, and wh…",
+".andromeda/security-plan.md:278 every-start standing edited mixed ×2 …writes it whole at every start, a revived start i…",
+".andromeda/security-plan.md:417 every-start standing edited … before the write) at every start, never reusing an existi…",
+".claude/rules/testing.md:77 every-start curation …rol` file from byte 0 at every start, so a test that restarts a wrapp…",
+"effective · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:324 (pro…",
+"same-shell · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:324 (pr…",
+"override-mech · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:79 (prose)",
+"owed-word · new 0 · standing 0 · leaf 2 · curation 0 · base 0 · control architecture.md:365 (prose)",
+"ten-options · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:356 (prose)",
+"seeds-10 · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control architecture.md:422 (prose)",
+"four-readers · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:247 (…",
+"twelve-bins · 0 rows (control fired) — a statement about this pattern, not the masters · control registries/contracts/t…",
+"open-question · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:546 (prose)",
+"unresolved · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control registries/contracts/test-plan/5-command-imple…",
+"joins-with · 0 rows (control fired) — a statement about this pattern, not the masters · case-variants +4 · control test…",
+"two-shapes · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:463 (prose)",
+"rewrite-any-os · new 3 · standing 1 · leaf 1 · curation 0 · base 0 · case-variants +1 · control security-plan.md:275 (p…",
+"decision-body · new 0 · standing 3 · leaf 0 · curation 0 · base 0 · control architecture.md:466 (prose)",
+"child-exit · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control obs-plan.md:705 (prose)",
+"statusline-rows · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:91…",
+"once-written · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:93 (p…",
+"one-reader · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:401 (pr…",
+"lands-with · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:1071 (pros…",
+"utc-only · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:230 (pro…",
+"before-check · new 1 · standing 1 · leaf 0 · curation 0 · base 0 · control registries/contracts/obs-plan/otel-sdk-init.…",
+"arg-order · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control security-plan.md:128 (prose)",
+"through · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control test-plan.md:70 (prose)",
+"percent · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control architecture.md:184 (prose)",
+"old-totals · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control registries/contracts/a11y-plan/a11y-testing-to…",
+"shell-claim · new 1 · standing 7 · leaf 1 · curation 0 · base 0 · control architecture.md:324 (prose)",
+"source-claim · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:72 (prose)",
+"every-start · new 2 · standing 3 · leaf 0 · curation 1 · base 0 · case-variants +3 · control architecture.md:396 (prose)",
+"total (28 patterns) · 41 rows over 14 files",
+"per class · new 8/4 · standing 24/7 · leaf 8/6 · curation 1/1 · base 0/0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "4d77eacd14d645a5e2c59de47840017803fcb13c",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), 58f87207",
+"counts": {
+"effective": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"same-shell": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"override-mech": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"owed-word": {
+"new": 0,
+"standing": 0,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"ten-options": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"seeds-10": {
+"new": 1,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"four-readers": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"twelve-bins": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"open-question": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"unresolved": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"joins-with": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"two-shapes": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"rewrite-any-os": {
+"new": 3,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"decision-body": {
+"new": 0,
+"standing": 3,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"child-exit": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"statusline-rows": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"once-written": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"one-reader": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"lands-with": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"utc-only": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"before-check": {
+"new": 1,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"arg-order": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"through": {
+"new": 0,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"percent": {
+"new": 0,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"old-totals": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"shell-claim": {
+"new": 1,
+"standing": 7,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"source-claim": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"every-start": {
+"new": 2,
+"standing": 3,
+"leaf": 0,
+"curation": 1,
+"base": 0
+}
+}
+}
+}
+]

@@ -67,6 +67,7 @@ The obs harness is **bound** to the test harness: tests owns the grepped fields 
 - D-12: no `trace_id`/`span_id`; null encoded as key absence.
 - D-20: closed exit-cause `detail` codes (exit 1 `already-live|squatted-name|pinned-hash-mismatch|batch-script-child|internal-error`, and from `viola revive`'s preflight `strict-modes-failed|no-session|cwd-missing`; exit 21 `instance-dead|strict-modes-failed|server-verify-failed`).
 - D-22: arch amendment — diagnostics roots + workspace `rust-version` 1.96.
+- The statusline arm (as landed, chunk 2026-10-10-statusline-pass-through): `viola hook statusline` runs its instance check before obs init, because the role-file open sets an existing home to 0700; a refused check is still logged (`hook-decision{detail:"strict-modes-failed"}`). Its lines: `hook-invoked`, `parse-rejected{parser:"hook-stdin"}` on rejected stdin, the `statusline-shell` `process-start` / `process-exit` pair only when a command runs (never on Windows), `hook-decision{budget_written, duration_ms}` with `detail` ∈ `strict-modes-failed|oversize-stdin|malformed-json|deadline` and `deadline_hit` only when true. Its stdout is the user's status-line output, never telemetry; the `max < 1.0 s` hook budget excludes it (its own bound is 5 s, PROVISIONAL). At start, the statusline source read and the settings override write carry no span and no line, by design.
 
 ---
 

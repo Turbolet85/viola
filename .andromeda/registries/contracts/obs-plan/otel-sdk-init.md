@@ -21,7 +21,7 @@
   - `run`: steps 1–6 finish **before** `run.collision_check`, so exit-1 causes are logged. The panic hook is live before `pty.spawn`. `viola revive`'s start arm is this role: it runs the same log init and own start line (the log setup it shares with `run`) before its preflight, so its exit-1 refusals, the strict-modes one read ahead of the collision check included, are logged in `run-<name>.ndjson`; its instance is its own `ViolaName` argument. `viola revive <name> --list` opens no process log.
   - `ui`: before `axum::serve` binds `127.0.0.1:<port>`.
   - `mcp`: before the rmcp 3.4.1 stdio transport starts.
-  - `hook`: one `config.json` read plus exactly one log `open`, then appends, which fits the `max < 1.0 s` gate.
+  - `hook`: one `config.json` read plus exactly one log `open`, then appends, which fits the `max < 1.0 s` gate. `viola hook statusline` runs its instance check before this init, because the role-file open itself sets an existing home to 0700 (`open_role_file` → `create_private_dir(home)`) and a check made after it passes a home at 0770 (as measured at chunk 2026-10-10-statusline-pass-through, `evidence/red-green.md` §3). After a refused check the arm still opens the role file and writes `hook-invoked` and `hook-decision{detail:"strict-modes-failed"}` (read in `src/cmd/hook/statusline.rs`), so step 4's "a refused home gets no diagnostics line" does not hold for this arm, and that opening narrows the refused home.
 - **Init body sketch (≤ 5 lines):**
   ```rust
   let sub = tracing_subscriber::fmt().json().flatten_event(true).with_current_span(false)

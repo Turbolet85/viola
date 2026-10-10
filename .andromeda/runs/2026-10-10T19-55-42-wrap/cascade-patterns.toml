@@ -1,0 +1,114 @@
+# The pattern set of this pass, derived from every amendment before the first sweep.
+# Each pattern is a retired wording, a retired mechanism's phrasing, or a count this pass moved.
+
+[[pattern]]
+id = "effective"
+fixed = 'effective Claude Code settings'
+
+[[pattern]]
+id = "same-shell"
+fixed = 'same shell Claude Code would use'
+
+[[pattern]]
+id = "override-mech"
+fixed = 'settings-override mechanism'
+
+[[pattern]]
+id = "owed-word"
+regex = '(?i)not ratified|word (on [^.]{0,80} )?is (still )?owed|no ratification is recorded|has not been shown'
+
+[[pattern]]
+id = "ten-options"
+regex = '(?i)\bten argv options'
+
+[[pattern]]
+id = "seeds-10"
+regex = 'hook_stdin[^.;]{0,80}\b10\b'
+
+[[pattern]]
+id = "four-readers"
+regex = 'four (product callers|other snapshot readers)'
+
+[[pattern]]
+id = "twelve-bins"
+regex = '(?i)twelve verify-driven'
+
+[[pattern]]
+id = "open-question"
+fixed = '§12 open question'
+
+[[pattern]]
+id = "unresolved"
+fixed = 'statusline-source-unresolved'
+
+[[pattern]]
+id = "joins-with"
+fixed = 'Statusline pass-through'
+
+[[pattern]]
+id = "two-shapes"
+regex = '(?i)two relied-on shapes'
+
+[[pattern]]
+id = "rewrite-any-os"
+regex = 'settings\.json`[^.|]{0,90}rewrit|rewrit[^.|]{0,140}settings\.json'
+
+[[pattern]]
+id = "decision-body"
+regex = 'only (its|the) decision body|the decision body \(hook\)'
+
+[[pattern]]
+id = "child-exit"
+fixed = 'closes on child exit'
+
+[[pattern]]
+id = "statusline-rows"
+regex = '(?i)statusline rows'
+
+[[pattern]]
+id = "once-written"
+fixed = 'once written'
+
+[[pattern]]
+id = "one-reader"
+fixed = 'One reader checks'
+
+[[pattern]]
+id = "lands-with"
+regex = 'lands? with (`statusline-echo`|their consumer chunks)'
+
+[[pattern]]
+id = "utc-only"
+fixed = 'parsed with chrono in UTC only'
+
+[[pattern]]
+id = "before-check"
+regex = 'before that check passes|gets no diagnostics line'
+
+[[pattern]]
+id = "arg-order"
+regex = '--plugin-dir[^.]{0,90}--resume'
+
+[[pattern]]
+id = "through"
+regex = 'statusline (stdout )?through'
+
+[[pattern]]
+id = "percent"
+fixed = '`Percent` newtype'
+
+[[pattern]]
+id = "old-totals"
+regex = '\b(1624|2023|1998|2002)\b'
+
+[[pattern]]
+id = "shell-claim"
+regex = 'through a shell|runs through the same shell|only shell-out'
+
+[[pattern]]
+id = "source-claim"
+regex = '(?i)user.s (effective|global) (Claude Code )?(settings|statusline)'
+
+[[pattern]]
+id = "every-start"
+regex = 'at every start'
