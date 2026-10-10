@@ -42,6 +42,7 @@ fn reading(used: u64) -> Vec<u8> {
     ))
 }
 
+#[cfg(unix)]
 fn hex_of(bytes: &[u8]) -> String {
     bytes.iter().map(|b| format!("{b:02x}")).collect()
 }
@@ -114,6 +115,11 @@ fn started_once(stamped: StampedHome) -> StampedHome {
 /// A session whose home viola created itself. With `echo` (the words after the marker path) the
 /// home's source names the fake agent's `statusline-echo`, planted once the home exists, and the
 /// next start records it; without, the session has no statusline command.
+///
+/// A case that runs on Windows takes a stamped home: there `viola verify` makes the home, with
+/// viola's own protected DACL. A home whose first start is `Wrapper::boot` is made by the fixture
+/// instead (it seeds the ConPTY companions into the home first), with the DACL its parent hands
+/// down, and the arm's instance check rightly refuses it.
 fn session(stamped: StampedHome, echo: Option<&[&str]>) -> Session {
     let home = stamped.home.path().to_path_buf();
     let dir = home.join("instances").join("builder");
@@ -141,6 +147,7 @@ fn session(stamped: StampedHome, echo: Option<&[&str]>) -> Session {
     }
 }
 
+#[cfg(unix)]
 fn unstamped() -> StampedHome {
     StampedHome::unstamped(TestHome::new())
 }
@@ -263,10 +270,12 @@ fn hook_statusline_a_failing_command_prints_nothing() {
 
 /// With no command recorded the arm prints nothing and still records the reading. On Windows that
 /// is the whole behaviour even with a command recorded: no command is run there.
-#[test]
-fn hook_statusline_without_a_recorded_command_prints_nothing_and_records_the_reading() {
+#[rstest]
+fn hook_statusline_without_a_recorded_command_prints_nothing_and_records_the_reading(
+    stamped_home: StampedHome,
+) {
     let echo: Option<&[&str]> = if cfg!(windows) { Some(&[]) } else { None };
-    let session = session(unstamped(), echo);
+    let session = session(stamped_home, echo);
     assert_eq!(session.command.is_some(), cfg!(windows));
     let ran = session.hook(reading(7));
     assert_silent_success(&ran, "");
@@ -321,11 +330,12 @@ fn hook_statusline_a_home_another_user_can_write_runs_nothing() {
 )]
 #[case::malformed(format!("[\"{CANARY}\"]").into_bytes(), "malformed", "malformed-json")]
 fn hook_statusline_oversize_and_malformed_stdin_write_nothing(
+    stamped_home: StampedHome,
     #[case] stdin: Vec<u8>,
     #[case] rejected: &str,
     #[case] detail: &str,
 ) {
-    let session = session(unstamped(), None);
+    let session = session(stamped_home, None);
     let ran = session.hook(stdin);
     assert_silent_success(&ran, "");
     assert_eq!(session.budget(), None);
@@ -415,19 +425,24 @@ fn holds(haystack: &[u8], needle: &str) -> bool {
 
 /// The user's command is user content, and so are the payload and what the command prints: none
 /// of them reaches a process log.
-#[test]
-fn hook_statusline_keeps_the_command_and_the_payload_out_of_the_process_logs() {
-    let session = session(unstamped(), Some(&[]));
+#[rstest]
+fn hook_statusline_keeps_the_command_and_the_payload_out_of_the_process_logs(
+    stamped_home: StampedHome,
+) {
+    let session = session(stamped_home, Some(&[]));
     let command = session.command.clone().expect("the planted command");
     let ran = session.hook(reading(91));
     assert_eq!(ran.code, Some(0));
     assert!(ran.stderr.is_empty(), "stderr: {} bytes", ran.stderr.len());
-    assert!(
-        session
-            .role_lines()
-            .iter()
-            .any(|l| l["event"] == "hook-decision")
-    );
+    let decisions: Vec<Value> = session
+        .role_lines()
+        .into_iter()
+        .filter(|l| l["event"] == "hook-decision")
+        .collect();
+    assert_eq!(decisions.len(), 1);
+    // The arm ran its whole course: a refused or rejected run would have read nothing to leak.
+    assert_eq!(decisions[0]["budget_written"], true);
+    assert!(decisions[0].get("detail").is_none());
     let files = files_under(&session.home.join("diagnostics"));
     assert!(!files.is_empty());
     let marker = STATUSLINE_ECHO_OUTPUT.trim_end();

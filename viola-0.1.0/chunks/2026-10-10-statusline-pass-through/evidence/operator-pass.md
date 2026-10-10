@@ -102,3 +102,116 @@ mechanical 1 · in-intent 0 · widening 0) · absorbed 0 · excluded 66`, base H
   host paths kept · binary 0 not read by P1`. Atoms: `exit 0` ✓, `contains hygiene: clean` ✓. No row to rewrite.
 - Read once more after this file was added, right before the commit: the verdict is in the next section, which
   was written after the commit and rides the next one.
+
+## Before the pre-CI commit, 19:29:54Z
+
+- Hygiene re-read: `hygiene: clean — read 58 (runs 42 · evidence 10 · inputs 6) · trails 15 not read · copies 4
+  not read by P1 — 0 host paths kept · binary 0 not read by P1`, exit 0, this file among the evidence.
+- The tree the commit takes: the take-up's products (the stamped route line, the master's pending record, the
+  ledger notes on `v1-24` and `v1-45`, the chunk folder, the phase run dir), the 29 changed and 7 new source,
+  test, lockfile and seed files, this chunk's evidence (the red and green readings, the live record with its
+  ledger and rig scripts) and inputs, this implement run dir and the bookkeeping the tree carried. 0 ahead of
+  the upstream before it; the remote branch head read live (`git ls-remote`) at `4d77eacd14d6`.
+- This section and everything below it was written after the commit; it rides the next commit.
+
+## Step 3 and step 4 — the pre-CI commit and entry 16, the push, 19:30:04Z to 19:30:17Z
+
+- `58f8720` `chore(2026-10-10-statusline-pass-through): operator pre-CI commit, for the run this chunk's verdict
+  reads` at 19:30:04Z (the whole tree, 103 files). `git status --short` read empty after it.
+- Entry 16, fired through the gate tool with no run dir (`gate.py run --plan
+  viola-0.1.0/chunks/2026-10-10-statusline-pass-through/plan.md --operator 16`), 19:30:14Z to 19:30:17Z. A
+  `--dry-run` of the same call at 19:30:09Z fired nothing and printed the same tripwire line. The firing's
+  tripwire line, entry line and summary line, as printed:
+
+  ```
+  operator entry 16 · history tripwire: git
+   16 probe       green · exit 0 · 2.27s · 90 B → 16.log · history moved: refs/remotes/origin/HEAD 4d77eacd→58f87207; refs/remotes/origin/build/viola-0.1.0 4d77eacd→58f87207 · git diff --quiet && git diff --cached --quiet && git push … (69 chars)
+  entries 17 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 16
+  ```
+
+  The entry carries no `expect` key, so its line asserts `exit 0` alone. Its log
+  (`$TMPDIR/andromeda-gate/2026-10-10-statusline-pass-through/run-20261010T193015Z/16.log`, 90 B) holds git's own
+  two lines, the second `4d77eac..58f8720  HEAD -> build/viola-0.1.0`.
+- The history reading is the move the entry is for: the two remote-tracking refs went from `4d77eacd` to
+  `58f87207`, a fast-forward. No local branch, tag or stash moved. No force push.
+- After it: 0 ahead of the upstream; the remote branch head read live at `58f872077352`; the tree clean.
+
+## Step 5 — entry 17, the CI read (fired as written), 19:30:24Z to 19:31:59Z: red
+
+- `python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait
+  1800` → exit 0: `58f872077352 verdict: red · checks 15/15 · first-fail +66 s lint (windows-2025) · runs
+  ci#38080061631 in_progress/-`, polled 4 times over 94 s. Atoms: `exit 0` ✓, `contains verdict: green` ✗.
+- The run was left to finish before anything was folded. Read from the run itself (`gh api
+  …/actions/runs/38080061631`): `run_attempt` 1, event `push`, head `58f872077352`, started 19:30:19Z, last
+  updated 19:37:34Z, conclusion `failure`. It is the only run on the sha (`gh run list --commit`, by the full
+  sha).
+- Its fifteen jobs: thirteen `success` (`lint`, `test`, `release` and `perf` on `macos-latest` and
+  `ubuntu-latest`; `release` and `perf` on `windows-2025`; `supply-chain`, `msrv`, `fuzz-replay`) and two
+  `failure`, both on `windows-2025`: `lint` and `test`.
+
+### The two reds, each read from its job's log
+
+**`lint (windows-2025)`** — one error: `function hex_of is never used`, `tests\hook_statusline.rs:45`. The helper
+is called only by the four `cfg(unix)` cases, so on Windows nothing uses it. The host's own clippy cannot see
+it (`testing.md`, 2026-10-03).
+
+**`test (windows-2025)`** — 2169 run, 2166 passed, 3 failed, all three in `binary(hook_statusline)`:
+
+| case | what it read |
+|---|---|
+| `…_without_a_recorded_command_prints_nothing_and_records_the_reading` | no `budget.json` |
+| `…_oversize_and_malformed_stdin_write_nothing`, `oversize` | role lines `hook-invoked`, `hook-decision`, where it expects `parse-rejected` between them |
+| the same, `malformed` | the same two lines |
+
+Each is what the arm does when its instance check refuses the home: nothing read, nothing written, one decision
+line. The fourth case of that binary that runs the arm's whole course on Windows,
+`…_changes_neither_the_snapshot_nor_the_stamps`, passed there in 4.6 s, and it is the one that starts from a
+stamped home. The three red ones started from a home whose first start is `Wrapper::boot`.
+
+**The cause is the fixture, read in its source.** On Windows x64 `Wrapper::boot` calls `seed_conpty` before the
+start, and `seed_conpty` makes `<home>/bin/<key>/conpty/` with `create_dir_all` (`tests/support/home.rs`; its
+own comment says "It creates the home"). So such a home is the test's own, with the DACL its parent directory
+hands down, not the protected one viola sets on a home it creates. `check_instance` reads the home first and
+refuses it. A stamped home is made by `viola verify` before any seeding, so it carries viola's own DACL. The
+product did what it is built to do; the cases asked it of a home it must refuse. Not read: the refused home's
+DACL itself (no job artifact was opened), so the ACE that tripped the rule is not named here.
+
+What the red run did show green: on `macos-latest` 2159 of 2159 and on `ubuntu-latest` 2163 of 2163, none
+skipped, no `FAIL`, `TIMEOUT`, `LEAK`, `SIGKILL` or `ABORT` status line in either; the eleven
+`binary(hook_statusline)` cases, the five new `cli_instance_state` cases, the new `tui_passthrough` case and the
+three `cli_fake_agent` cases passed on both, and on `windows-2025` every one of those that is not one of the
+three above (the `cfg(unix)` ones are not built there). `supply-chain` read the fuzz lockfile's 24 added
+packages and passed.
+
+### The fix, 19:38Z to 19:41Z
+
+Test code only, in `tests/hook_statusline.rs`:
+
+- `hex_of` and `unstamped` are `cfg(unix)`, like the cases that use them;
+- the three every-OS cases that run the arm's whole course (no recorded command, oversize and malformed stdin,
+  the process-log scan) take the `stamped_home` fixture, like the fourth. The four `cfg(unix)` cases keep their
+  unstamped homes, which viola itself creates on Unix;
+- the process-log scan now also requires its one decision line to read `budget_written` true with no `detail`.
+  On the red run it passed on Windows over a refused home, where nothing had been read that could leak: it
+  proved nothing there.
+
+Read before the fix commit:
+
+- The Windows lint, on this host: `cargo clippy --workspace --all-targets --features fake-agent --target
+  x86_64-pc-windows-msvc -- -D warnings` under `CARGO_TARGET_DIR=target/wincheck` (check only, nothing linked or
+  run). On the fixed tree, 19:39:18Z: exit 0. Control, the `cfg(unix)` taken off `hex_of` again, 19:39:27Z:
+  exit 101 with the runner's own error (`function hex_of is never used`). Attribute put back, 19:39:45Z: exit 0.
+  So this read sees what the runner's lint job saw. It does not run a test: whether the three cases pass on
+  Windows is the next CI read's.
+- Through the gate tool (`--only 1,2,5,14`), 19:40:03Z to 19:41:12Z:
+
+  ```
+    1 lint        green · exit 0 · 0.74s · 0 B → 1.3.log · cargo fmt --all --check
+    2 lint        green · exit 0 · 0.19s · 72 B → 2.3.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)
+    5 integration green · exit 0 · 5.42s · 14247 B → 5.2.log · bash scripts/agent-run.sh run --integration --filter 'bina… (206 chars)
+   14 probe       green · exit 0 · 61.92s · 279329 B → 14.3.log · bash scripts/agent-run.sh pre-push
+  entries 17 · green 4 · red 0 · recorded 0 · timeout 0 · not-run 13
+  ```
+
+  Entry 5 read 107 of 107. The eleven `binary(hook_statusline)` cases passed here; the five that start from a
+  stamped home took 3.7 s each.
