@@ -1,0 +1,3 @@
+The operator's invocation of `/andromeda-wrap-session`, 2026-10-10, verbatim (the arguments after the command name):
+
+2026-10-10-self-healing-state. Run it whole: the 85 % and 90 % context alarms are expected, stop only at 95 %. Route step: (1) the founder word, live in the overseer dialog at 2026-10-10T10:26:30Z with three options priced: «Узкая запись» - a new route entry in which viola verify handles Ctrl-C/TERM and removes only what it created in that run, nothing older or foreign; what a SIGKILL or a crash leaves stays by hand. It carries the third CARRY and the three dir classes; viola revive stays the head, propose its place. (2) The five CARRYs as the plan lists them. (3) Curate the stale events.md sentence that healing lands with this entry.

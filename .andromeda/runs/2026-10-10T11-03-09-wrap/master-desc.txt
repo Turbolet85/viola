@@ -1,0 +1,1 @@
+Self-healing state — the next append heals a torn last line and logs one state-recovered line; the reader counts unknown kinds, unknown fields and torn lines; the classified snapshot read and the log replay land as library code with no reader yet; no surface shows the counts; the newer-peer refusal was already landed

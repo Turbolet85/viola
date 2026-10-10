@@ -4,7 +4,7 @@
   - Researched and deferred to the root-bin edge only: `opentelemetry` / `opentelemetry_sdk` 0.33.0 and the `tracing-opentelemetry` 0.34.0 bridge. With no exporter they would add only dependency and cargo-mutants surface, and bridged span IDs would have no consumer.
   - If either is ever adopted, the Resource must be built with `Resource::builder_empty()`, never `Resource::builder()`: the latter's `EnvResourceDetector` reads `OTEL_*` env vars.
   - Cargo entry for every instrumentable crate: `tracing = "0.1.44"`.
-  - Cargo entry for the root bin only: `tracing-subscriber = { version = "0.3.23", default-features = false, features = ["fmt", "json", "registry", "std"] }`. `ansi` and `tracing-log` are off (D-11). The `chrono` feature is off too: it only enables `ChronoUtc` / `ChronoLocal`, and `MillisUtc` uses the root bin's direct `chrono` dependency (D-26).
+  - Cargo entry, as a product dependency, for the root bin only: `tracing-subscriber = { version = "0.3.23", default-features = false, features = ["fmt", "json", "registry", "std"] }` (`viola-channel` and `viola-state` name the workspace pin under dev-dependencies, for their unit tests' line capture). `ansi` and `tracing-log` are off (D-11). The `chrono` feature is off too: it only enables `ChronoUtc` / `ChronoLocal`, and `MillisUtc` uses the root bin's direct `chrono` dependency (D-26).
 - **Init order** (one `viola_obs_init(role)` in the root bin, run in obs-scope §3 order):
   1. The **first statement in `main`** is `std::panic::set_hook(viola_panic_hook)`. The hook writes to a `OnceLock<Arc<File>>` that is empty until step 4, so it never falls back to stderr.
   2. clap parse.

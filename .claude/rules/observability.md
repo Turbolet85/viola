@@ -11,7 +11,7 @@ paths:
 Path-scoped rules for product code that logs, spans or handles errors. Authoritative source: `.andromeda/obs-plan.md` (tier Standard with Minimal exporter carve-outs); the log format itself is bound to `.andromeda/test-plan.md` §3.
 
 ## Pipeline
-- **Library:** tracing 0.1.44 in every instrumentable crate; tracing-subscriber 0.3.23 (`default-features = false`, `fmt,json,registry,std`) in the root bin only. No OTel SDK, no exporter, no reporter (sentry banned), no `tracing-appender`, no `metrics` instruments, no `/metrics` route.
+- **Library:** tracing 0.1.44 in every instrumentable crate; tracing-subscriber 0.3.23 (`default-features = false`, `fmt,json,registry,std`) as a product dependency in the root bin only (`viola-channel` and `viola-state` take it as a dev-dependency for their unit tests' line capture). No OTel SDK, no exporter, no reporter (sentry banned), no `tracing-appender`, no `metrics` instruments, no `/metrics` route.
 - **Builder:** `fmt().json().flatten_event(true).with_current_span(false).with_span_list(false).with_ansi(false).log_internal_errors(false)`, `MillisUtc` timer (RFC 3339 UTC ms + `Z`), explicit writer — never the stdout default.
 - **Levels:** `filter::Targets` from `config.json` `diagnostics_level` (`info` | `debug`); never `RUST_LOG` / `EnvFilter` / the `env-filter` feature. Third-party targets (`rmcp`, `axum`, `tower_http`, `hyper`, `portable_pty`, `notify`, `sysinfo`, `interprocess`) are OFF; capture their failures from returned `Result`s at viola's seam.
 

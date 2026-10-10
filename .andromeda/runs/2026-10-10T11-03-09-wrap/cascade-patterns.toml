@@ -1,0 +1,43 @@
+[[pattern]]
+id = "owed-entry"
+fixed = 'Self-healing state'
+
+[[pattern]]
+id = "old-counts"
+fixed = 'oversize, malformed'
+
+[[pattern]]
+id = "readers-heal"
+regex = 'Readers heal|readers count `torn_lines` and heal'
+
+[[pattern]]
+id = "not-healed"
+regex = 'neither returned nor (rewritten|healed)'
+
+[[pattern]]
+id = "skips-counts"
+regex = 'skips (and|\+) counts'
+
+[[pattern]]
+id = "healing"
+regex = 'healing (and|lands|is owed|owed)|Torn-line healing counts'
+
+[[pattern]]
+id = "wait-count"
+fixed = '22 sites'
+
+[[pattern]]
+id = "kill-mid"
+regex = 'kill (the wrapper )?mid-(write|append)'
+
+[[pattern]]
+id = "e5-wheel"
+fixed = 'wheel:"human"'
+
+[[pattern]]
+id = "replay-links"
+regex = 'recovers (only|exactly)|goes to replay|replay the log when'
+
+[[pattern]]
+id = "root-bin-only"
+regex = 'root bin only|only crate that depends on'

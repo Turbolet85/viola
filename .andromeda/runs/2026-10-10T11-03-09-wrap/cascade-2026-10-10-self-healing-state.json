@@ -1,0 +1,160 @@
+[
+{
+"tool": "cascade",
+"v": "1.2",
+"sha8": "fe426974",
+"ts": "2026-10-10T11:17:32Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-10T11-03-09-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-10T11-03-09-wrap",
+"--marker",
+"2026-10-10-self-healing-state"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline 2f1efe3a (pre-CI parent — the oldest of 1 pre-CI commit(s), 0af82832)",
+"owed-entry · new 0 · standing 0 · leaf 3 · curation 0 · base 0 · case-variants +1 · control architecture.md:50 (prose)",
+"old-counts · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:239 (p…",
+"readers-heal · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:50 (prose)",
+"not-healed · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control architecture.md:50 (prose)",
+"skips-counts · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:50 (p…",
+"healing · new 0 · standing 0 · leaf 3 · curation 0 · base 0 · control architecture.md:50 (prose)",
+"wait-count · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:407 (pr…",
+"kill-mid · new 3 · standing 0 · leaf 1 · curation 0 · base 0 · control test-plan.md:378 (prose)",
+"e5-wheel · new 1 · standing 3 · leaf 0 · curation 0 · base 0 · control architecture.md:282 (prose)",
+"replay-links · new 0 · standing 4 · leaf 1 · curation 0 · base 0 · control architecture.md:247 (prose)",
+"root-bin-only · new 0 · standing 2 · leaf 3 · curation 0 · base 0 · control architecture.md:25 (prose)",
+"CLAUDE.md:24 owed-entry leaf …ine healing owed to the route entry \"Self-healing state\"), tailing, liveness, strict-modes",
+".claude/rules/events.md:34 owed-entry leaf …s with the route entry \"Self-healing state\"); unknown kinds and fields are …",
+".claude/docs/services/viola-state.md:6 owed-entry leaf …to the route entry \"Self-healing state\"), notify 8.2.0 tailing,…",
+".claude/rules/events.md:34 readers-heal leaf - Readers heal a torn last line and count it (as landed, the one reader `e…",
+".andromeda/architecture.md:50 not-healed standing edited @c1399/2326 … the last still neither returned nor rewritten. T…",
+".claude/docs/services/viola-state.md:6 not-healed leaf …erminated last line neither returned nor rewritten — torn-line …",
+"CLAUDE.md:24 healing leaf …nts.ndjson` reader (torn-line healing owed to the route entry \"Self-healing state\"), tailing…",
+".claude/rules/events.md:34 healing leaf …eturned and unrewritten; healing lands with the route entry \"Self-healing stat…",
+".claude/docs/services/viola-state.md:6 healing leaf …ewritten — torn-line healing is owed to the route entry \"Self-heal…",
+".andromeda/test-plan.md:378 kill-mid new …as landed, in place of a kill mid-write): the reader counts it in `torn_lines…",
+".andromeda/test-plan.md:436 kill-mid new … as landed in place of a kill mid-write; snapshot corruption, SIGSTOP heartbe…",
+".andromeda/test-plan.md:1012 kill-mid new …len − k)`, in place of a kill mid-append with `Process::kill_with(Signal::Ki…",
+".claude/docs/services/viola-state.md:45 kill-mid leaf - **Chaos:** kill mid-append + `set_len`, snapshot truncation / `…",
+".andromeda/architecture.md:282 e5-wheel standing …`pause` `{from?}` → `{wheel:\"human\"}` (the wheel `human` / `manual-pa…",
+".andromeda/test-plan.md:945 e5-wheel standing …snapshot has `links`, `wheel:\"human\"`, `budget_paused:true` and `agent_s…",
+".andromeda/test-plan.md:948 e5-wheel new …art's first record), so `wheel:\"human\"` does not hold after step 3; and the r…",
+".andromeda/obs-plan.md:686 e5-wheel standing …il:null|\"manual-pause\", wheel:\"human\", side:\"wrapper\"}`, with the client …",
+".andromeda/architecture.md:247 replay-links standing edited …ts.ndjson`. Replay recovers only log-derived fields: `link…",
+".andromeda/test-plan.md:379 replay-links standing edited …ted `v`: the replay recovers only `links`, `agent_session_id`…",
+".andromeda/test-plan.md:551 replay-links standing edited … or a parse failure goes to replay through the read-or-replay…",
+".andromeda/test-plan.md:552 replay-links standing edited   - Replay recovers exactly `links`, `agent_session_id`, `whee…",
+".claude/rules/events.md:30 replay-links leaf … replay the log; replay recovers only `links`, `agent_session_id`, `wheel…",
+".andromeda/registries/contracts/obs-plan/bootstrap-phases-derive-for-route-setup-project.md:10 root-bin-only standing edited",
+".andromeda/registries/contracts/obs-plan/otel-sdk-init.md:7 root-bin-only standing edited … for the root bin only: `tra…",
+".claude/rules/observability.md:14 root-bin-only leaf …egistry,std`) in the root bin only. No OTel SDK, no exporter, no …",
+".claude/docs/stack.md:21 root-bin-only leaf …fmt,json,registry,std`; root bin only); veil `=0.3.0` (`#[derive(Redact)]`…",
+".claude/docs/stack.md:45 root-bin-only leaf …cing-subscriber 0.3.23 (root bin only; `fmt,json,registry,std`, no `ansi`,…",
+"owed-entry · new 0 · standing 0 · leaf 3 · curation 0 · base 0 · case-variants +1 · control architecture.md:50 (prose)",
+"old-counts · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:239 (p…",
+"readers-heal · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:50 (prose)",
+"not-healed · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control architecture.md:50 (prose)",
+"skips-counts · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:50 (p…",
+"healing · new 0 · standing 0 · leaf 3 · curation 0 · base 0 · control architecture.md:50 (prose)",
+"wait-count · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:407 (pr…",
+"kill-mid · new 3 · standing 0 · leaf 1 · curation 0 · base 0 · control test-plan.md:378 (prose)",
+"e5-wheel · new 1 · standing 3 · leaf 0 · curation 0 · base 0 · control architecture.md:282 (prose)",
+"replay-links · new 0 · standing 4 · leaf 1 · curation 0 · base 0 · control architecture.md:247 (prose)",
+"root-bin-only · new 0 · standing 2 · leaf 3 · curation 0 · base 0 · control architecture.md:25 (prose)",
+"total (11 patterns) · 27 rows over 10 files",
+"per class · new 4/1 · standing 10/5 · leaf 13/5 · curation 0/0 · base 0/0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "2f1efe3a89625bbc8cc649657de52525cc60f2c1",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), 0af82832",
+"counts": {
+"owed-entry": {
+"new": 0,
+"standing": 0,
+"leaf": 3,
+"curation": 0,
+"base": 0
+},
+"old-counts": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"readers-heal": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"not-healed": {
+"new": 0,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"skips-counts": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"healing": {
+"new": 0,
+"standing": 0,
+"leaf": 3,
+"curation": 0,
+"base": 0
+},
+"wait-count": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"kill-mid": {
+"new": 3,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"e5-wheel": {
+"new": 1,
+"standing": 3,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"replay-links": {
+"new": 0,
+"standing": 4,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"root-bin-only": {
+"new": 0,
+"standing": 2,
+"leaf": 3,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]

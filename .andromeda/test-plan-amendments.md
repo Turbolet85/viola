@@ -715,3 +715,25 @@
 **Why:** the chunk split the `viola` job per file, taught the harness the exclusion, and its one dispatch measured what the route entry owed. The dispatch was allowed by the founder for this chunk only, relayed verbatim by the operator on 2026-10-10.
 **Kept:** founder ruling C2 and the overseer's ruling of 2026-10-04 stand word for word. The workflow stays report-only and never a gate. The four `src/cmd/run.rs:385:5` mutants, which no host this project builds on compiles, are not written into §10: they are a route matter.
 **Ref:** .andromeda/runs/2026-10-10T08-56-51-wrap/
+
+## 2026-10-10-self-healing-state — the torn append as landed: a stop and a shortened log, the appender heals, the reader counts three names
+**Section:** §1 Test Scope Summary (Coverage triggers, chaos-test) · §2 Test Strategy (Test pyramid, Chaos / Fault row) · §4 Unit Test Strategy (What unit tests cover, viola-state) · §6 E2E Test Strategy (Chaos suite)
+**Change:**
+- §6 Chaos suite, torn append: the wrapper is stopped and its log shortened with `File::set_len`, in place of a kill mid-append with `Process::kill_with(Signal::Kill)`; the count is read through the product reader, 1 before the heal and 1 after; the next start's first record starts on a fresh line with every earlier byte unchanged; the role file holds one `state-recovered` line, which the case holds to the diag-line schema itself because a local run removes its test homes (`tests/chaos_torn_append.rs`). The `skipped.torn_lines` reading on `list --json` and `/api/sessions` is owed to "The board: viola list" and, for the page, to Epoch 8.
+- §1 chaos-test trigger and §2 Chaos / Fault row: the same fault, a stopped wrapper's log shortened with `File::set_len` (was "kill the wrapper mid-write" / "kill mid-write"); the reader counts and rewrites nothing, the next append heals (was "readers count `torn_lines` and heal").
+- §4 viola-state: the reader's three counts and what each takes (`three_counts`); the heal is the appender's, with `append_event_at`'s L + 1, `try_append_event` under a held lock, and one `state-recovered` line per heal (`torn_tail`). Was "Torn-line healing counts the line in `torn_lines` and never panics" and "An over-long line is counted as torn".
+**Why:** the chunk built the fresh-line half of the chaos case and the counts. A stop leaves the same file on disk as a kill and no short coverage profile.
+**Kept:** the observable, "the next append starts on a fresh line", is unchanged; the other chaos bullets stand.
+**Ref:** .andromeda/runs/2026-10-10T11-03-09-wrap/
+
+## 2026-10-10-self-healing-state — the snapshot read and the replay as landed; Scenario E5 owed; the crate-level suite named; the root waits at 23 in 17
+**Section:** §1 Test Scope Summary (Coverage triggers, chaos-test) · §4 Unit Test Strategy (What unit tests cover, viola-state) · §5 Integration Test Strategy (Cross-module patterns, On-disk) · §6 E2E Test Strategy (Scenario E5) · §3 → 5-command implementation
+**Change:**
+- §4 viola-state: the classified read tells the snapshot, no file, an unreadable one and an unsupported `v` apart, reading `v` first; an unsupported `v` or a parse failure goes to replay through the read-or-replay function, one `state-recovered` line each and none for a present or absent snapshot (`snapshot_cause`, `replay_recovers`); library code, no product reader yet. Replay: a field no line gave is absent, `links` replays empty until "Session links", no file is written.
+- §1 chaos-test trigger, snapshot bullet: the same limits (`links` empty until "Session links", no file written, the reader owed first to "viola revive").
+- §6 Scenario E5: owed, not built. It needs `link` ("Session links"), a budget pause ("Budget governor"), `list --json` ("The board: viola list") and a reader of the replay (first "viola revive"). Two signals are set against what landed, for the building entry to restate: every start appends `wheel{driver, start}`, so `wheel:"human"` does not hold after step 3; the replay writes no file, so no snapshot is rebuilt from it. The scenario's own lines are unchanged.
+- §5 On-disk: `crates/viola-state/tests/` is two files, `state_events.rs` and `state_replay.rs`, with their cases named; the root `path2` and two `path4` cases read a product-written log back with zero on all three counts.
+- §3 → 5-command implementation: `Instant::now() + WITHIN` reads 23 sites in 17 files (was 22 in 16).
+**Why:** the chunk landed the replay below any surface and measured the second start's first record. The operator approved E5 as owed at the P5 review.
+**Kept:** E5's steps and verification lines stand as written under the new as-landed bullet.
+**Ref:** .andromeda/runs/2026-10-10T11-03-09-wrap/

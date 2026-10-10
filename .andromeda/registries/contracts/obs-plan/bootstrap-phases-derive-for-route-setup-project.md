@@ -7,10 +7,10 @@ setup-project reads this to materialize phase scaffolding.]_
 - **otel-sdk-install:** **no-op in v1.** No `opentelemetry*` crate is added. The phase records only the deferral (D-12) and adds `cargo deny` `[[bans]]` entries for `opentelemetry-otlp`, `opentelemetry-stdout`, `sentry` and `tracing-appender` on the workspace, so they cannot arrive transitively without a Decisions Log entry.
 - **logger-stack-install:**
   - Add `tracing = "0.1.44"` to the root bin, viola-pty, viola-channel, viola-state, viola-agent-claude, viola-mcp and viola-ui.
-  - Add `tracing-subscriber 0.3.23` (`default-features = false`, `fmt,json,registry,std`; no `chrono` feature, D-26) to the root bin only.
+  - Add `tracing-subscriber 0.3.23` (`default-features = false`, `fmt,json,registry,std`; no `chrono` feature, D-26) to the root bin only as a product dependency. A library crate may take the workspace pin as a dev-dependency for the in-memory line capture of its own unit tests; `viola-channel` and `viola-state` do.
   - Add tower-http 0.7.1 feature `trace` to viola-ui.
   - viola-core (`viola_core::obs`): `obs_event!` and the `ObsEvent` / `ObsProcess` enums. The macro expands to `::tracing::event!` at the caller, so viola-core itself gains no `tracing` dependency.
-  - Root bin (`viola::obs`), the only crate that depends on tracing-subscriber: `MillisUtc`, `viola_obs_init` and `viola_panic_hook`.
+  - Root bin (`viola::obs`), the only crate with a product dependency on tracing-subscriber: `MillisUtc`, `viola_obs_init` and `viola_panic_hook`.
     - Add a direct `chrono = { version = "0.4.45", default-features = false, features = ["clock", "std"] }` (already in the tree). `MillisUtc` calls `chrono::Utc::now()` itself, and tracing-subscriber's `chrono` feature does not re-export chrono.
   - Raw-tracing ban. The mechanism is split, because no allow inside `obs_event!` can exempt its inner `::tracing::event!`. As measured on clippy 1.98.1 at chunk 2026-09-24-observability-gates (`.andromeda/runs/2026-09-24T12-21-11-implement/clippy-disallowed-macros-measurement.md`), clippy reports a disallowed macro expanded inside an exported macro at the caller crate's level. Only a crate-level `#![allow]` in the caller silences it.
     - One workspace `clippy.toml` `disallowed-macros` bans the level macros `tracing::{info,warn,error,debug,trace}` by path. `tracing::event` is not listed there, because `obs_event!` expands to it.

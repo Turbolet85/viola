@@ -1,0 +1,158 @@
+[
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T11:03:24Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-self-healing-state",
+"--message-file",
+".andromeda/runs/2026-10-10T11-03-09-wrap/relay-1.md",
+"--origin",
+"the operator, 2026-10-10, the /andromeda-wrap-session invocation; the founder word of 2026-10-10T10:26:30Z relayed in it",
+"--kind",
+"relay",
+"--why",
+"the founder word for the killed-verify entry (a narrow entry: verify handles Ctrl-C and TERM and removes only what it created in that run), the five CARRYs, the events.md curation",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-10T11-03-09-wrap",
+"--marker",
+"2026-10-10-self-healing-state"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy message · message: the operator, 2026-10-10, the /andromeda-wrap-session invocation; the founder word of 2026-10-10T10:26:30Z relayed in it",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, 2026-10-10, the /andromeda-wrap-session invocation; the founder word of 2026-10-10T10:26:30Z relayed in it",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "540d6ac55ea160b6b80436d8eb522d97defe08d00be252e6c15e963e0f664dff",
+"copy": "I4-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-10T11:03:23Z",
+"step": "wrap",
+"why": "the founder word for the killed-verify entry (a narrow entry: verify handles Ctrl-C and TERM and removes only what it created in that run), the five CARRYs, the events.md curation"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T11:03:24Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-self-healing-state",
+"--run-dir",
+".andromeda/runs/2026-10-10T11-03-09-wrap",
+"--marker",
+"2026-10-10-self-healing-state"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-10",
+"I1 cited scope.md:9 · scope.md:184 · research.md:10 · plan.md:66 · plan.md:196 · plan.md:375 · plan.md:405",
+"I2 n/a — a message has no live source · copy message · message: the operator, the P5 review, 2026-10-10",
+"I2 cited scope.md:25",
+"I3 n/a — a message has no live source · copy message · message: the operator, 2026-10-10, the /andromeda-implement invocation",
+"I3 UNCITED",
+"I4 n/a — a message has no live source · copy message · message: the operator, 2026-10-10, the /andromeda-wrap-session invocation; the founder word of 2026-10-10T10:26:30Z relayed in it",
+"I4 UNCITED",
+"inputs: 4 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 4 · uncited 2 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 4,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 4
+},
+"uncited": 2,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T11:15:00Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-self-healing-state",
+"--message-file",
+".andromeda/runs/2026-10-10T11-03-09-wrap/relay-2.md",
+"--origin",
+"the operator, 2026-10-10, the answers at this wrap P2 halt, given in this session",
+"--kind",
+"relay",
+"--why",
+"the operator ratifies the reword of the State Store decision sentence to the appender, and places the new route entry first in Epoch 5 with the text as proposed",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-10T11-03-09-wrap",
+"--marker",
+"2026-10-10-self-healing-state"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I5 · copy message · message: the operator, 2026-10-10, the answers at this wrap P2 halt, given in this session",
+"cite: inputs#I5"
+],
+"stderr": null,
+"wrote": [
+"inputs/I5-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I5",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, 2026-10-10, the answers at this wrap P2 halt, given in this session",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "444f0ce3cf22f549724fec47bbd398fe1122a1c61137dce32744b1053b3b17d5",
+"copy": "I5-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-10T11:15:00Z",
+"step": "wrap",
+"why": "the operator ratifies the reword of the State Store decision sentence to the appender, and places the new route entry first in Epoch 5 with the text as proposed"
+}
+}
+]

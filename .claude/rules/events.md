@@ -27,11 +27,11 @@ Path-scoped rules for viola's event log and state: the normalised event kinds, t
 
 ## Snapshots and liveness
 - Envelope `{"v":1,"written_at","writer","data"}`, replaced atomically (tempfile `persist` through the one shared helper `viola_state::fs::replace_private`); only the instance's wrapper writes `instances/<name>/snapshot.json`.
-- An unsupported `v` or a parse failure → ignore the snapshot and replay the log; replay recovers only `links`, `agent_session_id`, `wheel`, `budget_paused`, `budget_override_until` (`dialog_pending` reads false).
+- An unsupported `v` or a parse failure → ignore the snapshot and replay the log; replay recovers only `links`, `agent_session_id`, `wheel`, `budget_paused`, `budget_override_until` (`dialog_pending` reads false). As landed the classified read and the replay are library code (`viola_state::snapshot::read_snapshot_classified`, `viola_state::replay`): no reader takes the replay yet, it writes no file, and `links` replays empty until the link kinds land.
 - Heartbeat touched every 1 s. A snapshot pid that is dead, or alive with another start time, is `gone` whatever the beat; otherwise a beat ≤ 5 s old is `live`, an older or absent one `stale`. Never a bare pid.
 
 ## Parsing
-- Readers heal a torn last line and count it (as landed, the one reader `events::read_from` skips it unreturned and unrewritten; healing lands with the route entry "Self-healing state"); unknown kinds and fields are skipped and counted (`skipped`), never fatal. External payloads parse tolerantly (`#[serde(default)]`, `Option<T>`, no `deny_unknown_fields`), with serde_path_to_error drift reports going to the instance detail file only.
+- The next append heals a torn last line: under the log's lock it writes one LF ahead of its line in the same single write, and logs one `state-recovered` line. A reader never writes. The one reader `events::read_from` counts what it steps over, per read, as `skipped{unknown_kinds, unknown_fields, torn_lines}`, never fatal: an unterminated last line, an over-long line and a line that is not one object are torn; a line of an unknown kind is not returned; a known-kind line with a key outside its contract is returned and counted once. No surface shows the counts yet. External payloads parse tolerantly (`#[serde(default)]`, `Option<T>`, no `deny_unknown_fields`), with serde_path_to_error drift reports going to the instance detail file only.
 - Lock files are separate siblings (`<name>.lock`): append + exclusive lock fails on Windows.
 - Timestamps via chrono `to_rfc3339_opts(SecondsFormat::Millis, true)`; malformed external values become `"unknown"`, never an error. JSON fields snake_case, enum values kebab-case.
 

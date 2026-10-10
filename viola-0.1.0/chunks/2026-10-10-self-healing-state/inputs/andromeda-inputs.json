@@ -52,5 +52,41 @@
     "read_at": "2026-10-10T10:25:57Z",
     "step": "implement",
     "why": "the operator directs: no live claude start, no mutation run, the operator pass run by this session with the ci.py conclusion read, and what the report quotes"
+  },
+  {
+    "id": "I4",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the operator, 2026-10-10, the /andromeda-wrap-session invocation; the founder word of 2026-10-10T10:26:30Z relayed in it",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "540d6ac55ea160b6b80436d8eb522d97defe08d00be252e6c15e963e0f664dff",
+    "copy": "I4-relay-1.md.txt",
+    "link": false,
+    "read_at": "2026-10-10T11:03:23Z",
+    "step": "wrap",
+    "why": "the founder word for the killed-verify entry (a narrow entry: verify handles Ctrl-C and TERM and removes only what it created in that run), the five CARRYs, the events.md curation"
+  },
+  {
+    "id": "I5",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the operator, 2026-10-10, the answers at this wrap P2 halt, given in this session",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "444f0ce3cf22f549724fec47bbd398fe1122a1c61137dce32744b1053b3b17d5",
+    "copy": "I5-relay-2.md.txt",
+    "link": false,
+    "read_at": "2026-10-10T11:15:00Z",
+    "step": "wrap",
+    "why": "the operator ratifies the reword of the State Store decision sentence to the appender, and places the new route entry first in Epoch 5 with the text as proposed"
   }
 ]

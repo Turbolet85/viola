@@ -81,3 +81,67 @@ every edited file is in research's two lists.
   host paths kept · binary 0 not read by P1`. Atoms: `exit 0` ✓, `contains hygiene: clean` ✓. No row to rewrite.
 - Read once more after this section was added, right before the commit: the verdict is in the next section,
   which was written after the commit and rides the next one.
+
+## Before the pre-CI commit, 10:50:01Z
+
+- Hygiene re-read: `hygiene: clean — read 67 (runs 60 · evidence 2 · inputs 5) · trails 16 not read · copies 3
+  not read by P1 — 0 host paths kept · binary 0 not read by P1`, exit 0, this file among the evidence.
+- The scope read again: `scope: clean — changed 12 · listed 12 · recorded 0 (companion 0 · mechanical 0 ·
+  in-intent 0 · widening 0) · absorbed 0 · excluded 75`, base HEAD `2f1efe3a8962`.
+- The tree the commit takes: the take-up's products (the stamped route line, the master's pending record, the
+  ledger note on `v1-41`, the chunk folder, the phase run dir), the 8 changed and 4 new source, test and manifest
+  files, this chunk's evidence and inputs, this implement run dir and the bookkeeping the tree carried. 0 ahead
+  of the upstream before it; the remote branch head read live (`git ls-remote`) at `2f1efe3a8962`.
+- This section and everything below it was written after the commit; it rides the next commit.
+
+## Step 3 and step 4 — the pre-CI commit and entry 15, the push, 10:50:07Z to 10:50:20Z
+
+- `0af8283` `chore(2026-10-10-self-healing-state): operator pre-CI commit, for the run this chunk's verdict
+  reads` at 10:50:07Z (the whole tree, 87 files). `git status --short` read empty after it.
+- Entry 15, fired once through the gate tool with no run dir (`gate.py run --plan
+  viola-0.1.0/chunks/2026-10-10-self-healing-state/plan.md --operator 15`), 10:50:17Z to 10:50:20Z. A
+  `--dry-run` of the same call at 10:50:13Z fired nothing and printed the same tripwire line. The firing's
+  tripwire line, entry line and summary line, as printed:
+
+  ```
+  operator entry 15 · history tripwire: git
+   15 probe       green · exit 0 · 2.35s · 90 B → 15.log · history moved: refs/remotes/origin/HEAD 2f1efe3a→0af82832; refs/remotes/origin/build/viola-0.1.0 2f1efe3a→0af82832 · git diff --quiet && git diff --cached --quiet && git push … (69 chars)
+  entries 16 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 15
+  ```
+
+  The entry carries no `expect` key, so its line asserts `exit 0` alone. Its log
+  (`$TMPDIR/andromeda-gate/2026-10-10-self-healing-state/run-20261010T105017Z/15.log`, 90 B) holds git's own two
+  lines, the second `2f1efe3..0af8283  HEAD -> build/viola-0.1.0`.
+- The history reading is the move the entry is for: the two remote-tracking refs went from `2f1efe3a` to
+  `0af82832`, a fast-forward. No local branch, tag or stash moved. No force push.
+- After it: 0 ahead of the upstream; the remote branch head read live at `0af82832bfa6`; the tree clean.
+
+## Step 5 — entry 16, the CI read (fired as written), 10:50:26Z to 11:00:46Z
+
+- `python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait
+  1800` → exit 0: `0af82832bfa6 verdict: green · checks 15/15 · wall 609 s · runs ci#38046300968
+  completed/success`, polled 21 times over 620 s. Atoms: `exit 0` ✓, `contains verdict: green` ✓.
+- `run_attempt`, read from the run itself (`gh api …/actions/runs/38046300968`): **1**. Event `push`, head
+  `0af82832bfa6`, started 10:50:22Z, last updated 11:00:35Z, conclusion `success`. It is the only run on the sha
+  (`gh run list --commit`, by the full sha). The sha is green on its first attempt.
+- Its fifteen jobs, each `success` at attempt 1: `lint`, `test`, `release` and `perf` on `windows-2025`,
+  `macos-latest` and `ubuntu-latest`; `supply-chain`, `msrv`, `fuzz-replay`.
+- The three `test` jobs' own summaries, read from their logs (`gh api …/jobs/<id>/logs
+  --allow-escape-sequences`, escapes stripped): `windows-2025` 1931 tests run, 1931 passed; `macos-latest` 1898
+  run, 1898 passed; `ubuntu-latest` 1902 run, 1902 passed; none skipped, and no `FAIL`, `TIMEOUT`, `LEAK`,
+  `SIGKILL` or `ABORT` status line in any of the three. Before this chunk they read 1886, 1853 and 1857
+  (`dd5161d`): 45 more on every runner.
+- This chunk's cases, counted as `PASS` lines in each of the three logs, the same on every runner: the chaos
+  case 1; `viola-state::state_events` 3; `viola-state::state_replay` 3; the 43 inline cases the unit filter
+  selects (44 lines carry one of its five tokens, the chaos case's name among them); the three edited path
+  cases (`path2_send_confirms_with_cl1_events` and the two `path4` cases) 3.
+- In each `test` job the steps `G2 zero panics`, `G4 schema conformance`, `Secret scan` and `Gate verdict`
+  concluded `success`. On `windows-2025` the G4 document read 264 files, 2460 lines, 0 torn, no failure. Whether
+  the chaos case's home was among those files was not read: the job's artifact was not opened.
+
+## After the pass
+
+- No fix commit was made: `0af8283` is the final sha of the pass, local and remote.
+- No entry read red in the pass, so no operator entry was fired a second time.
+- The tree after the pass carries, for the next commit: this record's sections written after the commit. No
+  source file is among them.

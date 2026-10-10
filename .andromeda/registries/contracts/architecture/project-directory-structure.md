@@ -45,8 +45,10 @@ viola/
 │   │                           #   host_stdin(): the host stdin (Windows console: viola's own ReadConsoleW reader, every 0x1A kept);
 │   │                           #   `sideload` (Windows): the System32 DLL-search restriction + the absolute-path conpty.dll pre-load)
 │   ├── viola-channel/          # JSON-RPC 2.0 ndjson over interprocess local sockets
-│   ├── viola-state/            # ndjson logs, atomic snapshots, File::lock, the events reader (`events::read_from`:
-│   │                           #   skips + counts torn / oversize lines; healing owed to the route entry "Self-healing state"), tailing (with `ui`)
+│   ├── viola-state/            # ndjson logs (the append heals a torn last line), atomic snapshots, File::lock, the events
+│   │                           #   reader (`events::read_from`: counts unknown kinds, unknown fields and torn lines), the
+│   │                           #   classified snapshot read and the log replay (`replay.rs`; no caller yet), tailing (with `ui`)
+│   │                           #   (+ tests/, the crate-level suite: `state_events.rs`, `state_replay.rs`)
 │   ├── viola-agent-claude/     # hook parsing, dialog mapping, R8 strip, shim resolution,
 │   │                           #   capability ledger, the vt100 screen model (`screen`), statusline parsing
 │   │                           #   (+ proptest-regressions/, committed seeds; src/snapshots/, the insta

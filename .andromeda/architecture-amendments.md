@@ -826,3 +826,24 @@
 **Why:** the chunk split the `viola` job per file so that every job ends inside its 120-minute ceiling, and moved the classification of host-excluded twins from the audit's hand into the harness, with the retired syn reader revived for it. The dispatch was allowed by the founder for this chunk only, relayed verbatim by the operator on 2026-10-10; it is an exception, not a change of the ruling.
 **Kept:** every sentence that states ruling C2 (dispatched only during the epoch-boundary audit, never a gate, never a dependency of `ci.yml`) stands word for word. Crate dependency direction is not edited: its `viola-e2e` line says that crate's dependencies are not listed there. `timeout-minutes: 120`, the trigger, the permissions, the pins and the step bodies are unchanged.
 **Ref:** .andromeda/runs/2026-10-10T08-56-51-wrap/
+
+## 2026-10-10-self-healing-state — the next append heals a torn last line; the reader counts three names; the replay stands as library code
+**Section:** §Established Decisions [Database / State Store] · §Standard Contracts → Snapshot envelope · §Infrastructure Patterns → Project directory structure
+**Change:**
+- [Database / State Store], the decision sentence: "The next append heals a torn last line; readers count it and never rewrite the log" (was "Readers heal a torn last line").
+- [Database / State Store], as landed: every appender reads the log's last byte under its lock and, when the log is not empty and that byte is not LF, writes one LF and its line in a single write; no earlier byte moves; `append_event_at` hands and returns L + 1 after a heal, L otherwise; one `state-recovered` line per heal, none without one. The reader `events::read_from` counts per read `unknown_kinds`, `unknown_fields`, `torn_lines`: an unknown kind is not returned; a known-kind line with a key outside the six top-level ones or outside its kind's `data` list is returned and counted once; an over-long line, a non-object line and the unterminated last line are torn. The counts are not logged; showing them is owed to "The board: viola list". Was: the reader skips the unterminated last line uncounted and counts over-long and non-object lines, with healing and `state-recovered` owed to "Self-healing state".
+- Snapshot envelope, as landed: `snapshot::read_snapshot_classified` tells the snapshot, no file, an unreadable one and an unsupported `v` apart, reading `v` first (above 1 unsupported, 1 must parse whole, anything else unreadable); `replay::read_snapshot_or_replay` replays for the last two and logs one `state-recovered` line; the replay writes no file; a field no line gave is absent; `links` replays empty until "Session links". No reader takes the replay: `read_snapshot`'s four product callers still read such a snapshot as absent. The first reader is owed to "viola revive".
+- Project directory structure: the `viola-state/` comment names the healing append, the three counts, the classified read, `replay.rs` (no caller yet) and the crate's `tests/` (`state_events.rs`, `state_replay.rs`).
+**Why:** the chunk landed the heal in the one shared write path, because a reader holds no lock and writes nothing. The decision sentence's actor was reworded on the operator's own word at this wrap's P2 halt, 2026-10-10: the invariant stands and only the actor differs.
+**Kept:** "Readers always tolerate a torn last line" (§Cross-cutting) and the contract sentence that replay recovers `links` stand unchanged.
+**Ref:** .andromeda/runs/2026-10-10T11-03-09-wrap/
+
+## 2026-10-10-self-healing-state — the root waits read 23 sites in 17 files; tracing-subscriber's dev-dependents named
+**Section:** §Occupied Resources → Filesystem · §Stack and Technologies (Logging) · §Infrastructure Patterns → Crate dependency direction
+**Change:**
+- Filesystem, the root watch: `Instant::now() + WITHIN` reads 23 sites in 17 files under `tests/`, as measured at this chunk's report (was 22 sites in 16 files). The pattern stays the count's rule; `tests/chaos_torn_append.rs` adds one site and one file.
+- Stack, Logging row: the root bin is tracing-subscriber's only product dependent, and `viola-channel` and `viola-state` take it as a dev-dependency for their unit tests' line capture (was "root bin only").
+- Crate dependency direction, the `viola-state` row: its dev-dependency beside rstest is tracing-subscriber at the workspace pin, for the `#[cfg(test)]` line capture; no product edge.
+**Why:** the chunk added a root chaos test with one wait, and gave `viola-state` the test capture `viola-channel` already had. No product dependency moved and no crate entered the graph.
+**Kept:** the same count in test-plan §3 → 5-command implementation moved in the same pass.
+**Ref:** .andromeda/runs/2026-10-10T11-03-09-wrap/
