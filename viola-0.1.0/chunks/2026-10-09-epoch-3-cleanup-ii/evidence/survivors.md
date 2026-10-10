@@ -179,8 +179,10 @@ audit's own run graded them the same way was not read. They are named here for t
 
 ## Not measured
 
-- Any of this on Windows or macOS. The NUL-byte path (rows 1, 2, 5, 6) fails before any filesystem call on Linux
-  (`InvalidInput`); the CI run on `windows-2025` and `macos-latest` is the first reading of those four cases there.
+- Any mutation grade on Windows or macOS. The NUL-byte path (rows 1, 2, 5, 6) fails before any filesystem call on
+  Linux (`InvalidInput`). The four cases then passed on `windows-2025` and `macos-latest` in the pre-CI commit's CI
+  run (`ci#38012420489`, each a `PASS` line in that runner's `test` job; `operator-pass.md`): a pass says the call
+  failed there with a kind other than `NotFound`. Which kind, and the mutants' grade on those hosts, were not read.
 - Row 4's case on Windows: it is `cfg(unix)`. Its Windows grade is owed to "Windows mutation grade", as is
   `strict.rs:34:23`'s.
 - Row 4's case under an effective uid of 0, where the replace succeeds and the case passes without killing the

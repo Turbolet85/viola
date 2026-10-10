@@ -57,3 +57,54 @@ No scope record was needed: every edited file is in research's two lists.
   lines are in `evidence/` (`e2e-score-outcomes.txt` and the three `witness-*-outcomes.txt`) and their other lines
   are quoted in `e2e-score.md` and the run journal.
 - Read once more after this file was added, before the commit: the verdict is in the next section's first line.
+
+## Before the pre-CI commit, 01:14:32Z
+
+- Hygiene re-read: `hygiene: clean — read 67 (runs 47 · evidence 15 · inputs 5) · trails 14 not read · copies 3 not
+  read by P1 — 0 host paths kept · binary 0 not read by P1`, exit 0, this file now among the evidence.
+- The scope read again: `scope: clean — changed 20 · listed 20 · recorded 0`, base HEAD `14f1fb5f588d`.
+- The tree the commit takes: the take-up's products (the stamped route line, the master's pending record, the
+  chunk folder, the phase run dir), the 18 changed and 2 new source and test files, this chunk's evidence and
+  inputs, this implement run dir and the bookkeeping the tree carried (94 files). 0 ahead of the upstream before
+  it; the remote branch head read live (`git ls-remote`) at `14f1fb5f588d`.
+- This part of the file and everything below it was written after the commit; it rides the next commit.
+
+## The pre-CI commit and entry 20 — the push, 01:14:39Z to 01:14:46Z
+
+- `632f6a7` `chore(2026-10-09-epoch-3-cleanup-ii): operator pre-CI commit, for the run this chunk's verdict reads`
+  at 01:14:39Z (the whole tree, 94 files).
+- Entry 20: `git diff --quiet && git diff --cached --quiet && git push origin HEAD` → exit 0 at 01:14:46Z,
+  `14f1fb5..632f6a7  HEAD -> build/viola-0.1.0`; 0 ahead of the upstream after it, the remote branch head read
+  live at `632f6a7edf29`. No force push.
+
+## Entry 21 — the CI read, 01:15:03Z to 01:22:49Z
+
+- `python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait
+  1800` → exit 0: `632f6a7edf29 verdict: green · checks 15/15 · wall 447 s · runs ci#38012420489
+  completed/success`, polled 16 times over 466 s. Atoms: `exit 0` ✓, `contains verdict: green` ✓.
+- `run_attempt`, read from the run itself (`gh api …/actions/runs/38012420489`): **1**. Event `push`, head
+  `632f6a7edf29`, started 01:14:48Z, last updated 01:22:19Z, conclusion `success`. It is the only run on the sha
+  (`gh run list --commit`, by the full sha). The final sha is green on its first attempt.
+- Its fifteen jobs, each `success` at attempt 1: `lint`, `test`, `release` and `perf` on `windows-2025`,
+  `macos-latest` and `ubuntu-latest`; `supply-chain`, `msrv`, `fuzz-replay`.
+- The three `test` jobs' own summaries, read from their logs: `ubuntu-latest` 1838 tests run, 1838 passed;
+  `windows-2025` 1861 run, 1861 passed; `macos-latest` 1834 run, 1834 passed; none skipped.
+- The new cases on the two runners this chunk could not measure before, each read as its own `PASS` line in that
+  job's log:
+  - `windows-2025`: 13 of the 14. The four NUL-byte cases pass there
+    (`events_current_len_of_a_log_that_cannot_be_statted_is_an_error`,
+    `events_read_of_a_log_that_cannot_be_opened_is_an_error`,
+    `read_stamps_of_a_file_that_cannot_be_opened_is_an_error`,
+    `check_stamps_of_a_path_that_cannot_be_statted_is_unreadable`), and so do the three fake-agent cases (the host
+    program is `%SystemRoot%\System32\whoami.exe` there), the frame-bound case and the cross-process case. The
+    fourteenth, the read-only directory case, is `cfg(unix)` and does not exist on that runner.
+  - `macos-latest`: all 14, the read-only directory case included.
+  - A pass of a NUL-byte case says the call failed with a kind other than `NotFound` on that OS: with `NotFound`
+    the code under test returns its absent value and the case fails. Which kind it was on each OS was not read.
+
+## After the pass
+
+- No fix commit was made: `632f6a7` is the final sha of the pass.
+- The tree after it carries, for the next commit: this record's sections written after the commit, one sentence
+  added to `evidence/survivors.md` about the runners, the run journal's last entries, and the gate trail and
+  ledger lines written after the commit. No source file is among them.

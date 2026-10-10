@@ -252,3 +252,30 @@ The chunk dir: `viola-0.1.0/chunks/2026-10-09-epoch-3-cleanup-ii/`.
   `ci.py conclusion --sha HEAD --wait 1800`) with `run_attempt` read from the run itself: the final sha needs
   green on its FIRST attempt. Record every entry in `evidence/operator-pass.md`. A red is fixed by a new commit on
   top, never an amend, never a force push, and the pass repeats.
+
+### The block and the operator pass (2026-10-10)
+
+- 01:11Z: the block read `entries 21 · green 18 · red 0 · recorded 0 · timeout 0 · not-run 3` on its first firing.
+  Telemetry appended: `fix-loop` (01:11:50Z, ids a to c) and `smoke` (01:12:20Z, id a). The matrix shows 0
+  capabilities claimed by this chunk: nothing recorded. Scope read: `clean — changed 20 · listed 20`.
+- The operator's word for this run is snapshotted as `inputs#I3` (`relay-1.md` in this run dir).
+- 01:12:55Z to 01:13:59Z: `pre-push` again through the tool (`--entry 18`): green, 63.73 s.
+- 01:14:03Z and 01:14:32Z: hygiene `clean` twice (read 66, then 67 with `evidence/operator-pass.md`).
+- 01:14:39Z: the pre-CI commit `632f6a7edf29` (94 files). 01:14:44Z to 01:14:46Z: the guarded push, exit 0,
+  `14f1fb5..632f6a7  HEAD -> build/viola-0.1.0`; the remote head read live at `632f6a7edf29`, 0 ahead.
+- NEXT: entry 21, `python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion
+  --sha HEAD --wait 1800` (backgrounded). When it returns: read `verdict:`; read `run_attempt` from the run itself
+  (`gh api repos/Turbolet85/viola/actions/runs/<id>`), and `gh run list --commit $(git rev-parse HEAD)` with the
+  FULL sha. Green on attempt 1 → complete `evidence/operator-pass.md` (the commit, the push, the CI read, "after
+  the pass"), then the P4 report: outcome, files changed, deviations, the process census. A red → read the failing
+  job's log first (the NUL-byte cases on `windows-2025` / `macos-latest` are the first reading there); fix by a NEW
+  commit on top and repeat the pass from `pre-push`; the final sha then needs its own first-attempt green.
+- 01:15:03Z to 01:22:49Z: the CI read: `632f6a7edf29 verdict: green · checks 15/15 · wall 447 s · runs
+  ci#38012420489 completed/success`; `run_attempt` 1, the only run on the sha, all fifteen jobs `success` at
+  attempt 1. The new cases read `PASS` in the `windows-2025` (13, the read-only directory case is `cfg(unix)`) and
+  `macos-latest` (14) test jobs' logs. No fix commit: `632f6a7` is the final sha.
+- 01:23Z: `evidence/operator-pass.md` completed; the scope read on the new base (`14f1fb5f`, the pre-CI commit's
+  parent) and hygiene with `--marker` both read `clean`. Census: no process of this repository alive. Left behind:
+  34 `.tmp*` directories in the mutation scratch (250 MB), 26 `viola-session-*` homes of run 1 on the tmpfs base,
+  `mutants.out/` and `mutants.out.old/` (ignored by git), the raw stderr captures in the session scratchpad.
+- The implement run ends here with the report. NEXT is the wrap (`/andromeda-wrap-session`), the operator's call.

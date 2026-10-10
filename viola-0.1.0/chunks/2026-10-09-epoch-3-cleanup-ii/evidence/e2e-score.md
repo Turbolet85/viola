@@ -59,6 +59,11 @@ This chunk kills neither of them (the plan's lean: the entry asks for the score)
   (`cargo-mutants-viola-*.tmp`). The scratch read empty before the run.
 - The harness archived the tool's `outcomes.json` under `target/run-archive/862` (ignored by git). It is not copied
   here: it holds absolute argv paths.
+- 26 `viola-session-*` directories under the test-home base (`target/e2e-home/`, the tmpfs behind the link), dated
+  inside the run's window (22:05Z to 22:59Z), read after the operator pass. The tool's copy of the tree carries the
+  same link, so a harness test running under a mutated `boot` or `cleanup` leaves its session home on the shared
+  base. No process of this repository was alive when they were read (no supervisor, wrapper or child). They were
+  not removed: they are gone at a reboot, and their deletion before that is the operator's.
 
 ## What else ran in its window (from the run journal)
 

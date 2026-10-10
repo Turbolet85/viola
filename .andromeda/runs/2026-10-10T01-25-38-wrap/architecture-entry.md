@@ -1,0 +1,7 @@
+
+## 2026-10-09-epoch-3-cleanup-ii — the Watch bound's waits counted by pattern, the ordinal retired
+**Section:** Occupied Resources → Filesystem (the `viola-root-watch` Watch report row)
+**Change:** `WITHIN` = 7 s is "shared by the root waits on a child": `Instant::now() + WITHIN` reads 22 sites in 16 files under `tests/`, as measured at this chunk's report on the Linux dev host's tree, with the shared `tests/support/events.rs` and `tests/support/cli.rs` holding one each. The pattern is the count's rule and not a census of every wait on the bound. `wait_endpoint_gone` stays named as one of the waits. Was "used by the 9 root waits on a child; the ninth is `wait_endpoint_gone`".
+**Why:** the 9 was a named list (the eight sites moved from a 10 s bound at chunk 2026-09-27-browser-verdict-reachability plus `wait_endpoint_gone`) that no wrap re-took while later chunks added waits; by the pattern it read 30 at this chunk's base, and the chunk's lift of the per-file scaffolding into `tests/support/` moved it to 22. The operator directed that the count be amended only after its rule was read. Trap for later chunks: a wait written through `EXIT_WITHIN` or a qualified path is outside the pattern, so the number is true only with its pattern beside it.
+**Kept:** the bound, the report's path and lifecycle, and `wait_endpoint_gone`'s description are unchanged.
+**Ref:** .andromeda/runs/2026-10-10T01-25-38-wrap/

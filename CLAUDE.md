@@ -122,4 +122,5 @@ _This section is curated by `/wrap-session`. It accumulates universal (Tier 1) r
 - A red stays open until its cause is known: a green re-run never closes it, and a red met during a chunk folds into that chunk even outside its diff.
 - A tool call refused with no verdict by the permission classifier is a transient outage, not a gate to route around: fill the wait with read-only work and retry the same call.
 - A master, a key file or a leaf names a working-route entry by its title, never by a bare route line number: the number goes stale at every insertion ahead of the entry, and the citation sweep reads no bare number.
+- A count written into a master carries the rule that produced it (the pattern or the named list) beside the number, and a count found without one is read back to the sidecar entry that wrote it before it is amended.
 <!-- USER:session-learnings end -->

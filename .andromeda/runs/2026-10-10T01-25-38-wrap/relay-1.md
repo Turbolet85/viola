@@ -1,0 +1,1 @@
+2026-10-09-epoch-3-cleanup-ii. This window is past the 60 % line: run P1 only, write the run dir resume point naming P2 as next, and stop there. The wrap is resumed in a cleared window, and its route items are given then.

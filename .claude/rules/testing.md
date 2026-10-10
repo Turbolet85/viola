@@ -16,7 +16,7 @@ Path-scoped rules for test authoring (what tests assert, fixtures, coverage). Lo
 
 ## Framework
 - **Unit:** libtest `#[cfg(test)] mod tests` inline in every crate + root `src/`, run through cargo-nextest 0.9.146; rstest 0.27 `#[case]` tables, proptest 1.11.0 (`cases: 512`), insta 1.48.0 (check mode only), mockall 0.15.0 only on seam traits the product defines (`Pty`, liveness probe, `Clock`).
-- **Integration:** crate `tests/<topic>.rs` + root `tests/{cli,hook,tui,channel,chaos,contract}_<topic>.rs` (sync, tokio-free) with assert_cmd 2.2.2, trycmd 1.2.1, axum-test 21.1.0, jsonschema 0.57.0.
+- **Integration:** crate `tests/<topic>.rs` + root `tests/{cli,hook,tui,channel,chaos,contract}_<topic>.rs` (sync, tokio-free; shared helpers in `tests/support/` — the `events.ndjson` reader, its wait and the session-start boot in `events.rs`, the started-child guard and runner in `cli.rs`, and a root test file defines no copy of its own) with assert_cmd 2.2.2, trycmd 1.2.1, axum-test 21.1.0, jsonschema 0.57.0.
 - **E2E:** `crates/viola-e2e/tests/{path,mcp,http,sse,cross}_<topic>.rs` (rmcp client, reqwest, eventsource-client) + Playwright 1.63.0 specs `e2e-web/tests/<bay-layout-type>.spec.ts` (the pipe stub `pipe-reachability.spec.ts`, titles `pipe:`, is the one exception) on all three CI OSes; render, contrast and a11y verdicts are judged on the ubuntu leg.
 - **Doctests:** `cargo test --workspace --doc` (nextest cannot run them); examples that must not run use `no_run` / `text`, never `ignore`.
 

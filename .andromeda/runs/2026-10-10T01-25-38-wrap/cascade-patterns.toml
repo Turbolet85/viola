@@ -1,0 +1,47 @@
+[[pattern]]
+id = 'nine-waits'
+fixed = '9 root waits'
+
+[[pattern]]
+id = 'ninth'
+fixed = 'ninth'
+
+[[pattern]]
+id = 'waits-child'
+fixed = 'waits on a child'
+
+[[pattern]]
+id = 'within'
+fixed = 'WITHIN'
+
+[[pattern]]
+id = 'endpoint-gone'
+fixed = 'wait_endpoint_gone'
+
+[[pattern]]
+id = 'support-dir'
+fixed = 'tests/support'
+
+[[pattern]]
+id = 'per-file'
+fixed = 'per-file'
+
+[[pattern]]
+id = 'e2e-wall'
+fixed = '78 m'
+
+[[pattern]]
+id = 'e2e-711'
+fixed = '711'
+
+[[pattern]]
+id = 'package-score'
+fixed = '--package viola-e2e'
+
+[[pattern]]
+id = 'whole-member'
+regex = 'whole[- ](member|unit)'
+
+[[pattern]]
+id = 'not-measured'
+fixed = 'not measured here'

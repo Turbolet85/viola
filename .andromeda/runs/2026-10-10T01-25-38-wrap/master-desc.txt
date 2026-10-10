@@ -1,0 +1,1 @@
+Epoch 3 cleanup II — root test scaffolding shared once in `tests/support/` (nineteen per-file copies gone), three functions split within the cognitive ceiling, the first whole-unit viola-e2e score on the dev host (718 mutants, 656 caught, 2 missed and Windows-only, 0 timeout), eighteen Linux survivors: fourteen killed by a test, four gone by restatement
