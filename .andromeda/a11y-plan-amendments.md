@@ -109,3 +109,16 @@
 **Change:** the sentence that says where a real Windows terminal's mouse report is measured live names the working-route entry by its title, "Windows-only live measurements"; was the bare route number `:140`, which no longer named that entry's line (the entry stood at `:144` when this wrap began and stands at `:148` after its two head insertions). Nothing else in the contract moved: the injected report's reading (ci#37227518624) and the three boundary assertions are as they were.
 **Why:** a bare route number is not a citation the sweep follows, so every insertion above the entry stales it, and a title moves with nothing. The operator chose it in this wrap's route-adaptation dialogue (item 8 of the overseer's relay), from three options shown: by title, by the new number, or left. A precedent for the next bare route number met in master text, not a standing rule: the other bare numbers read at this wrap were left as they stand.
 **Ref:** .andromeda/runs/2026-10-09T14-44-30-wrap/
+
+## 2026-10-10-viola-revive — `revive` among the CLI verbs; a passed revive enters the TUI passthrough boundary
+**Section:** §1 A11y Scope Summary (CLI and terminal entities: CLI verbs, TUI passthrough; Boundary-only vendor zones; Surface cli, Notes; Surface tui) · §3 → Keyboard test harness · §6 Visual Design Verification (CLI equivalent) · §8 Cognitive Accessibility (Error recovery, CLI) · §11 A11y Anti-Patterns (Strategy; Keyboard; Visual)
+**Change:**
+- §1 CLI verbs: the list names `revive`. It takes no `--json`; `--list` prints static ASCII rows `<ts>  <cause>  <id>` with no header, colour or ESC byte; each exit-1 refusal is one `unable:` line and one `hint:` line last; a clap usage error exits 2.
+- §1 TUI passthrough, vendor zones and Surface tui: the passthrough is entered by `viola run` and by a `viola revive` whose preflight passed. The boundary binds both; the one clause read by a revive case of its own is that a passed revive writes no line of its own while the child holds the terminal (`tests/chaos_revive.rs`).
+- §1 cli Notes, §6 CLI equivalent, §11 Visual: the zero-SGR list names a passed `viola revive`; revive's refusal pairs and `--list` rows carry no ESC byte.
+- §8 Error recovery: revive's exit-1 refusals take the fixed-message form of design-system cli pattern 2.
+- §11 Strategy and Keyboard: the no-conformance-claim ban and the keystroke ban cover a start a passed revive made.
+- Key file, Keyboard test harness: the zero-own-lines reading of a revived start is recorded; the keystroke clause and the focus / mouse / resize clause have no revive-specific case.
+**Why:** the chunk landed a second verb that hosts the wrapped `claude` TUI through the same start as `run`.
+**Kept:** the surface keeps its name, the `viola run` TUI. §8's general CLI form, `unable  <reason>  <detail>`, stands; the fixed-message exceptions live in design-system.
+**Ref:** .andromeda/runs/2026-10-10T15-07-22-wrap/

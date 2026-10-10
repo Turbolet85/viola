@@ -18,9 +18,10 @@ viola/
 ├── src/                        # the `viola` bin: anyhow edge only
 │   ├── main.rs                 # clap 4.6.7 dispatch (Windows: the System32 DLL-search restriction is its second statement)
 │   ├── conpty.rs               # Windows x64: the embedded ConPTY companions and their four pins (the vendor script parses this text)
-│   ├── human.rs                # human-facing text: the refusal and internal-error stderr writers, the stdout result writer, `send`'s readback mirror (`[  ] open` / `[RB] read back` / `[  ] unconfirmable` with its one fixed note / `[/ ] unable` + its hints), the message-mode escaper, the `wait` / `last` lines, the `answer` line and the `pause` / `release` lines, called by `run`, `verify`, `send`, `wait`, `last`, `answer`, `pause`, `release` and the `main` catch site
-│   ├── cmd/                    # one module per subcommand: run, send, wait, last, list,
+│   ├── human.rs                # human-facing text: the refusal and internal-error stderr writers, the stdout result writer, `send`'s readback mirror (`[  ] open` / `[RB] read back` / `[  ] unconfirmable` with its one fixed note / `[/ ] unable` + its hints), the message-mode escaper, the `wait` / `last` lines, the `answer` line and the `pause` / `release` lines, called by `run`, `revive`, `verify`, `send`, `wait`, `last`, `answer`, `pause`, `release` and the `main` catch site
+│   ├── cmd/                    # one module per subcommand: run, revive, send, wait, last, list,
 │   │                           #   answer, hook, mcp, ui, verify, pause, release, link, unlink, plugin;
+│   │                           #   revive.rs: the four-reading preflight and the `--list` rows; its child shapes come from `viola-agent-claude`;
 │   │                           #   client.rs (a helper, no subcommand): the channel client send / wait / last share;
 │   │                           #   verify/typed.rs: verify's four interactive PTY runs (Run A untrusted, Run B trusted, Run C dialogs, Run D plan),
 │   │                           #   the settle rule, Run B's wait for the input box after an added turn, and the signature-only screen recording
@@ -47,7 +48,8 @@ viola/
 │   ├── viola-channel/          # JSON-RPC 2.0 ndjson over interprocess local sockets
 │   ├── viola-state/            # ndjson logs (the append heals a torn last line), atomic snapshots, File::lock, the events
 │   │                           #   reader (`events::read_from`: counts unknown kinds, unknown fields and torn lines), the
-│   │                           #   classified snapshot read and the log replay (`replay.rs`; no caller yet), tailing (with `ui`)
+│   │                           #   classified snapshot read, the log replay and the session chain (`replay.rs`; read by `viola revive`),
+│   │                           #   the instance strict-modes check (`strict::check_instance`), tailing (with `ui`)
 │   │                           #   (+ tests/, the crate-level suite: `state_events.rs`, `state_replay.rs`)
 │   ├── viola-agent-claude/     # hook parsing, dialog mapping, R8 strip, shim resolution,
 │   │                           #   capability ledger, the vt100 screen model (`screen`), statusline parsing

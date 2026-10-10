@@ -1,0 +1,541 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "8e604700",
+"ts": "2026-10-10T15:12:11Z",
+"argv": [
+"append",
+"--file",
+"viola-0.1.0/chunks/2026-10-10-viola-revive/report.md",
+"--payload-file",
+".andromeda/runs/2026-10-10T15-07-22-wrap/new-text.md",
+"--lines",
+"224",
+"--if-absent-prefix",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-10-10T15-07-22-wrap",
+"--marker",
+"2026-10-10-viola-revive"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append report.md:+224 at line 349 · lines 348→572 · bytes 30199→44264 · term lf",
+"last line now:   - 105-108 @106 «pub fn shown(&self) -> Vec<u8> {»"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/chunks/2026-10-10-viola-revive/report.md"
+],
+"before": {
+"lines": 348,
+"bytes": 30199,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 572,
+"bytes": 44264
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "8e604700",
+"ts": "2026-10-10T15:16:44Z",
+"argv": [
+"append",
+"--file",
+"viola-0.1.0/chunks/2026-10-10-viola-revive/report.md",
+"--payload-file",
+".andromeda/runs/2026-10-10T15-07-22-wrap/new-text.md",
+"--lines",
+"224",
+"--if-absent-prefix",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-10-10T15-07-22-wrap",
+"--marker",
+"2026-10-10-viola-revive"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"skipped — '## New text, by line' already at line 354 (the append is idempotent)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "8e604700",
+"ts": "2026-10-10T15:43:34Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-10T15-07-22-wrap/architecture-entry-1.md",
+"--lines",
+"14",
+"--run-dir",
+".andromeda/runs/2026-10-10T15-07-22-wrap",
+"--marker",
+"2026-10-10-viola-revive"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+14 at line 850 · lines 849→863 · bytes 157254→159980 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-10T15-07-22-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 849,
+"bytes": 157254,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 863,
+"bytes": 159980
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "8e604700",
+"ts": "2026-10-10T15:43:34Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-10T15-07-22-wrap/architecture-entry-2.md",
+"--lines",
+"9",
+"--run-dir",
+".andromeda/runs/2026-10-10T15-07-22-wrap",
+"--marker",
+"2026-10-10-viola-revive"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+9 at line 864 · lines 863→872 · bytes 159980→161844 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-10T15-07-22-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 863,
+"bytes": 159980,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 872,
+"bytes": 161844
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "8e604700",
+"ts": "2026-10-10T15:43:34Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-10T15-07-22-wrap/architecture-entry-4.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-10-10T15-07-22-wrap",
+"--marker",
+"2026-10-10-viola-revive"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+10 at line 873 · lines 872→882 · bytes 161844→164061 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-10T15-07-22-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 872,
+"bytes": 161844,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 882,
+"bytes": 164061
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "8e604700",
+"ts": "2026-10-10T15:43:34Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-10T15-07-22-wrap/architecture-entry-3.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-10-10T15-07-22-wrap",
+"--marker",
+"2026-10-10-viola-revive"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+10 at line 883 · lines 882→892 · bytes 164061→166423 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-10T15-07-22-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 882,
+"bytes": 164061,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 892,
+"bytes": 166423
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "8e604700",
+"ts": "2026-10-10T15:43:34Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-10T15-07-22-wrap/security-plan-entry.md",
+"--lines",
+"9",
+"--run-dir",
+".andromeda/runs/2026-10-10T15-07-22-wrap",
+"--marker",
+"2026-10-10-viola-revive"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+9 at line 473 · lines 472→481 · bytes 80955→83071 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-10T15-07-22-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 472,
+"bytes": 80955,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 481,
+"bytes": 83071
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "8e604700",
+"ts": "2026-10-10T15:43:34Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-10T15-07-22-wrap/security-plan-entry-2.md",
+"--lines",
+"9",
+"--run-dir",
+".andromeda/runs/2026-10-10T15-07-22-wrap",
+"--marker",
+"2026-10-10-viola-revive"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+9 at line 482 · lines 481→490 · bytes 83071→85217 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-10T15-07-22-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 481,
+"bytes": 83071,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 490,
+"bytes": 85217
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "8e604700",
+"ts": "2026-10-10T15:43:34Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-10T15-07-22-wrap/test-plan-entry.md",
+"--lines",
+"11",
+"--run-dir",
+".andromeda/runs/2026-10-10T15-07-22-wrap",
+"--marker",
+"2026-10-10-viola-revive"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+11 at line 740 · lines 739→750 · bytes 122187→124479 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-10T15-07-22-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 739,
+"bytes": 122187,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 750,
+"bytes": 124479
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "8e604700",
+"ts": "2026-10-10T15:43:34Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-10T15-07-22-wrap/test-plan-entry-2.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-10-10T15-07-22-wrap",
+"--marker",
+"2026-10-10-viola-revive"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+10 at line 751 · lines 750→760 · bytes 124479→126456 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-10T15-07-22-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 750,
+"bytes": 124479,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 760,
+"bytes": 126456
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "8e604700",
+"ts": "2026-10-10T15:43:34Z",
+"argv": [
+"append",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-10T15-07-22-wrap/obs-plan-entry.md",
+"--lines",
+"11",
+"--run-dir",
+".andromeda/runs/2026-10-10T15-07-22-wrap",
+"--marker",
+"2026-10-10-viola-revive"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append obs-plan-amendments.md:+11 at line 440 · lines 439→450 · bytes 60393→63311 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-10T15-07-22-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 439,
+"bytes": 60393,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 450,
+"bytes": 63311
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "8e604700",
+"ts": "2026-10-10T15:43:34Z",
+"argv": [
+"append",
+"--file",
+".andromeda/a11y-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-10T15-07-22-wrap/a11y-plan-entry.md",
+"--lines",
+"13",
+"--run-dir",
+".andromeda/runs/2026-10-10T15-07-22-wrap",
+"--marker",
+"2026-10-10-viola-revive"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append a11y-plan-amendments.md:+13 at line 112 · lines 111→124 · bytes 17214→19166 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-10T15-07-22-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/a11y-plan-amendments.md"
+],
+"before": {
+"lines": 111,
+"bytes": 17214,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 124,
+"bytes": 19166
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "8e604700",
+"ts": "2026-10-10T15:43:34Z",
+"argv": [
+"append",
+"--file",
+".andromeda/design-system-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-10T15-07-22-wrap/design-system-entry.md",
+"--lines",
+"12",
+"--run-dir",
+".andromeda/runs/2026-10-10T15-07-22-wrap",
+"--marker",
+"2026-10-10-viola-revive"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append design-system-amendments.md:+12 at line 89 · lines 88→100 · bytes 11711→14082 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-10T15-07-22-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/design-system-amendments.md"
+],
+"before": {
+"lines": 88,
+"bytes": 11711,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 100,
+"bytes": 14082
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "8e604700",
+"ts": "2026-10-10T15:43:34Z",
+"argv": [
+"append",
+"--file",
+".andromeda/layout-templates-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-10T15-07-22-wrap/layout-templates-entry.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-10-10T15-07-22-wrap",
+"--marker",
+"2026-10-10-viola-revive"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append layout-templates-amendments.md:+10 at line 91 · lines 90→100 · bytes 11364→13178 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-10T15-07-22-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/layout-templates-amendments.md"
+],
+"before": {
+"lines": 90,
+"bytes": 11364,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 100,
+"bytes": 13178
+}
+}
+]

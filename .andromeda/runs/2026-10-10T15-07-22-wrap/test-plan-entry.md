@@ -1,0 +1,11 @@
+
+## 2026-10-10-viola-revive — revive in the test plan: its exit-1 causes, the replay's first reader, the instance check's cases
+**Section:** §1 Test Scope Summary (Coverage scope, CLI verbs; Surfaces under test, cli; Coverage triggers, chaos-test) · §4 Unit Test Strategy (viola-state: Snapshot envelope bullet, a new instance-check bullet) · §5 Integration Test Strategy (On-disk, strict-modes refusals) · §6 E2E Test Strategy (Scenario E5, as landed; Exit-cause matrix)
+**Change:**
+- §1: both verb lists name `revive`; it takes no `--json`, exits 0, 1 or 2, and has the human signal only (`--list` rows `<ts>  <cause>  <id>`).
+- §4, §1 chaos-test and §6 E5: `viola revive` is the first product reader of the read-or-replay function (was "no product reader takes the replay yet" and a reader owed first to the route entry "viola revive", per "2026-10-10-self-healing-state — the snapshot read and the replay as landed; Scenario E5 owed; the crate-level suite named; the root waits at 23 in 17"). The four other snapshot readers still call `read_snapshot`, so E5's step 3 does not take the replay. E5 stays owed for `link`, a budget pause and `list --json`. A replayed snapshot carries no `cwd`; a revived start's first record is `wheel{holder:"driver", cause:"start"}`.
+- §4: the instance check `strict::check_instance` with its unit cases `strict_instance_*` (five widened modes on Unix, a tree viola wrote, a home with no instance directory, a path that cannot be statted) and two `cfg(unix)` root cases; not covered: a widened DACL on an instance tree on Windows, owed to the route entry "Home and code-bearing file integrity".
+- §5: strict-modes is exit 1 for `run`/`ui`/`mcp` and for `viola revive`, CLI 21 for every other verb (was those three; every CLI verb 21).
+- §6 Exit-cause matrix: a third list, revive's exit-1 causes in preflight order (`strict-modes-failed`, `already-live`, `no-session` with two pairs, `cwd-missing`), landed as cases of `tests/cli_revive.rs` outside `cross_exit_causes.rs`, with no `--json` document; joining the table is owed to "Exit-cause code catalogue", the document to "CLI machine contract".
+**Why:** the chunk landed the verb and its tests at another site than the matrix names.
+**Ref:** .andromeda/runs/2026-10-10T15-07-22-wrap/

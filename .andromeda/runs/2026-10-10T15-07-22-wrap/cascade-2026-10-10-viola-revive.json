@@ -1,0 +1,370 @@
+[
+{
+"tool": "cascade",
+"v": "1.2",
+"sha8": "fe426974",
+"ts": "2026-10-10T15:37:47Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-10T15-07-22-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-10T15-07-22-wrap",
+"--marker",
+"2026-10-10-viola-revive"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline 00c73fda (pre-CI parent — the oldest of 1 pre-CI commit(s), 0fad11c9)",
+"no-reader · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:247 (prose)",
+"no-caller · new 0 · standing 0 · leaf 2 · curation 0 · base 0 · control security-plan.md:239 (prose)",
+"no-process-calls · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:728 (…",
+"library-code · new 0 · standing 2 · leaf 2 · curation 0 · base 0 · control architecture.md:247 (prose)",
+"owed-to-revive · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:247…",
+"first-reader · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:247 (…",
+"four-callers · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:247 (prose)",
+"wait-23 · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:407 (prose)",
+"eight-options · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:355 …",
+"refuse-only-run · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control architecture.md:402 (prose)",
+"cwd-source · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control architecture.md:47 (prose)",
+"one-shape · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:462 (prose)",
+"every-other-verb · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · case-variants +1 · control architecture.md:6 (pr…",
+"other-verb-cli · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control obs-plan.md:901 (prose)",
+"child-flag · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:364 (pr…",
+"exit1-set · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control obs-plan.md:621 (prose)",
+"exit1-causes · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control obs-plan.md:308 (prose)",
+"verbs-dot · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:16 (prose)",
+"verbs-comma · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:356 (p…",
+"help-setup · 0 rows (control fired) — a statement about this pattern, not the masters · control design-system.md:830 (p…",
+"fixed-form-only · 0 rows (control fired) — a statement about this pattern, not the masters · control design-system.md:7…",
+"sgr-run · new 0 · standing 4 · leaf 0 · curation 0 · base 0 · control design-system.md:43 (prose)",
+"run-passthrough · new 0 · standing 4 · leaf 0 · curation 0 · base 0 · control design-system.md:43 (prose)",
+"run-tui · new 0 · standing 3 · leaf 1 · curation 0 · base 0 · control a11y-plan.md:94 (prose)",
+"snapshots-hold · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control security-plan.md:47 (prose)",
+"snapshot-keys · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:255 …",
+"no-event-fields · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:24…",
+"exemptions · new 0 · standing 6 · leaf 1 · curation 0 · base 0 · control architecture.md:91 (prose)",
+"endpoint-wait · new 0 · standing 2 · leaf 1 · curation 0 · base 0 · control architecture.md:407 (prose)",
+"strict-exit21 · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:646 (prose)",
+"json-every-verb · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control layout-templates.md:530 (prose)",
+"prompt-only · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:1064 (prose)",
+".claude/rules/events.md:30 no-reader leaf … `viola_state::replay`): no reader takes the replay yet, it writes no file, …",
+"CLAUDE.md:24 no-caller leaf …lassified snapshot read and the log replay (no caller yet), tailing, liveness, strict-modes",
+".claude/docs/services/viola-state.md:6 no-caller leaf …play`: library code, no caller yet), `budget.json`, `ledger/stam…",
+".andromeda/architecture.md:247 library-code standing edited @c677/2204 …he fallback is library code in `viola-state` wi…",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:32 library-code standing …e same library code as …",
+".claude/rules/events.md:30 library-code leaf …read and the replay are library code (`viola_state::snapshot::read_snapsh…",
+".claude/docs/services/viola-state.md:6 library-code leaf …g replay (`replay`: library code, no caller yet), `budget.jso…",
+".andromeda/architecture.md:247 four-callers standing edited @c1716/2204 …sults, and its four product callers (`src/cmd/…",
+".andromeda/architecture.md:403 refuse-only-run standing …ps::update_stamps`, called only by `viola verify`: it holds th…",
+".andromeda/security-plan.md:230 refuse-only-run standing @c1331/2801 …nswers <DIR>]`, called only by `viola verify`'s p…",
+".andromeda/architecture.md:47 cwd-source standing edited mixed ×2 @c1843,2396/6916 …to viola's current directory (porta…",
+".andromeda/security-plan.md:244 cwd-source standing edited @c1461/2442 … the spawner's current directory, and writes th…",
+"CLAUDE.md:43 one-shape leaf …d` relies on needs no probe; one relied-on shape, an LF typed inside a paste, has no row y…",
+"CLAUDE.md:85 every-other-verb leaf …e / per-user Unix socket), every other verb is a separate process, and the shared t…",
+".andromeda/obs-plan.md:901 other-verb-cli standing edited …ive` beside `run`; any other verb is `cli`). `viola revive`'…",
+".andromeda/obs-plan.md:621 exit1-set standing edited …l}` with `detail` ∈ `already-live|squatted-name|pinned-hash-misma…",
+".claude/docs/obs-summary.md:68 exit1-set leaf …detail` codes (exit 1 `already-live|squatted-name|pinned-hash-mismatch|b…",
+".andromeda/obs-plan.md:308 exit1-causes standing edited …code: already-live, squatted-name, sha-256 mismatch, `.cmd`/`.…",
+".andromeda/obs-plan.md:465 exit1-causes standing edited …it 1 (already live, squatted name, SHA-256 mismatch, `.cmd`/`.…",
+".claude/docs/stack.md:12 verbs-dot leaf …nv reads) | Subcommands `run · send · wait · last · list · answer · hook · mcp…",
+".andromeda/design-system.md:43 sgr-run standing …non-TTY / `NO_COLOR` / `TERM=dumb` / `viola run` passthrough | 0.0 | N…",
+".andromeda/design-system.md:887 sgr-run standing … non-TTY, `NO_COLOR`, `TERM=dumb` or `viola run`.** LLM drivers parse…",
+".andromeda/a11y-plan.md:727 sgr-run standing edited …n-TTY / `NO_COLOR` / `TERM=dumb` / `--json` / `viola run` / a pass…",
+".andromeda/a11y-plan.md:1001 sgr-run standing edited …n-TTY / `NO_COLOR` / `TERM=dumb` / `--json` / `viola run` / a pas…",
+".andromeda/design-system.md:43 run-passthrough standing …OR` / `TERM=dumb` / `viola run` passthrough | 0.0 | No colour,…",
+".andromeda/test-plan.md:691 run-passthrough standing | tui (`viola run` passthrough) | portable-pty `=0.8.1` outer PTY …",
+".andromeda/a11y-plan.md:94 run-passthrough standing edited - **Entity:** `viola run` TUI passthrough: the unmodified `c…",
+".andromeda/a11y-plan.md:184 run-passthrough standing edited - **Surface:** tui (`viola run` passthrough, entered by a p…",
+".andromeda/a11y-plan.md:94 run-tui standing edited - **Entity:** `viola run` TUI passthrough: the unmodified `claude` T…",
+".andromeda/a11y-plan.md:124 run-tui standing edited …tent boundary is the `viola run` TUI above, which a passed `viola …",
+".andromeda/a11y-plan.md:962 run-tui standing edited …e for the cli or the `viola run` TUI (the wrapper-hosted TUI, whet…",
+".claude/docs/a11y-summary.md:46 run-tui leaf …rmance for the cli or the `viola run` TUI, or label web-spa \"WCAG 2.2 AA\".",
+".andromeda/security-plan.md:47 snapshots-hold standing edited     - Snapshots hold `pid`, `child_pid`, `agent_session_i…",
+".claude/docs/services/viola.md:37 snapshots-hold leaf markup …snapshot.rs` the `Snapshots` holder every snapshot write …",
+".andromeda/architecture.md:91 exemptions standing @c1895/11066 …hrough the hidden `hook --capture` arm. It then drives …",
+".andromeda/architecture.md:377 exemptions standing …nt exit 0 (the hidden `hook --capture` arm reads no `VIOLA_*` at al…",
+".andromeda/architecture.md:404 exemptions standing …usively by the hidden `hook --capture` arm, `k` counting across eve…",
+".andromeda/security-plan.md:279 exemptions standing …sively by the hidden `hook --capture` arm, are transient, content-…",
+".andromeda/obs-plan.md:512 exemptions standing edited …pen, the no-obs-init `hook --capture` arm, and `viola revive --l…",
+".andromeda/obs-plan.md:1067 exemptions standing     5. the hidden `hook --capture` arm, which does no obs init and so h…",
+".claude/rules/observability.md:39 exemptions leaf - The hidden `hook --capture` arm does no obs init and writes no line…",
+".andromeda/architecture.md:408 endpoint-wait standing edited …support/home.rs` `wait_endpoint_gone`, which `Wrapper::st…",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:33 endpoint-wait standing edited mixed ×2 @c2459/4145",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:33 endpoint-wait @c+2832/4145",
+".claude/docs/gotchas.md:123 endpoint-wait leaf …ture's `Wrapper::stop` / `stop_keep` wait for it (`wait_endpoint_gone`).",
+".andromeda/test-plan.md:647 strict-exit21 standing edited …ct-modes refusals: exit 1 for `run`/`ui`/`mcp` and for `viol…",
+".andromeda/layout-templates.md:556 json-every-verb standing edited …`--json` is the machine view of every data verb exc…",
+".andromeda/test-plan.md:1071 prompt-only standing edited …viola-revive's P4); no other payload is built, and without `-…",
+"no-reader · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:247 (prose)",
+"no-caller · new 0 · standing 0 · leaf 2 · curation 0 · base 0 · control security-plan.md:239 (prose)",
+"no-process-calls · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:728 (…",
+"library-code · new 0 · standing 2 · leaf 2 · curation 0 · base 0 · control architecture.md:247 (prose)",
+"owed-to-revive · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:247…",
+"first-reader · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:247 (…",
+"four-callers · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:247 (prose)",
+"wait-23 · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:407 (prose)",
+"eight-options · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:355 …",
+"refuse-only-run · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control architecture.md:402 (prose)",
+"cwd-source · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control architecture.md:47 (prose)",
+"one-shape · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:462 (prose)",
+"every-other-verb · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · case-variants +1 · control architecture.md:6 (pr…",
+"other-verb-cli · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control obs-plan.md:901 (prose)",
+"child-flag · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:364 (pr…",
+"exit1-set · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control obs-plan.md:621 (prose)",
+"exit1-causes · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control obs-plan.md:308 (prose)",
+"verbs-dot · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:16 (prose)",
+"verbs-comma · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:356 (p…",
+"help-setup · 0 rows (control fired) — a statement about this pattern, not the masters · control design-system.md:830 (p…",
+"fixed-form-only · 0 rows (control fired) — a statement about this pattern, not the masters · control design-system.md:7…",
+"sgr-run · new 0 · standing 4 · leaf 0 · curation 0 · base 0 · control design-system.md:43 (prose)",
+"run-passthrough · new 0 · standing 4 · leaf 0 · curation 0 · base 0 · control design-system.md:43 (prose)",
+"run-tui · new 0 · standing 3 · leaf 1 · curation 0 · base 0 · control a11y-plan.md:94 (prose)",
+"snapshots-hold · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control security-plan.md:47 (prose)",
+"snapshot-keys · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:255 …",
+"no-event-fields · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:24…",
+"exemptions · new 0 · standing 6 · leaf 1 · curation 0 · base 0 · control architecture.md:91 (prose)",
+"endpoint-wait · new 0 · standing 2 · leaf 1 · curation 0 · base 0 · control architecture.md:407 (prose)",
+"strict-exit21 · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:646 (prose)",
+"json-every-verb · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control layout-templates.md:530 (prose)",
+"prompt-only · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:1064 (prose)",
+"total (32 patterns) · 47 rows over 17 files",
+"per class · new 0/0 · standing 34/8 · leaf 13/9 · curation 0/0 · base 0/0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "00c73fda87efcdfb1004a0004b6a75b4afbd7872",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), 0fad11c9",
+"counts": {
+"no-reader": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"no-caller": {
+"new": 0,
+"standing": 0,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"no-process-calls": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"library-code": {
+"new": 0,
+"standing": 2,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"owed-to-revive": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"first-reader": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"four-callers": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"wait-23": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"eight-options": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"refuse-only-run": {
+"new": 0,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"cwd-source": {
+"new": 0,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"one-shape": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"every-other-verb": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"other-verb-cli": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"child-flag": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"exit1-set": {
+"new": 0,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"exit1-causes": {
+"new": 0,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"verbs-dot": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"verbs-comma": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"help-setup": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"fixed-form-only": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"sgr-run": {
+"new": 0,
+"standing": 4,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"run-passthrough": {
+"new": 0,
+"standing": 4,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"run-tui": {
+"new": 0,
+"standing": 3,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"snapshots-hold": {
+"new": 0,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"snapshot-keys": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"no-event-fields": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"exemptions": {
+"new": 0,
+"standing": 6,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"endpoint-wait": {
+"new": 0,
+"standing": 2,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"strict-exit21": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"json-every-verb": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"prompt-only": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]

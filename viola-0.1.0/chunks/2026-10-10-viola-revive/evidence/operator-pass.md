@@ -87,3 +87,87 @@ research is not edited here, and the rows are the wrap's to settle with the oper
   host paths kept · binary 0 not read by P1`. Atoms: `exit 0` ✓, `contains hygiene: clean` ✓. No row to rewrite.
 - Read once more after this file was added, right before the commit: the verdict is in the next section, which
   was written after the commit and rides the next one.
+
+## Before the pre-CI commit, 14:57:26Z
+
+- Hygiene re-read: `hygiene: clean — read 79 (runs 62 · evidence 10 · inputs 7) · trails 14 not read · copies 5
+  not read by P1 — 0 host paths kept · binary 0 not read by P1`, exit 0, this file among the evidence.
+- The tree the commit takes: the take-up's products (the stamped route line, the master's pending record, the
+  ledger note on `v1-41`, the chunk folder, the phase run dir), the 18 changed and 3 new source, test and schema
+  files, this chunk's evidence (the red and green readings, the live record with its ledger and rig scripts) and
+  inputs, this implement run dir and the bookkeeping the tree carried. 0 ahead of the upstream before it; the
+  remote branch head read live (`git ls-remote`) at `00c73fda87ef`.
+- This section and everything below it was written after the commit; it rides the next commit.
+
+## Step 3 and step 4 — the pre-CI commit and entry 15, the push, 14:57:33Z to 14:57:43Z
+
+- `0fad11c` `chore(2026-10-10-viola-revive): operator pre-CI commit, for the run this chunk's verdict reads` at
+  14:57:33Z (the whole tree, 108 files). `git status --short` read empty after it.
+- Entry 15, fired once through the gate tool with no run dir (`gate.py run --plan
+  viola-0.1.0/chunks/2026-10-10-viola-revive/plan.md --operator 15`), 14:57:41Z to 14:57:43Z. A `--dry-run` of
+  the same call at 14:57:41Z fired nothing and printed the same tripwire line. The firing's tripwire line, entry
+  line and summary line, as printed:
+
+  ```
+  operator entry 15 · history tripwire: git
+   15 probe       green · exit 0 · 2.04s · 90 B → 15.log · history moved: refs/remotes/origin/HEAD 00c73fda→0fad11c9; refs/remotes/origin/build/viola-0.1.0 00c73fda→0fad11c9 · git diff --quiet && git diff --cached --quiet && git push … (69 chars)
+  entries 16 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 15
+  ```
+
+  The entry carries no `expect` key, so its line asserts `exit 0` alone. Its log
+  (`$TMPDIR/andromeda-gate/2026-10-10-viola-revive/run-20261010T145741Z/15.log`, 90 B) holds git's own two
+  lines, the second `00c73fd..0fad11c  HEAD -> build/viola-0.1.0`.
+- The history reading is the move the entry is for: the two remote-tracking refs went from `00c73fda` to
+  `0fad11c9`, a fast-forward. No local branch, tag or stash moved. No force push.
+- After it: 0 ahead of the upstream; the remote branch head read live at `0fad11c9c62d`; the tree clean.
+
+## Step 5 — entry 16, the CI read (fired as written), 14:57:49Z to 15:05:04Z
+
+- `python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait
+  1800` → exit 0: `0fad11c9c62d verdict: green · checks 15/15 · wall 429 s · runs ci#38061685124
+  completed/success`, polled 15 times over 435 s. Atoms: `exit 0` ✓, `contains verdict: green` ✓.
+- `run_attempt`, read from the run itself (`gh api …/actions/runs/38061685124`): **1**. Event `push`, head
+  `0fad11c9c62d`, started 14:57:45Z, last updated 15:04:57Z, conclusion `success`. It is the only run on the sha
+  (`gh run list --commit`, by the full sha). The sha is green on its first attempt.
+- Its fifteen jobs, each `success` at attempt 1: `lint`, `test`, `release` and `perf` on `windows-2025`,
+  `macos-latest` and `ubuntu-latest`; `supply-chain`, `msrv`, `fuzz-replay`.
+- The three `test` jobs' own summaries, read from their logs (`gh api …/jobs/<id>/logs
+  --allow-escape-sequences`, escapes stripped): `windows-2025` 2023 tests run, 2023 passed; `macos-latest` 1998
+  run, 1998 passed; `ubuntu-latest` 2002 run, 2002 passed; none skipped, and no `FAIL`, `TIMEOUT`, `LEAK`,
+  `SIGKILL` or `ABORT` status line in any of the three. Before this chunk they read 1931, 1898 and 1902
+  (`0af8283`): 92 more on Windows, 100 more on each Unix runner.
+- This chunk's cases, counted as `PASS` lines in each of the three logs:
+
+  | cases | `windows-2025` | `macos-latest` | `ubuntu-latest` |
+  |---|---|---|---|
+  | `viola::chaos_revive`, the kill-and-revive case | 1 | 1 | 1 |
+  | `viola::cli_revive` | 9 | 11 | 11 |
+  | `viola-state::state_replay` | 5 | 5 | 5 |
+  | `viola::cli_fake_agent`, the two new option cases | 2 | 2 | 2 |
+  | lines carrying one of the unit filter's seven tokens | 65 | 71 | 71 |
+
+  The two `cli_revive` cases Windows lacks are the `cfg(unix)` ones (the widened instance directory and the
+  widened log under `--list`). The six token lines it lacks are the `cfg(unix)` unit cases (five widened modes of
+  `strict_instance`, one `snapshot_cwd` case on a directory name that is not UTF-8). The 71 are the 70 inline
+  cases the unit filter selects and one `state_replay` case whose name carries a token.
+- **The kill-and-revive case passed on all three runners.** So on `macos-latest` and `ubuntu-latest` too the
+  wrapper's child was gone, by pid and start time, inside the case's bound after the wrapper was killed: the
+  reading plan step 11 names as made for the first time (the fake agent as the child; no real CLI).
+- The check plan step 3 flags as not read at planning, the Windows verdict on a tree viola itself made: the
+  nine `cli_revive` cases and the kill-and-revive case each ran a revive over a home and an instance `viola run`
+  had just made on `windows-2025`, and none was refused `strict-modes-failed`.
+- In each `test` job the steps `G2 zero panics`, `G4 schema conformance`, `Secret scan` and `Gate verdict`
+  concluded `success`. The G4 documents: `windows-2025` 277 files, 2553 lines; `macos-latest` and
+  `ubuntu-latest` 274 files, 2550 lines each; 0 torn and no failure on any. The secret scan's content canary is
+  the word the `cwd-missing` case names its recorded directory with, and the scan fails a role file that holds
+  it. Whether each kept home was among the files a step read was not read: no job's artifact was opened.
+
+## After the pass
+
+- No fix commit was made: `0fad11c` is the final sha of the pass, local and remote.
+- No entry read red in the pass, so no operator entry was fired a second time.
+- The tree after the pass carries, for the next commit: this record's sections written after the commit. No
+  source file is among them.
+- Not measured in the pass: the bounded removal in `revive_whose_recorded_directory_is_gone_is_cwd_missing` has
+  no reading of its loop ever running. The case passed on `windows-2025`; whether the first try removed the
+  directory there is not in the log.

@@ -21,11 +21,11 @@ viola is a standalone, cross-platform (Windows first) bridge that lets one inter
 - **`viola-core`** — normalised event kinds, `RefusalReason`, `ViolaName`, `Percent`, `v` constants, `validate_paste_text`, `MAX_FRAME`, `SPINE_DEADLINE`, `DIALOG_DEADLINE`, the `Clock` seam, `obs_event!`
 - **`viola-pty`** — PTY seam (spawn · read · write · resize · wait · kill) over portable-pty `=0.8.1`; `PasteHandle`, the child's input shared by the human copy and the one-write bracketed paste; `host_stdin` (Windows: viola's own console reader, `^Z` kept); knows no agent; Windows `sideload` (System32 DLL-search restriction + absolute-path pre-load of the vendored `conpty.dll`)
 - **`viola-channel`** — JSON-RPC 2.0 over ndjson on interprocess local sockets; sync client/server, Tokio client behind a feature
-- **`viola-state`** — ndjson logs, atomic snapshots, `.lock` siblings, the `events.ndjson` reader (three skip counts) and the append that heals a torn last line, the classified snapshot read and the log replay (no caller yet), tailing, liveness, strict-modes
-- **`viola-agent-claude`** — the only crate that knows Claude: hook parsing, dialog mapping, R8 strip, shim resolution, capability ledger, the vt100 screen model and readiness verdict
+- **`viola-state`** — ndjson logs, atomic snapshots, `.lock` siblings, the `events.ndjson` reader (three skip counts) and the append that heals a torn last line, the classified snapshot read, the log replay and the session chain (read by `viola revive`), the instance strict-modes check, tailing, liveness, strict-modes
+- **`viola-agent-claude`** — the only crate that knows Claude: hook parsing, dialog mapping, R8 strip, shim resolution, capability ledger, the vt100 screen model and readiness verdict, the resume argument shapes (`--resume`, `--fork-session`, the session-id shape)
 - **`viola-mcp`** — rmcp 3.4.1 stdio server, tools `send · wait · last · answer · list` (Tokio)
 - **`viola-ui`** — axum 0.8.9 GET routes + SSE on 127.0.0.1, Host allowlist, cookie gate, embedded React + TypeScript page (its toolchain lands with the frontend-toolchain chunk) (Tokio)
-- **`viola`** (root bin) — subcommand dispatch, the `run` pump and its vt100 feed thread, wheel, budget governor; the only crate with anyhow
+- **`viola`** (root bin) — subcommand dispatch, the `run` pump and its vt100 feed thread, `revive` (a dead instance resumed in place through `run`'s start), wheel, budget governor; the only crate with anyhow
 - **`viola-e2e`** (test-only, `publish = false`) — `viola-harness` behind `scripts/agent-run.*` + the Tokio-based E2E clients
 <!-- GENERATED:setup:modules end -->
 
@@ -40,7 +40,7 @@ viola is a standalone, cross-platform (Windows first) bridge that lets one inter
 - Disk state: set 0700 dirs / 0600 files explicitly (never the umask); only the wrapper writes `snapshot.json`, only `viola verify` writes `ledger/stamps.json`; one `write` per ndjson line; never truncate `events.ndjson`.
 - stdout is reserved (`--json` results, the hook decision body, MCP frames, the child's screen): no `print!`/`eprintln!`/`dbg!` in product crates; log only via `obs_event!` under `#[instrument(skip_all, fields(..))]`.
 - Every Cargo profile keeps `panic = "unwind"`, and the custom panic hook is the first statement of `main` (a hook panic must still exit 0).
-- Tokio only in `viola-mcp` / `viola-ui`; no C-building crates; Claude-specific shapes only in `viola-agent-claude`, where each undocumented CLI behaviour is a capability-ledger row with a `viola verify` probe (the S3/S7/S8 dialog bodies and the paste-framing and `/clear` rows included: seventeen rows gate `cli_verified`; one ruled limit: a shape no `send` relies on needs no probe; one relied-on shape, an LF typed inside a paste, has no row yet, owed on the route entry "Paste newline ledger row").
+- Tokio only in `viola-mcp` / `viola-ui`; no C-building crates; Claude-specific shapes only in `viola-agent-claude`, where each undocumented CLI behaviour is a capability-ledger row with a `viola verify` probe (the S3/S7/S8 dialog bodies and the paste-framing and `/clear` rows included: seventeen rows gate `cli_verified`; one ruled limit: a shape no `send` relies on needs no probe; two relied-on shapes have no row yet, an LF typed inside a paste and `claude --resume <id>` reopening a session, both owed on the route entry "Paste newline ledger row").
 <!-- GENERATED:setup:warnings end -->
 
 ## Where to Look
@@ -82,7 +82,7 @@ Branching: one long-lived build branch per version (`build/viola-X.Y.Z`); main i
 <!-- GENERATED:setup:architecture start -->
 viola is mechanism, not policy: it carries typed input, answers dialogs when told to, logs everything and holds the wheel, but never decides what to answer — driver-side policy (Andromeda's decision rights included) stays outside the binary. Every behaviour of the `claude` CLI it relies on is a measured, version-stamped capability-ledger row; on an unverified CLI build viola degrades to transport-only and every send is confirmed after the fact (`prompt-submitted` read-back or a ledger post-condition), never presumed.
 
-There is no daemon: each `viola run` owns one local-socket endpoint (named pipe / per-user Unix socket), every other verb is a separate process, and the shared truth is the disk — ndjson append logs and atomic snapshots that survive a crash on either side. It is a modular monolith: one binary around compiler-enforced crates (`pty · channel · state · agent-claude · mcp · ui` around `core`), built and CI-tested on Windows, macOS and Linux from the first commit, with Windows the first target (the first live run was on the Linux dev host).
+There is no daemon: each wrapper (a `viola run`, or a `viola revive` whose preflight passed) owns one local-socket endpoint (named pipe / per-user Unix socket), every other verb is a separate process, and the shared truth is the disk — ndjson append logs and atomic snapshots that survive a crash on either side. It is a modular monolith: one binary around compiler-enforced crates (`pty · channel · state · agent-claude · mcp · ui` around `core`), built and CI-tested on Windows, macOS and Linux from the first commit, with Windows the first target (the first live run was on the Linux dev host).
 
 **Primary source:** `.andromeda/architecture.md` (the pointer table's row — not imported; read explicitly where a step needs it).
 <!-- GENERATED:setup:architecture end -->

@@ -37,6 +37,7 @@ Path-scoped rules for product code that logs, spans or handles errors. Authorita
 - `hook` → exit 0, empty stdout; `cli` → `process-exit{detail:"internal-error"}` when an instance resolves, then exit 1 with exactly `error: internal error` (no hint); `run` → `process-exit{detail:"internal-error"}`; `mcp`/`ui` main-thread → exit 1.
 - The detail-line `backtrace` is raw, never-symbolised frames (`src/panic_frames.rs`: `0x<ip> <module path> base=0x<base> +0x<offset>`, up to 62) — symbolising cost 351 of a 403 ms hook run on the Windows runner; never call `Backtrace::force_capture().to_string()` in a panic path.
 - The hidden `hook --capture` arm does no obs init and writes no line (a bounded panic-line exemption, obs-plan §10).
+- `viola revive`'s start arm logs as process `run` (`run-<name>.ndjson`, each preflight refusal one `process-exit{exit_code:1, detail}`); `viola revive --list` opens no process log (the sixth bounded exemption, standing only until it gains `--json` on the route entry "CLI machine contract").
 - No per-byte or per-line logging in hot loops (PTY pump, notify tail); no line per heartbeat tick or SSE keep-alive — transitions only.
 
 ## Session Additions

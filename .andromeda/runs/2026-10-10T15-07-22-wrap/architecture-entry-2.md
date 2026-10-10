@@ -1,0 +1,9 @@
+
+## 2026-10-10-viola-revive — the snapshot's `cwd` and the child's second cwd source; the instance check before a read
+**Section:** §Established Decisions [PTY] · §Standard Contracts (Instance snapshot; Snapshot envelope, the fields no event carries) · §Occupied Resources → Filesystem (`instances/<ViolaName>/`)
+**Change:**
+- Instance snapshot: `data` gains the optional `cwd?`, the directory the start spawned its child in, written into the first snapshot when valid UTF-8 and omitted otherwise; additive, `v` stays 1; a host path that lives only in the 0600 snapshot, on no log line, error body or stdout; its one reader is `viola revive`. The envelope's list of fields no event carries gains `cwd`, so a replay gives none and a revive over a replayed snapshot is refused `cwd-missing`.
+- [PTY]: the child's cwd has a second source. `run` uses viola's current directory; a revived start uses the snapshot's recorded `cwd`, read only after the strict-modes check on the instance's files and required to be an existing directory, else `cwd-missing` (was one source, viola's current directory). Program resolution and the version gate never read it.
+- Filesystem: `viola revive`, both arms, runs `strict::check_instance` over the home, `instances/`, the instance directory, its `snapshot.json` and `events.ndjson`, each that exists and in that order, before it uses them; a refusal is exit 1 `strict-modes-failed`. Proven on Unix (five widened modes), with no Windows case widening an instance tree's DACL, owed to the route entry "Home and code-bearing file integrity".
+**Why:** the chunk landed the field and the check. The recorded directory as a spawn directory is a boundary widening the founder ratified live on 2026-10-10, after it was shown to him as one, the overseer and the operator as relay.
+**Ref:** .andromeda/runs/2026-10-10T15-07-22-wrap/

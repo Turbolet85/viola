@@ -344,7 +344,7 @@ A refused `send` line's body prints the full `unable · <reason> · <detail>` th
 | Motion tokens | None. Nothing redraws in place |
 One token vocabulary (`color-*`, `space-*`, `radius-*`, the typography roles) serves both surfaces: the web resolves it to the CSS aliases in `/assets/app.css`, the cli to the SGR tokens, the terminal default foreground or "not used". The differences are platform mechanics only: ANSI depth, the two-space gutter, ASCII `->` / ` - `, and brackets for the ruled box.
 
-**Expression level (this surface):** 0.2 on a human TTY: static fixed-column rows, one static context header, and colour only as a second cue. 0.0 for `--json`, non-TTY, `NO_COLOR`, `TERM=dumb` and `viola run` passthrough: no colour, no non-ASCII glyph and no cursor control.
+**Expression level (this surface):** 0.2 on a human TTY: static fixed-column rows, one static context header, and colour only as a second cue. 0.0 for `--json`, non-TTY, `NO_COLOR`, `TERM=dumb` and the `viola run` / `viola revive` passthrough: no colour, no non-ASCII glyph and no cursor control.
 
 **Signature placement:** the readback mirror `[RB]` / `[  ]` / `[/ ]` is the first column of `viola send` output, in two components:
 1. The issue line `[  ] open …`, on stderr and only on a TTY. It is printed when the request goes to the wrapper.
@@ -360,6 +360,7 @@ The word half of the box (`unable` plus `reason  detail`) is also the first-word
 - `viola pause` / `release` / `link` / `unlink` / `answer` are the wheel, handoff and dialog verbs. Their output is spoken phraseology.
 - `viola verify` stamps a CLI version with a step counter, the project's only progress pattern.
 - `viola run <name> -- claude` is passthrough and prints nothing while the child runs.
+- `viola revive <name>` resumes a dead instance in place (its newest logged session, in the recorded directory) and is passthrough like `viola run`. `viola revive <name> --list` prints the instance's logged sessions, one static line each.
 - `viola --help` is the grouped verb table.
 - `viola ui` prints one unstyled launch line to stderr. Its credential-bearing content is deferred to implementation with the security plan.
 
@@ -499,7 +500,7 @@ board:    list, ui
 traffic:  send, wait, last, answer
 wheel:    pause, release
 handoff:  link, unlink
-setup:    run, verify, plugin install
+setup:    run, revive, verify, plugin install
 ```
 
 `viola <verb> --help` gives clap's per-verb usage. Prompt text comes from stdin or `--file`, never from a leading-slash argument, and help says so on `send`.
@@ -515,6 +516,31 @@ unable: builder is already live                           <- stderr, exit 1; no 
 hint: viola list                                          <- stderr, the last line
 ```
 
+### Output structure — `viola revive`
+
+```
+$ viola revive builder
+(nothing: the terminal belongs to the resumed claude TUI until it exits)
+
+$ viola revive builder --list
+2026-10-10T14:21:07.512Z  startup  3f2b8c1e-7a4d-4e9b-9c10-5d6e7f8a9b0c    <- stdout, one row per logged session
+2026-10-10T14:35:40.118Z  resume  3f2b8c1e-7a4d-4e9b-9c10-5d6e7f8a9b0c
+
+$ viola revive builder
+unable: builder's recorded directory is missing           <- stderr, exit 1; no paths, no pids, no logged id
+hint: resume it by hand from a directory you choose: viola run builder -- claude --resume <id>, ids from viola revive builder --list
+```
+
+Usage: `viola revive <name> [--id <ID>] [--fork] [-- <child args>]`, or `viola revive <name> --list` (`--list` conflicts with `--id`, `--fork` and the trailing arguments). The verb takes no `--json`. A start that passes its preflight prints nothing of its own while the child holds the terminal, as `viola run`. `--list` prints one stdout row per logged session in log order, `<ts>  <cause>  <id>` with two spaces between fields, no header and no colour, plain ASCII, with an empty stderr; the cause is `startup`, `clear`, `resume` or `compact` as logged, and `unknown` otherwise. Each refusal is exit 1 with one `unable:` line and one `hint:` line last on stderr and an empty stdout:
+
+- `unable: <name>'s state files can be written by another user` / `hint: viola will not read them; make the viola home and its files owner-only`
+- `unable: <name> is already live` / `hint: viola list` (`run`'s collision pair, and its stale sibling, unchanged)
+- `unable: <name> has no logged session to resume` / `hint: start one: viola run <name> -- claude`
+- `unable: <name> has no logged session with that id` / `hint: viola revive <name> --list`
+- `unable: <name>'s recorded directory is missing` / the hint shown above
+
+The hints are distinct and none names `viola release`. `--list` has two of the refusals (state files, no logged session). A malformed `--id` is clap's usage error, exit 2.
+
 ### Component — Header / banner (the BAY context line)
 
 - **The only header on any verb** is the one static BAY line at the top of `viola list`. It is the web ATIS without `VIOLA`, without the address, without `resets` times and without the TAPE cell.
@@ -527,7 +553,7 @@ hint: viola list                                          <- stderr, the last li
 - **Flat verbs:** one lower-case word each (`plugin install` is the one two-word verb). There is no nested noun hierarchy, no interactive prompt, no TUI mode and no pager.
 - **Argument order mirrors the channel `params`:** `viola <verb> <target>` for one strip, `viola link|unlink <driver> <driven>` for a handoff, `viola answer <target> <dialog_id>`. `<target>` is always a `ViolaName`. Unwrapped names are never valid targets, just as they are text-only on the web.
 - **Board vs. strip:** `viola list` (and `viola ui`) show the whole bay. Every other verb acts on one strip.
-- **Global flag `--home`:** the same on every verb. `--json` is the machine view of every data verb.
+- **Global flag `--home`:** the same on every verb. `--json` is the machine view of every data verb except `viola revive`, which takes none yet (its `--list` rows are the human form only; owed to the working-route entry "CLI machine contract").
 - **Discoverability:** `--help` groups verbs as board / traffic / wheel / handoff / setup. `hint:` lines point to the next verb by name (`viola wait builder`, `viola list`, `viola verify`). They are the CLI's breadcrumbs. No hint names `viola release`: the refusals that carry hints reach drivers, and a driver's `release` is refused (`-32602`, exit 20). `release` is a human verb reached through `--help`.
 
 ### Component — Hero / signature output line (the `viola send` readback mirror)
@@ -553,7 +579,7 @@ hint: viola list                                          <- stderr, the last li
 
 ### Component — Primary content block 2: refusal lines and the `unable` column
 
-- **Line form (stderr):** `unable  <name>  <reason>  <detail>`, fields separated by two spaces. `viola send` pads `unable` into the mirror's word column after `[/ ]`. The fixed-message exceptions are the exit-1 start refusals of `viola run` (`unable: <name> is already live` and its sibling causes, listed in design-system cli pattern 2) and `viola verify`'s exit-1 refusals, each an `unable: <text>` line and its own `hint:` line with no name, path or pid: `the claude CLI was not found` / `install Claude Code or put it on PATH`; `the claude CLI is a .cmd or .bat script` / `pass the real executable, not a .cmd or .bat shim`; `the CLI version could not be read` / `run claude --version to check the install`; `a recorded fixture is not clean: <file> <code>` (a screen fixture: `<file> row <n>[ seam] <code>`; codes `home-path` · `absolute-path` · `username` · `email`; it names the fixture file and the check, never the content) / `record with a viola home under your user home`; plus run's pinned-copy refusal. A failed or panicked `cli` verb (`send`, `wait`, `last`, `answer`, `pause`, `release`, `verify`) prints exactly `error: internal error` once, from the one catch site, with no hint (for `wait` / `last` exit 1 also covers a refusal reply, an unparseable reply or any other channel error).
+- **Line form (stderr):** `unable  <name>  <reason>  <detail>`, fields separated by two spaces. `viola send` pads `unable` into the mirror's word column after `[/ ]`. The fixed-message exceptions are the exit-1 start refusals of `viola run` (`unable: <name> is already live` and its sibling causes, listed in design-system cli pattern 2), the exit-1 refusals of `viola revive` (the same collision pair, and its own four pairs under Output structure — `viola revive`) and `viola verify`'s exit-1 refusals, each an `unable: <text>` line and its own `hint:` line with no name, path or pid: `the claude CLI was not found` / `install Claude Code or put it on PATH`; `the claude CLI is a .cmd or .bat script` / `pass the real executable, not a .cmd or .bat shim`; `the CLI version could not be read` / `run claude --version to check the install`; `a recorded fixture is not clean: <file> <code>` (a screen fixture: `<file> row <n>[ seam] <code>`; codes `home-path` · `absolute-path` · `username` · `email`; it names the fixture file and the check, never the content) / `record with a viola home under your user home`; plus run's pinned-copy refusal. A failed or panicked `cli` verb (`send`, `wait`, `last`, `answer`, `pause`, `release`, `verify`) prints exactly `error: internal error` once, from the one catch site, with no hint (for `wait` / `last` exit 1 also covers a refusal reply, an unparseable reply or any other channel error).
 - **Refusals decided before any request:** `viola send` refuses two texts itself, before any frame: one that holds a refused character (`not-delivered  control-character`) and one whose typed text is empty once its trailing CR and LF characters are removed, the empty text included (`not-delivered  empty-text`). Each takes the same `[/ ] unable  <name>  not-delivered  <detail>` line on stderr with exit 13, and its hint as the last stderr line (for `empty-text`: `hint: the text is empty once its trailing newlines are removed; send a text with content`). Under `--json` it is one document on stdout with no stderr line. The wrapper makes the same two refusals for a frame sent straight to it.
 - **Hint line:** directly under each refusal, `hint: <one plain instruction>`, keyed by reason (or by reason · detail). Exit 21 and exit 1 each have several causes, and every cause gets its own hint, so an agent can tell the causes apart from the last stderr line (design-system cli pattern 2). The exit-1 start refusal `unable: <name> is already live` takes `hint: viola list`. `wait` / `last`'s exit 21 `unable  <name>  instance-unreachable` takes `hint: <name> is not running; viola list shows the live instances` (`viola send`'s exit 21 keeps its `[/ ] unable` mirror with the same hint). There is no hint for the opaque `unknown` refusal, for `wrapper fault` or for `internal error`. A hint never quotes the sent text or any upstream text, and never names a path or a pid.
 - **Exit codes as the typed tail:** 10 `human-typing`, 11 `budget-paused`, 12 `unverified-cli`, 13 `not-delivered`, 14 `unknown`, 20 wrapper fault (`error: wrapper fault  <code>`), 21 `unable  instance-unreachable`. Under `--json` the same outcome is one document on stdout, with no stderr line and no hint text. The machine view carries the cause as a detail code once arch names those codes; until then it keeps arch's shape (`"detail":null` for exit 21).

@@ -1,0 +1,319 @@
+[
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T15:08:35Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-viola-revive",
+"--message-file",
+".andromeda/runs/2026-10-10T15-07-22-wrap/relay-1.md",
+"--origin",
+"the operator, the /andromeda-wrap-session invocation and the answer at its Phase 1 scope halt, 2026-10-10",
+"--kind",
+"relay",
+"--why",
+"this wrap runs Phase 1 only and stops on a resume point naming Phase 2, the route directions to come with the resume; and at the scope halt: the four column-0 sweep-record lines of research.md are indented, whitespace only, no word changed, the scope read re-run to clean",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-10T15-07-22-wrap",
+"--marker",
+"2026-10-10-viola-revive"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I6 · copy message · message: the operator, the /andromeda-wrap-session invocation and the answer at its Phase 1 scope halt, 2026-10-10",
+"cite: inputs#I6"
+],
+"stderr": null,
+"wrote": [
+"inputs/I6-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I6",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, the /andromeda-wrap-session invocation and the answer at its Phase 1 scope halt, 2026-10-10",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "dc75868992176455b6c5b3b21db43fa65f623c123b5295127f95efe093aafa5a",
+"copy": "I6-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-10T15:08:35Z",
+"step": "wrap",
+"why": "this wrap runs Phase 1 only and stops on a resume point naming Phase 2, the route directions to come with the resume; and at the scope halt: the four column-0 sweep-record lines of research.md are indented, whitespace only, no word changed, the scope read re-run to clean"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T15:08:35Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-viola-revive",
+"--run-dir",
+".andromeda/runs/2026-10-10T15-07-22-wrap",
+"--marker",
+"2026-10-10-viola-revive"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-10",
+"I1 cited scope.md:9 · scope.md:141 · scope.md:194 · scope.md:205 · research.md:11 · plan.md:226 · plan.md:268 · plan.md:270 · plan.md:469",
+"I2 unchanged · copy no-repo · ~/.claude/projects/~-dev-projects-viola/memory/tests-kill-only-own-processes.md",
+"I2 cited scope.md:124 · research.md:13 · plan.md:444 · plan.md:469 · plan.md:502",
+"I3 n/a — a message has no live source · copy message · message: the operator, in the session after the P4 fork round, 2026-10-10; answers 1 and 3 the founder live in the overseer dialog, read at 2026-10-10T12:53:09Z",
+"I3 cited scope.md:78 · scope.md:130 · scope.md:186 · research.md:13 · research.md:180 · plan.md:25 · plan.md:89 · plan.md:469 · plan.md:488 · plan.md:490 · plan.md:536 · plan.md:541 · plan.md:546",
+"I4 n/a — a message has no live source · copy message · message: the operator, at the P5 review, 2026-10-10",
+"I4 cited plan.md:215 · plan.md:470 · plan.md:504",
+"I5 n/a — a message has no live source · copy message · message: the operator, the /andromeda-implement invocation, 2026-10-10; the four answers the founder live in the overseer dialog, read at 2026-10-10T14:16:38Z",
+"I5 UNCITED",
+"I6 n/a — a message has no live source · copy message · message: the operator, the /andromeda-wrap-session invocation and the answer at its Phase 1 scope halt, 2026-10-10",
+"I6 UNCITED",
+"inputs: 6 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 5 · uncited 2 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 6,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 5
+},
+"uncited": 2,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T15:12:11Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-viola-revive",
+"--run-dir",
+".andromeda/runs/2026-10-10T15-07-22-wrap",
+"--marker",
+"2026-10-10-viola-revive"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-10",
+"I1 cited scope.md:9 · scope.md:141 · scope.md:194 · scope.md:205 · research.md:11 · plan.md:226 · plan.md:268 · plan.md:270 · plan.md:469",
+"I2 unchanged · copy no-repo · ~/.claude/projects/~-dev-projects-viola/memory/tests-kill-only-own-processes.md",
+"I2 cited scope.md:124 · research.md:13 · plan.md:444 · plan.md:469 · plan.md:502",
+"I3 n/a — a message has no live source · copy message · message: the operator, in the session after the P4 fork round, 2026-10-10; answers 1 and 3 the founder live in the overseer dialog, read at 2026-10-10T12:53:09Z",
+"I3 cited scope.md:78 · scope.md:130 · scope.md:186 · research.md:13 · research.md:180 · plan.md:25 · plan.md:89 · plan.md:469 · plan.md:488 · plan.md:490 · plan.md:536 · plan.md:541 · plan.md:546 · report.md:90 · report.md:146 · report.md:153 · report.md:161",
+"I4 n/a — a message has no live source · copy message · message: the operator, at the P5 review, 2026-10-10",
+"I4 cited plan.md:215 · plan.md:470 · plan.md:504",
+"I5 n/a — a message has no live source · copy message · message: the operator, the /andromeda-implement invocation, 2026-10-10; the four answers the founder live in the overseer dialog, read at 2026-10-10T14:16:38Z",
+"I5 cited report.md:36 · report.md:48 · report.md:104 · report.md:240",
+"I6 n/a — a message has no live source · copy message · message: the operator, the /andromeda-wrap-session invocation and the answer at its Phase 1 scope halt, 2026-10-10",
+"I6 cited report.md:9 · report.md:234 · report.md:243",
+"inputs: 6 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 5 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 6,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 5
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T15:16:30Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-viola-revive",
+"--message-file",
+".andromeda/runs/2026-10-10T15-07-22-wrap/relay-2.md",
+"--origin",
+"the operator, the /andromeda-wrap-session invocation resuming this wrap at Phase 2, 2026-10-10",
+"--kind",
+"relay",
+"--why",
+"the wrap resumes in its run dir at Phase 2 and runs whole to the commit; the route directions: each item the resume point lists goes to its real first consumer, recommended-first, every option priced, the founder words inputs#I3 and inputs#I5; the two findings with no owner each get an owner proposed in the same dialog",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-10T15-07-22-wrap",
+"--marker",
+"2026-10-10-viola-revive"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I7 · copy message · message: the operator, the /andromeda-wrap-session invocation resuming this wrap at Phase 2, 2026-10-10",
+"cite: inputs#I7"
+],
+"stderr": null,
+"wrote": [
+"inputs/I7-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I7",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, the /andromeda-wrap-session invocation resuming this wrap at Phase 2, 2026-10-10",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "5711fca6ebfefb1e0883370efed7141b2b8d8a7cacb25f75bcdb840b86e15f62",
+"copy": "I7-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-10T15:16:30Z",
+"step": "wrap",
+"why": "the wrap resumes in its run dir at Phase 2 and runs whole to the commit; the route directions: each item the resume point lists goes to its real first consumer, recommended-first, every option priced, the founder words inputs#I3 and inputs#I5; the two findings with no owner each get an owner proposed in the same dialog"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T15:16:39Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-viola-revive",
+"--run-dir",
+".andromeda/runs/2026-10-10T15-07-22-wrap",
+"--marker",
+"2026-10-10-viola-revive"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-10",
+"I1 cited scope.md:9 · scope.md:141 · scope.md:194 · scope.md:205 · research.md:11 · plan.md:226 · plan.md:268 · plan.md:270 · plan.md:469",
+"I2 unchanged · copy no-repo · ~/.claude/projects/~-dev-projects-viola/memory/tests-kill-only-own-processes.md",
+"I2 cited scope.md:124 · research.md:13 · plan.md:444 · plan.md:469 · plan.md:502",
+"I3 n/a — a message has no live source · copy message · message: the operator, in the session after the P4 fork round, 2026-10-10; answers 1 and 3 the founder live in the overseer dialog, read at 2026-10-10T12:53:09Z",
+"I3 cited scope.md:78 · scope.md:130 · scope.md:186 · research.md:13 · research.md:180 · plan.md:25 · plan.md:89 · plan.md:469 · plan.md:488 · plan.md:490 · plan.md:536 · plan.md:541 · plan.md:546 · report.md:90 · report.md:147 · report.md:154 · report.md:162 · report.md:248",
+"I4 n/a — a message has no live source · copy message · message: the operator, at the P5 review, 2026-10-10",
+"I4 cited plan.md:215 · plan.md:470 · plan.md:504",
+"I5 n/a — a message has no live source · copy message · message: the operator, the /andromeda-implement invocation, 2026-10-10; the four answers the founder live in the overseer dialog, read at 2026-10-10T14:16:38Z",
+"I5 cited report.md:36 · report.md:48 · report.md:104 · report.md:241 · report.md:248",
+"I6 n/a — a message has no live source · copy message · message: the operator, the /andromeda-wrap-session invocation and the answer at its Phase 1 scope halt, 2026-10-10",
+"I6 cited report.md:9 · report.md:235 · report.md:244",
+"I7 n/a — a message has no live source · copy message · message: the operator, the /andromeda-wrap-session invocation resuming this wrap at Phase 2, 2026-10-10",
+"I7 cited report.md:246",
+"inputs: 7 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 6 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 7,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 6
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T15:30:48Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-viola-revive",
+"--message-file",
+".andromeda/runs/2026-10-10T15-07-22-wrap/relay-3.md",
+"--origin",
+"the operator, seven answers at the Phase 2 halt of the 2026-10-10-viola-revive wrap, 2026-10-10",
+"--kind",
+"relay",
+"--why",
+"the session id as a child argv value lands as fact with the founder word owed, no ratification written now; the sixth panic exemption is recorded and a log is owed with the json of the list arm; the owed resume row and the compact finding ride the entry Paste newline ledger row; the Unix items split by consumer with the child-gone reading named by measurement; the json of revive rides CLI machine contract; the help group is setup beside run",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-10T15-07-22-wrap",
+"--marker",
+"2026-10-10-viola-revive"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I8 · copy message · message: the operator, seven answers at the Phase 2 halt of the 2026-10-10-viola-revive wrap, 2026-10-10",
+"cite: inputs#I8"
+],
+"stderr": null,
+"wrote": [
+"inputs/I8-relay-3.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I8",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, seven answers at the Phase 2 halt of the 2026-10-10-viola-revive wrap, 2026-10-10",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "bd3eb602b4df7d71677427e828bdd4f310b1ef4eb16a8a05508eb904dda26eba",
+"copy": "I8-relay-3.md.txt",
+"link": false,
+"read_at": "2026-10-10T15:30:48Z",
+"step": "wrap",
+"why": "the session id as a child argv value lands as fact with the founder word owed, no ratification written now; the sixth panic exemption is recorded and a log is owed with the json of the list arm; the owed resume row and the compact finding ride the entry Paste newline ledger row; the Unix items split by consumer with the child-gone reading named by measurement; the json of revive rides CLI machine contract; the help group is setup beside run"
+}
+}
+]

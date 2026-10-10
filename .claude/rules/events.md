@@ -27,7 +27,7 @@ Path-scoped rules for viola's event log and state: the normalised event kinds, t
 
 ## Snapshots and liveness
 - Envelope `{"v":1,"written_at","writer","data"}`, replaced atomically (tempfile `persist` through the one shared helper `viola_state::fs::replace_private`); only the instance's wrapper writes `instances/<name>/snapshot.json`.
-- An unsupported `v` or a parse failure → ignore the snapshot and replay the log; replay recovers only `links`, `agent_session_id`, `wheel`, `budget_paused`, `budget_override_until` (`dialog_pending` reads false). As landed the classified read and the replay are library code (`viola_state::snapshot::read_snapshot_classified`, `viola_state::replay`): no reader takes the replay yet, it writes no file, and `links` replays empty until the link kinds land.
+- An unsupported `v` or a parse failure → ignore the snapshot and replay the log; replay recovers only `links`, `agent_session_id`, `wheel`, `budget_paused`, `budget_override_until` (`dialog_pending` reads false). As landed the classified read and the replay are library code (`viola_state::snapshot::read_snapshot_classified`, `viola_state::replay`) with one product reader, `viola revive`'s preflight; the other four snapshot readers still call `read_snapshot`. The replay writes no file, gives no `cwd` (a revive over a replayed snapshot is refused `cwd-missing`), and `links` replays empty until the link kinds land. `replay::session_chain` reads the logged session ids in one pass and logs nothing.
 - Heartbeat touched every 1 s. A snapshot pid that is dead, or alive with another start time, is `gone` whatever the beat; otherwise a beat ≤ 5 s old is `live`, an older or absent one `stale`. Never a bare pid.
 
 ## Parsing

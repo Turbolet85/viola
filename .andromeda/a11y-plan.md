@@ -87,11 +87,11 @@ _Justification: web-spa carries about 11 assertable entities (inside Standard's 
 
 **CLI and terminal entities**
 
-- **Entity:** CLI verbs (`list`, `send`, `wait`, `last`, `answer`, `verify`, `pause`, `release`, `link`, `unlink`, `ui`, `--help`) in human TTY, plain (non-TTY / `NO_COLOR` / `TERM=dumb`) and `--json` modes
+- **Entity:** CLI verbs (`list`, `send`, `wait`, `last`, `answer`, `verify`, `pause`, `release`, `link`, `unlink`, `ui`, `revive`, `--help`) in human TTY, plain (non-TTY / `NO_COLOR` / `TERM=dumb`) and `--json` modes. `revive` takes no `--json`: `viola revive <name> --list` prints static ASCII rows (`<ts>  <cause>  <id>`, no header, no colour, no ESC byte), each of its exit-1 refusals is one `unable:` line and one `hint:` line last on stderr, a clap usage error exits 2, and a passed start is the TUI passthrough entity below
   - **Source:** Arch excerpt, Stack → clap. Design excerpt, Surfaces → cli. Layout excerpt, Layout Types → cli. Creator brief excerpt, Overseer Direction 5.
   - **Assertability:** assertable. This covers output-discipline assertions on text and streams only. No automated a11y tool reaches a terminal.
 
-- **Entity:** `viola run` TUI passthrough: the unmodified `claude` TUI hosted in ConPTY/openpty
+- **Entity:** `viola run` TUI passthrough: the unmodified `claude` TUI hosted in ConPTY/openpty, entered by `viola run` and by a `viola revive` whose preflight passed (the same start; the boundary below binds both verbs, and under revive the clause read by a case of its own is that a passed revive writes no line of its own while the child holds the terminal, `tests/chaos_revive.rs`)
   - **Source:** Arch excerpt, Stack → portable-pty + vt100 ("viola does not own the rendered TUI content"). Tests excerpt, E2E driver → tui ("Tests never parse the rendered child screen for content"). Creator brief excerpt, A11y Anti-Patterns ("Viola parses no screen for content (R7)").
   - **Assertability:** boundary-only
   - **Reason:** The rendered content belongs to the vendor (`claude`) and is not traced. The assertion boundary is viola's wrapper:
@@ -121,7 +121,7 @@ _Justification: web-spa carries about 11 assertable entities (inside Standard's 
   - **Assertability:** not-assertable
   - **Reason:** Deferred and not built in v1. When it lands it is the same web page behind authentication, so it will inherit web-spa tool reach.
 
-**Boundary-only vendor zones:** none on web-spa. The security excerpt reports "no login forms… no captcha". The enforced CSP (`frame-ancestors 'none'`, `default-src 'none'`, and only `'self'` for script, style, connect and img) blocks third-party iframes and widgets. The only vendor-content boundary is the `viola run` TUI above.
+**Boundary-only vendor zones:** none on web-spa. The security excerpt reports "no login forms… no captcha". The enforced CSP (`frame-ancestors 'none'`, `default-src 'none'`, and only `'self'` for script, style, connect and img) blocks third-party iframes and widgets. The only vendor-content boundary is the `viola run` TUI above, which a passed `viola revive` enters too.
 
 **Compliance cross-check:** the security excerpt's A11y Compliance Triggers name no regime (no Section 508 / ADA / EAA / EN 301 549 / AODA / JIS X 8341). No regime-mandated SC applies to any surface.
 
@@ -176,12 +176,12 @@ _Justification: web-spa carries about 11 assertable entities (inside Standard's 
   - **Notes:**
     - Required behaviour (design excerpt, Surfaces → cli; Loading/Error/Empty → CLI waiting; security excerpt, C0/C1 escaping):
       - colour is only a second cue (amber `DIALOG`, dim `stale`, always beside the word);
-      - there is no SGR, glyph or cursor control under `--json`, non-TTY, `NO_COLOR`, `TERM=dumb` or `viola run`;
+      - there is no SGR, glyph or cursor control under `--json`, non-TTY, `NO_COLOR`, `TERM=dumb`, `viola run` or a passed `viola revive`; `viola revive --list` rows and the revive refusal pairs carry no ESC byte;
       - output is static and linear, with no spinner or redraw;
       - C0/C1 control characters are escaped except `\n` and `\t` [resolved: in `list` table rows `\n` / `\t` are escaped too (ratified T5, design cli); `wait` / `last` keep them; Section 4 P6].
     - This must hold on `[windows-2025, macos-latest, ubuntu-latest]` (tests excerpt, Coverage Triggers → multi-platform).
 
-- **Surface:** tui (`viola run` passthrough; boundary-only)
+- **Surface:** tui (`viola run` passthrough, entered by a passed `viola revive` too; boundary-only)
   - **Automated tool reach:**
     - No automated a11y verification tool applies. The rendered `claude` TUI is vendor content and parsing it is banned (R7).
     - Boundary assertions run on the tests' portable-pty `=0.8.1` outer-PTY driver (tests excerpt, E2E driver → tui). They check that viola emits zero terminal bytes of its own and that human keystrokes are never blocked or delayed.
@@ -724,7 +724,7 @@ dark palette only (Overseer Direction 6).
 - **Verification:**
   - For each state, driven through the fake agent, assert the printed word is in the row's or line's accessible text (`state-word-missing`).
   - Under `forcedColors: 'active'`: `--rule-info` borders keep a non-`none` `border-style`, the refused strike renders as a dashed outline plus `unable`, and the cock band resolves to the system `Highlight` colour (`forced-colors-state`).
-- **CLI equivalent (no conformance claim):** amber SGR only on the `DIALOG` word, dim SGR on stale rows and bold SGR only on NAME column values (the callsign; design cli), always beside the word. viola emits zero SGR of its own under non-TTY / `NO_COLOR` / `TERM=dumb` / `--json` / `viola run`. Under `viola run` on Windows the outer-PTY stream also carries the ConPTY host's own SGR, cursor and query bytes (not viola's: the inbox host's as measured at chunk 2026-09-25-pty-wrapper-on-windows research fact 4, the sideloaded `OpenConsole.exe`'s `ESC[1t ESC[c ESC[?1004h ESC[?9001h` as measured at chunk 2026-09-29-sideloaded-conpty), so the windows-2025 `viola run` check is that viola's literals are absent, on both backends. `unable` / `fail` are never coloured. Checked with assert_cmd + portable-pty on `[windows-2025, macos-latest, ubuntu-latest]`.
+- **CLI equivalent (no conformance claim):** amber SGR only on the `DIALOG` word, dim SGR on stale rows and bold SGR only on NAME column values (the callsign; design cli), always beside the word. viola emits zero SGR of its own under non-TTY / `NO_COLOR` / `TERM=dumb` / `--json` / `viola run` / a passed `viola revive`, and the revive refusal pairs and `--list` rows carry no ESC byte. Under `viola run` on Windows the outer-PTY stream also carries the ConPTY host's own SGR, cursor and query bytes (not viola's: the inbox host's as measured at chunk 2026-09-25-pty-wrapper-on-windows research fact 4, the sideloaded `OpenConsole.exe`'s `ESC[1t ESC[c ESC[?1004h ESC[?9001h` as measured at chunk 2026-09-29-sideloaded-conpty), so the windows-2025 `viola run` check is that viola's literals are absent, on both backends. `unable` / `fail` are never coloured. Checked with assert_cmd + portable-pty on `[windows-2025, macos-latest, ubuntu-latest]`.
 
 ### Typography tokens (readability)
 
@@ -835,7 +835,7 @@ _Scope: no `cognitive-accessibility` trigger fired (a11y-scope Sec 5), so there 
   - **503 strip:** `unable · state-unreadable  viola home could not be read`.
   - **404 / 405 strips:** `unable · not-found` / `unable · method-not-allowed`.
   - **`TAPE stopped · viola ui not answering`.**
-  - **CLI:** `unable  <reason>  <detail>` on stderr, then `hint:` as the last stderr line, with a typed exit code. The one refusal with no hint is `unknown` (exit 14): its detail is opaque, so design prints no hint rather than a guess. Faults (`error: wrapper fault`, `error: internal error`) are not refusals and carry no hint. `--json` gives one document with no hint.
+  - **CLI:** `unable  <reason>  <detail>` on stderr, then `hint:` as the last stderr line, with a typed exit code. The one refusal with no hint is `unknown` (exit 14): its detail is opaque, so design prints no hint rather than a guess. Faults (`error: wrapper fault`, `error: internal error`) are not refusals and carry no hint. `--json` gives one document with no hint. The exit-1 refusals of `viola revive` take the fixed-message form of design-system cli pattern 2 (one `unable: <text>` line, then one `hint:` line last; a clap usage error exits 2), pinned by the root cases in `tests/cli_revive.rs`.
 - **Per-field error:** N/A, because there are no inputs (`surface-absence`). `aria-describedby` / `role="alert"` on invalid fields has no surface in v1.
 - **WCAG SC:** SC 3.3.1 Error Identification (A) + SC 3.3.3 Error Suggestion (AA; the 401 instruction line).
 - **Verification:**
@@ -959,7 +959,7 @@ _Scope: no `cognitive-accessibility` trigger fired (a11y-scope Sec 5), so there 
 - NEVER leave a POUR row of the Section 2 pyramid without gating machine evidence (for example Operable SC 2.1.1 / 2.4.3 / 2.4.7 / 2.4.11 resting only on the manual keyboard pass, or Perceivable SC 1.4.3 / 1.4.11 resting on visual review). Every SC in `sc-coverage.json` needs a passing `@sc-*` test.
 - NEVER use partial axe-core configuration (`runOnly` excluding
   default rules) without explicit Decisions Log entry
-- NEVER claim WCAG conformance for the cli or the `viola run` TUI. assert_cmd / trycmd / portable-pty results are output-discipline stand-ins for SC 1.3.2 / 1.4.1 / 3.3.1, not a11y-tool evidence.
+- NEVER claim WCAG conformance for the cli or the `viola run` TUI (the wrapper-hosted TUI, whether `viola run` or a passed `viola revive` started it). assert_cmd / trycmd / portable-pty results are output-discipline stand-ins for SC 1.3.2 / 1.4.1 / 3.3.1, not a11y-tool evidence.
 - NEVER label web-spa "WCAG 2.2 AA" or claim SC 1.4.10 below 760 CSS px while that band has no layout (Decisions Log).
 - NEVER add a second browser automation stack (Lighthouse, pa11y, `@lhci/cli`, Puppeteer `connect()`) beside the tests' Playwright Chromium (Overseer Direction 1).
 - NEVER let a spec call `withTags` / `disableRules` / `options` itself. Only `makeAxeBuilder` in `e2e-web/fixtures/a11y.ts` configures axe.
@@ -987,7 +987,7 @@ _Scope: no `cognitive-accessibility` trigger fired (a11y-scope Sec 5), so there 
 - NEVER move focus programmatically on page load, SSE arrival, cock/revert, refusal, state strips, E4 resume or E5 recovery. Also never let tape trimming or re-rendering drop the focused `<summary>` (SC 2.4.3, 3.2.1).
 - NEVER add single-key shortcuts or a command palette (SC 2.1.4; design bans shortcuts).
 - NEVER use smooth scrolling for the `#tape-end` jump or auto-follow, and never auto-follow the focused `<summary>` out of the tape viewport (SC 2.2.2, 2.4.11).
-- NEVER block, refuse or delay a human keystroke in `viola run` past the current atomic paste, and never count focus / mouse / resize sequences or terminal replies as editing (P4) — a mouse report the Windows ConPTY already turned into win32 key-down records is typing (F-W3).
+- NEVER block, refuse or delay a human keystroke in `viola run`, or in a start a passed `viola revive` made, past the current atomic paste, and never count focus / mouse / resize sequences or terminal replies as editing (P4) — a mouse report the Windows ConPTY already turned into win32 key-down records is typing (F-W3).
 
 ### Visual
 
@@ -998,7 +998,7 @@ _Scope: no `cognitive-accessibility` trigger fired (a11y-scope Sec 5), so there 
 - NEVER place `--ink-dim`, `--attention` (as text) or `--handoff` (as text) on `--surface-strip`, and never let `--rule-deco` carry state alone.
 - NEVER hardcode colour / size / duration values in a11y assertions. Read tokens by name (`--ink`, `--focus-ring`, `--line-h`, `--cock-dur`) via `getComputedStyle` (Overseer Direction 2).
 - NEVER inject test stylesheets as inline `<style>` or `style` attributes. Use a same-origin routed URL (CSP `style-src 'self'`).
-- NEVER colour CLI `unable` / `fail`, and never emit SGR under non-TTY / `NO_COLOR` / `TERM=dumb` / `--json` / `viola run`.
+- NEVER colour CLI `unable` / `fail`, and never emit SGR under non-TTY / `NO_COLOR` / `TERM=dumb` / `--json` / `viola run` / a passed `viola revive`.
 
 ### Screen Reader
 

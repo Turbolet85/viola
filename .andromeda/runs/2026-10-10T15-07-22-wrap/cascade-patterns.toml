@@ -1,0 +1,130 @@
+# Cascade step 2, the wrap of 2026-10-10-viola-revive. Derived from every amendment of the pass, after the
+# last body edit. Each pattern is the retired wording or the retired mechanism's own phrasing.
+
+[[pattern]]
+id = "no-reader"
+regex = 'no (product )?reader takes'
+
+[[pattern]]
+id = "no-caller"
+regex = 'no caller( yet)?'
+
+[[pattern]]
+id = "no-process-calls"
+fixed = 'no product process calls it'
+
+[[pattern]]
+id = "library-code"
+fixed = 'library code'
+
+[[pattern]]
+id = "owed-to-revive"
+fixed = '"viola revive"'
+
+[[pattern]]
+id = "first-reader"
+fixed = 'first reader'
+
+[[pattern]]
+id = "four-callers"
+fixed = 'four product callers'
+
+[[pattern]]
+id = "wait-23"
+fixed = '23 sites'
+
+[[pattern]]
+id = "eight-options"
+regex = '(?i)eight argv options'
+
+[[pattern]]
+id = "refuse-only-run"
+regex = 'called only by'
+
+[[pattern]]
+id = "cwd-source"
+fixed = 'current directory'
+
+[[pattern]]
+id = "one-shape"
+regex = '(?i)one (relied-on )?shape'
+
+[[pattern]]
+id = "every-other-verb"
+fixed = 'every other verb is a separate process'
+
+[[pattern]]
+id = "other-verb-cli"
+regex = 'any other verb is `?cli'
+
+[[pattern]]
+id = "child-flag"
+fixed = 'Flag passed to the child'
+
+[[pattern]]
+id = "exit1-set"
+fixed = 'already-live|squatted-name|pinned-hash-mismatch|batch-script-child'
+
+[[pattern]]
+id = "exit1-causes"
+regex = '(?i)squatted[- ]name, (sha-256|pinned-hash) mismatch'
+
+[[pattern]]
+id = "verbs-dot"
+fixed = 'run · send · wait'
+
+[[pattern]]
+id = "verbs-comma"
+fixed = '`run`, `send`, `wait`'
+
+[[pattern]]
+id = "help-setup"
+regex = 'setup: +run, verify'
+
+[[pattern]]
+id = "fixed-form-only"
+fixed = 'only the exit-1 start refusal'
+
+[[pattern]]
+id = "sgr-run"
+regex = '`TERM=dumb`,? (or|and|/) (`--json` / )?`viola run`'
+
+[[pattern]]
+id = "run-passthrough"
+regex = '`viola run`( TUI)? passthrough'
+
+[[pattern]]
+id = "run-tui"
+fixed = '`viola run` TUI'
+
+[[pattern]]
+id = "snapshots-hold"
+fixed = 'Snapshots hold'
+
+[[pattern]]
+id = "snapshot-keys"
+fixed = 'agent_session_id?}'
+
+[[pattern]]
+id = "no-event-fields"
+fixed = '`child_pid`, `pending_dialog`)'
+
+[[pattern]]
+id = "exemptions"
+fixed = '`hook --capture` arm'
+
+[[pattern]]
+id = "endpoint-wait"
+fixed = 'wait_endpoint_gone'
+
+[[pattern]]
+id = "strict-exit21"
+regex = 'exit 1 for `run`/`ui`/`mcp`'
+
+[[pattern]]
+id = "json-every-verb"
+fixed = 'machine view of every data verb'
+
+[[pattern]]
+id = "prompt-only"
+fixed = 'no other payload is built'

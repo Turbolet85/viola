@@ -65,7 +65,7 @@ The obs harness is **bound** to the test harness: tests owns the grepped fields 
 - D-10/D-32: additive `conn = "<process>-<pid>-<t0>-<n>"`; the channel join key is `(conn, corr)`; wrapper send lines carry `rpc_id`.
 - D-11/D-23: third-party log targets OFF, `tracing-log` off; their failures are captured from returned `Result`s at viola's seam.
 - D-12: no `trace_id`/`span_id`; null encoded as key absence.
-- D-20: closed exit-cause `detail` codes (exit 1 `already-live|squatted-name|pinned-hash-mismatch|batch-script-child|internal-error`; exit 21 `instance-dead|strict-modes-failed|server-verify-failed`).
+- D-20: closed exit-cause `detail` codes (exit 1 `already-live|squatted-name|pinned-hash-mismatch|batch-script-child|internal-error`, and from `viola revive`'s preflight `strict-modes-failed|no-session|cwd-missing`; exit 21 `instance-dead|strict-modes-failed|server-verify-failed`).
 - D-22: arch amendment — diagnostics roots + workspace `rust-version` 1.96.
 
 ---

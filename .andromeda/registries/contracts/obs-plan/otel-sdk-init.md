@@ -18,7 +18,7 @@
   6. `obs_event!(ProcessStart, …)`, then `parse-rejected{parser:"config-json", detail, count}` if the step-5 parse failed or skipped keys (D-28).
 
   Per-role anchors:
-  - `run`: steps 1–6 finish **before** `run.collision_check`, so exit-1 causes are logged. The panic hook is live before `pty.spawn`.
+  - `run`: steps 1–6 finish **before** `run.collision_check`, so exit-1 causes are logged. The panic hook is live before `pty.spawn`. `viola revive`'s start arm is this role: it runs the same log init and own start line (the log setup it shares with `run`) before its preflight, so its exit-1 refusals, the strict-modes one read ahead of the collision check included, are logged in `run-<name>.ndjson`; its instance is its own `ViolaName` argument. `viola revive <name> --list` opens no process log.
   - `ui`: before `axum::serve` binds `127.0.0.1:<port>`.
   - `mcp`: before the rmcp 3.4.1 stdio transport starts.
   - `hook`: one `config.json` read plus exactly one log `open`, then appends, which fits the `max < 1.0 s` gate.

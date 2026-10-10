@@ -168,10 +168,10 @@
 - `tests/support/outer_pty.rs` — the kill of the child it spawned
 - `tests/cli_fake_agent.rs` — the cases of the fake agent's two new options
 
-Sweep record, `squatted-name` over `src crates tests schemas scripts`: 3 files · 1 changed
-(`schemas/diag-line.v1.json`, the enum) · 2 no-change (`src/cmd/run.rs` writes the value; 
-`tests/cli_instance_state.rs` reads `already-live` and `squatted-name` as values in its own cases, lines 188, 247,
-321, 701).
+  Sweep record, `squatted-name` over `src crates tests schemas scripts`: 3 files · 1 changed
+  (`schemas/diag-line.v1.json`, the enum) · 2 no-change (`src/cmd/run.rs` writes the value; 
+  `tests/cli_instance_state.rs` reads `already-live` and `squatted-name` as values in its own cases, lines 188, 247,
+  321, 701).
 
 ## Open questions
 - Does `tests/cli_verify.rs` pin the fake agent's option list in a way the two new options move? → blocks:

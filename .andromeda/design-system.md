@@ -40,7 +40,7 @@ Per-surface values (quiz Q4):
 |---|---|---|
 | web-spa (`viola ui`) | 0.3 | Exactly two motions, each played once on a state change. (1) The cocked-strip `translate` (12px / 160ms ease-out). (2) A new tape line or new transfer marker fades in (opacity, ≤120ms). The readback fill, the strike, `stale` dimming and the return of a strip into line are all instant. No hover effects except link underline and focus rings. |
 | cli, human TTY | 0.2 | Static k9s-style fixed-column rows and one static context header. Colour is only a second cue: amber `DIALOG` and dim `stale`, always beside the word. Nothing redraws in place and there are no spinners. |
-| cli, `--json` / non-TTY / `NO_COLOR` / `TERM=dumb` / `viola run` passthrough | 0.0 | No colour, no glyphs, no cursor control, no spinner. `viola run` prints nothing at all while the wrapped `claude` TUI runs. |
+| cli, `--json` / non-TTY / `NO_COLOR` / `TERM=dumb` / `viola run` passthrough | 0.0 | No colour, no glyphs, no cursor control, no spinner. `viola run` prints nothing at all while the wrapped `claude` TUI runs, and neither does a `viola revive` that passed its preflight. |
 
 This number is the SINGLE SOURCE OF TRUTH for how much motion and visual dynamism downstream phases implement. At 0.2 the duration scale's 0.0–0.2 row applies (0–100ms, no entrance), and viola's cli (0.2 on a TTY, 0.0 otherwise) has no motion at all. viola's web page is 0.3, but its only two motions are the ones in the table above, and Motion's "This project's values" override the 0.3–0.4 row (see the Design Decisions Log).
 
@@ -721,7 +721,7 @@ Otherwise the depth is chosen once per process, first match wins:
 
 **Streams:**
 - stdout: results and data (tables, send/wait results, `last` text).
-- stderr: context lines (`waiting: <name>`, the issue line of a send), refusals (`unable  <name>  <reason>  <detail>`, two-space separated; `viola send` prefixes the `[/ ]` mirror and pads `unable` to the readback-word column, as in its sample; the exit-code table omits the `<name>` field; only the exit-1 start refusal uses the fixed message form `unable: <name> is already live`), each refusal's `hint:` line directly after it, errors (`error: …`), and the `viola ui` launch line.
+- stderr: context lines (`waiting: <name>`, the issue line of a send), refusals (`unable  <name>  <reason>  <detail>`, two-space separated; `viola send` prefixes the `[/ ]` mirror and pads `unable` to the readback-word column, as in its sample; the exit-code table omits the `<name>` field; only the exit-1 refusals of `viola run`, `viola revive` and `viola verify` use the fixed message form, `unable: <text>`, as in `unable: <name> is already live`), each refusal's `hint:` line directly after it, errors (`error: …`), and the `viola ui` launch line.
 - For `--json`, the whole result, including refusals and `error` objects, is one JSON document on stdout with the typed exit code. No `hint:` line is printed under `--json`: the typed `refusal` / `error` fields are the whole answer.
 
 **Width:**
@@ -778,7 +778,13 @@ hint: builder did not submit the prompt; check it, then send again
     - `unable: the pinned viola copy failed its integrity check` (SHA-256 mismatch) → `hint: the pinned copy was changed after it was written, so viola will not run it`
     - `unable: <name>'s command is a .cmd or .bat script` (Windows) → `hint: pass the real executable, not a .cmd or .bat shim`
     - `unable: the viola home is not private to you` (strict-modes at start) → `hint: the viola home must be readable only by you; viola does not change its permissions`
-  - Hints are human-mode only. Under `--json`, no hint text is printed; the machine view carries the cause as a detail code, never as prose. **Pending an arch amendment:** arch currently fixes `{"v":1,"error":"instance-unreachable","detail":null}` for exit 21 and has no `--json` document for exit 1. Until arch names the `detail` codes, `--json` keeps arch's shape. obs-plan D-20 already names the log detail codes: `instance-dead`, `strict-modes-failed`, `server-verify-failed`, `already-live`, `squatted-name`, `pinned-hash-mismatch`, `batch-script-child`. The stale-heartbeat and unwrapped-name causes have no code yet.
+  - The exit-1 refusals of `viola revive` take the same form, one fixed-message line and one hint per cause, read in a fixed order that stops at the first refusal. None of them shows the recorded directory, a pid or a logged id, and no hint names `viola release`:
+    - `unable: <name>'s state files can be written by another user` (strict-modes on the instance's files) → `hint: viola will not read them; make the viola home and its files owner-only`
+    - `unable: <name> is already live` and its stale sibling: `run`'s two lines and hints above, unchanged
+    - `unable: <name> has no logged session to resume` → `hint: start one: viola run <name> -- claude`
+    - `unable: <name> has no logged session with that id` (an `--id` the log does not hold) → `hint: viola revive <name> --list`
+    - `unable: <name>'s recorded directory is missing` → `hint: resume it by hand from a directory you choose: viola run <name> -- claude --resume <id>, ids from viola revive <name> --list`
+  - Hints are human-mode only. Under `--json`, no hint text is printed; the machine view carries the cause as a detail code, never as prose. **Pending an arch amendment:** arch currently fixes `{"v":1,"error":"instance-unreachable","detail":null}` for exit 21 and has no `--json` document for exit 1. Until arch names the `detail` codes, `--json` keeps arch's shape. obs-plan D-20 already names the log detail codes: `instance-dead`, `strict-modes-failed`, `server-verify-failed`, `already-live`, `squatted-name`, `pinned-hash-mismatch`, `batch-script-child`, and for `viola revive` `no-session` and `cwd-missing` (its strict-modes refusal reuses `strict-modes-failed` at exit 1). The stale-heartbeat and unwrapped-name causes have no code yet.
   - No hint line for `unknown` (exit 14), because its detail is opaque and a hint would have to guess. No hint line for `error: wrapper fault` (exit 20) or `error: internal error` (exit 1), because they are faults, not refusals, and their detail goes only to `diagnostics/`.
 - A hint never quotes the sent text or any upstream text.
 
@@ -808,13 +814,14 @@ hint: builder did not submit the prompt; check it, then send again
   ```
   No other line, from any verb, ever prints the token, the URL or the `.url` path.
 - **`run`:** prints nothing once the child starts. A start refusal (exit 1) prints its cause's fixed-message line, for example `unable: builder is already live`, then that cause's hint (`hint: viola list`). The per-cause lines are listed under the send hints above. None of them shows a path or a pid.
+- **`revive`:** prints nothing once the child starts, as `run`. `viola revive builder --list` prints one static stdout line per logged session, in log order, `<time>  <cause>  <session id>` with two spaces between fields: no header, no colour, plain ASCII. A refusal (exit 1) prints its cause's fixed-message line and then that cause's hint, listed under the send hints above. The verb takes no `--json`.
 
 **Exit-code phraseology** (typed codes from architecture.md):
 
 | Exit | Human stderr first word | `--json` |
 |---|---|---|
 | 0 | none (TTY context lines only); the result line goes to stdout (`[RB] read back`, `answered`, `wheel human` …) | `{"v":1,"ok":{…}}` |
-| 1 | `error: internal error` (fixed message; no chain with serde sources, no paths, no hint), or a `viola run` start refusal `unable: <name> is already live` / `… is still running but not answering` / `the endpoint for <name> is held by another process` / `the pinned viola copy failed its integrity check` / `<name>'s command is a .cmd or .bat script` / `the viola home is not private to you`, or a `viola verify` refusal `unable: the claude CLI was not found` / `the claude CLI is a .cmd or .bat script` / `the CLI version could not be read` / `a recorded fixture is not clean: <file> <code>` (a screen: `<file> row <n>[ seam] <code>`; codes `home-path` · `absolute-path` · `username` · `email`; never the content), each followed by its own hint; a `verify` run with a failing ledger row prints no stderr word (its last stdout line reads `stamped <ver>  <n> pass  <m> fail`) | — (no `--json` document until arch amends it) |
+| 1 | `error: internal error` (fixed message; no chain with serde sources, no paths, no hint), or a `viola run` start refusal `unable: <name> is already live` / `… is still running but not answering` / `the endpoint for <name> is held by another process` / `the pinned viola copy failed its integrity check` / `<name>'s command is a .cmd or .bat script` / `the viola home is not private to you`, or a `viola revive` refusal `unable: <name>'s state files can be written by another user` / `<name> has no logged session to resume` / `<name> has no logged session with that id` / `<name>'s recorded directory is missing` (or `run`'s `already live` pair), or a `viola verify` refusal `unable: the claude CLI was not found` / `the claude CLI is a .cmd or .bat script` / `the CLI version could not be read` / `a recorded fixture is not clean: <file> <code>` (a screen: `<file> row <n>[ seam] <code>`; codes `home-path` · `absolute-path` · `username` · `email`; never the content), each followed by its own hint; a `verify` run with a failing ledger row prints no stderr word (its last stdout line reads `stamped <ver>  <n> pass  <m> fail`) | — (no `--json` document until arch amends it) |
 | 2 | clap usage text (never produced by `viola hook`) | — |
 | 10 | `unable  human-typing` (+ `manual-pause`) | `{"v":1,"refusal":"human-typing","detail":…}` |
 | 11 | `unable  budget-paused  five-hour` / `seven-day` | refusal object |
@@ -825,9 +832,9 @@ hint: builder did not submit the prompt; check it, then send again
 | 21 | `unable  instance-unreachable` (no detail; the name is the omitted `<name>` field, as in every row), then the cause's hint (not running / unwrapped / strict-modes / server verification) | `{"v":1,"error":"instance-unreachable","detail":null}` (a per-cause `detail` code awaits an arch amendment) |
 
 ### Navigation Pattern
-- Flat verbs, one lower-case word each: `run · send · wait · last · list · answer · verify · pause · release · link · unlink · ui · plugin install`.
+- Flat verbs, one lower-case word each: `run · revive · send · wait · last · list · answer · verify · pause · release · link · unlink · ui · plugin install`.
 - `viola list` is the board and the other verbs act on one strip. There is no interactive prompt, no TUI mode and no pager.
-- `viola --help` groups verbs as `board: list, ui` / `traffic: send, wait, last, answer` / `wheel: pause, release` / `handoff: link, unlink` / `setup: run, verify, plugin install`.
+- `viola --help` groups verbs as `board: list, ui` / `traffic: send, wait, last, answer` / `wheel: pause, release` / `handoff: link, unlink` / `setup: run, revive, verify, plugin install` (`revive` beside `run`: the operator's answer at the chunk 2026-10-10-viola-revive wrap).
 
 ### Platform-Specific Notes
 - **Git Bash on Windows** rewrites leading-slash arguments. Prompt text therefore comes only from stdin or `--file`. The warning for a rewritten-path argument is one plain stderr line, `warning: argument looks like a Git Bash rewritten path`.
@@ -877,7 +884,7 @@ hint: builder did not submit the prompt; check it, then send again
 **cli**
 - **NEVER use green `✓` / red `✗` prefixes or emoji.** The readback mirror `[RB]` / `[  ]` / `[/ ]` and the words `read back` / `unable` are the prefixes.
 - **NEVER colour anything except `DIALOG` (amber) and `stale` rows (dim), and never either without its word.** The quiz confirms colour as a second cue only.
-- **NEVER emit colour, glyphs or cursor control under `--json`, non-TTY, `NO_COLOR`, `TERM=dumb` or `viola run`.** LLM drivers parse this output, and `viola run`'s terminal belongs to the child's screen.
+- **NEVER emit colour, glyphs or cursor control under `--json`, non-TTY, `NO_COLOR`, `TERM=dumb` or `viola run`.** LLM drivers parse this output, and `viola run`'s terminal belongs to the child's screen; a passed `viola revive` is the same passthrough.
 - **NEVER use a spinner, progress bar or live-redrawing dashboard.** `wait` prints one static `waiting:` line and `verify` prints step-counter lines, because a spinner is progress presumed before it is confirmed.
 - **NEVER mix data and messages.** Results go to stdout. `waiting:`, refusals and their `hint:` lines, errors and the launch line go to stderr.
 - **NEVER print the token or launch URL anywhere but the single `viola ui` launch line, and never style or OSC-8-wrap that line.** Styling or hyperlinking risks terminal-history or copy leakage and breaks exact copy.
