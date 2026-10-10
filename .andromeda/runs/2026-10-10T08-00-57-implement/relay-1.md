@@ -1,0 +1,3 @@
+The operator's invocation of `/andromeda-implement`, 2026-10-10, verbatim (the arguments after the command name). It carries the founder's own word, quoted in his language between the angle quotes:
+
+2026-10-10-windows-mutation-grade from step 11. The founder own word, live in the overseer dialog at 2026-10-10T07:58:27Z, after this dispatch was shown to him with three options priced (no dispatch, the next boundary measures; one or two dispatches now; a general rule for corrective chunks): «Разрешить 1–2 запуска сейчас». So: one or two dispatches of windows-mutants.yml for this chunk only; a third comes back to him. Snapshot the word first, then dispatch, read entry 26, and report each job against its forecast. A red job is read from its log before any second dispatch.

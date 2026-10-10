@@ -1,0 +1,12 @@
+
+## 2026-10-10-windows-mutation-grade — nine Windows mutation jobs, run 38036448183 green, the `prepare` mutants measured
+**Section:** §9 CI Integration (Pipeline structure, Mutation row) · §10 Quality Gates & Coverage Targets (Mutation gate)
+**Change:**
+- §9 Mutation row: the audit's Windows leg is nine `mutants (<label>)` jobs on `windows-2025`, one per `matrix.include` item, counted as its `- package:` items; the root package `viola` is four of them, split by file; each runs over that item's Windows-gated files (was "one `mutants (<package>)` job per package"). The row's dispatch wording is unchanged.
+- §10: `missed == 0` reads after the harness has left out the host-excluded records. After the overseer's sentence on mutants a host cannot compile or reach, two sentences say that the harness now applies the `cfg`-attribute case itself and names each such mutant in `mutants.host_excluded`, while a mutant behind a const compiles on both hosts, is never left out and stays a record by coordinate.
+- §10: "Its jobs read red until the audit classifies the `#[cfg(unix)]` twins" is retired. The first run's reading stays as dated history (37174673472: 19 of 25 misses were such twins, 0 timeouts across 508 mutants). Run 38036448183 read all nine jobs green over 642 mutants: 537 caught, 75 unviable, 30 left out as host-excluded (the sum of the nine documents' `host_excluded` lengths), 0 missed, 0 timeout, the longest job 49 min against 120 min.
+- §10: that run is named as one dispatch outside the boundary audit, made on 2026-10-10 for this chunk alone, on the founder's own word.
+- §10: the two missed `prepare` mutants are no longer "owed to the route entry "Windows mutation grade"": both read caught on `windows-2025` in run 38036448183, job `mutants (viola-e2e)`; on the Linux dev host they still read missed.
+**Why:** the chunk split the `viola` job per file, taught the harness the exclusion, and its one dispatch measured what the route entry owed. The dispatch was allowed by the founder for this chunk only, relayed verbatim by the operator on 2026-10-10.
+**Kept:** founder ruling C2 and the overseer's ruling of 2026-10-04 stand word for word. The workflow stays report-only and never a gate. The four `src/cmd/run.rs:385:5` mutants, which no host this project builds on compiles, are not written into §10: they are a route matter.
+**Ref:** .andromeda/runs/2026-10-10T08-56-51-wrap/

@@ -22,7 +22,7 @@ combine them, and setup-project may add stack-specific intermediate steps.
   - Dev-deps:
     - rstest 0.27, tempfile 3.27, assert_cmd 2.2.2, predicates 3.1.4, trycmd 1.2.1, insta 1.48.0, jsonschema 0.57.0, proptest 1.11.0, mockall 0.15.0, mock_instant 0.6.1
     - windows-sys 0.61.2 with `Win32_Security_Authorization` (cfg windows)
-    - in `viola-e2e`: rmcp `=3.4.1` with `client` and `transport-child-process`, reqwest 0.13.5 (no compression features), eventsource-client 0.18.0, tokio 1.53.1 with `test-util`
+    - in `viola-e2e`: rmcp `=3.4.1` with `client` and `transport-child-process`, reqwest 0.13.5 (no compression features), eventsource-client 0.18.0, tokio 1.53.1 with `test-util`; since chunk 2026-10-10-windows-mutation-grade also syn `=2.0.119` (`full`, `parsing`, `printing`, `visit`, no default features) and proc-macro2 `=1.0.107` (`span-locations`), ordinary dependencies of the harness (the `#[cfg]` reader behind `run --mutants`' host exclusion)
   - Node side: `e2e-web/package.json` pinning `@playwright/test@1.63.0` exactly (the committed `package-lock.json` resolves `playwright` and `playwright-core` 1.63.0, all from registry.npmjs.org; `@axe-core/playwright@4.13.0` joins with the a11y chunks of Epoch 8), `e2e-web/tsconfig.json` (`noEmit`, `strict`), plus `e2e-web/playwright.config.ts` (catalog configuration):
       - `use: { headless: true }` and a single `chromium` project
       - `retries: 0` and `forbidOnly: true` (a stray `test.only` would silently skip the rest)

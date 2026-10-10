@@ -1,0 +1,107 @@
+[
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T08:57:09Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-windows-mutation-grade",
+"--message-file",
+".andromeda/runs/2026-10-10T08-56-51-wrap/relay-1.md",
+"--origin",
+"the operator, 2026-10-10, the /andromeda-wrap-session invocation",
+"--kind",
+"relay",
+"--why",
+"the wrap directive: run it whole; three operator notes: the no-kill-at-an-unowned-process rule curated with the PID 1 case named beside it; the count-with-its-rule playbook rule appended; the founder mutation ruling reworded nowhere, only this chunk exception named with its date",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-10T08-56-51-wrap",
+"--marker",
+"2026-10-10-windows-mutation-grade"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I6 · copy message · message: the operator, 2026-10-10, the /andromeda-wrap-session invocation",
+"cite: inputs#I6"
+],
+"stderr": null,
+"wrote": [
+"inputs/I6-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I6",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, 2026-10-10, the /andromeda-wrap-session invocation",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "dc132ebf0ba28f4bb2d8a6137d176c788514178914bf61dbc84fc6b9a4f44c53",
+"copy": "I6-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-10T08:57:09Z",
+"step": "wrap",
+"why": "the wrap directive: run it whole; three operator notes: the no-kill-at-an-unowned-process rule curated with the PID 1 case named beside it; the count-with-its-rule playbook rule appended; the founder mutation ruling reworded nowhere, only this chunk exception named with its date"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T08:57:09Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-windows-mutation-grade",
+"--run-dir",
+".andromeda/runs/2026-10-10T08-56-51-wrap",
+"--marker",
+"2026-10-10-windows-mutation-grade"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-10",
+"I1 cited scope.md:9 · scope.md:185 · scope.md:186 · research.md:14 · plan.md:31 · plan.md:169 · plan.md:428 · plan.md:450",
+"I2 n/a — a message has no live source · copy message · message: the operator, the P4 fork dialog, 2026-10-10",
+"I2 cited scope.md:18 · research.md:16 · research.md:195 · plan.md:26 · plan.md:28 · plan.md:55 · plan.md:428 · plan.md:451 · plan.md:452 · plan.md:501",
+"I3 n/a — a message has no live source · copy message · message: the operator, the P5 review, 2026-10-10",
+"I3 cited scope.md:26 · scope.md:151 · scope.md:172 · scope.md:174 · scope.md:215 · research.md:16 · research.md:132 · plan.md:9 · plan.md:14 · plan.md:75 · plan.md:174 · plan.md:253 (in fence) · plan.md:356 (in fence) · plan.md:394 · plan.md:399 · plan.md:428 · plan.md:441 · plan.md:443 · plan.md:491 · plan.md:506",
+"I4 n/a — a message has no live source · copy message · message: the operator, 2026-10-10, the /andromeda-implement invocation",
+"I4 UNCITED",
+"I5 n/a — a message has no live source · copy message · message: the founder, 2026-10-10T07:58:27Z, live in the overseer dialog; relayed verbatim by the operator in the /andromeda-implement invocation, 2026-10-10",
+"I5 UNCITED",
+"I6 n/a — a message has no live source · copy message · message: the operator, 2026-10-10, the /andromeda-wrap-session invocation",
+"I6 UNCITED",
+"inputs: 6 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 6 · uncited 3 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 6,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 6
+},
+"uncited": 3,
+"unparsed": 0
+}
+}
+]

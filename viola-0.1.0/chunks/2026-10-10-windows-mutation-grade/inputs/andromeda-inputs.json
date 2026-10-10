@@ -70,5 +70,41 @@
     "read_at": "2026-10-10T02:46:06Z",
     "step": "implement",
     "why": "the implement directive: steps 1 to 10, the stop at step 11, the witness journal, a red read against the backing first, the operator pass on the operator word"
+  },
+  {
+    "id": "I5",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the founder, 2026-10-10T07:58:27Z, live in the overseer dialog; relayed verbatim by the operator in the /andromeda-implement invocation, 2026-10-10",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "afa405e05e3a7cc41544e357737daf8b95e602ec7f1456f148622973991849cc",
+    "copy": "I5-relay-1.md.txt",
+    "link": false,
+    "read_at": "2026-10-10T08:01:05Z",
+    "step": "implement",
+    "why": "step 11: the founder own word, given after this dispatch was shown to him with three options priced: one or two dispatches of windows-mutants.yml now, for this chunk only; a third comes back to him"
+  },
+  {
+    "id": "I6",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the operator, 2026-10-10, the /andromeda-wrap-session invocation",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "dc132ebf0ba28f4bb2d8a6137d176c788514178914bf61dbc84fc6b9a4f44c53",
+    "copy": "I6-relay-1.md.txt",
+    "link": false,
+    "read_at": "2026-10-10T08:57:09Z",
+    "step": "wrap",
+    "why": "the wrap directive: run it whole; three operator notes: the no-kill-at-an-unowned-process rule curated with the PID 1 case named beside it; the count-with-its-rule playbook rule appended; the founder mutation ruling reworded nowhere, only this chunk exception named with its date"
   }
 ]

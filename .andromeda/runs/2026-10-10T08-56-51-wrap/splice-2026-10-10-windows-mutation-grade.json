@@ -1,0 +1,238 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "8e604700",
+"ts": "2026-10-10T09:00:59Z",
+"argv": [
+"append",
+"--file",
+"viola-0.1.0/chunks/2026-10-10-windows-mutation-grade/report.md",
+"--payload-file",
+".andromeda/runs/2026-10-10T08-56-51-wrap/new-text.md",
+"--lines",
+"144",
+"--if-absent-prefix",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-10-10T08-56-51-wrap",
+"--marker",
+"2026-10-10-windows-mutation-grade"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append report.md:+144 at line 128 · lines 127→271 · bytes 28209→36979 · term lf",
+"last line now:   - 369-372 «assert_eq!(»"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/chunks/2026-10-10-windows-mutation-grade/report.md"
+],
+"before": {
+"lines": 127,
+"bytes": 28209,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 271,
+"bytes": 36979
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "8e604700",
+"ts": "2026-10-10T09:13:42Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-10T08-56-51-wrap/architecture-entry.md",
+"--lines",
+"12",
+"--run-dir",
+".andromeda/runs/2026-10-10T08-56-51-wrap",
+"--marker",
+"2026-10-10-windows-mutation-grade"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+12 at line 817 · lines 816→828 · bytes 150542→153314 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-10T08-56-51-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 816,
+"bytes": 150542,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 828,
+"bytes": 153314
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "8e604700",
+"ts": "2026-10-10T09:13:42Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-10T08-56-51-wrap/security-plan-entry.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-10-10T08-56-51-wrap",
+"--marker",
+"2026-10-10-windows-mutation-grade"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+10 at line 452 · lines 451→461 · bytes 76940→79049 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-10T08-56-51-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 451,
+"bytes": 76940,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 461,
+"bytes": 79049
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "8e604700",
+"ts": "2026-10-10T09:13:42Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-10T08-56-51-wrap/test-plan-entry-1.md",
+"--lines",
+"12",
+"--run-dir",
+".andromeda/runs/2026-10-10T08-56-51-wrap",
+"--marker",
+"2026-10-10-windows-mutation-grade"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+12 at line 694 · lines 693→705 · bytes 113090→115615 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-10T08-56-51-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 693,
+"bytes": 113090,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 705,
+"bytes": 115615
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "8e604700",
+"ts": "2026-10-10T09:13:42Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-10T08-56-51-wrap/test-plan-entry-2.md",
+"--lines",
+"12",
+"--run-dir",
+".andromeda/runs/2026-10-10T08-56-51-wrap",
+"--marker",
+"2026-10-10-windows-mutation-grade"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+12 at line 706 · lines 705→717 · bytes 115615→118035 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-10T08-56-51-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 705,
+"bytes": 115615,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 717,
+"bytes": 118035
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "8e604700",
+"ts": "2026-10-10T09:13:42Z",
+"argv": [
+"append",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-10T08-56-51-wrap/obs-plan-entry.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-10-10T08-56-51-wrap",
+"--marker",
+"2026-10-10-windows-mutation-grade"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append obs-plan-amendments.md:+10 at line 419 · lines 418→428 · bytes 56711→58279 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-10T08-56-51-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 418,
+"bytes": 56711,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 428,
+"bytes": 58279
+}
+}
+]

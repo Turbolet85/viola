@@ -61,3 +61,116 @@ No scope record was needed: every edited file is in research's two lists.
   cargo's own build lines, which carry the repository's absolute path. They stay under the ignored
   `target/witness-wmg/`; their outcome lines are the three `*-outcomes.txt` files here.
 - Read once more after this file was added, right before the commit: the verdict is in the next section.
+
+## Before the pre-CI commit, 03:33:30Z
+
+- Hygiene re-read: `hygiene: clean — read 77 (runs 61 · evidence 10 · inputs 6) · trails 15 not read · copies 4 not
+  read by P1 — 0 host paths kept · binary 0 not read by P1`, exit 0, this file now among the evidence.
+- The scope read again: `scope: clean — changed 11 · listed 11 · recorded 0`, base HEAD `781563cd59a6`.
+- The tree the commit takes: the take-up's products (the stamped route line, the master's pending record, the
+  chunk folder, the phase run dir), the 10 changed and 1 new source, test, manifest and workflow files, this
+  chunk's evidence and inputs, this implement run dir and the bookkeeping the tree carried. 0 ahead of the
+  upstream before it; the remote branch head read live (`git ls-remote`) at `781563cd59a6`.
+- This part of the file and everything below it was written after the commit; it rides the next commit.
+
+## Step 3 and step 4 — the pre-CI commit and entry 24, the push, 03:33:36Z to 03:33:44Z
+
+- `dd5161d` `chore(2026-10-10-windows-mutation-grade): operator pre-CI commit, for the run this chunk's verdict
+  reads` at 03:33:36Z (the whole tree, 95 files).
+- Entry 24: `git diff --quiet && git diff --cached --quiet && git push origin HEAD` → exit 0 at 03:33:44Z,
+  `781563c..dd5161d  HEAD -> build/viola-0.1.0`; 0 ahead of the upstream after it, the remote branch head read
+  live at `dd5161d55743`. No force push.
+
+## Step 5 — entry 25, the CI read, 03:33:48Z to 03:45:10Z
+
+- `python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait
+  1800` → exit 0: `dd5161d55743 verdict: green · checks 15/15 · wall 660 s · runs ci#38021000200
+  completed/success`, polled 23 times over 682 s. Atoms: `exit 0` ✓, `contains verdict: green` ✓.
+- `run_attempt`, read from the run itself (`gh api …/actions/runs/38021000200`): **1**. Event `push`, head
+  `dd5161d55743`, started 03:33:46Z, last updated 03:44:49Z, conclusion `success`. It is the only run on the sha
+  (`gh run list --commit`, by the full sha). The sha is green on its first attempt.
+- Its fifteen jobs, each `success` at attempt 1: `lint`, `test`, `release` and `perf` on `windows-2025`,
+  `macos-latest` and `ubuntu-latest`; `supply-chain`, `msrv`, `fuzz-replay`. The checks hold no `mutants` row:
+  no dispatch has joined this sha.
+- The three `test` jobs' own summaries, read from their logs (`gh api …/jobs/<id>/logs
+  --allow-escape-sequences`, escapes stripped): `windows-2025` 1886 tests run, 1886 passed; `macos-latest` 1853
+  run, 1853 passed; `ubuntu-latest` 1857 run, 1857 passed; none skipped, and no `FAIL`, `TIMEOUT` or `LEAK` status
+  line in any of the three. Before this chunk they read 1861, 1834 and 1838: 19 more on every runner, and 6 more
+  that exist on `windows-2025` alone.
+- In `test (windows-2025)` the steps `G2 zero panics`, `G4 schema conformance`, `Secret scan` and `Gate verdict`
+  each concluded `success`.
+
+### The first run of the Windows-gated cases, each read as its own `PASS` line in `test (windows-2025)`
+
+The six new cases that exist on that runner alone:
+
+- `strict::win::tests::owner_and_dacl_is_the_named_flags`
+- `strict::win::tests::persistent_acls_of_a_volume_that_cannot_be_read_is_none`
+- `strict::win::tests::check_stamps_refuses_a_ledger_folder_everyone_may_write`
+- `strict::win::tests::check_stamps_refuses_a_stamps_file_everyone_may_write`
+- `fs::tests::protected_dacl_is_the_named_flags`
+- `fs::tests::set_dacl_refuses_an_sddl_that_carries_no_dacl`
+
+Two older Windows-only cases whose code path the chunk changed passed there too:
+`check_stamps_of_a_home_under_the_workspace_target_passes` and
+`create_private_dir_outside_the_profile_sets_the_protected_owner_only_dacl` (the protected DACL is now set
+through `set_dacl` with the literal flags).
+
+The cases that run on every OS passed on all three runners: the two viola-pty rig cases
+(`console_read_keeps_a_ctrl_z_and_goes_on_to_the_next_read`, `piped_stdin_is_read_as_the_bytes_written_to_it`),
+the five `volume_keeps_acls` cases, `kill_deadline_lies_five_seconds_after_the_instant_it_is_given`,
+`check_stamps_of_a_path_that_cannot_be_statted_is_unreadable`, `workflow_job_labels_are_distinct_one_per_item`,
+the seven `harness::run::mutants::host` cases and the three new `harness::run::mutants` cases.
+
+What these passes say, and what they do not:
+
+- they say the five runner-only readings the tests rest on hold on `windows-2025` for the unmutated code
+  (`survivors.md`, under the first table): the widened DACL reads `Writable`; a drive letter with no volume reads
+  `None`; a descriptor from `O:SY` is refused, so the DACL pointer was left null; a lone `^Z` reached the raw
+  child as a read of `1a` and the reads went on; a piped stdin was read as its bytes;
+- they do not say any mutant is killed on Windows. That each test fails under its mutant is the reading of a
+  `windows-mutants.yml` dispatch, which step 11 holds.
+
+## After the pass
+
+- No fix commit was made: `dd5161d` is the final sha of the pass.
+- `windows-mutants.yml`: not dispatched. Its newest run is still 37761947926 of 2026-10-08 on `e304994` (`gh run
+  list --workflow windows-mutants.yml`). Entry 26 was not driven.
+- The tree after the pass carries, for the next commit: this record's sections written after the commit, the gate
+  trail and the ledger lines written after it. No source file is among them.
+
+## Step 11 — the founder's word, recorded before anything was fired (2026-10-10T08:01Z)
+
+Everything above this section stands as written at 03:46Z: at that time no word had been given. This section was
+written in a later session, on the same tree and the same pushed commit.
+
+- **The word**, the founder's own, given live in the overseer dialog at 2026-10-10T07:58:27Z, after this dispatch
+  was shown to him with three options priced (no dispatch, the next boundary measures; one or two dispatches now;
+  a general rule for corrective chunks): «Разрешить 1–2 запуска сейчас» ("Allow 1 to 2 runs now").
+- **How it reached the implementer:** relayed verbatim by the operator in the `/andromeda-implement` invocation
+  of this session. Written whole to this run's `relay-1.md` and snapshotted at 08:01Z as **`inputs#I5`**
+  (`inputs/I5-relay-1.md.txt`). The implementer did not see the overseer dialog itself; the snapshot holds the
+  operator's relay of it.
+- **Its bounds, as the operator stated them with it:** one or two dispatches of `windows-mutants.yml`, for this
+  chunk only; a third comes back to the founder. A red job is read from its log before any second dispatch. It
+  amends no sentence of a master that states ruling C2, and it is not a rule for other chunks.
+- **Read before the dispatch, 08:00:52Z:** HEAD `dd5161d55743`; the remote branch head, read live
+  (`git ls-remote origin build/viola-0.1.0`), `dd5161d55743`; the push's own CI verdict on that sha was read green
+  at step 5 above, before any dispatch joined its checks. The workflow's two earlier runs are 37761947926
+  (2026-10-08, `e304994`) and 37174673472 (2026-10-04, `60c569b`); none exists on `dd5161d`. The working tree
+  holds no source change: its uncommitted files are this record, `survivors.md`, the gate trail, the handoff's
+  session-end line, the friction ledger, this session's run dir and the `I5` snapshot.
+- Nothing had been dispatched when this section was written. The dispatch and entry 26 are recorded in
+  `windows-dispatch.md`.
+
+## Step 11 — the dispatch and entry 26, 08:01:33Z to 08:51:18Z
+
+- The dispatch, the first of at most two: `gh workflow run windows-mutants.yml --ref build/viola-0.1.0` → exit 0 at
+  08:01:33Z, run 38036448183 (`workflow_dispatch`, head `dd5161d55743`, attempt 1). No second dispatch was made.
+- Entry 26, driven once by hand: `python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py
+  conclusion --sha HEAD --name mutants --wait 5400` → exit 0 at 08:51:18Z: `dd5161d55743 verdict: green · checks
+  9/24 · wall 2961 s`, polled 97 times over 2975 s. Atoms: `exit 0` ✓, `contains verdict: green` ✓.
+- All nine jobs `success` at attempt 1; the run `completed` / `success` at 08:50:59Z. Each job's document and
+  counts are in `windows-dispatch.md`, the grades of the sixteen in `survivors.md`.
+- No commit, no push and no fix was made in this step: `dd5161d` is still the head, local and remote. The tree
+  carries no source change.

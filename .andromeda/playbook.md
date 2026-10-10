@@ -53,6 +53,10 @@ becomes a new rule here. Format owned by /andromeda-wrap-session (`references/am
   verdict: routine
   note: judge it like any body amendment — the copy is kept current, and its label stays. The founder's ruling of 2026-10-04 (relayed by the overseer from V38), superseding the two "Verbatim scope copy" / "Verbatim upstream copy (other masters)" rules above, which stay verbatim. Conductor and Pulse already work this way. Appended 2026-10-04 by the 2026-10-03-mutation-scoring-completion wrap, founder-ruled.
 
+- pattern: A count in a master that carries no rule — a proposal or a cascade-sweep hit moves a count a master states (sites, jobs, waits, files, rows) where the master does not say what is counted.
+  verdict: routine
+  note: first read the sidecar entry that wrote the count, so the rule it was taken by is known and not guessed. Then amend EVERY site that holds the count, in one apply, to the new count with its rule named beside it (the pattern or the named list that produces it). Never move the number alone, and never amend one site of several. A count whose rule cannot be recovered is not routine: escalate it. Tier 1 already says a count written into a master carries its rule; this rule is the amendment side of it. Proposed at the 2026-10-09-epoch-3-cleanup-ii wrap (its `fanout-results.md`, T4 and O1: "the 9 root waits" was a named list no wrap had re-taken). Appended 2026-10-10 by the 2026-10-10-windows-mutation-grade wrap, on the operator's word (`inputs#I6`).
+
 _(more grow from escalations + resolved cases — the first five above were harvested from live projects that
 derived them separately, the sixth is the never-routine class; anything genuinely project-specific still starts
 here empty.)_

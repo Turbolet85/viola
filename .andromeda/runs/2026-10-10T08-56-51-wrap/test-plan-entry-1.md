@@ -1,0 +1,12 @@
+
+## 2026-10-10-windows-mutation-grade — `run --mutants` leaves host-excluded missed mutants out and names them in `host_excluded`
+**Section:** §3 → 5-command implementation (`run` step 4 Verdict · Exit code semantics · Output format · `gate`) · §3 → Bootstrap phases (derive for route / setup-project) · §2 Test Strategy (Mutation row) · §10 Build failure conditions · §11 Test Anti-Patterns → Quality
+**Change:**
+- Verdict: the run's own `outcomes.json` is read by record first. A record whose summary is `MissedMutant` and whose whole span sits under a `cfg` predicate proved false for the host the harness was built for (on a node covering the span, or on the `mod` declaration that brings the file in) is host-excluded: it leaves the missed count, `survived` and `failures`; `tested` still counts it. Decided keys: `unix`, `windows`, `target_family`, `target_os`, `target_arch`; any other key is unknown; `not` / `all` / `any` are three-valued. The host's facts are compile-time constants. A caught, unviable or timed-out record is never left out, and anything the reader cannot read keeps the mutant counted. The requirement is `missed − host-excluded == 0 && timeout == 0 && unviable <= caught` (was `missed == 0 && …`).
+- `survived` = missed − host-excluded + timeout (was missed + timeout), in Output format and in `gate`'s `run-summary.json` line.
+- Output format: a counted, scoped or package `mutants` object carries `"host_excluded"`, an array of `{"name","cfg"}`, repo-relative and never an absolute path, only when at least one mutant was left out.
+- Exit code semantics, §2's Mutation row, §10's failure condition and §11's ban each read "missed" as missed beyond the host-excluded ones. §11 also bans trusting cargo-mutants' summary line, which still counts a left-out mutant as missed.
+- Bootstrap phases: `viola-e2e`'s dependency line gains syn `=2.0.119` and proc-macro2 `=1.0.107`.
+**Why:** the chunk moved the classification of mutants a host never compiles from a hand record into the harness, so that zero missed reads over the measurable set without an argued list. The harness document, not cargo-mutants' own lines, is the verdict.
+**Kept:** `unviable <= caught` and `unviable-exceeds-caught` are judged as before. No `verdict`, `reason`, `suite` or `event` value is added, and `suites[]` keeps its field names. Founder Direction 1's words ("surviving mutants are red") stand; they read true under the new `survived`.
+**Ref:** .andromeda/runs/2026-10-10T08-56-51-wrap/

@@ -57,7 +57,8 @@ viola/
 │   │                           #   and no tsconfig until the frontend-toolchain entry brings the React + TypeScript
 │   │                           #   bundle (founder ruling 2026-09-30; its source and bundle layout OPEN)
 │   └── viola-e2e/              # test-only: viola-harness (agent-run boot/run/status/cleanup/logs, plus the
-│                               #   internal subcommands incl. `gate` and `pre-push`: harness::pre_push)
+│                               #   internal subcommands incl. `gate` and `pre-push`: harness::pre_push; the `#[cfg]`
+│                               #   reader behind `run --mutants`' host exclusion: harness::run::mutants::host)
 ├── scripts/
 │   ├── agent-run.{sh,ps1}      # identical shims over viola-harness
 │   ├── conpty-vendor.sh        # re-vendor vendor/conpty/ from the pinned nupkg (+ --verify: sha256 + byte compare + signer; --probe)
@@ -110,7 +111,8 @@ viola/
 │       ├── nightly.yml         # weekly schedule + workflow_dispatch: cargo deny check advisories (root + fuzz/Cargo.lock),
 │       │                       #   npm-advisories (npm-audit.sh --advisories-only) + fuzz time-box
 │       └── windows-mutants.yml # workflow_dispatch only (no inputs), dispatched at the boundary audit, never a gate:
-│                               #   windows-2025 run --mutants --package over each package's cfg(windows) files
+│                               #   windows-2025 run --mutants --package … --file … per labelled matrix item, over that
+│                               #   item's cfg(windows) files (the root package split by file)
 ├── refs/                       # brief and prior-art survey (arch input)
 └── .andromeda/                 # pipeline runs and cache
 ```

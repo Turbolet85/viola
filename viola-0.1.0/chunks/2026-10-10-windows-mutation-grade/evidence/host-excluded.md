@@ -8,7 +8,8 @@ Written at step 9, 2026-10-10. Two readers stand side by side here:
   Windows it reads `rustc --print cfg --target x86_64-pc-windows-msvc`; for Linux, the host's own cfg;
 - **the harness**: the new reader in `run --mutants` (`harness/run/mutants/host.rs`), which leaves a missed mutant
   out when a `cfg` covering its whole span is false on the host it was built for. It was run on the Linux dev host
-  only (`witness-runs.md`). It has not run on a Windows host: step 11 holds the dispatch.
+  only (`witness-runs.md`) when this file was written at step 9; step 11 then held the dispatch. Its reading on a
+  Windows host was added after the dispatch, in the section "Added after the dispatch" below.
 
 The recipe was read at 2026-10-10T03:02Z, after the last source edit (03:00:46Z) and before the first witness run
 (03:03:40Z); no source or test file changed afterwards, so it is the final tree's reading.
@@ -90,6 +91,29 @@ Not measured by any run of this chunk:
 - one known difference of rule, with no effect on these 642: the recipe decides every `target_*` key, the
   harness decides `target_family`, `target_os` and `target_arch` and reads any other key as unknown (the plan's
   rule). No predicate in the workflow's files uses another `target_*` key.
+
+## Added after the dispatch (2026-10-10T08:51Z): what the harness read on `windows-2025`
+
+The first item of the list above is now measured. Run 38036448183 on `dd5161d55743` (`windows-dispatch.md`, on the
+founder's word, `inputs#I5`) ran the harness on a Windows host for all nine jobs:
+
+| job | harness `host_excluded` | the recipe's Windows list | difference |
+|---|---|---|---|
+| viola-pty | 5, all `unix` | 5 | none |
+| viola-channel | 4, all `unix` | 4 | none |
+| viola-state | 7, all `unix` | 7 | none |
+| viola-agent-claude | field absent | 0 | none |
+| viola-cmd-run | 4, all `all(windows, not(target_arch = "x86_64"))` | 4 | none |
+| viola-main | field absent | 0 | none |
+| viola-run-env | field absent | 0 | none |
+| viola-panic-frames | 9, all `unix` | 9 | none |
+| viola-e2e | 1, `unix` | 1 | none |
+| total | 30 | 30 | equal by mutant name and by predicate |
+
+The recipe was read again on this tree at 08:02Z and printed the table above unchanged (642 mutants, 30 and 152).
+The architecture-key shape was read by a real run here (`viola-cmd-run`). Still not read by any real run: the
+harness on Linux for the items and rows the second item above names, with the `mod`-declaration shape and the
+unknown-key shape among them.
 
 ## The four `src/cmd/run.rs:385:5` mutants: not measured on any host this project builds on
 

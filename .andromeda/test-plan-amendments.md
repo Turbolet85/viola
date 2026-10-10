@@ -691,3 +691,27 @@
 **Why:** the chunk lifted the per-file scaffolding into two shared files, took the member's first whole-unit score on the dev host, and moved the number of waits on `WITHIN`; the 9 was a named list no wrap had re-taken. `events.rs` was named in §2 before the file existed.
 **Kept:** "78 m" and "0 Timeout grades over 711 Linux viola-e2e mutants" stand as measured at their chunk. The mutation gate's rule and the boundary tier's form are unchanged.
 **Ref:** .andromeda/runs/2026-10-10T01-25-38-wrap/
+
+## 2026-10-10-windows-mutation-grade — `run --mutants` leaves host-excluded missed mutants out and names them in `host_excluded`
+**Section:** §3 → 5-command implementation (`run` step 4 Verdict · Exit code semantics · Output format · `gate`) · §3 → Bootstrap phases (derive for route / setup-project) · §2 Test Strategy (Mutation row) · §10 Build failure conditions · §11 Test Anti-Patterns → Quality
+**Change:**
+- Verdict: the run's own `outcomes.json` is read by record first. A record whose summary is `MissedMutant` and whose whole span sits under a `cfg` predicate proved false for the host the harness was built for (on a node covering the span, or on the `mod` declaration that brings the file in) is host-excluded: it leaves the missed count, `survived` and `failures`; `tested` still counts it. Decided keys: `unix`, `windows`, `target_family`, `target_os`, `target_arch`; any other key is unknown; `not` / `all` / `any` are three-valued. The host's facts are compile-time constants. A caught, unviable or timed-out record is never left out, and anything the reader cannot read keeps the mutant counted. The requirement is `missed − host-excluded == 0 && timeout == 0 && unviable <= caught` (was `missed == 0 && …`).
+- `survived` = missed − host-excluded + timeout (was missed + timeout), in Output format and in `gate`'s `run-summary.json` line.
+- Output format: a counted, scoped or package `mutants` object carries `"host_excluded"`, an array of `{"name","cfg"}`, repo-relative and never an absolute path, only when at least one mutant was left out.
+- Exit code semantics, §2's Mutation row, §10's failure condition and §11's ban each read "missed" as missed beyond the host-excluded ones. §11 also bans trusting cargo-mutants' summary line, which still counts a left-out mutant as missed.
+- Bootstrap phases: `viola-e2e`'s dependency line gains syn `=2.0.119` and proc-macro2 `=1.0.107`.
+**Why:** the chunk moved the classification of mutants a host never compiles from a hand record into the harness, so that zero missed reads over the measurable set without an argued list. The harness document, not cargo-mutants' own lines, is the verdict.
+**Kept:** `unviable <= caught` and `unviable-exceeds-caught` are judged as before. No `verdict`, `reason`, `suite` or `event` value is added, and `suites[]` keeps its field names. Founder Direction 1's words ("surviving mutants are red") stand; they read true under the new `survived`.
+**Ref:** .andromeda/runs/2026-10-10T08-56-51-wrap/
+
+## 2026-10-10-windows-mutation-grade — nine Windows mutation jobs, run 38036448183 green, the `prepare` mutants measured
+**Section:** §9 CI Integration (Pipeline structure, Mutation row) · §10 Quality Gates & Coverage Targets (Mutation gate)
+**Change:**
+- §9 Mutation row: the audit's Windows leg is nine `mutants (<label>)` jobs on `windows-2025`, one per `matrix.include` item, counted as its `- package:` items; the root package `viola` is four of them, split by file; each runs over that item's Windows-gated files (was "one `mutants (<package>)` job per package"). The row's dispatch wording is unchanged.
+- §10: `missed == 0` reads after the harness has left out the host-excluded records. After the overseer's sentence on mutants a host cannot compile or reach, two sentences say that the harness now applies the `cfg`-attribute case itself and names each such mutant in `mutants.host_excluded`, while a mutant behind a const compiles on both hosts, is never left out and stays a record by coordinate.
+- §10: "Its jobs read red until the audit classifies the `#[cfg(unix)]` twins" is retired. The first run's reading stays as dated history (37174673472: 19 of 25 misses were such twins, 0 timeouts across 508 mutants). Run 38036448183 read all nine jobs green over 642 mutants: 537 caught, 75 unviable, 30 left out as host-excluded (the sum of the nine documents' `host_excluded` lengths), 0 missed, 0 timeout, the longest job 49 min against 120 min.
+- §10: that run is named as one dispatch outside the boundary audit, made on 2026-10-10 for this chunk alone, on the founder's own word.
+- §10: the two missed `prepare` mutants are no longer "owed to the route entry "Windows mutation grade"": both read caught on `windows-2025` in run 38036448183, job `mutants (viola-e2e)`; on the Linux dev host they still read missed.
+**Why:** the chunk split the `viola` job per file, taught the harness the exclusion, and its one dispatch measured what the route entry owed. The dispatch was allowed by the founder for this chunk only, relayed verbatim by the operator on 2026-10-10.
+**Kept:** founder ruling C2 and the overseer's ruling of 2026-10-04 stand word for word. The workflow stays report-only and never a gate. The four `src/cmd/run.rs:385:5` mutants, which no host this project builds on compiles, are not written into §10: they are a route matter.
+**Ref:** .andromeda/runs/2026-10-10T08-56-51-wrap/

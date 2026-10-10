@@ -1,0 +1,63 @@
+# The pattern set of this pass, derived from every amendment (A1 to A5, S1, S2, T1 to T13, B1 to B3, O1, O2) before
+# the first sweep. Each names a retired wording or the mechanism it asserted.
+
+[[pattern]]
+id = "six-package"
+regex = 'six-package|six packages|six jobs'
+
+[[pattern]]
+id = "per-package-job"
+fixed = 'mutants (<package>)'
+
+[[pattern]]
+id = "per-package"
+regex = '''per package on|each package's cfg|that package's Windows-gated|job per package'''
+
+[[pattern]]
+id = "read-red"
+regex = 'read red (until|while)'
+
+[[pattern]]
+id = "twins"
+regex = 'cfg\(unix\)\S* twins'
+
+[[pattern]]
+id = "survived-sum"
+fixed = 'missed + timeout'
+
+[[pattern]]
+id = "missed-or"
+regex = 'missed or timed-out|`missed` or `timeout`|no missed or'
+
+[[pattern]]
+id = "missed-zero"
+fixed = 'missed == 0'
+
+[[pattern]]
+id = "surviving"
+regex = 'surviving (cargo-mutants )?mutant'
+ignore_case = true
+
+[[pattern]]
+id = "nine-of-nine"
+fixed = '9 of 9 caught'
+
+[[pattern]]
+id = "first-run-id"
+fixed = '37174673472'
+
+[[pattern]]
+id = "union-verdict"
+fixed = 'union verdict'
+
+[[pattern]]
+id = "owed-entry"
+fixed = 'Windows mutation grade'
+
+[[pattern]]
+id = "dispatch-timing"
+regex = 'epoch-boundary audit|at the boundary audit|boundary audit.s Windows'
+
+[[pattern]]
+id = "exit-code-alone"
+fixed = 'exit code alone'

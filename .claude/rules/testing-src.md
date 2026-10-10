@@ -34,3 +34,4 @@ A `#[cfg(test)]` module in product code is bound by `.claude/rules/testing.md`, 
 
 ## Session Additions
 _Owned by `/wrap-session`; kept on a setup re-run._
+- 2026-10-10: a kill only at a process the test started (`testing.md`, the entry of that date).

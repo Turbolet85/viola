@@ -1,0 +1,909 @@
+[
+{
+"tool": "gate",
+"v": "1.14",
+"sha8": "e8e4a72c",
+"ts": "2026-10-10T08:57:09Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-windows-mutation-grade",
+"--run-dir",
+".andromeda/runs/2026-10-10T08-56-51-wrap",
+"--marker",
+"2026-10-10-windows-mutation-grade"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base 781563cd (the parent of the oldest pre-CI commit dd5161d5) · lists new 2 · modify 11 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"list viola-0.1.0/chunks/2026-10-10-windows-mutation-grade/evidence/ (dir) ×0",
+"scope: clean — changed 11 · listed 11 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 91"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "781563cd59a642b2d82d2603397ce10162de6c58",
+"base_why": "the parent of the oldest pre-CI commit dd5161d5",
+"counts": {
+"changed": 11,
+"listed": 11,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 91,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.14",
+"sha8": "e8e4a72c",
+"ts": "2026-10-10T09:20:05Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-10-windows-mutation-grade/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-10T08-56-51-wrap",
+"--marker",
+"2026-10-10-windows-mutation-grade"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-10-windows-mutation-grade · entries 26",
+"logs $TMPDIR/andromeda-gate/2026-10-10-windows-mutation-grade/wrap-2026-10-10T08-56-51 · bound: GNU timeout",
+"delta docs 61 · unmapped 3",
+"walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 64",
+"prose L164-167: The gates are the standing lint, unit and default-selection entries; the Windows-target li… (379 chars)",
+"prose L169-171: No entry is a mutation run and no entry is a live leg (`inputs#I1`). Step 8's three witnes… (308 chars)",
+"prose L173-176: The last entry is HELD by step 11. It reads a dispatch's verdict from the commit's own che… (363 chars)",
+"prose L178-179: The preservation guard and the two diff probes read against the base commit, because the o… (183 chars)",
+"  1 lint        green · exit 0 · 0.65s · 0 B → 1.log · cargo fmt --all --check",
+"  2 lint        green · exit 0 · 0.18s · 72 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 lint        green · exit 0 · 0.16s · 72 B → 3.log · CARGO_TARGET_DIR=target/wincheck cargo clippy -p viola-sta… (141 chars)",
+"  4 unit        green · exit 0 · 6.41s · 189945 B → 4.log · bash scripts/agent-run.sh run --unit",
+"  5 integration green · exit 0 · 48.94s · 232752 B → 5.log · bash scripts/agent-run.sh run",
+"  6 integration green · exit 0 · 0.71s · 2096 B → 6.log · bash scripts/agent-run.sh run --integration --filter 'bina… (94 chars)",
+"  7 probe       green · exit 0 · 0.07s · 462 B → 7.log · zizmor .github/workflows/",
+"  8 probe       green · exit 0 · 0.0s · 0 B → 8.log · ! grep -nE 'secrets\\.|upload-artifact|rust-cache|concurren… (174 chars)",
+"  9 probe       green · exit 0 · 0.0s · 2 B → 9.log · grep -c '^          - package: viola$' .github/workflows/w… (76 chars)",
+" 10 probe       green · exit 0 · 0.0s · 2 B → 10.log · grep -c 'timeout-minutes: 120' .github/workflows/windows-m… (68 chars)",
+" 11 probe       green · exit 0 · 0.0s · 2 B → 11.log · grep -c 'dispatched only during the' .github/workflows/win… (74 chars)",
+" 12 probe       green · exit 0 · 0.01s · 0 B → 12.log · git diff --quiet 781563cd59a6 -- .github/workflows/ci.yml … (553 chars)",
+" 13 probe       green · exit 0 · 0.01s · 0 B → 13.log · ! (git diff 781563cd59a6 -- '*.rs' .config/nextest.toml | … (107 chars)",
+" 14 probe       green · exit 0 · 0.0s · 5 B → 14.log · jq -e '.mutants.verdict == \"package\" and .mutants.package … (400 chars)",
+" 15 probe       green · exit 0 · 0.74s · 9656 B → 15.log · cargo deny check",
+" 16 smoke       green · exit 0 · 0.09s · 47 B → 16.log · bash scripts/agent-run.sh cleanup --session p-wmg-smoke",
+" 17 smoke       green · exit 0 · 3.81s · 287 B → 17.log · bash scripts/agent-run.sh boot --session p-wmg-smoke --ins… (71 chars)",
+" 18 smoke       green · exit 0 · 0.1s · 216 B → 18.log · bash scripts/agent-run.sh status --session p-wmg-smoke",
+" 19 probe       green · exit 0 · 0.02s · 10 B → 19.log · bash scripts/g2-zero-panics.sh",
+" 20 probe       green · exit 0 · 0.34s · 108 B → 20.log · bash scripts/agent-run.sh schema-check",
+" 21 smoke       green · exit 0 · 0.31s · 176 B → 21.log · bash scripts/agent-run.sh cleanup --session p-wmg-smoke",
+" 22 probe       green · exit 0 · 57.01s · 235177 B → 22.log · bash scripts/agent-run.sh pre-push",
+" 23 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (90 chars)",
+" 24 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (69 chars)",
+" 25 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (114 chars)",
+" 26 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (129 chars)",
+"entries 26 · green 22 · red 0 · recorded 0 · timeout 0 · not-run 4"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-10-windows-mutation-grade",
+"plan": "./viola-0.1.0/chunks/2026-10-10-windows-mutation-grade/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-10-windows-mutation-grade/wrap-2026-10-10T08-56-51",
+"delta": {
+"docs": [
+".andromeda/architecture-amendments.md",
+".andromeda/architecture.md",
+".andromeda/friction-log.ndjson",
+".andromeda/obs-plan-amendments.md",
+".andromeda/obs-plan.md",
+".andromeda/playbook.md",
+".andromeda/registries/contracts/architecture/ci-cd-approach.md",
+".andromeda/registries/contracts/architecture/project-directory-structure.md",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md",
+".andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md",
+".andromeda/runs/2026-10-10T02-45-34-implement/gate-2026-10-10-windows-mutation-grade.json",
+".andromeda/security-plan-amendments.md",
+".andromeda/security-plan.md",
+".andromeda/state.yaml",
+".andromeda/test-plan-amendments.md",
+".andromeda/test-plan.md",
+".claude/docs/commands.md",
+".claude/docs/stack.md",
+".claude/docs/tests-summary.md",
+".claude/rules/ci.md",
+".claude/rules/testing-src.md",
+".claude/rules/testing.md",
+".claude/rules/verification-harness.md",
+".claude/session-handoff.md",
+"viola-0.1.0/chunks/2026-10-10-windows-mutation-grade/evidence/host-excluded.md",
+"viola-0.1.0/chunks/2026-10-10-windows-mutation-grade/evidence/operator-pass.md",
+"viola-0.1.0/chunks/2026-10-10-windows-mutation-grade/evidence/survivors.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-10T08-00-57-implement/evolve-2026-10-10-windows-mutation-grade.json",
+".andromeda/runs/2026-10-10T08-00-57-implement/gate-2026-10-10-windows-mutation-grade.json",
+".andromeda/runs/2026-10-10T08-00-57-implement/inputs-2026-10-10-windows-mutation-grade.json",
+".andromeda/runs/2026-10-10T08-00-57-implement/relay-1.md",
+".andromeda/runs/2026-10-10T08-56-51-wrap/.raw-fanout-a11y-plan.md",
+".andromeda/runs/2026-10-10T08-56-51-wrap/.raw-fanout-design-system.md",
+".andromeda/runs/2026-10-10T08-56-51-wrap/.raw-fanout-layout-templates.md",
+".andromeda/runs/2026-10-10T08-56-51-wrap/a11y-plan-contracts.md",
+".andromeda/runs/2026-10-10T08-56-51-wrap/architecture-contracts.md",
+".andromeda/runs/2026-10-10T08-56-51-wrap/architecture-entry.md",
+".andromeda/runs/2026-10-10T08-56-51-wrap/cascade-2026-10-10-windows-mutation-grade.json",
+".andromeda/runs/2026-10-10T08-56-51-wrap/cascade-dispositions.md",
+".andromeda/runs/2026-10-10T08-56-51-wrap/cascade-patterns.toml",
+".andromeda/runs/2026-10-10T08-56-51-wrap/citation-dispositions.md",
+".andromeda/runs/2026-10-10T08-56-51-wrap/cites-2026-10-10-windows-mutation-grade.json",
+".andromeda/runs/2026-10-10T08-56-51-wrap/curation.md",
+".andromeda/runs/2026-10-10T08-56-51-wrap/evolve-2026-10-10-windows-mutation-grade.json",
+".andromeda/runs/2026-10-10T08-56-51-wrap/fanout-results.md",
+".andromeda/runs/2026-10-10T08-56-51-wrap/gate-2026-10-10-windows-mutation-grade.json",
+".andromeda/runs/2026-10-10T08-56-51-wrap/inputs-2026-10-10-windows-mutation-grade.json",
+".andromeda/runs/2026-10-10T08-56-51-wrap/new-text.md",
+".andromeda/runs/2026-10-10T08-56-51-wrap/obs-plan-contracts.md",
+".andromeda/runs/2026-10-10T08-56-51-wrap/obs-plan-entry.md",
+".andromeda/runs/2026-10-10T08-56-51-wrap/registry-2026-10-10-windows-mutation-grade.json",
+".andromeda/runs/2026-10-10T08-56-51-wrap/relay-1.md",
+".andromeda/runs/2026-10-10T08-56-51-wrap/route-no-marker.json",
+".andromeda/runs/2026-10-10T08-56-51-wrap/security-plan-entry.md",
+".andromeda/runs/2026-10-10T08-56-51-wrap/splice-2026-10-10-windows-mutation-grade.json",
+".andromeda/runs/2026-10-10T08-56-51-wrap/test-plan-contracts.md",
+".andromeda/runs/2026-10-10T08-56-51-wrap/test-plan-entry-1.md",
+".andromeda/runs/2026-10-10T08-56-51-wrap/test-plan-entry-2.md",
+"viola-0.1.0/chunks/2026-10-10-windows-mutation-grade/evidence/windows-dispatch.md",
+"viola-0.1.0/chunks/2026-10-10-windows-mutation-grade/report.md"
+]
+},
+"unmapped": [
+"viola-0.1.0/chunks/2026-10-10-windows-mutation-grade/inputs/andromeda-inputs.json",
+"viola-0.1.0/chunks/2026-10-10-windows-mutation-grade/inputs/I5-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-10-windows-mutation-grade/inputs/I6-relay-1.md.txt"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 64,
+"problem": null
+},
+"prose": [
+{
+"from": 164,
+"to": 167,
+"text": "The gates are the standing lint, unit and default-selection entries; the Windows-target lint of the gated tests; the workflow's contract test and its four probes; the preservation guard; one reader of a record a step leaves; the dependency audit; the harness smoke with G2 and G4 over its home; the native `pre-push`; the operator's hygiene, push and CI read; and one held entry."
+},
+{
+"from": 169,
+"to": 171,
+"text": "No entry is a mutation run and no entry is a live leg (`inputs#I1`). Step 8's three witness runs are one-shot measurements; their records are in `evidence/`. The reader entry asserts that the Linux witness exists and left mutants out, not that it is clean. It writes nothing, so it carries no `artifact` key."
+},
+{
+"from": 173,
+"to": 176,
+"text": "The last entry is HELD by step 11. It reads a dispatch's verdict from the commit's own checks; no step of this plan fires that dispatch before the founder's word (`inputs#I3`). `evidence/survivors.md`, `evidence/host-excluded.md` and `evidence/windows-dispatch.md` have no listed producer: each is written by hand at its step from what a run or a job log printed."
+},
+{
+"from": 178,
+"to": 179,
+"text": "The preservation guard and the two diff probes read against the base commit, because the operator pass's pre-CI commit moves HEAD onto the chunk. The guard lists no file a step edits."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-10-windows-mutation-grade/wrap-2026-10-10T08-56-51/1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.65,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-10-windows-mutation-grade/wrap-2026-10-10T08-56-51/2.log",
+"bytes": 72,
+"log_sha8": "4cf86278",
+"exit": 0,
+"seconds": 0.18,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "CARGO_TARGET_DIR=target/wincheck cargo clippy -p viola-state -p viola-pty -p viola-e2e --tests --target x86_64-pc-windows-msvc -- -D warnings",
+"run_sha8": "9e71a9fc",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-10-windows-mutation-grade/wrap-2026-10-10T08-56-51/3.log",
+"bytes": 72,
+"log_sha8": "4cf86278",
+"exit": 0,
+"seconds": 0.16,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-10-windows-mutation-grade/wrap-2026-10-10T08-56-51/4.log",
+"bytes": 189945,
+"log_sha8": "46b0f5a9",
+"exit": 0,
+"seconds": 6.41,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run",
+"run_sha8": "21443cdf",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-10-windows-mutation-grade/wrap-2026-10-10T08-56-51/5.log",
+"bytes": 232752,
+"log_sha8": "4499a66a",
+"exit": 0,
+"seconds": 48.94,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(contract_windows_mutation_scope)'",
+"run_sha8": "529859b3",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-10-windows-mutation-grade/wrap-2026-10-10T08-56-51/6.log",
+"bytes": 2096,
+"log_sha8": "1b1e8594",
+"exit": 0,
+"seconds": 0.71,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "zizmor .github/workflows/",
+"run_sha8": "5dbe1a48",
+"expect": [
+"exit 0",
+"contains No findings to report"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-10-windows-mutation-grade/wrap-2026-10-10T08-56-51/7.log",
+"bytes": 462,
+"log_sha8": "327bbbb0",
+"exit": 0,
+"seconds": 0.07,
+"readings": [
+"exit 0 ✓",
+"contains 'No findings to report' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "! grep -nE 'secrets\\.|upload-artifact|rust-cache|concurrency:|^  (push|pull_request|schedule):|inputs:|needs:|persist-credentials: true' .github/workflows/windows-mutants.yml",
+"run_sha8": "0202e5dc",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-10-windows-mutation-grade/wrap-2026-10-10T08-56-51/8.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "grep -c '^          - package: viola$' .github/workflows/windows-mutants.yml",
+"run_sha8": "ff444898",
+"expect": [
+"exit 0",
+"last line 4"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-10-windows-mutation-grade/wrap-2026-10-10T08-56-51/9.log",
+"bytes": 2,
+"log_sha8": "7de1555d",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '4' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "grep -c 'timeout-minutes: 120' .github/workflows/windows-mutants.yml",
+"run_sha8": "acad2e50",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-10-windows-mutation-grade/wrap-2026-10-10T08-56-51/10.log",
+"bytes": 2,
+"log_sha8": "4355a46b",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '1' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "grep -c 'dispatched only during the' .github/workflows/windows-mutants.yml",
+"run_sha8": "ea755d98",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-10-windows-mutation-grade/wrap-2026-10-10T08-56-51/11.log",
+"bytes": 2,
+"log_sha8": "4355a46b",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '1' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "git diff --quiet 781563cd59a6 -- .github/workflows/ci.yml .github/workflows/nightly.yml .config rust-toolchain.toml deny.toml deny-sync.toml fixtures schemas plugin fuzz scripts e2e-web src crates/viola-core crates/viola-channel crates/viola-agent-claude crates/viola-state/Cargo.toml crates/viola-pty/Cargo.toml crates/viola-state/src/pin.rs crates/viola-state/src/stamps.rs crates/viola-pty/src/sideload.rs crates/viola-e2e/src/harness/run/mutants/scratch.rs crates/viola-e2e/src/harness/run/mutants/base.rs crates/viola-e2e/src/harness/run/browser.rs",
+"run_sha8": "675d511f",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-10-windows-mutation-grade/wrap-2026-10-10T08-56-51/12.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "! (git diff 781563cd59a6 -- '*.rs' .config/nextest.toml | grep -E '^\\+.*(#\\[ignore|retries *=|test\\.skip)')",
+"run_sha8": "70fd1f34",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-10-windows-mutation-grade/wrap-2026-10-10T08-56-51/13.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "jq -e '.mutants.verdict == \"package\" and .mutants.package == \"viola-pty\" and (.mutants.tested | type) == \"number\" and .mutants.tested > 0 and (.mutants.host_excluded | type) == \"array\" and (.mutants.host_excluded | length) > 0 and all(.mutants.host_excluded[]; (.name | type) == \"string\" and (.cfg | type) == \"string\")' viola-0.1.0/chunks/2026-10-10-windows-mutation-grade/evidence/linux-witness.json",
+"run_sha8": "6e982e92",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-10-windows-mutation-grade/wrap-2026-10-10T08-56-51/14.log",
+"bytes": 5,
+"log_sha8": "a17fcf0a",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-10-windows-mutation-grade/wrap-2026-10-10T08-56-51/15.log",
+"bytes": 9656,
+"log_sha8": "7a7dd5da",
+"exit": 0,
+"seconds": 0.74,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-wmg-smoke",
+"run_sha8": "c6be29fd",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-10-windows-mutation-grade/wrap-2026-10-10T08-56-51/16.log",
+"bytes": 47,
+"log_sha8": "91854d6e",
+"exit": 0,
+"seconds": 0.09,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-wmg-smoke --instance builder",
+"run_sha8": "015d5d03",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-10-windows-mutation-grade/wrap-2026-10-10T08-56-51/17.log",
+"bytes": 287,
+"log_sha8": "9abf1d46",
+"exit": 0,
+"seconds": 3.81,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-wmg-smoke",
+"run_sha8": "9872e078",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-10-windows-mutation-grade/wrap-2026-10-10T08-56-51/18.log",
+"bytes": 216,
+"log_sha8": "ca11ab44",
+"exit": 0,
+"seconds": 0.1,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "bash scripts/g2-zero-panics.sh",
+"run_sha8": "b1637f71",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-10-windows-mutation-grade/wrap-2026-10-10T08-56-51/19.log",
+"bytes": 10,
+"log_sha8": "6736cedd",
+"exit": 0,
+"seconds": 0.02,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-10-windows-mutation-grade/wrap-2026-10-10T08-56-51/20.log",
+"bytes": 108,
+"log_sha8": "a9d39867",
+"exit": 0,
+"seconds": 0.34,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 21,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-wmg-smoke",
+"run_sha8": "c6be29fd",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-10-windows-mutation-grade/wrap-2026-10-10T08-56-51/21.log",
+"bytes": 176,
+"log_sha8": "b55140a1",
+"exit": 0,
+"seconds": 0.31,
+"readings": [
+"exit 0 ✓",
+"contains '\"processes_gone\":true' ✓",
+"contains '\"endpoint_gone\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-10-windows-mutation-grade/wrap-2026-10-10T08-56-51/22.log",
+"bytes": 235177,
+"log_sha8": "7e585a09",
+"exit": 0,
+"seconds": 57.01,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"contains '\"stage\":\"linux-tests\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 25,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "2377245a",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 26,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --name mutants --wait 5400",
+"run_sha8": "83947038",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.14",
+"sha8": "e8e4a72c",
+"ts": "2026-10-10T09:20:14Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-10-10T08-56-51-wrap",
+"--marker",
+"2026-10-10-windows-mutation-grade"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust, ts · base 781563cd (the parent of the oldest pre-CI commit dd5161d5)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust · P3 ts — each fired on its synthetic known positive",
+"P1 .andromeda/runs/2026-10-10T08-56-51-wrap/.raw-fanout-design-system.md:6 ×1 · in-root",
+"in-root: a home path under the root in 1 files — respell: gate.py respell --file {path} (the root prefix dropped, never ~/)",
+"hygiene: refused 1 files — P1 1 · P2 0 · P3 0 · read 112 (runs 93 · evidence 11 · inputs 8) · trails 27 not read · copies 6 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust",
+"ts"
+],
+"rows": [
+"P1 .andromeda/runs/2026-10-10T08-56-51-wrap/.raw-fanout-design-system.md:6 ×1 · in-root"
+],
+"counts": {
+"P1": 1,
+"P2": 0,
+"P3": 0,
+"runs": 93,
+"evidence": 11,
+"inputs": 8,
+"trails": 27,
+"copies": 6,
+"kept": 0,
+"binary": 0,
+"in_root": 1
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.14",
+"sha8": "e8e4a72c",
+"ts": "2026-10-10T09:20:19Z",
+"argv": [
+"respell",
+"--file",
+".andromeda/runs/2026-10-10T08-56-51-wrap/.raw-fanout-design-system.md",
+"--run-dir",
+".andromeda/runs/2026-10-10T08-56-51-wrap",
+"--marker",
+"2026-10-10-windows-mutation-grade"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"respelled .andromeda/runs/2026-10-10T08-56-51-wrap/.raw-fanout-design-system.md ×1 · −34 B · 0ecf3f5f→a996c570"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"path": ".andromeda/runs/2026-10-10T08-56-51-wrap/.raw-fanout-design-system.md",
+"occurrences": 1,
+"bytes": 34,
+"before": "0ecf3f5f",
+"after": "a996c570"
+}
+},
+{
+"tool": "gate",
+"v": "1.14",
+"sha8": "e8e4a72c",
+"ts": "2026-10-10T09:20:19Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-10-10T08-56-51-wrap",
+"--marker",
+"2026-10-10-windows-mutation-grade"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust, ts · base 781563cd (the parent of the oldest pre-CI commit dd5161d5)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust · P3 ts — each fired on its synthetic known positive",
+"hygiene: clean — read 112 (runs 93 · evidence 11 · inputs 8) · trails 27 not read · copies 6 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust",
+"ts"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 93,
+"evidence": 11,
+"inputs": 8,
+"trails": 27,
+"copies": 6,
+"kept": 0,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.14",
+"sha8": "e8e4a72c",
+"ts": "2026-10-10T09:20:24Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-windows-mutation-grade",
+"--run-dir",
+".andromeda/runs/2026-10-10T08-56-51-wrap",
+"--marker",
+"2026-10-10-windows-mutation-grade"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base 781563cd (the parent of the oldest pre-CI commit dd5161d5) · lists new 2 · modify 11 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"list viola-0.1.0/chunks/2026-10-10-windows-mutation-grade/evidence/ (dir) ×0",
+"scope: clean — changed 11 · listed 11 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 141"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "781563cd59a642b2d82d2603397ce10162de6c58",
+"base_why": "the parent of the oldest pre-CI commit dd5161d5",
+"counts": {
+"changed": 11,
+"listed": 11,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 141,
+"unparsed": 0,
+"widening_without_word": 0
+}
+}
+]

@@ -1,0 +1,201 @@
+[
+{
+"tool": "cascade",
+"v": "1.2",
+"sha8": "fe426974",
+"ts": "2026-10-10T09:10:58Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-10T08-56-51-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-10T08-56-51-wrap",
+"--marker",
+"2026-10-10-windows-mutation-grade"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline 781563cd (pre-CI parent — the oldest of 1 pre-CI commit(s), dd5161d5)",
+"six-package · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:352 (…",
+"per-package-job · new 0 · standing 0 · leaf 0 · curation 1 · base 0 · control test-plan.md:1149 (prose)",
+"per-package · new 0 · standing 0 · leaf 3 · curation 0 · base 0 · control test-plan.md:1149 (prose)",
+"read-red · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:1212 (prose)",
+"twins · new 1 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:1212 (prose)",
+"survived-sum · 0 rows (control fired) — a statement about this pattern, not the masters · control registries/contracts/…",
+"missed-or · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:437 (prose)",
+"missed-zero · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control test-plan.md:1212 (prose)",
+"surviving · new 0 · standing 4 · leaf 0 · curation 0 · base 0 · control test-plan.md:182 (prose)",
+"nine-of-nine · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:1013 (pro…",
+"first-run-id · new 1 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:443 (prose)",
+"union-verdict · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:165…",
+"owed-entry · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control test-plan.md:1212 (prose)",
+"dispatch-timing · new 0 · standing 7 · leaf 4 · curation 1 · base 0 · control security-plan.md:351 (prose)",
+"exit-code-alone · new 0 · standing 1 · leaf 3 · curation 0 · base 0 · control test-plan.md:1327 (prose)",
+".claude/rules/verification-harness.md:56 per-package-job curation …utants.yml` has `mutants (<package>)` jobs, but they…",
+".claude/rules/verification-harness.md:44 per-package leaf @c2953/3530 …ber> --file …` per package on `windows-2025`; `t…",
+".claude/docs/commands.md:47 per-package leaf ×2 …dows-2025` matrix, one job per package running `scripts/agent-run.ps1 …",
+".claude/docs/tests-summary.md:42 per-package leaf …ge <member> --file …` per package on `windows-2025`); the `mutants` …",
+".andromeda/test-plan.md:1212 twins standing edited @c3767/5913 …25 misses were `#[cfg(unix)]` twins in the scoped files…",
+".andromeda/obs-plan.md:1013 twins new … out by the harness as `#[cfg(unix)]` twins the Windows build never compiles (th…",
+".andromeda/test-plan.md:1212 missed-zero standing edited ×3 @c368,1958,2294/5913 … must show `missed == 0`, `timeout ==…",
+".claude/docs/tests-summary.md:42 missed-zero leaf …er \"equivalent\", and `missed == 0` reads over the measurable set (th…",
+".andromeda/test-plan.md:182 surviving standing …(Founder Direction 1: \"surviving mutants are red\") — only under `run --…",
+".andromeda/test-plan.md:413 surviving standing …ed to each chunk diff, surviving mutants are red; include it in the P2 …",
+".andromeda/test-plan.md:414 surviving standing …y code audit runs; any surviving mutant makes that run exit non-zero. I…",
+".andromeda/obs-plan.md:1105 surviving standing edited - A surviving cargo-mutants mutant in obs code, at a `run --mutan…",
+".andromeda/architecture.md:443 first-run-id standing …nner, as read in run 37174673472). Off Windows the harness arm is…",
+".andromeda/test-plan.md:1212 first-run-id new @c3730/5913 … In its first run, 37174673472, 19 of 25 misses were `#[cfg(…",
+".andromeda/test-plan.md:1212 owed-entry standing edited @c3195/5913 …he route entry \"Windows mutation grade\" measured t…",
+".claude/docs/tests-summary.md:42 owed-entry leaf …ows-only and owed to \"Windows mutation grade\"; chunk 2026-10-09-epoch…",
+".andromeda/security-plan.md:351 dispatch-timing standing edited …t class), at the epoch-boundary audit. It is never a g…",
+".andromeda/test-plan.md:1136 dispatch-timing standing …mutants.yml` for the boundary audit's Windows mutation leg). The…",
+".andromeda/test-plan.md:1247 dispatch-timing standing edited …n --mutants` (the epoch-boundary audit, or on demand): an…",
+".andromeda/obs-plan.md:993 dispatch-timing standing …ws-mutants.yml`, the boundary audit's Windows mutation leg, which …",
+".andromeda/obs-plan.md:1105 dispatch-timing standing edited …un --mutants` (the epoch-boundary audit or on demand; test…",
+".andromeda/registries/contracts/architecture/ci-cd-approach.md:2 dispatch-timing standing edited @c1051/3407 …e epoch-b…",
+".andromeda/registries/contracts/architecture/project-directory-structure.md:113 dispatch-timing standing …hed at the bo…",
+".claude/rules/testing.md:74 dispatch-timing curation … to `evidence/`, the epoch-boundary audit owns full mutation, and…",
+".claude/docs/commands.md:30 dispatch-timing leaf …ion; `--mutants` runs only when named (the epoch-boundary audit's arm)",
+".claude/docs/commands.md:44 dispatch-timing leaf … `run --mutants` (the epoch-boundary audit's arm, never a chunk or CI…",
+".claude/docs/commands.md:47 dispatch-timing leaf ×2 …d/viola-0.1.0` — the boundary audit's Windows leg (founder ruling …",
+".claude/docs/tests-summary.md:42 dispatch-timing leaf …`run --mutants` (the epoch-boundary audit, or on demand) | cargo…",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:47 exit-code-alone standing edited …The exit code…",
+".claude/rules/testing.md:48 exit-code-alone leaf …dows host — never the exit code alone; `--file <path>` is the scoped …",
+".claude/docs/gotchas.md:123 exit-code-alone leaf …ne` rule) — never the exit code alone: the root fixture's `Wrapper::s…",
+".claude/docs/services/viola.md:29 exit-code-alone leaf …dpoint to be gone, never for the exit code alone (`gotchas.md`).",
+"six-package · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:352 (…",
+"per-package-job · new 0 · standing 0 · leaf 0 · curation 1 · base 0 · control test-plan.md:1149 (prose)",
+"per-package · new 0 · standing 0 · leaf 3 · curation 0 · base 0 · control test-plan.md:1149 (prose)",
+"read-red · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:1212 (prose)",
+"twins · new 1 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:1212 (prose)",
+"survived-sum · 0 rows (control fired) — a statement about this pattern, not the masters · control registries/contracts/…",
+"missed-or · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:437 (prose)",
+"missed-zero · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control test-plan.md:1212 (prose)",
+"surviving · new 0 · standing 4 · leaf 0 · curation 0 · base 0 · control test-plan.md:182 (prose)",
+"nine-of-nine · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:1013 (pro…",
+"first-run-id · new 1 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:443 (prose)",
+"union-verdict · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:165…",
+"owed-entry · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control test-plan.md:1212 (prose)",
+"dispatch-timing · new 0 · standing 7 · leaf 4 · curation 1 · base 0 · control security-plan.md:351 (prose)",
+"exit-code-alone · new 0 · standing 1 · leaf 3 · curation 0 · base 0 · control test-plan.md:1327 (prose)",
+"total (15 patterns) · 32 rows over 13 files",
+"per class · new 2/2 · standing 16/7 · leaf 12/6 · curation 2/2 · base 0/0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "781563cd59a642b2d82d2603397ce10162de6c58",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), dd5161d5",
+"counts": {
+"six-package": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"per-package-job": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 1,
+"base": 0
+},
+"per-package": {
+"new": 0,
+"standing": 0,
+"leaf": 3,
+"curation": 0,
+"base": 0
+},
+"read-red": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"twins": {
+"new": 1,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"survived-sum": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"missed-or": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"missed-zero": {
+"new": 0,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"surviving": {
+"new": 0,
+"standing": 4,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"nine-of-nine": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"first-run-id": {
+"new": 1,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"union-verdict": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"owed-entry": {
+"new": 0,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"dispatch-timing": {
+"new": 0,
+"standing": 7,
+"leaf": 4,
+"curation": 1,
+"base": 0
+},
+"exit-code-alone": {
+"new": 0,
+"standing": 1,
+"leaf": 3,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]
