@@ -1,0 +1,718 @@
+caught   crates/viola-e2e/src/bin/viola-harness.rs:122:5: replace emit -> ExitCode with Default::default() in 0s build + 5s test
+caught   crates/viola-e2e/src/bin/viola-harness.rs:135:5: replace boot_options -> Option<BootOptions> with None in 0s build + 35s test
+unviable crates/viola-e2e/src/bin/viola-harness.rs:135:5: replace boot_options -> Option<BootOptions> with Some(Default::default()) in 0s build
+caught   crates/viola-e2e/src/bin/viola-harness.rs:151:16: delete ! in boot_options in 0s build + 35s test
+caught   crates/viola-e2e/src/bin/viola-harness.rs:162:5: replace boot_cmd -> ExitCode with Default::default() in 0s build + 20s test
+caught   crates/viola-e2e/src/bin/viola-harness.rs:169:5: replace run_cmd -> ExitCode with Default::default() in 0s build + 20s test
+caught   crates/viola-e2e/src/bin/viola-harness.rs:192:5: replace cleanup_cmd -> ExitCode with Default::default() in 0s build + 20s test
+caught   crates/viola-e2e/src/bin/viola-harness.rs:192:70: replace == with != in cleanup_cmd in 0s build + 35s test
+caught   crates/viola-e2e/src/bin/viola-harness.rs:203:5: replace logs_cmd -> ExitCode with Default::default() in 0s build + 20s test
+caught   crates/viola-e2e/src/bin/viola-harness.rs:215:5: replace gate_cmd -> ExitCode with Default::default() in 0s build + 20s test
+caught   crates/viola-e2e/src/bin/viola-harness.rs:223:5: replace main -> ExitCode with Default::default() in 0s build + 24s test
+unviable crates/viola-e2e/src/harness/mod.rs:48:9: replace Outcome::usage -> Self with Default::default() in 0s build
+unviable crates/viola-e2e/src/harness/mod.rs:63:9: replace Workspace::from_build -> Self with Default::default() in 0s build
+caught   crates/viola-e2e/src/harness/mod.rs:73:9: replace Workspace::agent_run -> PathBuf with Default::default() in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/mod.rs:77:9: replace Workspace::session_dir -> PathBuf with Default::default() in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/mod.rs:81:9: replace Workspace::artifacts -> PathBuf with Default::default() in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/mod.rs:85:9: replace Workspace::e2e_home -> PathBuf with Default::default() in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/mod.rs:94:9: replace Workspace::ensure_e2e_home -> io::Result<()> with Ok(()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/mod.rs:102:20: delete ! in Workspace::ensure_e2e_home in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/mod.rs:109:20: delete ! in Workspace::ensure_e2e_home in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/mod.rs:114:54: replace != with == in Workspace::ensure_e2e_home in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/mod.rs:114:46: replace & with | in Workspace::ensure_e2e_home in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/mod.rs:114:46: replace & with ^ in Workspace::ensure_e2e_home in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/mod.rs:128:9: replace Workspace::cargo_target -> PathBuf with Default::default() in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/mod.rs:133:9: replace Workspace::harness_bins -> PathBuf with Default::default() in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/mod.rs:139:5: replace valid_session_id -> bool with true in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/mod.rs:139:5: replace valid_session_id -> bool with false in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/mod.rs:142:9: replace && with || in valid_session_id in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/mod.rs:141:9: replace && with || in valid_session_id in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/mod.rs:140:9: replace && with || in valid_session_id in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/mod.rs:139:5: delete ! in valid_session_id in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/mod.rs:140:21: replace <= with > in valid_session_id in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/mod.rs:141:12: delete ! in valid_session_id in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/mod.rs:144:48: replace || with && in valid_session_id in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/mod.rs:148:5: replace exe -> PathBuf with Default::default() in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/mod.rs:154:5: replace bin_dir_from_exe -> PathBuf with Default::default() in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/mod.rs:156:23: replace match guard name == "deps" with true in bin_dir_from_exe in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/mod.rs:156:23: replace match guard name == "deps" with false in bin_dir_from_exe in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/mod.rs:156:28: replace == with != in bin_dir_from_exe in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/mod.rs:162:5: replace expired -> bool with true in 1s build + 0s test
+caught   crates/viola-e2e/src/harness/mod.rs:162:5: replace expired -> bool with false in 1s build + 30s test
+caught   crates/viola-e2e/src/harness/mod.rs:166:5: replace write_json -> Result<(), HarnessError> with Ok(()) in 1s build + 5s test
+unviable crates/viola-e2e/src/harness/mod.rs:173:5: replace read_json -> Result<T, HarnessError> with Ok(Default::default()) in 0s build
+caught   crates/viola-e2e/src/harness/mod.rs:186:9: replace ProcessId::of -> Option<Self> with None in 1s build + 0s test
+unviable crates/viola-e2e/src/harness/mod.rs:186:9: replace ProcessId::of -> Option<Self> with Some(Default::default()) in 0s build
+caught   crates/viola-e2e/src/harness/mod.rs:190:36: replace != with == in ProcessId::of in 1s build + 0s test
+caught   crates/viola-e2e/src/harness/mod.rs:198:9: replace ProcessId::alive -> bool with true in 1s build + 30s test
+caught   crates/viola-e2e/src/harness/mod.rs:198:9: replace ProcessId::alive -> bool with false in 1s build + 0s test
+caught   crates/viola-e2e/src/harness/mod.rs:198:28: replace == with != in ProcessId::alive in 1s build + 30s test
+caught   crates/viola-e2e/src/harness/mod.rs:204:9: replace ProcessId::kill -> bool with true in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/mod.rs:204:9: replace ProcessId::kill -> bool with false in 1s build + 35s test
+caught   crates/viola-e2e/src/harness/mod.rs:208:61: replace && with || in ProcessId::kill in 1s build + 0s test
+caught   crates/viola-e2e/src/harness/mod.rs:208:36: replace != with == in ProcessId::kill in 1s build + 35s test
+caught   crates/viola-e2e/src/harness/mod.rs:208:79: replace == with != in ProcessId::kill in 1s build + 0s test
+caught   crates/viola-e2e/src/harness/mod.rs:214:9: replace ProcessId::wait_gone -> bool with true in 1s build + 0s test
+caught   crates/viola-e2e/src/harness/mod.rs:214:9: replace ProcessId::wait_gone -> bool with false in 1s build + 0s test
+caught   crates/viola-e2e/src/harness/mod.rs:215:16: delete ! in ProcessId::wait_gone in 1s build + 30s test
+unviable crates/viola-e2e/src/harness/mod.rs:238:9: replace InstanceRecord::wrapper -> ProcessId with Default::default() in 0s build
+unviable crates/viola-e2e/src/harness/mod.rs:245:9: replace InstanceRecord::child -> ProcessId with Default::default() in 0s build
+unviable crates/viola-e2e/src/harness/mod.rs:267:9: replace SessionRecord::supervisor -> ProcessId with Default::default() in 0s build
+caught   crates/viola-e2e/src/harness/mod.rs:275:5: replace session_record_path -> PathBuf with Default::default() in 1s build + 5s test
+unviable crates/viola-e2e/src/harness/mod.rs:280:5: replace load_session -> Result<SessionRecord, Outcome> with Ok(Default::default()) in 0s build
+caught   crates/viola-e2e/src/harness/mod.rs:280:8: delete ! in load_session in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:35:9: replace InstanceSpec::parse -> Option<Self> with None in 1s build + 5s test
+unviable crates/viola-e2e/src/harness/boot.rs:35:9: replace InstanceSpec::parse -> Option<Self> with Some(Default::default()) in 0s build
+unviable crates/viola-e2e/src/harness/boot.rs:74:5: replace failure -> Outcome with Default::default() in 0s build
+caught   crates/viola-e2e/src/harness/boot.rs:86:5: replace cargo_build -> Result<(), Option<i32>> with Ok(()) in 1s build + 5s test
+unviable crates/viola-e2e/src/harness/boot.rs:102:5: replace boot -> Outcome with Default::default() in 0s build
+caught   crates/viola-e2e/src/harness/boot.rs:102:8: delete ! in boot in 1s build + 5s test
+unviable crates/viola-e2e/src/harness/boot.rs:109:9: replace && with || in boot in 0s build
+unviable crates/viola-e2e/src/harness/boot.rs:117:5: replace start -> Result<Outcome, HarnessError> with Ok(Default::default()) in 0s build
+unviable crates/viola-e2e/src/harness/boot.rs:135:9: replace && with || in start in 0s build
+caught   crates/viola-e2e/src/harness/boot.rs:154:54: replace + with - in start in 1s build + 35s test
+unviable crates/viola-e2e/src/harness/boot.rs:154:54: replace + with * in start in 0s build
+caught   crates/viola-e2e/src/harness/boot.rs:158:53: replace + with - in start in 1s build + 35s test
+unviable crates/viola-e2e/src/harness/boot.rs:158:53: replace + with * in start in 0s build
+caught   crates/viola-e2e/src/harness/boot.rs:191:5: replace stamp -> Result<(), Option<i32>> with Ok(()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:211:29: replace && with || in stamp in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:220:5: replace stamped_line -> bool with true in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:220:5: replace stamped_line -> bool with false in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:236:9: replace && with || in stamped_line in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:235:9: replace && with || in stamped_line in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:234:9: replace && with || in stamped_line in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:233:5: delete ! in stamped_line in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:234:12: delete ! in stamped_line in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:235:12: delete ! in stamped_line in 1s build + 5s test
+unviable crates/viola-e2e/src/harness/boot.rs:242:5: replace spawn_supervisor -> Result<ProcessId, HarnessError> with Ok(Default::default()) in 0s build
+caught   crates/viola-e2e/src/harness/boot.rs:261:5: replace role_state -> RoleState with Default::default() in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:268:13: delete match arm (Some("process-start"), Some("self")) in role_state in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:269:13: delete match arm (Some("process-start"), Some("claude-child")) in role_state in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:270:13: delete match arm (Some("process-exit"), Some("self")) in role_state in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:278:5: replace role_file -> PathBuf with Default::default() in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:292:5: replace instance_dir -> PathBuf with Default::default() in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:296:5: replace snapshot_data -> Option<Value> with None in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:296:5: replace snapshot_data -> Option<Value> with Some(Default::default()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:304:5: replace snapshot_ready -> bool with true in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:304:5: replace snapshot_ready -> bool with false in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:305:58: replace && with || in snapshot_ready in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:305:27: replace && with || in snapshot_ready in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:311:5: replace snapshot_endpoint -> Option<String> with None in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:311:5: replace snapshot_endpoint -> Option<String> with Some(String::new()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:311:5: replace snapshot_endpoint -> Option<String> with Some("xyzzy".into()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:316:5: replace beat_fresh -> bool with true in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:316:5: replace beat_fresh -> bool with false in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:328:5: replace fresh_age -> bool with true in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:328:5: replace fresh_age -> bool with false in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:328:9: replace < with == in fresh_age in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:328:9: replace < with > in fresh_age in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:328:9: replace < with <= in fresh_age in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:334:5: replace start_records -> bool with true in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:334:5: replace start_records -> bool with false in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:342:9: delete match arm Some([wheel, gate, start]) in start_records in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:347:17: replace && with || in start_records in 2s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:346:17: replace && with || in start_records in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:345:17: replace && with || in start_records in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:344:17: replace && with || in start_records in 2s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:343:27: replace == with != in start_records in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:344:43: replace == with != in start_records in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:345:33: replace == with != in start_records in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:346:34: replace == with != in start_records in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:347:36: replace == with != in start_records in 1s build + 5s test
+unviable crates/viola-e2e/src/harness/boot.rs:356:5: replace readiness -> Readiness with Default::default() in 0s build
+caught   crates/viola-e2e/src/harness/boot.rs:372:12: delete ! in readiness in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:377:12: delete ! in readiness in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:380:31: replace && with || in readiness in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:380:34: delete ! in readiness in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:385:41: replace match guard missing.is_empty() with true in readiness in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:385:41: replace match guard missing.is_empty() with false in readiness in 1s build + 5s test
+unviable crates/viola-e2e/src/harness/boot.rs:402:5: replace wait_ready -> Result<InstanceRecord, Outcome> with Ok(Default::default()) in 0s build
+caught   crates/viola-e2e/src/harness/boot.rs:408:44: replace match guard expired(deadline) with true in wait_ready in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/boot.rs:408:44: replace match guard expired(deadline) with false in wait_ready in 1s build + 35s test
+caught   crates/viola-e2e/src/harness/boot.rs:423:5: replace session_path -> OsString with Default::default() in 1s build + 5s test
+unviable crates/viola-e2e/src/harness/boot.rs:429:5: replace load_supervise_spec -> Result<SuperviseSpec, HarnessError> with Ok(Default::default()) in 0s build
+unviable crates/viola-e2e/src/harness/cleanup.rs:32:5: replace cleanup -> Outcome with Default::default() in 0s build
+caught   crates/viola-e2e/src/harness/cleanup.rs:33:32: replace match guard !valid_session_id(id) with true in cleanup in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/cleanup.rs:33:32: replace match guard !valid_session_id(id) with false in cleanup in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/cleanup.rs:33:32: delete ! in cleanup in 1s build + 5s test
+unviable crates/viola-e2e/src/harness/cleanup.rs:52:5: replace summarize -> Outcome with Default::default() in 0s build
+caught   crates/viola-e2e/src/harness/cleanup.rs:66:46: replace && with || in summarize in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/cleanup.rs:66:29: replace && with || in summarize in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/cleanup.rs:66:62: replace != with == in summarize in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/cleanup.rs:78:5: replace all_sessions -> Vec<String> with vec![] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/cleanup.rs:78:5: replace all_sessions -> Vec<String> with vec![String::new()] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/cleanup.rs:78:5: replace all_sessions -> Vec<String> with vec!["xyzzy".into()] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/cleanup.rs:83:43: replace && with || in all_sessions in 1s build + 5s test
+unviable crates/viola-e2e/src/harness/cleanup.rs:90:5: replace cleanup_one -> Report with Default::default() in 0s build
+caught   crates/viola-e2e/src/harness/cleanup.rs:93:41: replace + with - in cleanup_one in 1s build + 35s test
+unviable crates/viola-e2e/src/harness/cleanup.rs:93:41: replace + with * in cleanup_one in 0s build
+caught   crates/viola-e2e/src/harness/cleanup.rs:102:22: replace && with || in cleanup_one in 1s build + 35s test
+caught   crates/viola-e2e/src/harness/cleanup.rs:102:25: delete ! in cleanup_one in 1s build + 35s test
+caught   crates/viola-e2e/src/harness/cleanup.rs:106:35: replace + with - in cleanup_one in 1s build + 0s test
+unviable crates/viola-e2e/src/harness/cleanup.rs:106:35: replace + with * in cleanup_one in 0s build
+caught   crates/viola-e2e/src/harness/cleanup.rs:131:5: replace unconnectable -> bool with true in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/cleanup.rs:131:5: replace unconnectable -> bool with false in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/cleanup.rs:140:9: delete ! in unconnectable in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/cleanup.rs:145:5: replace killed_by_supervisor -> Vec<String> with vec![] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/cleanup.rs:145:5: replace killed_by_supervisor -> Vec<String> with vec![String::new()] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/cleanup.rs:145:5: replace killed_by_supervisor -> Vec<String> with vec!["xyzzy".into()] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/cleanup.rs:150:33: replace == with != in killed_by_supervisor in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/cleanup.rs:157:5: replace remove_session_home -> bool with true in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/cleanup.rs:157:5: replace remove_session_home -> bool with false in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/cleanup.rs:164:24: replace || with && in remove_session_home in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/cleanup.rs:164:8: delete ! in remove_session_home in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/cleanup.rs:164:43: replace != with == in remove_session_home in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/cleanup.rs:168:5: delete ! in remove_session_home in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/gate.rs:37:5: replace parse_require -> Option<Vec<String>> with None in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/gate.rs:37:5: replace parse_require -> Option<Vec<String>> with Some(vec![]) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/gate.rs:37:5: replace parse_require -> Option<Vec<String>> with Some(vec![String::new()]) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/gate.rs:37:5: replace parse_require -> Option<Vec<String>> with Some(vec!["xyzzy".into()]) in 2s build + 5s test
+caught   crates/viola-e2e/src/harness/gate.rs:45:5: replace breach -> Value with Default::default() in 1s build + 5s test
+unviable crates/viola-e2e/src/harness/gate.rs:49:5: replace gate -> Outcome with Default::default() in 0s build
+caught   crates/viola-e2e/src/harness/gate.rs:54:35: replace && with || in gate in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/gate.rs:54:38: delete ! in gate in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/gate.rs:61:18: replace == with != in gate in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/gate.rs:64:18: replace == with != in gate in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/gate.rs:76:5: replace count -> u64 with 0 in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/gate.rs:76:5: replace count -> u64 with 1 in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/gate.rs:80:5: replace summary_checks with () in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/gate.rs:86:52: replace == with != in summary_checks in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/gate.rs:93:14: replace > with == in summary_checks in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/gate.rs:93:14: replace > with < in summary_checks in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/gate.rs:93:14: replace > with >= in summary_checks in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/gate.rs:98:27: replace && with || in summary_checks in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/gate.rs:98:14: replace == with != in summary_checks in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/gate.rs:98:39: replace > with == in summary_checks in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/gate.rs:98:39: replace > with < in summary_checks in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/gate.rs:98:39: replace > with >= in summary_checks in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/gate.rs:104:5: replace coverage with () in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/gate.rs:115:26: replace match guard pct >= floor with true in coverage in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/gate.rs:115:26: replace match guard pct >= floor with false in coverage in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/gate.rs:115:30: replace >= with < in coverage in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/gate.rs:133:5: replace perf with () in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/gate.rs:135:12: delete ! in perf in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/gate.rs:144:44: replace && with || in perf in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/gate.rs:153:26: replace match guard max < bound with true in perf in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/gate.rs:153:26: replace match guard max < bound with false in perf in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/gate.rs:153:30: replace < with == in perf in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/gate.rs:153:30: replace < with > in perf in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/gate.rs:153:30: replace < with <= in perf in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:18:33: replace * with + in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:18:33: replace * with / in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:18:26: replace * with + in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:18:26: replace * with / in 1s build + 5s test
+unviable crates/viola-e2e/src/harness/logs.rs:27:9: replace Filter<'a>::with_kind -> Query<'a> with Default::default() in 0s build
+caught   crates/viola-e2e/src/harness/logs.rs:43:5: replace logs -> Result<Vec<Value>, Outcome> with Ok(vec![]) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:43:5: replace logs -> Result<Vec<Value>, Outcome> with Ok(vec![Default::default()]) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:47:5: replace query -> Result<Vec<Value>, Outcome> with Ok(vec![]) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:47:5: replace query -> Result<Vec<Value>, Outcome> with Ok(vec![Default::default()]) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:56:5: replace files_in -> Vec<(String, Vec<u8>)> with vec![] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:56:5: replace files_in -> Vec<(String, Vec<u8>)> with vec![(String::new(), vec![])] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:56:5: replace files_in -> Vec<(String, Vec<u8>)> with vec![(String::new(), vec![0])] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:56:5: replace files_in -> Vec<(String, Vec<u8>)> with vec![(String::new(), vec![1])] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:56:5: replace files_in -> Vec<(String, Vec<u8>)> with vec![("xyzzy".into(), vec![])] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:56:5: replace files_in -> Vec<(String, Vec<u8>)> with vec![("xyzzy".into(), vec![0])] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:56:5: replace files_in -> Vec<(String, Vec<u8>)> with vec![("xyzzy".into(), vec![1])] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:78:5: replace diag_lines -> Vec<Value> with vec![] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:78:5: replace diag_lines -> Vec<Value> with vec![Default::default()] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:86:5: replace instance_names -> Vec<String> with vec![] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:86:5: replace instance_names -> Vec<String> with vec![String::new()] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:86:5: replace instance_names -> Vec<String> with vec!["xyzzy".into()] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:100:5: replace detail_lines -> Vec<Value> with vec![] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:100:5: replace detail_lines -> Vec<Value> with vec![Default::default()] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:103:12: delete ! in detail_lines in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:106:65: replace && with || in detail_lines in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:115:5: replace wrap_lines -> Vec<Value> with vec![] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:115:5: replace wrap_lines -> Vec<Value> with vec![Default::default()] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:120:5: replace event_lines -> Vec<Value> with vec![] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:120:5: replace event_lines -> Vec<Value> with vec![Default::default()] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:123:48: replace == with != in event_lines in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:131:5: replace wrap_events -> Vec<Value> with vec![] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:131:5: replace wrap_events -> Vec<Value> with vec![Default::default()] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:141:29: replace match guard record.is_object() with true in wrap_events in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:141:29: replace match guard record.is_object() with false in wrap_events in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:161:5: replace split_lines -> Vec<(usize, Option<&[u8]>)> with vec![] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:161:5: replace split_lines -> Vec<(usize, Option<&[u8]>)> with vec![(0, None)] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:161:5: replace split_lines -> Vec<(usize, Option<&[u8]>)> with vec![(0, Some(Vec::leak(Vec::new())))] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:161:5: replace split_lines -> Vec<(usize, Option<&[u8]>)> with vec![(0, Some(Vec::leak(vec![0])))] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:161:5: replace split_lines -> Vec<(usize, Option<&[u8]>)> with vec![(0, Some(Vec::leak(vec![1])))] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:161:5: replace split_lines -> Vec<(usize, Option<&[u8]>)> with vec![(1, None)] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:161:5: replace split_lines -> Vec<(usize, Option<&[u8]>)> with vec![(1, Some(Vec::leak(Vec::new())))] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:161:5: replace split_lines -> Vec<(usize, Option<&[u8]>)> with vec![(1, Some(Vec::leak(vec![0])))] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:161:5: replace split_lines -> Vec<(usize, Option<&[u8]>)> with vec![(1, Some(Vec::leak(vec![1])))] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:163:47: replace == with != in split_lines in 1s build + 9s test
+caught   crates/viola-e2e/src/harness/logs.rs:165:16: replace += with -= in split_lines in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:165:16: replace += with *= in split_lines in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:175:5: replace wrap_in -> Vec<Value> with vec![] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:175:5: replace wrap_in -> Vec<Value> with vec![Default::default()] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:197:27: replace match guard record.is_object() with true in wrap_in in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:197:27: replace match guard record.is_object() with false in wrap_in in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:198:42: replace && with || in wrap_in in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:212:5: replace field_is -> bool with true in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:212:5: replace field_is -> bool with false in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:212:46: replace == with != in field_is in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:216:5: replace matches -> bool with true in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:216:5: replace matches -> bool with false in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:216:51: replace && with || in matches in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:220:5: replace event_matches -> bool with true in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:220:5: replace event_matches -> bool with false in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/logs.rs:220:29: replace && with || in event_matches in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push.rs:40:5: replace out -> Option<String> with None in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push.rs:40:5: replace out -> Option<String> with Some(String::new()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push.rs:40:5: replace out -> Option<String> with Some("xyzzy".into()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push.rs:41:9: delete match arm (Some(0), text) in out in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push.rs:47:5: replace ok -> bool with true in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push.rs:47:5: replace ok -> bool with false in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push.rs:47:15: replace == with != in ok in 1s build + 5s test
+unviable crates/viola-e2e/src/harness/pre_push.rs:51:5: replace pre_push -> Outcome with Default::default() in 0s build
+caught   crates/viola-e2e/src/harness/pre_push.rs:52:8: delete ! in pre_push in 1s build + 5s test
+unviable crates/viola-e2e/src/harness/pre_push.rs:69:9: replace Doc::finish -> Outcome with Default::default() in 0s build
+caught   crates/viola-e2e/src/harness/pre_push.rs:69:26: replace == with != in Doc::finish in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push.rs:71:33: delete ! in Doc::finish in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push.rs:74:58: delete ! in Doc::finish in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push.rs:80:12: delete ! in Doc::finish in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push.rs:89:5: replace stages -> Result<bool, Stop> with Ok(true) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push.rs:89:5: replace stages -> Result<bool, Stop> with Ok(false) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:59:9: replace Selection::from_flags -> Self with Default::default() in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:59:26: replace == with != in Selection::from_flags in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:61:13: delete field unit from struct Self expression in Selection::from_flags in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:62:13: delete field integration from struct Self expression in Selection::from_flags in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:61:37: replace || with && in Selection::from_flags in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:61:30: replace || with && in Selection::from_flags in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:62:51: replace || with && in Selection::from_flags in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:62:44: replace || with && in Selection::from_flags in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:81:9: replace Suite::named -> Self with Default::default() in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:82:13: delete field suite from struct Self expression in Suite::named in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:88:9: replace Suite::green -> bool with true in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:88:9: replace Suite::green -> bool with false in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:88:26: replace && with || in Suite::green in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:88:21: replace == with != in Suite::green in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:88:43: replace == with != in Suite::green in 1s build + 5s test
+unviable crates/viola-e2e/src/harness/run.rs:100:5: replace run -> Outcome with Default::default() in 0s build
+unviable crates/viola-e2e/src/harness/run.rs:130:5: replace run_with -> Outcome with Default::default() in 0s build
+caught   crates/viola-e2e/src/harness/run.rs:130:23: replace && with || in run_with in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:134:24: replace && with || in run_with in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:134:27: delete ! in run_with in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:141:31: delete ! in run_with in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:150:23: replace && with || in run_with in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:153:32: replace && with || in run_with in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:170:5: replace archive_sources -> Vec<(String, Option<PathBuf>)> with vec![] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:170:5: replace archive_sources -> Vec<(String, Option<PathBuf>)> with vec![(String::new(), None)] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:170:5: replace archive_sources -> Vec<(String, Option<PathBuf>)> with vec![(String::new(), Some(Default::default()))] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:170:5: replace archive_sources -> Vec<(String, Option<PathBuf>)> with vec![("xyzzy".into(), None)] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:170:5: replace archive_sources -> Vec<(String, Option<PathBuf>)> with vec![("xyzzy".into(), Some(Default::default()))] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:184:37: replace == with != in archive_sources in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:203:5: replace next_slot -> u64 with 0 in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:203:5: replace next_slot -> u64 with 1 in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:203:43: replace + with - in next_slot in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:203:43: replace + with * in next_slot in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:208:5: replace stale_slots -> Vec<u64> with vec![] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:208:5: replace stale_slots -> Vec<u64> with vec![0] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:208:5: replace stale_slots -> Vec<u64> with vec![1] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:222:5: replace archive -> Option<(String, Vec<String>)> with None in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:222:5: replace archive -> Option<(String, Vec<String>)> with Some((String::new(), vec![])) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:222:5: replace archive -> Option<(String, Vec<String>)> with Some((String::new(), vec![String::new()])) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:222:5: replace archive -> Option<(String, Vec<String>)> with Some((String::new(), vec!["xyzzy".into()])) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:222:5: replace archive -> Option<(String, Vec<String>)> with Some(("xyzzy".into(), vec![])) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:222:5: replace archive -> Option<(String, Vec<String>)> with Some(("xyzzy".into(), vec![String::new()])) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:222:5: replace archive -> Option<(String, Vec<String>)> with Some(("xyzzy".into(), vec!["xyzzy".into()])) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:238:13: delete ! in archive in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:260:5: replace test_suites -> (Vec<Suite>, Option<Refusal>) with (vec![], None) in 1s build + 5s test
+unviable crates/viola-e2e/src/harness/run.rs:260:5: replace test_suites -> (Vec<Suite>, Option<Refusal>) with (vec![], Some(Default::default())) in 0s build
+caught   crates/viola-e2e/src/harness/run.rs:260:5: replace test_suites -> (Vec<Suite>, Option<Refusal>) with (vec![Default::default()], None) in 1s build + 5s test
+unviable crates/viola-e2e/src/harness/run.rs:260:5: replace test_suites -> (Vec<Suite>, Option<Refusal>) with (vec![Default::default()], Some(Default::default())) in 0s build
+caught   crates/viola-e2e/src/harness/run.rs:283:36: replace || with && in test_suites in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:283:17: replace || with && in test_suites in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:303:5: replace tool_arms -> (Option<Refusal>, Option<Value>, Option<PathBuf>) with (None, None, None) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:303:5: replace tool_arms -> (Option<Refusal>, Option<Value>, Option<PathBuf>) with (None, None, Some(Default::default())) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:303:5: replace tool_arms -> (Option<Refusal>, Option<Value>, Option<PathBuf>) with (None, Some(Default::default()), None) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:303:5: replace tool_arms -> (Option<Refusal>, Option<Value>, Option<PathBuf>) with (None, Some(Default::default()), Some(Default::default())) in 1s build + 5s test
+unviable crates/viola-e2e/src/harness/run.rs:303:5: replace tool_arms -> (Option<Refusal>, Option<Value>, Option<PathBuf>) with (Some(Default::default()), None, None) in 0s build
+unviable crates/viola-e2e/src/harness/run.rs:303:5: replace tool_arms -> (Option<Refusal>, Option<Value>, Option<PathBuf>) with (Some(Default::default()), None, Some(Default::default())) in 0s build
+unviable crates/viola-e2e/src/harness/run.rs:303:5: replace tool_arms -> (Option<Refusal>, Option<Value>, Option<PathBuf>) with (Some(Default::default()), Some(Default::default()), None) in 0s build
+unviable crates/viola-e2e/src/harness/run.rs:303:5: replace tool_arms -> (Option<Refusal>, Option<Value>, Option<PathBuf>) with (Some(Default::default()), Some(Default::default()), Some(Default::default())) in 0s build
+caught   crates/viola-e2e/src/harness/run.rs:310:17: replace && with || in tool_arms in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:319:20: replace && with || in tool_arms in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:358:5: replace local_live -> Suite with Default::default() in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:365:14: replace != with == in local_live in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:387:20: replace match guard live_rows_pass(&stdout) with true in local_live in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:387:20: replace match guard live_rows_pass(&stdout) with false in local_live in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:405:5: replace live_rows_pass -> bool with true in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:405:5: replace live_rows_pass -> bool with false in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:411:8: replace && with || in live_rows_pass in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:408:45: replace == with != in live_rows_pass in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:422:5: replace document -> Value with Default::default() in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:439:5: replace run_forwarding -> (Option<i32>, String) with (None, String::new()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:439:5: replace run_forwarding -> (Option<i32>, String) with (None, "xyzzy".into()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:439:5: replace run_forwarding -> (Option<i32>, String) with (Some(0), String::new()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:439:5: replace run_forwarding -> (Option<i32>, String) with (Some(0), "xyzzy".into()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:439:5: replace run_forwarding -> (Option<i32>, String) with (Some(1), String::new()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:439:5: replace run_forwarding -> (Option<i32>, String) with (Some(1), "xyzzy".into()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:439:5: replace run_forwarding -> (Option<i32>, String) with (Some(-1), String::new()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:439:5: replace run_forwarding -> (Option<i32>, String) with (Some(-1), "xyzzy".into()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:453:5: replace merge_summary -> Result<(), super::HarnessError> with Ok(()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run.rs:458:35: replace != with == in merge_summary in 1s build + 35s test
+caught   crates/viola-e2e/src/harness/schema_check.rs:29:5: replace diag_files -> DiagFiles with Default::default() in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/schema_check.rs:36:5: replace walk with () in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/schema_check.rs:47:38: replace += with -= in walk in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/schema_check.rs:47:38: replace += with *= in walk in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/schema_check.rs:58:5: replace diag_kind -> Option<DiagKind> with None in 1s build + 5s test
+unviable crates/viola-e2e/src/harness/schema_check.rs:58:5: replace diag_kind -> Option<DiagKind> with Some(Default::default()) in 0s build
+caught   crates/viola-e2e/src/harness/schema_check.rs:62:28: replace == with != in diag_kind in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/schema_check.rs:63:24: replace || with && in diag_kind in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/schema_check.rs:63:8: delete ! in diag_kind in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/schema_check.rs:63:27: delete ! in diag_kind in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/schema_check.rs:75:5: replace relative -> String with String::new() in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/schema_check.rs:75:5: replace relative -> String with "xyzzy".into() in 1s build + 5s test
+unviable crates/viola-e2e/src/harness/schema_check.rs:82:5: replace schema_check -> Outcome with Default::default() in 0s build
+unviable crates/viola-e2e/src/harness/schema_check.rs:86:5: replace check_tree -> Outcome with Default::default() in 1s build
+caught   crates/viola-e2e/src/harness/schema_check.rs:116:22: replace += with -= in check_tree in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/schema_check.rs:116:22: replace += with *= in check_tree in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/schema_check.rs:119:19: replace += with -= in check_tree in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/schema_check.rs:119:19: replace += with *= in check_tree in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/schema_check.rs:132:21: replace && with || in check_tree in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/schema_check.rs:132:14: delete ! in check_tree in 1s build + 5s test
+unviable crates/viola-e2e/src/harness/secret_scan.rs:48:9: replace Roots::of -> Self with Default::default() in 0s build
+unviable crates/viola-e2e/src/harness/secret_scan.rs:59:5: replace secret_scan -> Outcome with Default::default() in 0s build
+unviable crates/viola-e2e/src/harness/secret_scan.rs:63:5: replace scan -> Outcome with Default::default() in 0s build
+caught   crates/viola-e2e/src/harness/secret_scan.rs:70:15: replace += with -= in scan in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:70:15: replace += with *= in scan in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:71:26: replace == with != in scan in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:82:33: replace != with == in scan in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:87:15: replace += with -= in scan in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:87:15: replace += with *= in scan in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:92:21: replace && with || in scan in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:92:14: delete ! in scan in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:105:8: delete ! in scan in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:108:12: delete ! in scan in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:117:5: replace scan_file with () in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:123:76: replace + with - in scan_file in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:123:76: replace + with * in scan_file in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:123:58: replace == with != in scan_file in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:152:5: replace hit -> Value with Default::default() in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:157:5: replace find_all -> Vec<usize> with vec![] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:157:5: replace find_all -> Vec<usize> with vec![0] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:157:5: replace find_all -> Vec<usize> with vec![1] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:163:29: replace == with != in find_all in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:170:5: replace cookie_pairs -> Vec<usize> with vec![] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:170:5: replace cookie_pairs -> Vec<usize> with vec![0] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:170:5: replace cookie_pairs -> Vec<usize> with vec![1] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:173:34: replace + with - in cookie_pairs in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:173:34: replace + with * in cookie_pairs in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:175:24: replace && with || in cookie_pairs in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:175:20: replace > with == in cookie_pairs in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:175:20: replace > with < in cookie_pairs in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:175:20: replace > with >= in cookie_pairs in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:175:44: replace == with != in cookie_pairs in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:182:5: replace gui_tokens -> Vec<String> with vec![] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:182:5: replace gui_tokens -> Vec<String> with vec![String::new()] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:182:5: replace gui_tokens -> Vec<String> with vec!["xyzzy".into()] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:188:17: replace && with || in gui_tokens in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:187:45: replace == with != in gui_tokens in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:190:40: replace == with != in gui_tokens in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:201:5: replace url_token -> Option<String> with None in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:201:5: replace url_token -> Option<String> with Some(String::new()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:201:5: replace url_token -> Option<String> with Some("xyzzy".into()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:206:21: delete ! in url_token in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:210:5: replace collect_files with () in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:216:25: replace match guard meta.is_file() with true in collect_files in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:216:25: replace match guard meta.is_file() with false in collect_files in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:227:5: replace mode_hit -> Option<Value> with None in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:227:5: replace mode_hit -> Option<Value> with Some(Default::default()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:227:22: delete ! in mode_hit in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:232:5: replace owner_only -> bool with true in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:232:5: replace owner_only -> bool with false in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:232:18: replace == with != in owner_only in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:232:10: replace & with | in owner_only in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:232:10: replace & with ^ in owner_only in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:238:5: replace file_mode -> Option<u32> with None in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:238:5: replace file_mode -> Option<u32> with Some(0) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/secret_scan.rs:238:5: replace file_mode -> Option<u32> with Some(1) in 1s build + 5s test
+unviable crates/viola-e2e/src/harness/status.rs:9:5: replace status -> Outcome with Default::default() in 0s build
+caught   crates/viola-e2e/src/harness/status.rs:20:53: replace == with != in status in 1s build + 35s test
+unviable crates/viola-e2e/src/harness/supervise.rs:32:5: replace spawn_in_pty -> Result<(PortablePty, Box<dyn Write +Send>), viola_pty::PtyError> with Ok((Default::default(), Box::new(Default::default()))) in 0s build
+unviable crates/viola-e2e/src/harness/supervise.rs:59:5: replace spawn_wrapper -> Result<Wrapper, viola_pty::PtyError> with Ok(Default::default()) in 0s build
+unviable crates/viola-e2e/src/harness/supervise.rs:82:5: replace supervise -> Outcome with Default::default() in 0s build
+caught   crates/viola-e2e/src/harness/supervise.rs:82:8: delete ! in supervise in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/supervise.rs:96:11: delete ! in supervise in 1s build + 35s test
+caught   crates/viola-e2e/src/harness/supervise.rs:99:66: replace + with - in supervise in 1s build + 35s test
+unviable crates/viola-e2e/src/harness/supervise.rs:99:66: replace + with * in supervise in 0s build
+unviable crates/viola-e2e/src/harness/supervise.rs:106:5: replace exit_report -> Outcome with Default::default() in 0s build
+caught   crates/viola-e2e/src/harness/supervise.rs:106:47: replace == with != in exit_report in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/supervise.rs:115:5: replace stop_requested -> bool with true in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/supervise.rs:115:5: replace stop_requested -> bool with false in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/supervise.rs:115:39: replace || with && in stop_requested in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/supervise.rs:115:42: delete ! in stop_requested in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/supervise.rs:123:5: replace ctrl_c with () in 1s build + 35s test
+caught   crates/viola-e2e/src/harness/supervise.rs:130:5: replace stop -> Vec<serde_json::Value> with vec![] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/supervise.rs:130:5: replace stop -> Vec<serde_json::Value> with vec![Default::default()] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/supervise.rs:147:5: replace wait_or_kill -> (Option<u32>, bool) with (None, true) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/supervise.rs:147:5: replace wait_or_kill -> (Option<u32>, bool) with (None, false) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/supervise.rs:147:5: replace wait_or_kill -> (Option<u32>, bool) with (Some(0), true) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/supervise.rs:147:5: replace wait_or_kill -> (Option<u32>, bool) with (Some(0), false) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/supervise.rs:147:5: replace wait_or_kill -> (Option<u32>, bool) with (Some(1), true) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/supervise.rs:147:5: replace wait_or_kill -> (Option<u32>, bool) with (Some(1), false) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/supervise.rs:147:42: replace + with - in wait_or_kill in 1s build + 35s test
+unviable crates/viola-e2e/src/harness/supervise.rs:147:42: replace + with * in wait_or_kill in 0s build
+caught   crates/viola-e2e/src/harness/supervise.rs:155:42: replace + with - in wait_or_kill in 1s build + 35s test
+unviable crates/viola-e2e/src/harness/supervise.rs:155:42: replace + with * in wait_or_kill in 0s build
+caught   crates/viola-e2e/src/harness/supervise.rs:173:5: replace reap -> Option<u32> with None in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/supervise.rs:173:5: replace reap -> Option<u32> with Some(0) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/supervise.rs:173:5: replace reap -> Option<u32> with Some(1) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/supervise.rs:173:32: replace + with - in reap in 1s build + 5s test
+unviable crates/viola-e2e/src/harness/supervise.rs:173:32: replace + with * in reap in 0s build
+caught   crates/viola-e2e/src/harness/supervise.rs:176:13: delete match arm Ok(Some(code)) in reap in 1s build + 35s test
+caught   crates/viola-e2e/src/harness/supervise.rs:177:25: replace match guard !expired(until) with true in reap in 1s build + 35s test
+caught   crates/viola-e2e/src/harness/supervise.rs:177:25: replace match guard !expired(until) with false in reap in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/supervise.rs:177:25: delete ! in reap in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/supervise.rs:184:5: replace remove_stop_files with () in 1s build + 5s test
+unviable crates/viola-e2e/src/harness/pre_push/linux.rs:41:9: replace Linux::cmd -> Command with Default::default() in 0s build
+caught   crates/viola-e2e/src/harness/pre_push/linux.rs:57:5: replace ci_pins -> Option<Vec<(String, String)>> with None in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push/linux.rs:57:5: replace ci_pins -> Option<Vec<(String, String)>> with Some(vec![]) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push/linux.rs:57:5: replace ci_pins -> Option<Vec<(String, String)>> with Some(vec![(String::new(), String::new())]) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push/linux.rs:57:5: replace ci_pins -> Option<Vec<(String, String)>> with Some(vec![(String::new(), "xyzzy".into())]) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push/linux.rs:57:5: replace ci_pins -> Option<Vec<(String, String)>> with Some(vec![("xyzzy".into(), String::new())]) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push/linux.rs:57:5: replace ci_pins -> Option<Vec<(String, String)>> with Some(vec![("xyzzy".into(), "xyzzy".into())]) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push/linux.rs:73:5: replace node_pin -> Option<String> with None in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push/linux.rs:73:5: replace node_pin -> Option<String> with Some(String::new()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push/linux.rs:73:5: replace node_pin -> Option<String> with Some("xyzzy".into()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push/linux.rs:77:19: delete ! in node_pin in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push/linux.rs:82:5: replace last_document -> Option<Value> with None in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push/linux.rs:82:5: replace last_document -> Option<Value> with Some(Default::default()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push/linux.rs:85:19: delete ! in last_document in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push/linux.rs:94:5: replace passwd_home -> Result<String, Stop> with Ok(String::new()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push/linux.rs:94:5: replace passwd_home -> Result<String, Stop> with Ok("xyzzy".into()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push/linux.rs:102:23: replace || with && in passwd_home in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push/linux.rs:102:26: delete ! in passwd_home in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push/linux.rs:118:5: replace tools -> Result<(), Stop> with Ok(()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push/linux.rs:145:20: replace != with == in tools in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push/linux.rs:152:20: replace != with == in tools in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push/linux.rs:164:5: replace linux_harness -> Result<Value, Stop> with Ok(Default::default()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push/linux.rs:173:5: replace summary -> Value with Default::default() in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push/linux.rs:202:5: replace linux_tests -> Result<bool, Stop> with Ok(true) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push/linux.rs:202:5: replace linux_tests -> Result<bool, Stop> with Ok(false) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push/linux.rs:204:8: delete ! in linux_tests in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/pre_push/linux.rs:209:8: delete ! in linux_tests in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/browser.rs:29:5: replace browser -> (Suite, Option<Refusal>) with (Default::default(), None) in 1s build + 5s test
+unviable crates/viola-e2e/src/harness/run/browser.rs:29:5: replace browser -> (Suite, Option<Refusal>) with (Default::default(), Some(Default::default())) in 0s build
+caught   crates/viola-e2e/src/harness/run/browser.rs:35:13: replace != with == in browser in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/browser.rs:44:14: replace != with == in browser in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/browser.rs:56:5: replace missing -> (Suite, Option<Refusal>) with (Default::default(), None) in 1s build + 5s test
+unviable crates/viola-e2e/src/harness/run/browser.rs:56:5: replace missing -> (Suite, Option<Refusal>) with (Default::default(), Some(Default::default())) in 0s build
+caught   crates/viola-e2e/src/harness/run/browser.rs:57:9: delete field failed from struct Suite expression in missing in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/browser.rs:58:9: delete field failures from struct Suite expression in missing in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/browser.rs:66:5: replace playwright_suite -> Suite with Default::default() in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/browser.rs:74:13: delete field failed from struct Suite expression in playwright_suite in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/browser.rs:75:13: delete field failures from struct Suite expression in playwright_suite in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/browser.rs:81:9: delete field passed from struct Suite expression in playwright_suite in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/browser.rs:82:9: delete field failed from struct Suite expression in playwright_suite in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/browser.rs:83:9: delete field skipped from struct Suite expression in playwright_suite in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/browser.rs:84:9: delete field artifact from struct Suite expression in playwright_suite in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/browser.rs:82:37: replace + with - in playwright_suite in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/browser.rs:82:37: replace + with * in playwright_suite in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/coverage.rs:20:5: replace coverage -> Suite with Default::default() in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/coverage.rs:47:40: replace == with != in coverage in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/coverage.rs:58:8: delete ! in coverage in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/coverage.rs:59:22: replace += with -= in coverage in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/coverage.rs:59:22: replace += with *= in coverage in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/doctest.rs:9:5: replace doctest -> Suite with Default::default() in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/doctest.rs:28:5: replace count_before -> u64 with 0 in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/doctest.rs:28:5: replace count_before -> u64 with 1 in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/doctest.rs:37:5: replace parse_doctest -> Suite with Default::default() in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/doctest.rs:39:22: replace += with -= in parse_doctest in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/doctest.rs:39:22: replace += with *= in parse_doctest in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/doctest.rs:40:22: replace += with -= in parse_doctest in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/doctest.rs:40:22: replace += with *= in parse_doctest in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/doctest.rs:41:23: replace += with -= in parse_doctest in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/doctest.rs:41:23: replace += with *= in parse_doctest in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/fuzz.rs:15:5: replace fuzz_channel -> Option<String> with None in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/fuzz.rs:15:5: replace fuzz_channel -> Option<String> with Some(String::new()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/fuzz.rs:15:5: replace fuzz_channel -> Option<String> with Some("xyzzy".into()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/fuzz.rs:19:19: delete ! in fuzz_channel in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/fuzz.rs:24:5: replace fuzz_targets -> Vec<String> with vec![] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/fuzz.rs:24:5: replace fuzz_targets -> Vec<String> with vec![String::new()] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/fuzz.rs:24:5: replace fuzz_targets -> Vec<String> with vec!["xyzzy".into()] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/fuzz.rs:29:53: replace == with != in fuzz_targets in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/fuzz.rs:37:5: replace has_entries -> bool with true in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/fuzz.rs:37:5: replace has_entries -> bool with false in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/fuzz.rs:43:5: replace fuzz_replay -> Result<Suite, Refusal> with Ok(Default::default()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/fuzz.rs:48:14: replace != with == in fuzz_replay in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/fuzz.rs:61:9: delete field artifact from struct Suite expression in fuzz_replay in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/fuzz.rs:66:12: delete ! in fuzz_replay in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/fuzz.rs:67:26: replace += with -= in fuzz_replay in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/fuzz.rs:67:26: replace += with *= in fuzz_replay in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/fuzz.rs:79:17: replace == with != in fuzz_replay in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/fuzz.rs:80:26: replace += with -= in fuzz_replay in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/fuzz.rs:80:26: replace += with *= in fuzz_replay in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/fuzz.rs:82:26: replace += with -= in fuzz_replay in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/fuzz.rs:82:26: replace += with *= in fuzz_replay in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:35:5: replace mutants_exit_reason -> Option<String> with None in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:35:5: replace mutants_exit_reason -> Option<String> with Some(String::new()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:35:5: replace mutants_exit_reason -> Option<String> with Some("xyzzy".into()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:43:5: replace count -> u64 with 0 in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:43:5: replace count -> u64 with 1 in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:50:5: replace mutants_suite -> (Suite, u64) with (Default::default(), 0) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:50:5: replace mutants_suite -> (Suite, u64) with (Default::default(), 1) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:52:46: replace + with - in mutants_suite in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:52:46: replace + with * in mutants_suite in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:53:36: replace + with - in mutants_suite in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:53:36: replace + with * in mutants_suite in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:53:25: replace + with - in mutants_suite in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:53:25: replace + with * in mutants_suite in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:54:28: replace > with == in mutants_suite in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:54:28: replace > with < in mutants_suite in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:54:28: replace > with >= in mutants_suite in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:61:26: replace + with - in mutants_suite in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:61:26: replace + with * in mutants_suite in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:71:5: replace listed -> Vec<String> with vec![] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:71:5: replace listed -> Vec<String> with vec![String::new()] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:71:5: replace listed -> Vec<String> with vec!["xyzzy".into()] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:74:21: delete ! in listed in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:83:5: replace unmutated -> (Suite, Value) with (Default::default(), Default::default()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:84:9: delete field artifact from struct Suite expression in unmutated in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:105:5: replace package_member -> bool with true in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:105:5: replace package_member -> bool with false in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:106:9: replace && with || in package_member in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:105:17: delete ! in package_member in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:108:80: replace || with && in package_member in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:108:67: replace || with && in package_member in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:108:45: replace || with && in package_member in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:108:72: replace == with != in package_member in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:108:85: replace == with != in package_member in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:109:8: delete ! in package_member in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:112:30: replace == with != in package_member in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:121:5: replace declares_fake_agent -> bool with true in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:121:5: replace declares_fake_agent -> bool with false in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:124:32: replace == with != in declares_fake_agent in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:128:13: replace && with || in declares_fake_agent in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:130:52: replace == with != in declares_fake_agent in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:144:5: replace mutants -> Result<Mutated, String> with Ok(Default::default()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:157:8: delete ! in mutants in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:192:9: replace Mutation::into_mutated -> Mutated with Default::default() in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:192:12: delete ! in Mutation::into_mutated in 1s build + 5s test
+unviable crates/viola-e2e/src/harness/run/mutants.rs:210:5: replace mutate -> Result<Mutation, String> with Ok(Default::default()) in 0s build
+caught   crates/viola-e2e/src/harness/run/mutants.rs:226:14: replace != with == in mutate in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:268:17: delete field failed from struct Suite expression in mutate in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants.rs:269:17: delete field failures from struct Suite expression in mutate in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/nextest.rs:17:5: replace junit_source -> PathBuf with Default::default() in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/nextest.rs:26:5: replace junit_suite -> Suite with Default::default() in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/nextest.rs:29:13: delete field failed from struct Suite expression in junit_suite in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/nextest.rs:30:13: delete field failures from struct Suite expression in junit_suite in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/nextest.rs:50:5: replace nextest -> Suite with Default::default() in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/nextest.rs:73:5: replace exit_must_agree with () in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/nextest.rs:73:24: replace && with || in exit_must_agree in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/nextest.rs:73:13: replace != with == in exit_must_agree in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/nextest.rs:73:40: replace == with != in exit_must_agree in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/nextest.rs:81:5: replace attr -> &'a str with "" in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/nextest.rs:81:5: replace attr -> &'a str with "xyzzy" in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/nextest.rs:83:28: replace + with - in attr in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/nextest.rs:83:28: replace + with * in attr in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/nextest.rs:90:5: replace parse_junit -> Suite with Default::default() in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/nextest.rs:100:38: replace || with && in parse_junit in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/nextest.rs:101:26: replace += with -= in parse_junit in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/nextest.rs:101:26: replace += with *= in parse_junit in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/nextest.rs:108:27: replace += with -= in parse_junit in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/nextest.rs:108:27: replace += with *= in parse_junit in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/nextest.rs:110:26: replace += with -= in parse_junit in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/nextest.rs:110:26: replace += with *= in parse_junit in 1s build + 5s test
+unviable crates/viola-e2e/src/harness/run/perf.rs:44:9: replace <impl PerfSession for Live>::boot -> Outcome with Default::default() in 0s build
+unviable crates/viola-e2e/src/harness/run/perf.rs:48:9: replace <impl PerfSession for Live>::cleanup -> Outcome with Default::default() in 0s build
+caught   crates/viola-e2e/src/harness/run/perf.rs:54:5: replace keep_homes -> bool with true in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/perf.rs:54:5: replace keep_homes -> bool with false in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/perf.rs:54:11: replace == with != in keep_homes in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/perf.rs:59:5: replace booted_home -> Result<PathBuf, String> with Ok(Default::default()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/perf.rs:60:9: delete match arm (Some(true), Some(home)) in booted_home in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/perf.rs:69:5: replace payload -> Value with Default::default() in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/perf.rs:70:9: delete match arm "pre-tool-use" in payload in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/perf.rs:72:9: delete match arm "session-start" in payload in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/perf.rs:74:9: delete match arm "user-prompt-submit" in payload in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/perf.rs:76:9: delete match arm "stop" in payload in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/perf.rs:84:5: replace role_panics -> usize with 0 in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/perf.rs:84:5: replace role_panics -> usize with 1 in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/perf.rs:89:53: replace == with != in role_panics in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/perf.rs:92:34: delete ! in role_panics in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/perf.rs:98:40: replace == with != in role_panics in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/perf.rs:107:5: replace viola_exe -> String with String::new() in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/perf.rs:107:5: replace viola_exe -> String with "xyzzy".into() in 1s build + 5s test
+unviable crates/viola-e2e/src/harness/run/perf.rs:112:5: replace row_command -> Command with Default::default() in 0s build
+caught   crates/viola-e2e/src/harness/run/perf.rs:125:5: replace fail with () in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/perf.rs:125:18: replace += with -= in fail in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/perf.rs:125:18: replace += with *= in fail in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/perf.rs:130:5: replace check with () in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/perf.rs:131:22: replace += with -= in check in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/perf.rs:131:22: replace += with *= in check in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/perf.rs:143:5: replace perf -> Result<Suite, Refusal> with Ok(Default::default()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/perf.rs:148:14: replace != with == in perf in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/perf.rs:152:9: delete field artifact from struct Suite expression in perf in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/perf.rs:161:14: replace != with == in perf in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/perf.rs:188:42: replace == with != in perf in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/perf.rs:190:41: replace == with != in perf in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/perf.rs:196:5: replace time_rows with () in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/perf.rs:199:48: replace && with || in time_rows in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/perf.rs:204:13: replace && with || in time_rows in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/perf.rs:210:29: replace && with || in time_rows in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/perf.rs:210:37: replace == with != in time_rows in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:9:5: replace git -> Option<String> with None in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:9:5: replace git -> Option<String> with Some(String::new()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:9:5: replace git -> Option<String> with Some("xyzzy".into()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:24:5: replace commit_sha -> Option<String> with None in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:24:5: replace commit_sha -> Option<String> with Some(String::new()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:24:5: replace commit_sha -> Option<String> with Some("xyzzy".into()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:41:5: replace resolve_base -> Option<String> with None in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:41:5: replace resolve_base -> Option<String> with Some(String::new()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:41:5: replace resolve_base -> Option<String> with Some("xyzzy".into()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:43:21: delete ! in resolve_base in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:55:5: replace chunk_flip -> Option<String> with None in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:55:5: replace chunk_flip -> Option<String> with Some(String::new()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:55:5: replace chunk_flip -> Option<String> with Some("xyzzy".into()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:73:58: replace && with || in chunk_flip in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:73:30: replace == with != in chunk_flip in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:73:61: delete ! in chunk_flip in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:82:5: replace uncommitted_promotion -> bool with true in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:82:5: replace uncommitted_promotion -> bool with false in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:89:23: delete ! in uncommitted_promotion in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:95:5: replace pre_ci_parent -> Option<String> with None in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:95:5: replace pre_ci_parent -> Option<String> with Some(String::new()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:95:5: replace pre_ci_parent -> Option<String> with Some("xyzzy".into()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:115:5: replace pending_marker -> Option<&str> with None in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:115:5: replace pending_marker -> Option<&str> with Some("") in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:115:5: replace pending_marker -> Option<&str> with Some("xyzzy") in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:117:35: replace && with || in pending_marker in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:117:21: delete ! in pending_marker in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:117:38: delete ! in pending_marker in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:125:5: replace chunk_diff -> Option<String> with None in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:125:5: replace chunk_diff -> Option<String> with Some(String::new()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:125:5: replace chunk_diff -> Option<String> with Some("xyzzy".into()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:138:50: delete ! in chunk_diff in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:164:5: replace diff_paths -> Vec<&str> with vec![] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:164:5: replace diff_paths -> Vec<&str> with vec![""] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:164:5: replace diff_paths -> Vec<&str> with vec!["xyzzy"] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:173:5: replace diff_files -> usize with 0 in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:173:5: replace diff_files -> usize with 1 in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:179:5: replace rust_delta -> bool with true in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:179:5: replace rust_delta -> bool with false in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:184:5: replace rust_paths -> Vec<&str> with vec![] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:184:5: replace rust_paths -> Vec<&str> with vec![""] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:184:5: replace rust_paths -> Vec<&str> with vec!["xyzzy"] in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:186:12: delete ! in rust_paths in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:197:5: replace test_target -> bool with true in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/base.rs:197:5: replace test_target -> bool with false in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/scratch.rs:18:5: replace scratch_dir -> Option<PathBuf> with None in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/scratch.rs:18:5: replace scratch_dir -> Option<PathBuf> with Some(Default::default()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/scratch.rs:26:5: replace scratch_allowed -> bool with true in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/scratch.rs:26:5: replace scratch_allowed -> bool with false in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/scratch.rs:26:59: replace && with || in scratch_allowed in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/scratch.rs:26:25: replace == with != in scratch_allowed in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/scratch.rs:26:62: delete ! in scratch_allowed in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/scratch.rs:31:5: replace dir_bytes -> u64 with 0 in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/scratch.rs:31:5: replace dir_bytes -> u64 with 1 in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/scratch.rs:34:8: delete ! in dir_bytes in 1s build + 5s test
+MISSED   crates/viola-e2e/src/harness/run/mutants/scratch.rs:48:5: replace prepare -> Result<Option<(PathBuf, u64)>, String> with Ok(None) in 1s build + 35s test
+caught   crates/viola-e2e/src/harness/run/mutants/scratch.rs:48:5: replace prepare -> Result<Option<(PathBuf, u64)>, String> with Ok(Some((Default::default(), 0))) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/scratch.rs:48:5: replace prepare -> Result<Option<(PathBuf, u64)>, String> with Ok(Some((Default::default(), 1))) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/scratch.rs:48:8: delete ! in prepare in 1s build + 5s test
+MISSED   crates/viola-e2e/src/harness/run/mutants/scratch.rs:54:8: delete ! in prepare in 1s build + 35s test
+caught   crates/viola-e2e/src/harness/run/mutants/scratch.rs:64:5: replace wipe -> io::Result<()> with Ok(()) in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/scratch.rs:65:19: replace match guard e.kind() != io::ErrorKind::NotFound with true in wipe in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/scratch.rs:65:19: replace match guard e.kind() != io::ErrorKind::NotFound with false in wipe in 1s build + 5s test
+caught   crates/viola-e2e/src/harness/run/mutants/scratch.rs:65:28: replace != with == in wipe in 1s build + 5s test

@@ -879,6 +879,31 @@ mod tests {
         assert!(out.is_empty());
     }
 
+    /// The frame bound is inclusive: a payload of exactly `MAX_FRAME` bytes is classified and its
+    /// answer printed, where one byte more is refused.
+    #[test]
+    fn handle_dialog_with_a_payload_at_the_frame_bound_prints_the_decision_body() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let reply = json!({"ok": {"dialog_id": 3,
+            "response": {"answers": {"Which color?": "red"}}}});
+        let (instance, _serving) = served(tmp.path(), wrapperish(reply, Duration::ZERO));
+        let cap = usize::try_from(MAX_FRAME).expect("fits");
+        let mut padded = QUESTION.to_owned();
+        padded.push_str(&" ".repeat(cap - QUESTION.len()));
+        assert_eq!(padded.len(), cap);
+        let out = dialog_out(
+            HookEvent::PreToolUse,
+            &instance,
+            Duration::from_secs(5),
+            &padded,
+        );
+        let body: Value = serde_json::from_slice(&out).expect("one JSON body");
+        assert_eq!(
+            body["hookSpecificOutput"]["updatedInput"]["answers"],
+            json!({"Which color?": "red"})
+        );
+    }
+
     #[rstest]
     #[case::answered(json!({"result": {"ok": {"dialog_id": 4, "response": {"behavior": "allow"}}}}), Asked::Replied { dialog_id: 4, response: Some(json!({"behavior": "allow"})) })]
     #[case::null(json!({"result": {"ok": {"dialog_id": 4, "response": null}}}), Asked::Replied { dialog_id: 4, response: None })]

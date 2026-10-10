@@ -3,6 +3,8 @@
 //! hygiene checker, and the outer-PTY driver. Each binary declares `mod support;` and uses what it
 //! needs.
 
+pub mod cli;
+pub mod events;
 pub mod fake;
 pub mod home;
 pub mod hygiene;

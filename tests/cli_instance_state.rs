@@ -13,6 +13,7 @@ use std::time::Duration;
 
 use rstest::rstest;
 use serde_json::{Value, json};
+use support::events::events;
 use support::fake::{self, FAKE, of_kind};
 use support::home::{
     StampedHome, TestHome, VIOLA, Wrapper, beat_age, booted_wrapper, home, prepare_home_base,
@@ -56,10 +57,6 @@ const TAMPERED: &str = "unable: the pinned viola copy failed its integrity check
 
 fn lines(path: &Path) -> Vec<Value> {
     support::ndjson::read_lines(path)
-}
-
-fn events(instance_dir: &Path) -> Vec<Value> {
-    lines(&instance_dir.join("events.ndjson"))
 }
 
 fn role_lines(home: &Path) -> Vec<Value> {

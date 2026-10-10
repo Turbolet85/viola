@@ -1,0 +1,1 @@
+{"v":1,"cmd":"run","ok":true,"suites":[{"suite":"mutants","passed":238,"failed":0,"skipped":0,"survived":0,"artifact":"mutants.out/outcomes.json","failures":[]}],"mutants":{"tested":263,"verdict":"package","package":"viola","files":["src/bin/viola-fake-agent.rs","src/cmd/mod.rs","src/cmd/hook.rs","src/cmd/verify.rs"]},"archived":"target/run-archive/867"}

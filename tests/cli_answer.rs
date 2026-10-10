@@ -16,11 +16,13 @@ mod support;
 
 use std::io::Write as _;
 use std::path::{Path, PathBuf};
-use std::process::{Child, Command, Stdio};
+use std::process::{Command, Stdio};
 use std::time::Instant;
 
 use rstest::rstest;
 use serde_json::{Value, json};
+use support::cli::{Ran, Running, spawn};
+use support::events::{events, wait_events};
 use support::fake::{self, of_kind};
 use support::home::{StampedHome, TestHome, VIOLA, Wrapper, stamped_home, workspace_path};
 use support::hygiene::load_schema;
@@ -29,13 +31,6 @@ use support::watch::{WITHIN, Watch};
 const CANARY: &str = "canary-chain-value-5c1e";
 const PATH4: &str = "fixtures/fake-scripts/path4.json";
 const PATH4_PERMISSION: &str = "fixtures/fake-scripts/path4-permission.json";
-
-fn fixtures_arg() -> String {
-    workspace_path("fixtures/claude")
-        .to_str()
-        .expect("utf-8 path")
-        .to_owned()
-}
 
 /// A fixture of the stamped CLI version (relayed or recorded), as the fake agent replays it.
 fn fixture(name: &str) -> Value {
@@ -52,30 +47,7 @@ fn boot(stamped: StampedHome) -> Wrapper {
 
 /// A wrapper over the gated `script`, its SessionStart record landed.
 fn boot_over(stamped: StampedHome, script: &str) -> Wrapper {
-    let fx = fixtures_arg();
-    let wrapper = Wrapper::boot(stamped, "builder", Some(script), &["--fixtures", &fx]);
-    wait_events(&wrapper.instance_dir(), "the session-start record", |l| {
-        l.iter().any(|e| e["kind"] == "session-start")
-    });
-    wrapper
-}
-
-fn events(instance_dir: &Path) -> Vec<Value> {
-    support::ndjson::read_lines(&instance_dir.join("events.ndjson"))
-}
-
-fn wait_events(instance_dir: &Path, what: &str, pred: impl Fn(&[Value]) -> bool) -> Vec<Value> {
-    let watch = Watch::start("events");
-    let deadline = Instant::now() + WITHIN;
-    loop {
-        let lines = events(instance_dir);
-        if pred(&lines) {
-            return lines;
-        }
-        watch.note(&format!("events {}", lines.len()));
-        watch.deadline_check(deadline, &format!("timed out waiting for {what}"));
-        std::thread::yield_now();
-    }
+    support::events::boot(stamped, Some(script), &[])
 }
 
 fn of_event_kind<'a>(lines: &'a [Value], kind: &str) -> Vec<&'a Value> {
@@ -115,73 +87,6 @@ fn clean_stdout(hook: &Value) -> String {
     assert_eq!(hook["exit_code"], 0, "{hook}");
     assert_eq!(hook["stderr_len"], 0, "{hook}");
     stdout_of(hook)
-}
-
-/// A `viola` the test started; killed on drop if it is still running.
-struct Running(Option<Child>);
-
-struct Ran {
-    code: Option<i32>,
-    stdout: String,
-    stderr: String,
-}
-
-impl Running {
-    fn finish(mut self) -> Ran {
-        let watch = Watch::start("viola");
-        let deadline = Instant::now() + WITHIN;
-        let child = self.0.as_mut().expect("child");
-        while child.try_wait().expect("try_wait").is_none() {
-            watch.note("running");
-            watch.deadline_check(deadline, "viola never exited");
-            std::thread::yield_now();
-        }
-        let out = self
-            .0
-            .take()
-            .expect("child")
-            .wait_with_output()
-            .expect("output");
-        Ran {
-            code: out.status.code(),
-            stdout: String::from_utf8(out.stdout).expect("utf-8 stdout"),
-            stderr: String::from_utf8(out.stderr).expect("utf-8 stderr"),
-        }
-    }
-}
-
-impl Drop for Running {
-    fn drop(&mut self) {
-        if let Some(mut child) = self.0.take() {
-            let _ = child.kill();
-            let _ = child.wait();
-        }
-    }
-}
-
-fn spawn(home: &Path, args: &[&str], stdin: Option<&str>, from: Option<&str>) -> Running {
-    let mut command = Command::new(VIOLA);
-    command
-        .arg("--home")
-        .arg(home)
-        .args(args)
-        .env_remove("VIOLA_NAME")
-        .stdin(if stdin.is_some() {
-            Stdio::piped()
-        } else {
-            Stdio::null()
-        })
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped());
-    if let Some(from) = from {
-        command.env("VIOLA_NAME", from);
-    }
-    let mut child = command.spawn().expect("viola");
-    if let Some(text) = stdin {
-        let mut pipe = child.stdin.take().expect("stdin");
-        pipe.write_all(text.as_bytes()).expect("stdin");
-    }
-    Running(Some(child))
 }
 
 /// `viola answer builder <id>` with `response` on stdin, the sender `overseer`.
@@ -697,7 +602,7 @@ fn run_hook(wrapper: &Wrapper, event: &str, payload: &Value) -> Ran {
     pipe.write_all(payload.to_string().as_bytes())
         .expect("stdin");
     drop(pipe);
-    Running(Some(child)).finish()
+    Running::over(child).finish()
 }
 
 /// `viola hook <event>` started by the test with `payload` on stdin, left running: a dialog hook
@@ -718,7 +623,7 @@ fn spawn_hook(wrapper: &Wrapper, event: &str, payload: &Value) -> Running {
     pipe.write_all(payload.to_string().as_bytes())
         .expect("stdin");
     drop(pipe);
-    Running(Some(child))
+    Running::over(child)
 }
 
 /// `verification-matrix.json#v1-15`: a plan first raised by PermissionRequest(`ExitPlanMode`), with

@@ -13,13 +13,12 @@ use std::fs;
 use std::io::Write as _;
 use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
-use std::time::Instant;
 
 use serde_json::{Value, json};
+use support::events::{events, wait_events};
 use support::fake::{self, of_kind};
 use support::home::{StampedHome, TestHome, VIOLA, Wrapper, workspace_path};
 use support::hygiene::load_schema;
-use support::watch::{WITHIN, Watch};
 
 const CANARY: &str = "canary-chain-value-5c1e";
 
@@ -49,25 +48,6 @@ fn script(scratch: &Path, steps: &[(&str, &str)]) -> PathBuf {
 
 fn path_str(path: &Path) -> &str {
     path.to_str().expect("utf-8 path")
-}
-
-fn events(instance_dir: &Path) -> Vec<Value> {
-    support::ndjson::read_lines(&instance_dir.join("events.ndjson"))
-}
-
-/// Waits until `events.ndjson` holds `count` complete lines.
-fn wait_events(instance_dir: &Path, count: usize) -> Vec<Value> {
-    let watch = Watch::start("events");
-    let deadline = Instant::now() + WITHIN;
-    loop {
-        let lines = events(instance_dir);
-        if lines.len() >= count {
-            return lines;
-        }
-        watch.note(&format!("events {} of {count}", lines.len()));
-        watch.deadline_check(deadline, "timed out waiting for the hook events");
-        std::thread::yield_now();
-    }
 }
 
 fn hook_receipts(receipt: &Path, count: usize) -> Vec<Value> {
@@ -180,7 +160,9 @@ fn hook_every_registered_event_lands_as_one_line_of_its_kind() {
         assert_eq!(receipt["stdout_hex"], "", "{receipt}");
     }
     // The two start records, the seven hook lines, and the wheel the human's prompt took.
-    let lines = wait_events(&wrapper.instance_dir(), 10);
+    let lines = wait_events(&wrapper.instance_dir(), "the hook events", |l| {
+        l.len() >= 10
+    });
     assert_eq!(lines.len(), 10);
     let hooked: Vec<&Value> = lines.iter().filter(|l| l["source"] == "hook").collect();
     assert_eq!(hooked.len(), 7);
@@ -324,7 +306,10 @@ fn hook_prompts_arrive_normalised_with_their_origin() {
         &["--fixtures", path_str(&fx), "--script", path_str(&steps)],
     );
     // The two start records, the prompts, and the one wheel the first human prompt took.
-    let lines = wait_events(&wrapper.instance_dir(), 3 + cases.len());
+    let count = 3 + cases.len();
+    let lines = wait_events(&wrapper.instance_dir(), "the hook events", |l| {
+        l.len() >= count
+    });
     let got: BTreeSet<(String, String)> = lines
         .iter()
         .filter(|l| l["kind"] == "prompt-submitted")

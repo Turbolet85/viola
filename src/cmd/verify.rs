@@ -392,6 +392,25 @@ fn record(dir: &Path, version: &str, probes: &Probes) -> anyhow::Result<u8> {
         .file_name()
         .map(|n| n.to_string_lossy().into_owned())
         .unwrap_or_default();
+    // Every payload and every screen is checked before the first file is written.
+    let mut files = match scrubbed_payloads(named_payloads(probes), &home, &user) {
+        Ok(files) => files,
+        Err(named) => return Ok(refuse_recording(&named)),
+    };
+    match signature_screens(&probes.typed, &home, &user) {
+        Ok(screens) => files.extend(screens),
+        Err(named) => return Ok(refuse_recording(&named)),
+    }
+    write_recording(&dir.join(version), files)?;
+    Ok(0)
+}
+
+/// A fixture `record` writes: its file name and its document.
+type Recorded = (String, serde_json::Value);
+
+/// The captures `record` names, in file order: the spine's first of each event, each dialog run's
+/// variants, the trusted run's framing variants.
+fn named_payloads(probes: &Probes) -> Vec<(String, &Capture)> {
     let mut payloads: Vec<(String, &Capture)> = Vec::new();
     for event in ledger::CAPTURE_EVENTS {
         if let Some(first) = probes.print.captures.iter().find(|c| c.event == event) {
@@ -406,36 +425,55 @@ fn record(dir: &Path, version: &str, probes: &Probes) -> anyhow::Result<u8> {
         let name = format!("{}.{variant}.json", ledger::event_name(capture.event));
         payloads.push((name, capture));
     }
+    payloads
+}
+
+/// Each payload scrubbed; `Err` names the first one that stays unclean and its check code.
+fn scrubbed_payloads(
+    payloads: Vec<(String, &Capture)>,
+    home: &str,
+    user: &str,
+) -> Result<Vec<Recorded>, String> {
     let mut files = Vec::new();
     for (name, capture) in payloads {
         let Some(payload) = capture.payload.as_ref() else {
             continue;
         };
-        let scrubbed = ledger::scrub(payload, &home, &user, CASE_INSENSITIVE);
-        if let Some(why) = ledger::unclean(&scrubbed, &user) {
-            return Ok(refuse_recording(&format!("{name} {}", why.code())));
+        let scrubbed = ledger::scrub(payload, home, user, CASE_INSENSITIVE);
+        if let Some(why) = ledger::unclean(&scrubbed, user) {
+            return Err(format!("{name} {}", why.code()));
         }
         files.push((name, scrubbed));
     }
-    for (phase, rows) in screens(&probes.typed) {
+    Ok(files)
+}
+
+/// Each recorded screen cut to its signature rows; `Err` names the first screen with a fault, its
+/// row and its check code.
+fn signature_screens(typed: &TypedRun, home: &str, user: &str) -> Result<Vec<Recorded>, String> {
+    let mut files = Vec::new();
+    for (phase, rows) in screens(typed) {
         let kept = ledger::signature_rows(rows);
         let name = format!("Screen.{phase}.json");
-        if let Some(fault) = ledger::screen_fault(rows, &kept, &home, &user) {
+        if let Some(fault) = ledger::screen_fault(rows, &kept, home, user) {
             let at = if fault.seam { " seam" } else { "" };
-            let named = format!("{name} row {}{at} {}", fault.row, fault.why.code());
-            return Ok(refuse_recording(&named));
+            return Err(format!("{name} row {}{at} {}", fault.row, fault.why.code()));
         }
         let screen = serde_json::json!({"screen_phase": phase, "cols": 80, "rows": kept});
         files.push((name, screen));
     }
-    let out = dir.join(version);
-    std::fs::create_dir_all(&out)?;
+    Ok(files)
+}
+
+/// `files` under `out`, one JSON document and a newline each.
+fn write_recording(out: &Path, files: Vec<Recorded>) -> std::io::Result<()> {
+    std::fs::create_dir_all(out)?;
     for (name, doc) in files {
         let mut text = doc.to_string();
         text.push('\n');
         std::fs::write(out.join(name), text)?;
     }
-    Ok(0)
+    Ok(())
 }
 
 /// `named` is the refused file and its check code (a screen's: its row index, `seam` when the row's

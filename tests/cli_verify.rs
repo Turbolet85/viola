@@ -909,6 +909,24 @@ fn verify_without_the_dialog_replay_fails_the_four_dialog_rows(#[from(home)] hom
     assert_eq!(probes_left(home.path()), 0);
 }
 
+/// The texts the trusted run typed, in order, read from the fake agent's receipt: of `verify`'s
+/// five starts the trusted run is the third, and its prompts are the lines up to the fourth.
+fn trusted_run_typed(receipt: &Path) -> Vec<String> {
+    let lines = fake::receipt(receipt);
+    let starts: Vec<usize> = lines
+        .iter()
+        .enumerate()
+        .filter(|(_, l)| l["kind"] == "start")
+        .map(|(i, _)| i)
+        .collect();
+    assert_eq!(starts.len(), 5);
+    lines[starts[2]..starts[3]]
+        .iter()
+        .filter(|l| l["kind"] == "prompt")
+        .filter_map(|l| l["text"].as_str().map(str::to_owned))
+        .collect()
+}
+
 /// Without the framing replay the fake agent echoes each added paste as typed: the two paste rows
 /// pass on the echo, and the local command, echoed as a prompt with no new session, fails its row
 /// alone. Every paste still went into the trusted run, in order, and the run fired no hook for the
@@ -934,19 +952,7 @@ fn verify_without_framing_fails_only_the_clear_row(#[from(home)] home: TestHome)
     }
     assert_eq!(rows["local-command-clear"], "fail");
     // The trusted run is the third start; its prompts are the probe prompt and the three pastes.
-    let lines = fake::receipt(&receipt);
-    let starts: Vec<usize> = lines
-        .iter()
-        .enumerate()
-        .filter(|(_, l)| l["kind"] == "start")
-        .map(|(i, _)| i)
-        .collect();
-    assert_eq!(starts.len(), 5);
-    let typed: Vec<&str> = lines[starts[2]..starts[3]]
-        .iter()
-        .filter(|l| l["kind"] == "prompt")
-        .filter_map(|l| l["text"].as_str())
-        .collect();
+    let typed = trusted_run_typed(&receipt);
     assert_eq!(
         typed,
         [
@@ -977,19 +983,7 @@ fn verify_pastes_nothing_more_once_the_turn_screen_shows_a_modal(#[from(home)] h
         assert_eq!(rows[*id], "fail", "{id}");
     }
     assert_eq!(rows["input-box-signature"], "fail");
-    let lines = fake::receipt(&receipt);
-    let starts: Vec<usize> = lines
-        .iter()
-        .enumerate()
-        .filter(|(_, l)| l["kind"] == "start")
-        .map(|(i, _)| i)
-        .collect();
-    assert_eq!(starts.len(), 5);
-    let typed: Vec<&str> = lines[starts[2]..starts[3]]
-        .iter()
-        .filter(|l| l["kind"] == "prompt")
-        .filter_map(|l| l["text"].as_str())
-        .collect();
+    let typed = trusted_run_typed(&receipt);
     assert_eq!(typed, ["viola verify probe: reply with the single word ok"]);
 }
 
@@ -1024,19 +1018,7 @@ fn verify_pastes_no_local_command_once_the_tag_turn_screen_shows_a_modal(
     assert_eq!(rows["long-paste-wrapper"], "pass");
     assert_eq!(rows["tag-escaping"], "pass");
     assert_eq!(rows["local-command-clear"], "fail");
-    let lines = fake::receipt(&receipt);
-    let starts: Vec<usize> = lines
-        .iter()
-        .enumerate()
-        .filter(|(_, l)| l["kind"] == "start")
-        .map(|(i, _)| i)
-        .collect();
-    assert_eq!(starts.len(), 5);
-    let typed: Vec<&str> = lines[starts[2]..starts[3]]
-        .iter()
-        .filter(|l| l["kind"] == "prompt")
-        .filter_map(|l| l["text"].as_str())
-        .collect();
+    let typed = trusted_run_typed(&receipt);
     assert_eq!(
         typed,
         [
@@ -1065,19 +1047,7 @@ fn verify_window_paste_hint_past_the_gate_maximum_still_stamps(#[from(home)] hom
     expected.push_str("\nstamped 2.1.0  17 pass  0 fail\n");
     assert_eq!(ran.stdout_text(), expected);
     assert!(ran.stderr.is_empty(), "stderr {}", ran.stderr_text());
-    let lines = fake::receipt(&receipt);
-    let starts: Vec<usize> = lines
-        .iter()
-        .enumerate()
-        .filter(|(_, l)| l["kind"] == "start")
-        .map(|(i, _)| i)
-        .collect();
-    assert_eq!(starts.len(), 5);
-    let typed: Vec<&str> = lines[starts[2]..starts[3]]
-        .iter()
-        .filter(|l| l["kind"] == "prompt")
-        .filter_map(|l| l["text"].as_str())
-        .collect();
+    let typed = trusted_run_typed(&receipt);
     assert_eq!(
         typed,
         [

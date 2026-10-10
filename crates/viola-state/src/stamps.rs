@@ -209,6 +209,13 @@ mod tests {
         assert!(read_stamps(tmp.path()).is_err());
     }
 
+    /// A path holding a NUL byte fails the open with a kind other than `NotFound`, before any
+    /// filesystem call: only an absent file reads as `None`.
+    #[test]
+    fn read_stamps_of_a_file_that_cannot_be_opened_is_an_error() {
+        assert!(read_stamps(Path::new("home\0dir")).is_err());
+    }
+
     #[cfg(unix)]
     #[test]
     fn update_stamps_writes_owner_only() {

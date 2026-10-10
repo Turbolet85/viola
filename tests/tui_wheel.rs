@@ -9,15 +9,15 @@
 #[allow(dead_code)]
 mod support;
 
-use std::io::Write as _;
 use std::path::Path;
-use std::process::{Command, Stdio};
 use std::time::Instant;
 
 use rstest::rstest;
 use serde_json::{Value, json};
+use support::cli::{Ran, viola};
+use support::events::{events, wait_events};
 use support::fake::{self, of_kind};
-use support::home::{StampedHome, VIOLA, Wrapper, snapshot_data, stamped_home, workspace_path};
+use support::home::{StampedHome, Wrapper, snapshot_data, stamped_home};
 use support::watch::{WITHIN, Watch};
 use viola_pty::Size;
 
@@ -27,32 +27,7 @@ const PATH3: &str = "fixtures/fake-scripts/path3.json";
 
 /// A stamped wrapper over the committed hook fixtures, its SessionStart record landed.
 fn boot(stamped: StampedHome, script: Option<&str>, extra: &[&str]) -> Wrapper {
-    let fixtures = workspace_path("fixtures/claude");
-    let mut args = vec!["--fixtures", fixtures.to_str().expect("utf-8 path")];
-    args.extend_from_slice(extra);
-    let wrapper = Wrapper::boot(stamped, "builder", script, &args);
-    wait_events(&wrapper.instance_dir(), "the session-start record", |l| {
-        l.iter().any(|e| e["kind"] == "session-start")
-    });
-    wrapper
-}
-
-fn events(instance_dir: &Path) -> Vec<Value> {
-    support::ndjson::read_lines(&instance_dir.join("events.ndjson"))
-}
-
-fn wait_events(instance_dir: &Path, what: &str, pred: impl Fn(&[Value]) -> bool) -> Vec<Value> {
-    let watch = Watch::start("events");
-    let deadline = Instant::now() + WITHIN;
-    loop {
-        let lines = events(instance_dir);
-        if pred(&lines) {
-            return lines;
-        }
-        watch.note(&format!("events {}", lines.len()));
-        watch.deadline_check(deadline, &format!("timed out waiting for {what}"));
-        std::thread::yield_now();
-    }
+    support::events::boot(stamped, script, extra)
 }
 
 fn wheel_records(instance_dir: &Path) -> Vec<Value> {
@@ -102,54 +77,12 @@ fn hex_of(bytes: &[u8]) -> Vec<String> {
     bytes.iter().map(|b| format!("{b:02x}")).collect()
 }
 
-struct Ran {
-    code: Option<i32>,
-    stdout: String,
-    stderr: String,
-}
-
-/// `viola --home <home> <args…>`, `stdin` written and closed, `from` as `VIOLA_NAME`; waited.
-fn viola(home: &Path, args: &[&str], stdin: &str, from: Option<&str>) -> Ran {
-    let mut command = Command::new(VIOLA);
-    command
-        .arg("--home")
-        .arg(home)
-        .args(args)
-        .env_remove("VIOLA_NAME")
-        .stdin(Stdio::piped())
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped());
-    if let Some(from) = from {
-        command.env("VIOLA_NAME", from);
-    }
-    let mut child = command.spawn().expect("viola");
-    let mut pipe = child.stdin.take().expect("stdin");
-    match pipe.write_all(stdin.as_bytes()) {
-        Err(e) if e.kind() != std::io::ErrorKind::BrokenPipe => panic!("stdin: {e}"),
-        _ => {}
-    }
-    drop(pipe);
-    let watch = Watch::start("viola");
-    let deadline = Instant::now() + WITHIN;
-    while child.try_wait().expect("try_wait").is_none() {
-        watch.note("running");
-        watch.deadline_check(deadline, "viola never exited");
-        std::thread::yield_now();
-    }
-    let out = child.wait_with_output().expect("output");
-    Ran {
-        code: out.status.code(),
-        stdout: String::from_utf8(out.stdout).expect("utf-8 stdout"),
-        stderr: String::from_utf8(out.stderr).expect("utf-8 stderr"),
-    }
-}
-
 /// A driver's `send --json`; exit 0 also proves the wheel was the driver's when it arrived.
 fn send_json(home: &Path) -> Ran {
     viola(
         home,
         &["send", "builder", "--json"],
-        &format!("{CANARY} from the driver"),
+        Some(&format!("{CANARY} from the driver")),
         None,
     )
 }
@@ -192,7 +125,7 @@ fn path5_human_takes_the_wheel_and_release_returns_it(stamped_home: StampedHome)
     assert_eq!(prompt["data"]["origin"], "human");
     assert_eq!(prompt["data"]["text"], "hello");
 
-    let released = viola(&home, &["release", "builder", "--json"], "", None);
+    let released = viola(&home, &["release", "builder", "--json"], Some(""), None);
     assert_eq!(released.code, Some(0), "stderr: {}", released.stderr);
     assert_eq!(
         released.stdout,
@@ -201,9 +134,9 @@ fn path5_human_takes_the_wheel_and_release_returns_it(stamped_home: StampedHome)
     let sent = send_json(&home);
     assert_eq!(sent.code, Some(0), "stderr: {}", sent.stderr);
 
-    let paused = viola(&home, &["pause", "builder"], "", None);
+    let paused = viola(&home, &["pause", "builder"], Some(""), None);
     assert_eq!(paused.code, Some(0));
-    let human = viola(&home, &["send", "builder"], CANARY, None);
+    let human = viola(&home, &["send", "builder"], Some(CANARY), None);
     assert_eq!(human.code, Some(10));
     let last = human.stderr.lines().last().expect("a stderr line");
     assert!(last.starts_with("hint: "), "{}", human.stderr);
@@ -212,7 +145,7 @@ fn path5_human_takes_the_wheel_and_release_returns_it(stamped_home: StampedHome)
     let driver = viola(
         &home,
         &["release", "builder", "--json"],
-        "",
+        Some(""),
         Some("overseer"),
     );
     assert_eq!(driver.code, Some(20));
@@ -324,7 +257,7 @@ fn tui_focus_mouse_and_resize_never_take_the_wheel(stamped_home: StampedHome) {
         let probe = viola(
             &home,
             &["answer", "builder", "999999", "--json"],
-            "{\"behavior\": \"allow\"}",
+            Some("{\"behavior\": \"allow\"}"),
             None,
         );
         assert_eq!(probe.code, Some(10), "stdout: {}", probe.stdout);
@@ -347,7 +280,7 @@ fn assert_driver_holds(home: &Path, dir: &Path, step: &str) {
     let probe = viola(
         home,
         &["answer", "builder", "999999", "--json"],
-        "{\"behavior\": \"allow\"}",
+        Some("{\"behavior\": \"allow\"}"),
         None,
     );
     assert_eq!(

@@ -1,0 +1,263 @@
+caught   src/bin/viola-fake-agent.rs:77:9: replace Opts::parse -> Self with Default::default() in 0s build + 7s test
+caught   src/bin/viola-fake-agent.rs:82:17: delete match arm "--version" in Opts::parse in 0s build + 1s test
+caught   src/bin/viola-fake-agent.rs:83:17: delete match arm "-p" | "--print" in Opts::parse in 0s build + 11s test
+caught   src/bin/viola-fake-agent.rs:84:17: delete match arm "--cli-version" in Opts::parse in 0s build + 4s test
+caught   src/bin/viola-fake-agent.rs:85:17: delete match arm "--report-version" in Opts::parse in 0s build + 4s test
+caught   src/bin/viola-fake-agent.rs:86:17: delete match arm "--script" in Opts::parse in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:87:17: delete match arm "--control" in Opts::parse in 0s build + 15s test
+caught   src/bin/viola-fake-agent.rs:88:17: delete match arm "--receipt" in Opts::parse in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:89:17: delete match arm "--fixtures" in Opts::parse in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:90:17: delete match arm "--plugin-dir" in Opts::parse in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:91:17: delete match arm "--suppress-prompt-submit" in Opts::parse in 0s build + 4s test
+caught   src/bin/viola-fake-agent.rs:92:17: delete match arm "--local-command-mode" in Opts::parse in 0s build + 4s test
+caught   src/bin/viola-fake-agent.rs:93:17: delete match arm "--inject-harness-turn" in Opts::parse in 0s build + 38s test
+caught   src/bin/viola-fake-agent.rs:94:17: delete match arm "--exit-no-eof" in Opts::parse in 0s build + 38s test
+caught   src/bin/viola-fake-agent.rs:95:17: delete match arm "--vt100-panic-bytes" in Opts::parse in 0s build + 38s test
+caught   src/bin/viola-fake-agent.rs:96:17: delete match arm "--trusted-root" in Opts::parse in 0s build + 8s test
+caught   src/bin/viola-fake-agent.rs:97:17: delete match arm "--screens" in Opts::parse in 0s build + 11s test
+caught   src/bin/viola-fake-agent.rs:98:17: delete match arm "--turn-stop" in Opts::parse in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:99:17: delete match arm "--dialogs" in Opts::parse in 0s build + 11s test
+caught   src/bin/viola-fake-agent.rs:100:17: delete match arm "--framing" in Opts::parse in 0s build + 3s test
+caught   src/bin/viola-fake-agent.rs:101:17: delete match arm "--stop-receipt-hold-ms" in Opts::parse in 0s build + 38s test
+caught   src/bin/viola-fake-agent.rs:106:17: delete match arm "--paste-hint-ms" in Opts::parse in 0s build + 38s test
+caught   src/bin/viola-fake-agent.rs:111:17: delete match arm "--tag-turn-screen" in Opts::parse in 0s build + 4s test
+caught   src/bin/viola-fake-agent.rs:112:17: delete match arm HOLD_STDOUT in Opts::parse in 0s build + 38s test
+caught   src/bin/viola-fake-agent.rs:120:9: replace Opts::cli_version -> &str with "" in 0s build + 7s test
+caught   src/bin/viola-fake-agent.rs:120:9: replace Opts::cli_version -> &str with "xyzzy" in 0s build + 7s test
+caught   src/bin/viola-fake-agent.rs:124:9: replace Opts::version_answer -> String with String::new() in 0s build + 1s test
+caught   src/bin/viola-fake-agent.rs:124:9: replace Opts::version_answer -> String with "xyzzy".into() in 0s build + 1s test
+caught   src/bin/viola-fake-agent.rs:131:9: replace Opts::trusted -> bool with true in 0s build + 11s test
+caught   src/bin/viola-fake-agent.rs:131:9: replace Opts::trusted -> bool with false in 0s build + 8s test
+caught   src/bin/viola-fake-agent.rs:139:9: replace Opts::screen -> Option<Vec<String>> with None in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:139:9: replace Opts::screen -> Option<Vec<String>> with Some(vec![]) in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:139:9: replace Opts::screen -> Option<Vec<String>> with Some(vec![String::new()]) in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:139:9: replace Opts::screen -> Option<Vec<String>> with Some(vec!["xyzzy".into()]) in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:155:5: replace under_root -> bool with true in 0s build + 11s test
+caught   src/bin/viola-fake-agent.rs:155:5: replace under_root -> bool with false in 0s build + 8s test
+caught   src/bin/viola-fake-agent.rs:156:9: delete match arm (Ok(cwd), Ok(root)) in under_root in 0s build + 8s test
+caught   src/bin/viola-fake-agent.rs:156:58: replace == with != in under_root in 0s build + 11s test
+caught   src/bin/viola-fake-agent.rs:163:5: replace render_screen -> Vec<u8> with vec![] in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:163:5: replace render_screen -> Vec<u8> with vec![0] in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:163:5: replace render_screen -> Vec<u8> with vec![1] in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:169:5: replace draw with () in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:177:5: replace write_screen with () in 0s build + 10s test
+unviable src/bin/viola-fake-agent.rs:187:9: replace Receipt::open -> Self with Default::default() in 0s build
+caught   src/bin/viola-fake-agent.rs:197:9: replace Receipt::write with () in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:211:5: replace hex -> String with String::new() in 0s build + 7s test
+caught   src/bin/viola-fake-agent.rs:211:5: replace hex -> String with "xyzzy".into() in 0s build + 7s test
+caught   src/bin/viola-fake-agent.rs:224:5: replace parse_script -> Option<Vec<Step>> with None in 0s build + 7s test
+caught   src/bin/viola-fake-agent.rs:224:5: replace parse_script -> Option<Vec<Step>> with Some(vec![]) in 0s build + 10s test
+unviable src/bin/viola-fake-agent.rs:224:5: replace parse_script -> Option<Vec<Step>> with Some(vec![Default::default()]) in 0s build
+caught   src/bin/viola-fake-agent.rs:225:17: replace != with == in parse_script in 0s build + 7s test
+caught   src/bin/viola-fake-agent.rs:247:5: replace matcher_admits -> bool with true in 0s build + 38s test
+caught   src/bin/viola-fake-agent.rs:247:5: replace matcher_admits -> bool with false in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:248:9: delete match arm (Some(matcher), Some(tool)) in matcher_admits in 0s build + 38s test
+caught   src/bin/viola-fake-agent.rs:247:31: delete ! in matcher_admits in 0s build + 38s test
+caught   src/bin/viola-fake-agent.rs:248:75: replace == with != in matcher_admits in 0s build + 38s test
+caught   src/bin/viola-fake-agent.rs:256:5: replace hook_commands -> Vec<(String, Vec<String>)> with vec![] in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:256:5: replace hook_commands -> Vec<(String, Vec<String>)> with vec![(String::new(), vec![])] in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:256:5: replace hook_commands -> Vec<(String, Vec<String>)> with vec![(String::new(), vec![String::new()])] in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:256:5: replace hook_commands -> Vec<(String, Vec<String>)> with vec![(String::new(), vec!["xyzzy".into()])] in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:256:5: replace hook_commands -> Vec<(String, Vec<String>)> with vec![("xyzzy".into(), vec![])] in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:256:5: replace hook_commands -> Vec<(String, Vec<String>)> with vec![("xyzzy".into(), vec![String::new()])] in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:256:5: replace hook_commands -> Vec<(String, Vec<String>)> with vec![("xyzzy".into(), vec!["xyzzy".into()])] in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:267:31: replace == with != in hook_commands in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:287:5: replace payload -> Vec<u8> with vec![] in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:287:5: replace payload -> Vec<u8> with vec![0] in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:287:5: replace payload -> Vec<u8> with vec![1] in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:289:9: delete match arm Ok(Value::Object(mut obj)) in payload in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:328:9: replace Agent::close_hooks with () in 0s build + 38s test
+caught   src/bin/viola-fake-agent.rs:333:9: replace Agent::fire -> &'static str with "" in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:333:9: replace Agent::fire -> &'static str with "xyzzy" in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:342:9: replace Agent::fixture -> Option<Vec<u8>> with None in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:342:9: replace Agent::fixture -> Option<Vec<u8>> with Some(vec![]) in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:342:9: replace Agent::fixture -> Option<Vec<u8>> with Some(vec![0]) in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:342:9: replace Agent::fixture -> Option<Vec<u8>> with Some(vec![1]) in 0s build + 10s test
+unviable src/bin/viola-fake-agent.rs:348:9: replace Agent::fire_answered -> Fired with Default::default() in 0s build
+caught   src/bin/viola-fake-agent.rs:353:44: delete ! in Agent::fire_answered in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:366:22: replace |= with &= in Agent::fire_answered in 0s build + 11s test
+caught   src/bin/viola-fake-agent.rs:375:9: replace Agent::replay_dialogs with () in 0s build + 11s test
+caught   src/bin/viola-fake-agent.rs:378:35: replace && with || in Agent::replay_dialogs in 0s build + 11s test
+caught   src/bin/viola-fake-agent.rs:378:16: delete ! in Agent::replay_dialogs in 0s build + 14s test
+caught   src/bin/viola-fake-agent.rs:378:38: delete ! in Agent::replay_dialogs in 0s build + 14s test
+caught   src/bin/viola-fake-agent.rs:383:21: replace && with || in Agent::replay_dialogs in 0s build + 12s test
+caught   src/bin/viola-fake-agent.rs:388:38: replace || with && in Agent::replay_dialogs in 0s build + 11s test
+caught   src/bin/viola-fake-agent.rs:396:9: replace Agent::run_hook -> bool with true in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:396:9: replace Agent::run_hook -> bool with false in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:396:12: delete ! in Agent::run_hook in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:430:17: delete ! in Agent::run_hook in 0s build + 11s test
+caught   src/bin/viola-fake-agent.rs:437:74: replace == with != in Agent::run_hook in 0s build + 38s test
+caught   src/bin/viola-fake-agent.rs:453:9: replace Agent::submit with () in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:455:77: replace == with != in Agent::submit in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:458:48: replace && with || in Agent::submit in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:492:9: replace Agent::end_turn with () in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:495:28: replace == with != in Agent::end_turn in 0s build + 49s test
+caught   src/bin/viola-fake-agent.rs:500:37: replace && with || in Agent::end_turn in 0s build + 4s test
+caught   src/bin/viola-fake-agent.rs:500:48: replace == with != in Agent::end_turn in 0s build + 4s test
+caught   src/bin/viola-fake-agent.rs:507:9: replace Agent::wait_control with () in 0s build + 4s test
+caught   src/bin/viola-fake-agent.rs:513:67: replace == with != in Agent::wait_control in 0s build + 4s test
+caught   src/bin/viola-fake-agent.rs:514:33: replace + with - in Agent::wait_control in 0s build + 4s test
+caught   src/bin/viola-fake-agent.rs:514:33: replace + with * in Agent::wait_control in 0s build + 4s test
+caught   src/bin/viola-fake-agent.rs:514:28: replace + with - in Agent::wait_control in 0s build + 15s test
+caught   src/bin/viola-fake-agent.rs:514:28: replace + with * in Agent::wait_control in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:525:9: replace Agent::run_steps with () in 0s build + 15s test
+caught   src/bin/viola-fake-agent.rs:542:5: replace start_receipts with () in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:600:9: replace Input::feed -> Vec<Action> with vec![] in 0s build + 10s test
+unviable src/bin/viola-fake-agent.rs:600:9: replace Input::feed -> Vec<Action> with vec![Default::default()] in 0s build
+caught   src/bin/viola-fake-agent.rs:603:56: replace - with + in Input::feed in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:603:56: replace - with / in Input::feed in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:608:25: replace || with && in Input::feed in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:608:17: replace == with != in Input::feed in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:608:28: delete ! in Input::feed in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:610:25: replace == with != in Input::feed in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:620:28: replace == with != in Input::feed in 0s build + 4s test
+caught   src/bin/viola-fake-agent.rs:630:9: replace Input::plain -> Vec<Action> with vec![] in 0s build + 10s test
+unviable src/bin/viola-fake-agent.rs:630:9: replace Input::plain -> Vec<Action> with vec![Default::default()] in 0s build
+caught   src/bin/viola-fake-agent.rs:631:13: delete match arm 0x03 in Input::plain in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:632:13: delete match arm b'\r' in Input::plain in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:634:20: delete ! in Input::plain in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:650:5: replace hold_inherited_stdout with () in 0s build + 38s test
+caught   src/bin/viola-fake-agent.rs:664:5: replace script_steps -> Option<Vec<Step>> with None in 0s build + 10s test
+caught   src/bin/viola-fake-agent.rs:664:5: replace script_steps -> Option<Vec<Step>> with Some(vec![]) in 0s build + 10s test
+unviable src/bin/viola-fake-agent.rs:664:5: replace script_steps -> Option<Vec<Step>> with Some(vec![Default::default()]) in 0s build
+caught   src/bin/viola-fake-agent.rs:686:5: replace receipt_size with () in 0s build + 38s test
+caught   src/bin/viola-fake-agent.rs:687:49: replace != with == in receipt_size in 0s build + 38s test
+caught   src/bin/viola-fake-agent.rs:698:5: replace watch_size with () in 0s build + 38s test
+caught   src/bin/viola-fake-agent.rs:710:5: replace print_turn with () in 0s build + 11s test
+caught   src/bin/viola-fake-agent.rs:721:5: replace write_panic_bytes with () in 0s build + 38s test
+caught   src/bin/viola-fake-agent.rs:728:5: replace read_stdin -> ExitCode with Default::default() in 0s build + 7s test
+caught   src/bin/viola-fake-agent.rs:751:5: replace main -> ExitCode with Default::default() in 0s build + 7s test
+caught   src/bin/viola-fake-agent.rs:782:39: replace || with && in main in 0s build + 7s test
+caught   src/bin/viola-fake-agent.rs:782:19: delete ! in main in 0s build + 4s test
+caught   src/bin/viola-fake-agent.rs:790:8: delete ! in main in 0s build + 15s test
+caught   src/cmd/mod.rs:70:5: replace dispatch -> Result<ExitCode, Failure> with Ok(Default::default()) in 1s build + 0s test
+caught   src/cmd/mod.rs:133:5: replace cli_sink -> Option<DetailSink> with None in 2s build + 39s test
+unviable src/cmd/mod.rs:133:5: replace cli_sink -> Option<DetailSink> with Some(Default::default()) in 0s build
+caught   src/cmd/mod.rs:141:5: replace resolve_home -> Result<PathBuf, Failure> with Ok(Default::default()) in 1s build + 0s test
+unviable src/cmd/hook.rs:51:5: replace spine_deadline -> Instant with Default::default() in 1s build
+caught   src/cmd/hook.rs:51:13: replace + with - in spine_deadline in 1s build + 38s test
+unviable src/cmd/hook.rs:51:13: replace + with * in spine_deadline in 1s build
+unviable src/cmd/hook.rs:59:5: replace dialog_deadline -> Instant with Default::default() in 1s build
+caught   src/cmd/hook.rs:59:31: replace + with - in dialog_deadline in 1s build + 39s test
+unviable src/cmd/hook.rs:59:31: replace + with * in dialog_deadline in 0s build
+caught   src/cmd/hook.rs:59:13: replace + with - in dialog_deadline in 1s build + 39s test
+unviable src/cmd/hook.rs:59:13: replace + with * in dialog_deadline in 0s build
+caught   src/cmd/hook.rs:73:5: replace instance_of -> Option<Instance> with None in 1s build + 10s test
+unviable src/cmd/hook.rs:73:5: replace instance_of -> Option<Instance> with Some(Default::default()) in 0s build
+caught   src/cmd/hook.rs:75:8: delete ! in instance_of in 1s build + 10s test
+caught   src/cmd/hook.rs:81:37: replace == with != in instance_of in 1s build + 10s test
+caught   src/cmd/hook.rs:84:43: replace == with != in instance_of in 1s build + 10s test
+caught   src/cmd/hook.rs:90:5: replace hook -> Result<ExitCode, Failure> with Ok(Default::default()) in 1s build + 10s test
+caught   src/cmd/hook.rs:159:5: replace handle -> anyhow::Result<Option<&'static str>> with Ok(None) in 1s build + 10s test
+caught   src/cmd/hook.rs:159:5: replace handle -> anyhow::Result<Option<&'static str>> with Ok(Some("")) in 1s build + 10s test
+caught   src/cmd/hook.rs:159:5: replace handle -> anyhow::Result<Option<&'static str>> with Ok(Some("xyzzy")) in 1s build + 10s test
+caught   src/cmd/hook.rs:167:26: replace + with - in handle in 1s build + 4s test
+caught   src/cmd/hook.rs:167:26: replace + with * in handle in 1s build + 4s test
+caught   src/cmd/hook.rs:168:55: replace > with == in handle in 1s build + 4s test
+caught   src/cmd/hook.rs:168:55: replace > with < in handle in 1s build + 10s test
+caught   src/cmd/hook.rs:168:55: replace > with >= in handle in 1s build + 38s test
+caught   src/cmd/hook.rs:176:8: delete ! in handle in 1s build + 38s test
+caught   src/cmd/hook.rs:182:14: replace == with != in handle in 1s build + 38s test
+caught   src/cmd/hook.rs:210:5: replace handle_dialog -> anyhow::Result<()> with Ok(()) in 1s build + 39s test
+caught   src/cmd/hook.rs:213:26: replace + with - in handle_dialog in 1s build + 38s test
+caught   src/cmd/hook.rs:213:26: replace + with * in handle_dialog in 1s build + 38s test
+caught   src/cmd/hook.rs:214:72: replace > with == in handle_dialog in 1s build + 38s test
+caught   src/cmd/hook.rs:214:72: replace > with < in handle_dialog in 1s build + 39s test
+caught   src/cmd/hook.rs:214:72: replace > with >= in handle_dialog in 1s build + 38s test
+unviable src/cmd/hook.rs:254:5: replace ask -> Asked with Default::default() in 0s build
+unviable src/cmd/hook.rs:276:5: replace replied -> Asked with Default::default() in 0s build
+caught   src/cmd/hook.rs:278:9: delete match arm Value::Null in replied in 1s build + 11s test
+caught   src/cmd/hook.rs:279:9: delete match arm Value::Object(_) in replied in 1s build + 11s test
+caught   src/cmd/hook.rs:293:5: replace body_of -> Option<String> with None in 1s build + 11s test
+caught   src/cmd/hook.rs:293:5: replace body_of -> Option<String> with Some(String::new()) in 1s build + 11s test
+caught   src/cmd/hook.rs:293:5: replace body_of -> Option<String> with Some("xyzzy".into()) in 1s build + 4s test
+caught   src/cmd/hook.rs:305:5: replace invoked with () in 1s build + 11s test
+caught   src/cmd/hook.rs:321:5: replace dialog_decided with () in 1s build + 11s test
+caught   src/cmd/hook.rs:325:31: replace == with != in dialog_decided in 1s build + 38s test
+caught   src/cmd/hook.rs:360:5: replace capture -> Option<Filed> with None in 1s build + 11s test
+unviable src/cmd/hook.rs:360:5: replace capture -> Option<Filed> with Some(Default::default()) in 0s build
+caught   src/cmd/hook.rs:360:27: replace || with && in capture in 1s build + 38s test
+caught   src/cmd/hook.rs:360:8: delete ! in capture in 1s build + 11s test
+caught   src/cmd/hook.rs:360:30: delete ! in capture in 1s build + 11s test
+caught   src/cmd/hook.rs:364:26: replace + with - in capture in 1s build + 38s test
+caught   src/cmd/hook.rs:364:26: replace + with * in capture in 1s build + 38s test
+caught   src/cmd/hook.rs:373:5: replace file_from -> Option<Filed> with None in 1s build + 11s test
+unviable src/cmd/hook.rs:373:5: replace file_from -> Option<Filed> with Some(Default::default()) in 0s build
+caught   src/cmd/hook.rs:378:23: replace match guard e.kind() == std::io::ErrorKind::AlreadyExists with true in file_from in 1s build + 38s test
+caught   src/cmd/hook.rs:378:23: replace match guard e.kind() == std::io::ErrorKind::AlreadyExists with false in file_from in 1s build + 38s test
+caught   src/cmd/hook.rs:378:32: replace == with != in file_from in 1s build + 38s test
+caught   src/cmd/hook.rs:395:5: replace answer with () in 1s build + 11s test
+caught   src/cmd/hook.rs:395:27: replace || with && in answer in 1s build + 38s test
+caught   src/cmd/hook.rs:395:8: delete ! in answer in 1s build + 11s test
+caught   src/cmd/hook.rs:395:30: delete ! in answer in 1s build + 11s test
+caught   src/cmd/hook.rs:418:5: replace ordinal -> Option<u32> with None in 1s build + 11s test
+caught   src/cmd/hook.rs:418:5: replace ordinal -> Option<u32> with Some(0) in 1s build + 11s test
+caught   src/cmd/hook.rs:418:5: replace ordinal -> Option<u32> with Some(1) in 1s build + 11s test
+caught   src/cmd/hook.rs:422:40: replace && with || in ordinal in 1s build + 11s test
+caught   src/cmd/hook.rs:422:31: replace == with != in ordinal in 1s build + 11s test
+caught   src/cmd/hook.rs:422:48: replace <= with > in ordinal in 1s build + 11s test
+caught   src/cmd/hook.rs:430:5: replace free_k -> Option<u32> with None in 1s build + 12s test
+caught   src/cmd/hook.rs:430:5: replace free_k -> Option<u32> with Some(0) in 1s build + 11s test
+caught   src/cmd/hook.rs:430:5: replace free_k -> Option<u32> with Some(1) in 1s build + 12s test
+caught   src/cmd/hook.rs:436:12: replace + with - in free_k in 1s build + 11s test
+caught   src/cmd/hook.rs:436:12: replace + with * in free_k in 1s build + 11s test
+caught   src/cmd/hook.rs:436:26: delete ! in free_k in 1s build + 11s test
+caught   src/cmd/hook.rs:440:5: replace reject_stdin with () in 1s build + 38s test
+caught   src/cmd/hook.rs:452:5: replace write_drift with () in 1s build + 38s test
+caught   src/cmd/hook.rs:469:5: replace deliver -> bool with true in 1s build + 14s test
+caught   src/cmd/hook.rs:469:5: replace deliver -> bool with false in 1s build + 14s test
+caught   src/cmd/hook.rs:487:5: replace append_session_end with () in 1s build + 38s test
+caught   src/cmd/hook.rs:498:5: replace decided with () in 1s build + 4s test
+caught   src/cmd/verify.rs:57:5: replace verify -> anyhow::Result<ExitCode> with Ok(Default::default()) in 1s build + 0s test
+caught   src/cmd/verify.rs:84:5: replace run_logged -> std::io::Result<Bounded> with Ok(Default::default()) in 1s build + 1s test
+caught   src/cmd/verify.rs:103:5: replace measure -> anyhow::Result<u8> with Ok(0) in 1s build + 0s test
+caught   src/cmd/verify.rs:103:5: replace measure -> anyhow::Result<u8> with Ok(1) in 1s build + 0s test
+unviable src/cmd/verify.rs:225:52: delete ! in measure in 0s build
+caught   src/cmd/verify.rs:230:15: replace > with == in measure in 2s build + 11s test
+caught   src/cmd/verify.rs:230:15: replace > with < in measure in 1s build + 11s test
+caught   src/cmd/verify.rs:230:15: replace > with >= in measure in 1s build + 11s test
+unviable src/cmd/verify.rs:250:5: replace dirs -> typed::RunDirs<'_> with Default::default() in 0s build
+caught   src/cmd/verify.rs:255:5: replace fwd -> String with String::new() in 1s build + 11s test
+caught   src/cmd/verify.rs:255:5: replace fwd -> String with "xyzzy".into() in 1s build + 11s test
+unviable src/cmd/verify.rs:260:9: replace ProbeDir::create -> anyhow::Result<Self> with Ok(Default::default()) in 0s build
+caught   src/cmd/verify.rs:274:84: replace == with != in ProbeDir::create in 1s build + 11s test
+caught   src/cmd/verify.rs:284:9: replace ProbeDir::typed -> PathBuf with Default::default() in 1s build + 13s test
+caught   src/cmd/verify.rs:288:9: replace ProbeDir::questions -> PathBuf with Default::default() in 3s build + 11s test
+caught   src/cmd/verify.rs:292:9: replace ProbeDir::plan -> PathBuf with Default::default() in 2s build + 11s test
+caught   src/cmd/verify.rs:296:9: replace ProbeDir::plugin -> PathBuf with Default::default() in 2s build + 10s test
+caught   src/cmd/verify.rs:300:9: replace ProbeDir::captures -> PathBuf with Default::default() in 1s build + 10s test
+caught   src/cmd/verify.rs:306:9: replace <impl Drop for ProbeDir>::drop with () in 1s build + 11s test
+caught   src/cmd/verify.rs:312:5: replace write_plugin -> anyhow::Result<()> with Ok(()) in 1s build + 11s test
+caught   src/cmd/verify.rs:329:5: replace read_captures -> Vec<Capture> with vec![] in 1s build + 10s test
+unviable src/cmd/verify.rs:329:5: replace read_captures -> Vec<Capture> with vec![Default::default()] in 0s build
+caught   src/cmd/verify.rs:345:33: replace + with - in read_captures in 1s build + 11s test
+caught   src/cmd/verify.rs:345:33: replace + with * in read_captures in 1s build + 11s test
+caught   src/cmd/verify.rs:355:5: replace check_rows -> Vec<(LedgerRow, bool)> with vec![] in 1s build + 11s test
+unviable src/cmd/verify.rs:355:5: replace check_rows -> Vec<(LedgerRow, bool)> with vec![(Default::default(), true)] in 0s build
+unviable src/cmd/verify.rs:355:5: replace check_rows -> Vec<(LedgerRow, bool)> with vec![(Default::default(), false)] in 0s build
+caught   src/cmd/verify.rs:359:45: replace + with - in check_rows in 1s build + 10s test
+caught   src/cmd/verify.rs:359:45: replace + with * in check_rows in 1s build + 11s test
+caught   src/cmd/verify.rs:365:5: replace check_step -> bool with true in 1s build + 10s test
+caught   src/cmd/verify.rs:365:5: replace check_step -> bool with false in 1s build + 10s test
+caught   src/cmd/verify.rs:372:5: replace step_line -> String with String::new() in 1s build + 11s test
+caught   src/cmd/verify.rs:372:5: replace step_line -> String with "xyzzy".into() in 1s build + 11s test
+caught   src/cmd/verify.rs:389:5: replace record -> anyhow::Result<u8> with Ok(0) in 1s build + 11s test
+caught   src/cmd/verify.rs:389:5: replace record -> anyhow::Result<u8> with Ok(1) in 1s build + 11s test
+caught   src/cmd/verify.rs:414:5: replace named_payloads -> Vec<(String, &Capture)> with vec![] in 1s build + 11s test
+unviable src/cmd/verify.rs:414:5: replace named_payloads -> Vec<(String, &Capture)> with vec![(String::new(), Box::leak(Box::new(Default::default())))] in 0s build
+unviable src/cmd/verify.rs:414:5: replace named_payloads -> Vec<(String, &Capture)> with vec![("xyzzy".into(), Box::leak(Box::new(Default::default())))] in 0s build
+caught   src/cmd/verify.rs:416:76: replace == with != in named_payloads in 1s build + 11s test
+caught   src/cmd/verify.rs:437:5: replace scrubbed_payloads -> Result<Vec<Recorded>, String> with Ok(vec![]) in 1s build + 11s test
+caught   src/cmd/verify.rs:437:5: replace scrubbed_payloads -> Result<Vec<Recorded>, String> with Ok(vec![Default::default()]) in 1s build + 11s test
+caught   src/cmd/verify.rs:454:5: replace signature_screens -> Result<Vec<Recorded>, String> with Ok(vec![]) in 1s build + 11s test
+caught   src/cmd/verify.rs:454:5: replace signature_screens -> Result<Vec<Recorded>, String> with Ok(vec![Default::default()]) in 1s build + 11s test
+caught   src/cmd/verify.rs:470:5: replace write_recording -> std::io::Result<()> with Ok(()) in 1s build + 11s test
+caught   src/cmd/verify.rs:482:5: replace refuse_recording -> u8 with 0 in 1s build + 11s test
+caught   src/cmd/verify.rs:482:5: replace refuse_recording -> u8 with 1 in 1s build + 11s test
+caught   src/cmd/verify.rs:491:5: replace screens -> Vec<(&'static str, &[String])> with vec![] in 1s build + 11s test
+caught   src/cmd/verify.rs:491:5: replace screens -> Vec<(&'static str, &[String])> with vec![("", Vec::leak(Vec::new()))] in 1s build + 11s test
+caught   src/cmd/verify.rs:491:5: replace screens -> Vec<(&'static str, &[String])> with vec![("", Vec::leak(vec![String::new()]))] in 1s build + 11s test
+caught   src/cmd/verify.rs:491:5: replace screens -> Vec<(&'static str, &[String])> with vec![("", Vec::leak(vec!["xyzzy".into()]))] in 1s build + 11s test
+caught   src/cmd/verify.rs:491:5: replace screens -> Vec<(&'static str, &[String])> with vec![("xyzzy", Vec::leak(Vec::new()))] in 1s build + 11s test
+caught   src/cmd/verify.rs:491:5: replace screens -> Vec<(&'static str, &[String])> with vec![("xyzzy", Vec::leak(vec![String::new()]))] in 1s build + 11s test
+caught   src/cmd/verify.rs:491:5: replace screens -> Vec<(&'static str, &[String])> with vec![("xyzzy", Vec::leak(vec!["xyzzy".into()]))] in 1s build + 11s test

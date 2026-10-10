@@ -1,0 +1,303 @@
+caught   crates/viola-agent-claude/src/ledger.rs:63:9: replace LedgerRow::id -> &'static str with "" in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:63:9: replace LedgerRow::id -> &'static str with "xyzzy" in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:86:9: replace LedgerRow::words -> &'static str with "" in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:86:9: replace LedgerRow::words -> &'static str with "xyzzy" in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:167:5: replace framing_stem -> Option<&'static str> with None in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:167:5: replace framing_stem -> Option<&'static str> with Some("") in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:167:5: replace framing_stem -> Option<&'static str> with Some("xyzzy") in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:169:27: replace == with != in framing_stem in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:197:5: replace plan_settings -> String with String::new() in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:197:5: replace plan_settings -> String with "xyzzy".into() in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:223:5: replace dialog_stem -> Option<&'static str> with None in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:223:5: replace dialog_stem -> Option<&'static str> with Some("") in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:223:5: replace dialog_stem -> Option<&'static str> with Some("xyzzy") in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:225:30: replace == with != in dialog_stem in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:249:9: replace ProbeAnswer::id -> &'static str with "" in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:249:9: replace ProbeAnswer::id -> &'static str with "xyzzy" in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:259:9: replace ProbeAnswer::from_id -> Option<Self> with None in 1s build + 0s test
+unviable crates/viola-agent-claude/src/ledger.rs:259:9: replace ProbeAnswer::from_id -> Option<Self> with Some(Default::default()) in 0s build
+caught   crates/viola-agent-claude/src/ledger.rs:259:47: replace == with != in ProbeAnswer::from_id in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:306:5: replace answer_file_name -> String with String::new() in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:306:5: replace answer_file_name -> String with "xyzzy".into() in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:313:5: replace probe_body -> Option<String> with None in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:313:5: replace probe_body -> Option<String> with Some(String::new()) in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:313:5: replace probe_body -> Option<String> with Some("xyzzy".into()) in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:317:45: replace == with != in probe_body in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:338:5: replace question_response -> Option<Response> with None in 1s build + 0s test
+unviable crates/viola-agent-claude/src/ledger.rs:338:5: replace question_response -> Option<Response> with Some(Default::default()) in 0s build
+caught   crates/viola-agent-claude/src/ledger.rs:342:34: replace && with || in question_response in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:342:39: replace == with != in question_response in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:373:5: replace event_name -> &'static str with "" in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:373:5: replace event_name -> &'static str with "xyzzy" in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:389:5: replace parse_version -> Option<String> with None in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:389:5: replace parse_version -> Option<String> with Some(String::new()) in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:389:5: replace parse_version -> Option<String> with Some("xyzzy".into()) in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:389:37: replace == with != in parse_version in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:393:44: replace && with || in parse_version in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:393:30: delete ! in parse_version in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:394:24: replace && with || in parse_version in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:394:19: replace == with != in parse_version in 0s build + 0s test
+unviable crates/viola-agent-claude/src/ledger.rs:416:5: replace capture_plugin_files -> [(&'static str, String); 2] with [("", String::new()); 2] in 0s build
+unviable crates/viola-agent-claude/src/ledger.rs:416:5: replace capture_plugin_files -> [(&'static str, String); 2] with [("", "xyzzy".into()); 2] in 0s build
+unviable crates/viola-agent-claude/src/ledger.rs:416:5: replace capture_plugin_files -> [(&'static str, String); 2] with [("xyzzy", String::new()); 2] in 0s build
+unviable crates/viola-agent-claude/src/ledger.rs:416:5: replace capture_plugin_files -> [(&'static str, String); 2] with [("xyzzy", "xyzzy".into()); 2] in 0s build
+caught   crates/viola-agent-claude/src/ledger.rs:441:18: replace != with == in capture_plugin_files in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:445:18: replace == with != in capture_plugin_files in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:457:5: replace pretty -> String with String::new() in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:457:5: replace pretty -> String with "xyzzy".into() in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:464:5: replace capture_file_name -> String with String::new() in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:464:5: replace capture_file_name -> String with "xyzzy".into() in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:468:5: replace parse_capture_file_name -> Option<(HookEvent, u32)> with None in 1s build + 0s test
+unviable crates/viola-agent-claude/src/ledger.rs:468:5: replace parse_capture_file_name -> Option<(HookEvent, u32)> with Some((Default::default(), 0)) in 0s build
+unviable crates/viola-agent-claude/src/ledger.rs:468:5: replace parse_capture_file_name -> Option<(HookEvent, u32)> with Some((Default::default(), 1)) in 0s build
+caught   crates/viola-agent-claude/src/ledger.rs:471:34: replace == with != in parse_capture_file_name in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:472:42: replace > with == in parse_capture_file_name in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:472:42: replace > with < in parse_capture_file_name in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:472:42: replace > with >= in parse_capture_file_name in 0s build + 0s test
+unviable crates/viola-agent-claude/src/ledger.rs:486:9: replace Capture::read -> Self with Default::default() in 0s build
+caught   crates/viola-agent-claude/src/ledger.rs:494:9: replace Capture::field -> Option<&str> with None in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:494:9: replace Capture::field -> Option<&str> with Some("") in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:494:9: replace Capture::field -> Option<&str> with Some("xyzzy") in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:498:9: replace Capture::is -> bool with true in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:498:9: replace Capture::is -> bool with false in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:498:29: replace && with || in Capture::is in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:498:20: replace == with != in Capture::is in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:498:56: replace == with != in Capture::is in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:513:9: replace ProbeRun::first -> Option<&Value> with None in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:513:9: replace ProbeRun::first -> Option<&Value> with Some(Box::leak(Box::new(Default::default()))) in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:515:31: replace == with != in ProbeRun::first in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:555:5: replace turn -> &'a[Capture] with Vec::leak(Vec::new()) in 1s build + 0s test
+unviable crates/viola-agent-claude/src/ledger.rs:555:5: replace turn -> &'a[Capture] with Vec::leak(vec![Default::default()]) in 0s build
+caught   crates/viola-agent-claude/src/ledger.rs:555:43: replace == with != in turn in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:558:36: replace && with || in turn in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:558:57: replace == with != in turn in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:562:32: replace + with - in turn in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:562:32: replace + with * in turn in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:570:5: replace answered_question -> Option<(&Value, &Value)> with None in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:570:5: replace answered_question -> Option<(&Value, &Value)> with Some((Box::leak(Box::new(Default::default())), Box::leak(Box::new(Default::default())))) in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:575:53: replace && with || in answered_question in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:575:79: replace == with != in answered_question in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:585:5: replace question_answered -> bool with true in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:585:5: replace question_answered -> bool with false in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:590:68: replace == with != in question_answered in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:592:10: replace && with || in question_answered in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:592:13: delete ! in question_answered in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:599:5: replace notes_reached -> bool with true in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:599:5: replace notes_reached -> bool with false in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:604:17: replace && with || in notes_reached in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:603:41: replace == with != in notes_reached in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:604:60: replace == with != in notes_reached in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:612:5: replace plan_took_effect -> bool with true in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:612:5: replace plan_took_effect -> bool with false in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:614:42: replace == with != in plan_took_effect in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:621:56: replace && with || in plan_took_effect in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:621:30: replace == with != in plan_took_effect in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:621:82: replace == with != in plan_took_effect in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:627:9: replace && with || in plan_took_effect in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:626:9: replace && with || in plan_took_effect in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:625:9: replace && with || in plan_took_effect in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:624:9: replace && with || in plan_took_effect in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:623:17: replace == with != in plan_took_effect in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:624:26: replace == with != in plan_took_effect in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:625:24: replace == with != in plan_took_effect in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:627:12: delete ! in plan_took_effect in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:627:41: replace == with != in plan_took_effect in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:632:5: replace parallel_calls -> Option<Vec<&str>> with None in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:632:5: replace parallel_calls -> Option<Vec<&str>> with Some(vec![]) in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:632:5: replace parallel_calls -> Option<Vec<&str>> with Some(vec![""]) in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:632:5: replace parallel_calls -> Option<Vec<&str>> with Some(vec!["xyzzy"]) in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:641:5: replace both_parallel_answered -> bool with true in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:641:5: replace both_parallel_answered -> bool with false in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:645:13: replace && with || in both_parallel_answered in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:644:13: replace && with || in both_parallel_answered in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:643:19: replace == with != in both_parallel_answered in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:644:23: replace != with == in both_parallel_answered in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:647:55: replace && with || in both_parallel_answered in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:647:81: replace == with != in both_parallel_answered in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:656:5: replace parallel_both_before_first_post -> Option<bool> with None in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:656:5: replace parallel_both_before_first_post -> Option<bool> with Some(true) in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:656:5: replace parallel_both_before_first_post -> Option<bool> with Some(false) in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:663:19: replace != with == in parallel_both_before_first_post in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:670:9: delete ! in parallel_both_before_first_post in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:678:5: replace pasted -> Option<usize> with None in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:678:5: replace pasted -> Option<usize> with Some(0) in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:678:5: replace pasted -> Option<usize> with Some(1) in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:680:13: replace && with || in pasted in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:679:17: replace == with != in pasted in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:681:59: replace == with != in pasted in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:690:5: replace clear_start -> Option<usize> with None in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:690:5: replace clear_start -> Option<usize> with Some(0) in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:690:5: replace clear_start -> Option<usize> with Some(1) in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:693:58: replace && with || in clear_start in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:693:31: replace == with != in clear_start in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:693:79: replace == with != in clear_start in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:694:24: replace + with - in clear_start in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:694:24: replace + with * in clear_start in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:700:5: replace local_command_cleared -> bool with true in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:700:5: replace local_command_cleared -> bool with false in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:702:27: replace == with != in local_command_cleared in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:706:42: replace && with || in local_command_cleared in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:706:27: delete ! in local_command_cleared in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:706:54: replace != with == in local_command_cleared in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:707:17: replace && with || in local_command_cleared in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:715:5: replace framing_variants -> Vec<(&'static str, &Capture)> with vec![] in 1s build + 0s test
+unviable crates/viola-agent-claude/src/ledger.rs:715:5: replace framing_variants -> Vec<(&'static str, &Capture)> with vec![("", Box::leak(Box::new(Default::default())))] in 0s build
+unviable crates/viola-agent-claude/src/ledger.rs:715:5: replace framing_variants -> Vec<(&'static str, &Capture)> with vec![("xyzzy", Box::leak(Box::new(Default::default())))] in 0s build
+caught   crates/viola-agent-claude/src/ledger.rs:724:38: replace - with + in framing_variants in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:724:38: replace - with / in framing_variants in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:724:63: replace == with != in framing_variants in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:732:5: replace any_row -> bool with true in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:732:5: replace any_row -> bool with false in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:737:5: replace input_box_ready -> bool with true in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:737:5: replace input_box_ready -> bool with false in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:737:41: replace && with || in input_box_ready in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:737:44: delete ! in input_box_ready in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:741:5: replace within -> bool with true in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:741:5: replace within -> bool with false in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:741:40: replace <= with > in within in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:746:5: replace check -> bool with true in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:746:5: replace check -> bool with false in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:748:61: replace && with || in check in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:748:38: delete ! in check in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:751:69: replace && with || in check in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:751:54: delete ! in check in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:751:84: replace == with != in check in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:755:51: replace == with != in check in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:762:51: replace && with || in check in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:766:17: replace && with || in check in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:781:5: replace spine_in_order -> bool with true in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:781:5: replace spine_in_order -> bool with false in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:782:9: replace && with || in spine_in_order in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:781:20: replace == with != in spine_in_order in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:784:17: replace && with || in spine_in_order in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:783:21: replace == with != in spine_in_order in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:786:68: replace == with != in spine_in_order in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:791:5: replace fits_frame -> bool with true in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:791:5: replace fits_frame -> bool with false in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:791:42: replace <= with > in fits_frame in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:796:5: replace largest -> Vec<(HookEvent, usize)> with vec![] in 1s build + 0s test
+unviable crates/viola-agent-claude/src/ledger.rs:796:5: replace largest -> Vec<(HookEvent, usize)> with vec![(Default::default(), 0)] in 0s build
+unviable crates/viola-agent-claude/src/ledger.rs:796:5: replace largest -> Vec<(HookEvent, usize)> with vec![(Default::default(), 1)] in 0s build
+caught   crates/viola-agent-claude/src/ledger.rs:798:47: replace == with != in largest in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:809:5: replace stamp_shape_ok -> bool with true in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:809:5: replace stamp_shape_ok -> bool with false in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:829:5: replace merge_stamp -> Vec<u8> with vec![] in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:829:5: replace merge_stamp -> Vec<u8> with vec![0] in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:829:5: replace merge_stamp -> Vec<u8> with vec![1] in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:830:37: replace match guard stamp_shape_ok(&doc) with true in merge_stamp in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:830:37: replace match guard stamp_shape_ok(&doc) with false in merge_stamp in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:881:5: replace joined_call -> Option<usize> with None in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:881:5: replace joined_call -> Option<usize> with Some(0) in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:881:5: replace joined_call -> Option<usize> with Some(1) in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:884:9: delete match arm HookEvent::PreToolUse in joined_call in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:888:9: delete match arm HookEvent::PermissionRequest in joined_call in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:895:9: delete match arm HookEvent::PostToolUse in joined_call in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:888:82: replace == with != in joined_call in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:889:31: replace + with - in joined_call in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:889:31: replace + with * in joined_call in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:897:45: replace && with || in joined_call in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:897:51: replace == with != in joined_call in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:898:68: replace && with || in joined_call in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:898:60: replace == with != in joined_call in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:899:24: replace + with - in joined_call in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:899:24: replace + with * in joined_call in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:909:5: replace dialog_variants -> Vec<(String, &Capture)> with vec![] in 1s build + 0s test
+unviable crates/viola-agent-claude/src/ledger.rs:909:5: replace dialog_variants -> Vec<(String, &Capture)> with vec![(String::new(), Box::leak(Box::new(Default::default())))] in 0s build
+unviable crates/viola-agent-claude/src/ledger.rs:909:5: replace dialog_variants -> Vec<(String, &Capture)> with vec![("xyzzy".into(), Box::leak(Box::new(Default::default())))] in 0s build
+caught   crates/viola-agent-claude/src/ledger.rs:921:16: delete ! in dialog_variants in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:923:45: replace && with || in dialog_variants in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:923:34: replace == with != in dialog_variants in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:923:56: replace == with != in dialog_variants in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:935:5: replace verified -> Result<bool, AgentError> with Ok(true) in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:935:5: replace verified -> Result<bool, AgentError> with Ok(false) in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:938:72: replace && with || in verified in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:938:61: replace == with != in verified in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:939:8: delete ! in verified in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:943:55: replace == with != in verified in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:949:5: replace scrub -> Value with Default::default() in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:972:5: replace scrub_text -> String with String::new() in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:972:5: replace scrub_text -> String with "xyzzy".into() in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:973:8: delete ! in scrub_text in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:978:8: delete ! in scrub_text in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:986:5: replace fold -> String with String::new() in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:986:5: replace fold -> String with "xyzzy".into() in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:994:5: replace replace_all -> String with String::new() in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:994:5: replace replace_all -> String with "xyzzy".into() in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1001:19: replace + with - in replace_all in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1001:19: replace + with * in replace_all in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1008:5: replace is_word -> bool with true in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1008:5: replace is_word -> bool with false in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1008:25: replace || with && in is_word in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1008:30: replace == with != in is_word in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1013:5: replace replace_word -> String with String::new() in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1013:5: replace replace_word -> String with "xyzzy".into() in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1018:22: replace + with - in replace_word in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1018:22: replace + with * in replace_word in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1019:68: delete ! in replace_word in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1020:63: delete ! in replace_word in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1021:19: replace && with || in replace_word in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1042:9: replace Unclean::code -> &'static str with "" in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1042:9: replace Unclean::code -> &'static str with "xyzzy" in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1054:5: replace unclean -> Option<Unclean> with None in 1s build + 0s test
+unviable crates/viola-agent-claude/src/ledger.rs:1054:5: replace unclean -> Option<Unclean> with Some(Default::default()) in 0s build
+caught   crates/viola-agent-claude/src/ledger.rs:1061:5: replace is_clean -> bool with true in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1061:5: replace is_clean -> bool with false in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1065:5: replace text_fault -> Option<Unclean> with None in 1s build + 0s test
+unviable crates/viola-agent-claude/src/ledger.rs:1065:5: replace text_fault -> Option<Unclean> with Some(Default::default()) in 0s build
+caught   crates/viola-agent-claude/src/ledger.rs:1075:5: replace strings with () in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1076:9: delete match arm Value::String(s) in strings in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1077:9: delete match arm Value::Array(items) in strings in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1078:9: delete match arm Value::Object(map) in strings in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1087:5: replace has_absolute_path -> bool with true in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1087:5: replace has_absolute_path -> bool with false in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1089:68: replace && with || in has_absolute_path in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1089:52: replace && with || in has_absolute_path in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1089:22: replace && with || in has_absolute_path in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1089:17: replace >= with < in has_absolute_path in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1089:60: replace == with != in has_absolute_path in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1090:66: replace || with && in has_absolute_path in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1090:38: replace || with && in has_absolute_path in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1090:11: replace || with && in has_absolute_path in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1094:5: replace has_user_word -> bool with true in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1094:5: replace has_user_word -> bool with false in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1094:24: replace || with && in has_user_word in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1094:32: replace == with != in has_user_word in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1100:67: delete ! in has_user_word in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1101:28: replace + with - in has_user_word in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1101:28: replace + with * in has_user_word in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1104:29: delete ! in has_user_word in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1105:16: replace && with || in has_user_word in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1112:5: replace signature_rows -> Vec<String> with vec![] in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1112:5: replace signature_rows -> Vec<String> with vec![String::new()] in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1112:5: replace signature_rows -> Vec<String> with vec!["xyzzy".into()] in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1141:5: replace screen_fault -> Option<ScreenFault> with None in 1s build + 0s test
+unviable crates/viola-agent-claude/src/ledger.rs:1141:5: replace screen_fault -> Option<ScreenFault> with Some(Default::default()) in 0s build
+caught   crates/viola-agent-claude/src/ledger.rs:1149:46: replace + with - in screen_fault in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1149:46: replace + with * in screen_fault in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1163:5: replace screen_is_clean -> bool with true in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1163:5: replace screen_is_clean -> bool with false in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1167:5: replace screen_text_fault -> Option<Unclean> with None in 1s build + 0s test
+unviable crates/viola-agent-claude/src/ledger.rs:1167:5: replace screen_text_fault -> Option<Unclean> with Some(Default::default()) in 0s build
+caught   crates/viola-agent-claude/src/ledger.rs:1167:60: replace != with == in screen_text_fault in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1174:5: replace is_seam_char -> bool with true in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1174:5: replace is_seam_char -> bool with false in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1174:14: replace || with && in is_seam_char in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1174:7: replace == with != in is_seam_char in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1179:5: replace seam -> String with String::new() in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1179:5: replace seam -> String with "xyzzy".into() in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1187:5: replace is_local_char -> bool with true in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1187:5: replace is_local_char -> bool with false in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1187:31: replace || with && in is_local_char in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1192:5: replace has_email -> bool with true in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1192:5: replace has_email -> bool with false in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1194:38: replace + with - in has_email in 1s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1194:38: replace + with * in has_email in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1196:68: replace || with && in has_email in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1196:55: replace || with && in has_email in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1196:61: replace == with != in has_email in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1196:74: replace == with != in has_email in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1199:48: replace && with || in has_email in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1199:30: replace && with || in has_email in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1199:13: delete ! in has_email in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1199:43: replace >= with < in has_email in 0s build + 0s test
+caught   crates/viola-agent-claude/src/ledger.rs:1201:15: replace && with || in has_email in 0s build + 0s test

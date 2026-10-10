@@ -1,0 +1,38 @@
+# layouts extract
+
+## Relevance
+partial — the chunk creates and modifies no surface, region, component or focus stop; layout-templates.md applies only as a preservation contract on the cli surface's human output, which the touched product code (`src/cmd/verify.rs`, `src/cmd/mod.rs`, `src/cmd/hook.rs`) and the touched cli test files may produce or assert. The web-spa surface is untouched.
+
+## Constraints
+- layout-templates.md §Surface: cli — IA notes ("Output as a contract") requires the human columns and words of every verb to stay stable, because drivers may read them. Scope §2's in-place splits and scope §5's kill tests must leave every printed character where it is; a changed human line is a design change, not a cleanup.
+- layout-templates.md §Surface: cli — Output structure — `viola verify` requires the step-line form, the ledger order, the summary as the last stdout line, the exit rule, and that `--record` adds no human line. Scope §2 splits `record` (`src/cmd/verify.rs`); whether that function is the `--record` path, and whether the code already prints this form, is research's question.
+- layout-templates.md §Surface: cli — Component — Primary content block 2: refusal lines and the `unable` column requires `viola verify`'s exit-1 refusals to be fixed `unable:` / `hint:` pairs, and the recorded-fixture refusal to name the fixture file and a closed code, never the content. A split of `record` must not alter that pair, its row/seam form or its code set.
+- layout-templates.md §Surface: cli — Component — Primary content block 2: refusal lines and the `unable` column requires a failed or panicked cli verb to print exactly one fixed error line, from the one catch site, with no hint. Scope §5's survivor at `src/cmd/mod.rs:133:5` may sit at or near that site (whether it does is research's question); a kill test there must pin the line as the plan states it, and must not add a second print site.
+- layout-templates.md §Surface: cli — Component — Primary content block 2: refusal lines and the `unable` column requires results on stdout and `waiting:`, the issue line, refusals, hints and errors on stderr, never mixed. Scope §1's shared child-run helper (the `Ran` runner) must keep the two streams as separate captures, so no lifted test starts asserting on a merged stream.
+- layout-templates.md §Surface: cli — Component — Header / banner (the BAY context line) requires that `viola hook` has no human surface. Scope §5's survivor at `src/cmd/hook.rs:214:72` must be killed or argued without giving `hook` any printed line.
+- layout-templates.md §Surface: cli — Expression level (this surface) requires level 0.0 (no colour, no non-ASCII glyph, no cursor control) under `--json`, non-TTY, `NO_COLOR`, `TERM=dumb` and `run` passthrough. If P4 takes `sgr_attributes` (`tests/cli_output_plain.rs`) into the split, the split test must assert that same condition set and nothing weaker.
+
+## Patterns to follow
+- Appended lines, never redrawn: the `[NN/MM]` step line appended once per ledger row, then the summary (layout-templates.md §Surface: cli — Output structure — `viola verify`). A helper split out of `record` keeps the order in which lines reach stdout.
+- The two-line refusal shape, `unable` line then `hint:` as the last stderr line, keyed by reason (layout-templates.md §Surface: cli — Component — Primary content block 2: refusal lines and the `unable` column). A lifted test helper that reads a refusal reads the last stderr line as the hint, as the per-file copies are expected to.
+- The exit code is the terminator and the last printed line says what happened (layout-templates.md §Surface: cli — Component — Footer / terminator). A shared run-and-wait helper returns the exit code beside both streams, so each lifted test keeps asserting all three.
+- The readback mirror's column alignment and its stream split, issue line on stderr and outcome on stdout (layout-templates.md §Surface: cli — Output structure — `viola send`). A helper lifted out of `tests/cli_send.rs` or `src/run/send.rs`'s inline tests keeps the exact-line assertions those tests hold.
+- Plain output carries the same characters with no SGR (layout-templates.md §Surface: cli — Output structure — `viola list` (piped / `NO_COLOR` / `TERM=dumb`)). This is the property `tests/cli_output_plain.rs` is expected to hold; whether it does at HEAD is research's question.
+
+## Anti-patterns to avoid
+- A terminator word, a summary banner or a progress redraw added while splitting `record` or writing a kill test (banned by layout-templates.md §Surface: cli — Component — Footer / terminator, and §Surface: cli — Output structure — `viola verify`).
+- A new human column, word, hint or line introduced to make a mutant observable (banned by layout-templates.md §Surface: cli — IA notes, "Output as a contract"); a survivor is killed through output the plan already fixes, or through `--json`, or argued.
+- A hint or error line that names a path, a pid or upstream text, written into a test's expected value (banned by layout-templates.md §Surface: cli — Component — Primary content block 2: refusal lines and the `unable` column).
+
+## Contract bindings
+- layouts ↔ tests: the cli test files scope §1 lifts scaffolding out of (`tests/cli_verify.rs`, `tests/cli_answer.rs`, `tests/cli_send.rs`, `tests/cli_wheel.rs`, `tests/cli_wait_last.rs`, `tests/cli_output_plain.rs`) are the checks of layout-templates.md §Surface: cli output structures; scope §1's rule that no assertion moves is the binding (test-plan.md owns the harness and the gate commands).
+- layouts ↔ design: the per-cause refusal and hint catalog is design-system.md's cli pattern 2, cited by layout-templates.md §Surface: cli — Component — Primary content block 2: refusal lines and the `unable` column; this chunk adds no cause.
+- layouts ↔ security: the recorded-fixture refusal's "file and closed code, never the content" form and the no-path rule on hints bind to security-plan.md §Error Handling.
+- layouts ↔ architecture: the typed exit codes listed in layout-templates.md §Surface: cli — Component — Primary content block 2: refusal lines and the `unable` column bind to architecture.md §Conventions; scope's Boundaries state none changes.
+- The focus guide's three bindings (focus order ↔ a11y, modal ↔ a11y, breakpoints ↔ design spacing) do not arise: no focusable element, dialog or breakpoint is touched.
+
+## Acceptance criteria contributions
+- (layouts) After the split of `record`, `viola verify`'s stdout is the step lines in ledger order then the summary as the last line, and `--record` adds no human line, with the exit code unchanged (per layout-templates.md §Surface: cli — Output structure — `viola verify`).
+- (layouts) After the split of `record`, the recorded-fixture refusal is still one `unable:` line naming the fixture file and a closed code and one `hint:` line, both on stderr, the hint last (per layout-templates.md §Surface: cli — Component — Primary content block 2: refusal lines and the `unable` column).
+- (layouts) Every cli test moved onto a shared helper in `tests/support/` asserts the same stdout text, the same stderr text and the same exit code as before the lift, with the two streams captured apart (per layout-templates.md §Surface: cli — Component — Primary content block 2: refusal lines and the `unable` column).
+- (layouts) No kill test or split in this chunk adds, removes or re-words a human output line of any verb, and `viola hook` still prints no human line (per layout-templates.md §Surface: cli — IA notes, and §Surface: cli — Component — Header / banner (the BAY context line)).

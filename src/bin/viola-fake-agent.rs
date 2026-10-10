@@ -469,15 +469,7 @@ impl Agent {
                 self.replay_dialogs(stem);
             }
             if self.opts.turn_stop {
-                self.fire("Stop", "default", None);
-                let long = framing.is_some() && framing == framing_stem(PROBE_LONG_PASTE);
-                if let Some(hold) = self.opts.paste_hint.filter(|_| long) {
-                    draw(&[]);
-                    std::thread::sleep(hold);
-                }
-                let tag = framing.is_some() && framing == framing_stem(PROBE_TAG_PASTE);
-                let named = self.opts.tag_turn_screen.as_deref().filter(|_| tag);
-                write_screen(&self.opts, named.unwrap_or("turn"));
+                self.end_turn(framing);
             }
             fired
         };
@@ -491,6 +483,23 @@ impl Agent {
                 "submit": submit,
             }),
         );
+    }
+
+    /// The end of a submitted turn under `--turn-stop`: the Stop hook, the `--paste-hint-ms` hold on
+    /// a cleared screen after the long paste, then the turn's screen (`--tag-turn-screen`'s after the
+    /// tag-like paste alone). `framing` is the turn's framing stem, when it replayed one.
+    fn end_turn(&self, framing: Option<&str>) {
+        self.fire("Stop", "default", None);
+        // `framing_stem(PROBE_LONG_PASTE)` is a compiled text's stem, always `Some`, so the equality
+        // alone says this turn replayed the long paste.
+        let long = framing == framing_stem(PROBE_LONG_PASTE);
+        if let Some(hold) = self.opts.paste_hint.filter(|_| long) {
+            draw(&[]);
+            std::thread::sleep(hold);
+        }
+        let tag = framing.is_some() && framing == framing_stem(PROBE_TAG_PASTE);
+        let named = self.opts.tag_turn_screen.as_deref().filter(|_| tag);
+        write_screen(&self.opts, named.unwrap_or("turn"));
     }
 
     /// Blocks until one more complete line exists in the control file past `offset`.
@@ -788,6 +797,7 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::time::Instant;
 
     fn args(list: &[&str]) -> Vec<String> {
         list.iter().map(|s| (*s).to_owned()).collect()
@@ -1080,5 +1090,50 @@ mod tests {
     #[test]
     fn hex_is_lowercase_two_digits_per_byte() {
         assert_eq!(hex(&[0x00, 0x0a, 0xff]), "000aff");
+    }
+
+    /// An absolute host program that prints one line and exits by itself.
+    fn whoami() -> String {
+        #[cfg(windows)]
+        let path = PathBuf::from(std::env::var_os("SystemRoot").expect("SystemRoot"))
+            .join("System32")
+            .join("whoami.exe");
+        #[cfg(not(windows))]
+        let path = PathBuf::from("/usr/bin/whoami");
+        path.to_str().expect("utf-8 path").to_owned()
+    }
+
+    #[test]
+    fn run_hook_after_close_hooks_runs_nothing() {
+        let agent = Agent::new(Opts::parse(&[]));
+        assert!(
+            agent.run_hook("Notification", &whoami(), &[], b""),
+            "the program ran and printed"
+        );
+        agent.close_hooks();
+        assert!(!agent.run_hook("Notification", &whoami(), &[], b""));
+    }
+
+    #[test]
+    fn run_hook_of_a_stop_with_the_receipt_hold_takes_at_least_the_hold() {
+        let agent = Agent::new(Opts::parse(&args(&["--stop-receipt-hold-ms", "1000"])));
+        let hold = agent.opts.stop_receipt_hold.expect("the hold");
+        let started = Instant::now();
+        assert!(agent.run_hook("Stop", &whoami(), &[], b""));
+        assert!(started.elapsed() >= hold, "{:?}", started.elapsed());
+    }
+
+    #[test]
+    fn submit_of_the_long_paste_with_a_paste_hint_takes_at_least_the_hint() {
+        let agent = Agent::new(Opts::parse(&args(&[
+            "--framing",
+            "--turn-stop",
+            "--paste-hint-ms",
+            "300",
+        ])));
+        let hint = agent.opts.paste_hint.expect("the hint");
+        let started = Instant::now();
+        agent.submit(PROBE_LONG_PASTE.as_bytes(), "human");
+        assert!(started.elapsed() >= hint, "{:?}", started.elapsed());
     }
 }

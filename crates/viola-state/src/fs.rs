@@ -348,6 +348,29 @@ mod tests {
         assert_eq!(fs::read(&path).expect("read"), b"same");
     }
 
+    /// A directory without its write bit refuses the temp file: the Unix stand-in for a replace
+    /// that fails. Over a file already holding the bytes it is done; over other bytes it is still
+    /// an error. An effective uid of 0 writes there anyway, so nothing fails and nothing is an error.
+    #[cfg(unix)]
+    #[test]
+    fn replace_private_shared_in_a_read_only_dir_is_done_only_over_the_same_bytes() {
+        use std::os::unix::fs::PermissionsExt as _;
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let dir = tmp.path().join("held");
+        fs::create_dir(&dir).expect("dir");
+        let path = dir.join("file");
+        fs::write(&path, b"same").expect("seed");
+        let set_mode =
+            |mode: u32| fs::set_permissions(&dir, fs::Permissions::from_mode(mode)).expect("chmod");
+        set_mode(0o500);
+        let refused = replace_private(&path, b"same", FILE_MODE).is_err();
+        let same = replace_private_shared(&path, b"same", FILE_MODE);
+        let other = replace_private_shared(&path, b"other", FILE_MODE);
+        set_mode(0o700);
+        assert!(same.is_ok(), "the bytes were already there");
+        assert_eq!(other.is_err(), refused);
+    }
+
     #[test]
     fn retry_replace_waits_only_for_a_windows_reader_refusal() {
         assert!(retry_replace(Some(5), true));

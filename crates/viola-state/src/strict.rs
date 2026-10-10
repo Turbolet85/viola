@@ -524,6 +524,16 @@ mod tests {
         assert_eq!(check_stamps(&tmp.path().join("home")), Ok(()));
     }
 
+    /// A path holding a NUL byte fails the stat with a kind other than `NotFound`, before any
+    /// filesystem call: only an absent path is skipped, and a stat that fails is a refusal.
+    #[test]
+    fn check_stamps_of_a_path_that_cannot_be_statted_is_unreadable() {
+        assert_eq!(
+            check_stamps(Path::new("home\0dir")),
+            Err(Refused::Unreadable)
+        );
+    }
+
     /// A ledger viola created, and the stamps file it wrote, pass on the OS the test runs on.
     #[test]
     fn check_stamps_of_a_home_viola_wrote_passes() {

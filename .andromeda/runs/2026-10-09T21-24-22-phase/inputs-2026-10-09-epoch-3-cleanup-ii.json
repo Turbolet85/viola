@@ -1,0 +1,198 @@
+[
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "d45f2ad1",
+"ts": "2026-10-09T21:25:35Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-09-epoch-3-cleanup-ii",
+"--message-file",
+".andromeda/runs/2026-10-09T21-24-22-phase/relay-1.md",
+"--origin",
+"the operator, in the /andromeda-phase invocation of this take-up, 2026-10-09",
+"--kind",
+"relay",
+"--why",
+"the direction at take-up: no live claude session and no cap; a mutation run is a one-shot measurement recorded in evidence, never a gate entry; a record-reading gate entry takes no artifact key; a preservation guard lists no file a step edits; size against one builder window, name the machine time, a priced split card at P4 if the three CARRYs do not fit",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-10-09T21-24-22-phase",
+"--marker",
+"2026-10-09-epoch-3-cleanup-ii"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy message · message: the operator, in the /andromeda-phase invocation of this take-up, 2026-10-09",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, in the /andromeda-phase invocation of this take-up, 2026-10-09",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "4c191445a4f3f03bde8223a0fbed4f02b3098b747979d2be10050746c49622fe",
+"copy": "I1-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-09T21:25:35Z",
+"step": "phase:P1",
+"why": "the direction at take-up: no live claude session and no cap; a mutation run is a one-shot measurement recorded in evidence, never a gate entry; a record-reading gate entry takes no artifact key; a preservation guard lists no file a step edits; size against one builder window, name the machine time, a priced split card at P4 if the three CARRYs do not fit"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "d45f2ad1",
+"ts": "2026-10-09T21:49:29Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-09-epoch-3-cleanup-ii",
+"--message-file",
+".andromeda/runs/2026-10-09T21-24-22-phase/relay-2.md",
+"--origin",
+"the operator, in the P4 fork dialog of this take-up, 2026-10-09",
+"--kind",
+"relay",
+"--why",
+"the P4 fork answers: the chunk stays one (no split), with a run journal written before each mutation wait and re-read after it; all four unkillable survivors are restated, each restatement naming its guarantee in a comment, the witness over the file showing no new missed mutant",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-10-09T21-24-22-phase",
+"--marker",
+"2026-10-09-epoch-3-cleanup-ii"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: the operator, in the P4 fork dialog of this take-up, 2026-10-09",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, in the P4 fork dialog of this take-up, 2026-10-09",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "ce3ff5f4cb326843a7238cbf0431e77cbe9d7645ef528123312cabab66cf5d92",
+"copy": "I2-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-09T21:49:29Z",
+"step": "phase:P4",
+"why": "the P4 fork answers: the chunk stays one (no split), with a run journal written before each mutation wait and re-read after it; all four unkillable survivors are restated, each restatement naming its guarantee in a comment, the witness over the file showing no new missed mutant"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "d45f2ad1",
+"ts": "2026-10-09T21:58:26Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-09-epoch-3-cleanup-ii",
+"--run-dir",
+".andromeda/runs/2026-10-09T21-24-22-phase",
+"--marker",
+"2026-10-09-epoch-3-cleanup-ii"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, in the /andromeda-phase invocation of this take-up, 2026-10-09",
+"I1 cited scope.md:9 · scope.md:104 · scope.md:127 · scope.md:151 · research.md:17 · research.md:194 · plan.md:10 · plan.md:32 · plan.md:231 · plan.md:465 · plan.md:479",
+"I2 n/a — a message has no live source · copy message · message: the operator, in the P4 fork dialog of this take-up, 2026-10-09",
+"I2 cited scope.md:18 · scope.md:139 · scope.md:157 · research.md:21 · research.md:240 · research.md:254 · research.md:258 · plan.md:20 · plan.md:36 · plan.md:47 · plan.md:88 · plan.md:416 · plan.md:465 · plan.md:468 · plan.md:470 · plan.md:475",
+"UNPARSED: inputs#I3 — no entry (scope.md:26)",
+"inputs: 2 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 1
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "d45f2ad1",
+"ts": "2026-10-09T21:58:43Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-09-epoch-3-cleanup-ii",
+"--run-dir",
+".andromeda/runs/2026-10-09T21-24-22-phase",
+"--marker",
+"2026-10-09-epoch-3-cleanup-ii"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, in the /andromeda-phase invocation of this take-up, 2026-10-09",
+"I1 cited scope.md:9 · scope.md:108 · scope.md:131 · scope.md:155 · research.md:17 · research.md:194 · plan.md:10 · plan.md:32 · plan.md:231 · plan.md:465 · plan.md:479",
+"I2 n/a — a message has no live source · copy message · message: the operator, in the P4 fork dialog of this take-up, 2026-10-09",
+"I2 cited scope.md:18 · scope.md:143 · scope.md:161 · research.md:21 · research.md:240 · research.md:254 · research.md:258 · plan.md:20 · plan.md:36 · plan.md:47 · plan.md:88 · plan.md:416 · plan.md:465 · plan.md:468 · plan.md:470 · plan.md:475",
+"inputs: 2 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]

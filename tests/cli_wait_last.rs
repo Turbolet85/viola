@@ -9,12 +9,12 @@
 mod support;
 
 use std::ffi::OsString;
-use std::io::Write as _;
 use std::path::{Path, PathBuf};
-use std::process::{Child, Command, Stdio};
 use std::time::Instant;
 
 use serde_json::{Map, Value, json};
+use support::cli::{Ran, spawn, viola};
+use support::events::wait_events;
 use support::fake;
 use support::home::{StampedHome, TestHome, VIOLA, Wrapper, snapshot_data, workspace_path};
 use support::hygiene::load_schema;
@@ -86,20 +86,6 @@ fn end_offset(instance_dir: &Path) -> u64 {
     std::fs::metadata(instance_dir.join("events.ndjson")).map_or(0, |m| m.len())
 }
 
-fn wait_events(instance_dir: &Path, what: &str, pred: impl Fn(&[Value]) -> bool) {
-    let watch = Watch::start("events");
-    let deadline = Instant::now() + WITHIN;
-    loop {
-        let lines = support::ndjson::read_lines(&instance_dir.join("events.ndjson"));
-        if pred(&lines) {
-            return;
-        }
-        watch.note(&format!("events {}", lines.len()));
-        watch.deadline_check(deadline, &format!("timed out waiting for {what}"));
-        std::thread::yield_now();
-    }
-}
-
 /// The one line of `kind`, with its end offset.
 fn only(instance_dir: &Path, kind: &str) -> (u64, Value) {
     let mut found: Vec<(u64, Value)> = ends(instance_dir)
@@ -108,79 +94,6 @@ fn only(instance_dir: &Path, kind: &str) -> (u64, Value) {
         .collect();
     assert_eq!(found.len(), 1, "one {kind} line");
     found.remove(0)
-}
-
-/// A `viola` the test started; killed on drop if it is still running.
-struct Running(Option<Child>);
-
-struct Ran {
-    code: Option<i32>,
-    stdout: String,
-    stderr: String,
-}
-
-impl Running {
-    fn still_running(&mut self) -> bool {
-        let child = self.0.as_mut().expect("child");
-        child.try_wait().expect("try_wait").is_none()
-    }
-
-    /// Its exit within `WITHIN`, and both streams whole.
-    fn finish(mut self) -> Ran {
-        let watch = Watch::start("viola");
-        let deadline = Instant::now() + WITHIN;
-        while self.still_running() {
-            watch.note("running");
-            watch.deadline_check(deadline, "viola never exited");
-            std::thread::yield_now();
-        }
-        let out = self
-            .0
-            .take()
-            .expect("child")
-            .wait_with_output()
-            .expect("output");
-        Ran {
-            code: out.status.code(),
-            stdout: String::from_utf8(out.stdout).expect("utf-8 stdout"),
-            stderr: String::from_utf8(out.stderr).expect("utf-8 stderr"),
-        }
-    }
-}
-
-impl Drop for Running {
-    fn drop(&mut self) {
-        if let Some(mut child) = self.0.take() {
-            let _ = child.kill();
-            let _ = child.wait();
-        }
-    }
-}
-
-fn spawn(home: &Path, args: &[&str], stdin: Option<&str>) -> Running {
-    let mut child = Command::new(VIOLA)
-        .arg("--home")
-        .arg(home)
-        .args(args)
-        .env_remove("VIOLA_NAME")
-        .stdin(if stdin.is_some() {
-            Stdio::piped()
-        } else {
-            Stdio::null()
-        })
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped())
-        .spawn()
-        .expect("viola");
-    if let Some(text) = stdin {
-        let mut pipe = child.stdin.take().expect("stdin");
-        pipe.write_all(text.as_bytes()).expect("stdin");
-    }
-    Running(Some(child))
-}
-
-fn viola(home: &Path, args: &[&str]) -> Ran {
-    spawn(home, args, None).finish()
 }
 
 /// `--json`: exit 0, one document on stdout, nothing on stderr.
@@ -257,7 +170,7 @@ fn path3_wait_parks_until_turn_ended_then_last_reads_it() {
     let c = end_offset(&dir);
     let c_text = c.to_string();
 
-    let before = json_ok(&viola(&home, &["last", "builder", "--json"]));
+    let before = json_ok(&viola(&home, &["last", "builder", "--json"], None, None));
     assert_eq!(
         before,
         json!({"v": 1, "ok": {"last_assistant_message": null, "ts": null}})
@@ -266,6 +179,7 @@ fn path3_wait_parks_until_turn_ended_then_last_reads_it() {
     let mut parked = spawn(
         &home,
         &["wait", "builder", "--after", &c_text, "--json"],
+        None,
         None,
     );
     wait_request_logged(&home, "wait", 1);
@@ -288,6 +202,8 @@ fn path3_wait_parks_until_turn_ended_then_last_reads_it() {
     let again = json_ok(&viola(
         &home,
         &["wait", "builder", "--after", &c_text, "--json"],
+        None,
+        None,
     ));
     assert_eq!(again, woken, "a logged turn returns at once");
 
@@ -301,14 +217,14 @@ fn path3_wait_parks_until_turn_ended_then_last_reads_it() {
         "500",
         "--json",
     ];
-    let timed_out = viola(&home, &args);
+    let timed_out = viola(&home, &args, None, None);
     assert_eq!(
         json_ok(&timed_out),
         json!({"v": 1, "ok": {"timed_out": true}})
     );
     assert_eq!(timed_out.stdout, "{\"v\":1,\"ok\":{\"timed_out\":true}}\n");
 
-    let after = json_ok(&viola(&home, &["last", "builder", "--json"]));
+    let after = json_ok(&viola(&home, &["last", "builder", "--json"], None, None));
     assert_eq!(
         after,
         json!({"v": 1, "ok": {"last_assistant_message": message, "ts": turn["ts"]}})
@@ -342,7 +258,7 @@ fn wait_after_a_send_cursor_returns_the_turn() {
     let wrapper = fresh(CANARY);
     let dir = wrapper.instance_dir();
     let home = wrapper.home().to_path_buf();
-    let sent = spawn(&home, &["send", "builder", "--json"], Some(CANARY)).finish();
+    let sent = spawn(&home, &["send", "builder", "--json"], Some(CANARY), None).finish();
     let cursor = json_ok(&sent)["ok"]["cursor"]
         .as_u64()
         .expect("cursor")
@@ -350,6 +266,7 @@ fn wait_after_a_send_cursor_returns_the_turn() {
     let parked = spawn(
         &home,
         &["wait", "builder", "--after", &cursor, "--json"],
+        None,
         None,
     );
     wrapper.release();
@@ -372,7 +289,12 @@ fn last_survives_a_wrapper_restart() {
     wait_events(&dir, "the turn-ended line", |l| {
         l.iter().any(|e| e["kind"] == "turn-ended")
     });
-    let before = json_ok(&viola(wrapper.home(), &["last", "builder", "--json"]));
+    let before = json_ok(&viola(
+        wrapper.home(),
+        &["last", "builder", "--json"],
+        None,
+        None,
+    ));
     assert_eq!(before["ok"]["last_assistant_message"], message.as_str());
 
     let (stopped, stamped) = wrapper.stop_keep();
@@ -391,7 +313,12 @@ fn last_survives_a_wrapper_restart() {
         only(&again.instance_dir(), "turn-ended").1["ts"],
         before["ok"]["ts"]
     );
-    let after = json_ok(&viola(again.home(), &["last", "builder", "--json"]));
+    let after = json_ok(&viola(
+        again.home(),
+        &["last", "builder", "--json"],
+        None,
+        None,
+    ));
     assert_eq!(after, before);
     again.stop();
 }
@@ -407,7 +334,7 @@ fn last_human_escapes_controls() {
     wait_events(&wrapper.instance_dir(), "the turn-ended line", |l| {
         l.iter().any(|e| e["kind"] == "turn-ended")
     });
-    let human = viola(wrapper.home(), &["last", "builder"]);
+    let human = viola(wrapper.home(), &["last", "builder"], None, None);
     assert_eq!(human.code, Some(0), "stderr: {}", human.stderr);
     assert!(
         human.stderr.is_empty(),
@@ -423,7 +350,7 @@ fn last_human_escapes_controls() {
         .any(|c| c.is_control() && c != '\n' && c != '\t');
     assert!(!raw_control, "a raw control character reached stdout");
 
-    let json = viola(wrapper.home(), &["last", "builder", "--json"]);
+    let json = viola(wrapper.home(), &["last", "builder", "--json"], None, None);
     assert_eq!(
         json_ok(&json)["ok"]["last_assistant_message"],
         message.as_str()
@@ -457,7 +384,12 @@ fn wait_human_lines_are_linear() {
     assert_eq!(screen.matches("waiting: builder").count(), 1, "{screen:?}");
     assert!(screen.contains("timed out  builder  200 ms"), "{screen:?}");
 
-    let piped = viola(&home, &["wait", "builder", "--timeout-ms", "200"]);
+    let piped = viola(
+        &home,
+        &["wait", "builder", "--timeout-ms", "200"],
+        None,
+        None,
+    );
     assert_eq!(piped.code, Some(0), "stderr: {}", piped.stderr);
     assert_eq!(piped.stdout, "timed out  builder  200 ms\n");
     assert!(piped.stderr.is_empty(), "{}", piped.stderr);
@@ -469,7 +401,7 @@ fn wait_human_lines_are_linear() {
 fn wait_last_unreachable_exit_21() {
     let home = TestHome::new();
     for verb in ["wait", "last"] {
-        let human = viola(home.path(), &[verb, "builder"]);
+        let human = viola(home.path(), &[verb, "builder"], None, None);
         assert_eq!(human.code, Some(21), "{verb}");
         assert!(human.stdout.is_empty(), "{verb}");
         assert_eq!(
@@ -478,7 +410,7 @@ fn wait_last_unreachable_exit_21() {
              hint: builder is not running; viola list shows the live instances\n",
             "{verb}"
         );
-        let json = viola(home.path(), &[verb, "builder", "--json"]);
+        let json = viola(home.path(), &[verb, "builder", "--json"], None, None);
         assert_eq!(json.code, Some(21), "{verb}");
         assert!(json.stderr.is_empty(), "{verb}");
         assert_eq!(
@@ -511,12 +443,36 @@ fn cli_verbs_print_internal_error_once() {
         (&["wait", "builder"][..], None),
         (&["last", "builder"][..], None),
     ] {
-        let ran = spawn(&scratch, args, stdin).finish();
+        let ran = spawn(&scratch, args, stdin, None).finish();
         assert_eq!(ran.code, Some(1), "{args:?}");
         assert!(ran.stdout.is_empty(), "{args:?}");
         assert_eq!(ran.stderr, "error: internal error\n", "{args:?}");
         assert_eq!(ran.stderr.lines().count(), 1, "{args:?}");
     }
+}
+
+/// A `cli` verb that fails inside a home that is a directory still prints the one line, and its
+/// chain lands in the instance detail file alone: `diagnostics` is a regular file here, so the role
+/// file cannot open (obs-plan §7 Per-role behaviour).
+#[test]
+fn wait_in_a_home_whose_diagnostics_is_a_file_keeps_the_chain_in_the_detail_file() {
+    let home = TestHome::new();
+    std::fs::create_dir(home.path()).expect("the home");
+    std::fs::write(home.path().join("diagnostics"), b"x").expect("a file where the dir should be");
+    let ran = viola(home.path(), &["wait", "builder"], None, None);
+    assert_eq!(ran.code, Some(1));
+    assert!(ran.stdout.is_empty());
+    assert_eq!(ran.stderr, "error: internal error\n");
+    let detail = home
+        .path()
+        .join("instances")
+        .join("builder")
+        .join("diagnostics")
+        .join("detail-cli.ndjson");
+    let detail = support::ndjson::read_lines(&detail);
+    assert_eq!(detail.len(), 1);
+    assert_eq!(detail[0]["event"], "process-exit");
+    assert!(detail[0]["chain"].as_array().is_some_and(|c| !c.is_empty()));
 }
 
 /// The wrapper re-runs the bounds itself: each bad `after`, `timeout_ms` or `from` is `-32602` with

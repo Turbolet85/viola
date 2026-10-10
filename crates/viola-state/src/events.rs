@@ -206,7 +206,9 @@ impl LoggedLines {
             std::io::Read::take(&mut *reader, self.cap).read_until(b'\n', &mut line)?;
             let len = u64::try_from(line.len()).unwrap_or(u64::MAX);
             if line.last() != Some(&b'\n') {
-                if len < self.cap {
+                // The read above takes at most `cap` bytes, so a length is never over the cap: one
+                // that is not at it is under it, the unfinished last line.
+                if len != self.cap {
                     break;
                 }
                 let Some(rest) = skip_line(reader)? else {
@@ -604,5 +606,19 @@ mod tests {
         let tmp = tempfile::tempdir().expect("tempdir");
         let line = EventLine::new(&name(), EventKind::Wheel, Source::Wrapper, json!({}), at());
         assert!(append_event(&tmp.path().join("missing"), &line).is_err());
+    }
+
+    /// A path holding a NUL byte fails the stat and the open with a kind other than `NotFound`,
+    /// before any filesystem call: only an absent log reads as empty.
+    const NUL_DIR: &str = "instance\0dir";
+
+    #[test]
+    fn events_current_len_of_a_log_that_cannot_be_statted_is_an_error() {
+        assert!(current_len(Path::new(NUL_DIR)).is_err());
+    }
+
+    #[test]
+    fn events_read_of_a_log_that_cannot_be_opened_is_an_error() {
+        assert!(read_from(Path::new(NUL_DIR), 0).is_err());
     }
 }

@@ -16,6 +16,7 @@ use std::time::Instant;
 
 use rstest::rstest;
 use serde_json::{Value, json};
+use support::events::{events, wait_events};
 use support::fake::{self, of_kind};
 use support::home::{StampedHome, TestHome, VIOLA, Wrapper, stamped_home, workspace_path};
 use support::watch::{WITHIN, Watch};
@@ -32,14 +33,7 @@ fn boot(script: Option<&str>, extra: &[&str]) -> Wrapper {
 
 /// `boot` on `stamped`: a home `viola verify` stamped makes the fake agent's version a verified CLI.
 fn boot_on(stamped: StampedHome, script: Option<&str>, extra: &[&str]) -> Wrapper {
-    let fixtures = workspace_path("fixtures/claude");
-    let mut args = vec!["--fixtures", fixtures.to_str().expect("utf-8 path")];
-    args.extend_from_slice(extra);
-    let wrapper = Wrapper::boot(stamped, "builder", script, &args);
-    wait_events(&wrapper.instance_dir(), "the session-start record", |l| {
-        l.iter().any(|e| e["kind"] == "session-start")
-    });
-    wrapper
+    support::events::boot(stamped, script, extra)
 }
 
 /// The recorded `paste-1` variant's bytes, and the long text it wraps. The frame is a test literal:
@@ -62,24 +56,6 @@ fn recorded_long_paste() -> (Vec<u8>, String) {
     assert!(!text.contains('\n'));
     let text = text.to_owned();
     (recorded, text)
-}
-
-fn events(instance_dir: &Path) -> Vec<Value> {
-    support::ndjson::read_lines(&instance_dir.join("events.ndjson"))
-}
-
-fn wait_events(instance_dir: &Path, what: &str, pred: impl Fn(&[Value]) -> bool) -> Vec<Value> {
-    let watch = Watch::start("events");
-    let deadline = Instant::now() + WITHIN;
-    loop {
-        let lines = events(instance_dir);
-        if pred(&lines) {
-            return lines;
-        }
-        watch.note(&format!("events {}", lines.len()));
-        watch.deadline_check(deadline, &format!("timed out waiting for {what}"));
-        std::thread::yield_now();
-    }
 }
 
 /// `events.ndjson`'s length: the cursor the next send is issued at.

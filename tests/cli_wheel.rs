@@ -7,15 +7,15 @@
 #[allow(dead_code)]
 mod support;
 
-use std::io::Write as _;
 use std::path::Path;
-use std::process::{Child, Command, Stdio};
 use std::time::Instant;
 
 use rstest::rstest;
 use serde_json::{Value, json};
+use support::cli::viola;
+use support::events::{events, wait_events};
 use support::fake::{self, of_kind};
-use support::home::{StampedHome, VIOLA, Wrapper, snapshot_data, stamped_home, workspace_path};
+use support::home::{StampedHome, Wrapper, snapshot_data, stamped_home, workspace_path};
 use support::hygiene::load_schema;
 use support::watch::{WITHIN, Watch};
 
@@ -32,30 +32,7 @@ fn fixtures_arg() -> String {
 
 /// A stamped wrapper over the committed hook fixtures (and `script`), its SessionStart landed.
 fn boot(stamped: StampedHome, script: Option<&str>) -> Wrapper {
-    let fx = fixtures_arg();
-    let wrapper = Wrapper::boot(stamped, "builder", script, &["--fixtures", &fx]);
-    wait_events(&wrapper.instance_dir(), "the session-start record", |l| {
-        l.iter().any(|e| e["kind"] == "session-start")
-    });
-    wrapper
-}
-
-fn events(instance_dir: &Path) -> Vec<Value> {
-    support::ndjson::read_lines(&instance_dir.join("events.ndjson"))
-}
-
-fn wait_events(instance_dir: &Path, what: &str, pred: impl Fn(&[Value]) -> bool) -> Vec<Value> {
-    let watch = Watch::start("events");
-    let deadline = Instant::now() + WITHIN;
-    loop {
-        let lines = events(instance_dir);
-        if pred(&lines) {
-            return lines;
-        }
-        watch.note(&format!("events {}", lines.len()));
-        watch.deadline_check(deadline, &format!("timed out waiting for {what}"));
-        std::thread::yield_now();
-    }
+    support::events::boot(stamped, script, &[])
 }
 
 fn wheel_records(instance_dir: &Path) -> Vec<Value> {
@@ -67,48 +44,6 @@ fn wheel_records(instance_dir: &Path) -> Vec<Value> {
             l["data"].clone()
         })
         .collect()
-}
-
-struct Ran {
-    code: Option<i32>,
-    stdout: String,
-    stderr: String,
-}
-
-/// `viola --home <home> <args…>`, `stdin` written and closed, `from` as `VIOLA_NAME`; waited.
-fn viola(home: &Path, args: &[&str], stdin: &str, from: Option<&str>) -> Ran {
-    let mut command = Command::new(VIOLA);
-    command
-        .arg("--home")
-        .arg(home)
-        .args(args)
-        .env_remove("VIOLA_NAME")
-        .stdin(Stdio::piped())
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped());
-    if let Some(from) = from {
-        command.env("VIOLA_NAME", from);
-    }
-    let mut child: Child = command.spawn().expect("viola");
-    let mut pipe = child.stdin.take().expect("stdin");
-    match pipe.write_all(stdin.as_bytes()) {
-        Err(e) if e.kind() != std::io::ErrorKind::BrokenPipe => panic!("stdin: {e}"),
-        _ => {}
-    }
-    drop(pipe);
-    let watch = Watch::start("viola");
-    let deadline = Instant::now() + WITHIN;
-    while child.try_wait().expect("try_wait").is_none() {
-        watch.note("running");
-        watch.deadline_check(deadline, "viola never exited");
-        std::thread::yield_now();
-    }
-    let out = child.wait_with_output().expect("output");
-    Ran {
-        code: out.status.code(),
-        stdout: String::from_utf8(out.stdout).expect("utf-8 stdout"),
-        stderr: String::from_utf8(out.stderr).expect("utf-8 stderr"),
-    }
 }
 
 fn diagnostics(home: &Path, file: &str) -> Vec<Value> {
@@ -145,16 +80,16 @@ fn path5_pause_refuses_send_and_answer_and_release_returns_the_wheel(stamped_hom
     let dir = wrapper.instance_dir();
     let text = format!("{CANARY} pause me");
 
-    let paused = viola(&home, &["pause", "builder", "--json"], "", None);
+    let paused = viola(&home, &["pause", "builder", "--json"], Some(""), None);
     assert_eq!(paused.code, Some(0), "stderr: {}", paused.stderr);
     assert_eq!(paused.stdout, "{\"v\":1,\"ok\":{\"wheel\":\"human\"}}\n");
     assert!(paused.stderr.is_empty());
 
-    let refused = viola(&home, &["send", "builder", "--json"], &text, None);
+    let refused = viola(&home, &["send", "builder", "--json"], Some(&text), None);
     assert_eq!(refused.code, Some(10));
     assert_eq!(refused.stdout, REFUSED_PAUSED);
     assert!(refused.stderr.is_empty(), "--json carries no hint");
-    let mirrored = viola(&home, &["send", "builder"], &text, None);
+    let mirrored = viola(&home, &["send", "builder"], Some(&text), None);
     assert_eq!(mirrored.code, Some(10));
     assert!(mirrored.stdout.is_empty());
     assert_eq!(
@@ -167,12 +102,12 @@ fn path5_pause_refuses_send_and_answer_and_release_returns_the_wheel(stamped_hom
     let answered = viola(
         &home,
         &["answer", "builder", "1", "--json"],
-        &response,
+        Some(&response),
         None,
     );
     assert_eq!(answered.code, Some(10));
     assert_eq!(answered.stdout, REFUSED_PAUSED);
-    let human = viola(&home, &["answer", "builder", "1"], &response, None);
+    let human = viola(&home, &["answer", "builder", "1"], Some(&response), None);
     assert_eq!(human.code, Some(10));
     assert_eq!(
         human.stderr,
@@ -182,7 +117,7 @@ fn path5_pause_refuses_send_and_answer_and_release_returns_the_wheel(stamped_hom
     let driver = viola(
         &home,
         &["release", "builder", "--json"],
-        "",
+        Some(""),
         Some("overseer"),
     );
     assert_eq!(driver.code, Some(20));
@@ -191,25 +126,25 @@ fn path5_pause_refuses_send_and_answer_and_release_returns_the_wheel(stamped_hom
         "{\"v\":1,\"error\":\"wrapper-fault\",\"detail\":{\"code\":-32602,\
          \"message\":\"invalid params\",\"data\":{\"reason\":\"release-from-driver\"}}}\n"
     );
-    let still = viola(&home, &["send", "builder", "--json"], &text, None);
+    let still = viola(&home, &["send", "builder", "--json"], Some(&text), None);
     assert_eq!(still.code, Some(10), "a driver's release moves nothing");
 
-    let released = viola(&home, &["release", "builder", "--json"], "", None);
+    let released = viola(&home, &["release", "builder", "--json"], Some(""), None);
     assert_eq!(released.code, Some(0), "stderr: {}", released.stderr);
     assert_eq!(
         released.stdout,
         "{\"v\":1,\"ok\":{\"wheel\":\"driver\",\"budget_paused\":false}}\n"
     );
-    let sent = viola(&home, &["send", "builder", "--json"], &text, None);
+    let sent = viola(&home, &["send", "builder", "--json"], Some(&text), None);
     assert_eq!(sent.code, Some(0), "stderr: {}", sent.stderr);
 
-    let paused = viola(&home, &["pause", "builder"], "", None);
+    let paused = viola(&home, &["pause", "builder"], Some(""), None);
     assert_eq!(paused.code, Some(0));
     assert_eq!(
         paused.stdout,
         "builder  wheel human  manual-pause  I have control\n"
     );
-    let released = viola(&home, &["release", "builder"], "", None);
+    let released = viola(&home, &["release", "builder"], Some(""), None);
     assert_eq!(released.code, Some(0));
     assert_eq!(released.stdout, "builder  wheel driver  you have control\n");
 
@@ -273,18 +208,18 @@ fn path5_a_turn_left_running_is_cleared_by_pause_then_release(stamped_home: Stam
         l.iter().any(|e| e["kind"] == "prompt-submitted")
     });
 
-    let refused = viola(&home, &["send", "builder", "--json"], &text, None);
+    let refused = viola(&home, &["send", "builder", "--json"], Some(&text), None);
     assert_eq!(refused.code, Some(13), "stderr: {}", refused.stderr);
     assert_eq!(refused.stdout, REFUSED_TURN);
     assert!(refused.stderr.is_empty(), "--json carries no hint");
 
-    let released = viola(&home, &["release", "builder", "--json"], "", None);
+    let released = viola(&home, &["release", "builder", "--json"], Some(""), None);
     assert_eq!(released.code, Some(0), "stderr: {}", released.stderr);
     assert_eq!(
         released.stdout,
         "{\"v\":1,\"ok\":{\"wheel\":\"driver\",\"budget_paused\":false}}\n"
     );
-    let still = viola(&home, &["send", "builder", "--json"], &text, None);
+    let still = viola(&home, &["send", "builder", "--json"], Some(&text), None);
     assert_eq!(
         still.code,
         Some(13),
@@ -292,11 +227,11 @@ fn path5_a_turn_left_running_is_cleared_by_pause_then_release(stamped_home: Stam
     );
     assert_eq!(still.stdout, REFUSED_TURN);
 
-    let paused = viola(&home, &["pause", "builder"], "", None);
+    let paused = viola(&home, &["pause", "builder"], Some(""), None);
     assert_eq!(paused.code, Some(0), "stderr: {}", paused.stderr);
-    let released = viola(&home, &["release", "builder"], "", None);
+    let released = viola(&home, &["release", "builder"], Some(""), None);
     assert_eq!(released.code, Some(0), "stderr: {}", released.stderr);
-    let sent = viola(&home, &["send", "builder", "--json"], &text, None);
+    let sent = viola(&home, &["send", "builder", "--json"], Some(&text), None);
     assert_eq!(sent.code, Some(0), "stderr: {}", sent.stderr);
 
     assert_eq!(
@@ -350,7 +285,7 @@ fn path4_a_dialog_pending_at_a_pause_is_handed_back_to_the_human(stamped_home: S
         std::thread::yield_now();
     }
     let paused_at = Instant::now();
-    let paused = viola(&home, &["pause", "builder", "--json"], "", None);
+    let paused = viola(&home, &["pause", "builder", "--json"], Some(""), None);
     assert_eq!(paused.code, Some(0), "stderr: {}", paused.stderr);
     let hooks = fake::wait_for(&receipt, "the question's hook", |l| {
         of_kind(l, "hook").len() >= 2
@@ -369,7 +304,7 @@ fn path4_a_dialog_pending_at_a_pause_is_handed_back_to_the_human(stamped_home: S
     let answer = viola(
         &home,
         &["answer", "builder", &id.to_string(), "--json"],
-        &response,
+        Some(&response),
         None,
     );
     assert_eq!(answer.code, Some(10));

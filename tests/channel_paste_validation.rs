@@ -11,6 +11,7 @@ mod support;
 use std::path::Path;
 
 use serde_json::{Map, Value, json};
+use support::events::events;
 use support::fake::{self, of_kind};
 use support::home::{StampedHome, TestHome, Wrapper, snapshot_data, workspace_path};
 use viola_channel::Client;
@@ -40,10 +41,6 @@ fn request(instance_dir: &Path, text: &str) -> Value {
     let mut params = Map::new();
     params.insert("text".to_owned(), text.into());
     client.request("send", params).expect("reply")
-}
-
-fn events(instance_dir: &Path) -> Vec<Value> {
-    support::ndjson::read_lines(&instance_dir.join("events.ndjson"))
 }
 
 #[test]

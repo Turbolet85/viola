@@ -663,11 +663,14 @@ pub fn parallel_both_before_first_post(questions: &[Capture]) -> Option<bool> {
     if pres.len() != 2 {
         return None;
     }
-    let first_post = turn
-        .iter()
-        .position(|c| c.is(HookEvent::PostToolUse, ASK))
-        .unwrap_or(turn.len());
-    Some(pres.iter().all(|i| *i < first_post))
+    // A capture is never both a PreToolUse and a PostToolUse, so no PostToolUse sits at the second
+    // PreToolUse's own index: "none before it" already says both were claimed first.
+    let before_second = &turn[..pres[1]];
+    Some(
+        !before_second
+            .iter()
+            .any(|c| c.is(HookEvent::PostToolUse, ASK)),
+    )
 }
 
 /// The index of the first UserPromptSubmit capture whose `prompt` normalises to `text`.
@@ -682,11 +685,13 @@ fn pasted(trusted: &[Capture], text: &str) -> Option<usize> {
 /// The index of the SessionStart the probed local command fired: the first one with source `clear`
 /// captured after the tag-like turn's prompt.
 fn clear_start(trusted: &[Capture]) -> Option<usize> {
-    let after = pasted(trusted, PROBE_TAG_PASTE)? + 1;
-    trusted[after..]
+    // The capture at the paste's own index is a UserPromptSubmit, never the SessionStart searched
+    // for, so the search starts at it.
+    let from = pasted(trusted, PROBE_TAG_PASTE)?;
+    trusted[from..]
         .iter()
         .position(|c| c.event == HookEvent::SessionStart && c.field("source") == Some("clear"))
-        .map(|at| after + at)
+        .map(|at| from + at)
 }
 
 /// The probed local command started a session under a new, non-empty `session_id`, and no
@@ -867,6 +872,35 @@ pub fn merge_stamp(
     Value::Object(doc).to_string().into_bytes()
 }
 
+/// A tool call of a dialog turn: its `tool_name` and its `tool_use_id`.
+type Call<'a> = (Option<&'a str>, Option<&'a str>);
+
+/// The 1-based number of the call `capture` joins among the turn's `calls` so far, opening one
+/// where `dialog_variants` says so; `None` for a capture that joins none.
+fn joined_call<'a>(calls: &mut Vec<Call<'a>>, capture: &'a Capture) -> Option<usize> {
+    let tool = capture.field("tool_name");
+    let id = capture.field("tool_use_id");
+    match capture.event {
+        HookEvent::PreToolUse => {
+            calls.push((tool, id));
+            Some(calls.len())
+        }
+        HookEvent::PermissionRequest => match calls.iter().rposition(|(t, _)| *t == tool) {
+            Some(i) => Some(i + 1),
+            None => {
+                calls.push((tool, None));
+                Some(calls.len())
+            }
+        },
+        HookEvent::PostToolUse => calls
+            .iter()
+            .position(|(_, i)| id.is_some() && *i == id)
+            .or_else(|| calls.iter().rposition(|(t, i)| *t == tool && i.is_none()))
+            .map(|i| i + 1),
+        _ => None,
+    }
+}
+
 /// Each dialog run's captures named for `--record`: `<stem>-<n>`, `n` counting the turn's tool calls
 /// in claim order. A PreToolUse opens a call; a PermissionRequest joins the latest call of its tool,
 /// else opens one; a PostToolUse joins the call of its `tool_use_id`, else the latest id-less call
@@ -878,30 +912,11 @@ pub fn dialog_variants(dialogs: &DialogRuns) -> Vec<(String, &Capture)> {
             DialogRun::Questions => &dialogs.questions,
             DialogRun::Plan => &dialogs.plan,
         };
-        let mut calls: Vec<(Option<&str>, Option<&str>)> = Vec::new();
+        let mut calls: Vec<Call<'_>> = Vec::new();
         for capture in turn(captures, prompt) {
-            let tool = capture.field("tool_name");
-            let id = capture.field("tool_use_id");
-            let call = match capture.event {
-                HookEvent::PreToolUse => {
-                    calls.push((tool, id));
-                    Some(calls.len())
-                }
-                HookEvent::PermissionRequest => match calls.iter().rposition(|(t, _)| *t == tool) {
-                    Some(i) => Some(i + 1),
-                    None => {
-                        calls.push((tool, None));
-                        Some(calls.len())
-                    }
-                },
-                HookEvent::PostToolUse => calls
-                    .iter()
-                    .position(|(_, i)| id.is_some() && *i == id)
-                    .or_else(|| calls.iter().rposition(|(t, i)| *t == tool && i.is_none()))
-                    .map(|i| i + 1),
-                _ => None,
+            let Some(n) = joined_call(&mut calls, capture) else {
+                continue;
             };
-            let Some(n) = call else { continue };
             let variant = format!("{stem}-{n}");
             if !out
                 .iter()
@@ -2201,6 +2216,8 @@ mod tests {
     #[case::no_local("@example.com", false)]
     #[case::no_host("a@.com", false)]
     #[case::none("ctx 23% 45k/200k", false)]
+    #[case::space_before_the_at("see @example.com", false)]
+    #[case::hyphen_in_the_domain("a@my-host.example", true)]
     fn has_email_reads_local_at_domain_dot_tld(#[case] text: &str, #[case] expected: bool) {
         assert_eq!(has_email(text), expected);
     }
@@ -2713,6 +2730,15 @@ mod tests {
         assert!(!dialog_check(LedgerRow::DialogConcurrency, no_id));
     }
 
+    /// The second call's own PostToolUse is what answers it: one carrying a third id does not.
+    #[test]
+    fn check_dialog_concurrency_with_a_post_for_a_third_id_is_not_answered() {
+        let third_id = with_questions(|q| {
+            q[9] = tool(POST, "AskUserQuestion", Some("p9"), json!({}));
+        });
+        assert!(!dialog_check(LedgerRow::DialogConcurrency, third_id));
+    }
+
     #[test]
     fn parallel_both_before_first_post_reads_the_claim_order() {
         assert_eq!(
@@ -2769,6 +2795,25 @@ mod tests {
             [Some("q1"), Some("p1"), Some("p2"), Some("b1"), Some("e2")]
         );
         assert!(dialog_variants(&DialogRuns::default()).is_empty());
+    }
+
+    /// A PostToolUse joins an id-less call of its tool only: beside a call that has an id of its
+    /// own, one whose id matches no call is not recorded.
+    #[test]
+    fn dialog_variants_with_a_post_of_an_unknown_id_beside_an_identified_call_records_no_post() {
+        let dialogs = DialogRuns {
+            questions: vec![
+                prompted(DIALOG_PROMPT_QUESTIONS),
+                tool(PRE, "AskUserQuestion", Some("q1"), json!({})),
+                tool(POST, "AskUserQuestion", Some("q9"), json!({})),
+            ],
+            ..DialogRuns::default()
+        };
+        let names: Vec<String> = dialog_variants(&dialogs)
+            .iter()
+            .map(|(variant, c)| format!("{}.{variant}", event_name(c.event)))
+            .collect();
+        assert_eq!(names, ["PreToolUse.questions-1"]);
     }
 
     /// A second capture of one event and variant is not recorded: the first stands.
