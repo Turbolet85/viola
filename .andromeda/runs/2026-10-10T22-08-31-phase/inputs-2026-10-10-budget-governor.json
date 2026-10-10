@@ -1,0 +1,214 @@
+[
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T22:09:31Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-budget-governor",
+"--message-file",
+".andromeda/runs/2026-10-10T22-08-31-phase/relay-1.md",
+"--origin",
+"the operator, the /andromeda-phase revision invocation in this session, 2026-10-10",
+"--kind",
+"relay",
+"--why",
+"the cause of the revision: the operator pass no longer waits for the founder; the four held items land in their planning forms as built, the budget.json refusal recorded as not ratified, each carried on the handoff for the founder; step 15 alone changes",
+"--step",
+"phase:P3",
+"--run-dir",
+".andromeda/runs/2026-10-10T22-08-31-phase",
+"--marker",
+"2026-10-10-budget-governor"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I6 · copy message · message: the operator, the /andromeda-phase revision invocation in this session, 2026-10-10",
+"cite: inputs#I6"
+],
+"stderr": null,
+"wrote": [
+"inputs/I6-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I6",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, the /andromeda-phase revision invocation in this session, 2026-10-10",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "ed5566bf571a6e125dee0897a32ed116f9d1bdc9b84eec8a1eebf83ad2a8586d",
+"copy": "I6-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-10T22:09:31Z",
+"step": "phase:P3",
+"why": "the cause of the revision: the operator pass no longer waits for the founder; the four held items land in their planning forms as built, the budget.json refusal recorded as not ratified, each carried on the handoff for the founder; step 15 alone changes"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T22:13:39Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-budget-governor",
+"--run-dir",
+".andromeda/runs/2026-10-10T22-08-31-phase",
+"--marker",
+"2026-10-10-budget-governor"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-10T20:53Z",
+"I1 cited scope.md:10 · scope.md:180 · scope.md:203 · scope.md:246 · scope.md:254 · scope.md:284 · scope.md:295 · scope.md:333 · research.md:14 · plan.md:18 · plan.md:25 · plan.md:189 · plan.md:204 · plan.md:244 · plan.md:247 · plan.md:464",
+"I2 unchanged · copy no-repo · ~/.claude/projects/~-dev-projects-viola/memory/founder-rulings-stand-until-his-word.md",
+"I2 cited scope.md:21 · research.md:14 · plan.md:464",
+"I3 n/a — a message has no live source · copy message · message: the operator, the P4 fork round of this phase session, 2026-10-10",
+"I3 cited scope.md:133 · scope.md:149 · scope.md:173 · scope.md:195 · scope.md:211 · plan.md:21 · plan.md:57 · plan.md:76 · plan.md:94 · plan.md:105 · plan.md:465 · plan.md:474 · plan.md:479 · plan.md:505",
+"I4 n/a — a message has no live source · copy message · message: the operator, the P5 review of this phase session, 2026-10-10",
+"I4 cited scope.md:304 · research.md:46",
+"I5 n/a — a message has no live source · copy message · message: the operator, the /andromeda-implement invocation in this session, 2026-10-10",
+"I5 UNCITED",
+"I6 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase revision invocation in this session, 2026-10-10",
+"I6 cited scope.md:261 · scope.md:262 · scope.md:303 · research.md:15 · research.md:21 · plan.md:180 · plan.md:194",
+"inputs: 6 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 5 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 6,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 5
+},
+"uncited": 1,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T22:14:40Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-budget-governor",
+"--message-file",
+".andromeda/runs/2026-10-10T22-08-31-phase/relay-2.md",
+"--origin",
+"the operator, the P5 review of the revision in this session, 2026-10-10",
+"--kind",
+"relay",
+"--why",
+"the approval word of the revision: step 15 as revised; the hold is not restored for the budget.json item, which lands as built and not ratified; the sentence on the owed rate_limits row stays; the seven sentences elsewhere stay, governed by the closing clause",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-10-10T22-08-31-phase",
+"--marker",
+"2026-10-10-budget-governor"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I7 · copy message · message: the operator, the P5 review of the revision in this session, 2026-10-10",
+"cite: inputs#I7"
+],
+"stderr": null,
+"wrote": [
+"inputs/I7-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I7",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, the P5 review of the revision in this session, 2026-10-10",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "73d1258505e5abcc8674bf1ab333cf10394496c5a0fc2c2db3d60f4ddb214ee0",
+"copy": "I7-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-10T22:14:40Z",
+"step": "phase:P5",
+"why": "the approval word of the revision: step 15 as revised; the hold is not restored for the budget.json item, which lands as built and not ratified; the sentence on the owed rate_limits row stays; the seven sentences elsewhere stay, governed by the closing clause"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T22:15:03Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-budget-governor",
+"--run-dir",
+".andromeda/runs/2026-10-10T22-08-31-phase",
+"--marker",
+"2026-10-10-budget-governor"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-10T20:53Z",
+"I1 cited scope.md:10 · scope.md:180 · scope.md:203 · scope.md:246 · scope.md:254 · scope.md:284 · scope.md:299 · scope.md:337 · research.md:14 · plan.md:18 · plan.md:25 · plan.md:189 · plan.md:204 · plan.md:244 · plan.md:247 · plan.md:464",
+"I2 unchanged · copy no-repo · ~/.claude/projects/~-dev-projects-viola/memory/founder-rulings-stand-until-his-word.md",
+"I2 cited scope.md:21 · research.md:14 · plan.md:464",
+"I3 n/a — a message has no live source · copy message · message: the operator, the P4 fork round of this phase session, 2026-10-10",
+"I3 cited scope.md:133 · scope.md:149 · scope.md:173 · scope.md:195 · scope.md:211 · plan.md:21 · plan.md:57 · plan.md:76 · plan.md:94 · plan.md:105 · plan.md:465 · plan.md:474 · plan.md:479 · plan.md:505",
+"I4 n/a — a message has no live source · copy message · message: the operator, the P5 review of this phase session, 2026-10-10",
+"I4 cited scope.md:308 · research.md:46",
+"I5 n/a — a message has no live source · copy message · message: the operator, the /andromeda-implement invocation in this session, 2026-10-10",
+"I5 UNCITED",
+"I6 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase revision invocation in this session, 2026-10-10",
+"I6 cited scope.md:261 · scope.md:262 · scope.md:307 · research.md:15 · research.md:21 · plan.md:180 · plan.md:194",
+"I7 n/a — a message has no live source · copy message · message: the operator, the P5 review of the revision in this session, 2026-10-10",
+"I7 cited scope.md:291",
+"inputs: 7 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 6 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 7,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 6
+},
+"uncited": 1,
+"unparsed": 0
+}
+}
+]

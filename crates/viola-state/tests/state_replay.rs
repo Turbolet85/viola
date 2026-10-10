@@ -11,7 +11,7 @@ use serde_json::{Value, json};
 use viola_core::{EventKind, ViolaName};
 use viola_state::events::{EventLine, Skipped, Source, append_event};
 use viola_state::replay::{
-    Recovered, ReplayCause, Replayed, SessionChain, SessionLink, read_snapshot_or_replay,
+    Recovered, ReplayCause, Replayed, SessionChain, SessionLink, read_snapshot_or_replay, replay,
     session_chain,
 };
 use viola_state::snapshot::{
@@ -28,6 +28,7 @@ fn snapshot() -> InstanceSnapshot {
         cli_version: Some("2.1.287".to_owned()),
         wheel: Wheel::Driver,
         budget_paused: false,
+        budget_override_until: None,
         links: Vec::new(),
         child_pid: Some(42),
         pending_dialog: None,
@@ -245,4 +246,55 @@ fn state_replay_the_session_chain_of_a_two_session_log_is_both_in_order() {
     );
     assert_eq!(skipped, replayed().skipped);
     assert_eq!(on_disk(tmp.path()), before);
+}
+
+fn append_gate(dir: &Path, data: Value) {
+    let name = ViolaName::try_new("builder".to_owned()).expect("valid");
+    let line = EventLine::new(
+        &name,
+        EventKind::BudgetGate,
+        Source::Wrapper,
+        data,
+        Utc::now(),
+    );
+    append_event(dir, &line).expect("append");
+}
+
+/// The budget gate a pass over `dir`'s log recovers, after reading that it stepped over nothing.
+fn replayed_gate(dir: &Path) -> (Option<bool>, Option<String>) {
+    let replayed = replay(dir).expect("replay");
+    assert_eq!(
+        replayed.skipped,
+        Skipped {
+            unknown_kinds: 0,
+            unknown_fields: 0,
+            torn_lines: 0,
+        }
+    );
+    (replayed.budget_paused, replayed.budget_override_until)
+}
+
+/// A pause's line names its window: the replay reads `paused` from it and no override.
+#[test]
+fn state_replay_a_budget_gate_line_with_a_window_replays_the_pause() {
+    let tmp = tempfile::tempdir().expect("tempdir");
+    append_gate(tmp.path(), json!({"paused": false}));
+    assert_eq!(replayed_gate(tmp.path()), (Some(false), None));
+    append_gate(tmp.path(), json!({"paused": true, "window": "five-hour"}));
+    assert_eq!(replayed_gate(tmp.path()), (Some(true), None));
+}
+
+/// An override's line carries its end, and the last line decides: a later pause drops the end.
+#[test]
+fn state_replay_a_budget_gate_line_with_an_override_replays_its_end() {
+    let tmp = tempfile::tempdir().expect("tempdir");
+    let end = "2025-02-01T16:00:00.000Z";
+    append_gate(tmp.path(), json!({"paused": true, "window": "seven-day"}));
+    append_gate(tmp.path(), json!({"paused": false, "override_until": end}));
+    assert_eq!(
+        replayed_gate(tmp.path()),
+        (Some(false), Some(end.to_owned()))
+    );
+    append_gate(tmp.path(), json!({"paused": true, "window": "five-hour"}));
+    assert_eq!(replayed_gate(tmp.path()), (Some(true), None));
 }

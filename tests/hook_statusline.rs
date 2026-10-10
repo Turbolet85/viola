@@ -10,66 +10,22 @@ mod support;
 
 use std::ffi::OsString;
 use std::fs;
-use std::io::Write as _;
 use std::path::{Path, PathBuf};
-use std::process::{Command, Stdio};
 use std::time::SystemTime;
 
 use rstest::rstest;
 use serde_json::{Value, json};
-use support::cli::{Ran, Running};
+use support::cli::Ran;
 use support::home::{
-    STATUSLINE_ECHO_OUTPUT, StampedHome, TestHome, VIOLA, Wrapper, plant_statusline_source,
-    snapshot_data, stamped_home, statusline_echo_command, statusline_marker, workspace_path,
+    STATUSLINE_ECHO_OUTPUT, StampedHome, TestHome, Wrapper, plant_statusline_source, snapshot_data,
+    stamped_home, statusline_echo_command, statusline_marker, workspace_path,
 };
 use support::hygiene::load_schema;
-
-const CANARY: &str = "canary-chain-value-5c1e";
-
-/// Synthetic statusline stdin: the tests' canary, and `rate_limits` when one is given.
-fn payload(rate_limits: Option<Value>) -> Vec<u8> {
-    let mut doc = json!({"session_id": CANARY, "model": {"display_name": "synthetic"}});
-    if let Some(rate_limits) = rate_limits {
-        doc["rate_limits"] = rate_limits;
-    }
-    doc.to_string().into_bytes()
-}
-
-/// A reading of `used` percent in the five-hour window, resetting at a fixed epoch second.
-fn reading(used: u64) -> Vec<u8> {
-    payload(Some(
-        json!({"five_hour": {"used_percentage": used, "resets_at": 1_738_425_600}}),
-    ))
-}
+use support::statusline::{CANARY, hook_as_builder, hook_statusline, reading};
 
 #[cfg(unix)]
 fn hex_of(bytes: &[u8]) -> String {
     bytes.iter().map(|b| format!("{b:02x}")).collect()
-}
-
-/// `viola hook statusline` with `env` over an environment that never carries this process's own
-/// `VIOLA_*` names, `stdin` written from a thread (the arm stops reading at its cap).
-fn hook_statusline(env: &[(&str, OsString)], stdin: Vec<u8>) -> Ran {
-    let mut command = Command::new(VIOLA);
-    command
-        .args(["hook", "statusline"])
-        .env_remove("VIOLA_NAME")
-        .env_remove("VIOLA_DIR")
-        .env_remove("VIOLA_BIN")
-        .stdin(Stdio::piped())
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped());
-    for (key, value) in env {
-        command.env(key, value);
-    }
-    let mut child = command.spawn().expect("viola hook");
-    let mut input = child.stdin.take().expect("stdin");
-    let writer = std::thread::spawn(move || {
-        let _ = input.write_all(&stdin);
-    });
-    let ran = Running::over(child).finish();
-    let _ = writer.join();
-    ran
 }
 
 /// A stopped `builder` session in a home viola created.
@@ -83,11 +39,7 @@ struct Session {
 
 impl Session {
     fn hook(&self, stdin: Vec<u8>) -> Ran {
-        let env = [
-            ("VIOLA_NAME", OsString::from("builder")),
-            ("VIOLA_DIR", self.dir.as_os_str().to_owned()),
-        ];
-        hook_statusline(&env, stdin)
+        hook_as_builder(&self.dir, stdin)
     }
 
     fn role_lines(&self) -> Vec<Value> {
@@ -192,7 +144,10 @@ fn hook_statusline_passes_the_user_output_through_and_records_the_reading() {
     let budget = session.budget().expect("a reading");
     assert_eq!(budget["v"], 1);
     assert_eq!(budget["five_hour"]["used_percentage"].as_f64(), Some(91.0));
-    assert_eq!(budget["five_hour"]["resets_at"], "2025-02-01T16:00:00.000Z");
+    assert_eq!(
+        budget["five_hour"]["resets_at"],
+        support::statusline::PASSED_RESET_STORED
+    );
     assert_eq!(budget["seven_day"], "unknown");
     let read_at = budget["read_at"].as_str().expect("read_at");
     assert!(read_at.ends_with('Z') && read_at.len() == 24, "{read_at}");
@@ -235,7 +190,7 @@ fn hook_statusline_passes_the_user_output_through_and_records_the_reading() {
 #[test]
 fn hook_statusline_without_rate_limits_writes_no_reading_and_still_passes_through() {
     let session = session(unstamped(), Some(&[]));
-    let stdin = payload(None);
+    let stdin = support::statusline::payload(None);
     let ran = session.hook(stdin.clone());
     assert_silent_success(&ran, STATUSLINE_ECHO_OUTPUT);
     assert_eq!(session.budget(), None);
@@ -288,34 +243,41 @@ fn hook_statusline_without_a_recorded_command_prints_nothing_and_records_the_rea
     assert_eq!(violations(&lines), Vec::<String>::new());
 }
 
-/// A home another user can write: no command is run, nothing is printed, and neither the marker
-/// file nor `budget.json` moves.
+/// A home another user can write, on the first invocation and on the next one over the same
+/// home: no command is run, nothing is printed or logged, neither the marker file nor
+/// `budget.json` moves, and the home's mode is left as found, so the refusal lasts.
 #[cfg(unix)]
 #[test]
-fn hook_statusline_a_home_another_user_can_write_runs_nothing() {
+fn hook_statusline_a_home_another_user_can_write_runs_nothing_however_often() {
     use std::os::unix::fs::PermissionsExt as _;
     let session = session(unstamped(), Some(&[]));
     assert_silent_success(&session.hook(reading(91)), STATUSLINE_ECHO_OUTPUT);
     let marker = session.marker().expect("the first run's marker line");
-    let budget = fs::read(session.home.join("budget.json")).expect("the first reading");
-    let before = session.role_lines().len();
+    let budget = bytes_and_mtime(&session.home.join("budget.json"));
+    let lines = session.role_lines().len();
+    let mode = |path: &Path| fs::metadata(path).expect("meta").permissions().mode() & 0o777;
 
     fs::set_permissions(&session.home, fs::Permissions::from_mode(0o770)).expect("chmod");
-    let ran = session.hook(reading(12));
-    fs::set_permissions(&session.home, fs::Permissions::from_mode(0o700)).expect("chmod back");
+    for used in [12, 13] {
+        let ran = session.hook(reading(used));
+        assert_silent_success(&ran, "");
+        assert_eq!(session.marker(), Some(marker.clone()), "reading {used}");
+        assert_eq!(
+            bytes_and_mtime(&session.home.join("budget.json")),
+            budget,
+            "reading {used}"
+        );
+        assert_eq!(mode(&session.home), 0o770, "after reading {used}");
+    }
+    assert_eq!(session.role_lines().len(), lines, "a refused check logged");
 
-    assert_silent_success(&ran, "");
-    assert_eq!(session.marker(), Some(marker));
-    assert_eq!(
-        fs::read(session.home.join("budget.json")).expect("budget.json"),
-        budget
+    // The refusal was the home's: narrowed again by its owner, the arm serves it.
+    fs::set_permissions(&session.home, fs::Permissions::from_mode(0o700)).expect("chmod back");
+    assert_silent_success(&session.hook(reading(14)), STATUSLINE_ECHO_OUTPUT);
+    assert_ne!(
+        bytes_and_mtime(&session.home.join("budget.json")).0,
+        budget.0
     );
-    let lines = session.role_lines().split_off(before);
-    assert_eq!(events(&lines), ["hook-invoked", "hook-decision"]);
-    assert_eq!(lines[1]["detail"], "strict-modes-failed");
-    assert_eq!(lines[1]["budget_written"], false);
-    assert_eq!(lines[1]["level"], "WARN");
-    assert_eq!(violations(&lines), Vec::<String>::new());
 }
 
 #[rstest]

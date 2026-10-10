@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.7",
+"sha8": "f7323866",
+"ts": "2026-10-10T20:56:20Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-10-10-budget-governor",
+"--expect-prefix",
+"Budget governor",
+"--record-file",
+"./.andromeda/runs/2026-10-10T20-53-16-phase/master-record.txt",
+"--run-dir",
+"./.andromeda/runs/2026-10-10T20-53-16-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:119 - [2026-10-10-budget-governor]",
+"record master-route.md:63 - appended under `## viola-0.1.0`",
+"promoted 2026-10-10-budget-governor - working-route:119 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/working-route.md",
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+}
+]

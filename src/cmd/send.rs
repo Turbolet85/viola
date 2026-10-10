@@ -98,6 +98,16 @@ pub(super) fn reason_of(reason: &str) -> RefusalReason {
     serde_json::from_value(Value::from(reason)).unwrap_or(RefusalReason::Unknown)
 }
 
+/// What a refusal's hint is keyed by: the detail of a `not-delivered`, the reason itself for
+/// `human-typing` and `budget-paused` whatever their detail, and nothing for any other reason.
+fn hint_cause<'a>(reason: &'a str, detail: Option<&'a str>) -> Option<&'a str> {
+    match reason_of(reason) {
+        RefusalReason::NotDelivered => detail,
+        RefusalReason::HumanTyping | RefusalReason::BudgetPaused => Some(reason),
+        RefusalReason::UnverifiedCli | RefusalReason::Unknown => None,
+    }
+}
+
 /// The verb's outputs: one `--json` document, or the mirror lines.
 struct Out<'a> {
     name: &'a str,
@@ -143,12 +153,7 @@ impl Out<'_> {
             Some(detail) => format!("{reason}  {detail}"),
             None => reason.to_owned(),
         };
-        let cause = match detail {
-            Some(detail) if reason == RefusalReason::NotDelivered.as_str() => Some(detail),
-            _ if reason == RefusalReason::HumanTyping.as_str() => Some(reason),
-            _ => None,
-        };
-        let hint = cause.and_then(|cause| human::send_hint(self.name, cause));
+        let hint = hint_cause(reason, detail).and_then(|cause| human::send_hint(self.name, cause));
         let _ =
             human::write_send_unable(&mut io::stderr().lock(), self.name, &shown, hint.as_deref());
     }
@@ -293,6 +298,24 @@ mod tests {
     #[case::unlisted("wheel-held", 14)]
     fn exit_of_is_the_closed_table(#[case] reason: &str, #[case] exit: u8) {
         assert_eq!(exit_of(reason_of(reason)), exit);
+    }
+
+    #[rstest]
+    #[case::a_not_delivered_detail("not-delivered", Some("turn-running"), Some("turn-running"))]
+    #[case::not_delivered_alone("not-delivered", None, None)]
+    #[case::human_typing("human-typing", None, Some("human-typing"))]
+    #[case::a_manual_pause("human-typing", Some("manual-pause"), Some("human-typing"))]
+    #[case::budget_paused("budget-paused", Some("five-hour"), Some("budget-paused"))]
+    #[case::budget_paused_by_the_week("budget-paused", Some("seven-day"), Some("budget-paused"))]
+    #[case::unverified_cli("unverified-cli", None, None)]
+    #[case::unknown_with_a_detail("unknown", Some("turn-running"), None)]
+    #[case::an_unlisted_reason("wheel-held", Some("turn-running"), None)]
+    fn hint_cause_is_the_detail_of_a_not_delivered_and_the_reason_of_the_two_driver_refusals(
+        #[case] reason: &str,
+        #[case] detail: Option<&str>,
+        #[case] cause: Option<&str>,
+    ) {
+        assert_eq!(hint_cause(reason, detail), cause);
     }
 
     /// The home holds no instance, so a text that reached the endpoint read would end 21: exit 13

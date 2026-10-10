@@ -30,6 +30,7 @@ use viola_pty::PtyError;
 use viola_state::StateError;
 use viola_state::events::{EventLine, Source, append_event, append_event_at, end_offset};
 
+use crate::run::budget::{BudgetGate, Crossed, Trigger};
 use crate::run::gate::Gate;
 use crate::run::wait::WaitFeed;
 use crate::run::wheel::WheelSlot;
@@ -84,13 +85,14 @@ struct Flight {
     session: Option<String>,
 }
 
-/// The child's input and gate, set once the pump starts, the one send in flight, the wheel it
-/// reads before typing, and the version gate's reading.
+/// The child's input and gate, set once the pump starts, the budget gate, set by the start, the
+/// one send in flight, the wheel it reads before typing, and the version gate's reading.
 pub(crate) struct SendSlot {
     clock: Box<dyn Clock>,
     cli_verified: bool,
     wheel: Arc<WheelSlot>,
     io: OnceLock<(PasteFn, Gate)>,
+    budget: OnceLock<Arc<BudgetGate>>,
     flight: Mutex<Flight>,
     settled: Condvar,
 }
@@ -106,6 +108,7 @@ impl SendSlot {
             cli_verified,
             wheel,
             io: OnceLock::new(),
+            budget: OnceLock::new(),
             flight: Mutex::default(),
             settled: Condvar::new(),
         }
@@ -114,6 +117,11 @@ impl SendSlot {
     /// The first call wins; the pump calls it once, before it starts.
     pub(crate) fn attach(&self, paste: PasteFn, gate: Gate) {
         let _ = self.io.set((paste, gate));
+    }
+
+    /// The first call wins; the start calls it once, before the endpoint serves.
+    pub(crate) fn budget_with(&self, gate: Arc<BudgetGate>) {
+        let _ = self.budget.set(gate);
     }
 
     fn flight(&self) -> MutexGuard<'_, Flight> {
@@ -302,7 +310,8 @@ pub(crate) fn parse_from(params: &Value) -> Result<Option<ViolaName>, ProtocolEr
 /// refused character and then an empty typed text, before anything of the session is read. The
 /// wheel and the running turn are read twice, in that order both times: at arrival, and again
 /// once the gate's wait has ended, because that wait can run to `GATE_MAX_WAIT`. A human key or a
-/// turn that started during it refuses with nothing typed.
+/// turn that started during it refuses with nothing typed. The budget gate is evaluated once,
+/// between the first two readings, and never after the wait.
 pub(crate) fn send(
     slot: &SendSlot,
     name: &ViolaName,
@@ -332,6 +341,14 @@ pub(crate) fn send(
             RefusalReason::HumanTyping,
             detail.map(HumanTyping::as_str),
         );
+    }
+    if let Some(budget) = slot.budget.get() {
+        let crossed = budget
+            .evaluate(Trigger::Send, Utc::now())
+            .map_err(|_| ProtocolError::Internal)?;
+        if let Some(crossed) = crossed {
+            return ctx.budget_paused(&crossed);
+        }
     }
     let confirms = classify(text, slot.cli_verified);
     {
@@ -469,13 +486,35 @@ impl Ctx<'_> {
         self.refuse(cursor, RefusalReason::NotDelivered, Some(detail.as_str()))
     }
 
-    /// A refusal: before `send-issued` (no cursor; the line's `corr` is the end offset at refusal,
-    /// obs-plan D-28) or after it (the send's own cursor). Its line carries the wheel's holder.
     fn refuse(
         &self,
         cursor: Option<u64>,
         refusal: RefusalReason,
         detail: Option<&'static str>,
+    ) -> Result<Value, ProtocolError> {
+        self.refuse_with(cursor, refusal, detail, None)
+    }
+
+    /// `budget-paused` with the crossed window's word as its detail: before `send-issued`, so no
+    /// cursor.
+    fn budget_paused(&self, crossed: &Crossed) -> Result<Value, ProtocolError> {
+        self.refuse_with(
+            None,
+            RefusalReason::BudgetPaused,
+            Some(crossed.window.as_str()),
+            Some(crossed),
+        )
+    }
+
+    /// A refusal: before `send-issued` (no cursor; the line's `corr` is the end offset at refusal,
+    /// obs-plan D-28) or after it (the send's own cursor). Its line carries the wheel's holder,
+    /// and for a budget refusal the crossed window's figures.
+    fn refuse_with(
+        &self,
+        cursor: Option<u64>,
+        refusal: RefusalReason,
+        detail: Option<&'static str>,
+        budget: Option<&Crossed>,
     ) -> Result<Value, ProtocolError> {
         let mut data = json!({"refusal": refusal.as_str(), "detail": detail});
         if let Some(cursor) = cursor {
@@ -499,6 +538,10 @@ impl Ctx<'_> {
             wheel = self.wheel.holder().as_str(),
             refusal = refusal.as_str(),
             detail = detail,
+            window = budget.map(|crossed| crossed.window.as_str()),
+            used_percentage = budget.map(|crossed| crossed.used_percentage),
+            resets_at = budget.map(|crossed| crossed.resets_at.as_str()),
+            paused = budget.map(|_| true),
         );
         Ok(json!({"refusal": refusal.as_str(), "detail": detail}))
     }
@@ -511,11 +554,17 @@ mod tests {
     use std::sync::mpsc;
 
     use rstest::rstest;
+    use tracing_subscriber::layer::{Context, Layer, SubscriberExt as _};
     use viola_agent_claude::screen::SIGNATURES;
+    use viola_channel::test_support::JsonFields as Fields;
+    use viola_core::{BudgetReading, BudgetWindow, Reading};
     use viola_pty::Size;
+    use viola_state::budget::write_budget;
     use viola_state::snapshot::Wheel;
 
+    use crate::run::budget::Thresholds;
     use crate::run::gate;
+    use crate::run::snapshot::Snapshots;
 
     const CANARY: &str = "canary-chain-value-5c1e\nsecond line";
 
@@ -1917,5 +1966,305 @@ mod tests {
     #[test]
     fn send_confirm_window_is_the_fallback() {
         assert_eq!(window_ms(), 10_000);
+    }
+
+    /// A reset far ahead of any run.
+    const RESET: &str = "2099-01-01T00:00:00.000Z";
+
+    fn used(percentage: f64) -> Reading<BudgetWindow> {
+        Reading::Known(BudgetWindow {
+            used_percentage: Reading::Known(percentage),
+            resets_at: Reading::Known(RESET.to_owned()),
+        })
+    }
+
+    /// A home under `root` holding one instance directory, and that instance's budget gate.
+    fn budget_rig(root: &Path) -> (std::path::PathBuf, std::path::PathBuf, Arc<BudgetGate>) {
+        let home = root.join("vhome");
+        let instance_dir = home.join("instances").join("builder");
+        viola_state::fs::create_private_dir(&instance_dir).expect("the instance dir");
+        let gate = Arc::new(BudgetGate::new(
+            name(),
+            instance_dir.clone(),
+            home.clone(),
+            Thresholds::default(),
+            Arc::new(Snapshots::new(instance_dir.clone())),
+        ));
+        (home, instance_dir, gate)
+    }
+
+    fn feed_budget(home: &Path, five_hour: f64, seven_day: f64) {
+        let reading = BudgetReading {
+            five_hour: used(five_hour),
+            seven_day: used(seven_day),
+        };
+        write_budget(home, &reading, Utc::now()).expect("budget.json");
+    }
+
+    /// A [`mute_child`] whose budget gate reads the home under `root`: the instance directory to
+    /// send in, the slot and its pastes.
+    fn budgeted(
+        root: &Path,
+        five_hour: f64,
+        seven_day: f64,
+    ) -> (std::path::PathBuf, SendSlot, Pastes) {
+        let (home, instance_dir, gate) = budget_rig(root);
+        feed_budget(&home, five_hour, seven_day);
+        let (slot, pastes) = mute_child();
+        slot.budget_with(gate);
+        (instance_dir, slot, pastes)
+    }
+
+    /// [`Fields`], with an `f64` kept a number, as the process log's JSON writer keeps it.
+    #[derive(Default)]
+    struct NumberFields(Fields);
+
+    impl tracing::field::Visit for NumberFields {
+        fn record_f64(&mut self, field: &tracing::field::Field, value: f64) {
+            self.0.0.insert(field.name().to_owned(), value.into());
+        }
+        fn record_debug(&mut self, field: &tracing::field::Field, value: &dyn std::fmt::Debug) {
+            self.0.record_debug(field, value);
+        }
+        fn record_str(&mut self, field: &tracing::field::Field, value: &str) {
+            self.0.record_str(field, value);
+        }
+        fn record_u64(&mut self, field: &tracing::field::Field, value: u64) {
+            self.0.record_u64(field, value);
+        }
+        fn record_i64(&mut self, field: &tracing::field::Field, value: i64) {
+            self.0.record_i64(field, value);
+        }
+        fn record_bool(&mut self, field: &tracing::field::Field, value: bool) {
+            self.0.record_bool(field, value);
+        }
+    }
+
+    /// Every line the calling thread emits, its fields as JSON.
+    #[derive(Clone, Default)]
+    struct Lines(Arc<Mutex<Vec<Value>>>);
+
+    impl<S: tracing::Subscriber> Layer<S> for Lines {
+        fn on_event(&self, event: &tracing::Event<'_>, _: Context<'_, S>) {
+            let mut fields = NumberFields::default();
+            event.record(&mut fields);
+            let fields = fields.0.0;
+            self.0.lock().expect("lines").push(Value::Object(fields));
+        }
+    }
+
+    fn capture_lines<R>(f: impl FnOnce() -> R) -> (R, Vec<Value>) {
+        let lines = Lines::default();
+        let subscriber = tracing_subscriber::registry().with(lines.clone());
+        let out = tracing::subscriber::with_default(subscriber, f);
+        let got = lines.0.lock().expect("lines").clone();
+        (out, got)
+    }
+
+    /// A window over its threshold refuses the send with the window's word: nothing is typed, no
+    /// cursor is given, and the one wrapper line carries the crossed window's figures. The gate's
+    /// change is recorded once, ahead of the first refusal.
+    #[rstest]
+    #[case::five_hour(91.0, 10.0, "five-hour", 91.0)]
+    #[case::five_hour_at_its_threshold(90.0, 10.0, "five-hour", 90.0)]
+    #[case::seven_day(10.0, 86.0, "seven-day", 86.0)]
+    #[case::both_name_five_hour(95.0, 99.0, "five-hour", 95.0)]
+    fn send_budget_paused_is_refused_with_the_window_word_and_no_cursor(
+        #[case] five_hour: f64,
+        #[case] seven_day: f64,
+        #[case] window: &str,
+        #[case] crossed: f64,
+    ) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (dir, slot, pastes) = budgeted(tmp.path(), five_hour, seven_day);
+        let params = json!({"v": 1, "text": "hello", "from": "overseer"});
+        let (reply, lines) = capture_lines(|| send(&slot, &name(), &dir, &call(&params, 7)));
+        assert_eq!(
+            reply.expect("answered"),
+            json!({"refusal": "budget-paused", "detail": window})
+        );
+        assert!(pastes.all().is_empty(), "nothing typed");
+        assert!(slot.flight().send.is_none(), "nothing reserved");
+        assert_eq!(kinds(&dir), ["budget-gate", "send-refused"]);
+        assert_eq!(
+            events(&dir)[0]["data"],
+            json!({"paused": true, "window": window})
+        );
+        assert_eq!(
+            events(&dir)[1]["data"],
+            json!({"refusal": "budget-paused", "detail": window})
+        );
+        assert_refused_without_a_cursor(&dir, Some(window));
+
+        let mut line = lines
+            .iter()
+            .find(|l| l["event"] == "send-refused")
+            .expect("a send-refused line")
+            .clone();
+        assert!(line["corr"].is_u64(), "{line}");
+        for read in ["corr", "process", "instance"] {
+            line.as_object_mut().expect("object").remove(read);
+        }
+        assert_eq!(
+            line,
+            json!({"event": "send-refused", "message": "send-refused", "rpc_id": 7,
+                "conn": "cli-1-2-3", "from": "overseer", "from_trust": "self-reported",
+                "side": "wrapper", "wheel": "driver", "refusal": "budget-paused",
+                "detail": window, "window": window, "used_percentage": crossed,
+                "resets_at": RESET, "paused": true})
+        );
+        assert!(!lines.iter().any(|l| l["event"] == "send-issued"));
+
+        let again = send(&slot, &name(), &dir, &call(&params, 8)).expect("answered");
+        assert_eq!(again, json!({"refusal": "budget-paused", "detail": window}));
+        assert_eq!(kinds(&dir), ["budget-gate", "send-refused", "send-refused"]);
+    }
+
+    /// A refusal that is not the gate's carries none of the gate's four fields.
+    #[test]
+    fn send_budget_paused_fields_are_on_no_other_refusal() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (dir, slot, _pastes) = budgeted(tmp.path(), 10.0, 10.0);
+        slot.wheel.turn_started();
+        let params = json!({"v": 1, "text": "hello"});
+        let (reply, lines) = capture_lines(|| send(&slot, &name(), &dir, &call(&params, 1)));
+        assert_eq!(
+            reply.expect("answered"),
+            json!({"refusal": "not-delivered", "detail": "turn-running"})
+        );
+        let line = lines
+            .iter()
+            .find(|l| l["event"] == "send-refused")
+            .expect("a send-refused line");
+        for absent in ["window", "used_percentage", "resets_at", "paused"] {
+            assert!(line.get(absent).is_none(), "{absent} in {line}");
+        }
+    }
+
+    /// The gate stands after the wheel: under a human wheel the refusal is `human-typing`, and the
+    /// gate is not read, so it records nothing.
+    #[test]
+    fn send_budget_paused_comes_after_human_typing() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (dir, slot, pastes) = budgeted(tmp.path(), 91.0, 10.0);
+        slot.wheel.human_input();
+        let params = json!({"v": 1, "text": "hello"});
+        let reply = send(&slot, &name(), &dir, &call(&params, 1)).expect("answered");
+        assert_eq!(reply, json!({"refusal": "human-typing", "detail": null}));
+        assert_eq!(kinds(&dir), ["send-refused"]);
+        assert!(pastes.all().is_empty(), "nothing typed");
+    }
+
+    /// The text's own refusals stand ahead of the gate too, and leave it unread.
+    #[rstest]
+    #[case::a_refused_character("\u{1b}", "control-character")]
+    #[case::an_empty_typed_text("\r\n", "empty-text")]
+    fn send_budget_paused_comes_after_the_text_refusals(#[case] text: &str, #[case] detail: &str) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (dir, slot, _pastes) = budgeted(tmp.path(), 91.0, 10.0);
+        let params = json!({"v": 1, "text": text});
+        let reply = send(&slot, &name(), &dir, &call(&params, 1)).expect("answered");
+        assert_eq!(reply, json!({"refusal": "not-delivered", "detail": detail}));
+        assert_eq!(kinds(&dir), ["send-refused"]);
+    }
+
+    /// The gate stands ahead of the running turn, whether a hook line or another send holds it,
+    /// and leaves the turn running.
+    #[rstest]
+    #[case::a_turn_the_hooks_started(false)]
+    #[case::another_send_in_flight(true)]
+    fn send_budget_paused_comes_before_turn_running(#[case] in_flight: bool) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (dir, slot, pastes) = budgeted(tmp.path(), 91.0, 10.0);
+        if in_flight {
+            occupy(&slot);
+        } else {
+            slot.wheel.turn_started();
+        }
+        let params = json!({"v": 1, "text": "hello"});
+        let reply = send(&slot, &name(), &dir, &call(&params, 1)).expect("answered");
+        assert_eq!(
+            reply,
+            json!({"refusal": "budget-paused", "detail": "five-hour"})
+        );
+        assert!(pastes.all().is_empty(), "nothing typed");
+        assert_eq!(
+            slot.wheel.turn_running(),
+            !in_flight,
+            "the turn is as it was"
+        );
+        assert_eq!(
+            slot.flight().send.is_some(),
+            in_flight,
+            "the slot is as it was"
+        );
+    }
+
+    /// Under both thresholds the send goes on down the order: typed, then never submitted by the
+    /// mute child. The gate, still open, records nothing.
+    #[test]
+    fn send_budget_paused_does_not_refuse_under_the_thresholds() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (dir, slot, pastes) = budgeted(tmp.path(), 89.0, 84.0);
+        let params = json!({"v": 1, "text": "hello"});
+        let reply = send(&slot, &name(), &dir, &call(&params, 1)).expect("answered");
+        assert_eq!(
+            reply,
+            json!({"refusal": "not-delivered", "detail": "no-prompt-submitted"})
+        );
+        assert_eq!(pastes.all(), ["hello"]);
+        assert_eq!(kinds(&dir), ["send-issued", "send-refused"]);
+    }
+
+    /// The gate is read once, at arrival: a reading that crosses a threshold while the readiness
+    /// gate waits does not refuse the send that is already past the rung. The next send is.
+    #[test]
+    fn send_budget_paused_is_not_read_again_after_the_gate_wait() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (home, dir, budget) = budget_rig(tmp.path());
+        feed_budget(&home, 10.0, 10.0);
+        let base = Instant::now();
+        let clock = WaitClock {
+            now: Arc::new(Mutex::new(base)),
+            at: base + Duration::from_secs(3),
+            during: Mutex::new(Some(Box::new(move || feed_budget(&home, 91.0, 10.0)))),
+        };
+        let slot = SendSlot::new(clock, true, Arc::default());
+        slot.budget_with(budget);
+        let (pastes, _pasted) = Pastes::new();
+        let gate = verified_gate(
+            base + Duration::from_secs(3),
+            &["❯ ", "  ⏸ manual mode on · ← for agents"],
+        );
+        slot.attach(pastes.paste_fn(), gate);
+        let params = json!({"v": 1, "text": "hello"});
+        let reply = send(&slot, &name(), &dir, &call(&params, 1)).expect("answered");
+        assert_eq!(
+            reply,
+            json!({"refusal": "not-delivered", "detail": "no-prompt-submitted"})
+        );
+        assert_eq!(pastes.all(), ["hello"], "typed after the wait");
+        assert_eq!(kinds(&dir), ["send-issued", "send-refused"]);
+
+        let next = send(&slot, &name(), &dir, &call(&params, 2)).expect("answered");
+        assert_eq!(
+            next,
+            json!({"refusal": "budget-paused", "detail": "five-hour"})
+        );
+        assert_eq!(pastes.all(), ["hello"], "nothing more typed");
+    }
+
+    /// A gate change that cannot be recorded answers `-32603`, and nothing is typed.
+    #[test]
+    fn send_budget_paused_whose_record_cannot_land_is_internal() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (dir, slot, pastes) = budgeted(tmp.path(), 91.0, 10.0);
+        std::fs::remove_dir_all(&dir).expect("the instance dir gone");
+        let params = json!({"v": 1, "text": "hello"});
+        assert_eq!(
+            send(&slot, &name(), &dir, &call(&params, 1)),
+            Err(ProtocolError::Internal)
+        );
+        assert!(pastes.all().is_empty(), "nothing typed");
     }
 }

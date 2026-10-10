@@ -99,6 +99,11 @@ path = "tests/hook_statusline.rs"
 required-features = ["fake-agent"]
 
 [[test]]
+name = "cli_budget"
+path = "tests/cli_budget.rs"
+required-features = ["fake-agent"]
+
+[[test]]
 name = "cli_controls_not_disableable"
 path = "tests/cli_controls_not_disableable.rs"
 required-features = ["fake-agent"]

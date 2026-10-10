@@ -1,0 +1,265 @@
+[
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T20:54:01Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"./viola-0.1.0/chunks/2026-10-10-budget-governor",
+"--message-file",
+"./.andromeda/runs/2026-10-10T20-53-16-phase/relay-1.md",
+"--origin",
+"the operator, the /andromeda-phase invocation, 2026-10-10T20:53Z",
+"--kind",
+"relay",
+"--why",
+"the six operator notes at take-up: no mutation, witness or dispatch; the founder-held row, probe, re-stamp and live starts; the revive defect in scope; a widening shown unsettled; the cut; the CI read",
+"--step",
+"phase:P1",
+"--run-dir",
+"./.andromeda/runs/2026-10-10T20-53-16-phase",
+"--marker",
+"2026-10-10-budget-governor"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-10T20:53Z",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, the /andromeda-phase invocation, 2026-10-10T20:53Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "40b50691bd8d142c2153666c597407a4f997e09b0b3e1f132b16f07f9523795c",
+"copy": "I1-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-10T20:54:01Z",
+"step": "phase:P1",
+"why": "the six operator notes at take-up: no mutation, witness or dispatch; the founder-held row, probe, re-stamp and live starts; the revive defect in scope; a widening shown unsettled; the cut; the CI read"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T20:54:01Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"./viola-0.1.0/chunks/2026-10-10-budget-governor",
+"--source",
+"~/.claude/projects/~-dev-projects-viola/memory/founder-rulings-stand-until-his-word.md",
+"--kind",
+"memory",
+"--why",
+"a founder ruling stands until his own word: a departure is planned behind a stop rule and asked as a fork, never a confirm item",
+"--step",
+"phase:P1",
+"--run-dir",
+"./.andromeda/runs/2026-10-10T20-53-16-phase",
+"--marker",
+"2026-10-10-budget-governor"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy no-repo · ~/.claude/projects/~-dev-projects-viola/memory/founder-rulings-stand-until-his-word.md",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-founder-rulings-stand-until-his-word.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "memory",
+"repo": null,
+"path": "~/.claude/projects/~-dev-projects-viola/memory/founder-rulings-stand-until-his-word.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "b8c95f176e92c3c219ff2629f5acd2cced26d770db0b8329cc93134df9ae58f3",
+"copy": "I2-founder-rulings-stand-until-his-word.md.txt",
+"link": false,
+"read_at": "2026-10-10T20:54:01Z",
+"step": "phase:P1",
+"why": "a founder ruling stands until his own word: a departure is planned behind a stop rule and asked as a fork, never a confirm item"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T21:17:03Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"./viola-0.1.0/chunks/2026-10-10-budget-governor",
+"--message-file",
+"./.andromeda/runs/2026-10-10T20-53-16-phase/relay-2.md",
+"--origin",
+"the operator, the P4 fork round of this phase session, 2026-10-10",
+"--kind",
+"relay",
+"--why",
+"the four P4 answers: a refused check leaves no log line and its cost goes on the card; an unknown resets_at does not pause; release --budget with no pause records nothing and its wording is the founder-s; an override does not outlive its wrapper",
+"--step",
+"phase:P4",
+"--run-dir",
+"./.andromeda/runs/2026-10-10T20-53-16-phase",
+"--marker",
+"2026-10-10-budget-governor"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: the operator, the P4 fork round of this phase session, 2026-10-10",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, the P4 fork round of this phase session, 2026-10-10",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "3361268ada9fb8e7e98152898bc8cff2f999b985f5ee65fd81ae45b76f52f57a",
+"copy": "I3-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-10T21:17:03Z",
+"step": "phase:P4",
+"why": "the four P4 answers: a refused check leaves no log line and its cost goes on the card; an unknown resets_at does not pause; release --budget with no pause records nothing and its wording is the founder-s; an override does not outlive its wrapper"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T21:24:27Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-budget-governor",
+"--run-dir",
+".andromeda/runs/2026-10-10T20-53-16-phase",
+"--marker",
+"2026-10-10-budget-governor"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-10T20:53Z",
+"I1 cited scope.md:10 · scope.md:180 · scope.md:203 · scope.md:246 · scope.md:254 · scope.md:264 · scope.md:298 · research.md:14 · plan.md:18 · plan.md:25 · plan.md:191 · plan.md:231 · plan.md:234 · plan.md:451",
+"I2 unchanged · copy no-repo · ~/.claude/projects/~-dev-projects-viola/memory/founder-rulings-stand-until-his-word.md",
+"I2 cited scope.md:21 · research.md:14 · plan.md:451",
+"I3 n/a — a message has no live source · copy message · message: the operator, the P4 fork round of this phase session, 2026-10-10",
+"I3 cited scope.md:133 · scope.md:149 · scope.md:173 · scope.md:195 · scope.md:211 · plan.md:21 · plan.md:57 · plan.md:76 · plan.md:94 · plan.md:105 · plan.md:452 · plan.md:461 · plan.md:466 · plan.md:492",
+"inputs: 3 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T21:26:08Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-budget-governor",
+"--message-file",
+".andromeda/runs/2026-10-10T20-53-16-phase/relay-3.md",
+"--origin",
+"the operator, the P5 review of this phase session, 2026-10-10",
+"--kind",
+"relay",
+"--why",
+"the approval word: the plan as it is, the cut confirmed (the harness flag and the harness-session Path 6 to The board: viola list), the leans confirmed, the four founder items sent to him before the operator pass",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-10-10T20-53-16-phase",
+"--marker",
+"2026-10-10-budget-governor"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy message · message: the operator, the P5 review of this phase session, 2026-10-10",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-relay-3.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, the P5 review of this phase session, 2026-10-10",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "0a0dc49706ac3448bf099be994de21f367dd66262481369dc6e14b9f9ed05e60",
+"copy": "I4-relay-3.md.txt",
+"link": false,
+"read_at": "2026-10-10T21:26:08Z",
+"step": "phase:P5",
+"why": "the approval word: the plan as it is, the cut confirmed (the harness flag and the harness-session Path 6 to The board: viola list), the leans confirmed, the four founder items sent to him before the operator pass"
+}
+}
+]

@@ -1,9 +1,10 @@
 //! No setting disables a control (test-plan §5 CLI and env, Vector 6; security-plan §Security
 //! Anti-Patterns → Universal): each row sets a variable to a disabling-shaped value and re-runs the
 //! controls on its path, which must give the same verdict as without it. Interim shape: the rows
-//! cover the hook-path controls, `send`'s paste control, `answer` on an unstamped CLI and `send`
-//! under a human wheel or during a running turn; the other verb negative (a 0770 `--home`) and the completeness case join
-//! with their chunks.
+//! cover the hook-path controls, `send`'s paste control, `answer` on an unstamped CLI, `send`
+//! under a human wheel or during a running turn, and the budget gate under a threshold key that is
+//! no percentage; the other verb negative (a 0770 `--home`) and the completeness case join with
+//! their chunks.
 
 #[allow(dead_code)]
 mod support;
@@ -16,7 +17,8 @@ use std::time::Instant;
 
 use rstest::rstest;
 use serde_json::{Value, json};
-use support::home::{StampedHome, TestHome, VIOLA, Wrapper, workspace_path};
+use support::home::{StampedHome, TestHome, VIOLA, Wrapper, stamped_home, workspace_path};
+use support::statusline::{feed, usage};
 use support::watch::{WITHIN, Watch};
 
 const CANARY: &str = "canary-chain-value-5c1e";
@@ -337,5 +339,38 @@ fn setting_does_not_disable_the_send_turn_running_control() {
             "{\"v\":1,\"refusal\":\"not-delivered\",\"detail\":\"turn-running\"}\n",
         );
     }
+    wrapper.stop();
+}
+
+/// No value of a threshold key switches the budget gate off (test-plan §5 Vector 6): with
+/// `five_hour` set to a value that is no whole percentage, the key falls back to its default, the
+/// start says so once, and a `send` after a five-hour reading of 91 is still refused (exit 11).
+#[rstest]
+#[case::over_one_hundred("101")]
+#[case::negative("-1")]
+#[case::a_string("\"90\"")]
+fn setting_does_not_disable_the_budget_gate(stamped_home: StampedHome, #[case] value: &str) {
+    let home = stamped_home.home.path().to_path_buf();
+    std::fs::write(
+        home.join("config.json"),
+        format!("{{\"v\":1,\"five_hour\":{value}}}"),
+    )
+    .expect("config.json");
+    let wrapper = support::events::boot(stamped_home, None, &[]);
+    feed(&wrapper.instance_dir(), usage(91, 10));
+    assert_send_control_holds(
+        &wrapper,
+        None,
+        11,
+        "{\"v\":1,\"refusal\":\"budget-paused\",\"detail\":\"five-hour\"}\n",
+    );
+    let rejected: Vec<Value> =
+        support::ndjson::read_lines(&home.join("diagnostics").join("run-builder.ndjson"))
+            .into_iter()
+            .filter(|l| l["event"] == "parse-rejected")
+            .collect();
+    assert_eq!(rejected.len(), 1, "{rejected:?}");
+    assert_eq!(rejected[0]["parser"], "config-json");
+    assert_eq!(rejected[0]["detail"], "malformed");
     wrapper.stop();
 }

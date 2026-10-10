@@ -47,6 +47,9 @@ pub struct InstanceSnapshot {
     pub cli_version: Option<String>,
     pub wheel: Wheel,
     pub budget_paused: bool,
+    /// The end of a standing `release --budget` override: the crossed window's `resets_at`.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub budget_override_until: Option<String>,
     #[serde(default)]
     pub links: Vec<Value>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -175,6 +178,7 @@ mod tests {
             cli_version: None,
             wheel: Wheel::Driver,
             budget_paused: false,
+            budget_override_until: None,
             links: Vec::new(),
             child_pid,
             pending_dialog: None,

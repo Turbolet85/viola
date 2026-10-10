@@ -244,3 +244,23 @@ fn state_events_a_log_cut_short_takes_the_next_append_on_a_fresh_line() {
     let (from_the_cut, _) = read(tmp.path(), cut);
     assert_eq!(from_the_cut, [lines[2].clone()]);
 }
+
+/// The three shapes a wrapper writes for its budget gate: each is returned with its `data` whole,
+/// and none of its keys is counted as outside the contract.
+#[test]
+fn state_events_budget_gate_lines_with_a_window_and_with_an_override_read_back_whole() {
+    let tmp = tempfile::tempdir().expect("tempdir");
+    let written = [
+        json!({"paused": false}),
+        json!({"paused": true, "window": "five-hour"}),
+        json!({"paused": false, "override_until": "2025-02-01T16:00:00.000Z"}),
+    ];
+    for data in &written {
+        append(tmp.path(), EventKind::BudgetGate, data.clone());
+    }
+    let (lines, skipped) = read(tmp.path(), 0);
+    assert_eq!(kinds(&lines), ["budget-gate"; 3]);
+    let read_back: Vec<&Value> = lines.iter().map(|l| &l.value["data"]).collect();
+    assert_eq!(read_back, written.iter().collect::<Vec<_>>());
+    assert_eq!(skipped, NONE_SKIPPED);
+}

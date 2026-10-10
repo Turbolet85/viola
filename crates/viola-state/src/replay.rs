@@ -181,6 +181,7 @@ mod tests {
             cli_version: None,
             wheel: Wheel::Driver,
             budget_paused: false,
+            budget_override_until: None,
             links: Vec::new(),
             child_pid: None,
             pending_dialog: None,

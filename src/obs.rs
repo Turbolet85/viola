@@ -30,7 +30,13 @@ const VIOLA_TARGETS: [&str; 8] = [
     "viola_ui",
 ];
 
-const CONFIG_KEYS: [&str; 3] = ["v", "diagnostics_level", "claude_env_keep"];
+const CONFIG_KEYS: [&str; 5] = [
+    "v",
+    "diagnostics_level",
+    "claude_env_keep",
+    "five_hour",
+    "seven_day",
+];
 
 static STARTED: OnceLock<Instant> = OnceLock::new();
 
@@ -439,6 +445,16 @@ mod tests {
         Some(r#"{"v":1,"diagnostics_level":"debug","port":1,"x":true}"#),
         Level::DEBUG,
         Some(ConfigRejection::UnknownKeys(2))
+    )]
+    #[case::every_known_key(
+        Some(r#"{"v":1,"diagnostics_level":"debug","claude_env_keep":[],"five_hour":90,"seven_day":85}"#),
+        Level::DEBUG,
+        None
+    )]
+    #[case::the_threshold_keys_beside_an_unknown_one(
+        Some(r#"{"v":1,"five_hour":"x","seven_day":101,"six_hour":1}"#),
+        Level::INFO,
+        Some(ConfigRejection::UnknownKeys(1))
     )]
     fn read_diagnostics_level_cases(
         #[case] config: Option<&str>,

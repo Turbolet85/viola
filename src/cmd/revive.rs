@@ -53,7 +53,8 @@ enum Refusal {
 }
 
 impl Refusal {
-    /// The closed `process-exit` detail (obs-plan §6).
+    /// The closed `process-exit` detail (obs-plan §6). A refused strict-modes check is written
+    /// with no line, so no line carries its detail.
     const fn detail(self) -> &'static str {
         match self {
             Self::StrictModes => "strict-modes-failed",
@@ -98,6 +99,12 @@ pub(crate) fn revive(home: &Path, args: ReviveArgs) -> anyhow::Result<ExitCode> 
     if args.list {
         return list(home, &args.name);
     }
+    // Before the log opens: opening it narrows the home to its owner, which would erase the very
+    // state this check refuses. A refused check opens nothing under the home and writes no line.
+    if !trusted(home, &args.name)? {
+        Refusal::StrictModes.write(&args.name);
+        return Ok(ExitCode::from(1));
+    }
     let persistent = open_wrapper_log(home, &args.name)?;
     let started = match preflight(home, args)? {
         Ok(launch) => start(home, &launch, &persistent)?,
@@ -109,18 +116,21 @@ pub(crate) fn revive(home: &Path, args: ReviveArgs) -> anyhow::Result<ExitCode> 
     }
 }
 
-/// The four readings in their fixed order: strict-modes on the files, the name's holder, the
-/// logged session, the recorded directory. Each is taken only when every one before it passed, so
-/// the first refusal wins and a refused instance is read no further.
+/// Whether the instance's home and files pass the strict-modes check.
+fn trusted(home: &Path, name: &ViolaName) -> anyhow::Result<bool> {
+    let home = std::path::absolute(home)?;
+    let instance_dir = home.join("instances").join(AsRef::<str>::as_ref(name));
+    Ok(check_instance(&home, &instance_dir).is_ok())
+}
+
+/// The three readings in their fixed order, taken once the strict-modes check has passed: the
+/// name's holder, the logged session, the recorded directory. Each is taken only when every one
+/// before it passed, so the first refusal wins and a refused instance is read no further.
 fn preflight_order<R, S, D>(
-    strict_modes: impl FnOnce() -> Option<R>,
     holder: impl FnOnce() -> Option<R>,
     session: impl FnOnce() -> anyhow::Result<Result<S, R>>,
     recorded_dir: impl FnOnce(&S) -> Result<D, R>,
 ) -> anyhow::Result<Result<(S, D), R>> {
-    if let Some(refusal) = strict_modes() {
-        return Ok(Err(refusal));
-    }
     if let Some(refusal) = holder() {
         return Ok(Err(refusal));
     }
@@ -141,11 +151,6 @@ fn preflight(home: &Path, args: ReviveArgs) -> anyhow::Result<Result<Launch, Sta
         refused(refusal.detail())
     };
     let passed = preflight_order(
-        || {
-            check_instance(&home, &instance_dir)
-                .is_err()
-                .then(|| refuse(Refusal::StrictModes))
-        },
         || collision_check(name, &instance_dir),
         || {
             let recovered = read_snapshot_or_replay(&instance_dir)?;
@@ -200,12 +205,12 @@ fn recorded_dir(recovered: &Recovered) -> Option<PathBuf> {
 /// `--list`: one stdout line per logged session, oldest first. It starts nothing and opens no
 /// process log.
 fn list(home: &Path, name: &ViolaName) -> anyhow::Result<ExitCode> {
-    let home = std::path::absolute(home)?;
-    let instance_dir = home.join("instances").join(AsRef::<str>::as_ref(name));
-    if check_instance(&home, &instance_dir).is_err() {
+    if !trusted(home, name)? {
         Refusal::StrictModes.write(name);
         return Ok(ExitCode::from(1));
     }
+    let home = std::path::absolute(home)?;
+    let instance_dir = home.join("instances").join(AsRef::<str>::as_ref(name));
     let rows = list_rows(&session_chain(&instance_dir)?.links);
     if rows.is_empty() {
         Refusal::NoSession.write(name);
@@ -256,48 +261,28 @@ mod tests {
 
     /// Each reading answers what the case gives it and writes its own name down when it is taken.
     #[rstest]
-    #[case::the_pass([None, None, None, None], None, "strict holder session dir")]
-    #[case::strict_alone([Some("strict"), None, None, None], Some("strict"), "strict")]
-    #[case::holder_alone([None, Some("holder"), None, None], Some("holder"), "strict holder")]
-    #[case::session_alone(
-        [None, None, Some("session"), None],
-        Some("session"),
-        "strict holder session"
-    )]
-    #[case::dir_alone([None, None, None, Some("dir")], Some("dir"), "strict holder session dir")]
-    #[case::strict_before_holder(
-        [Some("strict"), Some("holder"), None, None],
-        Some("strict"),
-        "strict"
-    )]
-    #[case::strict_before_session(
-        [Some("strict"), None, Some("session"), None],
-        Some("strict"),
-        "strict"
-    )]
-    #[case::strict_before_dir([Some("strict"), None, None, Some("dir")], Some("strict"), "strict")]
+    #[case::the_pass([None, None, None], None, "holder session dir")]
+    #[case::holder_alone([Some("holder"), None, None], Some("holder"), "holder")]
+    #[case::session_alone([None, Some("session"), None], Some("session"), "holder session")]
+    #[case::dir_alone([None, None, Some("dir")], Some("dir"), "holder session dir")]
     #[case::holder_before_session(
-        [None, Some("holder"), Some("session"), None],
+        [Some("holder"), Some("session"), None],
         Some("holder"),
-        "strict holder"
+        "holder"
     )]
-    #[case::holder_before_dir(
-        [None, Some("holder"), None, Some("dir")],
-        Some("holder"),
-        "strict holder"
-    )]
+    #[case::holder_before_dir([Some("holder"), None, Some("dir")], Some("holder"), "holder")]
     #[case::session_before_dir(
-        [None, None, Some("session"), Some("dir")],
+        [None, Some("session"), Some("dir")],
         Some("session"),
-        "strict holder session"
+        "holder session"
     )]
-    #[case::all_four(
-        [Some("strict"), Some("holder"), Some("session"), Some("dir")],
-        Some("strict"),
-        "strict"
+    #[case::all_three(
+        [Some("holder"), Some("session"), Some("dir")],
+        Some("holder"),
+        "holder"
     )]
     fn preflight_order_the_first_refusal_wins_and_no_later_reading_is_taken(
-        #[case] readings: [Option<&'static str>; 4],
+        #[case] readings: [Option<&'static str>; 3],
         #[case] refusal: Option<&'static str>,
         #[case] taken: &str,
     ) {
@@ -306,9 +291,8 @@ mod tests {
             log.borrow_mut().push(name);
             answer
         };
-        let [strict, holder, session, dir] = readings;
+        let [holder, session, dir] = readings;
         let got = preflight_order(
-            || read("strict", strict),
             || read("holder", holder),
             || Ok(read("session", session).map_or(Ok("the session"), Err)),
             |session: &&str| {
@@ -327,7 +311,6 @@ mod tests {
         let dir_taken = RefCell::new(false);
         let got: anyhow::Result<Result<((), ()), &str>> = preflight_order(
             || None,
-            || None,
             || Err(anyhow::anyhow!("unreadable")),
             |(): &()| {
                 *dir_taken.borrow_mut() = true;
@@ -336,6 +319,39 @@ mod tests {
         );
         assert!(got.is_err());
         assert!(!*dir_taken.borrow());
+    }
+
+    fn builder() -> ViolaName {
+        ViolaName::try_new("builder".to_owned()).expect("valid")
+    }
+
+    #[test]
+    fn preflight_check_passes_a_home_viola_laid_down_and_one_not_there_yet() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = tmp.path().join("vhome");
+        assert!(trusted(&home, &builder()).expect("read"));
+        viola_state::fs::create_private_dir(&home.join("instances").join("builder"))
+            .expect("the instance dir");
+        assert!(trusted(&home, &builder()).expect("read"));
+    }
+
+    /// A home, or an instance directory, another user could write is refused, and the reading
+    /// leaves its mode as found.
+    #[cfg(unix)]
+    #[rstest]
+    #[case::the_home("")]
+    #[case::the_instance_directory("instances/builder")]
+    fn preflight_check_refuses_a_directory_another_user_could_write(#[case] widened: &str) {
+        use std::os::unix::fs::PermissionsExt as _;
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = tmp.path().join("vhome");
+        viola_state::fs::create_private_dir(&home.join("instances").join("builder"))
+            .expect("the instance dir");
+        let dir = home.join(widened);
+        std::fs::set_permissions(&dir, std::fs::Permissions::from_mode(0o770)).expect("chmod");
+        assert!(!trusted(&home, &builder()).expect("read"));
+        let mode = std::fs::metadata(&dir).expect("meta").permissions().mode() & 0o777;
+        assert_eq!(mode, 0o770);
     }
 
     fn link(cause: &str, id: &str) -> SessionLink {
@@ -388,6 +404,7 @@ mod tests {
             cli_version: None,
             wheel: Wheel::Driver,
             budget_paused: false,
+            budget_override_until: None,
             links: Vec::new(),
             child_pid: None,
             pending_dialog: None,

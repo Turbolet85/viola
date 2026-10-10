@@ -40,17 +40,22 @@ fn canonical(instance: &Instance) -> Option<Instance> {
     instance_of(Some(name.into()), Some(dir.into_os_string()))
 }
 
+/// Whether the instance's home and files pass the strict-modes check.
+fn trusted(instance: &Instance) -> bool {
+    check_instance(&instance.home, &instance.dir).is_ok()
+}
+
 pub(super) fn statusline(started: Instant) -> Result<ExitCode, Failure> {
     let instance = instance_of(
         std::env::var_os("VIOLA_NAME"),
         std::env::var_os("VIOLA_DIR"),
     );
-    let Some(instance) = instance.as_ref().and_then(canonical) else {
+    // The check comes before anything under the home is read or opened: opening the log narrows
+    // the home to its owner, which would erase the very state the check refuses. A refused
+    // instance is no wrapped session: nothing is read, run, written or logged.
+    let Some(instance) = instance.as_ref().and_then(canonical).filter(trusted) else {
         return Ok(ExitCode::SUCCESS);
     };
-    // Read before the log opens: opening it narrows the home to its owner, which would erase the
-    // very state this check refuses.
-    let trusted = check_instance(&instance.home, &instance.dir).is_ok();
     let (level, _) = obs::read_diagnostics_level(&instance.home);
     let _ = obs::viola_obs_init(
         &instance.home,
@@ -67,7 +72,7 @@ pub(super) fn statusline(started: Instant) -> Result<ExitCode, Failure> {
         out,
         bound: STATUSLINE_DEADLINE,
     };
-    match handle(&instance, trusted, io, started) {
+    match handle(&instance, io, started) {
         Ok(()) => Ok(ExitCode::SUCCESS),
         Err(error) => Err(Failure {
             error,
@@ -104,10 +109,9 @@ impl Outcome {
     }
 }
 
-/// `hook-invoked`, the arm's body when the instance passed its check, then `hook-decision`. With a
-/// refused instance nothing is read, run or written.
+/// `hook-invoked`, the arm's body, then `hook-decision`, for an instance that passed its check.
 #[instrument(skip_all, name = "hook.statusline")]
-fn handle(instance: &Instance, trusted: bool, io: Io<'_>, started: Instant) -> anyhow::Result<()> {
+fn handle(instance: &Instance, io: Io<'_>, started: Instant) -> anyhow::Result<()> {
     let invoked_at = obs::timestamp(Utc::now());
     obs_event!(
         INFO,
@@ -115,11 +119,7 @@ fn handle(instance: &Instance, trusted: bool, io: Io<'_>, started: Instant) -> a
         hook_event = WORD,
         invoked_at = invoked_at.as_str(),
     );
-    let outcome = if trusted {
-        serve(instance, io)?
-    } else {
-        Outcome::failed("strict-modes-failed")
-    };
+    let outcome = serve(instance, io)?;
     decided(&outcome, started);
     Ok(())
 }
@@ -339,6 +339,7 @@ mod tests {
             cli_version: None,
             wheel: Wheel::Driver,
             budget_paused: false,
+            budget_override_until: None,
             links: Vec::new(),
             child_pid: None,
             pending_dialog: None,
@@ -364,7 +365,6 @@ mod tests {
     /// What `handle` printed for `stdin`, and the lines it wrote.
     fn handled(
         instance: &Instance,
-        trusted: bool,
         mut stdin: impl Read,
         bound: Duration,
     ) -> (Vec<u8>, Vec<Value>) {
@@ -377,7 +377,7 @@ mod tests {
                 out: &mut out,
                 bound,
             };
-            handle(instance, trusted, io, Instant::now()).expect("handled");
+            handle(instance, io, Instant::now()).expect("handled");
         });
         let got = lines.0.lock().expect("lines").clone();
         (out, got)
@@ -390,15 +390,6 @@ mod tests {
     fn budget(instance: &Instance) -> Option<Value> {
         let bytes = fs::read(instance.home.join("budget.json")).ok()?;
         Some(serde_json::from_slice(&bytes).expect("budget.json is JSON"))
-    }
-
-    /// A reader that fails the test when anything reads it.
-    struct NeverRead;
-
-    impl Read for NeverRead {
-        fn read(&mut self, _: &mut [u8]) -> std::io::Result<usize> {
-            panic!("stdin was read");
-        }
     }
 
     const LONG: Duration = Duration::from_secs(8);
@@ -458,7 +449,7 @@ mod tests {
             instance_in(&tmp.path().join("a")),
             instance_running(&tmp.path().join("b"), None),
         ] {
-            let (out, lines) = handled(&instance, true, PAYLOAD.as_bytes(), LONG);
+            let (out, lines) = handled(&instance, PAYLOAD.as_bytes(), LONG);
             assert!(out.is_empty());
             let budget = budget(&instance).expect("a reading");
             assert_eq!(budget["v"], 1);
@@ -486,13 +477,13 @@ mod tests {
     fn statusline_without_rate_limits_writes_no_reading_and_keeps_the_last() {
         let tmp = tempfile::tempdir().expect("tempdir");
         let instance = instance_in(tmp.path());
-        let (_, lines) = handled(&instance, true, br#"{"model":{}}"#.as_slice(), LONG);
+        let (_, lines) = handled(&instance, br#"{"model":{}}"#.as_slice(), LONG);
         assert_eq!(budget(&instance), None);
         assert_eq!(lines[1]["budget_written"], false);
         assert!(lines[1].get("detail").is_none());
-        handled(&instance, true, PAYLOAD.as_bytes(), LONG);
+        handled(&instance, PAYLOAD.as_bytes(), LONG);
         let first = budget(&instance).expect("a reading");
-        let (_, lines) = handled(&instance, true, br#"{"model":{}}"#.as_slice(), LONG);
+        let (_, lines) = handled(&instance, br#"{"model":{}}"#.as_slice(), LONG);
         assert_eq!(budget(&instance), Some(first));
         assert_eq!(lines[1]["budget_written"], false);
     }
@@ -504,7 +495,7 @@ mod tests {
         let tmp = tempfile::tempdir().expect("tempdir");
         let instance = instance_in(tmp.path());
         fs::create_dir(instance.home.join("budget.json.lock")).expect("a dir in the lock's place");
-        let (out, lines) = handled(&instance, true, PAYLOAD.as_bytes(), LONG);
+        let (out, lines) = handled(&instance, PAYLOAD.as_bytes(), LONG);
         assert!(out.is_empty());
         assert_eq!(events(&lines), ["hook-invoked", "hook-decision"]);
         assert_eq!(lines[1]["budget_written"], false);
@@ -512,16 +503,30 @@ mod tests {
     }
 
     #[test]
-    fn statusline_a_refused_instance_reads_runs_and_writes_nothing() {
+    fn statusline_an_instance_viola_laid_down_passes_its_check() {
         let tmp = tempfile::tempdir().expect("tempdir");
-        let instance = instance_running(tmp.path(), Some("cat"));
-        let (out, lines) = handled(&instance, false, NeverRead, LONG);
-        assert!(out.is_empty());
-        assert_eq!(budget(&instance), None);
-        assert_eq!(events(&lines), ["hook-invoked", "hook-decision"]);
-        assert_eq!(lines[1]["detail"], "strict-modes-failed");
-        assert_eq!(lines[1]["budget_written"], false);
-        assert!(lines[1].get("deadline_hit").is_none());
+        let instance = instance_in(tmp.path());
+        viola_state::fs::create_private_dir(&instance.dir).expect("owner-only");
+        assert!(trusted(&instance));
+    }
+
+    /// A home, or an instance directory, another user could write is no wrapped session, and the
+    /// reading leaves its mode as found.
+    #[cfg(unix)]
+    #[test]
+    fn statusline_an_instance_another_user_could_write_fails_its_check() {
+        use std::os::unix::fs::PermissionsExt as _;
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let instance = instance_in(tmp.path());
+        viola_state::fs::create_private_dir(&instance.dir).expect("owner-only");
+        for dir in [&instance.home, &instance.dir] {
+            fs::set_permissions(dir, fs::Permissions::from_mode(0o770)).expect("widened");
+            assert!(!trusted(&instance));
+            let mode = fs::metadata(dir).expect("meta").permissions().mode() & 0o777;
+            assert_eq!(mode, 0o770);
+            fs::set_permissions(dir, fs::Permissions::from_mode(0o700)).expect("narrowed");
+            assert!(trusted(&instance));
+        }
     }
 
     #[test]
@@ -529,7 +534,7 @@ mod tests {
         let tmp = tempfile::tempdir().expect("tempdir");
         let instance = instance_running(tmp.path(), Some("cat"));
         let over = std::io::repeat(b' ').take(MAX_FRAME + 1);
-        let (out, lines) = handled(&instance, true, over, LONG);
+        let (out, lines) = handled(&instance, over, LONG);
         assert!(out.is_empty());
         assert_eq!(budget(&instance), None);
         assert_eq!(
@@ -549,7 +554,7 @@ mod tests {
         let instance = instance_in(tmp.path());
         let cap = usize::try_from(MAX_FRAME).expect("the cap");
         let padded = " ".repeat(cap - PAYLOAD.len()) + PAYLOAD;
-        let (_, lines) = handled(&instance, true, padded.as_bytes(), LONG);
+        let (_, lines) = handled(&instance, padded.as_bytes(), LONG);
         assert_eq!(events(&lines), ["hook-invoked", "hook-decision"]);
         assert_eq!(lines[1]["budget_written"], true);
     }
@@ -558,7 +563,7 @@ mod tests {
     fn statusline_malformed_stdin_writes_nothing() {
         let tmp = tempfile::tempdir().expect("tempdir");
         let instance = instance_running(tmp.path(), Some("cat"));
-        let (out, lines) = handled(&instance, true, b"[1]".as_slice(), LONG);
+        let (out, lines) = handled(&instance, b"[1]".as_slice(), LONG);
         assert!(out.is_empty());
         assert_eq!(budget(&instance), None);
         assert_eq!(
@@ -597,7 +602,7 @@ mod tests {
                 seen.display()
             );
             let instance = instance_running(tmp.path(), Some(&command));
-            let (out, lines) = handled(&instance, true, PAYLOAD.as_bytes(), LONG);
+            let (out, lines) = handled(&instance, PAYLOAD.as_bytes(), LONG);
             assert_eq!(out, b"\x1b[31mred\x1b[0m \x01 no newline");
             assert_eq!(
                 fs::read(&seen).expect("the command's stdin"),
@@ -626,7 +631,7 @@ mod tests {
         fn statusline_shell_out_a_non_zero_exit_prints_nothing() {
             let tmp = tempfile::tempdir().expect("tempdir");
             let instance = instance_running(tmp.path(), Some("cat; printf shown; exit 3"));
-            let (out, lines) = handled(&instance, true, PAYLOAD.as_bytes(), LONG);
+            let (out, lines) = handled(&instance, PAYLOAD.as_bytes(), LONG);
             assert!(out.is_empty());
             assert_eq!(lines[2]["event"], "process-exit");
             assert_eq!(lines[2]["shell_exit_status"], 3);
@@ -675,12 +680,7 @@ mod tests {
             let tmp = tempfile::tempdir().expect("tempdir");
             let instance = instance_running(tmp.path(), Some("printf early; exec sleep 5"));
             let started = Instant::now();
-            let (out, lines) = handled(
-                &instance,
-                true,
-                PAYLOAD.as_bytes(),
-                Duration::from_millis(50),
-            );
+            let (out, lines) = handled(&instance, PAYLOAD.as_bytes(), Duration::from_millis(50));
             let elapsed = started.elapsed();
             assert!(elapsed >= Duration::from_millis(50), "{elapsed:?}");
             assert!(elapsed < Duration::from_secs(3), "{elapsed:?}");

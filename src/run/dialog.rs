@@ -450,6 +450,7 @@ mod tests {
                 cli_version: None,
                 wheel: Wheel::Driver,
                 budget_paused: false,
+                budget_override_until: None,
                 links: Vec::new(),
                 child_pid: Some(2),
                 pending_dialog: None,

@@ -28,21 +28,28 @@ pub(crate) struct PauseArgs {
 
 pub(crate) fn pause(home: &Path, args: &PauseArgs) -> anyhow::Result<ExitCode> {
     let home = client::start(home, &args.name)?;
-    let code = wheel_call(&home, &args.name, args.json, request, |name, _| {
-        human::write_paused(&mut io::stdout().lock(), name)
-    })?;
+    let code = wheel_call(
+        &home,
+        &args.name,
+        args.json,
+        Map::new(),
+        request,
+        |name, _| human::write_paused(&mut io::stdout().lock(), name),
+    )?;
     Ok(ExitCode::from(code))
 }
 
-/// One wheel request (`pause` or `release`) after the liveness-only pre-check: exit 0 with the
-/// `ok` payload printed (`--json`, or `line` with the reply's holder), 20 on a wrapper fault, 21
-/// when the instance cannot be reached. A refusal or an `ok` without a holder is no known reply.
+/// One wheel request (`pause` or `release`) after the liveness-only pre-check, its `params` the
+/// verb's own beside `from`: exit 0 with the `ok` payload printed (`--json`, or `line` with the
+/// payload), 20 on a wrapper fault, 21 when the instance cannot be reached. A refusal or an `ok`
+/// without a holder is no known reply.
 pub(super) fn wheel_call(
     home: &Path,
     name: &ViolaName,
     json: bool,
+    mut params: Map<String, Value>,
     request: fn(&str, Map<String, Value>) -> Result<Value, ChannelError>,
-    line: impl FnOnce(&str, &str) -> io::Result<()>,
+    line: impl FnOnce(&str, &Value) -> io::Result<()>,
 ) -> anyhow::Result<u8> {
     let name: &str = name.as_ref();
     let instance_dir = home.join("instances").join(name);
@@ -51,7 +58,6 @@ pub(super) fn wheel_call(
     let Some(endpoint) = live_endpoint(&instance_dir) else {
         return Ok(unreachable("connect"));
     };
-    let mut params = Map::new();
     if let Some(from) = own_name() {
         params.insert("from".to_owned(), from.as_ref().into());
     }
@@ -61,13 +67,13 @@ pub(super) fn wheel_call(
         Ok(Reply::Refused { .. }) => anyhow::bail!("a wheel request was refused"),
         Err(during) => return Ok(unreachable(during)),
     };
-    let Some(holder) = ok["wheel"].as_str() else {
+    if !ok["wheel"].is_string() {
         anyhow::bail!("malformed reply");
-    };
+    }
     if json {
         client::document(&json!({"v": 1, "ok": ok}));
     } else {
-        let _ = line(name, holder);
+        let _ = line(name, &ok);
     }
     run::log_self_exit(0, None);
     Ok(0)

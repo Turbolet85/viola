@@ -4,6 +4,8 @@
 
 use std::io::{self, Write};
 
+use chrono::{DateTime, NaiveDate, Utc};
+
 /// A refusal's `unable:` / `hint:` pair as ONE write, so another writer's bytes on a shared stream
 /// cannot land between the two lines.
 pub(crate) fn write_refusal(out: &mut impl Write, unable: &str, hint: &str) -> io::Result<()> {
@@ -184,6 +186,38 @@ pub(crate) fn write_released(out: &mut impl Write, name: &str, holder: &str) -> 
     out.write_all(format!("{name}  wheel {holder}  you have control\n").as_bytes())
 }
 
+/// The end of a budget override as the lifted line shows it: its UTC clock time and `Z`, with its
+/// date ahead of the time when it falls on another UTC date than `today`. A value that is no
+/// RFC 3339 instant is shown as it came, escaped.
+pub(crate) fn override_end(override_until: &str, today: NaiveDate) -> String {
+    let Ok(end) = DateTime::parse_from_rfc3339(override_until) else {
+        return escape_message(override_until);
+    };
+    let end = end.with_timezone(&Utc);
+    let format = if end.date_naive() == today {
+        "%H:%M:%SZ"
+    } else {
+        "%Y-%m-%d %H:%M:%SZ"
+    };
+    end.format(format).to_string()
+}
+
+/// `<name>  budget gate lifted until <end>  wheel <holder>`: a `release --budget` that lifted a
+/// pause, on stdout; the wheel stays where it was.
+pub(crate) fn write_budget_lifted(
+    out: &mut impl Write,
+    name: &str,
+    end: &str,
+    holder: &str,
+) -> io::Result<()> {
+    out.write_all(format!("{name}  budget gate lifted until {end}  wheel {holder}\n").as_bytes())
+}
+
+/// `<name>  budget gate open  wheel <holder>`: a `release --budget` with no pause standing.
+pub(crate) fn write_budget_open(out: &mut impl Write, name: &str, holder: &str) -> io::Result<()> {
+    out.write_all(format!("{name}  budget gate open  wheel {holder}\n").as_bytes())
+}
+
 /// The design-system cli pattern 2 hint for `human-typing`, whichever its detail. No hint names
 /// the verb that hands the wheel back: that is the human's alone.
 const HUMAN_TYPING_HINT: &str = "the human has the wheel; send again after the human hands it back";
@@ -205,10 +239,15 @@ pub(crate) fn answer_hint(reason: &str, detail: Option<&str>) -> Option<&'static
 }
 
 /// The design-system cli pattern 2 hint for a `send` cause: a `not-delivered` detail, the
-/// `human-typing` reason, or `not-running` for exit 21. Never the sent text, a path or a pid.
+/// `human-typing` or `budget-paused` reason, or `not-running` for exit 21. Never the sent text, a
+/// path or a pid.
 pub(crate) fn send_hint(name: &str, cause: &str) -> Option<String> {
     Some(match cause {
         "human-typing" => HUMAN_TYPING_HINT.to_owned(),
+        "budget-paused" => {
+            "budget gate is closed; it lifts at the window reset, or when the human lifts it"
+                .to_owned()
+        }
         "control-character" => {
             "the text contains a control character (only LF, CR, TAB are allowed)".to_owned()
         }
@@ -439,6 +478,10 @@ mod tests {
         "human-typing",
         "the human has the wheel; send again after the human hands it back"
     )]
+    #[case::budget_paused(
+        "budget-paused",
+        "budget gate is closed; it lifts at the window reset, or when the human lifts it"
+    )]
     fn send_hint_is_the_design_string(#[case] cause: &str, #[case] hint: &str) {
         assert_eq!(send_hint("builder", cause).as_deref(), Some(hint));
     }
@@ -559,6 +602,9 @@ mod tests {
             "turn-running",
             "not-running",
             "human-typing",
+            "budget-paused",
+            "five-hour",
+            "seven-day",
             "unknown-dialog",
             "manual-pause",
             "unverified-cli",
@@ -574,7 +620,7 @@ mod tests {
                 hints.extend(answer_hint(reason, detail).map(str::to_owned));
             }
         }
-        assert!(hints.len() >= 9, "{hints:?}");
+        assert!(hints.len() >= 10, "{hints:?}");
         for hint in hints {
             assert!(!hint.contains("release"), "{hint}");
         }
@@ -592,6 +638,43 @@ mod tests {
         );
         assert!(write_paused(&mut Broken, "b").is_err());
         assert!(write_released(&mut Broken, "b", "driver").is_err());
+    }
+
+    #[test]
+    fn budget_verb_lines_are_the_design_lines_in_one_write() {
+        assert_eq!(
+            one_write(|o| write_budget_lifted(o, "builder", "21:00:00Z", "human")),
+            "builder  budget gate lifted until 21:00:00Z  wheel human\n"
+        );
+        assert_eq!(
+            one_write(|o| write_budget_open(o, "builder", "driver")),
+            "builder  budget gate open  wheel driver\n"
+        );
+        assert!(write_budget_lifted(&mut Broken, "b", "e", "human").is_err());
+        assert!(write_budget_open(&mut Broken, "b", "human").is_err());
+    }
+
+    fn day(year: i32, month: u32, day: u32) -> NaiveDate {
+        NaiveDate::from_ymd_opt(year, month, day).expect("a date")
+    }
+
+    /// The time alone on the override's own UTC date; the date ahead of it on any other.
+    #[rstest]
+    #[case::the_same_utc_date("2025-02-01T16:00:00.000Z", "16:00:00Z")]
+    #[case::the_last_second_of_the_date("2025-02-01T23:59:59.999Z", "23:59:59Z")]
+    #[case::the_next_utc_date("2025-02-02T00:00:00.000Z", "2025-02-02 00:00:00Z")]
+    #[case::days_ahead("2025-02-06T16:30:05.000Z", "2025-02-06 16:30:05Z")]
+    #[case::an_offset_that_is_the_same_utc_date("2025-02-02T01:00:00+02:00", "23:00:00Z")]
+    #[case::an_offset_that_is_the_next_utc_date(
+        "2025-02-01T23:00:00-02:00",
+        "2025-02-02 01:00:00Z"
+    )]
+    #[case::not_an_instant("soon\u{1b}", "soon\\x1B")]
+    fn override_end_is_the_utc_time_with_its_date_on_another_day(
+        #[case] override_until: &str,
+        #[case] shown: &str,
+    ) {
+        assert_eq!(override_end(override_until, day(2025, 2, 1)), shown);
     }
 
     #[test]

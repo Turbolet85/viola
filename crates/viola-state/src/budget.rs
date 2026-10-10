@@ -2,14 +2,17 @@
 //! exclusive lock on the `budget.json.lock` sibling; last writer wins, and `viola hook statusline`
 //! is its only writer (architecture §Occupied Resources, Viola home files).
 
+use std::fs::File;
+use std::io::Read as _;
 use std::path::Path;
 
 use chrono::{DateTime, Utc};
-use serde::Serialize;
-use viola_core::{BudgetReading, BudgetWindow, Reading};
+use serde::{Deserialize, Serialize};
+use viola_core::{BudgetReading, BudgetWindow, MAX_FRAME, Reading};
 
 use crate::StateError;
 use crate::fs::{FILE_MODE, open_private_lock, replace_private};
+use crate::strict::check_path;
 
 pub const BUDGET: &str = "budget.json";
 const BUDGET_LOCK: &str = "budget.json.lock";
@@ -56,6 +59,41 @@ pub fn write_budget(
     let lock = open_private_lock(&home.join(BUDGET_LOCK))?;
     lock.lock()?;
     replace_private(&home.join(BUDGET), &bytes, FILE_MODE)
+}
+
+/// The envelope as a reader takes it: a key it does not know is skipped.
+#[derive(Deserialize)]
+struct Stored {
+    v: u32,
+    five_hour: Reading<BudgetWindow>,
+    seven_day: Reading<BudgetWindow>,
+}
+
+/// The reading `<home>/budget.json` holds, read under a shared lock on its sibling through the
+/// frame cap, after the strict-modes check of the home and of the file (security-plan §Input
+/// Validation, Own state files on read). `None` for an absent file, a refused check, more than
+/// `MAX_FRAME` bytes, bytes that are no envelope, or a `v` other than 1. It never writes
+/// `budget.json`, and an absent one leaves no file behind.
+pub fn read_budget(home: &Path) -> Option<BudgetReading> {
+    let path = home.join(BUDGET);
+    check_path(home).ok()?;
+    check_path(&path).ok()?;
+    let lock = open_private_lock(&home.join(BUDGET_LOCK)).ok()?;
+    lock.lock_shared().ok()?;
+    let mut bytes = Vec::new();
+    File::open(&path)
+        .ok()?
+        .take(MAX_FRAME + 1)
+        .read_to_end(&mut bytes)
+        .ok()?;
+    if u64::try_from(bytes.len()).unwrap_or(u64::MAX) > MAX_FRAME {
+        return None;
+    }
+    let stored: Stored = serde_json::from_slice(&bytes).ok()?;
+    (stored.v == BUDGET_V).then_some(BudgetReading {
+        five_hour: stored.five_hour,
+        seven_day: stored.seven_day,
+    })
 }
 
 #[cfg(test)]
@@ -169,6 +207,171 @@ mod tests {
         assert!(write_budget(&home, &reading, read_at()).is_err());
         assert!(!home.exists());
         assert_eq!(fs::read_dir(tmp.path()).expect("the parent").count(), 0);
+    }
+
+    /// A home laid down the way viola lays one down, so it passes the strict-modes check on the
+    /// OS the test runs on.
+    fn private_home(tmp: &tempfile::TempDir) -> std::path::PathBuf {
+        let home = tmp.path().join("vhome");
+        crate::fs::create_private_dir(&home).expect("the home");
+        home
+    }
+
+    fn both_windows() -> BudgetReading {
+        BudgetReading {
+            five_hour: window(Reading::Known(91.0), at("2025-02-01T16:00:00.000Z")),
+            seven_day: window(Reading::UNKNOWN, Reading::UNKNOWN),
+        }
+    }
+
+    #[test]
+    fn budget_read_returns_what_write_budget_wrote() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = private_home(&tmp);
+        write_budget(&home, &both_windows(), read_at()).expect("write");
+        assert_eq!(read_budget(&home), Some(both_windows()));
+        let unknown = BudgetReading {
+            five_hour: Reading::UNKNOWN,
+            seven_day: Reading::UNKNOWN,
+        };
+        write_budget(&home, &unknown, read_at()).expect("write");
+        assert_eq!(read_budget(&home), Some(unknown));
+    }
+
+    #[test]
+    fn budget_read_of_an_absent_file_is_nothing_and_creates_nothing() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = private_home(&tmp);
+        assert_eq!(read_budget(&home), None);
+        assert_eq!(fs::read_dir(&home).expect("the home").count(), 0);
+        assert_eq!(read_budget(&tmp.path().join("missing")), None);
+        assert_eq!(fs::read_dir(&home).expect("the home").count(), 0);
+    }
+
+    /// The written envelope padded with trailing white space: exactly the cap is still that
+    /// envelope, one byte more is nothing.
+    #[test]
+    fn budget_read_over_the_frame_cap_is_nothing() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = private_home(&tmp);
+        write_budget(&home, &both_windows(), read_at()).expect("write");
+        let path = home.join("budget.json");
+        let cap = usize::try_from(MAX_FRAME).expect("the cap");
+        let mut bytes = fs::read(&path).expect("budget.json");
+        bytes.resize(cap, b' ');
+        fs::write(&path, &bytes).expect("padded to the cap");
+        assert_eq!(read_budget(&home), Some(both_windows()));
+        bytes.push(b' ');
+        fs::write(&path, &bytes).expect("one byte over");
+        assert_eq!(read_budget(&home), None);
+    }
+
+    #[test]
+    fn budget_read_of_bytes_that_are_no_envelope_is_nothing() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = private_home(&tmp);
+        write_budget(&home, &both_windows(), read_at()).expect("write");
+        let path = home.join("budget.json");
+        for bytes in [
+            "",
+            "not json",
+            "[1]",
+            r#"{"v":1}"#,
+            r#"{"v":1,"five_hour":7,"seven_day":"unknown"}"#,
+            r#"{"v":"1","five_hour":"unknown","seven_day":"unknown"}"#,
+        ] {
+            fs::write(&path, bytes).expect("planted");
+            assert_eq!(read_budget(&home), None, "{bytes:?}");
+        }
+    }
+
+    #[test]
+    fn budget_read_of_another_v_is_nothing() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = private_home(&tmp);
+        write_budget(&home, &both_windows(), read_at()).expect("write");
+        let path = home.join("budget.json");
+        let written = fs::read_to_string(&path).expect("budget.json");
+        for v in ["0", "2"] {
+            let other = written.replacen(r#"{"v":1,"#, &format!(r#"{{"v":{v},"#), 1);
+            assert_ne!(other, written);
+            fs::write(&path, other).expect("planted");
+            assert_eq!(read_budget(&home), None, "v {v}");
+        }
+        fs::write(&path, written).expect("restored");
+        assert_eq!(read_budget(&home), Some(both_windows()));
+    }
+
+    /// A key a newer writer adds beside the known ones is skipped.
+    #[test]
+    fn budget_read_skips_a_key_it_does_not_know() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = private_home(&tmp);
+        write_budget(&home, &both_windows(), read_at()).expect("write");
+        let path = home.join("budget.json");
+        let written = fs::read_to_string(&path).expect("budget.json");
+        let wider = written.replacen(r#"{"v":1,"#, r#"{"v":1,"later":{"a":1},"#, 1);
+        fs::write(&path, wider).expect("planted");
+        assert_eq!(read_budget(&home), Some(both_windows()));
+    }
+
+    #[cfg(unix)]
+    fn set_mode(path: &Path, mode: u32) {
+        use std::os::unix::fs::PermissionsExt as _;
+        fs::set_permissions(path, fs::Permissions::from_mode(mode)).expect("chmod");
+    }
+
+    #[cfg(unix)]
+    fn mode_of(path: &Path) -> u32 {
+        use std::os::unix::fs::PermissionsExt as _;
+        fs::metadata(path).expect("meta").permissions().mode() & 0o777
+    }
+
+    /// A home, or a `budget.json`, that another user could write gives no reading, and the read
+    /// narrows neither.
+    #[cfg(unix)]
+    #[test]
+    fn budget_read_under_a_path_another_user_could_write_is_nothing() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = private_home(&tmp);
+        write_budget(&home, &both_windows(), read_at()).expect("write");
+        let path = home.join("budget.json");
+        assert_eq!(read_budget(&home), Some(both_windows()));
+
+        set_mode(&home, 0o770);
+        assert_eq!(read_budget(&home), None);
+        assert_eq!(mode_of(&home), 0o770);
+        set_mode(&home, 0o700);
+
+        set_mode(&path, 0o620);
+        assert_eq!(read_budget(&home), None);
+        assert_eq!(mode_of(&path), 0o620);
+        set_mode(&path, 0o600);
+        assert_eq!(read_budget(&home), Some(both_windows()));
+    }
+
+    #[test]
+    fn budget_read_leaves_the_file_as_it_was() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = private_home(&tmp);
+        write_budget(&home, &both_windows(), read_at()).expect("write");
+        let path = home.join("budget.json");
+        let before = fs::read(&path).expect("budget.json");
+        let modified = fs::metadata(&path)
+            .expect("meta")
+            .modified()
+            .expect("mtime");
+        assert!(read_budget(&home).is_some());
+        assert_eq!(fs::read(&path).expect("budget.json"), before);
+        assert_eq!(
+            fs::metadata(&path)
+                .expect("meta")
+                .modified()
+                .expect("mtime"),
+            modified
+        );
+        #[cfg(unix)]
+        assert_eq!(mode_of(&path), 0o600);
     }
 
     #[test]

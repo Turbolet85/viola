@@ -199,6 +199,32 @@ impl HumanTyping {
     }
 }
 
+/// The closed `budget-paused` details, and the `window` of a `budget-gate` event: the usage window
+/// that crossed its threshold.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum BudgetWindowKind {
+    FiveHour,
+    SevenDay,
+}
+
+impl BudgetWindowKind {
+    pub const fn as_str(self) -> &'static str {
+        match self {
+            Self::FiveHour => "five-hour",
+            Self::SevenDay => "seven-day",
+        }
+    }
+}
+
+/// A whole percentage, 0 to 100 (architecture §Cross-cutting Patterns, Config management). The
+/// only way to build one is `Percent::try_new`.
+#[nutype(
+    validate(less_or_equal = 100),
+    derive(Debug, Clone, Copy, PartialEq, Eq)
+)]
+pub struct Percent(u8);
+
 /// Why the wheel holder last changed: the `cause` of a `wheel` event.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "kebab-case")]
@@ -598,6 +624,33 @@ mod tests {
         let back: HumanTyping = serde_json::from_str(&json).expect("deserialize");
         assert_eq!(back, detail);
         assert!(serde_json::from_str::<HumanTyping>("\"human-input\"").is_err());
+    }
+
+    #[test]
+    fn budget_window_kinds_round_trip_kebab_case() {
+        let table = [
+            (BudgetWindowKind::FiveHour, "five-hour"),
+            (BudgetWindowKind::SevenDay, "seven-day"),
+        ];
+        for (window, text) in table {
+            assert_eq!(window.as_str(), text);
+            let json = serde_json::to_string(&window).expect("serialize");
+            assert_eq!(json, format!("\"{text}\""));
+            let back: BudgetWindowKind = serde_json::from_str(&json).expect("deserialize");
+            assert_eq!(back, window);
+        }
+        assert!(serde_json::from_str::<BudgetWindowKind>("\"spend-limit\"").is_err());
+    }
+
+    #[test]
+    fn percent_admits_zero_to_one_hundred_and_nothing_else() {
+        for ok in [0u8, 1, 85, 90, 99, 100] {
+            let percent = Percent::try_new(ok).expect("in range");
+            assert_eq!(percent.into_inner(), ok);
+        }
+        for bad in [101u8, 102, 200, 255] {
+            assert!(Percent::try_new(bad).is_err(), "{bad} must be rejected");
+        }
     }
 
     #[test]

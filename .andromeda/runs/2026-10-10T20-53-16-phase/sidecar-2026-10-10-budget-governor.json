@@ -1,0 +1,527 @@
+[
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "cc8d4b8a",
+"ts": "2026-10-10T21:00:51Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/architecture-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-10T20-53-16-phase",
+"--marker",
+"2026-10-10-budget-governor"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"bytes 175754 · whole-read bound 120000 · OVER",
+"entries 92 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 175754,
+"entries": 92,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "cc8d4b8a",
+"ts": "2026-10-10T21:00:51Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-10T20-53-16-phase",
+"--marker",
+"2026-10-10-budget-governor"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"bytes 92192 · whole-read bound 120000 · within",
+"entries 55 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 92192,
+"entries": 55,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "cc8d4b8a",
+"ts": "2026-10-10T21:00:51Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/design-system-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-10T20-53-16-phase",
+"--marker",
+"2026-10-10-budget-governor"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"bytes 14082 · whole-read bound 120000 · within",
+"entries 13 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 14082,
+"entries": 13,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "cc8d4b8a",
+"ts": "2026-10-10T21:00:51Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/layout-templates-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-10T20-53-16-phase",
+"--marker",
+"2026-10-10-budget-governor"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"bytes 13178 · whole-read bound 120000 · within",
+"entries 13 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 13178,
+"entries": 13,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "cc8d4b8a",
+"ts": "2026-10-10T21:00:51Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-10T20-53-16-phase",
+"--marker",
+"2026-10-10-budget-governor"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"bytes 131347 · whole-read bound 120000 · OVER",
+"entries 79 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 131347,
+"entries": 79,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "cc8d4b8a",
+"ts": "2026-10-10T21:00:51Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-10T20-53-16-phase",
+"--marker",
+"2026-10-10-budget-governor"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"bytes 65777 · whole-read bound 120000 · within",
+"entries 53 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 65777,
+"entries": 53,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "cc8d4b8a",
+"ts": "2026-10-10T21:00:51Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/a11y-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-10T20-53-16-phase",
+"--marker",
+"2026-10-10-budget-governor"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"bytes 20509 · whole-read bound 120000 · within",
+"entries 17 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 20509,
+"entries": 17,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "cc8d4b8a",
+"ts": "2026-10-10T21:00:57Z",
+"argv": [
+"index",
+"--file",
+".andromeda/architecture-amendments.md",
+"--out",
+".andromeda/runs/2026-10-10T20-53-16-phase/arch-history-index.md",
+"--run-dir",
+".andromeda/runs/2026-10-10T20-53-16-phase",
+"--marker",
+"2026-10-10-budget-governor"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"wrote .andromeda/runs/2026-10-10T20-53-16-phase/arch-history-index.md · 92 entries · 0 unparsed · 32062 B (the sidecar is 175754 B)"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-10-10T20-53-16-phase/arch-history-index.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "cc8d4b8a",
+"ts": "2026-10-10T21:00:57Z",
+"argv": [
+"index",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--out",
+".andromeda/runs/2026-10-10T20-53-16-phase/tests-history-index.md",
+"--run-dir",
+".andromeda/runs/2026-10-10T20-53-16-phase",
+"--marker",
+"2026-10-10-budget-governor"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"wrote .andromeda/runs/2026-10-10T20-53-16-phase/tests-history-index.md · 79 entries · 0 unparsed · 26663 B (the sidecar is 131347 B)"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-10-10T20-53-16-phase/tests-history-index.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "cc8d4b8a",
+"ts": "2026-10-10T21:04:55Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/architecture-amendments.md",
+"--history",
+".andromeda/runs/2026-10-10T20-53-16-phase/arch-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-10T20-53-16-phase",
+"--marker",
+"2026-10-10-budget-governor"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"cites: 50 · resolved 50 · UNRESOLVED 0 · not a marker 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 50,
+"UNRESOLVED": 0,
+"not a marker": 0,
+"cites": 50
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "cc8d4b8a",
+"ts": "2026-10-10T21:04:55Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--history",
+".andromeda/runs/2026-10-10T20-53-16-phase/security-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-10T20-53-16-phase",
+"--marker",
+"2026-10-10-budget-governor"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"cites: 36 · resolved 36 · UNRESOLVED 0 · not a marker 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 36,
+"UNRESOLVED": 0,
+"not a marker": 0,
+"cites": 36
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "cc8d4b8a",
+"ts": "2026-10-10T21:04:55Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/design-system-amendments.md",
+"--history",
+".andromeda/runs/2026-10-10T20-53-16-phase/design-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-10T20-53-16-phase",
+"--marker",
+"2026-10-10-budget-governor"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"cites: 10 · resolved 10 · UNRESOLVED 0 · not a marker 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 10,
+"UNRESOLVED": 0,
+"not a marker": 0,
+"cites": 10
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "cc8d4b8a",
+"ts": "2026-10-10T21:04:55Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/layout-templates-amendments.md",
+"--history",
+".andromeda/runs/2026-10-10T20-53-16-phase/layouts-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-10T20-53-16-phase",
+"--marker",
+"2026-10-10-budget-governor"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"cites: 12 · resolved 12 · UNRESOLVED 0 · not a marker 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 12,
+"UNRESOLVED": 0,
+"not a marker": 0,
+"cites": 12
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "cc8d4b8a",
+"ts": "2026-10-10T21:04:55Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--history",
+".andromeda/runs/2026-10-10T20-53-16-phase/tests-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-10T20-53-16-phase",
+"--marker",
+"2026-10-10-budget-governor"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"cites: 48 · resolved 48 · UNRESOLVED 0 · not a marker 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 48,
+"UNRESOLVED": 0,
+"not a marker": 0,
+"cites": 48
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "cc8d4b8a",
+"ts": "2026-10-10T21:04:55Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--history",
+".andromeda/runs/2026-10-10T20-53-16-phase/obs-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-10T20-53-16-phase",
+"--marker",
+"2026-10-10-budget-governor"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"cites: 33 · resolved 33 · UNRESOLVED 0 · not a marker 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 33,
+"UNRESOLVED": 0,
+"not a marker": 0,
+"cites": 33
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "cc8d4b8a",
+"ts": "2026-10-10T21:04:55Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/a11y-plan-amendments.md",
+"--history",
+".andromeda/runs/2026-10-10T20-53-16-phase/a11y-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-10T20-53-16-phase",
+"--marker",
+"2026-10-10-budget-governor"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"cites: 14 · resolved 14 · UNRESOLVED 0 · not a marker 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 14,
+"UNRESOLVED": 0,
+"not a marker": 0,
+"cites": 14
+}
+}
+]

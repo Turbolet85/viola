@@ -1,6 +1,7 @@
 //! `viola revive` as a process (test-plan §6 Exit-cause matrix; architecture §Established Decisions
-//! [Session Liveness]): its four preflight refusals, each with its fixed stderr pair and closed
-//! process-log detail, the `--list` rows, and a forked resume. Every revive here finds the fake
+//! [Session Liveness]): its refusals, each with its fixed stderr pair, the three its preflight
+//! logs with their closed process-log detail and the strict-modes one, made before any log opens,
+//! with no line at all; the `--list` rows, and a forked resume. Every revive here finds the fake
 //! agent as `claude` first on its `PATH`, so the name never reaches the host's own CLI.
 
 #[allow(dead_code)]
@@ -276,6 +277,14 @@ fn revive_of_a_snapshot_with_no_cwd_is_cwd_missing(stamped_home: StampedHome) {
 }
 
 #[cfg(unix)]
+fn mode_of(path: &Path) -> u32 {
+    use std::os::unix::fs::PermissionsExt as _;
+    fs::metadata(path).expect("meta").permissions().mode() & 0o777
+}
+
+/// A tree another user could write is refused before any log opens: the state-files pair, exit 1,
+/// no child, no line added to the role file, and the widened directory left as found.
+#[cfg(unix)]
 #[rstest]
 fn revive_refuses_state_another_user_could_write(stamped_home: StampedHome) {
     use std::os::unix::fs::PermissionsExt as _;
@@ -288,14 +297,62 @@ fn revive_refuses_state_another_user_could_write(stamped_home: StampedHome) {
     assert_eq!(ran.code, Some(1));
     assert_eq!(ran.stdout, "");
     assert_eq!(ran.stderr, STRICT_MODES);
-    assert_refused(home.path(), before, "strict-modes-failed");
-    assert_eq!(starts(home), started);
-    assert!(
-        !role_lines(home.path())[before..]
-            .iter()
-            .any(|line| line["event"] == "state-recovered"),
-        "a refused tree was read"
+    assert_eq!(
+        role_lines(home.path()).len(),
+        before,
+        "a refused check logged"
     );
+    assert_eq!(starts(home), started);
+    assert_eq!(mode_of(&instance_dir(home)), 0o770);
+}
+
+/// The home itself widened, over a stopped instance with a logged session and its recorded
+/// directory standing, so nothing else could refuse it: the same refusal, and the home's mode is
+/// as it was found. An arm that opened its log first would narrow the home and start the child,
+/// and then run on as a wrapper: the home's mode is read while the revive still runs, so that arm
+/// fails this case at once, by the case's own assertion.
+#[cfg(unix)]
+#[rstest]
+fn revive_over_a_home_another_user_could_write_is_refused_and_leaves_it_as_found(
+    stamped_home: StampedHome,
+) {
+    use std::os::unix::fs::PermissionsExt as _;
+    let (stamped, dir, before) = stopped_life(stamped_home);
+    let home = &stamped.home;
+    let started = starts(home);
+    assert!(dir.is_dir(), "the recorded directory stands");
+    fs::set_permissions(home.path(), fs::Permissions::from_mode(0o770)).expect("chmod");
+
+    let child = revive_command(home, home.scratch(), &["builder"])
+        .spawn()
+        .expect("viola");
+    let mut running = Running::over(child);
+    let watch = Watch::start("revive");
+    let deadline = Instant::now() + WITHIN;
+    while running.still_running() {
+        assert_eq!(
+            mode_of(home.path()),
+            0o770,
+            "the revive changed the home's mode"
+        );
+        watch.note("running");
+        watch.deadline_check(deadline, "viola never exited");
+        std::thread::yield_now();
+    }
+    let ran = running.finish();
+    let left = mode_of(home.path());
+    fs::set_permissions(home.path(), fs::Permissions::from_mode(0o700)).expect("chmod back");
+
+    assert_eq!(ran.code, Some(1));
+    assert_eq!(ran.stdout, "");
+    assert_eq!(ran.stderr, STRICT_MODES);
+    assert_eq!(left, 0o770, "the refused revive changed the home's mode");
+    assert_eq!(
+        role_lines(home.path()).len(),
+        before,
+        "a refused check logged"
+    );
+    assert_eq!(starts(home), started, "a refused revive started a child");
 }
 
 #[rstest]
