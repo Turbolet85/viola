@@ -1,0 +1,1 @@
+- 2026-10-10: `viola_channel::test_support::JsonFields` records an `f64` log field as its Debug text, so a case that asserts a numeric field reads a string: give that case a visitor of its own with `record_f64`.

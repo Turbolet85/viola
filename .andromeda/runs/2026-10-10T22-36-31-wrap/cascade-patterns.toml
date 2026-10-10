@@ -1,0 +1,116 @@
+# Cascade step 2 — the pattern set of the 2026-10-10-budget-governor wrap, derived from every amendment of the pass.
+# One pattern per retired claim, keyed on what the claim SAID as well as on its name.
+
+[[pattern]]
+id = "four-readings"
+regex = 'four(-reading| preflight readings| readings)'
+
+[[pattern]]
+id = "smf"
+fixed = 'strict-modes-failed'
+
+[[pattern]]
+id = "strict-mode-fail"
+fixed = 'strict-mode fail'
+
+[[pattern]]
+id = "log-first"
+regex = 'opens (its|the) wrapper log before|before its log opens|still opens (its log|the role file)'
+
+[[pattern]]
+id = "not-measured"
+fixed = 'not measured on'
+
+[[pattern]]
+id = "owner-bg"
+fixed = '"Budget governor"'
+
+[[pattern]]
+id = "third-reading"
+regex = 'third (preflight )?reading'
+
+[[pattern]]
+id = "preflight-exit"
+regex = 'preflight refusal|start-arm preflight'
+
+[[pattern]]
+id = "mock-instant"
+fixed = 'mock_instant'
+
+[[pattern]]
+id = "waits-26"
+regex = '26 sites|19 files'
+
+[[pattern]]
+id = "thirteen"
+fixed = 'thirteen'
+ignore_case = true
+
+[[pattern]]
+id = "four-of-seven"
+fixed = 'four of the seven'
+
+[[pattern]]
+id = "echo-flag"
+fixed = 'statusline-echo'
+
+[[pattern]]
+id = "src-unresolved"
+fixed = 'statusline-source-unresolved'
+
+[[pattern]]
+id = "release-result"
+regex = 'budget_paused:(bool|false)\}'
+
+[[pattern]]
+id = "span-chain"
+fixed = '`channel.bind` › `state.snapshot_write`'
+
+[[pattern]]
+id = "hand-write"
+regex = 'hand-write|comes only from'
+
+[[pattern]]
+id = "thresholds"
+regex = 'Thresholds go into|budget thresholds'
+ignore_case = true
+
+[[pattern]]
+id = "no-diag-line"
+fixed = 'a refused home gets no diagnostics line'
+
+[[pattern]]
+id = "lifted-line"
+fixed = 'budget gate lifted until'
+
+[[pattern]]
+id = "trusted-list"
+fixed = 'trusted-file list'
+
+[[pattern]]
+id = "rows-owed"
+regex = 'The rows are owed|has a row yet|no row yet'
+
+[[pattern]]
+id = "read-in-src"
+regex = 'read in `src/cmd/(revive|hook/statusline)\.rs`'
+
+[[pattern]]
+id = "config-once"
+fixed = 'config.json` once'
+
+[[pattern]]
+id = "check-instance"
+fixed = 'check_instance'
+
+[[pattern]]
+id = "not-exempt"
+fixed = 'is not exempt'
+
+[[pattern]]
+id = "clock-seam"
+regex = 'read only through the clock seam|expiry via'
+
+[[pattern]]
+id = "gate-rung"
+fixed = 'through the same refusal path'

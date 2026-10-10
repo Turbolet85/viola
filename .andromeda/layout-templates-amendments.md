@@ -98,3 +98,9 @@ History of amendments to `.andromeda/layout-templates.md`, one entry per amendme
 - Line form: the fixed-message exceptions name the exit-1 refusals of `viola revive` beside `run`'s and `verify`'s. Expression level: the 0.0 list names the `viola run` / `viola revive` passthrough.
 **Why:** the chunk landed a new user-facing verb with a list arm and four refusals of its own. The help group is the operator's answer at this wrap's Phase 2 halt.
 **Ref:** .andromeda/runs/2026-10-10T15-07-22-wrap/
+
+## 2026-10-10-budget-governor — the two release --budget output lines
+**Section:** §Output structure — wheel, handoff and dialog verbs
+**Change:** the verb block shows both outcomes of `viola release <name> --budget`: `<name>  budget gate lifted until <end>  wheel <holder>` when a pause stood and `<name>  budget gate open  wheel <holder>` when none did, each one stdout line, exit 0, the wheel left where it is. `<end>` is the reply's `override_until` as `HH:MM:SSZ` on the current UTC date and `YYYY-MM-DD HH:MM:SSZ` on any other; a value that is no RFC 3339 instant prints escaped. Was the time-only lifted line alone. The date form and the `budget gate open` line are marked planning forms, the founder's wording owed.
+**Why:** the block showed one of the two lines the verb now prints, and only one form of its time. The two new forms landed on the operator's word and are not worded by the founder.
+**Ref:** .andromeda/runs/2026-10-10T22-36-31-wrap/

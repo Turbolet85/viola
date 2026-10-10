@@ -454,7 +454,8 @@ builder  wheel human  manual-pause  I have control
 $ viola release builder
 builder  wheel driver  you have control
 $ viola release builder --budget
-builder  budget gate lifted until 21:00:00Z  wheel human
+builder  budget gate lifted until 21:00:00Z  wheel human   <- a pause stood; `YYYY-MM-DD 21:00:00Z` when the end is on another UTC date
+builder  budget gate open  wheel human                     <- no pause stood (the reply holds no `override_until`)
 $ viola link overseer builder
 link    overseer -> builder  since 19:43:58Z               <- `already linked` for an existing pair
 $ viola unlink overseer builder
@@ -464,6 +465,8 @@ answered  builder  dialog 7
 unable  builder  not-delivered  unknown-dialog             <- stderr, exit 13, then its hint line
 hint: that dialog is not pending; viola list shows the current DIALOG
 ```
+
+`viola release <name> --budget` prints one of two stdout lines, exit 0, with the wheel left where it is. `<name>  budget gate lifted until <end>  wheel <holder>` when a pause stood: `<end>` is the reply's `override_until` as `HH:MM:SSZ` on the current UTC date and as `YYYY-MM-DD HH:MM:SSZ` on any other date, and a value that is no RFC 3339 instant prints escaped. `<name>  budget gate open  wheel <holder>` when no pause stood. The date form and the `budget gate open` line are planning forms as built (chunk 2026-10-10-budget-governor, on the operator's word): the founder has not worded them, and his wording is owed (design-system §Surface: cli, Component Patterns 4).
 
 ### Output structure — `viola verify`
 

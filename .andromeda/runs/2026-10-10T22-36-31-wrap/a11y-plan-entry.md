@@ -1,0 +1,5 @@
+## 2026-10-10-budget-governor — the budget pause as a driver-only bound
+**Section:** §8 Cognitive Accessibility (Timeout extensions, CLI) · §3 → Keyboard test harness (Tooling)
+**Change:** §8's CLI bullet lists the budget pause beside the other bounds that fall on the driver: an automated `viola send` is refused `budget-paused` with detail `five-hour` or `seven-day` (exit 11), nothing typed, until the window's reset or a `viola release <name> --budget` for that instance; no key is blocked, refused or delayed by it. `answer`, `wait`, `last` and `pause` do not read the gate, written as read in the diff with no case yet. The Tooling label gains the closed gate's own reading: `path6_a_reading_over_the_threshold_refuses_the_send` asserts that a human key reaches the child and that the outer PTY holds none of `unable`, `hint:` and `budget-paused`; the focus, mouse and resize clause has no budget-specific case.
+**Why:** §8 enumerates every bound that falls on the driver and not the human, and the chunk added one. The chunk adds no web element, so no criterion changes.
+**Ref:** .andromeda/runs/2026-10-10T22-36-31-wrap/

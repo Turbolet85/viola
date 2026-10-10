@@ -1,0 +1,1 @@
+- 2026-10-10: In the operator pass, read the Windows-target lint on the host before the push (the command is in `testing.md`, the 2026-10-03 entry): a fault only that target's lint sees is otherwise first met as a red `lint` job on `windows-2025`.

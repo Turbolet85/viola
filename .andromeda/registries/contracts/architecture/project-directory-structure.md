@@ -21,7 +21,7 @@ viola/
 │   ├── human.rs                # human-facing text: the refusal and internal-error stderr writers, the stdout result writer, `send`'s readback mirror (`[  ] open` / `[RB] read back` / `[  ] unconfirmable` with its one fixed note / `[/ ] unable` + its hints), the message-mode escaper, the `wait` / `last` lines, the `answer` line and the `pause` / `release` lines, called by `run`, `revive`, `verify`, `send`, `wait`, `last`, `answer`, `pause`, `release` and the `main` catch site
 │   ├── cmd/                    # one module per subcommand: run, revive, send, wait, last, list,
 │   │                           #   answer, hook, mcp, ui, verify, pause, release, link, unlink, plugin;
-│   │                           #   revive.rs: the four-reading preflight and the `--list` rows; its child shapes come from `viola-agent-claude`;
+│   │                           #   revive.rs: the strict-modes check ahead of the wrapper log, the three-reading preflight and the `--list` rows; its child shapes come from `viola-agent-claude`;
 │   │                           #   hook/statusline.rs: the `hook statusline` arm (the instance check, the `budget.json` write, the bounded shell-out);
 │   │                           #   client.rs (a helper, no subcommand): the channel client send / wait / last share;
 │   │                           #   verify/typed.rs: verify's four interactive PTY runs (Run A untrusted, Run B trusted, Run C dialogs, Run D plan),
@@ -31,7 +31,8 @@ viola/
 │   │                           #   wait.rs: the WaitFeed (Mutex + Condvar wake, newest turn, start rebuild), `wait` / `last`;
 │   │                           #   dialog.rs: the DialogSlot (one pending dialog, Condvar await, armed continuation);
 │   │                           #   wheel.rs: the WheelSlot (holder + cause, one lock), its record worker, the stdin observer + classifier;
-│   │                           #   snapshot.rs: Snapshots, the wrapper's one in-process snapshot holder
+│   │                           #   snapshot.rs: Snapshots, the wrapper's one in-process snapshot holder;
+│   │                           #   budget.rs: the thresholds read (`read_thresholds`), the pure decision (`decide`) and the BudgetGate (one per wrapper: `start` / `evaluate` / `lift` / `paused`)
 │   └── bin/viola-fake-agent.rs # test-only stand-in `claude` (feature `fake-agent`)
 ├── tests/                      # root integration tests (sync)
 │   ├── cmd/*.toml              # trycmd cases: human-mode expected output (snapbox redactions)
@@ -40,7 +41,7 @@ viola/
 ├── schemas/                    # JSON schemas: fake-script.v1.json, claude-fixture.v1.json and claude-screen.v1.json (test-side), diag-line/diag-detail.v1.json (obs line contracts)
 ├── crates/
 │   ├── viola-core/             # normalised events, RefusalReason + NotDelivered, HumanTyping, WheelCause, validate_paste_text, ViolaName, Percent, `v` constants,
-│   │                           #   SPINE_DEADLINE, Clock / SystemClock, the budget reading (`Reading`, `BudgetWindow`, `BudgetReading`)
+│   │                           #   SPINE_DEADLINE, Clock / SystemClock, the budget reading (`Reading`, `BudgetWindow`, `BudgetReading`), `BudgetWindowKind` (`five-hour` · `seven-day`)
 │   │                           #   (+ proptest-regressions/, committed seeds)
 │   ├── viola-pty/              # pty seam over portable-pty =0.8.1 (+ windows-sys kill fallback; HostTerminal raw mode: windows-sys Console / libc termios;
 │   │                           #   PasteHandle: the child's input writer shared by the human copy and the one-write bracketed paste;
@@ -51,7 +52,7 @@ viola/
 │   │                           #   reader (`events::read_from`: counts unknown kinds, unknown fields and torn lines), the
 │   │                           #   classified snapshot read, the log replay and the session chain (`replay.rs`; read by `viola revive`),
 │   │                           #   the instance strict-modes check (`strict::check_instance`), the budget reading's write
-│   │                           #   (`budget.rs`: `write_budget`), tailing (with `ui`)
+│   │                           #   and its checked read (`budget.rs`: `write_budget`, `read_budget`), tailing (with `ui`)
 │   │                           #   (+ tests/, the crate-level suite: `state_events.rs`, `state_replay.rs`)
 │   ├── viola-agent-claude/     # hook parsing, dialog mapping, R8 strip, shim resolution,
 │   │                           #   capability ledger, the vt100 screen model (`screen`), the pure `statusline` module

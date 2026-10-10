@@ -56,6 +56,7 @@ The a11y harness runs inside the tests' Playwright driver (no second browser sta
 - D-A11Y-07 — initial focus stays on `<body>`; the skip link targets `#tape-end` (`tabindex="-1"`, visually hidden "end of tape").
 - D-A11Y-05 — Lighthouse / pa11y / WAVE dropped (second client, stale, or unable to reach loopback).
 - The statusline-bearing start (as landed, chunk 2026-10-10-statusline-pass-through): `passthrough_with_a_statusline_source_adds_no_viola_bytes` (`tests/tui_passthrough.rs`) is its reading of the zero-viola-bytes clause, green on the three CI runners. `viola hook statusline`'s 5 s PROVISIONAL bound falls on the user's own command, never on a keystroke or the human.
+- The budget pause (as landed, chunk 2026-10-10-budget-governor) is a bound on the driver only: an automated `send` is refused `budget-paused` (exit 11) until the window's reset or `viola release <name> --budget`, and no key is blocked, refused or delayed. Its reading: `path6_a_reading_over_the_threshold_refuses_the_send` (`tests/cli_budget.rs`) — a human key reaches the child under a closed gate and the outer PTY holds none of viola's literals, green on the three CI runners. `answer`, `wait`, `last` and `pause` are not gated (read in the diff; no case yet).
 
 ---
 
