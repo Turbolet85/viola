@@ -1,0 +1,21 @@
+gate v1.14 · e8e4a72c
+5 integration red · exit 0 ✗ (exit 1)
+run (bd29aae4): bash scripts/agent-run.sh run --integration --filter 'binary(state_events) | binary(state_replay) | binary(chaos_torn_append) | binary(cli_send) | binary(cli_answer)'
+  exit 0 ✗ (exit 1)
+  contains '"ok":true' ✗
+log $TMPDIR/andromeda-gate/2026-10-10-self-healing-state/phase-2026-10-10T09-31-28/5.log · 2544 B · bcf68dac
+--- failing block from L1 ---
+  error: operator didn't match any binary names
+   ╭────
+ 1 │ (kind(test)) & (binary(state_events) | binary(state_replay) | binary(chaos_torn_append) | binary(cli_send) | binary(cli_answer))
+   ·                        ──────┬─────
+   ·                              ╰── no binary names matched this
+   ╰────
+
+  error: operator didn't match any binary names
+   ╭────
+ 1 │ (kind(test)) & (binary(state_events) | binary(state_replay) | binary(chaos_torn_append) | binary(cli_send) | binary(cli_answer))
+   ·                                               ──────┬─────
+   ·                                                     ╰── no binary names matched this
+   ╰────
+

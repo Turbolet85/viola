@@ -1,0 +1,3 @@
+The operator's word at the P5 review of chunk 2026-10-10-self-healing-state, 2026-10-10, verbatim (the answer to `Apply? (yes / review / cancel)`):
+
+yes. Points 1 to 6 stand as planned: keep the integration entry and pre-push; the stop-and-shorten chaos case; broken files made from the writer own file; the replay with viola revive as its first reader; E5 owed as an amendment; no capability claimed, the dated ledger note written. The cut stands: scope items 1 to 5 here. The new entry for the killed-verify leftover dirs waits for the founder word, which I bring to the wrap route step; the five CARRYs for the replay readers and the shown counts are proposed there as you list them. crates/viola-e2e/.viola-verify-227786-plan is known and the operator own: leave it.

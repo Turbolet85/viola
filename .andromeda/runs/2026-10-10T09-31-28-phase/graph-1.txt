@@ -1,0 +1,644 @@
+[
+  {
+    "callee_name": "append_event",
+    "caller_name": "events_append_keeps_prior_bytes_and_writes_one_line",
+    "file": "crates/viola-state/src/events.rs",
+    "line": 292
+  },
+  {
+    "callee_name": "append_event",
+    "caller_name": "events_append_twice_adds_two_lines_in_order",
+    "file": "crates/viola-state/src/events.rs",
+    "line": 322
+  },
+  {
+    "callee_name": "append_event",
+    "caller_name": "events_append_from_a_hook_reads_source_hook",
+    "file": "crates/viola-state/src/events.rs",
+    "line": 342
+  },
+  {
+    "callee_name": "append_event",
+    "caller_name": "events_append_into_a_missing_dir_fails",
+    "file": "crates/viola-state/src/events.rs",
+    "line": 607
+  },
+  {
+    "callee_name": "append_event",
+    "caller_name": "run",
+    "file": "src/cmd/run.rs",
+    "line": 16
+  },
+  {
+    "callee_name": "append_event",
+    "caller_name": "start_state",
+    "file": "src/cmd/run.rs",
+    "line": 439
+  },
+  {
+    "callee_name": "append_event",
+    "caller_name": "send",
+    "file": "src/run/send.rs",
+    "line": 30
+  },
+  {
+    "callee_name": "append_event",
+    "caller_name": "append_hook_event",
+    "file": "src/run/send.rs",
+    "line": 245
+  },
+  {
+    "callee_name": "append_event",
+    "caller_name": "tests",
+    "file": "src/run/wait.rs",
+    "line": 220
+  },
+  {
+    "callee_name": "append_event",
+    "caller_name": "append",
+    "file": "src/run/wait.rs",
+    "line": 299
+  },
+  {
+    "callee_name": "append_event",
+    "caller_name": "last_after_a_turn_on_disk_never_reads_the_turn_before_it",
+    "file": "src/run/wait.rs",
+    "line": 330
+  },
+  {
+    "callee_name": "append_event",
+    "caller_name": "wheel",
+    "file": "src/run/wheel.rs",
+    "line": 21
+  },
+  {
+    "callee_name": "append_event",
+    "caller_name": "record",
+    "file": "src/run/wheel.rs",
+    "line": 278
+  },
+  {
+    "callee_name": "append_event_at",
+    "caller_name": "events_append_at_returns_the_prior_length_and_the_line_carries_it",
+    "file": "crates/viola-state/src/events.rs",
+    "line": 396
+  },
+  {
+    "callee_name": "append_event_at",
+    "caller_name": "events_append_at_twice_returns_increasing_offsets",
+    "file": "crates/viola-state/src/events.rs",
+    "line": 429
+  },
+  {
+    "callee_name": "append_event_at",
+    "caller_name": "events_append_at_twice_returns_increasing_offsets",
+    "file": "crates/viola-state/src/events.rs",
+    "line": 430
+  },
+  {
+    "callee_name": "append_event_at",
+    "caller_name": "events_append_at_into_a_missing_dir_fails",
+    "file": "crates/viola-state/src/events.rs",
+    "line": 447
+  },
+  {
+    "callee_name": "append_event_at",
+    "caller_name": "dialog",
+    "file": "src/run/dialog.rs",
+    "line": 23
+  },
+  {
+    "callee_name": "append_event_at",
+    "caller_name": "register",
+    "file": "src/run/dialog.rs",
+    "line": 237
+  },
+  {
+    "callee_name": "append_event_at",
+    "caller_name": "send",
+    "file": "src/run/send.rs",
+    "line": 30
+  },
+  {
+    "callee_name": "append_event_at",
+    "caller_name": "record",
+    "file": "src/run/send.rs",
+    "line": 389
+  },
+  {
+    "callee_name": "append_event_at",
+    "caller_name": "issue",
+    "file": "src/run/send.rs",
+    "line": 398
+  },
+  {
+    "callee_name": "append_event_at",
+    "caller_name": "wait_without_after_returns_the_held_dialog",
+    "file": "src/run/wait.rs",
+    "line": 666
+  },
+  {
+    "callee_name": "append_event_at",
+    "caller_name": "wait_without_after_skips_a_dialog_that_is_not_held",
+    "file": "src/run/wait.rs",
+    "line": 689
+  },
+  {
+    "callee_name": "end_offset",
+    "caller_name": "events_end_offset_is_zero_before_the_log_exists",
+    "file": "crates/viola-state/src/events.rs",
+    "line": 387
+  },
+  {
+    "callee_name": "end_offset",
+    "caller_name": "events_append_at_returns_the_prior_length_and_the_line_carries_it",
+    "file": "crates/viola-state/src/events.rs",
+    "line": 395
+  },
+  {
+    "callee_name": "end_offset",
+    "caller_name": "events_append_at_returns_the_prior_length_and_the_line_carries_it",
+    "file": "crates/viola-state/src/events.rs",
+    "line": 412
+  },
+  {
+    "callee_name": "end_offset",
+    "caller_name": "events_append_at_into_a_missing_dir_fails",
+    "file": "crates/viola-state/src/events.rs",
+    "line": 446
+  },
+  {
+    "callee_name": "end_offset",
+    "caller_name": "send",
+    "file": "src/run/send.rs",
+    "line": 30
+  },
+  {
+    "callee_name": "end_offset",
+    "caller_name": "refuse",
+    "file": "src/run/send.rs",
+    "line": 485
+  },
+  {
+    "callee_name": "end_offset",
+    "caller_name": "wait",
+    "file": "src/run/wait.rs",
+    "line": 15
+  },
+  {
+    "callee_name": "end_offset",
+    "caller_name": "wait",
+    "file": "src/run/wait.rs",
+    "line": 144
+  },
+  {
+    "callee_name": "end_offset",
+    "caller_name": "append",
+    "file": "src/run/wait.rs",
+    "line": 300
+  },
+  {
+    "callee_name": "end_offset",
+    "caller_name": "last_after_a_turn_on_disk_never_reads_the_turn_before_it",
+    "file": "src/run/wait.rs",
+    "line": 338
+  },
+  {
+    "callee_name": "end_offset",
+    "caller_name": "wait_without_after_returns_the_held_dialog",
+    "file": "src/run/wait.rs",
+    "line": 669
+  },
+  {
+    "callee_name": "end_offset",
+    "caller_name": "path2_send_confirms_with_cl1_events",
+    "file": "tests/cli_send.rs",
+    "line": 173
+  },
+  {
+    "callee_name": "end_offset",
+    "caller_name": "path2_send_confirms_with_cl1_events",
+    "file": "tests/cli_send.rs",
+    "line": 233
+  },
+  {
+    "callee_name": "end_offset",
+    "caller_name": "send_text_ending_in_newlines_is_typed_without_them_and_confirmed",
+    "file": "tests/cli_send.rs",
+    "line": 269
+  },
+  {
+    "callee_name": "end_offset",
+    "caller_name": "send_text_ending_in_newlines_is_typed_without_them_and_confirmed",
+    "file": "tests/cli_send.rs",
+    "line": 317
+  },
+  {
+    "callee_name": "end_offset",
+    "caller_name": "send_text_whose_inner_cr_is_one_lf_is_typed_with_lf_and_confirmed",
+    "file": "tests/cli_send.rs",
+    "line": 372
+  },
+  {
+    "callee_name": "end_offset",
+    "caller_name": "send_text_whose_inner_cr_is_one_lf_is_typed_with_lf_and_confirmed",
+    "file": "tests/cli_send.rs",
+    "line": 425
+  },
+  {
+    "callee_name": "end_offset",
+    "caller_name": "send_empty_text_is_refused_at_once",
+    "file": "tests/cli_send.rs",
+    "line": 474
+  },
+  {
+    "callee_name": "end_offset",
+    "caller_name": "send_empty_text_is_refused_at_once",
+    "file": "tests/cli_send.rs",
+    "line": 498
+  },
+  {
+    "callee_name": "end_offset",
+    "caller_name": "send_window_no_prompt_submitted_refuses_and_logs",
+    "file": "tests/cli_send.rs",
+    "line": 538
+  },
+  {
+    "callee_name": "end_offset",
+    "caller_name": "send_window_second_concurrent_send_is_refused_turn_running",
+    "file": "tests/cli_send.rs",
+    "line": 565
+  },
+  {
+    "callee_name": "end_offset",
+    "caller_name": "send_after_a_confirmed_send_is_turn_running_until_turn_ended",
+    "file": "tests/cli_send.rs",
+    "line": 616
+  },
+  {
+    "callee_name": "end_offset",
+    "caller_name": "send_window_local_command_is_not_presumed_delivered",
+    "file": "tests/cli_send.rs",
+    "line": 661
+  },
+  {
+    "callee_name": "end_offset",
+    "caller_name": "send_window_local_command_is_not_presumed_delivered",
+    "file": "tests/cli_send.rs",
+    "line": 682
+  },
+  {
+    "callee_name": "end_offset",
+    "caller_name": "send_clear_on_a_verified_cli_is_confirmed_by_its_new_session",
+    "file": "tests/cli_send.rs",
+    "line": 723
+  },
+  {
+    "callee_name": "end_offset",
+    "caller_name": "send_under_the_paste_hint_on_a_verified_cli",
+    "file": "tests/cli_send.rs",
+    "line": 827
+  },
+  {
+    "callee_name": "end_offset",
+    "caller_name": "send_under_the_paste_hint_a_human_key_during_the_gate_wait_wins",
+    "file": "tests/cli_send.rs",
+    "line": 885
+  },
+  {
+    "callee_name": "end_offset",
+    "caller_name": "send_leading_slash_argument_is_a_usage_error",
+    "file": "tests/cli_send.rs",
+    "line": 931
+  },
+  {
+    "callee_name": "end_offset",
+    "caller_name": "send_leading_slash_argument_is_a_usage_error",
+    "file": "tests/cli_send.rs",
+    "line": 937
+  },
+  {
+    "callee_name": "end_offset",
+    "caller_name": "send_long_text_wrapped_by_the_cli_is_confirmed",
+    "file": "tests/cli_send.rs",
+    "line": 1038
+  },
+  {
+    "callee_name": "end_offset",
+    "caller_name": "path3_wait_parks_until_turn_ended_then_last_reads_it",
+    "file": "tests/cli_wait_last.rs",
+    "line": 169
+  },
+  {
+    "callee_name": "end_offset",
+    "caller_name": "path3_wait_parks_until_turn_ended_then_last_reads_it",
+    "file": "tests/cli_wait_last.rs",
+    "line": 209
+  },
+  {
+    "callee_name": "live_endpoint",
+    "caller_name": "answer",
+    "file": "src/cmd/answer.rs",
+    "line": 19
+  },
+  {
+    "callee_name": "live_endpoint",
+    "caller_name": "deliver",
+    "file": "src/cmd/answer.rs",
+    "line": 113
+  },
+  {
+    "callee_name": "live_endpoint",
+    "caller_name": "live_endpoint_without_a_snapshot_is_none",
+    "file": "src/cmd/client.rs",
+    "line": 239
+  },
+  {
+    "callee_name": "live_endpoint",
+    "caller_name": "last",
+    "file": "src/cmd/last.rs",
+    "line": 14
+  },
+  {
+    "callee_name": "live_endpoint",
+    "caller_name": "last",
+    "file": "src/cmd/last.rs",
+    "line": 33
+  },
+  {
+    "callee_name": "live_endpoint",
+    "caller_name": "pause",
+    "file": "src/cmd/pause.rs",
+    "line": 15
+  },
+  {
+    "callee_name": "live_endpoint",
+    "caller_name": "wheel_call",
+    "file": "src/cmd/pause.rs",
+    "line": 50
+  },
+  {
+    "callee_name": "live_endpoint",
+    "caller_name": "send",
+    "file": "src/cmd/send.rs",
+    "line": 21
+  },
+  {
+    "callee_name": "live_endpoint",
+    "caller_name": "deliver",
+    "file": "src/cmd/send.rs",
+    "line": 206
+  },
+  {
+    "callee_name": "live_endpoint",
+    "caller_name": "wait",
+    "file": "src/cmd/wait.rs",
+    "line": 14
+  },
+  {
+    "callee_name": "live_endpoint",
+    "caller_name": "wait",
+    "file": "src/cmd/wait.rs",
+    "line": 42
+  },
+  {
+    "callee_name": "read_from",
+    "caller_name": "events_read_line_cap_is_max_frame_and_its_newline",
+    "file": "crates/viola-state/src/events.rs",
+    "line": 584
+  },
+  {
+    "callee_name": "read_from",
+    "caller_name": "events_read_of_an_unreadable_log_is_an_error",
+    "file": "crates/viola-state/src/events.rs",
+    "line": 594
+  },
+  {
+    "callee_name": "read_from",
+    "caller_name": "events_read_of_a_log_that_cannot_be_opened_is_an_error",
+    "file": "crates/viola-state/src/events.rs",
+    "line": 621
+  },
+  {
+    "callee_name": "read_from",
+    "caller_name": "wait",
+    "file": "src/run/wait.rs",
+    "line": 15
+  },
+  {
+    "callee_name": "read_from",
+    "caller_name": "rebuild",
+    "file": "src/run/wait.rs",
+    "line": 114
+  },
+  {
+    "callee_name": "read_from",
+    "caller_name": "scan",
+    "file": "src/run/wait.rs",
+    "line": 196
+  },
+  {
+    "callee_name": "read_snapshot",
+    "caller_name": "snapshot_write_replaces_atomically_with_the_envelope",
+    "file": "crates/viola-state/src/snapshot.rs",
+    "line": 172
+  },
+  {
+    "callee_name": "read_snapshot",
+    "caller_name": "read_snapshot_takes_unknown_fields_and_the_human_wheel",
+    "file": "crates/viola-state/src/snapshot.rs",
+    "line": 233
+  },
+  {
+    "callee_name": "read_snapshot",
+    "caller_name": "snapshot_pending_dialog_is_written_only_while_set",
+    "file": "crates/viola-state/src/snapshot.rs",
+    "line": 254
+  },
+  {
+    "callee_name": "read_snapshot",
+    "caller_name": "read_snapshot_is_none_for_missing_malformed_or_unsupported",
+    "file": "crates/viola-state/src/snapshot.rs",
+    "line": 262
+  },
+  {
+    "callee_name": "read_snapshot",
+    "caller_name": "read_snapshot_is_none_for_missing_malformed_or_unsupported",
+    "file": "crates/viola-state/src/snapshot.rs",
+    "line": 265
+  },
+  {
+    "callee_name": "read_snapshot",
+    "caller_name": "read_snapshot_is_none_for_missing_malformed_or_unsupported",
+    "file": "crates/viola-state/src/snapshot.rs",
+    "line": 268
+  },
+  {
+    "callee_name": "read_snapshot",
+    "caller_name": "read_snapshot_is_none_for_missing_malformed_or_unsupported",
+    "file": "crates/viola-state/src/snapshot.rs",
+    "line": 271
+  },
+  {
+    "callee_name": "read_snapshot",
+    "caller_name": "read_snapshot_reads_at_most_sixteen_mib",
+    "file": "crates/viola-state/src/snapshot.rs",
+    "line": 283
+  },
+  {
+    "callee_name": "read_snapshot",
+    "caller_name": "read_snapshot_reads_at_most_sixteen_mib",
+    "file": "crates/viola-state/src/snapshot.rs",
+    "line": 285
+  },
+  {
+    "callee_name": "read_snapshot",
+    "caller_name": "client",
+    "file": "src/cmd/client.rs",
+    "line": 15
+  },
+  {
+    "callee_name": "read_snapshot",
+    "caller_name": "live_endpoint",
+    "file": "src/cmd/client.rs",
+    "line": 95
+  },
+  {
+    "callee_name": "read_snapshot",
+    "caller_name": "hook",
+    "file": "src/cmd/hook.rs",
+    "line": 26
+  },
+  {
+    "callee_name": "read_snapshot",
+    "caller_name": "ask",
+    "file": "src/cmd/hook.rs",
+    "line": 253
+  },
+  {
+    "callee_name": "read_snapshot",
+    "caller_name": "deliver",
+    "file": "src/cmd/hook.rs",
+    "line": 468
+  },
+  {
+    "callee_name": "read_snapshot",
+    "caller_name": "run",
+    "file": "src/cmd/run.rs",
+    "line": 21
+  },
+  {
+    "callee_name": "read_snapshot",
+    "caller_name": "collision_check",
+    "file": "src/cmd/run.rs",
+    "line": 293
+  },
+  {
+    "callee_name": "read_snapshot",
+    "caller_name": "tests",
+    "file": "src/run/dialog.rs",
+    "line": 410
+  },
+  {
+    "callee_name": "read_snapshot",
+    "caller_name": "pending_on_disk",
+    "file": "src/run/dialog.rs",
+    "line": 520
+  },
+  {
+    "callee_name": "read_snapshot",
+    "caller_name": "tests",
+    "file": "src/run/snapshot.rs",
+    "line": 55
+  },
+  {
+    "callee_name": "read_snapshot",
+    "caller_name": "snapshot_update_before_init_writes_nothing",
+    "file": "src/run/snapshot.rs",
+    "line": 78
+  },
+  {
+    "callee_name": "read_snapshot",
+    "caller_name": "snapshot_update_before_init_writes_nothing",
+    "file": "src/run/snapshot.rs",
+    "line": 80
+  },
+  {
+    "callee_name": "read_snapshot",
+    "caller_name": "snapshot_concurrent_wheel_and_dialog_changes_both_reach_the_disk",
+    "file": "src/run/snapshot.rs",
+    "line": 113
+  },
+  {
+    "callee_name": "read_snapshot",
+    "caller_name": "tests",
+    "file": "src/run/wheel.rs",
+    "line": 522
+  },
+  {
+    "callee_name": "read_snapshot",
+    "caller_name": "wheel_moves_are_recorded_in_order_with_the_snapshot",
+    "file": "src/run/wheel.rs",
+    "line": 865
+  },
+  {
+    "callee_name": "read_snapshot",
+    "caller_name": "wheel_moves_are_recorded_in_order_with_the_snapshot",
+    "file": "src/run/wheel.rs",
+    "line": 886
+  },
+  {
+    "callee_name": "skipped",
+    "caller_name": "read",
+    "file": "crates/viola-state/src/events.rs",
+    "line": 472
+  },
+  {
+    "callee_name": "try_append_event",
+    "caller_name": "events_try_append_writes_only_while_the_lock_is_free",
+    "file": "crates/viola-state/src/events.rs",
+    "line": 362
+  },
+  {
+    "callee_name": "try_append_event",
+    "caller_name": "events_try_append_writes_only_while_the_lock_is_free",
+    "file": "crates/viola-state/src/events.rs",
+    "line": 365
+  },
+  {
+    "callee_name": "try_append_event",
+    "caller_name": "events_try_append_into_a_missing_dir_fails",
+    "file": "crates/viola-state/src/events.rs",
+    "line": 381
+  },
+  {
+    "callee_name": "try_append_event",
+    "caller_name": "hook",
+    "file": "src/cmd/hook.rs",
+    "line": 24
+  },
+  {
+    "callee_name": "try_append_event",
+    "caller_name": "append_session_end",
+    "file": "src/cmd/hook.rs",
+    "line": 493
+  },
+  {
+    "callee_name": "write_line",
+    "caller_name": "append_event",
+    "file": "crates/viola-state/src/events.rs",
+    "line": 67
+  },
+  {
+    "callee_name": "write_line",
+    "caller_name": "append_event_at",
+    "file": "crates/viola-state/src/events.rs",
+    "line": 88
+  },
+  {
+    "callee_name": "write_line",
+    "caller_name": "try_append_event",
+    "file": "crates/viola-state/src/events.rs",
+    "line": 108
+  }
+]

@@ -1,0 +1,3 @@
+The operator's invocation of `/andromeda-phase`, 2026-10-10, verbatim (the arguments after the command name):
+
+Self-healing state. Operator notes: (1) plan no mutation run and no workflow dispatch, local witness runs included; the gate block is unit plus smoke, and a guard test carries its one-off remove-the-guard demonstration. (2) No live claude start is planned: no cap is given for this chunk. (3) The operator CI read at the end is the ci.py conclusion tool call (leg=operator). (4) The entry carries three CARRYs; if research shows it does not fit one window, say so at the review card with a proposed split instead of planning it whole.

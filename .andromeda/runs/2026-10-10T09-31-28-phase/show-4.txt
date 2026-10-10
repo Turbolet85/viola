@@ -1,0 +1,19 @@
+gate v1.14 · e8e4a72c
+4 unit red · exit 0 ✗ (exit 1)
+run (f991606b): bash scripts/agent-run.sh run --unit --filter 'test(/torn_tail|three_counts|replay_recovers|snapshot_cause|kind_table/)'
+  exit 0 ✗ (exit 1)
+  contains '"ok":true' ✗
+log $TMPDIR/andromeda-gate/2026-10-10-self-healing-state/phase-2026-10-10T09-31-28/4.log · 1702 B · 143c3734
+--- failing block from L7 ---
+error: no tests to run
+(hint: use `--no-tests` to customize)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.06s
+   Doc-tests viola_agent_claude
+   Doc-tests viola_channel
+   Doc-tests viola_core
+   Doc-tests viola_e2e
+   Doc-tests viola_pty
+   Doc-tests viola_state
+
+running 0 tests
+

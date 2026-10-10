@@ -1,0 +1,113 @@
+[
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T09:32:51Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"./viola-0.1.0/chunks/2026-10-10-self-healing-state",
+"--message-file",
+"./.andromeda/runs/2026-10-10T09-31-28-phase/relay-1.md",
+"--origin",
+"the operator, the /andromeda-phase invocation, 2026-10-10",
+"--kind",
+"relay",
+"--why",
+"take-up direction: no mutation run, no workflow dispatch and no local witness run; gate block unit plus smoke with a one-off remove-the-guard demonstration per guard test; zero live claude starts; the operator CI read is the ci.py conclusion call; a split is proposed at the review card if the entry does not fit one window",
+"--step",
+"phase:P1",
+"--run-dir",
+"./.andromeda/runs/2026-10-10T09-31-28-phase",
+"--marker",
+"2026-10-10-self-healing-state"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-10",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, the /andromeda-phase invocation, 2026-10-10",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "7f4c5b5304454053b2baef0aa8bacb76df6d0dfeb886f9f257947dee7760a9ef",
+"copy": "I1-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-10T09:32:51Z",
+"step": "phase:P1",
+"why": "take-up direction: no mutation run, no workflow dispatch and no local witness run; gate block unit plus smoke with a one-off remove-the-guard demonstration per guard test; zero live claude starts; the operator CI read is the ci.py conclusion call; a split is proposed at the review card if the entry does not fit one window"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T10:22:10Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-self-healing-state",
+"--message-file",
+".andromeda/runs/2026-10-10T09-31-28-phase/relay-2.md",
+"--origin",
+"the operator, the P5 review, 2026-10-10",
+"--kind",
+"relay",
+"--why",
+"the word at the review: yes; points 1 to 6 stand as planned; the cut stands at scope items 1 to 5; the killed-verify entry waits for the founder word at the wrap route step; the five CARRYs are proposed there; the dir under crates/viola-e2e is the operator own",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-10-10T09-31-28-phase",
+"--marker",
+"2026-10-10-self-healing-state"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: the operator, the P5 review, 2026-10-10",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, the P5 review, 2026-10-10",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "d2479768a5083948008845501574891a49d4dc002dcbd1fd03354b54cca0b3e5",
+"copy": "I2-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-10T10:22:10Z",
+"step": "phase:P5",
+"why": "the word at the review: yes; points 1 to 6 stand as planned; the cut stands at scope items 1 to 5; the killed-verify entry waits for the founder word at the wrap route step; the five CARRYs are proposed there; the dir under crates/viola-e2e is the operator own"
+}
+}
+]

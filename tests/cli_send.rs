@@ -20,6 +20,7 @@ use support::events::{events, wait_events};
 use support::fake::{self, of_kind};
 use support::home::{StampedHome, TestHome, VIOLA, Wrapper, stamped_home, workspace_path};
 use support::watch::{WITHIN, Watch};
+use viola_state::events::{LoggedLine, Skipped, read_from};
 
 const CANARY: &str = "canary-chain-value-5c1e";
 /// A gated `PostToolUse`, then a gated `Stop`: the turn a confirmed send started, ended on cue.
@@ -165,6 +166,22 @@ fn end_turn(wrapper: &Wrapper) {
     );
 }
 
+/// The product reader over the whole log of a stopped wrapper: every line this binary's writers
+/// appended is of a known kind with its contract's keys only, and none is stepped over.
+fn assert_reads_clean(instance_dir: &Path) {
+    let mut lines = read_from(instance_dir, 0).expect("the log opens");
+    let returned: Vec<LoggedLine> = lines.by_ref().map(|l| l.expect("a line")).collect();
+    assert_eq!(
+        lines.skipped(),
+        Skipped {
+            unknown_kinds: 0,
+            unknown_fields: 0,
+            torn_lines: 0,
+        }
+    );
+    assert_eq!(returned.len(), events(instance_dir).len());
+}
+
 #[test]
 fn path2_send_confirms_with_cl1_events() {
     let wrapper = boot(Some(PATH3), &[]);
@@ -249,7 +266,8 @@ fn path2_send_confirms_with_cl1_events() {
     );
     let time = &lines[0][prefix.len()..prefix.len() + 13];
     assert!(time.ends_with('Z') && time.as_bytes()[8] == b'.', "{time}");
-    wrapper.stop();
+    let (_stopped, _home) = wrapper.stop_keep();
+    assert_reads_clean(&dir);
 }
 
 /// A text ending in newlines (LF, CR, CRLF, several of them) is typed without them and confirmed

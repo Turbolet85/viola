@@ -27,6 +27,7 @@ use support::fake::{self, of_kind};
 use support::home::{StampedHome, TestHome, VIOLA, Wrapper, stamped_home, workspace_path};
 use support::hygiene::load_schema;
 use support::watch::{WITHIN, Watch};
+use viola_state::events::{LoggedLine, Skipped, read_from};
 
 const CANARY: &str = "canary-chain-value-5c1e";
 const PATH4: &str = "fixtures/fake-scripts/path4.json";
@@ -144,6 +145,22 @@ fn assert_logs_clean(home: &Path) {
             assert!(validator.is_valid(line), "{file} line {n} fails the schema");
         }
     }
+}
+
+/// The product reader over the whole log of a stopped wrapper: every line this binary's writers
+/// appended is of a known kind with its contract's keys only, and none is stepped over.
+fn assert_reads_clean(instance_dir: &Path) {
+    let mut lines = read_from(instance_dir, 0).expect("the log opens");
+    let returned: Vec<LoggedLine> = lines.by_ref().map(|l| l.expect("a line")).collect();
+    assert_eq!(
+        lines.skipped(),
+        Skipped {
+            unknown_kinds: 0,
+            unknown_fields: 0,
+            torn_lines: 0,
+        }
+    );
+    assert_eq!(returned.len(), events(instance_dir).len());
 }
 
 /// Raises the next gated step and waits for its dialog line: its `dialog_id`.
@@ -338,7 +355,8 @@ fn path4_dialogs_are_logged_once_woken_and_answered_by_id(stamped_home: StampedH
         .collect();
     assert_eq!(emitted.len(), 3, "question, the revise repeat, approve");
     assert_logs_clean(&home);
-    wrapper.stop();
+    let (_stopped, _home) = wrapper.stop_keep();
+    assert_reads_clean(&dir);
 }
 
 /// test-plan §6 Path 4, the `permission` kind: an ordinary-tool PermissionRequest answered `allow`
@@ -543,7 +561,8 @@ fn path4_permission_is_logged_once_woken_and_answered_by_id(stamped_home: Stampe
         assert_eq!(decision["decision_emitted"], emitted, "dialog {id}");
     }
     assert_logs_clean(&home);
-    wrapper.stop();
+    let (_stopped, _home) = wrapper.stop_keep();
+    assert_reads_clean(&dir);
 }
 
 /// test-plan §6 Path 7 on the `permission` kind: an unverified CLI logs the permission, the hook

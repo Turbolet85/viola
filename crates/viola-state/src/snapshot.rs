@@ -3,7 +3,7 @@
 //! writer (architecture §Standard Contracts, Snapshot envelope).
 
 use std::fs::File;
-use std::io::Read as _;
+use std::io::{ErrorKind, Read as _};
 use std::path::Path;
 
 use chrono::Utc;
@@ -97,21 +97,63 @@ pub(crate) fn write_snapshot_with(
     replace_private_with(&instance_dir.join(SNAPSHOT), &bytes, FILE_MODE, pause)
 }
 
+/// What a read of `snapshot.json` found (architecture §Standard Contracts, Snapshot envelope).
+#[derive(Debug, Clone, PartialEq)]
+pub enum SnapshotRead {
+    Present(InstanceSnapshot),
+    /// No file.
+    Absent,
+    /// A file that could not be read, or bytes that are not a `v` 1 envelope with a readable
+    /// `data`.
+    Unreadable,
+    /// A newer build's envelope: its `v` is above this build's, whatever its `data` holds.
+    Unsupported {
+        v_seen: u64,
+    },
+}
+
+/// The envelope's `v` alone, read before `data` is asked to fit this build's struct.
+#[derive(Deserialize)]
+struct EnvelopeV {
+    v: u64,
+}
+
+/// `read_snapshot` with the cause of a snapshot it could not return, through the same
+/// `MAX_FRAME` bound.
+pub fn read_snapshot_classified(instance_dir: &Path) -> SnapshotRead {
+    let file = match File::open(instance_dir.join(SNAPSHOT)) {
+        Ok(file) => file,
+        Err(e) if e.kind() == ErrorKind::NotFound => return SnapshotRead::Absent,
+        Err(_) => return SnapshotRead::Unreadable,
+    };
+    let mut bytes = Vec::new();
+    if file.take(MAX_FRAME).read_to_end(&mut bytes).is_err() {
+        return SnapshotRead::Unreadable;
+    }
+    let Ok(EnvelopeV { v }) = serde_json::from_slice(&bytes) else {
+        return SnapshotRead::Unreadable;
+    };
+    if v > u64::from(SNAPSHOT_V) {
+        return SnapshotRead::Unsupported { v_seen: v };
+    }
+    match serde_json::from_slice::<Envelope<InstanceSnapshot>>(&bytes) {
+        Ok(envelope) if envelope.v == SNAPSHOT_V => SnapshotRead::Present(envelope.data),
+        _ => SnapshotRead::Unreadable,
+    }
+}
+
 /// `None` for a missing, unreadable, unparseable or unsupported-`v` snapshot.
 pub fn read_snapshot(instance_dir: &Path) -> Option<InstanceSnapshot> {
-    let mut bytes = Vec::new();
-    File::open(instance_dir.join(SNAPSHOT))
-        .ok()?
-        .take(MAX_FRAME)
-        .read_to_end(&mut bytes)
-        .ok()?;
-    let envelope: Envelope<InstanceSnapshot> = serde_json::from_slice(&bytes).ok()?;
-    (envelope.v == 1).then_some(envelope.data)
+    match read_snapshot_classified(instance_dir) {
+        SnapshotRead::Present(snapshot) => Some(snapshot),
+        _ => None,
+    }
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rstest::rstest;
     use serde_json::json;
     use std::fs;
 
@@ -270,6 +312,95 @@ mod tests {
         doc["v"] = json!(1);
         fs::write(&path, doc.to_string()).expect("seed");
         assert_eq!(read_snapshot(tmp.path()), Some(snapshot(1, None)));
+    }
+
+    fn seed(dir: &Path, bytes: &str) {
+        fs::write(dir.join("snapshot.json"), bytes).expect("seed");
+    }
+
+    #[test]
+    fn snapshot_cause_a_written_snapshot_is_present() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        write_snapshot(tmp.path(), &snapshot(41, Some(42))).expect("write");
+        assert_eq!(
+            read_snapshot_classified(tmp.path()),
+            SnapshotRead::Present(snapshot(41, Some(42)))
+        );
+    }
+
+    #[test]
+    fn snapshot_cause_no_file_is_absent() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        assert_eq!(read_snapshot_classified(tmp.path()), SnapshotRead::Absent);
+        assert_eq!(
+            read_snapshot_classified(&tmp.path().join("missing")),
+            SnapshotRead::Absent
+        );
+    }
+
+    #[rstest]
+    #[case::not_json("not json")]
+    #[case::not_an_object("[1]")]
+    #[case::cut_short(r#"{"v":1,"written_at":"x","writer":"w","data":{"pid":7,"#)]
+    #[case::no_v(r#"{"written_at":"x","writer":"w","data":{}}"#)]
+    #[case::v_that_is_no_count(r#"{"v":"1","written_at":"x","writer":"w","data":{}}"#)]
+    #[case::v_1_with_data_the_struct_cannot_hold(
+        r#"{"v":1,"written_at":"x","writer":"w","data":{"pid":"seven"}}"#
+    )]
+    #[case::v_1_with_no_data(r#"{"v":1,"written_at":"x","writer":"w"}"#)]
+    fn snapshot_cause_bytes_that_are_no_v1_envelope_are_unreadable(#[case] bytes: &str) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        seed(tmp.path(), bytes);
+        assert_eq!(
+            read_snapshot_classified(tmp.path()),
+            SnapshotRead::Unreadable
+        );
+    }
+
+    #[test]
+    fn snapshot_cause_a_v_of_zero_is_unreadable_whatever_its_data() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let doc = json!({"v": 0, "written_at": "x", "writer": "w", "data": snapshot(1, None)});
+        seed(tmp.path(), &doc.to_string());
+        assert_eq!(
+            read_snapshot_classified(tmp.path()),
+            SnapshotRead::Unreadable
+        );
+    }
+
+    /// A directory in the file's place fails at the open (Windows) or at the read (Unix), and a
+    /// path holding a NUL byte fails the open with a kind other than `NotFound`.
+    #[test]
+    fn snapshot_cause_a_file_that_cannot_be_read_is_unreadable() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        fs::create_dir(tmp.path().join("snapshot.json")).expect("a dir in its place");
+        assert_eq!(
+            read_snapshot_classified(tmp.path()),
+            SnapshotRead::Unreadable
+        );
+        assert_eq!(
+            read_snapshot_classified(Path::new("instance\0dir")),
+            SnapshotRead::Unreadable
+        );
+    }
+
+    #[test]
+    fn snapshot_cause_a_newer_v_is_unsupported_with_the_v_it_saw() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        seed(
+            tmp.path(),
+            r#"{"v":99,"written_at":"x","writer":"9.9.9","data":{"shape":"of a later build"}}"#,
+        );
+        assert_eq!(
+            read_snapshot_classified(tmp.path()),
+            SnapshotRead::Unsupported { v_seen: 99 }
+        );
+        let doc = json!({"v": 2, "written_at": "x", "writer": "w", "data": snapshot(1, None)});
+        seed(tmp.path(), &doc.to_string());
+        assert_eq!(
+            read_snapshot_classified(tmp.path()),
+            SnapshotRead::Unsupported { v_seen: 2 }
+        );
     }
 
     /// The read stops at 16 MiB: a snapshot padded past the cap is never parsed.

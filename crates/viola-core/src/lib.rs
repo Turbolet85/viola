@@ -63,6 +63,23 @@ pub enum EventKind {
 }
 
 impl EventKind {
+    /// Every kind, in declaration order.
+    pub const ALL: [Self; 13] = [
+        Self::SessionStart,
+        Self::PromptSubmitted,
+        Self::TurnEnded,
+        Self::SessionEnd,
+        Self::Activity,
+        Self::Wheel,
+        Self::BudgetGate,
+        Self::SendIssued,
+        Self::SendConfirmed,
+        Self::SendRefused,
+        Self::Question,
+        Self::Permission,
+        Self::Plan,
+    ];
+
     /// The kinds that end a `wait` (architecture §Standard Contracts); every other kind is
     /// log-only.
     pub const WAIT_WAKE: [Self; 5] = [
@@ -72,6 +89,31 @@ impl EventKind {
         Self::Plan,
         Self::SessionEnd,
     ];
+
+    /// The kind `name` spells in kebab case; `None` for any other text.
+    pub fn from_name(name: &str) -> Option<Self> {
+        Self::ALL.into_iter().find(|kind| kind.as_str() == name)
+    }
+
+    /// The keys the kind's `data` may carry (architecture §Standard Contracts, Event `data` per
+    /// kind); a reader counts any other key as unknown.
+    pub const fn data_keys(self) -> &'static [&'static str] {
+        match self {
+            Self::SessionStart => &["cause", "agent_session_id"],
+            Self::PromptSubmitted => &["text", "origin"],
+            Self::TurnEnded => &["last_assistant_message"],
+            Self::SessionEnd => &[],
+            Self::Activity => &["tool"],
+            Self::Wheel => &["holder", "cause"],
+            Self::BudgetGate => &["paused", "window", "override_until"],
+            Self::SendIssued => &["cursor", "from"],
+            Self::SendConfirmed => &["cursor", "confirmed"],
+            Self::SendRefused => &["refusal", "detail", "cursor"],
+            Self::Question => &["dialog_id", "questions"],
+            Self::Permission => &["dialog_id", "tool", "input"],
+            Self::Plan => &["dialog_id", "plan"],
+        }
+    }
 
     pub const fn as_str(self) -> &'static str {
         match self {
@@ -367,6 +409,105 @@ mod tests {
                 "session-end"
             ]
         );
+    }
+
+    /// Architecture's per-kind `data` list, written out as the oracle, in declaration order.
+    const KIND_TABLE: [(EventKind, &str, &[&str]); 13] = [
+        (
+            EventKind::SessionStart,
+            "session-start",
+            &["cause", "agent_session_id"],
+        ),
+        (
+            EventKind::PromptSubmitted,
+            "prompt-submitted",
+            &["text", "origin"],
+        ),
+        (
+            EventKind::TurnEnded,
+            "turn-ended",
+            &["last_assistant_message"],
+        ),
+        (EventKind::SessionEnd, "session-end", &[]),
+        (EventKind::Activity, "activity", &["tool"]),
+        (EventKind::Wheel, "wheel", &["holder", "cause"]),
+        (
+            EventKind::BudgetGate,
+            "budget-gate",
+            &["paused", "window", "override_until"],
+        ),
+        (EventKind::SendIssued, "send-issued", &["cursor", "from"]),
+        (
+            EventKind::SendConfirmed,
+            "send-confirmed",
+            &["cursor", "confirmed"],
+        ),
+        (
+            EventKind::SendRefused,
+            "send-refused",
+            &["refusal", "detail", "cursor"],
+        ),
+        (EventKind::Question, "question", &["dialog_id", "questions"]),
+        (
+            EventKind::Permission,
+            "permission",
+            &["dialog_id", "tool", "input"],
+        ),
+        (EventKind::Plan, "plan", &["dialog_id", "plan"]),
+    ];
+
+    #[test]
+    fn kind_table_every_name_parses_back_to_its_variant() {
+        for (kind, name, _) in KIND_TABLE {
+            assert_eq!(EventKind::from_name(name), Some(kind), "{name}");
+        }
+    }
+
+    #[test]
+    fn kind_table_a_text_that_is_no_kind_parses_to_nothing() {
+        for text in [
+            "",
+            "link",
+            "unlink",
+            "Wheel",
+            "wheel ",
+            " wheel",
+            "session_start",
+            "plans",
+            "pla",
+        ] {
+            assert_eq!(EventKind::from_name(text), None, "{text:?}");
+        }
+    }
+
+    #[test]
+    fn kind_table_all_is_the_thirteen_kinds_in_declaration_order() {
+        let all: Vec<&str> = EventKind::ALL.iter().map(|k| k.as_str()).collect();
+        assert_eq!(
+            all,
+            [
+                "session-start",
+                "prompt-submitted",
+                "turn-ended",
+                "session-end",
+                "activity",
+                "wheel",
+                "budget-gate",
+                "send-issued",
+                "send-confirmed",
+                "send-refused",
+                "question",
+                "permission",
+                "plan",
+            ]
+        );
+    }
+
+    #[test]
+    fn kind_table_data_keys_are_the_contract_rows() {
+        for (kind, name, keys) in KIND_TABLE {
+            assert_eq!(kind.data_keys(), keys, "{name}");
+        }
     }
 
     #[test]
