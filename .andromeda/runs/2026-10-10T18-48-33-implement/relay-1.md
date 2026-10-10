@@ -1,0 +1,3 @@
+The /andromeda-implement invocation's arguments, verbatim (the operator, in this repository's session, 2026-10-10):
+
+2026-10-10-statusline-pass-through. The founder words, live in the overseer dialogs of 2026-10-10 (read 17:31:33Z and 18:46:32Z), each item shown to him as itself with its options priced: W1 «Подтверждаю»; W2 «Подтверждаю»; W3 «Файл в viola home»; R «B: ручное чтение, 3 запуска» - three live claude starts for this chunk only, so step 12 runs, each start ledgered with the clock time before it is made, no row and no fixture; the Windows cut «Вырезать», so S3 is final. S1 is lifted. Run the operator pass with the ci.py conclusion read (leg=operator) as usual.

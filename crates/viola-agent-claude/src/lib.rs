@@ -5,6 +5,7 @@ pub mod dialog;
 pub mod hook;
 pub mod ledger;
 pub mod screen;
+pub mod statusline;
 
 use std::ffi::{OsStr, OsString};
 use std::path::{Path, PathBuf};

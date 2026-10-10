@@ -59,6 +59,10 @@ pub struct InstanceSnapshot {
     /// never yields one (architecture §Standard Contracts, Instance snapshot).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub cwd: Option<String>,
+    /// The user's own statusline command, as the start read it from its source; `viola hook
+    /// statusline` runs it. User content: it reaches no log line. The log replay never yields one.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub statusline_command: Option<String>,
 }
 
 /// `{dialog_id, kind}` of the one pending dialog.
@@ -104,7 +108,7 @@ pub(crate) fn write_snapshot_with(
 /// What a read of `snapshot.json` found (architecture §Standard Contracts, Snapshot envelope).
 #[derive(Debug, Clone, PartialEq)]
 pub enum SnapshotRead {
-    Present(InstanceSnapshot),
+    Present(Box<InstanceSnapshot>),
     /// No file.
     Absent,
     /// A file that could not be read, or bytes that are not a `v` 1 envelope with a readable
@@ -141,7 +145,7 @@ pub fn read_snapshot_classified(instance_dir: &Path) -> SnapshotRead {
         return SnapshotRead::Unsupported { v_seen: v };
     }
     match serde_json::from_slice::<Envelope<InstanceSnapshot>>(&bytes) {
-        Ok(envelope) if envelope.v == SNAPSHOT_V => SnapshotRead::Present(envelope.data),
+        Ok(envelope) if envelope.v == SNAPSHOT_V => SnapshotRead::Present(Box::new(envelope.data)),
         _ => SnapshotRead::Unreadable,
     }
 }
@@ -149,7 +153,7 @@ pub fn read_snapshot_classified(instance_dir: &Path) -> SnapshotRead {
 /// `None` for a missing, unreadable, unparseable or unsupported-`v` snapshot.
 pub fn read_snapshot(instance_dir: &Path) -> Option<InstanceSnapshot> {
     match read_snapshot_classified(instance_dir) {
-        SnapshotRead::Present(snapshot) => Some(snapshot),
+        SnapshotRead::Present(snapshot) => Some(*snapshot),
         _ => None,
     }
 }
@@ -175,6 +179,7 @@ mod tests {
             child_pid,
             pending_dialog: None,
             cwd: None,
+            statusline_command: None,
         }
     }
 
@@ -339,6 +344,47 @@ mod tests {
     }
 
     #[test]
+    fn snapshot_statusline_command_is_written_under_v_1_and_reads_back() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let mut held = snapshot(5, Some(6));
+        held.statusline_command = Some("~/.claude/statusline.sh --wide".to_owned());
+        write_snapshot(tmp.path(), &held).expect("write");
+        let disk = on_disk(tmp.path());
+        assert_eq!(disk["v"], 1);
+        assert_eq!(
+            disk["data"]["statusline_command"],
+            "~/.claude/statusline.sh --wide"
+        );
+        assert_eq!(read_snapshot(tmp.path()), Some(held));
+        write_snapshot(tmp.path(), &snapshot(5, Some(6))).expect("without");
+        assert!(
+            on_disk(tmp.path())["data"]
+                .get("statusline_command")
+                .is_none()
+        );
+    }
+
+    #[rstest]
+    #[case::no_key(
+        r#"{"v":1,"written_at":"x","writer":"w","data":{"pid":7,"started_at":"s","pinned_bin":"b","cli_verified":true,"wheel":"driver","budget_paused":false}}"#,
+        None
+    )]
+    #[case::an_unknown_key_beside_it(
+        r#"{"v":1,"written_at":"x","writer":"w","data":{"pid":7,"started_at":"s","pinned_bin":"b","cli_verified":true,"wheel":"driver","budget_paused":false,"statusline_command":"echo x","later":1}}"#,
+        Some("echo x")
+    )]
+    fn snapshot_statusline_command_reads_as_absent_without_its_key(
+        #[case] bytes: &str,
+        #[case] command: Option<&str>,
+    ) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        seed(tmp.path(), bytes);
+        let snap = read_snapshot(tmp.path()).expect("parsed");
+        assert_eq!(snap.pid, 7);
+        assert_eq!(snap.statusline_command.as_deref(), command);
+    }
+
+    #[test]
     fn read_snapshot_is_none_for_missing_malformed_or_unsupported() {
         let tmp = tempfile::tempdir().expect("tempdir");
         assert_eq!(read_snapshot(tmp.path()), None);
@@ -363,7 +409,7 @@ mod tests {
         write_snapshot(tmp.path(), &snapshot(41, Some(42))).expect("write");
         assert_eq!(
             read_snapshot_classified(tmp.path()),
-            SnapshotRead::Present(snapshot(41, Some(42)))
+            SnapshotRead::Present(Box::new(snapshot(41, Some(42))))
         );
     }
 

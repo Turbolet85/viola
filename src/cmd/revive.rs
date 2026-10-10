@@ -379,7 +379,7 @@ mod tests {
     }
 
     fn snapshot(cwd: Option<&Path>) -> Recovered {
-        Recovered::Snapshot(InstanceSnapshot {
+        Recovered::Snapshot(Box::new(InstanceSnapshot {
             endpoint: None,
             pid: 1,
             started_at: "s".to_owned(),
@@ -392,7 +392,8 @@ mod tests {
             child_pid: None,
             pending_dialog: None,
             cwd: cwd.map(|dir| dir.to_str().expect("utf-8").to_owned()),
-        })
+            statusline_command: None,
+        }))
     }
 
     #[test]

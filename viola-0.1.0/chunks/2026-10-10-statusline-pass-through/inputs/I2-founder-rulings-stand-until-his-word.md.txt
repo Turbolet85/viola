@@ -1,0 +1,15 @@
+---
+name: founder-rulings-stand-until-his-word
+description: viola — never plan an action or a master amendment that departs from a founder ruling; hold it behind a stop rule and ask it as a fork
+metadata:
+  node_type: memory
+  type: feedback
+  originSessionId: 677d99c7-0754-41d5-8e09-c6c7c242358e
+  modified: 2026-10-10T02:43:48.476Z
+---
+
+In viola, a founder ruling stands until the founder's own word, even when a route entry's wording seems to imply an action that departs from it. At the P5 review of chunk 2026-10-10-windows-mutation-grade (2026-10-10) I had planned `windows-mutants.yml` dispatches outside the epoch-boundary audit (founder ruling C2: dispatched only at the epoch boundary) because the entry's title said "workflow green", and listed it on the review card as a confirm item. The operator ruled it out: the plan stops before any dispatch, a stop rule holds the dispatch and the gate entry that reads it, and no master sentence about the ruling is amended without the founder's word.
+
+**Why:** the operator's words: "the founder ruling that the mutation workflow is dispatched only at the epoch boundary stands until his own word". The operator cannot ratify a departure from a founder ruling; only the founder can, and only after the specific departure was shown to him.
+
+**How to apply:** while planning (/andromeda-phase), check each planned action and each expected amendment against the founder rulings the extracts and histories name. One that departs from a ruling is never a decisive lean and never a card-level confirm item: plan the work up to that point, put the action behind an explicit stop rule that names what counts as his word, and raise it at P4 as a fork. Workflow-shape changes the route entry itself offers (e.g. a per-file job split) were ruled not part of the dispatch ruling in that chunk.

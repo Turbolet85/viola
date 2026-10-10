@@ -153,12 +153,28 @@ fn cli_sink(home: &Path, instance: &ViolaName) -> Option<DetailSink> {
     })
 }
 
+/// The default viola home of a user home: where a start with no `--home` lives.
+pub(super) fn default_home(user_home: &Path) -> PathBuf {
+    user_home.join(".viola")
+}
+
 fn resolve_home(home: Option<PathBuf>) -> Result<PathBuf, Failure> {
     match home {
         Some(home) => Ok(home),
-        None => Ok(std::env::home_dir()
+        None => std::env::home_dir()
+            .map(|user_home| default_home(&user_home))
             .context("no user home directory")
-            .map_err(|error| Failure { error, sink: None })?
-            .join(".viola")),
+            .map_err(|error| Failure { error, sink: None }),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn default_home_is_dot_viola_under_the_user_home() {
+        let user_home = std::env::temp_dir().join("u");
+        assert_eq!(default_home(&user_home), user_home.join(".viola"));
     }
 }

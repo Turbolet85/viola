@@ -13,6 +13,8 @@ fake-agent = []
 
 [dependencies]
 viola-core = { path = "../viola-core" }
+# Epoch seconds and RFC 3339 text to one UTC form (the statusline reader): pure, no clock read.
+chrono.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 serde_path_to_error.workspace = true

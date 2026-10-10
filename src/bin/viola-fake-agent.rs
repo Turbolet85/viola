@@ -34,6 +34,10 @@ const STOP_RECEIPT_HOLD_CAP_MS: u64 = 1000;
 const PASTE_HINT_CAP_MS: u64 = 10_000;
 /// The session a `--resume` with `--fork-session` reports: an id no recorded fixture holds.
 const FORK_SESSION_ID: &str = "0f0e0d0c-0b0a-4908-8706-050403020100";
+/// The mode word, as the first argument: a user's statusline command for tests.
+const STATUSLINE_ECHO: &str = "statusline-echo";
+/// What `statusline-echo` prints, whatever its stdin holds.
+const STATUSLINE_ECHO_OUTPUT: &[u8] = b"viola-fake-statusline\n";
 const REGISTERED_EVENTS: [&str; 9] = [
     "SessionStart",
     "UserPromptSubmit",
@@ -73,6 +77,8 @@ struct Opts {
     tag_turn_screen: Option<String>,
     resume: Option<String>,
     fork_session: bool,
+    settings: Option<PathBuf>,
+    statusline_stdin: Option<PathBuf>,
 }
 
 impl Opts {
@@ -115,6 +121,8 @@ impl Opts {
                 "--tag-turn-screen" => o.tag_turn_screen = value(),
                 "--resume" => o.resume = value(),
                 "--fork-session" => o.fork_session = true,
+                "--settings" => o.settings = value().map(PathBuf::from),
+                "--statusline-stdin" => o.statusline_stdin = value().map(PathBuf::from),
                 HOLD_STDOUT => o.hold_stdout = true,
                 _ => {}
             }
@@ -324,6 +332,44 @@ fn payload(fixture: Vec<u8>, set: &[(&str, &str)]) -> Vec<u8> {
     }
 }
 
+/// `statusLine.command` of a settings document, split on ASCII white space into the program and its
+/// arguments.
+fn statusline_words(settings: &[u8]) -> Option<(String, Vec<String>)> {
+    let doc: Value = serde_json::from_slice(settings).ok()?;
+    let mut words = doc["statusLine"]["command"]
+        .as_str()?
+        .split_ascii_whitespace()
+        .map(str::to_owned);
+    let command = words.next()?;
+    Some((command, words.collect()))
+}
+
+/// The `statusline-echo <marker file> [--exit <code>]` mode: stdin read to its end, the fixed
+/// output printed, one line holding the hex of that stdin appended to the marker file, then the
+/// exit code asked for (0 without one).
+fn statusline_echo(args: &[String]) -> ExitCode {
+    let mut stdin = Vec::new();
+    let _ = std::io::stdin().lock().read_to_end(&mut stdin);
+    if let Some(marker) = args.first() {
+        let line = hex(&stdin) + "\n";
+        let file = OpenOptions::new().create(true).append(true).open(marker);
+        let _ = file.and_then(|mut f| f.write_all(line.as_bytes()));
+    }
+    let mut out = std::io::stdout().lock();
+    let _ = out
+        .write_all(STATUSLINE_ECHO_OUTPUT)
+        .and_then(|()| out.flush());
+    ExitCode::from(statusline_echo_exit(args))
+}
+
+/// The code after `--exit`, when that word follows the marker path; 0 otherwise.
+fn statusline_echo_exit(args: &[String]) -> u8 {
+    match args {
+        [_, flag, code, ..] if flag == "--exit" => code.parse().unwrap_or(0),
+        _ => 0,
+    }
+}
+
 /// What firing one event did.
 enum Fired {
     NoHooks,
@@ -419,11 +465,48 @@ impl Agent {
 
     /// Runs one hook; `true` when it printed anything on stdout.
     fn run_hook(&self, event: &str, command: &str, args: &[String], body: &[u8]) -> bool {
-        if !Path::new(command).is_absolute() {
-            self.receipt.write(
-                "hook",
-                json!({"event": event, "command_absolute": false, "ran": false}),
-            );
+        self.run_receipted("hook", Some(event), command, args, body)
+    }
+
+    /// The status line the `--settings` override names, run once with `--statusline-stdin`'s bytes
+    /// on its stdin: the command split on ASCII white space and spawned directly, never through a
+    /// shell. Without the stdin file nothing is run and nothing is receipted: the agent invents no
+    /// payload. Nothing of the run reaches the screen.
+    fn run_statusline(&self) {
+        let (Some(settings), Some(stdin)) = (&self.opts.settings, &self.opts.statusline_stdin)
+        else {
+            return;
+        };
+        let Ok(body) = fs::read(stdin) else {
+            return;
+        };
+        let words = fs::read(settings)
+            .ok()
+            .and_then(|bytes| statusline_words(&bytes));
+        if let Some((command, args)) = words {
+            self.run_receipted("statusline", None, &command, &args, &body);
+        }
+    }
+
+    /// One command with `body` on its stdin, receipted as `kind` (a hook's line names its `event`);
+    /// `true` when it printed anything on stdout. Only an absolute command is spawned, directly.
+    fn run_receipted(
+        &self,
+        kind: &str,
+        event: Option<&str>,
+        command: &str,
+        args: &[String],
+        body: &[u8],
+    ) -> bool {
+        let mut fields = serde_json::Map::new();
+        if let Some(event) = event {
+            fields.insert("event".to_owned(), json!(event));
+        }
+        let absolute = Path::new(command).is_absolute();
+        fields.insert("command_absolute".to_owned(), json!(absolute));
+        if !absolute {
+            fields.insert("ran".to_owned(), json!(false));
+            self.receipt.write(kind, Value::Object(fields));
             return false;
         }
         let closed = self.hooks.lock().unwrap_or_else(PoisonError::into_inner);
@@ -442,28 +525,22 @@ impl Agent {
             }
             c.wait_with_output()
         });
-        let (fields, printed) = match output {
-            Ok(out) => (
-                json!({
-                    "event": event,
-                    "command_absolute": true,
-                    "ran": true,
-                    "exit_code": out.status.code(),
-                    "stderr_len": out.stderr.len(),
-                    "stdout_hex": hex(&out.stdout),
-                    "stdin_hex": hex(body),
-                }),
-                !out.stdout.is_empty(),
-            ),
-            Err(_) => (
-                json!({"event": event, "command_absolute": true, "ran": false}),
-                false,
-            ),
-        };
-        if let Some(hold) = self.opts.stop_receipt_hold.filter(|_| event == "Stop") {
+        fields.insert("ran".to_owned(), json!(output.is_ok()));
+        let printed = output.is_ok_and(|out| {
+            fields.insert("exit_code".to_owned(), json!(out.status.code()));
+            fields.insert("stderr_len".to_owned(), json!(out.stderr.len()));
+            fields.insert("stdout_hex".to_owned(), json!(hex(&out.stdout)));
+            fields.insert("stdin_hex".to_owned(), json!(hex(body)));
+            !out.stdout.is_empty()
+        });
+        if let Some(hold) = self
+            .opts
+            .stop_receipt_hold
+            .filter(|_| event == Some("Stop"))
+        {
             std::thread::sleep(hold);
         }
-        self.receipt.write("hook", fields);
+        self.receipt.write(kind, Value::Object(fields));
         printed
     }
 
@@ -775,6 +852,11 @@ fn read_stdin(agent: &Agent) -> ExitCode {
 
 fn main() -> ExitCode {
     let args: Vec<String> = std::env::args().skip(1).collect();
+    if let Some((mode, rest)) = args.split_first()
+        && mode == STATUSLINE_ECHO
+    {
+        return statusline_echo(rest);
+    }
     let opts = Opts::parse(&args);
     if opts.hold_stdout {
         Receipt::open(opts.receipt.as_deref()).write("hold", json!({"pid": std::process::id()}));
@@ -810,8 +892,10 @@ fn main() -> ExitCode {
         write_screen(&agent.opts, if trusted { "ready" } else { "modal" });
     }
     // The real CLI fires SessionStart at launch; with no registered hook or no fixture, nothing runs.
+    // An untrusted folder has no status line either.
     if trusted {
         agent.fire("SessionStart", "default", &agent.opts.resume_fields());
+        agent.run_statusline();
     }
     if !steps.is_empty() {
         let runner = Arc::clone(&agent);
@@ -880,10 +964,16 @@ mod tests {
             "--resume",
             "c0f0cc23-690b-45dd-bbfb-06d6cfd44942",
             "--fork-session",
+            "--settings",
+            "st.json",
+            "--statusline-stdin",
+            "sl",
             "--version",
             "-p",
             "a prompt",
         ]));
+        assert_eq!(o.settings.as_deref(), Some(Path::new("st.json")));
+        assert_eq!(o.statusline_stdin.as_deref(), Some(Path::new("sl")));
         assert_eq!(o.print.as_deref(), Some("a prompt"));
         assert_eq!(
             Opts::parse(&args(&["--print", "q"])).print.as_deref(),
@@ -951,6 +1041,8 @@ mod tests {
         );
         assert!(o.resume.is_none() && !o.fork_session);
         assert_eq!(Opts::parse(&args(&["--resume"])).resume, None);
+        assert!(o.settings.is_none() && o.statusline_stdin.is_none());
+        assert_eq!(Opts::parse(&args(&["--settings"])).settings, None);
         assert!(!o.trusted(), "no root: every cwd is untrusted");
     }
 
@@ -1201,6 +1293,108 @@ mod tests {
             assert!(opts.resume_fields().is_empty(), "{list:?}");
             assert_eq!(payload(fixture.clone(), &opts.resume_fields()), fixture);
         }
+    }
+
+    #[test]
+    fn fake_statusline_words_are_the_command_split_on_ascii_white_space() {
+        let words = |doc: &str| statusline_words(doc.as_bytes());
+        assert_eq!(
+            words(
+                r#"{"statusLine":{"type":"command","command":"/h/bin/k/viola hook  statusline"}}"#
+            ),
+            Some((
+                "/h/bin/k/viola".to_owned(),
+                vec!["hook".to_owned(), "statusline".to_owned()]
+            ))
+        );
+        assert_eq!(
+            words(r#"{"statusLine":{"command":"relative"}}"#),
+            Some(("relative".to_owned(), vec![]))
+        );
+        assert_eq!(words(r#"{"statusLine":{"command":"  "}}"#), None);
+        assert_eq!(words(r#"{"statusLine":{"command":7}}"#), None);
+        assert_eq!(words(r#"{"model":"m"}"#), None);
+        assert_eq!(words("not json"), None);
+    }
+
+    #[test]
+    fn fake_statusline_echo_exit_is_the_code_after_the_marker_path() {
+        assert_eq!(statusline_echo_exit(&args(&["m"])), 0);
+        assert_eq!(statusline_echo_exit(&args(&["m", "--exit", "3"])), 3);
+        assert_eq!(statusline_echo_exit(&args(&["m", "--exit"])), 0);
+        assert_eq!(statusline_echo_exit(&args(&["m", "--exit", "x"])), 0);
+        assert_eq!(statusline_echo_exit(&args(&["m", "--other", "3"])), 0);
+        assert_eq!(statusline_echo_exit(&args(&["--exit", "3"])), 0);
+        assert_eq!(statusline_echo_exit(&[]), 0);
+        assert_eq!(STATUSLINE_ECHO, "statusline-echo");
+        assert_eq!(STATUSLINE_ECHO_OUTPUT, b"viola-fake-statusline\n");
+    }
+
+    /// Without both options, or with a stdin file that cannot be read, nothing runs and nothing is
+    /// receipted; a command that is not absolute is receipted and never run.
+    #[test]
+    fn fake_statusline_runs_only_with_both_options_and_only_an_absolute_command() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let path = |name: &str| tmp.path().join(name).to_str().expect("utf-8").to_owned();
+        let (settings, stdin, receipt) = (path("settings.json"), path("stdin"), path("receipt"));
+        fs::write(&settings, r#"{"statusLine":{"command":"relative arg"}}"#).expect("settings");
+        fs::write(&stdin, b"payload").expect("stdin");
+        let run = |list: &[&str]| {
+            let mut list = list.to_vec();
+            list.extend(["--receipt", &receipt]);
+            Agent::new(Opts::parse(&args(&list))).run_statusline();
+            fs::read_to_string(&receipt).unwrap_or_default()
+        };
+        assert_eq!(run(&["--settings", &settings]), "");
+        assert_eq!(run(&["--statusline-stdin", &stdin]), "");
+        let missing = path("missing");
+        assert_eq!(
+            run(&["--settings", &settings, "--statusline-stdin", &missing]),
+            ""
+        );
+        assert_eq!(
+            run(&["--settings", &missing, "--statusline-stdin", &stdin]),
+            ""
+        );
+        let line: Value = serde_json::from_str(
+            run(&["--settings", &settings, "--statusline-stdin", &stdin]).trim_end(),
+        )
+        .expect("one receipt line");
+        assert_eq!(
+            line,
+            json!({"v": 1, "kind": "statusline", "command_absolute": false, "ran": false})
+        );
+    }
+
+    /// An absolute command is run with the stdin file's bytes and receipted in the hook receipt's
+    /// form, without an `event`.
+    #[test]
+    fn fake_statusline_receipts_the_run_of_an_absolute_command() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let path = |name: &str| tmp.path().join(name).to_str().expect("utf-8").to_owned();
+        let (settings, stdin, receipt) = (path("settings.json"), path("stdin"), path("receipt"));
+        let doc = json!({"statusLine": {"type": "command", "command": whoami()}});
+        fs::write(&settings, doc.to_string()).expect("settings");
+        fs::write(&stdin, b"payload").expect("stdin");
+        let list = [
+            "--settings",
+            &settings,
+            "--statusline-stdin",
+            &stdin,
+            "--receipt",
+            &receipt,
+        ];
+        Agent::new(Opts::parse(&args(&list))).run_statusline();
+        let text = fs::read_to_string(&receipt).expect("the receipt");
+        let line: Value = serde_json::from_str(text.trim_end()).expect("one receipt line");
+        assert_eq!(line["kind"], "statusline");
+        assert!(line.get("event").is_none());
+        assert_eq!(line["command_absolute"], true);
+        assert_eq!(line["ran"], true);
+        assert_eq!(line["exit_code"], 0);
+        assert_eq!(line["stdin_hex"], hex(b"payload"));
+        assert!(line["stdout_hex"].as_str().is_some_and(|h| !h.is_empty()));
+        assert!(line["stderr_len"].is_u64());
     }
 
     #[test]

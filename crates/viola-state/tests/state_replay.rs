@@ -32,6 +32,7 @@ fn snapshot() -> InstanceSnapshot {
         child_pid: Some(42),
         pending_dialog: None,
         cwd: Some("work/project".to_owned()),
+        statusline_command: Some("printf status".to_owned()),
     }
 }
 
@@ -39,6 +40,14 @@ fn snapshot() -> InstanceSnapshot {
 fn cwd_of(recovered: &Recovered) -> Option<&str> {
     match recovered {
         Recovered::Snapshot(snapshot) => snapshot.cwd.as_deref(),
+        Recovered::Absent | Recovered::Replayed { .. } => None,
+    }
+}
+
+/// The recorded statusline command a recovery yields: a snapshot's own, and none from a replay.
+fn statusline_command_of(recovered: &Recovered) -> Option<&str> {
+    match recovered {
+        Recovered::Snapshot(snapshot) => snapshot.statusline_command.as_deref(),
         Recovered::Absent | Recovered::Replayed { .. } => None,
     }
 }
@@ -117,11 +126,11 @@ fn state_replay_the_written_snapshot_reads_present_and_is_returned() {
     let tmp = written();
     assert_eq!(
         read_snapshot_classified(tmp.path()),
-        SnapshotRead::Present(snapshot())
+        SnapshotRead::Present(Box::new(snapshot()))
     );
     assert_eq!(
         read_snapshot_or_replay(tmp.path()).expect("recovered"),
-        Recovered::Snapshot(snapshot())
+        Recovered::Snapshot(Box::new(snapshot()))
     );
 }
 
@@ -191,6 +200,7 @@ fn state_replay_a_snapshot_cut_short_yields_no_cwd_and_is_left_untouched() {
     let tmp = written();
     let present = read_snapshot_or_replay(tmp.path()).expect("recovered");
     assert_eq!(cwd_of(&present), Some("work/project"));
+    assert_eq!(statusline_command_of(&present), Some("printf status"));
     let path = tmp.path().join("snapshot.json");
     let whole = fs::metadata(&path).expect("the snapshot").len();
     OpenOptions::new()
@@ -207,6 +217,7 @@ fn state_replay_a_snapshot_cut_short_yields_no_cwd_and_is_left_untouched() {
         "{replayed:?}"
     );
     assert_eq!(cwd_of(&replayed), None);
+    assert_eq!(statusline_command_of(&replayed), None);
     assert_eq!(on_disk(tmp.path()), before);
 }
 

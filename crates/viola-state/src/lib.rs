@@ -3,6 +3,7 @@
 //! pinned exe copy and the capability stamps' bytes (architecture §Standard Contracts, §Occupied
 //! Resources → Filesystem). Sync only: no Tokio.
 
+pub mod budget;
 pub mod events;
 pub mod fs;
 pub mod heartbeat;

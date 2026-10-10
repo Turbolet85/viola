@@ -75,6 +75,15 @@ pub fn wait_for(path: &Path, what: &str, pred: impl Fn(&[Value]) -> bool) -> Vec
     }
 }
 
+/// Waits for the receipt's `statusline` line: the override's status line as the fake agent ran it
+/// at launch.
+pub fn wait_statusline(path: &Path) -> Value {
+    let lines = wait_for(path, "the statusline receipt", |l| {
+        !of_kind(l, "statusline").is_empty()
+    });
+    of_kind(&lines, "statusline")[0].clone()
+}
+
 /// Holds for a bounded window and asserts `pred` never becomes true (an ordering check).
 pub fn stays_false(path: &Path, window: Duration, pred: impl Fn(&[Value]) -> bool) {
     let until = Instant::now() + window;

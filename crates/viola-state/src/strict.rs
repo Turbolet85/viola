@@ -734,6 +734,7 @@ mod tests {
             child_pid: None,
             pending_dialog: None,
             cwd: None,
+            statusline_command: None,
         };
         write_snapshot(&instance_dir, &snapshot).expect("the snapshot");
         let name = viola_core::ViolaName::try_new("builder".to_owned()).expect("valid");

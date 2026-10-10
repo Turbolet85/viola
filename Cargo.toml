@@ -94,6 +94,11 @@ path = "tests/hook_events.rs"
 required-features = ["fake-agent"]
 
 [[test]]
+name = "hook_statusline"
+path = "tests/hook_statusline.rs"
+required-features = ["fake-agent"]
+
+[[test]]
 name = "cli_controls_not_disableable"
 path = "tests/cli_controls_not_disableable.rs"
 required-features = ["fake-agent"]

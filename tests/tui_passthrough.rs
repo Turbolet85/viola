@@ -15,7 +15,10 @@ use std::time::{Duration, Instant};
 use rstest::rstest;
 use serde_json::{Value, json};
 use support::fake::{self, FAKE, of_kind};
-use support::home::{TestHome, VIOLA, home};
+use support::home::{
+    STATUSLINE_ECHO_OUTPUT, StampedHome, TestHome, VIOLA, Wrapper, home, plant_statusline_source,
+    statusline_echo_command,
+};
 use support::outer_pty::{EXIT_WITHIN, OuterPty};
 use viola_pty::Size;
 
@@ -255,6 +258,60 @@ fn tui_hooks_firing_add_no_viola_bytes(#[from(home)] wrapped: TestHome) {
             "wrapped and unwrapped streams differ"
         );
     }
+}
+
+/// a11y-plan §4 P4 tui case (1) on a statusline-bearing start: the home's source names a user
+/// command, the start writes its override and hands it to the child, and (where the status line is
+/// wrapped) the child runs it through `viola hook statusline`. The outer stream still carries no
+/// viola-originated byte, and nothing of the status line's run either.
+#[rstest]
+fn passthrough_with_a_statusline_source_adds_no_viola_bytes(#[from(home)] wrapped: TestHome) {
+    // A source can only be planted in a home viola created: one start and clean stop first.
+    let (stopped, stamped) =
+        Wrapper::boot(StampedHome::unstamped(wrapped), "builder", None, &[]).stop_keep();
+    assert_eq!(stopped.code(), Some(0));
+    let wrapped = stamped.home;
+    let marker = wrapped.scratch().join("statusline.marker");
+    plant_statusline_source(wrapped.path(), &statusline_echo_command(&marker, &[]));
+    let stdin = wrapped.scratch().join("statusline.stdin");
+    let payload = json!({"session_id": "canary-chain-value-5c1e",
+        "rate_limits": {"five_hour": {"used_percentage": 12, "resets_at": 1_738_425_600}}});
+    std::fs::write(&stdin, payload.to_string()).expect("the payload");
+    let stdin = stdin.to_str().expect("utf-8 path").to_owned();
+    let receipt = wrapped.scratch().join("statusline.receipt.ndjson");
+
+    let mut pty = OuterPty::spawn(
+        Path::new(VIOLA),
+        &run_args(
+            wrapped.path(),
+            Some(&receipt),
+            &["--statusline-stdin", &stdin],
+        ),
+        &[],
+    );
+    fake::wait_for(&receipt, "start", |l| !of_kind(l, "start").is_empty());
+    if cfg!(unix) {
+        let ran = fake::wait_statusline(&receipt);
+        assert_eq!(ran["ran"], true);
+        assert_eq!(ran["exit_code"], 0);
+        assert_eq!(
+            fake::unhex(ran["stdout_hex"].as_str().expect("hex")),
+            STATUSLINE_ECHO_OUTPUT.as_bytes()
+        );
+    }
+    pty.write(b"\x03");
+    assert_eq!(pty.wait_exit(EXIT_WITHIN), 0);
+    let stream = pty.finish();
+    assert_eq!(
+        of_kind(&fake::receipt(&receipt), "statusline").len(),
+        usize::from(cfg!(unix)),
+        "the status line ran where it is not wrapped, or not where it is"
+    );
+    assert_no_viola_bytes(&stream);
+    assert!(
+        !holds(&stream, STATUSLINE_ECHO_OUTPUT.trim_end()),
+        "the status line's output reached the terminal"
+    );
 }
 
 #[rstest]

@@ -1,5 +1,6 @@
 use std::ffi::OsString;
-use std::io;
+use std::fs::File;
+use std::io::{self, Read as _};
 use std::path::{Path, PathBuf};
 use std::process::ExitCode;
 use std::sync::Arc;
@@ -9,13 +10,13 @@ use anyhow::Context as _;
 use chrono::Utc;
 use serde_json::{Value, json};
 use tracing::instrument;
-use viola_agent_claude::{Refusal, StripPlan};
+use viola_agent_claude::{Refusal, StripPlan, statusline};
 use viola_channel::{Call, ChannelError, Dispatch, ProtocolError, Server, Serving};
 use viola_core::obs::ObsProcess;
-use viola_core::{EventKind, SystemClock, ViolaName, WheelCause};
+use viola_core::{EventKind, MAX_FRAME, SystemClock, ViolaName, WheelCause};
 use viola_pty::{HostTerminal, PasteHandle, PortablePty, PumpEnd, Size, SpawnSpec};
 use viola_state::events::{EventLine, Source, append_event};
-use viola_state::fs::{FILE_MODE, create_private_dir, replace_private_shared};
+use viola_state::fs::{FILE_MODE, create_private_dir, replace_private, replace_private_shared};
 use viola_state::heartbeat::{Heartbeat, beat_age, touch_heartbeat};
 use viola_state::liveness::{Liveness, classify, own_start, same_process};
 use viola_state::pin::{PinError, Pinned, pin_exe};
@@ -233,6 +234,7 @@ pub(super) fn start(
     let sideload_fallback = sideload.fallback;
     #[cfg(not(windows))]
     let sideload_fallback = None;
+    let statusline_command = statusline_command(&home, std::env::home_dir().as_deref());
     let strip = viola_agent_claude::plan_strip(std::env::vars_os().map(|(k, _)| k), persistent);
     let gate = version_gate(&home, &program, &cwd, &strip);
     let cli_verified = gate.cli_verified;
@@ -278,13 +280,18 @@ pub(super) fn start(
         &pinned,
         endpoint,
         gate,
-        &launch.spawn_dir,
+        Recorded {
+            spawn_dir: &launch.spawn_dir,
+            statusline_command,
+        },
     )?;
+    let settings = write_override(&instance_dir, &pinned)?;
     let child = run::child_launch(
         name,
         &instance_dir,
         &pinned,
         &plugin_dir,
+        settings.as_deref(),
         std::env::var_os("PATH"),
         &launch.args,
     );
@@ -431,9 +438,65 @@ fn bind_endpoint(name: &ViolaName, home: &Path) -> anyhow::Result<Option<(String
     }
 }
 
-/// The first snapshot (with the endpoint, the version gate's reading and the child's spawn
-/// directory when it is valid UTF-8), the heartbeat and its thread, then the two start events; the
-/// returned guard keeps the heartbeat running.
+/// The home's own file that names the user's statusline command, in the settings shape: the source
+/// whenever it exists.
+const STATUSLINE_SOURCE: &str = "statusline-source.json";
+
+/// The per-session settings override, in the instance directory.
+const SETTINGS_OVERRIDE: &str = "settings.json";
+
+/// Which file names the user's statusline command for a start in `home` (absolute): the home's own
+/// source when it exists; else, for the default home alone, the user-scope settings file; else
+/// none, so a home named by `--home` never reads the user's settings.
+fn statusline_source(home: &Path, user_home: Option<&Path>) -> Option<PathBuf> {
+    let own = home.join(STATUSLINE_SOURCE);
+    if own.exists() {
+        return Some(own);
+    }
+    let user_home = user_home?;
+    let default = std::path::absolute(super::default_home(user_home)).ok()?;
+    (default == home).then(|| {
+        statusline::USER_SETTINGS
+            .iter()
+            .fold(user_home.to_path_buf(), |path, part| path.join(part))
+    })
+}
+
+/// The user's own statusline command for a start in `home`. A source that is absent, unreadable,
+/// over the frame cap or holds no command yields none: never a refusal, a line or a log entry.
+/// Both files are only ever read.
+fn statusline_command(home: &Path, user_home: Option<&Path>) -> Option<String> {
+    let source = statusline_source(home, user_home)?;
+    let mut bytes = Vec::new();
+    File::open(source)
+        .ok()?
+        .take(MAX_FRAME)
+        .read_to_end(&mut bytes)
+        .ok()?;
+    statusline::user_command(&bytes)
+}
+
+/// The override that puts `viola hook statusline` in the status line's place, written whole on every
+/// start whatever stands there, whether or not the user has a command of their own; `None` when
+/// this start wraps no status line, and then nothing is written.
+fn write_override(instance_dir: &Path, pinned: &Pinned) -> anyhow::Result<Option<PathBuf>> {
+    let Some(document) = statusline::override_document(&pinned.path_fwd) else {
+        return Ok(None);
+    };
+    let path = instance_dir.join(SETTINGS_OVERRIDE);
+    replace_private(&path, document.as_bytes(), FILE_MODE)?;
+    Ok(Some(path))
+}
+
+/// What the first snapshot records of the launch.
+struct Recorded<'a> {
+    spawn_dir: &'a Path,
+    statusline_command: Option<String>,
+}
+
+/// The first snapshot (with the endpoint, the version gate's reading, the child's spawn directory
+/// when it is valid UTF-8 and the user's statusline command when one was found), the heartbeat and
+/// its thread, then the two start events; the returned guard keeps the heartbeat running.
 fn start_state(
     name: &ViolaName,
     instance_dir: &Path,
@@ -441,7 +504,7 @@ fn start_state(
     pinned: &Pinned,
     endpoint: String,
     gate: Gate,
-    spawn_dir: &Path,
+    recorded: Recorded<'_>,
 ) -> anyhow::Result<(Heartbeat, InstanceSnapshot)> {
     create_private_dir(instance_dir)?;
     let pid = std::process::id();
@@ -457,7 +520,8 @@ fn start_state(
         links: Vec::new(),
         child_pid: None,
         pending_dialog: None,
-        cwd: spawn_dir.to_str().map(str::to_owned),
+        cwd: recorded.spawn_dir.to_str().map(str::to_owned),
+        statusline_command: recorded.statusline_command,
     };
     snapshots.init(snapshot.clone())?;
     touch_heartbeat(instance_dir)?;
@@ -948,6 +1012,16 @@ mod tests {
     /// The first snapshot `start_state` writes for a child spawned in `spawn_dir`, read back from
     /// the instance directory.
     fn first_snapshot(instance_dir: &Path, spawn_dir: &Path) -> InstanceSnapshot {
+        first_snapshot_recording(
+            instance_dir,
+            Recorded {
+                spawn_dir,
+                statusline_command: None,
+            },
+        )
+    }
+
+    fn first_snapshot_recording(instance_dir: &Path, recorded: Recorded<'_>) -> InstanceSnapshot {
         let name = ViolaName::try_new("builder".to_owned()).expect("valid");
         let pinned = Pinned {
             key: "k".to_owned(),
@@ -966,7 +1040,7 @@ mod tests {
             &pinned,
             "endpoint".to_owned(),
             gate,
-            spawn_dir,
+            recorded,
         )
         .expect("the start state");
         assert_eq!(read_snapshot(instance_dir), Some(returned.clone()));
@@ -997,6 +1071,171 @@ mod tests {
                 (&json!("budget-gate"), &json!({"paused": false})),
             ]
         );
+    }
+
+    fn settings_with(command: &str) -> String {
+        json!({"statusLine": {"type": "command", "command": command}}).to_string()
+    }
+
+    /// A viola home and a user home side by side in `root`, the user's settings file holding
+    /// `user_command`.
+    fn homes(root: &Path, user_command: &str) -> (PathBuf, PathBuf) {
+        let user_home = root.join("user");
+        let claude = user_home.join(".claude");
+        std::fs::create_dir_all(&claude).expect("the user's claude dir");
+        std::fs::write(claude.join("settings.json"), settings_with(user_command))
+            .expect("the user's settings");
+        let home = root.join("vhome");
+        std::fs::create_dir_all(&home).expect("the viola home");
+        (home, user_home)
+    }
+
+    #[test]
+    fn statusline_source_the_home_s_own_file_wins_over_the_user_s_settings() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (_, user_home) = homes(tmp.path(), "user-line");
+        let home = user_home.join(".viola");
+        std::fs::create_dir_all(&home).expect("the default home");
+        let own = home.join("statusline-source.json");
+        std::fs::write(&own, settings_with("home-line")).expect("the home's source");
+        assert_eq!(statusline_source(&home, Some(&user_home)), Some(own));
+        assert_eq!(
+            statusline_command(&home, Some(&user_home)).as_deref(),
+            Some("home-line")
+        );
+    }
+
+    #[test]
+    fn statusline_source_a_home_named_by_home_reads_no_user_settings() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (home, user_home) = homes(tmp.path(), "user-line");
+        assert_eq!(statusline_source(&home, Some(&user_home)), None);
+        assert_eq!(statusline_command(&home, Some(&user_home)), None);
+        let own = home.join("statusline-source.json");
+        std::fs::write(&own, settings_with("home-line")).expect("the home's source");
+        assert_eq!(statusline_source(&home, Some(&user_home)), Some(own));
+        assert_eq!(
+            statusline_command(&home, None).as_deref(),
+            Some("home-line")
+        );
+    }
+
+    #[test]
+    fn statusline_source_the_default_home_falls_back_to_the_user_s_settings() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (_, user_home) = homes(tmp.path(), "user-line");
+        let home = user_home.join(".viola");
+        assert_eq!(
+            statusline_source(&home, Some(&user_home)),
+            Some(user_home.join(".claude").join("settings.json"))
+        );
+        assert_eq!(
+            statusline_command(&home, Some(&user_home)).as_deref(),
+            Some("user-line")
+        );
+        assert_eq!(statusline_source(&home, None), None);
+        assert_eq!(statusline_command(&home, None), None);
+    }
+
+    #[test]
+    fn statusline_source_that_is_absent_unreadable_or_holds_no_command_is_no_command() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let user_home = tmp.path().join("user");
+        let home = user_home.join(".viola");
+        std::fs::create_dir_all(&home).expect("the default home");
+        assert_eq!(statusline_command(&home, Some(&user_home)), None);
+        let own = home.join("statusline-source.json");
+        std::fs::write(&own, b"not json").expect("the home's source");
+        assert_eq!(statusline_command(&home, Some(&user_home)), None);
+        std::fs::write(&own, br#"{"statusLine":{"type":"command"}}"#).expect("the home's source");
+        assert_eq!(statusline_command(&home, Some(&user_home)), None);
+        std::fs::remove_file(&own).expect("removed");
+        std::fs::create_dir(&own).expect("a directory in its place");
+        assert_eq!(statusline_command(&home, Some(&user_home)), None);
+    }
+
+    /// A source past the frame cap is read up to the cap alone, so its command is never taken.
+    #[test]
+    fn statusline_source_over_the_frame_cap_is_no_command() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (home, _) = homes(tmp.path(), "user-line");
+        let own = home.join("statusline-source.json");
+        let cap = usize::try_from(MAX_FRAME).expect("the cap");
+        let doc = settings_with("home-line");
+        std::fs::write(&own, " ".repeat(cap) + &doc).expect("the home's source");
+        assert_eq!(statusline_command(&home, None), None);
+        std::fs::write(&own, " ".repeat(cap - doc.len()) + &doc).expect("the home's source");
+        assert_eq!(
+            statusline_command(&home, None).as_deref(),
+            Some("home-line")
+        );
+    }
+
+    #[test]
+    fn statusline_override_of_a_start_is_rewritten_whole_at_owner_only() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let pinned = |path_fwd: &str| Pinned {
+            key: "k".to_owned(),
+            path: PathBuf::from(path_fwd),
+            path_fwd: path_fwd.to_owned(),
+        };
+        let written = write_override(tmp.path(), &pinned("/h/bin/k/viola")).expect("the write");
+        let file = tmp.path().join("settings.json");
+        if cfg!(unix) {
+            assert_eq!(written.as_deref(), Some(file.as_path()));
+            let first = std::fs::read(&file).expect("the override");
+            assert_eq!(
+                statusline::user_command(&first).as_deref(),
+                Some("/h/bin/k/viola hook statusline")
+            );
+            std::fs::write(&file, b"sentinel").expect("altered");
+            write_override(tmp.path(), &pinned("/h/bin/k/viola")).expect("the second write");
+            assert_eq!(std::fs::read(&file).expect("the override"), first);
+            #[cfg(unix)]
+            {
+                use std::os::unix::fs::PermissionsExt as _;
+                let mode = std::fs::metadata(&file).expect("meta").permissions().mode();
+                assert_eq!(mode & 0o777, 0o600);
+            }
+        } else {
+            assert_eq!(written, None);
+            assert!(!file.exists());
+        }
+        let unsafe_dir = tmp.path().join("unsafe");
+        std::fs::create_dir(&unsafe_dir).expect("dir");
+        let none = write_override(&unsafe_dir, &pinned("/h/bin k/viola")).expect("no write");
+        assert_eq!(none, None);
+        assert!(!unsafe_dir.join("settings.json").exists());
+        if cfg!(unix) {
+            let missing = tmp.path().join("missing");
+            assert!(write_override(&missing, &pinned("/h/bin/k/viola")).is_err());
+        }
+    }
+
+    /// The first snapshot records the command the start's source names, and none without one.
+    #[test]
+    fn snapshot_statusline_command_of_a_start_is_the_source_s_command() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (home, _) = homes(tmp.path(), "user-line");
+        std::fs::write(
+            home.join("statusline-source.json"),
+            settings_with("home-line --wide"),
+        )
+        .expect("the home's source");
+        let spawn_dir = tmp.path().join("work");
+        let snapshot = first_snapshot_recording(
+            &tmp.path().join("instance"),
+            Recorded {
+                spawn_dir: &spawn_dir,
+                statusline_command: statusline_command(&home, None),
+            },
+        );
+        assert_eq!(
+            snapshot.statusline_command.as_deref(),
+            Some("home-line --wide")
+        );
+        let without = first_snapshot(&tmp.path().join("other"), &spawn_dir);
+        assert_eq!(without.statusline_command, None);
     }
 
     #[cfg(unix)]

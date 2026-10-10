@@ -36,7 +36,7 @@ pub enum ReplayCause {
 /// An instance's state as [`read_snapshot_or_replay`] found it.
 #[derive(Debug, Clone, PartialEq)]
 pub enum Recovered {
-    Snapshot(InstanceSnapshot),
+    Snapshot(Box<InstanceSnapshot>),
     /// No snapshot: nothing is replayed.
     Absent,
     Replayed {
@@ -185,6 +185,7 @@ mod tests {
             child_pid: None,
             pending_dialog: None,
             cwd: None,
+            statusline_command: None,
         }
     }
 
@@ -430,7 +431,10 @@ mod tests {
         assert_eq!(lines, Vec::<Value>::new());
         write_snapshot(tmp.path(), &snapshot()).expect("write");
         let (present, lines) = capture(|| read_snapshot_or_replay(tmp.path()));
-        assert_eq!(present.expect("present"), Recovered::Snapshot(snapshot()));
+        assert_eq!(
+            present.expect("present"),
+            Recovered::Snapshot(Box::new(snapshot()))
+        );
         assert_eq!(lines, Vec::<Value>::new());
     }
 

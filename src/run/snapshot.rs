@@ -69,6 +69,7 @@ mod tests {
             child_pid: None,
             pending_dialog: None,
             cwd: None,
+            statusline_command: None,
         }
     }
 

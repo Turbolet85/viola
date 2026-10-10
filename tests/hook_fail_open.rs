@@ -177,7 +177,7 @@ fn stdin_bytes(stdin: Stdin) -> Vec<u8> {
 #[case::clap_version(&["hook", "--version"], Env::Instance, Stdin::Payload, None)]
 #[case::clap_missing_event(&["hook"], Env::Instance, Stdin::Payload, None)]
 #[case::clap_extra_argument(&["hook", "stop", "--bogus"], Env::Instance, Stdin::Payload, None)]
-#[case::unknown_event(&["hook", "statusline"], Env::Instance, Stdin::Payload, None)]
+#[case::unknown_event(&["hook", "status-line"], Env::Instance, Stdin::Payload, None)]
 #[case::unreachable_endpoint(&["hook", "stop"], Env::Stopped, Stdin::Payload, Some("channel-unreachable"))]
 #[case::no_snapshot(&["hook", "stop"], Env::Instance, Stdin::Payload, Some("channel-unreachable"))]
 #[case::name_absent(&["hook", "stop"], Env::DirOnly, Stdin::Payload, None)]

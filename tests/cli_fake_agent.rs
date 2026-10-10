@@ -17,7 +17,8 @@ use rstest::rstest;
 use serde_json::{Value, json};
 use support::fake::{self, FAKE, of_kind, unhex};
 use support::home::{
-    StampedHome, TestHome, VIOLA, Wrapper, home, keep_decision, stamped_home, workspace_path,
+    STATUSLINE_ECHO_OUTPUT, StampedHome, TestHome, VIOLA, Wrapper, home, keep_decision,
+    stamped_home, statusline_echo_command, workspace_path,
 };
 use support::outer_pty::{EXIT_WITHIN, OuterPty};
 use support::piped::Piped;
@@ -881,6 +882,104 @@ fn booted_wrapper_fixture_is_ready_and_receipting(
 }
 
 /// A wrapper that exits before `claude-child` starts is reported as exited at once, not as a
+/// A settings override whose status line is the fake agent's own `statusline-echo`, a payload
+/// file, and the marker file the echo appends to, all in the test's scratch dir.
+fn statusline_files(tmp: &TestHome, payload: &[u8]) -> (PathBuf, PathBuf, PathBuf) {
+    let marker = tmp.scratch().join("statusline.marker");
+    let command = statusline_echo_command(&marker, &[]);
+    let settings = tmp.scratch().join("settings.json");
+    let doc = json!({"statusLine": {"type": "command", "command": command}});
+    std::fs::write(&settings, doc.to_string()).expect("settings");
+    let stdin = tmp.scratch().join("statusline.stdin");
+    std::fs::write(&stdin, payload).expect("payload");
+    (settings, stdin, marker)
+}
+
+fn hex_of(bytes: &[u8]) -> String {
+    bytes.iter().map(|b| format!("{b:02x}")).collect()
+}
+
+/// `--settings` alone names a status line and runs nothing: the agent invents no payload.
+#[test]
+fn fake_statusline_settings_without_a_stdin_file_runs_nothing() {
+    let tmp = TestHome::new();
+    let (settings, _, marker) = statusline_files(&tmp, b"{}");
+    let agent = Direct::spawn(&tmp, &["--settings", path_str(&settings)], &[]);
+    let lines = agent.finish();
+    assert!(of_kind(&lines, "statusline").is_empty());
+    assert!(!marker.exists());
+}
+
+/// `--statusline-stdin` beside it runs the override's status line once at launch, directly, with
+/// exactly the file's bytes, and receipts the run in the hook receipt's form.
+#[test]
+fn fake_statusline_stdin_runs_the_settings_command_with_the_file_s_bytes() {
+    let tmp = TestHome::new();
+    let payload = br#"{"session_id":"canary-chain-value-5c1e","rate_limits":{}}"#;
+    let (settings, stdin, marker) = statusline_files(&tmp, payload);
+    let agent = Direct::spawn(
+        &tmp,
+        &[
+            "--settings",
+            path_str(&settings),
+            "--statusline-stdin",
+            path_str(&stdin),
+        ],
+        &[],
+    );
+    let ran = fake::wait_statusline(&agent.receipt);
+    assert_eq!(
+        ran,
+        json!({"v": 1, "kind": "statusline", "command_absolute": true, "ran": true,
+               "exit_code": 0, "stderr_len": 0,
+               "stdout_hex": hex_of(STATUSLINE_ECHO_OUTPUT.as_bytes()),
+               "stdin_hex": hex_of(payload)})
+    );
+    let lines = agent.finish();
+    assert_eq!(of_kind(&lines, "statusline").len(), 1);
+    assert_eq!(
+        std::fs::read_to_string(&marker).expect("the marker file"),
+        hex_of(payload) + "\n"
+    );
+}
+
+/// The `statusline-echo` mode: the fixed output whatever its stdin, one line of that stdin's hex
+/// appended to the marker file, and the exit code `--exit` names.
+#[test]
+fn fake_statusline_echo_mode_prints_its_output_and_files_its_stdin() {
+    let tmp = TestHome::new();
+    let marker = tmp.scratch().join("statusline.marker");
+    let echo = |stdin: &[u8], extra: &[&str]| {
+        let mut child = Command::new(FAKE)
+            .arg("statusline-echo")
+            .arg(&marker)
+            .args(extra)
+            .stdin(Stdio::piped())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped())
+            .spawn()
+            .expect("fake agent");
+        child
+            .stdin
+            .take()
+            .expect("stdin")
+            .write_all(stdin)
+            .expect("write");
+        child.wait_with_output().expect("exit")
+    };
+    let first = echo(b"\x1b[0m one", &[]);
+    assert_eq!(first.status.code(), Some(0));
+    assert_eq!(first.stdout, STATUSLINE_ECHO_OUTPUT.as_bytes());
+    assert!(first.stderr.is_empty());
+    let second = echo(b"", &["--exit", "3"]);
+    assert_eq!(second.status.code(), Some(3));
+    assert_eq!(second.stdout, STATUSLINE_ECHO_OUTPUT.as_bytes());
+    assert_eq!(
+        std::fs::read_to_string(&marker).expect("the marker file"),
+        hex_of(b"\x1b[0m one") + "\n\n"
+    );
+}
+
 /// readiness timeout: under a mutant that makes `viola` exit silently, the fixture must fail fast.
 #[rstest]
 #[should_panic(expected = "exited before ready")]

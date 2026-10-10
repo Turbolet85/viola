@@ -1,0 +1,57 @@
+[
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T18:48:46Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-statusline-pass-through",
+"--message-file",
+".andromeda/runs/2026-10-10T18-48-33-implement/relay-1.md",
+"--origin",
+"the operator, the /andromeda-implement invocation, 2026-10-10: the founder words relayed verbatim from the overseer dialogs read 17:31:33Z and 18:46:32Z",
+"--kind",
+"relay",
+"--why",
+"the founder word on each of the four of stop rule S1, relayed verbatim after each item was shown to him: W1 confirmed, W2 confirmed, W3 the file in the viola home, R option B a manual reading with three live claude starts for this chunk only, each start ledgered with the clock time before it is made, no row and no fixture; the Windows cut confirmed, so S3 is final",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-10-10T18-48-33-implement",
+"--marker",
+"2026-10-10-statusline-pass-through"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy message · message: the operator, the /andromeda-implement invocation, 2026-10-10: the founder words relayed verbatim from the overseer dialogs read 17:31:33Z and 18:46:32Z",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, the /andromeda-implement invocation, 2026-10-10: the founder words relayed verbatim from the overseer dialogs read 17:31:33Z and 18:46:32Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "a73488bfc8a8dc6e5b3da7c2525bba6aea28cdd4db992ef613d4a1f9b0370dd4",
+"copy": "I4-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-10T18:48:46Z",
+"step": "implement",
+"why": "the founder word on each of the four of stop rule S1, relayed verbatim after each item was shown to him: W1 confirmed, W2 confirmed, W3 the file in the viola home, R option B a manual reading with three live claude starts for this chunk only, each start ledgered with the clock time before it is made, no row and no fixture; the Windows cut confirmed, so S3 is final"
+}
+}
+]

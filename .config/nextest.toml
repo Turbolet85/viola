@@ -29,7 +29,7 @@ slow-timeout = { period = "20s", terminate-after = 3 }
 # Every binary that drives verify, directly or through the stamped-home fixture (its longest other
 # test, a `send_window_` one, read 11.25 s on the slowest measured run): a 20 s kill.
 [[profile.ci.overrides]]
-filter = 'binary(channel_endpoint) | binary(cli_answer) | binary(cli_fake_agent) | binary(cli_instance_state) | binary(cli_send) | binary(cli_verify) | binary(cli_version_gate) | binary(cli_wheel) | binary(conpty_sideload) | binary(contract_fake_agent_drift) | binary(contract_ledger_probes) | binary(tui_wheel)'
+filter = 'binary(channel_endpoint) | binary(cli_answer) | binary(cli_fake_agent) | binary(cli_instance_state) | binary(cli_send) | binary(cli_verify) | binary(cli_version_gate) | binary(cli_wheel) | binary(conpty_sideload) | binary(contract_fake_agent_drift) | binary(contract_ledger_probes) | binary(hook_statusline) | binary(tui_wheel)'
 slow-timeout = { period = "10s", terminate-after = 2 }
 
 # The first failure stops scheduling, and the tests already running finish, so their temp dirs and

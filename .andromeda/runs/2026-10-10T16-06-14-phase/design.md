@@ -1,0 +1,36 @@
+# design extract
+
+## Relevance
+partial — the chunk renders nothing on the web page and adds no human CLI output; the design plan binds it only through the cli surface's rules for `hook`, `run` / `revive` and start refusals, and through the budget vocabulary that later entries print from the reading this chunk writes. No colour, type, spacing, radius or motion token applies.
+
+## Constraints
+- `viola hook` has no human design surface: design-system §Surface: cli → Platform-Specific Notes requires that it write nothing to stderr and always exit 0. The new `statusline` arm falls under that sentence; no line, word or hint of viola's own is designed for it.
+- design-system §Surface: cli → Tokens (platform-specific), Colour decision order, places `viola hook` among the roles that get no colour, no glyph and no SGR. The plan requires that the arm add no styled byte of its own to stdout. The plan is silent on SGR bytes the user's own statusline command prints: the ban reads on viola's output (the same section's Toolkit paragraph ties every styled byte to viola's own SGR module), so the scope's "output unchanged" is not narrowed by it.
+- design-system §Surface: cli → Component Patterns, Exit-code phraseology, requires that clap usage text (exit 2) never come from `viola hook`. Whether the new arm's argument parsing can reach clap's usage exit is research's question.
+- design-system §Surface: cli → Component Patterns (5) requires that `run`, and a `revive` that passed its preflight, print nothing once the child starts; design-system §Brand Identity (the per-surface expression table, the 0.0 row) says the same of the passthrough. Resolving the statusline source and rewriting `instances/<name>/settings.json` at every start therefore print no notice, warning or progress line.
+- design-system §Surface: cli → Component Patterns (2) fixes the exit-1 start refusals of `run` and `revive` as a listed set: one fixed-message `unable: <text>` line and one hint per cause, none showing a path or a pid. The list holds no statusline cause. A start refusal this chunk adds (an unreadable source, for one) needs its line and hint written into that list first; the strict-modes line the list already holds covers a home that is not private. Whether the plan adds any start refusal is P3's question.
+- design-system §Surface: cli → Navigation Pattern lists the human verbs and the `viola --help` groups; `hook` is in neither. The chunk adds no verb and no help-group entry. Whether `hook` is already hidden from `--help` in the code is research's question.
+- design-system §Color Palette → Semantic Colors (the domain status rows for `BudgetEnvelope`, `Window.used_percentage`, `Window.resets_at`, `Window::expired`) prints a missing budget value as the word `unknown`, per field and per envelope, and blocks nothing on it. The reading this chunk writes must keep those cases apart (a field unknown, a window unknown, no reading) so the later printers can; it never stores a guessed or zeroed figure in place of `unknown`.
+
+## Patterns to follow
+- The age of a reading: design-system §Brand Identity (the ATIS domain anchor) and design-system §Surface: web-spa → Component Patterns (5) print every budget reading with its age, computed from `read_at`. The writer records `read_at` with each reading; no printer is built here.
+- The silent passthrough: design-system §Surface: cli → Component Patterns (5) (`run`, `revive`) is the model for the start path this chunk extends.
+- The `verify` step counter, for the step that waits for the founder's word only: design-system §Surface: cli → Component Patterns (5) fixes one static stdout line per ledger row (`[NN/MM] <row word> <one static description>  pass|fail`) and the summary line, and says the count grows as owning chunks land rows. A statusline row, if he opens one, needs its row word and description in that form, and the plan's "seventeen rows today" sentence is then drift for the wrap.
+- Faults stay silent on the terminal: design-system §Surface: cli → Platform-Specific Notes sends full detail to `instances/<name>/diagnostics/` only and prints no stack trace; a failing user command or a panic in the arm follows it.
+
+## Anti-patterns to avoid
+- Mixing data and messages: design-system §Anti-Patterns → Per-Surface Bans (cli) keeps results on stdout and every message on stderr. In `hook statusline` stdout holds the user's command's output only, and `hook` has no stderr, so a viola message has no stream to go to.
+- Printing upstream text, a path, a pid or an anyhow chain in an error or hint: design-system §Anti-Patterns → Per-Surface Bans (cli). The statusline command string and the settings source path are never quoted in a refusal line or hint.
+- A spinner, progress line or "done" word for the per-start rewrite: design-system §Anti-Patterns → Per-Surface Bans (cli).
+
+## Contract bindings
+- design ↔ architecture: the `budget.json` fields (`used_percentage`, `resets_at`, `read_at`, the `"unknown"` values) are the inputs of the display rows in design-system §Color Palette → Semantic Colors and of the BAY / ATIS lines (design-system §Surface: cli → Component Patterns (1), §Surface: web-spa → Component Patterns (5)). The printers are later entries' ("Budget governor", "The board: viola list", the Epoch 8 page entries). Whether a written reading with both windows unknown still carries `read_at` is architecture's contract, not this plan's.
+- design ↔ security: no stderr and exit 0 for `hook`, and no path, pid or upstream text in a refusal or hint (design-system §Surface: cli → Platform-Specific Notes; §Anti-Patterns → Per-Surface Bans (cli)) restate the hook fail-open rule and the NEVER-log floor.
+- design ↔ tests: the pass-through's byte-equality check on stdout (test-plan §6 Path 6) is also the proof that viola adds no SGR byte or line. The fake agent's `statusline-echo` marker is test-binary output, outside the cli surface (design-system §Surface: cli, Platform: the `viola` binary's streams).
+- design ↔ a11y: none in this chunk. Nothing renders, so the contrast, reduce-motion and not-colour-alone bindings do not arise.
+
+## Acceptance criteria contributions
+- `viola hook statusline` stdout equals the user's command's stdout byte for byte, with no byte added by viola (no SGR sequence, no glyph, no line), also when stdout is a terminal and the environment advertises colour (per design-system §Surface: cli → Tokens (platform-specific), Colour decision order)
+- `viola hook statusline` writes zero bytes to stderr and exits 0 on every path tested, a failing user command and a malformed invocation included; exit 2 and clap usage text never appear (per design-system §Surface: cli → Platform-Specific Notes; §Surface: cli → Component Patterns, Exit-code phraseology)
+- `viola run` and a `viola revive` that passed its preflight print no line of their own once the child starts, with a statusline source present, absent or unreadable (per design-system §Surface: cli → Component Patterns (5))
+- If the chunk adds a start refusal: it prints one fixed-message `unable: <text>` line and one `hint:` line holding no path, pid or command string, and that line stands in the plan's list (per design-system §Surface: cli → Component Patterns (2))

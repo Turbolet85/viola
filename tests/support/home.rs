@@ -182,6 +182,15 @@ impl TestHome {
         }
     }
 
+    /// A home that is a scratch user's default home, `<user home>/.viola`: `scratch()` is then that
+    /// user's home directory, which the test creates. A wrapper given that user home and no
+    /// `--home` lives here (`Wrapper::boot_as_user`).
+    pub fn default_of_user() -> Self {
+        let mut tmp = Self::new();
+        tmp.home = tmp.home.with_file_name("user").join(".viola");
+        tmp
+    }
+
     pub fn path(&self) -> &Path {
         &self.home
     }
@@ -255,6 +264,48 @@ pub fn seed_conpty(home: &Path) {
     }
     #[cfg(not(all(windows, target_arch = "x86_64")))]
     let _ = home;
+}
+
+/// Plants `<home>/statusline-source.json` naming `command` as the user's statusline command, in
+/// the settings shape. Only in a home viola already created (a stamped home, or one a wrapper
+/// booted in): a home made here would not carry viola's own modes.
+pub fn plant_statusline_source(home: &Path, command: &str) -> PathBuf {
+    assert!(home.is_dir(), "the home is not one viola created");
+    let path = home.join("statusline-source.json");
+    let doc = json!({"statusLine": {"type": "command", "command": command}});
+    fs::write(&path, doc.to_string()).expect("statusline source");
+    path
+}
+
+/// The file the test user's statusline command appends to, under the home's `fake/`.
+pub fn statusline_marker(home: &Path) -> PathBuf {
+    home.join("fake").join("statusline.marker")
+}
+
+/// What the fake agent's `statusline-echo` mode prints: a test literal, never the agent's own
+/// constant.
+pub const STATUSLINE_ECHO_OUTPUT: &str = "viola-fake-statusline\n";
+
+/// The test user's statusline command for this OS: the fake agent's `statusline-echo` mode appending
+/// to `marker`, then `extra`. Both paths are written with forward slashes and must hold only
+/// characters the override rule leaves unquoted (ASCII letters, digits and `_ - . / :`), so a shell
+/// and the fake agent's own split read the same words.
+pub fn statusline_echo_command(marker: &Path, extra: &[&str]) -> String {
+    let forward = |path: &Path| path.to_str().expect("utf-8 path").replace('\\', "/");
+    let mut words = vec![
+        forward(Path::new(fake::FAKE)),
+        "statusline-echo".to_owned(),
+        forward(marker),
+    ];
+    for path in [&words[0], &words[2]] {
+        assert!(
+            path.chars()
+                .all(|c| c.is_ascii_alphanumeric() || "_-./:".contains(c)),
+            "a test statusline path holds a character a shell could misread"
+        );
+    }
+    words.extend(extra.iter().map(|word| (*word).to_owned()));
+    words.join(" ")
 }
 
 /// A workspace-relative path resolved against the root package's manifest dir.
@@ -352,6 +403,20 @@ pub struct Wrapper {
     pty: OuterPty,
 }
 
+/// The variable `std::env::home_dir` reads on this OS.
+const USER_HOME_VAR: &str = if cfg!(windows) { "USERPROFILE" } else { "HOME" };
+
+/// Where a boot is typed, and as whom.
+#[derive(Clone, Copy, Default)]
+struct Host<'a> {
+    /// The directory it is typed in: the fake agent's cwd and its trusted root.
+    dir: Option<&'a Path>,
+    /// The user home the wrapper is given in place of this process's own.
+    user_home: Option<&'a Path>,
+    /// No `--home` is passed: the wrapper lives in its user's default home.
+    default_home: bool,
+}
+
 /// The wrapper's exit code once it stopped.
 pub struct Stopped(Option<u32>);
 
@@ -375,7 +440,7 @@ impl Wrapper {
         extra: &[&str],
         size: Size,
     ) -> Self {
-        Self::boot_with(stamped, name, script, extra, size, true, None)
+        Self::boot_with(stamped, name, script, extra, size, true, Host::default())
     }
 
     /// `boot` with the fake agent's cwd untrusted: it shows the recorded trust dialog and fires no
@@ -386,12 +451,39 @@ impl Wrapper {
         script: Option<&str>,
         extra: &[&str],
     ) -> Self {
-        Self::boot_with(stamped, name, script, extra, Size::DEFAULT, false, None)
+        let host = Host::default();
+        Self::boot_with(stamped, name, script, extra, Size::DEFAULT, false, host)
     }
 
     /// `boot` typed in `dir`, which is the fake agent's cwd and its trusted root.
     pub fn boot_in(stamped: StampedHome, name: &str, dir: &Path, extra: &[&str]) -> Self {
-        Self::boot_with(stamped, name, None, extra, Size::DEFAULT, true, Some(dir))
+        let host = Host {
+            dir: Some(dir),
+            ..Host::default()
+        };
+        Self::boot_with(stamped, name, None, extra, Size::DEFAULT, true, host)
+    }
+
+    /// `boot` as the user whose home directory is `user_home`: that one variable is set on the
+    /// wrapper alone, and nothing else of this process's user reaches it differently. With
+    /// `default_home` no `--home` is passed, so the wrapper lives in that user's default home,
+    /// which `stamped`'s home must be (`TestHome::default_of_user`).
+    pub fn boot_as_user(
+        stamped: StampedHome,
+        name: &str,
+        user_home: &Path,
+        default_home: bool,
+    ) -> Self {
+        assert!(
+            !default_home || stamped.home.path() == user_home.join(".viola"),
+            "the test home is not this user's default home"
+        );
+        let host = Host {
+            dir: None,
+            user_home: Some(user_home),
+            default_home,
+        };
+        Self::boot_with(stamped, name, None, &[], Size::DEFAULT, true, host)
     }
 
     /// `viola revive <name> <flags…> -- <the fake agent's flags>` typed in `dir`, with the fake
@@ -438,11 +530,16 @@ impl Wrapper {
         extra: &[&str],
         size: Size,
         trusted: bool,
-        dir: Option<&Path>,
+        host: Host<'_>,
     ) -> Self {
-        let cwd = dir.map_or_else(|| std::env::current_dir().expect("cwd"), Path::to_path_buf);
+        let cwd = host
+            .dir
+            .map_or_else(|| std::env::current_dir().expect("cwd"), Path::to_path_buf);
         let home = stamped.home.path().to_path_buf();
-        let mut args: Vec<OsString> = vec!["--home".into(), home.clone().into()];
+        let mut args: Vec<OsString> = Vec::new();
+        if !host.default_home {
+            args.extend(["--home".into(), home.clone().into()]);
+        }
         args.extend(["run", name, "--"].map(OsString::from));
         args.push(stamped.fake.clone().into());
         args.push("--control".into());
@@ -462,7 +559,11 @@ impl Wrapper {
         args.extend(extra.iter().map(OsString::from));
         let before = Starts::read(&home, name);
         seed_conpty(&home);
-        let pty = OuterPty::spawn_in(Path::new(VIOLA), &args, &[], size, &cwd);
+        let user_home = host
+            .user_home
+            .map(|dir| dir.to_str().expect("utf-8 user home"));
+        let env: Vec<(&str, &str)> = user_home.iter().map(|dir| (USER_HOME_VAR, *dir)).collect();
+        let pty = OuterPty::spawn_in(Path::new(VIOLA), &args, &env, size, &cwd);
         let mut wrapper = Self {
             stamped,
             name: name.to_owned(),

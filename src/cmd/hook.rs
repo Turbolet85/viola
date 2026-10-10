@@ -30,6 +30,7 @@ use super::Failure;
 use crate::obs::{self, DetailSink};
 
 mod seam;
+mod statusline;
 
 #[derive(clap::Args)]
 pub(crate) struct HookArgs {
@@ -50,6 +51,10 @@ const CONNECT_DEADLINE: Duration = Duration::from_millis(750);
 fn spine_deadline(started: Instant) -> Instant {
     started + CONNECT_DEADLINE
 }
+
+/// How long `hook statusline` waits for the user's own statusline command before it ends that
+/// command and prints nothing. PROVISIONAL, unmeasured.
+const STATUSLINE_DEADLINE: Duration = Duration::from_secs(5);
 
 /// How long past `DIALOG_DEADLINE` a dialog hook still waits for the wrapper's reply.
 const REPLY_GRACE: Duration = Duration::from_secs(5);
@@ -88,6 +93,9 @@ fn instance_of(name: Option<OsString>, dir: Option<OsString>) -> Option<Instance
 
 pub(crate) fn hook(args: &HookArgs) -> Result<ExitCode, Failure> {
     let started = Instant::now();
+    if args.event == statusline::WORD && args.capture.is_none() {
+        return statusline::statusline(started);
+    }
     let Some(event) = HookEvent::from_arg(&args.event) else {
         return Ok(ExitCode::SUCCESS);
     };
@@ -552,6 +560,11 @@ mod tests {
     }
 
     #[test]
+    fn statusline_deadline_is_five_seconds() {
+        assert_eq!(STATUSLINE_DEADLINE.as_secs(), 5);
+    }
+
+    #[test]
     fn instance_of_takes_the_home_two_levels_above_the_dir() {
         let home = std::env::temp_dir().join("h");
         let dir = home.join("instances").join("builder");
@@ -728,6 +741,7 @@ mod tests {
             child_pid: None,
             pending_dialog: None,
             cwd: None,
+            statusline_command: None,
         };
         viola_state::snapshot::write_snapshot(&instance.dir, &snapshot).expect("snapshot");
         (instance, serving)
