@@ -335,6 +335,8 @@ mod tests {
     #[case::send_after_home(&["--home", "C:/h", "send", "builder"], Role::Cli)]
     #[case::wait_after_home(&["--home=C:/h", "wait", "builder"], Role::Cli)]
     #[case::last_after_home(&["--home", "C:/h", "last", "builder"], Role::Cli)]
+    #[case::list(&["list", "--json"], Role::Cli)]
+    #[case::list_after_home(&["--home", "C:/h", "list"], Role::Cli)]
     #[case::version(&["--version"], Role::Other)]
     fn role_of_skips_the_home_flag_and_its_value(#[case] args: &[&str], #[case] role: Role) {
         assert_eq!(role_of(argv(args)), role);

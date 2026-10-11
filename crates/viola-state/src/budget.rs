@@ -67,6 +67,16 @@ struct Stored {
     v: u32,
     five_hour: Reading<BudgetWindow>,
     seven_day: Reading<BudgetWindow>,
+    #[serde(default)]
+    read_at: Option<serde_json::Value>,
+}
+
+/// A reading with the instant its writer stored beside it.
+#[derive(Debug, Clone, PartialEq)]
+pub struct StampedReading {
+    pub reading: BudgetReading,
+    /// `"unknown"` when the envelope holds no string `read_at`.
+    pub read_at: Reading<String>,
 }
 
 /// The reading `<home>/budget.json` holds, read under a shared lock on its sibling through the
@@ -75,6 +85,11 @@ struct Stored {
 /// `MAX_FRAME` bytes, bytes that are no envelope, or a `v` other than 1. It never writes
 /// `budget.json`, and an absent one leaves no file behind.
 pub fn read_budget(home: &Path) -> Option<BudgetReading> {
+    read_budget_stamped(home).map(|stamped| stamped.reading)
+}
+
+/// [`read_budget`] with the stored `read_at`: the same checks, lock and read, in the same order.
+pub fn read_budget_stamped(home: &Path) -> Option<StampedReading> {
     let path = home.join(BUDGET);
     check_path(home).ok()?;
     check_path(&path).ok()?;
@@ -90,9 +105,16 @@ pub fn read_budget(home: &Path) -> Option<BudgetReading> {
         return None;
     }
     let stored: Stored = serde_json::from_slice(&bytes).ok()?;
-    (stored.v == BUDGET_V).then_some(BudgetReading {
-        five_hour: stored.five_hour,
-        seven_day: stored.seven_day,
+    let read_at = match stored.read_at {
+        Some(serde_json::Value::String(at)) => Reading::Known(at),
+        _ => Reading::UNKNOWN,
+    };
+    (stored.v == BUDGET_V).then_some(StampedReading {
+        reading: BudgetReading {
+            five_hour: stored.five_hour,
+            seven_day: stored.seven_day,
+        },
+        read_at,
     })
 }
 
@@ -372,6 +394,51 @@ mod tests {
         );
         #[cfg(unix)]
         assert_eq!(mode_of(&path), 0o600);
+    }
+
+    #[test]
+    fn budget_stamped_read_returns_the_instant_write_budget_wrote() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = private_home(&tmp);
+        write_budget(&home, &both_windows(), read_at()).expect("write");
+        assert_eq!(
+            read_budget_stamped(&home),
+            Some(StampedReading {
+                reading: both_windows(),
+                read_at: at("2026-10-10T18:00:00.007Z"),
+            })
+        );
+    }
+
+    #[test]
+    fn budget_stamped_read_of_an_envelope_without_a_string_read_at_is_unknown() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = private_home(&tmp);
+        write_budget(&home, &both_windows(), read_at()).expect("write");
+        let path = home.join("budget.json");
+        let written = fs::read_to_string(&path).expect("budget.json");
+        let stamp = r#","read_at":"2026-10-10T18:00:00.007Z""#;
+        assert!(written.contains(stamp));
+        for replacement in ["", r#","read_at":7"#, r#","read_at":null"#] {
+            fs::write(&path, written.replacen(stamp, replacement, 1)).expect("planted");
+            assert_eq!(
+                read_budget_stamped(&home),
+                Some(StampedReading {
+                    reading: both_windows(),
+                    read_at: Reading::UNKNOWN,
+                }),
+                "{replacement:?}"
+            );
+            assert_eq!(read_budget(&home), Some(both_windows()));
+        }
+    }
+
+    #[test]
+    fn budget_stamped_read_of_an_absent_file_is_nothing_and_creates_nothing() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = private_home(&tmp);
+        assert_eq!(read_budget_stamped(&home), None);
+        assert_eq!(fs::read_dir(&home).expect("the home").count(), 0);
     }
 
     #[test]

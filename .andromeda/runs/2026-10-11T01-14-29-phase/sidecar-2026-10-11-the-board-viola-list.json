@@ -1,0 +1,527 @@
+[
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "cc8d4b8a",
+"ts": "2026-10-11T01:23:28Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/architecture-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-11T01-14-29-phase",
+"--marker",
+"2026-10-11-the-board-viola-list"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"bytes 186843 · whole-read bound 120000 · OVER",
+"entries 97 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 186843,
+"entries": 97,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "cc8d4b8a",
+"ts": "2026-10-11T01:23:28Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-11T01-14-29-phase",
+"--marker",
+"2026-10-11-the-board-viola-list"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"bytes 97372 · whole-read bound 120000 · within",
+"entries 58 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 97372,
+"entries": 58,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "cc8d4b8a",
+"ts": "2026-10-11T01:23:28Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/design-system-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-11T01-14-29-phase",
+"--marker",
+"2026-10-11-the-board-viola-list"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"bytes 15184 · whole-read bound 120000 · within",
+"entries 14 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 15184,
+"entries": 14,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "cc8d4b8a",
+"ts": "2026-10-11T01:23:28Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/layout-templates-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-11T01-14-29-phase",
+"--marker",
+"2026-10-11-the-board-viola-list"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"bytes 14141 · whole-read bound 120000 · within",
+"entries 14 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 14141,
+"entries": 14,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "cc8d4b8a",
+"ts": "2026-10-11T01:23:28Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-11T01-14-29-phase",
+"--marker",
+"2026-10-11-the-board-viola-list"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"bytes 140677 · whole-read bound 120000 · OVER",
+"entries 84 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 140677,
+"entries": 84,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "cc8d4b8a",
+"ts": "2026-10-11T01:23:28Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-11T01-14-29-phase",
+"--marker",
+"2026-10-11-the-board-viola-list"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"bytes 72101 · whole-read bound 120000 · within",
+"entries 56 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 72101,
+"entries": 56,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "cc8d4b8a",
+"ts": "2026-10-11T01:23:28Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/a11y-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-11T01-14-29-phase",
+"--marker",
+"2026-10-11-the-board-viola-list"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"bytes 22837 · whole-read bound 120000 · within",
+"entries 19 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 22837,
+"entries": 19,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "cc8d4b8a",
+"ts": "2026-10-11T01:23:33Z",
+"argv": [
+"index",
+"--file",
+".andromeda/architecture-amendments.md",
+"--out",
+".andromeda/runs/2026-10-11T01-14-29-phase/arch-history-index.md",
+"--run-dir",
+".andromeda/runs/2026-10-11T01-14-29-phase",
+"--marker",
+"2026-10-11-the-board-viola-list"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"wrote .andromeda/runs/2026-10-11T01-14-29-phase/arch-history-index.md · 97 entries · 0 unparsed · 33716 B (the sidecar is 186843 B)"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-10-11T01-14-29-phase/arch-history-index.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "cc8d4b8a",
+"ts": "2026-10-11T01:23:33Z",
+"argv": [
+"index",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--out",
+".andromeda/runs/2026-10-11T01-14-29-phase/tests-history-index.md",
+"--run-dir",
+".andromeda/runs/2026-10-11T01-14-29-phase",
+"--marker",
+"2026-10-11-the-board-viola-list"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"wrote .andromeda/runs/2026-10-11T01-14-29-phase/tests-history-index.md · 84 entries · 0 unparsed · 28154 B (the sidecar is 140677 B)"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-10-11T01-14-29-phase/tests-history-index.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "cc8d4b8a",
+"ts": "2026-10-11T01:27:20Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/architecture-amendments.md",
+"--history",
+".andromeda/runs/2026-10-11T01-14-29-phase/arch-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-11T01-14-29-phase",
+"--marker",
+"2026-10-11-the-board-viola-list"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"cites: 37 · resolved 37 · UNRESOLVED 0 · not a marker 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 37,
+"UNRESOLVED": 0,
+"not a marker": 0,
+"cites": 37
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "cc8d4b8a",
+"ts": "2026-10-11T01:27:20Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--history",
+".andromeda/runs/2026-10-11T01-14-29-phase/security-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-11T01-14-29-phase",
+"--marker",
+"2026-10-11-the-board-viola-list"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"cites: 28 · resolved 28 · UNRESOLVED 0 · not a marker 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 28,
+"UNRESOLVED": 0,
+"not a marker": 0,
+"cites": 28
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "cc8d4b8a",
+"ts": "2026-10-11T01:27:20Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/design-system-amendments.md",
+"--history",
+".andromeda/runs/2026-10-11T01-14-29-phase/design-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-11T01-14-29-phase",
+"--marker",
+"2026-10-11-the-board-viola-list"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"cites: 8 · resolved 8 · UNRESOLVED 0 · not a marker 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 8,
+"UNRESOLVED": 0,
+"not a marker": 0,
+"cites": 8
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "cc8d4b8a",
+"ts": "2026-10-11T01:27:20Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/layout-templates-amendments.md",
+"--history",
+".andromeda/runs/2026-10-11T01-14-29-phase/layouts-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-11T01-14-29-phase",
+"--marker",
+"2026-10-11-the-board-viola-list"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"cites: 9 · resolved 9 · UNRESOLVED 0 · not a marker 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 9,
+"UNRESOLVED": 0,
+"not a marker": 0,
+"cites": 9
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "cc8d4b8a",
+"ts": "2026-10-11T01:27:20Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--history",
+".andromeda/runs/2026-10-11T01-14-29-phase/tests-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-11T01-14-29-phase",
+"--marker",
+"2026-10-11-the-board-viola-list"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"cites: 44 · resolved 44 · UNRESOLVED 0 · not a marker 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 44,
+"UNRESOLVED": 0,
+"not a marker": 0,
+"cites": 44
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "cc8d4b8a",
+"ts": "2026-10-11T01:27:20Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--history",
+".andromeda/runs/2026-10-11T01-14-29-phase/obs-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-11T01-14-29-phase",
+"--marker",
+"2026-10-11-the-board-viola-list"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"cites: 25 · resolved 25 · UNRESOLVED 0 · not a marker 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 25,
+"UNRESOLVED": 0,
+"not a marker": 0,
+"cites": 25
+}
+},
+{
+"tool": "sidecar",
+"v": "1.4",
+"sha8": "cc8d4b8a",
+"ts": "2026-10-11T01:27:20Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/a11y-plan-amendments.md",
+"--history",
+".andromeda/runs/2026-10-11T01-14-29-phase/a11y-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-11T01-14-29-phase",
+"--marker",
+"2026-10-11-the-board-viola-list"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"cites: 13 · resolved 13 · UNRESOLVED 0 · not a marker 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 13,
+"UNRESOLVED": 0,
+"not a marker": 0,
+"cites": 13
+}
+}
+]

@@ -67,10 +67,7 @@ impl Refusal {
     /// directory, a pid or an id read from the log.
     fn pair(self, name: &str) -> (String, String) {
         match self {
-            Self::StrictModes => (
-                format!("{name}'s state files can be written by another user"),
-                "viola will not read them; make the viola home and its files owner-only".to_owned(),
-            ),
+            Self::StrictModes => human::instance_state_pair(name),
             Self::NoSession => (
                 format!("{name} has no logged session to resume"),
                 format!("start one: viola run {name} -- {PROGRAM}"),

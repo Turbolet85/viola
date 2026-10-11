@@ -383,6 +383,52 @@ fn path6_the_refusal_hint_never_names_release(stamped_home: StampedHome) {
     wrapper.stop();
 }
 
+/// `viola list --json`'s one document.
+fn board(home: &Path) -> Value {
+    let ran = viola(home, &["list", "--json"], None, None);
+    assert_eq!(ran.code, Some(0), "stderr: {}", ran.stderr);
+    serde_json::from_str(&ran.stdout).expect("one JSON document")
+}
+
+/// Path 6 on the board: the reading and the gate's verdict over it in `budget`, the snapshot's
+/// pause on the row. They are two facts: after `release --budget` the row's pause is lifted while
+/// the reading still crosses the threshold.
+#[rstest]
+fn path6_list_shows_the_reading_and_the_pause(stamped_home: StampedHome) {
+    let wrapper = boot(stamped_home, None);
+    let home = wrapper.home().to_path_buf();
+    let dir = wrapper.instance_dir();
+    feed(&dir, usage(91, 10));
+    assert_eq!(send(&home).code, Some(11));
+
+    let paused = board(&home);
+    let budget = &paused["ok"]["budget"];
+    assert_eq!(budget["paused"], true);
+    assert_eq!(budget["five_hour"]["used_percentage"].as_f64(), Some(91.0));
+    assert!(budget["read_at"].is_string(), "{budget}");
+    assert_eq!(paused["ok"]["items"][0]["budget_paused"], true);
+    let human = viola(&home, &["list"], None, None);
+    assert_eq!(human.code, Some(0), "stderr: {}", human.stderr);
+    let lines: Vec<&str> = human.stdout.lines().collect();
+    assert!(
+        lines[0].starts_with("BAY  5H 91 %  7D 10 %  read ")
+            && lines[0].ends_with("  budget-paused  skipped 0 - 0 - 0"),
+        "{}",
+        lines[0]
+    );
+    assert_eq!(
+        lines[2],
+        "builder  live   unknown  driver - budget-paused   none               2.1.287 verified"
+    );
+
+    let lifted = release(&home, &["--budget", "--json"], None);
+    assert_eq!(lifted.code, Some(0), "stderr: {}", lifted.stderr);
+    let after = board(&home);
+    assert_eq!(after["ok"]["items"][0]["budget_paused"], false);
+    assert_eq!(after["ok"]["budget"]["paused"], true);
+    wrapper.stop();
+}
+
 /// The snapshot once `pred` holds over its `data`; past `WITHIN` it panics naming `what`.
 fn wait_snapshot(instance_dir: &Path, what: &str, pred: impl Fn(&Value) -> bool) -> Value {
     let watch = Watch::start("snapshot");

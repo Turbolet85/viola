@@ -1,0 +1,826 @@
+[
+{
+"sql": "SELECT callee_name, caller, file, line FROM calls WHERE callee_name IN ('read_snapshot_or_replay','read_budget','check_instance','read_from','read_thresholds','classify','same_process','beat_age','escape_message','role_of','read_snapshot') AND callee_kind = 'fn' AND file NOT LIKE '%/tests/%' ORDER BY callee_name, file, line",
+"rows": 136,
+"result": [
+{
+"callee_name": "beat_age",
+"caller": "rust-analyzer cargo viola-state 0.1.0 heartbeat/tests/touch_heartbeat_creates_the_file_and_beat_age_reads_it().",
+"file": "crates/viola-state/src/heartbeat.rs",
+"line": 77
+},
+{
+"callee_name": "beat_age",
+"caller": "rust-analyzer cargo viola-state 0.1.0 heartbeat/tests/touch_heartbeat_creates_the_file_and_beat_age_reads_it().",
+"file": "crates/viola-state/src/heartbeat.rs",
+"line": 82
+},
+{
+"callee_name": "beat_age",
+"caller": "rust-analyzer cargo viola-state 0.1.0 heartbeat/tests/touch_heartbeat_creates_the_file_and_beat_age_reads_it().",
+"file": "crates/viola-state/src/heartbeat.rs",
+"line": 85
+},
+{
+"callee_name": "beat_age",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/client/",
+"file": "src/cmd/client.rs",
+"line": 13
+},
+{
+"callee_name": "beat_age",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/client/live_endpoint().",
+"file": "src/cmd/client.rs",
+"line": 96
+},
+{
+"callee_name": "beat_age",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/",
+"file": "src/cmd/run.rs",
+"line": 19
+},
+{
+"callee_name": "beat_age",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/collision_check().",
+"file": "src/cmd/run.rs",
+"line": 364
+},
+{
+"callee_name": "beat_age",
+"caller": "rust-analyzer cargo viola 0.1.0 crate/",
+"file": "tests/cli_instance_state.rs",
+"line": 20
+},
+{
+"callee_name": "beat_age",
+"caller": "rust-analyzer cargo viola 0.1.0 path1_start_writes_state_before_the_spawn().",
+"file": "tests/cli_instance_state.rs",
+"line": 167
+},
+{
+"callee_name": "beat_age",
+"caller": "rust-analyzer cargo viola 0.1.0 support/home/beat_fresh().",
+"file": "tests/support/home.rs",
+"line": 860
+},
+{
+"callee_name": "check_instance",
+"caller": "rust-analyzer cargo viola-state 0.1.0 strict/tests/strict_instance_of_a_tree_viola_wrote_passes().",
+"file": "crates/viola-state/src/strict.rs",
+"line": 757
+},
+{
+"callee_name": "check_instance",
+"caller": "rust-analyzer cargo viola-state 0.1.0 strict/tests/strict_instance_of_a_home_with_no_instance_directory_passes().",
+"file": "crates/viola-state/src/strict.rs",
+"line": 765
+},
+{
+"callee_name": "check_instance",
+"caller": "rust-analyzer cargo viola-state 0.1.0 strict/tests/strict_instance_of_a_home_with_no_instance_directory_passes().",
+"file": "crates/viola-state/src/strict.rs",
+"line": 767
+},
+{
+"callee_name": "check_instance",
+"caller": "rust-analyzer cargo viola-state 0.1.0 strict/tests/strict_instance_of_a_path_that_cannot_be_statted_is_unreadable().",
+"file": "crates/viola-state/src/strict.rs",
+"line": 777
+},
+{
+"callee_name": "check_instance",
+"caller": "rust-analyzer cargo viola-state 0.1.0 strict/tests/strict_instance_of_a_path_that_cannot_be_statted_is_unreadable().",
+"file": "crates/viola-state/src/strict.rs",
+"line": 781
+},
+{
+"callee_name": "check_instance",
+"caller": "rust-analyzer cargo viola-state 0.1.0 strict/tests/strict_instance_refuses_a_widened_mode().",
+"file": "crates/viola-state/src/strict.rs",
+"line": 805
+},
+{
+"callee_name": "check_instance",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/hook/statusline/",
+"file": "src/cmd/hook/statusline.rs",
+"line": 20
+},
+{
+"callee_name": "check_instance",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/hook/statusline/trusted().",
+"file": "src/cmd/hook/statusline.rs",
+"line": 44
+},
+{
+"callee_name": "check_instance",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/revive/",
+"file": "src/cmd/revive.rs",
+"line": 12
+},
+{
+"callee_name": "check_instance",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/revive/trusted().",
+"file": "src/cmd/revive.rs",
+"line": 122
+},
+{
+"callee_name": "classify",
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 dialog/tests/classified().",
+"file": "crates/viola-agent-claude/src/dialog.rs",
+"line": 416
+},
+{
+"callee_name": "classify",
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 dialog/tests/classify_an_ordinary_permission_request_is_a_permission().",
+"file": "crates/viola-agent-claude/src/dialog.rs",
+"line": 480
+},
+{
+"callee_name": "classify",
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 dialog/tests/classify_a_pre_tool_use_outside_the_matcher_is_no_dialog().",
+"file": "crates/viola-agent-claude/src/dialog.rs",
+"line": 496
+},
+{
+"callee_name": "classify",
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 dialog/tests/classify_refuses_a_payload_it_cannot_read().",
+"file": "crates/viola-agent-claude/src/dialog.rs",
+"line": 517
+},
+{
+"callee_name": "classify",
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 dialog/tests/classify_a_question_without_header_or_multi_select_reads_null_and_false().",
+"file": "crates/viola-agent-claude/src/dialog.rs",
+"line": 523
+},
+{
+"callee_name": "classify",
+"caller": "rust-analyzer cargo viola-state 0.1.0 liveness/tests/liveness_classify_boundaries().",
+"file": "crates/viola-state/src/liveness.rs",
+"line": 74
+},
+{
+"callee_name": "classify",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/client/",
+"file": "src/cmd/client.rs",
+"line": 14
+},
+{
+"callee_name": "classify",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/client/live_endpoint().",
+"file": "src/cmd/client.rs",
+"line": 97
+},
+{
+"callee_name": "classify",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/hook/",
+"file": "src/cmd/hook.rs",
+"line": 16
+},
+{
+"callee_name": "classify",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/hook/handle_dialog().",
+"file": "src/cmd/hook.rs",
+"line": 224
+},
+{
+"callee_name": "classify",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/hook/tests/ask_reads_the_three_outcomes().",
+"file": "src/cmd/hook.rs",
+"line": 843
+},
+{
+"callee_name": "classify",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/",
+"file": "src/cmd/run.rs",
+"line": 20
+},
+{
+"callee_name": "classify",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/collision_check().",
+"file": "src/cmd/run.rs",
+"line": 365
+},
+{
+"callee_name": "classify",
+"caller": "rust-analyzer cargo viola 0.1.0 run/send/send().",
+"file": "src/run/send.rs",
+"line": 363
+},
+{
+"callee_name": "escape_message",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/revive/list_rows().",
+"file": "src/cmd/revive.rs",
+"line": 232
+},
+{
+"callee_name": "escape_message",
+"caller": "rust-analyzer cargo viola 0.1.0 human/write_woken().",
+"file": "src/human.rs",
+"line": 135
+},
+{
+"callee_name": "escape_message",
+"caller": "rust-analyzer cargo viola 0.1.0 human/write_woken_dialog().",
+"file": "src/human.rs",
+"line": 147
+},
+{
+"callee_name": "escape_message",
+"caller": "rust-analyzer cargo viola 0.1.0 human/write_last_turn().",
+"file": "src/human.rs",
+"line": 158
+},
+{
+"callee_name": "escape_message",
+"caller": "rust-analyzer cargo viola 0.1.0 human/write_message().",
+"file": "src/human.rs",
+"line": 163
+},
+{
+"callee_name": "escape_message",
+"caller": "rust-analyzer cargo viola 0.1.0 human/override_end().",
+"file": "src/human.rs",
+"line": 193
+},
+{
+"callee_name": "escape_message",
+"caller": "rust-analyzer cargo viola 0.1.0 human/tests/escape_message_shows_controls_as_hex_text().",
+"file": "src/human.rs",
+"line": 506
+},
+{
+"callee_name": "read_budget",
+"caller": "rust-analyzer cargo viola-state 0.1.0 budget/tests/budget_read_returns_what_write_budget_wrote().",
+"file": "crates/viola-state/src/budget.rs",
+"line": 231
+},
+{
+"callee_name": "read_budget",
+"caller": "rust-analyzer cargo viola-state 0.1.0 budget/tests/budget_read_returns_what_write_budget_wrote().",
+"file": "crates/viola-state/src/budget.rs",
+"line": 237
+},
+{
+"callee_name": "read_budget",
+"caller": "rust-analyzer cargo viola-state 0.1.0 budget/tests/budget_read_of_an_absent_file_is_nothing_and_creates_nothing().",
+"file": "crates/viola-state/src/budget.rs",
+"line": 244
+},
+{
+"callee_name": "read_budget",
+"caller": "rust-analyzer cargo viola-state 0.1.0 budget/tests/budget_read_of_an_absent_file_is_nothing_and_creates_nothing().",
+"file": "crates/viola-state/src/budget.rs",
+"line": 246
+},
+{
+"callee_name": "read_budget",
+"caller": "rust-analyzer cargo viola-state 0.1.0 budget/tests/budget_read_over_the_frame_cap_is_nothing().",
+"file": "crates/viola-state/src/budget.rs",
+"line": 262
+},
+{
+"callee_name": "read_budget",
+"caller": "rust-analyzer cargo viola-state 0.1.0 budget/tests/budget_read_over_the_frame_cap_is_nothing().",
+"file": "crates/viola-state/src/budget.rs",
+"line": 265
+},
+{
+"callee_name": "read_budget",
+"caller": "rust-analyzer cargo viola-state 0.1.0 budget/tests/budget_read_of_bytes_that_are_no_envelope_is_nothing().",
+"file": "crates/viola-state/src/budget.rs",
+"line": 283
+},
+{
+"callee_name": "read_budget",
+"caller": "rust-analyzer cargo viola-state 0.1.0 budget/tests/budget_read_of_another_v_is_nothing().",
+"file": "crates/viola-state/src/budget.rs",
+"line": 298
+},
+{
+"callee_name": "read_budget",
+"caller": "rust-analyzer cargo viola-state 0.1.0 budget/tests/budget_read_of_another_v_is_nothing().",
+"file": "crates/viola-state/src/budget.rs",
+"line": 301
+},
+{
+"callee_name": "read_budget",
+"caller": "rust-analyzer cargo viola-state 0.1.0 budget/tests/budget_read_skips_a_key_it_does_not_know().",
+"file": "crates/viola-state/src/budget.rs",
+"line": 314
+},
+{
+"callee_name": "read_budget",
+"caller": "rust-analyzer cargo viola-state 0.1.0 budget/tests/budget_read_under_a_path_another_user_could_write_is_nothing().",
+"file": "crates/viola-state/src/budget.rs",
+"line": 338
+},
+{
+"callee_name": "read_budget",
+"caller": "rust-analyzer cargo viola-state 0.1.0 budget/tests/budget_read_under_a_path_another_user_could_write_is_nothing().",
+"file": "crates/viola-state/src/budget.rs",
+"line": 341
+},
+{
+"callee_name": "read_budget",
+"caller": "rust-analyzer cargo viola-state 0.1.0 budget/tests/budget_read_under_a_path_another_user_could_write_is_nothing().",
+"file": "crates/viola-state/src/budget.rs",
+"line": 346
+},
+{
+"callee_name": "read_budget",
+"caller": "rust-analyzer cargo viola-state 0.1.0 budget/tests/budget_read_under_a_path_another_user_could_write_is_nothing().",
+"file": "crates/viola-state/src/budget.rs",
+"line": 349
+},
+{
+"callee_name": "read_budget",
+"caller": "rust-analyzer cargo viola-state 0.1.0 budget/tests/budget_read_leaves_the_file_as_it_was().",
+"file": "crates/viola-state/src/budget.rs",
+"line": 363
+},
+{
+"callee_name": "read_budget",
+"caller": "rust-analyzer cargo viola 0.1.0 run/budget/",
+"file": "src/run/budget.rs",
+"line": 21
+},
+{
+"callee_name": "read_budget",
+"caller": "rust-analyzer cargo viola 0.1.0 run/budget/impl#[BudgetGate]decide_at().",
+"file": "src/run/budget.rs",
+"line": 268
+},
+{
+"callee_name": "read_from",
+"caller": "rust-analyzer cargo viola-state 0.1.0 events/tests/events_read_line_cap_is_max_frame_and_its_newline().",
+"file": "crates/viola-state/src/events.rs",
+"line": 940
+},
+{
+"callee_name": "read_from",
+"caller": "rust-analyzer cargo viola-state 0.1.0 events/tests/events_read_of_an_unreadable_log_is_an_error().",
+"file": "crates/viola-state/src/events.rs",
+"line": 950
+},
+{
+"callee_name": "read_from",
+"caller": "rust-analyzer cargo viola-state 0.1.0 events/tests/events_read_of_a_log_that_cannot_be_opened_is_an_error().",
+"file": "crates/viola-state/src/events.rs",
+"line": 977
+},
+{
+"callee_name": "read_from",
+"caller": "rust-analyzer cargo viola-state 0.1.0 replay/",
+"file": "crates/viola-state/src/replay.rs",
+"line": 11
+},
+{
+"callee_name": "read_from",
+"caller": "rust-analyzer cargo viola-state 0.1.0 replay/replay().",
+"file": "crates/viola-state/src/replay.rs",
+"line": 52
+},
+{
+"callee_name": "read_from",
+"caller": "rust-analyzer cargo viola-state 0.1.0 replay/session_chain().",
+"file": "crates/viola-state/src/replay.rs",
+"line": 121
+},
+{
+"callee_name": "read_from",
+"caller": "rust-analyzer cargo viola 0.1.0 run/links/",
+"file": "src/run/links.rs",
+"line": 13
+},
+{
+"callee_name": "read_from",
+"caller": "rust-analyzer cargo viola 0.1.0 run/links/impl#[LinkSet]restore().",
+"file": "src/run/links.rs",
+"line": 42
+},
+{
+"callee_name": "read_from",
+"caller": "rust-analyzer cargo viola 0.1.0 run/wait/",
+"file": "src/run/wait.rs",
+"line": 15
+},
+{
+"callee_name": "read_from",
+"caller": "rust-analyzer cargo viola 0.1.0 run/wait/impl#[WaitFeed]rebuild().",
+"file": "src/run/wait.rs",
+"line": 114
+},
+{
+"callee_name": "read_from",
+"caller": "rust-analyzer cargo viola 0.1.0 run/wait/scan().",
+"file": "src/run/wait.rs",
+"line": 196
+},
+{
+"callee_name": "read_from",
+"caller": "rust-analyzer cargo viola 0.1.0 crate/",
+"file": "tests/chaos_revive.rs",
+"line": 21
+},
+{
+"callee_name": "read_from",
+"caller": "rust-analyzer cargo viola 0.1.0 past().",
+"file": "tests/chaos_revive.rs",
+"line": 28
+},
+{
+"callee_name": "read_from",
+"caller": "rust-analyzer cargo viola 0.1.0 crate/",
+"file": "tests/chaos_torn_append.rs",
+"line": 16
+},
+{
+"callee_name": "read_from",
+"caller": "rust-analyzer cargo viola 0.1.0 read().",
+"file": "tests/chaos_torn_append.rs",
+"line": 32
+},
+{
+"callee_name": "read_from",
+"caller": "rust-analyzer cargo viola 0.1.0 crate/",
+"file": "tests/cli_answer.rs",
+"line": 29
+},
+{
+"callee_name": "read_from",
+"caller": "rust-analyzer cargo viola 0.1.0 assert_reads_clean().",
+"file": "tests/cli_answer.rs",
+"line": 152
+},
+{
+"callee_name": "read_from",
+"caller": "rust-analyzer cargo viola 0.1.0 crate/",
+"file": "tests/cli_send.rs",
+"line": 22
+},
+{
+"callee_name": "read_from",
+"caller": "rust-analyzer cargo viola 0.1.0 assert_reads_clean().",
+"file": "tests/cli_send.rs",
+"line": 171
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola-state 0.1.0 snapshot/tests/snapshot_write_replaces_atomically_with_the_envelope().",
+"file": "crates/viola-state/src/snapshot.rs",
+"line": 228
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola-state 0.1.0 snapshot/tests/read_snapshot_takes_unknown_fields_and_the_human_wheel().",
+"file": "crates/viola-state/src/snapshot.rs",
+"line": 289
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola-state 0.1.0 snapshot/tests/snapshot_pending_dialog_is_written_only_while_set().",
+"file": "crates/viola-state/src/snapshot.rs",
+"line": 310
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola-state 0.1.0 snapshot/tests/snapshot_cwd_is_written_under_v_1_and_reads_back().",
+"file": "crates/viola-state/src/snapshot.rs",
+"line": 324
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola-state 0.1.0 snapshot/tests/snapshot_cwd_reads_as_absent_without_its_key_and_beside_an_unknown_one().",
+"file": "crates/viola-state/src/snapshot.rs",
+"line": 344
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola-state 0.1.0 snapshot/tests/snapshot_statusline_command_is_written_under_v_1_and_reads_back().",
+"file": "crates/viola-state/src/snapshot.rs",
+"line": 361
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola-state 0.1.0 snapshot/tests/snapshot_statusline_command_reads_as_absent_without_its_key().",
+"file": "crates/viola-state/src/snapshot.rs",
+"line": 385
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola-state 0.1.0 snapshot/tests/read_snapshot_is_none_for_missing_malformed_or_unsupported().",
+"file": "crates/viola-state/src/snapshot.rs",
+"line": 393
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola-state 0.1.0 snapshot/tests/read_snapshot_is_none_for_missing_malformed_or_unsupported().",
+"file": "crates/viola-state/src/snapshot.rs",
+"line": 396
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola-state 0.1.0 snapshot/tests/read_snapshot_is_none_for_missing_malformed_or_unsupported().",
+"file": "crates/viola-state/src/snapshot.rs",
+"line": 399
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola-state 0.1.0 snapshot/tests/read_snapshot_is_none_for_missing_malformed_or_unsupported().",
+"file": "crates/viola-state/src/snapshot.rs",
+"line": 402
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola-state 0.1.0 snapshot/tests/read_snapshot_reads_at_most_sixteen_mib().",
+"file": "crates/viola-state/src/snapshot.rs",
+"line": 503
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola-state 0.1.0 snapshot/tests/read_snapshot_reads_at_most_sixteen_mib().",
+"file": "crates/viola-state/src/snapshot.rs",
+"line": 505
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/client/",
+"file": "src/cmd/client.rs",
+"line": 15
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/client/live_endpoint().",
+"file": "src/cmd/client.rs",
+"line": 95
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/hook/",
+"file": "src/cmd/hook.rs",
+"line": 26
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/hook/ask().",
+"file": "src/cmd/hook.rs",
+"line": 261
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/hook/deliver().",
+"file": "src/cmd/hook.rs",
+"line": 476
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/hook/statusline/",
+"file": "src/cmd/hook/statusline.rs",
+"line": 19
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/hook/statusline/serve().",
+"file": "src/cmd/hook/statusline.rs",
+"line": 141
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/",
+"file": "src/cmd/run.rs",
+"line": 22
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/collision_check().",
+"file": "src/cmd/run.rs",
+"line": 363
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/tests/first_snapshot_recording().",
+"file": "src/cmd/run.rs",
+"line": 1115
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola 0.1.0 run/budget/tests/",
+"file": "src/run/budget.rs",
+"line": 348
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola 0.1.0 run/budget/tests/mirrored().",
+"file": "src/run/budget.rs",
+"line": 705
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola 0.1.0 run/dialog/tests/",
+"file": "src/run/dialog.rs",
+"line": 425
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola 0.1.0 run/dialog/tests/pending_on_disk().",
+"file": "src/run/dialog.rs",
+"line": 538
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola 0.1.0 run/dialog/tests/links_on_disk().",
+"file": "src/run/dialog.rs",
+"line": 1113
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola 0.1.0 run/links/tests/",
+"file": "src/run/links.rs",
+"line": 113
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola 0.1.0 run/links/tests/on_disk().",
+"file": "src/run/links.rs",
+"line": 154
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola 0.1.0 run/snapshot/tests/",
+"file": "src/run/snapshot.rs",
+"line": 55
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola 0.1.0 run/snapshot/tests/snapshot_update_before_init_writes_nothing().",
+"file": "src/run/snapshot.rs",
+"line": 81
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola 0.1.0 run/snapshot/tests/snapshot_update_before_init_writes_nothing().",
+"file": "src/run/snapshot.rs",
+"line": 83
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola 0.1.0 run/snapshot/tests/snapshot_concurrent_wheel_and_dialog_changes_both_reach_the_disk().",
+"file": "src/run/snapshot.rs",
+"line": 116
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola 0.1.0 run/wheel/tests/",
+"file": "src/run/wheel.rs",
+"line": 537
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola 0.1.0 run/wheel/tests/wheel_moves_are_recorded_in_order_with_the_snapshot().",
+"file": "src/run/wheel.rs",
+"line": 884
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola 0.1.0 run/wheel/tests/wheel_moves_are_recorded_in_order_with_the_snapshot().",
+"file": "src/run/wheel.rs",
+"line": 905
+},
+{
+"callee_name": "read_snapshot",
+"caller": "rust-analyzer cargo viola 0.1.0 run/wheel/tests/budget_fields().",
+"file": "src/run/wheel.rs",
+"line": 982
+},
+{
+"callee_name": "read_snapshot_or_replay",
+"caller": "rust-analyzer cargo viola-state 0.1.0 replay/tests/replay_recovers_an_unreadable_snapshot_with_one_snapshot_replayed_line().",
+"file": "crates/viola-state/src/replay.rs",
+"line": 402
+},
+{
+"callee_name": "read_snapshot_or_replay",
+"caller": "rust-analyzer cargo viola-state 0.1.0 replay/tests/replay_recovers_a_newer_snapshot_with_one_unsupported_v_line().",
+"file": "crates/viola-state/src/replay.rs",
+"line": 431
+},
+{
+"callee_name": "read_snapshot_or_replay",
+"caller": "rust-analyzer cargo viola-state 0.1.0 replay/tests/replay_recovers_nothing_and_writes_no_line_for_a_present_or_an_absent_snapshot().",
+"file": "crates/viola-state/src/replay.rs",
+"line": 456
+},
+{
+"callee_name": "read_snapshot_or_replay",
+"caller": "rust-analyzer cargo viola-state 0.1.0 replay/tests/replay_recovers_nothing_and_writes_no_line_for_a_present_or_an_absent_snapshot().",
+"file": "crates/viola-state/src/replay.rs",
+"line": 460
+},
+{
+"callee_name": "read_snapshot_or_replay",
+"caller": "rust-analyzer cargo viola-state 0.1.0 replay/tests/replay_recovers_an_error_and_no_line_from_a_log_that_cannot_be_read().",
+"file": "crates/viola-state/src/replay.rs",
+"line": 476
+},
+{
+"callee_name": "read_snapshot_or_replay",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/revive/",
+"file": "src/cmd/revive.rs",
+"line": 11
+},
+{
+"callee_name": "read_snapshot_or_replay",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/revive/preflight().",
+"file": "src/cmd/revive.rs",
+"line": 155
+},
+{
+"callee_name": "read_thresholds",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/start().",
+"file": "src/cmd/run.rs",
+"line": 256
+},
+{
+"callee_name": "read_thresholds",
+"caller": "rust-analyzer cargo viola 0.1.0 run/budget/tests/thresholds_read_the_home_config_file().",
+"file": "src/run/budget.rs",
+"line": 451
+},
+{
+"callee_name": "read_thresholds",
+"caller": "rust-analyzer cargo viola 0.1.0 run/budget/tests/thresholds_read_the_home_config_file().",
+"file": "src/run/budget.rs",
+"line": 455
+},
+{
+"callee_name": "read_thresholds",
+"caller": "rust-analyzer cargo viola 0.1.0 run/budget/tests/thresholds_read_the_home_config_file().",
+"file": "src/run/budget.rs",
+"line": 460
+},
+{
+"callee_name": "role_of",
+"caller": "rust-analyzer cargo viola 0.1.0 main().",
+"file": "src/main.rs",
+"line": 52
+},
+{
+"callee_name": "role_of",
+"caller": "rust-analyzer cargo viola 0.1.0 tests/role_of_skips_the_home_flag_and_its_value().",
+"file": "src/main.rs",
+"line": 339
+},
+{
+"callee_name": "same_process",
+"caller": "rust-analyzer cargo viola-state 0.1.0 liveness/tests/liveness_same_process_rejects_a_wrong_start_time().",
+"file": "crates/viola-state/src/liveness.rs",
+"line": 101
+},
+{
+"callee_name": "same_process",
+"caller": "rust-analyzer cargo viola-state 0.1.0 liveness/tests/liveness_same_process_rejects_a_wrong_start_time().",
+"file": "crates/viola-state/src/liveness.rs",
+"line": 107
+},
+{
+"callee_name": "same_process",
+"caller": "rust-analyzer cargo viola-state 0.1.0 liveness/tests/liveness_same_process_rejects_a_wrong_start_time().",
+"file": "crates/viola-state/src/liveness.rs",
+"line": 108
+},
+{
+"callee_name": "same_process",
+"caller": "rust-analyzer cargo viola-state 0.1.0 liveness/tests/process_start_time_is_none_for_a_dead_pid().",
+"file": "crates/viola-state/src/liveness.rs",
+"line": 122
+},
+{
+"callee_name": "same_process",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/client/",
+"file": "src/cmd/client.rs",
+"line": 14
+},
+{
+"callee_name": "same_process",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/client/live_endpoint().",
+"file": "src/cmd/client.rs",
+"line": 97
+},
+{
+"callee_name": "same_process",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/",
+"file": "src/cmd/run.rs",
+"line": 20
+},
+{
+"callee_name": "same_process",
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/collision_check().",
+"file": "src/cmd/run.rs",
+"line": 365
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

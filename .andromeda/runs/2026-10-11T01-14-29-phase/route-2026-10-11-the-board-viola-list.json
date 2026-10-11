@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.7",
+"sha8": "f7323866",
+"ts": "2026-10-11T01:17:57Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-10-11-the-board-viola-list",
+"--expect-prefix",
+"The board: viola list",
+"--record-file",
+".andromeda/runs/2026-10-11T01-14-29-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-10-11T01-14-29-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:123 - [2026-10-11-the-board-viola-list]",
+"record master-route.md:65 - appended under `## viola-0.1.0`",
+"promoted 2026-10-11-the-board-viola-list - working-route:123 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/working-route.md",
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+}
+]

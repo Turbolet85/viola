@@ -1,0 +1,1 @@
+2026-10-11-the-board-viola-list. No live claude start in this chunk: the plan has none and no cap stands. Journal each long gate run in your run dir before you wait on it. Run the operator pass with the ci.py conclusion read (leg=operator) as usual.

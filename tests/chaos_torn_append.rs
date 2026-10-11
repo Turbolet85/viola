@@ -11,6 +11,7 @@ use std::path::Path;
 use std::time::Instant;
 
 use serde_json::{Value, json};
+use support::cli::viola;
 use support::home::{StampedHome, TestHome, Wrapper, workspace_path};
 use support::hygiene::load_schema;
 use support::watch::{WITHIN, Watch};
@@ -70,6 +71,11 @@ fn chaos_torn_tail_left_by_a_stopped_wrapper_is_healed_by_the_next_start() {
     let (kept, skipped) = read(&dir, 0);
     assert_eq!(kept.len(), whole.len() - 1);
     assert_eq!(skipped, ONE_TORN);
+    let board = viola(stamped.home.path(), &["list", "--json"], None, None);
+    assert_eq!(board.code, Some(0), "stderr: {}", board.stderr);
+    let board: Value = serde_json::from_str(&board.stdout).expect("one JSON document");
+    assert_eq!(board["ok"]["skipped"]["torn_lines"], 1);
+    assert_eq!(board["ok"]["items"], json!([]));
 
     let again = Wrapper::boot(stamped, "builder", None, &[]);
     let home = again.home().to_path_buf();

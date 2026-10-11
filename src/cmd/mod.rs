@@ -2,6 +2,7 @@ mod answer;
 mod client;
 mod hook;
 mod last;
+mod list;
 mod pause;
 mod release;
 mod revive;
@@ -48,6 +49,8 @@ enum Command {
     Last(last::LastArgs),
     /// Answer the named instance's pending dialog by its id; the response comes from stdin or --file
     Answer(answer::AnswerArgs),
+    /// Show every wrapped session: its liveness, wheel, dialog and CLI, and the usage budget
+    List(list::ListArgs),
     /// Take the named instance's wheel for the human without a keystroke
     Pause(pause::PauseArgs),
     /// Hand the named instance's wheel back to the driver: the human's verb, refused to a driver
@@ -117,6 +120,16 @@ pub(crate) fn dispatch(cli: Cli) -> Result<ExitCode, Failure> {
             let home = resolve_home(cli.home)?;
             let sink = cli_sink(&home, &args.name);
             answer::answer(&home, &args).map_err(|error| Failure { error, sink })
+        }
+        // A board names no instance: its chain goes to the caller's own, when it has one.
+        Command::List(args) => {
+            let home = resolve_home(cli.home)?;
+            let sink = client::own_name().map(|instance| DetailSink {
+                home: home.clone(),
+                instance,
+                process: ObsProcess::Cli,
+            });
+            list::list(&home, &args).map_err(|error| Failure { error, sink })
         }
         Command::Pause(args) => {
             let home = resolve_home(cli.home)?;

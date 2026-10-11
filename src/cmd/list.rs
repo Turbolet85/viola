@@ -1,0 +1,231 @@
+//! `viola list`: the board of wrapped sessions (architecture §Standard Contracts, GUI list
+//! envelope). It is no channel method: this process reads the home's `instances/` itself and
+//! contacts no wrapper. Every path is checked before anything under the home is opened, its own
+//! log included, and one that another user could write refuses the whole board.
+
+use std::io;
+use std::path::Path;
+use std::process::ExitCode;
+use std::time::SystemTime;
+
+use chrono::{DateTime, Utc};
+use serde_json::{Value, json};
+use tracing::instrument;
+use viola_state::board::{self, Board, Scan, ScanRefused};
+use viola_state::budget::{StampedReading, read_budget_stamped};
+
+use super::client;
+use crate::human::{self, BayBudget};
+use crate::run::budget::{self, Thresholds};
+use crate::{obs, run};
+
+#[derive(clap::Args)]
+pub(crate) struct ListArgs {
+    /// Print one JSON document on stdout
+    #[arg(long)]
+    json: bool,
+}
+
+/// The newest usage reading and whether the gate's rule pauses on it.
+struct Budget {
+    stamped: StampedReading,
+    paused: bool,
+}
+
+pub(crate) fn list(home: &Path, args: &ListArgs) -> anyhow::Result<ExitCode> {
+    let home = std::path::absolute(home)?;
+    // Before the log opens: opening it narrows the home to its owner, which would erase the very
+    // state this check refuses. A refused check opens nothing under the home and writes no line.
+    let scan = match board::scan(&home)? {
+        Ok(scan) => scan,
+        Err(refused) => {
+            refuse(args.json, &refused);
+            return Ok(ExitCode::from(21));
+        }
+    };
+    if let Some(name) = client::own_name() {
+        client::start(&home, &name)?;
+    }
+    let (board, budget, now) = read(&home, &scan, args.json);
+    if args.json {
+        client::document(&document(&board, budget.as_ref()));
+    } else {
+        let bay = budget.as_ref().map(|budget| BayBudget {
+            reading: &budget.stamped,
+            paused: budget.paused,
+        });
+        let _ = human::write_board(&mut io::stdout().lock(), bay.as_ref(), &board, now);
+    }
+    run::log_self_exit(0, None);
+    Ok(ExitCode::SUCCESS)
+}
+
+/// Exit 21's output: the one `--json` document, or the pair for what failed.
+fn refuse(json: bool, refused: &ScanRefused) {
+    if json {
+        client::document(&json!({"v": 1, "error": "instance-unreachable", "detail": null}));
+        return;
+    }
+    match refused {
+        ScanRefused::Home => {
+            let (unable, hint) = human::home_state_pair();
+            human::refuse(unable, hint);
+        }
+        ScanRefused::Instance(name) => {
+            let (unable, hint) = human::instance_state_pair(name.as_ref());
+            human::refuse(&unable, &hint);
+        }
+    }
+}
+
+/// The board, the budget and the one instant both were judged at.
+#[instrument(skip_all, name = "cli.list", fields(json = json))]
+fn read(home: &Path, scan: &Scan, json: bool) -> (Board, Option<Budget>, DateTime<Utc>) {
+    let at = SystemTime::now();
+    let now = DateTime::<Utc>::from(at);
+    let board = board::read(scan, at);
+    let stamped = read_budget_stamped(home);
+    let (thresholds, rejections) = budget::read_thresholds(home);
+    for rejection in rejections {
+        obs::log_config_rejection(rejection);
+    }
+    (board, budget_of(stamped, thresholds, now), now)
+}
+
+/// `paused` as the wrapper's gate reads the same reading at `now` with no override.
+fn budget_of(
+    stamped: Option<StampedReading>,
+    thresholds: Thresholds,
+    now: DateTime<Utc>,
+) -> Option<Budget> {
+    stamped.map(|stamped| {
+        let paused = budget::decide(Some(&stamped.reading), thresholds, None, now)
+            .paused
+            .is_some();
+        Budget { stamped, paused }
+    })
+}
+
+/// `{"v":1,"ok":{"items":[…],"budget":…,"skipped":{…}}}`; `budget` is the word `"unknown"` when
+/// there is no reading.
+fn document(board: &Board, budget: Option<&Budget>) -> Value {
+    let budget = match budget {
+        Some(budget) => json!({
+            "five_hour": budget.stamped.reading.five_hour,
+            "seven_day": budget.stamped.reading.seven_day,
+            "read_at": budget.stamped.read_at,
+            "paused": budget.paused,
+        }),
+        None => json!("unknown"),
+    };
+    json!({"v": 1, "ok": {"items": board.items, "budget": budget, "skipped": board.skipped}})
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use clap::Parser as _;
+    use viola_core::{BudgetReading, BudgetWindow, Reading};
+    use viola_state::board::{Item, RowLiveness, SessionStatus, SkippedTotal};
+    use viola_state::snapshot::Wheel;
+
+    fn at(text: &str) -> DateTime<Utc> {
+        DateTime::parse_from_rfc3339(text)
+            .expect("an instant")
+            .with_timezone(&Utc)
+    }
+
+    const NOW: &str = "2025-03-01T12:00:00.000Z";
+
+    fn stamped(five_hour: f64) -> StampedReading {
+        StampedReading {
+            reading: BudgetReading {
+                five_hour: Reading::Known(BudgetWindow {
+                    used_percentage: Reading::Known(five_hour),
+                    resets_at: Reading::Known("2099-01-01T00:00:00.000Z".to_owned()),
+                }),
+                seven_day: Reading::UNKNOWN,
+            },
+            read_at: Reading::Known("2025-03-01T11:58:00.000Z".to_owned()),
+        }
+    }
+
+    fn board() -> Board {
+        Board {
+            items: vec![Item {
+                name: "builder".to_owned(),
+                wrapped: true,
+                liveness: RowLiveness::Live,
+                status: SessionStatus::Unknown,
+                wheel: Some(Wheel::Driver),
+                budget_paused: Some(true),
+                dialog_pending: false,
+                cli_version: Some("2.1.287".to_owned()),
+                cli_verified: Some(true),
+                dialog_kind: None,
+            }],
+            skipped: SkippedTotal {
+                unknown_kinds: 1,
+                unknown_fields: 0,
+                torn_lines: 2,
+            },
+        }
+    }
+
+    #[test]
+    fn list_document_with_a_reading_is_the_contract_envelope() {
+        let budget = budget_of(Some(stamped(91.0)), Thresholds::default(), at(NOW));
+        assert_eq!(
+            document(&board(), budget.as_ref()).to_string(),
+            r#"{"v":1,"ok":{"items":[{"name":"builder","wrapped":true,"liveness":"live","status":"unknown","wheel":"driver","budget_paused":true,"dialog_pending":false,"cli_version":"2.1.287","cli_verified":true}],"budget":{"five_hour":{"used_percentage":91.0,"resets_at":"2099-01-01T00:00:00.000Z"},"seven_day":"unknown","read_at":"2025-03-01T11:58:00.000Z","paused":true},"skipped":{"unknown_kinds":1,"unknown_fields":0,"torn_lines":2}}}"#
+        );
+    }
+
+    #[test]
+    fn list_document_without_a_reading_has_the_budget_word_unknown() {
+        let empty = Board {
+            items: Vec::new(),
+            skipped: SkippedTotal::default(),
+        };
+        let budget = budget_of(None, Thresholds::default(), at(NOW));
+        assert!(budget.is_none());
+        assert_eq!(
+            document(&empty, None).to_string(),
+            r#"{"v":1,"ok":{"items":[],"budget":"unknown","skipped":{"unknown_kinds":0,"unknown_fields":0,"torn_lines":0}}}"#
+        );
+    }
+
+    #[test]
+    fn list_document_paused_is_the_gates_rule_under_the_default_thresholds() {
+        let paused = |used: f64| {
+            budget_of(Some(stamped(used)), Thresholds::default(), at(NOW))
+                .expect("a reading")
+                .paused
+        };
+        assert!(paused(91.0));
+        assert!(paused(90.0));
+        assert!(!paused(89.0));
+    }
+
+    #[derive(clap::Parser)]
+    struct Line {
+        #[command(flatten)]
+        args: ListArgs,
+    }
+
+    fn parse(words: &[&str]) -> Result<ListArgs, clap::error::ErrorKind> {
+        Line::try_parse_from(std::iter::once("list").chain(words.iter().copied()))
+            .map(|line| line.args)
+            .map_err(|error| error.kind())
+    }
+
+    #[test]
+    fn list_document_args_take_the_json_flag_and_nothing_else() {
+        assert!(!parse(&[]).expect("bare").json);
+        assert!(parse(&["--json"]).expect("--json").json);
+        assert_eq!(
+            parse(&["builder"]).err(),
+            Some(clap::error::ErrorKind::UnknownArgument)
+        );
+    }
+}

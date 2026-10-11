@@ -1,0 +1,297 @@
+[
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-11T01:16:52Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-11-the-board-viola-list",
+"--message-file",
+".andromeda/runs/2026-10-11T01-14-29-phase/relay-1.md",
+"--origin",
+"the operator, in the /andromeda-phase invocation of this session, 2026-10-11",
+"--kind",
+"relay",
+"--why",
+"the cut of this entry: the smallest slice that needs no word of the founder, every other part on the review card; the founder-only set; logged link names parsed as names where first shown; no mutation, witness or dispatch run",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-10-11T01-14-29-phase",
+"--marker",
+"2026-10-11-the-board-viola-list"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy message · message: the operator, in the /andromeda-phase invocation of this session, 2026-10-11",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, in the /andromeda-phase invocation of this session, 2026-10-11",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "d24d7e46dc0b0c7d9b0882209cf685eb1d1e5bafd8a6707af87d7821f5783062",
+"copy": "I1-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-11T01:16:52Z",
+"step": "phase:P1",
+"why": "the cut of this entry: the smallest slice that needs no word of the founder, every other part on the review card; the founder-only set; logged link names parsed as names where first shown; no mutation, witness or dispatch run"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-11T01:33:04Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-11-the-board-viola-list",
+"--message-file",
+".andromeda/runs/2026-10-11T01-14-29-phase/relay-2.md",
+"--origin",
+"the operator, answering the P4 fork in this session, 2026-10-11",
+"--kind",
+"relay",
+"--why",
+"a failed strict-modes check refuses the whole board with exit 21 and the two worded pairs; the operator answer, not a ruling of the founder",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-10-11T01-14-29-phase",
+"--marker",
+"2026-10-11-the-board-viola-list"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: the operator, answering the P4 fork in this session, 2026-10-11",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, answering the P4 fork in this session, 2026-10-11",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "c611e59e0b900c0099daf07dc996bd6c5dd3be831cc29890a4c9f8e155a14238",
+"copy": "I2-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-11T01:33:03Z",
+"step": "phase:P4",
+"why": "a failed strict-modes check refuses the whole board with exit 21 and the two worded pairs; the operator answer, not a ruling of the founder"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-11T01:39:00Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-11-the-board-viola-list",
+"--run-dir",
+".andromeda/runs/2026-10-11T01-14-29-phase",
+"--marker",
+"2026-10-11-the-board-viola-list"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, in the /andromeda-phase invocation of this session, 2026-10-11",
+"I1 cited scope.md:11 · scope.md:91 · research.md:7 · plan.md:16 · plan.md:216 · plan.md:219 · plan.md:419 · plan.md:423 · plan.md:432",
+"I2 n/a — a message has no live source · copy message · message: the operator, answering the P4 fork in this session, 2026-10-11",
+"I2 cited scope.md:59 · plan.md:22 · plan.md:122 · plan.md:355 · plan.md:415 · plan.md:434",
+"UNPARSED: inputs#I4 — no entry (scope.md:105)",
+"inputs: 2 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 1
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-11T01:39:07Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-11-the-board-viola-list",
+"--run-dir",
+".andromeda/runs/2026-10-11T01-14-29-phase",
+"--marker",
+"2026-10-11-the-board-viola-list"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, in the /andromeda-phase invocation of this session, 2026-10-11",
+"I1 cited scope.md:11 · scope.md:91 · research.md:7 · plan.md:16 · plan.md:216 · plan.md:219 · plan.md:419 · plan.md:423 · plan.md:432",
+"I2 n/a — a message has no live source · copy message · message: the operator, answering the P4 fork in this session, 2026-10-11",
+"I2 cited scope.md:59 · plan.md:22 · plan.md:122 · plan.md:355 · plan.md:415 · plan.md:434",
+"inputs: 2 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-11T07:37:37Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-11-the-board-viola-list",
+"--message-file",
+".andromeda/runs/2026-10-11T01-14-29-phase/relay-3.md",
+"--origin",
+"the operator, relaying the founder, at the P5 review of this chunk, 2026-10-11",
+"--kind",
+"relay",
+"--why",
+"the word at P5: the founder approved the card as it stands (the slice, every held part owner, Epoch 4 closing on this slice); the exit-21 refusal, the home pair, the no-log-on-refusal shape and the five board forms stand as planning forms on the operator word",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-10-11T01-14-29-phase",
+"--marker",
+"2026-10-11-the-board-viola-list"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: the operator, relaying the founder, at the P5 review of this chunk, 2026-10-11",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-3.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, relaying the founder, at the P5 review of this chunk, 2026-10-11",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "85464cb15587e860f6698e57cb8aa9372b23c406eede1f126ee2046b189afd0f",
+"copy": "I3-relay-3.md.txt",
+"link": false,
+"read_at": "2026-10-11T07:37:37Z",
+"step": "phase:P5",
+"why": "the word at P5: the founder approved the card as it stands (the slice, every held part owner, Epoch 4 closing on this slice); the exit-21 refusal, the home pair, the no-log-on-refusal shape and the five board forms stand as planning forms on the operator word"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-11T07:37:48Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-11-the-board-viola-list",
+"--run-dir",
+".andromeda/runs/2026-10-11T01-14-29-phase",
+"--marker",
+"2026-10-11-the-board-viola-list"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, in the /andromeda-phase invocation of this session, 2026-10-11",
+"I1 cited scope.md:11 · scope.md:91 · research.md:7 · plan.md:16 · plan.md:216 · plan.md:219 · plan.md:423 · plan.md:427 · plan.md:436",
+"I2 n/a — a message has no live source · copy message · message: the operator, answering the P4 fork in this session, 2026-10-11",
+"I2 cited scope.md:59 · plan.md:22 · plan.md:122 · plan.md:355 · plan.md:415 · plan.md:438",
+"I3 n/a — a message has no live source · copy message · message: the operator, relaying the founder, at the P5 review of this chunk, 2026-10-11",
+"I3 cited plan.md:416",
+"inputs: 3 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]
