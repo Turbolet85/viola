@@ -1,0 +1,67 @@
+# Cascade step 2 — the pattern set of the 2026-10-10-session-links wrap, derived from every amendment of the pass.
+# One pattern per retired or extended claim, keyed on what the claim SAID as well as on its name.
+
+[[pattern]]
+id = "replays-empty"
+regex = 'replays? empty'
+
+[[pattern]]
+id = "kinds-land"
+fixed = 'link kinds land'
+
+[[pattern]]
+id = "owner-links"
+fixed = '"Session links"'
+
+[[pattern]]
+id = "no-case"
+regex = 'no case drives|its case is owed|by the diff alone'
+
+[[pattern]]
+id = "in-the-diff"
+fixed = 'read in the diff'
+
+[[pattern]]
+id = "kind-count"
+regex = '13 kinds|13 normalised|holds 13|[Tt]hirteen kinds'
+
+[[pattern]]
+id = "fourteen"
+fixed = 'fourteen'
+ignore_case = true
+
+[[pattern]]
+id = "needs-link"
+fixed = 'still needs `link`'
+
+[[pattern]]
+id = "reader-list"
+regex = 'rebuild, and `(viola_state::)?replay::session_chain`'
+
+[[pattern]]
+id = "start-steps"
+fixed = 'Two start steps'
+
+[[pattern]]
+id = "appends"
+fixed = 'wrapper appends'
+
+[[pattern]]
+id = "never-wake"
+regex = 'never wake|log-only'
+
+[[pattern]]
+id = "derived"
+fixed = 'derived by replaying'
+
+[[pattern]]
+id = "one-caller"
+regex = 'one product (caller|reader)'
+
+[[pattern]]
+id = "unknown-kinds"
+fixed = 'unknown_kinds'
+
+[[pattern]]
+id = "served"
+regex = 'unlink[^|]{0,300}(served|landed|built)|(served|landed|built)[^|]{0,300}unlink'

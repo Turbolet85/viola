@@ -32,7 +32,8 @@ viola/
 │   │                           #   dialog.rs: the DialogSlot (one pending dialog, Condvar await, armed continuation);
 │   │                           #   wheel.rs: the WheelSlot (holder + cause, one lock), its record worker, the stdin observer + classifier;
 │   │                           #   snapshot.rs: Snapshots, the wrapper's one in-process snapshot holder;
-│   │                           #   budget.rs: the thresholds read (`read_thresholds`), the pure decision (`decide`) and the BudgetGate (one per wrapper: `start` / `evaluate` / `lift` / `paused`)
+│   │                           #   budget.rs: the thresholds read (`read_thresholds`), the pure decision (`decide`) and the BudgetGate (one per wrapper: `start` / `evaluate` / `lift` / `paused`);
+│   │                           #   links.rs: the LinkSet (one per wrapper, the instance's link set under one lock: `restore` from the log at start, `current`, `record`, and `remove`, which has no product caller yet)
 │   └── bin/viola-fake-agent.rs # test-only stand-in `claude` (feature `fake-agent`)
 ├── tests/                      # root integration tests (sync)
 │   ├── cmd/*.toml              # trycmd cases: human-mode expected output (snapbox redactions)
@@ -51,6 +52,7 @@ viola/
 │   ├── viola-state/            # ndjson logs (the append heals a torn last line), atomic snapshots, File::lock, the events
 │   │                           #   reader (`events::read_from`: counts unknown kinds, unknown fields and torn lines), the
 │   │                           #   classified snapshot read, the log replay and the session chain (`replay.rs`; read by `viola revive`),
+│   │                           #   the link rule (`replay::apply_link_line`, public: applied by the replay's one pass and by the root bin's `LinkSet`),
 │   │                           #   the instance strict-modes check (`strict::check_instance`), the budget reading's write
 │   │                           #   and its checked read (`budget.rs`: `write_budget`, `read_budget`), tailing (with `ui`)
 │   │                           #   (+ tests/, the crate-level suite: `state_events.rs`, `state_replay.rs`)

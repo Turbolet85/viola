@@ -93,3 +93,90 @@ none is needed.
   row to rewrite.
 - Read once more after this file was added, right before the commit: the verdict is in the next section, which
   was written after the commit and rides the next one.
+
+## Before the pre-CI commit, 00:22:52Z
+
+- Hygiene re-read: `hygiene: clean — read 52 (runs 44 · evidence 2 · inputs 6) · trails 15 not read · copies 4
+  not read by P1 — 0 host paths kept · binary 0 not read by P1`, exit 0, this file among the evidence.
+- The tree the commit takes, 73 paths by `git status --porcelain --untracked-files=all`: the take-up's products
+  (the stamped route line, the master's pending record, the ledger notes on `v1-13` and `v1-36`, the chunk
+  folder, the phase run dir), the 11 changed and 2 new source, test and config files, this chunk's evidence
+  (the red and green readings, this record) and inputs I1 to I4, this implement run dir, the friction ledger,
+  the last wrap's evolve trail and gate script, and the handoff's session-end stamp. 0 ahead of the upstream
+  before it; the remote branch head read live (`git ls-remote`) at `f02d54865815`.
+- This section and everything below it was written after the commit; it rides the next commit.
+
+## Step 3 and step 4 — the pre-CI commit and entry 16, the push, 00:22:56Z to 00:23:04Z
+
+- `3cae2ce` `chore(2026-10-10-session-links): operator pre-CI commit, for the run this chunk's verdict reads`
+  at 00:22:56Z (the whole tree, 73 files; 13 of them under `src`, `crates`, `tests` or `.config`).
+  `git status --short` read empty after it.
+- Entry 16, fired through the gate tool with no run dir (`gate.py run --plan
+  viola-0.1.0/chunks/2026-10-10-session-links/plan.md --operator 16`), 00:23:02Z to 00:23:04Z. A `--dry-run` of
+  the same call just before it fired nothing and printed the same tripwire line. The firing's tripwire line,
+  entry line and summary line, as printed:
+
+  ```
+  operator entry 16 · history tripwire: git
+   16 probe       green · exit 0 · 1.9s · 90 B → 16.log · history moved: refs/remotes/origin/HEAD f02d5486→3cae2cec; refs/remotes/origin/build/viola-0.1.0 f02d5486→3cae2cec · git diff --quiet && git diff --cached --quiet && git push … (69 chars)
+  entries 17 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 16
+  ```
+
+  The entry carries no `expect` key, so its line asserts `exit 0` alone. Its log
+  (`$TMPDIR/andromeda-gate/2026-10-10-session-links/run-20261011T002302Z/16.log`, 90 B) holds git's own two
+  lines, the second `f02d548..3cae2ce  HEAD -> build/viola-0.1.0`.
+- The history reading is the move the entry is for: the two remote-tracking refs went from `f02d5486` to
+  `3cae2cec`, a fast-forward. No local branch, tag or stash moved. No force push.
+- After it: 0 ahead of the upstream; the remote branch head read live at `3cae2ceca8f0`; the tree clean.
+
+## Step 5 — entry 17, the CI read (fired as written), 00:23:09Z to 00:31:25Z: green
+
+- `python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait
+  1800` → exit 0: `3cae2ceca8f0 verdict: green · checks 15/15 · wall 491 s · runs ci#38098238731
+  completed/success`, polled 17 times over 496 s. Atoms: `exit 0` ✓, `contains verdict: green` ✓.
+- `run_attempt`, read from the run itself (`gh api …/actions/runs/38098238731`): **1**. Event `push`, head
+  `3cae2ceca8f0`, started 00:23:06Z, last updated 00:31:21Z, conclusion `success`. It is the only run on the sha
+  (`gh run list --commit`, by the full sha). The sha is green on its first attempt, so no fix commit was made.
+- Its fifteen jobs, each `success`: `lint`, `test`, `release` and `perf` on `windows-2025`, `macos-latest` and
+  `ubuntu-latest`; `supply-chain`, `msrv`, `fuzz-replay`. `test (windows-2025)` was the last to finish.
+- The three `test` jobs' own summaries, read from their logs (`gh api …/jobs/<id>/logs
+  --allow-escape-sequences`, escapes stripped): `windows-2025` 2322 tests run, 2322 passed; `macos-latest` 2317
+  run, 2317 passed; `ubuntu-latest` 2321 run, 2321 passed; none skipped, and no `FAIL`, `TIMEOUT`, `LEAK`,
+  `SIGKILL` or `ABORT` status line in any of the three (every status line matched by one pattern over the whole
+  log: `PASS` 2322, 2317 and 2321, `SLOW` 5 each). On the last chunk's pushed sha they read 2280, 2275 and 2279
+  (`c85961d`): 42 more on each runner.
+- This chunk's cases, counted as `PASS` lines in each of the three logs:
+
+  | cases | `windows-2025` | `macos-latest` | `ubuntu-latest` |
+  |---|---|---|---|
+  | `viola::cli_links` | 5 | 5 | 5 |
+  | `viola::cli_budget` | 10 | 10 | 10 |
+  | `viola-state::state_replay` | 9 | 9 | 9 |
+  | `viola-state::state_events` | 4 | 4 | 4 |
+  | inline cases carrying one of the unit filter's four prefixes | 34 | 34 | 34 |
+
+  Each count is the whole binary's, the standing cases with the new ones. No new case is OS-gated, and the
+  counts are equal on the three runners.
+- **The five `cli_links` cases and the folded budget case passed on all three runners**, each from a stamped
+  home: 4.4 to 5.1 s on `windows-2025`, 4.6 to 5.4 s on `macos-latest`, 3.7 to 4.4 s on `ubuntu-latest`, under
+  the binary's 20 s kill. The slowest on each is `links_survive_a_wrapper_restart` (two boots);
+  `path6_a_closed_gate_leaves_answer_wait_last_and_pause_alone` read 4.7, 4.8 and 3.8 s.
+- In each `test` job the steps `G2 zero panics`, `G4 schema conformance`, `Secret scan` and `Gate verdict`
+  concluded `success`: `g2: clean` on all three; the G4 documents read `windows-2025` 346 files, 3240 lines,
+  `macos-latest` 356 files, 3343 lines, `ubuntu-latest` 356 files, 3343 lines, 0 torn and no failure on any. CI
+  keeps its test homes, so these are the reads over the lines the new cases wrote. Whether each kept home was
+  among the files a step read was not read: no job's artifact was opened.
+- In each `lint` job the step `G1 bare instrument` concluded `success`. The step's own output was not opened.
+
+## After the pass
+
+- No fix commit was made: `3cae2ce` is the final sha of the pass, local and remote, and the sha the verdict
+  stands on.
+- Entry 14 was fired twice (once in the block, once as the pass's step 1), entry 16 once and entry 17 once.
+  Entry 15 was fired once as written and re-read before the commit.
+- Entry 6 was fired once, in the block, and reads red: the hold of step 11. It was not fired again.
+- The tree after the pass carries, for the next commit: this record's sections written after the pre-CI commit.
+  No source file is among them.
+- Not measured in the pass: any mutation score of the new code (no mutation run is part of a chunk,
+  `inputs#I1`); anything against the real `claude` (no live start, `inputs#I1`, `inputs#I4`); anything of
+  Part B, which is not built.

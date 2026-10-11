@@ -70,5 +70,41 @@
     "read_at": "2026-10-11T00:18:31Z",
     "step": "implement",
     "why": "the direction for this run: Part A alone (steps 1 to 10), steps 12 to 15 held by step 11, no live claude start, no mutation run, then the operator pass on the operator's word with the ci.py conclusion read, a red folded into a fix commit"
+  },
+  {
+    "id": "I5",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the operator, the arguments of this session's /andromeda-wrap-session invocation, 2026-10-11",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "d67f1c1bea52cf2581545e69bb16c9ef0dd92c38c0574a44e0363fa16c82d83a",
+    "copy": "I5-relay-1.md.txt",
+    "link": false,
+    "read_at": "2026-10-11T00:33:24Z",
+    "step": "wrap",
+    "why": "the direction for this wrap: Phase 1 only in this session, a resume point in the run dir naming Phase 2 next, the reconcile in a fresh context, the route directions to arrive on the resume line"
+  },
+  {
+    "id": "I6",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the operator, with the wrap resume invocation, read at 2026-10-11T00:40Z",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "8e0e23e5d8542866bb1d69c13dc6e57e3a00d2dab75c7358e5caee4a2a899010",
+    "copy": "I6-relay-2.md.txt",
+    "link": false,
+    "read_at": "2026-10-11T00:40:16Z",
+    "step": "wrap",
+    "why": "the route directions for the resume: the record flips complete on Part A, steps 12 to 15 as one CARRY on The board: viola list, the light gate skip of binary(channel_links), the five operator-word shapes stand"
   }
 ]

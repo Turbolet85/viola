@@ -1,80 +1,87 @@
 # Session Handoff
 
-**Last Updated:** 2026-10-10T23:17Z
-**Branch:** build/viola-0.1.0 · 0 ahead of origin/build/viola-0.1.0 as read at this wrap (the wrap commit pushes after this file)
+**Last Updated:** 2026-10-11T00:59Z
+**Branch:** build/viola-0.1.0 · 0 ahead of origin/build/viola-0.1.0 as read at this wrap's Setup (the wrap commit pushes after this file)
 **Status:** clean
-**Last Commit:** 2026-10-10-budget-governor — the budget gate: thresholds from config.json, budget-paused on an automated send only, lifted at the reset or by release --budget, and both instance checks moved ahead of any log
+**Last Commit:** 2026-10-10-session-links — the implicit session link: two event kinds, a link recorded on a send or an answer from another instance, the link set restored from the log, the replay's link half; `viola link` and `viola unlink` held for the founder's word
 
 ## Position
-- Done: **2026-10-10-budget-governor** (53 complete, 0 pending, 0 gated; 16/53 verified; the chunk claimed no
-  capability: `v1-35`, `v1-13` and `v1-45` are advanced and not proven). CI green on `c85961d`,
-  `ci#38091081413`, 15/15, first attempt, no fix commit.
-- Next entry: **Session links** (the head of the markerless tail) → `/andromeda-phase`.
+- Done: **2026-10-10-session-links**, Part A of its plan (54 complete, 0 pending, 0 gated; the chunk claimed no
+  capability: `v1-36` and `v1-13` are advanced and not proven). CI green on `3cae2ce`, `ci#38098238731`, 15/15,
+  first attempt, no fix commit.
+- Next entry: **The board: viola list** (the last markerless entry of Epoch 4) → `/andromeda-phase`.
 
 ## Work done
-- The wrapper has a budget gate (`src/run/budget.rs`). It reads `budget.json` at start, at a `send` and at each
-  `turn-ended`, and refuses an automated `send` as `budget-paused` (`five-hour` or `seven-day`, exit 11) while a
-  window is at or over its threshold with a known reset ahead. `viola release <name> --budget` lifts the pause
-  for that instance until the crossed window's reset. Thresholds are `config.json`'s `five_hour` and `seven_day`
-  (defaults 90 and 85). The gate never polls and is fail-open.
-- `viola revive`'s start arm and `viola hook statusline` now run their instance check before anything under the
-  home is opened. A refused check writes no line on either arm.
-- The wrap ran in two sessions: Phase 1, then this one from Phase 2 (`resume-point.md` in the run dir). The chunk
-  was built in two implement runs.
+- The driven wrapper records a link `driver → driven` when a `send` is issued or an `answer` is taken from another
+  instance (`src/run/links.rs`, one `LinkSet` per wrapper). It appends one `link` line (`source: wrapper`) per
+  new pair, directly before that send's `send-issued`, and mirrors the set to the snapshot's `links`. The set is
+  restored from the log at every start, and the replay derives it too (`viola_state::replay::apply_link_line`).
+  `EventKind` holds 15 kinds.
+- **Part B is not built.** `viola link`, `viola unlink` and their two channel methods are held by the plan's
+  step 11. The wrapper answers `link` and `unlink` `-32601`. No product path appends an `unlink` line.
+- The test the last wrap folded into this chunk landed:
+  `path6_a_closed_gate_leaves_answer_wait_last_and_pause_alone` (`tests/cli_budget.rs`).
+- The wrap ran in two sessions: Setup and Phase 1, then this one from Phase 2 (`resume-point.md` in the run dir).
 
 ## Drift resolved
-- 76 detector proposals over six masters (design-system returned none): 76 applied, 0 rejected. Five more sites
-  raised by the wrap, and four stale sentences found by the sweep. 13 sidecar entries: architecture 3,
-  security-plan 2, test-plan 3, obs-plan 2, design-system 1, layout-templates 1, a11y-plan 1. Seven key files
-  edited; the registry check reads clean.
-- One halt, three questions, all answered by the operator (`inputs#I11`): the `budget.json` test-data rule is
-  scoped (a reader's own unit cases may alter the writer's bytes); one playbook rule appended ("Held items landed
-  on the operator's word", resting on the founder's standing rule of 2026-10-06 as the operator names it); the
-  test owner on the route. Two more escalations were settled by the resume directions (`inputs#I10`).
-- Leaves re-derived: CLAUDE.md (four lines), `rules/security.md`, `observability.md`, `events.md`, `testing.md`,
-  `api.md`, `docs/conventions.md`, `commands.md`, `stack.md`, `security-summary.md`, `tests-summary.md`,
-  `obs-summary.md`, `a11y-summary.md`, `services/viola.md`, `viola-state.md`, `viola-core.md`.
+- 27 detector proposals over five masters (design-system and layout-templates returned none), all applied, 0
+  rejected. Two more amendments raised by the wrap: architecture's `link` / `unlink` row says neither is built,
+  and test-plan §6 Scenario E3 gained an As landed bullet. Seven sidecar entries: architecture 2, security-plan
+  1, test-plan 2, obs-plan 1, a11y-plan 1. Three key files edited; the registry check reads clean.
+- No halt. One class escalated by rule ("Held items landed on the operator's word") and was settled by the
+  operator's direction with the resume (`inputs#I6`, item 3). The plan's last expected amendment ("only when
+  Part B lands") was not carried.
+- No master says `link` or `unlink` is served: the sweep's `served` pattern, every row read.
+- The one disproved claim (the plan's note that its `schema-check` entry reads the new cases' lines) is a plan
+  note only; no master says it. It went to curation.
+- Leaves re-derived: CLAUDE.md (two Modules lines), `rules/events.md`, `api.md`, `observability.md`,
+  `docs/services/viola.md`, `viola-state.md`, `viola-core.md`, `tests-summary.md`, `a11y-summary.md`,
+  `obs-summary.md`.
 - Citation sweep: 0 re-pointed in the masters; one route citation re-pointed by hand at Phase 5.
-- Record: `.andromeda/runs/2026-10-10T22-36-31-wrap/` (`fanout-results.md`, `cascade-dispositions.md`,
+- Record: `.andromeda/runs/2026-10-11T00-33-08-wrap/` (`fanout-results.md`, `cascade-dispositions.md`,
   `route-record.md`, `curation.md`).
 
 ## Notes
-- **For the founder, new at this wrap: four items landed on the operator's word, none ratified by him.** Each is
-  his to rule; an answer that differs comes as a revision or a new chunk. No card was confirmed for any.
-  - **the wrapper refuses a driver on `budget.json`**, a file a hook arm writes that the trusted-file list does
-    not hold. The masters record this boundary widening as NOT ratified, his word owed (security-plan
-    §Authentication & Authorization; architecture §Occupied Resources);
-  - **the `budget-paused` refusal rests on the `rate_limits` shape with no ledger row, no probe and no fixture.**
-    That is outside his ruled limit "a shape no `send` relies on needs no probe". The row and its probe are owed
-    on "Paste newline ledger row";
-  - **a refused strict-modes check writes no line** on `revive`'s start arm and leaves no trace on the statusline
-    arm. This sits against his direction of a structured log from every process (obs-plan §10, exemption 7). What
-    an operator sees of a refused statusline check: the session's status line row stays empty, `budget.json`'s
-    `read_at` stops moving, and `viola revive <name> --list` prints the state-files pair for the same home;
-  - **two human lines no master worded** landed in planning forms: `<name>  budget gate open  wheel <holder>`,
-    and the lifted line's end as `YYYY-MM-DD HH:MM:SSZ` when it falls on another UTC date. His wording is owed.
-  - Beside them: the gate is fail-open (no reading, an `unknown` figure, a passed or unparseable `resets_at`, an
-    unreadable or refused `budget.json`, a bad threshold), so a drift in the CLI's `resets_at` shape opens the
-    gate for that window; a snapshot can read `budget_paused: true` after the reset until a `send` arrives or a
-    turn ends; an override does not outlive its wrapper; the reading's `used_percentage` is still an `f64`, the
-    thresholds are `Percent` (the carried line "one line if he wants the newtype" applies to the reading);
-  - closed by this chunk: the defect in shipped code on `viola revive` (its log before its check), and the
-    hypothesis beside it, measured true and fixed.
-- **Route, this wrap:** six CARRYs, no entry added or moved, each placement in `route-record.md`: "Session links"
-  (a case for `answer`, `wait`, `last` and `pause` under a closed gate; the operator's answer: a missing test is
-  folded into the next chunk); "The board: viola list" (`boot --statusline-echo`, the harness-session Path 6,
-  the two-instance leg, `list --json`'s budget fields); "Paste newline ledger row" (the `rate_limits` row and
-  its probe, a sixth shape for his ruling on the `viola verify` child set); "MCP server for drivers" (the MCP
-  form of the refusal); "Home and code-bearing file integrity" (the check goes before the role file's opening on
-  every other verb; fourteen blocks there now); "Exit-cause code catalogue" (revive's strict-modes refusal has no
-  logged detail).
-- **Not measured:** the real `claude` against the gate; an account without `rate_limits`; the `spend_limit`
-  window; the two check-order fixes on Windows (both witnesses are `cfg(unix)`); a home another user owns, or
-  one with only an other-writable bit; a widened DACL on Windows; override expiry across processes and two
-  instances in one home (each a unit case only); any mutation score; which `cli_revive` and `hook_statusline`
-  cases `windows-2025` does not build. No live `claude` start was made by this chunk, no rig home, no ledger row,
-  no re-stamp.
-- **For the founder (carried, with this wrap's changes):**
+- **For the founder, new at this wrap:**
+  - **the explicit `viola link` / `viola unlink` wait for his own word on a boundary widening.** It crosses the
+    local trust boundary in three places: the wrapper serving two more channel methods; the two verbs writing
+    their frame after the liveness-only pre-check; their snapshot read without the strict-modes check. His three
+    options, as the plan's step 11 words them: the two methods served and the two verbs under a dated gap of
+    their own until the Epoch 6 entries; the instance check ahead of the snapshot read, as `viola revive` takes
+    it; no explicit verbs before Epoch 6. The route entry "The board: viola list" carries the hold. Nothing of
+    it is built, and nothing was ratified;
+  - **five shapes of the implicit link landed on the operator's word, none ruled by him** (architecture [Links]
+    marks each): a refused `send` or `answer` records no link; a `from` equal to the wrapper's own name links
+    nothing; a `link` line's `source` is `wrapper`; the record sits directly before `send-issued`, so an issued
+    send that then reads `not-delivered` has linked; a `link` line with no string `ts` reads `since: "unknown"`
+    (no writer of this build makes such a line). An answer of his that differs comes as a revision or a new
+    chunk.
+- **For the founder, from the last wrap (carried, none ratified by him):**
+  - the wrapper refuses a driver on `budget.json`, a file a hook arm writes that the trusted-file list does not
+    hold. The masters record that widening as NOT ratified;
+  - the `budget-paused` refusal rests on the `rate_limits` shape with no ledger row, no probe and no fixture. The
+    row and its probe are owed on "Paste newline ledger row";
+  - a refused strict-modes check writes no line on `revive`'s start arm and leaves no trace on the statusline arm
+    (obs-plan §10, exemption 7);
+  - two human lines no master worded landed in planning forms: `<name>  budget gate open  wheel <holder>`, and
+    the lifted line's end with its date when it falls on another UTC date;
+  - beside them: the budget gate is fail-open; a snapshot can read `budget_paused: true` after the reset until a
+    `send` arrives or a turn ends; an override does not outlive its wrapper; the reading's `used_percentage` is
+    still an `f64`.
+- **Route, this wrap:** one CARRY, on "The board: viola list" (steps 12 to 15 of this chunk's plan, held, by
+  the operator's direction `inputs#I6`). No entry added or moved. The entry holds eleven CARRY blocks. The two
+  CARRYs this chunk's entry carried are discharged (`route-record.md`).
+- **Not measured by this chunk:** any mutation score; anything against the real `claude`; anything of Part B;
+  the link code under two wrappers of one home (each case boots one `builder`); a log holding an `unlink`
+  written by a product path (none exists); `viola revive` over a log with links on a live session (the cases
+  restart through `run`); where the link set's restore stands against the start's strict-modes check (the
+  report states no order, and no master claims one). No live `claude` start, no rig home, no ledger row, no
+  re-stamp.
+- **Not measured, from the last wrap (carried):** the real `claude` against the budget gate; an account without
+  `rate_limits`; the `spend_limit` window; the two check-order fixes on Windows; a home another user owns, or one
+  with only an other-writable bit; a widened DACL on Windows; override expiry across processes and two instances
+  in one home (each a unit case only).
+- **For the founder (carried):**
   - a `--home` session shows no user status line until `statusline-source.json` is planted in that home;
   - his own `~/.claude/settings.json` holds a `statusLine` of type `command` (presence and type read, nothing
     else, never written). On the default home a wrapped session runs it through viola's hook;
@@ -84,8 +91,8 @@
     exemption). It ends when `--list` gains `--json` on "CLI machine contract";
   - on the dev host the bare name `claude` was 2.1.289 and the home is stamped for 2.1.287 (as read at an earlier
     wrap, not re-read here), so a revive typed there with no `PATH` change runs an unstamped CLI;
-  - "Paste newline ledger row" now holds six shapes for his ruling on the `viola verify` child set at its
-    take-up, and needs a cap of live starts of its own; its phase sizes the entry and proposes a cut;
+  - "Paste newline ledger row" holds six shapes for his ruling on the `viola verify` child set at its take-up,
+    and needs a cap of live starts of its own; its phase sizes the entry and proposes a cut;
   - the CARRY on "Server verification before any frame" names a boundary matter: what a client's pre-check does
     with an unreadable or newer snapshot needs his rule before that entry is planned;
   - a listed local command followed by CR or CRLF classifies as that command; not shown to him yet;
@@ -97,23 +104,29 @@
     session on the real CLI; whether a resumed session held its earlier turns; the bounded removal's loop on
     Windows;
   - one CLI plan file is left in his user directory (2026-10-08). viola wrote nothing there.
-- **Epoch growth:** Epoch 4 stands at 10 entries (8 complete, 2 markerless: "Session links", "The board: viola
-  list"). No boundary is minted inside it: the founder's word, 2026-10-09 (carried). Epoch 5 stands at 6.
+- **Epoch growth:** Epoch 4 stands at 10 entries (9 complete, 1 markerless: "The board: viola list"). No boundary
+  is minted inside it: the founder's word, 2026-10-09 (carried). Its last entry closes it, and that wrap runs the
+  sidecar consolidation. Epoch 5 stands at 6.
 - **Owed, no entry minted (the founder, 2026-10-07T09:43Z, carried):** `v1-34`'s harness-prefix row and its R8
   identity-floor row. A probed row for either needs its own founder ruling.
-- **For the operator's word** (carried, with this wrap's figures):
+- **For the operator's word** (new, then carried):
+  - the link rule takes a logged `driver` / `driven` as a string and does not parse it as a name again
+    (security-plan, row "Own state files on read", states it; the wrapper wrote both names itself). The
+    security detector raised it for a human's judgment. Whether it is work for an Epoch 6 entry is not decided,
+    and no CARRY was minted;
+  - `docs/conventions.md` and `docs/stack.md` still list `viola link|unlink` and the `link · unlink` subcommands,
+    as architecture §Conventions and §Stack do: design lists, no amendment was made to either;
   - "Interrupted verify cleanup" has no `requirements.md` line and no ledger entry; one line mints it;
   - `v1-33`'s title and `requirements.md:48` still say "on Windows"; no wrap step may edit either;
   - the ledger's dated notes on `v1-32`, `v1-40` and `v1-31` cite a bare `:90` for the entry "Windows-only live
     measurements"; none was rewritten (a ledger note is not a master);
-  - two sidecars are over the 120 000 B whole-read bound: `architecture-amendments.md` (182 323 B) and
-    `test-plan-amendments.md` (137 396 B), as measured after this wrap's entries. Phase reads them through their
+  - two sidecars are over the 120 000 B whole-read bound: `architecture-amendments.md` (186 843 B) and
+    `test-plan-amendments.md` (140 677 B), as measured after this wrap's entries. Phase reads them through their
     index;
-  - seven sentences of this chunk's plan still word the old hold; its step 15 governs (the report, Deviations 6);
-  - `inputs#I11`'s origin text carries a time typed without the clock ("23:4x"); the clock read 23:03:18Z;
+  - seven sentences of the budget-governor chunk's plan still word the old hold; its step 15 governs;
   - a live `claude` session ending in this tree makes the session-end hook rewrite this file's last section.
 - **Setup:** a setup re-run must keep `.claude/rules/ci.md` and `.claude/rules/testing-src.md`. The host leaf is
-  `host-linux.md`. `rules/security.md` has no `paths:` and gained one bullet at this wrap (the budget gate).
+  `host-linux.md`. `rules/security.md` has no `paths:`; it was read and not changed at this wrap.
 - **Standing rules (carried):**
   - a removal the permission layer denies is not done through another tool; move the dir into
     `target/e2e-home.disk/` and record it;
@@ -125,27 +138,32 @@
   host other builders share. Write the operator one line first; a notice, not a question.
 - **After a `cargo clean`:** re-make the link, `ln -s /tmp/viola-e2e-home-<uid> target/e2e-home`.
 - **For whoever dispatches `windows-mutants.yml` next (carried):** a job's wall follows its count of viable
-  mutants (about 100 s each in the root package). The last four chunks added mutable code to the root package
-  (a 998-line module among it at this one), `viola-state`, `viola-core` and `viola-agent-claude` and ran no
-  mutation run; the epoch boundary's audit grades it.
+  mutants (about 100 s each in the root package). The last five chunks added mutable code and ran no mutation
+  run: this one to the root package (`src/run/links.rs`, 105 product lines, and blocks in `send.rs`,
+  `dialog.rs`, `cmd/run.rs`), `viola-state` (`apply_link_line`) and `viola-core`; the epoch boundary's audit
+  grades it.
 - **Route:** `BLOCKED-ON` on "Windows-only live measurements" stands: `uname -s` read Linux at this wrap.
-- **Curation:** three writes. `CLAUDE.md`: a missing test for a clause a chunk landed is folded into the next
-  chunk. `testing.md`: the shared test visitor records an `f64` field as text. `ci.md`: the Windows-target lint is
-  read on the host before the push. Log: the run dir's `curation.md`. The operator's memory on the stamp-ahead
-  hook gained two cases. The conversations of the first implement run and of this wrap's first session were gone;
-  their candidates were read from `resume-point.md`.
+- **Curation:** two writes, both Tier 2. `verification-harness.md`: `schema-check` on the dev host reads kept
+  homes only. `testing.md`: `clippy::cloned_ref_to_slice_refs` on a one-element array in `assert_eq!`. Log: the
+  run dir's `curation.md`. The conversation of implement and of this wrap's first session was gone; its
+  candidates were read from `resume-point.md`.
 - **Deferred learnings** (none new under the cap; five recurred, then the carried list):
-  - `recurrence-despite-learning: host-linux.md` Paths (a `cd` outside a subshell opened most Bash calls);
-  - `recurrence-despite-learning: host-linux.md` Transports (one inline python heredoc for a leaf edit);
-  - `recurrence-despite-learning: host-linux.md 2026-09-28/29` (a `cat` heredoc with a file target, once in the
-    wrap's first session);
+  - `recurrence-despite-learning: host-linux.md` Transports (one inline python heredoc for a source edit at
+    implement; inline python heredocs for multi-line reads in this session);
+  - `recurrence-despite-learning: a time written into a record ahead of or without the clock` (caught before it
+    was pasted, at Phase 1);
+  - `recurrence-despite-learning: host-linux.md` Paths (one `cd` at the head of a compound, this session);
+  - `recurrence-despite-learning: host-linux.md` Exit codes (one verdict tool read through a line filter);
   - `recurrence-despite-learning: host-linux.md` Long single-line files (multi-KB master lines read through a
     scratch script; `cascade.py window` wraps its output and cannot feed the Edit tool an exact string);
-  - `recurrence-despite-learning: a time written into a record ahead of or without the clock` (`inputs#I11`);
-  - below the threshold at this wrap: `pre-push` prints no coverage figure (the numbers are in
+  - below the threshold at this wrap: a plan step that puts an operation in the unheld part while its only caller
+    sits behind the stop makes dead code under `-D warnings` (the route carries the fact); a plan's forced-on
+    edit must name a handle the target holds; restore a scratch edit from a kept copy and read SHA-256 back,
+    never by a reverse Edit; a harness `run` document names its archive; `gate.py show --n` tells a designed red
+    from a real one; the gate tool prints nothing until its block ends;
+  - carried, below the threshold earlier: `pre-push` prints no coverage figure (the numbers are in
     `target/agent-run/artifacts/llvm-cov-summary.json`, `data[0].totals`); the CI read outlives the Bash tool's
     foreground bound and goes in the background; a foreground `sleep` is refused by the harness;
-  - `recurrence-despite-learning: host-linux.md` Exit codes (one gate call's output read through a line filter);
   - `recurrence-despite-learning: ci.md 2026-10-09` (`gh run list --commit` given a wrong sha);
   - `recurrence-despite-learning: testing.md 2026-10-05` (nextest's padded duration broke a fixed-column split);
   - `recurrence-despite-learning: testing.md` Test data (tests read files after the `TestHome` was dropped);
@@ -180,9 +198,12 @@
   - the private directory of a hand-driven live rig is recorded nowhere in the tree unless the chunk writes its
     path into its evidence.
 - **Operator desk (the founder's word: leave them; carried, with this chunk's additions):**
-  - from this chunk (none committed, none removed): nothing new under `target/` but `target/wincheck/`, used
-    again for the Windows-target lint, and the pre-push run's artifacts under `target/agent-run/artifacts/`;
-    throwaway scripts and three CI test-job logs in the two wrap sessions' scratchpads; nothing depends on them;
+  - from this chunk (none committed, none removed): scratch files in the two wrap sessions' and the implement
+    session's scratchpads (the kept copies of `send.rs` and `dialog.rs` from the forced-on runs, run logs,
+    scripts, two sweep listings); the gate logs under the OS temp dir's `andromeda-gate/2026-10-10-session-links/`;
+    `target/wincheck/`, used again; `target/run-archive/` entries of this session's harness runs;
+    `target/agent-run/artifacts/`. Six `viola-test-*` homes dated 2026-10-08 stand on the test-home base and are
+    earlier chunks'. Nothing depends on any of them;
   - from the statusline chunk: `target/e2e-home/viola-live-sl-20261010/` on the tmpfs (three instance
     directories `slreh`, `slsrc`, `slbare`, its `budget.json`); `target/sl-live-20261010/` with `a` and `b`; the
     rig's private directory `sl-rig/` named in that chunk's `evidence/live-statusline.md`; the CLI's own files
@@ -201,6 +222,3 @@
   - yours to delete: `target/e2e-home.disk`, whole, and the eleven directories under `target/profraw-census/`.
     No chunk in flight reads either.
 - **Last failed command:** none.
-
-## Session End Status
-Completed normally at 2026-10-11 02:03:10

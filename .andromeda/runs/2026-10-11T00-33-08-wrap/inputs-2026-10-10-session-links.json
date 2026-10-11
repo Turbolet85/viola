@@ -1,0 +1,258 @@
+[
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-11T00:33:24Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-session-links",
+"--message-file",
+".andromeda/runs/2026-10-11T00-33-08-wrap/relay-1.md",
+"--origin",
+"the operator, the arguments of this session's /andromeda-wrap-session invocation, 2026-10-11",
+"--kind",
+"relay",
+"--why",
+"the direction for this wrap: Phase 1 only in this session, a resume point in the run dir naming Phase 2 next, the reconcile in a fresh context, the route directions to arrive on the resume line",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-11T00-33-08-wrap",
+"--marker",
+"2026-10-10-session-links"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I5 · copy message · message: the operator, the arguments of this session's /andromeda-wrap-session invocation, 2026-10-11",
+"cite: inputs#I5"
+],
+"stderr": null,
+"wrote": [
+"inputs/I5-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I5",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, the arguments of this session's /andromeda-wrap-session invocation, 2026-10-11",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "d67f1c1bea52cf2581545e69bb16c9ef0dd92c38c0574a44e0363fa16c82d83a",
+"copy": "I5-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-11T00:33:24Z",
+"step": "wrap",
+"why": "the direction for this wrap: Phase 1 only in this session, a resume point in the run dir naming Phase 2 next, the reconcile in a fresh context, the route directions to arrive on the resume line"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-11T00:33:24Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-session-links",
+"--run-dir",
+".andromeda/runs/2026-10-11T00-33-08-wrap",
+"--marker",
+"2026-10-10-session-links"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, in the /andromeda-phase invocation of this chunk, 2026-10-10",
+"I1 cited scope.md:9 · scope.md:79 · scope.md:106 · scope.md:110 · scope.md:136 · research.md:9 · plan.md:18 · plan.md:23 · plan.md:26 · plan.md:261 · plan.md:263 · plan.md:491",
+"I2 n/a — a message has no live source · copy message · message: the operator, answering the P4 fork round in the dialog, 2026-10-10",
+"I2 cited scope.md:123 · plan.md:28 · plan.md:96 · plan.md:177 · plan.md:402 · plan.md:448 · plan.md:452 · plan.md:491 · plan.md:499",
+"I3 n/a — a message has no live source · copy message · message: the operator, at the P5 review of this chunk in the dialog, 2026-10-11",
+"I3 cited scope.md:126",
+"I4 n/a — a message has no live source · copy message · message: the operator, the arguments of this session's /andromeda-implement invocation, 2026-10-11",
+"I4 UNCITED",
+"I5 n/a — a message has no live source · copy message · message: the operator, the arguments of this session's /andromeda-wrap-session invocation, 2026-10-11",
+"I5 UNCITED",
+"inputs: 5 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 5 · uncited 2 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 5,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 5
+},
+"uncited": 2,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-11T00:37:17Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-session-links",
+"--run-dir",
+".andromeda/runs/2026-10-11T00-33-08-wrap",
+"--marker",
+"2026-10-10-session-links"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, in the /andromeda-phase invocation of this chunk, 2026-10-10",
+"I1 cited scope.md:9 · scope.md:79 · scope.md:106 · scope.md:110 · scope.md:136 · research.md:9 · plan.md:18 · plan.md:23 · plan.md:26 · plan.md:261 · plan.md:263 · plan.md:491",
+"I2 n/a — a message has no live source · copy message · message: the operator, answering the P4 fork round in the dialog, 2026-10-10",
+"I2 cited scope.md:123 · plan.md:28 · plan.md:96 · plan.md:177 · plan.md:402 · plan.md:448 · plan.md:452 · plan.md:491 · plan.md:499",
+"I3 n/a — a message has no live source · copy message · message: the operator, at the P5 review of this chunk in the dialog, 2026-10-11",
+"I3 cited scope.md:126",
+"I4 n/a — a message has no live source · copy message · message: the operator, the arguments of this session's /andromeda-implement invocation, 2026-10-11",
+"I4 cited report.md:13 · report.md:133 · report.md:243",
+"I5 n/a — a message has no live source · copy message · message: the operator, the arguments of this session's /andromeda-wrap-session invocation, 2026-10-11",
+"I5 cited report.md:135 · report.md:246 · report.md:353",
+"inputs: 5 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 5 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 5,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 5
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-11T00:40:16Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-session-links",
+"--message-file",
+".andromeda/runs/2026-10-11T00-33-08-wrap/relay-2.md",
+"--origin",
+"the operator, with the wrap resume invocation, read at 2026-10-11T00:40Z",
+"--kind",
+"relay",
+"--why",
+"the route directions for the resume: the record flips complete on Part A, steps 12 to 15 as one CARRY on The board: viola list, the light gate skip of binary(channel_links), the five operator-word shapes stand",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-11T00-33-08-wrap",
+"--marker",
+"2026-10-10-session-links"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I6 · copy message · message: the operator, with the wrap resume invocation, read at 2026-10-11T00:40Z",
+"cite: inputs#I6"
+],
+"stderr": null,
+"wrote": [
+"inputs/I6-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I6",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, with the wrap resume invocation, read at 2026-10-11T00:40Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "8e0e23e5d8542866bb1d69c13dc6e57e3a00d2dab75c7358e5caee4a2a899010",
+"copy": "I6-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-11T00:40:16Z",
+"step": "wrap",
+"why": "the route directions for the resume: the record flips complete on Part A, steps 12 to 15 as one CARRY on The board: viola list, the light gate skip of binary(channel_links), the five operator-word shapes stand"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-11T00:40:21Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-session-links",
+"--run-dir",
+".andromeda/runs/2026-10-11T00-33-08-wrap",
+"--marker",
+"2026-10-10-session-links"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, in the /andromeda-phase invocation of this chunk, 2026-10-10",
+"I1 cited scope.md:9 · scope.md:79 · scope.md:106 · scope.md:110 · scope.md:136 · research.md:9 · plan.md:18 · plan.md:23 · plan.md:26 · plan.md:261 · plan.md:263 · plan.md:491",
+"I2 n/a — a message has no live source · copy message · message: the operator, answering the P4 fork round in the dialog, 2026-10-10",
+"I2 cited scope.md:123 · plan.md:28 · plan.md:96 · plan.md:177 · plan.md:402 · plan.md:448 · plan.md:452 · plan.md:491 · plan.md:499",
+"I3 n/a — a message has no live source · copy message · message: the operator, at the P5 review of this chunk in the dialog, 2026-10-11",
+"I3 cited scope.md:126",
+"I4 n/a — a message has no live source · copy message · message: the operator, the arguments of this session's /andromeda-implement invocation, 2026-10-11",
+"I4 cited report.md:13 · report.md:133 · report.md:243",
+"I5 n/a — a message has no live source · copy message · message: the operator, the arguments of this session's /andromeda-wrap-session invocation, 2026-10-11",
+"I5 cited report.md:135 · report.md:246 · report.md:353",
+"I6 n/a — a message has no live source · copy message · message: the operator, with the wrap resume invocation, read at 2026-10-11T00:40Z",
+"I6 UNCITED",
+"inputs: 6 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 6 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 6,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 6
+},
+"uncited": 1,
+"unparsed": 0
+}
+}
+]
