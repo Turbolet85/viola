@@ -1,0 +1,1 @@
+CARRY: chunk 2026-10-11-the-board-viola-list (the review card the founder approved, `inputs#I3`, `inputs#I8`): when `viola list` replays several snapshots under a `VIOLA_NAME`, each `state-recovered` line carries the caller's instance, never the scanned one (obs-plan §4 E5); naming the scanned instance is a field, the diag-line schema and the catalogue

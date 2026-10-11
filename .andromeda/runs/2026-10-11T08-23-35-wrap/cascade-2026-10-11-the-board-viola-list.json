@@ -1,0 +1,243 @@
+[
+{
+"tool": "cascade",
+"v": "1.2",
+"sha8": "fe426974",
+"ts": "2026-10-11T08:44:33Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-11T08-23-35-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-11T08-23-35-wrap",
+"--marker",
+"2026-10-11-the-board-viola-list"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline 995dc55a (pre-CI parent — the oldest of 1 pre-CI commit(s), f1ee6341)",
+"one-prod · new 0 · standing 2 · leaf 2 · curation 0 · base 0 · control architecture.md:247 (prose)",
+"one-reader · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · case-variants +1 · control architecture.md:258 (prose)",
+"no-surface · 0 rows (control fired) — a statement about this pattern, not the masters · case-variants +1 · control arch…",
+"board-owner · new 2 · standing 2 · leaf 2 · curation 0 · base 0 · control architecture.md:50 (prose)",
+"keep-nt · new 0 · standing 3 · leaf 0 · curation 0 · base 0 · control security-plan.md:437 (prose)",
+"trycmd-list · new 3 · standing 0 · leaf 0 · curation 0 · base 0 · case-variants +1 · control test-plan.md:1015 (prose)",
+"fifteen · 0 rows (control fired) — a statement about this pattern, not the masters · control registries/contracts/test-…",
+"list-unbuilt · 0 rows (control fired) — a statement about this pattern, not the masters · control registries/contracts/…",
+"two-readers · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:407 (p…",
+"read-once · new 0 · standing 1 · leaf 2 · curation 0 · base 0 · control security-plan.md:237 (prose)",
+"lmu-spawn · new 0 · standing 4 · leaf 0 · curation 0 · base 0 · control architecture.md:334 (prose)",
+"unwrapped-rack · new 3 · standing 8 · leaf 0 · curation 0 · base 0 · control design-system.md:358 (prose)",
+"second-read · 0 rows (control fired) — a statement about this pattern, not the masters · control registries/contracts/o…",
+"sl-echo · new 0 · standing 2 · leaf 2 · curation 0 · base 0 · control test-plan.md:839 (prose)",
+"three-sm · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:394 (prose)",
+"verb-list · new 0 · standing 9 · leaf 2 · curation 0 · base 0 · control architecture.md:53 (prose)",
+"grouped-help · new 0 · standing 6 · leaf 0 · curation 0 · base 0 · control design-system.md:837 (prose)",
+".andromeda/test-plan.md:551 one-prod standing edited …or-replay function's first product caller and `viola list`'s `boa…",
+".andromeda/obs-plan.md:731 one-prod standing edited @c625/2342 …r` nor `ret`. Its first product caller is `viola revive…",
+".claude/rules/events.md:30 one-prod leaf …ola_state::replay`) with one product reader, `viola revive`'s preflight; the …",
+".claude/docs/services/viola-state.md:28 one-prod leaf …ot_or_replay`, whose one product caller is `viola revive`'s pref…",
+".andromeda/architecture.md:258 one-reader standing …r body or stdout, and its one reader is `viola revive`, which uses …",
+".andromeda/architecture.md:71 board-owner standing @c2452/2492 …king-route entry \"The board: viola list\" carries the ho…",
+".andromeda/test-plan.md:839 board-owner new …planning; carried past \"The board: viola list\", which landed without them,…",
+".andromeda/test-plan.md:925 board-owner standing edited …, moved there from \"The board: viola list\" by the review card …",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:4 board-owner new …ed past \"The board: viola list…",
+".claude/docs/commands.md:30 board-owner leaf …echo` is not built; it is owed to the route entry \"The board: viola list\")",
+".claude/docs/tests-summary.md:30 board-owner leaf …` to the route entry \"The board: viola list\", and the web signals to…",
+".andromeda/security-plan.md:437 keep-nt standing edited …pes C0/C1 controls (keeping `\\n` and `\\t`). Human-mode `list` …",
+".andromeda/design-system.md:747 keep-nt standing … The security plan's \"keeping `\\n` and `\\t`\" is a floor, and this is …",
+".andromeda/test-plan.md:591 keep-nt standing edited …ng in `wait`/`last`, keeping `\\n` and `\\t`; in `list` rows (`escap…",
+".andromeda/test-plan.md:655 trycmd-list new …d by literals, not by a trycmd case (chunk 2026-10-11-the-board-viola-list…",
+".andromeda/a11y-plan.md:843 trycmd-list new   - **cli:** trycmd cases pin the `unable <reason> <detail>` + final `hint:…",
+".andromeda/a11y-plan.md:853 trycmd-list new …b string per state, and trycmd pins every fixed CLI string, except `viola …",
+".andromeda/security-plan.md:237 read-once standing edited …faults 90 and 85), read once at the wrapper's start, and by …",
+".claude/rules/security.md:30 read-once leaf …100, defaults 90 / 85), read once at the wrapper's start through `take(MAX…",
+".claude/docs/conventions.md:45 read-once leaf …nt`, defaults 90 / 85, read once at the wrapper's start; a bad value tak…",
+".andromeda/architecture.md:334 lmu-spawn standing edited … rows. Its readers (`list`, `mcp` and `ui`, through `viola-ag…",
+".andromeda/security-plan.md:127 lmu-spawn standing edited     - `list`, `mcp` and `ui` spawn `claude agents --json`, re…",
+".andromeda/security-plan.md:245 lmu-spawn standing edited @c67/2708 …aude agents`) | `list`, `mcp` and `ui` resolve `cl…",
+".andromeda/registries/contracts/architecture/crate-dependency-direction.md:5 lmu-spawn standing …by CLI `list`, `mcp` a…",
+".andromeda/design-system.md:358 unwrapped-rack standing …et-paused`, `skipped 0 - 0 - 0`, `-- UNWRAPPED - READ-ONLY --`.",
+".andromeda/design-system.md:741 unwrapped-rack standing -- UNWRAPPED - READ-ONLY --",
+".andromeda/design-system.md:749 unwrapped-rack new …, and there is no `-- UNWRAPPED - READ-ONLY --` separator and no un…",
+".andromeda/layout-templates.md:376 unwrapped-rack standing -- UNWRAPPED - READ-ONLY --                                 …",
+".andromeda/layout-templates.md:397 unwrapped-rack new …discipline\"; the `-- UNWRAPPED - READ-ONLY --` rack and its rows…",
+".andromeda/layout-templates.md:580 unwrapped-rack standing …k separator:** `-- UNWRAPPED - READ-ONLY --` on its own lin…",
+".andromeda/test-plan.md:655 unwrapped-rack new …`board_row_*`; the `-- UNWRAPPED - READ-ONLY --` separator is not built…",
+".andromeda/test-plan.md:1009 unwrapped-rack standing …e per item + the `-- UNWRAPPED - READ-ONLY --` separator; no row …",
+".andromeda/a11y-plan.md:173 unwrapped-rack standing edited …ions, then the `-- UNWRAPPED - READ-ONLY --` separator (hea…",
+".andromeda/a11y-plan.md:348 unwrapped-rack standing edited …tion line, the `-- UNWRAPPED - READ-ONLY --` separator and …",
+".andromeda/a11y-plan.md:498 unwrapped-rack standing edited …caption line → `-- UNWRAPPED - READ-ONLY --` separator; `--…",
+".andromeda/test-plan.md:839 sl-echo standing edited ×2 …n boot --session p6 --statusline-echo`, which boots the default…",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:4 sl-echo standing edited ×4 …med] [--statusline-…",
+".claude/docs/commands.md:30 sl-echo leaf ×2 …ed|oversize|malformed] [--statusline-echo]` — build, create a home, stamp …",
+".claude/docs/tests-summary.md:30 sl-echo leaf …ent. Still owed: `boot --statusline-echo`, the harness-session form, the…",
+".andromeda/architecture.md:53 verb-list standing edited …`id` (hook dialogs, `send`, `wait`, `last`, `answer`, `pause`,…",
+".andromeda/architecture.md:123 verb-list standing …ok traffic. Requests: `send`, `wait`, `last`, `answer`, `pause`, `re…",
+".andromeda/architecture.md:276 verb-list standing …method that reads it (`send`, `wait`, `last`, `answer`, `pause`) tak…",
+".andromeda/architecture.md:369 verb-list standing …` in `.mcp.json`. MCP tools `send`, `wait`, `last`, `answer`, `list`.",
+".andromeda/security-plan.md:59 verb-list standing     - Methods: `send`, `wait`, `last`, `answer`, `pause`, `release`, …",
+".andromeda/security-plan.md:102 verb-list standing …*Entry point:** Tools `send`, `wait`, `last`, `answer` and `list`, …",
+".andromeda/test-plan.md:130 verb-list standing …/ Unix socket; methods `send`, `wait`, `last`, `answer`, `pause`, `rele…",
+".andromeda/obs-plan.md:516 verb-list standing … `hook`, `statusline`, `send`, `wait`, `last`, `answer`, `pause`, `relea…",
+".andromeda/a11y-plan.md:90 verb-list standing …:** CLI verbs (`list`, `send`, `wait`, `last`, `answer`, `verify`, `paus…",
+".claude/rules/api.md:21 verb-list leaf - Methods: `send`, `wait`, `last`, `answer`, `pause`, `release`, `link`, `unlink…",
+".claude/docs/services/viola.md:34 verb-list leaf …`-` flag under `cli`: `send`, `wait`, `last`, `answer`, `pause`, `rel…",
+".andromeda/design-system.md:839 grouped-help standing - `viola --help` groups verbs as `board: list, ui` / `traffic: se…",
+".andromeda/layout-templates.md:364 grouped-help standing edited …a --help` is the grouped verb table (not built: the bu…",
+".andromeda/layout-templates.md:562 grouped-help standing …Discoverability:** `--help` groups verbs as board / traffic /…",
+".andromeda/a11y-plan.md:174 grouped-help standing     - `--help` group labels: board / traffic / wheel / handoff / setu…",
+".andromeda/a11y-plan.md:348 grouped-help standing edited mixed ×2 …parator and the `--help` group labels. As built (chu…",
+".andromeda/a11y-plan.md:498 grouped-help standing edited mixed ×2 … --` separator; `--help` group labels (board / traff…",
+"one-prod · new 0 · standing 2 · leaf 2 · curation 0 · base 0 · control architecture.md:247 (prose)",
+"one-reader · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · case-variants +1 · control architecture.md:258 (prose)",
+"no-surface · 0 rows (control fired) — a statement about this pattern, not the masters · case-variants +1 · control arch…",
+"board-owner · new 2 · standing 2 · leaf 2 · curation 0 · base 0 · control architecture.md:50 (prose)",
+"keep-nt · new 0 · standing 3 · leaf 0 · curation 0 · base 0 · control security-plan.md:437 (prose)",
+"trycmd-list · new 3 · standing 0 · leaf 0 · curation 0 · base 0 · case-variants +1 · control test-plan.md:1015 (prose)",
+"fifteen · 0 rows (control fired) — a statement about this pattern, not the masters · control registries/contracts/test-…",
+"list-unbuilt · 0 rows (control fired) — a statement about this pattern, not the masters · control registries/contracts/…",
+"two-readers · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:407 (p…",
+"read-once · new 0 · standing 1 · leaf 2 · curation 0 · base 0 · control security-plan.md:237 (prose)",
+"lmu-spawn · new 0 · standing 4 · leaf 0 · curation 0 · base 0 · control architecture.md:334 (prose)",
+"unwrapped-rack · new 3 · standing 8 · leaf 0 · curation 0 · base 0 · control design-system.md:358 (prose)",
+"second-read · 0 rows (control fired) — a statement about this pattern, not the masters · control registries/contracts/o…",
+"sl-echo · new 0 · standing 2 · leaf 2 · curation 0 · base 0 · control test-plan.md:839 (prose)",
+"three-sm · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:394 (prose)",
+"verb-list · new 0 · standing 9 · leaf 2 · curation 0 · base 0 · control architecture.md:53 (prose)",
+"grouped-help · new 0 · standing 6 · leaf 0 · curation 0 · base 0 · control design-system.md:837 (prose)",
+"total (17 patterns) · 56 rows over 17 files",
+"per class · new 8/5 · standing 38/9 · leaf 10/8 · curation 0/0 · base 0/0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "995dc55a3d6b8be03ed466f0de5e6f5325b8c4ce",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), f1ee6341",
+"counts": {
+"one-prod": {
+"new": 0,
+"standing": 2,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"one-reader": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"no-surface": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"board-owner": {
+"new": 2,
+"standing": 2,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"keep-nt": {
+"new": 0,
+"standing": 3,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"trycmd-list": {
+"new": 3,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"fifteen": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"list-unbuilt": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"two-readers": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"read-once": {
+"new": 0,
+"standing": 1,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"lmu-spawn": {
+"new": 0,
+"standing": 4,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"unwrapped-rack": {
+"new": 3,
+"standing": 8,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"second-read": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"sl-echo": {
+"new": 0,
+"standing": 2,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"three-sm": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"verb-list": {
+"new": 0,
+"standing": 9,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"grouped-help": {
+"new": 0,
+"standing": 6,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]

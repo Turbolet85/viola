@@ -538,3 +538,15 @@
 **Why:** The chunk added a second pass of the existing reader over the wrapper's own log, at the point of the start where the first already ran, and a rule over its lines. No refusal and no permission rests on `from` or on the link set. The row claims no order between the restore and the strict-modes check, because the chunk's report states none.
 **Kept:** The sentences on the `link` / `unlink` methods, the dated gaps and the anti-patterns are unchanged. The explicit verbs are not built, and the boundary widening they need waits for the founder's own word.
 **Ref:** .andromeda/runs/2026-10-11T00-33-08-wrap/
+
+## 2026-10-11-the-board-viola-list — viola list joins the strict-modes entry points; the replay and budget.json gain a reader
+**Section:** §Authentication & Authorization (`~/.viola/` access control); §Input Validation (CLI arguments / stdin, Configuration values, Own state files on read, Child executable resolution); Threat Model Summary (filesystem and child-spawn vectors); §Bootstrap phases → logging-redaction-wire
+**Change:**
+- `list` is a strict-modes entry point: `board::scan` runs `check_path` on the home and `instances/` (absent passes, unstattable refused, a link never followed) and `check_instance` per instance in name order, before any file under the home is opened and before its log; the first failure refuses the whole board with exit 21 (`--json` `{"v":1,"error":"instance-unreachable","detail":null}`, stderr empty; human: the home-state or instance-state pair, stdout empty), no log, no line, the home's mode as found. None of the dated interim gaps; `cfg(unix)` cases only.
+- `list` takes `[--json]` only; it makes the home absolute with `std::path::absolute`, not canonicalised, as every `cli` verb resolves `--home` today; the canonicalisation stays owed to "CLI machine contract".
+- The classified read and the replay have two product callers (was one, `viola revive`): revive's preflight and `board::read`, each after `check_instance`. `events::read_from` gains `board::log_pass`; `list`'s `skipped` is the first product reading of the counts.
+- `budget.json` has one checked read, `read_budget_stamped`, with two product paths (was one reader, the gate): the gate's `read_budget` and `list`, which shows the reading and decides nothing on it. The thresholds gain `list` as a reader through `read_thresholds`.
+- CLI `list` as landed resolves no `claude` and reads no `claude agents --json` (was: `list`, `mcp` and `ui` spawn it); it joins that rule with "Unwrapped sessions on the board".
+- The logging floor: `wait` / `last` keep `\n` and `\t`; `list` rows escape every control character, `\n`, `\t`, DEL and C1 included, as `\xHH` (`escape_row`); as landed every row field comes from viola's own state.
+**Why:** the board as built. The whole-board refusal and its no-line shape are the operator's answer at that chunk's planning, not ruled by the founder. The board's read of `budget.json` is no boundary widening: the same checked read, nothing decided on it; the gate's refusal stays the unratified widening.
+**Ref:** .andromeda/runs/2026-10-11T08-23-35-wrap/

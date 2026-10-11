@@ -73,3 +73,23 @@ already asks every `cli_list` case to start from `stamped_home`. Not reproducibl
 verify-driven root binary). Host clippy, the Windows-target clippy (`target/wincheck`) and fmt read exit 0.
 Firing 6 (`--only 1,2,5,13`): all four green. Entry 5 read `35 passed`, the four moved cases each about 4 s;
 entry 13 `pre-push` read `"ok":true`.
+
+## The fix commit, its push and its CI read: green
+
+`acad7afc865a` — `fix(2026-10-11-the-board-viola-list): operator fix after CI run 38123340339, the four list
+readings on an unstamped home start from a stamped one`. Hygiene before it read `clean`.
+
+```
+ 15 probe       green · exit 0 · 1.54s · 90 B → 15.log · history moved: refs/remotes/origin/HEAD f1ee6341→acad7afc; refs/remotes/origin/build/viola-0.1.0 f1ee6341→acad7afc · git diff --quiet && git diff --cached --quiet && git push … (69 chars)
+entries 16 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 15
+```
+
+```
+acad7afc865a verdict: green · checks 15/15 · wall 511 s · runs ci#38124062614 completed/success
+runs: ci#38124062614 push completed/success
+checks: fuzz-replay · lint (macos-latest) · lint (ubuntu-latest) · lint (windows-2025) · msrv · perf (macos-latest)
+  perf (ubuntu-latest) · perf (windows-2025) · release (macos-latest) · release (ubuntu-latest) · release (windows-2025)
+  supply-chain · test (macos-latest) · test (ubuntu-latest) · test (windows-2025)
+```
+
+The run this chunk's verdict reads: **ci#38124062614, green, 15/15, on `acad7afc865a`.**

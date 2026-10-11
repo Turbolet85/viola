@@ -170,12 +170,12 @@ _Justification: web-spa carries about 11 assertable entities (inside Standard's 
     - Orca with GNOME Terminal.
     - Overseer Direction 5: "keyboard and screen-reader discipline, no fake automation".
   - **ARIA roles inventory:** N/A (terminal output). The structural equivalents are:
-    - the BAY context line, then uppercase column captions, then the `-- UNWRAPPED - READ-ONLY --` separator (heading-equivalent);
+    - the BAY context line, then uppercase column captions, then the `-- UNWRAPPED - READ-ONLY --` separator (heading-equivalent); as built (chunk 2026-10-11-the-board-viola-list) the board is the BAY line, the caption row and wrapped rows only (or the BAY line, the caption row and `no wrapped sessions  start one: viola run <name> -- claude`): the separator and its unwrapped rows are owed to "Unwrapped sessions on the board";
     - `--help` group labels: board / traffic / wheel / handoff / setup (layout excerpt, Heading Hierarchy Anchors → cli).
   - **Service identity tagging:** `service_name:"viola"` and `version`. Obs uses `process:"cli"` for short-lived verbs that have a resolved instance (obs excerpt, Log Format additions). The CLI a11y checks run on all three OSes, so `os` is tagged per matrix leg.
   - **Notes:**
     - Required behaviour (design excerpt, Surfaces → cli; Loading/Error/Empty → CLI waiting; security excerpt, C0/C1 escaping):
-      - colour is only a second cue (amber `DIALOG`, dim `stale`, always beside the word);
+      - colour is only a second cue (amber `DIALOG`, dim `stale`, always beside the word); as built (chunk 2026-10-11-the-board-viola-list) `viola list` prints words only, with no SGR (owed to "CLI output discipline");
       - there is no SGR, glyph or cursor control under `--json`, non-TTY, `NO_COLOR`, `TERM=dumb`, `viola run` or a passed `viola revive`; `viola revive --list` rows and the revive refusal pairs carry no ESC byte;
       - output is static and linear, with no spinner or redraw;
       - C0/C1 control characters are escaped except `\n` and `\t` [resolved: in `list` table rows `\n` / `\t` are escaped too (ratified T5, design cli); `wait` / `last` keep them; Section 4 P6].
@@ -345,7 +345,7 @@ _Justification: web-spa carries about 11 assertable entities (inside Standard's 
 
 **6. CLI board, wait/last, verify and launch-line output**
 - **Surfaces involved:** cli.
-- **Required ARIA roles:** N/A (terminal). The structural equivalents are the caption line, the `-- UNWRAPPED - READ-ONLY --` separator and the `--help` group labels.
+- **Required ARIA roles:** N/A (terminal). The structural equivalents are the caption line, the `-- UNWRAPPED - READ-ONLY --` separator and the `--help` group labels. As built (chunk 2026-10-11-the-board-viola-list) only the caption line stands: the separator is owed to "Unwrapped sessions on the board" and the `--help` group labels to "CLI output discipline".
 - **Required focus order:** N/A. Output is linear and static: `waiting: <name>` once on stderr (TTY only), `verify` step lines `[NN/NN] … pass|fail`, and `viola ui` prints one launch line to stderr [resolved: design's launch block is two lines, printed once; Section 4 P6].
 - **Required WCAG SC coverage per tier:** WCAG does not apply directly to terminal output, so there is no conformance claim. Output-discipline assertions stand in for SC 1.3.2, 1.4.1 and 3.3.1: meaningful linear order, colour never the sole cue, and the refusal reason and detail given in text.
 - **Source:**
@@ -495,7 +495,7 @@ Contracts: .andromeda/registries/a11y-plan-contracts.toml — ask registry.py co
 | Surface | Required landmarks | Optional landmarks |
 |---------|-------------------|-------------------|
 | web-spa | `banner` (native `<header>` rendered by the `viola-atis` component, top level, verified by axe `landmark-banner-is-top-level`), `main` (native `<main>` wrapping both racks, the tape and the status announcer; verified by axe `landmark-one-main` and html-validate `no-multiple-main`). The skip link sits before `<header>` (axe `region` exempts skip links) | none. `navigation`, `contentinfo`, `search`, `form`, `complementary` are absent by design (no nav, no footer, GET-only, `form-action 'none'`), and their absence is asserted in `toMatchAriaSnapshot` |
-| cli | N/A (terminal). Structural equivalents: BAY context line → uppercase caption line → `-- UNWRAPPED - READ-ONLY --` separator; `--help` group labels (board / traffic / wheel / handoff / setup) | n/a |
+| cli | N/A (terminal). Structural equivalents: BAY context line → uppercase caption line → `-- UNWRAPPED - READ-ONLY --` separator; `--help` group labels (board / traffic / wheel / handoff / setup). As built (chunk 2026-10-11-the-board-viola-list): BAY line → caption line → wrapped rows; the separator ("Unwrapped sessions on the board") and the `--help` group labels ("CLI output discipline"; the built help is clap's ordered list) are not built | n/a |
 | tui | N/A (vendor `claude` TUI, boundary-only) | n/a |
 
 **Heading structure (web-spa):** `<h1>` = `VIOLA` in the ATIS header (it keeps the Display typography role). `<h2>` = `WRAPPED`, `UNWRAPPED · READ-ONLY` and `TAPE` (Heading typography role). There is no `<h3>`. `UTC` stays adjacent Label-role text outside the `TAPE` `<h2>`. These are verified by axe `page-has-heading-one` / `heading-order`, html-validate `heading-level` / `empty-heading`, and aria snapshot (SC 1.3.1, 2.4.6).
@@ -540,7 +540,7 @@ Contracts: .andromeda/registries/a11y-plan-contracts.toml — ask registry.py co
     - E4 `Last-Event-ID` resume keeping the tree and focus;
     - the ATIS `<dd>` words `budget-paused`, `expired`, `TAPE connecting`, `TAPE live` and `skipped N · N · N` (SC 1.4.1 map row; `TAPE stopped` is asserted by `a11y-p5`);
     - the CLI column word for `cli_verified:false`.
-  - **cli mirror:** trycmd pins the same caption order (NAME · LIVE · STATUS · WHEEL · DIALOG · CLI).
+  - **cli mirror:** a literal pins the same caption order (NAME · LIVE · STATUS · WHEEL · DIALOG · CLI), not a trycmd case: the `CAPTION` literal in the root case `list_human_board_is_the_literal_rows` (`tests/cli_list.rs`) and the unit case `board_row_caption_and_default_row_are_the_literals` (`src/human.rs`), chunk 2026-10-11-the-board-viola-list.
   - **SCs:** 1.3.1, 1.3.2, 1.4.1, 1.4.3, 1.4.10 (≥ 760), 1.4.11, 1.4.12, 1.4.13, 2.1.1, 2.1.2, 2.4.1, 2.4.3, 2.4.6, 2.4.7, 2.4.11, 2.5.8, 3.1.1, 4.1.2.
 - **P2 — Confirmed send and readback, or refusal** (web-spa + cli).
   - **Roles:** `log` → `listitem` → disclosure whose `<summary>` accessible name is "send to builder, read back" (box `aria-hidden`); `status`.
@@ -589,9 +589,9 @@ Contracts: .andromeda/registries/a11y-plan-contracts.toml — ask registry.py co
   - `[NN/NN] … pass|fail`;
   - the `viola ui` launch block on stderr exactly once: the design's two lines (`viola ui  127.0.0.1:<port>`, then the URL alone on its own line), unstyled even on a TTY;
   - no SGR under non-TTY / `NO_COLOR` / `TERM=dumb` / `--json`;
-  - under the outer PTY, every SGR span sits beside its word (amber only on `DIALOG`, dim only on stale rows, bold only on NAME column values), and `unable` / `fail` carry no SGR;
+  - under the outer PTY, every SGR span sits beside its word (amber only on `DIALOG`, dim only on stale rows, bold only on NAME column values), and `unable` / `fail` carry no SGR; `viola list` emits no SGR yet (chunk 2026-10-11-the-board-viola-list), so its three spans have no check until the colour layer lands ("CLI output discipline");
   - C0/C1 escaped (security excerpt, C0/C1 escaping; ratified T5 for `list` rows), checked with assert_cmd on all three OS legs:
-    - Setup: human-mode `viola wait` / `viola last` run against a `viola-fake-agent` event whose text carries C0 and C1 control bytes (including ESC / CSI), and `viola list` runs against a `claude agents --json` fixture row carrying the same bytes plus `\n` / `\t`.
+    - Setup: human-mode `viola wait` / `viola last` run against a `viola-fake-agent` event whose text carries C0 and C1 control bytes (including ESC / CSI), and `viola list` runs against a `claude agents --json` fixture row carrying the same bytes plus `\n` / `\t`. As built (chunk 2026-10-11-the-board-viola-list) `viola list` reads no `claude agents --json`: its row escape is held by unit cases on a recorded CLI version carrying ESC, C1, DEL, `\n` and `\t`, each printed as `\xHH` (`escape_row_shows_every_control_character_as_hex_text`, `board_row_cli_cell`), and the root cases `list_human_board_is_the_literal_rows` and `list_of_a_stopped_wrapper_is_an_empty_board` assert no ESC and no non-ASCII byte on either stream; the fixture-row setup waits on "Unwrapped sessions on the board".
     - Pass condition: each injected control appears only in escaped form. In `wait` / `last` text `\n` / `\t` stay raw. In `list` table rows `\n` / `\t` are escaped too (`\x0A`, `\x09`), so every row stays one fixed-width line.
     - Under non-TTY, `wait` / `last` stdout contains no raw C0 / C1 byte other than `\n` / `\t`, and `list` stdout contains none inside a row. Under the outer PTY, the injected controls are escaped, and viola's own SGR stays beside its word only.
   - These stand in for SC 1.3.2, 1.4.1 and 3.3.1, with no conformance claim.
@@ -724,7 +724,7 @@ dark palette only (Overseer Direction 6).
 - **Verification:**
   - For each state, driven through the fake agent, assert the printed word is in the row's or line's accessible text (`state-word-missing`).
   - Under `forcedColors: 'active'`: `--rule-info` borders keep a non-`none` `border-style`, the refused strike renders as a dashed outline plus `unable`, and the cock band resolves to the system `Highlight` colour (`forced-colors-state`).
-- **CLI equivalent (no conformance claim):** amber SGR only on the `DIALOG` word, dim SGR on stale rows and bold SGR only on NAME column values (the callsign; design cli), always beside the word. viola emits zero SGR of its own under non-TTY / `NO_COLOR` / `TERM=dumb` / `--json` / `viola run` / a passed `viola revive`, and the revive refusal pairs and `--list` rows carry no ESC byte. Under `viola run` on Windows the outer-PTY stream also carries the ConPTY host's own SGR, cursor and query bytes (not viola's: the inbox host's as measured at chunk 2026-09-25-pty-wrapper-on-windows research fact 4, the sideloaded `OpenConsole.exe`'s `ESC[1t ESC[c ESC[?1004h ESC[?9001h` as measured at chunk 2026-09-29-sideloaded-conpty), so the windows-2025 `viola run` check is that viola's literals are absent, on both backends. `unable` / `fail` are never coloured. Checked with assert_cmd + portable-pty on `[windows-2025, macos-latest, ubuntu-latest]`.
+- **CLI equivalent (no conformance claim):** amber SGR only on the `DIALOG` word, dim SGR on stale rows and bold SGR only on NAME column values (the callsign; design cli), always beside the word. As built (chunk 2026-10-11-the-board-viola-list) `viola list` emits no SGR and reads no `NO_COLOR` / `TERM` / `COLORTERM`: each state is carried by its printed word alone (`stale`, `DIALOG <kind>`, `expired`, `budget-paused`, `unverified-cli`); the colour layer is owed to "CLI output discipline". viola emits zero SGR of its own under non-TTY / `NO_COLOR` / `TERM=dumb` / `--json` / `viola run` / a passed `viola revive`, and the revive refusal pairs and `--list` rows carry no ESC byte. Under `viola run` on Windows the outer-PTY stream also carries the ConPTY host's own SGR, cursor and query bytes (not viola's: the inbox host's as measured at chunk 2026-09-25-pty-wrapper-on-windows research fact 4, the sideloaded `OpenConsole.exe`'s `ESC[1t ESC[c ESC[?1004h ESC[?9001h` as measured at chunk 2026-09-29-sideloaded-conpty), so the windows-2025 `viola run` check is that viola's literals are absent, on both backends. `unable` / `fail` are never coloured. Checked with assert_cmd + portable-pty on `[windows-2025, macos-latest, ubuntu-latest]`.
 
 ### Typography tokens (readability)
 
@@ -840,7 +840,7 @@ _Scope: no `cognitive-accessibility` trigger fired (a11y-scope Sec 5), so there 
 - **WCAG SC:** SC 3.3.1 Error Identification (A) + SC 3.3.3 Error Suggestion (AA; the 401 instruction line).
 - **Verification:**
   - **web:** `a11y-p2` / `a11y-p5` check `toHaveText` on each strip and the refusal word cell, `toHaveAccessibleName` on the refusal `<summary>`, and that VSR `spokenPhraseLog()` contains the refusal / 401 message once. The 401 strip must match its instruction line and must not match the token, `?t=`, `http` or the `.url` path.
-  - **cli:** trycmd cases pin the `unable <reason> <detail>` + final `hint:` layout per refusal, and assert_cmd checks the typed exit codes (`10`–`14`, `20`, `21`) and that `--json` carries no hint text. These run on all three OS legs.
+  - **cli:** trycmd cases pin the `unable <reason> <detail>` + final `hint:` layout per refusal (`viola list`'s exit-21 state pairs — the hint last, stdout empty; under `--json` exactly `{"v":1,"error":"instance-unreachable","detail":null}` with stderr empty — are pinned by literal in the `cfg(unix)` root cases `list_refuses_*` and the unit case `instance_and_home_state_pairs_are_the_fixed_texts`, chunk 2026-10-11-the-board-viola-list), and assert_cmd checks the typed exit codes (`10`–`14`, `20`, `21`) and that `--json` carries no hint text. These run on all three OS legs.
 
 ### Plain language
 
@@ -850,13 +850,13 @@ _Scope: no `cognitive-accessibility` trigger fired (a11y-scope Sec 5), so there 
   - Every kebab-case reason/detail code (`not-delivered`, `human-typing`, `unverified-cli`) always sits beside the plain word `unable`, and next to its full text in the `<details>` body.
   - Page and CLI never show a Problem URN, stack trace or bare status number as the only error text.
 - **Verification:**
-  - Playwright `toHaveText` pins every fixed web string per state, and trycmd pins every fixed CLI string. Any copy change therefore fails CI until the pinned string is updated on purpose.
+  - Playwright `toHaveText` pins every fixed web string per state, and trycmd pins every fixed CLI string, except `viola list`'s, which literals pin (the board, the empty line and the refusal pairs: `tests/cli_list.rs` and the `src/human.rs` units `bay_line_*`, `board_row_*` and `instance_and_home_state_pairs_are_the_fixed_texts`, chunk 2026-10-11-the-board-viola-list). Any copy change therefore fails CI until the pinned string is updated on purpose.
   - A DOM assertion confirms that no `urn:viola:problem:` string is rendered in page text.
 
 ### Consistency and predictability
 
 - **Consistent identification (SC 3.2.4, AA):**
-  - The web `columnheader`s, read with `getByRole('columnheader')` in DOM order, equal `NAME · LIVE · STATUS · WHEEL · DIALOG · CLI`, and the trycmd case for `viola list` pins the same caption order.
+  - The web `columnheader`s, read with `getByRole('columnheader')` in DOM order, equal `NAME · LIVE · STATUS · WHEEL · DIALOG · CLI`, and the `CAPTION` literal in the root case `list_human_board_is_the_literal_rows` (`tests/cli_list.rs`) pins the same caption order for `viola list` (chunk 2026-10-11-the-board-viola-list).
   - The readback word for one `corr` is identical in the tape line and in the `<viola-transfer>` marker (`a11y-p2`).
   - `[RB]` on the CLI corresponds to `data-rb="read"` on the web (tests cross-surface trigger).
 - **Consistent navigation (SC 3.2.3, AA):** this is a single page, so the SC is satisfied through the single-page exception. The region order (banner → WRAPPED → UNWRAPPED · READ-ONLY → TAPE) is the same in every state, checked by comparing `ariaSnapshotJSON` region order across steady, bay-narrow, first-reading/empty and degraded.

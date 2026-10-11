@@ -1,0 +1,1 @@
+2026-10-11-the-board-viola-list. Run Phase 1 only, write the run dir's resume point naming Phase 2 next, and stop: this is the epoch-close wrap, and its reconcile and consolidation run in a fresh window.

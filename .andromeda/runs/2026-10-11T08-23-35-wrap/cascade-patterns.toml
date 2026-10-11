@@ -1,0 +1,67 @@
+[[pattern]]
+id = 'one-prod'
+regex = 'one product (reader|caller)|first product caller'
+
+[[pattern]]
+id = 'one-reader'
+regex = '(its|has) one reader'
+
+[[pattern]]
+id = 'no-surface'
+regex = 'no surface (shows|reads|reports)'
+
+[[pattern]]
+id = 'board-owner'
+fixed = 'The board: viola list'
+
+[[pattern]]
+id = 'keep-nt'
+fixed = 'keeping `\n` and `\t`'
+
+[[pattern]]
+id = 'trycmd-list'
+regex = 'trycmd[^.]{0,120}(caption|viola list|viola-list)'
+
+[[pattern]]
+id = 'fifteen'
+regex = 'fifteen verify|fifteen binar'
+
+[[pattern]]
+id = 'list-unbuilt'
+regex = 'viola list[^.]{0,40}unbuilt'
+
+[[pattern]]
+id = 'two-readers'
+fixed = 'Two readers check these files'
+
+[[pattern]]
+id = 'read-once'
+fixed = 'read once at the wrapper'
+
+[[pattern]]
+id = 'lmu-spawn'
+fixed = '`list`, `mcp` and `ui`'
+
+[[pattern]]
+id = 'unwrapped-rack'
+fixed = 'UNWRAPPED - READ-ONLY'
+
+[[pattern]]
+id = 'second-read'
+fixed = 'reads the file a second time'
+
+[[pattern]]
+id = 'sl-echo'
+fixed = '--statusline-echo'
+
+[[pattern]]
+id = 'three-sm'
+fixed = 'Three strict-modes refusals'
+
+[[pattern]]
+id = 'verb-list'
+regex = '`send`, `wait`, `last`, `answer`'
+
+[[pattern]]
+id = 'grouped-help'
+regex = 'grouped (verb table|--help)|--help` group'

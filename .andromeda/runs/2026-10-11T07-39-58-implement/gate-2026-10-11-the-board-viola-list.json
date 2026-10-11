@@ -2779,5 +2779,54 @@
 }
 ]
 }
+},
+{
+"tool": "gate",
+"v": "1.14",
+"sha8": "e8e4a72c",
+"ts": "2026-10-11T08:22:43Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-11-the-board-viola-list",
+"--run-dir",
+".andromeda/runs/2026-10-11T07-39-58-implement",
+"--marker",
+"2026-10-11-the-board-viola-list"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base 995dc55a (the parent of the oldest pre-CI commit f1ee6341) · lists new 4 · modify 10 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"scope: clean — changed 13 · listed 13 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 64"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "995dc55a3d6b8be03ed466f0de5e6f5325b8c4ce",
+"base_why": "the parent of the oldest pre-CI commit f1ee6341",
+"counts": {
+"changed": 13,
+"listed": 13,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 64,
+"unparsed": 0,
+"widening_without_word": 0
+}
 }
 ]

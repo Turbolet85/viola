@@ -42,7 +42,7 @@ _Extracted from `.andromeda/architecture.md` §Conventions by `/andromeda-setup-
 
 ## Configuration
 - Precedence: CLI flags > `<viola home>/config.json` > built-in defaults. Home resolution: `--home` → grandparent of `VIOLA_DIR` → `~/.viola/` (as landed, the CLI verbs take `--home`, else the default, and only `hook` takes the `VIOLA_DIR` step; that step for the CLI verbs is owed to the route entry "CLI machine contract").
-- `config.json` is parsed tolerantly (unknown keys skipped and counted) and carries `v`; keys: the budget thresholds `five_hour` / `seven_day` (whole numbers into `Percent`, defaults 90 / 85, read once at the wrapper's start; a bad value takes that key's default with one `parse-rejected` line per key, and no value switches the gate off), GUI port (47319), `diagnostics_level` (obs D-15).
+- `config.json` is parsed tolerantly (unknown keys skipped and counted) and carries `v`; keys: the budget thresholds `five_hour` / `seven_day` (whole numbers into `Percent`, defaults 90 / 85, read once at the wrapper's start and by `viola list` at each run; a bad value takes that key's default with one `parse-rejected` line per key, and no value switches the gate off), GUI port (47319), `diagnostics_level` (obs D-15).
 
 ## Logging
 See `.claude/rules/observability.md` for logging rules that apply when editing product code. This doc contains the *conventions*; the rule file is the *enforcement*.

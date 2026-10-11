@@ -1,0 +1,137 @@
+[
+{
+"tool": "route",
+"v": "1.7",
+"sha8": "f7323866",
+"ts": "2026-10-11T08:54:51Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-10-11-the-board-viola-list",
+"--run-dir",
+".andromeda/runs/2026-10-11T08-23-35-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"flip master-route.md:65 - 2026-10-11-the-board-viola-list pending -> complete"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.7",
+"sha8": "f7323866",
+"ts": "2026-10-11T08:54:51Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-11-the-board-viola-list",
+"--date",
+"2026-10-11",
+"--run-dir",
+".andromeda/runs/2026-10-11T08-23-35-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :123 strip CARRY: 173ch \"CARRY: chunk 2026-09-28-capability-ledge\"",
+"pin :123 strip CARRY: 264ch \"CARRY: chunk 2026-09-24-fake-agent-and-t\"",
+"pin :123 strip CARRY: 297ch \"CARRY: chunk 2026-09-24-quality-gates se\"",
+"pin :123 strip CARRY: 327ch \"CARRY: chunk 2026-09-27-instance-state-a\"",
+"pin :123 strip CARRY: 917ch \"CARRY: chunk 2026-09-28-cli-output-token\"",
+"pin :123 strip CARRY: 634ch \"CARRY: chunk 2026-09-29-h2-conpty-resize\"",
+"pin :123 strip CARRY: 1195ch \"CARRY: chunk 2026-10-08-first-live-test-\"",
+"pin :123 strip CARRY: 936ch \"CARRY: chunk 2026-10-10-self-healing-sta\"",
+"pin :123 strip CARRY: 959ch \"CARRY: chunk 2026-10-10-viola-revive (th\"",
+"pin :123 strip CARRY: 1206ch \"CARRY: chunk 2026-10-10-budget-governor \"",
+"pin :123 strip CARRY: 2935ch \"CARRY: chunk 2026-10-10-session-links (t\"",
+"pin next markerless :126 holds CARRY:×4",
+"123 · 2026-10-11-the-board-viola-list · strip 11 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 123,
+"marker": "2026-10-11-the-board-viola-list",
+"blocks": 11,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.7",
+"sha8": "f7323866",
+"ts": "2026-10-11T08:55:00Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-11-the-board-viola-list",
+"--date",
+"2026-10-11",
+"--run-dir",
+".andromeda/runs/2026-10-11T08-23-35-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :123 strip CARRY: 173ch \"CARRY: chunk 2026-09-28-capability-ledge\"",
+"pin :123 strip CARRY: 264ch \"CARRY: chunk 2026-09-24-fake-agent-and-t\"",
+"pin :123 strip CARRY: 297ch \"CARRY: chunk 2026-09-24-quality-gates se\"",
+"pin :123 strip CARRY: 327ch \"CARRY: chunk 2026-09-27-instance-state-a\"",
+"pin :123 strip CARRY: 917ch \"CARRY: chunk 2026-09-28-cli-output-token\"",
+"pin :123 strip CARRY: 634ch \"CARRY: chunk 2026-09-29-h2-conpty-resize\"",
+"pin :123 strip CARRY: 1195ch \"CARRY: chunk 2026-10-08-first-live-test-\"",
+"pin :123 strip CARRY: 936ch \"CARRY: chunk 2026-10-10-self-healing-sta\"",
+"pin :123 strip CARRY: 959ch \"CARRY: chunk 2026-10-10-viola-revive (th\"",
+"pin :123 strip CARRY: 1206ch \"CARRY: chunk 2026-10-10-budget-governor \"",
+"pin :123 strip CARRY: 2935ch \"CARRY: chunk 2026-10-10-session-links (t\"",
+"pin next markerless :126 holds CARRY:×4",
+"123 · 2026-10-11-the-board-viola-list · strip 11 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/route-archive.md",
+"./viola-0.1.0/working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 123,
+"marker": "2026-10-11-the-board-viola-list",
+"blocks": 11,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

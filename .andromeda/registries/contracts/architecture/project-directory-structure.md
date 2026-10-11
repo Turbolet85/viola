@@ -18,10 +18,11 @@ viola/
 ├── src/                        # the `viola` bin: anyhow edge only
 │   ├── main.rs                 # clap 4.6.7 dispatch (Windows: the System32 DLL-search restriction is its second statement)
 │   ├── conpty.rs               # Windows x64: the embedded ConPTY companions and their four pins (the vendor script parses this text)
-│   ├── human.rs                # human-facing text: the refusal and internal-error stderr writers, the stdout result writer, `send`'s readback mirror (`[  ] open` / `[RB] read back` / `[  ] unconfirmable` with its one fixed note / `[/ ] unable` + its hints), the message-mode escaper, the `wait` / `last` lines, the `answer` line and the `pause` / `release` lines, called by `run`, `revive`, `verify`, `send`, `wait`, `last`, `answer`, `pause`, `release` and the `main` catch site
+│   ├── human.rs                # human-facing text: the refusal and internal-error stderr writers, the stdout result writer, `send`'s readback mirror (`[  ] open` / `[RB] read back` / `[  ] unconfirmable` with its one fixed note / `[/ ] unable` + its hints), the message-mode escaper and the row-mode escaper (`escape_row`), the `wait` / `last` lines, the `answer` line and the `pause` / `release` lines, the two state refusal pairs (`instance_state_pair`, `home_state_pair`), the board writers (`BayBudget`, `bay_line`, `board_rows`, `write_board`), called by `run`, `revive`, `verify`, `send`, `wait`, `last`, `list`, `answer`, `pause`, `release` and the `main` catch site
 │   ├── cmd/                    # one module per subcommand: run, revive, send, wait, last, list,
 │   │                           #   answer, hook, mcp, ui, verify, pause, release, link, unlink, plugin;
 │   │                           #   revive.rs: the strict-modes check ahead of the wrapper log, the three-reading preflight and the `--list` rows; its child shapes come from `viola-agent-claude`;
+│   │                           #   list.rs: the caller-side board (the strict-modes scan before any log, then the `--json` document or the human board as one stdout write; exits 0 / 21 / 1);
 │   │                           #   hook/statusline.rs: the `hook statusline` arm (the instance check, the `budget.json` write, the bounded shell-out);
 │   │                           #   client.rs (a helper, no subcommand): the channel client send / wait / last share;
 │   │                           #   verify/typed.rs: verify's four interactive PTY runs (Run A untrusted, Run B trusted, Run C dialogs, Run D plan),
@@ -51,10 +52,13 @@ viola/
 │   ├── viola-channel/          # JSON-RPC 2.0 ndjson over interprocess local sockets
 │   ├── viola-state/            # ndjson logs (the append heals a torn last line), atomic snapshots, File::lock, the events
 │   │                           #   reader (`events::read_from`: counts unknown kinds, unknown fields and torn lines), the
-│   │                           #   classified snapshot read, the log replay and the session chain (`replay.rs`; read by `viola revive`),
+│   │                           #   classified snapshot read, the log replay and the session chain (`replay.rs`; read by `viola revive` and `board::read`),
 │   │                           #   the link rule (`replay::apply_link_line`, public: applied by the replay's one pass and by the root bin's `LinkSet`),
 │   │                           #   the instance strict-modes check (`strict::check_instance`), the budget reading's write
-│   │                           #   and its checked read (`budget.rs`: `write_budget`, `read_budget`), tailing (with `ui`)
+│   │                           #   and its checked read (`budget.rs`: `write_budget`, `read_budget_stamped`, and `read_budget`, which wraps it),
+│   │                           #   the board read model (`board.rs`, read by `viola list`: `scan` / `read`, `Board`, `Item`,
+│   │                           #   `SkippedTotal`, `RowLiveness`, `SessionStatus`, `ScanRefused`; sync, std only, no Claude shape; no type
+│   │                           #   holds `endpoint`, `pinned_bin`, `cwd`, `statusline_command`, `pid`, `started_at` or `links`), tailing (with `ui`)
 │   │                           #   (+ tests/, the crate-level suite: `state_events.rs`, `state_replay.rs`)
 │   ├── viola-agent-claude/     # hook parsing, dialog mapping, R8 strip, shim resolution,
 │   │                           #   capability ledger, the vt100 screen model (`screen`), the pure `statusline` module
