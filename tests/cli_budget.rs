@@ -27,6 +27,8 @@ use viola_state::replay::replay;
 
 /// A gated `PostToolUse`, then a gated `Stop`: the turn a confirmed send started, ended on cue.
 const PATH3: &str = "fixtures/fake-scripts/path3.json";
+/// Gated dialog hooks: the first step raises a question, held for a driver's answer.
+const PATH4: &str = "fixtures/fake-scripts/path4.json";
 
 const REFUSED_FIVE_HOUR: &str =
     "{\"v\":1,\"refusal\":\"budget-paused\",\"detail\":\"five-hour\"}\n";
@@ -463,6 +465,79 @@ fn path6_a_restart_pauses_again(stamped_home: StampedHome) {
     assert_eq!(refused.code, Some(11), "stderr: {}", refused.stderr);
     assert_eq!(refused.stdout, REFUSED_FIVE_HOUR);
     second.stop();
+}
+
+/// test-plan §6 Path 6, the verbs the gate leaves alone: under one closed gate, which refuses an
+/// automated `send` (the control), `wait`, `last`, `answer` and `pause` each give the exit code
+/// and the document they give under an open one. `pause` comes last: under a paused wheel a `send`
+/// is refused `human-typing` before the gate is read.
+#[rstest]
+fn path6_a_closed_gate_leaves_answer_wait_last_and_pause_alone(stamped_home: StampedHome) {
+    let wrapper = boot(stamped_home, Some(PATH4));
+    let home = wrapper.home().to_path_buf();
+    let dir = wrapper.instance_dir();
+    wrapper.release();
+    let lines = wait_events(&dir, "the question's line", |l| {
+        l.iter().any(|e| e["kind"] == "question")
+    });
+    let raised = lines
+        .iter()
+        .find(|e| e["kind"] == "question")
+        .expect("the question");
+    let dialog_id = raised["data"]["dialog_id"]
+        .as_u64()
+        .expect("a dialog_id")
+        .to_string();
+    let read = |verb: &str| viola(&home, &[verb, "builder", "--json"], None, None);
+
+    let (wait_open, last_open) = (read("wait"), read("last"));
+    assert_eq!(wait_open.code, Some(0), "stderr: {}", wait_open.stderr);
+    let woken: Value = serde_json::from_str(&wait_open.stdout).expect("one JSON document");
+    assert_eq!(woken["ok"]["event"]["kind"], "question");
+    assert_eq!(last_open.code, Some(0), "stderr: {}", last_open.stderr);
+    assert_eq!(
+        last_open.stdout,
+        "{\"v\":1,\"ok\":{\"last_assistant_message\":null,\"ts\":null}}\n"
+    );
+
+    feed(&dir, usage(91, 10));
+    let refused = send(&home);
+    assert_eq!(refused.code, Some(11), "stderr: {}", refused.stderr);
+    assert_eq!(refused.stdout, REFUSED_FIVE_HOUR);
+    assert_eq!(gate_records(&dir), [open(), five_hour()]);
+
+    let (wait_closed, last_closed) = (read("wait"), read("last"));
+    assert_eq!(
+        (wait_closed.code, wait_closed.stdout.as_str()),
+        (wait_open.code, wait_open.stdout.as_str())
+    );
+    assert_eq!(
+        (last_closed.code, last_closed.stdout.as_str()),
+        (last_open.code, last_open.stdout.as_str())
+    );
+    let response = json!({"answers": {"Which shape?": format!("{CANARY} a triangle")}}).to_string();
+    let args = ["answer", "builder", dialog_id.as_str(), "--json"];
+    let answered = viola(&home, &args, Some(&response), None);
+    assert_eq!(answered.code, Some(0), "stderr: {}", answered.stderr);
+    assert_eq!(answered.stdout, "{\"v\":1,\"ok\":{}}\n");
+    let paused = read("pause");
+    assert_eq!(paused.code, Some(0), "stderr: {}", paused.stderr);
+    assert_eq!(paused.stdout, "{\"v\":1,\"ok\":{\"wheel\":\"human\"}}\n");
+
+    let lines = events(&dir);
+    let refusals: Vec<&Value> = lines
+        .iter()
+        .filter(|e| e["kind"] == "send-refused")
+        .collect();
+    assert_eq!(refusals.len(), 1, "{refusals:?}");
+    assert_eq!(refusals[0]["data"]["refusal"], "budget-paused");
+    for ran in [&wait_closed, &last_closed, &answered, &paused] {
+        assert!(!ran.stdout.contains("budget-paused"), "{}", ran.stdout);
+        assert!(ran.stderr.is_empty(), "stderr: {}", ran.stderr);
+    }
+    assert_eq!(gate_records(&dir), [open(), five_hour()]);
+    assert_logs_clean(&home);
+    wrapper.stop();
 }
 
 const NONE_SKIPPED: Skipped = Skipped {

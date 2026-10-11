@@ -1,0 +1,1 @@
+yes, apply the plan as it is: both parts planned, step 11 holding Part B alone; the leans are confirmed. The widening and its three options go to the founder; until his word is relayed Part A lands alone, as step 11 says. Write the ledger notes and close the phase.

@@ -60,11 +60,13 @@ pub enum EventKind {
     Question,
     Permission,
     Plan,
+    Link,
+    Unlink,
 }
 
 impl EventKind {
     /// Every kind, in declaration order.
-    pub const ALL: [Self; 13] = [
+    pub const ALL: [Self; 15] = [
         Self::SessionStart,
         Self::PromptSubmitted,
         Self::TurnEnded,
@@ -78,6 +80,8 @@ impl EventKind {
         Self::Question,
         Self::Permission,
         Self::Plan,
+        Self::Link,
+        Self::Unlink,
     ];
 
     /// The kinds that end a `wait` (architecture §Standard Contracts); every other kind is
@@ -112,6 +116,7 @@ impl EventKind {
             Self::Question => &["dialog_id", "questions"],
             Self::Permission => &["dialog_id", "tool", "input"],
             Self::Plan => &["dialog_id", "plan"],
+            Self::Link | Self::Unlink => &["driver", "driven"],
         }
     }
 
@@ -130,6 +135,8 @@ impl EventKind {
             Self::Question => "question",
             Self::Permission => "permission",
             Self::Plan => "plan",
+            Self::Link => "link",
+            Self::Unlink => "unlink",
         }
     }
 }
@@ -474,7 +481,7 @@ mod tests {
     }
 
     /// Architecture's per-kind `data` list, written out as the oracle, in declaration order.
-    const KIND_TABLE: [(EventKind, &str, &[&str]); 13] = [
+    const KIND_TABLE: [(EventKind, &str, &[&str]); 15] = [
         (
             EventKind::SessionStart,
             "session-start",
@@ -516,6 +523,8 @@ mod tests {
             &["dialog_id", "tool", "input"],
         ),
         (EventKind::Plan, "plan", &["dialog_id", "plan"]),
+        (EventKind::Link, "link", &["driver", "driven"]),
+        (EventKind::Unlink, "unlink", &["driver", "driven"]),
     ];
 
     #[test]
@@ -529,8 +538,6 @@ mod tests {
     fn kind_table_a_text_that_is_no_kind_parses_to_nothing() {
         for text in [
             "",
-            "link",
-            "unlink",
             "Wheel",
             "wheel ",
             " wheel",
@@ -543,7 +550,7 @@ mod tests {
     }
 
     #[test]
-    fn kind_table_all_is_the_thirteen_kinds_in_declaration_order() {
+    fn kind_table_all_is_the_fifteen_kinds_in_declaration_order() {
         let all: Vec<&str> = EventKind::ALL.iter().map(|k| k.as_str()).collect();
         assert_eq!(
             all,
@@ -561,6 +568,8 @@ mod tests {
                 "question",
                 "permission",
                 "plan",
+                "link",
+                "unlink",
             ]
         );
     }

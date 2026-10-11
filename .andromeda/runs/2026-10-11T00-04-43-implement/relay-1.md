@@ -1,0 +1,1 @@
+2026-10-10-session-links. Build Part A (steps 1 to 10) and run its gates; step 11 holds, so report steps 12 to 15 as held and build nothing of Part B. No live claude start, no mutation run. Then run the operator pass for Part A with the ci.py conclusion read (leg=operator) as usual; fold a red into a fix commit and read CI again; report the run ids.

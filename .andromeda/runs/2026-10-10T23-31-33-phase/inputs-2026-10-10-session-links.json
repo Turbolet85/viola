@@ -1,0 +1,258 @@
+[
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T23:33:07Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-session-links",
+"--message-file",
+".andromeda/runs/2026-10-10T23-31-33-phase/relay-1.md",
+"--origin",
+"the operator, in the /andromeda-phase invocation of this chunk, 2026-10-10",
+"--kind",
+"relay",
+"--why",
+"six operator notes at take-up: nothing dispatched, the founder-only steps on the card, the folded budget test, a widening held as itself, a cut at the card, the CI read",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-10-10T23-31-33-phase",
+"--marker",
+"2026-10-10-session-links"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy message · message: the operator, in the /andromeda-phase invocation of this chunk, 2026-10-10",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, in the /andromeda-phase invocation of this chunk, 2026-10-10",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "09b7e9ac341a5461dddc116ee3965a244efb871f1c8e5a8e4d36b6f81a03725c",
+"copy": "I1-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-10T23:33:07Z",
+"step": "phase:P1",
+"why": "six operator notes at take-up: nothing dispatched, the founder-only steps on the card, the folded budget test, a widening held as itself, a cut at the card, the CI read"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-10T23:52:07Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-session-links",
+"--message-file",
+".andromeda/runs/2026-10-10T23-31-33-phase/relay-2.md",
+"--origin",
+"the operator, answering the P4 fork round in the dialog, 2026-10-10",
+"--kind",
+"relay",
+"--why",
+"three fork answers: a refused send or answer records no link; the link result is since and already_linked, unlink stays empty; an unlink of an absent pair appends nothing",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-10-10T23-31-33-phase",
+"--marker",
+"2026-10-10-session-links"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: the operator, answering the P4 fork round in the dialog, 2026-10-10",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, answering the P4 fork round in the dialog, 2026-10-10",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "acf6ba79baaccdb7e5a8f508512eb166bbf501cf0e8b89bed41e4310060c7bb2",
+"copy": "I2-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-10T23:52:07Z",
+"step": "phase:P4",
+"why": "three fork answers: a refused send or answer records no link; the link result is since and already_linked, unlink stays empty; an unlink of an absent pair appends nothing"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-11T00:02:14Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-session-links",
+"--message-file",
+".andromeda/runs/2026-10-10T23-31-33-phase/relay-3.md",
+"--origin",
+"the operator, at the P5 review of this chunk in the dialog, 2026-10-11",
+"--kind",
+"relay",
+"--why",
+"the approval word: both parts planned, step 11 holds Part B alone, the leans confirmed, the widening and its three options go to the founder, Part A lands alone until his word is relayed",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-10-10T23-31-33-phase",
+"--marker",
+"2026-10-10-session-links"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: the operator, at the P5 review of this chunk in the dialog, 2026-10-11",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-3.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, at the P5 review of this chunk in the dialog, 2026-10-11",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "bae8cdc8e192c8bc7c0b90aba87e82b787c1c24be392b798cfcfdfe27cc2b3d7",
+"copy": "I3-relay-3.md.txt",
+"link": false,
+"read_at": "2026-10-11T00:02:14Z",
+"step": "phase:P5",
+"why": "the approval word: both parts planned, step 11 holds Part B alone, the leans confirmed, the widening and its three options go to the founder, Part A lands alone until his word is relayed"
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-11T00:02:41Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-session-links",
+"--run-dir",
+".andromeda/runs/2026-10-10T23-31-33-phase",
+"--marker",
+"2026-10-10-session-links"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, in the /andromeda-phase invocation of this chunk, 2026-10-10",
+"I1 cited scope.md:9 · scope.md:79 · scope.md:106 · scope.md:110 · scope.md:136 · research.md:9 · plan.md:18 · plan.md:23 · plan.md:26 · plan.md:261 · plan.md:263 · plan.md:491",
+"I2 n/a — a message has no live source · copy message · message: the operator, answering the P4 fork round in the dialog, 2026-10-10",
+"I2 cited scope.md:123 · plan.md:28 · plan.md:96 · plan.md:177 · plan.md:402 · plan.md:448 · plan.md:452 · plan.md:491 · plan.md:499",
+"I3 n/a — a message has no live source · copy message · message: the operator, at the P5 review of this chunk in the dialog, 2026-10-11",
+"I3 cited scope.md:126",
+"UNPARSED: inputs#I4 — no entry (scope.md:71)",
+"UNPARSED: inputs#I11 — no entry (scope.md:78)",
+"inputs: 3 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 0 · unparsed 2"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 0,
+"unparsed": 2
+}
+},
+{
+"tool": "inputs",
+"v": "1.1",
+"sha8": "a9e1deb2",
+"ts": "2026-10-11T00:02:54Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-10-session-links",
+"--run-dir",
+".andromeda/runs/2026-10-10T23-31-33-phase",
+"--marker",
+"2026-10-10-session-links"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, in the /andromeda-phase invocation of this chunk, 2026-10-10",
+"I1 cited scope.md:9 · scope.md:79 · scope.md:106 · scope.md:110 · scope.md:136 · research.md:9 · plan.md:18 · plan.md:23 · plan.md:26 · plan.md:261 · plan.md:263 · plan.md:491",
+"I2 n/a — a message has no live source · copy message · message: the operator, answering the P4 fork round in the dialog, 2026-10-10",
+"I2 cited scope.md:123 · plan.md:28 · plan.md:96 · plan.md:177 · plan.md:402 · plan.md:448 · plan.md:452 · plan.md:491 · plan.md:499",
+"I3 n/a — a message has no live source · copy message · message: the operator, at the P5 review of this chunk in the dialog, 2026-10-11",
+"I3 cited scope.md:126",
+"inputs: 3 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]

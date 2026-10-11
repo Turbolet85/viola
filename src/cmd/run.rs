@@ -26,6 +26,7 @@ use crate::run::ChildLaunch;
 use crate::run::budget::{self, BudgetGate, Trigger};
 use crate::run::dialog::DialogSlot;
 use crate::run::gate::{self, Tee};
+use crate::run::links::LinkSet;
 use crate::run::send::{self, SendSlot};
 use crate::run::snapshot::Snapshots;
 use crate::run::version_gate::{Gate, version_gate};
@@ -266,10 +267,17 @@ pub(super) fn start(
     ));
     let send = Arc::new(SendSlot::new(SystemClock, cli_verified, Arc::clone(&wheel)));
     send.budget_with(Arc::clone(&budget));
-    // Rebuilt before the endpoint serves: the first `last` already sees the newest logged turn, and
-    // the first dialog takes an id past every logged one.
+    // Rebuilt before the endpoint serves: the first `last` already sees the newest logged turn, the
+    // first dialog takes an id past every logged one, and a pair the log holds is not linked again.
     let wait = Arc::new(WaitFeed::new(SystemClock));
     let highest_dialog = wait.rebuild(&instance_dir)?;
+    let links = Arc::new(LinkSet::new(
+        name.clone(),
+        instance_dir.clone(),
+        Arc::clone(&snapshots),
+    ));
+    links.restore()?;
+    send.links_with(Arc::clone(&links));
     let dialogs = Arc::new(DialogSlot::new(
         SystemClock,
         gate.cli_verified,
@@ -280,6 +288,7 @@ pub(super) fn start(
         Arc::clone(&snapshots),
     ));
     dialogs.restore(highest_dialog);
+    dialogs.links_with(Arc::clone(&links));
     wheel.record_with(Recorder {
         name: name.clone(),
         instance_dir: instance_dir.clone(),
@@ -306,6 +315,7 @@ pub(super) fn start(
             spawn_dir: &launch.spawn_dir,
             statusline_command,
             budget: &budget,
+            links: links.current(),
         },
     )?;
     let settings = write_override(&instance_dir, &pinned)?;
@@ -511,16 +521,18 @@ fn write_override(instance_dir: &Path, pinned: &Pinned) -> anyhow::Result<Option
     Ok(Some(path))
 }
 
-/// What the first snapshot records of the launch, and the gate whose first verdict it holds.
+/// What the first snapshot records of the launch, the gate whose first verdict it holds, and the
+/// link set the log gave.
 struct Recorded<'a> {
     spawn_dir: &'a Path,
     statusline_command: Option<String>,
     budget: &'a BudgetGate,
+    links: Vec<Value>,
 }
 
 /// The budget gate's first verdict, then the first snapshot (with the endpoint, the version gate's
-/// reading, that verdict, the child's spawn directory when it is valid UTF-8 and the user's
-/// statusline command when one was found), the heartbeat and its thread, then the two start
+/// reading, that verdict, the restored link set, the child's spawn directory when it is valid UTF-8
+/// and the user's statusline command when one was found), the heartbeat and its thread, then the two start
 /// events, the second the verdict's `budget-gate`; the returned guard keeps the heartbeat running.
 fn start_state(
     name: &ViolaName,
@@ -544,7 +556,7 @@ fn start_state(
         wheel: Wheel::Driver,
         budget_paused: budget.paused.is_some(),
         budget_override_until: None,
-        links: Vec::new(),
+        links: recorded.links,
         child_pid: None,
         pending_dialog: None,
         cwd: recorded.spawn_dir.to_str().map(str::to_owned),
@@ -1080,6 +1092,12 @@ mod tests {
             budget::Thresholds::default(),
             Arc::clone(&snapshots),
         );
+        let links = LinkSet::new(
+            name.clone(),
+            instance_dir.to_path_buf(),
+            Arc::clone(&snapshots),
+        );
+        links.restore().expect("the link set");
         let (_beat, returned) = start_state(
             &name,
             instance_dir,
@@ -1091,11 +1109,41 @@ mod tests {
                 spawn_dir,
                 statusline_command,
                 budget: &budget,
+                links: links.current(),
             },
         )
         .expect("the start state");
         assert_eq!(read_snapshot(instance_dir), Some(returned.clone()));
         returned
+    }
+
+    /// A start over a log that holds a link: the first snapshot holds that pair with its first
+    /// `since`, and the start appends its two records and no `link`.
+    #[test]
+    fn links_set_at_a_start_over_a_log_with_a_link_is_in_the_first_snapshot() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let instance_dir = tmp.path().join("instance");
+        create_private_dir(&instance_dir).expect("the instance dir");
+        let name = ViolaName::try_new("builder".to_owned()).expect("valid");
+        let linked = EventLine::new(
+            &name,
+            EventKind::Link,
+            Source::Wrapper,
+            json!({"driver": "overseer", "driven": "builder"}),
+            Utc::now(),
+        );
+        append_event(&instance_dir, &linked).expect("append");
+
+        let snapshot = first_snapshot(&instance_dir, tmp.path());
+        assert_eq!(
+            snapshot.links,
+            [json!({"driver": "overseer", "driven": "builder", "since": linked.ts})]
+        );
+        let kinds: Vec<Value> = events_in(&instance_dir)
+            .iter()
+            .map(|e| e["kind"].clone())
+            .collect();
+        assert_eq!(kinds, ["link", "wheel", "budget-gate"]);
     }
 
     /// The first snapshot records where the child is spawned, and the two start events stand as

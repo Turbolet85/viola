@@ -4,7 +4,7 @@
 
 use std::path::Path;
 
-use serde_json::Value;
+use serde_json::{Value, json};
 use viola_core::obs::ObsEvent;
 use viola_core::{EventKind, obs_event};
 
@@ -53,6 +53,7 @@ pub fn replay(instance_dir: &Path) -> Result<Replayed, StateError> {
     let mut lines = read_from(instance_dir, 0)?;
     for line in lines.by_ref() {
         let line = line?;
+        apply_link_line(&mut replayed.links, &line.value);
         let data = &line.value["data"];
         match line.value["kind"].as_str().and_then(EventKind::from_name) {
             Some(EventKind::Wheel) => replayed.wheel = holder(&data["holder"]),
@@ -70,6 +71,32 @@ pub fn replay(instance_dir: &Path) -> Result<Replayed, StateError> {
     }
     replayed.skipped = lines.skipped();
     Ok(replayed)
+}
+
+/// One logged line applied to a link set of `{driver, driven, since}` items (architecture
+/// §Established Decisions, [Links]), and whether the set changed. A `link` whose pair the set does
+/// not hold adds it with `since` = the line's `ts`; an `unlink` removes its pair; a line of any
+/// other kind, or one whose `driver` or `driven` is no string, changes nothing. It writes nothing.
+pub fn apply_link_line(links: &mut Vec<Value>, line: &Value) -> bool {
+    let data = &line["data"];
+    let (Some(driver), Some(driven)) = (data["driver"].as_str(), data["driven"].as_str()) else {
+        return false;
+    };
+    let held = links
+        .iter()
+        .position(|item| item["driver"] == driver && item["driven"] == driven);
+    match (line["kind"].as_str().and_then(EventKind::from_name), held) {
+        (Some(EventKind::Link), None) => {
+            let since = line["ts"].as_str().unwrap_or("unknown");
+            links.push(json!({"driver": driver, "driven": driven, "since": since}));
+            true
+        }
+        (Some(EventKind::Unlink), Some(at)) => {
+            links.remove(at);
+            true
+        }
+        _ => false,
+    }
 }
 
 /// One logged session: a `session-start` line that carries an id.
@@ -450,6 +477,172 @@ mod tests {
         let (recovered, lines) = capture(|| read_snapshot_or_replay(tmp.path()));
         assert!(recovered.is_err());
         assert_eq!(lines, Vec::<Value>::new());
+    }
+
+    const FIRST: &str = "2026-10-10T01:02:03.000Z";
+    const LATER: &str = "2026-10-10T04:05:06.000Z";
+
+    fn logged(kind: &str, driver: &str, driven: &str, ts: &str) -> Value {
+        json!({"v": 1, "ts": ts, "instance": driven, "kind": kind, "source": "wrapper",
+            "data": {"driver": driver, "driven": driven}})
+    }
+
+    fn pair(driver: &str, driven: &str, since: &str) -> Value {
+        json!({"driver": driver, "driven": driven, "since": since})
+    }
+
+    #[test]
+    fn link_rule_a_link_adds_its_pair_with_the_lines_ts() {
+        let mut links = Vec::new();
+        assert!(apply_link_line(
+            &mut links,
+            &logged("link", "overseer", "builder", FIRST)
+        ));
+        assert_eq!(links, [pair("overseer", "builder", FIRST)]);
+    }
+
+    #[test]
+    fn link_rule_a_repeated_link_keeps_the_first_since() {
+        let mut links = vec![pair("overseer", "builder", FIRST)];
+        assert!(!apply_link_line(
+            &mut links,
+            &logged("link", "overseer", "builder", LATER)
+        ));
+        assert_eq!(links, [pair("overseer", "builder", FIRST)]);
+    }
+
+    #[test]
+    fn link_rule_a_link_after_an_unlink_takes_the_later_ts() {
+        let mut links = vec![pair("overseer", "builder", FIRST)];
+        assert!(apply_link_line(
+            &mut links,
+            &logged("unlink", "overseer", "builder", FIRST)
+        ));
+        assert_eq!(links, Vec::<Value>::new());
+        assert!(apply_link_line(
+            &mut links,
+            &logged("link", "overseer", "builder", LATER)
+        ));
+        assert_eq!(links, [pair("overseer", "builder", LATER)]);
+    }
+
+    #[test]
+    fn link_rule_an_unlink_of_an_absent_pair_changes_nothing() {
+        let mut links = Vec::new();
+        assert!(!apply_link_line(
+            &mut links,
+            &logged("unlink", "overseer", "builder", FIRST)
+        ));
+        assert_eq!(links, Vec::<Value>::new());
+        let mut links = vec![pair("overseer", "builder", FIRST)];
+        for (driver, driven) in [("builder", "overseer"), ("other", "builder")] {
+            assert!(!apply_link_line(
+                &mut links,
+                &logged("unlink", driver, driven, LATER)
+            ));
+        }
+        assert_eq!(links, [pair("overseer", "builder", FIRST)]);
+    }
+
+    /// A pair is both names in their order: a second driver of the driven, and the first driver
+    /// driving another, are pairs of their own, and an unlink takes one of them alone.
+    #[test]
+    fn link_rule_two_drivers_of_one_driven_are_two_pairs() {
+        let mut links = Vec::new();
+        for (driver, driven) in [
+            ("overseer", "builder"),
+            ("other", "builder"),
+            ("overseer", "tester"),
+        ] {
+            assert!(
+                apply_link_line(&mut links, &logged("link", driver, driven, FIRST)),
+                "{driver} -> {driven}"
+            );
+        }
+        assert_eq!(
+            links,
+            [
+                pair("overseer", "builder", FIRST),
+                pair("other", "builder", FIRST),
+                pair("overseer", "tester", FIRST),
+            ]
+        );
+        assert!(apply_link_line(
+            &mut links,
+            &logged("unlink", "other", "builder", LATER)
+        ));
+        assert_eq!(
+            links,
+            [
+                pair("overseer", "builder", FIRST),
+                pair("overseer", "tester", FIRST),
+            ]
+        );
+    }
+
+    #[test]
+    fn link_rule_a_line_with_a_name_that_is_no_string_changes_nothing() {
+        let mut links = vec![pair("overseer", "builder", FIRST)];
+        for kind in ["link", "unlink"] {
+            for data in [
+                json!({"driver": 7, "driven": "builder"}),
+                json!({"driver": "overseer", "driven": null}),
+                json!({"driven": "builder"}),
+                json!({}),
+            ] {
+                let line = json!({"v": 1, "ts": LATER, "kind": kind, "data": data});
+                assert!(!apply_link_line(&mut links, &line), "{line}");
+            }
+        }
+        assert_eq!(links, [pair("overseer", "builder", FIRST)]);
+    }
+
+    #[test]
+    fn link_rule_a_line_of_another_kind_changes_nothing() {
+        let mut links = vec![pair("overseer", "builder", FIRST)];
+        for kind in ["wheel", "send-issued", "later-kind"] {
+            for driver in ["overseer", "other"] {
+                assert!(
+                    !apply_link_line(&mut links, &logged(kind, driver, "builder", LATER)),
+                    "{kind} {driver}"
+                );
+            }
+        }
+        let no_kind = json!({"ts": LATER, "data": {"driver": "other", "driven": "builder"}});
+        assert!(!apply_link_line(&mut links, &no_kind));
+        assert_eq!(links, [pair("overseer", "builder", FIRST)]);
+    }
+
+    /// A line no writer of this build made: a `link` with no `ts`.
+    #[test]
+    fn link_rule_a_link_line_without_a_ts_has_since_unknown() {
+        let mut links = Vec::new();
+        let line = json!({"kind": "link", "data": {"driver": "overseer", "driven": "builder"}});
+        assert!(apply_link_line(&mut links, &line));
+        assert_eq!(links, [pair("overseer", "builder", "unknown")]);
+    }
+
+    #[test]
+    fn link_rule_replay_holds_the_set_its_one_pass_derives() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        full_log(tmp.path());
+        let pairs = |driver: &str| json!({"driver": driver, "driven": "builder"});
+        log(
+            tmp.path(),
+            &[
+                (EventKind::Link, pairs("overseer")),
+                (EventKind::Link, pairs("other")),
+                (EventKind::Link, pairs("overseer")),
+                (EventKind::Unlink, pairs("other")),
+            ],
+        );
+        assert_eq!(
+            replay(tmp.path()).expect("replay"),
+            Replayed {
+                links: vec![pair("overseer", "builder", "2026-09-27T01:02:03.000Z")],
+                ..full_state()
+            }
+        );
     }
 
     fn link(cause: &str, id: &str) -> SessionLink {

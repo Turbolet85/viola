@@ -5,6 +5,7 @@ pub(crate) mod budget;
 pub(crate) mod dialog;
 mod env;
 pub(crate) mod gate;
+pub(crate) mod links;
 pub(crate) mod send;
 pub(crate) mod snapshot;
 pub(crate) mod version_gate;

@@ -806,7 +806,7 @@ mod tests {
     #[test]
     fn events_three_counts_an_absent_non_string_or_unlisted_kind_is_unknown_and_unreturned() {
         let tmp = seeded(
-            b"{\"kind\":\"wheel\"}\n{}\n{\"kind\":7}\n{\"kind\":\"link\"}\n{\"kind\":\"later-kind\"}\n{\"kind\":\"plan\"}\n",
+            b"{\"kind\":\"wheel\"}\n{}\n{\"kind\":7}\n{\"kind\":\"bond\"}\n{\"kind\":\"later-kind\"}\n{\"kind\":\"plan\"}\n",
         );
         let (got, skipped) = read(tmp.path(), 0, LINE_CAP);
         assert_eq!(
@@ -897,6 +897,14 @@ mod tests {
                 json!({"dialog_id": 2, "tool": "Bash", "input": {"command": "ls"}}),
             ),
             (EventKind::Plan, json!({"dialog_id": 3, "plan": "text"})),
+            (
+                EventKind::Link,
+                json!({"driver": "overseer", "driven": "builder"}),
+            ),
+            (
+                EventKind::Unlink,
+                json!({"driver": "overseer", "driven": "builder"}),
+            ),
         ];
         for (kind, data) in rows {
             let line = EventLine::new(&name(), kind, Source::Wrapper, data, at());
@@ -919,6 +927,8 @@ mod tests {
                 "question",
                 "permission",
                 "plan",
+                "link",
+                "unlink",
             ]
         );
         assert_eq!(skipped, NONE_SKIPPED);

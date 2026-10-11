@@ -178,7 +178,8 @@
         "ref": null,
         "status": "planned"
       },
-      "chunk": null
+      "chunk": null,
+      "notes": "2026-10-11 (2026-10-10-session-links, phase P5): not claimed, only partly advanced. The acceptance names the MCP result beside the machine-readable one, and no MCP surface exists before the route entry \"MCP server for drivers\", so no chunk before it can prove the sentence whole. This chunk plans the `link` half: a `link` result `{since, already_linked}` from which every word of the human `link` line is built, and an `unlink` result that stays the empty object (the operator's fork answer, this chunk's `inputs#I2`). That half sits in the plan's Part B, held behind its step 11 for the founder's word on serving `link` / `unlink` and on the two client verbs; until that word is relayed only Part A lands and the `link` half is not built. The `release --budget` half landed with chunk 2026-10-10-budget-governor."
     },
     {
       "id": "v1-14",
@@ -490,7 +491,8 @@
         "ref": null,
         "status": "planned"
       },
-      "chunk": null
+      "chunk": null,
+      "notes": "2026-10-11 (2026-10-10-session-links, phase P5): not claimed, only partly advanced. The acceptance ends \"shown identically by the board and the page\", two surfaces this chunk does not build (\"The board: viola list\", the Epoch 8 page entries), so this chunk cannot prove it whole. Its Part A plans what the sentence's first and third clauses rest on: an issued `send` or a taken `answer` from another instance records the driver-to-driven link once (a refused call and an own-name `from` record none, the operator's fork answer, this chunk's `inputs#I2`), and the link set with its first-linked time is derived from the log by one rule, in the replay and in the wrapper's snapshot, restored at every start. The second clause, explicit `link` and `unlink`, is the plan's Part B, held behind its step 11 for the founder's word; until that word is relayed it is not built."
     },
     {
       "id": "v1-37",

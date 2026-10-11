@@ -8,7 +8,7 @@
 //! picks one.
 
 use std::path::PathBuf;
-use std::sync::{Arc, Condvar, Mutex, MutexGuard, PoisonError};
+use std::sync::{Arc, Condvar, Mutex, MutexGuard, OnceLock, PoisonError};
 use std::time::{Duration, Instant};
 
 use chrono::Utc;
@@ -24,6 +24,7 @@ use viola_core::{
 use viola_state::events::{EventLine, LoggedLine, Source, append_event_at};
 use viola_state::snapshot::{PendingDialog, Wheel};
 
+use crate::run::links::LinkSet;
 use crate::run::send::parse_from;
 use crate::run::snapshot::Snapshots;
 use crate::run::wait::WaitFeed;
@@ -72,6 +73,7 @@ pub(crate) struct DialogSlot {
     feed: Arc<WaitFeed>,
     wheel: Arc<WheelSlot>,
     snapshots: Arc<Snapshots>,
+    links: OnceLock<Arc<LinkSet>>,
     state: Mutex<State>,
     answered: Condvar,
 }
@@ -160,12 +162,18 @@ impl DialogSlot {
             feed,
             wheel,
             snapshots,
+            links: OnceLock::new(),
             state: Mutex::new(State {
                 next_id: 1,
                 ..State::default()
             }),
             answered: Condvar::new(),
         }
+    }
+
+    /// The first call wins; the start calls it once, before the endpoint serves.
+    pub(crate) fn links_with(&self, links: Arc<LinkSet>) {
+        let _ = self.links.set(links);
     }
 
     fn state(&self) -> MutexGuard<'_, State> {
@@ -314,7 +322,9 @@ impl DialogSlot {
     }
 
     /// `answer` `{dialog_id, from?, response}` in the documented order: the params, the free text,
-    /// the wheel, the stamp, the pending id, then the response's kind.
+    /// the wheel, the stamp, the pending id, then the response's kind. An answer nothing refused,
+    /// from another instance, links that instance to this one before it is taken (architecture
+    /// [Links]); a refused answer links nothing.
     pub(crate) fn answer(&self, call: &Call<'_>) -> Result<Value, ProtocolError> {
         let params = call.params;
         let dialog_id = params["dialog_id"]
@@ -352,6 +362,11 @@ impl DialogSlot {
         };
         if response.kind() != pending.kind {
             return Err(ProtocolError::InvalidParams);
+        }
+        if let (Some(links), Some(from)) = (self.links.get(), from.as_ref())
+            && *from != self.name
+        {
+            links.record(from).map_err(|_| ProtocolError::Internal)?;
         }
         let from: Option<&str> = from.as_ref().map(AsRef::as_ref);
         obs_event!(
@@ -1052,5 +1067,143 @@ mod tests {
             .wait(tmp.path(), &json!({"v": 1, "timeout_ms": 1}))
             .expect("answered");
         assert_eq!(after, json!({"ok": {"timed_out": true}}));
+    }
+
+    /// A verified slot over `dir` that was handed `builder`'s link set over `links_dir`.
+    fn linking(dir: &Path, links_dir: &Path, wheel: Arc<WheelSlot>) -> DialogSlot {
+        let snapshots = seeded_snapshots(dir);
+        let clock = FixedClock(Instant::now());
+        let slot = slot_on(dir, clock, true, wheel, Arc::clone(&snapshots));
+        let links = LinkSet::new(name(), links_dir.to_path_buf(), snapshots);
+        slot.links_with(Arc::new(links));
+        slot
+    }
+
+    /// Raises `params` on a thread and sends the held dialog each of `answers` in turn, `dialog_id`
+    /// filled in: the `hook.dialog` reply and every `answer` reply.
+    fn raise_and_send(
+        slot: &DialogSlot,
+        params: &Value,
+        answers: &[Value],
+    ) -> (Value, Vec<Result<Value, ProtocolError>>) {
+        std::thread::scope(|s| {
+            let raising = s.spawn(|| slot.hook_dialog(params));
+            let dialog_id = loop {
+                if let Some(p) = slot.state().pending.as_ref() {
+                    break p.dialog_id;
+                }
+                std::thread::yield_now();
+            };
+            let replies = answers
+                .iter()
+                .map(|answer| {
+                    let mut answer = answer.clone();
+                    answer["dialog_id"] = json!(dialog_id);
+                    slot.answer(&call(&answer))
+                })
+                .collect();
+            (raising.join().expect("thread").expect("replied"), replies)
+        })
+    }
+
+    fn kinds(dir: &Path) -> Vec<Value> {
+        events(dir).iter().map(|e| e["kind"].clone()).collect()
+    }
+
+    fn links_on_disk(dir: &Path) -> Vec<Value> {
+        read_snapshot(dir).expect("snapshot").links
+    }
+
+    #[test]
+    fn answer_link_a_taken_answer_from_another_instance_appends_one_link() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let slot = linking(tmp.path(), tmp.path(), Arc::default());
+        let response = json!({"answers": {"Which color?": "red"}});
+        let answer = json!({"v": 1, "from": "overseer", "response": response});
+        let (raised, replies) = raise_and_send(&slot, &question("pre-tool-use", false), &[answer]);
+        assert_eq!(replies, [Ok(json!({"ok": {}}))]);
+        assert_eq!(raised["ok"]["response"], response, "the answer is taken");
+        assert_eq!(kinds(tmp.path()), ["question", "link"]);
+        let link = &events(tmp.path())[1];
+        assert_eq!(link["source"], "wrapper");
+        assert_eq!(link["instance"], "builder");
+        assert_eq!(
+            link["data"],
+            json!({"driver": "overseer", "driven": "builder"})
+        );
+        assert_eq!(
+            links_on_disk(tmp.path()),
+            [json!({"driver": "overseer", "driven": "builder", "since": link["ts"]})]
+        );
+    }
+
+    #[test]
+    fn answer_link_a_second_taken_answer_adds_no_second_line() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let slot = linking(tmp.path(), tmp.path(), Arc::default());
+        let approve = json!({"v": 1, "from": "overseer", "response": {"behavior": "approve"}});
+        let allow = json!({"v": 1, "from": "overseer", "response": {"behavior": "allow"}});
+        raise_and_send(&slot, &plan("pre-tool-use", false), &[approve]);
+        let (_, replies) = raise_and_send(&slot, &permission(), &[allow]);
+        assert_eq!(replies, [Ok(json!({"ok": {}}))]);
+        assert_eq!(kinds(tmp.path()), ["plan", "link", "permission"]);
+        assert_eq!(links_on_disk(tmp.path()).len(), 1);
+    }
+
+    /// An answer refused with no dialog held links nothing, whichever rung refuses it.
+    #[rstest]
+    #[case::unknown_dialog(false, json!({"refusal": "not-delivered", "detail": "unknown-dialog"}))]
+    #[case::human_typing(true, json!({"refusal": "human-typing", "detail": null}))]
+    fn answer_link_a_refused_answer_appends_none(#[case] human_key: bool, #[case] refused: Value) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let wheel = Arc::new(WheelSlot::default());
+        if human_key {
+            wheel.human_input();
+        }
+        let slot = linking(tmp.path(), tmp.path(), wheel);
+        let params = json!({"v": 1, "dialog_id": 9, "from": "overseer",
+            "response": {"behavior": "allow"}});
+        assert_eq!(slot.answer(&call(&params)), Ok(refused));
+        assert!(events(tmp.path()).is_empty());
+        assert_eq!(links_on_disk(tmp.path()), Vec::<Value>::new());
+    }
+
+    /// While a dialog is held, an answer of another kind than its own is `-32602` and links
+    /// nothing; so does an answer with no `from`, and one under the wrapper's own name.
+    #[test]
+    fn answer_link_a_wrong_kind_no_from_and_the_wrappers_own_name_append_none() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let slot = linking(tmp.path(), tmp.path(), Arc::default());
+        let wrong = json!({"v": 1, "from": "overseer", "response": {"behavior": "allow"}});
+        let approve = json!({"v": 1, "response": {"behavior": "approve"}});
+        let (_, replies) = raise_and_send(&slot, &plan("pre-tool-use", false), &[wrong, approve]);
+        assert_eq!(
+            replies,
+            [Err(ProtocolError::InvalidParams), Ok(json!({"ok": {}}))]
+        );
+        let own = json!({"v": 1, "from": "builder", "response": {"behavior": "allow"}});
+        let (_, replies) = raise_and_send(&slot, &permission(), &[own]);
+        assert_eq!(replies, [Ok(json!({"ok": {}}))]);
+        assert_eq!(kinds(tmp.path()), ["plan", "permission"]);
+        assert_eq!(links_on_disk(tmp.path()), Vec::<Value>::new());
+    }
+
+    /// A link that cannot be recorded answers `-32603` and the answer is not taken: the dialog
+    /// stays held for the next answer.
+    #[test]
+    fn answer_link_a_link_that_cannot_be_recorded_is_internal_and_the_answer_is_not_taken() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let slot = linking(tmp.path(), &tmp.path().join("missing"), Arc::default());
+        let unlinked = json!({"v": 1, "from": "overseer", "response": {"behavior": "approve"}});
+        let revise = json!({"behavior": "revise", "message": "rename it"});
+        let taken = json!({"v": 1, "response": revise});
+        let (raised, replies) =
+            raise_and_send(&slot, &plan("pre-tool-use", false), &[unlinked, taken]);
+        assert_eq!(
+            replies,
+            [Err(ProtocolError::Internal), Ok(json!({"ok": {}}))]
+        );
+        assert_eq!(raised["ok"]["response"], revise);
+        assert_eq!(kinds(tmp.path()), ["plan"]);
     }
 }

@@ -53,7 +53,7 @@ fn offset(n: usize) -> u64 {
 }
 
 /// Architecture's per-kind `data` list, one literal body per kind holding every key of its row.
-fn every_kind() -> [(EventKind, &'static str, Value); 13] {
+fn every_kind() -> [(EventKind, &'static str, Value); 15] {
     [
         (
             EventKind::SessionStart,
@@ -112,6 +112,16 @@ fn every_kind() -> [(EventKind, &'static str, Value); 13] {
             "plan",
             json!({"dialog_id": 3, "plan": "step one"}),
         ),
+        (
+            EventKind::Link,
+            "link",
+            json!({"driver": "overseer", "driven": "builder"}),
+        ),
+        (
+            EventKind::Unlink,
+            "unlink",
+            json!({"driver": "overseer", "driven": "builder"}),
+        ),
     ]
 }
 
@@ -123,7 +133,7 @@ fn state_events_every_kind_round_trips_the_six_key_line() {
     }
     let bytes = log(tmp.path());
     let (lines, skipped) = read(tmp.path(), 0);
-    assert_eq!(lines.len(), 13);
+    assert_eq!(lines.len(), 15);
     for (line, (_, name, data)) in lines.iter().zip(every_kind()) {
         let keys: Vec<&str> = line
             .value
@@ -170,7 +180,7 @@ fn state_events_lines_outside_the_contract_are_counted_and_known_kinds_still_ret
     );
     append(tmp.path(), EventKind::BudgetGate, json!({"paused": false}));
     let raw = [
-        r#"{"v":1,"ts":"t","instance":"builder","kind":"link","source":"wrapper","data":{"driver":"a","driven":"b"}}"#,
+        r#"{"v":1,"ts":"t","instance":"builder","kind":"bond","source":"wrapper","data":{"driver":"a","driven":"b"}}"#,
         r#"{"v":1,"ts":"t","instance":"builder","kind":"wheel","source":"wrapper","data":{"holder":"human","cause":"release"},"later":true}"#,
         r#"{"v":1,"ts":"t","instance":"builder","kind":"activity","source":"hook","data":{"tool":"Bash","later":true}}"#,
         r#""a string, not an object""#,

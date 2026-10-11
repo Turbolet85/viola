@@ -6,7 +6,7 @@ use std::fs::{self, OpenOptions};
 use std::path::Path;
 use std::time::SystemTime;
 
-use chrono::Utc;
+use chrono::{TimeZone as _, Utc};
 use serde_json::{Value, json};
 use viola_core::{EventKind, ViolaName};
 use viola_state::events::{EventLine, Skipped, Source, append_event};
@@ -245,6 +245,83 @@ fn state_replay_the_session_chain_of_a_two_session_log_is_both_in_order() {
         "{links:?}"
     );
     assert_eq!(skipped, replayed().skipped);
+    assert_eq!(on_disk(tmp.path()), before);
+}
+
+const NONE_SKIPPED: Skipped = Skipped {
+    unknown_kinds: 0,
+    unknown_fields: 0,
+    torn_lines: 0,
+};
+
+/// One `link` or `unlink` line of `overseer -> builder`, appended at `second` past a fixed minute;
+/// its `ts` as the writer spells it.
+fn append_pair(dir: &Path, kind: EventKind, second: u32) -> String {
+    let name = ViolaName::try_new("builder".to_owned()).expect("valid");
+    let at = Utc
+        .with_ymd_and_hms(2026, 10, 10, 1, 2, second)
+        .single()
+        .expect("valid date");
+    let data = json!({"driver": "overseer", "driven": "builder"});
+    let line = EventLine::new(&name, kind, Source::Wrapper, data, at);
+    append_event(dir, &line).expect("append");
+    line.ts
+}
+
+/// The link set a pass over `dir`'s log derives, after reading that it stepped over nothing.
+fn replayed_links(dir: &Path) -> Vec<Value> {
+    let replayed = replay(dir).expect("replay");
+    assert_eq!(replayed.skipped, NONE_SKIPPED);
+    replayed.links
+}
+
+/// A pair's `since` is the `ts` of its first `link` line after any `unlink` of it: a repeated
+/// `link` leaves it, and a `link` after an `unlink` starts it again.
+#[test]
+fn state_replay_links_hold_the_first_since_until_an_unlink_and_a_later_one_after_it() {
+    let tmp = tempfile::tempdir().expect("tempdir");
+    assert_eq!(replayed_links(tmp.path()), Vec::<Value>::new());
+    let first = append_pair(tmp.path(), EventKind::Link, 3);
+    assert_eq!(first, "2026-10-10T01:02:03.000Z");
+    let linked = [json!({"driver": "overseer", "driven": "builder", "since": first})];
+    assert_eq!(replayed_links(tmp.path()), linked);
+    append_pair(tmp.path(), EventKind::Link, 4);
+    assert_eq!(replayed_links(tmp.path()), linked);
+    append_pair(tmp.path(), EventKind::Unlink, 5);
+    assert_eq!(replayed_links(tmp.path()), Vec::<Value>::new());
+    let again = append_pair(tmp.path(), EventKind::Link, 6);
+    assert_eq!(again, "2026-10-10T01:02:06.000Z");
+    assert_eq!(
+        replayed_links(tmp.path()),
+        [json!({"driver": "overseer", "driven": "builder", "since": again})]
+    );
+}
+
+/// The link set rides beside the other recovered fields, and a replay over a snapshot cut short
+/// carries it.
+#[test]
+fn state_replay_a_snapshot_cut_short_is_replayed_with_the_logged_link() {
+    let tmp = written();
+    let since = append_pair(tmp.path(), EventKind::Link, 3);
+    let path = tmp.path().join("snapshot.json");
+    let whole = fs::metadata(&path).expect("the snapshot").len();
+    OpenOptions::new()
+        .write(true)
+        .open(&path)
+        .expect("the snapshot")
+        .set_len(whole / 2)
+        .expect("shorten");
+    let before = on_disk(tmp.path());
+    assert_eq!(
+        read_snapshot_or_replay(tmp.path()).expect("recovered"),
+        Recovered::Replayed {
+            cause: ReplayCause::Unreadable,
+            state: Replayed {
+                links: vec![json!({"driver": "overseer", "driven": "builder", "since": since})],
+                ..replayed()
+            },
+        }
+    );
     assert_eq!(on_disk(tmp.path()), before);
 }
 

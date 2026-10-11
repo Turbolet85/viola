@@ -32,6 +32,7 @@ use viola_state::events::{EventLine, Source, append_event, append_event_at, end_
 
 use crate::run::budget::{BudgetGate, Crossed, Trigger};
 use crate::run::gate::Gate;
+use crate::run::links::LinkSet;
 use crate::run::wait::WaitFeed;
 use crate::run::wheel::WheelSlot;
 
@@ -85,14 +86,16 @@ struct Flight {
     session: Option<String>,
 }
 
-/// The child's input and gate, set once the pump starts, the budget gate, set by the start, the
-/// one send in flight, the wheel it reads before typing, and the version gate's reading.
+/// The child's input and gate, set once the pump starts, the budget gate and the link set, set by
+/// the start, the one send in flight, the wheel it reads before typing, and the version gate's
+/// reading.
 pub(crate) struct SendSlot {
     clock: Box<dyn Clock>,
     cli_verified: bool,
     wheel: Arc<WheelSlot>,
     io: OnceLock<(PasteFn, Gate)>,
     budget: OnceLock<Arc<BudgetGate>>,
+    links: OnceLock<Arc<LinkSet>>,
     flight: Mutex<Flight>,
     settled: Condvar,
 }
@@ -109,6 +112,7 @@ impl SendSlot {
             wheel,
             io: OnceLock::new(),
             budget: OnceLock::new(),
+            links: OnceLock::new(),
             flight: Mutex::default(),
             settled: Condvar::new(),
         }
@@ -122,6 +126,11 @@ impl SendSlot {
     /// The first call wins; the start calls it once, before the endpoint serves.
     pub(crate) fn budget_with(&self, gate: Arc<BudgetGate>) {
         let _ = self.budget.set(gate);
+    }
+
+    /// The first call wins; the start calls it once, before the endpoint serves.
+    pub(crate) fn links_with(&self, links: Arc<LinkSet>) {
+        let _ = self.links.set(links);
     }
 
     fn flight(&self) -> MutexGuard<'_, Flight> {
@@ -311,7 +320,9 @@ pub(crate) fn parse_from(params: &Value) -> Result<Option<ViolaName>, ProtocolEr
 /// wheel and the running turn are read twice, in that order both times: at arrival, and again
 /// once the gate's wait has ended, because that wait can run to `GATE_MAX_WAIT`. A human key or a
 /// turn that started during it refuses with nothing typed. The budget gate is evaluated once,
-/// between the first two readings, and never after the wait.
+/// between the first two readings, and never after the wait. A send no rung refused, from another
+/// instance, links that instance to this one before `send-issued` (architecture [Links]); a
+/// refused send links nothing.
 pub(crate) fn send(
     slot: &SendSlot,
     name: &ViolaName,
@@ -380,6 +391,11 @@ pub(crate) fn send(
     }
     if slot.wheel.turn_running() {
         return ctx.not_delivered(None, NotDelivered::TurnRunning);
+    }
+    if let (Some(links), Some(from)) = (slot.links.get(), ctx.from.as_ref())
+        && from != name
+    {
+        links.record(from).map_err(|_| ProtocolError::Internal)?;
     }
     let cursor = ctx.issue(text.len())?;
     if paste(text).is_err() {
@@ -2266,5 +2282,134 @@ mod tests {
             Err(ProtocolError::Internal)
         );
         assert!(pastes.all().is_empty(), "nothing typed");
+    }
+
+    /// A [`mute_child`] that was handed `builder`'s link set over `links_dir`.
+    fn linking(links_dir: &Path) -> (SendSlot, Pastes) {
+        let (slot, pastes) = mute_child();
+        let dir = links_dir.to_path_buf();
+        let snapshots = Arc::new(Snapshots::new(dir.clone()));
+        slot.links_with(Arc::new(LinkSet::new(name(), dir, snapshots)));
+        (slot, pastes)
+    }
+
+    /// The offset each line of the log starts at.
+    fn line_starts(dir: &Path) -> Vec<usize> {
+        let log = std::fs::read(dir.join("events.ndjson")).expect("the log");
+        let ends = log.iter().enumerate().filter(|(_, b)| **b == b'\n');
+        std::iter::once(0)
+            .chain(ends.map(|(at, _)| at + 1))
+            .collect()
+    }
+
+    /// An issued send from another instance: `link` is the line directly before its
+    /// `send-issued`, whose cursor is still the offset its own line starts at.
+    #[test]
+    fn send_link_an_issued_send_from_another_instance_appends_link_before_send_issued() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (slot, pastes) = linking(tmp.path());
+        let params = json!({"v": 1, "text": "hello", "from": "overseer"});
+        let reply = send(&slot, &name(), tmp.path(), &call(&params, 1)).expect("answered");
+        assert_eq!(
+            reply,
+            json!({"refusal": "not-delivered", "detail": "no-prompt-submitted"})
+        );
+        assert_eq!(pastes.all(), ["hello"]);
+        assert_eq!(kinds(tmp.path()), ["link", "send-issued", "send-refused"]);
+        let events = events(tmp.path());
+        assert_eq!(events[0]["source"], "wrapper");
+        assert_eq!(events[0]["instance"], "builder");
+        assert_eq!(
+            events[0]["data"],
+            json!({"driver": "overseer", "driven": "builder"})
+        );
+        let issued_at = line_starts(tmp.path())[1];
+        assert!(issued_at > 0);
+        assert_eq!(
+            events[1]["data"],
+            json!({"cursor": issued_at, "from": "overseer"})
+        );
+        assert_eq!(events[2]["data"]["cursor"], issued_at);
+    }
+
+    #[test]
+    fn send_link_a_second_issued_send_adds_no_link() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (slot, pastes) = linking(tmp.path());
+        let params = json!({"v": 1, "text": "hello", "from": "overseer"});
+        for id in [1, 2] {
+            send(&slot, &name(), tmp.path(), &call(&params, id)).expect("answered");
+        }
+        assert_eq!(pastes.all(), ["hello", "hello"]);
+        assert_eq!(
+            kinds(tmp.path()),
+            [
+                "link",
+                "send-issued",
+                "send-refused",
+                "send-issued",
+                "send-refused"
+            ]
+        );
+    }
+
+    /// A send refused before it is issued links nothing, whichever rung refuses it.
+    #[rstest]
+    #[case::human_typing(true, "human-typing", None)]
+    #[case::turn_running(false, "not-delivered", Some("turn-running"))]
+    fn send_link_a_refused_send_adds_none(
+        #[case] human_key: bool,
+        #[case] refusal: &str,
+        #[case] detail: Option<&str>,
+    ) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (slot, pastes) = linking(tmp.path());
+        slot.wheel.turn_started();
+        if human_key {
+            slot.wheel.human_input();
+        }
+        let params = json!({"v": 1, "text": "hello", "from": "overseer"});
+        let reply = send(&slot, &name(), tmp.path(), &call(&params, 1)).expect("answered");
+        assert_eq!(reply, json!({"refusal": refusal, "detail": detail}));
+        assert!(pastes.all().is_empty(), "nothing typed");
+        assert_eq!(kinds(tmp.path()), ["send-refused"]);
+    }
+
+    /// The link is made to another instance: a `from` that is the wrapper's own name is none.
+    #[test]
+    fn send_link_a_send_under_the_wrappers_own_name_adds_none() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (slot, pastes) = linking(tmp.path());
+        let params = json!({"v": 1, "text": "hello", "from": "builder"});
+        send(&slot, &name(), tmp.path(), &call(&params, 1)).expect("answered");
+        assert_eq!(pastes.all(), ["hello"]);
+        assert_eq!(kinds(tmp.path()), ["send-issued", "send-refused"]);
+        assert_eq!(events(tmp.path())[0]["data"]["from"], "builder");
+    }
+
+    #[rstest]
+    #[case::absent(json!({"v": 1, "text": "hello"}))]
+    #[case::null(json!({"v": 1, "text": "hello", "from": null}))]
+    fn send_link_a_send_with_no_from_adds_none(#[case] params: Value) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (slot, pastes) = linking(tmp.path());
+        send(&slot, &name(), tmp.path(), &call(&params, 1)).expect("answered");
+        assert_eq!(pastes.all(), ["hello"]);
+        assert_eq!(kinds(tmp.path()), ["send-issued", "send-refused"]);
+    }
+
+    /// A link that cannot be recorded answers `-32603`: nothing is issued and nothing typed.
+    #[test]
+    fn send_link_a_link_that_cannot_be_recorded_is_internal_and_issues_nothing() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (slot, pastes) = linking(&tmp.path().join("missing"));
+        let params = json!({"v": 1, "text": "hello", "from": "overseer"});
+        assert_eq!(
+            send(&slot, &name(), tmp.path(), &call(&params, 1)),
+            Err(ProtocolError::Internal)
+        );
+        assert!(pastes.all().is_empty(), "nothing typed");
+        assert!(events(tmp.path()).is_empty(), "nothing issued");
+        assert!(slot.flight().send.is_none(), "the slot is free again");
     }
 }
