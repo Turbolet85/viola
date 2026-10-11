@@ -138,14 +138,9 @@ fn list_after_a_pause_reads_the_human_wheel(stamped_home: StampedHome) {
 
 /// A stopped wrapper is gone: no row on either form, and the verb still exits 0 with its one
 /// document, reaching no endpoint.
-#[test]
-fn list_of_a_stopped_wrapper_is_an_empty_board() {
-    let wrapper = Wrapper::boot(
-        StampedHome::unstamped(TestHome::new()),
-        "builder",
-        None,
-        &[],
-    );
+#[rstest]
+fn list_of_a_stopped_wrapper_is_an_empty_board(stamped_home: StampedHome) {
+    let wrapper = boot(stamped_home);
     let (stopped, stamped) = wrapper.stop_keep();
     assert_eq!(stopped.code(), Some(0));
     let home = stamped.home.path();
@@ -180,14 +175,9 @@ fn list_of_a_home_that_does_not_exist_creates_nothing() {
     assert!(!home.exists());
 }
 
-#[test]
-fn list_logs_its_start_and_exit_only_under_a_name() {
-    let wrapper = Wrapper::boot(
-        StampedHome::unstamped(TestHome::new()),
-        "builder",
-        None,
-        &[],
-    );
+#[rstest]
+fn list_logs_its_start_and_exit_only_under_a_name(stamped_home: StampedHome) {
+    let wrapper = boot(stamped_home);
     let home = wrapper.home().to_path_buf();
     document(&list(&home, true, None));
     assert_eq!(cli_logs(&home), Vec::<String>::new());

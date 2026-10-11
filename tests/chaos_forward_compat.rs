@@ -11,9 +11,10 @@ use std::fs::OpenOptions;
 use std::io::Write as _;
 use std::path::Path;
 
+use rstest::rstest;
 use serde_json::{Value, json};
 use support::cli::viola;
-use support::home::{StampedHome, TestHome, Wrapper};
+use support::home::{StampedHome, Wrapper, stamped_home};
 
 /// One complete line, appended as one write.
 fn append(log: &Path, line: &Value) {
@@ -34,14 +35,11 @@ fn skipped(home: &Path) -> Value {
     doc["ok"]["skipped"].clone()
 }
 
-#[test]
-fn chaos_lines_of_a_newer_build_are_counted_and_the_board_still_reads() {
-    let wrapper = Wrapper::boot(
-        StampedHome::unstamped(TestHome::new()),
-        "builder",
-        None,
-        &[],
-    );
+/// A stamped home: `viola verify` lays the home down with viola's own modes, so the board's
+/// strict-modes check passes it on every OS.
+#[rstest]
+fn chaos_lines_of_a_newer_build_are_counted_and_the_board_still_reads(stamped_home: StampedHome) {
+    let wrapper = Wrapper::boot(stamped_home, "builder", None, &[]);
     let log = wrapper.instance_dir().join("events.ndjson");
     let (stopped, stamped) = wrapper.stop_keep();
     assert_eq!(stopped.code(), Some(0));

@@ -10,9 +10,10 @@ use std::fs::{self, OpenOptions};
 use std::path::Path;
 use std::time::Instant;
 
+use rstest::rstest;
 use serde_json::{Value, json};
 use support::cli::viola;
-use support::home::{StampedHome, TestHome, Wrapper, workspace_path};
+use support::home::{StampedHome, Wrapper, stamped_home, workspace_path};
 use support::hygiene::load_schema;
 use support::watch::{WITHIN, Watch};
 use viola_state::events::{LoggedLine, Skipped, read_from};
@@ -43,14 +44,13 @@ fn recovered(home: &Path) -> Vec<Value> {
         .collect()
 }
 
-#[test]
-fn chaos_torn_tail_left_by_a_stopped_wrapper_is_healed_by_the_next_start() {
-    let wrapper = Wrapper::boot(
-        StampedHome::unstamped(TestHome::new()),
-        "builder",
-        None,
-        &[],
-    );
+/// A stamped home: `viola verify` lays the home down with viola's own modes, so `viola list`'s
+/// strict-modes check passes it on every OS.
+#[rstest]
+fn chaos_torn_tail_left_by_a_stopped_wrapper_is_healed_by_the_next_start(
+    stamped_home: StampedHome,
+) {
+    let wrapper = Wrapper::boot(stamped_home, "builder", None, &[]);
     let dir = wrapper.instance_dir();
     let log = dir.join("events.ndjson");
     let (stopped, stamped) = wrapper.stop_keep();
