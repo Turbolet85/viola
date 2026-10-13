@@ -1,33 +1,47 @@
 # Session Handoff
 
-**Last Updated:** 2026-10-13T17:14Z
+**Last Updated:** 2026-10-13T18:19:13Z
 **Branch:** build/viola-0.1.0 · 0 ahead of origin/build/viola-0.1.0 as read at this wrap's Setup (the wrap commit pushes after this file)
 **Status:** clean
-**Last Commit:** 2026-10-13-epoch-4-survivors — Epoch 4's survivors disposed: 29 kills by owning-package test or restatement, 2 records standing, 16 owed
+**Last Commit:** 2026-10-13-epoch-4-survivors-ii — Epoch 4 survivors II: the 16 typed.rs survivors disposed by restatement and named cases
 
 ## Position
-- Done: 2026-10-13-epoch-4-survivors — the Epoch 4 audit's 47 survivors in one ledger (`evidence/survivors.ndjson`):
-  29 killed by a case in the owning package (7 after a behaviour-preserving restatement), each shown red under its
-  hand-applied mutant and green restored; the 2 `scratch.rs` records standing; 16 `typed.rs` owed. CI green on
-  `ad7fb3c` (ci#38430155254).
-- Next: **Epoch 4 survivors II** (minted at this wrap from the P5 card's row 1, the founder's split) → `/andromeda-phase`.
+- Done: 2026-10-13-epoch-4-survivors-ii. The 16 `typed.rs` survivors of the Epoch 4 audit are in
+  `evidence/survivors.ndjson`, each restated in `src/cmd/verify/typed.rs`:
+  - the framing waits became named predicates;
+  - every probe deadline goes through `probe_until`;
+  - `SharedPty` is generic over its `Pty`;
+  - the Ctrl-C ending and the pump wait are the plain functions `ctrl_c_ending` and `ended_by`.
+
+  Each is killed by a case in `typed.rs`'s `mod tests`, shown red under its hand-applied mutant and green restored:
+  14 applications for 16 rows, and no mutation run. CI green on `94f0be9` (ci#38442894573).
+- Next: **Interrupted verify cleanup** (the first markerless entry) → `/andromeda-phase`.
 
 ## Work done
-- The chunk: implement run `.andromeda/runs/2026-10-13T16-01-52-implement/`, wrap run
-  `.andromeda/runs/2026-10-13T16-59-54-wrap/`.
+- The chunk: implement run `.andromeda/runs/2026-10-13T17-47-22-implement/`, wrap run
+  `.andromeda/runs/2026-10-13T18-08-14-wrap/`.
 
 ## Drift resolved
-- 5 amendments, all routine, 0 escalations: architecture 3 (the [Snapshot writer] loop's passed-in retry decision,
-  the per-process viola-pty watch report name, the test-only `target/viola-answers-*/`), test-plan 2 (§10: the Epoch 4
-  survivors' disposal; the `resize` miss recorded, not established). 4 leaf findings applied by the tool.
-  `fanout-results.md`, `cascade-dispositions.md`.
+- 1 amendment, routine, 0 escalations: test-plan §10 Mutation gate. The 16 are disposed, none is owed, and the Epoch 5
+  audit confirms 45 kills.
+- 2 test-plan proposals were rejected: the §4 and §8 mockall wording bounds where mockall is used and mandates
+  nothing.
+- 1 leaf finding applied (`tests-summary.md:42`).
+- `fanout-results.md` and `cascade-dispositions.md` hold the record.
 
 ## Notes
-- **Epoch growth:** Epoch 5 now holds 11 entries. The founder ruled no boundary inside Epoch 5 (`inputs#I1` of this
-  chunk); a split stays the operator's word.
+- **Epoch growth:** Epoch 5 holds 11 entries (8 markerless). The founder ruled no boundary inside Epoch 5; a split
+  stays the operator's word.
 - **For whoever dispatches `windows-mutants.yml` next (the Epoch 5 boundary audit):** the root package's green
-  baseline is still not measured. The audit's Linux runs should read 29 fewer missed over this chunk's files (a
-  forecast, not a reading). The `resize` miss's two-job cause is a HYPOTHESIS: the report files now carry the pid.
+  baseline is still not measured. Forecasts, not readings:
+  - the audit's Linux runs should read 29 fewer missed over the earlier chunk's files, and 16 fewer over
+    `typed.rs` (16 → 0);
+  - the new functions' own mutants are predicted caught.
+
+  The `resize` miss's two-job cause is a HYPOTHESIS: the report files now carry the pid.
+- **Curation:** one correction in place, `verification-harness.md` 2026-09-27. The kill filter is now
+  `test(/(^|::)tests::name(::|$)/)`, because an rstest table's rows are `name::case_<n>_<label>` (the operator's
+  word, this chunk's `inputs#I2`). Log: the wrap run dir's `curation.md`.
 - **For the founder, his next batch (the operator's word, none ruled by him), carried:**
   - a refused strict-modes check writes no line on `revive`'s start arm;
   - the checked read of `budget.json` writes no line on a refusal;
@@ -51,7 +65,7 @@
   - seven sentences of the budget-governor plan word the old hold;
   - a live `claude` session ending in this tree rewrites this file's last section.
 - **Route:** `BLOCKED-ON` on "Windows-only live measurements" stands (`uname -s` read Linux). Epoch 5 has 11 entries
-  (9 markerless after this flip), Epoch 6 has 7.
+  (8 markerless after this flip), Epoch 6 has 7.
 - **Setup:** a setup re-run must keep `.claude/rules/ci.md` and `.claude/rules/testing-src.md`; the host leaf is
   `host-linux.md`.
 - **Standing rules (carried):**
@@ -65,11 +79,9 @@
   - The Bash guard refuses a pipeline tool piped into `tail` / `head` / `grep` / `cut` / `sed` / `awk`: redirect it to
     a file and read the file whole.
   - A scripted `.rs` write runs rustfmt in the same call.
-- **Curation:** T1 0 · T2 2 (a correction in place: `verification-harness.md` 2026-09-27, the filter's full path; new:
-  `testing.md`, the `-=` overflow kill form) · T3 0 (the log: the wrap run dir's `curation.md`).
 - **Deferred learnings:**
-  - `recurrence-despite-learning: a time written into a record ahead of the clock` — recurred at this chunk's
-    implement journal (16:10Z written at 16:02:54Z); the stamp-ahead hook caught it.
+  - `recurrence-despite-learning: a time written into a record ahead of the clock` did not recur this chunk. Every
+    record time was read from `date -u` inside the writing process.
   - carried:
     - `docs/session-learnings.md` "gate.py hygiene reads `/home/<x>/` in prose…" (a quoted Windows drive path);
     - `~/.claude/CLAUDE.md` Shell (a bounded repetition sent to the embedded grep);
@@ -88,10 +100,7 @@
   - `mutants.out*/`, `target/witness-wmg/`, `crates/viola-e2e/.viola-verify-227786-plan/`;
   - `~/.viola-record-20261004T142325Z`;
   - the CLI's own transcripts;
-  - this chunk's kept mutant-red reports under the OS temp dir's `viola-pty-watch/`.
+  - the earlier chunk's kept mutant-red reports under the OS temp dir's `viola-pty-watch/`.
 
   Yours to delete: `target/e2e-home.disk` and `target/profraw-census/`.
 - **Last failed command:** none.
-
-## Session End Status
-Completed normally at 2026-10-13 19:46:13

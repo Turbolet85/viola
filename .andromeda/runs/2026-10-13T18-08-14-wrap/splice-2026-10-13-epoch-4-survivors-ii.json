@@ -1,0 +1,82 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "574aedd9",
+"ts": "2026-10-13T18:10:22Z",
+"argv": [
+"append",
+"--file",
+"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors-ii/report.md",
+"--payload-file",
+".andromeda/runs/2026-10-13T18-08-14-wrap/new-text.md",
+"--lines",
+"30",
+"--if-absent-prefix",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-10-13T18-08-14-wrap",
+"--marker",
+"2026-10-13-epoch-4-survivors-ii"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append report.md:+30 at line 206 · lines 205→235 · bytes 17630→19736 · term lf",
+"last line now:   - 1115-1133 @1120 «fn ended_by_reads_true_once_finished_and_false_once_the_de"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors-ii/report.md"
+],
+"before": {
+"lines": 205,
+"bytes": 17630,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 235,
+"bytes": 19736
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "574aedd9",
+"ts": "2026-10-13T18:15:38Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-13T18-08-14-wrap/test-plan-entry.md",
+"--lines",
+"12",
+"--run-dir",
+".andromeda/runs/2026-10-13T18-08-14-wrap",
+"--marker",
+"2026-10-13-epoch-4-survivors-ii"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+12 at line 857 · lines 856→868 · bytes 148067→149629 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-13T18-08-14-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 856,
+"bytes": 148067,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 868,
+"bytes": 149629
+}
+}
+]

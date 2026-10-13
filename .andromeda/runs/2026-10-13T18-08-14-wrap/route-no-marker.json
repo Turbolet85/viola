@@ -1,0 +1,127 @@
+[
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "8fc13695",
+"ts": "2026-10-13T18:18:26Z",
+"argv": [
+"route.py",
+"epoch",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-13T18-08-14-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"viola-0.1.0/working-route.md · 9 epoch headers · 87 entries · freeze state joined to 58 master records",
+"10 · Epoch 1 — Foundation · entries 8 · markerless 0 · frozen complete 8 · pending 0",
+"27 · Epoch 2 — Windows slice I: wrapper, events,… · entries 7 · markerless 0 · frozen complete 7 · pending 0",
+"42 · Epoch 2b — Windows slice I b: events and le… · entries 11 · markerless 0 · frozen complete 11 · pending 0",
+"65 · Epoch 3 — Windows slice II: driving verbs a… · entries 19 · markerless 0 · frozen complete 19 · pending 0",
+"104 · Epoch 4 — Session state & governance · entries 10 · markerless 0 · frozen complete 10 · pending 0",
+"125 · Epoch 5 — Driver surface · entries 11 · markerless 8 · frozen complete 2 · pending 1",
+"148 · Epoch 6 — Security hardening · entries 7 · markerless 7 · frozen complete 0 · pending 0",
+"163 · Epoch 7 — Cross-OS completion · entries 3 · markerless 3 · frozen complete 0 · pending 0",
+"170 · Epoch 8 — Web UI, polish & ship · entries 11 · markerless 11 · frozen complete 0 · pending 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "8fc13695",
+"ts": "2026-10-13T18:18:26Z",
+"argv": [
+"route.py",
+"epoch",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-13T18-08-14-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"viola-0.1.0/working-route.md · 9 epoch headers · 87 entries · freeze state joined to 58 master records",
+"10 · Epoch 1 — Foundation · entries 8 · markerless 0 · frozen complete 8 · pending 0",
+"27 · Epoch 2 — Windows slice I: wrapper, events,… · entries 7 · markerless 0 · frozen complete 7 · pending 0",
+"42 · Epoch 2b — Windows slice I b: events and le… · entries 11 · markerless 0 · frozen complete 11 · pending 0",
+"65 · Epoch 3 — Windows slice II: driving verbs a… · entries 19 · markerless 0 · frozen complete 19 · pending 0",
+"104 · Epoch 4 — Session state & governance · entries 10 · markerless 0 · frozen complete 10 · pending 0",
+"125 · Epoch 5 — Driver surface · entries 11 · markerless 8 · frozen complete 2 · pending 1",
+"148 · Epoch 6 — Security hardening · entries 7 · markerless 7 · frozen complete 0 · pending 0",
+"163 · Epoch 7 — Cross-OS completion · entries 3 · markerless 3 · frozen complete 0 · pending 0",
+"170 · Epoch 8 — Web UI, polish & ship · entries 11 · markerless 11 · frozen complete 0 · pending 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "8fc13695",
+"ts": "2026-10-13T18:18:27Z",
+"argv": [
+"route.py",
+"cursor",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-13T18-08-14-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"version viola-0.1.0 · dir present · master master-route.md",
+"version dir viola-0.1.0/ — at --root, beside .andromeda/, never inside it",
+"records 58 · complete 57 · pending 1 · 2026-10-13-epoch-4-survivors-ii · gated 0",
+"done 2026-10-13-epoch-4-survivors",
+"next viola-0.1.0/working-route.md:132 · Interrupted verify cleanup · markerless 29 of 87 entries",
+"BLOCKED-ON at an annotation position · viola-0.1.0/working-route.md:168 · BLOCKED-ON: an interactive Windows host (none exists at the … (399 chars) — take-up or skip is the letter's, not the tool's",
+"half-promote 0 of 58 stamped lines vs 58 master records (anchored `{marker} · `, whole file)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "8fc13695",
+"ts": "2026-10-13T18:21:31Z",
+"argv": [
+"route.py",
+"epoch",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-13T18-08-14-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"viola-0.1.0/working-route.md · 9 epoch headers · 87 entries · freeze state joined to 58 master records",
+"10 · Epoch 1 — Foundation · entries 8 · markerless 0 · frozen complete 8 · pending 0",
+"27 · Epoch 2 — Windows slice I: wrapper, events,… · entries 7 · markerless 0 · frozen complete 7 · pending 0",
+"42 · Epoch 2b — Windows slice I b: events and le… · entries 11 · markerless 0 · frozen complete 11 · pending 0",
+"65 · Epoch 3 — Windows slice II: driving verbs a… · entries 19 · markerless 0 · frozen complete 19 · pending 0",
+"104 · Epoch 4 — Session state & governance · entries 10 · markerless 0 · frozen complete 10 · pending 0",
+"125 · Epoch 5 — Driver surface · entries 11 · markerless 8 · frozen complete 2 · pending 1",
+"148 · Epoch 6 — Security hardening · entries 7 · markerless 7 · frozen complete 0 · pending 0",
+"163 · Epoch 7 — Cross-OS completion · entries 3 · markerless 3 · frozen complete 0 · pending 0",
+"170 · Epoch 8 — Web UI, polish & ship · entries 11 · markerless 11 · frozen complete 0 · pending 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

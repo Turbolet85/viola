@@ -1,0 +1,117 @@
+[
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "8fc13695",
+"ts": "2026-10-13T18:21:36Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-10-13-epoch-4-survivors-ii",
+"--run-dir",
+".andromeda/runs/2026-10-13T18-08-14-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"flip master-route.md:68 - 2026-10-13-epoch-4-survivors-ii pending -> complete"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "8fc13695",
+"ts": "2026-10-13T18:21:36Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-13-epoch-4-survivors-ii",
+"--date",
+"2026-10-13",
+"--run-dir",
+".andromeda/runs/2026-10-13T18-08-14-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :130 strip CARRY: 2051ch \"CARRY: chunk 2026-10-13-epoch-4-survivor\"",
+"pin next markerless :132 holds CARRY:×4",
+"130 · 2026-10-13-epoch-4-survivors-ii · strip 1 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 130,
+"marker": "2026-10-13-epoch-4-survivors-ii",
+"blocks": 1,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "8fc13695",
+"ts": "2026-10-13T18:21:43Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-13-epoch-4-survivors-ii",
+"--date",
+"2026-10-13",
+"--run-dir",
+".andromeda/runs/2026-10-13T18-08-14-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :130 strip CARRY: 2051ch \"CARRY: chunk 2026-10-13-epoch-4-survivor\"",
+"pin next markerless :132 holds CARRY:×4",
+"130 · 2026-10-13-epoch-4-survivors-ii · strip 1 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/route-archive.md",
+"./viola-0.1.0/working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 130,
+"marker": "2026-10-13-epoch-4-survivors-ii",
+"blocks": 1,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

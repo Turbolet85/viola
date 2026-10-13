@@ -1,0 +1,2 @@
+proposals: []
+note: D-security-input clean (the chunk's new symbols in src/cmd/verify/typed.rs are private restatements of Run B's wait predicates, deadline and ending plus a test-only module; no new IPC, HTTP or deserialized input, and no new reader); D-security-auth n/a (no identity, session, token or key touched); D-security-deps clean (report Dependencies: none, rstest already a root dev-dependency, cargo deny check green).

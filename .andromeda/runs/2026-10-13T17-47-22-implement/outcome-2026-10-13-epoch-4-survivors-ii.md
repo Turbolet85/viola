@@ -3,8 +3,16 @@
 **Outcome: green + smoke.** All 16 `typed.rs` survivors from the Epoch 4 audit are disposed. Each one has a
 behaviour-preserving restatement in `src/cmd/verify/typed.rs` and a named case in its `mod tests`. Each case read
 red under its mutation, applied by hand at the restated site, and green again after the restore. The P2 block was
-green on its first run: 18 green, 0 red, 3 operator entries not run. Next → the operator pass (entries 19 hygiene,
-20 push, 21 CI read, with entry 18 pre-push re-fired first), then `/andromeda-wrap-session`.
+green on its first run: 18 green, 0 red, 3 operator entries not run. The operator pass then ran on the operator's
+word, recorded in `evidence/operator.md`:
+- entry 18 (pre-push) re-fired green;
+- entry 19 (hygiene) read clean;
+- the pre-CI commit `94f0be906ceb` was made;
+- entry 20 pushed it;
+- entry 21 read `verdict: green · checks 15/15`, `ci#38442894573`, across windows-2025, macos-latest and
+  ubuntu-latest.
+
+Next → `/andromeda-wrap-session`.
 
 ## Files changed
 - `src/cmd/verify/typed.rs` (the one listed file):

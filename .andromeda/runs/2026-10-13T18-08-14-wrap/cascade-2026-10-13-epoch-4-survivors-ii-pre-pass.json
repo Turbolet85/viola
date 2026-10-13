@@ -1,0 +1,87 @@
+[
+{
+"tool": "cascade",
+"v": "1.8",
+"sha8": "8581eaf9",
+"ts": "2026-10-13T18:08:59Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-10-13T18-08-14-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-13T18-08-14-wrap",
+"--marker",
+"2026-10-13-epoch-4-survivors-ii"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"baseline 94f0be90 (pre-pass — HEAD)",
+"owed16 · control UNFIRED over the seven masters at 94f0be90",
+"killfilter · control UNFIRED over the seven masters at 94f0be90"
+],
+"stderr": "control: owed16, killfilter never fired over the seven masters' pre-pass text (94f0be90) — a sweep runs a positive control or refuses; drop the pattern or control it by hand",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.8",
+"sha8": "8581eaf9",
+"ts": "2026-10-13T18:09:07Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-10-13T18-08-14-wrap/report-patterns.toml",
+"--pattern",
+"e4s2",
+"--pattern",
+"restated",
+"--run-dir",
+".andromeda/runs/2026-10-13T18-08-14-wrap",
+"--marker",
+"2026-10-13-epoch-4-survivors-ii"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline 94f0be90 (pre-pass — HEAD)",
+"e4s2 · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control test-plan.md:1226 (prose)",
+"restated · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:1226 (prose)",
+".andromeda/test-plan.md:1226 e4s2 standing @c4257/7413 …to the route entry \"Epoch 4 survivors II\". The Epoch 5 boundary…",
+".claude/docs/tests-summary.md:42 e4s2 leaf @c1964/3048 …to the route entry \"Epoch 4 survivors II\"). On the Linux dev ho…",
+".andromeda/test-plan.md:1226 restated standing ×2 @c4168,4187/7413 …ify/typed.rs` (`framing_turns` 5, `SharedPty` 5, `R…",
+"e4s2 · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control test-plan.md:1226 (prose)",
+"restated · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:1226 (prose)",
+"total (2 patterns) · 3 rows over 2 files",
+"per class · new 0/0 · standing 2/1 · leaf 1/1 · curation 0/0 · base 0/0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "94f0be906ceb52253bf9499b519b4173f8637cbe",
+"how": "pre-pass — HEAD",
+"counts": {
+"e4s2": {
+"new": 0,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"restated": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]

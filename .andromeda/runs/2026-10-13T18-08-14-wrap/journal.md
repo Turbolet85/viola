@@ -1,0 +1,1 @@
+2026-10-13T18:19:19Z · P7.1 light gate fired: gate.py run --plan viola-0.1.0/chunks/2026-10-13-epoch-4-survivors-ii/plan.md (backgrounded; the operator entries 19-21 not run here, re-verified from evidence/operator.md); the verdict is the SUMMARY line

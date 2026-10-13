@@ -1,0 +1,2 @@
+proposals: []
+note: D-layout-surface holds — the report's Changes add only private functions and a test module in src/cmd/verify/typed.rs (Symbols / APIs; Coverage of new surfaces lists a11y n/a and tokens n/a for each), and Outcome re-asserts "(arch / security / obs / layouts) Run B unchanged"; no web-spa or cli surface, region or output structure is added or changed, so §Output structure — `viola verify` stands as written.

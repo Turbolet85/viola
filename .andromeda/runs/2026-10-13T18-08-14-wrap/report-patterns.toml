@@ -1,0 +1,15 @@
+[[pattern]]
+id = 'e4s2'
+regex = 'Epoch 4 survivors II'
+
+[[pattern]]
+id = 'owed16'
+regex = '16 (`typed\.rs`|typed\.rs)|`typed\.rs` (survivors|missed)|typed\.rs survivors'
+
+[[pattern]]
+id = 'killfilter'
+regex = '\(\^\|::\)tests::|test\(=tests::'
+
+[[pattern]]
+id = 'restated'
+regex = 'wait_pump|SharedPty|framing_turns|end_by_ctrl_c|ctrl_c_ending|ended_by|probe_until|added_turn_ended|local_command_answered'

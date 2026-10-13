@@ -1,0 +1,15 @@
+[[pattern]]
+id = 'e4s2'
+regex = 'Epoch 4 survivors II'
+
+[[pattern]]
+id = 'owedto'
+regex = 'owed to (the route entry )?"?Epoch 4 survivors'
+
+[[pattern]]
+id = 'confirms29'
+regex = 'confirms? the 29 kills|29 kills'
+
+[[pattern]]
+id = 'runbsyms'
+regex = 'framing_turns|SharedPty|wait_pump|end_by_ctrl_c'

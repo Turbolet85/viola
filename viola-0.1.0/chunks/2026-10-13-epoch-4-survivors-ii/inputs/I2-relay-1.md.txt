@@ -1,0 +1,1 @@
+2026-10-13-epoch-4-survivors-ii. Amend the leaf that holds the kill filter form so a table case (::case_n_label) matches, as your deviation found. The 85 % and 90 % context alarms are expected: finish the wrap; stop only at 95 %.

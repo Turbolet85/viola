@@ -1,0 +1,2 @@
+proposals: []
+note: D-a11y-surface — the report's Changes touch only src/cmd/verify/typed.rs (private Run B driver functions and a test module), and every new surface's Coverage row reads a11y n/a; no interactive UI element was added. D-a11y-obs-schema — Schema / config reads none (schemas/diag-line.v1.json unchanged) and no obs_event! site changed, so the a11y violation schema and obs §6 cannot have diverged.
