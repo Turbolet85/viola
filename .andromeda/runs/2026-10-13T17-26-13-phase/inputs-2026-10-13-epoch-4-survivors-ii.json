@@ -1,0 +1,138 @@
+[
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-13T17:27:07Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors-ii",
+"--message-file",
+".andromeda/runs/2026-10-13T17-26-13-phase/relay-1.md",
+"--origin",
+"the operator, in the /andromeda-phase invocation, 2026-10-13T17:26Z",
+"--kind",
+"relay",
+"--why",
+"the take-up direction: no mutation run, witness run or workflow dispatch; a kill shown by a hand-applied mutant; each survivor worded by what the next boundary audit reads; no live claude start without the founder cap; sized against one window at P5",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-10-13T17-26-13-phase",
+"--marker",
+"2026-10-13-epoch-4-survivors-ii"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy message · message: the operator, in the /andromeda-phase invocation, 2026-10-13T17:26Z",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, in the /andromeda-phase invocation, 2026-10-13T17:26Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "7cf5f8c2ce815d6725192f797b38ecdce559464ce86c8b1c197f91b5549c7334",
+"copy": "I1-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-13T17:27:07Z",
+"step": "phase:P1",
+"why": "the take-up direction: no mutation run, witness run or workflow dispatch; a kill shown by a hand-applied mutant; each survivor worded by what the next boundary audit reads; no live claude start without the founder cap; sized against one window at P5"
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-13T17:43:52Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors-ii",
+"--run-dir",
+".andromeda/runs/2026-10-13T17-26-13-phase",
+"--marker",
+"2026-10-13-epoch-4-survivors-ii"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, in the /andromeda-phase invocation, 2026-10-13T17:26Z",
+"I1 cited scope.md:9 · scope.md:65 · scope.md:75 · scope.md:77 · scope.md:84 · research.md:13 · plan.md:16 · plan.md:33 · plan.md:191 · plan.md:340 · plan.md:389 · plan.md:395",
+"inputs: 1 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 1,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-13T17:44:50Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors-ii",
+"--run-dir",
+".andromeda/runs/2026-10-13T17-26-13-phase",
+"--marker",
+"2026-10-13-epoch-4-survivors-ii"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, in the /andromeda-phase invocation, 2026-10-13T17:26Z",
+"I1 cited scope.md:9 · scope.md:65 · scope.md:75 · scope.md:77 · scope.md:84 · research.md:13 · plan.md:16 · plan.md:33 · plan.md:191 · plan.md:349 · plan.md:398 · plan.md:404",
+"inputs: 1 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 1,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]

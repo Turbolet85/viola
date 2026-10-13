@@ -1,0 +1,451 @@
+[
+{
+"sql": "SELECT callee_name, caller_name, file, line FROM calls WHERE callee_file LIKE '%src/cmd/verify/typed.rs' AND callee_name IN ('framing_turns','end_by_ctrl_c','wait_pump','finish','end_by_kill','kill','resize','close','child_pid','spawn','settle','box_wait','input_box_settles','turn','wait_for','count_of') ORDER BY callee_name, file, line",
+"rows": 44,
+"result": [
+{
+"callee_name": "box_wait",
+"caller_name": "framing_turns",
+"file": "src/cmd/verify/typed.rs",
+"line": 275
+},
+{
+"callee_name": "box_wait",
+"caller_name": "box_wait",
+"file": "src/cmd/verify/typed.rs",
+"line": 614
+},
+{
+"callee_name": "box_wait",
+"caller_name": "box_wait_keeps_waiting_past_the_gate_maximum_without_a_literal",
+"file": "src/cmd/verify/typed.rs",
+"line": 778
+},
+{
+"callee_name": "box_wait",
+"caller_name": "box_wait_ends_on_a_quiet_literal_with_its_rows",
+"file": "src/cmd/verify/typed.rs",
+"line": 791
+},
+{
+"callee_name": "box_wait",
+"caller_name": "box_wait_ends_on_a_quiet_literal_with_its_rows",
+"file": "src/cmd/verify/typed.rs",
+"line": 792
+},
+{
+"callee_name": "box_wait",
+"caller_name": "box_wait_ends_on_a_quiet_literal_with_its_rows",
+"file": "src/cmd/verify/typed.rs",
+"line": 797
+},
+{
+"callee_name": "box_wait",
+"caller_name": "box_wait_ends_on_a_quiet_literal_with_its_rows",
+"file": "src/cmd/verify/typed.rs",
+"line": 799
+},
+{
+"callee_name": "box_wait",
+"caller_name": "box_wait_ends_at_once_on_a_poisoned_screen",
+"file": "src/cmd/verify/typed.rs",
+"line": 812
+},
+{
+"callee_name": "count_of",
+"caller_name": "dialog_run",
+"file": "src/cmd/verify/typed.rs",
+"line": 142
+},
+{
+"callee_name": "count_of",
+"caller_name": "dialog_run",
+"file": "src/cmd/verify/typed.rs",
+"line": 148
+},
+{
+"callee_name": "count_of",
+"caller_name": "plan_run",
+"file": "src/cmd/verify/typed.rs",
+"line": 181
+},
+{
+"callee_name": "count_of",
+"caller_name": "framing_turns",
+"file": "src/cmd/verify/typed.rs",
+"line": 258
+},
+{
+"callee_name": "count_of",
+"caller_name": "captured",
+"file": "src/cmd/verify/typed.rs",
+"line": 330
+},
+{
+"callee_name": "end_by_ctrl_c",
+"caller_name": "trusted_run",
+"file": "src/cmd/verify/typed.rs",
+"line": 115
+},
+{
+"callee_name": "end_by_kill",
+"caller_name": "measure",
+"file": "src/cmd/verify/typed.rs",
+"line": 76
+},
+{
+"callee_name": "end_by_kill",
+"caller_name": "trusted_run",
+"file": "src/cmd/verify/typed.rs",
+"line": 110
+},
+{
+"callee_name": "end_by_kill",
+"caller_name": "dialog_run",
+"file": "src/cmd/verify/typed.rs",
+"line": 158
+},
+{
+"callee_name": "end_by_kill",
+"caller_name": "plan_run",
+"file": "src/cmd/verify/typed.rs",
+"line": 187
+},
+{
+"callee_name": "finish",
+"caller_name": "end_by_kill",
+"file": "src/cmd/verify/typed.rs",
+"line": 641
+},
+{
+"callee_name": "finish",
+"caller_name": "end_by_ctrl_c",
+"file": "src/cmd/verify/typed.rs",
+"line": 653
+},
+{
+"callee_name": "framing_turns",
+"caller_name": "trusted_run",
+"file": "src/cmd/verify/typed.rs",
+"line": 114
+},
+{
+"callee_name": "input_box_settles",
+"caller_name": "dialog_run",
+"file": "src/cmd/verify/typed.rs",
+"line": 135
+},
+{
+"callee_name": "input_box_settles",
+"caller_name": "plan_run",
+"file": "src/cmd/verify/typed.rs",
+"line": 178
+},
+{
+"callee_name": "kill",
+"caller_name": "end_by_kill",
+"file": "src/cmd/verify/typed.rs",
+"line": 640
+},
+{
+"callee_name": "kill",
+"caller_name": "end_by_ctrl_c",
+"file": "src/cmd/verify/typed.rs",
+"line": 651
+},
+{
+"callee_name": "settle",
+"caller_name": "measure",
+"file": "src/cmd/verify/typed.rs",
+"line": 75
+},
+{
+"callee_name": "settle",
+"caller_name": "trusted_run",
+"file": "src/cmd/verify/typed.rs",
+"line": 104
+},
+{
+"callee_name": "settle",
+"caller_name": "dialog_run",
+"file": "src/cmd/verify/typed.rs",
+"line": 154
+},
+{
+"callee_name": "settle",
+"caller_name": "plan_run",
+"file": "src/cmd/verify/typed.rs",
+"line": 184
+},
+{
+"callee_name": "settle",
+"caller_name": "turn",
+"file": "src/cmd/verify/typed.rs",
+"line": 245
+},
+{
+"callee_name": "settle",
+"caller_name": "framing_turns",
+"file": "src/cmd/verify/typed.rs",
+"line": 290
+},
+{
+"callee_name": "settle",
+"caller_name": "input_box_settles",
+"file": "src/cmd/verify/typed.rs",
+"line": 626
+},
+{
+"callee_name": "spawn",
+"caller_name": "measure",
+"file": "src/cmd/verify/typed.rs",
+"line": 68
+},
+{
+"callee_name": "spawn",
+"caller_name": "trusted_run",
+"file": "src/cmd/verify/typed.rs",
+"line": 97
+},
+{
+"callee_name": "spawn",
+"caller_name": "dialog_run",
+"file": "src/cmd/verify/typed.rs",
+"line": 134
+},
+{
+"callee_name": "spawn",
+"caller_name": "plan_run",
+"file": "src/cmd/verify/typed.rs",
+"line": 177
+},
+{
+"callee_name": "turn",
+"caller_name": "trusted_run",
+"file": "src/cmd/verify/typed.rs",
+"line": 113
+},
+{
+"callee_name": "wait_for",
+"caller_name": "dialog_run",
+"file": "src/cmd/verify/typed.rs",
+"line": 147
+},
+{
+"callee_name": "wait_for",
+"caller_name": "plan_run",
+"file": "src/cmd/verify/typed.rs",
+"line": 180
+},
+{
+"callee_name": "wait_for",
+"caller_name": "framing_turns",
+"file": "src/cmd/verify/typed.rs",
+"line": 269
+},
+{
+"callee_name": "wait_for",
+"caller_name": "framing_turns",
+"file": "src/cmd/verify/typed.rs",
+"line": 286
+},
+{
+"callee_name": "wait_pump",
+"caller_name": "end_by_ctrl_c",
+"file": "src/cmd/verify/typed.rs",
+"line": 647
+},
+{
+"callee_name": "wait_pump",
+"caller_name": "end_by_ctrl_c",
+"file": "src/cmd/verify/typed.rs",
+"line": 650
+},
+{
+"callee_name": "wait_pump",
+"caller_name": "finish",
+"file": "src/cmd/verify/typed.rs",
+"line": 670
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT callee_name, callee_kind, file, line FROM refs WHERE callee_file LIKE '%src/cmd/verify/typed.rs' AND callee_name IN ('SharedPty','Run','Feed','KeyPipe') ORDER BY callee_name, file, line",
+"rows": 26,
+"result": [
+{
+"callee_name": "Feed",
+"callee_kind": "type",
+"file": "src/cmd/verify/typed.rs",
+"line": 430
+},
+{
+"callee_name": "Feed",
+"callee_kind": "type",
+"file": "src/cmd/verify/typed.rs",
+"line": 451
+},
+{
+"callee_name": "Feed",
+"callee_kind": "type",
+"file": "src/cmd/verify/typed.rs",
+"line": 477
+},
+{
+"callee_name": "Feed",
+"callee_kind": "type",
+"file": "src/cmd/verify/typed.rs",
+"line": 504
+},
+{
+"callee_name": "Feed",
+"callee_kind": "type",
+"file": "src/cmd/verify/typed.rs",
+"line": 528
+},
+{
+"callee_name": "Feed",
+"callee_kind": "type",
+"file": "src/cmd/verify/typed.rs",
+"line": 555
+},
+{
+"callee_name": "Feed",
+"callee_kind": "type",
+"file": "src/cmd/verify/typed.rs",
+"line": 589
+},
+{
+"callee_name": "Feed",
+"callee_kind": "type",
+"file": "src/cmd/verify/typed.rs",
+"line": 724
+},
+{
+"callee_name": "Feed",
+"callee_kind": "type",
+"file": "src/cmd/verify/typed.rs",
+"line": 725
+},
+{
+"callee_name": "Feed",
+"callee_kind": "type",
+"file": "src/cmd/verify/typed.rs",
+"line": 852
+},
+{
+"callee_name": "KeyPipe",
+"callee_kind": "type",
+"file": "src/cmd/verify/typed.rs",
+"line": 102
+},
+{
+"callee_name": "KeyPipe",
+"callee_kind": "type",
+"file": "src/cmd/verify/typed.rs",
+"line": 134
+},
+{
+"callee_name": "KeyPipe",
+"callee_kind": "type",
+"file": "src/cmd/verify/typed.rs",
+"line": 177
+},
+{
+"callee_name": "KeyPipe",
+"callee_kind": "type",
+"file": "src/cmd/verify/typed.rs",
+"line": 358
+},
+{
+"callee_name": "KeyPipe",
+"callee_kind": "type",
+"file": "src/cmd/verify/typed.rs",
+"line": 367
+},
+{
+"callee_name": "KeyPipe",
+"callee_kind": "type",
+"file": "src/cmd/verify/typed.rs",
+"line": 865
+},
+{
+"callee_name": "Run",
+"callee_kind": "type",
+"file": "src/cmd/verify/typed.rs",
+"line": 68
+},
+{
+"callee_name": "Run",
+"callee_kind": "type",
+"file": "src/cmd/verify/typed.rs",
+"line": 97
+},
+{
+"callee_name": "Run",
+"callee_kind": "type",
+"file": "src/cmd/verify/typed.rs",
+"line": 134
+},
+{
+"callee_name": "Run",
+"callee_kind": "type",
+"file": "src/cmd/verify/typed.rs",
+"line": 177
+},
+{
+"callee_name": "Run",
+"callee_kind": "type",
+"file": "src/cmd/verify/typed.rs",
+"line": 232
+},
+{
+"callee_name": "Run",
+"callee_kind": "type",
+"file": "src/cmd/verify/typed.rs",
+"line": 256
+},
+{
+"callee_name": "Run",
+"callee_kind": "type",
+"file": "src/cmd/verify/typed.rs",
+"line": 535
+},
+{
+"callee_name": "SharedPty",
+"callee_kind": "type",
+"file": "src/cmd/verify/typed.rs",
+"line": 386
+},
+{
+"callee_name": "SharedPty",
+"callee_kind": "type",
+"file": "src/cmd/verify/typed.rs",
+"line": 392
+},
+{
+"callee_name": "SharedPty",
+"callee_kind": "type",
+"file": "src/cmd/verify/typed.rs",
+"line": 569
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'measure' AND callee_file LIKE '%src/cmd/verify/typed.rs'",
+"rows": 1,
+"result": [
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/verify/measure().",
+"file": "src/cmd/verify.rs",
+"line": 186
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

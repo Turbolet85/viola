@@ -1,0 +1,1177 @@
+[
+{
+"tool": "gate",
+"v": "1.17",
+"sha8": "383c6f7b",
+"ts": "2026-10-13T17:54:42Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors-ii/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-13T17-47-22-implement",
+"--marker",
+"2026-10-13-epoch-4-survivors-ii"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-13-epoch-4-survivors-ii · entries 21",
+"logs $TMPDIR/andromeda-gate/2026-10-13-epoch-4-survivors-ii/implement-2026-10-13T17-47-22 · bound: GNU timeout",
+"delta docs 44 · rust 1 · unmapped 4",
+"walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 49",
+"prose L176-180: The standing lint and unit entries, plus the Windows-target clippy, which reads `typed.rs`… (521 chars)",
+"prose L182-186: Three new entries: - the survivor ledger, read whole against the earlier chunk's 16 `owed`… (264 chars)",
+"prose L188-189: `cargo deny`, the harness smoke with G2 and G4, and the native `pre-push` run. The operato… (158 chars)",
+"prose L191-195: No mutation entry, no witness run and no workflow dispatch is listed (`inputs#I1`). Each k… (548 chars)",
+"  1 lint        green · exit 0 · 0.82s · 0 B → 1.log · cargo fmt --all --check",
+"  2 lint        green · exit 0 · 1.51s · 134 B → 2.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 lint        green · exit 0 · 1.73s · 134 B → 3.log · CARGO_TARGET_DIR=target/wincheck cargo clippy --workspace … (140 chars)",
+"  4 lint        green · exit 1 · 0.02s · 0 B → 4.log · rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(… (79 chars)",
+"  5 lint        green · exit 0 · 0.63s · 286 B → 5.log · bash scripts/lint-probes.sh",
+"  6 unit        green · exit 0 · 6.61s · 264005 B → 6.log · bash scripts/agent-run.sh run --unit",
+"  7 integration green · exit 0 · 35.27s · 4873 B → 7.log · bash scripts/agent-run.sh run --integration --filter 'bina… (74 chars)",
+"  8 probe       green · exit 0 · 0.02s · 2 B → 8.log · python3 -c 'import json; old={(r[\"coordinate\"],r[\"mutation… (554 chars)",
+"  9 probe       green · exit 0 · 0.01s · 2 B → 9.log · git diff -U0 --src-prefix=a/ --dst-prefix=b/ 64d7e5f7f620 … (461 chars)",
+" 10 probe       green · exit 0 · 0.01s · 0 B → 10.log · git diff --quiet 64d7e5f7f620 -- . ':!src/cmd/verify/typed… (120 chars)",
+" 11 probe       green · exit 0 · 0.79s · 9793 B → 11.log · cargo deny check",
+" 12 smoke       green · exit 0 · 0.09s · 47 B → 12.log · bash scripts/agent-run.sh cleanup --session p-e4s2-smoke",
+" 13 smoke       green · exit 0 · 4.44s · 348 B → 13.log · bash scripts/agent-run.sh boot --session p-e4s2-smoke --in… (72 chars)",
+" 14 smoke       green · exit 0 · 0.09s · 215 B → 14.log · bash scripts/agent-run.sh status --session p-e4s2-smoke",
+" 15 probe       green · exit 0 · 0.02s · 10 B → 15.log · bash scripts/g2-zero-panics.sh",
+" 16 probe       green · exit 0 · 0.11s · 104 B → 16.log · bash scripts/agent-run.sh schema-check",
+" 17 smoke       green · exit 0 · 0.3s · 177 B → 17.log · bash scripts/agent-run.sh cleanup --session p-e4s2-smoke",
+" 18 probe       green · exit 0 · 67.61s · 318472 B → 18.log · bash scripts/agent-run.sh pre-push",
+" 19 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (90 chars)",
+" 20 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (69 chars)",
+" 21 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (114 chars)",
+"entries 21 · green 18 · red 0 · recorded 0 · timeout 0 · not-run 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-13-epoch-4-survivors-ii",
+"plan": "./viola-0.1.0/chunks/2026-10-13-epoch-4-survivors-ii/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-13-epoch-4-survivors-ii/implement-2026-10-13T17-47-22",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-13T16-59-54-wrap/evolve-2026-10-13-epoch-4-survivors.json",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/a11y.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/arch-contracts.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/arch-history-index.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/arch-history.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/arch.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-13T17-26-13-phase/design.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/evolve-2026-10-13-epoch-4-survivors-ii.json",
+".andromeda/runs/2026-10-13T17-26-13-phase/gate-2026-10-13-epoch-4-survivors-ii.json",
+".andromeda/runs/2026-10-13T17-26-13-phase/inputs-2026-10-13-epoch-4-survivors-ii.json",
+".andromeda/runs/2026-10-13T17-26-13-phase/layouts-history.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/layouts.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/master-record.txt",
+".andromeda/runs/2026-10-13T17-26-13-phase/matrix-2026-10-13-epoch-4-survivors-ii.json",
+".andromeda/runs/2026-10-13T17-26-13-phase/obs-contracts.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/obs-history.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/obs.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/p5-card-1.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/p5-controls.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/planlint-2026-10-13-epoch-4-survivors-ii.json",
+".andromeda/runs/2026-10-13T17-26-13-phase/registry-2026-10-13-epoch-4-survivors-ii.json",
+".andromeda/runs/2026-10-13T17-26-13-phase/relay-1.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/route-2026-10-13-epoch-4-survivors-ii.json",
+".andromeda/runs/2026-10-13T17-26-13-phase/route-no-marker.json",
+".andromeda/runs/2026-10-13T17-26-13-phase/security-history.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/security.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/sidecar-2026-10-13-epoch-4-survivors-ii.json",
+".andromeda/runs/2026-10-13T17-26-13-phase/tests-contracts.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/tests-history-index.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/tests-history.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/tests.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/tree-query-2026-10-13-epoch-4-survivors-ii.json",
+".andromeda/runs/2026-10-13T17-47-22-implement/evolve-2026-10-13-epoch-4-survivors-ii.json",
+".andromeda/runs/2026-10-13T17-47-22-implement/journal.md",
+"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors-ii/evidence/survivors.md",
+"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors-ii/plan.md",
+"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors-ii/research.md",
+"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors-ii/scope.md"
+],
+"rust": [
+"src/cmd/verify/typed.rs"
+]
+},
+"unmapped": [
+"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors-ii/evidence/survivors.ndjson",
+"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors-ii/inputs/.gitattributes",
+"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors-ii/inputs/I1-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors-ii/inputs/andromeda-inputs.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 49,
+"problem": null
+},
+"prose": [
+{
+"from": 176,
+"to": 180,
+"text": "The standing lint and unit entries, plus the Windows-target clippy, which reads `typed.rs`'s new generic `SharedPty` and the test double on the `windows-2025` side, check only. G1 and the lint probes run. `tests/cli_verify.rs` runs whole: it is the end-to-end witness that Run B is unchanged over the fake agent. It covers the seventeen steps and the stamp, the six spawn pairs, the trusted run's typed order, the modal guards and no run dir left behind (`tests/cli_verify.rs:95`, `:398`, `:749`, `:914`, `:972`, `:995`)."
+},
+{
+"from": 182,
+"to": 186,
+"text": "Three new entries: - the survivor ledger, read whole against the earlier chunk's 16 `owed` rows; - a removed-lines guard on `typed.rs`, so no line carrying a Run B constant, paste, guard, cap or log token is taken   out; - a preservation guard on every other file."
+},
+{
+"from": 188,
+"to": 189,
+"text": "`cargo deny`, the harness smoke with G2 and G4, and the native `pre-push` run. The operator pass fires hygiene, the push and the CI read (`leg = 'operator'`)."
+},
+{
+"from": 191,
+"to": 195,
+"text": "No mutation entry, no witness run and no workflow dispatch is listed (`inputs#I1`). Each kill is a hand-applied mutant read inside a step and recorded in `evidence/survivors.md`; the Epoch 5 boundary audit reads it. No entry is a live leg: nothing starts the real `claude`, and no case starts a PTY child. The ledger entry reads `evidence/survivors.ndjson`, which step 1 writes and step 5 closes, and carries no `artifact`. The guards name their base `64d7e5f7f620` (HEAD at P4), because the operator pass's pre-CI commit moves HEAD onto the chunk."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-13-epoch-4-survivors-ii/implement-2026-10-13T17-47-22/1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.82,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-13-epoch-4-survivors-ii/implement-2026-10-13T17-47-22/2.log",
+"bytes": 134,
+"log_sha8": "48650a17",
+"exit": 0,
+"seconds": 1.51,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "CARGO_TARGET_DIR=target/wincheck cargo clippy --workspace --all-targets --features fake-agent --target x86_64-pc-windows-msvc -- -D warnings",
+"run_sha8": "4f11616c",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-13-epoch-4-survivors-ii/implement-2026-10-13T17-47-22/3.log",
+"bytes": 134,
+"log_sha8": "16554a8f",
+"exit": 0,
+"seconds": 1.73,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(?!\\(\\s*skip_all\\b)' .",
+"run_sha8": "d8c83432",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-13-epoch-4-survivors-ii/implement-2026-10-13T17-47-22/4.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.02,
+"readings": [
+"exit 1 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "bash scripts/lint-probes.sh",
+"run_sha8": "4811ad1f",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-13-epoch-4-survivors-ii/implement-2026-10-13T17-47-22/5.log",
+"bytes": 286,
+"log_sha8": "99be9959",
+"exit": 0,
+"seconds": 0.63,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-13-epoch-4-survivors-ii/implement-2026-10-13T17-47-22/6.log",
+"bytes": 264005,
+"log_sha8": "5a47d7c3",
+"exit": 0,
+"seconds": 6.61,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(cli_verify)' ",
+"run_sha8": "12f78daa",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-13-epoch-4-survivors-ii/implement-2026-10-13T17-47-22/7.log",
+"bytes": 4873,
+"log_sha8": "03dc4d30",
+"exit": 0,
+"seconds": 35.27,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "python3 -c 'import json; old={(r[\"coordinate\"],r[\"mutation\"]) for r in map(json.loads, open(\"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors/evidence/survivors.ndjson\")) if r[\"form\"]==\"owed\"}; rows=[json.loads(l) for l in open(\"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors-ii/evidence/survivors.ndjson\")]; k={(r[\"coordinate\"],r[\"mutation\"]) for r in rows}; ok=len(old)==16 and len(rows)==16 and k==old and all(r[\"form\"] in (\"test\",\"restatement\",\"not-measured-here\") for r in rows) and all(r[\"by\"] and r[\"file_at_head\"] for r in rows); print(int(ok))' ",
+"run_sha8": "6eb24be6",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-13-epoch-4-survivors-ii/implement-2026-10-13T17-47-22/8.log",
+"bytes": 2,
+"log_sha8": "4355a46b",
+"exit": 0,
+"seconds": 0.02,
+"readings": [
+"exit 0 ✓",
+"last line '1' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "git diff -U0 --src-prefix=a/ --dst-prefix=b/ 64d7e5f7f620 -- src/cmd/verify/typed.rs | python3 -c 'import sys; t=(\"const \",\"PROBE_PROMPT\",\"PROBE_LONG_PASTE\",\"PROBE_TAG_PASTE\",\"PROBE_LOCAL_COMMAND\",\"PLAN_PROMPT\",\"DIALOG_\",\"input_box_up(\",\"catch_unwind\",\"MAX_FRAME\",\"obs_event!\",\"ObsEvent\",\"Size::DEFAULT\",\"env_remove\",\"SUBJECT\",\"settle(\",\"box_wait(\"); print(sum(1 for l in sys.stdin if l.startswith(\"-\") and not l.startswith(\"---\") and any(x in l for x in t)))' ",
+"run_sha8": "35b5addb",
+"expect": [
+"exit 0",
+"last line 0"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-13-epoch-4-survivors-ii/implement-2026-10-13T17-47-22/9.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "git diff --quiet 64d7e5f7f620 -- . ':!src/cmd/verify/typed.rs' ':!.andromeda' ':!viola-0.1.0' ':!.claude' ':!CLAUDE.md' ",
+"run_sha8": "1929835e",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-13-epoch-4-survivors-ii/implement-2026-10-13T17-47-22/10.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-13-epoch-4-survivors-ii/implement-2026-10-13T17-47-22/11.log",
+"bytes": 9793,
+"log_sha8": "d52243a2",
+"exit": 0,
+"seconds": 0.79,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-e4s2-smoke",
+"run_sha8": "610c93e9",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-13-epoch-4-survivors-ii/implement-2026-10-13T17-47-22/12.log",
+"bytes": 47,
+"log_sha8": "91854d6e",
+"exit": 0,
+"seconds": 0.09,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-e4s2-smoke --instance builder",
+"run_sha8": "ca55398d",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-13-epoch-4-survivors-ii/implement-2026-10-13T17-47-22/13.log",
+"bytes": 348,
+"log_sha8": "f07c1116",
+"exit": 0,
+"seconds": 4.44,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-e4s2-smoke",
+"run_sha8": "ac0a83fc",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-13-epoch-4-survivors-ii/implement-2026-10-13T17-47-22/14.log",
+"bytes": 215,
+"log_sha8": "e8c3178c",
+"exit": 0,
+"seconds": 0.09,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "bash scripts/g2-zero-panics.sh",
+"run_sha8": "b1637f71",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-13-epoch-4-survivors-ii/implement-2026-10-13T17-47-22/15.log",
+"bytes": 10,
+"log_sha8": "6736cedd",
+"exit": 0,
+"seconds": 0.02,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-13-epoch-4-survivors-ii/implement-2026-10-13T17-47-22/16.log",
+"bytes": 104,
+"log_sha8": "6c651e9d",
+"exit": 0,
+"seconds": 0.11,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-e4s2-smoke",
+"run_sha8": "610c93e9",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-13-epoch-4-survivors-ii/implement-2026-10-13T17-47-22/17.log",
+"bytes": 177,
+"log_sha8": "8fe93e5e",
+"exit": 0,
+"seconds": 0.3,
+"readings": [
+"exit 0 ✓",
+"contains '\"processes_gone\":true' ✓",
+"contains '\"endpoint_gone\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-13-epoch-4-survivors-ii/implement-2026-10-13T17-47-22/18.log",
+"bytes": 318472,
+"log_sha8": "612afed1",
+"exit": 0,
+"seconds": 67.61,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"contains '\"stage\":\"linux-tests\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "2377245a",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.17",
+"sha8": "383c6f7b",
+"ts": "2026-10-13T17:55:32Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors-ii",
+"--run-dir",
+".andromeda/runs/2026-10-13T17-47-22-implement",
+"--marker",
+"2026-10-13-epoch-4-survivors-ii"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base HEAD (no pre-CI commit) · lists new 0 · modify 1 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"scope: clean — changed 1 · listed 1 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 49"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "HEAD",
+"base_why": "no pre-CI commit",
+"counts": {
+"changed": 1,
+"listed": 1,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 49,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.17",
+"sha8": "383c6f7b",
+"ts": "2026-10-13T17:57:22Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors-ii/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-13T17-47-22-implement",
+"--marker",
+"2026-10-13-epoch-4-survivors-ii",
+"--only",
+"18"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-13-epoch-4-survivors-ii · entries 21",
+"logs $TMPDIR/andromeda-gate/2026-10-13-epoch-4-survivors-ii/implement-2026-10-13T17-47-22 · bound: GNU timeout",
+"delta docs 46 · rust 1 · unmapped 4",
+"walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 51",
+"prose L176-180: The standing lint and unit entries, plus the Windows-target clippy, which reads `typed.rs`… (521 chars)",
+"prose L182-186: Three new entries: - the survivor ledger, read whole against the earlier chunk's 16 `owed`… (264 chars)",
+"prose L188-189: `cargo deny`, the harness smoke with G2 and G4, and the native `pre-push` run. The operato… (158 chars)",
+"prose L191-195: No mutation entry, no witness run and no workflow dispatch is listed (`inputs#I1`). Each k… (548 chars)",
+"  1 lint        not run — excluded · cargo fmt --all --check",
+"  2 lint        not run — excluded · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 lint        not run — excluded · CARGO_TARGET_DIR=target/wincheck cargo clippy --workspace … (140 chars)",
+"  4 lint        not run — excluded · rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(… (79 chars)",
+"  5 lint        not run — excluded · bash scripts/lint-probes.sh",
+"  6 unit        not run — excluded · bash scripts/agent-run.sh run --unit",
+"  7 integration not run — excluded · bash scripts/agent-run.sh run --integration --filter 'bina… (74 chars)",
+"  8 probe       not run — excluded · python3 -c 'import json; old={(r[\"coordinate\"],r[\"mutation… (554 chars)",
+"  9 probe       not run — excluded · git diff -U0 --src-prefix=a/ --dst-prefix=b/ 64d7e5f7f620 … (461 chars)",
+" 10 probe       not run — excluded · git diff --quiet 64d7e5f7f620 -- . ':!src/cmd/verify/typed… (120 chars)",
+" 11 probe       not run — excluded · cargo deny check",
+" 12 smoke       not run — excluded · bash scripts/agent-run.sh cleanup --session p-e4s2-smoke",
+" 13 smoke       not run — excluded · bash scripts/agent-run.sh boot --session p-e4s2-smoke --in… (72 chars)",
+" 14 smoke       not run — excluded · bash scripts/agent-run.sh status --session p-e4s2-smoke",
+" 15 probe       not run — excluded · bash scripts/g2-zero-panics.sh",
+" 16 probe       not run — excluded · bash scripts/agent-run.sh schema-check",
+" 17 smoke       not run — excluded · bash scripts/agent-run.sh cleanup --session p-e4s2-smoke",
+" 18 probe       green · exit 0 · 66.61s · 318472 B → 18.2.log · bash scripts/agent-run.sh pre-push",
+" 19 probe       not run — excluded · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (90 chars)",
+" 20 probe       not run — excluded · git diff --quiet && git diff --cached --quiet && git push … (69 chars)",
+" 21 probe       not run — excluded · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (114 chars)",
+"entries 21 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 20"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-13-epoch-4-survivors-ii",
+"plan": "./viola-0.1.0/chunks/2026-10-13-epoch-4-survivors-ii/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-13-epoch-4-survivors-ii/implement-2026-10-13T17-47-22",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-13T16-59-54-wrap/evolve-2026-10-13-epoch-4-survivors.json",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/a11y.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/arch-contracts.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/arch-history-index.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/arch-history.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/arch.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-13T17-26-13-phase/design.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/evolve-2026-10-13-epoch-4-survivors-ii.json",
+".andromeda/runs/2026-10-13T17-26-13-phase/gate-2026-10-13-epoch-4-survivors-ii.json",
+".andromeda/runs/2026-10-13T17-26-13-phase/inputs-2026-10-13-epoch-4-survivors-ii.json",
+".andromeda/runs/2026-10-13T17-26-13-phase/layouts-history.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/layouts.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/master-record.txt",
+".andromeda/runs/2026-10-13T17-26-13-phase/matrix-2026-10-13-epoch-4-survivors-ii.json",
+".andromeda/runs/2026-10-13T17-26-13-phase/obs-contracts.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/obs-history.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/obs.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/p5-card-1.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/p5-controls.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/planlint-2026-10-13-epoch-4-survivors-ii.json",
+".andromeda/runs/2026-10-13T17-26-13-phase/registry-2026-10-13-epoch-4-survivors-ii.json",
+".andromeda/runs/2026-10-13T17-26-13-phase/relay-1.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/route-2026-10-13-epoch-4-survivors-ii.json",
+".andromeda/runs/2026-10-13T17-26-13-phase/route-no-marker.json",
+".andromeda/runs/2026-10-13T17-26-13-phase/security-history.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/security.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/sidecar-2026-10-13-epoch-4-survivors-ii.json",
+".andromeda/runs/2026-10-13T17-26-13-phase/tests-contracts.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/tests-history-index.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/tests-history.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/tests.md",
+".andromeda/runs/2026-10-13T17-26-13-phase/tree-query-2026-10-13-epoch-4-survivors-ii.json",
+".andromeda/runs/2026-10-13T17-47-22-implement/evolve-2026-10-13-epoch-4-survivors-ii.json",
+".andromeda/runs/2026-10-13T17-47-22-implement/gate-2026-10-13-epoch-4-survivors-ii.json",
+".andromeda/runs/2026-10-13T17-47-22-implement/journal.md",
+".andromeda/runs/2026-10-13T17-47-22-implement/outcome-2026-10-13-epoch-4-survivors-ii.md",
+"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors-ii/evidence/survivors.md",
+"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors-ii/plan.md",
+"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors-ii/research.md",
+"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors-ii/scope.md"
+],
+"rust": [
+"src/cmd/verify/typed.rs"
+]
+},
+"unmapped": [
+"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors-ii/evidence/survivors.ndjson",
+"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors-ii/inputs/.gitattributes",
+"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors-ii/inputs/I1-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors-ii/inputs/andromeda-inputs.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 51,
+"problem": null
+},
+"prose": [
+{
+"from": 176,
+"to": 180,
+"text": "The standing lint and unit entries, plus the Windows-target clippy, which reads `typed.rs`'s new generic `SharedPty` and the test double on the `windows-2025` side, check only. G1 and the lint probes run. `tests/cli_verify.rs` runs whole: it is the end-to-end witness that Run B is unchanged over the fake agent. It covers the seventeen steps and the stamp, the six spawn pairs, the trusted run's typed order, the modal guards and no run dir left behind (`tests/cli_verify.rs:95`, `:398`, `:749`, `:914`, `:972`, `:995`)."
+},
+{
+"from": 182,
+"to": 186,
+"text": "Three new entries: - the survivor ledger, read whole against the earlier chunk's 16 `owed` rows; - a removed-lines guard on `typed.rs`, so no line carrying a Run B constant, paste, guard, cap or log token is taken   out; - a preservation guard on every other file."
+},
+{
+"from": 188,
+"to": 189,
+"text": "`cargo deny`, the harness smoke with G2 and G4, and the native `pre-push` run. The operator pass fires hygiene, the push and the CI read (`leg = 'operator'`)."
+},
+{
+"from": 191,
+"to": 195,
+"text": "No mutation entry, no witness run and no workflow dispatch is listed (`inputs#I1`). Each kill is a hand-applied mutant read inside a step and recorded in `evidence/survivors.md`; the Epoch 5 boundary audit reads it. No entry is a live leg: nothing starts the real `claude`, and no case starts a PTY child. The ledger entry reads `evidence/survivors.ndjson`, which step 1 writes and step 5 closes, and carries no `artifact`. The guards name their base `64d7e5f7f620` (HEAD at P4), because the operator pass's pre-CI commit moves HEAD onto the chunk."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "CARGO_TARGET_DIR=target/wincheck cargo clippy --workspace --all-targets --features fake-agent --target x86_64-pc-windows-msvc -- -D warnings",
+"run_sha8": "4f11616c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(?!\\(\\s*skip_all\\b)' .",
+"run_sha8": "d8c83432",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "bash scripts/lint-probes.sh",
+"run_sha8": "4811ad1f",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(cli_verify)' ",
+"run_sha8": "12f78daa",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "python3 -c 'import json; old={(r[\"coordinate\"],r[\"mutation\"]) for r in map(json.loads, open(\"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors/evidence/survivors.ndjson\")) if r[\"form\"]==\"owed\"}; rows=[json.loads(l) for l in open(\"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors-ii/evidence/survivors.ndjson\")]; k={(r[\"coordinate\"],r[\"mutation\"]) for r in rows}; ok=len(old)==16 and len(rows)==16 and k==old and all(r[\"form\"] in (\"test\",\"restatement\",\"not-measured-here\") for r in rows) and all(r[\"by\"] and r[\"file_at_head\"] for r in rows); print(int(ok))' ",
+"run_sha8": "6eb24be6",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "git diff -U0 --src-prefix=a/ --dst-prefix=b/ 64d7e5f7f620 -- src/cmd/verify/typed.rs | python3 -c 'import sys; t=(\"const \",\"PROBE_PROMPT\",\"PROBE_LONG_PASTE\",\"PROBE_TAG_PASTE\",\"PROBE_LOCAL_COMMAND\",\"PLAN_PROMPT\",\"DIALOG_\",\"input_box_up(\",\"catch_unwind\",\"MAX_FRAME\",\"obs_event!\",\"ObsEvent\",\"Size::DEFAULT\",\"env_remove\",\"SUBJECT\",\"settle(\",\"box_wait(\"); print(sum(1 for l in sys.stdin if l.startswith(\"-\") and not l.startswith(\"---\") and any(x in l for x in t)))' ",
+"run_sha8": "35b5addb",
+"expect": [
+"exit 0",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "git diff --quiet 64d7e5f7f620 -- . ':!src/cmd/verify/typed.rs' ':!.andromeda' ':!viola-0.1.0' ':!.claude' ':!CLAUDE.md' ",
+"run_sha8": "1929835e",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-e4s2-smoke",
+"run_sha8": "610c93e9",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-e4s2-smoke --instance builder",
+"run_sha8": "ca55398d",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-e4s2-smoke",
+"run_sha8": "ac0a83fc",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "bash scripts/g2-zero-panics.sh",
+"run_sha8": "b1637f71",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-e4s2-smoke",
+"run_sha8": "610c93e9",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-13-epoch-4-survivors-ii/implement-2026-10-13T17-47-22/18.2.log",
+"bytes": 318472,
+"log_sha8": "c4d3f833",
+"exit": 0,
+"seconds": 66.61,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓",
+"contains '\"stage\":\"linux-tests\"' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "2377245a",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.17",
+"sha8": "383c6f7b",
+"ts": "2026-10-13T17:57:28Z",
+"argv": [
+"show",
+"--run-dir",
+".andromeda/runs/2026-10-13T17-47-22-implement",
+"--marker",
+"2026-10-13-epoch-4-survivors-ii",
+"--n",
+"18"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"18 probe green",
+"run (4da4c5c8): bash scripts/agent-run.sh pre-push",
+"  exit 0 ✓",
+"  contains '\"ok\":true' ✓",
+"  contains '\"stage\":\"linux-tests\"' ✓",
+"firings of entry 18 in this trail: 2 — 1 green · 2 green · shown: 2",
+"log $TMPDIR/andromeda-gate/2026-10-13-epoch-4-survivors-ii/implement-2026-10-13T17-47-22/18.2.log · 318472 B · c4d3f833",
+"--- no anchored failure; last 20 non-empty lines ---",
+"test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+"running 0 tests",
+"test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+"running 0 tests",
+"test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+"running 0 tests",
+"test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+"running 0 tests",
+"test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+"running 0 tests",
+"test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+"{\"v\":1,\"cmd\":\"run\",\"ok\":true,\"suites\":[{\"suite\":\"coverage\",\"passed\":2452,\"failed\":0,\"skipped\":0,\"survived\":0,\"artifact\":\"./target/agent-run/artifacts/junit-coverage.xml\",\"failures\":[]},{\"suite\":\"doctest\",\"passed\":0,\"failed\":0,\"skipped\":0,\"survived\":0,\"artifact\":null,\"failures\":[]}],\"archived\":\"target/run-archive/1191\"}",
+"added 3 packages, and audited 4 packages in 481ms",
+"found 0 vulnerabilities",
+"Running 1 test using 1 worker",
+"[1/1] [chromium] › tests/pipe-reachability.spec.ts:7:5 › pipe: the stub page shows its heading",
+"  1 passed (446ms)",
+"{\"v\":1,\"cmd\":\"run\",\"ok\":true,\"suites\":[{\"suite\":\"playwright\",\"passed\":1,\"failed\":0,\"skipped\":0,\"survived\":0,\"artifact\":\"./e2e-web/pw.json\",\"failures\":[]}],\"archived\":\"target/run-archive/1192\"}",
+"{\"v\":1,\"cmd\":\"gate\",\"ok\":true,\"breaches\":[]}",
+"{\"v\":1,\"cmd\":\"pre-push\",\"ok\":true,\"stage\":\"linux-tests\",\"linux\":{\"run\":{\"ok\":true,\"suites\":[{\"suite\":\"coverage\",\"passed\":2452,\"failed\":0,\"skipped\":0,\"failures\":[]},{\"suite\":\"doctest\",\"passed\":0,\"failed\":0,\"skipped\":0,\"failures\":[]}]},\"browser\":{\"ok\":true,\"suites\":[{\"suite\":\"playwright\",\"passed\":1,\"failed\":0,\"skipped\":0,\"failures\":[]}]},\"gate\":{\"ok\":true,\"breaches\":[]}}}"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

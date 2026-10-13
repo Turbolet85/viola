@@ -144,7 +144,7 @@ fn dialog_run(
             if run.paste.paste(prompt).is_err() {
                 break;
             }
-            let until = clock.now() + PROBE_DEADLINE;
+            let until = probe_until(clock.as_ref());
             let stopped = wait_for(clock.as_ref(), until, || {
                 count_of(captures, HookEvent::Stop) > stops
             });
@@ -177,7 +177,7 @@ fn plan_run(clock: &Arc<dyn Clock>, inputs: &Inputs<'_>, args: &[OsString]) -> a
     let (keys, pipe) = mpsc::channel::<Vec<u8>>();
     let run = Run::spawn(clock, inputs, &args, &dir.0, Box::new(KeyPipe::new(pipe)))?;
     if run.input_box_settles() && run.paste.paste(PLAN_PROMPT).is_ok() {
-        let until = clock.now() + PROBE_DEADLINE;
+        let until = probe_until(clock.as_ref());
         let stopped = wait_for(clock.as_ref(), until, || {
             count_of(inputs.plan.captures, HookEvent::Stop) > 0
         });
@@ -266,9 +266,8 @@ fn framing_turns(run: &Run, captures: &Path, mut rows: Option<Vec<String>>) {
         if run.paste.paste(text).is_err() {
             return;
         }
-        let until = clock.now() + PROBE_DEADLINE;
-        let stopped = wait_for(clock, until, || {
-            count(HookEvent::UserPromptSubmit) > prompts && count(HookEvent::Stop) > stops
+        let stopped = wait_for(clock, probe_until(clock), || {
+            added_turn_ended(captures, prompts, stops)
         });
         let Some(stopped) = stopped else {
             return;
@@ -283,13 +282,30 @@ fn framing_turns(run: &Run, captures: &Path, mut rows: Option<Vec<String>>) {
     if run.paste.paste(PROBE_LOCAL_COMMAND).is_err() {
         return;
     }
-    let until = clock.now() + PROBE_DEADLINE;
-    let answered = wait_for(clock, until, || {
-        count(HookEvent::SessionStart) > starts || count(HookEvent::UserPromptSubmit) > prompts
+    let answered = wait_for(clock, probe_until(clock), || {
+        local_command_answered(captures, starts, prompts)
     });
     if let Some(answered) = answered {
         run.settle(answered);
     }
+}
+
+/// One more UserPromptSubmit and one more Stop than `prompts` and `stops`: an added paste's turn ended.
+fn added_turn_ended(captures: &Path, prompts: usize, stops: usize) -> bool {
+    count_of(captures, HookEvent::UserPromptSubmit) > prompts
+        && count_of(captures, HookEvent::Stop) > stops
+}
+
+/// One more SessionStart than `starts` or one more UserPromptSubmit than `prompts`: the probed local
+/// command was answered.
+fn local_command_answered(captures: &Path, starts: usize, prompts: usize) -> bool {
+    count_of(captures, HookEvent::SessionStart) > starts
+        || count_of(captures, HookEvent::UserPromptSubmit) > prompts
+}
+
+/// `PROBE_DEADLINE` from now: every wait a run starts at the clock's present.
+fn probe_until(clock: &dyn Clock) -> Instant {
+    clock.now() + PROBE_DEADLINE
 }
 
 fn ms(d: Duration) -> u64 {
@@ -382,15 +398,15 @@ impl Read for KeyPipe {
 
 /// The PTY shared between the pump and the drive, locked per call, so the drive's kill lands
 /// between the pump's ticks.
-struct SharedPty(Arc<Mutex<PortablePty>>);
+struct SharedPty<P>(Arc<Mutex<P>>);
 
-impl SharedPty {
-    fn lock(&self) -> MutexGuard<'_, PortablePty> {
+impl<P> SharedPty<P> {
+    fn lock(&self) -> MutexGuard<'_, P> {
         self.0.lock().unwrap_or_else(PoisonError::into_inner)
     }
 }
 
-impl Pty for SharedPty {
+impl<P: Pty> Pty for SharedPty<P> {
     fn reader(&mut self) -> Result<Box<dyn Read + Send>, PtyError> {
         self.lock().reader()
     }
@@ -522,6 +538,34 @@ fn box_wait(feed: &Feed, from: Instant, now: Instant) -> Option<Settled> {
         })
 }
 
+/// Ctrl-C, again unless `ended` by `CTRL_C_AGAIN` from now (the CLI's first one only arms its
+/// exit), then `kill` unless `ended` by `PROBE_DEADLINE` from now.
+fn ctrl_c_ending(
+    clock: &dyn Clock,
+    mut ctrl_c: impl FnMut(),
+    mut ended: impl FnMut(Instant) -> bool,
+    mut kill: impl FnMut(),
+) {
+    ctrl_c();
+    if !ended(clock.now() + CTRL_C_AGAIN) {
+        ctrl_c();
+    }
+    if !ended(probe_until(clock)) {
+        kill();
+    }
+}
+
+/// Whether `finished` holds by `until`, polled every `POLL`.
+fn ended_by(clock: &dyn Clock, until: Instant, finished: impl Fn() -> bool) -> bool {
+    while !finished() {
+        if clock.now() >= until {
+            return false;
+        }
+        std::thread::sleep(POLL);
+    }
+    true
+}
+
 /// One child under the PTY, its pump on its own thread.
 struct Run {
     clock: Arc<dyn Clock>,
@@ -644,31 +688,23 @@ impl Run {
 
     /// Ctrl-C, again after `CTRL_C_AGAIN` while the child runs, then a kill at `PROBE_DEADLINE`.
     fn end_by_ctrl_c(self, keys: &Sender<Vec<u8>>) {
-        let _ = keys.send(CTRL_C.to_vec());
-        if !self.wait_pump(self.clock.now() + CTRL_C_AGAIN) {
-            let _ = keys.send(CTRL_C.to_vec());
-        }
-        if !self.wait_pump(self.clock.now() + PROBE_DEADLINE) {
-            self.kill();
-        }
+        let clock = self.clock.as_ref();
+        ctrl_c_ending(
+            clock,
+            || {
+                let _ = keys.send(CTRL_C.to_vec());
+            },
+            |until| ended_by(clock, until, || self.pump.is_finished()),
+            || self.kill(),
+        );
         self.finish();
-    }
-
-    /// Whether the pump returned by `until`.
-    fn wait_pump(&self, until: Instant) -> bool {
-        while !self.pump.is_finished() {
-            if self.clock.now() >= until {
-                return false;
-            }
-            std::thread::sleep(POLL);
-        }
-        true
     }
 
     /// The pump's end, logged as the run's `process-exit`; a pump still running after the kill's
     /// wait is left to end on its own.
     fn finish(self) {
-        let ended = self.wait_pump(self.clock.now() + PROBE_DEADLINE);
+        let clock = self.clock.as_ref();
+        let ended = ended_by(clock, probe_until(clock), || self.pump.is_finished());
         let status = if ended {
             self.pump.join().ok().flatten().and_then(|end| match end {
                 PumpEnd::Exited(exit) | PumpEnd::WorkerPanicked(exit) => exit.code,
@@ -688,6 +724,10 @@ impl Run {
 
 #[cfg(test)]
 mod tests {
+    use std::cell::Cell;
+
+    use rstest::rstest;
+
     use super::*;
 
     fn rows(list: &[&str]) -> Vec<String> {
@@ -910,5 +950,185 @@ mod tests {
         assert!(captured(tmp.path(), HookEvent::UserPromptSubmit));
         assert!(!captured(tmp.path(), HookEvent::Stop));
         assert!(!captured(&tmp.path().join("missing"), HookEvent::Stop));
+    }
+
+    fn plant(dir: &Path, event: &str, n: usize) {
+        for k in 1..=n {
+            std::fs::write(dir.join(format!("{event}.{k}.json")), b"{}").expect("capture");
+        }
+    }
+
+    #[rstest]
+    #[case::none_added(0, 0, 0, 0, false)]
+    #[case::a_prompt_and_no_stop(1, 0, 0, 0, false)]
+    #[case::a_stop_and_no_prompt(0, 1, 0, 0, false)]
+    #[case::both_added(1, 1, 0, 0, true)]
+    #[case::both_already_there(1, 1, 1, 1, false)]
+    fn added_turn_ended_needs_a_new_prompt_and_a_new_stop(
+        #[case] planted_prompts: usize,
+        #[case] planted_stops: usize,
+        #[case] prompts: usize,
+        #[case] stops: usize,
+        #[case] expected: bool,
+    ) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        plant(tmp.path(), "UserPromptSubmit", planted_prompts);
+        plant(tmp.path(), "Stop", planted_stops);
+        assert_eq!(added_turn_ended(tmp.path(), prompts, stops), expected);
+    }
+
+    #[rstest]
+    #[case::none_added(0, 0, 0, 0, false)]
+    #[case::a_start(1, 0, 0, 0, true)]
+    #[case::a_prompt(0, 1, 0, 0, true)]
+    #[case::a_start_already_there(1, 0, 1, 0, false)]
+    fn local_command_answered_needs_a_new_start_or_a_new_prompt(
+        #[case] planted_starts: usize,
+        #[case] planted_prompts: usize,
+        #[case] starts: usize,
+        #[case] prompts: usize,
+        #[case] expected: bool,
+    ) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        plant(tmp.path(), "SessionStart", planted_starts);
+        plant(tmp.path(), "UserPromptSubmit", planted_prompts);
+        assert_eq!(
+            local_command_answered(tmp.path(), starts, prompts),
+            expected
+        );
+    }
+
+    struct FixedClock(Instant);
+
+    impl Clock for FixedClock {
+        fn now(&self) -> Instant {
+            self.0
+        }
+    }
+
+    #[test]
+    fn probe_until_is_the_probe_deadline_after_now() {
+        let t = Instant::now();
+        assert_eq!(probe_until(&FixedClock(t)), t + Duration::from_secs(120));
+    }
+
+    #[derive(Default)]
+    struct Recording {
+        resized: Option<Size>,
+        closes: usize,
+    }
+
+    impl Pty for Recording {
+        fn reader(&mut self) -> Result<Box<dyn Read + Send>, PtyError> {
+            Ok(Box::new(io::empty()))
+        }
+
+        fn writer(&mut self) -> Result<Box<dyn Write + Send>, PtyError> {
+            Ok(Box::new(io::sink()))
+        }
+
+        fn resize(&mut self, size: Size) -> Result<(), PtyError> {
+            self.resized = Some(size);
+            Ok(())
+        }
+
+        fn try_wait(&mut self) -> Result<Option<u32>, PtyError> {
+            Ok(None)
+        }
+
+        fn kill(&mut self) -> Result<(), PtyError> {
+            Ok(())
+        }
+
+        fn close(&mut self) {
+            self.closes += 1;
+        }
+
+        fn child_pid(&self) -> Option<u32> {
+            Some(4242)
+        }
+    }
+
+    fn shared() -> SharedPty<Recording> {
+        SharedPty(Arc::new(Mutex::new(Recording::default())))
+    }
+
+    #[test]
+    fn shared_pty_resize_reaches_its_pty_with_the_size() {
+        let mut pty = shared();
+        pty.resize(Size {
+            cols: 120,
+            rows: 40,
+        })
+        .expect("resize");
+        assert_eq!(
+            pty.lock().resized,
+            Some(Size {
+                cols: 120,
+                rows: 40
+            })
+        );
+    }
+
+    #[test]
+    fn shared_pty_close_reaches_its_pty_once() {
+        let mut pty = shared();
+        pty.close();
+        assert_eq!(pty.lock().closes, 1);
+    }
+
+    #[test]
+    fn shared_pty_child_pid_is_its_ptys() {
+        assert_eq!(shared().child_pid(), Some(4242));
+    }
+
+    #[rstest]
+    #[case::ended_by_the_first([true, true], 1, 0)]
+    #[case::ended_by_the_second([false, true], 2, 0)]
+    #[case::never_ended([false, false], 2, 1)]
+    #[case::ended_then_not([true, false], 1, 1)]
+    fn ctrl_c_ending_sends_again_only_when_the_first_did_not_end_it(
+        #[case] readings: [bool; 2],
+        #[case] expected_sends: usize,
+        #[case] expected_kills: usize,
+    ) {
+        let t = Instant::now();
+        let mut readings = readings.into_iter();
+        let (mut sends, mut waits, mut kills) = (0, Vec::new(), 0);
+        ctrl_c_ending(
+            &FixedClock(t),
+            || sends += 1,
+            |until| {
+                waits.push(until);
+                readings.next().expect("a reading")
+            },
+            || kills += 1,
+        );
+        assert_eq!(sends, expected_sends);
+        assert_eq!(
+            waits,
+            [t + Duration::from_millis(500), t + Duration::from_secs(120)]
+        );
+        assert_eq!(kills, expected_kills);
+    }
+
+    #[rstest]
+    #[case::finished_before_the_deadline(2000, 2, true)]
+    #[case::never_finished_at_the_deadline(1000, 4, false)]
+    #[case::finished_after_the_deadline(1000, 2, false)]
+    #[case::deadline_already_past(0, 2, false)]
+    fn ended_by_reads_true_once_finished_and_false_once_the_deadline_passes(
+        #[case] until_ms: u64,
+        #[case] finished_from: usize,
+        #[case] expected: bool,
+    ) {
+        let t = Instant::now();
+        let calls = Cell::new(0);
+        let finished = || {
+            calls.set(calls.get() + 1);
+            calls.get() >= finished_from
+        };
+        let clock = FixedClock(t + ms_(1000));
+        assert_eq!(ended_by(&clock, t + ms_(until_ms), finished), expected);
     }
 }

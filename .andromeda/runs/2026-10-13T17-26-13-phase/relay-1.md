@@ -1,0 +1,1 @@
+Epoch 4 survivors II. No mutation run, witness run or workflow dispatch inside the chunk (the founder's standing direction): a kill is shown by applying the mutant by hand, and each survivor is worded by what the next boundary audit reads. No live claude start without his cap. Size it against one window at P5.
