@@ -617,6 +617,10 @@ mod tests {
     #[case::modify_other_keys_of_five(b"\x1b[>5;1m".as_slice())]
     #[case::modify_other_keys_with_one_field(b"\x1b[>4m".as_slice())]
     #[case::modify_other_keys_with_question(b"\x1b[?4;1m".as_slice())]
+    #[case::sgr_mouse_one_past_the_bound(&[b"\x1b[<0;10;".as_slice(), &[b'5'; BOUND - 5], b"M"].concat())]
+    #[case::dcs_ended_by_bel(b"\x1bP1$r0m\x07".as_slice())]
+    #[case::osc_one_past_the_bound(&[b"\x1b]".as_slice(), &[b'x'; BOUND + 1], b"\x07"].concat())]
+    #[case::kitty_flags_with_two_fields(b"\x1b[?1;2u".as_slice())]
     fn classifier_typing_is_editing(#[case] bytes: &[u8]) {
         assert!(Classifier::default().feed(bytes), "{bytes:?}");
     }
@@ -630,8 +634,27 @@ mod tests {
     #[case::in_band_resize(b"\x1b[48;45;210;675;1260t".as_slice())]
     #[case::modify_other_keys(b"\x1b[>4;1m".as_slice())]
     #[case::colour_scheme_light(b"\x1b[?997;2n".as_slice())]
+    #[case::sgr_mouse_at_the_bound(&[b"\x1b[<0;10;".as_slice(), &[b'5'; BOUND - 6], b"M"].concat())]
+    #[case::osc_at_the_bound(&[b"\x1b]".as_slice(), &[b'x'; BOUND], b"\x07"].concat())]
+    #[case::da1_with_no_field(b"\x1b[?c".as_slice())]
+    #[case::da2_with_no_field(b"\x1b[>c".as_slice())]
     fn classifier_terminal_reply_is_not_editing(#[case] bytes: &[u8]) {
         assert!(!Classifier::default().feed(bytes), "{bytes:?}");
+    }
+
+    /// Two reads into one classifier: what the first leaves unfinished decides the second.
+    #[rstest]
+    #[case::esc_key_then_a_focus_report(b"\x1b\x1b[".as_slice(), b"I".as_slice(), true, false)]
+    #[case::csi_cut_by_an_escape_then_a_focus_report(b"\x1b[1\x1b[".as_slice(), b"I".as_slice(), true, false)]
+    fn classifier_split_reads_carry_the_unfinished_sequence(
+        #[case] first: &[u8],
+        #[case] second: &[u8],
+        #[case] first_editing: bool,
+        #[case] second_editing: bool,
+    ) {
+        let mut keys = Classifier::default();
+        assert_eq!(keys.feed(first), first_editing, "first: {first:?}");
+        assert_eq!(keys.feed(second), second_editing, "second: {second:?}");
     }
 
     #[test]
@@ -905,6 +928,24 @@ mod tests {
         assert_eq!(
             read_snapshot(tmp.path()).expect("snapshot").wheel,
             Wheel::Driver
+        );
+    }
+
+    /// The snapshot lands but the `wheel` record cannot (`events.ndjson` is a directory): the move
+    /// is not recorded, so the pause that waits on it is `-32603`.
+    #[test]
+    fn wheel_pause_whose_record_cannot_be_appended_is_internal() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let wheel = recorded(tmp.path());
+        std::fs::create_dir(tmp.path().join("events.ndjson")).expect("a dir in the log's place");
+        assert_eq!(
+            wheel.pause(&call(&json!({"v": 1}))),
+            Err(ProtocolError::Internal)
+        );
+        assert_eq!(
+            read_snapshot(tmp.path()).expect("snapshot").wheel,
+            Wheel::Human,
+            "the snapshot write landed"
         );
     }
 

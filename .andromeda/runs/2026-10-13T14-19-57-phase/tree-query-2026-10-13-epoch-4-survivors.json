@@ -1,0 +1,142 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'replace_private_with' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 6,
+"result": [
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 fs/replace_private().",
+"file": "crates/viola-state/src/fs.rs",
+"line": 263
+},
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 fs/tests/replace_private_with_never_pauses_a_replace_that_lands().",
+"file": "crates/viola-state/src/fs.rs",
+"line": 406
+},
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 fs/tests/",
+"file": "crates/viola-state/src/fs.rs",
+"line": 422
+},
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 fs/tests/",
+"file": "crates/viola-state/src/fs.rs",
+"line": 439
+},
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 snapshot/",
+"file": "crates/viola-state/src/snapshot.rs",
+"line": 14
+},
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 snapshot/write_snapshot_with().",
+"file": "crates/viola-state/src/snapshot.rs",
+"line": 107
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'retry_replace' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 5,
+"result": [
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 fs/replace_private_with().",
+"file": "crates/viola-state/src/fs.rs",
+"line": 285
+},
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 fs/tests/retry_replace_waits_only_for_a_windows_reader_refusal().",
+"file": "crates/viola-state/src/fs.rs",
+"line": 386
+},
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 fs/tests/retry_replace_waits_only_for_a_windows_reader_refusal().",
+"file": "crates/viola-state/src/fs.rs",
+"line": 388
+},
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 fs/tests/retry_replace_waits_only_for_a_windows_reader_refusal().",
+"file": "crates/viola-state/src/fs.rs",
+"line": 392
+},
+{
+"caller": "rust-analyzer cargo viola-state 0.1.0 fs/tests/retry_replace_waits_only_for_a_windows_reader_refusal().",
+"file": "crates/viola-state/src/fs.rs",
+"line": 395
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'shell_argv' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 3,
+"result": [
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 statusline/tests/statusline_shell_is_bin_sh_with_the_command_as_one_argument().",
+"file": "crates/viola-agent-claude/src/statusline.rs",
+"line": 384
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/hook/statusline/serve().",
+"file": "src/cmd/hook/statusline.rs",
+"line": 144
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/hook/statusline/tests/shell/sh().",
+"file": "src/cmd/hook/statusline.rs",
+"line": 590
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'prepare' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 4,
+"result": [
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants/mutate().",
+"file": "crates/viola-e2e/src/harness/run/mutants.rs",
+"line": 223
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants/scratch/tests/prepare_empties_the_scratch_and_reports_what_it_held().",
+"file": "crates/viola-e2e/src/harness/run/mutants/scratch.rs",
+"line": 163
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants/scratch/tests/prepare_empties_the_scratch_and_reports_what_it_held().",
+"file": "crates/viola-e2e/src/harness/run/mutants/scratch.rs",
+"line": 172
+},
+{
+"caller": "rust-analyzer cargo viola-e2e 0.1.0 harness/run/mutants/scratch/tests/prepare_empties_the_scratch_and_reports_what_it_held().",
+"file": "crates/viola-e2e/src/harness/run/mutants/scratch.rs",
+"line": 179
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'millis' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 2,
+"result": [
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/dialog/impl#[DialogSlot]await_answer().",
+"file": "src/run/dialog.rs",
+"line": 277
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 run/dialog/impl#[DialogSlot]answer().",
+"file": "src/run/dialog.rs",
+"line": 379
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

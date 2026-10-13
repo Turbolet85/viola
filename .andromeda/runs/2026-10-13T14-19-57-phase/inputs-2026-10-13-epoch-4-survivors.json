@@ -1,0 +1,252 @@
+[
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-13T14:20:36Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors",
+"--message-file",
+".andromeda/runs/2026-10-13T14-19-57-phase/relay-1.md",
+"--origin",
+"the operator, the /andromeda-phase invocation arguments, 2026-10-13T14:19Z",
+"--kind",
+"relay",
+"--why",
+"the operator relays the founder: no epoch boundary inside Epoch 5; no mutation run, witness run or workflow dispatch inside the chunk; no live claude start without his cap; size against one window at P5",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-10-13T14-19-57-phase",
+"--marker",
+"2026-10-13-epoch-4-survivors"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy message · message: the operator, the /andromeda-phase invocation arguments, 2026-10-13T14:19Z",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, the /andromeda-phase invocation arguments, 2026-10-13T14:19Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "3abfda23e1b1f871b1e92c41aaaafd37aed4e456b3759e513faa103b9bc24a18",
+"copy": "I1-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-13T14:20:36Z",
+"step": "phase:P1",
+"why": "the operator relays the founder: no epoch boundary inside Epoch 5; no mutation run, witness run or workflow dispatch inside the chunk; no live claude start without his cap; size against one window at P5"
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-13T15:50:17Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors",
+"--message-file",
+".andromeda/runs/2026-10-13T14-19-57-phase/relay-2.md",
+"--origin",
+"the founder, by dialog (\"Делить на две\"), relayed verbatim by the operator, 2026-10-13",
+"--kind",
+"relay",
+"--why",
+"the founder answered the P4 Size fork himself: split; this chunk takes the 31 plus the 2 scratch.rs records, a new entry \"Epoch 4 survivors II\" directly after it takes typed.rs other 16",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-10-13T14-19-57-phase",
+"--marker",
+"2026-10-13-epoch-4-survivors"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: the founder, by dialog (\"Делить на две\"), relayed verbatim by the operator, 2026-10-13",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: the founder, by dialog (\"Делить на две\"), relayed verbatim by the operator, 2026-10-13",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "768e16141b2669cc97b107984902c99618fa79a266afeeae9437f8e5b39ebc8e",
+"copy": "I2-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-13T15:50:17Z",
+"step": "phase:P4",
+"why": "the founder answered the P4 Size fork himself: split; this chunk takes the 31 plus the 2 scratch.rs records, a new entry \"Epoch 4 survivors II\" directly after it takes typed.rs other 16"
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-13T15:56:41Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors",
+"--run-dir",
+".andromeda/runs/2026-10-13T14-19-57-phase",
+"--marker",
+"2026-10-13-epoch-4-survivors"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation arguments, 2026-10-13T14:19Z",
+"I1 cited scope.md:9 · scope.md:41 · scope.md:60 · scope.md:117 · scope.md:120 · scope.md:122 · scope.md:127 · research.md:9 · research.md:12 · research.md:130 · plan.md:14 · plan.md:27 · plan.md:64 · plan.md:195 · plan.md:335 · plan.md:394 · plan.md:403",
+"I2 n/a — a message has no live source · copy message · message: the founder, by dialog (\"Делить на две\"), relayed verbatim by the operator, 2026-10-13",
+"I2 cited scope.md:19 · scope.md:64 · scope.md:128 · research.md:134 · research.md:154 · research.md:165 · plan.md:10 · plan.md:164 · plan.md:236 (in fence) · plan.md:244 (in fence) · plan.md:332 · plan.md:355 · plan.md:385 · plan.md:395 · plan.md:421",
+"inputs: 2 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-13T15:58:29Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors",
+"--run-dir",
+".andromeda/runs/2026-10-13T14-19-57-phase",
+"--marker",
+"2026-10-13-epoch-4-survivors"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation arguments, 2026-10-13T14:19Z",
+"I1 cited scope.md:9 · scope.md:41 · scope.md:60 · scope.md:117 · scope.md:120 · scope.md:122 · scope.md:127 · research.md:9 · research.md:12 · research.md:130 · plan.md:14 · plan.md:27 · plan.md:64 · plan.md:195 · plan.md:342 · plan.md:401 · plan.md:410",
+"I2 n/a — a message has no live source · copy message · message: the founder, by dialog (\"Делить на две\"), relayed verbatim by the operator, 2026-10-13",
+"I2 cited scope.md:19 · scope.md:64 · scope.md:128 · research.md:134 · research.md:154 · research.md:165 · plan.md:10 · plan.md:164 · plan.md:236 (in fence) · plan.md:245 (in fence) · plan.md:339 · plan.md:362 · plan.md:392 · plan.md:402 · plan.md:428",
+"inputs: 2 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-13T15:59:40Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors",
+"--message-file",
+".andromeda/runs/2026-10-13T14-19-57-phase/relay-3.md",
+"--origin",
+"the operator, in a message, 2026-10-13",
+"--kind",
+"relay",
+"--why",
+"the P5 word on .andromeda/runs/2026-10-13T14-19-57-phase/p5-card-1.md: yes, the card stands as written, its Beyond the plan row 1 (mint \"Epoch 4 survivors II\") included; the operator word",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-10-13T14-19-57-phase",
+"--marker",
+"2026-10-13-epoch-4-survivors"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: the operator, in a message, 2026-10-13",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-3.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, in a message, 2026-10-13",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "ff7e09ae4bee2ab6728b4f3fc8aab358243cc79590124092a803d8d435a6e2f9",
+"copy": "I3-relay-3.md.txt",
+"link": false,
+"read_at": "2026-10-13T15:59:40Z",
+"step": "phase:P5",
+"why": "the P5 word on .andromeda/runs/2026-10-13T14-19-57-phase/p5-card-1.md: yes, the card stands as written, its Beyond the plan row 1 (mint \"Epoch 4 survivors II\") included; the operator word"
+}
+}
+]

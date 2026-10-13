@@ -848,7 +848,8 @@ mod tests {
 
     /// Where the child streams its report, one line as each step happens, and beside it the test's
     /// own report: known files under the temp dir, named after the test, so a test killed by the
-    /// runner still leaves its evidence.
+    /// runner still leaves its evidence. The process id is in the name too: two runs of one test
+    /// under one temp dir (two cargo-mutants jobs) must never wait on each other's file.
     fn report_paths() -> (std::path::PathBuf, std::path::PathBuf) {
         let dir = std::env::temp_dir().join("viola-pty-watch");
         std::fs::create_dir_all(&dir).expect("report dir");
@@ -856,9 +857,10 @@ mod tests {
             .name()
             .unwrap_or("unnamed")
             .replace("::", ".");
+        let pid = std::process::id();
         let paths = (
-            dir.join(format!("{test}.report")),
-            dir.join(format!("{test}.test.report")),
+            dir.join(format!("{test}.{pid}.report")),
+            dir.join(format!("{test}.{pid}.test.report")),
         );
         let _ = std::fs::remove_file(&paths.0);
         let _ = std::fs::remove_file(&paths.1);

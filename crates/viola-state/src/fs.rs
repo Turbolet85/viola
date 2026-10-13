@@ -271,6 +271,20 @@ pub(crate) fn replace_private_with(
     mode: u32,
     pause: &mut dyn FnMut(),
 ) -> Result<(), StateError> {
+    replace_private_retrying(path, bytes, mode, pause, &|raw| {
+        retry_replace(raw, HOST_IS_WINDOWS)
+    })
+}
+
+/// The replace loop, with the decision to retry a failed rename (given its raw OS error) supplied
+/// by the caller, so the loop's bound is exercised on every host.
+fn replace_private_retrying(
+    path: &Path,
+    bytes: &[u8],
+    mode: u32,
+    pause: &mut dyn FnMut(),
+    retry: &dyn Fn(Option<i32>) -> bool,
+) -> Result<(), StateError> {
     let parent = path.parent().unwrap_or(Path::new("."));
     let mut tmp = tempfile::NamedTempFile::new_in(parent)?;
     restrict(tmp.path(), mode)?;
@@ -281,10 +295,7 @@ pub(crate) fn replace_private_with(
         attempts += 1;
         match tmp.persist(path) {
             Ok(_) => return Ok(()),
-            Err(e)
-                if attempts < REPLACE_ATTEMPTS
-                    && retry_replace(e.error.raw_os_error(), HOST_IS_WINDOWS) =>
-            {
+            Err(e) if attempts < REPLACE_ATTEMPTS && retry(e.error.raw_os_error()) => {
                 tmp = e.file;
                 pause();
             }
@@ -407,6 +418,60 @@ mod tests {
         replace_private_with(&path, b"new", FILE_MODE, &mut || pauses += 1).expect("replaced");
         assert_eq!(pauses, 0);
         assert_eq!(fs::read(&path).expect("read"), b"new");
+    }
+
+    /// A target that is a non-empty directory: the rename fails at the same call on every OS.
+    fn occupied_target(tmp: &tempfile::TempDir) -> std::path::PathBuf {
+        let target = tmp.path().join("snapshot.json");
+        fs::create_dir(&target).expect("a dir where the file should go");
+        fs::write(target.join("kept"), b"kept").expect("seed");
+        target
+    }
+
+    fn assert_untouched(tmp: &tempfile::TempDir, target: &Path) {
+        assert_eq!(fs::read(target.join("kept")).expect("read"), b"kept");
+        let names: Vec<_> = fs::read_dir(tmp.path())
+            .expect("dir")
+            .flatten()
+            .map(|e| e.file_name())
+            .collect();
+        assert_eq!(names, ["snapshot.json"], "no temp file is left behind");
+    }
+
+    #[test]
+    fn replace_private_retrying_tries_exactly_the_attempts_while_retry_holds() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let target = occupied_target(&tmp);
+        let mut pauses = 0;
+        let replaced = replace_private_retrying(
+            &target,
+            b"new",
+            FILE_MODE,
+            &mut || {
+                pauses += 1;
+                assert!(pauses < REPLACE_ATTEMPTS, "paused past the last attempt");
+            },
+            &|_| true,
+        );
+        assert!(replaced.is_err());
+        assert_eq!(
+            pauses + 1,
+            REPLACE_ATTEMPTS,
+            "one pause between two attempts"
+        );
+        assert_untouched(&tmp, &target);
+    }
+
+    #[test]
+    fn replace_private_retrying_returns_at_once_when_retry_refuses() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let target = occupied_target(&tmp);
+        let mut pauses = 0;
+        let replaced =
+            replace_private_retrying(&target, b"new", FILE_MODE, &mut || pauses += 1, &|_| false);
+        assert!(replaced.is_err());
+        assert_eq!(pauses, 0, "a refused retry never pauses");
+        assert_untouched(&tmp, &target);
     }
 
     /// A reader holds `snapshot.json` open across the replace (a plain `File::open`, the way a hook

@@ -114,9 +114,14 @@ struct Out<'a> {
     json: bool,
 }
 
+/// The `[  ] open` issue line shows only on a terminal and never under `--json`.
+fn issue_line_shows(json: bool, terminal: bool) -> bool {
+    !json && terminal
+}
+
 impl Out<'_> {
     fn open(&self) {
-        if !self.json && io::stdout().is_terminal() {
+        if issue_line_shows(self.json, io::stdout().is_terminal()) {
             let issued = Utc::now().format("%H:%M:%S%.3fZ").to_string();
             let _ = human::write_send_open(&mut io::stderr().lock(), self.name, &issued);
         }
@@ -272,6 +277,19 @@ mod tests {
     #[case::digit_drive("1:/Program Files/Git/x", false)]
     fn looks_rewritten_matches_only_the_git_bash_shape(#[case] raw: &str, #[case] want: bool) {
         assert_eq!(looks_rewritten(raw), want);
+    }
+
+    #[rstest]
+    #[case::human_on_a_terminal(false, true, true)]
+    #[case::human_off_a_terminal(false, false, false)]
+    #[case::json_on_a_terminal(true, true, false)]
+    #[case::json_off_a_terminal(true, false, false)]
+    fn issue_line_shows_only_for_a_human_on_a_terminal(
+        #[case] json: bool,
+        #[case] terminal: bool,
+        #[case] want: bool,
+    ) {
+        assert_eq!(issue_line_shows(json, terminal), want);
     }
 
     #[test]

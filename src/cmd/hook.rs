@@ -1089,6 +1089,31 @@ mod tests {
         assert!(!answered(HookEvent::PreToolUse, &captures, &answers, TWO_QUESTIONS).is_empty());
     }
 
+    /// A relative `answers` that does resolve, from this process's current dir, to a planted
+    /// answer: still nothing is read. The dir sits under the current dir's `target/`, so the path
+    /// (`..`, the current dir's own name, then the dir) is relative on every OS, drives included.
+    #[test]
+    fn answer_reads_no_relative_answers_dir_that_resolves() {
+        let cwd = std::env::current_dir().expect("cwd");
+        let base = cwd.join("target");
+        fs::create_dir_all(&base).expect("target");
+        let tmp = tempfile::Builder::new()
+            .prefix("viola-answers-")
+            .tempdir_in(&base)
+            .expect("tempdir");
+        let (captures, answers) = (tmp.path().join("captures"), tmp.path().join("answers"));
+        fs::create_dir(&captures).expect("captures");
+        fs::create_dir(&answers).expect("answers");
+        fs::write(answers.join("PreToolUse.1"), "question-first-option").expect("answer");
+        let relative = Path::new("..")
+            .join(cwd.file_name().expect("cwd name"))
+            .join(tmp.path().strip_prefix(&cwd).expect("under cwd"))
+            .join("answers");
+        assert!(!relative.is_absolute());
+        assert!(relative.join("PreToolUse.1").is_file(), "{relative:?}");
+        assert!(answered(HookEvent::PreToolUse, &captures, &relative, TWO_QUESTIONS).is_empty());
+    }
+
     /// A failing write is swallowed: the hook still has nothing to report.
     #[test]
     fn answer_swallows_a_failed_write() {

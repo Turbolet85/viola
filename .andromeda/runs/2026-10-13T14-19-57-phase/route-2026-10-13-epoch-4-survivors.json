@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "8fc13695",
+"ts": "2026-10-13T14:21:32Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-10-13-epoch-4-survivors",
+"--expect-prefix",
+"Epoch 4 survivors",
+"--record-file",
+".andromeda/runs/2026-10-13T14-19-57-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-10-13T14-19-57-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"stamp viola-0.1.0/working-route.md:128 - [2026-10-13-epoch-4-survivors]",
+"record master-route.md:67 - appended under `## viola-0.1.0`",
+"promoted 2026-10-13-epoch-4-survivors - viola-0.1.0/working-route.md:128 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/working-route.md",
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+}
+]

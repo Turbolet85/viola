@@ -1,0 +1,1 @@
+Epoch 4 survivors. The founder ruled no boundary inside Epoch 5. No mutation run, witness run or workflow dispatch inside the chunk (his standing direction): word each survivor by what the next boundary audit reads. No live claude start without his cap. Size it against one window at P5.

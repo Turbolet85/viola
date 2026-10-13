@@ -740,6 +740,29 @@ mod tests {
         assert_eq!(events(tmp.path())[0]["kind"], "plan");
     }
 
+    /// A PreToolUse for another tool leaves the first tool's arm in place: its continuation still
+    /// takes the first dialog's id and logs nothing.
+    #[test]
+    fn continuation_survives_a_pre_tool_use_for_another_tool() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let slot = slot(tmp.path(), FixedClock(Instant::now()), false);
+        slot.hook_dialog(&plan("pre-tool-use", false))
+            .expect("plan raised");
+        slot.hook_dialog(&question("pre-tool-use", false))
+            .expect("question raised");
+        assert_eq!(
+            slot.hook_dialog(&plan("permission-request", true)),
+            Ok(json!({"ok": {"dialog_id": 1, "response": null}}))
+        );
+        assert_eq!(events(tmp.path()).len(), 2);
+    }
+
+    #[test]
+    fn millis_is_the_whole_milliseconds_capped_at_u64_max() {
+        assert_eq!(millis(Duration::from_millis(1500)), 1500);
+        assert_eq!(millis(Duration::MAX), u64::MAX);
+    }
+
     /// A question first raised by PermissionRequest is logged and left to the human, even on a
     /// stamped CLI: its body has no ledger row (read only statically on 2.1.288 / 2.1.287).
     #[test]

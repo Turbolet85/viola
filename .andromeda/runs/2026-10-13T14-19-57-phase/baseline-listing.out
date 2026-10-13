@@ -1,0 +1,24 @@
+gate v1.17 · 383c6f7b
+root . · marker 2026-10-13-epoch-4-survivors · entries 20
+previous 2026-10-13-epoch-4-cleanup · trails 178 run dirs · firings 80 (green 76) · other root 0 · unreadable 0
+  1 lint        seen green 2026-10-13T11:10:15Z #1 (wrap) · cargo fmt --all --check
+  2 lint        seen green 2026-10-13T11:10:15Z #2 (wrap) · cargo clippy --workspace --all-targets --features fake-age… (75 chars)
+  3 lint        seen green 2026-10-13T11:10:15Z #3 (wrap) · CARGO_TARGET_DIR=target/wincheck cargo clippy --workspace … (140 chars)
+  4 lint        seen green 2026-10-13T11:10:15Z #4 (wrap) · rg -n -U --pcre2 --type rust '#\[(tracing::)?instrument\b(… (79 chars)
+  5 lint        seen green 2026-10-13T11:10:15Z #5 (wrap) · bash scripts/lint-probes.sh
+  6 unit        seen green 2026-10-13T11:10:15Z #7 (wrap) · bash scripts/agent-run.sh run --unit
+  7 probe       new (key) · python3 -c 'import json; a={tuple(s) for s in json.load(op… (540 chars)
+  8 probe       new (key) · git diff -U0 --src-prefix=a/ --dst-prefix=b/ c6e130181e51 … (210 chars)
+  9 probe       new (key) · git diff --quiet c6e130181e51 -- . ':!crates/viola-pty/src… (377 chars)
+ 10 probe       seen green 2026-10-13T11:10:15Z #14 (wrap) · cargo deny check
+ 11 smoke       new (key) · bash scripts/agent-run.sh cleanup --session p-e4s-smoke
+ 12 smoke       new (key) · bash scripts/agent-run.sh boot --session p-e4s-smoke --ins… (71 chars)
+ 13 smoke       new (key) · bash scripts/agent-run.sh status --session p-e4s-smoke
+ 14 probe       seen green 2026-10-13T11:10:15Z #18 (wrap) · bash scripts/g2-zero-panics.sh
+ 15 probe       seen green 2026-10-13T11:10:15Z #19 (wrap) · bash scripts/agent-run.sh schema-check
+ 16 smoke       new (key) · bash scripts/agent-run.sh cleanup --session p-e4s-smoke
+ 17 probe       seen green 2026-10-13T11:10:15Z #21 (wrap) · bash scripts/agent-run.sh pre-push
+ 18 probe       leg operator — exempt · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (90 chars)
+ 19 probe       leg operator — exempt · git diff --quiet && git diff --cached --quiet && git push … (69 chars)
+ 20 probe       leg operator — exempt · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (114 chars)
+entries 20 · seen green 10 · not seen 0 · new (key) 7 · leg 3

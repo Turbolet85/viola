@@ -258,6 +258,28 @@ mod tests {
         assert!(slot.flight().send.is_none());
     }
 
+    /// The window expires with the send unclaimed: the send is closed then, so its text arriving
+    /// later is filed as typed, never claimed, and a second read of the window finds nothing.
+    #[test]
+    fn send_expired_window_closes_the_send_so_a_late_line_is_not_claimed() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let opened = Instant::now();
+        let slot = SendSlot::new(
+            FixedClock(opened + CONFIRM_WINDOW_FALLBACK),
+            false,
+            Arc::default(),
+        );
+        slot.flight().send = Some(InFlight {
+            text: "late".to_owned(),
+            confirms: Confirms::Prompt,
+            state: Match::Waiting,
+        });
+        assert_eq!(slot.confirm(opened), None);
+        append_hook_event(&slot, &feed(), tmp.path(), prompt("late", "human")).expect("hook");
+        assert_eq!(events(tmp.path())[0]["data"]["origin"], "human");
+        assert_eq!(slot.confirm(opened), None, "nothing was claimed");
+    }
+
     #[test]
     fn send_window_expiry_is_no_prompt_submitted_with_the_cursor() {
         let tmp = tempfile::tempdir().expect("tempdir");

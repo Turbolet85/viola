@@ -830,6 +830,24 @@ mod tests {
     }
 
     #[test]
+    fn feed_reaching_exactly_the_frame_cap_does_not_poison_and_one_byte_past_does() {
+        let t = Instant::now();
+        let mut f = feed(b"x", t);
+        f.total = MAX_FRAME - 1;
+        f.take(b"y", t + ms_(1));
+        assert_eq!(f.total, MAX_FRAME);
+        assert!(!f.screen.is_poisoned(), "exactly the cap");
+        f.take(b"z", t + ms_(2));
+        assert!(f.screen.is_poisoned(), "one byte past the cap");
+    }
+
+    #[test]
+    fn max_gap_leaves_out_a_chunk_after_the_window() {
+        let t = Instant::now();
+        assert_eq!(max_gap(&[t + ms_(500)], t, t + ms_(100)), 100);
+    }
+
+    #[test]
     fn feed_a_vt100_panic_poisons() {
         let t = Instant::now();
         let mut f = Feed {

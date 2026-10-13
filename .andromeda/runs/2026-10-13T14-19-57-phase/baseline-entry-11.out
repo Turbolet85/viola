@@ -1,0 +1,29 @@
+gate v1.17 · 383c6f7b
+shell /usr/bin/bash (from $SHELL; -c, non-login)
+root . · marker 2026-10-13-epoch-4-survivors · entries 20
+logs $TMPDIR/andromeda-gate/2026-10-13-epoch-4-survivors/phase-2026-10-13T14-19-57 · bound: GNU timeout
+delta docs 61 · unmapped 4
+walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 65
+prose L189-193: The standing lint and unit entries, and the Windows-target clippy, which reads the `cfg(wi… (488 chars)
+prose L195-199: No mutation entry, no witness run and no workflow dispatch is listed (`inputs#I1`). Each k… (522 chars)
+  1 lint        not run — excluded · cargo fmt --all --check
+  2 lint        not run — excluded · cargo clippy --workspace --all-targets --features fake-age… (75 chars)
+  3 lint        not run — excluded · CARGO_TARGET_DIR=target/wincheck cargo clippy --workspace … (140 chars)
+  4 lint        not run — excluded · rg -n -U --pcre2 --type rust '#\[(tracing::)?instrument\b(… (79 chars)
+  5 lint        not run — excluded · bash scripts/lint-probes.sh
+  6 unit        not run — excluded · bash scripts/agent-run.sh run --unit
+  7 probe       not run — excluded · python3 -c 'import json; a={tuple(s) for s in json.load(op… (540 chars)
+  8 probe       not run — excluded · git diff -U0 --src-prefix=a/ --dst-prefix=b/ c6e130181e51 … (210 chars)
+  9 probe       not run — excluded · git diff --quiet c6e130181e51 -- . ':!crates/viola-pty/src… (377 chars)
+ 10 probe       not run — excluded · cargo deny check
+ 11 smoke       green · exit 0 · 0.16s · 47 B → 11.log · bash scripts/agent-run.sh cleanup --session p-e4s-smoke
+ 12 smoke       not run — excluded · bash scripts/agent-run.sh boot --session p-e4s-smoke --ins… (71 chars)
+ 13 smoke       not run — excluded · bash scripts/agent-run.sh status --session p-e4s-smoke
+ 14 probe       not run — excluded · bash scripts/g2-zero-panics.sh
+ 15 probe       not run — excluded · bash scripts/agent-run.sh schema-check
+ 16 smoke       not run — excluded · bash scripts/agent-run.sh cleanup --session p-e4s-smoke
+ 17 probe       not run — excluded · bash scripts/agent-run.sh pre-push
+ 18 probe       not run — excluded · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (90 chars)
+ 19 probe       not run — excluded · git diff --quiet && git diff --cached --quiet && git push … (69 chars)
+ 20 probe       not run — excluded · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (114 chars)
+entries 20 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 19

@@ -382,7 +382,12 @@ mod tests {
             Some(["/bin/sh", "-c", command])
         );
         assert_eq!(shell_argv_on(command, false), None);
-        assert_eq!(shell_argv(command).is_some(), cfg!(unix));
+        let here = if cfg!(unix) {
+            Some(["/bin/sh", "-c", command])
+        } else {
+            None
+        };
+        assert_eq!(shell_argv(command), here);
     }
 
     fn config() -> ProptestConfig {

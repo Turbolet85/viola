@@ -460,6 +460,46 @@ mod tests {
         assert_eq!(names(&scanned(&home)), ["builder"]);
     }
 
+    #[cfg(unix)]
+    fn set_mode(path: &Path, mode: u32) {
+        use std::os::unix::fs::PermissionsExt as _;
+        fs::set_permissions(path, fs::Permissions::from_mode(mode)).expect("chmod");
+    }
+
+    /// The home's parent at mode 000: the home cannot be statted, which is not its absence.
+    #[cfg(unix)]
+    #[test]
+    fn board_scan_refuses_a_home_that_cannot_be_statted_and_writes_no_line() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = home(&tmp);
+        instance(&home, "builder");
+        set_mode(tmp.path(), 0o000);
+        let (refused, lines) = capture(|| scan(&home).map(|s| s.err()));
+        set_mode(tmp.path(), 0o700);
+        assert!(
+            matches!(refused, Ok(Some(ScanRefused::Home))),
+            "{refused:?}"
+        );
+        assert_eq!(lines, Vec::<Value>::new());
+    }
+
+    /// `instances/` at mode 000 widens nothing, so it passes its check, and its listing then fails:
+    /// an error, never an empty board.
+    #[cfg(unix)]
+    #[test]
+    fn board_scan_of_an_instances_dir_that_cannot_be_listed_is_an_error() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = home(&tmp);
+        instance(&home, "builder");
+        let instances = home.join(INSTANCES);
+        set_mode(&instances, 0o000);
+        let (listed, lines) = capture(|| scan(&home).map(|s| s.map(|s| names(&s).len())));
+        set_mode(&instances, 0o700);
+        assert!(listed.is_err(), "{listed:?}");
+        assert_eq!(lines, Vec::<Value>::new());
+        assert_eq!(names(&scanned(&home)), ["builder"]);
+    }
+
     /// Two widened instances: the refusal names the first in name order.
     #[cfg(unix)]
     #[test]
@@ -593,7 +633,8 @@ mod tests {
         assert_eq!(board.items, Vec::new());
     }
 
-    /// One instance live, one gone (another start time): both torn tails count.
+    /// One instance live, one gone (another start time): both torn tails count, and so does the
+    /// unlisted key planted in each log's first line.
     #[test]
     fn board_read_sums_the_skip_counts_over_every_instance() {
         let tmp = tempfile::tempdir().expect("tempdir");
@@ -603,7 +644,10 @@ mod tests {
         gone.started_at = "2001-01-01T00:00:00.000Z".to_owned();
         let other = booted(&home, "tester", &gone);
         for dir in [&live, &other] {
-            let mut bytes = fs::read(dir.join("events.ndjson")).expect("log");
+            let written = fs::read_to_string(dir.join("events.ndjson")).expect("log");
+            let planted = written.replacen(r#"{"v":1,"#, r#"{"v":1,"later":1,"#, 1);
+            assert_ne!(planted, written);
+            let mut bytes = planted.into_bytes();
             bytes.extend_from_slice(b"{\"kind\":\"whe");
             fs::write(dir.join("events.ndjson"), bytes).expect("torn");
         }
@@ -616,7 +660,7 @@ mod tests {
             board.skipped,
             SkippedTotal {
                 unknown_kinds: 1,
-                unknown_fields: 0,
+                unknown_fields: 2,
                 torn_lines: 2,
             }
         );
