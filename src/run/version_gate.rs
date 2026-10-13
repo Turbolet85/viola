@@ -6,7 +6,7 @@
 use std::ffi::OsString;
 use std::io::Read;
 use std::path::Path;
-use std::process::{Command, ExitStatus, Stdio};
+use std::process::{Child, Command, ExitStatus, Stdio};
 use std::sync::mpsc;
 use std::time::{Duration, Instant};
 
@@ -25,22 +25,26 @@ const POLL: Duration = Duration::from_millis(10);
 /// pipe is not waited for.
 const DRAIN_GRACE: Duration = Duration::from_millis(500);
 
-/// A bounded child's exit (`None` when the deadline killed it) and its stdout.
+/// A bounded child's exit (`None` when the deadline or the stop killed it), whether the stop killed
+/// it, and its stdout.
 #[derive(Default)]
 pub(crate) struct Bounded {
     pub(crate) status: Option<ExitStatus>,
+    pub(crate) stopped: bool,
     pub(crate) stdout: Vec<u8>,
 }
 
 /// `program args`, spawned directly (never through a shell) in `cwd` with stdin null and the R8
-/// strip applied; stdout and stderr drained through the frame cap, stdout kept; killed at
-/// `deadline`. Upstream output is content: it is returned, never printed.
+/// strip applied; stdout and stderr drained through the frame cap, stdout kept; killed and reaped
+/// at `deadline`, or as soon as `stopped` reads set. Upstream output is content: it is returned,
+/// never printed.
 pub(crate) fn run_bounded(
     program: &Path,
     args: &[OsString],
     cwd: &Path,
     strip: &StripPlan,
     deadline: Duration,
+    stopped: fn() -> bool,
 ) -> std::io::Result<Bounded> {
     let mut command = Command::new(program);
     command
@@ -56,19 +60,36 @@ pub(crate) fn run_bounded(
     let stdout = drain(child.stdout.take());
     let _stderr = drain(child.stderr.take());
     let until = Instant::now() + deadline;
-    let status = loop {
+    let (status, stopped) = loop {
+        if stopped() {
+            end(&mut child);
+            break (None, true);
+        }
         if let Some(status) = child.try_wait()? {
-            break Some(status);
+            break (Some(status), false);
         }
         if Instant::now() >= until {
-            let _ = child.kill();
-            let _ = child.wait();
-            break None;
+            end(&mut child);
+            break (None, false);
         }
         std::thread::sleep(POLL);
     };
     let stdout = stdout.bytes(DRAIN_GRACE);
-    Ok(Bounded { status, stdout })
+    Ok(Bounded {
+        status,
+        stopped,
+        stdout,
+    })
+}
+
+fn end(child: &mut Child) {
+    let _ = child.kill();
+    let _ = child.wait();
+}
+
+/// The stop `run`'s gate passes: it is never set.
+fn never_stopped() -> bool {
+    false
 }
 
 /// A pipe being read to its end on its own thread; `Default` is a pipe that yields nothing.
@@ -118,6 +139,7 @@ pub(crate) fn version_gate(home: &Path, program: &Path, cwd: &Path, strip: &Stri
         cwd,
         strip,
         VERSION_DEADLINE,
+        never_stopped,
     );
     let status = answer
         .as_ref()
@@ -304,9 +326,11 @@ mod tests {
             &cwd,
             &StripPlan::default(),
             VERSION_DEADLINE,
+            never_stopped,
         )
         .expect("spawned");
         assert!(got.status.is_some_and(|s| s.success()));
+        assert!(!got.stopped);
         let listed = String::from_utf8_lossy(&got.stdout);
         assert!(
             listed.contains("run_bounded_returns_the_exit_and_stdout"),
@@ -324,8 +348,53 @@ mod tests {
             tmp.path(),
             &StripPlan::default(),
             VERSION_DEADLINE,
+            never_stopped,
         );
         assert!(got.is_err());
+    }
+
+    /// The stop is read before the child's exit, so even a child that would have ended reads
+    /// stopped, with no exit status.
+    #[test]
+    fn run_bounded_with_the_stop_set_reads_stopped() {
+        let exe = std::env::current_exe().expect("test exe");
+        let cwd = std::env::current_dir().expect("cwd");
+        let got = run_bounded(
+            &exe,
+            &[OsString::from("--list")],
+            &cwd,
+            &StripPlan::default(),
+            VERSION_DEADLINE,
+            || true,
+        )
+        .expect("spawned");
+        assert!(got.stopped);
+        assert!(got.status.is_none());
+    }
+
+    /// A child that runs until killed (`sleep 30`, past the 5 s deadline) is killed and reaped at
+    /// the stop, not at the deadline.
+    #[cfg(unix)]
+    #[test]
+    fn run_bounded_with_the_stop_set_kills_and_reaps_a_running_child() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let got = run_bounded(
+            Path::new("/bin/sleep"),
+            &[OsString::from("30")],
+            tmp.path(),
+            &StripPlan::default(),
+            VERSION_DEADLINE,
+            || true,
+        )
+        .expect("spawned");
+        assert!(got.stopped);
+        assert!(got.status.is_none());
+        assert!(got.stdout.is_empty());
+    }
+
+    #[test]
+    fn never_stopped_is_never_set() {
+        assert!(!never_stopped());
     }
 
     /// A child that does not answer `X.Y.Z (Claude Code)` leaves the instance unversioned and

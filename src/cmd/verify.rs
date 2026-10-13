@@ -4,8 +4,11 @@
 //! answered by their own capture hook), prints one step line per row and the `stamped`
 //! summary on stdout, and writes the stamps as their only writer (security-plan §Data Protection;
 //! architecture [CLI Version Compatibility]). With `--record`, a clean run's payloads become
-//! scrubbed fixtures and its screens signature-only `Screen.<phase>.json` fixtures.
+//! scrubbed fixtures and its screens signature-only `Screen.<phase>.json` fixtures. Stopped by
+//! Ctrl-C or TERM before its rows are checked, it ends its child with no key, removes the dirs that
+//! run made, prints one refusal pair and exits 1 with no stamp written.
 
+mod stop;
 mod typed;
 
 use std::ffi::OsString;
@@ -23,7 +26,7 @@ use viola_agent_claude::ledger::{
     self, Capture, DialogRun, DialogRuns, LedgerRow, PROBE_ANSWERS, PROBE_PROMPT, ProbePlugin,
     ProbeRun, Probes, TypedRun,
 };
-use viola_agent_claude::{CASE_INSENSITIVE, PLUGIN_DIR_FLAG, Refusal, StripPlan};
+use viola_agent_claude::{CASE_INSENSITIVE, PLUGIN_DIR_FLAG, PROGRAM, Refusal, StripPlan};
 use viola_core::obs::{ObsEvent, ObsProcess};
 use viola_core::{Clock, MAX_FRAME, SystemClock, ViolaName, obs_event};
 use viola_state::fs::{FILE_MODE, create_private_dir, replace_private};
@@ -63,16 +66,32 @@ pub(crate) fn verify(
             obs::log_config_rejection(rejection);
         }
     }
-    let code = measure(&home, args)?;
+    let (code, detail) = match measure(&home, args)? {
+        Ended::Exit(code) => (code, None),
+        Ended::Interrupted => {
+            human::refuse(
+                "verify was stopped before it finished",
+                "run viola verify again to stamp this CLI",
+            );
+            (1, Some("interrupted"))
+        }
+    };
     if instance.is_some() {
-        run::log_self_exit(code, None);
+        run::log_self_exit(code, detail);
     }
     Ok(ExitCode::from(code))
 }
 
+/// How a measurement ended: with an exit code, or stopped before its rows were checked.
+enum Ended {
+    Exit(u8),
+    Interrupted,
+}
+
 /// `run_bounded` between a `process-start` / `process-exit` pair for `subject` (obs-plan §6 Child /
-/// shell spawns). The pair lives at the call site, not in `run_bounded`, which `run`'s version
-/// gate shares and logs itself. Without an instance no subscriber is installed and both are no-ops.
+/// shell spawns), ended early by the stop. The pair lives at the call site, not in `run_bounded`,
+/// which `run`'s version gate shares and logs itself. Without an instance no subscriber is
+/// installed and both are no-ops.
 fn run_logged(
     subject: &'static str,
     program: &Path,
@@ -83,7 +102,7 @@ fn run_logged(
 ) -> std::io::Result<Bounded> {
     let started = Instant::now();
     obs_event!(INFO, ObsEvent::ProcessStart, subject = subject);
-    let ran = run_bounded(program, args, cwd, strip, deadline);
+    let ran = run_bounded(program, args, cwd, strip, deadline, stop::stopped);
     let status = ran
         .as_ref()
         .ok()
@@ -99,10 +118,13 @@ fn run_logged(
     ran
 }
 
-fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<u8> {
+/// The stop is read at each child's end and once more after the interactive runs; once the rows
+/// are being checked the run completes.
+fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<Ended> {
+    stop::install();
     let (program, program_args) = match args.program.split_first() {
         Some((program, rest)) => (program.clone(), rest.to_vec()),
-        None => (OsString::from("claude"), Vec::new()),
+        None => (OsString::from(PROGRAM), Vec::new()),
     };
     let cwd = std::env::current_dir()?;
     // A given path resolves as given, so its existence is checked here.
@@ -120,21 +142,21 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<u8> {
                 "the claude CLI is a .cmd or .bat script",
                 "pass the real executable, not a .cmd or .bat shim",
             );
-            return Ok(1);
+            return Ok(Ended::Exit(1));
         }
         Err(Refusal::NotFound) => {
             human::refuse(
                 "the claude CLI was not found",
                 "install Claude Code or put it on PATH",
             );
-            return Ok(1);
+            return Ok(Ended::Exit(1));
         }
     };
     let pinned = match pin_exe(home, &std::env::current_exe()?) {
         Ok(pinned) => pinned,
         Err(PinError::HashMismatch) => {
             super::run::refuse_tampered_pin();
-            return Ok(1);
+            return Ok(Ended::Exit(1));
         }
         Err(error) => return Err(error.into()),
     };
@@ -154,12 +176,15 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<u8> {
         &strip,
         VERSION_DEADLINE,
     )?;
+    if answer.stopped {
+        return Ok(Ended::Interrupted);
+    }
     let Some(version) = ledger::parse_version(&answer.stdout) else {
         human::refuse(
             "the CLI version could not be read",
             "run claude --version to check the install",
         );
-        return Ok(1);
+        return Ok(Ended::Exit(1));
     };
 
     let probe = ProbeDir::create(home, &pinned.path_fwd)?;
@@ -168,7 +193,7 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<u8> {
         .extend(["-p", PROBE_PROMPT, "--model", "haiku", PLUGIN_DIR_FLAG].map(OsString::from));
     probe_args.push(probe.plugin().into_os_string());
     probe_args.push("--no-session-persistence".into());
-    run_logged(
+    let printed = run_logged(
         "verify-probe",
         &program,
         &probe_args,
@@ -176,6 +201,9 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<u8> {
         &strip,
         PROBE_DEADLINE,
     )?;
+    if printed.stopped {
+        return Ok(Ended::Interrupted);
+    }
     let print = ProbeRun {
         program_is_script: viola_agent_claude::is_script(&program),
         version_answered: true,
@@ -191,11 +219,15 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<u8> {
             program_args: &program_args,
             cwd: &cwd,
             strip: &strip,
+            stop: stop::stopped,
             trusted: dirs(&trusted),
             questions: dirs(&questions),
             plan: dirs(&plan),
         },
     )?;
+    let Some(typed) = typed else {
+        return Ok(Ended::Interrupted);
+    };
     let dialogs = DialogRuns {
         questions: read_captures(&questions.1),
         plan: read_captures(&plan.1),
@@ -207,6 +239,9 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<u8> {
         dialogs,
     };
     drop(probe);
+    if stop::stopped() {
+        return Ok(Ended::Interrupted);
+    }
 
     let results = check_rows(&probes);
     let written_at = obs::timestamp(Utc::now());
@@ -228,11 +263,11 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<u8> {
         results.len() - failed
     ));
     if failed > 0 {
-        return Ok(1);
+        return Ok(Ended::Exit(1));
     }
     match &args.record {
-        Some(dir) => record(dir, &version, &probes),
-        None => Ok(0),
+        Some(dir) => record(dir, &version, &probes).map(Ended::Exit),
+        None => Ok(Ended::Exit(0)),
     }
 }
 

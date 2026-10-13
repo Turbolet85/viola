@@ -805,6 +805,143 @@ fn verify_leaves_neither_run_dir_behind(#[from(home)] home: TestHome, #[case] fa
     assert_eq!(fs::read_dir(&tmp).expect("temp dir").count(), 0);
 }
 
+/// The names `dir` holds, sorted.
+#[cfg(unix)]
+fn names(dir: &Path) -> Vec<String> {
+    let mut names: Vec<String> = fs::read_dir(dir)
+        .expect("a dir")
+        .map(|e| {
+            e.expect("an entry")
+                .file_name()
+                .to_string_lossy()
+                .into_owned()
+        })
+        .collect();
+    names.sort();
+    names
+}
+
+/// A dir another run left, holding one file whose bytes the case reads back.
+#[cfg(unix)]
+fn plant_foreign(dir: &Path) {
+    use std::os::unix::fs::DirBuilderExt as _;
+    fs::DirBuilder::new()
+        .recursive(true)
+        .mode(0o700)
+        .create(dir)
+        .expect("a planted dir");
+    fs::write(dir.join("planted"), b"foreign").expect("a planted file");
+}
+
+/// Stopped by Ctrl-C or TERM while Run B waits for a Stop that never comes, `verify` ends its child
+/// with no key, removes the three dirs that run made (the print probe's, Run A's and Run B's) and
+/// nothing another run left, writes no stamp and no step line, and exits 1 with the interrupted
+/// pair and its `process-exit` line. The signal goes only to the `viola` this case started, once
+/// the receipt shows Run B's pasted prompt.
+#[cfg(unix)]
+#[rstest]
+#[case::sigint(libc::SIGINT)]
+#[case::sigterm(libc::SIGTERM)]
+fn verify_stopped_by_a_signal_removes_only_its_own_dirs_and_exits_1(
+    #[from(home)] home: TestHome,
+    #[case] signal: libc::c_int,
+) {
+    write_spine_set(&fixtures(&home), "2.1.0", None);
+    let owned_cwd = tempfile::tempdir().expect("a cwd");
+    let cwd = canonical(owned_cwd.path());
+    let owned_tmp = tempfile::tempdir().expect("a temp root");
+    let tmp = canonical(owned_tmp.path());
+    let foreign = [
+        cwd.join(".viola-verify-0"),
+        cwd.join(".viola-verify-0-plan"),
+        tmp.join("viola-verify-foreign"),
+        ledger(home.path()).join("probes").join("0"),
+    ];
+    for dir in &foreign {
+        plant_foreign(dir);
+    }
+
+    let started = support::verify::verify_started(
+        home.path(),
+        &fixtures(&home),
+        "2.1.0",
+        &cwd,
+        &tmp,
+        "verifier",
+    );
+    let lines = fake::wait_for(&started.receipt, "Run B's pasted prompt", |l| {
+        of_kind(l, "cwd").len() >= 3 && !of_kind(l, "prompt").is_empty()
+    });
+    let pid = libc::pid_t::try_from(started.pid).expect("a pid");
+    // SAFETY: kill only sends a signal, to the `viola` this case started and has not waited.
+    assert_eq!(unsafe { libc::kill(pid, signal) }, 0);
+    let ran = started.running.finish();
+
+    assert_eq!(ran.code, Some(1), "stderr {}", ran.stderr);
+    assert_eq!(ran.stdout, "", "no step line and no stamped line");
+    assert_eq!(
+        ran.stderr,
+        "unable: verify was stopped before it finished\nhint: run viola verify again to stamp this CLI\n"
+    );
+    assert_plain(ran.stderr.as_bytes());
+
+    let cwds: Vec<PathBuf> = of_kind(&lines, "cwd")
+        .iter()
+        .map(|l| PathBuf::from(l["cwd"].as_str().expect("a cwd")))
+        .collect();
+    assert_eq!(cwds.len(), 3, "the print probe, Run A and Run B");
+    for dir in &cwds {
+        assert!(!dir.exists(), "{} outlived the stopped run", dir.display());
+    }
+    assert_eq!(names(&tmp), ["viola-verify-foreign"]);
+    assert_eq!(names(&ledger(home.path()).join("probes")), ["0"]);
+    for dir in &foreign {
+        assert_eq!(
+            fs::read(dir.join("planted")).expect("the planted file stands"),
+            b"foreign",
+            "{}",
+            dir.display()
+        );
+    }
+    assert!(!ledger(home.path()).join("stamps.json").exists());
+
+    let role =
+        support::ndjson::read_lines(&home.path().join("diagnostics").join("cli-verifier.ndjson"));
+    let shape: Vec<(&str, &str)> = role
+        .iter()
+        .map(|l| {
+            (
+                l["event"].as_str().unwrap_or(""),
+                l["subject"].as_str().unwrap_or(""),
+            )
+        })
+        .collect();
+    assert_eq!(
+        shape,
+        [
+            ("process-start", "self"),
+            ("process-start", "version-probe"),
+            ("process-exit", "version-probe"),
+            ("process-start", "verify-probe"),
+            ("process-exit", "verify-probe"),
+            ("process-start", "verify-pty-probe"),
+            ("process-exit", "verify-pty-probe"),
+            ("process-start", "verify-pty-probe"),
+            ("process-exit", "verify-pty-probe"),
+            ("process-exit", "self"),
+        ]
+    );
+    let exit = &role[9];
+    assert_eq!(exit["exit_code"], 1);
+    assert_eq!(exit["detail"], "interrupted");
+    let validator =
+        jsonschema::validator_for(&load_schema(&workspace_path("schemas/diag-line.v1.json")))
+            .expect("valid schema");
+    for (n, line) in role.iter().enumerate() {
+        assert!(validator.is_valid(line), "role line {n} fails the schema");
+    }
+}
+
 #[test]
 fn verify_help_names_the_trusted_folder_and_the_external_import_blocker() {
     let ran = viola(&["verify".into(), "--help".into()], &[]);

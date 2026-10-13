@@ -8,7 +8,9 @@
 //! turn's Stop; the plan run (D, in `<cwd>/.viola-verify-<pid>-plan/`, plan mode) pastes the plan
 //! prompt. In C and D the probe's capture hook answers each dialog (the founder's ruling,
 //! 2026-10-05); both are ended by a kill. No run ever types into a dialog: the untrusted run's input
-//! is empty, a trusted start that shows a modal is killed, and only prompts are pasted.
+//! is empty, a trusted start that shows a modal is killed, and only prompts are pasted. Every wait
+//! but the pump's after a kill ends at the stop; a stopped run is ended by a kill, pastes nothing
+//! more, and no later run starts.
 
 use std::ffi::OsString;
 use std::io::{self, Read, Write};
@@ -26,6 +28,7 @@ use viola_agent_claude::ledger::{
     PROBE_TAG_PASTE, TypedRun,
 };
 use viola_agent_claude::screen::{GATE_MAX_WAIT, QUIET_PERIOD, SIGNATURES, Screen};
+use viola_agent_claude::statusline::SETTINGS_FLAG;
 use viola_agent_claude::{PLUGIN_DIR_FLAG, StripPlan};
 use viola_core::obs::ObsEvent;
 use viola_core::{Clock, MAX_FRAME, obs_event};
@@ -47,40 +50,59 @@ pub(super) struct RunDirs<'a> {
 }
 
 /// What the runs need from `verify`: the resolved CLI and its leading arguments, verify's cwd, the
-/// R8 strip, and the trusted, dialog and plan runs' plugins and capture dirs.
+/// R8 strip, the stop, and the trusted, dialog and plan runs' plugins and capture dirs.
 pub(super) struct Inputs<'a> {
     pub(super) program: &'a Path,
     pub(super) program_args: &'a [OsString],
     pub(super) cwd: &'a Path,
     pub(super) strip: &'a StripPlan,
+    pub(super) stop: fn() -> bool,
     pub(super) trusted: RunDirs<'a>,
     pub(super) questions: RunDirs<'a>,
     pub(super) plan: RunDirs<'a>,
 }
 
+/// One of the four runs, adding what it measured.
+type RunStep<'a> = dyn Fn(&mut TypedRun) -> anyhow::Result<()> + 'a;
+
 /// The four runs in order; every dir any run used is gone on return. Run C and Run D leave only
-/// their captures, which `verify` reads.
-pub(super) fn measure(clock: &Arc<dyn Clock>, inputs: &Inputs<'_>) -> anyhow::Result<TypedRun> {
+/// their captures, which `verify` reads. `None` when the stop was set before a run would start:
+/// the run it ended has been killed and its dir removed.
+pub(super) fn measure(
+    clock: &Arc<dyn Clock>,
+    inputs: &Inputs<'_>,
+) -> anyhow::Result<Option<TypedRun>> {
     let mut typed = TypedRun::default();
     let mut args = inputs.program_args.to_vec();
     args.extend(["--model", "haiku"].map(OsString::from));
+    let runs: [&RunStep<'_>; 4] = [
+        &|typed| untrusted_run(clock, inputs, &args, typed),
+        &|typed| trusted_run(clock, inputs, &args, typed),
+        &|_| dialog_run(clock, inputs, &args),
+        &|_| plan_run(clock, inputs, &args),
+    ];
+    for run in runs {
+        if (inputs.stop)() {
+            return Ok(None);
+        }
+        run(&mut typed)?;
+    }
+    Ok(Some(typed))
+}
 
+/// Run A: the first settled screen in a fresh dir under the OS temp dir, then a kill.
+fn untrusted_run(
+    clock: &Arc<dyn Clock>,
+    inputs: &Inputs<'_>,
+    args: &[OsString],
+    typed: &mut TypedRun,
+) -> anyhow::Result<()> {
     let untrusted = tempfile::Builder::new().prefix("viola-verify-").tempdir()?;
-    let run = Run::spawn(
-        clock,
-        inputs,
-        &args,
-        untrusted.path(),
-        Box::new(io::empty()),
-    )?;
+    let run = Run::spawn(clock, inputs, args, untrusted.path(), Box::new(io::empty()))?;
     typed.modal = run.settle(run.spawned_at).and_then(|s| s.rows);
     run.end_by_kill();
     drop(untrusted);
-
-    trusted_run(clock, inputs, &args, &mut typed)?;
-    dialog_run(clock, inputs, &args)?;
-    plan_run(clock, inputs, &args)?;
-    Ok(typed)
+    Ok(())
 }
 
 /// Run B: the settled input box, one typed turn, the three framing pastes, then Ctrl-C.
@@ -111,6 +133,7 @@ fn trusted_run(
         run.end_by_kill();
         return Ok(());
     }
+    // A stop during the turn or the pastes ends the run by a kill inside `end_by_ctrl_c`.
     turn(&run, inputs.trusted.captures, typed);
     framing_turns(&run, inputs.trusted.captures, typed.turn.clone());
     run.end_by_ctrl_c(&keys);
@@ -129,7 +152,7 @@ fn dialog_run(
 ) -> anyhow::Result<()> {
     let dir = TrustedDir::create(inputs.cwd, "-dialogs")?;
     let mut args = args.to_vec();
-    args.extend(["--settings", DIALOG_SETTINGS, PLUGIN_DIR_FLAG].map(OsString::from));
+    args.extend([SETTINGS_FLAG, DIALOG_SETTINGS, PLUGIN_DIR_FLAG].map(OsString::from));
     args.push(inputs.questions.plugin.as_os_str().to_owned());
     let (keys, pipe) = mpsc::channel::<Vec<u8>>();
     let run = Run::spawn(clock, inputs, &args, &dir.0, Box::new(KeyPipe::new(pipe)))?;
@@ -141,11 +164,11 @@ fn dialog_run(
             DIALOG_PROMPT_PERMISSION,
         ] {
             let stops = count_of(captures, HookEvent::Stop);
-            if run.paste.paste(prompt).is_err() {
+            if !run.paste_text(prompt) {
                 break;
             }
             let until = probe_until(clock.as_ref());
-            let stopped = wait_for(clock.as_ref(), until, || {
+            let stopped = wait_for(clock.as_ref(), until, run.stop, || {
                 count_of(captures, HookEvent::Stop) > stops
             });
             let Some(stopped) = stopped else {
@@ -170,15 +193,15 @@ fn plan_run(clock: &Arc<dyn Clock>, inputs: &Inputs<'_>, args: &[OsString]) -> a
     let plans = dir.0.join("plans");
     create_private_dir(&plans)?;
     let mut args = args.to_vec();
-    args.extend(["--permission-mode", "plan", "--settings"].map(OsString::from));
+    args.extend(["--permission-mode", "plan", SETTINGS_FLAG].map(OsString::from));
     args.push(ledger::plan_settings(&plans.to_string_lossy()).into());
     args.push(PLUGIN_DIR_FLAG.into());
     args.push(inputs.plan.plugin.as_os_str().to_owned());
     let (keys, pipe) = mpsc::channel::<Vec<u8>>();
     let run = Run::spawn(clock, inputs, &args, &dir.0, Box::new(KeyPipe::new(pipe)))?;
-    if run.input_box_settles() && run.paste.paste(PLAN_PROMPT).is_ok() {
+    if run.input_box_settles() && run.paste_text(PLAN_PROMPT) {
         let until = probe_until(clock.as_ref());
-        let stopped = wait_for(clock.as_ref(), until, || {
+        let stopped = wait_for(clock.as_ref(), until, run.stop, || {
             count_of(inputs.plan.captures, HookEvent::Stop) > 0
         });
         if let Some(stopped) = stopped {
@@ -191,18 +214,38 @@ fn plan_run(clock: &Arc<dyn Clock>, inputs: &Inputs<'_>, args: &[OsString]) -> a
     Ok(())
 }
 
-/// The instant `done` was first seen to hold, polled every `POLL`; `None` once `until` passed.
-fn wait_for(clock: &dyn Clock, until: Instant, mut done: impl FnMut() -> bool) -> Option<Instant> {
+/// `found`'s first answer, asked with the clock's present every `POLL`; `None` once `until` passed,
+/// and at once whenever `stopped` reads set. Every wait a run makes polls through it, but the pump's
+/// after a kill (`ended_by`).
+fn poll_until<T>(
+    clock: &dyn Clock,
+    until: Instant,
+    stopped: &dyn Fn() -> bool,
+    mut found: impl FnMut(Instant) -> Option<T>,
+) -> Option<T> {
     loop {
+        if stopped() {
+            return None;
+        }
         let now = clock.now();
-        if done() {
-            return Some(now);
+        if let Some(found) = found(now) {
+            return Some(found);
         }
         if now >= until {
             return None;
         }
         std::thread::sleep(POLL);
     }
+}
+
+/// The instant `done` was first seen to hold; `None` once `until` passed or at the stop.
+fn wait_for(
+    clock: &dyn Clock,
+    until: Instant,
+    stopped: fn() -> bool,
+    mut done: impl FnMut() -> bool,
+) -> Option<Instant> {
+    poll_until(clock, until, &stopped, |now| done().then_some(now))
 }
 
 /// How many captures of `event` `dir` holds, by name.
@@ -233,13 +276,19 @@ fn input_box_up(rows: Option<&[String]>) -> bool {
 fn turn(run: &Run, captures: &Path, typed: &mut TypedRun) {
     let clock = run.clock.as_ref();
     let pasted = clock.now();
-    if run.paste.paste(PROBE_PROMPT).is_err() {
+    if !run.paste_text(PROBE_PROMPT) {
         return;
     }
     let until = pasted + PROBE_DEADLINE;
-    let submitted = wait_capture(captures, HookEvent::UserPromptSubmit, clock, until);
+    let submitted = wait_capture(
+        captures,
+        HookEvent::UserPromptSubmit,
+        clock,
+        until,
+        run.stop,
+    );
     typed.prompt_latency_ms = submitted.map(|s| ms(s.saturating_duration_since(pasted)));
-    let Some(stopped) = wait_capture(captures, HookEvent::Stop, clock, until) else {
+    let Some(stopped) = wait_capture(captures, HookEvent::Stop, clock, until, run.stop) else {
         return;
     };
     typed.max_turn_gap_ms = Some(max_gap(&run.feed().chunks, pasted, stopped));
@@ -263,10 +312,10 @@ fn framing_turns(run: &Run, captures: &Path, mut rows: Option<Vec<String>>) {
         }
         let prompts = count(HookEvent::UserPromptSubmit);
         let stops = count(HookEvent::Stop);
-        if run.paste.paste(text).is_err() {
+        if !run.paste_text(text) {
             return;
         }
-        let stopped = wait_for(clock, probe_until(clock), || {
+        let stopped = wait_for(clock, probe_until(clock), run.stop, || {
             added_turn_ended(captures, prompts, stops)
         });
         let Some(stopped) = stopped else {
@@ -279,10 +328,10 @@ fn framing_turns(run: &Run, captures: &Path, mut rows: Option<Vec<String>>) {
     }
     let starts = count(HookEvent::SessionStart);
     let prompts = count(HookEvent::UserPromptSubmit);
-    if run.paste.paste(PROBE_LOCAL_COMMAND).is_err() {
+    if !run.paste_text(PROBE_LOCAL_COMMAND) {
         return;
     }
-    let answered = wait_for(clock, probe_until(clock), || {
+    let answered = wait_for(clock, probe_until(clock), run.stop, || {
         local_command_answered(captures, starts, prompts)
     });
     if let Some(answered) = answered {
@@ -324,23 +373,18 @@ fn max_gap(chunks: &[Instant], from: Instant, to: Instant) -> u64 {
     ms(max.max(to.saturating_duration_since(prev)))
 }
 
-/// The instant a capture of `event` was first seen in `dir`; `None` once `until` passed.
+/// The instant a capture of `event` was first seen in `dir`; `None` once `until` passed or at the
+/// stop.
 fn wait_capture(
     dir: &Path,
     event: HookEvent,
     clock: &dyn Clock,
     until: Instant,
+    stopped: fn() -> bool,
 ) -> Option<Instant> {
-    loop {
-        let now = clock.now();
-        if captured(dir, event) {
-            return Some(now);
-        }
-        if now >= until {
-            return None;
-        }
-        std::thread::sleep(POLL);
-    }
+    poll_until(clock, until, &stopped, |now| {
+        captured(dir, event).then_some(now)
+    })
 }
 
 fn captured(dir: &Path, event: HookEvent) -> bool {
@@ -539,15 +583,21 @@ fn box_wait(feed: &Feed, from: Instant, now: Instant) -> Option<Settled> {
 }
 
 /// Ctrl-C, again unless `ended` by `CTRL_C_AGAIN` from now (the CLI's first one only arms its
-/// exit), then `kill` unless `ended` by `PROBE_DEADLINE` from now.
+/// exit), then `kill` unless `ended` by `PROBE_DEADLINE` from now. With the stop set no Ctrl-C is
+/// sent, and `ended`, which reads false at the stop, leads straight to the kill.
 fn ctrl_c_ending(
     clock: &dyn Clock,
+    stopped: &dyn Fn() -> bool,
     mut ctrl_c: impl FnMut(),
     mut ended: impl FnMut(Instant) -> bool,
     mut kill: impl FnMut(),
 ) {
+    if stopped() {
+        kill();
+        return;
+    }
     ctrl_c();
-    if !ended(clock.now() + CTRL_C_AGAIN) {
+    if !ended(clock.now() + CTRL_C_AGAIN) && !stopped() {
         ctrl_c();
     }
     if !ended(probe_until(clock)) {
@@ -575,6 +625,7 @@ struct Run {
     pump: JoinHandle<Option<PumpEnd>>,
     spawned_at: Instant,
     started: Instant,
+    stop: fn() -> bool,
 }
 
 impl Run {
@@ -628,6 +679,7 @@ impl Run {
             pump,
             spawned_at,
             started,
+            stop: inputs.stop,
         })
     }
 
@@ -635,35 +687,32 @@ impl Run {
         self.feed.lock().unwrap_or_else(PoisonError::into_inner)
     }
 
-    /// The settled screen from `from` on; `None` when it never settles within `PROBE_DEADLINE`.
+    /// `text` as one bracketed paste unless the stop is set; whether it was pasted.
+    fn paste_text(&self, text: &str) -> bool {
+        !(self.stop)() && self.paste.paste(text).is_ok()
+    }
+
+    /// The settled screen from `from` on; `None` when it never settles within `PROBE_DEADLINE` or
+    /// at the stop.
     fn settle(&self, from: Instant) -> Option<Settled> {
-        let until = from + PROBE_DEADLINE;
-        loop {
-            let now = self.clock.now();
-            if let Some(done) = settled(&self.feed(), from, now) {
-                return Some(done);
-            }
-            if now >= until {
-                return None;
-            }
-            std::thread::sleep(POLL);
-        }
+        poll_until(
+            self.clock.as_ref(),
+            from + PROBE_DEADLINE,
+            &self.stop,
+            |now| settled(&self.feed(), from, now),
+        )
     }
 
     /// The rows once a literal is back on a quiet screen after an added turn's Stop (`from`);
-    /// `None` when the screen is poisoned or shows none within `PROBE_DEADLINE`.
+    /// `None` when the screen is poisoned or shows none within `PROBE_DEADLINE`, or at the stop.
     fn box_wait(&self, from: Instant) -> Option<Vec<String>> {
-        let until = from + PROBE_DEADLINE;
-        loop {
-            let now = self.clock.now();
-            if let Some(done) = box_wait(&self.feed(), from, now) {
-                return done.rows;
-            }
-            if now >= until {
-                return None;
-            }
-            std::thread::sleep(POLL);
-        }
+        poll_until(
+            self.clock.as_ref(),
+            from + PROBE_DEADLINE,
+            &self.stop,
+            |now| box_wait(&self.feed(), from, now),
+        )
+        .and_then(|done| done.rows)
     }
 
     /// Whether the start settles on the input box with no modal: the only screen pasted into.
@@ -686,22 +735,30 @@ impl Run {
         self.finish();
     }
 
-    /// Ctrl-C, again after `CTRL_C_AGAIN` while the child runs, then a kill at `PROBE_DEADLINE`.
+    /// Ctrl-C, again after `CTRL_C_AGAIN` while the child runs, then a kill at `PROBE_DEADLINE`; at
+    /// the stop, the kill with no Ctrl-C.
     fn end_by_ctrl_c(self, keys: &Sender<Vec<u8>>) {
         let clock = self.clock.as_ref();
         ctrl_c_ending(
             clock,
+            &self.stop,
             || {
                 let _ = keys.send(CTRL_C.to_vec());
             },
-            |until| ended_by(clock, until, || self.pump.is_finished()),
+            |until| {
+                poll_until(clock, until, &self.stop, |_| {
+                    self.pump.is_finished().then_some(())
+                })
+                .is_some()
+            },
             || self.kill(),
         );
         self.finish();
     }
 
     /// The pump's end, logged as the run's `process-exit`; a pump still running after the kill's
-    /// wait is left to end on its own.
+    /// wait is left to end on its own. The wait does not observe the stop: a run's dir is removed
+    /// only once its child has stopped writing into it.
     fn finish(self) {
         let clock = self.clock.as_ref();
         let ended = ended_by(clock, probe_until(clock), || self.pump.is_finished());
@@ -1097,6 +1154,7 @@ mod tests {
         let (mut sends, mut waits, mut kills) = (0, Vec::new(), 0);
         ctrl_c_ending(
             &FixedClock(t),
+            &|| false,
             || sends += 1,
             |until| {
                 waits.push(until);
@@ -1110,6 +1168,115 @@ mod tests {
             [t + Duration::from_millis(500), t + Duration::from_secs(120)]
         );
         assert_eq!(kills, expected_kills);
+    }
+
+    /// `ended` reads false at the stop, as the run's own wait does.
+    #[rstest]
+    #[case::before_the_first_ctrl_c(0, 0, 0)]
+    #[case::after_the_first_ctrl_c(1, 1, 2)]
+    fn ctrl_c_ending_at_the_stop_sends_no_more_and_kills(
+        #[case] stopped_from_sends: usize,
+        #[case] expected_sends: usize,
+        #[case] expected_waits: usize,
+    ) {
+        let t = Instant::now();
+        let sends = Cell::new(0);
+        let (mut waits, mut kills) = (0, 0);
+        ctrl_c_ending(
+            &FixedClock(t),
+            &|| sends.get() >= stopped_from_sends,
+            || sends.set(sends.get() + 1),
+            |_| {
+                waits += 1;
+                false
+            },
+            || kills += 1,
+        );
+        assert_eq!(sends.get(), expected_sends);
+        assert_eq!(waits, expected_waits);
+        assert_eq!(kills, 1);
+    }
+
+    #[test]
+    fn poll_until_returns_at_once_at_the_stop_without_asking() {
+        let t = Instant::now();
+        let asks = Cell::new(0);
+        let got = poll_until(&FixedClock(t), t + ms_(1000), &|| true, |_| {
+            asks.set(asks.get() + 1);
+            Some(())
+        });
+        assert_eq!(got, None);
+        assert_eq!(asks.get(), 0);
+    }
+
+    #[test]
+    fn poll_until_ends_at_a_stop_set_while_it_waits() {
+        let t = Instant::now();
+        let asks = Cell::new(0);
+        let got = poll_until(&FixedClock(t), t + ms_(1000), &|| asks.get() >= 2, |_| {
+            asks.set(asks.get() + 1);
+            None::<()>
+        });
+        assert_eq!(got, None);
+        assert_eq!(asks.get(), 2);
+    }
+
+    #[rstest]
+    #[case::answered_on_the_third_ask(2000, Some(3), 3)]
+    #[case::deadline_already_reached(1000, None, 1)]
+    fn poll_until_without_the_stop_waits_to_its_answer_or_its_deadline(
+        #[case] until_ms: u64,
+        #[case] expected: Option<usize>,
+        #[case] expected_asks: usize,
+    ) {
+        let t = Instant::now();
+        let asks = Cell::new(0);
+        let got = poll_until(
+            &FixedClock(t + ms_(1000)),
+            t + ms_(until_ms),
+            &|| false,
+            |now| {
+                assert_eq!(now, t + ms_(1000));
+                asks.set(asks.get() + 1);
+                (asks.get() >= 3).then_some(asks.get())
+            },
+        );
+        assert_eq!(got, expected);
+        assert_eq!(asks.get(), expected_asks);
+    }
+
+    #[test]
+    fn wait_for_and_wait_capture_end_at_the_stop_over_a_held_condition() {
+        let t = Instant::now();
+        let clock = FixedClock(t);
+        let tmp = tempfile::tempdir().expect("tempdir");
+        plant(tmp.path(), "Stop", 1);
+        let until = t + ms_(1000);
+        assert_eq!(
+            wait_capture(tmp.path(), HookEvent::Stop, &clock, until, || true),
+            None
+        );
+        assert_eq!(
+            wait_capture(tmp.path(), HookEvent::Stop, &clock, until, || false),
+            Some(t)
+        );
+        assert_eq!(wait_for(&clock, until, || true, || true), None);
+        assert_eq!(wait_for(&clock, until, || false, || true), Some(t));
+    }
+
+    /// The pump's wait after a kill reads no stop: with it set, the wait still runs to the end.
+    #[test]
+    fn ended_by_still_waits_with_the_stop_set() {
+        super::super::stop::set();
+        assert!(super::super::stop::stopped());
+        let t = Instant::now();
+        let calls = Cell::new(0);
+        let finished = || {
+            calls.set(calls.get() + 1);
+            calls.get() >= 3
+        };
+        assert!(ended_by(&FixedClock(t), t + ms_(1000), finished));
+        assert_eq!(calls.get(), 3);
     }
 
     #[rstest]

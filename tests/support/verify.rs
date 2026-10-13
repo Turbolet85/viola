@@ -4,13 +4,14 @@
 
 use std::ffi::OsString;
 use std::io::Read;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use std::process::{Child, Command, Stdio};
 use std::sync::mpsc;
 use std::time::{Duration, Instant};
 
 use serde_json::{Value, json};
 
+use super::cli::Running;
 use super::fake::{FAKE, write_fixture};
 use super::home::{VIOLA, workspace_path};
 use super::watch::{WITHIN, Watch};
@@ -438,6 +439,54 @@ fn verify_with(
     args.push(workspace_path("").into());
     args.extend(after.iter().map(OsString::from));
     viola_unbounded(&args, env)
+}
+
+/// A `verify` the test started and has not waited, its pid, and the fake agent's receipt.
+pub struct StartedVerify {
+    pub running: Running,
+    pub pid: u32,
+    pub receipt: PathBuf,
+}
+
+/// `verify` as `verify_with` builds it but without `--turn-stop`, started and not waited: Run B
+/// pastes its prompt and waits for a Stop that never comes. It runs in `cwd`, the fake agent's
+/// trusted root, with `tmp` as the OS temp dir (`TMPDIR`, `TMP`, `TEMP`) and `name` as
+/// `VIOLA_NAME`; the receipt is `<home's parent>/stop.receipt.ndjson`.
+pub fn verify_started(
+    home: &Path,
+    fixtures: &Path,
+    version: &str,
+    cwd: &Path,
+    tmp: &Path,
+    name: &str,
+) -> StartedVerify {
+    let receipt = home
+        .parent()
+        .expect("home has a parent")
+        .join("stop.receipt.ndjson");
+    let mut args = verify_args(home, fixtures, version, &[]);
+    args.extend(["--screens", "--dialogs", "--framing", "--trusted-root"].map(OsString::from));
+    args.push(cwd.into());
+    args.push("--receipt".into());
+    args.push(receipt.clone().into());
+    let child = Command::new(VIOLA)
+        .args(&args)
+        .current_dir(cwd)
+        .env_remove("VIOLA_DIR")
+        .env("VIOLA_NAME", name)
+        .env("TMPDIR", tmp)
+        .env("TMP", tmp)
+        .env("TEMP", tmp)
+        .stdin(Stdio::null())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .expect("viola runs");
+    StartedVerify {
+        pid: child.id(),
+        running: Running::over(child),
+        receipt,
+    }
 }
 
 /// `verify` with no screen flag for the fake agent: the four interactive runs wait out the gate's

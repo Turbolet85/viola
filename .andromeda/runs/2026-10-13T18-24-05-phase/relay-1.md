@@ -1,0 +1,1 @@
+Interrupted verify cleanup. No mutation run, witness run or workflow dispatch inside the chunk. No live claude start without the founder's cap: if one seems needed, raise it as a P4 fork with its count. Size it against one window at P5. Every time written into a record comes from date -u in the same call.
