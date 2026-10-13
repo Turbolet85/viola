@@ -1,0 +1,129 @@
+[
+{
+"tool": "cascade",
+"v": "1.8",
+"sha8": "8581eaf9",
+"ts": "2026-10-13T17:00:58Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-10-13T16-59-54-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-13T16-59-54-wrap",
+"--marker",
+"2026-10-13-epoch-4-survivors"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"baseline ad7fb3c1 (pre-pass — HEAD)",
+"mutjobs · control UNFIRED over the seven masters at ad7fb3c1",
+"filterform · control UNFIRED over the seven masters at ad7fb3c1"
+],
+"stderr": "control: mutjobs, filterform never fired over the seven masters' pre-pass text (ad7fb3c1) — a sweep runs a positive control or refuses; drop the pattern or control it by hand",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.8",
+"sha8": "8581eaf9",
+"ts": "2026-10-13T17:01:11Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-10-13T16-59-54-wrap/report-patterns.toml",
+"--pattern",
+"snapwriter",
+"--pattern",
+"ptywatch",
+"--pattern",
+"notmeasured",
+"--pattern",
+"issueline",
+"--run-dir",
+".andromeda/runs/2026-10-13T16-59-54-wrap",
+"--marker",
+"2026-10-13-epoch-4-survivors"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline ad7fb3c1 (pre-pass — HEAD)",
+"snapwriter · new 0 · standing 1 · leaf 2 · curation 0 · base 0 · control architecture.md:51 (prose)",
+"ptywatch · new 0 · standing 1 · leaf 2 · curation 0 · base 0 · control architecture.md:415 (prose)",
+"notmeasured · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control test-plan.md:1226 (prose)",
+"issueline · new 0 · standing 14 · leaf 1 · curation 0 · base 0 · control design-system.md:724 (prose)",
+".andromeda/architecture.md:51 snapwriter standing ×2 …st `viola_state::fs::REPLACE_ATTEMPTS` = 100 attempts (an attempt…",
+".claude/docs/services/viola-state.md:23 snapwriter leaf … file, at most `fs::REPLACE_ATTEMPTS` = 100 attempts; any othe…",
+".claude/docs/services/viola-state.md:24 snapwriter leaf …) is retried under `REPLACE_ATTEMPTS` (`retry_open`, `open_hel…",
+".andromeda/architecture.md:415 ptywatch standing ×2 …la home: `<temp dir>/viola-pty-watch/<test name>.report` and its s…",
+".claude/docs/gotchas.md:111 ptywatch leaf ×2 … reports in `<temp dir>/viola-pty-watch/` (`<test>.report`, `<test>.test.…",
+".claude/docs/services/viola-pty.md:33 ptywatch leaf ×2 …streams `<temp dir>/viola-pty-watch/<test>.report` (`start`, `s…",
+".andromeda/test-plan.md:1226 notmeasured standing ×2 @c2166,3159/5913 …— is recorded \"not measured here; owed to {the r…",
+".claude/docs/tests-summary.md:42 notmeasured leaf @c851/2713 …pile or reach is \"not measured here; owed to {route entry…",
+".andromeda/design-system.md:724 issueline standing …waiting: <name>`, the issue line of a send), refusals (`unable  <na…",
+".andromeda/design-system.md:754 issueline standing [  ] open           builder  issued 19:43:58.912Z                 (s…",
+".andromeda/layout-templates.md:80 issueline standing …                     [  ] open              |     DIALOG cell col…",
+".andromeda/layout-templates.md:97 issueline standing … with step 4             [  ] open      |  <- open until read back",
+".andromeda/layout-templates.md:120 issueline standing …  since 19:43:58Z                    [  ] open                  |",
+".andromeda/layout-templates.md:350 issueline standing ×2 1. The issue line `[  ] open …`, on stderr and only on a TTY. …",
+".andromeda/layout-templates.md:412 issueline standing [  ] open           builder  issued 19:45:05.300Z                …",
+".andromeda/layout-templates.md:416 issueline standing [  ] open           builder  issued 19:44:31.007Z",
+".andromeda/layout-templates.md:421 issueline standing [  ] open           builder  issued 19:46:12.001Z",
+".andromeda/layout-templates.md:425 issueline standing …45:05.912Z\",\"cursor\":48213}}   <- stdout; no glyph, no issue line",
+".andromeda/layout-templates.md:428 issueline standing ×2 … never redrawn: the issue line stays and the outcome is print…",
+".andromeda/layout-templates.md:567 issueline standing …over time:** the TTY issue line on stderr is the open box. The o…",
+".andromeda/layout-templates.md:592 issueline standing …out. `waiting:`, the issue line, refusals, hints, errors and the…",
+".andromeda/registries/contracts/architecture/project-directory-structure.md:22 issueline standing …ror (`[  ] open` / `…",
+".claude/rules/frontend.md:38 issueline leaf … = `waiting:`, the send issue line, refusals `unable  <name>  <reason>  <d…",
+"snapwriter · new 0 · standing 1 · leaf 2 · curation 0 · base 0 · control architecture.md:51 (prose)",
+"ptywatch · new 0 · standing 1 · leaf 2 · curation 0 · base 0 · control architecture.md:415 (prose)",
+"notmeasured · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control test-plan.md:1226 (prose)",
+"issueline · new 0 · standing 14 · leaf 1 · curation 0 · base 0 · control design-system.md:724 (prose)",
+"total (4 patterns) · 23 rows over 10 files",
+"per class · new 0/0 · standing 17/5 · leaf 6/5 · curation 0/0 · base 0/0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "ad7fb3c1f7a8cf5fc840622927bf244554fc8167",
+"how": "pre-pass — HEAD",
+"counts": {
+"snapwriter": {
+"new": 0,
+"standing": 1,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"ptywatch": {
+"new": 0,
+"standing": 1,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"notmeasured": {
+"new": 0,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"issueline": {
+"new": 0,
+"standing": 14,
+"leaf": 1,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]

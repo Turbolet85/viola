@@ -1,0 +1,9 @@
+
+## 2026-10-13-epoch-4-survivors — the replace loop's retry decision passed in, the pty watch report per process, the answers tempdir
+**Section:** [Snapshot writer]; Occupied Resources → Filesystem (the viola-pty watch report); Occupied Resources → Repository
+**Change:**
+- [Snapshot writer]: the replace loop sits in the private `replace_private_retrying`, which takes the decision to retry a failed rename (from its raw OS error) from its caller; `replace_private_with` keeps its signature and passes `retry_replace(_, HOST_IS_WINDOWS)`, so the product's behaviour stands as stated (mode before any byte, `sync_all`, `persist`, at most `REPLACE_ATTEMPTS` = 100 attempts, only raw OS error 5 on a Windows host retried) and the loop's attempt bound is exercised by a unit case on every host. Was: the loop inside `replace_private_with`, its decision the const alone.
+- Filesystem: the real-PTY report files are `<temp dir>/viola-pty-watch/<test name>.<pid>.report` and `<test name>.<pid>.test.report`, `<pid>` the test process's id, so two test processes running the same test never share one; keep-on-failure and remove-on-pass unchanged. Was: `<test name>.report` / `<test name>.test.report`.
+- Repository: new test-only row `target/viola-answers-*/` (under the test process's current dir), the tempfile dir of `answer_reads_no_relative_answers_dir_that_resolves`, reached only by `../<current dir's name>/target/<tmp>/answers`, removed on drop, gitignored.
+**Why:** the Epoch 4 boundary audit's survivors: five const-gated `replace_private_with` mutants reachable on Linux only once the caller supplies the decision; the `resize` mutant read missed by the audit yet red when its tests ran alone, so the shared report file is closed off (its two-job cause recorded, not established); a relative path to a temp dir on another Windows drive does not exist.
+**Ref:** .andromeda/runs/2026-10-13T16-59-54-wrap/

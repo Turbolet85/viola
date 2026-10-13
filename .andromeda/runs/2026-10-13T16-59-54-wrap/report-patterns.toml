@@ -1,0 +1,24 @@
+[[pattern]]
+id = 'snapwriter'
+regex = 'replace_private_with|retry_replace|REPLACE_ATTEMPTS|replace_private_retrying'
+
+[[pattern]]
+id = 'ptywatch'
+regex = 'viola-pty-watch|<test name>\.report|<test>\.report'
+
+[[pattern]]
+id = 'notmeasured'
+regex = 'not measured here'
+ignore_case = true
+
+[[pattern]]
+id = 'mutjobs'
+regex = 'cargo-mutants jobs|two jobs|JOBS = 2|-j 2|one TMPDIR|shared TMPDIR'
+
+[[pattern]]
+id = 'filterform'
+regex = 'test\(=tests::|tests::name'
+
+[[pattern]]
+id = 'issueline'
+regex = 'issue line|\[  \] open'

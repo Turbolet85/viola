@@ -4,8 +4,16 @@
 the 3 `operator` legs not fired by this skill. The scope read is `clean`: 10 files changed, all 10 listed, 0 recorded.
 No verification-matrix capability is claimed by this chunk (`matrix.py show`: 0), so there was no matrix write.
 
-Next → the OPERATOR PASS: entry 18 (`gate.py hygiene`) before the pre-CI commit, entry 19 (the push), entry 20 (the
-`ci.py conclusion` read). Then `/andromeda-wrap-session`.
+**The operator pass ran** in this session, on the operator's word in the invocation
+(`chunks/…/evidence/operator.md`):
+1. Entry 17 (pre-push) was re-fired on the final tree: green.
+2. Entry 18 (hygiene): clean.
+3. The pre-CI commit: `ad7fb3c1f7a8`.
+4. Entry 19 (the push): green, 0 ahead after it.
+5. Entry 20 (the CI read): **verdict: green**, checks 15/15, wall 610 s, run `ci#38430155254` on
+   `windows-2025`, `macos-latest` and `ubuntu-latest`.
+
+Next → `/andromeda-wrap-session`.
 
 ## Files changed (10, every one in research's Files to modify)
 - `crates/viola-pty/src/lib.rs` — step 2, branch b: `report_paths` names both files `<test>.<pid>.report` /

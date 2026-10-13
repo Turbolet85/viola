@@ -1,0 +1,162 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "574aedd9",
+"ts": "2026-10-13T17:03:22Z",
+"argv": [
+"append",
+"--file",
+"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors/report.md",
+"--payload-file",
+".andromeda/runs/2026-10-13T16-59-54-wrap/new-text.md",
+"--lines",
+"43",
+"--if-absent-prefix",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-10-13T16-59-54-wrap",
+"--marker",
+"2026-10-13-epoch-4-survivors"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append report.md:+43 at line 264 · lines 263→306 · bytes 22945→25685 · term lf",
+"last line now:   - 934-950 @937 «fn wheel_pause_whose_record_cannot_be_appended_is_internal() "
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors/report.md"
+],
+"before": {
+"lines": 263,
+"bytes": 22945,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 306,
+"bytes": 25685
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "574aedd9",
+"ts": "2026-10-13T17:08:57Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-13T16-59-54-wrap/architecture-entry.md",
+"--lines",
+"9",
+"--run-dir",
+".andromeda/runs/2026-10-13T16-59-54-wrap",
+"--marker",
+"2026-10-13-epoch-4-survivors"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+9 at line 1015 · lines 1014→1023 · bytes 195239→197153 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-13T16-59-54-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 1014,
+"bytes": 195239,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1023,
+"bytes": 197153
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "574aedd9",
+"ts": "2026-10-13T17:08:57Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-13T16-59-54-wrap/test-plan-entry.md",
+"--lines",
+"8",
+"--run-dir",
+".andromeda/runs/2026-10-13T16-59-54-wrap",
+"--marker",
+"2026-10-13-epoch-4-survivors"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+8 at line 849 · lines 848→856 · bytes 146289→148067 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-13T16-59-54-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 848,
+"bytes": 146289,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 856,
+"bytes": 148067
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "574aedd9",
+"ts": "2026-10-13T17:13:22Z",
+"argv": [
+"append",
+"--file",
+"viola-0.1.0/working-route.md",
+"--payload-file",
+".andromeda/runs/2026-10-13T16-59-54-wrap/route-mint.txt",
+"--lines",
+"2",
+"--after-line",
+"129",
+"--run-dir",
+".andromeda/runs/2026-10-13T16-59-54-wrap",
+"--marker",
+"2026-10-13-epoch-4-survivors"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append working-route.md:+2 at line 130 · lines 189→191 · bytes 75155→77462 · term lf",
+"last line now: Version done-check — every gate green on three OSes, masters agree, fix-pass i"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/working-route.md"
+],
+"before": {
+"lines": 189,
+"bytes": 75155,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 191,
+"bytes": 77462
+}
+}
+]

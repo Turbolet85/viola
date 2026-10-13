@@ -1,0 +1,123 @@
+[
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "8fc13695",
+"ts": "2026-10-13T17:16:23Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-10-13-epoch-4-survivors",
+"--desc-file",
+".andromeda/runs/2026-10-13T16-59-54-wrap/master-desc.txt",
+"--run-dir",
+".andromeda/runs/2026-10-13T16-59-54-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"flip master-route.md:67 - 2026-10-13-epoch-4-survivors pending -> complete - desc REWRITTEN from --desc-file"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "8fc13695",
+"ts": "2026-10-13T17:16:23Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-13-epoch-4-survivors",
+"--date",
+"2026-10-13",
+"--run-dir",
+".andromeda/runs/2026-10-13T16-59-54-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :128 strip CARRY: 1030ch \"CARRY: the Epoch 4 boundary (minted at i\"",
+"pin :128 strip CARRY: 2240ch \"CARRY: chunk 2026-10-13-epoch-4-cleanup \"",
+"pin :128 strip CARRY: 603ch \"CARRY: chunk 2026-10-13-epoch-4-cleanup \"",
+"pin next markerless :130 holds CARRY:×1",
+"128 · 2026-10-13-epoch-4-survivors · strip 3 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 128,
+"marker": "2026-10-13-epoch-4-survivors",
+"blocks": 3,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "8fc13695",
+"ts": "2026-10-13T17:16:32Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-13-epoch-4-survivors",
+"--date",
+"2026-10-13",
+"--run-dir",
+".andromeda/runs/2026-10-13T16-59-54-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :128 strip CARRY: 1030ch \"CARRY: the Epoch 4 boundary (minted at i\"",
+"pin :128 strip CARRY: 2240ch \"CARRY: chunk 2026-10-13-epoch-4-cleanup \"",
+"pin :128 strip CARRY: 603ch \"CARRY: chunk 2026-10-13-epoch-4-cleanup \"",
+"pin next markerless :130 holds CARRY:×1",
+"128 · 2026-10-13-epoch-4-survivors · strip 3 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/route-archive.md",
+"./viola-0.1.0/working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 128,
+"marker": "2026-10-13-epoch-4-survivors",
+"blocks": 3,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

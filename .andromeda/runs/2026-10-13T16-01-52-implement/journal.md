@@ -12,3 +12,5 @@ One line per long run, written before the wait.
   and both readings were `nextest-exit-4`, not the case (m00 m07 m13 m20–m23 m33–m44). Backgrounded.
 - 2026-10-13 16:18Z · P2 · the whole gate block, `gate.py run --plan … --run-dir … --marker …`, backgrounded (19
   entries, three operator legs not fired; `pre-push` bounded at 7200 s).
+- 2026-10-13 16:23Z · operator pass · entry 20, `ci.py conclusion --sha HEAD --wait 1800` on `ad7fb3c`, fired as
+  written, backgrounded.

@@ -1,0 +1,8 @@
+
+## 2026-10-13-epoch-4-survivors — the Epoch 4 survivors disposed, the resize miss recorded
+**Section:** §10 Quality Gates → Mutation gate
+**Change:**
+- The Epoch 4 boundary audit's Linux whole-member runs read 47 missed; their ledger is the chunk's `evidence/survivors.ndjson`: 29 disposed by a nextest case in the package that owns the mutated file, 7 of them after a behaviour-preserving restatement that made the site reachable on Linux (`viola_state::fs`'s retry decision passed in by the caller, `viola send`'s issue-line decision a named function), each shown red under its hand-applied mutant and green restored with no mutation run made; the 2 `prepare` rows stand as recorded "not measured here"; the 16 in `src/cmd/verify/typed.rs` (`framing_turns` 5, `SharedPty` 5, `Run`'s ending sequence 6) owed to the route entry "Epoch 4 survivors II". The Epoch 5 boundary audit's own run confirms the 29 kills.
+- Beside the Linux mutation `TMPDIR` sentence: the audit ran two cargo-mutants jobs (`-j 2`) under one `TMPDIR` and read viola-pty's `PortablePty::resize` → `Ok(())` missed, while its three resize tests, run alone under that mutant, read red; that the other job's unmutated run wrote the awaited line into the shared report file is recorded, not established. The report files now carry the test process's id, so two jobs never share one.
+**Why:** the founder's split of the entry (by dialog, relayed verbatim by the operator): this chunk takes the 31 reachable by a unit case or a small restatement, the Run B driver restatement left for its own entry; and his standing direction that the mutation workflow runs at the epoch boundary only, so each kill is shown by hand and read by the next boundary audit.
+**Ref:** .andromeda/runs/2026-10-13T16-59-54-wrap/

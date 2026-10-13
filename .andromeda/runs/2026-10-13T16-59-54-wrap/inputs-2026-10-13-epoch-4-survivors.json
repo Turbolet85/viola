@@ -1,0 +1,101 @@
+[
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-13T17:00:17Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors",
+"--run-dir",
+".andromeda/runs/2026-10-13T16-59-54-wrap",
+"--marker",
+"2026-10-13-epoch-4-survivors"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation arguments, 2026-10-13T14:19Z",
+"I1 cited scope.md:9 · scope.md:41 · scope.md:60 · scope.md:117 · scope.md:120 · scope.md:122 · scope.md:127 · research.md:9 · research.md:12 · research.md:130 · plan.md:14 · plan.md:27 · plan.md:64 · plan.md:195 · plan.md:342 · plan.md:401 · plan.md:410",
+"I2 n/a — a message has no live source · copy message · message: the founder, by dialog (\"Делить на две\"), relayed verbatim by the operator, 2026-10-13",
+"I2 cited scope.md:19 · scope.md:64 · scope.md:128 · research.md:134 · research.md:154 · research.md:165 · plan.md:10 · plan.md:164 · plan.md:236 (in fence) · plan.md:245 (in fence) · plan.md:339 · plan.md:362 · plan.md:392 · plan.md:402 · plan.md:428",
+"I3 n/a — a message has no live source · copy message · message: the operator, in a message, 2026-10-13",
+"I3 UNCITED",
+"inputs: 3 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 1,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-13T17:00:30Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-13-epoch-4-survivors",
+"--message-file",
+".andromeda/runs/2026-10-13T16-59-54-wrap/relay-1.md",
+"--origin",
+"the operator, the /andromeda-wrap-session invocation arguments, 2026-10-13T16:59Z",
+"--kind",
+"relay",
+"--why",
+"the wrap direction: mint \"Epoch 4 survivors II\" directly after this entry from p5-card-1.md row 1 (the founder approved, inputs#I2); amend the three leaves the implement report names; the Bash guard refuses a pipeline tool piped into a filter",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-13T16-59-54-wrap",
+"--marker",
+"2026-10-13-epoch-4-survivors"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy message · message: the operator, the /andromeda-wrap-session invocation arguments, 2026-10-13T16:59Z",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, the /andromeda-wrap-session invocation arguments, 2026-10-13T16:59Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "9bafafa6c2020d78c69d0c100513008b6a2ad7c011fd176a1117a5f59ef34708",
+"copy": "I4-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-13T17:00:30Z",
+"step": "wrap",
+"why": "the wrap direction: mint \"Epoch 4 survivors II\" directly after this entry from p5-card-1.md row 1 (the founder approved, inputs#I2); amend the three leaves the implement report names; the Bash guard refuses a pipeline tool piped into a filter"
+}
+}
+]

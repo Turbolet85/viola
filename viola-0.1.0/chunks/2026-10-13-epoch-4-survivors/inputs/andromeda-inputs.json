@@ -52,5 +52,23 @@
     "read_at": "2026-10-13T15:59:40Z",
     "step": "phase:P5",
     "why": "the P5 word on .andromeda/runs/2026-10-13T14-19-57-phase/p5-card-1.md: yes, the card stands as written, its Beyond the plan row 1 (mint \"Epoch 4 survivors II\") included; the operator word"
+  },
+  {
+    "id": "I4",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the operator, the /andromeda-wrap-session invocation arguments, 2026-10-13T16:59Z",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "9bafafa6c2020d78c69d0c100513008b6a2ad7c011fd176a1117a5f59ef34708",
+    "copy": "I4-relay-1.md.txt",
+    "link": false,
+    "read_at": "2026-10-13T17:00:30Z",
+    "step": "wrap",
+    "why": "the wrap direction: mint \"Epoch 4 survivors II\" directly after this entry from p5-card-1.md row 1 (the founder approved, inputs#I2); amend the three leaves the implement report names; the Bash guard refuses a pipeline tool piped into a filter"
   }
 ]

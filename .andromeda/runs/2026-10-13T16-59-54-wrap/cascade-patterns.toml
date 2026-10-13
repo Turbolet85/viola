@@ -1,0 +1,16 @@
+[[pattern]]
+id = 'oldwatch'
+regex = '<test name>\.report|<test>\.report|<test name>\.test\.report|<test>\.test\.report|named after the test|viola-pty-watch'
+
+[[pattern]]
+id = 'snapwriter'
+regex = 'replace_private_with|retry_replace|REPLACE_ATTEMPTS|replace_private_retrying|retried every 10 ms'
+
+[[pattern]]
+id = 'notmeasured'
+regex = 'not measured here'
+ignore_case = true
+
+[[pattern]]
+id = 'linuxtmpdir'
+regex = 'viola-mutants-scratch'
