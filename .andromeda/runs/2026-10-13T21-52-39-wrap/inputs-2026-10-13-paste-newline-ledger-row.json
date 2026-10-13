@@ -1,0 +1,208 @@
+[
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-13T21:53:06Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-13-paste-newline-ledger-row",
+"--message-file",
+".andromeda/runs/2026-10-13T21-52-39-wrap/relay-1.md",
+"--origin",
+"the operator, this session, 2026-10-13T21:52Z",
+"--kind",
+"relay",
+"--why",
+"the operator: plan entries 12 and 13 are wording faults recorded as deviations, neither reworded; mint Owed ledger rows directly after this entry from p5-card-1.md",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-13T21-52-39-wrap",
+"--marker",
+"2026-10-13-paste-newline-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy message · message: the operator, this session, 2026-10-13T21:52Z",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, this session, 2026-10-13T21:52Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "50a2a922dd8398ae333d8379e9aa8d4fba689986f7dec51354e9f8fabb2d71d6",
+"copy": "I4-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-13T21:53:06Z",
+"step": "wrap",
+"why": "the operator: plan entries 12 and 13 are wording faults recorded as deviations, neither reworded; mint Owed ledger rows directly after this entry from p5-card-1.md"
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-13T21:53:06Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-13-paste-newline-ledger-row",
+"--message-file",
+".andromeda/runs/2026-10-13T21-52-39-wrap/relay-2.md",
+"--origin",
+"the operator, this session, 2026-10-13T21:22Z",
+"--kind",
+"relay",
+"--why",
+"the operator at implement: the founder cap of five live starts in one record round fired once, each start ledgered before it, no mutation or witness run or dispatch, the operator pass with the ci.py read",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-13T21-52-39-wrap",
+"--marker",
+"2026-10-13-paste-newline-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I5 · copy message · message: the operator, this session, 2026-10-13T21:22Z",
+"cite: inputs#I5"
+],
+"stderr": null,
+"wrote": [
+"inputs/I5-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I5",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, this session, 2026-10-13T21:22Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "3d69f59e86cb11ddbca1f3b925e1052515704cbca1bc262ce2084361173700b3",
+"copy": "I5-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-13T21:53:06Z",
+"step": "wrap",
+"why": "the operator at implement: the founder cap of five live starts in one record round fired once, each start ledgered before it, no mutation or witness run or dispatch, the operator pass with the ci.py read"
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-13T21:53:12Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-13-paste-newline-ledger-row",
+"--run-dir",
+".andromeda/runs/2026-10-13T21-52-39-wrap",
+"--marker",
+"2026-10-13-paste-newline-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, /andromeda-phase invocation, 2026-10-13T20:31Z",
+"I1 cited scope.md:9 · scope.md:38 · scope.md:123 · scope.md:148 · scope.md:152 · scope.md:153 · research.md:12 · research.md:81 · plan.md:28 · plan.md:79 · plan.md:138 · plan.md:362 · plan.md:371 · plan.md:389 · plan.md:398",
+"I2 n/a — a message has no live source · copy message · message: the founder, by dialog, relayed verbatim by the operator, 2026-10-13T21:09Z",
+"I2 cited scope.md:144 · research.md:139 · plan.md:20 · plan.md:22 · plan.md:27 · plan.md:94 · plan.md:139 · plan.md:192 (in fence) · plan.md:323 · plan.md:331 · plan.md:362 · plan.md:379 · plan.md:380 · plan.md:382 · plan.md:400 · plan.md:407",
+"I3 n/a — a message has no live source · copy message · message: the operator, in the session, 2026-10-13T21:20Z",
+"I3 UNCITED",
+"I4 n/a — a message has no live source · copy message · message: the operator, this session, 2026-10-13T21:52Z",
+"I4 UNCITED",
+"I5 n/a — a message has no live source · copy message · message: the operator, this session, 2026-10-13T21:22Z",
+"I5 UNCITED",
+"inputs: 5 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 5 · uncited 3 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 5,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 5
+},
+"uncited": 3,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-13T21:56:19Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-13-paste-newline-ledger-row",
+"--run-dir",
+".andromeda/runs/2026-10-13T21-52-39-wrap",
+"--marker",
+"2026-10-13-paste-newline-ledger-row"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, /andromeda-phase invocation, 2026-10-13T20:31Z",
+"I1 cited scope.md:9 · scope.md:38 · scope.md:123 · scope.md:148 · scope.md:152 · scope.md:153 · research.md:12 · research.md:81 · plan.md:28 · plan.md:79 · plan.md:138 · plan.md:362 · plan.md:371 · plan.md:389 · plan.md:398 · report.md:129 · report.md:133",
+"I2 n/a — a message has no live source · copy message · message: the founder, by dialog, relayed verbatim by the operator, 2026-10-13T21:09Z",
+"I2 cited scope.md:144 · research.md:139 · plan.md:20 · plan.md:22 · plan.md:27 · plan.md:94 · plan.md:139 · plan.md:192 (in fence) · plan.md:323 · plan.md:331 · plan.md:362 · plan.md:379 · plan.md:380 · plan.md:382 · plan.md:400 · plan.md:407 · report.md:121 · report.md:126 · report.md:135 · report.md:142 · report.md:174 · report.md:185 · report.md:249 · report.md:260 · report.md:301",
+"I3 n/a — a message has no live source · copy message · message: the operator, in the session, 2026-10-13T21:20Z",
+"I3 cited report.md:104 · report.md:118",
+"I4 n/a — a message has no live source · copy message · message: the operator, this session, 2026-10-13T21:52Z",
+"I4 cited report.md:139 · report.md:157 · report.md:161 · report.md:212 · report.md:217 · report.md:257 · report.md:260 · report.md:318 · report.md:337 · report.md:339 · report.md:359",
+"I5 n/a — a message has no live source · copy message · message: the operator, this session, 2026-10-13T21:22Z",
+"I5 cited report.md:143 · report.md:240 · report.md:249",
+"inputs: 5 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 5 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 5,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 5
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]

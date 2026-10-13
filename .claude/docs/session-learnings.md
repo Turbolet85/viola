@@ -8,6 +8,17 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-10-14 — A sweep pattern file refuses an escaped apostrophe and a late inline flag
+The wrap's site-sweep and cascade pattern files are TOML. A pattern goes in a literal string (`'…'`), and a TOML
+literal string has no escapes at all: a doubled apostrophe (`''`) ends the string and the file does not parse. A
+regex that holds an apostrophe goes in a triple-quoted literal (`'''…'''`). The regexes are compiled by Python's `re`,
+which refuses a global inline flag such as `(?i)` anywhere but at the very start of the expression; one flag after
+the first alternative fails the compile. Open the expression with the flag, or spell both cases (`[Ff]our`) in the
+alternative that needs them. The sweep tool names the pattern and the position on either refusal, so read its one line
+before re-firing.
+
+---
+
 ## 2026-10-13 — A sweep for a ruling's marks keys on every wording the marks use
 A sweep that looks for the places a batch of rulings must rewrite finds only the wordings its patterns name, and the masters word one class of mark several ways. At the Epoch 4 boundary the marks of the founder's batch read "the operator's word", "the operator's answer", "not ruled", "not worded by the founder", "his wording is owed", "not ratified" and "accepted by the operator". None of them reads "PROVISIONAL", which hits only two deadline constants, so a sweep on that token reads every real mark as absent. A pattern for "the operator's word" missed four sites worded "accepted by the operator". A pattern for "confirmed the card" missed a third sidecar site worded "confirmed the one card", and sidecars lie outside `cascade.py sweep` anyway. Before a site table is written, read a handful of known marks and take each wording they use into the pattern set. Read sidecar sites with their own command.
 

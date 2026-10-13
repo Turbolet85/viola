@@ -43,3 +43,32 @@ hygiene: clean — read 51 (runs 42 · evidence 4 · inputs 5) · trails 13 not 
 `chore(2026-10-13-paste-newline-ledger-row): operator pre-CI commit, for the run this chunk's verdict reads`, made
 of the whole tree (`git add -A`) on `build/viola-0.1.0`. The record above rides this commit. The sections below
 are written after it and ride the wrap commit.
+
+`16b5f5f4006b`. Its body: "hygiene: clean after one rewrite (evidence/live-round.md: a temp-dir pattern respelled
+as prose)."
+
+## Entry 23 — the push, fired through `gate.py run --operator 23`
+
+```
+operator entry 23 · history tripwire: git
+ 23 probe       green · exit 0 · 2.3s · 90 B → 23.log · history moved: refs/remotes/origin/HEAD 19483111→16b5f5f4; refs/remotes/origin/build/viola-0.1.0 19483111→16b5f5f4 · git diff --quiet && git diff --cached --quiet && git push … (69 chars)
+entries 24 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 23
+```
+
+After it, `git rev-list --count @{u}..HEAD` read 0.
+
+## Entry 24 — the CI read for the pre-CI commit: green
+
+`ci.py conclusion --sha HEAD --wait 1800`, fired as written:
+
+```
+repo Turbolet85/viola (the push remote `origin`) · polled 20× over 591 s
+16b5f5f4006b verdict: green · checks 15/15 · wall 572 s · runs ci#38472492871 completed/success
+runs: ci#38472492871 push completed/success
+checks: fuzz-replay · lint (macos-latest) · lint (ubuntu-latest) · lint (windows-2025) · msrv · perf (macos-latest)
+  perf (ubuntu-latest) · perf (windows-2025) · release (macos-latest) · release (ubuntu-latest) · release (windows-2025)
+  supply-chain · test (macos-latest) · test (ubuntu-latest) · test (windows-2025)
+```
+
+The `test` jobs ran `cli_verify`, `contract_ledger_probes` and the fixture contracts on all three OSes against the
+fake agent, which replayed the recorded `paste-3`. No fix commit was needed.

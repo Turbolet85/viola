@@ -1,0 +1,31 @@
+[[pattern]]
+id = 'rows17'
+regex = '(?i)seventeen|\b17 (ledger )?rows|\b17 pass'
+
+[[pattern]]
+id = 'runb-pastes'
+regex = '''(?i)\b(three|four) (added |framing |compiled )?pastes|Run B's (three|four)|four compiled literals'''
+
+[[pattern]]
+id = 'framing-variants'
+regex = '(?i)paste-2|paste-<n>|framing variants'
+
+[[pattern]]
+id = 'ledger-rows-lit'
+regex = 'LEDGER_ROWS|LIVE_PASS'
+
+[[pattern]]
+id = 'step-counter'
+regex = '\[NN/MM\]|\[01/1[0-9]\]|/17\]'
+
+[[pattern]]
+id = 'paste-newline'
+regex = 'paste-newline|PROBE_NEWLINE_PASTE'
+
+[[pattern]]
+id = 'inner-lf-owed'
+regex = '(?i)LF typed inside a paste|an LF inside a paste|LF (typed )?inside a (bracketed )?paste|Paste newline ledger row'
+
+[[pattern]]
+id = 'owed-rows'
+regex = '(?i)Owed ledger rows|three relied-on|relied-on dependences'

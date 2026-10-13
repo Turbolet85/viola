@@ -1,0 +1,31 @@
+[[pattern]]
+id = 'rows17'
+regex = '(?i)seventeen|\b17 (ledger )?rows|/17\]|\[&str; 17\]|17 pass  0 fail|MM` is 17'
+
+[[pattern]]
+id = 'pastes-count'
+regex = '(?i)\b(two|three) (added |framing |compiled )?(pastes|turns|paste rows)|four bracketed pastes|four compiled literals|four pastes'
+
+[[pattern]]
+id = 'owner-pnlr'
+fixed = 'Paste newline ledger row'
+
+[[pattern]]
+id = 'variants-two'
+regex = '`paste-1` / `paste-2`(?! /)|\b[Ff]our (recorded )?framing (variants|payloads)|4 framing variants'
+
+[[pattern]]
+id = 'dialogless13'
+fixed = '13 pass  4 fail'
+
+[[pattern]]
+id = 'row18'
+regex = '(?i)an 18th row'
+
+[[pattern]]
+id = 'lf-unrowed'
+regex = '(?i)(has no ledger row and no `viola verify` probe|no ledger row or `viola verify` probe covers)'
+
+[[pattern]]
+id = 'relied-three'
+regex = '(?i)three relied-on'

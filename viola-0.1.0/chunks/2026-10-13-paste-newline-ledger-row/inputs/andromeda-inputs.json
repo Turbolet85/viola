@@ -52,5 +52,41 @@
     "read_at": "2026-10-13T21:20:14Z",
     "step": "phase:P5",
     "why": "the operator own word yes on .andromeda/runs/2026-10-13T20-31-55-phase/p5-card-1.md: the card stands as written, Beyond-the-plan rows 2 to 5 included (row 1 is the founder fork 3); the live round is exactly five starts, fired once, never retried"
+  },
+  {
+    "id": "I4",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the operator, this session, 2026-10-13T21:52Z",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "50a2a922dd8398ae333d8379e9aa8d4fba689986f7dec51354e9f8fabb2d71d6",
+    "copy": "I4-relay-1.md.txt",
+    "link": false,
+    "read_at": "2026-10-13T21:53:06Z",
+    "step": "wrap",
+    "why": "the operator: plan entries 12 and 13 are wording faults recorded as deviations, neither reworded; mint Owed ledger rows directly after this entry from p5-card-1.md"
+  },
+  {
+    "id": "I5",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the operator, this session, 2026-10-13T21:22Z",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "3d69f59e86cb11ddbca1f3b925e1052515704cbca1bc262ce2084361173700b3",
+    "copy": "I5-relay-2.md.txt",
+    "link": false,
+    "read_at": "2026-10-13T21:53:06Z",
+    "step": "wrap",
+    "why": "the operator at implement: the founder cap of five live starts in one record round fired once, each start ledgered before it, no mutation or witness run or dispatch, the operator pass with the ci.py read"
   }
 ]

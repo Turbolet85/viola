@@ -1,0 +1,133 @@
+[
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "8fc13695",
+"ts": "2026-10-13T22:18:19Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-10-13-paste-newline-ledger-row",
+"--desc-file",
+".andromeda/runs/2026-10-13T21-52-39-wrap/master-desc.txt",
+"--run-dir",
+".andromeda/runs/2026-10-13T21-52-39-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"flip master-route.md:70 - 2026-10-13-paste-newline-ledger-row pending -> complete - desc REWRITTEN from --desc-file"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "8fc13695",
+"ts": "2026-10-13T22:18:19Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-13-paste-newline-ledger-row",
+"--date",
+"2026-10-14",
+"--run-dir",
+".andromeda/runs/2026-10-13T21-52-39-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :134 strip CARRY: 1471ch \"CARRY: the founder's word, live in the o\"",
+"pin :134 strip CARRY: 1176ch \"CARRY: chunk 2026-10-09-epoch-3-cleanup-\"",
+"pin :134 strip CARRY: 1023ch \"CARRY: chunk 2026-10-10-windows-mutation\"",
+"pin :134 strip CARRY: 1538ch \"CARRY: chunk 2026-10-10-viola-revive (th\"",
+"pin :134 strip CARRY: 861ch \"CARRY: chunk 2026-10-10-viola-revive (fo\"",
+"pin :134 strip CARRY: 1475ch \"CARRY: chunk 2026-10-10-statusline-pass-\"",
+"pin :134 strip CARRY: 1648ch \"CARRY: chunk 2026-10-10-budget-governor \"",
+"pin :134 strip CARRY: 403ch \"CARRY: re-pinned from \"The board: viola \"",
+"pin next markerless :136 holds CARRY:×6",
+"134 · 2026-10-13-paste-newline-ledger-row · strip 8 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 134,
+"marker": "2026-10-13-paste-newline-ledger-row",
+"blocks": 8,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "8fc13695",
+"ts": "2026-10-13T22:18:27Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-13-paste-newline-ledger-row",
+"--date",
+"2026-10-14",
+"--run-dir",
+".andromeda/runs/2026-10-13T21-52-39-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :134 strip CARRY: 1471ch \"CARRY: the founder's word, live in the o\"",
+"pin :134 strip CARRY: 1176ch \"CARRY: chunk 2026-10-09-epoch-3-cleanup-\"",
+"pin :134 strip CARRY: 1023ch \"CARRY: chunk 2026-10-10-windows-mutation\"",
+"pin :134 strip CARRY: 1538ch \"CARRY: chunk 2026-10-10-viola-revive (th\"",
+"pin :134 strip CARRY: 861ch \"CARRY: chunk 2026-10-10-viola-revive (fo\"",
+"pin :134 strip CARRY: 1475ch \"CARRY: chunk 2026-10-10-statusline-pass-\"",
+"pin :134 strip CARRY: 1648ch \"CARRY: chunk 2026-10-10-budget-governor \"",
+"pin :134 strip CARRY: 403ch \"CARRY: re-pinned from \"The board: viola \"",
+"pin next markerless :136 holds CARRY:×6",
+"134 · 2026-10-13-paste-newline-ledger-row · strip 8 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/route-archive.md",
+"./viola-0.1.0/working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 134,
+"marker": "2026-10-13-paste-newline-ledger-row",
+"blocks": 8,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

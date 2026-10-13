@@ -89,9 +89,16 @@ written.
 
 The round's home `target/e2e-home/viola-record-20261013T213213Z/` stands on the tmpfs backing.
 
+## Operator pass (run on the operator's word at invocation)
+- Entry 22 (hygiene) read clean after one rewrite.
+- Pre-CI commit `16b5f5f4006b`.
+- Entry 23 pushed it: history moved `origin/build/viola-0.1.0` 19483111→16b5f5f4, 0 ahead after.
+- Entry 24, the CI read: `verdict: green · checks 15/15 · wall 572 s · runs ci#38472492871`.
+
+Record: `evidence/operator.md`.
+
 ## Next
-Operator decision on entries 12 and 13 (see the report). Then the operator pass: entry 22 (hygiene) before the
-pre-CI commit, 23 (push), 24 (the CI read). Then `/andromeda-wrap-session`.
+The operator's word on entries 12 and 13, which the wrap's light gate would halt on. Then `/andromeda-wrap-session`.
 
 ## Decisions & corrections
 - The operator's instruction at invocation: the founder's cap of exactly five live starts, one `--record` round on
@@ -107,3 +114,5 @@ pre-CI commit, 23 (push), 24 (the CI read). Then `/andromeda-wrap-session`.
   seven `viola` processes are another tree's.
 - One Bash guard refusal: a `cd` into the chunk's `inputs/` dir, refused because it moves the session cwd. It was
   re-issued once with absolute paths and ran.
+- A second Bash guard refusal: a call carrying a `cat` heredoc redirected to a file was refused. The operator-pass
+  records were then appended with the Edit tool, one re-issue.

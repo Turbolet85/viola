@@ -1,0 +1,2 @@
+proposals: []
+note: D-a11y-surface — the report adds no interactive UI element (Coverage of new surfaces: "a11y n/a (plain ASCII CLI lines, no SGR; assert_plain)"); the verify step lines move [NN/17] → [NN/18], but a11y-plan states only the generic `[NN/NN] … pass|fail` form (§4 entity 6, P6), so no count claim retires. D-a11y-obs-schema — Schema / config says "No schema file changed" and Symbols / APIs adds no new line or event, so the a11y violation schema and obs §6 are untouched. The report's site sweep lists no a11y-plan site for any pattern.

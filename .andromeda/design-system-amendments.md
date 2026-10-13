@@ -131,3 +131,9 @@ Each superseded mark stands in the body as the operator's word, superseded 2026-
 **Change:** A `viola verify` stopped by Ctrl-C or TERM before its rows are checked prints no step line and no summary. Its stderr carries exactly `unable: verify was stopped before it finished` then `hint: run viola verify again to stamp this CLI` (pattern 2's fixed form, plain ASCII, no path or pid), stdout is empty, and it exits 1. Exit-code row 1 lists the pair beside verify's refusals.
 **Why:** The operator's P4 answer chose exit 1 with a fixed pair over a new code. The wording is a planning form on the operator's word, and the founder's wording is owed in his next batch.
 **Ref:** .andromeda/runs/2026-10-13T20-00-28-wrap/
+
+## 2026-10-13-paste-newline-ledger-row — `verify` step lines at eighteen rows
+**Section:** §Surface: cli, Component Patterns 5 (`verify`)
+**Change:** Was `[01/17]` and seventeen rows; now `[01/18]` and eighteen rows, the members of `LedgerRow::ALL`. The last eight are the dialog rows, the framing rows and the newline row `paste-newline` (an LF inside a paste stays inside the one prompt submitted). The summary reads `stamped 2.1.287  18 pass  0 fail`.
+**Why:** The capability ledger gained its eighteenth row (`paste-newline`), and the step counter derives from `LedgerRow::ALL.len()`. The count now carries its rule.
+**Ref:** .andromeda/runs/2026-10-13T21-52-39-wrap/
