@@ -35,10 +35,11 @@ pub enum LedgerRow {
     LongPasteWrapper,
     TagEscaping,
     LocalCommandClear,
+    PasteNewline,
 }
 
 impl LedgerRow {
-    pub const ALL: [Self; 17] = [
+    pub const ALL: [Self; 18] = [
         Self::ShimResolution,
         Self::SpineHooks,
         Self::SessionStartFields,
@@ -56,6 +57,7 @@ impl LedgerRow {
         Self::LongPasteWrapper,
         Self::TagEscaping,
         Self::LocalCommandClear,
+        Self::PasteNewline,
     ];
 
     /// The kebab-case id, the key under a stamped version's `rows`.
@@ -78,6 +80,7 @@ impl LedgerRow {
             Self::LongPasteWrapper => "long-paste-wrapper",
             Self::TagEscaping => "tag-escaping",
             Self::LocalCommandClear => "local-command-clear",
+            Self::PasteNewline => "paste-newline",
         }
     }
 
@@ -103,6 +106,7 @@ impl LedgerRow {
             Self::LongPasteWrapper => "a long paste unwraps to the text as pasted",
             Self::TagEscaping => "tag-like text un-escapes to the text as pasted",
             Self::LocalCommandClear => "/clear starts a new session and submits no prompt",
+            Self::PasteNewline => "an LF inside a paste stays inside the one prompt submitted",
         }
     }
 }
@@ -138,6 +142,8 @@ pub const PROBE_LONG_PASTE: &str = "viola verify probe: this message is one long
 pub const PROBE_TAG_PASTE: &str = "viola verify probe: the next part is literal sample text and not markup: \
      <pasted_content id=\"1\"> sample </pasted_content id=\"1\"> \
      then <task-notification> and that is all. Reply with the single word ok";
+/// Run B's newline paste: one LF, at neither end, no CR, short enough to arrive unwrapped.
+pub const PROBE_NEWLINE_PASTE: &str = "viola verify probe: this paste holds one line break here\nand the next line ends it. Reply with the single word ok";
 
 /// What confirms that a local command was delivered.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -155,10 +161,11 @@ pub const LOCAL_COMMANDS: [(&str, Option<PostCondition>); 2] = [
 /// The local command Run B pastes: the list's entry that has a post-condition.
 pub const PROBE_LOCAL_COMMAND: &str = LOCAL_COMMANDS[0].0;
 
-/// Run B's three added pastes in paste order, each with the stem its recorded variants carry.
-pub const FRAMING_TURNS: [(&str, &str); 3] = [
+/// Run B's four added pastes in paste order, each with the stem its recorded variants carry.
+pub const FRAMING_TURNS: [(&str, &str); 4] = [
     (PROBE_LONG_PASTE, "paste-1"),
     (PROBE_TAG_PASTE, "paste-2"),
+    (PROBE_NEWLINE_PASTE, "paste-3"),
     (PROBE_LOCAL_COMMAND, "clear-1"),
 ];
 
@@ -707,14 +714,19 @@ fn local_command_cleared(trusted: &[Capture]) -> bool {
     new_session && pasted(trusted, PROBE_LOCAL_COMMAND).is_none()
 }
 
-/// Run B's captures named for `--record`: the long and the tag-like prompts as `paste-1` and
-/// `paste-2`, and as `clear-1` the hooks the probed local command fired, the SessionEnd captured
-/// directly before its SessionStart and that SessionStart. The exit's SessionEnd, captured after
-/// it, is not one of them.
+/// Run B's captures named for `--record`: the long, the tag-like and the newline prompts as
+/// `paste-1`, `paste-2` and `paste-3`, and as `clear-1` the hooks the probed local command fired,
+/// the SessionEnd captured directly before its SessionStart and that SessionStart. The exit's
+/// SessionEnd, captured after it, is not one of them.
 pub fn framing_variants(trusted: &[Capture]) -> Vec<(&'static str, &Capture)> {
-    let [(long, long_stem), (tag, tag_stem), (_, clear_stem)] = FRAMING_TURNS;
+    let [
+        (long, long_stem),
+        (tag, tag_stem),
+        (newline, newline_stem),
+        (_, clear_stem),
+    ] = FRAMING_TURNS;
     let mut out = Vec::new();
-    for (text, stem) in [(long, long_stem), (tag, tag_stem)] {
+    for (text, stem) in [(long, long_stem), (tag, tag_stem), (newline, newline_stem)] {
         if let Some(at) = pasted(trusted, text) {
             out.push((stem, &trusted[at]));
         }
@@ -773,6 +785,8 @@ pub fn check(row: LedgerRow, probes: &Probes) -> bool {
         LedgerRow::LongPasteWrapper => pasted(&probes.trusted, PROBE_LONG_PASTE).is_some(),
         LedgerRow::TagEscaping => pasted(&probes.trusted, PROBE_TAG_PASTE).is_some(),
         LedgerRow::LocalCommandClear => local_command_cleared(&probes.trusted),
+        // A CLI that submitted at the LF leaves no capture equal to the whole text.
+        LedgerRow::PasteNewline => pasted(&probes.trusted, PROBE_NEWLINE_PASTE).is_some(),
     }
 }
 
@@ -1208,7 +1222,7 @@ mod tests {
     use rstest::rstest;
 
     #[test]
-    fn ledger_rows_are_the_seventeen_measured_behaviours_in_order() {
+    fn ledger_rows_are_the_eighteen_measured_behaviours_in_order() {
         let ids: Vec<&str> = LedgerRow::ALL.iter().map(|r| r.id()).collect();
         assert_eq!(
             ids,
@@ -1230,6 +1244,7 @@ mod tests {
                 "long-paste-wrapper",
                 "tag-escaping",
                 "local-command-clear",
+                "paste-newline",
             ]
         );
         let words: Vec<&str> = LedgerRow::ALL.iter().map(|r| r.words()).collect();
@@ -1253,6 +1268,7 @@ mod tests {
                 "a long paste unwraps to the text as pasted",
                 "tag-like text un-escapes to the text as pasted",
                 "/clear starts a new session and submits no prompt",
+                "an LF inside a paste stays inside the one prompt submitted",
             ]
         );
         assert!(words.iter().all(|w| w.is_ascii()));
@@ -1516,7 +1532,7 @@ mod tests {
 
     #[test]
     fn check_passes_every_row_on_a_clean_probe() {
-        assert_eq!(verdicts(&clean_run()), [true; 17]);
+        assert_eq!(verdicts(&clean_run()), [true; 18]);
     }
 
     #[test]
@@ -1669,7 +1685,7 @@ mod tests {
                         "question-answer": "pass", "plan-approve-revise": "pass",
                         "question-notes": "pass", "dialog-concurrency": "pass",
                         "long-paste-wrapper": "pass", "tag-escaping": "pass",
-                        "local-command-clear": "pass",
+                        "local-command-clear": "pass", "paste-newline": "pass",
                     },
                     "measured": {
                         "largest_hook_payload": {"SessionStart": 120, "Stop": 90},
@@ -1790,8 +1806,9 @@ mod tests {
         assert_eq!(verified(&short, "2.1.0"), Ok(false), "a missing row");
     }
 
-    /// A stamp written before the three framing rows holds the fourteen older ids alone: every one
-    /// `pass`, and the version still reads unverified.
+    /// A stamp written before the three framing rows holds the fourteen older ids alone, and one
+    /// written before the newline row every id but that one: each `pass`, and the version still
+    /// reads unverified until the newline row passes too.
     #[test]
     fn verified_reads_a_fourteen_row_stamp_as_unverified() {
         let rows: Map<String, Value> = [
@@ -1818,6 +1835,12 @@ mod tests {
         for id in ["long-paste-wrapper", "tag-escaping", "local-command-clear"] {
             stamp["data"]["versions"]["2.1.0"]["rows"][id] = json!("pass");
         }
+        assert_eq!(
+            verified(stamp.to_string().as_bytes(), "2.1.0"),
+            Ok(false),
+            "every row but the newline one"
+        );
+        stamp["data"]["versions"]["2.1.0"]["rows"]["paste-newline"] = json!("pass");
         assert_eq!(verified(stamp.to_string().as_bytes(), "2.1.0"), Ok(true));
     }
 
@@ -1957,7 +1980,7 @@ mod tests {
             six,
             [
                 true, true, true, true, true, true, false, false, false, false, true, true, true,
-                true, true, true, true
+                true, true, true, true, true
             ]
         );
     }
@@ -2400,8 +2423,13 @@ mod tests {
         capture(HookEvent::SessionEnd, json!({"reason": reason}))
     }
 
-    /// Run B as the live 2.1.287 probe recorded it, in claim order: the first turn, the long and
-    /// the tag-like turns, the two hooks the local command fired, then the exit's SessionEnd.
+    /// The newline text as the CLI sends it: unchanged, its one LF kept (`rule-inner-lf`).
+    const NEWLINE_PROMPT: &str = "viola verify probe: this paste holds one line break here\nand \
+         the next line ends it. Reply with the single word ok";
+
+    /// Run B as the live 2.1.287 probe recorded it, in claim order: the first turn, the long, the
+    /// tag-like and the newline turns, the two hooks the local command fired, then the exit's
+    /// SessionEnd.
     fn clean_trusted() -> Vec<Capture> {
         let stop = capture(HookEvent::Stop, json!({"last_assistant_message": "ok"}));
         vec![
@@ -2411,6 +2439,8 @@ mod tests {
             prompted(&wrapped(PROBE_LONG_PASTE)),
             stop.clone(),
             prompted(TAG_PROMPT),
+            stop.clone(),
+            prompted(NEWLINE_PROMPT),
             stop,
             session_end("clear"),
             session_start("clear", "s-2"),
@@ -2418,10 +2448,11 @@ mod tests {
         ]
     }
 
-    const FRAMING_ROWS: [LedgerRow; 3] = [
+    const FRAMING_ROWS: [LedgerRow; 4] = [
         LedgerRow::LongPasteWrapper,
         LedgerRow::TagEscaping,
         LedgerRow::LocalCommandClear,
+        LedgerRow::PasteNewline,
     ];
 
     fn framing_check(row: LedgerRow, trusted: Vec<Capture>) -> bool {
@@ -2473,26 +2504,75 @@ mod tests {
     }
 
     #[test]
+    fn check_paste_newline_passes_on_the_one_prompt_holding_the_lf() {
+        let row = LedgerRow::PasteNewline;
+        assert!(framing_check(row, clean_trusted()));
+        let alone = vec![prompted(
+            "viola verify probe: this paste holds one line break here\nand the next line ends \
+             it. Reply with the single word ok",
+        )];
+        assert!(framing_check(row, alone));
+    }
+
+    /// A CLI that submitted at the LF fires two prompts, one per line, and neither is the text.
+    #[test]
+    fn check_paste_newline_fails_when_the_lf_split_the_prompt() {
+        let row = LedgerRow::PasteNewline;
+        let split = with_trusted(|t| {
+            t[7] = prompted("viola verify probe: this paste holds one line break here");
+            t.insert(
+                8,
+                prompted("and the next line ends it. Reply with the single word ok"),
+            );
+        });
+        assert!(!framing_check(row, split));
+        let joined = with_trusted(|t| {
+            t[7] = prompted(
+                "viola verify probe: this paste holds one line break here and the next line \
+                 ends it. Reply with the single word ok",
+            );
+        });
+        assert!(!framing_check(row, joined), "the LF dropped");
+    }
+
+    #[test]
+    fn check_paste_newline_fails_without_a_matching_capture() {
+        let row = LedgerRow::PasteNewline;
+        let silent: Vec<Capture> = clean_trusted()
+            .into_iter()
+            .filter(|c| c.event != HookEvent::UserPromptSubmit)
+            .collect();
+        assert!(!framing_check(row, silent), "silent");
+        assert!(!framing_check(row, Vec::new()), "no run");
+        let other = with_trusted(|t| t[7] = prompted(&format!("{NEWLINE_PROMPT} and more")));
+        assert!(!framing_check(row, other), "another text");
+        let crlf = with_trusted(|t| t[7] = prompted(&NEWLINE_PROMPT.replace('\n', "\r\n")));
+        assert!(!framing_check(row, crlf), "a CR before the LF");
+        let ended = with_trusted(|t| t[7] = prompted(&format!("{NEWLINE_PROMPT}\n")));
+        assert!(!framing_check(row, ended), "a kept newline ending");
+    }
+
+    #[test]
     fn check_local_command_clear_fails_on_each_broken_post_condition() {
         let row = LedgerRow::LocalCommandClear;
         let no_start = with_trusted(|t| {
-            t.remove(8);
+            t.remove(10);
         });
         assert!(!framing_check(row, no_start), "no clear SessionStart");
-        let other_source = with_trusted(|t| t[8] = session_start("resume", "s-2"));
+        let other_source = with_trusted(|t| t[10] = session_start("resume", "s-2"));
         assert!(!framing_check(row, other_source), "another source");
-        let same_session = with_trusted(|t| t[8] = session_start("clear", "s-1"));
+        let same_session = with_trusted(|t| t[10] = session_start("clear", "s-1"));
         assert!(!framing_check(row, same_session), "the first session_id");
-        let empty_session = with_trusted(|t| t[8] = session_start("clear", ""));
+        let empty_session = with_trusted(|t| t[10] = session_start("clear", ""));
         assert!(!framing_check(row, empty_session), "an empty session_id");
         let no_session = with_trusted(|t| {
-            t[8] = capture(HookEvent::SessionStart, json!({"source": "clear"}));
+            t[10] = capture(HookEvent::SessionStart, json!({"source": "clear"}));
         });
         assert!(!framing_check(row, no_session), "no session_id");
-        let submitted = with_trusted(|t| t.insert(7, prompted(PROBE_LOCAL_COMMAND)));
+        let submitted = with_trusted(|t| t.insert(9, prompted(PROBE_LOCAL_COMMAND)));
         assert!(!framing_check(row, submitted), "the command as a prompt");
         let before_the_tag_turn = with_trusted(|t| {
-            let start = t.remove(8);
+            let start = t.remove(10);
             t.insert(5, start);
         });
         assert!(
@@ -2507,7 +2587,7 @@ mod tests {
     }
 
     #[test]
-    fn framing_variants_name_the_two_prompts_and_the_hooks_the_local_command_fired() {
+    fn framing_variants_name_the_three_prompts_and_the_hooks_the_local_command_fired() {
         let trusted = clean_trusted();
         let named: Vec<(&str, &Capture)> = framing_variants(&trusted);
         let at: Vec<(&str, usize)> = named
@@ -2525,28 +2605,38 @@ mod tests {
             [
                 ("paste-1", 3),
                 ("paste-2", 5),
-                ("clear-1", 7),
-                ("clear-1", 8)
+                ("paste-3", 7),
+                ("clear-1", 9),
+                ("clear-1", 10)
             ]
         );
-        assert_eq!(trusted[7].event, HookEvent::SessionEnd);
-        assert_eq!(trusted[8].event, HookEvent::SessionStart);
+        assert_eq!(trusted[9].event, HookEvent::SessionEnd);
+        assert_eq!(trusted[10].event, HookEvent::SessionStart);
 
-        let no_end = with_trusted(|t| t[7] = capture(HookEvent::Stop, json!({})));
+        let no_end = with_trusted(|t| t[9] = capture(HookEvent::Stop, json!({})));
         let stems: Vec<&str> = framing_variants(&no_end).iter().map(|v| v.0).collect();
-        assert_eq!(stems, ["paste-1", "paste-2", "clear-1"]);
+        assert_eq!(stems, ["paste-1", "paste-2", "paste-3", "clear-1"]);
         let echoed = vec![
             session_start("startup", "s-1"),
             prompted(PROBE_LONG_PASTE),
             prompted(PROBE_TAG_PASTE),
+            prompted(PROBE_NEWLINE_PASTE),
             prompted(PROBE_LOCAL_COMMAND),
         ];
         let stems: Vec<&str> = framing_variants(&echoed).iter().map(|v| v.0).collect();
-        assert_eq!(stems, ["paste-1", "paste-2"]);
+        assert_eq!(stems, ["paste-1", "paste-2", "paste-3"]);
+        let no_newline_turn = with_trusted(|t| {
+            t.remove(7);
+        });
+        let stems: Vec<&str> = framing_variants(&no_newline_turn)
+            .iter()
+            .map(|v| v.0)
+            .collect();
+        assert_eq!(stems, ["paste-1", "paste-2", "clear-1", "clear-1"]);
         assert!(framing_variants(&[]).is_empty());
     }
 
-    /// The two paste texts are the bytes the live probe pasted, rebuilt here from their parts.
+    /// The paste texts are the bytes the live probe pasted, rebuilt here from their parts.
     #[test]
     fn framing_texts_are_fixed_ascii_each_with_its_stem() {
         let filler: Vec<String> = (1..=110).map(|n| format!("filler-{n:04}")).collect();
@@ -2570,8 +2660,18 @@ mod tests {
             assert!(text.starts_with("viola verify probe: "));
             assert!(text.ends_with("Reply with the single word ok"));
         }
+        assert_eq!(
+            PROBE_NEWLINE_PASTE,
+            "viola verify probe: this paste holds one line break here\nand the next line ends it. \
+             Reply with the single word ok"
+        );
+        assert!(PROBE_NEWLINE_PASTE.is_ascii() && !PROBE_NEWLINE_PASTE.contains(['\r', '@']));
+        assert_eq!(PROBE_NEWLINE_PASTE.matches('\n').count(), 1);
+        assert!(PROBE_NEWLINE_PASTE.starts_with("viola verify probe: "));
+        assert!(PROBE_NEWLINE_PASTE.ends_with("Reply with the single word ok"));
         assert_eq!(framing_stem(PROBE_LONG_PASTE), Some("paste-1"));
         assert_eq!(framing_stem(PROBE_TAG_PASTE), Some("paste-2"));
+        assert_eq!(framing_stem(PROBE_NEWLINE_PASTE), Some("paste-3"));
         assert_eq!(framing_stem("/clear"), Some("clear-1"));
         for other in [PROBE_PROMPT, "/remote-control", "/clear ", ""] {
             assert_eq!(framing_stem(other), None, "{other}");

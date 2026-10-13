@@ -3,7 +3,8 @@
 //! first settled screen (`modal`) and is ended by a kill. The trusted run (B) starts in
 //! `<cwd>/.viola-verify-<pid>/`, records its settled input box (`ready`), types the probe prompt as
 //! one bracketed paste, times the turn and records its end (`turn`), then pastes the long text, the
-//! tag-like text and the probed local command, each into the settled input box. The dialog run (C, in
+//! tag-like text, the newline text and the probed local command, each into the settled input box.
+//! The dialog run (C, in
 //! `<cwd>/.viola-verify-<pid>-dialogs/`) pastes the three dialog prompts, each after the previous
 //! turn's Stop; the plan run (D, in `<cwd>/.viola-verify-<pid>-plan/`, plan mode) pastes the plan
 //! prompt. In C and D the probe's capture hook answers each dialog (the founder's ruling,
@@ -24,8 +25,8 @@ use std::time::{Duration, Instant};
 use viola_agent_claude::hook::HookEvent;
 use viola_agent_claude::ledger::{
     self, DIALOG_PROMPT_PARALLEL, DIALOG_PROMPT_PERMISSION, DIALOG_PROMPT_QUESTIONS,
-    DIALOG_SETTINGS, PLAN_PROMPT, PROBE_LOCAL_COMMAND, PROBE_LONG_PASTE, PROBE_PROMPT,
-    PROBE_TAG_PASTE, TypedRun,
+    DIALOG_SETTINGS, PLAN_PROMPT, PROBE_LOCAL_COMMAND, PROBE_LONG_PASTE, PROBE_NEWLINE_PASTE,
+    PROBE_PROMPT, PROBE_TAG_PASTE, TypedRun,
 };
 use viola_agent_claude::screen::{GATE_MAX_WAIT, QUIET_PERIOD, SIGNATURES, Screen};
 use viola_agent_claude::statusline::SETTINGS_FLAG;
@@ -105,7 +106,7 @@ fn untrusted_run(
     Ok(())
 }
 
-/// Run B: the settled input box, one typed turn, the three framing pastes, then Ctrl-C.
+/// Run B: the settled input box, one typed turn, the four framing pastes, then Ctrl-C.
 fn trusted_run(
     clock: &Arc<dyn Clock>,
     inputs: &Inputs<'_>,
@@ -298,15 +299,15 @@ fn turn(run: &Run, captures: &Path, typed: &mut TypedRun) {
     }
 }
 
-/// Run B's three added pastes, each only into the settled input box the turn before it left
-/// (`rows`, first the `turn` screen): the long text and the tag-like text, each until one more
+/// Run B's four added pastes, each only into the settled input box the turn before it left
+/// (`rows`, first the `turn` screen): the long, the tag-like and the newline texts, each until one more
 /// UserPromptSubmit and one more Stop are captured and the input box is back (`Run::box_wait`),
 /// then the probed local command until a new SessionStart or a new UserPromptSubmit is captured
 /// and the screen settles. The first wait that fails ends them.
 fn framing_turns(run: &Run, captures: &Path, mut rows: Option<Vec<String>>) {
     let clock = run.clock.as_ref();
     let count = |event| count_of(captures, event);
-    for text in [PROBE_LONG_PASTE, PROBE_TAG_PASTE] {
+    for text in [PROBE_LONG_PASTE, PROBE_TAG_PASTE, PROBE_NEWLINE_PASTE] {
         if !input_box_up(rows.as_deref()) {
             return;
         }

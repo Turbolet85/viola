@@ -1,0 +1,354 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'framing_stem' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 9,
+"result": [
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/framing_texts_are_fixed_ascii_each_with_its_stem().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 2572
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/framing_texts_are_fixed_ascii_each_with_its_stem().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 2573
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/framing_texts_are_fixed_ascii_each_with_its_stem().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 2574
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/framing_texts_are_fixed_ascii_each_with_its_stem().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 2576
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 crate/",
+"file": "src/bin/viola-fake-agent.rs",
+"line": 17
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 impl#[Agent]submit().",
+"file": "src/bin/viola-fake-agent.rs",
+"line": 556
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 impl#[Agent]submit().",
+"file": "src/bin/viola-fake-agent.rs",
+"line": 557
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 impl#[Agent]end_turn().",
+"file": "src/bin/viola-fake-agent.rs",
+"line": 597
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 impl#[Agent]end_turn().",
+"file": "src/bin/viola-fake-agent.rs",
+"line": 602
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'framing_variants' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 5,
+"result": [
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/framing_variants_name_the_two_prompts_and_the_hooks_the_local_command_fired().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 2511
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/framing_variants_name_the_two_prompts_and_the_hooks_the_local_command_fired().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 2535
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/framing_variants_name_the_two_prompts_and_the_hooks_the_local_command_fired().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 2543
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/framing_variants_name_the_two_prompts_and_the_hooks_the_local_command_fired().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 2545
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/verify/named_payloads().",
+"file": "src/cmd/verify.rs",
+"line": 458
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT callee, file, line FROM refs WHERE callee_name = 'FRAMING_TURNS' ORDER BY file, line",
+"rows": 2,
+"result": [
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/FRAMING_TURNS.",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 166
+},
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/FRAMING_TURNS.",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 714
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT callee, file, line FROM refs WHERE callee_name = 'LOCAL_COMMANDS' ORDER BY file, line",
+"rows": 5,
+"result": [
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/LOCAL_COMMANDS.",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 155
+},
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/LOCAL_COMMANDS.",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 2584
+},
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/LOCAL_COMMANDS.",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 2591
+},
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/LOCAL_COMMANDS.",
+"file": "src/run/send.rs",
+"line": 21
+},
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/LOCAL_COMMANDS.",
+"file": "src/run/send/classify.rs",
+"line": 27
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'framing_turns' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 1,
+"result": [
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/verify/typed/trusted_run().",
+"file": "src/cmd/verify/typed.rs",
+"line": 137
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT callee, file, line FROM refs WHERE callee_name = 'ALL' AND callee_file LIKE '%ledger.rs' ORDER BY file, line",
+"rows": 12,
+"result": [
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/impl#[ProbeAnswer]ALL.",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 258
+},
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/impl#[LedgerRow]ALL.",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 942
+},
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/impl#[LedgerRow]ALL.",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1211
+},
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/impl#[LedgerRow]ALL.",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1234
+},
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/impl#[LedgerRow]ALL.",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1502
+},
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/impl#[LedgerRow]ALL.",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1636
+},
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/impl#[LedgerRow]ALL.",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1965
+},
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/impl#[ProbeAnswer]ALL.",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 2872
+},
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/impl#[ProbeAnswer]ALL.",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 2883
+},
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/impl#[LedgerRow]ALL.",
+"file": "src/cmd/verify.rs",
+"line": 389
+},
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/impl#[LedgerRow]ALL.",
+"file": "src/cmd/verify.rs",
+"line": 390
+},
+{
+"callee": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/impl#[LedgerRow]ALL.",
+"file": "src/run/version_gate.rs",
+"line": 204
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'check' AND callee_kind = 'fn' AND callee_file LIKE '%ledger.rs' ORDER BY file, line",
+"rows": 22,
+"result": [
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/verdicts().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1504
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/check_shim_resolution_needs_a_real_executable_that_answered().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1527
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/check_shim_resolution_needs_a_real_executable_that_answered().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1532
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/check_spine_hooks_needs_the_four_in_order_each_naming_itself().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1539
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/check_spine_hooks_needs_the_four_in_order_each_naming_itself().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1543
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/check_spine_hooks_needs_the_four_in_order_each_naming_itself().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1548
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/check_spine_hooks_needs_the_four_in_order_each_naming_itself().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1552
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/check_spine_hooks_needs_the_four_in_order_each_naming_itself().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1556
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/check_spine_hooks_needs_the_four_in_order_each_naming_itself().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1560
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/check_session_start_fields_fails_without_both_fields().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1572
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/check_session_start_fields_fails_without_both_fields().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1574
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/check_prompt_verbatim_needs_the_exact_prompt().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1584
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/check_prompt_verbatim_needs_the_exact_prompt().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1586
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/check_stop_message_needs_a_string().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1593
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/check_stop_message_needs_a_string().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1595
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/check_largest_hook_payload_holds_at_the_cap_and_fails_past_it().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1603
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/check_largest_hook_payload_holds_at_the_cap_and_fails_past_it().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1605
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/check_reads_the_first_capture_of_an_event().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1615
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/typed_check().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 1933
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/dialog_check().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 2341
+},
+{
+"caller": "rust-analyzer cargo viola-agent-claude 0.1.0 ledger/tests/framing_check().",
+"file": "crates/viola-agent-claude/src/ledger.rs",
+"line": 2427
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/verify/check_step().",
+"file": "src/cmd/verify.rs",
+"line": 399
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT from_crate, to_crate FROM crate_edges WHERE to_crate = 'viola-agent-claude' OR from_crate = 'viola-agent-claude'",
+"rows": 2,
+"result": [
+{
+"from_crate": "viola",
+"to_crate": "viola-agent-claude"
+},
+{
+"from_crate": "viola-agent-claude",
+"to_crate": "viola-core"
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

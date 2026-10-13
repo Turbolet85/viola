@@ -361,7 +361,7 @@ fn claude_dialog_variants_are_walked_for_every_dialog_set() {
     }
 }
 
-/// Every set recorded with its framing variants holds the four, each walked by
+/// Every set recorded with its framing variants holds the five, each walked by
 /// `claude_fixtures_pass_hygiene`: the walk reaches the paste and local-command classes.
 #[test]
 fn claude_framing_variants_are_walked_for_every_framing_set() {
@@ -398,6 +398,7 @@ fn claude_framing_variants_are_walked_for_every_framing_set() {
                 "SessionStart.clear-1.json",
                 "UserPromptSubmit.paste-1.json",
                 "UserPromptSubmit.paste-2.json",
+                "UserPromptSubmit.paste-3.json",
             ],
             "{}",
             set.display()

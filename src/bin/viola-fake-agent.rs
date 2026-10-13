@@ -1413,6 +1413,59 @@ mod tests {
         path.to_str().expect("utf-8 path").to_owned()
     }
 
+    /// The `event` of each `hook` receipt line `replay_dialogs("probe")` writes over a set whose
+    /// call `probe-1` holds only `events`. Every hook command is relative: receipted, never run.
+    fn replayed(events: &[&str]) -> Vec<String> {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let set = tmp.path().join("fixtures").join("3.0.0");
+        fs::create_dir_all(&set).expect("set");
+        for event in events {
+            fs::write(set.join(format!("{event}.probe-1.json")), b"{}").expect("fixture");
+        }
+        let hooks = tmp.path().join("plugin").join("hooks");
+        fs::create_dir_all(&hooks).expect("hooks dir");
+        let group = json!([{"hooks": [{"type": "command", "command": "relative"}]}]);
+        let doc = json!({"hooks": {
+            "PreToolUse": group, "PermissionRequest": group, "PostToolUse": group,
+        }});
+        fs::write(hooks.join("hooks.json"), doc.to_string()).expect("hooks.json");
+        let receipt = tmp.path().join("receipt.ndjson");
+        let utf8 = |p: PathBuf| p.to_str().expect("utf-8").to_owned();
+        let list = [
+            "--cli-version".to_owned(),
+            "3.0.0".to_owned(),
+            "--fixtures".to_owned(),
+            utf8(tmp.path().join("fixtures")),
+            "--plugin-dir".to_owned(),
+            utf8(tmp.path().join("plugin")),
+            "--receipt".to_owned(),
+            utf8(receipt.clone()),
+        ];
+        Agent::new(Opts::parse(&list)).replay_dialogs("probe");
+        fs::read_to_string(&receipt)
+            .expect("receipt")
+            .lines()
+            .filter_map(|l| serde_json::from_str::<Value>(l).ok())
+            .filter(|l| l["kind"] == "hook")
+            .map(|l| l["event"].as_str().unwrap_or("").to_owned())
+            .collect()
+    }
+
+    #[test]
+    fn replay_dialogs_replays_a_call_holding_only_a_pre_tool_use() {
+        assert_eq!(replayed(&["PreToolUse"]), ["PreToolUse"]);
+    }
+
+    #[test]
+    fn replay_dialogs_replays_a_call_holding_only_a_permission_request() {
+        assert_eq!(replayed(&["PermissionRequest"]), ["PermissionRequest"]);
+    }
+
+    #[test]
+    fn replay_dialogs_replays_nothing_for_a_stem_with_no_call() {
+        assert!(replayed(&[]).is_empty());
+    }
+
     #[test]
     fn run_hook_after_close_hooks_runs_nothing() {
         let agent = Agent::new(Opts::parse(&[]));

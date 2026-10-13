@@ -257,10 +257,10 @@ mod tests {
         )
     }
 
-    /// The verdict needs the dialog rows (R2 closed) and the framing rows: a stamp written before
-    /// either landed (the ten spine and screen rows, or those and the four dialog rows) and one
-    /// whose dialog or framing row failed all leave the version unverified; all seventeen passing
-    /// verifies it.
+    /// The verdict needs the dialog rows (R2 closed), the framing rows and the newline row: a
+    /// stamp written before any of them landed (the ten spine and screen rows, those and the four
+    /// dialog rows, or every row but the newline one) and one whose dialog, framing or newline row
+    /// failed all leave the version unverified; all eighteen passing verifies it.
     #[test]
     fn stamps_verdict_needs_the_dialog_rows() {
         let ten = [
@@ -301,9 +301,19 @@ mod tests {
         all.extend(framing.iter().map(|r| (*r, true)));
         assert_eq!(
             stamps_verdict(Ok(Some(stamp_of(&all))), "2.1.0"),
+            (false, None),
+            "the rows of an older stamp, all but the newline row"
+        );
+        all.push((LedgerRow::PasteNewline, true));
+        assert_eq!(
+            stamps_verdict(Ok(Some(stamp_of(&all))), "2.1.0"),
             (true, None)
         );
-        for failing in dialogs.into_iter().chain(framing) {
+        for failing in dialogs
+            .into_iter()
+            .chain(framing)
+            .chain([LedgerRow::PasteNewline])
+        {
             let rows: Vec<(LedgerRow, bool)> =
                 all.iter().map(|(r, p)| (*r, *p && *r != failing)).collect();
             assert_eq!(

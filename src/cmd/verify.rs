@@ -542,31 +542,35 @@ mod tests {
     #[test]
     fn step_line_is_the_counter_the_row_and_the_verdict() {
         assert_eq!(
-            step_line(1, 17, LedgerRow::ShimResolution, true),
-            "[01/17] shim-resolution claude resolves to a real executable  pass"
+            step_line(1, 18, LedgerRow::ShimResolution, true),
+            "[01/18] shim-resolution claude resolves to a real executable  pass"
         );
         assert_eq!(
-            step_line(6, 17, LedgerRow::LargestHookPayload, false),
-            "[06/17] largest-hook-payload every hook payload fits the frame cap  fail"
+            step_line(6, 18, LedgerRow::LargestHookPayload, false),
+            "[06/18] largest-hook-payload every hook payload fits the frame cap  fail"
         );
         assert_eq!(
-            step_line(12, 17, LedgerRow::PlanApproveRevise, false),
-            "[12/17] plan-approve-revise a plan revise and approve each take effect  fail"
+            step_line(12, 18, LedgerRow::PlanApproveRevise, false),
+            "[12/18] plan-approve-revise a plan revise and approve each take effect  fail"
         );
         assert_eq!(
-            step_line(14, 17, LedgerRow::DialogConcurrency, true),
-            "[14/17] dialog-concurrency two parallel questions each raise a dialog  pass"
+            step_line(14, 18, LedgerRow::DialogConcurrency, true),
+            "[14/18] dialog-concurrency two parallel questions each raise a dialog  pass"
         );
         assert_eq!(
-            step_line(15, 17, LedgerRow::LongPasteWrapper, true),
-            "[15/17] long-paste-wrapper a long paste unwraps to the text as pasted  pass"
+            step_line(15, 18, LedgerRow::LongPasteWrapper, true),
+            "[15/18] long-paste-wrapper a long paste unwraps to the text as pasted  pass"
         );
         assert_eq!(
-            step_line(16, 17, LedgerRow::TagEscaping, false),
-            "[16/17] tag-escaping tag-like text un-escapes to the text as pasted  fail"
+            step_line(16, 18, LedgerRow::TagEscaping, false),
+            "[16/18] tag-escaping tag-like text un-escapes to the text as pasted  fail"
         );
-        let last = step_line(17, 17, LedgerRow::LocalCommandClear, true);
-        assert!(last.starts_with("[17/17] local-command-clear ") && last.ends_with("  pass"));
+        let clear = step_line(17, 18, LedgerRow::LocalCommandClear, true);
+        assert!(clear.starts_with("[17/18] local-command-clear ") && clear.ends_with("  pass"));
+        assert_eq!(
+            step_line(18, 18, LedgerRow::PasteNewline, true),
+            "[18/18] paste-newline an LF inside a paste stays inside the one prompt submitted  pass"
+        );
     }
 
     #[test]
@@ -622,6 +626,19 @@ mod tests {
         fs::write(probe.captures().join("Stop.1.json"), b"{}").expect("a capture");
         drop(probe);
         assert!(!dir.exists());
+    }
+
+    /// Built without `create`, so no case writes a run's dirs relative to the test's cwd.
+    #[test]
+    fn probe_dir_names_each_run_its_own_dir_inside_it() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let dir = tmp.path().join("probe");
+        let probe = ProbeDir { dir: dir.clone() };
+        assert_eq!(probe.typed(), dir.join("typed"));
+        assert_eq!(probe.questions(), dir.join("questions"));
+        assert_eq!(probe.plan(), dir.join("plan"));
+        assert_eq!(probe.plugin(), dir.join("plugin"));
+        assert_eq!(probe.captures(), dir.join("captures"));
     }
 
     #[test]

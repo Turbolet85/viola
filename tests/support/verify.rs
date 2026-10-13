@@ -68,18 +68,26 @@ pub const TAG_PROMPT: &str = "viola verify probe: the next part is literal sampl
      markup: <\\pasted_content id=\"1\"> sample <\\/pasted_content id=\"1\"> then \
      <task-notification> and that is all. Reply with the single word ok";
 
+/// The newline text the trusted run pastes, which the CLI sends unchanged (`rule-inner-lf`): one
+/// LF inside it. A test literal.
+pub const NEWLINE_PASTE: &str = "viola verify probe: this paste holds one line break here\nand \
+     the next line ends it. Reply with the single word ok";
+
 /// `text` in the frame the CLI writes around a long paste: two newlines, the pair, one newline.
 pub fn wrapped(text: &str) -> String {
     format!("\n\n<pasted_content id=\"7ccf\">\n{text}\n</pasted_content id=\"7ccf\">\n")
 }
 
-/// The four framing variants a clean trusted run records, the shapes of the live 2.1.287 probe:
-/// the wrapped long prompt, the escaped tag-like prompt, and the two hooks the local command fired.
+/// The five framing variants a clean trusted run records, the shapes of the live 2.1.287 probe:
+/// the wrapped long prompt, the escaped tag-like prompt, the newline prompt, and the two hooks the
+/// local command fired.
 pub fn framing_set() -> Vec<(&'static str, &'static str, Value)> {
     let mut long = spine_payload("UserPromptSubmit");
     long["prompt"] = json!(wrapped(&long_paste()));
     let mut tag = spine_payload("UserPromptSubmit");
     tag["prompt"] = json!(TAG_PROMPT);
+    let mut newline = spine_payload("UserPromptSubmit");
+    newline["prompt"] = json!(NEWLINE_PASTE);
     let mut ended = spine_payload("SessionEnd");
     ended["reason"] = json!("clear");
     let mut started = spine_payload("SessionStart");
@@ -88,6 +96,7 @@ pub fn framing_set() -> Vec<(&'static str, &'static str, Value)> {
     vec![
         ("UserPromptSubmit", "paste-1", long),
         ("UserPromptSubmit", "paste-2", tag),
+        ("UserPromptSubmit", "paste-3", newline),
         ("SessionEnd", "clear-1", ended),
         ("SessionStart", "clear-1", started),
     ]
@@ -417,7 +426,7 @@ pub fn verify_without_dialogs(home: &Path, fixtures: &Path, version: &str) -> Ra
     verify_with(home, fixtures, version, &[], &[], &[], &["--framing"])
 }
 
-/// `verify` with no framing replay: the fake agent echoes the trusted run's three added pastes as
+/// `verify` with no framing replay: the fake agent echoes the trusted run's four added pastes as
 /// typed, the local command among them.
 pub fn verify_without_framing(home: &Path, fixtures: &Path, version: &str, after: &[&str]) -> Ran {
     verify_with(home, fixtures, version, &[], after, &[], &["--dialogs"])
