@@ -59,13 +59,15 @@ pub(super) fn prepare(root: &Path) -> Result<Option<(PathBuf, u64)>, String> {
     Ok(Some((scratch, bytes)))
 }
 
-/// A removal that fails (a leaked process holding a file) is an error, never ignored.
+/// A removal that fails (a leaked process holding a file) is an error, never ignored. The scratch
+/// is laid down owner-only, so a test's temp dir inside it inherits what one under `%TEMP%` does
+/// rather than the workspace drive's write grants.
 fn wipe(scratch: &Path) -> io::Result<()> {
     match fs::remove_dir_all(scratch) {
         Err(e) if e.kind() != io::ErrorKind::NotFound => return Err(e),
         _ => {}
     }
-    fs::create_dir_all(scratch)
+    viola_state::fs::create_private_dir(scratch)
 }
 
 #[cfg(test)]
@@ -245,6 +247,37 @@ mod tests {
             .expect("held");
         assert_eq!(prepare(&root), Err("scratch-wipe-failed".to_owned()));
         drop(held);
+    }
+
+    /// The statusline test's instance tree passes the instance check inside a scratch `wipe` laid
+    /// down, and is refused inside a plain-created sibling on the same drive, whose inherited
+    /// BUILTIN\Users write grants the check refuses (the runner's workspace drive,
+    /// ci#37214281447). A checkout under the profile would read the sibling accepted.
+    #[cfg(windows)]
+    #[test]
+    fn wipe_scratch_takes_an_instance_tree_the_check_accepts_where_a_plain_dir_does_not() {
+        let base = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("..")
+            .join("..")
+            .join("target")
+            .join("e2e-home");
+        fs::create_dir_all(&base).expect("e2e-home");
+        let tmp = tempfile::tempdir_in(&base).expect("tempdir");
+        let scratch = tmp.path().join(SCRATCH_NAME);
+        wipe(&scratch).expect("laid down");
+        let plain = tmp.path().join("plain");
+        fs::create_dir_all(&plain).expect("plain");
+        let checked = |parent: &Path| {
+            let inner = tempfile::tempdir_in(parent).expect("tempdir");
+            let home = fs::canonicalize(inner.path())
+                .expect("canonical")
+                .join("vhome");
+            let dir = home.join("instances").join("builder");
+            fs::create_dir_all(&dir).expect("instance dir");
+            viola_state::strict::check_instance(&home, &dir)
+        };
+        assert_eq!(checked(&scratch), Ok(()));
+        assert_eq!(checked(&plain), Err(viola_state::strict::Refused::Writable));
     }
 
     /// On a Windows host cargo-mutants' temp copies and `--output` go to the repo's sibling scratch,

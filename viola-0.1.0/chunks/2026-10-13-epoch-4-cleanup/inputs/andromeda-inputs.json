@@ -1,0 +1,38 @@
+[
+  {
+    "id": "I1",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the operator, the /andromeda-phase invocation, 2026-10-13T07:07Z",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "107de0114ed72a9873cfd9dac12d7db8f0f167c27db23f4a69de9f1e3d89edea",
+    "copy": "I1-relay-1.md.txt",
+    "link": false,
+    "read_at": "2026-10-13T07:08:31Z",
+    "step": "phase:P1",
+    "why": "take-up direction: size against one window at P5 (split proposed if it does not fit); no mutation run, witness run or workflow dispatch in the chunk (the founder standing direction); a windows-mutants dispatch need is a P4 fork; no live claude start without the founder cap"
+  },
+  {
+    "id": "I2",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the operator, here, 2026-10-13 (08:55Z); the split is the founder's own dialog answer (\"Делить на две\"), relayed by the operator",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "3c881a8103c5376bd4bd1c952ad985680df2d3eeb534de18f9d725d0e3abf133",
+    "copy": "I2-relay-2.md.txt",
+    "link": false,
+    "read_at": "2026-10-13T08:55:57Z",
+    "step": "phase:P5",
+    "why": "the P5 word on .andromeda/runs/2026-10-13T07-07-28-phase/p5-card-1.md (both Beyond-the-plan rows): the operator's own word, 2026-10-13; the split approved by the founder, 2026-10-13, relayed by the operator"
+  }
+]

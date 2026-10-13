@@ -1,0 +1,306 @@
+[
+{
+"sql": "SELECT callee_name, callee_kind, file, COUNT(*) AS sites FROM refs WHERE callee_file LIKE '%src/human.rs' AND file NOT LIKE '%src/human.rs' AND callee_kind <> 'module' GROUP BY 1,2,3 ORDER BY 3,1",
+"rows": 38,
+"result": [
+{
+"callee_name": "answer_hint",
+"callee_kind": "fn",
+"file": "src/cmd/answer.rs",
+"sites": 1
+},
+{
+"callee_name": "write_answered",
+"callee_kind": "fn",
+"file": "src/cmd/answer.rs",
+"sites": 1
+},
+{
+"callee_name": "write_unable",
+"callee_kind": "fn",
+"file": "src/cmd/answer.rs",
+"sites": 1
+},
+{
+"callee_name": "send_hint",
+"callee_kind": "fn",
+"file": "src/cmd/client.rs",
+"sites": 1
+},
+{
+"callee_name": "write_unable",
+"callee_kind": "fn",
+"file": "src/cmd/client.rs",
+"sites": 1
+},
+{
+"callee_name": "write_wrapper_fault",
+"callee_kind": "fn",
+"file": "src/cmd/client.rs",
+"sites": 1
+},
+{
+"callee_name": "write_last_turn",
+"callee_kind": "fn",
+"file": "src/cmd/last.rs",
+"sites": 1
+},
+{
+"callee_name": "write_message",
+"callee_kind": "fn",
+"file": "src/cmd/last.rs",
+"sites": 1
+},
+{
+"callee_name": "write_no_message",
+"callee_kind": "fn",
+"file": "src/cmd/last.rs",
+"sites": 1
+},
+{
+"callee_name": "BayBudget",
+"callee_kind": "type",
+"file": "src/cmd/list.rs",
+"sites": 2
+},
+{
+"callee_name": "home_state_pair",
+"callee_kind": "fn",
+"file": "src/cmd/list.rs",
+"sites": 1
+},
+{
+"callee_name": "instance_state_pair",
+"callee_kind": "fn",
+"file": "src/cmd/list.rs",
+"sites": 1
+},
+{
+"callee_name": "paused",
+"callee_kind": "term",
+"file": "src/cmd/list.rs",
+"sites": 1
+},
+{
+"callee_name": "reading",
+"callee_kind": "term",
+"file": "src/cmd/list.rs",
+"sites": 1
+},
+{
+"callee_name": "refuse",
+"callee_kind": "fn",
+"file": "src/cmd/list.rs",
+"sites": 2
+},
+{
+"callee_name": "write_board",
+"callee_kind": "fn",
+"file": "src/cmd/list.rs",
+"sites": 1
+},
+{
+"callee_name": "write_paused",
+"callee_kind": "fn",
+"file": "src/cmd/pause.rs",
+"sites": 1
+},
+{
+"callee_name": "override_end",
+"callee_kind": "fn",
+"file": "src/cmd/release.rs",
+"sites": 1
+},
+{
+"callee_name": "write_budget_lifted",
+"callee_kind": "fn",
+"file": "src/cmd/release.rs",
+"sites": 1
+},
+{
+"callee_name": "write_budget_open",
+"callee_kind": "fn",
+"file": "src/cmd/release.rs",
+"sites": 1
+},
+{
+"callee_name": "write_released",
+"callee_kind": "fn",
+"file": "src/cmd/release.rs",
+"sites": 1
+},
+{
+"callee_name": "escape_message",
+"callee_kind": "fn",
+"file": "src/cmd/revive.rs",
+"sites": 1
+},
+{
+"callee_name": "instance_state_pair",
+"callee_kind": "fn",
+"file": "src/cmd/revive.rs",
+"sites": 1
+},
+{
+"callee_name": "refuse",
+"callee_kind": "fn",
+"file": "src/cmd/revive.rs",
+"sites": 1
+},
+{
+"callee_name": "result",
+"callee_kind": "fn",
+"file": "src/cmd/revive.rs",
+"sites": 1
+},
+{
+"callee_name": "refuse",
+"callee_kind": "fn",
+"file": "src/cmd/run.rs",
+"sites": 5
+},
+{
+"callee_name": "send_hint",
+"callee_kind": "fn",
+"file": "src/cmd/send.rs",
+"sites": 2
+},
+{
+"callee_name": "write_read_back",
+"callee_kind": "fn",
+"file": "src/cmd/send.rs",
+"sites": 1
+},
+{
+"callee_name": "write_send_open",
+"callee_kind": "fn",
+"file": "src/cmd/send.rs",
+"sites": 1
+},
+{
+"callee_name": "write_send_unable",
+"callee_kind": "fn",
+"file": "src/cmd/send.rs",
+"sites": 2
+},
+{
+"callee_name": "write_send_unconfirmable",
+"callee_kind": "fn",
+"file": "src/cmd/send.rs",
+"sites": 1
+},
+{
+"callee_name": "refuse",
+"callee_kind": "fn",
+"file": "src/cmd/verify.rs",
+"sites": 4
+},
+{
+"callee_name": "result",
+"callee_kind": "fn",
+"file": "src/cmd/verify.rs",
+"sites": 2
+},
+{
+"callee_name": "write_timed_out",
+"callee_kind": "fn",
+"file": "src/cmd/wait.rs",
+"sites": 1
+},
+{
+"callee_name": "write_waiting",
+"callee_kind": "fn",
+"file": "src/cmd/wait.rs",
+"sites": 1
+},
+{
+"callee_name": "write_woken",
+"callee_kind": "fn",
+"file": "src/cmd/wait.rs",
+"sites": 1
+},
+{
+"callee_name": "write_woken_dialog",
+"callee_kind": "fn",
+"file": "src/cmd/wait.rs",
+"sites": 1
+},
+{
+"callee_name": "internal_error",
+"callee_kind": "fn",
+"file": "src/main.rs",
+"sites": 1
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT callee_name, callee_kind, file, COUNT(*) AS sites FROM refs WHERE callee_file LIKE '%src/run/send.rs' AND file NOT LIKE '%src/run/send.rs' AND callee_kind <> 'module' GROUP BY 1,2,3 ORDER BY 3,1",
+"rows": 10,
+"result": [
+{
+"callee_name": "SendSlot",
+"callee_kind": "type",
+"file": "src/cmd/run.rs",
+"sites": 5
+},
+{
+"callee_name": "append_hook_event",
+"callee_kind": "fn",
+"file": "src/cmd/run.rs",
+"sites": 1
+},
+{
+"callee_name": "attach",
+"callee_kind": "fn",
+"file": "src/cmd/run.rs",
+"sites": 1
+},
+{
+"callee_name": "budget_with",
+"callee_kind": "fn",
+"file": "src/cmd/run.rs",
+"sites": 2
+},
+{
+"callee_name": "links_with",
+"callee_kind": "fn",
+"file": "src/cmd/run.rs",
+"sites": 1
+},
+{
+"callee_name": "new",
+"callee_kind": "fn",
+"file": "src/cmd/run.rs",
+"sites": 2
+},
+{
+"callee_name": "send",
+"callee_kind": "fn",
+"file": "src/cmd/run.rs",
+"sites": 1
+},
+{
+"callee_name": "parse_from",
+"callee_kind": "fn",
+"file": "src/run/dialog.rs",
+"sites": 2
+},
+{
+"callee_name": "parse_from",
+"callee_kind": "fn",
+"file": "src/run/wait.rs",
+"sites": 3
+},
+{
+"callee_name": "parse_from",
+"callee_kind": "fn",
+"file": "src/run/wheel.rs",
+"sites": 3
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

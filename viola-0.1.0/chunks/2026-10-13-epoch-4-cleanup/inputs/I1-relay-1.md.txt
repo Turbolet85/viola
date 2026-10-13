@@ -1,0 +1,1 @@
+Epoch 4 cleanup. Size it against one window at P5 and propose a split if it does not fit. No mutation run, witness run or workflow dispatch inside the chunk (the founder's standing direction): if diagnosing the Windows baseline red seems to need a windows-mutants dispatch, raise it as a P4 fork for his word. No live claude start without his cap.

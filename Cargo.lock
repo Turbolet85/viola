@@ -1680,6 +1680,7 @@ dependencies = [
  "viola-channel",
  "viola-core",
  "viola-pty",
+ "viola-state",
 ]
 
 [[package]]

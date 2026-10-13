@@ -20,6 +20,7 @@ viola-core = { path = "../viola-core" }
 viola-pty = { path = "../viola-pty" }
 # `cleanup` proves each recorded endpoint unconnectable with the viola client.
 viola-channel = { path = "../viola-channel" }
+viola-state = { path = "../viola-state" }
 clap.workspace = true
 jsonschema.workspace = true
 # The pin enables `span-locations`, which the mutation run's host reader takes its spans from.

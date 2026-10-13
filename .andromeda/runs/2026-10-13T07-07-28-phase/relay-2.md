@@ -1,0 +1,1 @@
+yes. The founder approved the split by his own dialog answer just now ("Делить на две"): this chunk takes the Windows baseline, the send/human split and the Windows clippy gate; the new entry "Epoch 4 survivors" goes directly after it, carrying the 47 survivors as the card states. The rest of the card stands as written.
