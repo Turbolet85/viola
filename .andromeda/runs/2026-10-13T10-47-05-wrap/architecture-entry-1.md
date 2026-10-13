@@ -1,0 +1,10 @@
+
+## 2026-10-13-epoch-4-cleanup — send and human split by phase
+**Section:** §Infrastructure Patterns → Project directory structure; §Infrastructure Patterns → Build system; [Delivery Confirmation]; [CLI Version Compatibility]
+**Change:**
+- The tree: `src/human.rs` is the `human` module root — the shared writers (`write_refusal` / `refuse`, `write_internal_error` / `internal_error`, `write_result` / `result`) and `pub(crate) use` re-exports, so every caller keeps its path; its phases sit under `src/human/`: `mirror.rs` (`send`'s readback mirror, `write_wrapper_fault`, `write_unable`), `escape.rs` (`escape_message`, `escape_row`), `board.rs` (the two state pairs and the board writers), `wait.rs` (the `wait` / `last` lines), `verbs.rs` (the `answer`, `pause` / `release` and budget lift / open lines), `hints.rs` (`HUMAN_TYPING_HINT`, `answer_hint`, `send_hint`). Was: one file holding all of it.
+- The tree: `run/send.rs` is the `send` module root — the wrapper's `send` on `Ctx` with its refusal order, re-exporting `SendSlot`, `append_hook_event`, `parse_from`; its phases under `run/send/`: `slot.rs` (the one-in-flight `SendSlot`, `append_hook_event` with the driver relabel, the `session-start` post-condition claim), `classify.rs` (the local-command decision), `params.rs`, `budget.rs` (`Ctx::budget_paused`), `relabel.rs` (only `#[cfg(test)]` cases), `test_support.rs` (`#[cfg(test)]` fixtures). Was: one file.
+- Build system: the root bin's only human writer is the `human` module (`src/human.rs` and `src/human/`); was `src/human.rs`.
+- [Delivery Confirmation] cites the claim / relabel / settle at `src/run/send/slot.rs` and the local-command decision at `classify` in `src/run/send/classify.rs`; [CLI Version Compatibility] cites `send_hint` at `src/human/hints.rs`. Was `src/run/send.rs` and `src/human.rs`.
+**Why:** the audit's M1 and M2 (the two files at 2088 and 1064 code lines), split along their phases as a pure move: no output, refusal, span or event moved, and no file of either split over 800 code lines.
+**Ref:** .andromeda/runs/2026-10-13T10-47-05-wrap/

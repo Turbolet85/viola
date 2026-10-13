@@ -18,7 +18,10 @@ viola/
 ├── src/                        # the `viola` bin: anyhow edge only
 │   ├── main.rs                 # clap 4.6.7 dispatch (Windows: the System32 DLL-search restriction is its second statement)
 │   ├── conpty.rs               # Windows x64: the embedded ConPTY companions and their four pins (the vendor script parses this text)
-│   ├── human.rs                # human-facing text: the refusal and internal-error stderr writers, the stdout result writer, `send`'s readback mirror (`[  ] open` / `[RB] read back` / `[  ] unconfirmable` with its one fixed note / `[/ ] unable` + its hints), the message-mode escaper and the row-mode escaper (`escape_row`), the `wait` / `last` lines, the `answer` line and the `pause` / `release` lines, the two state refusal pairs (`instance_state_pair`, `home_state_pair`), the board writers (`BayBudget`, `bay_line`, `board_rows`, `write_board`), called by `run`, `revive`, `verify`, `send`, `wait`, `last`, `list`, `answer`, `pause`, `release` and the `main` catch site
+│   ├── human.rs                # the `human` module root (human-facing text): the refusal and internal-error stderr writers and the stdout result writer (`write_refusal` / `refuse`, `write_internal_error` / `internal_error`, `write_result` / `result`), and `pub(crate) use` re-exports of its children's names, so every caller keeps its path; called by `run`, `revive`, `verify`, `send`, `wait`, `last`, `list`, `answer`, `pause`, `release` and the `main` catch site
+│   ├── human/                  # the human module's phases: mirror.rs: `send`'s readback mirror (`[  ] open` / `[RB] read back` / `[  ] unconfirmable` with its one fixed note / `[/ ] unable`), `write_wrapper_fault`, `write_unable`;
+│   │                           #   escape.rs: the message-mode escaper (`escape_message`) and the row-mode escaper (`escape_row`); board.rs: the two state refusal pairs (`instance_state_pair`, `home_state_pair`) and the board writers (`BayBudget`, `bay_line`, `board_rows`, `write_board`);
+│   │                           #   wait.rs: the `wait` / `last` lines; verbs.rs: the `answer` line, the `pause` / `release` lines and the budget lift / open lines; hints.rs: the hints (`HUMAN_TYPING_HINT`, `answer_hint`, `send_hint`)
 │   ├── cmd/                    # one module per subcommand: run, revive, send, wait, last, list,
 │   │                           #   answer, hook, mcp, ui, verify, pause, release, link, unlink, plugin;
 │   │                           #   revive.rs: the strict-modes check ahead of the wrapper log, the three-reading preflight and the `--list` rows; its child shapes come from `viola-agent-claude`;
@@ -28,7 +31,10 @@ viola/
 │   │                           #   verify/typed.rs: verify's four interactive PTY runs (Run A untrusted, Run B trusted, Run C dialogs, Run D plan),
 │   │                           #   the settle rule, Run B's wait for the input box after an added turn, and the signature-only screen recording
 │   ├── run/                    # PTY pump, wheel, budget governor; gate.rs: the pump-output tee + bounded vt100 feed + Gate;
-│   │                           #   send.rs: the wrapper's `send` method, the one-in-flight slot with the remembered session id, the local-command decision over `LOCAL_COMMANDS`, the driver relabel and the `session-start` post-condition claim;
+│   │                           #   send.rs: the `send` module root: the wrapper's `send` method on `Ctx` with its refusal order, re-exporting `SendSlot`, `append_hook_event` and `parse_from` so every caller keeps its path; its phases under send/:
+│   │                           #     slot.rs: the one-in-flight slot (`SendSlot`) with the remembered session id, `append_hook_event` with the driver relabel, and the `session-start` post-condition claim;
+│   │                           #     classify.rs: the local-command decision over `LOCAL_COMMANDS` (`classify`); params.rs: `parse` / `parse_from`; budget.rs: `Ctx::budget_paused`;
+│   │                           #     relabel.rs: only the `#[cfg(test)]` prompt-match and relabel cases; test_support.rs (`#[cfg(test)]`): the shared send test fixtures;
 │   │                           #   wait.rs: the WaitFeed (Mutex + Condvar wake, newest turn, start rebuild), `wait` / `last`;
 │   │                           #   dialog.rs: the DialogSlot (one pending dialog, Condvar await, armed continuation);
 │   │                           #   wheel.rs: the WheelSlot (holder + cause, one lock), its record worker, the stdin observer + classifier;

@@ -1,0 +1,2 @@
+proposals: []
+note: D-layout-surface holds — the report's Changes add no user-facing surface or region (Coverage of new surfaces, report.md:137, "the two module splits → no new external surface (every caller path kept by re-export; no output, refusal, span or event moved)"; the human writers moved with bodies byte-identical, report.md:24); layout-templates names neither src/human.rs nor src/run/send.rs nor the mutation scratch, and the report's expected amendments (report.md:101-132) list no layout-templates site.

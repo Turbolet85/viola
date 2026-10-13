@@ -1,0 +1,13 @@
+[[pattern]]
+id = 'split'
+regex = '\b(run/)?send\.rs\b|\bhuman\.rs\b'
+
+[[pattern]]
+id = 'scratch'
+regex = 'mutants-scratch|host scratch|scratch.{0,40}(DACL|owner-only|create_dir_all|wipe)'
+ignore_case = true
+
+[[pattern]]
+id = 'winclippy'
+regex = 'x86_64-pc-windows-msvc|wincheck|Windows-target (check-only )?clippy'
+ignore_case = true

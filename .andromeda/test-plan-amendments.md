@@ -831,3 +831,18 @@
 **Change:** steps 1 and 3 stay unrunnable: `viola link` / `viola unlink` are not built, their boundary widening is not ratified, and no explicit verb is built before Epoch 6. The hold's entry "Explicit session links" now stands in Epoch 6 after "Server verification before any frame"; was "the Epoch 5 entry … carries the hold". Step 2's root cases are unchanged.
 **Why:** the founder's own answer of 2026-10-13 («Не делать до Эпохи 6»), relayed verbatim by the Viola overseer through the operator's directive; E3's explicit steps move with the entry.
 **Ref:** .andromeda/runs/2026-10-13T06-38-35-wrap/
+
+## 2026-10-13-epoch-4-cleanup — moved unit tests re-cited after the send and human split
+**Section:** §4 Unit Test Strategy (root bin: the budget governor and the send-confirmation matcher bullets); §5 Integration Test Strategy (the `viola list` board)
+**Change:** `send_budget_paused_*` sit in `src/run/send/budget.rs`; of the six send-module `trailing_newline` tests three sit in `src/run/send/classify.rs`, two in `src/run/send/relabel.rs` and one in `src/run/send.rs`; the two `inner_cr_is_one_lf` tests in `src/run/send/relabel.rs`; the eight `send_local_command_` functions in `src/run/send/classify.rs`; the board units `bay_line_*` and `board_row_*` in `src/human/board.rs`. Was `src/run/send.rs` and `src/human.rs`. Every test kept its name and cases (223 test lines before and after).
+**Why:** the pure-move split of `src/run/send.rs` and `src/human.rs` by phase.
+**Kept:** the wrapper's `send` (`typed_text`'s product caller) and the three `send_empty_text_*` cases stay in `src/run/send.rs`.
+**Ref:** .andromeda/runs/2026-10-13T10-47-05-wrap/
+
+## 2026-10-13-epoch-4-cleanup — the Windows scratch lay-down and the Windows-target clippy
+**Section:** §3 → 5-command implementation (`run` step 4, Command, the Windows host scratch arm); §9 Gate commands (the Lint row)
+**Change:**
+- `run` step 4: the scratch is removed and re-created through `viola_state::fs::create_private_dir`, so it takes the protected user + SYSTEM DACL and every temp copy and test home inside inherits owner-only, as under `%TEMP%`. Pinned by the `#[cfg(windows)]` unit `wipe_scratch_takes_an_instance_tree_the_check_accepts_where_a_plain_dir_does_not` on CI's `test (windows-2025)` leg with no dispatch (a tree inside a wiped scratch passes `check_instance`; the same tree in a plain-created sibling reads `Writable`), as measured at ci#38375200217. The root package's Windows baseline reading green is not yet measured (the next `windows-mutants.yml` dispatch). Was: "removes and recreates it" with no mode.
+- The Lint row: beside CI, a chunk plan may list a check-only Windows-target clippy (`CARGO_TARGET_DIR=target/wincheck … --target x86_64-pc-windows-msvc -- -D warnings`) as a chunk gate entry on the Linux dev host, nothing linked; neither a CI step nor a `pre-push` stage.
+**Why:** run 38215104120's root-package baseline failed inside a plainly re-created scratch; CI lints `cfg(windows)` code the dev host does not build.
+**Ref:** .andromeda/runs/2026-10-13T10-47-05-wrap/

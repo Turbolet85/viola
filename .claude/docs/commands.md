@@ -50,7 +50,7 @@ _The workspace, `rust-toolchain.toml`, `.config/nextest.toml`, `viola-harness` a
 
 ## Linting & Formatting
 - `cargo fmt --all` / `cargo fmt --all --check` — format / format gate (edition from `rustfmt.toml`)
-- `cargo clippy --workspace --all-targets --features fake-agent -- -D warnings`: the lint gate. `print_stdout`, `print_stderr` and `dbg_macro` are denied workspace-wide, and `clippy.toml` `disallowed-macros` bans the tracing level macros.
+- `cargo clippy --workspace --all-targets --features fake-agent -- -D warnings`: the lint gate. `print_stdout`, `print_stderr` and `dbg_macro` are denied workspace-wide, and `clippy.toml` `disallowed-macros` bans the tracing level macros. Beside CI, a chunk plan may list a check-only Windows-target clippy as a chunk gate entry on the Linux dev host, which does not build the `cfg(windows)` code CI lints: `CARGO_TARGET_DIR=target/wincheck cargo clippy --workspace --all-targets --features fake-agent --target x86_64-pc-windows-msvc -- -D warnings` (nothing linked, the target std installed as host preparation; neither a CI step nor a `pre-push` stage).
 - `bash scripts/lint-probes.sh`: proves every clippy ban fires and both controls pass, plus the fail-closed raw-`event!` grep (last line `lint-probes: 4 bans fired, 2 controls clean`; CI runs it on the Linux lint leg).
 - `cargo check --workspace --all-targets` — type check
 - `cargo check $(sed 's/^/-p /' scripts/sync-crates.txt)` — the listed sync crates compile without tokio (CI job `lint`; each sync crate joins `scripts/sync-crates.txt` with its crate)

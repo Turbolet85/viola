@@ -1,0 +1,1 @@
+2026-10-13-epoch-4-cleanup. You sat idle over an hour, so read your implement run dir and the chunk folder from disk first. Mint "Epoch 4 survivors" directly after this entry, from p5-card-1.md row 1, as the founder approved. The 85 % and 90 % context alarms are expected: finish the wrap; stop only at 95 %.

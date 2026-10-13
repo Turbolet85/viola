@@ -34,5 +34,23 @@
     "read_at": "2026-10-13T08:55:57Z",
     "step": "phase:P5",
     "why": "the P5 word on .andromeda/runs/2026-10-13T07-07-28-phase/p5-card-1.md (both Beyond-the-plan rows): the operator's own word, 2026-10-13; the split approved by the founder, 2026-10-13, relayed by the operator"
+  },
+  {
+    "id": "I3",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the operator, the /andromeda-wrap-session invocation, 2026-10-13T10:47Z",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "4d5615ef8c8eb5819ba313798213e11636eb78212cbe3a60acac4f5b3824b70a",
+    "copy": "I3-relay-1.md.txt",
+    "link": false,
+    "read_at": "2026-10-13T10:47:49Z",
+    "step": "wrap",
+    "why": "wrap direction: mint the route entry \"Epoch 4 survivors\" directly after this entry from the phase P5 card row 1 (.andromeda/runs/2026-10-13T07-07-28-phase/p5-card-1.md), as the founder approved (inputs#I2); read the implement run dir and chunk folder from disk first"
   }
 ]

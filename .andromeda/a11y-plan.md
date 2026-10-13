@@ -540,7 +540,7 @@ Contracts: .andromeda/registries/a11y-plan-contracts.toml — ask registry.py co
     - E4 `Last-Event-ID` resume keeping the tree and focus;
     - the ATIS `<dd>` words `budget-paused`, `expired`, `TAPE connecting`, `TAPE live` and `skipped N · N · N` (SC 1.4.1 map row; `TAPE stopped` is asserted by `a11y-p5`);
     - the CLI column word for `cli_verified:false`.
-  - **cli mirror:** a literal pins the same caption order (NAME · LIVE · STATUS · WHEEL · DIALOG · CLI), not a trycmd case: the `CAPTION` literal in the root case `list_human_board_is_the_literal_rows` (`tests/cli_list.rs`) and the unit case `board_row_caption_and_default_row_are_the_literals` (`src/human.rs`), chunk 2026-10-11-the-board-viola-list.
+  - **cli mirror:** a literal pins the same caption order (NAME · LIVE · STATUS · WHEEL · DIALOG · CLI), not a trycmd case: the `CAPTION` literal in the root case `list_human_board_is_the_literal_rows` (`tests/cli_list.rs`) and the unit case `board_row_caption_and_default_row_are_the_literals` (`src/human/board.rs`), chunk 2026-10-11-the-board-viola-list.
   - **SCs:** 1.3.1, 1.3.2, 1.4.1, 1.4.3, 1.4.10 (≥ 760), 1.4.11, 1.4.12, 1.4.13, 2.1.1, 2.1.2, 2.4.1, 2.4.3, 2.4.6, 2.4.7, 2.4.11, 2.5.8, 3.1.1, 4.1.2.
 - **P2 — Confirmed send and readback, or refusal** (web-spa + cli).
   - **Roles:** `log` → `listitem` → disclosure whose `<summary>` accessible name is "send to builder, read back" (box `aria-hidden`); `status`.
@@ -850,7 +850,7 @@ _Scope: no `cognitive-accessibility` trigger fired (a11y-scope Sec 5), so there 
   - Every kebab-case reason/detail code (`not-delivered`, `human-typing`, `unverified-cli`) always sits beside the plain word `unable`, and next to its full text in the `<details>` body.
   - Page and CLI never show a Problem URN, stack trace or bare status number as the only error text.
 - **Verification:**
-  - Playwright `toHaveText` pins every fixed web string per state, and trycmd pins every fixed CLI string, except `viola list`'s, which literals pin (the board, the empty line and the refusal pairs: `tests/cli_list.rs` and the `src/human.rs` units `bay_line_*`, `board_row_*` and `instance_and_home_state_pairs_are_the_fixed_texts`, chunk 2026-10-11-the-board-viola-list). Any copy change therefore fails CI until the pinned string is updated on purpose.
+  - Playwright `toHaveText` pins every fixed web string per state, and trycmd pins every fixed CLI string, except `viola list`'s, which literals pin (the board, the empty line and the refusal pairs: `tests/cli_list.rs` and the `src/human/board.rs` units `bay_line_*`, `board_row_*` and `instance_and_home_state_pairs_are_the_fixed_texts`, chunk 2026-10-11-the-board-viola-list). Any copy change therefore fails CI until the pinned string is updated on purpose.
   - A DOM assertion confirms that no `urn:viola:problem:` string is rendered in page text.
 
 ### Consistency and predictability

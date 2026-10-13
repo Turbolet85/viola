@@ -1,0 +1,99 @@
+[
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-13T10:47:38Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-13-epoch-4-cleanup",
+"--run-dir",
+".andromeda/runs/2026-10-13T10-47-05-wrap",
+"--marker",
+"2026-10-13-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation, 2026-10-13T07:07Z",
+"I1 cited scope.md:9 · scope.md:65 · scope.md:93 · scope.md:128 · research.md:5 · research.md:5 · research.md:7 · research.md:76 · research.md:80 · plan.md:10 · plan.md:114 · plan.md:337 · plan.md:349",
+"I2 n/a — a message has no live source · copy message · message: the operator, here, 2026-10-13 (08:55Z); the split is the founder's own dialog answer (\"Делить на две\"), relayed by the operator",
+"I2 UNCITED",
+"inputs: 2 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 1,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-13T10:47:49Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-13-epoch-4-cleanup",
+"--message-file",
+".andromeda/runs/2026-10-13T10-47-05-wrap/relay-1.md",
+"--origin",
+"the operator, the /andromeda-wrap-session invocation, 2026-10-13T10:47Z",
+"--kind",
+"relay",
+"--why",
+"wrap direction: mint the route entry \"Epoch 4 survivors\" directly after this entry from the phase P5 card row 1 (.andromeda/runs/2026-10-13T07-07-28-phase/p5-card-1.md), as the founder approved (inputs#I2); read the implement run dir and chunk folder from disk first",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-13T10-47-05-wrap",
+"--marker",
+"2026-10-13-epoch-4-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: the operator, the /andromeda-wrap-session invocation, 2026-10-13T10:47Z",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, the /andromeda-wrap-session invocation, 2026-10-13T10:47Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "4d5615ef8c8eb5819ba313798213e11636eb78212cbe3a60acac4f5b3824b70a",
+"copy": "I3-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-13T10:47:49Z",
+"step": "wrap",
+"why": "wrap direction: mint the route entry \"Epoch 4 survivors\" directly after this entry from the phase P5 card row 1 (.andromeda/runs/2026-10-13T07-07-28-phase/p5-card-1.md), as the founder approved (inputs#I2); read the implement run dir and chunk folder from disk first"
+}
+}
+]

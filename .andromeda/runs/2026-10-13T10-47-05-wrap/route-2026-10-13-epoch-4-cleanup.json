@@ -1,0 +1,125 @@
+[
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "8fc13695",
+"ts": "2026-10-13T11:10:32Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-10-13-epoch-4-cleanup",
+"--desc-file",
+".andromeda/runs/2026-10-13T10-47-05-wrap/master-desc.txt",
+"--run-dir",
+".andromeda/runs/2026-10-13T10-47-05-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"flip master-route.md:66 - 2026-10-13-epoch-4-cleanup pending -> complete - desc REWRITTEN from --desc-file"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "8fc13695",
+"ts": "2026-10-13T11:10:32Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-13-epoch-4-cleanup",
+"--date",
+"2026-10-13",
+"--run-dir",
+".andromeda/runs/2026-10-13T10-47-05-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :126 strip CARRY: 1030ch \"CARRY: the Epoch 4 boundary (minted at i\"",
+"pin :126 strip CARRY: 503ch \"CARRY: the Epoch 4 boundary (same answer\"",
+"pin :126 strip CARRY: 338ch \"CARRY: the Epoch 4 boundary (same answer\"",
+"pin :126 strip CARRY: 267ch \"CARRY: the Epoch 4 boundary (same answer\"",
+"pin next markerless :128 holds CARRY:×3",
+"126 · 2026-10-13-epoch-4-cleanup · strip 4 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 126,
+"marker": "2026-10-13-epoch-4-cleanup",
+"blocks": 4,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "8fc13695",
+"ts": "2026-10-13T11:10:37Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-13-epoch-4-cleanup",
+"--date",
+"2026-10-13",
+"--run-dir",
+".andromeda/runs/2026-10-13T10-47-05-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :126 strip CARRY: 1030ch \"CARRY: the Epoch 4 boundary (minted at i\"",
+"pin :126 strip CARRY: 503ch \"CARRY: the Epoch 4 boundary (same answer\"",
+"pin :126 strip CARRY: 338ch \"CARRY: the Epoch 4 boundary (same answer\"",
+"pin :126 strip CARRY: 267ch \"CARRY: the Epoch 4 boundary (same answer\"",
+"pin next markerless :128 holds CARRY:×3",
+"126 · 2026-10-13-epoch-4-cleanup · strip 4 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/route-archive.md",
+"./viola-0.1.0/working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 126,
+"marker": "2026-10-13-epoch-4-cleanup",
+"blocks": 4,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

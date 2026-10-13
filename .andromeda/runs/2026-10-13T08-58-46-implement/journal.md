@@ -13,3 +13,8 @@ Each long gate run is written here before it is waited on.
   inside `test_support.rs`). Backgrounded; `pre-push` read 67 s at firing 1.
   Read: 21 green · 0 red · 3 operator not run.
 - 2026-10-13 — operator pass, firing 3: `--only 21` (`pre-push`) on the final uncommitted tree before the pre-CI commit.
+  Read: green (67 s, `ok:true`, `linux-tests`). Then hygiene (refused 2 phase-run-dir files, rewritten, clean), the
+  pre-CI commit `3b75dc7`, entry 23 through `--operator 23` (pushed, `d9ad9f1f→3b75dc72`).
+- 2026-10-13 — operator pass: entry 24, `ci.py conclusion --sha HEAD --wait 1800`, fired as written, backgrounded,
+  for `3b75dc7` (the Windows witness runs on `test (windows-2025)`).
+  Read: `verdict: green` · 15/15 · ci#38375200217 · polled over 809 s; the witness PASS read from job 115221715737.

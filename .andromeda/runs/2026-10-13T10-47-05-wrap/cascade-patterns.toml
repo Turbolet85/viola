@@ -1,0 +1,22 @@
+[[pattern]]
+id = 'split-files'
+regex = '\bhuman\.rs\b|\b(run/)?send\.rs\b|src/human\b|run/send\b'
+
+[[pattern]]
+id = 'scratch-recreate'
+regex = '(remov\w*|measured),? (and )?re-?creat|re-?creat\w* (it|the scratch)|wipe[sd]? (the )?scratch|scratch.{0,60}(DACL|owner-only|inherit)'
+ignore_case = true
+
+[[pattern]]
+id = 'human-writer'
+regex = 'only human(-stderr)? writer|human writers?'
+ignore_case = true
+
+[[pattern]]
+id = 'moved-units'
+regex = 'send_hint|send_budget_paused|inner_cr_is_one_lf|trailing_newline|send_local_command_|bay_line_|board_row_|instance_and_home_state_pairs|escape_row|escape_message'
+
+[[pattern]]
+id = 'send-phases'
+regex = 'local-command decision|driver relabel|one-in-flight slot|post-condition claim|budget_paused'
+ignore_case = true

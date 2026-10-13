@@ -1,9 +1,11 @@
 # Outcome — 2026-10-13-epoch-4-cleanup
 
 **green + smoke** — the chunk's own gates green (firing 2: 21 green · 0 red · 3 `leg = 'operator'` not run), the
-smoke green. Next → the OPERATOR PASS: entries 22 (`gate.py hygiene`), the pre-CI commit, 23 (push), 24 (the CI
-read, `ci.py conclusion`), then `/andromeda-wrap-session`. The first acceptance criterion (the Windows witness on
-`test (windows-2025)`) is read only by entry 24.
+smoke green. The operator pass has run (`evidence/operator.md`): `pre-push` re-fired green, hygiene clean after two
+phase-run-dir lines were rewritten, the pre-CI commit `3b75dc7` pushed, and the CI read `verdict: green` on
+ci#38375200217 (15/15), where the Windows witness
+`wipe_scratch_takes_an_instance_tree_the_check_accepts_where_a_plain_dir_does_not` passed on `test (windows-2025)`
+(job 115221715737). Next → `/andromeda-wrap-session`.
 
 ## Plan and scope agree on the split
 Read from disk before any edit (the phase window was auto-compacted once): plan.md's Goal takes the entry's three
