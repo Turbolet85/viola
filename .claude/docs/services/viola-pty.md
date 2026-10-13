@@ -36,7 +36,7 @@ No viola crate. Tokio banned in its graph.
 - **Seam trait + portable-pty adapter:** `crates/viola-pty/src/`
 - **Kill fallback:** `#[cfg(windows)]` module
 - **Sideload (DLL search restriction + absolute-path pre-load):** `crates/viola-pty/src/sideload.rs` (`cfg(windows)`); unit test `restrict_dll_search_keeps_planted_conpty_out_of_a_bare_name_load` (two-sided)
-- **Tests:** crate `tests/` spawning `viola-fake-agent` through real ConPTY/openpty (no-EOF mode, resize, `.cmd` refusal)
+- **Tests:** the crate's inline `mod tests` (the real-PTY rig) and the root `tests/tui_pty_seam.rs`, which spawns `viola-fake-agent` through real ConPTY/openpty (no-EOF mode, resize); the `.cmd` refusal in the root `tests/cli_program_resolution.rs`
 
 ## Testing this crate
 - **Unit tests:** `cargo nextest run -p viola-pty`

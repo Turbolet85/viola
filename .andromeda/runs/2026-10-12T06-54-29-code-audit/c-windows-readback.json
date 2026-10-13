@@ -1,0 +1,31 @@
+{
+ "what": "the project's Windows mutation leg, cited by pointer as its union verdict; never merged into this host's counts, scores or survivors (collectors.md C1, Host-excluded mutants)",
+ "registered_by": ".andromeda/test-plan.md line 1150 (the dispatch-only windows-mutants.yml, 'the boundary audit's Windows mutation leg')",
+ "run": 38215104120,
+ "url": "https://github.com/Turbolet85/viola/actions/runs/38215104120",
+ "dispatched": "2026-10-12T06:57:12Z (journal)",
+ "head_sha": "dffad3e02d380362b8040effacc95781ceea8739",
+ "status": "completed",
+ "conclusion": "failure",
+ "read_back": "gh run view 38215104120 --json status,conclusion,headSha,jobs ; gh run view 38215104120 --log-failed (read 2026-10-12, after 20:33Z)",
+ "jobs": {
+  "viola-state": "success",
+  "viola-channel": "success",
+  "viola-pty": "success",
+  "viola-agent-claude": "success",
+  "viola-e2e": "success",
+  "viola-main": "failure: unmutated baseline failed, no mutant tested",
+  "viola-cmd-run": "failure: unmutated baseline failed, no mutant tested",
+  "viola-run-env": "failure: unmutated baseline failed, no mutant tested",
+  "viola-panic-frames": "failure: unmutated baseline failed, no mutant tested"
+ },
+ "root_package_baseline_failure": {
+  "test": "viola::bin/viola cmd::hook::statusline::tests::statusline_an_instance_viola_laid_down_passes_its_check",
+  "panic": "assertion failed: trusted(&instance) at src\\cmd\\hook\\statusline.rs:510:9",
+  "same_in": "all four root-package shards (the same test, the same assertion)",
+  "tool_line": "ERROR cargo test failed in an unmutated tree, so no mutants were tested",
+  "build_dir": "the cargo-mutants copy under D:\\a\\viola\\viola-mutants-scratch\\ (the test's tempdir, the instance check's owner + DACL read on Windows)",
+  "note": "the same test is green in ci.yml on acad7af (ci#38124062614, 15/15 per the handoff); not diagnosed here (report-only)"
+ },
+ "install_action_lines": "each failed job's log also carries the install-action step's ::error:: text about a bash startup failure (partner-runner-images#169) in its scripted fallback; the jobs reached cargo-mutants and failed at the baseline test, so it is not the failure cause"
+}

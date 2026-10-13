@@ -1,0 +1,66 @@
+{
+ "raw": 1690,
+ "excluded_tests_union": 1628,
+ "stage1": 62,
+ "stage2_classes": {
+  "trait-impl method (dispatch)": 47,
+  "entry point": 3,
+  "test-only helper (test crate / test-support)": 3
+ },
+ "residual": [
+  {
+   "symbol": "rust-analyzer cargo viola-pty 0.1.0 Pty#child_pid().",
+   "kind": "fn",
+   "file": "crates/viola-pty/src/lib.rs",
+   "def_line": 130
+  },
+  {
+   "symbol": "rust-analyzer cargo viola-state 0.1.0 events/kind_str().",
+   "kind": "fn",
+   "file": "crates/viola-state/src/events.rs",
+   "def_line": 40
+  },
+  {
+   "symbol": "rust-analyzer cargo viola-state 0.1.0 StateError#Encode#",
+   "kind": "type",
+   "file": "crates/viola-state/src/lib.rs",
+   "def_line": 25
+  },
+  {
+   "symbol": "rust-analyzer cargo viola 0.1.0 cmd/send/SendArgs#text.",
+   "kind": "term",
+   "file": "src/cmd/send.rs",
+   "def_line": 38
+  },
+  {
+   "symbol": "rust-analyzer cargo viola 0.1.0 human/MIRROR_WORD.",
+   "kind": "term",
+   "file": "src/human.rs",
+   "def_line": 46
+  },
+  {
+   "symbol": "rust-analyzer cargo viola 0.1.0 human/LIVE_WIDTH.",
+   "kind": "term",
+   "file": "src/human.rs",
+   "def_line": 223
+  },
+  {
+   "symbol": "rust-analyzer cargo viola 0.1.0 human/STATUS_WIDTH.",
+   "kind": "term",
+   "file": "src/human.rs",
+   "def_line": 224
+  },
+  {
+   "symbol": "rust-analyzer cargo viola 0.1.0 human/WHEEL_WIDTH.",
+   "kind": "term",
+   "file": "src/human.rs",
+   "def_line": 225
+  },
+  {
+   "symbol": "rust-analyzer cargo viola 0.1.0 human/DIALOG_WIDTH.",
+   "kind": "term",
+   "file": "src/human.rs",
+   "def_line": 226
+  }
+ ]
+}

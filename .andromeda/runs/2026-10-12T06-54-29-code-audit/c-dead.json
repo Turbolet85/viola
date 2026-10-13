@@ -1,0 +1,94 @@
+{
+ "unused_deps": [
+  [
+   "viola-fuzz (fuzz/Cargo.toml, own workspace)",
+   "arbitrary"
+  ]
+ ],
+ "zero_ref_candidates": 0,
+ "top": [],
+ "classing": {
+  "raw": 1690,
+  "excluded_tests_union": 1628,
+  "stage1": 62,
+  "stage2_classes": {
+   "trait-impl method (dispatch)": 47,
+   "entry point": 3,
+   "test-only helper (test crate / test-support)": 3
+  },
+  "residual_reviewed_fp": [
+   {
+    "symbol": "rust-analyzer cargo viola-pty 0.1.0 Pty#child_pid().",
+    "kind": "fn",
+    "file": "crates/viola-pty/src/lib.rs",
+    "def_line": 130,
+    "class": "trait declaration reached by dispatch",
+    "witness": "src/cmd/verify/typed.rs:419 self.lock().child_pid()"
+   },
+   {
+    "symbol": "rust-analyzer cargo viola-state 0.1.0 events/kind_str().",
+    "kind": "fn",
+    "file": "crates/viola-state/src/events.rs",
+    "def_line": 40,
+    "class": "derive/attr-invoked",
+    "witness": "crates/viola-state/src/events.rs:35 #[serde(serialize_with = \"kind_str\")]"
+   },
+   {
+    "symbol": "rust-analyzer cargo viola-state 0.1.0 StateError#Encode#",
+    "kind": "type",
+    "file": "crates/viola-state/src/lib.rs",
+    "def_line": 25,
+    "class": "derive/attr-invoked",
+    "witness": "crates/viola-state/src/lib.rs:26 Encode(#[from] serde_json::Error)"
+   },
+   {
+    "symbol": "rust-analyzer cargo viola 0.1.0 cmd/send/SendArgs#text.",
+    "kind": "term",
+    "file": "src/cmd/send.rs",
+    "def_line": 38,
+    "class": "derive/attr-invoked",
+    "witness": "src/cmd/send.rs:37 #[arg(hide = true, value_parser = refuse_text_argument)] (clap derive)"
+   },
+   {
+    "symbol": "rust-analyzer cargo viola 0.1.0 human/MIRROR_WORD.",
+    "kind": "term",
+    "file": "src/human.rs",
+    "def_line": 46,
+    "class": "inline format-string capture",
+    "witness": "src/human.rs:50 {word:<MIRROR_WORD$}"
+   },
+   {
+    "symbol": "rust-analyzer cargo viola 0.1.0 human/LIVE_WIDTH.",
+    "kind": "term",
+    "file": "src/human.rs",
+    "def_line": 223,
+    "class": "inline format-string capture",
+    "witness": "src/human.rs:265 {live:<LIVE_WIDTH$}"
+   },
+   {
+    "symbol": "rust-analyzer cargo viola 0.1.0 human/STATUS_WIDTH.",
+    "kind": "term",
+    "file": "src/human.rs",
+    "def_line": 224,
+    "class": "inline format-string capture",
+    "witness": "src/human.rs:265 {status:<STATUS_WIDTH$}"
+   },
+   {
+    "symbol": "rust-analyzer cargo viola 0.1.0 human/WHEEL_WIDTH.",
+    "kind": "term",
+    "file": "src/human.rs",
+    "def_line": 225,
+    "class": "inline format-string capture",
+    "witness": "src/human.rs:265 {wheel:<WHEEL_WIDTH$}"
+   },
+   {
+    "symbol": "rust-analyzer cargo viola 0.1.0 human/DIALOG_WIDTH.",
+    "kind": "term",
+    "file": "src/human.rs",
+    "def_line": 226,
+    "class": "inline format-string capture",
+    "witness": "src/human.rs:266 {dialog:<DIALOG_WIDTH$}"
+   }
+  ]
+ }
+}

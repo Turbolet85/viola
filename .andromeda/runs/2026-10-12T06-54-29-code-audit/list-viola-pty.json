@@ -1,0 +1,3682 @@
+[
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace pty_backend -> &'static str with \"\"\n@@ -18,21 +18,17 @@\n #[cfg(windows)]\n pub mod sideload;\n \n pub use pump::{PasteHandle, PumpEnd, pump, pump_with_paste};\n \n /// The pseudo-terminal this process uses: `conpty-sideload` once [`sideload::preload`] has\n /// succeeded, else kernel32's inbox `conpty` on Windows, `openpty` elsewhere.\n pub fn pty_backend() -> &'static str {\n-    #[cfg(windows)]\n-    if sideload::preloaded() {\n-        return \"conpty-sideload\";\n-    }\n-    if cfg!(windows) { \"conpty\" } else { \"openpty\" }\n+    \"\" /* ~ changed by cargo-mutants ~ */\n }\n \n #[derive(Debug, Clone, Copy, PartialEq, Eq)]\n pub struct Size {\n     pub cols: u16,\n     pub rows: u16,\n }\n \n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "pty_backend",
+      "return_type": "-> &'static str",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 31
+        },
+        "start": {
+          "column": 1,
+          "line": 23
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:26:5: replace pty_backend -> &'static str with \"\"",
+    "package": "viola-pty",
+    "replacement": "\"\"",
+    "span": {
+      "end": {
+        "column": 53,
+        "line": 30
+      },
+      "start": {
+        "column": 5,
+        "line": 26
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace pty_backend -> &'static str with \"xyzzy\"\n@@ -18,21 +18,17 @@\n #[cfg(windows)]\n pub mod sideload;\n \n pub use pump::{PasteHandle, PumpEnd, pump, pump_with_paste};\n \n /// The pseudo-terminal this process uses: `conpty-sideload` once [`sideload::preload`] has\n /// succeeded, else kernel32's inbox `conpty` on Windows, `openpty` elsewhere.\n pub fn pty_backend() -> &'static str {\n-    #[cfg(windows)]\n-    if sideload::preloaded() {\n-        return \"conpty-sideload\";\n-    }\n-    if cfg!(windows) { \"conpty\" } else { \"openpty\" }\n+    \"xyzzy\" /* ~ changed by cargo-mutants ~ */\n }\n \n #[derive(Debug, Clone, Copy, PartialEq, Eq)]\n pub struct Size {\n     pub cols: u16,\n     pub rows: u16,\n }\n \n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "pty_backend",
+      "return_type": "-> &'static str",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 31
+        },
+        "start": {
+          "column": 1,
+          "line": 23
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:26:5: replace pty_backend -> &'static str with \"xyzzy\"",
+    "package": "viola-pty",
+    "replacement": "\"xyzzy\"",
+    "span": {
+      "end": {
+        "column": 53,
+        "line": 30
+      },
+      "start": {
+        "column": 5,
+        "line": 26
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace ExitSource::as_str -> &'static str with \"\"\n@@ -54,20 +54,17 @@\n #[derive(Debug, Clone, Copy, PartialEq, Eq)]\n pub enum ExitSource {\n     HandleWait,\n     KillFallback,\n }\n \n impl ExitSource {\n     pub const fn as_str(self) -> &'static str {\n-        match self {\n-            Self::HandleWait => \"handle-wait\",\n-            Self::KillFallback => \"kill-fallback\",\n-        }\n+        \"\" /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n #[derive(Debug, Clone, Copy, PartialEq, Eq)]\n pub struct Exit {\n     /// `None` when the child could not be reaped after a kill.\n     pub code: Option<u32>,\n     pub source: ExitSource,\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "ExitSource::as_str",
+      "return_type": "-> &'static str",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 66
+        },
+        "start": {
+          "column": 5,
+          "line": 61
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:62:9: replace ExitSource::as_str -> &'static str with \"\"",
+    "package": "viola-pty",
+    "replacement": "\"\"",
+    "span": {
+      "end": {
+        "column": 10,
+        "line": 65
+      },
+      "start": {
+        "column": 9,
+        "line": 62
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace ExitSource::as_str -> &'static str with \"xyzzy\"\n@@ -54,20 +54,17 @@\n #[derive(Debug, Clone, Copy, PartialEq, Eq)]\n pub enum ExitSource {\n     HandleWait,\n     KillFallback,\n }\n \n impl ExitSource {\n     pub const fn as_str(self) -> &'static str {\n-        match self {\n-            Self::HandleWait => \"handle-wait\",\n-            Self::KillFallback => \"kill-fallback\",\n-        }\n+        \"xyzzy\" /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n #[derive(Debug, Clone, Copy, PartialEq, Eq)]\n pub struct Exit {\n     /// `None` when the child could not be reaped after a kill.\n     pub code: Option<u32>,\n     pub source: ExitSource,\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "ExitSource::as_str",
+      "return_type": "-> &'static str",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 66
+        },
+        "start": {
+          "column": 5,
+          "line": 61
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:62:9: replace ExitSource::as_str -> &'static str with \"xyzzy\"",
+    "package": "viola-pty",
+    "replacement": "\"xyzzy\"",
+    "span": {
+      "end": {
+        "column": 10,
+        "line": 65
+      },
+      "start": {
+        "column": 9,
+        "line": 62
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace <impl fmt::Display for PtyError>::fmt -> fmt::Result with Ok(Default::default())\n@@ -86,27 +86,17 @@\n     Load(Box<dyn std::error::Error + Send + Sync>),\n     /// A paste before the pump opened the child's input, or after it returned.\n     NoInput,\n     Write(io::Error),\n }\n \n impl fmt::Display for PtyError {\n     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {\n-        f.write_str(match self {\n-            Self::Open(_) => \"pty open failed\",\n-            Self::Spawn(_) => \"pty spawn failed\",\n-            Self::Handle(_) => \"pty handle failed\",\n-            Self::Resize(_) => \"pty resize failed\",\n-            Self::Wait(_) => \"pty wait failed\",\n-            Self::Kill(_) => \"pty kill failed\",\n-            Self::Load(_) => \"pty load failed\",\n-            Self::NoInput => \"pty input not open\",\n-            Self::Write(_) => \"pty write failed\",\n-        })\n+        Ok(Default::default()) /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n impl std::error::Error for PtyError {\n     fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {\n         match self {\n             Self::Open(e) | Self::Spawn(e) | Self::Handle(e) | Self::Resize(e) | Self::Load(e) => {\n                 Some(e.as_ref())\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "<impl fmt::Display for PtyError>::fmt",
+      "return_type": "-> fmt::Result",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 105
+        },
+        "start": {
+          "column": 5,
+          "line": 93
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:94:9: replace <impl fmt::Display for PtyError>::fmt -> fmt::Result with Ok(Default::default())",
+    "package": "viola-pty",
+    "replacement": "Ok(Default::default())",
+    "span": {
+      "end": {
+        "column": 11,
+        "line": 104
+      },
+      "start": {
+        "column": 9,
+        "line": 94
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace <impl std::error::Error for PtyError>::source -> Option<&(dyn std::error::Error +'static)> with None\n@@ -102,23 +102,17 @@\n             Self::NoInput => \"pty input not open\",\n             Self::Write(_) => \"pty write failed\",\n         })\n     }\n }\n \n impl std::error::Error for PtyError {\n     fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {\n-        match self {\n-            Self::Open(e) | Self::Spawn(e) | Self::Handle(e) | Self::Resize(e) | Self::Load(e) => {\n-                Some(e.as_ref())\n-            }\n-            Self::Wait(e) | Self::Kill(e) | Self::Write(e) => Some(e),\n-            Self::NoInput => None,\n-        }\n+        None /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n /// The seam the pump drives; [`spawn`] returns the real one.\n #[cfg_attr(test, mockall::automock)]\n pub trait Pty {\n     fn reader(&mut self) -> Result<Box<dyn Read + Send>, PtyError>;\n     fn writer(&mut self) -> Result<Box<dyn Write + Send>, PtyError>;\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "<impl std::error::Error for PtyError>::source",
+      "return_type": "-> Option<&(dyn std::error::Error +'static)>",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 117
+        },
+        "start": {
+          "column": 5,
+          "line": 109
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:110:9: replace <impl std::error::Error for PtyError>::source -> Option<&(dyn std::error::Error +'static)> with None",
+    "package": "viola-pty",
+    "replacement": "None",
+    "span": {
+      "end": {
+        "column": 10,
+        "line": 116
+      },
+      "start": {
+        "column": 9,
+        "line": 110
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace <impl std::error::Error for PtyError>::source -> Option<&(dyn std::error::Error +'static)> with Some(Box::leak(Box::new(Default::default())))\n@@ -102,23 +102,17 @@\n             Self::NoInput => \"pty input not open\",\n             Self::Write(_) => \"pty write failed\",\n         })\n     }\n }\n \n impl std::error::Error for PtyError {\n     fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {\n-        match self {\n-            Self::Open(e) | Self::Spawn(e) | Self::Handle(e) | Self::Resize(e) | Self::Load(e) => {\n-                Some(e.as_ref())\n-            }\n-            Self::Wait(e) | Self::Kill(e) | Self::Write(e) => Some(e),\n-            Self::NoInput => None,\n-        }\n+        Some(Box::leak(Box::new(Default::default()))) /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n /// The seam the pump drives; [`spawn`] returns the real one.\n #[cfg_attr(test, mockall::automock)]\n pub trait Pty {\n     fn reader(&mut self) -> Result<Box<dyn Read + Send>, PtyError>;\n     fn writer(&mut self) -> Result<Box<dyn Write + Send>, PtyError>;\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "<impl std::error::Error for PtyError>::source",
+      "return_type": "-> Option<&(dyn std::error::Error +'static)>",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 117
+        },
+        "start": {
+          "column": 5,
+          "line": 109
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:110:9: replace <impl std::error::Error for PtyError>::source -> Option<&(dyn std::error::Error +'static)> with Some(Box::leak(Box::new(Default::default())))",
+    "package": "viola-pty",
+    "replacement": "Some(Box::leak(Box::new(Default::default())))",
+    "span": {
+      "end": {
+        "column": 10,
+        "line": 116
+      },
+      "start": {
+        "column": 9,
+        "line": 110
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace spawn -> Result<PortablePty, PtyError> with Ok(Default::default())\n@@ -137,37 +137,17 @@\n }\n \n #[tracing::instrument(\n     skip_all,\n     name = \"pty.spawn\",\n     fields(pty_backend = pty_backend(), env_stripped_count = spec.env_remove.len())\n )]\n pub fn spawn(spec: &SpawnSpec) -> Result<PortablePty, PtyError> {\n-    let pair = native_pty_system()\n-        .openpty(pty_size(spec.size))\n-        .map_err(|e| PtyError::Open(e.into()))?;\n-    let mut cmd = CommandBuilder::new(&spec.program);\n-    cmd.args(&spec.args);\n-    cmd.cwd(&spec.cwd);\n-    for (key, value) in &spec.env_set {\n-        cmd.env(key, value);\n-    }\n-    for key in &spec.env_remove {\n-        cmd.env_remove(key);\n-    }\n-    let child = pair\n-        .slave\n-        .spawn_command(cmd)\n-        .map_err(|e| PtyError::Spawn(e.into()))?;\n-    drop(pair.slave);\n-    Ok(PortablePty {\n-        master: Some(pair.master),\n-        child,\n-    })\n+    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */\n }\n \n fn pty_size(size: Size) -> PtySize {\n     PtySize {\n         rows: size.rows,\n         cols: size.cols,\n         pixel_width: 0,\n         pixel_height: 0,\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "spawn",
+      "return_type": "-> Result<PortablePty, PtyError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 166
+        },
+        "start": {
+          "column": 1,
+          "line": 139
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:145:5: replace spawn -> Result<PortablePty, PtyError> with Ok(Default::default())",
+    "package": "viola-pty",
+    "replacement": "Ok(Default::default())",
+    "span": {
+      "end": {
+        "column": 7,
+        "line": 165
+      },
+      "start": {
+        "column": 5,
+        "line": 145
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace pty_size -> PtySize with Default::default()\n@@ -161,22 +161,17 @@\n     drop(pair.slave);\n     Ok(PortablePty {\n         master: Some(pair.master),\n         child,\n     })\n }\n \n fn pty_size(size: Size) -> PtySize {\n-    PtySize {\n-        rows: size.rows,\n-        cols: size.cols,\n-        pixel_width: 0,\n-        pixel_height: 0,\n-    }\n+    Default::default() /* ~ changed by cargo-mutants ~ */\n }\n \n fn closed() -> PtyError {\n     PtyError::Handle(Box::new(io::Error::from(io::ErrorKind::NotConnected)))\n }\n \n impl PortablePty {\n     fn master(&self) -> Result<&(dyn MasterPty + Send), PtyError> {\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "pty_size",
+      "return_type": "-> PtySize",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 175
+        },
+        "start": {
+          "column": 1,
+          "line": 168
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:169:5: replace pty_size -> PtySize with Default::default()",
+    "package": "viola-pty",
+    "replacement": "Default::default()",
+    "span": {
+      "end": {
+        "column": 6,
+        "line": 174
+      },
+      "start": {
+        "column": 5,
+        "line": 169
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace closed -> PtyError with Default::default()\n@@ -170,17 +170,17 @@\n         rows: size.rows,\n         cols: size.cols,\n         pixel_width: 0,\n         pixel_height: 0,\n     }\n }\n \n fn closed() -> PtyError {\n-    PtyError::Handle(Box::new(io::Error::from(io::ErrorKind::NotConnected)))\n+    Default::default() /* ~ changed by cargo-mutants ~ */\n }\n \n impl PortablePty {\n     fn master(&self) -> Result<&(dyn MasterPty + Send), PtyError> {\n         self.master.as_deref().ok_or_else(closed)\n     }\n }\n \n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "closed",
+      "return_type": "-> PtyError",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 179
+        },
+        "start": {
+          "column": 1,
+          "line": 177
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:178:5: replace closed -> PtyError with Default::default()",
+    "package": "viola-pty",
+    "replacement": "Default::default()",
+    "span": {
+      "end": {
+        "column": 77,
+        "line": 178
+      },
+      "start": {
+        "column": 5,
+        "line": 178
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace PortablePty::master -> Result<&(dyn MasterPty +Send), PtyError> with Ok(Box::leak(Box::new(Default::default())))\n@@ -175,17 +175,17 @@\n }\n \n fn closed() -> PtyError {\n     PtyError::Handle(Box::new(io::Error::from(io::ErrorKind::NotConnected)))\n }\n \n impl PortablePty {\n     fn master(&self) -> Result<&(dyn MasterPty + Send), PtyError> {\n-        self.master.as_deref().ok_or_else(closed)\n+        Ok(Box::leak(Box::new(Default::default()))) /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n impl Pty for PortablePty {\n     fn reader(&mut self) -> Result<Box<dyn Read + Send>, PtyError> {\n         self.master()?\n             .try_clone_reader()\n             .map_err(|e| PtyError::Handle(e.into()))\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "PortablePty::master",
+      "return_type": "-> Result<&(dyn MasterPty +Send), PtyError>",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 184
+        },
+        "start": {
+          "column": 5,
+          "line": 182
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:183:9: replace PortablePty::master -> Result<&(dyn MasterPty +Send), PtyError> with Ok(Box::leak(Box::new(Default::default())))",
+    "package": "viola-pty",
+    "replacement": "Ok(Box::leak(Box::new(Default::default())))",
+    "span": {
+      "end": {
+        "column": 50,
+        "line": 183
+      },
+      "start": {
+        "column": 9,
+        "line": 183
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace <impl Pty for PortablePty>::reader -> Result<Box<dyn Read +Send>, PtyError> with Ok(Box::new(Default::default()))\n@@ -181,19 +181,17 @@\n impl PortablePty {\n     fn master(&self) -> Result<&(dyn MasterPty + Send), PtyError> {\n         self.master.as_deref().ok_or_else(closed)\n     }\n }\n \n impl Pty for PortablePty {\n     fn reader(&mut self) -> Result<Box<dyn Read + Send>, PtyError> {\n-        self.master()?\n-            .try_clone_reader()\n-            .map_err(|e| PtyError::Handle(e.into()))\n+        Ok(Box::new(Default::default())) /* ~ changed by cargo-mutants ~ */\n     }\n \n     fn writer(&mut self) -> Result<Box<dyn Write + Send>, PtyError> {\n         self.master()?\n             .take_writer()\n             .map_err(|e| PtyError::Handle(e.into()))\n     }\n \n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "<impl Pty for PortablePty>::reader",
+      "return_type": "-> Result<Box<dyn Read +Send>, PtyError>",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 192
+        },
+        "start": {
+          "column": 5,
+          "line": 188
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:189:9: replace <impl Pty for PortablePty>::reader -> Result<Box<dyn Read +Send>, PtyError> with Ok(Box::new(Default::default()))",
+    "package": "viola-pty",
+    "replacement": "Ok(Box::new(Default::default()))",
+    "span": {
+      "end": {
+        "column": 53,
+        "line": 191
+      },
+      "start": {
+        "column": 9,
+        "line": 189
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace <impl Pty for PortablePty>::writer -> Result<Box<dyn Write +Send>, PtyError> with Ok(Box::new(Default::default()))\n@@ -187,19 +187,17 @@\n impl Pty for PortablePty {\n     fn reader(&mut self) -> Result<Box<dyn Read + Send>, PtyError> {\n         self.master()?\n             .try_clone_reader()\n             .map_err(|e| PtyError::Handle(e.into()))\n     }\n \n     fn writer(&mut self) -> Result<Box<dyn Write + Send>, PtyError> {\n-        self.master()?\n-            .take_writer()\n-            .map_err(|e| PtyError::Handle(e.into()))\n+        Ok(Box::new(Default::default())) /* ~ changed by cargo-mutants ~ */\n     }\n \n     #[tracing::instrument(skip_all, name = \"pty.resize\")]\n     fn resize(&mut self, size: Size) -> Result<(), PtyError> {\n         self.master()?\n             .resize(pty_size(size))\n             .map_err(|e| PtyError::Resize(e.into()))\n     }\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "<impl Pty for PortablePty>::writer",
+      "return_type": "-> Result<Box<dyn Write +Send>, PtyError>",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 198
+        },
+        "start": {
+          "column": 5,
+          "line": 194
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:195:9: replace <impl Pty for PortablePty>::writer -> Result<Box<dyn Write +Send>, PtyError> with Ok(Box::new(Default::default()))",
+    "package": "viola-pty",
+    "replacement": "Ok(Box::new(Default::default()))",
+    "span": {
+      "end": {
+        "column": 53,
+        "line": 197
+      },
+      "start": {
+        "column": 9,
+        "line": 195
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace <impl Pty for PortablePty>::resize -> Result<(), PtyError> with Ok(())\n@@ -194,19 +194,17 @@\n     fn writer(&mut self) -> Result<Box<dyn Write + Send>, PtyError> {\n         self.master()?\n             .take_writer()\n             .map_err(|e| PtyError::Handle(e.into()))\n     }\n \n     #[tracing::instrument(skip_all, name = \"pty.resize\")]\n     fn resize(&mut self, size: Size) -> Result<(), PtyError> {\n-        self.master()?\n-            .resize(pty_size(size))\n-            .map_err(|e| PtyError::Resize(e.into()))\n+        Ok(()) /* ~ changed by cargo-mutants ~ */\n     }\n \n     fn try_wait(&mut self) -> Result<Option<u32>, PtyError> {\n         self.child\n             .try_wait()\n             .map(|s| s.map(|s| s.exit_code()))\n             .map_err(PtyError::Wait)\n     }\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "<impl Pty for PortablePty>::resize",
+      "return_type": "-> Result<(), PtyError>",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 205
+        },
+        "start": {
+          "column": 5,
+          "line": 200
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:202:9: replace <impl Pty for PortablePty>::resize -> Result<(), PtyError> with Ok(())",
+    "package": "viola-pty",
+    "replacement": "Ok(())",
+    "span": {
+      "end": {
+        "column": 53,
+        "line": 204
+      },
+      "start": {
+        "column": 9,
+        "line": 202
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace <impl Pty for PortablePty>::try_wait -> Result<Option<u32>, PtyError> with Ok(None)\n@@ -200,20 +200,17 @@\n     #[tracing::instrument(skip_all, name = \"pty.resize\")]\n     fn resize(&mut self, size: Size) -> Result<(), PtyError> {\n         self.master()?\n             .resize(pty_size(size))\n             .map_err(|e| PtyError::Resize(e.into()))\n     }\n \n     fn try_wait(&mut self) -> Result<Option<u32>, PtyError> {\n-        self.child\n-            .try_wait()\n-            .map(|s| s.map(|s| s.exit_code()))\n-            .map_err(PtyError::Wait)\n+        Ok(None) /* ~ changed by cargo-mutants ~ */\n     }\n \n     #[tracing::instrument(skip_all, name = \"pty.kill\")]\n     fn kill(&mut self) -> Result<(), PtyError> {\n         match self.child.kill() {\n             Ok(()) => Ok(()),\n             Err(e) => {\n                 #[cfg(windows)]\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "<impl Pty for PortablePty>::try_wait",
+      "return_type": "-> Result<Option<u32>, PtyError>",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 212
+        },
+        "start": {
+          "column": 5,
+          "line": 207
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:208:9: replace <impl Pty for PortablePty>::try_wait -> Result<Option<u32>, PtyError> with Ok(None)",
+    "package": "viola-pty",
+    "replacement": "Ok(None)",
+    "span": {
+      "end": {
+        "column": 37,
+        "line": 211
+      },
+      "start": {
+        "column": 9,
+        "line": 208
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace <impl Pty for PortablePty>::try_wait -> Result<Option<u32>, PtyError> with Ok(Some(0))\n@@ -200,20 +200,17 @@\n     #[tracing::instrument(skip_all, name = \"pty.resize\")]\n     fn resize(&mut self, size: Size) -> Result<(), PtyError> {\n         self.master()?\n             .resize(pty_size(size))\n             .map_err(|e| PtyError::Resize(e.into()))\n     }\n \n     fn try_wait(&mut self) -> Result<Option<u32>, PtyError> {\n-        self.child\n-            .try_wait()\n-            .map(|s| s.map(|s| s.exit_code()))\n-            .map_err(PtyError::Wait)\n+        Ok(Some(0)) /* ~ changed by cargo-mutants ~ */\n     }\n \n     #[tracing::instrument(skip_all, name = \"pty.kill\")]\n     fn kill(&mut self) -> Result<(), PtyError> {\n         match self.child.kill() {\n             Ok(()) => Ok(()),\n             Err(e) => {\n                 #[cfg(windows)]\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "<impl Pty for PortablePty>::try_wait",
+      "return_type": "-> Result<Option<u32>, PtyError>",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 212
+        },
+        "start": {
+          "column": 5,
+          "line": 207
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:208:9: replace <impl Pty for PortablePty>::try_wait -> Result<Option<u32>, PtyError> with Ok(Some(0))",
+    "package": "viola-pty",
+    "replacement": "Ok(Some(0))",
+    "span": {
+      "end": {
+        "column": 37,
+        "line": 211
+      },
+      "start": {
+        "column": 9,
+        "line": 208
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace <impl Pty for PortablePty>::try_wait -> Result<Option<u32>, PtyError> with Ok(Some(1))\n@@ -200,20 +200,17 @@\n     #[tracing::instrument(skip_all, name = \"pty.resize\")]\n     fn resize(&mut self, size: Size) -> Result<(), PtyError> {\n         self.master()?\n             .resize(pty_size(size))\n             .map_err(|e| PtyError::Resize(e.into()))\n     }\n \n     fn try_wait(&mut self) -> Result<Option<u32>, PtyError> {\n-        self.child\n-            .try_wait()\n-            .map(|s| s.map(|s| s.exit_code()))\n-            .map_err(PtyError::Wait)\n+        Ok(Some(1)) /* ~ changed by cargo-mutants ~ */\n     }\n \n     #[tracing::instrument(skip_all, name = \"pty.kill\")]\n     fn kill(&mut self) -> Result<(), PtyError> {\n         match self.child.kill() {\n             Ok(()) => Ok(()),\n             Err(e) => {\n                 #[cfg(windows)]\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "<impl Pty for PortablePty>::try_wait",
+      "return_type": "-> Result<Option<u32>, PtyError>",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 212
+        },
+        "start": {
+          "column": 5,
+          "line": 207
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:208:9: replace <impl Pty for PortablePty>::try_wait -> Result<Option<u32>, PtyError> with Ok(Some(1))",
+    "package": "viola-pty",
+    "replacement": "Ok(Some(1))",
+    "span": {
+      "end": {
+        "column": 37,
+        "line": 211
+      },
+      "start": {
+        "column": 9,
+        "line": 208
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace <impl Pty for PortablePty>::kill -> Result<(), PtyError> with Ok(())\n@@ -208,26 +208,17 @@\n         self.child\n             .try_wait()\n             .map(|s| s.map(|s| s.exit_code()))\n             .map_err(PtyError::Wait)\n     }\n \n     #[tracing::instrument(skip_all, name = \"pty.kill\")]\n     fn kill(&mut self) -> Result<(), PtyError> {\n-        match self.child.kill() {\n-            Ok(()) => Ok(()),\n-            Err(e) => {\n-                #[cfg(windows)]\n-                if self.child.process_id().is_some_and(terminate) {\n-                    return Ok(());\n-                }\n-                Err(PtyError::Kill(e))\n-            }\n-        }\n+        Ok(()) /* ~ changed by cargo-mutants ~ */\n     }\n \n     fn close(&mut self) {\n         self.master = None;\n     }\n \n     fn child_pid(&self) -> Option<u32> {\n         self.child.process_id()\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "<impl Pty for PortablePty>::kill",
+      "return_type": "-> Result<(), PtyError>",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 226
+        },
+        "start": {
+          "column": 5,
+          "line": 214
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:216:9: replace <impl Pty for PortablePty>::kill -> Result<(), PtyError> with Ok(())",
+    "package": "viola-pty",
+    "replacement": "Ok(())",
+    "span": {
+      "end": {
+        "column": 10,
+        "line": 225
+      },
+      "start": {
+        "column": 9,
+        "line": 216
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace <impl Pty for PortablePty>::close with ()\n@@ -221,17 +221,17 @@\n                     return Ok(());\n                 }\n                 Err(PtyError::Kill(e))\n             }\n         }\n     }\n \n     fn close(&mut self) {\n-        self.master = None;\n+        () /* ~ changed by cargo-mutants ~ */\n     }\n \n     fn child_pid(&self) -> Option<u32> {\n         self.child.process_id()\n     }\n }\n \n /// The `TerminateProcess` fallback when portable-pty's own kill fails.\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "<impl Pty for PortablePty>::close",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 230
+        },
+        "start": {
+          "column": 5,
+          "line": 228
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:229:9: replace <impl Pty for PortablePty>::close with ()",
+    "package": "viola-pty",
+    "replacement": "()",
+    "span": {
+      "end": {
+        "column": 28,
+        "line": 229
+      },
+      "start": {
+        "column": 9,
+        "line": 229
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace <impl Pty for PortablePty>::child_pid -> Option<u32> with None\n@@ -225,17 +225,17 @@\n         }\n     }\n \n     fn close(&mut self) {\n         self.master = None;\n     }\n \n     fn child_pid(&self) -> Option<u32> {\n-        self.child.process_id()\n+        None /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n /// The `TerminateProcess` fallback when portable-pty's own kill fails.\n #[cfg(windows)]\n fn terminate(pid: u32) -> bool {\n     use windows_sys::Win32::Foundation::CloseHandle;\n     use windows_sys::Win32::System::Threading::{OpenProcess, PROCESS_TERMINATE, TerminateProcess};\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "<impl Pty for PortablePty>::child_pid",
+      "return_type": "-> Option<u32>",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 234
+        },
+        "start": {
+          "column": 5,
+          "line": 232
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:233:9: replace <impl Pty for PortablePty>::child_pid -> Option<u32> with None",
+    "package": "viola-pty",
+    "replacement": "None",
+    "span": {
+      "end": {
+        "column": 32,
+        "line": 233
+      },
+      "start": {
+        "column": 9,
+        "line": 233
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace <impl Pty for PortablePty>::child_pid -> Option<u32> with Some(0)\n@@ -225,17 +225,17 @@\n         }\n     }\n \n     fn close(&mut self) {\n         self.master = None;\n     }\n \n     fn child_pid(&self) -> Option<u32> {\n-        self.child.process_id()\n+        Some(0) /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n /// The `TerminateProcess` fallback when portable-pty's own kill fails.\n #[cfg(windows)]\n fn terminate(pid: u32) -> bool {\n     use windows_sys::Win32::Foundation::CloseHandle;\n     use windows_sys::Win32::System::Threading::{OpenProcess, PROCESS_TERMINATE, TerminateProcess};\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "<impl Pty for PortablePty>::child_pid",
+      "return_type": "-> Option<u32>",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 234
+        },
+        "start": {
+          "column": 5,
+          "line": 232
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:233:9: replace <impl Pty for PortablePty>::child_pid -> Option<u32> with Some(0)",
+    "package": "viola-pty",
+    "replacement": "Some(0)",
+    "span": {
+      "end": {
+        "column": 32,
+        "line": 233
+      },
+      "start": {
+        "column": 9,
+        "line": 233
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace <impl Pty for PortablePty>::child_pid -> Option<u32> with Some(1)\n@@ -225,17 +225,17 @@\n         }\n     }\n \n     fn close(&mut self) {\n         self.master = None;\n     }\n \n     fn child_pid(&self) -> Option<u32> {\n-        self.child.process_id()\n+        Some(1) /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n /// The `TerminateProcess` fallback when portable-pty's own kill fails.\n #[cfg(windows)]\n fn terminate(pid: u32) -> bool {\n     use windows_sys::Win32::Foundation::CloseHandle;\n     use windows_sys::Win32::System::Threading::{OpenProcess, PROCESS_TERMINATE, TerminateProcess};\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "<impl Pty for PortablePty>::child_pid",
+      "return_type": "-> Option<u32>",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 234
+        },
+        "start": {
+          "column": 5,
+          "line": 232
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:233:9: replace <impl Pty for PortablePty>::child_pid -> Option<u32> with Some(1)",
+    "package": "viola-pty",
+    "replacement": "Some(1)",
+    "span": {
+      "end": {
+        "column": 32,
+        "line": 233
+      },
+      "start": {
+        "column": 9,
+        "line": 233
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace terminate -> bool with true\n@@ -232,28 +232,17 @@\n     fn child_pid(&self) -> Option<u32> {\n         self.child.process_id()\n     }\n }\n \n /// The `TerminateProcess` fallback when portable-pty's own kill fails.\n #[cfg(windows)]\n fn terminate(pid: u32) -> bool {\n-    use windows_sys::Win32::Foundation::CloseHandle;\n-    use windows_sys::Win32::System::Threading::{OpenProcess, PROCESS_TERMINATE, TerminateProcess};\n-    // SAFETY: plain Win32 calls on a handle opened and closed here.\n-    unsafe {\n-        let handle = OpenProcess(PROCESS_TERMINATE, 0, pid);\n-        if handle.is_null() {\n-            return false;\n-        }\n-        let ok = TerminateProcess(handle, 1) != 0;\n-        CloseHandle(handle);\n-        ok\n-    }\n+    true /* ~ changed by cargo-mutants ~ */\n }\n \n const ENABLE_VIRTUAL_TERMINAL_INPUT: u32 = 0x0200;\n /// ENABLE_ECHO_INPUT | ENABLE_LINE_INPUT | ENABLE_PROCESSED_INPUT, written as its value: a `|`\n /// between distinct bits has an equivalent `^` mutant.\n const COOKED_INPUT: u32 = 0x0007;\n /// ENABLE_VIRTUAL_TERMINAL_PROCESSING | DISABLE_NEWLINE_AUTO_RETURN, as its value.\n const VT_OUTPUT: u32 = 0x000c;\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "terminate",
+      "return_type": "-> bool",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 252
+        },
+        "start": {
+          "column": 1,
+          "line": 237
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:240:5: replace terminate -> bool with true",
+    "package": "viola-pty",
+    "replacement": "true",
+    "span": {
+      "end": {
+        "column": 6,
+        "line": 251
+      },
+      "start": {
+        "column": 5,
+        "line": 240
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace terminate -> bool with false\n@@ -232,28 +232,17 @@\n     fn child_pid(&self) -> Option<u32> {\n         self.child.process_id()\n     }\n }\n \n /// The `TerminateProcess` fallback when portable-pty's own kill fails.\n #[cfg(windows)]\n fn terminate(pid: u32) -> bool {\n-    use windows_sys::Win32::Foundation::CloseHandle;\n-    use windows_sys::Win32::System::Threading::{OpenProcess, PROCESS_TERMINATE, TerminateProcess};\n-    // SAFETY: plain Win32 calls on a handle opened and closed here.\n-    unsafe {\n-        let handle = OpenProcess(PROCESS_TERMINATE, 0, pid);\n-        if handle.is_null() {\n-            return false;\n-        }\n-        let ok = TerminateProcess(handle, 1) != 0;\n-        CloseHandle(handle);\n-        ok\n-    }\n+    false /* ~ changed by cargo-mutants ~ */\n }\n \n const ENABLE_VIRTUAL_TERMINAL_INPUT: u32 = 0x0200;\n /// ENABLE_ECHO_INPUT | ENABLE_LINE_INPUT | ENABLE_PROCESSED_INPUT, written as its value: a `|`\n /// between distinct bits has an equivalent `^` mutant.\n const COOKED_INPUT: u32 = 0x0007;\n /// ENABLE_VIRTUAL_TERMINAL_PROCESSING | DISABLE_NEWLINE_AUTO_RETURN, as its value.\n const VT_OUTPUT: u32 = 0x000c;\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "terminate",
+      "return_type": "-> bool",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 252
+        },
+        "start": {
+          "column": 1,
+          "line": 237
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:240:5: replace terminate -> bool with false",
+    "package": "viola-pty",
+    "replacement": "false",
+    "span": {
+      "end": {
+        "column": 6,
+        "line": 251
+      },
+      "start": {
+        "column": 5,
+        "line": 240
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace != with == in terminate\n@@ -240,17 +240,17 @@\n     use windows_sys::Win32::Foundation::CloseHandle;\n     use windows_sys::Win32::System::Threading::{OpenProcess, PROCESS_TERMINATE, TerminateProcess};\n     // SAFETY: plain Win32 calls on a handle opened and closed here.\n     unsafe {\n         let handle = OpenProcess(PROCESS_TERMINATE, 0, pid);\n         if handle.is_null() {\n             return false;\n         }\n-        let ok = TerminateProcess(handle, 1) != 0;\n+        let ok = TerminateProcess(handle, 1) == /* ~ changed by cargo-mutants ~ */ 0;\n         CloseHandle(handle);\n         ok\n     }\n }\n \n const ENABLE_VIRTUAL_TERMINAL_INPUT: u32 = 0x0200;\n /// ENABLE_ECHO_INPUT | ENABLE_LINE_INPUT | ENABLE_PROCESSED_INPUT, written as its value: a `|`\n /// between distinct bits has an equivalent `^` mutant.\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "terminate",
+      "return_type": "-> bool",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 252
+        },
+        "start": {
+          "column": 1,
+          "line": 237
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/lib.rs:248:46: replace != with == in terminate",
+    "package": "viola-pty",
+    "replacement": "==",
+    "span": {
+      "end": {
+        "column": 48,
+        "line": 248
+      },
+      "start": {
+        "column": 46,
+        "line": 248
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace raw_input_mode -> u32 with 0\n@@ -256,17 +256,17 @@\n /// between distinct bits has an equivalent `^` mutant.\n const COOKED_INPUT: u32 = 0x0007;\n /// ENABLE_VIRTUAL_TERMINAL_PROCESSING | DISABLE_NEWLINE_AUTO_RETURN, as its value.\n const VT_OUTPUT: u32 = 0x000c;\n \n /// A console input mode with line editing, echo and Ctrl-C processing off and VT input on: every\n /// byte, `\\x03` included, reaches the reader as typed.\n pub const fn raw_input_mode(mode: u32) -> u32 {\n-    (mode & !COOKED_INPUT) | ENABLE_VIRTUAL_TERMINAL_INPUT\n+    0 /* ~ changed by cargo-mutants ~ */\n }\n \n /// A console output mode that renders the child's VT sequences.\n pub const fn vt_output_mode(mode: u32) -> u32 {\n     mode | VT_OUTPUT\n }\n \n /// A size from a visible window's inclusive corners; `None` for an empty one.\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "raw_input_mode",
+      "return_type": "-> u32",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 265
+        },
+        "start": {
+          "column": 1,
+          "line": 261
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:264:5: replace raw_input_mode -> u32 with 0",
+    "package": "viola-pty",
+    "replacement": "0",
+    "span": {
+      "end": {
+        "column": 59,
+        "line": 264
+      },
+      "start": {
+        "column": 5,
+        "line": 264
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace raw_input_mode -> u32 with 1\n@@ -256,17 +256,17 @@\n /// between distinct bits has an equivalent `^` mutant.\n const COOKED_INPUT: u32 = 0x0007;\n /// ENABLE_VIRTUAL_TERMINAL_PROCESSING | DISABLE_NEWLINE_AUTO_RETURN, as its value.\n const VT_OUTPUT: u32 = 0x000c;\n \n /// A console input mode with line editing, echo and Ctrl-C processing off and VT input on: every\n /// byte, `\\x03` included, reaches the reader as typed.\n pub const fn raw_input_mode(mode: u32) -> u32 {\n-    (mode & !COOKED_INPUT) | ENABLE_VIRTUAL_TERMINAL_INPUT\n+    1 /* ~ changed by cargo-mutants ~ */\n }\n \n /// A console output mode that renders the child's VT sequences.\n pub const fn vt_output_mode(mode: u32) -> u32 {\n     mode | VT_OUTPUT\n }\n \n /// A size from a visible window's inclusive corners; `None` for an empty one.\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "raw_input_mode",
+      "return_type": "-> u32",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 265
+        },
+        "start": {
+          "column": 1,
+          "line": 261
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:264:5: replace raw_input_mode -> u32 with 1",
+    "package": "viola-pty",
+    "replacement": "1",
+    "span": {
+      "end": {
+        "column": 59,
+        "line": 264
+      },
+      "start": {
+        "column": 5,
+        "line": 264
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace | with & in raw_input_mode\n@@ -256,17 +256,17 @@\n /// between distinct bits has an equivalent `^` mutant.\n const COOKED_INPUT: u32 = 0x0007;\n /// ENABLE_VIRTUAL_TERMINAL_PROCESSING | DISABLE_NEWLINE_AUTO_RETURN, as its value.\n const VT_OUTPUT: u32 = 0x000c;\n \n /// A console input mode with line editing, echo and Ctrl-C processing off and VT input on: every\n /// byte, `\\x03` included, reaches the reader as typed.\n pub const fn raw_input_mode(mode: u32) -> u32 {\n-    (mode & !COOKED_INPUT) | ENABLE_VIRTUAL_TERMINAL_INPUT\n+    (mode & !COOKED_INPUT) & /* ~ changed by cargo-mutants ~ */ ENABLE_VIRTUAL_TERMINAL_INPUT\n }\n \n /// A console output mode that renders the child's VT sequences.\n pub const fn vt_output_mode(mode: u32) -> u32 {\n     mode | VT_OUTPUT\n }\n \n /// A size from a visible window's inclusive corners; `None` for an empty one.\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "raw_input_mode",
+      "return_type": "-> u32",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 265
+        },
+        "start": {
+          "column": 1,
+          "line": 261
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/lib.rs:264:28: replace | with & in raw_input_mode",
+    "package": "viola-pty",
+    "replacement": "&",
+    "span": {
+      "end": {
+        "column": 29,
+        "line": 264
+      },
+      "start": {
+        "column": 28,
+        "line": 264
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace | with ^ in raw_input_mode\n@@ -256,17 +256,17 @@\n /// between distinct bits has an equivalent `^` mutant.\n const COOKED_INPUT: u32 = 0x0007;\n /// ENABLE_VIRTUAL_TERMINAL_PROCESSING | DISABLE_NEWLINE_AUTO_RETURN, as its value.\n const VT_OUTPUT: u32 = 0x000c;\n \n /// A console input mode with line editing, echo and Ctrl-C processing off and VT input on: every\n /// byte, `\\x03` included, reaches the reader as typed.\n pub const fn raw_input_mode(mode: u32) -> u32 {\n-    (mode & !COOKED_INPUT) | ENABLE_VIRTUAL_TERMINAL_INPUT\n+    (mode & !COOKED_INPUT) ^ /* ~ changed by cargo-mutants ~ */ ENABLE_VIRTUAL_TERMINAL_INPUT\n }\n \n /// A console output mode that renders the child's VT sequences.\n pub const fn vt_output_mode(mode: u32) -> u32 {\n     mode | VT_OUTPUT\n }\n \n /// A size from a visible window's inclusive corners; `None` for an empty one.\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "raw_input_mode",
+      "return_type": "-> u32",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 265
+        },
+        "start": {
+          "column": 1,
+          "line": 261
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/lib.rs:264:28: replace | with ^ in raw_input_mode",
+    "package": "viola-pty",
+    "replacement": "^",
+    "span": {
+      "end": {
+        "column": 29,
+        "line": 264
+      },
+      "start": {
+        "column": 28,
+        "line": 264
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace & with | in raw_input_mode\n@@ -256,17 +256,17 @@\n /// between distinct bits has an equivalent `^` mutant.\n const COOKED_INPUT: u32 = 0x0007;\n /// ENABLE_VIRTUAL_TERMINAL_PROCESSING | DISABLE_NEWLINE_AUTO_RETURN, as its value.\n const VT_OUTPUT: u32 = 0x000c;\n \n /// A console input mode with line editing, echo and Ctrl-C processing off and VT input on: every\n /// byte, `\\x03` included, reaches the reader as typed.\n pub const fn raw_input_mode(mode: u32) -> u32 {\n-    (mode & !COOKED_INPUT) | ENABLE_VIRTUAL_TERMINAL_INPUT\n+    (mode | /* ~ changed by cargo-mutants ~ */ !COOKED_INPUT) | ENABLE_VIRTUAL_TERMINAL_INPUT\n }\n \n /// A console output mode that renders the child's VT sequences.\n pub const fn vt_output_mode(mode: u32) -> u32 {\n     mode | VT_OUTPUT\n }\n \n /// A size from a visible window's inclusive corners; `None` for an empty one.\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "raw_input_mode",
+      "return_type": "-> u32",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 265
+        },
+        "start": {
+          "column": 1,
+          "line": 261
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/lib.rs:264:11: replace & with | in raw_input_mode",
+    "package": "viola-pty",
+    "replacement": "|",
+    "span": {
+      "end": {
+        "column": 12,
+        "line": 264
+      },
+      "start": {
+        "column": 11,
+        "line": 264
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace & with ^ in raw_input_mode\n@@ -256,17 +256,17 @@\n /// between distinct bits has an equivalent `^` mutant.\n const COOKED_INPUT: u32 = 0x0007;\n /// ENABLE_VIRTUAL_TERMINAL_PROCESSING | DISABLE_NEWLINE_AUTO_RETURN, as its value.\n const VT_OUTPUT: u32 = 0x000c;\n \n /// A console input mode with line editing, echo and Ctrl-C processing off and VT input on: every\n /// byte, `\\x03` included, reaches the reader as typed.\n pub const fn raw_input_mode(mode: u32) -> u32 {\n-    (mode & !COOKED_INPUT) | ENABLE_VIRTUAL_TERMINAL_INPUT\n+    (mode ^ /* ~ changed by cargo-mutants ~ */ !COOKED_INPUT) | ENABLE_VIRTUAL_TERMINAL_INPUT\n }\n \n /// A console output mode that renders the child's VT sequences.\n pub const fn vt_output_mode(mode: u32) -> u32 {\n     mode | VT_OUTPUT\n }\n \n /// A size from a visible window's inclusive corners; `None` for an empty one.\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "raw_input_mode",
+      "return_type": "-> u32",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 265
+        },
+        "start": {
+          "column": 1,
+          "line": 261
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/lib.rs:264:11: replace & with ^ in raw_input_mode",
+    "package": "viola-pty",
+    "replacement": "^",
+    "span": {
+      "end": {
+        "column": 12,
+        "line": 264
+      },
+      "start": {
+        "column": 11,
+        "line": 264
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ delete ! in raw_input_mode\n@@ -256,17 +256,17 @@\n /// between distinct bits has an equivalent `^` mutant.\n const COOKED_INPUT: u32 = 0x0007;\n /// ENABLE_VIRTUAL_TERMINAL_PROCESSING | DISABLE_NEWLINE_AUTO_RETURN, as its value.\n const VT_OUTPUT: u32 = 0x000c;\n \n /// A console input mode with line editing, echo and Ctrl-C processing off and VT input on: every\n /// byte, `\\x03` included, reaches the reader as typed.\n pub const fn raw_input_mode(mode: u32) -> u32 {\n-    (mode & !COOKED_INPUT) | ENABLE_VIRTUAL_TERMINAL_INPUT\n+    (mode &  /* ~ changed by cargo-mutants ~ */COOKED_INPUT) | ENABLE_VIRTUAL_TERMINAL_INPUT\n }\n \n /// A console output mode that renders the child's VT sequences.\n pub const fn vt_output_mode(mode: u32) -> u32 {\n     mode | VT_OUTPUT\n }\n \n /// A size from a visible window's inclusive corners; `None` for an empty one.\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "raw_input_mode",
+      "return_type": "-> u32",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 265
+        },
+        "start": {
+          "column": 1,
+          "line": 261
+        }
+      }
+    },
+    "genre": "UnaryOperator",
+    "name": "crates/viola-pty/src/lib.rs:264:13: delete ! in raw_input_mode",
+    "package": "viola-pty",
+    "replacement": "",
+    "span": {
+      "end": {
+        "column": 14,
+        "line": 264
+      },
+      "start": {
+        "column": 13,
+        "line": 264
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace vt_output_mode -> u32 with 0\n@@ -261,17 +261,17 @@\n /// A console input mode with line editing, echo and Ctrl-C processing off and VT input on: every\n /// byte, `\\x03` included, reaches the reader as typed.\n pub const fn raw_input_mode(mode: u32) -> u32 {\n     (mode & !COOKED_INPUT) | ENABLE_VIRTUAL_TERMINAL_INPUT\n }\n \n /// A console output mode that renders the child's VT sequences.\n pub const fn vt_output_mode(mode: u32) -> u32 {\n-    mode | VT_OUTPUT\n+    0 /* ~ changed by cargo-mutants ~ */\n }\n \n /// A size from a visible window's inclusive corners; `None` for an empty one.\n pub fn size_from_window(left: i16, top: i16, right: i16, bottom: i16) -> Option<Size> {\n     let cols = u16::try_from(i32::from(right) - i32::from(left) + 1).ok()?;\n     let rows = u16::try_from(i32::from(bottom) - i32::from(top) + 1).ok()?;\n     nonzero_size(cols, rows)\n }\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "vt_output_mode",
+      "return_type": "-> u32",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 270
+        },
+        "start": {
+          "column": 1,
+          "line": 267
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:269:5: replace vt_output_mode -> u32 with 0",
+    "package": "viola-pty",
+    "replacement": "0",
+    "span": {
+      "end": {
+        "column": 21,
+        "line": 269
+      },
+      "start": {
+        "column": 5,
+        "line": 269
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace vt_output_mode -> u32 with 1\n@@ -261,17 +261,17 @@\n /// A console input mode with line editing, echo and Ctrl-C processing off and VT input on: every\n /// byte, `\\x03` included, reaches the reader as typed.\n pub const fn raw_input_mode(mode: u32) -> u32 {\n     (mode & !COOKED_INPUT) | ENABLE_VIRTUAL_TERMINAL_INPUT\n }\n \n /// A console output mode that renders the child's VT sequences.\n pub const fn vt_output_mode(mode: u32) -> u32 {\n-    mode | VT_OUTPUT\n+    1 /* ~ changed by cargo-mutants ~ */\n }\n \n /// A size from a visible window's inclusive corners; `None` for an empty one.\n pub fn size_from_window(left: i16, top: i16, right: i16, bottom: i16) -> Option<Size> {\n     let cols = u16::try_from(i32::from(right) - i32::from(left) + 1).ok()?;\n     let rows = u16::try_from(i32::from(bottom) - i32::from(top) + 1).ok()?;\n     nonzero_size(cols, rows)\n }\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "vt_output_mode",
+      "return_type": "-> u32",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 270
+        },
+        "start": {
+          "column": 1,
+          "line": 267
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:269:5: replace vt_output_mode -> u32 with 1",
+    "package": "viola-pty",
+    "replacement": "1",
+    "span": {
+      "end": {
+        "column": 21,
+        "line": 269
+      },
+      "start": {
+        "column": 5,
+        "line": 269
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace | with & in vt_output_mode\n@@ -261,17 +261,17 @@\n /// A console input mode with line editing, echo and Ctrl-C processing off and VT input on: every\n /// byte, `\\x03` included, reaches the reader as typed.\n pub const fn raw_input_mode(mode: u32) -> u32 {\n     (mode & !COOKED_INPUT) | ENABLE_VIRTUAL_TERMINAL_INPUT\n }\n \n /// A console output mode that renders the child's VT sequences.\n pub const fn vt_output_mode(mode: u32) -> u32 {\n-    mode | VT_OUTPUT\n+    mode & /* ~ changed by cargo-mutants ~ */ VT_OUTPUT\n }\n \n /// A size from a visible window's inclusive corners; `None` for an empty one.\n pub fn size_from_window(left: i16, top: i16, right: i16, bottom: i16) -> Option<Size> {\n     let cols = u16::try_from(i32::from(right) - i32::from(left) + 1).ok()?;\n     let rows = u16::try_from(i32::from(bottom) - i32::from(top) + 1).ok()?;\n     nonzero_size(cols, rows)\n }\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "vt_output_mode",
+      "return_type": "-> u32",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 270
+        },
+        "start": {
+          "column": 1,
+          "line": 267
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/lib.rs:269:10: replace | with & in vt_output_mode",
+    "package": "viola-pty",
+    "replacement": "&",
+    "span": {
+      "end": {
+        "column": 11,
+        "line": 269
+      },
+      "start": {
+        "column": 10,
+        "line": 269
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace | with ^ in vt_output_mode\n@@ -261,17 +261,17 @@\n /// A console input mode with line editing, echo and Ctrl-C processing off and VT input on: every\n /// byte, `\\x03` included, reaches the reader as typed.\n pub const fn raw_input_mode(mode: u32) -> u32 {\n     (mode & !COOKED_INPUT) | ENABLE_VIRTUAL_TERMINAL_INPUT\n }\n \n /// A console output mode that renders the child's VT sequences.\n pub const fn vt_output_mode(mode: u32) -> u32 {\n-    mode | VT_OUTPUT\n+    mode ^ /* ~ changed by cargo-mutants ~ */ VT_OUTPUT\n }\n \n /// A size from a visible window's inclusive corners; `None` for an empty one.\n pub fn size_from_window(left: i16, top: i16, right: i16, bottom: i16) -> Option<Size> {\n     let cols = u16::try_from(i32::from(right) - i32::from(left) + 1).ok()?;\n     let rows = u16::try_from(i32::from(bottom) - i32::from(top) + 1).ok()?;\n     nonzero_size(cols, rows)\n }\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "vt_output_mode",
+      "return_type": "-> u32",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 270
+        },
+        "start": {
+          "column": 1,
+          "line": 267
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/lib.rs:269:10: replace | with ^ in vt_output_mode",
+    "package": "viola-pty",
+    "replacement": "^",
+    "span": {
+      "end": {
+        "column": 11,
+        "line": 269
+      },
+      "start": {
+        "column": 10,
+        "line": 269
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace size_from_window -> Option<Size> with None\n@@ -266,19 +266,17 @@\n \n /// A console output mode that renders the child's VT sequences.\n pub const fn vt_output_mode(mode: u32) -> u32 {\n     mode | VT_OUTPUT\n }\n \n /// A size from a visible window's inclusive corners; `None` for an empty one.\n pub fn size_from_window(left: i16, top: i16, right: i16, bottom: i16) -> Option<Size> {\n-    let cols = u16::try_from(i32::from(right) - i32::from(left) + 1).ok()?;\n-    let rows = u16::try_from(i32::from(bottom) - i32::from(top) + 1).ok()?;\n-    nonzero_size(cols, rows)\n+    None /* ~ changed by cargo-mutants ~ */\n }\n \n /// `None` for an empty terminal (a zero width or height).\n pub fn nonzero_size(cols: u16, rows: u16) -> Option<Size> {\n     (cols > 0 && rows > 0).then_some(Size { cols, rows })\n }\n \n /// The process's own terminal in raw mode until dropped, when the saved modes come back. A stdin\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "size_from_window",
+      "return_type": "-> Option<Size>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 277
+        },
+        "start": {
+          "column": 1,
+          "line": 272
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:274:5: replace size_from_window -> Option<Size> with None",
+    "package": "viola-pty",
+    "replacement": "None",
+    "span": {
+      "end": {
+        "column": 29,
+        "line": 276
+      },
+      "start": {
+        "column": 5,
+        "line": 274
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace size_from_window -> Option<Size> with Some(Default::default())\n@@ -266,19 +266,17 @@\n \n /// A console output mode that renders the child's VT sequences.\n pub const fn vt_output_mode(mode: u32) -> u32 {\n     mode | VT_OUTPUT\n }\n \n /// A size from a visible window's inclusive corners; `None` for an empty one.\n pub fn size_from_window(left: i16, top: i16, right: i16, bottom: i16) -> Option<Size> {\n-    let cols = u16::try_from(i32::from(right) - i32::from(left) + 1).ok()?;\n-    let rows = u16::try_from(i32::from(bottom) - i32::from(top) + 1).ok()?;\n-    nonzero_size(cols, rows)\n+    Some(Default::default()) /* ~ changed by cargo-mutants ~ */\n }\n \n /// `None` for an empty terminal (a zero width or height).\n pub fn nonzero_size(cols: u16, rows: u16) -> Option<Size> {\n     (cols > 0 && rows > 0).then_some(Size { cols, rows })\n }\n \n /// The process's own terminal in raw mode until dropped, when the saved modes come back. A stdin\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "size_from_window",
+      "return_type": "-> Option<Size>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 277
+        },
+        "start": {
+          "column": 1,
+          "line": 272
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:274:5: replace size_from_window -> Option<Size> with Some(Default::default())",
+    "package": "viola-pty",
+    "replacement": "Some(Default::default())",
+    "span": {
+      "end": {
+        "column": 29,
+        "line": 276
+      },
+      "start": {
+        "column": 5,
+        "line": 274
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace + with - in size_from_window\n@@ -266,17 +266,17 @@\n \n /// A console output mode that renders the child's VT sequences.\n pub const fn vt_output_mode(mode: u32) -> u32 {\n     mode | VT_OUTPUT\n }\n \n /// A size from a visible window's inclusive corners; `None` for an empty one.\n pub fn size_from_window(left: i16, top: i16, right: i16, bottom: i16) -> Option<Size> {\n-    let cols = u16::try_from(i32::from(right) - i32::from(left) + 1).ok()?;\n+    let cols = u16::try_from(i32::from(right) - i32::from(left) - /* ~ changed by cargo-mutants ~ */ 1).ok()?;\n     let rows = u16::try_from(i32::from(bottom) - i32::from(top) + 1).ok()?;\n     nonzero_size(cols, rows)\n }\n \n /// `None` for an empty terminal (a zero width or height).\n pub fn nonzero_size(cols: u16, rows: u16) -> Option<Size> {\n     (cols > 0 && rows > 0).then_some(Size { cols, rows })\n }\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "size_from_window",
+      "return_type": "-> Option<Size>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 277
+        },
+        "start": {
+          "column": 1,
+          "line": 272
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/lib.rs:274:65: replace + with - in size_from_window",
+    "package": "viola-pty",
+    "replacement": "-",
+    "span": {
+      "end": {
+        "column": 66,
+        "line": 274
+      },
+      "start": {
+        "column": 65,
+        "line": 274
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace + with * in size_from_window\n@@ -266,17 +266,17 @@\n \n /// A console output mode that renders the child's VT sequences.\n pub const fn vt_output_mode(mode: u32) -> u32 {\n     mode | VT_OUTPUT\n }\n \n /// A size from a visible window's inclusive corners; `None` for an empty one.\n pub fn size_from_window(left: i16, top: i16, right: i16, bottom: i16) -> Option<Size> {\n-    let cols = u16::try_from(i32::from(right) - i32::from(left) + 1).ok()?;\n+    let cols = u16::try_from(i32::from(right) - i32::from(left) * /* ~ changed by cargo-mutants ~ */ 1).ok()?;\n     let rows = u16::try_from(i32::from(bottom) - i32::from(top) + 1).ok()?;\n     nonzero_size(cols, rows)\n }\n \n /// `None` for an empty terminal (a zero width or height).\n pub fn nonzero_size(cols: u16, rows: u16) -> Option<Size> {\n     (cols > 0 && rows > 0).then_some(Size { cols, rows })\n }\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "size_from_window",
+      "return_type": "-> Option<Size>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 277
+        },
+        "start": {
+          "column": 1,
+          "line": 272
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/lib.rs:274:65: replace + with * in size_from_window",
+    "package": "viola-pty",
+    "replacement": "*",
+    "span": {
+      "end": {
+        "column": 66,
+        "line": 274
+      },
+      "start": {
+        "column": 65,
+        "line": 274
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace - with + in size_from_window\n@@ -266,17 +266,17 @@\n \n /// A console output mode that renders the child's VT sequences.\n pub const fn vt_output_mode(mode: u32) -> u32 {\n     mode | VT_OUTPUT\n }\n \n /// A size from a visible window's inclusive corners; `None` for an empty one.\n pub fn size_from_window(left: i16, top: i16, right: i16, bottom: i16) -> Option<Size> {\n-    let cols = u16::try_from(i32::from(right) - i32::from(left) + 1).ok()?;\n+    let cols = u16::try_from(i32::from(right) + /* ~ changed by cargo-mutants ~ */ i32::from(left) + 1).ok()?;\n     let rows = u16::try_from(i32::from(bottom) - i32::from(top) + 1).ok()?;\n     nonzero_size(cols, rows)\n }\n \n /// `None` for an empty terminal (a zero width or height).\n pub fn nonzero_size(cols: u16, rows: u16) -> Option<Size> {\n     (cols > 0 && rows > 0).then_some(Size { cols, rows })\n }\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "size_from_window",
+      "return_type": "-> Option<Size>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 277
+        },
+        "start": {
+          "column": 1,
+          "line": 272
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/lib.rs:274:47: replace - with + in size_from_window",
+    "package": "viola-pty",
+    "replacement": "+",
+    "span": {
+      "end": {
+        "column": 48,
+        "line": 274
+      },
+      "start": {
+        "column": 47,
+        "line": 274
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace - with / in size_from_window\n@@ -266,17 +266,17 @@\n \n /// A console output mode that renders the child's VT sequences.\n pub const fn vt_output_mode(mode: u32) -> u32 {\n     mode | VT_OUTPUT\n }\n \n /// A size from a visible window's inclusive corners; `None` for an empty one.\n pub fn size_from_window(left: i16, top: i16, right: i16, bottom: i16) -> Option<Size> {\n-    let cols = u16::try_from(i32::from(right) - i32::from(left) + 1).ok()?;\n+    let cols = u16::try_from(i32::from(right) / /* ~ changed by cargo-mutants ~ */ i32::from(left) + 1).ok()?;\n     let rows = u16::try_from(i32::from(bottom) - i32::from(top) + 1).ok()?;\n     nonzero_size(cols, rows)\n }\n \n /// `None` for an empty terminal (a zero width or height).\n pub fn nonzero_size(cols: u16, rows: u16) -> Option<Size> {\n     (cols > 0 && rows > 0).then_some(Size { cols, rows })\n }\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "size_from_window",
+      "return_type": "-> Option<Size>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 277
+        },
+        "start": {
+          "column": 1,
+          "line": 272
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/lib.rs:274:47: replace - with / in size_from_window",
+    "package": "viola-pty",
+    "replacement": "/",
+    "span": {
+      "end": {
+        "column": 48,
+        "line": 274
+      },
+      "start": {
+        "column": 47,
+        "line": 274
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace + with - in size_from_window\n@@ -267,17 +267,17 @@\n /// A console output mode that renders the child's VT sequences.\n pub const fn vt_output_mode(mode: u32) -> u32 {\n     mode | VT_OUTPUT\n }\n \n /// A size from a visible window's inclusive corners; `None` for an empty one.\n pub fn size_from_window(left: i16, top: i16, right: i16, bottom: i16) -> Option<Size> {\n     let cols = u16::try_from(i32::from(right) - i32::from(left) + 1).ok()?;\n-    let rows = u16::try_from(i32::from(bottom) - i32::from(top) + 1).ok()?;\n+    let rows = u16::try_from(i32::from(bottom) - i32::from(top) - /* ~ changed by cargo-mutants ~ */ 1).ok()?;\n     nonzero_size(cols, rows)\n }\n \n /// `None` for an empty terminal (a zero width or height).\n pub fn nonzero_size(cols: u16, rows: u16) -> Option<Size> {\n     (cols > 0 && rows > 0).then_some(Size { cols, rows })\n }\n \n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "size_from_window",
+      "return_type": "-> Option<Size>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 277
+        },
+        "start": {
+          "column": 1,
+          "line": 272
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/lib.rs:275:65: replace + with - in size_from_window",
+    "package": "viola-pty",
+    "replacement": "-",
+    "span": {
+      "end": {
+        "column": 66,
+        "line": 275
+      },
+      "start": {
+        "column": 65,
+        "line": 275
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace + with * in size_from_window\n@@ -267,17 +267,17 @@\n /// A console output mode that renders the child's VT sequences.\n pub const fn vt_output_mode(mode: u32) -> u32 {\n     mode | VT_OUTPUT\n }\n \n /// A size from a visible window's inclusive corners; `None` for an empty one.\n pub fn size_from_window(left: i16, top: i16, right: i16, bottom: i16) -> Option<Size> {\n     let cols = u16::try_from(i32::from(right) - i32::from(left) + 1).ok()?;\n-    let rows = u16::try_from(i32::from(bottom) - i32::from(top) + 1).ok()?;\n+    let rows = u16::try_from(i32::from(bottom) - i32::from(top) * /* ~ changed by cargo-mutants ~ */ 1).ok()?;\n     nonzero_size(cols, rows)\n }\n \n /// `None` for an empty terminal (a zero width or height).\n pub fn nonzero_size(cols: u16, rows: u16) -> Option<Size> {\n     (cols > 0 && rows > 0).then_some(Size { cols, rows })\n }\n \n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "size_from_window",
+      "return_type": "-> Option<Size>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 277
+        },
+        "start": {
+          "column": 1,
+          "line": 272
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/lib.rs:275:65: replace + with * in size_from_window",
+    "package": "viola-pty",
+    "replacement": "*",
+    "span": {
+      "end": {
+        "column": 66,
+        "line": 275
+      },
+      "start": {
+        "column": 65,
+        "line": 275
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace - with + in size_from_window\n@@ -267,17 +267,17 @@\n /// A console output mode that renders the child's VT sequences.\n pub const fn vt_output_mode(mode: u32) -> u32 {\n     mode | VT_OUTPUT\n }\n \n /// A size from a visible window's inclusive corners; `None` for an empty one.\n pub fn size_from_window(left: i16, top: i16, right: i16, bottom: i16) -> Option<Size> {\n     let cols = u16::try_from(i32::from(right) - i32::from(left) + 1).ok()?;\n-    let rows = u16::try_from(i32::from(bottom) - i32::from(top) + 1).ok()?;\n+    let rows = u16::try_from(i32::from(bottom) + /* ~ changed by cargo-mutants ~ */ i32::from(top) + 1).ok()?;\n     nonzero_size(cols, rows)\n }\n \n /// `None` for an empty terminal (a zero width or height).\n pub fn nonzero_size(cols: u16, rows: u16) -> Option<Size> {\n     (cols > 0 && rows > 0).then_some(Size { cols, rows })\n }\n \n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "size_from_window",
+      "return_type": "-> Option<Size>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 277
+        },
+        "start": {
+          "column": 1,
+          "line": 272
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/lib.rs:275:48: replace - with + in size_from_window",
+    "package": "viola-pty",
+    "replacement": "+",
+    "span": {
+      "end": {
+        "column": 49,
+        "line": 275
+      },
+      "start": {
+        "column": 48,
+        "line": 275
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace - with / in size_from_window\n@@ -267,17 +267,17 @@\n /// A console output mode that renders the child's VT sequences.\n pub const fn vt_output_mode(mode: u32) -> u32 {\n     mode | VT_OUTPUT\n }\n \n /// A size from a visible window's inclusive corners; `None` for an empty one.\n pub fn size_from_window(left: i16, top: i16, right: i16, bottom: i16) -> Option<Size> {\n     let cols = u16::try_from(i32::from(right) - i32::from(left) + 1).ok()?;\n-    let rows = u16::try_from(i32::from(bottom) - i32::from(top) + 1).ok()?;\n+    let rows = u16::try_from(i32::from(bottom) / /* ~ changed by cargo-mutants ~ */ i32::from(top) + 1).ok()?;\n     nonzero_size(cols, rows)\n }\n \n /// `None` for an empty terminal (a zero width or height).\n pub fn nonzero_size(cols: u16, rows: u16) -> Option<Size> {\n     (cols > 0 && rows > 0).then_some(Size { cols, rows })\n }\n \n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "size_from_window",
+      "return_type": "-> Option<Size>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 277
+        },
+        "start": {
+          "column": 1,
+          "line": 272
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/lib.rs:275:48: replace - with / in size_from_window",
+    "package": "viola-pty",
+    "replacement": "/",
+    "span": {
+      "end": {
+        "column": 49,
+        "line": 275
+      },
+      "start": {
+        "column": 48,
+        "line": 275
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace nonzero_size -> Option<Size> with None\n@@ -273,17 +273,17 @@\n pub fn size_from_window(left: i16, top: i16, right: i16, bottom: i16) -> Option<Size> {\n     let cols = u16::try_from(i32::from(right) - i32::from(left) + 1).ok()?;\n     let rows = u16::try_from(i32::from(bottom) - i32::from(top) + 1).ok()?;\n     nonzero_size(cols, rows)\n }\n \n /// `None` for an empty terminal (a zero width or height).\n pub fn nonzero_size(cols: u16, rows: u16) -> Option<Size> {\n-    (cols > 0 && rows > 0).then_some(Size { cols, rows })\n+    None /* ~ changed by cargo-mutants ~ */\n }\n \n /// The process's own terminal in raw mode until dropped, when the saved modes come back. A stdin\n /// or stdout that is not a terminal is left alone; `enter` returns `None` when neither is one.\n pub struct HostTerminal {\n     #[cfg(windows)]\n     saved: Vec<(windows_sys::Win32::Foundation::HANDLE, u32)>,\n     #[cfg(unix)]\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "nonzero_size",
+      "return_type": "-> Option<Size>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 282
+        },
+        "start": {
+          "column": 1,
+          "line": 279
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:281:5: replace nonzero_size -> Option<Size> with None",
+    "package": "viola-pty",
+    "replacement": "None",
+    "span": {
+      "end": {
+        "column": 58,
+        "line": 281
+      },
+      "start": {
+        "column": 5,
+        "line": 281
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace nonzero_size -> Option<Size> with Some(Default::default())\n@@ -273,17 +273,17 @@\n pub fn size_from_window(left: i16, top: i16, right: i16, bottom: i16) -> Option<Size> {\n     let cols = u16::try_from(i32::from(right) - i32::from(left) + 1).ok()?;\n     let rows = u16::try_from(i32::from(bottom) - i32::from(top) + 1).ok()?;\n     nonzero_size(cols, rows)\n }\n \n /// `None` for an empty terminal (a zero width or height).\n pub fn nonzero_size(cols: u16, rows: u16) -> Option<Size> {\n-    (cols > 0 && rows > 0).then_some(Size { cols, rows })\n+    Some(Default::default()) /* ~ changed by cargo-mutants ~ */\n }\n \n /// The process's own terminal in raw mode until dropped, when the saved modes come back. A stdin\n /// or stdout that is not a terminal is left alone; `enter` returns `None` when neither is one.\n pub struct HostTerminal {\n     #[cfg(windows)]\n     saved: Vec<(windows_sys::Win32::Foundation::HANDLE, u32)>,\n     #[cfg(unix)]\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "nonzero_size",
+      "return_type": "-> Option<Size>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 282
+        },
+        "start": {
+          "column": 1,
+          "line": 279
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:281:5: replace nonzero_size -> Option<Size> with Some(Default::default())",
+    "package": "viola-pty",
+    "replacement": "Some(Default::default())",
+    "span": {
+      "end": {
+        "column": 58,
+        "line": 281
+      },
+      "start": {
+        "column": 5,
+        "line": 281
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace && with || in nonzero_size\n@@ -273,17 +273,17 @@\n pub fn size_from_window(left: i16, top: i16, right: i16, bottom: i16) -> Option<Size> {\n     let cols = u16::try_from(i32::from(right) - i32::from(left) + 1).ok()?;\n     let rows = u16::try_from(i32::from(bottom) - i32::from(top) + 1).ok()?;\n     nonzero_size(cols, rows)\n }\n \n /// `None` for an empty terminal (a zero width or height).\n pub fn nonzero_size(cols: u16, rows: u16) -> Option<Size> {\n-    (cols > 0 && rows > 0).then_some(Size { cols, rows })\n+    (cols > 0 || /* ~ changed by cargo-mutants ~ */ rows > 0).then_some(Size { cols, rows })\n }\n \n /// The process's own terminal in raw mode until dropped, when the saved modes come back. A stdin\n /// or stdout that is not a terminal is left alone; `enter` returns `None` when neither is one.\n pub struct HostTerminal {\n     #[cfg(windows)]\n     saved: Vec<(windows_sys::Win32::Foundation::HANDLE, u32)>,\n     #[cfg(unix)]\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "nonzero_size",
+      "return_type": "-> Option<Size>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 282
+        },
+        "start": {
+          "column": 1,
+          "line": 279
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/lib.rs:281:15: replace && with || in nonzero_size",
+    "package": "viola-pty",
+    "replacement": "||",
+    "span": {
+      "end": {
+        "column": 17,
+        "line": 281
+      },
+      "start": {
+        "column": 15,
+        "line": 281
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace > with == in nonzero_size\n@@ -273,17 +273,17 @@\n pub fn size_from_window(left: i16, top: i16, right: i16, bottom: i16) -> Option<Size> {\n     let cols = u16::try_from(i32::from(right) - i32::from(left) + 1).ok()?;\n     let rows = u16::try_from(i32::from(bottom) - i32::from(top) + 1).ok()?;\n     nonzero_size(cols, rows)\n }\n \n /// `None` for an empty terminal (a zero width or height).\n pub fn nonzero_size(cols: u16, rows: u16) -> Option<Size> {\n-    (cols > 0 && rows > 0).then_some(Size { cols, rows })\n+    (cols == /* ~ changed by cargo-mutants ~ */ 0 && rows > 0).then_some(Size { cols, rows })\n }\n \n /// The process's own terminal in raw mode until dropped, when the saved modes come back. A stdin\n /// or stdout that is not a terminal is left alone; `enter` returns `None` when neither is one.\n pub struct HostTerminal {\n     #[cfg(windows)]\n     saved: Vec<(windows_sys::Win32::Foundation::HANDLE, u32)>,\n     #[cfg(unix)]\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "nonzero_size",
+      "return_type": "-> Option<Size>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 282
+        },
+        "start": {
+          "column": 1,
+          "line": 279
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/lib.rs:281:11: replace > with == in nonzero_size",
+    "package": "viola-pty",
+    "replacement": "==",
+    "span": {
+      "end": {
+        "column": 12,
+        "line": 281
+      },
+      "start": {
+        "column": 11,
+        "line": 281
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace > with < in nonzero_size\n@@ -273,17 +273,17 @@\n pub fn size_from_window(left: i16, top: i16, right: i16, bottom: i16) -> Option<Size> {\n     let cols = u16::try_from(i32::from(right) - i32::from(left) + 1).ok()?;\n     let rows = u16::try_from(i32::from(bottom) - i32::from(top) + 1).ok()?;\n     nonzero_size(cols, rows)\n }\n \n /// `None` for an empty terminal (a zero width or height).\n pub fn nonzero_size(cols: u16, rows: u16) -> Option<Size> {\n-    (cols > 0 && rows > 0).then_some(Size { cols, rows })\n+    (cols < /* ~ changed by cargo-mutants ~ */ 0 && rows > 0).then_some(Size { cols, rows })\n }\n \n /// The process's own terminal in raw mode until dropped, when the saved modes come back. A stdin\n /// or stdout that is not a terminal is left alone; `enter` returns `None` when neither is one.\n pub struct HostTerminal {\n     #[cfg(windows)]\n     saved: Vec<(windows_sys::Win32::Foundation::HANDLE, u32)>,\n     #[cfg(unix)]\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "nonzero_size",
+      "return_type": "-> Option<Size>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 282
+        },
+        "start": {
+          "column": 1,
+          "line": 279
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/lib.rs:281:11: replace > with < in nonzero_size",
+    "package": "viola-pty",
+    "replacement": "<",
+    "span": {
+      "end": {
+        "column": 12,
+        "line": 281
+      },
+      "start": {
+        "column": 11,
+        "line": 281
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace > with >= in nonzero_size\n@@ -273,17 +273,17 @@\n pub fn size_from_window(left: i16, top: i16, right: i16, bottom: i16) -> Option<Size> {\n     let cols = u16::try_from(i32::from(right) - i32::from(left) + 1).ok()?;\n     let rows = u16::try_from(i32::from(bottom) - i32::from(top) + 1).ok()?;\n     nonzero_size(cols, rows)\n }\n \n /// `None` for an empty terminal (a zero width or height).\n pub fn nonzero_size(cols: u16, rows: u16) -> Option<Size> {\n-    (cols > 0 && rows > 0).then_some(Size { cols, rows })\n+    (cols >= /* ~ changed by cargo-mutants ~ */ 0 && rows > 0).then_some(Size { cols, rows })\n }\n \n /// The process's own terminal in raw mode until dropped, when the saved modes come back. A stdin\n /// or stdout that is not a terminal is left alone; `enter` returns `None` when neither is one.\n pub struct HostTerminal {\n     #[cfg(windows)]\n     saved: Vec<(windows_sys::Win32::Foundation::HANDLE, u32)>,\n     #[cfg(unix)]\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "nonzero_size",
+      "return_type": "-> Option<Size>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 282
+        },
+        "start": {
+          "column": 1,
+          "line": 279
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/lib.rs:281:11: replace > with >= in nonzero_size",
+    "package": "viola-pty",
+    "replacement": ">=",
+    "span": {
+      "end": {
+        "column": 12,
+        "line": 281
+      },
+      "start": {
+        "column": 11,
+        "line": 281
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace > with == in nonzero_size\n@@ -273,17 +273,17 @@\n pub fn size_from_window(left: i16, top: i16, right: i16, bottom: i16) -> Option<Size> {\n     let cols = u16::try_from(i32::from(right) - i32::from(left) + 1).ok()?;\n     let rows = u16::try_from(i32::from(bottom) - i32::from(top) + 1).ok()?;\n     nonzero_size(cols, rows)\n }\n \n /// `None` for an empty terminal (a zero width or height).\n pub fn nonzero_size(cols: u16, rows: u16) -> Option<Size> {\n-    (cols > 0 && rows > 0).then_some(Size { cols, rows })\n+    (cols > 0 && rows == /* ~ changed by cargo-mutants ~ */ 0).then_some(Size { cols, rows })\n }\n \n /// The process's own terminal in raw mode until dropped, when the saved modes come back. A stdin\n /// or stdout that is not a terminal is left alone; `enter` returns `None` when neither is one.\n pub struct HostTerminal {\n     #[cfg(windows)]\n     saved: Vec<(windows_sys::Win32::Foundation::HANDLE, u32)>,\n     #[cfg(unix)]\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "nonzero_size",
+      "return_type": "-> Option<Size>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 282
+        },
+        "start": {
+          "column": 1,
+          "line": 279
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/lib.rs:281:23: replace > with == in nonzero_size",
+    "package": "viola-pty",
+    "replacement": "==",
+    "span": {
+      "end": {
+        "column": 24,
+        "line": 281
+      },
+      "start": {
+        "column": 23,
+        "line": 281
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace > with < in nonzero_size\n@@ -273,17 +273,17 @@\n pub fn size_from_window(left: i16, top: i16, right: i16, bottom: i16) -> Option<Size> {\n     let cols = u16::try_from(i32::from(right) - i32::from(left) + 1).ok()?;\n     let rows = u16::try_from(i32::from(bottom) - i32::from(top) + 1).ok()?;\n     nonzero_size(cols, rows)\n }\n \n /// `None` for an empty terminal (a zero width or height).\n pub fn nonzero_size(cols: u16, rows: u16) -> Option<Size> {\n-    (cols > 0 && rows > 0).then_some(Size { cols, rows })\n+    (cols > 0 && rows < /* ~ changed by cargo-mutants ~ */ 0).then_some(Size { cols, rows })\n }\n \n /// The process's own terminal in raw mode until dropped, when the saved modes come back. A stdin\n /// or stdout that is not a terminal is left alone; `enter` returns `None` when neither is one.\n pub struct HostTerminal {\n     #[cfg(windows)]\n     saved: Vec<(windows_sys::Win32::Foundation::HANDLE, u32)>,\n     #[cfg(unix)]\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "nonzero_size",
+      "return_type": "-> Option<Size>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 282
+        },
+        "start": {
+          "column": 1,
+          "line": 279
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/lib.rs:281:23: replace > with < in nonzero_size",
+    "package": "viola-pty",
+    "replacement": "<",
+    "span": {
+      "end": {
+        "column": 24,
+        "line": 281
+      },
+      "start": {
+        "column": 23,
+        "line": 281
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace > with >= in nonzero_size\n@@ -273,17 +273,17 @@\n pub fn size_from_window(left: i16, top: i16, right: i16, bottom: i16) -> Option<Size> {\n     let cols = u16::try_from(i32::from(right) - i32::from(left) + 1).ok()?;\n     let rows = u16::try_from(i32::from(bottom) - i32::from(top) + 1).ok()?;\n     nonzero_size(cols, rows)\n }\n \n /// `None` for an empty terminal (a zero width or height).\n pub fn nonzero_size(cols: u16, rows: u16) -> Option<Size> {\n-    (cols > 0 && rows > 0).then_some(Size { cols, rows })\n+    (cols > 0 && rows >= /* ~ changed by cargo-mutants ~ */ 0).then_some(Size { cols, rows })\n }\n \n /// The process's own terminal in raw mode until dropped, when the saved modes come back. A stdin\n /// or stdout that is not a terminal is left alone; `enter` returns `None` when neither is one.\n pub struct HostTerminal {\n     #[cfg(windows)]\n     saved: Vec<(windows_sys::Win32::Foundation::HANDLE, u32)>,\n     #[cfg(unix)]\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "nonzero_size",
+      "return_type": "-> Option<Size>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 282
+        },
+        "start": {
+          "column": 1,
+          "line": 279
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/lib.rs:281:23: replace > with >= in nonzero_size",
+    "package": "viola-pty",
+    "replacement": ">=",
+    "span": {
+      "end": {
+        "column": 24,
+        "line": 281
+      },
+      "start": {
+        "column": 23,
+        "line": 281
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace HostTerminal::enter -> Option<Self> with None\n@@ -288,36 +288,17 @@\n     saved: Vec<(windows_sys::Win32::Foundation::HANDLE, u32)>,\n     #[cfg(unix)]\n     saved: libc::termios,\n }\n \n impl HostTerminal {\n     #[cfg(windows)]\n     pub fn enter() -> Option<Self> {\n-        use windows_sys::Win32::System::Console::{\n-            GetConsoleMode, GetStdHandle, STD_INPUT_HANDLE, STD_OUTPUT_HANDLE, SetConsoleMode,\n-        };\n-        type ModeFor = fn(u32) -> u32;\n-        let mut saved = Vec::new();\n-        let wanted: [(u32, ModeFor); 2] = [\n-            (STD_INPUT_HANDLE, raw_input_mode),\n-            (STD_OUTPUT_HANDLE, vt_output_mode),\n-        ];\n-        for (which, to) in wanted {\n-            // SAFETY: console-mode calls on this process's own standard handles.\n-            unsafe {\n-                let handle = GetStdHandle(which);\n-                let mut mode = 0u32;\n-                if GetConsoleMode(handle, &mut mode) != 0 && SetConsoleMode(handle, to(mode)) != 0 {\n-                    saved.push((handle, mode));\n-                }\n-            }\n-        }\n-        (!saved.is_empty()).then_some(Self { saved })\n+        None /* ~ changed by cargo-mutants ~ */\n     }\n \n     #[cfg(unix)]\n     pub fn enter() -> Option<Self> {\n         // SAFETY: termios calls on fd 0 with structs owned here.\n         unsafe {\n             let mut saved: libc::termios = std::mem::zeroed();\n             if libc::tcgetattr(libc::STDIN_FILENO, &mut saved) != 0 {\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "HostTerminal::enter",
+      "return_type": "-> Option<Self>",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 316
+        },
+        "start": {
+          "column": 5,
+          "line": 294
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:296:9: replace HostTerminal::enter -> Option<Self> with None",
+    "package": "viola-pty",
+    "replacement": "None",
+    "span": {
+      "end": {
+        "column": 54,
+        "line": 315
+      },
+      "start": {
+        "column": 9,
+        "line": 296
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace HostTerminal::enter -> Option<Self> with Some(Default::default())\n@@ -288,36 +288,17 @@\n     saved: Vec<(windows_sys::Win32::Foundation::HANDLE, u32)>,\n     #[cfg(unix)]\n     saved: libc::termios,\n }\n \n impl HostTerminal {\n     #[cfg(windows)]\n     pub fn enter() -> Option<Self> {\n-        use windows_sys::Win32::System::Console::{\n-            GetConsoleMode, GetStdHandle, STD_INPUT_HANDLE, STD_OUTPUT_HANDLE, SetConsoleMode,\n-        };\n-        type ModeFor = fn(u32) -> u32;\n-        let mut saved = Vec::new();\n-        let wanted: [(u32, ModeFor); 2] = [\n-            (STD_INPUT_HANDLE, raw_input_mode),\n-            (STD_OUTPUT_HANDLE, vt_output_mode),\n-        ];\n-        for (which, to) in wanted {\n-            // SAFETY: console-mode calls on this process's own standard handles.\n-            unsafe {\n-                let handle = GetStdHandle(which);\n-                let mut mode = 0u32;\n-                if GetConsoleMode(handle, &mut mode) != 0 && SetConsoleMode(handle, to(mode)) != 0 {\n-                    saved.push((handle, mode));\n-                }\n-            }\n-        }\n-        (!saved.is_empty()).then_some(Self { saved })\n+        Some(Default::default()) /* ~ changed by cargo-mutants ~ */\n     }\n \n     #[cfg(unix)]\n     pub fn enter() -> Option<Self> {\n         // SAFETY: termios calls on fd 0 with structs owned here.\n         unsafe {\n             let mut saved: libc::termios = std::mem::zeroed();\n             if libc::tcgetattr(libc::STDIN_FILENO, &mut saved) != 0 {\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "HostTerminal::enter",
+      "return_type": "-> Option<Self>",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 316
+        },
+        "start": {
+          "column": 5,
+          "line": 294
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:296:9: replace HostTerminal::enter -> Option<Self> with Some(Default::default())",
+    "package": "viola-pty",
+    "replacement": "Some(Default::default())",
+    "span": {
+      "end": {
+        "column": 54,
+        "line": 315
+      },
+      "start": {
+        "column": 9,
+        "line": 296
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace && with || in HostTerminal::enter\n@@ -302,17 +302,17 @@\n             (STD_INPUT_HANDLE, raw_input_mode),\n             (STD_OUTPUT_HANDLE, vt_output_mode),\n         ];\n         for (which, to) in wanted {\n             // SAFETY: console-mode calls on this process's own standard handles.\n             unsafe {\n                 let handle = GetStdHandle(which);\n                 let mut mode = 0u32;\n-                if GetConsoleMode(handle, &mut mode) != 0 && SetConsoleMode(handle, to(mode)) != 0 {\n+                if GetConsoleMode(handle, &mut mode) != 0 || /* ~ changed by cargo-mutants ~ */ SetConsoleMode(handle, to(mode)) != 0 {\n                     saved.push((handle, mode));\n                 }\n             }\n         }\n         (!saved.is_empty()).then_some(Self { saved })\n     }\n \n     #[cfg(unix)]\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "HostTerminal::enter",
+      "return_type": "-> Option<Self>",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 316
+        },
+        "start": {
+          "column": 5,
+          "line": 294
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/lib.rs:310:59: replace && with || in HostTerminal::enter",
+    "package": "viola-pty",
+    "replacement": "||",
+    "span": {
+      "end": {
+        "column": 61,
+        "line": 310
+      },
+      "start": {
+        "column": 59,
+        "line": 310
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace != with == in HostTerminal::enter\n@@ -302,17 +302,17 @@\n             (STD_INPUT_HANDLE, raw_input_mode),\n             (STD_OUTPUT_HANDLE, vt_output_mode),\n         ];\n         for (which, to) in wanted {\n             // SAFETY: console-mode calls on this process's own standard handles.\n             unsafe {\n                 let handle = GetStdHandle(which);\n                 let mut mode = 0u32;\n-                if GetConsoleMode(handle, &mut mode) != 0 && SetConsoleMode(handle, to(mode)) != 0 {\n+                if GetConsoleMode(handle, &mut mode) == /* ~ changed by cargo-mutants ~ */ 0 && SetConsoleMode(handle, to(mode)) != 0 {\n                     saved.push((handle, mode));\n                 }\n             }\n         }\n         (!saved.is_empty()).then_some(Self { saved })\n     }\n \n     #[cfg(unix)]\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "HostTerminal::enter",
+      "return_type": "-> Option<Self>",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 316
+        },
+        "start": {
+          "column": 5,
+          "line": 294
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/lib.rs:310:54: replace != with == in HostTerminal::enter",
+    "package": "viola-pty",
+    "replacement": "==",
+    "span": {
+      "end": {
+        "column": 56,
+        "line": 310
+      },
+      "start": {
+        "column": 54,
+        "line": 310
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace != with == in HostTerminal::enter\n@@ -302,17 +302,17 @@\n             (STD_INPUT_HANDLE, raw_input_mode),\n             (STD_OUTPUT_HANDLE, vt_output_mode),\n         ];\n         for (which, to) in wanted {\n             // SAFETY: console-mode calls on this process's own standard handles.\n             unsafe {\n                 let handle = GetStdHandle(which);\n                 let mut mode = 0u32;\n-                if GetConsoleMode(handle, &mut mode) != 0 && SetConsoleMode(handle, to(mode)) != 0 {\n+                if GetConsoleMode(handle, &mut mode) != 0 && SetConsoleMode(handle, to(mode)) == /* ~ changed by cargo-mutants ~ */ 0 {\n                     saved.push((handle, mode));\n                 }\n             }\n         }\n         (!saved.is_empty()).then_some(Self { saved })\n     }\n \n     #[cfg(unix)]\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "HostTerminal::enter",
+      "return_type": "-> Option<Self>",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 316
+        },
+        "start": {
+          "column": 5,
+          "line": 294
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/lib.rs:310:95: replace != with == in HostTerminal::enter",
+    "package": "viola-pty",
+    "replacement": "==",
+    "span": {
+      "end": {
+        "column": 97,
+        "line": 310
+      },
+      "start": {
+        "column": 95,
+        "line": 310
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ delete ! in HostTerminal::enter\n@@ -307,17 +307,17 @@\n             unsafe {\n                 let handle = GetStdHandle(which);\n                 let mut mode = 0u32;\n                 if GetConsoleMode(handle, &mut mode) != 0 && SetConsoleMode(handle, to(mode)) != 0 {\n                     saved.push((handle, mode));\n                 }\n             }\n         }\n-        (!saved.is_empty()).then_some(Self { saved })\n+        ( /* ~ changed by cargo-mutants ~ */saved.is_empty()).then_some(Self { saved })\n     }\n \n     #[cfg(unix)]\n     pub fn enter() -> Option<Self> {\n         // SAFETY: termios calls on fd 0 with structs owned here.\n         unsafe {\n             let mut saved: libc::termios = std::mem::zeroed();\n             if libc::tcgetattr(libc::STDIN_FILENO, &mut saved) != 0 {\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "HostTerminal::enter",
+      "return_type": "-> Option<Self>",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 316
+        },
+        "start": {
+          "column": 5,
+          "line": 294
+        }
+      }
+    },
+    "genre": "UnaryOperator",
+    "name": "crates/viola-pty/src/lib.rs:315:10: delete ! in HostTerminal::enter",
+    "package": "viola-pty",
+    "replacement": "",
+    "span": {
+      "end": {
+        "column": 11,
+        "line": 315
+      },
+      "start": {
+        "column": 10,
+        "line": 315
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace HostTerminal::enter -> Option<Self> with None\n@@ -313,26 +313,17 @@\n             }\n         }\n         (!saved.is_empty()).then_some(Self { saved })\n     }\n \n     #[cfg(unix)]\n     pub fn enter() -> Option<Self> {\n         // SAFETY: termios calls on fd 0 with structs owned here.\n-        unsafe {\n-            let mut saved: libc::termios = std::mem::zeroed();\n-            if libc::tcgetattr(libc::STDIN_FILENO, &mut saved) != 0 {\n-                return None;\n-            }\n-            let mut raw = saved;\n-            libc::cfmakeraw(&mut raw);\n-            (libc::tcsetattr(libc::STDIN_FILENO, libc::TCSANOW, &raw) == 0)\n-                .then_some(Self { saved })\n-        }\n+        None /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n impl Drop for HostTerminal {\n     fn drop(&mut self) {\n         #[cfg(windows)]\n         for (handle, mode) in &self.saved {\n             // SAFETY: restores the mode read from the same handle in `enter`.\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "HostTerminal::enter",
+      "return_type": "-> Option<Self>",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 331
+        },
+        "start": {
+          "column": 5,
+          "line": 318
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:321:9: replace HostTerminal::enter -> Option<Self> with None",
+    "package": "viola-pty",
+    "replacement": "None",
+    "span": {
+      "end": {
+        "column": 10,
+        "line": 330
+      },
+      "start": {
+        "column": 9,
+        "line": 321
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace HostTerminal::enter -> Option<Self> with Some(Default::default())\n@@ -313,26 +313,17 @@\n             }\n         }\n         (!saved.is_empty()).then_some(Self { saved })\n     }\n \n     #[cfg(unix)]\n     pub fn enter() -> Option<Self> {\n         // SAFETY: termios calls on fd 0 with structs owned here.\n-        unsafe {\n-            let mut saved: libc::termios = std::mem::zeroed();\n-            if libc::tcgetattr(libc::STDIN_FILENO, &mut saved) != 0 {\n-                return None;\n-            }\n-            let mut raw = saved;\n-            libc::cfmakeraw(&mut raw);\n-            (libc::tcsetattr(libc::STDIN_FILENO, libc::TCSANOW, &raw) == 0)\n-                .then_some(Self { saved })\n-        }\n+        Some(Default::default()) /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n impl Drop for HostTerminal {\n     fn drop(&mut self) {\n         #[cfg(windows)]\n         for (handle, mode) in &self.saved {\n             // SAFETY: restores the mode read from the same handle in `enter`.\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "HostTerminal::enter",
+      "return_type": "-> Option<Self>",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 331
+        },
+        "start": {
+          "column": 5,
+          "line": 318
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:321:9: replace HostTerminal::enter -> Option<Self> with Some(Default::default())",
+    "package": "viola-pty",
+    "replacement": "Some(Default::default())",
+    "span": {
+      "end": {
+        "column": 10,
+        "line": 330
+      },
+      "start": {
+        "column": 9,
+        "line": 321
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace != with == in HostTerminal::enter\n@@ -315,17 +315,17 @@\n         (!saved.is_empty()).then_some(Self { saved })\n     }\n \n     #[cfg(unix)]\n     pub fn enter() -> Option<Self> {\n         // SAFETY: termios calls on fd 0 with structs owned here.\n         unsafe {\n             let mut saved: libc::termios = std::mem::zeroed();\n-            if libc::tcgetattr(libc::STDIN_FILENO, &mut saved) != 0 {\n+            if libc::tcgetattr(libc::STDIN_FILENO, &mut saved) == /* ~ changed by cargo-mutants ~ */ 0 {\n                 return None;\n             }\n             let mut raw = saved;\n             libc::cfmakeraw(&mut raw);\n             (libc::tcsetattr(libc::STDIN_FILENO, libc::TCSANOW, &raw) == 0)\n                 .then_some(Self { saved })\n         }\n     }\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "HostTerminal::enter",
+      "return_type": "-> Option<Self>",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 331
+        },
+        "start": {
+          "column": 5,
+          "line": 318
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/lib.rs:323:64: replace != with == in HostTerminal::enter",
+    "package": "viola-pty",
+    "replacement": "==",
+    "span": {
+      "end": {
+        "column": 66,
+        "line": 323
+      },
+      "start": {
+        "column": 64,
+        "line": 323
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace == with != in HostTerminal::enter\n@@ -320,17 +320,17 @@\n         // SAFETY: termios calls on fd 0 with structs owned here.\n         unsafe {\n             let mut saved: libc::termios = std::mem::zeroed();\n             if libc::tcgetattr(libc::STDIN_FILENO, &mut saved) != 0 {\n                 return None;\n             }\n             let mut raw = saved;\n             libc::cfmakeraw(&mut raw);\n-            (libc::tcsetattr(libc::STDIN_FILENO, libc::TCSANOW, &raw) == 0)\n+            (libc::tcsetattr(libc::STDIN_FILENO, libc::TCSANOW, &raw) != /* ~ changed by cargo-mutants ~ */ 0)\n                 .then_some(Self { saved })\n         }\n     }\n }\n \n impl Drop for HostTerminal {\n     fn drop(&mut self) {\n         #[cfg(windows)]\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "HostTerminal::enter",
+      "return_type": "-> Option<Self>",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 331
+        },
+        "start": {
+          "column": 5,
+          "line": 318
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/lib.rs:328:71: replace == with != in HostTerminal::enter",
+    "package": "viola-pty",
+    "replacement": "!=",
+    "span": {
+      "end": {
+        "column": 73,
+        "line": 328
+      },
+      "start": {
+        "column": 71,
+        "line": 328
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace <impl Drop for HostTerminal>::drop with ()\n@@ -328,28 +328,17 @@\n             (libc::tcsetattr(libc::STDIN_FILENO, libc::TCSANOW, &raw) == 0)\n                 .then_some(Self { saved })\n         }\n     }\n }\n \n impl Drop for HostTerminal {\n     fn drop(&mut self) {\n-        #[cfg(windows)]\n-        for (handle, mode) in &self.saved {\n-            // SAFETY: restores the mode read from the same handle in `enter`.\n-            unsafe {\n-                windows_sys::Win32::System::Console::SetConsoleMode(*handle, *mode);\n-            }\n-        }\n-        #[cfg(unix)]\n-        // SAFETY: restores the attributes read from fd 0 in `enter`.\n-        unsafe {\n-            libc::tcsetattr(libc::STDIN_FILENO, libc::TCSANOW, &self.saved);\n-        }\n+        () /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n /// The wrapper's host stdin. On Windows, when it is a console, a reader that calls `ReadConsoleW`\n /// itself: std's console read drops a trailing `0x1A` from every read and turns a read of `^Z`\n /// alone into end of input (rust-lang/rust#38274), which would end the human's copy into the child.\n /// Anywhere else, a redirected Windows stdin included, `std::io::stdin()` unchanged.\n pub fn host_stdin() -> Box<dyn Read + Send> {\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "<impl Drop for HostTerminal>::drop",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 348
+        },
+        "start": {
+          "column": 5,
+          "line": 335
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:336:9: replace <impl Drop for HostTerminal>::drop with ()",
+    "package": "viola-pty",
+    "replacement": "()",
+    "span": {
+      "end": {
+        "column": 10,
+        "line": 347
+      },
+      "start": {
+        "column": 9,
+        "line": 336
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace host_stdin -> Box<dyn Read +Send> with Box::new(Default::default())\n@@ -348,21 +348,17 @@\n     }\n }\n \n /// The wrapper's host stdin. On Windows, when it is a console, a reader that calls `ReadConsoleW`\n /// itself: std's console read drops a trailing `0x1A` from every read and turns a read of `^Z`\n /// alone into end of input (rust-lang/rust#38274), which would end the human's copy into the child.\n /// Anywhere else, a redirected Windows stdin included, `std::io::stdin()` unchanged.\n pub fn host_stdin() -> Box<dyn Read + Send> {\n-    #[cfg(windows)]\n-    if console::is_console() {\n-        return Box::new(ConsoleInput::new(console::Console));\n-    }\n-    Box::new(io::stdin())\n+    Box::new(Default::default()) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Where console text comes from: UTF-16 units, as `ReadConsoleW` hands them out.\n #[cfg_attr(not(windows), allow(dead_code))]\n trait Utf16Source {\n     /// Fills `buf` with at most `buf.len()` units; how many it wrote, zero included.\n     fn read_units(&mut self, buf: &mut [u16]) -> io::Result<usize>;\n }\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "host_stdin",
+      "return_type": "-> Box<dyn Read +Send>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 361
+        },
+        "start": {
+          "column": 1,
+          "line": 351
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:356:5: replace host_stdin -> Box<dyn Read +Send> with Box::new(Default::default())",
+    "package": "viola-pty",
+    "replacement": "Box::new(Default::default())",
+    "span": {
+      "end": {
+        "column": 26,
+        "line": 360
+      },
+      "start": {
+        "column": 5,
+        "line": 356
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace decode_units with ()\n@@ -386,28 +386,17 @@\n         }\n     }\n }\n \n /// `units` after any carried high surrogate, as UTF-8 onto `out`; a trailing high surrogate is\n /// carried instead, and an unpaired surrogate becomes U+FFFD.\n #[cfg_attr(not(windows), allow(dead_code))]\n fn decode_units(carried: &mut Option<u16>, units: &[u16], out: &mut Vec<u8>) {\n-    let mut all: Vec<u16> = carried\n-        .take()\n-        .into_iter()\n-        .chain(units.iter().copied())\n-        .collect();\n-    if all.last().is_some_and(|u| (0xD800..=0xDBFF).contains(u)) {\n-        *carried = all.pop();\n-    }\n-    for c in char::decode_utf16(all) {\n-        let c = c.unwrap_or(char::REPLACEMENT_CHARACTER);\n-        out.extend_from_slice(c.encode_utf8(&mut [0u8; 4]).as_bytes());\n-    }\n+    () /* ~ changed by cargo-mutants ~ */\n }\n \n impl<S: Utf16Source> Read for ConsoleInput<S> {\n     fn read(&mut self, buf: &mut [u8]) -> io::Result<usize> {\n         if buf.is_empty() {\n             return Ok(0);\n         }\n         let mut units = [0u16; 1024];\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "decode_units",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 406
+        },
+        "start": {
+          "column": 1,
+          "line": 390
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:394:5: replace decode_units with ()",
+    "package": "viola-pty",
+    "replacement": "()",
+    "span": {
+      "end": {
+        "column": 6,
+        "line": 405
+      },
+      "start": {
+        "column": 5,
+        "line": 394
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace <impl Read for ConsoleInput<S>>::read -> io::Result<usize> with Ok(0)\n@@ -402,28 +402,17 @@\n     for c in char::decode_utf16(all) {\n         let c = c.unwrap_or(char::REPLACEMENT_CHARACTER);\n         out.extend_from_slice(c.encode_utf8(&mut [0u8; 4]).as_bytes());\n     }\n }\n \n impl<S: Utf16Source> Read for ConsoleInput<S> {\n     fn read(&mut self, buf: &mut [u8]) -> io::Result<usize> {\n-        if buf.is_empty() {\n-            return Ok(0);\n-        }\n-        let mut units = [0u16; 1024];\n-        while self.ready.is_empty() {\n-            let n = self.source.read_units(&mut units)?;\n-            decode_units(&mut self.carried, &units[..n], &mut self.ready);\n-        }\n-        let n = buf.len().min(self.ready.len());\n-        buf[..n].copy_from_slice(&self.ready[..n]);\n-        self.ready.drain(..n);\n-        Ok(n)\n+        Ok(0) /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n #[cfg(windows)]\n mod console {\n     use std::io;\n \n     use windows_sys::Win32::System::Console::{\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "<impl Read for ConsoleInput<S>>::read",
+      "return_type": "-> io::Result<usize>",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 422
+        },
+        "start": {
+          "column": 5,
+          "line": 409
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:410:9: replace <impl Read for ConsoleInput<S>>::read -> io::Result<usize> with Ok(0)",
+    "package": "viola-pty",
+    "replacement": "Ok(0)",
+    "span": {
+      "end": {
+        "column": 14,
+        "line": 421
+      },
+      "start": {
+        "column": 9,
+        "line": 410
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace <impl Read for ConsoleInput<S>>::read -> io::Result<usize> with Ok(1)\n@@ -402,28 +402,17 @@\n     for c in char::decode_utf16(all) {\n         let c = c.unwrap_or(char::REPLACEMENT_CHARACTER);\n         out.extend_from_slice(c.encode_utf8(&mut [0u8; 4]).as_bytes());\n     }\n }\n \n impl<S: Utf16Source> Read for ConsoleInput<S> {\n     fn read(&mut self, buf: &mut [u8]) -> io::Result<usize> {\n-        if buf.is_empty() {\n-            return Ok(0);\n-        }\n-        let mut units = [0u16; 1024];\n-        while self.ready.is_empty() {\n-            let n = self.source.read_units(&mut units)?;\n-            decode_units(&mut self.carried, &units[..n], &mut self.ready);\n-        }\n-        let n = buf.len().min(self.ready.len());\n-        buf[..n].copy_from_slice(&self.ready[..n]);\n-        self.ready.drain(..n);\n-        Ok(n)\n+        Ok(1) /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n #[cfg(windows)]\n mod console {\n     use std::io;\n \n     use windows_sys::Win32::System::Console::{\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "<impl Read for ConsoleInput<S>>::read",
+      "return_type": "-> io::Result<usize>",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 422
+        },
+        "start": {
+          "column": 5,
+          "line": 409
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:410:9: replace <impl Read for ConsoleInput<S>>::read -> io::Result<usize> with Ok(1)",
+    "package": "viola-pty",
+    "replacement": "Ok(1)",
+    "span": {
+      "end": {
+        "column": 14,
+        "line": 421
+      },
+      "start": {
+        "column": 9,
+        "line": 410
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace console::is_console -> bool with true\n@@ -426,19 +426,17 @@\n mod console {\n     use std::io;\n \n     use windows_sys::Win32::System::Console::{\n         GetConsoleMode, GetStdHandle, ReadConsoleW, STD_INPUT_HANDLE,\n     };\n \n     pub(super) fn is_console() -> bool {\n-        let mut mode = 0u32;\n-        // SAFETY: reads this process's own stdin console mode into a local.\n-        unsafe { GetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), &mut mode) != 0 }\n+        true /* ~ changed by cargo-mutants ~ */\n     }\n \n     /// The process's console input, read with no Ctrl-Z wakeup control.\n     pub(super) struct Console;\n \n     impl super::Utf16Source for Console {\n         fn read_units(&mut self, buf: &mut [u16]) -> io::Result<usize> {\n             let len = u32::try_from(buf.len()).unwrap_or(u32::MAX);\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "console::is_console",
+      "return_type": "-> bool",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 437
+        },
+        "start": {
+          "column": 5,
+          "line": 433
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:434:9: replace console::is_console -> bool with true",
+    "package": "viola-pty",
+    "replacement": "true",
+    "span": {
+      "end": {
+        "column": 82,
+        "line": 436
+      },
+      "start": {
+        "column": 9,
+        "line": 434
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace console::is_console -> bool with false\n@@ -426,19 +426,17 @@\n mod console {\n     use std::io;\n \n     use windows_sys::Win32::System::Console::{\n         GetConsoleMode, GetStdHandle, ReadConsoleW, STD_INPUT_HANDLE,\n     };\n \n     pub(super) fn is_console() -> bool {\n-        let mut mode = 0u32;\n-        // SAFETY: reads this process's own stdin console mode into a local.\n-        unsafe { GetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), &mut mode) != 0 }\n+        false /* ~ changed by cargo-mutants ~ */\n     }\n \n     /// The process's console input, read with no Ctrl-Z wakeup control.\n     pub(super) struct Console;\n \n     impl super::Utf16Source for Console {\n         fn read_units(&mut self, buf: &mut [u16]) -> io::Result<usize> {\n             let len = u32::try_from(buf.len()).unwrap_or(u32::MAX);\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "console::is_console",
+      "return_type": "-> bool",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 437
+        },
+        "start": {
+          "column": 5,
+          "line": 433
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:434:9: replace console::is_console -> bool with false",
+    "package": "viola-pty",
+    "replacement": "false",
+    "span": {
+      "end": {
+        "column": 82,
+        "line": 436
+      },
+      "start": {
+        "column": 9,
+        "line": 434
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace != with == in console::is_console\n@@ -428,17 +428,17 @@\n \n     use windows_sys::Win32::System::Console::{\n         GetConsoleMode, GetStdHandle, ReadConsoleW, STD_INPUT_HANDLE,\n     };\n \n     pub(super) fn is_console() -> bool {\n         let mut mode = 0u32;\n         // SAFETY: reads this process's own stdin console mode into a local.\n-        unsafe { GetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), &mut mode) != 0 }\n+        unsafe { GetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), &mut mode) == /* ~ changed by cargo-mutants ~ */ 0 }\n     }\n \n     /// The process's console input, read with no Ctrl-Z wakeup control.\n     pub(super) struct Console;\n \n     impl super::Utf16Source for Console {\n         fn read_units(&mut self, buf: &mut [u16]) -> io::Result<usize> {\n             let len = u32::try_from(buf.len()).unwrap_or(u32::MAX);\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "console::is_console",
+      "return_type": "-> bool",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 437
+        },
+        "start": {
+          "column": 5,
+          "line": 433
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/lib.rs:436:76: replace != with == in console::is_console",
+    "package": "viola-pty",
+    "replacement": "==",
+    "span": {
+      "end": {
+        "column": 78,
+        "line": 436
+      },
+      "start": {
+        "column": 76,
+        "line": 436
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace console::<impl super::Utf16Source for Console>::read_units -> io::Result<usize> with Ok(0)\n@@ -436,33 +436,17 @@\n         unsafe { GetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), &mut mode) != 0 }\n     }\n \n     /// The process's console input, read with no Ctrl-Z wakeup control.\n     pub(super) struct Console;\n \n     impl super::Utf16Source for Console {\n         fn read_units(&mut self, buf: &mut [u16]) -> io::Result<usize> {\n-            let len = u32::try_from(buf.len()).unwrap_or(u32::MAX);\n-            let mut read = 0u32;\n-            // SAFETY: ReadConsoleW writes at most `len` units into `buf`, owned by the caller, and\n-            // the count into a local; a null input control is documented as allowed.\n-            let ok = unsafe {\n-                ReadConsoleW(\n-                    GetStdHandle(STD_INPUT_HANDLE),\n-                    buf.as_mut_ptr().cast(),\n-                    len,\n-                    &mut read,\n-                    std::ptr::null(),\n-                )\n-            };\n-            if ok == 0 {\n-                return Err(io::Error::last_os_error());\n-            }\n-            Ok(usize::try_from(read).unwrap_or_default())\n+            Ok(0) /* ~ changed by cargo-mutants ~ */\n         }\n     }\n }\n \n /// The size of the terminal on this process's stdout, `None` when it is not one.\n pub fn host_size() -> Option<Size> {\n     #[cfg(windows)]\n     {\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "console::<impl super::Utf16Source for Console>::read_units",
+      "return_type": "-> io::Result<usize>",
+      "span": {
+        "end": {
+          "column": 10,
+          "line": 461
+        },
+        "start": {
+          "column": 9,
+          "line": 443
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:444:13: replace console::<impl super::Utf16Source for Console>::read_units -> io::Result<usize> with Ok(0)",
+    "package": "viola-pty",
+    "replacement": "Ok(0)",
+    "span": {
+      "end": {
+        "column": 58,
+        "line": 460
+      },
+      "start": {
+        "column": 13,
+        "line": 444
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace console::<impl super::Utf16Source for Console>::read_units -> io::Result<usize> with Ok(1)\n@@ -436,33 +436,17 @@\n         unsafe { GetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), &mut mode) != 0 }\n     }\n \n     /// The process's console input, read with no Ctrl-Z wakeup control.\n     pub(super) struct Console;\n \n     impl super::Utf16Source for Console {\n         fn read_units(&mut self, buf: &mut [u16]) -> io::Result<usize> {\n-            let len = u32::try_from(buf.len()).unwrap_or(u32::MAX);\n-            let mut read = 0u32;\n-            // SAFETY: ReadConsoleW writes at most `len` units into `buf`, owned by the caller, and\n-            // the count into a local; a null input control is documented as allowed.\n-            let ok = unsafe {\n-                ReadConsoleW(\n-                    GetStdHandle(STD_INPUT_HANDLE),\n-                    buf.as_mut_ptr().cast(),\n-                    len,\n-                    &mut read,\n-                    std::ptr::null(),\n-                )\n-            };\n-            if ok == 0 {\n-                return Err(io::Error::last_os_error());\n-            }\n-            Ok(usize::try_from(read).unwrap_or_default())\n+            Ok(1) /* ~ changed by cargo-mutants ~ */\n         }\n     }\n }\n \n /// The size of the terminal on this process's stdout, `None` when it is not one.\n pub fn host_size() -> Option<Size> {\n     #[cfg(windows)]\n     {\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "console::<impl super::Utf16Source for Console>::read_units",
+      "return_type": "-> io::Result<usize>",
+      "span": {
+        "end": {
+          "column": 10,
+          "line": 461
+        },
+        "start": {
+          "column": 9,
+          "line": 443
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:444:13: replace console::<impl super::Utf16Source for Console>::read_units -> io::Result<usize> with Ok(1)",
+    "package": "viola-pty",
+    "replacement": "Ok(1)",
+    "span": {
+      "end": {
+        "column": 58,
+        "line": 460
+      },
+      "start": {
+        "column": 13,
+        "line": 444
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace == with != in console::<impl super::Utf16Source for Console>::read_units\n@@ -449,17 +449,17 @@\n                 ReadConsoleW(\n                     GetStdHandle(STD_INPUT_HANDLE),\n                     buf.as_mut_ptr().cast(),\n                     len,\n                     &mut read,\n                     std::ptr::null(),\n                 )\n             };\n-            if ok == 0 {\n+            if ok != /* ~ changed by cargo-mutants ~ */ 0 {\n                 return Err(io::Error::last_os_error());\n             }\n             Ok(usize::try_from(read).unwrap_or_default())\n         }\n     }\n }\n \n /// The size of the terminal on this process's stdout, `None` when it is not one.\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "console::<impl super::Utf16Source for Console>::read_units",
+      "return_type": "-> io::Result<usize>",
+      "span": {
+        "end": {
+          "column": 10,
+          "line": 461
+        },
+        "start": {
+          "column": 9,
+          "line": 443
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/lib.rs:457:19: replace == with != in console::<impl super::Utf16Source for Console>::read_units",
+    "package": "viola-pty",
+    "replacement": "!=",
+    "span": {
+      "end": {
+        "column": 21,
+        "line": 457
+      },
+      "start": {
+        "column": 19,
+        "line": 457
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace host_size -> Option<Size> with None\n@@ -459,42 +459,17 @@\n             }\n             Ok(usize::try_from(read).unwrap_or_default())\n         }\n     }\n }\n \n /// The size of the terminal on this process's stdout, `None` when it is not one.\n pub fn host_size() -> Option<Size> {\n-    #[cfg(windows)]\n-    {\n-        use windows_sys::Win32::System::Console::{\n-            CONSOLE_SCREEN_BUFFER_INFO, GetConsoleScreenBufferInfo, GetStdHandle, STD_OUTPUT_HANDLE,\n-        };\n-        // SAFETY: reads into a struct owned here.\n-        unsafe {\n-            let mut info: CONSOLE_SCREEN_BUFFER_INFO = std::mem::zeroed();\n-            if GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &mut info) == 0 {\n-                return None;\n-            }\n-            let w = info.srWindow;\n-            size_from_window(w.Left, w.Top, w.Right, w.Bottom)\n-        }\n-    }\n-    #[cfg(unix)]\n-    {\n-        // SAFETY: TIOCGWINSZ fills a struct owned here.\n-        unsafe {\n-            let mut ws: libc::winsize = std::mem::zeroed();\n-            if libc::ioctl(libc::STDOUT_FILENO, libc::TIOCGWINSZ, &mut ws) != 0 {\n-                return None;\n-            }\n-            nonzero_size(ws.ws_col, ws.ws_row)\n-        }\n-    }\n+    None /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use std::sync::Arc;\n     use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};\n     use std::time::{Duration, Instant};\n \n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "host_size",
+      "return_type": "-> Option<Size>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 493
+        },
+        "start": {
+          "column": 1,
+          "line": 465
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:467:5: replace host_size -> Option<Size> with None",
+    "package": "viola-pty",
+    "replacement": "None",
+    "span": {
+      "end": {
+        "column": 6,
+        "line": 492
+      },
+      "start": {
+        "column": 5,
+        "line": 467
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace host_size -> Option<Size> with Some(Default::default())\n@@ -459,42 +459,17 @@\n             }\n             Ok(usize::try_from(read).unwrap_or_default())\n         }\n     }\n }\n \n /// The size of the terminal on this process's stdout, `None` when it is not one.\n pub fn host_size() -> Option<Size> {\n-    #[cfg(windows)]\n-    {\n-        use windows_sys::Win32::System::Console::{\n-            CONSOLE_SCREEN_BUFFER_INFO, GetConsoleScreenBufferInfo, GetStdHandle, STD_OUTPUT_HANDLE,\n-        };\n-        // SAFETY: reads into a struct owned here.\n-        unsafe {\n-            let mut info: CONSOLE_SCREEN_BUFFER_INFO = std::mem::zeroed();\n-            if GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &mut info) == 0 {\n-                return None;\n-            }\n-            let w = info.srWindow;\n-            size_from_window(w.Left, w.Top, w.Right, w.Bottom)\n-        }\n-    }\n-    #[cfg(unix)]\n-    {\n-        // SAFETY: TIOCGWINSZ fills a struct owned here.\n-        unsafe {\n-            let mut ws: libc::winsize = std::mem::zeroed();\n-            if libc::ioctl(libc::STDOUT_FILENO, libc::TIOCGWINSZ, &mut ws) != 0 {\n-                return None;\n-            }\n-            nonzero_size(ws.ws_col, ws.ws_row)\n-        }\n-    }\n+    Some(Default::default()) /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use std::sync::Arc;\n     use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};\n     use std::time::{Duration, Instant};\n \n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "host_size",
+      "return_type": "-> Option<Size>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 493
+        },
+        "start": {
+          "column": 1,
+          "line": 465
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/lib.rs:467:5: replace host_size -> Option<Size> with Some(Default::default())",
+    "package": "viola-pty",
+    "replacement": "Some(Default::default())",
+    "span": {
+      "end": {
+        "column": 6,
+        "line": 492
+      },
+      "start": {
+        "column": 5,
+        "line": 467
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace == with != in host_size\n@@ -467,17 +467,17 @@\n     #[cfg(windows)]\n     {\n         use windows_sys::Win32::System::Console::{\n             CONSOLE_SCREEN_BUFFER_INFO, GetConsoleScreenBufferInfo, GetStdHandle, STD_OUTPUT_HANDLE,\n         };\n         // SAFETY: reads into a struct owned here.\n         unsafe {\n             let mut info: CONSOLE_SCREEN_BUFFER_INFO = std::mem::zeroed();\n-            if GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &mut info) == 0 {\n+            if GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &mut info) != /* ~ changed by cargo-mutants ~ */ 0 {\n                 return None;\n             }\n             let w = info.srWindow;\n             size_from_window(w.Left, w.Top, w.Right, w.Bottom)\n         }\n     }\n     #[cfg(unix)]\n     {\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "host_size",
+      "return_type": "-> Option<Size>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 493
+        },
+        "start": {
+          "column": 1,
+          "line": 465
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/lib.rs:475:87: replace == with != in host_size",
+    "package": "viola-pty",
+    "replacement": "!=",
+    "span": {
+      "end": {
+        "column": 89,
+        "line": 475
+      },
+      "start": {
+        "column": 87,
+        "line": 475
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/lib.rs\n+++ replace != with == in host_size\n@@ -479,17 +479,17 @@\n             size_from_window(w.Left, w.Top, w.Right, w.Bottom)\n         }\n     }\n     #[cfg(unix)]\n     {\n         // SAFETY: TIOCGWINSZ fills a struct owned here.\n         unsafe {\n             let mut ws: libc::winsize = std::mem::zeroed();\n-            if libc::ioctl(libc::STDOUT_FILENO, libc::TIOCGWINSZ, &mut ws) != 0 {\n+            if libc::ioctl(libc::STDOUT_FILENO, libc::TIOCGWINSZ, &mut ws) == /* ~ changed by cargo-mutants ~ */ 0 {\n                 return None;\n             }\n             nonzero_size(ws.ws_col, ws.ws_row)\n         }\n     }\n }\n \n #[cfg(test)]\n",
+    "file": "crates/viola-pty/src/lib.rs",
+    "function": {
+      "function_name": "host_size",
+      "return_type": "-> Option<Size>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 493
+        },
+        "start": {
+          "column": 1,
+          "line": 465
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/lib.rs:487:76: replace != with == in host_size",
+    "package": "viola-pty",
+    "replacement": "==",
+    "span": {
+      "end": {
+        "column": 78,
+        "line": 487
+      },
+      "start": {
+        "column": 76,
+        "line": 487
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/pump.rs\n+++ replace spawn_worker with ()\n@@ -23,25 +23,17 @@\n }\n \n enum Worker {\n     OutputDone,\n     Panicked,\n }\n \n fn spawn_worker(tx: Sender<Worker>, done: Option<Worker>, body: impl FnOnce() + Send + 'static) {\n-    std::thread::spawn(move || {\n-        let end = match catch_unwind(AssertUnwindSafe(body)) {\n-            Ok(()) => done,\n-            Err(_) => Some(Worker::Panicked),\n-        };\n-        if let Some(end) = end {\n-            let _ = tx.send(end);\n-        }\n-    });\n+    () /* ~ changed by cargo-mutants ~ */\n }\n \n fn copy(mut from: impl Read, mut to: impl Write) {\n     let mut buf = [0u8; 8192];\n     loop {\n         match from.read(&mut buf) {\n             Ok(0) | Err(_) => return,\n             Ok(n) => {\n",
+    "file": "crates/viola-pty/src/pump.rs",
+    "function": {
+      "function_name": "spawn_worker",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 40
+        },
+        "start": {
+          "column": 1,
+          "line": 30
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/pump.rs:31:5: replace spawn_worker with ()",
+    "package": "viola-pty",
+    "replacement": "()",
+    "span": {
+      "end": {
+        "column": 8,
+        "line": 39
+      },
+      "start": {
+        "column": 5,
+        "line": 31
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/pump.rs\n+++ replace copy with ()\n@@ -35,27 +35,17 @@\n         };\n         if let Some(end) = end {\n             let _ = tx.send(end);\n         }\n     });\n }\n \n fn copy(mut from: impl Read, mut to: impl Write) {\n-    let mut buf = [0u8; 8192];\n-    loop {\n-        match from.read(&mut buf) {\n-            Ok(0) | Err(_) => return,\n-            Ok(n) => {\n-                if to.write_all(&buf[..n]).and_then(|()| to.flush()).is_err() {\n-                    return;\n-                }\n-            }\n-        }\n-    }\n+    () /* ~ changed by cargo-mutants ~ */\n }\n \n type Input = Option<Box<dyn Write + Send>>;\n \n /// The child's input writer, shared by the human's copy thread and the wrapper's paste: one lock,\n /// so a paste is one contiguous byte run and a key that arrives during it waits for that paste\n /// only (architecture [Human Takeover / Wheel]).\n #[derive(Clone, Default)]\n",
+    "file": "crates/viola-pty/src/pump.rs",
+    "function": {
+      "function_name": "copy",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 54
+        },
+        "start": {
+          "column": 1,
+          "line": 42
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/pump.rs:43:5: replace copy with ()",
+    "package": "viola-pty",
+    "replacement": "()",
+    "span": {
+      "end": {
+        "column": 6,
+        "line": 53
+      },
+      "start": {
+        "column": 5,
+        "line": 43
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/pump.rs\n+++ replace PasteHandle::lock -> MutexGuard<'_, Input> with MutexGuard::new()\n@@ -59,17 +59,17 @@\n /// so a paste is one contiguous byte run and a key that arrives during it waits for that paste\n /// only (architecture [Human Takeover / Wheel]).\n #[derive(Clone, Default)]\n pub struct PasteHandle(Arc<Mutex<Input>>);\n \n impl PasteHandle {\n     fn lock(&self) -> MutexGuard<'_, Input> {\n         // A writer that panicked mid-write already ended the pump; what is left is still a writer.\n-        self.0.lock().unwrap_or_else(PoisonError::into_inner)\n+        MutexGuard::new() /* ~ changed by cargo-mutants ~ */\n     }\n \n     /// `text` as one bracketed paste + Enter, in one `write_all` + flush under the lock; `NoInput`\n     /// before the pump has opened the child's input or after it returned.\n     #[tracing::instrument(\n         skip_all,\n         name = \"pty.paste_write\",\n         fields(text_bytes = text.len(), paste_mode = \"bracketed\")\n",
+    "file": "crates/viola-pty/src/pump.rs",
+    "function": {
+      "function_name": "PasteHandle::lock",
+      "return_type": "-> MutexGuard<'_, Input>",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 68
+        },
+        "start": {
+          "column": 5,
+          "line": 65
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/pump.rs:67:9: replace PasteHandle::lock -> MutexGuard<'_, Input> with MutexGuard::new()",
+    "package": "viola-pty",
+    "replacement": "MutexGuard::new()",
+    "span": {
+      "end": {
+        "column": 62,
+        "line": 67
+      },
+      "start": {
+        "column": 9,
+        "line": 67
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/pump.rs\n+++ replace PasteHandle::lock -> MutexGuard<'_, Input> with MutexGuard::from_iter([Default::default()])\n@@ -59,17 +59,17 @@\n /// so a paste is one contiguous byte run and a key that arrives during it waits for that paste\n /// only (architecture [Human Takeover / Wheel]).\n #[derive(Clone, Default)]\n pub struct PasteHandle(Arc<Mutex<Input>>);\n \n impl PasteHandle {\n     fn lock(&self) -> MutexGuard<'_, Input> {\n         // A writer that panicked mid-write already ended the pump; what is left is still a writer.\n-        self.0.lock().unwrap_or_else(PoisonError::into_inner)\n+        MutexGuard::from_iter([Default::default()]) /* ~ changed by cargo-mutants ~ */\n     }\n \n     /// `text` as one bracketed paste + Enter, in one `write_all` + flush under the lock; `NoInput`\n     /// before the pump has opened the child's input or after it returned.\n     #[tracing::instrument(\n         skip_all,\n         name = \"pty.paste_write\",\n         fields(text_bytes = text.len(), paste_mode = \"bracketed\")\n",
+    "file": "crates/viola-pty/src/pump.rs",
+    "function": {
+      "function_name": "PasteHandle::lock",
+      "return_type": "-> MutexGuard<'_, Input>",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 68
+        },
+        "start": {
+          "column": 5,
+          "line": 65
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/pump.rs:67:9: replace PasteHandle::lock -> MutexGuard<'_, Input> with MutexGuard::from_iter([Default::default()])",
+    "package": "viola-pty",
+    "replacement": "MutexGuard::from_iter([Default::default()])",
+    "span": {
+      "end": {
+        "column": 62,
+        "line": 67
+      },
+      "start": {
+        "column": 9,
+        "line": 67
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/pump.rs\n+++ replace PasteHandle::lock -> MutexGuard<'_, Input> with MutexGuard::new(Default::default())\n@@ -59,17 +59,17 @@\n /// so a paste is one contiguous byte run and a key that arrives during it waits for that paste\n /// only (architecture [Human Takeover / Wheel]).\n #[derive(Clone, Default)]\n pub struct PasteHandle(Arc<Mutex<Input>>);\n \n impl PasteHandle {\n     fn lock(&self) -> MutexGuard<'_, Input> {\n         // A writer that panicked mid-write already ended the pump; what is left is still a writer.\n-        self.0.lock().unwrap_or_else(PoisonError::into_inner)\n+        MutexGuard::new(Default::default()) /* ~ changed by cargo-mutants ~ */\n     }\n \n     /// `text` as one bracketed paste + Enter, in one `write_all` + flush under the lock; `NoInput`\n     /// before the pump has opened the child's input or after it returned.\n     #[tracing::instrument(\n         skip_all,\n         name = \"pty.paste_write\",\n         fields(text_bytes = text.len(), paste_mode = \"bracketed\")\n",
+    "file": "crates/viola-pty/src/pump.rs",
+    "function": {
+      "function_name": "PasteHandle::lock",
+      "return_type": "-> MutexGuard<'_, Input>",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 68
+        },
+        "start": {
+          "column": 5,
+          "line": 65
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/pump.rs:67:9: replace PasteHandle::lock -> MutexGuard<'_, Input> with MutexGuard::new(Default::default())",
+    "package": "viola-pty",
+    "replacement": "MutexGuard::new(Default::default())",
+    "span": {
+      "end": {
+        "column": 62,
+        "line": 67
+      },
+      "start": {
+        "column": 9,
+        "line": 67
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/pump.rs\n+++ replace PasteHandle::lock -> MutexGuard<'_, Input> with MutexGuard::from(Default::default())\n@@ -59,17 +59,17 @@\n /// so a paste is one contiguous byte run and a key that arrives during it waits for that paste\n /// only (architecture [Human Takeover / Wheel]).\n #[derive(Clone, Default)]\n pub struct PasteHandle(Arc<Mutex<Input>>);\n \n impl PasteHandle {\n     fn lock(&self) -> MutexGuard<'_, Input> {\n         // A writer that panicked mid-write already ended the pump; what is left is still a writer.\n-        self.0.lock().unwrap_or_else(PoisonError::into_inner)\n+        MutexGuard::from(Default::default()) /* ~ changed by cargo-mutants ~ */\n     }\n \n     /// `text` as one bracketed paste + Enter, in one `write_all` + flush under the lock; `NoInput`\n     /// before the pump has opened the child's input or after it returned.\n     #[tracing::instrument(\n         skip_all,\n         name = \"pty.paste_write\",\n         fields(text_bytes = text.len(), paste_mode = \"bracketed\")\n",
+    "file": "crates/viola-pty/src/pump.rs",
+    "function": {
+      "function_name": "PasteHandle::lock",
+      "return_type": "-> MutexGuard<'_, Input>",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 68
+        },
+        "start": {
+          "column": 5,
+          "line": 65
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/pump.rs:67:9: replace PasteHandle::lock -> MutexGuard<'_, Input> with MutexGuard::from(Default::default())",
+    "package": "viola-pty",
+    "replacement": "MutexGuard::from(Default::default())",
+    "span": {
+      "end": {
+        "column": 62,
+        "line": 67
+      },
+      "start": {
+        "column": 9,
+        "line": 67
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/pump.rs\n+++ replace PasteHandle::paste -> Result<(), PtyError> with Ok(())\n@@ -70,26 +70,17 @@\n     /// `text` as one bracketed paste + Enter, in one `write_all` + flush under the lock; `NoInput`\n     /// before the pump has opened the child's input or after it returned.\n     #[tracing::instrument(\n         skip_all,\n         name = \"pty.paste_write\",\n         fields(text_bytes = text.len(), paste_mode = \"bracketed\")\n     )]\n     pub fn paste(&self, text: &str) -> Result<(), PtyError> {\n-        let mut bytes = Vec::with_capacity(text.len() + 13);\n-        bytes.extend_from_slice(b\"\\x1b[200~\");\n-        bytes.extend_from_slice(text.as_bytes());\n-        bytes.extend_from_slice(b\"\\x1b[201~\\r\");\n-        let mut input = self.lock();\n-        let writer = input.as_mut().ok_or(PtyError::NoInput)?;\n-        writer\n-            .write_all(&bytes)\n-            .and_then(|()| writer.flush())\n-            .map_err(PtyError::Write)\n+        Ok(()) /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n /// The human's side of the shared writer: each chunk is written and flushed under the lock.\n struct HumanInput(PasteHandle);\n \n impl Write for HumanInput {\n     fn write(&mut self, buf: &[u8]) -> io::Result<usize> {\n",
+    "file": "crates/viola-pty/src/pump.rs",
+    "function": {
+      "function_name": "PasteHandle::paste",
+      "return_type": "-> Result<(), PtyError>",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 88
+        },
+        "start": {
+          "column": 5,
+          "line": 70
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/pump.rs:78:9: replace PasteHandle::paste -> Result<(), PtyError> with Ok(())",
+    "package": "viola-pty",
+    "replacement": "Ok(())",
+    "span": {
+      "end": {
+        "column": 38,
+        "line": 87
+      },
+      "start": {
+        "column": 9,
+        "line": 78
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/pump.rs\n+++ replace <impl Write for HumanInput>::write -> io::Result<usize> with Ok(0)\n@@ -88,23 +88,17 @@\n     }\n }\n \n /// The human's side of the shared writer: each chunk is written and flushed under the lock.\n struct HumanInput(PasteHandle);\n \n impl Write for HumanInput {\n     fn write(&mut self, buf: &[u8]) -> io::Result<usize> {\n-        let mut input = self.0.lock();\n-        let writer = input\n-            .as_mut()\n-            .ok_or_else(|| io::Error::from(io::ErrorKind::BrokenPipe))?;\n-        writer.write_all(buf)?;\n-        writer.flush()?;\n-        Ok(buf.len())\n+        Ok(0) /* ~ changed by cargo-mutants ~ */\n     }\n \n     fn flush(&mut self) -> io::Result<()> {\n         Ok(())\n     }\n }\n \n /// Pumps `input` into the child and the child's output into `output`, forwards host size changes,\n",
+    "file": "crates/viola-pty/src/pump.rs",
+    "function": {
+      "function_name": "<impl Write for HumanInput>::write",
+      "return_type": "-> io::Result<usize>",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 103
+        },
+        "start": {
+          "column": 5,
+          "line": 95
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/pump.rs:96:9: replace <impl Write for HumanInput>::write -> io::Result<usize> with Ok(0)",
+    "package": "viola-pty",
+    "replacement": "Ok(0)",
+    "span": {
+      "end": {
+        "column": 22,
+        "line": 102
+      },
+      "start": {
+        "column": 9,
+        "line": 96
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/pump.rs\n+++ replace <impl Write for HumanInput>::write -> io::Result<usize> with Ok(1)\n@@ -88,23 +88,17 @@\n     }\n }\n \n /// The human's side of the shared writer: each chunk is written and flushed under the lock.\n struct HumanInput(PasteHandle);\n \n impl Write for HumanInput {\n     fn write(&mut self, buf: &[u8]) -> io::Result<usize> {\n-        let mut input = self.0.lock();\n-        let writer = input\n-            .as_mut()\n-            .ok_or_else(|| io::Error::from(io::ErrorKind::BrokenPipe))?;\n-        writer.write_all(buf)?;\n-        writer.flush()?;\n-        Ok(buf.len())\n+        Ok(1) /* ~ changed by cargo-mutants ~ */\n     }\n \n     fn flush(&mut self) -> io::Result<()> {\n         Ok(())\n     }\n }\n \n /// Pumps `input` into the child and the child's output into `output`, forwards host size changes,\n",
+    "file": "crates/viola-pty/src/pump.rs",
+    "function": {
+      "function_name": "<impl Write for HumanInput>::write",
+      "return_type": "-> io::Result<usize>",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 103
+        },
+        "start": {
+          "column": 5,
+          "line": 95
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/pump.rs:96:9: replace <impl Write for HumanInput>::write -> io::Result<usize> with Ok(1)",
+    "package": "viola-pty",
+    "replacement": "Ok(1)",
+    "span": {
+      "end": {
+        "column": 22,
+        "line": 102
+      },
+      "start": {
+        "column": 9,
+        "line": 96
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/pump.rs\n+++ replace pump -> Result<PumpEnd, PtyError> with Ok(Default::default())\n@@ -114,24 +114,17 @@\n /// where a fresh read at that point would already hold the new size and forward nothing.\n pub fn pump(\n     pty: &mut dyn Pty,\n     input: Box<dyn Read + Send>,\n     output: Box<dyn Write + Send>,\n     spawned: Size,\n     host_size: &mut dyn FnMut() -> Option<Size>,\n ) -> Result<PumpEnd, PtyError> {\n-    pump_with_paste(\n-        pty,\n-        input,\n-        output,\n-        spawned,\n-        host_size,\n-        &PasteHandle::default(),\n-    )\n+    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */\n }\n \n /// [`pump`], with the child's input also reachable through `paste` while the pump runs.\n pub fn pump_with_paste(\n     pty: &mut dyn Pty,\n     input: Box<dyn Read + Send>,\n     output: Box<dyn Write + Send>,\n     spawned: Size,\n",
+    "file": "crates/viola-pty/src/pump.rs",
+    "function": {
+      "function_name": "pump",
+      "return_type": "-> Result<PumpEnd, PtyError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 130
+        },
+        "start": {
+          "column": 1,
+          "line": 110
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/pump.rs:122:5: replace pump -> Result<PumpEnd, PtyError> with Ok(Default::default())",
+    "package": "viola-pty",
+    "replacement": "Ok(Default::default())",
+    "span": {
+      "end": {
+        "column": 6,
+        "line": 129
+      },
+      "start": {
+        "column": 5,
+        "line": 122
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/pump.rs\n+++ replace pump_with_paste -> Result<PumpEnd, PtyError> with Ok(Default::default())\n@@ -133,24 +133,17 @@\n pub fn pump_with_paste(\n     pty: &mut dyn Pty,\n     input: Box<dyn Read + Send>,\n     output: Box<dyn Write + Send>,\n     spawned: Size,\n     host_size: &mut dyn FnMut() -> Option<Size>,\n     paste: &PasteHandle,\n ) -> Result<PumpEnd, PtyError> {\n-    let reader = pty.reader()?;\n-    // Closing ConPTY's input ends the child with a close event (measured: STATUS_CONTROL_C_EXIT\n-    // once viola's own stdin hit EOF), so the writer stays in the handle past input EOF and is\n-    // released only once the pump returns.\n-    *paste.lock() = Some(pty.writer()?);\n-    let end = pump_open(pty, reader, input, output, spawned, host_size, paste);\n-    *paste.lock() = None;\n-    end\n+    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */\n }\n \n fn pump_open(\n     pty: &mut dyn Pty,\n     reader: Box<dyn Read + Send>,\n     input: Box<dyn Read + Send>,\n     output: Box<dyn Write + Send>,\n     spawned: Size,\n",
+    "file": "crates/viola-pty/src/pump.rs",
+    "function": {
+      "function_name": "pump_with_paste",
+      "return_type": "-> Result<PumpEnd, PtyError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 149
+        },
+        "start": {
+          "column": 1,
+          "line": 132
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/pump.rs:141:5: replace pump_with_paste -> Result<PumpEnd, PtyError> with Ok(Default::default())",
+    "package": "viola-pty",
+    "replacement": "Ok(Default::default())",
+    "span": {
+      "end": {
+        "column": 8,
+        "line": 148
+      },
+      "start": {
+        "column": 5,
+        "line": 141
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/pump.rs\n+++ replace pump_open -> Result<PumpEnd, PtyError> with Ok(Default::default())\n@@ -152,51 +152,17 @@\n     pty: &mut dyn Pty,\n     reader: Box<dyn Read + Send>,\n     input: Box<dyn Read + Send>,\n     output: Box<dyn Write + Send>,\n     spawned: Size,\n     host_size: &mut dyn FnMut() -> Option<Size>,\n     paste: &PasteHandle,\n ) -> Result<PumpEnd, PtyError> {\n-    let (tx, rx) = mpsc::channel();\n-    spawn_worker(tx.clone(), Some(Worker::OutputDone), move || {\n-        copy(reader, output);\n-    });\n-    let human = HumanInput(paste.clone());\n-    spawn_worker(tx, None, move || copy(input, human));\n-    let mut last = Some(spawned);\n-    let mut next_resize = Instant::now() + RESIZE_EVERY;\n-    let mut output_done = false;\n-    loop {\n-        if let Some(code) = pty.try_wait()? {\n-            pty.close();\n-            if !output_done {\n-                drain(&rx);\n-            }\n-            return Ok(PumpEnd::Exited(Exit {\n-                code: Some(code),\n-                source: ExitSource::HandleWait,\n-            }));\n-        }\n-        match rx.recv_timeout(TICK) {\n-            Ok(Worker::Panicked) => return Ok(PumpEnd::WorkerPanicked(kill_and_reap(pty)?)),\n-            Ok(Worker::OutputDone) => output_done = true,\n-            Err(RecvTimeoutError::Timeout) => {}\n-            Err(RecvTimeoutError::Disconnected) => std::thread::sleep(TICK),\n-        }\n-        if Instant::now() >= next_resize {\n-            next_resize = Instant::now() + RESIZE_EVERY;\n-            let now = host_size();\n-            if let Some(size) = now.filter(|s| Some(*s) != last) {\n-                pty.resize(size)?;\n-                last = now;\n-            }\n-        }\n-    }\n+    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */\n }\n \n fn drain(rx: &Receiver<Worker>) {\n     let deadline = Instant::now() + DRAIN_WITHIN;\n     while let Some(left) = deadline.checked_duration_since(Instant::now()) {\n         match rx.recv_timeout(left) {\n             Ok(Worker::OutputDone) | Err(_) => return,\n             Ok(Worker::Panicked) => {}\n",
+    "file": "crates/viola-pty/src/pump.rs",
+    "function": {
+      "function_name": "pump_open",
+      "return_type": "-> Result<PumpEnd, PtyError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 195
+        },
+        "start": {
+          "column": 1,
+          "line": 151
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/pump.rs:160:5: replace pump_open -> Result<PumpEnd, PtyError> with Ok(Default::default())",
+    "package": "viola-pty",
+    "replacement": "Ok(Default::default())",
+    "span": {
+      "end": {
+        "column": 6,
+        "line": 194
+      },
+      "start": {
+        "column": 5,
+        "line": 160
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/pump.rs\n+++ replace + with - in pump_open\n@@ -159,17 +159,17 @@\n ) -> Result<PumpEnd, PtyError> {\n     let (tx, rx) = mpsc::channel();\n     spawn_worker(tx.clone(), Some(Worker::OutputDone), move || {\n         copy(reader, output);\n     });\n     let human = HumanInput(paste.clone());\n     spawn_worker(tx, None, move || copy(input, human));\n     let mut last = Some(spawned);\n-    let mut next_resize = Instant::now() + RESIZE_EVERY;\n+    let mut next_resize = Instant::now() - /* ~ changed by cargo-mutants ~ */ RESIZE_EVERY;\n     let mut output_done = false;\n     loop {\n         if let Some(code) = pty.try_wait()? {\n             pty.close();\n             if !output_done {\n                 drain(&rx);\n             }\n             return Ok(PumpEnd::Exited(Exit {\n",
+    "file": "crates/viola-pty/src/pump.rs",
+    "function": {
+      "function_name": "pump_open",
+      "return_type": "-> Result<PumpEnd, PtyError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 195
+        },
+        "start": {
+          "column": 1,
+          "line": 151
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/pump.rs:167:42: replace + with - in pump_open",
+    "package": "viola-pty",
+    "replacement": "-",
+    "span": {
+      "end": {
+        "column": 43,
+        "line": 167
+      },
+      "start": {
+        "column": 42,
+        "line": 167
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/pump.rs\n+++ replace + with * in pump_open\n@@ -159,17 +159,17 @@\n ) -> Result<PumpEnd, PtyError> {\n     let (tx, rx) = mpsc::channel();\n     spawn_worker(tx.clone(), Some(Worker::OutputDone), move || {\n         copy(reader, output);\n     });\n     let human = HumanInput(paste.clone());\n     spawn_worker(tx, None, move || copy(input, human));\n     let mut last = Some(spawned);\n-    let mut next_resize = Instant::now() + RESIZE_EVERY;\n+    let mut next_resize = Instant::now() * /* ~ changed by cargo-mutants ~ */ RESIZE_EVERY;\n     let mut output_done = false;\n     loop {\n         if let Some(code) = pty.try_wait()? {\n             pty.close();\n             if !output_done {\n                 drain(&rx);\n             }\n             return Ok(PumpEnd::Exited(Exit {\n",
+    "file": "crates/viola-pty/src/pump.rs",
+    "function": {
+      "function_name": "pump_open",
+      "return_type": "-> Result<PumpEnd, PtyError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 195
+        },
+        "start": {
+          "column": 1,
+          "line": 151
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/pump.rs:167:42: replace + with * in pump_open",
+    "package": "viola-pty",
+    "replacement": "*",
+    "span": {
+      "end": {
+        "column": 43,
+        "line": 167
+      },
+      "start": {
+        "column": 42,
+        "line": 167
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/pump.rs\n+++ delete ! in pump_open\n@@ -164,17 +164,17 @@\n     let human = HumanInput(paste.clone());\n     spawn_worker(tx, None, move || copy(input, human));\n     let mut last = Some(spawned);\n     let mut next_resize = Instant::now() + RESIZE_EVERY;\n     let mut output_done = false;\n     loop {\n         if let Some(code) = pty.try_wait()? {\n             pty.close();\n-            if !output_done {\n+            if  /* ~ changed by cargo-mutants ~ */output_done {\n                 drain(&rx);\n             }\n             return Ok(PumpEnd::Exited(Exit {\n                 code: Some(code),\n                 source: ExitSource::HandleWait,\n             }));\n         }\n         match rx.recv_timeout(TICK) {\n",
+    "file": "crates/viola-pty/src/pump.rs",
+    "function": {
+      "function_name": "pump_open",
+      "return_type": "-> Result<PumpEnd, PtyError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 195
+        },
+        "start": {
+          "column": 1,
+          "line": 151
+        }
+      }
+    },
+    "genre": "UnaryOperator",
+    "name": "crates/viola-pty/src/pump.rs:172:16: delete ! in pump_open",
+    "package": "viola-pty",
+    "replacement": "",
+    "span": {
+      "end": {
+        "column": 17,
+        "line": 172
+      },
+      "start": {
+        "column": 16,
+        "line": 172
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/pump.rs\n+++ replace >= with < in pump_open\n@@ -178,17 +178,17 @@\n             }));\n         }\n         match rx.recv_timeout(TICK) {\n             Ok(Worker::Panicked) => return Ok(PumpEnd::WorkerPanicked(kill_and_reap(pty)?)),\n             Ok(Worker::OutputDone) => output_done = true,\n             Err(RecvTimeoutError::Timeout) => {}\n             Err(RecvTimeoutError::Disconnected) => std::thread::sleep(TICK),\n         }\n-        if Instant::now() >= next_resize {\n+        if Instant::now() < /* ~ changed by cargo-mutants ~ */ next_resize {\n             next_resize = Instant::now() + RESIZE_EVERY;\n             let now = host_size();\n             if let Some(size) = now.filter(|s| Some(*s) != last) {\n                 pty.resize(size)?;\n                 last = now;\n             }\n         }\n     }\n",
+    "file": "crates/viola-pty/src/pump.rs",
+    "function": {
+      "function_name": "pump_open",
+      "return_type": "-> Result<PumpEnd, PtyError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 195
+        },
+        "start": {
+          "column": 1,
+          "line": 151
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/pump.rs:186:27: replace >= with < in pump_open",
+    "package": "viola-pty",
+    "replacement": "<",
+    "span": {
+      "end": {
+        "column": 29,
+        "line": 186
+      },
+      "start": {
+        "column": 27,
+        "line": 186
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/pump.rs\n+++ replace + with - in pump_open\n@@ -179,17 +179,17 @@\n         }\n         match rx.recv_timeout(TICK) {\n             Ok(Worker::Panicked) => return Ok(PumpEnd::WorkerPanicked(kill_and_reap(pty)?)),\n             Ok(Worker::OutputDone) => output_done = true,\n             Err(RecvTimeoutError::Timeout) => {}\n             Err(RecvTimeoutError::Disconnected) => std::thread::sleep(TICK),\n         }\n         if Instant::now() >= next_resize {\n-            next_resize = Instant::now() + RESIZE_EVERY;\n+            next_resize = Instant::now() - /* ~ changed by cargo-mutants ~ */ RESIZE_EVERY;\n             let now = host_size();\n             if let Some(size) = now.filter(|s| Some(*s) != last) {\n                 pty.resize(size)?;\n                 last = now;\n             }\n         }\n     }\n }\n",
+    "file": "crates/viola-pty/src/pump.rs",
+    "function": {
+      "function_name": "pump_open",
+      "return_type": "-> Result<PumpEnd, PtyError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 195
+        },
+        "start": {
+          "column": 1,
+          "line": 151
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/pump.rs:187:42: replace + with - in pump_open",
+    "package": "viola-pty",
+    "replacement": "-",
+    "span": {
+      "end": {
+        "column": 43,
+        "line": 187
+      },
+      "start": {
+        "column": 42,
+        "line": 187
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/pump.rs\n+++ replace + with * in pump_open\n@@ -179,17 +179,17 @@\n         }\n         match rx.recv_timeout(TICK) {\n             Ok(Worker::Panicked) => return Ok(PumpEnd::WorkerPanicked(kill_and_reap(pty)?)),\n             Ok(Worker::OutputDone) => output_done = true,\n             Err(RecvTimeoutError::Timeout) => {}\n             Err(RecvTimeoutError::Disconnected) => std::thread::sleep(TICK),\n         }\n         if Instant::now() >= next_resize {\n-            next_resize = Instant::now() + RESIZE_EVERY;\n+            next_resize = Instant::now() * /* ~ changed by cargo-mutants ~ */ RESIZE_EVERY;\n             let now = host_size();\n             if let Some(size) = now.filter(|s| Some(*s) != last) {\n                 pty.resize(size)?;\n                 last = now;\n             }\n         }\n     }\n }\n",
+    "file": "crates/viola-pty/src/pump.rs",
+    "function": {
+      "function_name": "pump_open",
+      "return_type": "-> Result<PumpEnd, PtyError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 195
+        },
+        "start": {
+          "column": 1,
+          "line": 151
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/pump.rs:187:42: replace + with * in pump_open",
+    "package": "viola-pty",
+    "replacement": "*",
+    "span": {
+      "end": {
+        "column": 43,
+        "line": 187
+      },
+      "start": {
+        "column": 42,
+        "line": 187
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/pump.rs\n+++ replace != with == in pump_open\n@@ -181,17 +181,17 @@\n             Ok(Worker::Panicked) => return Ok(PumpEnd::WorkerPanicked(kill_and_reap(pty)?)),\n             Ok(Worker::OutputDone) => output_done = true,\n             Err(RecvTimeoutError::Timeout) => {}\n             Err(RecvTimeoutError::Disconnected) => std::thread::sleep(TICK),\n         }\n         if Instant::now() >= next_resize {\n             next_resize = Instant::now() + RESIZE_EVERY;\n             let now = host_size();\n-            if let Some(size) = now.filter(|s| Some(*s) != last) {\n+            if let Some(size) = now.filter(|s| Some(*s) == /* ~ changed by cargo-mutants ~ */ last) {\n                 pty.resize(size)?;\n                 last = now;\n             }\n         }\n     }\n }\n \n fn drain(rx: &Receiver<Worker>) {\n",
+    "file": "crates/viola-pty/src/pump.rs",
+    "function": {
+      "function_name": "pump_open",
+      "return_type": "-> Result<PumpEnd, PtyError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 195
+        },
+        "start": {
+          "column": 1,
+          "line": 151
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/pump.rs:189:57: replace != with == in pump_open",
+    "package": "viola-pty",
+    "replacement": "==",
+    "span": {
+      "end": {
+        "column": 59,
+        "line": 189
+      },
+      "start": {
+        "column": 57,
+        "line": 189
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/pump.rs\n+++ replace drain with ()\n@@ -190,23 +190,17 @@\n                 pty.resize(size)?;\n                 last = now;\n             }\n         }\n     }\n }\n \n fn drain(rx: &Receiver<Worker>) {\n-    let deadline = Instant::now() + DRAIN_WITHIN;\n-    while let Some(left) = deadline.checked_duration_since(Instant::now()) {\n-        match rx.recv_timeout(left) {\n-            Ok(Worker::OutputDone) | Err(_) => return,\n-            Ok(Worker::Panicked) => {}\n-        }\n-    }\n+    () /* ~ changed by cargo-mutants ~ */\n }\n \n fn kill_and_reap(pty: &mut dyn Pty) -> Result<Exit, PtyError> {\n     pty.kill()?;\n     let deadline = Instant::now() + KILL_WAIT;\n     let code = loop {\n         if let Some(code) = pty.try_wait()? {\n             break Some(code);\n",
+    "file": "crates/viola-pty/src/pump.rs",
+    "function": {
+      "function_name": "drain",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 205
+        },
+        "start": {
+          "column": 1,
+          "line": 197
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/pump.rs:198:5: replace drain with ()",
+    "package": "viola-pty",
+    "replacement": "()",
+    "span": {
+      "end": {
+        "column": 6,
+        "line": 204
+      },
+      "start": {
+        "column": 5,
+        "line": 198
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/pump.rs\n+++ replace + with - in drain\n@@ -190,17 +190,17 @@\n                 pty.resize(size)?;\n                 last = now;\n             }\n         }\n     }\n }\n \n fn drain(rx: &Receiver<Worker>) {\n-    let deadline = Instant::now() + DRAIN_WITHIN;\n+    let deadline = Instant::now() - /* ~ changed by cargo-mutants ~ */ DRAIN_WITHIN;\n     while let Some(left) = deadline.checked_duration_since(Instant::now()) {\n         match rx.recv_timeout(left) {\n             Ok(Worker::OutputDone) | Err(_) => return,\n             Ok(Worker::Panicked) => {}\n         }\n     }\n }\n \n",
+    "file": "crates/viola-pty/src/pump.rs",
+    "function": {
+      "function_name": "drain",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 205
+        },
+        "start": {
+          "column": 1,
+          "line": 197
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/pump.rs:198:35: replace + with - in drain",
+    "package": "viola-pty",
+    "replacement": "-",
+    "span": {
+      "end": {
+        "column": 36,
+        "line": 198
+      },
+      "start": {
+        "column": 35,
+        "line": 198
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/pump.rs\n+++ replace + with * in drain\n@@ -190,17 +190,17 @@\n                 pty.resize(size)?;\n                 last = now;\n             }\n         }\n     }\n }\n \n fn drain(rx: &Receiver<Worker>) {\n-    let deadline = Instant::now() + DRAIN_WITHIN;\n+    let deadline = Instant::now() * /* ~ changed by cargo-mutants ~ */ DRAIN_WITHIN;\n     while let Some(left) = deadline.checked_duration_since(Instant::now()) {\n         match rx.recv_timeout(left) {\n             Ok(Worker::OutputDone) | Err(_) => return,\n             Ok(Worker::Panicked) => {}\n         }\n     }\n }\n \n",
+    "file": "crates/viola-pty/src/pump.rs",
+    "function": {
+      "function_name": "drain",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 205
+        },
+        "start": {
+          "column": 1,
+          "line": 197
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/pump.rs:198:35: replace + with * in drain",
+    "package": "viola-pty",
+    "replacement": "*",
+    "span": {
+      "end": {
+        "column": 36,
+        "line": 198
+      },
+      "start": {
+        "column": 35,
+        "line": 198
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/pump.rs\n+++ replace kill_and_reap -> Result<Exit, PtyError> with Ok(Default::default())\n@@ -200,32 +200,17 @@\n         match rx.recv_timeout(left) {\n             Ok(Worker::OutputDone) | Err(_) => return,\n             Ok(Worker::Panicked) => {}\n         }\n     }\n }\n \n fn kill_and_reap(pty: &mut dyn Pty) -> Result<Exit, PtyError> {\n-    pty.kill()?;\n-    let deadline = Instant::now() + KILL_WAIT;\n-    let code = loop {\n-        if let Some(code) = pty.try_wait()? {\n-            break Some(code);\n-        }\n-        if Instant::now() >= deadline {\n-            break None;\n-        }\n-        std::thread::sleep(TICK);\n-    };\n-    pty.close();\n-    Ok(Exit {\n-        code,\n-        source: ExitSource::KillFallback,\n-    })\n+    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use std::io;\n     use std::sync::Arc;\n     use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};\n \n",
+    "file": "crates/viola-pty/src/pump.rs",
+    "function": {
+      "function_name": "kill_and_reap",
+      "return_type": "-> Result<Exit, PtyError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 224
+        },
+        "start": {
+          "column": 1,
+          "line": 207
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/pump.rs:208:5: replace kill_and_reap -> Result<Exit, PtyError> with Ok(Default::default())",
+    "package": "viola-pty",
+    "replacement": "Ok(Default::default())",
+    "span": {
+      "end": {
+        "column": 7,
+        "line": 223
+      },
+      "start": {
+        "column": 5,
+        "line": 208
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/pump.rs\n+++ replace + with - in kill_and_reap\n@@ -201,17 +201,17 @@\n             Ok(Worker::OutputDone) | Err(_) => return,\n             Ok(Worker::Panicked) => {}\n         }\n     }\n }\n \n fn kill_and_reap(pty: &mut dyn Pty) -> Result<Exit, PtyError> {\n     pty.kill()?;\n-    let deadline = Instant::now() + KILL_WAIT;\n+    let deadline = Instant::now() - /* ~ changed by cargo-mutants ~ */ KILL_WAIT;\n     let code = loop {\n         if let Some(code) = pty.try_wait()? {\n             break Some(code);\n         }\n         if Instant::now() >= deadline {\n             break None;\n         }\n         std::thread::sleep(TICK);\n",
+    "file": "crates/viola-pty/src/pump.rs",
+    "function": {
+      "function_name": "kill_and_reap",
+      "return_type": "-> Result<Exit, PtyError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 224
+        },
+        "start": {
+          "column": 1,
+          "line": 207
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/pump.rs:209:35: replace + with - in kill_and_reap",
+    "package": "viola-pty",
+    "replacement": "-",
+    "span": {
+      "end": {
+        "column": 36,
+        "line": 209
+      },
+      "start": {
+        "column": 35,
+        "line": 209
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/pump.rs\n+++ replace + with * in kill_and_reap\n@@ -201,17 +201,17 @@\n             Ok(Worker::OutputDone) | Err(_) => return,\n             Ok(Worker::Panicked) => {}\n         }\n     }\n }\n \n fn kill_and_reap(pty: &mut dyn Pty) -> Result<Exit, PtyError> {\n     pty.kill()?;\n-    let deadline = Instant::now() + KILL_WAIT;\n+    let deadline = Instant::now() * /* ~ changed by cargo-mutants ~ */ KILL_WAIT;\n     let code = loop {\n         if let Some(code) = pty.try_wait()? {\n             break Some(code);\n         }\n         if Instant::now() >= deadline {\n             break None;\n         }\n         std::thread::sleep(TICK);\n",
+    "file": "crates/viola-pty/src/pump.rs",
+    "function": {
+      "function_name": "kill_and_reap",
+      "return_type": "-> Result<Exit, PtyError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 224
+        },
+        "start": {
+          "column": 1,
+          "line": 207
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/pump.rs:209:35: replace + with * in kill_and_reap",
+    "package": "viola-pty",
+    "replacement": "*",
+    "span": {
+      "end": {
+        "column": 36,
+        "line": 209
+      },
+      "start": {
+        "column": 35,
+        "line": 209
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/pump.rs\n+++ replace >= with < in kill_and_reap\n@@ -206,17 +206,17 @@\n \n fn kill_and_reap(pty: &mut dyn Pty) -> Result<Exit, PtyError> {\n     pty.kill()?;\n     let deadline = Instant::now() + KILL_WAIT;\n     let code = loop {\n         if let Some(code) = pty.try_wait()? {\n             break Some(code);\n         }\n-        if Instant::now() >= deadline {\n+        if Instant::now() < /* ~ changed by cargo-mutants ~ */ deadline {\n             break None;\n         }\n         std::thread::sleep(TICK);\n     };\n     pty.close();\n     Ok(Exit {\n         code,\n         source: ExitSource::KillFallback,\n",
+    "file": "crates/viola-pty/src/pump.rs",
+    "function": {
+      "function_name": "kill_and_reap",
+      "return_type": "-> Result<Exit, PtyError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 224
+        },
+        "start": {
+          "column": 1,
+          "line": 207
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/pump.rs:214:27: replace >= with < in kill_and_reap",
+    "package": "viola-pty",
+    "replacement": "<",
+    "span": {
+      "end": {
+        "column": 29,
+        "line": 214
+      },
+      "start": {
+        "column": 27,
+        "line": 214
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/sideload.rs\n+++ replace restrict_dll_search -> bool with true\n@@ -17,21 +17,17 @@\n \n static PRELOADED: AtomicBool = AtomicBool::new(false);\n static RESTRICTED: AtomicBool = AtomicBool::new(false);\n \n /// Restricts every later DLL search of this process to System32: process-wide and one-way.\n /// Whether it took effect.\n pub fn restrict_dll_search() -> bool {\n     // SAFETY: passes a flags value; no pointer crosses.\n-    let restricted = unsafe { SetDefaultDllDirectories(LOAD_LIBRARY_SEARCH_SYSTEM32) != 0 };\n-    if restricted {\n-        RESTRICTED.store(true, Ordering::SeqCst);\n-    }\n-    restricted\n+    true /* ~ changed by cargo-mutants ~ */\n }\n \n /// Whether [`restrict_dll_search`] has taken effect in this process.\n pub fn search_restricted() -> bool {\n     RESTRICTED.load(Ordering::SeqCst)\n }\n \n /// Loads `dll` by absolute path and keeps it loaded for the life of the process, so a later\n",
+    "file": "crates/viola-pty/src/sideload.rs",
+    "function": {
+      "function_name": "restrict_dll_search",
+      "return_type": "-> bool",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 30
+        },
+        "start": {
+          "column": 1,
+          "line": 21
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/sideload.rs:25:5: replace restrict_dll_search -> bool with true",
+    "package": "viola-pty",
+    "replacement": "true",
+    "span": {
+      "end": {
+        "column": 15,
+        "line": 29
+      },
+      "start": {
+        "column": 5,
+        "line": 25
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/sideload.rs\n+++ replace restrict_dll_search -> bool with false\n@@ -17,21 +17,17 @@\n \n static PRELOADED: AtomicBool = AtomicBool::new(false);\n static RESTRICTED: AtomicBool = AtomicBool::new(false);\n \n /// Restricts every later DLL search of this process to System32: process-wide and one-way.\n /// Whether it took effect.\n pub fn restrict_dll_search() -> bool {\n     // SAFETY: passes a flags value; no pointer crosses.\n-    let restricted = unsafe { SetDefaultDllDirectories(LOAD_LIBRARY_SEARCH_SYSTEM32) != 0 };\n-    if restricted {\n-        RESTRICTED.store(true, Ordering::SeqCst);\n-    }\n-    restricted\n+    false /* ~ changed by cargo-mutants ~ */\n }\n \n /// Whether [`restrict_dll_search`] has taken effect in this process.\n pub fn search_restricted() -> bool {\n     RESTRICTED.load(Ordering::SeqCst)\n }\n \n /// Loads `dll` by absolute path and keeps it loaded for the life of the process, so a later\n",
+    "file": "crates/viola-pty/src/sideload.rs",
+    "function": {
+      "function_name": "restrict_dll_search",
+      "return_type": "-> bool",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 30
+        },
+        "start": {
+          "column": 1,
+          "line": 21
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/sideload.rs:25:5: replace restrict_dll_search -> bool with false",
+    "package": "viola-pty",
+    "replacement": "false",
+    "span": {
+      "end": {
+        "column": 15,
+        "line": 29
+      },
+      "start": {
+        "column": 5,
+        "line": 25
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/sideload.rs\n+++ replace != with == in restrict_dll_search\n@@ -17,17 +17,17 @@\n \n static PRELOADED: AtomicBool = AtomicBool::new(false);\n static RESTRICTED: AtomicBool = AtomicBool::new(false);\n \n /// Restricts every later DLL search of this process to System32: process-wide and one-way.\n /// Whether it took effect.\n pub fn restrict_dll_search() -> bool {\n     // SAFETY: passes a flags value; no pointer crosses.\n-    let restricted = unsafe { SetDefaultDllDirectories(LOAD_LIBRARY_SEARCH_SYSTEM32) != 0 };\n+    let restricted = unsafe { SetDefaultDllDirectories(LOAD_LIBRARY_SEARCH_SYSTEM32) == /* ~ changed by cargo-mutants ~ */ 0 };\n     if restricted {\n         RESTRICTED.store(true, Ordering::SeqCst);\n     }\n     restricted\n }\n \n /// Whether [`restrict_dll_search`] has taken effect in this process.\n pub fn search_restricted() -> bool {\n",
+    "file": "crates/viola-pty/src/sideload.rs",
+    "function": {
+      "function_name": "restrict_dll_search",
+      "return_type": "-> bool",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 30
+        },
+        "start": {
+          "column": 1,
+          "line": 21
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-pty/src/sideload.rs:25:86: replace != with == in restrict_dll_search",
+    "package": "viola-pty",
+    "replacement": "==",
+    "span": {
+      "end": {
+        "column": 88,
+        "line": 25
+      },
+      "start": {
+        "column": 86,
+        "line": 25
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/sideload.rs\n+++ replace search_restricted -> bool with true\n@@ -26,17 +26,17 @@\n     if restricted {\n         RESTRICTED.store(true, Ordering::SeqCst);\n     }\n     restricted\n }\n \n /// Whether [`restrict_dll_search`] has taken effect in this process.\n pub fn search_restricted() -> bool {\n-    RESTRICTED.load(Ordering::SeqCst)\n+    true /* ~ changed by cargo-mutants ~ */\n }\n \n /// Loads `dll` by absolute path and keeps it loaded for the life of the process, so a later\n /// bare-name `conpty.dll` load returns this module. It takes effect only before the process's first\n /// ConPTY use: portable-pty resolves its functions once, on the first pseudo-terminal it opens.\n pub fn preload(dll: &Path) -> Result<(), PtyError> {\n     if !dll.is_absolute() {\n         return Err(PtyError::Load(Box::new(io::Error::from(\n",
+    "file": "crates/viola-pty/src/sideload.rs",
+    "function": {
+      "function_name": "search_restricted",
+      "return_type": "-> bool",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 35
+        },
+        "start": {
+          "column": 1,
+          "line": 32
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/sideload.rs:34:5: replace search_restricted -> bool with true",
+    "package": "viola-pty",
+    "replacement": "true",
+    "span": {
+      "end": {
+        "column": 38,
+        "line": 34
+      },
+      "start": {
+        "column": 5,
+        "line": 34
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/sideload.rs\n+++ replace search_restricted -> bool with false\n@@ -26,17 +26,17 @@\n     if restricted {\n         RESTRICTED.store(true, Ordering::SeqCst);\n     }\n     restricted\n }\n \n /// Whether [`restrict_dll_search`] has taken effect in this process.\n pub fn search_restricted() -> bool {\n-    RESTRICTED.load(Ordering::SeqCst)\n+    false /* ~ changed by cargo-mutants ~ */\n }\n \n /// Loads `dll` by absolute path and keeps it loaded for the life of the process, so a later\n /// bare-name `conpty.dll` load returns this module. It takes effect only before the process's first\n /// ConPTY use: portable-pty resolves its functions once, on the first pseudo-terminal it opens.\n pub fn preload(dll: &Path) -> Result<(), PtyError> {\n     if !dll.is_absolute() {\n         return Err(PtyError::Load(Box::new(io::Error::from(\n",
+    "file": "crates/viola-pty/src/sideload.rs",
+    "function": {
+      "function_name": "search_restricted",
+      "return_type": "-> bool",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 35
+        },
+        "start": {
+          "column": 1,
+          "line": 32
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/sideload.rs:34:5: replace search_restricted -> bool with false",
+    "package": "viola-pty",
+    "replacement": "false",
+    "span": {
+      "end": {
+        "column": 38,
+        "line": 34
+      },
+      "start": {
+        "column": 5,
+        "line": 34
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/sideload.rs\n+++ replace preload -> Result<(), PtyError> with Ok(())\n@@ -33,30 +33,17 @@\n pub fn search_restricted() -> bool {\n     RESTRICTED.load(Ordering::SeqCst)\n }\n \n /// Loads `dll` by absolute path and keeps it loaded for the life of the process, so a later\n /// bare-name `conpty.dll` load returns this module. It takes effect only before the process's first\n /// ConPTY use: portable-pty resolves its functions once, on the first pseudo-terminal it opens.\n pub fn preload(dll: &Path) -> Result<(), PtyError> {\n-    if !dll.is_absolute() {\n-        return Err(PtyError::Load(Box::new(io::Error::from(\n-            io::ErrorKind::InvalidInput,\n-        ))));\n-    }\n-    let wide: Vec<u16> = dll.as_os_str().encode_wide().chain([0]).collect();\n-    // SAFETY: `wide` is NUL-terminated and outlives the call; the module is never freed, so the\n-    // handle is not kept.\n-    let module = unsafe { LoadLibraryExW(wide.as_ptr(), std::ptr::null_mut(), 0) };\n-    if module.is_null() {\n-        return Err(PtyError::Load(Box::new(io::Error::last_os_error())));\n-    }\n-    PRELOADED.store(true, Ordering::SeqCst);\n-    Ok(())\n+    Ok(()) /* ~ changed by cargo-mutants ~ */\n }\n \n pub(crate) fn preloaded() -> bool {\n     PRELOADED.load(Ordering::SeqCst)\n }\n \n /// Each case changes process-wide loader state, which nextest confines to the case's own process.\n #[cfg(test)]\n",
+    "file": "crates/viola-pty/src/sideload.rs",
+    "function": {
+      "function_name": "preload",
+      "return_type": "-> Result<(), PtyError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 55
+        },
+        "start": {
+          "column": 1,
+          "line": 37
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/sideload.rs:41:5: replace preload -> Result<(), PtyError> with Ok(())",
+    "package": "viola-pty",
+    "replacement": "Ok(())",
+    "span": {
+      "end": {
+        "column": 11,
+        "line": 54
+      },
+      "start": {
+        "column": 5,
+        "line": 41
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/sideload.rs\n+++ delete ! in preload\n@@ -33,17 +33,17 @@\n pub fn search_restricted() -> bool {\n     RESTRICTED.load(Ordering::SeqCst)\n }\n \n /// Loads `dll` by absolute path and keeps it loaded for the life of the process, so a later\n /// bare-name `conpty.dll` load returns this module. It takes effect only before the process's first\n /// ConPTY use: portable-pty resolves its functions once, on the first pseudo-terminal it opens.\n pub fn preload(dll: &Path) -> Result<(), PtyError> {\n-    if !dll.is_absolute() {\n+    if  /* ~ changed by cargo-mutants ~ */dll.is_absolute() {\n         return Err(PtyError::Load(Box::new(io::Error::from(\n             io::ErrorKind::InvalidInput,\n         ))));\n     }\n     let wide: Vec<u16> = dll.as_os_str().encode_wide().chain([0]).collect();\n     // SAFETY: `wide` is NUL-terminated and outlives the call; the module is never freed, so the\n     // handle is not kept.\n     let module = unsafe { LoadLibraryExW(wide.as_ptr(), std::ptr::null_mut(), 0) };\n",
+    "file": "crates/viola-pty/src/sideload.rs",
+    "function": {
+      "function_name": "preload",
+      "return_type": "-> Result<(), PtyError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 55
+        },
+        "start": {
+          "column": 1,
+          "line": 37
+        }
+      }
+    },
+    "genre": "UnaryOperator",
+    "name": "crates/viola-pty/src/sideload.rs:41:8: delete ! in preload",
+    "package": "viola-pty",
+    "replacement": "",
+    "span": {
+      "end": {
+        "column": 9,
+        "line": 41
+      },
+      "start": {
+        "column": 8,
+        "line": 41
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/sideload.rs\n+++ replace preloaded -> bool with true\n@@ -50,17 +50,17 @@\n     if module.is_null() {\n         return Err(PtyError::Load(Box::new(io::Error::last_os_error())));\n     }\n     PRELOADED.store(true, Ordering::SeqCst);\n     Ok(())\n }\n \n pub(crate) fn preloaded() -> bool {\n-    PRELOADED.load(Ordering::SeqCst)\n+    true /* ~ changed by cargo-mutants ~ */\n }\n \n /// Each case changes process-wide loader state, which nextest confines to the case's own process.\n #[cfg(test)]\n mod tests {\n     use std::ffi::OsString;\n     use std::path::PathBuf;\n     use std::process::Command;\n",
+    "file": "crates/viola-pty/src/sideload.rs",
+    "function": {
+      "function_name": "preloaded",
+      "return_type": "-> bool",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 59
+        },
+        "start": {
+          "column": 1,
+          "line": 57
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/sideload.rs:58:5: replace preloaded -> bool with true",
+    "package": "viola-pty",
+    "replacement": "true",
+    "span": {
+      "end": {
+        "column": 37,
+        "line": 58
+      },
+      "start": {
+        "column": 5,
+        "line": 58
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-pty/src/sideload.rs\n+++ replace preloaded -> bool with false\n@@ -50,17 +50,17 @@\n     if module.is_null() {\n         return Err(PtyError::Load(Box::new(io::Error::last_os_error())));\n     }\n     PRELOADED.store(true, Ordering::SeqCst);\n     Ok(())\n }\n \n pub(crate) fn preloaded() -> bool {\n-    PRELOADED.load(Ordering::SeqCst)\n+    false /* ~ changed by cargo-mutants ~ */\n }\n \n /// Each case changes process-wide loader state, which nextest confines to the case's own process.\n #[cfg(test)]\n mod tests {\n     use std::ffi::OsString;\n     use std::path::PathBuf;\n     use std::process::Command;\n",
+    "file": "crates/viola-pty/src/sideload.rs",
+    "function": {
+      "function_name": "preloaded",
+      "return_type": "-> bool",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 59
+        },
+        "start": {
+          "column": 1,
+          "line": 57
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-pty/src/sideload.rs:58:5: replace preloaded -> bool with false",
+    "package": "viola-pty",
+    "replacement": "false",
+    "span": {
+      "end": {
+        "column": 37,
+        "line": 58
+      },
+      "start": {
+        "column": 5,
+        "line": 58
+      }
+    }
+  }
+]

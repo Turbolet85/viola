@@ -1,0 +1,437 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "574aedd9",
+"ts": "2026-10-13T06:51:33Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-13T06-38-35-wrap/architecture-entry.md",
+"--lines",
+"12",
+"--run-dir",
+".andromeda/runs/2026-10-13T06-38-35-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+12 at line 987 · lines 986→998 · bytes 189756→192029 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-13T06-38-35-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 986,
+"bytes": 189756,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 998,
+"bytes": 192029
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "574aedd9",
+"ts": "2026-10-13T06:51:34Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-13T06-38-35-wrap/security-plan-entry-1.md",
+"--lines",
+"11",
+"--run-dir",
+".andromeda/runs/2026-10-13T06-38-35-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+11 at line 553 · lines 552→563 · bytes 99874→101691 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-13T06-38-35-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 552,
+"bytes": 99874,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 563,
+"bytes": 101691
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "574aedd9",
+"ts": "2026-10-13T06:51:34Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-13T06-38-35-wrap/security-plan-entry-2.md",
+"--lines",
+"6",
+"--run-dir",
+".andromeda/runs/2026-10-13T06-38-35-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+6 at line 564 · lines 563→569 · bytes 101691→103576 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-13T06-38-35-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 563,
+"bytes": 101691,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 569,
+"bytes": 103576
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "574aedd9",
+"ts": "2026-10-13T06:51:34Z",
+"argv": [
+"append",
+"--file",
+".andromeda/design-system-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-13T06-38-35-wrap/design-system-entry.md",
+"--lines",
+"11",
+"--run-dir",
+".andromeda/runs/2026-10-13T06-38-35-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append design-system-amendments.md:+11 at line 117 · lines 116→127 · bytes 16874→18539 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-13T06-38-35-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/design-system-amendments.md"
+],
+"before": {
+"lines": 116,
+"bytes": 16874,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 127,
+"bytes": 18539
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "574aedd9",
+"ts": "2026-10-13T06:51:34Z",
+"argv": [
+"append",
+"--file",
+".andromeda/layout-templates-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-13T06-38-35-wrap/layout-templates-entry.md",
+"--lines",
+"11",
+"--run-dir",
+".andromeda/runs/2026-10-13T06-38-35-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append layout-templates-amendments.md:+11 at line 118 · lines 117→128 · bytes 15752→17293 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-13T06-38-35-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/layout-templates-amendments.md"
+],
+"before": {
+"lines": 117,
+"bytes": 15752,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 128,
+"bytes": 17293
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "574aedd9",
+"ts": "2026-10-13T06:51:34Z",
+"argv": [
+"append",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-13T06-38-35-wrap/obs-plan-entry.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-10-13T06-38-35-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append obs-plan-amendments.md:+10 at line 492 · lines 491→501 · bytes 74096→75594 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-13T06-38-35-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 491,
+"bytes": 74096,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 501,
+"bytes": 75594
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "574aedd9",
+"ts": "2026-10-13T06:51:34Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-13T06-38-35-wrap/test-plan-entry.md",
+"--lines",
+"6",
+"--run-dir",
+".andromeda/runs/2026-10-13T06-38-35-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+6 at line 828 · lines 827→833 · bytes 143029→143808 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-13T06-38-35-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 827,
+"bytes": 143029,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 833,
+"bytes": 143808
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "574aedd9",
+"ts": "2026-10-13T07:03:07Z",
+"argv": [
+"append",
+"--file",
+"viola-0.1.0/working-route.md",
+"--payload-file",
+"/tmp/claude-1000/~-dev-projects-viola/6a38edf2-c053-4efb-8392-50432e093ec5/scratchpad/move-payload.txt",
+"--lines",
+"2",
+"--after-line",
+"147",
+"--run-dir",
+".andromeda/runs/2026-10-13T06-38-35-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append working-route.md:+2 at line 148 · lines 185→187 · bytes 70802→74946 · term lf",
+"last line now: Version done-check — every gate green on three OSes, masters agree, fix-pass i"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/working-route.md"
+],
+"before": {
+"lines": 185,
+"bytes": 70802,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 187,
+"bytes": 74946
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "574aedd9",
+"ts": "2026-10-13T07:03:07Z",
+"argv": [
+"delete",
+"--file",
+"viola-0.1.0/working-route.md",
+"--line",
+"142",
+"--expect-prefix",
+"Explicit session links — ",
+"--run-dir",
+".andromeda/runs/2026-10-13T06-38-35-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"delete working-route.md:-1 at line 142 · lines 187→186 · bytes 74946→70809 · term lf",
+"removed: Explicit session links — `viola link` / `unlink` verbs and their channel metho",
+"last line now: Version done-check — every gate green on three OSes, masters agree, fix-pass i"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/working-route.md"
+],
+"before": {
+"lines": 187,
+"bytes": 74946,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 186,
+"bytes": 70809
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "574aedd9",
+"ts": "2026-10-13T07:03:07Z",
+"argv": [
+"delete",
+"--file",
+"viola-0.1.0/working-route.md",
+"--line",
+"141",
+"--expect-prefix",
+"   ↓",
+"--run-dir",
+".andromeda/runs/2026-10-13T06-38-35-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"delete working-route.md:-1 at line 141 · lines 186→185 · bytes 70809→70802 · term lf",
+"removed:    ↓",
+"last line now: Version done-check — every gate green on three OSes, masters agree, fix-pass i"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/working-route.md"
+],
+"before": {
+"lines": 186,
+"bytes": 70809,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 185,
+"bytes": 70802
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "574aedd9",
+"ts": "2026-10-13T07:03:35Z",
+"argv": [
+"append",
+"--file",
+"viola-0.1.0/working-route.md",
+"--payload-file",
+"/tmp/claude-1000/~-dev-projects-viola/6a38edf2-c053-4efb-8392-50432e093ec5/scratchpad/head-entry.txt",
+"--lines",
+"2",
+"--after-line",
+"125",
+"--run-dir",
+".andromeda/runs/2026-10-13T06-38-35-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append working-route.md:+2 at line 126 · lines 185→187 · bytes 70802→73145 · term lf",
+"last line now: Version done-check — every gate green on three OSes, masters agree, fix-pass i"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/working-route.md"
+],
+"before": {
+"lines": 185,
+"bytes": 70802,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 187,
+"bytes": 73145
+}
+}
+]

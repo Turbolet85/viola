@@ -1,0 +1,49 @@
+[
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-13T07:03:47Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.1.0",
+"--id",
+"v1-13",
+"--text-file",
+".andromeda/runs/2026-10-13T06-38-35-wrap/note-v1-13.md",
+"--run-dir",
+".andromeda/runs/2026-10-13T06-38-35-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v1-13: +591 chars (total 1407) · status planned · ref/acceptance untouched",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-13",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "Every human output line of the budget release and of link is derivable from its machine result, and the machine-readable… (158 chars)",
+"notes_chars": 814
+},
+"after": {
+"id": "v1-13",
+"chunk": null,
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "Every human output line of the budget release and of link is derivable from its machine result, and the machine-readable… (158 chars)",
+"notes_chars": 1407
+}
+}
+]

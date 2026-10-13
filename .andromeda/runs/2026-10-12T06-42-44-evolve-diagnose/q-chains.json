@@ -1,0 +1,2048 @@
+{
+ "anchors": [
+  {
+   "kind": "consumed-wrong",
+   "consumer": "new-session/orientation",
+   "consumer_id": "2026-10-08T06:27:45Z-a",
+   "artifact": "handoff",
+   "note": "Position says 0 pending and Next first-live-test via phase; the master holds that chunk pending, promoted by a phase run after the wrap",
+   "signals": null,
+   "chunk": null,
+   "producers": []
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-08T06:27:45Z-b",
+    "chunk": null,
+    "skill": "new-session",
+    "step": "orientation",
+    "type": "input.handoff-git-mismatch",
+    "what": "The handoff Position read 44 complete, 0 pending, Next first-live-test via phase, while the master read 1 pending for that entry: a phase run of the same morning promoted and planned it after the wrap wrote the handoff, and the session-end rewrite added only its end-status lines. The tree also carried the promotion writes (master-route, working-route, matrix, the untracked chunk dir), which the expected-transient list does not name. The route cursor and the phase run dir resolved it with no interpretation.",
+    "impact": {
+     "extra_reads": 0,
+     "dialogue_rounds": 0
+    },
+    "weight": 1,
+    "evidence": ".andromeda/runs/2026-10-08T04-59-25-phase/",
+    "artifacts": [
+     ".claude/session-handoff.md",
+     ".andromeda/master-route.md"
+    ],
+    "retracts": null
+   },
+   "artifact": ".claude/session-handoff.md",
+   "chunk": null,
+   "producers": []
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-08T06:27:45Z-b",
+    "chunk": null,
+    "skill": "new-session",
+    "step": "orientation",
+    "type": "input.handoff-git-mismatch",
+    "what": "The handoff Position read 44 complete, 0 pending, Next first-live-test via phase, while the master read 1 pending for that entry: a phase run of the same morning promoted and planned it after the wrap wrote the handoff, and the session-end rewrite added only its end-status lines. The tree also carried the promotion writes (master-route, working-route, matrix, the untracked chunk dir), which the expected-transient list does not name. The route cursor and the phase run dir resolved it with no interpretation.",
+    "impact": {
+     "extra_reads": 0,
+     "dialogue_rounds": 0
+    },
+    "weight": 1,
+    "evidence": ".andromeda/runs/2026-10-08T04-59-25-phase/",
+    "artifacts": [
+     ".claude/session-handoff.md",
+     ".andromeda/master-route.md"
+    ],
+    "retracts": null
+   },
+   "artifact": ".andromeda/master-route.md",
+   "chunk": null,
+   "producers": []
+  },
+  {
+   "kind": "consumed-thin",
+   "consumer": "new-session/orientation",
+   "consumer_id": "2026-10-08T07:12:24Z-a",
+   "artifact": "handoff",
+   "note": "written at the 2026-10-07T19:33Z wrap, one step behind the route: its Next entry is now the pending chunk 2026-10-08-first-live-test-and-self-drive; where that chunk stands (implement stopped before step 4, a phase revision approved) was read from six run-dir and evidence files",
+   "signals": null,
+   "chunk": null,
+   "producers": []
+  },
+  {
+   "kind": "consumed-thin",
+   "consumer": "new-session/orientation",
+   "consumer_id": "2026-10-08T08:31:34Z-a",
+   "artifact": "handoff",
+   "note": "written at the 2026-10-07 wrap; three phase runs and two implement runs on the pending chunk followed it, so Position Next reads /andromeda-phase for an entry already promoted and twice revised",
+   "signals": null,
+   "chunk": null,
+   "producers": []
+  },
+  {
+   "kind": "consumed-thin",
+   "consumer": "new-session/orientation",
+   "consumer_id": "2026-10-08T08:44:32Z-a",
+   "artifact": "handoff",
+   "note": "written at the 2026-10-07 wrap: 0 pending, next -> phase; since then the entry was promoted and ran three phase and three implement runs, none of it in the handoff; its Session End Status section is stamped the minute this session was cleared",
+   "signals": null,
+   "chunk": null,
+   "producers": []
+  },
+  {
+   "kind": "consumed-thin",
+   "consumer": "new-session/orientation",
+   "consumer_id": "2026-10-09T14:03:14Z-a",
+   "artifact": "handoff",
+   "note": "Position names the Epoch 3 boundary as owed; the diagnosis and the audit both stand on disk, run after the wrap",
+   "signals": null,
+   "chunk": null,
+   "producers": []
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-09T14:03:14Z-b",
+    "chunk": null,
+    "skill": "new-session",
+    "step": "orientation",
+    "type": "input.handoff-git-mismatch",
+    "what": "the handoff Position says the Epoch 3 diagnosis and boundary audit come before the next chunk, while both run dirs with a proposals.md stood untracked on disk, written after the wrap; the state was read from the run-dir listing, the four diagnosis title lines and the audit proposals",
+    "impact": {
+     "extra_reads": 4
+    },
+    "weight": 1,
+    "evidence": null,
+    "artifacts": [
+     ".claude/session-handoff.md",
+     ".andromeda/runs/2026-10-08T09-45-26-evolve-diagnose/proposals.md",
+     ".andromeda/runs/2026-10-08T10-08-51-code-audit/proposals.md"
+    ],
+    "retracts": null
+   },
+   "artifact": ".claude/session-handoff.md",
+   "chunk": null,
+   "producers": []
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-09T14:03:14Z-b",
+    "chunk": null,
+    "skill": "new-session",
+    "step": "orientation",
+    "type": "input.handoff-git-mismatch",
+    "what": "the handoff Position says the Epoch 3 diagnosis and boundary audit come before the next chunk, while both run dirs with a proposals.md stood untracked on disk, written after the wrap; the state was read from the run-dir listing, the four diagnosis title lines and the audit proposals",
+    "impact": {
+     "extra_reads": 4
+    },
+    "weight": 1,
+    "evidence": null,
+    "artifacts": [
+     ".claude/session-handoff.md",
+     ".andromeda/runs/2026-10-08T09-45-26-evolve-diagnose/proposals.md",
+     ".andromeda/runs/2026-10-08T10-08-51-code-audit/proposals.md"
+    ],
+    "retracts": null
+   },
+   "artifact": ".andromeda/runs/2026-10-08T09-45-26-evolve-diagnose/proposals.md",
+   "chunk": null,
+   "producers": []
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-09T14:03:14Z-b",
+    "chunk": null,
+    "skill": "new-session",
+    "step": "orientation",
+    "type": "input.handoff-git-mismatch",
+    "what": "the handoff Position says the Epoch 3 diagnosis and boundary audit come before the next chunk, while both run dirs with a proposals.md stood untracked on disk, written after the wrap; the state was read from the run-dir listing, the four diagnosis title lines and the audit proposals",
+    "impact": {
+     "extra_reads": 4
+    },
+    "weight": 1,
+    "evidence": null,
+    "artifacts": [
+     ".claude/session-handoff.md",
+     ".andromeda/runs/2026-10-08T09-45-26-evolve-diagnose/proposals.md",
+     ".andromeda/runs/2026-10-08T10-08-51-code-audit/proposals.md"
+    ],
+    "retracts": null
+   },
+   "artifact": ".andromeda/runs/2026-10-08T10-08-51-code-audit/proposals.md",
+   "chunk": null,
+   "producers": []
+  },
+  {
+   "kind": "consumed-thin",
+   "consumer": "phase/take-up",
+   "consumer_id": "2026-10-09T15:07:26Z-a",
+   "artifact": "ci-verdict",
+   "note": "three shas read; the red row clips its run id, so the failing jobs were read from the commit's check-runs",
+   "signals": [
+    "verdict-folded",
+    "verdict-pending"
+   ],
+   "chunk": "2026-10-09-epoch-3-cleanup",
+   "producers": []
+  },
+  {
+   "kind": "consumed-thin",
+   "consumer": "phase/plan",
+   "consumer_id": "2026-10-09T15:36:02Z-a",
+   "artifact": "research",
+   "note": "four facts the steps and the fence needed were read at synthesis: verify logs only with an instance, the profile the harness run passes, the product-build and by-path probe entry forms, the baseline invocation of a mutation run",
+   "signals": null,
+   "chunk": "2026-10-09-epoch-3-cleanup",
+   "producers": [
+    {
+     "producer": "phase/research",
+     "id": "2026-10-09T15:24:02Z-a",
+     "outcome": "ok",
+     "signals": [
+      "unresolved-questions"
+     ],
+     "note": "36 list items parsed on the first fire; three open questions, all plan decisions; the lists hold the whole scope ahead of a split card"
+    }
+   ]
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-09T15:36:02Z-b",
+    "chunk": "2026-10-09-epoch-3-cleanup",
+    "skill": "phase",
+    "step": "plan",
+    "type": "input.research-thin",
+    "what": "synthesis needed four facts research had not read: that viola verify writes a process log only with VIOLA_NAME set (the floor reading's step named a file that would not exist), which nextest profile the harness run passes, the gate forms of the product build and the by-path probe, and the baseline invocation a mutation run makes; one step was rewritten",
+    "impact": {
+     "extra_reads": 4,
+     "iterations": 1
+    },
+    "weight": 2,
+    "evidence": "viola-0.1.0/chunks/2026-10-09-epoch-3-cleanup/plan.md",
+    "artifacts": [
+     "research"
+    ],
+    "retracts": null
+   },
+   "artifact": "research",
+   "chunk": "2026-10-09-epoch-3-cleanup",
+   "producers": [
+    {
+     "producer": "phase/research",
+     "id": "2026-10-09T15:24:02Z-a",
+     "outcome": "ok",
+     "signals": [
+      "unresolved-questions"
+     ],
+     "note": "36 list items parsed on the first fire; three open questions, all plan decisions; the lists hold the whole scope ahead of a split card"
+    }
+   ]
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-09T16:07:38Z-b",
+    "chunk": "2026-10-09-epoch-3-cleanup",
+    "skill": "implement",
+    "step": "code",
+    "type": "input.plan-step-ambiguous",
+    "what": "the plan orders step 14 (rule homes, gotchas) after the live step 13, while its gate block lists the three probes of those files (entries 11 to 13) before the release-check entry that step 12 fires the block up to; the two orders cannot both hold with the probes green",
+    "impact": {
+     "reformulations": 1
+    },
+    "weight": 2,
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-09-epoch-3-cleanup/plan.md"
+    ],
+    "retracts": null
+   },
+   "artifact": "viola-0.1.0/chunks/2026-10-09-epoch-3-cleanup/plan.md",
+   "chunk": "2026-10-09-epoch-3-cleanup",
+   "producers": []
+  },
+  {
+   "kind": "consumed-wrong",
+   "consumer": "implement/fix-loop",
+   "consumer_id": "2026-10-09T16:26:03Z-a",
+   "artifact": "plan",
+   "note": "24 non-operator entries ran as written; entries 22 and 23 carry an artifact key naming a file they only read, so their artifact atom reads STALE at every firing while their own exit atom holds",
+   "signals": null,
+   "chunk": "2026-10-09-epoch-3-cleanup",
+   "producers": [
+    {
+     "producer": "phase/plan",
+     "id": "2026-10-09T15:36:02Z-a",
+     "outcome": "ok",
+     "signals": [
+      "designed-dialogue:the split card",
+      "designed-dialogue:the viola-e2e kill form",
+      "designed-dialogue:the new refusal detail's name, condition and rung",
+      "designed-dialogue:the reach of the stale-citation item",
+      "authority-resolved:the shared-validator home in viola-core yielded to the crate direction, the empty-text check standing in the root bin on both sides",
+      "guard-refused:1"
+     ],
+     "note": "351 prose lines and 27 gate entries; the fence parsed on the first dry-run and planlint read 0 hits; one round of four questions, each reserved to the operator or the founder by the take-up direction or the entry; the guard was the stamp-ahead hook on the plan's Generated time, written 4 minutes ahead of the clock and corrected from date -u; scope and the research lists were cut to the part that stays after the split was answered"
+    },
+    {
+     "producer": "phase/validate",
+     "id": "2026-10-09T15:43:22Z-a",
+     "outcome": "ok",
+     "signals": [
+      "baseline-vacuity-caught"
+     ],
+     "note": "the baseline of one new integration filter read green on two existing cases, so the filter was narrowed to the two new cases and read red before the review; the review prompt was text both times"
+    }
+   ]
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-09T16:48:44Z-b",
+    "chunk": "2026-10-09-epoch-3-cleanup",
+    "skill": "implement",
+    "step": "code",
+    "type": "input.plan-step-ambiguous",
+    "what": "step 16 names the private directory outside the tree that holds the sent texts and the rig journal, and no chunk artifact says where it stands; the re-entering session found it by a file search for the journal under the earlier session scratch dirs and reused it so the journal and the row files stay one sequence",
+    "impact": {
+     "extra_reads": 2
+    },
+    "weight": 1,
+    "evidence": null,
+    "artifacts": [
+     "plan.md step 16",
+     "evidence/live-run.md"
+    ],
+    "retracts": null
+   },
+   "artifact": "plan.md step 16",
+   "chunk": "2026-10-09-epoch-3-cleanup",
+   "producers": []
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-09T16:48:44Z-b",
+    "chunk": "2026-10-09-epoch-3-cleanup",
+    "skill": "implement",
+    "step": "code",
+    "type": "input.plan-step-ambiguous",
+    "what": "step 16 names the private directory outside the tree that holds the sent texts and the rig journal, and no chunk artifact says where it stands; the re-entering session found it by a file search for the journal under the earlier session scratch dirs and reused it so the journal and the row files stay one sequence",
+    "impact": {
+     "extra_reads": 2
+    },
+    "weight": 1,
+    "evidence": null,
+    "artifacts": [
+     "plan.md step 16",
+     "evidence/live-run.md"
+    ],
+    "retracts": null
+   },
+   "artifact": "evidence/live-run.md",
+   "chunk": "2026-10-09-epoch-3-cleanup",
+   "producers": []
+  },
+  {
+   "kind": "consumed-thin",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-10-09T17:32:09Z-a",
+   "artifact": "report",
+   "note": "carried every code fact; named the stale route numbers by site but not the entry titles, so two detectors declined the citation item and one read the route for a title",
+   "signals": null,
+   "chunk": "2026-10-09-epoch-3-cleanup",
+   "producers": [
+    {
+     "producer": "wrap-session/report",
+     "id": "2026-10-09T17:13:47Z-a",
+     "outcome": "ok",
+     "signals": [
+      "reconstructed",
+      "new-text-generated",
+      "new-text-rows:32",
+      "guard-refused:1"
+     ],
+     "note": "four Changes families (symbols, schema and config, counts, coverage) were reconstructed from the diff, the code being the first session's; the PostToolUse stamp hook refused a report date typed 6 minutes ahead of the clock, corrected by one edit after a clock read"
+    }
+   ]
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-09T17:32:09Z-b",
+    "chunk": "2026-10-09-epoch-3-cleanup",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "input.report-insufficient",
+    "what": "the report listed each stale bare route number by site and count but gave no route entry title, so the obs and test detectors declined the citation item as outside their inputs and the architecture detector read the working route for the title; the orchestrator raised three citation amendments itself",
+    "impact": {
+     "extra_reads": 1
+    },
+    "weight": 1,
+    "evidence": null,
+    "artifacts": [
+     "report.md",
+     "fanout-results.md"
+    ],
+    "retracts": null
+   },
+   "artifact": "report.md",
+   "chunk": "2026-10-09-epoch-3-cleanup",
+   "producers": []
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-09T17:32:09Z-b",
+    "chunk": "2026-10-09-epoch-3-cleanup",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "input.report-insufficient",
+    "what": "the report listed each stale bare route number by site and count but gave no route entry title, so the obs and test detectors declined the citation item as outside their inputs and the architecture detector read the working route for the title; the orchestrator raised three citation amendments itself",
+    "impact": {
+     "extra_reads": 1
+    },
+    "weight": 1,
+    "evidence": null,
+    "artifacts": [
+     "report.md",
+     "fanout-results.md"
+    ],
+    "retracts": null
+   },
+   "artifact": "fanout-results.md",
+   "chunk": "2026-10-09-epoch-3-cleanup",
+   "producers": []
+  },
+  {
+   "kind": "consumed-wrong",
+   "consumer": "implement/fix-loop",
+   "consumer_id": "2026-10-09T19:15:50Z-a",
+   "artifact": "plan",
+   "note": "block entries 5 and 7 cannot both read green under the rule; steps 11 and 12 cannot both hold for the build file",
+   "signals": null,
+   "chunk": "2026-10-09-inner-cr-and-crlf-in-a-sent-text",
+   "producers": [
+    {
+     "producer": "phase/plan",
+     "id": "2026-10-09T18:45:39Z-a",
+     "outcome": "ok",
+     "signals": [
+      "designed-dialogue:ledger-row-or-live-reading-for-an-lf-typed-inside-a-paste",
+      "authority-resolved:a11y-extract-three-outer-pty-cases-yielded-to-its-history-four",
+      "authority-resolved:history-claim-that-framing-rows-measure-an-inner-lf-yielded-to-research"
+     ],
+     "note": "one card of three priced options, answered in one round; gate dry-run parsed 23 entries first fire; planlint 0 hits first fire; 2 graph citations written with file and line, 0 soft; no capability claimed"
+    }
+   ]
+  },
+  {
+   "kind": "consumed-thin",
+   "consumer": "implement/fix-loop",
+   "consumer_id": "2026-10-09T19:15:50Z-a",
+   "artifact": "research",
+   "note": "the name sweep keyed on two identifiers missed one integration test that pins an inner CR typed as received",
+   "signals": null,
+   "chunk": "2026-10-09-inner-cr-and-crlf-in-a-sent-text",
+   "producers": [
+    {
+     "producer": "phase/research",
+     "id": "2026-10-09T18:38:32Z-a",
+     "outcome": "ok",
+     "signals": [
+      "unresolved-questions:1"
+     ],
+     "note": "scope lists parsed first fire, 4 modify items, 0 new; the one open question blocks a plan decision"
+    }
+   ]
+  },
+  {
+   "kind": "consumed-thin",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-10-09T20:53:09Z-a",
+   "artifact": "conversation",
+   "note": "the implement conversation reached the wrap as a context summary; the gate listings and the evidence were re-read from disk",
+   "signals": null,
+   "chunk": "2026-10-09-inner-cr-and-crlf-in-a-sent-text",
+   "producers": [
+    {
+     "producer": "implement/smoke",
+     "id": "2026-10-09T19:15:50Z-f",
+     "outcome": "ok",
+     "signals": [
+      "recorded-not-rerun"
+     ],
+     "note": "the plan lists the smoke as block entries 10 to 12 and 15, which ran at P2"
+    },
+    {
+     "producer": "implement/smoke",
+     "id": "2026-10-09T19:47:45Z-c",
+     "outcome": "ok",
+     "signals": [
+      "recorded-not-rerun"
+     ],
+     "note": "the smoke-role entries ran as P2 gates in the whole block; not driven again by hand"
+    }
+   ]
+  },
+  {
+   "kind": "consumed-thin",
+   "consumer": "wrap-session/curation",
+   "consumer_id": "2026-10-09T21:06:03Z-a",
+   "artifact": "conversation",
+   "note": "the implement turns reached curation as a context summary; candidates were read from the summary, the report and the evidence",
+   "signals": null,
+   "chunk": "2026-10-09-inner-cr-and-crlf-in-a-sent-text",
+   "producers": [
+    {
+     "producer": "implement/smoke",
+     "id": "2026-10-09T19:15:50Z-f",
+     "outcome": "ok",
+     "signals": [
+      "recorded-not-rerun"
+     ],
+     "note": "the plan lists the smoke as block entries 10 to 12 and 15, which ran at P2"
+    },
+    {
+     "producer": "implement/smoke",
+     "id": "2026-10-09T19:47:45Z-c",
+     "outcome": "ok",
+     "signals": [
+      "recorded-not-rerun"
+     ],
+     "note": "the smoke-role entries ran as P2 gates in the whole block; not driven again by hand"
+    }
+   ]
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-09T22:16:23Z-b",
+    "chunk": "2026-10-09-epoch-3-cleanup-ii",
+    "skill": "implement",
+    "step": "code",
+    "type": "input.plan-step-ambiguous",
+    "what": "plan step 12 names the receipt-reading block as standing in three tests of tests/cli_verify.rs; a fourth test (verify_without_framing_fails_only_the_clear_row) holds the same block and took the same in-file helper",
+    "impact": {
+     "extra_reads": 1
+    },
+    "weight": 1,
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-09-epoch-3-cleanup-ii/plan.md",
+     "tests/cli_verify.rs"
+    ],
+    "retracts": null
+   },
+   "artifact": "viola-0.1.0/chunks/2026-10-09-epoch-3-cleanup-ii/plan.md",
+   "chunk": "2026-10-09-epoch-3-cleanup-ii",
+   "producers": []
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-09T22:16:23Z-b",
+    "chunk": "2026-10-09-epoch-3-cleanup-ii",
+    "skill": "implement",
+    "step": "code",
+    "type": "input.plan-step-ambiguous",
+    "what": "plan step 12 names the receipt-reading block as standing in three tests of tests/cli_verify.rs; a fourth test (verify_without_framing_fails_only_the_clear_row) holds the same block and took the same in-file helper",
+    "impact": {
+     "extra_reads": 1
+    },
+    "weight": 1,
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-09-epoch-3-cleanup-ii/plan.md",
+     "tests/cli_verify.rs"
+    ],
+    "retracts": null
+   },
+   "artifact": "tests/cli_verify.rs",
+   "chunk": "2026-10-09-epoch-3-cleanup-ii",
+   "producers": []
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-09T22:16:23Z-c",
+    "chunk": "2026-10-09-epoch-3-cleanup-ii",
+    "skill": "implement",
+    "step": "code",
+    "type": "input.plan-step-ambiguous",
+    "what": "plan step 3 gives the instrument the audit population rule (git ls-files of rs files), which leaves the two new untracked support files out until the pre-CI commit; the instrument reads tracked plus untracked files and the record states it",
+    "impact": {
+     "extra_reads": 1
+    },
+    "weight": 1,
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-09-epoch-3-cleanup-ii/evidence/scalars.py"
+    ],
+    "retracts": null
+   },
+   "artifact": "viola-0.1.0/chunks/2026-10-09-epoch-3-cleanup-ii/evidence/scalars.py",
+   "chunk": "2026-10-09-epoch-3-cleanup-ii",
+   "producers": []
+  },
+  {
+   "kind": "consumed-wrong",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-10-10T01:43:56Z-a",
+   "artifact": "report",
+   "note": "one search line false (a 78 min reading said to stand in two key files; it stands once, spelled 78 m); the root-waits count's rule was left unread by design and read at the resume",
+   "signals": null,
+   "chunk": "2026-10-09-epoch-3-cleanup-ii",
+   "producers": [
+    {
+     "producer": "wrap-session/report",
+     "id": "2026-10-10T01:28:39Z-a",
+     "outcome": "ok",
+     "signals": [
+      "new-text-generated",
+      "new-text-rows:44"
+     ],
+     "note": "scope read clean, inputs 4 entries with 0 uncited after the report, the listing pasted by splice as the last section and no line of it edited"
+    }
+   ]
+  },
+  {
+   "kind": "consumed-thin",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-10-10T01:43:56Z-a",
+   "artifact": "wrap-playbook",
+   "note": "no rule for a held count settled by a recorded direction, none for a real stale clause a detector flags outside the report",
+   "signals": null,
+   "chunk": "2026-10-09-epoch-3-cleanup-ii",
+   "producers": []
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-10T01:43:56Z-c",
+    "chunk": "2026-10-09-epoch-3-cleanup-ii",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "input.report-insufficient",
+    "what": "the report's search line for the 78 min reading said 1 hit each in two key files; a fixed-string read found 0, and the reading stands once as 78 m in another spelling of the same file set",
+    "impact": {
+     "extra_reads": 3
+    },
+    "weight": 1,
+    "evidence": ".andromeda/runs/2026-10-10T01-25-38-wrap/fanout-results.md",
+    "artifacts": [
+     "report.md Expected amendments, second entry"
+    ],
+    "retracts": null
+   },
+   "artifact": "report.md Expected amendments, second entry",
+   "chunk": "2026-10-09-epoch-3-cleanup-ii",
+   "producers": []
+  },
+  {
+   "kind": "consumed-thin",
+   "consumer": "wrap-session/curation",
+   "consumer_id": "2026-10-10T01:45:36Z-a",
+   "artifact": "conversation",
+   "note": "the wrap was resumed in a cleared window: the first window's conversation was gone, as its resume point said",
+   "signals": null,
+   "chunk": "2026-10-09-epoch-3-cleanup-ii",
+   "producers": [
+    {
+     "producer": "implement/smoke",
+     "id": "2026-10-10T01:12:20Z-a",
+     "outcome": "ok",
+     "signals": [
+      "recorded-not-rerun"
+     ],
+     "note": "harness-listed, recorded from P2 entries 12 to 17; not driven a second time by hand; the process list read after the block holds no process of this repository"
+    }
+   ]
+  },
+  {
+   "kind": "consumed-thin",
+   "consumer": "phase/research",
+   "consumer_id": "2026-10-10T02:23:57Z-a",
+   "artifact": "tree-db",
+   "note": "refreshed first, 4373 nodes and 22801 edges in 27 s with no fallback note; five of fourteen queried names are cfg(windows) bodies and returned no row",
+   "signals": null,
+   "chunk": "2026-10-10-windows-mutation-grade",
+   "producers": []
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-10T03:01:16Z-b",
+    "chunk": "2026-10-10-windows-mutation-grade",
+    "skill": "implement",
+    "step": "code",
+    "type": "input.plan-step-ambiguous",
+    "what": "four plan points underdetermined the change and were settled from neighbouring code: which path stands for a volume that cannot be read (step 1), whether host_excluded is written when empty (step 6), the four job labels (step 7), and a file declared by two mod lines (step 5)",
+    "impact": {
+     "extra_reads": 5
+    },
+    "weight": 1,
+    "evidence": null,
+    "artifacts": [
+     "plan.md"
+    ],
+    "retracts": null
+   },
+   "artifact": "plan.md",
+   "chunk": "2026-10-10-windows-mutation-grade",
+   "producers": []
+  },
+  {
+   "kind": "consumed-thin",
+   "consumer": "new-session/orientation",
+   "consumer_id": "2026-10-10T07:59:31Z-a",
+   "artifact": "handoff",
+   "note": "written at the previous wrap; Position still names the pending chunk as Next for phase (the documented post-phase shape) and holds nothing of the implement run stopped at its step 11; that state was read from the chunk's evidence/operator-pass.md",
+   "signals": null,
+   "chunk": null,
+   "producers": []
+  },
+  {
+   "kind": "consumed-thin",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-10-10T09:01:10Z-a",
+   "artifact": "conversation",
+   "note": "held implement's step 11 only; steps 1 to 10 ran in a session whose conversation this wrap does not hold",
+   "signals": null,
+   "chunk": "2026-10-10-windows-mutation-grade",
+   "producers": [
+    {
+     "producer": "implement/smoke",
+     "id": "2026-10-10T03:31:30Z-b",
+     "outcome": "ok",
+     "signals": [
+      "recorded-not-rerun"
+     ],
+     "note": "the plan lists the smoke as block entries; they ran in the P2 firing and were not driven again"
+    }
+   ]
+  },
+  {
+   "kind": "consumed-thin",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-10-10T09:01:10Z-a",
+   "artifact": "operator-directive",
+   "note": "three wrap notes; note 1 cites a test at a line that is its line before this chunk (295; 300 on this tree, read by name); it changed no fact of the chunk",
+   "signals": null,
+   "chunk": "2026-10-10-windows-mutation-grade",
+   "producers": []
+  },
+  {
+   "kind": "consumed-thin",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-10-10T09:13:42Z-a",
+   "artifact": "report",
+   "note": "its Counts bullet did not carry the Windows grades of the mutants the route entry owed; two test-plan proposals took them from the evidence folder and were rejected for the source, and the fact was added to the report at Validate",
+   "signals": null,
+   "chunk": "2026-10-10-windows-mutation-grade",
+   "producers": [
+    {
+     "producer": "wrap-session/report",
+     "id": "2026-10-10T09:01:10Z-a",
+     "outcome": "ok",
+     "signals": [
+      "reconstructed",
+      "new-text-generated",
+      "new-text-rows:117"
+     ],
+     "note": "the listing was pasted once by splice.py and no line was written after it; one sentence of the report was corrected before the paste"
+    }
+   ]
+  },
+  {
+   "kind": "consumed-thin",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-10-10T09:13:42Z-a",
+   "artifact": "drift-base",
+   "note": "no detector covers a restated job shape, count or verdict rule: security-plan, test-plan and obs-plan filed 18 of their 20 proposals under the nearest detector and said so",
+   "signals": null,
+   "chunk": "2026-10-10-windows-mutation-grade",
+   "producers": []
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-10T09:13:42Z-b",
+    "chunk": "2026-10-10-windows-mutation-grade",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "input.report-insufficient",
+    "what": "The report disposed the plan's expected amendment on the Windows grades as carried, while its Changes held the grades of the sixteen survivors only; the grades of the two prepare mutants and the four mutants no host compiles stood in the evidence folder alone, so two test-plan proposals cited that folder and fell to the opening rule",
+    "impact": {
+     "extra_reads": 1
+    },
+    "weight": 1,
+    "evidence": ".andromeda/runs/2026-10-10T08-56-51-wrap/fanout-results.md, rows T14, T15 and O1",
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-10-windows-mutation-grade/report.md"
+    ],
+    "retracts": null
+   },
+   "artifact": "viola-0.1.0/chunks/2026-10-10-windows-mutation-grade/report.md",
+   "chunk": "2026-10-10-windows-mutation-grade",
+   "producers": []
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-10T10:39:55Z-b",
+    "chunk": "2026-10-10-self-healing-state",
+    "skill": "implement",
+    "step": "code",
+    "type": "input.plan-step-ambiguous",
+    "what": "step 3 says every new case fails before the product change; on the stub tree 10 of 43 selected unit cases and 37 of 43 integration cases read green (the step-1 cases already landed, the cases asserting an absence, and the unchanged cases of the two edited path files)",
+    "impact": {
+     "extra_reads": 0
+    },
+    "weight": 1,
+    "evidence": ".andromeda/runs/2026-10-10T10-25-01-implement/gate-2026-10-10-self-healing-state.json",
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-10-self-healing-state/plan.md"
+    ],
+    "retracts": null
+   },
+   "artifact": "viola-0.1.0/chunks/2026-10-10-self-healing-state/plan.md",
+   "chunk": "2026-10-10-self-healing-state",
+   "producers": []
+  },
+  {
+   "kind": "consumed-thin",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-10-10T11:20:23Z-a",
+   "artifact": "report",
+   "note": "the Dependencies bullet did not say viola-channel already carries the same dev-dependency; four proposals named viola-state alone, and the bullet was completed before the apply",
+   "signals": null,
+   "chunk": "2026-10-10-self-healing-state",
+   "producers": [
+    {
+     "producer": "wrap-session/report",
+     "id": "2026-10-10T11:05:54Z-a",
+     "outcome": "ok",
+     "signals": [
+      "new-text-generated",
+      "new-text-rows:141"
+     ],
+     "note": null
+    }
+   ]
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-10T11:20:23Z-b",
+    "chunk": "2026-10-10-self-healing-state",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "input.report-insufficient",
+    "what": "the report's Dependencies bullet stated viola-state's new dev-dependency without the standing one in viola-channel; three obs proposals and one architecture proposal rewrote a root-bin-only claim naming viola-state alone, and the applied text was re-derived to name both crates",
+    "impact": {
+     "extra_reads": 1
+    },
+    "weight": 1,
+    "evidence": ".andromeda/runs/2026-10-10T11-03-09-wrap/fanout-results.md",
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-10-self-healing-state/report.md"
+    ],
+    "retracts": null
+   },
+   "artifact": "viola-0.1.0/chunks/2026-10-10-self-healing-state/report.md",
+   "chunk": "2026-10-10-self-healing-state",
+   "producers": []
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-10T14:38:15Z-b",
+    "chunk": "2026-10-10-viola-revive",
+    "skill": "implement",
+    "step": "code",
+    "type": "input.plan-step-ambiguous",
+    "what": "plan step 9 names wait_endpoint_gone for the killed wrapper; on Unix that helper waits for the socket file to be absent and a killed wrapper leaves the file, read from tests/support/home.rs and viola-channel server.rs before the first run",
+    "impact": {
+     "extra_reads": 1,
+     "retries": 0
+    },
+    "weight": 1,
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-10-viola-revive/plan.md",
+     "tests/support/home.rs"
+    ],
+    "retracts": null
+   },
+   "artifact": "viola-0.1.0/chunks/2026-10-10-viola-revive/plan.md",
+   "chunk": "2026-10-10-viola-revive",
+   "producers": []
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-10T14:38:15Z-b",
+    "chunk": "2026-10-10-viola-revive",
+    "skill": "implement",
+    "step": "code",
+    "type": "input.plan-step-ambiguous",
+    "what": "plan step 9 names wait_endpoint_gone for the killed wrapper; on Unix that helper waits for the socket file to be absent and a killed wrapper leaves the file, read from tests/support/home.rs and viola-channel server.rs before the first run",
+    "impact": {
+     "extra_reads": 1,
+     "retries": 0
+    },
+    "weight": 1,
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-10-viola-revive/plan.md",
+     "tests/support/home.rs"
+    ],
+    "retracts": null
+   },
+   "artifact": "tests/support/home.rs",
+   "chunk": "2026-10-10-viola-revive",
+   "producers": []
+  },
+  {
+   "kind": "consumed-thin",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-10-10T15:44:22Z-a",
+   "artifact": "report",
+   "note": "three facts the applies needed are not in it: the help group, the four hint texts, whether the classified read is reached through the replay; each read from the code by the orchestrator",
+   "signals": null,
+   "chunk": "2026-10-10-viola-revive",
+   "producers": [
+    {
+     "producer": "wrap-session/report",
+     "id": "2026-10-10T15:12:30Z-a",
+     "outcome": "halted-resolved",
+     "signals": [
+      "new-text-generated",
+      "new-text-rows:178"
+     ],
+     "note": "no family reconstructed; one coverage flag written as absent (a widened DACL on an instance tree on Windows)"
+    }
+   ]
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-10T15:44:22Z-c",
+    "chunk": "2026-10-10-viola-revive",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "input.report-insufficient",
+    "what": "the report names a help group without saying which, cites the hint texts by location only, and does not say whether the classified read is reached through the replay; three detectors flagged the gaps and the orchestrator read the code for each",
+    "impact": {
+     "extra_reads": 3,
+     "dialogue_rounds": 1
+    },
+    "weight": 3,
+    "evidence": ".andromeda/runs/2026-10-10T15-07-22-wrap/fanout-results.md",
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-10-viola-revive/report.md"
+    ],
+    "retracts": null
+   },
+   "artifact": "viola-0.1.0/chunks/2026-10-10-viola-revive/report.md",
+   "chunk": "2026-10-10-viola-revive",
+   "producers": []
+  },
+  {
+   "kind": "consumed-thin",
+   "consumer": "wrap-session/curation",
+   "consumer_id": "2026-10-10T15:46:28Z-a",
+   "artifact": "conversation",
+   "note": "the window that ran implement and Phase 1 is gone; its candidates were read from the list resume-point.md wrote for this step",
+   "signals": null,
+   "chunk": "2026-10-10-viola-revive",
+   "producers": [
+    {
+     "producer": "implement/smoke",
+     "id": "2026-10-10T14:52:17Z-a",
+     "outcome": "ok",
+     "signals": [
+      "recorded-not-rerun",
+      "live-starts:3-of-3",
+      "guard-refused:2"
+     ],
+     "note": "the smoke is the P2 entries, not re-driven. The live step ran on the headless pty rig after a fake-agent rehearsal; every wait settled under its bound and every session left 0 processes. Two guard refusals each cost one re-issue: the write guard on two scratch files under the build dir (made by a rig script kept in evidence), the bash guard on a cd outside a subshell"
+    }
+   ]
+  },
+  {
+   "kind": "consumed-thin",
+   "consumer": "phase/plan",
+   "consumer_id": "2026-10-10T16:36:56Z-a",
+   "artifact": "research",
+   "note": "it did not record which crates carry chrono; the reader's epoch conversion needed it and the fact was added at synthesis",
+   "signals": null,
+   "chunk": "2026-10-10-statusline-pass-through",
+   "producers": [
+    {
+     "producer": "phase/research",
+     "id": "2026-10-10T16:27:02Z-a",
+     "outcome": "ok",
+     "signals": [
+      "unresolved-questions"
+     ],
+     "note": "three open questions, two block a plan decision; lists parsed 32 items at the first fire"
+    }
+   ]
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-10T16:36:56Z-b",
+    "chunk": "2026-10-10-statusline-pass-through",
+    "skill": "phase",
+    "step": "plan",
+    "type": "input.research-thin",
+    "what": "research.md listed the agent crate's dependencies and did not say that chrono is absent from it and from viola-core; the statusline reader turns epoch seconds into RFC 3339, so two files joined the modify list and the lists check was re-fired at synthesis",
+    "impact": {
+     "iterations": 1,
+     "extra_reads": 1
+    },
+    "weight": 2,
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-10-statusline-pass-through/research.md"
+    ],
+    "retracts": null
+   },
+   "artifact": "viola-0.1.0/chunks/2026-10-10-statusline-pass-through/research.md",
+   "chunk": "2026-10-10-statusline-pass-through",
+   "producers": []
+  },
+  {
+   "kind": "consumed-wrong",
+   "consumer": "implement/code",
+   "consumer_id": "2026-10-10T19:14:23Z-a",
+   "artifact": "plan",
+   "note": "step 7 orders obs init ahead of the instance check, which defeats step 10 case 5 as written",
+   "signals": null,
+   "chunk": "2026-10-10-statusline-pass-through",
+   "producers": [
+    {
+     "producer": "phase/plan",
+     "id": "2026-10-10T16:36:56Z-a",
+     "outcome": "ok",
+     "signals": [
+      "designed-dialogue:statusline-source-form",
+      "designed-dialogue:windows-half",
+      "authority-resolved:test-plan resets_at literal yielded to the fetched documentation"
+     ],
+     "note": "twelve steps, one held; seventeen gate entries; twenty acceptance lines; no capability claimed; one fork round of two questions, both answered provisionally with the founder named as the ratifier"
+    }
+   ]
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-10T19:14:23Z-b",
+    "chunk": "2026-10-10-statusline-pass-through",
+    "skill": "implement",
+    "step": "code",
+    "type": "input.plan-step-ambiguous",
+    "what": "plan step 7 items 3 and 4 (obs init, then check_instance) conflict with step 10 case 5 (a home at 0770 runs nothing): obs init narrows the home before the check reads it; and step 3 gives every test literal None while asking the replay test to assert the field beside cwd",
+    "impact": {
+     "extra_reads": 3,
+     "iterations": 1
+    },
+    "weight": 2,
+    "evidence": "viola-0.1.0/chunks/2026-10-10-statusline-pass-through/evidence/red-green.md",
+    "artifacts": [
+     "plan.md",
+     "src/cmd/hook/statusline.rs",
+     "crates/viola-state/src/fs.rs"
+    ],
+    "retracts": null
+   },
+   "artifact": "plan.md",
+   "chunk": "2026-10-10-statusline-pass-through",
+   "producers": []
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-10T19:14:23Z-b",
+    "chunk": "2026-10-10-statusline-pass-through",
+    "skill": "implement",
+    "step": "code",
+    "type": "input.plan-step-ambiguous",
+    "what": "plan step 7 items 3 and 4 (obs init, then check_instance) conflict with step 10 case 5 (a home at 0770 runs nothing): obs init narrows the home before the check reads it; and step 3 gives every test literal None while asking the replay test to assert the field beside cwd",
+    "impact": {
+     "extra_reads": 3,
+     "iterations": 1
+    },
+    "weight": 2,
+    "evidence": "viola-0.1.0/chunks/2026-10-10-statusline-pass-through/evidence/red-green.md",
+    "artifacts": [
+     "plan.md",
+     "src/cmd/hook/statusline.rs",
+     "crates/viola-state/src/fs.rs"
+    ],
+    "retracts": null
+   },
+   "artifact": "src/cmd/hook/statusline.rs",
+   "chunk": "2026-10-10-statusline-pass-through",
+   "producers": []
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-10T19:14:23Z-b",
+    "chunk": "2026-10-10-statusline-pass-through",
+    "skill": "implement",
+    "step": "code",
+    "type": "input.plan-step-ambiguous",
+    "what": "plan step 7 items 3 and 4 (obs init, then check_instance) conflict with step 10 case 5 (a home at 0770 runs nothing): obs init narrows the home before the check reads it; and step 3 gives every test literal None while asking the replay test to assert the field beside cwd",
+    "impact": {
+     "extra_reads": 3,
+     "iterations": 1
+    },
+    "weight": 2,
+    "evidence": "viola-0.1.0/chunks/2026-10-10-statusline-pass-through/evidence/red-green.md",
+    "artifacts": [
+     "plan.md",
+     "src/cmd/hook/statusline.rs",
+     "crates/viola-state/src/fs.rs"
+    ],
+    "retracts": null
+   },
+   "artifact": "crates/viola-state/src/fs.rs",
+   "chunk": "2026-10-10-statusline-pass-through",
+   "producers": []
+  },
+  {
+   "kind": "consumed-thin",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-10-10T19:59:11Z-a",
+   "artifact": "implement-outcome",
+   "note": "its outcome stood; it lacked one fact: an acceptance clause on the settings flag literal is contradicted by a site that predates the chunk",
+   "signals": null,
+   "chunk": "2026-10-10-statusline-pass-through",
+   "producers": [
+    {
+     "producer": "implement/fix-loop",
+     "id": "2026-10-10T19:26:56Z-a",
+     "outcome": "ok",
+     "signals": [
+      "green"
+     ],
+     "note": null
+    },
+    {
+     "producer": "implement/smoke",
+     "id": "2026-10-10T19:27:21Z-a",
+     "outcome": "ok",
+     "signals": [
+      "green"
+     ],
+     "note": null
+    }
+   ]
+  },
+  {
+   "kind": "consumed-wrong",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-10-10T19:59:11Z-a",
+   "artifact": "plan",
+   "note": "three of its sentences read false: the flag literal's one home, the order of the log and the instance check, a first boot as a home viola created on Windows",
+   "signals": null,
+   "chunk": "2026-10-10-statusline-pass-through",
+   "producers": [
+    {
+     "producer": "phase/plan",
+     "id": "2026-10-10T16:36:56Z-a",
+     "outcome": "ok",
+     "signals": [
+      "designed-dialogue:statusline-source-form",
+      "designed-dialogue:windows-half",
+      "authority-resolved:test-plan resets_at literal yielded to the fetched documentation"
+     ],
+     "note": "twelve steps, one held; seventeen gate entries; twenty acceptance lines; no capability claimed; one fork round of two questions, both answered provisionally with the founder named as the ratifier"
+    }
+   ]
+  },
+  {
+   "kind": "consumed-thin",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-10-10T20:31:15Z-a",
+   "artifact": "report",
+   "note": "two facts detectors needed were absent: which read function the new arm calls, and that revive launches through run's start",
+   "signals": null,
+   "chunk": "2026-10-10-statusline-pass-through",
+   "producers": [
+    {
+     "producer": "wrap-session/report",
+     "id": "2026-10-10T19:59:11Z-a",
+     "outcome": "ok",
+     "signals": [
+      "new-text-generated",
+      "new-text-rows:292"
+     ],
+     "note": null
+    }
+   ]
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-10T20:31:15Z-b",
+    "chunk": "2026-10-10-statusline-pass-through",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "input.report-insufficient",
+    "what": "two detectors flagged facts the report did not carry (the snapshot read function the statusline arm calls; revive launching through run's start); one read the source for it against its prompt, and the orchestrator measured both itself",
+    "impact": {
+     "extra_reads": 3
+    },
+    "weight": 1,
+    "evidence": ".andromeda/runs/2026-10-10T19-55-42-wrap/fanout-results.md",
+    "artifacts": [
+     "report.md",
+     "fanout-results.md"
+    ],
+    "retracts": null
+   },
+   "artifact": "report.md",
+   "chunk": "2026-10-10-statusline-pass-through",
+   "producers": []
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-10T20:31:15Z-b",
+    "chunk": "2026-10-10-statusline-pass-through",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "input.report-insufficient",
+    "what": "two detectors flagged facts the report did not carry (the snapshot read function the statusline arm calls; revive launching through run's start); one read the source for it against its prompt, and the orchestrator measured both itself",
+    "impact": {
+     "extra_reads": 3
+    },
+    "weight": 1,
+    "evidence": ".andromeda/runs/2026-10-10T19-55-42-wrap/fanout-results.md",
+    "artifacts": [
+     "report.md",
+     "fanout-results.md"
+    ],
+    "retracts": null
+   },
+   "artifact": "fanout-results.md",
+   "chunk": "2026-10-10-statusline-pass-through",
+   "producers": []
+  },
+  {
+   "kind": "consumed-thin",
+   "consumer": "wrap-session/curation",
+   "consumer_id": "2026-10-10T20:32:58Z-a",
+   "artifact": "conversation",
+   "note": "the implementing session's conversation is gone; its nine candidates were read from resume-point.md",
+   "signals": null,
+   "chunk": "2026-10-10-statusline-pass-through",
+   "producers": [
+    {
+     "producer": "implement/smoke",
+     "id": "2026-10-10T19:27:21Z-a",
+     "outcome": "ok",
+     "signals": [
+      "recorded-not-rerun"
+     ],
+     "note": "the plan lists the smoke as entries 8 to 13 of its block; they ran green at P2 and were not driven again"
+    }
+   ]
+  },
+  {
+   "kind": "consumed-thin",
+   "consumer": "phase/plan",
+   "consumer_id": "2026-10-10T21:21:53Z-a",
+   "artifact": "research",
+   "note": "the modify list lacked the root manifest that declares a new root test binary; found at synthesis from the prior plan",
+   "signals": null,
+   "chunk": "2026-10-10-budget-governor",
+   "producers": [
+    {
+     "producer": "phase/research",
+     "id": "2026-10-10T21:13:45Z-a",
+     "outcome": "ok",
+     "signals": [
+      "unresolved-questions"
+     ],
+     "note": "three open questions to P4; two mechanism claims from the freight measured on scratch homes with a control each, both confirmed; lists parsed 32 items"
+    }
+   ]
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-10T21:21:53Z-b",
+    "chunk": "2026-10-10-budget-governor",
+    "skill": "phase",
+    "step": "plan",
+    "type": "input.research-thin",
+    "what": "research's Files to modify omitted Cargo.toml although a new root test binary needs a [[test]] entry with required-features; the list was amended and the lists check re-fired at P4",
+    "impact": {
+     "extra_reads": 1,
+     "iterations": 1
+    },
+    "weight": 2,
+    "evidence": null,
+    "artifacts": [
+     "research.md",
+     "Cargo.toml"
+    ],
+    "retracts": null
+   },
+   "artifact": "research.md",
+   "chunk": "2026-10-10-budget-governor",
+   "producers": []
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-10T21:21:53Z-b",
+    "chunk": "2026-10-10-budget-governor",
+    "skill": "phase",
+    "step": "plan",
+    "type": "input.research-thin",
+    "what": "research's Files to modify omitted Cargo.toml although a new root test binary needs a [[test]] entry with required-features; the list was amended and the lists check re-fired at P4",
+    "impact": {
+     "extra_reads": 1,
+     "iterations": 1
+    },
+    "weight": 2,
+    "evidence": null,
+    "artifacts": [
+     "research.md",
+     "Cargo.toml"
+    ],
+    "retracts": null
+   },
+   "artifact": "Cargo.toml",
+   "chunk": "2026-10-10-budget-governor",
+   "producers": []
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-10T21:56:00Z-d",
+    "chunk": "2026-10-10-budget-governor",
+    "skill": "implement",
+    "step": "code",
+    "type": "input.plan-step-ambiguous",
+    "what": "step 3 says a bad threshold value gives one Malformed rejection and does not say what two bad keys give; one rejection per key was chosen after reading ConfigRejection::count, and is named in the report",
+    "impact": {
+     "extra_reads": 1
+    },
+    "weight": 1,
+    "evidence": null,
+    "artifacts": [
+     "plan.md step 3",
+     "src/run/budget.rs"
+    ],
+    "retracts": null
+   },
+   "artifact": "plan.md step 3",
+   "chunk": "2026-10-10-budget-governor",
+   "producers": []
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-10T21:56:00Z-d",
+    "chunk": "2026-10-10-budget-governor",
+    "skill": "implement",
+    "step": "code",
+    "type": "input.plan-step-ambiguous",
+    "what": "step 3 says a bad threshold value gives one Malformed rejection and does not say what two bad keys give; one rejection per key was chosen after reading ConfigRejection::count, and is named in the report",
+    "impact": {
+     "extra_reads": 1
+    },
+    "weight": 1,
+    "evidence": null,
+    "artifacts": [
+     "plan.md step 3",
+     "src/run/budget.rs"
+    ],
+    "retracts": null
+   },
+   "artifact": "src/run/budget.rs",
+   "chunk": "2026-10-10-budget-governor",
+   "producers": []
+  },
+  {
+   "kind": "consumed-thin",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-10-10T22:45:21Z-a",
+   "artifact": "conversation",
+   "note": "this window held the operator pass and its report; the run that wrote steps 1 to 14 ended before a clear, so none of its conversation was here",
+   "signals": null,
+   "chunk": "2026-10-10-budget-governor",
+   "producers": [
+    {
+     "producer": "implement/smoke",
+     "id": "2026-10-10T22:02:07Z-a",
+     "outcome": "ok",
+     "signals": [
+      "recorded-not-rerun"
+     ],
+     "note": "boot-path changed (the start goes through the budget gate) and the harness's start_records stage read budget-gate as record two"
+    },
+    {
+     "producer": "implement/smoke",
+     "id": "2026-10-10T22:34:51Z-b",
+     "outcome": "ok",
+     "signals": [
+      "recorded-not-rerun"
+     ],
+     "note": "the smoke entries 7 to 9 and 12 read green in the earlier run of this chunk on the same source tree; this re-entry at step 16 did not drive them again"
+    }
+   ]
+  },
+  {
+   "kind": "consumed-thin",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-10-10T22:45:21Z-a",
+   "artifact": "implement-outcome",
+   "note": "the second implement run's report stood as given; the first run's P4 report was not in the window, and its 11 friction-ledger records with evidence/red-green.md stood in for its deviations and its one surfaced item, each re-read in the diff",
+   "signals": null,
+   "chunk": "2026-10-10-budget-governor",
+   "producers": [
+    {
+     "producer": "implement/fix-loop",
+     "id": "2026-10-10T22:01:41Z-a",
+     "outcome": "ok",
+     "signals": [
+      "green"
+     ],
+     "note": "two whole-block calls, each green 13, red 0; the second on the final tree after one test-only restatement"
+    },
+    {
+     "producer": "implement/smoke",
+     "id": "2026-10-10T22:02:07Z-a",
+     "outcome": "ok",
+     "signals": [
+      "green"
+     ],
+     "note": null
+    },
+    {
+     "producer": "implement/fix-loop",
+     "id": "2026-10-10T22:34:51Z-a",
+     "outcome": "ok",
+     "signals": [
+      "green"
+     ],
+     "note": "the operator pass complete on one commit and one CI run"
+    },
+    {
+     "producer": "implement/smoke",
+     "id": "2026-10-10T22:34:51Z-b",
+     "outcome": "ok",
+     "signals": [
+      "green"
+     ],
+     "note": null
+    }
+   ]
+  },
+  {
+   "kind": "consumed-thin",
+   "consumer": "wrap-session/curation",
+   "consumer_id": "2026-10-10T23:14:59Z-a",
+   "artifact": "conversation",
+   "note": "the wrap ran in two sessions and the chunk in two implement runs; of four conversations only the resume's was in the window, the rest reached curation as ten candidates in resume-point.md",
+   "signals": null,
+   "chunk": "2026-10-10-budget-governor",
+   "producers": [
+    {
+     "producer": "implement/smoke",
+     "id": "2026-10-10T22:02:07Z-a",
+     "outcome": "ok",
+     "signals": [
+      "recorded-not-rerun"
+     ],
+     "note": "boot-path changed (the start goes through the budget gate) and the harness's start_records stage read budget-gate as record two"
+    },
+    {
+     "producer": "implement/smoke",
+     "id": "2026-10-10T22:34:51Z-b",
+     "outcome": "ok",
+     "signals": [
+      "recorded-not-rerun"
+     ],
+     "note": "the smoke entries 7 to 9 and 12 read green in the earlier run of this chunk on the same source tree; this re-entry at step 16 did not drive them again"
+    }
+   ]
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-10T23:34:35Z-b",
+    "chunk": "2026-10-10-session-links",
+    "skill": "phase",
+    "step": "take-up",
+    "type": "input.carry-context-gap",
+    "what": "the budget-governor CARRY says the masters name this entry at test-plan Path 6 and a11y-plan section 8; neither sentence names it by title (owed to the route; no case yet), found by the fold's coordinate re-verify",
+    "impact": {
+     "extra_reads": 2
+    },
+    "weight": 1,
+    "evidence": "viola-0.1.0/chunks/2026-10-10-session-links/scope.md",
+    "artifacts": [
+     "viola-0.1.0/working-route.md:121"
+    ],
+    "retracts": null
+   },
+   "artifact": "viola-0.1.0/working-route.md:121",
+   "chunk": "2026-10-10-session-links",
+   "producers": []
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-11T00:16:16Z-b",
+    "chunk": "2026-10-10-session-links",
+    "skill": "implement",
+    "step": "code",
+    "type": "input.plan-step-ambiguous",
+    "what": "plan step 4 puts the link set's remove in Part A, and its only product caller is step 12's unlink method, which step 11 holds: built as written it is dead code under the lint gate, so it carries a cfg_attr(not(test), allow(dead_code))",
+    "impact": {
+     "extra_reads": 2
+    },
+    "weight": 1,
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-10-session-links/plan.md",
+     "src/run/links.rs"
+    ],
+    "retracts": null
+   },
+   "artifact": "viola-0.1.0/chunks/2026-10-10-session-links/plan.md",
+   "chunk": "2026-10-10-session-links",
+   "producers": []
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-11T00:16:16Z-b",
+    "chunk": "2026-10-10-session-links",
+    "skill": "implement",
+    "step": "code",
+    "type": "input.plan-step-ambiguous",
+    "what": "plan step 4 puts the link set's remove in Part A, and its only product caller is step 12's unlink method, which step 11 holds: built as written it is dead code under the lint gate, so it carries a cfg_attr(not(test), allow(dead_code))",
+    "impact": {
+     "extra_reads": 2
+    },
+    "weight": 1,
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-10-session-links/plan.md",
+     "src/run/links.rs"
+    ],
+    "retracts": null
+   },
+   "artifact": "src/run/links.rs",
+   "chunk": "2026-10-10-session-links",
+   "producers": []
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-11T00:16:16Z-c",
+    "chunk": "2026-10-10-session-links",
+    "skill": "implement",
+    "step": "code",
+    "type": "input.plan-step-ambiguous",
+    "what": "plan step 10 words the forced-on run as a gate evaluation added to DialogSlot::answer, and that slot holds no gate handle: the scratch edit read the gate's recorded verdict from the instance snapshot instead, stated in evidence/red-green.md",
+    "impact": {
+     "extra_reads": 0
+    },
+    "weight": 1,
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-10-session-links/plan.md",
+     "viola-0.1.0/chunks/2026-10-10-session-links/evidence/red-green.md"
+    ],
+    "retracts": null
+   },
+   "artifact": "viola-0.1.0/chunks/2026-10-10-session-links/plan.md",
+   "chunk": "2026-10-10-session-links",
+   "producers": []
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-11T00:16:16Z-c",
+    "chunk": "2026-10-10-session-links",
+    "skill": "implement",
+    "step": "code",
+    "type": "input.plan-step-ambiguous",
+    "what": "plan step 10 words the forced-on run as a gate evaluation added to DialogSlot::answer, and that slot holds no gate handle: the scratch edit read the gate's recorded verdict from the instance snapshot instead, stated in evidence/red-green.md",
+    "impact": {
+     "extra_reads": 0
+    },
+    "weight": 1,
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-10-session-links/plan.md",
+     "viola-0.1.0/chunks/2026-10-10-session-links/evidence/red-green.md"
+    ],
+    "retracts": null
+   },
+   "artifact": "viola-0.1.0/chunks/2026-10-10-session-links/evidence/red-green.md",
+   "chunk": "2026-10-10-session-links",
+   "producers": []
+  },
+  {
+   "kind": "consumed-thin",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-10-11T00:55:45Z-a",
+   "artifact": "report",
+   "note": "27 proposals, every source coordinate found in the report's bullets or its New text section; three detectors named a fact the report does not carry, and the orchestrator read source for each (whether the link append signals the wait feed; what the folded budget case reads; where the restore stands against the strict-modes check, left unclaimed)",
+   "signals": null,
+   "chunk": "2026-10-10-session-links",
+   "producers": [
+    {
+     "producer": "wrap-session/report",
+     "id": "2026-10-11T00:37:30Z-a",
+     "outcome": "ok",
+     "signals": [
+      "new-text-generated",
+      "new-text-rows:115"
+     ],
+     "note": "no family reconstructed; one plan claim listed as disproved by measurement (what the schema-check entry reads on the dev host)"
+    }
+   ]
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-11T00:55:45Z-b",
+    "chunk": "2026-10-10-session-links",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "input.report-insufficient",
+    "what": "three detectors flagged a fact the report does not state (the link append bumping no wait-feed generation; whether the folded closed-gate case reads the terminal stream; the restore's place against the strict-modes check); two were settled by a source read at validate and the third was left unclaimed in the body",
+    "impact": {
+     "extra_reads": 3
+    },
+    "weight": 1,
+    "evidence": ".andromeda/runs/2026-10-11T00-33-08-wrap/fanout-results.md",
+    "artifacts": [
+     "report.md",
+     "fanout-results.md"
+    ],
+    "retracts": null
+   },
+   "artifact": "report.md",
+   "chunk": "2026-10-10-session-links",
+   "producers": []
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-11T00:55:45Z-b",
+    "chunk": "2026-10-10-session-links",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "input.report-insufficient",
+    "what": "three detectors flagged a fact the report does not state (the link append bumping no wait-feed generation; whether the folded closed-gate case reads the terminal stream; the restore's place against the strict-modes check); two were settled by a source read at validate and the third was left unclaimed in the body",
+    "impact": {
+     "extra_reads": 3
+    },
+    "weight": 1,
+    "evidence": ".andromeda/runs/2026-10-11T00-33-08-wrap/fanout-results.md",
+    "artifacts": [
+     "report.md",
+     "fanout-results.md"
+    ],
+    "retracts": null
+   },
+   "artifact": "fanout-results.md",
+   "chunk": "2026-10-10-session-links",
+   "producers": []
+  },
+  {
+   "kind": "consumed-thin",
+   "consumer": "wrap-session/curation",
+   "consumer_id": "2026-10-11T00:57:13Z-a",
+   "artifact": "conversation",
+   "note": "the conversation of implement and of this wrap's Phase 1 was gone at the resume; its eleven candidates were read from resume-point.md, each with its evidence",
+   "signals": null,
+   "chunk": "2026-10-10-session-links",
+   "producers": [
+    {
+     "producer": "implement/smoke",
+     "id": "2026-10-11T00:20:26Z-a",
+     "outcome": "ok",
+     "signals": [
+      "recorded-not-rerun"
+     ],
+     "note": "the plan lists boot, status and cleanup as block entries 8 to 13, so the smoke ran whole at P2 and was not driven a second time"
+    }
+   ]
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-11T07:49:33Z-b",
+    "chunk": "2026-10-11-the-board-viola-list",
+    "skill": "implement",
+    "step": "code",
+    "type": "input.plan-step-ambiguous",
+    "what": "plan step 3 fixes WHEEL at 22 while its own rule pads each column to its widest word; 'unknown - budget-paused' (a replayed row with a pause) is 23, so the rule was followed and the width is 23, to be surfaced in the report",
+    "impact": {
+     "iterations": 0
+    },
+    "weight": 1,
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-11-the-board-viola-list/plan.md",
+     "src/human.rs"
+    ],
+    "retracts": null
+   },
+   "artifact": "viola-0.1.0/chunks/2026-10-11-the-board-viola-list/plan.md",
+   "chunk": "2026-10-11-the-board-viola-list",
+   "producers": []
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-11T07:49:33Z-b",
+    "chunk": "2026-10-11-the-board-viola-list",
+    "skill": "implement",
+    "step": "code",
+    "type": "input.plan-step-ambiguous",
+    "what": "plan step 3 fixes WHEEL at 22 while its own rule pads each column to its widest word; 'unknown - budget-paused' (a replayed row with a pause) is 23, so the rule was followed and the width is 23, to be surfaced in the report",
+    "impact": {
+     "iterations": 0
+    },
+    "weight": 1,
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-11-the-board-viola-list/plan.md",
+     "src/human.rs"
+    ],
+    "retracts": null
+   },
+   "artifact": "src/human.rs",
+   "chunk": "2026-10-11-the-board-viola-list",
+   "producers": []
+  },
+  {
+   "kind": "consumed-thin",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-10-11T08:27:42Z-a",
+   "artifact": "implement-outcome",
+   "note": "implement's green was superseded by the operator pass: ci#38123340339 red on windows-2025, fixed by acad7af, ci#38124062614 green",
+   "signals": null,
+   "chunk": "2026-10-11-the-board-viola-list",
+   "producers": [
+    {
+     "producer": "implement/fix-loop",
+     "id": "2026-10-11T07:58:07Z-a",
+     "outcome": "ok",
+     "signals": [
+      "green"
+     ],
+     "note": null
+    },
+    {
+     "producer": "implement/smoke",
+     "id": "2026-10-11T07:58:47Z-a",
+     "outcome": "ok",
+     "signals": [
+      "green"
+     ],
+     "note": null
+    }
+   ]
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-11T08:27:42Z-b",
+    "chunk": "2026-10-11-the-board-viola-list",
+    "skill": "wrap-session",
+    "step": "report",
+    "type": "input.implement-outcome-unsettled",
+    "what": "the operator pass ended fixed: the pre-CI commit's CI read red on windows-2025 (four cases on unstamped homes, exit 21 from the board's strict-modes check), a fix commit followed, and the report's outcome basis is the final HEAD's green run, not implement's green",
+    "impact": {
+     "iterations": 1
+    },
+    "weight": 2,
+    "evidence": null,
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-11-the-board-viola-list/evidence/operator.md"
+    ],
+    "retracts": null
+   },
+   "artifact": "viola-0.1.0/chunks/2026-10-11-the-board-viola-list/evidence/operator.md",
+   "chunk": "2026-10-11-the-board-viola-list",
+   "producers": []
+  },
+  {
+   "kind": "consumed-thin",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-10-11T08:47:43Z-a",
+   "artifact": "report",
+   "note": "every detector ran on it alone; it carried no owner for the held parts, and the review card's owners were on no file in the tree",
+   "signals": null,
+   "chunk": "2026-10-11-the-board-viola-list",
+   "producers": [
+    {
+     "producer": "wrap-session/report",
+     "id": "2026-10-11T08:27:42Z-a",
+     "outcome": "ok",
+     "signals": [
+      "new-text-generated",
+      "new-text-rows:194"
+     ],
+     "note": "the listing pasted by splice.py at line 350, no line of it touched after"
+    }
+   ]
+  },
+  {
+   "kind": "input-friction",
+   "rec": {
+    "id": "2026-10-11T08:47:43Z-b",
+    "chunk": "2026-10-11-the-board-viola-list",
+    "skill": "wrap-session",
+    "step": "reconcile",
+    "type": "input.report-insufficient",
+    "what": "the masters had to name owners for the held parts, and the founder-approved review card's owners were on no file in the tree (no chunk file, no phase run file); the operator supplied the card from a session transcript and named three new Epoch 5 entries",
+    "impact": {
+     "dialogue_rounds": 1,
+     "extra_reads": 4
+    },
+    "weight": 3,
+    "evidence": ".andromeda/runs/2026-10-11T08-23-35-wrap/relay-3.md",
+    "artifacts": [
+     "viola-0.1.0/chunks/2026-10-11-the-board-viola-list/inputs/I8-board-card-owners.md.txt"
+    ],
+    "retracts": null
+   },
+   "artifact": "viola-0.1.0/chunks/2026-10-11-the-board-viola-list/inputs/I8-board-card-owners.md.txt",
+   "chunk": "2026-10-11-the-board-viola-list",
+   "producers": []
+  },
+  {
+   "kind": "consumed-thin",
+   "consumer": "wrap-session/curation",
+   "consumer_id": "2026-10-11T08:49:09Z-a",
+   "artifact": "conversation",
+   "note": "the first window's conversation was gone; its nine candidates were read from the run dir's resume-point.md",
+   "signals": null,
+   "chunk": "2026-10-11-the-board-viola-list",
+   "producers": [
+    {
+     "producer": "implement/smoke",
+     "id": "2026-10-11T07:58:47Z-a",
+     "outcome": "ok",
+     "signals": [
+      "recorded-from-p2",
+      "hand-read-of-the-new-verb"
+     ],
+     "note": "smoke entries 7, 8, 9, 12 green as P2 gates; one hand boot, list both forms, cleanup with processes_gone and endpoint_gone true"
+    }
+   ]
+  },
+  {
+   "kind": "consumed-thin",
+   "consumer": "wrap-session/route-resolve",
+   "consumer_id": "2026-10-11T08:51:49Z-a",
+   "artifact": "report",
+   "note": "the report named the held parts but not their owners; the owners came from the card file the operator supplied (inputs#I8)",
+   "signals": null,
+   "chunk": "2026-10-11-the-board-viola-list",
+   "producers": [
+    {
+     "producer": "wrap-session/report",
+     "id": "2026-10-11T08:27:42Z-a",
+     "outcome": "ok",
+     "signals": [
+      "new-text-generated",
+      "new-text-rows:194"
+     ],
+     "note": "the listing pasted by splice.py at line 350, no line of it touched after"
+    }
+   ]
+  }
+ ],
+ "shapes": [
+  {
+   "shape": [
+    "phase/research",
+    "research",
+    "phase/plan"
+   ],
+   "chunks": [
+    "2026-10-09-epoch-3-cleanup",
+    "2026-10-10-budget-governor",
+    "2026-10-10-statusline-pass-through"
+   ],
+   "n": 3
+  },
+  {
+   "shape": [
+    "phase/research",
+    "research",
+    "friction:plan"
+   ],
+   "chunks": [
+    "2026-10-09-epoch-3-cleanup"
+   ],
+   "n": 1
+  },
+  {
+   "shape": [
+    "phase/plan",
+    "plan",
+    "implement/fix-loop"
+   ],
+   "chunks": [
+    "2026-10-09-epoch-3-cleanup",
+    "2026-10-09-inner-cr-and-crlf-in-a-sent-text"
+   ],
+   "n": 2
+  },
+  {
+   "shape": [
+    "phase/validate",
+    "plan",
+    "implement/fix-loop"
+   ],
+   "chunks": [
+    "2026-10-09-epoch-3-cleanup"
+   ],
+   "n": 1
+  },
+  {
+   "shape": [
+    "wrap-session/report",
+    "report",
+    "wrap-session/reconcile"
+   ],
+   "chunks": [
+    "2026-10-09-epoch-3-cleanup",
+    "2026-10-09-epoch-3-cleanup-ii",
+    "2026-10-10-self-healing-state",
+    "2026-10-10-session-links",
+    "2026-10-10-statusline-pass-through",
+    "2026-10-10-viola-revive",
+    "2026-10-10-windows-mutation-grade",
+    "2026-10-11-the-board-viola-list"
+   ],
+   "n": 8
+  },
+  {
+   "shape": [
+    "phase/research",
+    "research",
+    "implement/fix-loop"
+   ],
+   "chunks": [
+    "2026-10-09-inner-cr-and-crlf-in-a-sent-text"
+   ],
+   "n": 1
+  },
+  {
+   "shape": [
+    "implement/smoke",
+    "conversation",
+    "wrap-session/report"
+   ],
+   "chunks": [
+    "2026-10-09-inner-cr-and-crlf-in-a-sent-text",
+    "2026-10-10-budget-governor",
+    "2026-10-10-windows-mutation-grade"
+   ],
+   "n": 3
+  },
+  {
+   "shape": [
+    "implement/smoke",
+    "conversation",
+    "wrap-session/curation"
+   ],
+   "chunks": [
+    "2026-10-09-epoch-3-cleanup-ii",
+    "2026-10-09-inner-cr-and-crlf-in-a-sent-text",
+    "2026-10-10-budget-governor",
+    "2026-10-10-session-links",
+    "2026-10-10-statusline-pass-through",
+    "2026-10-10-viola-revive",
+    "2026-10-11-the-board-viola-list"
+   ],
+   "n": 7
+  },
+  {
+   "shape": [
+    "phase/plan",
+    "plan",
+    "implement/code"
+   ],
+   "chunks": [
+    "2026-10-10-statusline-pass-through"
+   ],
+   "n": 1
+  },
+  {
+   "shape": [
+    "implement/fix-loop",
+    "implement-outcome",
+    "wrap-session/report"
+   ],
+   "chunks": [
+    "2026-10-10-budget-governor",
+    "2026-10-10-statusline-pass-through",
+    "2026-10-11-the-board-viola-list"
+   ],
+   "n": 3
+  },
+  {
+   "shape": [
+    "implement/smoke",
+    "implement-outcome",
+    "wrap-session/report"
+   ],
+   "chunks": [
+    "2026-10-10-budget-governor",
+    "2026-10-10-statusline-pass-through",
+    "2026-10-11-the-board-viola-list"
+   ],
+   "n": 3
+  },
+  {
+   "shape": [
+    "phase/plan",
+    "plan",
+    "wrap-session/report"
+   ],
+   "chunks": [
+    "2026-10-10-statusline-pass-through"
+   ],
+   "n": 1
+  },
+  {
+   "shape": [
+    "wrap-session/report",
+    "report",
+    "wrap-session/route-resolve"
+   ],
+   "chunks": [
+    "2026-10-11-the-board-viola-list"
+   ],
+   "n": 1
+  }
+ ]
+}

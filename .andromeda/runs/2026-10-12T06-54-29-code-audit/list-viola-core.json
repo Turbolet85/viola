@@ -1,0 +1,1678 @@
+[
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ replace * with +\n@@ -3,17 +3,17 @@\n use nutype::nutype;\n \n pub mod obs;\n \n pub const SERVICE_NAME: &str = \"viola\";\n pub const VERSION: &str = env!(\"CARGO_PKG_VERSION\");\n \n /// The byte cap on every external reader (`Read::take`) and on a channel frame.\n-pub const MAX_FRAME: u64 = 16 * 1024 * 1024;\n+pub const MAX_FRAME: u64 = 16 * 1024 + /* ~ changed by cargo-mutants ~ */ 1024;\n \n /// The bound every spine hook process meets, read by the perf gate (test-plan §10 Spine deadline).\n pub const SPINE_DEADLINE: Duration = Duration::from_secs(1);\n \n /// How long the wrapper holds a pending dialog for a driver's answer before it leaves the dialog to\n /// the human; the embedded `hooks.json` dialog `timeout` exceeds it, so viola, never Claude Code, ends\n /// the wait (architecture [Hook Contract]). PROVISIONAL, unmeasured.\n pub const DIALOG_DEADLINE: Duration = Duration::from_secs(60);\n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": null,
+    "genre": "BinaryOperator",
+    "name": "crates/viola-core/src/lib.rs:11:38: replace * with +",
+    "package": "viola-core",
+    "replacement": "+",
+    "span": {
+      "end": {
+        "column": 39,
+        "line": 11
+      },
+      "start": {
+        "column": 38,
+        "line": 11
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ replace * with /\n@@ -3,17 +3,17 @@\n use nutype::nutype;\n \n pub mod obs;\n \n pub const SERVICE_NAME: &str = \"viola\";\n pub const VERSION: &str = env!(\"CARGO_PKG_VERSION\");\n \n /// The byte cap on every external reader (`Read::take`) and on a channel frame.\n-pub const MAX_FRAME: u64 = 16 * 1024 * 1024;\n+pub const MAX_FRAME: u64 = 16 * 1024 / /* ~ changed by cargo-mutants ~ */ 1024;\n \n /// The bound every spine hook process meets, read by the perf gate (test-plan §10 Spine deadline).\n pub const SPINE_DEADLINE: Duration = Duration::from_secs(1);\n \n /// How long the wrapper holds a pending dialog for a driver's answer before it leaves the dialog to\n /// the human; the embedded `hooks.json` dialog `timeout` exceeds it, so viola, never Claude Code, ends\n /// the wait (architecture [Hook Contract]). PROVISIONAL, unmeasured.\n pub const DIALOG_DEADLINE: Duration = Duration::from_secs(60);\n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": null,
+    "genre": "BinaryOperator",
+    "name": "crates/viola-core/src/lib.rs:11:38: replace * with /",
+    "package": "viola-core",
+    "replacement": "/",
+    "span": {
+      "end": {
+        "column": 39,
+        "line": 11
+      },
+      "start": {
+        "column": 38,
+        "line": 11
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ replace * with +\n@@ -3,17 +3,17 @@\n use nutype::nutype;\n \n pub mod obs;\n \n pub const SERVICE_NAME: &str = \"viola\";\n pub const VERSION: &str = env!(\"CARGO_PKG_VERSION\");\n \n /// The byte cap on every external reader (`Read::take`) and on a channel frame.\n-pub const MAX_FRAME: u64 = 16 * 1024 * 1024;\n+pub const MAX_FRAME: u64 = 16 + /* ~ changed by cargo-mutants ~ */ 1024 * 1024;\n \n /// The bound every spine hook process meets, read by the perf gate (test-plan §10 Spine deadline).\n pub const SPINE_DEADLINE: Duration = Duration::from_secs(1);\n \n /// How long the wrapper holds a pending dialog for a driver's answer before it leaves the dialog to\n /// the human; the embedded `hooks.json` dialog `timeout` exceeds it, so viola, never Claude Code, ends\n /// the wait (architecture [Hook Contract]). PROVISIONAL, unmeasured.\n pub const DIALOG_DEADLINE: Duration = Duration::from_secs(60);\n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": null,
+    "genre": "BinaryOperator",
+    "name": "crates/viola-core/src/lib.rs:11:31: replace * with +",
+    "package": "viola-core",
+    "replacement": "+",
+    "span": {
+      "end": {
+        "column": 32,
+        "line": 11
+      },
+      "start": {
+        "column": 31,
+        "line": 11
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ replace * with /\n@@ -3,17 +3,17 @@\n use nutype::nutype;\n \n pub mod obs;\n \n pub const SERVICE_NAME: &str = \"viola\";\n pub const VERSION: &str = env!(\"CARGO_PKG_VERSION\");\n \n /// The byte cap on every external reader (`Read::take`) and on a channel frame.\n-pub const MAX_FRAME: u64 = 16 * 1024 * 1024;\n+pub const MAX_FRAME: u64 = 16 / /* ~ changed by cargo-mutants ~ */ 1024 * 1024;\n \n /// The bound every spine hook process meets, read by the perf gate (test-plan §10 Spine deadline).\n pub const SPINE_DEADLINE: Duration = Duration::from_secs(1);\n \n /// How long the wrapper holds a pending dialog for a driver's answer before it leaves the dialog to\n /// the human; the embedded `hooks.json` dialog `timeout` exceeds it, so viola, never Claude Code, ends\n /// the wait (architecture [Hook Contract]). PROVISIONAL, unmeasured.\n pub const DIALOG_DEADLINE: Duration = Duration::from_secs(60);\n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": null,
+    "genre": "BinaryOperator",
+    "name": "crates/viola-core/src/lib.rs:11:31: replace * with /",
+    "package": "viola-core",
+    "replacement": "/",
+    "span": {
+      "end": {
+        "column": 32,
+        "line": 11
+      },
+      "start": {
+        "column": 31,
+        "line": 11
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ replace <impl Clock for SystemClock>::now -> Instant with Default::default()\n@@ -25,17 +25,17 @@\n }\n \n /// The production clock.\n #[derive(Debug, Clone, Copy, Default)]\n pub struct SystemClock;\n \n impl Clock for SystemClock {\n     fn now(&self) -> Instant {\n-        Instant::now()\n+        Default::default() /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n /// An instance name: ASCII `[a-z0-9-]`, 1–32 characters, starting with a letter\n /// (architecture §Conventions). The only way to build one is `ViolaName::try_new`,\n /// so a name that reaches a path join has passed this check.\n #[nutype(\n     validate(predicate = is_valid_name),\n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": {
+      "function_name": "<impl Clock for SystemClock>::now",
+      "return_type": "-> Instant",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 34
+        },
+        "start": {
+          "column": 5,
+          "line": 32
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/lib.rs:33:9: replace <impl Clock for SystemClock>::now -> Instant with Default::default()",
+    "package": "viola-core",
+    "replacement": "Default::default()",
+    "span": {
+      "end": {
+        "column": 23,
+        "line": 33
+      },
+      "start": {
+        "column": 9,
+        "line": 33
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ replace EventKind::from_name -> Option<Self> with None\n@@ -91,17 +91,17 @@\n         Self::Question,\n         Self::Permission,\n         Self::Plan,\n         Self::SessionEnd,\n     ];\n \n     /// The kind `name` spells in kebab case; `None` for any other text.\n     pub fn from_name(name: &str) -> Option<Self> {\n-        Self::ALL.into_iter().find(|kind| kind.as_str() == name)\n+        None /* ~ changed by cargo-mutants ~ */\n     }\n \n     /// The keys the kind's `data` may carry (architecture §Standard Contracts, Event `data` per\n     /// kind); a reader counts any other key as unknown.\n     pub const fn data_keys(self) -> &'static [&'static str] {\n         match self {\n             Self::SessionStart => &[\"cause\", \"agent_session_id\"],\n             Self::PromptSubmitted => &[\"text\", \"origin\"],\n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": {
+      "function_name": "EventKind::from_name",
+      "return_type": "-> Option<Self>",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 100
+        },
+        "start": {
+          "column": 5,
+          "line": 97
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/lib.rs:99:9: replace EventKind::from_name -> Option<Self> with None",
+    "package": "viola-core",
+    "replacement": "None",
+    "span": {
+      "end": {
+        "column": 65,
+        "line": 99
+      },
+      "start": {
+        "column": 9,
+        "line": 99
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ replace EventKind::from_name -> Option<Self> with Some(Default::default())\n@@ -91,17 +91,17 @@\n         Self::Question,\n         Self::Permission,\n         Self::Plan,\n         Self::SessionEnd,\n     ];\n \n     /// The kind `name` spells in kebab case; `None` for any other text.\n     pub fn from_name(name: &str) -> Option<Self> {\n-        Self::ALL.into_iter().find(|kind| kind.as_str() == name)\n+        Some(Default::default()) /* ~ changed by cargo-mutants ~ */\n     }\n \n     /// The keys the kind's `data` may carry (architecture §Standard Contracts, Event `data` per\n     /// kind); a reader counts any other key as unknown.\n     pub const fn data_keys(self) -> &'static [&'static str] {\n         match self {\n             Self::SessionStart => &[\"cause\", \"agent_session_id\"],\n             Self::PromptSubmitted => &[\"text\", \"origin\"],\n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": {
+      "function_name": "EventKind::from_name",
+      "return_type": "-> Option<Self>",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 100
+        },
+        "start": {
+          "column": 5,
+          "line": 97
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/lib.rs:99:9: replace EventKind::from_name -> Option<Self> with Some(Default::default())",
+    "package": "viola-core",
+    "replacement": "Some(Default::default())",
+    "span": {
+      "end": {
+        "column": 65,
+        "line": 99
+      },
+      "start": {
+        "column": 9,
+        "line": 99
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ replace == with != in EventKind::from_name\n@@ -91,17 +91,17 @@\n         Self::Question,\n         Self::Permission,\n         Self::Plan,\n         Self::SessionEnd,\n     ];\n \n     /// The kind `name` spells in kebab case; `None` for any other text.\n     pub fn from_name(name: &str) -> Option<Self> {\n-        Self::ALL.into_iter().find(|kind| kind.as_str() == name)\n+        Self::ALL.into_iter().find(|kind| kind.as_str() != /* ~ changed by cargo-mutants ~ */ name)\n     }\n \n     /// The keys the kind's `data` may carry (architecture §Standard Contracts, Event `data` per\n     /// kind); a reader counts any other key as unknown.\n     pub const fn data_keys(self) -> &'static [&'static str] {\n         match self {\n             Self::SessionStart => &[\"cause\", \"agent_session_id\"],\n             Self::PromptSubmitted => &[\"text\", \"origin\"],\n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": {
+      "function_name": "EventKind::from_name",
+      "return_type": "-> Option<Self>",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 100
+        },
+        "start": {
+          "column": 5,
+          "line": 97
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-core/src/lib.rs:99:57: replace == with != in EventKind::from_name",
+    "package": "viola-core",
+    "replacement": "!=",
+    "span": {
+      "end": {
+        "column": 59,
+        "line": 99
+      },
+      "start": {
+        "column": 57,
+        "line": 99
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ replace EventKind::data_keys -> &'static[&'static str] with Vec::leak(Vec::new())\n@@ -97,32 +97,17 @@\n     /// The kind `name` spells in kebab case; `None` for any other text.\n     pub fn from_name(name: &str) -> Option<Self> {\n         Self::ALL.into_iter().find(|kind| kind.as_str() == name)\n     }\n \n     /// The keys the kind's `data` may carry (architecture §Standard Contracts, Event `data` per\n     /// kind); a reader counts any other key as unknown.\n     pub const fn data_keys(self) -> &'static [&'static str] {\n-        match self {\n-            Self::SessionStart => &[\"cause\", \"agent_session_id\"],\n-            Self::PromptSubmitted => &[\"text\", \"origin\"],\n-            Self::TurnEnded => &[\"last_assistant_message\"],\n-            Self::SessionEnd => &[],\n-            Self::Activity => &[\"tool\"],\n-            Self::Wheel => &[\"holder\", \"cause\"],\n-            Self::BudgetGate => &[\"paused\", \"window\", \"override_until\"],\n-            Self::SendIssued => &[\"cursor\", \"from\"],\n-            Self::SendConfirmed => &[\"cursor\", \"confirmed\"],\n-            Self::SendRefused => &[\"refusal\", \"detail\", \"cursor\"],\n-            Self::Question => &[\"dialog_id\", \"questions\"],\n-            Self::Permission => &[\"dialog_id\", \"tool\", \"input\"],\n-            Self::Plan => &[\"dialog_id\", \"plan\"],\n-            Self::Link | Self::Unlink => &[\"driver\", \"driven\"],\n-        }\n+        Vec::leak(Vec::new()) /* ~ changed by cargo-mutants ~ */\n     }\n \n     pub const fn as_str(self) -> &'static str {\n         match self {\n             Self::SessionStart => \"session-start\",\n             Self::PromptSubmitted => \"prompt-submitted\",\n             Self::TurnEnded => \"turn-ended\",\n             Self::SessionEnd => \"session-end\",\n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": {
+      "function_name": "EventKind::data_keys",
+      "return_type": "-> &'static[&'static str]",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 121
+        },
+        "start": {
+          "column": 5,
+          "line": 102
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/lib.rs:105:9: replace EventKind::data_keys -> &'static[&'static str] with Vec::leak(Vec::new())",
+    "package": "viola-core",
+    "replacement": "Vec::leak(Vec::new())",
+    "span": {
+      "end": {
+        "column": 10,
+        "line": 120
+      },
+      "start": {
+        "column": 9,
+        "line": 105
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ replace EventKind::data_keys -> &'static[&'static str] with Vec::leak(vec![\"\"])\n@@ -97,32 +97,17 @@\n     /// The kind `name` spells in kebab case; `None` for any other text.\n     pub fn from_name(name: &str) -> Option<Self> {\n         Self::ALL.into_iter().find(|kind| kind.as_str() == name)\n     }\n \n     /// The keys the kind's `data` may carry (architecture §Standard Contracts, Event `data` per\n     /// kind); a reader counts any other key as unknown.\n     pub const fn data_keys(self) -> &'static [&'static str] {\n-        match self {\n-            Self::SessionStart => &[\"cause\", \"agent_session_id\"],\n-            Self::PromptSubmitted => &[\"text\", \"origin\"],\n-            Self::TurnEnded => &[\"last_assistant_message\"],\n-            Self::SessionEnd => &[],\n-            Self::Activity => &[\"tool\"],\n-            Self::Wheel => &[\"holder\", \"cause\"],\n-            Self::BudgetGate => &[\"paused\", \"window\", \"override_until\"],\n-            Self::SendIssued => &[\"cursor\", \"from\"],\n-            Self::SendConfirmed => &[\"cursor\", \"confirmed\"],\n-            Self::SendRefused => &[\"refusal\", \"detail\", \"cursor\"],\n-            Self::Question => &[\"dialog_id\", \"questions\"],\n-            Self::Permission => &[\"dialog_id\", \"tool\", \"input\"],\n-            Self::Plan => &[\"dialog_id\", \"plan\"],\n-            Self::Link | Self::Unlink => &[\"driver\", \"driven\"],\n-        }\n+        Vec::leak(vec![\"\"]) /* ~ changed by cargo-mutants ~ */\n     }\n \n     pub const fn as_str(self) -> &'static str {\n         match self {\n             Self::SessionStart => \"session-start\",\n             Self::PromptSubmitted => \"prompt-submitted\",\n             Self::TurnEnded => \"turn-ended\",\n             Self::SessionEnd => \"session-end\",\n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": {
+      "function_name": "EventKind::data_keys",
+      "return_type": "-> &'static[&'static str]",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 121
+        },
+        "start": {
+          "column": 5,
+          "line": 102
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/lib.rs:105:9: replace EventKind::data_keys -> &'static[&'static str] with Vec::leak(vec![\"\"])",
+    "package": "viola-core",
+    "replacement": "Vec::leak(vec![\"\"])",
+    "span": {
+      "end": {
+        "column": 10,
+        "line": 120
+      },
+      "start": {
+        "column": 9,
+        "line": 105
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ replace EventKind::data_keys -> &'static[&'static str] with Vec::leak(vec![\"xyzzy\"])\n@@ -97,32 +97,17 @@\n     /// The kind `name` spells in kebab case; `None` for any other text.\n     pub fn from_name(name: &str) -> Option<Self> {\n         Self::ALL.into_iter().find(|kind| kind.as_str() == name)\n     }\n \n     /// The keys the kind's `data` may carry (architecture §Standard Contracts, Event `data` per\n     /// kind); a reader counts any other key as unknown.\n     pub const fn data_keys(self) -> &'static [&'static str] {\n-        match self {\n-            Self::SessionStart => &[\"cause\", \"agent_session_id\"],\n-            Self::PromptSubmitted => &[\"text\", \"origin\"],\n-            Self::TurnEnded => &[\"last_assistant_message\"],\n-            Self::SessionEnd => &[],\n-            Self::Activity => &[\"tool\"],\n-            Self::Wheel => &[\"holder\", \"cause\"],\n-            Self::BudgetGate => &[\"paused\", \"window\", \"override_until\"],\n-            Self::SendIssued => &[\"cursor\", \"from\"],\n-            Self::SendConfirmed => &[\"cursor\", \"confirmed\"],\n-            Self::SendRefused => &[\"refusal\", \"detail\", \"cursor\"],\n-            Self::Question => &[\"dialog_id\", \"questions\"],\n-            Self::Permission => &[\"dialog_id\", \"tool\", \"input\"],\n-            Self::Plan => &[\"dialog_id\", \"plan\"],\n-            Self::Link | Self::Unlink => &[\"driver\", \"driven\"],\n-        }\n+        Vec::leak(vec![\"xyzzy\"]) /* ~ changed by cargo-mutants ~ */\n     }\n \n     pub const fn as_str(self) -> &'static str {\n         match self {\n             Self::SessionStart => \"session-start\",\n             Self::PromptSubmitted => \"prompt-submitted\",\n             Self::TurnEnded => \"turn-ended\",\n             Self::SessionEnd => \"session-end\",\n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": {
+      "function_name": "EventKind::data_keys",
+      "return_type": "-> &'static[&'static str]",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 121
+        },
+        "start": {
+          "column": 5,
+          "line": 102
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/lib.rs:105:9: replace EventKind::data_keys -> &'static[&'static str] with Vec::leak(vec![\"xyzzy\"])",
+    "package": "viola-core",
+    "replacement": "Vec::leak(vec![\"xyzzy\"])",
+    "span": {
+      "end": {
+        "column": 10,
+        "line": 120
+      },
+      "start": {
+        "column": 9,
+        "line": 105
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ replace EventKind::as_str -> &'static str with \"\"\n@@ -116,33 +116,17 @@\n             Self::Question => &[\"dialog_id\", \"questions\"],\n             Self::Permission => &[\"dialog_id\", \"tool\", \"input\"],\n             Self::Plan => &[\"dialog_id\", \"plan\"],\n             Self::Link | Self::Unlink => &[\"driver\", \"driven\"],\n         }\n     }\n \n     pub const fn as_str(self) -> &'static str {\n-        match self {\n-            Self::SessionStart => \"session-start\",\n-            Self::PromptSubmitted => \"prompt-submitted\",\n-            Self::TurnEnded => \"turn-ended\",\n-            Self::SessionEnd => \"session-end\",\n-            Self::Activity => \"activity\",\n-            Self::Wheel => \"wheel\",\n-            Self::BudgetGate => \"budget-gate\",\n-            Self::SendIssued => \"send-issued\",\n-            Self::SendConfirmed => \"send-confirmed\",\n-            Self::SendRefused => \"send-refused\",\n-            Self::Question => \"question\",\n-            Self::Permission => \"permission\",\n-            Self::Plan => \"plan\",\n-            Self::Link => \"link\",\n-            Self::Unlink => \"unlink\",\n-        }\n+        \"\" /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n /// Why a request was refused: a normal outcome, never a protocol fault (architecture §Conventions).\n #[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]\n #[serde(rename_all = \"kebab-case\")]\n pub enum RefusalReason {\n     HumanTyping,\n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": {
+      "function_name": "EventKind::as_str",
+      "return_type": "-> &'static str",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 141
+        },
+        "start": {
+          "column": 5,
+          "line": 123
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/lib.rs:124:9: replace EventKind::as_str -> &'static str with \"\"",
+    "package": "viola-core",
+    "replacement": "\"\"",
+    "span": {
+      "end": {
+        "column": 10,
+        "line": 140
+      },
+      "start": {
+        "column": 9,
+        "line": 124
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ replace EventKind::as_str -> &'static str with \"xyzzy\"\n@@ -116,33 +116,17 @@\n             Self::Question => &[\"dialog_id\", \"questions\"],\n             Self::Permission => &[\"dialog_id\", \"tool\", \"input\"],\n             Self::Plan => &[\"dialog_id\", \"plan\"],\n             Self::Link | Self::Unlink => &[\"driver\", \"driven\"],\n         }\n     }\n \n     pub const fn as_str(self) -> &'static str {\n-        match self {\n-            Self::SessionStart => \"session-start\",\n-            Self::PromptSubmitted => \"prompt-submitted\",\n-            Self::TurnEnded => \"turn-ended\",\n-            Self::SessionEnd => \"session-end\",\n-            Self::Activity => \"activity\",\n-            Self::Wheel => \"wheel\",\n-            Self::BudgetGate => \"budget-gate\",\n-            Self::SendIssued => \"send-issued\",\n-            Self::SendConfirmed => \"send-confirmed\",\n-            Self::SendRefused => \"send-refused\",\n-            Self::Question => \"question\",\n-            Self::Permission => \"permission\",\n-            Self::Plan => \"plan\",\n-            Self::Link => \"link\",\n-            Self::Unlink => \"unlink\",\n-        }\n+        \"xyzzy\" /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n /// Why a request was refused: a normal outcome, never a protocol fault (architecture §Conventions).\n #[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]\n #[serde(rename_all = \"kebab-case\")]\n pub enum RefusalReason {\n     HumanTyping,\n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": {
+      "function_name": "EventKind::as_str",
+      "return_type": "-> &'static str",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 141
+        },
+        "start": {
+          "column": 5,
+          "line": 123
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/lib.rs:124:9: replace EventKind::as_str -> &'static str with \"xyzzy\"",
+    "package": "viola-core",
+    "replacement": "\"xyzzy\"",
+    "span": {
+      "end": {
+        "column": 10,
+        "line": 140
+      },
+      "start": {
+        "column": 9,
+        "line": 124
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ replace RefusalReason::as_str -> &'static str with \"\"\n@@ -150,23 +150,17 @@\n     UnverifiedCli,\n     NotDelivered,\n     #[serde(other)]\n     Unknown,\n }\n \n impl RefusalReason {\n     pub const fn as_str(self) -> &'static str {\n-        match self {\n-            Self::HumanTyping => \"human-typing\",\n-            Self::BudgetPaused => \"budget-paused\",\n-            Self::UnverifiedCli => \"unverified-cli\",\n-            Self::NotDelivered => \"not-delivered\",\n-            Self::Unknown => \"unknown\",\n-        }\n+        \"\" /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n /// The closed `not-delivered` details of a `send`.\n #[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]\n #[serde(rename_all = \"kebab-case\")]\n pub enum NotDelivered {\n     InputNotReady,\n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": {
+      "function_name": "RefusalReason::as_str",
+      "return_type": "-> &'static str",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 165
+        },
+        "start": {
+          "column": 5,
+          "line": 157
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/lib.rs:158:9: replace RefusalReason::as_str -> &'static str with \"\"",
+    "package": "viola-core",
+    "replacement": "\"\"",
+    "span": {
+      "end": {
+        "column": 10,
+        "line": 164
+      },
+      "start": {
+        "column": 9,
+        "line": 158
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ replace RefusalReason::as_str -> &'static str with \"xyzzy\"\n@@ -150,23 +150,17 @@\n     UnverifiedCli,\n     NotDelivered,\n     #[serde(other)]\n     Unknown,\n }\n \n impl RefusalReason {\n     pub const fn as_str(self) -> &'static str {\n-        match self {\n-            Self::HumanTyping => \"human-typing\",\n-            Self::BudgetPaused => \"budget-paused\",\n-            Self::UnverifiedCli => \"unverified-cli\",\n-            Self::NotDelivered => \"not-delivered\",\n-            Self::Unknown => \"unknown\",\n-        }\n+        \"xyzzy\" /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n /// The closed `not-delivered` details of a `send`.\n #[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]\n #[serde(rename_all = \"kebab-case\")]\n pub enum NotDelivered {\n     InputNotReady,\n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": {
+      "function_name": "RefusalReason::as_str",
+      "return_type": "-> &'static str",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 165
+        },
+        "start": {
+          "column": 5,
+          "line": 157
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/lib.rs:158:9: replace RefusalReason::as_str -> &'static str with \"xyzzy\"",
+    "package": "viola-core",
+    "replacement": "\"xyzzy\"",
+    "span": {
+      "end": {
+        "column": 10,
+        "line": 164
+      },
+      "start": {
+        "column": 9,
+        "line": 158
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ replace NotDelivered::as_str -> &'static str with \"\"\n@@ -174,24 +174,17 @@\n     TurnRunning,\n     UnknownDialog,\n     ControlCharacter,\n     EmptyText,\n }\n \n impl NotDelivered {\n     pub const fn as_str(self) -> &'static str {\n-        match self {\n-            Self::InputNotReady => \"input-not-ready\",\n-            Self::NoPromptSubmitted => \"no-prompt-submitted\",\n-            Self::TurnRunning => \"turn-running\",\n-            Self::UnknownDialog => \"unknown-dialog\",\n-            Self::ControlCharacter => \"control-character\",\n-            Self::EmptyText => \"empty-text\",\n-        }\n+        \"\" /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n /// The closed `human-typing` details besides `null` (a human key took the wheel): the wheel was\n /// taken by `viola pause`.\n #[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]\n #[serde(rename_all = \"kebab-case\")]\n pub enum HumanTyping {\n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": {
+      "function_name": "NotDelivered::as_str",
+      "return_type": "-> &'static str",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 190
+        },
+        "start": {
+          "column": 5,
+          "line": 181
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/lib.rs:182:9: replace NotDelivered::as_str -> &'static str with \"\"",
+    "package": "viola-core",
+    "replacement": "\"\"",
+    "span": {
+      "end": {
+        "column": 10,
+        "line": 189
+      },
+      "start": {
+        "column": 9,
+        "line": 182
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ replace NotDelivered::as_str -> &'static str with \"xyzzy\"\n@@ -174,24 +174,17 @@\n     TurnRunning,\n     UnknownDialog,\n     ControlCharacter,\n     EmptyText,\n }\n \n impl NotDelivered {\n     pub const fn as_str(self) -> &'static str {\n-        match self {\n-            Self::InputNotReady => \"input-not-ready\",\n-            Self::NoPromptSubmitted => \"no-prompt-submitted\",\n-            Self::TurnRunning => \"turn-running\",\n-            Self::UnknownDialog => \"unknown-dialog\",\n-            Self::ControlCharacter => \"control-character\",\n-            Self::EmptyText => \"empty-text\",\n-        }\n+        \"xyzzy\" /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n /// The closed `human-typing` details besides `null` (a human key took the wheel): the wheel was\n /// taken by `viola pause`.\n #[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]\n #[serde(rename_all = \"kebab-case\")]\n pub enum HumanTyping {\n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": {
+      "function_name": "NotDelivered::as_str",
+      "return_type": "-> &'static str",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 190
+        },
+        "start": {
+          "column": 5,
+          "line": 181
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/lib.rs:182:9: replace NotDelivered::as_str -> &'static str with \"xyzzy\"",
+    "package": "viola-core",
+    "replacement": "\"xyzzy\"",
+    "span": {
+      "end": {
+        "column": 10,
+        "line": 189
+      },
+      "start": {
+        "column": 9,
+        "line": 182
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ replace HumanTyping::as_str -> &'static str with \"\"\n@@ -195,19 +195,17 @@\n #[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]\n #[serde(rename_all = \"kebab-case\")]\n pub enum HumanTyping {\n     ManualPause,\n }\n \n impl HumanTyping {\n     pub const fn as_str(self) -> &'static str {\n-        match self {\n-            Self::ManualPause => \"manual-pause\",\n-        }\n+        \"\" /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n /// The closed `budget-paused` details, and the `window` of a `budget-gate` event: the usage window\n /// that crossed its threshold.\n #[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]\n #[serde(rename_all = \"kebab-case\")]\n pub enum BudgetWindowKind {\n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": {
+      "function_name": "HumanTyping::as_str",
+      "return_type": "-> &'static str",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 206
+        },
+        "start": {
+          "column": 5,
+          "line": 202
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/lib.rs:203:9: replace HumanTyping::as_str -> &'static str with \"\"",
+    "package": "viola-core",
+    "replacement": "\"\"",
+    "span": {
+      "end": {
+        "column": 10,
+        "line": 205
+      },
+      "start": {
+        "column": 9,
+        "line": 203
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ replace HumanTyping::as_str -> &'static str with \"xyzzy\"\n@@ -195,19 +195,17 @@\n #[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]\n #[serde(rename_all = \"kebab-case\")]\n pub enum HumanTyping {\n     ManualPause,\n }\n \n impl HumanTyping {\n     pub const fn as_str(self) -> &'static str {\n-        match self {\n-            Self::ManualPause => \"manual-pause\",\n-        }\n+        \"xyzzy\" /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n /// The closed `budget-paused` details, and the `window` of a `budget-gate` event: the usage window\n /// that crossed its threshold.\n #[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]\n #[serde(rename_all = \"kebab-case\")]\n pub enum BudgetWindowKind {\n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": {
+      "function_name": "HumanTyping::as_str",
+      "return_type": "-> &'static str",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 206
+        },
+        "start": {
+          "column": 5,
+          "line": 202
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/lib.rs:203:9: replace HumanTyping::as_str -> &'static str with \"xyzzy\"",
+    "package": "viola-core",
+    "replacement": "\"xyzzy\"",
+    "span": {
+      "end": {
+        "column": 10,
+        "line": 205
+      },
+      "start": {
+        "column": 9,
+        "line": 203
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ replace BudgetWindowKind::as_str -> &'static str with \"\"\n@@ -212,20 +212,17 @@\n #[serde(rename_all = \"kebab-case\")]\n pub enum BudgetWindowKind {\n     FiveHour,\n     SevenDay,\n }\n \n impl BudgetWindowKind {\n     pub const fn as_str(self) -> &'static str {\n-        match self {\n-            Self::FiveHour => \"five-hour\",\n-            Self::SevenDay => \"seven-day\",\n-        }\n+        \"\" /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n /// A whole percentage, 0 to 100 (architecture §Cross-cutting Patterns, Config management). The\n /// only way to build one is `Percent::try_new`.\n #[nutype(\n     validate(less_or_equal = 100),\n     derive(Debug, Clone, Copy, PartialEq, Eq)\n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": {
+      "function_name": "BudgetWindowKind::as_str",
+      "return_type": "-> &'static str",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 224
+        },
+        "start": {
+          "column": 5,
+          "line": 219
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/lib.rs:220:9: replace BudgetWindowKind::as_str -> &'static str with \"\"",
+    "package": "viola-core",
+    "replacement": "\"\"",
+    "span": {
+      "end": {
+        "column": 10,
+        "line": 223
+      },
+      "start": {
+        "column": 9,
+        "line": 220
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ replace BudgetWindowKind::as_str -> &'static str with \"xyzzy\"\n@@ -212,20 +212,17 @@\n #[serde(rename_all = \"kebab-case\")]\n pub enum BudgetWindowKind {\n     FiveHour,\n     SevenDay,\n }\n \n impl BudgetWindowKind {\n     pub const fn as_str(self) -> &'static str {\n-        match self {\n-            Self::FiveHour => \"five-hour\",\n-            Self::SevenDay => \"seven-day\",\n-        }\n+        \"xyzzy\" /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n /// A whole percentage, 0 to 100 (architecture §Cross-cutting Patterns, Config management). The\n /// only way to build one is `Percent::try_new`.\n #[nutype(\n     validate(less_or_equal = 100),\n     derive(Debug, Clone, Copy, PartialEq, Eq)\n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": {
+      "function_name": "BudgetWindowKind::as_str",
+      "return_type": "-> &'static str",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 224
+        },
+        "start": {
+          "column": 5,
+          "line": 219
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/lib.rs:220:9: replace BudgetWindowKind::as_str -> &'static str with \"xyzzy\"",
+    "package": "viola-core",
+    "replacement": "\"xyzzy\"",
+    "span": {
+      "end": {
+        "column": 10,
+        "line": 223
+      },
+      "start": {
+        "column": 9,
+        "line": 220
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ replace WheelCause::as_str -> &'static str with \"\"\n@@ -239,22 +239,17 @@\n     Start,\n     HumanInput,\n     ManualPause,\n     Release,\n }\n \n impl WheelCause {\n     pub const fn as_str(self) -> &'static str {\n-        match self {\n-            Self::Start => \"start\",\n-            Self::HumanInput => \"human-input\",\n-            Self::ManualPause => \"manual-pause\",\n-            Self::Release => \"release\",\n-        }\n+        \"\" /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n /// The word that stands in place of an external value viola could not read.\n #[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]\n #[serde(rename_all = \"kebab-case\")]\n pub enum UnknownWord {\n     Unknown,\n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": {
+      "function_name": "WheelCause::as_str",
+      "return_type": "-> &'static str",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 253
+        },
+        "start": {
+          "column": 5,
+          "line": 246
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/lib.rs:247:9: replace WheelCause::as_str -> &'static str with \"\"",
+    "package": "viola-core",
+    "replacement": "\"\"",
+    "span": {
+      "end": {
+        "column": 10,
+        "line": 252
+      },
+      "start": {
+        "column": 9,
+        "line": 247
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ replace WheelCause::as_str -> &'static str with \"xyzzy\"\n@@ -239,22 +239,17 @@\n     Start,\n     HumanInput,\n     ManualPause,\n     Release,\n }\n \n impl WheelCause {\n     pub const fn as_str(self) -> &'static str {\n-        match self {\n-            Self::Start => \"start\",\n-            Self::HumanInput => \"human-input\",\n-            Self::ManualPause => \"manual-pause\",\n-            Self::Release => \"release\",\n-        }\n+        \"xyzzy\" /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n /// The word that stands in place of an external value viola could not read.\n #[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]\n #[serde(rename_all = \"kebab-case\")]\n pub enum UnknownWord {\n     Unknown,\n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": {
+      "function_name": "WheelCause::as_str",
+      "return_type": "-> &'static str",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 253
+        },
+        "start": {
+          "column": 5,
+          "line": 246
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/lib.rs:247:9: replace WheelCause::as_str -> &'static str with \"xyzzy\"",
+    "package": "viola-core",
+    "replacement": "\"xyzzy\"",
+    "span": {
+      "end": {
+        "column": 10,
+        "line": 252
+      },
+      "start": {
+        "column": 9,
+        "line": 247
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ replace validate_paste_text -> Result<(), NotDelivered> with Ok(())\n@@ -287,21 +287,17 @@\n pub struct BudgetReading {\n     pub five_hour: Reading<BudgetWindow>,\n     pub seven_day: Reading<BudgetWindow>,\n }\n \n /// Paste text admits LF, CR and TAB; every other C0, DEL and C1 is refused, never stripped\n /// (security-plan §Input Validation, \"Paste text\").\n pub fn validate_paste_text(text: &str) -> Result<(), NotDelivered> {\n-    if text.chars().any(is_refused_control) {\n-        Err(NotDelivered::ControlCharacter)\n-    } else {\n-        Ok(())\n-    }\n+    Ok(()) /* ~ changed by cargo-mutants ~ */\n }\n \n fn is_refused_control(c: char) -> bool {\n     match c {\n         '\\n' | '\\r' | '\\t' => false,\n         '\\u{0}'..='\\u{1f}' | '\\u{7f}'..='\\u{9f}' => true,\n         _ => false,\n     }\n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": {
+      "function_name": "validate_paste_text",
+      "return_type": "-> Result<(), NotDelivered>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 300
+        },
+        "start": {
+          "column": 1,
+          "line": 292
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/lib.rs:295:5: replace validate_paste_text -> Result<(), NotDelivered> with Ok(())",
+    "package": "viola-core",
+    "replacement": "Ok(())",
+    "span": {
+      "end": {
+        "column": 6,
+        "line": 299
+      },
+      "start": {
+        "column": 5,
+        "line": 295
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ replace is_refused_control -> bool with true\n@@ -295,21 +295,17 @@\n     if text.chars().any(is_refused_control) {\n         Err(NotDelivered::ControlCharacter)\n     } else {\n         Ok(())\n     }\n }\n \n fn is_refused_control(c: char) -> bool {\n-    match c {\n-        '\\n' | '\\r' | '\\t' => false,\n-        '\\u{0}'..='\\u{1f}' | '\\u{7f}'..='\\u{9f}' => true,\n-        _ => false,\n-    }\n+    true /* ~ changed by cargo-mutants ~ */\n }\n \n fn is_valid_name(name: &str) -> bool {\n     let bytes = name.as_bytes();\n     let Some(first) = bytes.first() else {\n         return false;\n     };\n     bytes.len() <= 32\n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": {
+      "function_name": "is_refused_control",
+      "return_type": "-> bool",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 308
+        },
+        "start": {
+          "column": 1,
+          "line": 302
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/lib.rs:303:5: replace is_refused_control -> bool with true",
+    "package": "viola-core",
+    "replacement": "true",
+    "span": {
+      "end": {
+        "column": 6,
+        "line": 307
+      },
+      "start": {
+        "column": 5,
+        "line": 303
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ replace is_refused_control -> bool with false\n@@ -295,21 +295,17 @@\n     if text.chars().any(is_refused_control) {\n         Err(NotDelivered::ControlCharacter)\n     } else {\n         Ok(())\n     }\n }\n \n fn is_refused_control(c: char) -> bool {\n-    match c {\n-        '\\n' | '\\r' | '\\t' => false,\n-        '\\u{0}'..='\\u{1f}' | '\\u{7f}'..='\\u{9f}' => true,\n-        _ => false,\n-    }\n+    false /* ~ changed by cargo-mutants ~ */\n }\n \n fn is_valid_name(name: &str) -> bool {\n     let bytes = name.as_bytes();\n     let Some(first) = bytes.first() else {\n         return false;\n     };\n     bytes.len() <= 32\n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": {
+      "function_name": "is_refused_control",
+      "return_type": "-> bool",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 308
+        },
+        "start": {
+          "column": 1,
+          "line": 302
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/lib.rs:303:5: replace is_refused_control -> bool with false",
+    "package": "viola-core",
+    "replacement": "false",
+    "span": {
+      "end": {
+        "column": 6,
+        "line": 307
+      },
+      "start": {
+        "column": 5,
+        "line": 303
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ delete match arm '\\n' | '\\r' | '\\t' in is_refused_control\n@@ -296,17 +296,17 @@\n         Err(NotDelivered::ControlCharacter)\n     } else {\n         Ok(())\n     }\n }\n \n fn is_refused_control(c: char) -> bool {\n     match c {\n-        '\\n' | '\\r' | '\\t' => false,\n+         /* ~ changed by cargo-mutants ~ */\n         '\\u{0}'..='\\u{1f}' | '\\u{7f}'..='\\u{9f}' => true,\n         _ => false,\n     }\n }\n \n fn is_valid_name(name: &str) -> bool {\n     let bytes = name.as_bytes();\n     let Some(first) = bytes.first() else {\n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": {
+      "function_name": "is_refused_control",
+      "return_type": "-> bool",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 308
+        },
+        "start": {
+          "column": 1,
+          "line": 302
+        }
+      }
+    },
+    "genre": "MatchArm",
+    "name": "crates/viola-core/src/lib.rs:304:9: delete match arm '\\n' | '\\r' | '\\t' in is_refused_control",
+    "package": "viola-core",
+    "replacement": "",
+    "span": {
+      "end": {
+        "column": 37,
+        "line": 304
+      },
+      "start": {
+        "column": 9,
+        "line": 304
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ delete match arm '\\u{0}'..= '\\u{1f}' | '\\u{7f}'..= '\\u{9f}' in is_refused_control\n@@ -297,17 +297,17 @@\n     } else {\n         Ok(())\n     }\n }\n \n fn is_refused_control(c: char) -> bool {\n     match c {\n         '\\n' | '\\r' | '\\t' => false,\n-        '\\u{0}'..='\\u{1f}' | '\\u{7f}'..='\\u{9f}' => true,\n+         /* ~ changed by cargo-mutants ~ */\n         _ => false,\n     }\n }\n \n fn is_valid_name(name: &str) -> bool {\n     let bytes = name.as_bytes();\n     let Some(first) = bytes.first() else {\n         return false;\n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": {
+      "function_name": "is_refused_control",
+      "return_type": "-> bool",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 308
+        },
+        "start": {
+          "column": 1,
+          "line": 302
+        }
+      }
+    },
+    "genre": "MatchArm",
+    "name": "crates/viola-core/src/lib.rs:305:9: delete match arm '\\u{0}'..= '\\u{1f}' | '\\u{7f}'..= '\\u{9f}' in is_refused_control",
+    "package": "viola-core",
+    "replacement": "",
+    "span": {
+      "end": {
+        "column": 58,
+        "line": 305
+      },
+      "start": {
+        "column": 9,
+        "line": 305
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ replace is_valid_name -> bool with true\n@@ -303,25 +303,17 @@\n     match c {\n         '\\n' | '\\r' | '\\t' => false,\n         '\\u{0}'..='\\u{1f}' | '\\u{7f}'..='\\u{9f}' => true,\n         _ => false,\n     }\n }\n \n fn is_valid_name(name: &str) -> bool {\n-    let bytes = name.as_bytes();\n-    let Some(first) = bytes.first() else {\n-        return false;\n-    };\n-    bytes.len() <= 32\n-        && first.is_ascii_lowercase()\n-        && bytes\n-            .iter()\n-            .all(|b| b.is_ascii_lowercase() || b.is_ascii_digit() || *b == b'-')\n+    true /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n     use proptest::prelude::*;\n     use proptest::test_runner::FileFailurePersistence;\n \n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": {
+      "function_name": "is_valid_name",
+      "return_type": "-> bool",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 320
+        },
+        "start": {
+          "column": 1,
+          "line": 310
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/lib.rs:311:5: replace is_valid_name -> bool with true",
+    "package": "viola-core",
+    "replacement": "true",
+    "span": {
+      "end": {
+        "column": 81,
+        "line": 319
+      },
+      "start": {
+        "column": 5,
+        "line": 311
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ replace is_valid_name -> bool with false\n@@ -303,25 +303,17 @@\n     match c {\n         '\\n' | '\\r' | '\\t' => false,\n         '\\u{0}'..='\\u{1f}' | '\\u{7f}'..='\\u{9f}' => true,\n         _ => false,\n     }\n }\n \n fn is_valid_name(name: &str) -> bool {\n-    let bytes = name.as_bytes();\n-    let Some(first) = bytes.first() else {\n-        return false;\n-    };\n-    bytes.len() <= 32\n-        && first.is_ascii_lowercase()\n-        && bytes\n-            .iter()\n-            .all(|b| b.is_ascii_lowercase() || b.is_ascii_digit() || *b == b'-')\n+    false /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n     use proptest::prelude::*;\n     use proptest::test_runner::FileFailurePersistence;\n \n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": {
+      "function_name": "is_valid_name",
+      "return_type": "-> bool",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 320
+        },
+        "start": {
+          "column": 1,
+          "line": 310
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/lib.rs:311:5: replace is_valid_name -> bool with false",
+    "package": "viola-core",
+    "replacement": "false",
+    "span": {
+      "end": {
+        "column": 81,
+        "line": 319
+      },
+      "start": {
+        "column": 5,
+        "line": 311
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ replace && with || in is_valid_name\n@@ -309,17 +309,17 @@\n \n fn is_valid_name(name: &str) -> bool {\n     let bytes = name.as_bytes();\n     let Some(first) = bytes.first() else {\n         return false;\n     };\n     bytes.len() <= 32\n         && first.is_ascii_lowercase()\n-        && bytes\n+        || /* ~ changed by cargo-mutants ~ */ bytes\n             .iter()\n             .all(|b| b.is_ascii_lowercase() || b.is_ascii_digit() || *b == b'-')\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n     use proptest::prelude::*;\n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": {
+      "function_name": "is_valid_name",
+      "return_type": "-> bool",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 320
+        },
+        "start": {
+          "column": 1,
+          "line": 310
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-core/src/lib.rs:317:9: replace && with || in is_valid_name",
+    "package": "viola-core",
+    "replacement": "||",
+    "span": {
+      "end": {
+        "column": 11,
+        "line": 317
+      },
+      "start": {
+        "column": 9,
+        "line": 317
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ replace && with || in is_valid_name\n@@ -308,17 +308,17 @@\n }\n \n fn is_valid_name(name: &str) -> bool {\n     let bytes = name.as_bytes();\n     let Some(first) = bytes.first() else {\n         return false;\n     };\n     bytes.len() <= 32\n-        && first.is_ascii_lowercase()\n+        || /* ~ changed by cargo-mutants ~ */ first.is_ascii_lowercase()\n         && bytes\n             .iter()\n             .all(|b| b.is_ascii_lowercase() || b.is_ascii_digit() || *b == b'-')\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": {
+      "function_name": "is_valid_name",
+      "return_type": "-> bool",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 320
+        },
+        "start": {
+          "column": 1,
+          "line": 310
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-core/src/lib.rs:316:9: replace && with || in is_valid_name",
+    "package": "viola-core",
+    "replacement": "||",
+    "span": {
+      "end": {
+        "column": 11,
+        "line": 316
+      },
+      "start": {
+        "column": 9,
+        "line": 316
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ replace <= with > in is_valid_name\n@@ -307,17 +307,17 @@\n     }\n }\n \n fn is_valid_name(name: &str) -> bool {\n     let bytes = name.as_bytes();\n     let Some(first) = bytes.first() else {\n         return false;\n     };\n-    bytes.len() <= 32\n+    bytes.len() > /* ~ changed by cargo-mutants ~ */ 32\n         && first.is_ascii_lowercase()\n         && bytes\n             .iter()\n             .all(|b| b.is_ascii_lowercase() || b.is_ascii_digit() || *b == b'-')\n }\n \n #[cfg(test)]\n mod tests {\n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": {
+      "function_name": "is_valid_name",
+      "return_type": "-> bool",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 320
+        },
+        "start": {
+          "column": 1,
+          "line": 310
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-core/src/lib.rs:315:17: replace <= with > in is_valid_name",
+    "package": "viola-core",
+    "replacement": ">",
+    "span": {
+      "end": {
+        "column": 19,
+        "line": 315
+      },
+      "start": {
+        "column": 17,
+        "line": 315
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ replace || with && in is_valid_name\n@@ -311,17 +311,17 @@\n     let bytes = name.as_bytes();\n     let Some(first) = bytes.first() else {\n         return false;\n     };\n     bytes.len() <= 32\n         && first.is_ascii_lowercase()\n         && bytes\n             .iter()\n-            .all(|b| b.is_ascii_lowercase() || b.is_ascii_digit() || *b == b'-')\n+            .all(|b| b.is_ascii_lowercase() || b.is_ascii_digit() && /* ~ changed by cargo-mutants ~ */ *b == b'-')\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n     use proptest::prelude::*;\n     use proptest::test_runner::FileFailurePersistence;\n \n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": {
+      "function_name": "is_valid_name",
+      "return_type": "-> bool",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 320
+        },
+        "start": {
+          "column": 1,
+          "line": 310
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-core/src/lib.rs:319:67: replace || with && in is_valid_name",
+    "package": "viola-core",
+    "replacement": "&&",
+    "span": {
+      "end": {
+        "column": 69,
+        "line": 319
+      },
+      "start": {
+        "column": 67,
+        "line": 319
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ replace || with && in is_valid_name\n@@ -311,17 +311,17 @@\n     let bytes = name.as_bytes();\n     let Some(first) = bytes.first() else {\n         return false;\n     };\n     bytes.len() <= 32\n         && first.is_ascii_lowercase()\n         && bytes\n             .iter()\n-            .all(|b| b.is_ascii_lowercase() || b.is_ascii_digit() || *b == b'-')\n+            .all(|b| b.is_ascii_lowercase() && /* ~ changed by cargo-mutants ~ */ b.is_ascii_digit() || *b == b'-')\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n     use proptest::prelude::*;\n     use proptest::test_runner::FileFailurePersistence;\n \n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": {
+      "function_name": "is_valid_name",
+      "return_type": "-> bool",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 320
+        },
+        "start": {
+          "column": 1,
+          "line": 310
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-core/src/lib.rs:319:45: replace || with && in is_valid_name",
+    "package": "viola-core",
+    "replacement": "&&",
+    "span": {
+      "end": {
+        "column": 47,
+        "line": 319
+      },
+      "start": {
+        "column": 45,
+        "line": 319
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/lib.rs\n+++ replace == with != in is_valid_name\n@@ -311,17 +311,17 @@\n     let bytes = name.as_bytes();\n     let Some(first) = bytes.first() else {\n         return false;\n     };\n     bytes.len() <= 32\n         && first.is_ascii_lowercase()\n         && bytes\n             .iter()\n-            .all(|b| b.is_ascii_lowercase() || b.is_ascii_digit() || *b == b'-')\n+            .all(|b| b.is_ascii_lowercase() || b.is_ascii_digit() || *b != /* ~ changed by cargo-mutants ~ */ b'-')\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n     use proptest::prelude::*;\n     use proptest::test_runner::FileFailurePersistence;\n \n",
+    "file": "crates/viola-core/src/lib.rs",
+    "function": {
+      "function_name": "is_valid_name",
+      "return_type": "-> bool",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 320
+        },
+        "start": {
+          "column": 1,
+          "line": 310
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/viola-core/src/lib.rs:319:73: replace == with != in is_valid_name",
+    "package": "viola-core",
+    "replacement": "!=",
+    "span": {
+      "end": {
+        "column": 75,
+        "line": 319
+      },
+      "start": {
+        "column": 73,
+        "line": 319
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/obs.rs\n+++ replace ObsEvent::as_str -> &'static str with \"\"\n@@ -50,37 +50,17 @@\n         Self::LivenessChanged,\n         Self::StateRecovered,\n         Self::SseOpened,\n         Self::SseClosed,\n         Self::ParseRejected,\n     ];\n \n     pub const fn as_str(self) -> &'static str {\n-        match self {\n-            Self::ChannelRequest => \"channel-request\",\n-            Self::ChannelResponse => \"channel-response\",\n-            Self::DialogRaised => \"dialog-raised\",\n-            Self::DialogAnswered => \"dialog-answered\",\n-            Self::HookInvoked => \"hook-invoked\",\n-            Self::HookDecision => \"hook-decision\",\n-            Self::SendIssued => \"send-issued\",\n-            Self::SendConfirmed => \"send-confirmed\",\n-            Self::SendRefused => \"send-refused\",\n-            Self::ReleaseFromDriver => \"release-from-driver\",\n-            Self::ProcessStart => \"process-start\",\n-            Self::ProcessExit => \"process-exit\",\n-            Self::HttpRequest => \"http-request\",\n-            Self::Panic => \"panic\",\n-            Self::LivenessChanged => \"liveness-changed\",\n-            Self::StateRecovered => \"state-recovered\",\n-            Self::SseOpened => \"sse-opened\",\n-            Self::SseClosed => \"sse-closed\",\n-            Self::ParseRejected => \"parse-rejected\",\n-        }\n+        \"\" /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n impl fmt::Display for ObsEvent {\n     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {\n         f.write_str(self.as_str())\n     }\n }\n",
+    "file": "crates/viola-core/src/obs.rs",
+    "function": {
+      "function_name": "ObsEvent::as_str",
+      "return_type": "-> &'static str",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 79
+        },
+        "start": {
+          "column": 5,
+          "line": 57
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/obs.rs:58:9: replace ObsEvent::as_str -> &'static str with \"\"",
+    "package": "viola-core",
+    "replacement": "\"\"",
+    "span": {
+      "end": {
+        "column": 10,
+        "line": 78
+      },
+      "start": {
+        "column": 9,
+        "line": 58
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/obs.rs\n+++ replace ObsEvent::as_str -> &'static str with \"xyzzy\"\n@@ -50,37 +50,17 @@\n         Self::LivenessChanged,\n         Self::StateRecovered,\n         Self::SseOpened,\n         Self::SseClosed,\n         Self::ParseRejected,\n     ];\n \n     pub const fn as_str(self) -> &'static str {\n-        match self {\n-            Self::ChannelRequest => \"channel-request\",\n-            Self::ChannelResponse => \"channel-response\",\n-            Self::DialogRaised => \"dialog-raised\",\n-            Self::DialogAnswered => \"dialog-answered\",\n-            Self::HookInvoked => \"hook-invoked\",\n-            Self::HookDecision => \"hook-decision\",\n-            Self::SendIssued => \"send-issued\",\n-            Self::SendConfirmed => \"send-confirmed\",\n-            Self::SendRefused => \"send-refused\",\n-            Self::ReleaseFromDriver => \"release-from-driver\",\n-            Self::ProcessStart => \"process-start\",\n-            Self::ProcessExit => \"process-exit\",\n-            Self::HttpRequest => \"http-request\",\n-            Self::Panic => \"panic\",\n-            Self::LivenessChanged => \"liveness-changed\",\n-            Self::StateRecovered => \"state-recovered\",\n-            Self::SseOpened => \"sse-opened\",\n-            Self::SseClosed => \"sse-closed\",\n-            Self::ParseRejected => \"parse-rejected\",\n-        }\n+        \"xyzzy\" /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n impl fmt::Display for ObsEvent {\n     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {\n         f.write_str(self.as_str())\n     }\n }\n",
+    "file": "crates/viola-core/src/obs.rs",
+    "function": {
+      "function_name": "ObsEvent::as_str",
+      "return_type": "-> &'static str",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 79
+        },
+        "start": {
+          "column": 5,
+          "line": 57
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/obs.rs:58:9: replace ObsEvent::as_str -> &'static str with \"xyzzy\"",
+    "package": "viola-core",
+    "replacement": "\"xyzzy\"",
+    "span": {
+      "end": {
+        "column": 10,
+        "line": 78
+      },
+      "start": {
+        "column": 9,
+        "line": 58
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/obs.rs\n+++ replace <impl fmt::Display for ObsEvent>::fmt -> fmt::Result with Ok(Default::default())\n@@ -76,17 +76,17 @@\n             Self::SseClosed => \"sse-closed\",\n             Self::ParseRejected => \"parse-rejected\",\n         }\n     }\n }\n \n impl fmt::Display for ObsEvent {\n     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {\n-        f.write_str(self.as_str())\n+        Ok(Default::default()) /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n /// The process role: it names the home-level role file and fills every line's `process`.\n #[derive(Debug, Clone, Copy, PartialEq, Eq)]\n pub enum ObsProcess {\n     Run,\n     Hook,\n",
+    "file": "crates/viola-core/src/obs.rs",
+    "function": {
+      "function_name": "<impl fmt::Display for ObsEvent>::fmt",
+      "return_type": "-> fmt::Result",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 85
+        },
+        "start": {
+          "column": 5,
+          "line": 83
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/obs.rs:84:9: replace <impl fmt::Display for ObsEvent>::fmt -> fmt::Result with Ok(Default::default())",
+    "package": "viola-core",
+    "replacement": "Ok(Default::default())",
+    "span": {
+      "end": {
+        "column": 35,
+        "line": 84
+      },
+      "start": {
+        "column": 9,
+        "line": 84
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/obs.rs\n+++ replace ObsProcess::as_str -> &'static str with \"\"\n@@ -94,23 +94,17 @@\n     Ui,\n     Cli,\n }\n \n impl ObsProcess {\n     pub const ALL: [Self; 5] = [Self::Run, Self::Hook, Self::Mcp, Self::Ui, Self::Cli];\n \n     pub const fn as_str(self) -> &'static str {\n-        match self {\n-            Self::Run => \"run\",\n-            Self::Hook => \"hook\",\n-            Self::Mcp => \"mcp\",\n-            Self::Ui => \"ui\",\n-            Self::Cli => \"cli\",\n-        }\n+        \"\" /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n impl fmt::Display for ObsProcess {\n     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {\n         f.write_str(self.as_str())\n     }\n }\n",
+    "file": "crates/viola-core/src/obs.rs",
+    "function": {
+      "function_name": "ObsProcess::as_str",
+      "return_type": "-> &'static str",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 109
+        },
+        "start": {
+          "column": 5,
+          "line": 101
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/obs.rs:102:9: replace ObsProcess::as_str -> &'static str with \"\"",
+    "package": "viola-core",
+    "replacement": "\"\"",
+    "span": {
+      "end": {
+        "column": 10,
+        "line": 108
+      },
+      "start": {
+        "column": 9,
+        "line": 102
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/obs.rs\n+++ replace ObsProcess::as_str -> &'static str with \"xyzzy\"\n@@ -94,23 +94,17 @@\n     Ui,\n     Cli,\n }\n \n impl ObsProcess {\n     pub const ALL: [Self; 5] = [Self::Run, Self::Hook, Self::Mcp, Self::Ui, Self::Cli];\n \n     pub const fn as_str(self) -> &'static str {\n-        match self {\n-            Self::Run => \"run\",\n-            Self::Hook => \"hook\",\n-            Self::Mcp => \"mcp\",\n-            Self::Ui => \"ui\",\n-            Self::Cli => \"cli\",\n-        }\n+        \"xyzzy\" /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n impl fmt::Display for ObsProcess {\n     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {\n         f.write_str(self.as_str())\n     }\n }\n",
+    "file": "crates/viola-core/src/obs.rs",
+    "function": {
+      "function_name": "ObsProcess::as_str",
+      "return_type": "-> &'static str",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 109
+        },
+        "start": {
+          "column": 5,
+          "line": 101
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/obs.rs:102:9: replace ObsProcess::as_str -> &'static str with \"xyzzy\"",
+    "package": "viola-core",
+    "replacement": "\"xyzzy\"",
+    "span": {
+      "end": {
+        "column": 10,
+        "line": 108
+      },
+      "start": {
+        "column": 9,
+        "line": 102
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/obs.rs\n+++ replace <impl fmt::Display for ObsProcess>::fmt -> fmt::Result with Ok(Default::default())\n@@ -106,17 +106,17 @@\n             Self::Ui => \"ui\",\n             Self::Cli => \"cli\",\n         }\n     }\n }\n \n impl fmt::Display for ObsProcess {\n     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {\n-        f.write_str(self.as_str())\n+        Ok(Default::default()) /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n /// Set once at init; every `obs_event!` reads its `process` and `instance` from here.\n #[derive(Debug, Clone, PartialEq, Eq)]\n pub struct ProcessCtx {\n     pub process: ObsProcess,\n     pub instance: Option<ViolaName>,\n",
+    "file": "crates/viola-core/src/obs.rs",
+    "function": {
+      "function_name": "<impl fmt::Display for ObsProcess>::fmt",
+      "return_type": "-> fmt::Result",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 115
+        },
+        "start": {
+          "column": 5,
+          "line": 113
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/obs.rs:114:9: replace <impl fmt::Display for ObsProcess>::fmt -> fmt::Result with Ok(Default::default())",
+    "package": "viola-core",
+    "replacement": "Ok(Default::default())",
+    "span": {
+      "end": {
+        "column": 35,
+        "line": 114
+      },
+      "start": {
+        "column": 9,
+        "line": 114
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/obs.rs\n+++ replace set_ctx -> bool with true\n@@ -121,17 +121,17 @@\n     pub process: ObsProcess,\n     pub instance: Option<ViolaName>,\n }\n \n static CTX: OnceLock<ProcessCtx> = OnceLock::new();\n \n /// The first call wins; returns whether this one took.\n pub fn set_ctx(ctx: ProcessCtx) -> bool {\n-    CTX.set(ctx).is_ok()\n+    true /* ~ changed by cargo-mutants ~ */\n }\n \n pub fn ctx() -> Option<&'static ProcessCtx> {\n     CTX.get()\n }\n \n pub fn ctx_process() -> Option<&'static str> {\n     ctx().map(|c| c.process.as_str())\n",
+    "file": "crates/viola-core/src/obs.rs",
+    "function": {
+      "function_name": "set_ctx",
+      "return_type": "-> bool",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 130
+        },
+        "start": {
+          "column": 1,
+          "line": 127
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/obs.rs:129:5: replace set_ctx -> bool with true",
+    "package": "viola-core",
+    "replacement": "true",
+    "span": {
+      "end": {
+        "column": 25,
+        "line": 129
+      },
+      "start": {
+        "column": 5,
+        "line": 129
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/obs.rs\n+++ replace set_ctx -> bool with false\n@@ -121,17 +121,17 @@\n     pub process: ObsProcess,\n     pub instance: Option<ViolaName>,\n }\n \n static CTX: OnceLock<ProcessCtx> = OnceLock::new();\n \n /// The first call wins; returns whether this one took.\n pub fn set_ctx(ctx: ProcessCtx) -> bool {\n-    CTX.set(ctx).is_ok()\n+    false /* ~ changed by cargo-mutants ~ */\n }\n \n pub fn ctx() -> Option<&'static ProcessCtx> {\n     CTX.get()\n }\n \n pub fn ctx_process() -> Option<&'static str> {\n     ctx().map(|c| c.process.as_str())\n",
+    "file": "crates/viola-core/src/obs.rs",
+    "function": {
+      "function_name": "set_ctx",
+      "return_type": "-> bool",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 130
+        },
+        "start": {
+          "column": 1,
+          "line": 127
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/obs.rs:129:5: replace set_ctx -> bool with false",
+    "package": "viola-core",
+    "replacement": "false",
+    "span": {
+      "end": {
+        "column": 25,
+        "line": 129
+      },
+      "start": {
+        "column": 5,
+        "line": 129
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/obs.rs\n+++ replace ctx -> Option<&'static ProcessCtx> with None\n@@ -125,17 +125,17 @@\n static CTX: OnceLock<ProcessCtx> = OnceLock::new();\n \n /// The first call wins; returns whether this one took.\n pub fn set_ctx(ctx: ProcessCtx) -> bool {\n     CTX.set(ctx).is_ok()\n }\n \n pub fn ctx() -> Option<&'static ProcessCtx> {\n-    CTX.get()\n+    None /* ~ changed by cargo-mutants ~ */\n }\n \n pub fn ctx_process() -> Option<&'static str> {\n     ctx().map(|c| c.process.as_str())\n }\n \n pub fn ctx_instance() -> Option<&'static str> {\n     ctx().and_then(|c| c.instance.as_ref()).map(name_str)\n",
+    "file": "crates/viola-core/src/obs.rs",
+    "function": {
+      "function_name": "ctx",
+      "return_type": "-> Option<&'static ProcessCtx>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 134
+        },
+        "start": {
+          "column": 1,
+          "line": 132
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/obs.rs:133:5: replace ctx -> Option<&'static ProcessCtx> with None",
+    "package": "viola-core",
+    "replacement": "None",
+    "span": {
+      "end": {
+        "column": 14,
+        "line": 133
+      },
+      "start": {
+        "column": 5,
+        "line": 133
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/obs.rs\n+++ replace ctx -> Option<&'static ProcessCtx> with Some(Box::leak(Box::new(Default::default())))\n@@ -125,17 +125,17 @@\n static CTX: OnceLock<ProcessCtx> = OnceLock::new();\n \n /// The first call wins; returns whether this one took.\n pub fn set_ctx(ctx: ProcessCtx) -> bool {\n     CTX.set(ctx).is_ok()\n }\n \n pub fn ctx() -> Option<&'static ProcessCtx> {\n-    CTX.get()\n+    Some(Box::leak(Box::new(Default::default()))) /* ~ changed by cargo-mutants ~ */\n }\n \n pub fn ctx_process() -> Option<&'static str> {\n     ctx().map(|c| c.process.as_str())\n }\n \n pub fn ctx_instance() -> Option<&'static str> {\n     ctx().and_then(|c| c.instance.as_ref()).map(name_str)\n",
+    "file": "crates/viola-core/src/obs.rs",
+    "function": {
+      "function_name": "ctx",
+      "return_type": "-> Option<&'static ProcessCtx>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 134
+        },
+        "start": {
+          "column": 1,
+          "line": 132
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/obs.rs:133:5: replace ctx -> Option<&'static ProcessCtx> with Some(Box::leak(Box::new(Default::default())))",
+    "package": "viola-core",
+    "replacement": "Some(Box::leak(Box::new(Default::default())))",
+    "span": {
+      "end": {
+        "column": 14,
+        "line": 133
+      },
+      "start": {
+        "column": 5,
+        "line": 133
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/obs.rs\n+++ replace ctx_process -> Option<&'static str> with None\n@@ -129,17 +129,17 @@\n     CTX.set(ctx).is_ok()\n }\n \n pub fn ctx() -> Option<&'static ProcessCtx> {\n     CTX.get()\n }\n \n pub fn ctx_process() -> Option<&'static str> {\n-    ctx().map(|c| c.process.as_str())\n+    None /* ~ changed by cargo-mutants ~ */\n }\n \n pub fn ctx_instance() -> Option<&'static str> {\n     ctx().and_then(|c| c.instance.as_ref()).map(name_str)\n }\n \n fn name_str(name: &ViolaName) -> &str {\n     name.as_ref()\n",
+    "file": "crates/viola-core/src/obs.rs",
+    "function": {
+      "function_name": "ctx_process",
+      "return_type": "-> Option<&'static str>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 138
+        },
+        "start": {
+          "column": 1,
+          "line": 136
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/obs.rs:137:5: replace ctx_process -> Option<&'static str> with None",
+    "package": "viola-core",
+    "replacement": "None",
+    "span": {
+      "end": {
+        "column": 38,
+        "line": 137
+      },
+      "start": {
+        "column": 5,
+        "line": 137
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/obs.rs\n+++ replace ctx_process -> Option<&'static str> with Some(\"\")\n@@ -129,17 +129,17 @@\n     CTX.set(ctx).is_ok()\n }\n \n pub fn ctx() -> Option<&'static ProcessCtx> {\n     CTX.get()\n }\n \n pub fn ctx_process() -> Option<&'static str> {\n-    ctx().map(|c| c.process.as_str())\n+    Some(\"\") /* ~ changed by cargo-mutants ~ */\n }\n \n pub fn ctx_instance() -> Option<&'static str> {\n     ctx().and_then(|c| c.instance.as_ref()).map(name_str)\n }\n \n fn name_str(name: &ViolaName) -> &str {\n     name.as_ref()\n",
+    "file": "crates/viola-core/src/obs.rs",
+    "function": {
+      "function_name": "ctx_process",
+      "return_type": "-> Option<&'static str>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 138
+        },
+        "start": {
+          "column": 1,
+          "line": 136
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/obs.rs:137:5: replace ctx_process -> Option<&'static str> with Some(\"\")",
+    "package": "viola-core",
+    "replacement": "Some(\"\")",
+    "span": {
+      "end": {
+        "column": 38,
+        "line": 137
+      },
+      "start": {
+        "column": 5,
+        "line": 137
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/obs.rs\n+++ replace ctx_process -> Option<&'static str> with Some(\"xyzzy\")\n@@ -129,17 +129,17 @@\n     CTX.set(ctx).is_ok()\n }\n \n pub fn ctx() -> Option<&'static ProcessCtx> {\n     CTX.get()\n }\n \n pub fn ctx_process() -> Option<&'static str> {\n-    ctx().map(|c| c.process.as_str())\n+    Some(\"xyzzy\") /* ~ changed by cargo-mutants ~ */\n }\n \n pub fn ctx_instance() -> Option<&'static str> {\n     ctx().and_then(|c| c.instance.as_ref()).map(name_str)\n }\n \n fn name_str(name: &ViolaName) -> &str {\n     name.as_ref()\n",
+    "file": "crates/viola-core/src/obs.rs",
+    "function": {
+      "function_name": "ctx_process",
+      "return_type": "-> Option<&'static str>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 138
+        },
+        "start": {
+          "column": 1,
+          "line": 136
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/obs.rs:137:5: replace ctx_process -> Option<&'static str> with Some(\"xyzzy\")",
+    "package": "viola-core",
+    "replacement": "Some(\"xyzzy\")",
+    "span": {
+      "end": {
+        "column": 38,
+        "line": 137
+      },
+      "start": {
+        "column": 5,
+        "line": 137
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/obs.rs\n+++ replace ctx_instance -> Option<&'static str> with None\n@@ -133,17 +133,17 @@\n     CTX.get()\n }\n \n pub fn ctx_process() -> Option<&'static str> {\n     ctx().map(|c| c.process.as_str())\n }\n \n pub fn ctx_instance() -> Option<&'static str> {\n-    ctx().and_then(|c| c.instance.as_ref()).map(name_str)\n+    None /* ~ changed by cargo-mutants ~ */\n }\n \n fn name_str(name: &ViolaName) -> &str {\n     name.as_ref()\n }\n \n /// `obs_event!(INFO, ObsEvent::ProcessStart, subject = \"self\", pid = 7)`: one codes-only line\n /// carrying `event`, `process` and `instance` from the process context (an absent value is an\n",
+    "file": "crates/viola-core/src/obs.rs",
+    "function": {
+      "function_name": "ctx_instance",
+      "return_type": "-> Option<&'static str>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 142
+        },
+        "start": {
+          "column": 1,
+          "line": 140
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/obs.rs:141:5: replace ctx_instance -> Option<&'static str> with None",
+    "package": "viola-core",
+    "replacement": "None",
+    "span": {
+      "end": {
+        "column": 58,
+        "line": 141
+      },
+      "start": {
+        "column": 5,
+        "line": 141
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/obs.rs\n+++ replace ctx_instance -> Option<&'static str> with Some(\"\")\n@@ -133,17 +133,17 @@\n     CTX.get()\n }\n \n pub fn ctx_process() -> Option<&'static str> {\n     ctx().map(|c| c.process.as_str())\n }\n \n pub fn ctx_instance() -> Option<&'static str> {\n-    ctx().and_then(|c| c.instance.as_ref()).map(name_str)\n+    Some(\"\") /* ~ changed by cargo-mutants ~ */\n }\n \n fn name_str(name: &ViolaName) -> &str {\n     name.as_ref()\n }\n \n /// `obs_event!(INFO, ObsEvent::ProcessStart, subject = \"self\", pid = 7)`: one codes-only line\n /// carrying `event`, `process` and `instance` from the process context (an absent value is an\n",
+    "file": "crates/viola-core/src/obs.rs",
+    "function": {
+      "function_name": "ctx_instance",
+      "return_type": "-> Option<&'static str>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 142
+        },
+        "start": {
+          "column": 1,
+          "line": 140
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/obs.rs:141:5: replace ctx_instance -> Option<&'static str> with Some(\"\")",
+    "package": "viola-core",
+    "replacement": "Some(\"\")",
+    "span": {
+      "end": {
+        "column": 58,
+        "line": 141
+      },
+      "start": {
+        "column": 5,
+        "line": 141
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/obs.rs\n+++ replace ctx_instance -> Option<&'static str> with Some(\"xyzzy\")\n@@ -133,17 +133,17 @@\n     CTX.get()\n }\n \n pub fn ctx_process() -> Option<&'static str> {\n     ctx().map(|c| c.process.as_str())\n }\n \n pub fn ctx_instance() -> Option<&'static str> {\n-    ctx().and_then(|c| c.instance.as_ref()).map(name_str)\n+    Some(\"xyzzy\") /* ~ changed by cargo-mutants ~ */\n }\n \n fn name_str(name: &ViolaName) -> &str {\n     name.as_ref()\n }\n \n /// `obs_event!(INFO, ObsEvent::ProcessStart, subject = \"self\", pid = 7)`: one codes-only line\n /// carrying `event`, `process` and `instance` from the process context (an absent value is an\n",
+    "file": "crates/viola-core/src/obs.rs",
+    "function": {
+      "function_name": "ctx_instance",
+      "return_type": "-> Option<&'static str>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 142
+        },
+        "start": {
+          "column": 1,
+          "line": 140
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/obs.rs:141:5: replace ctx_instance -> Option<&'static str> with Some(\"xyzzy\")",
+    "package": "viola-core",
+    "replacement": "Some(\"xyzzy\")",
+    "span": {
+      "end": {
+        "column": 58,
+        "line": 141
+      },
+      "start": {
+        "column": 5,
+        "line": 141
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/obs.rs\n+++ replace name_str -> &str with \"\"\n@@ -137,17 +137,17 @@\n     ctx().map(|c| c.process.as_str())\n }\n \n pub fn ctx_instance() -> Option<&'static str> {\n     ctx().and_then(|c| c.instance.as_ref()).map(name_str)\n }\n \n fn name_str(name: &ViolaName) -> &str {\n-    name.as_ref()\n+    \"\" /* ~ changed by cargo-mutants ~ */\n }\n \n /// `obs_event!(INFO, ObsEvent::ProcessStart, subject = \"self\", pid = 7)`: one codes-only line\n /// carrying `event`, `process` and `instance` from the process context (an absent value is an\n /// absent key), with `message` equal to the event name. `corr` is passed as a typed field.\n #[macro_export]\n macro_rules! obs_event {\n     ($level:ident, $event:expr $(, $key:ident = $value:expr)* $(,)?) => {{\n",
+    "file": "crates/viola-core/src/obs.rs",
+    "function": {
+      "function_name": "name_str",
+      "return_type": "-> &str",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 146
+        },
+        "start": {
+          "column": 1,
+          "line": 144
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/obs.rs:145:5: replace name_str -> &str with \"\"",
+    "package": "viola-core",
+    "replacement": "\"\"",
+    "span": {
+      "end": {
+        "column": 18,
+        "line": 145
+      },
+      "start": {
+        "column": 5,
+        "line": 145
+      }
+    }
+  },
+  {
+    "diff": "--- crates/viola-core/src/obs.rs\n+++ replace name_str -> &str with \"xyzzy\"\n@@ -137,17 +137,17 @@\n     ctx().map(|c| c.process.as_str())\n }\n \n pub fn ctx_instance() -> Option<&'static str> {\n     ctx().and_then(|c| c.instance.as_ref()).map(name_str)\n }\n \n fn name_str(name: &ViolaName) -> &str {\n-    name.as_ref()\n+    \"xyzzy\" /* ~ changed by cargo-mutants ~ */\n }\n \n /// `obs_event!(INFO, ObsEvent::ProcessStart, subject = \"self\", pid = 7)`: one codes-only line\n /// carrying `event`, `process` and `instance` from the process context (an absent value is an\n /// absent key), with `message` equal to the event name. `corr` is passed as a typed field.\n #[macro_export]\n macro_rules! obs_event {\n     ($level:ident, $event:expr $(, $key:ident = $value:expr)* $(,)?) => {{\n",
+    "file": "crates/viola-core/src/obs.rs",
+    "function": {
+      "function_name": "name_str",
+      "return_type": "-> &str",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 146
+        },
+        "start": {
+          "column": 1,
+          "line": 144
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/viola-core/src/obs.rs:145:5: replace name_str -> &str with \"xyzzy\"",
+    "package": "viola-core",
+    "replacement": "\"xyzzy\"",
+    "span": {
+      "end": {
+        "column": 18,
+        "line": 145
+      },
+      "start": {
+        "column": 5,
+        "line": 145
+      }
+    }
+  }
+]

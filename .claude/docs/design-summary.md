@@ -6,9 +6,9 @@ _Distilled from `.andromeda/design-system.md` + `.andromeda/layout-templates.md`
 
 **"Strip-bay handoff, read back."** The page is an air-traffic-control tower strip bay after dark. Buff paper strips sit in anthracite holder boots on ruled aluminium racks, and every session keeps its slot for life. The only warm light is the one amber arrival holder cocked out of line when a session needs you. The voice is standard phraseology: short fixed words (`open`, `RB`, `unable`, `human-typing`, `budget-paused`), no filler, no guessing. Nothing announces success before it is confirmed: a send stays `open` until the matching `prompt-submitted` reads it back (for `/clear`, until its new-session post-condition does). Missing readings print `unknown`, and old information carries its age (`read 4m ago`, `expired`). It is explicitly NOT a monitoring dashboard: no status dots, toasts, graphs, spinners, glow or chat bubbles.
 
-**Expression:** base 0.2 · web-spa 0.3 (exactly two motions) · CLI TTY 0.2 · `--json`/non-TTY/`viola run` 0.0. Dark only.
+**Expression:** base 0.2 · web-spa 0.3 (exactly two motions) · CLI TTY 0.2 · `--json`/non-TTY/`NO_COLOR`/`TERM=dumb`/`viola run` and `viola revive` passthrough 0.0. Dark only.
 
-**Signature:** the readback box — a 16px ruled square at the far right of every tape send line and every outbound transfer marker: `open` (outline) · `RB` / `read back` (solid buff fill, graphite `RB`) · `unable` (1px `/` strike + reason) · `unconfirmable` (open drawing, never filled). CLI mirror `[RB]` / `[  ]` / `[/ ]`. Supporting element: the **cocked strip** (`dialog_pending`: 12px translate over 160ms, once, amber 4px band, `DIALOG <kind>`).
+**Signature:** the readback box — a 16px ruled square at the far right of every tape send line and every outbound transfer marker once a send on its link has been seen since page open (before that the marker prints only the word `unknown`, no box): `open` (outline) · `RB` / `read back` (solid buff fill, graphite `RB`) · `unable` (1px `/` strike + reason) · `unconfirmable` (open drawing, never filled). CLI mirror `[RB]` / `[  ]` / `[/ ]`. Supporting element: the **cocked strip** (`dialog_pending`: 12px translate over 160ms, once, amber 4px band, `DIALOG <kind>`).
 
 ## Key design tokens
 
@@ -52,11 +52,11 @@ Contrast rule: lamp-off, amber and blue fail AA as text on holder → they live 
 - **Bay, first reading / empty** — `sessions: no reading yet`, `unknown` in every ATIS box, the empty-rack command in Code type
 - **Bay, degraded** — `TAPE stopped · viola ui not answering`, 503 `unable · state-unreadable`, the 401 access strip; last values kept
 - **Tape line, expanded** — native `<details>` body, full text as pre-wrapped plain text
-- **CLI** — `viola list` (the k9s-style board, same six columns and words), the `viola send` readback mirror, phraseology verb output, `viola verify` step counter
+- **CLI** — `viola list` (the k9s-style board, same six columns and words; as built: wrapped rows only, uncoloured on every stream, STATUS always `unknown`, and a failed strict-modes check refuses the whole board with exit 21), the `viola send` readback mirror, phraseology verb output, `viola verify` step counter, the `viola run` / `viola revive` passthrough (nothing printed while the child runs; `viola revive <name> --list` prints one static line per logged session)
 
 ## Component patterns
 
-- `<viola-session-row>` — the flight strip: six fixed fields NAME · LIVE · STATUS · WHEEL · DIALOG · CLI, stable slot by name, never blank (`unknown` / `n/a`), native `<tr>` under a `display: contents` host
+- `<viola-session-row>` — the flight strip: six fixed fields NAME · LIVE · STATUS · WHEEL · DIALOG · CLI, stable slot by name, never blank (`unknown` / `n/a`), native `<tr>` with `<td>` cells, any element between `<tbody>` and it role-less `display: contents` (how a `viola-*` name maps onto React's output is OPEN, owned by the frontend-toolchain entry)
 - `<viola-readback>` — the signature box, identical drawing in tape and marker, flips in the same frame
 - `<viola-transfer>` — `→ builder  since …` (blue, rack gap) under the driver, `← overseer` twin under the driven strip; no node graph
 - `<viola-event-feed>` — the tower tape: native `<details>` lines, oldest on top, 2000-line cap, follows only at the bottom, never announced

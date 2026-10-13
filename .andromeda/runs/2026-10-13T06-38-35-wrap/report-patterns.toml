@@ -1,0 +1,18 @@
+[[pattern]]
+id = 'notratified'
+regex = 'not ratified'
+ignore_case = true
+
+[[pattern]]
+id = 'cardconfirm'
+regex = 'confirmed the card'
+ignore_case = true
+
+[[pattern]]
+id = 'opword'
+regex = '''operator(’|')s word'''
+ignore_case = true
+
+[[pattern]]
+id = 'provisional'
+regex = 'PROVISIONAL'

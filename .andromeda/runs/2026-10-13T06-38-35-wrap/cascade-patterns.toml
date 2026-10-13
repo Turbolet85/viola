@@ -1,0 +1,42 @@
+# The Epoch 4 boundary 0-pending wrap: the founder's batch of 2026-10-13 rewritten into the masters
+# (the budget.json widening ratified, the rate_limits ruling, the board's shapes, WHEEL 23 and the
+# unlistable instances/ exit 1, the statusline arm's no-trace shape, the two budget-governor human lines,
+# the explicit link hold moved to Epoch 6). One pattern per retired mark or mechanism.
+
+[[pattern]]
+id = 'notratified'
+regex = 'not ratified|unratified'
+ignore_case = true
+
+[[pattern]]
+id = 'opword'
+regex = '''operator(’|')s (word|answer)'''
+ignore_case = true
+
+[[pattern]]
+id = 'notruled'
+regex = 'not ruled|has not ruled|not having ruled'
+ignore_case = true
+
+[[pattern]]
+id = 'wordowed'
+regex = 'wording is owed|word is owed|not worded by the founder|has not worded'
+ignore_case = true
+
+[[pattern]]
+id = 'acceptedop'
+regex = 'accepted by the operator'
+ignore_case = true
+
+[[pattern]]
+id = 'linkhold'
+regex = 'Explicit session links'
+
+[[pattern]]
+id = 'refusedriver'
+regex = 'refus\w* a driver'
+ignore_case = true
+
+[[pattern]]
+id = 'ratelimits'
+regex = 'rate_limits[^.]{0,300}(founder|operator)'

@@ -1,0 +1,54 @@
+{
+ "unit": "viola-core",
+ "output": "mutants-viola-core",
+ "complete": true,
+ "total_mutants": 54,
+ "listed": 54,
+ "unit_states_line": "54/54",
+ "start_time": "2026-10-12T06:57:50.279750112Z",
+ "end_time": "2026-10-12T06:58:18.859800124Z",
+ "baseline": {
+  "summary": "Success",
+  "phases": [
+   {
+    "phase": "Build",
+    "duration_s": 4.7,
+    "status": "Success"
+   },
+   {
+    "phase": "Test",
+    "duration_s": 0.3,
+    "status": "Success"
+   }
+  ]
+ },
+ "counts": {
+  "mutants": 54,
+  "caught": 48,
+  "missed": 0,
+  "not_measured": 0,
+  "timeout": 0,
+  "unviable": 6
+ },
+ "tool_tallies": {
+  "caught": 48,
+  "missed": 0,
+  "timeout": 0,
+  "unviable": 6
+ },
+ "survivors": [],
+ "not_measured": [],
+ "timeouts": [],
+ "state": "complete 54/54",
+ "score": 100.0,
+ "timing": {
+  "scope": "unit",
+  "planned": 54,
+  "tested": 54,
+  "wall_s": 28,
+  "jobs": 2,
+  "cap_s": 1800
+ },
+ "host": "x86_64-unknown-linux-gnu",
+ "score_formula": "caught/(caught+missed)"
+}

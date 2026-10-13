@@ -8,7 +8,7 @@ The shared vocabulary of every other crate: the normalised event kinds, `Refusal
 ## Key integrations
 
 ### Consumes from
-Nothing inside the workspace. Third-party: nutype 0.8.0, serde, serde_json, chrono, thiserror (via `[workspace.dependencies]`).
+Nothing inside the workspace. Third-party: nutype 0.8.0 (`ViolaName`, `Percent`) and serde (`derive`), with the dev-dependency serde_json (via `[workspace.dependencies]`).
 
 ### Publishes to
 Every workspace crate and the root bin: event kinds (kebab-case wire values), `RefusalReason` (`#[serde(other)] unknown`), newtypes, validators, constants, `CoreError`.

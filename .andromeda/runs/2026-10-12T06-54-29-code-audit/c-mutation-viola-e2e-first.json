@@ -1,0 +1,55 @@
+{
+ "unit": "viola-e2e",
+ "output": "mutants-viola-e2e",
+ "complete": false,
+ "total_mutants": 0,
+ "listed": 799,
+ "unit_states_line": "0/799",
+ "start_time": "2026-10-12T06:58:19.003834326Z",
+ "end_time": "2026-10-12T06:58:36.564253717Z",
+ "baseline": {
+  "summary": "Failure",
+  "phases": [
+   {
+    "phase": "Build",
+    "duration_s": 11.6,
+    "status": "Success"
+   },
+   {
+    "phase": "Test",
+    "duration_s": 5.3,
+    "status": {
+     "Failure": 100
+    }
+   }
+  ]
+ },
+ "state": "baseline-test-failure",
+ "counts": {
+  "mutants": 0,
+  "caught": 0,
+  "missed": 0,
+  "not_measured": 0,
+  "timeout": 0,
+  "unviable": 0
+ },
+ "tool_tallies": {
+  "caught": 0,
+  "missed": 0,
+  "timeout": 0,
+  "unviable": 0
+ },
+ "survivors": [],
+ "not_measured": [],
+ "timeouts": [],
+ "timing": {
+  "scope": "unit",
+  "planned": 799,
+  "tested": 0,
+  "wall_s": 17,
+  "jobs": 2,
+  "cap_s": 1800
+ },
+ "host": "x86_64-unknown-linux-gnu",
+ "score_formula": "caught/(caught+missed)"
+}

@@ -1,0 +1,57 @@
+{
+ "proposals": [],
+ "monotonic": [
+  [
+   "sizes.file_max",
+   [
+    884,
+    2678,
+    2709
+   ]
+  ],
+  [
+   "sizes.over_800",
+   [
+    2,
+    12,
+    19
+   ]
+  ]
+ ],
+ "informational": [
+  "trend-break — tool upgrade · `graph` (code-graph.py d0425fb1 → f22becbb): its thresholds suppressed this run",
+  "trend-break — tool upgrade · `dead` (code-graph.py d0425fb1 → f22becbb): its thresholds suppressed this run",
+  "dead-growth · dead.zero_ref_candidates 0 → 0 (fires at ≥ +5) — suppressed by the trend-break above; no movement either way",
+  "mutation `viola-e2e`: first scored value 99.73 (scope unit, Epoch 4 - Session state & governance); no earlier record scores it (baseline-test-failure, declined) — no delta",
+  "monotonic · `dead.zero_ref_candidates` 0 → 0 → 0 — suppressed by its trend-break",
+  "count-under-ratio · duplication.clones 189 → 256 (+67), duplicated_lines 1668 → 2132 (+464) while pct 3.13 → 3.12 (-0.01 pt); population total_lines 53261 → 68257 (+28.2 %); split src 73→118 pairs / 622→1077 L · test 103→121 pairs / 1095→1146 L · mixed 13→17 pairs / 140→165 L; top standing pair crates/viola-core/src/obs.rs:175 ↔ tests/contract_diag_schema.rs:20 (21 L), in the top list since Epoch 2b - Windows slice I b: events and ledger",
+  "top-N entrants · duplication.top: tests/cli_budget.rs:71 ↔ tests/cli_wheel.rs:46 (25 L); src/run/dialog.rs:456 ↔ src/run/wheel.rs:793 (19 L); tests/channel_sqos_open.rs:90 ↔ tests/security_negatives_channel.rs:72 (19 L); tests/cli_answer.rs:110 ↔ tests/cli_wait_last.rs:141 (19 L); crates/viola-channel/src/test_support.rs:13 ↔ crates/viola-state/src/lib.rs:49 (18 L); src/run/links.rs:120 ↔ src/run/snapshot.rs:58 (18 L); src/run/links.rs:120 ↔ src/run/wheel.rs:926 (18 L)",
+  "top-N entrants · complexity.top: `send` src/run/send.rs:326 (cognitive 16); `eval` crates/viola-e2e/src/harness/run/mutants/host.rs:286 (cognitive 15); `read` crates/viola-state/src/board.rs:208 (cognitive 15); `next_line` crates/viola-state/src/events.rs:233 (cognitive 14)",
+  "top-N entrants · sizes.top: src/human.rs (1064)",
+  "top-N entrants · hotspots: src/cmd/hook.rs (44); crates/viola-state/src/events.rs (42); src/run/wheel.rs (42); crates/viola-state/src/replay.rs (30); crates/viola-state/src/strict.rs (30); src/run/dialog.rs (28); src/cmd/send.rs (24); tests/cli_answer.rs (22)",
+  "top-N entrants · graph.fan_in_top: `support/home/StampedHome#` (viola, 110); `support/home/impl#[Wrapper]instance_dir().` (viola, 82); `crate/` (viola-state, 81); `snapshot/Wheel#` (viola-state, 78); `support/home/impl#[Wrapper]stop().` (viola, 76); `support/home/impl#[Wrapper]home().` (viola, 75)"
+ ],
+ "below": [
+  "new-cycle · graph.cycles 0 → 0 (code-graph.py trend-break: no cycle either way)",
+  "duplication-up · duplication.pct 3.13 → 3.12 (-0.01 pt; fires at ≥ +0.5 pt AND ≥ +15 %)",
+  "complexity-creep · complexity.over_ceiling 4 → 2 (fires at ≥ +3 AND ≥ +25 %)",
+  "coverage-drop · coverage.line 98.12 → 98.45 (+0.33 pt; fires at ≤ −2 pt)",
+  "mutation-drop · `viola` 99.33 → 97.03 (-2.30 pt, scope unit at both, Epoch 3 - Windows slice II: driving verbs and live proof → Epoch 4 - Session state & governance; fires at ≤ −10 pt)",
+  "mutation-drop · `viola-core` 100.0 → 100.0 (+0.00 pt, scope unit at both, Epoch 3 - Windows slice II: driving verbs and live proof → Epoch 4 - Session state & governance; fires at ≤ −10 pt)",
+  "mutation-drop · `viola-pty` 100.0 → 98.51 (-1.49 pt, scope unit at both, Epoch 3 - Windows slice II: driving verbs and live proof → Epoch 4 - Session state & governance; fires at ≤ −10 pt)",
+  "mutation-drop · `viola-state` 93.26 → 96.25 (+2.99 pt, scope unit at both, Epoch 3 - Windows slice II: driving verbs and live proof → Epoch 4 - Session state & governance; fires at ≤ −10 pt)",
+  "mutation-drop · `viola-agent-claude` 98.59 → 99.57 (+0.98 pt, scope unit at both, Epoch 3 - Windows slice II: driving verbs and live proof → Epoch 4 - Session state & governance; fires at ≤ −10 pt)",
+  "monotonic · `duplication.pct` 1.35 → 3.13 → 3.12 (95c1a9b → e304994 → dffad3e): not worse at both diffs",
+  "monotonic · `complexity.over_ceiling` 1 → 4 → 2 (95c1a9b → e304994 → dffad3e): not worse at both diffs",
+  "monotonic · `coverage.line` not evaluable this run: null at 95c1a9b (coverage baseline-test-failure; coverage.branch declined; coverage.branch declined; coverage.branch declined) — never a zero",
+  "graph.cross_unit_edges 11 → 11; fan_out {'viola': 5, 'viola-e2e': 3, 'viola-state': 1, 'viola-agent-claude': 1, 'viola-channel': 1} → {'viola': 5, 'viola-e2e': 3, 'viola-state': 1, 'viola-channel': 1, 'viola-agent-claude': 1}",
+  "complexity percentiles · cyclomatic p50 1 → 1, p90 5 → 4; cognitive p50 0 → 0, p90 2 → 2; max `sgr_attributes` 23 → 23",
+  "sizes percentiles · file_p50 264 → 292, file_p90 788 → 865 (no threshold; file_max and over_800 are under Proposals)",
+  "dead.unused_deps unchanged: [['viola-fuzz (fuzz/Cargo.toml, own workspace)', 'arbitrary']] (the fuzz workspace, outside the root graph)",
+  "churn · pct 48.01 → 34.92, files_churned 52 → 40 (no threshold row past two records)",
+  "population (never a movement) · totals.loc 46122 → 58997, totals.files 124 → 147, units 7 → 7"
+ ],
+ "unparseable": 0,
+ "baseline": "e304994ae0413c5cf5bf679a5b3d19abded0e472",
+ "chain": "95c1a9b5fc5984a9a2024e5d6e5c51f59d6af255"
+}

@@ -30,19 +30,19 @@ _Extracted from `.andromeda/architecture.md` §Conventions by `/andromeda-setup-
 
 ## Error handling
 - Channel: refusal is a normal `result.refusal` + `detail`; `error` only for protocol faults (`-32700/-32600/-32601/-32602/-32603`).
-- CLI exit codes: 0 · 1 · 2 · 10 human-typing · 11 budget-paused · 12 unverified-cli · 13 not-delivered · 14 unknown · 20 wrapper fault · 21 instance unreachable; `viola hook` always 0. `viola revive` exits 0, 1 for a refused strict-modes check (ahead of the wrapper log: the stderr pair, no log line) or a preflight refusal (`already-live` · `no-session` · `cwd-missing`, read in that order, each one `process-exit` line) or 2 for a usage error, and takes no `--json` yet.
+- CLI exit codes: 0 · 1 · 2 · 10 human-typing · 11 budget-paused · 12 unverified-cli · 13 not-delivered · 14 unknown · 20 wrapper fault · 21 instance unreachable (also `viola list`'s refused strict-modes check of the home, `instances/` or any one instance, which refuses the whole board, no log opened); `viola hook` always 0. `viola revive` exits 0, 1 for a refused strict-modes check (ahead of the wrapper log: the stderr pair, no log line) or a preflight refusal (`already-live` · `no-session` · `cwd-missing`, read in that order, each one `process-exit` line) or 2 for a usage error, and takes no `--json` yet.
 - `anyhow` only in the root bin: `main`, dispatch and the catch-site reporter `viola::obs::report_internal_error`, which records the chain only in the instance detail file; typed thiserror errors elsewhere, with fixed `Display` messages (no paths/payloads).
 - GUI: RFC 9457 Problem Details with `urn:viola:problem:*` types (`host-not-allowed` 403, `method-not-allowed` 405, `not-found` 404, `state-unreadable` 503, `unauthorized` 401, `cross-origin-forbidden` 403 v1.x).
 - Full detail only to `instances/<name>/diagnostics/detail-<process>.ndjson`.
 
 ## CLI
 - Flags kebab-case long options (`--json`, `--file`, `--budget`, `--port`, global `--home`); subcommands single lower-case words (`plugin install` the one two-word verb).
-- Arguments mirror channel params: `viola send <target>` (text from stdin or `--file`), `viola wait <target> [--after <cursor>] [--timeout-ms <n>]`, `viola last <target>`, `viola answer <target> <dialog_id>` (response JSON from stdin/`--file`), `viola pause|release <target> [--budget]`, `viola link|unlink <driver> <driven>`.
+- Arguments mirror channel params: `viola send <target>` (text from stdin or `--file`), `viola wait <target> [--after <cursor>] [--timeout-ms <n>]`, `viola last <target>`, `viola answer <target> <dialog_id>` (response JSON from stdin/`--file`), `viola pause <target>`, `viola release <target> [--budget]`, `viola link|unlink <driver> <driven>`; `viola revive <name> [--id <ID>] [--fork] [-- <child args>]` and `viola revive <name> --list` send no channel frame.
 - Human text by default, `--json` for agents; the CLI adds `from` from its own `VIOLA_NAME`.
 
 ## Configuration
 - Precedence: CLI flags > `<viola home>/config.json` > built-in defaults. Home resolution: `--home` → grandparent of `VIOLA_DIR` → `~/.viola/` (as landed, the CLI verbs take `--home`, else the default, and only `hook` takes the `VIOLA_DIR` step; that step for the CLI verbs is owed to the route entry "CLI machine contract").
-- `config.json` is parsed tolerantly (unknown keys skipped and counted) and carries `v`; keys: the budget thresholds `five_hour` / `seven_day` (whole numbers into `Percent`, defaults 90 / 85, read once at the wrapper's start and by `viola list` at each run; a bad value takes that key's default with one `parse-rejected` line per key, and no value switches the gate off), GUI port (47319), `diagnostics_level` (obs D-15).
+- `config.json` is parsed tolerantly (unknown keys skipped and counted) and carries `v`; keys: the budget thresholds `five_hour` / `seven_day` (whole numbers into `Percent`, defaults 90 / 85, read once at the wrapper's start and by `viola list` at each run; a bad value takes that key's default with one `parse-rejected` line per key, and no value switches the gate off), GUI port (47319), `diagnostics_level` (`info` by default, or `debug`; obs D-15), `claude_env_keep` (the Unix R8 pass-list of `CLAUDE*` names, default empty).
 
 ## Logging
 See `.claude/rules/observability.md` for logging rules that apply when editing product code. This doc contains the *conventions*; the rule file is the *enforcement*.

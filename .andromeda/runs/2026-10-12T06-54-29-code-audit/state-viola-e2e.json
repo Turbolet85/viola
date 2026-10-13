@@ -1,0 +1,13 @@
+{
+ "unit": "viola-e2e",
+ "start": "2026-10-12T06:58:18Z",
+ "stop": "2026-10-12T06:58:37Z",
+ "wall_s": 18,
+ "exit": 4,
+ "how": "exited",
+ "cap_s": 1800,
+ "resized": false,
+ "jobs": 2,
+ "planned": 799,
+ "command": "cargo mutants --package viola-e2e --features fake-agent --test-tool=nextest --copy-target=false --caught --unviable --build-timeout=400 -j 2 --output .andromeda/runs/2026-10-12T06-54-29-code-audit/mutants-viola-e2e"
+}

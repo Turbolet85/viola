@@ -1,0 +1,350 @@
+[
+{
+"tool": "gate",
+"v": "1.16",
+"sha8": "d0a9ef79",
+"ts": "2026-10-13T07:05:01Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-10-13T06-38-35-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust, ts · base HEAD (no pre-CI commit)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust · P3 ts — each fired on its synthetic known positive",
+"P1 .andromeda/runs/2026-10-12T06-42-44-evolve-diagnose/q-facts-prev.json:192 ×1 · tmp",
+"P1 .andromeda/runs/2026-10-12T06-54-29-code-audit/c-windows-readback.json:27 ×1 · drive",
+"P1 .andromeda/runs/2026-10-12T06-54-29-code-audit/list-viola-channel.json:1795 ×6 · tmp",
+"P1 .andromeda/runs/2026-10-12T06-54-29-code-audit/list-viola.json:18883 ×3 · drive",
+"P1 .andromeda/runs/2026-10-12T06-54-29-code-audit/run-viola-e2e.log:6 ×233 · home",
+"P1 .andromeda/runs/2026-10-12T06-54-29-code-audit/state-viola-agent-claude.json:12 ×1 · in-root",
+"P1 .andromeda/runs/2026-10-12T06-54-29-code-audit/state-viola-core.json:12 ×1 · in-root",
+"P1 .andromeda/runs/2026-10-12T06-54-29-code-audit/state-viola-e2e-x.json:12 ×1 · in-root",
+"P1 .andromeda/runs/2026-10-12T06-54-29-code-audit/state-viola-e2e.json:12 ×1 · in-root",
+"P1 .andromeda/runs/2026-10-12T06-54-29-code-audit/state-viola-iter.json:12 ×1 · in-root",
+"P1 .andromeda/runs/2026-10-12T06-54-29-code-audit/state-viola-pty.json:12 ×1 · in-root",
+"P1 .andromeda/runs/2026-10-12T06-54-29-code-audit/state-viola-state.json:12 ×1 · in-root",
+"in-root: a home path under the root in 7 files — respell: gate.py respell --file {path} (the root prefix dropped, never ~/)",
+"hygiene: refused 12 files — P1 12 · P2 0 · P3 0 · read 128 (runs 128 · evidence 0 · inputs 0) · trails 8 not read · copies 0 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust",
+"ts"
+],
+"rows": [
+"P1 .andromeda/runs/2026-10-12T06-42-44-evolve-diagnose/q-facts-prev.json:192 ×1 · tmp",
+"P1 .andromeda/runs/2026-10-12T06-54-29-code-audit/c-windows-readback.json:27 ×1 · drive",
+"P1 .andromeda/runs/2026-10-12T06-54-29-code-audit/list-viola-channel.json:1795 ×6 · tmp",
+"P1 .andromeda/runs/2026-10-12T06-54-29-code-audit/list-viola.json:18883 ×3 · drive",
+"P1 .andromeda/runs/2026-10-12T06-54-29-code-audit/run-viola-e2e.log:6 ×233 · home",
+"P1 .andromeda/runs/2026-10-12T06-54-29-code-audit/state-viola-agent-claude.json:12 ×1 · in-root",
+"P1 .andromeda/runs/2026-10-12T06-54-29-code-audit/state-viola-core.json:12 ×1 · in-root",
+"P1 .andromeda/runs/2026-10-12T06-54-29-code-audit/state-viola-e2e-x.json:12 ×1 · in-root",
+"P1 .andromeda/runs/2026-10-12T06-54-29-code-audit/state-viola-e2e.json:12 ×1 · in-root",
+"P1 .andromeda/runs/2026-10-12T06-54-29-code-audit/state-viola-iter.json:12 ×1 · in-root",
+"P1 .andromeda/runs/2026-10-12T06-54-29-code-audit/state-viola-pty.json:12 ×1 · in-root",
+"P1 .andromeda/runs/2026-10-12T06-54-29-code-audit/state-viola-state.json:12 ×1 · in-root"
+],
+"counts": {
+"P1": 12,
+"P2": 0,
+"P3": 0,
+"runs": 128,
+"evidence": 0,
+"inputs": 0,
+"trails": 8,
+"copies": 0,
+"kept": 0,
+"binary": 0,
+"in_root": 7
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.16",
+"sha8": "d0a9ef79",
+"ts": "2026-10-13T07:05:29Z",
+"argv": [
+"respell",
+"--file",
+".andromeda/runs/2026-10-12T06-54-29-code-audit/state-viola-agent-claude.json",
+"--run-dir",
+".andromeda/runs/2026-10-13T06-38-35-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"respelled .andromeda/runs/2026-10-12T06-54-29-code-audit/state-viola-agent-claude.json ×1 · −34 B · bba7c093→7c7b49f6"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"path": ".andromeda/runs/2026-10-12T06-54-29-code-audit/state-viola-agent-claude.json",
+"occurrences": 1,
+"bytes": 34,
+"before": "bba7c093",
+"after": "7c7b49f6"
+}
+},
+{
+"tool": "gate",
+"v": "1.16",
+"sha8": "d0a9ef79",
+"ts": "2026-10-13T07:05:29Z",
+"argv": [
+"respell",
+"--file",
+".andromeda/runs/2026-10-12T06-54-29-code-audit/state-viola-core.json",
+"--run-dir",
+".andromeda/runs/2026-10-13T06-38-35-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"respelled .andromeda/runs/2026-10-12T06-54-29-code-audit/state-viola-core.json ×1 · −34 B · 16ba08f7→ff71d03c"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"path": ".andromeda/runs/2026-10-12T06-54-29-code-audit/state-viola-core.json",
+"occurrences": 1,
+"bytes": 34,
+"before": "16ba08f7",
+"after": "ff71d03c"
+}
+},
+{
+"tool": "gate",
+"v": "1.16",
+"sha8": "d0a9ef79",
+"ts": "2026-10-13T07:05:29Z",
+"argv": [
+"respell",
+"--file",
+".andromeda/runs/2026-10-12T06-54-29-code-audit/state-viola-e2e-x.json",
+"--run-dir",
+".andromeda/runs/2026-10-13T06-38-35-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"respelled .andromeda/runs/2026-10-12T06-54-29-code-audit/state-viola-e2e-x.json ×1 · −34 B · a7026385→188452d8"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"path": ".andromeda/runs/2026-10-12T06-54-29-code-audit/state-viola-e2e-x.json",
+"occurrences": 1,
+"bytes": 34,
+"before": "a7026385",
+"after": "188452d8"
+}
+},
+{
+"tool": "gate",
+"v": "1.16",
+"sha8": "d0a9ef79",
+"ts": "2026-10-13T07:05:29Z",
+"argv": [
+"respell",
+"--file",
+".andromeda/runs/2026-10-12T06-54-29-code-audit/state-viola-e2e.json",
+"--run-dir",
+".andromeda/runs/2026-10-13T06-38-35-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"respelled .andromeda/runs/2026-10-12T06-54-29-code-audit/state-viola-e2e.json ×1 · −34 B · f9a4238c→e8c9ea16"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"path": ".andromeda/runs/2026-10-12T06-54-29-code-audit/state-viola-e2e.json",
+"occurrences": 1,
+"bytes": 34,
+"before": "f9a4238c",
+"after": "e8c9ea16"
+}
+},
+{
+"tool": "gate",
+"v": "1.16",
+"sha8": "d0a9ef79",
+"ts": "2026-10-13T07:05:29Z",
+"argv": [
+"respell",
+"--file",
+".andromeda/runs/2026-10-12T06-54-29-code-audit/state-viola-iter.json",
+"--run-dir",
+".andromeda/runs/2026-10-13T06-38-35-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"respelled .andromeda/runs/2026-10-12T06-54-29-code-audit/state-viola-iter.json ×1 · −34 B · e1190888→1d7a262b"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"path": ".andromeda/runs/2026-10-12T06-54-29-code-audit/state-viola-iter.json",
+"occurrences": 1,
+"bytes": 34,
+"before": "e1190888",
+"after": "1d7a262b"
+}
+},
+{
+"tool": "gate",
+"v": "1.16",
+"sha8": "d0a9ef79",
+"ts": "2026-10-13T07:05:30Z",
+"argv": [
+"respell",
+"--file",
+".andromeda/runs/2026-10-12T06-54-29-code-audit/state-viola-pty.json",
+"--run-dir",
+".andromeda/runs/2026-10-13T06-38-35-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"respelled .andromeda/runs/2026-10-12T06-54-29-code-audit/state-viola-pty.json ×1 · −34 B · d5aafd74→91e7eda8"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"path": ".andromeda/runs/2026-10-12T06-54-29-code-audit/state-viola-pty.json",
+"occurrences": 1,
+"bytes": 34,
+"before": "d5aafd74",
+"after": "91e7eda8"
+}
+},
+{
+"tool": "gate",
+"v": "1.16",
+"sha8": "d0a9ef79",
+"ts": "2026-10-13T07:05:30Z",
+"argv": [
+"respell",
+"--file",
+".andromeda/runs/2026-10-12T06-54-29-code-audit/state-viola-state.json",
+"--run-dir",
+".andromeda/runs/2026-10-13T06-38-35-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"respelled .andromeda/runs/2026-10-12T06-54-29-code-audit/state-viola-state.json ×1 · −34 B · 208547bc→26d9c171"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"path": ".andromeda/runs/2026-10-12T06-54-29-code-audit/state-viola-state.json",
+"occurrences": 1,
+"bytes": 34,
+"before": "208547bc",
+"after": "26d9c171"
+}
+},
+{
+"tool": "gate",
+"v": "1.16",
+"sha8": "d0a9ef79",
+"ts": "2026-10-13T07:05:32Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-10-13T06-38-35-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust, ts · base HEAD (no pre-CI commit)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust · P3 ts — each fired on its synthetic known positive",
+"P1 .andromeda/runs/2026-10-12T06-42-44-evolve-diagnose/q-facts-prev.json:192 ×1 · tmp",
+"P1 .andromeda/runs/2026-10-12T06-54-29-code-audit/c-windows-readback.json:27 ×1 · drive",
+"P1 .andromeda/runs/2026-10-12T06-54-29-code-audit/list-viola-channel.json:1795 ×6 · tmp",
+"P1 .andromeda/runs/2026-10-12T06-54-29-code-audit/list-viola.json:18883 ×3 · drive",
+"P1 .andromeda/runs/2026-10-12T06-54-29-code-audit/run-viola-e2e.log:6 ×233 · home",
+"hygiene: refused 5 files — P1 5 · P2 0 · P3 0 · read 129 (runs 129 · evidence 0 · inputs 0) · trails 9 not read · copies 0 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust",
+"ts"
+],
+"rows": [
+"P1 .andromeda/runs/2026-10-12T06-42-44-evolve-diagnose/q-facts-prev.json:192 ×1 · tmp",
+"P1 .andromeda/runs/2026-10-12T06-54-29-code-audit/c-windows-readback.json:27 ×1 · drive",
+"P1 .andromeda/runs/2026-10-12T06-54-29-code-audit/list-viola-channel.json:1795 ×6 · tmp",
+"P1 .andromeda/runs/2026-10-12T06-54-29-code-audit/list-viola.json:18883 ×3 · drive",
+"P1 .andromeda/runs/2026-10-12T06-54-29-code-audit/run-viola-e2e.log:6 ×233 · home"
+],
+"counts": {
+"P1": 5,
+"P2": 0,
+"P3": 0,
+"runs": 129,
+"evidence": 0,
+"inputs": 0,
+"trails": 9,
+"copies": 0,
+"kept": 0,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+}
+]

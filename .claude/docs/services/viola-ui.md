@@ -29,8 +29,8 @@ Tokio allowed. axum without `http2`. No CORS layer, no `ServeDir`.
 - `/ready` 503 uses its own readiness body, never Problem Details; `claude_agents` failing alone keeps 200.
 
 ## Entry points for modification
-- **Router, middleware, handlers:** `crates/viola-ui/src/`
-- **Embedded page:** `crates/viola-ui/assets/` (`index.html`, `app.css`; the React + TypeScript sources and bundle layout land with the frontend-toolchain entry)
+- **Router, middleware, handlers:** `crates/viola-ui/src/` (not created yet: the crate is created by the first chunk that consumes it)
+- **Embedded page:** `crates/viola-ui/assets/` (not created yet: it lands with the `viola-ui` crate) (`index.html`, `app.css`; the React + TypeScript sources and bundle layout land with the frontend-toolchain entry)
 - **Tests:** crate `tests/` with axum-test (route/header/Problem matrix); E2E `http_*` / `sse_*` in `crates/viola-e2e`; Playwright specs in `e2e-web/tests/`
 
 ## Testing this crate

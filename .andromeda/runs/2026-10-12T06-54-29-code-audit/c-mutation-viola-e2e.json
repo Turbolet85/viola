@@ -1,0 +1,63 @@
+{
+ "unit": "viola-e2e",
+ "output": "mutants-viola-e2e-x",
+ "complete": true,
+ "total_mutants": 799,
+ "listed": 799,
+ "unit_states_line": "799/799",
+ "start_time": "2026-10-12T20:34:04.005323222Z",
+ "end_time": "2026-10-12T21:22:06.751011729Z",
+ "baseline": {
+  "summary": "Success",
+  "phases": [
+   {
+    "phase": "Build",
+    "duration_s": 11.5,
+    "status": "Success"
+   },
+   {
+    "phase": "Test",
+    "duration_s": 35.4,
+    "status": "Success"
+   }
+  ]
+ },
+ "counts": {
+  "mutants": 799,
+  "caught": 734,
+  "missed": 2,
+  "not_measured": 0,
+  "timeout": 0,
+  "unviable": 63
+ },
+ "tool_tallies": {
+  "caught": 734,
+  "missed": 2,
+  "timeout": 0,
+  "unviable": 63
+ },
+ "survivors": [
+  [
+   "crates/viola-e2e/src/harness/run/mutants/scratch.rs:48:5",
+   "replace prepare -> Result<Option<(PathBuf, u64)>, String> with Ok(None)"
+  ],
+  [
+   "crates/viola-e2e/src/harness/run/mutants/scratch.rs:54:8",
+   "delete ! in prepare"
+  ]
+ ],
+ "not_measured": [],
+ "timeouts": [],
+ "state": "complete 799/799",
+ "score": 99.73,
+ "timing": {
+  "scope": "unit",
+  "planned": 799,
+  "tested": 799,
+  "wall_s": 2882,
+  "jobs": 2,
+  "cap_s": 4590
+ },
+ "host": "x86_64-unknown-linux-gnu",
+ "score_formula": "caught/(caught+missed)"
+}

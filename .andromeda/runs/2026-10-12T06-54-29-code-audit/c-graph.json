@@ -1,0 +1,109 @@
+{
+ "cycles": 0,
+ "cycle_paths": [],
+ "fan_in_top": [
+  [
+   "rust-analyzer cargo viola 0.1.0 crate/",
+   236
+  ],
+  [
+   "rust-analyzer cargo viola 0.1.0 support/home/TestHome#",
+   152
+  ],
+  [
+   "rust-analyzer cargo viola-agent-claude 0.1.0 hook/HookEvent#",
+   150
+  ],
+  [
+   "rust-analyzer cargo viola-core 0.1.0 __nutype_ViolaName__/ViolaName#",
+   136
+  ],
+  [
+   "rust-analyzer cargo viola-e2e 0.1.0 harness/Workspace#",
+   123
+  ],
+  [
+   "rust-analyzer cargo viola-core 0.1.0 EventKind#",
+   112
+  ],
+  [
+   "rust-analyzer cargo viola 0.1.0 support/home/StampedHome#",
+   110
+  ],
+  [
+   "rust-analyzer cargo viola 0.1.0 support/home/impl#[TestHome]path().",
+   108
+  ],
+  [
+   "rust-analyzer cargo viola-e2e 0.1.0 harness/Outcome#doc.",
+   95
+  ],
+  [
+   "rust-analyzer cargo viola-pty 0.1.0 Size#",
+   90
+  ],
+  [
+   "rust-analyzer cargo viola-e2e 0.1.0 harness/Outcome#code.",
+   85
+  ],
+  [
+   "rust-analyzer cargo viola 0.1.0 support/fake/",
+   84
+  ],
+  [
+   "rust-analyzer cargo viola-channel 0.1.0 ProtocolError#",
+   83
+  ],
+  [
+   "rust-analyzer cargo viola 0.1.0 support/home/impl#[Wrapper]instance_dir().",
+   82
+  ],
+  [
+   "rust-analyzer cargo viola-state 0.1.0 crate/",
+   81
+  ],
+  [
+   "rust-analyzer cargo viola-e2e 0.1.0 harness/Workspace#root.",
+   79
+  ],
+  [
+   "rust-analyzer cargo viola 0.1.0 support/home/impl#[TestHome]scratch().",
+   79
+  ],
+  [
+   "rust-analyzer cargo viola-state 0.1.0 snapshot/Wheel#",
+   78
+  ],
+  [
+   "rust-analyzer cargo viola 0.1.0 support/home/impl#[Wrapper]stop().",
+   76
+  ],
+  [
+   "rust-analyzer cargo viola 0.1.0 support/home/impl#[Wrapper]home().",
+   75
+  ]
+ ],
+ "fan_out": [
+  [
+   "viola",
+   5
+  ],
+  [
+   "viola-e2e",
+   3
+  ],
+  [
+   "viola-state",
+   1
+  ],
+  [
+   "viola-channel",
+   1
+  ],
+  [
+   "viola-agent-claude",
+   1
+  ]
+ ],
+ "cross_unit_edges": 11
+}

@@ -1,0 +1,168 @@
+[
+{
+"tool": "cascade",
+"v": "1.7",
+"sha8": "113bd773",
+"ts": "2026-10-13T06:39:34Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-10-13T06-38-35-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-13T06-38-35-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"baseline dffad3e0 (pre-pass — HEAD)",
+"cardconfirm · control UNFIRED over the seven masters at dffad3e0"
+],
+"stderr": "control: cardconfirm never fired over the seven masters' pre-pass text (dffad3e0) — a sweep runs a positive control or refuses; drop the pattern or control it by hand",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.7",
+"sha8": "113bd773",
+"ts": "2026-10-13T06:39:43Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-10-13T06-38-35-wrap/report-patterns.toml",
+"--pattern",
+"notratified",
+"--pattern",
+"opword",
+"--run-dir",
+".andromeda/runs/2026-10-13T06-38-35-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline dffad3e0 (pre-pass — HEAD)",
+"notratified · new 0 · standing 4 · leaf 2 · curation 0 · base 1 · control architecture.md:71 (prose)",
+"opword · new 0 · standing 12 · leaf 3 · curation 1 · base 4 · control architecture.md:71 (prose)",
+".andromeda/architecture.md:71 notratified standing @c2250/2623 … widening that is not ratified: the wrapper serving two…",
+".andromeda/architecture.md:408 notratified standing …ary widening that is NOT ratified: it landed as built on the opera…",
+".andromeda/security-plan.md:213 notratified standing @c7653/11571 …widening that is NOT ratified: it landed as built on…",
+".andromeda/security-plan.md:241 notratified standing @c6297/6383 … driver on it is not ratified (§ Authentication, `~/.…",
+".andromeda/playbook.md:66 notratified base ×2 …sters as built, marked not ratified, with the founder's word owed, and c…",
+".claude/rules/security.md:30 notratified leaf …ndary widening that is NOT ratified (landed on the operator's word, the …",
+".claude/docs/security-summary.md:69 notratified leaf …boundary widening is NOT ratified (the operator's word only; the …",
+".andromeda/architecture.md:71 opword standing @c1408/2623 …of it stand on the operator's word and are not ruled by the …",
+".andromeda/architecture.md:247 opword standing @c2713/3390 …hape stands on the operator's word, the founder not having …",
+".andromeda/architecture.md:408 opword standing …landed as built on the operator's word, and the founder's word is owed …",
+".andromeda/architecture.md:471 opword standing @c2855/3143 …. It landed on the operator's word; the founder has not rul…",
+".andromeda/security-plan.md:213 opword standing @c7693/11571 …d as built on the operator's word (2026-10-10), which is …",
+".andromeda/design-system.md:749 opword standing … planning forms on the operator's word, not worded by the founder (his…",
+".andromeda/design-system.md:805 opword standing …udget-governor, on the operator's word): the founder has not worded th…",
+".andromeda/layout-templates.md:397 opword standing …hree lines) stand on the operator's word, not worded by the founder.",
+".andromeda/layout-templates.md:471 opword standing …dget-governor, on the operator's word): the founder has not worded …",
+".andromeda/test-plan.md:552 opword standing …shape, it stands on the operator's word and the founder has not ruled on i…",
+".andromeda/test-plan.md:1076 opword standing …iling newline kept (the operator's word at chunk 2026-10-10-viola-revive'…",
+".andromeda/obs-plan.md:394 opword standing …ist). They landed on the operator's word; the founder has not ruled on them.",
+".claude/rules/testing.md:87 opword curation …nux only, PID 1), stays as it is and is no precedent (the operator's word).",
+".andromeda/playbook.md:58 opword base …the 2026-10-10-windows-mutation-grade wrap, on the operator's word (`inputs#I6`).",
+".andromeda/playbook.md:62 opword base …pass-through wrap, on the operator's word (that chunk's `inputs#I5` item 1 and `…",
+".andromeda/playbook.md:64 opword base ×2 …Held items landed on the operator's word — a plan step held the operator pass…",
+".andromeda/playbook.md:66 opword base …26-10-10-budget-governor wrap, on the operator's word (`inputs#I11`, question 2).",
+".claude/rules/ci.md:18 opword leaf …rator fires it, or the implementer does on the operator's word given for that chunk.",
+".claude/rules/security.md:30 opword leaf … ratified (landed on the operator's word, the founder's word owed). A `releas…",
+".claude/docs/security-summary.md:69 opword leaf …g is NOT ratified (the operator's word only; the founder's word owed).…",
+"notratified · new 0 · standing 4 · leaf 2 · curation 0 · base 1 · control architecture.md:71 (prose)",
+"opword · new 0 · standing 12 · leaf 3 · curation 1 · base 4 · control architecture.md:71 (prose)",
+"total (2 patterns) · 27 rows over 11 files",
+"per class · new 0/0 · standing 16/6 · leaf 5/3 · curation 1/1 · base 5/1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "dffad3e02d380362b8040effacc95781ceea8739",
+"how": "pre-pass — HEAD",
+"counts": {
+"notratified": {
+"new": 0,
+"standing": 4,
+"leaf": 2,
+"curation": 0,
+"base": 1
+},
+"opword": {
+"new": 0,
+"standing": 12,
+"leaf": 3,
+"curation": 1,
+"base": 4
+}
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.7",
+"sha8": "113bd773",
+"ts": "2026-10-13T06:40:15Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-10-13T06-38-35-wrap/report-patterns.toml",
+"--pattern",
+"provisional",
+"--run-dir",
+".andromeda/runs/2026-10-13T06-38-35-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline dffad3e0 (pre-pass — HEAD)",
+"provisional · new 0 · standing 8 · leaf 6 · curation 0 · base 0 · case-variants +9 · control architecture.md:69 (prose)",
+".andromeda/architecture.md:69 provisional standing @c1724/2592 …DEADLINE` = 60 s (PROVISIONAL), beside `SPINE_DEADLINE`…",
+".andromeda/architecture.md:329 provisional standing …LINE_DEADLINE` (5 s, PROVISIONAL, `src/cmd/hook.rs`). This is the …",
+".andromeda/security-plan.md:248 provisional standing …LINE_DEADLINE` (5 s, PROVISIONAL, `src/cmd/hook.rs`; detail `dead…",
+".andromeda/test-plan.md:848 provisional standing …>` under a 5 s bound (PROVISIONAL). On Windows `run` writes no overri…",
+".andromeda/obs-plan.md:186 provisional standing … is bounded by the 5 s PROVISIONAL `STATUSLINE_DEADLINE`, and no `run …",
+".andromeda/obs-plan.md:708 provisional standing …USLINE_DEADLINE` (5 s, PROVISIONAL, `src/cmd/hook.rs`); the bound ends…",
+".andromeda/obs-plan.md:838 provisional standing …on that arm is the 5 s PROVISIONAL bound on the user's command, not a …",
+".andromeda/a11y-plan.md:823 provisional standing ×2 @c188,967/2591 …DEADLINE`, 60 s PROVISIONAL, under the `hooks.json`…",
+".claude/rules/security.md:29 provisional leaf …tderr discarded, a 5 s PROVISIONAL bound, the command in no line or span…",
+".claude/docs/a11y-summary.md:58 provisional leaf …ook statusline`'s 5 s PROVISIONAL bound falls on the user's own comma…",
+".claude/docs/obs-summary.md:70 provisional leaf …(its own bound is 5 s, PROVISIONAL). At start, the statusline source r…",
+".claude/docs/security-summary.md:70 provisional leaf …ce), bounded at 5 s (PROVISIONAL), stdout through `take(MAX_FRAME…",
+".claude/docs/services/viola-core.md:6 provisional leaf …LOG_DEADLINE` (60 s PROVISIONAL, the dialog hooks' wait, below …",
+".claude/docs/services/viola.md:23 provisional leaf …SLINE_DEADLINE` (5 s, PROVISIONAL) and prints its stdout unchanged;…",
+"provisional · new 0 · standing 8 · leaf 6 · curation 0 · base 0 · case-variants +9 · control architecture.md:69 (prose)",
+"total (1 pattern) · 14 rows over 11 files",
+"per class · new 0/0 · standing 8/5 · leaf 6/6 · curation 0/0 · base 0/0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "dffad3e02d380362b8040effacc95781ceea8739",
+"how": "pre-pass — HEAD",
+"counts": {
+"provisional": {
+"new": 0,
+"standing": 8,
+"leaf": 6,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]

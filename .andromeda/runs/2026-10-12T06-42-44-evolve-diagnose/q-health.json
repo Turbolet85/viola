@@ -1,0 +1,317 @@
+{
+ "epoch": "Epoch 4 — Session state & governance",
+ "records_in_epoch": 345,
+ "records_live": 345,
+ "step": 187,
+ "friction": 158,
+ "chunks": [
+  "2026-10-09-epoch-3-cleanup",
+  "2026-10-09-epoch-3-cleanup-ii",
+  "2026-10-09-inner-cr-and-crlf-in-a-sent-text",
+  "2026-10-10-budget-governor",
+  "2026-10-10-self-healing-state",
+  "2026-10-10-session-links",
+  "2026-10-10-statusline-pass-through",
+  "2026-10-10-viola-revive",
+  "2026-10-10-windows-mutation-grade",
+  "2026-10-11-the-board-viola-list"
+ ],
+ "coverage_per_chunk": {
+  "(null)": {
+   "new-session/orientation": 38,
+   "wrap-session/route-resolve": 1
+  },
+  "2026-10-09-epoch-3-cleanup": {
+   "phase/take-up": 1,
+   "phase/distill": 1,
+   "phase/research": 2,
+   "phase/plan": 2,
+   "phase/validate": 2,
+   "implement/code": 2,
+   "implement/fix-loop": 2,
+   "implement/smoke": 2,
+   "wrap-session/report": 1,
+   "wrap-session/reconcile": 1,
+   "wrap-session/curation": 1,
+   "wrap-session/route-resolve": 1,
+   "wrap-session/gates": 1
+  },
+  "2026-10-09-epoch-3-cleanup-ii": {
+   "phase/take-up": 1,
+   "phase/distill": 1,
+   "phase/research": 1,
+   "phase/plan": 1,
+   "phase/validate": 1,
+   "implement/code": 1,
+   "implement/fix-loop": 1,
+   "implement/smoke": 1,
+   "wrap-session/report": 1,
+   "wrap-session/reconcile": 1,
+   "wrap-session/curation": 1,
+   "wrap-session/route-resolve": 1,
+   "wrap-session/gates": 1
+  },
+  "2026-10-09-inner-cr-and-crlf-in-a-sent-text": {
+   "phase/take-up": 1,
+   "phase/distill": 1,
+   "phase/research": 2,
+   "phase/plan": 2,
+   "phase/validate": 2,
+   "implement/code": 2,
+   "implement/fix-loop": 2,
+   "implement/smoke": 2,
+   "wrap-session/report": 1,
+   "wrap-session/reconcile": 1,
+   "wrap-session/curation": 1,
+   "wrap-session/route-resolve": 1,
+   "wrap-session/gates": 1
+  },
+  "2026-10-10-budget-governor": {
+   "phase/take-up": 1,
+   "phase/distill": 1,
+   "phase/research": 2,
+   "phase/plan": 2,
+   "phase/validate": 2,
+   "implement/code": 1,
+   "implement/fix-loop": 2,
+   "implement/smoke": 2,
+   "wrap-session/report": 1,
+   "wrap-session/reconcile": 1,
+   "wrap-session/curation": 1,
+   "wrap-session/route-resolve": 1,
+   "wrap-session/gates": 1
+  },
+  "2026-10-10-self-healing-state": {
+   "phase/take-up": 1,
+   "phase/distill": 1,
+   "phase/research": 1,
+   "phase/plan": 1,
+   "phase/validate": 1,
+   "implement/code": 1,
+   "implement/fix-loop": 1,
+   "implement/smoke": 1,
+   "wrap-session/report": 1,
+   "wrap-session/reconcile": 1,
+   "wrap-session/curation": 1,
+   "wrap-session/route-resolve": 1,
+   "wrap-session/gates": 1
+  },
+  "2026-10-10-session-links": {
+   "phase/take-up": 1,
+   "phase/distill": 1,
+   "phase/research": 1,
+   "phase/plan": 1,
+   "phase/validate": 1,
+   "implement/code": 1,
+   "implement/fix-loop": 1,
+   "implement/smoke": 1,
+   "wrap-session/report": 1,
+   "wrap-session/reconcile": 1,
+   "wrap-session/curation": 1,
+   "wrap-session/route-resolve": 1,
+   "wrap-session/gates": 1
+  },
+  "2026-10-10-statusline-pass-through": {
+   "phase/take-up": 1,
+   "phase/distill": 1,
+   "phase/research": 1,
+   "phase/plan": 1,
+   "phase/validate": 1,
+   "implement/code": 1,
+   "implement/fix-loop": 1,
+   "implement/smoke": 1,
+   "wrap-session/report": 1,
+   "wrap-session/reconcile": 1,
+   "wrap-session/curation": 1,
+   "wrap-session/route-resolve": 1,
+   "wrap-session/gates": 1
+  },
+  "2026-10-10-viola-revive": {
+   "phase/take-up": 1,
+   "phase/distill": 1,
+   "phase/research": 1,
+   "phase/plan": 1,
+   "phase/validate": 1,
+   "implement/code": 1,
+   "implement/fix-loop": 1,
+   "implement/smoke": 1,
+   "wrap-session/report": 1,
+   "wrap-session/reconcile": 1,
+   "wrap-session/curation": 1,
+   "wrap-session/route-resolve": 1,
+   "wrap-session/gates": 1
+  },
+  "2026-10-10-windows-mutation-grade": {
+   "phase/take-up": 1,
+   "phase/distill": 1,
+   "phase/research": 1,
+   "phase/plan": 1,
+   "phase/validate": 1,
+   "implement/code": 1,
+   "implement/fix-loop": 2,
+   "implement/smoke": 1,
+   "wrap-session/report": 1,
+   "wrap-session/reconcile": 1,
+   "wrap-session/curation": 1,
+   "wrap-session/route-resolve": 1,
+   "wrap-session/gates": 1
+  },
+  "2026-10-11-the-board-viola-list": {
+   "phase/take-up": 1,
+   "phase/distill": 1,
+   "phase/research": 1,
+   "phase/plan": 1,
+   "phase/validate": 1,
+   "implement/code": 1,
+   "implement/fix-loop": 1,
+   "implement/smoke": 1,
+   "wrap-session/report": 1,
+   "wrap-session/reconcile": 1,
+   "wrap-session/curation": 1,
+   "wrap-session/route-resolve": 1,
+   "wrap-session/gates": 1
+  }
+ },
+ "coverage_per_chunk_by_skill": {
+  "(null)": {
+   "new-session": 38,
+   "wrap-session": 1
+  },
+  "2026-10-09-epoch-3-cleanup": {
+   "phase": 8,
+   "implement": 6,
+   "wrap-session": 5
+  },
+  "2026-10-09-inner-cr-and-crlf-in-a-sent-text": {
+   "phase": 8,
+   "implement": 6,
+   "wrap-session": 5
+  },
+  "2026-10-09-epoch-3-cleanup-ii": {
+   "phase": 5,
+   "implement": 3,
+   "wrap-session": 5
+  },
+  "2026-10-10-windows-mutation-grade": {
+   "phase": 5,
+   "implement": 4,
+   "wrap-session": 5
+  },
+  "2026-10-10-self-healing-state": {
+   "phase": 5,
+   "implement": 3,
+   "wrap-session": 5
+  },
+  "2026-10-10-viola-revive": {
+   "phase": 5,
+   "implement": 3,
+   "wrap-session": 5
+  },
+  "2026-10-10-statusline-pass-through": {
+   "phase": 5,
+   "implement": 3,
+   "wrap-session": 5
+  },
+  "2026-10-10-budget-governor": {
+   "phase": 8,
+   "implement": 5,
+   "wrap-session": 5
+  },
+  "2026-10-10-session-links": {
+   "phase": 5,
+   "implement": 3,
+   "wrap-session": 5
+  },
+  "2026-10-11-the-board-viola-list": {
+   "phase": 5,
+   "implement": 3,
+   "wrap-session": 5
+  }
+ },
+ "step_runs": {
+  "implement/code": 12,
+  "implement/fix-loop": 14,
+  "implement/smoke": 13,
+  "new-session/orientation": 38,
+  "phase/distill": 10,
+  "phase/plan": 13,
+  "phase/research": 13,
+  "phase/take-up": 10,
+  "phase/validate": 13,
+  "wrap-session/curation": 10,
+  "wrap-session/gates": 10,
+  "wrap-session/reconcile": 10,
+  "wrap-session/report": 10,
+  "wrap-session/route-resolve": 11
+ },
+ "friction_per_step": {
+  "implement/code": 23,
+  "implement/fix-loop": 16,
+  "implement/smoke": 1,
+  "new-session/orientation": 13,
+  "phase/distill": 1,
+  "phase/plan": 4,
+  "phase/research": 11,
+  "phase/take-up": 2,
+  "phase/validate": 13,
+  "wrap-session/curation": 16,
+  "wrap-session/gates": 2,
+  "wrap-session/reconcile": 33,
+  "wrap-session/report": 7,
+  "wrap-session/route-resolve": 16
+ },
+ "untyped_per_step": {
+  "implement/code": 3,
+  "implement/fix-loop": 4,
+  "new-session/orientation": 8,
+  "phase/plan": 1,
+  "phase/research": 2,
+  "phase/take-up": 1,
+  "phase/validate": 2,
+  "wrap-session/gates": 1,
+  "wrap-session/reconcile": 3
+ },
+ "untyped_total": 25,
+ "problem_fill": [
+  89,
+  187
+ ],
+ "id_fill": [
+  345,
+  345
+ ],
+ "unparseable": 0,
+ "malformed_ts_in_epoch": [],
+ "signal_line": {
+  "guard_refused": 10,
+  "K": 181,
+  "exact_hit": 30,
+  "J": 10,
+  "E_era": 6,
+  "odd": []
+ },
+ "outcomes": {
+  "implement/code/ok": 12,
+  "implement/fix-loop/halted-resolved": 1,
+  "implement/fix-loop/ok": 12,
+  "implement/fix-loop/soft-exit": 1,
+  "implement/smoke/ok": 13,
+  "new-session/orientation/ok": 38,
+  "phase/distill/ok": 10,
+  "phase/plan/ok": 13,
+  "phase/research/ok": 13,
+  "phase/take-up/ok": 10,
+  "phase/validate/ok": 13,
+  "wrap-session/curation/ok": 9,
+  "wrap-session/curation/ok-degraded": 1,
+  "wrap-session/gates/ok": 10,
+  "wrap-session/reconcile/halted-resolved": 5,
+  "wrap-session/reconcile/ok": 5,
+  "wrap-session/report/halted-resolved": 1,
+  "wrap-session/report/ok": 9,
+  "wrap-session/route-resolve/halted-resolved": 7,
+  "wrap-session/route-resolve/ok": 4
+ },
+ "retracted_in_epoch": [],
+ "clause_retracted_in_epoch": {}
+}

@@ -1,0 +1,13 @@
+{
+ "unit": "viola-pty",
+ "start": "2026-10-12T06:58:37Z",
+ "stop": "2026-10-12T07:01:47Z",
+ "wall_s": 190,
+ "exit": 2,
+ "how": "exited",
+ "cap_s": 1800,
+ "resized": false,
+ "jobs": 2,
+ "planned": 115,
+ "command": "cargo mutants --package viola-pty --features fake-agent --test-tool=nextest --copy-target=false --caught --unviable --build-timeout=400 -j 2 --output .andromeda/runs/2026-10-12T06-54-29-code-audit/mutants-viola-pty"
+}

@@ -1,0 +1,58 @@
+Found 54 mutants to test
+ok       Unmutated baseline in 4s build + 0s test
+ INFO Auto-set test timeout to 20s
+caught   crates/viola-core/src/lib.rs:11:38: replace * with + in 0s build + 0s test
+caught   crates/viola-core/src/lib.rs:11:31: replace * with + in 0s build + 0s test
+caught   crates/viola-core/src/lib.rs:11:31: replace * with / in 0s build + 0s test
+unviable crates/viola-core/src/lib.rs:33:9: replace <impl Clock for SystemClock>::now -> Instant with Default::default() in 0s build
+caught   crates/viola-core/src/lib.rs:99:9: replace EventKind::from_name -> Option<Self> with None in 0s build + 0s test
+unviable crates/viola-core/src/lib.rs:99:9: replace EventKind::from_name -> Option<Self> with Some(Default::default()) in 0s build
+caught   crates/viola-core/src/lib.rs:99:57: replace == with != in EventKind::from_name in 0s build + 0s test
+unviable crates/viola-core/src/lib.rs:105:9: replace EventKind::data_keys -> &'static[&'static str] with Vec::leak(Vec::new()) in 0s build
+caught   crates/viola-core/src/lib.rs:11:38: replace * with / in 4s build + 0s test
+unviable crates/viola-core/src/lib.rs:105:9: replace EventKind::data_keys -> &'static[&'static str] with Vec::leak(vec![""]) in 0s build
+unviable crates/viola-core/src/lib.rs:105:9: replace EventKind::data_keys -> &'static[&'static str] with Vec::leak(vec!["xyzzy"]) in 0s build
+caught   crates/viola-core/src/lib.rs:124:9: replace EventKind::as_str -> &'static str with "" in 0s build + 0s test
+caught   crates/viola-core/src/lib.rs:124:9: replace EventKind::as_str -> &'static str with "xyzzy" in 0s build + 0s test
+caught   crates/viola-core/src/lib.rs:158:9: replace RefusalReason::as_str -> &'static str with "" in 0s build + 0s test
+caught   crates/viola-core/src/lib.rs:158:9: replace RefusalReason::as_str -> &'static str with "xyzzy" in 0s build + 0s test
+caught   crates/viola-core/src/lib.rs:182:9: replace NotDelivered::as_str -> &'static str with "" in 0s build + 0s test
+caught   crates/viola-core/src/lib.rs:182:9: replace NotDelivered::as_str -> &'static str with "xyzzy" in 0s build + 0s test
+caught   crates/viola-core/src/lib.rs:203:9: replace HumanTyping::as_str -> &'static str with "" in 0s build + 0s test
+caught   crates/viola-core/src/lib.rs:203:9: replace HumanTyping::as_str -> &'static str with "xyzzy" in 0s build + 0s test
+caught   crates/viola-core/src/lib.rs:220:9: replace BudgetWindowKind::as_str -> &'static str with "" in 0s build + 0s test
+caught   crates/viola-core/src/lib.rs:220:9: replace BudgetWindowKind::as_str -> &'static str with "xyzzy" in 0s build + 0s test
+caught   crates/viola-core/src/lib.rs:247:9: replace WheelCause::as_str -> &'static str with "" in 0s build + 0s test
+caught   crates/viola-core/src/lib.rs:247:9: replace WheelCause::as_str -> &'static str with "xyzzy" in 0s build + 0s test
+caught   crates/viola-core/src/lib.rs:295:5: replace validate_paste_text -> Result<(), NotDelivered> with Ok(()) in 0s build + 0s test
+caught   crates/viola-core/src/lib.rs:303:5: replace is_refused_control -> bool with true in 0s build + 0s test
+caught   crates/viola-core/src/lib.rs:303:5: replace is_refused_control -> bool with false in 0s build + 0s test
+caught   crates/viola-core/src/lib.rs:304:9: delete match arm '\n' | '\r' | '\t' in is_refused_control in 0s build + 0s test
+caught   crates/viola-core/src/lib.rs:305:9: delete match arm '\u{0}'..= '\u{1f}' | '\u{7f}'..= '\u{9f}' in is_refused_control in 0s build + 0s test
+caught   crates/viola-core/src/lib.rs:311:5: replace is_valid_name -> bool with true in 0s build + 0s test
+caught   crates/viola-core/src/lib.rs:311:5: replace is_valid_name -> bool with false in 0s build + 0s test
+caught   crates/viola-core/src/lib.rs:317:9: replace && with || in is_valid_name in 0s build + 0s test
+caught   crates/viola-core/src/lib.rs:316:9: replace && with || in is_valid_name in 0s build + 0s test
+caught   crates/viola-core/src/lib.rs:315:17: replace <= with > in is_valid_name in 0s build + 0s test
+caught   crates/viola-core/src/lib.rs:319:67: replace || with && in is_valid_name in 0s build + 0s test
+caught   crates/viola-core/src/lib.rs:319:45: replace || with && in is_valid_name in 0s build + 0s test
+caught   crates/viola-core/src/lib.rs:319:73: replace == with != in is_valid_name in 0s build + 0s test
+caught   crates/viola-core/src/obs.rs:58:9: replace ObsEvent::as_str -> &'static str with "" in 0s build + 0s test
+caught   crates/viola-core/src/obs.rs:58:9: replace ObsEvent::as_str -> &'static str with "xyzzy" in 0s build + 0s test
+caught   crates/viola-core/src/obs.rs:84:9: replace <impl fmt::Display for ObsEvent>::fmt -> fmt::Result with Ok(Default::default()) in 0s build + 0s test
+caught   crates/viola-core/src/obs.rs:102:9: replace ObsProcess::as_str -> &'static str with "" in 0s build + 0s test
+caught   crates/viola-core/src/obs.rs:102:9: replace ObsProcess::as_str -> &'static str with "xyzzy" in 0s build + 0s test
+caught   crates/viola-core/src/obs.rs:114:9: replace <impl fmt::Display for ObsProcess>::fmt -> fmt::Result with Ok(Default::default()) in 0s build + 0s test
+caught   crates/viola-core/src/obs.rs:129:5: replace set_ctx -> bool with true in 0s build + 0s test
+caught   crates/viola-core/src/obs.rs:129:5: replace set_ctx -> bool with false in 0s build + 0s test
+unviable crates/viola-core/src/obs.rs:133:5: replace ctx -> Option<&'static ProcessCtx> with Some(Box::leak(Box::new(Default::default()))) in 0s build
+caught   crates/viola-core/src/obs.rs:133:5: replace ctx -> Option<&'static ProcessCtx> with None in 0s build + 0s test
+caught   crates/viola-core/src/obs.rs:137:5: replace ctx_process -> Option<&'static str> with None in 0s build + 0s test
+caught   crates/viola-core/src/obs.rs:137:5: replace ctx_process -> Option<&'static str> with Some("") in 0s build + 0s test
+caught   crates/viola-core/src/obs.rs:137:5: replace ctx_process -> Option<&'static str> with Some("xyzzy") in 0s build + 0s test
+caught   crates/viola-core/src/obs.rs:141:5: replace ctx_instance -> Option<&'static str> with None in 0s build + 0s test
+caught   crates/viola-core/src/obs.rs:141:5: replace ctx_instance -> Option<&'static str> with Some("xyzzy") in 0s build + 0s test
+caught   crates/viola-core/src/obs.rs:141:5: replace ctx_instance -> Option<&'static str> with Some("") in 0s build + 0s test
+caught   crates/viola-core/src/obs.rs:145:5: replace name_str -> &str with "" in 0s build + 0s test
+caught   crates/viola-core/src/obs.rs:145:5: replace name_str -> &str with "xyzzy" in 0s build + 0s test
+54 mutants tested in 28s: 48 caught, 6 unviable

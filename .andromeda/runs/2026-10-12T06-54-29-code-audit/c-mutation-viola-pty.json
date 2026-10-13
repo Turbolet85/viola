@@ -1,0 +1,185 @@
+{
+ "unit": "viola-pty",
+ "output": "mutants-viola-pty",
+ "complete": true,
+ "total_mutants": 115,
+ "listed": 115,
+ "unit_states_line": "115/115",
+ "start_time": "2026-10-12T06:58:37.068270913Z",
+ "end_time": "2026-10-12T07:01:47.379625398Z",
+ "baseline": {
+  "summary": "Success",
+  "phases": [
+   {
+    "phase": "Build",
+    "duration_s": 4.2,
+    "status": "Success"
+   },
+   {
+    "phase": "Test",
+    "duration_s": 1.7,
+    "status": "Success"
+   }
+  ]
+ },
+ "counts": {
+  "mutants": 115,
+  "caught": 66,
+  "missed": 1,
+  "not_measured": 25,
+  "timeout": 0,
+  "unviable": 23
+ },
+ "tool_tallies": {
+  "caught": 66,
+  "missed": 26,
+  "timeout": 0,
+  "unviable": 23
+ },
+ "survivors": [
+  [
+   "crates/viola-pty/src/lib.rs:202:9",
+   "replace <impl Pty for PortablePty>::resize -> Result<(), PtyError> with Ok(())"
+  ]
+ ],
+ "not_measured": [
+  [
+   "crates/viola-pty/src/lib.rs:240:5",
+   "replace terminate -> bool with false",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:240:5",
+   "replace terminate -> bool with true",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:248:46",
+   "replace != with == in terminate",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:296:9",
+   "replace HostTerminal::enter -> Option<Self> with None",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:296:9",
+   "replace HostTerminal::enter -> Option<Self> with Some(Default::default())",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:310:54",
+   "replace != with == in HostTerminal::enter",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:310:59",
+   "replace && with || in HostTerminal::enter",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:310:95",
+   "replace != with == in HostTerminal::enter",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:315:10",
+   "delete ! in HostTerminal::enter",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:434:9",
+   "replace console::is_console -> bool with false",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:434:9",
+   "replace console::is_console -> bool with true",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:436:76",
+   "replace != with == in console::is_console",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:444:13",
+   "replace console::<impl super::Utf16Source for Console>::read_units -> io::Result<usize> with Ok(0)",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:444:13",
+   "replace console::<impl super::Utf16Source for Console>::read_units -> io::Result<usize> with Ok(1)",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:457:19",
+   "replace == with != in console::<impl super::Utf16Source for Console>::read_units",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/lib.rs:475:87",
+   "replace == with != in host_size",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/sideload.rs:25:5",
+   "replace restrict_dll_search -> bool with false",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/sideload.rs:25:5",
+   "replace restrict_dll_search -> bool with true",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/sideload.rs:25:86",
+   "replace != with == in restrict_dll_search",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/sideload.rs:34:5",
+   "replace search_restricted -> bool with false",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/sideload.rs:34:5",
+   "replace search_restricted -> bool with true",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/sideload.rs:41:5",
+   "replace preload -> Result<(), PtyError> with Ok(())",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/sideload.rs:41:8",
+   "delete ! in preload",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/sideload.rs:58:5",
+   "replace preloaded -> bool with false",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-pty/src/sideload.rs:58:5",
+   "replace preloaded -> bool with true",
+   "cfg(windows)"
+  ]
+ ],
+ "timeouts": [],
+ "state": "complete 115/115",
+ "score": 98.51,
+ "timing": {
+  "scope": "unit",
+  "planned": 115,
+  "tested": 115,
+  "wall_s": 190,
+  "jobs": 2,
+  "cap_s": 1800
+ },
+ "host": "x86_64-unknown-linux-gnu",
+ "score_formula": "caught/(caught+missed)"
+}

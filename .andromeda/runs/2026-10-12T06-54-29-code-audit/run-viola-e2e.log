@@ -1,0 +1,872 @@
+Found 799 mutants to test
+FAILED   Unmutated baseline in 11s build + 5s test
+
+*** baseline
+
+*** /home/turbolet/.rustup/toolchains/1.98.1-x86_64-unknown-linux-gnu/bin/cargo nextest run --no-run --verbose --package=viola-e2e@0.1.0 --features=fake-agent
+   Compiling unicode-ident v1.0.26
+   Compiling proc-macro2 v1.0.107
+   Compiling quote v1.0.47
+   Compiling libc v0.2.189
+   Compiling autocfg v1.5.1
+   Compiling cfg-if v1.0.5
+   Compiling serde_core v1.0.229
+   Compiling memchr v2.8.3
+   Compiling once_cell v1.21.4
+   Compiling serde v1.0.229
+   Compiling semver v1.0.28
+   Compiling unicode-segmentation v1.13.3
+   Compiling allocator-api2 v0.2.21
+   Compiling zmij v1.0.23
+   Compiling equivalent v1.0.2
+   Compiling foldhash v0.2.0
+   Compiling getrandom v0.3.4
+   Compiling zerocopy v0.8.58
+   Compiling serde_json v1.0.151
+   Compiling version_check v0.9.5
+   Compiling heck v0.5.0
+   Compiling parking_lot_core v0.9.12
+   Compiling thiserror v1.0.69
+   Compiling regex-syntax v0.8.11
+   Compiling itoa v1.0.18
+   Compiling ref-cast v1.0.27
+   Compiling anyhow v1.0.104
+   Compiling scopeguard v1.2.0
+   Compiling urlencoding v2.1.3
+   Compiling smallvec v1.16.1
+   Compiling bit-vec v0.8.0
+   Compiling thiserror v2.0.20
+   Compiling pin-utils v0.1.0
+   Compiling borrow-or-share v0.2.4
+   Compiling bitflags v1.3.2
+   Compiling lock_api v0.4.14
+   Compiling tracing-core v0.1.36
+   Compiling unicode-general-category v1.1.0
+   Compiling getrandom v0.4.3
+   Compiling pin-project-lite v0.2.17
+   Compiling rustix v1.1.5
+   Compiling outref v0.5.2
+   Compiling rustc_version v0.4.1
+   Compiling micromap v0.3.0
+   Compiling shell-words v1.1.1
+   Compiling doctest-file v1.1.1
+   Compiling anstyle v1.0.14
+   Compiling bit-set v0.8.0
+   Compiling clap_lex v1.1.1
+   Compiling percent-encoding v2.3.2
+   Compiling hashbrown v0.17.1
+   Compiling ahash v0.8.12
+   Compiling bitflags v2.13.2
+   Compiling downcast-rs v1.2.1
+   Compiling linux-raw-sys v0.12.1
+   Compiling num-cmp v0.1.0
+   Compiling log v0.4.34
+   Compiling bytecount v0.6.9
+   Compiling convert_case v0.11.0
+   Compiling num-traits v0.2.19
+   Compiling memoffset v0.6.5
+   Compiling strsim v0.11.1
+   Compiling vsimd v0.8.0
+   Compiling data-encoding v2.11.1
+   Compiling fastrand v2.5.0
+   Compiling nutype_macros v0.8.0
+   Compiling aho-corasick v1.1.5
+   Compiling clap_builder v4.6.7
+   Compiling uuid-simd v0.8.0
+   Compiling syn v2.0.119
+   Compiling syn v3.0.6
+   Compiling indexmap v2.14.2
+   Compiling num-integer v0.1.47
+   Compiling num-complex v0.4.6
+   Compiling num-bigint v0.4.8
+   Compiling num-iter v0.1.46
+   Compiling regex-automata v0.4.18
+   Compiling jsonschema-regex v0.57.0
+   Compiling termios v0.2.2
+   Compiling serial-core v0.4.0
+   Compiling ioctl-rs v0.1.6
+   Compiling nix v0.25.1
+   Compiling interprocess v2.4.4
+   Compiling sysinfo v0.39.6
+   Compiling serial-unix v0.4.0
+   Compiling serial v0.4.0
+   Compiling parking_lot v0.12.5
+   Compiling tempfile v3.27.0
+   Compiling num-rational v0.4.2
+   Compiling num v0.4.3
+   Compiling fraction v0.17.0
+   Compiling serde_derive v1.0.229
+   Compiling ref-cast-impl v1.0.27
+   Compiling thiserror-impl v2.0.20
+   Compiling clap_derive v4.6.7
+   Compiling fancy-regex v0.19.2
+   Compiling regex v1.13.1
+   Compiling kinded_macros v0.5.1
+   Compiling thiserror-impl v1.0.69
+   Compiling tracing-attributes v0.1.31
+   Compiling veil-macros v0.3.0
+   Compiling strum_macros v0.28.0
+   Compiling clap v4.6.7
+   Compiling veil v0.3.0
+   Compiling kinded v0.5.1
+   Compiling filedescriptor v0.8.3
+   Compiling tracing v0.1.44
+   Compiling portable-pty v0.8.1
+   Compiling viola-pty v0.1.0 (/home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/crates/viola-pty)
+   Compiling strum v0.28.0
+   Compiling fluent-uri v0.4.1
+   Compiling email_address v0.2.9
+   Compiling jsonschema-value v0.57.0
+   Compiling referencing v0.57.0
+   Compiling jsonschema v0.57.0
+   Compiling nutype v0.8.0
+   Compiling viola-core v0.1.0 (/home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/crates/viola-core)
+   Compiling viola-channel v0.1.0 (/home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/crates/viola-channel)
+   Compiling viola-e2e v0.1.0 (/home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/crates/viola-e2e)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 11.44s
+
+*** result: Success
+
+*** /home/turbolet/.rustup/toolchains/1.98.1-x86_64-unknown-linux-gnu/bin/cargo nextest run --verbose --package=viola-e2e@0.1.0 --features=fake-agent
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.06s
+────────────
+ Nextest run ID 638949b6-9409-4673-af6e-3eecaac61f82 with nextest profile: mutants
+    Starting 269 tests across 6 binaries
+       START [         ] (  1/269) viola-e2e harness::boot::tests::cargo_build_succeeds_on_a_buildable_package
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::boot::tests::cargo_build_succeeds_on_a_buildable_package --nocapture
+       START [         ] (  1/269) viola-e2e harness::boot::tests::beat_fresh_is_true_only_under_five_seconds
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::boot::tests::beat_fresh_is_true_only_under_five_seconds --nocapture
+       START [         ] (  1/269) viola-e2e harness::boot::tests::boot_with_a_failing_build_reports_build_failed_with_its_exit
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::boot::tests::boot_with_a_failing_build_reports_build_failed_with_its_exit --nocapture
+       START [         ] (  1/269) viola-e2e harness::boot::tests::boot_refuses_an_invalid_session_id
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::boot::tests::boot_refuses_an_invalid_session_id --nocapture
+       START [         ] (  1/269) viola-e2e harness::boot::tests::fresh_age_is_strictly_under_five_seconds
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::boot::tests::fresh_age_is_strictly_under_five_seconds --nocapture
+       START [         ] (  1/269) viola-e2e harness::boot::tests::failure_doc_carries_the_closed_fields
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::boot::tests::failure_doc_carries_the_closed_fields --nocapture
+       START [         ] (  1/269) viola-e2e harness::boot::tests::instance_spec_rejects_invalid_names
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::boot::tests::instance_spec_rejects_invalid_names --nocapture
+       START [         ] (  1/269) viola-e2e harness::boot::tests::instance_spec_parses_name_and_args
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::boot::tests::instance_spec_parses_name_and_args --nocapture
+       START [         ] (  1/269) viola-e2e harness::boot::tests::readiness_names_a_missing_endpoint
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::boot::tests::readiness_names_a_missing_endpoint --nocapture
+       START [         ] (  1/269) viola-e2e harness::boot::tests::readiness_is_ready_when_both_processes_live
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::boot::tests::readiness_is_ready_when_both_processes_live --nocapture
+       START [         ] (  1/269) viola-e2e harness::boot::tests::readiness_names_missing_start_records
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::boot::tests::readiness_names_missing_start_records --nocapture
+       START [         ] (  1/269) viola-e2e harness::boot::tests::readiness_names_each_missing_check
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::boot::tests::readiness_names_each_missing_check --nocapture
+       START [         ] (  1/269) viola-e2e harness::boot::tests::role_file_is_the_run_role_basename
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::boot::tests::role_file_is_the_run_role_basename --nocapture
+       START [         ] (  1/269) viola-e2e harness::boot::tests::readiness_reports_a_wrapper_that_already_exited
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::boot::tests::readiness_reports_a_wrapper_that_already_exited --nocapture
+       START [         ] (  1/269) viola-e2e harness::boot::tests::session_path_puts_the_session_bin_first
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::boot::tests::session_path_puts_the_session_bin_first --nocapture
+       START [         ] (  1/269) viola-e2e harness::boot::tests::role_state_reads_start_child_and_exit_lines
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::boot::tests::role_state_reads_start_child_and_exit_lines --nocapture
+       START [         ] (  1/269) viola-e2e harness::boot::tests::snapshot_ready_needs_pid_started_at_and_child_pid
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::boot::tests::snapshot_ready_needs_pid_started_at_and_child_pid --nocapture
+       START [         ] (  1/269) viola-e2e harness::boot::tests::snapshot_endpoint_reads_the_recorded_endpoint
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::boot::tests::snapshot_endpoint_reads_the_recorded_endpoint --nocapture
+       START [         ] (  1/269) viola-e2e harness::boot::tests::stamped_line_reads_only_a_clean_summary
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::boot::tests::stamped_line_reads_only_a_clean_summary --nocapture
+       START [         ] (  1/269) viola-e2e harness::boot::tests::stamp_needs_a_clean_exit_and_the_stamped_line
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::boot::tests::stamp_needs_a_clean_exit_and_the_stamped_line --nocapture
+       START [         ] (  1/269) viola-e2e harness::boot::tests::wait_ready_returns_a_ready_instance
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::boot::tests::wait_ready_returns_a_ready_instance --nocapture
+       START [         ] (  1/269) viola-e2e harness::boot::tests::start_records_are_wheel_gate_then_the_hooks_session_start
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::boot::tests::start_records_are_wheel_gate_then_the_hooks_session_start --nocapture
+       START [         ] (  1/269) viola-e2e harness::cleanup::tests::all_sessions_lists_only_recorded_valid_sessions
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::cleanup::tests::all_sessions_lists_only_recorded_valid_sessions --nocapture
+       START [         ] (  1/269) viola-e2e harness::boot::tests::wait_ready_times_out_with_the_missing_checks
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::boot::tests::wait_ready_times_out_with_the_missing_checks --nocapture
+       START [         ] (  1/269) viola-e2e harness::cleanup::tests::cleanup_rejects_an_invalid_session_id
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::cleanup::tests::cleanup_rejects_an_invalid_session_id --nocapture
+       START [         ] (  1/269) viola-e2e harness::cleanup::tests::cleanup_all_stops_recorded_sessions_and_refuses_foreign_homes
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::cleanup::tests::cleanup_all_stops_recorded_sessions_and_refuses_foreign_homes --nocapture
+       START [         ] (  1/269) viola-e2e harness::cleanup::tests::cleanup_without_a_session_is_ok_and_empty
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::cleanup::tests::cleanup_without_a_session_is_ok_and_empty --nocapture
+       START [         ] (  1/269) viola-e2e harness::cleanup::tests::cleanup_waits_its_deadline_for_a_target_that_outlives_its_kill
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::cleanup::tests::cleanup_waits_its_deadline_for_a_target_that_outlives_its_kill --nocapture
+       START [         ] (  1/269) viola-e2e harness::cleanup::tests::killed_by_supervisor_reads_the_killed_names
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::cleanup::tests::killed_by_supervisor_reads_the_killed_names --nocapture
+       START [         ] (  1/269) viola-e2e harness::cleanup::tests::kill_deadline_lies_five_seconds_after_the_instant_it_is_given
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::cleanup::tests::kill_deadline_lies_five_seconds_after_the_instant_it_is_given --nocapture
+       START [         ] (  1/269) viola-e2e harness::cleanup::tests::remove_session_home_removes_a_boot_created_parent
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::cleanup::tests::remove_session_home_removes_a_boot_created_parent --nocapture
+       START [         ] (  1/269) viola-e2e harness::cleanup::tests::remove_session_home_refuses_paths_outside_e2e_home
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::cleanup::tests::remove_session_home_refuses_paths_outside_e2e_home --nocapture
+        PASS [   0.005s] (  1/269) viola-e2e harness::boot::tests::instance_spec_rejects_invalid_names
+        PASS [   0.005s] (  2/269) viola-e2e harness::boot::tests::boot_refuses_an_invalid_session_id
+       START [         ] (  3/269) viola-e2e harness::cleanup::tests::unconnectable_is_true_only_once_nothing_listens
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::cleanup::tests::unconnectable_is_true_only_once_nothing_listens --nocapture
+       START [         ] (  3/269) viola-e2e harness::cleanup::tests::summarize_is_ok_only_when_everything_is_proven
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::cleanup::tests::summarize_is_ok_only_when_everything_is_proven --nocapture
+        PASS [   0.005s] (  3/269) viola-e2e harness::boot::tests::beat_fresh_is_true_only_under_five_seconds
+       START [         ] (  4/269) viola-e2e harness::gate::tests::gate_checks_each_coverage_floor_on_its_own
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::gate::tests::gate_checks_each_coverage_floor_on_its_own --nocapture
+        PASS [   0.004s] (  4/269) viola-e2e harness::cleanup::tests::summarize_is_ok_only_when_everything_is_proven
+       START [         ] (  5/269) viola-e2e harness::gate::tests::gate_coverage_without_its_summary_is_artifact_missing
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::gate::tests::gate_coverage_without_its_summary_is_artifact_missing --nocapture
+        PASS [   0.004s] (  5/269) viola-e2e harness::cleanup::tests::unconnectable_is_true_only_once_nothing_listens
+       START [         ] (  6/269) viola-e2e harness::gate::tests::gate_fails_failed_and_skipped_suites_playwright_included
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::gate::tests::gate_fails_failed_and_skipped_suites_playwright_included --nocapture
+        PASS [   0.011s] (  6/269) viola-e2e harness::boot::tests::failure_doc_carries_the_closed_fields
+       START [         ] (  7/269) viola-e2e harness::gate::tests::gate_mutants_reads_the_summary_survivors
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::gate::tests::gate_mutants_reads_the_summary_survivors --nocapture
+        PASS [   0.005s] (  7/269) viola-e2e harness::gate::tests::gate_coverage_without_its_summary_is_artifact_missing
+       START [         ] (  8/269) viola-e2e harness::gate::tests::gate_names_an_absent_suite_and_its_missing_junit
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::gate::tests::gate_names_an_absent_suite_and_its_missing_junit --nocapture
+        PASS [   0.005s] (  8/269) viola-e2e harness::gate::tests::gate_fails_failed_and_skipped_suites_playwright_included
+       START [         ] (  9/269) viola-e2e harness::gate::tests::gate_passes_a_clean_coverage_and_doctest_job
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::gate::tests::gate_passes_a_clean_coverage_and_doctest_job --nocapture
+        PASS [   0.016s] (  9/269) viola-e2e harness::cleanup::tests::cleanup_rejects_an_invalid_session_id
+       START [         ] ( 10/269) viola-e2e harness::gate::tests::gate_perf_requires_every_row_and_gates_the_max_sample_against_the_spine_deadline
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::gate::tests::gate_perf_requires_every_row_and_gates_the_max_sample_against_the_spine_deadline --nocapture
+        PASS [   0.017s] ( 10/269) viola-e2e harness::cleanup::tests::kill_deadline_lies_five_seconds_after_the_instant_it_is_given
+       START [         ] ( 11/269) viola-e2e harness::gate::tests::gate_without_a_run_summary_is_suite_missing_for_each_suite
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::gate::tests::gate_without_a_run_summary_is_suite_missing_for_each_suite --nocapture
+        PASS [   0.017s] ( 11/269) viola-e2e harness::boot::tests::instance_spec_parses_name_and_args
+       START [         ] ( 12/269) viola-e2e harness::gate::tests::parse_require_accepts_only_closed_suites
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::gate::tests::parse_require_accepts_only_closed_suites --nocapture
+        PASS [   0.007s] ( 12/269) viola-e2e harness::boot::tests::snapshot_endpoint_reads_the_recorded_endpoint
+       START [         ] ( 13/269) viola-e2e harness::logs::tests::detail_lines_carry_instance_and_skip_invalid_names
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::logs::tests::detail_lines_carry_instance_and_skip_invalid_names --nocapture
+        PASS [   0.008s] ( 13/269) viola-e2e harness::cleanup::tests::cleanup_without_a_session_is_ok_and_empty
+       START [         ] ( 14/269) viola-e2e harness::logs::tests::detail_lines_mark_torn_lines
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::logs::tests::detail_lines_mark_torn_lines --nocapture
+        PASS [   0.018s] ( 14/269) viola-e2e harness::boot::tests::snapshot_ready_needs_pid_started_at_and_child_pid
+       START [         ] ( 15/269) viola-e2e harness::logs::tests::detail_lines_skip_a_diagnostics_path_that_is_not_a_dir
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::logs::tests::detail_lines_skip_a_diagnostics_path_that_is_not_a_dir --nocapture
+        PASS [   0.019s] ( 15/269) viola-e2e harness::cleanup::tests::remove_session_home_removes_a_boot_created_parent
+       START [         ] ( 16/269) viola-e2e harness::logs::tests::diag_lines_reads_only_ndjson_files_in_name_order
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::logs::tests::diag_lines_reads_only_ndjson_files_in_name_order --nocapture
+        PASS [   0.019s] ( 16/269) viola-e2e harness::cleanup::tests::remove_session_home_refuses_paths_outside_e2e_home
+       START [         ] ( 17/269) viola-e2e harness::logs::tests::event_lines_read_each_valid_instance_in_name_order
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::logs::tests::event_lines_read_each_valid_instance_in_name_order --nocapture
+        PASS [   0.008s] ( 17/269) viola-e2e harness::gate::tests::gate_mutants_reads_the_summary_survivors
+       START [         ] ( 18/269) viola-e2e harness::logs::tests::files_in_reads_a_role_file_whole_below_the_cap
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::logs::tests::files_in_reads_a_role_file_whole_below_the_cap --nocapture
+        PASS [   0.019s] ( 18/269) viola-e2e harness::boot::tests::readiness_names_each_missing_check
+       START [         ] ( 19/269) viola-e2e harness::logs::tests::filter_with_kind_keeps_instance_and_process
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::logs::tests::filter_with_kind_keeps_instance_and_process --nocapture
+        PASS [   0.019s] ( 19/269) viola-e2e harness::boot::tests::readiness_reports_a_wrapper_that_already_exited
+       START [         ] ( 20/269) viola-e2e harness::logs::tests::filters_match_named_values_and_treat_absent_as_null
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::logs::tests::filters_match_named_values_and_treat_absent_as_null --nocapture
+        PASS [   0.015s] ( 20/269) viola-e2e harness::gate::tests::gate_checks_each_coverage_floor_on_its_own
+       START [         ] ( 21/269) viola-e2e harness::logs::tests::kind_filter_matches_event_kinds_and_never_a_diag_line
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::logs::tests::kind_filter_matches_event_kinds_and_never_a_diag_line --nocapture
+        PASS [   0.007s] ( 21/269) viola-e2e harness::gate::tests::gate_passes_a_clean_coverage_and_doctest_job
+       START [         ] ( 22/269) viola-e2e harness::logs::tests::logs_for_an_unknown_session_is_exit_2
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::logs::tests::logs_for_an_unknown_session_is_exit_2 --nocapture
+        PASS [   0.008s] ( 22/269) viola-e2e harness::gate::tests::gate_names_an_absent_suite_and_its_missing_junit
+       START [         ] ( 23/269) viola-e2e harness::logs::tests::torn_lines_survive_any_filter
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::logs::tests::torn_lines_survive_any_filter --nocapture
+        PASS [   0.023s] ( 23/269) viola-e2e harness::boot::tests::boot_with_a_failing_build_reports_build_failed_with_its_exit
+       START [         ] ( 24/269) viola-e2e harness::logs::tests::wrap_events_carry_instance_and_line_offsets
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::logs::tests::wrap_events_carry_instance_and_line_offsets --nocapture
+        PASS [   0.006s] ( 24/269) viola-e2e harness::gate::tests::parse_require_accepts_only_closed_suites
+       START [         ] ( 25/269) viola-e2e harness::logs::tests::wrap_events_mark_json_that_is_not_an_object_torn
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::logs::tests::wrap_events_mark_json_that_is_not_an_object_torn --nocapture
+        PASS [   0.023s] ( 25/269) viola-e2e harness::boot::tests::readiness_names_a_missing_endpoint
+       START [         ] ( 26/269) viola-e2e harness::logs::tests::wrap_lines_accepts_crlf_terminated_lines
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::logs::tests::wrap_lines_accepts_crlf_terminated_lines --nocapture
+        PASS [   0.006s] ( 26/269) viola-e2e harness::gate::tests::gate_without_a_run_summary_is_suite_missing_for_each_suite
+       START [         ] ( 27/269) viola-e2e harness::logs::tests::wrap_lines_wraps_records_and_marks_torn_lines
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::logs::tests::wrap_lines_wraps_records_and_marks_torn_lines --nocapture
+        PASS [   0.006s] ( 27/269) viola-e2e harness::logs::tests::filter_with_kind_keeps_instance_and_process
+       START [         ] ( 28/269) viola-e2e harness::pre_push::linux::tests::pre_push_cc_missing_is_tool_missing_cc
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::pre_push::linux::tests::pre_push_cc_missing_is_tool_missing_cc --nocapture
+        PASS [   0.008s] ( 28/269) viola-e2e harness::logs::tests::kind_filter_matches_event_kinds_and_never_a_diag_line
+       START [         ] ( 29/269) viola-e2e harness::pre_push::linux::tests::pre_push_ci_pins_parse_the_test_job_tool_line
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::pre_push::linux::tests::pre_push_ci_pins_parse_the_test_job_tool_line --nocapture
+        PASS [   0.008s] ( 29/269) viola-e2e harness::logs::tests::filters_match_named_values_and_treat_absent_as_null
+       START [         ] ( 30/269) viola-e2e harness::pre_push::linux::tests::pre_push_every_native_call_carries_only_home_and_path
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::pre_push::linux::tests::pre_push_every_native_call_carries_only_home_and_path --nocapture
+        PASS [   0.007s] ( 30/269) viola-e2e harness::logs::tests::logs_for_an_unknown_session_is_exit_2
+       START [         ] ( 31/269) viola-e2e harness::pre_push::linux::tests::pre_push_home_reads_the_passwd_entry
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::pre_push::linux::tests::pre_push_home_reads_the_passwd_entry --nocapture
+        PASS [   0.008s] ( 31/269) viola-e2e harness::logs::tests::torn_lines_survive_any_filter
+       START [         ] ( 32/269) viola-e2e harness::pre_push::linux::tests::pre_push_last_document_takes_the_final_json_line
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::pre_push::linux::tests::pre_push_last_document_takes_the_final_json_line --nocapture
+        PASS [   0.020s] ( 32/269) viola-e2e harness::boot::tests::role_state_reads_start_child_and_exit_lines
+       START [         ] ( 33/269) viola-e2e harness::pre_push::linux::tests::pre_push_linux_browser_red_stops_before_the_gate
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::pre_push::linux::tests::pre_push_linux_browser_red_stops_before_the_gate --nocapture
+        PASS [   0.008s] ( 33/269) viola-e2e harness::logs::tests::wrap_events_carry_instance_and_line_offsets
+       START [         ] ( 34/269) viola-e2e harness::pre_push::linux::tests::pre_push_linux_gate_red_stops_at_linux_tests
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::pre_push::linux::tests::pre_push_linux_gate_red_stops_at_linux_tests --nocapture
+        PASS [   0.008s] ( 34/269) viola-e2e harness::logs::tests::wrap_events_mark_json_that_is_not_an_object_torn
+       START [         ] ( 35/269) viola-e2e harness::pre_push::linux::tests::pre_push_linux_test_red_stops_at_linux_tests
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::pre_push::linux::tests::pre_push_linux_test_red_stops_at_linux_tests --nocapture
+        PASS [   0.014s] ( 35/269) viola-e2e harness::gate::tests::gate_perf_requires_every_row_and_gates_the_max_sample_against_the_spine_deadline
+       START [         ] ( 36/269) viola-e2e harness::pre_push::linux::tests::pre_push_linux_tests_run_coverage_browser_then_the_playwright_gate
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::pre_push::linux::tests::pre_push_linux_tests_run_coverage_browser_then_the_playwright_gate --nocapture
+        PASS [   0.020s] ( 36/269) viola-e2e harness::boot::tests::session_path_puts_the_session_bin_first
+       START [         ] ( 37/269) viola-e2e harness::pre_push::linux::tests::pre_push_native_child_sees_only_home_and_path
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::pre_push::linux::tests::pre_push_native_child_sees_only_home_and_path --nocapture
+        PASS [   0.008s] ( 37/269) viola-e2e harness::logs::tests::wrap_lines_accepts_crlf_terminated_lines
+        PASS [   0.031s] ( 38/269) viola-e2e harness::boot::tests::fresh_age_is_strictly_under_five_seconds
+       START [         ] ( 39/269) viola-e2e harness::pre_push::linux::tests::pre_push_node_pin_reads_the_workflow_env_line
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::pre_push::linux::tests::pre_push_node_pin_reads_the_workflow_env_line --nocapture
+       START [         ] ( 39/269) viola-e2e harness::pre_push::linux::tests::pre_push_node_missing_or_off_pin_is_named
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::pre_push::linux::tests::pre_push_node_missing_or_off_pin_is_named --nocapture
+        PASS [   0.008s] ( 39/269) viola-e2e harness::boot::tests::stamped_line_reads_only_a_clean_summary
+       START [         ] ( 40/269) viola-e2e harness::pre_push::linux::tests::pre_push_pin_mismatch_names_the_tool
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::pre_push::linux::tests::pre_push_pin_mismatch_names_the_tool --nocapture
+        PASS [   0.008s] ( 40/269) viola-e2e harness::logs::tests::wrap_lines_wraps_records_and_marks_torn_lines
+       START [         ] ( 41/269) viola-e2e harness::pre_push::linux::tests::pre_push_toolchain_channel_reads_the_pin
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::pre_push::linux::tests::pre_push_toolchain_channel_reads_the_pin --nocapture
+        PASS [   0.032s] ( 41/269) viola-e2e harness::boot::tests::role_file_is_the_run_role_basename
+       START [         ] ( 42/269) viola-e2e harness::pre_push::linux::tests::pre_push_unreadable_linux_document_is_named
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::pre_push::linux::tests::pre_push_unreadable_linux_document_is_named --nocapture
+        PASS [   0.013s] ( 42/269) viola-e2e harness::logs::tests::detail_lines_skip_a_diagnostics_path_that_is_not_a_dir
+       START [         ] ( 43/269) viola-e2e harness::pre_push::linux::tests::pre_push_unreadable_pins_stop_at_tools
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::pre_push::linux::tests::pre_push_unreadable_pins_stop_at_tools --nocapture
+        PASS [   0.023s] ( 43/269) viola-e2e harness::boot::tests::start_records_are_wheel_gate_then_the_hooks_session_start
+       START [         ] ( 44/269) viola-e2e harness::pre_push::tests::pre_push_document_carries_no_absolute_path
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::pre_push::tests::pre_push_document_carries_no_absolute_path --nocapture
+        PASS [   0.033s] ( 44/269) viola-e2e harness::boot::tests::readiness_is_ready_when_both_processes_live
+       START [         ] ( 45/269) viola-e2e harness::pre_push::tests::pre_push_host_gate_is_a_linux_const
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::pre_push::tests::pre_push_host_gate_is_a_linux_const --nocapture
+        PASS [   0.025s] ( 45/269) viola-e2e harness::cleanup::tests::killed_by_supervisor_reads_the_killed_names
+       START [         ] ( 46/269) viola-e2e harness::pre_push::tests::pre_push_native_stages_run_tools_then_linux_tests_and_end_the_pass
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::pre_push::tests::pre_push_native_stages_run_tools_then_linux_tests_and_end_the_pass --nocapture
+        PASS [   0.016s] ( 46/269) viola-e2e harness::logs::tests::diag_lines_reads_only_ndjson_files_in_name_order
+        PASS [   0.007s] ( 47/269) viola-e2e harness::pre_push::linux::tests::pre_push_ci_pins_parse_the_test_job_tool_line
+       START [         ] ( 48/269) viola-e2e harness::run::browser::tests::browser_counts_flaky_as_failed_and_names_failures_from_the_junit
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::browser::tests::browser_counts_flaky_as_failed_and_names_failures_from_the_junit --nocapture
+       START [         ] ( 48/269) viola-e2e harness::pre_push::tests::pre_push_refuses_off_linux_host
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::pre_push::tests::pre_push_refuses_off_linux_host --nocapture
+        PASS [   0.018s] ( 48/269) viola-e2e harness::logs::tests::detail_lines_mark_torn_lines
+       START [         ] ( 49/269) viola-e2e harness::run::browser::tests::browser_deletes_stale_reports_and_a_missing_report_is_artifact_missing
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::browser::tests::browser_deletes_stale_reports_and_a_missing_report_is_artifact_missing --nocapture
+        PASS [   0.007s] ( 49/269) viola-e2e harness::pre_push::linux::tests::pre_push_last_document_takes_the_final_json_line
+       START [         ] ( 50/269) viola-e2e harness::run::browser::tests::browser_red_exit_with_a_clean_report_is_red
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::browser::tests::browser_red_exit_with_a_clean_report_is_red --nocapture
+        PASS [   0.006s] ( 50/269) viola-e2e harness::pre_push::linux::tests::pre_push_toolchain_channel_reads_the_pin
+       START [         ] ( 51/269) viola-e2e harness::run::browser::tests::browser_report_without_stats_is_artifact_missing
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::browser::tests::browser_report_without_stats_is_artifact_missing --nocapture
+        PASS [   0.019s] ( 51/269) viola-e2e harness::logs::tests::event_lines_read_each_valid_instance_in_name_order
+       START [         ] ( 52/269) viola-e2e harness::run::browser::tests::browser_runs_npm_ci_the_chromium_probe_then_the_playwright_cli
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::browser::tests::browser_runs_npm_ci_the_chromium_probe_then_the_playwright_cli --nocapture
+        PASS [   0.007s] ( 52/269) viola-e2e harness::pre_push::linux::tests::pre_push_node_pin_reads_the_workflow_env_line
+       START [         ] ( 53/269) viola-e2e harness::run::browser::tests::browser_with_a_failed_npm_ci_is_browser_missing_and_never_runs_playwright
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::browser::tests::browser_with_a_failed_npm_ci_is_browser_missing_and_never_runs_playwright --nocapture
+        PASS [   0.029s] ( 53/269) viola-e2e harness::cleanup::tests::all_sessions_lists_only_recorded_valid_sessions
+       START [         ] ( 54/269) viola-e2e harness::run::browser::tests::browser_without_chromium_is_browser_missing_and_never_runs_playwright
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::browser::tests::browser_without_chromium_is_browser_missing_and_never_runs_playwright --nocapture
+        PASS [   0.006s] ( 54/269) viola-e2e harness::pre_push::tests::pre_push_host_gate_is_a_linux_const
+       START [         ] ( 55/269) viola-e2e harness::run::browser::tests::npm_is_the_cmd_shim_only_on_windows
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::browser::tests::npm_is_the_cmd_shim_only_on_windows --nocapture
+        PASS [   0.030s] ( 55/269) viola-e2e harness::boot::tests::wait_ready_returns_a_ready_instance
+       START [         ] ( 56/269) viola-e2e harness::run::browser::tests::run_browser_refusal_reaches_the_document
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::browser::tests::run_browser_refusal_reaches_the_document --nocapture
+        PASS [   0.023s] ( 56/269) viola-e2e harness::logs::tests::detail_lines_carry_instance_and_skip_invalid_names
+       START [         ] ( 57/269) viola-e2e harness::run::coverage::tests::coverage_alone_still_runs_the_doctests
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::coverage::tests::coverage_alone_still_runs_the_doctests --nocapture
+        PASS [   0.016s] ( 57/269) viola-e2e harness::pre_push::linux::tests::pre_push_cc_missing_is_tool_missing_cc
+       START [         ] ( 58/269) viola-e2e harness::run::coverage::tests::coverage_ignore_regex_matches_either_separator
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::coverage::tests::coverage_ignore_regex_matches_either_separator --nocapture
+        PASS [   0.014s] ( 58/269) viola-e2e harness::pre_push::linux::tests::pre_push_every_native_call_carries_only_home_and_path
+        PASS [   0.042s] ( 59/269) viola-e2e harness::boot::tests::readiness_names_missing_start_records
+       START [         ] ( 60/269) viola-e2e harness::run::coverage::tests::coverage_red_exit_over_green_tests_is_red
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::coverage::tests::coverage_red_exit_over_green_tests_is_red --nocapture
+       START [         ] ( 60/269) viola-e2e harness::run::coverage::tests::coverage_passes_the_filter_as_its_expression
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::coverage::tests::coverage_passes_the_filter_as_its_expression --nocapture
+        PASS [   0.011s] ( 60/269) viola-e2e harness::pre_push::linux::tests::pre_push_linux_test_red_stops_at_linux_tests
+       START [         ] ( 61/269) viola-e2e harness::run::coverage::tests::coverage_replaces_the_nextest_runs_with_one_instrumented_run
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::coverage::tests::coverage_replaces_the_nextest_runs_with_one_instrumented_run --nocapture
+        PASS [   0.013s] ( 61/269) viola-e2e harness::pre_push::linux::tests::pre_push_linux_gate_red_stops_at_linux_tests
+       START [         ] ( 62/269) viola-e2e harness::run::coverage::tests::coverage_without_a_fresh_summary_is_red
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::coverage::tests::coverage_without_a_fresh_summary_is_red --nocapture
+        PASS [   0.013s] ( 62/269) viola-e2e harness::pre_push::linux::tests::pre_push_linux_browser_red_stops_before_the_gate
+       START [         ] ( 63/269) viola-e2e harness::run::coverage::tests::coverage_without_junit_is_artifact_missing_and_skips_the_report
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::coverage::tests::coverage_without_junit_is_artifact_missing_and_skips_the_report --nocapture
+        PASS [   0.012s] ( 63/269) viola-e2e harness::pre_push::linux::tests::pre_push_unreadable_pins_stop_at_tools
+       START [         ] ( 64/269) viola-e2e harness::run::doctest::tests::parse_doctest_sums_result_lines
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::doctest::tests::parse_doctest_sums_result_lines --nocapture
+        PASS [   0.013s] ( 64/269) viola-e2e harness::pre_push::linux::tests::pre_push_linux_tests_run_coverage_browser_then_the_playwright_gate
+       START [         ] ( 65/269) viola-e2e harness::run::fuzz::tests::fuzz_channel_reads_the_toolchain_file
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::fuzz::tests::fuzz_channel_reads_the_toolchain_file --nocapture
+        PASS [   0.009s] ( 65/269) viola-e2e harness::pre_push::tests::pre_push_refuses_off_linux_host
+       START [         ] ( 66/269) viola-e2e harness::run::fuzz::tests::fuzz_host_is_linux_only
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::fuzz::tests::fuzz_host_is_linux_only --nocapture
+        PASS [   0.014s] ( 66/269) viola-e2e harness::pre_push::linux::tests::pre_push_unreadable_linux_document_is_named
+       START [         ] ( 67/269) viola-e2e harness::run::fuzz::tests::fuzz_replay_counts_each_target_and_never_passes_an_empty_corpus
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::fuzz::tests::fuzz_replay_counts_each_target_and_never_passes_an_empty_corpus --nocapture
+        PASS [   0.015s] ( 67/269) viola-e2e harness::pre_push::linux::tests::pre_push_native_child_sees_only_home_and_path
+       START [         ] ( 68/269) viola-e2e harness::run::fuzz::tests::fuzz_replay_without_cargo_fuzz_is_tool_missing
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::fuzz::tests::fuzz_replay_without_cargo_fuzz_is_tool_missing --nocapture
+        PASS [   0.007s] ( 68/269) viola-e2e harness::run::browser::tests::npm_is_the_cmd_shim_only_on_windows
+       START [         ] ( 69/269) viola-e2e harness::run::fuzz::tests::fuzz_replay_without_its_toolchain_file_is_tool_missing
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::fuzz::tests::fuzz_replay_without_its_toolchain_file_is_tool_missing --nocapture
+        PASS [   0.012s] ( 69/269) viola-e2e harness::pre_push::tests::pre_push_native_stages_run_tools_then_linux_tests_and_end_the_pass
+       START [         ] ( 70/269) viola-e2e harness::run::fuzz::tests::fuzz_replay_without_targets_is_corpus_empty
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::fuzz::tests::fuzz_replay_without_targets_is_corpus_empty --nocapture
+        PASS [   0.009s] ( 70/269) viola-e2e harness::run::browser::tests::browser_with_a_failed_npm_ci_is_browser_missing_and_never_runs_playwright
+        PASS [   0.007s] ( 71/269) viola-e2e harness::run::coverage::tests::coverage_ignore_regex_matches_either_separator
+        PASS [   0.038s] ( 72/269) viola-e2e harness::cleanup::tests::cleanup_all_stops_recorded_sessions_and_refuses_foreign_homes
+       START [         ] ( 73/269) viola-e2e harness::run::fuzz::tests::run_fuzz_replay_refusals_reach_the_document
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::fuzz::tests::run_fuzz_replay_refusals_reach_the_document --nocapture
+       START [         ] ( 73/269) viola-e2e harness::run::mutants::base::tests::chunk_base_holds_the_flip_across_a_pass
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::base::tests::chunk_base_holds_the_flip_across_a_pass --nocapture
+       START [         ] ( 73/269) viola-e2e harness::run::mutants::base::tests::chunk_base_bound_is_the_oldest_pre_ci_commit
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::base::tests::chunk_base_bound_is_the_oldest_pre_ci_commit --nocapture
+        PASS [   0.012s] ( 73/269) viola-e2e harness::run::browser::tests::browser_red_exit_with_a_clean_report_is_red
+       START [         ] ( 74/269) viola-e2e harness::run::mutants::base::tests::chunk_base_is_the_last_flip_before_any_pre_ci_commit
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::base::tests::chunk_base_is_the_last_flip_before_any_pre_ci_commit --nocapture
+        PASS [   0.010s] ( 74/269) viola-e2e harness::run::browser::tests::browser_report_without_stats_is_artifact_missing
+       START [         ] ( 75/269) viola-e2e harness::run::mutants::base::tests::chunk_base_of_a_pending_record_head_already_holds_is_the_parent
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::base::tests::chunk_base_of_a_pending_record_head_already_holds_is_the_parent --nocapture
+        PASS [   0.014s] ( 75/269) viola-e2e harness::run::browser::tests::browser_counts_flaky_as_failed_and_names_failures_from_the_junit
+       START [         ] ( 76/269) viola-e2e harness::run::mutants::base::tests::chunk_base_of_an_uncommitted_promotion_is_the_flip_at_head
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::base::tests::chunk_base_of_an_uncommitted_promotion_is_the_flip_at_head --nocapture
+        PASS [   0.007s] ( 76/269) viola-e2e harness::run::doctest::tests::parse_doctest_sums_result_lines
+       START [         ] ( 77/269) viola-e2e harness::run::mutants::base::tests::chunk_base_of_the_wrap_push_is_its_parent
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::base::tests::chunk_base_of_the_wrap_push_is_its_parent --nocapture
+        PASS [   0.007s] ( 77/269) viola-e2e harness::run::fuzz::tests::fuzz_host_is_linux_only
+       START [         ] ( 78/269) viola-e2e harness::run::mutants::base::tests::chunk_base_override_wins
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::base::tests::chunk_base_override_wins --nocapture
+        PASS [   0.007s] ( 78/269) viola-e2e harness::run::fuzz::tests::fuzz_channel_reads_the_toolchain_file
+       START [         ] ( 79/269) viola-e2e harness::run::mutants::base::tests::chunk_base_reads_only_pending_record_markers
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::base::tests::chunk_base_reads_only_pending_record_markers --nocapture
+        PASS [   0.012s] ( 79/269) viola-e2e harness::run::browser::tests::browser_without_chromium_is_browser_missing_and_never_runs_playwright
+       START [         ] ( 80/269) viola-e2e harness::run::mutants::base::tests::chunk_diff_holds_tracked_edits_and_untracked_files
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::base::tests::chunk_diff_holds_tracked_edits_and_untracked_files --nocapture
+        PASS [   0.016s] ( 80/269) viola-e2e harness::run::browser::tests::browser_deletes_stale_reports_and_a_missing_report_is_artifact_missing
+       START [         ] ( 81/269) viola-e2e harness::run::mutants::base::tests::chunk_diff_pins_its_prefixes_under_a_hostile_config
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::base::tests::chunk_diff_pins_its_prefixes_under_a_hostile_config --nocapture
+        PASS [   0.019s] ( 81/269) viola-e2e harness::pre_push::tests::pre_push_document_carries_no_absolute_path
+       START [         ] ( 82/269) viola-e2e harness::run::mutants::base::tests::resolve_base_needs_a_real_commit
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::base::tests::resolve_base_needs_a_real_commit --nocapture
+        PASS [   0.042s] ( 82/269) viola-e2e harness::boot::tests::stamp_needs_a_clean_exit_and_the_stamped_line
+       START [         ] ( 83/269) viola-e2e harness::run::mutants::base::tests::rust_delta_classifies_diff_headers
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::base::tests::rust_delta_classifies_diff_headers --nocapture
+        PASS [   0.015s] ( 83/269) viola-e2e harness::run::browser::tests::browser_runs_npm_ci_the_chromium_probe_then_the_playwright_cli
+       START [         ] ( 84/269) viola-e2e harness::run::mutants::base::tests::rust_paths_lists_each_rust_path_once
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::base::tests::rust_paths_lists_each_rust_path_once --nocapture
+        PASS [   0.015s] ( 84/269) viola-e2e harness::run::browser::tests::run_browser_refusal_reaches_the_document
+       START [         ] ( 85/269) viola-e2e harness::run::mutants::base::tests::test_target_holds_only_test_bench_and_example_dirs
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::base::tests::test_target_holds_only_test_bench_and_example_dirs --nocapture
+        PASS [   0.005s] ( 85/269) viola-e2e harness::run::mutants::base::tests::chunk_base_reads_only_pending_record_markers
+       START [         ] ( 86/269) viola-e2e harness::run::mutants::host::tests::eval_all_and_any_are_three_valued
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::host::tests::eval_all_and_any_are_three_valued --nocapture
+        PASS [   0.027s] ( 86/269) viola-e2e harness::pre_push::linux::tests::pre_push_pin_mismatch_names_the_tool
+       START [         ] ( 87/269) viola-e2e harness::run::mutants::host::tests::eval_decides_family_os_and_arch_and_nothing_else
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::host::tests::eval_decides_family_os_and_arch_and_nothing_else --nocapture
+        PASS [   0.006s] ( 87/269) viola-e2e harness::run::mutants::base::tests::rust_delta_classifies_diff_headers
+        PASS [   0.012s] ( 88/269) viola-e2e harness::run::fuzz::tests::fuzz_replay_without_its_toolchain_file_is_tool_missing
+       START [         ] ( 89/269) viola-e2e harness::run::mutants::host::tests::excluded_missed_keeps_a_span_that_leaves_its_node
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::host::tests::excluded_missed_keeps_a_span_that_leaves_its_node --nocapture
+       START [         ] ( 89/269) viola-e2e harness::run::mutants::host::tests::excluded_missed_follows_the_mod_declarations_above_a_file
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::host::tests::excluded_missed_follows_the_mod_declarations_above_a_file --nocapture
+        PASS [   0.005s] ( 89/269) viola-e2e harness::run::mutants::base::tests::rust_paths_lists_each_rust_path_once
+       START [         ] ( 90/269) viola-e2e harness::run::mutants::host::tests::excluded_missed_leaves_out_only_missed_records_it_can_read
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::host::tests::excluded_missed_leaves_out_only_missed_records_it_can_read --nocapture
+        PASS [   0.019s] ( 90/269) viola-e2e harness::run::coverage::tests::coverage_replaces_the_nextest_runs_with_one_instrumented_run
+       START [         ] ( 91/269) viola-e2e harness::run::mutants::host::tests::excluded_missed_reads_the_cfg_on_each_node_kind
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::host::tests::excluded_missed_reads_the_cfg_on_each_node_kind --nocapture
+        PASS [   0.006s] ( 91/269) viola-e2e harness::run::mutants::base::tests::test_target_holds_only_test_bench_and_example_dirs
+       START [         ] ( 92/269) viola-e2e harness::run::mutants::host::tests::host_is_the_one_the_harness_was_built_for
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::host::tests::host_is_the_one_the_harness_was_built_for --nocapture
+        PASS [   0.006s] ( 92/269) viola-e2e harness::run::mutants::host::tests::eval_all_and_any_are_three_valued
+       START [         ] ( 93/269) viola-e2e harness::run::mutants::scratch::tests::dir_bytes_sums_files_and_reads_an_absent_path_as_zero
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::scratch::tests::dir_bytes_sums_files_and_reads_an_absent_path_as_zero --nocapture
+        PASS [   0.022s] ( 93/269) viola-e2e harness::run::coverage::tests::coverage_alone_still_runs_the_doctests
+       START [         ] ( 94/269) viola-e2e harness::run::mutants::scratch::tests::host_scratch_is_the_windows_host_only
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::scratch::tests::host_scratch_is_the_windows_host_only --nocapture
+        PASS [   0.022s] ( 94/269) viola-e2e harness::run::coverage::tests::coverage_passes_the_filter_as_its_expression
+       START [         ] ( 95/269) viola-e2e harness::run::mutants::scratch::tests::prepare_empties_the_scratch_and_reports_what_it_held
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::scratch::tests::prepare_empties_the_scratch_and_reports_what_it_held --nocapture
+        PASS [   0.033s] ( 95/269) viola-e2e harness::pre_push::linux::tests::pre_push_node_missing_or_off_pin_is_named
+       START [         ] ( 96/269) viola-e2e harness::run::mutants::scratch::tests::run_mutants_takes_the_host_scratch_on_windows_only
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::scratch::tests::run_mutants_takes_the_host_scratch_on_windows_only --nocapture
+        PASS [   0.007s] ( 96/269) viola-e2e harness::run::mutants::host::tests::eval_decides_family_os_and_arch_and_nothing_else
+       START [         ] ( 97/269) viola-e2e harness::run::mutants::scratch::tests::scratch_allowed_takes_only_the_named_sibling
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::scratch::tests::scratch_allowed_takes_only_the_named_sibling --nocapture
+        PASS [   0.019s] ( 97/269) viola-e2e harness::run::fuzz::tests::fuzz_replay_without_cargo_fuzz_is_tool_missing
+       START [         ] ( 98/269) viola-e2e harness::run::mutants::scratch::tests::scratch_dir_is_the_repo_parents_named_child
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::scratch::tests::scratch_dir_is_the_repo_parents_named_child --nocapture
+        PASS [   0.022s] ( 98/269) viola-e2e harness::run::coverage::tests::coverage_without_junit_is_artifact_missing_and_skips_the_report
+       START [         ] ( 99/269) viola-e2e harness::run::mutants::scratch::tests::wipe_creates_an_absent_scratch_and_empties_a_present_one
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::scratch::tests::wipe_creates_an_absent_scratch_and_empties_a_present_one --nocapture
+        PASS [   0.025s] ( 99/269) viola-e2e harness::run::coverage::tests::coverage_red_exit_over_green_tests_is_red
+       START [         ] (100/269) viola-e2e harness::run::mutants::scratch::tests::wipe_names_a_removal_that_failed
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::scratch::tests::wipe_names_a_removal_that_failed --nocapture
+        PASS [   0.019s] (100/269) viola-e2e harness::run::fuzz::tests::run_fuzz_replay_refusals_reach_the_document
+       START [         ] (101/269) viola-e2e harness::run::mutants::tests::carries_number_reads_counts_never_digits_in_strings
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::tests::carries_number_reads_counts_never_digits_in_strings --nocapture
+        PASS [   0.020s] (101/269) viola-e2e harness::run::fuzz::tests::fuzz_replay_without_targets_is_corpus_empty
+       START [         ] (102/269) viola-e2e harness::run::mutants::tests::listed_reads_non_empty_lines
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::tests::listed_reads_non_empty_lines --nocapture
+        PASS [   0.006s] (102/269) viola-e2e harness::run::mutants::host::tests::host_is_the_one_the_harness_was_built_for
+       START [         ] (103/269) viola-e2e harness::run::mutants::tests::mutants_exit_codes_map_to_reasons
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::tests::mutants_exit_codes_map_to_reasons --nocapture
+        PASS [   0.006s] (103/269) viola-e2e harness::run::mutants::scratch::tests::host_scratch_is_the_windows_host_only
+       START [         ] (104/269) viola-e2e harness::run::mutants::tests::mutants_suite_counts_missed_and_timeout_as_survivors
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::tests::mutants_suite_counts_missed_and_timeout_as_survivors --nocapture
+        PASS [   0.026s] (104/269) viola-e2e harness::run::coverage::tests::coverage_without_a_fresh_summary_is_red
+       START [         ] (105/269) viola-e2e harness::run::mutants::tests::mutants_suite_is_red_when_unviable_outnumbers_caught
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::tests::mutants_suite_is_red_when_unviable_outnumbers_caught --nocapture
+        PASS [   0.025s] (105/269) viola-e2e harness::run::fuzz::tests::fuzz_replay_counts_each_target_and_never_passes_an_empty_corpus
+       START [         ] (106/269) viola-e2e harness::run::mutants::tests::mutants_suite_leaves_host_excluded_missed_out_of_the_survivors
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::tests::mutants_suite_leaves_host_excluded_missed_out_of_the_survivors --nocapture
+        PASS [   0.005s] (106/269) viola-e2e harness::run::mutants::scratch::tests::scratch_allowed_takes_only_the_named_sibling
+       START [         ] (107/269) viola-e2e harness::run::mutants::tests::package_member_reads_the_name_and_the_manifest_features
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::tests::package_member_reads_the_name_and_the_manifest_features --nocapture
+        PASS [   0.006s] (107/269) viola-e2e harness::run::mutants::tests::carries_number_reads_counts_never_digits_in_strings
+       START [         ] (108/269) viola-e2e harness::run::mutants::tests::run_mutants_archives_the_outcomes_it_read
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::tests::run_mutants_archives_the_outcomes_it_read --nocapture
+        PASS [   0.007s] (108/269) viola-e2e harness::run::mutants::scratch::tests::scratch_dir_is_the_repo_parents_named_child
+       START [         ] (109/269) viola-e2e harness::run::mutants::tests::run_mutants_builds_in_its_own_target_dir
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::tests::run_mutants_builds_in_its_own_target_dir --nocapture
+        PASS [   0.005s] (109/269) viola-e2e harness::run::mutants::tests::mutants_exit_codes_map_to_reasons
+       START [         ] (110/269) viola-e2e harness::run::mutants::tests::run_mutants_keeps_every_mutant_it_cannot_prove_host_excluded
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::tests::run_mutants_keeps_every_mutant_it_cannot_prove_host_excluded --nocapture
+        PASS [   0.005s] (110/269) viola-e2e harness::run::mutants::tests::mutants_suite_counts_missed_and_timeout_as_survivors
+       START [         ] (111/269) viola-e2e harness::run::mutants::tests::run_mutants_leaves_out_a_missed_mutant_the_host_never_compiled
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::tests::run_mutants_leaves_out_a_missed_mutant_the_host_never_compiled --nocapture
+        PASS [   0.055s] (111/269) viola-e2e harness::logs::tests::files_in_reads_a_role_file_whole_below_the_cap
+       START [         ] (112/269) viola-e2e harness::run::mutants::tests::run_mutants_mixed_src_and_test_delta_without_outcomes_stays_outcomes_missing
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::tests::run_mutants_mixed_src_and_test_delta_without_outcomes_stays_outcomes_missing --nocapture
+        PASS [   0.005s] (112/269) viola-e2e harness::run::mutants::tests::mutants_suite_is_red_when_unviable_outnumbers_caught
+       START [         ] (113/269) viola-e2e harness::run::mutants::tests::run_mutants_never_keeps_test_homes
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::tests::run_mutants_never_keeps_test_homes --nocapture
+        PASS [   0.006s] (113/269) viola-e2e harness::run::mutants::tests::mutants_suite_leaves_host_excluded_missed_out_of_the_survivors
+       START [         ] (114/269) viola-e2e harness::run::mutants::tests::run_mutants_no_rust_delta_passes_by_name_and_never_reads_stale_outcomes
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::tests::run_mutants_no_rust_delta_passes_by_name_and_never_reads_stale_outcomes --nocapture
+        PASS [   0.014s] (114/269) viola-e2e harness::run::mutants::scratch::tests::dir_bytes_sums_files_and_reads_an_absent_path_as_zero
+       START [         ] (115/269) viola-e2e harness::run::mutants::tests::run_mutants_package_passes_each_file
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::tests::run_mutants_package_passes_each_file --nocapture
+        PASS [   0.016s] (115/269) viola-e2e harness::run::mutants::scratch::tests::prepare_empties_the_scratch_and_reports_what_it_held
+       START [         ] (116/269) viola-e2e harness::run::mutants::tests::run_mutants_package_prebuilds_and_copies_the_target_with_no_diff
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::tests::run_mutants_package_prebuilds_and_copies_the_target_with_no_diff --nocapture
+        PASS [   0.012s] (116/269) viola-e2e harness::run::mutants::tests::listed_reads_non_empty_lines
+       START [         ] (117/269) viola-e2e harness::run::mutants::tests::run_mutants_package_reads_the_counts_as_verdict_package
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::tests::run_mutants_package_reads_the_counts_as_verdict_package --nocapture
+        PASS [   0.015s] (117/269) viola-e2e harness::run::mutants::scratch::tests::wipe_creates_an_absent_scratch_and_empties_a_present_one
+       START [         ] (118/269) viola-e2e harness::run::mutants::tests::run_mutants_package_refuses_an_unknown_or_featureless_member
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::tests::run_mutants_package_refuses_an_unknown_or_featureless_member --nocapture
+        PASS [   0.016s] (118/269) viola-e2e harness::run::mutants::scratch::tests::wipe_names_a_removal_that_failed
+       START [         ] (119/269) viola-e2e harness::run::mutants::tests::run_mutants_passes_when_the_change_is_tested
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::tests::run_mutants_passes_when_the_change_is_tested --nocapture
+        PASS [   0.016s] (119/269) viola-e2e harness::run::mutants::tests::package_member_reads_the_name_and_the_manifest_features
+       START [         ] (120/269) viola-e2e harness::run::mutants::tests::run_mutants_prints_every_outcome_and_bounds_each_build
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::tests::run_mutants_prints_every_outcome_and_bounds_each_build --nocapture
+        PASS [   0.031s] (120/269) viola-e2e harness::run::mutants::host::tests::excluded_missed_leaves_out_only_missed_records_it_can_read
+       START [         ] (121/269) viola-e2e harness::run::mutants::tests::run_mutants_reports_survivors_of_an_untested_change
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::tests::run_mutants_reports_survivors_of_an_untested_change --nocapture
+        PASS [   0.033s] (121/269) viola-e2e harness::run::mutants::host::tests::excluded_missed_keeps_a_span_that_leaves_its_node
+       START [         ] (122/269) viola-e2e harness::run::mutants::tests::run_mutants_rust_delta_without_fresh_outcomes_is_outcomes_missing
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::tests::run_mutants_rust_delta_without_fresh_outcomes_is_outcomes_missing --nocapture
+        PASS [   0.063s] (122/269) viola-e2e harness::pre_push::linux::tests::pre_push_home_reads_the_passwd_entry
+       START [         ] (123/269) viola-e2e harness::run::mutants::tests::run_mutants_scoped_passes_each_file_and_reads_as_scoped
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::tests::run_mutants_scoped_passes_each_file_and_reads_as_scoped --nocapture
+        PASS [   0.064s] (123/269) viola-e2e harness::run::mutants::host::tests::excluded_missed_follows_the_mod_declarations_above_a_file
+       START [         ] (124/269) viola-e2e harness::run::mutants::tests::run_mutants_test_only_delta_passes_by_name_without_running_cargo
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::tests::run_mutants_test_only_delta_passes_by_name_without_running_cargo --nocapture
+        PASS [   0.091s] (124/269) viola-e2e harness::run::mutants::host::tests::excluded_missed_reads_the_cfg_on_each_node_kind
+       START [         ] (125/269) viola-e2e harness::run::mutants::tests::run_mutants_with_an_unbuildable_root_package_is_build_failed
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::tests::run_mutants_with_an_unbuildable_root_package_is_build_failed --nocapture
+        PASS [   0.173s] (125/269) viola-e2e harness::boot::tests::cargo_build_succeeds_on_a_buildable_package
+       START [         ] (126/269) viola-e2e harness::run::mutants::tests::run_mutants_with_an_unreachable_base_is_base_missing_and_writes_no_diff
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::tests::run_mutants_with_an_unreachable_base_is_base_missing_and_writes_no_diff --nocapture
+        PASS [   0.143s] (126/269) viola-e2e harness::run::mutants::base::tests::chunk_diff_holds_tracked_edits_and_untracked_files
+       START [         ] (127/269) viola-e2e harness::run::mutants::tests::run_mutants_with_survivors_is_red
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::mutants::tests::run_mutants_with_survivors_is_red --nocapture
+        PASS [   0.149s] (127/269) viola-e2e harness::run::mutants::base::tests::resolve_base_needs_a_real_commit
+       START [         ] (128/269) viola-e2e harness::run::nextest::tests::attr_reads_one_attribute_or_nothing
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::nextest::tests::attr_reads_one_attribute_or_nothing --nocapture
+        PASS [   0.005s] (128/269) viola-e2e harness::run::nextest::tests::attr_reads_one_attribute_or_nothing
+       START [         ] (129/269) viola-e2e harness::run::nextest::tests::exit_must_agree_turns_a_silent_red_exit_red
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::nextest::tests::exit_must_agree_turns_a_silent_red_exit_red --nocapture
+        PASS [   0.005s] (129/269) viola-e2e harness::run::nextest::tests::exit_must_agree_turns_a_silent_red_exit_red
+       START [         ] (130/269) viola-e2e harness::run::nextest::tests::parse_junit_counts_pass_fail_skip
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::nextest::tests::parse_junit_counts_pass_fail_skip --nocapture
+        PASS [   0.005s] (130/269) viola-e2e harness::run::nextest::tests::parse_junit_counts_pass_fail_skip
+       START [         ] (131/269) viola-e2e harness::run::perf::tests::booted_home_reads_ok_and_home_else_the_reason
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::perf::tests::booted_home_reads_ok_and_home_else_the_reason --nocapture
+        PASS [   0.005s] (131/269) viola-e2e harness::run::perf::tests::booted_home_reads_ok_and_home_else_the_reason
+       START [         ] (132/269) viola-e2e harness::run::perf::tests::keep_homes_only_for_exactly_one
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::perf::tests::keep_homes_only_for_exactly_one --nocapture
+        PASS [   0.005s] (132/269) viola-e2e harness::run::perf::tests::keep_homes_only_for_exactly_one
+       START [         ] (133/269) viola-e2e harness::run::perf::tests::perf_boot_failure_names_its_reason_and_times_nothing
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::perf::tests::perf_boot_failure_names_its_reason_and_times_nothing --nocapture
+        PASS [   0.183s] (133/269) viola-e2e harness::run::mutants::base::tests::chunk_base_of_a_pending_record_head_already_holds_is_the_parent
+       START [         ] (134/269) viola-e2e harness::run::perf::tests::perf_build_failure_is_a_red_suite_that_boots_nothing
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::perf::tests::perf_build_failure_is_a_red_suite_that_boots_nothing --nocapture
+        PASS [   0.014s] (134/269) viola-e2e harness::run::perf::tests::perf_boot_failure_names_its_reason_and_times_nothing
+       START [         ] (135/269) viola-e2e harness::run::perf::tests::perf_is_named_only
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::perf::tests::perf_is_named_only --nocapture
+        PASS [   0.010s] (135/269) viola-e2e harness::run::perf::tests::perf_build_failure_is_a_red_suite_that_boots_nothing
+       START [         ] (136/269) viola-e2e harness::run::perf::tests::perf_payloads_carry_only_strings_and_the_canary
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::perf::tests::perf_payloads_carry_only_strings_and_the_canary --nocapture
+        PASS [   0.005s] (136/269) viola-e2e harness::run::perf::tests::perf_is_named_only
+       START [         ] (137/269) viola-e2e harness::run::perf::tests::perf_red_row_panic_line_and_failed_cleanup_are_each_named
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::perf::tests::perf_red_row_panic_line_and_failed_cleanup_are_each_named --nocapture
+        PASS [   0.005s] (137/269) viola-e2e harness::run::perf::tests::perf_payloads_carry_only_strings_and_the_canary
+       START [         ] (138/269) viola-e2e harness::run::perf::tests::perf_times_every_row_on_the_perf_build_and_cleans_up
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::perf::tests::perf_times_every_row_on_the_perf_build_and_cleans_up --nocapture
+        PASS [   0.198s] (138/269) viola-e2e harness::run::mutants::base::tests::chunk_base_of_an_uncommitted_promotion_is_the_flip_at_head
+       START [         ] (139/269) viola-e2e harness::run::perf::tests::perf_without_hyperfine_is_tool_missing
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::perf::tests::perf_without_hyperfine_is_tool_missing --nocapture
+        PASS [   0.015s] (139/269) viola-e2e harness::run::perf::tests::perf_without_hyperfine_is_tool_missing
+       START [         ] (140/269) viola-e2e harness::run::perf::tests::role_panics_counts_role_files_only
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::perf::tests::role_panics_counts_role_files_only --nocapture
+        PASS [   0.189s] (140/269) viola-e2e harness::run::mutants::tests::run_mutants_never_keeps_test_homes
+       START [         ] (141/269) viola-e2e harness::run::perf::tests::run_perf_refusal_reaches_the_document_and_skips_mutants
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::perf::tests::run_perf_refusal_reaches_the_document_and_skips_mutants --nocapture
+        PASS [   0.216s] (141/269) viola-e2e harness::run::mutants::base::tests::chunk_base_override_wins
+       START [         ] (142/269) viola-e2e harness::run::tests::archive_copies_the_sources_into_the_next_slot_and_prunes
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::tests::archive_copies_the_sources_into_the_next_slot_and_prunes --nocapture
+        PASS [   0.033s] (142/269) viola-e2e harness::run::perf::tests::perf_red_row_panic_line_and_failed_cleanup_are_each_named
+       START [         ] (143/269) viola-e2e harness::run::tests::archive_slots_number_up_and_keep_the_newest_ten
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::tests::archive_slots_number_up_and_keep_the_newest_ten --nocapture
+        PASS [   0.031s] (143/269) viola-e2e harness::run::perf::tests::perf_times_every_row_on_the_perf_build_and_cleans_up
+       START [         ] (144/269) viola-e2e harness::run::tests::archive_sources_are_the_junit_suites_and_the_read_outcomes
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::tests::archive_sources_are_the_junit_suites_and_the_read_outcomes --nocapture
+        PASS [   0.016s] (144/269) viola-e2e harness::run::perf::tests::run_perf_refusal_reaches_the_document_and_skips_mutants
+       START [         ] (145/269) viola-e2e harness::run::tests::e2e_home_backing_local_live_refused_base_fails_before_the_verify
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::tests::e2e_home_backing_local_live_refused_base_fails_before_the_verify --nocapture
+        PASS [   0.005s] (145/269) viola-e2e harness::run::tests::archive_slots_number_up_and_keep_the_newest_ten
+       START [         ] (146/269) viola-e2e harness::run::tests::merge_summary_replaces_by_suite
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::tests::merge_summary_replaces_by_suite --nocapture
+        PASS [   0.005s] (146/269) viola-e2e harness::run::tests::archive_sources_are_the_junit_suites_and_the_read_outcomes
+       START [         ] (147/269) viola-e2e harness::run::tests::run_local_live_names_a_failed_build
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::tests::run_local_live_names_a_failed_build --nocapture
+        PASS [   0.024s] (147/269) viola-e2e harness::run::perf::tests::role_panics_counts_role_files_only
+       START [         ] (148/269) viola-e2e harness::run::tests::run_local_live_names_a_failing_verify_exit
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::tests::run_local_live_names_a_failing_verify_exit --nocapture
+        PASS [   0.009s] (148/269) viola-e2e harness::run::tests::merge_summary_replaces_by_suite
+       START [         ] (149/269) viola-e2e harness::run::tests::run_local_live_names_a_missing_or_doubled_row
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::tests::run_local_live_names_a_missing_or_doubled_row --nocapture
+        PASS [   0.014s] (149/269) viola-e2e harness::run::tests::run_local_live_names_a_failed_build
+       START [         ] (150/269) viola-e2e harness::run::tests::run_local_live_passes_on_a_clean_verify
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::tests::run_local_live_passes_on_a_clean_verify --nocapture
+        PASS [   0.018s] (150/269) viola-e2e harness::run::tests::e2e_home_backing_local_live_refused_base_fails_before_the_verify
+       START [         ] (151/269) viola-e2e harness::run::tests::run_local_live_under_ci_is_refused_before_any_spawn
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::tests::run_local_live_under_ci_is_refused_before_any_spawn --nocapture
+        PASS [   0.237s] (151/269) viola-e2e harness::run::mutants::tests::run_mutants_builds_in_its_own_target_dir
+       START [         ] (152/269) viola-e2e harness::run::tests::run_reports_unit_integration_and_doctest_suites
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::tests::run_reports_unit_integration_and_doctest_suites --nocapture
+        PASS [   0.017s] (152/269) viola-e2e harness::run::tests::run_local_live_under_ci_is_refused_before_any_spawn
+       START [         ] (153/269) viola-e2e harness::run::tests::run_with_a_failing_test_is_red_and_names_it
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::tests::run_with_a_failing_test_is_red_and_names_it --nocapture
+        PASS [   0.050s] (153/269) viola-e2e harness::run::tests::archive_copies_the_sources_into_the_next_slot_and_prunes
+       START [         ] (154/269) viola-e2e harness::run::tests::run_with_a_filter_matching_nothing_is_red
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::tests::run_with_a_filter_matching_nothing_is_red --nocapture
+        PASS [   0.020s] (154/269) viola-e2e harness::run::tests::run_local_live_passes_on_a_clean_verify
+       START [         ] (155/269) viola-e2e harness::run::tests::run_without_a_workspace_is_artifact_missing
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::tests::run_without_a_workspace_is_artifact_missing --nocapture
+        PASS [   0.244s] (155/269) viola-e2e harness::run::mutants::tests::run_mutants_package_prebuilds_and_copies_the_target_with_no_diff
+       START [         ] (156/269) viola-e2e harness::run::tests::selection_coverage_or_fuzz_alone_selects_nothing_else
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::tests::selection_coverage_or_fuzz_alone_selects_nothing_else --nocapture
+        PASS [   0.038s] (156/269) viola-e2e harness::run::tests::run_local_live_names_a_failing_verify_exit
+       START [         ] (157/269) viola-e2e harness::run::tests::selection_defaults_to_unit_and_integration_without_mutants
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::tests::selection_defaults_to_unit_and_integration_without_mutants --nocapture
+        PASS [   0.254s] (157/269) viola-e2e harness::run::mutants::tests::run_mutants_leaves_out_a_missed_mutant_the_host_never_compiled
+       START [         ] (158/269) viola-e2e harness::run::tests::selection_picks_only_the_named_suites
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::tests::selection_picks_only_the_named_suites --nocapture
+        PASS [   0.005s] (158/269) viola-e2e harness::run::tests::selection_coverage_or_fuzz_alone_selects_nothing_else
+       START [         ] (159/269) viola-e2e harness::run::tests::suite_is_green_only_without_failures_or_survivors
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::tests::suite_is_green_only_without_failures_or_survivors --nocapture
+        PASS [   0.256s] (159/269) viola-e2e harness::run::mutants::tests::run_mutants_mixed_src_and_test_delta_without_outcomes_stays_outcomes_missing
+       START [         ] (160/269) viola-e2e harness::run::tests::throwaway_repo_leaves_no_dir_after_drop
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::run::tests::throwaway_repo_leaves_no_dir_after_drop --nocapture
+        PASS [   0.255s] (160/269) viola-e2e harness::run::mutants::tests::run_mutants_no_rust_delta_passes_by_name_and_never_reads_stale_outcomes
+       START [         ] (161/269) viola-e2e harness::schema_check::tests::diag_kind_classifies_role_and_detail_files_only_inside_diagnostics
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::schema_check::tests::diag_kind_classifies_role_and_detail_files_only_inside_diagnostics --nocapture
+        PASS [   0.006s] (161/269) viola-e2e harness::run::tests::selection_defaults_to_unit_and_integration_without_mutants
+       START [         ] (162/269) viola-e2e harness::schema_check::tests::relative_uses_forward_slashes
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::schema_check::tests::relative_uses_forward_slashes --nocapture
+        PASS [   0.246s] (162/269) viola-e2e harness::run::mutants::tests::run_mutants_prints_every_outcome_and_bounds_each_build
+       START [         ] (163/269) viola-e2e harness::schema_check::tests::schema_check_counts_a_torn_line_and_skips_a_directory
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::schema_check::tests::schema_check_counts_a_torn_line_and_skips_a_directory --nocapture
+        PASS [   0.006s] (163/269) viola-e2e harness::run::tests::selection_picks_only_the_named_suites
+       START [         ] (164/269) viola-e2e harness::schema_check::tests::schema_check_names_file_line_and_keyword_never_the_content
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::schema_check::tests::schema_check_names_file_line_and_keyword_never_the_content --nocapture
+        PASS [   0.005s] (164/269) viola-e2e harness::run::tests::suite_is_green_only_without_failures_or_survivors
+       START [         ] (165/269) viola-e2e harness::schema_check::tests::schema_check_on_an_empty_scope_is_empty_scope
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::schema_check::tests::schema_check_on_an_empty_scope_is_empty_scope --nocapture
+        PASS [   0.005s] (165/269) viola-e2e harness::schema_check::tests::diag_kind_classifies_role_and_detail_files_only_inside_diagnostics
+       START [         ] (166/269) viola-e2e harness::schema_check::tests::schema_check_passes_a_conforming_role_line
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::schema_check::tests::schema_check_passes_a_conforming_role_line --nocapture
+        PASS [   0.262s] (166/269) viola-e2e harness::run::mutants::tests::run_mutants_keeps_every_mutant_it_cannot_prove_host_excluded
+       START [         ] (167/269) viola-e2e harness::schema_check::tests::schema_check_validates_detail_files_against_the_detail_schema
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::schema_check::tests::schema_check_validates_detail_files_against_the_detail_schema --nocapture
+        PASS [   0.005s] (167/269) viola-e2e harness::schema_check::tests::relative_uses_forward_slashes
+       START [         ] (168/269) viola-e2e harness::schema_check::tests::schema_check_with_unreadable_schemas_is_schema_unreadable
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::schema_check::tests::schema_check_with_unreadable_schemas_is_schema_unreadable --nocapture
+        PASS [   0.288s] (168/269) viola-e2e harness::run::mutants::base::tests::chunk_base_bound_is_the_oldest_pre_ci_commit
+       START [         ] (169/269) viola-e2e harness::secret_scan::tests::cookie_pairs_need_digits_then_equals
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::secret_scan::tests::cookie_pairs_need_digits_then_equals --nocapture
+        PASS [   0.264s] (169/269) viola-e2e harness::run::mutants::tests::run_mutants_archives_the_outcomes_it_read
+       START [         ] (170/269) viola-e2e harness::secret_scan::tests::find_all_handles_short_and_empty_inputs
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::secret_scan::tests::find_all_handles_short_and_empty_inputs --nocapture
+        PASS [   0.289s] (170/269) viola-e2e harness::run::mutants::base::tests::chunk_base_is_the_last_flip_before_any_pre_ci_commit
+       START [         ] (171/269) viola-e2e harness::secret_scan::tests::mode_hit_flags_only_a_mode_that_is_not_owner_only
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::secret_scan::tests::mode_hit_flags_only_a_mode_that_is_not_owner_only --nocapture
+        PASS [   0.275s] (171/269) viola-e2e harness::run::mutants::scratch::tests::run_mutants_takes_the_host_scratch_on_windows_only
+       START [         ] (172/269) viola-e2e harness::secret_scan::tests::secret_scan_clears_a_stale_report_on_a_clean_run
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::secret_scan::tests::secret_scan_clears_a_stale_report_on_a_clean_run --nocapture
+        PASS [   0.329s] (172/269) viola-e2e harness::boot::tests::wait_ready_times_out_with_the_missing_checks
+       START [         ] (173/269) viola-e2e harness::secret_scan::tests::secret_scan_content_canary_fails_a_role_file_only
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::secret_scan::tests::secret_scan_content_canary_fails_a_role_file_only --nocapture
+        PASS [   0.218s] (173/269) viola-e2e harness::run::mutants::tests::run_mutants_test_only_delta_passes_by_name_without_running_cargo
+       START [         ] (174/269) viola-e2e harness::secret_scan::tests::secret_scan_descends_into_the_capture_tree
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::secret_scan::tests::secret_scan_descends_into_the_capture_tree --nocapture
+        PASS [   0.005s] (174/269) viola-e2e harness::secret_scan::tests::cookie_pairs_need_digits_then_equals
+       START [         ] (175/269) viola-e2e harness::secret_scan::tests::secret_scan_flags_a_diagnostics_file_that_is_not_owner_only
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::secret_scan::tests::secret_scan_flags_a_diagnostics_file_that_is_not_owner_only --nocapture
+        PASS [   0.005s] (175/269) viola-e2e harness::secret_scan::tests::find_all_handles_short_and_empty_inputs
+       START [         ] (176/269) viola-e2e harness::secret_scan::tests::secret_scan_flags_every_critical_class_even_in_a_detail_file
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::secret_scan::tests::secret_scan_flags_every_critical_class_even_in_a_detail_file --nocapture
+        PASS [   0.012s] (176/269) viola-e2e harness::schema_check::tests::schema_check_with_unreadable_schemas_is_schema_unreadable
+       START [         ] (177/269) viola-e2e harness::secret_scan::tests::secret_scan_hit_locates_without_the_matched_bytes
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::secret_scan::tests::secret_scan_hit_locates_without_the_matched_bytes --nocapture
+        PASS [   0.023s] (177/269) viola-e2e harness::secret_scan::tests::mode_hit_flags_only_a_mode_that_is_not_owner_only
+       START [         ] (178/269) viola-e2e harness::secret_scan::tests::secret_scan_marks_a_report_it_could_not_write
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::secret_scan::tests::secret_scan_marks_a_report_it_could_not_write --nocapture
+        PASS [   0.030s] (178/269) viola-e2e harness::secret_scan::tests::secret_scan_clears_a_stale_report_on_a_clean_run
+       START [         ] (179/269) viola-e2e harness::secret_scan::tests::secret_scan_on_an_empty_scope_is_empty_scope
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::secret_scan::tests::secret_scan_on_an_empty_scope_is_empty_scope --nocapture
+        PASS [   0.030s] (179/269) viola-e2e harness::secret_scan::tests::secret_scan_flags_a_diagnostics_file_that_is_not_owner_only
+       START [         ] (180/269) viola-e2e harness::secret_scan::tests::secret_scan_passes_a_clean_tree
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::secret_scan::tests::secret_scan_passes_a_clean_tree --nocapture
+        PASS [   0.083s] (180/269) viola-e2e harness::run::tests::run_local_live_names_a_missing_or_doubled_row
+       START [         ] (181/269) viola-e2e harness::secret_scan::tests::secret_scan_reads_the_gui_token_from_the_url_file
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::secret_scan::tests::secret_scan_reads_the_gui_token_from_the_url_file --nocapture
+        PASS [   0.005s] (181/269) viola-e2e harness::secret_scan::tests::secret_scan_on_an_empty_scope_is_empty_scope
+       START [         ] (182/269) viola-e2e harness::secret_scan::tests::secret_scan_scans_the_junit_report
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::secret_scan::tests::secret_scan_scans_the_junit_report --nocapture
+        PASS [   0.028s] (182/269) viola-e2e harness::secret_scan::tests::secret_scan_hit_locates_without_the_matched_bytes
+       START [         ] (183/269) viola-e2e harness::secret_scan::tests::secret_scan_skips_the_mutation_diff
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::secret_scan::tests::secret_scan_skips_the_mutation_diff --nocapture
+        PASS [   0.046s] (183/269) viola-e2e harness::schema_check::tests::schema_check_names_file_line_and_keyword_never_the_content
+       START [         ] (184/269) viola-e2e harness::secret_scan::tests::secret_scan_skips_the_mutation_diff_only_at_its_path
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::secret_scan::tests::secret_scan_skips_the_mutation_diff_only_at_its_path --nocapture
+        PASS [   0.045s] (184/269) viola-e2e harness::schema_check::tests::schema_check_passes_a_conforming_role_line
+       START [         ] (185/269) viola-e2e harness::secret_scan::tests::url_token_takes_the_t_parameter
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::secret_scan::tests::url_token_takes_the_t_parameter --nocapture
+        PASS [   0.048s] (185/269) viola-e2e harness::schema_check::tests::schema_check_on_an_empty_scope_is_empty_scope
+       START [         ] (186/269) viola-e2e harness::supervise::tests::exit_report_is_red_when_anything_was_killed
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::supervise::tests::exit_report_is_red_when_anything_was_killed --nocapture
+        PASS [   0.005s] (186/269) viola-e2e harness::secret_scan::tests::url_token_takes_the_t_parameter
+       START [         ] (187/269) viola-e2e harness::supervise::tests::reap_gives_up_at_its_bound_and_on_a_probe_error
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::supervise::tests::reap_gives_up_at_its_bound_and_on_a_probe_error --nocapture
+        PASS [   0.005s] (187/269) viola-e2e harness::supervise::tests::exit_report_is_red_when_anything_was_killed
+       START [         ] (188/269) viola-e2e harness::supervise::tests::reap_returns_the_code_once_the_probe_reports_one
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::supervise::tests::reap_returns_the_code_once_the_probe_reports_one --nocapture
+        PASS [   0.058s] (188/269) viola-e2e harness::schema_check::tests::schema_check_counts_a_torn_line_and_skips_a_directory
+       START [         ] (189/269) viola-e2e harness::supervise::tests::stop_presses_ctrl_c_again_when_the_first_is_lost
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::supervise::tests::stop_presses_ctrl_c_again_when_the_first_is_lost --nocapture
+        PASS [   0.056s] (189/269) viola-e2e harness::schema_check::tests::schema_check_validates_detail_files_against_the_detail_schema
+       START [         ] (190/269) viola-e2e harness::supervise::tests::stop_requested_by_file_or_missing_spec
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::supervise::tests::stop_requested_by_file_or_missing_spec --nocapture
+        PASS [   0.052s] (190/269) viola-e2e harness::secret_scan::tests::secret_scan_descends_into_the_capture_tree
+       START [         ] (191/269) viola-e2e harness::supervise::tests::stop_sends_ctrl_c_and_the_child_exits_without_a_kill
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::supervise::tests::stop_sends_ctrl_c_and_the_child_exits_without_a_kill --nocapture
+        PASS [   0.055s] (191/269) viola-e2e harness::secret_scan::tests::secret_scan_content_canary_fails_a_role_file_only
+       START [         ] (192/269) viola-e2e harness::supervise::tests::supervise_without_a_spec_is_usage
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::supervise::tests::supervise_without_a_spec_is_usage --nocapture
+        PASS [   0.005s] (192/269) viola-e2e harness::supervise::tests::supervise_without_a_spec_is_usage
+       START [         ] (193/269) viola-e2e harness::supervise::tests::wait_or_kill_kills_a_survivor_at_the_deadline
+             command: /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/deps/viola_e2e-511b7fa1c5b3521c --exact harness::supervise::tests::wait_or_kill_kills_a_survivor_at_the_deadline --nocapture
+        FAIL [   0.012s] (193/269) viola-e2e harness::supervise::tests::stop_presses_ctrl_c_again_when_the_first_is_lost
+  stdout ───
+
+    running 1 test
+    test harness::supervise::tests::stop_presses_ctrl_c_again_when_the_first_is_lost ... FAILED
+
+    failures:
+
+    failures:
+        harness::supervise::tests::stop_presses_ctrl_c_again_when_the_first_is_lost
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 240 filtered out; finished in 0.01s
+
+  stderr ───
+
+    thread 'harness::supervise::tests::stop_presses_ctrl_c_again_when_the_first_is_lost' (3118411) panicked at crates/viola-e2e/src/harness/supervise.rs:212:76:
+    fake agent: Spawn(Unable to spawn /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/viola-fake-agent because it doesn't exist on the filesystem or is not executable (ENOENT: No such file or directory))
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+  Cancelling due to test failure: 31 tests still running
+        FAIL [   0.010s] (194/269) viola-e2e harness::supervise::tests::stop_sends_ctrl_c_and_the_child_exits_without_a_kill
+  stdout ───
+
+    running 1 test
+    test harness::supervise::tests::stop_sends_ctrl_c_and_the_child_exits_without_a_kill ... FAILED
+
+    failures:
+
+    failures:
+        harness::supervise::tests::stop_sends_ctrl_c_and_the_child_exits_without_a_kill
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 240 filtered out; finished in 0.00s
+
+  stderr ───
+
+    thread 'harness::supervise::tests::stop_sends_ctrl_c_and_the_child_exits_without_a_kill' (3118418) panicked at crates/viola-e2e/src/harness/supervise.rs:212:76:
+    fake agent: Spawn(Unable to spawn /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/viola-fake-agent because it doesn't exist on the filesystem or is not executable (ENOENT: No such file or directory))
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+        PASS [   0.031s] (195/269) viola-e2e harness::secret_scan::tests::secret_scan_scans_the_junit_report
+        PASS [   0.033s] (196/269) viola-e2e harness::secret_scan::tests::secret_scan_passes_a_clean_tree
+        PASS [   0.015s] (197/269) viola-e2e harness::supervise::tests::stop_requested_by_file_or_missing_spec
+        FAIL [   0.010s] (198/269) viola-e2e harness::supervise::tests::wait_or_kill_kills_a_survivor_at_the_deadline
+  stdout ───
+
+    running 1 test
+    test harness::supervise::tests::wait_or_kill_kills_a_survivor_at_the_deadline ... FAILED
+
+    failures:
+
+    failures:
+        harness::supervise::tests::wait_or_kill_kills_a_survivor_at_the_deadline
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 240 filtered out; finished in 0.00s
+
+  stderr ───
+
+    thread 'harness::supervise::tests::wait_or_kill_kills_a_survivor_at_the_deadline' (3118432) panicked at crates/viola-e2e/src/harness/supervise.rs:212:76:
+    fake agent: Spawn(Unable to spawn /home/turbolet/dev/projects/viola-mutants-scratch/cargo-mutants-viola-qLZDnI.tmp/target/mutants/debug/viola-fake-agent because it doesn't exist on the filesystem or is not executable (ENOENT: No such file or directory))
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+        PASS [   0.034s] (199/269) viola-e2e harness::secret_scan::tests::secret_scan_skips_the_mutation_diff
+        PASS [   0.050s] (200/269) viola-e2e harness::secret_scan::tests::secret_scan_marks_a_report_it_could_not_write
+        PASS [   0.238s] (201/269) viola-e2e harness::run::mutants::tests::run_mutants_with_an_unreachable_base_is_base_missing_and_writes_no_diff
+        PASS [   0.069s] (202/269) viola-e2e harness::secret_scan::tests::secret_scan_flags_every_critical_class_even_in_a_detail_file
+        PASS [   0.033s] (203/269) viola-e2e harness::secret_scan::tests::secret_scan_skips_the_mutation_diff_only_at_its_path
+        PASS [   0.362s] (204/269) viola-e2e harness::run::mutants::base::tests::chunk_base_of_the_wrap_push_is_its_parent
+        PASS [   0.095s] (205/269) viola-e2e harness::run::tests::run_without_a_workspace_is_artifact_missing
+        PASS [   0.040s] (206/269) viola-e2e harness::secret_scan::tests::secret_scan_reads_the_gui_token_from_the_url_file
+        PASS [   0.369s] (207/269) viola-e2e harness::run::mutants::base::tests::chunk_base_holds_the_flip_across_a_pass
+        PASS [   0.226s] (208/269) viola-e2e harness::run::mutants::tests::run_mutants_with_survivors_is_red
+        PASS [   0.091s] (209/269) viola-e2e harness::run::tests::throwaway_repo_leaves_no_dir_after_drop
+        PASS [   0.275s] (210/269) viola-e2e harness::run::mutants::tests::run_mutants_with_an_unbuildable_root_package_is_build_failed
+        PASS [   0.336s] (211/269) viola-e2e harness::run::mutants::tests::run_mutants_rust_delta_without_fresh_outcomes_is_outcomes_missing
+        PASS [   0.376s] (212/269) viola-e2e harness::run::mutants::base::tests::chunk_diff_pins_its_prefixes_under_a_hostile_config
+        PASS [   0.352s] (213/269) viola-e2e harness::run::mutants::tests::run_mutants_package_passes_each_file
+        PASS [   0.355s] (214/269) viola-e2e harness::run::mutants::tests::run_mutants_package_reads_the_counts_as_verdict_package
+        PASS [   0.357s] (215/269) viola-e2e harness::run::mutants::tests::run_mutants_scoped_passes_each_file_and_reads_as_scoped
+        PASS [   0.504s] (216/269) viola-e2e harness::run::mutants::tests::run_mutants_package_refuses_an_unknown_or_featureless_member
+        PASS [   0.205s] (217/269) viola-e2e harness::supervise::tests::reap_returns_the_code_once_the_probe_reports_one
+        PASS [   0.305s] (218/269) viola-e2e harness::supervise::tests::reap_gives_up_at_its_bound_and_on_a_probe_error
+        PASS [   0.429s] (219/269) viola-e2e harness::run::tests::run_with_a_failing_test_is_red_and_names_it
+        PASS [   0.475s] (220/269) viola-e2e harness::run::tests::run_with_a_filter_matching_nothing_is_red
+        PASS [   0.568s] (221/269) viola-e2e harness::run::tests::run_reports_unit_integration_and_doctest_suites
+        PASS [   1.232s] (222/269) viola-e2e harness::run::mutants::tests::run_mutants_reports_survivors_of_an_untested_change
+        PASS [   1.325s] (223/269) viola-e2e harness::run::mutants::tests::run_mutants_passes_when_the_change_is_tested
+        PASS [   5.095s] (224/269) viola-e2e harness::cleanup::tests::cleanup_waits_its_deadline_for_a_target_that_outlives_its_kill
+────────────
+     Summary [   5.096s] 224/269 tests run: 221 passed, 3 failed, 0 skipped
+        FAIL [   0.012s] (193/269) viola-e2e harness::supervise::tests::stop_presses_ctrl_c_again_when_the_first_is_lost
+        FAIL [   0.010s] (194/269) viola-e2e harness::supervise::tests::stop_sends_ctrl_c_and_the_child_exits_without_a_kill
+        FAIL [   0.010s] (198/269) viola-e2e harness::supervise::tests::wait_or_kill_kills_a_survivor_at_the_deadline
+warning: 45/269 tests were not run due to test failure (run with --no-fail-fast to run all tests, or run with --max-fail)
+error: test run failed
+
+*** result: Failure(100)
+
+ERROR cargo test failed in an unmutated tree, so no mutants were tested

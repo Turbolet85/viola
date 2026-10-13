@@ -1,0 +1,641 @@
+ INFO Iteration excludes 663 previously caught or unviable mutants
+Found 636 mutants to test
+ok       Unmutated baseline in 18s build + 45s test
+ INFO Auto-set test timeout to 229s
+caught   src/panic_frames.rs:37:5: replace raw_frames -> Vec<usize> with vec![] in 3s build + 47s test
+MISSED   src/panic_frames.rs:37:5: replace raw_frames -> Vec<usize> with vec![0] in 24s build + 47s test
+MISSED   src/panic_frames.rs:37:5: replace raw_frames -> Vec<usize> with vec![1] in 1s build + 47s test
+MISSED   src/panic_frames.rs:50:5: replace module_of -> Option<(String, usize)> with None in 1s build + 47s test
+caught   src/panic_frames.rs:50:5: replace module_of -> Option<(String, usize)> with Some((String::new(), 0)) in 1s build + 47s test
+MISSED   src/panic_frames.rs:50:5: replace module_of -> Option<(String, usize)> with Some((String::new(), 1)) in 1s build + 47s test
+MISSED   src/panic_frames.rs:50:5: replace module_of -> Option<(String, usize)> with Some(("xyzzy".into(), 0)) in 1s build + 47s test
+MISSED   src/panic_frames.rs:50:5: replace module_of -> Option<(String, usize)> with Some(("xyzzy".into(), 1)) in 1s build + 47s test
+MISSED   src/panic_frames.rs:55:79: replace == with != in module_of in 1s build + 47s test
+MISSED   src/cmd/hook.rs:403:27: replace || with && in answer in 1s build + 46s test
+MISSED   src/cmd/run.rs:441:5: replace sideload_outcome -> (&'static str, Option<viola_state::pin::HeldCompanions>) with ("", None) in 1s build + 46s test
+MISSED   src/cmd/run.rs:441:5: replace sideload_outcome -> (&'static str, Option<viola_state::pin::HeldCompanions>) with ("xyzzy", None) in 1s build + 47s test
+MISSED   src/cmd/run.rs:455:5: replace sideload_outcome -> (&'static str, Option<viola_state::pin::HeldCompanions>) with ("", None) in 2s build + 46s test
+MISSED   src/cmd/run.rs:455:5: replace sideload_outcome -> (&'static str, Option<viola_state::pin::HeldCompanions>) with ("xyzzy", None) in 1s build + 46s test
+MISSED   src/cmd/send.rs:119:12: delete ! in Out<'_>::open in 1s build + 46s test
+caught   src/cmd/verify.rs:491:5: replace screens -> Vec<(&'static str, &[String])> with vec![] in 1s build + 46s test
+caught   src/cmd/verify.rs:491:5: replace screens -> Vec<(&'static str, &[String])> with vec![("", Vec::leak(Vec::new()))] in 1s build + 46s test
+caught   src/cmd/verify.rs:491:5: replace screens -> Vec<(&'static str, &[String])> with vec![("", Vec::leak(vec![String::new()]))] in 1s build + 46s test
+caught   src/cmd/verify.rs:491:5: replace screens -> Vec<(&'static str, &[String])> with vec![("", Vec::leak(vec!["xyzzy".into()]))] in 1s build + 46s test
+caught   src/cmd/verify.rs:491:5: replace screens -> Vec<(&'static str, &[String])> with vec![("xyzzy", Vec::leak(Vec::new()))] in 1s build + 46s test
+caught   src/cmd/verify.rs:491:5: replace screens -> Vec<(&'static str, &[String])> with vec![("xyzzy", Vec::leak(vec![String::new()]))] in 1s build + 46s test
+caught   src/cmd/wait.rs:38:5: replace wait -> anyhow::Result<ExitCode> with Ok(Default::default()) in 1s build + 10s test
+caught   src/cmd/verify.rs:491:5: replace screens -> Vec<(&'static str, &[String])> with vec![("xyzzy", Vec::leak(vec!["xyzzy".into()]))] in 1s build + 45s test
+caught   src/cmd/wait.rs:56:19: replace && with || in wait in 1s build + 45s test
+caught   src/cmd/wait.rs:56:8: delete ! in wait in 2s build + 45s test
+caught   src/cmd/wait.rs:82:5: replace request -> Result<Value, ChannelError> with Ok(Default::default()) in 1s build + 10s test
+caught   src/cmd/wait.rs:87:5: replace show with () in 1s build + 9s test
+unviable src/run/budget.rs:41:5: replace compiled -> Percent with Default::default() in 1s build
+caught   src/cmd/wait.rs:88:24: replace == with != in show in 2s build + 9s test
+unviable src/run/budget.rs:57:5: replace read_thresholds -> (Thresholds, Vec<ConfigRejection>) with (Default::default(), vec![Default::default()]) in 1s build
+caught   src/run/budget.rs:57:5: replace read_thresholds -> (Thresholds, Vec<ConfigRejection>) with (Default::default(), vec![]) in 1s build + 10s test
+unviable src/run/budget.rs:69:5: replace parse_thresholds -> (Thresholds, Vec<ConfigRejection>) with (Default::default(), vec![Default::default()]) in 1s build
+caught   src/run/budget.rs:69:5: replace parse_thresholds -> (Thresholds, Vec<ConfigRejection>) with (Default::default(), vec![]) in 2s build + 9s test
+caught   src/run/budget.rs:72:45: replace != with == in parse_thresholds in 1s build + 11s test
+unviable src/run/budget.rs:92:5: replace whole_percent -> Option<Percent> with Some(Default::default()) in 1s build
+caught   src/run/budget.rs:115:9: replace Standing::triple -> (bool, Option<BudgetWindowKind>, Option<&str>) with (true, None, None) in 2s build + 11s test
+caught   src/run/budget.rs:115:9: replace Standing::triple -> (bool, Option<BudgetWindowKind>, Option<&str>) with (true, None, Some("")) in 1s build + 10s test
+caught   src/run/budget.rs:92:5: replace whole_percent -> Option<Percent> with None in 3s build + 45s test
+unviable src/run/budget.rs:115:9: replace Standing::triple -> (bool, Option<BudgetWindowKind>, Option<&str>) with (true, Some(Default::default()), None) in 1s build
+caught   src/run/budget.rs:115:9: replace Standing::triple -> (bool, Option<BudgetWindowKind>, Option<&str>) with (true, None, Some("xyzzy")) in 1s build + 10s test
+unviable src/run/budget.rs:115:9: replace Standing::triple -> (bool, Option<BudgetWindowKind>, Option<&str>) with (true, Some(Default::default()), Some("")) in 1s build
+unviable src/run/budget.rs:115:9: replace Standing::triple -> (bool, Option<BudgetWindowKind>, Option<&str>) with (true, Some(Default::default()), Some("xyzzy")) in 1s build
+caught   src/run/budget.rs:115:9: replace Standing::triple -> (bool, Option<BudgetWindowKind>, Option<&str>) with (false, None, None) in 2s build + 12s test
+caught   src/run/budget.rs:115:9: replace Standing::triple -> (bool, Option<BudgetWindowKind>, Option<&str>) with (false, None, Some("")) in 1s build + 12s test
+unviable src/run/budget.rs:115:9: replace Standing::triple -> (bool, Option<BudgetWindowKind>, Option<&str>) with (false, Some(Default::default()), None) in 1s build
+unviable src/run/budget.rs:115:9: replace Standing::triple -> (bool, Option<BudgetWindowKind>, Option<&str>) with (false, Some(Default::default()), Some("")) in 1s build
+unviable src/run/budget.rs:115:9: replace Standing::triple -> (bool, Option<BudgetWindowKind>, Option<&str>) with (false, Some(Default::default()), Some("xyzzy")) in 1s build
+caught   src/run/budget.rs:115:9: replace Standing::triple -> (bool, Option<BudgetWindowKind>, Option<&str>) with (false, None, Some("xyzzy")) in 1s build + 12s test
+caught   src/run/budget.rs:125:9: replace Standing::data -> Value with Default::default() in 1s build + 11s test
+caught   src/run/budget.rs:138:5: replace later -> bool with true in 1s build + 11s test
+caught   src/run/budget.rs:138:5: replace later -> bool with false in 2s build + 11s test
+caught   src/run/budget.rs:138:61: replace > with == in later in 1s build + 10s test
+caught   src/run/budget.rs:138:61: replace > with < in later in 1s build + 10s test
+caught   src/run/budget.rs:150:5: replace crossed -> Option<Crossed> with None in 2s build + 10s test
+unviable src/run/budget.rs:150:5: replace crossed -> Option<Crossed> with Some(Default::default()) in 1s build
+caught   src/run/budget.rs:157:49: replace && with || in crossed in 2s build + 9s test
+caught   src/run/budget.rs:157:12: replace >= with < in crossed in 1s build + 9s test
+caught   src/run/budget.rs:138:61: replace > with >= in later in 1s build + 46s test
+caught   src/run/budget.rs:173:5: replace decide -> Standing with Default::default() in 1s build + 10s test
+caught   src/run/budget.rs:211:9: replace Trigger::as_str -> &'static str with "" in 1s build + 47s test
+unviable src/run/budget.rs:249:9: replace BudgetGate::recorded -> MutexGuard<'_, Standing> with MutexGuard::new() in 1s build
+unviable src/run/budget.rs:249:9: replace BudgetGate::recorded -> MutexGuard<'_, Standing> with MutexGuard::from_iter([Default::default()]) in 1s build
+unviable src/run/budget.rs:249:9: replace BudgetGate::recorded -> MutexGuard<'_, Standing> with MutexGuard::new(Default::default()) in 1s build
+caught   src/run/budget.rs:211:9: replace Trigger::as_str -> &'static str with "xyzzy" in 2s build + 46s test
+unviable src/run/budget.rs:249:9: replace BudgetGate::recorded -> MutexGuard<'_, Standing> with MutexGuard::from(Default::default()) in 1s build
+caught   src/run/budget.rs:254:9: replace BudgetGate::paused -> bool with false in 1s build + 12s test
+caught   src/run/budget.rs:269:9: replace BudgetGate::decide_at -> Standing with Default::default() in 2s build + 10s test
+caught   src/run/budget.rs:283:9: replace BudgetGate::start -> Standing with Default::default() in 1s build + 10s test
+caught   src/run/budget.rs:254:9: replace BudgetGate::paused -> bool with true in 1s build + 47s test
+unviable src/run/budget.rs:297:9: replace BudgetGate::evaluate -> Result<Option<Crossed>, StateError> with Ok(Some(Default::default())) in 1s build
+caught   src/run/budget.rs:297:9: replace BudgetGate::evaluate -> Result<Option<Crossed>, StateError> with Ok(None) in 1s build + 10s test
+caught   src/run/budget.rs:299:30: replace != with == in BudgetGate::evaluate in 1s build + 10s test
+caught   src/run/budget.rs:310:9: replace BudgetGate::lift -> Result<Option<String>, StateError> with Ok(None) in 2s build + 9s test
+caught   src/run/budget.rs:310:9: replace BudgetGate::lift -> Result<Option<String>, StateError> with Ok(Some(String::new())) in 2s build + 10s test
+caught   src/run/budget.rs:310:9: replace BudgetGate::lift -> Result<Option<String>, StateError> with Ok(Some("xyzzy".into())) in 2s build + 10s test
+unviable src/run/dialog.rs:95:9: replace Raise::parse -> Result<Self, ProtocolError> with Ok(Default::default()) in 1s build
+caught   src/run/budget.rs:325:9: replace BudgetGate::record -> Result<(), StateError> with Ok(()) in 2s build + 10s test
+caught   src/run/dialog.rs:120:55: replace == with != in Raise::parse in 3s build + 16s test
+caught   src/run/dialog.rs:120:82: replace || with && in Raise::parse in 1s build + 10s test
+caught   src/run/dialog.rs:120:64: replace && with || in Raise::parse in 2s build + 46s test
+caught   src/run/dialog.rs:120:68: delete ! in Raise::parse in 1s build + 15s test
+caught   src/run/dialog.rs:136:5: replace reply -> Value with Default::default() in 2s build + 8s test
+caught   src/run/dialog.rs:121:12: delete ! in Raise::parse in 1s build + 17s test
+caught   src/run/dialog.rs:140:5: replace refusal -> Value with Default::default() in 2s build + 8s test
+caught   src/run/dialog.rs:144:5: replace millis -> u64 with 0 in 2s build + 49s test
+MISSED   src/run/dialog.rs:144:5: replace millis -> u64 with 1 in 2s build + 48s test
+unviable src/run/dialog.rs:180:9: replace DialogSlot::state -> MutexGuard<'_, State> with MutexGuard::new() in 1s build
+unviable src/run/dialog.rs:180:9: replace DialogSlot::state -> MutexGuard<'_, State> with MutexGuard::from_iter([Default::default()]) in 1s build
+unviable src/run/dialog.rs:180:9: replace DialogSlot::state -> MutexGuard<'_, State> with MutexGuard::new(Default::default()) in 1s build
+unviable src/run/dialog.rs:180:9: replace DialogSlot::state -> MutexGuard<'_, State> with MutexGuard::from(Default::default()) in 1s build
+caught   src/run/dialog.rs:176:9: replace DialogSlot::links_with with () in 1s build + 20s test
+caught   src/run/dialog.rs:190:9: replace DialogSlot::hook_dialog -> Result<Value, ProtocolError> with Ok(Default::default()) in 2s build + 16s test
+unviable src/run/dialog.rs:193:13: replace && with || in DialogSlot::hook_dialog in 1s build
+caught   src/run/dialog.rs:199:47: replace && with || in DialogSlot::hook_dialog in 2s build + 10s test
+caught   src/run/dialog.rs:185:9: replace DialogSlot::restore with () in 1s build + 45s test
+caught   src/run/dialog.rs:199:61: replace == with != in DialogSlot::hook_dialog in 1s build + 10s test
+caught   src/run/dialog.rs:203:13: replace && with || in DialogSlot::hook_dialog in 2s build + 11s test
+caught   src/run/dialog.rs:202:13: replace && with || in DialogSlot::hook_dialog in 2s build + 12s test
+caught   src/run/dialog.rs:201:13: replace && with || in DialogSlot::hook_dialog in 1s build + 12s test
+caught   src/run/dialog.rs:202:16: delete ! in DialogSlot::hook_dialog in 2s build + 10s test
+unviable src/run/dialog.rs:206:13: replace && with || in DialogSlot::hook_dialog in 1s build
+caught   src/run/dialog.rs:203:36: replace == with != in DialogSlot::hook_dialog in 1s build + 10s test
+caught   src/run/dialog.rs:205:23: replace == with != in DialogSlot::hook_dialog in 2s build + 11s test
+caught   src/run/dialog.rs:220:12: delete ! in DialogSlot::hook_dialog in 2s build + 12s test
+caught   src/run/dialog.rs:234:9: replace DialogSlot::register -> Result<u64, ProtocolError> with Ok(0) in 2s build + 16s test
+MISSED   src/run/dialog.rs:208:42: replace != with == in DialogSlot::hook_dialog in 2s build + 48s test
+caught   src/run/dialog.rs:234:9: replace DialogSlot::register -> Result<u64, ProtocolError> with Ok(1) in 1s build + 15s test
+caught   src/run/dialog.rs:281:9: replace DialogSlot::await_answer -> Value with Default::default() in 2s build + 9s test
+unviable src/run/dialog.rs:281:41: replace + with * in DialogSlot::await_answer in 1s build
+caught   src/run/dialog.rs:281:41: replace + with - in DialogSlot::await_answer in 2s build + 10s test
+caught   src/run/dialog.rs:289:33: replace >= with < in DialogSlot::await_answer in 2s build + 10s test
+caught   src/run/dialog.rs:302:71: replace == with != in DialogSlot::await_answer in 2s build + 10s test
+caught   src/run/dialog.rs:313:9: replace DialogSlot::write_pending with () in 2s build + 45s test
+caught   src/run/dialog.rs:318:9: replace DialogSlot::hand_back with () in 2s build + 46s test
+caught   src/run/dialog.rs:329:9: replace DialogSlot::answer -> Result<Value, ProtocolError> with Ok(Default::default()) in 2s build + 5s test
+caught   src/run/dialog.rs:349:12: delete ! in DialogSlot::answer in 2s build + 5s test
+caught   src/run/dialog.rs:356:50: replace && with || in DialogSlot::answer in 2s build + 9s test
+caught   src/run/dialog.rs:356:37: replace == with != in DialogSlot::answer in 2s build + 9s test
+unviable src/run/dialog.rs:367:13: replace && with || in DialogSlot::answer in 1s build
+caught   src/run/dialog.rs:363:28: replace != with == in DialogSlot::answer in 2s build + 9s test
+caught   src/run/dialog.rs:392:5: replace continued -> Option<Value> with None in 2s build + 12s test
+caught   src/run/dialog.rs:367:22: replace != with == in DialogSlot::answer in 1s build + 21s test
+caught   src/run/dialog.rs:392:5: replace continued -> Option<Value> with Some(Default::default()) in 1s build + 12s test
+caught   src/run/dialog.rs:395:36: replace == with != in continued in 2s build + 11s test
+caught   src/run/dialog.rs:395:61: replace == with != in continued in 1s build + 10s test
+caught   src/run/dialog.rs:395:50: replace && with || in continued in 1s build + 47s test
+caught   src/run/dialog.rs:411:5: replace highest_dialog_id -> Option<u64> with None in 2s build + 46s test
+caught   src/run/dialog.rs:411:5: replace highest_dialog_id -> Option<u64> with Some(0) in 2s build + 47s test
+caught   src/run/dialog.rs:411:5: replace highest_dialog_id -> Option<u64> with Some(1) in 1s build + 45s test
+caught   src/run/dialog.rs:413:37: replace == with != in highest_dialog_id in 3s build + 45s test
+unviable src/run/env.rs:20:5: replace persistent_names -> (Vec<String>, Option<ConfigRejection>) with (vec![], Some(Default::default())) in 1s build
+caught   src/run/env.rs:20:5: replace persistent_names -> (Vec<String>, Option<ConfigRejection>) with (vec![], None) in 2s build + 44s test
+unviable src/run/env.rs:20:5: replace persistent_names -> (Vec<String>, Option<ConfigRejection>) with (vec![String::new()], Some(Default::default())) in 1s build
+caught   src/run/env.rs:20:5: replace persistent_names -> (Vec<String>, Option<ConfigRejection>) with (vec![String::new()], None) in 2s build + 45s test
+unviable src/run/env.rs:20:5: replace persistent_names -> (Vec<String>, Option<ConfigRejection>) with (vec!["xyzzy".into()], Some(Default::default())) in 1s build
+caught   src/run/env.rs:20:5: replace persistent_names -> (Vec<String>, Option<ConfigRejection>) with (vec!["xyzzy".into()], None) in 1s build + 45s test
+unviable src/run/env.rs:32:5: replace read_env_keep -> (Vec<String>, Option<ConfigRejection>) with (vec![], Some(Default::default())) in 1s build
+caught   src/run/env.rs:32:5: replace read_env_keep -> (Vec<String>, Option<ConfigRejection>) with (vec![], None) in 1s build + 44s test
+unviable src/run/env.rs:32:5: replace read_env_keep -> (Vec<String>, Option<ConfigRejection>) with (vec![String::new()], Some(Default::default())) in 1s build
+caught   src/run/env.rs:32:5: replace read_env_keep -> (Vec<String>, Option<ConfigRejection>) with (vec![String::new()], None) in 1s build + 47s test
+unviable src/run/env.rs:32:5: replace read_env_keep -> (Vec<String>, Option<ConfigRejection>) with (vec!["xyzzy".into()], Some(Default::default())) in 1s build
+caught   src/run/env.rs:32:5: replace read_env_keep -> (Vec<String>, Option<ConfigRejection>) with (vec!["xyzzy".into()], None) in 2s build + 46s test
+unviable src/run/env.rs:44:5: replace parse_env_keep -> (Vec<String>, Option<ConfigRejection>) with (vec![], Some(Default::default())) in 1s build
+caught   src/run/env.rs:44:5: replace parse_env_keep -> (Vec<String>, Option<ConfigRejection>) with (vec![], None) in 2s build + 44s test
+unviable src/run/env.rs:44:5: replace parse_env_keep -> (Vec<String>, Option<ConfigRejection>) with (vec![String::new()], Some(Default::default())) in 1s build
+caught   src/run/env.rs:44:5: replace parse_env_keep -> (Vec<String>, Option<ConfigRejection>) with (vec![String::new()], None) in 2s build + 44s test
+unviable src/run/env.rs:44:5: replace parse_env_keep -> (Vec<String>, Option<ConfigRejection>) with (vec!["xyzzy".into()], Some(Default::default())) in 1s build
+caught   src/run/env.rs:44:5: replace parse_env_keep -> (Vec<String>, Option<ConfigRejection>) with (vec!["xyzzy".into()], None) in 1s build + 44s test
+caught   src/run/env.rs:47:45: replace != with == in parse_env_keep in 2s build + 45s test
+caught   src/run/env.rs:54:22: replace <= with > in parse_env_keep in 2s build + 44s test
+caught   src/run/env.rs:70:5: replace is_claude_name -> bool with true in 2s build + 45s test
+caught   src/run/env.rs:70:5: replace is_claude_name -> bool with false in 1s build + 46s test
+caught   src/run/env.rs:72:67: replace || with && in is_claude_name in 1s build + 46s test
+caught   src/run/env.rs:72:45: replace || with && in is_claude_name in 2s build + 46s test
+caught   src/run/env.rs:72:72: replace == with != in is_claude_name in 1s build + 46s test
+MISSED   src/run/env.rs:78:5: replace registry_names -> Vec<String> with vec![] in 1s build + 45s test
+MISSED   src/run/env.rs:78:5: replace registry_names -> Vec<String> with vec![String::new()] in 1s build + 44s test
+MISSED   src/run/env.rs:78:5: replace registry_names -> Vec<String> with vec!["xyzzy".into()] in 1s build + 45s test
+MISSED   src/run/env.rs:90:5: replace key_value_names -> Vec<String> with vec![] in 1s build + 44s test
+MISSED   src/run/env.rs:90:5: replace key_value_names -> Vec<String> with vec![String::new()] in 1s build + 44s test
+MISSED   src/run/env.rs:90:5: replace key_value_names -> Vec<String> with vec!["xyzzy".into()] in 1s build + 45s test
+caught   src/run/env.rs:100:70: replace != with == in key_value_names in 1s build + 46s test
+caught   src/run/gate.rs:46:9: replace Model::step with () in 2s build + 15s test
+MISSED   src/run/env.rs:116:23: replace != with == in key_value_names in 1s build + 46s test
+caught   src/run/gate.rs:54:31: replace == with != in Model::resize in 2s build + 16s test
+caught   src/run/gate.rs:54:9: replace Model::resize with () in 1s build + 46s test
+caught   src/run/gate.rs:65:18: replace == with != in Model::catch_up in 1s build + 5s test
+caught   src/run/gate.rs:65:9: replace Model::catch_up with () in 1s build + 44s test
+caught   src/run/gate.rs:78:5: replace parse_rejected with () in 1s build + 12s test
+unviable src/run/gate.rs:96:9: replace Shared::model -> MutexGuard<'_, Model> with MutexGuard::new() in 1s build
+unviable src/run/gate.rs:96:9: replace Shared::model -> MutexGuard<'_, Model> with MutexGuard::from_iter([Default::default()]) in 1s build
+unviable src/run/gate.rs:96:9: replace Shared::model -> MutexGuard<'_, Model> with MutexGuard::new(Default::default()) in 1s build
+unviable src/run/gate.rs:96:9: replace Shared::model -> MutexGuard<'_, Model> with MutexGuard::from(Default::default()) in 1s build
+caught   src/run/gate.rs:70:12: delete ! in Model::catch_up in 1s build + 44s test
+caught   src/run/gate.rs:109:9: replace Feeder::offer with () in 1s build + 15s test
+caught   src/run/gate.rs:134:9: replace <impl Write for Tee<W>>::write -> io::Result<usize> with Ok(0) in 2s build + 16s test
+caught   src/run/gate.rs:134:9: replace <impl Write for Tee<W>>::write -> io::Result<usize> with Ok(1) in 1s build + 15s test
+caught   src/run/gate.rs:115:9: replace Feeder::size with () in 1s build + 46s test
+unviable src/run/gate.rs:163:9: replace Gate::wait_ready -> (Readiness, bool) with (Default::default(), true) in 1s build
+unviable src/run/gate.rs:163:9: replace Gate::wait_ready -> (Readiness, bool) with (Default::default(), false) in 1s build
+unviable src/run/gate.rs:190:5: replace start -> (Feeder, Gate, JoinHandle<()>) with (Default::default(), Default::default(), JoinHandle::new()) in 1s build
+unviable src/run/gate.rs:190:5: replace start -> (Feeder, Gate, JoinHandle<()>) with (Default::default(), Default::default(), JoinHandle::from_iter([()])) in 1s build
+unviable src/run/gate.rs:190:5: replace start -> (Feeder, Gate, JoinHandle<()>) with (Default::default(), Default::default(), JoinHandle::new(())) in 2s build
+unviable src/run/gate.rs:190:5: replace start -> (Feeder, Gate, JoinHandle<()>) with (Default::default(), Default::default(), JoinHandle::from(())) in 1s build
+unviable src/run/links.rs:37:9: replace LinkSet::set -> MutexGuard<'_, Vec<Value>> with MutexGuard::new() in 1s build
+unviable src/run/links.rs:37:9: replace LinkSet::set -> MutexGuard<'_, Vec<Value>> with MutexGuard::from_iter([vec![]]) in 1s build
+unviable src/run/links.rs:37:9: replace LinkSet::set -> MutexGuard<'_, Vec<Value>> with MutexGuard::new(vec![]) in 1s build
+unviable src/run/links.rs:37:9: replace LinkSet::set -> MutexGuard<'_, Vec<Value>> with MutexGuard::from(vec![]) in 1s build
+unviable src/run/links.rs:37:9: replace LinkSet::set -> MutexGuard<'_, Vec<Value>> with MutexGuard::from_iter([vec![Default::default()]]) in 1s build
+unviable src/run/links.rs:37:9: replace LinkSet::set -> MutexGuard<'_, Vec<Value>> with MutexGuard::new(vec![Default::default()]) in 1s build
+unviable src/run/links.rs:37:9: replace LinkSet::set -> MutexGuard<'_, Vec<Value>> with MutexGuard::from(vec![Default::default()]) in 1s build
+caught   src/run/gate.rs:140:9: replace <impl Write for Tee<W>>::flush -> io::Result<()> with Ok(()) in 1s build + 44s test
+caught   src/run/links.rs:42:9: replace LinkSet::restore -> Result<(), StateError> with Ok(()) in 1s build + 44s test
+caught   src/run/links.rs:52:9: replace LinkSet::current -> Vec<Value> with vec![] in 1s build + 44s test
+caught   src/run/links.rs:52:9: replace LinkSet::current -> Vec<Value> with vec![Default::default()] in 1s build + 20s test
+caught   src/run/links.rs:59:9: replace LinkSet::record -> Result<(String, bool), StateError> with Ok((String::new(), true)) in 1s build + 22s test
+caught   src/run/links.rs:59:9: replace LinkSet::record -> Result<(String, bool), StateError> with Ok((String::new(), false)) in 2s build + 21s test
+caught   src/run/links.rs:59:9: replace LinkSet::record -> Result<(String, bool), StateError> with Ok(("xyzzy".into(), true)) in 1s build + 21s test
+caught   src/run/links.rs:59:9: replace LinkSet::record -> Result<(String, bool), StateError> with Ok(("xyzzy".into(), false)) in 2s build + 21s test
+caught   src/run/links.rs:72:9: replace LinkSet::remove -> Result<bool, StateError> with Ok(true) in 1s build + 46s test
+caught   src/run/links.rs:72:9: replace LinkSet::remove -> Result<bool, StateError> with Ok(false) in 1s build + 46s test
+caught   src/run/links.rs:83:9: replace LinkSet::since -> Option<String> with None in 2s build + 23s test
+caught   src/run/links.rs:83:9: replace LinkSet::since -> Option<String> with Some(String::new()) in 2s build + 23s test
+caught   src/run/links.rs:83:9: replace LinkSet::since -> Option<String> with Some("xyzzy".into()) in 1s build + 22s test
+caught   src/run/links.rs:85:51: replace && with || in LinkSet::since in 2s build + 46s test
+caught   src/run/links.rs:85:41: replace == with != in LinkSet::since in 2s build + 44s test
+unviable src/run/links.rs:90:9: replace LinkSet::line -> EventLine with Default::default() in 1s build
+caught   src/run/links.rs:99:9: replace LinkSet::change -> Result<(), StateError> with Ok(()) in 2s build + 20s test
+unviable src/run/send.rs:67:5: replace classify -> Confirms with Default::default() in 1s build
+caught   src/run/links.rs:85:69: replace == with != in LinkSet::since in 1s build + 47s test
+caught   src/run/send.rs:69:34: replace match guard cli_verified with true in classify in 2s build + 47s test
+caught   src/run/send.rs:69:34: replace match guard cli_verified with false in classify in 1s build + 46s test
+caught   src/run/send.rs:123:9: replace SendSlot::attach with () in 2s build + 6s test
+caught   src/run/send.rs:67:62: replace == with != in classify in 1s build + 16s test
+caught   src/run/send.rs:128:9: replace SendSlot::budget_with with () in 1s build + 10s test
+unviable src/run/send.rs:137:9: replace SendSlot::flight -> MutexGuard<'_, Flight> with MutexGuard::new() in 1s build
+unviable src/run/send.rs:137:9: replace SendSlot::flight -> MutexGuard<'_, Flight> with MutexGuard::from_iter([Default::default()]) in 1s build
+unviable src/run/send.rs:137:9: replace SendSlot::flight -> MutexGuard<'_, Flight> with MutexGuard::new(Default::default()) in 1s build
+unviable src/run/send.rs:137:9: replace SendSlot::flight -> MutexGuard<'_, Flight> with MutexGuard::from(Default::default()) in 1s build
+caught   src/run/send.rs:133:9: replace SendSlot::links_with with () in 2s build + 23s test
+caught   src/run/send.rs:144:9: replace SendSlot::claim -> bool with true in 2s build + 20s test
+caught   src/run/send.rs:144:9: replace SendSlot::claim -> bool with false in 2s build + 16s test
+caught   src/run/send.rs:147:20: replace match guard matches!((f.confirms, &f.state), (Confirms::Prompt, Match::Waiting)) && f.text == text with false in SendSlot::claim in 2s build + 17s test
+caught   src/run/send.rs:147:20: replace match guard matches!((f.confirms, &f.state), (Confirms::Prompt, Match::Waiting)) && f.text == text with true in SendSlot::claim in 2s build + 48s test
+caught   src/run/send.rs:148:31: replace == with != in SendSlot::claim in 2s build + 16s test
+caught   src/run/send.rs:148:21: replace && with || in SendSlot::claim in 2s build + 47s test
+caught   src/run/send.rs:163:9: replace SendSlot::session_started -> bool with true in 2s build + 46s test
+caught   src/run/send.rs:163:9: replace SendSlot::session_started -> bool with false in 2s build + 46s test
+caught   src/run/send.rs:165:65: replace != with == in SendSlot::session_started in 5s build + 45s test
+caught   src/run/send.rs:169:20: replace match guard new && data["cause"] == "clear" && matches!( (f.confirms, &f.state), (Confirms::Post(PostCondition::NewSession), Match::Waiting) ) with true in SendSlot::session_started in 3s build + 49s test
+caught   src/run/send.rs:169:20: replace match guard new && data["cause"] == "clear" && matches!( (f.confirms, &f.state), (Confirms::Post(PostCondition::NewSession), Match::Waiting) ) with false in SendSlot::session_started in 18s build + 49s test
+caught   src/run/send.rs:171:21: replace && with || in SendSlot::session_started in 8s build + 49s test
+caught   src/run/send.rs:170:21: replace && with || in SendSlot::session_started in 2s build + 52s test
+caught   src/run/send.rs:170:38: replace == with != in SendSlot::session_started in 2s build + 52s test
+caught   src/run/send.rs:201:9: replace SendSlot::confirm -> Option<String> with None in 2s build + 7s test
+caught   src/run/send.rs:185:9: replace SendSlot::settle with () in 2s build + 17s test
+caught   src/run/send.rs:201:9: replace SendSlot::confirm -> Option<String> with Some(String::new()) in 1s build + 10s test
+caught   src/run/send.rs:201:31: replace + with - in SendSlot::confirm in 4s build + 7s test
+caught   src/run/send.rs:201:9: replace SendSlot::confirm -> Option<String> with Some("xyzzy".into()) in 2s build + 12s test
+unviable src/run/send.rs:201:31: replace + with * in SendSlot::confirm in 4s build
+caught   src/run/send.rs:210:41: replace match guard self.clock.now() >= deadline with false in SendSlot::confirm in 12s build + 14s test
+caught   src/run/send.rs:210:41: replace match guard self.clock.now() >= deadline with true in SendSlot::confirm in 31s build + 20s test
+caught   src/run/send.rs:210:58: replace >= with < in SendSlot::confirm in 29s build + 6s test
+caught   src/run/send.rs:239:5: replace append_hook_event -> Result<(), StateError> with Ok(()) in 10s build + 15s test
+caught   src/run/send.rs:240:9: replace && with || in append_hook_event in 3s build + 20s test
+caught   src/run/send.rs:239:28: replace == with != in append_hook_event in 2s build + 16s test
+caught   src/run/send.rs:247:16: replace || with && in append_hook_event in 2s build + 16s test
+caught   src/run/send.rs:247:57: replace && with || in append_hook_event in 1s build + 50s test
+caught   src/run/send.rs:252:9: delete match arm EventKind::PromptSubmitted in append_hook_event in 1s build + 6s test
+caught   src/run/send.rs:247:30: replace == with != in append_hook_event in 1s build + 48s test
+caught   src/run/send.rs:260:48: replace && with || in append_hook_event in 1s build + 6s test
+caught   src/run/send.rs:253:9: delete match arm EventKind::TurnEnded | EventKind::SessionStart | EventKind::SessionEnd in append_hook_event in 2s build + 13s test
+caught   src/run/send.rs:260:71: replace == with != in append_hook_event in 2s build + 7s test
+caught   src/run/send.rs:260:18: replace == with != in append_hook_event in 1s build + 49s test
+MISSED   src/run/send.rs:271:5: replace close with () in 3s build + 48s test
+caught   src/run/send.rs:277:5: replace window_ms -> u64 with 0 in 1s build + 47s test
+caught   src/run/send.rs:285:9: replace <impl Drop for Reserved<'_>>::drop with () in 5s build + 12s test
+caught   src/run/send.rs:277:5: replace window_ms -> u64 with 1 in 3s build + 48s test
+unviable src/run/send.rs:301:5: replace parse -> Result<(&str, Option<ViolaName>), ProtocolError> with Ok(("", Some(Default::default()))) in 1s build
+caught   src/run/send.rs:301:5: replace parse -> Result<(&str, Option<ViolaName>), ProtocolError> with Ok(("", None)) in 2s build + 7s test
+unviable src/run/send.rs:301:5: replace parse -> Result<(&str, Option<ViolaName>), ProtocolError> with Ok(("xyzzy", Some(Default::default()))) in 1s build
+caught   src/run/send.rs:301:5: replace parse -> Result<(&str, Option<ViolaName>), ProtocolError> with Ok(("xyzzy", None)) in 5s build + 7s test
+unviable src/run/send.rs:309:5: replace parse_from -> Result<Option<ViolaName>, ProtocolError> with Ok(Some(Default::default())) in 1s build
+caught   src/run/send.rs:309:5: replace parse_from -> Result<Option<ViolaName>, ProtocolError> with Ok(None) in 2s build + 15s test
+caught   src/run/send.rs:332:5: replace send -> Result<Value, ProtocolError> with Ok(Default::default()) in 2s build + 10s test
+caught   src/run/send.rs:382:18: replace != with == in send in 23s build + 8s test
+unviable src/run/send.rs:396:9: replace && with || in send in 1s build
+caught   src/run/send.rs:396:17: replace != with == in send in 2s build + 23s test
+caught   src/run/send.rs:367:34: replace || with && in send in 23s build + 49s test
+caught   src/run/send.rs:415:9: replace Ctx<'_>::sender -> Option<&str> with None in 1s build + 22s test
+caught   src/run/send.rs:415:9: replace Ctx<'_>::sender -> Option<&str> with Some("") in 1s build + 16s test
+caught   src/run/send.rs:415:9: replace Ctx<'_>::sender -> Option<&str> with Some("xyzzy") in 31s build + 15s test
+caught   src/run/send.rs:419:9: replace Ctx<'_>::trust -> Option<&'static str> with None in 37s build + 11s test
+caught   src/run/send.rs:419:9: replace Ctx<'_>::trust -> Option<&'static str> with Some("") in 21s build + 10s test
+caught   src/run/send.rs:419:9: replace Ctx<'_>::trust -> Option<&'static str> with Some("xyzzy") in 12s build + 13s test
+caught   src/run/send.rs:423:9: replace Ctx<'_>::record -> Result<u64, ProtocolError> with Ok(0) in 2s build + 6s test
+caught   src/run/send.rs:423:9: replace Ctx<'_>::record -> Result<u64, ProtocolError> with Ok(1) in 2s build + 6s test
+caught   src/run/send.rs:431:9: replace Ctx<'_>::issue -> Result<u64, ProtocolError> with Ok(0) in 2s build + 13s test
+caught   src/run/send.rs:431:9: replace Ctx<'_>::issue -> Result<u64, ProtocolError> with Ok(1) in 2s build + 13s test
+caught   src/run/send.rs:466:9: replace Ctx<'_>::confirm -> Result<Value, ProtocolError> with Ok(Default::default()) in 2s build + 6s test
+caught   src/run/send.rs:481:9: replace Ctx<'_>::log_confirmed with () in 2s build + 13s test
+caught   src/run/send.rs:474:9: replace Ctx<'_>::unconfirmable -> Result<Value, ProtocolError> with Ok(Default::default()) in 2s build + 22s test
+caught   src/run/send.rs:502:9: replace Ctx<'_>::not_delivered -> Result<Value, ProtocolError> with Ok(Default::default()) in 2s build + 6s test
+caught   src/run/send.rs:511:9: replace Ctx<'_>::refuse -> Result<Value, ProtocolError> with Ok(Default::default()) in 2s build + 6s test
+caught   src/run/send.rs:535:9: replace Ctx<'_>::refuse_with -> Result<Value, ProtocolError> with Ok(Default::default()) in 2s build + 6s test
+caught   src/run/send.rs:517:9: replace Ctx<'_>::budget_paused -> Result<Value, ProtocolError> with Ok(Default::default()) in 2s build + 10s test
+unviable src/run/snapshot.rs:25:9: replace Snapshots::current -> MutexGuard<'_, Option<InstanceSnapshot>> with MutexGuard::new() in 1s build
+unviable src/run/snapshot.rs:25:9: replace Snapshots::current -> MutexGuard<'_, Option<InstanceSnapshot>> with MutexGuard::from_iter([None]) in 2s build
+unviable src/run/snapshot.rs:25:9: replace Snapshots::current -> MutexGuard<'_, Option<InstanceSnapshot>> with MutexGuard::new(None) in 2s build
+unviable src/run/snapshot.rs:25:9: replace Snapshots::current -> MutexGuard<'_, Option<InstanceSnapshot>> with MutexGuard::from(None) in 1s build
+unviable src/run/snapshot.rs:25:9: replace Snapshots::current -> MutexGuard<'_, Option<InstanceSnapshot>> with MutexGuard::from_iter([Some(Default::default())]) in 1s build
+unviable src/run/snapshot.rs:25:9: replace Snapshots::current -> MutexGuard<'_, Option<InstanceSnapshot>> with MutexGuard::new(Some(Default::default())) in 1s build
+unviable src/run/snapshot.rs:25:9: replace Snapshots::current -> MutexGuard<'_, Option<InstanceSnapshot>> with MutexGuard::from(Some(Default::default())) in 1s build
+caught   src/run/snapshot.rs:30:9: replace Snapshots::init -> Result<(), StateError> with Ok(()) in 2s build + 10s test
+caught   src/run/snapshot.rs:42:9: replace Snapshots::update -> Result<(), StateError> with Ok(()) in 3s build + 10s test
+caught   src/run/version_gate.rs:45:5: replace run_bounded -> std::io::Result<Bounded> with Ok(Default::default()) in 2s build + 1s test
+caught   src/run/version_gate.rs:58:32: replace + with - in run_bounded in 2s build + 1s test
+unviable src/run/version_gate.rs:58:32: replace + with * in run_bounded in 1s build
+caught   src/run/version_gate.rs:63:27: replace >= with < in run_bounded in 1s build + 1s test
+caught   src/run/version_gate.rs:81:9: replace Drained::bytes -> Vec<u8> with vec![] in 2s build + 1s test
+caught   src/run/version_gate.rs:81:9: replace Drained::bytes -> Vec<u8> with vec![0] in 2s build + 1s test
+caught   src/run/version_gate.rs:81:9: replace Drained::bytes -> Vec<u8> with vec![1] in 2s build + 1s test
+caught   src/run/version_gate.rs:88:5: replace drain -> Drained with Default::default() in 2s build + 1s test
+caught   src/run/version_gate.rs:113:5: replace version_gate -> Gate with Default::default() in 2s build + 10s test
+caught   src/run/version_gate.rs:166:5: replace stamps_verdict -> (bool, Option<&'static str>) with (true, None) in 2s build + 8s test
+caught   src/run/version_gate.rs:166:5: replace stamps_verdict -> (bool, Option<&'static str>) with (true, Some("")) in 2s build + 8s test
+caught   src/run/version_gate.rs:166:5: replace stamps_verdict -> (bool, Option<&'static str>) with (true, Some("xyzzy")) in 2s build + 8s test
+caught   src/run/version_gate.rs:166:5: replace stamps_verdict -> (bool, Option<&'static str>) with (false, None) in 1s build + 10s test
+caught   src/run/version_gate.rs:166:5: replace stamps_verdict -> (bool, Option<&'static str>) with (false, Some("")) in 2s build + 10s test
+unviable src/run/wait.rs:33:9: replace Turn::of -> Self with Default::default() in 1s build
+unviable src/run/wait.rs:65:9: replace WaitFeed::feed -> MutexGuard<'_, Feed> with MutexGuard::new() in 1s build
+unviable src/run/wait.rs:65:9: replace WaitFeed::feed -> MutexGuard<'_, Feed> with MutexGuard::from_iter([Default::default()]) in 1s build
+unviable src/run/wait.rs:65:9: replace WaitFeed::feed -> MutexGuard<'_, Feed> with MutexGuard::new(Default::default()) in 1s build
+unviable src/run/wait.rs:65:9: replace WaitFeed::feed -> MutexGuard<'_, Feed> with MutexGuard::from(Default::default()) in 1s build
+caught   src/run/version_gate.rs:166:5: replace stamps_verdict -> (bool, Option<&'static str>) with (false, Some("xyzzy")) in 1s build + 10s test
+caught   src/run/wait.rs:79:22: replace == with != in WaitFeed::appending in 1s build + 10s test
+caught   src/run/wait.rs:76:9: replace WaitFeed::appending -> Result<(), StateError> with Ok(()) in 2s build + 17s test
+caught   src/run/wait.rs:94:9: replace WaitFeed::appending_dialog -> Result<u64, StateError> with Ok(0) in 1s build + 16s test
+caught   src/run/wait.rs:94:9: replace WaitFeed::appending_dialog -> Result<u64, StateError> with Ok(1) in 2s build + 16s test
+caught   src/run/wait.rs:107:9: replace WaitFeed::dialog_settled with () in 1s build + 10s test
+caught   src/run/wait.rs:113:9: replace WaitFeed::rebuild -> Result<Option<u64>, StateError> with Ok(None) in 1s build + 46s test
+caught   src/run/wait.rs:113:9: replace WaitFeed::rebuild -> Result<Option<u64>, StateError> with Ok(Some(0)) in 2s build + 46s test
+caught   src/run/wait.rs:113:9: replace WaitFeed::rebuild -> Result<Option<u64>, StateError> with Ok(Some(1)) in 1s build + 47s test
+caught   src/run/wait.rs:136:9: replace WaitFeed::wait -> Result<Value, ProtocolError> with Ok(Default::default()) in 2s build + 5s test
+caught   src/run/wait.rs:117:35: replace == with != in WaitFeed::rebuild in 2s build + 47s test
+caught   src/run/wait.rs:158:35: replace == with != in WaitFeed::wait in 2s build + 13s test
+caught   src/run/wait.rs:174:9: replace WaitFeed::last -> Result<Value, ProtocolError> with Ok(Default::default()) in 1s build + 9s test
+caught   src/run/wait.rs:159:62: replace >= with < in WaitFeed::wait in 2s build + 45s test
+caught   src/run/wait.rs:183:5: replace count -> Result<Option<u64>, ProtocolError> with Ok(Some(0)) in 1s build + 5s test
+caught   src/run/wait.rs:183:5: replace count -> Result<Option<u64>, ProtocolError> with Ok(Some(1)) in 1s build + 9s test
+caught   src/run/wait.rs:183:5: replace count -> Result<Option<u64>, ProtocolError> with Ok(None) in 1s build + 44s test
+unviable src/run/wait.rs:191:5: replace deadline -> Option<Instant> with Some(Default::default()) in 1s build
+caught   src/run/wait.rs:197:5: replace scan -> Result<Option<LoggedLine>, ProtocolError> with Ok(None) in 2s build + 15s test
+unviable src/run/wait.rs:197:5: replace scan -> Result<Option<LoggedLine>, ProtocolError> with Ok(Some(Default::default())) in 8s build
+caught   src/run/wait.rs:191:5: replace deadline -> Option<Instant> with None in 1s build + 57s test
+caught   src/run/wait.rs:203:39: replace == with != in scan in 23s build + 13s test
+unviable src/run/wheel.rs:41:5: replace next -> Option<(Wheel, WheelCause)> with Some((Default::default(), Default::default())) in 1s build
+unviable src/run/wheel.rs:102:9: replace WheelSlot::held -> MutexGuard<'_, Held> with MutexGuard::new() in 1s build
+unviable src/run/wheel.rs:102:9: replace WheelSlot::held -> MutexGuard<'_, Held> with MutexGuard::from_iter([Default::default()]) in 1s build
+unviable src/run/wheel.rs:102:9: replace WheelSlot::held -> MutexGuard<'_, Held> with MutexGuard::new(Default::default()) in 1s build
+unviable src/run/wheel.rs:102:9: replace WheelSlot::held -> MutexGuard<'_, Held> with MutexGuard::from(Default::default()) in 1s build
+unviable src/run/wheel.rs:106:9: replace WheelSlot::holder -> Wheel with Default::default() in 1s build
+caught   src/run/wheel.rs:41:5: replace next -> Option<(Wheel, WheelCause)> with None in 2s build + 21s test
+caught   src/run/wheel.rs:112:9: replace WheelSlot::human_typing -> Option<Option<HumanTyping>> with Some(None) in 2s build + 8s test
+unviable src/run/wheel.rs:112:9: replace WheelSlot::human_typing -> Option<Option<HumanTyping>> with Some(Some(Default::default())) in 1s build
+caught   src/run/wheel.rs:112:9: replace WheelSlot::human_typing -> Option<Option<HumanTyping>> with None in 2s build + 14s test
+caught   src/run/wheel.rs:113:22: replace == with != in WheelSlot::human_typing in 2s build + 7s test
+caught   src/run/wheel.rs:114:34: replace == with != in WheelSlot::human_typing in 2s build + 6s test
+caught   src/run/wheel.rs:120:9: replace WheelSlot::record_with with () in 3s build + 24s test
+caught   src/run/wheel.rs:133:9: replace WheelSlot::turn_started with () in 2s build + 6s test
+caught   src/run/wheel.rs:138:9: replace WheelSlot::turn_ended with () in 1s build + 12s test
+caught   src/run/wheel.rs:128:9: replace WheelSlot::human_input with () in 1s build + 49s test
+caught   src/run/wheel.rs:142:9: replace WheelSlot::turn_running -> bool with true in 1s build + 6s test
+caught   src/run/wheel.rs:142:9: replace WheelSlot::turn_running -> bool with false in 2s build + 6s test
+caught   src/run/wheel.rs:142:26: replace == with != in WheelSlot::turn_running in 2s build + 6s test
+unviable src/run/wheel.rs:150:9: replace WheelSlot::apply -> Option<Receiver<bool>> with Some(Receiver::new()) in 1s build
+unviable src/run/wheel.rs:150:9: replace WheelSlot::apply -> Option<Receiver<bool>> with Some(Receiver::from_iter([true])) in 1s build
+unviable src/run/wheel.rs:150:9: replace WheelSlot::apply -> Option<Receiver<bool>> with Some(Receiver::new(true)) in 1s build
+unviable src/run/wheel.rs:150:9: replace WheelSlot::apply -> Option<Receiver<bool>> with Some(Receiver::from(true)) in 1s build
+unviable src/run/wheel.rs:150:9: replace WheelSlot::apply -> Option<Receiver<bool>> with Some(Receiver::from_iter([false])) in 1s build
+unviable src/run/wheel.rs:150:9: replace WheelSlot::apply -> Option<Receiver<bool>> with Some(Receiver::new(false)) in 1s build
+unviable src/run/wheel.rs:150:9: replace WheelSlot::apply -> Option<Receiver<bool>> with Some(Receiver::from(false)) in 1s build
+caught   src/run/wheel.rs:150:9: replace WheelSlot::apply -> Option<Receiver<bool>> with None in 2s build + 22s test
+caught   src/run/wheel.rs:155:18: replace == with != in WheelSlot::apply in 1s build + 48s test
+caught   src/run/wheel.rs:179:9: replace WheelSlot::flush -> bool with true in 2s build + 48s test
+caught   src/run/wheel.rs:179:9: replace WheelSlot::flush -> bool with false in 2s build + 46s test
+caught   src/run/wheel.rs:189:9: replace WheelSlot::pause -> Result<Value, ProtocolError> with Ok(Default::default()) in 1s build + 5s test
+caught   src/run/wheel.rs:183:46: replace && with || in WheelSlot::flush in 1s build + 46s test
+caught   src/run/wheel.rs:203:9: replace WheelSlot::release -> Result<Value, ProtocolError> with Ok(Default::default()) in 1s build + 9s test
+caught   src/run/wheel.rs:228:5: replace settled -> Result<(), ProtocolError> with Ok(()) in 2s build + 21s test
+caught   src/run/wheel.rs:230:26: replace match guard outcome.recv().unwrap_or(false) with false in settled in 1s build + 5s test
+caught   src/run/wheel.rs:230:26: replace match guard outcome.recv().unwrap_or(false) with true in settled in 2s build + 20s test
+caught   src/run/wheel.rs:237:5: replace log_release_from_driver with () in 2s build + 11s test
+caught   src/run/wheel.rs:258:9: replace Recorder::run with () in 2s build + 21s test
+caught   src/run/wheel.rs:285:9: replace Recorder::record -> bool with false in 2s build + 6s test
+caught   src/run/wheel.rs:285:9: replace Recorder::record -> bool with true in 2s build + 21s test
+caught   src/run/wheel.rs:294:20: replace == with != in Recorder::record in 1s build + 48s test
+MISSED   src/run/wheel.rs:297:18: replace && with || in Recorder::record in 2s build + 48s test
+caught   src/run/wheel.rs:321:9: replace <impl Read for Observed<R>>::read -> io::Result<usize> with Ok(0) in 2s build + 11s test
+caught   src/run/wheel.rs:321:9: replace <impl Read for Observed<R>>::read -> io::Result<usize> with Ok(1) in 2s build + 10s test
+caught   src/run/wheel.rs:374:9: replace Classifier::feed -> bool with true in 3s build + 46s test
+caught   src/run/wheel.rs:374:9: replace Classifier::feed -> bool with false in 2s build + 46s test
+caught   src/run/wheel.rs:376:21: replace |= with &= in Classifier::feed in 2s build + 46s test
+caught   src/run/wheel.rs:378:21: replace == with != in Classifier::feed in 2s build + 45s test
+caught   src/run/wheel.rs:386:9: replace Classifier::reset with () in 1s build + 21s test
+MISSED   src/run/wheel.rs:393:9: replace Classifier::abort -> bool with true in 2s build + 45s test
+caught   src/run/wheel.rs:393:9: replace Classifier::abort -> bool with false in 1s build + 45s test
+caught   src/run/wheel.rs:399:9: replace Classifier::step -> bool with true in 2s build + 46s test
+caught   src/run/wheel.rs:399:9: replace Classifier::step -> bool with false in 2s build + 46s test
+caught   src/run/wheel.rs:401:25: replace == with != in Classifier::step in 2s build + 44s test
+caught   src/run/wheel.rs:408:17: delete match arm b'[' in Classifier::step in 2s build + 44s test
+caught   src/run/wheel.rs:412:17: delete match arm b']' in Classifier::step in 1s build + 44s test
+caught   src/run/wheel.rs:419:17: delete match arm b'P' in Classifier::step in 1s build + 44s test
+MISSED   src/run/wheel.rs:427:17: delete match arm ESC in Classifier::step in 1s build + 44s test
+caught   src/run/wheel.rs:442:17: delete match arm 0x40..= 0x7e in Classifier::step in 2s build + 45s test
+MISSED   src/run/wheel.rs:434:32: replace match guard self.params.len() < BOUND with true in Classifier::step in 1s build + 46s test
+caught   src/run/wheel.rs:434:32: replace match guard self.params.len() < BOUND with false in Classifier::step in 2s build + 46s test
+caught   src/run/wheel.rs:438:25: replace match guard self.params.is_empty() with true in Classifier::step in 1s build + 46s test
+caught   src/run/wheel.rs:438:25: replace match guard self.params.is_empty() with false in Classifier::step in 1s build + 46s test
+caught   src/run/wheel.rs:434:50: replace < with == in Classifier::step in 1s build + 46s test
+caught   src/run/wheel.rs:434:50: replace < with > in Classifier::step in 1s build + 46s test
+MISSED   src/run/wheel.rs:434:50: replace < with <= in Classifier::step in 1s build + 44s test
+caught   src/run/wheel.rs:445:21: delete ! in Classifier::step in 1s build + 44s test
+caught   src/run/wheel.rs:450:36: replace > with == in Classifier::step in 1s build + 44s test
+caught   src/run/wheel.rs:450:36: replace > with < in Classifier::step in 1s build + 44s test
+caught   src/run/wheel.rs:450:36: replace > with >= in Classifier::step in 1s build + 44s test
+caught   src/run/wheel.rs:451:35: replace - with + in Classifier::step in 1s build + 45s test
+caught   src/run/wheel.rs:451:35: replace - with / in Classifier::step in 1s build + 46s test
+caught   src/run/wheel.rs:462:17: delete match arm ESC in Classifier::step in 1s build + 46s test
+caught   src/run/wheel.rs:466:17: delete match arm 0x00..= 0x1f | 0x7f in Classifier::step in 1s build + 46s test
+MISSED   src/run/wheel.rs:458:24: replace match guard osc with true in Classifier::step in 1s build + 46s test
+caught   src/run/wheel.rs:458:24: replace match guard osc with false in Classifier::step in 1s build + 46s test
+caught   src/run/wheel.rs:467:22: replace match guard self.payload < BOUND with true in Classifier::step in 1s build + 46s test
+caught   src/run/wheel.rs:467:22: replace match guard self.payload < BOUND with false in Classifier::step in 1s build + 44s test
+caught   src/run/wheel.rs:467:35: replace < with == in Classifier::step in 1s build + 44s test
+caught   src/run/wheel.rs:467:35: replace < with > in Classifier::step in 1s build + 44s test
+MISSED   src/run/wheel.rs:467:35: replace < with <= in Classifier::step in 1s build + 44s test
+caught   src/run/wheel.rs:468:34: replace += with -= in Classifier::step in 1s build + 44s test
+caught   src/run/wheel.rs:468:34: replace += with *= in Classifier::step in 1s build + 45s test
+caught   src/run/wheel.rs:475:25: replace == with != in Classifier::step in 1s build + 46s test
+caught   src/run/wheel.rs:492:5: replace is_reply -> bool with true in 2s build + 46s test
+caught   src/run/wheel.rs:492:5: replace is_reply -> bool with false in 2s build + 46s test
+caught   src/run/wheel.rs:493:9: delete match arm Some((&prefix @(b'?' | b'>' | b'<'), rest)) in is_reply in 2s build + 46s test
+caught   src/run/wheel.rs:501:8: delete ! in is_reply in 2s build + 46s test
+caught   src/run/wheel.rs:507:30: replace == with != in is_reply in 1s build + 46s test
+caught   src/run/wheel.rs:510:23: replace == with != in is_reply in 1s build + 46s test
+caught   src/run/wheel.rs:511:32: replace && with || in is_reply in 1s build + 44s test
+caught   src/run/wheel.rs:511:18: delete ! in is_reply in 1s build + 44s test
+caught   src/run/wheel.rs:512:38: replace == with != in is_reply in 1s build + 44s test
+caught   src/run/wheel.rs:514:9: delete match arm (None, [], b'I' | b'O') in is_reply in 1s build + 44s test
+caught   src/run/wheel.rs:515:9: delete match arm (Some(b'<'), [], b'M' | b'm') |(None, [], b'M') in is_reply in 1s build + 45s test
+caught   src/run/wheel.rs:516:9: delete match arm (Some(b'?' | b'>'), [], b'c') in is_reply in 1s build + 46s test
+caught   src/run/wheel.rs:517:9: delete match arm (None, [], b'R') |(Some(b'?'), [b'$'], b'y') in is_reply in 1s build + 46s test
+caught   src/run/wheel.rs:518:9: delete match arm (Some(b'?'), [], b'u') in is_reply in 1s build + 46s test
+caught   src/run/wheel.rs:519:9: delete match arm (None, [], b'n') in is_reply in 1s build + 45s test
+caught   src/run/wheel.rs:520:9: delete match arm (Some(b'?'), [], b'n') in is_reply in 1s build + 44s test
+caught   src/run/wheel.rs:521:9: delete match arm (None, [], b't') in is_reply in 1s build + 44s test
+caught   src/run/wheel.rs:524:9: delete match arm (Some(b'>'), [], b'm') in is_reply in 1s build + 44s test
+caught   src/run/wheel.rs:514:43: replace == with != in is_reply in 1s build + 44s test
+caught   src/run/wheel.rs:515:73: replace && with || in is_reply in 1s build + 46s test
+caught   src/run/wheel.rs:515:68: replace == with != in is_reply in 1s build + 46s test
+caught   src/run/wheel.rs:516:54: replace || with && in is_reply in 1s build + 46s test
+MISSED   src/run/wheel.rs:516:49: replace == with != in is_reply in 1s build + 46s test
+caught   src/run/wheel.rs:517:70: replace && with || in is_reply in 1s build + 45s test
+caught   src/run/wheel.rs:517:65: replace == with != in is_reply in 1s build + 44s test
+MISSED   src/run/wheel.rs:518:47: replace && with || in is_reply in 1s build + 44s test
+caught   src/run/wheel.rs:518:42: replace == with != in is_reply in 1s build + 44s test
+caught   src/run/wheel.rs:519:37: replace == with != in is_reply in 1s build + 44s test
+caught   src/run/wheel.rs:520:55: replace || with && in is_reply in 1s build + 46s test
+caught   src/run/wheel.rs:520:43: replace == with != in is_reply in 1s build + 46s test
+caught   src/run/wheel.rs:520:66: replace == with != in is_reply in 1s build + 46s test
+caught   src/run/wheel.rs:522:21: replace && with || in is_reply in 1s build + 46s test
+caught   src/run/wheel.rs:524:58: replace && with || in is_reply in 1s build + 46s test
+caught   src/run/wheel.rs:524:47: replace && with || in is_reply in 1s build + 45s test
+caught   src/run/wheel.rs:524:42: replace == with != in is_reply in 1s build + 44s test
+caught   src/run/wheel.rs:524:67: replace == with != in is_reply in 1s build + 44s test
+caught   src/cmd/hook/seam.rs:10:5: replace panic_if_asked with () in 1s build + 44s test
+caught   src/cmd/hook/seam.rs:18:25: replace == with != in panic_on in 1s build + 11s test
+caught   src/cmd/hook/seam.rs:18:5: replace panic_on with () in 1s build + 44s test
+caught   src/cmd/hook/statusline.rs:38:5: replace canonical -> Option<Instance> with None in 1s build + 10s test
+unviable src/cmd/hook/statusline.rs:38:5: replace canonical -> Option<Instance> with Some(Default::default()) in 1s build
+caught   src/cmd/hook/statusline.rs:45:5: replace trusted -> bool with false in 3s build + 10s test
+caught   src/cmd/hook/statusline.rs:49:5: replace statusline -> Result<ExitCode, Failure> with Ok(Default::default()) in 1s build + 10s test
+unviable src/cmd/hook/statusline.rs:105:9: replace Outcome::failed -> Self with Default::default() in 1s build
+caught   src/cmd/hook/statusline.rs:115:5: replace handle -> anyhow::Result<()> with Ok(()) in 2s build + 10s test
+unviable src/cmd/hook/statusline.rs:129:5: replace serve -> anyhow::Result<Outcome> with Ok(Default::default()) in 1s build
+caught   src/cmd/hook/statusline.rs:45:5: replace trusted -> bool with true in 1s build + 47s test
+caught   src/cmd/hook/statusline.rs:130:29: replace + with - in serve in 2s build + 45s test
+caught   src/cmd/hook/statusline.rs:130:29: replace + with * in serve in 1s build + 46s test
+caught   src/cmd/hook/statusline.rs:131:55: replace > with < in serve in 1s build + 10s test
+caught   src/cmd/hook/statusline.rs:131:55: replace > with == in serve in 1s build + 45s test
+caught   src/cmd/hook/statusline.rs:131:55: replace > with >= in serve in 1s build + 45s test
+unviable src/cmd/hook/statusline.rs:209:5: replace shell_out -> Shell with Default::default() in 1s build
+unviable src/cmd/hook/statusline.rs:235:5: replace run_bounded -> Shell with Default::default() in 1s build
+caught   src/cmd/hook/statusline.rs:261:5: replace feed with () in 2s build + 7s test
+unviable src/cmd/hook/statusline.rs:270:5: replace drain -> mpsc::Receiver<Vec<u8>> with Receiver::new() in 2s build
+unviable src/cmd/hook/statusline.rs:270:5: replace drain -> mpsc::Receiver<Vec<u8>> with Receiver::from_iter([vec![]]) in 2s build
+unviable src/cmd/hook/statusline.rs:270:5: replace drain -> mpsc::Receiver<Vec<u8>> with Receiver::new(vec![]) in 2s build
+unviable src/cmd/hook/statusline.rs:270:5: replace drain -> mpsc::Receiver<Vec<u8>> with Receiver::from(vec![]) in 2s build
+unviable src/cmd/hook/statusline.rs:270:5: replace drain -> mpsc::Receiver<Vec<u8>> with Receiver::from_iter([vec![0]]) in 2s build
+unviable src/cmd/hook/statusline.rs:270:5: replace drain -> mpsc::Receiver<Vec<u8>> with Receiver::new(vec![0]) in 2s build
+unviable src/cmd/hook/statusline.rs:270:5: replace drain -> mpsc::Receiver<Vec<u8>> with Receiver::from(vec![0]) in 2s build
+caught   src/cmd/hook/statusline.rs:166:5: replace decided with () in 2s build + 47s test
+unviable src/cmd/hook/statusline.rs:270:5: replace drain -> mpsc::Receiver<Vec<u8>> with Receiver::from_iter([vec![1]]) in 2s build
+unviable src/cmd/hook/statusline.rs:270:5: replace drain -> mpsc::Receiver<Vec<u8>> with Receiver::new(vec![1]) in 2s build
+unviable src/cmd/hook/statusline.rs:270:5: replace drain -> mpsc::Receiver<Vec<u8>> with Receiver::from(vec![1]) in 2s build
+caught   src/cmd/hook/statusline.rs:287:5: replace wait_bounded -> Option<(ExitStatus, Vec<u8>)> with None in 2s build + 7s test
+caught   src/cmd/hook/statusline.rs:287:5: replace wait_bounded -> Option<(ExitStatus, Vec<u8>)> with Some((Default::default(), vec![])) in 2s build + 7s test
+caught   src/cmd/hook/statusline.rs:287:5: replace wait_bounded -> Option<(ExitStatus, Vec<u8>)> with Some((Default::default(), vec![1])) in 1s build + 7s test
+caught   src/cmd/hook/statusline.rs:287:5: replace wait_bounded -> Option<(ExitStatus, Vec<u8>)> with Some((Default::default(), vec![0])) in 1s build + 7s test
+unviable src/cmd/hook/statusline.rs:287:35: replace + with * in wait_bounded in 1s build
+caught   src/cmd/hook/statusline.rs:287:35: replace + with - in wait_bounded in 2s build + 7s test
+caught   src/cmd/verify/typed.rs:64:5: replace measure -> anyhow::Result<TypedRun> with Ok(Default::default()) in 2s build + 1s test
+caught   src/cmd/verify/typed.rs:93:5: replace trusted_run -> anyhow::Result<()> with Ok(()) in 2s build + 4s test
+caught   src/cmd/verify/typed.rs:110:8: delete ! in trusted_run in 1s build + 5s test
+caught   src/cmd/verify/typed.rs:130:5: replace dialog_run -> anyhow::Result<()> with Ok(()) in 1s build + 5s test
+caught   src/cmd/verify/typed.rs:147:37: replace + with - in dialog_run in 1s build + 5s test
+unviable src/cmd/verify/typed.rs:147:37: replace + with * in dialog_run in 1s build
+caught   src/cmd/hook/statusline.rs:293:27: replace >= with < in wait_bounded in 2s build + 46s test
+caught   src/cmd/verify/typed.rs:149:53: replace > with < in dialog_run in 2s build + 12s test
+caught   src/cmd/verify/typed.rs:149:53: replace > with >= in dialog_run in 1s build + 12s test
+caught   src/cmd/verify/typed.rs:149:53: replace > with == in dialog_run in 1s build + 45s test
+caught   src/cmd/verify/typed.rs:169:5: replace plan_run -> anyhow::Result<()> with Ok(()) in 3s build + 6s test
+caught   src/cmd/verify/typed.rs:179:32: replace && with || in plan_run in 1s build + 12s test
+caught   src/cmd/verify/typed.rs:180:33: replace + with - in plan_run in 1s build + 6s test
+unviable src/cmd/verify/typed.rs:180:33: replace + with * in plan_run in 1s build
+caught   src/cmd/verify/typed.rs:154:23: replace == with != in dialog_run in 1s build + 47s test
+caught   src/cmd/verify/typed.rs:182:61: replace > with == in plan_run in 1s build + 12s test
+caught   src/cmd/verify/typed.rs:182:61: replace > with < in plan_run in 2s build + 13s test
+caught   src/cmd/verify/typed.rs:182:61: replace > with >= in plan_run in 1s build + 8s test
+unviable src/cmd/verify/typed.rs:196:5: replace wait_for -> Option<Instant> with Some(Default::default()) in 1s build
+caught   src/cmd/verify/typed.rs:196:5: replace wait_for -> Option<Instant> with None in 2s build + 5s test
+caught   src/cmd/verify/typed.rs:201:16: replace >= with < in wait_for in 1s build + 6s test
+caught   src/cmd/verify/typed.rs:210:5: replace count_of -> usize with 0 in 3s build + 13s test
+caught   src/cmd/verify/typed.rs:210:5: replace count_of -> usize with 1 in 2s build + 12s test
+caught   src/cmd/verify/typed.rs:219:41: replace == with != in count_of in 2s build + 45s test
+caught   src/cmd/verify/typed.rs:226:5: replace input_box_up -> bool with false in 2s build + 4s test
+caught   src/cmd/verify/typed.rs:226:5: replace input_box_up -> bool with true in 3s build + 56s test
+caught   src/cmd/verify/typed.rs:228:40: delete ! in input_box_up in 2s build + 4s test
+caught   src/cmd/verify/typed.rs:234:5: replace turn with () in 2s build + 5s test
+caught   src/cmd/verify/typed.rs:239:24: replace + with - in turn in 1s build + 4s test
+unviable src/cmd/verify/typed.rs:239:24: replace + with * in turn in 1s build
+caught   src/cmd/verify/typed.rs:258:5: replace framing_turns with () in 1s build + 5s test
+caught   src/cmd/verify/typed.rs:261:12: delete ! in framing_turns in 1s build + 5s test
+caught   src/cmd/verify/typed.rs:269:33: replace + with - in framing_turns in 1s build + 5s test
+unviable src/cmd/verify/typed.rs:269:33: replace + with * in framing_turns in 1s build
+caught   src/cmd/verify/typed.rs:228:37: replace && with || in input_box_up in 2s build + 55s test
+caught   src/cmd/verify/typed.rs:271:48: replace > with == in framing_turns in 2s build + 12s test
+caught   src/cmd/verify/typed.rs:271:48: replace > with < in framing_turns in 2s build + 14s test
+caught   src/cmd/verify/typed.rs:271:58: replace && with || in framing_turns in 1s build + 46s test
+caught   src/cmd/verify/typed.rs:271:48: replace > with >= in framing_turns in 1s build + 47s test
+caught   src/cmd/verify/typed.rs:271:84: replace > with < in framing_turns in 1s build + 12s test
+MISSED   src/cmd/verify/typed.rs:271:84: replace > with == in framing_turns in 1s build + 48s test
+caught   src/cmd/verify/typed.rs:278:8: delete ! in framing_turns in 2s build + 6s test
+MISSED   src/cmd/verify/typed.rs:271:84: replace > with >= in framing_turns in 1s build + 45s test
+unviable src/cmd/verify/typed.rs:286:29: replace + with * in framing_turns in 1s build
+MISSED   src/cmd/verify/typed.rs:286:29: replace + with - in framing_turns in 2s build + 46s test
+caught   src/cmd/verify/typed.rs:288:49: replace || with && in framing_turns in 1s build + 12s test
+caught   src/cmd/verify/typed.rs:288:40: replace > with < in framing_turns in 1s build + 13s test
+MISSED   src/cmd/verify/typed.rs:288:40: replace > with == in framing_turns in 1s build + 45s test
+MISSED   src/cmd/verify/typed.rs:288:40: replace > with >= in framing_turns in 1s build + 45s test
+caught   src/cmd/verify/typed.rs:288:87: replace > with == in framing_turns in 1s build + 46s test
+caught   src/cmd/verify/typed.rs:288:87: replace > with < in framing_turns in 2s build + 46s test
+caught   src/cmd/verify/typed.rs:288:87: replace > with >= in framing_turns in 1s build + 46s test
+caught   src/cmd/verify/typed.rs:296:5: replace ms -> u64 with 0 in 2s build + 46s test
+caught   src/cmd/verify/typed.rs:296:5: replace ms -> u64 with 1 in 1s build + 45s test
+caught   src/cmd/verify/typed.rs:302:5: replace max_gap -> u64 with 0 in 2s build + 44s test
+caught   src/cmd/verify/typed.rs:302:5: replace max_gap -> u64 with 1 in 2s build + 44s test
+MISSED   src/cmd/verify/typed.rs:304:54: replace && with || in max_gap in 2s build + 45s test
+caught   src/cmd/verify/typed.rs:304:46: replace >= with < in max_gap in 2s build + 46s test
+caught   src/cmd/verify/typed.rs:318:5: replace wait_capture -> Option<Instant> with None in 1s build + 4s test
+unviable src/cmd/verify/typed.rs:318:5: replace wait_capture -> Option<Instant> with Some(Default::default()) in 1s build
+caught   src/cmd/verify/typed.rs:323:16: replace >= with < in wait_capture in 1s build + 4s test
+caught   src/cmd/verify/typed.rs:304:62: replace <= with > in max_gap in 1s build + 47s test
+caught   src/cmd/verify/typed.rs:331:5: replace captured -> bool with false in 3s build + 12s test
+caught   src/cmd/verify/typed.rs:331:5: replace captured -> bool with true in 1s build + 45s test
+caught   src/cmd/verify/typed.rs:331:26: replace > with < in captured in 2s build + 12s test
+caught   src/cmd/verify/typed.rs:331:26: replace > with == in captured in 2s build + 44s test
+unviable src/cmd/verify/typed.rs:339:9: replace TrustedDir::create -> io::Result<Self> with Ok(Default::default()) in 1s build
+caught   src/cmd/verify/typed.rs:331:26: replace > with >= in captured in 1s build + 45s test
+caught   src/cmd/verify/typed.rs:349:9: replace <impl Drop for TrustedDir>::drop with () in 1s build + 46s test
+caught   src/cmd/verify/typed.rs:370:9: replace <impl Read for KeyPipe>::read -> io::Result<usize> with Ok(0) in 1s build + 12s test
+unviable src/cmd/verify/typed.rs:389:9: replace SharedPty::lock -> MutexGuard<'_, PortablePty> with MutexGuard::new() in 6s build
+unviable src/cmd/verify/typed.rs:389:9: replace SharedPty::lock -> MutexGuard<'_, PortablePty> with MutexGuard::from_iter([Default::default()]) in 2s build
+unviable src/cmd/verify/typed.rs:389:9: replace SharedPty::lock -> MutexGuard<'_, PortablePty> with MutexGuard::new(Default::default()) in 1s build
+caught   src/cmd/verify/typed.rs:370:9: replace <impl Read for KeyPipe>::read -> io::Result<usize> with Ok(1) in 1s build + 12s test
+unviable src/cmd/verify/typed.rs:389:9: replace SharedPty::lock -> MutexGuard<'_, PortablePty> with MutexGuard::from(Default::default()) in 1s build
+unviable src/cmd/verify/typed.rs:395:9: replace <impl Pty for SharedPty>::reader -> Result<Box<dyn Read +Send>, PtyError> with Ok(Box::new(Default::default())) in 1s build
+unviable src/cmd/verify/typed.rs:399:9: replace <impl Pty for SharedPty>::writer -> Result<Box<dyn Write +Send>, PtyError> with Ok(Box::new(Default::default())) in 1s build
+caught   src/cmd/verify/typed.rs:407:9: replace <impl Pty for SharedPty>::try_wait -> Result<Option<u32>, PtyError> with Ok(None) in 2s build + 12s test
+caught   src/cmd/verify/typed.rs:407:9: replace <impl Pty for SharedPty>::try_wait -> Result<Option<u32>, PtyError> with Ok(Some(0)) in 2s build + 6s test
+caught   src/cmd/verify/typed.rs:407:9: replace <impl Pty for SharedPty>::try_wait -> Result<Option<u32>, PtyError> with Ok(Some(1)) in 1s build + 6s test
+MISSED   src/cmd/verify/typed.rs:403:9: replace <impl Pty for SharedPty>::resize -> Result<(), PtyError> with Ok(()) in 1s build + 45s test
+caught   src/cmd/verify/typed.rs:411:9: replace <impl Pty for SharedPty>::kill -> Result<(), PtyError> with Ok(()) in 1s build + 46s test
+MISSED   src/cmd/verify/typed.rs:415:9: replace <impl Pty for SharedPty>::close with () in 1s build + 47s test
+MISSED   src/cmd/verify/typed.rs:419:9: replace <impl Pty for SharedPty>::child_pid -> Option<u32> with None in 1s build + 44s test
+MISSED   src/cmd/verify/typed.rs:419:9: replace <impl Pty for SharedPty>::child_pid -> Option<u32> with Some(0) in 2s build + 45s test
+caught   src/cmd/verify/typed.rs:434:9: replace Feed::take with () in 3s build + 12s test
+MISSED   src/cmd/verify/typed.rs:419:9: replace <impl Pty for SharedPty>::child_pid -> Option<u32> with Some(1) in 1s build + 44s test
+caught   src/cmd/verify/typed.rs:439:23: replace > with < in Feed::take in 1s build + 13s test
+caught   src/cmd/verify/typed.rs:439:23: replace > with == in Feed::take in 2s build + 45s test
+caught   src/cmd/verify/typed.rs:458:9: replace <impl Write for Sink>::write -> io::Result<usize> with Ok(0) in 2s build + 12s test
+caught   src/cmd/verify/typed.rs:458:9: replace <impl Write for Sink>::write -> io::Result<usize> with Ok(1) in 1s build + 12s test
+MISSED   src/cmd/verify/typed.rs:439:23: replace > with >= in Feed::take in 1s build + 45s test
+unviable src/cmd/verify/typed.rs:479:5: replace settled -> Option<Settled> with Some(Default::default()) in 1s build
+caught   src/cmd/verify/typed.rs:479:5: replace settled -> Option<Settled> with None in 2s build + 12s test
+unviable src/cmd/verify/typed.rs:479:44: replace + with * in settled in 1s build
+caught   src/cmd/verify/typed.rs:479:44: replace + with - in settled in 2s build + 40s test
+caught   src/cmd/verify/typed.rs:480:12: replace < with == in settled in 2s build + 42s test
+caught   src/cmd/verify/typed.rs:480:12: replace < with > in settled in 1s build + 52s test
+caught   src/cmd/verify/typed.rs:480:12: replace < with <= in settled in 1s build + 44s test
+unviable src/cmd/verify/typed.rs:487:23: replace + with * in settled in 1s build
+caught   src/cmd/verify/typed.rs:487:23: replace + with - in settled in 1s build + 24s test
+caught   src/cmd/verify/typed.rs:490:19: replace >= with < in settled in 1s build + 24s test
+unviable src/cmd/verify/typed.rs:506:5: replace box_wait -> Option<Settled> with Some(Default::default()) in 1s build
+caught   src/cmd/verify/typed.rs:506:5: replace box_wait -> Option<Settled> with None in 3s build + 12s test
+unviable src/cmd/verify/typed.rs:512:44: replace + with * in box_wait in 1s build
+caught   src/cmd/verify/typed.rs:512:44: replace + with - in box_wait in 1s build + 44s test
+caught   src/cmd/verify/typed.rs:513:12: replace < with == in box_wait in 2s build + 44s test
+caught   src/cmd/verify/typed.rs:513:12: replace < with > in box_wait in 1s build + 44s test
+unviable src/cmd/verify/typed.rs:544:9: replace Run::spawn -> anyhow::Result<Self> with Ok(Default::default()) in 1s build
+unviable src/cmd/verify/typed.rs:591:9: replace Run::feed -> MutexGuard<'_, Feed> with MutexGuard::new() in 1s build
+unviable src/cmd/verify/typed.rs:591:9: replace Run::feed -> MutexGuard<'_, Feed> with MutexGuard::from_iter([Default::default()]) in 1s build
+unviable src/cmd/verify/typed.rs:591:9: replace Run::feed -> MutexGuard<'_, Feed> with MutexGuard::new(Default::default()) in 0s build
+unviable src/cmd/verify/typed.rs:591:9: replace Run::feed -> MutexGuard<'_, Feed> with MutexGuard::from(Default::default()) in 0s build
+caught   src/cmd/verify/typed.rs:596:9: replace Run::settle -> Option<Settled> with None in 1s build + 1s test
+caught   src/cmd/verify/typed.rs:513:12: replace < with <= in box_wait in 1s build + 45s test
+unviable src/cmd/verify/typed.rs:596:9: replace Run::settle -> Option<Settled> with Some(Default::default()) in 1s build
+unviable src/cmd/verify/typed.rs:596:26: replace + with * in Run::settle in 1s build
+caught   src/cmd/verify/typed.rs:596:26: replace + with - in Run::settle in 1s build + 1s test
+caught   src/cmd/verify/typed.rs:602:20: replace >= with < in Run::settle in 2s build + 2s test
+caught   src/cmd/verify/typed.rs:612:9: replace Run::box_wait -> Option<Vec<String>> with None in 2s build + 7s test
+caught   src/cmd/verify/typed.rs:612:9: replace Run::box_wait -> Option<Vec<String>> with Some(vec![]) in 2s build + 6s test
+caught   src/cmd/verify/typed.rs:612:9: replace Run::box_wait -> Option<Vec<String>> with Some(vec![String::new()]) in 1s build + 7s test
+caught   src/cmd/verify/typed.rs:612:9: replace Run::box_wait -> Option<Vec<String>> with Some(vec!["xyzzy".into()]) in 2s build + 6s test
+unviable src/cmd/verify/typed.rs:612:26: replace + with * in Run::box_wait in 1s build
+caught   src/cmd/verify/typed.rs:612:26: replace + with - in Run::box_wait in 1s build + 6s test
+caught   src/cmd/verify/typed.rs:618:20: replace >= with < in Run::box_wait in 2s build + 7s test
+caught   src/cmd/verify/typed.rs:627:9: replace Run::input_box_settles -> bool with false in 1s build + 5s test
+caught   src/cmd/verify/typed.rs:627:9: replace Run::input_box_settles -> bool with true in 1s build + 13s test
+caught   src/cmd/verify/typed.rs:632:9: replace Run::kill with () in 1s build + 13s test
+caught   src/cmd/verify/typed.rs:641:9: replace Run::end_by_kill with () in 1s build + 46s test
+caught   src/cmd/verify/typed.rs:647:9: replace Run::end_by_ctrl_c with () in 2s build + 47s test
+MISSED   src/cmd/verify/typed.rs:648:12: delete ! in Run::end_by_ctrl_c in 1s build + 45s test
+unviable src/cmd/verify/typed.rs:648:45: replace + with * in Run::end_by_ctrl_c in 1s build
+MISSED   src/cmd/verify/typed.rs:648:45: replace + with - in Run::end_by_ctrl_c in 1s build + 45s test
+MISSED   src/cmd/verify/typed.rs:651:12: delete ! in Run::end_by_ctrl_c in 1s build + 44s test
+unviable src/cmd/verify/typed.rs:651:45: replace + with * in Run::end_by_ctrl_c in 0s build
+MISSED   src/cmd/verify/typed.rs:651:45: replace + with - in Run::end_by_ctrl_c in 1s build + 45s test
+MISSED   src/cmd/verify/typed.rs:659:9: replace Run::wait_pump -> bool with true in 1s build + 44s test
+caught   src/cmd/verify/typed.rs:659:9: replace Run::wait_pump -> bool with false in 1s build + 45s test
+caught   src/cmd/verify/typed.rs:659:15: delete ! in Run::wait_pump in 1s build + 44s test
+caught   src/cmd/verify/typed.rs:660:33: replace >= with < in Run::wait_pump in 1s build + 46s test
+caught   src/cmd/verify/typed.rs:671:9: replace Run::finish with () in 1s build + 46s test
+unviable src/cmd/verify/typed.rs:671:53: replace + with * in Run::finish in 1s build
+MISSED   src/cmd/verify/typed.rs:671:53: replace + with - in Run::finish in 1s build + 46s test
+636 mutants tested in 2h: 50 missed, 449 caught, 137 unviable

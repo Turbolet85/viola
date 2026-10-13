@@ -1,0 +1,13 @@
+{
+ "unit": "viola-state",
+ "start": "2026-10-12T07:08:33Z",
+ "stop": "2026-10-12T07:17:31Z",
+ "wall_s": 538,
+ "exit": 2,
+ "how": "exited",
+ "cap_s": 3074,
+ "resized": false,
+ "jobs": 2,
+ "planned": 360,
+ "command": "cargo mutants --package viola-state --features fake-agent --test-tool=nextest --copy-target=false --caught --unviable --build-timeout=400 -j 2 --output .andromeda/runs/2026-10-12T06-54-29-code-audit/mutants-viola-state"
+}

@@ -1,0 +1,441 @@
+{
+ "unit": "viola-state",
+ "output": "mutants-viola-state",
+ "complete": true,
+ "total_mutants": 360,
+ "listed": 360,
+ "unit_states_line": "360/360",
+ "start_time": "2026-10-12T07:08:33.127179684Z",
+ "end_time": "2026-10-12T07:17:31.700008229Z",
+ "baseline": {
+  "summary": "Success",
+  "phases": [
+   {
+    "phase": "Build",
+    "duration_s": 6.2,
+    "status": "Success"
+   },
+   {
+    "phase": "Test",
+    "duration_s": 3.8,
+    "status": "Success"
+   }
+  ]
+ },
+ "counts": {
+  "mutants": 360,
+  "caught": 257,
+  "missed": 10,
+  "not_measured": 69,
+  "timeout": 0,
+  "unviable": 24
+ },
+ "tool_tallies": {
+  "caught": 257,
+  "missed": 79,
+  "timeout": 0,
+  "unviable": 24
+ },
+ "survivors": [
+  [
+   "crates/viola-state/src/board.rs:164:29",
+   "replace += with *= in SkippedTotal::add"
+  ],
+  [
+   "crates/viola-state/src/board.rs:164:29",
+   "replace += with -= in SkippedTotal::add"
+  ],
+  [
+   "crates/viola-state/src/board.rs:45:19",
+   "replace match guard e.kind() == io::ErrorKind::NotFound with true in check_if_present"
+  ],
+  [
+   "crates/viola-state/src/board.rs:67:19",
+   "replace match guard e.kind() == io::ErrorKind::NotFound with true in scan"
+  ],
+  [
+   "crates/viola-state/src/fs.rs:281:18",
+   "replace += with *= in replace_private_with"
+  ],
+  [
+   "crates/viola-state/src/fs.rs:285:20",
+   "replace match guard attempts < REPLACE_ATTEMPTS && retry_replace(e.error.raw_os_error(), HOST_IS_WINDOWS) with false in replace_private_with"
+  ],
+  [
+   "crates/viola-state/src/fs.rs:285:29",
+   "replace < with <= in replace_private_with"
+  ],
+  [
+   "crates/viola-state/src/fs.rs:285:29",
+   "replace < with == in replace_private_with"
+  ],
+  [
+   "crates/viola-state/src/fs.rs:285:29",
+   "replace < with > in replace_private_with"
+  ],
+  [
+   "crates/viola-state/src/fs.rs:286:21",
+   "replace && with || in replace_private_with"
+  ]
+ ],
+ "not_measured": [
+  [
+   "crates/viola-state/src/fs.rs:105:9",
+   "replace win::protected_sddl -> String with \"xyzzy\".into()",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/fs.rs:105:9",
+   "replace win::protected_sddl -> String with String::new()",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/fs.rs:110:9",
+   "replace win::profile_dir -> io::Result<PathBuf> with Ok(Default::default())",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/fs.rs:112:86",
+   "replace == with != in win::profile_dir",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/fs.rs:124:19",
+   "replace == with != in win::profile_dir",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/fs.rs:127:46",
+   "replace == with != in win::profile_dir",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/fs.rs:134:9",
+   "replace win::protect_outside_profile -> io::Result<()> with Ok(())",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/fs.rs:142:9",
+   "replace win::protect -> io::Result<()> with Ok(())",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/fs.rs:149:9",
+   "replace win::set_dacl -> io::Result<()> with Ok(())",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/fs.rs:160:17",
+   "replace == with != in win::set_dacl",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/fs.rs:178:23",
+   "replace == with != in win::set_dacl",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/fs.rs:194:9",
+   "replace win::dacl_of -> io::Result<*mut ACL> with Ok(Default::default())",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/fs.rs:197:94",
+   "replace == with != in win::dacl_of",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/fs.rs:198:13",
+   "replace || with && in win::dacl_of",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/fs.rs:99:9",
+   "replace win::wide -> Vec<u16> with vec![0]",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/fs.rs:99:9",
+   "replace win::wide -> Vec<u16> with vec![1]",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/fs.rs:99:9",
+   "replace win::wide -> Vec<u16> with vec![]",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/pin.rs:126:14",
+   "replace < with <= in retry_open",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/pin.rs:126:14",
+   "replace < with == in retry_open",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/pin.rs:126:14",
+   "replace < with > in retry_open",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/pin.rs:126:33",
+   "replace && with || in retry_open",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/pin.rs:126:49",
+   "replace == with != in retry_open",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/pin.rs:126:5",
+   "replace retry_open -> bool with false",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/pin.rs:126:5",
+   "replace retry_open -> bool with true",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/pin.rs:131:5",
+   "replace open_held -> io::Result<File> with Ok(Default::default())",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/pin.rs:140:5",
+   "replace open_held_waiting -> io::Result<File> with Ok(Default::default())",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/pin.rs:142:18",
+   "replace += with *= in open_held_waiting",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/pin.rs:142:18",
+   "replace += with -= in open_held_waiting",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/pin.rs:144:23",
+   "replace match guard retry_open(e.raw_os_error(), attempts) with false in open_held_waiting",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/pin.rs:144:23",
+   "replace match guard retry_open(e.raw_os_error(), attempts) with true in open_held_waiting",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/pin.rs:159:5",
+   "replace pin_companions -> Result<HeldCompanions, PinError> with Ok(Default::default())",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/pin.rs:171:23",
+   "replace match guard e.kind() == io::ErrorKind::NotFound with false in pin_companions",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/pin.rs:171:23",
+   "replace match guard e.kind() == io::ErrorKind::NotFound with true in pin_companions",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/pin.rs:171:32",
+   "replace == with != in pin_companions",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/pin.rs:178:18",
+   "replace != with == in pin_companions",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/strict.rs:189:9",
+   "replace win::wide -> Vec<u16> with vec![0]",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/strict.rs:189:9",
+   "replace win::wide -> Vec<u16> with vec![1]",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/strict.rs:189:9",
+   "replace win::wide -> Vec<u16> with vec![]",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/strict.rs:193:9",
+   "replace win::check -> Result<(), Refused> with Ok(())",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/strict.rs:200:9",
+   "replace win::persistent_acls -> Option<bool> with None",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/strict.rs:200:9",
+   "replace win::persistent_acls -> Option<bool> with Some(false)",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/strict.rs:200:9",
+   "replace win::persistent_acls -> Option<bool> with Some(true)",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/strict.rs:204:81",
+   "replace == with != in win::persistent_acls",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/strict.rs:222:15",
+   "replace != with == in win::persistent_acls",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/strict.rs:227:9",
+   "replace win::owner_and_dacl -> Option<(String, Option<Vec<Allow>>)> with None",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/strict.rs:227:9",
+   "replace win::owner_and_dacl -> Option<(String, Option<Vec<Allow>>)> with Some((\"xyzzy\".into(), None))",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/strict.rs:227:9",
+   "replace win::owner_and_dacl -> Option<(String, Option<Vec<Allow>>)> with Some((\"xyzzy\".into(), Some(vec![Default::default()])))",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/strict.rs:227:9",
+   "replace win::owner_and_dacl -> Option<(String, Option<Vec<Allow>>)> with Some((\"xyzzy\".into(), Some(vec![])))",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/strict.rs:227:9",
+   "replace win::owner_and_dacl -> Option<(String, Option<Vec<Allow>>)> with Some((String::new(), None))",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/strict.rs:227:9",
+   "replace win::owner_and_dacl -> Option<(String, Option<Vec<Allow>>)> with Some((String::new(), Some(vec![Default::default()])))",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/strict.rs:227:9",
+   "replace win::owner_and_dacl -> Option<(String, Option<Vec<Allow>>)> with Some((String::new(), Some(vec![])))",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/strict.rs:245:19",
+   "replace != with == in win::owner_and_dacl",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/strict.rs:252:13",
+   "delete match arm Some((owner, Some(aces))) in win::owner_and_dacl",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/strict.rs:259:9",
+   "replace win::aces -> Option<Option<Vec<Allow>>> with None",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/strict.rs:259:9",
+   "replace win::aces -> Option<Option<Vec<Allow>>> with Some(None)",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/strict.rs:259:9",
+   "replace win::aces -> Option<Option<Vec<Allow>>> with Some(Some(vec![Default::default()]))",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/strict.rs:259:9",
+   "replace win::aces -> Option<Option<Vec<Allow>>> with Some(Some(vec![]))",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/strict.rs:268:53",
+   "replace == with != in win::aces",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/strict.rs:273:31",
+   "replace != with == in win::aces",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/strict.rs:290:9",
+   "replace win::sid_string -> Option<String> with None",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/strict.rs:290:9",
+   "replace win::sid_string -> Option<String> with Some(\"xyzzy\".into())",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/strict.rs:290:9",
+   "replace win::sid_string -> Option<String> with Some(String::new())",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/strict.rs:293:62",
+   "replace == with != in win::sid_string",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/strict.rs:297:65",
+   "replace != with == in win::sid_string",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/strict.rs:313:9",
+   "replace win::user_sid -> Option<String> with None",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/strict.rs:313:9",
+   "replace win::user_sid -> Option<String> with Some(\"xyzzy\".into())",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/strict.rs:313:9",
+   "replace win::user_sid -> Option<String> with Some(String::new())",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/strict.rs:315:86",
+   "replace == with != in win::user_sid",
+   "cfg(windows)"
+  ],
+  [
+   "crates/viola-state/src/strict.rs:327:27",
+   "replace != with == in win::user_sid",
+   "cfg(windows)"
+  ]
+ ],
+ "timeouts": [],
+ "state": "complete 360/360",
+ "score": 96.25,
+ "timing": {
+  "scope": "unit",
+  "planned": 360,
+  "tested": 360,
+  "wall_s": 538,
+  "jobs": 2,
+  "cap_s": 3074
+ },
+ "host": "x86_64-unknown-linux-gnu",
+ "score_formula": "caught/(caught+missed)"
+}

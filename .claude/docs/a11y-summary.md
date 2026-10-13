@@ -32,7 +32,7 @@ The a11y harness runs inside the tests' Playwright driver (no second browser sta
 
 ## Bootstrap phases (§3)
 
-1. **a11y-tooling-install** — devDependencies (colorjs.io, tabbable, virtual-screen-reader, html-validate, eslint-plugin-jsx-a11y + eslint), `e2e-web/fixtures/a11y.ts` (`makeAxeBuilder`, scrubber, row writer), html-validate config declaring any `viola-*` elements the rendered page carries
+1. **a11y-tooling-install** — `@axe-core/playwright@4.13.0` into `e2e-web/package.json` (the axe pin is this phase's), devDependencies (colorjs.io, tabbable, virtual-screen-reader, html-validate, eslint-plugin-jsx-a11y + eslint), `e2e-web/fixtures/a11y.ts` (`makeAxeBuilder`, scrubber, row writer), html-validate config declaring any `viola-*` elements the rendered page carries
 2. **focus-management-library-install** — none at runtime; tabbable test-side only
 3. **aria-component-library-install** — none (native HTML + WAI-ARIA APG, rendered by the page's React + TypeScript components)
 4. **contrast-verification-harness-setup** — the `a11y-tokens` test in `bay-steady-state.spec.ts`

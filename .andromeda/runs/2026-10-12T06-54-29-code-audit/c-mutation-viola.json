@@ -1,0 +1,297 @@
+{
+ "unit": "viola",
+ "output": "mutants-viola-merged",
+ "complete": true,
+ "total_mutants": 1299,
+ "listed": 1299,
+ "unit_states_line": "1299/1299",
+ "start_time": "2026-10-12T07:17:31.880818008Z",
+ "end_time": "2026-10-12T20:32:38.919997543Z",
+ "baseline": {
+  "summary": "Success",
+  "phases": [
+   {
+    "phase": "Build",
+    "duration_s": 18.3,
+    "status": "Success"
+   },
+   {
+    "phase": "Test",
+    "duration_s": 45.4,
+    "status": "Success"
+   }
+  ]
+ },
+ "counts": {
+  "mutants": 1299,
+  "caught": 1044,
+  "missed": 32,
+  "not_measured": 18,
+  "timeout": 0,
+  "unviable": 205
+ },
+ "tool_tallies": {
+  "caught": 1044,
+  "missed": 50,
+  "timeout": 0,
+  "unviable": 205
+ },
+ "survivors": [
+  [
+   "src/cmd/hook.rs:403:27",
+   "replace || with && in answer"
+  ],
+  [
+   "src/cmd/send.rs:119:12",
+   "delete ! in Out<'_>::open"
+  ],
+  [
+   "src/cmd/verify/typed.rs:271:84",
+   "replace > with == in framing_turns"
+  ],
+  [
+   "src/cmd/verify/typed.rs:271:84",
+   "replace > with >= in framing_turns"
+  ],
+  [
+   "src/cmd/verify/typed.rs:286:29",
+   "replace + with - in framing_turns"
+  ],
+  [
+   "src/cmd/verify/typed.rs:288:40",
+   "replace > with == in framing_turns"
+  ],
+  [
+   "src/cmd/verify/typed.rs:288:40",
+   "replace > with >= in framing_turns"
+  ],
+  [
+   "src/cmd/verify/typed.rs:304:54",
+   "replace && with || in max_gap"
+  ],
+  [
+   "src/cmd/verify/typed.rs:403:9",
+   "replace <impl Pty for SharedPty>::resize -> Result<(), PtyError> with Ok(())"
+  ],
+  [
+   "src/cmd/verify/typed.rs:415:9",
+   "replace <impl Pty for SharedPty>::close with ()"
+  ],
+  [
+   "src/cmd/verify/typed.rs:419:9",
+   "replace <impl Pty for SharedPty>::child_pid -> Option<u32> with None"
+  ],
+  [
+   "src/cmd/verify/typed.rs:419:9",
+   "replace <impl Pty for SharedPty>::child_pid -> Option<u32> with Some(0)"
+  ],
+  [
+   "src/cmd/verify/typed.rs:419:9",
+   "replace <impl Pty for SharedPty>::child_pid -> Option<u32> with Some(1)"
+  ],
+  [
+   "src/cmd/verify/typed.rs:439:23",
+   "replace > with >= in Feed::take"
+  ],
+  [
+   "src/cmd/verify/typed.rs:648:12",
+   "delete ! in Run::end_by_ctrl_c"
+  ],
+  [
+   "src/cmd/verify/typed.rs:648:45",
+   "replace + with - in Run::end_by_ctrl_c"
+  ],
+  [
+   "src/cmd/verify/typed.rs:651:12",
+   "delete ! in Run::end_by_ctrl_c"
+  ],
+  [
+   "src/cmd/verify/typed.rs:651:45",
+   "replace + with - in Run::end_by_ctrl_c"
+  ],
+  [
+   "src/cmd/verify/typed.rs:659:9",
+   "replace Run::wait_pump -> bool with true"
+  ],
+  [
+   "src/cmd/verify/typed.rs:671:53",
+   "replace + with - in Run::finish"
+  ],
+  [
+   "src/run/dialog.rs:144:5",
+   "replace millis -> u64 with 1"
+  ],
+  [
+   "src/run/dialog.rs:208:42",
+   "replace != with == in DialogSlot::hook_dialog"
+  ],
+  [
+   "src/run/send.rs:271:5",
+   "replace close with ()"
+  ],
+  [
+   "src/run/wheel.rs:297:18",
+   "replace && with || in Recorder::record"
+  ],
+  [
+   "src/run/wheel.rs:393:9",
+   "replace Classifier::abort -> bool with true"
+  ],
+  [
+   "src/run/wheel.rs:427:17",
+   "delete match arm ESC in Classifier::step"
+  ],
+  [
+   "src/run/wheel.rs:434:32",
+   "replace match guard self.params.len() < BOUND with true in Classifier::step"
+  ],
+  [
+   "src/run/wheel.rs:434:50",
+   "replace < with <= in Classifier::step"
+  ],
+  [
+   "src/run/wheel.rs:458:24",
+   "replace match guard osc with true in Classifier::step"
+  ],
+  [
+   "src/run/wheel.rs:467:35",
+   "replace < with <= in Classifier::step"
+  ],
+  [
+   "src/run/wheel.rs:516:49",
+   "replace == with != in is_reply"
+  ],
+  [
+   "src/run/wheel.rs:518:47",
+   "replace && with || in is_reply"
+  ]
+ ],
+ "not_measured": [
+  [
+   "src/cmd/run.rs:441:5",
+   "replace sideload_outcome -> (&'static str, Option<viola_state::pin::HeldCompanions>) with (\"\", None)",
+   "cfg(all(windows, target_arch = \"x86_64\"))"
+  ],
+  [
+   "src/cmd/run.rs:441:5",
+   "replace sideload_outcome -> (&'static str, Option<viola_state::pin::HeldCompanions>) with (\"xyzzy\", None)",
+   "cfg(all(windows, target_arch = \"x86_64\"))"
+  ],
+  [
+   "src/cmd/run.rs:455:5",
+   "replace sideload_outcome -> (&'static str, Option<viola_state::pin::HeldCompanions>) with (\"\", None)",
+   "cfg(all(windows, not(target_arch = \"x86_64\")))"
+  ],
+  [
+   "src/cmd/run.rs:455:5",
+   "replace sideload_outcome -> (&'static str, Option<viola_state::pin::HeldCompanions>) with (\"xyzzy\", None)",
+   "cfg(all(windows, not(target_arch = \"x86_64\")))"
+  ],
+  [
+   "src/panic_frames.rs:37:5",
+   "replace raw_frames -> Vec<usize> with vec![0]",
+   "cfg(windows)"
+  ],
+  [
+   "src/panic_frames.rs:37:5",
+   "replace raw_frames -> Vec<usize> with vec![1]",
+   "cfg(windows)"
+  ],
+  [
+   "src/panic_frames.rs:50:5",
+   "replace module_of -> Option<(String, usize)> with None",
+   "cfg(windows)"
+  ],
+  [
+   "src/panic_frames.rs:50:5",
+   "replace module_of -> Option<(String, usize)> with Some((\"xyzzy\".into(), 0))",
+   "cfg(windows)"
+  ],
+  [
+   "src/panic_frames.rs:50:5",
+   "replace module_of -> Option<(String, usize)> with Some((\"xyzzy\".into(), 1))",
+   "cfg(windows)"
+  ],
+  [
+   "src/panic_frames.rs:50:5",
+   "replace module_of -> Option<(String, usize)> with Some((String::new(), 1))",
+   "cfg(windows)"
+  ],
+  [
+   "src/panic_frames.rs:55:79",
+   "replace == with != in module_of",
+   "cfg(windows)"
+  ],
+  [
+   "src/run/env.rs:116:23",
+   "replace != with == in key_value_names",
+   "cfg(windows)"
+  ],
+  [
+   "src/run/env.rs:78:5",
+   "replace registry_names -> Vec<String> with vec![\"xyzzy\".into()]",
+   "cfg(windows)"
+  ],
+  [
+   "src/run/env.rs:78:5",
+   "replace registry_names -> Vec<String> with vec![String::new()]",
+   "cfg(windows)"
+  ],
+  [
+   "src/run/env.rs:78:5",
+   "replace registry_names -> Vec<String> with vec![]",
+   "cfg(windows)"
+  ],
+  [
+   "src/run/env.rs:90:5",
+   "replace key_value_names -> Vec<String> with vec![\"xyzzy\".into()]",
+   "cfg(windows)"
+  ],
+  [
+   "src/run/env.rs:90:5",
+   "replace key_value_names -> Vec<String> with vec![String::new()]",
+   "cfg(windows)"
+  ],
+  [
+   "src/run/env.rs:90:5",
+   "replace key_value_names -> Vec<String> with vec![]",
+   "cfg(windows)"
+  ]
+ ],
+ "timeouts": [],
+ "state": "complete 1299/1299",
+ "score": 97.03,
+ "timing": {
+  "scope": "unit",
+  "planned": 1299,
+  "tested": 1299,
+  "wall_s": 14591,
+  "jobs": 2,
+  "cap_s": 31737
+ },
+ "host": "x86_64-unknown-linux-gnu",
+ "score_formula": "caught/(caught+missed)",
+ "merged_from": {
+  "first": {
+   "output": "mutants-viola-partial",
+   "start_time": "2026-10-12T07:17:31.880818008Z",
+   "stopped": "2026-10-12T09:07:27Z",
+   "wall_s": 6596,
+   "outcomes": 678,
+   "kept_caught_unviable": 663,
+   "superseded_missed": 15,
+   "outcomes_sha256": "7439ee703ae08ec18b0e658728a8e3a4d7432bec9e9cb6d3fe55c575fa411c07"
+  },
+  "resume": {
+   "output": "mutants-viola-iter",
+   "flag": "--iterate",
+   "start_time": "2026-10-12T18:19:23.115455928Z",
+   "end_time": "2026-10-12T20:32:38.919997543Z",
+   "wall_s": 7995,
+   "total_mutants": 636,
+   "listed": 636,
+   "baseline": "Success"
+  },
+  "note": "start_time/end_time above the merge span the stop; wall_s is the two invocations summed"
+ }
+}

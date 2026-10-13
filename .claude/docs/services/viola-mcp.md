@@ -28,12 +28,12 @@ Tokio allowed: `viola-mcp` is never a root of the `deny-sync.toml` tokio ban, wh
 - A main-thread panic → `process-exit{detail:"internal-error"}` then exit 1, nothing on stdout; Tokio task panics are contained.
 
 ## Entry points for modification
-- **Tool handlers:** `crates/viola-mcp/src/`
-- **Tests:** crate `tests/` (handler re-validation against a test wrapper); stdio E2E in `crates/viola-e2e/tests/mcp_*.rs` with the rmcp client
+- **Tool handlers:** `crates/viola-mcp/src/` (not in the tree yet: the crate lands with the route entry "MCP server for drivers")
+- **Tests:** crate `tests/` (handler re-validation against a test wrapper); stdio E2E in `crates/viola-e2e/tests/mcp_*.rs` with the rmcp client (none in the tree yet: they land with "MCP server for drivers")
 
 ## Testing this crate
 - **Unit tests:** `cargo nextest run -p viola-mcp` (`#[tokio::test(start_paused = true)]` for adapter-owned timers)
-- **E2E:** `mcp_schema_violations.rs`, Paths 2–5 MCP legs, `cross_exit_causes.rs` (CLI/MCP parity)
+- **E2E:** `mcp_schema_violations.rs`, Paths 2–5 MCP legs, `cross_exit_causes.rs` (CLI/MCP parity), none in the tree yet: they land with "MCP server for drivers"
 
 ## References
 - `.andromeda/architecture.md` [MCP] · `.claude/rules/api.md`

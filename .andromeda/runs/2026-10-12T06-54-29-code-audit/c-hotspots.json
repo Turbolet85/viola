@@ -1,0 +1,47 @@
+{
+ "hotspots": [
+  [
+   "src/run/send.rs",
+   64.0
+  ],
+  [
+   "src/cmd/hook.rs",
+   44.0
+  ],
+  [
+   "crates/viola-state/src/events.rs",
+   42.0
+  ],
+  [
+   "src/run/wheel.rs",
+   42.0
+  ],
+  [
+   "src/bin/viola-fake-agent.rs",
+   39.0
+  ],
+  [
+   "crates/viola-state/src/replay.rs",
+   30.0
+  ],
+  [
+   "crates/viola-state/src/strict.rs",
+   30.0
+  ],
+  [
+   "src/run/dialog.rs",
+   28.0
+  ],
+  [
+   "src/cmd/send.rs",
+   24.0
+  ],
+  [
+   "tests/cli_answer.rs",
+   22.0
+  ]
+ ],
+ "files_without_complexity": [
+  "tests/support/mod.rs"
+ ]
+}

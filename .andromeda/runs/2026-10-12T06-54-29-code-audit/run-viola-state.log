@@ -1,0 +1,364 @@
+Found 360 mutants to test
+ok       Unmutated baseline in 6s build + 3s test
+ INFO Auto-set test timeout to 20s
+caught   crates/viola-state/src/lib.rs:31:5: replace timestamp -> String with String::new() in 0s build + 0s test
+caught   crates/viola-state/src/board.rs:43:5: replace check_if_present -> Result<(), Refused> with Ok(()) in 1s build + 0s test
+MISSED   crates/viola-state/src/board.rs:45:19: replace match guard e.kind() == io::ErrorKind::NotFound with true in check_if_present in 0s build + 3s test
+caught   crates/viola-state/src/lib.rs:31:5: replace timestamp -> String with "xyzzy".into() in 6s build + 0s test
+caught   crates/viola-state/src/board.rs:45:28: replace == with != in check_if_present in 0s build + 0s test
+caught   crates/viola-state/src/board.rs:45:19: replace match guard e.kind() == io::ErrorKind::NotFound with false in check_if_present in 0s build + 0s test
+unviable crates/viola-state/src/board.rs:56:5: replace scan -> Result<Result<Scan, ScanRefused>, StateError> with Ok(Ok(Default::default())) in 0s build
+caught   crates/viola-state/src/board.rs:57:40: replace || with && in scan in 0s build + 0s test
+caught   crates/viola-state/src/board.rs:67:19: replace match guard e.kind() == io::ErrorKind::NotFound with false in scan in 0s build + 0s test
+caught   crates/viola-state/src/board.rs:67:28: replace == with != in scan in 0s build + 0s test
+caught   crates/viola-state/src/board.rs:74:32: replace += with -= in scan in 0s build + 0s test
+MISSED   crates/viola-state/src/board.rs:67:19: replace match guard e.kind() == io::ErrorKind::NotFound with true in scan in 0s build + 3s test
+caught   crates/viola-state/src/board.rs:74:32: replace += with *= in scan in 0s build + 0s test
+caught   crates/viola-state/src/board.rs:83:27: replace match guard kind.is_dir() with true in scan in 0s build + 0s test
+caught   crates/viola-state/src/board.rs:83:27: replace match guard kind.is_dir() with false in scan in 0s build + 0s test
+caught   crates/viola-state/src/board.rs:87:33: replace += with -= in scan in 0s build + 0s test
+caught   crates/viola-state/src/board.rs:87:33: replace += with *= in scan in 0s build + 0s test
+caught   crates/viola-state/src/board.rs:110:9: replace RowLiveness::as_str -> &'static str with "" in 0s build + 0s test
+caught   crates/viola-state/src/board.rs:110:9: replace RowLiveness::as_str -> &'static str with "xyzzy" in 0s build + 0s test
+caught   crates/viola-state/src/board.rs:126:9: replace SessionStatus::as_str -> &'static str with "" in 0s build + 0s test
+caught   crates/viola-state/src/board.rs:126:9: replace SessionStatus::as_str -> &'static str with "xyzzy" in 0s build + 0s test
+caught   crates/viola-state/src/board.rs:163:9: replace SkippedTotal::add with () in 0s build + 3s test
+caught   crates/viola-state/src/board.rs:163:28: replace += with -= in SkippedTotal::add in 0s build + 3s test
+caught   crates/viola-state/src/board.rs:163:28: replace += with *= in SkippedTotal::add in 0s build + 3s test
+MISSED   crates/viola-state/src/board.rs:164:29: replace += with -= in SkippedTotal::add in 0s build + 3s test
+MISSED   crates/viola-state/src/board.rs:164:29: replace += with *= in SkippedTotal::add in 0s build + 3s test
+caught   crates/viola-state/src/board.rs:165:25: replace += with -= in SkippedTotal::add in 0s build + 3s test
+unviable crates/viola-state/src/board.rs:177:5: replace snapshot_item -> Item with Default::default() in 0s build
+caught   crates/viola-state/src/board.rs:165:25: replace += with *= in SkippedTotal::add in 0s build + 3s test
+unviable crates/viola-state/src/board.rs:209:5: replace read -> Board with Default::default() in 0s build
+caught   crates/viola-state/src/board.rs:193:5: replace log_pass -> Skipped with Default::default() in 0s build + 3s test
+caught   crates/viola-state/src/board.rs:227:61: replace <= with > in read in 0s build + 0s test
+caught   crates/viola-state/src/board.rs:250:18: replace > with == in read in 0s build + 0s test
+caught   crates/viola-state/src/board.rs:250:18: replace > with < in read in 0s build + 0s test
+caught   crates/viola-state/src/board.rs:250:18: replace > with >= in read in 0s build + 0s test
+caught   crates/viola-state/src/budget.rs:31:5: replace used -> Option<f64> with None in 0s build + 0s test
+caught   crates/viola-state/src/budget.rs:31:5: replace used -> Option<f64> with Some(0.0) in 0s build + 0s test
+caught   crates/viola-state/src/budget.rs:31:5: replace used -> Option<f64> with Some(1.0) in 0s build + 0s test
+caught   crates/viola-state/src/budget.rs:31:5: replace used -> Option<f64> with Some(-1.0) in 0s build + 0s test
+caught   crates/viola-state/src/budget.rs:52:5: replace write_budget -> Result<(), StateError> with Ok(()) in 0s build + 0s test
+caught   crates/viola-state/src/budget.rs:88:5: replace read_budget -> Option<BudgetReading> with None in 0s build + 0s test
+unviable crates/viola-state/src/budget.rs:88:5: replace read_budget -> Option<BudgetReading> with Some(Default::default()) in 0s build
+caught   crates/viola-state/src/budget.rs:32:9: delete match arm Reading::Known(BudgetWindow{used_percentage:Reading::Known(used), ..}) in used in 0s build + 3s test
+caught   crates/viola-state/src/budget.rs:93:5: replace read_budget_stamped -> Option<StampedReading> with None in 0s build + 0s test
+unviable crates/viola-state/src/budget.rs:93:5: replace read_budget_stamped -> Option<StampedReading> with Some(Default::default()) in 0s build
+caught   crates/viola-state/src/budget.rs:101:25: replace + with - in read_budget_stamped in 0s build + 3s test
+caught   crates/viola-state/src/budget.rs:101:25: replace + with * in read_budget_stamped in 0s build + 3s test
+caught   crates/viola-state/src/budget.rs:104:55: replace > with < in read_budget_stamped in 0s build + 0s test
+caught   crates/viola-state/src/budget.rs:104:55: replace > with == in read_budget_stamped in 0s build + 3s test
+caught   crates/viola-state/src/budget.rs:104:55: replace > with >= in read_budget_stamped in 0s build + 3s test
+caught   crates/viola-state/src/budget.rs:112:15: replace == with != in read_budget_stamped in 0s build + 0s test
+unviable crates/viola-state/src/events.rs:42:5: replace kind_str -> Result<S::Ok, S::Error> with Ok(Default::default()) in 0s build
+caught   crates/viola-state/src/budget.rs:109:9: delete match arm Some(serde_json::Value::String(at)) in read_budget_stamped in 0s build + 3s test
+caught   crates/viola-state/src/events.rs:66:5: replace append_event -> Result<(), StateError> with Ok(()) in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:76:5: replace end_offset -> Result<u64, StateError> with Ok(0) in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:76:5: replace end_offset -> Result<u64, StateError> with Ok(1) in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:87:5: replace append_event_at -> Result<u64, StateError> with Ok(0) in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:87:5: replace append_event_at -> Result<u64, StateError> with Ok(1) in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:97:5: replace current_len -> Result<u64, StateError> with Ok(0) in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:97:5: replace current_len -> Result<u64, StateError> with Ok(1) in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:99:19: replace match guard e.kind() == std::io::ErrorKind::NotFound with true in current_len in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:99:19: replace match guard e.kind() == std::io::ErrorKind::NotFound with false in current_len in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:99:28: replace == with != in current_len in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:107:5: replace try_append_event -> Result<bool, StateError> with Ok(true) in 0s build + 3s test
+caught   crates/viola-state/src/events.rs:107:5: replace try_append_event -> Result<bool, StateError> with Ok(false) in 0s build + 3s test
+caught   crates/viola-state/src/events.rs:118:33: replace + with - in 0s build + 0s test
+unviable crates/viola-state/src/events.rs:147:5: replace read_from -> Result<LoggedLines, StateError> with Ok(Default::default()) in 0s build
+caught   crates/viola-state/src/events.rs:118:33: replace + with * in 0s build + 0s test
+unviable crates/viola-state/src/events.rs:151:5: replace read_within -> Result<LoggedLines, StateError> with Ok(Default::default()) in 0s build
+caught   crates/viola-state/src/events.rs:159:19: replace match guard e.kind() == ErrorKind::NotFound with true in read_within in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:159:19: replace match guard e.kind() == ErrorKind::NotFound with false in read_within in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:159:28: replace == with != in read_within in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:166:36: replace == with != in read_within in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:171:44: replace += with -= in read_within in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:169:20: replace != with == in read_within in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:171:44: replace += with *= in read_within in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:182:5: replace skip_line -> Result<Option<u64>, StateError> with Ok(None) in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:182:5: replace skip_line -> Result<Option<u64>, StateError> with Ok(Some(1)) in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:182:5: replace skip_line -> Result<Option<u64>, StateError> with Ok(Some(0)) in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:188:59: replace == with != in skip_line in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:189:27: replace + with - in skip_line in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:193:18: replace += with -= in skip_line in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:189:27: replace + with * in skip_line in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:193:18: replace += with *= in skip_line in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:202:5: replace known_kind -> Option<EventKind> with None in 0s build + 0s test
+unviable crates/viola-state/src/events.rs:202:5: replace known_kind -> Option<EventKind> with Some(Default::default()) in 0s build
+caught   crates/viola-state/src/events.rs:208:5: replace has_unknown_field -> bool with true in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:208:5: replace has_unknown_field -> bool with false in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:208:46: delete ! in has_unknown_field in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:214:28: delete ! in has_unknown_field in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:216:18: replace || with && in has_unknown_field in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:230:9: replace LoggedLines::skipped -> Skipped with Default::default() in 0s build + 0s test
+unviable crates/viola-state/src/events.rs:234:9: replace LoggedLines::next_line -> Result<Option<LoggedLine>, StateError> with Ok(Some(Default::default())) in 0s build
+caught   crates/viola-state/src/events.rs:234:9: replace LoggedLines::next_line -> Result<Option<LoggedLine>, StateError> with Ok(None) in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:238:28: replace != with == in LoggedLines::next_line in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:245:41: replace += with -= in LoggedLines::next_line in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:245:41: replace += with *= in LoggedLines::next_line in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:246:24: replace != with == in LoggedLines::next_line in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:252:26: replace += with -= in LoggedLines::next_line in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:252:26: replace += with *= in LoggedLines::next_line in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:252:33: replace + with - in LoggedLines::next_line in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:252:33: replace + with * in LoggedLines::next_line in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:256:22: replace += with -= in LoggedLines::next_line in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:256:22: replace += with *= in LoggedLines::next_line in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:258:41: replace += with -= in LoggedLines::next_line in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:258:41: replace += with *= in LoggedLines::next_line in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:262:44: replace += with *= in LoggedLines::next_line in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:266:45: replace += with -= in LoggedLines::next_line in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:266:45: replace += with *= in LoggedLines::next_line in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:262:44: replace += with -= in LoggedLines::next_line in 0s build + 3s test
+unviable crates/viola-state/src/events.rs:283:9: replace <impl Iterator for LoggedLines>::next -> Option<Self::Item> with Some(Default::default()) in 0s build
+caught   crates/viola-state/src/events.rs:283:9: replace <impl Iterator for LoggedLines>::next -> Option<Self::Item> with None in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:292:5: replace line_bytes -> Result<Vec<u8>, StateError> with Ok(vec![]) in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:292:5: replace line_bytes -> Result<Vec<u8>, StateError> with Ok(vec![0]) in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:292:5: replace line_bytes -> Result<Vec<u8>, StateError> with Ok(vec![1]) in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:308:9: replace Tail::line_start -> u64 with 0 in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:308:9: replace Tail::line_start -> u64 with 1 in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:308:18: replace + with - in Tail::line_start in 0s build + 0s test
+unviable crates/viola-state/src/events.rs:313:5: replace tail -> Result<Tail, StateError> with Ok(Default::default()) in 0s build
+caught   crates/viola-state/src/events.rs:308:18: replace + with * in Tail::line_start in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:323:23: replace != with == in tail in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:330:5: replace write_line -> Result<(), StateError> with Ok(()) in 0s build + 0s test
+caught   crates/viola-state/src/events.rs:331:8: delete ! in write_line in 0s build + 0s test
+caught   crates/viola-state/src/fs.rs:19:5: replace restrict -> io::Result<()> with Ok(()) in 0s build + 0s test
+caught   crates/viola-state/src/fs.rs:36:5: replace create_private_dir -> io::Result<()> with Ok(()) in 0s build + 0s test
+caught   crates/viola-state/src/fs.rs:38:51: replace && with || in create_private_dir in 0s build + 0s test
+caught   crates/viola-state/src/fs.rs:38:25: delete ! in create_private_dir in 0s build + 0s test
+caught   crates/viola-state/src/fs.rs:38:54: delete ! in create_private_dir in 0s build + 0s test
+caught   crates/viola-state/src/fs.rs:65:5: replace outside_profile -> bool with true in 0s build + 3s test
+caught   crates/viola-state/src/fs.rs:65:5: replace outside_profile -> bool with false in 0s build + 3s test
+caught   crates/viola-state/src/fs.rs:67:5: delete ! in outside_profile in 0s build + 3s test
+caught   crates/viola-state/src/fs.rs:70:29: replace == with != in outside_profile in 0s build + 3s test
+MISSED   crates/viola-state/src/fs.rs:99:9: replace win::wide -> Vec<u16> with vec![] in 0s build + 3s test
+MISSED   crates/viola-state/src/fs.rs:99:9: replace win::wide -> Vec<u16> with vec![0] in 0s build + 3s test
+MISSED   crates/viola-state/src/fs.rs:99:9: replace win::wide -> Vec<u16> with vec![1] in 0s build + 3s test
+MISSED   crates/viola-state/src/fs.rs:105:9: replace win::protected_sddl -> String with String::new() in 0s build + 3s test
+MISSED   crates/viola-state/src/fs.rs:105:9: replace win::protected_sddl -> String with "xyzzy".into() in 0s build + 3s test
+MISSED   crates/viola-state/src/fs.rs:110:9: replace win::profile_dir -> io::Result<PathBuf> with Ok(Default::default()) in 0s build + 3s test
+MISSED   crates/viola-state/src/fs.rs:112:86: replace == with != in win::profile_dir in 0s build + 3s test
+MISSED   crates/viola-state/src/fs.rs:124:19: replace == with != in win::profile_dir in 0s build + 3s test
+MISSED   crates/viola-state/src/fs.rs:127:46: replace == with != in win::profile_dir in 0s build + 3s test
+MISSED   crates/viola-state/src/fs.rs:134:9: replace win::protect_outside_profile -> io::Result<()> with Ok(()) in 0s build + 3s test
+MISSED   crates/viola-state/src/fs.rs:142:9: replace win::protect -> io::Result<()> with Ok(()) in 0s build + 3s test
+MISSED   crates/viola-state/src/fs.rs:149:9: replace win::set_dacl -> io::Result<()> with Ok(()) in 0s build + 3s test
+MISSED   crates/viola-state/src/fs.rs:160:17: replace == with != in win::set_dacl in 0s build + 3s test
+MISSED   crates/viola-state/src/fs.rs:178:23: replace == with != in win::set_dacl in 0s build + 3s test
+MISSED   crates/viola-state/src/fs.rs:194:9: replace win::dacl_of -> io::Result<*mut ACL> with Ok(Default::default()) in 0s build + 3s test
+MISSED   crates/viola-state/src/fs.rs:198:13: replace || with && in win::dacl_of in 0s build + 3s test
+MISSED   crates/viola-state/src/fs.rs:197:94: replace == with != in win::dacl_of in 0s build + 3s test
+caught   crates/viola-state/src/fs.rs:208:5: replace created_or_present -> io::Result<()> with Ok(()) in 0s build + 3s test
+caught   crates/viola-state/src/fs.rs:209:19: replace match guard e.kind() != io::ErrorKind::AlreadyExists with false in created_or_present in 0s build + 0s test
+caught   crates/viola-state/src/fs.rs:209:19: replace match guard e.kind() != io::ErrorKind::AlreadyExists with true in created_or_present in 0s build + 3s test
+unviable crates/viola-state/src/fs.rs:216:5: replace open_private_append -> io::Result<File> with Ok(Default::default()) in 1s build
+unviable crates/viola-state/src/fs.rs:228:5: replace create_private_new -> io::Result<File> with Ok(Default::default()) in 0s build
+unviable crates/viola-state/src/fs.rs:238:5: replace open_private_lock -> io::Result<File> with Ok(Default::default()) in 0s build
+caught   crates/viola-state/src/fs.rs:209:28: replace != with == in created_or_present in 3s build + 3s test
+caught   crates/viola-state/src/fs.rs:258:5: replace retry_replace -> bool with true in 0s build + 3s test
+caught   crates/viola-state/src/fs.rs:258:5: replace retry_replace -> bool with false in 0s build + 3s test
+caught   crates/viola-state/src/fs.rs:258:21: replace && with || in retry_replace in 0s build + 3s test
+caught   crates/viola-state/src/fs.rs:264:5: replace replace_private -> Result<(), StateError> with Ok(()) in 0s build + 0s test
+caught   crates/viola-state/src/fs.rs:274:5: replace replace_private_with -> Result<(), StateError> with Ok(()) in 1s build + 0s test
+caught   crates/viola-state/src/fs.rs:258:37: replace == with != in retry_replace in 0s build + 3s test
+caught   crates/viola-state/src/fs.rs:281:18: replace += with -= in replace_private_with in 1s build + 3s test
+MISSED   crates/viola-state/src/fs.rs:281:18: replace += with *= in replace_private_with in 0s build + 3s test
+MISSED   crates/viola-state/src/fs.rs:285:20: replace match guard attempts < REPLACE_ATTEMPTS && retry_replace(e.error.raw_os_error(), HOST_IS_WINDOWS) with false in replace_private_with in 0s build + 3s test
+MISSED   crates/viola-state/src/fs.rs:286:21: replace && with || in replace_private_with in 0s build + 3s test
+caught   crates/viola-state/src/fs.rs:285:20: replace match guard attempts < REPLACE_ATTEMPTS && retry_replace(e.error.raw_os_error(), HOST_IS_WINDOWS) with true in replace_private_with in 0s build + 10s test
+MISSED   crates/viola-state/src/fs.rs:285:29: replace < with == in replace_private_with in 0s build + 3s test
+MISSED   crates/viola-state/src/fs.rs:285:29: replace < with > in replace_private_with in 0s build + 3s test
+MISSED   crates/viola-state/src/fs.rs:285:29: replace < with <= in replace_private_with in 0s build + 3s test
+caught   crates/viola-state/src/fs.rs:300:5: replace replace_private_shared -> Result<(), StateError> with Ok(()) in 0s build + 3s test
+caught   crates/viola-state/src/fs.rs:301:19: replace match guard fs::read(path).ok().as_deref() != Some(bytes) with true in replace_private_shared in 0s build + 3s test
+caught   crates/viola-state/src/fs.rs:301:19: replace match guard fs::read(path).ok().as_deref() != Some(bytes) with false in replace_private_shared in 0s build + 3s test
+caught   crates/viola-state/src/heartbeat.rs:17:5: replace touch_heartbeat -> io::Result<()> with Ok(()) in 0s build + 0s test
+caught   crates/viola-state/src/heartbeat.rs:22:5: replace beat_age -> Option<Duration> with None in 0s build + 0s test
+caught   crates/viola-state/src/fs.rs:301:50: replace != with == in replace_private_shared in 0s build + 3s test
+unviable crates/viola-state/src/heartbeat.rs:37:9: replace Heartbeat::start -> Self with Default::default() in 0s build
+caught   crates/viola-state/src/heartbeat.rs:22:5: replace beat_age -> Option<Duration> with Some(Default::default()) in 0s build + 0s test
+unviable crates/viola-state/src/liveness.rs:23:5: replace classify -> Liveness with Default::default() in 0s build
+caught   crates/viola-state/src/liveness.rs:23:8: delete ! in classify in 0s build + 0s test
+caught   crates/viola-state/src/liveness.rs:27:22: replace match guard age <= STALE_AFTER with true in classify in 0s build + 0s test
+caught   crates/viola-state/src/liveness.rs:27:22: replace match guard age <= STALE_AFTER with false in classify in 0s build + 0s test
+caught   crates/viola-state/src/liveness.rs:27:26: replace <= with > in classify in 0s build + 0s test
+caught   crates/viola-state/src/liveness.rs:34:5: replace process_start_time -> Option<u64> with None in 0s build + 0s test
+caught   crates/viola-state/src/liveness.rs:34:5: replace process_start_time -> Option<u64> with Some(0) in 0s build + 3s test
+caught   crates/viola-state/src/liveness.rs:34:5: replace process_start_time -> Option<u64> with Some(1) in 0s build + 3s test
+caught   crates/viola-state/src/liveness.rs:38:32: replace != with == in process_start_time in 0s build + 0s test
+caught   crates/viola-state/src/liveness.rs:44:5: replace own_start -> Option<String> with None in 0s build + 0s test
+caught   crates/viola-state/src/liveness.rs:44:5: replace own_start -> Option<String> with Some(String::new()) in 0s build + 0s test
+caught   crates/viola-state/src/liveness.rs:44:5: replace own_start -> Option<String> with Some("xyzzy".into()) in 0s build + 0s test
+caught   crates/viola-state/src/liveness.rs:50:5: replace same_process -> bool with true in 0s build + 0s test
+caught   crates/viola-state/src/liveness.rs:50:5: replace same_process -> bool with false in 0s build + 0s test
+caught   crates/viola-state/src/liveness.rs:53:66: replace == with != in same_process in 0s build + 0s test
+unviable crates/viola-state/src/pin.rs:27:9: replace <impl From<io::Error> for PinError>::from -> Self with Default::default() in 0s build
+caught   crates/viola-state/src/pin.rs:42:5: replace hex16 -> String with String::new() in 0s build + 3s test
+caught   crates/viola-state/src/pin.rs:42:5: replace hex16 -> String with "xyzzy".into() in 0s build + 3s test
+caught   crates/viola-state/src/pin.rs:47:5: replace content_key -> String with String::new() in 0s build + 3s test
+caught   crates/viola-state/src/pin.rs:47:5: replace content_key -> String with "xyzzy".into() in 0s build + 3s test
+caught   crates/viola-state/src/pin.rs:53:5: replace digest -> io::Result<Vec<u8>> with Ok(vec![]) in 0s build + 3s test
+caught   crates/viola-state/src/pin.rs:53:5: replace digest -> io::Result<Vec<u8>> with Ok(vec![0]) in 0s build + 3s test
+caught   crates/viola-state/src/pin.rs:53:5: replace digest -> io::Result<Vec<u8>> with Ok(vec![1]) in 0s build + 3s test
+caught   crates/viola-state/src/pin.rs:57:14: replace == with != in digest in 0s build + 3s test
+caught   crates/viola-state/src/pin.rs:66:5: replace file_key -> io::Result<String> with Ok(String::new()) in 0s build + 3s test
+unviable crates/viola-state/src/pin.rs:72:5: replace pin_exe -> Result<Pinned, PinError> with Ok(Default::default()) in 0s build
+caught   crates/viola-state/src/pin.rs:66:5: replace file_key -> io::Result<String> with Ok("xyzzy".into()) in 0s build + 3s test
+caught   crates/viola-state/src/pin.rs:79:22: replace match guard found == hash with true in pin_exe in 0s build + 3s test
+caught   crates/viola-state/src/pin.rs:79:22: replace match guard found == hash with false in pin_exe in 0s build + 3s test
+caught   crates/viola-state/src/pin.rs:81:19: replace match guard e.kind() == io::ErrorKind::NotFound with true in pin_exe in 0s build + 3s test
+caught   crates/viola-state/src/pin.rs:81:19: replace match guard e.kind() == io::ErrorKind::NotFound with false in pin_exe in 0s build + 3s test
+caught   crates/viola-state/src/pin.rs:79:28: replace == with != in pin_exe in 0s build + 3s test
+caught   crates/viola-state/src/pin.rs:81:28: replace == with != in pin_exe in 0s build + 3s test
+MISSED   crates/viola-state/src/pin.rs:126:5: replace retry_open -> bool with false in 0s build + 3s test
+MISSED   crates/viola-state/src/pin.rs:126:5: replace retry_open -> bool with true in 0s build + 3s test
+MISSED   crates/viola-state/src/pin.rs:126:33: replace && with || in retry_open in 0s build + 3s test
+MISSED   crates/viola-state/src/pin.rs:126:14: replace < with == in retry_open in 0s build + 3s test
+MISSED   crates/viola-state/src/pin.rs:126:14: replace < with > in retry_open in 0s build + 3s test
+MISSED   crates/viola-state/src/pin.rs:126:14: replace < with <= in retry_open in 0s build + 3s test
+MISSED   crates/viola-state/src/pin.rs:126:49: replace == with != in retry_open in 0s build + 3s test
+MISSED   crates/viola-state/src/pin.rs:131:5: replace open_held -> io::Result<File> with Ok(Default::default()) in 0s build + 3s test
+MISSED   crates/viola-state/src/pin.rs:140:5: replace open_held_waiting -> io::Result<File> with Ok(Default::default()) in 0s build + 3s test
+MISSED   crates/viola-state/src/pin.rs:142:18: replace += with -= in open_held_waiting in 0s build + 3s test
+MISSED   crates/viola-state/src/pin.rs:142:18: replace += with *= in open_held_waiting in 0s build + 3s test
+MISSED   crates/viola-state/src/pin.rs:144:23: replace match guard retry_open(e.raw_os_error(), attempts) with true in open_held_waiting in 0s build + 3s test
+MISSED   crates/viola-state/src/pin.rs:144:23: replace match guard retry_open(e.raw_os_error(), attempts) with false in open_held_waiting in 0s build + 3s test
+MISSED   crates/viola-state/src/pin.rs:159:5: replace pin_companions -> Result<HeldCompanions, PinError> with Ok(Default::default()) in 0s build + 3s test
+MISSED   crates/viola-state/src/pin.rs:171:23: replace match guard e.kind() == io::ErrorKind::NotFound with true in pin_companions in 0s build + 3s test
+MISSED   crates/viola-state/src/pin.rs:171:23: replace match guard e.kind() == io::ErrorKind::NotFound with false in pin_companions in 0s build + 3s test
+MISSED   crates/viola-state/src/pin.rs:171:32: replace == with != in pin_companions in 0s build + 3s test
+MISSED   crates/viola-state/src/pin.rs:178:18: replace != with == in pin_companions in 0s build + 3s test
+caught   crates/viola-state/src/replay.rs:52:5: replace replay -> Result<Replayed, StateError> with Ok(Default::default()) in 0s build + 0s test
+caught   crates/viola-state/src/replay.rs:59:13: delete match arm Some(EventKind::Wheel) in replay in 0s build + 0s test
+caught   crates/viola-state/src/replay.rs:60:13: delete match arm Some(EventKind::BudgetGate) in replay in 0s build + 0s test
+caught   crates/viola-state/src/replay.rs:64:13: delete match arm Some(EventKind::SessionStart) in replay in 0s build + 3s test
+caught   crates/viola-state/src/replay.rs:81:5: replace apply_link_line -> bool with true in 0s build + 3s test
+caught   crates/viola-state/src/replay.rs:81:5: replace apply_link_line -> bool with false in 0s build + 3s test
+caught   crates/viola-state/src/replay.rs:87:51: replace && with || in apply_link_line in 0s build + 3s test
+caught   crates/viola-state/src/replay.rs:87:41: replace == with != in apply_link_line in 0s build + 3s test
+caught   crates/viola-state/src/replay.rs:87:69: replace == with != in apply_link_line in 0s build + 3s test
+caught   crates/viola-state/src/replay.rs:89:9: delete match arm (Some(EventKind::Link), None) in apply_link_line in 0s build + 3s test
+caught   crates/viola-state/src/replay.rs:94:9: delete match arm (Some(EventKind::Unlink), Some(at)) in apply_link_line in 0s build + 3s test
+caught   crates/viola-state/src/replay.rs:121:5: replace session_chain -> Result<SessionChain, StateError> with Ok(Default::default()) in 0s build + 3s test
+caught   crates/viola-state/src/replay.rs:125:40: replace != with == in session_chain in 0s build + 3s test
+unviable crates/viola-state/src/replay.rs:142:5: replace holder -> Option<Wheel> with Some(Default::default()) in 0s build
+caught   crates/viola-state/src/replay.rs:142:5: replace holder -> Option<Wheel> with None in 0s build + 0s test
+unviable crates/viola-state/src/replay.rs:151:5: replace read_snapshot_or_replay -> Result<Recovered, StateError> with Ok(Default::default()) in 0s build
+caught   crates/viola-state/src/replay.rs:144:38: replace == with != in holder in 0s build + 0s test
+caught   crates/viola-state/src/snapshot.rs:30:9: replace Wheel::as_str -> &'static str with "" in 0s build + 0s test
+caught   crates/viola-state/src/snapshot.rs:30:9: replace Wheel::as_str -> &'static str with "xyzzy" in 0s build + 0s test
+caught   crates/viola-state/src/snapshot.rs:88:5: replace write_snapshot -> Result<(), StateError> with Ok(()) in 0s build + 0s test
+caught   crates/viola-state/src/snapshot.rs:99:5: replace write_snapshot_with -> Result<(), StateError> with Ok(()) in 0s build + 0s test
+unviable crates/viola-state/src/snapshot.rs:135:5: replace read_snapshot_classified -> SnapshotRead with Default::default() in 0s build
+caught   crates/viola-state/src/snapshot.rs:137:19: replace match guard e.kind() == ErrorKind::NotFound with false in read_snapshot_classified in 0s build + 0s test
+caught   crates/viola-state/src/snapshot.rs:137:28: replace == with != in read_snapshot_classified in 0s build + 0s test
+caught   crates/viola-state/src/snapshot.rs:147:10: replace > with == in read_snapshot_classified in 0s build + 0s test
+caught   crates/viola-state/src/snapshot.rs:137:19: replace match guard e.kind() == ErrorKind::NotFound with true in read_snapshot_classified in 0s build + 3s test
+caught   crates/viola-state/src/snapshot.rs:147:10: replace > with < in read_snapshot_classified in 0s build + 0s test
+caught   crates/viola-state/src/snapshot.rs:147:10: replace > with >= in read_snapshot_classified in 0s build + 0s test
+caught   crates/viola-state/src/snapshot.rs:151:25: replace match guard envelope.v == SNAPSHOT_V with true in read_snapshot_classified in 0s build + 3s test
+caught   crates/viola-state/src/snapshot.rs:151:25: replace match guard envelope.v == SNAPSHOT_V with false in read_snapshot_classified in 0s build + 3s test
+caught   crates/viola-state/src/snapshot.rs:151:36: replace == with != in read_snapshot_classified in 0s build + 0s test
+unviable crates/viola-state/src/snapshot.rs:158:5: replace read_snapshot -> Option<InstanceSnapshot> with Some(Default::default()) in 0s build
+caught   crates/viola-state/src/snapshot.rs:158:5: replace read_snapshot -> Option<InstanceSnapshot> with None in 0s build + 3s test
+caught   crates/viola-state/src/snapshot.rs:159:9: delete match arm SnapshotRead::Present(snapshot) in read_snapshot in 0s build + 3s test
+caught   crates/viola-state/src/stamps.rs:21:5: replace ledger_dir -> PathBuf with Default::default() in 0s build + 3s test
+caught   crates/viola-state/src/stamps.rs:26:5: replace read_capped -> io::Result<Option<(Vec<u8>, bool)>> with Ok(None) in 0s build + 3s test
+caught   crates/viola-state/src/stamps.rs:26:5: replace read_capped -> io::Result<Option<(Vec<u8>, bool)>> with Ok(Some((vec![], true))) in 0s build + 3s test
+caught   crates/viola-state/src/stamps.rs:26:5: replace read_capped -> io::Result<Option<(Vec<u8>, bool)>> with Ok(Some((vec![], false))) in 0s build + 3s test
+caught   crates/viola-state/src/stamps.rs:26:5: replace read_capped -> io::Result<Option<(Vec<u8>, bool)>> with Ok(Some((vec![0], true))) in 0s build + 3s test
+caught   crates/viola-state/src/stamps.rs:26:5: replace read_capped -> io::Result<Option<(Vec<u8>, bool)>> with Ok(Some((vec![0], false))) in 0s build + 3s test
+caught   crates/viola-state/src/stamps.rs:26:5: replace read_capped -> io::Result<Option<(Vec<u8>, bool)>> with Ok(Some((vec![1], true))) in 0s build + 3s test
+caught   crates/viola-state/src/stamps.rs:26:5: replace read_capped -> io::Result<Option<(Vec<u8>, bool)>> with Ok(Some((vec![1], false))) in 0s build + 3s test
+caught   crates/viola-state/src/stamps.rs:28:19: replace match guard e.kind() == io::ErrorKind::NotFound with true in read_capped in 0s build + 3s test
+caught   crates/viola-state/src/stamps.rs:28:19: replace match guard e.kind() == io::ErrorKind::NotFound with false in read_capped in 0s build + 3s test
+caught   crates/viola-state/src/stamps.rs:28:28: replace == with != in read_capped in 0s build + 3s test
+caught   crates/viola-state/src/stamps.rs:32:25: replace + with - in read_capped in 0s build + 3s test
+caught   crates/viola-state/src/stamps.rs:32:25: replace + with * in read_capped in 0s build + 3s test
+caught   crates/viola-state/src/stamps.rs:33:63: replace > with == in read_capped in 0s build + 3s test
+caught   crates/viola-state/src/stamps.rs:33:63: replace > with < in read_capped in 0s build + 3s test
+caught   crates/viola-state/src/stamps.rs:33:63: replace > with >= in read_capped in 0s build + 3s test
+unviable crates/viola-state/src/stamps.rs:49:58: delete ! in update_stamps in 0s build
+caught   crates/viola-state/src/stamps.rs:44:5: replace update_stamps -> Result<(), StateError> with Ok(()) in 0s build + 3s test
+caught   crates/viola-state/src/stamps.rs:58:5: replace read_stamps -> Result<Option<Vec<u8>>, StateError> with Ok(None) in 0s build + 3s test
+caught   crates/viola-state/src/stamps.rs:58:5: replace read_stamps -> Result<Option<Vec<u8>>, StateError> with Ok(Some(vec![])) in 0s build + 3s test
+caught   crates/viola-state/src/stamps.rs:58:5: replace read_stamps -> Result<Option<Vec<u8>>, StateError> with Ok(Some(vec![0])) in 0s build + 3s test
+caught   crates/viola-state/src/stamps.rs:58:5: replace read_stamps -> Result<Option<Vec<u8>>, StateError> with Ok(Some(vec![1])) in 0s build + 3s test
+caught   crates/viola-state/src/stamps.rs:78:5: replace read_stamps_strict -> Result<Option<Vec<u8>>, StampsReadError> with Ok(None) in 0s build + 3s test
+caught   crates/viola-state/src/stamps.rs:78:5: replace read_stamps_strict -> Result<Option<Vec<u8>>, StampsReadError> with Ok(Some(vec![])) in 0s build + 3s test
+caught   crates/viola-state/src/stamps.rs:78:5: replace read_stamps_strict -> Result<Option<Vec<u8>>, StampsReadError> with Ok(Some(vec![0])) in 0s build + 3s test
+caught   crates/viola-state/src/stamps.rs:78:5: replace read_stamps_strict -> Result<Option<Vec<u8>>, StampsReadError> with Ok(Some(vec![1])) in 0s build + 3s test
+caught   crates/viola-state/src/strict.rs:32:5: replace check_stamps -> Result<(), Refused> with Ok(()) in 0s build + 3s test
+caught   crates/viola-state/src/strict.rs:40:5: replace check_instance -> Result<(), Refused> with Ok(()) in 0s build + 0s test
+caught   crates/viola-state/src/strict.rs:52:5: replace check_existing -> Result<(), Refused> with Ok(()) in 0s build + 0s test
+caught   crates/viola-state/src/strict.rs:55:23: replace match guard e.kind() == io::ErrorKind::NotFound with false in check_existing in 0s build + 0s test
+caught   crates/viola-state/src/strict.rs:55:32: replace == with != in check_existing in 0s build + 0s test
+caught   crates/viola-state/src/strict.rs:55:23: replace match guard e.kind() == io::ErrorKind::NotFound with true in check_existing in 0s build + 3s test
+caught   crates/viola-state/src/strict.rs:64:5: replace check_path -> Result<(), Refused> with Ok(()) in 0s build + 0s test
+caught   crates/viola-state/src/strict.rs:77:5: replace unix_verdict -> Result<(), Refused> with Ok(()) in 0s build + 0s test
+caught   crates/viola-state/src/strict.rs:77:12: replace != with == in unix_verdict in 0s build + 0s test
+caught   crates/viola-state/src/strict.rs:80:13: replace & with | in unix_verdict in 0s build + 0s test
+caught   crates/viola-state/src/strict.rs:80:21: replace != with == in unix_verdict in 0s build + 0s test
+caught   crates/viola-state/src/strict.rs:80:13: replace & with ^ in unix_verdict in 0s build + 0s test
+caught   crates/viola-state/src/strict.rs:97:5: replace trusted_sid -> bool with true in 0s build + 3s test
+caught   crates/viola-state/src/strict.rs:97:5: replace trusted_sid -> bool with false in 0s build + 3s test
+caught   crates/viola-state/src/strict.rs:97:17: replace || with && in trusted_sid in 0s build + 3s test
+caught   crates/viola-state/src/strict.rs:97:9: replace == with != in trusted_sid in 0s build + 3s test
+caught   crates/viola-state/src/strict.rs:105:5: replace volume_keeps_acls -> bool with true in 0s build + 3s test
+caught   crates/viola-state/src/strict.rs:105:5: replace volume_keeps_acls -> bool with false in 0s build + 3s test
+caught   crates/viola-state/src/strict.rs:105:29: replace != with == in volume_keeps_acls in 0s build + 3s test
+caught   crates/viola-state/src/strict.rs:105:11: replace & with | in volume_keeps_acls in 0s build + 3s test
+caught   crates/viola-state/src/strict.rs:105:11: replace & with ^ in volume_keeps_acls in 0s build + 3s test
+caught   crates/viola-state/src/strict.rs:125:5: replace windows_verdict -> Result<(), Refused> with Ok(()) in 0s build + 3s test
+caught   crates/viola-state/src/strict.rs:125:8: delete ! in windows_verdict in 0s build + 3s test
+caught   crates/viola-state/src/strict.rs:128:22: replace && with || in windows_verdict in 0s build + 3s test
+caught   crates/viola-state/src/strict.rs:128:14: replace != with == in windows_verdict in 0s build + 3s test
+caught   crates/viola-state/src/strict.rs:128:31: replace != with == in windows_verdict in 0s build + 3s test
+caught   crates/viola-state/src/strict.rs:134:49: replace && with || in windows_verdict in 0s build + 3s test
+caught   crates/viola-state/src/strict.rs:134:44: replace != with == in windows_verdict in 0s build + 3s test
+caught   crates/viola-state/src/strict.rs:134:29: replace & with | in windows_verdict in 0s build + 3s test
+caught   crates/viola-state/src/strict.rs:134:29: replace & with ^ in windows_verdict in 0s build + 3s test
+caught   crates/viola-state/src/strict.rs:149:9: replace unix::reading -> io::Result<(u32, u32)> with Ok((0, 0)) in 0s build + 0s test
+caught   crates/viola-state/src/strict.rs:149:9: replace unix::reading -> io::Result<(u32, u32)> with Ok((0, 1)) in 0s build + 0s test
+caught   crates/viola-state/src/strict.rs:149:9: replace unix::reading -> io::Result<(u32, u32)> with Ok((1, 0)) in 0s build + 0s test
+caught   crates/viola-state/src/strict.rs:134:52: delete ! in windows_verdict in 0s build + 3s test
+caught   crates/viola-state/src/strict.rs:149:9: replace unix::reading -> io::Result<(u32, u32)> with Ok((1, 1)) in 0s build + 0s test
+caught   crates/viola-state/src/strict.rs:155:9: replace unix::euid -> u32 with 0 in 0s build + 0s test
+caught   crates/viola-state/src/strict.rs:155:9: replace unix::euid -> u32 with 1 in 0s build + 0s test
+MISSED   crates/viola-state/src/strict.rs:189:9: replace win::wide -> Vec<u16> with vec![] in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:189:9: replace win::wide -> Vec<u16> with vec![0] in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:189:9: replace win::wide -> Vec<u16> with vec![1] in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:193:9: replace win::check -> Result<(), Refused> with Ok(()) in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:200:9: replace win::persistent_acls -> Option<bool> with None in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:200:9: replace win::persistent_acls -> Option<bool> with Some(true) in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:200:9: replace win::persistent_acls -> Option<bool> with Some(false) in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:204:81: replace == with != in win::persistent_acls in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:222:15: replace != with == in win::persistent_acls in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:227:9: replace win::owner_and_dacl -> Option<(String, Option<Vec<Allow>>)> with None in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:227:9: replace win::owner_and_dacl -> Option<(String, Option<Vec<Allow>>)> with Some((String::new(), None)) in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:227:9: replace win::owner_and_dacl -> Option<(String, Option<Vec<Allow>>)> with Some((String::new(), Some(vec![]))) in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:227:9: replace win::owner_and_dacl -> Option<(String, Option<Vec<Allow>>)> with Some((String::new(), Some(vec![Default::default()]))) in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:227:9: replace win::owner_and_dacl -> Option<(String, Option<Vec<Allow>>)> with Some(("xyzzy".into(), None)) in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:227:9: replace win::owner_and_dacl -> Option<(String, Option<Vec<Allow>>)> with Some(("xyzzy".into(), Some(vec![]))) in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:227:9: replace win::owner_and_dacl -> Option<(String, Option<Vec<Allow>>)> with Some(("xyzzy".into(), Some(vec![Default::default()]))) in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:245:19: replace != with == in win::owner_and_dacl in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:252:13: delete match arm Some((owner, Some(aces))) in win::owner_and_dacl in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:259:9: replace win::aces -> Option<Option<Vec<Allow>>> with None in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:259:9: replace win::aces -> Option<Option<Vec<Allow>>> with Some(None) in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:259:9: replace win::aces -> Option<Option<Vec<Allow>>> with Some(Some(vec![])) in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:259:9: replace win::aces -> Option<Option<Vec<Allow>>> with Some(Some(vec![Default::default()])) in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:268:53: replace == with != in win::aces in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:273:31: replace != with == in win::aces in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:290:9: replace win::sid_string -> Option<String> with None in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:290:9: replace win::sid_string -> Option<String> with Some(String::new()) in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:290:9: replace win::sid_string -> Option<String> with Some("xyzzy".into()) in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:293:62: replace == with != in win::sid_string in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:297:65: replace != with == in win::sid_string in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:313:9: replace win::user_sid -> Option<String> with None in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:313:9: replace win::user_sid -> Option<String> with Some(String::new()) in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:313:9: replace win::user_sid -> Option<String> with Some("xyzzy".into()) in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:315:86: replace == with != in win::user_sid in 0s build + 3s test
+MISSED   crates/viola-state/src/strict.rs:327:27: replace != with == in win::user_sid in 0s build + 3s test
+360 mutants tested in 9m: 79 missed, 257 caught, 24 unviable

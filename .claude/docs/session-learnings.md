@@ -8,6 +8,11 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-10-13 — A sweep for a ruling's marks keys on every wording the marks use
+A sweep that looks for the places a batch of rulings must rewrite finds only the wordings its patterns name, and the masters word one class of mark several ways. At the Epoch 4 boundary the marks of the founder's batch read "the operator's word", "the operator's answer", "not ruled", "not worded by the founder", "his wording is owed", "not ratified" and "accepted by the operator". None of them reads "PROVISIONAL", which hits only two deadline constants, so a sweep on that token reads every real mark as absent. A pattern for "the operator's word" missed four sites worded "accepted by the operator". A pattern for "confirmed the card" missed a third sidecar site worded "confirmed the one card", and sidecars lie outside `cascade.py sweep` anyway. Before a site table is written, read a handful of known marks and take each wording they use into the pattern set. Read sidecar sites with their own command.
+
+---
+
 ## 2026-10-10 — An acceptance sentence of the form "X nowhere else in product code" is checked over the tree
 A plan's acceptance criterion that says a literal or a definition lives in one place "and nowhere else in product code" is a claim about the whole tree. A chunk's diff can add no second site and the sentence can still be false, because a site that predates the chunk, or one under the plan's own preservation guard, already holds it. Assert such a sentence with a search over the product tree when the plan is written and again when the report is authored. When a site the chunk may not touch already holds the literal, write the criterion as what the chunk adds ("this chunk adds no second product site") and carry the old site to its owner on the route.
 

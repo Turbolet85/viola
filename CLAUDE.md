@@ -12,7 +12,7 @@ viola is a standalone, cross-platform (Windows first) bridge that lets one inter
 - `src/` — the `viola` bin: clap dispatch (`src/cmd/`), the `run` PTY pump, wheel and budget governor (`src/run/`)
 - `crates/` — the workspace library crates (`viola-core`, `-pty`, `-channel`, `-state`, `-agent-claude`, `-mcp`, `-ui`) + test-only `viola-e2e`
 - `plugin/` — `hooks.json`, `.mcp.json`, `plugin.json`, embedded via `include_str!` and written out by `viola run`
-- `fixtures/claude/<cli-version>/` — hook payloads and signature-only `Screen.<phase>.json` screens and `<Event>.<stem>-<n>.json` dialog variants recorded by `viola verify` (plus the superseded relayed dialog captures, `RELAYED.md`), replayed by the fake agent in CI; `fixtures/fake-scripts/` — committed fake-agent turn scripts
+- `fixtures/claude/<cli-version>/` — hook payloads and signature-only `Screen.<phase>.json` screens and `<Event>.<stem>-<n>.json` dialog and framing variants recorded by `viola verify` (plus the superseded relayed dialog captures, `RELAYED.md`), replayed by the fake agent in CI; `fixtures/fake-scripts/` — committed fake-agent turn scripts
 - `e2e-web/` — the Playwright browser suite (`run --browser` on all three CI OSes; test-side only, under the sha256-pinned Node v24.21.0; axe and the a11y lint land with the a11y chunks; the ts code-graph plane via its tracked `tsconfig.json`); `a11y/sr-pass/` — manual screen-reader pass records
 <!-- GENERATED:setup:overview end -->
 
@@ -124,4 +124,5 @@ _This section is curated by `/wrap-session`. It accumulates universal (Tier 1) r
 - A master, a key file or a leaf names a working-route entry by its title, never by a bare route line number: the number goes stale at every insertion ahead of the entry, and the citation sweep reads no bare number.
 - A count written into a master carries the rule that produced it (the pattern or the named list) beside the number, and a count found without one is read back to the sidecar entry that wrote it before it is amended.
 - A missing test for a clause a chunk landed is folded into the next chunk, never pinned on a later route entry.
+- A planned step or master amendment that departs from a founder ruling is never a decisive lean or a card-confirm item: plan up to it, hold it behind a stop rule naming what counts as his word, and raise it at P4 as a fork; his answer covers only what the question shown to him named, never the wider item its number points to.
 <!-- USER:session-learnings end -->

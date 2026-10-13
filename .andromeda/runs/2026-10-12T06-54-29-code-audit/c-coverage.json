@@ -1,0 +1,14 @@
+{
+ "line": 98.45,
+ "branch": null,
+ "lines": {
+  "count": 20581,
+  "covered": 20263
+ },
+ "informational": {
+  "functions": 98.07,
+  "regions": 98.11
+ },
+ "branch_note": "the project coverage command does not instrument branches",
+ "exit": 0
+}

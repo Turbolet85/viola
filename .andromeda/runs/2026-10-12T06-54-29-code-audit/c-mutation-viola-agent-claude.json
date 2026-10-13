@@ -1,0 +1,63 @@
+{
+ "unit": "viola-agent-claude",
+ "output": "mutants-viola-agent-claude",
+ "complete": true,
+ "total_mutants": 524,
+ "listed": 524,
+ "unit_states_line": "524/524",
+ "start_time": "2026-10-12T07:01:47.482058454Z",
+ "end_time": "2026-10-12T07:08:32.998950079Z",
+ "baseline": {
+  "summary": "Success",
+  "phases": [
+   {
+    "phase": "Build",
+    "duration_s": 7.1,
+    "status": "Success"
+   },
+   {
+    "phase": "Test",
+    "duration_s": 0.6,
+    "status": "Success"
+   }
+  ]
+ },
+ "counts": {
+  "mutants": 524,
+  "caught": 464,
+  "missed": 2,
+  "not_measured": 0,
+  "timeout": 0,
+  "unviable": 58
+ },
+ "tool_tallies": {
+  "caught": 464,
+  "missed": 2,
+  "timeout": 0,
+  "unviable": 58
+ },
+ "survivors": [
+  [
+   "crates/viola-agent-claude/src/statusline.rs:110:5",
+   "replace shell_argv -> Option<[&str; 3]> with Some([\"\"; 3])"
+  ],
+  [
+   "crates/viola-agent-claude/src/statusline.rs:110:5",
+   "replace shell_argv -> Option<[&str; 3]> with Some([\"xyzzy\"; 3])"
+  ]
+ ],
+ "not_measured": [],
+ "timeouts": [],
+ "state": "complete 524/524",
+ "score": 99.57,
+ "timing": {
+  "scope": "unit",
+  "planned": 524,
+  "tested": 524,
+  "wall_s": 405,
+  "jobs": 2,
+  "cap_s": 1896
+ },
+ "host": "x86_64-unknown-linux-gnu",
+ "score_formula": "caught/(caught+missed)"
+}

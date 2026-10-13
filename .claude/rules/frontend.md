@@ -34,9 +34,9 @@ Path-scoped rules for viola's two design surfaces: the `viola ui` strip-bay page
 - Nothing is shown as delivered until read back; `turn-ended` never fills a box.
 
 ## CLI surface (`src/cmd/**`)
-- Colour decision order (first match → no colour): `--json` · `viola run` · `viola hook`/`mcp` · `NO_COLOR` · `TERM=dumb` · non-TTY stdout · Windows VT enable failed. SGR only for amber `DIALOG`, dim `stale` rows, bold NAME — always beside its word; never on `unable` / `fail`.
-- stdout = results; stderr = `waiting:`, the send issue line, refusals `unable  <name>  <reason>  <detail>` + one `hint:` line, errors, the `viola ui` launch block. ASCII only (`->`, `[RB]` / `[  ]` / `[/ ]`, ` - `); no spinner, no redraw, no stack traces, no "done".
-- `list` rows escape C0/C1 including `\n`/`\t`; `wait`/`last` text escapes C0/C1 but keeps `\n`/`\t`. No hint ever names `viola release`; no hint for `unknown`, `wrapper fault` or `internal error`.
+- Colour decision order (first match → no colour): `--json` · `viola run` · `viola hook`/`mcp` · `NO_COLOR` · `TERM=dumb` · non-TTY stdout · Windows VT enable failed. SGR only for amber `DIALOG`, dim `stale` rows, bold NAME — always beside its word; never on `unable` / `fail`. As built, `list` prints its uncoloured form on every stream, a TTY included (wrapped rows only, STATUS always `unknown`): the colour layer is owed to "CLI output discipline", the unwrapped rack to "Unwrapped sessions on the board".
+- stdout = results; stderr = `waiting:`, the send issue line, refusals `unable  <name>  <reason>  <detail>` (the exit-1 refusals of `run` / `revive` / `verify` and `list`'s exit-21 strict-modes refusal take the fixed form `unable: <text>`) + one `hint:` line (none under `--json`), errors, the `viola ui` launch block. ASCII only (`->`, `[RB]` / `[  ]` / `[/ ]`, ` - `); no spinner, no redraw, no stack traces, no "done".
+- `list` rows escape every control character (C0 with `\n`/`\t`, DEL, C1) as two-hex-digit escape text (`escape_row`); `wait`/`last` text escapes C0, DEL and C1 the same way but keeps `\n`/`\t`; nothing is stripped. No hint ever names `viola release`; no hint for `unknown`, `wrapper fault` or `internal error`.
 
 ## Session Additions
 _This section is owned by `/wrap-session`. setup-project preserves content added here on re-run._

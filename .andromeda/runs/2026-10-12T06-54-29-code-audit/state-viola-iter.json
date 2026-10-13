@@ -1,0 +1,14 @@
+{
+ "unit": "viola",
+ "start": "2026-10-12T18:19:22Z",
+ "stop": "2026-10-12T20:32:38Z",
+ "wall_s": 7995,
+ "exit": 2,
+ "how": "exited",
+ "cap_s": 25141,
+ "resized": false,
+ "jobs": 2,
+ "planned": 636,
+ "command": "cargo mutants --package viola --features fake-agent --test-tool=nextest --copy-target=false --caught --unviable --build-timeout=400 -j 2 --iterate --output .andromeda/runs/2026-10-12T06-54-29-code-audit/mutants-viola-iter",
+ "resumes": "mutants-viola-partial (678/1299, stopped 2026-10-12T09:07:27Z)"
+}

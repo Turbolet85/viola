@@ -1,0 +1,50 @@
+{
+ "pct": 34.92,
+ "files_churned": 40,
+ "commits_in_window": 12,
+ "files_touched": 73,
+ "adds_all": 16286,
+ "adds_churned": 5687,
+ "top_commits": [
+  [
+   "crates/viola-core/src/lib.rs",
+   5
+  ],
+  [
+   "crates/viola-state/src/replay.rs",
+   5
+  ],
+  [
+   "crates/viola-state/src/strict.rs",
+   5
+  ],
+  [
+   "crates/viola-state/tests/state_replay.rs",
+   5
+  ],
+  [
+   "crates/viola-state/src/snapshot.rs",
+   4
+  ],
+  [
+   "src/cmd/hook.rs",
+   4
+  ],
+  [
+   "src/cmd/revive.rs",
+   4
+  ],
+  [
+   "src/cmd/run.rs",
+   4
+  ],
+  [
+   "src/run/dialog.rs",
+   4
+  ],
+  [
+   "src/run/send.rs",
+   4
+  ]
+ ]
+}

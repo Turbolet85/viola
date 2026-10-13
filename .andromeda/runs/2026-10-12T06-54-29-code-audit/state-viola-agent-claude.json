@@ -1,0 +1,13 @@
+{
+ "unit": "viola-agent-claude",
+ "start": "2026-10-12T07:01:47Z",
+ "stop": "2026-10-12T07:08:33Z",
+ "wall_s": 405,
+ "exit": 2,
+ "how": "exited",
+ "cap_s": 1896,
+ "resized": false,
+ "jobs": 2,
+ "planned": 524,
+ "command": "cargo mutants --package viola-agent-claude --features fake-agent --test-tool=nextest --copy-target=false --caught --unviable --build-timeout=400 -j 2 --output .andromeda/runs/2026-10-12T06-54-29-code-audit/mutants-viola-agent-claude"
+}
