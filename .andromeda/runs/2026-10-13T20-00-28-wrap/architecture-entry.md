@@ -1,0 +1,14 @@
+
+## 2026-10-13-interrupted-verify-cleanup — verify's Ctrl-C / TERM stop, the owed literals moved, the Windows matrix line
+**Section:** §Occupied Resources → Filesystem (`ledger/probes/<pid>/`, verify's interactive probe dirs, `diagnostics/` verify's spawn pairs) · §Occupied Resources → Claude Code integration names · [CLI Version Compatibility] (Run B's ending) · §Conventions → CLI exit codes · §Infrastructure Patterns → Crate dependency direction · CI/CD approach · Project directory structure
+**Change:**
+- Verify's dirs were "removed on every exit path"; now they are removed when verify passes, fails, or is stopped by Ctrl-C or TERM: Unix `SIGINT` / `SIGTERM`, Windows `CTRL_C_EVENT` / `CTRL_BREAK_EVENT`, through `cmd::verify::stop`, installed by `viola verify` alone; its handler only sets one flag every wait reads. A stopped run kills and reaps its child with no key, and its drop guards remove only what that run created, never by a pattern or a listing. SIGKILL, a crash, a failed install (ignored, fail-open) and a Windows close, logoff or shutdown keep the OS default and leave the dirs by hand.
+- Run B was ended only by Ctrl-C, Ctrl-C again, then a kill; a stopped run is now ended by a kill with no key, starts no later run and writes no stamp.
+- Exit 1 covers an interrupted `verify`: no stamp, stdout empty, stderr exactly `unable: verify was stopped before it finished` / `hint: run viola verify again to stamp this CLI`, and `process-exit{subject:"self", exit_code:1, detail:"interrupted"}` under a `VIOLA_NAME`. A child killed at the stop closes its spawn pair with `duration_ms` and no `child_exit_status`.
+- Was: Runs C and D's two `--settings` literals were owed to "Interrupted verify cleanup". Now verify reads `SETTINGS_FLAG` and its default program reads `viola_agent_claude::PROGRAM`.
+- The root bin's `windows-sys` gains `Win32_System_Console` `SetConsoleCtrlHandler`, and its `libc` gains `sigaction`, both for `src/cmd/verify/stop.rs`; no dependency or feature was added.
+- `windows-mutants.yml` was nine items with the root package four; now ten and five (`viola-cmd-verify-stop` · `src/cmd/verify/stop.rs`).
+- The tree lists `verify/stop.rs`.
+**Why:** The scope is the founder's narrow entry (relayed by the overseer, 2026-10-10). The event set, the exit 1 and the `detail` are the operator's P4 answers; the pair is a planning form with the founder's wording owed. The matrix line was forced by `tests/contract_windows_mutation_scope.rs` and taken on the operator's word at implement; nothing was dispatched. A later chunk adding a `cfg(windows)` product file owes that workflow its line.
+**Kept:** «all gone when verify ends» (`:100`) and run 38036448183's «all nine jobs» stand, both still true; real Windows console delivery stays owed to "Windows-only live measurements".
+**Ref:** .andromeda/runs/2026-10-13T20-00-28-wrap/

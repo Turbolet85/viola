@@ -1,0 +1,35 @@
+[[pattern]]
+id = 'exit-path'
+regex = 'every exit path|on every exit|removed on every|all gone when verify ends'
+
+[[pattern]]
+id = 'owed-move'
+regex = 'Interrupted verify cleanup|holds? the same literal|from before (it|that constant)'
+
+[[pattern]]
+id = 'matrix-count'
+regex = 'nine-item|nine `mutants|four of (them|the nine)|nine jobs|nine `mutants \('
+
+[[pattern]]
+id = 'detail-count'
+regex = '11 values|eleven values|at 11|11 members'
+
+[[pattern]]
+id = 'exit1-verify'
+regex = '1 on a failing row or a refusal|a failing row or a refusal'
+
+[[pattern]]
+id = 'spawn-status'
+regex = 'carries `child_exit_status`|child_exit_status, duration_ms'
+
+[[pattern]]
+id = 'runb-ending'
+regex = 'ended by Ctrl-C, Ctrl-C again|Ctrl-C ×2 then kill|Ctrl-C x2'
+
+[[pattern]]
+id = 'verify-summary'
+regex = 'closes the run|summary .stamped'
+
+[[pattern]]
+id = 'stop-new'
+regex = 'interrupted|verify was stopped before it finished|cmd::verify::stop|SetConsoleCtrlHandler'

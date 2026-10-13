@@ -1,0 +1,46 @@
+[
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-13T20:00:42Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-13-interrupted-verify-cleanup",
+"--run-dir",
+".andromeda/runs/2026-10-13T20-00-28-wrap",
+"--marker",
+"2026-10-13-interrupted-verify-cleanup"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, in the /andromeda-phase invocation, 2026-10-13T18:24Z",
+"I1 cited scope.md:10 · scope.md:93 · scope.md:94 · scope.md:100 · research.md:15 · plan.md:176 · plan.md:178 · plan.md:352 · plan.md:388 · plan.md:432",
+"I2 n/a — a message has no live source · copy message · message: the operator, the P4 fork dialog, answered by 2026-10-13T18:40Z",
+"I2 cited plan.md:16 · plan.md:19 · plan.md:89 · plan.md:107 · plan.md:326 · plan.md:333 · plan.md:339 · plan.md:373 · plan.md:404 · plan.md:405 · plan.md:407 · plan.md:448 · plan.md:453",
+"I3 n/a — a message has no live source · copy message · message: the operator, the P5 review prompt, 2026-10-13T18:46Z",
+"I3 UNCITED",
+"inputs: 3 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 1,
+"unparsed": 0
+}
+}
+]

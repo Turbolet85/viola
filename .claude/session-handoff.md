@@ -1,48 +1,56 @@
 # Session Handoff
 
-**Last Updated:** 2026-10-13T18:19:13Z
+**Last Updated:** 2026-10-13T20:26:00Z
 **Branch:** build/viola-0.1.0 · 0 ahead of origin/build/viola-0.1.0 as read at this wrap's Setup (the wrap commit pushes after this file)
 **Status:** clean
-**Last Commit:** 2026-10-13-epoch-4-survivors-ii — Epoch 4 survivors II: the 16 typed.rs survivors disposed by restatement and named cases
+**Last Commit:** 2026-10-13-interrupted-verify-cleanup — Interrupted verify cleanup: viola verify stopped by Ctrl-C or TERM removes only what that run made
 
 ## Position
-- Done: 2026-10-13-epoch-4-survivors-ii. The 16 `typed.rs` survivors of the Epoch 4 audit are in
-  `evidence/survivors.ndjson`, each restated in `src/cmd/verify/typed.rs`:
-  - the framing waits became named predicates;
-  - every probe deadline goes through `probe_until`;
-  - `SharedPty` is generic over its `Pty`;
-  - the Ctrl-C ending and the pump wait are the plain functions `ctrl_c_ending` and `ended_by`.
-
-  Each is killed by a case in `typed.rs`'s `mod tests`, shown red under its hand-applied mutant and green restored:
-  14 applications for 16 rows, and no mutation run. CI green on `94f0be9` (ci#38442894573).
-- Next: **Interrupted verify cleanup** (the first markerless entry) → `/andromeda-phase`.
+- Done: 2026-10-13-interrupted-verify-cleanup. `viola verify` stopped by Ctrl-C or TERM now ends cleanly:
+  - Unix `SIGINT` / `SIGTERM`; Windows Ctrl-C / Ctrl-Break, through `src/cmd/verify/stop.rs`.
+  - It kills its child with no key and removes only the dirs that run made.
+  - It prints `unable: verify was stopped before it finished` / `hint: run viola verify again to stamp this CLI`,
+    writes no stamp, and exits 1 with `detail:"interrupted"` (12 `process-exit.detail` members).
+  - Verify now reads `PROGRAM` and `SETTINGS_FLAG`.
+  - CI green on `c22161e791ff` (ci#38453057445, attempt 2).
+- Next: **Paste newline ledger row** (the first markerless entry) → `/andromeda-phase`.
 
 ## Work done
-- The chunk: implement run `.andromeda/runs/2026-10-13T17-47-22-implement/`, wrap run
-  `.andromeda/runs/2026-10-13T18-08-14-wrap/`.
+- The chunk: implement run `.andromeda/runs/2026-10-13T18-48-52-implement/`, wrap run
+  `.andromeda/runs/2026-10-13T20-00-28-wrap/`.
 
 ## Drift resolved
-- 1 amendment, routine, 0 escalations: test-plan §10 Mutation gate. The 16 are disposed, none is owed, and the Epoch 5
-  audit confirms 45 kills.
-- 2 test-plan proposals were rejected: the §4 and §8 mockall wording bounds where mockall is used and mandates
-  nothing.
-- 1 leaf finding applied (`tests-summary.md:42`).
-- `fanout-results.md` and `cascade-dispositions.md` hold the record.
+- 27 amendments over all seven masters and three architecture key files, 0 escalations.
+- 16 were proposed by the detectors; 11 were raised for expected amendments the detectors' invariants do not reach
+  (security-plan, design-system and a11y-plan read 0).
+- 17 leaf findings applied, 2 declined as details. `fanout-results.md` and `cascade-dispositions.md` hold the record.
 
 ## Notes
-- **Epoch growth:** Epoch 5 holds 11 entries (8 markerless). The founder ruled no boundary inside Epoch 5; a split
-  stays the operator's word.
-- **For whoever dispatches `windows-mutants.yml` next (the Epoch 5 boundary audit):** the root package's green
-  baseline is still not measured. Forecasts, not readings:
-  - the audit's Linux runs should read 29 fewer missed over the earlier chunk's files, and 16 fewer over
-    `typed.rs` (16 → 0);
-  - the new functions' own mutants are predicted caught.
+- **Curation:**
+  - two Tier-2 entries in `ci.md`: write nothing into the tree between the pre-CI commit and the push; a CI job
+    that was never acquired;
+  - one extension of `testing.md`'s 2026-10-05 status-line entry (the binary/test space);
+  - two in-place corrections, nine → ten `mutants (…)` jobs, in `ci.md` and `verification-harness.md`.
 
-  The `resize` miss's two-job cause is a HYPOTHESIS: the report files now carry the pid.
-- **Curation:** one correction in place, `verification-harness.md` 2026-09-27. The kill filter is now
-  `test(/(^|::)tests::name(::|$)/)`, because an rstest table's rows are `name::case_<n>_<label>` (the operator's
-  word, this chunk's `inputs#I2`). Log: the wrap run dir's `curation.md`.
-- **For the founder, his next batch (the operator's word, none ruled by him), carried:**
+  Log: the wrap run dir's `curation.md`.
+- **Plan defect, surfaced (the operator's direction: recorded as a deviation, the guard not edited).** The plan's
+  preservation guard reads red on `.github/workflows/windows-mutants.yml` alone.
+  - `tests/contract_windows_mutation_scope.rs` (inside `pre-push`) requires every product file with a
+    `cfg(windows)` gate to have a matrix line.
+  - The operator approved the one line (`viola-cmd-verify-stop`); nothing was dispatched.
+  - Pipeline owners: a plan guard over a chunk that adds a Windows-gated file must exclude that workflow (the
+    fix-loop's `contract.jointly-contradictory-instructions` record).
+- **For whoever dispatches `windows-mutants.yml` next (the Epoch 5 boundary audit):**
+  - The matrix now holds ten items, the root package five (`viola-cmd-verify-stop`, its first grading).
+  - The root package's green baseline is still not measured.
+  - Forecasts, not readings: Linux runs read 29 fewer missed over the earlier chunk's files and 16 fewer over
+    `typed.rs`.
+  - The `resize` miss's two-job cause is a HYPOTHESIS.
+- **Epoch growth:** Epoch 5 holds 11 entries (7 markerless after this flip). The founder ruled no boundary inside
+  Epoch 5; a split stays the operator's word.
+- **For the founder, his next batch (the operator's word, none ruled by him):**
+  - the interrupted pair's wording (a planning form, `inputs#I2`);
+  - the Windows event set (Ctrl-C and Ctrl-Break only; close, logoff and shutdown keep the default);
   - a refused strict-modes check writes no line on `revive`'s start arm;
   - the checked read of `budget.json` writes no line on a refusal;
   - `list`'s exit-1 shapes and per-instance no-row;
@@ -59,13 +67,16 @@
 - **For the operator's word (carried):**
   - the link rule takes a logged `driver` / `driven` as a string (CARRY on "Explicit session links", Epoch 6);
   - `docs/conventions.md` and `docs/stack.md` still list `viola link|unlink`;
-  - "Interrupted verify cleanup" has no `requirements.md` line and no ledger entry;
   - `v1-33`'s title and `requirements.md:48` say "on Windows";
   - the ledger notes on `v1-32`, `v1-40` and `v1-31` cite a bare `:90`;
   - seven sentences of the budget-governor plan word the old hold;
   - a live `claude` session ending in this tree rewrites this file's last section.
-- **Route:** `BLOCKED-ON` on "Windows-only live measurements" stands (`uname -s` read Linux). Epoch 5 has 11 entries
-  (8 markerless after this flip), Epoch 6 has 7.
+- **Route:**
+  - A CARRY on "Windows-only live measurements" now owns real Windows console delivery to a running verify (the
+    P5 card's row, `inputs#I3`).
+  - That entry's `BLOCKED-ON` stands (`uname -s` read Linux).
+  - The "Paste newline ledger row" CARRY keeps its `src/cmd/verify.rs:284:9` citation, dated as of `632f6a7`; the
+    function `ProbeDir::typed` now sits at `:319`.
 - **Setup:** a setup re-run must keep `.claude/rules/ci.md` and `.claude/rules/testing-src.md`; the host leaf is
   `host-linux.md`.
 - **Standing rules (carried):**
@@ -80,18 +91,19 @@
     a file and read the file whole.
   - A scripted `.rs` write runs rustfmt in the same call.
 - **Deferred learnings:**
-  - `recurrence-despite-learning: a time written into a record ahead of the clock` did not recur this chunk. Every
-    record time was read from `date -u` inside the writing process.
+  - `recurrence-despite-learning: a time written into a record ahead of the clock` did not recur this chunk; every
+    record time came from `date -u` inside the writing process.
   - carried:
     - `docs/session-learnings.md` "gate.py hygiene reads `/home/<x>/` in prose…" (a quoted Windows drive path);
     - `~/.claude/CLAUDE.md` Shell (a bounded repetition sent to the embedded grep);
     - `host-linux.md` Transports (one inline python heredoc carrying document text).
   - below the threshold:
+    - a new `cfg(windows)` product file owes its `windows-mutants.yml` line (exactly 0.6; architecture's CI/CD key
+      now states it);
     - the gate trail's `ts` dates a journal line;
     - `gh run view <run> --log-failed` reads the failed steps in one call;
     - the stamp-ahead hook reads a test's synthetic instants dated today;
-    - `create_dir_all` over a dangling link returns `AlreadyExists`;
-    - the older list is in git history of this file.
+    - `create_dir_all` over a dangling link returns `AlreadyExists`.
 - **Operator desk (the founder's word: leave them):**
   - the earlier chunks' scratch files;
   - gate logs under the OS temp dir's `andromeda-gate/`;
@@ -104,6 +116,3 @@
 
   Yours to delete: `target/e2e-home.disk` and `target/profraw-census/`.
 - **Last failed command:** none.
-
-## Session End Status
-Completed normally at 2026-10-13 20:47:35

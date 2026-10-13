@@ -1,0 +1,3 @@
+sweep: base: d9f01b1b — the previous sweep (2026-10-13T18-08-14-wrap) · re-pointed 0 · changed 0 · stretched 0
+
+- moved viola-0.1.0/working-route.md:134@c2270 src/cmd/verify.rs:284 → 319 — listed, not written: route → route — P5 (line 134 is the markerless entry "Paste newline ledger row"; the cited line moved with this chunk's edits to `src/cmd/verify.rs`). P5's disposition: the number stands. The citing CARRY says «Coordinates are as of `632f6a7`; the function names are the stable key», and the cited `ProbeDir::typed` (base line «self.dir.join("typed")») is unchanged at the map's 319. Re-pointing one number would make the CARRY's own as-of clause false.

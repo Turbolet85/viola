@@ -1,0 +1,2 @@
+proposals: []
+note: D-design-tokens holds — the report's Coverage of new surfaces lists two new surfaces (the SIGINT / SIGTERM / console-control stop, and the interrupted stderr pair, CLI), each `tokens n/a`, none `hardcoded✗`; the plan's expected amendment 8 (design-system §Surface: cli → Exit-code phraseology and Component Patterns 5, the interrupted pair) is outside this detector's invariant and is left to the orchestrator's expected-amendments pass.

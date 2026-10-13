@@ -2,8 +2,18 @@
 
 **Outcome: surfaced.** All non-leg entries but one are green. Entry 9, the preservation guard, reads red on one file,
 `.github/workflows/windows-mutants.yml`. The repository's contract test requires that file's matrix line for the new
-Windows-gated `src/cmd/verify/stop.rs`, and the operator chose to add it (below). Smoke ✓, recorded from P2. Next →
-the operator pass (entries 18 hygiene, 19 push, 20 CI read), then `/andromeda-wrap-session`, which resolves entry 9.
+Windows-gated `src/cmd/verify/stop.rs`, and the operator chose to add it (below). Smoke ✓, recorded from P2.
+
+The operator pass ran on the operator's word and is closed (`evidence/operator-pass.md`):
+- `pre-push` green on the final tree;
+- hygiene clean;
+- pre-CI commit `c22161e791ff`, pushed through entry 19;
+- the CI read: **`verdict: green · checks 15/15 · attempt 2 · ci#38453057445`**.
+
+Attempt 1 read red. `test (macos-latest)` was never acquired by a hosted runner (0 steps). The operator's word allowed a
+re-run of that one job, and macOS then ran the stop table green.
+
+Next → `/andromeda-wrap-session`, which resolves entry 9.
 
 ## Gates (final whole-block run, `gate-2026-10-13-interrupted-verify-cleanup.json`, run 4)
 - 1–8, 10–17 green:
@@ -102,6 +112,13 @@ gate run.
 ## Decisions & corrections
 - The operator's ruling on the plan defect: the companion `windows-mutants.yml` matrix line, nothing dispatched,
   entry 9 surfaced at the wrap (2026-10-13, given here; `scope-record.md`).
+- The operator's word on the CI re-run (2026-10-13, given here): "the founder's no-dispatch direction covers the
+  mutation workflow, not a re-run of the ordinary CI job a runner never picked up". `gh run rerun 38453057445
+  --failed` re-ran the one cancelled macOS job.
+- A sweep hazard, measured. A `journal.md` line appended into the committed run dir after the pre-CI commit dirtied
+  the tree, and entry 19's guard refused the push (`git diff --quiet` exit 1, history unmoved). The line was set aside,
+  the file restored to HEAD, the push re-fired green, and the line put back. Journal an operator-pass step only after
+  the push, or outside the tree.
 - A guard refusal: the Bash guard's `cd` arm refused a `cd` into the session scratchpad once. It was re-issued with
   absolute paths.
 - The operator's invocation directions for this run: no live `claude` start, no mutation, witness run or workflow

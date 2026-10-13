@@ -1,0 +1,1 @@
+2026-10-13T20:26:33Z · P7.1 light gate fired: gate.py run --plan viola-0.1.0/chunks/2026-10-13-interrupted-verify-cleanup/plan.md, no --skip (entry 9 expected red on windows-mutants.yml alone, the operator-recorded deviation), backgrounded; the verdict is the SUMMARY line

@@ -1,0 +1,43 @@
+[[pattern]]
+id = 'verify-dirs'
+regex = '\.viola-verify-|viola-verify-\*|ledger/probes'
+
+[[pattern]]
+id = 'stop-signals'
+regex = 'SIGKILL|SIGTERM|SIGINT|Ctrl-C|Ctrl-Break|CTRL_C|CTRL_BREAK|CTRL_CLOSE'
+
+[[pattern]]
+id = 'owed-literals'
+regex = 'Interrupted verify cleanup|SETTINGS_FLAG|viola_agent_claude::PROGRAM'
+
+[[pattern]]
+id = 'verify-exit1'
+regex = 'CLI exit codes:\*\*|Binary, subcommands and exit codes'
+
+[[pattern]]
+id = 'root-ffi'
+regex = 'the registry reader for the R8 persistent-environment names|libc `=0\.2\.189` \(Unix only: `backtrace`'
+
+[[pattern]]
+id = 'detail-enum'
+regex = 'cwd-missing.{0,40}no-session|no-session.{0,40}cwd-missing|11 members|eleven members|detail. code catalog'
+
+[[pattern]]
+id = 'unable-pair'
+regex = 'unable: '
+
+[[pattern]]
+id = 'verify-output'
+regex = 'stamped \{|stamped <|Output structure — `viola verify`'
+
+[[pattern]]
+id = 'cli-verify-tests'
+fixed = 'tests/cli_verify.rs'
+
+[[pattern]]
+id = 'mutants-jobs'
+regex = 'nine `mutants|nine jobs|nine matrix|split by file|windows-mutants\.yml'
+
+[[pattern]]
+id = 'within-count'
+regex = 'Instant::now\(\) \+ WITHIN'
