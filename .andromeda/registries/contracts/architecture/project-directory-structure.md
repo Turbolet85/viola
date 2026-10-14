@@ -47,7 +47,7 @@ viola/
 │   ├── cmd/*.toml              # trycmd cases: human-mode expected output (snapbox redactions)
 │   ├── snapshots/              # insta snapshots (check mode only)
 │   └── support/                # the sync root fixture chain + fixture-hygiene checker
-├── schemas/                    # JSON schemas: fake-script.v1.json, claude-fixture.v1.json and claude-screen.v1.json (test-side), diag-line/diag-detail.v1.json (obs line contracts)
+├── schemas/                    # JSON schemas: fake-script.v1.json, claude-fixture.v1.json, claude-statusline-fixture.v1.json and claude-screen.v1.json (test-side), diag-line/diag-detail.v1.json (obs line contracts)
 ├── crates/
 │   ├── viola-core/             # normalised events, RefusalReason + NotDelivered, HumanTyping, WheelCause, validate_paste_text, ViolaName, Percent, `v` constants,
 │   │                           #   SPINE_DEADLINE, Clock / SystemClock, the budget reading (`Reading`, `BudgetWindow`, `BudgetReading`), `BudgetWindowKind` (`five-hour` · `seven-day`)
@@ -105,7 +105,7 @@ viola/
 │   ├── fuzz_targets/{viola_name,channel_frame,hook_stdin,vt100_feed,paste_text}.rs
 │   └── corpus/<target>/        # committed synthetic seeds
 ├── fixtures/
-│   ├── claude/<cli-version>/   # hook-payload fixtures and signature-only Screen.<phase>.json screens and <Event>.<stem>-<n>.json dialog and framing variants recorded by `viola verify`, plus superseded relayed dialog fixtures (RELAYED.md)
+│   ├── claude/<cli-version>/   # hook-payload fixtures and signature-only Screen.<phase>.json screens and <Event>.<stem>-<n>.json dialog and framing variants and StatusLine.<stem>-<n>.json status line variants recorded by `viola verify`, plus superseded relayed dialog fixtures (RELAYED.md)
 │   └── fake-scripts/           # committed fake-agent turn scripts (synthetic)
 ├── e2e-web/                    # test-side Node only (Playwright; axe and the a11y lint land with the a11y chunks);
 │   │                           #   the ts code-graph plane

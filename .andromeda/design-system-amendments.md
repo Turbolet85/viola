@@ -137,3 +137,13 @@ Each superseded mark stands in the body as the operator's word, superseded 2026-
 **Change:** Was `[01/17]` and seventeen rows; now `[01/18]` and eighteen rows, the members of `LedgerRow::ALL`. The last eight are the dialog rows, the framing rows and the newline row `paste-newline` (an LF inside a paste stays inside the one prompt submitted). The summary reads `stamped 2.1.287  18 pass  0 fail`.
 **Why:** The capability ledger gained its eighteenth row (`paste-newline`), and the step counter derives from `LedgerRow::ALL.len()`. The count now carries its rule.
 **Ref:** .andromeda/runs/2026-10-13T21-52-39-wrap/
+
+## 2026-10-13-owed-ledger-rows — verify's step counter at the relied count
+**Section:** §Surface: cli → Component Patterns, pattern 5 (`verify`)
+**Change:**
+- Was one step line per ledger row, eighteen today, the summary `stamped 2.1.287  18 pass  0 fail`.
+- Now one step line per relied ledger row: `MM` is `LedgerRow::relied()`'s count, 21 on Unix and 18 on Windows, where the status line is not wrapped.
+- The rows named after `paste-newline` are `statusline-override` · `statusline-shell` · `statusline-rate-limits`, each with its words.
+- The summary's n + m equals `MM`: `stamped 2.1.287  21 pass  0 fail` on Unix.
+**Why:** the three statusline rows landed relied only where the status line is wrapped (`statusline::WRAPPED_HERE`), the cut the founder chose (`inputs#I1`). The count carries its rule (`relied()`).
+**Ref:** .andromeda/runs/2026-10-14T06-37-54-wrap/

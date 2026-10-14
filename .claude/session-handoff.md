@@ -1,84 +1,78 @@
 # Session Handoff
 
-**Last Updated:** 2026-10-13T22:15:01Z
+**Last Updated:** 2026-10-14T07:06:24Z
 **Branch:** build/viola-0.1.0 · 0 ahead of origin/build/viola-0.1.0 as read at this wrap's Setup (the wrap commit pushes after this file)
 **Status:** clean
-**Last Commit:** 2026-10-13-paste-newline-ledger-row — Paste newline ledger row: `paste-newline`, the eighteenth capability-ledger row, stamped live on 2.1.287
+**Last Commit:** 2026-10-13-owed-ledger-rows — Owed ledger rows: `statusline-override`, `statusline-shell`, `statusline-rate-limits`, relied on Unix, stamped live on 2.1.287
 
 ## Position
-- Done: 2026-10-13-paste-newline-ledger-row.
-  - `LedgerRow::ALL` holds eighteen rows; the last is `paste-newline` (an LF inside a paste stays inside the one
-    prompt submitted).
-  - It is probed by Run B's fifth compiled paste, `PROBE_NEWLINE_PASTE`, and recorded as `paste-3`.
-  - One live round on 2.1.287 (five starts, fired once) printed `stamped 2.1.287  18 pass  0 fail`.
-  - CARRY 2's four timeout-graded mutants are killed by an assertion (hand-applied).
-  - CI green on `16b5f5f4006b` (ci#38472492871).
-- Next: **Owed ledger rows** (minted this wrap, the first markerless entry) → `/andromeda-phase`.
+- Done: 2026-10-13-owed-ledger-rows.
+  - `LedgerRow::ALL` holds 21 rows. The relied set (`LedgerRow::relied()`) is 21 on Unix and 18 on Windows, where the
+    status line is not wrapped. The stamp verdict and verify's `[NN/MM]` count read it.
+  - Run B gains one Unix probe `--settings`, and there is a hidden `hook statusline --capture --shell` arm.
+  - Two live rounds, ten starts, both `stamped 2.1.287  21 pass  0 fail`.
+  - CI: red on the pre-CI commit (two of this chunk's cases), fixed, then green on `1c4f2258ef7c` (ci#38520999442).
+- Next: **Resume and compact ledger rows** (minted this wrap, the first markerless entry) → `/andromeda-phase`.
 
 ## Work done
-- The chunk: implement run `.andromeda/runs/2026-10-13T21-22-15-implement/`, wrap run
-  `.andromeda/runs/2026-10-13T21-52-39-wrap/`.
+- The chunk: implement run `.andromeda/runs/2026-10-13T23-05-48-implement/`, wrap run
+  `.andromeda/runs/2026-10-14T06-37-54-wrap/`.
 
 ## Drift resolved
-- 38 amendments over five masters (architecture, security-plan, test-plan, design-system, layout-templates) and four
-  key files.
-  - 32 were proposed by the detectors and 7 raised by main from the plan's expected amendments; one of the raises
-    was folded into a detector's proposal.
-  - One escalation: the fifth-paste widening, settled by one answer-card confirm.
-- 20 leaf findings applied over nine leaves. `fanout-results.md`, `answer-card.md` and `cascade-dispositions.md` hold
-  the record.
+- Amendments over six masters (architecture, security-plan, test-plan, obs-plan, design-system, layout-templates) and
+  four key files; seven sidecar entries.
+  - 54 proposals came from the detectors and 9 were raised by main from the plan's expected amendments.
+  - Halt: one answer card (the founder's fork-3 widening) and one question (the fixture handle). Both are confirmed.
+- 47 leaf findings applied over 13 leaves. The record is in `fanout-results.md`, `answer-card.md` and
+  `cascade-dispositions.md`.
 
 ## Notes
-- **Provisional, for the founder's own word at the Epoch 5 boundary batch.** The answer-card confirm of the
-  fifth-paste widening was given by the operator as delegate viola-overseer. The ratification is the founder's
-  own answer to P4 fork 1 (`inputs#I2`); his own word on the confirm is owed. Recorded so in the architecture,
-  security-plan and test-plan sidecars.
-- **Plan defects, recorded as deviations on the operator's word (`inputs#I4`), oracle and guard unchanged:**
-  - entry 12, the literal probe, reads red: `17 pass` matches the correct `17 pass  1 fail`;
-  - entry 13, the preservation guard, reads red on the two recorded companion test files.
-
-  The light gate carries both as the operator's word. Pipeline owners: the fix-loop's two records
-  (`contract.token-proxy-check`, `contract.jointly-contradictory-instructions`).
-- **Every home stamped before this chunk reads `cli_verified:false`** until its next `viola verify`. That includes
-  the tmpfs `--local-live` home, which reads `row-missing` until its next `run --local-live` (five starts, under a
-  cap of its own; the P5 card row 4).
-- **For whoever dispatches `windows-mutants.yml` next (the Epoch 5 boundary audit):**
-  - CARRY 2's cargo-mutants grading of `src/bin/viola-fake-agent.rs` and `src/cmd/verify.rs` is owed there (P5 card
-    row 2). The kills are shown by hand only (`evidence/carry2-kills.md`).
-  - CARRY 3, the three `viola-state` retry-loop mutants graded by the 10 s kill on `windows-2025`, is owed there too,
-    with no route entry (card row 3). It stays a hypothesis.
-  - The matrix holds ten items; the root package's green baseline is still not measured.
-- **Epoch growth:** Epoch 5 holds 12 entries (one minted this wrap; 7 markerless). The founder ruled no boundary
+- **Provisional, for the founder's own word at the Epoch 5 boundary batch.**
+  - This chunk's answer-card confirm of the fork-3 widening (Run B's probe `--settings` and the statusline capture
+    arm) was given by the operator as delegate viola-overseer. The ratification is the founder's own answer to P4
+    fork 3 (`inputs#I1`).
+  - The paste-newline chunk's fifth-paste card confirm is carried the same way.
+  - Both are recorded so in the owning sidecars.
+- **The fixture handle.**
+  - The two `StatusLine` fixtures keep `workspace.repo.owner` (this repository's own remote owner).
+  - The decision is the founder's own word (`inputs#I3`, «Принять и пушить»). Its landing in test-plan §7/§11,
+    security-plan §Data Protection and architecture Repository is the overseer's application of it.
+- **Every Unix home stamped before this chunk reads `cli_verified:false`** until its next `viola verify` (an 18-id
+  stamp is not the relied set). The tmpfs `--local-live` home was re-stamped at 21 by this chunk's round.
+- **Epoch growth:** Epoch 5 holds 13 entries (one minted this wrap; 7 markerless). The founder ruled no boundary
   inside Epoch 5; a split stays the operator's word.
-- **For the founder, his next batch (the operator's word, none ruled by him):**
-  - the interrupted pair's wording (a planning form);
-  - the Windows event set (Ctrl-C and Ctrl-Break only);
+- **For whoever dispatches `windows-mutants.yml` next (the Epoch 5 boundary audit):**
+  - CARRY 2's grading of `src/bin/viola-fake-agent.rs` and `src/cmd/verify.rs`, and CARRY 3's three `viola-state`
+    retry-loop mutants, are still owed there (carried).
+  - This chunk adds no Windows-gated product file: the harness's 18-row literal is `cfg(not(unix))`.
+- **For the founder, his next batch (the operator's word, none ruled by him; carried):**
+  - the interrupted pair's wording;
+  - the Windows event set;
   - a refused strict-modes check writes no line on `revive`'s start arm;
-  - the checked read of `budget.json` writes no line on a refusal;
+  - the checked `budget.json` read writes no line on a refusal;
   - `list`'s exit-1 shapes and per-instance no-row;
   - the five implicit-link shapes;
-  - a link line with no string `ts` → `since: "unknown"`;
+  - a link line with no string `ts`;
   - a `--home` session shows no user status line until `statusline-source.json` is planted;
-  - two relied-on dependences with no ledger row (now owed on "Owed ledger rows");
   - `viola revive --list` opens no process log;
   - the switch from the prototype not made, `v1-33` unclaimed;
   - one CLI plan file (2026-10-08) in his user directory;
-  - the fifth-paste card confirm (above).
+  - the two card confirms above.
 - **Owed, no entry minted (the founder, 2026-10-07T09:43Z, carried):** `v1-34`'s harness-prefix row and its R8
-  identity-floor row.
+  identity-floor row. `v1-34` stays unclaimed.
 - **For the operator's word (carried):**
-  - the link rule takes a logged `driver` / `driven` as a string (CARRY on "Explicit session links", Epoch 6);
+  - the link rule takes a logged `driver` / `driven` as a string;
   - `docs/conventions.md` and `docs/stack.md` still list `viola link|unlink`;
   - `v1-33`'s title and `requirements.md:48` say "on Windows";
   - the ledger notes on `v1-32`, `v1-40` and `v1-31` cite a bare `:90`;
   - seven sentences of the budget-governor plan word the old hold;
   - a live `claude` session ending in this tree rewrites this file's last section.
 - **Route:**
-  - "Owed ledger rows" is minted directly after "Paste newline ledger row". It carries that entry's CARRY 4–8
-    verbatim (`--resume`, `/compact`, the statusline override and `/bin/sh`, `rate_limits`, `claude agents --json`).
-    Its placement is the founder's own fork-3 answer (`inputs#I2`), minted on the operator's word (`inputs#I4`).
-  - A CARRY on "Windows-only live measurements" owns the `paste-newline` row's Windows reading (card row 5); that
-    entry's `BLOCKED-ON` stands.
+  - "Resume and compact ledger rows" is minted directly after "Owed ledger rows", carrying its CARRY 2 and 3
+    verbatim and CARRY 1's cost frame (the founder's fork 1, `inputs#I1`; card `inputs#I2`; `inputs#I4`).
+  - The `claude agents --json` join row moved onto "Unwrapped sessions on the board" (fork 2).
+  - "Windows-only live measurements" gained a CARRY for the statusline rows' Windows leg; its `BLOCKED-ON` premise
+    was re-verified as standing.
 - **Setup:** a setup re-run must keep `.claude/rules/ci.md` and `.claude/rules/testing-src.md`; the host leaf is
   `host-linux.md`.
 - **Standing rules (carried):**
@@ -87,40 +81,30 @@
     target/e2e-home/`, then stop and report.
   - Read `hyprctl locked` before any step that focuses a window or types a key.
   - Before a census run (`bash scripts/profraw-census.sh 4800 48`), write the operator one line.
-  - After a `cargo clean`, re-make `ln -s /tmp/viola-e2e-home-<uid> target/e2e-home`; after a reboot the link dangles
-    until a harness call re-makes its target.
-  - The Bash guard refuses a pipeline tool piped into `tail` / `head` / `grep` / `cut` / `sed` / `awk`: redirect it to
-    a file and read the file whole.
+  - After a `cargo clean`, re-make `ln -s /tmp/viola-e2e-home-<uid> target/e2e-home`.
+  - The Bash guard refuses a pipeline tool piped into a filter, a `cd` that moves the cwd, and a heredoc to a file.
   - A scripted `.rs` write runs rustfmt in the same call.
-- **Curation:** one Tier-2 entry in `testing.md` (a count-literal probe matches the retired shape, never a bare
-  `N pass`); one Tier-3 entry (the pattern-file TOML and inline-flag traps). Log: the wrap run dir's `curation.md`.
+- **Curation:**
+  - Tier 2 `verification-harness.md`: a fake-agent side effect goes after the turn's screen write.
+  - Tier 2 `testing.md`: read a new fixture class's keys for identity values; and an in-place extension of the
+    2026-10-07 entry (a per-OS set's member). Log: the wrap run dir's `curation.md`.
 - **Deferred learnings:**
-  - `recurrence-despite-learning: testing.md 2026-10-07 (a moved bound: list the cases by the function it decides,
-    never by its literals)`. Research swept the row count's literals and missed five shape-pinned readers of
-    `LedgerRow::ALL` and the fixture set.
+  - `recurrence-despite-learning: testing.md 2026-10-07 (a moved bound: list the cases by the function it decides)`.
+    Research missed `merge_stamp`'s literal row-set envelope oracle when `LedgerRow::ALL` grew. This is the second
+    recurrence, after the paste-newline chunk.
   - carried:
     - `docs/session-learnings.md` "gate.py hygiene reads `/home/<x>/` in prose…";
     - `~/.claude/CLAUDE.md` Shell (a bounded repetition sent to the embedded grep);
     - `host-linux.md` Transports (one inline python heredoc carrying document text).
-  - below the threshold:
-    - a hand-applied mutant of a path accessor can write into the repository (build the struct directly);
-    - a mutant that makes a loop's exit condition false spins its other case (select only the killing case).
 - **Operator desk (the founder's word: leave them):**
   - the earlier chunks' scratch files;
   - gate logs under the OS temp dir's `andromeda-gate/`;
   - `target/wincheck/`, `target/run-archive/`, `target/agent-run/artifacts/`;
-  - live homes and rig directories, now including `target/e2e-home/viola-record-20261013T213213Z/` (this chunk's
-    record round, on the tmpfs backing);
+  - live homes and rig directories, now including this chunk's round homes `target/e2e-home/viola-record-20261013T232122Z/`
+    and `target/e2e-home/viola-live-2266945/` (tmpfs);
   - `mutants.out*/`, `target/witness-wmg/`, `crates/viola-e2e/.viola-verify-227786-plan/`;
   - `~/.viola-record-20261004T142325Z`;
   - the CLI's own transcripts, this chunk's record round's Run B, C and D transcripts included.
 
   Yours to delete: `target/e2e-home.disk` and `target/profraw-census/`.
 - **Last failed command:** none.
-
-## Session End Status
-Completed normally at 2026-10-14 01:04:40
-
-## AUTO-COMPACT 2026-10-14 03:24 (unattended)
-- Context at compact: 535k / 1.00M (54%); alarm level reached before it: none.
-- The pre-compact ritual did NOT run. Post-compact instance: re-verify the END STATE of every in-flight edit (phrase/hash probe per planned site), refresh the handoff, then continue.

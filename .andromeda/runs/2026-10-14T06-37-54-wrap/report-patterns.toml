@@ -1,0 +1,47 @@
+[[pattern]]
+id = 'rows18'
+regex = '(?i)eighteen|\b18 (ledger |capability-ledger )?rows|\b18 pass'
+
+[[pattern]]
+id = 'step-counter'
+regex = '\[NN/MM\]|\[01/1[0-9]\]|/18\]|\bMM\b'
+
+[[pattern]]
+id = 'owed-rows'
+regex = '(?i)Owed ledger rows|relied-on dependences|no (ledger )?row yet'
+
+[[pattern]]
+id = 'sl-shapes'
+regex = '(?i)rate_limits|/bin/sh'
+
+[[pattern]]
+id = 'settings-flag'
+regex = '--settings'
+
+[[pattern]]
+id = 'capture-arm'
+regex = '(?i)hook <event> --capture|--capture <DIR>|hook --capture|capture arm'
+
+[[pattern]]
+id = 'fx-hygiene'
+regex = '(?i)scrubbed of|fixture hygiene|synthetic probe text'
+
+[[pattern]]
+id = 'fixture-schema'
+regex = 'claude-fixture\.v1\.json|claude-statusline-fixture|StatusLine\.'
+
+[[pattern]]
+id = 'ledger-rows'
+regex = 'LEDGER_ROWS|LIVE_PASS'
+
+[[pattern]]
+id = 'resume-compact'
+regex = '(?i)Resume and compact ledger rows|claude --resume <id>|`/compact`'
+
+[[pattern]]
+id = 'agents-json'
+regex = 'agents --json'
+
+[[pattern]]
+id = 'relied-set'
+regex = '(?i)relied set|relied rows|relied\(\)|relied count'

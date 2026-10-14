@@ -1051,3 +1051,46 @@ Each superseded mark is kept in the body as the operator's word, superseded 2026
 **Why:** The newline paste is a boundary widening of the ratified verify child set. Ratified by the founder's own answer to P4 fork 1, relayed verbatim by the operator (the chunk's `inputs#I2`). The wrap's card confirm of the proposals inside it is PROVISIONAL (delegate viola-overseer), superseded by his own word at the Epoch 5 boundary. The owed rows' move is his own answer to fork 3 (`inputs#I2`), minted on the operator's word (`inputs#I4`). Counts carry their rule (`LedgerRow::ALL`).
 **Kept:** the `stamped 2.1.287  17 pass  0 fail` of chunk 2026-10-08's re-verify round stands as a dated record.
 **Ref:** .andromeda/runs/2026-10-13T21-52-39-wrap/
+
+## 2026-10-13-owed-ledger-rows — three statusline ledger rows and the per-OS relied set
+**Section:** §Established Decisions → [CLI Version Compatibility]; §Standard Contracts → Ledger stamps envelope, hook statusline; §Occupied Resources → Claude Code integration names (settings override); §Cross-cutting Patterns → Capability ledger; registries `ci-cd-approach`, `crate-dependency-direction`
+**Change:**
+- Was eighteen rows; now twenty-one, the members of `LedgerRow::ALL`, ending `paste-newline` · `statusline-override` · `statusline-shell` · `statusline-rate-limits`.
+- The relied set is `LedgerRow::relied()`: `ALL` filtered by `relied_on(row, statusline::WRAPPED_HERE)`. All twenty-one are relied on Unix, the first eighteen on Windows.
+- A version is verified only when every relied row reads `pass` (was every landed row). Unix reads an all-`pass` stamp of the eighteen pre-chunk ids as unverified, Windows as verified.
+- `MM` in the `[NN/MM]` step lines is `LedgerRow::relied().len()`: 21 on Unix, 18 on Windows.
+- `Probes` gains `statusline`. Its three checks:
+  - override: at least one capture;
+  - shell: at least one capture, every verdict `bin-sh`;
+  - rate-limits: a capture whose `rate_limits.five_hour` and `.seven_day` each hold an integer `used_percentage` 0–100 and an integer `resets_at` (`whole_rate_limits`).
+- `--record` also writes `StatusLine.default-1.json` and `StatusLine.rate-limits-1.json` (`ledger::statusline_variants`).
+- The statusline override, `/bin/sh` and `rate_limits` are now rows. They were "relied on with no row", and `budget-paused` now rests on a stamped row. They are stamped on live 2.1.287 on the Linux dev host (`21 pass  0 fail`). Their Windows legs are owed to "Windows-only live measurements".
+- A single relied dependence still has no row: `viola revive`'s `--resume`.
+- `cli_verified` is read over the relied set. The hypothetical PermissionRequest body row is now the 22nd.
+- CI/CD: verify covers the relied rows. Crate dependency direction: `ledger` holds the twenty-one rows, `relied()`, `ShellVerdict`, `StatusLineCapture` and `statusline_variants`; `statusline` adds `WRAPPED_HERE`, `BIN_SH`, `SHELL_FLAG` and `probe_document`.
+**Why:** The three shapes are relied on only where the status line is wrapped. Shipping them on Windows would leave every Windows home unverified, and passing them there would claim an unmeasured shape. The founder chose the cut (P4 fork 1, `inputs#I1`, relayed verbatim by the operator). Counts carry their rule (`LedgerRow::ALL`, `relied()`).
+**Kept:** the paste-newline chunk's dated `stamped 2.1.287  18 pass  0 fail` readings stand as history.
+**Ref:** .andromeda/runs/2026-10-14T06-37-54-wrap/
+
+## 2026-10-13-owed-ledger-rows — Run B's probe --settings, the statusline capture arm and the moved rows
+**Section:** §Established Decisions → [CLI Version Compatibility], [Hook Contract], [Plugin Scope]; §Standard Contracts → list, hook statusline; §Occupied Resources → Hidden flags, Claude Code integration names, viola home, Repository; §Cross-cutting Patterns → Diagnostic output channels, Capability ledger; registry `project-directory-structure`
+**Change:**
+- Run B, on Unix and only for shell-plain paths, gets one `--settings <probe dir>/typed/statusline.json` after its `--plugin-dir` pair (`statusline::probe_document`, 0600). Its `statusLine` command is `<pinned viola> hook statusline --capture <dir> --shell "$0"`.
+- Windows passes no `--settings`. Runs A, C and D keep their argv, and no run is added.
+- On Unix, Run B's status line is the probe capture, not the user's.
+- New hidden arm: `hook statusline --capture <DIR> [--shell <WORD>]`. It files `StatusLine.<k>.json` and `StatusLine.<k>.shell` (`bin-sh` | `other`) under the same claim and 0600 write. The word is written nowhere.
+- The arm reads no `VIOLA_*`, does no obs init, opens no channel, writes no `budget.json`, prints nothing and exits 0.
+- The probe dir gains `typed/statusline/` and `typed/statusline.json`.
+- Repository:
+  - `2.1.287` gains the two `StatusLine` variants (31 files) and is stamped at the relied set.
+  - New `schemas/claude-statusline-fixture.v1.json`.
+  - A `workspace.repo` naming this repository's own remote is kept in a fixture.
+- The fake agent's `--framing` replays the variants through a `--settings` statusLine command. The `"$0"` word is handed over as `/bin/sh`, with no shell. The first-Stop replay comes after the turn screen.
+- Moves:
+  - `--resume` and `/compact` were owed on "Owed ledger rows"; now owed on "Resume and compact ledger rows".
+  - The `claude agents --json` join row and probe were owed on "Owed ledger rows"; now owed on "Unwrapped sessions on the board".
+**Why:**
+- The probe `--settings` and the capture arm are a boundary widening of the ratified verify child set. Ratified by the founder's own answer to P4 fork 3, relayed verbatim by the operator (`inputs#I1`). The wrap's card confirm of the proposals inside it is PROVISIONAL (delegate viola-overseer), superseded by his own word at the Epoch 5 boundary.
+- The kept `workspace.repo` is the founder's own word (`inputs#I3`, relayed verbatim by the operator, given after it was shown to him). Its landing in each master is the overseer's application of it.
+- The moves are his answers to forks 1 and 2 (`inputs#I1`).
+**Ref:** .andromeda/runs/2026-10-14T06-37-54-wrap/

@@ -141,3 +141,12 @@ Each superseded mark stands as the operator's word, superseded 2026-10-13.
 **Change:** The example block reads `/18`, ending `[17/18] local-command-clear …` and `[18/18] paste-newline an LF inside a paste stays inside the one prompt submitted  pass`, then `stamped 2.1.287  18 pass  0 fail`. The failing example reads `16 pass  2 fail`. The ledger-order list gains `paste-newline`. `MM` was 17; now it is `LedgerRow::ALL.len()`, 18 today.
 **Why:** The capability ledger gained its eighteenth row, and `viola verify` prints one step line per row in ledger order. The count now carries its rule.
 **Ref:** .andromeda/runs/2026-10-13T21-52-39-wrap/
+
+## 2026-10-13-owed-ledger-rows — the `viola verify` output at the relied count
+**Section:** §Output structure — `viola verify`
+**Change:**
+- The worked example is a Unix host at twenty-one relied rows: `[01/21]` … `[18/21] paste-newline`, then `[19/21] statusline-override`, `[20/21] statusline-shell`, `[21/21] statusline-rate-limits`, and `stamped 2.1.287  21 pass  0 fail`. The failing example is `19 pass  2 fail`.
+- The usage line lists the three ids after `paste-newline`. `MM` is the relied count, `LedgerRow::relied()`'s length: 21 on Unix, 18 on Windows, which stops at `paste-newline`. It was `LedgerRow::ALL.len()`, 18.
+- One step line per relied row; exit 0 when every relied row passes.
+**Why:** the three statusline rows are relied only where the status line is wrapped (the founder's cut, `inputs#I1`). The count carries its rule (`relied()`).
+**Ref:** .andromeda/runs/2026-10-14T06-37-54-wrap/

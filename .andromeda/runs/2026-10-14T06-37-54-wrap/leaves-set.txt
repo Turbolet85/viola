@@ -1,0 +1,229 @@
+cascade v1.8 · 8581eaf9
+baseline 14e62329 (pre-CI parent — the oldest of 1 pre-CI commit(s), 9ee83095)
+architecture-1 · pass · 7 leaves · 62843 B · 7 source file(s)
+  leaf .claude/docs/conventions.md · 8273 B
+  leaf .claude/docs/gotchas.md · 19995 B
+  leaf .claude/docs/services/viola-agent-claude.md · 12777 B
+  leaf .claude/docs/services/viola-channel.md · 6260 B
+  leaf .claude/docs/services/viola-core.md · 4870 B
+  leaf .claude/docs/services/viola-mcp.md · 3164 B
+  leaf .claude/docs/services/viola-pty.md · 7504 B
+  source .andromeda/architecture.md
+  source .andromeda/registries/architecture-contracts.toml
+  source .andromeda/registries/contracts/architecture/build-system.md
+  source .andromeda/registries/contracts/architecture/ci-cd-approach.md
+  source .andromeda/registries/contracts/architecture/crate-dependency-direction.md
+  source .andromeda/registries/contracts/architecture/deployment-model.md
+  source .andromeda/registries/contracts/architecture/project-directory-structure.md
+  delta leaf-delta-architecture.diff
+architecture-2 · pass · 5 leaves · 57690 B · 7 source file(s)
+  leaf .claude/docs/services/viola-state.md · 10682 B
+  leaf .claude/docs/services/viola-ui.md · 4354 B
+  leaf .claude/docs/services/viola.md · 20026 B
+  leaf .claude/docs/stack.md · 16267 B
+  leaf .claude/docs/workflow.md · 6361 B
+  source .andromeda/architecture.md
+  source .andromeda/registries/architecture-contracts.toml
+  source .andromeda/registries/contracts/architecture/build-system.md
+  source .andromeda/registries/contracts/architecture/ci-cd-approach.md
+  source .andromeda/registries/contracts/architecture/crate-dependency-direction.md
+  source .andromeda/registries/contracts/architecture/deployment-model.md
+  source .andromeda/registries/contracts/architecture/project-directory-structure.md
+  delta leaf-delta-architecture.diff
+architecture-3 · pass · 1 leaves · 7131 B · 7 source file(s)
+  leaf .claude/rules/events.md · 7131 B
+  source .andromeda/architecture.md
+  source .andromeda/registries/architecture-contracts.toml
+  source .andromeda/registries/contracts/architecture/build-system.md
+  source .andromeda/registries/contracts/architecture/ci-cd-approach.md
+  source .andromeda/registries/contracts/architecture/crate-dependency-direction.md
+  source .andromeda/registries/contracts/architecture/deployment-model.md
+  source .andromeda/registries/contracts/architecture/project-directory-structure.md
+  delta leaf-delta-architecture.diff
+architecture+security-plan · pass · 1 leaves · 7632 B · 8 source file(s)
+  leaf .claude/rules/api.md · 7632 B
+  source .andromeda/architecture.md
+  source .andromeda/registries/architecture-contracts.toml
+  source .andromeda/registries/contracts/architecture/build-system.md
+  source .andromeda/registries/contracts/architecture/ci-cd-approach.md
+  source .andromeda/registries/contracts/architecture/crate-dependency-direction.md
+  source .andromeda/registries/contracts/architecture/deployment-model.md
+  source .andromeda/registries/contracts/architecture/project-directory-structure.md
+  source .andromeda/security-plan.md
+  delta leaf-delta-architecture.diff
+  delta leaf-delta-security-plan.diff
+architecture+security-plan+design-system+layout-templates · pass · 1 leaves · 5544 B · 10 source file(s)
+  leaf .claude/rules/frontend.md · 5544 B
+  source .andromeda/architecture.md
+  source .andromeda/registries/architecture-contracts.toml
+  source .andromeda/registries/contracts/architecture/build-system.md
+  source .andromeda/registries/contracts/architecture/ci-cd-approach.md
+  source .andromeda/registries/contracts/architecture/crate-dependency-direction.md
+  source .andromeda/registries/contracts/architecture/deployment-model.md
+  source .andromeda/registries/contracts/architecture/project-directory-structure.md
+  source .andromeda/security-plan.md
+  source .andromeda/design-system.md
+  source .andromeda/layout-templates.md
+  delta leaf-delta-architecture.diff
+  delta leaf-delta-security-plan.diff
+  delta leaf-delta-design-system.diff
+  delta leaf-delta-layout-templates.diff
+architecture+security-plan+design-system+layout-templates+test-plan+obs-plan · pass · 1 leaves · 12809 B · 30 source file(s)
+  leaf CLAUDE.md · 12809 B
+  source .andromeda/architecture.md
+  source .andromeda/registries/architecture-contracts.toml
+  source .andromeda/registries/contracts/architecture/build-system.md
+  source .andromeda/registries/contracts/architecture/ci-cd-approach.md
+  source .andromeda/registries/contracts/architecture/crate-dependency-direction.md
+  source .andromeda/registries/contracts/architecture/deployment-model.md
+  source .andromeda/registries/contracts/architecture/project-directory-structure.md
+  source .andromeda/security-plan.md
+  source .andromeda/design-system.md
+  source .andromeda/layout-templates.md
+  source .andromeda/test-plan.md
+  source .andromeda/registries/test-plan-contracts.toml
+  source .andromeda/registries/contracts/test-plan/5-command-implementation.md
+  source .andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md
+  source .andromeda/registries/contracts/test-plan/log-format.md
+  source .andromeda/registries/contracts/test-plan/pid-file.md
+  source .andromeda/registries/contracts/test-plan/status-endpoint-shape.md
+  source .andromeda/registries/contracts/test-plan/test-data-bootstrap.md
+  source .andromeda/obs-plan.md
+  source .andromeda/registries/obs-plan-contracts.toml
+  source .andromeda/registries/contracts/obs-plan/bootstrap-phases-derive-for-route-setup-project.md
+  source .andromeda/registries/contracts/obs-plan/heartbeat-ticks.md
+  source .andromeda/registries/contracts/obs-plan/log-file-location.md
+  source .andromeda/registries/contracts/obs-plan/log-format-json-schema.md
+  source .andromeda/registries/contracts/obs-plan/logging-stack.md
+  source .andromeda/registries/contracts/obs-plan/otel-sdk-init.md
+  source .andromeda/registries/contracts/obs-plan/product-mode-normal-vs-inverted-self-observing.md
+  source .andromeda/registries/contracts/obs-plan/service-identity.md
+  source .andromeda/registries/contracts/obs-plan/snapshot-paste-to-ai-integration.md
+  source .andromeda/registries/contracts/obs-plan/trace-context-propagation.md
+  delta leaf-delta-architecture.diff
+  delta leaf-delta-security-plan.diff
+  delta leaf-delta-design-system.diff
+  delta leaf-delta-layout-templates.diff
+  delta leaf-delta-test-plan.diff
+  delta leaf-delta-obs-plan.diff
+architecture+test-plan+obs-plan · pass · 1 leaves · 22549 B · 27 source file(s)
+  leaf .claude/docs/commands.md · 22549 B
+  source .andromeda/architecture.md
+  source .andromeda/registries/architecture-contracts.toml
+  source .andromeda/registries/contracts/architecture/build-system.md
+  source .andromeda/registries/contracts/architecture/ci-cd-approach.md
+  source .andromeda/registries/contracts/architecture/crate-dependency-direction.md
+  source .andromeda/registries/contracts/architecture/deployment-model.md
+  source .andromeda/registries/contracts/architecture/project-directory-structure.md
+  source .andromeda/test-plan.md
+  source .andromeda/registries/test-plan-contracts.toml
+  source .andromeda/registries/contracts/test-plan/5-command-implementation.md
+  source .andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md
+  source .andromeda/registries/contracts/test-plan/log-format.md
+  source .andromeda/registries/contracts/test-plan/pid-file.md
+  source .andromeda/registries/contracts/test-plan/status-endpoint-shape.md
+  source .andromeda/registries/contracts/test-plan/test-data-bootstrap.md
+  source .andromeda/obs-plan.md
+  source .andromeda/registries/obs-plan-contracts.toml
+  source .andromeda/registries/contracts/obs-plan/bootstrap-phases-derive-for-route-setup-project.md
+  source .andromeda/registries/contracts/obs-plan/heartbeat-ticks.md
+  source .andromeda/registries/contracts/obs-plan/log-file-location.md
+  source .andromeda/registries/contracts/obs-plan/log-format-json-schema.md
+  source .andromeda/registries/contracts/obs-plan/logging-stack.md
+  source .andromeda/registries/contracts/obs-plan/otel-sdk-init.md
+  source .andromeda/registries/contracts/obs-plan/product-mode-normal-vs-inverted-self-observing.md
+  source .andromeda/registries/contracts/obs-plan/service-identity.md
+  source .andromeda/registries/contracts/obs-plan/snapshot-paste-to-ai-integration.md
+  source .andromeda/registries/contracts/obs-plan/trace-context-propagation.md
+  delta leaf-delta-architecture.diff
+  delta leaf-delta-test-plan.diff
+  delta leaf-delta-obs-plan.diff
+security-plan · pass · 2 leaves · 34623 B · 1 source file(s)
+  leaf .claude/docs/security-summary.md · 18237 B
+  leaf .claude/rules/security.md · 16386 B
+  source .andromeda/security-plan.md
+  delta leaf-delta-security-plan.diff
+security-plan+obs-plan · pass · 1 leaves · 2156 B · 13 source file(s)
+  leaf .claude/rules/ci.md · 2156 B
+  source .andromeda/security-plan.md
+  source .andromeda/obs-plan.md
+  source .andromeda/registries/obs-plan-contracts.toml
+  source .andromeda/registries/contracts/obs-plan/bootstrap-phases-derive-for-route-setup-project.md
+  source .andromeda/registries/contracts/obs-plan/heartbeat-ticks.md
+  source .andromeda/registries/contracts/obs-plan/log-file-location.md
+  source .andromeda/registries/contracts/obs-plan/log-format-json-schema.md
+  source .andromeda/registries/contracts/obs-plan/logging-stack.md
+  source .andromeda/registries/contracts/obs-plan/otel-sdk-init.md
+  source .andromeda/registries/contracts/obs-plan/product-mode-normal-vs-inverted-self-observing.md
+  source .andromeda/registries/contracts/obs-plan/service-identity.md
+  source .andromeda/registries/contracts/obs-plan/snapshot-paste-to-ai-integration.md
+  source .andromeda/registries/contracts/obs-plan/trace-context-propagation.md
+  delta leaf-delta-security-plan.diff
+  delta leaf-delta-obs-plan.diff
+design-system+layout-templates · pass · 1 leaves · 7170 B · 2 source file(s)
+  leaf .claude/docs/design-summary.md · 7170 B
+  source .andromeda/design-system.md
+  source .andromeda/layout-templates.md
+  delta leaf-delta-design-system.diff
+  delta leaf-delta-layout-templates.diff
+test-plan · pass · 3 leaves · 46399 B · 8 source file(s)
+  leaf .claude/docs/tests-summary.md · 21379 B
+  leaf .claude/rules/testing.md · 7413 B
+  leaf .claude/rules/verification-harness.md · 17607 B
+  source .andromeda/test-plan.md
+  source .andromeda/registries/test-plan-contracts.toml
+  source .andromeda/registries/contracts/test-plan/5-command-implementation.md
+  source .andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md
+  source .andromeda/registries/contracts/test-plan/log-format.md
+  source .andromeda/registries/contracts/test-plan/pid-file.md
+  source .andromeda/registries/contracts/test-plan/status-endpoint-shape.md
+  source .andromeda/registries/contracts/test-plan/test-data-bootstrap.md
+  delta leaf-delta-test-plan.diff
+test-plan+obs-plan · pass · 1 leaves · 7803 B · 20 source file(s)
+  leaf .claude/rules/observability.md · 7803 B
+  source .andromeda/test-plan.md
+  source .andromeda/registries/test-plan-contracts.toml
+  source .andromeda/registries/contracts/test-plan/5-command-implementation.md
+  source .andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md
+  source .andromeda/registries/contracts/test-plan/log-format.md
+  source .andromeda/registries/contracts/test-plan/pid-file.md
+  source .andromeda/registries/contracts/test-plan/status-endpoint-shape.md
+  source .andromeda/registries/contracts/test-plan/test-data-bootstrap.md
+  source .andromeda/obs-plan.md
+  source .andromeda/registries/obs-plan-contracts.toml
+  source .andromeda/registries/contracts/obs-plan/bootstrap-phases-derive-for-route-setup-project.md
+  source .andromeda/registries/contracts/obs-plan/heartbeat-ticks.md
+  source .andromeda/registries/contracts/obs-plan/log-file-location.md
+  source .andromeda/registries/contracts/obs-plan/log-format-json-schema.md
+  source .andromeda/registries/contracts/obs-plan/logging-stack.md
+  source .andromeda/registries/contracts/obs-plan/otel-sdk-init.md
+  source .andromeda/registries/contracts/obs-plan/product-mode-normal-vs-inverted-self-observing.md
+  source .andromeda/registries/contracts/obs-plan/service-identity.md
+  source .andromeda/registries/contracts/obs-plan/snapshot-paste-to-ai-integration.md
+  source .andromeda/registries/contracts/obs-plan/trace-context-propagation.md
+  delta leaf-delta-test-plan.diff
+  delta leaf-delta-obs-plan.diff
+obs-plan · pass · 1 leaves · 9960 B · 12 source file(s)
+  leaf .claude/docs/obs-summary.md · 9960 B
+  source .andromeda/obs-plan.md
+  source .andromeda/registries/obs-plan-contracts.toml
+  source .andromeda/registries/contracts/obs-plan/bootstrap-phases-derive-for-route-setup-project.md
+  source .andromeda/registries/contracts/obs-plan/heartbeat-ticks.md
+  source .andromeda/registries/contracts/obs-plan/log-file-location.md
+  source .andromeda/registries/contracts/obs-plan/log-format-json-schema.md
+  source .andromeda/registries/contracts/obs-plan/logging-stack.md
+  source .andromeda/registries/contracts/obs-plan/otel-sdk-init.md
+  source .andromeda/registries/contracts/obs-plan/product-mode-normal-vs-inverted-self-observing.md
+  source .andromeda/registries/contracts/obs-plan/service-identity.md
+  source .andromeda/registries/contracts/obs-plan/snapshot-paste-to-ai-integration.md
+  source .andromeda/registries/contracts/obs-plan/trace-context-propagation.md
+  delta leaf-delta-obs-plan.diff
+unmapped .claude/rules/host-linux.md (host)
+unmapped .claude/rules/testing-src.md
+wrote leaf-delta-architecture.diff · 4 file(s), 3 key file(s) · 113670 B
+wrote leaf-delta-security-plan.diff · 1 file(s), 0 key file(s) · 53805 B
+wrote leaf-delta-design-system.diff · 1 file(s), 0 key file(s) · 4197 B
+wrote leaf-delta-layout-templates.diff · 1 file(s), 0 key file(s) · 6032 B
+wrote leaf-delta-test-plan.diff · 2 file(s), 1 key file(s) · 52954 B
+wrote leaf-delta-obs-plan.diff · 1 file(s), 0 key file(s) · 15685 B
+total · pass · 13 group(s) · 26 leaves · 284309 B · unmapped 2

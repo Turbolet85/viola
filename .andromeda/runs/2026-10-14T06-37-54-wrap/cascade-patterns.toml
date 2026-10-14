@@ -1,0 +1,43 @@
+[[pattern]]
+id = 'rows18'
+regex = '(?i)eighteen|\b18 (ledger |capability-ledger )?rows|\[18/18\]|/18\]|\b18 pass'
+
+[[pattern]]
+id = 'all-len'
+regex = 'ALL\.len\(\)|LedgerRow::ALL'
+
+[[pattern]]
+id = 'no-row'
+regex = '(?i)no (ledger )?row yet|with no (ledger )?row|have no row|has no row|rows? (is|are) owed|relied-on dependences'
+
+[[pattern]]
+id = 'owed-entry'
+regex = 'Owed ledger rows'
+
+[[pattern]]
+id = 'capture-only'
+regex = '(?i)probe plugins call|called only by|hook --capture'
+
+[[pattern]]
+id = 'only-both'
+regex = '(?i)only with both'
+
+[[pattern]]
+id = 'user-statusline'
+regex = "(?i)user's own (global hooks and )?status line"
+
+[[pattern]]
+id = 'verdict-every'
+regex = '(?i)every landed row|every one of its rows|whose eighteen rows'
+
+[[pattern]]
+id = 'probe-dir'
+fixed = 'captures/,questions/,plan/}'
+
+[[pattern]]
+id = 'files29'
+regex = '\b29 files'
+
+[[pattern]]
+id = 'scrub-users'
+regex = '(?i)scrubbed of|home paths and usernames|non-placeholder usernames'

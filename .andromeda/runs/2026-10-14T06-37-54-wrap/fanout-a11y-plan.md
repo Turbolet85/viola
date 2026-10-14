@@ -1,0 +1,2 @@
+proposals: []
+note: D-a11y-surface — the report's Changes add no interactive UI element (Coverage of new surfaces marks every new surface a11y n/a; the verify step lines keep their plain-ASCII `[NN/MM]` form, and a11y-plan's §6 states the form `[NN/NN]` with no row count, so the 18 → 21 per-OS move leaves it unchanged). D-a11y-obs-schema — the report changes neither the a11y violation schema nor the obs log schema (the one new schema, schemas/claude-statusline-fixture.v1.json, is a fixture schema; the capture arm writes no line). No drift.

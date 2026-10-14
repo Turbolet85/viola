@@ -1,0 +1,75 @@
+cascade v1.8 · 8581eaf9
+file leaf-architecture-1.md · group architecture-1 · blocks 8 · receipts ok
+file leaf-architecture-2.md · group architecture-2 · blocks 5 · receipts ok
+file leaf-architecture-3.md · group architecture-3 · blocks 0 · receipts ok
+file leaf-architecture+security-plan+design-system+layout-templates.md · group architecture+security-plan+design-system…
+file leaf-architecture+security-plan+design-system+layout-templates+test-plan+obs-plan.md · group architecture+security…
+file leaf-architecture+security-plan.md · group architecture+security-plan · blocks 1 · receipts ok
+file leaf-architecture+test-plan+obs-plan.md · group architecture+test-plan+obs-plan · blocks 4 · receipts ok
+file leaf-design-system+layout-templates.md · group design-system+layout-templates · blocks 0 · receipts ok
+file leaf-obs-plan.md · group obs-plan · blocks 1 · receipts ok
+file leaf-security-plan.md · group security-plan · blocks 10 · receipts ok
+file leaf-security-plan+obs-plan.md · group security-plan+obs-plan · blocks 0 · receipts ok
+file leaf-test-plan.md · group test-plan · blocks 12 · receipts ok
+file leaf-test-plan+obs-plan.md · group test-plan+obs-plan · blocks 1 · receipts ok
+applied · leaf-architecture-1.md/.claude/docs/services/viola-agent-claude.md:22#1 · stale
+applied · leaf-architecture-1.md/.claude/docs/services/viola-agent-claude.md:22#2 · omission
+applied · leaf-architecture-1.md/.claude/docs/services/viola-agent-claude.md:23#1 · stale
+applied · leaf-architecture-1.md/.claude/docs/services/viola-agent-claude.md:23#2 · omission
+applied · leaf-architecture-1.md/.claude/docs/services/viola-agent-claude.md:26#1 · stale
+applied · leaf-architecture-1.md/.claude/docs/services/viola-agent-claude.md:26#2 · stale
+applied · leaf-architecture-1.md/.claude/docs/services/viola-agent-claude.md:26#3 · stale
+applied · leaf-architecture-1.md/.claude/docs/services/viola-agent-claude.md:39#1 · omission
+applied · leaf-architecture-2.md/.claude/docs/services/viola.md:6#1 · stale
+applied · leaf-architecture-2.md/.claude/docs/services/viola.md:6#2 · omission
+applied · leaf-architecture-2.md/.claude/docs/services/viola.md:23#1 · omission
+applied · leaf-architecture-2.md/.claude/docs/services/viola.md:36#1 · omission
+applied · leaf-architecture-2.md/.claude/docs/workflow.md:49#1 · stale
+applied · leaf-architecture+security-plan+design-system+layout-templates+test-plan+obs-plan.md/CLAUDE.md:15#1 · omission
+applied · leaf-architecture+security-plan+design-system+layout-templates+test-plan+obs-plan.md/CLAUDE.md:25#1 · omission
+applied · leaf-architecture+security-plan+design-system+layout-templates+test-plan+obs-plan.md/CLAUDE.md:28#1 · omission
+applied · leaf-architecture+security-plan+design-system+layout-templates+test-plan+obs-plan.md/CLAUDE.md:43#1 · stale
+applied · leaf-architecture+security-plan+design-system+layout-templates+test-plan+obs-plan.md/CLAUDE.md:43#2 · stale
+applied · leaf-architecture+security-plan.md/.claude/rules/api.md:31#1 · omission
+applied · leaf-architecture+test-plan+obs-plan.md/.claude/docs/commands.md:26#1 · stale
+applied · leaf-architecture+test-plan+obs-plan.md/.claude/docs/commands.md:26#2 · omission
+applied · leaf-architecture+test-plan+obs-plan.md/.claude/docs/commands.md:26#3 · omission
+applied · leaf-architecture+test-plan+obs-plan.md/.claude/docs/commands.md:27#1 · stale
+applied · leaf-obs-plan.md/.claude/docs/obs-summary.md:70#1 · omission
+applied · leaf-security-plan.md/.claude/docs/security-summary.md:38#1 · stale
+applied · leaf-security-plan.md/.claude/docs/security-summary.md:69#1 · stale
+applied · leaf-security-plan.md/.claude/docs/security-summary.md:70#1 · stale
+applied · leaf-security-plan.md/.claude/docs/security-summary.md:75#1 · omission
+applied · leaf-security-plan.md/.claude/docs/security-summary.md:75#2 · stale
+applied · leaf-security-plan.md/.claude/docs/security-summary.md:75#3 · omission
+applied · leaf-security-plan.md/.claude/rules/security.md:15#1 · omission
+applied · leaf-security-plan.md/.claude/rules/security.md:19#1 · omission
+applied · leaf-security-plan.md/.claude/rules/security.md:19#2 · omission
+applied · leaf-security-plan.md/.claude/rules/security.md:29#1 · omission
+applied · leaf-test-plan.md/.claude/docs/tests-summary.md:21#1 · omission
+applied · leaf-test-plan.md/.claude/docs/tests-summary.md:21#2 · omission
+applied · leaf-test-plan.md/.claude/docs/tests-summary.md:21#3 · stale
+applied · leaf-test-plan.md/.claude/docs/tests-summary.md:21#4 · omission
+applied · leaf-test-plan.md/.claude/docs/tests-summary.md:21#5 · omission
+applied · leaf-test-plan.md/.claude/docs/tests-summary.md:21#6 · stale
+applied · leaf-test-plan.md/.claude/docs/tests-summary.md:21#7 · stale
+applied · leaf-test-plan.md/.claude/rules/testing.md:36#1 · omission
+applied · leaf-test-plan.md/.claude/rules/verification-harness.md:28#1 · stale
+applied · leaf-test-plan.md/.claude/rules/verification-harness.md:42#1 · omission
+applied · leaf-test-plan.md/.claude/rules/verification-harness.md:42#2 · stale
+applied · leaf-test-plan.md/.claude/rules/verification-harness.md:46#1 · omission
+applied · leaf-test-plan+obs-plan.md/.claude/rules/observability.md:39#1 · stale
+dry-run: would write .claude/docs/services/viola-agent-claude.md: 8 finding(s)
+dry-run: would write .claude/docs/services/viola.md: 4 finding(s)
+dry-run: would write .claude/docs/workflow.md: 1 finding(s)
+dry-run: would write CLAUDE.md: 5 finding(s)
+dry-run: would write .claude/rules/api.md: 1 finding(s)
+dry-run: would write .claude/docs/commands.md: 4 finding(s)
+dry-run: would write .claude/docs/obs-summary.md: 1 finding(s)
+dry-run: would write .claude/docs/security-summary.md: 6 finding(s)
+dry-run: would write .claude/rules/security.md: 4 finding(s)
+dry-run: would write .claude/docs/tests-summary.md: 7 finding(s)
+dry-run: would write .claude/rules/testing.md: 1 finding(s)
+dry-run: would write .claude/rules/verification-harness.md: 4 finding(s)
+dry-run: would write .claude/rules/observability.md: 1 finding(s)
+total · blocks 47 · applied 47 — dry-run, nothing written

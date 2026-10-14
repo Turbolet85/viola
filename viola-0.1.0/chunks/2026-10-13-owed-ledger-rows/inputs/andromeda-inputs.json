@@ -52,5 +52,23 @@
     "read_at": "2026-10-14T05:58:15Z",
     "step": "implement",
     "why": "accept the GitHub owner handle in the two StatusLine fixtures and run the operator pass; wrap amends test-plan §7 narrowly"
+  },
+  {
+    "id": "I4",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the operator (viola-overseer), the /andromeda-wrap-session invocation, 2026-10-14T06:37Z",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "3095be3bd08745a8a46a2c82299ea75a9908ec6dd3bd0b0d93029f9b1dc0e516",
+    "copy": "I4-relay-1.md.txt",
+    "link": false,
+    "read_at": "2026-10-14T06:38:25Z",
+    "step": "wrap",
+    "why": "the wrap carries the founder narrow test-plan §7 amendment (inputs#I3) and applies his two recorded route moves (inputs#I1)"
   }
 ]

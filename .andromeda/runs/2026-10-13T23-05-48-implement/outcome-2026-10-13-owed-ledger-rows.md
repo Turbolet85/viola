@@ -2,11 +2,21 @@
 
 Written 2026-10-13T23:31:25Z.
 
-## Outcome: surfaced
+## Outcome: green + smoke (rewritten 2026-10-14T06:24Z; first written as surfaced)
 
-The gates are green: all 17 non-leg entries on the final full run (`gate-run-5.txt`), and the live round, fired once
-(`round: COMPLETE · legs fired 2/2`, `evidence/round-232112Z.txt`). One fixture-hygiene gap is surfaced (below). The
-operator entries 24–26 (hygiene, push, CI read) are not fired. They wait on the operator's word on that gap.
+The gates are green: all 17 non-leg entries on the final full run (`gate-run-6.txt`), and the live round, fired once
+(`round: COMPLETE · legs fired 2/2`, `evidence/round-232112Z.txt`). One fixture-hygiene gap was surfaced (below). It
+was resolved by the founder's word, accept and push (`inputs#I3`).
+
+The operator pass then ran (`evidence/operator.md`):
+- entry 24, hygiene, clean;
+- the pre-CI commit `9ee83095ace5`, pushed by entry 25;
+- entry 26 read **red** (ci#38519633153), one test each on macOS and Windows, both this chunk's own (deviation 10);
+- the fix commit `1c4f2258ef7c`, pushed after a green block, then entry 26 read **green** (ci#38520999442, 15/15,
+  wall 550 s).
+
+Next → `/andromeda-wrap-session`. It amends test-plan §7 narrowly: a `workspace.repo` naming this repository's own
+remote is kept.
 
 - Record round (entry 8, 5 starts): `stamped 2.1.287  21 pass  0 fail`; census empty.
 - Live-suite round (entry 11, 5 starts): `stamped 2.1.287  21 pass  0 fail`, `"suite":"local-live","passed":1,"failed":0`;
@@ -97,6 +107,18 @@ operator entries 24–26 (hygiene, push, CI read) are not fired. They wait on th
    - It read 66 passed and 5 failed, all five at `stamped_home` over the then-unrecorded set. That is the designed red
      until entry 8, and those cases read green in entry 14 and `pre-push` afterwards.
 
+10. **The CI red on the pre-CI commit, fixed in the chunk.** Two of this chunk's cases went red on CI. Neither shows
+    on the Linux host.
+    - The macOS red, `cli_send send_under_the_paste_hint_a_human_key_during_the_gate_wait_wins`:
+      - The fake agent's first-Stop status line replay ran before the paste-hint clear, so the earlier input box
+        stood on screen while `viola hook statusline` spawned.
+      - Its cause was read on Linux with a 2 s probe sleep (red at `cli_send.rs:919`). It went green with the replay
+        moved after the turn screen, the sleep kept in (80 of 80 over the four replay-driving binaries). The sleep was
+        then removed.
+    - The Windows red, `ledger::tests::verified_needs_every_row_pass_under_that_version`: the case popped `ALL`'s last
+      row, which Windows does not rely on. It now drops `relied()`'s last row.
+    - Both files (`src/bin/viola-fake-agent.rs`, `ledger.rs`) are on research's list.
+
 ## Process hygiene
 
 Measured at 2026-10-13T23:31Z against the host's process list: every process whose `/proc/<pid>/exe` is under the
@@ -107,6 +129,7 @@ repository, and every `claude` whose cwd is a probe dir.
 | `claude` 2.1.287 ×5 (record round) | a leg (entry 8) | terminated (census entry 9 empty; none at the final census) |
 | `claude` 2.1.287 ×5 (live-suite round) | a leg (entry 11) | terminated (census entry 12 empty; none at the final census) |
 | `viola` / `viola-harness` / fake agent (gate entries, smoke session `p-olr-smoke`) | this run | terminated (entry 22 `processes_gone:true`, `endpoint_gone:true`; none at the final census) |
+| `viola` / fake agent (the operator pass: two probe runs, `gate-run-6`, smoke session `p-olr-smoke` again) | this run | terminated (re-measured 2026-10-14T06:25Z: no process whose `/proc/<pid>/exe` is under the repository; no `claude` whose cwd is a probe dir) |
 
 ## Decisions & corrections
 
@@ -117,5 +140,11 @@ repository, and every `claude` whose cwd is a probe dir.
   than the clock. The literal was moved to a past date.
 - **Recurrence of a standing learning.** testing.md 2026-10-07: a moved bound's readers are listed by function. A
   literal-row-set oracle (`merge_stamp`'s envelope case) was missed by research's sweep.
-- **Held operator pass.** The invocation asked for the operator pass "as usual". It is held, unfired, on the surfaced
-  gap, because the push would publish the handle in two committed fixtures.
+- **Held operator pass.** The invocation asked for the operator pass "as usual". It was held on the surfaced gap,
+  because the push would publish the handle in two committed fixtures. The founder's answer, accept and push, was
+  relayed by the operator (`inputs#I3`, 2026-10-14T05:57Z), and the pass ran then.
+- **Context compaction.** The session was compacted at 01:25Z. The run dir's outcome and journal were re-read from
+  disk before the pass, at the operator's direction.
+- **A cross-OS miss, met in CI.** A case written against `ALL`'s order assumed every row is relied. A fake-agent
+  step inserted between a hook and a screen change moved a race window that only the macOS runner's spawn cost opens.
+  Both stayed green on the Linux host and its Windows-target clippy.

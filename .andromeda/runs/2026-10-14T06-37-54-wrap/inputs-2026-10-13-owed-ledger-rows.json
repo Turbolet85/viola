@@ -1,0 +1,103 @@
+[
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-14T06:38:26Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-13-owed-ledger-rows",
+"--message-file",
+".andromeda/runs/2026-10-14T06-37-54-wrap/relay-1.md",
+"--origin",
+"the operator (viola-overseer), the /andromeda-wrap-session invocation, 2026-10-14T06:37Z",
+"--kind",
+"relay",
+"--why",
+"the wrap carries the founder narrow test-plan §7 amendment (inputs#I3) and applies his two recorded route moves (inputs#I1)",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-14T06-37-54-wrap",
+"--marker",
+"2026-10-13-owed-ledger-rows"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy message · message: the operator (viola-overseer), the /andromeda-wrap-session invocation, 2026-10-14T06:37Z",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator (viola-overseer), the /andromeda-wrap-session invocation, 2026-10-14T06:37Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "3095be3bd08745a8a46a2c82299ea75a9908ec6dd3bd0b0d93029f9b1dc0e516",
+"copy": "I4-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-14T06:38:25Z",
+"step": "wrap",
+"why": "the wrap carries the founder narrow test-plan §7 amendment (inputs#I3) and applies his two recorded route moves (inputs#I1)"
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-14T06:38:26Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-13-owed-ledger-rows",
+"--run-dir",
+".andromeda/runs/2026-10-14T06-37-54-wrap",
+"--marker",
+"2026-10-13-owed-ledger-rows"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, relaying the founder own answers given live in the overseer dialog, 2026-10-13T22:52:37Z",
+"I1 cited scope.md:133 · research.md:154 · plan.md:11 · plan.md:16 · plan.md:25 · plan.md:28 · plan.md:155 · plan.md:253 (in fence) · plan.md:281 (in fence) · plan.md:409 · plan.md:419 · plan.md:453 · plan.md:474 · plan.md:477 · plan.md:487 · plan.md:494 · plan.md:511 · plan.md:521",
+"I2 n/a — a message has no live source · copy message · message: the operator, in the phase session, 2026-10-13T23:03:52Z",
+"I2 UNCITED",
+"I3 n/a — a message has no live source · copy message · message: the operator (viola-overseer), relaying the founder live 2026-10-14T05:57Z",
+"I3 UNCITED",
+"I4 n/a — a message has no live source · copy message · message: the operator (viola-overseer), the /andromeda-wrap-session invocation, 2026-10-14T06:37Z",
+"I4 UNCITED",
+"inputs: 4 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 4 · uncited 3 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 4,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 4
+},
+"uncited": 3,
+"unparsed": 0
+}
+}
+]

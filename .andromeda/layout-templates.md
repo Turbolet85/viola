@@ -473,32 +473,35 @@ hint: that dialog is not pending; viola list shows the current DIALOG
 ### Output structure — `viola verify`
 
 ```
-$ viola verify
-[01/18] shim-resolution claude resolves to a real executable  pass
+$ viola verify                                             (a Unix host: 21 relied rows)
+[01/21] shim-resolution claude resolves to a real executable  pass
 ...
-[06/18] largest-hook-payload every hook payload fits the frame cap  pass
-[07/18] modal-signature an untrusted start shows a compiled modal literal  pass
+[06/21] largest-hook-payload every hook payload fits the frame cap  pass
+[07/21] modal-signature an untrusted start shows a compiled modal literal  pass
 ...
-[10/18] confirm-window the typed prompt reaches UserPromptSubmit within the window  pass
-[11/18] question-answer a question answered through PreToolUse takes effect  pass
+[10/21] confirm-window the typed prompt reaches UserPromptSubmit within the window  pass
+[11/21] question-answer a question answered through PreToolUse takes effect  pass
 ...
-[14/18] dialog-concurrency two parallel questions each raise a dialog  pass
-[15/18] long-paste-wrapper a long paste unwraps to the text as pasted  pass
-[16/18] tag-escaping tag-like text un-escapes to the text as pasted  pass
-[17/18] local-command-clear /clear starts a new session and submits no prompt  pass
-[18/18] paste-newline an LF inside a paste stays inside the one prompt submitted  pass
-stamped 2.1.287  18 pass  0 fail                           <- last stdout line; `fail` is never coloured
+[14/21] dialog-concurrency two parallel questions each raise a dialog  pass
+[15/21] long-paste-wrapper a long paste unwraps to the text as pasted  pass
+[16/21] tag-escaping tag-like text un-escapes to the text as pasted  pass
+[17/21] local-command-clear /clear starts a new session and submits no prompt  pass
+[18/21] paste-newline an LF inside a paste stays inside the one prompt submitted  pass
+[19/21] statusline-override a --settings statusLine runs in the status line's place  pass
+[20/21] statusline-shell a statusline command runs through /bin/sh  pass
+[21/21] statusline-rate-limits the statusline payload carries two whole-number rate_limits windows  pass
+stamped 2.1.287  21 pass  0 fail                           <- last stdout line; `fail` is never coloured
 
 $ viola verify
 ...
-stamped 2.1.287  16 pass  2 fail                           <- a failing row: exit 1, the stamp still written
+stamped 2.1.287  19 pass  2 fail                           <- a failing row: exit 1, the stamp still written
 
 $ viola verify                                             (stopped by Ctrl-C or TERM before its rows are checked)
 unable: verify was stopped before it finished              <- stderr; stdout empty, no step line, no summary
 hint: run viola verify again to stamp this CLI             <- the last stderr line: exit 1, no stamp written
 ```
 
-Usage: `viola verify [--record <DIR>] [-- <program> [args…]]` (program default `claude`). One stdout step line per ledger row, `[NN/MM] <row id> <row words>  pass|fail`, in ledger order (`shim-resolution` · `spine-hooks` · `session-start-fields` · `prompt-verbatim` · `stop-message` · `largest-hook-payload` · `modal-signature` · `input-box-signature` · `quiet-period` · `confirm-window` · `question-answer` · `plan-approve-revise` · `question-notes` · `dialog-concurrency` · `long-paste-wrapper` · `tag-escaping` · `local-command-clear` · `paste-newline`; `MM` is `LedgerRow::ALL.len()`, 18 today, and grows as owning chunks land their rows), then the `stamped <ver>  <n> pass  <m> fail` summary as the last stdout line. Exit 0 when every row passes, 1 on a failing row, a refusal (the `unable:`/`hint:` pairs, Primary content block 2) or a stop: a run stopped by Ctrl-C or TERM (Unix `SIGINT` / `SIGTERM`, Windows Ctrl-C / Ctrl-Break) before its rows are checked prints only that plain ASCII pair, with no name, path or pid, and writes no stamp (a planning form on the operator's word, the founder's wording owed, chunk 2026-10-13-interrupted-verify-cleanup). `--record` adds no human line. Plain ASCII, no colour. Each step line is appended once, with no progress bar and no redraw. `viola verify --help` adds one static ASCII paragraph naming no path: run it from a folder you trust in Claude Code (the input-box probe runs in a subfolder there, which inherits that trust), and an unapproved external CLAUDE.md import blocks the probe (its dialog shows in the subfolder, and verify never answers it).
+Usage: `viola verify [--record <DIR>] [-- <program> [args…]]` (program default `claude`). One stdout step line per relied ledger row, `[NN/MM] <row id> <row words>  pass|fail`, in ledger order (`shim-resolution` · `spine-hooks` · `session-start-fields` · `prompt-verbatim` · `stop-message` · `largest-hook-payload` · `modal-signature` · `input-box-signature` · `quiet-period` · `confirm-window` · `question-answer` · `plan-approve-revise` · `question-notes` · `dialog-concurrency` · `long-paste-wrapper` · `tag-escaping` · `local-command-clear` · `paste-newline` · `statusline-override` · `statusline-shell` · `statusline-rate-limits`; `MM` is the relied count, `LedgerRow::relied()`'s length: 21 on Unix, 18 on Windows, which stops at `paste-newline` because the status line is not wrapped there; it grows as owning chunks land their rows), then the `stamped <ver>  <n> pass  <m> fail` summary as the last stdout line. Exit 0 when every relied row passes, 1 on a failing row, a refusal (the `unable:`/`hint:` pairs, Primary content block 2) or a stop: a run stopped by Ctrl-C or TERM (Unix `SIGINT` / `SIGTERM`, Windows Ctrl-C / Ctrl-Break) before its rows are checked prints only that plain ASCII pair, with no name, path or pid, and writes no stamp (a planning form on the operator's word, the founder's wording owed, chunk 2026-10-13-interrupted-verify-cleanup). `--record` adds no human line. Plain ASCII, no colour. Each step line is appended once, with no progress bar and no redraw. `viola verify --help` adds one static ASCII paragraph naming no path: run it from a folder you trust in Claude Code (the input-box probe runs in a subfolder there, which inherits that trust), and an unapproved external CLAUDE.md import blocks the probe (its dialog shows in the subfolder, and verify never answers it).
 
 ### Output structure — `viola --help`
 
