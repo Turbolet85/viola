@@ -1,6 +1,7 @@
 //! The fixture scrub-and-schema walk (test-plan §7 Fixture hygiene): every committed scenario
-//! script, every recorded `fixtures/claude/*/*.json` payload and every recorded `Screen.*.json` is
-//! scrubbed and schema-valid, and every rejection arm is proven on a planted input. The recorded set is walked at run time, not
+//! script, every recorded `fixtures/claude/*/*.json` hook payload, every recorded `StatusLine.*.json`
+//! status line payload and every recorded `Screen.*.json` is scrubbed and schema-valid, each against
+//! its own schema, and every rejection arm is proven on a planted input. The recorded set is walked at run time, not
 //! by `#[files]`, which refuses to compile over a glob that matches nothing.
 //! andromeda:walks-tree — it reads every file under `fixtures/`, named or not.
 
@@ -28,17 +29,38 @@ fn screen_schema() -> Value {
     load_schema(&workspace_path("schemas/claude-screen.v1.json"))
 }
 
-fn is_screen(path: &Path) -> bool {
-    path.file_name()
-        .and_then(|n| n.to_str())
-        .is_some_and(|n| n.starts_with("Screen."))
+fn statusline_schema() -> Value {
+    load_schema(&workspace_path("schemas/claude-statusline-fixture.v1.json"))
 }
 
-/// `<root>/*/*.json` but the screens, sorted: the recorded hook payloads.
+fn named(path: &Path, prefix: &str) -> bool {
+    path.file_name()
+        .and_then(|n| n.to_str())
+        .is_some_and(|n| n.starts_with(prefix))
+}
+
+fn is_screen(path: &Path) -> bool {
+    named(path, "Screen.")
+}
+
+fn is_statusline(path: &Path) -> bool {
+    named(path, "StatusLine.")
+}
+
+/// `<root>/*/*.json` but the screens and the status line payloads, sorted: the recorded hook
+/// payloads.
 fn claude_fixtures(root: &Path) -> Vec<PathBuf> {
     recorded(root)
         .into_iter()
-        .filter(|p| !is_screen(p))
+        .filter(|p| !is_screen(p) && !is_statusline(p))
+        .collect()
+}
+
+/// `<root>/*/StatusLine.*.json`, sorted: the recorded status line payloads.
+fn statusline_fixtures(root: &Path) -> Vec<PathBuf> {
+    recorded(root)
+        .into_iter()
+        .filter(|p| is_statusline(p))
         .collect()
 }
 
@@ -86,6 +108,103 @@ fn claude_fixtures_pass_hygiene() {
 }
 
 #[test]
+fn statusline_fixtures_pass_hygiene() {
+    let schema = statusline_schema();
+    let user = host_user();
+    let walked = statusline_fixtures(&workspace_path("fixtures/claude"));
+    assert!(!walked.is_empty(), "no status line payload walked");
+    for path in walked {
+        let bytes = std::fs::read(&path).expect("fixture");
+        assert_eq!(
+            check(&bytes, &schema, user.as_deref()),
+            Ok(()),
+            "{}",
+            path.display()
+        );
+    }
+}
+
+/// Every set recorded with a status line payload holds the two variants, each walked by
+/// `statusline_fixtures_pass_hygiene`.
+#[test]
+fn statusline_variants_are_walked_for_every_statusline_set() {
+    let walked = statusline_fixtures(&workspace_path("fixtures/claude"));
+    let mut sets: Vec<&Path> = walked.iter().filter_map(|p| p.parent()).collect();
+    sets.dedup();
+    for set in sets {
+        let names: Vec<String> = walked
+            .iter()
+            .filter(|p| p.parent() == Some(set))
+            .filter_map(|p| p.file_name()?.to_str().map(str::to_owned))
+            .collect();
+        assert_eq!(
+            names,
+            ["StatusLine.default-1.json", "StatusLine.rate-limits-1.json"],
+            "{}",
+            set.display()
+        );
+    }
+}
+
+fn statusline_payload(extra: &Value) -> Vec<u8> {
+    let mut doc = json!({"session_id": "s-1", "cwd": "~/work", "model": {"id": "m"}});
+    if let (Some(doc), Some(extra)) = (doc.as_object_mut(), extra.as_object()) {
+        doc.extend(extra.clone());
+    }
+    doc.to_string().into_bytes()
+}
+
+#[rstest]
+#[case::no_rate_limits(json!({}))]
+#[case::rate_limits(json!({"rate_limits": {
+    "five_hour": {"used_percentage": 23, "resets_at": 1_760_400_000},
+    "seven_day": {"used_percentage": 91, "resets_at": 1_760_900_000},
+}}))]
+fn planted_clean_statusline_payload_passes(#[case] extra: Value) {
+    assert_eq!(
+        check(
+            &statusline_payload(&extra),
+            &statusline_schema(),
+            Some("plantuser")
+        ),
+        Ok(())
+    );
+}
+
+#[rstest]
+#[case::no_session_id(json!({"model": {"id": "m"}}))]
+#[case::session_id_not_string(json!({"session_id": 1}))]
+#[case::rate_limits_not_object(json!({"session_id": "s", "rate_limits": 91}))]
+#[case::a_window_missing(json!({"session_id": "s", "rate_limits": {"five_hour": {}}}))]
+#[case::a_window_not_object(json!({"session_id": "s", "rate_limits": {"five_hour": {}, "seven_day": 7}}))]
+#[case::not_object(json!(["s"]))]
+fn planted_statusline_schema_violation_is_rejected(#[case] doc: Value) {
+    assert_eq!(
+        check(doc.to_string().as_bytes(), &statusline_schema(), None),
+        Err(Violation::Schema)
+    );
+}
+
+#[rstest]
+#[case::linux_home(json!({"cwd": "/home/plantuser/work"}))]
+#[case::nested(json!({"workspace": {"current_dir": "C:\\Users\\plantuser\\w"}}))]
+fn planted_statusline_absolute_path_is_rejected(#[case] extra: Value) {
+    assert_eq!(
+        check(&statusline_payload(&extra), &statusline_schema(), None),
+        Err(Violation::AbsolutePath)
+    );
+}
+
+#[test]
+fn planted_statusline_username_is_rejected() {
+    let bytes = statusline_payload(&json!({"transcript_path": "~/.claude/projects/plantuser/s"}));
+    assert_eq!(
+        check(&bytes, &statusline_schema(), Some("plantuser")),
+        Err(Violation::Username)
+    );
+}
+
+#[test]
 fn claude_fixtures_walks_every_version_dir_and_only_json_files() {
     let tmp = tempfile::tempdir().expect("tempdir");
     for (rel, body) in [
@@ -93,6 +212,7 @@ fn claude_fixtures_walks_every_version_dir_and_only_json_files() {
         ("2.1.0/notes.txt", "x"),
         ("9.9.9/SessionStart.default.json", "{}"),
         ("9.9.9/Screen.ready.json", "{}"),
+        ("9.9.9/StatusLine.default-1.json", "{}"),
         ("top.json", "{}"),
     ] {
         let path = tmp.path().join(rel);
@@ -115,6 +235,10 @@ fn claude_fixtures_walks_every_version_dir_and_only_json_files() {
     assert_eq!(
         screen_fixtures(tmp.path()),
         [tmp.path().join("9.9.9").join("Screen.ready.json")]
+    );
+    assert_eq!(
+        statusline_fixtures(tmp.path()),
+        [tmp.path().join("9.9.9").join("StatusLine.default-1.json")]
     );
     assert!(claude_fixtures(&tmp.path().join("missing")).is_empty());
 }

@@ -1,0 +1,57 @@
+[
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-14T05:58:15Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-13-owed-ledger-rows",
+"--message-file",
+".andromeda/runs/2026-10-13T23-05-48-implement/relay-1.md",
+"--origin",
+"the operator (viola-overseer), relaying the founder live 2026-10-14T05:57Z",
+"--kind",
+"relay",
+"--why",
+"accept the GitHub owner handle in the two StatusLine fixtures and run the operator pass; wrap amends test-plan §7 narrowly",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-10-13T23-05-48-implement",
+"--marker",
+"2026-10-13-owed-ledger-rows"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: the operator (viola-overseer), relaying the founder live 2026-10-14T05:57Z",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator (viola-overseer), relaying the founder live 2026-10-14T05:57Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "e7c32c2e90d1381bbb5275443ab4a66b643948590c6c6697061d67c4360810f3",
+"copy": "I3-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-14T05:58:15Z",
+"step": "implement",
+"why": "accept the GitHub owner handle in the two StatusLine fixtures and run the operator pass; wrap amends test-plan §7 narrowly"
+}
+}
+]

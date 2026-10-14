@@ -257,10 +257,12 @@ mod tests {
         )
     }
 
-    /// The verdict needs the dialog rows (R2 closed), the framing rows and the newline row: a
-    /// stamp written before any of them landed (the ten spine and screen rows, those and the four
-    /// dialog rows, or every row but the newline one) and one whose dialog, framing or newline row
-    /// failed all leave the version unverified; all eighteen passing verifies it.
+    /// The verdict needs the dialog rows (R2 closed), the framing rows, the newline row and, where
+    /// the status line is wrapped, the three statusline rows: a stamp written before any of them
+    /// landed (the ten spine and screen rows, those and the four dialog rows, every row but the
+    /// newline one, or the eighteen before the statusline rows) and one whose relied row failed all
+    /// leave the version unverified; every relied row passing verifies it. On Windows the eighteen
+    /// are every relied row.
     #[test]
     fn stamps_verdict_needs_the_dialog_rows() {
         let ten = [
@@ -305,6 +307,24 @@ mod tests {
             "the rows of an older stamp, all but the newline row"
         );
         all.push((LedgerRow::PasteNewline, true));
+        #[cfg(unix)]
+        assert_eq!(
+            stamps_verdict(Ok(Some(stamp_of(&all))), "2.1.0"),
+            (false, None),
+            "the eighteen rows of an older stamp"
+        );
+        #[cfg(windows)]
+        assert_eq!(
+            stamps_verdict(Ok(Some(stamp_of(&all))), "2.1.0"),
+            (true, None),
+            "the eighteen rows are every row relied on here"
+        );
+        let statusline = [
+            LedgerRow::StatusLineOverride,
+            LedgerRow::StatusLineShell,
+            LedgerRow::StatusLineRateLimits,
+        ];
+        all.extend(statusline.iter().map(|r| (*r, true)));
         assert_eq!(
             stamps_verdict(Ok(Some(stamp_of(&all))), "2.1.0"),
             (true, None)
@@ -313,6 +333,7 @@ mod tests {
             .into_iter()
             .chain(framing)
             .chain([LedgerRow::PasteNewline])
+            .chain(statusline.into_iter().filter(|_| cfg!(unix)))
         {
             let rows: Vec<(LedgerRow, bool)> =
                 all.iter().map(|(r, p)| (*r, *p && *r != failing)).collect();
@@ -320,6 +341,17 @@ mod tests {
                 stamps_verdict(Ok(Some(stamp_of(&rows))), "2.1.0"),
                 (false, None),
                 "{}",
+                failing.id()
+            );
+        }
+        #[cfg(windows)]
+        for failing in statusline {
+            let rows: Vec<(LedgerRow, bool)> =
+                all.iter().map(|(r, p)| (*r, *p && *r != failing)).collect();
+            assert_eq!(
+                stamps_verdict(Ok(Some(stamp_of(&rows))), "2.1.0"),
+                (true, None),
+                "{} is not relied on here",
                 failing.id()
             );
         }

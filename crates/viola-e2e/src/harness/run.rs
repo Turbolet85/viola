@@ -330,6 +330,32 @@ fn tool_arms(
 }
 
 /// The capability-ledger rows `viola verify` prints, as literals: the live run checks each once.
+/// The three statusline rows are relied on only where the status line is wrapped (Unix).
+#[cfg(unix)]
+const LEDGER_ROWS: [&str; 21] = [
+    "shim-resolution",
+    "spine-hooks",
+    "session-start-fields",
+    "prompt-verbatim",
+    "stop-message",
+    "largest-hook-payload",
+    "modal-signature",
+    "input-box-signature",
+    "quiet-period",
+    "confirm-window",
+    "question-answer",
+    "plan-approve-revise",
+    "question-notes",
+    "dialog-concurrency",
+    "long-paste-wrapper",
+    "tag-escaping",
+    "local-command-clear",
+    "paste-newline",
+    "statusline-override",
+    "statusline-shell",
+    "statusline-rate-limits",
+];
+#[cfg(not(unix))]
 const LEDGER_ROWS: [&str; 18] = [
     "shim-resolution",
     "spine-hooks",
@@ -912,6 +938,30 @@ mod tests {
         assert_eq!(suite(&out.doc, "doctest")["failed"], 1);
     }
 
+    #[cfg(unix)]
+    const LIVE_PASS: &str = "[01/21] shim-resolution claude resolves  pass\n\
+        [02/21] spine-hooks spine hooks fire  pass\n\
+        [03/21] session-start-fields fields  pass\n\
+        [04/21] prompt-verbatim prompt  pass\n\
+        [05/21] stop-message message  pass\n\
+        [06/21] largest-hook-payload payload  pass\n\
+        [07/21] modal-signature modal  pass\n\
+        [08/21] input-box-signature input box  pass\n\
+        [09/21] quiet-period quiet  pass\n\
+        [10/21] confirm-window window  pass\n\
+        [11/21] question-answer question  pass\n\
+        [12/21] plan-approve-revise plan  pass\n\
+        [13/21] question-notes notes  pass\n\
+        [14/21] dialog-concurrency concurrency  pass\n\
+        [15/21] long-paste-wrapper wrapper  pass\n\
+        [16/21] tag-escaping escaping  pass\n\
+        [17/21] local-command-clear clear  pass\n\
+        [18/21] paste-newline newline  pass\n\
+        [19/21] statusline-override override  pass\n\
+        [20/21] statusline-shell shell  pass\n\
+        [21/21] statusline-rate-limits limits  pass\n\
+        stamped 2.1.287  21 pass  0 fail\n";
+    #[cfg(not(unix))]
     const LIVE_PASS: &str = "[01/18] shim-resolution claude resolves  pass\n\
         [02/18] spine-hooks spine hooks fire  pass\n\
         [03/18] session-start-fields fields  pass\n\
@@ -931,6 +981,15 @@ mod tests {
         [17/18] local-command-clear clear  pass\n\
         [18/18] paste-newline newline  pass\n\
         stamped 2.1.287  18 pass  0 fail\n";
+
+    /// `LIVE_PASS` without the step line of `row`.
+    fn without(row: &str) -> String {
+        LIVE_PASS
+            .lines()
+            .filter(|l| l.split(' ').nth(1) != Some(row))
+            .map(|l| format!("{l}\n"))
+            .collect()
+    }
 
     fn live_only() -> Selection {
         Selection {
@@ -962,6 +1021,22 @@ mod tests {
             },
         );
         (out, calls)
+    }
+
+    /// The live proof reads every relied row: twenty-one on Unix, eighteen on Windows, the
+    /// statusline rows last.
+    #[test]
+    fn run_local_live_reads_the_relied_rows() {
+        #[cfg(unix)]
+        assert_eq!(LEDGER_ROWS.len(), 21);
+        #[cfg(not(unix))]
+        assert_eq!(LEDGER_ROWS.len(), 18);
+        assert_eq!(LEDGER_ROWS[17], "paste-newline");
+        assert_eq!(LIVE_PASS.lines().count(), LEDGER_ROWS.len() + 1);
+        assert!(live_rows_pass(LIVE_PASS));
+        assert!(!live_rows_pass(&without(
+            LEDGER_ROWS[LEDGER_ROWS.len() - 1]
+        )));
     }
 
     #[test]
@@ -1000,20 +1075,25 @@ mod tests {
 
     #[test]
     fn run_local_live_names_a_missing_or_doubled_row() {
-        let missing = LIVE_PASS.replace("[05/18] stop-message message  pass\n", "");
+        let missing = without("stop-message");
         let doubled = LIVE_PASS.replace("stop-message", "prompt-verbatim");
         let failing = LIVE_PASS.replace("stop-message message  pass", "stop-message message  fail");
-        let no_dialog_row = LIVE_PASS.replace("[13/18] question-notes notes  pass\n", "");
-        let no_framing_row = LIVE_PASS.replace("[16/18] tag-escaping escaping  pass\n", "");
-        let no_newline_row = LIVE_PASS.replace("[18/18] paste-newline newline  pass\n", "");
-        for stdout in [
+        let no_dialog_row = without("question-notes");
+        let no_framing_row = without("tag-escaping");
+        let no_newline_row = without("paste-newline");
+        // The statusline rows are relied on, so read, only where the status line is wrapped.
+        let statusline = LEDGER_ROWS[18..].iter().map(|row| without(row));
+        let cases = [
             missing,
             doubled,
             failing,
             no_dialog_row,
             no_framing_row,
             no_newline_row,
-        ] {
+        ]
+        .into_iter()
+        .chain(statusline);
+        for stdout in cases {
             let (out, _) = live_run(Some(0), &stdout, false);
             assert_eq!(out.code, 1);
             assert_eq!(suite(&out.doc, "local-live")["failures"][0], "row-missing");

@@ -1,0 +1,7 @@
+  7 probe       green · exit 0 · 0.0s · 0 B → 7.log · test -x "$HOME/.local/share/mise/installs/claude/2.1.287/c… (64 chars)
+  8 build       green · exit 0 · 53.68s · 1690 B → 8.log · h="target/e2e-home/viola-record-$(date -u +%Y%m%dT%H%M%SZ)… (367 chars)
+  9 probe       green · exit 0 · 0.05s · 0 B → 9.log · for p in $(pgrep -x claude); do case "$(readlink /proc/$p/… (166 chars)
+ 10 probe       green · exit 0 · 0.0s · 0 B → 10.log · test -x "$HOME/.local/share/mise/installs/claude/2.1.287/c… (64 chars)
+ 11 e2e         green · exit 0 · 55.69s · 2149 B → 11.log · env -u VIOLA_NAME -u VIOLA_DIR -u VIOLA_BIN PATH="$HOME/.l… (147 chars)
+ 12 probe       green · exit 0 · 0.05s · 0 B → 12.log · for p in $(pgrep -x claude); do case "$(readlink /proc/$p/… (164 chars)
+round: COMPLETE · legs fired 2/2 · entries 26 · green 6 · red 0 · recorded 0 · timeout 0 · indeterminate 0 · not-run 20

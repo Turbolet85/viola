@@ -10,13 +10,16 @@ use std::fs::{self, File, OpenOptions};
 use std::io::{Read as _, Write as _};
 use std::path::{Path, PathBuf};
 use std::process::{Command, ExitCode, Stdio};
+use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex, PoisonError};
 use std::time::Duration;
 
 use serde_json::{Value, json};
 use viola_agent_claude::ledger::{
-    PROBE_LOCAL_COMMAND, PROBE_LONG_PASTE, PROBE_TAG_PASTE, dialog_stem, framing_stem,
+    PROBE_LOCAL_COMMAND, PROBE_LONG_PASTE, PROBE_TAG_PASTE, STATUSLINE_DEFAULT,
+    STATUSLINE_RATE_LIMITS, dialog_stem, framing_stem,
 };
+use viola_agent_claude::statusline::BIN_SH;
 
 const DEFAULT_CLI_VERSION: &str = "2.1.287";
 const PASTE_START: &[u8] = b"\x1b[200~";
@@ -34,6 +37,8 @@ const STOP_RECEIPT_HOLD_CAP_MS: u64 = 1000;
 const PASTE_HINT_CAP_MS: u64 = 10_000;
 /// The session a `--resume` with `--fork-session` reports: an id no recorded fixture holds.
 const FORK_SESSION_ID: &str = "0f0e0d0c-0b0a-4908-8706-050403020100";
+/// The word of a statusline command the real CLI's shell expands to the shell's own name.
+const SHELL_NAME_WORD: &str = "\"$0\"";
 /// The mode word, as the first argument: a user's statusline command for tests.
 const STATUSLINE_ECHO: &str = "statusline-echo";
 /// What `statusline-echo` prints, whatever its stdin holds.
@@ -344,6 +349,20 @@ fn statusline_words(settings: &[u8]) -> Option<(String, Vec<String>)> {
     Some((command, words.collect()))
 }
 
+/// A statusline command's arguments as the real CLI's `/bin/sh` hands them over (2.1.287, read
+/// live): the word `"$0"` becomes `/bin/sh`; every other word is unchanged. No shell is run.
+fn shell_expanded(args: Vec<String>) -> Vec<String> {
+    args.into_iter()
+        .map(|word| {
+            if word == SHELL_NAME_WORD {
+                BIN_SH.to_owned()
+            } else {
+                word
+            }
+        })
+        .collect()
+}
+
 /// The `statusline-echo <marker file> [--exit <code>]` mode: stdin read to its end, the fixed
 /// output printed, one line holding the hex of that stdin appended to the marker file, then the
 /// exit code asked for (0 without one).
@@ -382,6 +401,8 @@ struct Agent {
     receipt: Receipt,
     /// Held for each hook's whole run; `true` once the agent is exiting.
     hooks: Mutex<bool>,
+    /// Set by the first turn's Stop: the status line's `rate_limits` replay follows it once.
+    stopped_once: AtomicBool,
 }
 
 impl Agent {
@@ -390,6 +411,7 @@ impl Agent {
             receipt: Receipt::open(opts.receipt.as_deref()),
             opts,
             hooks: Mutex::new(false),
+            stopped_once: AtomicBool::new(false),
         }
     }
 
@@ -411,8 +433,13 @@ impl Agent {
 
     /// `<fixtures>/<cli version>/<event>.<variant>.json`, when it exists.
     fn fixture(&self, event: &str, variant: &str) -> Option<Vec<u8>> {
+        self.set_file(&format!("{event}.{variant}.json"))
+    }
+
+    /// `<fixtures>/<cli version>/<name>`, when it exists.
+    fn set_file(&self, name: &str) -> Option<Vec<u8>> {
         let dir = self.opts.fixtures.as_ref()?.join(self.opts.cli_version());
-        fs::read(dir.join(format!("{event}.{variant}.json"))).ok()
+        fs::read(dir.join(name)).ok()
     }
 
     /// Fires `event` and reports whether any hook it ran printed something: a dialog's decision.
@@ -485,6 +512,25 @@ impl Agent {
             .and_then(|bytes| statusline_words(&bytes));
         if let Some((command, args)) = words {
             self.run_receipted("statusline", None, &command, &args, &body);
+        }
+    }
+
+    /// With `--framing`, the status line the `--settings` file names, run once with the set's
+    /// recorded `name` payload on its stdin: the command split on ASCII white space, its `"$0"` word
+    /// handed over as `/bin/sh`, spawned directly, never through a shell, and receipted as
+    /// `statusline`. A set without the variant runs nothing and receipts nothing.
+    fn replay_statusline(&self, name: &str) {
+        let Some(settings) = self.opts.settings.as_ref().filter(|_| self.opts.framing) else {
+            return;
+        };
+        let Some(body) = self.set_file(name) else {
+            return;
+        };
+        let words = fs::read(settings)
+            .ok()
+            .and_then(|bytes| statusline_words(&bytes));
+        if let Some((command, args)) = words {
+            self.run_receipted("statusline", None, &command, &shell_expanded(args), &body);
         }
     }
 
@@ -593,6 +639,9 @@ impl Agent {
     /// tag-like paste alone). `framing` is the turn's framing stem, when it replayed one.
     fn end_turn(&self, framing: Option<&str>) {
         self.fire("Stop", "default", &[]);
+        if !self.stopped_once.swap(true, Ordering::SeqCst) {
+            self.replay_statusline(STATUSLINE_RATE_LIMITS);
+        }
         // `framing_stem(PROBE_LONG_PASTE)` is a compiled text's stem, always `Some`, so the equality
         // alone says this turn replayed the long paste.
         let long = framing == framing_stem(PROBE_LONG_PASTE);
@@ -896,6 +945,7 @@ fn main() -> ExitCode {
     if trusted {
         agent.fire("SessionStart", "default", &agent.opts.resume_fields());
         agent.run_statusline();
+        agent.replay_statusline(STATUSLINE_DEFAULT);
     }
     if !steps.is_empty() {
         let runner = Arc::clone(&agent);
@@ -1395,6 +1445,90 @@ mod tests {
         assert_eq!(line["stdin_hex"], hex(b"payload"));
         assert!(line["stdout_hex"].as_str().is_some_and(|h| !h.is_empty()));
         assert!(line["stderr_len"].is_u64());
+    }
+
+    /// A set holding the two statusline variants and a settings file naming `command`, then the
+    /// receipt lines the launch's replay and two turns under `--framing --turn-stop` leave, with the
+    /// extra arguments given.
+    fn statusline_replayed(command: &str, variants: bool, extra: &[&str]) -> Vec<Value> {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let set = tmp.path().join("fixtures").join("3.0.0");
+        fs::create_dir_all(&set).expect("set");
+        if variants {
+            fs::write(set.join("StatusLine.default-1.json"), b"{\"n\":1}\n").expect("default");
+            fs::write(set.join("StatusLine.rate-limits-1.json"), b"{\"n\":2}\n").expect("limits");
+        }
+        let settings = tmp.path().join("settings.json");
+        let doc = json!({"statusLine": {"type": "command", "command": command}});
+        fs::write(&settings, doc.to_string()).expect("settings");
+        let receipt = tmp.path().join("receipt.ndjson");
+        let utf8 = |p: PathBuf| p.to_str().expect("utf-8").to_owned();
+        let mut list: Vec<String> = [
+            "--cli-version".to_owned(),
+            "3.0.0".to_owned(),
+            "--fixtures".to_owned(),
+            utf8(tmp.path().join("fixtures")),
+            "--settings".to_owned(),
+            utf8(settings),
+            "--receipt".to_owned(),
+            utf8(receipt.clone()),
+            "--turn-stop".to_owned(),
+        ]
+        .into();
+        list.extend(extra.iter().map(|a| (*a).to_owned()));
+        let agent = Agent::new(Opts::parse(&list));
+        agent.replay_statusline(STATUSLINE_DEFAULT);
+        agent.end_turn(None);
+        agent.end_turn(None);
+        fs::read_to_string(&receipt)
+            .unwrap_or_default()
+            .lines()
+            .filter_map(|l| serde_json::from_str::<Value>(l).ok())
+            .collect()
+    }
+
+    #[test]
+    fn fake_statusline_replays_the_default_then_the_rate_limits_once_under_framing() {
+        let lines = statusline_replayed(&whoami(), true, &["--framing"]);
+        let stdins: Vec<&str> = lines
+            .iter()
+            .filter(|l| l["kind"] == "statusline")
+            .map(|l| l["stdin_hex"].as_str().unwrap_or(""))
+            .collect();
+        assert_eq!(stdins, [hex(b"{\"n\":1}\n"), hex(b"{\"n\":2}\n")]);
+        assert!(lines.iter().all(|l| l["ran"] == true));
+    }
+
+    #[test]
+    fn fake_statusline_replays_nothing_without_framing_or_without_the_variants() {
+        assert!(statusline_replayed(&whoami(), true, &[]).is_empty());
+        assert!(statusline_replayed(&whoami(), false, &["--framing"]).is_empty());
+    }
+
+    #[test]
+    fn fake_statusline_replay_of_a_relative_command_runs_nothing() {
+        let lines = statusline_replayed("relative hook statusline", true, &["--framing"]);
+        assert_eq!(lines.len(), 2);
+        for line in lines {
+            assert_eq!(
+                line,
+                json!({"v": 1, "kind": "statusline", "command_absolute": false, "ran": false})
+            );
+        }
+    }
+
+    #[test]
+    fn fake_statusline_hands_the_shell_name_word_over_as_bin_sh() {
+        let words = |list: &[&str]| list.iter().map(|w| (*w).to_owned()).collect::<Vec<_>>();
+        assert_eq!(
+            shell_expanded(words(&["hook", "statusline", "--shell", "\"$0\""])),
+            words(&["hook", "statusline", "--shell", "/bin/sh"])
+        );
+        assert_eq!(
+            shell_expanded(words(&["$0", "'$0'", "\"$0\"x", "\"$1\""])),
+            words(&["$0", "'$0'", "\"$0\"x", "\"$1\""])
+        );
+        assert_eq!(SHELL_NAME_WORD, "\"$0\"");
     }
 
     #[test]

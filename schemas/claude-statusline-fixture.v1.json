@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://viola.local/schemas/claude-statusline-fixture.v1.json",
+  "title": "viola recorded claude statusline payload fixture",
+  "description": "One fixtures/claude/<cli-version>/StatusLine.<variant>.json: a payload the CLI handed viola verify's statusline probe command on stdin, scrubbed. Tolerant: only session_id is pinned, and rate_limits when present; every other field is the CLI's and is allowed (test-plan §7 Fixture hygiene).",
+  "type": "object",
+  "required": ["session_id"],
+  "properties": {
+    "session_id": { "type": "string" },
+    "rate_limits": {
+      "type": "object",
+      "required": ["five_hour", "seven_day"],
+      "properties": {
+        "five_hour": { "type": "object" },
+        "seven_day": { "type": "object" }
+      }
+    }
+  }
+}

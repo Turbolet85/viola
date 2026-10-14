@@ -384,6 +384,89 @@ fn hook_capture_arm_answers_only_a_mapped_answer_and_fails_open(
     assert_eq!(files_under(&captures).len(), 1);
 }
 
+/// `viola verify`'s statusline capture arm (the founder's ruling, 2026-10-13): `hook statusline
+/// --capture <dir> --shell <word>` files the payload and a closed shell verdict, prints nothing,
+/// exits 0, and writes no role file even with `VIOLA_NAME` and `VIOLA_DIR` set; the word itself is
+/// written nowhere.
+#[rstest]
+#[case::bin_sh(Some("/bin/sh"), "bin-sh")]
+#[case::sh(Some("sh"), "other")]
+#[case::empty_word(Some(""), "other")]
+#[case::no_word(None, "other")]
+fn hook_statusline_capture_files_the_payload_and_the_shell_verdict(
+    #[case] word: Option<&str>,
+    #[case] verdict: &str,
+) {
+    let stamped = StampedHome::unstamped(TestHome::new());
+    let home = stamped.home.path().to_path_buf();
+    let captures = stamped.home.scratch().join("statusline");
+    std::fs::create_dir_all(&captures).expect("captures");
+    let captures_arg = captures.to_str().expect("utf-8").to_owned();
+    let mut args = vec!["hook", "statusline", "--capture", &captures_arg];
+    if let Some(word) = word {
+        args.extend(["--shell", word]);
+    }
+    let payload = json!({"session_id": "s-1", "cwd": CANARY}).to_string();
+    let env = instance_env("builder", &home.join("instances").join("builder"));
+    let out = run_hook(&args, &env, payload.clone().into_bytes());
+    assert_eq!(out.code, Some(0));
+    assert!(out.stdout.is_empty(), "stdout: {} bytes", out.stdout.len());
+    assert!(out.stderr.is_empty(), "stderr: {} bytes", out.stderr.len());
+    let json = captures.join("StatusLine.1.json");
+    let shell = captures.join("StatusLine.1.shell");
+    assert_eq!(std::fs::read(&json).expect("payload"), payload.as_bytes());
+    assert_eq!(std::fs::read(&shell).expect("verdict"), verdict.as_bytes());
+    assert_eq!(
+        files_under(&captures).len(),
+        2,
+        "the payload and its verdict"
+    );
+    #[cfg(unix)]
+    for path in [&json, &shell] {
+        use std::os::unix::fs::PermissionsExt as _;
+        let mode = std::fs::metadata(path).expect("meta").permissions().mode();
+        assert_eq!(mode & 0o777, 0o600, "{}", path.display());
+    }
+    assert!(
+        !home.join("diagnostics").exists(),
+        "a diagnostics dir was created"
+    );
+    assert!(
+        !home.join("instances").exists(),
+        "an instances dir was created"
+    );
+}
+
+/// The arm files nothing for a relative or missing dir or a payload past the frame cap, and still
+/// exits 0 in silence.
+#[test]
+fn hook_statusline_capture_files_nothing_it_cannot_take() {
+    let tmp = TestHome::new();
+    let captures = tmp.scratch().join("statusline");
+    std::fs::create_dir_all(&captures).expect("captures");
+    let missing = tmp.scratch().join("missing");
+    let payload = json!({"session_id": "s-1"}).to_string().into_bytes();
+    let (captures_arg, missing_arg) = (
+        captures.to_str().expect("utf-8").to_owned(),
+        missing.to_str().expect("utf-8").to_owned(),
+    );
+    let relative = "viola-statusline-relative-5c1e";
+    for (dir, stdin) in [
+        (relative, payload.clone()),
+        (missing_arg.as_str(), payload),
+        (captures_arg.as_str(), stdin_bytes(Stdin::Oversize)),
+    ] {
+        let args = ["hook", "statusline", "--capture", dir, "--shell", "/bin/sh"];
+        let out = run_hook(&args, &[], stdin);
+        assert_eq!(out.code, Some(0), "{dir}");
+        assert!(out.stdout.is_empty() && out.stderr.is_empty(), "{dir}");
+    }
+    assert!(files_under(&captures).is_empty());
+    assert!(!missing.exists());
+    assert!(!Path::new(relative).exists());
+    assert!(!tmp.path().exists(), "the arm writes no home");
+}
+
 /// A panic after the sink holds the instance still fails open (security-plan §Error Handling): it
 /// leaves one payload-free role line and one detail line over 4 KiB carrying the payload and the
 /// backtrace (obs-plan §7). The seam fires before stdin is read, so nothing holds the canary.

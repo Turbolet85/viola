@@ -51,7 +51,8 @@ pub(super) struct RunDirs<'a> {
 }
 
 /// What the runs need from `verify`: the resolved CLI and its leading arguments, verify's cwd, the
-/// R8 strip, the stop, and the trusted, dialog and plan runs' plugins and capture dirs.
+/// R8 strip, the stop, the trusted, dialog and plan runs' plugins and capture dirs, and the trusted
+/// run's statusline probe settings where the status line is wrapped.
 pub(super) struct Inputs<'a> {
     pub(super) program: &'a Path,
     pub(super) program_args: &'a [OsString],
@@ -59,6 +60,7 @@ pub(super) struct Inputs<'a> {
     pub(super) strip: &'a StripPlan,
     pub(super) stop: fn() -> bool,
     pub(super) trusted: RunDirs<'a>,
+    pub(super) statusline_settings: Option<&'a Path>,
     pub(super) questions: RunDirs<'a>,
     pub(super) plan: RunDirs<'a>,
 }
@@ -106,7 +108,8 @@ fn untrusted_run(
     Ok(())
 }
 
-/// Run B: the settled input box, one typed turn, the four framing pastes, then Ctrl-C.
+/// Run B: the settled input box, one typed turn, the four framing pastes, then Ctrl-C; its status
+/// line runs the probe settings' capture command where they were written.
 fn trusted_run(
     clock: &Arc<dyn Clock>,
     inputs: &Inputs<'_>,
@@ -114,9 +117,7 @@ fn trusted_run(
     typed: &mut TypedRun,
 ) -> anyhow::Result<()> {
     let trusted = TrustedDir::create(inputs.cwd, "")?;
-    let mut args = args.to_vec();
-    args.push(PLUGIN_DIR_FLAG.into());
-    args.push(inputs.trusted.plugin.as_os_str().to_owned());
+    let args = trusted_args(args, inputs);
     let (keys, pipe) = mpsc::channel();
     let run = Run::spawn(
         clock,
@@ -141,6 +142,18 @@ fn trusted_run(
     drop(keys);
     drop(trusted);
     Ok(())
+}
+
+/// Run B's arguments: the run's own, its plugin dir, then its one `--settings` when given.
+fn trusted_args(args: &[OsString], inputs: &Inputs<'_>) -> Vec<OsString> {
+    let mut args = args.to_vec();
+    args.push(PLUGIN_DIR_FLAG.into());
+    args.push(inputs.trusted.plugin.as_os_str().to_owned());
+    if let Some(settings) = inputs.statusline_settings {
+        args.push(SETTINGS_FLAG.into());
+        args.push(settings.as_os_str().to_owned());
+    }
+    args
 }
 
 /// Run C: the three dialog prompts, each pasted once the previous turn's Stop is captured, under the

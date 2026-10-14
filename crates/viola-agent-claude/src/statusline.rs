@@ -18,7 +18,13 @@ pub const SETTINGS_FLAG: &str = "--settings";
 pub const USER_SETTINGS: [&str; 2] = [".claude", "settings.json"];
 
 /// Whether a session's status line is wrapped on this OS: no Windows reading of the shell exists.
-const WRAPPED_HERE: bool = cfg!(unix);
+pub const WRAPPED_HERE: bool = cfg!(unix);
+
+/// The shell a statusline command runs through where the status line is wrapped.
+pub const BIN_SH: &str = "/bin/sh";
+
+/// The hidden capture arm's option naming the word the CLI's shell expands `"$0"` to.
+pub const SHELL_FLAG: &str = "--shell";
 
 /// The reading a statusline payload carries: none when it holds no `rate_limits` object (before
 /// the first response, or for an account without one). Every other key is ignored.
@@ -104,6 +110,25 @@ fn is_shell_plain(c: char) -> bool {
     c.is_ascii_alphanumeric() || matches!(c, '_' | '-' | '.' | '/' | ':')
 }
 
+/// `viola verify`'s Run B settings: a `statusLine` whose command is the pinned binary, `hook
+/// statusline --capture <captures dir> --shell "$0"`, so each payload is filed with the word the
+/// CLI's shell expands `"$0"` to. Built only where the status line is wrapped, and only when both
+/// paths hold nothing but ASCII letters, digits and `_ - . / :`.
+pub fn probe_document(pinned_bin_fwd: &str, captures_dir_fwd: &str) -> Option<String> {
+    probe_on(pinned_bin_fwd, captures_dir_fwd, WRAPPED_HERE)
+}
+
+fn probe_on(pinned_bin_fwd: &str, captures_dir_fwd: &str, wrapped: bool) -> Option<String> {
+    let plain = |path: &str| path.chars().all(is_shell_plain);
+    if !wrapped || !plain(pinned_bin_fwd) || !plain(captures_dir_fwd) {
+        return None;
+    }
+    let command = format!(
+        "{pinned_bin_fwd} hook statusline --capture {captures_dir_fwd} {SHELL_FLAG} \"$0\""
+    );
+    Some(json!({"statusLine": {"type": "command", "command": command}}).to_string())
+}
+
 /// The shell a user's statusline command runs through, with the command as ONE argument: the
 /// program by its absolute path, never a lookup. None where the status line is not wrapped.
 pub fn shell_argv(command: &str) -> Option<[&str; 3]> {
@@ -111,7 +136,7 @@ pub fn shell_argv(command: &str) -> Option<[&str; 3]> {
 }
 
 fn shell_argv_on(command: &str, wrapped: bool) -> Option<[&str; 3]> {
-    wrapped.then_some(["/bin/sh", "-c", command])
+    wrapped.then_some([BIN_SH, "-c", command])
 }
 
 #[cfg(test)]
@@ -372,6 +397,56 @@ mod tests {
         assert_eq!(override_document("/h/bin k/viola"), None);
         assert_eq!(SETTINGS_FLAG, "--settings");
         assert_eq!(USER_SETTINGS, [".claude", "settings.json"]);
+    }
+
+    #[test]
+    fn statusline_probe_document_runs_the_capture_arm_with_the_shell_word() {
+        assert_eq!(
+            probe_on(
+                "/home/u/.viola/bin/0.1.0-0123456789abcdef/viola",
+                "/home/u/.viola/ledger/probes/7/typed/statusline",
+                true
+            )
+            .as_deref(),
+            Some(
+                r#"{"statusLine":{"type":"command","command":"/home/u/.viola/bin/0.1.0-0123456789abcdef/viola hook statusline --capture /home/u/.viola/ledger/probes/7/typed/statusline --shell \"$0\""}}"#
+            )
+        );
+        let doc = probe_on("/h/bin/k/viola", "/h/p/typed/statusline", true).expect("a document");
+        assert_eq!(
+            user_command(doc.as_bytes()).as_deref(),
+            Some("/h/bin/k/viola hook statusline --capture /h/p/typed/statusline --shell \"$0\"")
+        );
+        assert_eq!(SHELL_FLAG, "--shell");
+        assert_eq!(BIN_SH, "/bin/sh");
+    }
+
+    #[rstest]
+    #[case::a_space_in_the_pinned_path("/home/a user/bin/k/viola", "/h/p/typed/statusline")]
+    #[case::a_quote_in_the_pinned_path("/home/u'/bin/k/viola", "/h/p/typed/statusline")]
+    #[case::a_backslash_in_the_pinned_path("C:\\h\\bin\\viola.exe", "/h/p/typed/statusline")]
+    #[case::a_space_in_the_captures_dir("/h/bin/k/viola", "/h/a dir/typed/statusline")]
+    #[case::a_dollar_in_the_captures_dir("/h/bin/k/viola", "/h/$HOME/typed/statusline")]
+    #[case::a_semicolon_in_the_captures_dir("/h/bin/k/viola", "/h/p;rm/typed/statusline")]
+    #[case::a_non_ascii_letter_in_the_captures_dir("/h/bin/k/viola", "/h/\u{e9}/statusline")]
+    fn statusline_probe_document_of_a_path_a_shell_could_misread_is_none(
+        #[case] pinned: &str,
+        #[case] captures: &str,
+    ) {
+        assert_eq!(probe_on(pinned, captures, true), None);
+    }
+
+    #[test]
+    fn statusline_probe_document_where_the_status_line_is_not_wrapped_is_none() {
+        assert_eq!(
+            probe_on("/h/bin/k/viola", "/h/p/typed/statusline", false),
+            None
+        );
+        assert_eq!(
+            probe_document("/h/bin/k/viola", "/h/p/typed/statusline").is_some(),
+            cfg!(unix)
+        );
+        assert_eq!(WRAPPED_HERE, cfg!(unix));
     }
 
     #[test]

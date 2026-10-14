@@ -14,6 +14,7 @@ use crate::AgentError;
 use crate::dialog::{Permit, Response, Verdict, decision_body};
 use crate::hook::{HookEvent, prompt_text};
 use crate::screen::{CONFIRM_WINDOW_FALLBACK, GATE_MAX_WAIT, SIGNATURES};
+use crate::statusline::WRAPPED_HERE;
 
 /// One measured behaviour, in the order `viola verify` checks and prints it.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -36,10 +37,13 @@ pub enum LedgerRow {
     TagEscaping,
     LocalCommandClear,
     PasteNewline,
+    StatusLineOverride,
+    StatusLineShell,
+    StatusLineRateLimits,
 }
 
 impl LedgerRow {
-    pub const ALL: [Self; 18] = [
+    pub const ALL: [Self; 21] = [
         Self::ShimResolution,
         Self::SpineHooks,
         Self::SessionStartFields,
@@ -58,6 +62,9 @@ impl LedgerRow {
         Self::TagEscaping,
         Self::LocalCommandClear,
         Self::PasteNewline,
+        Self::StatusLineOverride,
+        Self::StatusLineShell,
+        Self::StatusLineRateLimits,
     ];
 
     /// The kebab-case id, the key under a stamped version's `rows`.
@@ -81,6 +88,9 @@ impl LedgerRow {
             Self::TagEscaping => "tag-escaping",
             Self::LocalCommandClear => "local-command-clear",
             Self::PasteNewline => "paste-newline",
+            Self::StatusLineOverride => "statusline-override",
+            Self::StatusLineShell => "statusline-shell",
+            Self::StatusLineRateLimits => "statusline-rate-limits",
         }
     }
 
@@ -107,7 +117,33 @@ impl LedgerRow {
             Self::TagEscaping => "tag-like text un-escapes to the text as pasted",
             Self::LocalCommandClear => "/clear starts a new session and submits no prompt",
             Self::PasteNewline => "an LF inside a paste stays inside the one prompt submitted",
+            Self::StatusLineOverride => "a --settings statusLine runs in the status line's place",
+            Self::StatusLineShell => "a statusline command runs through /bin/sh",
+            Self::StatusLineRateLimits => {
+                "the statusline payload carries two whole-number rate_limits windows"
+            }
         }
+    }
+
+    /// Whether viola relies on this row on this OS: the three statusline rows only where the status
+    /// line is wrapped.
+    pub const fn relied_here(self) -> bool {
+        self.relied_on(WRAPPED_HERE)
+    }
+
+    const fn relied_on(self, wrapped: bool) -> bool {
+        match self {
+            Self::StatusLineOverride | Self::StatusLineShell | Self::StatusLineRateLimits => {
+                wrapped
+            }
+            _ => true,
+        }
+    }
+
+    /// The rows relied on this OS, in [`LedgerRow::ALL`] order: what `viola verify` checks and the
+    /// stamp verdict reads.
+    pub fn relied() -> Vec<Self> {
+        Self::ALL.into_iter().filter(|r| r.relied_here()).collect()
     }
 }
 
@@ -471,6 +507,27 @@ pub fn capture_file_name(event: HookEvent, k: u32) -> String {
     format!("{}.{k}.json", event_name(event))
 }
 
+/// `StatusLine.<k>.json`: one status line payload the probe command filed.
+pub fn statusline_capture_file_name(k: u32) -> String {
+    format!("{STATUSLINE_STEM}.{k}.json")
+}
+
+/// `StatusLine.<k>.shell`: the shell verdict filed beside payload `k`.
+pub fn statusline_shell_file_name(k: u32) -> String {
+    format!("{STATUSLINE_STEM}.{k}.shell")
+}
+
+const STATUSLINE_STEM: &str = "StatusLine";
+
+/// The `k` of a `StatusLine.<k>.json` name; any other name has none.
+pub fn parse_statusline_capture_file_name(name: &str) -> Option<u32> {
+    let k = name
+        .strip_suffix(".json")?
+        .strip_prefix(STATUSLINE_STEM)?
+        .strip_prefix('.')?;
+    k.parse().ok().filter(|k| *k > 0)
+}
+
 pub fn parse_capture_file_name(name: &str) -> Option<(HookEvent, u32)> {
     let (stem, k) = name.strip_suffix(".json")?.rsplit_once('.')?;
     let event = HookEvent::ALL
@@ -544,13 +601,49 @@ pub struct DialogRuns {
     pub plan: Vec<Capture>,
 }
 
-/// Every measurement one `viola verify` run makes; `trusted` is Run B's captures in claim order.
+/// Which shell ran a statusline command: the word the CLI's shell expanded `"$0"` to was exactly
+/// [`crate::statusline::BIN_SH`], or anything else (no word included).
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ShellVerdict {
+    BinSh,
+    Other,
+}
+
+impl ShellVerdict {
+    /// The word a capture's shell file holds.
+    pub const fn word(self) -> &'static str {
+        match self {
+            Self::BinSh => "bin-sh",
+            Self::Other => "other",
+        }
+    }
+
+    /// A shell file's bytes: exactly `bin-sh` is [`ShellVerdict::BinSh`], anything else `Other`.
+    pub fn read(bytes: &[u8]) -> Self {
+        if bytes == Self::BinSh.word().as_bytes() {
+            Self::BinSh
+        } else {
+            Self::Other
+        }
+    }
+}
+
+/// One payload Run B's status line handed the probe command, as filed, and the shell that ran it.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct StatusLineCapture {
+    pub bytes: Vec<u8>,
+    pub shell: ShellVerdict,
+}
+
+/// Every measurement one `viola verify` run makes; `trusted` is Run B's captures in claim order and
+/// `statusline` its status line's in `k` order.
 #[derive(Debug, Clone, PartialEq)]
 pub struct Probes {
     pub print: ProbeRun,
     pub typed: TypedRun,
     pub trusted: Vec<Capture>,
     pub dialogs: DialogRuns,
+    pub statusline: Vec<StatusLineCapture>,
 }
 
 const ASK: &str = "AskUserQuestion";
@@ -787,7 +880,60 @@ pub fn check(row: LedgerRow, probes: &Probes) -> bool {
         LedgerRow::LocalCommandClear => local_command_cleared(&probes.trusted),
         // A CLI that submitted at the LF leaves no capture equal to the whole text.
         LedgerRow::PasteNewline => pasted(&probes.trusted, PROBE_NEWLINE_PASTE).is_some(),
+        LedgerRow::StatusLineOverride => !probes.statusline.is_empty(),
+        LedgerRow::StatusLineShell => {
+            !probes.statusline.is_empty()
+                && probes
+                    .statusline
+                    .iter()
+                    .all(|c| c.shell == ShellVerdict::BinSh)
+        }
+        LedgerRow::StatusLineRateLimits => probes
+            .statusline
+            .iter()
+            .any(|c| whole_rate_limits(&c.bytes)),
     }
+}
+
+/// One JSON object whose `rate_limits` holds `five_hour` and `seven_day`, each with a whole-number
+/// `used_percentage` from 0 to 100 and a whole non-negative `resets_at`: the shape 2.1.287 sends,
+/// narrower than what `statusline::reading` tolerates.
+fn whole_rate_limits(bytes: &[u8]) -> bool {
+    let Ok(Value::Object(payload)) = serde_json::from_slice::<Value>(bytes) else {
+        return false;
+    };
+    let whole = |window: &Value| {
+        window.is_object()
+            && window["used_percentage"].as_u64().is_some_and(|p| p <= 100)
+            && window["resets_at"].as_u64().is_some()
+    };
+    payload
+        .get("rate_limits")
+        .is_some_and(|limits| whole(&limits["five_hour"]) && whole(&limits["seven_day"]))
+}
+
+/// The recorded status line payload of a session before its first response.
+pub const STATUSLINE_DEFAULT: &str = "StatusLine.default-1.json";
+/// The recorded status line payload that carries both `rate_limits` windows.
+pub const STATUSLINE_RATE_LIMITS: &str = "StatusLine.rate-limits-1.json";
+
+/// Run B's status line payloads named for `--record`: [`STATUSLINE_DEFAULT`] is the first whose
+/// object holds no `rate_limits`, [`STATUSLINE_RATE_LIMITS`] the first the rate-limits row passes.
+pub fn statusline_variants(captures: &[StatusLineCapture]) -> Vec<(String, &[u8])> {
+    let without = captures.iter().find(|c| {
+        matches!(
+            serde_json::from_slice::<Value>(&c.bytes),
+            Ok(Value::Object(payload)) if !payload.contains_key("rate_limits")
+        )
+    });
+    let with = captures.iter().find(|c| whole_rate_limits(&c.bytes));
+    [
+        (STATUSLINE_DEFAULT, without),
+        (STATUSLINE_RATE_LIMITS, with),
+    ]
+    .into_iter()
+    .filter_map(|(name, c)| c.map(|c| (name.to_owned(), c.bytes.as_slice())))
+    .collect()
 }
 
 /// Exactly the four spine events, one each, in firing order, each payload naming its event.
@@ -943,7 +1089,8 @@ pub fn dialog_variants(dialogs: &DialogRuns) -> Vec<(String, &Capture)> {
     out
 }
 
-/// `true` only when every [`LedgerRow`] reads `"pass"` under `version`. Bytes that are not a `v:1`
+/// `true` only when every row relied on this OS ([`LedgerRow::relied`]) reads `"pass"` under
+/// `version`. Bytes that are not a `v:1`
 /// envelope of the documented shape are `StampsMalformed`; an absent version is simply unverified.
 pub fn verified(stamps: &[u8], version: &str) -> Result<bool, AgentError> {
     let doc: Value = serde_json::from_slice(stamps).map_err(|_| AgentError::StampsMalformed)?;
@@ -954,7 +1101,9 @@ pub fn verified(stamps: &[u8], version: &str) -> Result<bool, AgentError> {
         return Err(AgentError::StampsMalformed);
     }
     let rows = &doc["data"]["versions"][version]["rows"];
-    Ok(LedgerRow::ALL.iter().all(|row| rows[row.id()] == "pass"))
+    Ok(LedgerRow::relied()
+        .iter()
+        .all(|row| rows[row.id()] == "pass"))
 }
 
 /// A recorded payload with the home rewritten to `~` (both separator spellings, case folded when
@@ -1222,7 +1371,7 @@ mod tests {
     use rstest::rstest;
 
     #[test]
-    fn ledger_rows_are_the_eighteen_measured_behaviours_in_order() {
+    fn ledger_rows_are_the_twenty_one_measured_behaviours_in_order() {
         let ids: Vec<&str> = LedgerRow::ALL.iter().map(|r| r.id()).collect();
         assert_eq!(
             ids,
@@ -1245,6 +1394,9 @@ mod tests {
                 "tag-escaping",
                 "local-command-clear",
                 "paste-newline",
+                "statusline-override",
+                "statusline-shell",
+                "statusline-rate-limits",
             ]
         );
         let words: Vec<&str> = LedgerRow::ALL.iter().map(|r| r.words()).collect();
@@ -1269,9 +1421,33 @@ mod tests {
                 "tag-like text un-escapes to the text as pasted",
                 "/clear starts a new session and submits no prompt",
                 "an LF inside a paste stays inside the one prompt submitted",
+                "a --settings statusLine runs in the status line's place",
+                "a statusline command runs through /bin/sh",
+                "the statusline payload carries two whole-number rate_limits windows",
             ]
         );
         assert!(words.iter().all(|w| w.is_ascii()));
+    }
+
+    #[test]
+    fn relied_rows_drop_the_three_statusline_rows_where_the_status_line_is_not_wrapped() {
+        let ids = |wrapped: bool| -> Vec<&str> {
+            LedgerRow::ALL
+                .into_iter()
+                .filter(|r| r.relied_on(wrapped))
+                .map(LedgerRow::id)
+                .collect()
+        };
+        assert_eq!(ids(true).len(), 21);
+        assert_eq!(ids(false).len(), 18);
+        assert_eq!(ids(false).last(), Some(&"paste-newline"));
+        assert!(!ids(false).iter().any(|id| id.starts_with("statusline-")));
+        let here: Vec<&str> = LedgerRow::relied().into_iter().map(LedgerRow::id).collect();
+        #[cfg(unix)]
+        assert_eq!(here.len(), 21);
+        #[cfg(windows)]
+        assert_eq!(here.len(), 18);
+        assert_eq!(here, ids(cfg!(unix)));
     }
 
     #[test]
@@ -1512,6 +1688,7 @@ mod tests {
             typed: clean_typed(),
             trusted: clean_trusted(),
             dialogs: clean_dialogs(),
+            statusline: clean_statusline(),
         }
     }
 
@@ -1532,7 +1709,7 @@ mod tests {
 
     #[test]
     fn check_passes_every_row_on_a_clean_probe() {
-        assert_eq!(verdicts(&clean_run()), [true; 18]);
+        assert_eq!(verdicts(&clean_run()), [true; 21]);
     }
 
     #[test]
@@ -1686,6 +1863,8 @@ mod tests {
                         "question-notes": "pass", "dialog-concurrency": "pass",
                         "long-paste-wrapper": "pass", "tag-escaping": "pass",
                         "local-command-clear": "pass", "paste-newline": "pass",
+                        "statusline-override": "pass", "statusline-shell": "pass",
+                        "statusline-rate-limits": "pass",
                     },
                     "measured": {
                         "largest_hook_payload": {"SessionStart": 120, "Stop": 90},
@@ -1841,7 +2020,39 @@ mod tests {
             "every row but the newline one"
         );
         stamp["data"]["versions"]["2.1.0"]["rows"]["paste-newline"] = json!("pass");
+        assert_eq!(
+            verified(stamp.to_string().as_bytes(), "2.1.0"),
+            Ok(cfg!(windows)),
+            "the eighteen rows before the statusline rows"
+        );
+        for id in [
+            "statusline-override",
+            "statusline-shell",
+            "statusline-rate-limits",
+        ] {
+            stamp["data"]["versions"]["2.1.0"]["rows"][id] = json!("pass");
+        }
         assert_eq!(verified(stamp.to_string().as_bytes(), "2.1.0"), Ok(true));
+    }
+
+    /// Windows relies on no statusline row, so a statusline row that failed there leaves the
+    /// version verified; on Unix it does not.
+    #[test]
+    fn verified_reads_a_failed_statusline_row_by_the_relied_set() {
+        let results: Vec<(LedgerRow, bool)> = LedgerRow::ALL
+            .iter()
+            .map(|r| (*r, *r != LedgerRow::StatusLineShell))
+            .collect();
+        let stamp = merge_stamp(
+            None,
+            "2.1.0",
+            &results,
+            &[],
+            &TypedRun::default(),
+            None,
+            "t",
+        );
+        assert_eq!(verified(&stamp, "2.1.0"), Ok(cfg!(windows)));
     }
 
     #[rstest]
@@ -1961,6 +2172,7 @@ mod tests {
                 typed,
                 trusted: clean_trusted(),
                 dialogs: clean_dialogs(),
+                statusline: clean_statusline(),
             },
         )
     }
@@ -1980,7 +2192,7 @@ mod tests {
             six,
             [
                 true, true, true, true, true, true, false, false, false, false, true, true, true,
-                true, true, true, true, true
+                true, true, true, true, true, true, true, true
             ]
         );
     }
@@ -2369,6 +2581,7 @@ mod tests {
                 typed: clean_typed(),
                 trusted: clean_trusted(),
                 dialogs,
+                statusline: clean_statusline(),
             },
         )
     }
@@ -2463,6 +2676,7 @@ mod tests {
                 typed: clean_typed(),
                 trusted,
                 dialogs: clean_dialogs(),
+                statusline: clean_statusline(),
             },
         )
     }
@@ -2584,6 +2798,247 @@ mod tests {
         });
         assert!(!framing_check(row, no_tag_turn), "no tag-like turn");
         assert!(!framing_check(row, Vec::new()), "no run");
+    }
+
+    /// A status line payload as 2.1.287 hands one over after a turn: both windows, whole numbers.
+    fn limited(five_hour: Value, seven_day: Value) -> StatusLineCapture {
+        let payload = json!({
+            "session_id": "s-1",
+            "model": {"id": "claude-haiku"},
+            "rate_limits": {"five_hour": five_hour, "seven_day": seven_day},
+        });
+        StatusLineCapture {
+            bytes: payload.to_string().into_bytes(),
+            shell: ShellVerdict::BinSh,
+        }
+    }
+
+    fn window(used: Value, resets_at: Value) -> Value {
+        json!({"used_percentage": used, "resets_at": resets_at})
+    }
+
+    /// Run B's status line as the live 2.1.287 probe would file it: a first payload without
+    /// `rate_limits`, then one with both windows, each run by `/bin/sh`.
+    fn clean_statusline() -> Vec<StatusLineCapture> {
+        let first = json!({"session_id": "s-1", "model": {"id": "claude-haiku"}});
+        vec![
+            StatusLineCapture {
+                bytes: first.to_string().into_bytes(),
+                shell: ShellVerdict::BinSh,
+            },
+            limited(
+                window(json!(23), json!(1_760_400_000)),
+                window(json!(91), json!(1_760_900_000)),
+            ),
+        ]
+    }
+
+    fn statusline_check(row: LedgerRow, statusline: Vec<StatusLineCapture>) -> bool {
+        check(
+            row,
+            &Probes {
+                print: clean_run(),
+                typed: clean_typed(),
+                trusted: clean_trusted(),
+                dialogs: clean_dialogs(),
+                statusline,
+            },
+        )
+    }
+
+    #[test]
+    fn check_statusline_override_passes_on_a_filed_payload() {
+        let row = LedgerRow::StatusLineOverride;
+        assert!(statusline_check(row, clean_statusline()));
+        let other_shell = vec![StatusLineCapture {
+            bytes: b"not json".to_vec(),
+            shell: ShellVerdict::Other,
+        }];
+        assert!(statusline_check(row, other_shell), "any filed payload");
+    }
+
+    /// The override row has no broken payload shape: its broken post-condition is a Run B whose
+    /// hooks fired while its status line filed nothing.
+    #[test]
+    fn check_statusline_override_fails_when_run_b_ran_and_its_status_line_filed_nothing() {
+        let row = LedgerRow::StatusLineOverride;
+        assert!(framing_check(LedgerRow::LongPasteWrapper, clean_trusted()));
+        assert!(!statusline_check(row, Vec::new()));
+    }
+
+    #[test]
+    fn check_statusline_override_fails_with_no_capture() {
+        let none = Probes {
+            print: clean_run(),
+            typed: clean_typed(),
+            trusted: Vec::new(),
+            dialogs: DialogRuns::default(),
+            statusline: Vec::new(),
+        };
+        assert!(!check(LedgerRow::StatusLineOverride, &none));
+    }
+
+    #[test]
+    fn check_statusline_shell_passes_when_every_payload_ran_through_bin_sh() {
+        assert!(statusline_check(
+            LedgerRow::StatusLineShell,
+            clean_statusline()
+        ));
+    }
+
+    #[test]
+    fn check_statusline_shell_fails_on_one_other_shell_among_bin_sh() {
+        let mut mixed = clean_statusline();
+        mixed[1].shell = ShellVerdict::Other;
+        assert!(!statusline_check(LedgerRow::StatusLineShell, mixed));
+    }
+
+    #[test]
+    fn check_statusline_shell_fails_with_no_capture() {
+        assert!(!statusline_check(LedgerRow::StatusLineShell, Vec::new()));
+    }
+
+    #[test]
+    fn check_statusline_rate_limits_passes_on_two_whole_number_windows() {
+        let row = LedgerRow::StatusLineRateLimits;
+        assert!(statusline_check(row, clean_statusline()));
+        let bounds = limited(
+            window(json!(0), json!(0)),
+            window(json!(100), json!(9_999_999_999_u64)),
+        );
+        assert!(statusline_check(row, vec![bounds]), "0 and 100");
+        let other_shell = StatusLineCapture {
+            shell: ShellVerdict::Other,
+            ..clean_statusline().remove(1)
+        };
+        assert!(
+            statusline_check(row, vec![other_shell]),
+            "the shell is not this row's"
+        );
+    }
+
+    #[test]
+    fn check_statusline_rate_limits_fails_on_each_broken_window() {
+        let row = LedgerRow::StatusLineRateLimits;
+        let first = clean_statusline().remove(0);
+        let good = || window(json!(23), json!(1_760_400_000));
+        for (why, five_hour, seven_day) in [
+            (
+                "a fractional percentage",
+                window(json!(23.5), json!(1)),
+                good(),
+            ),
+            (
+                "a whole percentage written as a float",
+                window(json!(23.0), json!(1)),
+                good(),
+            ),
+            (
+                "a percentage past 100",
+                good(),
+                window(json!(101), json!(1)),
+            ),
+            ("a negative percentage", good(), window(json!(-1), json!(1))),
+            ("a string percentage", window(json!("23"), json!(1)), good()),
+            (
+                "a string resets_at",
+                good(),
+                window(json!(23), json!("2025-02-01T16:00:00Z")),
+            ),
+            ("a negative resets_at", window(json!(23), json!(-1)), good()),
+            (
+                "a fractional resets_at",
+                window(json!(23), json!(1.5)),
+                good(),
+            ),
+            ("no resets_at", json!({"used_percentage": 23}), good()),
+            ("no used_percentage", json!({"resets_at": 1}), good()),
+            ("the five-hour window missing", Value::Null, good()),
+            ("the seven-day window missing", good(), Value::Null),
+            ("a window not an object", good(), json!(23)),
+        ] {
+            let mut limits = json!({"five_hour": five_hour, "seven_day": seven_day});
+            if let Some(limits) = limits.as_object_mut() {
+                limits.retain(|_, w| !w.is_null());
+            }
+            let payload = json!({"session_id": "s-1", "rate_limits": limits});
+            let broken = StatusLineCapture {
+                bytes: payload.to_string().into_bytes(),
+                shell: ShellVerdict::BinSh,
+            };
+            assert!(!statusline_check(row, vec![first.clone(), broken]), "{why}");
+        }
+        let not_object = StatusLineCapture {
+            bytes: br#"[{"rate_limits":{}}]"#.to_vec(),
+            shell: ShellVerdict::BinSh,
+        };
+        assert!(!statusline_check(row, vec![not_object]), "not one object");
+        assert!(!statusline_check(row, vec![first]), "no rate_limits");
+    }
+
+    #[test]
+    fn check_statusline_rate_limits_fails_with_no_capture() {
+        assert!(!statusline_check(
+            LedgerRow::StatusLineRateLimits,
+            Vec::new()
+        ));
+    }
+
+    #[test]
+    fn shell_verdict_reads_only_the_exact_word() {
+        assert_eq!(ShellVerdict::BinSh.word(), "bin-sh");
+        assert_eq!(ShellVerdict::Other.word(), "other");
+        assert_eq!(ShellVerdict::read(b"bin-sh"), ShellVerdict::BinSh);
+        for other in [&b"other"[..], b"bin-sh\n", b"BIN-SH", b"", b"/bin/sh"] {
+            assert_eq!(ShellVerdict::read(other), ShellVerdict::Other, "{other:?}");
+        }
+    }
+
+    #[test]
+    fn statusline_variants_name_the_first_without_and_the_first_with_rate_limits() {
+        let mut list = clean_statusline();
+        let second_default = StatusLineCapture {
+            bytes: br#"{"session_id":"s-1","n":2}"#.to_vec(),
+            shell: ShellVerdict::BinSh,
+        };
+        list.insert(1, second_default);
+        let named = statusline_variants(&list);
+        let names: Vec<&str> = named.iter().map(|(n, _)| n.as_str()).collect();
+        assert_eq!(
+            names,
+            ["StatusLine.default-1.json", "StatusLine.rate-limits-1.json"]
+        );
+        assert_eq!(named[0].1, list[0].bytes.as_slice());
+        assert_eq!(named[1].1, list[2].bytes.as_slice());
+        assert!(statusline_variants(&[]).is_empty());
+        let only_first = vec![clean_statusline().remove(0)];
+        let names: Vec<String> = statusline_variants(&only_first)
+            .into_iter()
+            .map(|(n, _)| n)
+            .collect();
+        assert_eq!(names, [STATUSLINE_DEFAULT]);
+    }
+
+    #[test]
+    fn statusline_capture_file_names_round_trip() {
+        assert_eq!(statusline_capture_file_name(3), "StatusLine.3.json");
+        assert_eq!(statusline_shell_file_name(3), "StatusLine.3.shell");
+        assert_eq!(
+            parse_statusline_capture_file_name("StatusLine.3.json"),
+            Some(3)
+        );
+        for other in [
+            "StatusLine.3.shell",
+            "StatusLine.0.json",
+            "StatusLine.x.json",
+            "StatusLine.default-1.json",
+            "StatusLine3.json",
+            "Stop.3.json",
+            "statusline.3.json",
+        ] {
+            assert_eq!(parse_statusline_capture_file_name(other), None, "{other}");
+        }
+        assert_eq!(parse_capture_file_name("StatusLine.3.json"), None);
     }
 
     #[test]

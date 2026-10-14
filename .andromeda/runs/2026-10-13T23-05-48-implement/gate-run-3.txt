@@ -1,0 +1,36 @@
+gate v1.17 · 383c6f7b
+shell /usr/bin/bash (from $SHELL; -c, non-login)
+root . · marker 2026-10-13-owed-ledger-rows · entries 26
+logs $TMPDIR/andromeda-gate/2026-10-13-owed-ledger-rows/implement-2026-10-13T23-05-48 · bound: GNU timeout
+delta docs 53 · rust 15 · unmapped 8
+walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 76
+prose L184-191: The standing lint and unit entries run first, then the nine row cases by name. The live ro… (383 chars)
+prose L193-196: The record entry regenerates committed fixtures, so it precedes every entry that reads the… (402 chars)
+prose L198-201: No count-literal probe is listed. The predecessor's "no old count left" probe cannot hold … (359 chars)
+  1 lint        green · exit 0 · 0.86s · 0 B → 1.3.log · cargo fmt --all --check
+  2 lint        green · exit 0 · 0.2s · 72 B → 2.3.log · cargo clippy --workspace --all-targets --features fake-age… (75 chars)
+  3 lint        green · exit 1 · 0.01s · 0 B → 3.2.log · rg -n -U --pcre2 --type rust '#\[(tracing::)?instrument\b(… (79 chars)
+  4 lint        green · exit 0 · 0.63s · 286 B → 4.2.log · bash scripts/lint-probes.sh
+  5 unit        green · exit 0 · 6.67s · 271984 B → 5.3.log · bash scripts/agent-run.sh run --unit
+  6 unit        green · exit 0 · 0.84s · 2737 B → 6.3.log · bash scripts/agent-run.sh run --unit --filter 'test(/check… (74 chars)
+  7 probe       not run — leg round (the letter drives it) · test -x "$HOME/.local/share/mise/installs/claude/2.1.287/c… (64 chars)
+  8 build       not run — leg live (the letter drives it) · h="target/e2e-home/viola-record-$(date -u +%Y%m%dT%H%M%SZ)… (367 chars)
+  9 probe       not run — leg round (the letter drives it) · for p in $(pgrep -x claude); do case "$(readlink /proc/$p/… (166 chars)
+ 10 probe       not run — leg round (the letter drives it) · test -x "$HOME/.local/share/mise/installs/claude/2.1.287/c… (64 chars)
+ 11 e2e         not run — leg live (the letter drives it) · env -u VIOLA_NAME -u VIOLA_DIR -u VIOLA_BIN PATH="$HOME/.l… (147 chars)
+ 12 probe       not run — leg round (the letter drives it) · for p in $(pgrep -x claude); do case "$(readlink /proc/$p/… (164 chars)
+ 13 probe       green · exit 0 · 0.01s · 0 B → 13.log · test -z "$(git diff --name-only --diff-filter=MD 14e62329f… (361 chars)
+ 14 integration green · exit 0 · 35.34s · 20011 B → 14.log · bash scripts/agent-run.sh run --integration --filter 'bina… (256 chars)
+ 15 probe       green · exit 0 · 0.01s · 0 B → 15.log · git diff --quiet 14e62329f808 -- . ':!crates/viola-agent-c… (838 chars)
+ 16 probe       green · exit 0 · 0.73s · 9793 B → 16.log · cargo deny check
+ 17 smoke       green · exit 0 · 0.09s · 47 B → 17.log · bash scripts/agent-run.sh cleanup --session p-olr-smoke
+ 18 smoke       green · exit 0 · 3.96s · 287 B → 18.log · bash scripts/agent-run.sh boot --session p-olr-smoke --ins… (71 chars)
+ 19 smoke       green · exit 0 · 0.09s · 216 B → 19.log · bash scripts/agent-run.sh status --session p-olr-smoke
+ 20 probe       green · exit 0 · 0.01s · 10 B → 20.log · bash scripts/g2-zero-panics.sh
+ 21 probe       green · exit 0 · 0.11s · 104 B → 21.log · bash scripts/agent-run.sh schema-check
+ 22 smoke       green · exit 0 · 0.31s · 176 B → 22.log · bash scripts/agent-run.sh cleanup --session p-olr-smoke
+ 23 probe       red · exit 0 ✗ (exit 1) · exit 1 · 64.61s · 330056 B → 23.log · bash scripts/agent-run.sh pre-push
+ 24 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (90 chars)
+ 25 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (69 chars)
+ 26 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (114 chars)
+entries 26 · green 16 · red 1 (23) · recorded 0 · timeout 0 · not-run 9

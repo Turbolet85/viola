@@ -17,8 +17,10 @@ use tracing::instrument;
 use viola_agent_claude::dialog::{Dialog, Response, classify, decision_body};
 use viola_agent_claude::hook::{HookEvent, Normalised};
 use viola_agent_claude::ledger::{
-    ProbeAnswer, answer_file_name, capture_file_name, parse_capture_file_name, probe_body,
+    ProbeAnswer, ShellVerdict, answer_file_name, capture_file_name, parse_capture_file_name,
+    probe_body, statusline_capture_file_name, statusline_shell_file_name,
 };
+use viola_agent_claude::statusline::BIN_SH;
 use viola_channel::{ChannelError, Client};
 use viola_core::obs::{ObsEvent, ObsProcess};
 use viola_core::{DIALOG_DEADLINE, MAX_FRAME, ViolaName, obs_event};
@@ -42,6 +44,9 @@ pub(crate) struct HookArgs {
     /// With --capture: print this dialog event's compiled answer, read from this directory
     #[arg(long, hide = true, value_name = "DIR")]
     answers: Option<PathBuf>,
+    /// With `statusline --capture`: the word the CLI's shell expanded `"$0"` to
+    #[arg(long, hide = true, value_name = "WORD")]
+    shell: Option<OsString>,
 }
 
 /// The hook's whole budget from its start, kept below `viola_core::SPINE_DEADLINE`, the bound the
@@ -93,8 +98,13 @@ fn instance_of(name: Option<OsString>, dir: Option<OsString>) -> Option<Instance
 
 pub(crate) fn hook(args: &HookArgs) -> Result<ExitCode, Failure> {
     let started = Instant::now();
-    if args.event == statusline::WORD && args.capture.is_none() {
-        return statusline::statusline(started);
+    if args.event == statusline::WORD {
+        let Some(dir) = &args.capture else {
+            return statusline::statusline(started);
+        };
+        let shell = args.shell.as_deref();
+        capture_statusline(dir, shell, &mut std::io::stdin().lock());
+        return Ok(ExitCode::SUCCESS);
     }
     let Some(event) = HookEvent::from_arg(&args.event) else {
         return Ok(ExitCode::SUCCESS);
@@ -389,6 +399,39 @@ fn file_from(event: HookEvent, dir: &Path, bytes: Vec<u8>, start: u32) -> Option
     };
     replace_private(&path, &bytes, FILE_MODE).ok()?;
     Some(Filed { k, bytes })
+}
+
+/// `viola verify`'s statusline probe (the founder's ruling, 2026-10-13): the payload into the first free `<dir>/StatusLine.<k>.json`, and
+/// beside it `StatusLine.<k>.shell` holding `bin-sh` when `shell` is exactly `/bin/sh`, else
+/// `other`; the word itself is written nowhere. No `VIOLA_*` read, no log, no channel. `dir` must be
+/// an absolute, existing directory; a payload past the frame cap and every failure file nothing.
+fn capture_statusline(dir: &Path, shell: Option<&OsStr>, stdin: &mut dyn Read) -> Option<u32> {
+    if !dir.is_absolute() || !dir.is_dir() {
+        return None;
+    }
+    let mut bytes = Vec::new();
+    stdin.take(MAX_FRAME + 1).read_to_end(&mut bytes).ok()?;
+    if u64::try_from(bytes.len()).unwrap_or(u64::MAX) > MAX_FRAME {
+        return None;
+    }
+    let verdict = if shell == Some(OsStr::new(BIN_SH)) {
+        ShellVerdict::BinSh
+    } else {
+        ShellVerdict::Other
+    };
+    let mut k = 1;
+    let path = loop {
+        let path = dir.join(statusline_capture_file_name(k));
+        match create_private_new(&path) {
+            Ok(_) => break path,
+            Err(e) if e.kind() == std::io::ErrorKind::AlreadyExists => k = k.checked_add(1)?,
+            Err(_) => return None,
+        }
+    };
+    replace_private(&path, &bytes, FILE_MODE).ok()?;
+    let shell_path = dir.join(statusline_shell_file_name(k));
+    replace_private(&shell_path, verdict.word().as_bytes(), FILE_MODE).ok()?;
+    Some(k)
 }
 
 /// The bound on an answer file: a `ProbeAnswer` id is shorter.
@@ -1203,6 +1246,99 @@ mod tests {
         fs::create_dir(&dir).expect("dir");
         assert!(capture(HookEvent::Stop, &dir, &mut Failing).is_none());
         assert_eq!(fs::read_dir(&dir).expect("dir").count(), 0);
+    }
+
+    fn names_in(dir: &Path) -> Vec<String> {
+        let mut names: Vec<String> = fs::read_dir(dir)
+            .expect("dir")
+            .flatten()
+            .map(|e| e.file_name().to_string_lossy().into_owned())
+            .collect();
+        names.sort();
+        names
+    }
+
+    #[test]
+    fn capture_statusline_files_each_payload_and_its_shell_verdict_under_the_next_k() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let dir = tmp.path();
+        let sh = Some(OsStr::new("/bin/sh"));
+        assert_eq!(capture_statusline(dir, sh, &mut &b"{\"a\":1}"[..]), Some(1));
+        fs::write(dir.join("StatusLine.3.json"), b"x").expect("a later k");
+        fs::write(dir.join("Stop.2.json"), b"x").expect("another arm's name");
+        let other = Some(OsStr::new("sh"));
+        assert_eq!(capture_statusline(dir, other, &mut &b"raw"[..]), Some(2));
+        assert_eq!(capture_statusline(dir, None, &mut &b""[..]), Some(4));
+        assert_eq!(
+            fs::read(dir.join("StatusLine.1.json")).expect("1"),
+            b"{\"a\":1}"
+        );
+        assert_eq!(
+            fs::read(dir.join("StatusLine.1.shell")).expect("1"),
+            b"bin-sh"
+        );
+        assert_eq!(fs::read(dir.join("StatusLine.2.json")).expect("2"), b"raw");
+        assert_eq!(
+            fs::read(dir.join("StatusLine.2.shell")).expect("2"),
+            b"other"
+        );
+        assert_eq!(
+            fs::read(dir.join("StatusLine.4.shell")).expect("4"),
+            b"other"
+        );
+        assert!(!dir.join("StatusLine.3.shell").exists());
+    }
+
+    #[test]
+    fn capture_statusline_reads_the_shell_word_byte_for_byte() {
+        for (word, verdict) in [
+            ("/bin/sh", "bin-sh"),
+            ("/bin/sh ", "other"),
+            ("/bin/bash", "other"),
+            ("/BIN/SH", "other"),
+            ("", "other"),
+        ] {
+            let tmp = tempfile::tempdir().expect("tempdir");
+            let k = capture_statusline(tmp.path(), Some(OsStr::new(word)), &mut &b"{}"[..]);
+            assert_eq!(k, Some(1), "{word:?}");
+            let shell = fs::read(tmp.path().join("StatusLine.1.shell")).expect("shell");
+            assert_eq!(shell, verdict.as_bytes(), "{word:?}");
+        }
+    }
+
+    #[test]
+    fn capture_statusline_files_a_payload_at_the_cap_and_nothing_past_it() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let cap = usize::try_from(MAX_FRAME).expect("fits");
+        let at = vec![b' '; cap];
+        assert_eq!(capture_statusline(tmp.path(), None, &mut &at[..]), Some(1));
+        let past = vec![b' '; cap + 1];
+        assert_eq!(capture_statusline(tmp.path(), None, &mut &past[..]), None);
+        assert_eq!(
+            names_in(tmp.path()),
+            ["StatusLine.1.json", "StatusLine.1.shell"]
+        );
+    }
+
+    #[test]
+    fn capture_statusline_refuses_a_bad_dir_or_stdin_and_writes_nothing() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let sh = Some(OsStr::new("/bin/sh"));
+        assert_eq!(
+            capture_statusline(Path::new("."), sh, &mut &b"{}"[..]),
+            None
+        );
+        assert!(!Path::new("StatusLine.1.json").exists());
+        let missing = tmp.path().join("missing");
+        assert_eq!(capture_statusline(&missing, sh, &mut &b"{}"[..]), None);
+        assert!(!missing.exists());
+        let file = tmp.path().join("file");
+        fs::write(&file, b"x").expect("a file where the dir should be");
+        assert_eq!(capture_statusline(&file, sh, &mut &b"{}"[..]), None);
+        let dir = tmp.path().join("dir");
+        fs::create_dir(&dir).expect("dir");
+        assert_eq!(capture_statusline(&dir, sh, &mut Failing), None);
+        assert!(names_in(&dir).is_empty());
     }
 
     /// Only SessionEnd falls back to a direct append when the channel is out of reach.
