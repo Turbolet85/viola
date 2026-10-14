@@ -1972,7 +1972,8 @@ mod tests {
         );
         assert_eq!(verified(&full, "2.1.0"), Ok(true));
         assert_eq!(verified(&full, "3.0.0"), Ok(false));
-        results.pop();
+        let last = *LedgerRow::relied().last().expect("a relied row");
+        results.retain(|(row, _)| *row != last);
         let short = merge_stamp(
             None,
             "2.1.0",

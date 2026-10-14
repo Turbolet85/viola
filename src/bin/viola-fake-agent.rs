@@ -636,12 +636,11 @@ impl Agent {
 
     /// The end of a submitted turn under `--turn-stop`: the Stop hook, the `--paste-hint-ms` hold on
     /// a cleared screen after the long paste, then the turn's screen (`--tag-turn-screen`'s after the
-    /// tag-like paste alone). `framing` is the turn's framing stem, when it replayed one.
+    /// tag-like paste alone), and after the first Stop alone the rate-limits status line. The status
+    /// line runs last: run before the clear, it left the earlier input box on screen for a gate wait
+    /// to read as settled. `framing` is the turn's framing stem, when it replayed one.
     fn end_turn(&self, framing: Option<&str>) {
         self.fire("Stop", "default", &[]);
-        if !self.stopped_once.swap(true, Ordering::SeqCst) {
-            self.replay_statusline(STATUSLINE_RATE_LIMITS);
-        }
         // `framing_stem(PROBE_LONG_PASTE)` is a compiled text's stem, always `Some`, so the equality
         // alone says this turn replayed the long paste.
         let long = framing == framing_stem(PROBE_LONG_PASTE);
@@ -652,6 +651,9 @@ impl Agent {
         let tag = framing.is_some() && framing == framing_stem(PROBE_TAG_PASTE);
         let named = self.opts.tag_turn_screen.as_deref().filter(|_| tag);
         write_screen(&self.opts, named.unwrap_or("turn"));
+        if !self.stopped_once.swap(true, Ordering::SeqCst) {
+            self.replay_statusline(STATUSLINE_RATE_LIMITS);
+        }
     }
 
     /// Blocks until one more complete line exists in the control file past `offset`.
