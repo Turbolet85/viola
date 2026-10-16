@@ -14,9 +14,9 @@ The obs harness is **bound** to the test harness: tests owns the grepped fields 
 
 - **Logger / library:** tracing 0.1.44 facade + tracing-subscriber 0.3.23 `fmt().json().flatten_event(true).with_current_span(false)` (+ `with_span_list(false)`, `with_ansi(false)`, `log_internal_errors(false)`, `MillisUtc`, explicit writer)
 - **OTel SDK:** none in v1 (opentelemetry 0.33 / tracing-opentelemetry 0.34 deferred; any future Resource uses `builder_empty()`)
-- **Log sink path:** codes-only role files `<home>/diagnostics/{run-<name>,hook-<name>,mcp,ui-<port>,cli-<name>}.ndjson` (`ui-<port>` reserved: no emitter in 0.1.0; removed with the code by "Remove the browser leg"); content-bearing detail `<home>/instances/<name>/diagnostics/detail-<process>.ndjson`; 0600 in 0700
-- **Log format:** JSON Lines — required `timestamp` (RFC 3339 ms Z), `level`, `target`, `message` (= event name), `event` (closed kebab enum), `corr`, `process` (`run|hook|mcp|ui|cli`; `ui` reserved: no emitter in 0.1.0), `instance`; null = key absence
-- **Heartbeat:** the `heartbeat` file touched every 1 s (not logged per tick); `liveness-changed` on live↔stale↔gone transitions (flip at > 5 s) is reserved: no emitter in 0.1.0; short-lived readers (`list`) expose `liveness` in `--json`
+- **Log sink path:** codes-only role files `<home>/diagnostics/{run-<name>,hook-<name>,mcp,cli-<name>}.ndjson`; content-bearing detail `<home>/instances/<name>/diagnostics/detail-<process>.ndjson`; 0600 in 0700
+- **Log format:** JSON Lines — required `timestamp` (RFC 3339 ms Z), `level`, `target`, `message` (= event name), `event` (closed kebab enum), `corr`, `process` (`run|hook|mcp|cli`), `instance`; null = key absence
+- **Heartbeat:** the `heartbeat` file touched every 1 s (not logged per tick); no process logs a liveness transition (flip at > 5 s, read by `list`); short-lived readers (`list`) expose `liveness` in `--json`
 - **Integrity check:** schema conformance gate G4 against `schemas/diag-line.v1.json` / `diag-detail.v1.json`
 - **Status endpoint:** `agent-run status` (tests-owned) over `viola list --json`: the aggregate health snapshot, `state` and `last_error` closed enum
 - **Consumption:** `scripts/agent-run.* logs` merges `events.ndjson`, role files and detail files, filterable, torn lines marked
@@ -26,7 +26,7 @@ The obs harness is **bound** to the test harness: tests owns the grepped fields 
 | Metric | SLO | Source |
 |---|---|---|
 | Unlogged panics | 0 — every panic after init step 4 = exactly one `event:"panic"` line; `hook` still exits 0 | G2 over home-level role files |
-| Secret-scan hits | 0 (token, `Cookie`, `?t=`, `CLAUDE*`, canary in home-level files) | `secret-scan` step before any diagnostics-bearing upload (the admissible-by-content unscanned uploads are listed in obs-plan §8 item 5) |
+| Secret-scan hits | 0 (`Cookie` header, `CLAUDE*` values, canary in home-level files) | `secret-scan` step before any diagnostics-bearing upload (the admissible-by-content unscanned uploads are listed in obs-plan §8 item 5) |
 | Schema-conformance failures | 0 | G4 |
 | Hook latency | hyperfine `max` < 1.0 s (SessionEnd; spine provisional) — logger init = 1 open + appends | the per-OS `perf` job: `run --perf` with `VIOLA_NAME` / `VIOLA_DIR` set, `gate --require perf` over five `perf-<hook>.json` rows (`pre-tool-use` included, on an unstamped perf session) |
 | Heartbeat flip | same process: 5.0 s live / 5.1 s stale; pid or start-time mismatch → gone at any age | `viola_state::liveness::classify` unit test (injected age) |
@@ -39,13 +39,12 @@ The obs harness is **bound** to the test harness: tests owns the grepped fields 
 
 ## Event vocabulary (closed)
 
-`channel-request` · `channel-response` (corr = JSON-RPC id) · `dialog-raised` · `dialog-answered` (corr = dialog_id) · `hook-invoked` · `hook-decision` · `send-issued` · `send-confirmed` · `send-refused` (corr = send cursor; wrapper lines add `conn` + `rpc_id`) · `release-from-driver` · `process-start` · `process-exit` · `http-request` · `panic` · `liveness-changed` · `state-recovered` · `sse-opened` · `sse-closed` · `parse-rejected` (`http-request`, `liveness-changed`, `sse-opened` and `sse-closed` reserved: no emitter in 0.1.0; removed with the code by "Remove the browser leg"). `a11y-violation` is a harness-only row, not in this enum.
+`channel-request` · `channel-response` (corr = JSON-RPC id) · `dialog-raised` · `dialog-answered` (corr = dialog_id) · `hook-invoked` · `hook-decision` · `send-issued` · `send-confirmed` · `send-refused` (corr = send cursor; wrapper lines add `conn` + `rpc_id`) · `release-from-driver` · `process-start` · `process-exit` · `panic` · `state-recovered` · `parse-rejected`. 
 
 ## PII scrubbing wire
 
 - `#[instrument(skip_all, fields(..))]` everywhere (gate G1); no `err` / `ret`
 - Default-deny: only fields in the obs-plan §6 catalog; veil `#[derive(Redact)]` on payload types (`toggle` banned)
-- No HTTP layer in 0.1.0: `http-request` is reserved, with no emitter (removed with the code by "Remove the browser leg")
 - Content-bearing records only in instance detail files; boundary-only logging — never in the PTY pump loop
 - Merged phase with security's `logging-redaction-wire`
 - The local `viola-harness pre-push` document is never uploaded and carries no absolute path, only codes and counts — the native in-place Linux gate prints neither the repository root nor the passwd home (obs-plan §8 item 5)

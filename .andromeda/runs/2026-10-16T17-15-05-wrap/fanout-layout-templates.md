@@ -1,0 +1,2 @@
+proposals: []
+note: D-layout-surface holds — the report's Coverage of new surfaces reads "none — the chunk adds no surface; it removes the browser leg and the reserved web vocabulary"; every removed item (e2e-web/, the harness run/gate/pre-push/status/cleanup/secret-scan keys, the obs ui process and web events) is test-side or obs, none a user-facing CLI surface, and layout-templates' §Surface: web-spa is already the 0.2.0 deferral stub, so no wireframe claim is retired.

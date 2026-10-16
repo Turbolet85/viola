@@ -1,0 +1,58 @@
+[[pattern]]
+id = 'node-pin'
+regex = 'NODE_PIN|install-node|viola-node|Node v24|Node \(pinned\)|sha256-pinned (official )?Node|pinned Node'
+ignore_case = true
+
+[[pattern]]
+id = 'npm'
+regex = '\bnpm\b|\bnpx\b|npm-audit|npm-advisories|package-lock'
+ignore_case = true
+
+[[pattern]]
+id = 'playwright'
+regex = 'playwright|chromium|--browser|run --browser|browser-missing|pw\.json|pw-junit'
+ignore_case = true
+
+[[pattern]]
+id = 'e2e-web'
+fixed = 'e2e-web'
+
+[[pattern]]
+id = 'ts-plane'
+regex = 'ts plane|ts code-graph|scip-typescript|tsconfig'
+ignore_case = true
+
+[[pattern]]
+id = 'axum'
+regex = '\baxum\b|http2'
+ignore_case = true
+
+[[pattern]]
+id = 'probes-13'
+regex = '13/13|13 bans|13 probes|thirteen (ban|probe)'
+ignore_case = true
+
+[[pattern]]
+id = 'viola-ui'
+regex = 'viola-ui|viola_ui'
+
+[[pattern]]
+id = 'fixed-port'
+regex = 'fixed-port|default_port|47319'
+
+[[pattern]]
+id = 'gui-keys'
+regex = 'api_sessions_equal_list|port_free|url_file_removed|cookie_file|ui-restart'
+
+[[pattern]]
+id = 'scan-gui'
+regex = 'token-query|gui-token|\?t=|viola_<port>|ui/\*\.url|ui/<port>\.url'
+
+[[pattern]]
+id = 'obs-web'
+regex = 'http-request|liveness-changed|sse-opened|sse-closed|sse-\*|last-event-id|ui-<port>'
+
+[[pattern]]
+id = 'dejavu'
+regex = 'dejavu|headless[- ]GUI|Linux fallback'
+ignore_case = true

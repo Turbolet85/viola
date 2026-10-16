@@ -25,4 +25,12 @@
 - The founder removed `e2e-web/` (his `! rm -r`, relayed by the operator); `git status` reads the six tracked
   files deleted and nothing untracked under it.
 - Entry 9 re-fired: `9 probe green · exit 1 · 0.01s · 0 B → 9.2.log`.
-- The whole block, second firing — started (backgrounded).
+- The whole block, second firing — started (backgrounded); summary `entries 25 · green 22 · red 0 · recorded 0 ·
+  timeout 0 · not-run 3`.
+- P3: the plan's smoke entries 16-21 ran green in that firing (recorded, not re-driven). P4: `scope: clean — changed
+  36 · listed 36 · recorded 0`; the outcome written.
+- Operator pass: hygiene clean twice (read 41, then 42 with the evidence file); pre-CI commit `fac2d9d`; push
+  (entry 24, `--operator 24`, no run dir) green, `history moved: refs/remotes/origin/build/viola-0.1.0
+  b6bbbd68→fac2d9de`.
+- The CI read (entry 25, as written, `--wait 1800`) — started (backgrounded); `fac2d9defd76 verdict: green · checks
+  15/15 · wall 479 s · runs ci#38937051980 completed/success`, attempt 1. Stopped ready for the wrap.

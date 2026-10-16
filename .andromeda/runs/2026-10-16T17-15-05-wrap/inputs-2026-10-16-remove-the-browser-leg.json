@@ -1,0 +1,139 @@
+[
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-16T17:15:14Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-16-remove-the-browser-leg",
+"--run-dir",
+".andromeda/runs/2026-10-16T17-15-05-wrap",
+"--marker",
+"2026-10-16-remove-the-browser-leg"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, as the overseer (technical, founder-delegated), in the P4 dialog, 2026-10-16T15:50Z",
+"I1 cited scope.md:12 · plan.md:10 · plan.md:113 · plan.md:175 · plan.md:445 · plan.md:478 · plan.md:529 · plan.md:552",
+"inputs: 1 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 1,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-16T18:09:53Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-16-remove-the-browser-leg",
+"--message-file",
+".andromeda/runs/2026-10-16T17-15-05-wrap/relay-1.md",
+"--origin",
+"the operator, relaying the founder word, 2026-10-16 (resume)",
+"--kind",
+"relay",
+"--why",
+"resume at P2 Validate; Validate raises the missed expected amendments (design-system Typography among them) and the browser-test and reserved-obs text this chunk owns",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-10-16T17-15-05-wrap",
+"--marker",
+"2026-10-16-remove-the-browser-leg"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: the operator, relaying the founder word, 2026-10-16 (resume)",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, relaying the founder word, 2026-10-16 (resume)",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "f795d009cbbca80933b8d2ee3606e03d2ce4ac5908675c25565f5ab445eea449",
+"copy": "I2-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-16T18:09:53Z",
+"step": "wrap",
+"why": "resume at P2 Validate; Validate raises the missed expected amendments (design-system Typography among them) and the browser-test and reserved-obs text this chunk owns"
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-16T18:11:16Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-16-remove-the-browser-leg",
+"--run-dir",
+".andromeda/runs/2026-10-16T17-15-05-wrap",
+"--marker",
+"2026-10-16-remove-the-browser-leg"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, as the overseer (technical, founder-delegated), in the P4 dialog, 2026-10-16T15:50Z",
+"I1 cited scope.md:12 · plan.md:10 · plan.md:113 · plan.md:175 · plan.md:445 · plan.md:478 · plan.md:529 · plan.md:552 · report.md:78 · report.md:183",
+"I2 n/a — a message has no live source · copy message · message: the operator, relaying the founder word, 2026-10-16 (resume)",
+"I2 UNCITED",
+"inputs: 2 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 1,
+"unparsed": 0
+}
+}
+]

@@ -21,7 +21,7 @@ setup-project reads this to materialize phase scaffolding.]_
 - **service-identity-wire:** `viola_core::{SERVICE_NAME, VERSION}` as the single source for `process-start.version`, `sender` and `writer`. Workspace `version.workspace = true`.
 - **log-format-schema-emit:** commit `schemas/diag-line.v1.json`, a hand-maintained JSON Schema of the Section 3 / Section 6 line. Its `event` enum must equal the `ObsEvent` variants, and a tests-owned check asserts that equality. The harness greps the same fields.
 - **trace-context-propagate-wire:** `corr` population per the tests table, plus the additive `conn` in viola-channel client `params` and server logging (D-10), plus `Span` hand-off into std threads and Tokio tasks.
-- **heartbeat-tick-wire:** the `liveness-changed` and `sse-opened` / `sse-closed` emitters (D-02, D-04) are reserved: no emitter in 0.1.0; removed with the code by "Remove the browser leg".
+- **heartbeat-tick-wire:** none beyond `run`'s 1 s `heartbeat` file: no process logs a liveness transition, and `list --json` exposes `liveness`.
 - **pii-scrubbing-wire:** merge with security's `logging-redaction-wire` bootstrap phase:
   - `#[instrument(skip_all, fields(...))]` everywhere;
   - veil 0.3.0 `#[derive(Redact)]` on payload types, plus `cargo deny` `[[bans.features]] crate = "veil" deny = ["toggle"]`;

@@ -98,9 +98,9 @@ The frontend is deferred to 0.2.0; its technology is not chosen.
   - **Manual pass (supplemental):** NVDA (Windows Terminal), VoiceOver (macOS) and Orca (Linux) on Section 4 P4 and P6. It is founder-owned per the creator brief excerpt, Appendix A.
 
 - **CI integration:**
-  - **Runner:** tests' 5-command discipline, `scripts/agent-run.sh run --browser` (or `.ps1`), which runs the locked Playwright CLI (`node node_modules/@playwright/test/cli.js test` in `e2e-web/`, after `npm ci`). The browser pipe runs on all three legs of GitHub Actions `ci.yml`'s `test` job (test-plan §3 `run` step 3, founder ruling W125); the a11y verdict stays judged on the ubuntu leg only. A failed `npm ci` or a missing Chromium fails with `reason:"browser-missing"`.
-  - **Where results land:** inside the existing `playwright` suite entry of the `run` JSON (`suites[{suite:"playwright",passed,failed,skipped,artifact}]`, with failures in `suites[].failures[]`).
-  - **Gate:** `gate --require playwright` never allows skips.
+  - **Runner:** tests' 5-command discipline, `scripts/agent-run.sh run` (or `.ps1`). 0.1.0 runs no browser a11y leg: it renders no page, and the frontend's a11y tooling is a 0.2.0 input, its technology not chosen.
+  - **Where results land:** inside the existing suite entries of the `run` JSON (`suites[{suite:"nextest-integration"|"nextest-e2e"|"coverage",…}]`, with failures in `suites[].failures[]`).
+  - **Gate:** the per-OS `test` job's `gate --require coverage,doctest` never allows skips.
   - **No new suite:** no new `suite` enum value (such as `a11y`) is added without a Decisions Log entry.
   - **CLI output discipline** runs inside `nextest-integration` / `nextest-e2e` (locally), and in CI inside the per-OS `test` job's single instrumented `coverage` suite, on all three OS legs.
 
@@ -316,27 +316,19 @@ _Scope: no `cognitive-accessibility` trigger fired (a11y-scope Sec 5), so there 
 
 **Platform:** GitHub Actions, one push/PR workflow `ci.yml` (the scheduled `nightly.yml` carries no a11y step), matrix `[windows-2025, macos-latest, ubuntu-latest]` (upstream-context Architecture Excerpt → CI/CD Platform).
 
-The browser test leg named here (the lint, E2E and aggregation stages below, `scripts/agent-run.* run --browser`, the `playwright` suite and `gate --require … playwright`, `e2e-web/`, `npm ci` and Chromium, the `e2e-web/test-results/` upload, and the same items in Section 1 → CI integration, Section 10 and Section 11 → Strategy and CI) stands until the route entry "Remove the browser leg" removes it; that entry's wrap amends this text.
-
 **Per-pipeline-stage a11y artifacts:**
 
 | Stage | A11y tool | Artifact | Consumer |
 |-------|-----------|----------|----------|
-| Lint (ubuntu, before `run --browser`) | eslint-plugin-jsx-a11y, its version OPEN (its owner was the frontend-toolchain entry, which left 0.1.0 for `.andromeda/residuals.md`) (`npx --prefix e2e-web eslint -f json` with `-c e2e-web/eslint.config.js` over the JSX/TSX sources in `crates/viola-ui/`, source glob per the config's `files` entry); html-validate 11.16.0 CLI `--config e2e-web/.htmlvalidate.json --formatter json` on the `assets/index.html` that `viola-ui` embeds. Same commands and configs as Section 3 → Bootstrap phases → a11y-ci-gate-wire | ESLint JSON + html-validate JSON in `e2e-web/test-results/lint/` | CI step fails on any error; uploaded artifact |
-| Unit / integration (all three OS legs) | assert_cmd 2.2.2 + predicates 3.1.4 + trycmd 1.2.1; portable-pty outer PTY (cli SGR, tui boundary) | harness `run` JSON `suites[{suite:"nextest-integration"|"nextest-e2e"|"coverage",…,failures[]}]` (CI: `coverage`) | the per-OS `test` job's `gate --require coverage,doctest,playwright`; no a11y rows, no conformance claim |
-| E2E (the a11y verdict judged on ubuntu only; the browser suite itself runs on all three OS legs) | `@axe-core/playwright` 4.13.0, Playwright 1.63.0 aria/keyboard/emulation, html-validate (rendered DOM), colorjs.io 0.7.1, tabbable 6.5.0, @guidepup/virtual-screen-reader 0.33.0 | Playwright JSON (+ JUnit) with `attachments[]`: scrubbed axe JSON, token-pair JSON, html-validate JSON, VSR phrase log, `a11y-violations` NDJSON | harness `run` JSON `suites[{suite:"playwright",passed,failed,skipped,artifact}]`, `gate --require coverage,doctest,playwright`, uploaded artifact |
-| Aggregation (ubuntu, after `gate`, with `if: always()` so it runs even when `gate` already failed the job; a missing Playwright JSON report fails this step; the artifact upload step is also `if: always()`) | `jq` (catalog-less JSON transport, not an a11y tool) over the Playwright JSON report and `e2e-web/test-results/a11y/*.ndjson`: per `@sc-*` tag pass/fail compared with `e2e-web/a11y/sc-coverage.json`, plus a per-`violation_type` row count. `sc-coverage.json` lists every row of the Section 3 per-SC map (ranges expanded). Rows marked `yes…` need ≥ 1 passing test tagged with that SC (1.4.10 only through the ≥ 760 reflow tests). Absence rows (`no media`, `no audio`, `no images`, `no inputs`, `no submissions`, `no surface`) are met by the `surface-absence` spec carrying one `@sc-<id>` per absent SC. The `no custom pointer/motion/drag` row (SC 2.5.1 / 2.5.2 / 2.5.4 / 2.5.7) is met only by the tabbable-oracle actuator test named in that map row (the only actuators are native `<a>` / `<summary>`), tagged `@sc-2.5.1 @sc-2.5.2 @sc-2.5.4 @sc-2.5.7`. `surface-absence` never carries these four tags, because an element-absence walk cannot prove the absence of path, motion or drag gestures. `single-page exception` / `single page` rows are met by the route check and region-order test (`@sc-2.4.5`, `@sc-3.2.3`). `indeterminate-language content` (3.1.2) is met by the tape `lang` DOM assertion | `e2e-web/test-results/a11y/sc-coverage-report.json` (per SC: `{sc, passing_tests, status}`; plus `violation_type_counts`, so a `scrub-leak` shows up separately from `csp-console`) | fails CI if any listed SC has zero passing tagged tests; uploaded artifact |
+| Unit / integration (all three OS legs) | assert_cmd 2.2.2 + predicates 3.1.4 + trycmd 1.2.1; portable-pty outer PTY (cli SGR, tui boundary) | harness `run` JSON `suites[{suite:"nextest-integration"|"nextest-e2e"|"coverage",…,failures[]}]` (CI: `coverage`) | the per-OS `test` job's `gate --require coverage,doctest`; no a11y rows, no conformance claim |
 
 **Pipeline integration:**
 
-- a11y CI runs in the same pipeline as the tests' E2E, per the upstream-context Section 5 Test Harness Contract Summary (binding 5-command discipline).
-  - `scripts/agent-run.sh run --browser` / `scripts/agent-run.ps1 run --browser` invokes the locked Playwright CLI (`node node_modules/@playwright/test/cli.js test` in `e2e-web/`), which runs the a11y specs inline with the tests' specs.
-  - Each test uses `boot --session pw-<spec>-<test id>-<workerIndex>` → `cleanup`.
-  - `status` is the readiness precondition (`state:"ready"`), and `logs` is the triage read on failure.
-  - There is no `npm test:a11y`, no `webServer`, no second driver and no new `suite` enum value.
-- The browser suite runs on the Windows, macOS and ubuntu legs, while the web a11y gate is judged on the ubuntu leg only. A failed `npm ci` or a missing Chromium fails with `browser-missing` and is never skipped.
+- a11y CI runs in the same pipeline as the tests, per the upstream-context Section 5 Test Harness Contract Summary (binding 5-command discipline).
+  - The CLI output-discipline and TUI boundary cases run inside the per-OS `test` job's single instrumented `coverage` suite on the Windows, macOS and ubuntu legs; each leg's `gate --require coverage,doctest` is its own verdict.
+  - There is no second driver and no new `suite` enum value.
 
-**Artifact retention:** `actions/upload-artifact` v7.0.1 (SHA-pinned per zizmor) uploads `e2e-web/test-results/` with `retention-days` left at the repository default (GitHub Actions default 90 days). The upstream tests excerpt defines no upload step, so the a11y-ci-gate-wire bootstrap phase adds it (`if: always()`) if `ci.yml` lacks it.
+**Artifact retention:** 0.1.0 uploads no a11y artifact of its own: a cli / tui failure is a nextest failure in the harness `run` JSON (`suites[].failures[]`).
 
 (See `## 11. A11y Anti-Patterns` § CI for CI-level bans.)
 
@@ -348,13 +340,12 @@ The browser test leg named here (the lint, E2E and aggregation stages below, `sc
 - The CLI output-discipline invariants (P4, P6) pass on all three OS legs inside `nextest-integration` / `nextest-e2e` (CI: the `coverage` suite); where they live in crate tests, the epoch-boundary mutation audit (`run --mutants`, test-plan §10) covers them.
 
 **Performance budget per a11y CI run:**
-- Total a11y + tests E2E (`run --browser` on the ubuntu leg) < 10 min.
+- None of its own in 0.1.0: the cli / tui cases add no stage, running inside the `coverage` suite.
 
-**Cross-input parallel:** the tests' zero-flakiness rule (`retries: 0`; a flake keeps the chunk red until the root cause is fixed; `test.skip` / `#[ignore]` banned) reflects the agent-driven principle that retry-once policies mask real signals.
+**Cross-input parallel:** the tests' zero-flakiness rule (`retries: 0`; a flake keeps the chunk red until the root cause is fixed; `#[ignore]` banned) reflects the agent-driven principle that retry-once policies mask real signals.
 
 **Build / deploy failure conditions:**
-- `gate --require playwright` breach (`suite-failed`, `suite-skipped`, `suite-missing`, `artifact-missing`).
-- ESLint (jsx-a11y) or html-validate lint-stage errors.
+- `gate --require coverage,doctest` breach (`suite-failed`, `suite-skipped`, `suite-missing`, `artifact-missing`).
 
 (See `## 11. A11y Anti-Patterns` § SLO for SLO-budget bans.)
 
@@ -365,7 +356,6 @@ The browser test leg named here (the lint, E2E and aggregation stages below, `sc
 ### Strategy
 
 - NEVER claim WCAG conformance for the cli or the `viola run` TUI (the wrapper-hosted TUI, whether `viola run` or a passed `viola revive` started it). assert_cmd / trycmd / portable-pty results are output-discipline stand-ins for SC 1.3.2 / 1.4.1 / 3.3.1, not a11y-tool evidence.
-- NEVER add a second browser automation stack (Lighthouse, pa11y, `@lhci/cli`, Puppeteer `connect()`) beside the tests' Playwright Chromium (Overseer Direction 1).
 
 ### Keyboard
 
@@ -391,12 +381,10 @@ The browser test leg named here (the lint, E2E and aggregation stages below, `sc
 
 ### CI
 
-- NEVER ship lint-only a11y without the runtime `@axe-core/playwright` 4.13.0 checks inside `scripts/agent-run.* run --browser` (lint catches a subset; runtime catches the rest). pa11y and Lighthouse are dropped (D-A11Y-05) and never serve as the runtime half.
 - NEVER skip a11y on CI failure (a11y is FAIL-fast gate, not warning)
 - NEVER use human-only a11y review without machine output (canonical
   agent-runnable principle)
-- NEVER add a `suite` value (such as `a11y`), a `webServer`, or a separate `npm test:a11y` driver outside `scripts/agent-run.* run --browser`.
-- NEVER treat `browser-missing` as a skip, or judge the a11y verdict on the Windows or macOS legs.
+- NEVER add a `suite` value (such as `a11y`) or a separate a11y driver outside `scripts/agent-run.* run`.
 
 ### SLO
 

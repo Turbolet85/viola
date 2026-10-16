@@ -955,3 +955,35 @@ Each was then killed by a case in `typed.rs`'s `mod tests`, shown red under its 
 - The harness leftovers: `status`'s `null` `ui` and `api_sessions_equal_list`, `cleanup`'s `null` `port_free` / `url_file_removed`, the `token-query` / `gui-token` / `cookie` scan classes, `ui-restart` forwarding, the `fixed-port` nextest group and the `cookie_file` field.
 - The closed obs vocabulary in the bound Log format key (the `ui` process, `ui-<port>`, `http-request`, `liveness-changed`, `sse-*`), marked reserved: no emitter in 0.1.0.
 **Ref:** .andromeda/runs/2026-10-16T14-58-10-wrap/
+
+## 2026-10-16-remove-the-browser-leg — §3 harness: the browser step, the GUI keys and the GUI scan forms leave
+**Section:** §3 → 5-command implementation (`boot`, `run`, `status`, `cleanup`, `logs`, Internal harness subcommands, `secret-scan`, `gate`, `pre-push`, Closed enums; Browser-side controls removed); §3 Test Harness Contract (Exit codes, Session record); §3 → Status endpoint shape; §3 → PID file; §3 → Bootstrap phases (test-runner-install, ci-tool-install); §3 → Test data bootstrap; the §3 index labels
+**Change:**
+- `run` has no `--browser`: step 3 reads none in 0.1.0 and the mutation step keeps its number 4. The `run` `suite` enum is the nine `nextest-unit · nextest-integration · doctest · nextest-e2e · mutants · coverage · perf · fuzz-replay · local-live`; `gate --require` takes the other eight (`gate::SUITES`), so `playwright` is usage `unknown-suite`; JUnit inputs are the four `nextest-unit · nextest-integration · nextest-e2e · coverage`; `archived` holds `junit-{nextest-unit,nextest-integration,coverage}.xml` and `outcomes.json`; `reason` has no `browser-missing`.
+- `status` is `{v, cmd, ok, state, pid, uptime_ms, last_error, list, instances}`; `cleanup` reports `{cleaned, processes_gone, endpoint_gone, home_removed, killed}` and removes no cookie file; the session record is `{v, session, home, instances, supervisor_pid, supervisor_started_at}` (an older record with `ui` / `cookie_file` still parses: no `deny_unknown_fields`). `ui-restart` is not forwarded.
+- `secret-scan` classes: `claude-stripped` (twelve), `cookie` (the case-insensitive `cookie:` header), `content-canary`, `mode`, `unreadable` (was also `token-query` `?t=`, `gui-token` and `viola_<digits>=`).
+- `pre-push`: PATH `<home>/.cargo/bin:/usr/local/bin:/usr/bin:/bin`; `tools` checks the passwd home, `cc` and the `rust-toolchain.toml` / `test`-job pins; `linux-tests` runs `run --coverage` then `gate --require coverage,doctest`; the document is `{…,"stage",linux{run,gate}}`; no `node` detail.
+- Bootstrap: no Node side, no `fixed-port` group, no Node / `npm ci` / Chromium install; `jq`'s scripts are G2, `release-check.sh`, `orphans-check.sh`.
+**Why:** This chunk removed the browser test leg and the GUI harness leftovers (founder ruling 2026-10-16, item 3); the scan forms on the operator's P4 answer as the overseer (technical, founder-delegated; `inputs#I1`).
+**Ref:** .andromeda/runs/2026-10-16T17-15-05-wrap/
+
+## 2026-10-16-remove-the-browser-leg — Log format: the `ui` process, the four web events and the a11y rows leave
+**Section:** §3 → Log format (Process logs, Required fields, Harness-side a11y rows removed, Constraints); §1 Test Scope Summary (Test harness requirements `run`, `logs`, Log format; Coverage triggers); §5 Module ↔ DB; §6 Non-path suites (Security sweep, Error sanitization and secret scan)
+**Change:**
+- Process logs write `<home>/diagnostics/{run-<name>,hook-<name>,mcp,cli-<name>}.ndjson`; `process` is `run|hook|mcp|cli`; the `corr` rules read `process-start`, `process-exit`, `panic` and `state-recovered`, `parse-rejected` (obs-plan D-03, D-05). Was also `ui-<port>`, the `ui` process and `http-request`, `liveness-changed`, `sse-opened`, `sse-closed`, marked reserved until the route entry "Remove the browser leg".
+- The harness-side a11y rows (a Playwright fixture's `e2e-web/test-results/a11y/*.ndjson` against `e2e-web/schemas/a11y-row.v1.json`) are gone.
+- No line may contain a `Cookie` header or a stripped `CLAUDE*` value (was also the GUI token and `?t=`); §1 and §6 restate it.
+- §1: `run` item 3 reads none in 0.1.0; `logs` prints the per-process logs of `run` / `hook` / `mcp` / `cli`; no browser-suite runner. §5: the concurrent-append check names a colliding second `run` on the live `run-<name>` file. §6: the security sweep runs in nextest alone.
+**Why:** This chunk removed the reserved web half of the closed obs vocabulary with the browser leg (founder ruling 2026-10-16, item 3). The key is kept equal to obs-plan §3's copy in the same pass.
+**Kept:** §1's quotation of Founder Direction 3 («run/hook/mcp/ui»), a quote.
+**Ref:** .andromeda/runs/2026-10-16T17-15-05-wrap/
+
+## 2026-10-16-remove-the-browser-leg — §2, §5, §7, §9–§11: no browser runner, one JUnit path, deny probes 12/12
+**Section:** §2 (Test pyramid E2E row, Agent-runnable invariants, Test directory + naming conventions, Trigger → layer map V9 row); §5 Setup / teardown lifecycle; §7 (Fake agent, Test data lifecycle); §9 (Caches, the stand-until paragraph, Pipeline structure: Lint, Supply-chain, Integration, E2E, Coverage report rows; tool install; Matrix builds; Test report format; Build failure conditions); §10 Zero-flakiness budget; §11 (CI, Universal)
+**Change:**
+- E2E runs against harness-booted `viola run … -- viola-fake-agent` through the outer PTY and the rmcp client; no Playwright, Chromium or Node, no `pw.json` / `pw-junit.xml`, no browser-suite directory or naming rule, no Playwright fake-agent consumer.
+- §9: rust-cache is the only cache; the E2E row is `agent-run run --e2e` on all 3 OSes; the Integration row runs in parallel (the `fixed-port` group left, nothing is shared between tests); the per-OS test job gates `coverage,doctest`; `junit-${{ matrix.os }}` uploads `target/nextest/ci/junit.xml`, one path; Supply-chain has no npm lockfile audit and nightly runs `advisories` alone besides `fuzz`; the `jq` scripts are three; the pre-push `tools` stage checks no Node; no browser or a11y-lint failure condition.
+- `scripts/deny-probes.sh` ends `deny-probes: 12/12 banned, control clean`: one probe per ban, twelve bans (was 13/13 with the axum `http2` ban).
+- §10: nextest `retries = 0`; `#[ignore]` is no parking place (Playwright `retries: 0` and `test.skip` left). §11: serialising tests (`max-threads = 1`) is banned outright; the cache ban names rust-cache alone; the `playwright`-suite ban and the recorder ban's runner parenthetical are gone.
+**Why:** This chunk removed the browser test leg (founder ruling 2026-10-16, item 3); the axum ban and its probe on the operator's P4 answer as the overseer (technical, founder-delegated; `inputs#I1`). The deny-probe count was 13/13 by the same rule, one probe per ban.
+**Ref:** .andromeda/runs/2026-10-16T17-15-05-wrap/

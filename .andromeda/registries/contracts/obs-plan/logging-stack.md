@@ -25,7 +25,6 @@
   - `run`: `<home>/diagnostics/run-<name>.ndjson`;
   - `hook`: `<home>/diagnostics/hook-<name>.ndjson` (shared by concurrent hook processes; a write failure is swallowed);
   - `mcp`: `<home>/diagnostics/mcp.ndjson`, with stderr JSON only when the file cannot be opened (D-09);
-  - `ui`: `<home>/diagnostics/ui-<port>.ndjson` (reserved: no emitter in 0.1.0; removed with the code by "Remove the browser leg");
   - `cli`: `<home>/diagnostics/cli-<name>.ndjson`, only when an instance resolves (D-06).
 
   Content-bearing records (full anyhow chains, serde_path_to_error drift reports, panic payload + backtrace) go **only** to `<home>/instances/<name>/diagnostics/detail-<process>.ndjson` (0600/0700), and only when an instance resolves (D-08).
@@ -36,5 +35,5 @@
   - The level comes from `config.json` key `diagnostics_level` (`"info"` default | `"debug"`), applied through a `tracing_subscriber::filter::Targets` layer built in code.
   - It is never read from `RUST_LOG`, and `EnvFilter` / the `env-filter` feature is never enabled.
   - Level changes volume only. Every level uses the same field allow-list, so no setting can disable redaction (security Anti-Patterns).
-  - Third-party targets (`rmcp`, `axum`, `tower_http`, `hyper`, `portable_pty`, `sysinfo`, `interprocess`) are `OFF` in every sink, because their records lack the required fields. Their failures are captured at viola's seam from the returned `Result`s (D-11).
+  - Third-party targets (`rmcp`, `portable_pty`, `sysinfo`, `interprocess`) are `OFF` in every sink, because their records lack the required fields. Their failures are captured at viola's seam from the returned `Result`s (D-11).
   - With `tracing-log` off and no hand-installed `LogTracer`, `log` records from portable-pty 0.8.1 are dropped; the failure classes they flag are captured from returned values or handles instead: a `pty.spawn` / ConPTY spawn failure is an `Err` from the seam and becomes `process-exit{subject:"self", exit_code:1, detail:"internal-error"}` with the chain in `detail-run.ndjson`; a child exit without EOF is detected by the handle-wait thread (`exit_source`), independent of `log`. The accepted loss is only third-party `log` context emitted without a returned error. The chaos case "child exit without EOF" must find a viola line; one that does not is a seam gap, answered by a seam fix or the researched fallback json-subscriber 0.3.0, never by re-enabling `tracing-log` or installing `LogTracer` (D-11, D-23).

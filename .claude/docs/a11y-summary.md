@@ -30,19 +30,19 @@ The a11y harness checks cli and tui output discipline with assert_cmd / trycmd /
 
 ## Bootstrap phases (§3)
 
-1. **a11y-tooling-install** — `@axe-core/playwright@4.13.0` into `e2e-web/package.json` (the axe pin is this phase's), devDependencies (colorjs.io, tabbable, virtual-screen-reader, html-validate, eslint-plugin-jsx-a11y + eslint), `e2e-web/fixtures/a11y.ts` (`makeAxeBuilder`, scrubber, row writer), html-validate config declaring any `viola-*` elements the rendered page carries
-2. **focus-management-library-install** — none at runtime; tabbable test-side only
+1. **a11y-tooling-install** — none in 0.1.0: the cli / tui cases use the tests' own assert_cmd, predicates, trycmd and portable-pty pins; the browser a11y tooling left with the browser leg, and the frontend's is a 0.2.0 input, its technology not chosen
+2. **focus-management-library-install** — none
 3. **aria-component-library-install** — none; the frontend is deferred to 0.2.0 and its technology is not chosen
-4. **contrast-verification-harness-setup** — the `a11y-tokens` test in `bay-steady-state.spec.ts`
-5. **screen-reader-test-spec-setup** — VSR route + import helper in `e2e-web/fixtures/a11y.ts` (MutationObserver fallback)
-6. **a11y-ci-gate-wire** — `@a11y` + `@sc-*` tags, ubuntu lint step before `run --browser`, `sc-coverage.json` + post-gate aggregation (`if: always()`); the browser leg (lint, E2E, aggregation, `run --browser`, `e2e-web/`) stands until the route entry "Remove the browser leg" removes it
-7. **violation-json-emission-wire** — the row writer in the fixture
+4. **contrast-verification-harness-setup** — none in 0.1.0: no page renders a token pair
+5. **screen-reader-test-spec-setup** — none in 0.1.0; the manual NVDA / VoiceOver / Orca pass stays founder-owned
+6. **a11y-ci-gate-wire** — none of its own: the cli / tui cases run inside the per-OS `test` job's `coverage` suite under `gate --require coverage,doctest` (skips never allowed), and no a11y lint, aggregation or upload step exists
+7. **violation-json-emission-wire** — none in 0.1.0: cli / tui emit no a11y violation rows (output-discipline failures surface only as nextest failures in `suites[].failures[]`)
 
 ## Universal anti-patterns
 
 - NEVER use manual screen-reader / keyboard / contrast passes as the only method — they are supplemental to automated checks.
 - NEVER claim WCAG conformance for the cli or the `viola run` TUI, whether `viola run` or a passed `viola revive` started it.
-- NEVER add a second browser automation stack (Lighthouse, pa11y) beside Playwright.
+- NEVER add a `suite` value (such as `a11y`) or a separate a11y driver outside `scripts/agent-run.* run`.
 - NEVER parse the rendered `claude` TUI or take screenshots as a11y evidence.
 - NEVER block, refuse or delay a human keystroke in `viola run`, or in a start a passed `viola revive` made, past the current atomic paste, and never count focus / mouse / resize sequences or terminal replies as editing.
 

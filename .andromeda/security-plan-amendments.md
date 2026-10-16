@@ -653,3 +653,13 @@ The superseded marks stand in the body as the operator's word, superseded 2026-1
 - The `axum` `http2` ban stands, because `deny.toml` still holds it.
 - The listener ban stands (only «/GUI» is cut).
 **Ref:** .andromeda/runs/2026-10-16T14-58-10-wrap/
+
+## 2026-10-16-remove-the-browser-leg — the npm graph, the Node pin, the axum ban and the GUI scan forms leave
+**Section:** §Dependency Security (Audit tool, `deny.toml` additions, Pinning, CI integration); §Bootstrap phases (dep-audit-tooling-install, secret-scanning-ci-gate, dep-security-ci-gate); §Secret Management (Storage → Development, Secret scanning in CI)
+**Change:**
+- Was a test-side npm graph (`e2e-web/package-lock.json`, `@playwright/test` 1.63.0) audited by `scripts/npm-audit.sh` in `supply-chain` and nightly `npm-advisories`, a Node pin (ci.yml's `NODE_PIN_*`, `scripts/install-node.sh`), Chromium from Playwright, and a stand-until sentence. Now none exists: the Audit tool list is cargo-deny, zizmor, the deferred cargo-audit and the ConPTY vendor audit (outside every cargo graph); job 4 audits the root and `fuzz/` lockfiles; nightly runs `advisories` and `fuzz`; toolchains come from `rustup toolchain install` alone.
+- `[[bans.features]]` holds the `rmcp` ban alone (`transport-streamable-http-server`, `auth`); the `axum` `http2` ban left with its `deny-probes.sh` row. Every remaining ban is still proven live.
+- The pre-push `tools` stage checks `cc`, the `rust-toolchain.toml` channel and the `test`-job `tool:` pins (cargo-nextest, cargo-mutants, cargo-llvm-cov); no Node check and no `node` detail. Every child runs as `/usr/bin/env -i HOME=<home> PATH=<home>/.cargo/bin:/usr/local/bin:/usr/bin:/bin <argv>` (four PATH elements); the HOME + PATH-only rule, the passwd-home probes and the canary pair are unchanged.
+- The artifact canary scan's classes: the stripped `CLAUDE*` canaries (the twelve `claude-stripped` needles), the case-insensitive `cookie:` header, the content canary, a non-`0600` diagnostics file (Unix). Was also `?t=`, `viola_<port>=` and the GUI token read from each home's `ui/*.url`. The `chunk.diff` skip's reason: repository source text that trips the scan's own needles whenever it touches the scan's source.
+**Why:** This chunk removed the browser test leg (founder ruling 2026-10-16, item 3). The scan forms and the axum ban went on the operator's P4 answers as the overseer (technical, founder-delegated; `inputs#I1` of this chunk): each removed form matches only the GUI's own token or cookie, which no 0.1.0 path writes, and the ban's reason left with the GUI while axum is in no lockfile. These narrow a control whose subject is gone; no boundary is widened.
+**Ref:** .andromeda/runs/2026-10-16T17-15-05-wrap/

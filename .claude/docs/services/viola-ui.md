@@ -6,4 +6,4 @@ _Crate implementation notes. Primary source: `.andromeda/architecture.md` [GUI C
 None in 0.1.0. The frontend is deferred to 0.2.0; its technology is not chosen. No `viola-ui` workspace crate exists, there is no `ui` subcommand and no listening TCP port. What the page is for (the 0.2.0 frontend's starting intent) is stated in architecture's [GUI Control Scope].
 
 ## Leftovers in the tree
-The `viola_ui` log target in `src/obs.rs`, the reserved `ui` process value and its events in `viola-core` and `schemas/`, and the browser test leg are removed by the route entry "Remove the browser leg".
+None: the `viola_ui` log target in `src/obs.rs`, the reserved `ui` process value and its events in `viola-core` and `schemas/`, and the browser test leg have left the tree.

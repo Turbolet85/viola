@@ -26,7 +26,7 @@ labels = ["Library", "Format", "Mandatory builder settings beyond the tests line
 [[row]]
 key = "Log format JSON schema"
 file = "contracts/obs-plan/log-format-json-schema.md"
-labels = ["Binding. Reproduced verbatim from test-plan.md §3 Test Harness Contract → Log format (re-synced in overseer fix pass 2, 2026-09-24, after test-plan amendments D-21 / 693e083 and fix pass 2, and again in fix pass 3 for Z7). Obs aligns to tests, not vice versa", "Obs extensions", "Accepted `event` values (tests amendment D-21)", "Not a product `event` value: `a11y-violation`", "Accepted `process` value", "Additive fields", "Null encoding"]
+labels = ["Binding. Reproduced verbatim from test-plan.md §3 Test Harness Contract → Log format (re-synced in overseer fix pass 2, 2026-09-24, after test-plan amendments D-21 / 693e083 and fix pass 2, and again in fix pass 3 for Z7). Obs aligns to tests, not vice versa", "Obs extensions", "Accepted `event` values (tests amendment D-21)", "Accepted `process` value", "Additive fields", "Null encoding"]
 
 [[row]]
 key = "Log file location"

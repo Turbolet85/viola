@@ -1163,3 +1163,23 @@ Each superseded mark is kept in the body as the operator's word, superseded 2026
 - `deny.toml`'s `axum` `http2` ban and the `crates/viola-ui/` tsconfig guard.
 - The absences that stay true: no WebSocket and no polling endpoint.
 **Ref:** .andromeda/runs/2026-10-16T14-58-10-wrap/
+
+## 2026-10-16-remove-the-browser-leg — the Browser e2e row and the leg's occupied resources leave
+**Section:** §Stack and Technologies (CI/CD, Browser e2e, Code quality rows); §Occupied Resources (CI workflow data lines, Test-side install sites, `target/nextest/ci/junit.xml`, `target/npm-audit/audit.json`, the `e2e-web/` outputs, `target/run-archive/<n>/`)
+**Change:**
+- The Browser e2e (test-side only) row is gone: Node v24.21.0 with its `NODE_PIN_*` pin and `scripts/install-node.sh`, `@playwright/test` 1.63.0 and its Chromium, `e2e-web/` with `npm ci` and `scripts/npm-audit.sh`, `run --browser` and the pre-push browser stage. The stack names no test-side Node, npm or browser tool.
+- CI/CD row: the pre-push runs every child through `/usr/bin/env -i HOME=<passwd home> PATH=<home>/.cargo/bin:/usr/local/bin:/usr/bin:/bin`, and its `tools` stage checks `cc`, the channel and ci.yml's `test`-job pins (was also `NODE_PIN_VERSION`). Code quality row: `jq`'s consumers are G2, `scripts/release-check.sh` and `scripts/orphans-check.sh`.
+- Occupied Resources: the `NODE_PIN_*` workflow data lines, the Node and Playwright install sites (`$RUNNER_TEMP/node`, `~/.local/viola-node/`, `~/.cache/ms-playwright/`), `target/npm-audit/` and the `e2e-web/` outputs leave the registry. `junit-<os>` carries `target/nextest/ci/junit.xml` alone; the run archive holds `junit-{nextest-unit,nextest-integration,coverage}.xml` and `outcomes.json`.
+**Why:** This chunk removed the browser test leg (founder ruling 2026-10-16, item 3), as the row's own stand-until clause asked of this entry's wrap. No resource was added.
+**Kept:** The npm-shim → `claude.exe` resolution text, the product's own reading of the CLI's npm shim.
+**Ref:** .andromeda/runs/2026-10-16T17-15-05-wrap/
+
+## 2026-10-16-remove-the-browser-leg — Infrastructure Patterns: the browser pipe, the ts plane and the axum ban leave
+**Section:** §Infrastructure Patterns → CI/CD approach (nightly jobs, Setup steps, Jobs: `test` and `supply-chain`, the pre-push bullet); → Build system (Dependency policy, Code-graph planes **ts**); → Project directory structure (`scripts/`, `.config/nextest.toml`, `e2e-web/`, the workflow comments)
+**Change:**
+- CI/CD approach: `nightly.yml` runs two ubuntu jobs, `advisories` and `fuzz` (was three, `npm-advisories`). Setup steps install no Node, run no `npm ci` and no Chromium install; `jq`'s refusing scripts are G2, `release-check.sh` and `orphans-check.sh`. The `test` job has no browser suite, `junit-<os>` carries `target/nextest/ci/junit.xml` alone and `Gate verdict` runs `gate --require coverage,doctest`; `supply-chain` has no Node or npm lockfile step. The pre-push runs every child under `PATH=<home>/.cargo/bin:/usr/local/bin:/usr/bin:/bin`, checks the C linker, the channel and ci.yml's cargo tools, then `run --coverage` and `gate --require coverage,doctest` (was also `node --version`, `run --browser` and `playwright`).
+- Build system: the feature bans are `veil/toggle`, `rmcp` `auth` / `transport-streamable-http-server` and `tracing-subscriber/env-filter` (`axum/http2` and its probe left). The **ts** plane has no input in 0.1.0: its one input, the tracked `e2e-web/tsconfig.json`, left with the browser leg, so `scripts/code-graph.py` detects no ts plane; the `crates/viola-ui/` tsconfig guard is gone.
+- Project directory structure: `e2e-web/`, `scripts/install-node.sh` and `scripts/npm-audit.sh` leave the tree; `.config/nextest.toml` holds the `ci` and `mutants` profiles (the `fixed-port` group left); the `ci.yml` and `nightly.yml` comments name no browser suite, npm audit, `NODE_PIN_*` env or `npm-advisories`.
+**Why:** This chunk removed the browser test leg (founder ruling 2026-10-16, item 3). The axum ban and its probe went on the operator's P4 answer as the overseer (technical, founder-delegated; `inputs#I1`): axum is in no lockfile and the ban's reason left with the GUI.
+**Kept:** The 1.96 floor's text: build-system's ban list was its only axum mention.
+**Ref:** .andromeda/runs/2026-10-16T17-15-05-wrap/

@@ -1,6 +1,6 @@
 ### Log file location
 
-- **Path:** `<home>/diagnostics/{run-<name>,hook-<name>,mcp,ui-<port>,cli-<name>}.ndjson` (`ui-<port>` reserved: no emitter in 0.1.0; removed with the code by "Remove the browser leg").
+- **Path:** `<home>/diagnostics/{run-<name>,hook-<name>,mcp,cli-<name>}.ndjson`.
   - `<home>` is resolved `--home` → grandparent of `VIOLA_DIR` → `~/.viola/`. The basenames and root follow tests (binding); `cli-<name>` is accepted (D-06) and added to the tests file list by amendment D-21. Arch names only `instances/<name>/diagnostics/`, so the home-level root plus instance detail files (D-08) go to arch as amendment request D-22.
   - Content-bearing detail goes to `<home>/instances/<name>/diagnostics/detail-<process>.ndjson` (D-08), which satisfies security Vector 2: only instance-scoped diagnostics may hold user-derived content.
   - Home-level files are **codes-only by construction**: they carry no user content, token, cookie or `CLAUDE*` value.

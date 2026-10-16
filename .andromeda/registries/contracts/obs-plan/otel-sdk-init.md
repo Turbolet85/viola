@@ -8,7 +8,7 @@
 - **Init order** (one `viola_obs_init(role)` in the root bin, run in obs-scope §3 order):
   1. The **first statement in `main`** is `std::panic::set_hook(viola_panic_hook)`. The hook writes to a `OnceLock<Arc<File>>` that is empty until step 4, so it never falls back to stderr.
   2. clap parse.
-  3. Resolve the home (`--home` → grandparent of `VIOLA_DIR` → `~/.viola/`), the instance and the role (`run` / `hook` / `mcp` / `ui` / `cli`). The instance source is fixed per role:
+  3. Resolve the home (`--home` → grandparent of `VIOLA_DIR` → `~/.viola/`), the instance and the role (`run` / `hook` / `mcp` / `cli`). The instance source is fixed per role:
      - `run`: its own `ViolaName` argument. An inherited `VIOLA_NAME` (a `viola run` started from inside a wrapped session) never overrides it, so a wrapper never writes into another instance's `run-<name>.ndjson`;
      - `hook` and `mcp`: `VIOLA_NAME` only;
      - `cli`: the caller's `VIOLA_NAME`, then the target argument (Trace context propagation);

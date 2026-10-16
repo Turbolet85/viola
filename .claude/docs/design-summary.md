@@ -31,7 +31,7 @@ Contrast rule: lamp-off, amber and blue fail AA as text on holder → they live 
 
 - **Labels / headings / callsign:** `--font-label: "Bahnschrift", "DIN Alternate", "Avenir Next Condensed", "DejaVu Sans Condensed", sans-serif` (DIN; semi-condensed via `font-stretch: 87.5%`)
 - **Fields / tape / data:** `--font-field: "Cascadia Mono", Consolas, "SF Mono", Menlo, "DejaVu Sans Mono", monospace` (no ligatures, tabular figures)
-- Sizes: display 16 · callsign 15 · field 13 · code 12 · label 11 (px); weights 400 / 600. No web fonts (`font-src 'none'`). **The Linux DejaVu render is what CI asserts** (until the route entry "Remove the browser leg" removes the browser test leg).
+- Sizes: display 16 · callsign 15 · field 13 · code 12 · label 11 (px); weights 400 / 600. No web fonts (`font-src 'none'`). **Every contrast and render assertion must hold on the resolved Linux DejaVu families**; 0.1.0 renders no page, so no CI step renders these stacks or provides their families (how a 0.2.0 frontend checks them is that version's to decide).
 
 ### Spacing
 

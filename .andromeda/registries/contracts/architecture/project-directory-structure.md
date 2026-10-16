@@ -87,15 +87,11 @@ viola/
 │   ├── g2-zero-panics.sh       # obs G2: 0 `event:"panic"` role lines under target/e2e-home, exempting only a
 │   │                           #   `panic_location` of exactly `src/cmd/hook/seam.rs:<digits>` (fail-closed; + --probe)
 │   ├── install-ripgrep.sh      # pinned, sha256-verified ripgrep 15.2.0 → target/tools/ripgrep
-│   ├── install-node.sh         # <os-key> <dest>: the official Node build at ci.yml's NODE_PIN_* (parsed from the
-│   │                           #   file text), sha256-verified, flattened into <dest> (+ --probe)
-│   ├── npm-audit.sh            # e2e-web lockfile: npm audit (every level) + registry.npmjs.org-only sources
-│   │                           #   → target/npm-audit/ (+ --advisories-only, --probe)
 │   └── profraw-census.sh       # <runs> <workers> [<name>]: dev-host witness, the start test N times on the
 │                               #   instrumented root-bin test binary, each run's profiles counted
 │                               #   → target/profraw-census/ (no CI job, pre-push stage or harness command)
 ├── vendor/conpty/<version>/x64/ # the committed Microsoft conpty.dll + OpenConsole.exe (binary per .gitattributes)
-├── .config/nextest.toml        # nextest profiles `ci` and `mutants`, `fixed-port` group
+├── .config/nextest.toml        # nextest profiles `ci` and `mutants`
 ├── fuzz/                       # separate cargo-fuzz workspace (own Cargo.lock; excluded from the root)
 │   ├── rust-toolchain.toml     # channel = "nightly-2026-09-20" (fuzz only)
 │   ├── fuzz_targets/{viola_name,channel_frame,hook_stdin,vt100_feed,paste_text}.rs
@@ -103,28 +99,14 @@ viola/
 ├── fixtures/
 │   ├── claude/<cli-version>/   # hook-payload fixtures and signature-only Screen.<phase>.json screens and <Event>.<stem>-<n>.json dialog and framing variants and StatusLine.<stem>-<n>.json status line variants recorded by `viola verify`, plus superseded relayed dialog fixtures (RELAYED.md)
 │   └── fake-scripts/           # committed fake-agent turn scripts (synthetic)
-├── e2e-web/                    # test-side Node only (Playwright; axe and the a11y lint land with the a11y chunks);
-│   │                           #   the ts code-graph plane
-│   ├── package.json            # pins @playwright/test 1.63.0 (exact; @axe-core/playwright lands with the a11y chunks)
-│   ├── package-lock.json       # committed; audited by scripts/npm-audit.sh
-│   ├── playwright.config.ts    # headless chromium, retries 0, forbidOnly, reporters pw.json + pw-junit.xml
-│   ├── tsconfig.json           # noEmit, strict, e2e-web/** only
-│   ├── stub/pipe.html          # the file:// reachability stub (one <h1>, no script or style)
-│   ├── eslint.config.js        # eslint-plugin-jsx-a11y over the crates/viola-ui frontend sources
-│   ├── .htmlvalidate.json      # html-validate over the embedded assets/index.html
-│   ├── tests/*.spec.ts         # one spec per bay layout type; today the pipe stub's pipe-reachability.spec.ts
-│   ├── fixtures/a11y.ts        # the shared makeAxeBuilder fixture
-│   ├── schemas/a11y-row.v1.json  # tests-owned a11y violation-row schema (not obs schemas/)
-│   ├── a11y/sc-coverage.json   # per-SC coverage map
-│   └── test-results/           # gitignored outputs (a11y/, lint/)
 ├── .github/
 │   └── workflows/
-│       ├── ci.yml              # push + PR: 3-OS test (+ the browser suite)/perf (hyperfine rows + gate --require
+│       ├── ci.yml              # push + PR: 3-OS test/perf (hyperfine rows + gate --require
 │       │                       #   perf)/lint (+ module orphans), msrv, fuzz-replay, 3-OS release
 │       │                       #   (release-check), supply-chain (+ fuzz
-│       │                       #   lockfile audit, npm lockfile audit); the workflow env holds the NODE_PIN_* lines
-│       ├── nightly.yml         # weekly schedule + workflow_dispatch: cargo deny check advisories (root + fuzz/Cargo.lock),
-│       │                       #   npm-advisories (npm-audit.sh --advisories-only) + fuzz time-box
+│       │                       #   lockfile audit)
+│       ├── nightly.yml         # weekly schedule + workflow_dispatch: cargo deny check advisories (root + fuzz/Cargo.lock)
+│       │                       #   + fuzz time-box
 │       └── windows-mutants.yml # workflow_dispatch only (no inputs), dispatched at the boundary audit, never a gate:
 │                               #   windows-2025 run --mutants --package … --file … per labelled matrix item, over that
 │                               #   item's cfg(windows) files (the root package split by file)

@@ -3,8 +3,11 @@
 **green + smoke.** The block's second whole firing reads `entries 25 · green 22 · red 0 · recorded 0 · timeout 0 ·
 not-run 3` (the three `leg = 'operator'` entries 23-25, the operator pass's). Trail:
 `.andromeda/runs/2026-10-16T16-17-45-implement/gate-2026-10-16-remove-the-browser-leg.json`.
-Next → the OPERATOR PASS (entries 23 hygiene, 24 push, 25 the `ci.py` read; the pre-CI commit between 23 and 24),
-then `/andromeda-wrap-session`.
+The OPERATOR PASS ran on the operator's word (record: `viola-0.1.0/chunks/2026-10-16-remove-the-browser-leg/evidence/operator-pass.md`):
+entry 22 pre-push green · entry 23 `hygiene: clean` (twice) · pre-CI commit `fac2d9d` · entry 24 push green (origin's
+build branch `b6bbbd68→fac2d9de`) · entry 25 `fac2d9defd76 verdict: green · checks 15/15 · wall 479 s · runs
+ci#38937051980 completed/success` (attempt 1). No fix commit.
+Next → `/andromeda-wrap-session` (not started).
 
 ## Files changed
 Scope read: `scope: clean — changed 36 · listed 36 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0)

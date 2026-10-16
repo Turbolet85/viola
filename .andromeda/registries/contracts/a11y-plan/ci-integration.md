@@ -1,12 +1,10 @@
 ### CI integration
 
-- **Pipeline integration:** a11y runs inside the tests' E2E pipeline per the upstream-context Section 5 Test Harness Contract Summary (binding 5-command discipline: `boot`, `run`, `status`, `cleanup`, `logs`).
-  - a11y specs are ordinary files in `e2e-web/`, so they run in the existing `playwright` suite.
+- **Pipeline integration:** a11y runs inside the tests' pipeline per the upstream-context Section 5 Test Harness Contract Summary (binding 5-command discipline: `boot`, `run`, `status`, `cleanup`, `logs`).
+  - The CLI output-discipline and TUI boundary cases are ordinary nextest cases, so they run in the existing suites (CI: the per-OS `test` job's `coverage` suite).
   - There is no separate driver and no new `suite` enum value.
 - **Command:**
-  - `scripts/agent-run.sh run --browser` (POSIX) or `scripts/agent-run.ps1 run --browser`, which invokes the locked Playwright CLI (`node node_modules/@playwright/test/cli.js test` in `e2e-web/`), followed by `gate --require …playwright` (skips never allowed).
-  - Per-test session lifecycle is `boot` → test → `cleanup`. `status` is the readiness precondition, and `logs` is the failure-triage read.
-  - The browser suite runs on every leg of `ci.yml`'s `test` job; the a11y verdict is judged on the ubuntu leg only. `browser-missing` is a failure.
+  - `scripts/agent-run.sh run` (POSIX) or `scripts/agent-run.ps1 run`, followed by `gate --require coverage,doctest` (skips never allowed), on every leg of `ci.yml`'s `test` job.
+  - 0.1.0 runs no browser a11y leg; the frontend's a11y tooling is a 0.2.0 input, its technology not chosen.
 - **Artifact:**
-  - Playwright JSON report at the suite `artifact` path, with `attachments[]` holding scrubbed axe JSON, token-pair JSON, html-validate JSON, VSR phrase logs and the `a11y-violations` NDJSON.
-  - `e2e-web/test-results/` is uploaded by `actions/upload-artifact` v7.0.1, SHA-pinned per zizmor.
+  - No a11y artifact of its own: a cli / tui failure is a nextest failure in the harness `run` JSON (`suites[].failures[]`).

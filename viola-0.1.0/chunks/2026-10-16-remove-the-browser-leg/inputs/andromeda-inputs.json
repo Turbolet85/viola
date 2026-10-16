@@ -16,5 +16,23 @@
     "read_at": "2026-10-16T15:50:50Z",
     "step": "phase:P4",
     "why": "P4 forks: all GUI secret-scan forms leave (cookie: header and CLAUDE canaries stay); the axum http2 ban and its deny-probe leave together"
+  },
+  {
+    "id": "I2",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the operator, relaying the founder word, 2026-10-16 (resume)",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "f795d009cbbca80933b8d2ee3606e03d2ce4ac5908675c25565f5ab445eea449",
+    "copy": "I2-relay-1.md.txt",
+    "link": false,
+    "read_at": "2026-10-16T18:09:53Z",
+    "step": "wrap",
+    "why": "resume at P2 Validate; Validate raises the missed expected amendments (design-system Typography among them) and the browser-test and reserved-obs text this chunk owns"
   }
 ]

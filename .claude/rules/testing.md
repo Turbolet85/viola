@@ -17,15 +17,15 @@ Path-scoped rules for test authoring (what tests assert, fixtures, coverage). Lo
 ## Framework
 - **Unit:** libtest `#[cfg(test)] mod tests` inline in every crate + root `src/`, run through cargo-nextest 0.9.146; rstest 0.27 `#[case]` tables, proptest 1.11.0 (`cases: 512`), insta 1.48.0 (check mode only), mockall 0.15.0 only on seam traits the product defines (`Pty`, liveness probe, `Clock`).
 - **Integration:** crate `tests/<topic>.rs` + root `tests/{cli,hook,tui,channel,chaos,contract}_<topic>.rs` (sync, tokio-free; shared helpers in `tests/support/` — the `events.ndjson` reader, its wait and the session-start boot in `events.rs`, the started-child guard and runner in `cli.rs`, the one complete-lines reader in `ndjson.rs` (every reader of a live-appended file parses only newline-terminated lines), and a root test file defines no copy of its own) with assert_cmd 2.2.2, trycmd 1.2.1, jsonschema 0.57.0.
-- **E2E:** `crates/viola-e2e/tests/{path,mcp,cross}_<topic>.rs` (rmcp client) + Playwright 1.63.0 specs `e2e-web/tests/<bay-layout-type>.spec.ts` (the pipe stub `pipe-reachability.spec.ts`, titles `pipe:`, is the one exception) on all three CI OSes; the a11y lint runs in the ubuntu leg of the `test` job.
+- **E2E:** `crates/viola-e2e/tests/{path,mcp,cross}_<topic>.rs` (rmcp client) on all three CI OSes.
 - **Doctests:** `cargo test --workspace --doc` (nextest cannot run them); examples that must not run use `no_run` / `text`, never `ignore`.
 
 ## Naming
-- `<subject>_<condition>_<expected>`; critical paths `path<N>_<slug>`; rstest case labels readable (`#[case::esc_refused]`; `viola-e2e` carries no `[dev-dependencies]`, so its table-driven cases are a labelled case table of `(label, …)` rows in one `#[test]`, each assertion naming its label); Playwright `test('<layout type>: <expected state>')` with the scenario id in the title.
+- `<subject>_<condition>_<expected>`; critical paths `path<N>_<slug>`; rstest case labels readable (`#[case::esc_refused]`; `viola-e2e` carries no `[dev-dependencies]`, so its table-driven cases are a labelled case table of `(label, …)` rows in one `#[test]`, each assertion naming its label).
 - Fixtures `fixtures/claude/<cli-version>/<Event>.<variant>.json` (the CLI's PascalCase hook event name, e.g. `PreToolUse.ask.json`; no mapping table); fake scripts `fixtures/fake-scripts/<scenario>.json` (schema `schemas/fake-script.v1.json`).
 
 ## Determinism (zero-flake budget)
-- NEVER `sleep` for synchronization — wait on an `events.ndjson` byte offset, `viola wait --after`, a status field or an auto-waiting locator. nextest `retries = 0`, Playwright `retries: 0`; no `#[ignore]` / `test.skip` / `test.fixme` as a parking place.
+- NEVER `sleep` for synchronization — wait on an `events.ndjson` byte offset, `viola wait --after` or a status field. nextest `retries = 0`; no `#[ignore]` as a parking place.
 - Time only through the injected `viola_core::Clock` / mock_instant (sync; in no manifest yet), `start_paused` (Tokio), or an instant handed to a pure decision as an argument (the budget gate's `decide`); never use an in-process clock to control another process's time.
 - NEVER `std::env::set_var` (unsafe in edition 2024) — `Command::env` per child; `.env_clear()` must re-add `LLVM_PROFILE_FILE`.
 - Commit `proptest-regressions/`; chaos faults only from explicit process/file operations or mockall seams.
@@ -43,7 +43,7 @@ Path-scoped rules for test authoring (what tests assert, fixtures, coverage). Lo
 
 ## Running tests
 - **Everything:** `scripts/agent-run.sh run --all` · **one Rust test:** `scripts/agent-run.sh run --integration --filter 'test(/path2_send_confirms/)'` (a whole root test file: `binary(<stem>)`; `--e2e` is a usage error, exit 2, until the first E2E binary lands)
-- **Unit / integration:** `run --unit` / `run --integration` · **browser (every OS, only when named — never under `--all`):** `run --browser` · **one spec:** `npx --no --prefix e2e-web playwright test --config e2e-web/playwright.config.ts --grep "<title>"` (from the repo root `--config` is required)
+- **Unit / integration:** `run --unit` / `run --integration`
 - **Coverage:** `run --coverage` (lines 85 / functions 95 / regions 80 per OS) · **mutants:** `run --mutants` (zero missed beyond the host-excluded mutants the harness leaves out and names in `host_excluded`, zero timeout, unviable ≤ caught; verdict from a fresh `mutants.out/outcomes.json` — in the host mutation scratch `<repo parent>/viola-mutants-scratch` on a Windows host — never the exit code alone; `--file <path>` is the scoped inner loop, `verdict:"scoped"`; `--package <member>` scores one whole member, the boundary tier's form, `verdict:"package"`; a diff with no `.rs` path passes as `verdict:"no-rust-delta"`; one whose `.rs` paths are all test targets — `tests/`, `benches/`, `examples/` — as `verdict:"test-only-rust-delta"`; a mixed diff is `counted`). Named only (never in the default or `--all`), and run at the epoch boundary by `/andromeda-code-audit`: no chunk, pre-push or CI mutation gate (test-plan §10) · **fuzz:** `run --fuzz-replay` (Linux only; targets in the separate `fuzz/` workspace, synthetic corpus)
 
 ## Session Additions
@@ -93,3 +93,4 @@ _This section is owned by `/wrap-session`. setup-project preserves content added
 - 2026-10-14: A probe for count literals a move leaves stale matches the retired shape (`/17]`, `[&str; 17]`, `17 pass  0 fail`), never a bare `N pass`: after a row is added, `17 pass  1 fail` is a correct new oracle and a bare `17 pass` reads it as stale.
 - 2026-10-14: Before a new fixture class's first recording is committed, read its keys for identity-bearing values (a repository owner, an account, a host): the record scrub rewrites only the home and the OS user word, so the hygiene walk reads anything else green.
 - 2026-10-16: A test fixture's synthetic session id has the real session-id shape (`viola_agent_claude::is_session_id`): a filter on that shape (`ledger::resume_target`) drops an off-shape id silently, so the probe it feeds never starts and only its ledger row reads `fail`.
+- 2026-10-16: An oracle literal for a list or a count the plan names (a call bound, a document's key order) is copied from the first run's output, never typed from the plan's prose: a plan writes keys sorted and leaves a bound unnamed, while the document keeps insertion order.

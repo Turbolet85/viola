@@ -8,6 +8,15 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-10-16 — A removal sweep over the masters keys on the retired compound, never the bare word
+The bare word `npm` also reaches the product's npm-shim → `claude.exe` resolution text (twelve master rows at the
+browser-leg wrap), and `liveness` reaches `viola list`'s own `liveness` field, a different contract. A sweep for the
+browser leg's npm or the obs vocabulary's `liveness-changed` therefore keys on `npm ci|npm-audit|npm-advisories|package-lock`
+and `liveness-changed|$defs.liveness`; a bare-word pattern lists true claims beside the retired ones, and a hit is
+dispositioned by what it asserts, never by the token it carries.
+
+---
+
 ## 2026-10-14 — A sweep pattern file refuses an escaped apostrophe and a late inline flag
 The wrap's site-sweep and cascade pattern files are TOML. A pattern goes in a literal string (`'…'`), and a TOML
 literal string has no escapes at all: a doubled apostrophe (`''`) ends the string and the file does not parse. A

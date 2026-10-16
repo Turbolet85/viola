@@ -1,0 +1,10 @@
+
+## 2026-10-16-remove-the-browser-leg — §2, §5, §7, §9–§11: no browser runner, one JUnit path, deny probes 12/12
+**Section:** §2 (Test pyramid E2E row, Agent-runnable invariants, Test directory + naming conventions, Trigger → layer map V9 row); §5 Setup / teardown lifecycle; §7 (Fake agent, Test data lifecycle); §9 (Caches, the stand-until paragraph, Pipeline structure: Lint, Supply-chain, Integration, E2E, Coverage report rows; tool install; Matrix builds; Test report format; Build failure conditions); §10 Zero-flakiness budget; §11 (CI, Universal)
+**Change:**
+- E2E runs against harness-booted `viola run … -- viola-fake-agent` through the outer PTY and the rmcp client; no Playwright, Chromium or Node, no `pw.json` / `pw-junit.xml`, no browser-suite directory or naming rule, no Playwright fake-agent consumer.
+- §9: rust-cache is the only cache; the E2E row is `agent-run run --e2e` on all 3 OSes; the Integration row runs in parallel (the `fixed-port` group left, nothing is shared between tests); the per-OS test job gates `coverage,doctest`; `junit-${{ matrix.os }}` uploads `target/nextest/ci/junit.xml`, one path; Supply-chain has no npm lockfile audit and nightly runs `advisories` alone besides `fuzz`; the `jq` scripts are three; the pre-push `tools` stage checks no Node; no browser or a11y-lint failure condition.
+- `scripts/deny-probes.sh` ends `deny-probes: 12/12 banned, control clean`: one probe per ban, twelve bans (was 13/13 with the axum `http2` ban).
+- §10: nextest `retries = 0`; `#[ignore]` is no parking place (Playwright `retries: 0` and `test.skip` left). §11: serialising tests (`max-threads = 1`) is banned outright; the cache ban names rust-cache alone; the `playwright`-suite ban and the recorder ban's runner parenthetical are gone.
+**Why:** This chunk removed the browser test leg (founder ruling 2026-10-16, item 3); the axum ban and its probe on the operator's P4 answer as the overseer (technical, founder-delegated; `inputs#I1`). The deny-probe count was 13/13 by the same rule, one probe per ban.
+**Ref:** .andromeda/runs/2026-10-16T17-15-05-wrap/

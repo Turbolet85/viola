@@ -240,7 +240,7 @@ A 0.2.0 frontend design input; 0.1.0 renders no page.
 **Rationale:** The foundation is library pairing #1 (Fira Code + Fira Sans, "Dashboard Data"), translated to installed OS faces. The CSP resolves `font-src` to `'none'`, so there is no `@font-face`, no `local()` and no web fonts.
 - **Bahnschrift** is Microsoft's DIN 1451. It ships with Windows 10 1709+, and Windows is the first target. DIN is the lettering of transport signage and of printed flight-progress strip forms (Frequentis/Saab EFS anatomy). Its semi-condensed width fits fixed strip fields, and its uppercase reads as standard phraseology.
 - **Cascadia Mono** is the strip-printer and tape face. It is fixed pitch, has no ligatures (so `->`, `[RB]` and `[/ ]` render literally) and uses tabular figures. This keeps the web strip column-identical to the k9s-style CLI table.
-- **Both faces are Windows-only.** D3 makes macOS and Linux supported, and the headless GUI checks' render and contrast verdicts in CI are judged on ubuntu (the headless browser itself runs on all three CI OSes since 2026-09-27). So each role carries an explicit per-OS fallback stack (below), and the Linux fallback is a first-class rendering, not a degraded one: it is what CI renders. The stacks end at the generic `sans-serif` / `monospace`, never `system-ui`.
+- **Both faces are Windows-only.** D3 makes macOS and Linux supported, so each role carries an explicit per-OS fallback stack (below), and the Linux fallback is a first-class rendering, not a degraded one. The stacks end at the generic `sans-serif` / `monospace`, never `system-ui`.
 
 | Role | Font | Weight | Size | Tracking | Usage |
 |------|------|--------|------|----------|-------|
@@ -258,7 +258,7 @@ A 0.2.0 frontend design input; 0.1.0 renders no page.
 - `--font-label: "Bahnschrift", "DIN Alternate", "Avenir Next Condensed", "DejaVu Sans Condensed", sans-serif;`
 - `--font-field: "Cascadia Mono", Consolas, "SF Mono", Menlo, "DejaVu Sans Mono", monospace;`
 
-| Role token | Windows (live target) | macOS (CI-tested) | Linux (CI-tested; **the CI render**) | Last resort |
+| Role token | Windows (live target) | macOS (CI-tested) | Linux (CI-tested) | Last resort |
 |---|---|---|---|---|
 | `--font-label` | Bahnschrift (DIN 1451) | "DIN Alternate" (DIN, ships with macOS), then "Avenir Next Condensed" | "DejaVu Sans Condensed" (the condensed system sans) | `sans-serif` |
 | `--font-field` | "Cascadia Mono", then Consolas (on every Windows) | "SF Mono", then Menlo | "DejaVu Sans Mono" | `monospace` |
@@ -266,9 +266,7 @@ A 0.2.0 frontend design input; 0.1.0 renders no page.
 - Semi-condensed labels use `font-stretch: 87.5%`, which Bahnschrift's variable width axis honours. On the fallbacks it is a no-op: DIN Alternate, Avenir Next Condensed and DejaVu Sans Condensed are already narrow cuts.
 - Strip and tape columns are sized in `ch` of `--font-field` (`--strip-cols`, `--tape-cols`), so they re-measure to whichever monospace resolves. DejaVu Sans Mono is wider than Cascadia Mono, so the Linux render is the widest case the layout must hold without horizontal scroll.
 
-**Assertions hold on the Linux fallback.** The headless GUI checks' render and contrast assertions are judged on the ubuntu leg in CI (the browser suite also runs on the Windows and macOS legs, where these assertions are not the verdict), so the Linux stack is what CI renders. Every contrast assertion (the Color Palette contrast rules) and every render assertion (no horizontal scroll at ≥1024px, callsign cell not clipped, `[RB]` / `->` rendered literally without ligatures, `unknown` fitting its box, tabular figures aligned) must pass with "DejaVu Sans Condensed" + "DejaVu Sans Mono" resolved. The check asserts the resolved family, not only the declared stack: a resolved face outside the stacks above (for example a banned face picked by fontconfig substitution) fails the check. The CI image must therefore provide the DejaVu families (on Debian/Ubuntu, the Sans Mono cut is in `fonts-dejavu-core` and the Condensed cut in `fonts-dejavu-extra`); a missing family is a CI setup failure, not a design fallback.
-
-The browser test leg named here (the headless GUI render and contrast checks judged on the ubuntu CI leg, and the DejaVu families the CI image provides) stands until the route entry "Remove the browser leg" removes it; that entry's wrap amends this text.
+**Assertions hold on the Linux fallback.** Every contrast assertion (the Color Palette contrast rules) and every render assertion (no horizontal scroll at ≥1024px, callsign cell not clipped, `[RB]` / `->` rendered literally without ligatures, `unknown` fitting its box, tabular figures aligned) must hold with "DejaVu Sans Condensed" + "DejaVu Sans Mono" resolved, and they hold on the resolved family, not only the declared stack: a resolved face outside the stacks above (for example a banned face picked by fontconfig substitution) breaks them. 0.1.0 renders no page, so no CI step renders these stacks or provides their families; how a 0.2.0 frontend checks these assertions is that version's to decide, its technology not chosen.
 
 **cli:** Terminal monospace (the user's configured font). The brand shows through the fixed-column structure and the phraseology words (`open`, `RB`, `unable`, `DIALOG`, `stale`). The readback mirror is `[RB]` / `[  ]` / `[/ ]`. Bold is used only for the NAME column. SGR dim marks `stale` rows, and amber the `DIALOG` word. Output is ASCII only, and density is high.
 

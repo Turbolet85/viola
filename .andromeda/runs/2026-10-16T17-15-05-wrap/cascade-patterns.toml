@@ -1,0 +1,79 @@
+[[pattern]]
+id = 'node-pin'
+regex = 'NODE_PIN|install-node|viola-node|Node v24|Node \(pinned\)|sha256-pinned (official )?Node|pinned Node|node --version'
+ignore_case = true
+
+[[pattern]]
+id = 'npm'
+regex = 'npm ci|npm-audit|npm-advisories|package-lock|npm lockfile|npm graph|\bnpx\b|npm audit'
+ignore_case = true
+
+[[pattern]]
+id = 'playwright'
+regex = 'playwright|chromium|--browser|browser-missing|pw\.json|pw-junit|browser suite|browser pipe|headless browser|headless-browser'
+ignore_case = true
+
+[[pattern]]
+id = 'e2e-web'
+fixed = 'e2e-web'
+
+[[pattern]]
+id = 'ts-plane'
+regex = 'ts plane|ts code-graph|scip-typescript|tsconfig'
+ignore_case = true
+
+[[pattern]]
+id = 'axum'
+regex = '\baxum\b|http2|tower_http|\bhyper\b'
+ignore_case = true
+
+[[pattern]]
+id = 'probes-13'
+regex = '13/13|13 bans|13 probes|thirteen (ban|probe)'
+ignore_case = true
+
+[[pattern]]
+id = 'viola-ui'
+regex = 'viola-ui|viola_ui'
+
+[[pattern]]
+id = 'fixed-port'
+regex = 'fixed-port|default_port|47319'
+
+[[pattern]]
+id = 'gui-keys'
+regex = 'api_sessions_equal_list|port_free|url_file_removed|cookie_file|cookie file|ui-restart|ui\.pid'
+
+[[pattern]]
+id = 'scan-gui'
+regex = 'token-query|gui-token|\?t=|viola_<port>|viola_<digits>|ui/\*\.url|ui/<port>\.url|GUI token|per-launch token'
+
+[[pattern]]
+id = 'obs-web'
+regex = 'http-request|liveness-changed|liveness_to|sse-opened|sse-closed|sse-\*|last-event-id|Last-Event-ID|ui-<port>|\$defs\.liveness|close_cause'
+
+[[pattern]]
+id = 'ui-process'
+regex = '\|ui\||\|ui`|/ `ui` /|`ui` /|`ui`\)|always for `ui`|`ui` process|process `ui`|`ui` role'
+
+[[pattern]]
+id = 'dejavu'
+regex = 'headless[- ]GUI|Linux fallback|CI render|DejaVu families|fonts-dejavu'
+ignore_case = true
+
+[[pattern]]
+id = 'a11y-leg'
+regex = 'a11y-violation|a11y-row|axe-core|jsx-a11y|html-validate|sc-coverage|webServer|test\.skip|colorjs|guidepup|tabbable'
+
+[[pattern]]
+id = 'stand-until'
+regex = 'Remove the browser leg|browser test leg|browser leg'
+ignore_case = true
+
+[[pattern]]
+id = 'counts'
+regex = 'nine closed|outside the nine|the ten values|other nine|two paths, one artifact|both JUnit files|three ubuntu jobs'
+
+[[pattern]]
+id = 'words'
+regex = '\bbrowser\b|\bGUI\b|\bNode\b|\bnpm\b'

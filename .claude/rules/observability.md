@@ -13,16 +13,16 @@ Path-scoped rules for product code that logs, spans or handles errors. Authorita
 ## Pipeline
 - **Library:** tracing 0.1.44 in every instrumentable crate; tracing-subscriber 0.3.23 (`default-features = false`, `fmt,json,registry,std`) as a product dependency in the root bin only (`viola-channel` and `viola-state` take it as a dev-dependency for their unit tests' line capture). No OTel SDK, no exporter, no reporter (sentry banned), no `tracing-appender`, no `metrics` instruments, no `/metrics` route.
 - **Builder:** `fmt().json().flatten_event(true).with_current_span(false).with_span_list(false).with_ansi(false).log_internal_errors(false)`, `MillisUtc` timer (RFC 3339 UTC ms + `Z`), explicit writer — never the stdout default.
-- **Levels:** `filter::Targets` from `config.json` `diagnostics_level` (`info` | `debug`); never `RUST_LOG` / `EnvFilter` / the `env-filter` feature. Third-party targets (`rmcp`, `axum`, `tower_http`, `hyper`, `portable_pty`, `sysinfo`, `interprocess`) are OFF; capture their failures from returned `Result`s at viola's seam.
+- **Levels:** `filter::Targets` from `config.json` `diagnostics_level` (`info` | `debug`); never `RUST_LOG` / `EnvFilter` / the `env-filter` feature. Third-party targets (`rmcp`, `portable_pty`, `sysinfo`, `interprocess`) are OFF; capture their failures from returned `Result`s at viola's seam.
 
 ## Sinks
-- Codes-only role files: `<home>/diagnostics/{run-<name>,hook-<name>,mcp,ui-<port>,cli-<name>}.ndjson` (`ui-<port>` reserved: no emitter in 0.1.0; removed with the code by "Remove the browser leg"). Content-bearing records (anyhow chain, drift report, panic payload + backtrace) only in `<home>/instances/<name>/diagnostics/detail-<process>.ndjson`, written by the root-bin detail writer, never through the subscriber.
+- Codes-only role files: `<home>/diagnostics/{run-<name>,hook-<name>,mcp,cli-<name>}.ndjson`. Content-bearing records (anyhow chain, drift report, panic payload + backtrace) only in `<home>/instances/<name>/diagnostics/detail-<process>.ndjson`, written by the root-bin detail writer, never through the subscriber.
 - 0600 files in 0700 dirs; `OpenOptions::append`; one `write_all` per complete line (concurrent hook processes share a file). A failed log write is swallowed — `hook` still exits 0.
 - Init order: panic hook first → clap → home/instance/role → home strict-modes (create first if new) → diagnostics dir/file checks and open → `config.json` → subscriber → `process-start`. `viola hook statusline` runs its instance check BEFORE this init (the role-file open sets an existing home to 0700, so a check made after it passes a widened home) and a refused check writes no line and opens no role file (exit 0 at once); its stdout carries the user's status-line output, never telemetry. `viola revive`'s start arm runs its instance check before the log init as well: a refused check is the stderr pair and exit 1 with no log opened.
 
 ## Lines
 - Every line goes through `obs_event!` (defined in `viola_core::obs`): it attaches `event`, `process`, `instance` (from `ProcessCtx`); the caller passes `corr` as a typed field on the events that carry one; `message` is a static literal equal to the event name. Raw `tracing::{event,info,warn,error,debug,trace}!` is banned in two halves. Clippy `disallowed-macros` (`clippy.toml`) bans the level macros by path. Raw `event!` is caught by the fail-closed grep in `scripts/lint-probes.sh`, because on clippy 1.98.1 no allow inside `obs_event!` can exempt its inner `::tracing::event!` (obs-plan §3 logger-stack-install, D-33).
-- `event` is a closed kebab-case enum (`ObsEvent`): a new value needs an obs Decisions Log entry and a `schemas/diag-line.v1.json` update. `a11y-violation` is NOT a product event.
+- `event` is a closed kebab-case enum (`ObsEvent`): a new value needs an obs Decisions Log entry and a `schemas/diag-line.v1.json` update.
 - `corr` per event (JSON-RPC `id` · `dialog_id` · send `cursor`), copied as a number or string — never `?corr` / `%corr`, never renamed. A null `corr` / `instance` is key absence, never a literal `null`.
 - Channel lines carry `conn = "<process>-<pid>-<t0>-<n>"`; wrapper `send-*` lines carry `conn` + `rpc_id`; `from` is logged with `from_trust:"self-reported"`.
 - Log only fields named in obs-plan §6 (default-deny, enforced by G4). `detail` codes are closed kebab-case lists — never a path or pid.
@@ -30,7 +30,6 @@ Path-scoped rules for product code that logs, spans or handles errors. Authorita
 ## Spans
 - `#[instrument(skip_all, name = "<area>.<operation>", fields(..))]` only — never bare `#[instrument]` (gate G1), never `err` / `ret` on anything that can carry a serde source or user content. Span names are static; no instance names, ids or paths.
 - Spans are not serialized: pass `corr`, `conn`, `instance` as explicit values into threads/tasks.
-- The `ui` process and the `http-request`, `liveness-changed`, `sse-opened` and `sse-closed` events are reserved: no emitter in 0.1.0; removed with the code by "Remove the browser leg".
 
 ## Panics and errors
 - `panic = "unwind"` in every profile (gate G3). The panic hook writes one line to the role file (no stderr, never the default hook); `catch_unwind` at the main-thread catch site, around `hook` dispatch, the `run` pump and handle-wait threads, and the vt100 feed.
