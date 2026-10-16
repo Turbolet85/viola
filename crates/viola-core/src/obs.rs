@@ -22,17 +22,13 @@ pub enum ObsEvent {
     ReleaseFromDriver,
     ProcessStart,
     ProcessExit,
-    HttpRequest,
     Panic,
-    LivenessChanged,
     StateRecovered,
-    SseOpened,
-    SseClosed,
     ParseRejected,
 }
 
 impl ObsEvent {
-    pub const ALL: [Self; 19] = [
+    pub const ALL: [Self; 15] = [
         Self::ChannelRequest,
         Self::ChannelResponse,
         Self::DialogRaised,
@@ -45,12 +41,8 @@ impl ObsEvent {
         Self::ReleaseFromDriver,
         Self::ProcessStart,
         Self::ProcessExit,
-        Self::HttpRequest,
         Self::Panic,
-        Self::LivenessChanged,
         Self::StateRecovered,
-        Self::SseOpened,
-        Self::SseClosed,
         Self::ParseRejected,
     ];
 
@@ -68,12 +60,8 @@ impl ObsEvent {
             Self::ReleaseFromDriver => "release-from-driver",
             Self::ProcessStart => "process-start",
             Self::ProcessExit => "process-exit",
-            Self::HttpRequest => "http-request",
             Self::Panic => "panic",
-            Self::LivenessChanged => "liveness-changed",
             Self::StateRecovered => "state-recovered",
-            Self::SseOpened => "sse-opened",
-            Self::SseClosed => "sse-closed",
             Self::ParseRejected => "parse-rejected",
         }
     }
@@ -91,19 +79,17 @@ pub enum ObsProcess {
     Run,
     Hook,
     Mcp,
-    Ui,
     Cli,
 }
 
 impl ObsProcess {
-    pub const ALL: [Self; 5] = [Self::Run, Self::Hook, Self::Mcp, Self::Ui, Self::Cli];
+    pub const ALL: [Self; 4] = [Self::Run, Self::Hook, Self::Mcp, Self::Cli];
 
     pub const fn as_str(self) -> &'static str {
         match self {
             Self::Run => "run",
             Self::Hook => "hook",
             Self::Mcp => "mcp",
-            Self::Ui => "ui",
             Self::Cli => "cli",
         }
     }
@@ -172,7 +158,7 @@ mod tests {
     use super::*;
 
     /// test-plan §3 Log format + obs-plan D-01…D-05, written out as the oracle.
-    const LOG_FORMAT_EVENTS: [&str; 19] = [
+    const LOG_FORMAT_EVENTS: [&str; 15] = [
         "channel-request",
         "channel-response",
         "dialog-raised",
@@ -185,12 +171,8 @@ mod tests {
         "release-from-driver",
         "process-start",
         "process-exit",
-        "http-request",
         "panic",
-        "liveness-changed",
         "state-recovered",
-        "sse-opened",
-        "sse-closed",
         "parse-rejected",
     ];
 
@@ -205,9 +187,9 @@ mod tests {
     }
 
     #[test]
-    fn obs_process_display_is_the_five_roles() {
+    fn obs_process_display_is_the_four_roles() {
         let shown: Vec<String> = ObsProcess::ALL.iter().map(ToString::to_string).collect();
-        assert_eq!(shown, ["run", "hook", "mcp", "ui", "cli"]);
+        assert_eq!(shown, ["run", "hook", "mcp", "cli"]);
     }
 
     #[test]
@@ -220,7 +202,7 @@ mod tests {
             instance: Some(builder),
         }));
         assert!(!set_ctx(ProcessCtx {
-            process: ObsProcess::Ui,
+            process: ObsProcess::Cli,
             instance: None,
         }));
         assert_eq!(ctx_process(), Some("run"));

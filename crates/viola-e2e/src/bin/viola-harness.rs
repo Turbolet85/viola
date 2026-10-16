@@ -87,8 +87,6 @@ struct RunArgs {
     #[arg(long)]
     fuzz_replay: bool,
     #[arg(long)]
-    browser: bool,
-    #[arg(long)]
     perf: bool,
     /// One `viola verify` against the real `claude`; refused under `CI`.
     #[arg(long)]
@@ -172,7 +170,6 @@ fn run_cmd(ws: &Workspace, args: RunArgs) -> ExitCode {
         mutants: args.mutants,
         coverage: args.coverage,
         fuzz_replay: args.fuzz_replay,
-        browser: args.browser,
         perf: args.perf,
         local_live: args.local_live,
         files: args.files,

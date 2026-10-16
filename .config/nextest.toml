@@ -1,11 +1,3 @@
-[test-groups]
-fixed-port = { max-threads = 1 }
-
-# Every test touching the default port 47319 carries `default_port` in its name.
-[[profile.default.overrides]]
-filter = 'test(/default_port/)'
-test-group = 'fixed-port'
-
 [profile.ci]
 retries = 0
 fail-fast = false

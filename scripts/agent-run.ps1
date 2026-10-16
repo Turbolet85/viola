@@ -7,7 +7,7 @@
 # its exit code and stdout unchanged. All logic lives once, in Rust (crates/viola-e2e).
 #
 # 5-command discipline (mirrors agent-run.sh): boot, run, status, cleanup, logs.
-# Internal subcommands forwarded unchanged (not agent-facing): supervise, ui-restart, gate, the
+# Internal subcommands forwarded unchanged (not agent-facing): supervise, gate, the
 # CI gate bodies schema-check (G4) and secret-scan, and pre-push (the operator pass's local Linux gate).
 # Every command prints exactly one JSON document on stdout; exit 0 ok, 1 failure, 2 usage error.
 #
@@ -26,10 +26,7 @@ $Root = Split-Path -Parent $PSScriptRoot
 $HarnessArgs = @($args)
 $Cmd = if ($HarnessArgs.Count -gt 0) { [string]$HarnessArgs[0] } else { '' }
 
-# Embedded-asset freshness: test-plan section 3 puts the refresh INSIDE `viola-harness boot` - step 1
-# always runs `cargo build --workspace --features fake-agent` before any process starts, and after UI
-# readiness boot byte-compares every embedded /assets/* path with the repo file ("stale-embedded-assets").
-# The shim adds no step of its own. Both shell variants must expose identical semantics.
+# `viola-harness boot` builds the workspace itself (test-plan section 3), so the shim adds no pre-build step.
 function Invoke-EnsureFreshArtifacts {
 }
 
@@ -62,9 +59,6 @@ switch ($Cmd) {
         Invoke-Harness
     }
     'supervise' {
-        Invoke-Harness
-    }
-    'ui-restart' {
         Invoke-Harness
     }
     'gate' {

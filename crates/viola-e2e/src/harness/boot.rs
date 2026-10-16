@@ -165,10 +165,8 @@ fn start(opts: &BootOptions) -> Result<Outcome, HarnessError> {
         session: opts.session.clone(),
         home: home.clone(),
         instances,
-        ui: None,
         supervisor_pid: supervisor.pid,
         supervisor_started_at: supervisor.started_at,
-        cookie_file: None,
     };
     write_json(&session_record_path(&opts.ws, &opts.session), &record)?;
     let listed: Vec<Value> = record

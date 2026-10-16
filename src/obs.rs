@@ -18,8 +18,8 @@ use tracing_subscriber::layer::SubscriberExt as _;
 use viola_core::obs::{ObsEvent, ObsProcess, ProcessCtx};
 use viola_core::{MAX_FRAME, ViolaName, obs_event};
 
-/// Every other target (rmcp, axum, notify, …) is OFF: its records lack the required fields.
-const VIOLA_TARGETS: [&str; 8] = [
+/// Every other target (rmcp, notify, …) is OFF: its records lack the required fields.
+const VIOLA_TARGETS: [&str; 7] = [
     "viola",
     "viola_core",
     "viola_pty",
@@ -27,7 +27,6 @@ const VIOLA_TARGETS: [&str; 8] = [
     "viola_state",
     "viola_agent_claude",
     "viola_mcp",
-    "viola_ui",
 ];
 
 const CONFIG_KEYS: [&str; 5] = [
@@ -51,15 +50,10 @@ fn open_private_append(path: &Path) -> io::Result<File> {
 }
 
 /// The home-level role file's basename; `None` when the role's naming input is missing.
-pub(crate) fn role_file_name(
-    process: ObsProcess,
-    instance: Option<&ViolaName>,
-    port: Option<u16>,
-) -> Option<String> {
-    let stem = match (process, instance, port) {
-        (ObsProcess::Mcp, _, _) => "mcp".to_owned(),
-        (ObsProcess::Ui, _, Some(port)) => format!("ui-{port}"),
-        (ObsProcess::Run | ObsProcess::Hook | ObsProcess::Cli, Some(name), _) => {
+pub(crate) fn role_file_name(process: ObsProcess, instance: Option<&ViolaName>) -> Option<String> {
+    let stem = match (process, instance) {
+        (ObsProcess::Mcp, _) => "mcp".to_owned(),
+        (ObsProcess::Run | ObsProcess::Hook | ObsProcess::Cli, Some(name)) => {
             format!("{}-{}", process.as_str(), name_str(name))
         }
         _ => return None,
@@ -76,9 +70,8 @@ pub(crate) fn open_role_file(
     home: &Path,
     process: ObsProcess,
     instance: Option<&ViolaName>,
-    port: Option<u16>,
 ) -> io::Result<Arc<File>> {
-    let name = role_file_name(process, instance, port)
+    let name = role_file_name(process, instance)
         .ok_or_else(|| io::Error::from(io::ErrorKind::InvalidInput))?;
     ensure_private_dir(home)?;
     let dir = home.join("diagnostics");
@@ -132,7 +125,7 @@ pub(crate) fn viola_obs_init(
     instance: Option<ViolaName>,
     level: Level,
 ) -> io::Result<()> {
-    let file = open_role_file(home, process, instance.as_ref(), None)?;
+    let file = open_role_file(home, process, instance.as_ref())?;
     let _ = STARTED.set(Instant::now());
     crate::set_panic_sink(file.clone(), process, instance.clone(), home.to_path_buf());
     viola_core::obs::set_ctx(ProcessCtx { process, instance });
@@ -370,22 +363,19 @@ mod tests {
     }
 
     #[rstest]
-    #[case::run(ObsProcess::Run, Some("builder"), None, Some("run-builder.ndjson"))]
-    #[case::hook(ObsProcess::Hook, Some("builder"), None, Some("hook-builder.ndjson"))]
-    #[case::cli(ObsProcess::Cli, Some("overseer"), None, Some("cli-overseer.ndjson"))]
-    #[case::mcp(ObsProcess::Mcp, None, None, Some("mcp.ndjson"))]
-    #[case::ui(ObsProcess::Ui, None, Some(47319), Some("ui-47319.ndjson"))]
-    #[case::ui_without_port(ObsProcess::Ui, Some("builder"), None, None)]
-    #[case::run_without_name(ObsProcess::Run, None, Some(1), None)]
+    #[case::run(ObsProcess::Run, Some("builder"), Some("run-builder.ndjson"))]
+    #[case::hook(ObsProcess::Hook, Some("builder"), Some("hook-builder.ndjson"))]
+    #[case::cli(ObsProcess::Cli, Some("overseer"), Some("cli-overseer.ndjson"))]
+    #[case::mcp(ObsProcess::Mcp, None, Some("mcp.ndjson"))]
+    #[case::run_without_name(ObsProcess::Run, None, None)]
     fn role_file_name_maps_every_process(
         #[case] process: ObsProcess,
         #[case] instance: Option<&str>,
-        #[case] port: Option<u16>,
         #[case] expected: Option<&str>,
     ) {
         let instance = instance.map(name);
         assert_eq!(
-            role_file_name(process, instance.as_ref(), port).as_deref(),
+            role_file_name(process, instance.as_ref()).as_deref(),
             expected
         );
     }
@@ -394,7 +384,7 @@ mod tests {
     fn open_role_file_without_a_name_creates_nothing() {
         let tmp = tempfile::tempdir().expect("tempdir");
         let home = tmp.path().join("home");
-        assert!(open_role_file(&home, ObsProcess::Run, None, None).is_err());
+        assert!(open_role_file(&home, ObsProcess::Run, None).is_err());
         assert!(!home.exists());
     }
 
@@ -402,7 +392,7 @@ mod tests {
     fn targets_enable_viola_crates_at_the_level_and_nothing_else() {
         let info = targets(Level::INFO);
         assert!(info.would_enable("viola::run", &Level::INFO));
-        assert!(info.would_enable("viola_ui::sse", &Level::WARN));
+        assert!(info.would_enable("viola_mcp::server", &Level::WARN));
         assert!(!info.would_enable("viola::run", &Level::DEBUG));
         assert!(!info.would_enable("rmcp::service", &Level::ERROR));
         let debug = targets(Level::DEBUG);

@@ -1,4 +1,4 @@
-# Workspace dependency policy. The tokio ban cannot live here (viola-mcp and viola-ui use tokio):
+# Workspace dependency policy. The tokio ban cannot live here (viola-mcp uses tokio):
 # it is deny-sync.toml, run once per sync crate as the sole root of its graph.
 
 [graph]
@@ -50,11 +50,6 @@ reason = "toggle lets VEIL_DISABLE_REDACTION / veil::disable() switch redaction 
 crate = "rmcp"
 deny = ["transport-streamable-http-server", "auth"]
 reason = "the MCP server is stdio-only; every 2026 rmcp advisory sits in these features"
-
-[[bans.features]]
-crate = "axum"
-deny = ["http2"]
-reason = "the loopback GUI serves HTTP/1.1 only"
 
 [[bans.features]]
 crate = "tracing-subscriber"

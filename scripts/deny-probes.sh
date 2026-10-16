@@ -28,7 +28,6 @@ probes=(
   "veil-toggle|deny.toml|error[feature-banned]: feature 'toggle' for crate 'veil = |veil = { version = \"0.3\", default-features = false, features = [\"toggle\"] }"
   "rmcp-transport-streamable-http-server|deny.toml|error[feature-banned]: feature 'transport-streamable-http-server' for crate 'rmcp = |rmcp = { version = \"3.4\", default-features = false, features = [\"transport-streamable-http-server\"] }"
   "rmcp-auth|deny.toml|error[feature-banned]: feature 'auth' for crate 'rmcp = |rmcp = { version = \"3.4\", default-features = false, features = [\"auth\"] }"
-  "axum-http2|deny.toml|error[feature-banned]: feature 'http2' for crate 'axum = |axum = { version = \"0.8\", default-features = false, features = [\"http2\"] }"
   "tracing-subscriber-env-filter|deny.toml|error[feature-banned]: feature 'env-filter' for crate 'tracing-subscriber = |tracing-subscriber = { version = \"0.3\", default-features = false, features = [\"env-filter\"] }"
 )
 

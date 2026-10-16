@@ -100,7 +100,7 @@ mod tests {
     use super::*;
 
     pub(super) const HOME: &str = "/srv/tester";
-    pub(super) const CI_LINE: &str = "env:\n  NODE_PIN_VERSION: \"24.21.0\"\n      - uses: x\n        with:\n          tool: cargo-nextest@0.9.146,cargo-mutants@27.1.0,cargo-llvm-cov@0.9.1\n";
+    const CI_LINE: &str = "      - uses: x\n        with:\n          tool: cargo-nextest@0.9.146,cargo-mutants@27.1.0,cargo-llvm-cov@0.9.1\n";
 
     /// A scratch root holding the two pin sources the tools stage reads.
     pub(super) fn pinned() -> (tempfile::TempDir, Workspace) {
@@ -164,11 +164,9 @@ mod tests {
                 .on(&["nextest --version"], 0, "cargo-nextest 0.9.146 (x)\n")
                 .on(&["mutants --version"], 0, "cargo-mutants 27.1.0\n")
                 .on(&["llvm-cov --version"], 0, "cargo-llvm-cov 0.9.1\n")
-                .on(&["node --version"], 0, "v24.21.0\n")
                 .on(&["run --coverage"], 0, &green_doc("coverage"))
-                .on(&["run --browser"], 0, &green_doc("playwright"))
                 .on(
-                    &["gate --require coverage,doctest,playwright"],
+                    &["gate --require coverage,doctest"],
                     0,
                     "{\"v\":1,\"cmd\":\"gate\",\"ok\":true,\"breaches\":[]}\n",
                 )
@@ -215,8 +213,8 @@ mod tests {
         pre_push(ws, true, &mut |c| fake.answer(c))
     }
 
-    /// The pass ends green at `linux-tests` with the three reduced documents under `linux`, and no
-    /// mutation run is made.
+    /// The pass ends green at `linux-tests` with the two reduced documents under `linux`; no call
+    /// runs Node or a mutation run.
     #[test]
     fn pre_push_native_stages_run_tools_then_linux_tests_and_end_the_pass() {
         let (_tmp, ws) = pinned();
@@ -225,16 +223,28 @@ mod tests {
         assert_eq!(out.code, 0, "{}", out.doc);
         assert_eq!(out.doc["ok"], true, "{}", out.doc);
         assert_eq!(out.doc["stage"], "linux-tests", "{}", out.doc);
-        for section in ["run", "browser", "gate"] {
+        for section in ["run", "gate"] {
             assert_eq!(out.doc["linux"][section]["ok"], true, "{}", out.doc);
         }
+        let linux: Vec<&String> = out.doc["linux"]
+            .as_object()
+            .expect("linux")
+            .keys()
+            .collect();
+        assert_eq!(linux, ["run", "gate"], "{}", out.doc);
+        assert!(out.doc["linux"].get("browser").is_none());
         let at = |needle: &str| {
             fake.calls
                 .iter()
                 .position(|c| c.contains(needle))
                 .unwrap_or_else(|| panic!("{needle} in {:?}", fake.calls))
         };
-        assert!(at("node --version") < at("run --coverage"));
+        assert!(at("cc --version") < at("run --coverage"));
+        assert!(
+            !fake.calls.iter().any(|c| c.contains("node")),
+            "{:?}",
+            fake.calls
+        );
         assert!(!fake.calls.iter().any(|c| c.contains("--mutants")));
         let keys: Vec<&String> = out.doc.as_object().expect("doc").keys().collect();
         assert_eq!(keys, ["v", "cmd", "ok", "stage", "linux"], "{keys:?}");

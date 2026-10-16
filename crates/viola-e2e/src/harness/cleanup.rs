@@ -67,8 +67,8 @@ fn summarize(cleaned: Vec<String>, reports: Vec<Report>, keep_homes: bool) -> Ou
     Outcome::new(
         json!({
             "v": 1, "cmd": "cleanup", "ok": ok, "cleaned": cleaned,
-            "processes_gone": processes_gone, "endpoint_gone": endpoint_gone, "port_free": null,
-            "url_file_removed": null, "home_removed": home_removed, "killed": killed,
+            "processes_gone": processes_gone, "endpoint_gone": endpoint_gone,
+            "home_removed": home_removed, "killed": killed,
         }),
         ok,
     )
@@ -272,10 +272,8 @@ mod tests {
                 child_started_at: dead.started_at,
                 fake_args: vec![],
             }],
-            ui: None,
             supervisor_pid: dead.pid,
             supervisor_started_at: dead.started_at,
-            cookie_file: None,
         };
         fs::create_dir_all(ws.session_dir("s")).expect("mkdir");
         super::super::write_json(&session_record_path(&ws, "s"), &record).expect("write");
@@ -319,10 +317,8 @@ mod tests {
                 child_started_at: dead.started_at,
                 fake_args: vec![],
             }],
-            ui: None,
             supervisor_pid: dead.pid,
             supervisor_started_at: dead.started_at,
-            cookie_file: None,
         };
         let begun = Instant::now();
         let report = cleanup_one(&ws, "s", &record, true);

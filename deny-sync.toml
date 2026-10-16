@@ -9,5 +9,5 @@ exclude-dev = true
 
 [bans]
 deny = [
-  { crate = "tokio", reason = "tokio is confined to viola-mcp and viola-ui; the sync crates stay tokio-free" },
+  { crate = "tokio", reason = "tokio is confined to viola-mcp; the sync crates stay tokio-free" },
 ]

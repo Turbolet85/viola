@@ -1,0 +1,138 @@
+[
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-16T15:50:50Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-16-remove-the-browser-leg",
+"--message-file",
+".andromeda/runs/2026-10-16T15-37-36-phase/relay-1.md",
+"--origin",
+"the operator, as the overseer (technical, founder-delegated), in the P4 dialog, 2026-10-16T15:50Z",
+"--kind",
+"relay",
+"--why",
+"P4 forks: all GUI secret-scan forms leave (cookie: header and CLAUDE canaries stay); the axum http2 ban and its deny-probe leave together",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-10-16T15-37-36-phase",
+"--marker",
+"2026-10-16-remove-the-browser-leg"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy message · message: the operator, as the overseer (technical, founder-delegated), in the P4 dialog, 2026-10-16T15:50Z",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, as the overseer (technical, founder-delegated), in the P4 dialog, 2026-10-16T15:50Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "fdef382900eac2394f442332f3a9f7f85fa603c9fa9c37c209b506c96c15aaff",
+"copy": "I1-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-16T15:50:50Z",
+"step": "phase:P4",
+"why": "P4 forks: all GUI secret-scan forms leave (cookie: header and CLAUDE canaries stay); the axum http2 ban and its deny-probe leave together"
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-16T15:55:40Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-16-remove-the-browser-leg",
+"--run-dir",
+".andromeda/runs/2026-10-16T15-37-36-phase",
+"--marker",
+"2026-10-16-remove-the-browser-leg"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, as the overseer (technical, founder-delegated), in the P4 dialog, 2026-10-16T15:50Z",
+"I1 cited scope.md:11 · plan.md:10 · plan.md:112 · plan.md:174 · plan.md:430 · plan.md:463 · plan.md:514 · plan.md:537",
+"inputs: 1 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 1,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-16T15:58:55Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-16-remove-the-browser-leg",
+"--run-dir",
+".andromeda/runs/2026-10-16T15-37-36-phase",
+"--marker",
+"2026-10-16-remove-the-browser-leg"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the operator, as the overseer (technical, founder-delegated), in the P4 dialog, 2026-10-16T15:50Z",
+"I1 cited scope.md:12 · plan.md:10 · plan.md:113 · plan.md:175 · plan.md:445 · plan.md:478 · plan.md:529 · plan.md:552",
+"inputs: 1 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 1,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]

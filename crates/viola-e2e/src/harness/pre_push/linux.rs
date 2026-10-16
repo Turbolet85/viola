@@ -13,9 +13,6 @@ use super::{Doc, Stop, ok, out};
 
 const ENV: &str = "/usr/bin/env";
 
-/// Where `scripts/install-node.sh` puts ci.yml's pinned Node, under the user's home.
-const NODE_BIN: &str = ".local/viola-node/bin";
-
 /// The system dirs the passwd probes search: the home is what they read, so it is not yet known.
 const SYSTEM_PATH: &str = "PATH=/usr/bin:/bin";
 
@@ -42,7 +39,7 @@ impl Linux {
         cmd.arg("-i")
             .arg(format!("HOME={}", self.home))
             .arg(format!(
-                "PATH={home}/.cargo/bin:{home}/{NODE_BIN}:/usr/local/bin:/usr/bin:/bin",
+                "PATH={home}/.cargo/bin:/usr/local/bin:/usr/bin:/bin",
                 home = self.home
             ))
             .args(argv)
@@ -65,16 +62,6 @@ pub fn ci_pins(ci_yml: &str) -> Option<Vec<(String, String)>> {
             Some((name.to_owned(), version.to_owned()))
         })
         .collect()
-}
-
-/// The workflow-level `NODE_PIN_VERSION` in ci.yml: the one version source of Node, which
-/// `scripts/install-node.sh` parses the same way.
-pub fn node_pin(ci_yml: &str) -> Option<String> {
-    ci_yml
-        .lines()
-        .filter_map(|l| l.strip_prefix("  NODE_PIN_VERSION:"))
-        .map(|v| v.trim().trim_matches('"').to_owned())
-        .find(|v| !v.is_empty())
 }
 
 /// The last non-empty stdout line, when it is a harness document.
@@ -112,8 +99,8 @@ pub(super) fn passwd_home(runner: &mut Runner<'_>) -> Result<String, Stop> {
         .ok_or_else(missing)
 }
 
-/// The C linker, then every tool at its pin: `rust-toolchain.toml`'s channel, ci.yml's test-job
-/// tool line and its Node pin, never a version written here.
+/// The C linker, then every tool at its pin: `rust-toolchain.toml`'s channel and ci.yml's test-job
+/// tool line, never a version written here.
 pub(super) fn tools(ws: &Workspace, linux: &Linux, runner: &mut Runner<'_>) -> Result<(), Stop> {
     if out(runner, linux.cmd(&["cc", "--version"])).is_none() {
         return Err(Stop::new("tool-missing", "cc"));
@@ -126,7 +113,6 @@ pub(super) fn tools(ws: &Workspace, linux: &Linux, runner: &mut Runner<'_>) -> R
     let yml = fs::read_to_string(ws.root.join(".github").join("workflows").join("ci.yml"))
         .map_err(|_| unreadable())?;
     let pins = ci_pins(&yml).ok_or_else(unreadable)?;
-    let node = node_pin(&yml).ok_or_else(unreadable)?;
     let toolchain = format!("+{channel}");
     let mut wanted = vec![("rustc".to_owned(), channel.clone())];
     wanted.extend(pins);
@@ -145,12 +131,6 @@ pub(super) fn tools(ws: &Workspace, linux: &Linux, runner: &mut Runner<'_>) -> R
         if version != Some(pin.as_str()) {
             return Err(Stop::new("tool-pin-mismatch", name));
         }
-    }
-    let Some(text) = out(runner, linux.cmd(&["node", "--version"])) else {
-        return Err(Stop::new("tool-missing", "node"));
-    };
-    if text.trim() != format!("v{node}") {
-        return Err(Stop::new("tool-pin-mismatch", "node"));
     }
     Ok(())
 }
@@ -192,8 +172,7 @@ pub(super) fn summary(doc: &Value) -> Value {
     out
 }
 
-/// `run --coverage`, `run --browser`, then `gate --require coverage,doctest,playwright`: the ubuntu
-/// test job's own suites.
+/// `run --coverage`, then `gate --require coverage,doctest`: the ubuntu test job's own suites.
 pub(super) fn linux_tests(
     linux: &Linux,
     runner: &mut Runner<'_>,
@@ -204,23 +183,14 @@ pub(super) fn linux_tests(
     if !ok(&run) {
         return Ok(false);
     }
-    let browser = linux_harness(linux, &["run", "--browser"], runner)?;
-    doc.linux.insert("browser".to_owned(), summary(&browser));
-    if !ok(&browser) {
-        return Ok(false);
-    }
-    let gate = linux_harness(
-        linux,
-        &["gate", "--require", "coverage,doctest,playwright"],
-        runner,
-    )?;
+    let gate = linux_harness(linux, &["gate", "--require", "coverage,doctest"], runner)?;
     doc.linux.insert("gate".to_owned(), summary(&gate));
     Ok(ok(&gate))
 }
 
 #[cfg(test)]
 mod tests {
-    use super::super::tests::{CI_LINE, Fake, HOME, drive, pinned, red_tests, stopped};
+    use super::super::tests::{Fake, HOME, drive, pinned, red_tests, stopped};
     use super::*;
 
     #[test]
@@ -239,85 +209,22 @@ mod tests {
         assert_eq!(ci_pins("tool: cargo-nextest@1,cargo-llvm-cov\n"), None);
     }
 
+    /// The last two harness calls are exactly the coverage run, then the gate over its suites.
     #[test]
-    fn pre_push_node_pin_reads_the_workflow_env_line() {
-        let root = Workspace::from_build().root;
-        let yml = fs::read_to_string(root.join(".github/workflows/ci.yml")).expect("ci.yml");
-        assert_eq!(node_pin(&yml).as_deref(), Some("24.21.0"));
-        assert_eq!(
-            node_pin("env:\n  NODE_PIN_VERSION: 1.2.3\n").as_deref(),
-            Some("1.2.3")
-        );
-        assert_eq!(
-            node_pin("    NODE_PIN_VERSION: \"1.2.3\"\n"),
-            None,
-            "job level"
-        );
-        assert_eq!(node_pin("  NODE_PIN_VERSION: \"\"\n"), None);
-        assert_eq!(node_pin("  NODE_PIN_SHA256_WIN_X64: \"ab\"\n"), None);
-    }
-
-    #[test]
-    fn pre_push_node_missing_or_off_pin_is_named() {
-        let absent = Fake::new().on(&["node --version"], 127, "");
-        let absent = stopped(absent, "tool-missing", Some("node"), "tools");
-        assert!(
-            absent
-                .calls
-                .last()
-                .is_some_and(|c| c.ends_with("node --version"))
-        );
-        let other = Fake::new().on(&["node --version"], 0, "v24.20.0\n");
-        stopped(other, "tool-pin-mismatch", Some("node"), "tools");
-        let (_tmp, ws) = pinned();
-        fs::write(
-            ws.root.join(".github/workflows/ci.yml"),
-            CI_LINE.replace("  NODE_PIN_VERSION", "    NODE_PIN_VERSION"),
-        )
-        .expect("ci");
-        let mut fake = Fake::new().green();
-        let out = drive(&ws, &mut fake);
-        assert_eq!(out.doc["reason"], "tool-pin-mismatch");
-        assert_eq!(out.doc["detail"], "pins-unreadable");
-    }
-
-    #[test]
-    fn pre_push_linux_browser_red_stops_before_the_gate() {
-        let (_tmp, ws) = pinned();
-        let red = "{\"v\":1,\"cmd\":\"run\",\"ok\":false,\"reason\":\"browser-missing\",\
-                   \"suites\":[{\"suite\":\"playwright\",\"passed\":0,\"failed\":1,\"skipped\":0,\
-                   \"survived\":0,\"artifact\":null,\"failures\":[\"chromium-missing\"]}]}\n";
-        let mut fake = Fake::new().on(&["run --browser"], 1, red).green();
-        let out = drive(&ws, &mut fake);
-        assert_eq!(out.doc["stage"], "linux-tests");
-        assert_eq!(out.doc["linux"]["browser"]["reason"], "browser-missing");
-        assert_eq!(
-            out.doc["linux"]["browser"]["suites"][0]["failures"][0],
-            "chromium-missing"
-        );
-        assert!(out.doc["linux"].get("gate").is_none());
-        assert!(!fake.calls.iter().any(|c| c.contains("gate --require")));
-        assert!(!fake.calls.iter().any(|c| c.contains("--mutants")));
-    }
-
-    #[test]
-    fn pre_push_linux_tests_run_coverage_browser_then_the_playwright_gate() {
+    fn pre_push_linux_tests_run_coverage_then_the_gate() {
         let (_tmp, ws) = pinned();
         let mut fake = Fake::new().green();
         let out = drive(&ws, &mut fake);
-        let at = |needle: &str| {
+        let harness: Vec<&str> = fake
+            .calls
+            .iter()
+            .filter_map(|c| c.split_once(" bash scripts/agent-run.sh ").map(|(_, a)| a))
+            .collect();
+        assert_eq!(
+            harness[harness.len().saturating_sub(2)..],
+            ["run --coverage", "gate --require coverage,doctest"],
+            "{:?}",
             fake.calls
-                .iter()
-                .position(|c| c.ends_with(needle))
-                .unwrap_or_else(|| panic!("{needle} in {:?}", fake.calls))
-        };
-        let coverage = at("bash scripts/agent-run.sh run --coverage");
-        let browser = at("bash scripts/agent-run.sh run --browser");
-        let gate = at("bash scripts/agent-run.sh gate --require coverage,doctest,playwright");
-        assert!(coverage < browser && browser < gate, "{:?}", fake.calls);
-        assert_eq!(
-            out.doc["linux"]["browser"]["suites"][0]["suite"],
-            "playwright"
         );
         assert_eq!(out.doc["linux"]["gate"]["ok"], true, "{}", out.doc);
     }
@@ -417,7 +324,6 @@ mod tests {
             out.doc["linux"]["run"]["suites"][0]["failures"][0],
             "pre_push_planted_unix_red"
         );
-        assert!(out.doc["linux"].get("browser").is_none());
         assert!(out.doc["linux"].get("gate").is_none());
         assert!(!fake.calls.iter().any(|c| c.contains("--mutants")));
     }
@@ -457,7 +363,7 @@ mod tests {
         let mut fake = Fake::new().green();
         let out = drive(&ws, &mut fake);
         assert_eq!(out.code, 0, "{}", out.doc);
-        assert!(fake.calls.len() > 10, "{:?}", fake.calls);
+        assert_eq!(fake.calls.len(), 9, "{:?}", fake.calls);
         let system = ["/usr/local/bin", "/usr/bin", "/bin"];
         let under_home = format!("{HOME}/");
         for call in &fake.calls {
@@ -485,8 +391,8 @@ mod tests {
             }
         }
         let launcher = format!(
-            "{ENV} -i HOME={HOME} PATH={HOME}/.cargo/bin:{HOME}/.local/viola-node/bin:\
-             /usr/local/bin:/usr/bin:/bin bash scripts/agent-run.sh run --coverage"
+            "{ENV} -i HOME={HOME} PATH={HOME}/.cargo/bin:/usr/local/bin:/usr/bin:/bin \
+             bash scripts/agent-run.sh run --coverage"
         );
         assert!(fake.calls.contains(&launcher), "{:?}", fake.calls);
         assert_eq!(fake.claude_envs, 0);

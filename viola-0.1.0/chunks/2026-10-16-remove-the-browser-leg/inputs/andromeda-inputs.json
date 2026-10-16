@@ -1,0 +1,20 @@
+[
+  {
+    "id": "I1",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the operator, as the overseer (technical, founder-delegated), in the P4 dialog, 2026-10-16T15:50Z",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "fdef382900eac2394f442332f3a9f7f85fa603c9fa9c37c209b506c96c15aaff",
+    "copy": "I1-relay-1.md.txt",
+    "link": false,
+    "read_at": "2026-10-16T15:50:50Z",
+    "step": "phase:P4",
+    "why": "P4 forks: all GUI secret-scan forms leave (cookie: header and CLAUDE canaries stay); the axum http2 ban and its deny-probe leave together"
+  }
+]

@@ -256,10 +256,8 @@ pub struct SessionRecord {
     pub session: String,
     pub home: PathBuf,
     pub instances: Vec<InstanceRecord>,
-    pub ui: Option<Value>,
     pub supervisor_pid: u32,
     pub supervisor_started_at: u64,
-    pub cookie_file: Option<PathBuf>,
 }
 
 impl SessionRecord {

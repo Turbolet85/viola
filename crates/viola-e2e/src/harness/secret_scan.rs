@@ -13,7 +13,7 @@ use super::{Outcome, Workspace, write_json};
 
 /// NEVER-log values: forbidden in every scanned file, detail files included (obs-plan §8). The
 /// stripped `CLAUDE*` ones are the fixed canaries the root tests plant through the environment.
-pub const CRITICAL: [(&str, &str); 13] = [
+pub const CRITICAL: [(&str, &str); 12] = [
     ("claude-stripped", "canary-token-value-7f3a"),
     ("claude-stripped", "canary-socket-value-2b9d"),
     ("claude-stripped", "canary-entrypoint-value-8e41"),
@@ -26,7 +26,6 @@ pub const CRITICAL: [(&str, &str); 13] = [
     ("claude-stripped", "canary-effort-value-0b7e"),
     ("claude-stripped", "canary-pid-value-6c35"),
     ("claude-stripped", "canary-newname-value-e2f8"),
-    ("token-query", "?t="),
 ];
 
 /// Content canaries: allowed in detail files and the harness capture, never in a home-level role
@@ -62,14 +61,13 @@ pub fn secret_scan(ws: &Workspace) -> Outcome {
 pub fn scan(roots: &Roots, report_dir: &Path) -> Outcome {
     let _ = fs::remove_file(report_dir.join("hits.json"));
     let diag = diag_files(&roots.e2e_home);
-    let tokens = gui_tokens(&roots.e2e_home);
     let mut hits = Vec::new();
     let mut files = 0usize;
 
     for (path, kind) in &diag.files {
         files += 1;
         let role = *kind == DiagKind::Role;
-        scan_file(roots, path, role, &tokens, &mut hits);
+        scan_file(roots, path, role, &mut hits);
         if let Some(hit) = mode_hit(roots, path, file_mode(path)) {
             hits.push(hit);
         }
@@ -85,7 +83,7 @@ pub fn scan(roots: &Roots, report_dir: &Path) -> Outcome {
     }
     for path in &capture {
         files += 1;
-        scan_file(roots, path, false, &tokens, &mut hits);
+        scan_file(roots, path, false, &mut hits);
     }
 
     let empty = diag.files.is_empty();
@@ -113,7 +111,7 @@ pub fn scan(roots: &Roots, report_dir: &Path) -> Outcome {
 }
 
 /// Every hit of `needles` in one file's bytes, located but never quoted.
-fn scan_file(roots: &Roots, path: &Path, role: bool, tokens: &[String], hits: &mut Vec<Value>) {
+fn scan_file(roots: &Roots, path: &Path, role: bool, hits: &mut Vec<Value>) {
     let Ok(bytes) = fs::read(path) else {
         hits.push(hit(roots, path, 0, 0, "unreadable"));
         return;
@@ -128,15 +126,7 @@ fn scan_file(roots: &Roots, path: &Path, role: bool, tokens: &[String], hits: &m
             report(offset, class);
         }
     }
-    for token in tokens {
-        for offset in find_all(&bytes, token.as_bytes()) {
-            report(offset, "gui-token");
-        }
-    }
     for offset in find_all(&lower, b"cookie:") {
-        report(offset, "cookie");
-    }
-    for offset in cookie_pairs(&bytes) {
         report(offset, "cookie");
     }
     if role {
@@ -163,47 +153,6 @@ fn find_all(haystack: &[u8], needle: &[u8]) -> Vec<usize> {
         .filter(|(_, w)| *w == needle)
         .map(|(i, _)| i)
         .collect()
-}
-
-/// `viola_<port>=`: the GUI cookie as it would appear in a `Cookie` or `Set-Cookie` value.
-fn cookie_pairs(bytes: &[u8]) -> Vec<usize> {
-    find_all(bytes, b"viola_")
-        .into_iter()
-        .filter(|&at| {
-            let rest = &bytes[at + b"viola_".len()..];
-            let digits = rest.iter().take_while(|b| b.is_ascii_digit()).count();
-            digits > 0 && rest.get(digits) == Some(&b'=')
-        })
-        .collect()
-}
-
-/// The per-launch token of every home that ran `viola ui`: the `t` value in `ui/<port>.url`.
-fn gui_tokens(e2e_home: &Path) -> Vec<String> {
-    let mut all = Vec::new();
-    collect_files(e2e_home, &mut all);
-    let mut tokens: Vec<String> = all
-        .iter()
-        .filter(|p| {
-            p.extension().is_some_and(|e| e == "url")
-                && p.parent()
-                    .and_then(Path::file_name)
-                    .is_some_and(|d| d == "ui")
-        })
-        .filter_map(|p| fs::read_to_string(p).ok())
-        .filter_map(|text| url_token(&text))
-        .collect();
-    tokens.sort();
-    tokens.dedup();
-    tokens
-}
-
-fn url_token(text: &str) -> Option<String> {
-    let query = text.trim().split_once('?')?.1;
-    query
-        .split('&')
-        .find_map(|pair| pair.strip_prefix("t="))
-        .map(|t| t.trim().to_owned())
-        .filter(|t| !t.is_empty())
 }
 
 fn collect_files(dir: &Path, out: &mut Vec<PathBuf>) {
@@ -314,9 +263,7 @@ mod tests {
         let detail = "h/home/instances/builder/diagnostics/detail-run.ndjson";
         for (class, text) in [
             ("claude-stripped", "{\"v\":\"canary-socket-value-2b9d\"}\n"),
-            ("token-query", "{\"u\":\"/?t=abc\"}\n"),
             ("cookie", "{\"h\":\"COOKIE: x\"}\n"),
-            ("cookie", "{\"h\":\"viola_47319=abc\"}\n"),
         ] {
             plant(&t.roots.e2e_home, detail, text);
             let out = scan(&t.roots, &t.report);
@@ -326,31 +273,25 @@ mod tests {
         }
     }
 
+    /// The GUI forms left 0.1.0 with the browser leg: the `?t=` query, the `viola_<port>=` cookie
+    /// pair and a `ui/<port>.url` launch token are ordinary bytes now.
     #[test]
-    fn secret_scan_reads_the_gui_token_from_the_url_file() {
+    fn secret_scan_ignores_the_removed_gui_forms() {
         let t = tree();
         plant(
             &t.roots.e2e_home,
             "h/home/ui/47319.url",
             "http://127.0.0.1:47319/?t=tok9z\n",
         );
-        // A `.url` outside a `ui/` dir is not a launch file.
         plant(
             &t.roots.e2e_home,
-            "h/home/notes/x.url",
-            "http://h/?t=other1\n",
-        );
-        plant(
-            &t.roots.agent_run,
-            "logs.ndjson",
-            "{\"line\":\"tok9z\",\"other\":\"other1\"}\n",
+            "h/home/diagnostics/run-builder.ndjson",
+            "{\"event\":\"x\",\"u\":\"/?t=x\",\"h\":\"viola_47319=abc\",\"l\":\"tok9z\"}\n",
         );
         let out = scan(&t.roots, &t.report);
-        assert_eq!(classes(&out), ["gui-token"]);
-        assert_eq!(out.doc["hits"][0]["file"], "agent-run/logs.ndjson");
-        // The launch token `tok9z` (offset 9), not `other1` from the stray `.url` (offset 26).
-        assert_eq!(out.doc["hits"][0]["offset"], 9);
-        assert_eq!(out.doc["files"], 2, "one role file and one capture file");
+        assert_eq!(out.code, 0, "{}", out.doc);
+        assert_eq!(out.doc["ok"], true);
+        assert_eq!(out.doc["hits"], json!([]));
     }
 
     #[test]
@@ -359,17 +300,17 @@ mod tests {
         plant(
             &t.roots.agent_run,
             "ci-smoke/nested/status.json",
-            "{\"u\":\"?t=x\"}\n",
+            "{\"u\":\"canary-socket-value-2b9d\"}\n",
         );
         let out = scan(&t.roots, &t.report);
-        assert_eq!(classes(&out), ["token-query"]);
+        assert_eq!(classes(&out), ["claude-stripped"]);
         assert_eq!(
             out.doc["hits"][0]["file"],
             "agent-run/ci-smoke/nested/status.json"
         );
     }
 
-    const DIFF_LINE: &str = "+    (\"token-query\", \"?t=\"),\n";
+    const DIFF_LINE: &str = "+    (\"claude-stripped\", \"canary-socket-value-2b9d\"),\n";
 
     #[test]
     fn secret_scan_skips_the_mutation_diff() {
@@ -387,14 +328,18 @@ mod tests {
         plant(&t.roots.agent_run, "logs.ndjson", DIFF_LINE);
         plant(&t.roots.agent_run, "x/chunk.diff", DIFF_LINE);
         let out = scan(&t.roots, &t.report);
-        assert_eq!(classes(&out), ["token-query", "token-query"]);
+        assert_eq!(classes(&out), ["claude-stripped", "claude-stripped"]);
         assert_eq!(out.doc["files"], 3);
     }
 
     #[test]
     fn secret_scan_marks_a_report_it_could_not_write() {
         let t = tree();
-        plant(&t.roots.agent_run, "logs.ndjson", "?t=x\n");
+        plant(
+            &t.roots.agent_run,
+            "logs.ndjson",
+            "canary-socket-value-2b9d\n",
+        );
         let blocker = plant(&t.roots.base, "blocker", "a file, not a directory\n");
         let out = scan(&t.roots, &blocker.join("secret-scan"));
         assert_eq!(out.code, 1);
@@ -470,9 +415,9 @@ mod tests {
         plant(
             &t.roots.base,
             "nextest/ci/junit.xml",
-            "<system-out>?t=x</system-out>\n",
+            "<system-out>canary-socket-value-2b9d</system-out>\n",
         );
-        assert_eq!(classes(&scan(&t.roots, &t.report)), ["token-query"]);
+        assert_eq!(classes(&scan(&t.roots, &t.report)), ["claude-stripped"]);
     }
 
     #[test]
@@ -510,19 +455,6 @@ mod tests {
         let out = scan(&t.roots, &t.report);
         assert_eq!(classes(&out), ["mode"]);
         assert_eq!(out.doc["mode_check"], "unix");
-    }
-
-    #[test]
-    fn url_token_takes_the_t_parameter() {
-        assert_eq!(url_token("http://h/?a=1&t=abc\n"), Some("abc".to_owned()));
-        assert_eq!(url_token("http://h/?t="), None);
-        assert_eq!(url_token("http://h/"), None);
-    }
-
-    #[test]
-    fn cookie_pairs_need_digits_then_equals() {
-        assert_eq!(cookie_pairs(b"viola_47319=x"), vec![0]);
-        assert!(cookie_pairs(b"viola_=x viola_12 viola_ab=").is_empty());
     }
 
     #[test]

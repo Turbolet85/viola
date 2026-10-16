@@ -1,8 +1,7 @@
-//! `run`: the built suites (unit · integration · doctest · coverage · browser · fuzz-replay · perf)
+//! `run`: the built suites (unit · integration · doctest · coverage · fuzz-replay · perf)
 //! and the mutation arm kept for the epoch-boundary audit, one JSON summary, merged by suite into
 //! `target/agent-run/artifacts/run-summary.json` (test-plan §3 `run`).
 
-mod browser;
 mod coverage;
 mod doctest;
 mod fuzz;
@@ -40,7 +39,6 @@ pub struct Selection {
     pub mutants: bool,
     pub coverage: bool,
     pub fuzz_replay: bool,
-    pub browser: bool,
     pub perf: bool,
     /// `--local-live`: one `viola verify` against the real `claude` on the operator's host.
     pub local_live: bool,
@@ -52,9 +50,9 @@ pub struct Selection {
 
 impl Selection {
     /// No selector, or `--all`, selects unit and integration. `--coverage` replaces the nextest
-    /// runs, `--fuzz-replay` is Linux-only, `--browser` needs Node and Chromium, `--perf` needs
-    /// hyperfine and a release build, `--mutants` is the epoch-boundary audit's, and `--local-live`
-    /// drives the real CLI, so none of them joins the default.
+    /// runs, `--fuzz-replay` is Linux-only, `--perf` needs hyperfine and a release build,
+    /// `--mutants` is the epoch-boundary audit's, and `--local-live` drives the real CLI, so none of
+    /// them joins the default.
     pub fn from_flags(named: Selection, all: bool) -> Self {
         let none = named == Selection::default();
         Self {
@@ -143,10 +141,8 @@ pub fn run_with(
         let doc = json!({"v": 1, "cmd": "run", "ok": false, "reason": "package-refused"});
         return Outcome { doc, code: 2 };
     }
-    let (mut suites, browser_refusal) = test_suites(ws, &sel, filter, runner);
-    let (tool_refusal, mutants_doc, outcomes) =
-        tool_arms(ws, &sel, chunk_base, runner, &mut suites);
-    let refusal = browser_refusal.or(tool_refusal);
+    let mut suites = test_suites(ws, &sel, filter, runner);
+    let (refusal, mutants_doc, outcomes) = tool_arms(ws, &sel, chunk_base, runner, &mut suites);
     if sel.local_live && refusal.is_none() {
         suites.push(local_live(ws, runner));
     }
@@ -163,30 +159,17 @@ pub fn run_with(
     Outcome::new(doc, ok)
 }
 
-/// The JUnit reports this run's nextest, coverage or browser suites wrote (a suite that wrote none
-/// names its file with no source), then the `outcomes.json` the mutation arm read. The browser
-/// suite's artifact is Playwright's `pw.json`; its JUnit is the sibling `pw-junit.xml`.
+/// The JUnit reports this run's nextest or coverage suites wrote (a suite that wrote none names its
+/// file with no source), then the `outcomes.json` the mutation arm read.
 fn archive_sources(suites: &[Suite], outcomes: Option<PathBuf>) -> Vec<(String, Option<PathBuf>)> {
     let mut sources: Vec<(String, Option<PathBuf>)> = suites
         .iter()
-        .filter(|s| {
-            [
-                "nextest-unit",
-                "nextest-integration",
-                "coverage",
-                "playwright",
-            ]
-            .contains(&s.suite.as_str())
-        })
+        .filter(|s| ["nextest-unit", "nextest-integration", "coverage"].contains(&s.suite.as_str()))
         .map(|s| {
-            let name = format!("junit-{}.xml", s.suite);
-            let source = s.artifact.as_ref().map(PathBuf::from);
-            let source = if s.suite == "playwright" {
-                source.map(|p| p.with_file_name(browser::JUNIT))
-            } else {
-                source
-            };
-            (name, source)
+            (
+                format!("junit-{}.xml", s.suite),
+                s.artifact.as_ref().map(PathBuf::from),
+            )
         })
         .collect();
     if let Some(path) = outcomes {
@@ -249,14 +232,13 @@ fn archive(ws: &Workspace, sources: &[(String, Option<PathBuf>)]) -> Option<(Str
     Some((format!("{ARCHIVE}/{slot}"), skipped))
 }
 
-/// The nextest runs (or the one instrumented run that replaces them), the doctests, then the
-/// browser suite with its `browser-missing` refusal.
+/// The nextest runs (or the one instrumented run that replaces them), then the doctests.
 fn test_suites(
     ws: &Workspace,
     sel: &Selection,
     filter: Option<&str>,
     runner: &mut Runner<'_>,
-) -> (Vec<Suite>, Option<Refusal>) {
+) -> Vec<Suite> {
     let mut suites = Vec::new();
     if sel.coverage {
         suites.push(coverage::coverage(ws, filter, runner));
@@ -283,13 +265,7 @@ fn test_suites(
     if sel.unit || sel.integration || sel.coverage {
         suites.push(doctest::doctest(ws, runner));
     }
-    let mut refusal = None;
-    if sel.browser {
-        let (suite, missing) = browser::browser(ws, runner);
-        suites.push(suite);
-        refusal = missing;
-    }
-    (suites, refusal)
+    suites
 }
 
 /// Fuzz replay, the perf rows, then the mutation arm, each unless a refusal came first.
@@ -769,20 +745,7 @@ mod tests {
         );
         assert!(archive_sources(&[Suite::named("nextest-integration")], None).len() == 1);
         assert!(archive_sources(&[Suite::named("doctest")], None).is_empty());
-        let browser = Suite {
-            artifact: Some("w/pw.json".to_owned()),
-            ..Suite::named("playwright")
-        };
-        assert_eq!(
-            archive_sources(&[browser, Suite::named("playwright")], None),
-            vec![
-                (
-                    "junit-playwright.xml".to_owned(),
-                    Some(PathBuf::from("w/pw-junit.xml"))
-                ),
-                ("junit-playwright.xml".to_owned(), None),
-            ]
-        );
+        assert!(archive_sources(&[Suite::named("playwright")], None).is_empty());
     }
 
     #[test]

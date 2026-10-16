@@ -11,9 +11,9 @@
     "target": { "type": "string", "minLength": 1 },
     "message": { "type": "string" },
     "event": {
-      "enum": ["channel-request", "channel-response", "dialog-raised", "dialog-answered", "hook-invoked", "hook-decision", "send-issued", "send-confirmed", "send-refused", "release-from-driver", "process-start", "process-exit", "http-request", "panic", "liveness-changed", "state-recovered", "sse-opened", "sse-closed", "parse-rejected"]
+      "enum": ["channel-request", "channel-response", "dialog-raised", "dialog-answered", "hook-invoked", "hook-decision", "send-issued", "send-confirmed", "send-refused", "release-from-driver", "process-start", "process-exit", "panic", "state-recovered", "parse-rejected"]
     },
-    "process": { "enum": ["run", "hook", "mcp", "ui", "cli"] },
+    "process": { "enum": ["run", "hook", "mcp", "cli"] },
     "instance": { "type": "string", "pattern": "^[a-z][a-z0-9-]{0,31}$" },
     "corr": { "type": ["number", "string"] },
     "conn": { "type": "string" },

@@ -11,12 +11,11 @@ use super::run::{COVERAGE_FLOORS, PERF_ROWS};
 use super::{Outcome, read_json};
 
 /// The closed `suite` values (test-plan §3 Closed enums).
-pub const SUITES: [&str; 9] = [
+pub const SUITES: [&str; 8] = [
     "nextest-unit",
     "nextest-integration",
     "doctest",
     "nextest-e2e",
-    "playwright",
     "mutants",
     "coverage",
     "perf",
@@ -24,12 +23,11 @@ pub const SUITES: [&str; 9] = [
 ];
 
 /// The suites whose run leaves a `junit-<suite>.xml` beside the summary.
-const JUNIT: [&str; 5] = [
+const JUNIT: [&str; 4] = [
     "nextest-unit",
     "nextest-integration",
     "nextest-e2e",
     "coverage",
-    "playwright",
 ];
 
 /// A comma list of closed suite values; `None` when it is empty or names anything else.
@@ -269,18 +267,19 @@ mod tests {
     }
 
     #[test]
-    fn gate_fails_failed_and_skipped_suites_playwright_included() {
+    fn gate_fails_failed_and_skipped_suites() {
         let d = dir();
         summary(
             d.path(),
             json!([
                 entry("nextest-integration", 2, 0, 0),
-                entry("playwright", 0, 1, 0)
+                entry("coverage", 0, 1, 0)
             ]),
         );
         junit(d.path(), "nextest-integration");
-        junit(d.path(), "playwright");
-        let out = gate(d.path(), &req(&["nextest-integration", "playwright"]));
+        junit(d.path(), "coverage");
+        cov(d.path(), 85.0, 95.0, 80.0);
+        let out = gate(d.path(), &req(&["nextest-integration", "coverage"]));
         assert_eq!(
             gates(&out),
             [
@@ -412,5 +411,12 @@ mod tests {
         for bad in ["", "a11y", "coverage,", "unit", "coverage,bogus"] {
             assert_eq!(parse_require(bad), None, "{bad:?}");
         }
+    }
+
+    /// The browser suite left 0.1.0 with its leg: `playwright` is no closed suite value.
+    #[test]
+    fn parse_require_refuses_playwright() {
+        assert_eq!(parse_require("playwright"), None);
+        assert_eq!(parse_require("coverage,playwright"), None);
     }
 }

@@ -1,0 +1,276 @@
+[
+{
+"sql": "SELECT callee_name, callee_kind, callee_file, file, line FROM refs WHERE callee_name IN ('role_file_name','open_role_file','node_pin','cookie_file','Ui','browser','JUNIT') ORDER BY callee_name, file, line",
+"rows": 38,
+"result": [
+{
+"callee_name": "JUNIT",
+"callee_kind": "term",
+"callee_file": "crates/viola-e2e/src/harness/gate.rs",
+"file": "crates/viola-e2e/src/harness/gate.rs",
+"line": 53
+},
+{
+"callee_name": "JUNIT",
+"callee_kind": "term",
+"callee_file": "crates/viola-e2e/src/harness/run/browser.rs",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 184
+},
+{
+"callee_name": "JUNIT",
+"callee_kind": "term",
+"callee_file": "crates/viola-e2e/src/harness/run/browser.rs",
+"file": "crates/viola-e2e/src/harness/run/browser.rs",
+"line": 30
+},
+{
+"callee_name": "JUNIT",
+"callee_kind": "term",
+"callee_file": "crates/viola-e2e/src/harness/run/browser.rs",
+"file": "crates/viola-e2e/src/harness/run/browser.rs",
+"line": 86
+},
+{
+"callee_name": "JUNIT",
+"callee_kind": "term",
+"callee_file": "crates/viola-e2e/src/harness/run/browser.rs",
+"file": "crates/viola-e2e/src/harness/run/browser.rs",
+"line": 134
+},
+{
+"callee_name": "JUNIT",
+"callee_kind": "term",
+"callee_file": "crates/viola-e2e/src/harness/run/browser.rs",
+"file": "crates/viola-e2e/src/harness/run/browser.rs",
+"line": 253
+},
+{
+"callee_name": "JUNIT",
+"callee_kind": "term",
+"callee_file": "crates/viola-e2e/src/harness/run/browser.rs",
+"file": "crates/viola-e2e/src/harness/run/browser.rs",
+"line": 265
+},
+{
+"callee_name": "Ui",
+"callee_kind": "type",
+"callee_file": "crates/viola-core/src/obs.rs",
+"file": "crates/viola-core/src/obs.rs",
+"line": 98
+},
+{
+"callee_name": "Ui",
+"callee_kind": "type",
+"callee_file": "crates/viola-core/src/obs.rs",
+"file": "crates/viola-core/src/obs.rs",
+"line": 105
+},
+{
+"callee_name": "Ui",
+"callee_kind": "type",
+"callee_file": "crates/viola-core/src/obs.rs",
+"file": "crates/viola-core/src/obs.rs",
+"line": 222
+},
+{
+"callee_name": "Ui",
+"callee_kind": "type",
+"callee_file": "crates/viola-core/src/obs.rs",
+"file": "src/obs.rs",
+"line": 60
+},
+{
+"callee_name": "Ui",
+"callee_kind": "type",
+"callee_file": "crates/viola-core/src/obs.rs",
+"file": "src/obs.rs",
+"line": 376
+},
+{
+"callee_name": "Ui",
+"callee_kind": "type",
+"callee_file": "crates/viola-core/src/obs.rs",
+"file": "src/obs.rs",
+"line": 377
+},
+{
+"callee_name": "browser",
+"callee_kind": "term",
+"callee_file": "crates/viola-e2e/src/harness/run.rs",
+"file": "crates/viola-e2e/src/bin/viola-harness.rs",
+"line": 174
+},
+{
+"callee_name": "browser",
+"callee_kind": "term",
+"callee_file": "crates/viola-e2e/src/bin/viola-harness.rs",
+"file": "crates/viola-e2e/src/bin/viola-harness.rs",
+"line": 174
+},
+{
+"callee_name": "browser",
+"callee_kind": "module",
+"callee_file": "crates/viola-e2e/src/harness/run/browser.rs",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 4
+},
+{
+"callee_name": "browser",
+"callee_kind": "module",
+"callee_file": "crates/viola-e2e/src/harness/run/browser.rs",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 184
+},
+{
+"callee_name": "browser",
+"callee_kind": "term",
+"callee_file": "crates/viola-e2e/src/harness/run.rs",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 286
+},
+{
+"callee_name": "browser",
+"callee_kind": "module",
+"callee_file": "crates/viola-e2e/src/harness/run/browser.rs",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 287
+},
+{
+"callee_name": "browser",
+"callee_kind": "fn",
+"callee_file": "crates/viola-e2e/src/harness/run/browser.rs",
+"file": "crates/viola-e2e/src/harness/run.rs",
+"line": 287
+},
+{
+"callee_name": "browser",
+"callee_kind": "module",
+"callee_file": "crates/viola-e2e/src/harness/run/browser.rs",
+"file": "crates/viola-e2e/src/harness/run/browser.rs",
+"line": 101
+},
+{
+"callee_name": "browser",
+"callee_kind": "module",
+"callee_file": "crates/viola-e2e/src/harness/run/browser.rs",
+"file": "crates/viola-e2e/src/harness/run/browser.rs",
+"line": 102
+},
+{
+"callee_name": "browser",
+"callee_kind": "module",
+"callee_file": "crates/viola-e2e/src/harness/run/browser.rs",
+"file": "crates/viola-e2e/src/harness/run/browser.rs",
+"line": 103
+},
+{
+"callee_name": "browser",
+"callee_kind": "fn",
+"callee_file": "crates/viola-e2e/src/harness/run/browser.rs",
+"file": "crates/viola-e2e/src/harness/run/browser.rs",
+"line": 143
+},
+{
+"callee_name": "browser",
+"callee_kind": "term",
+"callee_file": "crates/viola-e2e/src/harness/run.rs",
+"file": "crates/viola-e2e/src/harness/run/browser.rs",
+"line": 313
+},
+{
+"callee_name": "cookie_file",
+"callee_kind": "term",
+"callee_file": "crates/viola-e2e/src/harness/mod.rs",
+"file": "crates/viola-e2e/src/harness/boot.rs",
+"line": 170
+},
+{
+"callee_name": "cookie_file",
+"callee_kind": "term",
+"callee_file": "crates/viola-e2e/src/harness/mod.rs",
+"file": "crates/viola-e2e/src/harness/cleanup.rs",
+"line": 277
+},
+{
+"callee_name": "cookie_file",
+"callee_kind": "term",
+"callee_file": "crates/viola-e2e/src/harness/mod.rs",
+"file": "crates/viola-e2e/src/harness/cleanup.rs",
+"line": 324
+},
+{
+"callee_name": "node_pin",
+"callee_kind": "fn",
+"callee_file": "crates/viola-e2e/src/harness/pre_push/linux.rs",
+"file": "crates/viola-e2e/src/harness/pre_push/linux.rs",
+"line": 128
+},
+{
+"callee_name": "node_pin",
+"callee_kind": "fn",
+"callee_file": "crates/viola-e2e/src/harness/pre_push/linux.rs",
+"file": "crates/viola-e2e/src/harness/pre_push/linux.rs",
+"line": 245
+},
+{
+"callee_name": "node_pin",
+"callee_kind": "fn",
+"callee_file": "crates/viola-e2e/src/harness/pre_push/linux.rs",
+"file": "crates/viola-e2e/src/harness/pre_push/linux.rs",
+"line": 247
+},
+{
+"callee_name": "node_pin",
+"callee_kind": "fn",
+"callee_file": "crates/viola-e2e/src/harness/pre_push/linux.rs",
+"file": "crates/viola-e2e/src/harness/pre_push/linux.rs",
+"line": 251
+},
+{
+"callee_name": "node_pin",
+"callee_kind": "fn",
+"callee_file": "crates/viola-e2e/src/harness/pre_push/linux.rs",
+"file": "crates/viola-e2e/src/harness/pre_push/linux.rs",
+"line": 255
+},
+{
+"callee_name": "node_pin",
+"callee_kind": "fn",
+"callee_file": "crates/viola-e2e/src/harness/pre_push/linux.rs",
+"file": "crates/viola-e2e/src/harness/pre_push/linux.rs",
+"line": 256
+},
+{
+"callee_name": "open_role_file",
+"callee_kind": "fn",
+"callee_file": "src/obs.rs",
+"file": "src/obs.rs",
+"line": 134
+},
+{
+"callee_name": "open_role_file",
+"callee_kind": "fn",
+"callee_file": "src/obs.rs",
+"file": "src/obs.rs",
+"line": 396
+},
+{
+"callee_name": "role_file_name",
+"callee_kind": "fn",
+"callee_file": "src/obs.rs",
+"file": "src/obs.rs",
+"line": 80
+},
+{
+"callee_name": "role_file_name",
+"callee_kind": "fn",
+"callee_file": "src/obs.rs",
+"file": "src/obs.rs",
+"line": 387
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

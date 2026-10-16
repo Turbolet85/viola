@@ -10,13 +10,13 @@
 #
 # 5-command discipline (the agent's surface):
 #   boot     - build, create a fresh home under target/e2e-home/, stamp it via `viola verify` against the
-#              fake agent, start the wrappers (+ `viola ui`), wait for readiness
-#   run      - invoke the suites (--unit|--integration|--e2e|--browser|--mutants|--coverage|--perf|
+#              fake agent, start the wrappers, wait for readiness
+#   run      - invoke the suites (--unit|--integration|--e2e|--mutants|--coverage|--perf|
 #              --fuzz-replay|--all), one JSON summary
-#   status   - `viola list --json` + /ready + cookie-gated /api/sessions, api_sessions_equal_list
-#   cleanup  - graceful stop, endpoint / port / url-file checks, home removal (idempotent)
+#   status   - the session's status document (test-plan §3 Status endpoint shape)
+#   cleanup  - graceful stop, endpoint checks, home removal (idempotent)
 #   logs     - merged ndjson of events.ndjson + diagnostics role files + instance detail files
-# Internal subcommands forwarded unchanged (not agent-facing): supervise, ui-restart, gate, the
+# Internal subcommands forwarded unchanged (not agent-facing): supervise, gate, the
 # CI gate bodies schema-check (G4) and secret-scan, and pre-push (the operator pass's local Linux gate).
 #
 # Every command prints exactly one JSON document on stdout: {"v":1,"cmd":"<command>","ok":<bool>,...}
@@ -34,11 +34,7 @@ export PYTHONUTF8=1 PYTHONIOENCODING=utf-8
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-# Embedded-asset freshness: test-plan §3 puts the refresh INSIDE `viola-harness boot` - step 1 always
-# runs `cargo build --workspace --features fake-agent` before any process starts (the embedded page is
-# rebuilt whenever crates/viola-ui assets change), and after UI readiness boot byte-compares every
-# embedded /assets/* path with the repo file (reason "stale-embedded-assets"). The shim therefore adds
-# no step of its own; extend here only if a future plan names a pre-build step outside the harness.
+# `viola-harness boot` builds the workspace itself (test-plan §3), so the shim adds no pre-build step.
 ensure_fresh_artifacts() {
   :
 }
@@ -71,7 +67,7 @@ case "${1:-}" in
   logs)
     harness "$@"
     ;;
-  supervise|ui-restart|gate|schema-check|secret-scan|pre-push)
+  supervise|gate|schema-check|secret-scan|pre-push)
     harness "$@"
     ;;
   *)

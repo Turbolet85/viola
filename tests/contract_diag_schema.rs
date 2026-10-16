@@ -17,7 +17,7 @@ use support::piped::Piped;
 use support::watch::{WITHIN, Watch};
 
 /// test-plan §3 Log format + obs-plan D-01…D-05; `a11y-violation` is a harness-only row.
-const LOG_FORMAT_EVENTS: [&str; 19] = [
+const LOG_FORMAT_EVENTS: [&str; 15] = [
     "channel-request",
     "channel-response",
     "dialog-raised",
@@ -30,12 +30,8 @@ const LOG_FORMAT_EVENTS: [&str; 19] = [
     "release-from-driver",
     "process-start",
     "process-exit",
-    "http-request",
     "panic",
-    "liveness-changed",
     "state-recovered",
-    "sse-opened",
-    "sse-closed",
     "parse-rejected",
 ];
 

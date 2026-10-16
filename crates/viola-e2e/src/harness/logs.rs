@@ -259,7 +259,7 @@ mod tests {
 
     #[test]
     fn filters_match_named_values_and_treat_absent_as_null() {
-        let bytes = b"{\"instance\":\"builder\",\"process\":\"run\"}\n{\"process\":\"run\"}\n{\"instance\":null,\"process\":\"ui\"}\n";
+        let bytes = b"{\"instance\":\"builder\",\"process\":\"run\"}\n{\"process\":\"run\"}\n{\"instance\":null,\"process\":\"mcp\"}\n";
         let by_instance = Query {
             instance: Some("builder"),
             process: None,
@@ -274,7 +274,7 @@ mod tests {
         assert_eq!(wrap_lines("f", bytes, &by_process).len(), 2);
         let both = Query {
             instance: Some("builder"),
-            process: Some("ui"),
+            process: Some("mcp"),
             kind: None,
         };
         assert!(wrap_lines("f", bytes, &both).is_empty());

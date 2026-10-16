@@ -1,5 +1,5 @@
-//! `status`: the test-plan §3 Status endpoint shape. `list`, `ui` and their comparison are `null`
-//! until `viola list` / `viola ui` exist; `instances` carries pid + start-time liveness meanwhile.
+//! `status`: the test-plan §3 Status endpoint shape. `list` is `null` until `status` reads
+//! `viola list`; `instances` carries pid + start-time liveness meanwhile.
 
 use serde_json::{Value, json};
 
@@ -23,7 +23,7 @@ pub fn status(ws: &Workspace, session: &str) -> Outcome {
         json!({
             "v": 1, "cmd": "status", "ok": ready, "state": state,
             "pid": null, "uptime_ms": null, "last_error": null,
-            "list": null, "ui": null, "api_sessions_equal_list": null,
+            "list": null,
             "instances": instances,
         }),
         ready,

@@ -50,7 +50,7 @@ jobs:
             files: src/cmd/verify/stop.rs
           - package: viola-e2e
             label: viola-e2e
-            files: crates/viola-e2e/src/harness/run/mutants/scratch.rs crates/viola-e2e/src/harness/cleanup.rs crates/viola-e2e/src/harness/run/browser.rs
+            files: crates/viola-e2e/src/harness/run/mutants/scratch.rs crates/viola-e2e/src/harness/cleanup.rs
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
