@@ -122,6 +122,16 @@ Entry 15's red was surfaced in the stopped run and is resolved by the revision. 
 - **Guard refusal:** the Bash guard refused one `cd` into the skills dir (it would have moved the cwd). The call was
   re-issued once with an absolute path.
 
+## Operator pass (done, on the operator's word; record `evidence/operator-pass.md`)
+- **Entry 24, hygiene.**
+  - The first read was refused: three P1 `tmp` hits, each a prose glob for Run A's OS-temp dir.
+  - Each token was rewritten to `/tmp/viola-verify-<suffix>`.
+  - The re-read was clean.
+- **The pre-CI commit:** `784d9f99`.
+- **Entry 23, pre-push,** re-run on the committed tree: green, 72.46 s.
+- **Entry 25, the push:** green. History moved `origin/build/viola-0.1.0` 880b0563→784d9f99, as intended.
+- **Entry 26, `ci.py conclusion`:** `784d9f9937d6 verdict: green · checks 15/15 · wall 922 s · runs ci#38868756782
+  completed/success`. There were no fix commits.
+
 ## Next
-The operator pass. In the plan, entry 24 is hygiene, fired as written. Then comes the pre-CI commit, then entry 25,
-the push through `--operator 25`, then entry 26, `ci.py conclusion`, fired as written. After that, the wrap.
+`/andromeda-wrap-session`. It was not started, on the operator's word.

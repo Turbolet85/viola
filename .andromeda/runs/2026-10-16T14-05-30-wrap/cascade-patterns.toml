@@ -1,0 +1,49 @@
+[[pattern]]
+id = 'rows21'
+regex = '''twenty-one|\b21 (pass|rows?|relied|ids?)|21 on Unix|\b21 / 18\b|\b21/18\b|/21\]|\[&str; 21\]'''
+ignore_case = true
+
+[[pattern]]
+id = 'rows18'
+regex = '''\beighteen (rows|ids|relied|on Windows|on `windows|elsewhere)|first eighteen|\b18 on Windows|\b18 (rows|relied|ids?)\b|/18\]|18-id'''
+ignore_case = true
+
+[[pattern]]
+id = 'stops-newline'
+regex = '''stops at `paste-newline`|the last `\[18/18\] paste-newline'''
+
+[[pattern]]
+id = 'verified-win'
+regex = '''reads verified on Windows|which on Windows reads verified|on Unix so does one holding'''
+
+[[pattern]]
+id = 'verify-runs'
+regex = '''four interactive|four typed runs|Runs A[–-]D\b|A to D\b|five (live |`claude` )?starts|then Run D[;)]'''
+
+[[pattern]]
+id = 'spawn-six'
+regex = '''six (child )?spawn|six spawn pairs|six pairs|six `verify` spawn|stay six'''
+
+[[pattern]]
+id = 'killed-exit'
+regex = '''no `?child_exit_status`?'''
+
+[[pattern]]
+id = 'resume-norow'
+regex = '''relied-on dependence has no row|no row yet|owed to the route entry "Resume and compact|no recorded SessionStart has source|One payload is set without one'''
+
+[[pattern]]
+id = 'compact-owed'
+regex = '''/compact`?'s|`/remote-control` today|`/remote-control` on (any|every) version'''
+
+[[pattern]]
+id = 'fixtures31'
+regex = '''\b31 files'''
+
+[[pattern]]
+id = 'fake-resume'
+regex = '''recorded `SessionStart\.default` (payload )?with `source`|SessionStart\.default` with `source` `resume`'''
+
+[[pattern]]
+id = 'case-count'
+regex = '''15 cases|eight functions'''

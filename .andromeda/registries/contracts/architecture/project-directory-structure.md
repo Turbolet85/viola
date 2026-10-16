@@ -28,7 +28,7 @@ viola/
 │   │                           #   list.rs: the caller-side board (the strict-modes scan before any log, then the `--json` document or the human board as one stdout write; exits 0 / 21 / 1);
 │   │                           #   hook/statusline.rs: the `hook statusline` arm (the instance check, the `budget.json` write, the bounded shell-out);
 │   │                           #   client.rs (a helper, no subcommand): the channel client send / wait / last share;
-│   │                           #   verify/typed.rs: verify's four interactive PTY runs (Run A untrusted, Run B trusted, Run C dialogs, Run D plan),
+│   │                           #   verify/typed.rs: verify's five interactive PTY runs (Run A untrusted, Run B trusted, Run C dialogs, Run D plan, Run E resume),
 │   │                           #   the settle rule, Run B's wait for the input box after an added turn, and the signature-only screen recording;
 │   │                           #   verify/stop.rs: verify's Ctrl-C / TERM stop (Unix SIGINT / SIGTERM, Windows Ctrl-C / Ctrl-Break)
 │   ├── run/                    # PTY pump, wheel, budget governor; gate.rs: the pump-output tee + bounded vt100 feed + Gate;

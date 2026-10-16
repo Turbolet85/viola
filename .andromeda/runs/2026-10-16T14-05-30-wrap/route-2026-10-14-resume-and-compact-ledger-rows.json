@@ -1,0 +1,123 @@
+[
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "8fc13695",
+"ts": "2026-10-16T14:51:02Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-10-14-resume-and-compact-ledger-rows",
+"--desc-file",
+".andromeda/runs/2026-10-16T14-05-30-wrap/master-desc.txt",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-05-30-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"flip master-route.md:72 - 2026-10-14-resume-and-compact-ledger-rows pending -> complete - desc REWRITTEN from --desc-file"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "8fc13695",
+"ts": "2026-10-16T14:51:02Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-14-resume-and-compact-ledger-rows",
+"--date",
+"2026-10-16",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-05-30-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :138 strip CARRY: 1368ch \"CARRY: minted at the 2026-10-13-owed-led\"",
+"pin :138 strip CARRY: 1538ch \"CARRY: chunk 2026-10-10-viola-revive (th\"",
+"pin :138 strip CARRY: 861ch \"CARRY: chunk 2026-10-10-viola-revive (fo\"",
+"pin next markerless :140 holds CARRY:×5",
+"138 · 2026-10-14-resume-and-compact-ledger-rows · strip 3 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 138,
+"marker": "2026-10-14-resume-and-compact-ledger-rows",
+"blocks": 3,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.8",
+"sha8": "8fc13695",
+"ts": "2026-10-16T14:51:07Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-14-resume-and-compact-ledger-rows",
+"--date",
+"2026-10-16",
+"--run-dir",
+".andromeda/runs/2026-10-16T14-05-30-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :138 strip CARRY: 1368ch \"CARRY: minted at the 2026-10-13-owed-led\"",
+"pin :138 strip CARRY: 1538ch \"CARRY: chunk 2026-10-10-viola-revive (th\"",
+"pin :138 strip CARRY: 861ch \"CARRY: chunk 2026-10-10-viola-revive (fo\"",
+"pin next markerless :140 holds CARRY:×5",
+"138 · 2026-10-14-resume-and-compact-ledger-rows · strip 3 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+"./viola-0.1.0/route-archive.md",
+"./viola-0.1.0/working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 138,
+"marker": "2026-10-14-resume-and-compact-ledger-rows",
+"blocks": 3,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

@@ -1,0 +1,54 @@
+[[pattern]]
+id = 'rows21'
+regex = '''twenty-one|\b21 (pass|rows?|relied|ids?)|21 on Unix|\b21 / 18\b|\b21/18\b|\[NN/21\]|/21\]'''
+ignore_case = true
+
+[[pattern]]
+id = 'rows18'
+regex = '''\beighteen (rows|ids|relied|on Windows)|\b18 on Windows|\b18 (rows|relied|ids?)\b|/18\]'''
+ignore_case = true
+
+[[pattern]]
+id = 'resume-norow'
+regex = '''relied-on dependence|no row yet|Resume and compact ledger rows'''
+
+[[pattern]]
+id = 'compact'
+fixed = '/compact'
+
+[[pattern]]
+id = 'fixtures31'
+regex = '''\b31 files|2\.1\.287 (set )?(at|holds) \d+'''
+
+[[pattern]]
+id = 'verify-runs'
+regex = '''four interactive|five interactive|Runs A[–-]D\b|Runs? A, B, C|five (live )?starts|\bRun D\b'''
+
+[[pattern]]
+id = 'spawn-pairs'
+regex = '''spawn pairs?\b|verify-pty-probe'''
+
+[[pattern]]
+id = 'sid-argv'
+regex = '''[Ss]ession id as a child argv|logged id on the child'''
+
+[[pattern]]
+id = 'probe-dirs'
+regex = '''\.viola-verify-<pid>(-dialogs|-plan|\[-dialogs\|-plan\])?/?'''
+
+[[pattern]]
+id = 'local-cmd'
+regex = '''local[- ]command (list|mode)|LOCAL_COMMANDS|/clear[^.]{0,80}unconfirmable|unconfirmable[^.]{0,80}/clear'''
+
+[[pattern]]
+id = 'fake-resume'
+regex = '''resume_fields|rewritten (payload|launch|SessionStart)|five key names|5 key names|SessionStart\.default'''
+
+[[pattern]]
+id = 'transcripts'
+regex = '''CLI's own (Run B|transcripts)|transcripts? (count|are the accepted)|accepted[- ]risk'''
+ignore_case = true
+
+[[pattern]]
+id = 'killed-exit'
+regex = '''no `?child_exit_status`?'''

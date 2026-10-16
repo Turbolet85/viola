@@ -1,0 +1,2 @@
+proposals: []
+note: D-design-tokens holds, since the four new surfaces in the report's Coverage (Run E spawn, the resume-session step line, send of /compact, the fake agent's resume variant) are all tokens n/a with no hardcoded✗ flag; the report's carried design-system items (§Surface: cli pattern 5's counts at design-system.md:811 for rows21/rows18, and pattern 2's /compact unconfirmable wording, "for the design detector to read") are count and wording claims outside this detector's tokens invariant, so they stay with the orchestrator's counts sweep.
