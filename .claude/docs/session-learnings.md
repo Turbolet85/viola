@@ -8,6 +8,14 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-10-16 — A moved relied-row count stales the masters' quoted summary literals too
+When the ledger's relied set grows, every `stamped <ver>  N pass  M fail` literal a master quotes from a test moves with
+it, not only the stated counts (`22 / 19`, `[22/22]`): a dialog-less or framing-less run gains the new row as a pass.
+A wrap's site sweep for a relied-count move adds those summary literals to its patterns, and their new values are read
+from the test file the chunk changed, never computed by hand.
+
+---
+
 ## 2026-10-16 — A removal sweep over the masters keys on the retired compound, never the bare word
 The bare word `npm` also reaches the product's npm-shim → `claude.exe` resolution text (twelve master rows at the
 browser-leg wrap), and `liveness` reaches `viola list`'s own `liveness` field, a different contract. A sweep for the

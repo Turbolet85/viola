@@ -6976,5 +6976,71 @@
 }
 ]
 }
+},
+{
+"tool": "gate",
+"v": "1.19",
+"sha8": "457c1da1",
+"ts": "2026-10-16T21:58:12Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board",
+"--run-dir",
+".andromeda/runs/2026-10-16T20-14-16-implement",
+"--marker",
+"2026-10-16-unwrapped-sessions-on-the-board"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base 92264a7f (the parent of the oldest pre-CI commit de9ee3f9) · lists new 8 · modify 25 · derived 0 · record 16",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"recorded companion src/cmd/hook.rs",
+"recorded companion src/cmd/hook/statusline.rs",
+"recorded companion src/run/snapshot.rs",
+"recorded companion src/cmd/run.rs",
+"recorded companion src/run/wheel.rs",
+"recorded companion src/run/dialog.rs",
+"recorded companion src/run/budget.rs",
+"recorded companion src/run/links.rs",
+"recorded companion crates/viola-state/src/strict.rs",
+"recorded companion crates/viola-state/src/replay.rs",
+"recorded companion crates/viola-state/src/liveness.rs",
+"recorded companion crates/viola-state/tests/state_replay.rs",
+"recorded companion src/run/send.rs",
+"recorded companion crates/viola-e2e/src/harness/run.rs",
+"recorded companion tests/support/home.rs",
+"recorded in-intent tests/support/cli.rs",
+"list fuzz/corpus/claude_agents_json/ (dir) ×6",
+"list fixtures/claude/2.1.287/Agents.* (glob) ×1",
+"scope: clean — changed 53 · listed 37 · recorded 16 (companion 15 · mechanical 0 · in-intent 1 · widening 0) · absorbed 7 · excluded 68"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "92264a7f254c18139397cf0794a84a338d077f72",
+"base_why": "the parent of the oldest pre-CI commit de9ee3f9",
+"counts": {
+"changed": 53,
+"listed": 37,
+"recorded": 16,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 7
+},
+"by_class": {
+"companion": 15,
+"mechanical": 0,
+"in-intent": 1,
+"widening": 0
+},
+"excluded": 68,
+"unparsed": 0,
+"widening_without_word": 0
+}
 }
 ]

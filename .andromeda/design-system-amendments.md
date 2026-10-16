@@ -181,3 +181,13 @@ Each superseded mark stands in the body as the operator's word, superseded 2026-
 **Why:** This chunk removed the browser test leg, on the founder's ruling of 2026-10-16 that 0.1.0 is a pure CLI (item 3). No DejaVu provisioning site existed at the base.
 **Kept:** The per-OS stacks (`--font-label`, `--font-field`), the fallback table and the column sizing that takes DejaVu Sans Mono as the widest case, all 0.2.0 design inputs.
 **Ref:** .andromeda/runs/2026-10-16T17-15-05-wrap/
+
+## 2026-10-16-unwrapped-sessions-on-the-board — cli patterns 1 and 2: the unwrapped rack built, the session-live pair
+**Section:** §Surface: cli pattern 1 (`viola list` As built), pattern 2 (`viola revive` refusals), the exit-code table row `1`, the `verify` step counter
+**Change:**
+- Pattern 1 As built: a wrapped row joined to a `claude agents --json` row reads STATUS `idle` or `busy`, else `unknown`; when the read lists a session no wrapped row joins, the `-- UNWRAPPED - READ-ONLY --` line follows the wrapped rows (or the empty-board line), then one row per unwrapped session sorted by name — NAME its `sessionId`, LIVE `live`, its STATUS, `n/a` in WHEEL, DIALOG and CLI, never truncated (the sample's clipping is not built); no separator without an unwrapped row; a failed, oversize or malformed read prints the board as with no `claude`. The upstream-derived cells are the CLI version and each unwrapped NAME, NAME's width in characters. Was: STATUS always `unknown`, no separator, no unwrapped row, both owed.
+- Pattern 2: `viola revive` gains `unable: <name>'s session is open in another claude` → `hint: close it there first, or start a copy: viola revive <name> --fork`, read after the logged session and before the recorded directory (skipped under `--fork`; a failed read passes); the exit-code table's row `1` names it.
+- `verify`: `[01/23]`, `MM` 23 on Unix and 20 on Windows, `agents-join` last in the member list, `stamped 2.1.287  23 pass  0 fail`.
+**Why:** The pair is the founder's own wording, his answer to P4 fork 4, and the reading his answer to fork 3 (`inputs#I1`, relayed verbatim by the operator); the card confirm provisional (delegate viola-overseer), superseded by his own word at the Epoch 5 boundary. NAME = `sessionId`, the empty-rack form and no truncation or colour are the operator's yes at P5 (`inputs#I2`).
+**Kept:** The colour layer, the styled TTY form and width-known truncation stay owed to "CLI output discipline"; the unwrapped-name `instance-unreachable` hint is not built (owed to "Exit-cause code catalogue").
+**Ref:** .andromeda/runs/2026-10-16T22-30-02-wrap/

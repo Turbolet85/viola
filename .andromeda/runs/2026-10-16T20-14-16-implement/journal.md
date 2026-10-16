@@ -50,3 +50,5 @@ ledgered with `date -u` before it is made (`live-starts.md` in this run dir). A 
   failed. Fix: one process-table read per listing (`viola_state::liveness::start_times`); 398 rows 182–197 ms,
   1 860 rows 214–243 ms. `stamped_home` now names its failing rows.
 - 2026-10-16T21:45Z · P2 firing: the whole block on the second fix, backgrounded.
+- 2026-10-16T21:47:58Z · second fix commit `020c80b`, pushed (3c1c54df→020c80bd); CI read: `020c80bd045b verdict:
+  green · checks 15/15 · wall 534 s` (`ci#38971772946`, attempt 1). The pass ends here, ready for the wrap.

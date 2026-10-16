@@ -1,0 +1,10 @@
+
+## 2026-10-16-unwrapped-sessions-on-the-board — session-live, the agents-probe callers and verify's eight spawn pairs
+**Section:** §1 (run-start critical path); §3 → Logging stack, → OTel SDK init; §4 (run-start scenario, E5, `verify` / `plugin install`); §6 Log Coverage (`detail` code catalog, `parse-rejected` per-parser details, Child / shell spawns and its diag-line `subject` bullet)
+**Change:**
+- `process-exit` exit 1 gains `session-live` from `viola revive`'s preflight, which reads the holder, the session, `session-live`, then the directory (four readings, the logged session the second of four); `schemas/diag-line.v1.json` closes the `detail` at 13 values (was 12). Its `session-live` reading (skipped under `--fork`, fail open) writes one `agents-probe` pair in `run-<name>.ndjson`, plus one `parse-rejected{parser:"claude-agents-json"}` on an oversize or malformed answer; the Logging stack, OTel SDK init, §1 and §4 exit-1 lists carry it.
+- `parse-rejected` `oversize` is also a `claude-agents-json` detail (an answer past `MAX_FRAME`).
+- verify logs eight child spawns (was seven), the eighth one `agents-probe` pair around Run B's single agents read (made once its first turn has settled, before the framing pastes; no row text, session id, `cwd` or path in a line); the step lines' `MM` is 23 on Unix and 20 on Windows, `agents-join` relied on every OS; the closed `subject` enum is unchanged (Run B's read reuses `agents-probe`).
+- `run_bounded` and `run_capped` stay unlogged; `run::agents::read_logged` writes the `agents-probe` pair for `list` (into `cli-<name>.ndjson`, only under a parsed `VIOLA_NAME`), for `revive`'s reading (into `run-<name>.ndjson`) and for verify's Run B.
+**Why:** `revive`'s reading and refusal are the founder's own answer to P4 fork 3 and Run B's read his answer to fork 1 (`inputs#I1`, relayed verbatim by the operator); the card confirm provisional (delegate viola-overseer), superseded by his own word at the Epoch 5 boundary. §1 is a verbatim upstream copy kept current (the founder's 2026-10-04 ruling).
+**Ref:** .andromeda/runs/2026-10-16T22-30-02-wrap/

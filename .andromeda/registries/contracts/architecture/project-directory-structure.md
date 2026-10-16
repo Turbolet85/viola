@@ -24,14 +24,15 @@ viola/
 │   │                           #   wait.rs: the `wait` / `last` lines; verbs.rs: the `answer` line, the `pause` / `release` lines and the budget lift / open lines; hints.rs: the hints (`HUMAN_TYPING_HINT`, `answer_hint`, `send_hint`)
 │   ├── cmd/                    # one module per subcommand: run, revive, send, wait, last, list,
 │   │                           #   answer, hook, mcp, verify, pause, release, link, unlink, plugin;
-│   │                           #   revive.rs: the strict-modes check ahead of the wrapper log, the three-reading preflight and the `--list` rows; its child shapes come from `viola-agent-claude`;
-│   │                           #   list.rs: the caller-side board (the strict-modes scan before any log, then the `--json` document or the human board as one stdout write; exits 0 / 21 / 1);
+│   │                           #   revive.rs: the strict-modes check ahead of the wrapper log, the four-reading preflight (its third the `session-live` agents read) and the `--list` rows; its child shapes come from `viola-agent-claude`;
+│   │                           #   list.rs: the caller-side board (the strict-modes scan before any log, then one `claude agents --json` read joined into it — STATUS idle/busy, the unwrapped rows — then the `--json` document or the human board as one stdout write; exits 0 / 21 / 1);
 │   │                           #   hook/statusline.rs: the `hook statusline` arm (the instance check, the `budget.json` write, the bounded shell-out);
 │   │                           #   client.rs (a helper, no subcommand): the channel client send / wait / last share;
 │   │                           #   verify/typed.rs: verify's five interactive PTY runs (Run A untrusted, Run B trusted, Run C dialogs, Run D plan, Run E resume),
 │   │                           #   the settle rule, Run B's wait for the input box after an added turn, and the signature-only screen recording;
 │   │                           #   verify/stop.rs: verify's Ctrl-C / TERM stop (Unix SIGINT / SIGTERM, Windows Ctrl-C / Ctrl-Break)
 │   ├── run/                    # PTY pump, wheel, budget governor; gate.rs: the pump-output tee + bounded vt100 feed + Gate;
+│   │                           #   agents.rs: the bounded `claude agents --json` read (`read_logged`, `read_here`) shared by `list`, `revive` and verify's Run B;
 │   │                           #   send.rs: the `send` module root: the wrapper's `send` method on `Ctx` with its refusal order, re-exporting `SendSlot`, `append_hook_event` and `parse_from` so every caller keeps its path; its phases under send/:
 │   │                           #     slot.rs: the one-in-flight slot (`SendSlot`) with the remembered session id, `append_hook_event` with the driver relabel, and the `session-start` post-condition claim;
 │   │                           #     classify.rs: the local-command decision over `LOCAL_COMMANDS` (`classify`); params.rs: `parse` / `parse_from`; budget.rs: `Ctx::budget_paused`;
@@ -47,7 +48,7 @@ viola/
 │   ├── cmd/*.toml              # trycmd cases: human-mode expected output (snapbox redactions)
 │   ├── snapshots/              # insta snapshots (check mode only)
 │   └── support/                # the sync root fixture chain + fixture-hygiene checker
-├── schemas/                    # JSON schemas: fake-script.v1.json, claude-fixture.v1.json, claude-statusline-fixture.v1.json and claude-screen.v1.json (test-side), diag-line/diag-detail.v1.json (obs line contracts)
+├── schemas/                    # JSON schemas: fake-script.v1.json, claude-fixture.v1.json, claude-statusline-fixture.v1.json, claude-agents-fixture.v1.json and claude-screen.v1.json (test-side), diag-line/diag-detail.v1.json (obs line contracts)
 ├── crates/
 │   ├── viola-core/             # normalised events, RefusalReason + NotDelivered, HumanTyping, WheelCause, validate_paste_text, ViolaName, Percent, `v` constants,
 │   │                           #   SPINE_DEADLINE, Clock / SystemClock, the budget reading (`Reading`, `BudgetWindow`, `BudgetReading`), `BudgetWindowKind` (`five-hour` · `seven-day`)
@@ -64,11 +65,12 @@ viola/
 │   │                           #   the instance strict-modes check (`strict::check_instance`), the budget reading's write
 │   │                           #   and its checked read (`budget.rs`: `write_budget`, `read_budget_stamped`, and `read_budget`, which wraps it),
 │   │                           #   the board read model (`board.rs`, read by `viola list`: `scan` / `read`, `Board`, `Item`,
-│   │                           #   `SkippedTotal`, `RowLiveness`, `SessionStatus`, `ScanRefused`; sync, std only, no Claude shape; no type
+│   │                           #   `SkippedTotal`, `RowLiveness`, `SessionStatus`, `ScanRefused`, and the agents join: `JoinKeys`, `Observation`, `join`,
+│   │                           #   `Item::unwrapped`; sync, std only, no Claude shape; liveness's `start_times`, one process-table read; no type
 │   │                           #   holds `endpoint`, `pinned_bin`, `cwd`, `statusline_command`, `pid`, `started_at` or `links`)
 │   │                           #   (+ tests/, the crate-level suite: `state_events.rs`, `state_replay.rs`)
 │   ├── viola-agent-claude/     # hook parsing, dialog mapping, R8 strip, shim resolution,
-│   │                           #   capability ledger, the vt100 screen model (`screen`), the pure `statusline` module
+│   │                           #   capability ledger, the vt100 screen model (`screen`), the pure `agents` module (the `claude agents --json` parse), the pure `statusline` module
 │   │                           #   (the payload reading, the settings reader, the override document, the shell argv)
 │   │                           #   (+ proptest-regressions/, committed seeds; src/snapshots/, the insta
 │   │                           #   snapshots of the dialog decision bodies)
@@ -94,10 +96,10 @@ viola/
 ├── .config/nextest.toml        # nextest profiles `ci` and `mutants`
 ├── fuzz/                       # separate cargo-fuzz workspace (own Cargo.lock; excluded from the root)
 │   ├── rust-toolchain.toml     # channel = "nightly-2026-09-20" (fuzz only)
-│   ├── fuzz_targets/{viola_name,channel_frame,hook_stdin,vt100_feed,paste_text}.rs
+│   ├── fuzz_targets/{viola_name,channel_frame,hook_stdin,vt100_feed,paste_text,claude_agents_json}.rs
 │   └── corpus/<target>/        # committed synthetic seeds
 ├── fixtures/
-│   ├── claude/<cli-version>/   # hook-payload fixtures and signature-only Screen.<phase>.json screens and <Event>.<stem>-<n>.json dialog and framing variants and StatusLine.<stem>-<n>.json status line variants recorded by `viola verify`, plus superseded relayed dialog fixtures (RELAYED.md)
+│   ├── claude/<cli-version>/   # hook-payload fixtures and signature-only Screen.<phase>.json screens and <Event>.<stem>-<n>.json dialog and framing variants and StatusLine.<stem>-<n>.json status line variants and Agents.recorded-<n>.json agents variants recorded by `viola verify`, plus superseded relayed dialog fixtures (RELAYED.md)
 │   └── fake-scripts/           # committed fake-agent turn scripts (synthetic)
 ├── .github/
 │   └── workflows/

@@ -1,0 +1,9 @@
+
+## 2026-10-16-unwrapped-sessions-on-the-board — Occupied Resources: the fake agent's agents mode, the Agents fixture class and the sixth fuzz target
+**Section:** §Occupied Resources (Binary → test-only binaries: the fake agent; Repository → `fixtures/claude/<cli-version>/`, the schemas bullets, `fuzz/`); §Infrastructure Patterns → Project directory structure (`schemas/`, `fixtures/claude/`, `fuzz_targets/`)
+**Change:**
+- The fake agent takes two mode words (was one, `statusline-echo`): `agents` answers `agents --json` from files beside its own executable — `agents-mode` (`recorded` · `oversize` · `malformed`, absent = `recorded`), `agents-rows.json` (planted rows, printed unchanged) and a live `sessions/<pid>.json` registry its interactive runs write (a row written just before its launch SessionStart fires, its `cwd` the launch fixture's recorded `cwd`, `~` without one; a dead or reused pid left out through one `viola_state::liveness::start_times()` read). No option and no env are added.
+- `fixtures/claude/`: Run B's agents read is written as `Agents.recorded-1.json` (Run B's own row only), through the same scrub and refusal, validated by the new `schemas/claude-agents-fixture.v1.json`, hygiene-walked and replayed by the fake agent's `agents` mode. `2.1.287` holds 33 files by `ls fixtures/claude/2.1.287 | wc -l` (was 32), stamped at the relied set (23 / 20, `ROW_IDS` the twenty-three ids, `23 pass  0 fail` on Unix).
+- `fuzz/`: six targets by `ls fuzz/fuzz_targets | wc -l` (was five), the sixth `claude_agents_json` with 6 synthetic seeds, kept byte-exact by `.gitattributes` `fuzz/corpus/claude_agents_json/** binary`.
+**Why:** Files beside the exe are the founder's own answer to P4 fork 2 (`inputs#I1`, relayed verbatim by the operator): no third fake-agent env seam. The registry row replays recorded values only, because the host's real cwd leaked a CI checkout path into `--record`.
+**Ref:** .andromeda/runs/2026-10-16T22-30-02-wrap/

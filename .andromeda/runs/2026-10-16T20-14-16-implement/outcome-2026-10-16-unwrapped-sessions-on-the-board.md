@@ -1,11 +1,10 @@
 # Implement outcome — 2026-10-16-unwrapped-sessions-on-the-board
 
 **Outcome: green + smoke** (smoke ran as P2 gates), with **one red left open** (below). v1-37 is `implemented`.
-The operator pass ran (`chunks/{marker}/evidence/operator-pass.md`): pre-CI commit `de9ee3f`, its CI read red on
-`windows-2025` (seven `--record` cases — deviation 12), fixed, the block green again; the fix commit and its CI
-read follow in that record.
-Next → the **operator pass**: entries 22 (`gate.py hygiene`), then the pre-CI commit, 23 (the push), 24
-(`ci.py conclusion`), then `/andromeda-wrap-session`.
+The operator pass ran (`chunks/{marker}/evidence/operator-pass.md`): pre-CI commit `de9ee3f` (CI red on
+`windows-2025`, deviation 12), fix `3c1c54d` (CI red on `ubuntu-latest`, deviation 13), fix `020c80b`: **CI green,
+15/15, `ci#38971772946`, attempt 1** — `cli_list` and `cross_list_rows` passed on the three runners.
+**Next → `/andromeda-wrap-session`.**
 
 ## Gates (trail `.andromeda/runs/2026-10-16T20-14-16-implement/gate-2026-10-16-unwrapped-sessions-on-the-board.json`)
 - Firing 1 (`--only 1-6`): green 6.

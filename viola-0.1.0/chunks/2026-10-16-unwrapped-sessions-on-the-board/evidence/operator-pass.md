@@ -113,3 +113,29 @@ its own start time; a dead pid absent) — and the fake checks each row against 
 - The whole block (21:45Z): green 17 · red 1 (2, clippy: `unnecessary_get_then_check` in the new unit case) →
   `contains_key` → `--only 1,2,5` green. `pre-push` in that firing (21.6): `"ok":true`, coverage 2647 of 2647, `gate`
   no breaches. The Windows target's clippy, check only: exit 0.
+
+## The second fix commit and its CI read, 21:47:55Z to 21:57Z: green
+
+- `020c80b` `fix(2026-10-16-unwrapped-sessions-on-the-board): the fake agent's agents listing reads the process table
+  once, whatever the stale rows` (7 files). Entry 23 through `--operator 23`: `history moved:
+  refs/remotes/origin/HEAD 3c1c54df→020c80bd; refs/remotes/origin/build/viola-0.1.0 3c1c54df→020c80bd`, a
+  fast-forward; no force push.
+- Entry 24: `020c80bd045b verdict: green · checks 15/15 · wall 534 s · runs ci#38971772946 completed/success`,
+  polled 19 times over 560 s. Atoms: `exit 0` ✓, `contains verdict: green` ✓. `run_attempt` (`gh api …/runs/
+  38971772946`): **1**, event `push`, head `020c80bd045b`.
+- The three `test` jobs' own summaries (their logs, escapes stripped): `windows-2025` 2635 run, 2635 passed;
+  `ubuntu-latest` 2647 run, 2647 passed; `macos-latest` 2643 run, 2643 passed; no `FAIL`, `TIMEOUT` or `LEAK` status
+  line in any. `PASS` lines: `viola::cli_list` 17 / 19 / 19 (Windows lacks the two `cfg(unix)` refusal cases),
+  `viola::cross_list_rows` 1 / 1 / 1, `viola::cli_revive` 14 / 17 / 17 — so v1-37's named witnesses,
+  `binary(cli_list) | binary(cross_list_rows)`, passed on the three CI OSes.
+- The implement run's open red, `cli_send send_under_the_paste_hint_a_human_key_during_the_gate_wait_wins`: `PASS`
+  on all three runners here (8.775 s, 8.347 s, 9.569 s). Its cause stays not known.
+
+## After the pass
+
+- The final sha of the pass: `020c80b`, local and remote; 0 ahead of the upstream.
+- Three pushes in the pass: `de9ee3f` (red, `windows-2025`), `3c1c54d` (red, `ubuntu-latest`), `020c80b` (green);
+  each red's cause was this chunk's, each fix guarded and recorded above. No operator entry fired a second time on
+  the same sha.
+- The tree after the pass carries, for the wrap's commit: this record's sections written after `020c80b`, the
+  implement outcome and journal updates. No source file is among them.

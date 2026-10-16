@@ -1,0 +1,44 @@
+[
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-16T22:30:45Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board",
+"--run-dir",
+".andromeda/runs/2026-10-16T22-30-02-wrap",
+"--marker",
+"2026-10-16-unwrapped-sessions-on-the-board"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the founder, live in the overseer dialog, 2026-10-16T19:54:09Z, relayed verbatim by the operator",
+"I1 cited scope.md:92 · plan.md:19 · plan.md:22 · plan.md:23 · plan.md:26 · plan.md:29 · plan.md:164 · plan.md:182 · plan.md:205 · plan.md:210 · plan.md:271 · plan.md:275 · plan.md:296 · plan.md:390 (in fence) · plan.md:546 · plan.md:563 · plan.md:577 · plan.md:582 · plan.md:590 · plan.md:614 · plan.md:618 · plan.md:620 · plan.md:624",
+"I2 n/a — a message has no live source · copy message · message: the operator, in the phase session, 2026-10-16T20:04:54Z",
+"I2 UNCITED",
+"inputs: 2 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 1,
+"unparsed": 0
+}
+}
+]

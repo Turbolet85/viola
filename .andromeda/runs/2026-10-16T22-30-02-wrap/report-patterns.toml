@@ -1,0 +1,104 @@
+# The P1 site sweep — one pattern per moved fact, each carrying the fact's name token beside its wording.
+
+[[pattern]]
+id = 'title'
+fixed = 'Unwrapped sessions on the board'
+ignore_case = true
+
+[[pattern]]
+id = 'owner-generic'
+regex = 'owned by a (route entry|CARRY)'
+ignore_case = true
+
+[[pattern]]
+id = 'spawn-pairs'
+regex = '(seven|eight|\b7|\b8) (verify )?spawn pairs|spawn-pair count|spawn pairs? \((seven|7|eight|8)\)'
+ignore_case = true
+
+[[pattern]]
+id = 'relied-rows'
+regex = 'twenty-two|twenty-three|\b22 (rows|ledger|relied|ids?)|\b22 ?/ ?19|\b23 ?/ ?20|nineteen|\b19 (rows|relied|ids?|on Windows)|\b21-id|\b18-id|LedgerRow::ALL|relied\(\)'
+ignore_case = true
+
+[[pattern]]
+id = 'fixture-set'
+regex = '\b(32|33) (files|fixtures|recorded)|thirty-two|thirty-three|ls fixtures/claude/2\.1\.287'
+ignore_case = true
+
+[[pattern]]
+id = 'fuzz-targets'
+regex = '(five|six|\b5|\b6) (standing |fuzz )?targets|fuzz_targets|claude_agents_json'
+ignore_case = true
+
+[[pattern]]
+id = 'detail-enum'
+regex = '(twelve|thirteen|\b12|\b13) (members|codes|details|detail codes)|detail code catalog|session-live'
+ignore_case = true
+
+[[pattern]]
+id = 'kill-line'
+regex = 'kill line|slow-timeout|(eighteen|nineteen|\b18|\b19) binar|binary\(cross_list_rows\)'
+ignore_case = true
+
+[[pattern]]
+id = 'agents-join'
+regex = 'agents-join|AgentsJoin|join field|join-field|join row'
+ignore_case = true
+
+[[pattern]]
+id = 'agents-read'
+regex = 'claude agents|agents --json|agents-probe|claude-agents-json'
+ignore_case = true
+
+[[pattern]]
+id = 'fake-mode'
+regex = 'FAKE_CLAUDE_AGENTS_MODE|agents-mode|agents-rows|statusline-echo|mode words?|beside (its|the) (own )?exe'
+ignore_case = true
+
+[[pattern]]
+id = 'verify-kinds'
+regex = '(five|six|seven) interactive PTY children|spawn kinds?|(sixth|seventh) (verify )?(spawn|child)|verify.s child set'
+ignore_case = true
+
+[[pattern]]
+id = 'row-integrity'
+regex = 'cross_list_rows|row integrity|row-integrity'
+ignore_case = true
+
+[[pattern]]
+id = 'unwrapped-rack'
+regex = 'UNWRAPPED - READ-ONLY|unwrapped (row|rack|item|session|name)s?|wrapped: ?false'
+ignore_case = true
+
+[[pattern]]
+id = 'revive-pairs'
+regex = '(five|six|fifth|sixth) (refusal |revive )?pairs|revive.s (pairs|preflight)|preflight order|preflight_order'
+ignore_case = true
+
+[[pattern]]
+id = 'timeout-ext'
+regex = 'Timeout extensions|agents read|agents-read bound'
+ignore_case = true
+
+[[pattern]]
+id = 'session-id'
+regex = 'agent_session_id'
+
+[[pattern]]
+id = 'status-words'
+regex = 'idle (/|or|·) busy|SessionStatus|STATUS `?unknown'
+ignore_case = true
+
+[[pattern]]
+id = 'test-path'
+regex = 'test-scoped .?PATH|host.s (live )?sessions'
+ignore_case = true
+
+[[pattern]]
+id = 'start-times'
+regex = 'start_times|process_start_time|run_bounded|run_capped'
+
+[[pattern]]
+id = 'agents-fixture'
+regex = 'Agents\.recorded|Agents\.\*|claude-agents-fixture|Agents\. ?(class|variant|prefix)'
+ignore_case = true

@@ -1,0 +1,10 @@
+
+## 2026-10-16-unwrapped-sessions-on-the-board — the board's separator and unwrapped rows built; the 5 s agents read
+**Section:** §1 (cli ARIA roles inventory; critical path 6, Required ARIA roles); §4 (per-surface landmark roles, the cli row; P6 C0/C1 escaped, Setup); §6 (CLI equivalent); §8 (Timeout extensions)
+**Change:**
+- The board is the BAY line, the caption row and the wrapped rows, then, only when the one `claude agents --json` read lists a session no wrapped row joins, the `-- UNWRAPPED - READ-ONLY --` separator and the unwrapped read-only rows (NAME the row's `sessionId` through `escape_row`, `n/a` in WHEEL, DIALOG and CLI); no separator without an unwrapped row; a failed read leaves the board as before. The caption line and the separator stand; only the `--help` group labels stay owed to "CLI output discipline". Was: the separator and its rows owed.
+- P6: `viola list` reads `claude agents --json` and prints every unwrapped NAME through `escape_row` on one line, held by the `board_row_*` units and `tests/cross_list_rows.rs` in three modes (piped, `NO_COLOR` / `TERM=dumb`, outer PTY; the no-ESC assertion Unix-only, on windows-2025 each escaped name read as text under a 200-column terminal because ConPTY re-renders escapes). Was: no agents read, the fixture-row setup waiting on this chunk.
+- §6: the STATUS words `idle` / `busy` and the rack's `n/a` cells are printed words, with no SGR and no truncation.
+- §8: `list` and `revive` each make one `claude agents --json` read (direct spawn, `take(MAX_FRAME + 1)`, a 5 s kill); a failed, oversize, malformed or timed-out read leaves the board and passes `revive` (fail open); the bound falls on viola's own child, never on a keystroke or the human.
+**Why:** The chunk built the rack (`matrix#v1-37`). `revive`'s read is the founder's own answer to P4 fork 3 (`inputs#I1`, relayed verbatim by the operator); the card confirm provisional (delegate viola-overseer), superseded by his own word at the Epoch 5 boundary.
+**Ref:** .andromeda/runs/2026-10-16T22-30-02-wrap/

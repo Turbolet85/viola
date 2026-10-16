@@ -1,0 +1,42 @@
+# Cascade step 2 — the retired wording and mechanism of every amendment of this pass.
+
+[[pattern]]
+id = 'relied-old'
+regex = 'twenty-two|\b22 (rows|relied|ids?|pass)|\b22 ?/ ?19|nineteen|\[22/22\]|\[19/19\]|/22\b|\b19 on Windows|\[&str; 22\]|\[&str; 19\]|19-id'
+ignore_case = true
+
+[[pattern]]
+id = 'spawn-old'
+regex = 'seven (child )?spawn|seven `verify`|seven spawns|stay seven|_seven_spawn_pairs'
+ignore_case = true
+
+[[pattern]]
+id = 'preflight-old'
+regex = 'three preflight|three readings|second of three|three-reading|four pairs|of three since'
+ignore_case = true
+
+[[pattern]]
+id = 'mode-old'
+regex = 'one mode word|FAKE_CLAUDE_AGENTS_MODE'
+
+[[pattern]]
+id = 'owed-old'
+regex = 'owed to .?Unwrapped sessions on the board|waits on .?Unwrapped sessions on the board|\(.Unwrapped sessions on the board.\)|when .?Unwrapped sessions on the board.? lands'
+ignore_case = true
+
+[[pattern]]
+id = 'notbuilt-old'
+regex = 'reads no `claude agents --json`|spawns none|none does yet|STATUS is always|always read `status` `unknown`|no unwrapped row is listed|separator is not built|separator is owed|when those rows land|reads, spawns and parses no'
+ignore_case = true
+
+[[pattern]]
+id = 'counts-old'
+regex = '\b32 files|at 12 values|\b23rd row|18 pass  4 fail|20 pass  2 fail|land with Epochs 4 and 5'
+
+[[pattern]]
+id = 'openitem-old'
+regex = 'join field: whether|exposes for this join is a capability-ledger row|part of the join-field ledger row'
+
+[[pattern]]
+id = 'fuzz-old'
+regex = 'vt100_feed` and `paste_text`|vt100_feed,paste_text\}|`vt100_feed` \(the vt100 feed under `catch_unwind`\) and `paste_text`'

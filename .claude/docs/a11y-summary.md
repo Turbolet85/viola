@@ -26,7 +26,7 @@ The a11y harness checks cli and tui output discipline with assert_cmd / trycmd /
 - **P2 — confirmed send and readback, or refusal** — cli (`viola send` readback mirror `[RB]`)
 - **P3 — dialog pending, then `answer`** — cli (`viola answer`, `unverified-cli` refusal)
 - **P4 — human takes the wheel** — tui boundary + cli (`pause`, `release`, `send` refused with `human-typing`)
-- **P6 — CLI board, wait/last, verify** — cli output discipline; `viola list`'s `CAPTION` literal pins the caption order the deferred 0.2.0 page must share
+- **P6 — CLI board, wait/last, verify** — cli output discipline; `viola list`'s `CAPTION` literal pins the caption order the deferred 0.2.0 page must share; the `-- UNWRAPPED - READ-ONLY --` separator stands too, printed only when unwrapped rows exist (the `--help` group labels stay owed)
 
 ## Bootstrap phases (§3)
 
@@ -50,7 +50,7 @@ The a11y harness checks cli and tui output discipline with assert_cmd / trycmd /
 
 - The frontend is deferred to 0.2.0 and its technology is not chosen, so no page structure, live-region, announcer or focus decision binds in 0.1.0.
 - D-A11Y-05 — Lighthouse / pa11y / WAVE dropped (second client, stale, or unable to reach loopback).
-- The statusline-bearing start (as landed, chunk 2026-10-10-statusline-pass-through): `passthrough_with_a_statusline_source_adds_no_viola_bytes` (`tests/tui_passthrough.rs`) is its reading of the zero-viola-bytes clause, green on the three CI runners. `viola hook statusline`'s 5 s PROVISIONAL bound falls on the user's own command, never on a keystroke or the human.
+- The statusline-bearing start (as landed, chunk 2026-10-10-statusline-pass-through): `passthrough_with_a_statusline_source_adds_no_viola_bytes` (`tests/tui_passthrough.rs`) is its reading of the zero-viola-bytes clause, green on the three CI runners. `viola hook statusline`'s 5 s PROVISIONAL bound falls on the user's own command, never on a keystroke or the human. The one `claude agents --json` read `viola list` and `viola revive` each make (chunk 2026-10-16-unwrapped-sessions-on-the-board) is killed at 5 s, a bound on viola's own child only: a failed, oversize, malformed or timed-out read fails open, and no key is blocked, refused or delayed by it.
 - The budget pause (as landed, chunk 2026-10-10-budget-governor) is a bound on the driver only: an automated `send` is refused `budget-paused` (exit 11) until the window's reset or `viola release <name> --budget`, and no key is blocked, refused or delayed. Its reading: `path6_a_reading_over_the_threshold_refuses_the_send` (`tests/cli_budget.rs`) — a human key reaches the child under a closed gate and the outer PTY holds none of viola's literals, green on the three CI runners. `answer`, `wait`, `last` and `pause` are not gated: read in the diff, and held since chunk 2026-10-10-session-links by `path6_a_closed_gate_leaves_answer_wait_last_and_pause_alone` (each gives under a closed gate the exit code and document it gives under an open one).
 
 ---
