@@ -1,0 +1,5 @@
+  7 probe       green · exit 0 · 0.0s · 0 B → 7.log · test -x "$HOME/.local/share/mise/installs/claude/2.1.287/c… (64 chars)
+  8 build       green · exit 0 · 60.26s · 1859 B → 8.log · h="target/e2e-home/viola-record-$(date -u +%Y%m%dT%H%M%SZ)… (317 chars)
+  9 probe       green · exit 0 · 0.06s · 0 B → 9.log · for p in $(pgrep -x claude); do case "$(readlink /proc/$p/… (166 chars)
+not run — excluded · 21: 1-6,10-24
+round: COMPLETE · legs fired 1/1 · entries 24 · green 3 · red 0 · recorded 0 · timeout 0 · indeterminate 0 · not-run 21

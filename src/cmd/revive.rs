@@ -1,7 +1,8 @@
 //! `viola revive <name>`: a dead instance restarted in the terminal the verb is typed in
 //! (architecture §Established Decisions [Session Liveness]). It replays no launch: the program is
 //! looked up again by name, the environment is this terminal's, and the child resumes the newest
-//! session the instance's log holds, in the directory the dead wrapper recorded.
+//! session the instance's log holds, in the directory the dead wrapper recorded. A session a live
+//! `claude` already holds is not resumed a second time, unless the revive forks it.
 
 use std::ffi::OsString;
 use std::path::{Path, PathBuf};
@@ -49,6 +50,7 @@ enum Refusal {
     StrictModes,
     NoSession,
     UnknownId,
+    SessionLive,
     CwdMissing,
 }
 
@@ -59,6 +61,7 @@ impl Refusal {
         match self {
             Self::StrictModes => "strict-modes-failed",
             Self::NoSession | Self::UnknownId => "no-session",
+            Self::SessionLive => "session-live",
             Self::CwdMissing => "cwd-missing",
         }
     }
@@ -75,6 +78,10 @@ impl Refusal {
             Self::UnknownId => (
                 format!("{name} has no logged session with that id"),
                 format!("viola revive {name} --list"),
+            ),
+            Self::SessionLive => (
+                format!("{name}'s session is open in another {PROGRAM}"),
+                format!("close it there first, or start a copy: viola revive {name} --fork"),
             ),
             Self::CwdMissing => (
                 format!("{name}'s recorded directory is missing"),
@@ -120,12 +127,14 @@ fn trusted(home: &Path, name: &ViolaName) -> anyhow::Result<bool> {
     Ok(check_instance(&home, &instance_dir).is_ok())
 }
 
-/// The three readings in their fixed order, taken once the strict-modes check has passed: the
-/// name's holder, the logged session, the recorded directory. Each is taken only when every one
-/// before it passed, so the first refusal wins and a refused instance is read no further.
+/// The four readings in their fixed order, taken once the strict-modes check has passed: the
+/// name's holder, the logged session, whether a live `claude` holds that session, the recorded
+/// directory. Each is taken only when every one before it passed, so the first refusal wins and a
+/// refused instance is read no further.
 fn preflight_order<R, S, D>(
     holder: impl FnOnce() -> Option<R>,
     session: impl FnOnce() -> anyhow::Result<Result<S, R>>,
+    session_live: impl FnOnce(&S) -> Option<R>,
     recorded_dir: impl FnOnce(&S) -> Result<D, R>,
 ) -> anyhow::Result<Result<(S, D), R>> {
     if let Some(refusal) = holder() {
@@ -135,7 +144,17 @@ fn preflight_order<R, S, D>(
         Ok(session) => session,
         Err(refusal) => return Ok(Err(refusal)),
     };
+    if let Some(refusal) = session_live(&session) {
+        return Ok(Err(refusal));
+    }
     Ok(recorded_dir(&session).map(|dir| (session, dir)))
+}
+
+/// Whether a `claude agents --json` read run from `cwd` lists `id`. A read that fails is no
+/// refusal: the revive goes on (architecture §Standard Contracts, Session liveness).
+fn live_elsewhere(home: &Path, cwd: &Path, id: &str) -> bool {
+    crate::run::agents::read_here(home, cwd)
+        .is_ok_and(|list| list.rows.iter().any(|row| row.session_id == id))
 }
 
 /// The launch a passed preflight yields, or its refusal, already written and logged.
@@ -147,6 +166,8 @@ fn preflight(home: &Path, args: ReviveArgs) -> anyhow::Result<Result<Launch, Sta
         refusal.write(name);
         refused(refusal.detail())
     };
+    let fork = args.fork;
+    let cwd = std::env::current_dir()?;
     let passed = preflight_order(
         || collision_check(name, &instance_dir),
         || {
@@ -156,6 +177,7 @@ fn preflight(home: &Path, args: ReviveArgs) -> anyhow::Result<Result<Launch, Sta
                 .map(|id| (id, recovered))
                 .map_err(&refuse))
         },
+        |(id, _)| (!fork && live_elsewhere(&home, &cwd, id)).then(|| refuse(Refusal::SessionLive)),
         |(_, recovered)| recorded_dir(recovered).ok_or_else(|| refuse(Refusal::CwdMissing)),
     )?;
     let ((id, _), spawn_dir) = match passed {
@@ -258,28 +280,40 @@ mod tests {
 
     /// Each reading answers what the case gives it and writes its own name down when it is taken.
     #[rstest]
-    #[case::the_pass([None, None, None], None, "holder session dir")]
-    #[case::holder_alone([Some("holder"), None, None], Some("holder"), "holder")]
-    #[case::session_alone([None, Some("session"), None], Some("session"), "holder session")]
-    #[case::dir_alone([None, None, Some("dir")], Some("dir"), "holder session dir")]
+    #[case::the_pass([None, None, None, None], None, "holder session live dir")]
+    #[case::holder_alone([Some("holder"), None, None, None], Some("holder"), "holder")]
+    #[case::session_alone([None, Some("session"), None, None], Some("session"), "holder session")]
+    #[case::live_alone([None, None, Some("live"), None], Some("live"), "holder session live")]
+    #[case::dir_alone([None, None, None, Some("dir")], Some("dir"), "holder session live dir")]
     #[case::holder_before_session(
-        [Some("holder"), Some("session"), None],
+        [Some("holder"), Some("session"), None, None],
         Some("holder"),
         "holder"
     )]
-    #[case::holder_before_dir([Some("holder"), None, Some("dir")], Some("holder"), "holder")]
-    #[case::session_before_dir(
-        [None, Some("session"), Some("dir")],
+    #[case::holder_before_live([Some("holder"), None, Some("live"), None], Some("holder"), "holder")]
+    #[case::holder_before_dir([Some("holder"), None, None, Some("dir")], Some("holder"), "holder")]
+    #[case::session_before_live(
+        [None, Some("session"), Some("live"), None],
         Some("session"),
         "holder session"
     )]
-    #[case::all_three(
-        [Some("holder"), Some("session"), Some("dir")],
+    #[case::session_before_dir(
+        [None, Some("session"), None, Some("dir")],
+        Some("session"),
+        "holder session"
+    )]
+    #[case::live_before_dir(
+        [None, None, Some("live"), Some("dir")],
+        Some("live"),
+        "holder session live"
+    )]
+    #[case::all_four(
+        [Some("holder"), Some("session"), Some("live"), Some("dir")],
         Some("holder"),
         "holder"
     )]
     fn preflight_order_the_first_refusal_wins_and_no_later_reading_is_taken(
-        #[case] readings: [Option<&'static str>; 3],
+        #[case] readings: [Option<&'static str>; 4],
         #[case] refusal: Option<&'static str>,
         #[case] taken: &str,
     ) {
@@ -288,10 +322,14 @@ mod tests {
             log.borrow_mut().push(name);
             answer
         };
-        let [holder, session, dir] = readings;
+        let [holder, session, live, dir] = readings;
         let got = preflight_order(
             || read("holder", holder),
             || Ok(read("session", session).map_or(Ok("the session"), Err)),
+            |session: &&str| {
+                assert_eq!(*session, "the session");
+                read("live", live)
+            },
             |session: &&str| {
                 assert_eq!(*session, "the session");
                 read("dir", dir).map_or(Ok("the dir"), Err)
@@ -305,16 +343,38 @@ mod tests {
     /// A log that cannot be read is no refusal: the error goes up, and the directory is not read.
     #[test]
     fn preflight_order_a_session_reading_that_fails_is_an_error_and_ends_the_readings() {
-        let dir_taken = RefCell::new(false);
+        let later_taken = RefCell::new(false);
         let got: anyhow::Result<Result<((), ()), &str>> = preflight_order(
             || None,
             || Err(anyhow::anyhow!("unreadable")),
             |(): &()| {
-                *dir_taken.borrow_mut() = true;
+                *later_taken.borrow_mut() = true;
+                None
+            },
+            |(): &()| {
+                *later_taken.borrow_mut() = true;
                 Ok(())
             },
         );
         assert!(got.is_err());
+        assert!(!*later_taken.borrow());
+    }
+
+    /// A refused `session-live` reading takes no directory reading.
+    #[test]
+    fn preflight_order_a_refused_session_live_takes_no_directory_reading() {
+        let dir_taken = RefCell::new(false);
+        let got = preflight_order(
+            || None,
+            || Ok(Ok("the session")),
+            |_: &&str| Some(Refusal::SessionLive),
+            |_: &&str| {
+                *dir_taken.borrow_mut() = true;
+                Err::<(), _>(Refusal::CwdMissing)
+            },
+        )
+        .expect("no reading failed");
+        assert_eq!(got, Err(Refusal::SessionLive));
         assert!(!*dir_taken.borrow());
     }
 
@@ -407,6 +467,7 @@ mod tests {
             pending_dialog: None,
             cwd: cwd.map(|dir| dir.to_str().expect("utf-8").to_owned()),
             statusline_command: None,
+            agent_session_id: None,
         }))
     }
 
@@ -451,6 +512,12 @@ mod tests {
         "no-session",
         "builder has no logged session with that id",
         "viola revive builder --list"
+    )]
+    #[case::session_live(
+        Refusal::SessionLive,
+        "session-live",
+        "builder's session is open in another claude",
+        "close it there first, or start a copy: viola revive builder --fork"
     )]
     #[case::cwd_missing(
         Refusal::CwdMissing,

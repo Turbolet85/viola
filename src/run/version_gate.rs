@@ -46,6 +46,20 @@ pub(crate) fn run_bounded(
     deadline: Duration,
     stopped: fn() -> bool,
 ) -> std::io::Result<Bounded> {
+    run_capped(program, args, cwd, strip, deadline, stopped, MAX_FRAME)
+}
+
+/// [`run_bounded`] with stdout kept up to `cap` bytes: a reader that must tell an over-the-frame
+/// output apart passes one byte more than the frame.
+pub(crate) fn run_capped(
+    program: &Path,
+    args: &[OsString],
+    cwd: &Path,
+    strip: &StripPlan,
+    deadline: Duration,
+    stopped: fn() -> bool,
+    cap: u64,
+) -> std::io::Result<Bounded> {
     let mut command = Command::new(program);
     command
         .args(args)
@@ -57,8 +71,8 @@ pub(crate) fn run_bounded(
         command.env_remove(name);
     }
     let mut child = command.spawn()?;
-    let stdout = drain(child.stdout.take());
-    let _stderr = drain(child.stderr.take());
+    let stdout = drain(child.stdout.take(), cap);
+    let _stderr = drain(child.stderr.take(), MAX_FRAME);
     let until = Instant::now() + deadline;
     let (status, stopped) = loop {
         if stopped() {
@@ -88,7 +102,7 @@ fn end(child: &mut Child) {
 }
 
 /// The stop `run`'s gate passes: it is never set.
-fn never_stopped() -> bool {
+pub(crate) fn never_stopped() -> bool {
     false
 }
 
@@ -105,12 +119,12 @@ impl Drained {
     }
 }
 
-fn drain(pipe: Option<impl Read + Send + 'static>) -> Drained {
+fn drain(pipe: Option<impl Read + Send + 'static>, cap: u64) -> Drained {
     Drained(pipe.map(|pipe| {
         let (tx, rx) = mpsc::channel();
         std::thread::spawn(move || {
             let mut bytes = Vec::new();
-            let _ = pipe.take(MAX_FRAME).read_to_end(&mut bytes);
+            let _ = pipe.take(cap).read_to_end(&mut bytes);
             let _ = tx.send(bytes);
         });
         rx
@@ -258,11 +272,12 @@ mod tests {
     }
 
     /// The verdict needs the dialog rows (R2 closed), the framing rows, the newline row, the resume
-    /// row and, where the status line is wrapped, the three statusline rows: a stamp written before
-    /// any of them landed (the ten spine and screen rows, those and the four dialog rows, every row
-    /// but the newline one, the eighteen before the statusline rows, or the twenty-one before the
-    /// resume row) and one whose relied row failed all leave the version unverified; every relied row
-    /// passing verifies it. On Windows the eighteen and the resume row are every relied row.
+    /// row, the agents row and, where the status line is wrapped, the three statusline rows: a stamp
+    /// written before any of them landed (the ten spine and screen rows, those and the four dialog
+    /// rows, every row but the newline one, the eighteen before the statusline rows, the twenty-one
+    /// before the resume row, or the twenty-two before the agents row) and one whose relied row
+    /// failed all leave the version unverified; every relied row passing verifies it. On Windows the
+    /// eighteen, the resume row and the agents row are every relied row.
     #[test]
     fn stamps_verdict_needs_the_dialog_rows() {
         let ten = [
@@ -314,17 +329,23 @@ mod tests {
         );
         let mut nineteen = all.clone();
         nineteen.push((LedgerRow::ResumeSession, true));
+        assert_eq!(
+            stamps_verdict(Ok(Some(stamp_of(&nineteen))), "2.1.0"),
+            (false, None),
+            "the eighteen rows and the resume row of an older stamp"
+        );
+        nineteen.push((LedgerRow::AgentsJoin, true));
         #[cfg(unix)]
         assert_eq!(
             stamps_verdict(Ok(Some(stamp_of(&nineteen))), "2.1.0"),
             (false, None),
-            "the eighteen rows and the resume row"
+            "the eighteen rows, the resume row and the agents row"
         );
         #[cfg(windows)]
         assert_eq!(
             stamps_verdict(Ok(Some(stamp_of(&nineteen))), "2.1.0"),
             (true, None),
-            "the eighteen rows and the resume row are every row relied on here"
+            "the eighteen rows, the resume row and the agents row are every row relied on here"
         );
         let statusline = [
             LedgerRow::StatusLineOverride,
@@ -340,12 +361,22 @@ mod tests {
         all.push((LedgerRow::ResumeSession, true));
         assert_eq!(
             stamps_verdict(Ok(Some(stamp_of(&all))), "2.1.0"),
+            (false, None),
+            "the twenty-two rows of an older stamp"
+        );
+        all.push((LedgerRow::AgentsJoin, true));
+        assert_eq!(
+            stamps_verdict(Ok(Some(stamp_of(&all))), "2.1.0"),
             (true, None)
         );
         for failing in dialogs
             .into_iter()
             .chain(framing)
-            .chain([LedgerRow::PasteNewline, LedgerRow::ResumeSession])
+            .chain([
+                LedgerRow::PasteNewline,
+                LedgerRow::ResumeSession,
+                LedgerRow::AgentsJoin,
+            ])
             .chain(statusline.into_iter().filter(|_| cfg!(unix)))
         {
             let rows: Vec<(LedgerRow, bool)> =

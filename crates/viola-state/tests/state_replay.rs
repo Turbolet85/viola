@@ -34,6 +34,7 @@ fn snapshot() -> InstanceSnapshot {
         pending_dialog: None,
         cwd: Some("work/project".to_owned()),
         statusline_command: Some("printf status".to_owned()),
+        agent_session_id: None,
     }
 }
 

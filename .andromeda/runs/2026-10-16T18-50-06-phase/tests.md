@@ -1,0 +1,43 @@
+# tests extract
+
+## Relevance
+relevant — the chunk lands a test-plan parser surface (`claude agents --json`), its fake-agent stub modes, a recorded fixture, a property and fuzz target, a list row-integrity suite, a revive refusal case and possibly a ledger row, each of which test-plan already names.
+
+## Constraints
+- The `claude agents --json` parser's unit cases must show that an over-`MAX_FRAME` or malformed payload gives `unknown` and that a row `name` never becomes a `ViolaName` (per test-plan §4 Unit Test Strategy, viola-agent-claude). The same pair is a required negative of the child-spawn vector: oversize / malformed → `unknown`, a row `name` never usable as a `target` (per test-plan §1 Coverage triggers, security-vector-coverage (child spawn)).
+- `claude agents --json` is served in tests only by `viola-fake-agent` copied to a test-scoped `PATH` as `claude`, in the modes `FAKE_CLAUDE_AGENTS_MODE=recorded|oversize|malformed`, with env passed per test through `Command::env` (per test-plan §7 Seed strategies). The only external boundary here is a child process, faked by that native stub, never by a mock library (per test-plan §5 Boundary types covered, Module ↔ external API). The fake agent is a fake for the real CLI on PATH as well as the PTY child (per test-plan §8 What to mock).
+- The parser's property runs at proptest `cases: 512` over arbitrary JSON, with `proptest-regressions/` committed (per test-plan §6 Property suite). It also gets a cargo-fuzz target in `fuzz/fuzz_targets/<parser>.rs` with synthetic seeds in `fuzz/corpus/<target>/`, joining the five existing targets as its parser lands (per test-plan §2 Test pyramid, Property-based row). Whether a target for this parser already exists is research's question.
+- The recorded `claude agents --json` output lands under `fixtures/claude/<cli-version>/`. It holds synthetic probe text only, and the hygiene walk must pass it (absolute paths, usernames, email-shaped tokens, schema; violation class reported, never content) (per test-plan §7 Fixture hygiene). The real subcommand's output shape can be reached only locally, so the parser and row mapping are tested against the stub that emits the recorded JSON (per test-plan §1 Coverage scope, liveness enrichment). Whether the walk and a jsonschema already cover a non-hook fixture file in that directory is research's question.
+- A `viola list` that renders unwrapped rows must pass the `list` row-integrity suite `cross_list_rows.rs`: the stub reports unwrapped names that contain `\n`, `\t` and one C1 character, and the list runs piped under `NO_COLOR` / `TERM=dumb` and inside the outer PTY (per test-plan §6 Non-path suites, `list` row integrity).
+- A new revive refusal has the shape the landed revive preflight cases use in `tests/cli_revive.rs`: exit 1, one `process-exit` line (`subject` `self`, `exit_code` 1) with its closed `detail` in `run-<name>.ndjson`, one `unable:` line and one `hint:` line last. The hints are distinct, none names `viola release`, and a later reading is not taken once an earlier one refuses (per test-plan §6 Non-path suites, Exit-cause matrix). On the exit-21 side, a name that is an unwrapped `claude agents --json` row is never a target (per test-plan §6 Non-path suites, Exit-cause matrix; test-plan §6 Scenario E1).
+- If the join field becomes a capability-ledger row, `contract_ledger_probes.rs` and `tests/cli_verify.rs` must list it as a literal row id, with the `[NN/MM]` step line and the `stamped <ver>  <n> pass  0 fail` count tied to the literal relied count (per test-plan §5 Cross-module patterns covered, CLI). Whether the row joins `LedgerRow::relied()` is the P4 question the scope names. Its arm follows the three-case shape of the landed ledger arms (per test-plan §4 Unit Test Strategy, viola-agent-claude).
+
+## Patterns to follow
+- The `viola list` board is pinned by literal asserts in `tests/cli_list.rs` (`list_human_board_is_the_literal_rows`, the `CAPTION` literal), backed by the `src/human/board.rs` units `bay_line_*` / `board_row_*`, and not by a trycmd case. test-plan names the `-- UNWRAPPED - READ-ONLY --` separator as owed to this entry (per test-plan §5 Cross-module patterns covered, CLI).
+- Parser property and fuzz precedent: the statusline reader's property lives at `cases: 512` with `crates/viola-agent-claude/proptest-regressions/statusline.txt` committed, and its strategy was widened because, as first written, it stayed green on a stub. The fuzz targets carry counted synthetic seeds (per test-plan §6 Non-path suites, Property suite).
+- Ledger arm unit shape: three cases per arm (pass on the recorded shape, a broken post-condition, no capture), with a `test(/check_<arm>_/)` filter count (per test-plan §4 Unit Test Strategy, viola-agent-claude).
+- Harness wiring: `boot --agents-mode recorded|oversize|malformed` (default `recorded`) sets `FAKE_CLAUDE_AGENTS_MODE` on every child and on `status`'s `viola list`, and the copied `bin/claude` serves both `viola verify` and the `agents --json` stub (per test-plan §3 5-command implementation, `boot`). Whether `--agents-mode` is built yet is research's question.
+- Waits key on `events.ndjson` offsets and product signals, and chaos-style faults come only from explicit process or file operations (per test-plan §2 Test Strategy, Agent-runnable invariants).
+
+## Anti-patterns to avoid
+- NEVER run the real `claude` (here, `claude agents --json`) in CI, and NEVER treat a green fake-agent run or a Linux-only local run as proof of real-CLI or Windows behaviour (per test-plan §11 Test Anti-Patterns, Test Strategy).
+- NEVER import the product's ledger rows or refusal ordering as the test oracle: row ids, refusal order and exit codes are test literals (per test-plan §11 Test Anti-Patterns, Unit).
+- NEVER use `std::env::set_var` to set `FAKE_CLAUDE_AGENTS_MODE` or `PATH`. Use `Command::env` per child, and re-add `LLVM_PROFILE_FILE` after any `.env_clear()` (per test-plan §11 Test Anti-Patterns, Integration).
+
+## Contract bindings
+- tests ↔ obs (harness status): `agent-run status` nests the verbatim `viola list --json` document, polls `wrapped` and `status` per item, and runs the list with the harness `PATH` so the stub answers `claude agents --json` (per test-plan §3 Status endpoint shape; test-plan §3 5-command implementation, `status`). Its interim form runs no `viola list`, and that leg is owed to "End-to-end path binary and harness legs", not to this chunk.
+- tests ↔ obs (schema conformance, G4): a new revive `process-exit` `detail`, and any agents-read line, must validate against obs-plan's `schemas/diag-line.v1.json` in the post-test check (per test-plan §6 Non-path suites, Schema conformance).
+- tests ↔ security (fixture scrub): the recorded agents fixture passes the `viola verify --record` scrub (codes `home-path` · `absolute-path` · `username` · `email`) and the hygiene walk (per test-plan §7 Fixture hygiene).
+- tests ↔ CI: the new fuzz target joins ci.yml `fuzz-replay` (`run --fuzz-replay`, `gate --require fuzz-replay`) and nightly `fuzz` (per test-plan §9 CI Integration).
+
+## Acceptance criteria contributions
+- The `claude agents --json` parser has a proptest property at `cases: 512` with its `proptest-regressions/` file committed, and a `fuzz/fuzz_targets/` target with a seeded `fuzz/corpus/` that replays green under `scripts/agent-run.sh run --fuzz-replay` then `gate --require fuzz-replay` (per test-plan §6 Non-path suites, Property suite).
+- Under `FAKE_CLAUDE_AGENTS_MODE=oversize` and `=malformed`, `viola list --json` exits as without the read, and every wrapped item reads `status:"unknown"` with no `wrapped:false` item. Under `recorded`, a `send` to an unwrapped row's name exits 21 (per test-plan §1 Coverage triggers, security-vector-coverage (child spawn); test-plan §6 Scenario E1).
+- `cross_list_rows.rs` passes in all three of its modes (piped, `NO_COLOR` / `TERM=dumb`, outer-PTY TTY). Its checks:
+  - stdout is exactly header + caption row + one line per item + the `-- UNWRAPPED - READ-ONLY --` separator
+  - every row's column offsets equal the caption row's
+  - no raw `\n`, `\t` or C1 byte reaches stdout inside a NAME cell
+  - `list --json` keeps the original name string
+
+  (per test-plan §6 Non-path suites, `list` row integrity)
+- The new revive `session-live` refusal is a case in `tests/cli_revive.rs`: exit 1, one `process-exit` line with its closed `detail`, an `unable:` / `hint:` pair with the hint distinct from every other revive hint and naming no `release`, and coverage holding `--fail-under-lines 85 --fail-under-functions 95 --fail-under-regions 80` per OS (per test-plan §6 Non-path suites, Exit-cause matrix; test-plan §10 Quality Gates & Coverage Targets).

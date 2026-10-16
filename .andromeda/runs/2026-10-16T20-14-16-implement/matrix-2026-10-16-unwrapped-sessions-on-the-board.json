@@ -1,0 +1,49 @@
+[
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-16T21:09:11Z",
+"argv": [
+"implement",
+"--dir",
+"viola-0.1.0",
+"--chunk",
+"2026-10-16-unwrapped-sessions-on-the-board",
+"--id",
+"v1-37",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-16T20-14-16-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"implement v1-37 · status planned → implemented · ref binary(cli_list) | binary(cross_list_rows): tests/cli_list.rs::path1_list_shows_… (455 chars)",
+"wrote viola-0.1.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"viola-0.1.0/verification-matrix.json"
+],
+"before": {
+"id": "v1-37",
+"chunk": "2026-10-16-unwrapped-sessions-on-the-board",
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "With no live wrapper, `viola list` exits 0 and prints the board. Each wrapped instance shows liveness `live` or `stale` … (1101 chars)",
+"notes_chars": 2668
+},
+"after": {
+"id": "v1-37",
+"chunk": "2026-10-16-unwrapped-sessions-on-the-board",
+"status": "implemented",
+"method": "e2e",
+"ref": "binary(cli_list) | binary(cross_list_rows): tests/cli_list.rs::path1_list_shows_a_booted_wrapper, ::list_of_a_stopped_wr… (455 chars)",
+"acceptance": "With no live wrapper, `viola list` exits 0 and prints the board. Each wrapped instance shows liveness `live` or `stale` … (1101 chars)",
+"notes_chars": 2668
+}
+}
+]

@@ -33,6 +33,7 @@ use viola_state::events::{EventLine, Source, append_event, append_event_at, end_
 use crate::run::budget::{BudgetGate, Crossed, Trigger};
 use crate::run::gate::Gate;
 use crate::run::links::LinkSet;
+use crate::run::snapshot::Snapshots;
 use crate::run::wait::WaitFeed;
 use crate::run::wheel::WheelSlot;
 

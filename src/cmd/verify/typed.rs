@@ -2,8 +2,9 @@
 //! [Screen Model]). The untrusted run (A) starts in a fresh dir under the OS temp dir, records its
 //! first settled screen (`modal`) and is ended by a kill. The trusted run (B) starts in
 //! `<cwd>/.viola-verify-<pid>/`, records its settled input box (`ready`), types the probe prompt as
-//! one bracketed paste, times the turn and records its end (`turn`), then pastes the long text, the
-//! tag-like text, the newline text and the probed local command, each into the settled input box.
+//! one bracketed paste, times the turn and records its end (`turn`), reads `claude agents --json`
+//! once while its session is live, then pastes the long text, the tag-like text, the newline text
+//! and the probed local command, each into the settled input box.
 //! The dialog run (C, in
 //! `<cwd>/.viola-verify-<pid>-dialogs/`) pastes the three dialog prompts, each after the previous
 //! turn's Stop; the plan run (D, in `<cwd>/.viola-verify-<pid>-plan/`, plan mode) pastes the plan
@@ -15,6 +16,7 @@
 //! but the pump's after a kill ends at the stop; a stopped run is ended by a kill, pastes nothing
 //! more, and no later run starts.
 
+use std::cell::RefCell;
 use std::ffi::OsString;
 use std::io::{self, Read, Write};
 use std::panic::{AssertUnwindSafe, catch_unwind};
@@ -26,7 +28,7 @@ use std::time::{Duration, Instant};
 
 use viola_agent_claude::hook::HookEvent;
 use viola_agent_claude::ledger::{
-    self, DIALOG_PROMPT_PARALLEL, DIALOG_PROMPT_PERMISSION, DIALOG_PROMPT_QUESTIONS,
+    self, AgentsCapture, DIALOG_PROMPT_PARALLEL, DIALOG_PROMPT_PERMISSION, DIALOG_PROMPT_QUESTIONS,
     DIALOG_SETTINGS, PLAN_PROMPT, PROBE_LOCAL_COMMAND, PROBE_LONG_PASTE, PROBE_NEWLINE_PASTE,
     PROBE_PROMPT, PROBE_TAG_PASTE, TypedRun,
 };
@@ -71,19 +73,23 @@ pub(super) struct Inputs<'a> {
 /// One of the five runs, adding what it measured.
 type RunStep<'a> = dyn Fn(&mut TypedRun) -> anyhow::Result<()> + 'a;
 
-/// The five runs in order; every dir any run used is gone on return. Runs C, D and E leave only
-/// their captures, which `verify` reads. `None` when the stop was set before a run would start:
-/// the run it ended has been killed and its dir removed.
+/// The five runs in order, with Run B's agents read when it made one; every dir any run used is
+/// gone on return. Runs C, D and E leave only their captures, which `verify` reads. `None` when the
+/// stop was set before a run would start: the run it ended has been killed and its dir removed.
 pub(super) fn measure(
     clock: &Arc<dyn Clock>,
     inputs: &Inputs<'_>,
-) -> anyhow::Result<Option<TypedRun>> {
+) -> anyhow::Result<Option<(TypedRun, Option<AgentsCapture>)>> {
     let mut typed = TypedRun::default();
+    let agents = RefCell::new(None);
     let mut args = inputs.program_args.to_vec();
     args.extend(["--model", "haiku"].map(OsString::from));
     let runs: [&RunStep<'_>; 5] = [
         &|typed| untrusted_run(clock, inputs, &args, typed),
-        &|typed| trusted_run(clock, inputs, &args, typed),
+        &|typed| {
+            *agents.borrow_mut() = trusted_run(clock, inputs, &args, typed)?;
+            Ok(())
+        },
         &|_| dialog_run(clock, inputs, &args),
         &|_| plan_run(clock, inputs, &args),
         &|_| resume_run(clock, inputs, &args),
@@ -94,7 +100,7 @@ pub(super) fn measure(
         }
         run(&mut typed)?;
     }
-    Ok(Some(typed))
+    Ok(Some((typed, agents.into_inner())))
 }
 
 /// Run A: the first settled screen in a fresh dir under the OS temp dir, then a kill.
@@ -112,14 +118,15 @@ fn untrusted_run(
     Ok(())
 }
 
-/// Run B: the settled input box, one typed turn, the four framing pastes, then Ctrl-C; its status
-/// line runs the probe settings' capture command where they were written.
+/// Run B: the settled input box, one typed turn, the agents read once that turn settled, the four
+/// framing pastes, then Ctrl-C; its status line runs the probe settings' capture command where they
+/// were written.
 fn trusted_run(
     clock: &Arc<dyn Clock>,
     inputs: &Inputs<'_>,
     args: &[OsString],
     typed: &mut TypedRun,
-) -> anyhow::Result<()> {
+) -> anyhow::Result<Option<AgentsCapture>> {
     let trusted = TrustedDir::create(inputs.cwd, "")?;
     let args = trusted_args(args, inputs);
     let (keys, pipe) = mpsc::channel();
@@ -137,15 +144,21 @@ fn trusted_run(
     typed.ready = ready.and_then(|s| s.rows);
     if !input_box_up(typed.ready.as_deref()) {
         run.end_by_kill();
-        return Ok(());
+        return Ok(None);
     }
-    // A stop during the turn or the pastes ends the run by a kill inside `end_by_ctrl_c`.
+    // A stop during the turn, the pastes or the agents read ends the run by a kill inside
+    // `end_by_ctrl_c`.
     turn(&run, inputs.trusted.captures, typed);
+    let agents = typed
+        .turn
+        .is_some()
+        .then(|| agents_read(&run, inputs, &trusted.0))
+        .flatten();
     framing_turns(&run, inputs.trusted.captures, typed.turn.clone());
     run.end_by_ctrl_c(&keys);
     drop(keys);
     drop(trusted);
-    Ok(())
+    Ok(agents)
 }
 
 /// Run B's arguments: the run's own, its plugin dir, then its one `--settings` when given.
@@ -347,6 +360,19 @@ fn turn(run: &Run, captures: &Path, typed: &mut TypedRun) {
         typed.turn_settle_ms = Some(ms(settled.at.saturating_duration_since(stopped)));
         typed.turn = settled.rows;
     }
+}
+
+/// One `claude agents --json` read from the run's own dir while its session is live: Run B's child
+/// pid and the read's stdout, raw. None at the stop, and none when the stop ended the read.
+fn agents_read(run: &Run, inputs: &Inputs<'_>, dir: &Path) -> Option<AgentsCapture> {
+    if (run.stop)() {
+        return None;
+    }
+    let read = crate::run::agents::read_logged(inputs.program, dir, inputs.strip, run.stop);
+    (!read.stopped).then(|| AgentsCapture {
+        child_pid: run.child_pid(),
+        bytes: read.stdout,
+    })
 }
 
 /// Run B's four added pastes, each only into the settled input box the turn before it left
@@ -770,6 +796,13 @@ impl Run {
     fn input_box_settles(&self) -> bool {
         let ready = self.settle(self.spawned_at);
         input_box_up(ready.and_then(|s| s.rows).as_deref())
+    }
+
+    fn child_pid(&self) -> Option<u32> {
+        self.pty
+            .lock()
+            .unwrap_or_else(PoisonError::into_inner)
+            .child_pid()
     }
 
     fn kill(&self) {

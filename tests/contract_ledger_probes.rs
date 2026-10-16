@@ -14,7 +14,7 @@ use support::home::{TestHome, workspace_path};
 use support::verify::verify;
 
 #[cfg(unix)]
-const ROW_IDS: [&str; 22] = [
+const ROW_IDS: [&str; 23] = [
     "shim-resolution",
     "spine-hooks",
     "session-start-fields",
@@ -37,9 +37,10 @@ const ROW_IDS: [&str; 22] = [
     "statusline-shell",
     "statusline-rate-limits",
     "resume-session",
+    "agents-join",
 ];
 #[cfg(windows)]
-const ROW_IDS: [&str; 19] = [
+const ROW_IDS: [&str; 20] = [
     "shim-resolution",
     "spine-hooks",
     "session-start-fields",
@@ -59,6 +60,7 @@ const ROW_IDS: [&str; 19] = [
     "local-command-clear",
     "paste-newline",
     "resume-session",
+    "agents-join",
 ];
 /// The sets recorded whole (spine, screens, dialog, framing, status line and resume variants): each
 /// stamps every relied row.
@@ -129,8 +131,8 @@ fn contract_ledger_probes_pass_over_every_stamped_set() {
             );
         }
         #[cfg(unix)]
-        assert_eq!(*last, format!("stamped {version}  22 pass  0 fail"));
+        assert_eq!(*last, format!("stamped {version}  23 pass  0 fail"));
         #[cfg(windows)]
-        assert_eq!(*last, format!("stamped {version}  19 pass  0 fail"));
+        assert_eq!(*last, format!("stamped {version}  20 pass  0 fail"));
     }
 }

@@ -32,6 +32,7 @@ pub(crate) struct SendSlot {
     pub(super) io: OnceLock<(PasteFn, Gate)>,
     pub(super) budget: OnceLock<Arc<BudgetGate>>,
     pub(super) links: OnceLock<Arc<LinkSet>>,
+    pub(super) snapshots: OnceLock<Arc<Snapshots>>,
     flight: Mutex<Flight>,
     settled: Condvar,
 }
@@ -49,6 +50,7 @@ impl SendSlot {
             io: OnceLock::new(),
             budget: OnceLock::new(),
             links: OnceLock::new(),
+            snapshots: OnceLock::new(),
             flight: Mutex::default(),
             settled: Condvar::new(),
         }
@@ -67,6 +69,11 @@ impl SendSlot {
     /// The first call wins; the start calls it once, before the endpoint serves.
     pub(crate) fn links_with(&self, links: Arc<LinkSet>) {
         let _ = self.links.set(links);
+    }
+
+    /// The first call wins; the start calls it once, before the endpoint serves.
+    pub(crate) fn snapshots_with(&self, snapshots: Arc<Snapshots>) {
+        let _ = self.snapshots.set(snapshots);
     }
 
     pub(super) fn flight(&self) -> MutexGuard<'_, Flight> {
@@ -165,7 +172,9 @@ impl SendSlot {
 /// on disk. Any other prompt the hook filed `human` was typed by the human, who then holds the wheel;
 /// a `harness` prompt never moves it. A prompt of any origin starts a turn; `turn-ended`,
 /// `session-start` and `session-end` end it. A `session-start` that is the in-flight send's
-/// post-condition is claimed and settled the same way, its line appended unchanged.
+/// post-condition is claimed and settled the same way, its line appended unchanged. A
+/// `session-start` whose `agent_session_id` is a string has the snapshot record that id before the
+/// line can be read, so whoever reads the line finds the snapshot already written.
 pub(crate) fn append_hook_event(
     slot: &SendSlot,
     feed: &WaitFeed,
@@ -195,6 +204,12 @@ pub(crate) fn append_hook_event(
     // human's wheel, so a `release` made after it is never undone by it.
     if line.kind == EventKind::PromptSubmitted && line.data["origin"] == "human" {
         slot.wheel.human_input();
+    }
+    let session = (line.kind == EventKind::SessionStart)
+        .then(|| line.data["agent_session_id"].as_str())
+        .flatten();
+    if let (Some(id), Some(snapshots)) = (session, slot.snapshots.get()) {
+        snapshots.update(|snapshot| snapshot.agent_session_id = Some(id.to_owned()))?;
     }
     let appended = feed.appending(&line, || append_event(instance_dir, &line));
     if claimed {
@@ -231,7 +246,7 @@ mod tests {
 
     use rstest::rstest;
 
-    use viola_state::snapshot::Wheel;
+    use viola_state::snapshot::{InstanceSnapshot, Wheel, read_snapshot};
 
     /// A send whose outcome is decided but not yet recorded still holds the slot: a next send is
     /// `turn-running`, a late prompt with its text is not claimed, and only its own guard frees it.
@@ -386,6 +401,72 @@ mod tests {
         assert!(pastes.all().is_empty(), "nothing typed");
         assert_refused_without_a_cursor(tmp.path(), detail);
         assert_eq!(kinds(tmp.path()), ["prompt-submitted", "send-refused"]);
+    }
+
+    fn snapshot_of(dir: &Path) -> InstanceSnapshot {
+        InstanceSnapshot {
+            endpoint: None,
+            pid: 1,
+            started_at: "s".to_owned(),
+            pinned_bin: "b".to_owned(),
+            cli_verified: false,
+            cli_version: None,
+            wheel: Wheel::Driver,
+            budget_paused: false,
+            budget_override_until: None,
+            links: Vec::new(),
+            child_pid: Some(7),
+            pending_dialog: None,
+            cwd: dir.to_str().map(str::to_owned),
+            statusline_command: None,
+            agent_session_id: None,
+        }
+    }
+
+    /// Each `session-start` whose id is a string rewrites the snapshot's id with its line (a
+    /// `startup`, then a `clear`); one whose id is `null` or absent writes nothing.
+    #[test]
+    fn send_session_start_records_its_string_id_in_the_snapshot() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (slot, _pastes) = mute_child();
+        let snapshots = Arc::new(Snapshots::new(tmp.path().to_path_buf()));
+        snapshots.init(snapshot_of(tmp.path())).expect("init");
+        slot.snapshots_with(Arc::clone(&snapshots));
+        let start = |data: Value| {
+            append_hook_event(
+                &slot,
+                &feed(),
+                tmp.path(),
+                hook_line(EventKind::SessionStart, data),
+            )
+            .expect("hook");
+        };
+        let id = |dir: &Path| read_snapshot(dir).expect("snapshot").agent_session_id;
+        start(json!({"cause": "startup", "agent_session_id": "s-1"}));
+        assert_eq!(id(tmp.path()).as_deref(), Some("s-1"));
+        start(json!({"cause": "clear", "agent_session_id": "s-2"}));
+        assert_eq!(id(tmp.path()).as_deref(), Some("s-2"));
+        let written = std::fs::read(tmp.path().join("snapshot.json")).expect("bytes");
+        start(json!({"cause": "resume", "agent_session_id": null}));
+        start(json!({"cause": "compact"}));
+        append_hook_event(&slot, &feed(), tmp.path(), prompt("typed", "human")).expect("hook");
+        let after = std::fs::read(tmp.path().join("snapshot.json")).expect("bytes");
+        assert_eq!(after, written, "nothing written");
+        assert_eq!(kinds(tmp.path()).len(), 5);
+    }
+
+    /// Without the snapshot handle the line is still appended.
+    #[test]
+    fn send_session_start_without_the_snapshot_handle_is_appended() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (slot, _pastes) = mute_child();
+        let line = hook_line(
+            EventKind::SessionStart,
+            json!({"cause": "startup", "agent_session_id": "s-1"}),
+        );
+        append_hook_event(&slot, &feed(), tmp.path(), line).expect("hook");
+        assert_eq!(kinds(tmp.path()), ["session-start"]);
+        assert!(read_snapshot(tmp.path()).is_none());
     }
 
     /// `turn-ended`, `session-start` and `session-end` end a turn; `activity` does not.

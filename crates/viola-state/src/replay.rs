@@ -214,6 +214,7 @@ mod tests {
             pending_dialog: None,
             cwd: None,
             statusline_command: None,
+            agent_session_id: None,
         }
     }
 

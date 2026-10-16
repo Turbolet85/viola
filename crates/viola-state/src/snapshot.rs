@@ -66,6 +66,10 @@ pub struct InstanceSnapshot {
     /// statusline` runs it. User content: it reaches no log line. The log replay never yields one.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub statusline_command: Option<String>,
+    /// The `agent_session_id` of the last `session-start` that carried one: kept only to join the
+    /// `claude agents --json` rows (architecture §Standard Contracts, Instance snapshot).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub agent_session_id: Option<String>,
 }
 
 /// `{dialog_id, kind}` of the one pending dialog.
@@ -184,6 +188,7 @@ mod tests {
             pending_dialog: None,
             cwd: None,
             statusline_command: None,
+            agent_session_id: None,
         }
     }
 

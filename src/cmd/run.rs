@@ -278,6 +278,7 @@ pub(super) fn start(
     ));
     links.restore()?;
     send.links_with(Arc::clone(&links));
+    send.snapshots_with(Arc::clone(&snapshots));
     let dialogs = Arc::new(DialogSlot::new(
         SystemClock,
         gate.cli_verified,
@@ -561,6 +562,7 @@ fn start_state(
         pending_dialog: None,
         cwd: recorded.spawn_dir.to_str().map(str::to_owned),
         statusline_command: recorded.statusline_command,
+        agent_session_id: None,
     };
     snapshots.init(snapshot.clone())?;
     touch_heartbeat(instance_dir)?;

@@ -1,9 +1,12 @@
-//! `viola list` over the CLI (architecture §Standard Contracts, GUI list envelope; test-plan §6
-//! Path 1's board and Scenario E5's `list --json` step): the verb reads the home's `instances/`
-//! itself, contacts no wrapper and writes no state file. A booted wrapper is one `live` row; a
-//! stopped one leaves the board empty; an unreadable or newer snapshot reads through the log
-//! replay; a home or an instance another user could write refuses the whole board with exit 21,
-//! nothing under the home opened.
+//! `viola list` over the CLI (architecture §Standard Contracts, `list` payload and Session liveness;
+//! test-plan §6 Path 1's board, Scenarios E1 and E5): the verb reads the home's `instances/` itself,
+//! contacts no wrapper and writes no state file. A booted wrapper is one `live` row; a stopped one
+//! leaves the board empty; an unreadable or newer snapshot reads through the log replay; a home or
+//! an instance another user could write refuses the whole board with exit 21, nothing under the
+//! home opened. Its one `claude agents --json` read, answered by the fake agent planted as
+//! `claude` in a test-scoped bin dir (every run here has `PATH` set to one such dir alone), gives a
+//! joined row its idle or busy status and lists every other session as an unwrapped row; an
+//! oversize or malformed answer changes nothing the verb prints.
 
 #[allow(dead_code)]
 mod support;
@@ -12,7 +15,8 @@ use std::path::Path;
 
 use rstest::rstest;
 use serde_json::{Value, json};
-use support::cli::{Ran, viola};
+use support::cli::{Ran, viola, viola_on};
+use support::fake;
 use support::home::{StampedHome, TestHome, Wrapper, stamped_home, workspace_path};
 use support::hygiene::load_schema;
 
@@ -248,6 +252,229 @@ fn e5_list_reads_a_live_wrapper_through_the_replay(
     assert_eq!(std::fs::read(&path).expect("the snapshot"), altered);
 
     std::fs::write(&path, &written).expect("restored before the stop");
+    wrapper.stop();
+}
+
+/// A booted `builder` whose child is the fake agent planted as `claude` in the bin dir returned:
+/// its session registers beside that copy, where the copy's `agents --json` lists it.
+fn boot_joined(stamped: StampedHome) -> (Wrapper, std::path::PathBuf) {
+    let bin = fake::claude_bin(stamped.home.scratch(), "claude-joined", None, None);
+    let joined = StampedHome {
+        fake: fake::claude_in(&bin),
+        ..stamped
+    };
+    (boot(joined), bin)
+}
+
+/// The per-test scratch dir the wrapper's home sits in.
+fn scratch(wrapper: &Wrapper) -> &Path {
+    wrapper.home().parent().expect("the home has a parent")
+}
+
+fn status_on(bin: &Path, home: &Path) -> Value {
+    document(&viola_on(bin, home, &["list", "--json"], None, None))["ok"]["items"].clone()
+}
+
+/// The registry row of the wrapped fake joins by child pid and session id: `idle` once booted,
+/// `busy` once a sent turn has started and not ended, and never an unwrapped row of its own.
+#[rstest]
+fn list_status_of_a_joined_wrapper_is_idle_then_busy(stamped_home: StampedHome) {
+    let (wrapper, bin) = boot_joined(stamped_home);
+    let home = wrapper.home().to_path_buf();
+    let items = status_on(&bin, &home);
+    assert_eq!(items.as_array().map(Vec::len), Some(1), "{items}");
+    assert_eq!(items[0]["name"], "builder");
+    assert_eq!(items[0]["status"], "idle");
+    let sent = viola(
+        &home,
+        &["send", "builder", "--json"],
+        Some("a held turn"),
+        None,
+    );
+    assert_eq!(sent.code, Some(0), "stderr: {}", sent.stderr);
+    let items = status_on(&bin, &home);
+    assert_eq!(items.as_array().map(Vec::len), Some(1), "{items}");
+    assert_eq!(items[0]["status"], "busy");
+    let human = viola_on(&bin, &home, &["list"], None, None);
+    assert_eq!(
+        human.stdout,
+        format!(
+            "{BAY_UNKNOWN}\n{CAPTION}\n\
+             builder  live   busy     driver                   none               2.1.287 verified\n"
+        )
+    );
+    wrapper.stop();
+}
+
+/// Two rows no wrapped instance joins, one named like an instance: the separator and the two
+/// read-only rows after the wrapped one, on both forms.
+const PLANTED: &str = r#"[{"cwd":"~/a","kind":"interactive","name":"a title","pid":4294967295,"sessionId":"stranger","startedAt":1760000000000,"status":"busy"},{"cwd":"~/b","kind":"interactive","name":"b title","sessionId":"0b7c9f4e-1d2a-4c3b-8e5f-6a7b8c9d0e1f","startedAt":1760000000001,"status":"idle"}]"#;
+
+#[rstest]
+fn list_prints_planted_rows_as_unwrapped_rows(stamped_home: StampedHome) {
+    let wrapper = boot(stamped_home);
+    let home = wrapper.home().to_path_buf();
+    let bin = fake::claude_bin(
+        scratch(&wrapper),
+        "claude-planted",
+        None,
+        Some(PLANTED.as_bytes()),
+    );
+    let human = viola_on(&bin, &home, &["list"], None, None);
+    assert_eq!(human.code, Some(0), "stderr: {}", human.stderr);
+    assert_eq!(
+        human.stdout,
+        format!(
+            "{BAY_UNKNOWN}\n\
+             NAME                                  LIVE   STATUS   WHEEL                    DIALOG             CLI\n\
+             builder                               live   unknown  driver                   none               2.1.287 verified\n\
+             -- UNWRAPPED - READ-ONLY --\n\
+             0b7c9f4e-1d2a-4c3b-8e5f-6a7b8c9d0e1f  live   idle     n/a                      n/a                n/a\n\
+             stranger                              live   busy     n/a                      n/a                n/a\n"
+        )
+    );
+    assert_plain(&human);
+    let doc = document(&viola_on(&bin, &home, &["list", "--json"], None, None));
+    assert_eq!(
+        doc["ok"]["items"],
+        json!([
+            {
+                "name": "builder", "wrapped": true, "liveness": "live", "status": "unknown",
+                "wheel": "driver", "budget_paused": false, "dialog_pending": false,
+                "cli_version": "2.1.287", "cli_verified": true,
+            },
+            {
+                "name": "0b7c9f4e-1d2a-4c3b-8e5f-6a7b8c9d0e1f", "wrapped": false,
+                "liveness": "live", "status": "idle", "dialog_pending": false,
+            },
+            {
+                "name": "stranger", "wrapped": false, "liveness": "live", "status": "busy",
+                "dialog_pending": false,
+            },
+        ])
+    );
+    wrapper.stop();
+}
+
+/// test-plan §6 E1: an unwrapped row is never a target. A `send` naming one finds no instance.
+#[rstest]
+fn e1_send_naming_an_unwrapped_row_is_unreachable(stamped_home: StampedHome) {
+    let wrapper = boot(stamped_home);
+    let home = wrapper.home().to_path_buf();
+    let bin = fake::claude_bin(
+        scratch(&wrapper),
+        "claude-planted",
+        None,
+        Some(PLANTED.as_bytes()),
+    );
+    let doc = document(&viola_on(&bin, &home, &["list", "--json"], None, None));
+    assert_eq!(doc["ok"]["items"][2]["name"], "stranger");
+    let sent = viola(&home, &["send", "stranger", "--json"], Some("hello"), None);
+    assert_eq!(sent.code, Some(21), "stderr: {}", sent.stderr);
+    assert_eq!(
+        sent.stdout,
+        "{\"v\":1,\"error\":\"instance-unreachable\",\"detail\":null}\n"
+    );
+    wrapper.stop();
+}
+
+/// An oversize or malformed answer leaves the board as the no-`claude` run prints it: the same
+/// exit, the same stdout on both forms, every wrapped row `unknown` and no unwrapped row.
+#[rstest]
+#[case::oversize("oversize")]
+#[case::malformed("malformed")]
+fn list_of_an_answer_that_does_not_parse_equals_the_no_claude_board(
+    stamped_home: StampedHome,
+    #[case] mode: &str,
+) {
+    let (wrapper, _) = boot_joined(stamped_home);
+    let home = wrapper.home().to_path_buf();
+    let scratch = scratch(&wrapper).to_path_buf();
+    let bad = fake::claude_bin(&scratch, &format!("claude-{mode}"), Some(mode), None);
+    let none = fake::empty_bin(&scratch);
+    for args in [&["list", "--json"][..], &["list"][..]] {
+        let without = viola_on(&none, &home, args, None, None);
+        let read = viola_on(&bad, &home, args, None, None);
+        assert_eq!(read.code, without.code, "{mode} {args:?}");
+        assert_eq!(read.stdout, without.stdout, "{mode} {args:?}");
+        assert_eq!(read.stderr, without.stderr, "{mode} {args:?}");
+    }
+    let items = status_on(&bad, &home);
+    assert_eq!(items.as_array().map(Vec::len), Some(1), "{items}");
+    assert_eq!(items[0]["status"], "unknown");
+    assert_eq!(items[0]["liveness"], "live");
+    wrapper.stop();
+}
+
+/// Under a name the read writes its spawn pair, and a malformed answer one `parse-rejected` at
+/// `warn`, each schema-valid and naming no row text, id, directory or path.
+#[rstest]
+#[case::recorded(None, None)]
+#[case::malformed(Some("malformed"), Some("malformed"))]
+#[case::oversize(Some("oversize"), Some("oversize"))]
+fn list_under_a_name_logs_the_agents_read(
+    stamped_home: StampedHome,
+    #[case] mode: Option<&str>,
+    #[case] rejected: Option<&str>,
+) {
+    let wrapper = boot(stamped_home);
+    let home = wrapper.home().to_path_buf();
+    let bin = fake::claude_bin(
+        scratch(&wrapper),
+        "claude-logged",
+        mode,
+        Some(PLANTED.as_bytes()),
+    );
+    document(&viola_on(
+        &bin,
+        &home,
+        &["list", "--json"],
+        None,
+        Some("overseer"),
+    ));
+    let lines = diagnostics(&home, "cli-overseer.ndjson");
+    let probe: Vec<&Value> = lines
+        .iter()
+        .filter(|l| l["subject"] == "agents-probe")
+        .collect();
+    assert_eq!(probe.len(), 2, "{lines:?}");
+    assert_eq!(probe[0]["event"], "process-start");
+    assert_eq!(probe[1]["event"], "process-exit");
+    assert_eq!(probe[1]["child_exit_status"], 0);
+    assert!(probe[1]["duration_ms"].is_u64());
+    let parse: Vec<&Value> = lines
+        .iter()
+        .filter(|l| l["event"] == "parse-rejected")
+        .collect();
+    match rejected {
+        Some(detail) => {
+            assert_eq!(parse.len(), 1, "{lines:?}");
+            assert_eq!(parse[0]["parser"], "claude-agents-json");
+            assert_eq!(parse[0]["detail"], detail);
+            assert_eq!(parse[0]["level"], "WARN");
+        }
+        None => assert!(parse.is_empty(), "{lines:?}"),
+    }
+    let schema = load_schema(&workspace_path("schemas/diag-line.v1.json"));
+    let validator = jsonschema::validator_for(&schema).expect("valid schema");
+    for line in probe.iter().chain(&parse) {
+        assert!(validator.is_valid(line), "{line}");
+        let text = line.to_string();
+        for content in ["stranger", "0b7c9f4e", "title", "~/a", "claude-logged"] {
+            assert!(!text.contains(content), "{content} in {text}");
+        }
+    }
+    wrapper.stop();
+}
+
+/// With no name no log opens, whatever the read gives.
+#[rstest]
+fn list_without_a_name_logs_no_agents_read(stamped_home: StampedHome) {
+    let wrapper = boot(stamped_home);
+    let home = wrapper.home().to_path_buf();
+    let bin = fake::claude_bin(scratch(&wrapper), "claude-quiet", Some("malformed"), None);
+    document(&viola_on(&bin, &home, &["list", "--json"], None, None));
+    assert_eq!(cli_logs(&home), Vec::<String>::new());
     wrapper.stop();
 }
 

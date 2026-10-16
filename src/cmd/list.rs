@@ -1,7 +1,9 @@
-//! `viola list`: the board of wrapped sessions (architecture §Standard Contracts, GUI list
-//! envelope). It is no channel method: this process reads the home's `instances/` itself and
-//! contacts no wrapper. Every path is checked before anything under the home is opened, its own
-//! log included, and one that another user could write refuses the whole board.
+//! `viola list`: the board of sessions (architecture §Standard Contracts, `list` payload). It is no
+//! channel method: this process reads the home's `instances/` itself and contacts no wrapper. Every
+//! path is checked before anything under the home is opened, its own log included, and one that
+//! another user could write refuses the whole board. Then one `claude agents --json` read gives each
+//! wrapped row its idle or busy status and lists the sessions viola does not wrap; a failed read
+//! leaves the board as the disk gave it.
 
 use std::io;
 use std::path::Path;
@@ -11,7 +13,8 @@ use std::time::SystemTime;
 use chrono::{DateTime, Utc};
 use serde_json::{Value, json};
 use tracing::instrument;
-use viola_state::board::{self, Board, Scan, ScanRefused};
+use viola_agent_claude::agents::{AgentStatus, AgentsList};
+use viola_state::board::{self, Board, Observation, Scan, ScanRefused, SessionStatus};
 use viola_state::budget::{StampedReading, read_budget_stamped};
 
 use super::client;
@@ -83,13 +86,36 @@ fn refuse(json: bool, refused: &ScanRefused) {
 fn read(home: &Path, scan: &Scan, json: bool) -> (Board, Option<Budget>, DateTime<Utc>) {
     let at = SystemTime::now();
     let now = DateTime::<Utc>::from(at);
-    let board = board::read(scan, at);
+    let mut board = board::read(scan, at);
+    if let Ok(list) = std::env::current_dir()
+        .ok()
+        .ok_or(())
+        .and_then(|cwd| run::agents::read_here(home, &cwd).map_err(|_| ()))
+    {
+        board::join(&mut board, observations(list));
+    }
     let stamped = read_budget_stamped(home);
     let (thresholds, rejections) = budget::read_thresholds(home);
     for rejection in rejections {
         obs::log_config_rejection(rejection);
     }
     (board, budget_of(stamped, thresholds, now), now)
+}
+
+/// Each listed session as the board reads it: the name is the session id, never the CLI's title.
+fn observations(list: AgentsList) -> Vec<Observation> {
+    list.rows
+        .into_iter()
+        .map(|row| Observation {
+            pid: row.pid,
+            session_id: row.session_id,
+            status: match row.status {
+                AgentStatus::Idle => SessionStatus::Idle,
+                AgentStatus::Busy => SessionStatus::Busy,
+                AgentStatus::Unknown => SessionStatus::Unknown,
+            },
+        })
+        .collect()
 }
 
 /// `paused` as the wrapper's gate reads the same reading at `now` with no override.
@@ -125,8 +151,9 @@ fn document(board: &Board, budget: Option<&Budget>) -> Value {
 mod tests {
     use super::*;
     use clap::Parser as _;
+    use viola_agent_claude::agents;
     use viola_core::{BudgetReading, BudgetWindow, Reading};
-    use viola_state::board::{Item, RowLiveness, SessionStatus, SkippedTotal};
+    use viola_state::board::{Item, JoinKeys, RowLiveness, SkippedTotal};
     use viola_state::snapshot::Wheel;
 
     fn at(text: &str) -> DateTime<Utc> {
@@ -163,6 +190,7 @@ mod tests {
                 cli_version: Some("2.1.287".to_owned()),
                 cli_verified: Some(true),
                 dialog_kind: None,
+                join: JoinKeys::default(),
             }],
             skipped: SkippedTotal {
                 unknown_kinds: 1,
@@ -205,6 +233,36 @@ mod tests {
         assert!(paused(91.0));
         assert!(paused(90.0));
         assert!(!paused(89.0));
+    }
+
+    /// Each row's session id names it and its status word maps one to one; the CLI's title, its
+    /// `cwd` and its `kind` reach no observation.
+    #[test]
+    fn list_observations_take_the_session_id_pid_and_status() {
+        let list = agents::parse(
+            br#"[{"pid":7,"sessionId":"s-1","status":"idle","name":"a title","cwd":"/w"},{"sessionId":"s-2","status":"busy"},{"pid":9,"sessionId":"s-3","status":"later"}]"#,
+        )
+        .expect("a list");
+        assert_eq!(
+            observations(list),
+            [
+                Observation {
+                    pid: Some(7),
+                    session_id: "s-1".to_owned(),
+                    status: SessionStatus::Idle,
+                },
+                Observation {
+                    pid: None,
+                    session_id: "s-2".to_owned(),
+                    status: SessionStatus::Busy,
+                },
+                Observation {
+                    pid: Some(9),
+                    session_id: "s-3".to_owned(),
+                    status: SessionStatus::Unknown,
+                },
+            ]
+        );
     }
 
     #[derive(clap::Parser)]

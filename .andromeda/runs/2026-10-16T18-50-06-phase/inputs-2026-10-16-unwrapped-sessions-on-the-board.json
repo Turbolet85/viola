@@ -1,0 +1,194 @@
+[
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-16T19:54:34Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board",
+"--message-file",
+".andromeda/runs/2026-10-16T18-50-06-phase/relay-1.md",
+"--kind",
+"relay",
+"--origin",
+"the founder, live in the overseer dialog, 2026-10-16T19:54:09Z, relayed verbatim by the operator",
+"--why",
+"the founder own answers to the four P4 forks: join row relied with its probe in Run B (a verify child widening ratified), fake agent files beside its exe, session-live refusal with a P4 leg and a cap of 8 live starts, the open-elsewhere/--fork wording",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-10-16T18-50-06-phase",
+"--marker",
+"2026-10-16-unwrapped-sessions-on-the-board"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy message · message: the founder, live in the overseer dialog, 2026-10-16T19:54:09Z, relayed verbatim by the operator",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "message: the founder, live in the overseer dialog, 2026-10-16T19:54:09Z, relayed verbatim by the operator",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "5b14ea6270a94f7f0141d9700b48f1434cd7acf2c9d6864cd0bcda03e5bf0cb9",
+"copy": "I1-relay-1.md.txt",
+"link": false,
+"read_at": "2026-10-16T19:54:34Z",
+"step": "phase:P4",
+"why": "the founder own answers to the four P4 forks: join row relied with its probe in Run B (a verify child widening ratified), fake agent files beside its exe, session-live refusal with a P4 leg and a cap of 8 live starts, the open-elsewhere/--fork wording"
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-16T20:01:50Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board",
+"--run-dir",
+".andromeda/runs/2026-10-16T18-50-06-phase",
+"--marker",
+"2026-10-16-unwrapped-sessions-on-the-board"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the founder, live in the overseer dialog, 2026-10-16T19:54:09Z, relayed verbatim by the operator",
+"I1 cited plan.md:19 · plan.md:22 · plan.md:23 · plan.md:26 · plan.md:29 · plan.md:164 · plan.md:182 · plan.md:205 · plan.md:210 · plan.md:271 · plan.md:275 · plan.md:296 · plan.md:389 (in fence) · plan.md:536 · plan.md:553 · plan.md:567 · plan.md:572 · plan.md:580 · plan.md:604 · plan.md:608 · plan.md:610 · plan.md:614",
+"UNPARSED: inputs#I5 — no entry (scope.md:126)",
+"inputs: 1 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 1,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 1
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-16T20:03:04Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board",
+"--run-dir",
+".andromeda/runs/2026-10-16T18-50-06-phase",
+"--marker",
+"2026-10-16-unwrapped-sessions-on-the-board"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 n/a — a message has no live source · copy message · message: the founder, live in the overseer dialog, 2026-10-16T19:54:09Z, relayed verbatim by the operator",
+"I1 cited plan.md:19 · plan.md:22 · plan.md:23 · plan.md:26 · plan.md:29 · plan.md:164 · plan.md:182 · plan.md:205 · plan.md:210 · plan.md:271 · plan.md:275 · plan.md:296 · plan.md:390 (in fence) · plan.md:546 · plan.md:563 · plan.md:577 · plan.md:582 · plan.md:590 · plan.md:614 · plan.md:618 · plan.md:620 · plan.md:624",
+"inputs: 1 entries — unchanged 0 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 1,
+"counts": {
+"unchanged": 0,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.2",
+"sha8": "4b7d3772",
+"ts": "2026-10-16T20:05:02Z",
+"argv": [
+"snap",
+"--chunk-dir",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board",
+"--message-file",
+".andromeda/runs/2026-10-16T18-50-06-phase/relay-2.md",
+"--kind",
+"relay",
+"--origin",
+"the operator, in the phase session, 2026-10-16T20:04:54Z",
+"--why",
+"the operator own yes on .andromeda/runs/2026-10-16T18-50-06-phase/p5-card-1.md: the plan, the one-read narrowing of fork 1, the confirm-class leans, the v1-37 concretization and its four Beyond the plan rows (boot --agents-mode to End-to-end path binary and harness legs; the unwrapped-name hint to Exit-cause code catalogue; Windows readings to Windows-only live measurements; a conditional Session-live as a warning entry)",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-10-16T18-50-06-phase",
+"--marker",
+"2026-10-16-unwrapped-sessions-on-the-board"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: the operator, in the phase session, 2026-10-16T20:04:54Z",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator, in the phase session, 2026-10-16T20:04:54Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "9732132a2c16ec0cad0644b2ec1463ae329c23e3a7eac52449fd18482438d9d5",
+"copy": "I2-relay-2.md.txt",
+"link": false,
+"read_at": "2026-10-16T20:05:02Z",
+"step": "phase:P5",
+"why": "the operator own yes on .andromeda/runs/2026-10-16T18-50-06-phase/p5-card-1.md: the plan, the one-read narrowing of fork 1, the confirm-class leans, the v1-37 concretization and its four Beyond the plan rows (boot --agents-mode to End-to-end path binary and harness legs; the unwrapped-name hint to Exit-cause code catalogue; Windows readings to Windows-only live measurements; a conditional Session-live as a warning entry)"
+}
+}
+]

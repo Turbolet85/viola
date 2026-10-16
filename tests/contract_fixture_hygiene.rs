@@ -1,6 +1,7 @@
 //! The fixture scrub-and-schema walk (test-plan §7 Fixture hygiene): every committed scenario
 //! script, every recorded `fixtures/claude/*/*.json` hook payload, every recorded `StatusLine.*.json`
-//! status line payload and every recorded `Screen.*.json` is scrubbed and schema-valid, each against
+//! status line payload, every recorded `Agents.*.json` agents read and every recorded
+//! `Screen.*.json` is scrubbed and schema-valid, each against
 //! its own schema, and every rejection arm is proven on a planted input. The recorded set is walked at run time, not
 //! by `#[files]`, which refuses to compile over a glob that matches nothing.
 //! andromeda:walks-tree — it reads every file under `fixtures/`, named or not.
@@ -33,6 +34,10 @@ fn statusline_schema() -> Value {
     load_schema(&workspace_path("schemas/claude-statusline-fixture.v1.json"))
 }
 
+fn agents_schema() -> Value {
+    load_schema(&workspace_path("schemas/claude-agents-fixture.v1.json"))
+}
+
 fn named(path: &Path, prefix: &str) -> bool {
     path.file_name()
         .and_then(|n| n.to_str())
@@ -47,12 +52,24 @@ fn is_statusline(path: &Path) -> bool {
     named(path, "StatusLine.")
 }
 
-/// `<root>/*/*.json` but the screens and the status line payloads, sorted: the recorded hook
-/// payloads.
+fn is_agents(path: &Path) -> bool {
+    named(path, "Agents.")
+}
+
+/// `<root>/*/*.json` but the screens, the status line payloads and the agents reads, sorted: the
+/// recorded hook payloads.
 fn claude_fixtures(root: &Path) -> Vec<PathBuf> {
     recorded(root)
         .into_iter()
-        .filter(|p| !is_screen(p) && !is_statusline(p))
+        .filter(|p| !is_screen(p) && !is_statusline(p) && !is_agents(p))
+        .collect()
+}
+
+/// `<root>/*/Agents.*.json`, sorted: the recorded agents reads.
+fn agents_fixtures(root: &Path) -> Vec<PathBuf> {
+    recorded(root)
+        .into_iter()
+        .filter(|p| is_agents(p))
         .collect()
 }
 
@@ -122,6 +139,93 @@ fn statusline_fixtures_pass_hygiene() {
             path.display()
         );
     }
+}
+
+#[test]
+fn agents_fixtures_pass_hygiene() {
+    let schema = agents_schema();
+    let user = host_user();
+    let walked = agents_fixtures(&workspace_path("fixtures/claude"));
+    assert!(!walked.is_empty(), "no agents read walked");
+    for path in walked {
+        let bytes = std::fs::read(&path).expect("fixture");
+        assert_eq!(
+            check(&bytes, &schema, user.as_deref()),
+            Ok(()),
+            "{}",
+            path.display()
+        );
+    }
+}
+
+fn agents_row(extra: &Value) -> Value {
+    let mut row = json!({
+        "cwd": "~/work/.viola-verify-7",
+        "kind": "interactive",
+        "name": "viola verify probe",
+        "pid": 4242,
+        "sessionId": "0b7c9f4e-1d2a-4c3b-8e5f-6a7b8c9d0e1f",
+        "startedAt": 1_760_000_000_000_i64,
+        "status": "idle",
+    });
+    if let (Some(row), Some(extra)) = (row.as_object_mut(), extra.as_object()) {
+        row.extend(extra.clone());
+    }
+    row
+}
+
+#[rstest]
+#[case::measured(json!({}))]
+#[case::an_extra_key(json!({"later": 1}))]
+fn planted_clean_agents_read_passes(#[case] extra: Value) {
+    let doc = json!([agents_row(&extra)]);
+    assert_eq!(
+        check(
+            doc.to_string().as_bytes(),
+            &agents_schema(),
+            Some("plantuser")
+        ),
+        Ok(())
+    );
+}
+
+#[rstest]
+#[case::not_an_array(agents_row(&json!({})))]
+#[case::empty(json!([]))]
+#[case::a_row_not_object(json!(["row"]))]
+#[case::no_session_id(json!([{"pid": 1, "status": "idle"}]))]
+#[case::pid_a_string(json!([agents_row(&json!({"pid": "4242"}))]))]
+#[case::started_at_a_string(json!([agents_row(&json!({"startedAt": "1760000000000"}))]))]
+#[case::status_a_number(json!([agents_row(&json!({"status": 1}))]))]
+fn planted_agents_schema_violation_is_rejected(#[case] doc: Value) {
+    assert_eq!(
+        check(doc.to_string().as_bytes(), &agents_schema(), None),
+        Err(Violation::Schema)
+    );
+}
+
+#[rstest]
+#[case::linux_home(json!({"cwd": "/home/plantuser/work"}))]
+#[case::a_windows_profile(json!({"cwd": "C:\\Users\\plantuser\\w"}))]
+fn planted_agents_absolute_path_is_rejected(#[case] extra: Value) {
+    let doc = json!([agents_row(&extra)]);
+    assert_eq!(
+        check(doc.to_string().as_bytes(), &agents_schema(), None),
+        Err(Violation::AbsolutePath)
+    );
+}
+
+#[test]
+fn planted_agents_username_is_rejected() {
+    let doc = json!([agents_row(&json!({"name": "plantuser's session"}))]);
+    assert_eq!(
+        check(
+            doc.to_string().as_bytes(),
+            &agents_schema(),
+            Some("plantuser")
+        ),
+        Err(Violation::Username)
+    );
 }
 
 /// Every set recorded with a status line payload holds the two variants, each walked by
@@ -213,6 +317,7 @@ fn claude_fixtures_walks_every_version_dir_and_only_json_files() {
         ("9.9.9/SessionStart.default.json", "{}"),
         ("9.9.9/Screen.ready.json", "{}"),
         ("9.9.9/StatusLine.default-1.json", "{}"),
+        ("9.9.9/Agents.recorded-1.json", "[]"),
         ("top.json", "{}"),
     ] {
         let path = tmp.path().join(rel);
@@ -239,6 +344,10 @@ fn claude_fixtures_walks_every_version_dir_and_only_json_files() {
     assert_eq!(
         statusline_fixtures(tmp.path()),
         [tmp.path().join("9.9.9").join("StatusLine.default-1.json")]
+    );
+    assert_eq!(
+        agents_fixtures(tmp.path()),
+        [tmp.path().join("9.9.9").join("Agents.recorded-1.json")]
     );
     assert!(claude_fixtures(&tmp.path().join("missing")).is_empty());
 }

@@ -2,6 +2,8 @@
 //! stdout and stderr are two captures and the exit code stands beside them (design-system
 //! §Surface: cli, Streams). The command is built as a shell would start it, with no `env_clear`,
 //! so the child stays in the coverage number; no colour or terminal variable is set or passed.
+//! A `viola list` runs with `PATH` set to one test-scoped bin dir only (`spawn_on`; for a plain
+//! `spawn`, an empty one), so its `claude agents --json` read never reaches the host's own CLI.
 
 use std::io::Write as _;
 use std::path::Path;
@@ -66,8 +68,43 @@ impl Drop for Running {
 
 /// `viola --home <home> <args…>`, started and not waited: `stdin` written and closed (no stdin at
 /// all for `None`), `from` as `VIOLA_NAME`. A child that exits before reading closes the pipe
-/// first, so `BrokenPipe` alone is tolerated: the caller's assertions on the exit still decide.
+/// first, so `BrokenPipe` alone is tolerated: the caller's assertions on the exit still decide. A
+/// `list` finds no `claude` at all: its `PATH` is an empty dir beside the home.
 pub fn spawn(home: &Path, args: &[&str], stdin: Option<&str>, from: Option<&str>) -> Running {
+    let bin = (args.first() == Some(&"list"))
+        .then(|| super::fake::empty_bin(home.parent().expect("home has a parent")));
+    start(home, args, stdin, from, bin.as_deref())
+}
+
+/// `spawn` with `PATH` set to `bin` alone: the dir a test planted its `claude`, or none, in.
+pub fn spawn_on(
+    bin: &Path,
+    home: &Path,
+    args: &[&str],
+    stdin: Option<&str>,
+    from: Option<&str>,
+) -> Running {
+    start(home, args, stdin, from, Some(bin))
+}
+
+/// `spawn_on`, waited: the exit code and both streams.
+pub fn viola_on(
+    bin: &Path,
+    home: &Path,
+    args: &[&str],
+    stdin: Option<&str>,
+    from: Option<&str>,
+) -> Ran {
+    spawn_on(bin, home, args, stdin, from).finish()
+}
+
+fn start(
+    home: &Path,
+    args: &[&str],
+    stdin: Option<&str>,
+    from: Option<&str>,
+    bin: Option<&Path>,
+) -> Running {
     let mut command = Command::new(VIOLA);
     command
         .arg("--home")
@@ -83,6 +120,9 @@ pub fn spawn(home: &Path, args: &[&str], stdin: Option<&str>, from: Option<&str>
         .stderr(Stdio::piped());
     if let Some(from) = from {
         command.env("VIOLA_NAME", from);
+    }
+    if let Some(bin) = bin {
+        command.env("PATH", bin);
     }
     let mut child = command.spawn().expect("viola");
     if let Some(text) = stdin {

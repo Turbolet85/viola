@@ -345,6 +345,7 @@ mod tests {
             pending_dialog: None,
             cwd: None,
             statusline_command: command.map(str::to_owned),
+            agent_session_id: None,
         };
         write_snapshot(&instance.dir, &snapshot).expect("snapshot");
         instance

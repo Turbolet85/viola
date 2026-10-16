@@ -372,9 +372,9 @@ pub fn stamped_home(home: TestHome, fake_agent_path: PathBuf) -> StampedHome {
 }
 
 /// A home whose stamp fails the dialog rows: `viola verify` against the fake agent over the
-/// committed set with no dialog replay, so the spine, screen, framing, newline, resume and (on Unix)
-/// statusline rows pass and the four dialog rows fail (`18 pass  4 fail` on Unix, `15 pass  4 fail`
-/// on Windows, exit 1). `stamped` stays false: the version is not verified.
+/// committed set with no dialog replay, so the spine, screen, framing, newline, resume, agents and
+/// (on Unix) statusline rows pass and the four dialog rows fail (`19 pass  4 fail` on Unix,
+/// `16 pass  4 fail` on Windows, exit 1). `stamped` stays false: the version is not verified.
 pub fn dialogless_home(home: TestHome) -> StampedHome {
     let ran = super::verify::verify_without_dialogs(
         home.path(),
@@ -383,7 +383,7 @@ pub fn dialogless_home(home: TestHome) -> StampedHome {
     );
     let stdout = String::from_utf8_lossy(&ran.stdout);
     let last = stdout.lines().last().unwrap_or_default();
-    let passed = if cfg!(unix) { 18 } else { 15 };
+    let passed = if cfg!(unix) { 19 } else { 16 };
     let expected = format!(
         "stamped {}  {passed} pass  4 fail",
         fake::RECORDED_CLI_VERSION

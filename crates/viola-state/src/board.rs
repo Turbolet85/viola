@@ -1,8 +1,9 @@
 //! The board's read model (architecture §Standard Contracts, GUI list envelope): the home's
 //! `instances/` read by the calling process itself, no wrapper contacted. The scan checks every
 //! path before anything under the home is opened; the read then takes each instance's snapshot (or
-//! its log replay), its liveness and the log's skip counts. Every row reads `status` `unknown`: no
-//! file on disk says whether a session is idle or busy.
+//! its log replay), its liveness and the log's skip counts. No file on disk says whether a session
+//! is idle or busy: every row reads `status` `unknown` until [`join`] takes the CLI's own list of
+//! live sessions, which also adds the sessions viola does not wrap as read-only rows.
 
 use std::io;
 use std::path::{Path, PathBuf};
@@ -114,22 +115,51 @@ impl RowLiveness {
     }
 }
 
-/// Whether the session is idle or busy. No on-disk source says so, so every row is `unknown`.
+/// Whether the session is idle or busy, as the CLI's list of live sessions says; `unknown` when no
+/// listed session joins the row.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "kebab-case")]
 pub enum SessionStatus {
+    Idle,
+    Busy,
     Unknown,
 }
 
 impl SessionStatus {
     pub const fn as_str(self) -> &'static str {
         match self {
+            Self::Idle => "idle",
+            Self::Busy => "busy",
             Self::Unknown => "unknown",
         }
     }
 }
 
-/// One wrapped session, in the contract's keys and order; an absent optional field is no key.
+/// What a wrapped row is joined on: the snapshot's child pid and its session id (a replayed row has
+/// the logged session id and no pid). No field of the document.
+#[derive(Debug, Clone, Default, PartialEq, Eq)]
+pub struct JoinKeys {
+    pub child_pid: Option<u32>,
+    pub agent_session_id: Option<String>,
+}
+
+/// One listed live session, as plain values: its pid when listed, its session id (content, never a
+/// `ViolaName`) and its status.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct Observation {
+    pub pid: Option<u32>,
+    pub session_id: String,
+    pub status: SessionStatus,
+}
+
+impl Observation {
+    fn joins(&self, keys: &JoinKeys) -> bool {
+        let by_pid = self.pid.is_some() && self.pid == keys.child_pid;
+        by_pid || keys.agent_session_id.as_deref() == Some(self.session_id.as_str())
+    }
+}
+
+/// One session, in the contract's keys and order; an absent optional field is no key.
 #[derive(Debug, Clone, PartialEq, Serialize)]
 pub struct Item {
     pub name: String,
@@ -148,6 +178,28 @@ pub struct Item {
     /// The pending dialog's kind word, for the human row; no field of the document.
     #[serde(skip)]
     pub dialog_kind: Option<String>,
+    #[serde(skip)]
+    pub join: JoinKeys,
+}
+
+impl Item {
+    /// A listed session no wrapped row joins: read-only, `live`, no dialog, and no wheel, budget or
+    /// CLI key (architecture §Standard Contracts, `list` payload). Its name is the session id.
+    pub fn unwrapped(observation: Observation) -> Self {
+        Self {
+            name: observation.session_id,
+            wrapped: false,
+            liveness: RowLiveness::Live,
+            status: observation.status,
+            wheel: None,
+            budget_paused: None,
+            dialog_pending: false,
+            cli_version: None,
+            cli_verified: None,
+            dialog_kind: None,
+            join: JoinKeys::default(),
+        }
+    }
 }
 
 /// The board's `skipped`: the reader's three counts summed over every scanned instance.
@@ -185,6 +237,10 @@ fn snapshot_item(name: &ViolaName, snapshot: &InstanceSnapshot, liveness: RowLiv
         cli_version: snapshot.cli_version.clone(),
         cli_verified: Some(snapshot.cli_verified),
         dialog_kind: snapshot.pending_dialog.as_ref().map(|d| d.kind.clone()),
+        join: JoinKeys {
+            child_pid: snapshot.child_pid,
+            agent_session_id: snapshot.agent_session_id.clone(),
+        },
     }
 }
 
@@ -236,6 +292,10 @@ pub fn read(scan: &Scan, now: SystemTime) -> Board {
                         cli_version: None,
                         cli_verified: None,
                         dialog_kind: None,
+                        join: JoinKeys {
+                            child_pid: None,
+                            agent_session_id: state.agent_session_id.clone(),
+                        },
                     });
                 }
                 board.skipped.add(state.skipped);
@@ -258,6 +318,30 @@ pub fn read(scan: &Scan, now: SystemTime) -> Board {
         }
     }
     board
+}
+
+/// The listed sessions joined to the board: each wrapped row takes the status of the first
+/// observation joining it by child pid or session id, and every observation that joins no row is an
+/// unwrapped row, sorted by name after every wrapped row. No liveness changes and no row is added
+/// for a gone instance.
+pub fn join(board: &mut Board, observations: Vec<Observation>) {
+    let mut joined = vec![false; observations.len()];
+    for item in board.items.iter_mut().filter(|item| item.wrapped) {
+        if let Some(at) = observations.iter().position(|o| o.joins(&item.join)) {
+            item.status = observations[at].status;
+        }
+        for (at, observation) in observations.iter().enumerate() {
+            joined[at] |= observation.joins(&item.join);
+        }
+    }
+    let mut unwrapped: Vec<Item> = observations
+        .into_iter()
+        .zip(joined)
+        .filter(|(_, joined)| !joined)
+        .map(|(observation, _)| Item::unwrapped(observation))
+        .collect();
+    unwrapped.sort_by(|a, b| a.name.cmp(&b.name));
+    board.items.extend(unwrapped);
 }
 
 #[cfg(test)]
@@ -309,6 +393,7 @@ mod tests {
             pending_dialog: None,
             cwd: Some("/work/secret-cwd".to_owned()),
             statusline_command: Some("secret-statusline-command".to_owned()),
+            agent_session_id: None,
         }
     }
 
@@ -611,6 +696,7 @@ mod tests {
                     cli_version: None,
                     cli_verified: None,
                     dialog_kind: None,
+                    join: JoinKeys::default(),
                 }],
                 "{detail}"
             );
@@ -704,6 +790,7 @@ mod tests {
             cli_version: None,
             cli_verified: None,
             dialog_kind: Some("plan".to_owned()),
+            join: JoinKeys::default(),
         };
         assert_eq!(
             serde_json::to_string(&none).expect("serialise"),
@@ -726,10 +813,148 @@ mod tests {
             assert_eq!(word.as_str(), text);
             assert_eq!(serde_json::to_value(word).expect("serialise"), json!(text));
         }
-        assert_eq!(SessionStatus::Unknown.as_str(), "unknown");
+        for (word, text) in [
+            (SessionStatus::Idle, "idle"),
+            (SessionStatus::Busy, "busy"),
+            (SessionStatus::Unknown, "unknown"),
+        ] {
+            assert_eq!(word.as_str(), text);
+            assert_eq!(serde_json::to_value(word).expect("serialise"), json!(text));
+        }
+    }
+
+    fn seen(pid: Option<u32>, session_id: &str, status: SessionStatus) -> Observation {
+        Observation {
+            pid,
+            session_id: session_id.to_owned(),
+            status,
+        }
+    }
+
+    /// `builder` booted with this process as its child and session id `s-1`.
+    fn joinable(tmp: &tempfile::TempDir) -> (Board, SystemTime) {
+        let home = home(tmp);
+        let mut snapshot = own_snapshot();
+        snapshot.agent_session_id = Some("s-1".to_owned());
+        let dir = booted(&home, "builder", &snapshot);
+        let at = beat_time(&dir);
+        (read(&scanned(&home), at), at)
+    }
+
+    fn statuses(board: &Board) -> Vec<(&str, bool, &str)> {
+        board
+            .items
+            .iter()
+            .map(|i| (i.name.as_str(), i.wrapped, i.status.as_str()))
+            .collect()
+    }
+
+    #[test]
+    fn board_read_takes_the_join_keys_from_the_snapshot() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (board, _) = joinable(&tmp);
         assert_eq!(
-            serde_json::to_value(SessionStatus::Unknown).expect("serialise"),
-            json!("unknown")
+            board.items[0].join,
+            JoinKeys {
+                child_pid: Some(std::process::id()),
+                agent_session_id: Some("s-1".to_owned()),
+            }
         );
+    }
+
+    #[test]
+    fn board_join_by_child_pid_sets_the_status() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (mut board, _) = joinable(&tmp);
+        join(
+            &mut board,
+            vec![seen(
+                Some(std::process::id()),
+                "s-other",
+                SessionStatus::Busy,
+            )],
+        );
+        assert_eq!(statuses(&board), [("builder", true, "busy")]);
+    }
+
+    #[test]
+    fn board_join_by_session_id_sets_the_status() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (mut board, _) = joinable(&tmp);
+        join(&mut board, vec![seen(None, "s-1", SessionStatus::Idle)]);
+        assert_eq!(statuses(&board), [("builder", true, "idle")]);
+    }
+
+    /// A row matching neither key is an unwrapped row; the wrapped row stays `unknown`. Unwrapped
+    /// rows sort by name, after every wrapped row.
+    #[test]
+    fn board_join_of_a_row_matching_neither_key_is_an_unwrapped_row() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (mut board, _) = joinable(&tmp);
+        join(
+            &mut board,
+            vec![
+                seen(Some(1), "s-zz", SessionStatus::Busy),
+                seen(None, "s-aa", SessionStatus::Unknown),
+            ],
+        );
+        assert_eq!(
+            statuses(&board),
+            [
+                ("builder", true, "unknown"),
+                ("s-aa", false, "unknown"),
+                ("s-zz", false, "busy"),
+            ]
+        );
+    }
+
+    #[test]
+    fn board_join_of_one_row_matching_both_keys_is_one_join_and_no_unwrapped_row() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (mut board, _) = joinable(&tmp);
+        join(
+            &mut board,
+            vec![seen(Some(std::process::id()), "s-1", SessionStatus::Idle)],
+        );
+        assert_eq!(statuses(&board), [("builder", true, "idle")]);
+    }
+
+    #[test]
+    fn board_join_of_a_stale_row_keeps_it_stale() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = home(&tmp);
+        let mut snapshot = own_snapshot();
+        snapshot.agent_session_id = Some("s-1".to_owned());
+        let dir = booted(&home, "builder", &snapshot);
+        let mut board = read(&scanned(&home), beat_time(&dir) + Duration::from_secs(6));
+        join(&mut board, vec![seen(None, "s-1", SessionStatus::Busy)]);
+        assert_eq!(board.items.len(), 1);
+        assert_eq!(board.items[0].liveness, RowLiveness::Stale);
+        assert_eq!(board.items[0].status, SessionStatus::Busy);
+    }
+
+    /// A gone instance has no row to join, so its session lists as unwrapped: no row is brought
+    /// back.
+    #[test]
+    fn board_join_never_brings_back_a_gone_instance() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = home(&tmp);
+        let mut snapshot = own_snapshot();
+        snapshot.agent_session_id = Some("s-1".to_owned());
+        snapshot.started_at = "2001-01-01T00:00:00.000Z".to_owned();
+        let dir = booted(&home, "builder", &snapshot);
+        let mut board = read(&scanned(&home), beat_time(&dir));
+        join(&mut board, vec![seen(None, "s-1", SessionStatus::Idle)]);
+        assert_eq!(statuses(&board), [("s-1", false, "idle")]);
+    }
+
+    #[test]
+    fn board_unwrapped_item_serialises_to_the_contract_literal() {
+        let item = Item::unwrapped(seen(Some(4242), "0b7c9f4e-1d2a", SessionStatus::Busy));
+        assert_eq!(
+            serde_json::to_string(&item).expect("serialise"),
+            r#"{"name":"0b7c9f4e-1d2a","wrapped":false,"liveness":"live","status":"busy","dialog_pending":false}"#
+        );
+        assert_eq!(item.join, JoinKeys::default());
     }
 }

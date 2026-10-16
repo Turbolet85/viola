@@ -1,6 +1,7 @@
 //! What `viola run` must know about the `claude` CLI: which inherited variables carry the parent
 //! session's identity (the R8 strip) and how the npm shim resolves to the real executable.
 
+pub mod agents;
 pub mod dialog;
 pub mod hook;
 pub mod ledger;

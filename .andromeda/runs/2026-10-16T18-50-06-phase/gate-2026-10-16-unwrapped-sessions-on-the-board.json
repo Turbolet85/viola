@@ -1,0 +1,5729 @@
+[
+{
+"tool": "gate",
+"v": "1.19",
+"sha8": "457c1da1",
+"ts": "2026-10-16T19:03:58Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/research.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T18-50-06-phase",
+"--marker",
+"2026-10-16-unwrapped-sessions-on-the-board"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 33 items (new 8 · modify 25 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 33,
+"unparsed": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.19",
+"sha8": "457c1da1",
+"ts": "2026-10-16T20:00:01Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/research.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T18-50-06-phase",
+"--marker",
+"2026-10-16-unwrapped-sessions-on-the-board"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 33 items (new 8 · modify 25 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 33,
+"unparsed": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.19",
+"sha8": "457c1da1",
+"ts": "2026-10-16T20:00:57Z",
+"argv": [
+"baseline",
+"--plan",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T18-50-06-phase",
+"--marker",
+"2026-10-16-unwrapped-sessions-on-the-board"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · marker 2026-10-16-unwrapped-sessions-on-the-board · entries 24",
+"previous 2026-10-16-remove-the-browser-leg · trails 202 run dirs · firings 83 (green 74) · other root 0 · unreadable 0",
+"  1 lint        seen green 2026-10-16T18:46:19Z #1 (wrap) · cargo fmt --all --check",
+"  2 lint        seen green 2026-10-16T18:46:19Z #2 (wrap) · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 lint        seen green 2026-10-16T18:46:19Z #4 (wrap) · rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(… (79 chars)",
+"  4 lint        seen green 2026-10-16T18:46:19Z #5 (wrap) · bash scripts/lint-probes.sh",
+"  5 unit        seen green 2026-10-16T18:46:19Z #6 (wrap) · bash scripts/agent-run.sh run --unit",
+"  6 unit        new (key) · bash scripts/agent-run.sh run --unit --filter 'test(/check… (107 chars)",
+"  7 probe       leg round — exempt · test -x \"$HOME/.local/share/mise/installs/claude/2.1.287/c… (64 chars)",
+"  8 build       leg live — exempt · h=\"target/e2e-home/viola-record-$(date -u +%Y%m%dT%H%M%SZ)… (317 chars)",
+"  9 probe       leg round — exempt · for p in $(pgrep -x claude); do case \"$(readlink /proc/$p/… (166 chars)",
+" 10 probe       new (key) · test -z \"$(git diff --name-only --diff-filter=MD 92264a7f2… (304 chars)",
+" 11 integration new (key) · bash scripts/agent-run.sh run --integration --filter 'bina… (338 chars)",
+" 12 integration new (key) · bash scripts/agent-run.sh run --fuzz-replay",
+" 13 probe       new (key) · cargo deny check",
+" 14 probe       new (key) · cargo deny --manifest-path fuzz/Cargo.toml check advisorie… (67 chars)",
+" 15 smoke       new (key) · bash scripts/agent-run.sh cleanup --session p-usb-smoke",
+" 16 smoke       new (key) · bash scripts/agent-run.sh boot --session p-usb-smoke --ins… (71 chars)",
+" 17 smoke       new (key) · bash scripts/agent-run.sh status --session p-usb-smoke",
+" 18 probe       seen green 2026-10-16T18:46:19Z #19 (wrap) · bash scripts/g2-zero-panics.sh",
+" 19 probe       seen green 2026-10-16T18:46:19Z #20 (wrap) · bash scripts/agent-run.sh schema-check",
+" 20 smoke       new (key) · bash scripts/agent-run.sh cleanup --session p-usb-smoke",
+" 21 probe       seen green 2026-10-16T18:46:19Z #22 (wrap) · bash scripts/agent-run.sh pre-push",
+" 22 probe       leg operator — exempt · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (90 chars)",
+" 23 probe       leg operator — exempt · git diff --quiet && git diff --cached --quiet && git push … (69 chars)",
+" 24 probe       leg operator — exempt · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (114 chars)",
+"entries 24 · seen green 8 · not seen 0 · new (key) 10 · leg 6"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-16-unwrapped-sessions-on-the-board",
+"plan": "./viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md",
+"root": ".",
+"previous": "2026-10-16-remove-the-browser-leg",
+"unreadable": 0,
+"rows": [
+{
+"n": 1,
+"row": "seen green 2026-10-16T18:46:19Z #1 (wrap)",
+"run_sha8": "2d009b4c"
+},
+{
+"n": 2,
+"row": "seen green 2026-10-16T18:46:19Z #2 (wrap)",
+"run_sha8": "84426f9a"
+},
+{
+"n": 3,
+"row": "seen green 2026-10-16T18:46:19Z #4 (wrap)",
+"run_sha8": "d8c83432"
+},
+{
+"n": 4,
+"row": "seen green 2026-10-16T18:46:19Z #5 (wrap)",
+"run_sha8": "4811ad1f"
+},
+{
+"n": 5,
+"row": "seen green 2026-10-16T18:46:19Z #6 (wrap)",
+"run_sha8": "c5d2a008"
+},
+{
+"n": 6,
+"row": "new (key)",
+"run_sha8": "52291058"
+},
+{
+"n": 7,
+"row": "leg round — exempt",
+"run_sha8": "eee20b47"
+},
+{
+"n": 8,
+"row": "leg live — exempt",
+"run_sha8": "f17fc1f1"
+},
+{
+"n": 9,
+"row": "leg round — exempt",
+"run_sha8": "6863297a"
+},
+{
+"n": 10,
+"row": "new (key)",
+"run_sha8": "399e8cfa"
+},
+{
+"n": 11,
+"row": "new (key)",
+"run_sha8": "a297454f"
+},
+{
+"n": 12,
+"row": "new (key)",
+"run_sha8": "003776f1"
+},
+{
+"n": 13,
+"row": "new (key)",
+"run_sha8": "2708b9d9"
+},
+{
+"n": 14,
+"row": "new (key)",
+"run_sha8": "5244df61"
+},
+{
+"n": 15,
+"row": "new (key)",
+"run_sha8": "c4022f47"
+},
+{
+"n": 16,
+"row": "new (key)",
+"run_sha8": "3ba4c30f"
+},
+{
+"n": 17,
+"row": "new (key)",
+"run_sha8": "76c4a434"
+},
+{
+"n": 18,
+"row": "seen green 2026-10-16T18:46:19Z #19 (wrap)",
+"run_sha8": "b1637f71"
+},
+{
+"n": 19,
+"row": "seen green 2026-10-16T18:46:19Z #20 (wrap)",
+"run_sha8": "13d94996"
+},
+{
+"n": 20,
+"row": "new (key)",
+"run_sha8": "c4022f47"
+},
+{
+"n": 21,
+"row": "seen green 2026-10-16T18:46:19Z #22 (wrap)",
+"run_sha8": "4da4c5c8"
+},
+{
+"n": 22,
+"row": "leg operator — exempt",
+"run_sha8": "451237e0"
+},
+{
+"n": 23,
+"row": "leg operator — exempt",
+"run_sha8": "1776ef30"
+},
+{
+"n": 24,
+"row": "leg operator — exempt",
+"run_sha8": "2377245a"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.19",
+"sha8": "457c1da1",
+"ts": "2026-10-16T20:01:06Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T18-50-06-phase",
+"--marker",
+"2026-10-16-unwrapped-sessions-on-the-board",
+"--entry",
+"10"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-16-unwrapped-sessions-on-the-board · entries 24",
+"logs $TMPDIR/andromeda-gate/2026-10-16-unwrapped-sessions-on-the-board/phase-2026-10-16T18-50-06 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 41 · unmapped 3",
+"walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 44",
+"prose L328-332: The standing lint and unit entries run first, then the new cases by name. Then comes the l… (551 chars)",
+"prose L334-336: The P4 / P12 leg (step 17, 2 starts) is an attended rig measurement, not an entry. No entr… (298 chars)",
+" 10 probe       red · exit 0 ✗ (exit 1) · exit 1 · 0.01s · 0 B → 10.log · test -z \"$(git diff --name-only --diff-filter=MD 92264a7f2… (304 chars)",
+"not run — excluded · 23: 1-9,11-24",
+"entries 24 · green 0 · red 1 (10) · recorded 0 · timeout 0 · not-run 23"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-16-unwrapped-sessions-on-the-board",
+"plan": "./viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-16-unwrapped-sessions-on-the-board/phase-2026-10-16T18-50-06",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-16T17-15-05-wrap/evolve-2026-10-16-remove-the-browser-leg.json",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-16T17-15-05-wrap/health-2026-10-16-remove-the-browser-leg.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/a11y-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/a11y.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch-history-index.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/design-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/design.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/evolve-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/gate-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/inputs-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/layouts-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/layouts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/master-record.txt",
+".andromeda/runs/2026-10-16T18-50-06-phase/obs-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/obs-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/obs.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/planlint-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/registry-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/relay-1.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/route-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/route-no-marker.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/security-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/security.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/sidecar-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests-history-index.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tree-query-2026-10-16-unwrapped-sessions-on-the-board.json",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/research.md",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/scope.md"
+]
+},
+"unmapped": [
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/inputs/.gitattributes",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/inputs/I1-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/inputs/andromeda-inputs.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 44,
+"problem": null
+},
+"prose": [
+{
+"from": 328,
+"to": 332,
+"text": "The standing lint and unit entries run first, then the new cases by name. Then comes the live record round, fired once by `gate.py run --live-legs` and never re-run by the wrap: the non-priming probe, the record entry (6 starts), the census. The record entry regenerates a committed fixture, so it precedes every entry that reads fixtures: the fixture guard, the integration binaries, the harness smoke and `pre-push`. On every re-run of the block, the record entry's `contains stamped 2.1.287  23 pass  0 fail` and the fixture guard assert the round."
+},
+{
+"from": 334,
+"to": 336,
+"text": "The P4 / P12 leg (step 17, 2 starts) is an attended rig measurement, not an entry. No entry produces `evidence/live-p4.md`, and no criterion other than its own record rests on it. No mutation entry, witness run or workflow dispatch is listed. The guards name their base `92264a7f254c` (HEAD at P4)."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(?!\\(\\s*skip_all\\b)' .",
+"run_sha8": "d8c83432",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "bash scripts/lint-probes.sh",
+"run_sha8": "4811ad1f",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/check_agents_join_/) | test(/(^|::)agents::tests::/)' ",
+"run_sha8": "52291058",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"lacks \"passed\":0,"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "test -x \"$HOME/.local/share/mise/installs/claude/2.1.287/claude\"",
+"run_sha8": "eee20b47",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "build",
+"run": "h=\"target/e2e-home/viola-record-$(date -u +%Y%m%dT%H%M%SZ)\" && cargo build -q && env -u VIOLA_NAME -u VIOLA_DIR -u VIOLA_BIN target/debug/viola --home \"$h/vhome\" verify --record \"$h/out\" -- \"$HOME/.local/share/mise/installs/claude/2.1.287/claude\" && cp \"$h/out/2.1.287/Agents.recorded-1.json\" fixtures/claude/2.1.287/",
+"run_sha8": "f17fc1f1",
+"expect": [
+"exit 0",
+"contains stamped 2.1.287  23 pass  0 fail"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "for p in $(pgrep -x claude); do case \"$(readlink /proc/$p/cwd)\" in */target/e2e-home/viola-record-*|\"$PWD\"/.viola-verify-*|/tmp/viola-verify-*) echo \"$p\";; esac; done",
+"run_sha8": "6863297a",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "test -z \"$(git diff --name-only --diff-filter=MD 92264a7f254c -- fixtures/claude)\" && test \"$( (git diff --name-only --diff-filter=A 92264a7f254c -- fixtures/claude; git ls-files --others --exclude-standard -- fixtures/claude) | sort -u | tr '\\n' ' ')\" = \"fixtures/claude/2.1.287/Agents.recorded-1.json \"",
+"run_sha8": "399e8cfa",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-16-unwrapped-sessions-on-the-board/phase-2026-10-16T18-50-06/10.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✗ (exit 1)"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 1)"
+},
+{
+"n": 11,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(cli_list) | binary(cross_list_rows) | binary(cli_revive) | binary(chaos_revive) | binary(cli_verify) | binary(contract_ledger_probes) | binary(contract_fake_agent_drift) | binary(contract_fixture_hygiene) | binary(cli_fake_agent) | binary(cli_version_gate) | binary(cli_send)' ",
+"run_sha8": "a297454f",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --fuzz-replay",
+"run_sha8": "003776f1",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "cargo deny --manifest-path fuzz/Cargo.toml check advisories sources",
+"run_sha8": "5244df61",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-usb-smoke",
+"run_sha8": "c4022f47",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-usb-smoke --instance builder",
+"run_sha8": "3ba4c30f",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-usb-smoke",
+"run_sha8": "76c4a434",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "bash scripts/g2-zero-panics.sh",
+"run_sha8": "b1637f71",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-usb-smoke",
+"run_sha8": "c4022f47",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "2377245a",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.19",
+"sha8": "457c1da1",
+"ts": "2026-10-16T20:01:07Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T18-50-06-phase",
+"--marker",
+"2026-10-16-unwrapped-sessions-on-the-board",
+"--entry",
+"13"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-16-unwrapped-sessions-on-the-board · entries 24",
+"logs $TMPDIR/andromeda-gate/2026-10-16-unwrapped-sessions-on-the-board/phase-2026-10-16T18-50-06 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 41 · unmapped 3",
+"walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 44",
+"prose L328-332: The standing lint and unit entries run first, then the new cases by name. Then comes the l… (551 chars)",
+"prose L334-336: The P4 / P12 leg (step 17, 2 starts) is an attended rig measurement, not an entry. No entr… (298 chars)",
+" 13 probe       green · exit 0 · 0.75s · 9793 B → 13.log · cargo deny check",
+"not run — excluded · 23: 1-12,14-24",
+"entries 24 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 23"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-16-unwrapped-sessions-on-the-board",
+"plan": "./viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-16-unwrapped-sessions-on-the-board/phase-2026-10-16T18-50-06",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-16T17-15-05-wrap/evolve-2026-10-16-remove-the-browser-leg.json",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-16T17-15-05-wrap/health-2026-10-16-remove-the-browser-leg.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/a11y-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/a11y.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch-history-index.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/design-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/design.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/evolve-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/gate-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/inputs-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/layouts-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/layouts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/master-record.txt",
+".andromeda/runs/2026-10-16T18-50-06-phase/obs-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/obs-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/obs.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/planlint-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/registry-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/relay-1.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/route-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/route-no-marker.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/security-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/security.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/sidecar-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests-history-index.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tree-query-2026-10-16-unwrapped-sessions-on-the-board.json",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/research.md",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/scope.md"
+]
+},
+"unmapped": [
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/inputs/.gitattributes",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/inputs/I1-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/inputs/andromeda-inputs.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 44,
+"problem": null
+},
+"prose": [
+{
+"from": 328,
+"to": 332,
+"text": "The standing lint and unit entries run first, then the new cases by name. Then comes the live record round, fired once by `gate.py run --live-legs` and never re-run by the wrap: the non-priming probe, the record entry (6 starts), the census. The record entry regenerates a committed fixture, so it precedes every entry that reads fixtures: the fixture guard, the integration binaries, the harness smoke and `pre-push`. On every re-run of the block, the record entry's `contains stamped 2.1.287  23 pass  0 fail` and the fixture guard assert the round."
+},
+{
+"from": 334,
+"to": 336,
+"text": "The P4 / P12 leg (step 17, 2 starts) is an attended rig measurement, not an entry. No entry produces `evidence/live-p4.md`, and no criterion other than its own record rests on it. No mutation entry, witness run or workflow dispatch is listed. The guards name their base `92264a7f254c` (HEAD at P4)."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(?!\\(\\s*skip_all\\b)' .",
+"run_sha8": "d8c83432",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "bash scripts/lint-probes.sh",
+"run_sha8": "4811ad1f",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/check_agents_join_/) | test(/(^|::)agents::tests::/)' ",
+"run_sha8": "52291058",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"lacks \"passed\":0,"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "test -x \"$HOME/.local/share/mise/installs/claude/2.1.287/claude\"",
+"run_sha8": "eee20b47",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "build",
+"run": "h=\"target/e2e-home/viola-record-$(date -u +%Y%m%dT%H%M%SZ)\" && cargo build -q && env -u VIOLA_NAME -u VIOLA_DIR -u VIOLA_BIN target/debug/viola --home \"$h/vhome\" verify --record \"$h/out\" -- \"$HOME/.local/share/mise/installs/claude/2.1.287/claude\" && cp \"$h/out/2.1.287/Agents.recorded-1.json\" fixtures/claude/2.1.287/",
+"run_sha8": "f17fc1f1",
+"expect": [
+"exit 0",
+"contains stamped 2.1.287  23 pass  0 fail"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "for p in $(pgrep -x claude); do case \"$(readlink /proc/$p/cwd)\" in */target/e2e-home/viola-record-*|\"$PWD\"/.viola-verify-*|/tmp/viola-verify-*) echo \"$p\";; esac; done",
+"run_sha8": "6863297a",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "test -z \"$(git diff --name-only --diff-filter=MD 92264a7f254c -- fixtures/claude)\" && test \"$( (git diff --name-only --diff-filter=A 92264a7f254c -- fixtures/claude; git ls-files --others --exclude-standard -- fixtures/claude) | sort -u | tr '\\n' ' ')\" = \"fixtures/claude/2.1.287/Agents.recorded-1.json \"",
+"run_sha8": "399e8cfa",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(cli_list) | binary(cross_list_rows) | binary(cli_revive) | binary(chaos_revive) | binary(cli_verify) | binary(contract_ledger_probes) | binary(contract_fake_agent_drift) | binary(contract_fixture_hygiene) | binary(cli_fake_agent) | binary(cli_version_gate) | binary(cli_send)' ",
+"run_sha8": "a297454f",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --fuzz-replay",
+"run_sha8": "003776f1",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-16-unwrapped-sessions-on-the-board/phase-2026-10-16T18-50-06/13.log",
+"bytes": 9793,
+"log_sha8": "d52243a2",
+"exit": 0,
+"seconds": 0.75,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "cargo deny --manifest-path fuzz/Cargo.toml check advisories sources",
+"run_sha8": "5244df61",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-usb-smoke",
+"run_sha8": "c4022f47",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-usb-smoke --instance builder",
+"run_sha8": "3ba4c30f",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-usb-smoke",
+"run_sha8": "76c4a434",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "bash scripts/g2-zero-panics.sh",
+"run_sha8": "b1637f71",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-usb-smoke",
+"run_sha8": "c4022f47",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "2377245a",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.19",
+"sha8": "457c1da1",
+"ts": "2026-10-16T20:01:08Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T18-50-06-phase",
+"--marker",
+"2026-10-16-unwrapped-sessions-on-the-board",
+"--entry",
+"14"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-16-unwrapped-sessions-on-the-board · entries 24",
+"logs $TMPDIR/andromeda-gate/2026-10-16-unwrapped-sessions-on-the-board/phase-2026-10-16T18-50-06 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 41 · unmapped 3",
+"walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 44",
+"prose L328-332: The standing lint and unit entries run first, then the new cases by name. Then comes the l… (551 chars)",
+"prose L334-336: The P4 / P12 leg (step 17, 2 starts) is an attended rig measurement, not an entry. No entr… (298 chars)",
+" 14 probe       green · exit 0 · 0.7s · 676 B → 14.log · cargo deny --manifest-path fuzz/Cargo.toml check advisorie… (67 chars)",
+"not run — excluded · 23: 1-13,15-24",
+"entries 24 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 23"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-16-unwrapped-sessions-on-the-board",
+"plan": "./viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-16-unwrapped-sessions-on-the-board/phase-2026-10-16T18-50-06",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-16T17-15-05-wrap/evolve-2026-10-16-remove-the-browser-leg.json",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-16T17-15-05-wrap/health-2026-10-16-remove-the-browser-leg.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/a11y-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/a11y.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch-history-index.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/design-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/design.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/evolve-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/gate-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/inputs-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/layouts-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/layouts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/master-record.txt",
+".andromeda/runs/2026-10-16T18-50-06-phase/obs-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/obs-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/obs.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/planlint-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/registry-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/relay-1.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/route-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/route-no-marker.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/security-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/security.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/sidecar-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests-history-index.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tree-query-2026-10-16-unwrapped-sessions-on-the-board.json",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/research.md",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/scope.md"
+]
+},
+"unmapped": [
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/inputs/.gitattributes",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/inputs/I1-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/inputs/andromeda-inputs.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 44,
+"problem": null
+},
+"prose": [
+{
+"from": 328,
+"to": 332,
+"text": "The standing lint and unit entries run first, then the new cases by name. Then comes the live record round, fired once by `gate.py run --live-legs` and never re-run by the wrap: the non-priming probe, the record entry (6 starts), the census. The record entry regenerates a committed fixture, so it precedes every entry that reads fixtures: the fixture guard, the integration binaries, the harness smoke and `pre-push`. On every re-run of the block, the record entry's `contains stamped 2.1.287  23 pass  0 fail` and the fixture guard assert the round."
+},
+{
+"from": 334,
+"to": 336,
+"text": "The P4 / P12 leg (step 17, 2 starts) is an attended rig measurement, not an entry. No entry produces `evidence/live-p4.md`, and no criterion other than its own record rests on it. No mutation entry, witness run or workflow dispatch is listed. The guards name their base `92264a7f254c` (HEAD at P4)."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(?!\\(\\s*skip_all\\b)' .",
+"run_sha8": "d8c83432",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "bash scripts/lint-probes.sh",
+"run_sha8": "4811ad1f",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/check_agents_join_/) | test(/(^|::)agents::tests::/)' ",
+"run_sha8": "52291058",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"lacks \"passed\":0,"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "test -x \"$HOME/.local/share/mise/installs/claude/2.1.287/claude\"",
+"run_sha8": "eee20b47",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "build",
+"run": "h=\"target/e2e-home/viola-record-$(date -u +%Y%m%dT%H%M%SZ)\" && cargo build -q && env -u VIOLA_NAME -u VIOLA_DIR -u VIOLA_BIN target/debug/viola --home \"$h/vhome\" verify --record \"$h/out\" -- \"$HOME/.local/share/mise/installs/claude/2.1.287/claude\" && cp \"$h/out/2.1.287/Agents.recorded-1.json\" fixtures/claude/2.1.287/",
+"run_sha8": "f17fc1f1",
+"expect": [
+"exit 0",
+"contains stamped 2.1.287  23 pass  0 fail"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "for p in $(pgrep -x claude); do case \"$(readlink /proc/$p/cwd)\" in */target/e2e-home/viola-record-*|\"$PWD\"/.viola-verify-*|/tmp/viola-verify-*) echo \"$p\";; esac; done",
+"run_sha8": "6863297a",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "test -z \"$(git diff --name-only --diff-filter=MD 92264a7f254c -- fixtures/claude)\" && test \"$( (git diff --name-only --diff-filter=A 92264a7f254c -- fixtures/claude; git ls-files --others --exclude-standard -- fixtures/claude) | sort -u | tr '\\n' ' ')\" = \"fixtures/claude/2.1.287/Agents.recorded-1.json \"",
+"run_sha8": "399e8cfa",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(cli_list) | binary(cross_list_rows) | binary(cli_revive) | binary(chaos_revive) | binary(cli_verify) | binary(contract_ledger_probes) | binary(contract_fake_agent_drift) | binary(contract_fixture_hygiene) | binary(cli_fake_agent) | binary(cli_version_gate) | binary(cli_send)' ",
+"run_sha8": "a297454f",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --fuzz-replay",
+"run_sha8": "003776f1",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "cargo deny --manifest-path fuzz/Cargo.toml check advisories sources",
+"run_sha8": "5244df61",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-16-unwrapped-sessions-on-the-board/phase-2026-10-16T18-50-06/14.log",
+"bytes": 676,
+"log_sha8": "39d24be6",
+"exit": 0,
+"seconds": 0.7,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-usb-smoke",
+"run_sha8": "c4022f47",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-usb-smoke --instance builder",
+"run_sha8": "3ba4c30f",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-usb-smoke",
+"run_sha8": "76c4a434",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "bash scripts/g2-zero-panics.sh",
+"run_sha8": "b1637f71",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-usb-smoke",
+"run_sha8": "c4022f47",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "2377245a",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.19",
+"sha8": "457c1da1",
+"ts": "2026-10-16T20:01:08Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T18-50-06-phase",
+"--marker",
+"2026-10-16-unwrapped-sessions-on-the-board",
+"--entry",
+"15"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-16-unwrapped-sessions-on-the-board · entries 24",
+"logs $TMPDIR/andromeda-gate/2026-10-16-unwrapped-sessions-on-the-board/phase-2026-10-16T18-50-06 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 41 · unmapped 3",
+"walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 44",
+"prose L328-332: The standing lint and unit entries run first, then the new cases by name. Then comes the l… (551 chars)",
+"prose L334-336: The P4 / P12 leg (step 17, 2 starts) is an attended rig measurement, not an entry. No entr… (298 chars)",
+" 15 smoke       green · exit 0 · 0.1s · 47 B → 15.log · bash scripts/agent-run.sh cleanup --session p-usb-smoke",
+"not run — excluded · 23: 1-14,16-24",
+"entries 24 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 23"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-16-unwrapped-sessions-on-the-board",
+"plan": "./viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-16-unwrapped-sessions-on-the-board/phase-2026-10-16T18-50-06",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-16T17-15-05-wrap/evolve-2026-10-16-remove-the-browser-leg.json",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-16T17-15-05-wrap/health-2026-10-16-remove-the-browser-leg.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/a11y-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/a11y.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch-history-index.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/design-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/design.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/evolve-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/gate-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/inputs-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/layouts-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/layouts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/master-record.txt",
+".andromeda/runs/2026-10-16T18-50-06-phase/obs-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/obs-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/obs.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/planlint-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/registry-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/relay-1.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/route-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/route-no-marker.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/security-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/security.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/sidecar-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests-history-index.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tree-query-2026-10-16-unwrapped-sessions-on-the-board.json",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/research.md",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/scope.md"
+]
+},
+"unmapped": [
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/inputs/.gitattributes",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/inputs/I1-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/inputs/andromeda-inputs.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 44,
+"problem": null
+},
+"prose": [
+{
+"from": 328,
+"to": 332,
+"text": "The standing lint and unit entries run first, then the new cases by name. Then comes the live record round, fired once by `gate.py run --live-legs` and never re-run by the wrap: the non-priming probe, the record entry (6 starts), the census. The record entry regenerates a committed fixture, so it precedes every entry that reads fixtures: the fixture guard, the integration binaries, the harness smoke and `pre-push`. On every re-run of the block, the record entry's `contains stamped 2.1.287  23 pass  0 fail` and the fixture guard assert the round."
+},
+{
+"from": 334,
+"to": 336,
+"text": "The P4 / P12 leg (step 17, 2 starts) is an attended rig measurement, not an entry. No entry produces `evidence/live-p4.md`, and no criterion other than its own record rests on it. No mutation entry, witness run or workflow dispatch is listed. The guards name their base `92264a7f254c` (HEAD at P4)."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(?!\\(\\s*skip_all\\b)' .",
+"run_sha8": "d8c83432",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "bash scripts/lint-probes.sh",
+"run_sha8": "4811ad1f",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/check_agents_join_/) | test(/(^|::)agents::tests::/)' ",
+"run_sha8": "52291058",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"lacks \"passed\":0,"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "test -x \"$HOME/.local/share/mise/installs/claude/2.1.287/claude\"",
+"run_sha8": "eee20b47",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "build",
+"run": "h=\"target/e2e-home/viola-record-$(date -u +%Y%m%dT%H%M%SZ)\" && cargo build -q && env -u VIOLA_NAME -u VIOLA_DIR -u VIOLA_BIN target/debug/viola --home \"$h/vhome\" verify --record \"$h/out\" -- \"$HOME/.local/share/mise/installs/claude/2.1.287/claude\" && cp \"$h/out/2.1.287/Agents.recorded-1.json\" fixtures/claude/2.1.287/",
+"run_sha8": "f17fc1f1",
+"expect": [
+"exit 0",
+"contains stamped 2.1.287  23 pass  0 fail"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "for p in $(pgrep -x claude); do case \"$(readlink /proc/$p/cwd)\" in */target/e2e-home/viola-record-*|\"$PWD\"/.viola-verify-*|/tmp/viola-verify-*) echo \"$p\";; esac; done",
+"run_sha8": "6863297a",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "test -z \"$(git diff --name-only --diff-filter=MD 92264a7f254c -- fixtures/claude)\" && test \"$( (git diff --name-only --diff-filter=A 92264a7f254c -- fixtures/claude; git ls-files --others --exclude-standard -- fixtures/claude) | sort -u | tr '\\n' ' ')\" = \"fixtures/claude/2.1.287/Agents.recorded-1.json \"",
+"run_sha8": "399e8cfa",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(cli_list) | binary(cross_list_rows) | binary(cli_revive) | binary(chaos_revive) | binary(cli_verify) | binary(contract_ledger_probes) | binary(contract_fake_agent_drift) | binary(contract_fixture_hygiene) | binary(cli_fake_agent) | binary(cli_version_gate) | binary(cli_send)' ",
+"run_sha8": "a297454f",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --fuzz-replay",
+"run_sha8": "003776f1",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "cargo deny --manifest-path fuzz/Cargo.toml check advisories sources",
+"run_sha8": "5244df61",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-usb-smoke",
+"run_sha8": "c4022f47",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-16-unwrapped-sessions-on-the-board/phase-2026-10-16T18-50-06/15.log",
+"bytes": 47,
+"log_sha8": "91854d6e",
+"exit": 0,
+"seconds": 0.1,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-usb-smoke --instance builder",
+"run_sha8": "3ba4c30f",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-usb-smoke",
+"run_sha8": "76c4a434",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "bash scripts/g2-zero-panics.sh",
+"run_sha8": "b1637f71",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-usb-smoke",
+"run_sha8": "c4022f47",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "2377245a",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.19",
+"sha8": "457c1da1",
+"ts": "2026-10-16T20:01:35Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T18-50-06-phase",
+"--marker",
+"2026-10-16-unwrapped-sessions-on-the-board",
+"--entry",
+"6"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-16-unwrapped-sessions-on-the-board · entries 24",
+"logs $TMPDIR/andromeda-gate/2026-10-16-unwrapped-sessions-on-the-board/phase-2026-10-16T18-50-06 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 41 · unmapped 3",
+"walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 44",
+"prose L328-332: The standing lint and unit entries run first, then the new cases by name. Then comes the l… (551 chars)",
+"prose L334-336: The P4 / P12 leg (step 17, 2 starts) is an attended rig measurement, not an entry. No entr… (298 chars)",
+"  6 unit        red · exit 0 ✗ (exit 1) · exit 1 · 0.81s · 1703 B → 6.log · bash scripts/agent-run.sh run --unit --filter 'test(/check… (107 chars)",
+"not run — excluded · 23: 1-5,7-24",
+"entries 24 · green 0 · red 1 (6) · recorded 0 · timeout 0 · not-run 23"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-16-unwrapped-sessions-on-the-board",
+"plan": "./viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-16-unwrapped-sessions-on-the-board/phase-2026-10-16T18-50-06",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-16T17-15-05-wrap/evolve-2026-10-16-remove-the-browser-leg.json",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-16T17-15-05-wrap/health-2026-10-16-remove-the-browser-leg.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/a11y-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/a11y.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch-history-index.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/design-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/design.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/evolve-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/gate-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/inputs-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/layouts-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/layouts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/master-record.txt",
+".andromeda/runs/2026-10-16T18-50-06-phase/obs-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/obs-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/obs.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/planlint-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/registry-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/relay-1.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/route-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/route-no-marker.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/security-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/security.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/sidecar-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests-history-index.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tree-query-2026-10-16-unwrapped-sessions-on-the-board.json",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/research.md",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/scope.md"
+]
+},
+"unmapped": [
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/inputs/.gitattributes",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/inputs/I1-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/inputs/andromeda-inputs.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 44,
+"problem": null
+},
+"prose": [
+{
+"from": 328,
+"to": 332,
+"text": "The standing lint and unit entries run first, then the new cases by name. Then comes the live record round, fired once by `gate.py run --live-legs` and never re-run by the wrap: the non-priming probe, the record entry (6 starts), the census. The record entry regenerates a committed fixture, so it precedes every entry that reads fixtures: the fixture guard, the integration binaries, the harness smoke and `pre-push`. On every re-run of the block, the record entry's `contains stamped 2.1.287  23 pass  0 fail` and the fixture guard assert the round."
+},
+{
+"from": 334,
+"to": 336,
+"text": "The P4 / P12 leg (step 17, 2 starts) is an attended rig measurement, not an entry. No entry produces `evidence/live-p4.md`, and no criterion other than its own record rests on it. No mutation entry, witness run or workflow dispatch is listed. The guards name their base `92264a7f254c` (HEAD at P4)."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(?!\\(\\s*skip_all\\b)' .",
+"run_sha8": "d8c83432",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "bash scripts/lint-probes.sh",
+"run_sha8": "4811ad1f",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/check_agents_join_/) | test(/(^|::)agents::tests::/)' ",
+"run_sha8": "52291058",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"lacks \"passed\":0,"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-16-unwrapped-sessions-on-the-board/phase-2026-10-16T18-50-06/6.log",
+"bytes": 1703,
+"log_sha8": "e345dc6a",
+"exit": 1,
+"seconds": 0.81,
+"readings": [
+"exit 0 ✗ (exit 1)",
+"contains '\"ok\":true' ✗",
+"lacks '\"passed\":0,' ✗"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 1)"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "test -x \"$HOME/.local/share/mise/installs/claude/2.1.287/claude\"",
+"run_sha8": "eee20b47",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "build",
+"run": "h=\"target/e2e-home/viola-record-$(date -u +%Y%m%dT%H%M%SZ)\" && cargo build -q && env -u VIOLA_NAME -u VIOLA_DIR -u VIOLA_BIN target/debug/viola --home \"$h/vhome\" verify --record \"$h/out\" -- \"$HOME/.local/share/mise/installs/claude/2.1.287/claude\" && cp \"$h/out/2.1.287/Agents.recorded-1.json\" fixtures/claude/2.1.287/",
+"run_sha8": "f17fc1f1",
+"expect": [
+"exit 0",
+"contains stamped 2.1.287  23 pass  0 fail"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "for p in $(pgrep -x claude); do case \"$(readlink /proc/$p/cwd)\" in */target/e2e-home/viola-record-*|\"$PWD\"/.viola-verify-*|/tmp/viola-verify-*) echo \"$p\";; esac; done",
+"run_sha8": "6863297a",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "test -z \"$(git diff --name-only --diff-filter=MD 92264a7f254c -- fixtures/claude)\" && test \"$( (git diff --name-only --diff-filter=A 92264a7f254c -- fixtures/claude; git ls-files --others --exclude-standard -- fixtures/claude) | sort -u | tr '\\n' ' ')\" = \"fixtures/claude/2.1.287/Agents.recorded-1.json \"",
+"run_sha8": "399e8cfa",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(cli_list) | binary(cross_list_rows) | binary(cli_revive) | binary(chaos_revive) | binary(cli_verify) | binary(contract_ledger_probes) | binary(contract_fake_agent_drift) | binary(contract_fixture_hygiene) | binary(cli_fake_agent) | binary(cli_version_gate) | binary(cli_send)' ",
+"run_sha8": "a297454f",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --fuzz-replay",
+"run_sha8": "003776f1",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "cargo deny --manifest-path fuzz/Cargo.toml check advisories sources",
+"run_sha8": "5244df61",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-usb-smoke",
+"run_sha8": "c4022f47",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-usb-smoke --instance builder",
+"run_sha8": "3ba4c30f",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-usb-smoke",
+"run_sha8": "76c4a434",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "bash scripts/g2-zero-panics.sh",
+"run_sha8": "b1637f71",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-usb-smoke",
+"run_sha8": "c4022f47",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "2377245a",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.19",
+"sha8": "457c1da1",
+"ts": "2026-10-16T20:01:36Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T18-50-06-phase",
+"--marker",
+"2026-10-16-unwrapped-sessions-on-the-board",
+"--entry",
+"11"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-16-unwrapped-sessions-on-the-board · entries 24",
+"logs $TMPDIR/andromeda-gate/2026-10-16-unwrapped-sessions-on-the-board/phase-2026-10-16T18-50-06 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 41 · unmapped 3",
+"walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 44",
+"prose L328-332: The standing lint and unit entries run first, then the new cases by name. Then comes the l… (551 chars)",
+"prose L334-336: The P4 / P12 leg (step 17, 2 starts) is an attended rig measurement, not an entry. No entr… (298 chars)",
+" 11 integration red · exit 0 ✗ (exit 1) · exit 1 · 0.59s · 1883 B → 11.log · bash scripts/agent-run.sh run --integration --filter 'bina… (338 chars)",
+"not run — excluded · 23: 1-10,12-24",
+"entries 24 · green 0 · red 1 (11) · recorded 0 · timeout 0 · not-run 23"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-16-unwrapped-sessions-on-the-board",
+"plan": "./viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-16-unwrapped-sessions-on-the-board/phase-2026-10-16T18-50-06",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-16T17-15-05-wrap/evolve-2026-10-16-remove-the-browser-leg.json",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-16T17-15-05-wrap/health-2026-10-16-remove-the-browser-leg.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/a11y-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/a11y.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch-history-index.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/design-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/design.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/evolve-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/gate-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/inputs-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/layouts-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/layouts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/master-record.txt",
+".andromeda/runs/2026-10-16T18-50-06-phase/obs-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/obs-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/obs.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/planlint-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/registry-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/relay-1.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/route-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/route-no-marker.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/security-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/security.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/sidecar-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests-history-index.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tree-query-2026-10-16-unwrapped-sessions-on-the-board.json",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/research.md",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/scope.md"
+]
+},
+"unmapped": [
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/inputs/.gitattributes",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/inputs/I1-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/inputs/andromeda-inputs.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 44,
+"problem": null
+},
+"prose": [
+{
+"from": 328,
+"to": 332,
+"text": "The standing lint and unit entries run first, then the new cases by name. Then comes the live record round, fired once by `gate.py run --live-legs` and never re-run by the wrap: the non-priming probe, the record entry (6 starts), the census. The record entry regenerates a committed fixture, so it precedes every entry that reads fixtures: the fixture guard, the integration binaries, the harness smoke and `pre-push`. On every re-run of the block, the record entry's `contains stamped 2.1.287  23 pass  0 fail` and the fixture guard assert the round."
+},
+{
+"from": 334,
+"to": 336,
+"text": "The P4 / P12 leg (step 17, 2 starts) is an attended rig measurement, not an entry. No entry produces `evidence/live-p4.md`, and no criterion other than its own record rests on it. No mutation entry, witness run or workflow dispatch is listed. The guards name their base `92264a7f254c` (HEAD at P4)."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(?!\\(\\s*skip_all\\b)' .",
+"run_sha8": "d8c83432",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "bash scripts/lint-probes.sh",
+"run_sha8": "4811ad1f",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/check_agents_join_/) | test(/(^|::)agents::tests::/)' ",
+"run_sha8": "52291058",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"lacks \"passed\":0,"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "test -x \"$HOME/.local/share/mise/installs/claude/2.1.287/claude\"",
+"run_sha8": "eee20b47",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "build",
+"run": "h=\"target/e2e-home/viola-record-$(date -u +%Y%m%dT%H%M%SZ)\" && cargo build -q && env -u VIOLA_NAME -u VIOLA_DIR -u VIOLA_BIN target/debug/viola --home \"$h/vhome\" verify --record \"$h/out\" -- \"$HOME/.local/share/mise/installs/claude/2.1.287/claude\" && cp \"$h/out/2.1.287/Agents.recorded-1.json\" fixtures/claude/2.1.287/",
+"run_sha8": "f17fc1f1",
+"expect": [
+"exit 0",
+"contains stamped 2.1.287  23 pass  0 fail"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "for p in $(pgrep -x claude); do case \"$(readlink /proc/$p/cwd)\" in */target/e2e-home/viola-record-*|\"$PWD\"/.viola-verify-*|/tmp/viola-verify-*) echo \"$p\";; esac; done",
+"run_sha8": "6863297a",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "test -z \"$(git diff --name-only --diff-filter=MD 92264a7f254c -- fixtures/claude)\" && test \"$( (git diff --name-only --diff-filter=A 92264a7f254c -- fixtures/claude; git ls-files --others --exclude-standard -- fixtures/claude) | sort -u | tr '\\n' ' ')\" = \"fixtures/claude/2.1.287/Agents.recorded-1.json \"",
+"run_sha8": "399e8cfa",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(cli_list) | binary(cross_list_rows) | binary(cli_revive) | binary(chaos_revive) | binary(cli_verify) | binary(contract_ledger_probes) | binary(contract_fake_agent_drift) | binary(contract_fixture_hygiene) | binary(cli_fake_agent) | binary(cli_version_gate) | binary(cli_send)' ",
+"run_sha8": "a297454f",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-16-unwrapped-sessions-on-the-board/phase-2026-10-16T18-50-06/11.log",
+"bytes": 1883,
+"log_sha8": "5ce67694",
+"exit": 1,
+"seconds": 0.59,
+"readings": [
+"exit 0 ✗ (exit 1)",
+"contains '\"ok\":true' ✗"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 1)"
+},
+{
+"n": 12,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --fuzz-replay",
+"run_sha8": "003776f1",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "cargo deny --manifest-path fuzz/Cargo.toml check advisories sources",
+"run_sha8": "5244df61",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-usb-smoke",
+"run_sha8": "c4022f47",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-usb-smoke --instance builder",
+"run_sha8": "3ba4c30f",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-usb-smoke",
+"run_sha8": "76c4a434",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "bash scripts/g2-zero-panics.sh",
+"run_sha8": "b1637f71",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-usb-smoke",
+"run_sha8": "c4022f47",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "2377245a",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.19",
+"sha8": "457c1da1",
+"ts": "2026-10-16T20:01:42Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T18-50-06-phase",
+"--marker",
+"2026-10-16-unwrapped-sessions-on-the-board",
+"--entry",
+"12"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-16-unwrapped-sessions-on-the-board · entries 24",
+"logs $TMPDIR/andromeda-gate/2026-10-16-unwrapped-sessions-on-the-board/phase-2026-10-16T18-50-06 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 41 · unmapped 3",
+"walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 44",
+"prose L328-332: The standing lint and unit entries run first, then the new cases by name. Then comes the l… (551 chars)",
+"prose L334-336: The P4 / P12 leg (step 17, 2 starts) is an attended rig measurement, not an entry. No entr… (298 chars)",
+" 12 integration green · exit 0 · 6.13s · 5369 B → 12.log · bash scripts/agent-run.sh run --fuzz-replay",
+"not run — excluded · 23: 1-11,13-24",
+"entries 24 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 23"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-16-unwrapped-sessions-on-the-board",
+"plan": "./viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-16-unwrapped-sessions-on-the-board/phase-2026-10-16T18-50-06",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-16T17-15-05-wrap/evolve-2026-10-16-remove-the-browser-leg.json",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-16T17-15-05-wrap/health-2026-10-16-remove-the-browser-leg.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/a11y-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/a11y.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch-history-index.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/design-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/design.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/evolve-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/gate-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/inputs-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/layouts-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/layouts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/master-record.txt",
+".andromeda/runs/2026-10-16T18-50-06-phase/obs-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/obs-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/obs.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/planlint-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/registry-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/relay-1.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/route-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/route-no-marker.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/security-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/security.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/sidecar-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests-history-index.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tree-query-2026-10-16-unwrapped-sessions-on-the-board.json",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/research.md",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/scope.md"
+]
+},
+"unmapped": [
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/inputs/.gitattributes",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/inputs/I1-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/inputs/andromeda-inputs.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 44,
+"problem": null
+},
+"prose": [
+{
+"from": 328,
+"to": 332,
+"text": "The standing lint and unit entries run first, then the new cases by name. Then comes the live record round, fired once by `gate.py run --live-legs` and never re-run by the wrap: the non-priming probe, the record entry (6 starts), the census. The record entry regenerates a committed fixture, so it precedes every entry that reads fixtures: the fixture guard, the integration binaries, the harness smoke and `pre-push`. On every re-run of the block, the record entry's `contains stamped 2.1.287  23 pass  0 fail` and the fixture guard assert the round."
+},
+{
+"from": 334,
+"to": 336,
+"text": "The P4 / P12 leg (step 17, 2 starts) is an attended rig measurement, not an entry. No entry produces `evidence/live-p4.md`, and no criterion other than its own record rests on it. No mutation entry, witness run or workflow dispatch is listed. The guards name their base `92264a7f254c` (HEAD at P4)."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(?!\\(\\s*skip_all\\b)' .",
+"run_sha8": "d8c83432",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "bash scripts/lint-probes.sh",
+"run_sha8": "4811ad1f",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/check_agents_join_/) | test(/(^|::)agents::tests::/)' ",
+"run_sha8": "52291058",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"lacks \"passed\":0,"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "test -x \"$HOME/.local/share/mise/installs/claude/2.1.287/claude\"",
+"run_sha8": "eee20b47",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "build",
+"run": "h=\"target/e2e-home/viola-record-$(date -u +%Y%m%dT%H%M%SZ)\" && cargo build -q && env -u VIOLA_NAME -u VIOLA_DIR -u VIOLA_BIN target/debug/viola --home \"$h/vhome\" verify --record \"$h/out\" -- \"$HOME/.local/share/mise/installs/claude/2.1.287/claude\" && cp \"$h/out/2.1.287/Agents.recorded-1.json\" fixtures/claude/2.1.287/",
+"run_sha8": "f17fc1f1",
+"expect": [
+"exit 0",
+"contains stamped 2.1.287  23 pass  0 fail"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "for p in $(pgrep -x claude); do case \"$(readlink /proc/$p/cwd)\" in */target/e2e-home/viola-record-*|\"$PWD\"/.viola-verify-*|/tmp/viola-verify-*) echo \"$p\";; esac; done",
+"run_sha8": "6863297a",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "test -z \"$(git diff --name-only --diff-filter=MD 92264a7f254c -- fixtures/claude)\" && test \"$( (git diff --name-only --diff-filter=A 92264a7f254c -- fixtures/claude; git ls-files --others --exclude-standard -- fixtures/claude) | sort -u | tr '\\n' ' ')\" = \"fixtures/claude/2.1.287/Agents.recorded-1.json \"",
+"run_sha8": "399e8cfa",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(cli_list) | binary(cross_list_rows) | binary(cli_revive) | binary(chaos_revive) | binary(cli_verify) | binary(contract_ledger_probes) | binary(contract_fake_agent_drift) | binary(contract_fixture_hygiene) | binary(cli_fake_agent) | binary(cli_version_gate) | binary(cli_send)' ",
+"run_sha8": "a297454f",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --fuzz-replay",
+"run_sha8": "003776f1",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-16-unwrapped-sessions-on-the-board/phase-2026-10-16T18-50-06/12.log",
+"bytes": 5369,
+"log_sha8": "a30b74ab",
+"exit": 0,
+"seconds": 6.13,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "cargo deny --manifest-path fuzz/Cargo.toml check advisories sources",
+"run_sha8": "5244df61",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-usb-smoke",
+"run_sha8": "c4022f47",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-usb-smoke --instance builder",
+"run_sha8": "3ba4c30f",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-usb-smoke",
+"run_sha8": "76c4a434",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "bash scripts/g2-zero-panics.sh",
+"run_sha8": "b1637f71",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-usb-smoke",
+"run_sha8": "c4022f47",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "2377245a",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.19",
+"sha8": "457c1da1",
+"ts": "2026-10-16T20:01:47Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T18-50-06-phase",
+"--marker",
+"2026-10-16-unwrapped-sessions-on-the-board",
+"--entry",
+"16"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-16-unwrapped-sessions-on-the-board · entries 24",
+"logs $TMPDIR/andromeda-gate/2026-10-16-unwrapped-sessions-on-the-board/phase-2026-10-16T18-50-06 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 41 · unmapped 3",
+"walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 44",
+"prose L330-334: The standing lint and unit entries run first, then the new cases by name. Then comes the l… (551 chars)",
+"prose L336-338: The P4 / P12 leg (step 17, 2 starts) is an attended rig measurement, not an entry. No entr… (298 chars)",
+" 16 smoke       green · exit 0 · 4.36s · 287 B → 16.log · bash scripts/agent-run.sh boot --session p-usb-smoke --ins… (71 chars)",
+"not run — excluded · 23: 1-15,17-24",
+"entries 24 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 23"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-16-unwrapped-sessions-on-the-board",
+"plan": "./viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-16-unwrapped-sessions-on-the-board/phase-2026-10-16T18-50-06",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-16T17-15-05-wrap/evolve-2026-10-16-remove-the-browser-leg.json",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-16T17-15-05-wrap/health-2026-10-16-remove-the-browser-leg.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/a11y-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/a11y.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch-history-index.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/design-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/design.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/evolve-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/gate-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/inputs-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/layouts-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/layouts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/master-record.txt",
+".andromeda/runs/2026-10-16T18-50-06-phase/obs-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/obs-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/obs.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/planlint-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/registry-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/relay-1.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/route-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/route-no-marker.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/security-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/security.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/sidecar-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests-history-index.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tree-query-2026-10-16-unwrapped-sessions-on-the-board.json",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/research.md",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/scope.md"
+]
+},
+"unmapped": [
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/inputs/.gitattributes",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/inputs/I1-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/inputs/andromeda-inputs.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 44,
+"problem": null
+},
+"prose": [
+{
+"from": 330,
+"to": 334,
+"text": "The standing lint and unit entries run first, then the new cases by name. Then comes the live record round, fired once by `gate.py run --live-legs` and never re-run by the wrap: the non-priming probe, the record entry (6 starts), the census. The record entry regenerates a committed fixture, so it precedes every entry that reads fixtures: the fixture guard, the integration binaries, the harness smoke and `pre-push`. On every re-run of the block, the record entry's `contains stamped 2.1.287  23 pass  0 fail` and the fixture guard assert the round."
+},
+{
+"from": 336,
+"to": 338,
+"text": "The P4 / P12 leg (step 17, 2 starts) is an attended rig measurement, not an entry. No entry produces `evidence/live-p4.md`, and no criterion other than its own record rests on it. No mutation entry, witness run or workflow dispatch is listed. The guards name their base `92264a7f254c` (HEAD at P4)."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(?!\\(\\s*skip_all\\b)' .",
+"run_sha8": "d8c83432",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "bash scripts/lint-probes.sh",
+"run_sha8": "4811ad1f",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/check_agents_join_/) | test(/(^|::)agents::tests::/)' ",
+"run_sha8": "52291058",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"lacks \"passed\":0,"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "test -x \"$HOME/.local/share/mise/installs/claude/2.1.287/claude\"",
+"run_sha8": "eee20b47",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "build",
+"run": "h=\"target/e2e-home/viola-record-$(date -u +%Y%m%dT%H%M%SZ)\" && cargo build -q && env -u VIOLA_NAME -u VIOLA_DIR -u VIOLA_BIN target/debug/viola --home \"$h/vhome\" verify --record \"$h/out\" -- \"$HOME/.local/share/mise/installs/claude/2.1.287/claude\" && cp \"$h/out/2.1.287/Agents.recorded-1.json\" fixtures/claude/2.1.287/",
+"run_sha8": "f17fc1f1",
+"expect": [
+"exit 0",
+"contains stamped 2.1.287  23 pass  0 fail"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "for p in $(pgrep -x claude); do case \"$(readlink /proc/$p/cwd)\" in */target/e2e-home/viola-record-*|\"$PWD\"/.viola-verify-*|/tmp/viola-verify-*) echo \"$p\";; esac; done",
+"run_sha8": "6863297a",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "test -z \"$(git diff --name-only --diff-filter=MD 92264a7f254c -- fixtures/claude)\" && test \"$( (git diff --name-only --diff-filter=A 92264a7f254c -- fixtures/claude; git ls-files --others --exclude-standard -- fixtures/claude) | sort -u | tr '\\n' ' ')\" = \"fixtures/claude/2.1.287/Agents.recorded-1.json \"",
+"run_sha8": "399e8cfa",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(cli_list) | binary(cross_list_rows) | binary(cli_revive) | binary(chaos_revive) | binary(cli_verify) | binary(contract_ledger_probes) | binary(contract_fake_agent_drift) | binary(contract_fixture_hygiene) | binary(cli_fake_agent) | binary(cli_version_gate) | binary(cli_send)' ",
+"run_sha8": "a297454f",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --fuzz-replay",
+"run_sha8": "003776f1",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "cargo deny --manifest-path fuzz/Cargo.toml check advisories sources",
+"run_sha8": "5244df61",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-usb-smoke",
+"run_sha8": "c4022f47",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-usb-smoke --instance builder",
+"run_sha8": "3ba4c30f",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-16-unwrapped-sessions-on-the-board/phase-2026-10-16T18-50-06/16.log",
+"bytes": 287,
+"log_sha8": "12638eba",
+"exit": 0,
+"seconds": 4.36,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-usb-smoke",
+"run_sha8": "76c4a434",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "bash scripts/g2-zero-panics.sh",
+"run_sha8": "b1637f71",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-usb-smoke",
+"run_sha8": "c4022f47",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "2377245a",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.19",
+"sha8": "457c1da1",
+"ts": "2026-10-16T20:01:47Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T18-50-06-phase",
+"--marker",
+"2026-10-16-unwrapped-sessions-on-the-board",
+"--entry",
+"17"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-16-unwrapped-sessions-on-the-board · entries 24",
+"logs $TMPDIR/andromeda-gate/2026-10-16-unwrapped-sessions-on-the-board/phase-2026-10-16T18-50-06 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 41 · unmapped 3",
+"walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 44",
+"prose L330-334: The standing lint and unit entries run first, then the new cases by name. Then comes the l… (551 chars)",
+"prose L336-338: The P4 / P12 leg (step 17, 2 starts) is an attended rig measurement, not an entry. No entr… (298 chars)",
+" 17 smoke       green · exit 0 · 0.09s · 175 B → 17.log · bash scripts/agent-run.sh status --session p-usb-smoke",
+"not run — excluded · 23: 1-16,18-24",
+"entries 24 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 23"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-16-unwrapped-sessions-on-the-board",
+"plan": "./viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-16-unwrapped-sessions-on-the-board/phase-2026-10-16T18-50-06",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-16T17-15-05-wrap/evolve-2026-10-16-remove-the-browser-leg.json",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-16T17-15-05-wrap/health-2026-10-16-remove-the-browser-leg.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/a11y-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/a11y.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch-history-index.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/design-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/design.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/evolve-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/gate-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/inputs-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/layouts-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/layouts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/master-record.txt",
+".andromeda/runs/2026-10-16T18-50-06-phase/obs-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/obs-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/obs.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/planlint-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/registry-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/relay-1.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/route-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/route-no-marker.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/security-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/security.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/sidecar-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests-history-index.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tree-query-2026-10-16-unwrapped-sessions-on-the-board.json",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/research.md",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/scope.md"
+]
+},
+"unmapped": [
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/inputs/.gitattributes",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/inputs/I1-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/inputs/andromeda-inputs.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 44,
+"problem": null
+},
+"prose": [
+{
+"from": 330,
+"to": 334,
+"text": "The standing lint and unit entries run first, then the new cases by name. Then comes the live record round, fired once by `gate.py run --live-legs` and never re-run by the wrap: the non-priming probe, the record entry (6 starts), the census. The record entry regenerates a committed fixture, so it precedes every entry that reads fixtures: the fixture guard, the integration binaries, the harness smoke and `pre-push`. On every re-run of the block, the record entry's `contains stamped 2.1.287  23 pass  0 fail` and the fixture guard assert the round."
+},
+{
+"from": 336,
+"to": 338,
+"text": "The P4 / P12 leg (step 17, 2 starts) is an attended rig measurement, not an entry. No entry produces `evidence/live-p4.md`, and no criterion other than its own record rests on it. No mutation entry, witness run or workflow dispatch is listed. The guards name their base `92264a7f254c` (HEAD at P4)."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(?!\\(\\s*skip_all\\b)' .",
+"run_sha8": "d8c83432",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "bash scripts/lint-probes.sh",
+"run_sha8": "4811ad1f",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/check_agents_join_/) | test(/(^|::)agents::tests::/)' ",
+"run_sha8": "52291058",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"lacks \"passed\":0,"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "test -x \"$HOME/.local/share/mise/installs/claude/2.1.287/claude\"",
+"run_sha8": "eee20b47",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "build",
+"run": "h=\"target/e2e-home/viola-record-$(date -u +%Y%m%dT%H%M%SZ)\" && cargo build -q && env -u VIOLA_NAME -u VIOLA_DIR -u VIOLA_BIN target/debug/viola --home \"$h/vhome\" verify --record \"$h/out\" -- \"$HOME/.local/share/mise/installs/claude/2.1.287/claude\" && cp \"$h/out/2.1.287/Agents.recorded-1.json\" fixtures/claude/2.1.287/",
+"run_sha8": "f17fc1f1",
+"expect": [
+"exit 0",
+"contains stamped 2.1.287  23 pass  0 fail"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "for p in $(pgrep -x claude); do case \"$(readlink /proc/$p/cwd)\" in */target/e2e-home/viola-record-*|\"$PWD\"/.viola-verify-*|/tmp/viola-verify-*) echo \"$p\";; esac; done",
+"run_sha8": "6863297a",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "test -z \"$(git diff --name-only --diff-filter=MD 92264a7f254c -- fixtures/claude)\" && test \"$( (git diff --name-only --diff-filter=A 92264a7f254c -- fixtures/claude; git ls-files --others --exclude-standard -- fixtures/claude) | sort -u | tr '\\n' ' ')\" = \"fixtures/claude/2.1.287/Agents.recorded-1.json \"",
+"run_sha8": "399e8cfa",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(cli_list) | binary(cross_list_rows) | binary(cli_revive) | binary(chaos_revive) | binary(cli_verify) | binary(contract_ledger_probes) | binary(contract_fake_agent_drift) | binary(contract_fixture_hygiene) | binary(cli_fake_agent) | binary(cli_version_gate) | binary(cli_send)' ",
+"run_sha8": "a297454f",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --fuzz-replay",
+"run_sha8": "003776f1",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "cargo deny --manifest-path fuzz/Cargo.toml check advisories sources",
+"run_sha8": "5244df61",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-usb-smoke",
+"run_sha8": "c4022f47",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-usb-smoke --instance builder",
+"run_sha8": "3ba4c30f",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-usb-smoke",
+"run_sha8": "76c4a434",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-16-unwrapped-sessions-on-the-board/phase-2026-10-16T18-50-06/17.log",
+"bytes": 175,
+"log_sha8": "fa88626e",
+"exit": 0,
+"seconds": 0.09,
+"readings": [
+"exit 0 ✓",
+"contains '\"ok\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "bash scripts/g2-zero-panics.sh",
+"run_sha8": "b1637f71",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-usb-smoke",
+"run_sha8": "c4022f47",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "2377245a",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.19",
+"sha8": "457c1da1",
+"ts": "2026-10-16T20:01:48Z",
+"argv": [
+"run",
+"--plan",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T18-50-06-phase",
+"--marker",
+"2026-10-16-unwrapped-sessions-on-the-board",
+"--entry",
+"20"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-16-unwrapped-sessions-on-the-board · entries 24",
+"logs $TMPDIR/andromeda-gate/2026-10-16-unwrapped-sessions-on-the-board/phase-2026-10-16T18-50-06 · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 41 · unmapped 3",
+"walk-class rust 3 (tests/contract_fake_agent_drift.rs, tests/contract_fixture_hygiene.rs, tests/contract_ledger_probes.rs) · uncommitted 44",
+"prose L330-334: The standing lint and unit entries run first, then the new cases by name. Then comes the l… (551 chars)",
+"prose L336-338: The P4 / P12 leg (step 17, 2 starts) is an attended rig measurement, not an entry. No entr… (298 chars)",
+" 20 smoke       green · exit 0 · 0.31s · 135 B → 20.log · bash scripts/agent-run.sh cleanup --session p-usb-smoke",
+"not run — excluded · 23: 1-19,21-24",
+"entries 24 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 23"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-16-unwrapped-sessions-on-the-board",
+"plan": "./viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-16-unwrapped-sessions-on-the-board/phase-2026-10-16T18-50-06",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-16T17-15-05-wrap/evolve-2026-10-16-remove-the-browser-leg.json",
+".claude/session-handoff.md",
+"viola-0.1.0/working-route.md",
+".andromeda/runs/2026-10-16T17-15-05-wrap/health-2026-10-16-remove-the-browser-leg.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/a11y-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/a11y.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch-history-index.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/arch.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/design-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/design.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/evolve-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/gate-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/inputs-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/layouts-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/layouts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/master-record.txt",
+".andromeda/runs/2026-10-16T18-50-06-phase/obs-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/obs-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/obs.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/planlint-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/registry-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/relay-1.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/route-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/route-no-marker.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/security-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/security.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/sidecar-2026-10-16-unwrapped-sessions-on-the-board.json",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests-contracts.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests-history-index.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests-history.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tests.md",
+".andromeda/runs/2026-10-16T18-50-06-phase/tree-query-2026-10-16-unwrapped-sessions-on-the-board.json",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/research.md",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/scope.md"
+]
+},
+"unmapped": [
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/inputs/.gitattributes",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/inputs/I1-relay-1.md.txt",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/inputs/andromeda-inputs.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs"
+]
+},
+"uncommitted": 44,
+"problem": null
+},
+"prose": [
+{
+"from": 330,
+"to": 334,
+"text": "The standing lint and unit entries run first, then the new cases by name. Then comes the live record round, fired once by `gate.py run --live-legs` and never re-run by the wrap: the non-priming probe, the record entry (6 starts), the census. The record entry regenerates a committed fixture, so it precedes every entry that reads fixtures: the fixture guard, the integration binaries, the harness smoke and `pre-push`. On every re-run of the block, the record entry's `contains stamped 2.1.287  23 pass  0 fail` and the fixture guard assert the round."
+},
+{
+"from": 336,
+"to": 338,
+"text": "The P4 / P12 leg (step 17, 2 starts) is an attended rig measurement, not an entry. No entry produces `evidence/live-p4.md`, and no criterion other than its own record rests on it. No mutation entry, witness run or workflow dispatch is listed. The guards name their base `92264a7f254c` (HEAD at P4)."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(?!\\(\\s*skip_all\\b)' .",
+"run_sha8": "d8c83432",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "bash scripts/lint-probes.sh",
+"run_sha8": "4811ad1f",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit --filter 'test(/check_agents_join_/) | test(/(^|::)agents::tests::/)' ",
+"run_sha8": "52291058",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"lacks \"passed\":0,"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "test -x \"$HOME/.local/share/mise/installs/claude/2.1.287/claude\"",
+"run_sha8": "eee20b47",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "build",
+"run": "h=\"target/e2e-home/viola-record-$(date -u +%Y%m%dT%H%M%SZ)\" && cargo build -q && env -u VIOLA_NAME -u VIOLA_DIR -u VIOLA_BIN target/debug/viola --home \"$h/vhome\" verify --record \"$h/out\" -- \"$HOME/.local/share/mise/installs/claude/2.1.287/claude\" && cp \"$h/out/2.1.287/Agents.recorded-1.json\" fixtures/claude/2.1.287/",
+"run_sha8": "f17fc1f1",
+"expect": [
+"exit 0",
+"contains stamped 2.1.287  23 pass  0 fail"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "for p in $(pgrep -x claude); do case \"$(readlink /proc/$p/cwd)\" in */target/e2e-home/viola-record-*|\"$PWD\"/.viola-verify-*|/tmp/viola-verify-*) echo \"$p\";; esac; done",
+"run_sha8": "6863297a",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "test -z \"$(git diff --name-only --diff-filter=MD 92264a7f254c -- fixtures/claude)\" && test \"$( (git diff --name-only --diff-filter=A 92264a7f254c -- fixtures/claude; git ls-files --others --exclude-standard -- fixtures/claude) | sort -u | tr '\\n' ' ')\" = \"fixtures/claude/2.1.287/Agents.recorded-1.json \"",
+"run_sha8": "399e8cfa",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration --filter 'binary(cli_list) | binary(cross_list_rows) | binary(cli_revive) | binary(chaos_revive) | binary(cli_verify) | binary(contract_ledger_probes) | binary(contract_fake_agent_drift) | binary(contract_fixture_hygiene) | binary(cli_fake_agent) | binary(cli_version_gate) | binary(cli_send)' ",
+"run_sha8": "a297454f",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --fuzz-replay",
+"run_sha8": "003776f1",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "cargo deny check",
+"run_sha8": "2708b9d9",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "cargo deny --manifest-path fuzz/Cargo.toml check advisories sources",
+"run_sha8": "5244df61",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-usb-smoke",
+"run_sha8": "c4022f47",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh boot --session p-usb-smoke --instance builder",
+"run_sha8": "3ba4c30f",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status --session p-usb-smoke",
+"run_sha8": "76c4a434",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "bash scripts/g2-zero-panics.sh",
+"run_sha8": "b1637f71",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "bash scripts/agent-run.sh schema-check",
+"run_sha8": "13d94996",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh cleanup --session p-usb-smoke",
+"run_sha8": "c4022f47",
+"expect": [
+"exit 0",
+"contains \"processes_gone\":true",
+"contains \"endpoint_gone\":true"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-16-unwrapped-sessions-on-the-board/phase-2026-10-16T18-50-06/20.log",
+"bytes": 135,
+"log_sha8": "ffd97014",
+"exit": 0,
+"seconds": 0.31,
+"readings": [
+"exit 0 ✓",
+"contains '\"processes_gone\":true' ✓",
+"contains '\"endpoint_gone\":true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true",
+"contains \"stage\":\"linux-tests\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "451237e0",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD",
+"run_sha8": "1776ef30",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-phase/../andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "2377245a",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.19",
+"sha8": "457c1da1",
+"ts": "2026-10-16T20:03:04Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/research.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T18-50-06-phase",
+"--marker",
+"2026-10-16-unwrapped-sessions-on-the-board"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 33 items (new 8 · modify 25 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 33,
+"unparsed": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.19",
+"sha8": "457c1da1",
+"ts": "2026-10-16T20:03:04Z",
+"argv": [
+"baseline",
+"--plan",
+"viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-16T18-50-06-phase",
+"--marker",
+"2026-10-16-unwrapped-sessions-on-the-board"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · marker 2026-10-16-unwrapped-sessions-on-the-board · entries 24",
+"previous 2026-10-16-remove-the-browser-leg · trails 202 run dirs · firings 83 (green 74) · other root 0 · unreadable 0",
+"  1 lint        seen green 2026-10-16T18:46:19Z #1 (wrap) · cargo fmt --all --check",
+"  2 lint        seen green 2026-10-16T18:46:19Z #2 (wrap) · cargo clippy --workspace --all-targets --features fake-age… (75 chars)",
+"  3 lint        seen green 2026-10-16T18:46:19Z #4 (wrap) · rg -n -U --pcre2 --type rust '#\\[(tracing::)?instrument\\b(… (79 chars)",
+"  4 lint        seen green 2026-10-16T18:46:19Z #5 (wrap) · bash scripts/lint-probes.sh",
+"  5 unit        seen green 2026-10-16T18:46:19Z #6 (wrap) · bash scripts/agent-run.sh run --unit",
+"  6 unit        new (key) · bash scripts/agent-run.sh run --unit --filter 'test(/check… (107 chars)",
+"  7 probe       leg round — exempt · test -x \"$HOME/.local/share/mise/installs/claude/2.1.287/c… (64 chars)",
+"  8 build       leg live — exempt · h=\"target/e2e-home/viola-record-$(date -u +%Y%m%dT%H%M%SZ)… (317 chars)",
+"  9 probe       leg round — exempt · for p in $(pgrep -x claude); do case \"$(readlink /proc/$p/… (166 chars)",
+" 10 probe       new (key) · test -z \"$(git diff --name-only --diff-filter=MD 92264a7f2… (304 chars)",
+" 11 integration new (key) · bash scripts/agent-run.sh run --integration --filter 'bina… (338 chars)",
+" 12 integration new (key) · bash scripts/agent-run.sh run --fuzz-replay",
+" 13 probe       new (key) · cargo deny check",
+" 14 probe       new (key) · cargo deny --manifest-path fuzz/Cargo.toml check advisorie… (67 chars)",
+" 15 smoke       new (key) · bash scripts/agent-run.sh cleanup --session p-usb-smoke",
+" 16 smoke       new (key) · bash scripts/agent-run.sh boot --session p-usb-smoke --ins… (71 chars)",
+" 17 smoke       new (key) · bash scripts/agent-run.sh status --session p-usb-smoke",
+" 18 probe       seen green 2026-10-16T18:46:19Z #19 (wrap) · bash scripts/g2-zero-panics.sh",
+" 19 probe       seen green 2026-10-16T18:46:19Z #20 (wrap) · bash scripts/agent-run.sh schema-check",
+" 20 smoke       new (key) · bash scripts/agent-run.sh cleanup --session p-usb-smoke",
+" 21 probe       seen green 2026-10-16T18:46:19Z #22 (wrap) · bash scripts/agent-run.sh pre-push",
+" 22 probe       leg operator — exempt · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (90 chars)",
+" 23 probe       leg operator — exempt · git diff --quiet && git diff --cached --quiet && git push … (69 chars)",
+" 24 probe       leg operator — exempt · python -X utf8 ~/.claude/skills/andromeda-phase/../androme… (114 chars)",
+"entries 24 · seen green 8 · not seen 0 · new (key) 10 · leg 6"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-16-unwrapped-sessions-on-the-board",
+"plan": "./viola-0.1.0/chunks/2026-10-16-unwrapped-sessions-on-the-board/plan.md",
+"root": ".",
+"previous": "2026-10-16-remove-the-browser-leg",
+"unreadable": 0,
+"rows": [
+{
+"n": 1,
+"row": "seen green 2026-10-16T18:46:19Z #1 (wrap)",
+"run_sha8": "2d009b4c"
+},
+{
+"n": 2,
+"row": "seen green 2026-10-16T18:46:19Z #2 (wrap)",
+"run_sha8": "84426f9a"
+},
+{
+"n": 3,
+"row": "seen green 2026-10-16T18:46:19Z #4 (wrap)",
+"run_sha8": "d8c83432"
+},
+{
+"n": 4,
+"row": "seen green 2026-10-16T18:46:19Z #5 (wrap)",
+"run_sha8": "4811ad1f"
+},
+{
+"n": 5,
+"row": "seen green 2026-10-16T18:46:19Z #6 (wrap)",
+"run_sha8": "c5d2a008"
+},
+{
+"n": 6,
+"row": "new (key)",
+"run_sha8": "52291058"
+},
+{
+"n": 7,
+"row": "leg round — exempt",
+"run_sha8": "eee20b47"
+},
+{
+"n": 8,
+"row": "leg live — exempt",
+"run_sha8": "f17fc1f1"
+},
+{
+"n": 9,
+"row": "leg round — exempt",
+"run_sha8": "6863297a"
+},
+{
+"n": 10,
+"row": "new (key)",
+"run_sha8": "399e8cfa"
+},
+{
+"n": 11,
+"row": "new (key)",
+"run_sha8": "a297454f"
+},
+{
+"n": 12,
+"row": "new (key)",
+"run_sha8": "003776f1"
+},
+{
+"n": 13,
+"row": "new (key)",
+"run_sha8": "2708b9d9"
+},
+{
+"n": 14,
+"row": "new (key)",
+"run_sha8": "5244df61"
+},
+{
+"n": 15,
+"row": "new (key)",
+"run_sha8": "c4022f47"
+},
+{
+"n": 16,
+"row": "new (key)",
+"run_sha8": "3ba4c30f"
+},
+{
+"n": 17,
+"row": "new (key)",
+"run_sha8": "76c4a434"
+},
+{
+"n": 18,
+"row": "seen green 2026-10-16T18:46:19Z #19 (wrap)",
+"run_sha8": "b1637f71"
+},
+{
+"n": 19,
+"row": "seen green 2026-10-16T18:46:19Z #20 (wrap)",
+"run_sha8": "13d94996"
+},
+{
+"n": 20,
+"row": "new (key)",
+"run_sha8": "c4022f47"
+},
+{
+"n": 21,
+"row": "seen green 2026-10-16T18:46:19Z #22 (wrap)",
+"run_sha8": "4da4c5c8"
+},
+{
+"n": 22,
+"row": "leg operator — exempt",
+"run_sha8": "451237e0"
+},
+{
+"n": 23,
+"row": "leg operator — exempt",
+"run_sha8": "1776ef30"
+},
+{
+"n": 24,
+"row": "leg operator — exempt",
+"run_sha8": "2377245a"
+}
+]
+}
+}
+]

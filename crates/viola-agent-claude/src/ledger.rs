@@ -41,10 +41,11 @@ pub enum LedgerRow {
     StatusLineShell,
     StatusLineRateLimits,
     ResumeSession,
+    AgentsJoin,
 }
 
 impl LedgerRow {
-    pub const ALL: [Self; 22] = [
+    pub const ALL: [Self; 23] = [
         Self::ShimResolution,
         Self::SpineHooks,
         Self::SessionStartFields,
@@ -67,6 +68,7 @@ impl LedgerRow {
         Self::StatusLineShell,
         Self::StatusLineRateLimits,
         Self::ResumeSession,
+        Self::AgentsJoin,
     ];
 
     /// The kebab-case id, the key under a stamped version's `rows`.
@@ -94,6 +96,7 @@ impl LedgerRow {
             Self::StatusLineShell => "statusline-shell",
             Self::StatusLineRateLimits => "statusline-rate-limits",
             Self::ResumeSession => "resume-session",
+            Self::AgentsJoin => "agents-join",
         }
     }
 
@@ -126,6 +129,7 @@ impl LedgerRow {
                 "the statusline payload carries two whole-number rate_limits windows"
             }
             Self::ResumeSession => "--resume <id> reopens the session under that id",
+            Self::AgentsJoin => "claude agents --json names the live session by pid and session id",
         }
     }
 
@@ -633,6 +637,14 @@ impl ShellVerdict {
     }
 }
 
+/// The one `claude agents --json` read Run B makes while its session is live: Run B's child pid
+/// and the read's stdout, raw.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct AgentsCapture {
+    pub child_pid: Option<u32>,
+    pub bytes: Vec<u8>,
+}
+
 /// One payload Run B's status line handed the probe command, as filed, and the shell that ran it.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct StatusLineCapture {
@@ -641,7 +653,8 @@ pub struct StatusLineCapture {
 }
 
 /// Every measurement one `viola verify` run makes; `trusted` is Run B's captures in claim order,
-/// `statusline` its status line's in `k` order and `resumed` Run E's in claim order.
+/// `statusline` its status line's in `k` order, `resumed` Run E's in claim order and `agents` Run
+/// B's agents read, when one was made.
 #[derive(Debug, Clone, PartialEq)]
 pub struct Probes {
     pub print: ProbeRun,
@@ -650,6 +663,7 @@ pub struct Probes {
     pub dialogs: DialogRuns,
     pub statusline: Vec<StatusLineCapture>,
     pub resumed: Vec<Capture>,
+    pub agents: Option<AgentsCapture>,
 }
 
 const ASK: &str = "AskUserQuestion";
@@ -864,6 +878,54 @@ fn session_resumed(trusted: &[Capture], resumed: &[Capture]) -> bool {
     })
 }
 
+/// The agents read lists exactly one row with Run B's child pid, and that row names the session of
+/// Run B's first SessionStart and reads idle or busy.
+fn agents_joined(trusted: &[Capture], agents: Option<&AgentsCapture>) -> bool {
+    let Some(AgentsCapture {
+        child_pid: Some(pid),
+        bytes,
+    }) = agents
+    else {
+        return false;
+    };
+    let first = trusted
+        .iter()
+        .find(|c| c.event == HookEvent::SessionStart)
+        .and_then(|c| c.field("session_id"));
+    let Ok(list) = crate::agents::parse(bytes) else {
+        return false;
+    };
+    let mut own = list.rows.iter().filter(|row| row.pid == Some(*pid));
+    match (own.next(), own.next(), first) {
+        (Some(row), None, Some(first)) => {
+            row.session_id == first
+                && matches!(
+                    row.status,
+                    crate::agents::AgentStatus::Idle | crate::agents::AgentStatus::Busy
+                )
+        }
+        _ => false,
+    }
+}
+
+/// The recorded agents variant's file name.
+pub const AGENTS_RECORDED: &str = "Agents.recorded-1.json";
+
+/// The agents read kept for `--record`: one JSON array of the rows whose `pid` is Run B's child, as
+/// listed. Every other session's row is left out: the read lists every live session on the host,
+/// and their titles are user content. None when the read did not parse or holds no such row.
+pub fn agents_variant(agents: &AgentsCapture) -> Option<Value> {
+    let pid = agents.child_pid?;
+    let list = crate::agents::parse(&agents.bytes).ok()?;
+    let own: Vec<Value> = list
+        .rows
+        .into_iter()
+        .filter(|row| row.pid == Some(pid))
+        .map(|row| row.raw)
+        .collect();
+    (!own.is_empty()).then_some(Value::Array(own))
+}
+
 /// Run E's captures named for `--record`: its first SessionStart as `resume-1`.
 pub fn resume_variants(resumed: &[Capture]) -> Vec<(&'static str, &Capture)> {
     resumed_start(resumed)
@@ -932,6 +994,7 @@ pub fn check(row: LedgerRow, probes: &Probes) -> bool {
             .iter()
             .any(|c| whole_rate_limits(&c.bytes)),
         LedgerRow::ResumeSession => session_resumed(&probes.trusted, &probes.resumed),
+        LedgerRow::AgentsJoin => agents_joined(&probes.trusted, probes.agents.as_ref()),
     }
 }
 
@@ -1411,7 +1474,7 @@ mod tests {
     use rstest::rstest;
 
     #[test]
-    fn ledger_rows_are_the_twenty_two_measured_behaviours_in_order() {
+    fn ledger_rows_are_the_twenty_three_measured_behaviours_in_order() {
         let ids: Vec<&str> = LedgerRow::ALL.iter().map(|r| r.id()).collect();
         assert_eq!(
             ids,
@@ -1438,6 +1501,7 @@ mod tests {
                 "statusline-shell",
                 "statusline-rate-limits",
                 "resume-session",
+                "agents-join",
             ]
         );
         let words: Vec<&str> = LedgerRow::ALL.iter().map(|r| r.words()).collect();
@@ -1466,6 +1530,7 @@ mod tests {
                 "a statusline command runs through /bin/sh",
                 "the statusline payload carries two whole-number rate_limits windows",
                 "--resume <id> reopens the session under that id",
+                "claude agents --json names the live session by pid and session id",
             ]
         );
         assert!(words.iter().all(|w| w.is_ascii()));
@@ -1480,17 +1545,18 @@ mod tests {
                 .map(LedgerRow::id)
                 .collect()
         };
-        assert_eq!(ids(true).len(), 22);
-        assert_eq!(ids(false).len(), 19);
+        assert_eq!(ids(true).len(), 23);
+        assert_eq!(ids(false).len(), 20);
         assert_eq!(ids(false)[17], "paste-newline");
-        assert_eq!(ids(false).last(), Some(&"resume-session"));
-        assert_eq!(ids(true).last(), Some(&"resume-session"));
+        assert_eq!(ids(false)[18], "resume-session");
+        assert_eq!(ids(false).last(), Some(&"agents-join"));
+        assert_eq!(ids(true).last(), Some(&"agents-join"));
         assert!(!ids(false).iter().any(|id| id.starts_with("statusline-")));
         let here: Vec<&str> = LedgerRow::relied().into_iter().map(LedgerRow::id).collect();
         #[cfg(unix)]
-        assert_eq!(here.len(), 22);
+        assert_eq!(here.len(), 23);
         #[cfg(windows)]
-        assert_eq!(here.len(), 19);
+        assert_eq!(here.len(), 20);
         assert_eq!(here, ids(cfg!(unix)));
     }
 
@@ -1734,6 +1800,7 @@ mod tests {
             dialogs: clean_dialogs(),
             statusline: clean_statusline(),
             resumed: clean_resumed(),
+            agents: Some(clean_agents()),
         }
     }
 
@@ -1754,7 +1821,7 @@ mod tests {
 
     #[test]
     fn check_passes_every_row_on_a_clean_probe() {
-        assert_eq!(verdicts(&clean_run()), [true; 22]);
+        assert_eq!(verdicts(&clean_run()), [true; 23]);
     }
 
     #[test]
@@ -1910,6 +1977,7 @@ mod tests {
                         "local-command-clear": "pass", "paste-newline": "pass",
                         "statusline-override": "pass", "statusline-shell": "pass",
                         "statusline-rate-limits": "pass", "resume-session": "pass",
+                        "agents-join": "pass",
                     },
                     "measured": {
                         "largest_hook_payload": {"SessionStart": 120, "Stop": 90},
@@ -2076,8 +2144,14 @@ mod tests {
         nineteen["data"]["versions"]["2.1.0"]["rows"]["resume-session"] = json!("pass");
         assert_eq!(
             verified(nineteen.to_string().as_bytes(), "2.1.0"),
+            Ok(false),
+            "the eighteen rows and the resume row, before the agents row"
+        );
+        nineteen["data"]["versions"]["2.1.0"]["rows"]["agents-join"] = json!("pass");
+        assert_eq!(
+            verified(nineteen.to_string().as_bytes(), "2.1.0"),
             Ok(cfg!(windows)),
-            "the eighteen rows and the resume row"
+            "the eighteen rows, the resume row and the agents row"
         );
         for id in [
             "statusline-override",
@@ -2092,6 +2166,12 @@ mod tests {
             "the twenty-one rows before the resume row"
         );
         stamp["data"]["versions"]["2.1.0"]["rows"]["resume-session"] = json!("pass");
+        assert_eq!(
+            verified(stamp.to_string().as_bytes(), "2.1.0"),
+            Ok(false),
+            "the twenty-two rows before the agents row"
+        );
+        stamp["data"]["versions"]["2.1.0"]["rows"]["agents-join"] = json!("pass");
         assert_eq!(verified(stamp.to_string().as_bytes(), "2.1.0"), Ok(true));
     }
 
@@ -2234,6 +2314,7 @@ mod tests {
                 dialogs: clean_dialogs(),
                 statusline: clean_statusline(),
                 resumed: clean_resumed(),
+                agents: Some(clean_agents()),
             },
         )
     }
@@ -2253,7 +2334,7 @@ mod tests {
             six,
             [
                 true, true, true, true, true, true, false, false, false, false, true, true, true,
-                true, true, true, true, true, true, true, true, true
+                true, true, true, true, true, true, true, true, true, true
             ]
         );
     }
@@ -2644,6 +2725,7 @@ mod tests {
                 dialogs,
                 statusline: clean_statusline(),
                 resumed: clean_resumed(),
+                agents: Some(clean_agents()),
             },
         )
     }
@@ -2732,6 +2814,161 @@ mod tests {
         vec![session_start("resume", RUN_B_ID)]
     }
 
+    /// Run B's child pid in the agents read.
+    const RUN_B_PID: u32 = 4242;
+
+    fn agents_row(pid: Option<u32>, id: &str, status: &str) -> Value {
+        let mut row = json!({
+            "cwd": "~/p",
+            "kind": "interactive",
+            "name": "a title",
+            "sessionId": id,
+            "startedAt": 1_760_000_000_000_i64,
+            "status": status,
+        });
+        if let Some(pid) = pid {
+            row["pid"] = json!(pid);
+        }
+        row
+    }
+
+    fn agents_of(child_pid: Option<u32>, rows: &[Value]) -> AgentsCapture {
+        AgentsCapture {
+            child_pid,
+            bytes: Value::from(rows.to_vec()).to_string().into_bytes(),
+        }
+    }
+
+    /// The read as a host with another live session lists it: Run B's own row and one more.
+    fn clean_agents() -> AgentsCapture {
+        agents_of(
+            Some(RUN_B_PID),
+            &[
+                agents_row(Some(1), "0b7c9f4e-1d2a-4c3b-8e5f-6a7b8c9d0e1f", "busy"),
+                agents_row(Some(RUN_B_PID), RUN_B_ID, "idle"),
+            ],
+        )
+    }
+
+    fn agents_check(agents: Option<AgentsCapture>) -> bool {
+        check(
+            LedgerRow::AgentsJoin,
+            &Probes {
+                agents,
+                ..probes(&clean_run())
+            },
+        )
+    }
+
+    #[test]
+    fn check_agents_join_passes_on_the_recorded_shape() {
+        assert!(agents_check(Some(clean_agents())));
+        let busy = agents_of(
+            Some(RUN_B_PID),
+            &[agents_row(Some(RUN_B_PID), RUN_B_ID, "busy")],
+        );
+        assert!(agents_check(Some(busy)), "busy");
+        let mut extra = agents_row(Some(RUN_B_PID), RUN_B_ID, "idle");
+        extra["later"] = json!(1);
+        assert!(
+            agents_check(Some(agents_of(Some(RUN_B_PID), &[extra]))),
+            "an extra key"
+        );
+    }
+
+    #[test]
+    fn check_agents_join_fails_on_each_broken_post_condition() {
+        let other = agents_row(Some(1), RUN_B_ID, "idle");
+        for (label, rows) in [
+            ("no row with the child pid", vec![other.clone()]),
+            (
+                "another session id",
+                vec![agents_row(Some(RUN_B_PID), "s-2", "idle")],
+            ),
+            (
+                "an unknown status",
+                vec![agents_row(Some(RUN_B_PID), RUN_B_ID, "waiting")],
+            ),
+            ("no status", {
+                let mut row = agents_row(Some(RUN_B_PID), RUN_B_ID, "idle");
+                row.as_object_mut().expect("an object").remove("status");
+                vec![row]
+            }),
+            (
+                "two rows with the child pid",
+                vec![
+                    agents_row(Some(RUN_B_PID), RUN_B_ID, "idle"),
+                    agents_row(Some(RUN_B_PID), RUN_B_ID, "busy"),
+                ],
+            ),
+            (
+                "a row by id alone",
+                vec![agents_row(None, RUN_B_ID, "idle")],
+            ),
+            ("no row", Vec::new()),
+        ] {
+            assert!(
+                !agents_check(Some(agents_of(Some(RUN_B_PID), &rows))),
+                "{label}"
+            );
+        }
+        let after_clear = agents_of(
+            Some(RUN_B_PID),
+            &[agents_row(Some(RUN_B_PID), "s-2", "idle")],
+        );
+        let cleared = Probes {
+            agents: Some(after_clear),
+            ..probes(&clean_run())
+        };
+        assert!(
+            !check(LedgerRow::AgentsJoin, &cleared),
+            "the id after the local command is not Run B's first"
+        );
+    }
+
+    #[test]
+    fn check_agents_join_fails_with_no_capture() {
+        assert!(!agents_check(None), "no read");
+        let no_pid = AgentsCapture {
+            child_pid: None,
+            ..clean_agents()
+        };
+        assert!(!agents_check(Some(no_pid)), "no child pid");
+        for bytes in [b"".as_slice(), b"not json", br#"{"pid":4242}"#] {
+            let unparsed = AgentsCapture {
+                child_pid: Some(RUN_B_PID),
+                bytes: bytes.to_vec(),
+            };
+            assert!(!agents_check(Some(unparsed)), "{bytes:?}");
+        }
+        let no_run_b = Probes {
+            trusted: Vec::new(),
+            ..probes(&clean_run())
+        };
+        assert!(!check(LedgerRow::AgentsJoin, &no_run_b), "no Run B start");
+    }
+
+    #[test]
+    fn agents_variant_keeps_only_run_b_s_own_row() {
+        assert_eq!(
+            agents_variant(&clean_agents()),
+            Some(json!([agents_row(Some(RUN_B_PID), RUN_B_ID, "idle")]))
+        );
+        let others = agents_of(Some(RUN_B_PID), &[agents_row(Some(1), RUN_B_ID, "idle")]);
+        assert_eq!(agents_variant(&others), None);
+        let no_pid = AgentsCapture {
+            child_pid: None,
+            ..clean_agents()
+        };
+        assert_eq!(agents_variant(&no_pid), None);
+        let unparsed = AgentsCapture {
+            child_pid: Some(RUN_B_PID),
+            bytes: b"not json".to_vec(),
+        };
+        assert_eq!(agents_variant(&unparsed), None);
+        assert_eq!(AGENTS_RECORDED, "Agents.recorded-1.json");
+    }
+
     fn resume_check(trusted: Vec<Capture>, resumed: Vec<Capture>) -> bool {
         check(
             LedgerRow::ResumeSession,
@@ -2742,6 +2979,7 @@ mod tests {
                 dialogs: clean_dialogs(),
                 statusline: clean_statusline(),
                 resumed,
+                agents: Some(clean_agents()),
             },
         )
     }
@@ -2874,6 +3112,7 @@ mod tests {
                 dialogs: clean_dialogs(),
                 statusline: clean_statusline(),
                 resumed: clean_resumed(),
+                agents: Some(clean_agents()),
             },
         )
     }
@@ -3040,6 +3279,7 @@ mod tests {
                 dialogs: clean_dialogs(),
                 statusline,
                 resumed: clean_resumed(),
+                agents: Some(clean_agents()),
             },
         )
     }
@@ -3073,6 +3313,7 @@ mod tests {
             dialogs: DialogRuns::default(),
             statusline: Vec::new(),
             resumed: Vec::new(),
+            agents: None,
         };
         assert!(!check(LedgerRow::StatusLineOverride, &none));
     }

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://viola.local/schemas/claude-agents-fixture.v1.json",
+  "title": "viola recorded claude agents --json fixture",
+  "description": "One fixtures/claude/<cli-version>/Agents.<variant>.json: the rows of one `claude agents --json` read viola verify made while its trusted run was live, filtered to that run's own row and scrubbed. Each row holds the seven keys measured on 2.1.287 with their measured types; any further key is the CLI's and is allowed (test-plan §7 Fixture hygiene).",
+  "type": "array",
+  "minItems": 1,
+  "items": {
+    "type": "object",
+    "required": ["cwd", "kind", "name", "pid", "sessionId", "startedAt", "status"],
+    "properties": {
+      "cwd": { "type": "string" },
+      "kind": { "type": "string" },
+      "name": { "type": "string" },
+      "pid": { "type": "integer", "minimum": 0 },
+      "sessionId": { "type": "string" },
+      "startedAt": { "type": "integer" },
+      "status": { "type": "string" }
+    }
+  }
+}

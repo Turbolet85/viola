@@ -4,8 +4,10 @@
 //! tier replays that tier, through `viola verify` against `--dialogs`, byte for byte and in the
 //! recorded order, and so does every set recorded with its framing variants, against `--framing`,
 //! and, where the status line is wrapped, its two status line variants; every set recorded with its
-//! resume variant replays it under `--resume`. The recorded sets are walked at run time, not by
-//! `#[files]`, and an empty walk fails.
+//! resume variant replays it under `--resume`; every set recorded with its agents read is answered
+//! byte for byte by the fake agent's `agents --json` over that read, and the fake agent's own
+//! registry row carries the read's key set and types. The recorded sets are walked at run time, not
+//! by `#[files]`, and an empty walk fails.
 //! andromeda:walks-tree — it reads every set under `fixtures/claude/`, named or not.
 
 #[allow(dead_code)]
@@ -431,6 +433,92 @@ fn fake_agent_resume_replay_matches_every_recorded_resume_set() {
         compared += 1;
     }
     assert!(compared >= 1, "resume sets compared: {compared}");
+}
+
+/// The recorded agents read, as a test literal name.
+const AGENTS_RECORDED: &str = "Agents.recorded-1.json";
+
+/// A JSON value's type word, for comparing a row's shape without its values.
+fn type_word(value: &Value) -> &'static str {
+    match value {
+        Value::Null => "null",
+        Value::Bool(_) => "bool",
+        Value::Number(n) if n.is_u64() || n.is_i64() => "integer",
+        Value::Number(_) => "number",
+        Value::String(_) => "string",
+        Value::Array(_) => "array",
+        Value::Object(_) => "object",
+    }
+}
+
+/// Each key of a row with its type word, in key order.
+fn shape(row: &Value) -> Vec<(String, &'static str)> {
+    let mut keys: Vec<(String, &'static str)> = row
+        .as_object()
+        .expect("a row object")
+        .iter()
+        .map(|(k, v)| (k.clone(), type_word(v)))
+        .collect();
+    keys.sort();
+    keys
+}
+
+/// Every set recorded with its agents read: the fake agent planted beside a copy of that read
+/// answers `agents --json` with exactly its bytes, and once started interactively over the set its
+/// own registry row has the read's key set and types.
+#[test]
+fn fake_agent_agents_replay_matches_every_recorded_agents_set() {
+    let root = workspace_path("fixtures/claude");
+    let mut compared = 0;
+    for version in recorded_versions(&root) {
+        let Ok(recorded) = fs::read(root.join(&version).join(AGENTS_RECORDED)) else {
+            continue;
+        };
+        let home = TestHome::new();
+        let bin = fake::claude_bin(home.scratch(), "claude-bin", None, Some(&recorded));
+        let claude = fake::claude_in(&bin);
+        let answered = Command::new(&claude)
+            .args(["agents", "--json"])
+            .stdin(Stdio::null())
+            .output()
+            .expect("agents --json");
+        assert_eq!(answered.status.code(), Some(0), "{version}");
+        assert!(answered.stdout == recorded, "{version}: agents drift");
+
+        let doc: Value = serde_json::from_slice(&recorded).expect("the agents read's JSON");
+        let recorded_row = &doc[0];
+        let plugin = home.scratch().join("plugin");
+        write_spine_plugin(&plugin);
+        let receipt = fake::receipt_path(home.path(), "agents");
+        let mut child = Command::new(&claude)
+            .args(["--cli-version", &version, "--fixtures"])
+            .arg(&root)
+            .arg("--plugin-dir")
+            .arg(&plugin)
+            .arg("--receipt")
+            .arg(&receipt)
+            .stdin(Stdio::piped())
+            .stdout(Stdio::null())
+            .stderr(Stdio::null())
+            .spawn()
+            .expect("fake agent");
+        fake::wait_for(&receipt, "the launch hook", |l| {
+            !of_kind(l, "hook").is_empty()
+        });
+        let row_path = bin.join("sessions").join(format!("{}.json", child.id()));
+        let row: Value =
+            serde_json::from_slice(&fs::read(&row_path).expect("the registry row")).expect("json");
+        assert_eq!(
+            shape(&row),
+            shape(recorded_row),
+            "{version}: registry row shape"
+        );
+        drop(child.stdin.take());
+        assert_eq!(child.wait().expect("exit").code(), Some(0), "{version}");
+        assert!(!row_path.exists(), "{version}: the row outlived its agent");
+        compared += 1;
+    }
+    assert!(compared >= 1, "agents sets compared: {compared}");
 }
 
 /// The status line variants in replay order, as test literals: the launch's payload, then the first

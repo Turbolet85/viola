@@ -786,6 +786,7 @@ mod tests {
             pending_dialog: None,
             cwd: None,
             statusline_command: None,
+            agent_session_id: None,
         };
         viola_state::snapshot::write_snapshot(&instance.dir, &snapshot).expect("snapshot");
         (instance, serving)

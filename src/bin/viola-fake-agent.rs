@@ -11,7 +11,7 @@ use std::io::{Read as _, Write as _};
 use std::path::{Path, PathBuf};
 use std::process::{Command, ExitCode, Stdio};
 use std::sync::atomic::{AtomicBool, Ordering};
-use std::sync::{Arc, Mutex, PoisonError};
+use std::sync::{Arc, Mutex, OnceLock, PoisonError};
 use std::time::Duration;
 
 use serde_json::{Value, json};
@@ -20,6 +20,8 @@ use viola_agent_claude::ledger::{
     STATUSLINE_RATE_LIMITS, dialog_stem, framing_stem,
 };
 use viola_agent_claude::statusline::BIN_SH;
+use viola_core::MAX_FRAME;
+use viola_state::liveness::process_start_time;
 
 const DEFAULT_CLI_VERSION: &str = "2.1.287";
 const PASTE_START: &[u8] = b"\x1b[200~";
@@ -45,6 +47,18 @@ const SHELL_NAME_WORD: &str = "\"$0\"";
 const STATUSLINE_ECHO: &str = "statusline-echo";
 /// What `statusline-echo` prints, whatever its stdin holds.
 const STATUSLINE_ECHO_OUTPUT: &[u8] = b"viola-fake-statusline\n";
+/// The mode word, as the first argument: `agents --json`, answered from the files beside the
+/// agent's own executable (no env var selects it).
+const AGENTS: &str = "agents";
+/// Beside the executable: `recorded` (the default, also for an absent file), `oversize` or
+/// `malformed`.
+const AGENTS_MODE: &str = "agents-mode";
+/// Beside the executable: rows `recorded` lists ahead of the live sessions, as one JSON array.
+const AGENTS_ROWS: &str = "agents-rows.json";
+/// Beside the executable: one `<pid>.json` row per live interactive fake agent.
+const SESSIONS: &str = "sessions";
+/// The title a registry row carries: synthetic, never user text.
+const SESSION_NAME: &str = "viola fake agent session";
 const REGISTERED_EVENTS: [&str; 9] = [
     "SessionStart",
     "UserPromptSubmit",
@@ -406,6 +420,8 @@ struct Agent {
     hooks: Mutex<bool>,
     /// Set by the first turn's Stop: the status line's `rate_limits` replay follows it once.
     stopped_once: AtomicBool,
+    /// This agent's row in the registry beside its executable, once its launch SessionStart fired.
+    registry: OnceLock<Registry>,
 }
 
 impl Agent {
@@ -415,6 +431,27 @@ impl Agent {
             opts,
             hooks: Mutex::new(false),
             stopped_once: AtomicBool::new(false),
+            registry: OnceLock::new(),
+        }
+    }
+
+    /// The `session_id` the launch SessionStart carries: the recorded variant's, or the resumed id.
+    fn launch_session_id(&self) -> Option<String> {
+        let fixture = self.fixture("SessionStart", self.launch_variant())?;
+        let fired = payload(fixture, &self.opts.resume_fields());
+        let doc: Value = serde_json::from_slice(&fired).ok()?;
+        doc["session_id"].as_str().map(str::to_owned)
+    }
+
+    /// The registry row's status: `busy` once a prompt is submitted, `idle` again at its Stop.
+    fn mark(&self, event: &str) {
+        let status = match event {
+            "UserPromptSubmit" => "busy",
+            "Stop" => "idle",
+            _ => return,
+        };
+        if let Some(registry) = self.registry.get() {
+            registry.set_status(status);
         }
     }
 
@@ -425,8 +462,10 @@ impl Agent {
         *self.hooks.lock().unwrap_or_else(PoisonError::into_inner) = true;
     }
 
-    /// Fires `event`; the returned word is the prompt receipt's `submit` value.
+    /// Fires `event`; the returned word is the prompt receipt's `submit` value. The registry row
+    /// moves first, so a line the hook leads to is never read ahead of the status it implies.
     fn fire(&self, event: &str, variant: &str, set: &[(&str, &str)]) -> &'static str {
+        self.mark(event);
         match self.fire_answered(event, variant, set) {
             Fired::NoHooks => "no-hooks",
             Fired::NoFixture => "no-fixture",
@@ -705,6 +744,122 @@ impl Agent {
     }
 }
 
+/// One live interactive fake agent's row beside its executable, in the measured `claude agents
+/// --json` shape: rewritten whole on each status change and removed at exit. `startedAt` is the
+/// process's start time, which the listing compares, so a dead pid or a reused one is left out.
+struct Registry {
+    path: PathBuf,
+    row: Mutex<Value>,
+}
+
+impl Registry {
+    fn open(dir: &Path, session_id: &str) -> Option<Self> {
+        let pid = std::process::id();
+        let started = process_start_time(pid)?;
+        let sessions = dir.join(SESSIONS);
+        fs::create_dir_all(&sessions).ok()?;
+        let cwd = std::env::current_dir().ok()?;
+        let registry = Self {
+            path: sessions.join(format!("{pid}.json")),
+            row: Mutex::new(json!({
+                "cwd": cwd.to_string_lossy(),
+                "kind": "interactive",
+                "name": SESSION_NAME,
+                "pid": pid,
+                "sessionId": session_id,
+                "startedAt": started.saturating_mul(1000),
+                "status": "idle",
+            })),
+        };
+        registry.set_status("idle");
+        Some(registry)
+    }
+
+    /// The row with `status`, written to a sibling and renamed over the old one: a listing never
+    /// reads half a row.
+    fn set_status(&self, status: &str) {
+        let mut row = self.row.lock().unwrap_or_else(PoisonError::into_inner);
+        row["status"] = json!(status);
+        let next = self.path.with_extension("json.next");
+        if fs::write(&next, row.to_string()).is_ok() {
+            let _ = fs::rename(&next, &self.path);
+        }
+    }
+
+    fn remove(&self) {
+        let _row = self.row.lock().unwrap_or_else(PoisonError::into_inner);
+        let _ = fs::remove_file(&self.path);
+    }
+}
+
+/// The directory holding this executable: where the `agents` mode files and the registry live.
+fn exe_dir() -> Option<PathBuf> {
+    std::env::current_exe()
+        .ok()?
+        .parent()
+        .map(Path::to_path_buf)
+}
+
+/// The `agents --json` mode: what [`agents_output`] gives for the mode file beside the executable,
+/// on stdout, exit 0.
+fn agents() -> ExitCode {
+    let dir = exe_dir();
+    let mode = dir
+        .as_deref()
+        .and_then(|d| fs::read_to_string(d.join(AGENTS_MODE)).ok());
+    let out = agents_output(mode.as_deref().map(str::trim), dir.as_deref());
+    let mut stdout = std::io::stdout().lock();
+    let _ = stdout.write_all(&out).and_then(|()| stdout.flush());
+    ExitCode::SUCCESS
+}
+
+/// `oversize`: one byte past the frame cap; `malformed`: a text that is not JSON; anything else:
+/// one JSON array of the planted rows, then each live registry row.
+fn agents_output(mode: Option<&str>, dir: Option<&Path>) -> Vec<u8> {
+    match mode {
+        Some("oversize") => vec![b' '; usize::try_from(MAX_FRAME).unwrap_or(usize::MAX - 1) + 1],
+        Some("malformed") => b"No sessions\n".to_vec(),
+        _ => {
+            let mut rows = dir.map(planted_rows).unwrap_or_default();
+            rows.extend(dir.map(live_sessions).unwrap_or_default());
+            let mut text = Value::Array(rows).to_string();
+            text.push('\n');
+            text.into_bytes()
+        }
+    }
+}
+
+/// The rows of `<dir>/agents-rows.json`; a file that is absent or no JSON array gives none.
+fn planted_rows(dir: &Path) -> Vec<Value> {
+    match fs::read(dir.join(AGENTS_ROWS)).map(|b| serde_json::from_slice::<Value>(&b)) {
+        Ok(Ok(Value::Array(rows))) => rows,
+        _ => Vec::new(),
+    }
+}
+
+/// The registry rows under `<dir>/sessions/` whose process is alive with the recorded start time,
+/// in file-name order. The process table is read; no signal is sent.
+fn live_sessions(dir: &Path) -> Vec<Value> {
+    let mut paths: Vec<PathBuf> = fs::read_dir(dir.join(SESSIONS))
+        .into_iter()
+        .flatten()
+        .flatten()
+        .map(|entry| entry.path())
+        .filter(|path| path.extension().is_some_and(|e| e == "json"))
+        .collect();
+    paths.sort();
+    paths
+        .into_iter()
+        .filter_map(|path| serde_json::from_slice::<Value>(&fs::read(path).ok()?).ok())
+        .filter(|row| {
+            let pid = row["pid"].as_u64().and_then(|p| u32::try_from(p).ok());
+            let started = row["startedAt"].as_u64().map(|ms| ms / 1000);
+            pid.zip(started)
+                .is_some_and(|(pid, started)| process_start_time(pid) == Some(started))
+        })
+        .collect()
+}
+
 fn start_receipts(agent: &Agent) {
     let started_at = chrono::Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Millis, true);
     let plugin_dir = agent
@@ -921,6 +1076,9 @@ fn main() -> ExitCode {
     {
         return statusline_echo(rest);
     }
+    if args.first().is_some_and(|mode| mode == AGENTS) {
+        return agents();
+    }
     let opts = Opts::parse(&args);
     if opts.hold_stdout {
         Receipt::open(opts.receipt.as_deref()).write("hold", json!({"pid": std::process::id()}));
@@ -958,6 +1116,13 @@ fn main() -> ExitCode {
     // The real CLI fires SessionStart at launch; with no registered hook or no fixture, nothing runs.
     // An untrusted folder has no status line either.
     if trusted {
+        // The row first: whoever reads the session-start line already finds the session listed.
+        let registered = exe_dir()
+            .zip(agent.launch_session_id())
+            .and_then(|(dir, id)| Registry::open(&dir, &id));
+        if let Some(registry) = registered {
+            let _ = agent.registry.set(registry);
+        }
         agent.fire(
             "SessionStart",
             agent.launch_variant(),
@@ -970,7 +1135,11 @@ fn main() -> ExitCode {
         let runner = Arc::clone(&agent);
         std::thread::spawn(move || runner.run_steps(&steps));
     }
-    read_stdin(&agent)
+    let code = read_stdin(&agent);
+    if let Some(registry) = agent.registry.get() {
+        registry.remove();
+    }
+    code
 }
 
 #[cfg(test)]
@@ -1675,5 +1844,86 @@ mod tests {
         let started = Instant::now();
         agent.submit(PROBE_LONG_PASTE.as_bytes(), "human");
         assert!(started.elapsed() >= hint, "{:?}", started.elapsed());
+    }
+
+    #[test]
+    fn agents_output_of_each_mode_is_its_bytes() {
+        let oversize = agents_output(Some("oversize"), None);
+        assert_eq!(oversize.len() as u64, MAX_FRAME + 1);
+        assert!(oversize.iter().all(|b| *b == b' '));
+        let malformed = agents_output(Some("malformed"), None);
+        assert!(serde_json::from_slice::<Value>(&malformed).is_err());
+        assert_eq!(agents_output(None, None), b"[]\n");
+        assert_eq!(agents_output(Some("later-word"), None), b"[]\n");
+        assert_eq!(AGENTS, "agents");
+    }
+
+    #[test]
+    fn agents_output_recorded_lists_the_planted_rows_unchanged_then_the_live_sessions() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let planted = r#"[{"pid":7,"sessionId":"s-1","status":"idle","later":1}]"#;
+        fs::write(tmp.path().join(AGENTS_ROWS), format!("{planted}\n")).expect("rows");
+        assert_eq!(
+            agents_output(Some("recorded"), Some(tmp.path())),
+            format!("{planted}\n").into_bytes()
+        );
+        let live = Registry::open(tmp.path(), "s-live").expect("this process registers");
+        live.set_status("busy");
+        let listed: Value =
+            serde_json::from_slice(&agents_output(None, Some(tmp.path()))).expect("json");
+        assert_eq!(listed[1]["sessionId"], "s-live");
+        assert_eq!(listed[1]["status"], "busy");
+        assert_eq!(listed[1]["pid"], std::process::id());
+        assert_eq!(listed[1]["name"], SESSION_NAME);
+        assert_eq!(listed.as_array().map(Vec::len), Some(2));
+        live.remove();
+        assert_eq!(
+            agents_output(None, Some(tmp.path())),
+            format!("{planted}\n").into_bytes()
+        );
+    }
+
+    #[rstest::rstest]
+    #[case::not_json("not json")]
+    #[case::an_object(r#"{"pid":7}"#)]
+    #[case::empty("")]
+    fn planted_rows_of_a_malformed_rows_file_are_none(#[case] text: &str) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        fs::write(tmp.path().join(AGENTS_ROWS), text).expect("rows");
+        assert!(planted_rows(tmp.path()).is_empty());
+        assert!(planted_rows(&tmp.path().join("absent")).is_empty());
+    }
+
+    /// A row whose process is gone, or alive under another start time, is left out; this
+    /// process's own row with its own start time is listed.
+    #[test]
+    fn live_sessions_skip_a_dead_or_reused_pid() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let sessions = tmp.path().join(SESSIONS);
+        fs::create_dir_all(&sessions).expect("sessions");
+        let mut child = Command::new(std::env::current_exe().expect("exe"))
+            .arg("--list")
+            .stdout(Stdio::null())
+            .spawn()
+            .expect("child");
+        let dead = child.id();
+        child.wait().expect("reaped");
+        let own = std::process::id();
+        let started = process_start_time(own).expect("own start") * 1000;
+        for (file, pid, at) in [
+            ("1.json", dead, started),
+            ("2.json", own, 1000),
+            ("3.json", own, started),
+        ] {
+            let row = json!({"pid": pid, "sessionId": file, "startedAt": at, "status": "idle"});
+            fs::write(sessions.join(file), row.to_string()).expect("row");
+        }
+        fs::write(sessions.join("4.json"), b"not json").expect("torn");
+        fs::write(sessions.join("5.json.next"), b"{}").expect("a sibling");
+        let ids: Vec<Value> = live_sessions(tmp.path())
+            .into_iter()
+            .map(|r| r["sessionId"].clone())
+            .collect();
+        assert_eq!(ids, [json!("3.json")]);
     }
 }

@@ -831,6 +831,7 @@ mod tests {
                 pending_dialog: None,
                 cwd: None,
                 statusline_command: None,
+                agent_session_id: None,
             })
             .expect("snapshot");
         let wheel = Arc::new(WheelSlot::default());
@@ -980,6 +981,7 @@ mod tests {
             pending_dialog: None,
             cwd: None,
             statusline_command: None,
+            agent_session_id: None,
         }
     }
 

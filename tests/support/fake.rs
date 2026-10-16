@@ -23,6 +23,37 @@ pub fn receipt_path(home: &Path, name: &str) -> PathBuf {
     home.join("fake").join(format!("{name}.receipt.ndjson"))
 }
 
+/// `<scratch>/no-claude/`, empty: a `claude` looked up there is not found.
+pub fn empty_bin(scratch: &Path) -> PathBuf {
+    let dir = scratch.join("no-claude");
+    fs::create_dir_all(&dir).expect("the empty bin dir");
+    dir
+}
+
+/// `<scratch>/<name>/` holding the fake agent as `claude` (a hard link, else a copy) and beside it
+/// its `agents-mode` file and `agents-rows.json` when given: what its `agents --json` answers, and
+/// where its own interactive starts register their sessions.
+pub fn claude_bin(scratch: &Path, name: &str, mode: Option<&str>, rows: Option<&[u8]>) -> PathBuf {
+    let dir = scratch.join(name);
+    fs::create_dir_all(&dir).expect("the bin dir");
+    let claude = claude_in(&dir);
+    if !claude.is_file() && fs::hard_link(FAKE, &claude).is_err() {
+        fs::copy(FAKE, &claude).expect("the claude copy");
+    }
+    if let Some(mode) = mode {
+        fs::write(dir.join("agents-mode"), mode).expect("the agents mode");
+    }
+    if let Some(rows) = rows {
+        fs::write(dir.join("agents-rows.json"), rows).expect("the agents rows");
+    }
+    dir
+}
+
+/// The `claude` executable inside a bin dir.
+pub fn claude_in(dir: &Path) -> PathBuf {
+    dir.join(format!("claude{}", std::env::consts::EXE_SUFFIX))
+}
+
 /// Releases one gated step: one more complete line in the control file.
 pub fn release(control: &Path) {
     if let Some(dir) = control.parent() {

@@ -1,6 +1,6 @@
 //! `viola verify` against the fake agent (test-plan §5 CLI, §7 Fake agent; design-system §Surface:
 //! cli Component Patterns 5; layout-templates §Output structure `viola verify`): the relied step
-//! lines (twenty-two on Unix, nineteen on Windows, where the status line is not wrapped) and the
+//! lines (twenty-three on Unix, twenty on Windows, where the status line is not wrapped) and the
 //! `stamped` summary, the stamps it alone writes, the refusals, the `cli` catch-site line,
 //! the five interactive runs and their dirs, `--record`'s scrub, screens, dialog and framing
 //! variants, the dialog tier's and the local-command row's failure without a replay, the help text, and the
@@ -25,54 +25,56 @@ use support::verify::{
 };
 
 #[cfg(unix)]
-const STEPS_PASS: [&str; 22] = [
-    "[01/22] shim-resolution claude resolves to a real executable  pass",
-    "[02/22] spine-hooks spine hooks fire through the plugin dir  pass",
-    "[03/22] session-start-fields SessionStart carries session_id and source  pass",
-    "[04/22] prompt-verbatim UserPromptSubmit carries the prompt as sent  pass",
-    "[05/22] stop-message Stop carries last_assistant_message  pass",
-    "[06/22] largest-hook-payload every hook payload fits the frame cap  pass",
-    "[07/22] modal-signature an untrusted start shows a compiled modal literal  pass",
-    "[08/22] input-box-signature a trusted start shows a compiled input-box literal and no modal  pass",
-    "[09/22] quiet-period the screen settles within the gate's maximum wait  pass",
-    "[10/22] confirm-window the typed prompt reaches UserPromptSubmit within the window  pass",
-    "[11/22] question-answer a question answered through PreToolUse takes effect  pass",
-    "[12/22] plan-approve-revise a plan revise and approve each take effect  pass",
-    "[13/22] question-notes free text and notes reach the question  pass",
-    "[14/22] dialog-concurrency two parallel questions each raise a dialog  pass",
-    "[15/22] long-paste-wrapper a long paste unwraps to the text as pasted  pass",
-    "[16/22] tag-escaping tag-like text un-escapes to the text as pasted  pass",
-    "[17/22] local-command-clear /clear starts a new session and submits no prompt  pass",
-    "[18/22] paste-newline an LF inside a paste stays inside the one prompt submitted  pass",
-    "[19/22] statusline-override a --settings statusLine runs in the status line's place  pass",
-    "[20/22] statusline-shell a statusline command runs through /bin/sh  pass",
-    "[21/22] statusline-rate-limits the statusline payload carries two whole-number rate_limits windows  pass",
-    "[22/22] resume-session --resume <id> reopens the session under that id  pass",
+const STEPS_PASS: [&str; 23] = [
+    "[01/23] shim-resolution claude resolves to a real executable  pass",
+    "[02/23] spine-hooks spine hooks fire through the plugin dir  pass",
+    "[03/23] session-start-fields SessionStart carries session_id and source  pass",
+    "[04/23] prompt-verbatim UserPromptSubmit carries the prompt as sent  pass",
+    "[05/23] stop-message Stop carries last_assistant_message  pass",
+    "[06/23] largest-hook-payload every hook payload fits the frame cap  pass",
+    "[07/23] modal-signature an untrusted start shows a compiled modal literal  pass",
+    "[08/23] input-box-signature a trusted start shows a compiled input-box literal and no modal  pass",
+    "[09/23] quiet-period the screen settles within the gate's maximum wait  pass",
+    "[10/23] confirm-window the typed prompt reaches UserPromptSubmit within the window  pass",
+    "[11/23] question-answer a question answered through PreToolUse takes effect  pass",
+    "[12/23] plan-approve-revise a plan revise and approve each take effect  pass",
+    "[13/23] question-notes free text and notes reach the question  pass",
+    "[14/23] dialog-concurrency two parallel questions each raise a dialog  pass",
+    "[15/23] long-paste-wrapper a long paste unwraps to the text as pasted  pass",
+    "[16/23] tag-escaping tag-like text un-escapes to the text as pasted  pass",
+    "[17/23] local-command-clear /clear starts a new session and submits no prompt  pass",
+    "[18/23] paste-newline an LF inside a paste stays inside the one prompt submitted  pass",
+    "[19/23] statusline-override a --settings statusLine runs in the status line's place  pass",
+    "[20/23] statusline-shell a statusline command runs through /bin/sh  pass",
+    "[21/23] statusline-rate-limits the statusline payload carries two whole-number rate_limits windows  pass",
+    "[22/23] resume-session --resume <id> reopens the session under that id  pass",
+    "[23/23] agents-join claude agents --json names the live session by pid and session id  pass",
 ];
 #[cfg(windows)]
-const STEPS_PASS: [&str; 19] = [
-    "[01/19] shim-resolution claude resolves to a real executable  pass",
-    "[02/19] spine-hooks spine hooks fire through the plugin dir  pass",
-    "[03/19] session-start-fields SessionStart carries session_id and source  pass",
-    "[04/19] prompt-verbatim UserPromptSubmit carries the prompt as sent  pass",
-    "[05/19] stop-message Stop carries last_assistant_message  pass",
-    "[06/19] largest-hook-payload every hook payload fits the frame cap  pass",
-    "[07/19] modal-signature an untrusted start shows a compiled modal literal  pass",
-    "[08/19] input-box-signature a trusted start shows a compiled input-box literal and no modal  pass",
-    "[09/19] quiet-period the screen settles within the gate's maximum wait  pass",
-    "[10/19] confirm-window the typed prompt reaches UserPromptSubmit within the window  pass",
-    "[11/19] question-answer a question answered through PreToolUse takes effect  pass",
-    "[12/19] plan-approve-revise a plan revise and approve each take effect  pass",
-    "[13/19] question-notes free text and notes reach the question  pass",
-    "[14/19] dialog-concurrency two parallel questions each raise a dialog  pass",
-    "[15/19] long-paste-wrapper a long paste unwraps to the text as pasted  pass",
-    "[16/19] tag-escaping tag-like text un-escapes to the text as pasted  pass",
-    "[17/19] local-command-clear /clear starts a new session and submits no prompt  pass",
-    "[18/19] paste-newline an LF inside a paste stays inside the one prompt submitted  pass",
-    "[19/19] resume-session --resume <id> reopens the session under that id  pass",
+const STEPS_PASS: [&str; 20] = [
+    "[01/20] shim-resolution claude resolves to a real executable  pass",
+    "[02/20] spine-hooks spine hooks fire through the plugin dir  pass",
+    "[03/20] session-start-fields SessionStart carries session_id and source  pass",
+    "[04/20] prompt-verbatim UserPromptSubmit carries the prompt as sent  pass",
+    "[05/20] stop-message Stop carries last_assistant_message  pass",
+    "[06/20] largest-hook-payload every hook payload fits the frame cap  pass",
+    "[07/20] modal-signature an untrusted start shows a compiled modal literal  pass",
+    "[08/20] input-box-signature a trusted start shows a compiled input-box literal and no modal  pass",
+    "[09/20] quiet-period the screen settles within the gate's maximum wait  pass",
+    "[10/20] confirm-window the typed prompt reaches UserPromptSubmit within the window  pass",
+    "[11/20] question-answer a question answered through PreToolUse takes effect  pass",
+    "[12/20] plan-approve-revise a plan revise and approve each take effect  pass",
+    "[13/20] question-notes free text and notes reach the question  pass",
+    "[14/20] dialog-concurrency two parallel questions each raise a dialog  pass",
+    "[15/20] long-paste-wrapper a long paste unwraps to the text as pasted  pass",
+    "[16/20] tag-escaping tag-like text un-escapes to the text as pasted  pass",
+    "[17/20] local-command-clear /clear starts a new session and submits no prompt  pass",
+    "[18/20] paste-newline an LF inside a paste stays inside the one prompt submitted  pass",
+    "[19/20] resume-session --resume <id> reopens the session under that id  pass",
+    "[20/20] agents-join claude agents --json names the live session by pid and session id  pass",
 ];
 #[cfg(unix)]
-const ROW_IDS: [&str; 22] = [
+const ROW_IDS: [&str; 23] = [
     "shim-resolution",
     "spine-hooks",
     "session-start-fields",
@@ -95,9 +97,10 @@ const ROW_IDS: [&str; 22] = [
     "statusline-shell",
     "statusline-rate-limits",
     "resume-session",
+    "agents-join",
 ];
 #[cfg(windows)]
-const ROW_IDS: [&str; 19] = [
+const ROW_IDS: [&str; 20] = [
     "shim-resolution",
     "spine-hooks",
     "session-start-fields",
@@ -117,12 +120,13 @@ const ROW_IDS: [&str; 19] = [
     "local-command-clear",
     "paste-newline",
     "resume-session",
+    "agents-join",
 ];
 /// The summary of a run whose every relied row passed.
 #[cfg(unix)]
-const STAMPED_PASS: &str = "stamped 2.1.0  22 pass  0 fail";
+const STAMPED_PASS: &str = "stamped 2.1.0  23 pass  0 fail";
 #[cfg(windows)]
-const STAMPED_PASS: &str = "stamped 2.1.0  19 pass  0 fail";
+const STAMPED_PASS: &str = "stamped 2.1.0  20 pass  0 fail";
 /// The three statusline rows, relied on only where the status line is wrapped.
 const STATUSLINE_ROWS: [&str; 3] = [
     "statusline-override",
@@ -244,8 +248,8 @@ fn verify_a_complete_set_prints_every_relied_step_and_stamps_every_row(
 /// fake agent's trust root is moved off the cwd: its trusted, dialog and plan runs start at the
 /// trust dialog and are killed with no key, which fails the three rows a turn measures, the four
 /// dialog rows, the three framing rows, the newline row, the resume row (Run B captured no
-/// SessionStart, so no Run E starts) and, on Unix, the three statusline rows (an untrusted start has
-/// no status line).
+/// SessionStart, so no Run E starts), the agents row (Run B never reached its turn, so no read is
+/// made) and, on Unix, the three statusline rows (an untrusted start has no status line).
 #[rstest]
 fn verify_a_set_without_stop_fails_its_rows_and_still_stamps(#[from(home)] home: TestHome) {
     write_spine_set(&fixtures(&home), "2.1.0", Some("Stop"));
@@ -257,9 +261,9 @@ fn verify_a_set_without_stop_fails_its_rows_and_still_stamps(#[from(home)] home:
     let lines: Vec<&str> = stdout.lines().collect();
     let mut expected = steps_failing(|i| ![0, 2, 3, 5, 6].contains(&i));
     #[cfg(unix)]
-    expected.push("stamped 2.1.0  5 pass  17 fail".to_owned());
+    expected.push("stamped 2.1.0  5 pass  18 fail".to_owned());
     #[cfg(windows)]
-    expected.push("stamped 2.1.0  5 pass  14 fail".to_owned());
+    expected.push("stamped 2.1.0  5 pass  15 fail".to_owned());
     assert_eq!(lines, expected);
     assert!(ran.stderr.is_empty());
     let rows = &stamps(home.path())["data"]["versions"]["2.1.0"]["rows"];
@@ -433,6 +437,8 @@ fn verify_dispatch_error_keeps_the_chain_in_the_detail_file(#[from(home)] home: 
             ("process-start", "verify-pty-probe", ""),
             ("process-exit", "verify-pty-probe", ""),
             ("process-start", "verify-pty-probe", ""),
+            ("process-start", "agents-probe", ""),
+            ("process-exit", "agents-probe", ""),
             ("process-exit", "verify-pty-probe", ""),
             ("process-start", "verify-pty-probe", ""),
             ("process-exit", "verify-pty-probe", ""),
@@ -483,10 +489,11 @@ fn verify_with_an_instance_logs_its_start_and_exit(#[from(home)] home: TestHome)
 }
 
 /// Each spawn `verify` makes is logged as a pair (obs-plan §6 Child / shell spawns): the `--version`
-/// read as `version-probe`, the print-mode probe as `verify-probe`, and each of the five interactive
-/// runs as `verify-pty-probe`, between its own start and exit: seven pairs.
+/// read as `version-probe`, the print-mode probe as `verify-probe`, each of the five interactive
+/// runs as `verify-pty-probe`, between its own start and exit, and inside Run B's pair the agents
+/// read as `agents-probe`: eight pairs.
 #[rstest]
-fn verify_with_an_instance_logs_its_seven_spawn_pairs(#[from(home)] home: TestHome) {
+fn verify_with_an_instance_logs_its_eight_spawn_pairs(#[from(home)] home: TestHome) {
     write_spine_set(&fixtures(&home), "2.1.0", None);
     let env = [("VIOLA_NAME", OsString::from("verifier"))];
     let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &[], &env);
@@ -515,6 +522,8 @@ fn verify_with_an_instance_logs_its_seven_spawn_pairs(#[from(home)] home: TestHo
             ("process-start", "verify-pty-probe"),
             ("process-exit", "verify-pty-probe"),
             ("process-start", "verify-pty-probe"),
+            ("process-start", "agents-probe"),
+            ("process-exit", "agents-probe"),
             ("process-exit", "verify-pty-probe"),
             ("process-start", "verify-pty-probe"),
             ("process-exit", "verify-pty-probe"),
@@ -525,11 +534,11 @@ fn verify_with_an_instance_logs_its_seven_spawn_pairs(#[from(home)] home: TestHo
             ("process-exit", "self"),
         ]
     );
-    for exit in [&role[2], &role[4], &role[8]] {
+    for exit in [&role[2], &role[4], &role[9], &role[10]] {
         assert_eq!(exit["child_exit_status"], 0);
         assert!(exit["duration_ms"].is_u64());
     }
-    for killed in [&role[6], &role[10], &role[12], &role[14]] {
+    for killed in [&role[6], &role[12], &role[14], &role[16]] {
         assert!(killed["duration_ms"].is_u64(), "a killed run's exit");
     }
     let validator =
@@ -606,6 +615,7 @@ fn verify_record_writes_the_scrubbed_spine_variants_and_screens(#[from(home)] ho
         .collect();
     names.sort();
     let mut expected = vec![
+        "Agents.recorded-1.json",
         "PermissionRequest.permission-1.json",
         "PermissionRequest.plan-1.json",
         "PostToolUse.parallel-1.json",
@@ -640,7 +650,22 @@ fn verify_record_writes_the_scrubbed_spine_variants_and_screens(#[from(home)] ho
     assert_eq!(names, expected);
     let schema = load_schema(&workspace_path("schemas/claude-fixture.v1.json"));
     let statusline = load_schema(&workspace_path("schemas/claude-statusline-fixture.v1.json"));
-    for name in names.iter().filter(|n| !n.starts_with("Screen.")) {
+    let agents_schema = load_schema(&workspace_path("schemas/claude-agents-fixture.v1.json"));
+    let agents = fs::read(dir.join("Agents.recorded-1.json")).expect("the agents read");
+    assert_eq!(check(&agents, &agents_schema, Some(&user)), Ok(()));
+    let agents_text = String::from_utf8(agents).expect("utf-8");
+    assert!(agents_text.ends_with("]\n") && agents_text.matches('\n').count() == 1);
+    let agents: Value = serde_json::from_str(&agents_text).expect("json");
+    let rows = agents.as_array().expect("an array");
+    assert_eq!(rows.len(), 1, "only Run B's own row is kept");
+    assert!(rows[0]["cwd"].as_str().is_some_and(|c| c.starts_with('~')));
+    assert_eq!(rows[0]["kind"], "interactive");
+    assert_eq!(rows[0]["status"], "idle");
+    assert!(!has_username(&agents_text, &user));
+    for name in names
+        .iter()
+        .filter(|n| !n.starts_with("Screen.") && !n.starts_with("Agents."))
+    {
         let bytes = fs::read(dir.join(name)).expect("fixture");
         let schema = if name.starts_with("StatusLine.") {
             &statusline
@@ -1070,7 +1095,7 @@ fn verify_stopped_by_a_signal_removes_only_its_own_dirs_and_exits_1(
 
 /// Stopped by Ctrl-C or TERM while Run E waits for a SessionStart that never comes, `verify` ends
 /// Run E's child with no key, removes its `-resume` dir and every other dir it made and nothing
-/// another run left, writes no stamp and no step line, and exits 1 interrupted after its seven
+/// another run left, writes no stamp and no step line, and exits 1 interrupted after its eight
 /// spawn pairs. The set holds no default SessionStart, so Run B's first SessionStart is its local
 /// command's, whose id Run E resumes, and Run E's launch fires none.
 #[cfg(unix)]
@@ -1167,14 +1192,21 @@ fn verify_stopped_during_the_resume_run_removes_its_dir_and_exits_1(
         ("process-start", "verify-probe"),
         ("process-exit", "verify-probe"),
     ];
-    for _ in 0..5 {
+    expected.extend(pty);
+    expected.extend([
+        ("process-start", "verify-pty-probe"),
+        ("process-start", "agents-probe"),
+        ("process-exit", "agents-probe"),
+        ("process-exit", "verify-pty-probe"),
+    ]);
+    for _ in 0..3 {
         expected.extend(pty);
     }
     expected.push(("process-exit", "self"));
     assert_eq!(shape, expected);
-    assert!(role[14]["duration_ms"].is_u64(), "Run E's exit");
-    assert_eq!(role[15]["exit_code"], 1);
-    assert_eq!(role[15]["detail"], "interrupted");
+    assert!(role[16]["duration_ms"].is_u64(), "Run E's exit");
+    assert_eq!(role[17]["exit_code"], 1);
+    assert_eq!(role[17]["detail"], "interrupted");
 }
 
 #[test]
@@ -1197,8 +1229,9 @@ fn verify_help_names_the_trusted_folder_and_the_external_import_blocker() {
 
 /// Without `--screens` the fake agent shows nothing: each of the five interactive runs waits out the
 /// gate's 8.5 s maximum, and the twelve rows the first four measure fail while the six print-mode
-/// rows pass; the resume row passes on Run E's SessionStart, captured before its wait; with no
-/// `--framing` either, the three statusline rows fail on Unix.
+/// rows pass; the resume row passes on Run E's SessionStart, captured before its wait; the agents
+/// row fails, as Run B's turn never settles on a literal and no read is made; with no `--framing`
+/// either, the three statusline rows fail on Unix.
 #[rstest]
 fn verify_window_without_screens_fails_every_interactive_row(#[from(home)] home: TestHome) {
     write_spine_set(&fixtures(&home), "2.1.0", None);
@@ -1208,9 +1241,9 @@ fn verify_window_without_screens_fails_every_interactive_row(#[from(home)] home:
     let lines: Vec<&str> = stdout.lines().collect();
     let mut expected = steps_failing(|i| i >= 6 && ROW_IDS[i] != "resume-session");
     #[cfg(unix)]
-    expected.push("stamped 2.1.0  7 pass  15 fail".to_owned());
+    expected.push("stamped 2.1.0  7 pass  16 fail".to_owned());
     #[cfg(windows)]
-    expected.push("stamped 2.1.0  7 pass  12 fail".to_owned());
+    expected.push("stamped 2.1.0  7 pass  13 fail".to_owned());
     assert_eq!(lines, expected);
     let rows = &stamps(home.path())["data"]["versions"]["2.1.0"]["rows"];
     for id in ROW_IDS[6..].iter().filter(|id| **id != "resume-session") {
@@ -1252,8 +1285,8 @@ fn verify_kills_the_dialog_and_plan_runs_only_after_their_last_stop_hook(
 }
 
 /// Without the dialog replay the dialog and plan runs see turns that raise no dialog: the ten spine
-/// and screen rows, the three framing rows, the newline row, the resume row and, on Unix, the three
-/// statusline rows pass, the four dialog rows fail, the stamp is written
+/// and screen rows, the three framing rows, the newline row, the resume row, the agents row and, on
+/// Unix, the three statusline rows pass, the four dialog rows fail, the stamp is written
 /// and verify exits 1 with nothing on stderr. The version is then unverified (R2).
 #[rstest]
 fn verify_without_the_dialog_replay_fails_the_four_dialog_rows(#[from(home)] home: TestHome) {
@@ -1263,9 +1296,9 @@ fn verify_without_the_dialog_replay_fails_the_four_dialog_rows(#[from(home)] hom
     assert!(ran.stderr.is_empty(), "stderr {}", ran.stderr_text());
     let mut expected = steps_failing(|i| (10..14).contains(&i));
     #[cfg(unix)]
-    expected.push("stamped 2.1.0  18 pass  4 fail".to_owned());
+    expected.push("stamped 2.1.0  19 pass  4 fail".to_owned());
     #[cfg(windows)]
-    expected.push("stamped 2.1.0  15 pass  4 fail".to_owned());
+    expected.push("stamped 2.1.0  16 pass  4 fail".to_owned());
     let stdout = ran.stdout_text();
     assert_eq!(stdout.lines().collect::<Vec<_>>(), expected);
     assert_plain(&ran.stdout);
@@ -1320,9 +1353,9 @@ fn verify_without_framing_fails_the_clear_row_and_on_unix_the_statusline_rows(
     assert!(ran.stderr.is_empty(), "stderr {}", ran.stderr_text());
     let mut expected = steps_failing(|i| i == 16 || STATUSLINE_ROWS.contains(&ROW_IDS[i]));
     #[cfg(unix)]
-    expected.push("stamped 2.1.0  18 pass  4 fail".to_owned());
+    expected.push("stamped 2.1.0  19 pass  4 fail".to_owned());
     #[cfg(windows)]
-    expected.push("stamped 2.1.0  18 pass  1 fail".to_owned());
+    expected.push("stamped 2.1.0  19 pass  1 fail".to_owned());
     let stdout = ran.stdout_text();
     assert_eq!(stdout.lines().collect::<Vec<_>>(), expected);
     assert_plain(&ran.stdout);
@@ -1398,9 +1431,9 @@ fn verify_pastes_no_local_command_once_the_tag_turn_screen_shows_a_modal(
     let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &after, &[]);
     assert_eq!(ran.code, Some(1), "stdout {}", ran.stdout_text());
     let summary = if cfg!(unix) {
-        "stamped 2.1.0  20 pass  2 fail\n"
+        "stamped 2.1.0  21 pass  2 fail\n"
     } else {
-        "stamped 2.1.0  17 pass  2 fail\n"
+        "stamped 2.1.0  18 pass  2 fail\n"
     };
     assert!(
         ran.stdout_text().ends_with(summary),

@@ -4,3 +4,4 @@
 vendor/conpty/** binary
 # Fuzz seeds are exact input bytes (a CRLF seed must stay CRLF): never a text conversion.
 fuzz/corpus/paste_text/** binary
+fuzz/corpus/claude_agents_json/** binary

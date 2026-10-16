@@ -1,8 +1,9 @@
 //! `viola revive` as a process (test-plan §6 Exit-cause matrix; architecture §Established Decisions
-//! [Session Liveness]): its refusals, each with its fixed stderr pair, the three its preflight
+//! [Session Liveness]): its refusals, each with its fixed stderr pair, the four its preflight
 //! logs with their closed process-log detail and the strict-modes one, made before any log opens,
 //! with no line at all; the `--list` rows, and a forked resume. Every revive here finds the fake
-//! agent as `claude` first on its `PATH`, so the name never reaches the host's own CLI.
+//! agent as `claude` first on its `PATH`, so the name never reaches the host's own CLI, and so its
+//! `claude agents --json` read is that copy's answer: what the test planted beside it.
 
 #[allow(dead_code)]
 mod support;
@@ -17,7 +18,8 @@ use support::cli::{Ran, Running};
 use support::events::{events, wait_events};
 use support::fake::{self, of_kind};
 use support::home::{
-    StampedHome, TestHome, Wrapper, booted_wrapper, revive_command, stamped_home, workspace_path,
+    StampedHome, TestHome, Wrapper, booted_wrapper, claude_dir, revive_command, stamped_home,
+    workspace_path,
 };
 use support::hygiene::load_schema;
 use support::verify::CANARY;
@@ -38,6 +40,9 @@ const UNKNOWN_ID: &str = "unable: builder has no logged session with that id\n\
 const CWD_MISSING: &str = "unable: builder's recorded directory is missing\n\
                            hint: resume it by hand from a directory you choose: viola run builder \
                            -- claude --resume <id>, ids from viola revive builder --list\n";
+const SESSION_LIVE: &str = "unable: builder's session is open in another claude\n\
+                            hint: close it there first, or start a copy: viola revive builder \
+                            --fork\n";
 #[cfg(unix)]
 const STRICT_MODES: &str = "unable: builder's state files can be written by another user\n\
                             hint: viola will not read them; make the viola home and its files \
@@ -64,11 +69,14 @@ fn assert_refused(home: &Path, before: usize, detail: &str) {
     let added = &lines[before..];
     let exits: Vec<&Value> = added
         .iter()
-        .filter(|line| line["event"] == "process-exit")
+        .filter(|line| line["event"] == "process-exit" && line["subject"] == "self")
         .collect();
-    assert_eq!(exits.len(), 1, "one process-exit past line {before}");
+    assert_eq!(
+        exits.len(),
+        1,
+        "one process-exit of the wrapper past line {before}"
+    );
     let exit = exits[0];
-    assert_eq!(exit["subject"], "self");
     assert_eq!(exit["exit_code"], 1);
     assert_eq!(exit["detail"], detail);
     assert_eq!(exit["level"], "ERROR");
@@ -412,6 +420,117 @@ fn revive_list_refuses_state_another_user_could_write(stamped_home: StampedHome)
         before,
         "--list opened a process log"
     );
+}
+
+/// The `claude` a revive finds answers `agents --json` with `mode` when given, else with `rows`.
+fn plant_agents(home: &TestHome, mode: Option<&str>, rows: &str) {
+    let dir = claude_dir(home.scratch());
+    if let Some(mode) = mode {
+        fs::write(dir.join("agents-mode"), mode).expect("the agents mode");
+    }
+    fs::write(dir.join("agents-rows.json"), rows).expect("the agents rows");
+}
+
+/// One live session listed under `id`, in the measured row shape.
+fn listed(id: &str) -> String {
+    serde_json::json!([{
+        "cwd": "~/elsewhere", "kind": "interactive", "name": "another session",
+        "pid": 4_294_967_295_u32, "sessionId": id, "startedAt": 1_760_000_000_000_u64,
+        "status": "idle",
+    }])
+    .to_string()
+}
+
+/// The `agents-probe` pair the revive's read wrote past `before`, naming no id or directory.
+fn assert_agents_read(home: &Path, before: usize) {
+    let lines = role_lines(home);
+    let probe: Vec<&Value> = lines[before..]
+        .iter()
+        .filter(|line| line["subject"] == "agents-probe")
+        .collect();
+    assert_eq!(probe.len(), 2, "one agents-probe pair");
+    assert_eq!(probe[0]["event"], "process-start");
+    assert_eq!(probe[1]["event"], "process-exit");
+    for line in probe {
+        assert!(!line.to_string().contains(FIXTURE_SESSION), "{line}");
+    }
+}
+
+/// The session the revive would resume is listed live: refused with the pair, the hint last, one
+/// `process-exit{detail:"session-live"}` and no child.
+#[rstest]
+fn revive_of_a_session_open_in_another_claude_is_session_live(stamped_home: StampedHome) {
+    let (stamped, _dir, before) = stopped_life(stamped_home);
+    let home = &stamped.home;
+    plant_agents(home, None, &listed(FIXTURE_SESSION));
+    let started = starts(home);
+    let ran = revive(home, home.scratch(), &["builder"]);
+    assert_eq!(ran.code, Some(1));
+    assert_eq!(ran.stdout, "");
+    assert_eq!(ran.stderr, SESSION_LIVE);
+    assert!(
+        ran.stderr
+            .lines()
+            .last()
+            .is_some_and(|l| l.starts_with("hint: "))
+    );
+    assert_refused(home.path(), before, "session-live");
+    assert_agents_read(home.path(), before);
+    assert_eq!(starts(home), started);
+    let schema = load_schema(&workspace_path("schemas/diag-line.v1.json"));
+    let validator = jsonschema::validator_for(&schema).expect("valid schema");
+    for line in &role_lines(home.path())[before..] {
+        assert!(validator.is_valid(line), "{line}");
+    }
+}
+
+/// Another listed session, or a forked revive of the listed one, passes the reading.
+#[rstest]
+#[case::another_session_listed(ANOTHER_SESSION, &[])]
+#[case::forked(FIXTURE_SESSION, &["--fork"])]
+fn revive_passes_the_session_live_reading(
+    stamped_home: StampedHome,
+    #[case] id: &str,
+    #[case] flags: &[&str],
+) {
+    let (stamped, dir, before) = stopped_life(stamped_home);
+    plant_agents(&stamped.home, None, &listed(id));
+    let typed_in = made_dir(&stamped.home, "typed-in");
+    let second = Wrapper::revive(stamped, "builder", &typed_in, &dir, flags);
+    let home = second.home().to_path_buf();
+    if flags.is_empty() {
+        assert_agents_read(&home, before);
+    } else {
+        let lines = role_lines(&home);
+        assert!(
+            !lines[before..]
+                .iter()
+                .any(|l| l["subject"] == "agents-probe"),
+            "a forked revive read the agents list"
+        );
+    }
+    assert_eq!(second.stop().code(), Some(0));
+}
+
+/// A read that fails is no refusal: the revive starts, even with the session in the rows.
+#[rstest]
+#[case::malformed("malformed")]
+#[case::oversize("oversize")]
+fn revive_whose_agents_read_fails_starts(stamped_home: StampedHome, #[case] mode: &str) {
+    let (stamped, dir, before) = stopped_life(stamped_home);
+    plant_agents(&stamped.home, Some(mode), &listed(FIXTURE_SESSION));
+    let typed_in = made_dir(&stamped.home, "typed-in");
+    let second = Wrapper::revive(stamped, "builder", &typed_in, &dir, &[]);
+    let home = second.home().to_path_buf();
+    assert_agents_read(&home, before);
+    let rejected: Vec<Value> = role_lines(&home)[before..]
+        .iter()
+        .filter(|l| l["event"] == "parse-rejected" && l["parser"] == "claude-agents-json")
+        .cloned()
+        .collect();
+    assert_eq!(rejected.len(), 1, "{rejected:?}");
+    assert_eq!(rejected[0]["detail"], mode);
+    assert_eq!(second.stop().code(), Some(0));
 }
 
 /// A forked resume: the revived child is told to fork, and the session it reports is logged as

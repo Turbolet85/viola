@@ -54,3 +54,10 @@ path = "fuzz_targets/paste_text.rs"
 test = false
 doc = false
 bench = false
+
+[[bin]]
+name = "claude_agents_json"
+path = "fuzz_targets/claude_agents_json.rs"
+test = false
+doc = false
+bench = false

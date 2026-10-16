@@ -1,4 +1,6 @@
 //! The board of `viola list`: the state refusal pairs, the BAY line, the rows and the one write.
+//! The wrapped rows come first; the sessions viola does not wrap follow under their own separator,
+//! read-only, with `n/a` where only a wrapper could know.
 
 use std::io::{self, Write};
 
@@ -139,23 +141,33 @@ fn board_line(width: usize, cells: [&str; 6]) -> String {
     )
 }
 
-/// The caption row and one row per item, in the order given; NAME is padded to the longer of its
-/// caption and the longest name on the board, and nothing is truncated.
+/// What an unwrapped row shows in WHEEL, DIALOG and CLI.
+const NOT_APPLICABLE: &str = "n/a";
+
+/// The caption row and one row per item, in the order given; every NAME is escaped as a row field,
+/// padded to the longer of its caption and the longest escaped name on the board, and nothing is
+/// truncated.
 pub(crate) fn board_rows(items: &[Item]) -> Vec<String> {
-    let width = items
+    let names: Vec<String> = items.iter().map(|item| escape_row(&item.name)).collect();
+    let width = names
         .iter()
-        .map(|item| item.name.len())
+        .map(|name| name.chars().count())
         .fold("NAME".len(), usize::max);
     let mut rows = vec![board_line(
         width,
         ["NAME", "LIVE", "STATUS", "WHEEL", "DIALOG", "CLI"],
     )];
-    for item in items {
-        let (wheel, dialog, cli) = (wheel_cell(item), dialog_cell(item), cli_cell(item));
+    for (item, name) in items.iter().zip(&names) {
+        let (wheel, dialog, cli) = if item.wrapped {
+            (wheel_cell(item), dialog_cell(item), cli_cell(item))
+        } else {
+            let na = || NOT_APPLICABLE.to_owned();
+            (na(), na(), na())
+        };
         rows.push(board_line(
             width,
             [
-                &item.name,
+                name,
                 item.liveness.as_str(),
                 item.status.as_str(),
                 &wheel,
@@ -169,17 +181,26 @@ pub(crate) fn board_rows(items: &[Item]) -> Vec<String> {
 
 const EMPTY_BOARD: &str = "no wrapped sessions  start one: viola run <name> -- claude";
 
-/// The board as ONE write: the BAY line, the caption row, then the rows, or the empty-board line.
+const UNWRAPPED_SEPARATOR: &str = "-- UNWRAPPED - READ-ONLY --";
+
+/// The board as ONE write: the BAY line, the caption row, the wrapped rows or the empty-board line,
+/// then, when the board holds any, the separator and the unwrapped rows.
 pub(crate) fn write_board(
     out: &mut impl Write,
     budget: Option<&BayBudget<'_>>,
     board: &Board,
     now: DateTime<Utc>,
 ) -> io::Result<()> {
+    let wrapped = board.items.iter().filter(|item| item.wrapped).count();
+    let mut rows = board_rows(&board.items).into_iter();
     let mut lines = vec![bay_line(budget, &board.skipped, now)];
-    lines.extend(board_rows(&board.items));
-    if board.items.is_empty() {
+    lines.extend(rows.by_ref().take(1 + wrapped));
+    if wrapped == 0 {
         lines.push(EMPTY_BOARD.to_owned());
+    }
+    if wrapped < board.items.len() {
+        lines.push(UNWRAPPED_SEPARATOR.to_owned());
+        lines.extend(rows);
     }
     let mut text = lines.join("\n");
     text.push('\n');
@@ -343,6 +364,7 @@ mod tests {
             cli_version: Some("2.1.287".to_owned()),
             cli_verified: Some(true),
             dialog_kind: None,
+            join: viola_state::board::JoinKeys::default(),
         }
     }
 
@@ -480,6 +502,111 @@ mod tests {
              NAME  LIVE   STATUS   WHEEL                    DIALOG             CLI\n\
              no wrapped sessions  start one: viola run <name> -- claude\n"
         );
+    }
+
+    fn unwrapped(name: &str, status: viola_state::board::SessionStatus) -> Item {
+        Item::unwrapped(viola_state::board::Observation {
+            pid: None,
+            session_id: name.to_owned(),
+            status,
+        })
+    }
+
+    #[rstest]
+    #[case::idle(viola_state::board::SessionStatus::Idle, "idle   ")]
+    #[case::busy(viola_state::board::SessionStatus::Busy, "busy   ")]
+    #[case::unknown(viola_state::board::SessionStatus::Unknown, "unknown")]
+    fn board_row_status_cell_is_the_status_word(
+        #[case] status: viola_state::board::SessionStatus,
+        #[case] cell: &str,
+    ) {
+        let mut row = item("builder");
+        row.status = status;
+        assert_eq!(
+            board_rows(&[row])[1],
+            format!(
+                "builder  live   {cell}  driver                   none               2.1.287 verified"
+            )
+        );
+    }
+
+    const SESSION: &str = "0b7c9f4e-1d2a-4c3b-8e5f-6a7b8c9d0e1f";
+
+    #[test]
+    fn board_row_the_separator_and_an_unwrapped_row_are_the_literals() {
+        let board = Board {
+            items: vec![
+                item("builder"),
+                unwrapped(SESSION, viola_state::board::SessionStatus::Busy),
+            ],
+            skipped: counts(0, 0, 0),
+        };
+        assert_eq!(
+            one_write(|o| write_board(o, None, &board, at(NOW))),
+            "BAY  5H unknown  7D unknown  read unknown  gate open  skipped 0 - 0 - 0\n\
+             NAME                                  LIVE   STATUS   WHEEL                    DIALOG             CLI\n\
+             builder                               live   unknown  driver                   none               2.1.287 verified\n\
+             -- UNWRAPPED - READ-ONLY --\n\
+             0b7c9f4e-1d2a-4c3b-8e5f-6a7b8c9d0e1f  live   busy     n/a                      n/a                n/a\n"
+        );
+    }
+
+    /// An unwrapped name holding LF, TAB, ESC and a C1 character prints as hex text on its one row,
+    /// and every value of every row starts in its caption's column.
+    #[test]
+    fn board_row_an_unwrapped_name_with_controls_prints_on_one_line_in_the_captions_columns() {
+        let rows = board_rows(&[
+            item("builder"),
+            unwrapped(
+                "a\nb\tc\u{1b}d\u{85}e",
+                viola_state::board::SessionStatus::Idle,
+            ),
+        ]);
+        assert_eq!(
+            rows[2],
+            "a\\x0Ab\\x09c\\x1Bd\\x85e  live   idle     n/a                      n/a                n/a"
+        );
+        let caption = &rows[0];
+        for row in &rows[1..] {
+            assert!(!row.contains(['\n', '\t', '\u{1b}', '\u{85}']), "{row:?}");
+            assert!(!row.ends_with(' '), "{row:?}");
+            for word in ["LIVE", "STATUS", "WHEEL", "DIALOG", "CLI"] {
+                let at = caption.find(word).expect("caption");
+                assert_eq!(row.as_bytes()[at - 1], b' ', "{word} in {row:?}");
+                assert_ne!(row.as_bytes()[at], b' ', "{word} in {row:?}");
+            }
+        }
+    }
+
+    #[test]
+    fn board_row_an_empty_wrapped_rack_with_unwrapped_rows_keeps_the_empty_board_line() {
+        let board = Board {
+            items: vec![
+                unwrapped("s-1", viola_state::board::SessionStatus::Idle),
+                unwrapped("s-2", viola_state::board::SessionStatus::Unknown),
+            ],
+            skipped: counts(0, 0, 0),
+        };
+        assert_eq!(
+            one_write(|o| write_board(o, None, &board, at(NOW))),
+            "BAY  5H unknown  7D unknown  read unknown  gate open  skipped 0 - 0 - 0\n\
+             NAME  LIVE   STATUS   WHEEL                    DIALOG             CLI\n\
+             no wrapped sessions  start one: viola run <name> -- claude\n\
+             -- UNWRAPPED - READ-ONLY --\n\
+             s-1   live   idle     n/a                      n/a                n/a\n\
+             s-2   live   unknown  n/a                      n/a                n/a\n"
+        );
+    }
+
+    #[test]
+    fn board_row_no_separator_without_an_unwrapped_row() {
+        let board = Board {
+            items: vec![item("builder"), item("tester")],
+            skipped: counts(0, 0, 0),
+        };
+        let text = one_write(|o| write_board(o, None, &board, at(NOW)));
+        assert_eq!(text.lines().count(), 4, "{text:?}");
+        assert!(!text.contains("UNWRAPPED"), "{text:?}");
     }
 
     #[test]
