@@ -97,6 +97,11 @@ kill line 19 `binary(…)` names.
     SessionStart fixture's recorded `cwd` (`~` without one), not its real working directory: the real one leaked the
     runner's checkout path into `verify --record`'s kept row, which `--record` refused (`absolute-path`), seven
     `cli_verify` cases. Guarded in `contract_fake_agent_drift` (red with the real cwd, green restored).
+13. **Step 13, after the second CI read (red on `ubuntu-latest`, the coverage job):** the fake's `agents` listing
+    reads the process table once (`viola_state::liveness::start_times`, a new helper beside `process_start_time`)
+    instead of one sysinfo lookup per registry row; rows of killed fakes made each listing grow ~1 ms per row
+    (1 860 rows: 1.9 s → 0.23 s). Inferred to have pushed the stamp's agents read past its 5 s bound under
+    coverage (two `stamped_home` reds and a corrupt profile header); `stamped_home` now names failing rows.
 11. **The plan's integration filter** did not select `cli_answer`, whose `tests/support/home.rs` `dialogless_home`
     pinned `18 pass  4 fail`; only `pre-push` found it (now `19 pass  4 fail`, `16` on Windows).
 

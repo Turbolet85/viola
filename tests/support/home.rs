@@ -359,9 +359,15 @@ pub fn stamped_home(home: TestHome, fake_agent_path: PathBuf) -> StampedHome {
     let last = stdout.lines().last().unwrap_or_default();
     let summary = last.starts_with(&format!("stamped {}  ", fake::RECORDED_CLI_VERSION))
         && last.ends_with("pass  0 fail");
+    // The failing rows' ids only: a step line is fixed text, `[NN/NN] <row id> <words>  fail`.
+    let failing: Vec<&str> = stdout
+        .lines()
+        .filter(|l| l.starts_with('[') && l.ends_with("  fail"))
+        .filter_map(|l| l.split(' ').nth(1))
+        .collect();
     assert!(
         ran.code == Some(0) && summary,
-        "viola verify did not stamp the home: exit {:?}, summary line matched {summary}",
+        "viola verify did not stamp the home: exit {:?}, summary line matched {summary}, failing rows {failing:?}",
         ran.code
     );
     StampedHome {

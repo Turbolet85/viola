@@ -1,6 +1,7 @@
 //! `live` / `stale` / `gone` from the heartbeat's age and the snapshot's pid + start time, never a
 //! bare pid (architecture §Standard Contracts → Session liveness).
 
+use std::collections::HashMap;
 use std::time::Duration;
 
 use chrono::DateTime;
@@ -27,6 +28,18 @@ pub fn classify(beat_age: Option<Duration>, same_process: bool) -> Liveness {
         Some(age) if age <= STALE_AFTER => Liveness::Live,
         _ => Liveness::Stale,
     }
+}
+
+/// Every live process's OS start time in seconds since the epoch, by pid, from one read of the
+/// process table; a zombie is no live process. For a reader that checks many pids at once.
+pub fn start_times() -> HashMap<u32, u64> {
+    let mut sys = System::new();
+    sys.refresh_processes(ProcessesToUpdate::All, true);
+    sys.processes()
+        .iter()
+        .filter(|(_, p)| p.status() != ProcessStatus::Zombie)
+        .map(|(pid, p)| (pid.as_u32(), p.start_time()))
+        .collect()
 }
 
 /// The OS start time of `pid` in seconds since the epoch; `None` when it is gone or a zombie.
@@ -110,6 +123,16 @@ mod tests {
         assert!(!same_process(&snapshot(me, "not a time".to_owned())));
     }
 
+    /// One read of the table gives this process's start time as the one-pid read gives it.
+    #[test]
+    fn start_times_hold_this_process_at_its_own_start_time() {
+        let me = std::process::id();
+        let table = start_times();
+        assert!(table.len() > 1, "{} processes", table.len());
+        assert_eq!(table.get(&me).copied(), process_start_time(me));
+        assert!(table.contains_key(&me));
+    }
+
     #[test]
     fn process_start_time_is_none_for_a_dead_pid() {
         let mut child = std::process::Command::new(std::env::current_exe().expect("exe"))
@@ -121,6 +144,7 @@ mod tests {
         child.wait().expect("wait");
         drop(child);
         assert_eq!(process_start_time(pid), None);
+        assert_eq!(start_times().get(&pid), None);
         assert!(!same_process(&snapshot(
             pid,
             "2026-09-27T00:00:00.000Z".to_owned()

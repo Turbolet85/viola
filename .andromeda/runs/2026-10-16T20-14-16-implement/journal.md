@@ -38,4 +38,15 @@ ledgered with `date -u` before it is made (`live-starts.md` in this run dir). A 
   agent's registry row carried the runner's real cwd (`D:\a\…`, outside the user home), which `--record` refuses.
   Fix: the row replays the launch SessionStart fixture's recorded `cwd` (`~` without one); guard in
   `contract_fake_agent_drift` (red with the real cwd put back, green restored) and a fake-agent unit case.
-- 2026-10-16T21:26Z · P2 firing: the whole block on the fix, backgrounded.
+- 2026-10-16T21:26Z · P2 firing: the whole block on the fix, backgrounded. Read: green 18 · red 0.
+- 2026-10-16T21:32Z · fix commit `3c1c54d`, pushed (de9ee3f9→3c1c54df); CI read: `3c1c54df925b verdict: red`
+  (`ci#38970086070`): `test (windows-2025)` now green; `test (ubuntu-latest)` (the `run --coverage` job) red —
+  two `stamped_home` verifies not `0 fail` (`cli_list list_without_a_name_logs_no_agents_read`,
+  `hook_statusline hook_statusline_without_a_recorded_command_prints_nothing_and_records_the_reading`) and
+  `llvm-cov-summary-missing` (a profraw with a corrupt header: an instrumented process killed while writing its
+  profile). Local measure: the fake's `agents` listing cost ~1 ms per registry row (one sysinfo lookup each);
+  398 rows 386–459 ms, 1 860 rows (the coverage build dir) 1 836–1 933 ms under load 31. Inferred cause: under
+  coverage and load the stamp's agents read passed its 5 s bound, was killed in its profile write, `agents-join`
+  failed. Fix: one process-table read per listing (`viola_state::liveness::start_times`); 398 rows 182–197 ms,
+  1 860 rows 214–243 ms. `stamped_home` now names its failing rows.
+- 2026-10-16T21:45Z · P2 firing: the whole block on the second fix, backgrounded.

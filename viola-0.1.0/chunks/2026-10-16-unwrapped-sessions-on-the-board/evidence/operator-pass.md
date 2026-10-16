@@ -80,3 +80,36 @@ restored, green), and the fake agent's unit case `launch_session_replays_the_rec
 - The whole block on the fix (21:26Z–21:31Z): `entries 24 · green 18 · red 0 · recorded 0 · timeout 0 ·
   not-run 6`; entry 21, `pre-push`: `"ok":true`, coverage 2646 of 2646, `gate` no breaches. The Windows target's
   clippy, check only: exit 0.
+
+## The fix commit and its CI read, 21:32:35Z to 21:39Z: red on `ubuntu-latest`
+
+- `3c1c54d` `fix(2026-10-16-unwrapped-sessions-on-the-board): the fake agent's registry row replays the recorded cwd,
+  never the host's` (6 files). Entry 23 through `--operator 23`: `history moved: refs/remotes/origin/HEAD
+  de9ee3f9→3c1c54df; refs/remotes/origin/build/viola-0.1.0 de9ee3f9→3c1c54df`, a fast-forward.
+- Entry 24: `3c1c54df925b verdict: red · checks 15/15 · first-fail +394 s test (ubuntu-latest)`, `ci#38970086070`.
+  `test (windows-2025)` and `test (macos-latest)` green — the first fix held. `test (ubuntu-latest)`, the
+  `run --coverage` job: `2646 tests run: 2644 passed, 2 failed` — `cli_list list_without_a_name_logs_no_agents_read`
+  and `hook_statusline hook_statusline_without_a_recorded_command_prints_nothing_and_records_the_reading`, both at
+  `tests/support/home.rs:362`, `viola verify did not stamp the home: exit Some(1), summary line matched false` —
+  and the coverage merge refused a profile: `viola-4627-…_3.profraw: invalid instrumentation profile data (file
+  header is corrupt)` → `llvm-cov-summary-missing`.
+
+**Cause (this chunk's; inferred, not read):** the failing row is not in the logs (the stamp's `verify` logs nothing
+without an instance, and CI uploads no stamp). Measured locally: the fake agent's `agents` listing paid one sysinfo
+process lookup per registry row, about 1 ms each, and every fake killed by `verify` (Runs C, D, E) leaves its row
+behind the shared binary: 398 rows read in 386–459 ms, 1 860 rows (the coverage build's dir after a few
+`pre-push` runs) in 1 836–1 933 ms, under load 31. Under coverage instrumentation and CI's parallel load the
+stamp's agents read can pass its 5 s bound; the read then kills the fake — the one kill in `verify` that can land
+on a child that has finished its work and is writing its profile at exit, which fits the corrupt profile header —
+and Run B carries no read, so `agents-join` fails and the stamp reads `1 fail`. Whether `rust-cache` carried rows
+from the first CI run into this one is not measured.
+
+**Fix:** one process-table read per listing — `viola_state::liveness::start_times()` (unit cases: this process at
+its own start time; a dead pid absent) — and the fake checks each row against it: 398 rows 182–197 ms, 1 860 rows
+214–243 ms. `stamped_home`'s message now names the failing rows' ids, so the next such red reads its row.
+
+## The second fix, before its commit
+
+- The whole block (21:45Z): green 17 · red 1 (2, clippy: `unnecessary_get_then_check` in the new unit case) →
+  `contains_key` → `--only 1,2,5` green. `pre-push` in that firing (21.6): `"ok":true`, coverage 2647 of 2647, `gate`
+  no breaches. The Windows target's clippy, check only: exit 0.

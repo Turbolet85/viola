@@ -21,7 +21,7 @@ use viola_agent_claude::ledger::{
 };
 use viola_agent_claude::statusline::BIN_SH;
 use viola_core::MAX_FRAME;
-use viola_state::liveness::process_start_time;
+use viola_state::liveness::{process_start_time, start_times};
 
 const DEFAULT_CLI_VERSION: &str = "2.1.287";
 const PASTE_START: &[u8] = b"\x1b[200~";
@@ -841,7 +841,8 @@ fn planted_rows(dir: &Path) -> Vec<Value> {
 }
 
 /// The registry rows under `<dir>/sessions/` whose process is alive with the recorded start time,
-/// in file-name order. The process table is read; no signal is sent.
+/// in file-name order. The process table is read once, whatever the number of rows (rows of killed
+/// agents stay behind); no signal is sent.
 fn live_sessions(dir: &Path) -> Vec<Value> {
     let mut paths: Vec<PathBuf> = fs::read_dir(dir.join(SESSIONS))
         .into_iter()
@@ -851,6 +852,7 @@ fn live_sessions(dir: &Path) -> Vec<Value> {
         .filter(|path| path.extension().is_some_and(|e| e == "json"))
         .collect();
     paths.sort();
+    let table = start_times();
     paths
         .into_iter()
         .filter_map(|path| serde_json::from_slice::<Value>(&fs::read(path).ok()?).ok())
@@ -858,7 +860,7 @@ fn live_sessions(dir: &Path) -> Vec<Value> {
             let pid = row["pid"].as_u64().and_then(|p| u32::try_from(p).ok());
             let started = row["startedAt"].as_u64().map(|ms| ms / 1000);
             pid.zip(started)
-                .is_some_and(|(pid, started)| process_start_time(pid) == Some(started))
+                .is_some_and(|(pid, started)| table.get(&pid) == Some(&started))
         })
         .collect()
 }
